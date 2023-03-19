@@ -23,7 +23,7 @@
 
 #define GUI_GTK_OPTION(optname) gui_options.gui_gtk3_##optname
 
-/* network string charset conversion */
+/* Network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
 
 extern GtkStyle *city_names_style;
@@ -94,4 +94,6 @@ void refresh_chat_buttons(void);
 
 bool is_gui_up(void);
 
-#endif  /* FC__GUI_MAIN_H */
+void update_turn_done_tooltip(void);
+
+#endif /* FC__GUI_MAIN_H */

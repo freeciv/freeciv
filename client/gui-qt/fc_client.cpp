@@ -1036,6 +1036,7 @@ QString fc_icons::get_path(const QString &id)
 void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
 {
   QSize size;
+
   size = event->size();
   if (C_S_RUNNING <= client_state()) {
     gui()->sidebar_wdg->resize_me(size.height());

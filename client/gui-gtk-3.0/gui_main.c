@@ -1029,6 +1029,25 @@ static void setup_canvas_color_for_state(GtkStateFlags state)
 }
 
 /**************************************************************************
+  Update tooltip of the Turn Done button
+**************************************************************************/
+void update_turn_done_tooltip(void)
+{
+  struct option *opt = optset_option_by_name(server_optset, "fixedlength");
+
+  if (opt != NULL && option_bool_get(opt)) {
+    gtk_widget_set_tooltip_text(turn_done_button,
+                                _("Fixed length turns"));
+  } else {
+    char buf[256];
+
+    fc_snprintf(buf, sizeof(buf), "%s:\n%s",
+                _("Turn Done"), _("Shift+Return"));
+    gtk_widget_set_tooltip_text(turn_done_button, buf);
+  }
+}
+
+/**************************************************************************
   Do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
@@ -1037,7 +1056,6 @@ static void setup_widgets(void)
   GtkWidget *frame, *table, *table2, *paned, *sw, *text;
   GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
   int i;
-  char buf[256];
   struct sprite *spr;
   GtkWidget *notebook, *statusbar;
   GtkWidget *dtach_lowbox = NULL;
@@ -1046,9 +1064,9 @@ static void setup_widgets(void)
 
   notebook = gtk_notebook_new();
 
-  /* stop mouse wheel notebook page switching. */
+  /* Stop mouse wheel notebook page switching. */
   g_signal_connect(notebook, "scroll_event",
-		   G_CALLBACK(gtk_true), NULL);
+                   G_CALLBACK(gtk_true), NULL);
 
   toplevel_tabs = notebook;
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
@@ -1123,7 +1141,7 @@ static void setup_widgets(void)
     overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT;
   }
 
-  /* this holds the overview canvas, production info, etc. */
+  /* This holds the overview canvas, production info, etc. */
   vgrid = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
@@ -1133,7 +1151,7 @@ static void setup_widgets(void)
   gtk_grid_attach_next_to(GTK_GRID(hgrid), vgrid, right_vbox,
                           GTK_POS_LEFT, 1, 1);
 
-  /* overview canvas */
+  /* Overview canvas */
   ahbox = detached_widget_new();
   gtk_widget_set_hexpand(ahbox, FALSE);
   gtk_widget_set_vexpand(ahbox, FALSE);
@@ -1143,15 +1161,15 @@ static void setup_widgets(void)
   overview_scrolled_window = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_set_border_width(GTK_CONTAINER (overview_scrolled_window), 1);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (overview_scrolled_window),
-                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   overview_canvas = gtk_drawing_area_new();
   gtk_widget_set_halign(overview_canvas, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(overview_canvas, GTK_ALIGN_CENTER);
   gtk_widget_set_size_request(overview_canvas, overview_canvas_store_width,
-		              overview_canvas_store_height);
+                              overview_canvas_store_height);
   gtk_widget_set_size_request(overview_scrolled_window, overview_canvas_store_width,
-		              overview_canvas_store_height);
+                              overview_canvas_store_height);
   gtk_widget_set_hexpand(overview_canvas, TRUE);
   gtk_widget_set_vexpand(overview_canvas, TRUE);
 
@@ -1164,13 +1182,13 @@ static void setup_widgets(void)
                     overview_canvas);
  
   g_signal_connect(overview_canvas, "draw",
-        	   G_CALLBACK(overview_canvas_draw), NULL);
+                   G_CALLBACK(overview_canvas_draw), NULL);
 
   g_signal_connect(overview_canvas, "motion_notify_event",
-        	   G_CALLBACK(move_overviewcanvas), NULL);
+                   G_CALLBACK(move_overviewcanvas), NULL);
 
   g_signal_connect(overview_canvas, "button_press_event",
-        	   G_CALLBACK(butt_down_overviewcanvas), NULL);
+                   G_CALLBACK(butt_down_overviewcanvas), NULL);
 
   /* The rest */
 
@@ -1216,7 +1234,7 @@ static void setup_widgets(void)
   gtk_grid_set_column_homogeneous(GTK_GRID(table), TRUE);
   gtk_container_add(GTK_CONTAINER(avbox), table);
 
-  /* citizens for taxrates */
+  /* Citizens for taxrates */
   ebox = gtk_event_box_new();
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
   gtk_grid_attach(GTK_GRID(table), ebox, 0, 0, 10, 1);
@@ -1240,7 +1258,7 @@ static void setup_widgets(void)
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
-  /* science, environmental, govt, timeout */
+  /* Science, environmental, govt, timeout */
   spr = client_research_sprite();
   if (spr != NULL) {
     bulb_label = gtk_image_new_from_surface(spr->surface);
@@ -1301,7 +1319,7 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(frame), timeout_label);
 
 
-  /* turn done */
+  /* Turn done */
   turn_done_button = gtk_button_new_with_label(_("Turn Done"));
 
   gtk_grid_attach(GTK_GRID(table), turn_done_button, 0, 2, 10, 1);
@@ -1309,9 +1327,7 @@ static void setup_widgets(void)
   g_signal_connect(turn_done_button, "clicked",
                    G_CALLBACK(end_turn_callback), NULL);
 
-  fc_snprintf(buf, sizeof(buf), "%s:\n%s",
-              _("Turn Done"), _("Shift+Return"));
-  gtk_widget_set_tooltip_text(turn_done_button, buf);
+  update_turn_done_tooltip();
 
   /* Selected unit status */
 
@@ -2013,8 +2029,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 **************************************************************************/
 static void end_turn_callback(GtkWidget *w, gpointer data)
 {
-    gtk_widget_set_sensitive(turn_done_button, FALSE);
-    user_ended_turn();
+  gtk_widget_set_sensitive(turn_done_button, FALSE);
+  user_ended_turn();
 }
 
 /**************************************************************************

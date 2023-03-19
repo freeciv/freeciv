@@ -22,7 +22,7 @@
 #define GUI_GTK_OPTION_STR(optname) "gui_gtk3_22_" #optname
 #define GUI_GTK_DEFAULT_THEME_NAME FC_GTK3_22_DEFAULT_THEME_NAME
 
-/* network string charset conversion */
+/* Network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
 
 extern PangoFontDescription *city_names_style;
@@ -85,4 +85,6 @@ struct video_mode *resolution_request_get(void);
 
 bool is_gui_up(void);
 
-#endif  /* FC__GUI_MAIN_H */
+void update_turn_done_tooltip(void);
+
+#endif /* FC__GUI_MAIN_H */

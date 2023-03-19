@@ -1003,8 +1003,27 @@ static gboolean right_notebook_button_release(GtkWidget *widget,
   return FALSE;
 }
 
+/**********************************************************************//**
+  Update tooltip of the Turn Done button
+**************************************************************************/
+void update_turn_done_tooltip(void)
+{
+  struct option *opt = optset_option_by_name(server_optset, "fixedlength");
+
+  if (opt != NULL && option_bool_get(opt)) {
+    gtk_widget_set_tooltip_text(turn_done_button,
+                                _("Fixed length turns"));
+  } else {
+    char buf[256];
+
+    fc_snprintf(buf, sizeof(buf), "%s:\n%s",
+                _("Turn Done"), _("Shift+Return"));
+    gtk_widget_set_tooltip_text(turn_done_button, buf);
+  }
+}
+
 /**************************************************************************
- do the heavy lifting for the widget setup.
+  Do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
 {
@@ -1049,7 +1068,7 @@ static void setup_widgets(void)
 
   ingame_votebar = voteinfo_bar_new(FALSE);
 
-  /* *** everything in the top *** */
+  /* *** Everything in the top *** */
 
   page = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(page),
@@ -1094,7 +1113,7 @@ static void setup_widgets(void)
   vbox = gtk_vbox_new(FALSE, 3);
   gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 
-  /* overview canvas */
+  /* Overview canvas */
   ahbox = detached_widget_new();
   gtk_box_pack_start(GTK_BOX(vbox), ahbox, FALSE, FALSE, 0);
   avbox = detached_widget_fill(ahbox);
