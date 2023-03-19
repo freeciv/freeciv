@@ -62,7 +62,7 @@ AC_DEFUN([FC_QT5_GENERIC],
 
   if test "x$qt5_libs" = "xyes" ; then
     AC_MSG_RESULT([found])
-    AC_MSG_CHECKING([for Qt5 >= 5.11])
+    AC_MSG_CHECKING([for Qt5 >= 5.15])
     FC_QT5_VERSION_CHECK
   fi
 
