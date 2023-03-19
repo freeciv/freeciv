@@ -1990,7 +1990,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         /* TRANS: third %s is topology flag name
-                         * ("WrapX", "ISO", etc) */
+                         * ("Hex", "ISO" */
                         _("%s can't build %s from the worklist; "
                           "only available in worlds with %s map."),
                         city_link(pcity),
@@ -1998,6 +1998,22 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                         _(topo_flag_name(preq->source.value.topo_property)));
           script_server_signal_emit(signal_name, ptarget,
                                     pcity, "need_topo");
+        }
+        purge = TRUE;
+        break;
+      case VUT_WRAP:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        /* TRANS: third %s is wrap flag name
+                         * ("WrapX", "Wrapy") */
+                        _("%s can't build %s from the worklist; "
+                          "only available in worlds with %s map."),
+                        city_link(pcity),
+                        tgt_name,
+                        _(wrap_flag_name(preq->source.value.wrap_property)));
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_wrap");
         }
         purge = TRUE;
         break;

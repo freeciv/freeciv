@@ -531,6 +531,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_WRAP:
+    source->value.wrap_property = wrap_flag_by_name(value, fc_strcasecmp);
+    if (wrap_flag_is_valid(source->value.wrap_property)) {
+      return;
+    }
+    break;
   case VUT_SERVERSETTING:
     source->value.ssetval = ssetv_by_rule_name(value);
     if (source->value.ssetval != SSETV_NONE) {
@@ -768,6 +774,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_TOPO:
     source.value.topo_property = value;
     return source;
+  case VUT_WRAP:
+    source.value.wrap_property = value;
+    return source;
   case VUT_SERVERSETTING:
     source.value.ssetval = value;
     return source;
@@ -915,6 +924,8 @@ int universal_number(const struct universal *source)
     return source->value.mincalfrag;
   case VUT_TOPO:
     return source->value.topo_property;
+  case VUT_WRAP:
+    return source->value.wrap_property;
   case VUT_SERVERSETTING:
     return source->value.ssetval;
   case VUT_TERRAINALTER:
@@ -1067,6 +1078,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINYEAR:
       case VUT_MINCALFRAG:
       case VUT_TOPO:
+      case VUT_WRAP:
       case VUT_MINTECHS:
       case VUT_SERVERSETTING:
         req.range = REQ_RANGE_WORLD;
@@ -1205,6 +1217,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINYEAR:
     case VUT_MINCALFRAG:
     case VUT_TOPO:
+    case VUT_WRAP:
     case VUT_SERVERSETTING:
       invalid = (req.range != REQ_RANGE_WORLD);
       break;
@@ -1279,6 +1292,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINYEAR:
     case VUT_MINCALFRAG:
     case VUT_TOPO:
+    case VUT_WRAP:
     case VUT_SERVERSETTING:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
@@ -4928,6 +4942,24 @@ is_topology_req_active(const struct req_context *context,
 }
 
 /**********************************************************************//**
+  Determine whether a wrap requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a wrap requirement
+**************************************************************************/
+static enum fc_tristate
+is_wrap_req_active(const struct req_context *context,
+                   const struct player *other_player,
+                   const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_WRAP);
+
+  return BOOL_TO_TRISTATE(
+      current_wrap_has_flag(req->source.value.wrap_property));
+}
+
+/**********************************************************************//**
   Determine whether a server setting requirement is satisfied in a given
   context, ignoring parts of the requirement that can be handled uniformly
   for all requirement types.
@@ -4999,6 +5031,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_TERRAINCLASS] = {is_terrainclass_req_active, REQUCH_NO},
   [VUT_TERRFLAG] = {is_terrainflag_req_active, REQUCH_NO},
   [VUT_TOPO] = {is_topology_req_active, REQUCH_YES},
+  [VUT_WRAP] = {is_wrap_req_active, REQUCH_YES},
   [VUT_UCFLAG] = {is_unitclassflag_req_active, REQUCH_YES},
   [VUT_UCLASS] = {is_unitclass_req_active, REQUCH_YES},
   [VUT_UNITSTATE] = {is_unitstate_req_active, REQUCH_NO},
@@ -5445,6 +5478,7 @@ bool req_vec_wants_type(const struct requirement_vector *reqs,
   Returns TRUE iff the specified universal is known to never be there.
   Note that this function may return FALSE even when it is impossible for
   the universal to appear in the game if that can't be detected.
+
   @param source the universal to check the absence of.
   @return TRUE iff the universal never will appear.
 **************************************************************************/
@@ -5471,6 +5505,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_CITYSTATUS:
   case VUT_STYLE:
   case VUT_TOPO:
+  case VUT_WRAP:
   case VUT_SERVERSETTING:
   case VUT_NATION:
   case VUT_NATIONGROUP:
@@ -6148,6 +6183,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.mincalfrag == psource2->value.mincalfrag;
   case VUT_TOPO:
     return psource1->value.topo_property == psource2->value.topo_property;
+  case VUT_WRAP:
+    return psource1->value.wrap_property == psource2->value.wrap_property;
   case VUT_SERVERSETTING:
     return psource1->value.ssetval == psource2->value.ssetval;
   case VUT_TERRAINALTER:
@@ -6195,6 +6232,8 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_TOPO:
     return topo_flag_name(psource->value.topo_property);
+  case VUT_WRAP:
+    return wrap_flag_name(psource->value.wrap_property);
   case VUT_SERVERSETTING:
     return ssetv_rule_name(psource->value.ssetval);
   case VUT_ADVANCE:
@@ -6562,9 +6601,14 @@ const char *universal_name_translation(const struct universal *psource,
                  textcalfrag(psource->value.mincalfrag));
     return buf;
   case VUT_TOPO:
-    /* TRANS: topology flag name ("WrapX", "ISO", etc) */
+    /* TRANS: topology flag name ("Hex", "ISO") */
     cat_snprintf(buf, bufsz, _("%s map"),
                  _(topo_flag_name(psource->value.topo_property)));
+    return buf;
+  case VUT_WRAP:
+    /* TRANS: wrap flag name ("WrapX", "WrapY") */
+    cat_snprintf(buf, bufsz, _("%s map"),
+                 _(wrap_flag_name(psource->value.wrap_property)));
     return buf;
   case VUT_SERVERSETTING:
     fc_strlcat(buf, ssetv_human_readable(psource->value.ssetval, TRUE),

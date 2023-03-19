@@ -2773,14 +2773,32 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     fc_strlcat(buf, prefix, bufsz);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
-                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
+                   /* TRANS: topology flag name ("Hex", "ISO") */
                    _("Requires %s map."),
                    _(topo_flag_name(preq->source.value.topo_property)));
     } else {
       cat_snprintf(buf, bufsz,
-                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
+                   /* TRANS: topology flag name ("Hex", "ISO") */
                    _("Prevented on %s map."),
                    _(topo_flag_name(preq->source.value.topo_property)));
+    }
+    return TRUE;
+
+  case VUT_WRAP:
+    if (preq->range != REQ_RANGE_WORLD) {
+      break;
+    }
+    fc_strlcat(buf, prefix, bufsz);
+    if (preq->present) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: wrap flag name ("WrapX", "WrapY") */
+                   _("Requires %s map."),
+                   _(wrap_flag_name(preq->source.value.wrap_property)));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: wrap flag name ("WrapX", "WrapY") */
+                   _("Prevented on %s map."),
+                   _(wrap_flag_name(preq->source.value.wrap_property)));
     }
     return TRUE;
 

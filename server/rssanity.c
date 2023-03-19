@@ -393,57 +393,59 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_COUNTER:
       /* Can have multiple, since many counters (also of the same range)
        * can met checkpoint */
-     case VUT_SERVERSETTING:
-       /* Can have multiple, since there are many settings. */
-     case VUT_TOPO:
-       /* Can have multiple, since it's flag based (iso & wrapx & wrapy & hex) */
-     case VUT_EXTRA:
-       /* Note that there can be more than 1 extra / tile. */
-     case VUT_MAXTILEUNITS:
-       /* Can require different numbers on e.g. local/adjacent tiles. */
-     case VUT_NATION:
-       /* Can require multiple nations at Team/Alliance/World range. */
-     case VUT_NATIONGROUP:
-       /* Nations can be in multiple groups. */
-     case VUT_NONE:
-     case VUT_ADVANCE:
-     case VUT_TECHFLAG:
-     case VUT_IMPROVEMENT:
-     case VUT_UNITSTATE:
-     case VUT_CITYTILE:
-     case VUT_GOOD:
-       /* Can check different properties. */
-     case VUT_UTFLAG:
-     case VUT_UCFLAG:
-     case VUT_TERRFLAG:
-     case VUT_ROADFLAG:
-     case VUT_EXTRAFLAG:
-     case VUT_IMPR_FLAG:
-     case VUT_NATIONALITY:
-     case VUT_MINCULTURE:
-     case VUT_ACHIEVEMENT:
-     case VUT_DIPLREL:
-     case VUT_DIPLREL_TILE:
-     case VUT_DIPLREL_TILE_O:
-     case VUT_DIPLREL_UNITANY:
-     case VUT_DIPLREL_UNITANY_O:
-       /* Can have multiple requirements of these types */
-     case VUT_MINLATITUDE:
-     case VUT_MAXLATITUDE:
-       /* Can have multiple requirements at different ranges.
+    case VUT_SERVERSETTING:
+      /* Can have multiple, since there are many settings. */
+    case VUT_TOPO:
+      /* Can have multiple, since it's flag based (iso & hex) */
+    case VUT_WRAP:
+      /* Can have multiple, since it's flag based (wrapx & wrapy) */
+    case VUT_EXTRA:
+      /* Note that there can be more than 1 extra / tile. */
+    case VUT_MAXTILEUNITS:
+      /* Can require different numbers on e.g. local/adjacent tiles. */
+    case VUT_NATION:
+      /* Can require multiple nations at Team/Alliance/World range. */
+    case VUT_NATIONGROUP:
+      /* Nations can be in multiple groups. */
+    case VUT_NONE:
+    case VUT_ADVANCE:
+    case VUT_TECHFLAG:
+    case VUT_IMPROVEMENT:
+    case VUT_UNITSTATE:
+    case VUT_CITYTILE:
+    case VUT_GOOD:
+      /* Can check different properties. */
+    case VUT_UTFLAG:
+    case VUT_UCFLAG:
+    case VUT_TERRFLAG:
+    case VUT_ROADFLAG:
+    case VUT_EXTRAFLAG:
+    case VUT_IMPR_FLAG:
+    case VUT_NATIONALITY:
+    case VUT_MINCULTURE:
+    case VUT_ACHIEVEMENT:
+    case VUT_DIPLREL:
+    case VUT_DIPLREL_TILE:
+    case VUT_DIPLREL_TILE_O:
+    case VUT_DIPLREL_UNITANY:
+    case VUT_DIPLREL_UNITANY_O:
+      /* Can have multiple requirements of these types */
+    case VUT_MINLATITUDE:
+    case VUT_MAXLATITUDE:
+      /* Can have multiple requirements at different ranges.
        *  TODO: Compare to number of legal ranges? */
-       break;
-     case VUT_CITYSTATUS:
-       /* Could check "CITYS_LAST * number of ranges" ? */
-       break;
-     case VUT_COUNT:
-       /* Should never be in requirement vector */
-       fc_assert(FALSE);
-       return FALSE;
-       break;
-       /* No default handling here, as we want compiler warning
-        * if new requirement type is added to enum and it's not handled
-        * here. */
+      break;
+    case VUT_CITYSTATUS:
+      /* Could check "CITYS_LAST * number of ranges" ? */
+      break;
+    case VUT_COUNT:
+      /* Should never be in requirement vector */
+      fc_assert(FALSE);
+      return FALSE;
+      break;
+      /* No default handling here, as we want compiler warning
+       * if new requirement type is added to enum and it's not handled
+       * here. */
     }
   }
 

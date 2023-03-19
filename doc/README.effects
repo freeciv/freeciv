@@ -86,6 +86,7 @@ Specialist:      Local
 MinYear:         World
 MinCalFrag:      World
 Topology:        World
+Wrap:            World
 ServerSetting:   World
 Age (of unit):   Local
 Age (of city):   City

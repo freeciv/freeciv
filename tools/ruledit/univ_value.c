@@ -214,6 +214,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_TOPO:
     src->value.topo_property = TF_ISO;
     return TRUE;
+  case VUT_WRAP:
+    src->value.wrap_property = WRAP_X;
+    return TRUE;
   case VUT_SERVERSETTING:
     src->value.ssetval
         = ssetv_from_values(server_setting_by_name("killstack"), TRUE);
@@ -428,6 +431,11 @@ void universal_kind_values(struct universal *univ,
   case VUT_TOPO:
     for (i = 0; i < TOPO_FLAG_BITS; i++) {
       cb(topo_flag_name(1 << i), univ->value.topo_property == 1 << i, data);
+    }
+    break;
+  case VUT_WRAP:
+    for (i = 0; i < WRAP_FLAG_BITS; i++) {
+      cb(wrap_flag_name(1 << i), univ->value.wrap_property == 1 << i, data);
     }
     break;
   case VUT_SERVERSETTING:
