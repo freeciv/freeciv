@@ -354,9 +354,11 @@ static void show_fog_of_war_callback(GSimpleAction *action,
 #ifdef MENUS_GTK3
 static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
 static void toggle_fog_callback(GtkMenuItem *item, gpointer data);
-static void scenario_properties_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void scenario_properties_callback(GSimpleAction *action,
+                                         GVariant *parameter,
+                                         gpointer data);
 static void save_scenario_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data);
@@ -598,6 +600,9 @@ static struct menu_entry_info menu_entries[] =
   { "EDIT_MODE", N_("_Editing Mode"),
     "edit_mode", "<ctrl>e", MGROUP_SAFE,
     edit_mode_callback, FALSE },
+  { "SCENARIO_PROPERTIES", N_("Game/Scenario Properties"),
+    "scenario_props", NULL, MGROUP_EDIT,
+    NULL, FALSE },
   { "SCENARIO_SAVE", N_("Save Scenario"),
     "scenario_save", NULL, MGROUP_EDIT,
     NULL, FALSE },
@@ -1001,15 +1006,6 @@ static struct menu_entry_info menu_entries[] =
   { "TOGGLE_FOG", N_("Toggle Fog of _War"), GDK_KEY_w,
     GDK_CONTROL_MASK | GDK_SHIFT_MASK,
     G_CALLBACK(toggle_fog_callback), MGROUP_EDIT },
-  { "SCENARIO_PROPERTIES", N_("Game/Scenario Properties"), 0, 0,
-    G_CALLBACK(scenario_properties_callback), MGROUP_EDIT },
-
-  { "MENU_SELECT", N_("_Select"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_UNIT", N_("_Unit"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_WORK", N_("_Work"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_COMBAT", N_("_Combat"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_BUILD_BASE", N_("Build _Base"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_BUILD_PATH", N_("Build _Path"), 0, 0, NULL, MGROUP_UNIT },
 
   { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
@@ -1072,6 +1068,7 @@ const GActionEntry acts[] = {
   { "worklists", worklists_callback },
   { "rally_dlg", rally_dialog_callback },
   { "infra_dlg", infra_dialog_callback },
+  { "scenario_props", scenario_properties_callback },
   { "scenario_save", save_scenario_callback },
   { "lua_script", client_lua_script_callback },
 
@@ -2088,11 +2085,14 @@ static void toggle_fog_callback(GtkMenuItem *item, gpointer data)
 {
   key_editor_toggle_fogofwar();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SCENARIO_PROPERTIES" callback.
 ****************************************************************************/
-static void scenario_properties_callback(GtkMenuItem *item, gpointer data)
+static void scenario_properties_callback(GSimpleAction *action,
+                                         GVariant *parameter,
+                                         gpointer data)
 {
   struct property_editor *pe;
 
@@ -2100,7 +2100,6 @@ static void scenario_properties_callback(GtkMenuItem *item, gpointer data)
   property_editor_reload(pe, OBJTYPE_GAME);
   property_editor_popup(pe, OBJTYPE_GAME);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SAVE_SCENARIO" callback.
@@ -3055,6 +3054,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(edit_menu, "RALLY_DLG");
   menu_entry_init(edit_menu, "INFRA_DLG");
   menu_entry_init(edit_menu, "EDIT_MODE");
+  menu_entry_init(edit_menu, "SCENARIO_PROPERTIES");
   menu_entry_init(edit_menu, "SCENARIO_SAVE");
   menu_entry_init(edit_menu, "CLIENT_LUA_SCRIPT");
 
