@@ -18,6 +18,7 @@ jobs:
         # 2.16.0 provides msys2 snapshot 20230127
         uses: msys2/setup-msys2@v2.16.0
         with:
+          msystem: UCRT64
           install: >
             make
             gettext
@@ -25,24 +26,24 @@ jobs:
             automake1.16
             libtool
             autoconf
-            mingw-w64-x86_64-meson
-            mingw-w64-x86_64-pkgconf
-            mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-icu
-            mingw-w64-x86_64-curl
-            mingw-w64-x86_64-bzip2
-            mingw-w64-x86_64-readline
-            mingw-w64-x86_64-imagemagick
-            mingw-w64-x86_64-SDL2_mixer
-            mingw-w64-x86_64-drmingw
-            mingw-w64-x86_64-tolua
-            mingw-w64-x86_64-gtk3
-            mingw-w64-x86_64-gtk4
-            mingw-w64-x86_64-qt6-base
-            mingw-w64-x86_64-SDL2_image
-            mingw-w64-x86_64-SDL2_ttf
-            mingw-w64-x86_64-SDL2_gfx
-            mingw-w64-x86_64-nsis
+            mingw-w64-ucrt-x86_64-meson
+            mingw-w64-ucrt-x86_64-pkgconf
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-icu
+            mingw-w64-ucrt-x86_64-curl
+            mingw-w64-ucrt-x86_64-bzip2
+            mingw-w64-ucrt-x86_64-readline
+            mingw-w64-ucrt-x86_64-imagemagick
+            mingw-w64-ucrt-x86_64-SDL2_mixer
+            mingw-w64-ucrt-x86_64-drmingw
+            mingw-w64-ucrt-x86_64-tolua
+            mingw-w64-ucrt-x86_64-gtk3
+            mingw-w64-ucrt-x86_64-gtk4
+            mingw-w64-ucrt-x86_64-qt6-base
+            mingw-w64-ucrt-x86_64-SDL2_image
+            mingw-w64-ucrt-x86_64-SDL2_ttf
+            mingw-w64-ucrt-x86_64-SDL2_gfx
+            mingw-w64-ucrt-x86_64-nsis
       - name: build
         shell: msys2 {0}
         run: |
