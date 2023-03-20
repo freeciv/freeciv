@@ -58,9 +58,8 @@ void ai_traits_init(struct player *pplayer)
 **************************************************************************/
 void ai_traits_close(struct player *pplayer)
 {
-  FC_FREE(pplayer->ai_common.traits);
-
-  pplayer->ai_common.traits = NULL;
+  free(pplayer->ai_common.traits);
+  pplayer->ai_common.traits = nullptr;
 }
 
 /**********************************************************************//**
