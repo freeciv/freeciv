@@ -1110,7 +1110,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   struct widget *pwidget;
   struct widget *last, *budynki;
   struct widget *dock = store->dock;
-  int i, targets_count,sub_targets_count, max_width = 0;
+  int i, targets_count, sub_targets_count, max_width = 0;
   int start_x, start_y, imp_count, unit_count, flags_count, gov_count;
   char buffer[bufsz];
   SDL_Surface *surf;
@@ -1303,18 +1303,18 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   start_y = pwidget->size.y + pwidget->size.h + adj_size(30);
 
   if (targets_count) {
-    int j, t0, t1;
+    int j = 0;
 
     i = 0;
-    j = 0;
-    t1 = MAX_ID - store->sub_targets[j]->id;
+
     while (i < 6 && store->targets[i]) {
       store->targets[i]->size.x = pwindow->size.x + start_x;
       store->targets[i]->size.y = start_y;
 
       if (store->sub_targets[j]) {
-        t0 = MAX_ID - store->targets[i]->id;
-        t1 = MAX_ID - store->sub_targets[j]->id;
+        int t0 = MAX_ID - store->targets[i]->id;
+        int t1 = MAX_ID - store->sub_targets[j]->id;
+
         if (advance_required(t0, AR_ONE) == t1
             || advance_required(t0, AR_TWO) == t1) {
           store->sub_targets[j]->size.x = pwindow->size.x + start_x + max_width + 60;
