@@ -181,10 +181,10 @@ extern "C" {
  * soundset authors, and to "data/misc/events.spec".
  */
 #define SPECENUM_COUNT E_COUNT
-/* The sound system also generates "e_game_quit", although there's no
- * corresponding identifier E_GAME_QUIT. */
+/* The sound system also generates "e_client_quit", although there's no
+ * corresponding identifier E_CLIENT_QUIT. */
 #include "specenum_gen.h"
-/* the maximum number of enumerators is set in generate_specenum.py */
+/* The maximum number of enumerators is set in generate_specenum.py */
 
 extern enum event_type sorted_events[]; /* [E_COUNT], sorted by the
                                            translated message text */

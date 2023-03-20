@@ -648,7 +648,7 @@ void audio_shutdown(bool play_quit_tag)
   audio_stop();
 
   if (play_quit_tag) {
-    audio_play_sound("e_game_quit", NULL);
+    audio_play_sound("e_client_quit", NULL);
   }
 
   if (plugins[selected_plugin].initialized) {

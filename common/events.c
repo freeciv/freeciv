@@ -226,14 +226,14 @@ static struct {
   GEN_EV(E_INFRAPOINTS,         E_S_NATION,      N_("Infrapoints")),
   GEN_EV(E_HUT_MAP,             E_S_HUT,         N_("Map found from a hut")),
   GEN_EV(E_TREATY_SHARED_TILES, E_S_TREATY,      N_("Tiles shared")),
-  /* The sound system also generates "e_game_quit", although there's no
-   * corresponding identifier E_GAME_QUIT. */
+  /* The sound system also generates "e_client_quit", although there's no
+   * corresponding identifier E_CLIENT_QUIT. */
 };
 
 
-/* 
+/*
  * Maps from enum event_type to indexes of events[]. Set by
- * events_init. 
+ * events_init.
  */
 static int event_to_index[E_COUNT];
 
@@ -264,7 +264,7 @@ static int compar_event_message_texts(const void *i1, const void *i2)
 {
   const enum event_type *j1 = i1;
   const enum event_type *j2 = i2;
-  
+
   return fc_strcasecmp(get_event_message_text(*j1),
                        get_event_message_text(*j2));
 }
