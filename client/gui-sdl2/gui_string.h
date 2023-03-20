@@ -37,23 +37,23 @@
 /* gui-sdl2 */
 #include "gui_main.h"
 
-#define SF_CENTER	0x10
-#define SF_CENTER_RIGHT	0x20
+#define SF_CENTER       0x10
+#define SF_CENTER_RIGHT 0x20
 
-/* styles:
-	TTF_STYLE_NORMAL	0
-	TTF_STYLE_BOLD		1
-	TTF_STYLE_ITALIC	2
-	TTF_STYLE_UNDERLINE	4
-	SF_CENTER	 	0x10	- use with multi string, must be > 0x0f
-	SF_CENTER_RIGHT		0x20	- use with multi string, must be > 0x0f
+/* Styles:
+        TTF_STYLE_NORMAL        0
+        TTF_STYLE_BOLD          1
+        TTF_STYLE_ITALIC        2
+        TTF_STYLE_UNDERLINE     4
+        SF_CENTER               0x10    - Use with multi string, must be > 0x0f
+        SF_CENTER_RIGHT         0x20    - Use with multi string, must be > 0x0f
 */
 
 typedef struct utf8_str {
   Uint8 style;
   Uint8 render;
   Uint16 ptsize;
-  size_t n_alloc;  /* total allocated text memory */
+  size_t n_alloc;  /* Total allocated text memory */
   SDL_Color fgcol;
   SDL_Color bgcol;
   TTF_Font *font;
@@ -74,7 +74,7 @@ void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize);
 void unload_font(Uint16 ptsize);
 void free_font_system(void);
 
-/* adjust font sizes on 320x240 screen */
+/* Adjust font sizes on 320x240 screen */
 #ifdef SMALL_SCREEN
   int adj_font(int size);
 #else
@@ -82,7 +82,7 @@ void free_font_system(void);
 #endif
 
 /*
- *      here we use ordinary free( ... ) because check is made
+ *      Here we use ordinary free( ... ) because check is made
  *      on start.
  */
 #define FREEUTF8STR( pstr )             \
@@ -99,6 +99,6 @@ void free_font_system(void);
   (string_in) == NULL ?                          \
     create_utf8_str(NULL, 0, ptsize) :           \
     copy_chars_to_utf8_str(create_utf8_str(NULL, 0, ptsize), string_in)
-      
+
 
 #endif /* FC__GUISTRING_H */

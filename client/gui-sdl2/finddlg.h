@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,8 +13,9 @@
 #ifndef FC__FINDDLG_H
 #define FC__FINDDLG_H
 
+/* client */
 #include "finddlg_g.h"
 
 void popdown_find_dialog(void);
 
-#endif  /* FC__FINDDLG_H */
+#endif /* FC__FINDDLG_H */

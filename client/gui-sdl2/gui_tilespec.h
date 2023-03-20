@@ -38,7 +38,7 @@
 
 struct theme_icons {
 
-  /* Frame */  
+  /* Frame */
   SDL_Surface *fr_left;
   SDL_Surface *fr_right;
   SDL_Surface *fr_top;
@@ -88,10 +88,10 @@ struct theme_icons {
   SDL_Surface *load_icon;
   SDL_Surface *delete_icon;
 
-  /* help icons */
+  /* Help icons */
   SDL_Surface *tech_tree_icon;
 
-  /* city icons */
+  /* City icons */
   SDL_Surface *army_icon;
   SDL_Surface *support_icon;
   SDL_Surface *happy_icon;
@@ -100,11 +100,11 @@ struct theme_icons {
   SDL_Surface *qprod_icon;
   SDL_Surface *buy_prod_icon;
 
-  /* diplomacy */
+  /* Diplomacy */
   SDL_Surface *ok_pact_icon;
   SDL_Surface *cancel_pact_icon;
 
-  /* orders icons */
+  /* Orders icons */
   SDL_Surface *order_icon;
   SDL_Surface *o_disband_icon;
   SDL_Surface *o_wait_icon;
@@ -172,7 +172,7 @@ struct city_icon {
   SDL_Surface *coint;
   SDL_Surface *pColb;
   SDL_Surface *face;
-  /*SDL_Surface *pDark_Face;*/
+  /* SDL_Surface *pDark_Face; */
 
   SDL_Surface *pollution;
   SDL_Surface *police;

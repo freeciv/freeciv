@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
 #ifndef FC__VOTEBAR_H
 #define FC__VOTEBAR_H
 
-/* include */
+/* client */
 #include "voteinfo_bar_g.h"
 
-#endif  /* FC__VOTEBAR_H */
+#endif /* FC__VOTEBAR_H */

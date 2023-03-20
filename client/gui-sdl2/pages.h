@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,4 +15,4 @@
 
 #include "pages_g.h"
 
-#endif  /* FC__PAGES_H */
+#endif /* FC__PAGES_H */

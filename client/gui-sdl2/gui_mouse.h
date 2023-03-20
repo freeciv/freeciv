@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2006 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 #ifndef FC__GUI_MOUSE_H
 #define FC__GUI_MOUSE_H
 
+/* client */
 #include "mapview_g.h"
 
 void animate_mouse_cursor(void);

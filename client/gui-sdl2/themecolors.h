@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 #ifndef FC__THEMECOLORS_H
 #define FC__THEMECOLORS_H
 
+/* client */
 #include "colors_common.h"
 
 /* The color system is designed on the assumption that almost, but
@@ -25,47 +26,47 @@ enum theme_color {
   COLOR_THEME_CUSTOM_WIDGET_NORMAL_TEXT,
   COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME,
   COLOR_THEME_CUSTOM_WIDGET_SELECTED_TEXT,
-  COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME,  
+  COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME,
   COLOR_THEME_CUSTOM_WIDGET_PRESSED_TEXT,
   COLOR_THEME_CUSTOM_WIDGET_DISABLED_TEXT,
   COLOR_THEME_EDITFIELD_CARET,
   COLOR_THEME_LABEL_BAR,
-  COLOR_THEME_QUICK_INFO_BG,	 /* Quick info Background color */
-  COLOR_THEME_QUICK_INFO_FRAME,  /* Quick info frame color */  
-  COLOR_THEME_QUICK_INFO_TEXT,	 /* Quick info Text color */
+  COLOR_THEME_QUICK_INFO_BG,        /* Quick info Background color */
+  COLOR_THEME_QUICK_INFO_FRAME,     /* Quick info frame color */
+  COLOR_THEME_QUICK_INFO_TEXT,      /* Quick info Text color */
   COLOR_THEME_SELECTIONRECTANGLE,
   COLOR_THEME_TEXT,
   COLOR_THEME_THEMELABEL2_BG,
-  COLOR_THEME_WIDGET_NORMAL_TEXT,   /* currently not used */
-  COLOR_THEME_WIDGET_SELECTED_TEXT, /* currently not used */
-  COLOR_THEME_WIDGET_PRESSED_TEXT,  /* currently not used */
-  COLOR_THEME_WIDGET_DISABLED_TEXT, /* text on disabled widgets */
+  COLOR_THEME_WIDGET_NORMAL_TEXT,   /* Currently not used */
+  COLOR_THEME_WIDGET_SELECTED_TEXT, /* Currently not used */
+  COLOR_THEME_WIDGET_PRESSED_TEXT,  /* Currently not used */
+  COLOR_THEME_WIDGET_DISABLED_TEXT, /* Text on disabled widgets */
   COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR,
 
   COLOR_THEME_ADVANCEDTERRAINDLG_TEXT,
   COLOR_THEME_CITYDLG_BUY,
-  COLOR_THEME_CITYDLG_CELEB,	 /* city celebrating color */
+  COLOR_THEME_CITYDLG_CELEB,        /* City celebrating color */
   COLOR_THEME_CITYDLG_CORRUPTION,
   COLOR_THEME_CITYDLG_FOODPERTURN,
   COLOR_THEME_CITYDLG_FOODSTOCK,
-  COLOR_THEME_CITYDLG_FOOD_SURPLUS, /* city food surplus color */
+  COLOR_THEME_CITYDLG_FOOD_SURPLUS, /* City food surplus color */
   COLOR_THEME_CITYDLG_FRAME,
-  COLOR_THEME_CITYDLG_GOLD,	 /* city gold color */
+  COLOR_THEME_CITYDLG_GOLD,         /* City gold color */
   COLOR_THEME_CITYDLG_GRANARY,
   COLOR_THEME_CITYDLG_GROWTH,
-  COLOR_THEME_CITYDLG_HAPPY,	 /* city happy color */
-  COLOR_THEME_CITYDLG_IMPR,         /* city improvements */
+  COLOR_THEME_CITYDLG_HAPPY,        /* City happy color */
+  COLOR_THEME_CITYDLG_IMPR,         /* City improvements */
   COLOR_THEME_CITYDLG_INFOPANEL,
-  COLOR_THEME_CITYDLG_LUX,		 /* city luxuries color */
+  COLOR_THEME_CITYDLG_LUX,          /* City luxuries color */
   COLOR_THEME_CITYDLG_PANEL,
-  COLOR_THEME_CITYDLG_PROD,	 /* city production color */
-  COLOR_THEME_CITYDLG_SCIENCE,	 /* city science color */
+  COLOR_THEME_CITYDLG_PROD,         /* City production color */
+  COLOR_THEME_CITYDLG_SCIENCE,      /* City science color */
   COLOR_THEME_CITYDLG_SELL,
   COLOR_THEME_CITYDLG_SHIELDSTOCK,
   COLOR_THEME_CITYDLG_STOCKS,
-  COLOR_THEME_CITYDLG_SUPPORT,	 /* city units support color */
-  COLOR_THEME_CITYDLG_TRADE,	 /* city trade color */
-  COLOR_THEME_CITYDLG_UPKEEP,	 /* city upkeep color */
+  COLOR_THEME_CITYDLG_SUPPORT,      /* City units support color */
+  COLOR_THEME_CITYDLG_TRADE,        /* City trade color */
+  COLOR_THEME_CITYDLG_UPKEEP,       /* City upkeep color */
   COLOR_THEME_CITYREP_FOODSTOCK,
   COLOR_THEME_CITYREP_FRAME,
   COLOR_THEME_CITYREP_PROD,
@@ -105,12 +106,13 @@ enum theme_color {
   COLOR_THEME_OPTIONDLG_WORKLISTLIST_TEXT,
   COLOR_THEME_PLRDLG_ALLIANCE,
   COLOR_THEME_PLRDLG_ARMISTICE,
-  COLOR_THEME_PLRDLG_CEASEFIRE,  
+  COLOR_THEME_PLRDLG_CEASEFIRE,
   COLOR_THEME_PLRDLG_FRAME,
   COLOR_THEME_PLRDLG_PEACE,
   COLOR_THEME_PLRDLG_TEXT,
   COLOR_THEME_PLRDLG_WAR,
-  COLOR_THEME_PLRDLG_WAR_RESTRICTED, /* player at war but can't meet or get intel. data */
+  COLOR_THEME_PLRDLG_WAR_RESTRICTED, /* Player at war but can't meet
+                                      * or get intel. data */
   COLOR_THEME_REVOLUTIONDLG_TEXT,
   COLOR_THEME_SABOTAGEDLG_SEPARATOR,
   COLOR_THEME_SCIENCEDLG_FRAME,
