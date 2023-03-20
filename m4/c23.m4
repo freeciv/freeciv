@@ -1,6 +1,6 @@
 # Check for the presence of C23 features.
 
-# Check for C23 nullptr, and define FREECIV_HAVE_CXX_NULLPTR if it's available
+# Check for C23 nullptr, and define FREECIV_HAVE_C23_NULLPTR if it's available
 #
 AC_DEFUN([FC_C23_NULLPTR],
 [
@@ -13,7 +13,7 @@ AC_DEFUN([FC_C23_NULLPTR],
 #endif]],
  [[ int *var = nullptr; ]])],
 [ac_cv_c23_nullptr=yes], [ac_cv_c23_nullptr=no])])
-  if test "x${ac_cv_c23_nullptr}" != "xyes" ; then
+  if test "x${ac_cv_c23_nullptr}" = "xyes" ; then
     AC_DEFINE([FREECIV_HAVE_C23_NULLPTR], [1], [C23 nullptr available])
   fi
   AC_LANG_POP([C])
