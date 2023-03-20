@@ -8,6 +8,7 @@ el Greek
 en_GB British English
 eo Esperanto
 es Spanish
+es_419 Latin American Spanish
 et Estonian
 fa Persian
 fi Finnish
