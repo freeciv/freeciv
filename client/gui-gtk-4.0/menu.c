@@ -2770,7 +2770,10 @@ static void clean_menu_callback(GSimpleAction *action,
   struct extra_type *pextra = data;
 
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION, pextra)) {
+    if (can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, pextra)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN,
+                                         pextra);
+    } else if (can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION, pextra)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION,
                                          pextra);
     } else {
@@ -3662,8 +3665,11 @@ void real_menus_update(void)
     act = g_simple_action_new(actname, NULL);
     g_simple_action_set_enabled(act,
                                 can_units_do_activity_targeted(punits,
-                                                               ACTIVITY_POLLUTION,
-                                                               pextra));
+                                                               ACTIVITY_CLEAN,
+                                                               pextra)
+                                || can_units_do_activity_targeted(punits,
+                                                                  ACTIVITY_POLLUTION,
+                                                                  pextra));
     g_action_map_add_action(map, G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
@@ -3680,8 +3686,11 @@ void real_menus_update(void)
     act = g_simple_action_new(actname, NULL);
     g_simple_action_set_enabled(act,
                                 can_units_do_activity_targeted(punits,
-                                                               ACTIVITY_FALLOUT,
-                                                               pextra));
+                                                               ACTIVITY_CLEAN,
+                                                               pextra)
+                                || can_units_do_activity_targeted(punits,
+                                                                  ACTIVITY_FALLOUT,
+                                                                  pextra));
     g_action_map_add_action(map, G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
