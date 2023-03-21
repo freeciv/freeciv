@@ -11,7 +11,7 @@ modules:
       # On git clone, regenerate configure with autogen.sh
       - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
       - mkdir build
-      - cd build && ../configure --prefix=/app --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+      - cd build && ../configure --prefix=/app --enable-client=gtk3.22 --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
     sources:
       - type: dir
         path: ..
