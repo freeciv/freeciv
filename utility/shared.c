@@ -1259,9 +1259,9 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
 /************************************************************************//**
   Language environmental variable (with emulation).
 ****************************************************************************/
-char *setup_langname(void)
+const char *setup_langname(void)
 {
-  char *langname = NULL;
+  const char *langname = NULL;
 
 #ifdef ENABLE_NLS
   langname = getenv("LANG");
