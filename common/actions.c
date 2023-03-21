@@ -9480,11 +9480,12 @@ bool action_ever_possible(action_id action)
 **************************************************************************/
 const char *gen_action_name_update_cb(const char *old_name)
 {
+  /* Uncomment and fill implementation, if compat mode
+   * action name conversions needed. */
+#if 0
   if (is_ruleset_compat_mode()) {
-    if (!fc_strcasecmp("Transport Alight", old_name)) {
-      return "Transport Deboard";
-    }
   }
+#endif
 
   return old_name;
 }
