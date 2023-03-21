@@ -1443,6 +1443,7 @@ AC_SUBST([RELEASE_TYPE])
 
 if test "$RELEASE_TYPE" = "stable" ; then
   AC_SUBST([RELEASE_DATE])
+  AC_SUBST([NEWS_URL])
   :
 fi
 

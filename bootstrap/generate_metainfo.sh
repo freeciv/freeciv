@@ -15,7 +15,7 @@
 
 if test "$1" = "-h" || test "$1" = "--help" || test "$1" = "" || test "$2" = "" ||
    test "$3" = "" ; then
-  echo "Usage: $(basename $0) <target file> <build root directory> <stable/development> [date]"
+  echo "Usage: $(basename $0) <target file> <build root directory> <stable/development> [date] [URL]"
   exit
 fi
 
@@ -32,12 +32,20 @@ fi
 RELTYPE="$3"
 
 if test "$4" != "" ; then
-  RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\" />"
+  if test "$5" != "" ; then
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\"><url>$5</url></release>"
+  else
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\" \>"
+  fi
 else
   # Tag with no date causes format checker warning, but
   # flatpak builder outright errors if there's no <release> tag
   # at all within <releases> ... </releases> list
-  RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" />"
+  if test "$5" = "" ; then
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" />"
+  else
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\"><url>$5</url></release>"
+  fi
 fi
 
 sed -e "s,\[release\],${RELEASETAG}," "${1}.in" > "${BDIR}/${1}"
