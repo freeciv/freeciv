@@ -1685,6 +1685,11 @@ void mr_menu::setup_menus()
     slot_help(HELP_RULESET_ITEM);
   });
 
+  act = menu->addAction(Q_(HELP_TILESET_ITEM));
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_TILESET_ITEM);
+  });
+
   act = menu->addAction(Q_(HELP_NATIONS_ITEM));
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_NATIONS_ITEM);
