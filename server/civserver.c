@@ -60,6 +60,9 @@
 #include "sernet.h"
 #include "srv_main.h"
 
+/* server/savegame */
+#include "savemain.h"
+
 #ifdef GENERATING_MAC
 static void Mac_options(int argc);  /* don't need argv */
 #endif
@@ -72,11 +75,12 @@ static void Mac_options(int argc);  /* don't need argv */
 #define save_and_exit(sig)              \
 if (S_S_RUNNING == server_state()) {    \
   save_game_auto(#sig, AS_INTERRUPT);   \
+  save_system_close();                  \
 }                                       \
 exit(EXIT_SUCCESS);
 
 /**********************************************************************//**
-  This function is called when a SIGINT (ctrl-c) is received.  It will exit
+  This function is called when a SIGINT (ctrl-c) is received. It will exit
   only if two SIGINTs are received within a second.
 **************************************************************************/
 static void signal_handler(int sig)
