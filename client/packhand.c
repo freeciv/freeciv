@@ -5548,7 +5548,7 @@ void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
   curr->target = packet->type;
   curr->def = packet->def;
 
-  if (curr->type != CB_CITY_OWNED_TURNS
+  if (!counter_behaviour_is_valid(curr->type)
     || curr->target != CTGT_CITY) {
 
     return;
