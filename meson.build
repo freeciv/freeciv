@@ -749,7 +749,8 @@ class me {
 void top(); };
 void me::top() { [=, this]() {}; };
 ''',
-     name: 'C++20 capture this')
+     name: 'C++20 capture this',
+     args: ['-Werror', '-Wall'])
   pub_conf_data.set('FREECIV_HAVE_CXX20_CAPTURE_THIS', 1)
 endif
 
