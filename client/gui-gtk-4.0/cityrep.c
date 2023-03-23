@@ -128,6 +128,7 @@ static GMenu *add_last_menu;
 static GMenu *add_next_menu;
 static GMenu *add_2ndlast_menu;
 static GMenu *wl_set_menu;
+static GMenu *wl_append_menu;
 
 #ifdef MENUS_GTK3
 static GtkWidget *select_island_item;
@@ -902,7 +903,6 @@ static void update_governor_menu(void)
                        G_MENU_MODEL(create_governor_menu(cityrep_group, TRUE)));
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Helper function to append a worklist to the current work list of one city
   in the city report. This function is called over all selected rows in the
@@ -926,7 +926,9 @@ static void append_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
   item to the worklists of all selected cities. The worklist pointer is
   passed in 'data'.
 ****************************************************************************/
-static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
+static void append_worklist_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   struct global_worklist *pgwl =
     global_worklist_by_id(GPOINTER_TO_INT(data));
@@ -942,7 +944,6 @@ static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
                                       append_worklist_foreach,
                                       (gpointer) global_worklist_get(pgwl));
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Helper function to set a worklist for one city in the city report. This
@@ -989,7 +990,8 @@ static void set_worklist_callback(GSimpleAction *action,
 /************************************************************************//**
   Create submenu based on global worklist.
 ****************************************************************************/
-static GMenu *create_wl_menu(GActionGroup *group, GCallback cb)
+static GMenu *create_wl_menu(GActionGroup *group, const char *act_pfx,
+                             GCallback cb)
 {
   GMenu *menu;
   GSimpleAction *act;
@@ -1004,12 +1006,12 @@ static GMenu *create_wl_menu(GActionGroup *group, GCallback cb)
   global_worklists_iterate(pgwl) {
     char buf[128];
 
-    fc_snprintf(buf, sizeof(buf), "wlset%d", count);
+    fc_snprintf(buf, sizeof(buf), "wl%s%d", act_pfx, count);
     act = g_simple_action_new(buf, NULL);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", cb,
                      GINT_TO_POINTER(global_worklist_id(pgwl)));
-    fc_snprintf(buf, sizeof(buf), "win.wlset%d", count);
+    fc_snprintf(buf, sizeof(buf), "win.wl%s%d", act_pfx, count);
     menu_item_append_unref(menu,
                            g_menu_item_new(global_worklist_name(pgwl),
                                            buf));
@@ -1017,9 +1019,11 @@ static GMenu *create_wl_menu(GActionGroup *group, GCallback cb)
   } global_worklists_iterate_end;
 
   if (count == 0) {
+    char buf[64];
+
+    fc_snprintf(buf, sizeof(buf), "win.wl%s_dummy", act_pfx);
     menu_item_append_unref(menu,
-                           g_menu_item_new(_("(no worklists defined)"),
-                                           "win.wlset_dummy"));
+                           g_menu_item_new(_("(no worklists defined)"), buf));
   }
 
   return menu;
@@ -1127,14 +1131,6 @@ static GtkWidget *create_city_report_menu(void)
   cityrep_group = G_ACTION_GROUP(g_simple_action_group_new());
 
   cityrep_menu = g_menu_new();
-
-#ifdef MENUS_GTK3
-  item = gtk_menu_item_new_with_label(_("Append Worklist"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_object_set_data(G_OBJECT(item), "item_callback",
-                    append_worklist_callback);
-  g_signal_connect(menu, "show", G_CALLBACK(production_menu_shown), item);
-#endif /* MENUS_GTK3 */
 
   /* Placeholder */
   submenu_append_unref(cityrep_menu, _("_Production"),
@@ -1665,9 +1661,13 @@ static GMenu *create_production_menu(GActionGroup *group)
   submenu_append_unref(prod_menu, _("Add _2nd Last"),
                        G_MENU_MODEL(add_2ndlast_menu));
 
-  wl_set_menu = create_wl_menu(group, G_CALLBACK(set_worklist_callback));
+  wl_set_menu = create_wl_menu(group, "set", G_CALLBACK(set_worklist_callback));
   submenu_append_unref(prod_menu, _("Set Worklist"),
                        G_MENU_MODEL(wl_set_menu));
+
+  wl_append_menu = create_wl_menu(group, "append", G_CALLBACK(append_worklist_callback));
+  submenu_append_unref(prod_menu, _("Append Worklist"),
+                       G_MENU_MODEL(wl_append_menu));
 
   act = g_simple_action_new("clear_worklist", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
@@ -1691,6 +1691,7 @@ static void recreate_production_menu(GActionGroup *group)
     g_menu_remove_all(add_next_menu);
     g_menu_remove_all(add_2ndlast_menu);
     g_menu_remove_all(wl_set_menu);
+    g_menu_remove_all(wl_append_menu);
     g_menu_remove_all(prod_menu);
   }
   g_menu_remove(cityrep_menu, 0);
