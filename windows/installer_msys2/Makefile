@@ -36,6 +36,13 @@ LIBGCCDLL=
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0A00
 
+else ifeq ($(MSYSTEM),CLANG32)
+WINARCH=win32+
+ARCHDIR=clang32
+LIBGCCDLL=
+CRYPTOLIB_SUFFIX=
+PREF_WIN_VER=0x0A00
+
 else
 error "Unsupported MSYSTEM environment"
 endif
@@ -72,7 +79,7 @@ endif
 # Make rules
 #
 
-# by default build all installers.
+# By default build all installers.
 all: all-$(WINARCH)
 
 all-win64: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer gtk4-installer
@@ -87,6 +94,13 @@ all-win64+:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" install-freeciv-sdl2
 	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" install-freeciv-qt6
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" install-ruledit-qt6
+
+all-win32+:
+	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" install-freeciv-gtk3.22
+	make GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" install-freeciv-gtk4
+	make GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" install-freeciv-sdl2
+	make GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" install-freeciv-qt6
+	make EXTRA_CONFIG="CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" install-ruledit-qt6
 
 gtk3.22-installer:
 	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
