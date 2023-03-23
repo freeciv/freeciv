@@ -1007,17 +1007,18 @@ bool can_player_see_unit_at(const struct player *pplayer,
                             bool is_transported)
 {
   struct city *pcity;
+  bool allied;
 
   /* If the player can't even see the tile... */
   if (TILE_KNOWN_SEEN != tile_get_known(ptile, pplayer)) {
     return FALSE;
   }
 
-  /* Don't show non-allied units that are in transports.  This is logical
-   * because allied transports can also contain our units.  Shared vision
+  /* Don't show non-allied units that are in transports. This is logical
+   * because allied transports can also contain our units. Shared vision
    * isn't taken into account. */
-  if (is_transported && unit_owner(punit) != pplayer
-      && !pplayers_allied(pplayer, unit_owner(punit))) {
+  allied = pplayers_allied(pplayer, unit_owner(punit));
+  if (is_transported && !allied) {
     return FALSE;
   }
 
@@ -1028,7 +1029,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   }
 
   /* Units within some extras may be hidden. */
-  if (!pplayers_allied(pplayer, ptile->extras_owner)) {
+  if (!allied) {
     struct unit_type *ptype = unit_type_get(punit);
 
     extra_type_list_iterate(extra_type_list_of_unit_hiders(), pextra) {
@@ -1040,8 +1041,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
 
   /* Allied or non-hiding units are always seen.
    * See also stealth unit hiding part in map_change_seen() */
-  if (pplayers_allied(unit_owner(punit), pplayer)
-      || !is_hiding_unit(punit)) {
+  if (allied || !is_hiding_unit(punit)) {
     return TRUE;
   }
 
