@@ -207,7 +207,8 @@ graphic     = "a.pottery"
 graphic_alt = "-"
 ; /* xgettext:no-c-format */
 helptext    = _("\
-As food can be stored, granary is set to 15% full when city grows.\
+As food can be stored, granary is set to 15% full when city grows\
+ or 25% full when city shrinks.\
 ")
 
 [advance_road_building]
