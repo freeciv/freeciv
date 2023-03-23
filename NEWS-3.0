@@ -432,7 +432,7 @@ AI
 
     * Improved accuracy of AI calculations osdn#45278
     * Fixed restricting AI to max tax rates when they change osdn#44188
-    * More correct max tax rates restroctions applied to the new player
+    * More correct max tax rates restrictions applied to the new player
       from Civil War osdn#44187
     * Fixed AI to select techs when in a team in a game without
       pooled research osdn#45397
