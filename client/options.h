@@ -325,7 +325,7 @@ struct client_options
   char gui_gtk3_22_font_city_productions[512];
   char gui_gtk3_22_font_reqtree_text[512];
 
-/* gui-gtk-3-x client specific options. */
+/* gui-gtk-4.0 client specific options. */
 #define FC_GTK4_DEFAULT_THEME_NAME "Freeciv"
   char gui_gtk4_default_theme_name[512];
   bool gui_gtk4_fullscreen;

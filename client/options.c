@@ -303,8 +303,8 @@ struct client_options gui_options = {
   .gui_gtk3_22_font_city_names = "Sans Bold 10",
   .gui_gtk3_22_font_city_productions = "Serif 10",
   .gui_gtk3_22_font_reqtree_text = "Serif 10",
-  
-/* gui-gtk-3.x client specific options. */
+
+/* gui-gtk-4.0 client specific options. */
   .gui_gtk4_default_theme_name = FC_GTK4_DEFAULT_THEME_NAME,
   .gui_gtk4_fullscreen = FALSE,
   .gui_gtk4_map_scrollbars = FALSE,
@@ -1423,9 +1423,9 @@ struct client_option {
       char *const pvalue;
       const size_t size;
       const char *const def;
-      /* 
+      /*
        * A function to return a string vector of possible string values,
-       * or NULL for none. 
+       * or NULL for none.
        */
       const struct strvec *(*const val_accessor) (const struct option *);
     } string;
@@ -2975,7 +2975,7 @@ static struct client_option client_options[] = {
                   COC_FONT, GUI_GTK3_22,
                   "Serif 10", NULL),
 
-  /* gui-gtk-3.x client specific options. */
+  /* gui-gtk-4.0 client specific options. */
   GEN_BOOL_OPTION(gui_gtk4_fullscreen, N_("Fullscreen"),
                   N_("If this option is set the client will use the "
                      "whole screen area for drawing."),
@@ -3337,7 +3337,7 @@ static const int client_options_num = ARRAY_SIZE(client_options);
 static struct client_option *
     client_option_next_valid(struct client_option *poption)
 {
-  const struct client_option *const max = 
+  const struct client_option *const max =
     client_options + client_options_num;
   const enum gui_type our_type = get_gui_type();
 
@@ -5342,7 +5342,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
          minor = MINOR_NEW_OPTION_FILE_NAME;
          major >= FIRST_MAJOR_NEW_OPTION_FILE_NAME; major--) {
       for (; (major == FIRST_MAJOR_NEW_OPTION_FILE_NAME
-              ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
+              ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME
               : minor >= 0); minor--) {
         fc_snprintf(name_buffer, sizeof(name_buffer),
                     "%s" DIR_SEPARATOR NEW_OPTION_FILE_NAME, name, major, minor);
@@ -6018,7 +6018,7 @@ void options_load(void)
   message_options_load(sf, prefix);
   options_dialogs_load(sf);
 
-  /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
+  /* Load cma presets. If cma.number_of_presets doesn't exist, don't load
    * any, the order here should be reversed to keep the order the same */
   if (secfile_lookup_int(sf, &num, "cma.number_of_presets")) {
     for (i = num - 1; i >= 0; i--) {
@@ -6469,7 +6469,7 @@ static const struct strvec *get_mapimg_format_list(const struct option *poption)
 const char *tileset_name_for_topology(int topology_id)
 {
   const char *tsn = NULL;
-  
+
   switch (topology_id & (TF_ISO | TF_HEX)) {
   case 0:
   case TF_ISO:
