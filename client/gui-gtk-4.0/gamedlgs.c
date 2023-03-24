@@ -400,9 +400,8 @@ void popup_multiplier_dialog(void)
 static GtkWidget *create_rates_dialog(void)
 {
   GtkWidget *shell, *content;
-  GtkWidget *frame, *hgrid;
+  GtkWidget *frame, *hbox;
   int i;
-  int grid_col = 0;
 
   if (!can_client_issue_orders()) {
     return NULL;
@@ -426,9 +425,8 @@ static GtkWidget *create_rates_dialog(void)
   frame = gtk_frame_new( _("Tax") );
   gtk_box_insert_child_after(GTK_BOX(content), frame, NULL);
 
-  hgrid = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
-  gtk_frame_set_child(GTK_FRAME(frame), hgrid);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+  gtk_frame_set_child(GTK_FRAME(frame), hbox);
 
   rates_tax_scale =
     gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 10, 1);
@@ -439,22 +437,20 @@ static GtkWidget *create_rates_dialog(void)
   gtk_widget_set_size_request(rates_tax_scale, 300, 40);
   gtk_scale_set_digits(GTK_SCALE(rates_tax_scale), 0);
   gtk_scale_set_draw_value(GTK_SCALE(rates_tax_scale), FALSE);
-  gtk_grid_attach(GTK_GRID(hgrid), rates_tax_scale, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), rates_tax_scale);
 
   rates_tax_label = gtk_label_new("  0%");
-  gtk_grid_attach(GTK_GRID(hgrid), rates_tax_label, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), rates_tax_label);
   gtk_widget_set_size_request(rates_tax_label, 40, -1);
 
-  rates_tax_toggle = gtk_check_button_new_with_label( _("Lock") );
-  gtk_grid_attach(GTK_GRID(hgrid), rates_tax_toggle, grid_col++, 0, 1, 1);
+  rates_tax_toggle = gtk_toggle_button_new_with_label( _("Lock") );
+  gtk_box_append(GTK_BOX(hbox), rates_tax_toggle);
 
   frame = gtk_frame_new( _("Luxury") );
   gtk_box_insert_child_after(GTK_BOX(content), frame, NULL);
 
-  hgrid = gtk_grid_new();
-  grid_col = 0;
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
-  gtk_frame_set_child(GTK_FRAME(frame), hgrid);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+  gtk_frame_set_child(GTK_FRAME(frame), hbox);
 
   rates_lux_scale =
     gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 10, 1);
@@ -465,22 +461,20 @@ static GtkWidget *create_rates_dialog(void)
   gtk_widget_set_size_request(rates_lux_scale, 300, 40);
   gtk_scale_set_digits(GTK_SCALE(rates_lux_scale), 0);
   gtk_scale_set_draw_value(GTK_SCALE(rates_lux_scale), FALSE);
-  gtk_grid_attach(GTK_GRID(hgrid), rates_lux_scale, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), rates_lux_scale);
 
   rates_lux_label = gtk_label_new("  0%");
-  gtk_grid_attach(GTK_GRID(hgrid), rates_lux_label, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), rates_lux_label);
   gtk_widget_set_size_request(rates_lux_label, 40, -1);
 
-  rates_lux_toggle = gtk_check_button_new_with_label( _("Lock") );
-  gtk_grid_attach(GTK_GRID(hgrid), rates_lux_toggle, grid_col++, 0, 1, 1);
+  rates_lux_toggle = gtk_toggle_button_new_with_label( _("Lock") );
+  gtk_box_append(GTK_BOX(hbox), rates_lux_toggle);
 
   frame = gtk_frame_new( _("Science") );
   gtk_box_insert_child_after(GTK_BOX(content), frame, NULL);
 
-  hgrid = gtk_grid_new();
-  grid_col = 0;
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
-  gtk_frame_set_child(GTK_FRAME(frame), hgrid);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+  gtk_frame_set_child(GTK_FRAME(frame), hbox);
 
   rates_sci_scale =
     gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 10, 1);
@@ -491,14 +485,14 @@ static GtkWidget *create_rates_dialog(void)
   gtk_widget_set_size_request(rates_sci_scale, 300, 40);
   gtk_scale_set_digits(GTK_SCALE(rates_sci_scale), 0);
   gtk_scale_set_draw_value(GTK_SCALE(rates_sci_scale), FALSE);
-  gtk_grid_attach(GTK_GRID(hgrid), rates_sci_scale, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), rates_sci_scale);
 
   rates_sci_label = gtk_label_new("  0%");
-  gtk_grid_attach(GTK_GRID(hgrid), rates_sci_label, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), rates_sci_label);
   gtk_widget_set_size_request(rates_sci_label, 40, -1);
 
-  rates_sci_toggle = gtk_check_button_new_with_label( _("Lock") );
-  gtk_grid_attach(GTK_GRID(hgrid), rates_sci_toggle, grid_col++, 0, 1, 1);
+  rates_sci_toggle = gtk_toggle_button_new_with_label( _("Lock") );
+  gtk_box_append(GTK_BOX(hbox), rates_sci_toggle);
 
   g_signal_connect(shell, "response",
                    G_CALLBACK(rates_command_callback), NULL);
