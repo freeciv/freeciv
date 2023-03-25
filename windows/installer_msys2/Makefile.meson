@@ -66,9 +66,7 @@ CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-UNISTRING=libunistring-2.dll
 else
-UNISTRING=libunistring-5.dll
 endif
 
 #
@@ -237,7 +235,7 @@ COMMON_DLLS := \
 	libltdl-7.dll \
 	libxml2-2.dll \
 	libraqm-0.dll \
-	$(UNISTRING) \
+	libunistring-5.dll \
 	exchndl.dll \
 	mgwhelp.dll \
 	$(SOUND_DLLS)
