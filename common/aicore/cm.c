@@ -2073,14 +2073,22 @@ static void cm_find_best_solution(struct cm_state *state,
     loop_count++;
 
     if (loop_count == max_count + 1) {
-      log_base(
 #ifdef FREECIV_TESTMATIC
+      /* This happens at a rate inversely proportional to the number of needed iterations
+       *    https://osdn.net/projects/freeciv/ticket/44438
+       *    we mostly find solutions in less than 100 iteration
+       *        33% in less than 24 iterations
+       *        66% in less than 100
+       *        99% in less than 1800
+       *      extremely rarely 10 000+
+       *    it is not a bug it is normal, so just silent this warning
+       */
+      log_base(
                LOG_DEBUG,
-#else  /* FREECIV_TESTMATIC */
-               LOG_WARN,
-#endif /* FREECIV_TESTMATIC */
                "Did not find a cm solution in %d iterations for %s.",
                max_count, city_name_get(state->pcity));
+#endif /* FREECIV_TESTMATIC */
+
 #ifndef CM_LOOP_NO_LIMIT
       result->aborted = TRUE;
       break;
