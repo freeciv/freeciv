@@ -81,45 +81,35 @@ static RANDOM_STATE rand_state;
 RANDOM_TYPE fc_rand_debug(RANDOM_TYPE size, const char *called_as,
                           int line, const char *file) 
 {
-  RANDOM_TYPE new_rand, divisor, max;
-  int bailout = 0;
+  RANDOM_TYPE new_rand;
 
   fc_assert_ret_val(rand_state.is_init, 0);
 
   if (size > 1) {
+    RANDOM_TYPE divisor, max;
+    int bailout = 0;
+
     divisor = MAX_UINT32 / size;
     max = size * divisor - 1;
-  } else {
-    /* size == 0 || size == 1 */
+    do {
+      new_rand = (rand_state.v[rand_state.j]
+                  + rand_state.v[rand_state.k]) & MAX_UINT32;
 
-    /*
-     * These assignments are only here to make the compiler
-     * happy. Since each usage is guarded with a if (size > 1).
-     */
-    max = MAX_UINT32;
-    divisor = 1;
-  }
+      rand_state.x = (rand_state.x +1) % 56;
+      rand_state.j = (rand_state.j +1) % 56;
+      rand_state.k = (rand_state.k +1) % 56;
+      rand_state.v[rand_state.x] = new_rand;
 
-  do {
-    new_rand = (rand_state.v[rand_state.j]
-                + rand_state.v[rand_state.k]) & MAX_UINT32;
+      if (++bailout > 10000) {
+        log_error("%s(%lu) = %lu bailout at %s:%d",
+                  called_as, (unsigned long) size,
+                  (unsigned long) new_rand, file, line);
+        new_rand = 0;
+        break;
+      }
 
-    rand_state.x = (rand_state.x +1) % 56;
-    rand_state.j = (rand_state.j +1) % 56;
-    rand_state.k = (rand_state.k +1) % 56;
-    rand_state.v[rand_state.x] = new_rand;
+    } while (new_rand > max);
 
-    if (++bailout > 10000) {
-      log_error("%s(%lu) = %lu bailout at %s:%d", 
-                called_as, (unsigned long) size,
-                (unsigned long) new_rand, file, line);
-      new_rand = 0;
-      break;
-    }
-
-  } while (size > 1 && new_rand > max);
-
-  if (size > 1) {
     new_rand /= divisor;
   } else {
     new_rand = 0;
