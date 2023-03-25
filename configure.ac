@@ -686,6 +686,12 @@ FC_DEBUG
 dnl check profiling
 FC_GPROF
 
+dnl Detect flags to be used in configure tests that should fail on warnings
+WERROR_C_TEST_FLAGS=""
+WERROR_CXX_TEST_FLAGS=""
+FC_C_FLAGS([-Werror -Wall], [], [WERROR_C_TEST_FLAGS])
+FC_CXX_FLAGS([-Werror -Wall], [], [WERROR_CXX_TEST_FLAGS])
+
 AC_C99_VARIADIC_MACROS
 AC_C99_VARIABLE_ARRAYS
 AC_C99_INITIALIZERS
@@ -1601,6 +1607,8 @@ dnl Check this when -Werror is already set, if we're going to set it
 FC_VALUE_AFTER_EXIT
 
 if test "x$gui_xaw" = "xyes" ; then
+  _CFLAGS="$CFLAGS"
+  CFLAGS="$CFLAGS $WERROR_C_TEST_FLAGS"
   AC_CACHE_CHECK([['const' for XawListChange()]], [ac_cv_const_for_xaw_list_change],
     [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <X11/Xaw/List.h>
 ]],
@@ -1617,6 +1625,7 @@ XawListChange(NULL, test_strings, 0, 0, False);])],
   else
     AC_DEFINE([CONST_FOR_XAW_LIST_CHANGE], [], [[Do not use const for XawListChange() parameter]])
   fi
+  CFLAGS="$_CFLAGS"
 fi
 
 dnl Rebuild 'configure' whenever fc_version changes, if maintainer mode enabled.
