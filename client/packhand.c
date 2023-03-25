@@ -3424,8 +3424,12 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   city_styles_alloc(game.control.styles_count);
   music_styles_alloc(game.control.num_music_styles);
 
-  if (game.control.desc_length > 0) {
-    game.ruleset_description = fc_malloc(game.control.desc_length + 1);
+  if (!has_capability("rsdesc32", client.conn.capability)) {
+    game.control.desc_length32 = game.control.desc_length16;
+  }
+
+  if (game.control.desc_length32 > 0) {
+    game.ruleset_description = fc_malloc(game.control.desc_length32 + 1);
     game.ruleset_description[0] = '\0';
   }
 
@@ -3495,7 +3499,7 @@ void handle_ruleset_description_part(
                         const struct packet_ruleset_description_part *packet)
 {
   fc_strlcat(game.ruleset_description, packet->text,
-             game.control.desc_length + 1);
+             game.control.desc_length32 + 1);
 }
 
 /************************************************************************//**

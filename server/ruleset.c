@@ -4619,9 +4619,10 @@ static bool load_ruleset_governments(struct section_file *file,
 **************************************************************************/
 static void send_ruleset_control(struct conn_list *dest)
 {
-  int desc_left = game.control.desc_length;
+  int desc_left = game.control.desc_length32;
   int idx = 0;
 
+  game.control.desc_length16 = game.control.desc_length32;
   lsend_packet_ruleset_control(dest, &(game.control));
 
   if (game.ruleset_summary != NULL) {
@@ -6652,14 +6653,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     len = strlen(pref_text);
     game.ruleset_description = fc_malloc(len + 1);
     fc_strlcpy(game.ruleset_description, pref_text, len + 1);
-    game.control.desc_length = len;
+    game.control.desc_length32 = len;
   } else {
     /* No description */
     if (game.ruleset_description != NULL) {
       free(game.ruleset_description);
       game.ruleset_description = NULL;
     }
-    game.control.desc_length = 0;
+    game.control.desc_length32 = 0;
   }
 
   pref_text = secfile_lookup_str_default(file, "", "about.capabilities");
