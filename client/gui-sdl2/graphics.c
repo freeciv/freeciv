@@ -1383,7 +1383,7 @@ bool correct_rect_region(SDL_Rect *pRect)
   /* End Correction */
 
   if (ww <= 0 || hh <= 0) {
-    return FALSE; /* suprise :) */
+    return FALSE; /* surprise :) */
   } else {
     pRect->w = ww;
     pRect->h = hh;
