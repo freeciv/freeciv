@@ -65,9 +65,7 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-UNISTRING=libunistring-2.dll
 else
-UNISTRING=libunistring-5.dll
 endif
 
 #
@@ -342,7 +340,7 @@ DEFAULT_FCMP_DLLS := \
 	libpangoft2-1.0-0.dll \
 	libthai-0.dll \
 	libdatrie-1.dll \
-	$(UNISTRING) \
+	libunistring-5.dll \
 	librsvg-2-2.dll
 
 install-env-default-fcmp: install-env-common
@@ -370,7 +368,7 @@ GTK4_FCMP_DLLS := \
 	libgraphene-1.0-0.dll \
 	libharfbuzz-0.dll \
 	libpangoft2-1.0-0.dll \
-	$(UNISTRING) \
+	libunistring-5.dll \
 	libthai-0.dll \
 	liblzo2-2.dll \
 	libgraphite2.dll \
@@ -421,7 +419,7 @@ QT5_DLLS := \
 	libgraphite2.dll \
 	libpcre2-8-0.dll \
 	libpcre2-16-0.dll \
-	$(UNISTRING) \
+	libunistring-5.dll \
 	libbrotlidec.dll \
 	libbrotlicommon.dll \
 	libdouble-conversion.dll \
@@ -443,7 +441,7 @@ QT6_DLLS := \
 	Qt6Core.dll \
 	Qt6Gui.dll \
 	Qt6Widgets.dll \
-	$(UNISTRING) \
+	libunistring-5.dll \
 	libpcre2-16-0.dll \
 	libharfbuzz-0.dll \
 	libgraphite2.dll \
