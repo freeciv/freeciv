@@ -103,10 +103,10 @@ struct gui_layer *get_gui_layer(SDL_Surface *surface)
 
 /**********************************************************************//**
   Buffer allocation function.
-  This function is call by "create_window(...)" function and allocate 
+  This function is call by "create_window(...)" function and allocate
   buffer layer for this function.
 
-  Pointer for this buffer is put in buffer array on last position that 
+  Pointer for this buffer is put in buffer array on last position that
   flush functions will draw this layer last.
 **************************************************************************/
 struct gui_layer *add_gui_layer(int width, int height)
@@ -701,7 +701,7 @@ static int __FillRectAlpha565(SDL_Surface *surf, SDL_Rect *prect,
     end = surf->w * surf->h;
     pixel = surf->pixels;
     if (A == 16) { /* A == 128 >> 3 */
-      /* this code don't work (A == 128) */
+      /* This code doesn't work (A == 128) */
       if (end & 0x1) { /* end % 2 */
         D = *pixel;
         *pixel++ = BLEND16_50(D, S, MASK565);
@@ -726,30 +726,26 @@ static int __FillRectAlpha565(SDL_Surface *surf, SDL_Rect *prect,
       }, end);
     }
   } else {
-    /* correct prect size */
+    /* Correct prect size */
     if (prect->x < 0) {
       prect->w += prect->x;
       prect->x = 0;
-    } else {
-      if (prect->x >= surf->w - prect->w) {
-        prect->w = surf->w - prect->x;
-      }
+    } else if (prect->x >= surf->w - prect->w) {
+      prect->w = surf->w - prect->x;
     }
 
     if (prect->y < 0) {
       prect->h += prect->y;
       prect->y = 0;
-    } else {
-      if (prect->y >= surf->h - prect->h) {
-        prect->h = surf->h - prect->y;
-      }
+    } else if (prect->y >= surf->h - prect->h) {
+      prect->h = surf->h - prect->y;
     }
 
     start = pixel = (Uint32 *) surf->pixels +
       (prect->y * surf->pitch) + prect->x / 2;
 
     if (A == 16) { /* A == 128 >> 3 */
-      /* this code don't work (A == 128) */
+      /* This code doesn't work (A == 128) */
       S = S | S << 16;
       for (y = 0; y < prect->h; y++) {
         end = 0;
@@ -770,7 +766,6 @@ static int __FillRectAlpha565(SDL_Surface *surf, SDL_Rect *prect,
         start = pixel;
       }
     } else {
-      y = 0;
       S = (S | S << 16) & 0x07e0f81f;
       y = prect->h;
       end = prect->w;
@@ -789,9 +784,8 @@ static int __FillRectAlpha565(SDL_Surface *surf, SDL_Rect *prect,
         start = pixel;
       } /* while */
     }
-
   }
-  
+
   unlock_surf(surf);
   return 0;
 }
@@ -840,23 +834,19 @@ static int __FillRectAlpha555(SDL_Surface *surf, SDL_Rect *prect,
       }, end);
     }
   } else {
-    /* correct prect size */
+    /* Correct prect size */
     if (prect->x < 0) {
       prect->w += prect->x;
       prect->x = 0;
-    } else {
-      if (prect->x >= surf->w - prect->w) {
-        prect->w = surf->w - prect->x;
-      }
+    } else if (prect->x >= surf->w - prect->w) {
+      prect->w = surf->w - prect->x;
     }
 
     if (prect->y < 0) {
       prect->h += prect->y;
       prect->y = 0;
-    } else {
-      if (prect->y >= surf->h - prect->h) {
-        prect->h = surf->h - prect->y;
-      }
+    } else if (prect->y >= surf->h - prect->h) {
+      prect->h = surf->h - prect->y;
     }
 
     start = pixel = (Uint32 *) surf->pixels +
@@ -883,7 +873,7 @@ static int __FillRectAlpha555(SDL_Surface *surf, SDL_Rect *prect,
         start = pixel;
       }
     } else {
-      
+
       S = (S | S << 16) & 0x03e07c1f;
       y = prect->h;
       end = prect->w;
@@ -903,7 +893,7 @@ static int __FillRectAlpha555(SDL_Surface *surf, SDL_Rect *prect,
       } /* while */
     }
   }
-  
+
   unlock_surf(surf);
   return 0;
 }
@@ -951,7 +941,7 @@ static int __FillRectAlpha8888_32bit(SDL_Surface *surf, SDL_Rect *prect,
           dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
           dSIMD2 &= 0xFF00;
           *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
-      },{
+      }, {
           dSIMD1 = *pixel;
           A_Dst = dSIMD1 & A_Mask;
           dSIMD1 &= 0x00FF00FF;
@@ -974,23 +964,19 @@ static int __FillRectAlpha8888_32bit(SDL_Surface *surf, SDL_Rect *prect,
       }, end);
     }
   } else {
-    /* correct prect size */
+    /* Correct prect size */
     if (prect->x < 0) {
       prect->w += prect->x;
       prect->x = 0;
-    } else {
-      if (prect->x >= surf->w - prect->w) {
-        prect->w = surf->w - prect->x;
-      }
+    } else if (prect->x >= surf->w - prect->w) {
+      prect->w = surf->w - prect->x;
     }
 
     if (prect->y < 0) {
       prect->h += prect->y;
       prect->y = 0;
-    } else {
-      if (prect->y >= surf->h - prect->h) {
-        prect->h = surf->h - prect->y;
-      }
+    } else if (prect->y >= surf->h - prect->h) {
+      prect->h = surf->h - prect->y;
     }
 
     start = pixel = (Uint32 *) surf->pixels +
@@ -1013,7 +999,7 @@ static int __FillRectAlpha8888_32bit(SDL_Surface *surf, SDL_Rect *prect,
     } else {
       y = prect->h;
       end = prect->w;
-      
+
       sSIMD2 &= 0xFF00;
       sSIMD2 = sSIMD2 >> 8 | sSIMD2 << 8;
 
@@ -1029,7 +1015,7 @@ static int __FillRectAlpha8888_32bit(SDL_Surface *surf, SDL_Rect *prect,
           dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
           dSIMD2 &= 0xFF00;
           *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
-        },{
+        }, {
           dSIMD1 = *pixel;
           A_Dst = dSIMD1 & A_Mask;
           dSIMD1 &= 0x00FF00FF;
@@ -1101,7 +1087,7 @@ static int __FillRectAlpha888_32bit(SDL_Surface *surf, SDL_Rect *prect,
           dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
           dSIMD2 &= 0xFF00;
           *pixel++ = dSIMD1 | dSIMD2 | 0xFF000000;
-      },{
+      }, {
           dSIMD1 = *pixel & 0x00FF00FF;
           dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
           dSIMD1 &= 0x00FF00FF;
@@ -1120,23 +1106,19 @@ static int __FillRectAlpha888_32bit(SDL_Surface *surf, SDL_Rect *prect,
       }, end);
     }
   } else {
-    /* correct prect size */
+    /* Correct prect size */
     if (prect->x < 0) {
       prect->w += prect->x;
       prect->x = 0;
-    } else {
-      if (prect->x >= surf->w - prect->w) {
-        prect->w = surf->w - prect->x;
-      }
+    } else if (prect->x >= surf->w - prect->w) {
+      prect->w = surf->w - prect->x;
     }
 
     if (prect->y < 0) {
       prect->h += prect->y;
       prect->y = 0;
-    } else {
-      if (prect->y >= surf->h - prect->h) {
-        prect->h = surf->h - prect->y;
-      }
+    } else if (prect->y >= surf->h - prect->h) {
+      prect->h = surf->h - prect->y;
     }
 
     start = pixel = (Uint32 *) surf->pixels +
@@ -1173,7 +1155,7 @@ static int __FillRectAlpha888_32bit(SDL_Surface *surf, SDL_Rect *prect,
           dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
           dSIMD2 &= 0xFF00;
           *pixel++ = dSIMD1 | dSIMD2 | 0xFF000000;
-        },{
+        }, {
           dSIMD1 = *pixel & 0x00FF00FF;
           dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
           dSIMD1 &= 0x00FF00FF;
@@ -1248,7 +1230,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface *surf, SDL_Rect *prect,
     }
 
   } else {
-    /* correct prect size */
+    /* Correct prect size */
     if (prect->x < 0) {
       prect->w += prect->x;
       prect->x = 0;
@@ -1727,7 +1709,7 @@ SDL_Surface *resize_surface(const SDL_Surface *psrc, Uint16 new_width,
   'new_height'. If 'scale_up' is FALSE, a surface that already fits into
   the box will not be scaled up to the boundaries of the box.
   If 'absolute_dimensions' is TRUE, the function returns a surface with the
-  dimensions of the box and the scaled/original surface centered in it. 
+  dimensions of the box and the scaled/original surface centered in it.
 **************************************************************************/
 SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
                                 Uint16 new_width, Uint16 new_height,
