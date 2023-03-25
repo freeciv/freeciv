@@ -456,9 +456,11 @@ static void unit_convert_callback(GSimpleAction *action,
 static void unit_disband_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
+static void unsentry_all_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
 
 #ifdef MENUS_GTK3
-static void unit_unsentry_callback(GtkMenuItem *item, gpointer data);
 static void unit_unload_transporter_callback(GtkMenuItem *item,
                                              gpointer data);
 #endif /* MENUS_GTK3 */
@@ -736,6 +738,9 @@ static struct menu_entry_info menu_entries[] =
   { "UNIT_SENTRY", N_("_Sentry"),
     "sentry", "s", MGROUP_UNIT,
     NULL, FALSE },
+  { "UNSENTRY_ALL", N_("Uns_entry All On Tile"),
+    "unsentry_all", "<shift>s", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_BOARD", N_("_Load"),
     "board", "l", MGROUP_UNIT,
     NULL, FALSE },
@@ -1001,8 +1006,6 @@ static struct menu_entry_info menu_entries[] =
     GDK_CONTROL_MASK | GDK_SHIFT_MASK,
     G_CALLBACK(toggle_fog_callback), MGROUP_EDIT },
 
-  { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
-    G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
   { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
     GDK_KEY_t, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
@@ -1081,6 +1084,7 @@ const GActionEntry acts[] = {
   { "explore", unit_explore_callback },
   { "patrol", unit_patrol_callback },
   { "sentry", unit_sentry_callback },
+  { "unsentry_all", unsentry_all_callback },
   { "board", unit_board_callback },
   { "deboard", unit_deboard_callback },
   { "homecity", unit_homecity_callback },
@@ -2315,6 +2319,16 @@ static void unit_sentry_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
+  Item "UNSENTRY_ALL" callback.
+****************************************************************************/
+static void unsentry_all_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
+{
+  key_unit_wakeup_others();
+}
+
+/************************************************************************//**
   Action "FORTIFY" callback.
 ****************************************************************************/
 static void fortify_callback(GSimpleAction *action,
@@ -2325,16 +2339,6 @@ static void fortify_callback(GSimpleAction *action,
     request_unit_fortify(punit);
   } unit_list_iterate_end;
 }
-
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Item "UNIT_UNSENTRY" callback.
-****************************************************************************/
-static void unit_unsentry_callback(GtkMenuItem *item, gpointer data)
-{
-  key_unit_wakeup_others();
-}
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "UNIT_BOARD" callback.
@@ -3104,6 +3108,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(unit_menu, "UNIT_EXPLORE");
   menu_entry_init(unit_menu, "UNIT_PATROL");
   menu_entry_init(unit_menu, "UNIT_SENTRY");
+  menu_entry_init(unit_menu, "UNSENTRY_ALL");
   menu_entry_init(unit_menu, "UNIT_BOARD");
   menu_entry_init(unit_menu, "UNIT_DEBOARD");
   menu_entry_init(unit_menu, "UNIT_HOMECITY");
@@ -3910,6 +3915,9 @@ void real_menus_update(void)
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
   menu_entry_set_sensitive(map, "UNIT_SENTRY",
                            can_units_do_activity(punits, ACTIVITY_SENTRY));
+  menu_entry_set_sensitive(map, "UNSENTRY_ALL",
+                           units_have_activity_on_tile(punits,
+                                                       ACTIVITY_SENTRY));
   menu_entry_set_sensitive(map, "UNIT_HOMECITY",
                            can_units_do(punits, can_unit_change_homecity));
   menu_entry_set_sensitive(map, "UNIT_UPGRADE", units_can_upgrade(punits));
@@ -3931,9 +3939,6 @@ void real_menus_update(void)
   /* "UNIT_CONVERT" dealt with below */
   menu_entry_set_sensitive("UNIT_UNLOAD_TRANSPORTER",
                            units_are_occupied(punits));
-  menu_entry_set_sensitive("UNIT_UNSENTRY",
-                           units_have_activity_on_tile(punits,
-                                                       ACTIVITY_SENTRY));
 #endif /* MENUS_GTK3 */
 
   proad = road_by_gui_type(ROAD_GUI_ROAD);
