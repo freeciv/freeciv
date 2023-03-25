@@ -120,7 +120,7 @@ EOF
 cat <<EOF
 
   ; Write the installation path into the registry
-  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID} "" "\$INSTDIR"
+  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID} "" "\$INSTDIR"
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
@@ -340,8 +340,10 @@ cat <<EOF
   Delete "\$SMPROGRAMS\\\$STARTMENU_FOLDER\*.*"
   RMDir "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
 
-  ; remove registry keys
+  ; Remove registry keys
   DeleteRegKey "SHCTX" "Software\Microsoft\Windows\CurrentVersion\Uninstall\\\${APPID}"
+  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID} ""
+  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID} "Start Menu Folder"
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}
