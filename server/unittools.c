@@ -152,6 +152,11 @@ static void wipe_unit_full(struct unit *punit, bool transported,
                            enum unit_loss_reason reason,
                            struct player *killer);
 
+static int get_unit_vision_base(struct unit *punit, enum vision_layer vlayer,
+                                const int base);
+static int unit_vision_range_modifiers(struct unit *punit,
+                                       const struct tile *ptile);
+
 /**********************************************************************//**
   Returns a unit type that matches the role_tech or role roles.
 
@@ -3776,10 +3781,11 @@ static void unit_move_by_data(struct unit_move_data *pdata,
 {
   struct vision *new_vision;
   struct unit *punit = pdata->punit;
+  int mod = unit_vision_range_modifiers(punit, pdesttile);
   const v_radius_t radius_sq =
-    V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
-             get_unit_vision_at(punit, pdesttile, V_INVIS),
-             get_unit_vision_at(punit, pdesttile, V_SUBSURFACE));
+    V_RADIUS(get_unit_vision_base(punit, V_MAIN, mod),
+             get_unit_vision_base(punit, V_INVIS, mod),
+             get_unit_vision_base(punit, V_SUBSURFACE, mod));
 
   /* Remove unit from the source tile. */
   fc_assert(unit_tile(punit) == psrctile);
@@ -4754,19 +4760,15 @@ bool execute_orders(struct unit *punit, const bool fresh)
 }
 
 /**********************************************************************//**
-  Return the vision the unit will have at the given tile.  The base vision
-  range may be modified by effects.
+  Return the base vision range the unit will have at the given tile.
+  Modifier effects are not considered here.
 
   Note that vision MUST be independent of transported_by for this to work
   properly.
 **************************************************************************/
-int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
-                       enum vision_layer vlayer)
+static int get_unit_vision_base(struct unit *punit, enum vision_layer vlayer,
+                                const int base)
 {
-  const int base = (unit_type_get(punit)->vision_radius_sq
-                    + get_unittype_bonus(unit_owner(punit), ptile,
-                                         unit_type_get(punit), NULL,
-                                         EFT_UNIT_VISION_RADIUS_SQ));
   switch (vlayer) {
   case V_MAIN:
     return MAX(0, base);
@@ -4778,7 +4780,36 @@ int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
   }
 
   log_error("Unsupported vision layer variant: %d.", vlayer);
+
   return 0;
+}
+
+/**********************************************************************//**
+  Return unit vision range modifiers unit would have at the given tile.
+**************************************************************************/
+static int unit_vision_range_modifiers(struct unit *punit,
+                                       const struct tile *ptile)
+{
+  const struct unit_type *utype = unit_type_get(punit);
+
+  return (utype->vision_radius_sq
+          + get_unittype_bonus(unit_owner(punit), ptile,
+                               utype, NULL,
+                               EFT_UNIT_VISION_RADIUS_SQ));
+}
+
+/**********************************************************************//**
+  Return the vision the unit will have at the given tile. The base vision
+  range may be modified by effects.
+
+  Note that vision MUST be independent of transported_by for this to work
+  properly.
+**************************************************************************/
+int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
+                       enum vision_layer vlayer)
+{
+  return get_unit_vision_base(punit, vlayer,
+                              unit_vision_range_modifiers(punit, ptile));
 }
 
 /**********************************************************************//**
@@ -4791,10 +4822,11 @@ void unit_refresh_vision(struct unit *punit)
 {
   struct vision *uvision = punit->server.vision;
   const struct tile *utile = unit_tile(punit);
+  int mod = unit_vision_range_modifiers(punit, utile);
   const v_radius_t radius_sq =
-      V_RADIUS(get_unit_vision_at(punit, utile, V_MAIN),
-               get_unit_vision_at(punit, utile, V_INVIS),
-               get_unit_vision_at(punit, utile, V_SUBSURFACE));
+      V_RADIUS(get_unit_vision_base(punit, V_MAIN, mod),
+               get_unit_vision_base(punit, V_INVIS, mod),
+               get_unit_vision_base(punit, V_SUBSURFACE, mod));
 
   vision_change_sight(uvision, radius_sq);
   ASSERT_VISION(uvision);
