@@ -2243,7 +2243,7 @@ static void compat_load_030200(struct loaddata *loading,
     secfile_replace_int(loading->file, set_count, "settings.set_count");
   }
 
-  {
+  if (format_class != SAVEGAME_2) {
     /* Replace got_tech[_multi] bools on free_bulbs integers. */
     /* Older savegames had a bug that got_tech_multi was not saved. */
     count = secfile_lookup_int_default(loading->file, 0, "research.count");
