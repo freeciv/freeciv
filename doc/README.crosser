@@ -21,6 +21,17 @@ under windows/installer_cross/ to see what is the crosser version
 currently supported and required.
 
 
+ Using docker container for building with crosser
+=================================================
+
+Later chapters tell how to setup crosser build environment
+to a linux environment. Alternatively, one can now use
+docker container for which the environment is set up
+automatically. Setup script for such a container is available from
+https://github.com/freeciv/freeciv-environments
+git repository, in directory "dockers/builders/crosser/"
+
+
  Setting up crosser build environment
 =====================================
 
