@@ -1099,7 +1099,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     nations_iterate(pnation) {
       if (nation_barbarian_type(pnation) == ANIMAL_BARBARIAN) {
         effect_req_append(peffect,
-                          req_from_str("Nation", "Local",
+                          req_from_str("Nation", "Player",
                                        FALSE, FALSE, FALSE,
                                        nation_rule_name(pnation)));
       }
