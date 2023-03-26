@@ -768,7 +768,6 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
         start = pixel;
       }
     } else {
-      y = 0;
       S = (S | S << 16) & 0x07e0f81f;
       y = pRect->h;
       end = pRect->w;
