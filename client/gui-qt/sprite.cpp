@@ -214,7 +214,12 @@ struct sprite *qtg_load_gfxnumber(int num)
   if (num > 20) {
     ns = QString::number(num);
   } else {
-    const char *numsbuf[21] = {
+#ifdef __cpp_char8_t
+    const char8_t
+#else
+    const char
+#endif
+        *numsbuf[21] = {
       u8"\0xF0\0x9F\0x84\0x8C",
       u8"\u278A",
       u8"\u278B",
