@@ -2025,7 +2025,7 @@ language, please see the instructions at:\
 You are also welcome to send any questions to the translation \
 mailing list:\
 "), "\
-  freeciv-i18n@freelists.org\
+  freeciv-i18n_at_freelists.org\
 "
 
 [help_copying]         
@@ -2359,25 +2359,26 @@ in the Freeciv distribution.\
 To contact the developers about anything else, please email one of the \
 project's mailing lists:\
 "), _("\
-    freeciv-dev@freelists.org   - public development mailing\n\
-                                  list (archives are public)\n\
-    freeciv-private@lists.sourceforge.net\n\
-                                - private project administration\n\
-                                  list (for security issues, etc)\
+    freeciv-dev_at_freelists.org   - public development mailing\n\
+                                     list (archives are public)\n\
+    freeciv-private_at_lists.sourceforge.net\n\
+                                   - private project administration\n\
+                                     list (for security issues, etc)\
 "), _("\
   Original authors:\n\
     (they are no longer involved, please don't mail them!)\
 "), "\
-    Allan Ove Kjeldbjerg - allan@daimi.aau.dk\n\
-    Claus Leth Gregersen - leth@daimi.aau.dk\n\
-    Peter Joachim Unold  - pjunold@daimi.aau.dk\
+    Allan Ove Kjeldbjerg - allan_at_daimi.aau.dk\n\
+    Claus Leth Gregersen - leth_at_daimi.aau.dk\n\
+    Peter Joachim Unold  - pjunold_at_daimi.aau.dk\
 ", _("\
   Present administrators: \
 "), "\
-    Marko Lindqvist       - cazfi74@gmail.com\n\
-    Jacob Nevins          - 0jacobnk.fca@chiark.greenend.org.uk\n\
-    Sveinung Kvilhaugsvik - sveinung84@users.sourceforge.net\n\
-    Alina Lenk            - alina.v.lenk@gmail.com\
+    Marko Lindqvist       - cazfi74_at_gmail.com\n\
+    Jacob Nevins          - 0jacobnk.fca_at_chiark.greenend.org.uk\n\
+    Sveinung Kvilhaugsvik - sveinung84_at_users.sourceforge.net\n\
+    Alina Lenk            - alina.v.lenk_at_gmail.com\n\
+    Dean Brown            - ddeanbrown_at_comcast.net\
 ", _("\
 For more information in general, visit the Freeciv website, at:\
 "), "\
