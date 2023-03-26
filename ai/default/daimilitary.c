@@ -1134,7 +1134,8 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
         /* Yes, there's some similarity with kill_desire(). */
         /* TODO: Explain what shield cost has to do with tech want. */
         tech_desire[utype_index(punittype)] =
-          (desire * total_want / (utype_build_shield_cost(pcity, NULL, punittype) + tech_cost));
+          (desire * total_want
+           / (utype_build_shield_cost(pcity, NULL, punittype) + tech_cost));
       }
     }
   } simple_ai_unit_type_iterate_end;
@@ -1211,7 +1212,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
 **************************************************************************/
 static void process_attacker_want(struct ai_type *ait,
                                   struct city *pcity,
-                                  int value,
+                                  adv_want value,
                                   const struct unit_type *victim_unit_type,
                                   struct player *victim_player,
                                   int veteran, struct tile *ptile,
@@ -1436,7 +1437,8 @@ static void process_attacker_want(struct ai_type *ait,
 
             CITY_LOG(LOG_DEBUG, pcity, "overriding %s(" ADV_WANT_PRINTF
                      ") with %s(" ADV_WANT_PRINTF ")"
-                     " [attack=%d,value=%d,move_time=%d,vuln=%d,bcost=%d]",
+                     " [attack=%d,value=" ADV_WANT_PRINTF
+                     ",move_time=%d,vuln=%d,bcost=%d]",
                      utype_rule_name(best_choice->value.utype),
                      best_choice->want,
                      utype_rule_name(punittype),
@@ -1477,7 +1479,8 @@ static void process_attacker_want(struct ai_type *ait,
   1. receives (in myunit) a first estimate of what we would like to build.
   2. finds a potential victim for it.
   3. calculates the relevant stats of the victim.
-  4. finds the best attacker for this type of victim (in process_attacker_want)
+  4. finds the best attacker for this type of victim
+     (in process_attacker_want() )
   5. if we still want to attack, records the best attacker in choice.
   If the target is overseas, the function might suggest building a ferry
   to carry a land attack unit, instead of the land attack unit itself.
@@ -1490,7 +1493,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
   /* Our attack rating (with reinforcements) */
   int attack;
   /* Benefit from fighting the target */
-  int benefit;
+  adv_want benefit;
   /* Defender of the target city/tile */
   struct unit *pdef; 
   const struct unit_type *def_type;
