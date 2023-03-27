@@ -87,6 +87,7 @@ struct client_options gui_options = {
 
   .use_prev_server = FALSE,
   .heartbeat_enabled = FALSE,
+  .send_desired_settings = TRUE,
 
 /** Migrations **/
   .first_boot = FALSE,
@@ -1890,12 +1891,22 @@ static struct client_option client_options[] = {
                     "this from its default value unless you know what "
                     "you're doing."),
                  COC_NETWORK, GUI_STUB, DEFAULT_METASERVER_OPTION, NULL, 0),
-  GEN_BOOL_OPTION(heartbeat_enabled, N_("Send heartbeat messages to server"),
+  GEN_BOOL_OPTION(heartbeat_enabled,
+                  N_("Send heartbeat messages to the server"),
                   N_("Periodically send an empty heartbeat message to the "
                      "server to probe whether the connection is still up. "
                      "This can help to make it obvious when the server has "
                      "cut the connection due to a connectivity outage, if "
                      "the client would otherwise sit idle for a long period."),
+                  COC_NETWORK, GUI_STUB, TRUE, NULL),
+  GEN_BOOL_OPTION(send_desired_settings,
+                  N_("Send desired settings to the server"),
+                  N_("In single-player mode client usually sends user's "
+                     "desired server settings to the server it has "
+                     "launched internally. By disabling this option one "
+                     "can prevent such override of server settings from "
+                     "other sources, such as settings balanced for a "
+                     "custom ruleset."),
                   COC_NETWORK, GUI_STUB, TRUE, NULL),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),
@@ -4202,6 +4213,7 @@ void handle_server_setting_const
   if (!psoption->desired_sent                                               \
       && psoption->is_visible                                               \
       && psoption->is_changeable                                            \
+      && gui_options.send_desired_settings                                  \
       && is_server_running()                                                \
       && packet->initial_setting) {                                         \
     /* Only send our private settings if we are running                     \
@@ -5624,7 +5636,7 @@ static void desired_settable_option_send(struct option *poption)
 ****************************************************************************/
 void resend_desired_settable_options(void)
 {
-  if (is_server_running()) {
+  if (gui_options.send_desired_settings && is_server_running()) {
     settable_options_hash_iterate(settable_options_hash, name, value) {
       (void) value; /* Silence compiler warning about unused variable */
       struct option *poption = optset_option_by_name(server_optset, name);
