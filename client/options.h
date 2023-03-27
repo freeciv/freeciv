@@ -107,6 +107,7 @@ struct client_options
   int  default_server_port;
   bool use_prev_server;
   bool heartbeat_enabled;
+  bool send_desired_settings;
   char default_metaserver[512];
   char default_tileset_square_name[512];
   char default_tileset_hex_name[512];
