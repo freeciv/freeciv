@@ -78,7 +78,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
 {
   GtkWidget *dlg;
   GtkWidget *main_box;
-  GtkWidget *box;
+  GtkWidget *box, *grid;
   GtkWidget *icon;
   GtkWidget *lbl;
   GtkWidget *sep;
@@ -89,7 +89,8 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   const struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
   const struct unit *default_unit = NULL;
-  int main_row = 0;
+  int tuw = tileset_unit_width(tileset);
+  int tuh = tileset_unit_height(tileset);
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,
                                     _("Close"), GTK_RESPONSE_NO,
@@ -99,15 +100,11 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   gtk_dialog_set_default_response(GTK_DIALOG(dlg), GTK_RESPONSE_NO);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dlg), TRUE);
 
-  main_box = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(main_box),
-                                 GTK_ORIENTATION_VERTICAL);
-  box = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
-                                 GTK_ORIENTATION_HORIZONTAL);
+  main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 
   lbl = gtk_label_new(actor_label);
-  gtk_grid_attach(GTK_GRID(box), lbl, 0, 0, 1, 1);
+  gtk_box_append(GTK_BOX(box), lbl);
 
   spr = get_unittype_sprite(tileset, actor_type,
                             actor->activity, direction8_invalid());
@@ -116,20 +113,21 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   } else {
     icon = gtk_image_new();
   }
-  gtk_grid_attach(GTK_GRID(box), icon, 1, 0, 1, 1);
+  gtk_widget_set_size_request(icon, tuw, tuh);
+  gtk_box_append(GTK_BOX(box), icon);
 
   lbl = gtk_label_new(utype_name_translation(actor_type));
-  gtk_grid_attach(GTK_GRID(box), lbl, 2, 0, 1, 1);
+  gtk_box_append(GTK_BOX(box), lbl);
 
-  gtk_grid_attach(GTK_GRID(main_box), box, 0, main_row++, 1, 1);
+  gtk_box_append(GTK_BOX(main_box), box);
 
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_grid_attach(GTK_GRID(main_box), sep, 0, main_row++, 1, 1);
+  gtk_box_append(GTK_BOX(main_box), sep);
 
   lbl = gtk_label_new(tgt_label);
-  gtk_grid_attach(GTK_GRID(main_box), lbl, 0, main_row++, 1, 1);
+  gtk_box_append(GTK_BOX(main_box), lbl);
 
-  box = gtk_grid_new();
+  grid = gtk_grid_new();
 
   tcount = 0;
   unit_list_iterate(potential_tgt_units, ptgt) {
@@ -157,7 +155,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
       default_option = radio;
       default_unit = suggested_tgt_unit;
     }
-    gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), radio, 0, tcount, 1, 1);
 
     tubuf = usdlg_get_unit_image(ptgt);
     if (tubuf != NULL) {
@@ -166,14 +164,15 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
     } else {
       icon = gtk_image_new();
     }
-    gtk_grid_attach(GTK_GRID(box), icon, 1, tcount, 1, 1);
+    gtk_widget_set_size_request(icon, tuw, tuh);
+    gtk_grid_attach(GTK_GRID(grid), icon, 1, tcount, 1, 1);
 
     lbl = gtk_label_new(usdlg_get_unit_descr(ptgt));
-    gtk_grid_attach(GTK_GRID(box), lbl, 2, tcount, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), lbl, 2, tcount, 1, 1);
 
     tcount++;
   } unit_list_iterate_end;
-  gtk_grid_attach(GTK_GRID(main_box), box, 0, main_row++, 1, 1);
+  gtk_box_append(GTK_BOX(main_box), grid);
 
   fc_assert_ret_val(default_option, FALSE);
   gtk_check_button_set_active(GTK_CHECK_BUTTON(default_option), TRUE);
