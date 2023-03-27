@@ -2516,6 +2516,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     struct animation *anim = fc_malloc(sizeof(struct animation));
     struct unit *winning_unit;
     int winner_end_hp;
+    int aw = tileset_tile_width(tileset) * map_zoom;
+    int ah = tileset_tile_height(tileset) * map_zoom;
 
     if (losing_unit == punit1) {
       winning_unit = punit0;
@@ -2542,6 +2544,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     anim->battle.winner_hp_end = winner_end_hp;
     anim->battle.steps = MAX(losing_unit->hp,
                              anim->battle.winner_hp_start - winner_end_hp);
+    anim->width = aw;
+    anim->height = ah;
     animation_add(anim);
 
     anim = fc_malloc(sizeof(struct animation));
@@ -2550,8 +2554,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     anim->expl.tile = losing_unit->tile;
     anim->expl.sprites = get_unit_explode_animation(tileset);
     anim->expl.sprite_count = sprite_vector_size(anim->expl.sprites);
-    anim->width = tileset_tile_width(tileset) * map_zoom;
-    anim->height = tileset_tile_height(tileset) * map_zoom;
+    anim->width = aw;
+    anim->height = ah;
     animation_add(anim);
   } else {
     const struct sprite_vector *anim = get_unit_explode_animation(tileset);
