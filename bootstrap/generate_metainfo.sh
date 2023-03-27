@@ -35,7 +35,7 @@ if test "$4" != "" ; then
   if test "$5" != "" ; then
     RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\"><url>$5</url></release>"
   else
-    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\" \>"
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\" />"
   fi
 else
   # Tag with no date causes format checker warning, but
