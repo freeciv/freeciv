@@ -38,6 +38,21 @@
 
 #include "rssanity.h"
 
+/* These effects are always needed in the ruleset.
+ * First set are those that are mandatory even in compatibility mode. */
+enum effect_type req_base_effects[] =
+  {
+    EFT_CITY_VISION_RADIUS_SQ,
+    EFT_COUNT
+  };
+
+/* These have been made mandatory in freeciv-3.2 */
+enum effect_type req_base_effects_3_2[] =
+  {
+    EFT_MAX_RATES,
+    EFT_COUNT
+  };
+
 /**********************************************************************//**
   Is non-rule data in ruleset sane?
 **************************************************************************/
@@ -502,7 +517,7 @@ static bool sanity_check_req_vec(rs_conversion_logger logger,
 
 typedef struct {
   struct {
-    bool city_vision_radius_sq;
+    bool effect_present[EFT_COUNT];
   } base_effects;
   rs_conversion_logger logger;
 } els_data;
@@ -516,14 +531,22 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
                       *       -1 disables checking */
   els_data *els = (els_data *)data;
   struct astring astr;
+  int i;
 
-  /* TODO: Refactor this to be more reusable when we check
-   *       for more than one base effect. */
-  if (peffect->type == EFT_CITY_VISION_RADIUS_SQ) {
-    if (requirement_vector_size(&peffect->reqs) == 0) {
-      els->base_effects.city_vision_radius_sq = TRUE;
+  for (i = 0; req_base_effects[i] != EFT_COUNT; i++) {
+    if (peffect->type == req_base_effects[i]) {
+      els->base_effects.effect_present[peffect->type] = TRUE;
+      break;
     }
-  } else if (peffect->type == EFT_ACTION_SUCCESS_TARGET_MOVE_COST) {
+  }
+  for (i = 0; req_base_effects_3_2[i] != EFT_COUNT; i++) {
+    if (peffect->type == req_base_effects_3_2[i]) {
+      els->base_effects.effect_present[peffect->type] = TRUE;
+      break;
+    }
+  }
+
+  if (peffect->type == EFT_ACTION_SUCCESS_TARGET_MOVE_COST) {
     /* Only unit targets can pay in move fragments. */
     requirement_vector_iterate(&peffect->reqs, preq) {
       if (preq->source.kind == VUT_ACTION) {
@@ -1064,10 +1087,32 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     ok = FALSE;
   }
 
-  if (!els.base_effects.city_vision_radius_sq) {
-    ruleset_error(logger, LOG_ERROR,
-                  "There is no base City_Vision_Radius_Sq effect.");
-    ok = FALSE;
+  for (i = 0; req_base_effects[i] != EFT_COUNT; i++) {
+    if (!els.base_effects.effect_present[req_base_effects[i]]) {
+      ruleset_error(logger, LOG_ERROR,
+                    "There is no base %s effect.",
+                    effect_type_name(req_base_effects[i]));
+      ok = FALSE;
+    }
+  }
+  for (i = 0; req_base_effects_3_2[i] != EFT_COUNT; i++) {
+    if (!els.base_effects.effect_present[req_base_effects_3_2[i]]) {
+      const char *ename = effect_type_name(req_base_effects_3_2[i]);
+
+      if (compat != NULL && compat->compat_mode && compat->version < RSFORMAT_3_2) {
+        log_deprecation("There is no base %s effect.", ename);
+        if (compat->log_cb != NULL) {
+          char buf[512];
+
+          fc_snprintf(buf, sizeof(buf), _("Missing base %s effect. Please add one."), ename);
+          compat->log_cb(buf);
+        }
+      } else {
+        ruleset_error(logger, LOG_ERROR,
+                      "There is no base %s effect.", ename);
+        ok = FALSE;
+      }
+    }
   }
 
   if (!sanity_check_boolean_effects(logger)) {
