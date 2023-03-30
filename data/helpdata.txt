@@ -1344,6 +1344,16 @@ expect to lose about 60% of its hit points during the fight, and should \
 expect to have no movement points left.\
 ")
 
+[help_counters]
+name = "Counters"
+text = _("Counter are currently hard-coded entity, which value could been \
+tested to fire various possibilities, like allowing to build unit, or to \
+enabling effect (reduce/increase production), etc. Currently only city \
+counters are supported.")
+
+[help_gen_counters]
+generate = " Counters"
+
 [help_zones_of_control]
 name = _("Zones of Control")
 text = _("\
