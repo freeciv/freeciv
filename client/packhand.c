@@ -5555,6 +5555,7 @@ void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
     return;
   }
 
+  PACKET_STRVEC_EXTRACT(curr->helptext, packet->helptext);
   attach_city_counter(curr);
 }
 

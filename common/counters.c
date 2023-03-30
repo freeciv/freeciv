@@ -39,7 +39,8 @@ static int number_city_counters;
 ****************************************************************************/
 void counters_init(void)
 {
-  game.control.num_counters = 0;
+  fc_assert(game.control.num_counters == 0);
+
   number_city_counters = 0;
 }
 
@@ -52,6 +53,16 @@ void counters_free(void)
   /* TODO: Is freeing translated name needed? If is, write the right
    * code here
    */
+
+  int i;
+
+  for (i = 0; i < game.control.num_counters; i++) {
+
+    if (NULL != counters[i].helptext) {
+      strvec_destroy(counters[i].helptext);
+      counters[i].helptext = NULL;
+    }
+  }
 
   game.control.num_counters = 0;
   number_city_counters = 0;

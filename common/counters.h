@@ -26,6 +26,7 @@ extern "C" {
 struct counter
 {
   struct name_translation name;
+  struct strvec *helptext;
   bool ruledit_disabled;
   enum counter_behaviour type;
   enum counter_target target;

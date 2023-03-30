@@ -1269,6 +1269,10 @@ counters = "\n\
 ;                          do not celebrates, counter is zeroed\n\
 ;                          \"Disorder\" - Increased each turn city is in disorder state. In\n\
 ;                          case riots are eliminated, value is zeroed.\n\
+;helptext                = Description about relation with requirement\n\
+;                          vectors (effects, building, units, etc.)\n\
+;                          and when counter req of this counter\n\
+;                          will be fulfilled.
 ; */ <-- avoid gettext warnings\n\
 "
 
