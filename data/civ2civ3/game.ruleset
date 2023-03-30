@@ -720,6 +720,10 @@ type = "Embassy"
 ;                          does not celebrates, counter is zeroed
 ;                          "Disorder" - Increased each turn city is in disorder state. In
 ;                          case riots are eliminated, value is zeroed.
+;helptext                = Description about relation with requirement
+;                          vectors (effects, building, units, etc.)
+;                          and when counter req of this counter
+;                          will be fulfilled.
 ; */ <-- avoid gettext warnings
 
 [playercolors]

@@ -7504,6 +7504,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           break;
         }
 
+        pcount->helptext = lookup_strvec(file, sec_name, "helptext");
         pcount->type = cb;
         if (!secfile_lookup_int(file, &pcount->checkpoint,
                                 "%s.checkpoint", sec_name)) {
@@ -8171,6 +8172,7 @@ static void send_ruleset_counters(struct conn_list *dest)
     packet.type = pcount->target;
     packet.def = pcount->def;
 
+    PACKET_STRVEC_COMPUTE(packet.helptext, pcount->helptext);
     lsend_packet_ruleset_counter(dest, &packet);
   } city_counters_iterate_end;
 }

@@ -1900,6 +1900,7 @@ end
 PACKET_RULESET_COUNTER = 513; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
+  STRVEC helptext[MAX_LEN_PACKET];
   UINT32 def;
   UINT32 checkpoint;
   COUNTER_TARGET type;
