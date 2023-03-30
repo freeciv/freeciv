@@ -35,6 +35,7 @@
 #include "support.h"
 
 /* common */
+#include "counters.h"
 #include "effects.h"
 #include "game.h"
 #include "government.h"
@@ -70,7 +71,7 @@
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
   "Techs", "Terrain", "Extras", "Goods", "Specialists", "Governments",
-  "Ruleset", "Tileset", "Musicset", "Nations", "Multipliers", NULL
+  "Ruleset", "Tileset", "Musicset", "Nations", "Multipliers", "Counters", NULL
 };
 
 #define SPECLIST_TAG help
@@ -1129,6 +1130,28 @@ void boot_help_texts(void)
               pitem->text = fc_strdup(help_text_buffer);
               help_list_append(help_nodes, pitem);
             } multipliers_iterate_end;
+            break;
+          case HELP_COUNTER:
+            {
+              int j;
+              for (j = 0; j < game.control.num_counters; j++) {
+                struct counter *pcount = counter_by_id(j);
+
+                help_text_buffer[0] = '\0';
+                pitem = new_help_item(current_type);
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                            counter_name_translation(pcount));
+                pitem->topic = fc_strdup(name);
+                if (pcount->helptext) {
+                  strvec_iterate(pcount->helptext, text) {
+                    cat_snprintf(help_text_buffer, sizeof(help_text_buffer),
+                               "%s%s", "\n\n", text);
+                  } strvec_iterate_end;
+                }
+                pitem->text = fc_strdup(help_text_buffer);
+                help_list_append(help_nodes, pitem);
+              }
+            }
             break;
           default:
             log_error("Bad current_type: %d.", current_type);

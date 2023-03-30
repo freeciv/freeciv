@@ -807,6 +807,7 @@ void help_widget::set_topic(const help_item *topic)
 
   switch (topic->type) {
     case HELP_ANY:
+    case HELP_COUNTER:
     case HELP_MULTIPLIER:
     case HELP_RULESET:
     case HELP_TILESET:
