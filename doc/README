@@ -479,7 +479,7 @@ All the messages of the selected level, and lower levels,
 are shown. E.g. on the default "normal" level you get all of the
 "fatal", "error", and "normal" level messages.
 
-If you compiled with DEBUG defined (an easy way to do this is to
+If you compiled with FREECIV_DEBUG defined (an easy way to do this is to
 configure with --enable-debug), then you can get debug level messages
 by setting the level to "debug" (or 4).  Also, it is possible to
 control debug level messages (but not other messages) on a per-file
@@ -513,7 +513,7 @@ server, and debug level messages for some specified modules.  Note
 that "log" will match "gamelog.c" as well as "log.c".  For
 "civserver.c", debug messages between lines 120 and 500 will be
 printed.  This example only works if the server was compiled with
-DEBUG.
+FREECIV_DEBUG.
 
 
 Bugs:
