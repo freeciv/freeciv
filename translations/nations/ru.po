@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-03-17 20:36+0200\n"
-"PO-Revision-Date: 2023-01-24 12:06+0500\n"
+"POT-Creation-Date: 2023-03-31 10:05+0500\n"
+"PO-Revision-Date: 2023-03-24 07:45+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -5301,16 +5301,12 @@ msgid "?female:Captain %s"
 msgstr "Капитан %s"
 
 #: data/nation/florida.ruleset:3
-#, fuzzy
-#| msgid "Florentine"
 msgid "Floridian"
-msgstr "Флорентийцы"
+msgstr "Флоридцы"
 
 #: data/nation/florida.ruleset:4
-#, fuzzy
-#| msgid "?plural:Frisians"
 msgid "?plural:Floridians"
-msgstr "Фризы"
+msgstr "Флоридцы"
 
 #: data/nation/florida.ruleset:6
 msgid ""
@@ -5324,6 +5320,13 @@ msgid ""
 "site of the Apollo 11 Space Launch, which let humans land on the moon for "
 "the first time in history."
 msgstr ""
+"Флорида — третий по численности населения штат США, расположенный на юго-"
+"востоке страны, в основном на одноимённом полуострове. Благодаря тёплому "
+"климату, широко известен как центр туризма, а также как территория "
+"выращивания цитрусовых. Флорида несколько раз колонизировалась Испанией и "
+"Великобританией до того как Война патриотов 1811-13 годов положила начало "
+"серии военных конфликтов, завершившихся присоединением Флориды к США в 1822 "
+"году. На востоке Флориды находится мыс Канаверал — главный космодром NASA."
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
