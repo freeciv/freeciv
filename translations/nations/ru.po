@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-23 06:15+0200\n"
-"PO-Revision-Date: 2023-01-24 12:06+0500\n"
+"POT-Creation-Date: 2023-03-31 10:07+0500\n"
+"PO-Revision-Date: 2023-03-24 07:45+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -373,22 +373,22 @@ msgstr "Султанша %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:22 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:25 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:22 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:25
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
 msgstr "Губернатор %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:22 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:25 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:22 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:25
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "Губернатор %s"
@@ -2517,7 +2517,7 @@ msgstr ""
 "Африки."
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2533,7 +2533,7 @@ msgid "General %s"
 msgstr "Генерал %s"
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2548,19 +2548,21 @@ msgid "?female:General %s"
 msgstr "Генерал %s"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Преподобный %s"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "Преподобная %s"
@@ -3171,14 +3173,14 @@ msgstr ""
 "иммигрантов. В XX веке штат стал центром мировой развлекательной и "
 "высокотехнологичной промышленности."
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "Шериф %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
 msgstr "Шериф %s"
@@ -5297,6 +5299,34 @@ msgstr "Капитан %s"
 #, c-format
 msgid "?female:Captain %s"
 msgstr "Капитан %s"
+
+#: data/nation/florida.ruleset:3
+msgid "Floridian"
+msgstr "Флоридцы"
+
+#: data/nation/florida.ruleset:4
+msgid "?plural:Floridians"
+msgstr "Флоридцы"
+
+#: data/nation/florida.ruleset:6
+msgid ""
+"Florida is the third most populous state of the USA and is well known for "
+"its tourism. It was repeatedly colonized by Spain and Great Britain before "
+"the \"Florida Patriots\" proclaimed the Republic of East Florida in 1812. "
+"Despite being suppressed by Spain the first time, in 1817 adventurers "
+"establied the Republic of the Floridas on Amelia Island which was "
+"incorporated by the USA with the rest of modern Florida in 1822. It joined "
+"the Confederacy in 1861 but rejoined the USA in 1868 and has since been the "
+"site of the Apollo 11 Space Launch, which let humans land on the moon for "
+"the first time in history."
+msgstr ""
+"Флорида — третий по численности населения штат США, расположенный на юго-"
+"востоке страны, в основном на одноимённом полуострове. Благодаря тёплому "
+"климату, широко известен как центр туризма, а также как территория "
+"выращивания цитрусовых. Флорида несколько раз колонизировалась Испанией и "
+"Великобританией до того как Война патриотов 1811-13 годов положила начало "
+"серии военных конфликтов, завершившихся присоединением Флориды к США в 1822 "
+"году. На востоке Флориды находится мыс Канаверал — главный космодром NASA."
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
