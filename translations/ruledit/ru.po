@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-25 17:44+0200\n"
-"PO-Revision-Date: 2022-12-10 18:17+0500\n"
+"POT-Creation-Date: 2023-03-31 10:10+0500\n"
+"PO-Revision-Date: 2023-03-31 09:34+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/req_vec_fix.cpp:191 tools/ruledit/requirers_dlg.cpp:43
@@ -49,22 +49,20 @@ msgstr "Вид"
 #: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
 #: tools/ruledit/edit_utype.cpp:91
 msgid "Graphics tag"
-msgstr ""
+msgstr "Тег изображения"
 
 #: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
 #: tools/ruledit/edit_utype.cpp:100
 msgid "Alt graphics tag"
-msgstr ""
+msgstr "Доп. тег изображения"
 
 #: tools/ruledit/edit_terrain.cpp:49
-#, fuzzy
-#| msgid "Move Rate"
 msgid "Move Cost"
 msgstr "Очки Движения"
 
 #: tools/ruledit/edit_terrain.cpp:59
 msgid "Defense Bonus %"
-msgstr ""
+msgstr "Бонус Защиты (%)"
 
 #: tools/ruledit/edit_utype.cpp:61
 msgid "Attack Strength"
@@ -196,7 +194,7 @@ msgstr "Требуется для %s"
 #: tools/ruledit/ruledit.cpp:120
 #, c-format
 msgid "Failed to load %s."
-msgstr "Ошибка загрузки файла %s."
+msgstr "Ошибка загрузки файла определений %s."
 
 #: tools/ruledit/ruledit.cpp:156
 msgid "Print a summary of the options"
@@ -331,8 +329,6 @@ msgid "Multipliers"
 msgstr "Множители"
 
 #: tools/ruledit/ruledit_qt.cpp:189
-#, fuzzy
-#| msgid "?stat:Counters"
 msgid "Counters"
 msgstr "Счётчики"
 
@@ -432,33 +428,27 @@ msgstr "Здание с этим названием правила уже сущ
 
 #: tools/ruledit/tab_counters.cpp:100
 msgid "Default Value"
-msgstr ""
+msgstr "Значение по умолчанию"
 
 #: tools/ruledit/tab_counters.cpp:109
 msgid "Checkpoint"
-msgstr ""
+msgstr "Точка остановки"
 
 #: tools/ruledit/tab_counters.cpp:121
 msgid "Behavior"
-msgstr ""
+msgstr "Поведение"
 
 #: tools/ruledit/tab_counters.cpp:138
-#, fuzzy
-#| msgid "Add Multiplier"
 msgid "Add Counter"
-msgstr "Добавить Множитель"
+msgstr "Добавить Счётчик"
 
 #: tools/ruledit/tab_counters.cpp:141
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Counter"
-msgstr "Удалить эту технологию"
+msgstr "Удалить этот Счётчик"
 
 #: tools/ruledit/tab_counters.cpp:274
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "A counter with that rule name already exists!"
-msgstr "Технология с этим названием правила уже существует!"
+msgstr "Счётчик с этим названием правила уже существует!"
 
 #: tools/ruledit/tab_enablers.cpp:113
 msgid "Type"
