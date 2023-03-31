@@ -472,11 +472,11 @@ All the messages of the selected level, and lower levels,
 are shown. E.g. on the default "normal" level you get all of the
 "fatal", "error", "warning", and "normal" level messages.
 
-If you compiled with DEBUG defined (an easy way to do this is to
+If you compiled with FREECIV_DEBUG defined (an easy way to do this is to
 configure with --enable-debug), then you can get debug level messages
-by setting the level to "debug" (or 5).  Also, it is possible to
+by setting the level to "debug" (or 5). Also, it is possible to
 control debug level messages (but not other messages) on a per-file
-and per-line basis.  To do this use "--debug debug:str1:str2" (as many
+and per-line basis. To do this use "--debug debug:str1:str2" (as many
 strings as you like, separated by colons) and any filenames which
 match those strings as a substring will have debug log messages
 turned on, and all other debug messages will be suppressed.
@@ -502,11 +502,11 @@ Example:
   |  % freeciv-server -d debug:log:civserver,120,500:autoattack
 
 This turns on all fatal, error, normal and verbose messages for the
-server, and debug level messages for some specified modules.  Note
-that "log" will match "gamelog.c" as well as "log.c".  For
+server, and debug level messages for some specified modules. Note
+that "log" will match "gamelog.c" as well as "log.c". For
 "civserver.c", debug messages between lines 120 and 500 will be
-printed.  This example only works if the server was compiled with
-DEBUG.
+printed. This example only works if the server was compiled with
+FREECIV_DEBUG.
 
 
 Bugs:
