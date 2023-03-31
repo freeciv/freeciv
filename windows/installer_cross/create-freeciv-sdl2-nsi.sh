@@ -353,6 +353,8 @@ cat <<EOF
 
   ; remove registry keys
   DeleteRegKey "SHCTX" "Software\Microsoft\Windows\CurrentVersion\Uninstall\\\${APPID}"
+  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID} ""
+  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID} "Start Menu Folder"
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}
