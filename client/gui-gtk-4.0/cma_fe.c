@@ -63,8 +63,9 @@ static struct cma_dialog *get_cma_dialog(struct city *pcity);
 
 static void update_cma_preset_list(struct cma_dialog *pdialog);
 
-static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEvent *ev,
-                                                gpointer data);
+static gboolean cma_preset_key_pressed(GtkEventControllerKey *controller,
+                                       guint keyval, guint keycode,
+                                       GdkModifierType state, gpointer data);
 static void cma_del_preset_callback(GtkWidget *w, gpointer data);
 static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index);
 static void cma_preset_remove_response(GtkWidget *w, gint response,
@@ -304,8 +305,10 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   g_signal_connect(view, "row_activated",
                    G_CALLBACK(cma_activate_preset_callback), pdialog);
-  g_signal_connect(view, "key-press-event",
-                   G_CALLBACK(cma_preset_key_pressed_callback), pdialog);
+  controller = gtk_event_controller_key_new();
+  g_signal_connect(controller, "key-pressed",
+                   G_CALLBACK(cma_preset_key_pressed), pdialog);
+  gtk_widget_add_controller(view, controller);
 
   hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_grid_attach(GTK_GRID(vgrid), hbox, 0, grid_row++, 1, 1);
@@ -634,8 +637,9 @@ static void cma_preset_add_popup_callback(gpointer data, gint response,
 /**********************************************************************//**
   Key pressed in preset list
 **************************************************************************/
-static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEvent *ev,
-                                                gpointer data)
+static gboolean cma_preset_key_pressed(GtkEventControllerKey *controller,
+                                       guint keyval, guint keycode,
+                                       GdkModifierType state, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   int index;
@@ -644,25 +648,19 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEvent *ev,
     return FALSE;
   }
 
-  if (gdk_event_get_event_type(ev) == GDK_KEY_PRESS) {
-    guint keyval;
-
-    keyval = gdk_key_event_get_keyval(ev);
-    switch (keyval) {
-    case GDK_KEY_Delete:
-      cma_preset_remove(pdialog, index);
-      break;
-    case GDK_KEY_Insert:
-      cma_add_preset_callback(NULL, pdialog);
-      break;
-    default:
-      return FALSE;
-    }
-    return TRUE;
+  switch (keyval) {
+  case GDK_KEY_Delete:
+    cma_preset_remove(pdialog, index);
+    break;
+  case GDK_KEY_Insert:
+    cma_add_preset_callback(NULL, pdialog);
+    break;
+  default:
+    return FALSE;
   }
-  return FALSE;
-}
 
+  return TRUE;
+}
 
 /**********************************************************************//**
   Callback for del_preset
