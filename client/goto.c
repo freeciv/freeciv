@@ -552,8 +552,8 @@ bool goto_pop_waypoint(void)
   PF callback to get the path with the minimal number of steps (out of 
   all shortest paths).
 ****************************************************************************/
-static int get_EC(const struct tile *ptile, enum known_type known,
-                  const struct pf_parameter *param)
+static unsigned get_EC(const struct tile *ptile, enum known_type known,
+                       const struct pf_parameter *param)
 {
   return 1;
 }
@@ -688,7 +688,7 @@ static bool is_non_allied_city_adjacent(const struct player *pplayer,
 static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
                             const struct tile *dest_tile,
                             int src_cost, int src_extra,
-                            int *dest_cost, int *dest_extra,
+                            unsigned *dest_cost, unsigned *dest_extra,
                             const struct pf_parameter *param)
 {
   int activity_time, move_cost, moves_left;
@@ -745,7 +745,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     total_cost += move_cost;
   }
 
-  /* Now need to include the activity cost.  If we have moves left, they
+  /* Now need to include the activity cost. If we have moves left, they
    * will count as a full turn towards the activity time */
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
@@ -758,9 +758,9 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   }
   total_cost += activity_time * param->move_rate;
 
-  /* Now we determine if we have found a better path.  When building
+  /* Now we determine if we have found a better path. When building
    * road type with positive move_cost, we care most about the length
-   * of the result.  When building road type with move_cost 0, we
+   * of the result. When building road type with move_cost 0, we
    * care most about construction time. */
 
   /* *dest_cost == -1 means we haven't reached dest until now */
@@ -799,7 +799,7 @@ static int get_connect_irrig(const struct tile *src_tile,
                              enum direction8 dir,
                              const struct tile *dest_tile,
                              int src_cost, int src_extra,
-                             int *dest_cost, int *dest_extra,
+                             unsigned *dest_cost, unsigned *dest_extra,
                              const struct pf_parameter *param)
 {
   int activity_time, move_cost, moves_left, total_cost;
