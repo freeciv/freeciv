@@ -19,7 +19,7 @@ max_enum_values=150
 # Here are push all defined macros.
 macros=[]
 
-import os, sys
+import sys
 
 def make_header(file):
     file.write('''
