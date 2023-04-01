@@ -161,6 +161,7 @@ files =
   "misc/icons.spec",
   "misc/editor.spec",
   "cimpletoon/orient_units.spec",
+  "cimpletoon/units/storm/xxx.spec",
   "amplio2/nuke.spec",
   "amplio2/explosions.spec",
   "hexemplio/activities.spec",

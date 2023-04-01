@@ -21,6 +21,7 @@ SUBDIRS = \
 	ROMB \
 	stationary_sam \
 	steamer \
+	storm \
 	technical \
 	tiger \
 	truck \

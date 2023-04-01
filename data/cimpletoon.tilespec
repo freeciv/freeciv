@@ -157,6 +157,7 @@ files =
   "misc/specialists.spec",
   "amplio2/veterancy.spec",
   "cimpletoon/orient_units.spec",
+  "cimpletoon/units/storm/xxx.spec",
   "misc/buildings-large.spec",
   "misc/wonders-large.spec",
   "misc/space.spec",
