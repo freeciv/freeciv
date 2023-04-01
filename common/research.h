@@ -173,6 +173,8 @@ int research_count(void);
 
 int recalculate_techs_researched(const struct research *presearch);
 
+bool research_future_next(const struct research *presearch);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
