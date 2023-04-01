@@ -3183,7 +3183,7 @@ static bool can_do_cached_drawing(void)
 
   /* If the mapview window is too large, cached drawing is not possible.
    *
-   * BACKGROUND: cached drawing occurrs when the mapview is scrolled just
+   * BACKGROUND: cached drawing occurs when the mapview is scrolled just
    * a short distance.  The majority of the mapview window can simply be
    * copied while the newly visible areas must be drawn from scratch.  This
    * speeds up drawing significantly, especially when using the scrollbars
