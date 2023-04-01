@@ -351,15 +351,16 @@ static inline bool pf_move_possible(const struct tile *src,
   Use with a TB callback to prevent passing through occupied tiles.
   Does not permit passing through non-native tiles without transport.
 ****************************************************************************/
-static int normal_move(const struct tile *src,
-                       enum pf_move_scope src_scope,
-                       const struct tile *dst,
-                       enum pf_move_scope dst_scope,
-                       const struct pf_parameter *param)
+static unsigned normal_move(const struct tile *src,
+                            enum pf_move_scope src_scope,
+                            const struct tile *dst,
+                            enum pf_move_scope dst_scope,
+                            const struct pf_parameter *param)
 {
   if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
     return map_move_cost(param->owner, param->utype, src, dst);
   }
+
   return PF_IMPOSSIBLE_MC;
 }
 
@@ -370,11 +371,11 @@ static int normal_move(const struct tile *src,
   Use with a TB callback to prevent passing through occupied tiles.
   Does not permit passing through non-native tiles without transport.
 ****************************************************************************/
-static int overlap_move(const struct tile *src,
-                        enum pf_move_scope src_scope,
-                        const struct tile *dst,
-                        enum pf_move_scope dst_scope,
-                        const struct pf_parameter *param)
+static unsigned overlap_move(const struct tile *src,
+                             enum pf_move_scope src_scope,
+                             const struct tile *dst,
+                             enum pf_move_scope dst_scope,
+                             const struct pf_parameter *param)
 {
   if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
     return map_move_cost(param->owner, param->utype, src, dst);
@@ -382,20 +383,22 @@ static int overlap_move(const struct tile *src,
     /* This should always be the last tile reached. */
     return param->move_rate;
   }
+
   return PF_IMPOSSIBLE_MC;
 }
 
 /****************************************************************************
   A cost function for amphibious movement.
 ****************************************************************************/
-static int amphibious_move(const struct tile *ptile,
-                           enum pf_move_scope src_scope,
-                           const struct tile *ptile1,
-                           enum pf_move_scope dst_scope,
-                           const struct pf_parameter *param)
+static unsigned amphibious_move(const struct tile *ptile,
+                                enum pf_move_scope src_scope,
+                                const struct tile *ptile1,
+                                enum pf_move_scope dst_scope,
+                                const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
-  int cost, scale;
+  unsigned cost;
+  int scale;
 
   if (PF_MS_TRANSPORT & src_scope) {
     if (PF_MS_TRANSPORT & dst_scope) {
@@ -428,6 +431,7 @@ static int amphibious_move(const struct tile *ptile,
   if (cost != PF_IMPOSSIBLE_MC && cost < FC_INFINITY) {
     cost *= scale;
   }
+
   return cost;
 }
 
@@ -436,13 +440,14 @@ static int amphibious_move(const struct tile *ptile,
 /****************************************************************************
   Extra cost call back for amphibious movement
 ****************************************************************************/
-static int amphibious_extra_cost(const struct tile *ptile,
-                                 enum known_type known,
-                                 const struct pf_parameter *param)
+static unsigned amphibious_extra_cost(const struct tile *ptile,
+                                      enum known_type known,
+                                      const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
   const bool ferry_move = is_native_tile(amphibious->sea.utype, ptile);
-  int cost, scale;
+  unsigned cost;
+  int scale;
 
   if (known == TILE_UNKNOWN) {
     /* We can travel almost anywhere */
@@ -464,6 +469,7 @@ static int amphibious_extra_cost(const struct tile *ptile,
   if (cost != PF_IMPOSSIBLE_MC) {
     cost *= scale;
   }
+
   return cost;
 }
 
