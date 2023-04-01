@@ -60,6 +60,7 @@ class_flags =
     _("BorderPolice"), _("Can peacefully expel certain foreign units.")
     _("Expellable"), _("Can be peacefully expelled from foreign tiles.")
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
+    _("Barracks"), _("Benefits from barracks")
   }
 
 [veteran_system]
@@ -159,7 +160,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "LightWeight", "BorderPolice"
+                "TerrainDefense", "LightWeight", "BorderPolice", "Barracks"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -176,7 +177,8 @@ name          = _("?unitclass:Big Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
-                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "MediumWeight"
+                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "MediumWeight",
+                "Barracks"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */

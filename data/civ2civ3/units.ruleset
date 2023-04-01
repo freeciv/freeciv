@@ -54,6 +54,7 @@ class_flags =
   { "name", "helptxt"
     _("Airliftable"), _("Can be airlifted from a suitable city.")
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
+    _("Barracks"), _("Benefits from barracks")
   }
 
 [veteran_system]
@@ -153,7 +154,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "Airliftable"
+                "TerrainDefense", "Airliftable", "Barracks"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -169,7 +170,8 @@ name          = _("?unitclass:Big Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
-                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "Airliftable"
+                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "Airliftable",
+                "Barracks"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
