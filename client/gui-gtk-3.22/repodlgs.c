@@ -411,12 +411,6 @@ static void science_report_update(struct science_report *preport)
   store = GTK_LIST_STORE(gtk_combo_box_get_model(preport->reachable_techs));
   gtk_list_store_clear(store);
   sorting_list = NULL;
-  if (A_UNSET == presearch->researching
-      || is_future_tech(presearch->researching)) {
-    gtk_list_store_append(store, &iter);
-    science_report_store_set(store, &iter, presearch->researching);
-    gtk_combo_box_set_active_iter(preport->reachable_techs, &iter);
-  }
 
   /* Collect all techs which are reachable in the next step. */
   advance_index_iterate(A_FIRST, i) {
@@ -425,32 +419,49 @@ static void science_report_update(struct science_report *preport)
     }
   } advance_index_iterate_end;
 
-  /* Sort the list, append it to the store. */
-  sorting_list = g_list_sort(sorting_list, cmp_func);
-  for (item = sorting_list; NULL != item; item = g_list_next(item)) {
-    tech = GPOINTER_TO_INT(item->data);
-    gtk_list_store_append(store, &iter);
-    science_report_store_set(store, &iter, tech);
-    if (tech == presearch->researching) {
+  if (sorting_list != NULL) {
+    if (A_UNSET == presearch->researching
+        || is_future_tech(presearch->researching)) {
+      gtk_list_store_append(store, &iter);
+      science_report_store_set(store, &iter, presearch->researching);
       gtk_combo_box_set_active_iter(preport->reachable_techs, &iter);
     }
+
+    /* Sort the list, append it to the store. */
+    sorting_list = g_list_sort(sorting_list, cmp_func);
+    for (item = sorting_list; NULL != item; item = g_list_next(item)) {
+      tech = GPOINTER_TO_INT(item->data);
+      gtk_list_store_append(store, &iter);
+      science_report_store_set(store, &iter, tech);
+      if (tech == presearch->researching) {
+        gtk_combo_box_set_active_iter(preport->reachable_techs, &iter);
+      }
+    }
+
+    /* Free, re-init. */
+    g_list_free(sorting_list);
+    sorting_list = NULL;
+  } else {
+    /* No reachable normal techs. Can we select Future Tech? */
+    Tech_type_id next;
+
+    gtk_list_store_append(store, &iter);
+    if (research_future_next(presearch)) {
+      next = A_FUTURE;
+    } else {
+      next = presearch->researching;
+    }
+    science_report_store_set(store, &iter, next);
+
+    gtk_combo_box_set_active_iter(preport->reachable_techs, &iter);
   }
 
-  /* Free, re-init. */
-  g_list_free(sorting_list);
-  sorting_list = NULL;
   store = GTK_LIST_STORE(gtk_combo_box_get_model(preport->reachable_goals));
   gtk_list_store_clear(store);
 
   /* Update the tech goal. */
   gtk_label_set_text(preport->goal_label,
                      get_science_goal_text(presearch->tech_goal));
-
-  if (A_UNSET == presearch->tech_goal) {
-    gtk_list_store_append(store, &iter);
-    science_report_store_set(store, &iter, A_UNSET);
-    gtk_combo_box_set_active_iter(preport->reachable_goals, &iter);
-  }
 
   /* Collect all techs which are reachable in next 10 steps. */
   advance_index_iterate(A_FIRST, i) {
@@ -462,19 +473,41 @@ static void science_report_update(struct science_report *preport)
     }
   } advance_index_iterate_end;
 
-  /* Sort the list, append it to the store. */
-  sorting_list = g_list_sort(sorting_list, cmp_func);
-  for (item = sorting_list; NULL != item; item = g_list_next(item)) {
-    tech = GPOINTER_TO_INT(item->data);
-    gtk_list_store_append(store, &iter);
-    science_report_store_set(store, &iter, tech);
-    if (tech == presearch->tech_goal) {
+  if (sorting_list != NULL) {
+    if (A_UNSET == presearch->tech_goal) {
+      gtk_list_store_append(store, &iter);
+      science_report_store_set(store, &iter, A_UNSET);
       gtk_combo_box_set_active_iter(preport->reachable_goals, &iter);
     }
-  }
 
-  /* Free. */
-  g_list_free(sorting_list);
+    /* Sort the list, append it to the store. */
+    sorting_list = g_list_sort(sorting_list, cmp_func);
+    for (item = sorting_list; NULL != item; item = g_list_next(item)) {
+      tech = GPOINTER_TO_INT(item->data);
+      gtk_list_store_append(store, &iter);
+      science_report_store_set(store, &iter, tech);
+      if (tech == presearch->tech_goal) {
+        gtk_combo_box_set_active_iter(preport->reachable_goals, &iter);
+      }
+    }
+
+    /* Free. */
+    g_list_free(sorting_list);
+  } else {
+    /* No reachable normal techs. Can we select Future Tech? */
+    Tech_type_id goal;
+
+    gtk_list_store_append(store, &iter);
+
+    if (research_future_next(presearch)) {
+      goal = A_FUTURE;
+    } else {
+      goal = A_UNSET;
+    }
+
+    science_report_store_set(store, &iter, goal);
+    gtk_combo_box_set_active_iter(preport->reachable_goals, &iter);
+  }
 
   /* Re-enable callbacks. */
   science_report_no_combo_callback = FALSE;
