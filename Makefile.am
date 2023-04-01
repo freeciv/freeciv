@@ -85,6 +85,8 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		meson.build			\
 		meson_options.txt		\
+		platforms/emscripten/emsbuild.sh		\
+		platforms/emscripten/setups/cross-ems.tmpl	\
 		platforms/flatpak/build_flatpak.sh	\
 		platforms/flatpak/org.freeciv.gtk322.yml	\
 		platforms/flatpak/org.freeciv.gtk4.yml	\
