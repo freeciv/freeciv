@@ -462,19 +462,15 @@ static void unit_disband_callback(GSimpleAction *action,
 static void unsentry_all_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
-
-#ifdef MENUS_GTK3
-static void unit_unload_transporter_callback(GtkMenuItem *item,
+static void unit_unload_transporter_callback(GSimpleAction *action,
+                                             GVariant *parameter,
                                              gpointer data);
-#endif /* MENUS_GTK3 */
-
 static void unit_board_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
 static void unit_deboard_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
-
 static void build_city_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
@@ -753,6 +749,9 @@ static struct menu_entry_info menu_entries[] =
   { "UNIT_DEBOARD", N_("_Unload"),
     "deboard", "u", MGROUP_UNIT,
     NULL, FALSE },
+  { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
+    "unload_transporter", "<shift>t", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_HOMECITY", N_("Set _Home City"),
     "homecity", "h", MGROUP_UNIT,
     NULL, FALSE },
@@ -1011,11 +1010,6 @@ static struct menu_entry_info menu_entries[] =
   { "TOGGLE_FOG", N_("Toggle Fog of _War"), GDK_KEY_w,
     GDK_CONTROL_MASK | GDK_SHIFT_MASK,
     G_CALLBACK(toggle_fog_callback), MGROUP_EDIT },
-
-  { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
-    GDK_KEY_t, GDK_SHIFT_MASK,
-    G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
-
 #endif /* MENUS_GTK3 */
 
   { NULL }
@@ -1094,6 +1088,7 @@ const GActionEntry acts[] = {
   { "unsentry_all", unsentry_all_callback },
   { "board", unit_board_callback },
   { "deboard", unit_deboard_callback },
+  { "unload_transporter", unit_unload_transporter_callback },
   { "homecity", unit_homecity_callback },
   { "upgrade", unit_upgrade_callback },
   { "convert", unit_convert_callback },
@@ -2378,16 +2373,15 @@ static void unit_deboard_callback(GSimpleAction *action, GVariant *parameter,
   } unit_list_iterate_end;
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "UNIT_UNLOAD_TRANSPORTER" callback.
 ****************************************************************************/
-static void unit_unload_transporter_callback(GtkMenuItem *item,
+static void unit_unload_transporter_callback(GSimpleAction *action,
+                                             GVariant *parameter,
                                              gpointer data)
 {
   key_unit_unload_all();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "UNIT_HOMECITY" callback.
@@ -3131,6 +3125,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(unit_menu, "UNSENTRY_ALL");
   menu_entry_init(unit_menu, "UNIT_BOARD");
   menu_entry_init(unit_menu, "UNIT_DEBOARD");
+  menu_entry_init(unit_menu, "UNIT_UNLOAD_TRANSPORTER");
   menu_entry_init(unit_menu, "UNIT_HOMECITY");
   menu_entry_init(unit_menu, "UNIT_UPGRADE");
   menu_entry_init(unit_menu, "UNIT_CONVERT");
@@ -3964,12 +3959,8 @@ void real_menus_update(void)
                            units_can_load(punits));
   menu_entry_set_sensitive(map, "UNIT_DEBOARD",
                            units_can_unload(punits));
-
-#ifdef MENUS_GTK3
-  /* "UNIT_CONVERT" dealt with below */
-  menu_entry_set_sensitive("UNIT_UNLOAD_TRANSPORTER",
+  menu_entry_set_sensitive(map, "UNIT_UNLOAD_TRANSPORTER",
                            units_are_occupied(punits));
-#endif /* MENUS_GTK3 */
 
   proad = road_by_gui_type(ROAD_GUI_ROAD);
   if (proad != NULL) {
