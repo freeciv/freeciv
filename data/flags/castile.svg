@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2496"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    width="1125"
    height="750"
    version="1.0"
    sodipodi:docname="castile.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2501">
     <rdf:RDF>
@@ -38,8 +39,8 @@
        id="perspective2503" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="742"
+     inkscape:window-width="949"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -51,13 +52,17 @@
      id="base"
      showgrid="false"
      inkscape:zoom="0.661017"
-     inkscape:cx="541.47439"
-     inkscape:cy="383.67023"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="565.03842"
+     inkscape:cy="369.88459"
+     inkscape:window-x="415"
+     inkscape:window-y="105"
      inkscape:current-layer="g2472"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:window-maximized="0" />
   <g
      id="g2472"
      transform="matrix(1.1038764,0,0,0.9702954,-34.309696,-489.47442)">
