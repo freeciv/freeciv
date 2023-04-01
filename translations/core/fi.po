@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2023-03-31 03:46+0300\n"
-"PO-Revision-Date: 2023-03-31 03:48+0300\n"
+"PO-Revision-Date: 2023-04-01 05:02+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -14768,8 +14768,7 @@ msgstr ""
 #: client/options.c:5352 client/options.c:5382 client/options.c:5398
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
-msgstr ""
-"Asetustiefostoa '%s' ei löytynyt, joten ladataan asetukset tiedostosta '%s'."
+msgstr "Asetustiedostoa '%s' ei löytynyt, joten ladataan asetukset tiedostosta '%s'."
 
 #: client/options.c:5367
 msgid "Cannot find your home directory"
