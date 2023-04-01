@@ -111,6 +111,7 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data);
 #endif /* MENUS_GTK3 */
 
 static void recreate_production_menu(GActionGroup *group);
+static void recreate_select_menu(GActionGroup *group);
 static void recreate_sell_menu(GActionGroup *group);
 
 static GtkWidget *city_center_command;
@@ -130,12 +131,13 @@ static GMenu *add_2ndlast_menu;
 static GMenu *wl_set_menu;
 static GMenu *wl_append_menu;
 
+static GMenu *select_menu;
+static GMenu *unit_select_menu = NULL;
+static GMenu *impr_select_menu;
+static GMenu *wndr_select_menu;
+
 #ifdef MENUS_GTK3
 static GtkWidget *select_island_item;
-
-static GtkWidget *select_bunit_item;
-static GtkWidget *select_bimprovement_item;
-static GtkWidget *select_bwonder_item;
 
 static GtkWidget *select_supported_item;
 static GtkWidget *select_present_item;
@@ -149,8 +151,6 @@ static GtkWidget *select_cma_item;
 #endif /* MENUS_GTK3 */
 
 static int city_dialog_shell_is_modal;
-
-bool select_menu_cached;
 
 static GMenu *cityrep_menu;
 static GActionGroup *cityrep_group;
@@ -288,8 +288,6 @@ void city_report_dialog_popup(bool raise)
     city_dialog_shell_is_modal = FALSE;
 
     create_city_report_dialog(FALSE);
-
-    select_menu_cached = FALSE;
   }
 
   gui_dialog_present(city_dialog_shell);
@@ -1139,18 +1137,12 @@ static GtkWidget *create_city_report_menu(void)
   submenu_append_unref(cityrep_menu, _("Gover_nor"),
                        G_MENU_MODEL(create_governor_menu(cityrep_group, TRUE)));
 
-  /* Placeholder */
+  /* Placeholders */
   submenu_append_unref(cityrep_menu, _("S_ell"), G_MENU_MODEL(g_menu_new()));
-
-  submenu = create_select_menu(cityrep_group);
-  submenu_append_unref(cityrep_menu, _("_Select"), G_MENU_MODEL(submenu));
+  submenu_append_unref(cityrep_menu, _("_Select"), G_MENU_MODEL(g_menu_new()));
 
   submenu = create_display_menu(cityrep_group);
   submenu_append_unref(cityrep_menu, _("_Display"), G_MENU_MODEL(submenu));
-
-  /* Real menus */
-  recreate_production_menu(cityrep_group);
-  recreate_sell_menu(cityrep_group);
 
   gtk_widget_insert_action_group(aux_menu, "win", cityrep_group);
   gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(cityrep_menu));
@@ -1272,6 +1264,11 @@ static void create_city_report_dialog(bool make_modal)
 
   city_model_fill(city_model, NULL, NULL);
   gui_dialog_show_all(city_dialog_shell);
+
+  /* Real menus */
+  recreate_production_menu(cityrep_group);
+  recreate_select_menu(cityrep_group);
+  recreate_sell_menu(cityrep_group);
 
   city_selection_changed_callback(city_selection);
 }
@@ -1525,8 +1522,6 @@ void real_city_report_dialog_update(void *unused)
   g_hash_table_destroy(selected);
 
   update_governor_menu();
-
-  select_menu_cached = FALSE;
 }
 
 /************************************************************************//**
@@ -1555,7 +1550,7 @@ void real_city_report_update_city(struct city *pcity)
   @param mname       Menu name part of the action identifier
   @param human_mname Format of the human visible menu name
   @param oper        Operation to do when user selectes an entry
-  @return Create menu
+  @return Created menu
 ****************************************************************************/
 static GMenu *create_change_menu(GActionGroup *group, const char *mname,
                                  const char *human_mname,
@@ -1700,12 +1695,21 @@ static void recreate_production_menu(GActionGroup *group)
 }
 
 /************************************************************************//**
+  Returns whether city is building given target
+****************************************************************************/
+static bool city_building_impr_or_unit(const struct city *pcity,
+                                       const struct universal *target)
+{
+  return are_universals_equal(&pcity->production, target);
+}
+
+/************************************************************************//**
   Creates select menu
 ****************************************************************************/
 static GMenu *create_select_menu(GActionGroup *group)
 {
-  GMenu *select_menu;
   GSimpleAction *act;
+  char buf[128];
 
   select_menu = g_menu_new();
 
@@ -1756,24 +1760,31 @@ static GMenu *create_select_menu(GActionGroup *group)
   menu_item_append_unref(select_menu, g_menu_item_new(_("Building Wonders"),
                                                       "win.select_build_wonder"));
 
+  unit_select_menu = g_menu_new();
+  append_impr_or_unit_to_menu(unit_select_menu, group, "sel", "_u",
+                              TRUE, FALSE, CO_NONE,
+                              city_building_impr_or_unit,
+                              G_CALLBACK(select_impr_or_unit_callback), -1);
+  fc_snprintf(buf, sizeof(buf), _("Building %s"), _("Unit"));
+  submenu_append_unref(select_menu, buf, G_MENU_MODEL(unit_select_menu));
+
+  impr_select_menu = g_menu_new();
+  append_impr_or_unit_to_menu(impr_select_menu, group, "sel", "_b",
+                              FALSE, FALSE, CO_NONE,
+                              city_building_impr_or_unit,
+                              G_CALLBACK(select_impr_or_unit_callback), -1);
+  fc_snprintf(buf, sizeof(buf), _("Building %s"), _("Improvement"));
+  submenu_append_unref(select_menu, buf, G_MENU_MODEL(impr_select_menu));
+
+  wndr_select_menu = g_menu_new();
+  append_impr_or_unit_to_menu(wndr_select_menu, group, "sel", "_w",
+                              FALSE, TRUE, CO_NONE,
+                              city_building_impr_or_unit,
+                              G_CALLBACK(select_impr_or_unit_callback), -1);
+  fc_snprintf(buf, sizeof(buf), _("Building %s"), _("Wonder"));
+  submenu_append_unref(select_menu, buf, G_MENU_MODEL(wndr_select_menu));
+
 #if 0
-  select_bunit_item =
-	gtk_menu_item_new_with_label(_("Building Unit"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_bunit_item);
-
-  select_bimprovement_item =
-	gtk_menu_item_new_with_label( _("Building Improvement"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_bimprovement_item);
-
-  select_bwonder_item =
-	gtk_menu_item_new_with_label(_("Building Wonder"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_bwonder_item);
-
-
-  item = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-
   item = gtk_menu_item_new_with_label(_("Coastal Cities"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate",
@@ -1825,43 +1836,28 @@ static GMenu *create_select_menu(GActionGroup *group)
   return select_menu;
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
-  Returns whether city is building given target
+  Recreates production menu
 ****************************************************************************/
-static bool city_building_impr_or_unit(const struct city *pcity,
-                                       const struct universal *target)
+static void recreate_select_menu(GActionGroup *group)
 {
-  return are_universals_equal(&pcity->production, target);
+  if (unit_select_menu != NULL) {
+    g_menu_remove_all(unit_select_menu);
+    g_menu_remove_all(impr_select_menu);
+    g_menu_remove_all(wndr_select_menu);
+    g_menu_remove_all(select_menu);
+  }
+  g_menu_remove(cityrep_menu, 3);
+  submenu_insert_unref(cityrep_menu, 3, _("_Select"),
+                       G_MENU_MODEL(create_select_menu(group)));
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Popup select menu
 ****************************************************************************/
 static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 {
-  int n;
-
-  if (select_menu_cached) {
-    return;
-  }
-
-  n = gtk_tree_selection_count_selected_rows(city_selection);
-  gtk_widget_set_sensitive(select_island_item, (n > 0));
-
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_bunit_item),
-                                   TRUE, FALSE, CO_NONE,
-                                   city_building_impr_or_unit,
-                                   G_CALLBACK(select_impr_or_unit_callback), -1);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_bimprovement_item),
-                                   FALSE, FALSE, CO_NONE,
-                                   city_building_impr_or_unit,
-                                   G_CALLBACK(select_impr_or_unit_callback), -1);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_bwonder_item),
-                                   FALSE, TRUE, CO_NONE,
-                                   city_building_impr_or_unit,
-                                   G_CALLBACK(select_impr_or_unit_callback), -1);
-
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_supported_item),
                                    TRUE, FALSE, CO_NONE,
                                    city_unit_supported,
@@ -1892,8 +1888,6 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
                                    can_city_build_now,
                                    G_CALLBACK(select_impr_or_unit_callback), -1);
   append_cma_to_menu_item(GTK_MENU_ITEM(select_cma_item), FALSE);
-
-  select_menu_cached = TRUE;
 }
 #endif /* MENUS_GTK3 */
 
@@ -1967,6 +1961,7 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
 #endif /* MENUS_GTK3 */
 
   recreate_production_menu(cityrep_group);
+  recreate_select_menu(cityrep_group);
   recreate_sell_menu(cityrep_group);
 
 #ifdef MENUS_GTK3
