@@ -1881,6 +1881,7 @@ AC_CONFIG_FILES([Makefile
 	  data/cimpletoon/units/ROMB/Makefile
 	  data/cimpletoon/units/stationary_sam/Makefile
 	  data/cimpletoon/units/steamer/Makefile
+          data/cimpletoon/units/storm/Makefile
 	  data/cimpletoon/units/technical/Makefile
 	  data/cimpletoon/units/tiger/Makefile
 	  data/cimpletoon/units/truck/Makefile
