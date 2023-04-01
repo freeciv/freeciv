@@ -2283,6 +2283,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     break;
   }
@@ -2374,6 +2375,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     break;
   }
@@ -3494,6 +3496,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_SPY_ATTACK:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     /* No hard unit type requirements. */
     break;
@@ -3689,6 +3692,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_SPY_ATTACK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     /* No hard unit requirements. */
     break;
@@ -4717,6 +4721,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_FORTIFY:
   case ACTRES_HOMELESS:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     /* No known hard coded requirements. */
     break;
@@ -5853,6 +5858,10 @@ action_prob(const action_id wanted_action,
     break;
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+    chance = ACTPROB_CERTAIN;
+    break;
+    /* Not UI action, so chance is meaningless */
+  case ACTRES_ENABLER_CHECK:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_NONE:
@@ -7149,6 +7158,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_SPY_ESCAPE:
   case ACTRES_NONE:
     /* No additional dice roll. */
@@ -8324,6 +8334,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_SPY_ESCAPE:
+  case ACTRES_ENABLER_CHECK:
     /* Non ruleset defined action min range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -8556,6 +8567,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_SPY_ESCAPE:
+  case ACTRES_ENABLER_CHECK:
     /* Non ruleset defined action max range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -8804,6 +8816,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_CONVERT:
   case ACTRES_FORTIFY:
   case ACTRES_HOMELESS:
+  case ACTRES_ENABLER_CHECK:
     return ATK_SELF;
   case ACTRES_NONE:
     return RS_DEFAULT_USER_ACTION_TARGET_KIND;
@@ -8895,6 +8908,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_CONVERT:
   case ACTRES_FORTIFY:
   case ACTRES_HOMELESS:
+  case ACTRES_ENABLER_CHECK:
     return tgt_kind == ATK_SELF;
   case ACTRES_PILLAGE:
     return (tgt_kind == ATK_TILE || tgt_kind == ATK_EXTRAS);
@@ -8989,6 +9003,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_SPY_ESCAPE:
     return ASTK_NONE;
   case ACTRES_PILLAGE:

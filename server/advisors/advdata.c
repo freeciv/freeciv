@@ -888,6 +888,7 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
 
     case ACTRES_UNIT_MOVE:
     case ACTRES_TELEPORT:
+    case ACTRES_ENABLER_CHECK:
     case ACTRES_MARKETPLACE:
     case ACTRES_FOUND_CITY:
     case ACTRES_DISBAND_UNIT:
