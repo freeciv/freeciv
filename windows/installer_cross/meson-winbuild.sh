@@ -43,7 +43,9 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
   exit 1
 fi
 
-VERREV="$(../../fc_version)"
+SRC_ROOT="$(cd ../.. || exit 1 ; pwd)"
+
+VERREV="$(${SRC_ROOT}/fc_version)"
 if test "$INST_CROSS_MODE" != "release" ; then
   if test -d ../../.git || test -f ../../.git ; then
     VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
@@ -100,7 +102,7 @@ if test "$CLIENT" = "" ; then
   CLIENT="$GUI"
 fi
 
-BUILD_DIR="meson-build-${SETUP}-${GUI}"
+BUILD_DIR="meson/build/${SETUP}-${GUI}"
 
 if ! rm -Rf "${BUILD_DIR}" ; then
   echo "Failed to clear out old build directory!" >&2
@@ -112,7 +114,8 @@ if ! mkdir -p "${BUILD_DIR}" ; then
   exit 1
 fi
 
-if ! sed "s,<PREFIX>,$DLLSPATH,g" setups/cross-${SETUP}.tmpl > meson-build-${SETUP}-${GUI}/cross.txt
+if ! sed "s,<PREFIX>,$DLLSPATH,g" setups/cross-${SETUP}.tmpl \
+     > "${BUILD_DIR}/cross.txt"
 then
   echo "Failed to create cross-file for $SETUP build!" >&2
   exit 1
@@ -149,7 +152,7 @@ if ! meson setup \
      -Druledit="$RULEDIT" \
      $QTPARAMS \
      $EXTRA_CONFIG \
-     ../../.. ; then
+     "${SRC_ROOT}" ; then
   echo "Meson run failed!" >&2
   exit 1
 fi
