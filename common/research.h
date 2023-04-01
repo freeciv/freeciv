@@ -173,8 +173,10 @@ struct iterator *research_player_iter_init(struct research_player_iter *it,
 
 int recalculate_techs_researched(const struct research *presearch);
 
+bool research_future_next(const struct research *presearch);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__RESEARCH_H */
+#endif /* FC__RESEARCH_H */
