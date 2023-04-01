@@ -1,4 +1,4 @@
-# stdlib_h.m4 serial 71
+# stdlib_h.m4 serial 72
 dnl Copyright (C) 2007-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -24,8 +24,8 @@ AC_DEFUN_ONCE([gl_STDLIB_H],
 #endif
     ]], [_Exit aligned_alloc atoll canonicalize_file_name free
     getloadavg getprogname getsubopt grantpt
-    initstate initstate_r mbtowc mkdtemp mkostemp mkostemps mkstemp mkstemps
-    posix_memalign posix_openpt ptsname ptsname_r qsort_r
+    initstate initstate_r mbstowcs mbtowc mkdtemp mkostemp mkostemps mkstemp
+    mkstemps posix_memalign posix_openpt ptsname ptsname_r qsort_r
     random random_r reallocarray realpath rpmatch secure_getenv setenv
     setstate setstate_r srandom srandom_r
     strtod strtol strtold strtoll strtoul strtoull unlockpt unsetenv])
@@ -78,6 +78,7 @@ AC_DEFUN([gl_STDLIB_H_REQUIRE_DEFAULTS],
     gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_GRANTPT])
     gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_MALLOC_GNU])
     gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_MALLOC_POSIX])
+    gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_MBSTOWCS])
     gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_MBTOWC])
     gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_MKDTEMP])
     gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_MKOSTEMP])
@@ -180,6 +181,7 @@ AC_DEFUN([gl_STDLIB_H_DEFAULTS],
   REPLACE_INITSTATE=0;       AC_SUBST([REPLACE_INITSTATE])
   REPLACE_MALLOC_FOR_MALLOC_GNU=0;    AC_SUBST([REPLACE_MALLOC_FOR_MALLOC_GNU])
   REPLACE_MALLOC_FOR_MALLOC_POSIX=0;  AC_SUBST([REPLACE_MALLOC_FOR_MALLOC_POSIX])
+  REPLACE_MBSTOWCS=0;        AC_SUBST([REPLACE_MBSTOWCS])
   REPLACE_MBTOWC=0;          AC_SUBST([REPLACE_MBTOWC])
   REPLACE_MKOSTEMP=0;        AC_SUBST([REPLACE_MKOSTEMP])
   REPLACE_MKOSTEMPS=0;       AC_SUBST([REPLACE_MKOSTEMPS])
