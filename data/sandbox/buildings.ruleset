@@ -251,7 +251,7 @@ sound		= "b_barracks_i"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-With a Barracks, each new land unit built in a city will\
+With a Barracks, each new military land unit built in a city will\
  automatically have Veteran status, which means that its attack and\
  defense strengths are increased by 50%.\
 "), _("\
@@ -280,7 +280,7 @@ sound		= "b_barracks_ii"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-With a Barracks, each new land unit built in a city will\
+With a Barracks, each new military land unit built in a city will\
  automatically have Veteran status, which means that its attack and\
  defense strengths are increased by 50%.\
 "), _("\
@@ -307,7 +307,7 @@ sound		= "b_barracks_iii"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-With a Barracks, each new land unit built in a city will\
+With a Barracks, each new military land unit built in a city will\
  automatically have Veteran status, which means that its attack and\
  defense strengths are increased by 50%.\
 "), _("\
