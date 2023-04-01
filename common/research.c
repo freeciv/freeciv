@@ -1354,3 +1354,17 @@ int recalculate_techs_researched(const struct research *presearch)
 
   return techs + presearch->future_tech;
 }
+
+/************************************************************************//**
+  Is this research group going to research some Future Tech next?
+****************************************************************************/
+bool research_future_next(const struct research *presearch)
+{
+  advance_index_iterate(A_FIRST, i) {
+    if (research_invention_state(presearch, i) != TECH_KNOWN) {
+      return FALSE;
+    }
+  } advance_index_iterate_end;
+
+  return TRUE;
+}
