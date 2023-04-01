@@ -170,7 +170,7 @@ static inline int pf_moves_left(const struct pf_parameter *param, int cost)
   Obtain cost-of-path from pure cost and extra cost
 ****************************************************************************/
 static inline int pf_total_CC(const struct pf_parameter *param,
-                              int cost, int extra)
+                              unsigned cost, unsigned extra)
 {
   return PF_TURN_FACTOR * cost + extra * pf_move_rate(param);
 }
@@ -535,7 +535,9 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
      * priority queue for next call to pf_jumbo_map_iterate(). */
     int tindex1 = tile_index(tile1);
     struct pf_normal_node *node1 = pfnm->lattice + tindex1;
-    int priority, cost1, extra_cost1;
+    int priority;
+    unsigned cost1;
+    unsigned extra_cost1;
 
     /* As for the previous position, 'tile1', 'node1' and 'tindex1' are
      * defining the adjacent position. */
@@ -634,7 +636,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       int tindex1 = tile_index(tile1);
       struct pf_normal_node *node1 = pfnm->lattice + tindex1;
       int cost;
-      int extra = 0;
+      unsigned extra = 0;
 
       /* As for the previous position, 'tile1', 'node1' and 'tindex1' are
        * defining the adjacent position. */
