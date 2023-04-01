@@ -92,7 +92,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptransporter,
 void request_unit_unload(struct unit *pcargo);
 void request_unit_ssa_set(const struct unit *punit,
                           enum server_side_agent agent);
-void request_unit_autosettlers(const struct unit *punit);
+void request_unit_autoworker(const struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, action_id action);
 void request_unit_change_homecity(struct unit *punit);

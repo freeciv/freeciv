@@ -589,15 +589,15 @@ bool activity_requires_target(enum unit_activity activity)
 }
 
 /**********************************************************************//**
-  Return whether the unit can be put in auto-settler mode.
+  Return whether the unit can be put in auto-worker mode.
 
-  NOTE: we used to have "auto" mode including autosettlers and auto-attack.
+  NOTE: we used to have "auto" mode including autoworker and auto-attack.
   This was bad because the two were indestinguishable even though they
-  are very different.  Now auto-attack is done differently so we just have
-  auto-settlers.  If any new auto modes are introduced they should be
+  are very different. Now auto-attack is done differently so we just have
+  auto-worker. If any new auto modes are introduced they should be
   handled separately.
 **************************************************************************/
-bool can_unit_do_autosettlers(const struct unit *punit) 
+bool can_unit_do_autoworker(const struct unit *punit)
 {
   return unit_type_get(punit)->adv.worker;
 }

@@ -4303,9 +4303,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                       "%s.ai", unitstr), FALSE,
                   "%s", secfile_error());
   if (ai_controlled) {
-    /* Autosettler and Autoexplore are separated by
-     * compat_post_load_030100() when set to SSA_AUTOSETTLER */
-    punit->ssa_controller = SSA_AUTOSETTLER;
+    /* Autoworker and Autoexplore are separated by
+     * compat_post_load_030100() when set to SSA_AUTOWORKER */
+    punit->ssa_controller = SSA_AUTOWORKER;
   } else {
     punit->ssa_controller = SSA_NONE;
   }

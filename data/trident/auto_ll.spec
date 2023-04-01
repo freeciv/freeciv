@@ -25,7 +25,7 @@ tiles = { "row", "column", "tag"
 ; Unit activity letters:  (note unit icons have just "u.")
 
   4, 17, "unit.auto_attack",
-         "unit.auto_settler"
+         "unit.auto_worker"
   4, 18, "unit.connect"
   4, 19, "unit.auto_explore"
 

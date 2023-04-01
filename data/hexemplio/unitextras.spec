@@ -63,6 +63,6 @@ tiles = { "row", "column", "tag"
   2, 4, "unit.lowfuel"
   2, 5, "unit.connect"
   2, 6, "unit.auto_attack"
-  2, 6, "unit.auto_settler"
+  2, 6, "unit.auto_worker"
   2, 7, "unit.patrol"                   ;[?]
 }

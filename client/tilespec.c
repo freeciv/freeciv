@@ -287,7 +287,7 @@ struct named_sprites {
       *vet_lev[MAX_VET_LEVELS],
       *select[NUM_TILES_SELECT],
       *auto_attack,
-      *auto_settler,
+      *auto_worker,
       *auto_explore,
       *fortified,
       *fortifying,
@@ -2853,6 +2853,24 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
     }                                                                       \
   } while (FALSE)
 
+/* Sets sprites.field to tag or (if tag isn't available) to deprecated alt */
+#define SET_SPRITE_DEPR_ALT(field, tag, alt, ver)                           \
+  do {                                                                      \
+    t->sprites.field = load_sprite(t, tag, TRUE, TRUE, FALSE);              \
+    if (!t->sprites.field) {                                                \
+      t->sprites.field = load_sprite(t, alt, TRUE, TRUE, FALSE);            \
+      if (t->sprites.field != NULL) {                                       \
+        log_deprecation(_("%s: Using tag \"%s\" deprecated by \"%s\" in %s"), \
+                        tileset_name_get(t), alt, tag, ver);                \
+      }                                                                     \
+    }                                                                       \
+    if (t->sprites.field == NULL) {                                         \
+      tileset_error(LOG_FATAL, tileset_name_get(t),                         \
+                    _("Sprite for tags '%s' and alternate '%s' are "        \
+                      "both missing."), tag, alt);                          \
+    }                                                                       \
+  } while (FALSE)
+
 /* Sets sprites.field to tag, or NULL if not available */
 #define SET_SPRITE_OPT(field, tag) \
   t->sprites.field = load_sprite(t, tag, TRUE, TRUE, FALSE)
@@ -3230,7 +3248,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   }
 
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");
-  SET_SPRITE(unit.auto_settler, "unit.auto_settler");
+  /* TODO: Drop backward compatibility with "unit.auto_settler" tag. */
+  SET_SPRITE_DEPR_ALT(unit.auto_worker, "unit.auto_worker", "unit.auto_settler", "3.3");
   SET_SPRITE(unit.auto_explore, "unit.auto_explore");
   SET_SPRITE(unit.fortified,    "unit.fortified");
   SET_SPRITE(unit.fortifying,   "unit.fortifying");
@@ -4614,8 +4633,8 @@ static int fill_unit_sprite_array(const struct tileset *t,
     switch (punit->ssa_controller) {
     case SSA_NONE:
       break;
-    case SSA_AUTOSETTLER:
-      s = t->sprites.unit.auto_settler;
+    case SSA_AUTOWORKER:
+      s = t->sprites.unit.auto_worker;
       break;
     case SSA_AUTOEXPLORE:
       s = t->sprites.unit.auto_explore;

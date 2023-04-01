@@ -2103,16 +2103,16 @@ void request_unit_ssa_set(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Call to request (from the server) that the settler unit is put into
-  autosettler mode.
+  Call to request (from the server) that the worker unit is put into
+  autoworker mode.
 **************************************************************************/
-void request_unit_autosettlers(const struct unit *punit)
+void request_unit_autoworker(const struct unit *punit)
 {
-  if (punit && can_unit_do_autosettlers(punit)) {
-    request_unit_ssa_set(punit, SSA_AUTOSETTLER);
+  if (punit && can_unit_do_autoworker(punit)) {
+    request_unit_ssa_set(punit, SSA_AUTOWORKER);
   } else if (punit) {
     create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
-                 _("Only settler units can be put into auto mode."));
+                 _("Only worker units can be put into auto working mode."));
   }
 }
 
@@ -3551,13 +3551,13 @@ void key_unit_auto_explore(void)
 
 /**********************************************************************//**
   Call to request (from the server) that the focus unit is put into
-  autosettler mode.
+  autoworker mode.
 **************************************************************************/
 void key_unit_auto_settle(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_autosettlers(punit)) {
-      request_unit_autosettlers(punit);
+    if (can_unit_do_autoworker(punit)) {
+      request_unit_autoworker(punit);
     }
   } unit_list_iterate_end;
 }

@@ -124,8 +124,8 @@ struct unit_order {
 #define SPECENUM_NAME server_side_agent
 #define SPECENUM_VALUE0 SSA_NONE
 #define SPECENUM_VALUE0NAME N_("?serveragent:None")
-#define SPECENUM_VALUE1 SSA_AUTOSETTLER
-#define SPECENUM_VALUE1NAME N_("Autosettlers")
+#define SPECENUM_VALUE1 SSA_AUTOWORKER
+#define SPECENUM_VALUE1NAME N_("AutoWorker")
 #define SPECENUM_VALUE2 SSA_AUTOEXPLORE
 #define SPECENUM_VALUE2NAME N_("Autoexplore")
 #define SPECENUM_COUNT SSA_COUNT
@@ -346,7 +346,7 @@ int get_turns_for_activity_at(const struct unit *punit,
                               const struct tile *ptile,
                               struct extra_type *tgt);
 bool activity_requires_target(enum unit_activity activity);
-bool can_unit_do_autosettlers(const struct unit *punit); 
+bool can_unit_do_autoworker(const struct unit *punit);
 bool is_unit_activity_on_tile(enum unit_activity activity,
                               const struct tile *ptile);
 bv_extras get_unit_tile_pillage_set(const struct tile *ptile);

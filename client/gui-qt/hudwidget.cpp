@@ -1104,7 +1104,7 @@ int unit_actions::update_actions()
   }
 
   // Automate
-  if (can_unit_do_autosettlers(current_unit)) {
+  if (can_unit_do_autoworker(current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_AUTOMATE;
     a->set_pixmap(fc_icons::instance()->get_pixmap("automate"));

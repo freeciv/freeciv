@@ -1493,9 +1493,9 @@ static void insert_server_side_agent(struct loaddata *loading,
                                        plrno, unit);
 
       if (ai) {
-        /* Autosettler and Autoexplore are separated by
-         * compat_post_load_030100() when set to SSA_AUTOSETTLER */
-        secfile_insert_int(loading->file, SSA_AUTOSETTLER,
+        /* Autoworker and Autoexplore are separated by
+         * compat_post_load_030100() when set to SSA_AUTOWORKER */
+        secfile_insert_int(loading->file, SSA_AUTOWORKER,
                            "player%d.u%d.server_side_agent",
                            plrno, unit);
       } else {

@@ -112,7 +112,7 @@ tiles = { "row", "column", "tag"
 
   3, 10, "unit.connect"
   4, 10, "unit.auto_attack",
-         "unit.auto_settler"
+         "unit.auto_worker"
   5, 10, "unit.stack"
   6, 10, "unit.loaded"
 

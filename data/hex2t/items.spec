@@ -215,7 +215,7 @@ tiles = { "row", "column", "tag"
   0, 12, "unit.action_decision_want"
   0, 13, "unit.convert"
   0, 14, "unit.auto_attack",
-         "unit.auto_settler"
+         "unit.auto_worker"
   0, 15, "unit.stack"
   0, 16, "unit.loaded"
   0, 17, "unit.connect"

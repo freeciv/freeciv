@@ -6342,8 +6342,8 @@ bool unit_server_side_agent_set(struct player *pplayer,
 {
   /* Check that the agent can be activated for this unit. */
   switch (agent) {
-  case SSA_AUTOSETTLER:
-    if (!can_unit_do_autosettlers(punit)) {
+  case SSA_AUTOWORKER:
+    if (!can_unit_do_autoworker(punit)) {
       return FALSE;
     }
     break;

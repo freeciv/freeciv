@@ -1304,7 +1304,7 @@ void mr_menu::setup_menus()
   act = main_menu->addAction(_("Auto Settler"));
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_AUTOMATE))));
-  menu_list.insert(AUTOSETTLER, act);
+  menu_list.insert(AUTOWORKER, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_auto_settler);
   main_menu->addSeparator();
   act = main_menu->addAction(_("Build Road"));
@@ -2391,8 +2391,8 @@ void mr_menu::menus_sensitive()
         }
         break;
 
-      case AUTOSETTLER:
-        if (can_units_do(punits, can_unit_do_autosettlers)) {
+      case AUTOWORKER:
+        if (can_units_do(punits, can_unit_do_autoworker)) {
           i.value()->setEnabled(true);
         }
         if (units_contain_cityfounder(punits)) {

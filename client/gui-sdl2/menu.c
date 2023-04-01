@@ -179,9 +179,9 @@ static int unit_order_callback(struct widget *order_widget)
     case ID_UNIT_ORDER_WAKEUP_OTHERS:
       key_unit_wakeup_others();
       break;
-    case ID_UNIT_ORDER_AUTO_SETTLER:
+    case ID_UNIT_ORDER_AUTO_WORKER:
       unit_list_iterate(get_units_in_focus(), punit) {
-        request_unit_autosettlers(punit);
+        request_unit_autoworker(punit);
       } unit_list_iterate_end;
       break;
     case ID_UNIT_ORDER_AUTO_EXPLORE:
@@ -641,7 +641,7 @@ void create_units_order_widgets(void)
   buf->action = unit_order_callback;
   buf->info_label = create_utf8_from_char(cbuf, adj_font(10));
   buf->key = SDLK_a;
-  add_to_gui_list(ID_UNIT_ORDER_AUTO_SETTLER, buf);
+  add_to_gui_list(ID_UNIT_ORDER_AUTO_WORKER, buf);
   /* --------- */    
 
   /* Wake Up Others */
@@ -1408,10 +1408,10 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_WAKEUP_OTHERS);
       }
 
-      if (can_unit_do_autosettlers(punit)) {
-        local_show(ID_UNIT_ORDER_AUTO_SETTLER);
+      if (can_unit_do_autoworker(punit)) {
+        local_show(ID_UNIT_ORDER_AUTO_WORKER);
       } else {
-        local_hide(ID_UNIT_ORDER_AUTO_SETTLER);
+        local_hide(ID_UNIT_ORDER_AUTO_WORKER);
       }
 
       if (can_unit_do_activity(punit, ACTIVITY_EXPLORE)) {

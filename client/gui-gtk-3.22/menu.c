@@ -2591,7 +2591,7 @@ void real_menus_update(void)
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
   menu_entry_set_sensitive("AUTO_SETTLER",
-                           can_units_do(punits, can_unit_do_autosettlers));
+                           can_units_do(punits, can_unit_do_autoworker));
   menu_entry_set_sensitive("UNIT_EXPLORE",
                            can_units_do_activity(punits, ACTIVITY_EXPLORE));
 

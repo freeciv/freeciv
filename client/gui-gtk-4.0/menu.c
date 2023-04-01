@@ -3952,7 +3952,7 @@ void real_menus_update(void)
                                                TRUE));
 
   menu_entry_set_sensitive(map, "AUTO_SETTLER",
-                           can_units_do(punits, can_unit_do_autosettlers));
+                           can_units_do(punits, can_unit_do_autoworker));
   menu_entry_set_sensitive(map, "UNIT_EXPLORE",
                            can_units_do_activity(punits, ACTIVITY_EXPLORE));
   menu_entry_set_sensitive(map, "UNIT_BOARD",

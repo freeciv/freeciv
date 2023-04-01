@@ -35,7 +35,7 @@ tiles = { "row", "column", "tag"
   0, 17, "unit.airbase"
 
   0, 18, "unit.auto_attack"
-  0, 18, "unit.auto_settler"
+  0, 18, "unit.auto_worker"
   0, 19, "unit.stack"
 
 ; [GS]
