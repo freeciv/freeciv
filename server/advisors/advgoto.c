@@ -531,9 +531,9 @@ static double chance_killed_at(const struct tile *ptile,
   - Therefore the total (re)build cost is a good representation of the
     the cost of destruction.
 **************************************************************************/
-static int stack_risk(const struct tile *ptile,
-                      struct adv_risk_cost *risk_cost,
-                      const struct pf_parameter *param)
+static unsigned stack_risk(const struct tile *ptile,
+                           struct adv_risk_cost *risk_cost,
+                           const struct pf_parameter *param)
 {
   double risk = 0;
   /* Compute the risk of destruction, assuming we will stop at this tile */
@@ -566,9 +566,9 @@ static int stack_risk(const struct tile *ptile,
   Avoiding tall stacks *all* along a path is useful because a unit following a
   path might have to stop early because of ZoCs.
 **************************************************************************/
-static int prefer_short_stacks(const struct tile *ptile,
-                               enum known_type known,
-                               const struct pf_parameter *param)
+static unsigned prefer_short_stacks(const struct tile *ptile,
+                                    enum known_type known,
+                                    const struct pf_parameter *param)
 {
   return stack_risk(ptile, (struct adv_risk_cost *)param->data, param);
 }

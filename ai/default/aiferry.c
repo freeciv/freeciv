@@ -392,13 +392,13 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
   call-back.  Doesn't care for enemy/neutral tiles, these should be
   excluded using a TB call-back.
 **************************************************************************/
-static int combined_land_sea_move(const struct tile *src_tile,
-                                  enum pf_move_scope src_scope,
-                                  const struct tile *tgt_tile,
-                                  enum pf_move_scope dst_scope,
-                                  const struct pf_parameter *param)
+static unsigned combined_land_sea_move(const struct tile *src_tile,
+                                       enum pf_move_scope src_scope,
+                                       const struct tile *tgt_tile,
+                                       enum pf_move_scope dst_scope,
+                                       const struct pf_parameter *param)
 {
-  int move_cost;
+  unsigned move_cost;
 
   if (!((PF_MS_NATIVE | PF_MS_CITY) & dst_scope)) {
     /* Any-to-Sea */
@@ -419,8 +419,8 @@ static int combined_land_sea_move(const struct tile *src_tile,
   EC callback to account for the cost of sea moves by a ferry hurrying to 
   pick our unit up.
 **************************************************************************/
-static int sea_move(const struct tile *ptile, enum known_type known,
-                    const struct pf_parameter *param)
+static unsigned sea_move(const struct tile *ptile, enum known_type known,
+                         const struct pf_parameter *param)
 {
   if (is_ocean_tile(ptile)) {
     /* Approximately TURN_FACTOR / average ferry move rate 

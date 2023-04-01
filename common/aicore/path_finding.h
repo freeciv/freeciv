@@ -44,7 +44,7 @@ extern "C" {
  *
  *   path: a list of steps which leads from the start to the end
  *
- *   move cost (MC): move cost of a _single_ step. MC is always >= 0.
+ *   move cost (MC): move cost of a _single_ step. MC is always positive.
  *     [The parameter can specify what the MC of a step into the unknown is
  *      to be (this is a constant for each map). This defaults to a
  *      slightly large value meaning unknown tiles are avoided slightly.
@@ -52,7 +52,7 @@ extern "C" {
  *      movement through unknown tiles, or to use PF_IMPOSSIBLE_MC to
  *      easily avoid unknown tiles.]
  *
- *   extra cost (EC): extra cost of a _single_ tile. EC is always >= 0.
+ *   extra cost (EC): extra cost of a _single_ tile. EC is always positive.
  *   The intended meaning for EC is "how much we want to avoid this tile",
  *   see DISCUSSION below for more.
  *
@@ -250,7 +250,7 @@ extern "C" {
  *
  * Hints:
  * 1. It is useful to limit the expansion of unknown tiles with a get_TB
- * callback.  In this case you might set the unknown_MC to be 0.
+ * callback. In this case you might set the unknown_MC to be 0.
  * 2. If there are two paths of the same cost to a tile, you are
  * not guaranteed to get the one with the least steps in it. If you care,
  * specifying EC to be 1 will do the job.
@@ -333,8 +333,8 @@ struct pf_position {
                          * have when reaching the tile. It is always set to
                          * 1 when unit types are not fueled. */
 
-  int total_MC;         /* Total MC to reach this point */
-  int total_EC;         /* Total EC to reach this point */
+  unsigned total_MC;    /* Total MC to reach this point */
+  unsigned total_EC;    /* Total EC to reach this point */
 
   enum direction8 dir_to_next_pos; /* Used only in 'struct pf_path'. */
   enum direction8 dir_to_here; /* Where did we come from. */
@@ -379,11 +379,11 @@ struct pf_parameter {
    * direction 'dir'. Note that the callback can calculate 'to_tile' by
    * itself based on 'from_tile' and 'dir'. Excessive information 'to_tile'
    * is provided to ease the implementation of the callback. */
-  int (*get_MC) (const struct tile *from_tile,
-                 enum pf_move_scope src_move_scope,
-                 const struct tile *to_tile,
-                 enum pf_move_scope dst_move_scope,
-                 const struct pf_parameter *param);
+  unsigned (*get_MC) (const struct tile *from_tile,
+                      enum pf_move_scope src_move_scope,
+                      const struct tile *to_tile,
+                      enum pf_move_scope dst_move_scope,
+                      const struct pf_parameter *param);
 
   /* Callback which determines if we can move from/to 'ptile'. */
   enum pf_move_scope (*get_move_scope) (const struct tile *ptile,
@@ -402,8 +402,8 @@ struct pf_parameter {
   /* Callback which can be used to provide extra costs depending on the
    * tile. Can be NULL. It can be assumed that the implementation of
    * "path_finding.h" will cache this value. */
-  int (*get_EC) (const struct tile *ptile, enum known_type known,
-                 const struct pf_parameter *param);
+  unsigned (*get_EC) (const struct tile *ptile, enum known_type known,
+                      const struct pf_parameter *param);
 
   /* Callback which determines whether an action would be performed at
    * 'ptile' instead of moving to it. */
@@ -441,7 +441,7 @@ struct pf_parameter {
   int (*get_moves_left_req) (const struct tile *ptile, enum known_type,
                              const struct pf_parameter *param);
 
-  /* This is a jumbo callback which overrides all previous ones.  It takes
+  /* This is a jumbo callback which overrides all previous ones. It takes
    * care of everything (ZOC, known, costs etc).
    * Variables:
    *   from_tile             -- the source tile
@@ -464,7 +464,7 @@ struct pf_parameter {
                     enum direction8 dir,
                     const struct tile *to_tile,
                     int from_cost, int from_extra,
-                    int *to_cost, int *to_extra,
+                    unsigned *to_cost, unsigned *to_extra,
                     const struct pf_parameter *param);
 
   /* User provided data. Can be used to attach arbitrary information
