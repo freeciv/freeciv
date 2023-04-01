@@ -1848,44 +1848,24 @@ reqs    =
       "OutputType", "Luxury", "Local"
     }
 
-[effect_barracks_land]
+[effect_barracks_veteran]
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type",         "name",      "range", "present"
-      "BuildingFlag", "Barracks",  "City",  TRUE
-      "UnitClass",    "Land",      "Local", TRUE
-      "UnitFlag",     "NonMil",    "Local", FALSE
-      "UnitFlag",     "NoVeteran", "Local", FALSE
+    { "type",          "name",      "range", "present"
+      "BuildingFlag",  "Barracks",  "City",  TRUE
+      "UnitClassFlag", "Barracks",  "Local", TRUE
+      "UnitFlag",      "NonMil",    "Local", FALSE
+      "UnitFlag",      "NoVeteran", "Local", FALSE
     }
 
-[effect_barracks_bland]
-type    = "Veteran_Build"
-value   = 1
-reqs    =
-    { "type",         "name",      "range", "present"
-      "BuildingFlag", "Barracks",  "City",  TRUE
-      "UnitClass",    "Big Land",  "Local", TRUE
-      "UnitFlag",     "NonMil",    "Local", FALSE
-      "UnitFlag",     "NoVeteran", "Local", FALSE
-    }
-
-[effect_barracks_regen_land]
+[effect_barracks_regen]
 type    = "HP_Regen"
 value   = 100
 reqs    =
-    { "type",         "name",     "range", "present"
-      "BuildingFlag", "Barracks", "City",  TRUE
-      "UnitClass",    "Land",     "Local", TRUE
-    }
-
-[effect_barracks_regen_bland]
-type    = "HP_Regen"
-value   = 100
-reqs    =
-    { "type",         "name",     "range", "present"
-      "BuildingFlag", "Barracks", "City",  TRUE
-      "UnitClass",    "Big Land", "Local", TRUE
+    { "type",          "name",     "range", "present"
+      "BuildingFlag",  "Barracks", "City",  TRUE
+      "UnitClassFlag", "Barracks", "Local", TRUE
     }
 
 [effect_cathedral]
@@ -3721,22 +3701,11 @@ reqs	=
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Sun Tzu's War Academy", "Player", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
-[effect_sun_tzus_war_academy_1]
-type    = "Veteran_Build"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Sun Tzu's War Academy", "Player", TRUE
-      "UnitClass", "Big Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",          "name",                  "range", "present"
+      "Building",      "Sun Tzu's War Academy", "Player", TRUE
+      "UnitClassFlag", "Barracks",              "Local", TRUE
+      "UnitFlag",      "NonMil",                "Local", FALSE
+      "UnitFlag",      "NoVeteran",             "Local", FALSE
     }
 
 [effect_sun_tzus_war_academy_culture]

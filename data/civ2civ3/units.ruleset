@@ -61,6 +61,7 @@ class_flags =
     _("CanFortify"),
     ; /* xgettext:no-c-format */
                      _("Gets a 50% defensive bonus while in cities.")
+    _("Barracks"), _("Benefits from barracks")
   }
 
 [veteran_system]
@@ -157,7 +158,8 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "Airliftable", "NonNatBombardTgt"
+                "TerrainDefense", "Airliftable", "NonNatBombardTgt",
+                "Barracks"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -166,7 +168,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
                 "ZOC", "CanFortify", "TerrainDefense", "DoesntOccupyTile",
-                "Airliftable", "NonNatBombardTgt"
+                "Airliftable", "NonNatBombardTgt", "Barracks"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -175,7 +177,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom","ZOC", "CanFortify", "KillCitizen", "Airliftable",
-                "NonNatBombardTgt"
+                "NonNatBombardTgt", "Barracks"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
@@ -184,7 +186,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
                 "ZOC", "TerrainDefense", "TerrainSpeed", "Airliftable",
-                "NonNatBombardTgt"
+                "NonNatBombardTgt", "Barracks"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
