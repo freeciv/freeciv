@@ -2281,10 +2281,9 @@ static void compat_load_030200(struct loaddata *loading,
   {
     player_slots_iterate(pslot) {
       int plrno = player_slot_index(pslot);
-      int ncities, nunits;
-      int cnro, unro;
+      int ncities;
+      int cnro;
       size_t wlist_max_length = 0;
-      size_t olist_max_length = 0;
 
       if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
         continue;
@@ -2304,21 +2303,25 @@ static void compat_load_030200(struct loaddata *loading,
       secfile_insert_int(loading->file, wlist_max_length,
                          "player%d.wl_max_length", plrno);
 
-      nunits = secfile_lookup_int_default(loading->file, 0,
-                                          "player%d.nunits", plrno);
-
-      for (unro = 0; unro < nunits; unro++) {
-        int ol_length = secfile_lookup_int_default(loading->file, 0,
-                                                   "player%d.u%d.orders_length",
-                                                   plrno, unro);
-
-        olist_max_length = MAX(olist_max_length, ol_length);
-      }
-
-      secfile_insert_int(loading->file, olist_max_length,
-                         "player%d.orders_max_length", plrno);
-
       if (format_class == SAVEGAME_3) {
+        int nunits;
+        int unro;
+        size_t olist_max_length = 0;
+
+        nunits = secfile_lookup_int_default(loading->file, 0,
+                                            "player%d.nunits", plrno);
+
+        for (unro = 0; unro < nunits; unro++) {
+          int ol_length = secfile_lookup_int_default(loading->file, 0,
+                                                     "player%d.u%d.orders_length",
+                                                     plrno, unro);
+
+          olist_max_length = MAX(olist_max_length, ol_length);
+        }
+
+        secfile_insert_int(loading->file, olist_max_length,
+                           "player%d.orders_max_length", plrno);
+
         secfile_insert_int(loading->file, MAX_TRADE_ROUTES_OLD,
                            "player%d.routes_max_length", plrno);
       }
