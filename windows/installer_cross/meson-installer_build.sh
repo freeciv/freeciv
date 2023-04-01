@@ -160,7 +160,7 @@ SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//'
 
 VERREV="$(../../fc_version)"
 
-if ! ( cd "meson-build-${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
+if ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
   echo "langstat_core.txt creation failed!" >&2
   exit 1
 fi
