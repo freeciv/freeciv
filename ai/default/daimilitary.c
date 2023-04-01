@@ -684,13 +684,17 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
-  unsigned int danger_reduced[B_LAST]; /* How much such danger there is that
-                                        * building would help against. */
+  /* How much such danger there is that building would help against. */
+  unsigned int danger_reduced[B_LAST];
   int i;
   int defender;
   unsigned int urgency = 0;
   int defense;
   int total_danger = 0;
+
+  /* TODO: Presumably most, or even all, of these arrays
+   *       could be of size game.control.num_unit_types instead
+   *       of full U_LAST */
   int defense_bonuses_pct[U_LAST];
   bool defender_type_handled[U_LAST];
   int best_non_scramble[U_LAST];
@@ -774,9 +778,11 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
     /* Scrambling units tend to be expensive. If we have a barenaked city, we'll
      * need at least a cheap unit. If we have only scramblers,
      * maybe it's OK. */
-    for (i = 0; i < U_LAST; i++) {
-      best_non_scramble[i] = MAX(best_non_scramble[i], 0);
-    }
+    unit_type_iterate(scrambler_type) {
+      Unit_type_id id = utype_index(scrambler_type);
+
+      best_non_scramble[id] = MAX(best_non_scramble[id], 0);
+    } unit_type_iterate_end;
   }
 
   if (player_is_cpuhog(pplayer)) {
