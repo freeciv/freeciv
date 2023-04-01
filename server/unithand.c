@@ -1177,6 +1177,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_ENABLER_CHECK:
   case ACTRES_SPY_ESCAPE:
   case ACTRES_NONE:
     /* No special help. */
@@ -3968,6 +3969,9 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_PERFORM_UNIT_ANY(paction, actor_unit, pcity, punit, target_tile,
                             TRUE);
     break;
+  case ACTRES_ENABLER_CHECK:
+    fc_assert(paction->result != ACTRES_ENABLER_CHECK);
+    return FALSE;
   }
 
   /* Something must have gone wrong. */
