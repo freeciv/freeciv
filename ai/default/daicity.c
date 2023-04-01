@@ -1593,11 +1593,17 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     .city = pcity,
     .building = pimprove,
   };
+
+  /* Do NOT pass building here, as the action might be about
+   * targeting some completely different building, AND
+   * the check to see if the action is possible before
+   * the building is there is also ignoring the buildings.
+   * We don't want those two results to differ for
+   * an unrelated reason to what we are evaluating. */
   const struct req_context actenabler_ctxt = {
     .player = pplayer,
     .city = pcity,
     .tile = city_tile(pcity),
-    .building = pimprove,
   };
 
   /* Remove team members from the equation */
@@ -1785,9 +1791,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
             active = FALSE;
             break;
           }
-        }
-
-        if (!is_req_active(&actenabler_ctxt, NULL, preq, RPT_POSSIBLE)) {
+        } else if (!is_req_active(&actenabler_ctxt, NULL, preq, RPT_POSSIBLE)) {
           active = FALSE;
           break;
         }
