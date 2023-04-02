@@ -807,6 +807,30 @@ type = "SharedTiles"
 ;                          case riots are eliminated, value is zeroed.
 ; */ <-- avoid gettext warnings
 
+[counter_owned1]
+name = "Turn_Owned1"
+checkpoint = 10
+def = 0
+type = "Owned"
+
+[counter_owned2]
+name = "Turn_Owned2"
+checkpoint = 20
+def = 0
+type = "Owned"
+
+[counter_celebrating1]
+name = "Turn_of_Celebration"
+checkpoint = 5
+def = 0
+type = "Celebration"
+
+[counter_disorder1]
+name = "Turn_of_Disorder"
+checkpoint = 3
+def = 0
+type = "Disorder"
+
 [playercolors]
 background.r = 86
 background.g = 86

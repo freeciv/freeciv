@@ -5336,3 +5336,29 @@ reqs    =
     { "type",   "name",         "range", "present"
       "Action", "Upgrade Unit", "Local", TRUE
     }
+
+[effect_strike]
+type = "Output_Bonus"
+value = -100
+reqs    =
+{ "type",   "name",         "range", "present"
+  "Counter", "Turn_of_Disorder", "City", TRUE
+}
+
+[effect_produce_culture1]
+type = "History"
+value = 10
+reqs    =
+{ "type",   "name",         "range", "present"
+  "Counter", "Turn_Owned1", "City", TRUE
+  "Counter", "Turn_of_Celebration", "City", TRUE
+}
+
+[effect_produce_culture2]
+type = "History"
+value = 5
+reqs    =
+{ "type",   "name",         "range", "present"
+  "Counter", "Turn_Owned2", "City", TRUE
+  "Counter", "Turn_of_Celebration", "City", TRUE
+}

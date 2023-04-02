@@ -265,3 +265,13 @@ players are automatically shared to everyone.
 
 Shared Tiles clause
 Diplomatic treaties can include Shared Tiles clause.
+
+Counters
+Counters are used in this ruleset to provide some effects of conquering city
+with connection of how long it celebrates and how long it exist:
+* City will gets 100% base production penalty after three turn of
+disorder
+* City will produce 10 culture if after 10 turn of owned and 5 turn
+of celebration
+* City will produce 5 additional culture after 20 turn of owned
+and (at least) 5 turn of celebration
