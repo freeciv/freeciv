@@ -3430,7 +3430,7 @@ static void rebuild_imprm_list(struct city *pcity)
   add_dock = pcity_dlg->add_point;
   buf = last = add_dock;
 
-  /* allock new */
+  /* alloc new */
   city_built_iterate(pcity, pimprove) {
     pstr = create_utf8_from_char(city_improvement_name_translation(pcity, pimprove),
                                  adj_font(10));
