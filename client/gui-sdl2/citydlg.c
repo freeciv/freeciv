@@ -3397,7 +3397,7 @@ static void rebuild_imprm_list(struct city *pCity)
   pAdd_Dock = pCityDlg->pAdd_Point;
   pBuf = pLast = pAdd_Dock;
 
-  /* allock new */
+  /* alloc new */
   city_built_iterate(pCity, pImprove) {
     pstr = create_utf8_from_char(city_improvement_name_translation(pCity, pImprove), adj_font(10));
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_IMPR);
