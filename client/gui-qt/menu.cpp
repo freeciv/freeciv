@@ -1455,9 +1455,8 @@ void mr_menu::setup_menus()
   signal_help_mapper->setMapping(act, HELP_RULESET_ITEM);
 
   act = menu->addAction(Q_(HELP_TILESET_ITEM));
-  QObject::connect(act, &QAction::triggered, [this]() {
-    slot_help(HELP_TILESET_ITEM);
-  });
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_TILESET_ITEM);
 
   act = menu->addAction(Q_(HELP_NATIONS_ITEM));
   connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
