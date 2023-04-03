@@ -1,10 +1,168 @@
 ========================
-Welcome to Freeciv 3.0.6
+Welcome to Freeciv 3.0.7
 ========================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+CHANGES FROM 3.0.6 to 3.0.7
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.7>, 2023-04-04)
+
+3.0.7 is a generic bugfix release.
+
+Windows: When it comes time to uninstall this version, it does so cleanly.
+Former versions failed to remove some of the Registry Keys they had written.
+Those keys are harmless, but this failed the expectation that uninstallremoves such things from user's machine.
+
+Server / General
+
+    * Silenced some unused entry warnings when loading saved games osdn#47498
+    * Long ruleset descriptions are no longer truncated at the client end.
+      Both server and client need to be of new version for this fix
+      to take effect osdn#47658
+
+Changes affecting players (supplied rulesets)
+
+    * Fixed loading non-scenario savegame saved by a tex-AI enabled server,
+      to server that does not have tex-AI enabled osdn#47521
+
+    * civ1
+         + No gold is given to players in the beginning by default osdn#47454
+
+    * civ2
+         + Units in airbase are now shown to their allies, not to
+           the allies of the airbase owner osdn#47655
+
+Changes affecting other rulesets / modders
+
+    * Fixed errors with techs that have Never as one of their requirement
+      osdn#46544 osdn#45115 osdn#47574
+    * Improvements to ruleset sanity checking osdn#44613
+    * Changing tile via lua scripting now triggers side-effects like
+      bouncing units osdn#46425
+    * Clients now receive updated information when player gold reserves
+      have been changed by a lua script osdn#47386
+    * Fixed potential crash with Heal Unit action osdn#47603
+    * Units hiding within an extra (base) are now shown to their allies,
+      not to the allies of the extra owner osdn#47655
+
+Changes affecting server operators
+
+    * Civil War now respects maxplayers setting osdn#45587
+    * Silenced spammy "Did not find a cm solution..." message osdn#47570
+    * Wait for the "interrupt" autosave to finish before quitting
+      the program, when threaded save is enabled osdn#47540
+
+General
+
+    * Fixed creation of a directory for map images osdn#47550
+    * Optimizations
+      osdn#46534 osdn#45420 osdn#46417 osdn#45744 osdn#45677 osdn#46436
+    * Various internal changes which should only affect developers.
+      osdn#46441 osdn#46317 osdn#46313 osdn#46466 osdn#46668 osdn#47308
+      osdn#47305 osdn#46464 osdn#46420 osdn#46343 osdn#47352 osdn#46445
+      osdn#47619 osdn#47620
+
+Clients
+
+    * Show Irrigation option fixed - Irrigation was being drawn regardless
+      of the value osdn#47316
+    * Corrections to timeout display at client end osdn#44902
+    * Fixed a warning in how client passes log level parameter to
+      the internal server osdn#45583
+    * Fixed client crash after failure to load some tileset files osdn#47318
+
+    * gtk
+         + Do not show empty Production tab on diplomat's
+           city investigation dialog osdn#45318
+         + gtk3/gtk.22 Area of the Battle Animation is now set correctly
+           on screen osdn#47705
+
+    * qt
+         + Corrected the way Irrigate and Mine related menu entries
+           get renamed when there's multiple units on focus osdn#45805
+         + Added About Current Tileset entry to Help menu osdn#47638
+
+    * sdl2
+         + New -- --swrenderer command line option to force SW renderer
+           to use despite configuration options osdn#47300
+         + Diplomacy dialog now provides button to propose Alliance osdn#46604
+         + Support all graphics formats provided by SDL2_image library,
+           not just png osdn#46413
+         + Fix help crash when a building has only negated requirements
+           osdn#47559
+         + Orders menus for present and supported units now correctly
+           opens from the city dialog osdn#47455
+         + Fix tech help crash osdn#47615
+
+Tools
+Ruledit
+
+    * Terrain Details editing dialog added osdn#46587
+    * Various editing dialogs now support changing graphics tags of
+      the ruleset items osdn#47303
+    * Launch directly to the editing mode if the ruleset has been selected
+      on the command line already osdn#46007
+
+Manual Generator
+
+    * Improved output about buildings' build and obsoletion requirements
+      osdn#47297
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#42196 osdn#46594 osdn#46558 osdn#46001 osdn#46501 osdn#47340
+      osdn#46670 osdn#45887
+    * Miscellaneous changes to developer/install/ruleset docs.
+      osdn#47355 osdn#46519 osdn#47698 osdn#47720
+
+Translations
+
+    * New translation:
+         + Latin American Spanish (1% core, 0% nations, 0% ruledit)
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+            Catalan (99% core, 100% nations, 100% ruledit),
+            Spanish (87% core, 99% nations, 40% ruledit),
+            Finnish (100% core, 93% nations, 100% ruledit),
+            French (99% core, 100% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      osdn#42070 osdn#42081 osdn#43525 osdn#42509 osdn#42766 osdn#42834
+      osdn#43413 osdn#43559 osdn#43635 osdn#43993 osdn#44435 osdn#45094
+      osdn#47432 osdn#45444 osdn#43022 osdn#45657 osdn#46337 osdn#46374
+      osdn#46462 osdn#46516 osdn#46483 osdn#46592 osdn#46585 osdn#47336
+      osdn#45725
+    * Fixed compiler warning when making a build with json-protocol enabled
+      osdn#46556
+    * Preparations for upcoming autoconf-2.72 osdn#46511
+    * Made Windows builds to live a bit better together
+      when co-installed osdn#46663
+    * Support for building gtk4 modpack installer flatpak
+      osdn#47286 osdn#47372
+    * Fixed some clang analyzer warnings
+      osdn#47346 osdn#47289 osdn#47452 osdn#47453 osdn#47465 osdn#47449
+      osdn#47591 osdn#47678
+    * Generating files from common/ is now silent under automake's
+      silent mode osdn#46458
+    * Fixed potential problem in detecting pthreads availability osdn#47474
+    * Fixed configure listing result of the C11 threading selection twice
+      osdn#47500
+    * Improved error checking for crosser based builds osdn#46611
+    * Appdata files from a release build now includes NEWS URL
+      osdn#467641 osdn#47706
+    * Crosser based installers are now correctly installed under
+      "Program Files" and not "Program Files (x86)" by default osdn#47648
+    * Windows Uninstaller of this version properly removes Registry Keys
+      the installation has written osdn#47690 osdn#47713
+    * Fixed gtk2-client build with gtk+ versions older than 2.20 osdn#47728
 
 
 CHANGES FROM 3.0.5 to 3.0.6
