@@ -183,7 +183,7 @@ void popup_find_dialog(void)
       fc_snprintf(cbuf , sizeof(cbuf), "%s (%d)", city_name_get(pcity),
                   city_size_get(pcity));
 
-      pstr = create_utf8_from_char(cbuf, adj_font(10));
+      pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
       pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
       if (!player_owns_city(owner, pcity)) {

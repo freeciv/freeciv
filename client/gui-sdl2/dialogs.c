@@ -712,8 +712,8 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
 
   /* ============================================================= */
 
-  /* create text label */
-  pstr = create_utf8_from_char(cbuf, adj_font(10));
+  /* Create text label */
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 
@@ -723,7 +723,7 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   area.w = MAX(area.w, text->w + adj_size(20));
   area.h += (text->h + adj_size(10));
 
-  /* cancel button */
+  /* Cancel button */
   buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
                                            pwindow->dst, _("Cancel"),
                                            adj_font(12), 0);
@@ -910,8 +910,8 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
 
   /* ============================================================= */
 
-  /* create text label */
-  pstr = create_utf8_from_char(cbuf, adj_font(10));
+  /* Create text label */
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITDISBAND_TEXT);
 
@@ -921,7 +921,7 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   area.w = MAX(area.w, text->w + adj_size(20));
   area.h += (text->h + adj_size(10));
 
-  /* cancel button */
+  /* Cancel button */
   buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
                                            pwindow->dst, _("Cancel"),
                                            adj_font(12), 0);
@@ -1742,7 +1742,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, buf);
   /* ---------- */
 
-  pstr = create_utf8_from_char(_("Terrain Info") , adj_font(10));
+  pstr = create_utf8_from_char_fonto(_("Terrain Info"), FONTO_DEFAULT);
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_iconlabel(NULL, pwindow->dst, pstr,

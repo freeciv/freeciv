@@ -26,6 +26,11 @@ enum edit_return_codes {
 		    create_utf8_from_char(char_string, ptsize),                       \
 		    length, flags)
 
+#define create_edit_from_chars_fonto(background, pdest, char_string, fonto, length, flags) \
+	create_edit(background, pdest,                                                \
+		    create_utf8_from_char_fonto(char_string, fonto),                  \
+		    length, flags)
+
 #define edit(pedit) edit_field(pedit)
 
 struct widget *create_edit(SDL_Surface *background, struct gui_layer *pdest,
