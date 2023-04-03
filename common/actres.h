@@ -20,6 +20,7 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 
+struct req_context;
 
 /* When making changes to this, update also atk_helpnames at actions.c */
 #define SPECENUM_NAME action_target_kind
@@ -102,6 +103,14 @@ void actres_free(void);
 enum act_tgt_compl actres_target_compl_calc(enum action_result result);
 enum action_battle_kind actres_get_battle_kind(enum action_result result);
 bool actres_is_hostile(enum action_result result);
+
+enum fc_tristate actres_possible(enum action_result result,
+                                 const struct req_context *actor,
+                                 const struct req_context *target,
+                                 const struct extra_type *target_extra,
+                                 enum fc_tristate def,
+                                 bool omniscient,
+                                 const struct city *homecity);
 
 #ifdef __cplusplus
 }

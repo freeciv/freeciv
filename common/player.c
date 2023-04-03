@@ -1061,6 +1061,17 @@ bool can_player_see_unit_at(const struct player *pplayer,
                                           unit_type_get(punit)->vlayer);
 }
 
+/**********************************************************************//**
+  Returns TRUE iff the specified player can see the specified tile.
+**************************************************************************/
+bool can_player_see_tile(const struct player *plr,
+                         const struct tile *ptile)
+{
+  return plr != nullptr
+    && ptile != nullptr
+    && (tile_get_known(ptile, plr) == TILE_KNOWN_SEEN);
+}
+
 /*******************************************************************//**
   Checks if a unit can be seen by pplayer at its current location.
 
