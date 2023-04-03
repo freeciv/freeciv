@@ -659,7 +659,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
     count++;
 
     buf = create_edit(NULL, pwindow->dst,
-                      create_utf8_from_char("0", adj_font(10)), 0,
+                      create_utf8_from_char_fonto("0", FONTO_DEFAULT), 0,
                       (WF_RESTORE_BACKGROUND|WF_FREE_STRING));
     buf->data.cont = cont;
     buf->action = gold_callback;

@@ -234,13 +234,14 @@ static void add_target_to_worklist(struct widget *target)
 
   worklist_append(&editor->worklist_copy, &prod);
 
-  /* create widget entry */
+  /* Create widget entry */
   if (VUT_UTYPE == prod.kind) {
-    pstr = create_utf8_from_char(utype_name_translation(prod.value.utype), adj_font(10));
+    pstr = create_utf8_from_char_fonto(utype_name_translation(prod.value.utype),
+                                       FONTO_DEFAULT);
   } else {
-    pstr = create_utf8_from_char(city_improvement_name_translation(editor->pcity,
+    pstr = create_utf8_from_char_fonto(city_improvement_name_translation(editor->pcity,
                                                                    prod.value.building),
-                                 adj_font(10));
+                                       FONTO_DEFAULT);
   }
 
   pstr->style |= SF_CENTER;
@@ -680,14 +681,14 @@ static void add_global_worklist(struct widget *pwidget)
   }
 
   if (worklist_length(&editor->worklist_copy) >= MAX_LEN_WORKLIST - 1) {
-    /* worklist is full */
+    /* Worklist is full */
     return;
   }
 
   firstfree = worklist_length(&editor->worklist_copy);
-  /* copy global worklist to city worklist */
+  /* Copy global worklist to city worklist */
   for (count = 0 ; count < worklist_length(pworklist); count++) {
-    /* global worklist can have targets unavilable in current state of game
+    /* Global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
     if (!can_city_build_later(editor->pcity, &pworklist->entries[count])) {
       continue;
@@ -695,20 +696,20 @@ static void add_global_worklist(struct widget *pwidget)
 
     worklist_append(&editor->worklist_copy, &pworklist->entries[count]);
 
-    /* create widget */
+    /* Create widget */
     if (VUT_UTYPE == pworklist->entries[count].kind) {
       buf = create_iconlabel(NULL, pwidget->dst,
-                              create_utf8_from_char(
+                              create_utf8_from_char_fonto(
                       utype_name_translation(pworklist->entries[count].value.utype),
-                      adj_font(10)),
+                      FONTO_DEFAULT),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
       buf->id = MAX_ID - cid_encode_unit(pworklist->entries[count].value.utype);
     } else {
       buf = create_iconlabel(NULL, pwidget->dst,
-                              create_utf8_from_char(
+                              create_utf8_from_char_fonto(
                       city_improvement_name_translation(editor->pcity,
                                                         pworklist->entries[count].value.building),
-                      adj_font(10)),
+                      FONTO_DEFAULT),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
       buf->id = MAX_ID - cid_encode_building(pworklist->entries[count].value.building);
     }
@@ -793,25 +794,25 @@ static void set_global_worklist(struct widget *pwidget)
     worklist_copy(&editor->worklist_copy, &wl);
 
     /* --------------------------------- */
-    /* create new widget list */
+    /* Create new widget list */
     for (count = 0; count < MAX_LEN_WORKLIST; count++) {
-      /* end of list */
+      /* End of list */
       if (!worklist_peek_ith(&editor->worklist_copy, &target, count)) {
         break;
       }
 
       if (VUT_UTYPE == target.kind) {
         buf = create_iconlabel(NULL, pwidget->dst,
-          create_utf8_from_char(utype_name_translation(target.value.utype),
-                                adj_font(10)),
-                                (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+          create_utf8_from_char_fonto(utype_name_translation(target.value.utype),
+                                      FONTO_DEFAULT),
+                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
         buf->id = MAX_ID - B_LAST - utype_number(target.value.utype);
       } else {
         buf = create_iconlabel(NULL, pwidget->dst,
-          create_utf8_from_char(city_improvement_name_translation(editor->pcity,
+          create_utf8_from_char_fonto(city_improvement_name_translation(editor->pcity,
                                                                   target.value.building),
-                                adj_font(10)),
-                                (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+                                      FONTO_DEFAULT),
+                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
         buf->id = MAX_ID - improvement_number(target.value.building);
       }
       buf->string_utf8->style |= SF_CENTER;
@@ -1131,14 +1132,14 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   fc_snprintf(cbuf, sizeof(cbuf),
               /* TRANS: length of worklist */
               PL_("( %d entry )", "( %d entries )", len), len);
-  pstr = create_utf8_from_char(cbuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
   buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
   editor->worklist_counter = buf;
   add_to_gui_list(ID_LABEL, buf);
   /* --------------------------- */
 
-  /* create production progress label or rename worklist edit */
+  /* Create production progress label or rename worklist edit */
   if (pcity) {
     /* count == cost */
     /* turns == progress */
@@ -1167,7 +1168,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
         fc_snprintf(cbuf, sizeof(cbuf), _("%s\nfinished!"), name);
       }
     }
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
@@ -1192,9 +1193,9 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     editor->production_progress = buf;
     add_to_gui_list(ID_LABEL, buf);
   } else {
-    buf = create_edit_from_chars(NULL, pwindow->dst,
-                                 global_worklist_name(gwl), adj_font(10),
-                                 adj_size(120), WF_RESTORE_BACKGROUND);
+    buf = create_edit_from_chars_fonto(NULL, pwindow->dst,
+                                       global_worklist_name(gwl), FONTO_DEFAULT,
+                                       adj_size(120), WF_RESTORE_BACKGROUND);
     buf->action = rename_worklist_editor_callback;
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -1245,8 +1246,9 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 #endif /* 0 */
 
   if (pcity) {
-   /* Production Widget Label */
-    pstr = create_utf8_from_char(city_production_name_translation(pcity), adj_font(10));
+    /* Production Widget Label */
+    pstr = create_utf8_from_char_fonto(city_production_name_translation(pcity),
+                                       FONTO_DEFAULT);
     turns = city_production_build_shield_cost(pcity);
     pstr->style |= SF_CENTER;
     buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
@@ -1266,18 +1268,18 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   last = buf;
   editor->dock = buf;
 
-  /* create Widget Labels of worklist entries */
+  /* Create Widget Labels of worklist entries */
 
   count = 0;
 
   worklist_iterate(&editor->worklist_copy, prod) {
     if (VUT_UTYPE == prod.kind) {
-      pstr = create_utf8_from_char(utype_name_translation(prod.value.utype),
-                                   adj_font(10));
+      pstr = create_utf8_from_char_fonto(utype_name_translation(prod.value.utype),
+                                         FONTO_DEFAULT);
     } else {
-      pstr = create_utf8_from_char(city_improvement_name_translation(pcity,
+      pstr = create_utf8_from_char_fonto(city_improvement_name_translation(pcity,
                                                                      prod.value.building),
-                                   adj_font(10));
+                                         FONTO_DEFAULT);
     }
     pstr->style |= SF_CENTER;
     buf = create_iconlabel(NULL, pwindow->dst, pstr,
@@ -1339,15 +1341,15 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   last = editor->work->begin_widget_list;
 
   /* --------------------------- */
-  /* global worklists */
+  /* Global worklists */
   if (pcity) {
     count = 0;
 
     global_worklists_iterate(iter_gwl) {
-      buf = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                        global_worklist_name(iter_gwl),
-                                        adj_font(10),
-                                        WF_RESTORE_BACKGROUND);
+      buf = create_iconlabel_from_chars_fonto(NULL, pwindow->dst,
+                                              global_worklist_name(iter_gwl),
+                                              FONTO_DEFAULT,
+                                              WF_RESTORE_BACKGROUND);
       set_wstate(buf, FC_WS_NORMAL);
       add_to_gui_list(MAX_ID - global_worklist_id(iter_gwl), buf);
       buf->string_utf8->style |= SF_CENTER;
@@ -1389,7 +1391,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   /* ----------------------------- */
   count = 0;
   /* Targets units and imprv. to build */
-  pstr = create_utf8_str(NULL, 0, adj_font(10));
+  pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
   pstr->style |= (SF_CENTER|TTF_STYLE_BOLD);
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 

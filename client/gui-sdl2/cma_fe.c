@@ -331,9 +331,9 @@ static int save_cma_callback(struct widget *pwidget)
     area.h = MAX(area.h, 1);
 
     /* ============================================================= */
-    /* label */
-    pstr = create_utf8_from_char(_("What should we name the preset?"),
-                                 adj_font(10));
+    /* Label */
+    pstr = create_utf8_from_char_fonto(_("What should we name the preset?"),
+                                       FONTO_DEFAULT);
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CMA_TEXT);
 
@@ -528,7 +528,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
   /* ---------- */
 
   for (i = 0; i < count; i++) {
-    pstr = create_utf8_from_char(cmafec_preset_get_descr(i), adj_font(10));
+    pstr = create_utf8_from_char_fonto(cmafec_preset_get_descr(i), FONTO_DEFAULT);
     pstr->style |= TTF_STYLE_BOLD;
     buf = create_iconlabel(NULL, pwindow->dst, pstr,
             (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -957,14 +957,14 @@ void popup_city_cma_dialog(struct city *pcity)
     text[i] = create_text_surf_from_utf8(pstr);
     text_w = MAX(text_w, text[i]->w);
 
-    /* minimal label */
+    /* Minimal label */
     buf = create_iconlabel(NULL, pwindow->dst,
-                           create_utf8_from_char("999", adj_font(10)),
+                           create_utf8_from_char_fonto("999", FONTO_DEFAULT),
                            (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, buf);
 
-    /* minimal scrollbar */
+    /* Minimal scrollbar */
     buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
                             (WF_RESTORE_BACKGROUND));
 
@@ -975,14 +975,14 @@ void popup_city_cma_dialog(struct city *pcity)
 
     add_to_gui_list(ID_SCROLLBAR, buf);
 
-    /* factor label */
+    /* Factor label */
     buf = create_iconlabel(NULL, pwindow->dst,
-                           create_utf8_from_char("999", adj_font(10)),
+                           create_utf8_from_char_fonto("999", FONTO_DEFAULT),
                            (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, buf);
 
-    /* factor scrollbar */
+    /* Factor scrollbar */
     buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
                             (WF_RESTORE_BACKGROUND));
 
@@ -998,14 +998,14 @@ void popup_city_cma_dialog(struct city *pcity)
   text[O_LAST] = create_text_surf_from_utf8(pstr);
   FREEUTF8STR(pstr);
 
-  /* happy factor label */
+  /* Happy factor label */
   buf = create_iconlabel(NULL, pwindow->dst,
-                         create_utf8_from_char("999", adj_font(10)),
+                         create_utf8_from_char_fonto("999", FONTO_DEFAULT),
                          (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
   add_to_gui_list(ID_LABEL, buf);
 
-  /* happy factor scrollbar */
+  /* Happy factor scrollbar */
   buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
                           (WF_RESTORE_BACKGROUND));
 
@@ -1025,54 +1025,54 @@ void popup_city_cma_dialog(struct city *pcity)
   buf->action = toggle_cma_celebrating_callback;
   add_to_gui_list(ID_CHECKBOX, buf);
 
-  /* save as ... */
+  /* Save as ... */
   buf = create_themeicon(current_theme->save_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND |WF_WIDGET_HAS_INFO_LABEL);
   buf->action = save_cma_callback;
-  buf->info_label = create_utf8_from_char(_("Save settings as..."),
-                                          adj_font(10));
+  buf->info_label = create_utf8_from_char_fonto(_("Save settings as..."),
+                                                FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, buf);
 
-  /* load settings */
+  /* Load settings */
   buf = create_themeicon(current_theme->load_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = load_cma_callback;
-  buf->info_label = create_utf8_from_char(_("Load settings"),
-                                          adj_font(10));
+  buf->info_label = create_utf8_from_char_fonto(_("Load settings"),
+                                                FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, buf);
 
-  /* del settings */
+  /* Del settings */
   buf = create_themeicon(current_theme->delete_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = del_cma_callback;
-  buf->info_label = create_utf8_from_char(_("Delete settings"),
-                                          adj_font(10));
+  buf->info_label = create_utf8_from_char_fonto(_("Delete settings"),
+                                                FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, buf);
 
-  /* run cma */
+  /* Run cma */
   buf = create_themeicon(current_theme->qprod_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = run_cma_callback;
-  buf->info_label = create_utf8_from_char(_("Control city"), adj_font(10));
+  buf->info_label = create_utf8_from_char_fonto(_("Control city"), FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, buf);
 
-  /* run cma onece */
+  /* Run cma onece */
   buf = create_themeicon(current_theme->find_city_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = run_cma_once_callback;
-  buf->info_label = create_utf8_from_char(_("Apply once"), adj_font(10));
+  buf->info_label = create_utf8_from_char_fonto(_("Apply once"), FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, buf);
 
-  /* del settings */
+  /* Del settings */
   buf = create_themeicon(current_theme->support_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = stop_cma_callback;
-  buf->info_label = create_utf8_from_char(_("Release city"), adj_font(10));
+  buf->info_label = create_utf8_from_char_fonto(_("Release city"), FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, buf);
 

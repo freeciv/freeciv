@@ -381,11 +381,11 @@ void setup_auxiliary_tech_icons(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   SDL_Surface *surf;
-  utf8_str *pstr = create_utf8_from_char(Q_("?tech:None"), adj_font(10));
+  utf8_str *pstr = create_utf8_from_char_fonto(Q_("?tech:None"), FONTO_DEFAULT);
 
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-  /* create icons */
+  /* Create icons */
   surf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
   SDL_FillRect(surf, NULL, map_rgba(surf->format, bg_color));
   create_frame(surf,

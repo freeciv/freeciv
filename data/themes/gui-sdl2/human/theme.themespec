@@ -15,7 +15,7 @@ font_file         = "themes/gui-sdl2/human/DejaVuSans.ttf"
 font_file_zh_CN   = "themes/gui-sdl2/human/fireflysung.ttf"
 font_file_ja      = "themes/gui-sdl2/human/sazanami-gothic.ttf"
 font_file_ko      = "themes/gui-sdl2/human/UnDotum.ttf"
-default_font_size = 18
+default_font_size = 10
 
 ; Below, the graphics spec files; must be somewhere (anywhere) in 
 ; the data path. Order may be important for color allocation on 

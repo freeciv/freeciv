@@ -565,7 +565,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         right = FALSE;
       }
 
-      change_ptsize_utf8(pstr, adj_font(10));
+      change_fonto_utf8(pstr, FONTO_DEFAULT);
       vetname = utype_veteran_name_translation(unit_type_get(punit),
                                                punit->veteran);
       if (vetname != NULL) {
@@ -575,7 +575,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         pstr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
       }
 
-      /* get and draw other info (MP, terrain, city, etc.) */
+      /* Get and draw other info (MP, terrain, city, etc.) */
       pstr->style |= SF_CENTER;
 
       copy_chars_to_utf8_str(pstr,

@@ -17,6 +17,9 @@
 #define create_iconlabel_from_chars(picon, pdest, chars, ptsize, flags) \
   create_iconlabel(picon, pdest, create_utf8_from_char(chars, ptsize), flags)
 
+#define create_iconlabel_from_chars_fonto(picon, pdest, chars, fonto, flags) \
+  create_iconlabel(picon, pdest, create_utf8_from_char_fonto(chars, fonto), flags)
+
 #define create_active_iconlabel(buf, pdest, pstr, pstring, cb)           \
 do { 									 \
   pstr = create_utf8_from_char(pstring, 10);				 \
