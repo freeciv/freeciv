@@ -1248,6 +1248,15 @@ void gui_update_font(const char *font_name, const char *font_value)
 }
 
 /**********************************************************************//**
+  Update font sizes based on theme.
+**************************************************************************/
+void update_font_from_theme(int theme_font_size)
+{
+  *client_font_sizes[FONT_CITY_NAME] = theme_font_size;
+  *client_font_sizes[FONT_CITY_PROD] = theme_font_size;
+}
+
+/**********************************************************************//**
   Insert build information to help
 **************************************************************************/
 void insert_client_build_info(char *outbuf, size_t outlen)

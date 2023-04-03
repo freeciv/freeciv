@@ -319,7 +319,7 @@ void update_intel_dialog(struct player *p)
 
     pcapital = player_primary_capital(p);
     research = research_get(p);
-    change_ptsize_utf8(pstr, adj_font(10));
+    change_fonto_utf8(pstr, FONTO_DEFAULT);
     pstr->style &= ~TTF_STYLE_BOLD;
 
     /* FIXME: these should use common gui code, and avoid duplication! */

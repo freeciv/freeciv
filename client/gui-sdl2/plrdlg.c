@@ -437,7 +437,7 @@ void popup_players_dialog(bool raise)
       continue;
     }
 
-    pstr = create_utf8_str(NULL, 0, adj_font(10));
+    pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
     logo = get_nation_flag_surface(nation_of_player(pplayer));
@@ -455,7 +455,7 @@ void popup_players_dialog(bool raise)
     buf->info_label = pstr;
 
     if (!pplayer->is_alive) {
-      pstr = create_utf8_from_char(_("R.I.P.") , adj_font(10));
+      pstr = create_utf8_from_char_fonto(_("R.I.P."), FONTO_DEFAULT);
       pstr->style |= TTF_STYLE_BOLD;
       pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_TEXT);
       logo = create_text_surf_from_utf8(pstr);
@@ -501,7 +501,7 @@ void popup_players_dialog(bool raise)
   buf->size.y = pwindow->size.y + adj_size(2);
 
   n = area.y;
-  pstr = create_utf8_str(NULL, 0, adj_font(10));
+  pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
   pstr->style |= TTF_STYLE_BOLD;
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
@@ -742,7 +742,7 @@ void popup_players_nations_dialog(void)
                     state);
       }
 
-      pstr = create_utf8_from_char(cbuf, adj_font(10));
+      pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
       pstr->style |= TTF_STYLE_BOLD;
 
       logo = get_nation_flag_surface(nation_of_player(pplayer));
