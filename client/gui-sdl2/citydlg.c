@@ -747,7 +747,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
       pSurf = adj_surf(create_unit_surface(pUnit, FALSE, w, h));
     }
 
-    pstr = create_utf8_from_char(cBuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
 
     pBuf = create_icon2(pSurf, pWindow->dst, WF_FREE_THEME
@@ -959,7 +959,7 @@ static void create_city_options_widget_list(struct city *pCity)
 
   fc_snprintf(cBuf, sizeof(cBuf),
               _("Allow unit production\nto disband city"));
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->style |= TTF_STYLE_BOLD;
   pstr->fgcol = *get_theme_color(COLOR_THEME_CHECKBOX_LABEL_TEXT);
 
@@ -1202,8 +1202,8 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 
   /* ============================================================= */
 
-  /* label */
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  /* Label */
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_BUY);
 
@@ -1417,25 +1417,28 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
                                         "Sell %s for %d gold?", price),
                 city_improvement_name_translation(pCityDlg->pCity, improvement_by_number(id)),
                 price);
-    pstr = create_utf8_from_char(cBuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SELL);
     pLabel = create_iconlabel(NULL, pWindow->dst, pstr, 0);
     add_to_gui_list(ID_LABEL, pLabel);
 
-    /* create cancel button */
+    /* Create cancel button */
     pCancel_Button =
-      create_themeicon_button_from_chars(current_theme->Small_CANCEL_Icon,
-                                         pWindow->dst, _("Cancel"), adj_font(10), 0);
+      create_themeicon_button_from_chars_fonto(
+                                         current_theme->Small_CANCEL_Icon,
+                                         pWindow->dst, _("Cancel"),
+                                         FONTO_DEFAULT, 0);
     pCancel_Button->action = sell_imprvm_dlg_cancel_callback;
     pCancel_Button->key = SDLK_ESCAPE;
     set_wstate(pCancel_Button, FC_WS_NORMAL);
     add_to_gui_list(ID_BUTTON, pCancel_Button);
 
-    /* create ok button */
-    pOK_Button = create_themeicon_button_from_chars(current_theme->Small_OK_Icon,
+    /* Create ok button */
+    pOK_Button = create_themeicon_button_from_chars_fonto(
+                                                    current_theme->Small_OK_Icon,
                                                     pWindow->dst, _("Sell"),
-                                                    adj_font(10), 0);
+                                                    FONTO_DEFAULT, 0);
     pOK_Button->data.ptr = (void *)pImpr;
     pOK_Button->size.w = pCancel_Button->size.w;
     pOK_Button->action = sell_imprvm_dlg_ok_callback;
@@ -1752,7 +1755,7 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
 
   fc_snprintf(cBuf, sizeof(cBuf), _("City options"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1797,7 +1800,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Supported units: %d"), size);
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1854,7 +1857,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Present units: %d"), size);
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1902,7 +1905,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   SDL_Rect dest;
 
   fc_snprintf(cBuf, sizeof(cBuf), _("City info"));
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -2072,7 +2075,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Happiness"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -2423,14 +2426,14 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pCityDlg->pResource_Map->theme);
   pCityDlg->pResource_Map->theme = get_scaled_city_map(pCity);
 
-  /* redraw city dlg */
+  /* Redraw city dlg */
   redraw_group(pCityDlg->pBeginCityWidgetList,
                pCityDlg->pEndCityWidgetList, 0);
 
   /* ================================================================= */
   fc_snprintf(cBuf, sizeof(cBuf), _("City map"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -3398,9 +3401,11 @@ static void rebuild_imprm_list(struct city *pCity)
   pAdd_Dock = pCityDlg->pAdd_Point;
   pBuf = pLast = pAdd_Dock;
 
-  /* allock new */
+  /* Alloc new */
   city_built_iterate(pCity, pImprove) {
-    pstr = create_utf8_from_char(city_improvement_name_translation(pCity, pImprove), adj_font(10));
+    pstr = create_utf8_from_char_fonto(
+                                 city_improvement_name_translation(pCity, pImprove),
+                                 FONTO_DEFAULT);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_IMPR);
 
     pstr->style |= TTF_STYLE_BOLD;
@@ -3714,8 +3719,9 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_NEXT_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_edit_from_chars(NULL, pWindow->dst, city_name_get(pCity),
-                                adj_font(10), adj_size(200), WF_RESTORE_BACKGROUND);
+  pBuf = create_edit_from_chars_fonto(NULL, pWindow->dst, city_name_get(pCity),
+                                      FONTO_DEFAULT, adj_size(200),
+                                      WF_RESTORE_BACKGROUND);
   pBuf->action = new_name_city_dlg_callback;
   pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(2);

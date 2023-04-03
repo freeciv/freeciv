@@ -60,6 +60,12 @@ typedef struct utf8_str {
   char *text;
 } utf8_str;
 
+enum font_origin {
+  FONTO_DEFAULT
+};
+
+utf8_str *create_utf8_str_fonto(char *in_text, size_t n_alloc,
+                                enum font_origin origin);
 utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize);
 utf8_str *copy_chars_to_utf8_str(utf8_str *pstr, const char *pchars);
 bool convert_utf8_str_to_const_surface_width(utf8_str *pstr,
@@ -70,6 +76,7 @@ SDL_Surface *create_text_surf_from_utf8(utf8_str *pstr);
 SDL_Surface *create_text_surf_smaller_than_w(utf8_str *pstr, int w);
 void utf8_str_size(utf8_str *pstr, SDL_Rect *fill);
 void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize);
+void change_fonto_utf8(utf8_str *pstr, enum font_origin origin);
 
 void unload_font(Uint16 ptsize);
 void free_font_system(void);
@@ -99,6 +106,10 @@ void free_font_system(void);
   (string_in) == NULL ?                          \
     create_utf8_str(NULL, 0, ptsize) :           \
     copy_chars_to_utf8_str(create_utf8_str(NULL, 0, ptsize), string_in)
-      
+
+#define create_utf8_from_char_fonto(string_in, fonto)  \
+  (string_in) == NULL ?                                \
+    create_utf8_str_fonto(NULL, 0, fonto) :            \
+    copy_chars_to_utf8_str(create_utf8_str_fonto(NULL, 0, fonto), string_in)
 
 #endif /* FC__GUISTRING_H */

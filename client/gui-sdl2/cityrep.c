@@ -198,7 +198,7 @@ static void real_info_city_report_dialog_update(void)
   }
 
   fc_snprintf(cbuf, sizeof(cbuf), _("size"));
-  pstr = create_utf8_from_char(cbuf, adj_font(10));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
   pstr->style |= SF_CENTER;
   pText1 = create_text_surf_from_utf8(pstr);
 
@@ -322,7 +322,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", city_size_get(pCity));
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
@@ -347,7 +347,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->prod[O_FOOD] - pCity->surplus[O_FOOD]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_game_color(COLOR_OVERVIEW_LAND);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -361,7 +361,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_FOOD]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOOD_SURPLUS);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -387,7 +387,7 @@ static void real_info_city_report_dialog_update(void)
       break;
     }
 
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     if (togrow < 0) {
       pstr->fgcol.r = 255;
@@ -403,7 +403,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_TRADE]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -417,7 +417,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->waste[O_TRADE]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
@@ -430,7 +430,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_GOLD]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -444,7 +444,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->prod[O_SCIENCE]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SCIENCE);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -458,7 +458,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->prod[O_LUXURY]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -473,7 +473,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d",
                 pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PROD);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -487,7 +487,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->waste[O_SHIELD]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
@@ -501,7 +501,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d",
                 pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD] - pCity->surplus[O_SHIELD]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SUPPORT);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -515,7 +515,7 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_SHIELD]);
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
@@ -558,8 +558,8 @@ static void real_info_city_report_dialog_update(void)
                   pCity->shield_stock > togrow ? _("\nfinished"): "" );
     }
 
-    /* info string */
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    /* Info string */
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
 
     togrow = city_production_turns_to_build(pCity, TRUE);
@@ -583,7 +583,7 @@ static void real_info_city_report_dialog_update(void)
     pbuf->action = popup_worklist_from_city_report_callback;
     pbuf->data.city = pCity;
 
-    pstr = create_utf8_from_char(cbuf, adj_font(10));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYREP_TEXT);
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,

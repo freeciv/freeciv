@@ -272,7 +272,7 @@ void popup_impr_info(Impr_type_id impr)
     /* ------------------ */
     pDock = pCloseButton;
 
-    pstr = create_utf8_str(NULL, 0, adj_font(10));
+    pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* Background template for entries in scroll list */
@@ -330,10 +330,11 @@ void popup_impr_info(Impr_type_id impr)
     }
 
     /* Toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
+    pListToggleButton = create_themeicon_button_from_chars_fonto(
+                                                           current_theme->UP_Icon,
                                                            pWindow->dst,
                                                            _("Improvements"),
-                                                           adj_font(10), 0);
+                                                           FONTO_DEFAULT, 0);
 #if 0
    pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
    if (pStore->show_tree) {
@@ -692,7 +693,7 @@ void popup_unit_info(Unit_type_id type_id)
 
     /* --- create scrollable unit list on the left side ---*/
 
-    pstr = create_utf8_str(NULL, 0, adj_font(10));
+    pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* background template for entries in scroll list */
@@ -749,9 +750,10 @@ void popup_unit_info(Unit_type_id type_id)
       scrollbar_width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
 
-    /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
-                          pWindow->dst,  _("Units"), adj_font(10), 0);
+    /* Toggle techs list button */
+    pListToggleButton = create_themeicon_button_from_chars_fonto(
+                          current_theme->UP_Icon,
+                          pWindow->dst,  _("Units"), FONTO_DEFAULT, 0);
 #if 0
     pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
     if (pStore->show_tree) {
@@ -1659,7 +1661,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   SDL_Surface *pSurf;
   struct widget *pDock = pStore->pDock;
 
-  pstr = create_utf8_str(NULL, 0, adj_font(10));
+  pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(tech)));
@@ -1954,8 +1956,8 @@ void popup_tech_info(Tech_type_id tech)
     /* ------------------ */
     pDock = pCloseButton;
 
-    /* --- create scrollable advance list on the left side ---*/
-    pstr = create_utf8_str(NULL, 0, adj_font(10));
+    /* --- Create scrollable advance list on the left side ---*/
+    pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     tech_count = 0;
@@ -1989,11 +1991,12 @@ void popup_tech_info(Tech_type_id tech)
       scrollbar_width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
 
-    /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
-                                                           pWindow->dst,
-                                                           _("Advances"),
-                                                           adj_font(10), 0);
+    /* Toggle techs list button */
+    pListToggleButton = create_themeicon_button_from_chars_fonto(
+                                                        current_theme->UP_Icon,
+                                                        pWindow->dst,
+                                                        _("Advances"),
+                                                        FONTO_DEFAULT, 0);
     pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
     if (pStore->show_tree) {
       set_wstate(pListToggleButton, FC_WS_NORMAL);

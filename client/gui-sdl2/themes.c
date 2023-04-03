@@ -42,7 +42,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
     return;
   }
 
-  /* free previous loaded theme, if any */
+  /* Free previous loaded theme, if any */
   theme_free(theme);
   theme = NULL;
 

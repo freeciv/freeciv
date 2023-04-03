@@ -329,8 +329,9 @@ static int save_cma_callback(struct widget *pWidget)
     area.h = MAX(area.h, 1);
 
     /* ============================================================= */
-    /* label */
-    pstr = create_utf8_from_char(_("What should we name the preset?"), adj_font(10));
+    /* Label */
+    pstr = create_utf8_from_char_fonto(_("What should we name the preset?"),
+                                       FONTO_DEFAULT);
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CMA_TEXT);
 
@@ -522,7 +523,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   /* ---------- */
 
   for (i = 0; i < count; i++) {
-    pstr = create_utf8_from_char(cmafec_preset_get_descr(i), adj_font(10));
+    pstr = create_utf8_from_char_fonto(cmafec_preset_get_descr(i), FONTO_DEFAULT);
     pstr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pstr,
     	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -951,14 +952,15 @@ void popup_city_cma_dialog(struct city *pCity)
     pText[i] = create_text_surf_from_utf8(pstr);
     text_w = MAX(text_w, pText[i]->w);
 
-    /* minimal label */
+    /* Minimal label */
     pBuf = create_iconlabel(NULL, pWindow->dst,
-                            create_utf8_from_char("999", adj_font(10)),
+                            create_utf8_from_char_fonto("999",
+                                                        FONTO_DEFAULT),
                             (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, pBuf);
 
-    /* minimal scrollbar */
+    /* Minimal scrollbar */
     pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
                              (WF_RESTORE_BACKGROUND));
 
@@ -969,14 +971,15 @@ void popup_city_cma_dialog(struct city *pCity)
 
     add_to_gui_list(ID_SCROLLBAR, pBuf);
 
-    /* factor label */
+    /* Factor label */
     pBuf = create_iconlabel(NULL, pWindow->dst,
-                            create_utf8_from_char("999", adj_font(10)),
+                            create_utf8_from_char_fonto("999",
+                                                        FONTO_DEFAULT),
                             (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, pBuf);
 
-    /* factor scrollbar */
+    /* Factor scrollbar */
     pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
                              (WF_RESTORE_BACKGROUND));
 
@@ -992,14 +995,15 @@ void popup_city_cma_dialog(struct city *pCity)
   pText[O_LAST] = create_text_surf_from_utf8(pstr);
   FREEUTF8STR(pstr);
 
-  /* happy factor label */
+  /* Happy factor label */
   pBuf = create_iconlabel(NULL, pWindow->dst,
-                          create_utf8_from_char("999", adj_font(10)),
+                          create_utf8_from_char_fonto("999",
+                                                      FONTO_DEFAULT),
                           (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
   add_to_gui_list(ID_LABEL, pBuf);
 
-  /* happy factor scrollbar */
+  /* Happy factor scrollbar */
   pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
                            (WF_RESTORE_BACKGROUND));
 
@@ -1018,54 +1022,57 @@ void popup_city_cma_dialog(struct city *pCity)
   pBuf->action = toggle_cma_celebrating_callback;
   add_to_gui_list(ID_CHECKBOX, pBuf);
 
-  /* save as ... */
+  /* Save as ... */
   pBuf = create_themeicon(current_theme->SAVE_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND |WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = save_cma_callback;
-  pBuf->info_label = create_utf8_from_char(_("Save settings as..."),
-                                           adj_font(10));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Save settings as..."),
+                                                 FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, pBuf);
 
-  /* load settings */
+  /* Load settings */
   pBuf = create_themeicon(current_theme->LOAD_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = load_cma_callback;
-  pBuf->info_label = create_utf8_from_char(_("Load settings"),
-                                           adj_font(10));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Load settings"),
+                                                 FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, pBuf);
 
-  /* del settings */
+  /* Del settings */
   pBuf = create_themeicon(current_theme->DELETE_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = del_cma_callback;
-  pBuf->info_label = create_utf8_from_char(_("Delete settings"),
-                                           adj_font(10));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Delete settings"),
+                                                 FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, pBuf);
 
-  /* run cma */
+  /* Run cma */
   pBuf = create_themeicon(current_theme->QPROD_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_callback;
-  pBuf->info_label = create_utf8_from_char(_("Control city"), adj_font(10));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Control city"),
+                                                 FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, pBuf);
 
-  /* run cma onece */
+  /* Run cma onece */
   pBuf = create_themeicon(current_theme->FindCity_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_once_callback;
-  pBuf->info_label = create_utf8_from_char(_("Apply once"), adj_font(10));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Apply once"),
+                                                 FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, pBuf);
 
-  /* del settings */
+  /* Del settings */
   pBuf = create_themeicon(current_theme->Support_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = stop_cma_callback;
-  pBuf->info_label = create_utf8_from_char(_("Release city"), adj_font(10));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Release city"),
+                                                 FONTO_DEFAULT);
 
   add_to_gui_list(ID_ICON, pBuf);
 

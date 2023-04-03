@@ -694,8 +694,8 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
 
   /* ============================================================= */
 
-  /* create text label */
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  /* Create text label */
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 
@@ -890,8 +890,8 @@ void popup_unit_disband_dlg(struct unit *pUnit, bool city)
 
   /* ============================================================= */
 
-  /* create text label */
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  /* Create text label */
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITDISBAND_TEXT);
 
@@ -1707,7 +1707,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
 
-  pstr = create_utf8_from_char(_("Terrain Info") , adj_font(10));
+  pstr = create_utf8_from_char_fonto(_("Terrain Info"), FONTO_DEFAULT);
   pstr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_iconlabel(NULL, pWindow->dst, pstr,

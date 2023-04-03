@@ -164,7 +164,7 @@ const char *theme_get_name(const struct theme *t)
 
 /****************************************************************************
   Return the path within the data directories where the font file can be
-  found.  (It is left up to the GUI code to load and unload this file.)
+  found. (It is left up to the GUI code to load and unload this file.)
 ****************************************************************************/
 const char *theme_font_filename(const struct theme *t)
 {

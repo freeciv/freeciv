@@ -2762,30 +2762,34 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
 
   area = pWindow->area;
 
-  /* create ok button */
+  /* Create ok button */
   pOK_Button =
-    create_themeicon_button_from_chars(current_theme->Small_OK_Icon, pWindow->dst,
-                                       _("OK"), adj_font(10), 0);
+    create_themeicon_button_from_chars_fonto(current_theme->Small_OK_Icon,
+                                             pWindow->dst,
+                                             _("OK"), FONTO_DEFAULT, 0);
   pOK_Button->action = newcity_ok_callback;
   pOK_Button->key = SDLK_RETURN;
   pOK_Button->data.tile = unit_tile(pUnit);
 
   area.h += pOK_Button->size.h;
 
-  /* create cancel button */
+  /* Create cancel button */
   pCancel_Button =
-      create_themeicon_button_from_chars(current_theme->Small_CANCEL_Icon,
-                                         pWindow->dst, _("Cancel"), adj_font(10), 0);
+      create_themeicon_button_from_chars_fonto(
+                                         current_theme->Small_CANCEL_Icon,
+                                         pWindow->dst, _("Cancel"),
+                                         FONTO_DEFAULT, 0);
   pCancel_Button->action = newcity_cancel_callback;
   pCancel_Button->key = SDLK_ESCAPE; 
   pCancel_Button->data.tile = unit_tile(pUnit);
 
-  /* correct sizes */
+  /* Correct sizes */
   pCancel_Button->size.w += adj_size(5);
   pOK_Button->size.w = pCancel_Button->size.w;
 
-  /* create text label */
-  pstr = create_utf8_from_char(_("What should we call our new city?"), adj_font(10));
+  /* Create text label */
+  pstr = create_utf8_from_char(_("What should we call our new city?"),
+                               FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_NEWCITYDLG_TEXT);
   pLabel = create_iconlabel(NULL, pWindow->dst, pstr, WF_DRAW_TEXT_LABEL_WITH_SPACE);

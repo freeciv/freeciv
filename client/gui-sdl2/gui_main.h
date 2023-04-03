@@ -125,7 +125,7 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
                       Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent,
                                                      void *pData));
 
-/* shrink sizes for 320x240 screen */
+/* Shrink sizes for 320x240 screen */
 #ifdef SMALL_SCREEN
   #define adj_size(size) ((size) / 2)
 #else
