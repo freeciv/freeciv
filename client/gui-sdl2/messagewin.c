@@ -58,7 +58,8 @@
 #define N_MSG_VIEW		 6
 #endif
 
-#define PTSIZE_LOG_FONT		adj_font(10)
+/* 0 -> use theme default */
+#define PTSIZE_LOG_FONT		0
 
 static struct ADVANCED_DLG *pMsg_Dlg = NULL;
 

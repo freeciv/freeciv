@@ -161,8 +161,8 @@ void combo_popup(struct widget *combo)
 
   /* Labels. */
   strvec_iterate(combo->data.vector, string) {
-    label = create_iconlabel_from_chars(NULL, window->dst, string,
-                                        adj_font(10), WF_RESTORE_BACKGROUND);
+    label = create_iconlabel_from_chars(NULL, window->dst, string, 0,
+                                        WF_RESTORE_BACKGROUND);
     label->action = combo_menu_item_callback;
     label->data.widget = combo;
     set_wstate(label, FC_WS_NORMAL);

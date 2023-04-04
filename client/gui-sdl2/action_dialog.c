@@ -835,7 +835,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
     }
   }
 
-  pstr = create_utf8_str(NULL, 0, adj_font(10));
+  pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   count = 0;

@@ -25,6 +25,13 @@
 						      iPtsize),     \
 				flags)
 
+#define create_themeicon_button_from_chars_fonto(icon_theme, pdest,         \
+                                                 char_string, fonto, flags) \
+  create_themeicon_button(icon_theme, pdest,                                \
+                          create_utf8_from_char_fonto(char_string,          \
+                                                      fonto),               \
+                          flags)
+
 struct widget *create_icon_button(SDL_Surface *pIcon,
                                   struct gui_layer *pDest, utf8_str *pstr,
                                   Uint32 flags);

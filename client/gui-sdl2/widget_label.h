@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,6 +16,9 @@
 
 #define create_iconlabel_from_chars(picon, pdest, chars, ptsize, flags) \
 	create_iconlabel(picon, pdest, create_utf8_from_char(chars, ptsize), flags)
+
+#define create_iconlabel_from_chars_fonto(picon, pdest, chars, fonto, flags) \
+  create_iconlabel(picon, pdest, create_utf8_from_char_fonto(chars, fonto), flags)
 
 #define create_active_iconlabel(pBuf, pDest, pstr, pString, pCallback)   \
 do { 									 \

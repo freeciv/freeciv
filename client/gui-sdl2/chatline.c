@@ -59,8 +59,6 @@
 
 #include "chatline.h"
 
-#define PTSIZE_LOG_FONT adj_font(10)
-
 struct CONNLIST {
   struct ADVANCED_DLG *pUsers_Dlg;
   struct ADVANCED_DLG *pChat_Dlg;

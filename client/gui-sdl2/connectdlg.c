@@ -333,8 +333,8 @@ void popup_connection_dialog(bool lan_scan)
                 pServer->host, pServer->port, pServer->version, _(pServer->state),
                 Q_("?header:Players"), pServer->nplayers, pServer->message);
 
-    pNewWidget = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf,
-                                             adj_font(10),
+    pNewWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst, cBuf,
+                                                   FONTO_DEFAULT,
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
 
     pNewWidget->string_utf8->style |= SF_CENTER;
@@ -560,22 +560,22 @@ void popup_join_game_dialog(void)
 
   pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  /* window */
+  /* Window */
   pWindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pWindow);
   pConnectDlg->pEndWidgetList = pWindow;
 
   area = pWindow->area;
 
-  /* player name label */
-  plrname = create_utf8_from_char(_("Player Name :"), adj_font(10));
+  /* Player name label */
+  plrname = create_utf8_from_char_fonto(_("Player Name :"), FONTO_DEFAULT);
   plrname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, plrname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += pBuf->size.h + adj_size(20);
 
-  /* player name edit */
+  /* Player name edit */
   pBuf = create_edit_from_chars(NULL, pWindow->dst, user_name, adj_font(14), adj_size(210),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_playername_callback;
@@ -583,15 +583,15 @@ void popup_join_game_dialog(void)
   add_to_gui_list(ID_PLAYER_NAME_EDIT, pBuf);
   area.h += pBuf->size.h + adj_size(5);
 
-  /* server name label */
-  srvname = create_utf8_from_char(_("Freeciv Server :"), adj_font(10));
+  /* Server name label */
+  srvname = create_utf8_from_char_fonto(_("Freeciv Server :"), FONTO_DEFAULT);
   srvname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, srvname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += pBuf->size.h + adj_size(5);
 
-  /* server name edit */
+  /* Server name edit */
   pBuf = create_edit_from_chars(NULL, pWindow->dst, server_host, adj_font(14), adj_size(210),
                                 WF_RESTORE_BACKGROUND);
 
@@ -600,15 +600,15 @@ void popup_join_game_dialog(void)
   add_to_gui_list(ID_SERVER_NAME_EDIT, pBuf);
   area.h += pBuf->size.h + adj_size(5);
 
-  /* port label */
-  port_nr = create_utf8_from_char(_("Port :"), adj_font(10));
+  /* Port label */
+  port_nr = create_utf8_from_char_fonto(_("Port :"), FONTO_DEFAULT);
   port_nr->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, port_nr,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += pBuf->size.h + adj_size(5);
 
-  /* port edit */
+  /* Port edit */
   fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
 
   pBuf = create_edit_from_chars(NULL, pWindow->dst, pCharPort, adj_font(14), adj_size(210),

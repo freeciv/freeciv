@@ -635,7 +635,7 @@ static struct ADVANCED_DLG *popup_diplomatic_objects(struct player *pPlayer0,
     count++;
 
     pBuf = create_edit(NULL, pWindow->dst,
-                       create_utf8_from_char("0", adj_font(10)), 0,
+                       create_utf8_from_char_fonto("0", FONTO_DEFAULT), 0,
                        (WF_RESTORE_BACKGROUND|WF_FREE_STRING));
     pBuf->data.cont = pCont;
     pBuf->action = gold_callback;

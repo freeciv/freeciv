@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,11 @@ enum Edit_Return_Codes {
 #define create_edit_from_chars(pBackground, pDest, pCharString, iPtsize, length, flags) \
 	create_edit(pBackground, pDest,                                                 \
 		    create_utf8_from_char(pCharString, iPtsize),                        \
+		    length, flags)
+
+#define create_edit_from_chars_fonto(background, pdest, char_string, fonto, length, flags) \
+	create_edit(background, pdest,                                                \
+		    create_utf8_from_char_fonto(char_string, fonto),                  \
 		    length, flags)
 
 #define edit(pEdit) edit_field(pEdit)

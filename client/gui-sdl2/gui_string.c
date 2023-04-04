@@ -153,6 +153,20 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
 }
 
 /**************************************************************************
+  Convert font_origin to ptsize value
+**************************************************************************/
+static Uint16 fonto_ptsize(enum font_origin origin)
+{
+  switch (origin) {
+  case FONTO_DEFAULT:
+    /* Rely on create_utf8_str() default */
+    return 0;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
   Create utf8_str struct with ptsize font. If ptsize is zero,
   use theme's default font size.
 
@@ -186,6 +200,18 @@ utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize)
   str->n_alloc = n_alloc;
 
   return str;
+}
+
+/**************************************************************************
+  Create utf8_str struct with font size from given origin.
+
+  Font will be loaded or aliased with existing font of that size.
+  in_text must be allocated in memory (fc_malloc() / fc_calloc())
+**************************************************************************/
+utf8_str *create_utf8_str_fonto(char *in_text, size_t n_alloc,
+                                enum font_origin origin)
+{
+  return create_utf8_str(in_text, n_alloc, fonto_ptsize(origin));
 }
 
 /**************************************************************************
@@ -513,6 +539,14 @@ void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize)
   unload_font(pstr->ptsize);
   pstr->ptsize = new_ptsize;
   pstr->font = buf;
+}
+
+/**********************************************************************//**
+  Change font size of text to that from given origin.
+**************************************************************************/
+void change_fonto_utf8(utf8_str *pstr, enum font_origin origin)
+{
+  change_ptsize_utf8(pstr, fonto_ptsize(origin));
 }
 
 /* =================================================== */
