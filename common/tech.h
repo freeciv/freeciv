@@ -155,7 +155,7 @@ struct advance {
   int num_reqs;
 };
 
-BV_DEFINE(bv_techs, A_LAST);
+BV_DEFINE(bv_techs, A_ARRAY_SIZE);
 
 /* General advance/technology accessor functions. */
 Tech_type_id advance_count_real(void);
