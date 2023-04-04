@@ -263,8 +263,8 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     /* Discourage long treks */
     time_to_dest *= ((time_to_dest + 1) / 2);
 
-    /* Almost kill_desire */
-    want = (p_success * gain - p_failure * loss) / 100
+    /* Almost kill_desire() */
+    want = (adv_want)(p_success * gain - p_failure * loss) / 100
            - SHIELD_WEIGHTING * time_to_dest;
     if (want <= 0) {
       return;

@@ -312,43 +312,44 @@ int unittype_def_rating_squared(const struct unit_type *att_type,
 }
 
 /**************************************************************************
-Compute how much we want to kill certain victim we've chosen, counted in
-SHIELDs.
+  Compute how much we want to kill certain victim we've chosen, counted in
+  SHIELDs.
 
-FIXME?: The equation is not accurate as the other values can vary for other
-victims on same tile (we take values from best defender) - however I believe
-it's accurate just enough now and lost speed isn't worth that. --pasky
+  FIXME?: The equation is not accurate as the other values can vary for other
+  victims on same tile (we take values from best defender) - however I believe
+  it's accurate just enough now and lost speed isn't worth that. --pasky
 
-Benefit is something like 'attractiveness' of the victim, how nice it would be
-to destroy it. Larger value, worse loss for enemy.
+  Benefit is something like 'attractiveness' of the victim, how nice it
+  would be to destroy it. Larger value, worse loss for enemy.
 
-Attack is the total possible attack power we can throw on the victim. Note that
-it usually comes squared.
+  Attack is the total possible attack power we can throw on the victim.
+  Note that it usually comes squared.
 
-Loss is the possible loss when we would lose the unit we are attacking with (in
-SHIELDs).
+  Loss is the possible loss when we would lose the unit we are attacking with
+  (in SHIELDs).
 
-Vuln is vulnerability of our unit when attacking the enemy. Note that it
-usually comes squared as well.
+  Vuln is vulnerability of our unit when attacking the enemy. Note that it
+  usually comes squared as well.
 
-Victim count is number of victims stacked in the target tile. Note that we
-shouldn't treat cities as a stack (despite the code using this function) - the
-scaling is probably different. (extremely dodgy usage of it -- GB)
+  Victim count is number of victims stacked in the target tile. Note that we
+  shouldn't treat cities as a stack (despite the code using this function) -
+  the scaling is probably different. (extremely dodgy usage of it -- GB)
 **************************************************************************/
-int kill_desire(int benefit, int attack, int loss, int vuln, int victim_count)
+adv_want kill_desire(adv_want benefit, int attack, int loss, int vuln,
+                     int victim_count)
 {
-  int desire;
+  adv_want desire;
 
   /*                       attractiveness     danger */
-  desire = (unsigned int) (benefit * attack - loss * vuln) * victim_count *
-           SHIELD_WEIGHTING / (attack + vuln * victim_count);
+  desire = (benefit * attack - loss * vuln) * victim_count
+           * SHIELD_WEIGHTING / (attack + vuln * victim_count);
 
   return desire;
 }
 
 /**************************************************************************
   Compute how much we want to kill certain victim we've chosen, counted in
-  SHIELDs.  See comment to kill_desire.
+  SHIELDs. See comment to kill_desire().
 
   chance -- the probability the action will succeed, 
   benefit -- the benefit (in shields) that we are getting in the case of 
@@ -1144,7 +1145,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   bool harbor = FALSE;  /* Do we have access to sea? */
   bool go_by_boat;      /* Whether we need a boat or not. */
   int vulnerability;    /* Enemy defense rating. */
-  int benefit;          /* Benefit from killing the target. */
+  adv_want benefit;     /* Benefit from killing the target. */
   struct unit *pdefender;       /* Enemy city defender. */
   int move_time;        /* Turns needed to target. */
   int reserves;
