@@ -1,6 +1,6 @@
 [spec]
 
-options = "+Freeciv-spec-3.2-Devel-2023.Jan.01"
+options = "+Freeciv-spec-3.3-Devel-2023.Apr.05"
 
 [info]
 ; TODO: FIX ARTISTS
