@@ -3663,7 +3663,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 {
   struct player *pplayer;
   struct tile *psrctile;
-  struct city *pcity;
+  struct city *psrccity;
+  struct city *pdestcity;
   struct unit *ptransporter;
   struct packet_unit_info src_info, dest_info;
   struct packet_unit_short_info src_sinfo, dest_sinfo;
@@ -3953,7 +3954,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   /* Inform the owner's client about actor unit arrival. Can, depending on
    * the client settings, cause the client to start the process that makes
    * the action selection dialog pop up. */
-  if ((pcity = tile_city(pdesttile))) {
+  pdestcity = tile_city(pdesttile);
+  if (pdestcity != NULL) {
     /* Arrival in a city counts. */
 
     unit_move_data_list_iterate(plist, pmove_data) {
@@ -4026,13 +4028,13 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   }
 
   unit_move_data_list_destroy(plist);
-
   /* Check cities at source and destination. */
-  if ((pcity = tile_city(psrctile))) {
-    refresh_dumb_city(pcity);
+  psrccity = tile_city(psrctile);
+  if (psrccity != NULL) {
+    refresh_dumb_city(psrccity);
   }
-  if ((pcity = tile_city(pdesttile))) {
-    refresh_dumb_city(pcity);
+  if (pdestcity != NULL) {
+    refresh_dumb_city(pdestcity);
   }
 
   if (unit_lives) {
