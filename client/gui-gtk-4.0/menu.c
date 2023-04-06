@@ -3790,9 +3790,10 @@ void real_menus_update(void)
 
   info = menu_entry_info_find("EDIT_MODE");
   if (info->state != game.info.is_edit_mode) {
+    info->state = game.info.is_edit_mode;
     g_menu_remove(edit_menu, 4);
     menu_item_insert_unref(edit_menu, 4,
-                           create_toggle_menu_item_for_key("EDIT_MODE"));
+                           create_toggle_menu_item(info));
 
     menu_entry_set_sensitive(map, "EDIT_MODE",
                              can_conn_enable_editing(&client.conn));
