@@ -34,7 +34,8 @@ pkgdatadir = $(datadir)/$(PACKAGE)/scenarios
 pkgdata_DATA = $(zipped_files)
 
 $(zipped_files): %.sav.gz: %.sav
-	$(GZIP) --best -n -c $< > $@
+	@if ! $(AM_V_P) ; then echo "  gzip     $@" ; fi
+	$(AM_V_at) $(GZIP) --best -n -c $< > $@
 
 MOSTLYCLEANFILES = $(zipped_files)
 
