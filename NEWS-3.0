@@ -16,7 +16,8 @@ CHANGES FROM 3.0.6 to 3.0.7
 
 Windows: When it comes time to uninstall this version, it does so cleanly.
 Former versions failed to remove some of the Registry Keys they had written.
-Those keys are harmless, but this failed the expectation that uninstallremoves such things from user's machine.
+Those keys are harmless, but this failed the expectation that uninstall
+removes such things from user's machine.
 
 Server / General
 
