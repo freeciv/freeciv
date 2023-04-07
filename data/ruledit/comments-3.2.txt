@@ -329,6 +329,7 @@ utypes = "\
 ;                 present; especially if preferred graphic is non-standard,\n\
 ;                 this should be a standard tag.  Otherwise can use eg \"-\"\n\
 ;                 for no alternate graphic.\n\
+; graphic_alt2  = tag for second alternative graphic.\n\
 ; reqs          = requirements to build the unit (see effects.ruleset\n\
 ;                 and README.effects for help on requirements)\n\
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name\n\

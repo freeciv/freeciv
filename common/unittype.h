@@ -502,6 +502,7 @@ struct unit_type {
   void *ruledit_dlg;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  char graphic_alt2[MAX_LEN_NAME];
   char sound_move[MAX_LEN_NAME];
   char sound_move_alt[MAX_LEN_NAME];
   char sound_fight[MAX_LEN_NAME];

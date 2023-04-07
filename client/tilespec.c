@@ -3773,10 +3773,13 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
   int uidx = utype_index(ut);
 
   if (!tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_str)
-      && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt)) {
+      && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt)
+      && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt2)) {
     tileset_error(LOG_FATAL, tileset_name_get(t),
-                  _("Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."),
-                  utype_rule_name(ut), ut->graphic_str, ut->graphic_alt);
+                  _("Missing %s unit sprite for tags \"%s\" and alternatives "
+                    "\"%s\" and \"%s\"."),
+                  utype_rule_name(ut), ut->graphic_str,
+                  ut->graphic_alt, ut->graphic_alt2);
   }
 
   if (!t->sprites.units.icon[uidx][ACTIVITY_IDLE]) {

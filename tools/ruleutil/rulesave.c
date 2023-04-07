@@ -3199,6 +3199,9 @@ static bool save_units_ruleset(const char *filename, const char *name)
       if (strcmp("-", put->graphic_alt)) {
         secfile_insert_str(sfile, put->graphic_alt, "%s.graphic_alt", path);
       }
+      if (strcmp("-", put->graphic_alt2)) {
+        secfile_insert_str(sfile, put->graphic_alt2, "%s.graphic_alt2", path);
+      }
       if (strcmp("-", put->sound_move)) {
         secfile_insert_str(sfile, put->sound_move, "%s.sound_move", path);
       }

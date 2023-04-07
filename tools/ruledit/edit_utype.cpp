@@ -106,6 +106,15 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(gfx_tag_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Second alt gfx tag")));
+  label->setParent(this);
+
+  gfx_tag_alt2 = new QLineEdit(this);
+  connect(gfx_tag_alt2, SIGNAL(returnPressed()), this, SLOT(gfx_tag_alt2_given()));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(gfx_tag_alt2, row++, 1);
+
   refresh();
 
   main_layout->addLayout(unit_layout);
@@ -121,6 +130,7 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
+  gfx_tag_alt2_given();
 
   utype->ruledit_dlg = nullptr;
 }
@@ -136,6 +146,7 @@ void edit_utype::refresh()
   move_rate->setValue(utype->move_rate);
   gfx_tag->setText(utype->graphic_str);
   gfx_tag_alt->setText(utype->graphic_alt);
+  gfx_tag_alt2->setText(utype->graphic_alt2);
 }
 
 /**********************************************************************//**
@@ -188,4 +199,14 @@ void edit_utype::gfx_tag_alt_given()
   QByteArray tag_bytes = gfx_tag_alt->text().toUtf8();
 
   sz_strlcpy(utype->graphic_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new secondary alternative graphics tag.
+**************************************************************************/
+void edit_utype::gfx_tag_alt2_given()
+{
+  QByteArray tag_bytes = gfx_tag_alt2->text().toUtf8();
+
+  sz_strlcpy(utype->graphic_alt2, tag_bytes);
 }
