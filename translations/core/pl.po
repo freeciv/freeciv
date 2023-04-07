@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-03-23 05:54+0200\n"
+"POT-Creation-Date: 2023-04-07 14:34+0300\n"
 "PO-Revision-Date: 2023-03-25 07:12+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -1509,11 +1509,11 @@ msgid "Can't load requested tileset %s!"
 msgstr "Nie można wczytać zestawu graficznego %s!"
 
 #. TRANS: "Announce" is exactly what user must type, do not translate.
-#: client/client_main.c:408 server/civserver.c:345
+#: client/client_main.c:408 server/civserver.c:347
 msgid "Announce PROTO"
 msgstr "Announce PROTO"
 
-#: client/client_main.c:409 server/civserver.c:346
+#: client/client_main.c:409 server/civserver.c:348
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
 msgstr "Ogłoś grę w sieci lokalnej używając protokołu PROTO (IPv4/IPv6/none)"
 
@@ -1524,43 +1524,43 @@ msgstr "Pomiń okno połączenia"
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: client/client_main.c:416 client/client_main.c:422 tools/civmanual.c:794
 #: tools/civmanual.c:800 tools/mpcmdline.c:77 tools/mpcmdline.c:83
-#: server/civserver.c:370 server/civserver.c:376
+#: server/civserver.c:372 server/civserver.c:378
 msgid "debug LEVEL"
 msgstr "debug POZIOM"
 
 #: client/client_main.c:417 tools/civmanual.c:795 tools/mpcmdline.c:78
-#: server/civserver.c:371
+#: server/civserver.c:373
 msgid "Set debug log level (one of f,e,n,v,d, or d:file1,min,max:...)"
 msgstr ""
 "Ustaw poziom debugowania (jedną z liter f,e,n,v,d lub %d:plik1,min,max:...)"
 
 #: client/client_main.c:423 tools/civmanual.c:801 tools/mpcmdline.c:84
-#: server/civserver.c:377
+#: server/civserver.c:379
 msgid "Set debug log level (one of f,e,n,v)"
 msgstr "Ustaw poziom śledzenia debugowania (jeden z f,e,n,v)"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
 #: client/client_main.c:428 tools/civmanual.c:806 tools/ruleup.c:68
-#: server/civserver.c:382
+#: server/civserver.c:384
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAL]"
 
 #: client/client_main.c:429 tools/civmanual.c:807 tools/ruleup.c:69
-#: server/civserver.c:383
+#: server/civserver.c:385
 msgid "Raise a signal on failed assertion"
 msgstr "Daj sygnał w przypadku błędnej asercji"
 
 #. TRANS: "file" is exactly what user must type, do not translate.
-#: client/client_main.c:433 server/civserver.c:387
+#: client/client_main.c:433 server/civserver.c:389
 msgid "file FILE"
 msgstr "file FILE"
 
-#: client/client_main.c:434 server/civserver.c:388
+#: client/client_main.c:434 server/civserver.c:390
 msgid "Load saved game FILE"
 msgstr "Wczytaj zapisaną grę z PLIK"
 
 #: client/client_main.c:436 tools/civmanual.c:810 tools/mpcmdline.c:61
-#: tools/ruleup.c:64 server/civserver.c:390
+#: tools/ruleup.c:64 server/civserver.c:392
 msgid "Print a summary of the options"
 msgstr "Wypisz listę opcji"
 
@@ -1569,7 +1569,7 @@ msgid "Do not request hack access to local, but not spawned, server"
 msgstr "Nie żądaj dostępu poziomy 'hack' do serwera lokalnego niewewnętrznego"
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:443 tools/civmanual.c:813 server/civserver.c:397
+#: client/client_main.c:443 tools/civmanual.c:813 server/civserver.c:399
 msgid "log FILE"
 msgstr "log FILE"
 
@@ -1596,7 +1596,7 @@ msgid "Use NAME as username on server"
 msgstr "Użyj NAME jako nazwy użytkownika na serwerze"
 
 #. TRANS: "port" is exactly what user must type, do not translate.
-#: client/client_main.c:455 server/civserver.c:416
+#: client/client_main.c:455 server/civserver.c:418
 msgid "port PORT"
 msgstr "port PORT"
 
@@ -1615,7 +1615,7 @@ msgid "Use PLUGIN for sound output %s"
 msgstr "Użyj wtyczki dźwiękowej WTYCZKA %s"
 
 #. TRANS: "read" is exactly what user must type, do not translate.
-#: client/client_main.c:464 server/civserver.c:438
+#: client/client_main.c:464 server/civserver.c:440
 msgid "read FILE"
 msgstr "read FILE"
 
@@ -1660,16 +1660,16 @@ msgid "Use data file FILE.tilespec for tiles"
 msgstr "Użyj pliku PLIK.tilespec ze specyfikacją grafiki"
 
 #: client/client_main.c:483 tools/civmanual.c:820 tools/mpcmdline.c:87
-#: server/civserver.c:455
+#: server/civserver.c:457
 msgid "Print the version number"
 msgstr "Pokaż numer wersji"
 
-#: client/client_main.c:485 server/civserver.c:457
+#: client/client_main.c:485 server/civserver.c:459
 msgid "Warn about deprecated modpack constructs"
 msgstr "Ostrzegaj o przestarzałych dodatkach"
 
 #: client/client_main.c:509 tools/civmanual.c:745 tools/ruleup.c:109
-#: server/civserver.c:219
+#: server/civserver.c:221
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Nieprawidłowy numer sygnału \"%s\".\n"
@@ -4964,7 +4964,7 @@ msgid "Game Settings"
 msgstr "Opcje gry"
 
 #: client/gui-gtk-2.0/menu.c:208 client/gui-gtk-3.0/menu.c:706
-#: client/gui-gtk-3.22/menu.c:705 client/gui-qt/menu.cpp:3651
+#: client/gui-gtk-3.22/menu.c:705 client/gui-qt/menu.cpp:3655
 msgid "Leaving a local game will end it!"
 msgstr "Opuszczenie lokalnej gry oznacza jej przerwanie!"
 
@@ -6277,7 +6277,7 @@ msgid "Save _Map Images:"
 msgstr "Zapisz obrazy mapy (_M):"
 
 #: client/gui-gtk-2.0/pages.c:3426 client/gui-gtk-3.0/pages.c:3560
-#: client/gui-gtk-3.22/pages.c:3558 client/gui-qt/menu.cpp:3602
+#: client/gui-gtk-3.22/pages.c:3558 client/gui-qt/menu.cpp:3606
 msgid "Error"
 msgstr "Błąd"
 
@@ -6966,7 +6966,7 @@ msgstr "Zmień"
 
 #: client/gui-gtk-3.0/citydlg.c:2975 client/gui-gtk-3.22/citydlg.c:3007
 #: client/gui-qt/citydlg.cpp:1326 client/gui-qt/menu.cpp:1391
-#: client/gui-qt/menu.cpp:2328
+#: client/gui-qt/menu.cpp:2332
 msgid "Clean Pollution"
 msgstr "Usuń zanieczyszczenie"
 
@@ -8179,7 +8179,7 @@ msgstr "Zapisz opcje"
 msgid "Save Options on Exit"
 msgstr "Zapisz opcje przy wyjściu"
 
-#: client/gui-qt/menu.cpp:1056 client/gui-qt/menu.cpp:3632
+#: client/gui-qt/menu.cpp:1056 client/gui-qt/menu.cpp:3636
 msgid "Save Game As..."
 msgstr "Zapisz grę jako..."
 
@@ -8350,7 +8350,7 @@ msgstr "Przprowadź akcję..."
 msgid "Work"
 msgstr "Zadania"
 
-#: client/gui-qt/menu.cpp:1349 client/gui-qt/menu.cpp:2367
+#: client/gui-qt/menu.cpp:1349 client/gui-qt/menu.cpp:2371
 #: client/gui-sdl2/menu.c:621
 msgid "Auto Settler"
 msgstr "Automatyczny osadnik"
@@ -8363,13 +8363,13 @@ msgstr "Zbuduj drogę"
 msgid "Build Path"
 msgstr "Zbuduj trasę"
 
-#: client/gui-qt/menu.cpp:1362 client/gui-qt/menu.cpp:2227
-#: client/gui-qt/menu.cpp:2230 client/gui-qt/shortcuts.cpp:120
+#: client/gui-qt/menu.cpp:1362 client/gui-qt/menu.cpp:2231
+#: client/gui-qt/menu.cpp:2234 client/gui-qt/shortcuts.cpp:120
 msgid "Build Irrigation"
 msgstr "Stwórz nawodnienie"
 
-#: client/gui-qt/menu.cpp:1367 client/gui-qt/menu.cpp:2183
-#: client/gui-qt/menu.cpp:2186 client/gui-qt/shortcuts.cpp:118
+#: client/gui-qt/menu.cpp:1367 client/gui-qt/menu.cpp:2187
+#: client/gui-qt/menu.cpp:2190 client/gui-qt/shortcuts.cpp:118
 msgid "Build Mine"
 msgstr "Zbuduj kopalnię"
 
@@ -8385,7 +8385,7 @@ msgstr "Połącz koleją"
 msgid "Connect With Irrigation"
 msgstr "Połącz nawodnieniem"
 
-#: client/gui-qt/menu.cpp:1386 client/gui-qt/menu.cpp:2254
+#: client/gui-qt/menu.cpp:1386 client/gui-qt/menu.cpp:2258
 msgid "Transform Terrain"
 msgstr "Przekształć teren"
 
@@ -8535,52 +8535,52 @@ msgid "Endgame report"
 msgstr "Raport końcowy"
 
 #. TRANS: Transform terrain to specific type
-#: client/gui-qt/menu.cpp:2160 client/gui-qt/menu.cpp:2204
-#: client/gui-qt/menu.cpp:2250
+#: client/gui-qt/menu.cpp:2164 client/gui-qt/menu.cpp:2208
+#: client/gui-qt/menu.cpp:2254
 msgid "Transform to %1"
 msgstr "Przekształć na %1"
 
 #. TRANS: Build mine of specific type
 #. TRANS: Build irrigation of specific type
 #. TRANS: Build road of specific type
-#: client/gui-qt/menu.cpp:2179 client/gui-qt/menu.cpp:2223
-#: client/gui-qt/menu.cpp:2293
+#: client/gui-qt/menu.cpp:2183 client/gui-qt/menu.cpp:2227
+#: client/gui-qt/menu.cpp:2297
 msgid "Build %1"
 msgstr "Zbuduj %1"
 
-#: client/gui-qt/menu.cpp:2369
+#: client/gui-qt/menu.cpp:2373
 msgid "Auto Worker"
 msgstr "Automatyczny Robotnik"
 
-#: client/gui-qt/menu.cpp:2832
+#: client/gui-qt/menu.cpp:2836
 msgid "Didn't find any trade route to establish"
 msgstr "Nie znaleziono szlaku handlowego, który można ustalić"
 
-#: client/gui-qt/menu.cpp:3407
+#: client/gui-qt/menu.cpp:3411
 msgid "Available tilesets"
 msgstr "Dostępne zestawy graficzne"
 
-#: client/gui-qt/menu.cpp:3409
+#: client/gui-qt/menu.cpp:3413
 msgid "Some tilesets might not be compatible with current map topology!"
 msgstr "Niektóre zestawy graficzne mogą nie być zgodne z topologią mapy!"
 
-#: client/gui-qt/menu.cpp:3600
+#: client/gui-qt/menu.cpp:3604
 msgid "Success"
 msgstr "Sukces"
 
-#: client/gui-qt/menu.cpp:3602
+#: client/gui-qt/menu.cpp:3606
 msgid "Failed to save image of the map"
 msgstr "Nie udało się zapisać obrazu mapy"
 
-#: client/gui-qt/menu.cpp:3629
+#: client/gui-qt/menu.cpp:3633
 msgid "Save Games"
 msgstr "Zapisz gry"
 
-#: client/gui-qt/menu.cpp:3681
+#: client/gui-qt/menu.cpp:3685
 msgid "Selection will cancel current assignments!"
 msgstr "Wybór anuluje bieżące przydziały!"
 
-#: client/gui-qt/menu.cpp:3682
+#: client/gui-qt/menu.cpp:3686
 msgid "Confirm Disruptive Selection"
 msgstr "Potwierdź zaznaczenie przerywające działanie"
 
@@ -12670,19 +12670,19 @@ msgstr "Skopiuj %s do schowka."
 msgid "Clipboard is empty."
 msgstr "Schowek jest pusty."
 
-#: client/mapview_common.c:4010
+#: client/mapview_common.c:4014
 msgid "ISO|Hex"
 msgstr "ISO|Hex"
 
-#: client/mapview_common.c:4012 common/fc_types.h:358
+#: client/mapview_common.c:4016 common/fc_types.h:358
 msgid "ISO"
 msgstr "ISO"
 
-#: client/mapview_common.c:4015 common/fc_types.h:360
+#: client/mapview_common.c:4019 common/fc_types.h:360
 msgid "Hex"
 msgstr "Hex"
 
-#: client/mapview_common.c:4018 client/tilespec.h:49
+#: client/mapview_common.c:4022 client/tilespec.h:49
 msgid "Overhead"
 msgstr "\"lotniczy\""
 
@@ -15644,59 +15644,59 @@ msgstr "Brak sekcji [%s]."
 msgid "No terrain tag given in section [%s] in %s."
 msgstr "Brak tagu terenu w sekcji [%s] w %s."
 
-#: client/tilespec.c:2607
+#: client/tilespec.c:2612
 #, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
 msgstr "Nie mogę wczytać pliku graficznego \"%s\" dla sprajtu '%s'."
 
-#: client/tilespec.c:2618
+#: client/tilespec.c:2623
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr "Sprajt '%s' w pliku \"%s\" nie znajduje się na obrazie!"
 
-#: client/tilespec.c:2696 client/tilespec.c:2706 client/tilespec.c:2715
+#: client/tilespec.c:2701 client/tilespec.c:2711 client/tilespec.c:2720
 #, c-format
 msgid "Sprite for tag '%s' missing."
 msgstr "Brak sprajtu dla tagu '%s'."
 
-#: client/tilespec.c:2728
+#: client/tilespec.c:2733
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
 msgstr "Brak sprajtu dla tagu '%s' i zamiennika '%s'."
 
-#: client/tilespec.c:2807
+#: client/tilespec.c:2812
 #, c-format
 msgid "No graphics for specialist \"%s\"."
 msgstr "Nie ma grafiki dla specjalisty \"%s\"."
 
-#: client/tilespec.c:2833
+#: client/tilespec.c:2838
 #, c-format
 msgid "No graphics for citizen \"%s\"."
 msgstr "Nie ma grafiki dla mieszkańca \"%s\"."
 
-#: client/tilespec.c:3128
+#: client/tilespec.c:3133
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr "Brak wymaganych sprajtów citybar.occupancy_N ."
 
-#: client/tilespec.c:3250
+#: client/tilespec.c:3255
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr "Brak sprajtu warstwy koloru colors.overlay_0."
 
-#: client/tilespec.c:3324
+#: client/tilespec.c:3329
 msgid "Sprite tx.darkness missing."
 msgstr "Brak sprajtu tx.darkness ."
 
-#: client/tilespec.c:3466
+#: client/tilespec.c:3471
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr "Nie ma tagów grafiki \"%s\" lub \"%s\" dla %s \"%s\"."
 
-#: client/tilespec.c:3564
+#: client/tilespec.c:3569
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr "Brak sprajtu jednostki %s dla tagu \"%s\" lub zamiennika \"%s\"."
 
-#: client/tilespec.c:3571
+#: client/tilespec.c:3576
 #, c-format
 msgid ""
 "Unit type %s has no unoriented sprite and tileset has no "
@@ -15705,17 +15705,17 @@ msgstr ""
 "Typ jednostki %s nie ma obrazka, a zestaw graficzny nie ma wartości "
 "unit_default_orientation."
 
-#: client/tilespec.c:3639
+#: client/tilespec.c:3644
 #, c-format
 msgid "No extra style for \"%s\" or \"%s\"."
 msgstr "Brak dodatkowego stylu dla \"%s\" lub \"%s\"."
 
-#: client/tilespec.c:3695
+#: client/tilespec.c:3700
 #, c-format
 msgid "No cardinal-style graphics \"%s*\" for extra \"%s\""
 msgstr "Brak grafiki \"%s*\" dla usprawnienia \"%s\""
 
-#: client/tilespec.c:3722
+#: client/tilespec.c:3727
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -15724,39 +15724,39 @@ msgstr ""
 "Brak sprajtu czynności budynku %s dla tagu \"%s\" lub zamiennika \"%s\" i "
 "\"%s\"."
 
-#: client/tilespec.c:3738
+#: client/tilespec.c:3743
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 "Brak sprajtu czynności usunięcia %s dla tagu \"%s\" lub zamiennika \"%s\"."
 
-#: client/tilespec.c:3827
+#: client/tilespec.c:3832
 #, c-format
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
 msgstr "Brak grafiki rzeki \"%s*\" dla usprawnienia \"%s\""
 
-#: client/tilespec.c:3886
+#: client/tilespec.c:3891
 #, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
 msgstr "Brak grafiki ze znacznikiem \"%s_bg/mg/fg\" dla usprawnienia \"%s\""
 
-#: client/tilespec.c:3906
+#: client/tilespec.c:3911
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr "Teren \"%s\": brak grafiki dla \"%s\" lub \"%s\"."
 
-#: client/tilespec.c:3942
+#: client/tilespec.c:3947
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Brak sprajtu bazy dla tagu \"%s\"."
 
-#: client/tilespec.c:4196
+#: client/tilespec.c:4201
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Naród %s: brak flagi narodowej."
 
-#: client/tilespec.c:5426
+#: client/tilespec.c:5431
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -15765,7 +15765,7 @@ msgstr ""
 "Zestaw graficzny \"%s\" nie wspiera długich ścieżek 'idź do', takich jak %d. "
 "Ścieżka nie wyświetlona zgodnie z oczekiwaniami."
 
-#: client/tilespec.c:5983
+#: client/tilespec.c:5988
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -15774,12 +15774,12 @@ msgstr ""
 "Zestaw graficzny \"%s\" nie wspiera dużych miast, takich jak %d. Rozmiar "
 "miasta nie wyświetlony zgodnie z oczekiwaniami."
 
-#: client/tilespec.c:6130
+#: client/tilespec.c:6135
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Styl miasta \"%s\": brak grafiki miasta."
 
-#: client/tilespec.c:6135
+#: client/tilespec.c:6140
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr "Styl miasta \"%s\": brak grafiki okupowanego miasta."
@@ -15973,7 +15973,7 @@ msgstr ""
 #. * the target but doesn't require that the target tile is claimed.
 #. * (DiplRel requirements to an unclaimed tile are never fulfilled
 #. * so this is implicit.)
-#: common/actions.c:2835
+#: common/actions.c:2838
 #, c-format
 msgid ""
 "Possible clarification: Requirement {%s} of action \"%s\" implies a claimed "
@@ -15983,23 +15983,23 @@ msgstr ""
 "relacji dyplomatycznych z Naturą."
 
 #. TRANS: ruledit warns a user about an unused action enabler
-#: common/actions.c:2887
+#: common/actions.c:2890
 #, c-format
 msgid "Action enabler for \"%s\" is never used by any unit."
 msgstr "Aktywator dla \"%s\" nie jest nigdy używany przez żadną jednostkę."
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:3107
+#: common/actions.c:3110
 msgid "actor_reqs"
 msgstr "wym_agens"
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:3110
+#: common/actions.c:3113
 msgid "target_reqs"
 msgstr "wym_cel"
 
 #. TRANS: _Poison City (3% chance of success).
-#: common/actions.c:5223 data/civ2/game.ruleset:261
+#: common/actions.c:5226 data/civ2/game.ruleset:261
 #: data/classic/game.ruleset:265 data/sandbox/game.ruleset:268
 #: data/experimental/game.ruleset:268 data/civ2civ3/game.ruleset:270
 #: data/multiplayer/game.ruleset:268
@@ -16008,31 +16008,31 @@ msgid "%sPoison City%s"
 msgstr "Zatruj miasto%s (%sP)"
 
 #. TRANS: _Poison City and Escape (3% chance of success).
-#: common/actions.c:5226
+#: common/actions.c:5229
 #, c-format
 msgid "%sPoison City and Escape%s"
 msgstr "Zatruj miasto i ucieknij (%sP)%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
-#: common/actions.c:5229
+#: common/actions.c:5232
 #, c-format
 msgid "S%sabotage Enemy Unit%s"
 msgstr "%sSabotuj jednostkę wroga%s"
 
 #. TRANS: S_abotage Enemy Unit and Escape (3% chance of success).
-#: common/actions.c:5232
+#: common/actions.c:5235
 #, c-format
 msgid "S%sabotage Enemy Unit and Escape%s"
 msgstr "S%sabotuj jednostkę wroga i ucieknij%s"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
-#: common/actions.c:5235
+#: common/actions.c:5238
 #, c-format
 msgid "Bribe Enemy %sUnit%s"
 msgstr "Przekup jednostkę wroga (%sU)%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
-#: common/actions.c:5238 data/civ1/game.ruleset:247 data/civ2/game.ruleset:273
+#: common/actions.c:5241 data/civ1/game.ruleset:247 data/civ2/game.ruleset:273
 #: data/classic/game.ruleset:274 data/sandbox/game.ruleset:277
 #: data/experimental/game.ruleset:277 data/civ2civ3/game.ruleset:279
 #: data/alien/game.ruleset:267 data/multiplayer/game.ruleset:277
@@ -16041,32 +16041,32 @@ msgid "%sSabotage City%s"
 msgstr "%sSabotuj miasto%s"
 
 #. TRANS: _Sabotage City and Escape (3% chance of success).
-#: common/actions.c:5241
+#: common/actions.c:5244
 #, c-format
 msgid "%sSabotage City and Escape%s"
 msgstr "%sSabotuj miasto i ucieknij%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
-#: common/actions.c:5244
+#: common/actions.c:5247
 #, c-format
 msgid "Industria%sl Sabotage%s"
 msgstr "Sabotaż przemysłowy (%sl)%s"
 
 #. TRANS: Industria_l Sabotage and Escape (3% chance of success).
-#: common/actions.c:5247
+#: common/actions.c:5250
 #, c-format
 msgid "Industria%sl Sabotage and Escape%s"
 msgstr "Sabotaż przemysłowy i ucieknij (%sl)%s"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
-#: common/actions.c:5250
+#: common/actions.c:5253
 #, c-format
 msgid "Incite a Re%svolt%s"
 msgstr "Podburz miasto (%sv)%s"
 
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
-#: common/actions.c:5253 data/civ2/game.ruleset:285
+#: common/actions.c:5256 data/civ2/game.ruleset:285
 #: data/classic/game.ruleset:286 data/sandbox/game.ruleset:289
 #: data/experimental/game.ruleset:289 data/civ2civ3/game.ruleset:291
 #: data/multiplayer/game.ruleset:289
@@ -16075,7 +16075,7 @@ msgid "Incite a Re%svolt and Escape%s"
 msgstr "Podburz miasto i ucieknij (%sv)%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
-#: common/actions.c:5256 data/civ2/game.ruleset:288
+#: common/actions.c:5259 data/civ2/game.ruleset:288
 #: data/classic/game.ruleset:289 data/sandbox/game.ruleset:292
 #: data/experimental/game.ruleset:292 data/civ2civ3/game.ruleset:294
 #: data/multiplayer/game.ruleset:292
@@ -16084,7 +16084,7 @@ msgid "Establish %sEmbassy%s"
 msgstr "Załóż ambasadę (%sE)%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
-#: common/actions.c:5259 data/civ1/game.ruleset:253 data/civ2/game.ruleset:291
+#: common/actions.c:5262 data/civ1/game.ruleset:253 data/civ2/game.ruleset:291
 #: data/classic/game.ruleset:292 data/sandbox/game.ruleset:295
 #: data/experimental/game.ruleset:295 data/civ2civ3/game.ruleset:297
 #: data/multiplayer/game.ruleset:295
@@ -16093,7 +16093,7 @@ msgid "Becom%se Ambassador%s"
 msgstr "Zostań ambasador%sem%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
-#: common/actions.c:5262 data/civ1/game.ruleset:256 data/civ2/game.ruleset:294
+#: common/actions.c:5265 data/civ1/game.ruleset:256 data/civ2/game.ruleset:294
 #: data/classic/game.ruleset:295 data/sandbox/game.ruleset:298
 #: data/experimental/game.ruleset:298 data/civ2civ3/game.ruleset:300
 #: data/multiplayer/game.ruleset:298
@@ -16102,7 +16102,7 @@ msgid "Steal %sTechnology%s"
 msgstr "Wykradnij technologię (%sT)%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
-#: common/actions.c:5265 data/civ2/game.ruleset:297
+#: common/actions.c:5268 data/civ2/game.ruleset:297
 #: data/classic/game.ruleset:298 data/sandbox/game.ruleset:301
 #: data/experimental/game.ruleset:301 data/civ2civ3/game.ruleset:303
 #: data/multiplayer/game.ruleset:301
@@ -16111,19 +16111,19 @@ msgid "Steal %sTechnology and Escape%s"
 msgstr "Wykradnij technologię i ucieknij (%sT)%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
-#: common/actions.c:5268
+#: common/actions.c:5271
 #, c-format
 msgid "In%sdustrial Espionage%s"
 msgstr "Szpiegostwo przemysłowe (%sd)%s"
 
 #. TRANS: In_dustrial Espionage and Escape (3% chance of success).
-#: common/actions.c:5271
+#: common/actions.c:5274
 #, c-format
 msgid "In%sdustrial Espionage and Escape%s"
 msgstr "Szpiegostwo przemysłowe i ucieknij (%sd)%s"
 
 #. TRANS: _Investigate City (100% chance of success).
-#: common/actions.c:5274 data/civ2/game.ruleset:303
+#: common/actions.c:5277 data/civ2/game.ruleset:303
 #: data/classic/game.ruleset:304 data/sandbox/game.ruleset:310
 #: data/experimental/game.ruleset:307 data/civ2civ3/game.ruleset:309
 #: data/multiplayer/game.ruleset:307
@@ -16134,7 +16134,7 @@ msgstr "Zbadaj miasto (%sI)%s"
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
 #. TRANS: _Investigate City (spends the unit) (100% chance of success).
-#: common/actions.c:5278 data/civ1/game.ruleset:259 data/civ2/game.ruleset:306
+#: common/actions.c:5281 data/civ1/game.ruleset:259 data/civ2/game.ruleset:306
 #: data/classic/game.ruleset:307 data/sandbox/game.ruleset:313
 #: data/experimental/game.ruleset:310 data/civ2civ3/game.ruleset:312
 #: data/alien/game.ruleset:276 data/multiplayer/game.ruleset:310
@@ -16143,31 +16143,31 @@ msgid "%sInvestigate City (spends the unit)%s"
 msgstr "Zbadaj miasto (kosztem utraty jednostki) (%sI)%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
-#: common/actions.c:5281
+#: common/actions.c:5284
 #, c-format
 msgid "Steal %sGold%s"
 msgstr "Wykradnij złoto (%sG)%s"
 
 #. TRANS: Steal _Gold and Escape (100% chance of success).
-#: common/actions.c:5284
+#: common/actions.c:5287
 #, c-format
 msgid "Steal %sGold and Escape%s"
 msgstr "Wykradnij złoto i ucieknij (%sG)%s"
 
 #. TRANS: Steal _Maps (100% chance of success).
-#: common/actions.c:5287
+#: common/actions.c:5290
 #, c-format
 msgid "Steal %sMaps%s"
 msgstr "Wykradnij mapy (%sM)%s"
 
 #. TRANS: Steal _Maps and Escape (100% chance of success).
-#: common/actions.c:5290
+#: common/actions.c:5293
 #, c-format
 msgid "Steal %sMaps and Escape%s"
 msgstr "Wykradnij mapy i ucieknij (%sM)%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
-#: common/actions.c:5293 data/civ1/game.ruleset:262 data/civ2/game.ruleset:309
+#: common/actions.c:5296 data/civ1/game.ruleset:262 data/civ2/game.ruleset:309
 #: data/classic/game.ruleset:310 data/sandbox/game.ruleset:316
 #: data/experimental/game.ruleset:313 data/civ2civ3/game.ruleset:315
 #: data/alien/game.ruleset:279
@@ -16176,14 +16176,14 @@ msgid "Establish Trade %sRoute%s"
 msgstr "Ustanów szlak handlowy (%sR)%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
-#: common/actions.c:5296 data/civ1/game.ruleset:265 data/civ2/game.ruleset:312
+#: common/actions.c:5299 data/civ1/game.ruleset:265 data/civ2/game.ruleset:312
 #: data/sandbox/game.ruleset:319 data/civ2civ3/game.ruleset:318
 #, c-format
 msgid "Enter %sMarketplace%s"
 msgstr "Rozpocznij handlowanie (%sM)%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
-#: common/actions.c:5299 data/civ1/game.ruleset:268 data/civ2/game.ruleset:315
+#: common/actions.c:5302 data/civ1/game.ruleset:268 data/civ2/game.ruleset:315
 #: data/classic/game.ruleset:316 data/sandbox/game.ruleset:322
 #: data/experimental/game.ruleset:319 data/civ2civ3/game.ruleset:321
 #: data/alien/game.ruleset:285 data/multiplayer/game.ruleset:313
@@ -16192,50 +16192,50 @@ msgid "Help %sbuild Wonder%s"
 msgstr "Pomóż budować cud (%sb)%s"
 
 #. TRANS: _Capture Units (100% chance of success).
-#: common/actions.c:5302 data/sandbox/game.ruleset:331
+#: common/actions.c:5305 data/sandbox/game.ruleset:331
 #: data/civ2civ3/game.ruleset:330 data/alien/game.ruleset:294
 #, c-format
 msgid "%sCapture Units%s"
 msgstr "Schwytaj jednostki (%sC)%s"
 
 #. TRANS: _Expel Unit (100% chance of success).
-#: common/actions.c:5305
+#: common/actions.c:5308
 #, c-format
 msgid "%sExpel Unit%s"
 msgstr "Wyrzuć jednostkę (%sE)%s"
 
 #. TRANS: _Found City (100% chance of success).
-#: common/actions.c:5308
+#: common/actions.c:5311
 #, c-format
 msgid "%sFound City%s"
 msgstr "Załóż miasto (%sF)%s"
 
 #. TRANS: _Join City (100% chance of success).
-#: common/actions.c:5311
+#: common/actions.c:5314
 #, c-format
 msgid "%sJoin City%s"
 msgstr "Przyłącz się do miasta (%sJ)%s"
 
 #. TRANS: B_ombard (100% chance of success).
-#: common/actions.c:5314
+#: common/actions.c:5317
 #, c-format
 msgid "B%sombard%s"
 msgstr "Zb%sombarduj%s"
 
 #. TRANS: Suitcase _Nuke (100% chance of success).
-#: common/actions.c:5317
+#: common/actions.c:5320
 #, c-format
 msgid "Suitcase %sNuke%s"
 msgstr "Detonuj przenośną atomówkę (%sN)%s"
 
 #. TRANS: Suitcase _Nuke and Escape (100% chance of success).
-#: common/actions.c:5320
+#: common/actions.c:5323
 #, c-format
 msgid "Suitcase %sNuke and Escape%s"
 msgstr "Detonuj przenośną atomówkę i ucieknij (%sN)%s"
 
 #. TRANS: Explode _Nuclear (100% chance of success).
-#: common/actions.c:5323 data/civ1/game.ruleset:283 data/civ2/game.ruleset:330
+#: common/actions.c:5326 data/civ1/game.ruleset:283 data/civ2/game.ruleset:330
 #: data/classic/game.ruleset:331 data/sandbox/game.ruleset:343
 #: data/experimental/game.ruleset:334 data/civ2civ3/game.ruleset:342
 #: data/multiplayer/game.ruleset:328
@@ -16244,13 +16244,13 @@ msgid "Explode %sNuclear%s"
 msgstr "Detonuj Bombę Atomową (%sN)%s"
 
 #. TRANS: Destroy _City (100% chance of success).
-#: common/actions.c:5326 data/sandbox/game.ruleset:346
+#: common/actions.c:5329 data/sandbox/game.ruleset:346
 #, c-format
 msgid "Destroy %sCity%s"
 msgstr "Zniszcz miasto%s (%sC)"
 
 #. TRANS: Dis_band recovering production (100% chance of success).
-#: common/actions.c:5329 data/civ1/game.ruleset:271 data/civ2/game.ruleset:318
+#: common/actions.c:5332 data/civ1/game.ruleset:271 data/civ2/game.ruleset:318
 #: data/classic/game.ruleset:319 data/sandbox/game.ruleset:325
 #: data/experimental/game.ruleset:322 data/civ2civ3/game.ruleset:324
 #: data/alien/game.ruleset:288 data/multiplayer/game.ruleset:316
@@ -16259,7 +16259,7 @@ msgid "Dis%sband recovering production%s"
 msgstr "Rozwiąż odzyskując produkcję (%sb) %s"
 
 #. TRANS: Dis_band without recovering production (100% chance of success).
-#: common/actions.c:5332 data/civ1/game.ruleset:274 data/civ2/game.ruleset:321
+#: common/actions.c:5335 data/civ1/game.ruleset:274 data/civ2/game.ruleset:321
 #: data/classic/game.ruleset:322 data/sandbox/game.ruleset:328
 #: data/experimental/game.ruleset:325 data/civ2civ3/game.ruleset:327
 #: data/alien/game.ruleset:291 data/multiplayer/game.ruleset:319
@@ -16268,7 +16268,7 @@ msgid "Dis%sband without recovering production%s"
 msgstr "Rozwiąż bez odzyskania produkcji (%sb) %s"
 
 #. TRANS: Set _Home City (100% chance of success).
-#: common/actions.c:5335 data/civ1/game.ruleset:286 data/civ2/game.ruleset:333
+#: common/actions.c:5338 data/civ1/game.ruleset:286 data/civ2/game.ruleset:333
 #: data/classic/game.ruleset:334 data/sandbox/game.ruleset:349
 #: data/experimental/game.ruleset:337 data/civ2civ3/game.ruleset:345
 #: data/alien/game.ruleset:306 data/multiplayer/game.ruleset:331
@@ -16277,7 +16277,7 @@ msgid "Set %sHome City%s"
 msgstr "Zmień pochodzenie (%sH)%s"
 
 #. TRANS: _Upgrade Unit (100% chance of success).
-#: common/actions.c:5338 data/classic/game.ruleset:337
+#: common/actions.c:5341 data/classic/game.ruleset:337
 #: data/sandbox/game.ruleset:352 data/experimental/game.ruleset:340
 #: data/civ2civ3/game.ruleset:348 data/alien/game.ruleset:309
 #: data/multiplayer/game.ruleset:334
@@ -16286,7 +16286,7 @@ msgid "%sUpgrade Unit%s"
 msgstr "%sUlepsz jednostkę%s"
 
 #. TRANS: Drop _Paratrooper (100% chance of success).
-#: common/actions.c:5341 data/civ2/game.ruleset:336
+#: common/actions.c:5344 data/civ2/game.ruleset:336
 #: data/classic/game.ruleset:340 data/sandbox/game.ruleset:355
 #: data/experimental/game.ruleset:343 data/civ2civ3/game.ruleset:351
 #: data/alien/game.ruleset:312 data/multiplayer/game.ruleset:337
@@ -16295,7 +16295,7 @@ msgid "Drop %sParatrooper%s"
 msgstr "Zrzuć spadochroniarzy (%sP)%s"
 
 #. TRANS: _Airlift to City (100% chance of success).
-#: common/actions.c:5344 data/civ2/game.ruleset:339
+#: common/actions.c:5347 data/civ2/game.ruleset:339
 #: data/classic/game.ruleset:343 data/sandbox/game.ruleset:358
 #: data/experimental/game.ruleset:346 data/civ2civ3/game.ruleset:354
 #: data/alien/game.ruleset:315 data/multiplayer/game.ruleset:340
@@ -16304,7 +16304,7 @@ msgid "%sAirlift to City%s"
 msgstr "Przerzuć do miasta (%sA)%s"
 
 #. TRANS: _Attack (100% chance of success).
-#: common/actions.c:5347 data/civ1/game.ruleset:289 data/civ2/game.ruleset:342
+#: common/actions.c:5350 data/civ1/game.ruleset:289 data/civ2/game.ruleset:342
 #: data/classic/game.ruleset:346 data/sandbox/game.ruleset:361
 #: data/experimental/game.ruleset:349 data/civ2civ3/game.ruleset:357
 #: data/alien/game.ruleset:318 data/multiplayer/game.ruleset:343
@@ -16313,7 +16313,7 @@ msgid "%sAttack%s"
 msgstr "%sAtakuj%s"
 
 #. TRANS: _Conquer City (100% chance of success).
-#: common/actions.c:5350 data/civ1/game.ruleset:292 data/civ2/game.ruleset:345
+#: common/actions.c:5353 data/civ1/game.ruleset:292 data/civ2/game.ruleset:345
 #: data/classic/game.ruleset:349 data/sandbox/game.ruleset:364
 #: data/experimental/game.ruleset:352 data/civ2civ3/game.ruleset:360
 #: data/alien/game.ruleset:321 data/multiplayer/game.ruleset:346
@@ -16322,7 +16322,7 @@ msgid "%sConquer City%s"
 msgstr "Podbij miasto (%sC)%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
-#: common/actions.c:5353
+#: common/actions.c:5356
 #, c-format
 msgid "Heal %sUnit%s"
 msgstr "%sUlecz jednostkę%s"
@@ -40177,12 +40177,12 @@ msgstr ""
 "Zażądano wielu zestawów zasad. Obsługiwany jest tylko jeden zestaw zasad na "
 "raz.\n"
 
-#: tools/civmanual.c:814 server/civserver.c:398
+#: tools/civmanual.c:814 server/civserver.c:400
 msgid "Use FILE as logfile"
 msgstr "Użyj PLIK jako pliku dziennika"
 
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
-#: tools/civmanual.c:817 tools/ruleup.c:73 server/civserver.c:446
+#: tools/civmanual.c:817 tools/ruleup.c:73 server/civserver.c:448
 msgid "ruleset RULESET"
 msgstr "ruleset RULESET"
 
@@ -41972,211 +41972,211 @@ msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
 msgstr "Mieszkańcy %s rozważają przeniesienie się do %s (%s)."
 
-#: server/civserver.c:92
+#: server/civserver.c:94
 msgid "Setting timeout to 0. Autogame will stop."
 msgstr "Ustawiam timer na 0. Autogra zostanie przerwana."
 
-#: server/civserver.c:96
+#: server/civserver.c:98
 msgid "You must interrupt Freeciv twice within one second to make it exit."
 msgstr "Musisz przerwać grę dwa razy w ciągu sekundy, aby zakończyć."
 
-#: server/civserver.c:156
+#: server/civserver.c:158
 #, c-format
 msgid "Failed to install SIGINT handler: %s\n"
 msgstr "Nie udało się zainstalować kontrolera SIGINT: %s\n"
 
-#: server/civserver.c:163
+#: server/civserver.c:165
 #, c-format
 msgid "Failed to install SIGHUP handler: %s\n"
 msgstr "Nie udało się zainstalować kontrolera SIGHUP: %s\n"
 
-#: server/civserver.c:170
+#: server/civserver.c:172
 #, c-format
 msgid "Failed to install SIGTERM handler: %s\n"
 msgstr "Nie udało się zainstalować kontrolera SIGTERM: %s\n"
 
-#: server/civserver.c:179
+#: server/civserver.c:181
 #, c-format
 msgid "Failed to ignore SIGPIPE: %s\n"
 msgstr "Nie można zignorować SIGPIPE: %s\n"
 
-#: server/civserver.c:232
+#: server/civserver.c:234
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
 "Ostrzeżenie: opcja %s jest przestarzała. Aby włączyć opcję metaserwera użyj -"
 "m.\n"
 
-#: server/civserver.c:310
+#: server/civserver.c:312
 #, c-format
 msgid "Illegal value \"%s\" for --Announce"
 msgstr "Nieprawidłowa wartość \"%s\" dla opcji --Announce"
 
-#: server/civserver.c:318
+#: server/civserver.c:320
 #, c-format
 msgid "Failed to load AI module \"%s\"\n"
 msgstr "Nie udało się wczytać modułu AI \"%s\"\n"
 
-#: server/civserver.c:324
+#: server/civserver.c:326
 #, c-format
 msgid "Error: unknown option '%s'\n"
 msgstr "Błąd: nieznana opcja '%s'\n"
 
-#: server/civserver.c:335
+#: server/civserver.c:337
 #, c-format
 msgid "This is the server for %s"
 msgstr "To jest serwer dla %s"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: server/civserver.c:337
+#: server/civserver.c:339
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Więcej informacji o Freeciv: %s"
 
 #. TRANS: "Database" is exactly what user must type, do not translate.
-#: server/civserver.c:351
+#: server/civserver.c:353
 msgid "Database FILE"
 msgstr "Database FILE"
 
-#: server/civserver.c:352
+#: server/civserver.c:354
 msgid "Enable database connection with configuration from FILE."
 msgstr "Włącz połączenie bazy danych z konfiguracją z PLIKu."
 
-#: server/civserver.c:355
+#: server/civserver.c:357
 msgid "Enable server authentication (requires --Database)."
 msgstr "Włącz uwierzytelnienie serwera (wymaga --Database)."
 
-#: server/civserver.c:357
+#: server/civserver.c:359
 msgid "Allow guests to login if auth is enabled."
 msgstr "Zezwalaj gościom na przyłączenie się, jeśli włączono uwierzytelnienie."
 
-#: server/civserver.c:359
+#: server/civserver.c:361
 msgid "Allow new users to login if auth is enabled."
 msgstr ""
 "Zezwalaj nowym użytkownikom na przyłączanie się, jeśli włączono "
 "uwierzytelnienie."
 
 #. TRANS: "bind" is exactly what user must type, do not translate.
-#: server/civserver.c:363
+#: server/civserver.c:365
 msgid "bind ADDR"
 msgstr "bind ADDR"
 
-#: server/civserver.c:364
+#: server/civserver.c:366
 msgid "Listen for clients on ADDR"
 msgstr "Przyjmuj klientów z adresu ADDR"
 
-#: server/civserver.c:366
+#: server/civserver.c:368
 msgid "Connect to metaserver from this address"
 msgstr "Połącz z metaserwerem pod tym adresem"
 
 #. TRANS: "identity" is exactly what user must type, do not translate.
-#: server/civserver.c:393
+#: server/civserver.c:395
 msgid "identity ADDR"
 msgstr "identity ADDR"
 
-#: server/civserver.c:394
+#: server/civserver.c:396
 msgid "Be known as ADDR at metaserver or LAN client"
 msgstr "Będziesz znany/a pod nazwą ADDR dla metaserwera lub klienta LAN"
 
-#: server/civserver.c:400
+#: server/civserver.c:402
 msgid "Notify metaserver and send server's info"
 msgstr "Powiadom metaserwer i wyślij informacje o serwerze"
 
 #. TRANS: "Metaserver" is exactly what user must type, do not translate.
-#: server/civserver.c:403
+#: server/civserver.c:405
 msgid "Metaserver ADDR"
 msgstr "Metaserver ADDR"
 
-#: server/civserver.c:404
+#: server/civserver.c:406
 msgid "Set ADDR as metaserver address"
 msgstr "Ustaw ADDR jako adres metaserwera"
 
 #. TRANS: "type" is exactly what user must type, do not translate.
-#: server/civserver.c:408
+#: server/civserver.c:410
 msgid "type TYPE"
 msgstr "type TYPE"
 
-#: server/civserver.c:409
+#: server/civserver.c:411
 msgid "Set TYPE as server type in metaserver"
 msgstr "Ustaw TYPE jako typ serwera w metaserwerze"
 
-#: server/civserver.c:412
+#: server/civserver.c:414
 msgid "Keep updating game information on metaserver even after failure"
 msgstr ""
 "Uaktualniaj informacle o rozgrywce na metaserwerze, nawet jeśli zawiedzie "
 "połączenie"
 
-#: server/civserver.c:417
+#: server/civserver.c:419
 msgid "Listen for clients on port PORT"
 msgstr "Nasłuchuj klientów na porcie PORT"
 
 #. TRANS: "quitidle" is exactly what user must type, do not translate.
-#: server/civserver.c:420
+#: server/civserver.c:422
 msgid "quitidle TIME"
 msgstr "quitidle TIME"
 
-#: server/civserver.c:421
+#: server/civserver.c:423
 msgid "Quit if no players for TIME seconds"
 msgstr "Zakończ jeśli brak graczy po CZAS sekundach"
 
-#: server/civserver.c:423
+#: server/civserver.c:425
 msgid "When a game ends, exit instead of restarting"
 msgstr "Gdy gra się skończy, zakończ program zamiast restartować"
 
 #. TRANS: "saves" is exactly what user must type, do not translate.
-#: server/civserver.c:426
+#: server/civserver.c:428
 msgid "saves DIR"
 msgstr "saves DIR"
 
-#: server/civserver.c:427
+#: server/civserver.c:429
 msgid "Save games to directory DIR"
 msgstr "Zapisuje gry do folderu DIR"
 
 #. TRANS: "scenarios" is exactly what user must type, do not translate.
-#: server/civserver.c:430
+#: server/civserver.c:432
 msgid "scenarios DIR"
 msgstr "scenarios DIR"
 
-#: server/civserver.c:431
+#: server/civserver.c:433
 msgid "Save scenarios to directory DIR"
 msgstr "Zapisz scenariusze w folderze DIR"
 
 #. TRANS: "Serverid" is exactly what user must type, do not translate.
-#: server/civserver.c:434
+#: server/civserver.c:436
 msgid "Serverid ID"
 msgstr "Serverid ID"
 
-#: server/civserver.c:435
+#: server/civserver.c:437
 msgid "Sets the server id to ID"
 msgstr "Ustawia identyfikator serwera na ID"
 
-#: server/civserver.c:439
+#: server/civserver.c:441
 msgid "Read startup script FILE"
 msgstr "Uruchom skrypt startowy PLIK"
 
 #. TRANS: "Ranklog" is exactly what user must type, do not translate.
-#: server/civserver.c:442
+#: server/civserver.c:444
 msgid "Ranklog FILE"
 msgstr "Ranklog FILE"
 
-#: server/civserver.c:443
+#: server/civserver.c:445
 msgid "Use FILE as ranking logfile"
 msgstr "Używa PLIK jako pliku dziennika rankingu"
 
-#: server/civserver.c:447
+#: server/civserver.c:449
 msgid "Load ruleset RULESET"
 msgstr "Wczytaj zestaw zasad ZESTAW ZASAD"
 
 #. TRANS: "LoadAI" is exactly what user must type, do not translate.
-#: server/civserver.c:451
+#: server/civserver.c:453
 msgid "LoadAI MODULE"
 msgstr "LoadAI MODULE"
 
-#: server/civserver.c:452
+#: server/civserver.c:454
 msgid "Load ai module MODULE. Can appear multiple times"
 msgstr "Wczytaj moduł AI MODULE. Może pojawiać się wielokrotnie"
 
-#: server/civserver.c:470
+#: server/civserver.c:472
 msgid "Requested authentication with --auth, but no --Database given\n"
 msgstr "Zażądano uwierzytelnienia z --auth, lecz nie podano --Database\n"
 
@@ -44534,34 +44534,34 @@ msgstr ""
 msgid "Inconsistent player count in savegame"
 msgstr "Niewłaściwa liczba graczt w zapisanej grze"
 
-#: server/legacysave.c:4097 server/savegame2.c:2668 server/savegame3.c:3551
+#: server/legacysave.c:4097 server/savegame2.c:2668 server/savegame3.c:3552
 #: server/srv_main.c:2408 server/srv_main.c:2413
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s został/a dodany jako gracz AI, poziom %s (%s)."
 
-#: server/legacysave.c:4102 server/savegame2.c:2673 server/savegame3.c:3556
+#: server/legacysave.c:4102 server/savegame2.c:2673 server/savegame3.c:3557
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s został/a dodany jako gracz-człowiek."
 
-#: server/legacysave.c:4157 server/savegame2.c:5255 server/savegame3.c:7198
+#: server/legacysave.c:4157 server/savegame2.c:5257 server/savegame3.c:7226
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s miał/a niewłaściwą technologię badań."
 
-#: server/legacysave.c:4168 server/savegame2.c:5265 server/savegame3.c:7208
+#: server/legacysave.c:4168 server/savegame2.c:5267 server/savegame3.c:7236
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s miał/a niewłaściwy cel badań."
 
-#: server/legacysave.c:4176 server/savegame2.c:5274 server/savegame3.c:7217
+#: server/legacysave.c:4176 server/savegame2.c:5276 server/savegame3.c:7245
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "%s miał/a niewłaściwą ilość badań."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/legacysave.c:4194 server/savegame2.c:2697 server/savegame3.c:3580
+#: server/legacysave.c:4194 server/savegame2.c:2697 server/savegame3.c:3581
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s miał/a nieprawidłowy naród; zmieniam na %s."
@@ -45356,21 +45356,21 @@ msgstr "Zbuduj bazę typu A"
 msgid "?gui_type:Build Type B Base"
 msgstr "Zbuduj bazę typu B"
 
-#: server/ruleset.c:5567
+#: server/ruleset.c:5568
 msgid ""
 "Effects should have \"type\", not the same field with old name \"name\"."
 msgstr ""
 "Efekty powinny mieć \"typ\", a nie to samo pole ze starą nazwą \"nazwa\"."
 
-#: server/ruleset.c:7956
+#: server/ruleset.c:7957
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Nie można wczytać zestawu zasad. Zachowuję poprzedni."
 
-#: server/ruleset.c:7974
+#: server/ruleset.c:7975
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr "Nie można wczytać zestawu zasad. Przechodzę na domyśny zestaw."
 
-#: server/ruleset.c:7981
+#: server/ruleset.c:7982
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -45378,7 +45378,7 @@ msgstr ""
 "Nie można wczytać żadnego zestawu zasad. Zestaw Freeciv-web dostępny na "
 "stronie https://github.com/freeciv/freeciv-web"
 
-#: server/ruleset.c:8024
+#: server/ruleset.c:8025
 msgid "Loading rulesets."
 msgstr "Wczytuję zestawy zasad."
 
@@ -45435,17 +45435,17 @@ msgid "Can't create scenario saves directory!"
 msgstr "Nie można stworzyć folderu na zapisane scenariusze!"
 
 #: server/savegame2.c:699 server/savegame2.c:710 server/savegame2.c:722
-#: server/savegame3.c:917 server/savegame3.c:928 server/savegame3.c:940
+#: server/savegame3.c:918 server/savegame3.c:929 server/savegame3.c:941
 msgid "Syntax error in attribute block."
 msgstr "Błąd składniowy w bloku atrybutów."
 
-#: server/savegame2.c:1149 server/savegame3.c:1357
+#: server/savegame2.c:1149 server/savegame3.c:1358
 #, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Nie udało się wczytać zestawu zasad '%s' potrzebnego dla zapisanej gry."
 
-#: server/savegame2.c:5304 server/savegame3.c:7235
+#: server/savegame2.c:5306 server/savegame3.c:7263
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -45453,23 +45453,23 @@ msgid ""
 msgstr ""
 "%s ma wiele jednostek typu %s, mimo że można mieć tylko jedną taką jednostkę."
 
-#: server/savegame3.c:1310 server/savegame3.c:1360
+#: server/savegame3.c:1311 server/savegame3.c:1361
 #, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "Nie udało się wczytać zestawu zasad '%s'."
 
-#: server/savegame3.c:1322
+#: server/savegame3.c:1323
 #, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Scenariusz wymaga zestawu zasad z funkcjonalnościami: %s"
 
-#: server/savegame3.c:1323
+#: server/savegame3.c:1324
 #, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Zestaw zasad ma funkcjonalności: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame3.c:1326
+#: server/savegame3.c:1327
 #, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
@@ -45479,7 +45479,7 @@ msgstr ""
 "przełączyć na zestaw zasad określony w scenariuszu."
 
 #. TRANS: ruleset dir
-#: server/savegame3.c:1367
+#: server/savegame3.c:1368
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr "Udało się wczytać zestaw zasad %s scenariusza."

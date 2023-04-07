@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-03-19 00:20+0100\n"
+"POT-Creation-Date: 2023-03-20 17:16+0200\n"
 "PO-Revision-Date: 2023-03-19 00:22+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -50,7 +50,6 @@ msgid "Alt graphics tag"
 msgstr "Etiqueta de gràfics alternatius"
 
 #: tools/ruledit/edit_terrain.cpp:49
-#| msgid "Move Rate"
 msgid "Move Cost"
 msgstr "Cost de Moviment"
 

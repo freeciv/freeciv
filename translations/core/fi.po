@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-03-31 03:45+0300\n"
+"POT-Creation-Date: 2023-04-07 14:34+0300\n"
 "PO-Revision-Date: 2023-04-01 05:02+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -4944,7 +4944,7 @@ msgid "Game Settings"
 msgstr "Pelin asetukset"
 
 #: client/gui-gtk-2.0/menu.c:208 client/gui-gtk-3.0/menu.c:706
-#: client/gui-gtk-3.22/menu.c:705 client/gui-qt/menu.cpp:3656
+#: client/gui-gtk-3.22/menu.c:705 client/gui-qt/menu.cpp:3655
 msgid "Leaving a local game will end it!"
 msgstr "Jos lähdet paikallispelistä, peli päättyy!"
 
@@ -6264,7 +6264,7 @@ msgid "Save _Map Images:"
 msgstr "Tallenna karttakuvat:"
 
 #: client/gui-gtk-2.0/pages.c:3426 client/gui-gtk-3.0/pages.c:3560
-#: client/gui-gtk-3.22/pages.c:3558 client/gui-qt/menu.cpp:3607
+#: client/gui-gtk-3.22/pages.c:3558 client/gui-qt/menu.cpp:3606
 msgid "Error"
 msgstr "Virhe"
 
@@ -6954,7 +6954,7 @@ msgstr "Muokkaa"
 
 #: client/gui-gtk-3.0/citydlg.c:2975 client/gui-gtk-3.22/citydlg.c:3007
 #: client/gui-qt/citydlg.cpp:1326 client/gui-qt/menu.cpp:1391
-#: client/gui-qt/menu.cpp:2333
+#: client/gui-qt/menu.cpp:2332
 msgid "Clean Pollution"
 msgstr "Siivoa saasteita"
 
@@ -8163,7 +8163,7 @@ msgstr "Tallenna asetukset nyt"
 msgid "Save Options on Exit"
 msgstr "Tallenna asetukset lopetettaessa"
 
-#: client/gui-qt/menu.cpp:1056 client/gui-qt/menu.cpp:3637
+#: client/gui-qt/menu.cpp:1056 client/gui-qt/menu.cpp:3636
 msgid "Save Game As..."
 msgstr "Tallenna peli nimellä..."
 
@@ -8334,7 +8334,7 @@ msgstr "Toimi..."
 msgid "Work"
 msgstr "Työt"
 
-#: client/gui-qt/menu.cpp:1349 client/gui-qt/menu.cpp:2372
+#: client/gui-qt/menu.cpp:1349 client/gui-qt/menu.cpp:2371
 #: client/gui-sdl2/menu.c:621
 msgid "Auto Settler"
 msgstr "Automatisoi uudisraivaaja"
@@ -8347,13 +8347,13 @@ msgstr "Rakenna tie"
 msgid "Build Path"
 msgstr "Rakenna kulkureitti"
 
-#: client/gui-qt/menu.cpp:1362 client/gui-qt/menu.cpp:2232
-#: client/gui-qt/menu.cpp:2235 client/gui-qt/shortcuts.cpp:120
+#: client/gui-qt/menu.cpp:1362 client/gui-qt/menu.cpp:2231
+#: client/gui-qt/menu.cpp:2234 client/gui-qt/shortcuts.cpp:120
 msgid "Build Irrigation"
 msgstr "Rakenna kasteluverkosto"
 
-#: client/gui-qt/menu.cpp:1367 client/gui-qt/menu.cpp:2188
-#: client/gui-qt/menu.cpp:2191 client/gui-qt/shortcuts.cpp:118
+#: client/gui-qt/menu.cpp:1367 client/gui-qt/menu.cpp:2187
+#: client/gui-qt/menu.cpp:2190 client/gui-qt/shortcuts.cpp:118
 msgid "Build Mine"
 msgstr "Louhi kaivos"
 
@@ -8369,7 +8369,7 @@ msgstr "Mene rautatietä rakentaen"
 msgid "Connect With Irrigation"
 msgstr "Mene kasteluverkostoa rakentaen"
 
-#: client/gui-qt/menu.cpp:1386 client/gui-qt/menu.cpp:2259
+#: client/gui-qt/menu.cpp:1386 client/gui-qt/menu.cpp:2258
 msgid "Transform Terrain"
 msgstr "Muokkaa maastoa"
 
@@ -8518,53 +8518,53 @@ msgid "Endgame report"
 msgstr "Pelin loppuraportti"
 
 #. TRANS: Transform terrain to specific type
-#: client/gui-qt/menu.cpp:2165 client/gui-qt/menu.cpp:2209
-#: client/gui-qt/menu.cpp:2255
+#: client/gui-qt/menu.cpp:2164 client/gui-qt/menu.cpp:2208
+#: client/gui-qt/menu.cpp:2254
 msgid "Transform to %1"
 msgstr "Muokkaa tästä %1"
 
 #. TRANS: Build mine of specific type
 #. TRANS: Build irrigation of specific type
 #. TRANS: Build road of specific type
-#: client/gui-qt/menu.cpp:2184 client/gui-qt/menu.cpp:2228
-#: client/gui-qt/menu.cpp:2298
+#: client/gui-qt/menu.cpp:2183 client/gui-qt/menu.cpp:2227
+#: client/gui-qt/menu.cpp:2297
 msgid "Build %1"
 msgstr "Rakenna %1"
 
-#: client/gui-qt/menu.cpp:2374
+#: client/gui-qt/menu.cpp:2373
 msgid "Auto Worker"
 msgstr "Työstä maastoa itsenäisesti"
 
-#: client/gui-qt/menu.cpp:2837
+#: client/gui-qt/menu.cpp:2836
 msgid "Didn't find any trade route to establish"
 msgstr "Ei löytynyt kauppareittiä perustettavaksi"
 
-#: client/gui-qt/menu.cpp:3412
+#: client/gui-qt/menu.cpp:3411
 msgid "Available tilesets"
 msgstr "Saatavilla olevat kuvitukset"
 
-#: client/gui-qt/menu.cpp:3414
+#: client/gui-qt/menu.cpp:3413
 msgid "Some tilesets might not be compatible with current map topology!"
 msgstr ""
 "Jotkin kuvitukset eivät ehkä ole yhteensopivia kartan topologian kanssa!"
 
-#: client/gui-qt/menu.cpp:3605
+#: client/gui-qt/menu.cpp:3604
 msgid "Success"
 msgstr "Onnistui"
 
-#: client/gui-qt/menu.cpp:3607
+#: client/gui-qt/menu.cpp:3606
 msgid "Failed to save image of the map"
 msgstr "Karttakuvan tallentaminen epäonnistui"
 
-#: client/gui-qt/menu.cpp:3634
+#: client/gui-qt/menu.cpp:3633
 msgid "Save Games"
 msgstr "Tallennetut pelit"
 
-#: client/gui-qt/menu.cpp:3686
+#: client/gui-qt/menu.cpp:3685
 msgid "Selection will cancel current assignments!"
 msgstr "Valitseminen peruu yksiköiden valitut työt!"
 
-#: client/gui-qt/menu.cpp:3687
+#: client/gui-qt/menu.cpp:3686
 msgid "Confirm Disruptive Selection"
 msgstr "Vahvista valitseminen haittoineen"
 
@@ -14280,7 +14280,8 @@ msgstr ""
 #: client/options.c:5237 client/options.c:5267 client/options.c:5283
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
-msgstr "Asetustiedostoa '%s' ei löytynyt, joten ladataan asetukset tiedostosta '%s'."
+msgstr ""
+"Asetustiedostoa '%s' ei löytynyt, joten ladataan asetukset tiedostosta '%s'."
 
 #: client/options.c:5252
 msgid "Cannot find your home directory"

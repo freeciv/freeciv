@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-03-31 10:02+0500\n"
+"POT-Creation-Date: 2023-04-07 14:34+0300\n"
 "PO-Revision-Date: 2023-03-24 07:45+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -4996,7 +4996,7 @@ msgid "Game Settings"
 msgstr "Параметры игры"
 
 #: client/gui-gtk-2.0/menu.c:208 client/gui-gtk-3.0/menu.c:706
-#: client/gui-gtk-3.22/menu.c:705 client/gui-qt/menu.cpp:3656
+#: client/gui-gtk-3.22/menu.c:705 client/gui-qt/menu.cpp:3655
 msgid "Leaving a local game will end it!"
 msgstr "Выход из локальной игры завершит её!"
 
@@ -6306,7 +6306,7 @@ msgid "Save _Map Images:"
 msgstr "(_M) Сохранить карты:"
 
 #: client/gui-gtk-2.0/pages.c:3426 client/gui-gtk-3.0/pages.c:3560
-#: client/gui-gtk-3.22/pages.c:3558 client/gui-qt/menu.cpp:3607
+#: client/gui-gtk-3.22/pages.c:3558 client/gui-qt/menu.cpp:3606
 msgid "Error"
 msgstr "Ошибка"
 
@@ -6999,7 +6999,7 @@ msgstr "Преобразовать"
 
 #: client/gui-gtk-3.0/citydlg.c:2975 client/gui-gtk-3.22/citydlg.c:3007
 #: client/gui-qt/citydlg.cpp:1326 client/gui-qt/menu.cpp:1391
-#: client/gui-qt/menu.cpp:2333
+#: client/gui-qt/menu.cpp:2332
 msgid "Clean Pollution"
 msgstr "Очистить загрязнение"
 
@@ -8213,7 +8213,7 @@ msgstr "Сохранить параметры"
 msgid "Save Options on Exit"
 msgstr "Сохранять параметры при выходе"
 
-#: client/gui-qt/menu.cpp:1056 client/gui-qt/menu.cpp:3637
+#: client/gui-qt/menu.cpp:1056 client/gui-qt/menu.cpp:3636
 msgid "Save Game As..."
 msgstr "Сохранить игру как..."
 
@@ -8384,7 +8384,7 @@ msgstr "Действие..."
 msgid "Work"
 msgstr "Задания"
 
-#: client/gui-qt/menu.cpp:1349 client/gui-qt/menu.cpp:2372
+#: client/gui-qt/menu.cpp:1349 client/gui-qt/menu.cpp:2371
 #: client/gui-sdl2/menu.c:621
 msgid "Auto Settler"
 msgstr "Авто-колонисты"
@@ -8397,13 +8397,13 @@ msgstr "Построить дорогу"
 msgid "Build Path"
 msgstr "Построить путь"
 
-#: client/gui-qt/menu.cpp:1362 client/gui-qt/menu.cpp:2232
-#: client/gui-qt/menu.cpp:2235 client/gui-qt/shortcuts.cpp:120
+#: client/gui-qt/menu.cpp:1362 client/gui-qt/menu.cpp:2231
+#: client/gui-qt/menu.cpp:2234 client/gui-qt/shortcuts.cpp:120
 msgid "Build Irrigation"
 msgstr "Построить орошение"
 
-#: client/gui-qt/menu.cpp:1367 client/gui-qt/menu.cpp:2188
-#: client/gui-qt/menu.cpp:2191 client/gui-qt/shortcuts.cpp:118
+#: client/gui-qt/menu.cpp:1367 client/gui-qt/menu.cpp:2187
+#: client/gui-qt/menu.cpp:2190 client/gui-qt/shortcuts.cpp:118
 msgid "Build Mine"
 msgstr "Построить шахту"
 
@@ -8419,7 +8419,7 @@ msgstr "Соединить рельсами"
 msgid "Connect With Irrigation"
 msgstr "Соединить орошением"
 
-#: client/gui-qt/menu.cpp:1386 client/gui-qt/menu.cpp:2259
+#: client/gui-qt/menu.cpp:1386 client/gui-qt/menu.cpp:2258
 msgid "Transform Terrain"
 msgstr "Преобразовать рельеф"
 
@@ -8568,53 +8568,53 @@ msgid "Endgame report"
 msgstr "Отчёт об игре"
 
 #. TRANS: Transform terrain to specific type
-#: client/gui-qt/menu.cpp:2165 client/gui-qt/menu.cpp:2209
-#: client/gui-qt/menu.cpp:2255
+#: client/gui-qt/menu.cpp:2164 client/gui-qt/menu.cpp:2208
+#: client/gui-qt/menu.cpp:2254
 msgid "Transform to %1"
 msgstr "Преобразовать в %1"
 
 #. TRANS: Build mine of specific type
 #. TRANS: Build irrigation of specific type
 #. TRANS: Build road of specific type
-#: client/gui-qt/menu.cpp:2184 client/gui-qt/menu.cpp:2228
-#: client/gui-qt/menu.cpp:2298
+#: client/gui-qt/menu.cpp:2183 client/gui-qt/menu.cpp:2227
+#: client/gui-qt/menu.cpp:2297
 msgid "Build %1"
 msgstr "Построить %1"
 
-#: client/gui-qt/menu.cpp:2374
+#: client/gui-qt/menu.cpp:2373
 msgid "Auto Worker"
 msgstr "Авто-рабочий"
 
-#: client/gui-qt/menu.cpp:2837
+#: client/gui-qt/menu.cpp:2836
 msgid "Didn't find any trade route to establish"
 msgstr "Невозможно установить торговый маршрут"
 
-#: client/gui-qt/menu.cpp:3412
+#: client/gui-qt/menu.cpp:3411
 msgid "Available tilesets"
 msgstr "Доступные наборы графики"
 
-#: client/gui-qt/menu.cpp:3414
+#: client/gui-qt/menu.cpp:3413
 msgid "Some tilesets might not be compatible with current map topology!"
 msgstr ""
 "Некоторые наборы графики могут быть несовместимы с текущей топологией карты!"
 
-#: client/gui-qt/menu.cpp:3605
+#: client/gui-qt/menu.cpp:3604
 msgid "Success"
 msgstr "Успех"
 
-#: client/gui-qt/menu.cpp:3607
+#: client/gui-qt/menu.cpp:3606
 msgid "Failed to save image of the map"
 msgstr "Ошибка сохранения изображения карты"
 
-#: client/gui-qt/menu.cpp:3634
+#: client/gui-qt/menu.cpp:3633
 msgid "Save Games"
 msgstr "Сохранённые игры"
 
-#: client/gui-qt/menu.cpp:3686
+#: client/gui-qt/menu.cpp:3685
 msgid "Selection will cancel current assignments!"
 msgstr "Сделанный выбор отменит текущие параметры!"
 
-#: client/gui-qt/menu.cpp:3687
+#: client/gui-qt/menu.cpp:3686
 msgid "Confirm Disruptive Selection"
 msgstr "Подтвердите Разрушительный Выбор"
 
