@@ -20,7 +20,11 @@ echo "#ifndef VERSION_STRING"                       >> $1
 echo "#define VERSION_STRING \"$VERSION_STRING\""   >> $1
 echo "#endif"                                       >> $1
 echo ""                                             >> $1
-echo "#define NETWORK_CAPSTRING \"$NETWORK_CAPSTRING\"" >> $1
+echo "#ifdef FREECIV_DEBUG"                         >> $1
+echo "#define NETWORK_CAPSTRING \"${NETWORK_CAPSTRING} debug\"" >> "$1"
+echo "#else"                                                    >> "$1"
+echo "#define NETWORK_CAPSTRING \"${NETWORK_CAPSTRING}\""       >> "$1"
+echo "#endif /* FREECIV_DEBUG */"                               >> "$1"
 echo ""                                             >> $1
 echo "#ifndef FOLLOWTAG"                            >> $1
 echo "#define FOLLOWTAG \"$DEFAULT_FOLLOW_TAG\""    >> $1
