@@ -623,32 +623,30 @@ def make_undef(file):
 def main():
     target_name=sys.argv[1]
 
-    output=open(target_name,"w")
+    with open(target_name, "w") as output:
 
-    make_header(output)
-    make_documentation(output)
-    make_macros(output)
-    make_enum(output)
-    make_is_bitwise(output)
-    make_min(output)
-    make_max(output)
-    make_is_valid(output)
-    make_invalid(output)
-    make_begin(output)
-    make_end(output)
-    make_next(output)
-    make_name(output)
-    make_by_name(output)
-    make_translated_name(output)
-    make_bitvector(output)
-    make_undef(output)
+        make_header(output)
+        make_documentation(output)
+        make_macros(output)
+        make_enum(output)
+        make_is_bitwise(output)
+        make_min(output)
+        make_max(output)
+        make_is_valid(output)
+        make_invalid(output)
+        make_begin(output)
+        make_end(output)
+        make_next(output)
+        make_name(output)
+        make_by_name(output)
+        make_translated_name(output)
+        make_bitvector(output)
+        make_undef(output)
 
-    output.write('''
+        output.write('''
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 ''')
-
-    output.close()
 
 main()
