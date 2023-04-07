@@ -137,8 +137,6 @@ static GMenu *impr_select_menu;
 static GMenu *wndr_select_menu;
 
 #ifdef MENUS_GTK3
-static GtkWidget *select_island_item;
-
 static GtkWidget *select_supported_item;
 static GtkWidget *select_present_item;
 static GtkWidget *select_built_improvements_item;
@@ -1312,11 +1310,12 @@ static void city_invert_selection_callback(GSimpleAction *action,
   }
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   User has chosen to select coastal cities
 ****************************************************************************/
-static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
+static void city_select_coastal_callback(GSimpleAction *action,
+                                         GVariant *parameter,
+                                         gpointer data)
 {
   ITree it;
   GtkTreeModel *model = GTK_TREE_MODEL(city_model);
@@ -1359,11 +1358,13 @@ static void same_island_iterate(GtkTreeModel *model, GtkTreePath *path,
 /************************************************************************//**
   User has chosen to select all cities on same island
 ****************************************************************************/
-static void city_select_same_island_callback(GtkMenuItem *item, gpointer data)
+static void city_select_island_callback(GSimpleAction *action,
+                                        GVariant *parameter,
+                                        gpointer data)
 {
-  gtk_tree_selection_selected_foreach(city_selection,same_island_iterate,NULL);
+  gtk_tree_selection_selected_foreach(city_selection,
+                                      same_island_iterate, NULL);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   User has chosen to select cities with certain target in production
@@ -1784,22 +1785,21 @@ static GMenu *create_select_menu(GActionGroup *group)
   fc_snprintf(buf, sizeof(buf), _("Building %s"), _("Wonder"));
   submenu_append_unref(select_menu, buf, G_MENU_MODEL(wndr_select_menu));
 
+  act = g_simple_action_new("select_coastal", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_select_coastal_callback),
+                   NULL);
+  menu_item_append_unref(select_menu, g_menu_item_new(_("Coastal Cities"),
+                                                      "win.select_coastal"));
+
+  act = g_simple_action_new("select_island", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_select_island_callback),
+                   NULL);
+  menu_item_append_unref(select_menu, g_menu_item_new(_("Same Island"),
+                                                      "win.select_island"));
+
 #if 0
-  item = gtk_menu_item_new_with_label(_("Coastal Cities"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-		   G_CALLBACK(city_select_coastal_callback), NULL);
-
-  select_island_item = gtk_menu_item_new_with_label(_("Same Island"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_island_item);
-  g_signal_connect(select_island_item, "activate",
-		   G_CALLBACK(city_select_same_island_callback), NULL);
-
-
-  item = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-
   select_supported_item = gtk_menu_item_new_with_label(_("Supported Units"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_supported_item);
 
