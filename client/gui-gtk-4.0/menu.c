@@ -87,9 +87,6 @@ static void menu_entry_set_active(const char *key,
 static void view_menu_update_sensitivity(void);
 #endif /* MENUS_GTK3 */
 
-static void setup_app_actions(GApplication *fc_app);
-static GMenuItem *create_toggle_menu_item_for_key(const char *key);
-
 enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
                            MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
 
@@ -111,6 +108,11 @@ struct menu_entry_info {
   bool state; /* Only for toggle actions */
 };
 
+static void setup_app_actions(GApplication *fc_app);
+static GMenuItem *create_toggle_menu_item(struct menu_entry_info *info);
+static GMenuItem *create_toggle_menu_item_for_key(const char *key);
+
+/* Menu entry callbacks */
 static void clear_chat_logs_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
@@ -353,9 +355,11 @@ static void show_fog_of_war_callback(GSimpleAction *action,
 
 #ifdef MENUS_GTK3
 static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
-static void toggle_fog_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void toggle_fog_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
 static void scenario_properties_callback(GSimpleAction *action,
                                          GVariant *parameter,
                                          gpointer data);
@@ -595,6 +599,9 @@ static struct menu_entry_info menu_entries[] =
   { "EDIT_MODE", N_("_Editing Mode"),
     "edit_mode", "<ctrl>e", MGROUP_SAFE,
     edit_mode_callback, FALSE },
+  { "TOGGLE_FOG", N_("Toggle Fog of _War"),
+    "toggle_fog", "<ctrl><shift>w", MGROUP_EDIT,
+    toggle_fog_callback, FALSE },
   { "SCENARIO_PROPERTIES", N_("Game/Scenario Properties"),
     "scenario_props", NULL, MGROUP_EDIT,
     NULL, FALSE },
@@ -1001,9 +1008,6 @@ static struct menu_entry_info menu_entries[] =
 
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
-  { "TOGGLE_FOG", N_("Toggle Fog of _War"), GDK_KEY_w,
-    GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-    G_CALLBACK(toggle_fog_callback), MGROUP_EDIT },
 #endif /* MENUS_GTK3 */
 
   { NULL }
@@ -1232,7 +1236,7 @@ static void save_options_on_exit_callback(GSimpleAction *action,
   g_menu_remove(options_menu, 4);
 
   menu_item_insert_unref(options_menu, 4,
-                         create_toggle_menu_item_for_key("SAVE_OPTIONS_ON_EXIT"));
+                         create_toggle_menu_item(info));
 }
 
 #ifdef MENUS_GTK3
@@ -1710,6 +1714,7 @@ const struct menu_entry_option_map meoms[] = {
   { "SAVE_OPTIONS_ON_EXIT", &gui_options.save_options_on_exit, -1 },
   { "FULL_SCREEN", &(GUI_GTK_OPTION(fullscreen)), -1 },
   { "EDIT_MODE", &game.info.is_edit_mode, -1 },
+  { "TOGGLE_FOG", NULL, -1 },
   { "SHOW_CITY_OUTLINES", &gui_options.draw_city_outlines, VMENU_CITY_OUTLINES },
   { "SHOW_CITY_OUTPUT", &gui_options.draw_city_output, VMENU_CITY_OUTPUT },
   { "SHOW_MAP_GRID", &gui_options.draw_map_grid, VMENU_MAP_GRID },
@@ -2058,7 +2063,7 @@ static void full_screen_callback(GSimpleAction *action, GVariant *parameter,
   g_menu_remove(view_menu, VMENU_FULL_SCREEN);
 
   menu_item_insert_unref(view_menu, VMENU_FULL_SCREEN,
-                         create_toggle_menu_item_for_key("FULL_SCREEN"));
+                         create_toggle_menu_item(info));
 }
 
 #ifdef MENUS_GTK3
@@ -2069,15 +2074,26 @@ static void recalc_borders_callback(GtkMenuItem *item, gpointer data)
 {
   key_editor_recalculate_borders();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "TOGGLE_FOG" callback.
 ****************************************************************************/
-static void toggle_fog_callback(GtkMenuItem *item, gpointer data)
+static void toggle_fog_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1; /* We can only hope that client and server are in sync.
+                     * TODO: Make sure they are. */
   key_editor_toggle_fogofwar();
+
+  g_menu_remove(edit_menu, 5);
+
+  menu_item_insert_unref(edit_menu, 5,
+                         create_toggle_menu_item(info));
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SCENARIO_PROPERTIES" callback.
@@ -2922,7 +2938,11 @@ void menus_set_initial_toggle_values(void)
   for (i = 0; meoms[i].menu_entry != NULL; i++) {
     struct menu_entry_info *info = menu_entry_info_find(meoms[i].menu_entry);
 
-    info->state = *meoms[i].option;
+    if (meoms[i].option != NULL) {
+      info->state = *meoms[i].option;
+    } else {
+      info->state = FALSE; /* Best guess we have */
+    }
   }
 }
 
@@ -3036,6 +3056,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(edit_menu, "RALLY_DLG");
   menu_entry_init(edit_menu, "INFRA_DLG");
   menu_entry_init(edit_menu, "EDIT_MODE");
+  menu_entry_init(edit_menu, "TOGGLE_FOG");
   menu_entry_init(edit_menu, "SCENARIO_PROPERTIES");
   menu_entry_init(edit_menu, "SCENARIO_SAVE");
   menu_entry_init(edit_menu, "CLIENT_LUA_SCRIPT");
