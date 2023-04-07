@@ -10,6 +10,7 @@
 
 MAKEFILE_NAME=Makefile.autotools
 OUT_DIR=autotools/Output
+BUILD_DIR=autotools/build
 INST_DIR=autotools/install
 NSI_DIR=autotools/nsi
 
@@ -138,43 +139,43 @@ ruledit-installer-qt6:
 
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
 
 ci:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" ruledit-installer-qt6
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" ruledit-installer-qt6
 
-# configure Freeciv
+# Configure Freeciv
 
 configure-freeciv-common:
-	# create build directory
-	mkdir -p build-$(WINARCH)-$(GUI)
-	# configure
-	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(CLIENT) --with-followtag="windows-S3_2" --with-tinycthread --without-readline --disable-sys-lua --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) --with-cacert-path="./ssl/certs/ca-bundle.crt" $(EXTRA_CONFIG)
+	# Create build directory
+	mkdir -p $(BUILD_DIR)/$(WINARCH)-$(GUI)
+	# Configure
+	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); ../../../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(CLIENT) --with-followtag="windows-S3_2" --with-tinycthread --without-readline --disable-sys-lua --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) --with-cacert-path="./ssl/certs/ca-bundle.crt" $(EXTRA_CONFIG)
 
 configure-freeciv-ruledit-qt5:
-	# create build directory
-	mkdir -p build-$(WINARCH)-ruledit-qt5
-	# configure
-	cd build-$(WINARCH)-ruledit-qt5; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qtver=qt5 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
+	# Create build directory
+	mkdir -p $(BUILD_DIR)/$(WINARCH)-ruledit-qt5
+	# Configure
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-qt5; ../../../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qtver=qt5 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
 
 configure-freeciv-ruledit-qt6:
-	# create build directory
-	mkdir -p build-$(WINARCH)-ruledit-qt6
-	# configure
-	cd build-$(WINARCH)-ruledit-qt6; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qtver=qt6 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
+	# Create build directory
+	mkdir -p $(BUILD_DIR)/$(WINARCH)-ruledit-qt6
+	# Configure
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-qt6; ../../../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qtver=qt6 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
 
-# install Freeciv
+# Install Freeciv
 
 install-freeciv-common: clean-install-common configure-freeciv-common
 	# Make .gmo and langstat files. For the former, this needs to be before 'make install'
-	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
-	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
+	make -C $(BUILD_DIR)/$(WINARCH)-$(GUI)/translations/core update-po
+	make -C $(BUILD_DIR)/$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 	# Restore .po files modified by the above update-po, so that repository does not
-	# appear modified, in case of --enable-gitrev
+	# Without this, sources would appear modified, in case of --enable-gitrev
 	./cleanup_checkout.sh ../..
 	# Make install
-	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/$(INST_DIR)/$(WINARCH)-$(GUI) $(MAKE_PARAMS) install
+	make -C $(BUILD_DIR)/$(WINARCH)-$(GUI) DESTDIR=`pwd`/$(INST_DIR)/$(WINARCH)-$(GUI) $(MAKE_PARAMS) install
 	# Reorder directory layout
 	mv $(INST_DIR)/$(WINARCH)-$(GUI)/$(INSTSUB)/bin/* $(INST_DIR)/$(WINARCH)-$(GUI)/
 	mv $(INST_DIR)/$(WINARCH)-$(GUI)/$(INSTSUB)/etc $(INST_DIR)/$(WINARCH)-$(GUI)/
@@ -183,7 +184,7 @@ install-freeciv-common: clean-install-common configure-freeciv-common
 	mv $(INST_DIR)/$(WINARCH)-$(GUI)/$(INSTSUB)/share/locale $(INST_DIR)/$(WINARCH)-$(GUI)/share/
 	mv $(INST_DIR)/$(WINARCH)-$(GUI)/$(INSTSUB)/share/doc $(INST_DIR)/$(WINARCH)-$(GUI)/doc
 	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/debuginfo
-	cp build-$(WINARCH)-$(GUI)/gen_headers/fc_config.h $(INST_DIR)/$(WINARCH)-$(GUI)/debuginfo
+	cp $(BUILD_DIR)/$(WINARCH)-$(GUI)/gen_headers/fc_config.h $(INST_DIR)/$(WINARCH)-$(GUI)/debuginfo
 	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/doc/freeciv/installer
 	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-$(GUI)/doc/freeciv/installer/COPYING.installer
 	# Delete unneeded files
@@ -217,20 +218,20 @@ install-ruledit-dir-qt6:
 
 install-ruledit-qt5: configure-freeciv-ruledit-qt5 install-ruledit-dir-qt5
 	# Make .gmo and langstat files. For the former, this needs to be before 'make install'
-	make -C build-$(WINARCH)-ruledit-qt5/translations/ruledit update-po
-	make -C build-$(WINARCH)-ruledit-qt5/bootstrap langstat_ruledit.txt
+	make -C $(BUILD_DIR)/$(WINARCH)-ruledit-qt5/translations/ruledit update-po
+	make -C $(BUILD_DIR)/$(WINARCH)-ruledit-qt5/bootstrap langstat_ruledit.txt
 	# Restore .po files modified by the above update-po, so that repository does not
-	# appear modified, in case of --enable-gitrev
+	# Without this, sources would appear modified, in case of --enable-gitrev
 	./cleanup_checkout.sh ../..
 	# Make install
-	make -C build-$(WINARCH)-ruledit-qt5 DESTDIR=`pwd`/$(INST_DIR)/$(WINARCH)-ruledit-qt5/ $(MAKE_PARAMS) install
+	make -C $(BUILD_DIR)/$(WINARCH)-ruledit-qt5 DESTDIR=`pwd`/$(INST_DIR)/$(WINARCH)-ruledit-qt5/ $(MAKE_PARAMS) install
 	# Reorder directory layout
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt5/$(INSTSUB)/bin/* $(INST_DIR)/$(WINARCH)-ruledit-qt5/
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt5/$(INSTSUB)/share/freeciv $(INST_DIR)/$(WINARCH)-ruledit-qt5/data
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt5/$(INSTSUB)/share/locale $(INST_DIR)/$(WINARCH)-ruledit-qt5/share/
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt5/$(INSTSUB)/share/doc $(INST_DIR)/$(WINARCH)-ruledit-qt5/doc
 	mkdir -p $(INST_DIR)/$(WINARCH)-ruledit-qt5/debuginfo
-	cp build-$(WINARCH)-ruledit-qt5/gen_headers/fc_config.h $(INST_DIR)/$(WINARCH)-ruledit-qt5/debuginfo
+	cp $(BUILD_DIR)/$(WINARCH)-ruledit-qt5/gen_headers/fc_config.h $(INST_DIR)/$(WINARCH)-ruledit-qt5/debuginfo
 	mkdir -p $(INST_DIR)/$(WINARCH)-ruledit-qt5/doc/freeciv/installer
 	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-ruledit-qt5/doc/freeciv/installer/COPYING.installer
 	# Delete unneeded files
@@ -242,20 +243,20 @@ install-ruledit-qt5: configure-freeciv-ruledit-qt5 install-ruledit-dir-qt5
 
 install-ruledit-qt6: configure-freeciv-ruledit-qt6 install-ruledit-dir-qt6
 	# Make .gmo and langstat files. For the former, this needs to be before 'make install'
-	make -C build-$(WINARCH)-ruledit-qt6/translations/ruledit update-po
-	make -C build-$(WINARCH)-ruledit-qt6/bootstrap langstat_ruledit.txt
+	make -C $(BUILD_DIR)/$(WINARCH)-ruledit-qt6/translations/ruledit update-po
+	make -C $(BUILD_DIR)/$(WINARCH)-ruledit-qt6/bootstrap langstat_ruledit.txt
 	# Restore .po files modified by the above update-po, so that repository does not
-	# appear modified, in case of --enable-gitrev
+	# Without this, sources would appear modified, in case of --enable-gitrev
 	./cleanup_checkout.sh ../..
 	# Make install
-	make -C build-$(WINARCH)-ruledit-qt6 DESTDIR=`pwd`/$(INST_DIR)/$(WINARCH)-ruledit-qt6/ $(MAKE_PARAMS) install
+	make -C $(BUILD_DIR)/$(WINARCH)-ruledit-qt6 DESTDIR=`pwd`/$(INST_DIR)/$(WINARCH)-ruledit-qt6/ $(MAKE_PARAMS) install
 	# Reorder directory layout
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt6/$(INSTSUB)/bin/* $(INST_DIR)/$(WINARCH)-ruledit-qt6/
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt6/$(INSTSUB)/share/freeciv $(INST_DIR)/$(WINARCH)-ruledit-qt6/data
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt6/$(INSTSUB)/share/locale $(INST_DIR)/$(WINARCH)-ruledit-qt6/share/
 	mv $(INST_DIR)/$(WINARCH)-ruledit-qt6/$(INSTSUB)/share/doc $(INST_DIR)/$(WINARCH)-ruledit-qt6/doc
 	mkdir -p $(INST_DIR)/$(WINARCH)-ruledit-qt6/debuginfo
-	cp build-$(WINARCH)-ruledit-qt6/gen_headers/fc_config.h $(INST_DIR)/$(WINARCH)-ruledit-qt6/debuginfo
+	cp $(BUILD_DIR)/$(WINARCH)-ruledit-qt6/gen_headers/fc_config.h $(INST_DIR)/$(WINARCH)-ruledit-qt6/debuginfo
 	mkdir -p $(INST_DIR)/$(WINARCH)-ruledit-qt6/doc/freeciv/installer
 	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-ruledit-qt6/doc/freeciv/installer/COPYING.installer
 	# Delete unneeded files
@@ -644,13 +645,13 @@ wrap-ruledit-qt6: installer-ruledit-qt6
 # Cleanup
 
 clean-build-common:
-	rm -rf build-*-$(GUI)
+	rm -rf $(BUILD_DIR)/*-$(GUI)
 
 clean-build-ruledit-qt5:
-	rm -rf build-*-ruledit-qt5
+	rm -rf $(BUILD_DIR)/*-ruledit-qt5
 
 clean-build-ruledit-qt6:
-	rm -rf build-*-ruledit-qt6
+	rm -rf $(BUILD_DIR)/*-ruledit-qt6
 
 clean-install-common:
 	rm -rf $(INST_DIR)/*-$(GUI)
