@@ -13,7 +13,9 @@
 #ifndef FC__ADVCHOICE_H
 #define FC__ADVCHOICE_H
 
-/* Uncomment to have choice information tracked */
+/* Uncomment to have choice information tracking enabled.
+ * To get the tracking information logged from specific place,
+ * add call to adv_choice_log_info() there, or use adv_choice_get_use(). */
 /* #define ADV_CHOICE_TRACK */
 
 #ifdef ADV_CHOICE_TRACK
