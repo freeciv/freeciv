@@ -3574,6 +3574,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   names_set(&u->name, NULL, p->name, p->rule_name);
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
+  sz_strlcpy(u->graphic_alt2, p->graphic_alt2);
   sz_strlcpy(u->sound_move, p->sound_move);
   sz_strlcpy(u->sound_move_alt, p->sound_move_alt);
   sz_strlcpy(u->sound_fight, p->sound_fight);

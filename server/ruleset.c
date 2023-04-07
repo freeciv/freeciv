@@ -2234,6 +2234,9 @@ static bool load_ruleset_units(struct section_file *file,
       sz_strlcpy(u->graphic_alt,
                  secfile_lookup_str_default(file, "-", "%s.graphic_alt",
                                             sec_name));
+      sz_strlcpy(u->graphic_alt2,
+                 secfile_lookup_str_default(file, "-", "%s.graphic_alt2",
+                                            sec_name));
 
       if (!secfile_lookup_int(file, &u->build_cost,
                               "%s.build_cost", sec_name)
@@ -7922,6 +7925,7 @@ static void send_ruleset_units(struct conn_list *dest)
     sz_strlcpy(packet.sound_fight_alt, u->sound_fight_alt);
     sz_strlcpy(packet.graphic_str, u->graphic_str);
     sz_strlcpy(packet.graphic_alt, u->graphic_alt);
+    sz_strlcpy(packet.graphic_alt2, u->graphic_alt2);
     packet.unit_class_id = uclass_number(utype_class(u));
     packet.build_cost = u->build_cost;
     packet.pop_cost = u->pop_cost;

@@ -213,8 +213,9 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ; graphic       = tag specifying preferred graphic
 ; graphic_alt   = tag for alternate graphic if preferred graphic is not
 ;                 present; especially if preferred graphic is non-standard,
-;                 this should be a standard tag.  Otherwise can use eg "-"
+;                 this should be a standard tag. Otherwise can use eg "-"
 ;                 for no alternate graphic.
+; graphic_alt2  = tag for second alternative graphic.
 ; reqs          = requirements to build the unit (see effects.ruleset
 ;                 and README.effects for help on requirements)
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
