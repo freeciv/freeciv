@@ -2833,6 +2833,7 @@ endforeach
 
 gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22', required : false)
 gtk4_dep = dependency('gtk4', version : '>= 4.0.0', required : false)
+gtk5_dep = dependency('gtk4', version : '>= 4.8.0', required : false)
 
 if get_option('clients').contains('gtk3.22')
 
@@ -3010,6 +3011,74 @@ custom_target('mi_gtk4',
                         meson.project_build_root(), 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
+endif
+
+if get_option('clients').contains('gtk4x')
+
+if not gtk5_dep.found()
+  error('gtk-4.0 >= 4.8 required for gtk4x-client, but not found')
+endif
+
+executable('freeciv-gtk4x',
+  'client/gui-gtk-4.0/action_dialog.c',
+  'client/gui-gtk-4.0/canvas.c',
+  'client/gui-gtk-4.0/chatline.c',
+  'client/gui-gtk-4.0/choice_dialog.c',
+  'client/gui-gtk-4.0/citizensinfo.c',
+  'client/gui-gtk-4.0/citydlg.c',
+  'client/gui-gtk-4.0/cityrep.c',
+  'client/gui-gtk-4.0/cma_fe.c',
+  'client/gui-gtk-4.0/colors.c',
+  'client/gui-gtk-4.0/connectdlg.c',
+  'client/gui-gtk-4.0/dialogs.c',
+  'client/gui-gtk-4.0/diplodlg.c',
+  'client/gui-gtk-4.0/editgui.c',
+  'client/gui-gtk-4.0/editprop.c',
+  'client/gui-gtk-4.0/finddlg.c',
+  'client/gui-gtk-4.0/gamedlgs.c',
+  'client/gui-gtk-4.0/gotodlg.c',
+  'client/gui-gtk-4.0/graphics.c',
+  'client/gui-gtk-4.0/gui_main.c',
+  'client/gui-gtk-4.0/gui_stuff.c',
+  'client/gui-gtk-4.0/happiness.c',
+  'client/gui-gtk-4.0/helpdlg.c',
+  'client/gui-gtk-4.0/infradlg.c',
+  'client/gui-gtk-4.0/inputdlg.c',
+  'client/gui-gtk-4.0/inteldlg.c',
+  'client/gui-gtk-4.0/luaconsole.c',
+  'client/gui-gtk-4.0/mapctrl.c',
+  'client/gui-gtk-4.0/mapview.c',
+  'client/gui-gtk-4.0/menu.c',
+  'client/gui-gtk-4.0/messagedlg.c',
+  'client/gui-gtk-4.0/messagewin.c',
+  'client/gui-gtk-4.0/optiondlg.c',
+  'client/gui-gtk-4.0/pages.c',
+  'client/gui-gtk-4.0/plrdlg.c',
+  'client/gui-gtk-4.0/rallypointdlg.c',
+  'client/gui-gtk-4.0/repodlgs.c',
+  'client/gui-gtk-4.0/soundset_dlg.c',
+  'client/gui-gtk-4.0/spaceshipdlg.c',
+  'client/gui-gtk-4.0/sprite.c',
+  'client/gui-gtk-4.0/theme_dlg.c',
+  'client/gui-gtk-4.0/themes.c',
+  'client/gui-gtk-4.0/tileset_dlg.c',
+  'client/gui-gtk-4.0/transportdlg.c',
+  'client/gui-gtk-4.0/unitselect.c',
+  'client/gui-gtk-4.0/unitselextradlg.c',
+  'client/gui-gtk-4.0/unitselunitdlg.c',
+  'client/gui-gtk-4.0/voteinfo_bar.c',
+  'client/gui-gtk-4.0/wldlg.c',
+  clienticon,
+  c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_8',
+            '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_8',
+            '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66',
+            '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_66'],
+  include_directories: client_inc,
+  dependencies: [gtk5_dep, net_dep, gettext_dep],
+  link_with: client_common,
+  install: true
+  )
 
 endif
 
