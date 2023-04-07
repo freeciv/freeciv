@@ -1701,10 +1701,26 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   bool full;
   struct canvas *tmp;
 
-  canvas_x = MAX(canvas_x, 0);
-  canvas_y = MAX(canvas_y, 0);
-  width = MIN(mapview.store_width - canvas_x, width);
-  height = MIN(mapview.store_height - canvas_y, height);
+  if (canvas_x < 0) {
+    width += canvas_x;
+    canvas_x = 0;
+  } else if (canvas_x > mapview.store_width) {
+    width -= (canvas_x - mapview.store_width);
+    canvas_x = mapview.store_width;
+  }
+
+  if (canvas_y < 0) {
+    height += canvas_y;
+    canvas_y = 0;
+  } else if (canvas_y > mapview.store_height) {
+    height -= (canvas_y - mapview.store_height);
+    canvas_y = mapview.store_height;
+  }
+
+  if (width <= 0 || height <= 0) {
+    /* Area outside mapview */
+    return;
+  }
 
   gui_x0 = mapview.gui_x0 + canvas_x;
   gui_y0 = mapview.gui_y0 + canvas_y;
