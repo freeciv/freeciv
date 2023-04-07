@@ -1425,9 +1425,18 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0,
       }
     } else {
       unit_list_iterate(ptile->units, punit) {
-        if (!pplayers_allied(unit_owner(punit), pplayer)
-            && !unit_has_type_flag(punit, UTYF_NOZOC)) {
-          return FALSE;
+        if (srv) {
+          if (!unit_transported_server(punit)
+              && !pplayers_allied(unit_owner(punit), pplayer)
+              && !unit_has_type_flag(punit, UTYF_NOZOC)) {
+            return FALSE;
+          }
+        } else {
+          if (!unit_transported_client(punit)
+              && !pplayers_allied(unit_owner(punit), pplayer)
+              && !unit_has_type_flag(punit, UTYF_NOZOC)) {
+            return FALSE;
+          }
         }
       } unit_list_iterate_end;
     }
@@ -2297,12 +2306,11 @@ bool unit_transported(const struct unit *pcargo)
 
   /* The unit is transported if a transporter unit is set or, (for the client)
    * if the transported_by field is set. */
-  if (pcargo->transporter != NULL
-      || (!is_server() && pcargo->client.transported_by != -1)) {
-    return TRUE;
+  if (is_server()) {
+    return unit_transported_server(pcargo);
+  } else {
+    return unit_transported_client(pcargo);
   }
-
-  return FALSE;
 }
 
 /**********************************************************************//**

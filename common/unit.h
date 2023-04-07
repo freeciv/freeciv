@@ -498,6 +498,14 @@ bool unit_transport_load(struct unit *pcargo, struct unit *ptrans,
                          bool force);
 bool unit_transport_unload(struct unit *pcargo);
 struct unit *unit_transport_get(const struct unit *pcargo);
+
+#define unit_transported_server(_pcargo_) ((_pcargo_)->transporter != NULL)
+
+/* Evaluates parameter twice! */
+#define unit_transported_client(_pcargo_)  \
+  ((_pcargo_)->client.transported_by != -1 \
+   || (_pcargo_)->transporter != NULL)
+
 bool unit_transported(const struct unit *pcargo);
 struct unit_list *unit_transport_cargo(const struct unit *ptrans);
 bool unit_transport_check(const struct unit *pcargo,
