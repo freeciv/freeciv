@@ -9,7 +9,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.6 to 3.0.7
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.7>, 2023-04-04)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.7>, 2023-04-07)
 
 3.0.7 is a generic bugfix release.
 
@@ -39,7 +39,7 @@ Changes affecting players (supplied rulesets)
 Changes affecting other rulesets / modders
 
     * Fixed errors with techs that have Never as one of their requirement
-      osdn#46544 osdn#45115 osdn#47574
+      osdn#46544 osdn#45115 osdn#47574 osdn#47762
     * Improvements to ruleset sanity checking osdn#44613
     * Changing tile via lua scripting now triggers side-effects like
       bouncing units osdn#46425
@@ -84,7 +84,8 @@ Clients
     * qt
          + Corrected the way Irrigate and Mine related menu entries
            get renamed when there's multiple units on focus osdn#45805
-         + Added About Current Tileset entry to Help menu osdn#47638
+         + Added About Current Tileset entry to Help menu
+           osdn#47638 osdn#47758
 
     * sdl2
          + New -- --swrenderer command line option to force SW renderer
@@ -146,7 +147,7 @@ Build/portability
     * Made Windows builds to live a bit better together
       when co-installed osdn#46663
     * Support for building gtk4 modpack installer flatpak
-      osdn#47286 osdn#47372
+      osdn#47286 osdn#47372 osdn#47770
     * Fixed some clang analyzer warnings
       osdn#47346 osdn#47289 osdn#47452 osdn#47453 osdn#47465 osdn#47449
       osdn#47591 osdn#47678
