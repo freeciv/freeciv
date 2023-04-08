@@ -356,6 +356,15 @@ struct effect {
   bool ruledit_do_not_save;
 };
 
+/* A callback type that takes an individual effect and a context for it
+ * and tells its weighted (by probability or something) value.
+ */
+typedef double
+   (*eft_value_filter_cb)(const struct effect *eft,
+                          const struct req_context *context,
+                          const struct player *other_player,
+                          void *data, int n_data);
+
 /* An effect_list is a list of effects. */
 #define SPECLIST_TAG effect
 #define SPECLIST_TYPE struct effect
@@ -452,6 +461,12 @@ int get_target_bonus_effects(struct effect_list *plist,
                              const struct req_context *context,
                              const struct player *other_player,
                              enum effect_type effect_type);
+double get_effect_expected_value(const struct req_context *context,
+                                 const struct player *other_player,
+                                 enum effect_type effect_type,
+                                 eft_value_filter_cb weighter,
+                                 void *data, int n_data)
+fc__attribute((nonnull (4)));
 
 bool building_has_effect(const struct impr_type *pimprove,
 			 enum effect_type effect_type);
