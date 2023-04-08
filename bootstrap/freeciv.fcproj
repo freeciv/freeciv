@@ -15,3 +15,6 @@ META_URL https://meta.freeciv.org/metaserver.php
 
 # Default ports
 FREECIV_DEFAULT_PORT=5556
+
+# Uncomment if you want extended/testmatic logging
+# FREECIV_TESTMATIC=yes
