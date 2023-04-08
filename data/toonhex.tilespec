@@ -184,7 +184,7 @@ files =
   "hexemplio/water1.spec",
   "hexemplio/water2.spec",
   "hexemplio/water3.spec",
-  ;add XYZ and Elefant units
+  ; Add XYZ and Elefant units
   "cimpletoon/units/abrams/xxx.spec",
   "cimpletoon/units/assaultgun/xxx.spec",
   "cimpletoon/units/biplane/xxx.spec",

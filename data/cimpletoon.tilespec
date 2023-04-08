@@ -175,7 +175,7 @@ files =
   "misc/shields-large.spec",
   "misc/editor.spec",
   "misc/icons.spec",
-  ;add XYZ and Elefant units
+  ; Add XYZ and Elefant units
   "cimpletoon/units/abrams/xxx.spec",
   "cimpletoon/units/assaultgun/xxx.spec",
   "cimpletoon/units/biplane/xxx.spec",
