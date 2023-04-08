@@ -24,9 +24,11 @@
 float map_zoom = 1.0;
 bool zoom_enabled = FALSE;
 
-static float zoom_steps[] = {
+static float default_zoom_steps[] = {
   -1.0, 1.0, 2.0, -1.0
 };
+
+static float *zoom_steps = default_zoom_steps;
 
 static struct zoom_data
 {
@@ -60,6 +62,20 @@ void zoom_1_0(void)
 }
 
 /**********************************************************************//**
+  Set list of zoom steps that the system uses.
+  The list is not copied - caller is expected to maintain it.
+  First and last value must be -1.0
+**************************************************************************/
+void zoom_set_steps(float *steps)
+{
+  if (steps == NULL) {
+    zoom_steps = default_zoom_steps;
+  } else {
+    zoom_steps = steps;
+  }
+}
+
+/**********************************************************************//**
   Zoom level one step up
 **************************************************************************/
 void zoom_step_up(void)
@@ -71,7 +87,7 @@ void zoom_step_up(void)
   for (i = 1 ;
        zoom_steps[i] < map_zoom * 1.05 && zoom_steps[i] > 0.0 ;
        i++ ) {
-    /* empty */
+    /* Empty */
   }
 
   if (zoom_steps[i] > 0.0) {
@@ -92,11 +108,13 @@ void zoom_step_down(void)
 
   /* Even if above previous step, close enough is considered to be in
    * previous step so that change is not miniscule */
-  for (i = ARRAY_SIZE(zoom_steps) - 2 ;
-       zoom_steps[i] * 1.05 > map_zoom && zoom_steps[i] > 0.0 ;
-       i-- ) {
-    /* empty */
+  for (i = 1;
+       zoom_steps[i] < map_zoom * 1.05 && zoom_steps[i] > 0.0 ;
+       i++) {
   }
+
+  /* Get back, and below */
+  i = MAX(i - 2, 1);
 
   if (zoom_steps[i] > 0.0) {
     if (zoom_steps[i] > 0.99 && zoom_steps[i] < 1.01) {
