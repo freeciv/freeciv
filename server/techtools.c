@@ -1232,16 +1232,16 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
     } advance_index_iterate_end;
   
     if (j == 0)  {
-      /* we've moved on to future tech */
+      /* We've moved on to future tech */
       if (vresearch->future_tech > presearch->future_tech) {
         stolen_tech = A_FUTURE;
       } else {
         return A_NONE;
       }
     } else {
-      /* pick random tech */
+      /* Pick random tech */
       j = fc_rand(j) + 1;
-      stolen_tech = A_NONE; /* avoid compiler warning */
+      stolen_tech = A_NONE; /* Avoid compiler warning */
       advance_index_iterate(A_FIRST, i) {
         if (research_invention_gettable(presearch, i,
                                         game.info.tech_steal_allow_holes)

@@ -1990,17 +1990,32 @@ static void wipe_unit_full(struct unit *punit, bool transported,
     int ransom = fc_rand(1 + pplayer->economic.gold);
     int n;
 
-    /* give map */
-    give_distorted_map(pplayer, killer, 50, TRUE);
+    /* Give map */
+    if (give_distorted_map(pplayer, killer, 50, TRUE)) {
+      notify_player(killer, NULL, E_HUT_MAP,
+                    ftc_server,
+                    _("You looted parts of %s map!"),
+                    nation_adjective_for_player(pplayer));
+    }
 
     log_debug("victim has money: %d", pplayer->economic.gold);
+
+    if (ransom > 0) {
+    notify_player(killer, NULL, E_HUT_GOLD,
+                  ftc_server,
+                  PL_("You loot %d gold!", "You loot %d gold!", ransom),
+                  ransom);
+    }
     killer->economic.gold += ransom;
     pplayer->economic.gold -= ransom;
 
     n = 1 + fc_rand(3);
 
     while (n > 0) {
-      Tech_type_id ttid = steal_a_tech(killer, pplayer, A_UNSET);
+      Tech_type_id ttid;
+
+      /* steal_a_tech() handles also notifying of the player */
+      ttid = steal_a_tech(killer, pplayer, A_UNSET);
 
       if (ttid == A_NONE) {
         log_debug("Worthless enemy doesn't have more techs to steal.");
@@ -2009,13 +2024,13 @@ static void wipe_unit_full(struct unit *punit, bool transported,
         log_debug("Pressed tech %s from captured enemy",
                   research_advance_rule_name(research_get(killer), ttid));
         if (!fc_rand(3)) {
-          break; /* out of luck */
+          break; /* Out of luck */
         }
         n--;
       }
     }
 
-    { /* try to submit some cities */
+    { /* Try to submit some cities */
       int vcsize = city_list_size(pplayer->cities);
       int evcsize = vcsize;
       int conqsize = evcsize;
@@ -2025,7 +2040,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
       } else {
         evcsize -=3;
       }
-      /* about a quarter on average with high numbers less probable */
+      /* About a quarter on average with high numbers less probable */
       conqsize = fc_rand(fc_rand(evcsize));
 
       log_debug("conqsize=%d", conqsize);
@@ -2034,10 +2049,10 @@ static void wipe_unit_full(struct unit *punit, bool transported,
         bool palace = game.server.savepalace;
         bool submit = FALSE;
 
-        game.server.savepalace = FALSE; /* moving it around is dumb */
+        game.server.savepalace = FALSE; /* Moving it around is dumb */
 
         city_list_iterate_safe(pplayer->cities, pcity) {
-          /* kindly ask the citizens to submit */
+          /* Kindly ask the citizens to submit */
           if (fc_rand(vcsize) < conqsize) {
             submit = TRUE;
           }
@@ -2049,6 +2064,12 @@ static void wipe_unit_full(struct unit *punit, bool transported,
              * give verbose messages of every unit transferred,
              * and raze buildings according to raze chance
              * (also removes palace) */
+            notify_player(killer, city_tile(pcity), E_UNIT_WIN_ATT,
+                          ftc_server,
+                          /* TRANS: Getting a city as loot */
+                          _("You conquer %s as loot!"),
+                          city_link(pcity));
+
             (void) transfer_city(killer, pcity, 7, TRUE, TRUE, TRUE,
                                  !is_barbarian(killer));
             submit = FALSE;
