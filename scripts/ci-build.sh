@@ -75,6 +75,7 @@ cd build
  --enable-fcmp=gtk3,gtk4,qt,cli \
  --enable-fcdb=sqlite3,mysql,postgres,odbc \
  --enable-freeciv-manual \
+ --with-followtag="macos" \
  --prefix=${HOME}/freeciv/mac-at \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
@@ -104,6 +105,7 @@ meson setup .. \
   -Dsyslua=true \
   -Dclients=gtk3.22,sdl2,gtk4,qt,stub \
   -Dfcmp=gtk3,gtk4,qt,cli \
+  -Dfollowtag=macos \
   -Dprefix=${HOME}/freeciv/mac-meson \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
