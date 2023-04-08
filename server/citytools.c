@@ -106,31 +106,31 @@ static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
                                          bool source_gone);
 
 /************************************************************************//**
-  Freeze the workers (citizens on tiles) for the city.  They will not be
-  auto-arranged until unfreeze_workers is called.
+  Freeze the workers (citizens on tiles) for the city. They will not be
+  auto-arranged until unfreeze_workers() is called.
 
   Long explanation:
 
   Historically auto_arrange_workers was called every time a city changed.
   If the city grew or shrunk, a new tile became available or was removed,
-  the function would be called.  However in at least one place this breaks.
-  In some operations (like transfer_city) multiple things may change and
-  the city is not left in a sane state in between.  Calling
-  auto_arrange_workers after each change means it's called with an "insane"
-  city.  This can lead at best to a failed sanity check with a wasted call,
-  or at worse to a more major bug.  The solution is freeze_workers and
-  thaw_workers.
+  the function would be called. However in at least one place this breaks.
+  In some operations (like transfer_city() ) multiple things may change and
+  the city is not left in a sane state in between. Calling
+  auto_arrange_workers() after each change means it's called with an "insane"
+  city. This can lead at best to a failed sanity check with a wasted call,
+  or at worse to a more major bug. The solution is freeze_workers() and
+  thaw_workers()
 
-  Call freeze_workers to freeze the auto-arranging of citizens.  So long as
-  the freeze is in place no arrangement will be done for this city.  Any
-  call to auto_arrange_workers will just queue up an arrangement for later.
+  Call freeze_workers() to freeze the auto-arranging of citizens. So long as
+  the freeze is in place no arrangement will be done for this city. Any
+  call to auto_arrange_workers() will just queue up an arrangement for later.
   Later when thaw_workers is called, the freeze is removed and the
   auto-arrange will be done if there is any arrangement pending.
 
   Freezing may safely be done more than once.
 
   It is thus always safe to call freeze and thaw around any set of city
-  actions.  However this is unlikely to be needed in very many places.
+  actions. However this is unlikely to be needed in very many places.
 ****************************************************************************/
 void city_freeze_workers(struct city *pcity)
 {

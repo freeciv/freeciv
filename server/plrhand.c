@@ -403,22 +403,39 @@ void government_change(struct player *pplayer, struct government *gov,
 /**********************************************************************//**
   pvictor gets parts of treasury, map and cities of pvictim.
   Normally happens when pvictim's gameloss unit is killed.
-  FIXME: any control over types of the loot?
+  FIXME: Any control over types of the loot?
+  TODO:  Proper event types (likely needs a new one).
+         For now ones related to Huts (similar loot) used.
 **************************************************************************/
 void player_loot_player(struct player *pvictor, struct player *pvictim)
 {
   int ransom = fc_rand(1 + pvictim->economic.gold);
   int n = 1 + fc_rand(3);
 
-  /* give map */
-  give_distorted_map(pvictim, pvictor, 50, TRUE);
+  /* Give map */
+  if (give_distorted_map(pvictim, pvictor, 50, TRUE)) {
+    notify_player(pvictor, NULL, E_HUT_MAP,
+                  ftc_server,
+                  _("You looted parts of %s map!"),
+                  nation_adjective_for_player(pvictim));
+  }
 
   log_debug("victim has money: %d", pvictim->economic.gold);
+
+  if (ransom > 0) {
+    notify_player(pvictor, NULL, E_HUT_GOLD,
+                  ftc_server,
+                  PL_("You loot %d gold!", "You loot %d gold!", ransom),
+                  ransom);
+  }
   pvictor->economic.gold += ransom;
   pvictim->economic.gold -= ransom;
 
   while (n > 0) {
-    Tech_type_id ttid = steal_a_tech(pvictor, pvictim, A_UNSET);
+    Tech_type_id ttid;
+
+    /* steal_a_tech() handles also notifying of the player */
+    ttid = steal_a_tech(pvictor, pvictim, A_UNSET);
 
     if (ttid == A_NONE) {
       log_debug("Worthless enemy doesn't have more techs to steal.");
@@ -427,13 +444,13 @@ void player_loot_player(struct player *pvictor, struct player *pvictim)
       log_debug("Pressed tech %s from captured enemy",
                 research_advance_rule_name(research_get(pvictor), ttid));
       if (!fc_rand(3)) {
-        break; /* out of luck */
+        break; /* Out of luck */
       }
       n--;
     }
   }
 
-  { /* try to submit some cities */
+  { /* Try to submit some cities */
     int vcsize = city_list_size(pvictim->cities);
     int evcsize = vcsize;
     int conqsize = evcsize;
@@ -443,7 +460,7 @@ void player_loot_player(struct player *pvictor, struct player *pvictim)
     } else {
       evcsize -=3;
     }
-    /* about a quarter on average with high numbers less probable */
+    /* About a quarter on average with high numbers less probable */
     conqsize = fc_rand(fc_rand(evcsize));
 
     log_debug("conqsize=%d", conqsize);
@@ -452,10 +469,10 @@ void player_loot_player(struct player *pvictor, struct player *pvictim)
       bool palace = game.server.savepalace;
       bool submit = FALSE;
 
-      game.server.savepalace = FALSE; /* moving it around is dumb */
+      game.server.savepalace = FALSE; /* Moving it around is dumb */
 
       city_list_iterate_safe(pvictim->cities, pcity) {
-        /* kindly ask the citizens to submit */
+        /* Kindly ask the citizens to submit */
         if (fc_rand(vcsize) < conqsize) {
           submit = TRUE;
         }
@@ -467,6 +484,12 @@ void player_loot_player(struct player *pvictor, struct player *pvictim)
            * give verbose messages of every unit transferred,
            * and raze buildings according to raze chance
            * (also removes palace) */
+          notify_player(pvictor, city_tile(pcity), E_UNIT_WIN_ATT,
+                        ftc_server,
+                        /* TRANS: Getting a city as loot */
+                        _("You conquer %s as loot!"),
+                        city_link(pcity));
+
           (void) transfer_city(pvictor, pcity, 7, TRUE, TRUE, TRUE,
                                !is_barbarian(pvictor));
           submit = FALSE;

@@ -66,9 +66,9 @@ static bool send_tile_suppressed = FALSE;
 
 static void player_tile_init(struct tile *ptile, struct player *pplayer);
 static void player_tile_free(struct tile *ptile, struct player *pplayer);
-static void give_tile_info_from_player_to_player(struct player *pfrom,
-						 struct player *pdest,
-						 struct tile *ptile);
+static bool give_tile_info_from_player_to_player(struct player *pfrom,
+                                                 struct player *pdest,
+                                                 struct tile *ptile);
 static void shared_vision_change_seen(struct player *pplayer,
                                       struct tile *ptile,
                                       const v_radius_t change,
@@ -1447,12 +1447,18 @@ void update_player_tile_last_seen(struct player *pplayer,
 
 /**********************************************************************//**
   Give tile information from one player to one player.
+
+  @param pfrom  Who gives the information
+  @param pdest  Who receives the information
+  @param ptile  Tile to give info about
+  @return       Whether there was any new info to give
 **************************************************************************/
-static void really_give_tile_info_from_player_to_player(struct player *pfrom,
+static bool really_give_tile_info_from_player_to_player(struct player *pfrom,
                                                         struct player *pdest,
                                                         struct tile *ptile)
 {
   struct player_tile *from_tile, *dest_tile;
+
   if (!map_is_known_and_seen(ptile, pdest, V_MAIN)) {
     /* I can just hear people scream as they try to comprehend this if :).
      * Let me try in words:
@@ -1462,10 +1468,10 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
      *     OR it is not known by pdest)
      */
     if (map_is_known_and_seen(ptile, pfrom, V_MAIN)
-	|| (map_is_known(ptile, pfrom)
-	    && (((map_get_player_tile(ptile, pfrom)->last_updated
-		 > map_get_player_tile(ptile, pdest)->last_updated))
-	        || !map_is_known(ptile, pdest)))) {
+        || (map_is_known(ptile, pfrom)
+            && (((map_get_player_tile(ptile, pfrom)->last_updated
+                  > map_get_player_tile(ptile, pdest)->last_updated))
+                || !map_is_known(ptile, pdest)))) {
       from_tile = map_get_player_tile(ptile, pfrom);
       dest_tile = map_get_player_tile(ptile, pdest);
       /* Update and send tile knowledge */
@@ -1478,37 +1484,42 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->last_updated = from_tile->last_updated;
       send_tile_info(pdest->connections, ptile, FALSE);
 
-      /* update and send city knowledge */
-      /* remove outdated cities */
+      /* Update and send city knowledge */
+      /* Remove outdated cities */
       if (dest_tile->site) {
-	if (!from_tile->site) {
-	  /* As the city was gone on the newer from_tile
-	     it will be removed by this function */
-	  reality_check_city(pdest, ptile);
-	} else /* We have a dest_city. update */
-	  if (from_tile->site->identity
+        if (!from_tile->site) {
+          /* As the city was gone on the newer from_tile
+             it will be removed by this function */
+          reality_check_city(pdest, ptile);
+        } else { /* We have a dest_city. update */
+          if (from_tile->site->identity
               != dest_tile->site->identity) {
-	    /* As the city was gone on the newer from_tile
-	       it will be removed by this function */
-	    reality_check_city(pdest, ptile);
+            /* As the city was gone on the newer from_tile
+               it will be removed by this function */
+            reality_check_city(pdest, ptile);
           }
+        }
       }
 
       /* Set and send new city info */
       if (from_tile->site) {
-	if (!dest_tile->site) {
+        if (!dest_tile->site) {
           /* We cannot assign new vision site with change_playertile_site(),
            * since location is not yet set up for new site */
           dest_tile->site = vision_site_copy(from_tile->site);
-	}
+        }
         /* Note that we don't care if receiver knows vision source city
          * or not. */
-	send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
+        send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
       }
 
       city_map_update_tile_frozen(ptile);
+
+      return TRUE;
     }
   }
+
+  return FALSE;
 }
 
 /**********************************************************************//**
@@ -1529,18 +1540,25 @@ static void really_give_map_from_player_to_player(struct player *pfrom,
 /**********************************************************************//**
   Give tile information from player to player. Handles chains of
   shared vision so that receiver may give information forward.
+
+  @param pfrom  Who gives the information
+  @param pdest  Who receives the information
+  @param ptile  Tile to give info about
+  @return       Whether there was any new info to give
 **************************************************************************/
-static void give_tile_info_from_player_to_player(struct player *pfrom,
+static bool give_tile_info_from_player_to_player(struct player *pfrom,
                                                  struct player *pdest,
                                                  struct tile *ptile)
 {
-  really_give_tile_info_from_player_to_player(pfrom, pdest, ptile);
+  bool updt = really_give_tile_info_from_player_to_player(pfrom, pdest, ptile);
 
   players_iterate(pplayer2) {
     if (really_gives_vision(pdest, pplayer2)) {
-      really_give_tile_info_from_player_to_player(pfrom, pplayer2, ptile);
+      updt |= really_give_tile_info_from_player_to_player(pfrom, pplayer2, ptile);
     }
   } players_iterate_end;
+
+  return updt;
 }
 
 /**********************************************************************//**
@@ -1622,9 +1640,9 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
           }
         } whole_map_iterate_end;
 
-	/* squares that are not seen, but which pfrom may have more recent
-	   knowledge of */
-	really_give_map_from_player_to_player(pplayer, pplayer2);
+        /* Squares that are not seen, but which pfrom may have more recent
+           knowledge of */
+        really_give_map_from_player_to_player(pplayer, pplayer2);
       }
     } players_iterate_end;
     unbuffer_shared_vision(pplayer);
@@ -1804,7 +1822,7 @@ static void check_units_single_tile(struct tile *ptile)
             unit_activity_handling(punit, ACTIVITY_IDLE);
           }
           break;
-	}
+        }
       } adjc_iterate_end;
       if (unit_alive && unit_tile(punit) == ptile) {
         /* If we get here we could not move punit. */
@@ -2568,25 +2586,32 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
 
 /**********************************************************************//**
   Transfer (random parts of) player pfrom's world map to pto.
+
   @param pfrom         player that is the source of the map
   @param pto           player that receives the map
   @param prob          probability for the transfer each known tile
   @param reveal_cities if the map of all known cities should be transferred
+
+  @return              Whether there any new info was given
 **************************************************************************/
-void give_distorted_map(struct player *pfrom, struct player *pto,
+bool give_distorted_map(struct player *pfrom, struct player *pto,
                         int prob, bool reveal_cities)
 {
+  bool updt = FALSE;
+
   buffer_shared_vision(pto);
 
   whole_map_iterate(&(wld.map), ptile) {
     if (fc_rand(100) < prob) {
-      give_tile_info_from_player_to_player(pfrom, pto, ptile);
+      updt |= give_tile_info_from_player_to_player(pfrom, pto, ptile);
     } else if (reveal_cities && NULL != tile_city(ptile)) {
-      give_tile_info_from_player_to_player(pfrom, pto, ptile);
+      updt|= give_tile_info_from_player_to_player(pfrom, pto, ptile);
     }
   } whole_map_iterate_end;
 
   unbuffer_shared_vision(pto);
+
+  return updt;
 }
 
 /**********************************************************************//**
