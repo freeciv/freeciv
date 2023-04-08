@@ -784,6 +784,34 @@ int get_target_bonus_effects(struct effect_list *plist,
 }
 
 /**********************************************************************//**
+  Returns the expected value of the effect of given type for given context,
+  calculating value weighted with probability for each individual effect
+  with given callback using arbitrary additional data passed to it.
+
+  The way of using multipliers is left on the callback.
+**************************************************************************/
+double get_effect_expected_value(const struct req_context *context,
+                                 const struct player *other_player,
+                                 enum effect_type effect_type,
+                                 eft_value_filter_cb weighter,
+                                 void *data, int n_data)
+{
+  double sum = 0.;
+
+  fc_assert_ret_val(weighter, 0.);
+  if (context == NULL) {
+    context = req_context_empty();
+  }
+
+  /* Loop over all effects of this type. */
+  effect_list_iterate(get_effects(effect_type), peffect) {
+    sum += weighter(peffect, context, other_player, data, n_data);
+  } effect_list_iterate_end;
+
+  return sum;
+}
+
+/**********************************************************************//**
   Returns the effect bonus for the whole world.
 **************************************************************************/
 int get_world_bonus(enum effect_type effect_type)
