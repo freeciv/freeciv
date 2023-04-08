@@ -1,9 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="300"
-   height="200">
+   height="200"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="ohlone.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs9">
     <inkscape:perspective
@@ -15,8 +21,8 @@
        id="perspective13" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="839"
+     inkscape:window-width="1098"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -27,12 +33,16 @@
      pagecolor="#ffffff"
      id="base"
      showgrid="false"
-     inkscape:zoom="1.56"
-     inkscape:cx="102"
-     inkscape:cy="97.5"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg2" />
+     inkscape:zoom="3.12"
+     inkscape:cx="150.96154"
+     inkscape:cy="98.717949"
+     inkscape:window-x="332"
+     inkscape:window-y="96"
+     inkscape:current-layer="svg8"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:window-maximized="0" />
   <rect
      style="opacity:1;fill:#008000;fill-opacity:1"
      id="rect2386"
