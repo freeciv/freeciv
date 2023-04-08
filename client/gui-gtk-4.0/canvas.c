@@ -74,8 +74,8 @@ void canvas_mapview_init(struct canvas *store)
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,
-		 int src_x, int src_y, int dest_x, int dest_y,
-		 int width, int height)
+                 int src_x, int src_y, int dest_x, int dest_y,
+                 int width, int height)
 {
   cairo_t *cr;
 
@@ -106,10 +106,9 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
   Draw some or all of a sprite onto the mapview or citydialog canvas.
   Supplied coordinates are prior to any canvas zoom.
 ****************************************************************************/
-void canvas_put_sprite(struct canvas *pcanvas,
-		       int canvas_x, int canvas_y,
-		       struct sprite *sprite,
-		       int offset_x, int offset_y, int width, int height)
+void canvas_put_sprite(struct canvas *pcanvas, int canvas_x, int canvas_y,
+                       struct sprite *sprite,
+                       int offset_x, int offset_y, int width, int height)
 {
   int sswidth, ssheight;
   cairo_t *cr;
@@ -120,9 +119,6 @@ void canvas_put_sprite(struct canvas *pcanvas,
     cr = cairo_create(pcanvas->surface);
   } else {
     cr = pcanvas->drawable;
-  }
-
-  if (pcanvas->drawable) {
     cairo_save(cr);
   }
 
@@ -145,15 +141,14 @@ void canvas_put_sprite(struct canvas *pcanvas,
   Draw a full sprite onto the mapview or citydialog canvas.
   Supplied canvas_x/y are prior to any canvas zoom.
 ****************************************************************************/
-void canvas_put_sprite_full(struct canvas *pcanvas,
-			    int canvas_x, int canvas_y,
-			    struct sprite *sprite)
+void canvas_put_sprite_full(struct canvas *pcanvas, int canvas_x, int canvas_y,
+                            struct sprite *sprite)
 {
   int width, height;
 
   get_sprite_dimensions(sprite, &width, &height);
   canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
-		    0, 0, width, height);
+                    0, 0, width, height);
 }
 
 /************************************************************************//**
@@ -170,25 +165,23 @@ void canvas_put_sprite_full_scaled(struct canvas *pcanvas,
 }
 
 /************************************************************************//**
-  Draw a full sprite onto the canvas.  If "fog" is specified draw it with
-  fog.
+  Draw a full sprite onto the canvas. If "fog" is specified draw it with fog.
 ****************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
-			      int canvas_x, int canvas_y,
-			      struct sprite *psprite,
-			      bool fog, int fog_x, int fog_y)
+                              int canvas_x, int canvas_y,
+                              struct sprite *psprite,
+                              bool fog, int fog_x, int fog_y)
 {
-    pixmap_put_overlay_tile_draw(pcanvas, canvas_x, canvas_y,
-				 psprite, fog);
+  pixmap_put_overlay_tile_draw(pcanvas, canvas_x, canvas_y,
+                               psprite, fog);
 }
 
 /************************************************************************//**
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
   Supplied coordinates are prior to any canvas zoom.
 ****************************************************************************/
-void canvas_put_rectangle(struct canvas *pcanvas,
-			  struct color *pcolor,
-			  int canvas_x, int canvas_y, int width, int height)
+void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
+                          int canvas_x, int canvas_y, int width, int height)
 {
   cairo_t *cr;
 
@@ -196,9 +189,6 @@ void canvas_put_rectangle(struct canvas *pcanvas,
     cr = cairo_create(pcanvas->surface);
   } else {
     cr = pcanvas->drawable;
-  }
-
-  if (pcanvas->drawable) {
     cairo_save(cr);
   }
 
@@ -218,12 +208,11 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 /************************************************************************//**
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
-void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct sprite *psprite,
-			     struct color *pcolor,
-			     int canvas_x, int canvas_y)
+void canvas_fill_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
+                             struct color *pcolor, int canvas_x, int canvas_y)
 {
   int width, height;
+
   get_sprite_dimensions(psprite, &width, &height);
   canvas_put_rectangle(pcanvas, pcolor, canvas_x, canvas_y, width, height);
 }
@@ -233,10 +222,9 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   XXX: unlike other canvas_put functions, supplied x/y are *not* prior to
   any canvas zoom.
 ****************************************************************************/
-void canvas_put_line(struct canvas *pcanvas,
-		     struct color *pcolor,
-		     enum line_type ltype, int start_x, int start_y,
-		     int dx, int dy)
+void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
+                     enum line_type ltype, int start_x, int start_y,
+                     int dx, int dy)
 {
   cairo_t *cr;
   double dashes[2] = {4.0, 4.0};
@@ -245,9 +233,6 @@ void canvas_put_line(struct canvas *pcanvas,
     cr = cairo_create(pcanvas->surface);
   } else {
     cr = pcanvas->drawable;
-  }
-
-  if (pcanvas->drawable) {
     cairo_save(cr);
   }
 
@@ -343,8 +328,8 @@ static struct {
 #define FONT(font) (*fonts[font].styles)
 
 /************************************************************************//**
-  Return the size of the given text in the given font.  This size should
-  include the ascent and descent of the text.  Either of width or height
+  Return the size of the given text in the given font. This size should
+  include the ascent and descent of the text. Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
 void get_text_size(int *width, int *height,
@@ -369,9 +354,9 @@ void get_text_size(int *width, int *height,
 }
 
 /************************************************************************//**
-  Draw the text onto the canvas in the given color and font.  The canvas
+  Draw the text onto the canvas in the given color and font. The canvas
   position does not account for the ascent of the text; this function must
-  take care of this manually.  The text will not be NULL but may be empty.
+  take care of this manually. The text will not be NULL but may be empty.
   Supplied canvas_x/y are prior to any canvas zoom.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
@@ -384,9 +369,6 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
     cr = cairo_create(pcanvas->surface);
   } else {
     cr = pcanvas->drawable;
-  }
-
-  if (pcanvas->drawable) {
     cairo_save(cr);
   }
 

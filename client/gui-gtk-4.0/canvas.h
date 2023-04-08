@@ -25,10 +25,11 @@ struct canvas
   float zoom;
 };
 
-#define FC_STATIC_CANVAS_INIT { NULL, NULL, 1.0 }
+#define FC_STATIC_CANVAS_INIT \
+  { .surface = NULL, .drawable = NULL, .zoom = 1.0 }
 
 void surface_put_text(cairo_t *cr, int x, int y, float zoom,
                       enum client_font font, struct color *pcolor,
                       const char *text);
 
-#endif  /* FC__CANVAS_H */
+#endif /* FC__CANVAS_H */
