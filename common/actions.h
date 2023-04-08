@@ -261,6 +261,8 @@ const char *gen_action_name_update_cb(const char *old_name);
 /* TODO: Move next to "Move" */
 #define SPECENUM_VALUE112 ACTION_TELEPORT
 #define SPECENUM_VALUE112NAME "Teleport"
+
+/* User actions */
 #define SPECENUM_VALUE113 ACTION_USER_ACTION1
 #define SPECENUM_VALUE113NAME "User Action 1"
 #define SPECENUM_VALUE114 ACTION_USER_ACTION2
@@ -666,7 +668,7 @@ enum unit_activity action_get_activity(const struct action *paction);
 const char *action_rule_name(const struct action *action);
 const char *action_id_rule_name(action_id act_id);
 
-const char *action_name_translation(const struct action *action);
+const char *action_name_translation(const struct action *paction);
 const char *action_id_name_translation(action_id act_id);
 const char *action_get_ui_name_mnemonic(action_id act_id,
                                         const char *mnemonic);
@@ -906,6 +908,9 @@ bool action_mp_full_makes_legal(const struct unit *actor,
                                 const action_id act_id);
 
 bool action_is_in_use(struct action *paction);
+
+bool action_is_internal(struct action *paction);
+bool action_id_is_internal(action_id act);
 
 /* Action lists */
 void action_array_end(action_id *act_array, int size);

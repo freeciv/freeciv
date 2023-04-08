@@ -866,7 +866,14 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 static bool save_action_ui_name(struct section_file *sfile,
                                 int act, const char *entry_name)
 {
-  const char *ui_name = action_by_number(act)->ui_name;
+  struct action *paction = action_by_number(act);
+  const char *ui_name;
+
+  if (action_is_internal(paction)) {
+    return TRUE;
+  }
+
+  ui_name = paction->ui_name;
 
   if (ui_name == NULL) {
     fc_assert(ui_name != NULL);

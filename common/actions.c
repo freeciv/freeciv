@@ -1864,10 +1864,10 @@ const char *action_rule_name(const struct action *action)
   to the call. Copy the result if you want it to remain valid over
   another call to this function.
 **************************************************************************/
-const char *action_name_translation(const struct action *action)
+const char *action_name_translation(const struct action *paction)
 {
   /* Use action_id_name_translation() to format the UI name. */
-  return action_id_name_translation(action->id);
+  return action_id_name_translation(paction->id);
 }
 
 /**********************************************************************//**
@@ -1954,6 +1954,8 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
 
   /* Text representation of the probability. */
   const char *probtxt;
+
+  fc_assert(!action_id_is_internal(act_id));
 
   if (!actions_are_ready()) {
     /* Could be a client who haven't gotten the ruleset yet */
@@ -6568,8 +6570,9 @@ static bool action_has_possible_actor_hard_reqs(struct action *paction)
 /**********************************************************************//**
   Returns TRUE if the specified action may be enabled in the current
   ruleset.
+
   @param paction the action to check if is in use.
-  @returns TRUE if the action could be enabled in the current ruleset.
+  @return TRUE if the action could be enabled in the current ruleset.
 **************************************************************************/
 bool action_is_in_use(struct action *paction)
 {
@@ -6589,6 +6592,28 @@ bool action_is_in_use(struct action *paction)
 
   /* No non deleted action enabler. */
   return FALSE;
+}
+
+/**********************************************************************//**
+  Is the action for freeciv's internal use only?
+
+  @param  paction   The action to check
+  @return           Whether action is for internal use only
+**************************************************************************/
+bool action_is_internal(struct action *paction)
+{
+  return action_has_result(paction, ACTRES_ENABLER_CHECK);
+}
+
+/**********************************************************************//**
+  Is action by id for freeciv's internal use only?
+
+  @param  act       Id of the action to check
+  @return           Whether action is for internal use only
+**************************************************************************/
+bool action_id_is_internal(action_id act)
+{
+  return action_is_internal(action_by_number(act));
 }
 
 /**********************************************************************//**
