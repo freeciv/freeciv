@@ -391,8 +391,7 @@ safe neighboring tiles when the conversion is complete.\
 Units may also be able to destroy terrain alterations, by pillaging; \
 typically more kinds of unit can pillage an improvement than \
 could build it in the first place. Some tile features can only be \
-removed by specialized units, with the \"clean pollution\" or \
-\"clean fallout\" orders.\
+removed by specialized units, with the \"clean\" order.\
 "), _("\
 Terrain conversions cannot be undone in this way; for example, in the \
 classic ruleset, if a Forest tile has been irrigated to convert it into \
@@ -1658,7 +1657,6 @@ Unit Orders:\n\
   m:      build (m)ine  (settler/worker units)\n\
   M:      change terrain by planting\n\
   Ctrl+M: connect current and target tile with M)aglev\n\
-  n:      clean (n)uclear fallout\n\
   N:      explode (N)uclear\n\
   o:      transf(o)rm terrain  (engineer unit)\n\
   O:      c(O)nvert to another kind of unit\n\
