@@ -16,6 +16,7 @@ meta_url = 'https://meta.freeciv.org/metaserver.php'
 mp_list_url = ''
 storage_dir = ''
 default_port = ''
+testmatic = ''
 
 proj_def = get_option('project-definition')
 if proj_def != ''
@@ -31,6 +32,8 @@ if proj_def != ''
         storage_dir = item.substring(20)
       elif item.startswith('FREECIV_DEFAULT_PORT')
         default_port = item.substring(21)
+      elif item.startswith('FREECIV_TESTMATIC')
+        testmatic = item.substring(18)
       elif not item.startswith('#') and item != ''
         error('Unknown parameter ' + item + ' in project definition')
       endif
@@ -54,6 +57,12 @@ if default_port == ''
   default_port = 5556
 endif
 priv_conf_data.set('DEFAULT_SOCK_PORT', default_port)
+
+if testmatic == 'yes'
+  pub_conf_data.set('FREECIV_TESTMATIC', 1)
+elif testmatic != '' and testmatic != 'no'
+  error('Unknown testmatic value ' + testmatic)
+endif
 
 pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
 priv_conf_data.set('BINDIR',
