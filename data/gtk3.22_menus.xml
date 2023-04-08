@@ -354,6 +354,13 @@
               </object>
             </child>
             <child>
+              <object class="GtkMenuItem" id="MENU_CLEAN" >
+                <child type="submenu">
+                  <object class="GtkMenu" id="<MENU>/CLEAN" />
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="GtkMenuItem" id="BUILD_IRRIGATION" />
             </child>
             <child>
@@ -387,10 +394,7 @@
               <object class="GtkMenuItem" id="TRANSFORM_TERRAIN" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="CLEAN_POLLUTION" />
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="CLEAN_FALLOUT" />
+              <object class="GtkMenuItem" id="CLEAN" />
             </child>
           </object>
         </child>
