@@ -1931,8 +1931,6 @@ void popup_tech_info(Tech_type_id tech)
 
     pHelpDlg->pEndWidgetList = pWindow;
 
-    area = pWindow->area;
-
     /* ------------------ */
 
     /* Close button */
@@ -2008,8 +2006,6 @@ void popup_tech_info(Tech_type_id tech)
     pWindow = pHelpDlg->pEndWidgetList;
     pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
     pDock = pStore->pDock;
-
-    area = pWindow->area;
 
     /* Delete any previous list entries */
     if (pDock != pHelpDlg->pBeginWidgetList) {
