@@ -1939,8 +1939,6 @@ void popup_tech_info(Tech_type_id tech)
 
     help_dlg->end_widget_list = pwindow;
 
-    area = pwindow->area;
-
     /* ------------------ */
 
     /* Close button */
@@ -2016,8 +2014,6 @@ void popup_tech_info(Tech_type_id tech)
     pwindow = help_dlg->end_widget_list;
     store = (struct techs_buttons *)pwindow->data.ptr;
     dock = store->dock;
-
-    area = pwindow->area;
 
     /* Selete any previous list entries */
     if (dock != help_dlg->begin_widget_list) {
