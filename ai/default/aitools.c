@@ -374,13 +374,13 @@ void dai_log_path(struct unit *punit,
                   struct pf_path *path, struct pf_parameter *parameter)
 {
   const struct pf_position *last = pf_path_last_position(path);
-  const int cc = PF_TURN_FACTOR * last->total_MC
-                 + parameter->move_rate * last->total_EC;
-  const int tc = cc / (PF_TURN_FACTOR *parameter->move_rate); 
+  const unsigned cc = PF_TURN_FACTOR * last->total_MC
+    + parameter->move_rate * last->total_EC;
+  const unsigned tc = cc / (PF_TURN_FACTOR * parameter->move_rate);
 
-  UNIT_LOG(LOG_DEBUG, punit, "path L=%d T=%d(%d) MC=%d EC=%d CC=%d",
-	   path->length - 1, last->turn, tc,
-	   last->total_MC, last->total_EC, cc);
+  UNIT_LOG(LOG_DEBUG, punit, "path L=%d T=%d(%u) MC=%u EC=%u CC=%u",
+           path->length - 1, last->turn, tc,
+           last->total_MC, last->total_EC, cc);
 }
 
 /**********************************************************************//**
