@@ -324,6 +324,23 @@ struct effect {
   struct requirement_vector reqs;
 };
 
+/* A callback type that takes an individual effect and a context for it
+ * and tells its weighted (by probability or something) value.
+ */
+typedef double
+   (*eft_value_filter_cb)(const struct effect *eft,
+                          const struct player *target_player,
+                          const struct player *other_player,
+                          const struct city *target_city,
+                          const struct impr_type *target_building,
+                          const struct tile *target_tile,
+                          const struct unit *target_unit,
+                          const struct unit_type *target_unittype,
+                          const struct output_type *target_output,
+                          const struct specialist *target_specialist,
+                          const struct action *target_action,
+                          void *data, int n_data);
+
 /* An effect_list is a list of effects. */
 #define SPECLIST_TAG effect
 #define SPECLIST_TYPE struct effect
@@ -422,6 +439,19 @@ int get_target_bonus_effects(struct effect_list *plist,
                              const struct specialist *target_specialist,
                              const struct action *target_action,
                              enum effect_type effect_type);
+double get_effect_expected_value(const struct player *target_player,
+                                 const struct player *other_player,
+                                 const struct city *target_city,
+                                 const struct impr_type *target_building,
+                                 const struct tile *target_tile,
+                                 const struct unit *target_unit,
+                                 const struct unit_type *target_unittype,
+                                 const struct output_type *target_output,
+                                 const struct specialist *target_specialist,
+                                 const struct action *target_action,
+                                 enum effect_type effect_type,
+                                 eft_value_filter_cb weighter,
+                                 void *data, int n_data);
 
 bool building_has_effect(const struct impr_type *pimprove,
 			 enum effect_type effect_type);
