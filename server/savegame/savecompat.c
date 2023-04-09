@@ -1950,6 +1950,7 @@ static void compat_load_030200(struct loaddata *loading,
       const char **savemod;
       int j;
       const char *dur_name = "Transport Deboard";
+      const char *clean_name = "Clean";
 
       modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
                                        "savefile.action_vector");
@@ -1959,6 +1960,9 @@ static void compat_load_030200(struct loaddata *loading,
       for (j = 0; j < action_count; j++) {
         if (!fc_strcasecmp("Transport Alight", modname[j])) {
           savemod[j] = dur_name;
+        } else if (!fc_strcasecmp("Clean Pollution", modname[j])
+                   || !fc_strcasecmp("Clean Fallout", modname[j])) {
+          savemod[j] = clean_name;
         } else {
           savemod[j] = modname[j];
         }
@@ -1966,6 +1970,39 @@ static void compat_load_030200(struct loaddata *loading,
 
       secfile_replace_str_vec(loading->file, savemod, action_count,
                               "savefile.action_vector");
+
+      free(savemod);
+    }
+  }
+
+  {
+    int activities_count;
+
+    activities_count = secfile_lookup_int_default(loading->file, 0,
+                                                  "savefile.activities_size");
+
+    if (activities_count > 0) {
+      const char **modname;
+      const char **savemod;
+      int j;
+      const char *clean_name = "Clean";
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->activities.size,
+                                       "savefile.activities_vector");
+
+      savemod = fc_calloc(activities_count, sizeof(*savemod));
+
+      for (j = 0; j < activities_count; j++) {
+        if (!fc_strcasecmp("Pollution", modname[j])
+            || !fc_strcasecmp("Fallout", modname[j])) {
+          savemod[j] = clean_name;
+        } else {
+          savemod[j] = modname[j];
+        }
+      }
+
+      secfile_replace_str_vec(loading->file, savemod, activities_count,
+                              "savefile.activities_vector");
 
       free(savemod);
     }
@@ -2881,6 +2918,72 @@ static void compat_load_dev(struct loaddata *loading)
 
   if (game_version < 3019400) {
     /* Before version number bump to 3.1.94 */
+
+    {
+      int action_count;
+
+      action_count = secfile_lookup_int_default(loading->file, 0,
+                                                "savefile.action_size");
+
+      if (action_count > 0) {
+        const char **modname;
+        const char **savemod;
+        int j;
+        const char *clean_name = "Clean";
+
+        modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                         "savefile.action_vector");
+
+        savemod = fc_calloc(action_count, sizeof(*savemod));
+
+        for (j = 0; j < action_count; j++) {
+          if (!fc_strcasecmp("Clean Pollution", modname[j])
+              || !fc_strcasecmp("Clean Fallout", modname[j])) {
+            savemod[j] = clean_name;
+          } else {
+            savemod[j] = modname[j];
+          }
+        }
+
+        secfile_replace_str_vec(loading->file, savemod, action_count,
+                                "savefile.action_vector");
+
+        free(savemod);
+      }
+    }
+
+    {
+      int activities_count;
+
+      activities_count = secfile_lookup_int_default(loading->file, 0,
+                                                    "savefile.activities_size");
+
+      if (activities_count > 0) {
+        const char **modname;
+        const char **savemod;
+        int j;
+        const char *clean_name = "Clean";
+
+        modname = secfile_lookup_str_vec(loading->file, &loading->activities.size,
+                                         "savefile.activities_vector");
+
+        savemod = fc_calloc(activities_count, sizeof(*savemod));
+
+        for (j = 0; j < activities_count; j++) {
+          if (!fc_strcasecmp("Pollution", modname[j])
+              || !fc_strcasecmp("Fallout", modname[j])) {
+            savemod[j] = clean_name;
+          } else {
+            savemod[j] = modname[j];
+          }
+        }
+
+        secfile_replace_str_vec(loading->file, savemod, activities_count,
+                                "savefile.activities_vector");
+
+        free(savemod);
+      }
+    }
 
   } /* Version < 3.1.94 */
 
