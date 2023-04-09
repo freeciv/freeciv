@@ -83,6 +83,7 @@ struct extra_type
   int id;
   struct name_translation name;
   bool disabled;
+  void *ruledit_dlg;
   enum extra_category category;
   uint16_t causes;
   uint8_t rmcauses;

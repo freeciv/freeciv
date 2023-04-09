@@ -33,6 +33,7 @@
 #include "extras.h"
 
 // ruledit
+#include "edit_extra.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -50,6 +51,8 @@ tab_extras::tab_extras(ruledit_gui *ui_in) : QWidget()
   QPushButton *add_button;
   QPushButton *delete_button;
   QPushButton *reqs_button;
+  QPushButton *edit_button;
+  int row = 0;
 
   ui = ui_in;
   selected = 0;
@@ -66,8 +69,8 @@ tab_extras::tab_extras(ruledit_gui *ui_in) : QWidget()
   rname = new QLineEdit(this);
   rname->setText(R__("None"));
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  extra_layout->addWidget(label, 0, 0);
-  extra_layout->addWidget(rname, 0, 2);
+  extra_layout->addWidget(label, row, 0);
+  extra_layout->addWidget(rname, row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
@@ -76,22 +79,26 @@ tab_extras::tab_extras(ruledit_gui *ui_in) : QWidget()
   name = new QLineEdit(this);
   name->setText(R__("None"));
   connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  extra_layout->addWidget(label, 1, 0);
-  extra_layout->addWidget(same_name, 1, 1);
-  extra_layout->addWidget(name, 1, 2);
+  extra_layout->addWidget(label, row, 0);
+  extra_layout->addWidget(same_name, row, 1);
+  extra_layout->addWidget(name, row++, 2);
+
+  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
+  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
+  extra_layout->addWidget(edit_button, row++, 2);
 
   reqs_button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
   connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
-  extra_layout->addWidget(reqs_button, 2, 2);
+  extra_layout->addWidget(reqs_button, row++, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Extra")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  extra_layout->addWidget(add_button, 5, 0);
+  extra_layout->addWidget(add_button, row, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Extra")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  extra_layout->addWidget(delete_button, 5, 2);
+  extra_layout->addWidget(delete_button, row++, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -209,6 +216,10 @@ void tab_extras::delete_now()
 
     selected->disabled = true;
 
+    if (selected->ruledit_dlg != nullptr) {
+      ((edit_extra *)selected->ruledit_dlg)->done(0);
+    }
+
     refresh();
     update_extra_info(nullptr);
   }
@@ -284,5 +295,22 @@ void tab_extras::edit_reqs()
   if (selected != nullptr) {
     ui->open_req_edit(QString::fromUtf8(extra_rule_name(selected)),
                       &selected->reqs);
+  }
+}
+
+/**********************************************************************//**
+  User requested extra edit dialog
+**************************************************************************/
+void tab_extras::edit_now()
+{
+  if (selected != nullptr) {
+    if (selected->ruledit_dlg == nullptr) {
+      edit_extra *edit = new edit_extra(ui, selected);
+
+      edit->show();
+      selected->ruledit_dlg = edit;
+    } else {
+      ((edit_extra *)selected->ruledit_dlg)->raise();
+    }
   }
 }

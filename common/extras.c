@@ -66,6 +66,7 @@ void extras_init(void)
     extras[i].rmcauses = 0;
     extras[i].helptext = NULL;
     extras[i].disabled = FALSE;
+    extras[i].ruledit_dlg = NULL;
     extras[i].visibility_req = A_NONE;
   }
 }
