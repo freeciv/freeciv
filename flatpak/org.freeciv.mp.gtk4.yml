@@ -4,6 +4,12 @@ runtime-version: '44'
 sdk: org.gnome.Sdk
 command: freeciv-mp-gtk4
 rename-icon: freeciv-modpack
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-mp-gtk4
     buildsystem: simple
@@ -15,9 +21,3 @@ modules:
     sources:
       - type: dir
         path: ..
-finish-args:
-  - --socket=wayland
-  - --socket=fallback-x11
-  - --share=ipc
-  - --share=network
-  - --filesystem=~/.freeciv:create
