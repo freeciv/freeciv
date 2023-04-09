@@ -462,7 +462,7 @@ static bool manual_command(struct tag_types *tag_info)
       /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
       fprintf(doc, _("%sFreeciv %s terrain help (%s)%s\n\n"), tag_info->title_begin,
               VERSION_STRING, game.control.name, tag_info->title_end);
-      fprintf(doc, "<table><tr bgcolor=#9bc3d1><th colspan=2>%s</th>", _("Terrain"));
+      fprintf(doc, "<table><tr bgcolor=#9bc3d1><th>%s</th>", _("Terrain"));
       fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
       fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
@@ -494,8 +494,9 @@ static bool manual_command(struct tag_types *tag_info)
           continue;
         }
 
-        fprintf(doc, "<tr><td>%s%s%s</td><td>%s</td>",
-                tag_info->image_begin, pterrain->graphic_str, tag_info->image_end,
+        fprintf(doc, "<tr><td>%s%s%s%s</td>",
+                tag_info->image_begin, pterrain->graphic_str,
+                tag_info->image_end,
                 terrain_name_translation(pterrain));
         fprintf(doc, "<td>%d/%d/%d</td>\n",
                 pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
