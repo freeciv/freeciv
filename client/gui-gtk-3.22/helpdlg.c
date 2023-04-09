@@ -1503,7 +1503,7 @@ static void help_update_government(const struct help_item *pitem,
 }
 
 /**********************************************************************//**
-  This is currently just a text page, with special text
+  Show nation flag and legend.
 **************************************************************************/
 static void help_update_nation(const struct help_item *pitem, char *title,
                                struct nation_type *pnation)
@@ -1514,6 +1514,8 @@ static void help_update_nation(const struct help_item *pitem, char *title,
     strcat(buf, pitem->text);
   } else {
     helptext_nation(buf, sizeof(buf), pnation, pitem->text);
+
+    set_help_tile_from_sprite(get_nation_flag_sprite(tileset, pnation));
   }
 
   gtk_text_buffer_set_text(help_text, buf, -1);
