@@ -1381,7 +1381,7 @@ void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
                             struct adv_choice *choice)
 {
   const struct impr_type *chosen;
-  int want;
+  adv_want want;
 
   if (choice->type == CT_NONE) {
     want = 0;
@@ -1394,9 +1394,11 @@ void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
   improvement_iterate(pimprove) {
     /* Advisor code did not consider wonders, let's do it here */
     if (is_wonder(pimprove)) {
-      if (pcity->server.adv->building_want[improvement_index(pimprove)] > want
+      int id = improvement_index(pimprove);
+
+      if (pcity->server.adv->building_want[id] > want
           && can_city_build_improvement_now(pcity, pimprove)) {
-        want = pcity->server.adv->building_want[improvement_index(pimprove)];
+        want = pcity->server.adv->building_want[id];
         chosen = pimprove;
       }
     }
@@ -1408,9 +1410,9 @@ void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
   if (chosen) {
     choice->type = CT_BUILDING; /* In case advisor had not chosen anything */
 
-    CITY_LOG(LOG_DEBUG, pcity, "ai wants most to build %s at %d",
-             improvement_rule_name(chosen),
-             want);
+    CITY_LOG(LOG_DEBUG, pcity, "AI wants to build %s with want "
+             ADV_WANT_PRINTF,
+             improvement_rule_name(chosen), want);
   }
 }
 

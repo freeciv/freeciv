@@ -269,15 +269,19 @@ void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
 {
   struct player *plr = city_owner(pcity);
   struct impr_type *chosen = NULL;
-  int want = 0;
+  adv_want want = 0;
 
   improvement_iterate(pimprove) {
+    int id;
+
     if (is_wonder(pimprove)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
-    if (pcity->server.adv->building_want[improvement_index(pimprove)] > want
-          && can_city_build_improvement_now(pcity, pimprove)) {
-      want = pcity->server.adv->building_want[improvement_index(pimprove)];
+
+    id = improvement_index(pimprove);
+    if (pcity->server.adv->building_want[id] > want
+        && can_city_build_improvement_now(pcity, pimprove)) {
+      want = pcity->server.adv->building_want[id];
       chosen = pimprove;
     }
   } improvement_iterate_end;
@@ -285,18 +289,18 @@ void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
   choice->want = want;
   choice->value.building = chosen;
 
-  if (chosen) {
+  if (chosen != NULL) {
     choice->type = CT_BUILDING;
 
-    CITY_LOG(LOG_DEBUG, pcity, "wants most to build %s at %d",
-             improvement_rule_name(chosen),
-             want);
+    CITY_LOG(LOG_DEBUG, pcity, "advisor wants to build %s with want "
+             ADV_WANT_PRINTF,
+             improvement_rule_name(chosen), want);
   } else {
     choice->type = CT_NONE;
   }
   choice->need_boat = FALSE;
 
-  /* Allow ai to override */
+  /* Allow AI to override */
   CALL_PLR_AI_FUNC(choose_building, plr, pcity, choice);
 }
 
