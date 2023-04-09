@@ -1364,7 +1364,10 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     assign_continent_numbers();
 
     /* Turn small oceans into lakes. */
-    regenerate_lakes();
+    if (wld.map.num_oceans > 0) {
+      regenerate_lakes();
+    }
+
   } else {
     assign_continent_numbers();
   }
