@@ -390,7 +390,7 @@ static bool manual_command(void)
       /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
       fprintf(doc, _("%sFreeciv %s terrain help (%s)%s\n\n"), TITLE_BEGIN,
               VERSION_STRING, game.control.name, TITLE_END);
-      fprintf(doc, "<table><tr bgcolor=#9bc3d1><th colspan=2>%s</th>", _("Terrain"));
+      fprintf(doc, "<table><tr bgcolor=#9bc3d1><th>%s</th>", _("Terrain"));
       fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
       fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
@@ -420,7 +420,7 @@ static bool manual_command(void)
           continue;
         }
 
-        fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>",
+        fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "%s</td>",
                 pterrain->graphic_str, terrain_name_translation(pterrain));
         fprintf(doc, "<td>%d/%d/%d</td>\n",
                 pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
