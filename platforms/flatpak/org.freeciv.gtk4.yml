@@ -4,6 +4,13 @@ runtime-version: '44'
 sdk: org.gnome.Sdk
 command: freeciv-gtk4
 rename-icon: freeciv-client
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-gtk4
     buildsystem: simple
@@ -15,10 +22,3 @@ modules:
     sources:
       - type: dir
         path: ../..
-finish-args:
-  - --socket=wayland
-  - --socket=fallback-x11
-  - --share=ipc
-  - --share=network
-  - --socket=pulseaudio
-  - --filesystem=~/.freeciv:create

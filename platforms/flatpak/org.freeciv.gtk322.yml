@@ -4,6 +4,13 @@ runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 command: freeciv-gtk3.22
 rename-icon: freeciv-client
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-gtk3.22
     buildsystem: simple
@@ -15,10 +22,3 @@ modules:
     sources:
       - type: dir
         path: ../..
-finish-args:
-  - --socket=wayland
-  - --socket=fallback-x11
-  - --share=ipc
-  - --share=network
-  - --socket=pulseaudio
-  - --filesystem=~/.freeciv:create
