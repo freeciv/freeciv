@@ -1401,7 +1401,7 @@ static void help_update_government(const struct help_item *pitem,
   This is currently just a text page, with special text
 **************************************************************************/
 static void help_update_nation(const struct help_item *pitem, char *title,
-			       struct nation_type *pnation)
+                               struct nation_type *pnation)
 {
   char buf[4096];
 
