@@ -4,6 +4,14 @@ runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 command: freeciv-sdl2
 rename-icon: freeciv-client
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
 modules:
   - name: sdl2-gfx
     sources:
@@ -20,11 +28,3 @@ modules:
     sources:
       - type: dir
         path: ../..
-finish-args:
-  - --socket=wayland
-  - --socket=fallback-x11
-  - --share=ipc
-  - --device=dri
-  - --share=network
-  - --socket=pulseaudio
-  - --filesystem=~/.freeciv:create
