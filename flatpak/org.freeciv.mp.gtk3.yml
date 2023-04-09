@@ -4,6 +4,12 @@ runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 command: freeciv-mp-gtk3
 rename-icon: freeciv-modpack
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-mp-gtk3
     buildsystem: simple
@@ -15,9 +21,3 @@ modules:
     sources:
       - type: dir
         path: ..
-finish-args:
-  - --socket=wayland
-  - --socket=fallback-x11
-  - --share=ipc
-  - --share=network
-  - --filesystem=~/.freeciv:create
