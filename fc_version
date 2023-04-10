@@ -52,6 +52,7 @@ fi
 # 5) Final.
 # Update DEFAULT_FOLLOW_TAG to "stable", and also
 # windows/installer_msys2/Makefile --with-followtag to "windows"
+# platforms/macos/homebrew-appbundle.sh -Dfollowtag to "macos"
 
 IS_DEVEL_VERSION=0
 IS_FREEZE_VERSION=0

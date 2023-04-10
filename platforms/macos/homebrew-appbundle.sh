@@ -11,6 +11,9 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 
+# TODO: Remove this if not needed here, and if it IS needed,
+#       investigate why meson.build isn't using proper definition
+#       by itself.
 export CXXFLAGS=-std=c++17
 export CPPFLAGS="-I$(brew --prefix readline)/include"
 export LDFLAGS="-L$(brew --prefix icu4c)/lib -L$(brew --prefix readline)/lib"
@@ -77,7 +80,7 @@ if ! [ -e "${CONTENTSDIR}" ] ; then
 
 	VSTRING=`./fc_version`
 
-	# substitute VSTRING into Info.plist
+	# Substitute VSTRING into Info.plist
 	sed -i '' -e "s/VER/${VSTRING}/g" "${CONTENTSDIR}Info.plist"
 
 	if ! echo -n "APPL????" > "${CONTENTSDIR}PkgInfo" ; then
@@ -105,6 +108,7 @@ if ! meson setup .. \
        -Ddebug=false \
        -Dclients=gtk4,qt \
        -Dfcmp=qt \
+       -Dfollowtag=macos \
        -Dprefix="$CONTENTSDIR" ||
    ! ninja ||
    ! ninja install
