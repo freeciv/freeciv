@@ -394,6 +394,9 @@ struct client_options
   char gui_qt_font_reqtree_text[512];
   bool gui_qt_show_titlebar;
   char gui_qt_wakeup_text[512];
+  bool gui_qt_show_relations_panel;
+  bool gui_qt_show_techs_panel;
+  bool gui_qt_show_wonders_panel;
 
   struct overview overview;
 };

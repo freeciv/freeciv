@@ -368,7 +368,10 @@ struct client_options gui_options = {
   .gui_qt_font_city_productions = "Sans Serif,10,-1,5,50,1,0,0,0,0",
   .gui_qt_font_reqtree_text = "Sans Serif,10,-1,5,50,1,0,0,0,0",
   .gui_qt_show_titlebar = TRUE,
-  .gui_qt_wakeup_text = "Wake up %1"
+  .gui_qt_wakeup_text = "Wake up %1",
+  .gui_qt_show_relations_panel = TRUE,
+  .gui_qt_show_techs_panel = TRUE,
+  .gui_qt_show_wonders_panel = TRUE
 };
 
 /* Set to TRUE after the first call to options_init(), to avoid the usage
@@ -5868,11 +5871,21 @@ void options_load(void)
                                 "%s.flag_qt_default_fonts_set", prefix);
 
   /* These are not gui-enabled yet */
-  gui_options.zoom_set =
-    secfile_lookup_bool_default(sf, FALSE, "%s.zoom_set", prefix);
-  gui_options.zoom_default_level =
-    secfile_lookup_float_default(sf, 1.0,
-                                 "%s.zoom_default_level", prefix);
+  gui_options.zoom_set
+    = secfile_lookup_bool_default(sf, FALSE, "%s.zoom_set", prefix);
+  gui_options.zoom_default_level
+    = secfile_lookup_float_default(sf, 1.0,
+                                   "%s.zoom_default_level", prefix);
+
+  gui_options.gui_qt_show_relations_panel
+    = secfile_lookup_bool_default(sf, TRUE,
+                                  "%s.gui_qt_show_relations_panel", prefix);
+  gui_options.gui_qt_show_techs_panel
+    = secfile_lookup_bool_default(sf, TRUE,
+                                  "%s.gui_qt_show_techs_panel", prefix);
+  gui_options.gui_qt_show_wonders_panel
+    = secfile_lookup_bool_default(sf, TRUE,
+                                  "%s.gui_qt_show_wonders_panel", prefix);
 
   str = secfile_lookup_str_default(sf, NULL, "client.default_tileset_name");
   if (str != NULL) {
@@ -6005,6 +6018,13 @@ void options_save(option_save_log_callback log_cb)
   secfile_insert_bool(sf, gui_options.zoom_set, "client.zoom_set");
   secfile_insert_float(sf, gui_options.zoom_default_level,
                        "client.zoom_default_level");
+
+  secfile_insert_bool(sf, gui_options.gui_qt_show_relations_panel,
+                      "client.gui_qt_show_relations_panel");
+  secfile_insert_bool(sf, gui_options.gui_qt_show_techs_panel,
+                      "client.gui_qt_show_techs_panel");
+  secfile_insert_bool(sf, gui_options.gui_qt_show_wonders_panel,
+                      "client.gui_qt_show_wonders_panel");
 
   if (gui_options.default_tileset_name[0] != '\0') {
     secfile_insert_str(sf, gui_options.default_tileset_name,

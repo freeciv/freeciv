@@ -825,12 +825,28 @@ plr_report::plr_report():QWidget()
   withdraw_but->setText(_("Withdraw Vision"));
   toggle_ai_but = new QPushButton;
   toggle_ai_but->setText(_("AI Mode"));
+
   show_relations = new QPushButton;
-  show_relations->setText(_("Hide Relations"));
+  if (gui_options.gui_qt_show_relations_panel) {
+    show_relations->setText(_("Hide Relations"));
+  } else {
+    show_relations->setText(_("Show Relations"));
+  }
+
   show_techs = new QPushButton;
-  show_techs->setText(_("Hide Techs"));
+  if (gui_options.gui_qt_show_techs_panel) {
+    show_techs->setText(_("Hide Techs"));
+  } else {
+    show_techs->setText(_("Show Techs"));
+  }
+
   show_wonders = new QPushButton;
-  show_wonders->setText(_("Hide Wonders"));
+  if (gui_options.gui_qt_show_wonders_panel) {
+    show_wonders->setText(_("Hide Wonders"));
+  } else {
+    show_wonders->setText(_("Show Wonders"));
+  }
+
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
@@ -839,6 +855,9 @@ plr_report::plr_report():QWidget()
   h_splitter->addWidget(ally_label);
   h_splitter->addWidget(tech_label);
   h_splitter->addWidget(wonder_label);
+  ally_label->setVisible(gui_options.gui_qt_show_relations_panel);
+  tech_label->setVisible(gui_options.gui_qt_show_techs_panel);
+  wonder_label->setVisible(gui_options.gui_qt_show_wonders_panel);
   v_splitter->addWidget(h_splitter);
   layout->addWidget(v_splitter);
   hlayout->addWidget(meet_but);
@@ -989,9 +1008,11 @@ void plr_report::show_relations_toggle()
   if (ally_label->isVisible()) {
     ally_label->hide();
     show_relations->setText(_("Show Relations"));
+    gui_options.gui_qt_show_relations_panel = FALSE;
   } else {
     ally_label->show();
     show_relations->setText(_("Hide Relations"));
+    gui_options.gui_qt_show_relations_panel = TRUE;
   }
 }
 
@@ -1003,9 +1024,11 @@ void plr_report::show_techs_toggle()
   if (tech_label->isVisible()) {
     tech_label->hide();
     show_techs->setText(_("Show Techs"));
+    gui_options.gui_qt_show_techs_panel = FALSE;
   } else {
     tech_label->show();
     show_techs->setText(_("Hide Techs"));
+    gui_options.gui_qt_show_techs_panel = TRUE;
   }
 }
 
@@ -1017,9 +1040,11 @@ void plr_report::show_wonders_toggle()
   if (wonder_label->isVisible()) {
     wonder_label->hide();
     show_wonders->setText(_("Show Wonders"));
+    gui_options.gui_qt_show_wonders_panel = FALSE;
   } else {
     wonder_label->show();
     show_wonders->setText(_("Hide Wonders"));
+    gui_options.gui_qt_show_wonders_panel = TRUE;
   }
 }
 
