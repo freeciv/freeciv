@@ -14,6 +14,7 @@ added to gettext to get the translation.
 /* TRANS: Version tag name received from metaserver */
 _("?vertag:stable")
 _("?vertag:windows")
+_("?vertag:macos")
 _("?vertag:S3_1")
 _("?vertag:S3_2")
 _("?vertag:S3_3")
@@ -21,6 +22,8 @@ _("?vertag:crosser")
 _("?vertag:windows-S3_1")
 _("?vertag:windows-S3_2")
 _("?vertag:windows-S3_3")
+_("?vertag:macos-S3_2")
+_("?vertag:macos-S3_3")
 
 
 Generated version header
