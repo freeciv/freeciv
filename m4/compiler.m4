@@ -167,3 +167,14 @@ AC_DEFUN([FC_SIZE_T_FORMAT],
 
   AC_MSG_RESULT([$SIZE_T_PRINTF])
 ])
+
+# Check for __builtin_unreachable()
+AC_DEFUN([FC_BUILTIN_UNREACHABLE],
+[
+  AC_MSG_CHECKING([__builtin_unreachable()])
+
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[ ]],
+[[__builtin_unreachable();]])],[
+  AC_DEFINE([FREECIV_HAVE_UNREACHABLE], [1], [__builtin_unreachable() available])
+  AC_MSG_RESULT([yes])], [AC_MSG_RESULT([no])])
+])

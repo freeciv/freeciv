@@ -39,6 +39,9 @@
 /* C++20 capture this supported */
 #mesondefine FREECIV_HAVE_CXX20_CAPTURE_THIS
 
+/* __builtin_unreachable() available */
+#mesondefine FREECIV_HAVE_UNREACHABLE
+
 /* Use pthreads as thread implementation */
 #mesondefine FREECIV_HAVE_PTHREAD
 

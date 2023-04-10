@@ -123,6 +123,15 @@ extern "C" {
 #define fc__noreturn
 #endif
 
+#ifdef FREECIV_HAVE_UNREACHABLE
+#define fc__unreachable(_cond_) \
+  if (_cond_) {                 \
+    __builtin_unreachable();    \
+  }
+#else  /* FREECIV_HAVE_UNREACHABLE */
+#define fc__unreachable(_cond_) fc_assert(!(_cond_))
+#endif /* FREECIV_HAVE_UNREACHABLE */
+
 #ifdef FREECIV_MSWINDOWS
 typedef long int fc_errno;
 #else
