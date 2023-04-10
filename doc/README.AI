@@ -245,34 +245,34 @@ Now they exist in parallel, although developed to a different degree.
 DIPLOMACY
 =========
 
-The AI's diplomatic behaviour is current only regulated by the 
+The AI's diplomatic behaviour is current only regulated by the
 'diplomacy' server setting.
 
-AI proposes cease-fire on first contact.
+Easier AI levels propose cease-fire on first contact.
 
-AI is not very trusting for NEUTRAL and PEACE modes, but once it hits 
-ALLIANCE, this changes completely, and it will happily hand over 
-any tech and maps it has to you.  The only thing that will make the AI 
+AI is not very trusting for NEUTRAL and PEACE modes, but once it hits
+ALLIANCE, this changes completely, and it will happily hand over
+any tech and maps it has to you. The only thing that will make the AI
 attack you then is if you build a spaceship.
 
 For people who want to hack at this part of the AI code, please note
  * pplayers_at_war(p1,p2) returns FALSE if p1==p2
  * pplayers_non_attack(p1,p2) returns FALSE if p1==p2
- * pplayers_allied(p1,p2) returns TRUE if p1==p2 
+ * pplayers_allied(p1,p2) returns TRUE if p1==p2
  * pplayer_has_embassy(p1,p2) returns TRUE if p1==p2
-i.e. we do not ever consider a player to be at war with themmself, we
+i.e. we do not ever consider a player to be at war with themself, we
 never consider a player to have any kind of non-attack treaty with
 themself, and we always consider a player to have an alliance with
 themself.
 
-The introduction of diplomacy is fraught with many problems.  One is
+The introduction of diplomacy is fraught with many problems. One is
 that it usually gains only human players, not AI players, since humans
 are so much smarter and know how to exploit diplomacy, while for AIs
-they mostly only add constraints on what it can do.  Another is that it
+they mostly only add constraints on what it can do. Another is that it
 can be very difficult to write diplomacy that is useful for and not in
-the way of modpacks.  Which means diplomacy either has to be optional,
+the way of modpacks. Which means diplomacy either has to be optional,
 or have fine-grained controls on who can do what diplomatic deals to
-whom, set from rulesets.  The latter is not yet well implemented.
+whom, set from rulesets. The latter is not yet well implemented.
 
 
 DIFFICULTY LEVELS
