@@ -633,6 +633,13 @@ int main(void) { size_t var = 0; fr("''' + format + '''", var); return 0; }''',
   endif
 endforeach
 
+if c_compiler.compiles('''int main(void) { __builtin_unreachable(); return 0; }''',
+  include_directories: include_directories(cross_inc_path),
+  name: '__builtin_unreachable()',
+  args: ['-Werror', '-Wall'])
+    pub_conf_data.set('FREECIV_HAVE_UNREACHABLE', 1)
+endif
+
 if get_option('audio') or get_option('clients').contains('sdl2')
   if host_system == 'windows'
     sdl2main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
