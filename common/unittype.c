@@ -2514,6 +2514,7 @@ void unit_classes_init(void)
     unit_classes[i].cache.native_tile_extras = NULL;
     unit_classes[i].cache.native_bases = NULL;
     unit_classes[i].cache.bonus_roads = NULL;
+    unit_classes[i].cache.hiding_extras = NULL;
     unit_classes[i].cache.subset_movers = NULL;
     unit_classes[i].helptext = NULL;
     unit_classes[i].ruledit_disabled = FALSE;
@@ -2543,6 +2544,10 @@ void unit_classes_free(void)
     if (unit_classes[i].cache.bonus_roads != NULL) {
       extra_type_list_destroy(unit_classes[i].cache.bonus_roads);
       unit_classes[i].cache.bonus_roads = NULL;
+    }
+    if (unit_classes[i].cache.hiding_extras != NULL) {
+      extra_type_list_destroy(unit_classes[i].cache.hiding_extras);
+      unit_classes[i].cache.hiding_extras = NULL;
     }
     if (unit_classes[i].cache.subset_movers != NULL) {
       unit_class_list_destroy(unit_classes[i].cache.subset_movers);
@@ -2739,6 +2744,7 @@ void set_unit_class_caches(struct unit_class *pclass)
   pclass->cache.native_tile_extras = extra_type_list_new();
   pclass->cache.native_bases = extra_type_list_new();
   pclass->cache.bonus_roads = extra_type_list_new();
+  pclass->cache.hiding_extras = extra_type_list_new();
   pclass->cache.subset_movers = unit_class_list_new();
 
   extra_type_iterate(pextra) {
@@ -2756,6 +2762,9 @@ void set_unit_class_caches(struct unit_class *pclass)
       }
       if (proad != NULL && road_provides_move_bonus(proad)) {
         extra_type_list_append(pclass->cache.bonus_roads, pextra);
+      }
+      if (pextra->eus == EUS_HIDDEN) {
+        extra_type_list_append(pclass->cache.hiding_extras, pextra);
       }
     }
   } extra_type_iterate_end;
