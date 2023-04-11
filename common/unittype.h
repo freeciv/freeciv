@@ -168,6 +168,7 @@ struct unit_class {
     struct extra_type_list *native_tile_extras;
     struct extra_type_list *native_bases;
     struct extra_type_list *bonus_roads;
+    struct extra_type_list *hiding_extras;
     struct unit_class_list *subset_movers;
   } cache;
 };
