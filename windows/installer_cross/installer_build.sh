@@ -67,7 +67,7 @@ add_sdl2_mixer_env() {
 add_sdl2_env() {
   cp $1/bin/SDL2_image.dll $2/ &&
   cp $1/bin/SDL2_ttf.dll $2/ &&
-  cp $1/bin/libtiff-5.dll $2/
+  cp $1/bin/libtiff-6.dll $2/
 }
 
 add_qt_env() {
