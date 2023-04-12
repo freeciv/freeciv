@@ -177,7 +177,6 @@ static void set_title_topic(char *topic)
   } else {
     gtk_frame_set_label(GTK_FRAME(help_frame), topic);
   }
-  return;
 }
 
 /**********************************************************************//**
@@ -301,7 +300,6 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
     if (advance_required(tech, AR_TWO) != A_NONE)
       create_tech_tree(advance_required(tech, AR_TWO), levels, &l);
   }
-  return;
 }
 
 /**********************************************************************//**
@@ -528,7 +526,7 @@ static void activated_topic(GtkTreeView *view, gpointer data)
 **************************************************************************/
 static void create_help_dialog(void)
 {
-  GtkWidget *hgrid;
+  GtkWidget *hbox;
   GtkWidget *button;
   GtkWidget *text;
   int        i, j;
@@ -537,7 +535,7 @@ static void create_help_dialog(void)
   GArray            *array;
   GtkTreeStore      *store;
   GtkTreeSelection  *selection;
-  int grid_col = 0;
+  GtkWidget *tile_sw;
 
   help_history = g_ptr_array_new();
   help_history_pos = -1;
@@ -562,11 +560,10 @@ static void create_help_dialog(void)
   g_signal_connect(help_dialog_shell, "destroy",
                    G_CALLBACK(help_destroy_callback), NULL);
 
-  hgrid = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 5);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(help_dialog_shell))),
-                 hgrid);
-  gtk_widget_show(hgrid);
+                 hbox);
+  gtk_widget_show(hbox);
 
   /* Build tree store. */
   store = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -618,12 +615,12 @@ static void create_help_dialog(void)
   gtk_widget_set_size_request(help_view_sw, 190, -1);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(help_view_sw), help_view);
   gtk_widget_show(help_view);
-  gtk_grid_attach(GTK_GRID(hgrid), help_view_sw, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), help_view_sw);
   gtk_widget_show(help_view_sw);
 
   help_frame = gtk_frame_new("");
-  gtk_grid_attach(GTK_GRID(hgrid), help_frame, grid_col++, 0, 1, 1);
-  gtk_widget_set_size_request(help_frame, 520, 350);
+  gtk_box_append(GTK_BOX(hbox), help_frame);
+  gtk_widget_set_hexpand(help_frame, TRUE);
   gtk_widget_show(help_frame);
 
   help_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
@@ -633,7 +630,12 @@ static void create_help_dialog(void)
   gtk_picture_set_can_shrink(GTK_PICTURE(help_tile), FALSE);
   gtk_widget_set_valign(help_tile, GTK_ALIGN_CENTER);
   gtk_widget_set_halign(help_tile, GTK_ALIGN_CENTER);
-  gtk_box_append(GTK_BOX(help_box), help_tile);
+  tile_sw = gtk_scrolled_window_new();
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tile_sw),
+                                 GTK_POLICY_NEVER,
+                                 GTK_POLICY_NEVER);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(tile_sw), help_tile);
+  gtk_box_append(GTK_BOX(help_box), tile_sw);
 
   help_itable = gtk_grid_new();
   gtk_box_append(GTK_BOX(help_box), help_itable);
