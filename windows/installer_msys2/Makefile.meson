@@ -11,6 +11,7 @@
 
 MAKEFILE_NAME=Makefile.meson
 OUT_DIR=meson/Output
+BUILD_DIR=meson/build
 INST_DIR=meson/install
 NSI_DIR=meson/nsi
 
@@ -52,6 +53,8 @@ PREF_WIN_VER=0x0A00
 else
 error "Unsupported MSYSTEM environment"
 endif
+
+IMSYS2_DIR = $(shell pwd)
 
 ifeq ($(MIN_WIN_VER),)
 MIN_WIN_VER=$(PREF_WIN_VER)
@@ -139,11 +142,11 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 
 install-freeciv-common: clean-install-client-arch
 	# Create build directory
-	mkdir -p meson-build-$(WINARCH)-$(GUI)
-	cd meson-build-$(WINARCH)-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
-	cd meson-build-$(WINARCH)-$(GUI); ninja
-	cd meson-build-$(WINARCH)-$(GUI); ninja install
-	cd meson-build-$(WINARCH)-$(GUI); ninja langstat_core.txt
+	mkdir -p $(BUILD_DIR)/$(WINARCH)-$(GUI)
+	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); meson setup $(IMSYS2_DIR)/../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); ninja
+	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); ninja install
+	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); ninja langstat_core.txt
 	# Reorder directory layout
 	mv $(INST_DIR)/$(WINARCH)-client-$(GUI)/bin/* $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	rm -Rf $(INST_DIR)/$(WINARCH)-client-$(GUI)/bin
@@ -155,11 +158,11 @@ install-freeciv-common: clean-install-client-arch
 
 install-ruledit-common: clean-ruledit-install-arch
 	# Create build directory
-	mkdir -p meson-build-$(WINARCH)-ruledit-$(GUI)
-	cd meson-build-$(WINARCH)-ruledit-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../$(INST_DIR)/$(WINARCH)-ruledit-$(GUI) -Dclients=[] -Dfcmp=[] -Druledit=true -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
-	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja
-	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja install
-	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja langstat_core.txt langstat_ruledit.txt
+	mkdir -p $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI)
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); meson setup $(IMSYS2_DIR)/../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-ruledit-$(GUI) -Dclients=[] -Dfcmp=[] -Druledit=true -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja install
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja langstat_core.txt langstat_ruledit.txt
 	# Reorder directory layout
 	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/bin/* $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	rm -Rf $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/bin
@@ -413,7 +416,7 @@ install-ruledit-qt6: install-ruledit-common
 # Cleanup
 
 clean-build-common:
-	rm -rf meson-build-*-$(GUI)
+	rm -rf $(BUILD_DIR)/*-$(GUI)
 
 clean-install-client:
 	rm -rf $(INST_DIR)/*-client-$(GUI)
