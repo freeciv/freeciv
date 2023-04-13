@@ -347,7 +347,9 @@ bool plr_sorter::lessThan(const QModelIndex &left,
       }
     } players_iterate_end;
 
-    return column->sort_func(lplr, rplr);
+    // Convert three-state (left better, equal, right better)
+    // return from sort_func() to lessThan() boolean
+    return column->sort_func(lplr, rplr) < 0;
   }
 
   // Use default sort when no sort function defined
