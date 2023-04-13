@@ -954,43 +954,37 @@ static void update_unit_activity(struct unit *punit)
      *       set */
     {
       struct extra_type *pextra;
-      struct extra_type *fextra;
 
       if (punit->activity_target == NULL) {
-        pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
+        pextra = prev_extra_in_tile(ptile, ERM_CLEAN,
                                     NULL, punit);
-
         if (pextra != NULL) {
           punit->activity_target = pextra;
-          fextra = NULL; /* fextra not needed, keep compiler happy */
         } else {
-          fextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
+          pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
                                       NULL, punit);
-          punit->activity_target = fextra;
+
+          if (pextra != NULL) {
+            punit->activity_target = pextra;
+          } else {
+            pextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
+                                        NULL, punit);
+            punit->activity_target = pextra;
+          }
         }
       } else {
-        if (is_extra_removed_by(punit->activity_target, ERM_CLEANPOLLUTION)) {
+        if (is_extra_removed_by(punit->activity_target, ERM_CLEAN)
+            || is_extra_removed_by(punit->activity_target, ERM_CLEANPOLLUTION)
+            || is_extra_removed_by(punit->activity_target, ERM_CLEANFALLOUT)) {
           pextra = punit->activity_target;
-          fextra = NULL; /* fextra not needed, keep compiler happy */
         } else {
           pextra = NULL;
-
-          if (is_extra_removed_by(punit->activity_target, ERM_CLEANFALLOUT)) {
-            fextra = punit->activity_target;
-          } else {
-            fextra = NULL;
-          }
         }
       }
 
       if (pextra != NULL) {
         if (total_activity_done(ptile, ACTIVITY_CLEAN, pextra)) {
           destroy_extra(ptile, pextra);
-          unit_activity_done = TRUE;
-        }
-      } else if (fextra != NULL) {
-        if (total_activity_done(ptile, ACTIVITY_CLEAN, fextra)) {
-          destroy_extra(ptile, fextra);
           unit_activity_done = TRUE;
         }
       }

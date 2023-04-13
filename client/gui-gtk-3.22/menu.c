@@ -3033,19 +3033,30 @@ void real_menus_init(void)
     g_list_free(list);
 
     /* Add new cleaning entries. */
-    extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+    extra_type_by_rmcause_iterate(ERM_CLEAN, pextra) {
       item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
       g_object_set_data(G_OBJECT(item), "nuisance", pextra);
       g_signal_connect(item, "activate", G_CALLBACK(clean_callback), pextra);
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       gtk_widget_show(item);
     } extra_type_by_rmcause_iterate_end;
+    extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+      if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
+        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
+        g_object_set_data(G_OBJECT(item), "nuisance", pextra);
+        g_signal_connect(item, "activate", G_CALLBACK(clean_callback), pextra);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        gtk_widget_show(item);
+      }
+    } extra_type_by_rmcause_iterate_end;
     extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-      item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
-      g_object_set_data(G_OBJECT(item), "nuisance", pextra);
-      g_signal_connect(item, "activate", G_CALLBACK(clean_callback), pextra);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      gtk_widget_show(item);
+      if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
+        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
+        g_object_set_data(G_OBJECT(item), "nuisance", pextra);
+        g_signal_connect(item, "activate", G_CALLBACK(clean_callback), pextra);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        gtk_widget_show(item);
+      }
     } extra_type_by_rmcause_iterate_end;
   }
 

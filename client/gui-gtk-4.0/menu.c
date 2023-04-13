@@ -3663,7 +3663,7 @@ void real_menus_update(void)
 
   submenu = g_menu_new();
 
-  extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+  extra_type_by_rmcause_iterate(ERM_CLEAN, pextra) {
     char actname[256];
     GSimpleAction *act;
 
@@ -3672,10 +3672,7 @@ void real_menus_update(void)
     g_simple_action_set_enabled(act,
                                 can_units_do_activity_targeted(punits,
                                                                ACTIVITY_CLEAN,
-                                                               pextra)
-                                || can_units_do_activity_targeted(punits,
-                                                                  ACTIVITY_POLLUTION,
-                                                                  pextra));
+                                                               pextra));
     g_action_map_add_action(map, G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
@@ -3684,25 +3681,50 @@ void real_menus_update(void)
                            g_menu_item_new(extra_name_translation(pextra), actname));
   } extra_type_by_rmcause_iterate_end;
 
+  extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+    if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
+      char actname[256];
+      GSimpleAction *act;
+
+      fc_snprintf(actname, sizeof(actname), "clean_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act,
+                                  can_units_do_activity_targeted(punits,
+                                                                 ACTIVITY_CLEAN,
+                                                                 pextra)
+                                  || can_units_do_activity_targeted(punits,
+                                                                    ACTIVITY_POLLUTION,
+                                                                    pextra));
+      g_action_map_add_action(map, G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
+
+      fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(extra_name_translation(pextra), actname));
+    }
+  } extra_type_by_rmcause_iterate_end;
+
   extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-    char actname[256];
-    GSimpleAction *act;
+    if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
+      char actname[256];
+      GSimpleAction *act;
 
-    fc_snprintf(actname, sizeof(actname), "clean_%d", i);
-    act = g_simple_action_new(actname, NULL);
-    g_simple_action_set_enabled(act,
-                                can_units_do_activity_targeted(punits,
-                                                               ACTIVITY_CLEAN,
-                                                               pextra)
-                                || can_units_do_activity_targeted(punits,
-                                                                  ACTIVITY_FALLOUT,
-                                                                  pextra));
-    g_action_map_add_action(map, G_ACTION(act));
-    g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
+      fc_snprintf(actname, sizeof(actname), "clean_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act,
+                                  can_units_do_activity_targeted(punits,
+                                                                 ACTIVITY_CLEAN,
+                                                                 pextra)
+                                  || can_units_do_activity_targeted(punits,
+                                                                    ACTIVITY_FALLOUT,
+                                                                    pextra));
+      g_action_map_add_action(map, G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
-    fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
-    menu_item_append_unref(submenu,
-                           g_menu_item_new(extra_name_translation(pextra), actname));
+      fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(extra_name_translation(pextra), actname));
+    }
   } extra_type_by_rmcause_iterate_end;
 
   g_menu_remove(work_menu, 5);

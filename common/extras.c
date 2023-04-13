@@ -978,7 +978,8 @@ bool is_extra_removed_by_worker_action(const struct extra_type *pextra)
 {
   /* Is any of the worker remove action bits set? */
   return (pextra->rmcauses
-          & (1 << ERM_CLEANPOLLUTION
+          & (1 << ERM_CLEAN
+             | 1 << ERM_CLEANPOLLUTION
              | 1 << ERM_CLEANFALLOUT
              | 1 << ERM_PILLAGE));
 }
@@ -1030,6 +1031,8 @@ enum extra_cause activity_to_extra_cause(enum unit_activity act)
 enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act)
 {
   switch (act) {
+  case ACTIVITY_CLEAN:
+    return ERM_CLEAN;
   case ACTIVITY_PILLAGE:
     return ERM_PILLAGE;
   case ACTIVITY_POLLUTION:

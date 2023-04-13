@@ -1090,8 +1090,8 @@ ui_name_base_airbase = _("?gui_type:Build Airbase")
 ;                           (the last three require a corresponding
 ;                           [resource_*] / [base_*] / [road_*] section)
 ; rmcauses                = events that can remove extra type.
-;                           "CleanPollution", "CleanFallout", "Pillage",
-;                           "Disappear", or "Enter"
+;                           "Clean", "Pillage", "Disappear", or "Enter"
+;                           For now also "CleanPollution", "CleanFallout"
 ; infracost               = Number of infrapoints it costs to place this
 ;                           extra. 0, the default, means extra cannot be placed.
 ; graphic                 = tag specifying preferred graphic
@@ -1284,7 +1284,7 @@ Building an oil well on an irrigated tile will destroy the irrigation.\
 name           = _("Pollution")
 category       = "Nuisance"
 causes         = "Pollution"
-rmcauses       = "CleanPollution"
+rmcauses       = "Clean", "CleanPollution"
 graphic        = "tx.pollution"
 graphic_alt    = "-"
 activity_gfx   = "None"
@@ -1406,7 +1406,7 @@ Like irrigation, farmland is incompatible with mines and oil wells.\
 name           = _("Fallout")
 category       = "Nuisance"
 causes         = "Fallout"
-rmcauses       = "CleanFallout"
+rmcauses       = "Clean", "CleanFallout"
 graphic        = "tx.fallout"
 graphic_alt    = "-"
 activity_gfx   = "None"

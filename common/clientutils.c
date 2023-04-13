@@ -258,7 +258,9 @@ const char *concat_tile_activity_text(struct tile *ptile)
       case ACTIVITY_PILLAGE:
         rmcause = ERM_PILLAGE;
         break;
-      case ACTIVITY_CLEAN: /* ERM_CLEANPOLLUTION first, ERM_CLEANFALLOUT later */
+      case ACTIVITY_CLEAN:
+        rmcause = ERM_CLEAN; /* Also ERM_CLEANPOLLUTION and ERM_CLEANFALLOUT */
+        break;
       case ACTIVITY_POLLUTION:
         rmcause = ERM_CLEANPOLLUTION;
         break;
@@ -288,8 +290,25 @@ const char *concat_tile_activity_text(struct tile *ptile)
       }
 
       if (i == ACTIVITY_CLEAN) {
+        extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, ep) {
+          /* Make sure it's not handled by earlier iteration already */
+          if (!is_extra_caused_by(ep, ERM_CLEAN)) {
+            int ei = extra_index(ep);
+
+            if (calc->rmextra_turns[ei][i] > 0) {
+              if (num_activities > 0) {
+                astr_add(&str, "/");
+              }
+              astr_add(&str, _("Clean %s(%d)"),
+                       extra_name_translation(ep), calc->rmextra_turns[ei][i]);
+              num_activities++;
+            }
+          }
+        } extra_type_by_rmcause_iterate_end;
         extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, ep) {
-          if (!is_extra_caused_by(ep, ERM_CLEANPOLLUTION)) {
+          /* Make sure it's not handled by earlier iterations already */
+          if (!is_extra_caused_by(ep, ERM_CLEAN)
+              && !is_extra_caused_by(ep, ERM_CLEANPOLLUTION)) {
             int ei = extra_index(ep);
 
             if (calc->rmextra_turns[ei][i] > 0) {

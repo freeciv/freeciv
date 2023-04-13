@@ -1307,16 +1307,23 @@ void real_menus_update(void)
         set_wflag(order_airbase_button, WF_HIDDEN);
       }
 
-      clean_target = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
+      clean_target = prev_extra_in_tile(ptile, ERM_CLEAN,
                                         unit_owner(punit), punit);
-      if (clean_target != NULL
+
+      pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
+                                        unit_owner(punit), punit);
+      if (clean_target == NULL) {
+        clean_target = pextra; /* Fallback */
+      }
+
+      if (pextra != NULL
           && can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION,
-                                           clean_target)) {
+                                           pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_POLLUTION,
-                                      clean_target, punit);
+                                      pextra, punit);
         /* TRANS: "Clean Pollution (P) 3 turns" */
         fc_snprintf(cbuf, sizeof(cbuf), _("Clean %s (%s) %d %s"),
-                    extra_name_translation(clean_target), "P", time,
+                    extra_name_translation(pextra), "P", time,
                     PL_("turn", "turns", time));
         copy_chars_to_utf8_str(order_pollution_button->info_label, cbuf);
         clear_wflag(order_pollution_button, WF_HIDDEN);
@@ -1332,6 +1339,11 @@ void real_menus_update(void)
 
       pextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
                                   unit_owner(punit), punit);
+
+      if (clean_target == NULL) {
+        clean_target = pextra; /* Fallback */
+      }
+
       if (pextra != NULL
           && can_unit_do_activity_targeted(punit, ACTIVITY_FALLOUT, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_FALLOUT, pextra,
@@ -1346,9 +1358,6 @@ void real_menus_update(void)
         set_wflag(order_fallout_button, WF_HIDDEN);
       }
 
-      if (clean_target == NULL) {
-        clean_target = pextra;
-      }
       if (clean_target != NULL
           && can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN,
                                            clean_target)) {

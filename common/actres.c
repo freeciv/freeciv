@@ -729,40 +729,42 @@ enum fc_tristate actres_possible(enum action_result result,
   case ACTRES_CLEAN:
     {
       const struct extra_type *pextra = NULL;
-      const struct extra_type *fextra = NULL;
 
       pterrain = tile_terrain(target->tile);
 
       if (target_extra != NULL) {
-        if (is_extra_removed_by(target_extra, ERM_CLEANPOLLUTION)
-            && tile_has_extra(target->tile, target_extra)) {
+        if (tile_has_extra(target->tile, target_extra)
+            && (is_extra_removed_by(target_extra, ERM_CLEAN)
+                || is_extra_removed_by(target_extra, ERM_CLEANPOLLUTION)
+                || is_extra_removed_by(target_extra, ERM_CLEANFALLOUT))) {
           pextra = target_extra;
-        }
-        if (is_extra_removed_by(target_extra, ERM_CLEANFALLOUT)
-            && tile_has_extra(target->tile, target_extra)) {
-          fextra = target_extra;
         }
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
 
         pextra = prev_extra_in_tile(target->tile,
-                                    ERM_CLEANPOLLUTION,
+                                    ERM_CLEAN,
                                     actor->player,
                                     actor->unit);
-        fextra = prev_extra_in_tile(target->tile,
-                                    ERM_CLEANFALLOUT,
-                                    actor->player,
-                                    actor->unit);
+
+        if (pextra == NULL) {
+          pextra = prev_extra_in_tile(target->tile,
+                                      ERM_CLEANPOLLUTION,
+                                      actor->player,
+                                      actor->unit);
+
+          if (pextra == NULL) {
+            pextra = prev_extra_in_tile(target->tile,
+                                        ERM_CLEANFALLOUT,
+                                        actor->player,
+                                        actor->unit);
+          }
+        }
       }
 
       if (pextra != NULL && pterrain->extra_removal_times[extra_index(pextra)] > 0
           && can_remove_extra(pextra, actor->unit, target->tile)) {
-        return TRI_YES;
-      }
-
-      if (fextra != NULL && pterrain->extra_removal_times[extra_index(fextra)] > 0
-          && can_remove_extra(fextra, actor->unit, target->tile)) {
         return TRI_YES;
       }
 
