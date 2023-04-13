@@ -55,7 +55,8 @@ extern "C" {
 #define SPECENUM_VALUE8NAME "Alliance"
 #define SPECENUM_VALUE9 REQ_RANGE_WORLD
 #define SPECENUM_VALUE9NAME "World"
-#define SPECENUM_COUNT REQ_RANGE_COUNT /* keep this last */
+#define SPECENUM_COUNT REQ_RANGE_COUNT      /* Keep this last */
+#define REQ_RANGE_MAX (REQ_RANGE_COUNT - 1) /* REQ_RANGE_WORLD */
 #include "specenum_gen.h"
 
 #define req_range_iterate(_range_) \
