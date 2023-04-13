@@ -75,12 +75,6 @@ static bool menus_built = FALSE;
 
 static GMenu *setup_menus(GtkApplication *app);
 
-#ifndef FREECIV_DEBUG
-static void menu_entry_set_visible(const char *key,
-                                   gboolean is_visible,
-                                   gboolean is_sensitive);
-#endif /* FREECIV_DEBUG */
-
 #ifdef MENUS_GTK3
 static void menu_entry_set_active(const char *key,
                                   gboolean is_active);
@@ -141,9 +135,11 @@ static void save_game_as_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
 
-#ifdef MENUS_GTK3
-static void reload_tileset_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
+#ifdef FREECIV_DEBUG
+static void reload_tileset_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+#endif /* FREECIV_DEBUG */
 
 static void save_mapimg_callback(GSimpleAction *action,
                                  GVariant *parameter,
@@ -563,6 +559,12 @@ static struct menu_entry_info menu_entries[] =
   { "SAVE_OPTIONS_ON_EXIT", N_("Save Options on _Exit"),
     "save_options_on_exit", NULL, MGROUP_SAFE,
     save_options_on_exit_callback, FALSE },
+
+#ifdef FREECIV_DEBUG
+  { "RELOAD_TILESET", N_("_Reload Tileset"),
+    "reload_tileset", "<ctrl><alt>r", MGROUP_SAFE,
+    NULL, FALSE },
+#endif /* FREECIV_DEBUG */
 
   { "GAME_SAVE", N_("_Save Game"),
     "game_save", "<ctrl>s", MGROUP_SAFE,
@@ -1002,10 +1004,6 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
 
 #ifdef MENUS_GTK3
-  { "RELOAD_TILESET", N_("_Reload Tileset"),
-    GDK_KEY_r, GDK_ALT_MASK | GDK_CONTROL_MASK,
-    G_CALLBACK(reload_tileset_callback), MGROUP_SAFE },
-
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
 #endif /* MENUS_GTK3 */
@@ -1051,6 +1049,10 @@ const GActionEntry acts[] = {
   { "message_options", message_options_callback },
   { "server_options", server_options_callback },
   { "save_options", save_options_callback },
+
+#ifdef FREECIV_DEBUG
+  { "reload_tileset", reload_tileset_callback },
+#endif /* FREECIV_DEBUG */
 
   { "game_save", save_game_callback },
   { "game_save_as", save_game_as_callback },
@@ -1239,15 +1241,17 @@ static void save_options_on_exit_callback(GSimpleAction *action,
                          create_toggle_menu_item(info));
 }
 
-#ifdef MENUS_GTK3
+#ifdef FREECIV_DEBUG
 /************************************************************************//**
   Item "RELOAD_TILESET" callback.
 ****************************************************************************/
-static void reload_tileset_callback(GtkMenuItem *item, gpointer data)
+static void reload_tileset_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
 {
   tilespec_reread(NULL, TRUE, 1.0);
 }
-#endif /* MENUS_GTK3 */
+#endif /* FREECIV_DEBUG */
 
 /************************************************************************//**
   Item "SAVE_GAME" callback.
@@ -3040,6 +3044,10 @@ static GMenu *setup_menus(GtkApplication *app)
 
   submenu_append_unref(topmenu, _("_Options"), G_MENU_MODEL(options_menu));
 
+#ifdef FREECIV_DEBUG
+  menu_entry_init(topmenu, "RELOAD_TILESET");
+#endif /* FREECIV_DEBUG */
+
   menu_entry_init(topmenu, "GAME_SAVE");
   menu_entry_init(topmenu, "GAME_SAVE_AS");
   menu_entry_init(topmenu, "MAPIMG_SAVE");
@@ -3255,10 +3263,6 @@ static GMenu *setup_menus(GtkApplication *app)
 
   submenu_append_unref(menubar, _("_Help"), G_MENU_MODEL(topmenu));
 
-#ifndef FREECIV_DEBUG
-  menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
-#endif /* FREECIV_DEBUG */
-
   menus_built = TRUE;
 
   real_menus_update();
@@ -3340,25 +3344,6 @@ static void menu_entry_group_set_sensitive(GActionMap *map,
     }
   }
 }
-
-/************************************************************************//**
-  Sets an action visible.
-****************************************************************************/
-#ifndef FREECIV_DEBUG
-static void menu_entry_set_visible(const char *key,
-                                   gboolean is_visible,
-                                   gboolean is_sensitive)
-{
-#ifdef MENUS_GTK3
-  GtkWidget *item = GTK_WIDGET(gtk_builder_get_object(ui_builder, key));
-
-  if (item != NULL) {
-    gtk_widget_set_visible(item, is_visible);
-    gtk_widget_set_sensitive(item, is_sensitive);
-  }
-#endif /* MENUS_GTK3 */
-}
-#endif /* FREECIV_DEBUG */
 
 #ifdef MENUS_GTK3
 /************************************************************************//**
