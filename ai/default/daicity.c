@@ -1673,7 +1673,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   } players_iterate_end;
 
   effect_list_iterate(get_req_source_effects(&source), peffect) {
-    struct requirement *mypreq = NULL;
+    enum req_range range = REQ_RANGE_MAX;
     bool active = TRUE;
     int n_needed_techs = 0;
     struct tech_vector needed_techs;
@@ -1686,8 +1686,11 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       /* Check if all the requirements for the currently evaluated effect
        * are met, except for having the building that we are evaluating. */
       if (VUT_IMPROVEMENT == preq->source.kind
-	  && preq->source.value.building == pimprove) {
-	mypreq = preq;
+          && preq->source.value.building == pimprove) {
+        if (preq->range < range) {
+          /* More limited range */
+          range = preq->range;
+        }
         present = preq->present;
         continue;
       }
@@ -1708,8 +1711,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     n_needed_techs = tech_vector_size(&needed_techs);
     if ((active || n_needed_techs) && !impossible_to_get) {
       adv_want v1 = dai_effect_value(pplayer, ai, pcity, capital,
-                                     turns, peffect, cities[mypreq->range],
-                                     nplayers);
+                                     turns, peffect, range, nplayers);
       /* v1 could be negative (the effect could be undesirable),
        * although it is usually positive.
        * For example, in the default ruleset, Communism decreases the
