@@ -1139,7 +1139,7 @@ static int hurry_production_window_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-  popup buy productions dlg.
+  Popup buy production dlg.
 **************************************************************************/
 void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 {
@@ -1214,7 +1214,8 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   area.h += pText->h + adj_size(5);
 
   pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                            pWindow->dst, _("No"), adj_font(12), 0);
+                                            pWindow->dst, _("No"),
+                                            adj_font(12), 0);
 
   pBuf->action = cancel_buy_prod_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1239,7 +1240,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 
   pHurry_Prod_Dlg->pBeginWidgetList = pBuf;
 
-  /* setup window size and start position */
+  /* Setup window size and start position */
   area.w += adj_size(10);
   area.h += adj_size(5);
 
@@ -1249,61 +1250,61 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 
   area = pWindow->area;
 
-  pBuf = pWindow->prev;
-
   if (city_dialog_is_open(pCity)) {
     window_x = pCityDlg->pBuy_Button->size.x;
     window_y = pCityDlg->pBuy_Button->size.y - pWindow->size.h;
-  } else {
-    if (is_city_report_open()) {
-      fc_assert(selected_widget != NULL);
-      if (selected_widget->size.x + tileset_tile_width(tileset) + pWindow->size.w > main_window_width()) {
-        window_x = selected_widget->size.x - pWindow->size.w;
-      } else {
-        window_x = selected_widget->size.x + tileset_tile_width(tileset);
-      }
+  } else if (is_city_report_open()) {
+    fc_assert(selected_widget != NULL);
 
-      window_y = selected_widget->size.y + (selected_widget->size.h - pWindow->size.h) / 2;
-      if (window_y + pWindow->size.h > main_window_height()) {
-        window_y = main_window_height() - pWindow->size.h - 1;
-      } else {
-        if (window_y < 0) {
-          window_y = 0;
-        }
-      }
+    if (selected_widget->size.x + tileset_tile_width(tileset)
+        + pWindow->size.w > main_window_width()) {
+      window_x = selected_widget->size.x - pWindow->size.w;
     } else {
-      put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h, pCity->tile);
+      window_x = selected_widget->size.x + tileset_tile_width(tileset);
     }
+
+    window_y = selected_widget->size.y
+      + (selected_widget->size.h - pWindow->size.h) / 2;
+
+    if (window_y + pWindow->size.h > main_window_height()) {
+      window_y = main_window_height() - pWindow->size.h - 1;
+    } else if (window_y < 0) {
+      window_y = 0;
+    }
+  } else {
+    put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
+                             pCity->tile);
   }
 
   widget_set_position(pWindow, window_x, window_y);
 
-  /* setup rest of widgets */
-  /* label */
+  /* Setup rest of widgets */
+  /* Label */
   dst.x = area.x + (area.w - pText->w) / 2;
   dst.y = area.y + 1;
   alphablit(pText, NULL, pWindow->theme, &dst, 255);
   dst.y += pText->h + adj_size(5);
   FREESURFACE(pText);
 
-  /* no */
+  /* No */
   pBuf = pWindow->prev;
   pBuf->size.y = dst.y;
 
   if (city_can_buy(pCity) && value <= client.conn.playing->economic.gold) {
-    /* yes */
+    /* Yes */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(20))) / 2;
     pBuf->size.y = dst.y;
 
-    /* no */
+    /* No */
     pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(20);
   } else {
-    /* no */
+    /* No */
     pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(10);
   }
+
   /* ================================================== */
-  /* redraw */
+  /* Redraw */
   redraw_group(pHurry_Prod_Dlg->pBeginWidgetList, pWindow, 0);
   widget_mark_dirty(pWindow);
   flush_dirty();
