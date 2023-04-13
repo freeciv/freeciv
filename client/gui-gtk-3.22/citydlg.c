@@ -3000,6 +3000,12 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_TRANSFORM), FALSE, NULL);
     }
+    if (prev_extra_in_tile(ptile, ERM_CLEAN,
+                           city_owner(pcity), NULL) != NULL) {
+      choice_dialog_add(shl, _("Clean"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_CLEAN), FALSE, NULL);
+    }
     if (prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
                            city_owner(pcity), NULL) != NULL) {
       choice_dialog_add(shl, _("Clean Pollution"),

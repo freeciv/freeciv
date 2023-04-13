@@ -3714,7 +3714,7 @@ void key_unit_clean(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                ERM_CLEANPOLLUTION,
+                                                ERM_CLEAN,
                                                 unit_owner(punit),
                                                 punit);
 
@@ -3723,13 +3723,23 @@ void key_unit_clean(void)
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN, tgt);
     } else {
       tgt = prev_extra_in_tile(unit_tile(punit),
-                               ERM_CLEANFALLOUT,
+                               ERM_CLEANPOLLUTION,
                                unit_owner(punit),
                                punit);
 
       if (tgt != NULL
           && can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, tgt)) {
         request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN, tgt);
+      } else {
+        tgt = prev_extra_in_tile(unit_tile(punit),
+                                 ERM_CLEANFALLOUT,
+                                 unit_owner(punit),
+                                 punit);
+
+        if (tgt != NULL
+            && can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, tgt)) {
+          request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN, tgt);
+        }
       }
     }
   } unit_list_iterate_end;

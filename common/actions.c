@@ -2307,7 +2307,8 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_PILLAGE:
     return is_extra_removed_by(pextra, ERM_PILLAGE);
   case ACTRES_CLEAN:
-    return is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+    return is_extra_removed_by(pextra, ERM_CLEAN)
+      || is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
       || is_extra_removed_by(pextra, ERM_CLEANFALLOUT);
   case ACTRES_CLEAN_POLLUTION:
     return is_extra_removed_by(pextra, ERM_CLEANPOLLUTION);

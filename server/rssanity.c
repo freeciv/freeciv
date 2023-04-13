@@ -1196,8 +1196,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     }
     if ((requirement_vector_size(&pextra->rmreqs) > 0)
         && !(pextra->rmcauses
-             & (ERM_ENTER | ERM_CLEANPOLLUTION
-                | ERM_CLEANFALLOUT | ERM_PILLAGE))) {
+             & (ERM_ENTER | ERM_CLEAN | ERM_PILLAGE
+                | ERM_CLEANPOLLUTION | ERM_CLEANFALLOUT))) {
       ruleset_error(logger, LOG_WARN,
                     "Requirements for extra removal defined but not "
                     "a valid remove cause!");

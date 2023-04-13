@@ -4321,11 +4321,16 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
       }
 
     } else if (activity == ACTIVITY_CLEAN) {
-      activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
+      activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEAN,
                                            pplayer, punit);
+
       if (activity_target == NULL) {
-        activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANFALLOUT,
+        activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
                                              pplayer, punit);
+        if (activity_target == NULL) {
+          activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANFALLOUT,
+                                               pplayer, punit);
+        }
       }
     } else if (activity == ACTIVITY_POLLUTION) {
       activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
