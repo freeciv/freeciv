@@ -610,10 +610,21 @@ int get_total_attack_power(const struct unit *attacker,
 {
   int mod;
   int attackpower = get_attack_power(attacker);
+  struct tile *deftile = unit_tile(defender);
+  struct city *pcity = tile_city(deftile);
 
-  mod = 100 + get_unittype_bonus(unit_owner(attacker), unit_tile(defender),
-                                 unit_type_get(attacker), paction,
-                                 EFT_ATTACK_BONUS);
+  /* Note: get_unit_bonus() would use the tile unit is on,
+   *       but we want defending tile. */
+  mod = 100 + get_target_bonus_effects(NULL,
+                                       &(const struct req_context) {
+                                         .player = unit_owner(attacker),
+                                         .city = pcity,
+                                         .tile = deftile,
+                                         .unit = attacker,
+                                         .unittype = unit_type_get(attacker),
+                                         .action = paction,
+                                       },
+                                       NULL, EFT_ATTACK_BONUS);
 
   return attackpower * mod / 100;
 }
