@@ -1,4 +1,4 @@
-# stdlib_h.m4 serial 72
+# stdlib_h.m4 serial 73
 dnl Copyright (C) 2007-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -31,6 +31,49 @@ AC_DEFUN_ONCE([gl_STDLIB_H],
     strtod strtol strtold strtoll strtoul strtoull unlockpt unsetenv])
 
   AC_REQUIRE([AC_C_RESTRICT])
+
+  dnl Test whether MB_CUR_MAX needs to be overridden.
+  dnl On Solaris 10, in UTF-8 locales, its value is 3 but needs to be 4.
+  dnl Fortunately, we can do this because on this platform MB_LEN_MAX is 5.
+  AC_REQUIRE([AC_CANONICAL_HOST])
+  AC_REQUIRE([gt_LOCALE_FR_UTF8])
+  AC_CACHE_CHECK([whether MB_CUR_MAX is correct],
+    [gl_cv_macro_MB_CUR_MAX_good],
+    [
+      dnl Initial guess, used when cross-compiling or when no suitable locale
+      dnl is present.
+changequote(,)dnl
+      case "$host_os" in
+                  # Guess no on Solaris.
+        solaris*) gl_cv_macro_MB_CUR_MAX_good="guessing no" ;;
+                  # Guess yes otherwise.
+        *)        gl_cv_macro_MB_CUR_MAX_good="guessing yes" ;;
+      esac
+changequote([,])dnl
+      if test $LOCALE_FR_UTF8 != none; then
+        AC_RUN_IFELSE(
+          [AC_LANG_SOURCE([[
+#include <locale.h>
+#include <stdlib.h>
+int main ()
+{
+  int result = 0;
+  if (setlocale (LC_ALL, "$LOCALE_FR_UTF8") != NULL)
+    {
+      if (MB_CUR_MAX < 4)
+        result |= 1;
+    }
+  return result;
+}]])],
+          [gl_cv_macro_MB_CUR_MAX_good=yes],
+          [gl_cv_macro_MB_CUR_MAX_good=no]
+          [:])
+      fi
+    ])
+  case "$gl_cv_macro_MB_CUR_MAX_good" in
+    *yes) ;;
+    *) REPLACE_MB_CUR_MAX=1 ;;
+  esac
 
   AC_CHECK_DECLS_ONCE([ecvt])
   if test $ac_cv_have_decl_ecvt = no; then
@@ -181,6 +224,7 @@ AC_DEFUN([gl_STDLIB_H_DEFAULTS],
   REPLACE_INITSTATE=0;       AC_SUBST([REPLACE_INITSTATE])
   REPLACE_MALLOC_FOR_MALLOC_GNU=0;    AC_SUBST([REPLACE_MALLOC_FOR_MALLOC_GNU])
   REPLACE_MALLOC_FOR_MALLOC_POSIX=0;  AC_SUBST([REPLACE_MALLOC_FOR_MALLOC_POSIX])
+  REPLACE_MB_CUR_MAX=0;      AC_SUBST([REPLACE_MB_CUR_MAX])
   REPLACE_MBSTOWCS=0;        AC_SUBST([REPLACE_MBSTOWCS])
   REPLACE_MBTOWC=0;          AC_SUBST([REPLACE_MBTOWC])
   REPLACE_MKOSTEMP=0;        AC_SUBST([REPLACE_MKOSTEMP])
