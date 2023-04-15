@@ -1057,7 +1057,7 @@ void popup_city_cma_dialog(struct city *pCity)
 
   add_to_gui_list(ID_ICON, pBuf);
 
-  /* Run cma onece */
+  /* Run cma once */
   pBuf = create_themeicon(current_theme->FindCity_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_once_callback;
