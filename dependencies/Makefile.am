@@ -20,5 +20,6 @@ endif
 
 EXTRA_DIST = \
 		m4/gnulib-common.m4 \
+		m4/locale-fr.m4 \
 		m4/mkstemp.m4 \
 		m4/stdlib_h.m4
