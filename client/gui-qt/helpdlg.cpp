@@ -1345,7 +1345,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
       fc_snprintf(cult_buffer, sizeof(cult_buffer), PL_("%d turn", "%d turns",
                                                         pterrain->cultivate_time),
                   pterrain->cultivate_time);
-      str = N_("Cultiv. Rslt/Time:");;
+      str = N_("Cultiv. Rslt/Time:");
       str = str + link_me(terrain_name_translation(pterrain->cultivate_result),
                           HELP_TERRAIN)
             + QString(cult_buffer).toHtmlEscaped();
@@ -1367,7 +1367,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
       fc_snprintf(plant_buffer, sizeof(plant_buffer), PL_("%d turn", "%d turns",
                                                           pterrain->plant_time),
                   pterrain->plant_time);
-      str = N_("Plant Rslt/Time:");;
+      str = N_("Plant Rslt/Time:");
       str = str + link_me(terrain_name_translation(pterrain->plant_result),
                           HELP_TERRAIN)
             + QString(plant_buffer).toHtmlEscaped();

@@ -3432,9 +3432,9 @@ bool city_map_update_radius_sq(struct city *pcity)
   city_tiles_new = city_map_tiles(city_radius_sq_new);
 
   if (city_tiles_old == city_tiles_new) {
-    /* a change of the squared city radius but no change of the number of
+    /* A change of the squared city radius but no change of the number of
      * city tiles */
-    return FALSE;;
+    return FALSE;
   }
 
   log_debug("[%s (%d)] city_map_radius_sq: %d => %d", city_name_get(pcity),

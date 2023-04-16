@@ -8130,7 +8130,7 @@ static void send_ruleset_techs(struct conn_list *dest)
       packet.research_reqs[i++]
           = req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
                             FALSE, TRUE, FALSE,
-                            advance_number(a->require[AR_TWO]));;
+                            advance_number(a->require[AR_TWO]));
     }
 
     /* The requirements of the tech's research_reqs also goes in the

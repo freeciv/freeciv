@@ -4107,7 +4107,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                 _("\nYields an output bonus with some terrains:\n\n"));
         CATLSTR(buf, bufsz,
                 _("Terrain       Bonus F/P/T\n"
-                  "-------------------------\n"));;
+                  "-------------------------\n"));
       }
       terrain_type_iterate(t) {
         int turns = road ? terrain_extra_build_time(t, ACTIVITY_GEN_ROAD, pextra)

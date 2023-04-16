@@ -87,14 +87,14 @@ static void sha_unit_new(int id)
 **************************************************************************/
 static void sha_unit_remove(int id)
 {
-  struct unit *pold_unit = unit_list_find(previous_units, id);;
+  struct unit *pold_unit = unit_list_find(previous_units, id);
 
   log_debug("sha got unit: %d", id);
 
   fc_assert_ret(NULL != pold_unit);
   unit_list_remove(previous_units, pold_unit);
-  /* list pointers were struct copied, cannot unit_virtual_destroy() */
-  memset(pold_unit, 0, sizeof(*pold_unit)); /* ensure no pointers remain */
+  /* List pointers were struct copied, cannot unit_virtual_destroy() */
+  memset(pold_unit, 0, sizeof(*pold_unit)); /* Ensure no pointers remain */
   free(pold_unit);
 }
 

@@ -170,7 +170,7 @@ static void surf_destroy_callback(void *data)
 struct sprite *load_gfxfile(const char *filename)
 {
   struct sprite *spr;
-  GError *err = NULL;;
+  GError *err = NULL;
   GdkPixbuf *pb = gdk_pixbuf_new_from_file(filename, &err);
   int width;
   int height;

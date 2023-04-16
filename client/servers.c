@@ -648,9 +648,9 @@ get_lan_server_list(struct server_scan *scan)
           inet_ntop(AF_INET6, &fromend.saddr_in6.sin6_addr,
                     dst, sizeof(dst));
         } else if (fromend.saddr.sa_family == AF_INET) {
-          inet_ntop(AF_INET, &fromend.saddr_in4.sin_addr, dst, sizeof(dst));;
+          inet_ntop(AF_INET, &fromend.saddr_in4.sin_addr, dst, sizeof(dst));
         } else {
-	  fc_assert(FALSE);
+          fc_assert(FALSE);
 
 	  log_error("Unsupported address family in get_lan_server_list()");
 

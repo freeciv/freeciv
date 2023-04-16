@@ -4107,7 +4107,7 @@ static bool do_unit_change_homecity(struct unit *punit,
                   _("%s transferred control over a %s to you in %s."),
                   giver,
                   unit_tile_link(punit),
-                  city_link(pcity));;
+                  city_link(pcity));
   }
 
   return punit->homecity == pcity->id;
@@ -4156,7 +4156,7 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                   _("%s adds %s to your city %s."),
                   player_name(unit_owner(punit)),
                   unit_tile_link(punit),
-                  city_link(pcity));;
+                  city_link(pcity));
   }
 
   action_consequence_success(paction, pplayer, act_utype,

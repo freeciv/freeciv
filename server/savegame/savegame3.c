@@ -2657,14 +2657,14 @@ static void sg_load_counters(struct loaddata *loading)
 }
 
 /************************************************************************//**
-Save [counters].
+  Save [counters].
 ****************************************************************************/
 static void sg_save_counters(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
-  const char **countnames;;
+  const char **countnames;
   int         *countvalues;
   int    i, j, count;
 

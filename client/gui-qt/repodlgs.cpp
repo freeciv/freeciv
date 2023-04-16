@@ -852,8 +852,9 @@ QSize research_diagram::size()
 {
   QSize s;
 
-  s.setWidth(width);;
+  s.setWidth(width);
   s.setHeight(height);
+
   return s;
 }
 

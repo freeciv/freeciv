@@ -5074,7 +5074,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check,
                   _("Freeciv script '%s' disallowed for security reasons."),
                   luafile);
         ret = FALSE;
-        goto cleanup;;
+        goto cleanup;
       }
       sz_strlcpy(tilde_filename, luafile);
     } else {
