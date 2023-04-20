@@ -1,10 +1,83 @@
 ========================
-Welcome to Freeciv 2.6.8
+Welcome to Freeciv 2.6.9
 ========================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.8 to 2.6.9
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-2.6.9>, 2023-04-21)
+
+2.6.9 is a generic bugfix release on freeciv-2.6 series.
+
+Experimental msys2 based build for Windows: When it comes time to uninstall this version,
+it does so cleanly. Former versions failed to remove some of the Registry Keys they
+had written. Those keys are harmless, but this failed the expectation that uninstall
+removes such things from user's machine.
+
+Server / General
+
+    * Fixed server file descriptor leak when loading lua command files osdn#47609
+    * Fixed memory handling issues when number of continents change on a map with
+      no lakes at all osdn#47825
+
+Changes affecting other rulesets / modders
+
+    * Clients now receive updated information when player gold reserves have been
+      changed by a lua script osdn#47386
+
+AI
+
+    * Fixed an issue in how AI evaluates whether building a new building would
+      enable or disable unit actions. Notable consequences of this bug was how
+      AI was afraid to build Coinage, and went for idle Caravans instead
+      osdn#42169
+
+Clients
+
+    * Show Irrigation option fixed - Irrigation was being drawn regardless
+      of the value osdn#47316
+    * Fixed client crash after failure to load some tileset files osdn#47318
+    * Fixed clipping of the draw area on gui independent part of client code.
+      Notably this made gtk-clients to give warnings like Invalid rectangle passed
+      osdn#42262
+
+    * gtk3 / gtk3.22
+        + Area of the Battle Animation is now set correctly on screen osdn#47705
+
+    * qt
+        + Added About Current Tileset entry to Help menu osdn#47638 osdn#47758
+
+    * sdl / sdl2
+        + Diplomacy dialog now provides button to propose Alliance osdn#46604
+        + Fix help crash when a building has only negated requirements osdn#47559
+        + Orders menus for present and supported units now correctly opens from
+          the city dialog osdn#47455
+        + Fix tech help crash osdn#47615
+        + sdl2 only Theme font size is actually used. This initial implementation
+          is just a start, but better than nothing osdn#47681 osdn#47703
+
+Translations
+
+    * Updated translations:
+        + Complete translations: Catalan, French, Russian
+        + Incomplete translations: Finnish (100% core, 91% nations, 100% ruledit)
+
+Build/portability
+
+    * Made Windows builds to live a bit better together when co-installed
+      osdn#46663 osdn#47568
+    * Experimental msys2 based Windows Uninstaller of this version properly
+      removes Registry Keys the installation has written osdn#47690
+    * Autotools: Add large files support osdn#47830
+    * Preparations for upcoming autoconf-2.72 osdn#46511
+    * Fixed potential problem in detecting pthreads availability osdn#47474
+    * Fixed xaw-client compile warnings with modern libxaw osdn#47693
+    * Fixed gtk2-client build with gtk+ versions older than 2.20 osdn#47728
 
 
 CHANGES FROM 2.6.7 to 2.6.8
