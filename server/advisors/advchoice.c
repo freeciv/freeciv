@@ -154,8 +154,8 @@ void adv_choice_set_use(struct adv_choice *choice, const char *use)
 /**********************************************************************//**
   Log the choice information.
 **************************************************************************/
-void adv_choice_log_info(struct adv_choice *choice, const char *loc1,
-                         const char *loc2)
+void adv_choice_log_info(struct adv_choice *choice,
+                         const char *loc1, const char *loc2)
 {
   const char *use;
   const char *name;
@@ -183,6 +183,18 @@ void adv_choice_log_info(struct adv_choice *choice, const char *loc1,
                                    "want " ADV_WANT_PRINTF " as %s (%d)",
              loc1, name, choice->want, use, choice->type);
   }
+}
+
+/**********************************************************************//**
+  Log the choice information. Location part 2 is an int.
+**************************************************************************/
+void adv_choice_log_int(struct adv_choice *choice,
+                        const char *loc1, int loc2)
+{
+  char buf[20];
+
+  fc_snprintf(buf, sizeof(buf), "%d", loc2);
+  adv_choice_log_info(choice, loc1, buf);
 }
 
 /**********************************************************************//**
