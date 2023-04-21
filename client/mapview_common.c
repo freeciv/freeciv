@@ -76,7 +76,7 @@ bool can_slide = TRUE;
 
 static bool frame_by_frame_animation = FALSE;
 
-struct tile *center_tile = NULL;
+const struct tile *center_tile = NULL;
 
 struct tile *infratile = NULL;
 
@@ -92,7 +92,7 @@ enum update_type {
 };
 
 /* A tile update has a tile associated with it as well as an area type.
- * See unqueue_mapview_updates for a thorough explanation. */
+ * See unqueue_mapview_updates() for a thorough explanation. */
 enum tile_update_type {
   TILE_UPDATE_TILE_SINGLE,
   TILE_UPDATE_TILE_FULL,
@@ -645,7 +645,7 @@ static void gui_to_map_pos(const struct tileset *t,
   visible mapview canvas.
 
   The result represents the upper left pixel (origin) of the bounding box of
-  the tile.  Note that in iso-view this origin is not a part of the tile
+  the tile. Note that in iso-view this origin is not a part of the tile
   itself - so to make the operation reversible you would have to call
   canvas_to_map_pos on the center of the tile, not the origin.
 
@@ -657,47 +657,48 @@ static void gui_to_map_pos(const struct tileset *t,
   }
 
   This pixel is one position closer to the lower right, which may be
-  important to remember when doing some round-off operations. Other
-  parts of the code assume tileset_tile_width(tileset) and tileset_tile_height(tileset)
-  to be even numbers.
+  important to remember when doing some round-off operations.
+  Other parts of the code assume tileset_tile_width(tileset) and
+  tileset_tile_height(tileset) to be even numbers.
 ****************************************************************************/
-bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile)
+bool tile_to_canvas_pos(float *canvas_x, float *canvas_y,
+                        const struct tile *ptile)
 {
   int center_map_x, center_map_y, dx, dy, tile_x, tile_y;
 
   /*
    * First we wrap the coordinates to hopefully be within the mapview
-   * window.  We do this by finding the position closest to the center
+   * window. We do this by finding the position closest to the center
    * of the window.
    */
   /* TODO: Cache the value of this position */
   base_canvas_to_map_pos(&center_map_x, &center_map_y,
-			 mapview.width / 2,
-			 mapview.height / 2);
+                         mapview.width / 2,
+                         mapview.height / 2);
   index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
   base_map_distance_vector(&dx, &dy, center_map_x, center_map_y, tile_x,
                            tile_y);
 
   map_to_gui_pos(tileset,
-		 canvas_x, canvas_y, center_map_x + dx, center_map_y + dy);
+                 canvas_x, canvas_y, center_map_x + dx, center_map_y + dy);
   *canvas_x -= mapview.gui_x0;
   *canvas_y -= mapview.gui_y0;
 
   /*
    * Finally we clip.
    *
-   * This check is tailored to work for both iso-view and classic view.  Note
+   * This check is tailored to work for both iso-view and classic view. Note
    * that (canvas_x, canvas_y) need not be aligned to a tile boundary, and
    * that the position is at the top-left of the NORMAL (not UNIT) tile.
    * This checks to see if _any part_ of the tile is present on the backing
-   * store.  Even if it's not visible on the canvas, if it's present on the
+   * store. Even if it's not visible on the canvas, if it's present on the
    * backing store we need to draw it in case the canvas is resized.
    */
   return (*canvas_x > -tileset_tile_width(tileset) * map_zoom
-	  && *canvas_x < mapview.store_width
-	  && *canvas_y > -tileset_tile_height(tileset) * map_zoom
-	  && *canvas_y < (mapview.store_height
-			  + (tileset_full_tile_height(tileset)
+          && *canvas_x < mapview.store_width
+          && *canvas_y > -tileset_tile_height(tileset) * map_zoom
+          && *canvas_y < (mapview.store_height
+                          + (tileset_full_tile_height(tileset)
                              - tileset_tile_height(tileset)) * map_zoom));
 }
 
@@ -1181,9 +1182,9 @@ struct tile *get_center_tile_mapcanvas(void)
 }
 
 /************************************************************************//**
-  Centers the mapview around (map_x, map_y).
+  Centers the mapview around ptile.
 ****************************************************************************/
-void center_tile_mapcanvas(struct tile *ptile)
+void center_tile_mapcanvas(const struct tile *ptile)
 {
   float gui_x, gui_y;
   int tile_x, tile_y;
@@ -2410,7 +2411,7 @@ void show_tile_labels(int canvas_base_x, int canvas_base_y,
         /* The update was incomplete! We queue a new update. Note that
          * this is recursively queueing an update within a dequeuing of an
          * update. This is allowed specifically because of the code in
-         * unqueue_mapview_updates. See that function for more. */
+         * unqueue_mapview_updates(). See that function for more. */
         log_debug("Re-queuing tile label %s drawing.", ptile->label);
         update_tile_label(ptile);
       }

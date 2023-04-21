@@ -250,7 +250,9 @@ void unqueue_mapview_updates(bool write_to_screen);
 
 void map_to_gui_vector(const struct tileset *t, float zoom,
 		       float *gui_dx, float *gui_dy, int map_dx, int map_dy);
-bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile);
+bool tile_to_canvas_pos(float *canvas_x, float *canvas_y,
+                        const struct tile *ptile)
+  fc__attribute((nonnull (1, 2, 3)));
 struct tile *canvas_pos_to_tile(float canvas_x, float canvas_y);
 struct tile *canvas_pos_to_nearest_tile(float canvas_x, float canvas_y);
 
@@ -263,7 +265,8 @@ void set_mapview_scroll_pos(int scroll_x, int scroll_y);
 
 void set_mapview_origin(float gui_x0, float gui_y0);
 struct tile *get_center_tile_mapcanvas(void);
-void center_tile_mapcanvas(struct tile *ptile);
+void center_tile_mapcanvas(const struct tile *ptile)
+  fc__attribute((nonnull (1)));
 
 bool tile_visible_mapcanvas(struct tile *ptile);
 bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile);
