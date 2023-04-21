@@ -191,6 +191,13 @@ if ! add_common_env "$DLLSPATH" "$INSTDIR" ; then
   exit 1
 fi
 
+NSI_DIR="meson/nsi"
+
+if ! mkdir -p "$NSI_DIR" ; then
+  echo "Creating \"$NSI_DIR\" directory failed" >&2
+  exit 1
+fi
+
 if test "$GUI" = "ruledit" ; then
   if ! cp freeciv-ruledit.cmd "$INSTDIR"
   then
@@ -202,11 +209,11 @@ if test "$GUI" = "ruledit" ; then
     exit 1
   fi
 
-  NSIFILE="meson-freeciv-ruledit-$SETUP-$VERREV.nsi"
+  NSI_FILE="${NSI_DIR}/ruledit-${SETUP}-${VERREV}.nsi"
 
   if ! ./create-freeciv-ruledit-nsi.sh \
          "$INSTDIR" "meson/Output" "$VERREV" "$SETUP" \
-           > "$NSIFILE"
+           > "$NSI_FILE"
   then
     exit 1
   fi
@@ -283,12 +290,12 @@ else
     UNINSTALLER=""
   fi
 
-  NSIFILE="meson-freeciv-$SETUP-$VERREV-$GUI.nsi"
+  NSI_FILE="${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
 
   if test "$GUI" = "sdl2" ; then
     if ! ./create-freeciv-sdl2-nsi.sh \
            "$INSTDIR" "meson/Output" "$VERREV" "$SETUP" "$UNINSTALLER" \
-             > "$NSIFILE"
+             > "$NSI_FILE"
     then
       exit 1
     fi
@@ -296,7 +303,7 @@ else
     if ! ./create-freeciv-gtk-qt-nsi.sh \
            "$INSTDIR" "meson/Output" "$VERREV" "$GUI" "$GUINAME" \
            "$SETUP" "$MPGUI" "$EXE_ID" "$UNINSTALLER" \
-             > "$NSIFILE"
+             > "$NSI_FILE"
     then
       exit 1
     fi
@@ -308,7 +315,7 @@ if ! mkdir -p meson/Output ; then
   exit 1
 fi
 
-if ! makensis "$NSIFILE"
+if ! makensis -NOCD "$NSI_FILE"
 then
   echo "Creating installer failed!" >&2
   exit 1
