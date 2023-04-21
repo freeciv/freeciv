@@ -1580,69 +1580,73 @@ actor_reqs  =
     }
 
 [actionenabler_conquer_city_native]
-action = "Conquer City"
+action        = "Conquer City"
 actor_reqs    =
-    { "type",           "name",          "range", "present"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
-      "UnitFlag",       "NonMil",        "Local", FALSE
-      "DiplRel",        "War",           "Local", TRUE
-      "MinMoveFrags",   "1",             "Local", TRUE
-      "UnitState",      "OnLivableTile", "Local", TRUE
-      "Building",       "Treuga Dei",    "World", FALSE
+    { "type",           "name",           "range",  "present"
+      "UnitClassFlag",  "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",       "NonMil",         "Local",  FALSE
+      "DiplRel",        "War",            "Local",  TRUE
+      "MinMoveFrags",   "1",              "Local",  TRUE
+      "UnitState",      "OnLivableTile",  "Local",  TRUE
+      "Building",       "Treuga Dei",     "World",  FALSE
+      "Nation",         "Animal Kingdom", "Player", FALSE
     }
-target_reqs    =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Tile",  TRUE
+target_reqs   =
+    { "type",           "name",           "range",  "present"
+      "MaxUnitsOnTile", "0",              "Tile",   TRUE
     }
 
 [actionenabler_conquer_city_native_despite_treuga_dei]
-action = "Conquer City"
+action        = "Conquer City"
 actor_reqs    =
-    { "type",           "name",          "range", "present", "survives"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE,      FALSE
-      "UnitFlag",       "NonMil",        "Local", FALSE,     FALSE
-      "DiplRel",        "War",           "Local", TRUE,      FALSE
-      "MinMoveFrags",   "1",             "Local", TRUE,      FALSE
-      "UnitState",      "OnLivableTile", "Local", TRUE,      FALSE
-      "Tech",           "Communism",     "World", TRUE,      TRUE
+    { "type",           "name",           "range",  "present", "survives"
+      "UnitClassFlag",  "CanOccupyCity",  "Local",  TRUE,      FALSE
+      "UnitFlag",       "NonMil",         "Local",  FALSE,     FALSE
+      "DiplRel",        "War",            "Local",  TRUE,      FALSE
+      "MinMoveFrags",   "1",              "Local",  TRUE,      FALSE
+      "UnitState",      "OnLivableTile",  "Local",  TRUE,      FALSE
+      "Tech",           "Communism",      "World",  TRUE,      TRUE
+      "Nation",         "Animal Kingdom", "Player", FALSE,     FALSE
     }
-target_reqs    =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Tile",  TRUE
+target_reqs   =
+    { "type",           "name",           "range",  "present"
+      "MaxUnitsOnTile", "0",              "Tile",   TRUE
     }
 
 [actionenabler_conquer_city_marines]
-action = "Conquer City 2"
+action        = "Conquer City 2"
 actor_reqs    =
-    { "type",           "name",          "range", "present"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
-      "UnitFlag",       "NonMil",        "Local", FALSE
-      "DiplRel",        "War",           "Local", TRUE
-      "MinMoveFrags",   "1",             "Local", TRUE
-      "UnitFlag",       "Marines",       "Local", TRUE
-      "UnitState",      "OnLivableTile", "Local", FALSE
-      "Building",       "Treuga Dei",    "World", FALSE
+    { "type",           "name",           "range",  "present"
+      "UnitClassFlag",  "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",       "NonMil",         "Local",  FALSE
+      "DiplRel",        "War",            "Local",  TRUE
+      "MinMoveFrags",   "1",              "Local",  TRUE
+      "UnitFlag",       "Marines",        "Local",  TRUE
+      "UnitState",      "OnLivableTile",  "Local",  FALSE
+      "Building",       "Treuga Dei",     "World",  FALSE
+      "Nation",         "Animal Kingdom", "Player", FALSE
     }
-target_reqs    =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Tile",  TRUE
+target_reqs   =
+    { "type",           "name",           "range",  "present"
+      "MaxUnitsOnTile", "0",              "Tile",   TRUE
     }
 
 [actionenabler_conquer_city_marines_despite_treuga_dei]
-action = "Conquer City 2"
+action        = "Conquer City 2"
 actor_reqs    =
-    { "type",           "name",          "range", "present", "survives"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE,      FALSE
-      "UnitFlag",       "NonMil",        "Local", FALSE,     FALSE
-      "DiplRel",        "War",           "Local", TRUE,      FALSE
-      "MinMoveFrags",   "1",             "Local", TRUE,      FALSE
-      "UnitFlag",       "Marines",       "Local", TRUE,      FALSE
-      "UnitState",      "OnLivableTile", "Local", FALSE,     FALSE
-      "Tech",           "Communism",     "World", TRUE,      TRUE
+    { "type",           "name",           "range",  "present", "survives"
+      "UnitClassFlag",  "CanOccupyCity",  "Local",  TRUE,      FALSE
+      "UnitFlag",       "NonMil",         "Local",  FALSE,     FALSE
+      "DiplRel",        "War",            "Local",  TRUE,      FALSE
+      "MinMoveFrags",   "1",              "Local",  TRUE,      FALSE
+      "UnitFlag",       "Marines",        "Local",  TRUE,      FALSE
+      "UnitState",      "OnLivableTile",  "Local",  FALSE,     FALSE
+      "Tech",           "Communism",      "World",  TRUE,      TRUE
+      "Nation",         "Animal Kingdom", "Player", FALSE,     FALSE
     }
-target_reqs    =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Tile",  TRUE
+target_reqs   =
+    { "type",           "name",           "range",  "present"
+      "MaxUnitsOnTile", "0",              "Tile",   TRUE
     }
 
 [actionenabler_change_home_city]
@@ -1706,81 +1710,85 @@ target_reqs    =
     }
 
 [actionenabler_paradrop_base_to_war_conquer_not_forest]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",          "range", "present"
-      "UnitFlag",      "Paratroopers",  "Local", TRUE
-      "MinMoveFrags",  "6",             "Local", TRUE
-      "UnitState",     "Transporting",  "Local", FALSE
-      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE
-      "DiplRel",       "War",           "Local", TRUE
-      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
-      "UnitFlag",      "NonMil",        "Local", FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
-      "Building",      "Treuga Dei",    "World", FALSE
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE
+      "DiplRel",       "War",            "Local",  TRUE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",      "NonMil",         "Local",  FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Building",      "Treuga Dei",     "World",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
-      "CityTile",    "Claimed",          "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
+      "CityTile",    "Claimed",          "Tile",   TRUE
     }
 
 [actionenabler_paradrop_base_to_war_conquer_not_forest_despite_treuga_dei]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",          "range", "present", "survives"
-      "UnitFlag",      "Paratroopers",  "Local", TRUE,      FALSE
-      "MinMoveFrags",  "6",             "Local", TRUE,      FALSE
-      "UnitState",     "Transporting",  "Local", FALSE,     FALSE
-      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE,      FALSE
-      "DiplRel",       "War",           "Local", TRUE,      FALSE
-      "UnitClassFlag", "CanOccupyCity", "Local", TRUE,      FALSE
-      "UnitFlag",      "NonMil",        "Local", FALSE,     FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE,     FALSE
-      "Tech",          "Communism",     "World", TRUE,      TRUE
+    { "type",          "name",           "range",  "present", "survives"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE,      FALSE
+      "MinMoveFrags",  "6",              "Local",  TRUE,      FALSE
+      "UnitState",     "Transporting",   "Local",  FALSE,     FALSE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE,      FALSE
+      "DiplRel",       "War",            "Local",  TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE,      FALSE
+      "UnitFlag",      "NonMil",         "Local",  FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE,     FALSE
+      "Tech",          "Communism",      "World",  TRUE,      TRUE
+      "Nation",        "Animal Kingdom", "Player", FALSE,     FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
-      "CityTile",    "Claimed",          "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
+      "CityTile",    "Claimed",          "Tile",   TRUE
     }
 
 [actionenabler_paradrop_base_to_unclaimed_base_not_forest]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
-      "MinMoveFrags",  "6",            "Local", TRUE
-      "UnitState",     "Transporting", "Local", FALSE
-      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE
-      "Building",      "Treuga Dei",   "World", FALSE
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Building",      "Treuga Dei",     "World",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
-      "CityTile",    "Claimed",          "Tile",  FALSE
-      "CityTile",    "Center",           "Tile",  FALSE
-      "Extra",       "Castle",           "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
+      "CityTile",    "Claimed",          "Tile",   FALSE
+      "CityTile",    "Center",           "Tile",   FALSE
+      "Extra",       "Castle",           "Tile",   TRUE
     }
 
 [actionenabler_paradrop_base_to_unclaimed_base_not_forest_despite_treuga_dei]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present", "survives"
-      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
-      "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE,      FALSE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
-      "Tech",          "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",           "range",  "present", "survives"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE,      FALSE
+      "MinMoveFrags",  "6",              "Local",  TRUE,      FALSE
+      "UnitState",     "Transporting",   "Local",  FALSE,     FALSE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE,      FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE,     FALSE
+      "Tech",          "Communism",      "World",  TRUE,      TRUE
+      "Nation",        "Animal Kingdom", "Player", FALSE,     FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
-      "CityTile",    "Claimed",          "Tile",  FALSE
-      "CityTile",    "Center",           "Tile",  FALSE
-      "Extra",       "Castle",           "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
+      "CityTile",    "Claimed",          "Tile",   FALSE
+      "CityTile",    "Center",           "Tile",   FALSE
+      "Extra",       "Castle",           "Tile",   TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_claimed]
@@ -1819,56 +1827,59 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_veteran_base_to_war_conquer]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",          "range", "present"
-      "UnitFlag",      "Paratroopers",  "Local", TRUE
-      "MinMoveFrags",  "6",             "Local", TRUE
-      "UnitState",     "Transporting",  "Local", FALSE
-      "MinVeteran",     1,              "Local", TRUE
-      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE
-      "DiplRel",       "War",           "Local", TRUE
-      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
-      "UnitFlag",      "NonMil",        "Local", FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
-      "Building",      "Treuga Dei",    "World", FALSE
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "MinVeteran",     1,               "Local",  TRUE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE
+      "DiplRel",       "War",            "Local",  TRUE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",      "NonMil",         "Local",  FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Building",      "Treuga Dei",     "World",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "CityTile",    "Claimed",          "Tile",   TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_war_conquer_despite_treuga_dei]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",          "range", "present", "survives"
-      "UnitFlag",      "Paratroopers",  "Local", TRUE,      FALSE
-      "MinMoveFrags",  "6",             "Local", TRUE,      FALSE
-      "UnitState",     "Transporting",  "Local", FALSE,     FALSE
-      "MinVeteran",     1,              "Local", TRUE,      FALSE
-      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE,      FALSE
-      "DiplRel",       "War",           "Local", TRUE,      FALSE
-      "UnitClassFlag", "CanOccupyCity", "Local", TRUE,      FALSE
-      "UnitFlag",      "NonMil",        "Local", FALSE,     FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
-      "Tech",          "Communism",     "World", TRUE,      TRUE
+    { "type",          "name",           "range",  "present", "survives"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE,      FALSE
+      "MinMoveFrags",  "6",              "Local",  TRUE,      FALSE
+      "UnitState",     "Transporting",   "Local",  FALSE,     FALSE
+      "MinVeteran",     1,               "Local",  TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE,      FALSE
+      "DiplRel",       "War",            "Local",  TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE,      FALSE
+      "UnitFlag",      "NonMil",         "Local",  FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE,     FALSE
+      "Tech",          "Communism",      "World",  TRUE,      TRUE
+      "Nation",        "Animal Kingdom", "Player", FALSE,     FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "CityTile",    "Claimed",          "Tile",   TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_unclaimed_base]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
-      "MinMoveFrags",  "6",            "Local", TRUE
-      "UnitState",     "Transporting", "Local", FALSE
-      "MinVeteran",     1,             "Local", TRUE
-      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE
-      "Building",      "Treuga Dei",   "World", FALSE
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "MinVeteran",     1,               "Local",  TRUE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Building",      "Treuga Dei",     "World",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1878,16 +1889,17 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_veteran_base_to_unclaimed_base_despite_treuga_dei]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present", "survives"
-      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
-      "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",     1,             "Local", TRUE,      FALSE
-      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE,      FALSE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
-      "Tech",          "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",           "range",  "present", "survives"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE,      FALSE
+      "MinMoveFrags",  "6",              "Local",  TRUE,      FALSE
+      "UnitState",     "Transporting",   "Local",  FALSE,     FALSE
+      "MinVeteran",     1,               "Local",  TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE,      FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE,     FALSE
+      "Tech",          "Communism",      "World",  TRUE,      TRUE
+      "Nation",        "Animal Kingdom", "Player", FALSE,     FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1932,81 +1944,85 @@ target_reqs    =
     }
 
 [actionenabler_paradrop_city_to_war_conquer_not_forest]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",          "range", "present"
-      "UnitFlag",      "Paratroopers",  "Local", TRUE
-      "MinMoveFrags",  "6",             "Local", TRUE
-      "UnitState",     "Transporting",  "Local", FALSE
-      "CityTile",      "Center",        "Tile",  TRUE
-      "DiplRel",       "War",           "Local", TRUE
-      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
-      "UnitFlag",      "NonMil",        "Local", FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
-      "Building",      "Treuga Dei",    "World", FALSE
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "CityTile",      "Center",         "Tile",   TRUE
+      "DiplRel",       "War",            "Local",  TRUE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",      "NonMil",         "Local",  FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Building",      "Treuga Dei",     "World",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Tile",  TRUE
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "CityTile",    "Claimed",          "Tile",   TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
     }
 
 [actionenabler_paradrop_city_to_war_conquer_not_forest_despite_treuga_dei]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present", "survives"
-      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
-      "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "CityTile",      "Center",       "Tile",  TRUE,      FALSE
-      "DiplRel",       "War",          "Local", TRUE,      FALSE
-      "UnitClassFlag", "CanOccupyCity","Local", TRUE,      FALSE
-      "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
-      "Tech",          "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",           "range",  "present", "survives"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE,      FALSE
+      "MinMoveFrags",  "6",              "Local",  TRUE,      FALSE
+      "UnitState",     "Transporting",   "Local",  FALSE,     FALSE
+      "CityTile",      "Center",         "Tile",   TRUE,      FALSE
+      "DiplRel",       "War",            "Local",  TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE,      FALSE
+      "UnitFlag",      "NonMil",         "Local",  FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE,     FALSE
+      "Tech",          "Communism",      "World",  TRUE,      TRUE
+      "Nation",        "Animal Kingdom", "Player", FALSE,     FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Tile",  TRUE
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "CityTile",    "Claimed",          "Tile",   TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
     }
 
 [actionenabler_paradrop_city_to_unclaimed_base_not_forest]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
-      "MinMoveFrags",  "6",            "Local", TRUE
-      "UnitState",     "Transporting", "Local", FALSE
-      "CityTile",      "Center",       "Tile",  TRUE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE
-      "Building",      "Treuga Dei",   "World", FALSE
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "CityTile",      "Center",         "Tile",   TRUE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Building",      "Treuga Dei",     "World",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Tile",  FALSE
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
-      "CityTile",    "Center",           "Tile",  FALSE
-      "Extra",       "Castle",           "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "CityTile",    "Claimed",          "Tile",   FALSE
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
+      "CityTile",    "Center",           "Tile",   FALSE
+      "Extra",       "Castle",           "Tile",   TRUE
     }
 
 [actionenabler_paradrop_city_to_unclaimed_base_not_forest_despite_treuga_dei]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present", "survives"
-      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
-      "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "CityTile",      "Center",       "Tile",  TRUE,      FALSE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
-      "Tech",          "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",           "range",  "present", "survives"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE,      FALSE
+      "MinMoveFrags",  "6",              "Local",  TRUE,      FALSE
+      "UnitState",     "Transporting",   "Local",  FALSE,     FALSE
+      "CityTile",      "Center",         "Tile",   TRUE,      FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE,     FALSE
+      "Tech",          "Communism",      "World",  TRUE,      TRUE
+      "Nation",        "Animal Kingdom", "Player", FALSE,     FALSE
     }
-target_reqs    =
-    { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Tile",  FALSE
-      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
-      "CityTile",    "Center",           "Tile",  FALSE
-      "Extra",       "Castle",           "Tile",  TRUE
+target_reqs   =
+    { "type",        "name",             "range",  "present"
+      "CityTile",    "Claimed",          "Tile",   FALSE
+      "TerrainFlag", "DifficultLanding", "Tile",   FALSE
+      "CityTile",    "Center",           "Tile",   FALSE
+      "Extra",       "Castle",           "Tile",   TRUE
     }
 
 [actionenabler_paradrop_veteran_city_to_claimed]
@@ -2045,19 +2061,20 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_veteran_city_to_war_conquer]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
-      "MinMoveFrags",  "6",            "Local", TRUE
-      "UnitState",     "Transporting", "Local", FALSE
-      "MinVeteran",    1,              "Local", TRUE
-      "CityTile",      "Center",       "Tile",  TRUE
-      "DiplRel",       "War",          "Local", TRUE
-      "UnitClassFlag", "CanOccupyCity","Local", TRUE
-      "UnitFlag",      "NonMil",       "Local", FALSE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE
-      "Building",      "Treuga Dei",   "World", FALSE
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "MinVeteran",    1,                "Local",  TRUE
+      "CityTile",      "Center",         "Tile",   TRUE
+      "DiplRel",       "War",            "Local",  TRUE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",      "NonMil",         "Local",  FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Building",      "Treuga Dei",     "World",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -2065,19 +2082,20 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_veteran_city_to_war_conquer_despite_treuga_dei]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",          "name",         "range", "present", "survives"
-      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
-      "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",    1,              "Local", TRUE,      FALSE
-      "CityTile",      "Center",       "Tile",  TRUE,      FALSE
-      "DiplRel",       "War",          "Local", TRUE,      FALSE
-      "UnitClassFlag", "CanOccupyCity","Local", TRUE,      FALSE
-      "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
-      "Tech",          "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",           "range",  "present", "survives"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE,      FALSE
+      "MinMoveFrags",  "6",              "Local",  TRUE,      FALSE
+      "UnitState",     "Transporting",   "Local",  FALSE,     FALSE
+      "MinVeteran",    1,                "Local",  TRUE,      FALSE
+      "CityTile",      "Center",         "Tile",   TRUE,      FALSE
+      "DiplRel",       "War",            "Local",  TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE,      FALSE
+      "UnitFlag",      "NonMil",         "Local",  FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE,     FALSE
+      "Tech",          "Communism",      "World",  TRUE,      TRUE
+      "Nation",        "Animal Kingdom", "Player", FALSE,     FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"

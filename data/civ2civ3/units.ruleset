@@ -2853,3 +2853,36 @@ The AWACS (Airborne Warning and Control System) is an airplane with an \
 advanced radar that can determine the location of enemy units over a \
 wide area.\
 ")
+
+[unit_storm]
+name          = _("Storm")
+class         = "Sea"
+; reqs          =
+obsolete_by   = "None"
+graphic       = "u.storm"
+graphic_alt   = "u.galleon"
+sound_move    = "m_storm"
+sound_move_alt = "m_generic"
+sound_fight   = "f_storm"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 0
+defense       = 9
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+flags         = "NoBuild", "Cant_Fortify", "Unbribable",
+                "HasNoZOC", "NoVeteran", "RandomMovement"
+roles         = ""
+helptext      = _("\
+Storms move randomly at seas.\
+")
