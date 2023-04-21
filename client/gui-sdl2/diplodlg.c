@@ -1416,7 +1416,7 @@ static void popup_war_dialog(struct player *pplayer)
   area = pwindow->area;
 
   /* ============================================================= */
-  /* label */
+  /* Label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Shall we declare WAR on them?"));
 
   pstr = create_utf8_from_char(cbuf, adj_font(14));
@@ -1453,11 +1453,8 @@ static void popup_war_dialog(struct player *pplayer)
 
   spy_dlg->begin_widget_list = buf;
 
-  /* setup window size and start position */
+  /* Setup window size and start position */
   area.w += adj_size(10);
-
-  buf = pwindow->prev;
-
   area.h += adj_size(5);
 
   resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -1470,28 +1467,28 @@ static void popup_war_dialog(struct player *pplayer)
                       (main_window_width() - pwindow->size.w) / 2,
                       (main_window_height() - pwindow->size.h) / 2);
 
-  /* setup rest of widgets */
-  /* label */
+  /* Setup rest of widgets */
+  /* Label */
   dst.x = area.x + (area.w - text->w) / 2;
   dst.y = area.y + 1;
   alphablit(text, NULL, pwindow->theme, &dst, 255);
   dst.y += text->h + adj_size(5);
   FREESURFACE(text);
 
-  /* no */
+  /* No */
   buf = pwindow->prev;
   buf->size.y = dst.y;
 
-  /* yes */
+  /* Yes */
   buf = buf->prev;
   buf->size.x = area.x + (area.w - (2 * buf->size.w + adj_size(20))) / 2;
   buf->size.y = dst.y;
 
-  /* no */
+  /* No */
   buf->next->size.x = buf->size.x + buf->size.w + adj_size(20);
 
   /* ================================================== */
-  /* redraw */
+  /* Redraw */
   redraw_group(spy_dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
   flush_dirty();
@@ -1550,7 +1547,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
     area = pwindow->area;
 
     /* ============================================================= */
-    /* label */
+    /* Label */
     if (client.conn.playing == NULL || client.conn.playing->is_male) {
       fc_snprintf(cbuf, sizeof(cbuf), _("Sir!, the %s ambassador has arrived\n"
                                         "What are your wishes?"),
@@ -1593,15 +1590,15 @@ void popup_diplomacy_dialog(struct player *pplayer)
       add_to_gui_list(ID_BUTTON, buf);
       buf->size.w = MAX(buf->next->size.w, buf->size.w);
       buf->next->size.w = buf->size.w;
-      button_w = MAX(button_w , buf->size.w);
-      button_h = MAX(button_h , buf->size.h);
+      button_w = MAX(button_w, buf->size.w);
+      button_h = MAX(button_h, buf->size.h);
       buttons++;
     }
 
     shared = gives_shared_vision(client.conn.playing, pplayer);
 
     if (shared) {
-      /* shared vision */
+      /* Shared vision */
       buf = create_themeicon_button_from_chars(current_theme->units2_icon,
                                                pwindow->dst, _("Withdraw vision"),
                                                adj_font(12), 0);
@@ -1619,7 +1616,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
       buttons++;
     }
 
-    /* meet */
+    /* Meet */
     buf = create_themeicon_button_from_chars(current_theme->players_icon,
                                              pwindow->dst,
                                              _("Call Diplomatic Meeting"),
@@ -1658,11 +1655,8 @@ void popup_diplomacy_dialog(struct player *pplayer)
 
     spy_dlg->begin_widget_list = buf;
 
-    /* setup window size and start position */
+    /* Setup window size and start position */
     area.w += adj_size(10);
-
-    buf = pwindow->prev;
-
     area.h += adj_size(2);
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -1675,8 +1669,8 @@ void popup_diplomacy_dialog(struct player *pplayer)
                         (main_window_width() - pwindow->size.w) / 2,
                         (main_window_height() - pwindow->size.h) / 2);
 
-    /* setup rest of widgets */
-    /* label */
+    /* Setup rest of widgets */
+    /* Label */
     dst.x = area.x + (area.w - text->w) / 2;
     dst.y = area.y + 1;
     alphablit(text, NULL, pwindow->theme, &dst, 255);
@@ -1685,7 +1679,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
 
     buf = pwindow;
 
-    /* war: meet, peace: cancel treaty */
+    /* War: meet, peace: cancel treaty */
     buf = buf->prev;
     buf->size.w = button_w;
     buf->size.h = button_h;
@@ -1693,7 +1687,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
     buf->size.y = dst.y;
 
     if (shared) {
-      /* vision */
+      /* Vision */
       buf = buf->prev;
       buf->size.w = button_w;
       buf->size.h = button_h;
@@ -1702,7 +1696,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
     }
 
     if (type != DS_WAR) {
-      /* meet */
+      /* Meet */
       buf = buf->prev;
       buf->size.w = button_w;
       buf->size.h = button_h;
@@ -1710,7 +1704,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
       buf->size.x = buf->next->size.x;
     }
 
-    /* cancel */
+    /* Cancel */
     if (can_toward_war) {
       buf = buf->prev;
       buf->size.w = button_w;
@@ -1720,7 +1714,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
     }
 
     /* ================================================== */
-    /* redraw */
+    /* Redraw */
     redraw_group(spy_dlg->begin_widget_list, pwindow, 0);
     widget_mark_dirty(pwindow);
 
