@@ -23,7 +23,7 @@ nationlist = "default/nationlist.ruleset"
 
 ; List of nations to embed to main nations.ruleset despite separate nationlist
 ; being used for other nations.
-embedded_nations = "Barbarian", "Pirate"
+embedded_nations = "Barbarian", "Pirate", "Animal Kingdom"
 
 [compatibility]
 ; Initial government for all the nations that do not
@@ -66,3 +66,4 @@ builder_default = 50
 ; This ruleset uses model of two separate barbarian nations
 *include "nation/barbarian.ruleset"
 *include "nation/pirate.ruleset"
+*include "nation/animals.ruleset"

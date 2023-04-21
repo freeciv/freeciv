@@ -344,7 +344,7 @@ extra_settings       =
       "Pollution", 3
       "Fallout",   3
     }
-animal               = "None"
+animal               = "Storm"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "Glacier"
@@ -394,7 +394,7 @@ extra_settings       =
       "Pollution", 3
       "Fallout",   3
     }
-animal               = "None"
+animal               = "Storm"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
