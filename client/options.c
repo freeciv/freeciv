@@ -4523,14 +4523,18 @@ void handle_server_setting_bitwise
 static struct server_option *
     server_option_next_valid(struct server_option *poption)
 {
-  const struct server_option *const max = 
-    server_options + server_options_num;
+  if (server_options != NULL) {
+    const struct server_option *const max =
+      server_options + server_options_num;
 
-  while (NULL != poption && poption < max && !poption->is_visible) {
-    poption++;
+    while (NULL != poption && poption < max && !poption->is_visible) {
+      poption++;
+    }
+
+    return (poption < max ? poption : NULL);
   }
 
-  return (poption < max ? poption : NULL);
+  return NULL;
 }
 
 /****************************************************************************
