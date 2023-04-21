@@ -34,6 +34,7 @@ static struct user_flag user_extra_flags[MAX_NUM_USER_EXTRA_FLAGS];
 
 static struct extra_type_list *caused_by[EC_LAST];
 static struct extra_type_list *removed_by[ERM_COUNT];
+static struct extra_type_list *cleanable;
 static struct extra_type_list *unit_hidden;
 
 /************************************************************************//**
@@ -49,6 +50,7 @@ void extras_init(void)
   for (i = 0; i < ERM_COUNT; i++) {
     removed_by[i] = extra_type_list_new();
   }
+  cleanable = extra_type_list_new();
   unit_hidden = extra_type_list_new();
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
@@ -108,6 +110,8 @@ void extras_free(void)
     removed_by[i] = NULL;
   }
 
+  extra_type_list_destroy(cleanable);
+  cleanable = NULL;
   extra_type_list_destroy(unit_hidden);
   unit_hidden = NULL;
 
@@ -289,7 +293,7 @@ void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause)
 }
 
 /************************************************************************//**
-  Returns extra type for given rmcause.
+  Returns extra type list for given rmcause.
 ****************************************************************************/
 struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause)
 {
@@ -299,14 +303,24 @@ struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause)
 }
 
 /************************************************************************//**
+  Returns extra type list of cleanables
+****************************************************************************/
+struct extra_type_list *extra_type_list_cleanable(void)
+{
+  return cleanable;
+}
+
+/************************************************************************//**
   Add extra type to list of extra removed by given cause.
 ****************************************************************************/
-void extra_to_removed_by_list(struct extra_type *pextra,
-                              enum extra_rmcause rmcause)
+void _extra_to_removed_by_list(struct extra_type *pextra,
+                               enum extra_rmcause rmcause)
 {
-  fc_assert(rmcause < ERM_COUNT);
-
   extra_type_list_append(removed_by[rmcause], pextra);
+
+  if (rmcause == ERM_CLEANPOLLUTION || rmcause == ERM_CLEANFALLOUT) {
+    extra_type_list_append(cleanable, pextra);
+  }
 }
 
 /************************************************************************//**
@@ -767,6 +781,32 @@ struct extra_type *prev_extra_in_tile(const struct tile *ptile,
       }
     }
   } extra_type_by_rmcause_iterate_end;
+
+  return NULL;
+}
+
+/************************************************************************//**
+  Returns prev cleanable extra that unit or player can remove from tile.
+****************************************************************************/
+struct extra_type *prev_cleanable_in_tile(const struct tile *ptile,
+                                          const struct player *pplayer,
+                                          const struct unit *punit)
+{
+  fc_assert(punit != NULL || pplayer != NULL);
+
+  extra_type_cleanable_iterate(pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      if (punit != NULL) {
+        if (can_remove_extra(pextra, punit, ptile)) {
+          return pextra;
+        }
+      } else {
+        if (player_can_remove_extra(pextra, pplayer, ptile)) {
+          return pextra;
+        }
+      }
+    }
+  } extra_type_cleanable_iterate_end;
 
   return NULL;
 }

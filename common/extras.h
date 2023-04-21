@@ -199,8 +199,22 @@ bool is_extra_caused_by_worker_action(const struct extra_type *pextra);
 bool is_extra_caused_by_action(const struct extra_type *pextra,
                                const struct action *paction);
 
-void extra_to_removed_by_list(struct extra_type *pextra, enum extra_rmcause rmcause);
+void _extra_to_removed_by_list(struct extra_type *pextra, enum extra_rmcause rmcause);
+
+/************************************************************************//**
+  Wrapper around real _extra_to_removed_by_list(), notifying compiler about
+  illegal parameters.
+****************************************************************************/
+static inline void extra_to_removed_by_list(struct extra_type *pextra,
+                                            enum extra_rmcause rmcause)
+{
+  fc__unreachable(rmcause >= ERM_COUNT);
+
+  _extra_to_removed_by_list(pextra, rmcause);
+}
+
 struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause);
+struct extra_type_list *extra_type_list_cleanable(void);
 
 bool is_extra_removed_by(const struct extra_type *pextra, enum extra_rmcause rmcause);
 bool is_extra_removed_by_worker_action(const struct extra_type *pextra);
@@ -275,6 +289,9 @@ struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_caus
 struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_rmcause rmcause,
                                       const struct player *pplayer,
                                       const struct unit *punit);
+struct extra_type *prev_cleanable_in_tile(const struct tile *ptile,
+                                          const struct player *pplayer,
+                                          const struct unit *punit);
 
 enum extra_cause activity_to_extra_cause(enum unit_activity act);
 enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act);
@@ -329,6 +346,15 @@ bool player_knows_extra_exist(const struct player *pplayer,
   extra_type_list_iterate_rev(_etl_, _extra) {
 
 #define extra_type_by_rmcause_iterate_end                \
+  } extra_type_list_iterate_rev_end                      \
+}
+
+#define extra_type_cleanable_iterate(_extra) \
+{                                                                         \
+  struct extra_type_list *_etl_ = extra_type_list_cleanable();            \
+  extra_type_list_iterate_rev(_etl_, _extra) {
+
+#define extra_type_cleanable_iterate_end                 \
   } extra_type_list_iterate_rev_end                      \
 }
 
