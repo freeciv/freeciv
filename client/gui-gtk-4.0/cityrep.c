@@ -139,11 +139,11 @@ static GMenu *unit_s_select_menu;
 static GMenu *unit_p_select_menu;
 static GMenu *impr_p_select_menu;
 static GMenu *wndr_p_select_menu;
+static GMenu *unit_a_select_menu;
+static GMenu *impr_a_select_menu;
+static GMenu *wndr_a_select_menu;
 
 #ifdef MENUS_GTK3
-static GtkWidget *select_improvements_item;
-static GtkWidget *select_units_item;
-static GtkWidget *select_wonders_item;
 static GtkWidget *select_cma_item;
 #endif /* MENUS_GTK3 */
 
@@ -1830,16 +1830,31 @@ static GMenu *create_select_menu(GActionGroup *group)
   fc_snprintf(buf, sizeof(buf), _("Present %s"), _("Wonder"));
   submenu_append_unref(select_menu, buf, G_MENU_MODEL(wndr_p_select_menu));
 
+  unit_a_select_menu = g_menu_new();
+  append_impr_or_unit_to_menu(unit_a_select_menu, group, "sel", "_a_u",
+                              TRUE, FALSE, CO_NONE,
+                              can_city_build_now,
+                              G_CALLBACK(select_impr_or_unit_callback), -1);
+  fc_snprintf(buf, sizeof(buf), _("Available %s"), _("Unit"));
+  submenu_append_unref(select_menu, buf, G_MENU_MODEL(unit_a_select_menu));
+
+  impr_a_select_menu = g_menu_new();
+  append_impr_or_unit_to_menu(impr_a_select_menu, group, "sel", "_a_b",
+                              FALSE, FALSE, CO_NONE,
+                              can_city_build_now,
+                              G_CALLBACK(select_impr_or_unit_callback), -1);
+  fc_snprintf(buf, sizeof(buf), _("Available %s"), _("Improvement"));
+  submenu_append_unref(select_menu, buf, G_MENU_MODEL(impr_a_select_menu));
+
+  wndr_a_select_menu = g_menu_new();
+  append_impr_or_unit_to_menu(wndr_a_select_menu, group, "sel", "_a_w",
+                              FALSE, TRUE, CO_NONE,
+                              can_city_build_now,
+                              G_CALLBACK(select_impr_or_unit_callback), -1);
+  fc_snprintf(buf, sizeof(buf), _("Available %s"), _("Wonder"));
+  submenu_append_unref(select_menu, buf, G_MENU_MODEL(wndr_a_select_menu));
+
 #if 0
-  select_units_item =
-	gtk_menu_item_new_with_label(_("Available Units"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_units_item);
-  select_improvements_item =
-	gtk_menu_item_new_with_label(_("Available Improvements"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_improvements_item);
-  select_wonders_item =
-	gtk_menu_item_new_with_label(_("Available Wonders"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_wonders_item);
   select_cma_item =
 	gtk_menu_item_new_with_label(_("Citizen Governor"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_cma_item);
@@ -1861,6 +1876,9 @@ static void recreate_select_menu(GActionGroup *group)
     g_menu_remove_all(unit_p_select_menu);
     g_menu_remove_all(impr_p_select_menu);
     g_menu_remove_all(wndr_p_select_menu);
+    g_menu_remove_all(unit_a_select_menu);
+    g_menu_remove_all(impr_a_select_menu);
+    g_menu_remove_all(wndr_a_select_menu);
     g_menu_remove_all(select_menu);
   }
   g_menu_remove(cityrep_menu, 3);
@@ -1874,18 +1892,6 @@ static void recreate_select_menu(GActionGroup *group)
 ****************************************************************************/
 static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 {
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_improvements_item),
-                                   FALSE, FALSE, CO_NONE,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), -1);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_units_item),
-                                   TRUE, FALSE, CO_NONE,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), -1);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_wonders_item),
-                                   FALSE, TRUE, CO_NONE,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), -1);
   append_cma_to_menu_item(GTK_MENU_ITEM(select_cma_item), FALSE);
 }
 #endif /* MENUS_GTK3 */
