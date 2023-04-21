@@ -133,8 +133,6 @@ struct theme_icons {
   SDL_Surface *o_nuke_icon;
   SDL_Surface *o_fortress_icon;
   SDL_Surface *o_clean_icon;
-  SDL_Surface *o_fallout_icon;
-  SDL_Surface *o_pollution_icon;
   SDL_Surface *o_airbase_icon;
   SDL_Surface *o_transform_icon;
   SDL_Surface *OAddCity_Icon;

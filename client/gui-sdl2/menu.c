@@ -66,8 +66,6 @@ static struct widget *begin_order_widget_list;
 static struct widget *end_order_widget_list;
 
 static struct widget *order_clean_button;
-static struct widget *order_fallout_button;
-static struct widget *order_pollution_button;
 static struct widget *order_airbase_button;
 static struct widget *order_fortress_button;
 static struct widget *order_build_add_to_city_button;
@@ -145,14 +143,8 @@ static int unit_order_callback(struct widget *order_widget)
     case ID_UNIT_ORDER_CLEAN:
       key_unit_clean();
       break;
-    case ID_UNIT_ORDER_POLLUTION:
-      key_unit_pollution();
-      break;
     case ID_UNIT_ORDER_PARADROP:
       key_unit_paradrop();
-      break;
-    case ID_UNIT_ORDER_FALLOUT:
-      key_unit_fallout();
       break;
     case ID_UNIT_ORDER_SENTRY:
       key_unit_sentry();
@@ -734,20 +726,6 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_SENTRY, buf);
   /* --------- */
 
-  /* Clean Nuclear Fallout */
-  /* Label will be replaced by real_menus_update() before it's seen */
-  fc_snprintf(cbuf, sizeof(cbuf), "placeholder");
-  buf = create_themeicon(current_theme->o_fallout_icon, main_data.gui,
-                         WF_HIDDEN | WF_RESTORE_BACKGROUND
-                         | WF_WIDGET_HAS_INFO_LABEL);
-  set_wstate(buf, FC_WS_NORMAL);
-  buf->action = unit_order_callback;
-  buf->info_label = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
-  buf->key = SDLK_n;
-  order_fallout_button = buf;
-  add_to_gui_list(ID_UNIT_ORDER_FALLOUT, buf);
-  /* --------- */
-
   /* Paradrop */
   fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)",
               action_id_name_translation(ACTION_PARADROP), "J");
@@ -761,20 +739,6 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_PARADROP, buf);
   /* --------- */
 
-  /* Clean Pollution */
-  /* Label will be replaced by real_menus_update() before it's seen */
-  fc_snprintf(cbuf, sizeof(cbuf), "placeholder");
-  buf = create_themeicon(current_theme->o_pollution_icon, main_data.gui,
-                         WF_HIDDEN | WF_RESTORE_BACKGROUND
-                         | WF_WIDGET_HAS_INFO_LABEL);
-  set_wstate(buf, FC_WS_NORMAL);
-  buf->action = unit_order_callback;
-  buf->info_label = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
-  buf->key = SDLK_p;
-  order_pollution_button = buf;
-  add_to_gui_list(ID_UNIT_ORDER_POLLUTION, buf);
-  /* --------- */
-
   /* Generic Clean */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cbuf, sizeof(cbuf), "placeholder");
@@ -784,7 +748,7 @@ void create_units_order_widgets(void)
   set_wstate(buf, FC_WS_NORMAL);
   buf->action = unit_order_callback;
   buf->info_label = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
-  /* buf->key = SDLK_p; */
+  buf->key = SDLK_p;
   order_clean_button = buf;
   add_to_gui_list(ID_UNIT_ORDER_CLEAN, buf);
   /* --------- */
@@ -1107,7 +1071,6 @@ void real_menus_update(void)
       struct terrain *pterrain = tile_terrain(ptile);
       struct base_type *pbase;
       struct extra_type *pextra;
-      struct extra_type *clean_target = NULL;
 
       if (!counter) {
         local_show(ID_UNIT_ORDER_GOTO);
@@ -1307,66 +1270,22 @@ void real_menus_update(void)
         set_wflag(order_airbase_button, WF_HIDDEN);
       }
 
-      clean_target = prev_extra_in_tile(ptile, ERM_CLEAN,
-                                        unit_owner(punit), punit);
-
-      pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
-                                        unit_owner(punit), punit);
-      if (clean_target == NULL) {
-        clean_target = pextra; /* Fallback */
-      }
-
-      if (pextra != NULL
-          && can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION,
-                                           pextra)) {
-        time = turns_to_activity_done(ptile, ACTIVITY_POLLUTION,
-                                      pextra, punit);
-        /* TRANS: "Clean Pollution (P) 3 turns" */
-        fc_snprintf(cbuf, sizeof(cbuf), _("Clean %s (%s) %d %s"),
-                    extra_name_translation(pextra), "P", time,
-                    PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(order_pollution_button->info_label, cbuf);
-        clear_wflag(order_pollution_button, WF_HIDDEN);
-      } else {
-        set_wflag(order_pollution_button, WF_HIDDEN);
-      }
-
       if (can_unit_paradrop(punit)) {
         local_show(ID_UNIT_ORDER_PARADROP);
       } else {
         local_hide(ID_UNIT_ORDER_PARADROP);
       }
 
-      pextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
-                                  unit_owner(punit), punit);
-
-      if (clean_target == NULL) {
-        clean_target = pextra; /* Fallback */
-      }
+      pextra = prev_cleanable_in_tile(ptile, unit_owner(punit), punit);
 
       if (pextra != NULL
-          && can_unit_do_activity_targeted(punit, ACTIVITY_FALLOUT, pextra)) {
-        time = turns_to_activity_done(ptile, ACTIVITY_FALLOUT, pextra,
-                                      punit);
-        /* TRANS: "Clean Fallout (N) 3 turns" */
-        fc_snprintf(cbuf, sizeof(cbuf), _("Clean %s (%s) %d %s"),
-                    extra_name_translation(pextra), "N", time,
-                    PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(order_fallout_button->info_label, cbuf);
-        clear_wflag(order_fallout_button, WF_HIDDEN);
-      } else {
-        set_wflag(order_fallout_button, WF_HIDDEN);
-      }
-
-      if (clean_target != NULL
           && can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN,
-                                           clean_target)) {
+                                           pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_CLEAN,
-                                      clean_target, punit);
-        /* FIXME: No key assigned for this at the moment */
-        /* TRANS: "Clean Pollution 3 turns" */
-        fc_snprintf(cbuf, sizeof(cbuf), _("Clean %s %d %s"),
-                    extra_name_translation(clean_target), time,
+                                      pextra, punit);
+        /* TRANS: "Clean Pollution (P) 3 turns" */
+        fc_snprintf(cbuf, sizeof(cbuf), _("Clean %s (%s) %d %s"),
+                    extra_name_translation(pextra), "P", time,
                     PL_("turn", "turns", time));
         copy_chars_to_utf8_str(order_clean_button->info_label, cbuf);
         clear_wflag(order_clean_button, WF_HIDDEN);
