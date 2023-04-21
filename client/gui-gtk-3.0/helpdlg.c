@@ -1194,6 +1194,34 @@ static void help_update_tech(const struct help_item *pitem, char *title)
   }
 }
 
+/**************************************************************************
+  Set sprite to show for current extra.
+**************************************************************************/
+static void set_help_tile_from_extra(const struct extra_type *pextra)
+{
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
+  cairo_t *cr;
+  struct drawn_sprite sprs[80];
+  int count;
+
+  canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+                                              tileset_tile_width(tileset),
+                                              tileset_tile_height(tileset));
+
+  cr = cairo_create(canvas.surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+
+  count = fill_basic_extra_sprite_array(tileset, sprs, pextra);
+
+  put_drawn_sprites(&canvas, 1.0, 0, 0, count, sprs, FALSE);
+
+  gtk_image_set_from_surface(GTK_IMAGE(help_tile), canvas.surface);
+  gtk_widget_show(help_tile);
+  cairo_surface_destroy(canvas.surface);
+}
+
 /**********************************************************************//**
   Initialize help system.
 **************************************************************************/
@@ -1383,6 +1411,8 @@ static void help_update_extra(const struct help_item *pitem, char *title)
   } else {
     struct road_type *proad = extra_road_get(pextra);
     bool is_resource = is_extra_caused_by(pextra, EC_RESOURCE);
+
+    set_help_tile_from_extra(pextra);
 
     /* Cost to build */
     if (pextra->buildable) {
