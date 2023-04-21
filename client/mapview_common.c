@@ -77,7 +77,7 @@ bool can_slide = TRUE;
 
 static bool frame_by_frame_animation = FALSE;
 
-struct tile *center_tile = NULL;
+const struct tile *center_tile = NULL;
 
 struct tile *infratile = NULL;
 
@@ -93,7 +93,7 @@ enum update_type {
 };
 
 /* A tile update has a tile associated with it as well as an area type.
- * See unqueue_mapview_updates for a thorough explanation. */
+ * See unqueue_mapview_updates() for a thorough explanation. */
 enum tile_update_type {
   TILE_UPDATE_TILE_SINGLE,
   TILE_UPDATE_TILE_FULL,
@@ -667,11 +667,12 @@ static void gui_to_map_pos(const struct tileset *t,
   }
 
   This pixel is one position closer to the lower right, which may be
-  important to remember when doing some round-off operations. Other
-  parts of the code assume tileset_tile_width(tileset) and tileset_tile_height(tileset)
-  to be even numbers.
+  important to remember when doing some round-off operations.
+  Other parts of the code assume tileset_tile_width(tileset) and
+  tileset_tile_height(tileset) to be even numbers.
 ****************************************************************************/
-bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile)
+bool tile_to_canvas_pos(float *canvas_x, float *canvas_y,
+                        const struct tile *ptile)
 {
   int center_map_x, center_map_y, dx, dy, tile_x, tile_y;
 
@@ -1194,9 +1195,9 @@ struct tile *get_center_tile_mapcanvas(void)
 }
 
 /************************************************************************//**
-  Centers the mapview around (map_x, map_y).
+  Centers the mapview around ptile.
 ****************************************************************************/
-void center_tile_mapcanvas(struct tile *ptile)
+void center_tile_mapcanvas(const struct tile *ptile)
 {
   float gui_x, gui_y;
   int tile_x, tile_y;
@@ -2427,7 +2428,7 @@ void show_tile_labels(int canvas_base_x, int canvas_base_y,
         /* The update was incomplete! We queue a new update. Note that
          * this is recursively queueing an update within a dequeuing of an
          * update. This is allowed specifically because of the code in
-         * unqueue_mapview_updates. See that function for more. */
+         * unqueue_mapview_updates(). See that function for more. */
         log_debug("Re-queuing tile label %s drawing.", ptile->label);
         update_tile_label(ptile);
       }
