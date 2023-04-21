@@ -13,9 +13,20 @@
 #ifndef FC__ADVCHOICE_H
 #define FC__ADVCHOICE_H
 
-/* Uncomment to have choice information tracking enabled.
+/*
+ * Uncomment ADV_CHOICE_TRACK to have choice information tracking enabled.
+ *
  * To get the tracking information logged from specific place,
- * add call to adv_choice_log_info() there, or use adv_choice_get_use(). */
+ * then add there one of
+ *  - ADV_CHOICE_LOG()
+ *  - adv_choice_log_info()
+ *  - adv_choice_log_int()
+ *  - adv_choice_get_use().
+ *
+ * To get logging when specific choice ends as the winning one,
+ * mark it with adv_choice_mark()
+ */
+
 /* #define ADV_CHOICE_TRACK */
 
 #ifdef ADV_CHOICE_TRACK
@@ -33,12 +44,12 @@ enum choice_type {
 
 struct adv_choice {
   enum choice_type type;
-  universals_u value; /* what the advisor wants */
-  adv_want want;      /* how much it wants it */
-  bool need_boat;     /* unit being built wants a boat */
+  universals_u value;   /* What the advisor wants */
+  adv_want want;        /* How much it wants it */
+  bool need_boat;       /* Unit being built wants a boat */
 #ifdef ADV_CHOICE_TRACK
   char *use;
-  bool log_if_chosen;
+  bool log_if_chosen;   /* If this choice ends as the winning one, log it */
 #endif /* ADV_CHOICE_TRACK */
 };
 
@@ -58,7 +69,9 @@ bool is_unit_choice_type(enum choice_type type);
 #ifdef ADV_CHOICE_TRACK
 void adv_choice_copy(struct adv_choice *dest, struct adv_choice *src);
 void adv_choice_set_use(struct adv_choice *choice, const char *use);
+#define adv_choice_mark(_choice) (_choice)->log_if_chosen = TRUE
 void adv_choice_log_info(struct adv_choice *choice, const char *loc1, const char *loc2);
+void adv_choice_log_int(struct adv_choice *choice, const char *loc1, int loc2);
 const char *adv_choice_get_use(const struct adv_choice *choice);
 #else  /* ADV_CHOICE_TRACK */
 static inline void adv_choice_copy(struct adv_choice *dest, struct adv_choice *src)
@@ -68,12 +81,16 @@ static inline void adv_choice_copy(struct adv_choice *dest, struct adv_choice *s
   }
 }
 #define adv_choice_set_use(_choice, _use)
+#define adv_choice_mark(_choice)
 #define adv_choice_log_info(_choice, _loc1, _loc2)
+#define adv_choice_log_int(_choice, _loc1, _loc2)
 static inline const char *adv_choice_get_use(const struct adv_choice *choice)
 {
   return "(unknown)";
 }
 #endif /* ADV_CHOICE_TRACK */
+
+#define ADV_CHOICE_LOG(_choice) adv_choice_log_int((_choice), __FILE__, __FC_LINE__)
 
 #ifdef FREECIV_NDEBUG
 #define ADV_CHOICE_ASSERT(c) /* Do nothing. */
