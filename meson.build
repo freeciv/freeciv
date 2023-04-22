@@ -108,10 +108,10 @@ else
 endif
 
 if meson.is_cross_build()
-  cross_inc_str = meson.get_cross_property('cross_inc_path')
+  cross_inc_str = meson.get_external_property('cross_inc_path', '')
   cross_inc_path = [cross_inc_str]
-  cross_lib_path = [meson.get_cross_property('cross_lib_path')]
-  crosser = meson.get_cross_property('crosser')
+  cross_lib_path = [meson.get_external_property('cross_lib_path', '')]
+  crosser = meson.get_external_property('crosser', false)
 else
   cross_inc_str = ''
   cross_inc_path = []
