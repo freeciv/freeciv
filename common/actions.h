@@ -429,6 +429,17 @@ struct action_enabler
   }                                                    \
 }
 
+/* TODO: Turn this to an iteration over precalculated list */
+#define action_noninternal_iterate(_act_)              \
+{                                                      \
+  action_iterate(_act_) {                              \
+    if (!action_id_is_internal(_act_)) {
+
+#define action_noninternal_iterate_end                 \
+    }                                                  \
+  } action_iterate_end;                                \
+}
+
 #define action_by_result_iterate(_paction_, _act_id_, _result_)           \
 {                                                                         \
   action_iterate(_act_id_) {                                              \

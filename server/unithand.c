@@ -2299,7 +2299,7 @@ void handle_unit_get_actions(struct connection *pc,
   /* Find out what can be done to the targets. */
 
   /* Set the probability for the actions. */
-  action_iterate(act) {
+  action_noninternal_iterate(act) {
     if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       continue;
@@ -2389,11 +2389,11 @@ void handle_unit_get_actions(struct connection *pc,
                        probabilities[act] = ACTPROB_IMPOSSIBLE);
       break;
     }
-  } action_iterate_end;
+  } action_noninternal_iterate_end;
 
   /* Analyze the probabilities. Decide what targets to send and if an
    * explanation is needed. */
-  action_iterate(act) {
+  action_noninternal_iterate(act) {
     if (action_prob_possible(probabilities[act])) {
       /* An action can be done. No need to explain why no action can be
        * done. */
@@ -2447,7 +2447,7 @@ void handle_unit_get_actions(struct connection *pc,
         break;
       }
     }
-  } action_iterate_end;
+  } action_noninternal_iterate_end;
 
   /* Send possible actions and targets. */
   dsend_packet_unit_actions(pc,
