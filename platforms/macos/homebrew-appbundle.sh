@@ -108,6 +108,7 @@ if ! meson setup .. \
        -Dclients=gtk4,qt \
        -Dfcmp=qt \
        -Dfollowtag=macos-S3_2 \
+       -Ddefault_library=static \
        -Dprefix="$CONTENTSDIR" ||
    ! ninja ||
    ! ninja install
