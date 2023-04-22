@@ -2934,11 +2934,9 @@ static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
 ****************************************************************************/
 static void objprop_setup_widget(struct objprop *op)
 {
-  GtkWidget *hgrid, *hgrid2, *label, *image, *text, *spin, *button;
+  GtkWidget *hbox, *hbox2, *label, *image, *text, *spin, *button;
   struct extviewer *ev = NULL;
   enum object_property_ids propid;
-  int grid_col = 0;
-  int grid2_col = 0;
 
   if (!op) {
     return;
@@ -2948,15 +2946,13 @@ static void objprop_setup_widget(struct objprop *op)
     return;
   }
 
-  hgrid = gtk_grid_new();
-  op->widget = hgrid;
-
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+  op->widget = hbox;
 
   label = gtk_label_new(objprop_get_name(op));
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), label);
   objprop_set_child_widget(op, "name-label", label);
 
   propid = objprop_get_id(op);
@@ -2988,7 +2984,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_widget_set_hexpand(label, TRUE);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), label);
     objprop_set_child_widget(op, "value-label", label);
     return;
 
@@ -2997,10 +2993,13 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_UNIT_IMAGE:
   case OPID_CITY_IMAGE:
     image = gtk_image_new();
+    gtk_widget_set_size_request(image,
+                                tileset_tile_width(tileset),
+                                tileset_tile_height(tileset));
     gtk_widget_set_hexpand(image, TRUE);
     gtk_widget_set_halign(image, GTK_ALIGN_START);
     gtk_widget_set_valign(image, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), image);
     objprop_set_child_widget(op, "image", image);
     return;
 
@@ -3014,7 +3013,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_editable_set_width_chars(GTK_EDITABLE(text), 8);
     g_signal_connect(text, "changed",
         G_CALLBACK(objprop_widget_text_changed), op);
-    gtk_grid_attach(GTK_GRID(hgrid), text, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), text);
     objprop_set_child_widget(op, "text", text);
     return;
 
@@ -3030,7 +3029,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_widget_set_halign(spin, GTK_ALIGN_END);
     g_signal_connect(spin, "value-changed",
         G_CALLBACK(objprop_widget_spin_button_changed), op);
-    gtk_grid_attach(GTK_GRID(hgrid), spin, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), spin);
     objprop_set_child_widget(op, "spin", spin);
     return;
 
@@ -3038,20 +3037,19 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_UNIT_HP:
   case OPID_UNIT_VETERAN:
   case OPID_CITY_FOOD_STOCK:
-    hgrid2 = gtk_grid_new();
-    gtk_widget_set_hexpand(hgrid2, TRUE);
-    gtk_widget_set_halign(hgrid2, GTK_ALIGN_END);
-    gtk_grid_set_column_spacing(GTK_GRID(hgrid2), 4);
-    gtk_grid_attach(GTK_GRID(hgrid), hgrid2, grid_col++, 0, 1, 1);
+    hbox2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+    gtk_widget_set_hexpand(hbox2, TRUE);
+    gtk_widget_set_halign(hbox2, GTK_ALIGN_END);
+    gtk_box_append(GTK_BOX(hbox), hbox2);
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     g_signal_connect(spin, "value-changed",
         G_CALLBACK(objprop_widget_spin_button_changed), op);
-    gtk_grid_attach(GTK_GRID(hgrid2), spin, grid2_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox2), spin);
     objprop_set_child_widget(op, "spin", spin);
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(hgrid2), label, grid2_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox2), label);
     objprop_set_child_widget(op, "max-value-label", label);
     return;
 
@@ -3070,8 +3068,7 @@ static void objprop_setup_widget(struct objprop *op)
     objprop_set_extviewer(op, ev);
     gtk_widget_set_hexpand(extviewer_get_panel_widget(ev), TRUE);
     gtk_widget_set_halign(extviewer_get_panel_widget(ev), GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(hgrid), extviewer_get_panel_widget(ev),
-                    grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), extviewer_get_panel_widget(ev));
     property_page_add_extviewer(objprop_get_property_page(op), ev);
     return;
 
@@ -3093,7 +3090,7 @@ static void objprop_setup_widget(struct objprop *op)
     g_signal_connect(button, "toggled",
                      G_CALLBACK(objprop_widget_toggle_button_changed),
                      op);
-    gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), button);
     objprop_set_child_widget(op, "togglebutton", button);
     return;
   }
@@ -3485,7 +3482,7 @@ static struct objprop *objprop_new(int id,
 static struct extviewer *extviewer_new(struct objprop *op)
 {
   struct extviewer *ev;
-  GtkWidget *hgrid, *vgrid, *label, *button, *scrollwin, *image;
+  GtkWidget *hbox, *vbox, *label, *button, *scrollwin, *image;
   GtkWidget *view = NULL;
   GtkTreeSelection *sel;
   GtkListStore *store = NULL;
@@ -3493,8 +3490,6 @@ static struct extviewer *extviewer_new(struct objprop *op)
   GType *gtypes;
   enum object_property_ids propid;
   int num_cols;
-  int grid_col = 0;
-  int grid_row = 0;
 
   if (!op) {
     return NULL;
@@ -3517,58 +3512,56 @@ static struct extviewer *extviewer_new(struct objprop *op)
   case OPID_PLAYER_INVENTIONS:
   case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
-    hgrid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
-    ev->panel_widget = hgrid;
+    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+    ev->panel_widget = hbox;
 
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), label);
     ev->panel_label = label;
     break;
 
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_GOV:
-    vgrid = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                   GTK_ORIENTATION_VERTICAL);
-    gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
-    ev->panel_widget = vgrid;
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
+    ev->panel_widget = vbox;
 
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
+    gtk_box_append(GTK_BOX(vbox), label);
     ev->panel_label = label;
 
-    hgrid = gtk_grid_new();
-    grid_col = 0;
-    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
-    gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
+    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+    gtk_box_append(GTK_BOX(vbox), hbox);
 
     image = gtk_image_new();
+    if (propid == OPID_PLAYER_GOV) {
+      gtk_widget_set_size_request(image,
+                                  tileset_small_sprite_width(tileset),
+                                  tileset_small_sprite_height(tileset));
+    } else {
+      /* propid OPID_PLAYER_NATION */
+      gtk_widget_set_size_request(image, 100, 40);
+    }
     gtk_widget_set_halign(image, GTK_ALIGN_START);
     gtk_widget_set_valign(image, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), image);
     ev->panel_image = image;
     break;
 
   case OPID_TILE_VISION:
-    hgrid = gtk_grid_new();
-    grid_col = 0;
-    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
-    ev->panel_widget = hgrid;
+    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+    ev->panel_widget = hbox;
     break;
 
   default:
-   log_error("Unhandled request to create panel widget "
-             "for property %d (%s) in extviewer_new().",
-             propid, objprop_get_name(op));
-    hgrid = gtk_grid_new();
-    grid_col = 0;
-    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
-    ev->panel_widget = hgrid;
+    log_error("Unhandled request to create panel widget "
+              "for property %d (%s) in extviewer_new().",
+              propid, objprop_get_name(op));
+    hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+    ev->panel_widget = hbox;
     break;
   }
 
@@ -3579,7 +3572,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   }
   g_signal_connect(button, "clicked",
                    G_CALLBACK(extviewer_panel_button_clicked), ev);
-  gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), button);
   ev->panel_button = button;
 
 
@@ -3632,21 +3625,13 @@ static struct extviewer *extviewer_new(struct objprop *op)
 
   /* Create the view widget. */
 
-  vgrid = gtk_grid_new();
-  grid_row = 0;
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
-  gtk_widget_set_margin_start(vgrid, 4);
-  gtk_widget_set_margin_end(vgrid, 4);
-  gtk_widget_set_margin_top(vgrid, 4);
-  gtk_widget_set_margin_bottom(vgrid, 4);
-  ev->view_widget = vgrid;
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
+  ev->view_widget = vbox;
 
   label = gtk_label_new(objprop_get_name(op));
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), label);
   ev->view_label = label;
 
   if (store || textbuf) {
@@ -3656,7 +3641,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
-    gtk_grid_attach(GTK_GRID(vgrid), scrollwin, 0, grid_row++, 1, 1);
+    gtk_box_append(GTK_BOX(vbox), scrollwin);
 
     if (store) {
       view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -3898,6 +3883,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
       id = player_slot_index(pslot);
       if (player_slot_is_used(pslot)) {
         struct player *pplayer = player_slot_get_player(pslot);
+
         name = player_name(pplayer);
         pixbuf = get_flag(pplayer->nation);
       } else {
