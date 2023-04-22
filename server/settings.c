@@ -4811,6 +4811,11 @@ void settings_game_load(struct section_file *file, const char *section)
         }
 
         pset->setdef = SETDEF_CHANGED;
+      } else {
+        /* These values are saved even when they are not valid.
+         * Silence warnings caused by them. */
+        (void) secfile_entry_lookup(file, "%s.set%d.gamestart",
+                                    section, i);
       }
     } settings_iterate_end;
   }
