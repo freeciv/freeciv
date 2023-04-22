@@ -78,8 +78,9 @@ static GMenu *setup_menus(GtkApplication *app);
 #ifdef MENUS_GTK3
 static void menu_entry_set_active(const char *key,
                                   gboolean is_active);
-static void view_menu_update_sensitivity(void);
 #endif /* MENUS_GTK3 */
+
+static void view_menu_update_sensitivity(GActionMap *map);
 
 enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
                            MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
@@ -1766,11 +1767,9 @@ static void view_menu_item_toggle(void (*cb)(void),
 
   cb();
 
-#ifdef MENUS_GTK3
   if (updt_sensitivity) {
-    view_menu_update_sensitivity();
+    view_menu_update_sensitivity(G_ACTION_MAP(gui_app()));
   }
-#endif /* MENUS_GTK3 */
 
   /* TODO: Make the information available directly from menu_entry_info,
    *       se we don't need to do this search for it */
@@ -3366,34 +3365,36 @@ static GtkMenu *find_menu(const char *key)
 {
   return GTK_MENU(gtk_builder_get_object(ui_builder, key));
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Update the sensitivity of the items in the view menu.
 ****************************************************************************/
-static void view_menu_update_sensitivity(void)
+static void view_menu_update_sensitivity(GActionMap *map)
 {
   /* The "full" city bar (i.e. the new way of drawing the
    * city name), can draw the city growth even without drawing
    * the city name. But the old method cannot. */
   if (gui_options.draw_full_citybar) {
-    menu_entry_set_sensitive("SHOW_CITY_GROWTH", TRUE);
-    menu_entry_set_sensitive("SHOW_CITY_TRADE_ROUTES", TRUE);
+    menu_entry_set_sensitive(map, "SHOW_CITY_GROWTH", TRUE);
+    menu_entry_set_sensitive(map, "SHOW_CITY_TRADE_ROUTES", TRUE);
   } else {
-    menu_entry_set_sensitive("SHOW_CITY_GROWTH", gui_options.draw_city_names);
-    menu_entry_set_sensitive("SHOW_CITY_TRADE_ROUTES",
+    menu_entry_set_sensitive(map, "SHOW_CITY_GROWTH", gui_options.draw_city_names);
+    menu_entry_set_sensitive(map, "SHOW_CITY_TRADE_ROUTES",
                              gui_options.draw_city_names);
   }
 
-  menu_entry_set_sensitive("SHOW_CITY_BUY_COST",
+  menu_entry_set_sensitive(map, "SHOW_CITY_BUY_COST",
                            gui_options.draw_city_productions);
-  menu_entry_set_sensitive("SHOW_COASTLINE", !gui_options.draw_terrain);
-  menu_entry_set_sensitive("SHOW_UNIT_SOLID_BG",
+  menu_entry_set_sensitive(map, "SHOW_COASTLINE", !gui_options.draw_terrain);
+  menu_entry_set_sensitive(map, "SHOW_UNIT_SOLID_BG",
                            gui_options.draw_units || gui_options.draw_focus_unit);
-  menu_entry_set_sensitive("SHOW_UNIT_SHIELDS",
+  menu_entry_set_sensitive(map, "SHOW_UNIT_SHIELDS",
                            gui_options.draw_units || gui_options.draw_focus_unit);
-  menu_entry_set_sensitive("SHOW_FOCUS_UNIT", !gui_options.draw_units);
+  menu_entry_set_sensitive(map, "SHOW_FOCUS_UNIT", !gui_options.draw_units);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Return the text for the tile, changed by the activity.
 
