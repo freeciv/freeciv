@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="900"
    height="600"
    id="svg6659"
-   version="1.1">
+   version="1.1"
+   sodipodi:docname="hre.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs6661">
     <inkscape:perspective
@@ -30,9 +31,9 @@
        sodipodi:type="inkscape:persp3d" />
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.062785916"
+       x="-0.062785917"
        width="1.1255718"
-       y="-0.13780966"
+       y="-0.13780967"
        height="1.2756193"
        id="filter5407">
       <feGaussianBlur
@@ -42,7 +43,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter5403">
+       id="filter5403"
+       x="-0.064531673"
+       y="-0.086308623"
+       width="1.1290633"
+       height="1.1726172">
       <feGaussianBlur
          collect="always"
          stdDeviation="1.2894434"
@@ -50,9 +55,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.1062007"
+       x="-0.10620069"
        width="1.2124014"
-       y="-0.083716772"
+       y="-0.083716771"
        height="1.1674335"
        id="filter5399">
       <feGaussianBlur
@@ -62,7 +67,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter5395">
+       id="filter5395"
+       x="-0.077116688"
+       y="-0.052271973"
+       width="1.1542334"
+       height="1.1045439">
       <feGaussianBlur
          collect="always"
          stdDeviation="1.2894434"
@@ -70,7 +79,7 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.19984002"
+       x="-0.19984001"
        width="1.39968"
        y="-0.17204918"
        height="1.3440984"
@@ -82,10 +91,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.11442312"
+       x="-0.11442311"
        width="1.2288462"
-       y="-0.044355903"
-       height="1.0887119"
+       y="-0.0443559"
+       height="1.0887118"
        id="filter5387">
       <feGaussianBlur
          collect="always"
@@ -94,9 +103,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.36567739"
-       width="1.7313548"
-       y="-0.1770011"
+       x="-0.36567737"
+       width="1.7313547"
+       y="-0.17700109"
        height="1.3540022"
        id="filter5383">
       <feGaussianBlur
@@ -106,8 +115,8 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.5392586"
-       width="2.0785172"
+       x="-0.53925855"
+       width="2.0785171"
        y="-0.081603169"
        height="1.1632063"
        id="filter5379">
@@ -118,10 +127,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.33167356"
+       x="-0.33167354"
        width="1.6633471"
-       y="-0.339205"
-       height="1.6784101"
+       y="-0.33920498"
+       height="1.67841"
        id="filter5251">
       <feGaussianBlur
          collect="always"
@@ -130,8 +139,8 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.87263966"
-       width="2.7452793"
+       x="-0.87263644"
+       width="2.7452729"
        y="-0.25115031"
        height="1.5023006"
        id="filter5247">
@@ -144,7 +153,7 @@
        color-interpolation-filters="sRGB"
        x="-1.2929586"
        width="3.5859172"
-       y="-0.24428158"
+       y="-0.24428156"
        height="1.4885631"
        id="filter5243">
       <feGaussianBlur
@@ -154,10 +163,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.3292909"
-       width="1.6585819"
-       y="-0.13665529"
-       height="1.2733105"
+       x="-0.32929088"
+       width="1.6585818"
+       y="-0.13665528"
+       height="1.2733106"
        id="filter5239">
       <feGaussianBlur
          collect="always"
@@ -166,7 +175,7 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.31479982"
+       x="-0.31479981"
        width="1.6295996"
        y="-0.41451231"
        height="1.8290246"
@@ -180,7 +189,7 @@
        color-interpolation-filters="sRGB"
        x="-0.74340391"
        width="2.4868078"
-       y="-0.17533141"
+       y="-0.1753314"
        height="1.3506628"
        id="filter5231">
       <feGaussianBlur
@@ -191,9 +200,9 @@
     <filter
        color-interpolation-filters="sRGB"
        x="-0.36336312"
-       width="1.7267263"
+       width="1.7267262"
        y="-0.25443545"
-       height="1.508871"
+       height="1.5088709"
        id="filter5227">
       <feGaussianBlur
          collect="always"
@@ -202,9 +211,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.46372092"
+       x="-0.46372089"
        width="1.9274418"
-       y="-0.20882154"
+       y="-0.20882153"
        height="1.4176431"
        id="filter5223">
       <feGaussianBlur
@@ -214,8 +223,8 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.41653693"
-       width="1.8330739"
+       x="-0.41653692"
+       width="1.8330738"
        y="-0.28592479"
        height="1.5718496"
        id="filter5219">
@@ -227,9 +236,9 @@
     <filter
        color-interpolation-filters="sRGB"
        x="-0.12301274"
-       width="1.2460254"
-       y="-0.080939777"
-       height="1.1618797"
+       width="1.2460255"
+       y="-0.080939774"
+       height="1.1618795"
        id="filter5367">
       <feGaussianBlur
          collect="always"
@@ -238,9 +247,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.11477305"
+       x="-0.11477304"
        width="1.2295461"
-       y="-0.080108292"
+       y="-0.080108289"
        height="1.1602166"
        id="filter5363">
       <feGaussianBlur
@@ -250,9 +259,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.11311564"
+       x="-0.11311563"
        width="1.2262313"
-       y="-0.067715548"
+       y="-0.067715543"
        height="1.1354311"
        id="filter5359">
       <feGaussianBlur
@@ -262,10 +271,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.33484891"
-       width="1.6696978"
-       y="-0.066945605"
-       height="1.1338912"
+       x="-0.37547619"
+       width="1.7509524"
+       y="-0.068425827"
+       height="1.1368517"
        id="filter5355">
       <feGaussianBlur
          collect="always"
@@ -274,7 +283,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter5351">
+       id="filter5351"
+       x="-0.085310127"
+       y="-0.03656899"
+       width="1.1706203"
+       height="1.073138">
       <feGaussianBlur
          collect="always"
          stdDeviation="1.2894434"
@@ -282,7 +295,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter5347">
+       id="filter5347"
+       x="-0.079622773"
+       y="-0.044992328"
+       width="1.1592455"
+       height="1.0899847">
       <feGaussianBlur
          collect="always"
          stdDeviation="1.2894434"
@@ -290,7 +307,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter5191">
+       id="filter5191"
+       x="-0.085867722"
+       y="-0.090324511"
+       width="1.1717354"
+       height="1.180649">
       <feGaussianBlur
          collect="always"
          stdDeviation="1.2894434"
@@ -298,10 +319,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.057059836"
-       width="1.1141196"
-       y="-0.20781557"
-       height="1.4156312"
+       x="-0.058131674"
+       width="1.1162633"
+       y="-0.2227756"
+       height="1.4455512"
        id="filter5187">
       <feGaussianBlur
          collect="always"
@@ -310,10 +331,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.11017423"
-       width="1.2203485"
-       y="-0.28408852"
-       height="1.568177"
+       x="-0.11424138"
+       width="1.2284828"
+       y="-0.31280371"
+       height="1.6256074"
        id="filter5183">
       <feGaussianBlur
          collect="always"
@@ -322,10 +343,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.17305318"
-       width="1.3461063"
-       y="-0.466499"
-       height="1.9329979"
+       x="-0.18330347"
+       width="1.3666069"
+       y="-0.54930251"
+       height="2.098605"
        id="filter5179">
       <feGaussianBlur
          collect="always"
@@ -334,10 +355,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.42047182"
-       width="1.8409436"
-       y="-0.25637013"
-       height="1.5127403"
+       x="-0.48658394"
+       width="1.9731679"
+       y="-0.27952685"
+       height="1.5590537"
        id="filter5343">
       <feGaussianBlur
          collect="always"
@@ -346,10 +367,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.38363686"
-       width="1.7672737"
-       y="-0.23357984"
-       height="1.4671597"
+       x="-0.4379252"
+       width="1.8758504"
+       y="-0.25264936"
+       height="1.5052987"
        id="filter5339">
       <feGaussianBlur
          collect="always"
@@ -358,10 +379,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.19721408"
-       width="1.3944283"
-       y="-0.15594655"
-       height="1.3118931"
+       x="-0.21063739"
+       width="1.4212748"
+       y="-0.16422204"
+       height="1.3284441"
        id="filter5335">
       <feGaussianBlur
          collect="always"
@@ -370,10 +391,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.61191845"
-       width="2.2238369"
-       y="-0.16170487"
-       height="1.3234097"
+       x="-0.76273701"
+       width="2.525474"
+       y="-0.17062025"
+       height="1.3412405"
        id="filter5331">
       <feGaussianBlur
          collect="always"
@@ -382,7 +403,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter5327">
+       id="filter5327"
+       x="-0.091099365"
+       y="-0.0460974"
+       width="1.1821987"
+       height="1.0921948">
       <feGaussianBlur
          collect="always"
          stdDeviation="1.2894434"
@@ -390,10 +415,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.11916846"
-       width="1.2383369"
-       y="-0.27885443"
-       height="1.5577089"
+       x="-0.12394114"
+       width="1.2478823"
+       y="-0.30646985"
+       height="1.6129397"
        id="filter5323">
       <feGaussianBlur
          collect="always"
@@ -402,10 +427,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.10925797"
-       width="1.2185159"
-       y="-0.1350992"
-       height="1.2701983"
+       x="-0.11325652"
+       width="1.226513"
+       y="-0.14126624"
+       height="1.2825325"
        id="filter5319">
       <feGaussianBlur
          collect="always"
@@ -414,7 +439,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter5315">
+       id="filter5315"
+       x="-0.093382556"
+       y="-0.095896052"
+       width="1.1867651"
+       height="1.1917921">
       <feGaussianBlur
          collect="always"
          stdDeviation="1.2894434"
@@ -422,10 +451,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.068338521"
-       width="1.136677"
-       y="-0.15572608"
-       height="1.3114522"
+       x="-0.15155097"
+       width="1.3031019"
+       y="-0.42727156"
+       height="1.8545431"
        id="filter5311">
       <feGaussianBlur
          collect="always"
@@ -434,10 +463,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.15058416"
-       width="1.3011683"
-       y="-0.28138423"
-       height="1.5627685"
+       x="-0.15828625"
+       width="1.3165725"
+       y="-0.30952828"
+       height="1.6190566"
        id="filter5375">
       <feGaussianBlur
          collect="always"
@@ -446,10 +475,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.15781984"
-       width="1.3156397"
-       y="-0.4185898"
-       height="1.8371795"
+       x="-0.16630073"
+       width="1.3326015"
+       y="-0.48406532"
+       height="1.9681306"
        id="filter5303">
       <feGaussianBlur
          collect="always"
@@ -458,10 +487,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.40743175"
-       width="1.8148634"
-       y="-0.17230909"
-       height="1.3446182"
+       x="-0.46920557"
+       width="1.9384111"
+       y="-0.18246883"
+       height="1.3649377"
        id="filter5299">
       <feGaussianBlur
          collect="always"
@@ -470,10 +499,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.12976168"
-       width="1.2595234"
-       y="-0.10747045"
-       height="1.2149409"
+       x="-0.13544081"
+       width="1.2708816"
+       y="-0.11133691"
+       height="1.2226738"
        id="filter5295">
       <feGaussianBlur
          collect="always"
@@ -482,10 +511,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.074967824"
-       width="1.1499356"
-       y="-0.13685434"
-       height="1.2737087"
+       x="-0.076828992"
+       width="1.153658"
+       y="-0.14318642"
+       height="1.2863728"
        id="filter5291">
       <feGaussianBlur
          collect="always"
@@ -494,10 +523,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.66801989"
-       width="2.3360398"
-       y="-0.042621121"
-       height="1.0852422"
+       x="-0.85191608"
+       width="2.7038322"
+       y="-0.043216313"
+       height="1.0864326"
        id="filter5283">
       <feGaussianBlur
          collect="always"
@@ -506,10 +535,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.67982137"
-       width="2.3596427"
-       y="-0.26678187"
-       height="1.5335637"
+       x="-0.87120318"
+       width="2.7424064"
+       y="-0.29194999"
+       height="1.5839"
        id="filter5279">
       <feGaussianBlur
          collect="always"
@@ -518,10 +547,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.32078966"
-       width="1.6415793"
-       y="-0.48133069"
-       height="1.9626614"
+       x="-0.35788794"
+       width="1.7157759"
+       y="-0.56998345"
+       height="2.1399669"
        id="filter5275">
       <feGaussianBlur
          collect="always"
@@ -530,10 +559,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.1016498"
-       width="1.2032996"
-       y="-0.21374694"
-       height="1.4274939"
+       x="-0.10510207"
+       width="1.2102041"
+       y="-0.22960567"
+       height="1.4592113"
        id="filter5267">
       <feGaussianBlur
          collect="always"
@@ -542,10 +571,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.43035403"
-       width="1.8607081"
-       y="-0.64892894"
-       height="2.297858"
+       x="-0.49986716"
+       width="1.9997343"
+       y="-0.82110975"
+       height="2.6422195"
        id="filter5259">
       <feGaussianBlur
          collect="always"
@@ -554,10 +583,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.32439479"
-       width="1.6487896"
-       y="-0.38587707"
-       height="1.7717541"
+       x="-0.36238098"
+       width="1.724762"
+       y="-0.4408467"
+       height="1.8816934"
        id="filter5175">
       <feGaussianBlur
          collect="always"
@@ -566,10 +595,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.26588401"
-       width="1.531768"
-       y="-0.16371997"
-       height="1.3274399"
+       x="-0.2908751"
+       width="1.5817502"
+       y="-0.17286521"
+       height="1.3457304"
        id="filter5171">
       <feGaussianBlur
          collect="always"
@@ -578,10 +607,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.081476845"
-       width="1.1629537"
-       y="-0.13793606"
-       height="1.2758721"
+       x="-0.083679985"
+       width="1.16736"
+       y="-0.14437098"
+       height="1.288742"
        id="filter5167">
       <feGaussianBlur
          collect="always"
@@ -590,10 +619,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.20135939"
-       width="1.4027188"
-       y="-0.26147237"
-       height="1.5229448"
+       x="-0.21537297"
+       width="1.4307459"
+       y="-0.28560339"
+       height="1.5712068"
        id="filter5163">
       <feGaussianBlur
          collect="always"
@@ -602,10 +631,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.26490787"
-       width="1.5298157"
-       y="-0.31098747"
-       height="1.6219749"
+       x="-0.28970722"
+       width="1.5794144"
+       y="-0.34573042"
+       height="1.6914608"
        id="filter5159">
       <feGaussianBlur
          collect="always"
@@ -614,10 +643,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.24175142"
-       width="1.4835027"
-       y="-0.2718519"
-       height="1.5437038"
+       x="-0.26223705"
+       width="1.5244741"
+       y="-0.29803269"
+       height="1.5960654"
        id="filter5155">
       <feGaussianBlur
          collect="always"
@@ -626,10 +655,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.25617942"
-       width="1.5123588"
-       y="-0.19537058"
-       height="1.3907412"
+       x="-0.27930017"
+       width="1.5586003"
+       y="-0.20853574"
+       height="1.4170715"
        id="filter5371">
       <feGaussianBlur
          collect="always"
@@ -638,10 +667,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.31139165"
-       width="1.6227833"
-       y="-0.36267567"
-       height="1.7253513"
+       x="-0.34623004"
+       width="1.6924601"
+       y="-0.41082141"
+       height="1.8216428"
        id="filter5151">
       <feGaussianBlur
          collect="always"
@@ -650,10 +679,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.40675655"
-       width="1.813513"
-       y="-0.2110644"
-       height="1.4221288"
+       x="-0.46831031"
+       width="1.9366206"
+       y="-0.2265132"
+       height="1.4530264"
        id="filter5215">
       <feGaussianBlur
          collect="always"
@@ -662,10 +691,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.43456572"
-       width="1.8691314"
-       y="-0.27623591"
-       height="1.5524718"
+       x="-0.50555832"
+       width="2.0111166"
+       y="-0.30330997"
+       height="1.6066199"
        id="filter5211">
       <feGaussianBlur
          collect="always"
@@ -674,10 +703,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.48137599"
-       width="1.962752"
-       y="-0.28299347"
-       height="1.565987"
+       x="-0.57004697"
+       width="2.1400939"
+       y="-0.31147665"
+       height="1.6229533"
        id="filter5207">
       <feGaussianBlur
          collect="always"
@@ -686,10 +715,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.44138917"
-       width="1.8827784"
-       y="-0.2377848"
-       height="1.4755696"
+       x="-0.51481706"
+       width="2.0296341"
+       y="-0.25757619"
+       height="1.5151524"
        id="filter5203">
       <feGaussianBlur
          collect="always"
@@ -698,10 +727,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.43597552"
-       width="1.871951"
-       y="-0.24674013"
-       height="1.4934803"
+       x="-0.50746738"
+       width="2.0149348"
+       y="-0.26811735"
+       height="1.5362347"
        id="filter5199">
       <feGaussianBlur
          collect="always"
@@ -710,10 +739,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.46479475"
-       width="1.9295895"
-       y="-0.29643244"
-       height="1.5928649"
+       x="-0.54694108"
+       width="2.0938822"
+       y="-0.32783517"
+       height="1.6556703"
        id="filter5195">
       <feGaussianBlur
          collect="always"
@@ -722,10 +751,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.25652656"
-       width="1.5130531"
-       y="-0.28320265"
-       height="1.5664053"
+       x="-0.27971284"
+       width="1.5594257"
+       y="-0.31173006"
+       height="1.6234601"
        id="filter5147">
       <feGaussianBlur
          collect="always"
@@ -734,10 +763,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.26147261"
-       width="1.5229452"
-       y="-0.35433379"
-       height="1.7086676"
+       x="-0.28560365"
+       width="1.5712073"
+       y="-0.40015032"
+       height="1.8003006"
        id="filter5255">
       <feGaussianBlur
          collect="always"
@@ -746,9 +775,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.14690983"
+       x="-0.14690985"
        width="1.2938197"
-       y="-0.19680376"
+       y="-0.19680377"
        height="1.3936075"
        id="filter6654">
       <feGaussianBlur
@@ -758,9 +787,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.24677981"
+       x="-0.24677982"
        width="1.4935596"
-       y="-0.061356459"
+       y="-0.061356461"
        height="1.1227129"
        id="filter6650">
       <feGaussianBlur
@@ -770,9 +799,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.67773241"
-       width="2.3554647"
-       y="-0.23705903"
+       x="-0.67773246"
+       width="2.3554649"
+       y="-0.23705904"
        height="1.4741181"
        id="filter6678">
       <feGaussianBlur
@@ -782,10 +811,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.46143717"
-       width="1.9228743"
-       y="-0.26006833"
-       height="1.5201366"
+       x="-0.46143719"
+       width="1.9228744"
+       y="-0.26006834"
+       height="1.5201367"
        id="filter6658">
       <feGaussianBlur
          collect="always"
@@ -794,9 +823,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.48032799"
+       x="-0.48032802"
        width="1.960656"
-       y="-0.20861194"
+       y="-0.20861195"
        height="1.4172239"
        id="filter6674">
       <feGaussianBlur
@@ -806,10 +835,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-1.1557708"
+       x="-1.1557709"
        width="3.3115418"
-       y="-0.31607872"
-       height="1.6321574"
+       y="-0.31607874"
+       height="1.6321575"
        id="filter6670">
       <feGaussianBlur
          collect="always"
@@ -818,10 +847,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.49579638"
-       width="1.9915926"
-       y="-0.23614116"
-       height="1.4722823"
+       x="-0.4957964"
+       width="1.9915928"
+       y="-0.23614118"
+       height="1.4722824"
        id="filter6666">
       <feGaussianBlur
          collect="always"
@@ -830,9 +859,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.30653265"
-       width="1.6130652"
-       y="-0.29801708"
+       x="-0.30653266"
+       width="1.6130653"
+       y="-0.29801709"
        height="1.5960342"
        id="filter6706">
       <feGaussianBlur
@@ -842,9 +871,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.44677806"
-       width="1.8935561"
-       y="-0.27440026"
+       x="-0.44677809"
+       width="1.8935562"
+       y="-0.27440027"
        height="1.5488005"
        id="filter6682">
       <feGaussianBlur
@@ -854,9 +883,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.63020533"
-       width="2.2604108"
-       y="-0.28190804"
+       x="-0.63020537"
+       width="2.2604107"
+       y="-0.28190806"
        height="1.5638161"
        id="filter6686">
       <feGaussianBlur
@@ -866,10 +895,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.37930357"
-       width="1.7586071"
-       y="-0.25604641"
-       height="1.5120928"
+       x="-0.37930359"
+       width="1.7586072"
+       y="-0.25604643"
+       height="1.5120929"
        id="filter6662">
       <feGaussianBlur
          collect="always"
@@ -878,10 +907,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.34106967"
-       width="1.6821393"
-       y="-0.21261311"
-       height="1.4252262"
+       x="-0.34106969"
+       width="1.6821394"
+       y="-0.21261305"
+       height="1.4252261"
        id="filter6690">
       <feGaussianBlur
          collect="always"
@@ -890,10 +919,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.40656108"
+       x="-0.4065611"
        width="1.8131222"
-       y="-0.23916671"
-       height="1.4783334"
+       y="-0.23916665"
+       height="1.4783333"
        id="filter6702">
       <feGaussianBlur
          collect="always"
@@ -902,9 +931,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.3778595"
-       width="1.7557189"
-       y="-0.23448476"
+       x="-0.37785951"
+       width="1.755719"
+       y="-0.23448477"
        height="1.4689695"
        id="filter6694">
       <feGaussianBlur
@@ -914,9 +943,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.34536606"
+       x="-0.34536607"
        width="1.6907321"
-       y="-0.207413"
+       y="-0.20741302"
        height="1.414826"
        id="filter6698">
       <feGaussianBlur
@@ -926,10 +955,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.29264942"
-       width="1.5852989"
-       y="-0.17864545"
-       height="1.3572909"
+       x="-0.42679033"
+       width="1.8542651"
+       y="-0.25765901"
+       height="1.5311486"
        id="filter5701">
       <feGaussianBlur
          collect="always"
@@ -938,10 +967,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.32679972"
-       width="1.6535995"
-       y="-0.18677521"
-       height="1.3735504"
+       x="-0.4862364"
+       width="1.9725583"
+       y="-0.26898653"
+       height="1.5255988"
        id="filter5669">
       <feGaussianBlur
          collect="always"
@@ -950,10 +979,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.27440205"
-       width="1.548804"
-       y="-0.18642721"
-       height="1.3728544"
+       x="-0.39587192"
+       width="1.7920936"
+       y="-0.25631144"
+       height="1.5306712"
        id="filter5697">
       <feGaussianBlur
          collect="always"
@@ -962,10 +991,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.26856464"
-       width="1.5371293"
-       y="-0.20589478"
-       height="1.4117897"
+       x="-0.38618142"
+       width="1.7723701"
+       y="-0.31251716"
+       height="1.6064567"
        id="filter5673">
       <feGaussianBlur
          collect="always"
@@ -974,10 +1003,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.31926537"
-       width="1.6385307"
-       y="-0.20944443"
-       height="1.4188889"
+       x="-0.47285799"
+       width="1.9456021"
+       y="-0.29135461"
+       height="1.6017309"
        id="filter5681">
       <feGaussianBlur
          collect="always"
@@ -986,10 +1015,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.35770679"
-       width="1.7154136"
-       y="-0.20246328"
-       height="1.4049267"
+       x="-0.54188841"
+       width="2.0837848"
+       y="-0.28369885"
+       height="1.588889"
        id="filter5693">
       <feGaussianBlur
          collect="always"
@@ -998,10 +1027,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.28716967"
-       width="1.5743393"
-       y="-0.24295303"
-       height="1.4859061"
+       x="-0.41977273"
+       width="1.8371435"
+       y="-0.37340107"
+       height="1.7382657"
        id="filter5677">
       <feGaussianBlur
          collect="always"
@@ -1010,10 +1039,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.29555938"
-       width="1.5911188"
-       y="-0.18131156"
-       height="1.3626231"
+       x="-0.43174815"
+       width="1.8635694"
+       y="-0.27640058"
+       height="1.5459477"
        id="filter5689">
       <feGaussianBlur
          collect="always"
@@ -1022,10 +1051,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.27128521"
-       width="1.5425704"
-       y="-0.29627919"
-       height="1.5925584"
+       x="-0.39193917"
+       width="1.7888217"
+       y="-0.58796186"
+       height="2.0208314"
        id="filter5685">
       <feGaussianBlur
          collect="always"
@@ -1034,10 +1063,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.11881315"
-       width="1.2376263"
-       y="-0.047301207"
-       height="1.0946023"
+       x="-0.16464098"
+       width="1.3310663"
+       y="-0.058631336"
+       height="1.1220163"
        id="filter6751">
       <feGaussianBlur
          collect="always"
@@ -1046,7 +1075,11 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       id="filter6755">
+       id="filter6755"
+       x="-0.11672357"
+       y="-0.10215561"
+       width="1.2318469"
+       height="1.1912861">
       <feGaussianBlur
          collect="always"
          stdDeviation="0.69290663"
@@ -1054,10 +1087,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.25336727"
-       width="1.5067346"
-       y="-0.11655498"
-       height="1.23311"
+       x="-0.42373233"
+       width="1.878184"
+       y="-0.25124779"
+       height="1.4381084"
        id="filter7800">
       <feGaussianBlur
          collect="always"
@@ -1066,10 +1099,10 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.13918807"
-       width="1.2783761"
-       y="-0.18060331"
-       height="1.3612067"
+       x="-0.21252996"
+       width="1.4097109"
+       y="-0.31042279"
+       height="1.5736526"
        id="filter7796">
       <feGaussianBlur
          collect="always"
@@ -1078,9 +1111,9 @@
     </filter>
     <filter
        color-interpolation-filters="sRGB"
-       x="-0.24934235"
-       width="1.4986846"
-       y="-0.23692515"
+       x="-0.24934253"
+       width="1.4986851"
+       y="-0.23692516"
        height="1.4738503"
        id="filter4934">
       <feGaussianBlur
@@ -1108,17 +1141,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.50141301"
-     inkscape:cx="375"
-     inkscape:cy="338.14269"
+     inkscape:zoom="0.70910508"
+     inkscape:cx="454.09349"
+     inkscape:cy="289.09679"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="863"
+     inkscape:window-width="782"
      inkscape:window-height="649"
-     inkscape:window-x="79"
-     inkscape:window-y="180"
-     inkscape:window-maximized="0" />
+     inkscape:window-x="564"
+     inkscape:window-y="109"
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata6664">
     <rdf:RDF>
@@ -1127,7 +1163,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
