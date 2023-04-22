@@ -969,6 +969,8 @@ enum spaceship_place_type {
 #define SPECENUM_VALUE2NAME "Nation"
 #include "specenum_gen.h"
 
+#define FC_EPSILON (0.000001)
+
 typedef float adv_want;
 #define ADV_WANT_PRINTF "%f"
 

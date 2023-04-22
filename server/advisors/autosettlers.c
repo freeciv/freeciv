@@ -336,7 +336,8 @@ static void consider_settler_action(const struct player *pplayer,
        * Getting the best possible total for next citizen to work on is more
        * important than amount tile gets improved. */
       if (improves && (new_tile_value > *best_value
-                       || (new_tile_value == *best_value && old_tile_value < *best_old_tile_value))) {
+                       || (ADV_WANTS_EQ(new_tile_value, *best_value)
+                           && old_tile_value < *best_old_tile_value))) {
         *best_value = new_tile_value;
         *best_old_tile_value = old_tile_value;
         *best_extra = extra;
