@@ -2034,6 +2034,13 @@ static void compat_load_030200(struct loaddata *loading,
           secfile_replace_str(loading->file, name, "settings.set%d.name", i);
         }
 
+        if (!gamestart_valid) {
+          /* Older savegames saved these values even when they were not valid.
+           * Silence warnings caused by them. */
+          (void) secfile_entry_lookup(loading->file, "settings.set%d.gamestart", i);
+          (void) secfile_entry_lookup(loading->file, "settings.set%d.gamesetdef", i);
+        }
+
         if (!fc_strcasecmp("compresstype", name)) {
           const char *val = secfile_lookup_str(loading->file,
                                                "settings.set%d.value", i);
@@ -2172,7 +2179,7 @@ static void compat_load_030200(struct loaddata *loading,
             || !secfile_lookup_bool(loading->file, &alltemperate,
                                     "settings.set%d.value",
                                     alltemperate_idx)) {
-          /* infer what would've been the ruleset default */
+          /* Infer what would've been the ruleset default */
           alltemperate = (wld.map.north_latitude == wld.map.south_latitude);
         }
 
@@ -2180,7 +2187,7 @@ static void compat_load_030200(struct loaddata *loading,
             || !secfile_lookup_bool(loading->file, &singlepole,
                                     "settings.set%d.value",
                                     singlepole_idx)) {
-          /* infer what would've been the ruleset default */
+          /* Infer what would've been the ruleset default */
           singlepole = (wld.map.south_latitude >= 0);
         }
 
@@ -2982,6 +2989,30 @@ static void compat_load_dev(struct loaddata *loading)
                                 "savefile.activities_vector");
 
         free(savemod);
+      }
+    }
+
+    /* Server setting migration. */
+    {
+      int set_count;
+
+      if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+        bool gamestart_valid = FALSE;
+
+        gamestart_valid
+          = secfile_lookup_bool_default(loading->file, FALSE,
+                                        "settings.gamestart_valid");
+
+        if (!gamestart_valid) {
+          int i;
+
+          /* Older savegames saved gamestart values even when they were not valid.
+           * Silence warnings caused by them. */
+          for (i = 0; i < set_count; i++) {
+            (void) secfile_entry_lookup(loading->file, "settings.set%d.gamestart", i);
+            (void) secfile_entry_lookup(loading->file, "settings.set%d.gamesetdef", i);
+          }
+        }
       }
     }
 
