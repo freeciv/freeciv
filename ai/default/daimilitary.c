@@ -117,7 +117,8 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
                TILE_XY(attacker->tile), want);
 #endif /* NEVER */
 
-      if (want > best || (want == best && cost <= best_cost)) {
+      if (want > best || (ADV_WANTS_EQ(want, best)
+                          && cost <= best_cost)) {
         best = want;
         bestunit = punittype;
         best_cost = cost;
@@ -1101,7 +1102,8 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
         if ((best_unit_cost > limit_cost
              && build_cost < best_unit_cost)
             || ((desire > best
-                 || (desire == best && build_cost <= best_unit_cost))
+                 || (ADV_WANTS_EQ(desire, best)
+                     && build_cost <= best_unit_cost))
                 && (best_unit_type == NULL
                     /* In case all units are more expensive than limit_cost */
                     || limit_cost <= pcity->shield_stock + 40))) {
