@@ -2489,7 +2489,9 @@ static void cargo_iter_next(struct iterator *it)
     return;
   }
 
-  do {
+  fc_assert(iter->depth > 0);
+
+  while (iter->depth > 0) {
     /* Variant 2: there are other cargo units at same level. */
     pnext = unit_list_link_next(piter);
     if (NULL != pnext) {
@@ -2499,7 +2501,7 @@ static void cargo_iter_next(struct iterator *it)
 
     /* Variant 3: return to previous level, and do same tests. */
     piter = iter->links[iter->depth-- - 2];
-  } while (0 < iter->depth);
+  }
 }
 
 /**********************************************************************//**
