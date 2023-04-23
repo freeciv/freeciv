@@ -72,13 +72,19 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile,
       continue;
     }
 
-    if (is_build_activity(act)) {
+    /* Client needs check for activity_target even when the
+     * activity is a build activity, and SHOULD have target.
+     * Server may still be sending more information about tile or
+     * unit activity changes, and client data is not yet consistent. */
+    if (is_build_activity(act)
+        && punit->activity_target != NULL) {
       int eidx = extra_index(punit->activity_target);
 
       t->extra_total[eidx][act] += punit->activity_count;
       t->extra_total[eidx][act] += get_activity_rate_this_turn(punit);
       t->extra_units[eidx][act] += get_activity_rate(punit);
-    } else if (is_clean_activity(act)) {
+    } else if (is_clean_activity(act)
+               && punit->activity_target != NULL) {
       int eidx = extra_index(punit->activity_target);
 
       t->rmextra_total[eidx][act] += punit->activity_count;
