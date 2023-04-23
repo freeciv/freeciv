@@ -83,6 +83,9 @@ const char *astr_build_and_list(struct astring *astr,
 void astr_copy(struct astring *dest, const struct astring *src)
      fc__attribute((nonnull (1, 2)));
 
+void fc_astr_init(void);
+void fc_astr_free(void);
+
 
 /************************************************************************//**
   Returns the string.

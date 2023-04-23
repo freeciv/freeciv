@@ -18,21 +18,21 @@
   A common technique is to have some memory dynamically allocated
   (using malloc etc), to avoid compiled-in limits, but only allocate
   enough space as initially needed, and then realloc later if/when
-  require more space.  Typically, the realloc is made a bit more than
+  require more space. Typically, the realloc is made a bit more than
   immediately necessary, to avoid frequent reallocs if the object
-  grows incrementally.  Also, don't usually realloc at all if the
-  object shrinks.  This is straightforward, but just requires a bit
+  grows incrementally. Also, don't usually realloc at all if the
+  object shrinks. This is straightforward, but just requires a bit
   of book-keeping to keep track of how much has been allocated etc.
   This module provides some tools to make this a bit easier.
 
-  This is deliberately simple and light-weight.  The user is allowed
+  This is deliberately simple and light-weight. The user is allowed
   full access to the struct elements rather than use accessor
   functions etc.
 
   Note one potential hazard: when the size is increased (astr_reserve()),
   realloc (really fc_realloc) is used, which retains any data which
   was there previously, _but_: any external pointers into the allocated
-  memory may then become wild.  So you cannot safely use such external
+  memory may then become wild. So you cannot safely use such external
   pointers into the astring data, except strictly between times when
   the astring size may be changed.
 
@@ -66,6 +66,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "fcthread.h"
 #include "log.h"                /* fc_assert */
 #include "mem.h"
 #include "support.h"            /* fc_vsnprintf, fc_strlcat */
@@ -79,6 +80,8 @@
 static const struct astring zero_astr = ASTRING_INIT;
 static char *astr_buffer = NULL;
 static size_t astr_buffer_alloc = 0;
+
+static fc_mutex astr_mutex;
 
 static inline char *astr_buffer_get(size_t *alloc);
 static inline char *astr_buffer_grow(size_t request, size_t *alloc);
@@ -123,6 +126,7 @@ static inline char *astr_buffer_grow(size_t request, size_t *alloc)
   astr_buffer = fc_realloc(astr_buffer, astr_buffer_alloc);
 
   *alloc = astr_buffer_alloc;
+
   return astr_buffer;
 }
 
@@ -144,7 +148,7 @@ void astr_init(struct astring *astr)
 
 /************************************************************************//**
   Free the memory associated with astr, and return astr to same
-  state as after astr_init.
+  state as after astr_init().
 ****************************************************************************/
 void astr_free(struct astring *astr)
 {
@@ -163,14 +167,16 @@ void astr_free(struct astring *astr)
 char *astr_to_str(struct astring *astr)
 {
   char *str = astr->str;
+
   *astr = zero_astr;
+
   return str;
 }
 
 /************************************************************************//**
   Check that astr has enough size to hold n, and realloc to a bigger
-  size if necessary.  Here n must be big enough to include the trailing
-  ascii-null if required.  The requested n is stored in astr->n.
+  size if necessary. Here n must be big enough to include the trailing
+  ascii-null if required. The requested n is stored in astr->n.
   The actual amount allocated may be larger than n, and is stored
   in astr->n_alloc.
 ****************************************************************************/
@@ -218,6 +224,8 @@ static inline void astr_vadd_at(struct astring *astr, size_t at,
   size_t buffer_size;
   size_t req_len;
 
+  fc_allocate_mutex(&astr_mutex);
+
 #ifdef HAVE_VA_COPY
   va_list copy;
 
@@ -251,6 +259,8 @@ static inline void astr_vadd_at(struct astring *astr, size_t at,
 
   astr_reserve(astr, req_len);
   fc_strlcpy(astr->str + at, buffer, astr->n_alloc - at);
+
+  fc_release_mutex(&astr_mutex);
 }
 
 /************************************************************************//**
@@ -398,4 +408,20 @@ void astr_copy(struct astring *dest, const struct astring *src)
   } else {
     astr_set(dest, "%s", src->str);
   }
+}
+
+/************************************************************************//**
+  Initialize astr API
+****************************************************************************/
+void fc_astr_init(void)
+{
+  fc_init_mutex(&astr_mutex);
+}
+
+/************************************************************************//**
+  Free astr handling API resources
+****************************************************************************/
+void fc_astr_free(void)
+{
+  fc_destroy_mutex(&astr_mutex);
 }
