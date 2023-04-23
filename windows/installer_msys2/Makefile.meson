@@ -142,11 +142,11 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 
 install-freeciv-common: clean-install-client-arch
 	# Create build directory
-	mkdir -p $(BUILD_DIR)/$(WINARCH)-$(GUI)
-	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); meson setup $(IMSYS2_DIR)/../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
-	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); ninja
-	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); ninja install
-	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); ninja langstat_core.txt
+	mkdir -p $(BUILD_DIR)/$(WINARCH)-client-$(GUI)
+	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); meson setup $(IMSYS2_DIR)/../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja
+	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja install
+	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja langstat_core.txt
 	# Reorder directory layout
 	mv $(INST_DIR)/$(WINARCH)-client-$(GUI)/bin/* $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	rm -Rf $(INST_DIR)/$(WINARCH)-client-$(GUI)/bin
@@ -415,8 +415,11 @@ install-ruledit-qt6: install-ruledit-common
 
 # Cleanup
 
-clean-build-common:
-	rm -rf $(BUILD_DIR)/*-$(GUI)
+clean-build-client:
+	rm -rf $(BUILD_DIR)/*-client-$(GUI)
+
+clean-build-ruledit:
+	rm -rf $(BUILD_DIR)/*-ruledit-$(GUI)
 
 clean-install-client:
 	rm -rf $(INST_DIR)/*-client-$(GUI)
@@ -439,10 +442,10 @@ clean-ruledit-common:
 	rm -f $(NSI_DIR)/*-ruledit-$(GUI).nsi
 
 clean:
-	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-common clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-common clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-common clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-common clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-common clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-common clean-install-client clean-ruledit-common
-	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-common clean-ruledit-install clean-ruledit-common
+	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-ruledit clean-install-client clean-ruledit-common
+	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-ruledit clean-ruledit-install clean-ruledit-common
