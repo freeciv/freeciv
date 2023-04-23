@@ -18,7 +18,7 @@ modules:
       # On git clone, regenerate configure with autogen.sh
       - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
       - mkdir build
-      - cd build && ../configure --prefix=/app --with-qtver=qt6 --enable-client=qt --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+      - cd build && ../configure --prefix=/app --with-qtver=qt6 --enable-client=qt --disable-fcmp --disable-ruledit --disable-freeciv-manual && make -j$(nproc) && make install
     sources:
       - type: dir
         path: ..
