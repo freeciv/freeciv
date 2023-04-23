@@ -1347,7 +1347,6 @@ reqs    =
     { "type",     "name",       "range",  "present"
       "Activity", "Fortified",  "Local",  TRUE
       "CityTile", "Center",     "Local",  FALSE
-      "Building", "Great Wall", "Player", FALSE
       "Extra",    "Fortress",   "Local",  FALSE
     }
 
