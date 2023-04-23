@@ -3112,7 +3112,7 @@ void popup_races_dialog(struct player *pplayer)
 
   nation_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  /* create window widget */
+  /* Create window widget */
   pstr = create_utf8_from_char(_("What nation will you be?"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -3125,7 +3125,7 @@ void popup_races_dialog(struct player *pplayer)
   nation_dlg->end_widget_list = pwindow;
   add_to_gui_list(ID_NATION_WIZARD_WINDOW, pwindow);
   /* --------------------------------------------------------- */
-  /* create nations list */
+  /* Create nations list */
 
   /* Create Imprv Background Icon */
   main_bg = create_surf(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
@@ -3140,7 +3140,7 @@ void popup_races_dialog(struct player *pplayer)
   pstr->style |= (SF_CENTER|TTF_STYLE_BOLD);
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-  /* fill list */
+  /* Fill list */
 
   nations_iterate(pnation) {
     if (!is_nation_playable(pnation) || !is_nation_pickable(pnation)) {
@@ -3200,7 +3200,7 @@ void popup_races_dialog(struct player *pplayer)
 
   /* ----------------------------------------------------------------- */
 
-  /* nation set selection */
+  /* Nation set selection */
   if (nation_set_count() > 1) {
     utf8_str *natset_str;
     struct option *poption;
@@ -3210,7 +3210,7 @@ void popup_races_dialog(struct player *pplayer)
     nationsets = create_iconlabel(NULL, pwindow->dst, natset_str, 0);
     add_to_gui_list(ID_LABEL, nationsets);
 
-    /* create nation set name label */
+    /* Create nation set name label */
     poption = optset_option_by_name(server_optset, "nationset");
     setup->set = nation_set_by_setting_value(option_str_get(poption));
 
@@ -3223,7 +3223,7 @@ void popup_races_dialog(struct player *pplayer)
     add_to_gui_list(ID_LABEL, pwidget);
     setup->pset_name = pwidget;
 
-    /* create next nationset button */
+    /* Create next nationset button */
     pwidget = create_themeicon_button(current_theme->r_arrow_icon,
                                       pwindow->dst, NULL, 0);
     pwidget->action = next_set_callback;
@@ -3234,7 +3234,7 @@ void popup_races_dialog(struct player *pplayer)
     pwidget->size.h = pwidget->next->size.h;
     setup->pset_next = pwidget;
 
-    /* create prev nationset button */
+    /* Create prev nationset button */
     pwidget = create_themeicon_button(current_theme->l_arrow_icon,
                                       pwindow->dst, NULL, 0);
     pwidget->action = prev_set_callback;
@@ -3246,7 +3246,7 @@ void popup_races_dialog(struct player *pplayer)
     setup->pset_prev = pwidget;
   }
 
-  /* nation name */
+  /* Nation name */
   setup->nation = fc_rand(get_playable_nation_count());
   pnat = nation_by_number(setup->nation);
   setup->nation_style = style_number(style_of_nation(pnat));
@@ -3268,7 +3268,7 @@ void popup_races_dialog(struct player *pplayer)
 
   add_to_gui_list(ID_LABEL, pwidget);
 
-  /* create leader name edit */
+  /* Create leader name edit */
   pwidget = create_edit_from_chars(NULL, pwindow->dst,
                                    NULL, adj_font(16), adj_size(200), 0);
   pwidget->size.h = adj_size(24);
@@ -3278,7 +3278,7 @@ void popup_races_dialog(struct player *pplayer)
   add_to_gui_list(ID_NATION_WIZARD_LEADER_NAME_EDIT, pwidget);
   setup->name_edit = pwidget;
 
-  /* create next leader name button */
+  /* Create next leader name button */
   pwidget = create_themeicon_button(current_theme->r_arrow_icon,
                                     pwindow->dst, NULL, 0);
   pwidget->action = next_name_callback;
@@ -3286,7 +3286,7 @@ void popup_races_dialog(struct player *pplayer)
   pwidget->size.h = pwidget->next->size.h;
   setup->name_next = pwidget;
 
-  /* create prev leader name button */
+  /* Create prev leader name button */
   pwidget = create_themeicon_button(current_theme->l_arrow_icon,
                                     pwindow->dst, NULL, 0);
   pwidget->action = prev_name_callback;
@@ -3294,46 +3294,46 @@ void popup_races_dialog(struct player *pplayer)
   pwidget->size.h = pwidget->next->size.h;
   setup->name_prev = pwidget;
 
-  /* change sex button */
-  pwidget = create_icon_button_from_chars(NULL, pwindow->dst, _("Male"), adj_font(14), 0);
+  /* Change sex button */
+  pwidget = create_icon_button_from_chars(NULL, pwindow->dst,
+                                          _("Male"), adj_font(14), 0);
   pwidget->action = change_sex_callback;
   pwidget->size.w = adj_size(100);
   pwidget->size.h = adj_size(22);
   set_wstate(pwidget, FC_WS_NORMAL);
   setup->change_sex = pwidget;
 
-  /* add to main widget list */
+  /* Add to main widget list */
   add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pwidget);
 
   /* ---------------------------------------------------------- */
-  i = 0;
   zoom = DEFAULT_ZOOM * 1.0;
 
   len = 0;
   styles_iterate(pstyle) {
-    i = basic_city_style_for_style(pstyle);
+    int sn = basic_city_style_for_style(pstyle);
 
-    tmp_surf = get_sample_city_surface(i);
+    tmp_surf = get_sample_city_surface(sn);
 
     if (tmp_surf->w > 48) {
       zoom = DEFAULT_ZOOM * (48.0 / tmp_surf->w);
     }
 
-    tmp_surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
+    tmp_surf_zoomed = zoomSurface(get_sample_city_surface(sn), zoom, zoom, 0);
 
     pwidget = create_icon2(tmp_surf_zoomed, pwindow->dst, WF_RESTORE_BACKGROUND);
     pwidget->action = style_callback;
-    if (i != setup->nation_style) {
+    if (sn != setup->nation_style) {
       set_wstate(pwidget, FC_WS_NORMAL);
     }
     len += pwidget->size.w;
-    add_to_gui_list(MAX_ID - 1000 - i, pwidget);
+    add_to_gui_list(MAX_ID - 1000 - sn, pwidget);
   } styles_iterate_end;
 
   last_City_Style = pwidget;
   /* ---------------------------------------------------------- */
 
-  /* create Cancel button */
+  /* Create Cancel button */
   pwidget = create_themeicon_button_from_chars(current_theme->cancel_icon,
                                                pwindow->dst, _("Cancel"),
                                                adj_font(12), 0);
@@ -3342,7 +3342,7 @@ void popup_races_dialog(struct player *pplayer)
 
   add_to_gui_list(ID_NATION_WIZARD_DISCONNECT_BUTTON, pwidget);
 
-  /* create OK button */
+  /* Create OK button */
   pwidget =
     create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
                                        _("OK"), adj_font(12), 0);
@@ -3367,7 +3367,7 @@ void popup_races_dialog(struct player *pplayer)
                       (main_window_width() - pwindow->size.w) / 2,
                       (main_window_height() - pwindow->size.h) / 2);
 
-  /* nations */
+  /* Nations */
 
   h = nation_dlg->end_active_widget_list->size.h * TARGETS_ROW;
   i = (area.h - adj_size(43) - h) / 2;
