@@ -241,6 +241,8 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
     update_tile_knowledge(ptile);
   }
 
+  tile_change_side_effects(ptile, TRUE);
+
   return TRUE;
 }
 
@@ -281,6 +283,8 @@ static bool edit_tile_extra_handling(struct tile *ptile,
   if (send_info) {
     update_tile_knowledge(ptile);
   }
+
+  tile_change_side_effects(ptile, TRUE);
 
   return TRUE;
 }
@@ -418,6 +422,8 @@ void handle_edit_tile(struct connection *pc,
     update_tile_knowledge(ptile);
     send_tile_info(NULL, ptile, FALSE);
   }
+
+  tile_change_side_effects(ptile, TRUE);
 }
 
 /************************************************************************//**
