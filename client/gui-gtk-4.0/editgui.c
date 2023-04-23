@@ -326,13 +326,13 @@ static int tool_value_selector_run(struct tool_value_selector *tvs)
   GtkTreeModel *model;
   int id;
 
-  if (tvs == NULL) {
+  if (tvs == nullptr) {
     return -1;
   }
 
   dialog = tvs->dialog;
   res = blocking_dialog(dialog);
-  gtk_widget_hide(dialog);
+  gtk_widget_set_visible(dialog, FALSE);
 
   if (res != GTK_RESPONSE_ACCEPT) {
     return -1;
@@ -674,12 +674,12 @@ static void refresh_all_tool_value_selectors(struct editbar *eb)
 ****************************************************************************/
 static void editbar_refresh(struct editbar *eb)
 {
-  if (eb == NULL || eb->widget == NULL) {
+  if (eb == nullptr || eb->widget == nullptr) {
     return;
   }
 
   if (!editor_is_active()) {
-    gtk_widget_hide(eb->widget);
+    gtk_widget_set_visible(eb->widget, FALSE);
     return;
   }
 
@@ -687,7 +687,7 @@ static void editbar_refresh(struct editbar *eb)
   refresh_all_tool_value_selectors(eb);
   refresh_player_pov_indicator(eb);
 
-  gtk_widget_show(eb->widget);
+  gtk_widget_set_visible(eb->widget, TRUE);
 }
 
 /************************************************************************//**
@@ -997,7 +997,8 @@ create_tool_value_selector(struct editbar *eb,
   tvs->editbar_parent = eb;
 
   tvs->dialog = gtk_dialog_new_with_buttons(_("Select Tool Value"),
-                                            GTK_WINDOW(toplevel), GTK_DIALOG_MODAL,
+                                            GTK_WINDOW(toplevel),
+                                            GTK_DIALOG_MODAL,
                                             _("_OK"), GTK_RESPONSE_ACCEPT,
                                             _("_Cancel"), GTK_RESPONSE_REJECT,
                                             NULL);
@@ -1061,7 +1062,7 @@ create_tool_value_selector(struct editbar *eb,
   tvs->view = view;
 
   /* Show everything but the window itself. */
-  gtk_widget_show(vbox);
+  gtk_widget_set_visible(vbox, TRUE);
 
   return tvs;
 }
@@ -1159,16 +1160,14 @@ static void editinfobox_tool_applied_player_changed(GtkComboBox *combo,
 ****************************************************************************/
 static struct editinfobox *editinfobox_create(void)
 {
-  GtkWidget *label, *vgrid, *frame, *hgrid, *vgrid2, *pic;
+  GtkWidget *label, *vbox, *frame, *hgrid, *vbox2, *pic;
   GtkWidget *spin, *combo;
   GtkListStore *store;
   GtkCellRenderer *cell;
   GtkEventController *controller;
   struct editinfobox *ei;
   char buf[128];
-  int grid_row = 0;
   int grid_col = 0;
-  int grid2_row = 0;
 
   ei = fc_calloc(1, sizeof(*ei));
 
@@ -1181,20 +1180,17 @@ static struct editinfobox *editinfobox_create(void)
   gtk_widget_set_margin_bottom(frame, 4);
   ei->widget = frame;
 
-  vgrid = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 8);
-  gtk_widget_set_margin_start(vgrid, 4);
-  gtk_widget_set_margin_end(vgrid, 4);
-  gtk_widget_set_margin_top(vgrid, 4);
-  gtk_widget_set_margin_bottom(vgrid, 4);
-  gtk_frame_set_child(GTK_FRAME(frame), vgrid);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+  gtk_widget_set_margin_start(vbox, 4);
+  gtk_widget_set_margin_end(vbox, 4);
+  gtk_widget_set_margin_top(vbox, 4);
+  gtk_widget_set_margin_bottom(vbox, 4);
+  gtk_frame_set_child(GTK_FRAME(frame), vbox);
 
-  /* tool section */
+  /* Tool section */
   hgrid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 8);
-  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), hgrid);
 
   pic = gtk_picture_new();
   gtk_widget_set_tooltip_text(pic, _("Click to change value if applicable."));
@@ -1208,29 +1204,26 @@ static struct editinfobox *editinfobox_create(void)
   gtk_grid_attach(GTK_GRID(hgrid), pic, grid_col++, 0, 1, 1);
   ei->tool_pic = pic;
 
-  vgrid2 = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid2),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid2), 4);
-  gtk_grid_attach(GTK_GRID(hgrid), vgrid2, grid_col++, 0, 1, 1);
+  vbox2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
+  gtk_grid_attach(GTK_GRID(hgrid), vbox2, grid_col++, 0, 1, 1);
 
   label = gtk_label_new(NULL);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(vgrid2), label, 0, grid2_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox2), label);
   ei->tool_label = label;
 
   label = gtk_label_new(NULL);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(vgrid2), label, 0, grid2_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox2), label);
   ei->tool_value_label = label;
 
-  /* mode section */
+  /* Mode section */
   hgrid = gtk_grid_new();
   grid_col = 0;
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 8);
-  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), hgrid);
 
   pic = gtk_picture_new();
   gtk_widget_set_tooltip_text(pic, _("Click to change tool mode."));
@@ -1244,12 +1237,8 @@ static struct editinfobox *editinfobox_create(void)
   gtk_grid_attach(GTK_GRID(hgrid), pic, grid_col++, 0, 1, 1);
   ei->mode_pic = pic;
 
-  vgrid2 = gtk_grid_new();
-  grid2_row = 0;
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid2),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid2), 4);
-  gtk_grid_attach(GTK_GRID(hgrid), vgrid2, grid_col++, 0, 1, 1);
+  vbox2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
+  gtk_grid_attach(GTK_GRID(hgrid), vbox2, grid_col++, 0, 1, 1);
 
   label = gtk_label_new(NULL);
   fc_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
@@ -1257,19 +1246,19 @@ static struct editinfobox *editinfobox_create(void)
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(vgrid2), label, 0, grid2_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox2), label);
 
   label = gtk_label_new(NULL);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(vgrid2), label, 0, grid2_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox2), label);
   ei->mode_label = label;
 
-  /* spinner section */
+  /* Spinner section */
   hgrid = gtk_grid_new();
   grid_col = 0;
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 8);
-  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), hgrid);
   ei->size_hbox = hgrid;
   spin = gtk_spin_button_new_with_range(1, 255, 1);
   gtk_widget_set_tooltip_text(spin,
@@ -1288,7 +1277,7 @@ static struct editinfobox *editinfobox_create(void)
   hgrid = gtk_grid_new();
   grid_col = 0;
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 8);
-  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), hgrid);
   ei->count_hbox = hgrid;
   spin = gtk_spin_button_new_with_range(1, 255, 1);
   gtk_widget_set_tooltip_text(spin,
@@ -1329,7 +1318,7 @@ static struct editinfobox *editinfobox_create(void)
       _("Use this to change the \"applied player\" tool parameter. "
         "This controls for example under which player units and cities "
         "are created."));
-  gtk_grid_attach(GTK_GRID(vgrid), combo, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), combo);
   ei->tool_applied_player_combobox = combo;
 
   /* We add a ref to the editinfobox widget so that it is
@@ -1339,7 +1328,7 @@ static struct editinfobox *editinfobox_create(void)
 
   /* The edit info box starts with no parent, so we have to
    * show its internal widgets manually. */
-  gtk_widget_show(ei->widget);
+  gtk_widget_set_visible(ei->widget, TRUE);
 
   return ei;
 }
@@ -1370,7 +1359,7 @@ static void refresh_tool_applied_player_combo(struct editinfobox *ei)
   }
 
   if (!editor_tool_has_applied_player(ett)) {
-    gtk_widget_hide(combo);
+    gtk_widget_set_visible(combo, FALSE);
     return;
   }
 
@@ -1407,7 +1396,7 @@ static void refresh_tool_applied_player_combo(struct editinfobox *ei)
     editor_tool_set_applied_player(ett, index);
   }
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);
-  gtk_widget_show(combo);
+  gtk_widget_set_visible(combo, TRUE);
 }
 
 /************************************************************************//**
@@ -1516,11 +1505,11 @@ static void replace_widget(GtkWidget *old, GtkWidget *new)
   GtkWidget *parent;
 
   parent = gtk_widget_get_parent(old);
-  if (!parent) {
+  if (parent == nullptr) {
     return;
   }
 
-  gtk_widget_hide(old);
+  gtk_widget_set_visible(old, FALSE);
 
   if (GTK_IS_FRAME(parent)) {
     gtk_frame_set_child(GTK_FRAME(parent), new);
@@ -1531,7 +1520,7 @@ static void replace_widget(GtkWidget *old, GtkWidget *new)
     gtk_box_append(GTK_BOX(parent), new);
   }
 
-  gtk_widget_show(new);
+  gtk_widget_set_visible(new, TRUE);
 }
 
 /************************************************************************//**
@@ -1605,17 +1594,17 @@ static void editinfobox_refresh(struct editinfobox *ei)
   if (editor_tool_has_size(ett)) {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(ei->size_spin_button),
                               editor_tool_get_size(ett));
-    gtk_widget_show(ei->size_hbox);
+    gtk_widget_set_visible(ei->size_hbox, TRUE);
   } else {
-    gtk_widget_hide(ei->size_hbox);
+    gtk_widget_set_visible(ei->size_hbox, FALSE);
   }
 
   if (editor_tool_has_count(ett)) {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(ei->count_spin_button),
                               editor_tool_get_count(ett));
-    gtk_widget_show(ei->count_hbox);
+    gtk_widget_set_visible(ei->count_hbox, TRUE);
   } else {
-    gtk_widget_hide(ei->count_hbox);
+    gtk_widget_set_visible(ei->count_hbox, FALSE);
   }
 
   refresh_tool_applied_player_combo(ei);

@@ -183,17 +183,19 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   g_object_set_data(G_OBJECT(dlg), "actor", GINT_TO_POINTER(actor->id));
   g_object_set_data(G_OBJECT(dlg), "tile", ptile);
 
-  /* This function should never be called so that there would be no unit to select,
-   * and where there is unit to select, one of them gets selected as the default. */
-  fc_assert(default_unit != NULL);
-  if (default_unit != NULL) { /* Compiler still wants this */
-    g_object_set_data(G_OBJECT(dlg), "target", GINT_TO_POINTER(default_unit->id));
+  /* This function should never be called so that there would be no unit
+   * to select, and where there is unit to select, one of them gets
+   * selected as the default. */
+  fc_assert(default_unit != nullptr);
+  if (default_unit != nullptr) { /* Compiler still wants this */
+    g_object_set_data(G_OBJECT(dlg), "target",
+                      GINT_TO_POINTER(default_unit->id));
   }
 
   g_signal_connect(dlg, "response", do_callback, actor);
 
-  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(dlg)));
-  gtk_widget_show(dlg);
+  gtk_widget_set_visible(gtk_dialog_get_content_area(GTK_DIALOG(dlg)), TRUE);
+  gtk_widget_set_visible(dlg, TRUE);
 
   return TRUE;
 }

@@ -200,7 +200,7 @@ void unit_select_dialog_popup_main(struct tile *ptile, bool create)
   /* Present the unit selection dialog if it exists. */
   if (pdialog) {
     /* Show all. */
-    gtk_widget_show(GTK_WIDGET(pdialog->shell));
+    gtk_widget_set_visible(GTK_WIDGET(pdialog->shell), TRUE);
     /* Update tile. */
     usdlg_tile(pdialog, ptile);
     /* Refresh data and hide unused tabs. */
@@ -352,9 +352,9 @@ static void usdlg_refresh(struct unit_select_dialog *pdialog)
     bool show = usdlg_tab_update(pdialog, ushash, loc);
 
     if (!show) {
-      gtk_widget_hide(pdialog->tabs[loc].page);
+      gtk_widget_set_visible(pdialog->tabs[loc].page, FALSE);
     } else {
-      gtk_widget_show(pdialog->tabs[loc].page);
+      gtk_widget_set_visible(pdialog->tabs[loc].page, TRUE);
 
       if (pdialog->tabs[loc].path) {
         gtk_tree_view_expand_row(GTK_TREE_VIEW(pdialog->tabs[loc].view),
@@ -366,6 +366,7 @@ static void usdlg_refresh(struct unit_select_dialog *pdialog)
       }
     }
   }
+
   /* Destroy the hash. */
   usdlg_data_destroy(ushash);
 }

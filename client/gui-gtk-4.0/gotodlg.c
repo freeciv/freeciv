@@ -113,7 +113,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
       struct city *pdestcity = get_selected_city();
 
       if (pdestcity) {
-	unit_list_iterate(get_units_in_focus(), punit) {
+        unit_list_iterate(get_units_in_focus(), punit) {
           send_goto_tile(punit, pdestcity->tile);
         } unit_list_iterate_end;
       }
@@ -133,10 +133,9 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 **************************************************************************/
 static void create_goto_dialog(void)
 {
-  GtkWidget *sw, *label, *frame, *vgrid;
+  GtkWidget *sw, *label, *frame, *vbox;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
-  int grid_row = 0;
 
   dshell = gtk_dialog_new_with_buttons(_("Goto/Airlift Unit"),
                                        NULL,
@@ -155,7 +154,7 @@ static void create_goto_dialog(void)
   g_signal_connect(dshell, "response",
                    G_CALLBACK(goto_cmd_callback), NULL);
 
-  source = gtk_label_new("" /* filled in later */);
+  source = gtk_label_new("" /* Filled in later */);
   gtk_label_set_wrap(GTK_LABEL(source), TRUE);
   gtk_label_set_justify(GTK_LABEL(source), GTK_JUSTIFY_CENTER);
   gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
@@ -172,14 +171,12 @@ static void create_goto_dialog(void)
   gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
                              frame, NULL);
 
-  vgrid = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 6);
-  gtk_frame_set_child(GTK_FRAME(frame), vgrid);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+  gtk_frame_set_child(GTK_FRAME(frame), vbox);
 
   goto_list_store = gtk_list_store_new(GD_COL_NUM, G_TYPE_INT, G_TYPE_STRING,
-                                       GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
+                                       GDK_TYPE_PIXBUF, G_TYPE_STRING,
+                                       G_TYPE_STRING);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(goto_list_store),
                                        GD_COL_CITY_NAME, GTK_SORT_ASCENDING);
 
@@ -216,33 +213,36 @@ static void create_goto_dialog(void)
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(_("Nation"), rend,
-    "text", GD_COL_NATION, NULL);
+                                                 "text", GD_COL_NATION,
+                                                 NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   gtk_tree_view_column_set_sort_column_id(col, GD_COL_NATION);
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(_("Airlift"), rend,
-    "text", GD_COL_AIRLIFT, NULL);
+                                                 "text", GD_COL_AIRLIFT,
+                                                 NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   gtk_tree_view_column_set_sort_column_id(col, GD_COL_AIRLIFT);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-    GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
 
-  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), sw);
 
   all_toggle = gtk_check_button_new_with_mnemonic(_("Show _All Cities"));
-  gtk_grid_attach(GTK_GRID(vgrid), all_toggle, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), all_toggle);
 
-  g_signal_connect(all_toggle, "toggled", G_CALLBACK(update_goto_dialog), NULL);
+  g_signal_connect(all_toggle, "toggled",
+                   G_CALLBACK(update_goto_dialog), NULL);
 
   g_signal_connect(goto_list_selection, "changed",
                    G_CALLBACK(goto_selection_callback), NULL);
 
-  gtk_widget_show(dshell);
+  gtk_widget_set_visible(dshell, TRUE);
 
   original_tile = get_center_tile_mapcanvas();
 

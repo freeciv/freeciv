@@ -1018,7 +1018,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct Treaty *ptreaty,
   gtk_box_append(GTK_BOX(vbox), label);
   gtk_box_append(GTK_BOX(vbox), sw);
 
-  gtk_widget_show(mainbox);
+  gtk_widget_set_visible(mainbox, TRUE);
 
   g_signal_connect(view, "row_activated", G_CALLBACK(row_callback), pdialog);
 

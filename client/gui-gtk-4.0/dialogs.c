@@ -223,13 +223,14 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
 
   label = gtk_label_new(lines);
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
-  gtk_widget_show(label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))),
+                 label);
+  gtk_widget_set_visible(label, TRUE);
 
   g_object_set_data(G_OBJECT(shell), "tile", ptile);
 
   g_signal_connect(shell, "response", G_CALLBACK(notify_goto_response), NULL);
-  gtk_widget_show(shell);
+  gtk_widget_set_visible(shell, TRUE);
 }
 
 /**********************************************************************//**
@@ -247,14 +248,15 @@ void popup_connect_msg(const char *headline, const char *message)
   label = gtk_label_new(message);
   gtk_label_set_selectable(GTK_LABEL(label), 1);
 
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
-  gtk_widget_show(label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))),
+                 label);
+  gtk_widget_set_visible(label, TRUE);
 
   gtk_dialog_add_button(GTK_DIALOG(shell), _("_Close"),GTK_RESPONSE_CLOSE);
 
   g_signal_connect(shell, "response", G_CALLBACK(notify_connect_msg_response),
-                   NULL);
-  gtk_widget_show(shell);
+                   nullptr);
+  gtk_widget_set_visible(shell, TRUE);
 }
 
 /**********************************************************************//**
@@ -778,10 +780,10 @@ void races_update_pickable(bool nationset_change)
   create_nation_selection_lists();
 
   /* Can't set current tab before child widget is visible */
-  gtk_widget_show(GTK_WIDGET(races_notebook));
+  gtk_widget_set_visible(GTK_WIDGET(races_notebook), TRUE);
 
   /* Restore selected tab */
-  if (groupidx != -1 && races_nation_list[groupidx] != NULL) {
+  if (groupidx != -1 && races_nation_list[groupidx] != nullptr) {
     int i;
 
     tab = 0;
@@ -1209,7 +1211,8 @@ static void create_races_dialog(struct player *pplayer)
                                       FALSE);
   }
 
-  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
+  gtk_widget_set_visible(gtk_dialog_get_content_area(GTK_DIALOG(shell)),
+                                                     FALSE);
 
   /* Select player's current nation in UI, if any */
   if (races_player->nation) {

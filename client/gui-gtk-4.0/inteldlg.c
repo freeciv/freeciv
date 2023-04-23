@@ -377,7 +377,8 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   label = gtk_label_new_with_mnemonic(_("_Techs"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
-  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
+  gtk_widget_set_visible(gtk_dialog_get_content_area(GTK_DIALOG(shell)),
+                         TRUE);
 
   dialog_list_prepend(dialog_list, pdialog);
 
@@ -465,7 +466,8 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
 
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), sw);
 
-  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
+  gtk_widget_set_visible(gtk_dialog_get_content_area(GTK_DIALOG(shell)),
+                         TRUE);
 
   wonder_dialog_list_prepend(wonder_dialogs, pdialog);
 

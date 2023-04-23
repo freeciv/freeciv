@@ -86,7 +86,7 @@ static void create_messageopt_dialog(void)
       "<b>Pop</b>up individual window"));
   gtk_widget_set_name(explanation, "comment_label");
   gui_dialog_add_content_widget(shell, explanation);
-  gtk_widget_show(explanation);
+  gtk_widget_set_visible(explanation, TRUE);
 
   form = gtk_grid_new();
   gui_dialog_add_content_widget(shell, form);
@@ -128,7 +128,7 @@ static void create_messageopt_dialog(void)
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(_("Event"),
-	renderer, "text", 3, NULL);
+        renderer, "text", 3, NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
     gtk_tree_view_column_set_expand(column, TRUE);
 
@@ -161,7 +161,7 @@ static void create_messageopt_dialog(void)
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     gtk_grid_attach(GTK_GRID(form), sw, form_col++, 0, 1, 1);
 
     gtk_tree_view_focus(GTK_TREE_VIEW(view));
@@ -194,9 +194,10 @@ static void messageopt_response(struct gui_dialog *dlg, int response,
         for (j = 0; j < NUM_MW; j++) {
           itree_get(&it, j, &toggle, 4, &i, -1);
 
-	  if (toggle)
-	    messages_where[i] |= (1<<j);
-	}
+          if (toggle) {
+            messages_where[i] |= (1<<j);
+          }
+        }
       }
     }
   }

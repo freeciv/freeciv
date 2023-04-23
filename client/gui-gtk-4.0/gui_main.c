@@ -768,7 +768,7 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
   b = g_object_get_data(G_OBJECT(w), "toggle");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(b), FALSE);
 
-  gtk_widget_hide(w);
+  gtk_widget_set_visible(w, FALSE);
 
   move_from_container_to_container(box, old_parent, p);
 }
@@ -796,16 +796,16 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     g_object_set_data(G_OBJECT(w), "toggle", b);
 
     temp_hide = g_object_get_data(G_OBJECT(box), "hide-over-reparent");
-    if (temp_hide != NULL) {
-      gtk_widget_hide(temp_hide);
+    if (temp_hide != nullptr) {
+      gtk_widget_set_visible(temp_hide, FALSE);
     }
 
     move_from_container_to_container(box, old_parent, w);
 
-    gtk_widget_show(w);
+    gtk_widget_set_visible(w, TRUE);
 
-    if (temp_hide != NULL) {
-      gtk_widget_show(temp_hide);
+    if (temp_hide != nullptr) {
+      gtk_widget_set_visible(temp_hide, TRUE);
     }
   } else {
     if (GTK_IS_BOX(old_parent)) {
@@ -963,7 +963,7 @@ static void populate_unit_pic_table(void)
                     1, 0, 1, 1);
   }
 
-  gtk_widget_show(table);
+  gtk_widget_set_visible(table, TRUE);
 }
 
 /**********************************************************************//**
@@ -1003,13 +1003,13 @@ void reset_unit_table(void)
 
   populate_unit_pic_table();
 
-  /* We have to force a redraw of the units.  And we explicitly have
+  /* We have to force a redraw of the units. And we explicitly have
    * to force a redraw of the focus unit, which is normally only
    * redrawn when the focus changes. We also have to force the 'more'
    * arrow to go away, both by expicitly hiding it and telling it to
    * do so (this will be reset immediately afterwards if necessary,
    * but we have to make the *internal* state consistent). */
-  gtk_widget_hide(more_arrow);
+  gtk_widget_set_visible(more_arrow, FALSE);
   set_unit_icons_more_arrow(FALSE);
   if (get_num_units_in_focus() == 1) {
     set_unit_icon(-1, head_of_units_in_focus());
@@ -1626,7 +1626,8 @@ static void setup_widgets(void)
 
   /* Other things to take care of */
 
-  gtk_widget_show(gtk_window_get_child(GTK_WINDOW(toplevel)));
+  gtk_widget_set_visible(gtk_window_get_child(GTK_WINDOW(toplevel)),
+                         TRUE);
 
   if (GUI_GTK_OPTION(enable_tabs)) {
     meswin_dialog_popup(FALSE);
@@ -1636,8 +1637,8 @@ static void setup_widgets(void)
   gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
 
   if (!GUI_GTK_OPTION(map_scrollbars)) {
-    gtk_widget_hide(map_horizontal_scrollbar);
-    gtk_widget_hide(map_vertical_scrollbar);
+    gtk_widget_set_visible(map_horizontal_scrollbar, FALSE);
+    gtk_widget_set_visible(map_vertical_scrollbar, FALSE);
   }
 }
 
@@ -2065,12 +2066,12 @@ static void activate_gui(GtkApplication *app, gpointer data)
 
   tileset_use_preferred_theme(tileset);
 
-  gtk_widget_show(toplevel);
+  gtk_widget_set_visible(toplevel, TRUE);
 
-  /* assumes toplevel showing */
+  /* Assumes toplevel showing */
   set_client_state(C_S_DISCONNECTED);
 
-  /* assumes client_state is set */
+  /* Assumes client_state is set */
   timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 }
 
@@ -2156,15 +2157,15 @@ void set_unit_icons_more_arrow(bool onoff)
 {
   static bool showing = FALSE;
 
-  if (!more_arrow) {
+  if (more_arrow == nullptr) {
     return;
   }
 
   if (onoff && !showing) {
-    gtk_widget_show(more_arrow);
+    gtk_widget_set_visible(more_arrow, TRUE);
     showing = TRUE;
   } else if (!onoff && showing) {
-    gtk_widget_hide(more_arrow);
+    gtk_widget_set_visible(more_arrow, FALSE);
     showing = FALSE;
   }
 }
@@ -2511,14 +2512,14 @@ void refresh_chat_buttons(void)
   GtkWidget *button;
 
   button = allied_chat_toggle_button;
-  fc_assert_ret(button != NULL);
+  fc_assert_ret(button != nullptr);
   fc_assert_ret(GTK_IS_CHECK_BUTTON(button));
 
   /* Hide the "Allies Only" button for local games. */
   if (is_server_running()) {
-    gtk_widget_hide(button);
+    gtk_widget_set_visible(button, FALSE);
   } else {
-    gtk_widget_show(button);
+    gtk_widget_set_visible(button, TRUE);
     gtk_check_button_set_active(GTK_CHECK_BUTTON(button),
                                 GUI_GTK_OPTION(allied_chat_only));
   }

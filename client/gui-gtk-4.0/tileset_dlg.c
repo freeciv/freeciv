@@ -78,9 +78,10 @@ void popup_tileset_suggestion_dialog(void)
               game.control.preferred_tileset, tileset_basename(tileset));
 
   label = gtk_label_new(buf);
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                 label);
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
-  gtk_widget_show(label);
+  gtk_widget_set_visible(label, TRUE);
 
   /* In case incoming rulesets are incompatible with current tileset
    * we need to block their receive before user has accepted loading

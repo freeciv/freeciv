@@ -300,22 +300,24 @@ static void option_color_set_button_color(GtkButton *button,
       g_object_set_data_full(G_OBJECT(button), "color", current_color,
                              option_color_destroy_notify);
     }
-    gtk_button_set_child(button, NULL);
+    gtk_button_set_child(button, nullptr);
 
     /* Update the button. */
     {
       cairo_surface_t *surface = cairo_image_surface_create(
           CAIRO_FORMAT_RGB24, 16, 16);
       cairo_t *cr = cairo_create(surface);
+
       gdk_cairo_set_source_rgba(cr, current_color);
       cairo_paint(cr);
       cairo_destroy(cr);
       pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 16, 16);
       cairo_surface_destroy(surface);
     }
+
     child = gtk_image_new_from_pixbuf(pixbuf);
     gtk_button_set_child(GTK_BUTTON(button), child);
-    gtk_widget_show(child);
+    gtk_widget_set_visible(child, TRUE);
     g_object_unref(G_OBJECT(pixbuf));
   }
 }
@@ -362,12 +364,12 @@ static void option_color_select_callback(GtkButton *button, gpointer data)
   chooser = gtk_color_chooser_widget_new();
   g_object_set_data(G_OBJECT(dialog), "chooser", chooser);
   gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
-                             chooser, NULL);
-  if (current_color) {
+                             chooser, nullptr);
+  if (current_color != nullptr) {
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);
   }
 
-  gtk_widget_show(dialog);
+  gtk_widget_set_visible(dialog, TRUE);
 }
 
 /************************************************************************//**
@@ -419,7 +421,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
   option_dialog_reorder_notebook(pdialog);
 
   /* Show the widgets. */
-  gtk_widget_show(pdialog->shell);
+  gtk_widget_set_visible(pdialog->shell, TRUE);
 
   return pdialog;
 }
@@ -537,9 +539,10 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     gtk_widget_set_margin_start(pdialog->vboxes[category], 8);
     gtk_widget_set_margin_top(pdialog->vboxes[category], 8);
     gtk_widget_set_hexpand(pdialog->vboxes[category], TRUE);
-    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), pdialog->vboxes[category]);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw),
+                                  pdialog->vboxes[category]);
 
-    gtk_widget_show(sw);
+    gtk_widget_set_visible(sw, TRUE);
   }
   pdialog->box_children[category]++;
 
@@ -688,7 +691,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     gtk_grid_attach(GTK_GRID(main_hbox), w, main_col++, 0, 1, 1);
   }
 
-  gtk_widget_show(main_hbox);
+  gtk_widget_set_visible(main_hbox, TRUE);
 
   /* Set as current value. */
   option_dialog_option_refresh(poption);

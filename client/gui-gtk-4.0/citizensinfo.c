@@ -363,11 +363,11 @@ void citizens_dialog_close(const struct city *pcity)
 {
   struct citizens_dialog *pdialog = citizens_dialog_get(pcity);
 
-  if (pdialog == NULL) {
+  if (pdialog == nullptr) {
     return;
   }
 
-  gtk_widget_hide(pdialog->shell);
+  gtk_widget_set_visible(pdialog->shell, FALSE);
 
   dialog_list_remove(dialog_list, pdialog);
 
@@ -383,11 +383,11 @@ GtkWidget *citizens_dialog_display(const struct city *pcity)
 {
   struct citizens_dialog *pdialog = citizens_dialog_get(pcity);
 
-  if (!pdialog) {
+  if (pdialog == nullptr) {
     pdialog = citizens_dialog_create(pcity);
   }
 
-  gtk_widget_show(pdialog->shell);
+  gtk_widget_set_visible(pdialog->shell, TRUE);
   citizens_dialog_refresh(pcity);
 
   return pdialog->shell;

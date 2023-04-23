@@ -127,8 +127,8 @@ void infra_dialog_popup(void)
   g_signal_connect(dlg, "destroy", G_CALLBACK(infra_response_callback), NULL);
   g_signal_connect(dlg, "response", G_CALLBACK(infra_response_callback), NULL);
 
-  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(dlg)));
-  gtk_widget_show(dlg);
+  gtk_widget_set_visible(gtk_dialog_get_content_area(GTK_DIALOG(dlg)), TRUE);
+  gtk_widget_set_visible(dlg, TRUE);
 
   update_infra_dialog();
 }
@@ -202,5 +202,5 @@ void infra_placement_set_tile(struct tile *ptile)
                        _("Select infra for the tile, or another tile."));
   }
 
-  gtk_widget_show(infra_list_box);
+  gtk_widget_set_visible(infra_list_box, TRUE);
 }

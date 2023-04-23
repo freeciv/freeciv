@@ -48,7 +48,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
   char buf[1024];
   char *current_name = GUI_GTK_OPTION(default_theme_name);
 
-  if (current_name == NULL) {
+  if (current_name == nullptr) {
     /* gui option default_theme_name is not yet set.
      * This can happen when we load tileset requested at command line and
      * user has not saved theme information to .freeciv-client-rc.A.B. */
@@ -56,7 +56,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
   }
 
   dialog = gtk_dialog_new_with_buttons(_("Theme suggested"),
-                                       NULL,
+                                       nullptr,
                                        0,
                                        _("Load theme"),
                                        GTK_RESPONSE_YES,
@@ -72,9 +72,10 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
               theme_name, current_name);
 
   label = gtk_label_new(buf);
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                 label);
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
-  gtk_widget_show(label);
+  gtk_widget_set_visible(label, TRUE);
 
   theme_suggestion_response(blocking_dialog(dialog));
 
