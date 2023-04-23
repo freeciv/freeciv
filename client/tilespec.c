@@ -4591,7 +4591,10 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.extras[extra_index(punit->activity_target)].rmact;
       break;
     case ACTIVITY_PILLAGE:
-      s = t->sprites.unit.pillage;
+      s = t->sprites.extras[extra_index(punit->activity_target)].rmact;
+      if (s == NULL) {
+        s = t->sprites.unit.pillage;
+      }
       break;
     case ACTIVITY_EXPLORE:
       /* Drawn below as the server side agent. */
