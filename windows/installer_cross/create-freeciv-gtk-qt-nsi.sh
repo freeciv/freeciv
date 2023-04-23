@@ -213,10 +213,11 @@ EOF
 
 cat <<EOF
 ;--------------------------------
-;Installer Functions
+; Installer Functions
 
 Function .onInit
 
+  SetRegView 64
   !insertmacro MULTIUSER_INIT
 
 FunctionEnd
@@ -359,10 +360,11 @@ EOF
 
 cat <<EOF
 ;--------------------------------
-;Uninstaller Functions
+; Uninstaller Functions
 
 Function un.onInit
 
+  SetRegView 64
   !insertmacro MULTIUSER_UNINIT
 
 FunctionEnd
