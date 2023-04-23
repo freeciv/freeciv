@@ -223,6 +223,10 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->setItem(5, 6, item);
   item = new QTableWidgetItem("-");
   stats->setItem(5, 7, item);
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Effects")));
+  stats->setItem(6, 6, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(6, 7, item);
   stats->verticalHeader()->setVisible(false);
   stats->horizontalHeader()->setVisible(false);
   stats->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -310,6 +314,20 @@ void tab_misc::save_now()
                &(ui->data));
 
   ui->display_msg(R__("Ruleset saved"));
+}
+
+/**********************************************************************//**
+  Callback to count number of effects
+
+  @param peff   effect to look at - ignored by this callback
+  @param data   pointer to counter integer
+  @return that iteration should continue until all effects calculated
+**************************************************************************/
+static bool effect_counter(struct effect *peff, void *data)
+{
+  (*(int *)data)++;
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -427,6 +445,10 @@ void tab_misc::refresh_stats()
   multipliers_re_active_iterate(pmul) {
     count++;
   } multipliers_re_active_iterate_end;
+  stats->item(row++, 7)->setText(QString::number(count));
+
+  count = 0;
+  iterate_effect_cache(effect_counter, &count);
   stats->item(row++, 7)->setText(QString::number(count));
 
   stats->resizeColumnsToContents();
