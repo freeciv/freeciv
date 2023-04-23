@@ -46,10 +46,11 @@
 
 /* ai/default */
 #include "aiguard.h"
-#include "aitools.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daiplayer.h"
+#include "daitools.h"
+#include "daiunit.h"
 
 #include "aiferry.h"
 

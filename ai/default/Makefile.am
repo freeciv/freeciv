@@ -30,8 +30,6 @@ libdefaultai_la_SOURCES = \
 		aiparatrooper.h \
 		aitech.c	\
 		aitech.h	\
-		aitools.c	\
-		aitools.h	\
 		daiactions.c	\
 		daiactions.h	\
 		daicity.c	\
@@ -52,6 +50,8 @@ libdefaultai_la_SOURCES = \
 		daiplayer.h	\
 		daisettler.c	\
 		daisettler.h	\
+		daitools.c	\
+		daitools.h	\
 		daiunit.c	\
 		daiunit.h
 

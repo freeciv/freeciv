@@ -55,13 +55,13 @@
 
 /* ai/default */
 #include "aitech.h"
-#include "aitools.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomacy.h"
 #include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
+#include "daitools.h"
 
 #include "aihand.h"
 

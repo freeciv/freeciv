@@ -73,13 +73,13 @@
 #include "aihand.h"
 #include "aihunt.h"
 #include "aiparatrooper.h"
-#include "aitools.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daieffects.h"
 #include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
+#include "daitools.h"
 
 #include "daiunit.h"
 

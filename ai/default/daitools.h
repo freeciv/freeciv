@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AITOOLS_H
-#define FC__AITOOLS_H
+#ifndef FC__DAITOOLS_H
+#define FC__DAITOOLS_H
 
 /* utility */
 #include "support.h"            /* bool type */
@@ -80,4 +80,4 @@ void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
                                 struct player *plr2,
                                 enum override_bool *result);
 
-#endif /* FC__AITOOLS_H */
+#endif /* FC__DAITOOLS_H */

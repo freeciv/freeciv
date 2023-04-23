@@ -56,11 +56,11 @@
 
 /* ai/default */
 #include "aiferry.h"
-#include "aitools.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "dailog.h"
 #include "daiplayer.h"
+#include "daitools.h"
 
 #include "daisettler.h"
 

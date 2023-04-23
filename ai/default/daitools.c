@@ -67,7 +67,7 @@
 #include "daimilitary.h"
 #include "daiplayer.h"
 
-#include "aitools.h"
+#include "daitools.h"
 
 /**********************************************************************//**
   Return the (untranslated) rule name of the ai_unit_task.

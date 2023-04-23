@@ -26,7 +26,6 @@
 /* ai/default */
 #include "aiferry.h"
 #include "aihand.h"
-#include "aitools.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomacy.h"
@@ -35,6 +34,8 @@
 #include "daimilitary.h"
 #include "daiplayer.h"
 #include "daisettler.h"
+#include "daitools.h"
+#include "daiunit.h"
 
 #include "classicai.h"
 

@@ -22,7 +22,6 @@
 /* ai/default */
 #include "aiferry.h"
 #include "aihand.h"
-#include "aitools.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
@@ -30,6 +29,8 @@
 #include "daimilitary.h"
 #include "daiplayer.h"
 #include "daisettler.h"
+#include "daitools.h"
+#include "daiunit.h"
 
 /* tex ai */
 #include "texaicity.h"

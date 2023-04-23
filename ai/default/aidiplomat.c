@@ -62,13 +62,14 @@
 /* ai/default */
 #include "aiguard.h"
 #include "aihand.h"
-#include "aitools.h"
 #include "daiactions.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
+#include "daitools.h"
+#include "daiunit.h"
 
 #include "aidiplomat.h"
 
