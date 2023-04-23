@@ -142,10 +142,7 @@ static GMenu *wndr_p_select_menu;
 static GMenu *unit_a_select_menu;
 static GMenu *impr_a_select_menu;
 static GMenu *wndr_a_select_menu;
-
-#ifdef MENUS_GTK3
-static GtkWidget *select_cma_item;
-#endif /* MENUS_GTK3 */
+static GMenu *governor_select_menu;
 
 static int city_dialog_shell_is_modal;
 
@@ -706,7 +703,7 @@ static void select_governor_callback(GSimpleAction *action,
 {
   int idx = GPOINTER_TO_INT(data);
   bool change_governor =
-    GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "change_governor"));
+    GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "governor"));
   struct cm_parameter cm;
 
   /* If this is not the change button but the select cities button. */
@@ -775,27 +772,27 @@ static GMenu *create_governor_menu(GActionGroup *group,
   if (change_governor) {
     GSimpleAction *act;
 
-    act = g_simple_action_new("governor_none", NULL);
-    g_object_set_data(G_OBJECT(act), "change_governor",
+    act = g_simple_action_new("chg_governor_none", NULL);
+    g_object_set_data(G_OBJECT(act), "governor",
                       GINT_TO_POINTER(change_governor));
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                      GINT_TO_POINTER(CMA_NONE));
     menu_item_append_unref(menu,
                            g_menu_item_new(Q_("?cma:none"),
-                                           "win.governor_none"));
+                                           "win.chg_governor_none"));
 
     for (i = 0; i < cmafec_preset_num(); i++) {
       char buf[128];
 
-      fc_snprintf(buf, sizeof(buf), "governor_%d", i);
+      fc_snprintf(buf, sizeof(buf), "chg_governor_%d", i);
       act = g_simple_action_new(buf, NULL);
-      g_object_set_data(G_OBJECT(act), "change_governor",
+      g_object_set_data(G_OBJECT(act), "governor",
                         GINT_TO_POINTER(change_governor));
       g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                        GINT_TO_POINTER(i));
-      fc_snprintf(buf, sizeof(buf), "win.governor_%d", i);
+      fc_snprintf(buf, sizeof(buf), "win.chg_governor_%d", i);
       menu_item_append_unref(menu,
                              g_menu_item_new(cmafec_preset_get_descr(i), buf));
     }
@@ -814,15 +811,15 @@ static GMenu *create_governor_menu(GActionGroup *group,
     if (found) {
       GSimpleAction *act;
 
-      act = g_simple_action_new("governor_none", NULL);
-      g_object_set_data(G_OBJECT(act), "change_governor",
+      act = g_simple_action_new("sel_governor_none", NULL);
+      g_object_set_data(G_OBJECT(act), "governor",
                         GINT_TO_POINTER(change_governor));
       g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                        GINT_TO_POINTER(CMA_NONE));
       menu_item_append_unref(menu,
                              g_menu_item_new(Q_("?cma:none"),
-                                             "win.governor_none"));
+                                             "win.sel_governor_none"));
     }
 
     /*
@@ -842,15 +839,15 @@ static GMenu *create_governor_menu(GActionGroup *group,
       /* We found city that's under agent but not a preset */
       GSimpleAction *act;
 
-      act = g_simple_action_new("governor_custom", NULL);
-      g_object_set_data(G_OBJECT(act), "change_governor",
+      act = g_simple_action_new("sel_governor_custom", NULL);
+      g_object_set_data(G_OBJECT(act), "governor",
                         GINT_TO_POINTER(change_governor));
       g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                        GINT_TO_POINTER(CMA_CUSTOM));
       menu_item_append_unref(menu,
                              g_menu_item_new(Q_("?cma:custom"),
-                                             "win.covernor_custom"));
+                                             "win.sel_governor_custom"));
     }
 
     /* Only fill in presets that are being used. */
@@ -869,15 +866,15 @@ static GMenu *create_governor_menu(GActionGroup *group,
         GSimpleAction *act;
         char buf[128];
 
-        fc_snprintf(buf, sizeof(buf), "governor_%d", i);
+        fc_snprintf(buf, sizeof(buf), "sel_governor_%d", i);
 
         act = g_simple_action_new(buf, NULL);
-        g_object_set_data(G_OBJECT(act), "change_governor",
+        g_object_set_data(G_OBJECT(act), "governor",
                           GINT_TO_POINTER(change_governor));
         g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
         g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                          GINT_TO_POINTER(i));
-        fc_snprintf(buf, sizeof(buf), "win.governor_%d", i);
+        fc_snprintf(buf, sizeof(buf), "win.sel_governor_%d", i);
         menu_item_append_unref(menu,
                                g_menu_item_new(cmafec_preset_get_descr(i),
                                                buf));
@@ -1854,11 +1851,9 @@ static GMenu *create_select_menu(GActionGroup *group)
   fc_snprintf(buf, sizeof(buf), _("Available %s"), _("Wonder"));
   submenu_append_unref(select_menu, buf, G_MENU_MODEL(wndr_a_select_menu));
 
-#if 0
-  select_cma_item =
-	gtk_menu_item_new_with_label(_("Citizen Governor"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_cma_item);
-#endif
+  governor_select_menu = create_governor_menu(cityrep_group, FALSE);
+  submenu_append_unref(select_menu, _("Citizen Governor"),
+                       G_MENU_MODEL(governor_select_menu));
 
   return select_menu;
 }
@@ -1879,22 +1874,13 @@ static void recreate_select_menu(GActionGroup *group)
     g_menu_remove_all(unit_a_select_menu);
     g_menu_remove_all(impr_a_select_menu);
     g_menu_remove_all(wndr_a_select_menu);
+    g_menu_remove_all(governor_select_menu);
     g_menu_remove_all(select_menu);
   }
   g_menu_remove(cityrep_menu, 3);
   submenu_insert_unref(cityrep_menu, 3, _("_Select"),
                        G_MENU_MODEL(create_select_menu(group)));
 }
-
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Popup select menu
-****************************************************************************/
-static void popup_select_menu(GtkMenuShell *menu, gpointer data)
-{
-  append_cma_to_menu_item(GTK_MENU_ITEM(select_cma_item), FALSE);
-}
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Update the value displayed by the "total buy cost" label in the city
