@@ -988,7 +988,7 @@ value	= 200
 reqs	=
     { "type",     "name",       "range", "present"
       "Building", "Great Wall", "Player", TRUE
-      "CityTile", "Center",     "Tile",  TRUE
+      "CityTile", "Center",     "Tile",   TRUE
       "UnitType", "Artillery",  "Local",  FALSE
       "UnitType", "Bomber",     "Local",  FALSE
     }
@@ -1351,7 +1351,6 @@ reqs    =
     { "type",     "name",       "range",  "present"
       "Activity", "Fortified",  "Local",  TRUE
       "CityTile", "Center",     "Tile",   FALSE
-      "Building", "Great Wall", "Player", FALSE
       "Extra",    "Fortress",   "Tile",   FALSE
     }
 
