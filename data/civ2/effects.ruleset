@@ -1166,7 +1166,6 @@ reqs    =
     { "type",     "name",       "range",  "present"
       "Activity", "Fortified",  "Local",  TRUE
       "CityTile", "Center",     "Tile",   FALSE
-      "Building", "Great Wall", "Player", FALSE
       "Extra",    "Fortress",   "Tile",   FALSE
     }
 
@@ -1828,21 +1827,21 @@ reqs	=
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Great Wall", "Player", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "CityTile", "Center", "Tile", TRUE
-      "UnitType", "Howitzer", "Local", FALSE
+    { "type",      "name",       "range",  "present"
+      "Building",  "Great Wall", "Player", TRUE
+      "UnitClass", "Land",       "Local",  TRUE
+      "CityTile",  "Center",     "Tile",   TRUE
+      "UnitType",  "Howitzer",   "Local",  FALSE
     }
 
 [effect_great_wall_0]
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
-    { "type", "name", "range"
-      "Building", "Great Wall", "Player"
+    { "type",      "name",       "range"
+      "Building",  "Great Wall", "Player"
       "UnitClass", "Helicopter", "Local"
-      "CityTile", "Center", "Tile"
+      "CityTile",  "Center",     "Tile"
     }
 
 [effect_great_wall_1]
