@@ -185,6 +185,8 @@ but wars are fought over the silliest things ...
   the example below, indented by two spaces. It should be above the
   function's implementation, not the prototype. Note "*//**" in the end
   of the beginning line for the doxygen.
+  Doxygen "@param" and "@return" documentation is recommended
+  to be added for new functions, or when existing header is being touched.
 
 /************************************************************************//**
   The description of the function should be here. Also describe what is
@@ -192,10 +194,13 @@ but wars are fought over the silliest things ...
   non-trivial assumptions that the function makes.
 
   Do _not_ introduce a new function without some sort of comment.
+
+  @param  base value to add to
+  @return final value
 ****************************************************************************/
-int the_function_starts_here(int value)
+int the_function_starts_here(int base)
 {
-  return value + 2;
+  return base + 2;
 }
 
 - One line comments should be indented correctly and placed above the code
