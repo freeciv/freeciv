@@ -303,7 +303,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
   }
   
   /* calculate height of the diagram. There should be at least 10 pixels
-   * beetween any two nodes */
+   * between any two nodes */
   tree->diagram_height = 0;
   for (layer = 0; layer < tree->num_layers; layer++) {
     int h_sum = 0;
@@ -728,7 +728,7 @@ static void barycentric_sort(struct reqtree *tree, int layer)
 }
 
 /*************************************************************************
-  Calculate number of edge crossings beetwen layer and layer+1
+  Calculate number of edge crossings between layer and layer+1
 *************************************************************************/
 static int count_crossings(struct reqtree *tree, int layer)
 {
