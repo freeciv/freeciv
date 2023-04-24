@@ -4379,13 +4379,15 @@ void show_tileset_error(const char *tset_name, const char *msg)
 void popup_upgrade_dialog(struct unit_list *punits)
 {
   char buf[512];
-  hud_message_box *ask = new hud_message_box(gui()->central_wdg);
+  hud_message_box *ask;
   QString title;
   QVector<int> *punit_ids;
 
   if (!punits || unit_list_size(punits) == 0) {
     return;
   }
+
+  ask = new hud_message_box(gui()->central_wdg);
 
   punit_ids = new QVector<int>();
   unit_list_iterate(punits, punit) {
