@@ -14,7 +14,22 @@ else
 DSUBDIRS =
 endif
 
-SUBDIRS = gen_headers $(DSUBDIRS) dependencies utility common tests windows $(SSUBDIRS) client translations doc tools lua bootstrap
+SUBDIRS =		\
+	gen_headers	\
+	$(DSUBDIRS)	\
+	dependencies	\
+	utility		\
+	common		\
+	tests		\
+	windows		\
+	platforms	\
+	$(SSUBDIRS)	\
+	client		\
+	translations	\
+	doc		\
+	tools		\
+	lua		\
+	bootstrap
 
 docs =			\
 	ABOUT-NLS	\
@@ -84,16 +99,6 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		meson.build			\
 		meson_options.txt		\
-		platforms/emscripten/emsbuild.sh		\
-		platforms/emscripten/setups/cross-ems.tmpl	\
-		platforms/flatpak/build_flatpak.sh	\
-		platforms/flatpak/org.freeciv.gtk322.yml	\
-		platforms/flatpak/org.freeciv.gtk4.yml	\
-		platforms/flatpak/org.freeciv.mp.gtk3.yml	\
-		platforms/flatpak/org.freeciv.mp.gtk4.yml	\
-		platforms/flatpak/org.freeciv.qt.yml	\
-		platforms/flatpak/org.freeciv.sdl2.yml	\
-		platforms/macos/homebrew-appbundle.sh \
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/replace			\
