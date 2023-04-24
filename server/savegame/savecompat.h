@@ -142,6 +142,7 @@ struct loaddata {
   if (!sg_success) {                                                        \
     return;                                                                 \
   }
+
 #define sg_check_ret_val(_val)                                              \
   if (!sg_success) {                                                        \
     return _val;                                                            \
@@ -151,11 +152,13 @@ struct loaddata {
   if (!(condition)) {                                                       \
     log_sg(message, ## __VA_ARGS__);                                        \
   }
+
 #define sg_warn_ret(condition, message, ...)                                \
   if (!(condition)) {                                                       \
     log_sg(message, ## __VA_ARGS__);                                        \
     return;                                                                 \
   }
+
 #define sg_warn_ret_val(condition, _val, message, ...)                      \
   if (!(condition)) {                                                       \
     log_sg(message, ## __VA_ARGS__);                                        \
@@ -164,14 +167,15 @@ struct loaddata {
 
 #define sg_failure_ret(condition, message, ...)                             \
   if (!(condition)) {                                                       \
-    sg_success = FALSE;                                                     \
     log_sg(message, ## __VA_ARGS__);                                        \
+    sg_success = FALSE;                                                     \
     sg_check_ret();                                                         \
   }
+
 #define sg_failure_ret_val(condition, _val, message, ...)                   \
   if (!(condition)) {                                                       \
-    sg_success = FALSE;                                                     \
     log_sg(message, ## __VA_ARGS__);                                        \
+    sg_success = FALSE;                                                     \
     sg_check_ret_val(_val);                                                 \
   }
 
