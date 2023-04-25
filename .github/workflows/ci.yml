@@ -78,6 +78,7 @@ jobs:
             sdl2_ttf \
             qt@6 \
             mysql-client \
+            postgresql \
             unixodbc
       - name: build
         shell: bash
