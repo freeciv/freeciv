@@ -2409,15 +2409,18 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   int saved_id = pcity->id;
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    fc_assert(pcity->surplus[O_SHIELD] >= 0);
+    fc_assert(pcity->before_change_shields >= 0);
+
     /* pcity->before_change_shields already contains the surplus from
      * this turn. */
     pplayer->economic.gold += pcity->before_change_shields;
     pcity->before_change_shields = 0;
     pcity->shield_stock = 0;
     choose_build_target(pplayer, pcity);
+
     return TRUE;
   }
+
   upgrade_building_prod(pcity);
 
   /* The final (after upgrade) build target */
