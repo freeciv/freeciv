@@ -1608,15 +1608,15 @@ bool actions_are_ready(void)
     return FALSE;
   }
 
-  action_iterate(act) {
+  action_noninternal_iterate(act) {
     if (actions[act]->ui_name[0] == '\0') {
-      /* An action without a UI name exists means that the ruleset haven't
-       * loaded yet. The ruleset loading will assign a default name to
-       * any actions not named by the ruleset. The client will get this
-       * name from the server. */
+      /* A noninternal action without a UI name exists means that
+       * the ruleset haven't loaded yet. The ruleset loading will assign
+       * a default name to any actions not named by the ruleset.
+       * The client will get this name from the server. */
       return FALSE;
     }
-  } action_iterate_end;
+  } action_noninternal_iterate_end;
 
   /* The actions should be ready for use. */
   return TRUE;
