@@ -25,7 +25,8 @@ fi
 
 OLDREV="$(head -n 1 ChangeLog | sed 's/.* //')"
 
-git log --no-decorate --pretty=medium ${OLDREV}..HEAD > ChangeLog.new
+git log --no-decorate --pretty=medium ${OLDREV}..HEAD |
+    sed 's/[ ]*$//' > ChangeLog.new
 echo >> ChangeLog.new
 cat ChangeLog >> ChangeLog.new
 mv ChangeLog.new ChangeLog
