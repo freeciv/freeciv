@@ -3204,15 +3204,17 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   }
 
   for (i = 0; i < CURSOR_LAST; i++) {
+    const char *names[CURSOR_LAST] =
+             {"goto", "patrol", "paradrop", "teleport", "nuke", "select",
+              "invalid", "attack", "edit_paint", "edit_add", "wait"};
+
     for (f = 0; f < NUM_CURSOR_FRAMES; f++) {
-      const char *names[CURSOR_LAST] =
-               {"goto", "patrol", "paradrop", "nuke", "select",
-                "invalid", "attack", "edit_paint", "edit_add", "wait"};
       struct small_sprite *ss;
 
       fc_assert(ARRAY_SIZE(names) == CURSOR_LAST);
       fc_snprintf(buffer, sizeof(buffer), "cursor.%s%d", names[i], f);
       SET_SPRITE(cursor[i].frame[f], buffer);
+
       if (sprite_hash_lookup(t->sprite_hash, buffer, &ss)) {
         t->sprites.cursor[i].hot_x = ss->hot_x;
         t->sprites.cursor[i].hot_y = ss->hot_y;
@@ -6940,6 +6942,7 @@ struct sprite *get_cursor_sprite(const struct tileset *t,
 {
   *hot_x = t->sprites.cursor[cursor].hot_x;
   *hot_y = t->sprites.cursor[cursor].hot_y;
+
   return t->sprites.cursor[cursor].frame[frame];
 }
 
