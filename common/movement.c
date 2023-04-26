@@ -166,10 +166,9 @@ int utype_unknown_move_cost(const struct unit_type *utype)
   return move_cost;
 }
 
-
 /************************************************************************//**
-  Return TRUE iff the unit can be a defender at its current location.  This
-  should be checked when looking for a defender - not all units on the
+  Return TRUE iff the unit can be a defender at its current location.
+  This should be checked when looking for a defender - not all units on the
   tile are valid defenders.
 ****************************************************************************/
 bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
@@ -188,6 +187,8 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
   case TDT_ALIGHT:
     return can_unit_exist_at_tile(nmap, punit, unit_tile(punit))
       && can_unit_deboard_or_be_unloaded(punit, ptrans);
+  case TDT_ALWAYS:
+    return TRUE;
   }
 
   fc_assert(FALSE);
