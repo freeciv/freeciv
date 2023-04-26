@@ -1362,6 +1362,8 @@ typedef float adv_want;
 #define SPECENUM_VALUE0NAME "Alight"
 #define SPECENUM_VALUE1 TDT_BLOCKED
 #define SPECENUM_VALUE1NAME "Blocked"
+#define SPECENUM_VALUE2 TDT_ALWAYS
+#define SPECENUM_VALUE2NAME "Always"
 #include "specenum_gen.h"
 
 #ifdef __cplusplus

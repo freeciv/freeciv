@@ -278,6 +278,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
 ;                 transported.
 ;                   "Blocked" - Can't defend when transported
 ;                   "Alight"  - Can defend if can alight or unload (current default)
+;                   "Always"  - Can defend even when transported
 ; targets       = list of unit classes this unit can attack against even
 ;                 if they have Unreachable unit class flag
 ; embarks       = list of unit classes this unit may load into while not in
