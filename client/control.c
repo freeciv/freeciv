@@ -1274,8 +1274,8 @@ void control_mouse_cursor(struct tile *ptile)
     }
     break;
   case HOVER_TELEPORT:
-    /* FIXME: check for invalid tiles & teleport specific cursor type. */
-    mouse_cursor_type = CURSOR_PARADROP;
+    /* FIXME: check for invalid tiles. */
+    mouse_cursor_type = CURSOR_TELEPORT;
     break;
   case HOVER_PARADROP:
     /* FIXME: check for invalid tiles. */
