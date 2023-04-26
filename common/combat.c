@@ -838,7 +838,7 @@ struct unit *get_defender(const struct unit *attacker,
   /* Simply call win_chance with all the possible defenders in turn, and
    * take the best one.  It currently uses build cost as a tiebreaker in
    * case 2 units are identical, but this is crude as build cost does not
-   * neccesarily have anything to do with the value of a unit.  This function
+   * necessarily have anything to do with the value of a unit.  This function
    * could be improved to take the value of the unit into account.  It would
    * also be nice if the function was a bit more fuzzy about prioritizing,
    * making it able to fx choose a 1a/9d unit over a 10a/10d unit. It should
