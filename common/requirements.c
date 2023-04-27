@@ -1828,13 +1828,18 @@ is_building_req_active(const struct req_context *context,
         if (num_city_buildings(context->city, building) > 0) {
           return TRI_YES;
         } else {
+          enum fc_tristate ret = TRI_NO;
+
           trade_partners_iterate(context->city, trade_partner) {
-            if (num_city_buildings(trade_partner, building) > 0) {
+            if (trade_partner == NULL) {
+              ret = TRI_MAYBE;
+            } else if (num_city_buildings(trade_partner, building) > 0) {
               return TRI_YES;
             }
           } trade_partners_iterate_end;
+
+          return ret;
         }
-        return TRI_NO;
       } else {
         return TRI_MAYBE;
       }
@@ -2046,12 +2051,17 @@ is_minculture_req_active(const struct req_context *context,
     if (city_culture(context->city) >= minculture) {
       return TRI_YES;
     } else {
+      enum fc_tristate ret = TRI_NO;
+
       trade_partners_iterate(context->city, trade_partner) {
-        if (city_culture(trade_partner) >= minculture) {
+        if (trade_partner == NULL) {
+          ret = TRI_MAYBE;
+        } else if (city_culture(trade_partner) >= minculture) {
           return TRI_YES;
         }
       } trade_partners_iterate_end;
-      return TRI_MAYBE;
+
+      return ret;
     }
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -2117,14 +2127,21 @@ is_minforeignpct_req_active(const struct req_context *context,
     if (foreign_pct >= min_foreign_pct) {
       return TRI_YES;
     } else {
+      enum fc_tristate ret = TRI_NO;
+
       trade_partners_iterate(context->city, trade_partner) {
-        foreign_pct = citizens_nation_foreign(trade_partner) * 100
-          / city_size_get(trade_partner); 
-        if (foreign_pct >= min_foreign_pct) {
-          return TRI_YES;
+        if (trade_partner == NULL) {
+          ret = TRI_MAYBE;
+        } else {
+          foreign_pct = citizens_nation_foreign(trade_partner) * 100
+            / city_size_get(trade_partner);
+          if (foreign_pct >= min_foreign_pct) {
+            return TRI_YES;
+          }
         }
       } trade_partners_iterate_end;
-      return TRI_MAYBE;
+
+      return ret;
     }
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -2224,6 +2241,7 @@ is_extra_req_active(const struct req_context *context,
                     const struct requirement *req)
 {
   const struct extra_type *pextra;
+  enum fc_tristate ret;
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRA);
 
@@ -2271,16 +2289,22 @@ is_extra_req_active(const struct req_context *context,
         return TRI_YES;
       }
     } city_tile_iterate_end;
+
+    ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      city_tile_iterate(city_map_radius_sq_get(trade_partner),
-                        city_tile(trade_partner), ptile) {
-        if (tile_has_extra(ptile, pextra)) {
-          return TRI_YES;
-        }
-      } city_tile_iterate_end;
+      if (trade_partner == NULL) {
+        ret = TRI_MAYBE;
+      } else {
+        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          if (tile_has_extra(ptile, pextra)) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      }
     } trade_partners_iterate_end;
 
-    return TRI_NO;
+    return ret;
 
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -2447,22 +2471,33 @@ is_terrain_req_active(const struct req_context *context,
       return TRI_MAYBE;
     }
     if (pterrain != NULL) {
+      enum fc_tristate ret;
+
       city_tile_iterate(city_map_radius_sq_get(context->city),
                         city_tile(context->city), ptile) {
         if (tile_terrain(ptile) == pterrain) {
           return TRI_YES;
         }
       } city_tile_iterate_end;
+
+      ret = TRI_NO;
       trade_partners_iterate(context->city, trade_partner) {
-        city_tile_iterate(city_map_radius_sq_get(trade_partner),
-                          city_tile(trade_partner), ptile) {
-          if (tile_terrain(ptile) == pterrain) {
-            return TRI_YES;
-          }
-        } city_tile_iterate_end;
+        if (trade_partner == NULL) {
+          ret = TRI_MAYBE;
+        } else {
+          city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                            city_tile(trade_partner), ptile) {
+            if (tile_terrain(ptile) == pterrain) {
+              return TRI_YES;
+            }
+          } city_tile_iterate_end;
+        }
       } trade_partners_iterate_end;
+
+      return ret;
     }
-    return TRI_NO;
+
+    return TRI_MAYBE;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -2491,6 +2526,7 @@ is_terrainclass_req_active(const struct req_context *context,
                            const struct requirement *req)
 {
   enum terrain_class pclass;
+  enum fc_tristate ret;
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TERRAINCLASS);
 
@@ -2522,6 +2558,7 @@ is_terrainclass_req_active(const struct req_context *context,
     city_tile_iterate(city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
+
       if (pterrain != T_UNKNOWN
           && terrain_type_terrain_class(pterrain) == pclass) {
         return TRI_YES;
@@ -2536,24 +2573,31 @@ is_terrainclass_req_active(const struct req_context *context,
     city_tile_iterate(city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
+
       if (pterrain != T_UNKNOWN
           && terrain_type_terrain_class(pterrain) == pclass) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
 
+    ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      city_tile_iterate(city_map_radius_sq_get(trade_partner),
-                        city_tile(trade_partner), ptile) {
-        const struct terrain *pterrain = tile_terrain(ptile);
-        if (pterrain != T_UNKNOWN
-            && terrain_type_terrain_class(pterrain) == pclass) {
-          return TRI_YES;
-        }
-      } city_tile_iterate_end;
+      if (trade_partner == NULL) {
+        ret = TRI_MAYBE;
+      } else {
+        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          const struct terrain *pterrain = tile_terrain(ptile);
+
+          if (pterrain != T_UNKNOWN
+              && terrain_type_terrain_class(pterrain) == pclass) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      }
     } trade_partners_iterate_end;
 
-    return TRI_NO;
+    return ret;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -2582,6 +2626,7 @@ is_terrainflag_req_active(const struct req_context *context,
                           const struct requirement *req)
 {
   enum terrain_flag_id terrflag;
+  enum fc_tristate ret;
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TERRFLAG);
 
@@ -2619,6 +2664,7 @@ is_terrainflag_req_active(const struct req_context *context,
     city_tile_iterate(city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
+
       if (pterrain != T_UNKNOWN
           && terrain_has_flag(pterrain, terrflag)) {
         return TRI_YES;
@@ -2633,24 +2679,31 @@ is_terrainflag_req_active(const struct req_context *context,
     city_tile_iterate(city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
+
       if (pterrain != T_UNKNOWN
           && terrain_has_flag(pterrain, terrflag)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
 
+    ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      city_tile_iterate(city_map_radius_sq_get(trade_partner),
-                        city_tile(trade_partner), ptile) {
-        const struct terrain *pterrain = tile_terrain(ptile);
-        if (pterrain != T_UNKNOWN
-            && terrain_has_flag(pterrain, terrflag)) {
-          return TRI_YES;
-        }
-      } city_tile_iterate_end;
+      if (trade_partner == NULL) {
+        ret = TRI_MAYBE;
+      } else {
+        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          const struct terrain *pterrain = tile_terrain(ptile);
+
+          if (pterrain != T_UNKNOWN
+              && terrain_has_flag(pterrain, terrflag)) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      }
     } trade_partners_iterate_end;
 
-    return TRI_NO;
+    return ret;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -2678,6 +2731,7 @@ is_roadflag_req_active(const struct req_context *context,
                        const struct requirement *req)
 {
   enum road_flag_id roadflag;
+  enum fc_tristate ret;
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ROADFLAG);
 
@@ -2725,16 +2779,21 @@ is_roadflag_req_active(const struct req_context *context,
       }
     } city_tile_iterate_end;
 
+    ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      city_tile_iterate(city_map_radius_sq_get(trade_partner),
-                        city_tile(trade_partner), ptile) {
-        if (tile_has_road_flag(ptile, roadflag)) {
-          return TRI_YES;
-        }
-      } city_tile_iterate_end;
+      if (trade_partner == NULL) {
+        ret = TRI_MAYBE;
+      } else {
+        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          if (tile_has_road_flag(ptile, roadflag)) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      }
     } trade_partners_iterate_end;
 
-    return TRI_NO;
+    return ret;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -2762,6 +2821,7 @@ is_extraflag_req_active(const struct req_context *context,
                         const struct requirement *req)
 {
   enum extra_flag_id extraflag;
+  enum fc_tristate ret;
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRAFLAG);
 
@@ -2809,16 +2869,21 @@ is_extraflag_req_active(const struct req_context *context,
       }
     } city_tile_iterate_end;
 
+    ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      city_tile_iterate(city_map_radius_sq_get(trade_partner),
-                        city_tile(trade_partner), ptile) {
-        if (tile_has_extra_flag(ptile, extraflag)) {
-          return TRI_YES;
-        }
-      } city_tile_iterate_end;
+      if (trade_partner == NULL) {
+        ret = TRI_MAYBE;
+      } else {
+        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          if (tile_has_extra_flag(ptile, extraflag)) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      }
     } trade_partners_iterate_end;
 
-    return TRI_NO;
+    return ret;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -3107,6 +3172,7 @@ is_nationality_req_active(const struct req_context *context,
                           const struct requirement *req)
 {
   const struct nation_type *nationality;
+  enum fc_tristate ret;
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_NATIONALITY);
 
@@ -3134,15 +3200,20 @@ is_nationality_req_active(const struct req_context *context,
       }
     } citizens_iterate_end;
 
+    ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      citizens_iterate(trade_partner, slot, count) {
-        if (player_slot_get_player(slot)->nation == nationality) {
-          return TRI_YES;
-        }
-      } citizens_iterate_end;
+      if (trade_partner == NULL) {
+        ret = TRI_MAYBE;
+      } else {
+        citizens_iterate(trade_partner, slot, count) {
+          if (player_slot_get_player(slot)->nation == nationality) {
+            return TRI_YES;
+          }
+        } citizens_iterate_end;
+      }
     } trade_partners_iterate_end;
 
-    return TRI_NO;
+    return ret;
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
@@ -3870,23 +3941,22 @@ is_citystatus_req_active(const struct req_context *context,
       return BOOL_TO_TRISTATE(city_owner(context->city) == context->city->original);
     case REQ_RANGE_TRADEROUTE:
       {
-        bool found = (city_owner(context->city) == context->city->original);
-        bool maybe = FALSE;
+        enum fc_tristate ret;
 
+        if (city_owner(context->city) == context->city->original) {
+          return TRI_YES;
+        }
+
+        ret = TRI_NO;
         trade_partners_iterate(context->city, trade_partner) {
-          if (trade_partner->original == NULL) {
-            maybe = TRUE;
+          if (trade_partner == NULL || trade_partner->original == NULL) {
+            ret = TRI_MAYBE;
           } else if (city_owner(trade_partner) == trade_partner->original) {
-            found = TRUE;
-            break;
+            return TRI_YES;
           }
         } trade_partners_iterate_end;
 
-        if (!found && maybe) {
-          return TRI_MAYBE;
-        }
-
-        return BOOL_TO_TRISTATE(found);
+        return ret;
       }
     case REQ_RANGE_LOCAL:
     case REQ_RANGE_CADJACENT:
@@ -3929,18 +3999,22 @@ is_minsize_req_active(const struct req_context *context,
     return TRI_MAYBE;
   } else {
     if (req->range == REQ_RANGE_TRADEROUTE) {
-      bool found = FALSE;
+      enum fc_tristate ret;
 
       if (city_size_get(context->city) >= req->source.value.minsize) {
         return TRI_YES;
       }
+
+      ret = TRI_NO;
       trade_partners_iterate(context->city, trade_partner) {
-        if (city_size_get(trade_partner) >= req->source.value.minsize) {
-          found = TRUE;
-          break;
+        if (trade_partner == NULL) {
+          ret = TRI_MAYBE;
+        } else if (city_size_get(trade_partner) >= req->source.value.minsize) {
+          return TRI_YES;
         }
       } trade_partners_iterate_end;
-      return BOOL_TO_TRISTATE(found);
+
+      return ret;
     } else {
       return BOOL_TO_TRISTATE(city_size_get(context->city)
                               >= req->source.value.minsize);
@@ -6087,6 +6161,7 @@ static enum req_item_found extra_type_found(const struct requirement *preq,
   case VUT_ROADFLAG:
     {
       struct road_type *r = extra_road_get(source->value.extra);
+
       return r && road_has_flag(r, preq->source.value.roadflag)
         ? ITF_YES : ITF_NO;
     }
