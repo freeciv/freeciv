@@ -962,7 +962,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
     }
 
     /* If we use a virtual boat, we must have permission and be emigrating: */
-    /* FIXME: These assert do not frees cr2! */
+    /* FIXME: These assert do not free cr2! */
     fc_assert_ret_val(!cr2 || (!cr2->virt_boat || use_virt_boat), NULL);
     fc_assert_ret_val(!cr2 || (!cr2->virt_boat || cr2->overseas), NULL);
   }
