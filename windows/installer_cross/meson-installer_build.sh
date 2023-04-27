@@ -165,6 +165,12 @@ if ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
   exit 1
 fi
 
+if test "$GUI" = "ruledit" &&
+   ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_ruledit.txt ) ; then
+  echo "langstat_ruledit.txt creation failed!" >&2
+  exit 1
+fi
+
 if test "$INST_CROSS_MODE" != "release" ; then
   if test -d ../../.git || test -f ../../.git ; then
     VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
