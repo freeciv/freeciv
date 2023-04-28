@@ -801,7 +801,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
         if ((best_unit_cost > limit_cost
              && build_cost < best_unit_cost)
             || ((desire > best ||
-                 (ADV_WANTS_EQ(desire, best)
+                 (desire == best
                   && build_cost <= best_unit_cost))
                 && (best_unit_type == NULL
                     /* In case all units are more expensive than limit_cost */
