@@ -37,6 +37,7 @@
 
 bool rally_dialog = FALSE;
 static GtkWidget *instruction_label = NULL;
+static GtkWidget *persistent;
 
 static int rally_city_id = -1;
 
@@ -67,7 +68,6 @@ void rally_dialog_popup(void)
   GtkWidget *dlg;
   GtkWidget *main_box;
   GtkWidget *sep;
-  int grid_row = 0;
 
   if (rally_dialog_open()) {
     /* One rally point dialog already open. */
@@ -82,15 +82,19 @@ void rally_dialog_popup(void)
   gtk_dialog_set_default_response(GTK_DIALOG(dlg), GTK_RESPONSE_NO);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dlg), TRUE);
 
-  main_box = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(main_box),
-                                 GTK_ORIENTATION_VERTICAL);
+  main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
 
   instruction_label = gtk_label_new(_("First click a city."));
-  gtk_grid_attach(GTK_GRID(main_box), instruction_label, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(main_box), instruction_label);
 
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_grid_attach(GTK_GRID(main_box), sep, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(main_box), sep);
+
+  persistent = gtk_check_button_new_with_label(_("Persistent rallypoint"));
+  gtk_box_append(GTK_BOX(main_box), persistent);
+
+  sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+  gtk_box_append(GTK_BOX(main_box), sep);
 
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
                  main_box);
@@ -167,12 +171,13 @@ bool rally_set_tile(struct tile *ptile)
     gtk_label_set_text(GTK_LABEL(instruction_label), buffer);
   } else {
     char buffer[100];
+    bool psist = gtk_check_button_get_active(GTK_CHECK_BUTTON(persistent));
 
     fc_assert(pcity != NULL);
 
     rally_city_id = -1;
 
-    if (send_rally_tile(pcity, ptile)) {
+    if (send_rally_tile(pcity, ptile, psist)) {
       fc_snprintf(buffer, sizeof(buffer),
                   _("%s rally point set. Select another city."),
                   city_name_get(pcity));
