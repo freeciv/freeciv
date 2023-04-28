@@ -269,11 +269,11 @@ void map_view::shortcut_pressed(int key)
   // Rally point - select tile  - skip
   if (bt == Qt::LeftButton && gui()->rallies.hover_tile && ctile != NULL) {
     char text[1024];
-
     struct city *rcity = gui()->rallies.rally_city;
+
     fc_assert_ret(rcity != NULL);
 
-    if (send_rally_tile(rcity, ctile)) {
+    if (send_rally_tile(rcity, ctile, FALSE)) {
       fc_snprintf(text, sizeof(text),
                   _("Tile %s set as rally point from city %s."),
                   tile_link(ctile), city_link(rcity));

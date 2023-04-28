@@ -1506,6 +1506,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 ****************************************************************************/
 static void send_rally_path_orders(struct city *pcity, struct unit *punit,
                                    struct pf_path *path, bool vigilant,
+                                   bool persistent,
                                    enum unit_orders orders,
                                    struct unit_order *final_order)
 {
@@ -1514,6 +1515,7 @@ static void send_rally_path_orders(struct city *pcity, struct unit *punit,
   memset(&p, 0, sizeof(p));
   p.id = pcity->id;
   p.vigilant = vigilant;
+  p.persistent = persistent;
 
   log_goto_packet("Rally orders for city %d:", pcity->id);
   log_goto_packet("  Vigilant: %d.", p.vigilant);
@@ -1536,10 +1538,11 @@ void send_goto_path(struct unit *punit, struct pf_path *path,
 /************************************************************************//**
   Send an arbitrary rally path for the city to the server.
 ****************************************************************************/
-void send_rally_path(struct city *pcity, struct unit *punit,
-                     struct pf_path *path, struct unit_order *final_order)
+static void send_rally_path(struct city *pcity, struct unit *punit,
+                            bool persistent, struct pf_path *path,
+                            struct unit_order *final_order)
 {
-  send_rally_path_orders(pcity, punit, path, FALSE,
+  send_rally_path_orders(pcity, punit, path, FALSE, persistent,
                          ORDER_MOVE, final_order);
 }
 
@@ -1571,11 +1574,10 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
   Send rally orders for the city to move new units to the arbitrary tile.
   Returns FALSE if no path is found for the currently produced unit type.
 ****************************************************************************/
-bool send_rally_tile(struct city *pcity, struct tile *ptile)
+bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent)
 {
   const struct unit_type *putype;
   struct unit *punit;
-
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_path *path;
@@ -1588,10 +1590,11 @@ bool send_rally_tile(struct city *pcity, struct tile *ptile)
     /* Can only give orders to units. */
     return FALSE;
   }
+
   putype = pcity->production.value.utype;
-  punit = unit_virtual_create(
-    client_player(), pcity, putype,
-    city_production_unit_veteran_level(pcity, putype));
+  punit = unit_virtual_create(client_player(), pcity, putype,
+                              city_production_unit_veteran_level(pcity,
+                                                                 putype));
 
   /* Use the unit to find a path to the destination tile. */
   goto_fill_parameter_base(&parameter, punit);
@@ -1601,12 +1604,14 @@ bool send_rally_tile(struct city *pcity, struct tile *ptile)
 
   if (path) {
     /* Send orders to server. */
-    send_rally_path(pcity, punit, path, NULL);
+    send_rally_path(pcity, punit, persistent, path, NULL);
     unit_virtual_destroy(punit);
     pf_path_destroy(path);
+
     return TRUE;
   } else {
     unit_virtual_destroy(punit);
+
     return FALSE;
   }
 }
