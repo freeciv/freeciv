@@ -171,7 +171,7 @@ bool rally_set_tile(struct tile *ptile)
 
     rally_city_id = -1;
 
-    if (send_rally_tile(pcity, ptile)) {
+    if (send_rally_tile(pcity, ptile, FALSE)) {
       fc_snprintf(buffer, sizeof(buffer),
                   _("%s rally point set. Select another city."),
                   city_name_get(pcity));

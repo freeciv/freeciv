@@ -51,10 +51,10 @@ bool is_valid_goto_draw_line(struct tile *dest_tile);
 void request_orders_cleared(struct unit *punit);
 void send_goto_path(struct unit *punit, struct pf_path *path,
 		    struct unit_order *last_order);
-void send_rally_path(struct city *pcity, struct unit *punit,
-                     struct pf_path *path, struct unit_order *final_order);
+  //void send_rally_path(struct city *pcity, struct unit *punit,
+  //                   struct pf_path *path, struct unit_order *final_order);
 bool send_goto_tile(struct unit *punit, struct tile *ptile);
-bool send_rally_tile(struct city *pcity, struct tile *ptile);
+bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent);
 bool send_attack_tile(struct unit *punit, struct tile *ptile);
 void send_patrol_route(void);
 void send_goto_route(void);

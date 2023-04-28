@@ -37,6 +37,7 @@
 
 bool rally_dialog = FALSE;
 static GtkWidget *instruction_label = NULL;
+static GtkWidget *persistent;
 
 static int rally_city_id = -1;
 
@@ -85,6 +86,12 @@ void rally_dialog_popup(void)
 
   instruction_label = gtk_label_new(_("First click a city."));
   gtk_box_append(GTK_BOX(main_box), instruction_label);
+
+  sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+  gtk_box_append(GTK_BOX(main_box), sep);
+
+  persistent = gtk_check_button_new_with_label(_("Persistent rallypoint"));
+  gtk_box_append(GTK_BOX(main_box), persistent);
 
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_box_append(GTK_BOX(main_box), sep);
@@ -167,12 +174,13 @@ bool rally_set_tile(struct tile *ptile)
     gtk_label_set_text(GTK_LABEL(instruction_label), buffer);
   } else {
     char buffer[100];
+    bool psist = gtk_check_button_get_active(GTK_CHECK_BUTTON(persistent));
 
     fc_assert(pcity != NULL);
 
     rally_city_id = -1;
 
-    if (send_rally_tile(pcity, ptile)) {
+    if (send_rally_tile(pcity, ptile, psist)) {
       fc_snprintf(buffer, sizeof(buffer),
                   _("%s rally point set. Select another city."),
                   city_name_get(pcity));
