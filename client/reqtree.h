@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005-2007 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ extern "C" {
 /* Requirements Tree
  *
  * This file provides functions for drawing a tree-like graph of
- * requirements.  This can be used for creating an interactive diagram
+ * requirements. This can be used for creating an interactive diagram
  * showing the dependencies of various sources.
  *
  * A tree must first be created with create_reqtree; this will do all of the
@@ -40,16 +40,16 @@ struct reqtree *create_reqtree(struct player *pplayer, bool show_all);
 void destroy_reqtree(struct reqtree *tree);
 
 void get_reqtree_dimensions(struct reqtree *tree,
-			    int *width, int *height);
+                            int *width, int *height);
 
 void draw_reqtree(struct reqtree *tree,
-		  struct canvas *pcanvas,
-		  int canvas_x, int canvas_y,
-		  int tt_x, int tt_y, int w, int h);
+                  struct canvas *pcanvas,
+                  int canvas_x, int canvas_y,
+                  int tt_x, int tt_y, int w, int h);
 
 Tech_type_id get_tech_on_reqtree(struct reqtree *tree, int x, int y);
 bool find_tech_on_reqtree(struct reqtree *tree, Tech_type_id tech,
-			  int *x, int *y, int *w, int *h);
+                          int *x, int *y, int *w, int *h);
 
 #ifdef __cplusplus
 }

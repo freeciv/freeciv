@@ -47,17 +47,16 @@
  * |    Alphabeth    |----------| Code of Laws|----| Monarchy |
  * +-----------------+          +-------------+   /+----------+
  *                                               /
- * +-----------------+             Dummy node  / 
+ * +-----------------+             Dummy node  /
  * |Ceremonial Burial|-----------=============/
  * +-----------------+
- * 
+ *
  * ^ node_y
  * |
  * |
  * |    node_x
  * +-------->
  */
-
 
 
 /****************************************************************************
@@ -76,13 +75,13 @@ struct tree_node {
   int nprovide;
   struct tree_node **provide;
 
-  /* logical position on the diagram */
+  /* Logical position on the diagram */
   int order, layer;
 
   /* Coordinates of the rectangle on the diagram in pixels */
   int node_x, node_y, node_width, node_height;
 
-  /* for general purpose */
+  /* For general purpose */
   int number;
 };
 
@@ -95,11 +94,11 @@ struct reqtree {
   struct tree_node **nodes;
 
   int num_layers;
-  /* size of each layer */
+  /* Size of each layer */
   int *layer_size;
   struct tree_node ***layers;
 
-  /* in pixels */
+  /* In pixels */
   int diagram_width, diagram_height;
 };
 
@@ -125,13 +124,13 @@ static void add_requirement(struct tree_node *node, struct tree_node *req)
 
   node->require =
       fc_realloc(node->require,
-		 sizeof(*node->require) * (node->nrequire + 1));
+                 sizeof(*node->require) * (node->nrequire + 1));
   node->require[node->nrequire] = req;
   node->nrequire++;
 
   req->provide =
       fc_realloc(req->provide,
-		 sizeof(*req->provide) * (req->nprovide + 1));
+                 sizeof(*req->provide) * (req->nprovide + 1));
   req->provide[req->nprovide] = node;
   req->nprovide++;
 }
@@ -149,6 +148,7 @@ static struct tree_node *new_tree_node(void)
   node->provide = NULL;
   node->order = -1;
   node->layer = -1;
+
   return node;
 }
 
@@ -159,8 +159,8 @@ static struct tree_node *new_tree_node(void)
 static void node_rectangle_minimum_size(struct tree_node *node,
                                         int *width, int *height)
 {
-  int max_icon_height; /* maximal height of icons below the text */
-  int icons_width_sum; /* sum of icons width plus space between them */
+  int max_icon_height; /* Maximal height of icons below the text */
+  int icons_width_sum; /* Sum of icons width plus space between them */
   struct sprite* sprite;
   int swidth, sheight;
 
@@ -214,16 +214,16 @@ static void node_rectangle_minimum_size(struct tree_node *node,
       governments_iterate(gov) {
         requirement_vector_iterate(&(gov->reqs), preq) {
           if (VUT_ADVANCE == preq->source.kind
-	   && advance_number(preq->source.value.advance) == node->tech) {
+              && advance_number(preq->source.value.advance) == node->tech) {
             sprite = get_government_sprite(tileset, gov);
-	    get_sprite_dimensions(sprite, &swidth, &sheight);
+            get_sprite_dimensions(sprite, &swidth, &sheight);
             max_icon_height = MAX(max_icon_height, sheight);
-            icons_width_sum += swidth + 2;	    
-	  }
+            icons_width_sum += swidth + 2;
+          }
         } requirement_vector_iterate_end;
       } governments_iterate_end;
     }
-    
+
     *height += max_icon_height;
     if (*width < icons_width_sum) {
       *width = icons_width_sum;
@@ -232,14 +232,14 @@ static void node_rectangle_minimum_size(struct tree_node *node,
 }
 
 /*********************************************************************//**
-  Move nodes up and down without changing order but making it more 
+  Move nodes up and down without changing order but making it more
   symetrical. Gravitate towards parents average position.
 *************************************************************************/
 static void symmetrize(struct reqtree* tree)
 {
   int layer;
   int i, j;
-  
+
   for (layer = 0; layer < tree->num_layers; layer++) {
     for (i = 0; i < tree->layer_size[layer]; i++) {
       struct tree_node *node = tree->layers[layer][i];
@@ -257,31 +257,33 @@ static void symmetrize(struct reqtree* tree)
       v /= node->nrequire;
       node_y = node->node_y;
       node_height = node->node_height;
+
       if (v < node_y + node_height / 2) {
         if (node_y <= 0) {
-	  continue;
-	}
-	if (i > 0) {
-	  struct tree_node *node_above = tree->layers[layer][i - 1];
+          continue;
+        }
 
-	  if (node_above->node_y
-	      + node_above->node_height >= node_y - 11) {
-	    continue;
-	  }
-	}
-	node_y--;
+        if (i > 0) {
+          struct tree_node *node_above = tree->layers[layer][i - 1];
+
+          if (node_above->node_y
+              + node_above->node_height >= node_y - 11) {
+            continue;
+          }
+        }
+        node_y--;
       } else if (v > node_y + node_height / 2) {
         if (node_y + node_height >= tree->diagram_height - 1) {
-	  continue;
-	}
-	if (i < tree->layer_size[layer] - 1) {
-	  struct tree_node* node_below = tree->layers[layer][i + 1];
+          continue;
+        }
+        if (i < tree->layer_size[layer] - 1) {
+          struct tree_node* node_below = tree->layers[layer][i + 1];
 
-	  if (node_y + node_height >= node_below->node_y - 11) {
-	    continue;
-	  }
-	}
-	node_y++;
+          if (node_y + node_height >= node_below->node_y - 11) {
+            continue;
+          }
+        }
+        node_y++;
       }
       node->node_y = node_y;
     }
@@ -296,7 +298,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
 {
   int i, layer, layer_offs;
 
-  /* calculate minimum size of rectangle for each node */
+  /* Calculate minimum size of rectangle for each node */
   for (i = 0; i < tree->num_nodes; i++) {
     struct tree_node *node = tree->nodes[i];
 
@@ -305,7 +307,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
     node->number = i;
   }
 
-  /* calculate height of the diagram. There should be at least 10 pixels
+  /* Calculate height of the diagram. There should be at least 10 pixels
    * between any two nodes */
   tree->diagram_height = 0;
   for (layer = 0; layer < tree->num_layers; layer++) {
@@ -315,16 +317,17 @@ static void calculate_diagram_layout(struct reqtree *tree)
       struct tree_node *node = tree->layers[layer][i];
 
       h_sum += node->node_height;
+
       if (i < tree->layer_size[layer] - 1) {
-	h_sum += 10;
+        h_sum += 10;
       }
     }
     tree->diagram_height = MAX(tree->diagram_height, h_sum);
   }
 
-  /* calculate maximum width of node for each layer and enlarge other nodes
-   * to match maximum width
-   * calculate x offsets
+  /* Calculate maximum width of node for each layer and enlarge other nodes
+   * to match maximum width.
+   * Calculate x offsets
    */
   layer_offs = 0;
   for (layer = 0; layer < tree->num_layers; layer++) {
@@ -342,8 +345,8 @@ static void calculate_diagram_layout(struct reqtree *tree)
       node->node_width = max_width;
       node->node_x = layer_offs;
     }
-    
-    /* space between layers should be proportional to their size */
+
+    /* Space between layers should be proportional to their size */
     if (layer != tree->num_layers - 1)  {
       layer_offs += max_width * 5 / 4 + 80;
     } else {
@@ -353,7 +356,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
   tree->diagram_width = layer_offs;
 
   /* Once we have x positions calculated we can
-   * calculate y-position of nodes on the diagram 
+   * calculate y-position of nodes on the diagram
    * Distribute nodes steadily.
    */
   for (layer = 0; layer < tree->num_layers; layer++) {
@@ -365,14 +368,15 @@ static void calculate_diagram_layout(struct reqtree *tree)
 
       h_sum += node->node_height;
     }
+
     for (i = 0; i < tree->layer_size[layer]; i++) {
       struct tree_node *node = tree->layers[layer][i];
 
       node->node_y = y;
       y += node->node_height;
       if (tree->layer_size[layer] > 1) {
-	y += (tree->diagram_height - h_sum)
-	  / (tree->layer_size[layer] - 1) - 1;
+        y += (tree->diagram_height - h_sum)
+          / (tree->layer_size[layer] - 1) - 1;
       }
     }
   }
@@ -384,7 +388,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
 }
 
 /*********************************************************************//**
-  Create a "dummy" tech tree from current ruleset.  This tree is then
+  Create a "dummy" tech tree from current ruleset. This tree is then
   fleshed out further (see create_reqtree). This tree doesn't include
   dummy edges. Layering and ordering isn't done also.
 
@@ -405,6 +409,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
       nodes[tech] = NULL;
       continue;
     }
+
     if (pplayer && !show_all
         && !research_invention_reachable(presearch, tech)) {
       /* Reqtree requested for particular player and this tech is
@@ -440,7 +445,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
 
     /* Formerly, we used to remove the redundant requirement nodes (the
      * technologies already included in the requirements of the other
-     * requirement).  However, it doesn't look like a good idea, because
+     * requirement). However, it doesn't look like a good idea, because
      * a player can steal any technology independently of the technology
      * tree. */
     if (A_NONE != tech_one && A_LAST != tech_two) {
@@ -451,7 +456,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
     }
   } advance_index_iterate_max_end;
 
-  /* Copy nodes from local array to dynamically allocated one. 
+  /* Copy nodes from local array to dynamically allocated one.
    * Skip non-existing entries */
   tree->nodes = fc_calloc(advance_count(), sizeof(*tree->nodes));
   j = 0;
@@ -492,7 +497,7 @@ void destroy_reqtree(struct reqtree *tree)
 }
 
 /*********************************************************************//**
-  Compute the longest path from this tree_node to the node with 
+  Compute the longest path from this tree_node to the node with
   no requirements. Store the result in node->layer.
 *************************************************************************/
 static int longest_path(struct tree_node *node)
@@ -537,11 +542,12 @@ static int max_provide_layer(struct tree_node *node)
       max = node->provide[i]->layer;
     }
   }
+
   return max;
 }
 
 /*********************************************************************//**
-  Create new tree which has dummy nodes added. The source tree is 
+  Create new tree which has dummy nodes added. The source tree is
   completely copied, you can freely deallocate it.
 *************************************************************************/
 static struct reqtree *add_dummy_nodes(struct reqtree *tree)
@@ -563,14 +569,14 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
     }
   }
 
-  /* create new tree */
+  /* Create new tree */
   new_tree = fc_malloc(sizeof(*new_tree));
   new_tree->nodes =
       fc_malloc(sizeof(new_tree->nodes) *
-		(tree->num_nodes + num_dummy_nodes));
+                (tree->num_nodes + num_dummy_nodes));
   new_tree->num_nodes = tree->num_nodes + num_dummy_nodes;
-  
-  /* copy normal nodes */
+
+  /* Copy normal nodes */
   for (i = 0; i < tree->num_nodes; i++) {
     new_tree->nodes[i] = new_tree_node();
     new_tree->nodes[i]->is_dummy = FALSE;
@@ -578,8 +584,8 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
     new_tree->nodes[i]->layer = tree->nodes[i]->layer;
     tree->nodes[i]->number = i;
   }
-  
-  /* allocate dummy nodes */
+
+  /* Allocate dummy nodes */
   for (i = 0; i < num_dummy_nodes; i++) {
     new_tree->nodes[i + tree->num_nodes] = new_tree_node();
     new_tree->nodes[i + tree->num_nodes]->is_dummy = TRUE;
@@ -595,30 +601,30 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
 
     mpl = max_provide_layer(node);
 
-    /* if this node will have dummy as ancestors, connect them in a chain */
+    /* If this node will have dummy as ancestors, connect them in a chain */
     if (mpl > node->layer + 1) {
       add_requirement(new_tree->nodes[k], new_tree->nodes[i]);
       for (j = node->layer + 2; j < mpl; j++) {
-	add_requirement(new_tree->nodes[k + j - node->layer - 1],
-			new_tree->nodes[k + j - node->layer - 2]);
+        add_requirement(new_tree->nodes[k + j - node->layer - 1],
+                        new_tree->nodes[k + j - node->layer - 2]);
       }
       for (j = node->layer + 1; j < mpl; j++) {
-	new_tree->nodes[k + j - node->layer - 1]->layer = j;
+        new_tree->nodes[k + j - node->layer - 1]->layer = j;
       }
     }
 
-    /* copy all edges and create edges with dummy nodes */
+    /* Copy all edges and create edges with dummy nodes */
     for (j = 0; j < node->nprovide; j++) {
       int provide_y = node->provide[j]->layer;
 
       if (provide_y == node->layer + 1) {
-        /* direct connection */
-	add_requirement(new_tree->nodes[node->provide[j]->number],
-			new_tree->nodes[i]);
+        /* Direct connection */
+        add_requirement(new_tree->nodes[node->provide[j]->number],
+                        new_tree->nodes[i]);
       } else {
-        /* connection through dummy node */
-	add_requirement(new_tree->nodes[node->provide[j]->number],
-			new_tree->nodes[k + provide_y - node->layer - 2]);
+        /* Connection through dummy node */
+        add_requirement(new_tree->nodes[node->provide[j]->number],
+                        new_tree->nodes[k + provide_y - node->layer - 2]);
       }
     }
 
@@ -641,8 +647,8 @@ static void set_layers(struct reqtree *tree)
 {
   int i;
   int num_layers = 0;
-  
-  /* count total number of layers */
+
+  /* Count total number of layers */
   for (i = 0; i < tree->num_nodes; i++) {
     num_layers = MAX(num_layers, tree->nodes[i]->layer);
   }
@@ -665,7 +671,7 @@ static void set_layers(struct reqtree *tree)
 
     for (i = 0; i < num_layers; i++) {
       tree->layers[i] =
-	  fc_malloc(sizeof(*tree->layers[i]) * tree->layer_size[i]);
+        fc_malloc(sizeof(*tree->layers[i]) * tree->layer_size[i]);
     }
     for (i = 0; i < tree->num_nodes; i++) {
       struct tree_node *node = tree->nodes[i];
@@ -683,7 +689,7 @@ struct node_and_float {
 };
 
 /*********************************************************************//**
-  Comparison function used by barycentric_sort.
+  Comparison function used by barycentric_sort().
 *************************************************************************/
 static int cmp_func(const void *_a, const void *_b)
 {
@@ -695,6 +701,7 @@ static int cmp_func(const void *_a, const void *_b)
   if (a->value < b->value) {
     return -1;
   }
+
   return 0;
 }
 
@@ -722,7 +729,7 @@ static void barycentric_sort(struct reqtree *tree, int layer)
     T[i].value = v;
   }
   qsort(T, tree->layer_size[layer], sizeof(*T),
-	cmp_func);
+        cmp_func);
 
   for (i = 0; i < tree->layer_size[layer]; i++) {
     tree->layers[layer][i] = T[i].node;
@@ -753,7 +760,7 @@ static int count_crossings(struct reqtree *tree, int layer)
     }
     for (j = 0; j < node->nprovide; j++) {
       for (k = 0; k < node->provide[j]->order; k++) {
-	X[k]++;
+        X[k]++;
       }
     }
   }
@@ -801,27 +808,28 @@ static void improve(struct reqtree *tree)
 
     for (x1 = 0; x1 < layer_size; x1++) {
       for (x2 = x1 + 1; x2 < layer_size; x2++) {
-	int new_crossings = 0;
-	int new_crossings_before = 0;
+        int new_crossings = 0;
+        int new_crossings_before = 0;
 
-	swap(tree, layer, x1, x2);
-	if (layer > 0) {
-	  new_crossings_before += count_crossings(tree, layer - 1);
-	}
-	if (layer < tree->num_layers - 1) {
-	  new_crossings += count_crossings(tree, layer);
-	}
-	if (new_crossings + new_crossings_before > layer_sum) {
-	  swap(tree, layer, x1, x2);
-	} else {
-	  layer_sum = new_crossings + new_crossings_before;
-	  if (layer > 0) {
-	    crossings[layer - 1] = new_crossings_before;
-	  }
-	  if (layer < tree->num_layers - 1) {
-	    crossings[layer] = new_crossings;
-	  }
-	}
+        swap(tree, layer, x1, x2);
+
+        if (layer > 0) {
+          new_crossings_before += count_crossings(tree, layer - 1);
+        }
+        if (layer < tree->num_layers - 1) {
+          new_crossings += count_crossings(tree, layer);
+        }
+        if (new_crossings + new_crossings_before > layer_sum) {
+          swap(tree, layer, x1, x2);
+        } else {
+          layer_sum = new_crossings + new_crossings_before;
+          if (layer > 0) {
+            crossings[layer - 1] = new_crossings_before;
+          }
+          if (layer < tree->num_layers - 1) {
+            crossings[layer] = new_crossings;
+          }
+        }
       }
     }
   }
@@ -829,7 +837,7 @@ static void improve(struct reqtree *tree)
 
 /*********************************************************************//**
   Generate optimized tech_tree from current ruleset.
-  You should free it by destroy_reqtree.
+  You should free it by destroy_reqtree().
 
   If pplayer is not NULL, techs unreachable to that player are not shown.
 *************************************************************************/
@@ -843,14 +851,14 @@ struct reqtree *create_reqtree(struct player *pplayer, bool show_all)
   tree2 = add_dummy_nodes(tree1);
   destroy_reqtree(tree1);
   set_layers(tree2);
-  
+
   /* It's good heuristics for beginning */
   for (j = 0; j < 20; j++) {
     for (i = 0; i < tree2->num_layers; i++) {
       barycentric_sort(tree2, i);
     }
   }
-  
+
   /* Now burn some CPU */
   for (j = 0; j < 20; j++) {
     improve(tree2);
@@ -909,12 +917,12 @@ static enum color_std node_color(struct tree_node *node)
     }
 
     if (research_goal_tech_req(research, research->tech_goal, node->tech)
-	|| node->tech == research->tech_goal) {
+        || node->tech == research->tech_goal) {
       if (TECH_PREREQS_KNOWN == research_invention_state(research,
                                                          node->tech)) {
-	return COLOR_REQTREE_GOAL_PREREQS_KNOWN;
+        return COLOR_REQTREE_GOAL_PREREQS_KNOWN;
       } else {
-	return COLOR_REQTREE_GOAL_UNKNOWN;
+        return COLOR_REQTREE_GOAL_UNKNOWN;
       }
     }
 
@@ -927,12 +935,11 @@ static enum color_std node_color(struct tree_node *node)
   } else {
     return COLOR_REQTREE_BACKGROUND;
   }
-
 }
 
 /*********************************************************************//**
-  Return the type for an edge between two nodes
-  if node is a dummy, dest_node can be NULL
+  Return the type for an edge between two nodes.
+  If node is a dummy, dest_node can be NULL
 *************************************************************************/
 static enum reqtree_edge_type get_edge_type(struct tree_node *node,
                                             struct tree_node *dest_node)
@@ -940,17 +947,17 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
   struct research *research = research_get(client_player());
 
   if (dest_node == NULL) {
-    /* assume node is a dummy */
+    /* Assume node is a dummy */
     dest_node = node;
   }
-   
-  /* find the required tech */
+
+  /* Find the required tech */
   while (node->is_dummy) {
     fc_assert(node->nrequire == 1);
     node = node->require[0];
   }
-  
-  /* find destination advance by recursing in dest_node->provide[]
+
+  /* Find destination advance by recursing in dest_node->provide[]
    * watch out: recursion */
   if (dest_node->is_dummy) {
     enum reqtree_edge_type sum_type = REQTREE_EDGE;
@@ -959,6 +966,7 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     fc_assert(dest_node->nprovide > 0);
     for (i = 0; i < dest_node->nprovide; ++i) {
       enum reqtree_edge_type type = get_edge_type(node, dest_node->provide[i]);
+
       switch (type) {
       case REQTREE_ACTIVE_EDGE:
       case REQTREE_GOAL_EDGE:
@@ -968,10 +976,11 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
         sum_type = type;
         break;
       default:
-        /* no change */
+        /* No change */
         break;
-      };
+      }
     }
+
     return sum_type;
   }
 
@@ -979,7 +988,7 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     /* Global observer case */
     return REQTREE_KNOWN_EDGE;
   }
-  
+
   if (research->researching == dest_node->tech) {
     return REQTREE_ACTIVE_EDGE;
   }
@@ -1001,10 +1010,10 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
 }
 
 /*********************************************************************//**
-  Return a stroke color for an edge between two nodes
-  if node is a dummy, dest_node can be NULL
+  Return a stroke color for an edge between two nodes.
+  If node is a dummy, dest_node can be NULL
 *************************************************************************/
-static enum color_std edge_color(struct tree_node *node, 
+static enum color_std edge_color(struct tree_node *node,
                                  struct tree_node *dest_node)
 {
   enum reqtree_edge_type type = get_edge_type(node, dest_node);
@@ -1015,13 +1024,13 @@ static enum color_std edge_color(struct tree_node *node,
   case REQTREE_GOAL_EDGE:
     return COLOR_REQTREE_GOAL_UNKNOWN;
   case REQTREE_KNOWN_EDGE:
-    /* using "text" black instead of "known" white/ground/green */
+    /* Using "text" black instead of "known" white/ground/green */
     return COLOR_REQTREE_TEXT;
   case REQTREE_READY_EDGE:
     return COLOR_REQTREE_PREREQS_KNOWN;
   default:
     return COLOR_REQTREE_EDGE;
-  };
+  }
 }
 
 /*********************************************************************//**
@@ -1039,7 +1048,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
   struct sprite* sprite;
   struct color *color;
 
-  /* draw the diagram */
+  /* Draw the diagram */
   for (i = 0; i < tree->num_layers; i++) {
     for (j = 0; j < tree->layer_size[i]; j++) {
       struct tree_node *node = tree->layers[i][j];
@@ -1053,38 +1062,38 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       if (node->is_dummy) {
         /* Use the same layout as lines for dummy nodes */
         canvas_put_line(pcanvas,
-		        get_color(tileset, edge_color(node, NULL)),
-		        LINE_GOTO,
-		        startx, starty, width, 0);
+                        get_color(tileset, edge_color(node, NULL)),
+                        LINE_GOTO,
+                        startx, starty, width, 0);
       } else {
         const char *text = research_advance_name_translation
                                (research_get(client_player()), node->tech);
-	int text_w, text_h;
-	int icon_startx;
+        int text_w, text_h;
+        int icon_startx;
 
         canvas_put_rectangle(pcanvas,
                              get_color(tileset, COLOR_REQTREE_BACKGROUND),
                              startx, starty, width, height);
 
-	/* Print color rectangle with text inside. */
-	canvas_put_rectangle(pcanvas, get_color(tileset, node_color(node)),
-			     startx + 1, starty + 1,
-			     width - 2, height - 2);
-	/* The following code is similar to the one in 
-	 * node_rectangle_minimum_size(). If you change something here,
-	 * change also node_rectangle_minimum_size().
-	 */
+        /* Print color rectangle with text inside. */
+        canvas_put_rectangle(pcanvas, get_color(tileset, node_color(node)),
+                             startx + 1, starty + 1,
+                             width - 2, height - 2);
+        /* The following code is similar to the one in
+         * node_rectangle_minimum_size(). If you change something here,
+         * change also node_rectangle_minimum_size().
+         */
 
-	get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
+        get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
 
-	canvas_put_text(pcanvas,
-			startx + (width - text_w) / 2,
-			starty + 4,
-			FONT_REQTREE_TEXT,
-			get_color(tileset, COLOR_REQTREE_TEXT),
-			text);
- 	icon_startx = startx + 5;
-	
+        canvas_put_text(pcanvas,
+                        startx + (width - text_w) / 2,
+                        starty + 4,
+                        FONT_REQTREE_TEXT,
+                        get_color(tileset, COLOR_REQTREE_TEXT),
+                        text);
+        icon_startx = startx + 5;
+
         if (gui_options.reqtree_show_icons) {
           unit_type_iterate(utype) {
 
@@ -1101,7 +1110,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
                                    + (height - text_h - 4 - sheight) / 2,
                                    sprite);
             icon_startx += swidth + 2;
- 	  } unit_type_iterate_end;
+          } unit_type_iterate_end;
 
           improvement_iterate(pimprove) {
             if (valid_improvement(pimprove)) {
@@ -1127,15 +1136,15 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
           governments_iterate(gov) {
             requirement_vector_iterate(&(gov->reqs), preq) {
               if (VUT_ADVANCE == preq->source.kind
-               && advance_number(preq->source.value.advance) == node->tech) {
+                  && advance_number(preq->source.value.advance) == node->tech) {
                 sprite = get_government_sprite(tileset, gov);
                 get_sprite_dimensions(sprite, &swidth, &sheight);
- 	        canvas_put_sprite_full(pcanvas,
- 	                               icon_startx,
- 				       starty + text_h + 4
- 				       + (height - text_h - 4 - sheight) / 2,
- 	                               sprite);
- 	        icon_startx += swidth + 2;
+                canvas_put_sprite_full(pcanvas,
+                                       icon_startx,
+                                       starty + text_h + 4
+                                       + (height - text_h - 4 - sheight) / 2,
+                                       sprite);
+                icon_startx += swidth + 2;
               }
             } requirement_vector_iterate_end;
           } governments_iterate_end;
@@ -1146,12 +1155,12 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       startx = node->node_x + node->node_width;
       starty = node->node_y + node->node_height / 2;
       for (k = 0; k < node->nprovide; k++) {
-	struct tree_node *dest_node = node->provide[k];
+        struct tree_node *dest_node = node->provide[k];
 
-	color = get_color(tileset, edge_color(node, dest_node));
+        color = get_color(tileset, edge_color(node, dest_node));
 
-	endx = dest_node->node_x;
-	endy = dest_node->node_y + dest_node->node_height / 2;
+        endx = dest_node->node_x;
+        endy = dest_node->node_y + dest_node->node_height / 2;
 
         if (gui_options.reqtree_curved_lines) {
           canvas_put_curved_line(pcanvas, color, LINE_GOTO,
@@ -1182,15 +1191,16 @@ Tech_type_id get_tech_on_reqtree(struct reqtree *tree, int x, int y)
     }
     if (node->node_x <= x && node->node_y <= y
         && node->node_x + node->node_width > x
-	&& node->node_y + node->node_height > y) {
+        && node->node_y + node->node_height > y) {
       return node->tech;
     }
   }
+
   return A_NONE;
 }
 
 /*********************************************************************//**
-  Return the position of the given tech on the reqtree.  Return TRUE iff
+  Return the position of the given tech on the reqtree. Return TRUE iff
   it was found.
 *************************************************************************/
 bool find_tech_on_reqtree(struct reqtree *tree, Tech_type_id tech,
@@ -1203,19 +1213,20 @@ bool find_tech_on_reqtree(struct reqtree *tree, Tech_type_id tech,
 
     if (!node->is_dummy && node->tech == tech) {
       if (x) {
-	*x = node->node_x;
+        *x = node->node_x;
       }
       if (y) {
-	*y = node->node_y;
+        *y = node->node_y;
       }
       if (w) {
-	*w = node->node_width;
+        *w = node->node_width;
       }
       if (h) {
-	*h = node->node_height;
+        *h = node->node_height;
       }
       return TRUE;
     }
   }
+
   return FALSE;
 }
