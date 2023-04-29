@@ -252,6 +252,11 @@ void canvas_put_line(struct canvas *pcanvas,
   case LINE_GOTO:
     cairo_set_line_width(cr, 2.);
     break;
+  case LINE_SELECT_RECT:
+    cairo_set_line_width(cr, 2.);
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
+    break;
   }
 
   gdk_cairo_set_source_rgba(cr, &pcolor->color);
@@ -303,6 +308,11 @@ void canvas_put_curved_line(struct canvas *pcanvas,
     break;
   case LINE_GOTO:
     cairo_set_line_width(cr, 2.);
+    break;
+  case LINE_SELECT_RECT:
+    cairo_set_line_width(cr, 2.);
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
     break;
   }
 
