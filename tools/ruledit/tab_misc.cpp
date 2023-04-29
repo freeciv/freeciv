@@ -235,10 +235,6 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   connect(button, SIGNAL(pressed()), this, SLOT(refresh_stats()));
   main_layout->addWidget(button, row++, 0, 1, 2);
 
-  // Stats never change except with experimental features. Hide useless
-  // button.
-  show_experimental(button);
-
   refresh();
 
   setLayout(main_layout);
