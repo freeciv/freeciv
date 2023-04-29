@@ -723,12 +723,7 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
-#if 0
-  double dashes[2] = {4.0, 4.0};
   struct color *pcolor;
-  cairo_t *cr;
-  GdkDrawingContext *ctx;
-  GdkSurface *wndw;
 
   if (w == 0 || h == 0) {
     return;
@@ -739,18 +734,14 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
     return;
   }
 
-  wndw = gtk_native_get_surface(gtk_widget_get_native(map_canvas));
-  ctx = gdk_window_begin_draw_frame(wndw, NULL,
-                                    gdk_window_get_clip_region(wndw));
-  cr = gdk_drawing_context_get_cairo_context(ctx);
-  gdk_cairo_set_source_rgba(cr, &pcolor->color);
-  cairo_set_line_width(cr, 2.0);
-  cairo_set_dash(cr, dashes, 2, 0);
-  cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
-  cairo_rectangle(cr, canvas_x, canvas_y, w, h);
-  cairo_stroke(cr);
-  gdk_window_end_draw_frame(wndw, ctx);
-#endif
+  canvas_put_line(mapview.store, pcolor, LINE_SELECT_RECT,
+                  canvas_x, canvas_y, w, 0);
+  canvas_put_line(mapview.store, pcolor, LINE_SELECT_RECT,
+                  canvas_x, canvas_y, 0, h);
+  canvas_put_line(mapview.store, pcolor, LINE_SELECT_RECT,
+                  canvas_x, canvas_y + h, w, 0);
+  canvas_put_line(mapview.store, pcolor, LINE_SELECT_RECT,
+                  canvas_x + w, canvas_y, 0, h);
 }
 
 /**********************************************************************//**
