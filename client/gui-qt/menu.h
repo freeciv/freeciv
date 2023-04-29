@@ -57,7 +57,6 @@ enum munit {
   FORTRESS,
   AIRBASE,
   CLEAN,
-  FALLOUT,
   SENTRY,
   HOMECITY,
   WAKEUP,
@@ -326,8 +325,7 @@ private slots:
   void slot_conn_maglev();
   void slot_conn_irrigation();
   void slot_transform();
-  void slot_clean_pollution();
-  void slot_clean_fallout();
+  void slot_clean();
 
   // Used by unit menu
   void slot_unit_sentry();

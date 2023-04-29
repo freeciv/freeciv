@@ -1356,15 +1356,11 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_TRANSFORM))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_transform);
-  act = main_menu->addAction(_("Clean Pollution"));
+  act = main_menu->addAction(_("Clean"));
   menu_list.insert(CLEAN, act);
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_CLEAN))));
-  connect(act, &QAction::triggered, this, &mr_menu::slot_clean_pollution);
-  act = main_menu->addAction(_("Clean Nuclear Fallout"));
-  menu_list.insert(FALLOUT, act);
-  act->setShortcut(QKeySequence(tr("n")));
-  connect(act, &QAction::triggered, this, &mr_menu::slot_clean_fallout);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_clean);
   act = main_menu->addAction(QString(action_id_name_translation(ACTION_HELP_WONDER))
                              .replace("&", "&&"));
   act->setShortcut(QKeySequence(tr("b")));
@@ -2348,13 +2344,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case CLEAN:
-        if (can_units_do_activity(punits, ACTIVITY_POLLUTION)) {
-          i.value()->setEnabled(true);
-        }
-        break;
-
-      case FALLOUT:
-        if (can_units_do_activity(punits, ACTIVITY_FALLOUT)) {
+        if (can_units_do_activity(punits, ACTIVITY_CLEAN)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2591,25 +2581,30 @@ void mr_menu::slot_build_city()
 }
 
 /**********************************************************************//**
-  Action "CLEAN FALLOUT"
+  Action "CLEAN"
 **************************************************************************/
-void mr_menu::slot_clean_fallout()
-{
-  key_unit_fallout();
-}
-
-/**********************************************************************//**
-  Action "CLEAN POLLUTION"
-**************************************************************************/
-void mr_menu::slot_clean_pollution()
+void mr_menu::slot_clean()
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct extra_type *pextra;
 
-    pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
+    pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEAN,
                                 unit_owner(punit), punit);
+
     if (pextra != NULL) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
+      request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN, pextra);
+    } else {
+      pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
+                                  unit_owner(punit), punit);
+      if (pextra != NULL) {
+        request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
+      } else {
+        pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANFALLOUT,
+                                    unit_owner(punit), punit);
+        if (pextra != NULL) {
+          request_new_unit_activity_targeted(punit, ACTIVITY_FALLOUT, pextra);
+        }
+      }
     }
   } unit_list_iterate_end;
 }
