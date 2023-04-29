@@ -1119,11 +1119,11 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  // Clean pollution
-  if (can_unit_do_activity(current_unit, ACTIVITY_POLLUTION)) {
+  // Clean
+  if (can_unit_do_activity(current_unit, ACTIVITY_CLEAN)) {
     a = new hud_action(this);
-    a->action_shortcut = SC_PARADROP;
-    a->set_pixmap(fc_icons::instance()->get_pixmap("pollution"));
+    a->action_shortcut = SC_CLEAN;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("clean"));
     actions.append(a);
   }
 

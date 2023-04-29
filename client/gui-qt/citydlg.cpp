@@ -1361,8 +1361,7 @@ void city_map::context_menu(QPoint point)
   QAction *con_mine = nullptr;
   QAction *con_road = nullptr;
   QAction *con_trfrm = nullptr;
-  QAction *con_pollution = nullptr;
-  QAction *con_fallout = nullptr;
+  QAction *con_clean = nullptr;
   QAction *con_clear = nullptr;
   QMenu *con_menu;
   QWidgetAction *wid_act;
@@ -1423,14 +1422,9 @@ void city_map::context_menu(QPoint point)
     con_road = con_menu->addAction(_("Road"));
   }
 
-  if (prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
+  if (prev_extra_in_tile(ptile, ERM_CLEAN,
                          city_owner(mcity), NULL) != NULL) {
-    con_pollution = con_menu->addAction(_("Clean Pollution"));
-  }
-
-  if (prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
-                         city_owner(mcity), NULL) != NULL) {
-    con_fallout = con_menu->addAction(_("Clean Fallout"));
+    con_clean = con_menu->addAction(_("Clean"));
   }
 
   if (ptask != NULL) {
@@ -1464,11 +1458,8 @@ void city_map::context_menu(QPoint point)
       task.activity = ACTIVITY_CULTIVATE;
     } else if (act == con_trfrm) {
       task.activity = ACTIVITY_TRANSFORM;
-    } else if (act == con_pollution) {
-      task.activity = ACTIVITY_POLLUTION;
-      target = TRUE;
-    } else if (act == con_fallout) {
-      task.activity = ACTIVITY_FALLOUT;
+    } else if (act == con_clean) {
+      task.activity = ACTIVITY_CLEAN;
       target = TRUE;
     } else if (act == con_clear) {
       task.activity = ACTIVITY_LAST;

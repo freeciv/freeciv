@@ -149,7 +149,7 @@ fc_shortcut default_shortcuts[] = {
   {SC_AUTOMATE, Qt::Key_A, Qt::AllButtons, Qt::NoModifier,
     _("Auto worker") },
   {SC_CLEAN, Qt::Key_P, Qt::AllButtons, Qt::NoModifier,
-    _("Clean pollution") },
+    _("Clean") },
   {SC_POPUP_COMB_INF, Qt::Key_F1, Qt::AllButtons, Qt::ControlModifier,
     _("Popup combat information") },
   {SC_RELOAD_THEME, Qt::Key_F5, Qt::AllButtons, Qt::ControlModifier
