@@ -20,10 +20,10 @@
 struct color;
 struct sprite;
 
-struct canvas;                  /* opaque type, real type is gui-dep */
+struct canvas;                  /* Opaque type, real type is gui-dep */
 
 enum line_type {
-  LINE_NORMAL, LINE_BORDER, LINE_TILE_FRAME, LINE_GOTO
+  LINE_NORMAL, LINE_BORDER, LINE_TILE_FRAME, LINE_GOTO, LINE_SELECT_RECT
 };
 
 /* Creator and destructor */
@@ -81,4 +81,4 @@ GUI_FUNC_PROTO(void, canvas_put_text, struct canvas *pcanvas,
                int canvas_x, int canvas_y, enum client_font font,
                struct color *pcolor, const char *text)
 
-#endif  /* FC__CANVAS_G_H */
+#endif /* FC__CANVAS_G_H */
