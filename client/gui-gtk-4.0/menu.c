@@ -3463,7 +3463,7 @@ void real_menus_update(void)
   j = 0;
   /* Add the new action entries grouped by target kind. */
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
-    action_iterate(act_id) {
+    action_noninternal_iterate(act_id) {
       struct action *paction = action_by_number(act_id);
       GSimpleAction *act;
       char actname[256];
@@ -3553,7 +3553,7 @@ void real_menus_update(void)
                          G_CALLBACK(unit_goto_and_callback), paction);
         menu_item_append_unref(submenu, g_menu_item_new(name, actname));
       }
-    } action_iterate_end;
+    } action_noninternal_iterate_end;
   }
   g_menu_remove(unit_menu, 1);
   g_menu_insert_submenu(unit_menu, 1, _("Go to a_nd..."), G_MENU_MODEL(submenu));

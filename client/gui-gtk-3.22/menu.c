@@ -3070,7 +3070,7 @@ void real_menus_init(void)
 
     /* Add the new action entries grouped by target kind. */
     for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
-      action_iterate(act_id) {
+      action_noninternal_iterate(act_id) {
         struct action *paction = action_by_number(act_id);
 
         if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
@@ -3158,7 +3158,7 @@ void real_menus_init(void)
 
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
-      } action_iterate_end;
+      } action_noninternal_iterate_end;
     }
   }
 

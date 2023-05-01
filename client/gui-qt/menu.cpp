@@ -729,7 +729,7 @@ void go_act_menu::create()
 
   // Group goto and perform action menu items by target kind.
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
-    action_iterate(act_id) {
+    action_noninternal_iterate(act_id) {
       struct action *paction = action_by_number(act_id);
       QString action_name = (QString(action_name_translation(paction))
                              .replace("&", "&&"));
@@ -819,7 +819,7 @@ void go_act_menu::create()
       QObject::connect(item, &QAction::triggered, [this,act_id]() {
         start_go_act(act_id, NO_TARGET);
       });
-    } action_iterate_end;
+    } action_noninternal_iterate_end;
   }
 }
 
