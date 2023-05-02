@@ -183,6 +183,9 @@ MAINTAINERCLEANFILES = \
 	$(srcdir)/packets_gen.h \
 	$(srcdir)/packets_gen.c
 
+DISTCLEANFILES = \
+	fc_gitrev_gen.h
+
 if GITREV
 BUILT_SOURCES += fc_gitrev_gen.h
 endif
