@@ -560,7 +560,11 @@ struct iterator *nation_iter_init(struct nation_iter *it)
   it->vtable.get = nation_iter_get;
   it->vtable.valid = nation_iter_valid;
   it->p = nations;
-  it->end = nations + nation_count();
+  if (nations == NULL) {
+    it->end = NULL;
+  } else {
+    it->end = nations + nation_count();
+  }
   return ITERATOR(it);
 }
 
