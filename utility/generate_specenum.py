@@ -126,7 +126,7 @@ def make_documentation(file):
  *    }
  *
  *    for (i = 0; strings[i]; i++) {
- *      e = test_by_name(strings[i], mystrcasecmp);
+ *      e = test_by_name(strings[i], fc_strcasecmp);
  *      if (test_is_valid(e)) {
  *        log_verbose("Value is %d for %s", e, strings[i]);
  *      } else {
