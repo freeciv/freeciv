@@ -221,9 +221,9 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   any canvas zoom.
 ****************************************************************************/
 void canvas_put_line(struct canvas *pcanvas,
-		     struct color *pcolor,
-		     enum line_type ltype, int start_x, int start_y,
-		     int dx, int dy)
+                     struct color *pcolor,
+                     enum line_type ltype, int start_x, int start_y,
+                     int dx, int dy)
 {
   cairo_t *cr;
   double dashes[2] = {4.0, 4.0};
@@ -251,6 +251,11 @@ void canvas_put_line(struct canvas *pcanvas,
     break;
   case LINE_GOTO:
     cairo_set_line_width(cr, 2.);
+    break;
+  case LINE_SELECT_RECT:
+    cairo_set_line_width(cr, 2.);
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
     break;
   }
 
@@ -303,6 +308,11 @@ void canvas_put_curved_line(struct canvas *pcanvas,
     break;
   case LINE_GOTO:
     cairo_set_line_width(cr, 2.);
+    break;
+  case LINE_SELECT_RECT:
+    cairo_set_line_width(cr, 2.);
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
     break;
   }
 
