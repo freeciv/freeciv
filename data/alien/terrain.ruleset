@@ -709,6 +709,7 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;                           This can be "None" to indicate that graphic sprite
 ;                           is not needed.
 ; rmact_gfx_alt           = tag for alternative graphic for unit removing extra
+; rmact_gfx_alt2          = tag for second alternative graphic for unit removing extra
 ; reqs                    = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; rmreqs                  = requirements to remove the extra
@@ -806,6 +807,7 @@ act_gfx_alt    = "unit.irrigation"
 act_gfx_alt2   = "unit.cultivate"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 build_time     = 0
 removal_time   = 0
 conflicts      = "Mine"
@@ -835,6 +837,7 @@ act_gfx_alt    = "unit.plant"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 build_time     = 0
 removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
@@ -855,6 +858,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range", "present"
       "TerrainFlag", "NoPollution", "Tile", FALSE
@@ -885,6 +889,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Tile"
@@ -914,6 +919,7 @@ act_gfx_alt    = "unit.farmland"
 act_gfx_alt2   = "unit.cultivate"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Protein Modifications", "Player"
@@ -942,6 +948,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range", "present"
       "TerrainFlag", "NoPollution", "Tile", FALSE
@@ -968,6 +975,7 @@ act_gfx_alt    = "unit.fortress"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Strong Force", "Player", TRUE, FALSE
@@ -995,6 +1003,7 @@ act_gfx_alt    = "unit.outpost"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Force Channeling", "Player", TRUE, FALSE
@@ -1021,6 +1030,7 @@ act_gfx_alt    = "unit.airbase"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Commercial Antigravity", "Player", TRUE, FALSE
@@ -1048,6 +1058,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
@@ -1076,6 +1087,7 @@ act_gfx_alt    = "unit.road"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Brute Force", "Player"
@@ -1104,6 +1116,7 @@ act_gfx_alt    = "unit.road"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Maglev", "Player"
@@ -1135,6 +1148,7 @@ act_gfx_alt    = "unit.road"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Strong Resistance", "Player"
@@ -1165,6 +1179,7 @@ act_gfx_alt    = "unit.road"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Burrowing", "Player"
@@ -1194,6 +1209,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 buildable      = FALSE
 defense_bonus  = 50
 native_to      = "Native", "Amphibious"
@@ -1218,6 +1234,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 buildable      = FALSE
 defense_bonus  = 50
 native_to      = "Native", "Amphibious"
@@ -1242,6 +1259,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 There is more than average amount of various resources,\
@@ -1260,6 +1278,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Mine run by superior alien technology ready to operate.\
@@ -1278,6 +1297,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Entire forest seems to be of the single fast-growing organism with\
@@ -1296,6 +1316,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Where the heat from inside the planet escapes, mineral rich\
@@ -1314,6 +1335,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Weird alien fish might look like something escaped from nightmares, \
@@ -1332,6 +1354,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Rocks in the area have unusually bright glow.\
