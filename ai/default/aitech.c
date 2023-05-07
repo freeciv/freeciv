@@ -52,17 +52,18 @@ struct ai_tech_choice {
 };
 
 /**************************************************************************
-  Massage the numbers provided to us by ai.tech_want into unrecognizable 
+  Massage the numbers provided to us by ai.tech_want into unrecognizable
   pulp.
 
   TODO: Write a transparent formula.
 
-  Notes: 1. research_goal_unknown_techs returns 0 for known techs, 1 if tech
-  is immediately available etc.
-  2. A tech is reachable means we can research it now; tech is available 
-  means it's on our tech tree (different nations can have different techs).
+  Notes:
+  1. research_goal_unknown_techs() returns 0 for known techs, 1 if tech
+     is immediately available etc.
+  2. A tech is reachable means we can research it now; tech is available
+     means it's on our tech tree (different nations can have different techs).
   3. ai.tech_want is usually upped by each city, so it is divided by number
-  of cities here.
+     of cities here.
   4. A tech isn't a requirement of itself.
 **************************************************************************/
 static void dai_select_tech(struct ai_type *ait,
@@ -83,7 +84,7 @@ static void dai_select_tech(struct ai_type *ait,
   goal_values[A_UNSET] = -1;
   goal_values[A_NONE] = -1;
 
-  /* if we are researching future techs, then simply continue with that
+  /* If we are researching future techs, then simply continue with that
    * when possible. */
   if (is_future_tech(presearch->researching)) {
     bool real_found = FALSE;
@@ -110,7 +111,7 @@ static void dai_select_tech(struct ai_type *ait,
     }
   }
 
-  /* Fill in values for the techs: want of the tech 
+  /* Fill in values for the techs: want of the tech
    * + average want of those we will discover en route */
   advance_index_iterate(A_FIRST, i) {
     if (valid_advance_by_number(i)) {
@@ -146,7 +147,7 @@ static void dai_select_tech(struct ai_type *ait,
 	}
       } advance_index_iterate_end;
 
-      /* This is the best I could do.  It still sometimes does freaky stuff
+      /* This is the best I could do. It still sometimes does freaky stuff
        * like setting goal to Republic and learning Monarchy, but that's what
        * it's supposed to be doing; it just looks strange. -- Syela */
       goal_values[i] /= steps;
@@ -156,6 +157,8 @@ static void dai_select_tech(struct ai_type *ait,
                   plr_data->tech_want[i],
                   values[i], goal_values[i]);
       }
+    } else {
+      goal_values[i] = -1;
     }
   } advance_index_iterate_end;
 
@@ -202,7 +205,7 @@ static void dai_select_tech(struct ai_type *ait,
               num_cities_nonzero);
   }
 
-  /* we can't have this, which will happen in the circumstance 
+  /* We can't have this, which will happen in the circumstance
    * where all ai.tech_wants are negative */
   if (choice && choice->choice == A_UNSET) {
     choice->choice = presearch->researching;
