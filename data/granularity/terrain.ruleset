@@ -480,6 +480,7 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;                           This can be "None" to indicate that graphic sprite
 ;                           is not needed.
 ; rmact_gfx_alt           = tag for alternative graphic for unit removing extra
+; rmact_gfx_alt2          = tag for second alternative graphic for unit removing extra
 ; reqs                    = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; rmreqs                  = requirements to remove the extra
@@ -577,6 +578,7 @@ act_gfx_alt    = "unit.cultivate"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 buildable      = TRUE
 reqs           =
     { "type", "name",        "range"
@@ -598,6 +600,7 @@ helptext       = _("Irrigation increases tile food production.")
 ;act_gfx_alt2   = "-"
 ;rmact_gfx      = "None"
 ;rmact_gfx_alt  = "-"
+;rmact_gfx_alt2 = "-"
 ;buildable      = FALSE
 ;reqs           =
 ;    { "type", "name", "range"
@@ -620,6 +623,7 @@ act_gfx_alt    = "unit.road"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 buildable      = TRUE
 hidden_by      = "Road"
 ;reqs           =
@@ -644,6 +648,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 buildable      = TRUE
 reqs           =
     { "type",  "name",          "range"
@@ -670,6 +675,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 buildable      = FALSE
 native_to      = "Land"
 helptext       = _("\
@@ -689,6 +695,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
 
 ; /* <-- avoid gettext warnings
 ;

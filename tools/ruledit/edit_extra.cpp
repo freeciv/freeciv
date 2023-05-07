@@ -108,6 +108,15 @@ edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
   extra_layout->addWidget(label, row, 0);
   extra_layout->addWidget(rmact_gfx_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Second alt removal activity gfx tag")));
+  label->setParent(this);
+
+  rmact_gfx_alt2 = new QLineEdit(this);
+  connect(rmact_gfx_alt2, SIGNAL(returnPressed()), this, SLOT(rmact_gfx_alt2_given()));
+
+  extra_layout->addWidget(label, row, 0);
+  extra_layout->addWidget(rmact_gfx_alt2, row++, 1);
+
   refresh();
 
   main_layout->addLayout(extra_layout);
@@ -128,6 +137,7 @@ void edit_extra::closeEvent(QCloseEvent *cevent)
   act_gfx_alt2_given();
   rmact_gfx_given();
   rmact_gfx_alt_given();
+  rmact_gfx_alt2_given();
 
   extra->ruledit_dlg = nullptr;
 }
@@ -144,6 +154,7 @@ void edit_extra::refresh()
   act_gfx_alt2->setText(extra->act_gfx_alt2);
   rmact_gfx->setText(extra->rmact_gfx);
   rmact_gfx_alt->setText(extra->rmact_gfx_alt);
+  rmact_gfx_alt2->setText(extra->rmact_gfx_alt2);
 }
 
 /**********************************************************************//**
@@ -214,4 +225,14 @@ void edit_extra::rmact_gfx_alt_given()
   QByteArray tag_bytes = rmact_gfx_alt->text().toUtf8();
 
   sz_strlcpy(extra->rmact_gfx_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new second alternative removal activity graphics tag.
+**************************************************************************/
+void edit_extra::rmact_gfx_alt2_given()
+{
+  QByteArray tag_bytes = rmact_gfx_alt2->text().toUtf8();
+
+  sz_strlcpy(extra->rmact_gfx_alt2, tag_bytes);
 }

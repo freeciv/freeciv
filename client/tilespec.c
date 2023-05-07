@@ -3971,9 +3971,15 @@ void tileset_setup_extra(struct tileset *t,
       t->sprites.extras[id].rmact = load_sprite(t, pextra->rmact_gfx_alt,
                                                 TRUE, TRUE, FALSE);
       if (t->sprites.extras[id].rmact == NULL) {
-        tileset_error(LOG_FATAL, tileset_name_get(t),
-                      _("Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."),
-                      extra_rule_name(pextra), pextra->rmact_gfx, pextra->rmact_gfx_alt);
+        t->sprites.extras[id].rmact = load_sprite(t, pextra->rmact_gfx_alt2,
+                                                  TRUE, TRUE, FALSE);
+        if (t->sprites.extras[id].rmact == NULL) {
+          tileset_error(LOG_FATAL, tileset_name_get(t),
+                        _("Missing %s removal activity sprite for tags \"%s\" "
+                          "and alternatives \"%s\" and \"%s\"."),
+                        extra_rule_name(pextra), pextra->rmact_gfx,
+                        pextra->rmact_gfx_alt, pextra->rmact_gfx_alt2);
+        }
       }
     }
   }

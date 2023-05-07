@@ -44,6 +44,7 @@ class edit_extra : public QDialog
     QLineEdit *act_gfx_alt2;
     QLineEdit *rmact_gfx;
     QLineEdit *rmact_gfx_alt;
+    QLineEdit *rmact_gfx_alt2;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -56,6 +57,7 @@ class edit_extra : public QDialog
     void act_gfx_alt2_given();
     void rmact_gfx_given();
     void rmact_gfx_alt_given();
+    void rmact_gfx_alt2_given();
 };
 
 #endif // FC__EDIT_EXTRA_H

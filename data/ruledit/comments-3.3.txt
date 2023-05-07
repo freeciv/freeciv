@@ -766,6 +766,7 @@ extras = "\
 ;                           This can be \"None\" to indicate that graphic sprite\n\
 ;                           is not needed.\n\
 ; rmact_gfx_alt           = tag for alternative graphic for unit removing extra\n\
+; rmact_gfx_alt2          = tag for second alternative graphic for unit removing extra\n\
 ; reqs                    = requirements to build the extra (see effects.ruleset\n\
 ;                           and README.effects for help on requirements)\n\
 ; rmreqs                  = requirements to remove the extra\n\
