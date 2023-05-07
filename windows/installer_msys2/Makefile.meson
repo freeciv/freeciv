@@ -447,5 +447,5 @@ clean:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-client clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-ruledit clean-install-client clean-ruledit-common
+	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-ruledit clean-ruledit-install clean-ruledit-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-ruledit clean-ruledit-install clean-ruledit-common
