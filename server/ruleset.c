@@ -3721,6 +3721,10 @@ static bool load_ruleset_terrain(struct section_file *file,
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
 
+        if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+          sval = rscompat_extra_rmcause_3_2(sval);
+        }
+
         rmcause = extra_rmcause_by_name(sval, fc_strcasecmp);
 
         if (!extra_rmcause_is_valid(rmcause)) {
@@ -3926,7 +3930,7 @@ static bool load_ruleset_terrain(struct section_file *file,
           BV_SET(pextra2->conflicts, extra_index(pextra));
         }
       }
-    
+
       free(slist);
 
       if (!ok) {

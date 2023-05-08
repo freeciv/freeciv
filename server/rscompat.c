@@ -565,6 +565,19 @@ int add_user_extra_flags_3_2(int start)
 }
 
 /**********************************************************************//**
+  Adjust rmcause name of an extra loaded from a 3.1 ruleset.
+**************************************************************************/
+const char *rscompat_extra_rmcause_3_2(const char *old_name)
+{
+  if (!fc_strcasecmp("CleanPollution", old_name)
+      || !fc_strcasecmp("CleanFallout", old_name)) {
+    return "Clean";
+  }
+
+  return old_name;
+}
+
+/**********************************************************************//**
   Adjust values of an extra loaded from a 3.1 ruleset.
 **************************************************************************/
 void rscompat_extra_adjust_3_2(struct extra_type *pextra)
