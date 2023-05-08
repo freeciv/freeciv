@@ -277,7 +277,11 @@ public:
   fc_sidewidget *sw_diplo;
   float map_scale;
   bool map_font_scale;
-  void gimme_place(QWidget* widget, QString str);
+  QMenu *page_menu;
+  QMenu *page_submenu_AI;
+  QMenu *page_submenu_team;
+
+  void gimme_place(QWidget *widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);
   bool is_repo_dlg_open(QString str);
