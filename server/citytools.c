@@ -777,7 +777,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       /* Don't transfer or destroy a dying unit. It will soon be gone
        * anyway.
        *
-       * Transfering a dying GameLoss unit as part of the loot for
+       * Transferring a dying GameLoss unit as part of the loot for
        * killing it caused gna bug #23676. */
       continue;
     }
@@ -1057,7 +1057,7 @@ static void build_free_small_wonders(struct player *pplayer,
   The kill_outside and transfer_unit_verbose arguments are passed to
   transfer_city_units(), which is called in the middle of the function.
 
-  Return TRUE iff the city remains after transfering (the city may be
+  Return TRUE iff the city remains after transferring (the city may be
   destroyed by a script, notably with bouncing or wiping units).
 ****************************************************************************/
 bool transfer_city(struct player *ptaker, struct city *pcity,
