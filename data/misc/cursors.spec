@@ -12,6 +12,8 @@ artists = "
     edit_paint cursor take from GIMP
 
     Hourglass and Add from Bluecurve theme in redhat-artwork
+
+    Teleport cursor by Varkalandar, converted to freeciv by Elefant
 "
 
 [file]
@@ -38,12 +40,12 @@ tiles = { "row", "column", "hot_x", "hot_y", "tag"
        3, 1, 16, 16, "cursor.patrol3"
        4, 1, 16, 16, "cursor.patrol4"
        5, 1, 16, 16, "cursor.patrol5"
-       0, 2, 16, 16, "cursor.paradrop0", "cursor.teleport0"
-       1, 2, 16, 16, "cursor.paradrop1", "cursor.teleport1"
-       2, 2, 16, 16, "cursor.paradrop2", "cursor.teleport2"
-       3, 2, 16, 16, "cursor.paradrop3", "cursor.teleport3"
-       4, 2, 16, 16, "cursor.paradrop4", "cursor.teleport4"
-       5, 2, 16, 16, "cursor.paradrop5", "cursor.teleport5"
+       0, 2, 16, 16, "cursor.paradrop0"
+       1, 2, 16, 16, "cursor.paradrop1"
+       2, 2, 16, 16, "cursor.paradrop2"
+       3, 2, 16, 16, "cursor.paradrop3"
+       4, 2, 16, 16, "cursor.paradrop4"
+       5, 2, 16, 16, "cursor.paradrop5"
        0, 3, 16, 16, "cursor.nuke0"
        1, 3, 16, 16, "cursor.nuke1"
        2, 3, 16, 16, "cursor.nuke2"
@@ -86,4 +88,10 @@ tiles = { "row", "column", "hot_x", "hot_y", "tag"
        3, 9, 16, 16, "cursor.wait3"
        4, 9, 16, 16, "cursor.wait4"
        5, 9, 16, 16, "cursor.wait5"
+       0, 10, 16, 16, "cursor.teleport0"
+       1, 10, 16, 16, "cursor.teleport1"
+       2, 10, 16, 16, "cursor.teleport2"
+       3, 10, 16, 16, "cursor.teleport3"
+       4, 10, 16, 16, "cursor.teleport4"
+       5, 10, 16, 16, "cursor.teleport5"
 }
