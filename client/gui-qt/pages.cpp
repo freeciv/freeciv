@@ -1946,7 +1946,6 @@ void fc_client::update_buttons()
 void fc_client::start_page_menu(QPoint pos)
 {
   QAction *action;
-  QMenu *menu, *submenu_AI, *submenu_team;
   QPoint global_pos = start_players_tree->mapToGlobal(pos);
   QString me, splayer, str, sp;
   bool need_empty_team;
@@ -1958,10 +1957,7 @@ void fc_client::start_page_menu(QPoint pos)
   me = client.conn.username;
   QTreeWidgetItem *item = start_players_tree->itemAt(pos);
 
-  menu = new QMenu(this);
-  submenu_AI = new QMenu(this);
-  submenu_team = new QMenu(this);
-  if (!item) {
+  if (item == nullptr) {
     return;
   }
 
@@ -1981,6 +1977,10 @@ void fc_client::start_page_menu(QPoint pos)
     selected_player = (player *) qvar2.value < void *>();
   }
 
+  page_menu = new QMenu(this);
+  page_submenu_AI = new QMenu(this);
+  page_submenu_team = new QMenu(this);
+
   players_iterate(pplayer) {
     if (selected_player && selected_player == pplayer) {
       splayer = QString(pplayer->name);
@@ -1992,7 +1992,7 @@ void fc_client::start_page_menu(QPoint pos)
         QObject::connect(action, &QAction::triggered, [this,str]() {
           send_fake_chat_message(str);
         });
-        menu->addAction(action);
+        page_menu->addAction(action);
 
         if (ALLOW_CTRL <= client.conn.access_level) {
           str = QString(_("Remove player"));
@@ -2001,7 +2001,7 @@ void fc_client::start_page_menu(QPoint pos)
           QObject::connect(action, &QAction::triggered, [this,str]() {
             send_fake_chat_message(str);
           });
-          menu->addAction(action);
+          page_menu->addAction(action);
         }
         str = QString(_("Take this player"));
         action = new QAction(str, start_players_tree);
@@ -2009,7 +2009,7 @@ void fc_client::start_page_menu(QPoint pos)
         QObject::connect(action, &QAction::triggered, [this,str]() {
           send_fake_chat_message(str);
         });
-        menu->addAction(action);
+        page_menu->addAction(action);
       }
 
       if (can_conn_edit_players_nation(&client.conn, pplayer)) {
@@ -2019,14 +2019,14 @@ void fc_client::start_page_menu(QPoint pos)
         QObject::connect(action, &QAction::triggered, [this,str]() {
           send_fake_chat_message(str);
         });
-        menu->addAction(action);
+        page_menu->addAction(action);
       }
 
       if (is_ai(pplayer)) {
         // Set AI difficulty submenu
         if (ALLOW_CTRL <= client.conn.access_level) {
-          submenu_AI->setTitle(_("Set difficulty"));
-          menu->addMenu(submenu_AI);
+          page_submenu_AI->setTitle(_("Set difficulty"));
+          page_menu->addMenu(page_submenu_AI);
 
           for (level = 0; level < AI_LEVEL_COUNT; level++) {
             if (is_settable_ai_level(static_cast < ai_level > (level))) {
@@ -2037,7 +2037,7 @@ void fc_client::start_page_menu(QPoint pos)
               QObject::connect(action, &QAction::triggered, [this,str]() {
                 send_fake_chat_message(str);
               });
-              submenu_AI->addAction(action);
+              page_submenu_AI->addAction(action);
             }
           }
         }
@@ -2045,9 +2045,9 @@ void fc_client::start_page_menu(QPoint pos)
 
       // Put to Team X submenu
       if (pplayer && game.info.is_new_game) {
-        menu->addMenu(submenu_team);
-        submenu_team->setTitle(_("Put on team"));
-        menu->addMenu(submenu_team);
+        page_menu->addMenu(page_submenu_team);
+        page_submenu_team->setTitle(_("Put on team"));
+        page_menu->addMenu(page_submenu_team);
         count = pplayer->team ?
             player_list_size(team_members(pplayer->team)) : 0;
         need_empty_team = (count != 1);
@@ -2065,7 +2065,7 @@ void fc_client::start_page_menu(QPoint pos)
           QObject::connect(action, &QAction::triggered, [this,str]() {
             send_fake_chat_message(str);
           });
-          submenu_team->addAction(action);
+          page_submenu_team->addAction(action);
         } team_slots_iterate_end;
       }
 
@@ -2076,14 +2076,13 @@ void fc_client::start_page_menu(QPoint pos)
         QObject::connect(action, &QAction::triggered, [this,str]() {
           send_fake_chat_message(str);
         });
-        menu->addAction(action);
+        page_menu->addAction(action);
       }
 
-      menu->popup(global_pos);
+      page_menu->popup(global_pos);
       return;
     }
   } players_iterate_end;
-
 }
 
 /**********************************************************************//**
