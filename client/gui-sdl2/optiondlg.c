@@ -1377,7 +1377,7 @@ void init_options_button(void)
   set_wflag(options_button, WF_HIDDEN);
   widget_set_position(options_button, adj_size(5), adj_size(5));
 
-#ifndef SMALL_SCREEN
+#ifndef GUI_SDL2_SMALL_SCREEN
   add_to_gui_list(ID_CLIENT_OPTIONS, options_button);
 #endif
 

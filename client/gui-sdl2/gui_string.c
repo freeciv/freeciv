@@ -63,7 +63,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 /**********************************************************************//**
   Adjust font sizes for small screen.
 **************************************************************************/
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
 int adj_font(int size)
 {
   switch (size) {
@@ -89,7 +89,7 @@ int adj_font(int size)
     return size;
   }
 }
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
 /**********************************************************************//**
   Calculate display size of string.

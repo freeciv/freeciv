@@ -404,7 +404,7 @@ void update_info_label(void)
   SDL_Color bg_color = {0, 0, 0, 80};
   SDL_Surface *tmp = NULL;
   char buffer[512];
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   SDL_Rect area = {0, 0, 0, 0};
 #else
   SDL_Rect area = {0, 3, 0, 0};
@@ -415,7 +415,7 @@ void update_info_label(void)
     return;
   }
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   ptext = create_utf8_str(NULL, 0, 8);
 #else
   ptext = create_utf8_str(NULL, 0, 10);
@@ -427,7 +427,7 @@ void update_info_label(void)
   ptext->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (NULL != client.conn.playing) {
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
     fc_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d "),
@@ -435,7 +435,7 @@ void update_info_label(void)
                 population_to_text(civ_population(client.conn.playing)),
                 calendar_text(),
                 client.conn.playing->economic.gold);
-#else /* SMALL_SCREEN */
+#else /* GUI_SDL2_SMALL_SCREEN */
     fc_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
@@ -446,7 +446,7 @@ void update_info_label(void)
                 client.conn.playing->economic.tax,
                 client.conn.playing->economic.luxury,
                 client.conn.playing->economic.science);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
     /* convert to utf8_str and create text surface */
     copy_chars_to_utf8_str(ptext, buffer);
     tmp = create_text_surf_from_utf8(ptext);

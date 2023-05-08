@@ -82,7 +82,7 @@ void unload_font(Uint16 ptsize);
 void free_font_system(void);
 
 /* Adjust font sizes on 320x240 screen */
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   int adj_font(int size);
 #else
   #define adj_font(size) size

@@ -33,7 +33,7 @@
 #include "gui_main_g.h"
 
 /* Enable this to adjust sizes for 320x240 resolution */
-/* #define SMALL_SCREEN */
+/* #define GUI_SDL2_SMALL_SCREEN */
 
 /* SDL2 client Flags */
 #define CF_NONE				0
@@ -127,7 +127,7 @@ Uint16 gui_event_loop(void *data, void (*loop_action)(void *data),
 void update_font_from_theme(int theme_font_size);
 
 /* Shrink sizes for 320x240 screen */
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   #define adj_size(size) ((size) / 2)
 #else
   #define adj_size(size) (size)

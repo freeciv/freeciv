@@ -3382,11 +3382,11 @@ void science_report_dialog_popup(bool raise)
   pstr = create_utf8_from_char(_("Research"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   pwindow = create_window(NULL, pstr, 200, 132, 0);
-#else  /* SMALL_SCREEN */
+#else  /* GUI_SDL2_SMALL_SCREEN */
   pwindow = create_window(NULL, pstr, adj_size(400), adj_size(246), 0);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
   set_wstate(pwindow, FC_WS_NORMAL);
   pwindow->action = science_dialog_callback;
 

@@ -29,7 +29,7 @@
 #include "gui_main.h"
 #include "gui_string.h"
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
 #define WINDOW_TITLE_HEIGHT 10
 #else
 #define WINDOW_TITLE_HEIGHT 20

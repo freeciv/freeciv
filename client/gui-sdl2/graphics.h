@@ -191,7 +191,7 @@
 #endif /* USE_DUFFS_LOOP */
 
 /* shrink surface on 320x240 screen*/
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
 #define DEFAULT_ZOOM 0.5
 #define adj_surf(surf) zoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
 #else

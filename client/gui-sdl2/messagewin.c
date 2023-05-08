@@ -52,7 +52,7 @@
 #include "messagewin.h"
 
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
 #define N_MSG_VIEW               3    /* max before scrolling happens */
 #else
 #define N_MSG_VIEW		 6

@@ -639,7 +639,7 @@ void popup_join_game_dialog(void)
 
   dialog_w = MAX(adj_size(40) + buf->size.w * 2, adj_size(210)) + adj_size(80);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
 #else
   dialog_h = area.h + (pwindow->size.h - pwindow->area.h);

@@ -466,11 +466,11 @@ static int toggle_map_window_callback(struct widget *map_button)
       pwidget = pwidget->prev;
       widget_redraw(pwidget);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
       /* options */
       pwidget = pwidget->prev;
       widget_redraw(pwidget);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
       /* ID_TOGGLE_MAP_WINDOW_BUTTON */
       pwidget = pwidget->prev;
@@ -1430,14 +1430,14 @@ void set_new_minimap_window_pos(void)
                       area.x + adj_size(2),
                       area.y + pwidget->size.h + 2);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pwidget = pwidget->prev;
   widget_set_area(pwidget, area);
   widget_set_position(pwidget,
                       area.x + adj_size(2),
                       area.y + area.h - pwidget->size.h - 2);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pwidget = pwidget->prev;
@@ -1745,7 +1745,7 @@ void popup_minimap_window(void)
 
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pwidget);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   /* options button */
   options_button = create_themeicon(current_theme->options_icon,
                                     minimap_window->dst,
@@ -1758,7 +1758,7 @@ void popup_minimap_window(void)
   options_button->key = SDLK_ESCAPE;
 
   add_to_gui_list(ID_CLIENT_OPTIONS, options_button);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   /* show/hide minimap button */
 
@@ -1816,11 +1816,11 @@ void show_minimap_window_buttons(void)
   pwidget = pwidget->prev;
   clear_wflag(pwidget, WF_HIDDEN);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   /* options button */
   pwidget = pwidget->prev;
   clear_wflag(pwidget, WF_HIDDEN);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   /* show/hide minimap button */
   pwidget = pwidget->prev;
@@ -1854,11 +1854,11 @@ void hide_minimap_window_buttons(void)
   pwidget = pwidget->prev;
   set_wflag(pwidget, WF_HIDDEN);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   /* options button */
   pwidget = pwidget->prev;
   set_wflag(pwidget, WF_HIDDEN);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   /* show/hide minimap button */
   pwidget = pwidget->prev;
@@ -1891,11 +1891,11 @@ void redraw_minimap_window_buttons(void)
   pwidget = pwidget->prev;
   widget_redraw(pwidget);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   /* options button */
   pwidget = pwidget->prev;
   widget_redraw(pwidget);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   /* show/hide minimap button */
   pwidget = pwidget->prev;
@@ -1929,11 +1929,11 @@ void disable_minimap_window_buttons(void)
   pwidget = pwidget->prev;
   set_wstate(pwidget, FC_WS_DISABLED);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   /* options button */
   pwidget = pwidget->prev;
   set_wstate(pwidget, FC_WS_DISABLED);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 }
 
 /**********************************************************************//**
@@ -1965,7 +1965,7 @@ void show_game_page(void)
   popup_unitinfo_window();
   sdl2_client_flags |= CF_MAP_UNIT_W_CREATED;
 
-#ifndef SMALL_SCREEN
+#ifndef GUI_SDL2_SMALL_SCREEN
   init_options_button();
 #endif
 
@@ -1974,15 +1974,15 @@ void show_game_page(void)
   fc_assert(icon_theme != NULL);
   pwidget = create_iconlabel(icon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   widget_set_position(pwidget,
                       pwidget->dst->surface->w - pwidget->size.w - adj_size(10),
                       0);
-#else  /* SMALL_SCREEN */
+#else  /* GUI_SDL2_SMALL_SCREEN */
   widget_set_position(pwidget,
                       pwidget->dst->surface->w - pwidget->size.w - adj_size(10),
                       adj_size(10));
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   add_to_gui_list(ID_COOLING_ICON, pwidget);
 
@@ -1992,15 +1992,15 @@ void show_game_page(void)
 
   pwidget = create_iconlabel(icon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   widget_set_position(pwidget,
                       pwidget->dst->surface->w - pwidget->size.w * 2 - adj_size(10),
                       0);
-#else  /* SMALL_SCREEN */
+#else  /* GUI_SDL2_SMALL_SCREEN */
   widget_set_position(pwidget,
                       pwidget->dst->surface->w - pwidget->size.w * 2 - adj_size(10),
                       adj_size(10));
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   add_to_gui_list(ID_WARMING_ICON, pwidget);
 
@@ -2066,11 +2066,11 @@ static void disable_minimap_widgets(void)
   buf = buf->prev;
   set_wstate(buf, FC_WS_DISABLED);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
   /* options button */
   buf = buf->prev;
   set_wstate(buf, FC_WS_DISABLED);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
   /* show/hide minimap button */
   buf = buf->prev;
@@ -2140,11 +2140,11 @@ static void enable_minimap_widgets(void)
     buf = buf->prev;
     set_wstate(buf, FC_WS_NORMAL);
 
-#ifdef SMALL_SCREEN
+#ifdef GUI_SDL2_SMALL_SCREEN
     /* options button */
     buf = buf->prev;
     set_wstate(buf, FC_WS_NORMAL);
-#endif /* SMALL_SCREEN */
+#endif /* GUI_SDL2_SMALL_SCREEN */
 
     /* show/hide minimap button */
     buf = buf->prev;

@@ -1080,7 +1080,7 @@ int ui_main(int argc, char *argv[])
 void ui_exit(void)
 {
 
-#if defined UNDER_CE && defined SMALL_SCREEN
+#if defined UNDER_CE && defined GUI_SDL2_SMALL_SCREEN
   /* change back to window mode to restore the title bar */
   set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
 #endif
