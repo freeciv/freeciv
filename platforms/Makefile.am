@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS = windows
+
 EXTRA_DIST =						\
 		emscripten/emsbuild.sh			\
 		emscripten/setups/cross-ems.tmpl	\

@@ -38,7 +38,7 @@ common_cppflags = \
 AM_CPPFLAGS = $(common_cppflags)
 
 if MINGW
-MPICON = $(top_builddir)/windows/mpicon.o
+MPICON = $(top_builddir)/platforms/windows/icons/mpicon.o
 endif
 
 libfcmp_la_SOURCES = \

@@ -1970,6 +1970,8 @@ AC_CONFIG_FILES([Makefile
           ai/tex/Makefile
 	  tests/Makefile
 	  platforms/Makefile
+	  platforms/windows/Makefile
+	  platforms/windows/icons/Makefile
 	  windows/Makefile
 	  client/Makefile
 	  client/agents/Makefile

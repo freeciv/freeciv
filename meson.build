@@ -950,10 +950,10 @@ if host_system == 'windows'
                                   '-i', '@INPUT@',
                                   '-o', '@OUTPUT@'],
                       output: '@BASENAME@.o')
-  clienticon = windres.process('windows/clienticon.rc')
-  mpicon = windres.process('windows/mpicon.rc')
-  rulediticon = windres.process('windows/rulediticon.rc')
-  servericon = windres.process('windows/servericon.rc')
+  clienticon = windres.process('platforms/windows/icons/clienticon.rc')
+  mpicon = windres.process('platforms/windows/icons/mpicon.rc')
+  rulediticon = windres.process('platforms/windows/icons/rulediticon.rc')
+  servericon = windres.process('platforms/windows/icons/servericon.rc')
 else
   clienticon = []
   mpicon = []

@@ -5,7 +5,7 @@ MOCCMD=@MOCCMD@
 include $(top_srcdir)/bootstrap/Makerules.mk
 
 if MINGW
-REICON = $(top_builddir)/windows/rulediticon.o
+REICON = $(top_builddir)/platforms/windows/icons/rulediticon.o
 endif
 
 bin_PROGRAMS = freeciv-ruledit
