@@ -866,15 +866,21 @@ void auto_settler_findwork(struct player *pplayer,
   struct pf_path *path = NULL;
   struct city *taskcity;
 
-  /* time it will take worker to complete its given task */
+  /* Time it will take worker to complete its given task */
   int completion_time = 0;
 
-  if (recursion > unit_list_size(pplayer->units)) {
-    fc_assert(recursion <= unit_list_size(pplayer->units));
+  /* Terminate what might be an inifite recursion of two units
+   * displacing each other, but leave enough space for
+   * finite recursion. */
+  if (recursion > 5
+      && recursion > unit_list_size(pplayer->units) * 1.5) {
+    log_normal("Workers displacing each other recursing too much.");
+
     adv_unit_new_task(punit, AUT_NONE, NULL);
     set_unit_activity(punit, ACTIVITY_IDLE);
     send_unit_info(NULL, punit);
-    return; /* avoid further recursion. */
+
+    return; /* Avoid further recursion. */
   }
 
   CHECK_UNIT(punit);
