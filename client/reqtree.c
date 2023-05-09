@@ -61,7 +61,7 @@
 
 
 /****************************************************************************
-  This structure desribes a node in a technology tree diagram.
+  This structure describes a node in a technology tree diagram.
   A node can by dummy or real. Real node describes a technology.
 ****************************************************************************/
 struct tree_node {
