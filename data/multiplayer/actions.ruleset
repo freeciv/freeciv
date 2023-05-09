@@ -1321,11 +1321,18 @@ target_reqs    =
 [actionenabler_claim_extra_unowned_from_non_native]
 action        = "Conquer Extras 2"
 actor_reqs    =
-    { "type",         "name",           "range", "present"
-      "MinMoveFrags", "1",              "Local", TRUE
-      "UnitState",      "OnNativeTile", "Local", FALSE
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitState",    "OnNativeTile", "Local", FALSE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
       "CityTile",     "Extras Owned", "Tile",  FALSE
+    }
+
+[actionenabler_gain_veterancy]
+action        = "Gain Veterancy"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "NoVeteran",    "Local", FALSE
     }

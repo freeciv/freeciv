@@ -250,7 +250,7 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
   fc_assert_ret_val(vlevel != NULL, FALSE);
 
   if (punit->veteran + 1 >= vsystem->levels
-      || unit_has_type_flag(punit, UTYF_NO_VETERAN)) {
+      || !is_action_enabled_unit_on_self(ACTION_GAIN_VETERANCY, punit)) {
     return FALSE;
   } else if (!settler) {
     int mod = base_chance + get_unit_bonus(punit, EFT_VETERAN_COMBAT);

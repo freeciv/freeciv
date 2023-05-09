@@ -334,3 +334,10 @@ actor_reqs =
       "MinMoveFrags", "5",           "Local", TRUE
       "UnitState",    "Transported", "Local", FALSE
     }
+
+[actionenabler_gain_veterancy]
+action        = "Gain Veterancy"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitFlag",     "NoVeteran",   "Local", FALSE
+    }

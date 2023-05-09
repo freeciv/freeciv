@@ -1025,3 +1025,10 @@ actor_reqs    =
       "UnitState",      "OnNativeTile", "Local", FALSE
       "CityTile",       "Center",       "Tile",  FALSE
     }
+
+[actionenabler_gain_veterancy]
+action        = "Gain Veterancy"
+actor_reqs    =
+    { "type",           "name",         "range", "present"
+      "UnitFlag",       "NoVeteran",    "Local", FALSE
+    }

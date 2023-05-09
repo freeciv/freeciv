@@ -1408,3 +1408,10 @@ target_reqs    =
     { "type",         "name",         "range", "present"
       "CityTile",     "Extras Owned", "Tile",  FALSE
     }
+
+[actionenabler_gain_veterancy]
+action        = "Gain Veterancy"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "NoVeteran",    "Local", FALSE
+    }

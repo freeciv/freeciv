@@ -35,6 +35,11 @@ Should the player order a unit to do an illegal action the server will
 inform the player that their unit was unable to perform the action. The
 actor unit may also lose a ruleset configurable amount of move fragments.
 
+Some action enablers guard things that user is not able to initiate,
+but which will happen automatically. These are listed as
+'internal' actions.
+
+
 Example
 =======
 [actionenabler_veil_the_threat_of_terror]
@@ -1502,6 +1507,13 @@ Actions done by a unit to it self
 "Unit Make Homeless" - unhome the actor unit.
  * UI name can be set using ui_name_homeless
  * the actor unit must have a home city. (!)
+
+Internal actions
+================
+
+"Gain Veterancy" - unit can get new veterancy levels
+ * Unit's veterancy system must have veterancy levels for the unit
+   to advance to.
 
 Ruleset defined actions
 =======================

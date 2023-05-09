@@ -1119,7 +1119,14 @@ actor_reqs    =
 [actionenabler_hut_frighten]
 action        = "Frighten Hut"
 actor_reqs    =
-    { "type",         "name",         "range"
-      "MinMoveFrags", "1",            "Local"
+    { "type",          "name",        "range"
+      "MinMoveFrags",  "1",           "Local"
       "UnitClassFlag", "HutFrighten", "Local"
+    }
+
+[actionenabler_gain_veterancy]
+action        = "Gain Veterancy"
+actor_reqs    =
+    { "type",          "name",        "range", "present"
+      "UnitFlag",      "NoVeteran",   "Local", FALSE
     }

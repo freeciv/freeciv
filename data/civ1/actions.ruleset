@@ -804,8 +804,15 @@ actor_reqs    =
 [actionenabler_hut_enter_from_transport]
 action        = "Enter Hut 2"
 actor_reqs    =
-  { "type",         "name",         "range", "present"
-    "MinMoveFrags", "1",            "Local", TRUE
-    "UnitState",    "Transported",  "Local", TRUE
+  { "type",          "name",        "range", "present"
+    "MinMoveFrags",  "1",           "Local", TRUE
+    "UnitState",     "Transported", "Local", TRUE
     "UnitClassFlag", "HutNothing",  "Local", FALSE
+    }
+
+[actionenabler_gain_veterancy]
+action        = "Gain Veterancy"
+actor_reqs    =
+    { "type",        "name",        "range", "present"
+      "UnitFlag",    "NoVeteran",   "Local", FALSE
     }
