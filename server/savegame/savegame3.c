@@ -5173,7 +5173,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   city_freeze_workers(pcity);
 
-  /* load new savegame with variable (squared) city radius and worked
+  /* Load new savegame with variable (squared) city radius and worked
    * tiles map */
 
   int radius_sq
@@ -5195,7 +5195,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       }
 
 #ifdef FREECIV_DEBUG
-      /* set this tile to unused; a check for not resetted tiles is
+      /* Set this tile to unused; a check for not resetted tiles is
        * included in game_load_internal() */
       loading->worked_tiles[ptile->index] = -1;
 #endif /* FREECIV_DEBUG */
@@ -5211,7 +5211,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
              TILE_XY(city_tile(pcity)), city_size_get(pcity), city_name_get(pwork),
              TILE_XY(city_tile(pwork)), city_size_get(pwork));
 
-      tile_set_worked(city_tile(pcity), NULL); /* remove tile from pwork */
+      tile_set_worked(city_tile(pcity), NULL); /* Remove tile from pwork */
       pwork->specialists[DEFAULT_SPECIALIST]++;
       auto_arrange_workers(pwork);
     } else {
@@ -5220,7 +5220,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
              city_size_get(pcity));
     }
 
-    /* repair pcity */
+    /* Repair pcity */
     tile_set_worked(city_tile(pcity), pcity);
     city_repair_size(pcity, -1);
   }
@@ -5232,7 +5232,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
            citystr, city_name_get(pcity), TILE_XY(city_tile(pcity)), city_size_get(pcity),
            workers, FREE_WORKED_TILES, sp_count);
 
-    /* repair pcity */
+    /* Repair pcity */
     city_repair_size(pcity, repair);
   }
 
@@ -5283,9 +5283,9 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
         if (rally_orders[i] == '\0' || rally_dirs[i] == '\0'
             || rally_activities[i] == '\0') {
           log_sg("Invalid rally point.");
-	  free(pcity->rally_point.orders);
-	  pcity->rally_point.orders = NULL;
-	  pcity->rally_point.length = 0;
+          free(pcity->rally_point.orders);
+          pcity->rally_point.orders = NULL;
+          pcity->rally_point.length = 0;
           break;
         }
         order->order = char2order(rally_orders[i]);
@@ -5350,8 +5350,9 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
         param->minimal_surplus[i] = secfile_lookup_int_default(
             loading->file, 0, "%s.cma_minimal_surplus,%d", citystr, i);
         param->factor[i] = secfile_lookup_int_default(
-            loading->file, 0, "%s.factor,%d", citystr, i);
+            loading->file, 0, "%s.cma_factor,%d", citystr, i);
       }
+
       param->max_growth = secfile_lookup_bool_default(
           loading->file, FALSE, "%s.max_growth", citystr);
       param->require_happy = secfile_lookup_bool_default(
@@ -5365,26 +5366,27 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       pcity->cm_parameter = param;
     } else {
       pcity->cm_parameter = NULL;
+
       for (i = 0; i < O_LAST; i++) {
         (void) secfile_entry_lookup(loading->file,
                                     "%s.cma_minimal_surplus,%d", citystr, i);
         (void) secfile_entry_lookup(loading->file,
                                     "%s.cma_factor,%d", citystr, i);
       }
-      (void) secfile_entry_lookup(loading->file, "%s.cma_max_growth",
+
+      (void) secfile_entry_lookup(loading->file, "%s.max_growth",
                                   citystr);
-      (void) secfile_entry_lookup(loading->file, "%s.cma_require_happy",
+      (void) secfile_entry_lookup(loading->file, "%s.require_happy",
                                   citystr);
-      (void) secfile_entry_lookup(loading->file, "%s.cma_allow_disorder",
+      (void) secfile_entry_lookup(loading->file, "%s.allow_disorder",
                                   citystr);
-      (void) secfile_entry_lookup(loading->file, "%s.cma_allow_specialists",
-                                  citystr);
-      (void) secfile_entry_lookup(loading->file, "%s.cma_factor",
+      (void) secfile_entry_lookup(loading->file, "%s.allow_specialists",
                                   citystr);
       (void) secfile_entry_lookup(loading->file, "%s.happy_factor",
                                   citystr);
     }
   }
+
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
 
   return TRUE;
