@@ -6607,7 +6607,8 @@ bool action_is_in_use(struct action *paction)
 **************************************************************************/
 bool action_is_internal(struct action *paction)
 {
-  return action_has_result(paction, ACTRES_ENABLER_CHECK);
+  return paction != nullptr
+    && action_has_result(paction, ACTRES_ENABLER_CHECK);
 }
 
 /**********************************************************************//**
