@@ -180,6 +180,7 @@ struct client_options
   bool sound_enable_menu_music;
   bool sound_enable_game_music;
   int sound_effects_volume;
+  bool silent_when_not_in_focus;
 
   bool draw_city_outlines;
   bool draw_city_output;
@@ -306,7 +307,7 @@ struct client_options
   bool gui_gtk3_22_chatline_autocompletion;
   int gui_gtk3_22_citydlg_xsize;
   int gui_gtk3_22_citydlg_ysize;
-  int  gui_gtk3_22_popup_tech_help;
+  int gui_gtk3_22_popup_tech_help;
   int gui_gtk3_22_governor_range_min;
   int gui_gtk3_22_governor_range_max;
   char gui_gtk3_22_font_city_label[512];
@@ -342,7 +343,7 @@ struct client_options
   bool gui_gtk4_chatline_autocompletion;
   int gui_gtk4_citydlg_xsize;
   int gui_gtk4_citydlg_ysize;
-  int  gui_gtk4_popup_tech_help;
+  int gui_gtk4_popup_tech_help;
   int gui_gtk4_governor_range_min;
   int gui_gtk4_governor_range_max;
   char gui_gtk4_font_city_label[512];

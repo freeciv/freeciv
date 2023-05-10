@@ -244,12 +244,14 @@ static gboolean timer_callback(gpointer data)
 {
   double seconds = real_timer_callback();
 
-  if (!audio_paused && !client_focus) {
-    audio_pause();
-    audio_paused = TRUE;
-  } else if (audio_paused && client_focus) {
-    audio_resume();
-    audio_paused = FALSE;
+  if (gui_options.silent_when_not_in_focus) {
+    if (!audio_paused && !client_focus) {
+      audio_pause();
+      audio_paused = TRUE;
+    } else if (audio_paused && client_focus) {
+      audio_resume();
+      audio_paused = FALSE;
+    }
   }
 
   timer_id = g_timeout_add(seconds * 1000, timer_callback, NULL);

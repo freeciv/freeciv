@@ -151,8 +151,9 @@ struct client_options gui_options = {
   .sound_enable_menu_music = TRUE,
   .sound_enable_game_music = TRUE,
   .sound_effects_volume = 100,
+  .silent_when_not_in_focus = TRUE,
 
-/* This option is currently set by the client - not by the user. */
+  /* This option is currently set by the client - not by the user. */
   .update_city_text_in_refresh_tile = TRUE,
 
   .draw_city_outlines = TRUE,
@@ -2342,12 +2343,17 @@ static struct client_option client_options[] = {
                   N_("Play music during the game, assuming there's suitable "
                      "sound plugin and musicset with in-game tracks."),
                   COC_SOUND, GUI_STUB, TRUE, game_music_enable_callback),
- GEN_BOOL_OPTION(sound_enable_menu_music,
+  GEN_BOOL_OPTION(sound_enable_menu_music,
                   N_("Enable menu music"),
                   N_("Play music while not in actual game, "
                      "assuming there's suitable "
                      "sound plugin and musicset with menu music tracks."),
                   COC_SOUND, GUI_STUB, TRUE, menu_music_enable_callback),
+  GEN_BOOL_OPTION(silent_when_not_in_focus,
+                  N_("Silent when not in focus"),
+                  N_("Fade all sound out when the client is not in focus. "
+                     "Not all clients support this."),
+                  COC_SOUND, GUI_STUB, TRUE, NULL),
   GEN_INT_OPTION(sound_effects_volume,
                  N_("Sound volume"),
                  N_("Volume scale from 0-100"),
