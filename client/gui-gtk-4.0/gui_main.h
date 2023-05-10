@@ -78,7 +78,8 @@ struct video_mode *resolution_request_get(void);
 GtkApplication *gui_app(void);
 bool is_gui_up(void);
 
-bool terminate_signal_processing(void);
+gboolean terminate_signal_processing(GtkEventControllerFocus *controller,
+                                     gpointer data);
 
 void update_turn_done_tooltip(void);
 

@@ -1208,24 +1208,20 @@ static void update_network_page(void)
 **************************************************************************/
 GtkWidget *create_network_page(void)
 {
-  GtkWidget *box, *sbox, *bbox, *hgrid, *notebook;
+  GtkWidget *box, *sbox, *bbox, *hbox, *notebook;
   GtkWidget *button, *label, *view, *sw, *table;
   GtkTreeSelection *selection;
   GtkListStore *store;
-  int box_row = 0;
-  int sbox_row = 0;
-  int grid_col = 0;
+  GtkEventController *controller;
 
-  box = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
-                                 GTK_ORIENTATION_VERTICAL);
+  box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_widget_set_margin_start(box, 4);
   gtk_widget_set_margin_end(box, 4);
   gtk_widget_set_margin_top(box, 4);
   gtk_widget_set_margin_bottom(box, 4);
 
   notebook = gtk_notebook_new();
-  gtk_grid_attach(GTK_GRID(box), notebook, 0, box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(box), notebook);
 
   /* LAN pane. */
   lan_store = gtk_list_store_new(7, G_TYPE_STRING, /* host */
@@ -1245,8 +1241,12 @@ GtkWidget *create_network_page(void)
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   lan_selection = selection;
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-  g_signal_connect(view, "focus",
+
+  controller = gtk_event_controller_focus_new();
+  g_signal_connect(controller, "enter",
                    G_CALLBACK(terminate_signal_processing), NULL);
+  gtk_widget_add_controller(view, controller);
+
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(network_activate_callback), NULL);
   g_signal_connect(selection, "changed",
@@ -1292,8 +1292,12 @@ GtkWidget *create_network_page(void)
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   meta_selection = selection;
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-  g_signal_connect(view, "focus",
+
+  controller = gtk_event_controller_focus_new();
+  g_signal_connect(controller, "enter",
                    G_CALLBACK(terminate_signal_processing), NULL);
+  gtk_widget_add_controller(view, controller);
+
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(network_activate_callback), NULL);
   g_signal_connect(selection, "changed",
@@ -1325,23 +1329,20 @@ GtkWidget *create_network_page(void)
   }
 
   /* Bottom part of the page, outside the inner notebook. */
-  sbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_attach(GTK_GRID(box), sbox, 0, box_row++, 1, 1);
+  sbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  gtk_box_append(GTK_BOX(box), sbox);
 
-  hgrid = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 12);
-  gtk_widget_set_margin_bottom(hgrid, 8);
-  gtk_widget_set_margin_end(hgrid, 8);
-  gtk_widget_set_margin_start(hgrid, 8);
-  gtk_widget_set_margin_top(hgrid, 8);
-  gtk_grid_attach(GTK_GRID(sbox), hgrid, 0, sbox_row++, 1, 1);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
+  gtk_widget_set_margin_bottom(hbox, 8);
+  gtk_widget_set_margin_end(hbox, 8);
+  gtk_widget_set_margin_start(hbox, 8);
+  gtk_widget_set_margin_top(hbox, 8);
+  gtk_box_append(GTK_BOX(sbox), hbox);
 
   table = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_grid_set_column_spacing(GTK_GRID(table), 12);
-  gtk_grid_attach(GTK_GRID(hgrid), table, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), table);
 
   network_host = gtk_entry_new();
   g_signal_connect(network_host, "activate",
@@ -1442,7 +1443,7 @@ GtkWidget *create_network_page(void)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
-  gtk_grid_attach(GTK_GRID(hgrid), sw, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), sw);
 
   bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_widget_set_margin_bottom(bbox, 2);
@@ -1450,7 +1451,7 @@ GtkWidget *create_network_page(void)
   gtk_widget_set_margin_start(bbox, 2);
   gtk_widget_set_margin_top(bbox, 2);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
-  gtk_grid_attach(GTK_GRID(sbox), bbox, 0, sbox_row++, 1, 1);
+  gtk_box_append(GTK_BOX(sbox), bbox);
 
   button = gtk_button_new_from_icon_name("view-refresh");
   gtk_box_append(GTK_BOX(bbox), button);
