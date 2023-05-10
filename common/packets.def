@@ -343,6 +343,16 @@ end
 PACKET_PROCESSING_FINISHED = 1; sc
 end
 
+PACKET_INVESTIGATE_STARTED = 21; sc, dsend
+  UNIT unit_id;
+  CITY city_id;
+end
+
+PACKET_INVESTIGATE_FINISHED = 22; sc, dsend
+  UNIT unit_id;
+  CITY city_id;
+end
+
 /************** Login/pregame/endgame packets **********************/
 
 # This packet is the first real (freeciv specific) packet send by the
