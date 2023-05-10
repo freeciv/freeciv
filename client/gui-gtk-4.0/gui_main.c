@@ -1035,7 +1035,8 @@ static void setup_canvas_color_for_state(GtkStateFlags state)
 /**********************************************************************//**
   Callback that just returns TRUE.
 **************************************************************************/
-bool terminate_signal_processing(void)
+gboolean terminate_signal_processing(GtkEventControllerFocus *controller,
+                                     gpointer data)
 {
   return TRUE;
 }
