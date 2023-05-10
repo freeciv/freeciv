@@ -354,6 +354,8 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("investigate: unit: %d", pdiplomat->id);
 
+  dlsend_packet_investigate_started(pplayer->connections, pdiplomat->id, pcity->id);
+
   /* Do It... */
   update_dumb_city(pplayer, pcity);
   /* Special case for a diplomat/spy investigating a city:
@@ -376,7 +378,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
     lsend_packet_unit_short_info(pplayer->connections, &unit_packet, TRUE);
   } unit_list_iterate_end;
   /* Send city info to investigator's player.
-     As this is a special case we bypass send_city_info. */
+     As this is a special case we bypass send_city_info(). */
 
   if (any_web_conns()) {
     webp_ptr = &web_packet;
@@ -400,7 +402,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   } traderoute_packet_list_iterate_end;
   traderoute_packet_list_destroy(routes);
 
-  /* this may cause a diplomatic incident */
+  /* This may cause a diplomatic incident */
   action_consequence_success(paction, pplayer, act_utype, cplayer,
                              city_tile(pcity), city_link(pcity));
 
@@ -411,6 +413,8 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
      * to the clients. */
     send_unit_info(NULL, pdiplomat);
   }
+
+  dlsend_packet_investigate_finished(pplayer->connections, pdiplomat->id, pcity->id);
 
   return TRUE;
 }

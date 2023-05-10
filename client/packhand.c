@@ -1065,12 +1065,12 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 
       unit_list_destroy(pcity->client.info_units_present);
       pcity->client.info_units_present =
-          pcity->client.collecting_info_units_present;
+        pcity->client.collecting_info_units_present;
       pcity->client.collecting_info_units_present = NULL;
 
       unit_list_destroy(pcity->client.info_units_supported);
       pcity->client.info_units_supported =
-          pcity->client.collecting_info_units_supported;
+        pcity->client.collecting_info_units_supported;
       pcity->client.collecting_info_units_supported = NULL;
     } else {
       /* We didn't get any unit, let's clear the unit lists. */
@@ -2104,6 +2104,40 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 }
 
 /************************************************************************//**
+  Receive an investigate_started packet
+
+  Can't rely on generic packet_processing_started, as that works for
+  the requesting connection only, and not for observers.
+****************************************************************************/
+void handle_investigate_started(const struct packet_investigate_started *packet)
+{
+  struct city *pcity = game_city_by_number(packet->city_id);
+
+  if (!pcity) {
+    log_error("Investigate city: unknown city id %d!",
+              packet->city_id);
+    return;
+  }
+
+  /* Start collecting supported and present units. */
+
+  /* Ensure we are not already in an investigate cycle. */
+  fc_assert(pcity->client.collecting_info_units_supported == NULL);
+  fc_assert(pcity->client.collecting_info_units_present == NULL);
+  pcity->client.collecting_info_units_supported =
+    unit_list_new_full(unit_virtual_destroy);
+  pcity->client.collecting_info_units_present =
+    unit_list_new_full(unit_virtual_destroy);
+}
+
+/************************************************************************//**
+  Receive an investigate_finished packet
+****************************************************************************/
+void handle_investigate_finished(const struct packet_investigate_finished *packet)
+{
+}
+
+/************************************************************************//**
   Receive a short_unit info packet.
 ****************************************************************************/
 void handle_unit_short_info(const struct packet_unit_short_info *packet)
@@ -2117,7 +2151,6 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
    * info. */
   if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED
       || packet->packet_use == UNIT_INFO_CITY_PRESENT) {
-    static int last_serial_num = 0;
 
     pcity = game_city_by_number(packet->info_city_id);
     if (!pcity) {
@@ -2126,21 +2159,7 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
       return;
     }
 
-    /* New serial number: start collecting supported and present units. */
-    if (last_serial_num
-        != client.conn.client.request_id_of_currently_handled_packet) {
-      last_serial_num =
-          client.conn.client.request_id_of_currently_handled_packet;
-      /* Ensure we are not already in an investigate cycle. */
-      fc_assert(pcity->client.collecting_info_units_supported == NULL);
-      fc_assert(pcity->client.collecting_info_units_present == NULL);
-      pcity->client.collecting_info_units_supported =
-          unit_list_new_full(unit_virtual_destroy);
-      pcity->client.collecting_info_units_present =
-          unit_list_new_full(unit_virtual_destroy);
-    }
-
-    /* Okay, append a unit struct to the proper list. */
+    /* Append a unit struct to the proper list. */
     punit = unpackage_short_unit(packet);
     if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
       fc_assert(pcity->client.collecting_info_units_supported != NULL);
