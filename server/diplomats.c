@@ -19,6 +19,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "rand.h"
@@ -200,13 +201,19 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("investigate: unit: %d", pdiplomat->id);
 
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (has_capability("obsinv", pconn->capability)) {
+      dsend_packet_investigate_started(pconn, pdiplomat->id, pcity->id);
+    }
+  } conn_list_iterate_end;
+
   /* Do It... */
   update_dumb_city(pplayer, pcity);
   /* Special case for a diplomat/spy investigating a city:
      The investigator needs to know the supported and present
      units of a city, whether or not they are fogged. So, we
      send a list of them all before sending the city info.
-     As this is a special case we bypass send_unit_info. */
+     As this is a special case we bypass send_unit_info(). */
   unit_list_iterate(pcity->units_supported, punit) {
     package_short_unit(punit, &unit_packet,
                        UNIT_INFO_CITY_SUPPORTED, pcity->id);
@@ -241,7 +248,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
     pdiplomat->moves_left = 0;
   }
 
-  /* this may cause a diplomatic incident */
+  /* This may cause a diplomatic incident */
   action_consequence_success(paction, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
@@ -252,6 +259,12 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
      * to the clients. */
     send_unit_info(NULL, pdiplomat);
   }
+
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (has_capability("obsinv", pconn->capability)) {
+      dsend_packet_investigate_finished(pconn, pdiplomat->id, pcity->id);
+    }
+  } conn_list_iterate_end;
 
   return TRUE;
 }
