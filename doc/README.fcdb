@@ -186,7 +186,7 @@ Freeciv expects the following lua functions to be defined in database.lua:
   -- return TRUE if user from connection exist in the auth system
   function user_exists(conn)
 
-  -- Check use password.
+  -- Check user password.
   -- return TRUE if user exist and password is correct, nil otherwise
   function user_verify(conn, plaintext)
 
