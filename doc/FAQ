@@ -492,7 +492,7 @@ I cannot conquer it, and they won't give up. What can I do?
    are included with the game).
 
    You may also play with overhead rectangular, in which case you want to
-   set the topology setting to 'hex|wrapx'; the trident tileset is supplied
+   set the topology setting to 'wrapx'; the trident tileset is supplied
    for this mode.
 
 -------
