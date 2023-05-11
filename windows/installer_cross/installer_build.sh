@@ -128,6 +128,7 @@ fi
 
 DLLSPATH="$1"
 GUI="$2"
+NAMEP="-client-${GUI}"
 
 case $GUI in
   gtk3.22)
@@ -151,7 +152,8 @@ case $GUI in
     GUINAME="GTK4"
     MPGUI="gtk4"
     FCMP="gtk4" ;;
-  ruledit) ;;
+  ruledit)
+    NAMEP="-ruledit" ;;
   *)
     echo "Unknown gui type \"$GUI\"" >&2
     exit 1 ;;
@@ -181,11 +183,11 @@ if test "$INST_CROSS_MODE" != "release" ; then
   fi
 fi
 
-INSTDIR="freeciv-$SETUP-${VERREV}-${GUI}"
+INSTDIR="freeciv-$SETUP-${VERREV}${NAMEP}"
 
 if test "$GUI" = "ruledit" ; then
-  if ! make -C build-${SETUP}-${GUI}/translations/ruledit update-po ||
-     ! make -C build-${SETUP}-${GUI}/bootstrap langstat_ruledit.txt
+  if ! make -C autotools/build/${SETUP}-${GUI}/translations/ruledit update-po ||
+     ! make -C autotools/build/${SETUP}-${GUI}/bootstrap langstat_ruledit.txt
   then
     echo "Langstat creation failed!" >&2
     exit 1
@@ -194,8 +196,8 @@ if test "$GUI" = "ruledit" ; then
     git checkout ../../translations/ruledit
   fi
 else
-  if ! make -C build-${SETUP}-${GUI}/translations/core update-po ||
-     ! make -C build-${SETUP}-${GUI}/bootstrap langstat_core.txt
+  if ! make -C autotools/build/${SETUP}-client-${GUI}/translations/core update-po ||
+     ! make -C autotools/build/${SETUP}-client-${GUI}/bootstrap langstat_core.txt
   then
     echo "Langstat creation failed!" >&2
     exit 1
