@@ -655,13 +655,21 @@ Starting game.
    First, check your Freeciv version. Freeciv clients can only talk to
    servers of the same major version (3.1.x can only talk to 3.1.y), and
    there may simply be no public servers for the version you're running.
-   Check out the web interface (which shows servers for all versions) and
-   look at the "version" column.
+   Check out the https://meta.freeciv.org/ web interface
+   (which shows servers for all versions) and look at the "version" column.
 
    If you can view the metaserver page with your web browser, and servers
    are listed, but the client's Metaserver tab still fails to list them,
    you may be behind a non-transparent proxy. See article on proxy
    settings for a detailed explanation.
+
+   Another possibility is that your freeciv build lacks access
+   to certificates needed to access https -sites. You can test if that's
+   the case by trying to use "http://meta.freeciv.org/metaserver.php"
+   as the metaserver URL instead of the default one. You can either give
+   the alternative URL by command line parameter
+   "-M http://meta.freeciv.org/metaserver.php" for single run,
+   or permanently in the client settings.
 
 -------
 
