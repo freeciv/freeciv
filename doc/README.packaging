@@ -24,6 +24,8 @@ Updating from 3.2 to 3.3
   relatively new Qt6 versions
 * Build with meson supports building gtk4x-client that is linked
   against relatively new gtk4 versions
+* Build with meson supports building gtk4x modpack installer that is linked
+  against relatively new gtk4 versions
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

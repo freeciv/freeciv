@@ -3621,6 +3621,27 @@ custom_target('mi_mp_gtk4',
 
 endif
 
+if get_option('fcmp').contains('gtk4x')
+
+if not gtk5_dep.found()
+  error('gtk-4.0 >= 4.8 required for gtk4x modpack installer, but not found')
+endif
+
+executable('freeciv-mp-gtk4x',
+  'tools/fcmp/mpgui_gtk4.c',
+  mpicon,
+  c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_8',
+            '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_8',
+            '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66',
+            '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_66'],
+  include_directories: tool_inc,
+  dependencies: [gtk5_dep, sqlite3_dep, gettext_dep],
+  link_with: [common_lib, fcmp_common],
+  install: true
+  )
+
+endif
+
 if get_option('fcmp').contains('qt')
 
 if not qt_dep.found()
