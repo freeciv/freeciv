@@ -35,10 +35,12 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
   exit 1
 fi
 
-VERREV="$(../../fc_version)"
+SRC_ROOT="$(cd ../.. || exit 1 ; pwd)"
+
+VERREV="$(${SRC_ROOT}/fc_version)"
 if test "$INST_CROSS_MODE" != "release" ; then
-  if test -d ../../.git || test -f ../../.git ; then
-    VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
+  if test -d ${SRC_ROOT}/.git || test -f ${SRC_ROOT}/.git ; then
+    VERREV="$VERREV-$(cd ${SRC_ROOT} && git rev-parse --short HEAD)"
   fi
 fi
 
@@ -72,7 +74,7 @@ if test "$2" = "ruledit" ; then
   AIS="--enable-ai-static=stub"
 elif test "$2" != "" ; then
   SINGLE_GUI=true
-  GUIP="-$2"
+  GUIP="-client-$2"
   SERVER="yes"
   if test "$2" = "qt5" || test "$2" = "qt6" ; then
     RULEDIT="yes"
@@ -107,7 +109,7 @@ if test "$MAKE_PARAMS" = "" ; then
   MAKE_PARAMS="-j$(nproc)"
 fi
 
-BUILD_DIR="build-${SETUP}${NAMEP}"
+BUILD_DIR="autotools/build/${SETUP}${NAMEP}"
 
 if ! rm -Rf "${BUILD_DIR}" ; then
   echo "Failed to clear out old build directory!" >&2
@@ -179,7 +181,7 @@ echo "----------------------------------"
 export CC="$TARGET-gcc -static-libgcc -static-libstdc++"
 export CXX="$TARGET-g++ -static-libgcc -static-libstdc++"
 
-if ! ../../autogen.sh --no-configure-run ; then
+if ! ${SRC_ROOT}/autogen.sh --no-configure-run ; then
   echo "Autogen failed" >&2
   exit 1
 fi
@@ -199,7 +201,7 @@ if test "$MOCCMD" = "" && test "$MOC_CROSSER" != "" ; then
   MOCPARAM="MOCCMD=${MOC_CROSSER}"
 fi
 
-if ! ../../../configure \
+if ! ${SRC_ROOT}/configure \
      ac_cv_working_gettimeofday=yes \
      $MOCPARAM \
      FREECIV_LABEL_FORCE="<base>-crs" \
@@ -215,7 +217,7 @@ if ! ../../../configure \
      --enable-fcmp=$FCMP \
      --enable-debug \
      --host=$TARGET \
-     --build=$(../../../bootstrap/config.guess) \
+     --build=$(${SRC_ROOT}/bootstrap/config.guess) \
      --with-libiconv-prefix=${DLLSPATH} \
      --with-sqlite3-prefix=${DLLSPATH} \
      --with-followtag="crosser" \
