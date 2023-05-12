@@ -96,7 +96,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 					 struct city *pcity);
 
 static bool city_distribute_surplus_shields(struct player *pplayer,
-					    struct city *pcity);
+                                            struct city *pcity);
 static bool city_build_building(struct player *pplayer, struct city *pcity);
 static bool city_build_unit(struct player *pplayer, struct city *pcity);
 static bool city_build_stuff(struct player *pplayer, struct city *pcity);
@@ -2176,12 +2176,15 @@ static void upgrade_unit_prod(struct city *pcity)
 }
 
 /**************************************************************************
-  Disband units if we don't have enough shields to support them.  Returns
+  Disband units if we don't have enough shields to support them. Returns
   FALSE if the _city_ is disbanded as a result.
 **************************************************************************/
 static bool city_distribute_surplus_shields(struct player *pplayer,
-					    struct city *pcity)
+                                            struct city *pcity)
 {
+  int size_reduction = 0;
+  struct unit *sacrifizer;
+
   if (pcity->surplus[O_SHIELD] < 0) {
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (utype_upkeep_cost(unit_type_get(punit), pplayer, O_SHIELD) > 0
@@ -2213,14 +2216,9 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       int upkeep = utype_upkeep_cost(unit_type_get(punit), pplayer, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
-        notify_player(pplayer, city_tile(pcity),
-                      E_UNIT_LOST_MISC, ftc_server,
-                      _("Citizens in %s perish for their failure to "
-                        "upkeep %s!"),
-                      city_link(pcity), unit_link(punit));
-	if (!city_reduce_size(pcity, 1, NULL, "upkeep_failure")) {
-	  return FALSE;
-	}
+
+        size_reduction++;
+        sacrifizer = punit;
 
 	/* No upkeep for the unit this turn. */
 	pcity->surplus[O_SHIELD] += upkeep;
@@ -2232,6 +2230,29 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
   pcity->shield_stock += pcity->surplus[O_SHIELD];
   pcity->before_change_shields = pcity->shield_stock;
   pcity->last_turns_shield_surplus = pcity->surplus[O_SHIELD];
+
+  /* Previous turn values stored, and they are consistent with
+   * other previous turn data.
+   * Now reduce city size, likely messing all the values. */
+  if (size_reduction > 0) {
+    if (size_reduction == 1) {
+      notify_player(pplayer, city_tile(pcity),
+                    E_UNIT_LOST_MISC, ftc_server,
+                    _("Citizens in %s perish for their failure to "
+                      "upkeep %s!"),
+                    city_link(pcity), unit_link(sacrifizer));
+    } else {
+      notify_player(pplayer, city_tile(pcity),
+                    E_UNIT_LOST_MISC, ftc_server,
+                    _("Citizens in %s perish for their failure to "
+                      "upkeep units!"),
+                    city_link(pcity));
+    }
+
+    if (!city_reduce_size(pcity, size_reduction, NULL, "upkeep_failure")) {
+      return FALSE;
+    }
+  }
 
   return TRUE;
 }
