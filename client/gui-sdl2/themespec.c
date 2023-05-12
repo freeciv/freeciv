@@ -448,7 +448,7 @@ void themespec_reread(const char *new_theme_name)
   Loads the given graphics file (found in the data path) into a newly
   allocated sprite.
 ****************************************************************************/
-static struct sprite *load_gfx_file(const char *gfx_filename)
+static struct sprite *load_sdl2_gfx_file(const char *gfx_filename)
 {
   const char **gfx_fileexts = gfx_fileextensions(), *gfx_fileext;
   struct sprite *s;
@@ -462,7 +462,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
     sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
     if ((real_full_name = fileinfoname(get_data_dirs(), full_name))) {
       log_debug("trying to load gfx file \"%s\".", real_full_name);
-      s = load_gfxfile(real_full_name);
+      s = load_gfxfile(real_full_name, FALSE);
       if (s) {
         return s;
       }
@@ -502,7 +502,7 @@ static void theme_ensure_big_sprite(struct specfile *sf)
 
   gfx_filename = secfile_lookup_str(file, "file.gfx");
 
-  sf->big_sprite = load_gfx_file(gfx_filename);
+  sf->big_sprite = load_sdl2_gfx_file(gfx_filename);
 
   if (!sf->big_sprite) {
     log_fatal("Could not load gfx file for the spec file \"%s\".",
@@ -856,7 +856,7 @@ static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
     /* If the sprite hasn't been loaded already, then load it. */
     fc_assert_ret_val(ss->ref_count == 0, NULL);
     if (ss->file) {
-      ss->sprite = load_gfx_file(ss->file);
+      ss->sprite = load_sdl2_gfx_file(ss->file);
       if (!ss->sprite) {
         log_fatal("Couldn't load gfx file \"%s\" for sprite '%s'.",
                   ss->file, tag_name);

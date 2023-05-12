@@ -18,7 +18,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 struct canvas;
-  
+
 struct area_rect
 {
   int x, y, w, h;
