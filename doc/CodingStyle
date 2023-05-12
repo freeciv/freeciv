@@ -631,8 +631,9 @@ functions available natively.
   in header files. It also means casts on void pointers (which should be
   avoided in C files) must be used in headers.
 
-- To assign null pointer, or to compare against one, use 'NULL' in C code,
-  and 'nullptr' in C++ code.
+- To assign null pointer, or to compare against one, use 'nullptr' in C++ code
+  In C code that's going to get backported to freeciv-3.2 or even older,
+  'NULL' must be used. In freeciv-3.3, and later, 'nullptr' can be used.
 
 - If you send patches, use "diff -u" (or "diff -r -u"). "git diff" works
   correctly without extra parameters.
