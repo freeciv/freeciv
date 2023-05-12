@@ -49,7 +49,7 @@ struct gui_funcs {
 
   bool (*is_view_supported)(enum ts_type type);
   void (*tileset_type_set)(enum ts_type type);
-  struct sprite * (*load_gfxfile)(const char *filename);
+  struct sprite * (*load_gfxfile)(const char *filename, bool svgflag);
   struct sprite * (*load_gfxnumber)(int num);
   struct sprite * (*create_sprite)(int width, int height, struct color *pcolor);
   void (*get_sprite_dimensions)(struct sprite *sprite, int *width, int *height);

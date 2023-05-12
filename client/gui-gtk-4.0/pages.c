@@ -254,7 +254,7 @@ GtkWidget *create_main_page(void)
   gtk_widget_set_halign(frame, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(vgrid), frame, 0, grid_row++, 1, 1);
 
-  intro_in = load_gfxfile(tileset_main_intro_filename(tileset));
+  intro_in = load_gfxfile(tileset_main_intro_filename(tileset), FALSE);
   get_sprite_dimensions(intro_in, &width, &height);
   sh = screen_height();
 

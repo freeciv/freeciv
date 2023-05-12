@@ -1534,12 +1534,12 @@ void tilespec_reread_frozen_refresh(const char *tname)
   Loads the given graphics file (found in the data path) into a newly
   allocated sprite.
 ****************************************************************************/
-static struct sprite *load_gfx_file(const char *gfx_filename, bool flag)
+static struct sprite *load_gfx_file(const char *gfx_filename, bool svgflag)
 {
   const char **gfx_fileexts, *gfx_fileext;
   struct sprite *s;
 
-  if (flag) {
+  if (svgflag) {
     gfx_fileexts = ordered_gfx_fextensions();
   } else {
     gfx_fileexts = gfx_fileextensions();
@@ -1554,7 +1554,8 @@ static struct sprite *load_gfx_file(const char *gfx_filename, bool flag)
     sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
     if ((real_full_name = fileinfoname(get_data_dirs(), full_name))) {
       log_debug("trying to load gfx file \"%s\".", real_full_name);
-      s = load_gfxfile(real_full_name);
+      s = load_gfxfile(real_full_name,
+                       svgflag && !strcmp("svg", gfx_fileext));
       if (s) {
         return s;
       }
@@ -2691,7 +2692,7 @@ static char *valid_index_str(const struct tileset *t, int idx)
   other scaling algorithm than nearest neighbor.
 ****************************************************************************/
 static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
-                                  bool scale, bool smooth, bool flag)
+                                  bool scale, bool smooth, bool svgflag)
 {
   struct small_sprite *ss;
   float sprite_scale = 1.0f;
@@ -2713,7 +2714,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
       struct sprite *s;
 
       if (scale) {
-        s = load_gfx_file(ss->file, flag);
+        s = load_gfx_file(ss->file, svgflag);
 
         if (s != NULL) {
           get_sprite_dimensions(s, &w, &h);
@@ -2722,7 +2723,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
           free_sprite(s);
         }
       } else {
-        ss->sprite = load_gfx_file(ss->file, flag);
+        ss->sprite = load_gfx_file(ss->file, svgflag);
       }
 
       if (!ss->sprite) {
@@ -4424,14 +4425,15 @@ void tileset_setup_nation_flag(struct tileset *t,
   int i;
   struct sprite *flag = NULL, *shield = NULL;
   char buf[1024];
+  bool svgflag = is_svg_flag_enabled();
 
   for (i = 0; tags[i] && !flag; i++) {
     fc_snprintf(buf, sizeof(buf), "f.%s", tags[i]);
-    flag = load_sprite(t, buf, TRUE, TRUE, TRUE);
+    flag = load_sprite(t, buf, TRUE, TRUE, svgflag);
   }
   for (i = 0; tags[i] && !shield; i++) {
     fc_snprintf(buf, sizeof(buf), "f.shield.%s", tags[i]);
-    shield = load_sprite(t, buf, TRUE, TRUE, TRUE);
+    shield = load_sprite(t, buf, TRUE, TRUE, svgflag);
   }
   if (!flag || !shield) {
     /* Should never get here because of the f.unknown fallback. */

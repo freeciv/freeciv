@@ -122,9 +122,9 @@ void tileset_type_set(enum ts_type type)
 /**********************************************************************//**
   Call load_gfxfile callback
 **************************************************************************/
-struct sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename, bool svgflag)
 {
-  return funcs.load_gfxfile(filename);
+  return funcs.load_gfxfile(filename, svgflag);
 }
 
 /**********************************************************************//**

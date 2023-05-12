@@ -167,7 +167,7 @@ static void surf_destroy_callback(void *data)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite().
 ****************************************************************************/
-struct sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename, bool svgflag)
 {
   struct sprite *spr;
   GError *err = NULL;
@@ -275,7 +275,7 @@ struct sprite *load_gfxfile(const char *filename)
 /************************************************************************//**
   Free a sprite and all associated image data.
 ****************************************************************************/
-void free_sprite(struct sprite * s)
+void free_sprite(struct sprite *s)
 {
   if (s->surface != NULL) {
     cairo_surface_destroy(s->surface);
@@ -318,8 +318,8 @@ struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h)
   object/mask. The bounding box contains the border (pixel which have
   unset pixel as neighbours) pixel.
 ****************************************************************************/
-void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
-			     int *start_y, int *end_x, int *end_y)
+void sprite_get_bounding_box(struct sprite *sprite, int *start_x,
+                             int *start_y, int *end_x, int *end_y)
 {
   unsigned char *data = cairo_image_surface_get_data(sprite->surface);
   int width = cairo_image_surface_get_width(sprite->surface);
@@ -335,46 +335,46 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
 
   fc_assert(cairo_image_surface_get_format(sprite->surface) == CAIRO_FORMAT_ARGB32);
 
-  /* parses mask image for the first column that contains a visible pixel */
+  /* Parses mask image for the first column that contains a visible pixel */
   *start_x = -1;
   for (i = 0; i < width && *start_x == -1; i++) {
     for (j = 0; j < height; j++) {
       if (data[(j * width + i) * 4 + endian]) {
-	*start_x = i;
-	break;
+        *start_x = i;
+        break;
       }
     }
   }
 
-  /* parses mask image for the last column that contains a visible pixel */
+  /* Parses mask image for the last column that contains a visible pixel */
   *end_x = -1;
   for (i = width - 1; i >= *start_x && *end_x == -1; i--) {
     for (j = 0; j < height; j++) {
       if (data[(j * width + i) * 4 + endian]) {
-	*end_x = i;
-	break;
+        *end_x = i;
+        break;
       }
     }
   }
 
-  /* parses mask image for the first row that contains a visible pixel */
+  /* Parses mask image for the first row that contains a visible pixel */
   *start_y = -1;
   for (i = 0; i < height && *start_y == -1; i++) {
     for (j = *start_x; j <= *end_x; j++) {
       if (data[(i * width + j) * 4 + endian]) {
-	*start_y = i;
-	break;
+        *start_y = i;
+        break;
       }
     }
   }
 
-  /* parses mask image for the last row that contains a visible pixel */
+  /* Parses mask image for the last row that contains a visible pixel */
   *end_y = -1;
   for (i = height - 1; i >= *end_y && *end_y == -1; i--) {
     for (j = *start_x; j <= *end_x; j++) {
       if (data[(i * width + j) * 4 + endian]) {
-	*end_y = i;
-	break;
+        *end_y = i;
+        break;
       }
     }
   }
@@ -429,7 +429,7 @@ GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height)
   rowstride = gdk_pixbuf_get_rowstride(pb);
 
   tmpsurf = cairo_image_surface_create_for_data(pixels, CAIRO_FORMAT_ARGB32,
-						width, height, rowstride);
+                                                width, height, rowstride);
 
   cr = cairo_create(tmpsurf);
   cairo_save(cr);

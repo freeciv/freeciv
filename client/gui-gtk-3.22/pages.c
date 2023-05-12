@@ -248,7 +248,7 @@ GtkWidget *create_main_page(void)
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
   gtk_container_add(GTK_CONTAINER(vbox), frame);
 
-  intro_in = load_gfxfile(tileset_main_intro_filename(tileset));
+  intro_in = load_gfxfile(tileset_main_intro_filename(tileset), FALSE);
   get_sprite_dimensions(intro_in, &width, &height);
   sh = screen_height();
 

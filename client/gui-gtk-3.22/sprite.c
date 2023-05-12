@@ -167,7 +167,7 @@ static void surf_destroy_callback(void *data)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite().
 ****************************************************************************/
-struct sprite *load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename, bool svgflag)
 {
   struct sprite *spr;
   GError *err = NULL;

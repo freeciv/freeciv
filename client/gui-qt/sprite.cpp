@@ -60,11 +60,11 @@ const char **gfx_fileextensions(void)
 }
 
 /************************************************************************//**
-  Load the given graphics file into a sprite.  This function loads an
+  Load the given graphics file into a sprite. This function loads an
   entire image file, which may later be broken up into individual sprites
-  with crop_sprite.
+  with crop_sprite().
 ****************************************************************************/
-struct sprite *qtg_load_gfxfile(const char *filename)
+struct sprite *qtg_load_gfxfile(const char *filename, bool svgflag)
 {
   sprite *entire = new sprite;
   QPixmap *pm = new QPixmap;
