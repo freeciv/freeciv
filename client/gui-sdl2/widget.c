@@ -294,7 +294,7 @@ struct widget *find_next_widget_for_key(struct widget *start_widget,
 **************************************************************************/
 Uint16 widget_pressed_action(struct widget *pwidget)
 {
-  Uint16 id = 0;
+  Uint16 id;
 
   if (!pwidget) {
     return 0;
@@ -320,12 +320,12 @@ Uint16 widget_pressed_action(struct widget *pwidget)
         set_wstate(pwidget, FC_WS_SELECTED);
         SDL_Delay(300);
       }
-      id = pwidget->id;
-      if (pwidget->action) {
-        if (pwidget->action(pwidget)) {
-          id = 0;
-        }
+      if (pwidget->action != NULL && pwidget->action(pwidget)) {
+        id = 0;
+      } else {
+        id = pwidget->id;
       }
+
       break;
 
     case WT_EDIT:
@@ -342,17 +342,17 @@ Uint16 widget_pressed_action(struct widget *pwidget)
             widget_mark_dirty(pwidget);
             flush_dirty();
           }
-          if (change != ED_FORCE_EXIT && change != ED_ESC && pwidget->action) {
-            if (pwidget->action(pwidget)) {
-              id = 0;
-            }
+          if (change != ED_FORCE_EXIT && change != ED_ESC
+              && pwidget->action != NULL) {
+            pwidget->action(pwidget);
           }
           if (loop && change == ED_RETURN) {
             ret = TRUE;
           }
         } while (ret);
-        id = 0;
       }
+
+      id = 0;
       break;
     }
     case WT_VSCROLLBAR:
@@ -363,12 +363,12 @@ Uint16 widget_pressed_action(struct widget *pwidget)
         widget_mark_dirty(pwidget);
         flush_dirty();
       }
-      id = pwidget->id;
-      if (pwidget->action) {
-        if (pwidget->action(pwidget)) {
-          id = 0;
-        }
+      if (pwidget->action != NULL && pwidget->action(pwidget)) {
+        id = 0;
+      } else {
+        id = pwidget->id;
       }
+
       break;
     case WT_CHECKBOX:
     case WT_TCHECKBOX:
@@ -381,12 +381,12 @@ Uint16 widget_pressed_action(struct widget *pwidget)
         toggle_checkbox(pwidget);
         SDL_Delay(300);
       }
-      id = pwidget->id;
-      if (pwidget->action) {
-        if (pwidget->action(pwidget)) {
-          id = 0;
-        }
+      if (pwidget->action != NULL && pwidget->action(pwidget)) {
+        id = 0;
+      } else {
+        id = pwidget->id;
       }
+
       break;
     case WT_COMBO:
       if (PRESSED_EVENT(main_data.event)) {
@@ -395,14 +395,16 @@ Uint16 widget_pressed_action(struct widget *pwidget)
       } else {
         combo_popdown(pwidget);
       }
+
+      id = 0;
       break;
     default:
-      id = pwidget->id;
-      if (pwidget->action) {
-        if (pwidget->action(pwidget) != 0) {
-          id = 0;
-        }
+      if (pwidget->action != NULL && pwidget->action(pwidget)) {
+        id = 0;
+      } else {
+        id = pwidget->id;
       }
+
       break;
   }
 
