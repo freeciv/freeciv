@@ -548,7 +548,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       struct tile *ptile = unit_tile(punit);
       const char *vetname;
 
-      /* get and draw unit name (with veteran status) */
+      /* Get and draw unit name (with veteran status) */
       pstr = create_utf8_from_char(unit_name_translation(punit), adj_font(12));
       pstr->style |= TTF_STYLE_BOLD;
       pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
