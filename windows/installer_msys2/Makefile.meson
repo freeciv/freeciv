@@ -181,8 +181,7 @@ SOUND_DLLS := \
 	libmpg123-0.dll \
 	libvorbisfile-3.dll \
 	libvorbis-0.dll \
-	libogg-0.dll \
-	libssp-0.dll
+	libogg-0.dll
 
 COMMON_DLLS := \
 	libcairo-2.dll \
@@ -255,7 +254,8 @@ FCMP_GTK3_DLLS := \
 	libepoxy-0.dll \
 	libpangoft2-1.0-0.dll \
 	libthai-0.dll \
-	libdatrie-1.dll
+	libdatrie-1.dll \
+	librsvg-2-2.dll
 
 install-env-gtk3-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
@@ -288,9 +288,7 @@ FCMP_GTK4_DLLS := \
 	libwebp-7.dll \
 	libdeflate.dll \
 	libLerc.dll \
-	libsharpyuv-0.dll \
-	libEGL.dll \
-	libGLESv2.dll
+	libsharpyuv-0.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
