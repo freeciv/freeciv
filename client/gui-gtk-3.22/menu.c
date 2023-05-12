@@ -2590,7 +2590,8 @@ void real_menus_update(void)
   menu_entry_set_sensitive("BUILD_AIRBASE",
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
   menu_entry_set_sensitive("CLEAN",
-                           can_units_do_activity(punits, ACTIVITY_POLLUTION)
+                           can_units_do_activity(punits, ACTIVITY_CLEAN)
+                           || can_units_do_activity(punits, ACTIVITY_POLLUTION)
                            || can_units_do_activity(punits, ACTIVITY_FALLOUT));
   menu_entry_set_sensitive("UNIT_SENTRY",
                            can_units_do_activity(punits, ACTIVITY_SENTRY));
