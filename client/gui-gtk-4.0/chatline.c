@@ -727,15 +727,15 @@ static void set_cursor_if_appropriate(GtkTextView *text_view, gint x, gint y)
 }
 
 /**********************************************************************//**
-  Maybe are the mouse is moving over a link.
+  Maybe mouse is moving over a link.
 **************************************************************************/
-static gboolean motion_notify_event(GtkWidget *text_view,
-                                    GdkEvent *event)
+static gboolean chat_pointer_motion(GtkEventControllerMotion *controller,
+                                    gdouble e_x, gdouble e_y, gpointer data)
 {
   gint x, y;
-  gdouble e_x, e_y;
+  GtkWidget *text_view
+    = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(controller));
 
-  gdk_event_get_position(event, &e_x, &e_y);
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view),
                                         GTK_TEXT_WINDOW_WIDGET,
                                         e_x, e_y, &x, &y);
@@ -758,8 +758,10 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
                    G_CALLBACK(event_after), NULL);
   gtk_widget_add_controller(view, controller);
 
-  g_signal_connect(view, "motion-notify-event",
-		   G_CALLBACK(motion_notify_event), NULL);
+  controller = GTK_EVENT_CONTROLLER(gtk_event_controller_motion_new());
+  g_signal_connect(controller, "motion",
+		   G_CALLBACK(chat_pointer_motion), NULL);
+  gtk_widget_add_controller(view, controller);
 }
 
 /**********************************************************************//**
