@@ -60,6 +60,8 @@ static TTF_Font *load_font(Uint16 ptsize);
 static SDL_Surface *create_utf8_surf(utf8_str *pstr);
 static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 
+#define ptsize_default() adj_font(theme_default_font_size(theme))
+
 /**************************************************************************
   Adjust font sizes for small screen.
 **************************************************************************/
@@ -178,13 +180,13 @@ utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize)
   utf8_str *str = fc_calloc(1, sizeof(utf8_str));
 
   if (ptsize == 0) {
-    str->ptsize = adj_font(theme_default_font_size(theme));
+    str->ptsize = ptsize_default();
   } else {
     str->ptsize = ptsize;
   }
 
   if ((str->font = load_font(str->ptsize)) == NULL) {
-    log_error("create_utf8_str(): load_font failed");
+    log_error("create_utf8_str(): load_font() failed");
     FC_FREE(str);
 
     return NULL;
@@ -526,6 +528,10 @@ SDL_Surface *create_text_surf_smaller_than_w(utf8_str *pstr, int w)
 void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize)
 {
   TTF_Font *buf;
+
+  if (new_ptsize == 0) {
+    new_ptsize = ptsize_default();
+  }
 
   if (pstr->ptsize == new_ptsize) {
     return;
