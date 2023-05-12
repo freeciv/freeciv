@@ -332,7 +332,6 @@ COMMON_DLLS := \
 	libbrotlicommon.dll \
 	libreadline8.dll \
 	libtermcap-0.dll \
-	libssp-0.dll \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
 	libMagickCore-${MAGICKVER}.dll \
@@ -399,9 +398,7 @@ GTK4_FCMP_DLLS := \
 	libwebp-7.dll \
 	libdeflate.dll \
 	libjbig-0.dll \
-	libsharpyuv-0.dll \
-	libEGL.dll \
-	libGLESv2.dll
+	libsharpyuv-0.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
