@@ -1188,8 +1188,10 @@ static bool save_actions_ruleset(const char *filename, const char *name)
   action_iterate(act_id) {
     struct action *act = action_by_number(act_id);
 
-    save_action_ui_name(sfile,
-                        act_id, action_ui_name_ruleset_var_name(act_id));
+    if (!action_id_is_internal(act_id)) {
+      save_action_ui_name(sfile,
+                          act_id, action_ui_name_ruleset_var_name(act_id));
+    }
     save_action_kind(sfile, act_id);
     save_action_range(sfile, act_id);
     save_action_actor_consuming_always(sfile, act_id);
