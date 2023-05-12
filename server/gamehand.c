@@ -723,6 +723,7 @@ void init_new_game(void)
         fc_assert(i == config.usable_startpos_num);
       }
 
+      free(state.startpos);
       free(config.startpos);
     }
   }
