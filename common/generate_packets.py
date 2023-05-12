@@ -23,7 +23,6 @@ from pathlib import Path
 from contextlib import contextmanager, ExitStack
 from functools import partial
 from itertools import chain, combinations, takewhile, zip_longest
-from collections import deque
 from enum import Enum
 from abc import ABC, abstractmethod
 
