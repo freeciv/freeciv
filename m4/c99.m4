@@ -137,6 +137,6 @@ AC_CACHE_CHECK([for C99 va_copy],
   if test "x${ac_cv_c99_va_copy}" = "xyes" ; then
     AC_DEFINE([HAVE_VA_COPY], [1], [va_copy() available])
   else
-    AC_MSG_WARN([lack of va_copy() support is going to be mandatory soon])
+    AC_MSG_WARN([va_copy() support is going to be mandatory soon])
   fi
 ])
