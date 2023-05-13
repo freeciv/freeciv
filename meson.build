@@ -164,7 +164,8 @@ if meson.is_cross_build()
   if c_compiler.compiles(
 '''#ifndef __EMSCRIPTEN__
   error fail
-#endif''')
+#endif''',
+  name: 'emscripten')
     emscripten = true
   else
     emscripten = false
@@ -507,6 +508,7 @@ endif
 
 if emscripten
   icu_dep = []
+  zlib_dep = []
   syslua = 'false'
 
   emscripten_use_args = [
@@ -525,6 +527,7 @@ if emscripten
 else
   priv_conf_data.set('HAVE_FCDB', 1)
   priv_conf_data.set('HAVE_FCDB_SQLITE3', 1)
+  zlib_dep = c_compiler.find_library('z', dirs: cross_lib_path)
   icu_dep = dependency('icu-uc')
   syslua = get_option('syslua')
   lua_dep_tmp = dependency('lua-5.4', required:false)
@@ -1074,7 +1077,7 @@ common_lib = library('freeciv',
   sources: [specenum, pack_common,
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
-  dependencies: [c_compiler.find_library('z', dirs: cross_lib_path),
+  dependencies: [zlib_dep,
                  curl_dep, m_dep, sqlite3_dep, icu_dep,
                  net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
