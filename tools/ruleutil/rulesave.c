@@ -2725,9 +2725,11 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
         }
       } output_type_iterate_end;
 
-      identifier[0] = pres->data.resource->id_old_save;
-      identifier[1] = '\0';
-      secfile_insert_str(sfile, identifier, "%s.identifier", path);
+      if (pres->data.resource->id_old_save != '\0') {
+        identifier[0] = pres->data.resource->id_old_save;
+        identifier[1] = '\0';
+        secfile_insert_str(sfile, identifier, "%s.identifier", path);
+      }
     }
   } extra_type_by_cause_iterate_end;
 

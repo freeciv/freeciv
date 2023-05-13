@@ -3867,10 +3867,11 @@ static bool load_ruleset_terrain(struct section_file *file,
 
   if (ok) {
     int i = 0;
-    /* resource details */
+    /* Resource details */
 
     extra_type_by_cause_iterate(EC_RESOURCE, presource) {
       char identifier[MAX_LEN_NAME];
+      const char *id;
       const char *rsection = &resource_sections[i * MAX_SECTION_LABEL];
 
       if (!presource->data.resource) {
@@ -3888,23 +3889,29 @@ static bool load_ruleset_terrain(struct section_file *file,
                                      get_output_identifier(o));
       } output_type_iterate_end;
 
-      sz_strlcpy(identifier,
-                 secfile_lookup_str(file, "%s.identifier", rsection));
-      presource->data.resource->id_old_save = identifier[0];
-      if (RESOURCE_NULL_IDENTIFIER == presource->data.resource->id_old_save) {
-        ruleset_error(NULL, LOG_ERROR,
-                      "\"%s\" [%s] identifier missing value.",
-                      filename, rsection);
-        ok = FALSE;
-        break;
-      }
-      if (RESOURCE_NONE_IDENTIFIER == presource->data.resource->id_old_save) {
-        ruleset_error(NULL, LOG_ERROR,
-                      "\"%s\" [%s] cannot use '%c' as an identifier;"
-                      " it is reserved.",
-                      filename, rsection, presource->data.resource->id_old_save);
-        ok = FALSE;
-        break;
+      id = secfile_lookup_str_default(file, NULL, "%s.identifier", rsection);
+
+      if (id == NULL) {
+        presource->data.resource->id_old_save = '\0';
+      } else {
+        sz_strlcpy(identifier, id);
+
+        presource->data.resource->id_old_save = identifier[0];
+        if (RESOURCE_NULL_IDENTIFIER == presource->data.resource->id_old_save) {
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\" [%s] identifier missing value.",
+                        filename, rsection);
+          ok = FALSE;
+          break;
+        }
+        if (RESOURCE_NONE_IDENTIFIER == presource->data.resource->id_old_save) {
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\" [%s] cannot use '%c' as an identifier;"
+                        " it is reserved.",
+                        filename, rsection, presource->data.resource->id_old_save);
+          ok = FALSE;
+          break;
+        }
       }
 
       if (!ok) {
@@ -3934,27 +3941,29 @@ static bool load_ruleset_terrain(struct section_file *file,
      * ruleset to play havoc on us when we have only some resource identifiers loaded
      * from the new ruleset. */
     extra_type_by_cause_iterate(EC_RESOURCE, pres) {
-      extra_type_by_cause_iterate(EC_RESOURCE, pres2) {
-        if (pres->data.resource->id_old_save == pres2->data.resource->id_old_save
-            && pres != pres2) {
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" [%s] has the same identifier as [%s].",
-                        filename,
-                        extra_rule_name(pres),
-                        extra_rule_name(pres2));
-          ok = FALSE;
+      if (pres->data.resource->id_old_save != '\0') {
+        extra_type_by_cause_iterate(EC_RESOURCE, pres2) {
+          if (pres->data.resource->id_old_save == pres2->data.resource->id_old_save
+              && pres != pres2) {
+            ruleset_error(NULL, LOG_ERROR,
+                          "\"%s\" [%s] has the same identifier as [%s].",
+                          filename,
+                          extra_rule_name(pres),
+                          extra_rule_name(pres2));
+            ok = FALSE;
+            break;
+          }
+        } extra_type_by_cause_iterate_end;
+
+        if (!ok) {
           break;
         }
-      } extra_type_by_cause_iterate_end;
-
-      if (!ok) {
-        break;
       }
     } extra_type_by_cause_iterate_end;
   }
 
   if (ok) {
-    /* base details */
+    /* Base details */
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       struct base_type *pbase = extra_base_get(pextra);
       const char *section;
