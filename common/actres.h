@@ -95,6 +95,7 @@ struct actres {
   enum act_tgt_compl sub_tgt_compl;
   enum action_battle_kind battle_kind;
   bool hostile;
+  enum unit_activity activity;
 };
 
 void actres_init(void);
@@ -103,6 +104,7 @@ void actres_free(void);
 enum act_tgt_compl actres_target_compl_calc(enum action_result result);
 enum action_battle_kind actres_get_battle_kind(enum action_result result);
 bool actres_is_hostile(enum action_result result);
+enum unit_activity actres_activity_result(enum action_result result);
 
 enum fc_tristate actres_possible(enum action_result result,
                                  const struct req_context *actor,
