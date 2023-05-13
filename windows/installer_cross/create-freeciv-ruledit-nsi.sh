@@ -12,15 +12,18 @@ SetCompressor /SOLID lzma
 !define APPNAME "Freeciv-ruledit"
 !define VERSION $3
 !define WIN_ARCH $4
+!define KEYROOT "Freeciv"
+!define APP_KEY_PART "ruledit"
+
 !define APPID "\${APPNAME}-\${VERSION}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
 !define MULTIUSER_USE_PROGRAMFILES64
-!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}"
+!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}"
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
 !define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}"
 
@@ -28,12 +31,12 @@ SetCompressor /SOLID lzma
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
 
-;General
+; General
 
 Name "Freeciv Ruleset Editor \${VERSION}"
 OutFile "$2/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-setup.exe"
 
-;Variables
+; Variables
 
 Var STARTMENU_FOLDER
 Var DefaultLanguageCode
@@ -48,9 +51,9 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MULTIUSER_PAGE_INSTALLMODE
 !insertmacro MUI_PAGE_DIRECTORY
 
-;Start Menu Folder Page Configuration
+; Start Menu Folder Page Configuration
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "SHCTX"
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}"
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "\$(^Name)"
 
@@ -64,7 +67,7 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
 
-;Languages
+; Languages
 
 !insertmacro MUI_LANGUAGE "English"
 
@@ -104,7 +107,7 @@ EOF
 cat <<EOF
 
   ; Write the installation path into the registry
-  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION} "" "\$INSTDIR"
+  WriteRegStr "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART} "" "\$INSTDIR"
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
@@ -312,10 +315,11 @@ cat <<EOF
 
   ; Remove registry keys
   DeleteRegKey "SHCTX" "Software\Microsoft\Windows\CurrentVersion\Uninstall\\\${APPID}"
-  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION} ""
-  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION} "Start Menu Folder"
-  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}
-  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}
+  DeleteRegValue "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART} ""
+  DeleteRegValue "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART} "Start Menu Folder"
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${KEYROOT}
 SectionEnd
 EOF
 
