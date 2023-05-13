@@ -160,7 +160,7 @@ Build/portability
       osdn#47500
     * Improved error checking for crosser based builds osdn#46611
     * Appdata files from a release build now includes NEWS URL
-      osdn#467641 osdn#47706
+      osdn#47641 osdn#47706
     * Crosser based installers are now correctly installed under
       "Program Files" and not "Program Files (x86)" by default osdn#47648
     * Windows Uninstaller of this version properly removes Registry Keys
