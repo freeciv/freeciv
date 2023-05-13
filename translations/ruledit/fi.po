@@ -3,21 +3,21 @@
 # Marko Lindqvist <cazfi74@gmail.com>,
 # This translation is covered by the GNU General Public License Version 2.
 #
-# Merging translations upwards to e.g. master/main is fine, do not merge
+# Merging translations upwards to e.g. main is fine, do not merge
 # downwards by default.
 #
 # Prioritizing stable branch S3_1 for translations (August 2022), merge
-# to master when feeling like it with:
-#   msgmerge --compendium=fi.po.master fi.po.s3_1 freeciv-ruledit.pot -o fi.po.newmaster
-# where fi.po.master is current master version, fi.po.s3_1 the improved branch
-# version, freeciv-ruledit.pot an up-to-date POT for the master.
-# Then upload the resulting fi.po.newmaster to master.
+# to main when feeling like it with:
+#   msgmerge --compendium=fi.po.main fi.po.s3_1 freeciv-ruledit.pot -o fi.po.newmain
+# where fi.po.main is current main version, fi.po.s3_1 the improved branch
+# version, freeciv-ruledit.pot an up-to-date POT for the main.
+# Then upload the resulting fi.po.newmain to main.
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-23 04:18+0200\n"
-"PO-Revision-Date: 2023-02-14 22:03+0200\n"
+"POT-Creation-Date: 2023-05-13 10:50+0300\n"
+"PO-Revision-Date: 2023-05-13 11:04+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -32,6 +32,36 @@ msgstr ""
 msgid "Close"
 msgstr "Sulje"
 
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:107
+msgid "Graphics tag"
+msgstr "Kuvitustägi"
+
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:116
+msgid "Alt graphics tag"
+msgstr "Varakuvitustägi"
+
+#: tools/ruledit/edit_extra.cpp:66
+msgid "Activity graphics tag"
+msgstr "Toiminnan kuvituksen tägi"
+
+#: tools/ruledit/edit_extra.cpp:75
+msgid "Alt activity gfx tag"
+msgstr "Toiminnan kuvituksen varatägi"
+
+#: tools/ruledit/edit_extra.cpp:84
+msgid "Second alt activity gfx tag"
+msgstr "Toiminnan kuvituksen toinen varatägi"
+
+#: tools/ruledit/edit_extra.cpp:93
+msgid "Removal activity graphics tag"
+msgstr "Poistotoiminnan kuvitustägi"
+
+#: tools/ruledit/edit_extra.cpp:102
+msgid "Alt removal activity gfx tag"
+msgstr "Poistotoiminnan kuvituksen varatägi"
+
 #: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Hinta"
@@ -43,16 +73,6 @@ msgstr "Ylläpito"
 #: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Suku"
-
-#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
-#: tools/ruledit/edit_utype.cpp:107
-msgid "Graphics tag"
-msgstr "Kuvitustägi"
-
-#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
-#: tools/ruledit/edit_utype.cpp:116
-msgid "Alt graphics tag"
-msgstr "Varakuvitustägi"
 
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
@@ -87,7 +107,7 @@ msgid "Value:"
 msgstr "Arvo:"
 
 #: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
-#: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Vaadittavat"
@@ -337,7 +357,7 @@ msgstr "Oletko varma että haluat sulkea ohjelman?"
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
-#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:65
+#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
 #: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:66
@@ -347,8 +367,8 @@ msgstr "Sääntönimi"
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:153 tools/ruledit/tab_building.cpp:154
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
-#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_extras.cpp:78
-#: tools/ruledit/tab_extras.cpp:148 tools/ruledit/tab_extras.cpp:149
+#: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
+#: tools/ruledit/tab_extras.cpp:155 tools/ruledit/tab_extras.cpp:156
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
 #: tools/ruledit/tab_good.cpp:149 tools/ruledit/tab_good.cpp:150
 #: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
@@ -364,19 +384,19 @@ msgstr "Sääntönimi"
 msgid "None"
 msgstr "Ei mikään"
 
-#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
+#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:76
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
 #: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
-#: tools/ruledit/tab_unit.cpp:85
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
 msgstr "Muokkaa arvoja"
 
-#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:88
+#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
 #: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:89
@@ -443,15 +463,15 @@ msgstr "Mahdollistin (toimija)"
 msgid "action enabler for %s"
 msgstr "mahdollistin toiminnalle %s"
 
-#: tools/ruledit/tab_extras.cpp:92
+#: tools/ruledit/tab_extras.cpp:99
 msgid "Add Extra"
 msgstr "Lisää ruutulisä"
 
-#: tools/ruledit/tab_extras.cpp:97
+#: tools/ruledit/tab_extras.cpp:104
 msgid "Remove this Extra"
 msgstr "Poista tämä ruutulisä"
 
-#: tools/ruledit/tab_extras.cpp:183
+#: tools/ruledit/tab_extras.cpp:190
 msgid "An extra with that rule name already exists!"
 msgstr "Ruutulisä samalla sääntönimellä on jo olemassa!"
 
@@ -607,7 +627,11 @@ msgstr "Artikkeleita"
 msgid "?stat:Multipliers"
 msgstr "Kertoimia"
 
-#: tools/ruledit/tab_misc.cpp:230
+#: tools/ruledit/tab_misc.cpp:226
+msgid "?stat:Effects"
+msgstr "Vaikutuksia"
+
+#: tools/ruledit/tab_misc.cpp:234
 msgid "Refresh Stats"
 msgstr "Päivitä tilastot"
 
@@ -615,23 +639,23 @@ msgstr "Päivitä tilastot"
 msgid "Ruleset saved"
 msgstr "Sääntökokoelma tallennettu"
 
-#: tools/ruledit/tab_misc.cpp:440
+#: tools/ruledit/tab_misc.cpp:458
 msgid "Always active"
 msgstr "Aina aktiiviset"
 
-#: tools/ruledit/tab_misc.cpp:461
+#: tools/ruledit/tab_misc.cpp:479
 msgid "Sanity Check"
 msgstr "Oikeellisuustarkistus"
 
-#: tools/ruledit/tab_misc.cpp:468
+#: tools/ruledit/tab_misc.cpp:486
 msgid "Sanity check failed!"
 msgstr "Oikeellisuustarkistus epäonnistui!"
 
-#: tools/ruledit/tab_misc.cpp:470
+#: tools/ruledit/tab_misc.cpp:488
 msgid "Sanity check success"
 msgstr "Oikeellisuustarkistus onnistui"
 
-#: tools/ruledit/tab_misc.cpp:479
+#: tools/ruledit/tab_misc.cpp:497
 msgid "All effects"
 msgstr "Kaikki vaikutukset"
 
