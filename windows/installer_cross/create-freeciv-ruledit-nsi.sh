@@ -12,15 +12,18 @@ SetCompressor /SOLID lzma
 !define APPNAME "Freeciv-ruledit"
 !define VERSION $2
 !define WIN_ARCH $3
+!define KEYROOT "Freeciv"
+!define APP_KEY_PART "ruledit"
+
 !define APPID "\${APPNAME}-\${VERSION}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
 !define MULTIUSER_USE_PROGRAMFILES64
-!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}"
+!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}"
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
 !define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}"
 
@@ -28,12 +31,12 @@ SetCompressor /SOLID lzma
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
 
-;General
+; General
 
 Name "Freeciv Ruleset Editor \${VERSION}"
 OutFile "Output/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-setup.exe"
 
-;Variables
+; Variables
 
 Var STARTMENU_FOLDER
 Var DefaultLanguageCode
@@ -48,9 +51,9 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MULTIUSER_PAGE_INSTALLMODE
 !insertmacro MUI_PAGE_DIRECTORY
 
-;Start Menu Folder Page Configuration
+; Start Menu Folder Page Configuration
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "SHCTX" 
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}"
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "\$(^Name)"
 
@@ -64,13 +67,13 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
 
-;Languages
+; Languages
 
 !insertmacro MUI_LANGUAGE "English"
 
 EOF
 
-### required files ###
+### Required files ###
 
 cat <<EOF
 ; The stuff to install
@@ -81,14 +84,14 @@ Section "\${APPNAME} (required)"
   SetOutPath \$INSTDIR
 EOF
 
-  # find files and directories to exclude from default installation
+  # Find files and directories to exclude from default installation
 
   echo -n "  File /nonfatal /r "
 
-  # languages
+  # Languages
   echo -n "/x locale "
 
-  # rulesets
+  # Rulesets
   find $1/data -mindepth 1 -maxdepth 1 -name *.serv -printf %f\\n |
   sed 's|.serv||' |
   while read -r name
@@ -105,7 +108,7 @@ EOF
 cat <<EOF
 
   ; Write the installation path into the registry
-  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION} "" "\$INSTDIR"
+  WriteRegStr "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART} "" "\$INSTDIR"
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
@@ -130,7 +133,7 @@ SectionEnd
 
 EOF
 
-### rulesets ###
+### Rulesets ###
 
 cat <<EOF
 SectionGroup "Rulesets"
@@ -162,7 +165,7 @@ SectionGroupEnd
 
 EOF
 
-### additional languages ###
+### Additional languages ###
 
 cat <<EOF
 SectionGroup "Additional languages (translation %)"
@@ -271,7 +274,7 @@ FunctionEnd
 
 EOF
 
-### uninstall section ###
+### Uninstall section ###
 
 cat <<EOF
 ; special uninstall section.
@@ -309,20 +312,21 @@ cat <<EOF
   ; MUST REMOVE UNINSTALLER, too
   Delete "\$INSTDIR\uninstall.exe"
 
-  ; remove install directory, if empty
+  ; Remove install directory, if empty
   RMDir "\$INSTDIR"
 
-  ; remove shortcuts, if any.
+  ; Remove shortcuts, if any.
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" \$STARTMENU_FOLDER
   Delete "\$SMPROGRAMS\\\$STARTMENU_FOLDER\*.*"
   RMDir "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
 
-  ; remove registry keys
+  ; Remove registry keys
   DeleteRegKey "SHCTX" "Software\Microsoft\Windows\CurrentVersion\Uninstall\\\${APPID}"
-  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION} ""
-  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION} "Start Menu Folder"
-  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}
-  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}
+  DeleteRegValue "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART} ""
+  DeleteRegValue "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART} "Start Menu Folder"
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${KEYROOT}\\\${VERSION}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${KEYROOT}
 SectionEnd
 EOF
 
