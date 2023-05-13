@@ -460,7 +460,7 @@ struct action_enabler
 {                                                                         \
   action_iterate(_act_id_) {                                              \
     struct action *_paction_ = action_by_number(_act_id_);                \
-    if (action_get_activity(_paction_) != _activity_) {                   \
+    if (actres_activity_result(_paction_->result) != _activity_) {        \
       continue;                                                           \
     }
 
@@ -647,7 +647,8 @@ bool action_requires_details(const struct action *paction);
 int action_get_act_time(const struct action *paction,
                         const struct unit *actor_unit,
                         const struct tile *tgt_tile,
-                        const struct extra_type *tgt_extra);
+                        const struct extra_type *tgt_extra)                \
+  fc__attribute((nonnull (1)));
 #define action_id_get_act_time(act_id, actor_unit, tgt_tile, tgt_extra)    \
   action_get_act_time(action_by_number(act_id),                            \
                       actor_unit, tgt_tile, tgt_extra)
@@ -676,7 +677,8 @@ int action_get_role(const struct action *paction);
 #define action_id_get_role(act_id)                                        \
   action_get_role(action_by_number(act_id))
 
-enum unit_activity action_get_activity(const struct action *paction);
+#define action_get_activity(_pact_)                                       \
+  actres_activity_result(_pact_->result)
 #define action_id_get_activity(act_id)                                    \
   action_get_activity(action_by_number(act_id))
 

@@ -2113,47 +2113,6 @@ int action_get_role(const struct action *paction)
 }
 
 /**********************************************************************//**
-  Returns the unit activity this action may cause or ACTIVITY_LAST if the
-  action doesn't result in a unit activity.
-**************************************************************************/
-enum unit_activity action_get_activity(const struct action *paction)
-{
-  fc_assert_msg(AAK_UNIT == action_get_actor_kind(paction),
-                "Action %s isn't performed by a unit",
-                action_rule_name(paction));
-
-  if (action_has_result(paction, ACTRES_FORTIFY)) {
-    return ACTIVITY_FORTIFYING;
-  } else if (action_has_result(paction, ACTRES_BASE)) {
-    return ACTIVITY_BASE;
-  } else if (action_has_result(paction, ACTRES_ROAD)) {
-    return ACTIVITY_GEN_ROAD;
-  } else if (action_has_result(paction, ACTRES_PILLAGE)) {
-    return ACTIVITY_PILLAGE;
-  } else if (action_has_result(paction, ACTRES_CLEAN)) {
-    return ACTIVITY_CLEAN;
-  } else if (action_has_result(paction, ACTRES_CLEAN_POLLUTION)) {
-    return ACTIVITY_POLLUTION;
-  } else if (action_has_result(paction, ACTRES_CLEAN_FALLOUT)) {
-    return ACTIVITY_FALLOUT;
-  } else if (action_has_result(paction, ACTRES_TRANSFORM_TERRAIN)) {
-    return ACTIVITY_TRANSFORM;
-  } else if (action_has_result(paction, ACTRES_CONVERT)) {
-    return ACTIVITY_CONVERT;
-  } else if (action_has_result(paction, ACTRES_PLANT)) {
-    return ACTIVITY_PLANT;
-  } else if (action_has_result(paction, ACTRES_MINE)) {
-    return ACTIVITY_MINE;
-  } else if (action_has_result(paction, ACTRES_CULTIVATE)) {
-    return ACTIVITY_CULTIVATE;
-  } else if (action_has_result(paction, ACTRES_IRRIGATE)) {
-    return ACTIVITY_IRRIGATE;
-  } else {
-    return ACTIVITY_LAST;
-  }
-}
-
-/**********************************************************************//**
   Returns the unit activity time (work) this action takes (requires) or
   ACT_TIME_INSTANTANEOUS if the action happens at once.
 
@@ -2164,7 +2123,7 @@ int action_get_act_time(const struct action *paction,
                         const struct tile *tgt_tile,
                         const struct extra_type *tgt_extra)
 {
-  enum unit_activity pactivity = action_get_activity(paction);
+  enum unit_activity pactivity = actres_activity_result(paction->result);
 
   if (pactivity == ACTIVITY_LAST) {
     /* Happens instantaneously, not at turn change. */
