@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-03-31 10:04+0500\n"
-"PO-Revision-Date: 2023-03-31 09:34+0500\n"
+"POT-Creation-Date: 2023-05-16 13:42+0500\n"
+"PO-Revision-Date: 2023-05-16 10:52+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -34,6 +34,36 @@ msgstr ""
 msgid "Close"
 msgstr "Закрыть"
 
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:107
+msgid "Graphics tag"
+msgstr "Тег графического значка"
+
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:116
+msgid "Alt graphics tag"
+msgstr "Тег доп. граф. значка"
+
+#: tools/ruledit/edit_extra.cpp:66
+msgid "Activity graphics tag"
+msgstr "Тег значка действия"
+
+#: tools/ruledit/edit_extra.cpp:75
+msgid "Alt activity gfx tag"
+msgstr "Тег доп. значка действия"
+
+#: tools/ruledit/edit_extra.cpp:84
+msgid "Second alt activity gfx tag"
+msgstr "Тег 2-го доп. значка действия"
+
+#: tools/ruledit/edit_extra.cpp:93
+msgid "Removal activity graphics tag"
+msgstr "Тег значка разрушения"
+
+#: tools/ruledit/edit_extra.cpp:102
+msgid "Alt removal activity gfx tag"
+msgstr "Тег доп. значка разрушения"
+
 #: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Стоимость Строительства"
@@ -45,16 +75,6 @@ msgstr "Содержание"
 #: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Вид"
-
-#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
-#: tools/ruledit/edit_utype.cpp:107
-msgid "Graphics tag"
-msgstr "Тег изображения"
-
-#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
-#: tools/ruledit/edit_utype.cpp:116
-msgid "Alt graphics tag"
-msgstr "Доп. тег изображения"
 
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
@@ -89,7 +109,7 @@ msgid "Value:"
 msgstr "Значение:"
 
 #: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
-#: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Требования"
@@ -338,7 +358,7 @@ msgstr "Вы действительно хотите выйти?"
 msgid "Quit?"
 msgstr "Выйти?"
 
-#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:65
+#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
 #: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:66
@@ -348,8 +368,8 @@ msgstr "Название Правила"
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:153 tools/ruledit/tab_building.cpp:154
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
-#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_extras.cpp:78
-#: tools/ruledit/tab_extras.cpp:148 tools/ruledit/tab_extras.cpp:149
+#: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
+#: tools/ruledit/tab_extras.cpp:155 tools/ruledit/tab_extras.cpp:156
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
 #: tools/ruledit/tab_good.cpp:149 tools/ruledit/tab_good.cpp:150
 #: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
@@ -365,19 +385,19 @@ msgstr "Название Правила"
 msgid "None"
 msgstr "(Нет)"
 
-#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
+#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:76
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
 #: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "Название"
 
-#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
-#: tools/ruledit/tab_unit.cpp:85
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
 msgstr "Редактировать Значения"
 
-#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:88
+#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
 #: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:89
@@ -444,15 +464,15 @@ msgstr "Включатель (деятель)"
 msgid "action enabler for %s"
 msgstr "включатель действия для %s"
 
-#: tools/ruledit/tab_extras.cpp:92
+#: tools/ruledit/tab_extras.cpp:99
 msgid "Add Extra"
 msgstr "Добавить Сооружение"
 
-#: tools/ruledit/tab_extras.cpp:97
+#: tools/ruledit/tab_extras.cpp:104
 msgid "Remove this Extra"
 msgstr "Удалить это Сооружение"
 
-#: tools/ruledit/tab_extras.cpp:183
+#: tools/ruledit/tab_extras.cpp:190
 msgid "An extra with that rule name already exists!"
 msgstr "Сооружение с этим названием правила уже существует!"
 
@@ -607,7 +627,11 @@ msgstr "Товары"
 msgid "?stat:Multipliers"
 msgstr "Множители"
 
-#: tools/ruledit/tab_misc.cpp:230
+#: tools/ruledit/tab_misc.cpp:226
+msgid "?stat:Effects"
+msgstr "Эффекты"
+
+#: tools/ruledit/tab_misc.cpp:234
 msgid "Refresh Stats"
 msgstr "Обновить статистику"
 
@@ -615,23 +639,23 @@ msgstr "Обновить статистику"
 msgid "Ruleset saved"
 msgstr "Набор правил сохранён"
 
-#: tools/ruledit/tab_misc.cpp:440
+#: tools/ruledit/tab_misc.cpp:458
 msgid "Always active"
 msgstr "Постоянно действующий"
 
-#: tools/ruledit/tab_misc.cpp:461
+#: tools/ruledit/tab_misc.cpp:479
 msgid "Sanity Check"
 msgstr "Проверка корректности"
 
-#: tools/ruledit/tab_misc.cpp:468
+#: tools/ruledit/tab_misc.cpp:486
 msgid "Sanity check failed!"
 msgstr "Обнаружены некорректные правила!"
 
-#: tools/ruledit/tab_misc.cpp:470
+#: tools/ruledit/tab_misc.cpp:488
 msgid "Sanity check success"
 msgstr "Проверка корректности пройдена успешно"
 
-#: tools/ruledit/tab_misc.cpp:479
+#: tools/ruledit/tab_misc.cpp:497
 msgid "All effects"
 msgstr "Все эффекты"
 
