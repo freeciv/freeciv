@@ -119,10 +119,6 @@ void auto_settlers_ruleset_init(void)
   i = 0;
   action_array_add_all_by_result(as_actions_rmextra, &i,
                                  ACTRES_CLEAN);
-  action_array_add_all_by_result(as_actions_rmextra, &i,
-                                 ACTRES_CLEAN_POLLUTION);
-  action_array_add_all_by_result(as_actions_rmextra, &i,
-                                 ACTRES_CLEAN_FALLOUT);
   /* We could have ACTRES_PILLAGE here, but currently we don't */
   action_array_end(as_actions_rmextra, i);
 }
