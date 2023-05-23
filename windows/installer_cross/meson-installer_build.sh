@@ -218,7 +218,7 @@ if test "$GUI" = "ruledit" ; then
   NSI_FILE="${NSI_DIR}/ruledit-${SETUP}-${VERREV}.nsi"
 
   if ! ./create-freeciv-ruledit-nsi.sh \
-         "$INSTDIR" "meson/Output" "$VERREV" "$SETUP" \
+         "$INSTDIR" "meson/output" "$VERREV" "$SETUP" \
            > "$NSI_FILE"
   then
     exit 1
@@ -300,14 +300,14 @@ else
 
   if test "$GUI" = "sdl2" ; then
     if ! ./create-freeciv-sdl2-nsi.sh \
-           "$INSTDIR" "meson/Output" "$VERREV" "$SETUP" "$UNINSTALLER" \
+           "$INSTDIR" "meson/output" "$VERREV" "$SETUP" "$UNINSTALLER" \
              > "$NSI_FILE"
     then
       exit 1
     fi
   else
     if ! ./create-freeciv-gtk-qt-nsi.sh \
-           "$INSTDIR" "meson/Output" "$VERREV" "$GUI" "$GUINAME" \
+           "$INSTDIR" "meson/output" "$VERREV" "$GUI" "$GUINAME" \
            "$SETUP" "$MPGUI" "$EXE_ID" "$UNINSTALLER" \
              > "$NSI_FILE"
     then
@@ -316,8 +316,8 @@ else
   fi
 fi
 
-if ! mkdir -p meson/Output ; then
-  echo "Creating meson/Output directory failed" >&2
+if ! mkdir -p meson/output ; then
+  echo "Creating meson/output directory failed" >&2
   exit 1
 fi
 

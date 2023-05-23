@@ -276,12 +276,12 @@ fi
   exit 1
 fi
 
-if ! mkdir -p autotools/Output ; then
-  echo "Creating autotools/Output directory failed" >&2
+if ! mkdir -p autotools/output ; then
+  echo "Creating autotools/output directory failed" >&2
   exit 1
 fi
 
-if ! 7z a -r autotools/Output/freeciv-${VERREV}${NAMEP}.7z \
+if ! 7z a -r autotools/output/freeciv-${VERREV}${NAMEP}.7z \
              freeciv-${VERREV}${NAMEP}
 then
   echo "7z failed" >&2

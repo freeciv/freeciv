@@ -187,14 +187,14 @@ fi
   exit 1
 fi
 
-if ! mkdir -p meson/Output ; then
-  echo "Creating meson/Output directory failed" >&2
+if ! mkdir -p meson/output ; then
+  echo "Creating meson/output directory failed" >&2
   exit 1
 fi
 
 ( cd meson/install
 
-  if ! 7z a -r ../Output/${PACKAGENAME}.7z ${PACKAGENAME}
+  if ! 7z a -r ../output/${PACKAGENAME}.7z ${PACKAGENAME}
   then
     echo "7z failed" >&2
     exit 1
