@@ -1104,27 +1104,35 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   const citizens old_giver_angry_citizens = player_angry_citizens(pgiver);
   bool taker_had_no_cities = (city_list_size(ptaker->cities) == 0);
   bool new_extras;
-  const int units_num = unit_list_size(pcenter->units);
-  bv_player *could_see_unit = (units_num > 0
-                               ? fc_malloc(sizeof(*could_see_unit)
-                                           * units_num)
-                               : NULL);
+  int units_num = 0;
+  const int ul_size = unit_list_size(pcenter->units);
+  int central_units[ul_size + 1];
+  bv_player *could_see_unit = NULL;
   int i;
 
   fc_assert_ret_val(pgiver != ptaker, TRUE);
 
-  /* Remember what player see what unit. */
-  i = 0;
-  unit_list_iterate(pcenter->units, aunit) {
-    BV_CLR_ALL(could_see_unit[i]);
-    players_iterate(aplayer) {
-      if (can_player_see_unit(aplayer, aunit)) {
-        BV_SET(could_see_unit[i], player_index(aplayer));
-      }
-    } players_iterate_end;
-    i++;
+  unit_list_iterate(pcenter->units, punit) {
+    central_units[units_num++] = punit->id;
   } unit_list_iterate_end;
-  fc_assert(i == units_num);
+
+  if (units_num > 0) {
+    could_see_unit = fc_calloc(sizeof(*could_see_unit), units_num);
+
+    /* Remember what player see what unit. */
+    for (i = 0; i < units_num; i++) {
+      struct unit *aunit = game_unit_by_number(central_units[i]);
+
+      BV_CLR_ALL(could_see_unit[i]);
+      players_iterate(aplayer) {
+        if (can_player_see_unit(aplayer, aunit)) {
+          BV_SET(could_see_unit[i], player_index(aplayer));
+        }
+      } players_iterate_end;
+    }
+
+    fc_assert(i == units_num);
+  }
 
   /* Remove AI control of the old owner. */
   CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
@@ -1163,7 +1171,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
       if (is_great_wonder(pimprove)) {
         had_great_wonders = TRUE;
       }
-      /* note: internal turn here, next city_built_iterate(). */
+      /* Note: internal turn here, next city_built_iterate(). */
       pcity->built[improvement_index(pimprove)].turn = game.info.turn; /*I_ACTIVE*/
     }
   } city_built_iterate_end;
@@ -1198,34 +1206,38 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   map_claim_ownership(pcenter, ptaker, pcenter, TRUE);
   city_list_prepend(ptaker->cities, pcity);
 
-  /* Hide/reveal units. Do it after vision have been given to taker, city
-   * owner has been changed, and before any script could be spawned. */
-  i = 0;
-  unit_list_iterate(pcenter->units, aunit) {
-    players_iterate(aplayer) {
-      if (can_player_see_unit(aplayer, aunit)) {
-        if (!BV_ISSET(could_see_unit[i], player_index(aplayer))
-            && !aunit->server.dying) {
-          /* Reveal 'aunit'. */
-          send_unit_info(aplayer->connections, aunit);
+  if (could_see_unit != NULL) {
+    /* Hide/reveal units. Do it after vision have been given to taker, city
+     * owner has been changed, and before any script could be spawned. */
+    for (i = 0; i < units_num; i++) {
+      struct unit *aunit = game_unit_by_number(central_units[i]);
+
+      players_iterate(aplayer) {
+        if (can_player_see_unit(aplayer, aunit)) {
+          if (!BV_ISSET(could_see_unit[i], player_index(aplayer))
+              && !aunit->server.dying) {
+            /* Reveal 'aunit'. */
+            send_unit_info(aplayer->connections, aunit);
+          }
+        } else {
+          if (BV_ISSET(could_see_unit[i], player_index(aplayer))) {
+            /* Hide 'aunit'. */
+            unit_goes_out_of_sight(aplayer, aunit);
+          }
         }
-      } else {
-        if (BV_ISSET(could_see_unit[i], player_index(aplayer))) {
-          /* Hide 'aunit'. */
-          unit_goes_out_of_sight(aplayer, aunit);
-        }
-      }
-    } players_iterate_end;
-    i++;
-  } unit_list_iterate_end;
-  fc_assert(i == units_num);
-  free(could_see_unit);
-  could_see_unit = NULL;
+      } players_iterate_end;
+    }
+
+    fc_assert(i == units_num);
+
+    free(could_see_unit);
+    could_see_unit = NULL;
+  }
 
   transfer_city_units(ptaker, pgiver, old_city_units,
-		      pcity, NULL,
-		      kill_outside, transfer_unit_verbose);
-  /* The units themselves are allready freed by transfer_city_units. */
+                      pcity, NULL,
+                      kill_outside, transfer_unit_verbose);
+  /* The units themselves are allready freed by transfer_city_units(). */
   unit_list_destroy(old_city_units);
 
   if (resolve_stack) {
