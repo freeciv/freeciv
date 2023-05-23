@@ -89,7 +89,7 @@ void dbv_debug(struct dbv *pdbv);
   } while (FALSE);
 #define BV_CLR_ALL(bv)                                                      \
   do {                                                                      \
-     memset((bv).vec, 0, sizeof((bv).vec));                                 \
+    memset((bv).vec, 0, sizeof((bv).vec));                                  \
   } while (FALSE)
 #define BV_SET_ALL(bv)                                                      \
   do {                                                                      \
@@ -131,4 +131,4 @@ void bv_clr_all_from(unsigned char *vec_to,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__BITVECTOR_H */
+#endif /* FC__BITVECTOR_H */
