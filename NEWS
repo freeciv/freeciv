@@ -13,7 +13,7 @@ MAJOR CHANGES FROM 3.0.x to 3.1.0
    (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-03-11)
 
    The major changes in Freeciv 3.1 are new Qt6- and gtk4-clients,
-   improved balance for civ2ci3 ruleset, experimental meson based
+   improved balance for civ2civ3 ruleset, experimental meson based
    build system, and a whole lot of extra flexibility to create
    custom rulesets.
 
