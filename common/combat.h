@@ -21,13 +21,15 @@ extern "C" {
 #include "fc_types.h"
 #include "unittype.h"
 
+struct civ_map;
+
 /*
  * attack_strength and defense_strength are multiplied by POWER_FACTOR
  * to yield the base of attack_power and defense_power.
  *
- * The constant may be changed since it isn't externally visible used.
+ * The constant may be changed since it isn't externally visibly used.
  */
-#define POWER_FACTOR	10
+#define POWER_FACTOR    10
 
 enum unit_attack_result {
   ATT_OK,
@@ -59,15 +61,18 @@ bool can_unit_attack_tile(const struct unit *punit,
 
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp);
 
-void get_modified_firepower(const struct unit *attacker,
+void get_modified_firepower(const struct civ_map *nmap,
+                            const struct unit *attacker,
                             const struct unit *defender,
                             int *att_fp, int *def_fp);
-double unit_win_chance(const struct unit *attacker,
+double unit_win_chance(const struct civ_map *nmap,
+                       const struct unit *attacker,
                        const struct unit *defender,
                        const struct action *paction);
 
 bool unit_really_ignores_citywalls(const struct unit *punit);
-struct city *sdi_try_defend(const struct player *owner,
+struct city *sdi_try_defend(const struct civ_map *nmap,
+                            const struct player *owner,
                             const struct tile *ptile);
 bool is_tired_attack(int moves_left);
 
@@ -79,7 +84,8 @@ int get_total_defense_power(const struct unit *attacker,
                             const struct unit *defender);
 int get_fortified_defense_power(const struct unit *attacker,
                                 struct unit *defender);
-int get_virtual_defense_power(const struct unit_type *attacker,
+int get_virtual_defense_power(const struct civ_map *nmap,
+                              const struct unit_type *attacker,
                               const struct unit_type *defender,
                               struct player *defending_player,
                               struct tile *ptile,
@@ -88,10 +94,12 @@ int get_total_attack_power(const struct unit *attacker,
                            const struct unit *defender,
                            const struct action *paction);
 
-struct unit *get_defender(const struct unit *attacker,
+struct unit *get_defender(const struct civ_map *nmap,
+                          const struct unit *attacker,
                           const struct tile *ptile,
                           const struct action *paction);
-struct unit *get_attacker(const struct unit *defender,
+struct unit *get_attacker(const struct civ_map *nmap,
+                          const struct unit *defender,
                           const struct tile *ptile);
 
 struct unit *get_diplomatic_defender(const struct unit *act_unit,

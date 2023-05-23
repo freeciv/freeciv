@@ -3686,6 +3686,7 @@ is_action_possible(const action_id wanted_action,
   enum fc_tristate out;
   struct action *paction = action_by_number(wanted_action);
   enum action_target_kind tkind = action_get_target_kind(paction);
+  struct civ_map *nmap = &(wld.map);
 
   if (actor == NULL) {
     actor = req_context_empty();
@@ -3796,7 +3797,7 @@ is_action_possible(const action_id wanted_action,
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
-      if (!can_unit_exist_at_tile(&(wld.map), actor->unit, target->tile)
+      if (!can_unit_exist_at_tile(nmap, actor->unit, target->tile)
           && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
               || !unit_could_load_at(actor->unit, target->tile))) {
         return TRI_NO;
@@ -4683,8 +4684,8 @@ action_prob(const action_id wanted_action,
 {
   int known;
   struct act_prob chance;
-
   const struct action *paction = action_by_number(wanted_action);
+  struct civ_map *nmap = &(wld.map);
 
   if (actor == NULL) {
     actor = req_context_empty();
@@ -4864,12 +4865,12 @@ action_prob(const action_id wanted_action,
     break;
   case ACTRES_ATTACK:
     {
-      struct unit *defender_unit = get_defender(actor->unit, target->tile,
-                                                paction);
+      struct unit *defender_unit = get_defender(nmap, actor->unit,
+                                                target->tile, paction);
 
       if (can_player_see_unit(actor->player, defender_unit)) {
-        double unconverted = unit_win_chance(actor->unit, defender_unit,
-                                             paction);
+        double unconverted = unit_win_chance(nmap, actor->unit,
+                                             defender_unit, paction);
 
         chance.min = MAX(ACTPROB_VAL_MIN,
                          floor((double)ACTPROB_VAL_MAX * unconverted));

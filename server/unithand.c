@@ -4630,6 +4630,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 {
   struct city *pcity;
   const struct unit_type *act_utype;
+  struct civ_map *nmap = &(wld.map);
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -4642,7 +4643,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
             unit_rule_name(punit),
             TILE_XY(def_tile));
 
-  if ((pcity = sdi_try_defend(pplayer, def_tile))) {
+  if ((pcity = sdi_try_defend(nmap, pplayer, def_tile))) {
     /* FIXME: Remove the hard coded reference to SDI defense. */
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_ATT, ftc_server,
                   _("Your %s was shot down by "
@@ -4887,18 +4888,19 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   int att_vet, def_vet;
   struct unit *pdefender;
   const struct unit_type *act_utype = unit_type_get(punit);
+  struct civ_map *nmap = &(wld.map);
   bool powerless;
 
-  if (!(pdefender = get_defender(punit, def_tile, paction))) {
+  if (!(pdefender = get_defender(nmap, punit, def_tile, paction))) {
     /* Can't fight air... */
     return FALSE;
   }
-  
+
   att_hp_start = punit->hp;
   def_hp_start = pdefender->hp;
   def_power = get_total_defense_power(punit, pdefender);
   att_power = get_total_attack_power(punit, pdefender, paction);
-  get_modified_firepower(punit, pdefender, &att_fp, &def_fp);
+  get_modified_firepower(nmap, punit, pdefender, &att_fp, &def_fp);
 
   log_debug("Start attack: %s %s against %s %s.",
             nation_rule_name(nation_of_player(pplayer)),

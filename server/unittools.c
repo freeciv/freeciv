@@ -293,6 +293,7 @@ bool unit_versus_unit(struct unit *attacker, struct unit *defender,
   int attack_firepower, defense_firepower;
   struct player *plr1 = unit_owner(attacker);
   struct player *plr2 = unit_owner(defender);
+  struct civ_map *nmap = &(wld.map);
   int max_rounds;
   int rounds;
   int att_strength;
@@ -300,7 +301,7 @@ bool unit_versus_unit(struct unit *attacker, struct unit *defender,
 
   *att_hp = attacker->hp;
   *def_hp = defender->hp;
-  get_modified_firepower(attacker, defender,
+  get_modified_firepower(nmap, attacker, defender,
 			 &attack_firepower, &defense_firepower);
 
   log_verbose("attack:%d, defense:%d, attack firepower:%d, "
@@ -356,16 +357,16 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
 {
   int i;
   int rate = unit_bombard_rate(attacker);
-
   int attackpower = get_total_attack_power(attacker, defender, paction);
   int defensepower = get_total_defense_power(attacker, defender);
   int attack_firepower, defense_firepower;
   struct player *plr1 = unit_owner(attacker);
   struct player *plr2 = unit_owner(defender);
+  struct civ_map *nmap = &(wld.map);
 
   *att_hp = attacker->hp;
   *def_hp = defender->hp;
-  get_modified_firepower(attacker, defender,
+  get_modified_firepower(nmap, attacker, defender,
                          &attack_firepower, &defense_firepower);
 
   log_verbose("attack:%d, defense:%d, attack firepower:%d, "
@@ -1177,9 +1178,10 @@ static bool find_a_good_partisan_spot(struct tile *pcenter,
                                       struct tile **dst_tile)
 {
   int bestvalue = 0;
+  struct civ_map *nmap = &(wld.map);
 
   /* coords of best tile in arg pointers */
-  circle_iterate(&(wld.map), pcenter, sq_radius, ptile) {
+  circle_iterate(nmap, pcenter, sq_radius, ptile) {
     int value;
 
     if (!is_native_tile(u_type, ptile)) {
@@ -1195,8 +1197,8 @@ static bool find_a_good_partisan_spot(struct tile *pcenter,
     }
 
     /* City may not have changed hands yet; see place_partisans(). */
-    value = get_virtual_defense_power(NULL, u_type, powner,
-				      ptile, FALSE, 0);
+    value = get_virtual_defense_power(nmap, NULL, u_type, powner,
+                                      ptile, FALSE, 0);
     value *= 10;
 
     if (tile_continent(ptile) != tile_continent(pcenter)) {
@@ -3348,6 +3350,7 @@ static bool unit_survive_autoattack(struct unit *punit)
   struct autoattack_prob_list *autoattack;
   int moves = punit->moves_left;
   int sanity1 = punit->id;
+  struct civ_map *nmap = &(wld.map);
 
   if (!game.server.autoattack) {
     return TRUE;
@@ -3358,7 +3361,7 @@ static bool unit_survive_autoattack(struct unit *punit)
   /* Kludge to prevent attack power from dropping to zero during calc */
   punit->moves_left = MAX(punit->moves_left, 1);
 
-  adjc_iterate(&(wld.map), unit_tile(punit), ptile) {
+  adjc_iterate(nmap, unit_tile(punit), ptile) {
     /* First add all eligible units to a autoattack list */
     unit_list_iterate(ptile->units, penemy) {
       struct autoattack_prob *probability = fc_malloc(sizeof(*probability));
@@ -3390,7 +3393,7 @@ static bool unit_survive_autoattack(struct unit *punit)
   autoattack_prob_list_iterate_safe(autoattack, peprob, penemy) {
     int sanity2 = penemy->id;
     struct tile *ptile = unit_tile(penemy);
-    struct unit *enemy_defender = get_defender(punit, ptile, NULL);
+    struct unit *enemy_defender = get_defender(nmap, punit, ptile, NULL);
     double punitwin, penemywin;
     double threshold = 0.25;
     struct tile *tgt_tile = unit_tile(punit);
@@ -3403,7 +3406,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     }
 
     if (NULL != enemy_defender) {
-      punitwin = unit_win_chance(punit, enemy_defender, NULL);
+      punitwin = unit_win_chance(nmap, punit, enemy_defender, NULL);
     } else {
       /* 'penemy' can attack 'punit' but it may be not reciproque. */
       punitwin = 1.0;

@@ -297,7 +297,7 @@ static int unit_def_rating_squared(const struct unit *attacker,
 
 /**********************************************************************//**
   Defense rating of def_type unit against att_type unit, squared.
-  See get_virtual_defense_power for the arguments att_type, def_type,
+  See get_virtual_defense_power() for the arguments att_type, def_type,
   x, y, fortified and veteran.
 **************************************************************************/
 int unittype_def_rating_squared(const struct unit_type *att_type,
@@ -306,8 +306,9 @@ int unittype_def_rating_squared(const struct unit_type *att_type,
                                 struct tile *ptile, bool fortified,
                                 int veteran)
 {
-  int v = get_virtual_defense_power(att_type, def_type, def_player, ptile,
-                                    fortified, veteran)
+  struct civ_map *nmap = &(wld.map);
+  int v = get_virtual_defense_power(nmap, att_type, def_type, def_player,
+                                    ptile, fortified, veteran)
     * def_type->hp * def_type->firepower / POWER_DIVIDER;
 
   return v * v;
@@ -397,45 +398,48 @@ static void reinforcements_cost_and_value(struct unit *punit,
 **************************************************************************/
 static bool is_my_turn(struct unit *punit, struct unit *pdef)
 {
-  int val = unit_att_rating_now(punit), cur, d;
+  int val = unit_att_rating_now(punit);
+  int cur, d;
+  const struct unit_type *def_type = unit_type_get(pdef);
+  struct tile *def_tile = unit_tile(pdef);
+  struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
-  square_iterate(&(wld.map), unit_tile(pdef), 1, ptile) {
+  square_iterate(nmap, def_tile, 1, ptile) {
     unit_list_iterate(ptile->units, aunit) {
       if (aunit == punit || unit_owner(aunit) != unit_owner(punit)) {
         continue;
       }
-      if ((unit_attack_units_at_tile_result(aunit, NULL, unit_tile(pdef))
+      if ((unit_attack_units_at_tile_result(aunit, NULL, def_tile)
            != ATT_OK)
           || (unit_attack_unit_at_tile_result(aunit, NULL,
-                                              pdef, unit_tile(pdef))
+                                              pdef, def_tile)
               != ATT_OK)) {
         continue;
       }
-      d = get_virtual_defense_power(unit_type_get(aunit), unit_type_get(pdef),
-                                    unit_owner(pdef), unit_tile(pdef),
+      d = get_virtual_defense_power(nmap, unit_type_get(aunit), def_type,
+                                    unit_owner(pdef), def_tile,
                                     FALSE, 0);
       if (d == 0) {
         return TRUE;            /* Thanks, Markus -- Syela */
       }
       cur = unit_att_rating_now(aunit) *
-          get_virtual_defense_power(unit_type_get(punit), unit_type_get(pdef),
-                                    unit_owner(pdef), unit_tile(pdef),
-                                    FALSE, 0) / d;
+        get_virtual_defense_power(nmap, unit_type_get(punit), def_type,
+                                  unit_owner(pdef), def_tile,
+                                  FALSE, 0) / d;
       if (cur > val && ai_fuzzy(unit_owner(punit), TRUE)) {
         return FALSE;
       }
-    }
-    unit_list_iterate_end;
-  }
-  square_iterate_end;
+    } unit_list_iterate_end;
+  } square_iterate_end;
+
   return TRUE;
 }
 
 /**********************************************************************//**
   This function appraises the location (x, y) for a quick hit-n-run
-  operation.  We do not take into account reinforcements: rampage is for
+  operation. We do not take into account reinforcements: rampage is for
   loners.
 
   Returns value as follows:
@@ -453,11 +457,12 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
   struct unit *pdef;
+  struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
   if (can_unit_attack_tile(punit, NULL, ptile)
-      && (pdef = get_defender(punit, ptile, NULL))) {
+      && (pdef = get_defender(nmap, punit, ptile, NULL))) {
     /* See description of kill_desire() about these variables. */
     int attack = unit_att_rating_now(punit);
     int benefit = stack_cost(punit, pdef);
@@ -477,7 +482,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
 
     /* If we have non-zero attack rating... */
     if (attack > 0 && is_my_turn(punit, pdef)) {
-      double chance = unit_win_chance(punit, pdef, NULL);
+      double chance = unit_win_chance(nmap, punit, pdef, NULL);
       int desire = avg_benefit(benefit, loss, chance);
 
       /* No need to amortize, our operation takes one turn. */
@@ -1163,6 +1168,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   adv_want best = 0;    /* Best of all wants. */
   struct tile *goto_dest_tile = NULL;
   bool can_occupy;
+  struct civ_map *nmap = &(wld.map);
 
   /* Very preliminary checks. */
   *pdest_tile = punit_tile;
@@ -1374,7 +1380,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       }
 
       if (can_unit_attack_tile(punit, NULL, city_tile(acity))
-          && (pdefender = get_defender(punit, city_tile(acity), NULL))) {
+          && (pdefender = get_defender(nmap, punit, city_tile(acity), NULL))) {
         vulnerability = unit_def_rating_squared(punit, pdefender);
         benefit = unit_build_shield_cost_base(pdefender);
       } else {
@@ -1545,7 +1551,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
        * We cannot use can_player_attack_tile, because we might not
        * be at war with aplayer yet */
       if (!can_unit_attack_tile(punit, NULL, atile)
-          || aunit != get_defender(punit, atile, NULL)) {
+          || aunit != get_defender(nmap, punit, atile, NULL)) {
         /* We cannot attack it, or it is not the main defender. */
         continue;
       }

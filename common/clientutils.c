@@ -24,6 +24,7 @@
 #include "fc_types.h"
 #include "game.h"  /* FIXME it's extra_type_iterate that needs this really */
 #include "tile.h"
+#include "world_object.h"
 
 #include "clientutils.h"
 
@@ -353,6 +354,7 @@ void combat_odds_to_astr(struct astring *str, struct unit_list *punits,
                          const char *pct_str)
 {
   const struct unit_type *ptype = unit_type_get(punit);
+  struct civ_map *nmap = &(wld.map);
 
   unit_list_iterate(punits, pfocus) {
     int att_chance = FC_INFINITY, def_chance = FC_INFINITY;
@@ -360,8 +362,8 @@ void combat_odds_to_astr(struct astring *str, struct unit_list *punits,
 
     unit_list_iterate(ptile->units, tile_unit) {
       if (unit_owner(tile_unit) != unit_owner(pfocus)) {
-        int att = unit_win_chance(pfocus, tile_unit, NULL) * 100;
-        int def = (1.0 - unit_win_chance(tile_unit, pfocus,
+        int att = unit_win_chance(nmap, pfocus, tile_unit, NULL) * 100;
+        int def = (1.0 - unit_win_chance(nmap, tile_unit, pfocus,
                                          NULL)) * 100;
 
         found = TRUE;

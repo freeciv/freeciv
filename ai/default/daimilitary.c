@@ -89,6 +89,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   double best = 0;
   int best_cost = FC_INFINITY;
   struct player *pplayer = city_owner(pcity);
+  struct civ_map *nmap = &(wld.map);
 
   simple_ai_unit_type_iterate(punittype) {
     if (can_city_build_unit_now(pcity, punittype)) {
@@ -102,7 +103,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
       defender = unit_virtual_create(pplayer, pcity, punittype, veteran);
       defense = get_total_defense_power(attacker, defender);
       attack = get_total_attack_power(attacker, defender, NULL);
-      get_modified_firepower(attacker, defender, &fpatt, &fpdef);
+      get_modified_firepower(nmap, attacker, defender, &fpatt, &fpdef);
 
       /* Greg's algorithm. loss is the average number of health lost by
        * defender. If loss > attacker's hp then we should win the fight,
@@ -135,8 +136,10 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   desirability without regard to cost, unless costs are equal. This is
   very wrong. FIXME, use amortize on time to build.
 **************************************************************************/
-static struct unit_type *dai_choose_attacker(struct ai_type *ait, struct city *pcity,
-                                             enum terrain_class tc, bool allow_gold_upkeep)
+static struct unit_type *dai_choose_attacker(struct ai_type *ait,
+                                             struct city *pcity,
+                                             enum terrain_class tc,
+                                             bool allow_gold_upkeep)
 {
   struct unit_type *bestid = NULL;
   int best = -1;
@@ -520,6 +523,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
   const struct unit *ferry;
   unsigned int danger;
   int amod = -99, dmod;
+  struct civ_map *nmap = &(wld.map);
   bool attack_danger = FALSE;
 
   *move_time = PF_IMPOSSIBLE_MC;
@@ -556,7 +560,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
       && !can_attack_non_native(punittype)) {
     return 0;
   }
-  if (!is_native_near_tile(&(wld.map), unit_class_get(punit), ptile)) {
+  if (!is_native_near_tile(nmap, unit_class_get(punit), ptile)) {
     return 0;
   }
 
@@ -1514,6 +1518,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
   struct adv_choice *best_choice;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_city *acity_data;
+  struct civ_map *nmap = &(wld.map);
 
   best_choice = adv_new_choice();
   best_choice->value.utype = unit_type_get(myunit);
@@ -1574,7 +1579,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
       def_vet = 0;
     }
 
-    pdef = get_defender(myunit, ptile, NULL);
+    pdef = get_defender(nmap, myunit, ptile, NULL);
     if (pdef) {
       int m = unittype_def_rating_squared(unit_type_get(myunit), unit_type_get(pdef),
                                           city_owner(acity), ptile, FALSE,
@@ -1606,7 +1611,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
       ferry_map = NULL;
     }
 
-    pdef = get_defender(myunit, ptile, NULL);
+    pdef = get_defender(nmap, myunit, ptile, NULL);
     if (!pdef) {
       /* Nobody to attack! */
       goto cleanup;
