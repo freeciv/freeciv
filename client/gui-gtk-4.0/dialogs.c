@@ -702,7 +702,7 @@ static void create_nation_selection_lists(void)
   int i;
 
   for (i = 0; i < nation_group_count(); i++) {
-    struct nation_group* group = (nation_group_by_number(i));
+    struct nation_group *group = (nation_group_by_number(i));
 
     if (is_nation_group_hidden(group)) {
       races_nation_list[i] = NULL;
@@ -846,7 +846,7 @@ static void create_races_dialog(struct player *pplayer)
   GtkWidget *shell;
   GtkWidget *cmd;
   GtkWidget *group;
-  GtkWidget *hgrid, *table;
+  GtkWidget *hbox, *table;
   GtkWidget *frame, *label, *combo;
   GtkWidget *text;
   GtkWidget *notebook;
@@ -857,7 +857,6 @@ static void create_races_dialog(struct player *pplayer)
   GtkTreeViewColumn *column;
   int i;
   char *title;
-  int grid_col = 0;
 
   /* Init. */
   selected_nation = -1;
@@ -876,7 +875,7 @@ static void create_races_dialog(struct player *pplayer)
                                       _("_Cancel"),
                                       GTK_RESPONSE_CANCEL,
                                       _("_Random Nation"),
-                                      GTK_RESPONSE_NO, /* arbitrary */
+                                      GTK_RESPONSE_NO, /* Arbitrary */
                                       _("_OK"),
                                       GTK_RESPONSE_ACCEPT,
                                       NULL);
@@ -889,18 +888,17 @@ static void create_races_dialog(struct player *pplayer)
   frame = gtk_frame_new(_("Select a nation"));
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), frame);
 
-  hgrid = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 18);
-  gtk_widget_set_margin_start(hgrid, 3);
-  gtk_widget_set_margin_end(hgrid, 3);
-  gtk_widget_set_margin_top(hgrid, 3);
-  gtk_widget_set_margin_bottom(hgrid, 3);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 18);
+  gtk_widget_set_margin_start(hbox, 3);
+  gtk_widget_set_margin_end(hbox, 3);
+  gtk_widget_set_margin_top(hbox, 3);
+  gtk_widget_set_margin_bottom(hbox, 3);
 
-  gtk_frame_set_child(GTK_FRAME(frame), hgrid);
+  gtk_frame_set_child(GTK_FRAME(frame), hbox);
 
   /* Left side: nation list */
   {
-    GtkWidget* nation_selection_list = gtk_grid_new();
+    GtkWidget *nation_selection_list = gtk_grid_new();
 
     nationsets_chooser = NULL;
 
@@ -1051,13 +1049,13 @@ static void create_races_dialog(struct player *pplayer)
     /* Populate treeview */
     create_nation_selection_lists();
 
-    gtk_grid_attach(GTK_GRID(hgrid), nation_selection_list, grid_col++, 0, 1, 1);
+    gtk_box_append(GTK_BOX(hbox), nation_selection_list);
   }
 
   /* Right side. */
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
-  gtk_grid_attach(GTK_GRID(hgrid), notebook, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), notebook);
 
   /* Properties pane. */
   label = gtk_label_new_with_mnemonic(_("_Properties"));
@@ -1110,7 +1108,7 @@ static void create_races_dialog(struct player *pplayer)
 
   /* City style. */
   store = gtk_list_store_new(3, G_TYPE_INT,
-      GDK_TYPE_PIXBUF, G_TYPE_STRING);
+                             GDK_TYPE_PIXBUF, G_TYPE_STRING);
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(list, TRUE);
@@ -1119,13 +1117,13 @@ static void create_races_dialog(struct player *pplayer)
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(list)), "changed",
-      G_CALLBACK(races_style_callback), NULL);
+                   G_CALLBACK(races_style_callback), NULL);
 
   sw = gtk_scrolled_window_new();
   gtk_widget_set_margin_top(sw, 6);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-      GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), list);
   gtk_grid_attach(GTK_GRID(table), sw, 1, 2, 2, 2);
 
@@ -1142,11 +1140,11 @@ static void create_races_dialog(struct player *pplayer)
 
   render = gtk_cell_renderer_pixbuf_new();
   column = gtk_tree_view_column_new_with_attributes(NULL, render,
-      "pixbuf", 1, NULL);
+                                                    "pixbuf", 1, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
   render = gtk_cell_renderer_text_new();
   column = gtk_tree_view_column_new_with_attributes(NULL, render,
-      "text", 2, NULL);
+                                                    "text", 2, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
 
   /* Populate style store. */
@@ -1192,15 +1190,15 @@ static void create_races_dialog(struct player *pplayer)
   g_signal_connect(shell, "destroy",
                    G_CALLBACK(widget_destroyed), &races_shell);
   g_signal_connect(shell, "response",
-      G_CALLBACK(races_response), NULL);
+                   G_CALLBACK(races_response), NULL);
 
   g_signal_connect(GTK_COMBO_BOX(races_leader), "changed",
-      G_CALLBACK(races_leader_callback), NULL);
+                   G_CALLBACK(races_leader_callback), NULL);
 
   g_signal_connect(races_sex[0], "toggled",
-      G_CALLBACK(races_sex_callback), GINT_TO_POINTER(SEX_FEMALE));
+                   G_CALLBACK(races_sex_callback), GINT_TO_POINTER(SEX_FEMALE));
   g_signal_connect(races_sex[1], "toggled",
-      G_CALLBACK(races_sex_callback), GINT_TO_POINTER(SEX_MALE));
+                   G_CALLBACK(races_sex_callback), GINT_TO_POINTER(SEX_MALE));
 
   /* Finish up. */
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CANCEL);
@@ -1212,7 +1210,7 @@ static void create_races_dialog(struct player *pplayer)
   }
 
   gtk_widget_set_visible(gtk_dialog_get_content_area(GTK_DIALOG(shell)),
-                                                     FALSE);
+                                                     TRUE);
 
   /* Select player's current nation in UI, if any */
   if (races_player->nation) {
