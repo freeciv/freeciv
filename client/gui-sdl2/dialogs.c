@@ -184,22 +184,25 @@ void popdown_all_game_dialogs(void)
 /* ======================================================================= */
 
 /**********************************************************************//**
-  Find the my unit's (focus) chance of success at attacking/defending the
-  given enemy unit.  Return FALSE if the values cannot be determined (e.g., no
+  Find my unit's (focus) chance of success at attacking/defending the
+  given enemy unit. Return FALSE if the values cannot be determined (e.g., no
   units given).
 **************************************************************************/
 static bool sdl_get_chance_to_win(int *att_chance, int *def_chance,
-                                  struct unit *enemy_unit, struct unit *my_unit)
-{  
+                                  struct unit *enemy_unit,
+                                  struct unit *my_unit)
+{
   if (!my_unit || !enemy_unit) {
     return FALSE;
   }
 
-  /* chance to win when active unit is attacking the selected unit */
-  *att_chance = unit_win_chance(my_unit, enemy_unit, NULL) * 100;
+  /* Chance to win when active unit is attacking the selected unit */
+  *att_chance = unit_win_chance(&(wld.map), my_unit,
+                                enemy_unit, NULL) * 100;
 
-  /* chance to win when selected unit is attacking the active unit */
-  *def_chance = (1.0 - unit_win_chance(enemy_unit, my_unit, NULL)) * 100;
+  /* Chance to win when selected unit is attacking the active unit */
+  *def_chance = (1.0 - unit_win_chance(&(wld.map), enemy_unit,
+                                       my_unit, NULL)) * 100;
 
   return TRUE;
 }
@@ -1680,7 +1683,8 @@ static int unit_help_callback(struct widget *pwidget)
   Popup a generic dialog to display some generic information about
   terrain : tile, units , cities, etc.
 **************************************************************************/
-void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_y)
+void popup_advanced_terrain_dialog(struct tile *ptile,
+                                   Uint16 pos_x, Uint16 pos_y)
 {
   struct widget *pwindow = NULL, *buf = NULL;
   struct city *pcity;
@@ -1729,7 +1733,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   area = pwindow->area;
 
   /* ---------- */
-  /* exit button */
+  /* Exit button */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -1762,7 +1766,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   /* ---------- */
   if (pcity && city_owner(pcity) == client.conn.playing) {
-    /* separator */
+    /* Separator */
     buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
 
     add_to_gui_list(ID_SEPARATOR, buf);
@@ -1821,7 +1825,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   if (focus_unit
       && (tile_index(unit_tile(focus_unit)) != tile_index(ptile))) {
-    /* separator */
+    /* Separator */
     buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
 
     add_to_gui_list(ID_SEPARATOR, buf);
@@ -1892,7 +1896,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     const struct unit_type *punittype = NULL;
 
     units_h = 0;
-    /* separator */
+
+    /* Separator */
     buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
 
     add_to_gui_list(ID_SEPARATOR, buf);
@@ -1907,9 +1912,10 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
       #define ADV_NUM_SEEN  15
 
-      defender = (focus_unit ? get_defender(focus_unit, ptile, NULL)
-                             : NULL);
-      attacker = (focus_unit ? get_attacker(focus_unit, ptile) : NULL);
+      defender = (focus_unit ? get_defender(&(wld.map), focus_unit, ptile, NULL)
+                  : NULL);
+      attacker = (focus_unit ? get_attacker(&(wld.map), focus_unit, ptile)
+                  : NULL);
       for (i = 0; i < n; i++) {
         punit = unit_list_get(ptile->units, i);
         if (punit == focus_unit) {
