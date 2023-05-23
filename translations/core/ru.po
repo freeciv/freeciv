@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-05-16 13:41+0500\n"
-"PO-Revision-Date: 2023-05-16 13:36+0500\n"
+"POT-Creation-Date: 2023-05-23 15:41+0500\n"
+"PO-Revision-Date: 2023-05-22 14:16+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -15636,7 +15636,7 @@ msgstr "(Нажмите для подробностей)"
 msgid "%s People"
 msgstr "Народ %s"
 
-#: client/text.c:1011 server/gamehand.c:893
+#: client/text.c:1011 server/gamehand.c:894
 #, c-format
 msgid "Year: %s"
 msgstr "Год: %s"
@@ -43421,32 +43421,37 @@ msgstr "Производство %1$s в городе %3$s модернизир�
 msgid "The %s worklist is now empty."
 msgstr "План производства города %s теперь пуст."
 
-#: server/cityturn.c:2360
+#: server/cityturn.c:2366
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Город %s не может поддерживать %s, соединение расформировано."
 
-#: server/cityturn.c:2380
+#: server/cityturn.c:2406
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Жители города %s умирают, надрываясь в попытке содержать %s!"
 
-#: server/cityturn.c:2431 server/cityturn.c:2636
+#: server/cityturn.c:2412
+#, c-format
+msgid "Citizens in %s perish for their failure to upkeep units!"
+msgstr "Жители города %s изнурены, надрываясь в попытке содержать соединения!"
+
+#: server/cityturn.c:2455 server/cityturn.c:2660
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "Город %s строит здание %s, которое больше не доступно."
 
-#: server/cityturn.c:2471
+#: server/cityturn.c:2495
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s завершили строительство Чуда %s в городе %s."
 
-#: server/cityturn.c:2478
+#: server/cityturn.c:2502
 #, c-format
 msgid "%s has finished building %s."
 msgstr "В городе %s завершено строительство здания %s."
 
-#: server/cityturn.c:2499
+#: server/cityturn.c:2523
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -43455,25 +43460,25 @@ msgstr[1] "%s ускоряет исследования, Вы немедленн
 msgstr[2] "%s ускоряет исследования, Вы немедленно получаете %d технологий."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2513
+#: server/cityturn.c:2537
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "Чудо %2$s дало Вам технологию %1$s."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2519
+#: server/cityturn.c:2543
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "%s получили технологию %s от Чуда %s."
 
-#: server/cityturn.c:2526
+#: server/cityturn.c:2550
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s начали строительство космического корабля!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2661
+#: server/cityturn.c:2685
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -43482,14 +43487,14 @@ msgstr ""
 
 # FIXME: misleading TRANS-comment. Only unit can be here.
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2696
+#: server/cityturn.c:2720
 #, c-format
 msgid "%s is finished building %s."
 msgstr "В городе %s закончено формирование соединения %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2733
+#: server/cityturn.c:2757
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
@@ -43503,61 +43508,61 @@ msgstr[2] ""
 "Со строительством соединения %1$s размер города %3$s уменьшился на %2$d до "
 "%4$d."
 
-#: server/cityturn.c:2813
+#: server/cityturn.c:2837
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Невозможно содержать %s в %s, здание продано!"
 
-#: server/cityturn.c:2964
+#: server/cityturn.c:2988
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Недостаточно золота. Соединение %s расформировано."
 
-#: server/cityturn.c:3207 server/cityturn.c:4031
+#: server/cityturn.c:3231 server/cityturn.c:4055
 #, c-format
 msgid "Pollution near %s."
 msgstr "Загрязнение возле %s."
 
-#: server/cityturn.c:3381
+#: server/cityturn.c:3405
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "В городе %s начался праздник."
 
-#: server/cityturn.c:3387
+#: server/cityturn.c:3411
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Праздник в городе %s завершён."
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3464
+#: server/cityturn.c:3488
 msgid " Unrest threatens to spread beyond the city."
 msgstr " Существует угроза распространения беспорядков за пределы города."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3471
+#: server/cityturn.c:3495
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "Гражданские беспорядки в городе %s.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3476
+#: server/cityturn.c:3500
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "В ГОРОДЕ %s ПРОДОЛЖАЮТСЯ ГРАЖДАНСКИЕ БЕСПОРЯДКИ.%s"
 
-#: server/cityturn.c:3482
+#: server/cityturn.c:3506
 #, c-format
 msgid "Order restored in %s."
 msgstr "В городе %s был восстановлен порядок."
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3494
+#: server/cityturn.c:3518
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Ваша %s свергнута, страна в хаосе."
 
-#: server/cityturn.c:3538
+#: server/cityturn.c:3562
 #, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
@@ -43565,13 +43570,13 @@ msgstr ""
 "единственный город."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3567
+#: server/cityturn.c:3591
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "Город %s был разрушен, вместо него у нас теперь есть %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3776
+#: server/cityturn.c:3800
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -43579,7 +43584,7 @@ msgstr ""
 "Мигранты из города %s не могут переехать в %s, так как там недостаточно еды!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3783
+#: server/cityturn.c:3807
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -43589,7 +43594,7 @@ msgstr ""
 "недостаточно еды!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3788
+#: server/cityturn.c:3812
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -43599,7 +43604,7 @@ msgstr ""
 "недостаточно еды!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3803
+#: server/cityturn.c:3827
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -43608,7 +43613,7 @@ msgstr ""
 "здание, необходимое для обеспечения жильём растущего населения!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3810
+#: server/cityturn.c:3834
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -43618,7 +43623,7 @@ msgstr ""
 "населения!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3815
+#: server/cityturn.c:3839
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -43627,78 +43632,78 @@ msgstr ""
 "ещё не построено здание, необходимое для обеспечения жильём растущего "
 "населения!"
 
-#: server/cityturn.c:3864
+#: server/cityturn.c:3888
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "Город %s был разрушен после того как был оставлен своими жителями."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3902
+#: server/cityturn.c:3926
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Мигранты из %s в поисках лучшей жизни переехали в город %s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3908
+#: server/cityturn.c:3932
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Мигранты из %s в поисках лучшей жизни переехали в %s, город народа %s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3913
+#: server/cityturn.c:3937
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 "Мигранты из %s, города народа %s, в поисках лучшей жизни переехали в %s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:4003
+#: server/cityturn.c:4027
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "В городе %s бедствием были уничтожены все запасы еды."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:4025
+#: server/cityturn.c:4049
 #, c-format
 msgid "%s was hit by %s."
 msgstr "Бедствие: %2$s в городе %1$s!"
 
-#: server/cityturn.c:4039
+#: server/cityturn.c:4063
 #, c-format
 msgid "Fallout near %s."
 msgstr "Радиоактивное заражение в окрестностях города %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:4050
+#: server/cityturn.c:4074
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "Бедствие %s полностью разрушило город %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:4056
+#: server/cityturn.c:4080
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "Бедствие %s вызвало потерю населения в городе %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:4081
+#: server/cityturn.c:4105
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "Бедствие %s уничтожило здание %s в городе %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:4106
+#: server/cityturn.c:4130
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Строившееся в городе %2$s Чудо %1$s было разрушено."
 
-#: server/cityturn.c:4276
+#: server/cityturn.c:4300
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "Жители города %s в поисках лучшей жизни подумывают о переезде в %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4298
+#: server/cityturn.c:4322
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -46259,17 +46264,17 @@ msgstr ""
 "Сервер не смог найти оптимальное решение по размещению команд после %d "
 "итераций."
 
-#: server/gamehand.c:870
+#: server/gamehand.c:871
 #, c-format
 msgid "No units placed for %s!"
 msgstr "Нет размещённых соединений для %s!"
 
-#: server/gamehand.c:998
+#: server/gamehand.c:999
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 "Тайм-аут хода превысил максимальное значение, установливаем новый максимум."
 
-#: server/gamehand.c:1006
+#: server/gamehand.c:1007
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Тайм-аут хода меньше нуля, устанавливаем в 0."
 
