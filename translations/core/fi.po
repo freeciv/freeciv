@@ -42952,7 +42952,8 @@ msgstr "Kaupungin %s asukkaat kuolevat, kun %s kärsivät ylläpidon puutteesta!
 #: server/cityturn.c:2412
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep units!"
-msgstr "Kaupungin %s asukkaat kuolevat, kun yksiköt kärsivät ylläpidon puutteesta!"
+msgstr ""
+"Kaupungin %s asukkaat kuolevat, kun yksiköt kärsivät ylläpidon puutteesta!"
 
 #: server/cityturn.c:2455 server/cityturn.c:2660
 #, c-format

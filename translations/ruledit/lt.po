@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-23 04:18+0200\n"
+"POT-Creation-Date: 2023-05-13 10:50+0300\n"
 "PO-Revision-Date: 2010-10-11 20:07+0100\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -22,6 +22,36 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:107
+msgid "Graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:116
+msgid "Alt graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:66
+msgid "Activity graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:75
+msgid "Alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:84
+msgid "Second alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:93
+msgid "Removal activity graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:102
+msgid "Alt removal activity gfx tag"
+msgstr ""
+
 #: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr ""
@@ -32,16 +62,6 @@ msgstr ""
 
 #: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
-msgstr ""
-
-#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
-#: tools/ruledit/edit_utype.cpp:107
-msgid "Graphics tag"
-msgstr ""
-
-#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
-#: tools/ruledit/edit_utype.cpp:116
-msgid "Alt graphics tag"
 msgstr ""
 
 #: tools/ruledit/edit_terrain.cpp:49
@@ -77,7 +97,7 @@ msgid "Value:"
 msgstr ""
 
 #: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
-#: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr ""
@@ -325,7 +345,7 @@ msgstr ""
 msgid "Quit?"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:65
+#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
 #: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:66
@@ -336,8 +356,8 @@ msgstr "Žaidėjo vardas :"
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:153 tools/ruledit/tab_building.cpp:154
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
-#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_extras.cpp:78
-#: tools/ruledit/tab_extras.cpp:148 tools/ruledit/tab_extras.cpp:149
+#: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
+#: tools/ruledit/tab_extras.cpp:155 tools/ruledit/tab_extras.cpp:156
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
 #: tools/ruledit/tab_good.cpp:149 tools/ruledit/tab_good.cpp:150
 #: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
@@ -353,19 +373,19 @@ msgstr "Žaidėjo vardas :"
 msgid "None"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
+#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:76
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
 #: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "Vardas"
 
-#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
-#: tools/ruledit/tab_unit.cpp:85
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:88
+#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
 #: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:89
@@ -434,16 +454,16 @@ msgstr ""
 msgid "action enabler for %s"
 msgstr ""
 
-#: tools/ruledit/tab_extras.cpp:92
+#: tools/ruledit/tab_extras.cpp:99
 msgid "Add Extra"
 msgstr ""
 
-#: tools/ruledit/tab_extras.cpp:97
+#: tools/ruledit/tab_extras.cpp:104
 #, fuzzy
 msgid "Remove this Extra"
 msgstr "Nustatyti serverio parinktį."
 
-#: tools/ruledit/tab_extras.cpp:183
+#: tools/ruledit/tab_extras.cpp:190
 msgid "An extra with that rule name already exists!"
 msgstr ""
 
@@ -605,7 +625,12 @@ msgstr "_Technologijos"
 msgid "?stat:Multipliers"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:230
+#: tools/ruledit/tab_misc.cpp:226
+#, fuzzy
+msgid "?stat:Effects"
+msgstr "_Technologijos"
+
+#: tools/ruledit/tab_misc.cpp:234
 msgid "Refresh Stats"
 msgstr ""
 
@@ -614,23 +639,23 @@ msgstr ""
 msgid "Ruleset saved"
 msgstr "Dykuma"
 
-#: tools/ruledit/tab_misc.cpp:440
+#: tools/ruledit/tab_misc.cpp:458
 msgid "Always active"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:461
+#: tools/ruledit/tab_misc.cpp:479
 msgid "Sanity Check"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:468
+#: tools/ruledit/tab_misc.cpp:486
 msgid "Sanity check failed!"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:470
+#: tools/ruledit/tab_misc.cpp:488
 msgid "Sanity check success"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:479
+#: tools/ruledit/tab_misc.cpp:497
 msgid "All effects"
 msgstr ""
 
