@@ -116,6 +116,10 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   const char *latest_ver;
   const char *comment;
 
+  /* Have the string outside Q_() so it won't get collected for translation here.
+   * Actual collected string lives in translations/Strings.txt */
+#define QUALIFIED_FOLLOWTAG "?vertag:" FOLLOWTAG
+
   /* This call closes f. */
   if (!(file = secfile_from_stream(f, TRUE))) {
     return NULL;
@@ -131,7 +135,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                 /* TRANS: Type is version tag name like "stable", "S3_2",
                  * "windows" (which can also be localised -- msgids start
                  * '?vertag:') */
-                _("There's no %s release yet."), Q_("?vertag:" FOLLOWTAG));
+                _("There's no %s release yet."), Q_(QUALIFIED_FOLLOWTAG));
     log_verbose("%s", vertext);
     version_message(vertext);
   } else {
@@ -148,7 +152,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                      * "windows" (which can also be localised -- msgids start
                      * '?vertag:') */
                     _("Latest %s release of Freeciv is %s, this is %s."),
-                    Q_("?vertag:" FOLLOWTAG), latest_ver, my_comparable);
+                    Q_(QUALIFIED_FOLLOWTAG), latest_ver, my_comparable);
 
         version_message(vertext);
       } else if (comment == NULL) {
