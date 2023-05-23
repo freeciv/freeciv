@@ -2101,7 +2101,7 @@ void fc_client::start_page_menu(QPoint pos)
 }
 
 /**********************************************************************//**
-  Calls dialg selecting nations
+  Calls dialog selecting nations
 **************************************************************************/
 void fc_client::slot_pick_nation()
 {
