@@ -902,6 +902,8 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE7NAME "web"
 #define SPECENUM_VALUE8 GUI_GTK4
 #define SPECENUM_VALUE8NAME "gtk4"
+#define SPECENUM_VALUE9 GUI_GTK5
+#define SPECENUM_VALUE9NAME "gtk4x"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
