@@ -1,0 +1,22 @@
+app-id: org.freeciv.ruledit
+runtime: org.kde.Platform
+runtime-version: '6.4'
+sdk: org.kde.Sdk
+command: freeciv-ruledit
+rename-icon: freeciv-ruledit
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --filesystem=~/.freeciv:create
+modules:
+  - name: freeciv-ruledit
+    buildsystem: simple
+    build-commands:
+      # On git clone, regenerate configure with autogen.sh
+      - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
+      - mkdir build
+      - cd build && ../configure --prefix=/app --with-qtver=qt6 --enable-ruledit --disable-client --disable-fcmp --disable-freeciv-manual --disable-server && make -j$(nproc) && make install
+    sources:
+      - type: dir
+        path: ../..

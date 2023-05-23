@@ -12,4 +12,5 @@ EXTRA_DIST =						\
 		flatpak/org.freeciv.mp.gtk4.yml		\
 		flatpak/org.freeciv.qt.yml		\
 		flatpak/org.freeciv.sdl2.yml		\
+		flatpak/org.freeciv.ruledit.yml		\
 		macos/homebrew-appbundle.sh
