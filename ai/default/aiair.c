@@ -173,10 +173,12 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
   adv_want profit;
   /* time spent in the air */
   int sortie_time;
+  struct civ_map *nmap = &(wld.map);
+
 #define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
 
   if (!can_unit_attack_tile(punit, NULL, dst_tile)
-      || !(pdefender = get_defender(punit, dst_tile))) {
+      || !(pdefender = get_defender(nmap, punit, dst_tile))) {
     return 0;
   }
 
@@ -201,7 +203,7 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
   }
 
   unit_attack = (int) (PROB_MULTIPLIER
-                       * unit_win_chance(punit, pdefender));
+                       * unit_win_chance(nmap, punit, pdefender));
 
   victim_defense = PROB_MULTIPLIER - unit_attack;
 

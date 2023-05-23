@@ -70,9 +70,10 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   int range = unit_type_get(punit)->paratroopers_range;
   struct city* acity;
   struct player* pplayer = unit_owner(punit);
+  struct civ_map *nmap = &(wld.map);
 
   /* First, we search for undefended cities in danger */
-  square_iterate(&(wld.map), unit_tile(punit), range, ptile) {
+  square_iterate(nmap, unit_tile(punit), range, ptile) {
     if (!map_is_known(ptile, pplayer)) {
       continue;
     }
@@ -98,7 +99,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   }
 
   /* Second, we search for undefended enemy cities */
-  square_iterate(&(wld.map), unit_tile(punit), range, ptile) {
+  square_iterate(nmap, unit_tile(punit), range, ptile) {
     acity = tile_city(ptile);
     if (acity && pplayers_at_war(unit_owner(punit), city_owner(acity))
         && (unit_list_size(ptile->units) == 0)) {
@@ -125,7 +126,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   }
 
   /* Jump to kill adjacent units */
-  square_iterate(&(wld.map), unit_tile(punit), range, ptile) {
+  square_iterate(nmap, unit_tile(punit), range, ptile) {
     struct terrain *pterrain = tile_terrain(ptile);
     if (is_ocean(pterrain)) {
       continue;
@@ -146,8 +147,9 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     if (!acity && unit_list_size(ptile->units) > 0) {
       continue;
     }
+
     /* Iterate over adjacent tile to find good victim */
-    adjc_iterate(&(wld.map), ptile, target) {
+    adjc_iterate(nmap, ptile, target) {
       if (unit_list_size(target->units) == 0
           || !can_unit_attack_tile(punit, NULL, target)
           || is_ocean_tile(target)
@@ -167,9 +169,10 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
           }
         } unit_list_iterate_end;
       } else {
-        val += get_defender(punit, target)->hp * 100;
+        val += get_defender(nmap, punit, target)->hp * 100;
       }
-      val *= unit_win_chance(punit, get_defender(punit, target));
+      val *= unit_win_chance(nmap, punit,
+                             get_defender(nmap, punit, target));
       val += pterrain->defense_bonus / 10;
       val -= punit->hp * 100;
       
@@ -313,15 +316,16 @@ static int calculate_want_for_paratrooper(struct unit *punit,
   int profit = 0;
   struct player* pplayer = unit_owner(punit);
   int total, total_cities;
+  struct civ_map *nmap = &(wld.map);
 
   profit += u_type->defense_strength
           + u_type->move_rate 
 	  + u_type->attack_strength;
-  
-  square_iterate(&(wld.map), ptile_city, range, ptile) {
+
+  square_iterate(nmap, ptile_city, range, ptile) {
     int multiplier;
     struct city *pcity = tile_city(ptile);
-    
+
     if (!pcity) {
       continue;
     }
@@ -330,9 +334,9 @@ static int calculate_want_for_paratrooper(struct unit *punit,
       continue;
     }
 
-    /* We prefer jumping to other continents. On the same continent we 
+    /* We prefer jumping to other continents. On the same continent we
      * can fight traditionally.
-     * FIXME: Handle ocean cities we can attack. */    
+     * FIXME: Handle ocean cities we can attack. */
     if (!is_ocean_tile(ptile)
         && tile_continent(ptile_city) != tile_continent(ptile)) {
       if (get_continent_size(tile_continent(ptile)) < 3) {
@@ -344,12 +348,12 @@ static int calculate_want_for_paratrooper(struct unit *punit,
     } else {
       multiplier = 1;
     }
-    
+
     /* There are lots of units, the city will be safe against paratroopers. */
     if (unit_list_size(ptile->units) > 2) {
       continue;
     }
-    
+
     /* Prefer long jumps.
      * If a city is near we can take/protect it with normal units */
     if (pplayers_allied(pplayer, city_owner(pcity))) {
@@ -387,7 +391,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
   int i;
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
-  /* military_advisor_choose_build does something idiotic,
+  /* military_advisor_choose_build() does something idiotic,
    * this function should not be called if there is danger... */
   if (choice->want >= 100 && choice->type != CT_ATTACKER) {
     return;

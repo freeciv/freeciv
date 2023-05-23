@@ -440,6 +440,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   struct unit *original_target = game_unit_by_number(unit_data->target);
   unsigned original_threat = 0, original_cost = 0;
+  struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(!is_barbarian(pplayer), 0);
   fc_assert_ret_val(pplayer->is_alive, 0);
@@ -531,9 +532,9 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       /* Calculate juiciness of target, compare with existing target,
        * if any. */
       dai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
-      defender = get_defender(punit, target_tile);
+      defender = get_defender(nmap, punit, target_tile);
       if (defender != NULL) {
-        stackcost *= unit_win_chance(punit, defender);
+        stackcost *= unit_win_chance(nmap, punit, defender);
       }
       if (stackcost < unit_build_shield_cost_base(punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)",

@@ -23,6 +23,7 @@
 #include "fc_types.h"
 #include "game.h"  /* FIXME it's extra_type_iterate that needs this really */
 #include "tile.h"
+#include "world_object.h"
 
 #include "clientutils.h"
 

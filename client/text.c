@@ -408,11 +408,12 @@ const char *popup_info_text(struct tile *ptile)
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       int att_chance = FC_INFINITY, def_chance = FC_INFINITY;
       bool found = FALSE;
+      struct civ_map *nmap = &(wld.map);
 
       unit_list_iterate(ptile->units, tile_unit) {
 	if (unit_owner(tile_unit) != unit_owner(pfocus_unit)) {
-	  int att = unit_win_chance(pfocus_unit, tile_unit) * 100;
-	  int def = (1.0 - unit_win_chance(tile_unit, pfocus_unit)) * 100;
+	  int att = unit_win_chance(nmap, pfocus_unit, tile_unit) * 100;
+	  int def = (1.0 - unit_win_chance(nmap, tile_unit, pfocus_unit)) * 100;
 
 	  found = TRUE;
 

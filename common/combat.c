@@ -278,16 +278,16 @@ bool can_unit_attack_tile(const struct unit *punit,
 }
 
 /*******************************************************************//**
-Returns the chance of the attacker winning, a number between 0 and 1.
-If you want the chance that the defender wins just use 1-chance(...)
+  Returns the chance of the attacker winning, a number between 0 and 1.
+  If you want the chance that the defender wins just use 1-chance(...)
 
-NOTE: this number can be _very_ small, fx in a battle between an
-ironclad and a battleship the ironclad has less than 1/100000 chance of
-winning.
+  NOTE: this number can be _very_ small, fx in a battle between an
+  ironclad and a battleship the ironclad has less than 1/100000 chance of
+  winning.
 
-The algoritm calculates the probability of each possible number of HP's
-the attacker has left. Maybe that info should be preserved for use in
-the AI.
+  The algoritm calculates the probability of each possible number of HP's
+  the attacker has left. Maybe that info should be preserved for use in
+  the AI.
 ***********************************************************************/
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
 {
@@ -366,7 +366,8 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
 /*******************************************************************//**
   A unit's effective firepower depend on the situation.
 ***********************************************************************/
-void get_modified_firepower(const struct unit *attacker,
+void get_modified_firepower(const struct civ_map *nmap,
+                            const struct unit *attacker,
                             const struct unit *defender,
                             int *att_fp, int *def_fp)
 {
@@ -423,8 +424,7 @@ void get_modified_firepower(const struct unit *attacker,
    * or from a tile where attacker is despite non-native terrain (city, transport) */
   if (utype_has_class_flag(def_type, UCF_NONNAT_BOMBARD_TGT)
       && !is_native_tile(att_type, unit_tile(defender))
-      && (!can_exist_at_tile(&(wld.map),
-                             def_type, att_tile)
+      && (!can_exist_at_tile(nmap, def_type, att_tile)
           || !is_native_tile(att_type, att_tile))) {
     *att_fp = MIN(*att_fp, game.info.low_firepower_nonnat_bombard);
     *def_fp = MIN(*def_fp, game.info.low_firepower_nonnat_bombard);
@@ -432,19 +432,19 @@ void get_modified_firepower(const struct unit *attacker,
 }
 
 /*******************************************************************//**
-Returns a double in the range [0;1] indicating the attackers chance of
-winning. The calculation takes all factors into account.
+  Returns a double in the range [0;1] indicating the attackers chance of
+  winning. The calculation takes all factors into account.
 ***********************************************************************/
-double unit_win_chance(const struct unit *attacker,
+double unit_win_chance(const struct civ_map *nmap,
+                       const struct unit *attacker,
 		       const struct unit *defender)
 {
   int def_power = get_total_defense_power(attacker, defender);
   int att_power = get_total_attack_power(attacker, defender);
-
   double chance;
-
   int def_fp, att_fp;
-  get_modified_firepower(attacker, defender, &att_fp, &def_fp);
+
+  get_modified_firepower(nmap, attacker, defender, &att_fp, &def_fp);
 
   chance = win_chance(att_power, attacker->hp, att_fp,
 		      def_power, defender->hp, def_fp);
@@ -457,10 +457,11 @@ double unit_win_chance(const struct unit *attacker,
   had enough luck and EFT_NUKE_PROOF.
   If the attack was successful return NULL.
 ***********************************************************************/
-struct city *sdi_try_defend(const struct player *owner,
+struct city *sdi_try_defend(const struct civ_map *nmap,
+                            const struct player *owner,
                             const struct tile *ptile)
 {
-  square_iterate(&(wld.map), ptile, 2, ptile1) {
+  square_iterate(nmap, ptile, 2, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
     if (pcity
@@ -480,7 +481,7 @@ struct city *sdi_try_defend(const struct player *owner,
 }
 
 /*******************************************************************//**
- Returns if the attack is going to be a tired attack
+  Returns if the attack is going to be a tired attack
 ***********************************************************************/
 bool is_tired_attack(int moves_left)
 {
@@ -488,7 +489,7 @@ bool is_tired_attack(int moves_left)
 }
 
 /*******************************************************************//**
-  Convenience wrapper for base_get_attack_power.
+  Convenience wrapper for base_get_attack_power().
 ***********************************************************************/
 int get_attack_power(const struct unit *punit)
 {
@@ -577,14 +578,14 @@ int get_total_attack_power(const struct unit *attacker,
 }
 
 /*******************************************************************//**
- Return an increased defensepower. Effects which increase the
- defensepower are:
-  - unit type effects (horse vs pikemen for example)
-  - defender in a fortress
-  - fortified defender
+  Return an increased defensepower. Effects which increase the
+  defensepower are:
+   - unit type effects (horse vs pikemen for example)
+   - defender in a fortress
+   - fortified defender
 
-May be called with a non-existing att_type to avoid any unit type
-effects.
+  May be called with a non-existing att_type to avoid any unit type
+  effects.
 ***********************************************************************/
 static int defense_multiplication(const struct unit_type *att_type,
                                   const struct unit *def,
@@ -653,7 +654,8 @@ static int defense_multiplication(const struct unit_type *att_type,
   May be called with a non-existing att_type to avoid any effects which
   depend on the attacker.
 ***********************************************************************/
-int get_virtual_defense_power(const struct unit_type *att_type,
+int get_virtual_defense_power(const struct civ_map *nmap,
+                              const struct unit_type *att_type,
                               const struct unit_type *def_type,
                               struct player *def_player,
                               struct tile *ptile,
@@ -668,7 +670,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
 
   fc_assert_ret_val(def_type != NULL, 0);
 
-  if (!can_exist_at_tile(&(wld.map), def_type, ptile)) {
+  if (!can_exist_at_tile(nmap, def_type, ptile)) {
     /* Ground units on ship doesn't defend. */
     return 0;
   }
@@ -750,17 +752,18 @@ int get_fortified_defense_power(const struct unit *attacker,
 }
 
 /*******************************************************************//**
-A number indicating the defense strength.
-Unlike the one got from win chance this doesn't potentially get insanely
-small if the units are unevenly matched, unlike win_chance.
+  A number indicating the defense strength.
+  Unlike the one got from win chance this doesn't potentially get
+  insanely small if the units are unevenly matched, unlike win_chance().
 ***********************************************************************/
-static int get_defense_rating(const struct unit *attacker,
+static int get_defense_rating(const struct civ_map *nmap,
+                              const struct unit *attacker,
 			      const struct unit *defender)
 {
   int afp, dfp;
-
   int rating = get_total_defense_power(attacker, defender);
-  get_modified_firepower(attacker, defender, &afp, &dfp);
+
+  get_modified_firepower(nmap, attacker, defender, &afp, &dfp);
 
   /* How many rounds the defender will last */
   rating *= (defender->hp + afp-1)/afp;
@@ -771,21 +774,22 @@ static int get_defense_rating(const struct unit *attacker,
 }
 
 /*******************************************************************//**
-  Finds the best defender on the tile, given an attacker.  The diplomatic
+  Finds the best defender on the tile, given an attacker. The diplomatic
   relationship of attacker and defender is ignored; the caller should check
   this.
 ***********************************************************************/
-struct unit *get_defender(const struct unit *attacker,
+struct unit *get_defender(const struct civ_map *nmap,
+                          const struct unit *attacker,
 			  const struct tile *ptile)
 {
   struct unit *bestdef = NULL;
   int bestvalue = -99, best_cost = 0, rating_of_best = 0;
 
-  /* Simply call win_chance with all the possible defenders in turn, and
-   * take the best one.  It currently uses build cost as a tiebreaker in
+  /* Simply call unit_win_chance() with all the possible defenders in turn, and
+   * take the best one. It currently uses build cost as a tiebreaker in
    * case 2 units are identical, but this is crude as build cost does not
-   * necessarily have anything to do with the value of a unit.  This function
-   * could be improved to take the value of the unit into account.  It would
+   * necessarily have anything to do with the value of a unit. This function
+   * could be improved to take the value of the unit into account. It would
    * also be nice if the function was a bit more fuzzy about prioritizing,
    * making it able to fx choose a 1a/9d unit over a 10a/10d unit. It should
    * also be able to spare units without full hp's to some extent, as these
@@ -793,42 +797,42 @@ struct unit *get_defender(const struct unit *attacker,
   unit_list_iterate(ptile->units, defender) {
     /* We used to skip over allied units, but the logic for that is
      * complicated and is now handled elsewhere. */
-    if (unit_can_defend_here(&(wld.map), defender)
+    if (unit_can_defend_here(nmap, defender)
         && (unit_attack_unit_at_tile_result(attacker, NULL, defender, ptile)
             == ATT_OK)) {
       bool change = FALSE;
       int build_cost = unit_build_shield_cost_base(defender);
-      int defense_rating = get_defense_rating(attacker, defender);
+      int defense_rating = get_defense_rating(nmap, attacker, defender);
       /* This will make units roughly evenly good defenders look alike. */
       int unit_def 
-        = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
+        = (int) (100000 * (1 - unit_win_chance(nmap, attacker, defender)));
 
       fc_assert_action(0 <= unit_def, continue);
 
       if (unit_has_type_flag(defender, UTYF_GAMELOSS)
           && !is_stack_vulnerable(unit_tile(defender))) {
-        unit_def = -1; /* then always use leader as last defender. */
-        /* FIXME: multiple gameloss units with varying defense value
-         * not handled. */
+        unit_def = -1; /* Then always use leader as last defender. */
+        /* FIXME: Multiple gameloss units with varying defense value
+         *        not handled. */
       }
 
       if (unit_def > bestvalue) {
-	change = TRUE;
+        change = TRUE;
       } else if (unit_def == bestvalue) {
-	if (build_cost < best_cost) {
-	  change = TRUE;
-	} else if (build_cost == best_cost) {
-	  if (rating_of_best < defense_rating) {	
-	    change = TRUE;
-	  }
-	}
+        if (build_cost < best_cost) {
+          change = TRUE;
+        } else if (build_cost == best_cost) {
+          if (rating_of_best < defense_rating) {
+            change = TRUE;
+          }
+        }
       }
 
       if (change) {
-	bestvalue = unit_def;
-	bestdef = defender;
-	best_cost = build_cost;
-	rating_of_best = defense_rating;
+        bestvalue = unit_def;
+        bestdef = defender;
+        best_cost = build_cost;
+        rating_of_best = defense_rating;
       }
     }
   } unit_list_iterate_end;
@@ -839,10 +843,11 @@ struct unit *get_defender(const struct unit *attacker,
 /*******************************************************************//**
   Get unit at (x, y) that wants to kill defender.
 
-  Works like get_defender; see comment there.
+  Works like get_defender(); see comment there.
   This function is mostly used by the AI.
 ***********************************************************************/
-struct unit *get_attacker(const struct unit *defender,
+struct unit *get_attacker(const struct civ_map *nmap,
+                          const struct unit *defender,
                           const struct tile *ptile)
 {
   struct unit *bestatt = 0;
@@ -854,7 +859,7 @@ struct unit *get_attacker(const struct unit *defender,
     if (pplayers_allied(unit_owner(defender), unit_owner(attacker))) {
       return NULL;
     }
-    unit_a = (int) (100000 * (unit_win_chance(attacker, defender)));
+    unit_a = (int) (100000 * (unit_win_chance(nmap, attacker, defender)));
     if (unit_a > bestvalue
         || (unit_a == bestvalue && build_cost < best_cost)) {
       bestvalue = unit_a;
