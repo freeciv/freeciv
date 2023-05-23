@@ -98,6 +98,7 @@ EXTRA_DIST =	autogen.sh 			\
 		flatpak/org.freeciv.mp.gtk4.yml	\
 		flatpak/org.freeciv.qt.yml	\
 		flatpak/org.freeciv.sdl2.yml	\
+		flatpak/org.freeciv.ruledit.yml	\
 		platforms/macos/homebrew-appbundle.sh \
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
