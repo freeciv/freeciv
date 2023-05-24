@@ -378,7 +378,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
   }
 
 
-  /* Free Memmory */
+  /* Free Memory */
   for (i = 0; i < count; i++) {
     FC_FREE(utf8_texts[i]);
     FREESURFACE(tmp[i]);
