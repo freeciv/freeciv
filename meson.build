@@ -666,6 +666,7 @@ endif
 
 python_exe = find_program('python3')
 sh_exe = find_program('sh')
+gzip_exe = find_program('gzip')
 
 common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/luasql/src', 'dependencies/tinycthread',
@@ -1806,19 +1807,38 @@ install_data('data/buildings/airport.png',
              install_dir : join_paths(get_option('datadir'),
                                       'freeciv/buildings'))
 
-install_data('data/scenarios/british-isles.sav',
-             'data/scenarios/earth-large.sav',
-             'data/scenarios/earth-small.sav',
-             'data/scenarios/europe.sav',
-             'data/scenarios/europe_1900_WWI.sav',
-             'data/scenarios/france.sav',
-             'data/scenarios/hagworld.sav',
-             'data/scenarios/iberian-peninsula.sav',
-             'data/scenarios/italy.sav',
-             'data/scenarios/japan.sav',
-             'data/scenarios/north_america.sav',
-             'data/scenarios/tutorial.sav',
-             install_dir : join_paths(get_option('datadir'), 'freeciv/scenarios'))
+scenarios = [
+  'british-isles.sav',
+  'earth-large.sav',
+  'earth-small.sav',
+  'europe.sav',
+  'europe_1900_WWI.sav',
+  'france.sav',
+  'hagworld.sav',
+  'iberian-peninsula.sav',
+  'italy.sav',
+  'japan.sav',
+  'north_america.sav',
+  'tutorial.sav'
+]
+
+if host_system != 'windows'
+  foreach scen : scenarios
+    scenzip = custom_target('gzip_' + scen,
+                            command: [gzip_exe, '--best', '-n', '-c', '@INPUT@' ],
+                            output: '@PLAINNAME@.gz',
+                            capture: true,
+                            input: join_paths('data/scenarios', scen),
+                            install: true,
+                            install_dir: join_paths(get_option('datadir'), 'freeciv/scenarios'))
+  endforeach
+else
+  # Windows - cannot compress at the moment (msys2 gzip on CI failing)
+  foreach scen : scenarios
+    install_data(join_paths('data/scenarios', scen),
+                 install_dir: join_paths(get_option('datadir'), 'freeciv/scenarios'))
+  endforeach
+endif
 
 install_data('data/wonders/apollo_program.png',
              'data/wonders/asmiths_trading_co.png',
