@@ -1418,8 +1418,7 @@ static void help_update_terrain(const struct help_item *pitem,
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE,
                                      _("Build as mine"));
     }
-    if (pterrain->road_time != 0
-        && action_id_univs_not_blocking(ACTION_ROAD, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_ROAD, NULL, &for_terr)) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD,
                                      _("Build as road"));
     }
