@@ -15,12 +15,12 @@ action is enabled (and all its hard requirements are fulfilled). A ruleset
 author can therefore disable an action by not defining any action enablers for
 it in their ruleset.
 
-A generalized action enabler lives in game.ruleset. It consists of the action it
-enables and two requirement vectors. The first requirement vector, actor_reqs,
-applies to the entity doing the action. The second, target_reqs, applies to its
-target. If both requirement vectors are fulfilled the action is enabled as far
-as the action enabler is concerned. Note that an action's hard requirements
-still may make it impossible.
+A generalized action enabler lives in actions.ruleset. It consists of
+the action it enables and two requirement vectors.
+The first requirement vector, actor_reqs, applies to the entity doing
+the action. The second, target_reqs, applies to its target. If both requirement
+vectors are fulfilled the action is enabled as far as the action enabler is
+concerned. Note that an action's hard requirements still may make it impossible.
 
 In some situations an action controlled by generalized action enablers may be
 impossible because of limitations in Freeciv it self. Those limitations are
