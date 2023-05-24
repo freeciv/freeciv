@@ -1200,7 +1200,7 @@ Actions done by a unit against a tile
  * the target extra (the extra to be built) is an road
  * the target tile doesn't already have the target extra
  * the target extra is buildable (see extra type's buildable)
- * the target tile's terrain's road_time isn't 0
+ * the target tile's terrain's road_time is above 0 (!)
  * if the target extra is both a road and a base the target tile's terrain's
    base_time isn't 0
  * if the target extra is both a road and a base the target extra can't
