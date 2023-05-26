@@ -44,6 +44,39 @@
 
 #define log_rand log_debug
 
+
+#define STD_RAND_VALUE_LOG(_c, _s, _nr, _f, _l)     \
+  log_rand("%s(%lu) = %lu at %s:%d", _c,            \
+           (unsigned long) _s, (unsigned long) _nr, \
+           _f, _l);
+
+
+#ifdef LOG_RAND_VALUES
+static bool randlog_enabled = TRUE;
+
+/*********************************************************************//**
+  Control if generated random numbers get written to log at LOG_NORMAL
+  logging level.
+
+  @param  enable  Whether to enable or disable the feature
+*************************************************************************/
+void enable_randlog(bool enable)
+{
+  randlog_enabled = enable;
+}
+
+#define RAND_VALUE_LOG(_c, _s, _nr, _f, _l)             \
+  if (randlog_enabled) {                                \
+    log_normal("%lu -> %lu %s:%d",                      \
+               (unsigned long) _s, (unsigned long) _nr, \
+               fc_basename(_f), _l);                    \
+  } else {                                              \
+    STD_RAND_VALUE_LOG(_c, _s, _nr, _f, _l);            \
+  }
+#else
+#define RAND_VALUE_LOG STD_RAND_VALUE_LOG
+#endif
+
 /* A global random state:
  * Initialized by fc_srand(), updated by fc_rand(),
  * Can be duplicated/saved/restored via fc_rand_state()
@@ -116,9 +149,8 @@ RANDOM_TYPE fc_rand_debug(RANDOM_TYPE size, const char *called_as,
     new_rand = 0;
   }
 
-  log_rand("%s(%lu) = %lu at %s:%d",
-           called_as, (unsigned long) size,
-           (unsigned long) new_rand, file, line);
+  RAND_VALUE_LOG(called_as, (unsigned long) size,
+                 (unsigned long) new_rand, file, line);
 
   return new_rand;
 }
