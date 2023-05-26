@@ -9,7 +9,7 @@
 #
 
 MAKEFILE_NAME=Makefile.autotools
-OUT_DIR=autotools/Output
+OUT_DIR=autotools/output
 BUILD_DIR=autotools/build
 INST_DIR=autotools/install
 NSI_DIR=autotools/nsi
