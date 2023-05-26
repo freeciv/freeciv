@@ -1752,29 +1752,9 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         purge = TRUE;
         break;
       case VUT_TERRAINCLASS:
-        if (preq->present) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        Q_("?terrainclass:%s can't build %s from the "
-                           "worklist; %s terrain is required."
-                           "  Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        terrain_class_name_translation(preq->source.value.terrainclass));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_terrainclass");
-        } else {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        Q_("?terrainclass:%s can't build %s from the "
-                           "worklist; %s terrain is prohibited."
-                           "  Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        terrain_class_name_translation(preq->source.value.terrainclass));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_terrainclass");
-        }
+        /* Change of terrain class is expected to be very unlikely. Purge!
+         * TODO: Analyze ruleset to see how unlikely terrain class change actually is. */
+        purge = TRUE;
         break;
       case VUT_TERRFLAG:
         if (preq->present) {
