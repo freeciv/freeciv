@@ -1,32 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
+<svg
    width="1000px"
-   height="666.667px">
-<g
-   id="g9145"><rect
-     height="666.667"
-     width="1000"
-     id="rect1933"
-     fill="#FCDD09" /><rect
-     height="666.58691"
-     width="111.111"
-     x="110.99999"
-     id="rect1947"
-     style="fill:#da121a" /><rect
-     height="666.58691"
-     width="111.111"
-     x="333.33301"
-     id="rect2769"
-     style="fill:#da121a" /><rect
-     height="666.58691"
-     width="111.111"
-     x="555.55499"
-     id="rect2771"
-     style="fill:#da121a" /><rect
-     height="666.58691"
-     width="111.111"
-     x="777.77698"
-     id="rect2773"
-     style="fill:#da121a" /></g>
+   height="666.667px"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="aragon.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.70799965"
+     inkscape:cx="526.1302"
+     inkscape:cy="331.21485"
+     inkscape:window-width="895"
+     inkscape:window-height="678"
+     inkscape:window-x="565"
+     inkscape:window-y="97"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg8" />
+  <g
+     id="g9145">
+    <rect
+       height="666.667"
+       width="1000"
+       id="rect1933"
+       fill="#FCDD09" />
+    <rect
+       height="666.58691"
+       width="111.111"
+       x="110.99999"
+       id="rect1947"
+       style="fill:#da121a" />
+    <rect
+       height="666.58691"
+       width="111.111"
+       x="333.33301"
+       id="rect2769"
+       style="fill:#da121a" />
+    <rect
+       height="666.58691"
+       width="111.111"
+       x="555.55499"
+       id="rect2771"
+       style="fill:#da121a" />
+    <rect
+       height="666.58691"
+       width="111.111"
+       x="777.77698"
+       id="rect2773"
+       style="fill:#da121a" />
+  </g>
 </svg>
