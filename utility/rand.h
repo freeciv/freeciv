@@ -25,10 +25,32 @@ extern "C" {
 
 typedef uint32_t RANDOM_TYPE;
 
+/* Usually random number generator results are logged at LOG_DEBUG level
+ * Uncommenting this, and using RANDLOG_ON and RANDLOG_OFF macros in
+ * the code will make them logged at LOG_NORMAL level, between such
+ * RANDLOG_ON / RANDLOG_OFF calls.
+ * Single RANDLOG_OFF will cancel any number of RANDLOG_ONs -
+ * there's no reference count involved. */
+/* #define LOG_RAND_VALUES */
+
+#ifdef LOG_RAND_VALUES
+
+void enable_randlog(bool enable);
+
+#define RANDLOG_ON  enable_randlog(TRUE);
+#define RANDLOG_OFF enable_randlog(FALSE);
+
+#else  /* LOG_RAND_VALUES */
+
+#define RANDLOG_ON
+#define RANDLOG_OFF
+
+#endif /* LOG_RAND_VALUES */
+
 typedef struct {
   RANDOM_TYPE v[56];
   int j, k, x;
-  bool is_init;                 /* initially FALSE for static storage */
+  bool is_init;                 /* Initially FALSE for static storage */
 } RANDOM_STATE;
 
 #define fc_rand(_size) \
