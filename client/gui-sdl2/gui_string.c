@@ -332,7 +332,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
     pstr->text = utf8_texts[i];
     tmp[i] = create_utf8_surf(pstr);
 
-    /* find max len */
+    /* Find max len */
     if (tmp[i]->w > w) {
       w = tmp[i]->w;
     }
@@ -340,9 +340,11 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
 
   pstr->text = buf;
 
-  /* create and fill surface */
+  /* Create and fill surface */
 
-  SDL_GetColorKey(tmp[0], &color);
+  if (SDL_GetColorKey(tmp[0], &color) < 0) {
+    color = SDL_MapRGBA(tmp[0]->format, 0, 0, 0, 0);
+  }
 
   switch (pstr->render) {
   case 1:
@@ -361,7 +363,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
     break;
   }
 
-  /* blit (default: center left) */
+  /* Blit (default: center left) */
   for (i = 0; i < count; i++) {
     if (pstr->style & SF_CENTER) {
       des.x = (w - tmp[i]->w) / 2;
