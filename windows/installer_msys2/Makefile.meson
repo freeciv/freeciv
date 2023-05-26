@@ -10,7 +10,7 @@
 #
 
 MAKEFILE_NAME=Makefile.meson
-OUT_DIR=meson/Output
+OUT_DIR=meson/output
 BUILD_DIR=meson/build
 INST_DIR=meson/install
 NSI_DIR=meson/nsi

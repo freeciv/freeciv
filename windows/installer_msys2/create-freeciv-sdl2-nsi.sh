@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl2-nsi.sh <Freeciv files dir> <Output dir> <version> <win32|win64|win>
+# ./create-freeciv-sdl2-nsi.sh <freeciv files dir> <output dir> <version> <win32|win64|win>
 
 ARCH_KEY_PART="$4"
 if test "$4" != "win32" && test "$4" != "win64" ; then
