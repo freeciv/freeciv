@@ -1286,7 +1286,7 @@ Building an oil well on an irrigated tile will destroy the irrigation.\
 name           = _("Pollution")
 category       = "Nuisance"
 causes         = "Pollution"
-rmcauses       = "Clean", "CleanPollution"
+rmcauses       = "Clean"
 graphic        = "tx.pollution"
 graphic_alt    = "-"
 activity_gfx   = "None"
@@ -1410,7 +1410,7 @@ Like irrigation, farmland is incompatible with mines and oil wells.\
 name           = _("Fallout")
 category       = "Nuisance"
 causes         = "Fallout"
-rmcauses       = "Clean", "CleanFallout"
+rmcauses       = "Clean"
 graphic        = "tx.fallout"
 graphic_alt    = "-"
 activity_gfx   = "None"
