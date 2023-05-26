@@ -134,6 +134,11 @@ action_prob_not_relevant(const struct act_prob probability);
 static inline bool
 action_prob_not_impl(const struct act_prob probability);
 
+static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
+                                          const struct unit *pvictim,
+                                          const struct tile *tgt_tile)
+  fc__attribute((nonnull(3)));
+
 /* Make sure that an action distance can target the whole map. */
 FC_STATIC_ASSERT(MAP_DISTANCE_MAX <= ACTION_DISTANCE_LAST_NON_SIGNAL,
                  action_range_can_not_cover_the_whole_map);
@@ -5308,8 +5313,6 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
                                           const struct tile *tgt_tile)
 {
   struct unit *pdefender;
-
-  fc_assert_ret_val(tgt_tile, ACTPROB_NOT_KNOWN);
 
   if (!can_player_see_hypotetic_units_at(unit_owner(pattacker),
                                          tgt_tile)) {
