@@ -166,7 +166,7 @@ struct city_dialog {
 
     GtkWidget *info_label[NUM_INFO_FIELDS];
 
-    GtkListStore* change_production_store;
+    GtkListStore *change_production_store;
   } overview;
 
   struct {
@@ -1010,8 +1010,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
-    production_combo =
-      gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store));
+    production_combo
+      = gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store));
     gtk_widget_set_hexpand(production_combo, TRUE);
     pdialog->overview.production_combo = production_combo;
     gtk_grid_attach(GTK_GRID(hgrid), production_combo, grid_col++, 0, 1, 1);
@@ -1981,8 +1981,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[200];
   gdouble pct;
-
-  GtkListStore* store;
+  GtkListStore *store;
   GtkTreeIter iter;
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
@@ -2046,14 +2045,17 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
   }
 
-  if (pdialog->overview.production_combo != NULL) {
-    gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
-                             -1);
-  }
-
   store = pdialog->overview.change_production_store;
   if (store != NULL) {
-    gtk_list_store_clear(pdialog->overview.change_production_store);
+    int cur = -1;
+    int actcount = 0;
+
+    if (pdialog->overview.production_combo != NULL) {
+      gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
+                               -1);
+    }
+
+    gtk_list_store_clear(store);
 
     targets_used
       = collect_eventually_buildable_targets(targets, pdialog->pcity, FALSE);
@@ -2062,20 +2064,20 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     for (item = 0; item < targets_used; item++) {
       if (can_city_build_now(pcity, &items[item].item)) {
         const char *name;
-        struct sprite* sprite;
+        struct sprite *sprite;
         GdkPixbuf *pix;
-        struct universal target = items[item].item;
+        struct universal *target = &items[item].item;
         bool useless;
 
-        if (VUT_UTYPE == target.kind) {
-          name = utype_name_translation(target.value.utype);
-          sprite = get_unittype_sprite(tileset, target.value.utype,
+        if (VUT_UTYPE == target->kind) {
+          name = utype_name_translation(target->value.utype);
+          sprite = get_unittype_sprite(tileset, target->value.utype,
                                        direction8_invalid());
           useless = FALSE;
         } else {
-          name = improvement_name_translation(target.value.building);
-          sprite = get_building_sprite(tileset, target.value.building);
-          useless = is_improvement_redundant(pcity, target.value.building);
+          name = improvement_name_translation(target->value.building);
+          sprite = get_building_sprite(tileset, target->value.building);
+          useless = is_improvement_redundant(pcity, target->value.building);
         }
         pix = sprite_get_pixbuf(sprite);
         gtk_list_store_append(store, &iter);
@@ -2083,16 +2085,19 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
                            1, name, 3, useless,
                            2, (gint)cid_encode(items[item].item), -1);
         g_object_unref(G_OBJECT(pix));
+
+        if (are_universals_equal(target, &pcity->production)) {
+          cur = actcount;
+        }
+
+        actcount++;
       }
     }
-  }
 
-  /* work around GTK refresh bug. */
-  if (pdialog->overview.production_bar != NULL) {
-    gtk_widget_queue_resize(pdialog->overview.production_bar);
-  }
-  if (pdialog->production.production_bar != NULL) {
-    gtk_widget_queue_resize(pdialog->production.production_bar);
+    if (pdialog->overview.production_combo != NULL) {
+      gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
+                               cur);
+    }
   }
 }
 
@@ -3540,7 +3545,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 
   free(pdialog);
 
-  /* need to do this every time a new dialog is closed. */
+  /* Need to do this every time a new dialog is closed. */
   city_dialog_update_prev_next();
 }
 
