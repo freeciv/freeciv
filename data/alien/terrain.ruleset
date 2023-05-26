@@ -850,7 +850,7 @@ is known, Thick Mountains can also be mined.\
 name           = _("Pollution")
 category       = "Nuisance"
 causes         = "Pollution"
-rmcauses       = "Clean", "CleanPollution"
+rmcauses       = "Clean"
 graphic        = "tx.pollution"
 graphic_alt    = "-"
 activity_gfx   = "None"
@@ -940,7 +940,7 @@ get Protein Houses as soon as they are available.\
 name           = _("Fallout")
 category       = "Nuisance"
 causes         = "Fallout"
-rmcauses       = "Clean", "CleanFallout"
+rmcauses       = "Clean"
 graphic        = "tx.fallout"
 graphic_alt    = "-"
 activity_gfx   = "None"
