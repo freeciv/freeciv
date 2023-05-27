@@ -30,7 +30,7 @@ extern "C" {
  * obtain colored chat based patterns. Also for strategic communication,
  * they added some clickable links on particular city or location.
  * The present code is not based on old warclient code, but it also contains
- * the same tools. Whereas colors where determinated in client side only,
+ * the same tools. Whereas colors were determined in client side only,
  * here the server also has the possibility to choose what color to display
  * to the clients. Such embellishments are performed using escape sequences
  * (which are described below) in the strings.
