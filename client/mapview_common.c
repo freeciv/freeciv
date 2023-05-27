@@ -83,6 +83,15 @@ struct tile *infratile = NULL;
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
                                    float canvas_x, float canvas_y);
 
+static void show_full_citybar(struct canvas *pcanvas,
+                              const int canvas_x0, const int canvas_y0,
+                              struct city *pcity, int *width, int *height)
+  fc__attribute((nonnull(5, 6)));
+static void show_city_desc(struct canvas *pcanvas,
+                           int canvas_x, int canvas_y,
+                           struct city *pcity, int *width, int *height)
+  fc__attribute((nonnull(5, 6)));
+
 enum update_type {
   /* Masks */
   UPDATE_NONE = 0,
@@ -1839,7 +1848,7 @@ void update_tile_label(struct tile *ptile)
 }
 
 /************************************************************************//**
-  Draw a "full" city bar for the city.  This is a subcase of show_city_desc
+  Draw a "full" city bar for the city. This is a subcase of show_city_desc()
   (see that function for more info) for tilesets that have a full city bar.
 ****************************************************************************/
 static void show_full_citybar(struct canvas *pcanvas,
@@ -1905,7 +1914,8 @@ static void show_full_citybar(struct canvas *pcanvas,
   get_sprite_dimensions(bg, &bg_w, &bg_h);
   bg_w *= map_zoom; bg_h *= map_zoom;
   get_city_mapview_name_and_growth(pcity, name, sizeof(name),
-				   growth, sizeof(growth), &growth_color, &production_color);
+				   growth, sizeof(growth),
+                                   &growth_color, &production_color);
 
   if (gui_options.draw_city_names) {
     fc_snprintf(size, sizeof(size), "%d", city_size_get(pcity));
@@ -1979,7 +1989,6 @@ static void show_full_citybar(struct canvas *pcanvas,
 
   *width = MAX(width1, width2);
   *height = height1 + height2;
-
 
   /* Next fill in X and Y locations. */
 
@@ -2145,7 +2154,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 }
 
 /************************************************************************//**
-  Draw a "small" city bar for the city.  This is a subcase of show_city_desc
+  Draw a "small" city bar for the city. This is a subcase of show_city_desc()
   (see that function for more info) for tilesets that do not have a full
   city bar.
 ****************************************************************************/
@@ -2259,14 +2268,14 @@ static void show_small_citybar(struct canvas *pcanvas,
 }
 
 /************************************************************************//**
-  Draw a description for the given city.  This description may include the
+  Draw a description for the given city. This description may include the
   name, turns-to-grow, production, and city turns-to-build (depending on
   client options).
 
   (canvas_x, canvas_y) gives the location on the given canvas at which to
-  draw the description.  This is the location of the city itself so the
-  text must be drawn underneath it.  pcity gives the city to be drawn,
-  while (*width, *height) should be set by show_city_desc to contain the
+  draw the description. This is the location of the city itself so the
+  text must be drawn underneath it. pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_city_desc() to contain the
   width and height of the text block (centered directly underneath the
   city's tile).
 ****************************************************************************/
