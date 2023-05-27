@@ -20,6 +20,8 @@ pkgdata_DATA =          \
 	editor.spec	\
 	events.png	\
 	events.spec	\
+	extra_buildings.png	\
+	extra_buildings.spec	\
 	flags-large.spec	\
 	flags.spec	\
 	governments.png \
