@@ -8,14 +8,12 @@ Freeciv installation information.
 A translated version of this file may be in language specific
 subdirectories of doc/.
 
-See also the generic installation notes in INSTALL.
+Recommended build system for building freeciv on cygwin is meson.
+It's still possible to build some freeciv components with
+the older autotools system, but that's not covered in this document.
 
-On Cygwin, meson based build system can be used instead of
-the autotools system. That is not yet covered in this document.
-See doc/INSTALL.meson for generic meson build instructions.
-Notable benefit of meson based build compared to autotools
-build described here is that building also sdl2-client is
-possible with meson.
+See also the generic installation notes of meson based builds
+in doc/INSTALL.meson.
 
 Cygwin is a free Unix variant for MS Windows operating systems.
 It comes with an X server, Xorg.
@@ -29,9 +27,9 @@ a) Install or update your Cygwin by downloading and running installer
    to build freeciv
    (packages to be installed as dependencies of ones in the list
     are not listed):
-   - gcc-g++ (section Development)
-   - pkg-config (Development) or pkgconf (Development)
-   - make (Development)
+   - meson (section Devel)
+   - gcc-g++ (Devel)
+   - pkg-config (Devel) or pkgconf (Devel)
    - libsqlite3-devel (Devel)
    - libiconv-devel (Libs)
    - libcurl-devel (Libs)
@@ -40,6 +38,7 @@ a) Install or update your Cygwin by downloading and running installer
 
   Install development packages for the guis you want to compile, one or more of
   - libgtk3-devel (Libs)
+  - libSDL2_image-devel (Libs) + libSDL2_ttf-devel (Libs)
   - libQt5Core-devel (Libs) + libQt5Gui-devel (Libs)
     Note: As Of 04-Mar-21 Cygwin does not have new enough version of Qt for
     building Qt-client of Freeciv-3.1 or later.
@@ -56,37 +55,32 @@ a) Install or update your Cygwin by downloading and running installer
   To get and build freeciv development version directly from version control,
   you need also
    - git (Development)
-   - automake1.16 (Development)
    - libtool (Development)
-   - python3 (Python)
 
   To run freeciv client, you need to install also
   - xlaunch (X11)
 
 b) Get a Freeciv source tree (the doc/ directory this INSTALL.Cygwin is in,
    is a subdirectory of the source tree's root directory).
-   Put it in a temporary place like /tmp.
+   Put it in a temporary place like /tmp/src.
 
-      ../src/configure --enable-client=<gui> [any other options e.g. --prefix=...]
-   where <gui> is "gtk3.22", "qt", or list like "gtk3.22,qt". If you
-   didn't install gettext-devel, you have to give also configure option
-   --disable-nls to disable Native Language Support.
+   Then create an empty build directory, e.g. /tmp/build,
+   and run 'meson setup <path to src>' in there:
 
-   If you are building directly from version control, and not from
-   tarball that has some files, including configure, pregenerated,
-   you need to run ../src/autogen.sh instead of ../src/configure.
-   Use same options as you would for directly running configure.
+      meson setup ../src/ -Dclients=<gui> [any other options e.g. -Dprefix=...]
+
+   where <gui> is "gtk3.22", "sdl2", "qt", or list like "gtk3.22,sdl2".
 
    If you get messages of missing or outdated components, install them.
 
 c) Compile and install Freeciv:
 
-      make
-      make install
+      ninja
+      ninja install
 
 You should now have bin/freeciv-server.exe and bin/freeciv-<gui>.exe in the
 directory you installed Freeciv into (/usr/local by default).
-If 'make install' succeeds, the source code tree can be removed.
+If 'ninja install' succeeds, source code and build trees can be removed.
 
 d) Test the results:
 
