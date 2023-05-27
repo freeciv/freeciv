@@ -81,6 +81,15 @@ const struct tile *center_tile = NULL;
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
                                    float canvas_x, float canvas_y);
 
+static void show_full_citybar(struct canvas *pcanvas,
+                              const int canvas_x0, const int canvas_y0,
+                              struct city *pcity, int *width, int *height)
+  fc__attribute((nonnull(5, 6)));
+static void show_city_desc(struct canvas *pcanvas,
+                           int canvas_x, int canvas_y,
+                           struct city *pcity, int *width, int *height)
+  fc__attribute((nonnull(5, 6)));
+
 enum update_type {
   /* Masks */
   UPDATE_NONE = 0,
@@ -1836,12 +1845,12 @@ void update_tile_label(struct tile *ptile)
 }
 
 /****************************************************************************
-  Draw a "full" city bar for the city.  This is a subcase of show_city_desc
+  Draw a "full" city bar for the city. This is a subcase of show_city_desc()
   (see that function for more info) for tilesets that have a full city bar.
 ****************************************************************************/
 static void show_full_citybar(struct canvas *pcanvas,
-			      const int canvas_x0, const int canvas_y0,
-			      struct city *pcity, int *width, int *height)
+                              const int canvas_x0, const int canvas_y0,
+                              struct city *pcity, int *width, int *height)
 {
   const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
   static char name[512], growth[32], prod[512], size[32], trade_routes[32];
@@ -1902,7 +1911,8 @@ static void show_full_citybar(struct canvas *pcanvas,
   get_sprite_dimensions(bg, &bg_w, &bg_h);
   bg_w *= map_zoom; bg_h *= map_zoom;
   get_city_mapview_name_and_growth(pcity, name, sizeof(name),
-				   growth, sizeof(growth), &growth_color, &production_color);
+				   growth, sizeof(growth),
+                                   &growth_color, &production_color);
 
   if (gui_options.draw_city_names) {
     fc_snprintf(size, sizeof(size), "%d", city_size_get(pcity));
@@ -1976,7 +1986,6 @@ static void show_full_citybar(struct canvas *pcanvas,
 
   *width = MAX(width1, width2);
   *height = height1 + height2;
-
 
   /* Next fill in X and Y locations. */
 
@@ -2268,8 +2277,8 @@ static void show_small_citybar(struct canvas *pcanvas,
   city's tile).
 ****************************************************************************/
 static void show_city_desc(struct canvas *pcanvas,
-			   int canvas_x, int canvas_y,
-			   struct city *pcity, int *width, int *height)
+                           int canvas_x, int canvas_y,
+                           struct city *pcity, int *width, int *height)
 {
   if (gui_options.draw_full_citybar) {
     show_full_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);
