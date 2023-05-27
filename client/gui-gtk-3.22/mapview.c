@@ -138,7 +138,7 @@ void update_timeout_label(void)
 void update_info_label(void)
 {
   GtkWidget *label;
-  const struct player *pplayer = client.conn.playing;
+  const struct player *pplayer = client_player();
 
   label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
   if (pplayer != NULL) {
@@ -150,17 +150,30 @@ void update_info_label(void)
     name = nation_plural_for_player(pplayer);
     c = g_utf8_get_char_validated(name, -1);
     if ((gunichar) -1 != c && (gunichar) -2 != c) {
-      gchar nation[MAX_LEN_NAME];
-      gchar *next;
-      gint len;
+      const char *obstext = NULL;
+      int obstextlen = 0;
 
-      len = g_unichar_to_utf8(g_unichar_toupper(c), nation);
-      nation[len] = '\0';
-      next = g_utf8_find_next_char(name, NULL);
-      if (NULL != next) {
-        sz_strlcat(nation, next);
+      if (client_is_observer()) {
+        obstext = _(" (observer)");
+        obstextlen = strlen(obstext);
       }
-      gtk_label_set_text(GTK_LABEL(label), nation);
+
+      {
+        gchar nation[MAX_LEN_NAME + obstextlen];
+        gchar *next;
+        gint len;
+
+        len = g_unichar_to_utf8(g_unichar_toupper(c), nation);
+        nation[len] = '\0';
+        next = g_utf8_find_next_char(name, NULL);
+        if (NULL != next) {
+          sz_strlcat(nation, next);
+        }
+        if (obstext != NULL) {
+          sz_strlcat(nation, obstext);
+        }
+        gtk_label_set_text(GTK_LABEL(label), nation);
+      }
     } else {
       gtk_label_set_text(GTK_LABEL(label), name);
     }
@@ -176,17 +189,17 @@ void update_info_label(void)
                       client_cooling_sprite(),
                       client_government_sprite());
 
-  if (NULL != client.conn.playing) {
+  if (NULL != pplayer) {
     int d = 0;
 
-    for (; d < client.conn.playing->economic.luxury /10; d++) {
+    for (; d < pplayer->economic.luxury / 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_LUXURY);
 
       gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
     }
 
-    for (; d < (client.conn.playing->economic.science
-		+ client.conn.playing->economic.luxury) / 10; d++) {
+    for (; d < (pplayer->economic.science
+                + pplayer->economic.luxury) / 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_SCIENCE);
 
       gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
@@ -201,7 +214,7 @@ void update_info_label(void)
 
   update_timeout_label();
 
-  /* update tooltips. */
+  /* Update tooltips. */
   gtk_widget_set_tooltip_text(econ_ebox,
                               _("Shows your current luxury/science/tax rates; "
                                 "click to toggle them."));
