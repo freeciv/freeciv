@@ -3443,8 +3443,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       }
     } extra_type_by_cause_iterate_end;
   }
-  if (pterrain->base_time == 0
-      || !action_id_univs_not_blocking(ACTION_BASE, NULL, &source)) {
+  if (!action_id_univs_not_blocking(ACTION_BASE, NULL, &source)) {
     /* Can't build bases; only mention if ruleset has buildable bases */
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (pextra->buildable) {

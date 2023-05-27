@@ -1176,6 +1176,10 @@ actor_reqs    =
     { "type",          "name",         "range"
       "UnitFlag",      "Settlers",     "Local"
     }
+target_reqs   =
+    { "type",         "name",    "range"
+      "TerrainAlter", "CanBase", "Tile"
+    }
 
 [actionenabler_mining]
 action        = "Build Mine"

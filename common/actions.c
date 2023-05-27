@@ -560,6 +560,17 @@ static void hard_code_oblig_hard_reqs(void)
                              " \"CanRoad\")"),
                           ACTRES_ROAD,
                           ACTRES_NONE);
+  oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_TILE,
+                                          FALSE, FALSE, FALSE,
+                                          TA_CAN_BASE),
+                          TRUE,
+                          N_("All action enablers for %s must require"
+                             " that the target"
+                             " tile's terrain's base_time"
+                             " is above 0. (See \"TerrainAlter\"'s"
+                             " \"CanBase\")"),
+                          ACTRES_BASE,
+                          ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of the NoCities
    * terrain flag. */
