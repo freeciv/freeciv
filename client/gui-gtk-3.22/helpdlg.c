@@ -1370,18 +1370,22 @@ static void help_update_terrain(const struct help_item *pitem,
     }
 
     if (action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
-      help_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE,
+                                     _("Build as irrigation"));
     }
     if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
-      help_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE,
+                                     _("Build as mine"));
     }
     if (action_id_univs_not_blocking(ACTION_ROAD, NULL, &for_terr)) {
-      help_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD,
+                                     _("Build as road"));
     }
-    if (pterrain->base_time != 0
-        && action_id_univs_not_blocking(ACTION_BASE, NULL, &for_terr)) {
-      help_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
+    if (action_id_univs_not_blocking(ACTION_BASE, NULL, &for_terr)) {
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE,
+                                     _("Build as base"));
     }
+
     gtk_widget_show(help_vbox);
   }
 

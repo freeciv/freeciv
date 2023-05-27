@@ -1220,7 +1220,7 @@ Actions done by a unit against a tile
  * the target extra (the extra to be built) is an base
  * the target tile doesn't already have the target extra
  * the target extra is buildable (see extra type's buildable)
- * the target tile's terrain's base_time isn't 0
+ * the target tile's terrain's base_time is above 0 (!)
  * the target extra can't claim land (see base type's border_sq) if the
    target tile has a city
  * if the target extra is both a road and a base the target tile's terrain's
