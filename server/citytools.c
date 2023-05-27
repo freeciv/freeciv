@@ -1188,6 +1188,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
   pcity->owner = ptaker;
   pcity->capital = CAPITAL_NOT;
+  pcity->acquire_t = CACQ_CONQUEST;
   map_claim_ownership(pcenter, ptaker, pcenter, TRUE);
   city_list_prepend(ptaker->cities, pcity);
 

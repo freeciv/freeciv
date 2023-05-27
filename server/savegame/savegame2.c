@@ -3509,9 +3509,16 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     pcity->original = past;
   }
 
+  /* savegame2 saves never had this information. Guess. */
+  if (pcity->original != plr) {
+    pcity->acquire_t = CACQ_CONQUEST;
+  } else {
+    pcity->acquire_t = CACQ_FOUNDED;
+  }
+
   sg_warn_ret_val(secfile_lookup_int(loading->file, &value, "%s.size",
                                      citystr), FALSE, "%s", secfile_error());
-  size = (citizens)value; /* set the correct type */
+  size = (citizens)value; /* Set the correct type */
   sg_warn_ret_val(value == (int)size, FALSE,
                   "Invalid city size: %d, set to %d", value, size);
   city_size_set(pcity, size);
@@ -3568,7 +3575,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   pcity->steal =
     secfile_lookup_int_default(loading->file, 0, "%s.steal", citystr);
 
-  /* before did_buy for undocumented hack */
+  /* Before did_buy for undocumented hack */
   pcity->turn_founded =
     secfile_lookup_int_default(loading->file, -2, "%s.turn_founded",
                                citystr);
@@ -3576,12 +3583,12 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                      citystr), FALSE, "%s", secfile_error());
   pcity->did_buy = (i != 0);
   if (i == -1 && pcity->turn_founded == -2) {
-    /* undocumented hack */
+    /* Undocumented hack */
     pcity->turn_founded = game.info.turn;
   }
 
-  pcity->did_sell =
-    secfile_lookup_bool_default(loading->file, FALSE, "%s.did_sell", citystr);
+  pcity->did_sell
+   = secfile_lookup_bool_default(loading->file, FALSE, "%s.did_sell", citystr);
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->turn_last_built,
                                     "%s.turn_last_built", citystr),

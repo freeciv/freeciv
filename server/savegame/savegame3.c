@@ -4970,6 +4970,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   const char *stylename;
   int partner;
   int want;
+  int acq_t_tmp;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -5079,6 +5080,10 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->turn_founded,
                                      "%s.turn_founded", citystr),
                   FALSE, "%s", secfile_error());
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &acq_t_tmp,
+                                     "%s.acquire_t", citystr),
+                  FALSE, "%s", secfile_error());
+  pcity->acquire_t = acq_t_tmp;
   sg_warn_ret_val(secfile_lookup_bool(loading->file, &pcity->did_buy, "%s.did_buy",
                                       citystr), FALSE, "%s", secfile_error());
   sg_warn_ret_val(secfile_lookup_bool(loading->file, &pcity->did_sell, "%s.did_sell",
@@ -5572,12 +5577,13 @@ static void sg_save_player_cities(struct savedata *saving,
     secfile_insert_int(saving->file, pcity->steal, "%s.steal", buf);
     secfile_insert_int(saving->file, pcity->turn_founded, "%s.turn_founded",
                        buf);
+    secfile_insert_int(saving->file, pcity->acquire_t, "%s.acquire_t", buf);
     secfile_insert_bool(saving->file, pcity->did_buy, "%s.did_buy", buf);
     secfile_insert_bool(saving->file, pcity->did_sell, "%s.did_sell", buf);
     secfile_insert_int(saving->file, pcity->turn_last_built,
                        "%s.turn_last_built", buf);
 
-    /* for visual debugging, variable length strings together here */
+    /* For visual debugging, variable length strings together here */
     secfile_insert_str(saving->file, city_name_get(pcity), "%s.name", buf);
 
     secfile_insert_str(saving->file, universal_type_rule_name(&pcity->production),

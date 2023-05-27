@@ -2342,6 +2342,20 @@ static void compat_load_030200(struct loaddata *loading,
                                                    plrno, cnro);
 
         wlist_max_length = MAX(wlist_max_length, wl_length);
+
+        if (format_class == SAVEGAME_3) {
+          if (secfile_lookup_int_default(loading->file, plrno,
+                                         "player%d.c%d.original",
+                                         plrno, cnro) != plrno) {
+            secfile_insert_int(loading->file, CACQ_CONQUEST,
+                               "player%d.c%d.acquire_t",
+                               plrno, cnro);
+          } else {
+            secfile_insert_int(loading->file, CACQ_FOUNDED,
+                               "player%d.c%d.acquire_t",
+                               plrno, cnro);
+          }
+        }
       }
 
       secfile_insert_int(loading->file, wlist_max_length,
@@ -2931,6 +2945,40 @@ static void compat_load_dev(struct loaddata *loading)
         secfile_insert_str(loading->file, "old savegame3, or older",
                            "savefile.orig_version");
       }
+    }
+
+    /* Add acquire_t entries for cities */
+    {
+      player_slots_iterate(pslot) {
+        int plrno = player_slot_index(pslot);
+        int ncities;
+        int cnro;
+
+        if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+          continue;
+        }
+
+        ncities = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.ncities", plrno);
+
+        for (cnro = 0; cnro < ncities; cnro++) {
+          if (secfile_entry_lookup(loading->file,
+                                   "player%d.c%d.acquire_t",
+                                   plrno, cnro) == NULL) {
+            if (secfile_lookup_int_default(loading->file, plrno,
+                                           "player%d.c%d.original",
+                                           plrno, cnro) != plrno) {
+              secfile_insert_int(loading->file, CACQ_CONQUEST,
+                                 "player%d.c%d.acquire_t",
+                                 plrno, cnro);
+            } else {
+              secfile_insert_int(loading->file, CACQ_FOUNDED,
+                                 "player%d.c%d.acquire_t",
+                                 plrno, cnro);
+            }
+          }
+        }
+      } player_slots_iterate_end;
     }
 
     /* Add orders_max_length entries for players */
