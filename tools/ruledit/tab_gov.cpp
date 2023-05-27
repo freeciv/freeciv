@@ -201,7 +201,7 @@ void tab_gov::name_given()
 }
 
 /**********************************************************************//**
-  User requested government deletion 
+  User requested government deletion
 **************************************************************************/
 void tab_gov::delete_now()
 {

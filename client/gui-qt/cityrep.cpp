@@ -223,7 +223,7 @@ bool city_model::setData(const QModelIndex &index, const QVariant &value,
 /***********************************************************************//**
   Returns header data for given section(column)
 ***************************************************************************/
-QVariant city_model::headerData(int section, Qt::Orientation orientation, 
+QVariant city_model::headerData(int section, Qt::Orientation orientation,
                                 int role) const
 {
   char buf[64];
@@ -383,9 +383,9 @@ city_widget::city_widget(city_report *ctr): QTreeView()
                                   const QItemSelection &)),
           SLOT(cities_selected(const QItemSelection &,
                                const QItemSelection &)));
-  connect(this, &QAbstractItemView::doubleClicked, this, 
+  connect(this, &QAbstractItemView::doubleClicked, this,
           &city_widget::city_doubleclick);
-  connect(this, &QWidget::customContextMenuRequested, 
+  connect(this, &QWidget::customContextMenuRequested,
           this, &city_widget::display_list_menu);
 }
 
@@ -651,7 +651,7 @@ void city_widget::display_list_menu(const QPoint &)
           city_queue_insert(pcity_mid, 1, &target);
           break;
         case CHANGE_PROD_BEF_LAST:
-          city_queue_insert(pcity_mid, worklist_length(&pcity_mid->worklist), 
+          city_queue_insert(pcity_mid, worklist_length(&pcity_mid->worklist),
                             &target);
           break;
         case CHANGE_PROD_LAST:
@@ -1150,7 +1150,7 @@ void city_widget::display_header_menu(const QPoint &)
     fc_assert_ret(col >= 0);
     setColumnHidden(col, !isColumnHidden(col));
     spec = city_report_specs + col;
-    spec->show = !spec->show; 
+    spec->show = !spec->show;
     if (!isColumnHidden(col) && columnWidth(col) <= 5)
       setColumnWidth(col, 100);
   });
@@ -1175,7 +1175,7 @@ void city_widget::hide_columns()
   Slot for selecting items in city widget, they are stored in
   selected_cities until deselected
 ***************************************************************************/
-void city_widget::cities_selected(const QItemSelection &sl, 
+void city_widget::cities_selected(const QItemSelection &sl,
                                   const QItemSelection &ds)
 {
   QModelIndexList indexes = selectionModel()->selectedIndexes();

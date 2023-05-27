@@ -279,7 +279,7 @@ void tab_enabler::select_enabler()
 }
 
 /**********************************************************************//**
-  User requested enabler deletion 
+  User requested enabler deletion
 **************************************************************************/
 void tab_enabler::delete_now()
 {

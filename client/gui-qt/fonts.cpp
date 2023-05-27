@@ -125,7 +125,7 @@ void fc_font::set_font(QString name, QFont * qf)
 }
 
 /************************************************************************//**
-  Tries to choose good fonts for freeciv-qt 
+  Tries to choose good fonts for freeciv-qt
 ****************************************************************************/
 void configure_fonts()
 {
@@ -145,7 +145,7 @@ void configure_fonts()
   default_size = qRound(scale *14);
 
   // Default and help label
-  sl << "Segoe UI" << "Cousine" << "Liberation Sans" << "Droid Sans" 
+  sl << "Segoe UI" << "Cousine" << "Liberation Sans" << "Droid Sans"
      << "Ubuntu" << "Noto Sans" << "DejaVu Sans" << "Luxi Sans"
      << "Lucida Sans" << "Trebuchet MS" << "Times New Roman";
   font_name = configure_font(fonts::default_font, sl, max);

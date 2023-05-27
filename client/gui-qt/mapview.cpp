@@ -295,7 +295,7 @@ void map_view::paint(QPainter *painter, QPaintEvent *event)
 }
 
 /**********************************************************************//**
-  Sets new point for new search 
+  Sets new point for new search
 **************************************************************************/
 void map_view::resume_searching(int pos_x, int pos_y, int &w, int &h,
                                 int wdth, int hght, int recursive_nr)
@@ -324,7 +324,7 @@ void map_view::resume_searching(int pos_x, int pos_y, int &w, int &h,
   Returns position as (w,h)
   Along with resume_searching its recursive function.
 **************************************************************************/
-void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth, 
+void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth,
                           int hght, int recursive_nr)
 {
   int i;

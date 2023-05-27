@@ -203,7 +203,7 @@ void tab_unit::name_given()
 }
 
 /**********************************************************************//**
-  User requested unit deletion 
+  User requested unit deletion
 **************************************************************************/
 void tab_unit::delete_now()
 {

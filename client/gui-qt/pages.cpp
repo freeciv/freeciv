@@ -524,7 +524,7 @@ void fc_client::create_load_page()
   connect(saves_load->selectionModel(),
           &QItemSelectionModel::selectionChanged, this,
           &fc_client::slot_selection_changed);
-  connect(show_preview, &QCheckBox::stateChanged, this, 
+  connect(show_preview, &QCheckBox::stateChanged, this,
           &fc_client::state_preview);
   pages_layout[PAGE_LOAD]->addWidget(wdg, 1, 0);
   pages_layout[PAGE_LOAD]->addWidget(load_save_text, 2, 0, 1, 2);

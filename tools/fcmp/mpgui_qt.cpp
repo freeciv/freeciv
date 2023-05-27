@@ -274,7 +274,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *params)
 
   msg_dspl->setAlignment(Qt::AlignHCenter);
 
-  central->setLayout(main_layout); 
+  central->setLayout(main_layout);
 }
 
 /**********************************************************************//**

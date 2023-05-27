@@ -207,7 +207,7 @@ void tab_extras::name_given()
 }
 
 /**********************************************************************//**
-  User requested extra deletion 
+  User requested extra deletion
 **************************************************************************/
 void tab_extras::delete_now()
 {

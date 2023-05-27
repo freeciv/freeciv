@@ -273,8 +273,8 @@ struct uvb_data
 static void universal_value_cb(const char *value, bool current, void *cbdata)
 {
   struct uvb_data *data = (struct uvb_data *)cbdata;
-  
-  if (value == NULL) {
+
+  if (value == nullptr) {
     int kind, val;
 
     universal_extraction(data->univ, &kind, &val);
@@ -423,7 +423,7 @@ void req_edit::add_now()
 }
 
 /**********************************************************************//**
-  User requested requirement deletion 
+  User requested requirement deletion
 **************************************************************************/
 void req_edit::delete_now()
 {

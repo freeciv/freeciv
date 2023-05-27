@@ -190,7 +190,7 @@ void fc_client::init()
   pages[PAGE_GAME] = new QWidget(central_wdg);
   init_mapcanvas_and_overview();
   create_game_page();
-  
+
   pages[PAGE_GAME + 1] = new QWidget(central_wdg);
   create_loading_page();
 
@@ -420,7 +420,7 @@ void fc_client::add_server_source(int sock)
 {
   server_notifier = new QSocketNotifier(sock, QSocketNotifier::Read);
 
-  connect(server_notifier, &QSocketNotifier::activated, this, 
+  connect(server_notifier, &QSocketNotifier::activated, this,
           &fc_client::server_input);
 }
 

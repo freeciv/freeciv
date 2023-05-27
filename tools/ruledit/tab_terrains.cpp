@@ -203,7 +203,7 @@ void tab_terrains::name_given()
 }
 
 /**********************************************************************//**
-  User requested terrain deletion 
+  User requested terrain deletion
 **************************************************************************/
 void tab_terrains::delete_now()
 {

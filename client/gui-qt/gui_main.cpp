@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 
 /**********************************************************************//**
   Print extra usage information, including one line help on each option,
-  to stderr. 
+  to stderr.
 **************************************************************************/
 static void print_usage()
 {
@@ -380,7 +380,7 @@ void apply_titlebar(struct option *poption)
   QWidget *w;
   Qt::WindowFlags flags = Qt::Window;
   val = option_bool_get(poption);
-  
+
   if (gui()->current_page() < PAGE_GAME) {
     return;
   }

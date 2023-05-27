@@ -1153,12 +1153,12 @@ void mr_menu::setup_menus()
   act = main_menu->addAction(_("Same Type on Continent"));
   act->setShortcut(QKeySequence(tr("shift+c")));
   menu_list.insert(STANDARD, act);
-  connect(act, &QAction::triggered, this, 
+  connect(act, &QAction::triggered, this,
           &mr_menu::slot_select_same_continent);
   act = main_menu->addAction(_("Same Type Everywhere"));
   act->setShortcut(QKeySequence(tr("shift+x")));
   menu_list.insert(STANDARD, act);
-  connect(act, &QAction::triggered, this, 
+  connect(act, &QAction::triggered, this,
           &mr_menu::slot_select_same_everywhere);
   main_menu->addSeparator();
   act = main_menu->addAction(_("Wait"));

@@ -206,7 +206,7 @@ void tab_building::name_given()
 }
 
 /**********************************************************************//**
-  User requested building deletion 
+  User requested building deletion
 **************************************************************************/
 void tab_building::delete_now()
 {

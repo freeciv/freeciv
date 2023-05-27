@@ -335,7 +335,7 @@ void option_dialog::set_int(struct option *poption, int value)
 
 /************************************************************************//**
   Sets desired font name in button text and sets global font for that option
-  That function is not executed when user changes font, but when applying or 
+  That function is not executed when user changes font, but when applying or
   resetting options.
 ****************************************************************************/
 void option_dialog::set_font(struct option* poption, QString s)

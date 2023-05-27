@@ -373,7 +373,7 @@ void tab_tech::name_given()
 }
 
 /**********************************************************************//**
-  User requested tech deletion 
+  User requested tech deletion
 **************************************************************************/
 void tab_tech::delete_now()
 {

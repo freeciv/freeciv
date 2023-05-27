@@ -380,7 +380,7 @@ QFont *get_font(client_font font)
 {
   QFont *qf;
   int ssize;
-  
+
   switch (font) {
   case FONT_CITY_NAME:
   qf = fc_font::instance()->get_font(fonts::city_names);

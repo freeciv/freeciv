@@ -201,7 +201,7 @@ void tab_good::name_given()
 }
 
 /**********************************************************************//**
-  User requested good deletion 
+  User requested good deletion
 **************************************************************************/
 void tab_good::delete_now()
 {

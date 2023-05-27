@@ -232,7 +232,7 @@ QVariant plr_model::data(const QModelIndex &index, int role) const
 /**********************************************************************//**
   Returns header data from model
 **************************************************************************/
-QVariant plr_model::headerData(int section, Qt::Orientation orientation, 
+QVariant plr_model::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
   struct player_dlg_column *pcol;
@@ -251,14 +251,14 @@ QVariant plr_model::headerData(int section, Qt::Orientation orientation,
 /**********************************************************************//**
   Sets data in model
 **************************************************************************/
-bool plr_model::setData(const QModelIndex &index, const QVariant &value, 
+bool plr_model::setData(const QModelIndex &index, const QVariant &value,
                         int role)
 {
   if (!index.isValid() || role != Qt::DisplayRole) {
     return false;
   }
 
-  if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0 
+  if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
     && index.column() < columnCount()) {
     bool change = plr_list[index.row()]->setData(index.column(), value, role);
 
@@ -431,7 +431,7 @@ void plr_widget::display_header_menu(const QPoint &)
 
   for (int i = 0; i < list_model->columnCount(); ++i) {
     QAction *myAct = hideshow_column->addAction(
-                       list_model->headerData(i, Qt::Horizontal, 
+                       list_model->headerData(i, Qt::Horizontal,
                                               Qt::DisplayRole).toString());
     myAct->setCheckable(true);
     myAct->setChecked(!isColumnHidden(i));
@@ -660,7 +660,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       advance_iterate(padvance) {
         tech_id = advance_number(padvance);
         if (research_invention_state(my_research, tech_id) == TECH_KNOWN
-            && (research_invention_state(research, tech_id) 
+            && (research_invention_state(research, tech_id)
                 != TECH_KNOWN)) {
           a++;
           sorted_list_a << research_advance_name_translation(research,
@@ -923,7 +923,7 @@ void plr_report::call_meeting()
 **************************************************************************/
 void plr_report::req_caancel_threaty()
 {
-  dsend_packet_diplomacy_cancel_pact(&client.conn, 
+  dsend_packet_diplomacy_cancel_pact(&client.conn,
                                      player_number(other_player),
                                      CLAUSE_CEASEFIRE);
 }
@@ -942,7 +942,7 @@ void plr_report::req_meeeting()
 **************************************************************************/
 void plr_report::req_wiithdrw_vision()
 {
-  dsend_packet_diplomacy_cancel_pact(&client.conn, 
+  dsend_packet_diplomacy_cancel_pact(&client.conn,
                                      player_number(other_player),
                                      CLAUSE_VISION);
 }

@@ -708,7 +708,7 @@ void side_indicators_menu()
 }
 
 /***********************************************************************//**
-  Right click for diplomacy 
+  Right click for diplomacy
   Opens diplomacy meeting for player
   For observer popups menu
 ***************************************************************************/
