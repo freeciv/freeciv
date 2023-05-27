@@ -84,6 +84,15 @@ struct tile *infratile = NULL;
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
                                    float canvas_x, float canvas_y);
 
+static void show_full_citybar(struct canvas *pcanvas,
+                              const int canvas_x0, const int canvas_y0,
+                              struct city *pcity, int *width, int *height)
+  fc__attribute((nonnull(5, 6)));
+static void show_city_desc(struct canvas *pcanvas,
+                           int canvas_x, int canvas_y,
+                           struct city *pcity, int *width, int *height)
+  fc__attribute((nonnull(5, 6)));
+
 enum update_type {
   /* Masks */
   UPDATE_NONE = 0,
@@ -1917,10 +1926,11 @@ static void show_full_citybar(struct canvas *pcanvas,
   /* First: calculate rect dimensions (but not positioning). */
 
   get_sprite_dimensions(bg, &bg_w, &bg_h);
-  bg_w *= map_zoom; bg_h *= map_zoom;
+  bg_w *= map_zoom;
+  bg_h *= map_zoom;
   get_city_mapview_name_and_growth(pcity, name, sizeof(name),
-                                   growth, sizeof(growth), &growth_color,
-                                   &production_color);
+                                   growth, sizeof(growth),
+                                   &growth_color, &production_color);
 
   if (gui_options.draw_city_names) {
     fc_snprintf(size, sizeof(size), "%d", city_size_get(pcity));
@@ -1995,7 +2005,6 @@ static void show_full_citybar(struct canvas *pcanvas,
 
   *width = MAX(width1, width2);
   *height = height1 + height2;
-
 
   /* Next fill in X and Y locations. */
 
