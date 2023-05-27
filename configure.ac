@@ -739,27 +739,14 @@ dnl Should we build Qt5 versions of Qt programs?
 dnl This needs to be before C++ compiler check FC_WORKING_CXX, and
 dnl that in turn needs to be before FC_DEBUG that will depend on compiler
 dnl when setting compiler flags.
-AC_ARG_WITH([qt5],
-  AS_HELP_STRING([--with-qt5], [build Qt5 versions of Qt programs]),
-[case "${withval}" in
- yes) qt_default="Qt5" ;;
- *)   qt_default="Qt6" ;;
-esac])
-
-if test "x$qt_default" = "x" ; then
-  qt_default="Qt6"
-else
-  AC_MSG_WARN([--with-qt5 deprecated. Please use --with-qtver=qt5 instead])
-fi
-
 AC_ARG_WITH([qtver],
-  AS_HELP_STRING([--with-qtver], [which Qt version to build against qt5/qt6]),
+  AS_HELP_STRING([--with-qtver], [which Qt version to build against qt5/qt6/qt6x]),
 [case "${withval}" in
  qt5|Qt5) qt_ver="Qt5" ;;
  qt6|Qt6) qt_ver="Qt6" ;;
  qt6x|Qt6x) qt_ver="Qt6x" ;;
  *) AC_MSG_ERROR([bad value ${enableval} for --with-qtver]) ;;
-esac], [qt_ver="$qt_default"])
+esac], [qt_ver="Qt6"])
 
 if test "x$qt_ver" = "xQt5" ; then
   AC_DEFINE([FC_QT5_MODE], [1], [this is Qt5 based build])
