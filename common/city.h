@@ -312,8 +312,9 @@ struct city {
   int id;
   int style;
   enum capital_type capital;
+  enum city_acquire_type acquire_t;
 
-  /* the people */
+  /* The people */
   citizens size;
   citizens feel[CITIZEN_LAST][FEELING_LAST];
 
@@ -325,7 +326,7 @@ struct city {
 
   citizens *nationality;      /* Nationality of the citizens. */
 
-  /* trade routes */
+  /* Trade routes */
   struct trade_route_list *routes;
 
   /* Tile output, regardless of if the tile is actually worked. It is used

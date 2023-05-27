@@ -1364,6 +1364,14 @@ typedef float adv_want;
 #define SPECENUM_VALUE2NAME "Always"
 #include "specenum_gen.h"
 
+/* Used in the savegames, by numeric value. */
+#define SPECENUM_NAME city_acquire_type
+#define SPECENUM_VALUE0 CACQ_CONQUEST
+#define SPECENUM_VALUE0NAME "Conquest"
+#define SPECENUM_VALUE1 CACQ_FOUNDED
+#define SPECENUM_VALUE1NAME "Founded"
+#include "specenum_gen.h"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

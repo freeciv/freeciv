@@ -2338,6 +2338,20 @@ static void compat_load_030200(struct loaddata *loading,
                                                    plrno, cnro);
 
         wlist_max_length = MAX(wlist_max_length, wl_length);
+
+        if (format_class == SAVEGAME_3) {
+          if (secfile_lookup_int_default(loading->file, plrno,
+                                         "player%d.c%d.original",
+                                         plrno, cnro) != plrno) {
+            secfile_insert_int(loading->file, CACQ_CONQUEST,
+                               "player%d.c%d.acquire_t",
+                               plrno, cnro);
+          } else {
+            secfile_insert_int(loading->file, CACQ_FOUNDED,
+                               "player%d.c%d.acquire_t",
+                               plrno, cnro);
+          }
+        }
       }
 
       secfile_insert_int(loading->file, wlist_max_length,
@@ -2722,6 +2736,22 @@ static void compat_load_dev(struct loaddata *loading)
                                                      plrno, cnro);
 
           wlist_max_length = MAX(wlist_max_length, wl_length);
+
+          if (secfile_entry_lookup(loading->file,
+                                   "player%d.c%d.acquire_t",
+                                   plrno, cnro) == NULL) {
+            if (secfile_lookup_int_default(loading->file, plrno,
+                                           "player%d.c%d.original",
+                                           plrno, cnro) != plrno) {
+              secfile_insert_int(loading->file, CACQ_CONQUEST,
+                                 "player%d.c%d.acquire_t",
+                                 plrno, cnro);
+            } else {
+              secfile_insert_int(loading->file, CACQ_FOUNDED,
+                                 "player%d.c%d.acquire_t",
+                                 plrno, cnro);
+            }
+          }
         }
 
         secfile_insert_int(loading->file, wlist_max_length,
