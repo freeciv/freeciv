@@ -17,6 +17,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
+#include "support.h" /* bool */
+
 typedef void (*uq_callback_t) (void *data);
 typedef void (*uq_free_fn_t) (void *data);
 #define UQ_FREEDATA(fn) ((uq_free_fn_t) fn)
@@ -64,6 +67,22 @@ bool update_queue_is_switching_page(void);
 void science_report_dialog_update(void);
 void economy_report_dialog_update(void);
 void units_report_dialog_update(void);
+
+/**************************************************************************
+  Toplevel window pages modes.
+**************************************************************************/
+#define SPECENUM_NAME client_pages
+#define SPECENUM_VALUE0 PAGE_MAIN       /* Main menu, aka intro page.  */
+#define SPECENUM_VALUE1 PAGE_START      /* Start new game page.  */
+#define SPECENUM_VALUE2 PAGE_SCENARIO   /* Start new scenario page. */
+#define SPECENUM_VALUE3 PAGE_LOAD       /* Load saved game page. */
+#define SPECENUM_VALUE4 PAGE_NETWORK    /* Connect to network page.  */
+#define SPECENUM_VALUE5 PAGE_GAME       /* In game page. */
+#include "specenum_gen.h"
+
+void set_client_page(enum client_pages page);
+void client_start_server_and_set_page(enum client_pages page);
+enum client_pages get_client_page(void);
 
 #ifdef __cplusplus
 }

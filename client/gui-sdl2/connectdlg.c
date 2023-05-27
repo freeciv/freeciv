@@ -41,6 +41,7 @@
 #include "clinet.h"        /* connect_to_server() */
 #include "packhand.h"
 #include "servers.h"
+#include "update_queue.h"
 
 /* gui-sdl2 */
 #include "chatline.h"
@@ -52,7 +53,6 @@
 #include "mapview.h"
 #include "messagewin.h"
 #include "optiondlg.h"
-#include "pages.h"
 #include "themespec.h"
 #include "widget.h"
 

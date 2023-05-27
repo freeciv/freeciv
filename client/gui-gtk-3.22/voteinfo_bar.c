@@ -25,10 +25,10 @@
 /* client */
 #include "options.h"
 #include "voteinfo.h"
+#include "update_queue.h"
 
 /* client/gui-gtk-3.22 */
 #include "chatline.h"
-#include "pages.h"
 
 #include "voteinfo_bar.h"
 

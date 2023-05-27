@@ -48,6 +48,7 @@
 #include "clinet.h"
 #include "connectdlg_common.h"
 #include "global_worklist.h"
+#include "pages_g.h"
 
 /* gui-sdl2 */
 #include "colors.h"
@@ -62,7 +63,6 @@
 #include "mapview.h"
 #include "menu.h"
 #include "messagewin.h"
-#include "pages.h"
 #include "themespec.h"
 #include "widget.h"
 #include "wldlg.h"

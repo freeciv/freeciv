@@ -25,6 +25,7 @@
 
 /* client */
 #include "connectdlg_common.h"
+#include "pages_g.h"
 
 /* gui-sdl2 */
 #include "chatline.h"
@@ -41,7 +42,6 @@
 #include "themespec.h"
 #include "widget.h"
 
-#include "pages.h"
 
 static enum client_pages old_page = PAGE_MAIN;
 

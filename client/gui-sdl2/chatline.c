@@ -42,6 +42,8 @@
 #include "client_main.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
+#include "ratesdlg_g.h"
+#include "update_queue.h"
 
 /* gui-sdl2 */
 #include "colors.h"
@@ -52,7 +54,6 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "messagewin.h"
-#include "pages.h"
 #include "themespec.h"
 #include "utf8string.h"
 #include "widget.h"

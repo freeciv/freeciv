@@ -40,6 +40,7 @@
 #include "climap.h"
 #include "control.h"
 #include "mapview_common.h"
+#include "update_queue.h"
 
 /* client/gui-gtk-3.22 */
 #include "colors.h"

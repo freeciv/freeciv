@@ -45,6 +45,7 @@
 #include "client_main.h" /* client_state */
 #include "climisc.h"
 #include "control.h"
+#include "pages_g.h"
 
 /* gui-sdl2 */
 #include "dialogs.h"
@@ -55,7 +56,6 @@
 #include "gui_tilespec.h"
 #include "mapctrl.h"
 #include "mapview.h"
-#include "pages.h"
 #include "widget.h"
 
 #include "menu.h"

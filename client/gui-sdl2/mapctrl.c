@@ -42,6 +42,7 @@
 #include "client_main.h"
 #include "climisc.h"
 #include "overview_common.h"
+#include "pages_g.h"
 #include "update_queue.h"
 
 /* client/gui-sdl2 */
@@ -59,7 +60,6 @@
 #include "menu.h"
 #include "messagewin.h"
 #include "optiondlg.h"
-#include "pages.h"
 #include "plrdlg.h"
 #include "repodlgs.h"
 #include "sprite.h"

@@ -33,6 +33,7 @@
 
 /* client */
 #include "client_main.h"
+#include "spaceshipdlg_g.h"
 
 /* gui-sdl2 */
 #include "graphics.h"
@@ -41,7 +42,6 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "repodlgs.h"
-#include "spaceshipdlg.h"
 #include "sprite.h"
 #include "widget.h"
 

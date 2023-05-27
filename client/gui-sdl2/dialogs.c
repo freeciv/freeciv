@@ -47,10 +47,11 @@
 
 /* client */
 #include "client_main.h"
-#include "climap.h" /* for client_tile_get_known() */
+#include "climap.h"   /* For client_tile_get_known() */
 #include "goto.h"
-#include "helpdata.h" /* for helptext_nation() */
+#include "helpdata.h" /* For helptext_nation() */
 #include "packhand.h"
+#include "ratesdlg_g.h"
 #include "text.h"
 
 /* gui-sdl2 */
@@ -73,7 +74,6 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "plrdlg.h"
-#include "ratesdlg.h"
 #include "repodlgs.h"
 #include "sprite.h"
 #include "themespec.h"

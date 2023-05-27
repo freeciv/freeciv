@@ -57,6 +57,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "editgui_g.h"
+#include "spaceshipdlg_g.h"
 #include "tilespec.h"
 #include "update_queue.h"
 
@@ -77,7 +78,6 @@
 #include "optiondlg.h"
 #include "repodlgs.h"
 #include "themespec.h"
-#include "spaceshipdlg.h"
 #include "widget.h"
 
 #include "gui_main.h"

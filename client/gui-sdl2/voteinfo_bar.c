@@ -17,8 +17,8 @@
 
 /* client */
 #include "voteinfo.h"
+#include "voteinfo_bar_g.h"
 
-#include "voteinfo_bar.h"
 
 /************************************************************************//**
   Refresh all vote related GUI widgets. Called by the voteinfo module when

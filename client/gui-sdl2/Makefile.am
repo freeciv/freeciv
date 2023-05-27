@@ -61,21 +61,16 @@ libgui_sdl2_la_SOURCES = \
 	mapview.h	\
 	menu.c		\
 	menu.h		\
-	messagedlg.c	\
-	messagedlg.h	\
 	messagewin.c	\
 	messagewin.h	\
 	optiondlg.h	\
 	optiondlg.c	\
 	pages.c		\
-	pages.h		\
 	plrdlg.c	\
 	plrdlg.h	\
-	ratesdlg.h	\
 	repodlgs.c	\
 	repodlgs.h	\
 	spaceshipdlg.c	\
-	spaceshipdlg.h  \
 	sprite.c	\
 	sprite.h	\
 	themebackgrounds.c \
@@ -88,7 +83,6 @@ libgui_sdl2_la_SOURCES = \
 	utf8string.c	\
 	utf8string.h	\
 	voteinfo_bar.c	\
-	voteinfo_bar.h	\
 	widget.c	\
 	widget.h	\
 	widget_button.c \

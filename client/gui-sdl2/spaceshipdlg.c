@@ -27,6 +27,7 @@
 
 /* client */
 #include "client_main.h"
+#include "spaceshipdlg_g.h"
 #include "text.h"
 
 /* gui-sdl2 */
@@ -37,7 +38,6 @@
 #include "mapview.h"
 #include "widget.h"
 
-#include "spaceshipdlg.h"
 
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct small_dialog
