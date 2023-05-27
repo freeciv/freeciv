@@ -224,6 +224,17 @@ if ! add_common_env $DLLSPATH $INSTDIR ; then
   exit 1
 fi
 
+NSI_DIR="autotools/nsi"
+
+if ! mkdir -p "$NSI_DIR" ; then
+  echo "Cannot create \"$NSI_DIR\" directory" >&2
+  exit 1
+fi
+if ! mkdir -p autotools/output ; then
+  echo "Cannot create autotools/output directory" >&2
+  exit 1
+fi
+
 if test "$GUI" = "ruledit" ; then
   if ! cp freeciv-ruledit.cmd $INSTDIR/
   then
@@ -238,16 +249,12 @@ if test "$GUI" = "ruledit" ; then
 
   if ! ./create-freeciv-ruledit-nsi.sh \
          "$INSTDIR" "autotools/output" "$VERREV" "$SETUP" \
-           > Freeciv-ruledit-$SETUP-$VERREV.nsi
+           > "${NSI_DIR}/ruledit-${SETUP}-${VERREV}.nsi"
   then
     exit 1
   fi
 
-  if ! mkdir -p autotools/output ; then
-    echo "Cannot create autotools/output directory" >&2
-    exit 1
-  fi
-  if ! makensis Freeciv-ruledit-$SETUP-$VERREV.nsi
+  if ! makensis -NOCD "${NSI_DIR}/ruledit-${SETUP}-${VERREV}.nsi"
   then
     echo "Creating installer failed!" >&2
     exit 1
@@ -310,7 +317,7 @@ else
     if ! ./create-freeciv-sdl2-nsi.sh \
            "$INSTDIR" "autotools/output" "$VERREV" "$SETUP" \
            "helpers/uninstaller-helper-gtk3.sh" \
-             > Freeciv-$SETUP-$VERREV-$GUI.nsi
+             > "${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
     then
       exit 1
     fi
@@ -328,17 +335,13 @@ else
     if ! ./create-freeciv-gtk-qt-nsi.sh \
            "$INSTDIR" "autotools/output" "$VERREV" "$GUI" "$GUINAME" \
            "$SETUP" "$MPGUI" "$EXE_ID" "$UNINSTALLER" \
-             > Freeciv-$SETUP-$VERREV-$GUI.nsi
+             > "${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
     then
       exit 1
     fi
   fi
 
-  if ! mkdir -p autotools/output ; then
-    echo "Cannot create autotools/output directory" >&2
-    exit 1
-  fi
-  if ! makensis Freeciv-$SETUP-$VERREV-$GUI.nsi
+  if ! makensis -NOCD "${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
   then
     echo "Creating installer failed!" >&2
     exit 1
