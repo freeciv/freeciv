@@ -222,7 +222,7 @@ static void real_info_city_report_dialog_update(void)
   pCMA_Icon = create_icon_from_theme(current_theme->CMA_Icon, 0);
 
   /* --------------- */
-  pstr = create_utf8_from_char(_("Cities Report"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Cities Report"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -235,23 +235,24 @@ static void real_info_city_report_dialog_update(void)
   area = pWindow->area;
 
   /* ------------------------- */
-  /* exit button */
+  /* Exit button */
   pbuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pbuf->info_label = create_utf8_from_char(_("Close Dialog"), adj_font(12));
+  pbuf->info_label = create_utf8_from_char_fonto(_("Close Dialog"),
+                                                 FONTO_ATTENTION);
   pbuf->action = exit_city_report_callback;
   set_wstate(pbuf, FC_WS_NORMAL);
   pbuf->key = SDLK_ESCAPE;
 
   add_to_gui_list(ID_BUTTON, pbuf);
 
-/* FIXME: not implemented yet */
+/* FIXME: Not implemented yet */
 #if 0
   /* ------------------------- */
   pbuf = create_themeicon(current_theme->INFO_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pbuf->info_label = create_str16_from_char(_("Information Report"),
-                                            adj_font(12));
+  pbuf->info_label = create_utf8_from_char_fonto(_("Information Report"),
+                                                 FONTO_ATTENTION);
 /*
   pbuf->action = info_city_report_callback;
   set_wstate(pbuf, FC_WS_NORMAL);
@@ -260,7 +261,8 @@ static void real_info_city_report_dialog_update(void)
   /* -------- */
   pbuf = create_themeicon(current_theme->Happy_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pbuf->info_label = create_str16_from_char(_("Happiness Report"), adj_font(12));
+  pbuf->info_label = create_utf8_from_char_fonto(_("Happiness Report"),
+                                                 FONTO_ATTENTION);
 /*
   pbuf->action = happy_city_report_callback;
   set_wstate(pbuf, FC_WS_NORMAL);
@@ -270,8 +272,8 @@ static void real_info_city_report_dialog_update(void)
   pbuf = create_themeicon(current_theme->Army_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
 
-  pbuf->info_label = create_str16_from_char(_("Garrison Report"),
-                                            adj_font(12));
+  pbuf->info_label = create_utf8_from_char_fonto(_("Garrison Report"),
+                                                 FONTO_ATTENTION);
 /*
   pbuf->action = army_city_dlg_callback;
   set_wstate(pbuf, FC_WS_NORMAL);
@@ -280,8 +282,8 @@ static void real_info_city_report_dialog_update(void)
   /* -------- */
   pbuf = create_themeicon(current_theme->Support_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pbuf->info_label = create_str16_from_char(_("Maintenance Report"),
-                                            adj_font(12));
+  pbuf->info_label = create_utf8_from_char_fonto(_("Maintenance Report"),
+                                                 FONTO_ATTENTION);
 /*
   pbuf->action = supported_unit_city_dlg_callback;
   set_wstate(pbuf, FC_WS_NORMAL);
@@ -293,7 +295,7 @@ static void real_info_city_report_dialog_update(void)
   pLast = pbuf;
   count = 0;
   city_list_iterate(client.conn.playing->cities, pCity) {
-    pstr = create_utf8_from_char(city_name_get(pCity), adj_font(12));
+    pstr = create_utf8_from_char_fonto(city_name_get(pCity), FONTO_ATTENTION);
     pstr->style |= TTF_STYLE_BOLD;
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));

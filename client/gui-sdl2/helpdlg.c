@@ -243,7 +243,8 @@ void popup_impr_info(Impr_type_id impr)
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
     /* Create window */
-    title = create_utf8_from_char(_("Help : Improvements"), adj_font(12));
+    title = create_utf8_from_char_fonto(_("Help : Improvements"),
+                                        FONTO_ATTENTION);
     title->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, title, WF_FREE_DATA);
@@ -261,8 +262,9 @@ void popup_impr_info(Impr_type_id impr)
     pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
-    pCloseButton->info_label =
-        create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
+    pCloseButton->info_label
+      = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                    FONTO_ATTENTION);
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;
@@ -380,16 +382,18 @@ void popup_impr_info(Impr_type_id impr)
 
   if (!improvement_has_flag(pImpr_type, IF_GOLD)) {
     sprintf(buffer, "%s %d", _("Cost:"), impr_build_shield_cost(pImpr_type));
-    pCostLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                             buffer, adj_font(12), 0);
+    pCostLabel = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                   buffer,
+                                                   FONTO_ATTENTION, 0);
     pCostLabel->ID = ID_LABEL;
     DownAdd(pCostLabel, pDock);
     pDock = pCostLabel;
 
     if (!is_wonder(pImpr_type)) {
       sprintf(buffer, "%s %d", _("Upkeep:"), pImpr_type->upkeep);
-      pUpkeepLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                 buffer, adj_font(12), 0);
+      pUpkeepLabel = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                       buffer,
+                                                       FONTO_ATTENTION, 0);
       pUpkeepLabel->ID = ID_LABEL;
       DownAdd(pUpkeepLabel, pDock);
       pDock = pUpkeepLabel;
@@ -397,9 +401,9 @@ void popup_impr_info(Impr_type_id impr)
   }
 
   /* Requirement */
-  pRequirementLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                  _("Requirement:"),
-                                                  adj_font(12), 0);
+  pRequirementLabel = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                        _("Requirement:"),
+                                                        FONTO_ATTENTION, 0);
   pRequirementLabel->ID = ID_LABEL;
   DownAdd(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
@@ -412,10 +416,12 @@ void popup_impr_info(Impr_type_id impr)
     if (!preq->present) {
       continue;
     }
-    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
+    pRequirementLabel2
+      = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
                              universal_name_translation(&preq->source, buffer,
                                                         sizeof(buffer)),
-                                                     adj_font(12), WF_RESTORE_BACKGROUND);
+                                          FONTO_ATTENTION,
+                                          WF_RESTORE_BACKGROUND);
     if (preq->source.kind != VUT_ADVANCE) {
       break; /* FIXME */
     }
@@ -428,9 +434,9 @@ void popup_impr_info(Impr_type_id impr)
   } requirement_vector_iterate_end;
 
   if (pRequirementLabel2 == NULL) {
-    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                     Q_("?req:None"),
-                                                     adj_font(12), 0);
+    pRequirementLabel2 = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                           Q_("?req:None"),
+                                                           FONTO_ATTENTION, 0);
     pRequirementLabel2->ID = ID_LABEL;
   }
 
@@ -439,9 +445,9 @@ void popup_impr_info(Impr_type_id impr)
   pStore->pRequirementButton = pRequirementLabel2;
 
   /* Obsolete by */
-  pObsoleteByLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                 _("Obsolete by:"),
-                                                 adj_font(12), 0);
+  pObsoleteByLabel = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                       _("Obsolete by:"),
+                                                       FONTO_ATTENTION, 0);
   pObsoleteByLabel->ID = ID_LABEL;
   DownAdd(pObsoleteByLabel, pDock);
   pDock = pObsoleteByLabel;
@@ -454,15 +460,19 @@ void popup_impr_info(Impr_type_id impr)
   } requirement_vector_iterate_end;
 
   if (obsTech == NULL) {
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                    _("Never"), adj_font(12), 0);
+    pObsoleteByLabel2 = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                          _("Never"),
+                                                          FONTO_ATTENTION, 0);
     pObsoleteByLabel2->ID = ID_LABEL;
   } else {
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                    advance_name_translation(obsTech),
-                                                    adj_font(12), WF_RESTORE_BACKGROUND);
+    pObsoleteByLabel2
+      = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                          advance_name_translation(obsTech),
+                                          FONTO_ATTENTION,
+                                          WF_RESTORE_BACKGROUND);
     pObsoleteByLabel2->ID = MAX_ID - advance_number(obsTech);
-    pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(obsTech));
+    pObsoleteByLabel2->string_utf8->fgcol
+      = *get_tech_color(advance_number(obsTech));
     pObsoleteByLabel2->action = change_tech_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }
@@ -476,7 +486,7 @@ void popup_impr_info(Impr_type_id impr)
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), client.conn.playing, NULL, pImpr_type);
   if (buffer[0] != '\0') {
-    utf8_str *bstr = create_utf8_from_char(buffer, adj_font(12));
+    utf8_str *bstr = create_utf8_from_char_fonto(buffer, FONTO_ATTENTION);
 
     convert_utf8_str_to_const_surface_width(bstr, adj_size(640) - start_x - adj_size(20));
     pHelptextLabel = create_iconlabel(NULL, pWindow->dst, bstr, 0);
@@ -645,7 +655,7 @@ void popup_unit_info(Unit_type_id type_id)
     popdown_help_dialog();
   }
 
-  /* create new dialog if it doesn't exist yet */
+  /* Create new dialog if it doesn't exist yet */
   if (!pHelpDlg) {
     SDL_Surface *pBackgroundTmpl, *pBackground, *pText, *pIcon;
     SDL_Rect dst;
@@ -658,7 +668,7 @@ void popup_unit_info(Unit_type_id type_id)
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
     /* Create window */
-    title = create_utf8_from_char(_("Help : Units"), adj_font(12));
+    title = create_utf8_from_char_fonto(_("Help : Units"), FONTO_ATTENTION);
     title->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, title, WF_FREE_DATA);
@@ -674,11 +684,12 @@ void popup_unit_info(Unit_type_id type_id)
     /* ------------------ */
 
     /* Close button */
-    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon,
+                                    pWindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
-    pCloseButton->info_label =
-        create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
+    pCloseButton->info_label
+      = create_utf8_from_char_fonto(_("Close Dialog (Esc)"), FONTO_ATTENTION);
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;
@@ -836,31 +847,33 @@ void popup_unit_info(Unit_type_id type_id)
               _("Firepower:"), pUnitType->firepower,
               _("Hitpoints:"), pUnitType->hp);
 
-    pUnitInfoLabel = create_iconlabel_from_chars(NULL, pWindow->dst, buf,
-                                                 adj_font(12), 0);
+    pUnitInfoLabel = create_iconlabel_from_chars_fonto(NULL, pWindow->dst, buf,
+                                                       FONTO_ATTENTION, 0);
     pUnitInfoLabel->ID = ID_LABEL;
     DownAdd(pUnitInfoLabel, pDock);
     pDock = pUnitInfoLabel;
   }
 
   /* Requirement */
-  pRequirementLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                  _("Requirement:"),
-                                                  adj_font(12), 0);
+  pRequirementLabel = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                        _("Requirement:"),
+                                                        FONTO_ATTENTION, 0);
   pRequirementLabel->ID = ID_LABEL;
   DownAdd(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
 
   if (A_NEVER == pUnitType->require_advance
       || advance_by_number(A_NONE) == pUnitType->require_advance) {
-    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                     Q_("?tech:None"), adj_font(12), 0);
+    pRequirementLabel2 = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                           Q_("?tech:None"),
+                                                           FONTO_ATTENTION, 0);
     pRequirementLabel2->ID = ID_LABEL;
   } else {
-    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-          advance_name_translation(pUnitType->require_advance),
-          adj_font(12),
-          WF_RESTORE_BACKGROUND);
+    pRequirementLabel2
+      = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                          advance_name_translation(pUnitType->require_advance),
+                                          FONTO_ATTENTION,
+                                          WF_RESTORE_BACKGROUND);
     pRequirementLabel2->ID = MAX_ID - advance_number(pUnitType->require_advance);
     pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(pUnitType->require_advance));
     pRequirementLabel2->action = change_tech_callback;
@@ -871,26 +884,27 @@ void popup_unit_info(Unit_type_id type_id)
   pStore->pRequirementButton = pRequirementLabel2;
 
   /* Obsolete by */
-  pObsoleteByLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                 _("Obsolete by:"),
-                                                 adj_font(12), 0);
+  pObsoleteByLabel = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                       _("Obsolete by:"),
+                                                       FONTO_ATTENTION, 0);
   pObsoleteByLabel->ID = ID_LABEL;
   DownAdd(pObsoleteByLabel, pDock);
   pDock = pObsoleteByLabel;
 
   if (pUnitType->obsoleted_by == U_NOT_OBSOLETED) {
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                    Q_("?utype:None"),
-                                                    adj_font(12), 0);
+    pObsoleteByLabel2 = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                          Q_("?utype:None"),
+                                                          FONTO_ATTENTION, 0);
     pObsoleteByLabel2->ID = ID_LABEL;
   } else {
     struct unit_type *utype = pUnitType->obsoleted_by;
 
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                    utype_name_translation(utype),
-                                                    adj_font(12),
-                                                    WF_RESTORE_BACKGROUND);
-    pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(utype->require_advance));
+    pObsoleteByLabel2 = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                                          utype_name_translation(utype),
+                                                          FONTO_ATTENTION,
+                                                          WF_RESTORE_BACKGROUND);
+    pObsoleteByLabel2->string_utf8->fgcol
+      = *get_tech_color(advance_number(utype->require_advance));
     pObsoleteByLabel2->ID = MAX_ID - utype_number(pUnitType->obsoleted_by);
     pObsoleteByLabel2->action = change_unit_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
@@ -905,7 +919,7 @@ void popup_unit_info(Unit_type_id type_id)
   buffer[0] = '\0';
   helptext_unit(buffer, sizeof(buffer), client.conn.playing, "", utype_by_number(type_id));
   if (buffer[0] != '\0') {
-    utf8_str *ustr = create_utf8_from_char(buffer, adj_font(12));
+    utf8_str *ustr = create_utf8_from_char_fonto(buffer, FONTO_ATTENTION);
 
     convert_utf8_str_to_const_surface_width(ustr, adj_size(640) - start_x - adj_size(20));
     pHelptextLabel = create_iconlabel(NULL, pWindow->dst, ustr, 0);
@@ -1071,7 +1085,7 @@ static void redraw_tech_info_dlg(void)
   if (pStore->pSub_Targets[0]) {
     int i;
 
-    change_ptsize_utf8(pstr, adj_font(12));
+    change_fonto_utf8(pstr, FONTO_ATTENTION);
 
     copy_chars_to_utf8_str(pstr, _("( with "));
     pText0 = create_text_surf_from_utf8(pstr);
@@ -1144,10 +1158,11 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     if ((targets_count < 6)
         && (advance_required(aidx, AR_ONE) == tech
             || advance_required(aidx, AR_TWO) == tech)) {
-      pWidget = create_iconlabel_from_chars(NULL, pWindow->dst,
+      pWidget
+        = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
               advance_name_translation(advance_by_number(aidx)),
-              adj_font(12),
-              WF_RESTORE_BACKGROUND);
+                                            FONTO_ATTENTION,
+                                            WF_RESTORE_BACKGROUND);
       pWidget->string_utf8->fgcol = *get_tech_color(aidx);
       max_width = MAX(max_width, pWidget->size.w);
       set_wstate(pWidget, FC_WS_NORMAL);
@@ -1177,10 +1192,11 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       } else {
         continue;
       }
-      pWidget = create_iconlabel_from_chars(NULL, pWindow->dst,
+      pWidget
+        = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
               advance_name_translation(advance_by_number(sub_tech)),
-              adj_font(12),
-              WF_RESTORE_BACKGROUND);
+                                            FONTO_ATTENTION,
+                                            WF_RESTORE_BACKGROUND);
       pWidget->string_utf8->fgcol = *get_tech_color(sub_tech);
       set_wstate(pWidget, FC_WS_NORMAL);
       pWidget->action = change_tech_callback;
@@ -1276,7 +1292,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     helptext_advance(buffer, sizeof(buffer), client.conn.playing, "", tech);
   }
   if (buffer[0] != '\0') {
-    utf8_str *pstr = create_utf8_from_char(buffer, adj_font(12));
+    utf8_str *pstr = create_utf8_from_char_fonto(buffer, FONTO_ATTENTION);
 
     convert_utf8_str_to_const_surface_width(pstr, adj_size(640) - start_x - adj_size(20));
     pWidget = create_iconlabel(NULL, pWindow->dst, pstr, 0);
@@ -1919,13 +1935,14 @@ void popup_tech_info(Tech_type_id tech)
     pStore->show_full_tree = FALSE;
 
     /* Create window */
-    title = create_utf8_from_char(_("Help : Advances Tree"), adj_font(12));
+    title = create_utf8_from_char_fonto(_("Help : Advances Tree"),
+                                        FONTO_ATTENTION);
     title->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, title, WF_FREE_DATA);
     pWindow->data.ptr = (void *)pStore;
     pWindow->action = help_dlg_window_callback;
-    set_wstate(pWindow , FC_WS_NORMAL);
+    set_wstate(pWindow, FC_WS_NORMAL);
 
     add_to_gui_list(ID_WINDOW, pWindow);
 
@@ -1937,8 +1954,8 @@ void popup_tech_info(Tech_type_id tech)
     pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
-    pCloseButton->info_label =
-        create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
+    pCloseButton->info_label
+      = create_utf8_from_char_fonto(_("Close Dialog (Esc)"), FONTO_ATTENTION);
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;

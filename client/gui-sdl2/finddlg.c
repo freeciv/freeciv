@@ -146,7 +146,7 @@ void popup_find_dialog(void)
 
   pFind_City_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pstr = create_utf8_from_char(_("Find City") , adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Find City"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -160,12 +160,12 @@ void popup_find_dialog(void)
   area = pWindow->area;
 
   /* ---------- */
-  /* exit button */
+  /* Exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND
                           | WF_FREE_DATA);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                 FONTO_ATTENTION);
   area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_find_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);

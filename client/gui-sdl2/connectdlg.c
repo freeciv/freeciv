@@ -796,15 +796,15 @@ static void popup_user_passwd_dialog(const char *pMessage)
 
   area = pWindow->area;
 
-  /* text label */
-  label_str = create_utf8_from_char(pMessage, adj_font(12));
+  /* Text label */
+  label_str = create_utf8_from_char_fonto(pMessage, FONTO_ATTENTION);
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
 
-  /* password edit */
+  /* Password edit */
   pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
@@ -854,7 +854,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
                       (main_window_width() - pWindow->size.w) / 2,
                       (main_window_height() - pWindow->size.h) / 2);
 
-  /* text label */
+  /* Text label */
   pBuf = pConnectDlg->pEndWidgetList->prev;
 
   start_x = area.x + (area.w - pBuf->size.w) / 2;
@@ -865,7 +865,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
 
   start_y += pBuf->size.h + adj_size(5);
 
-  /* password edit */
+  /* Password edit */
   pBuf = pBuf->prev;
   start_x = area.x + (area.w - pBuf->size.w) / 2;
 
@@ -959,15 +959,15 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 
   area = pWindow->area;
 
-  /* text label */
-  label_str = create_utf8_from_char(pMessage, adj_font(12));
+  /* Text label */
+  label_str = create_utf8_from_char_fonto(pMessage, FONTO_ATTENTION);
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
 
-  /* password edit */
+  /* Password edit */
   pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
@@ -976,7 +976,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   add_to_gui_list(ID_EDIT, pBuf);
   area.h += pBuf->size.h + adj_size(5);
 
-  /* second password edit */
+  /* Second password edit */
   pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));

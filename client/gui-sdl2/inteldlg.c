@@ -248,7 +248,8 @@ void update_intel_dialog(struct player *p)
                                   pdialog->pdialog->pEndWidgetList);
     }
 
-    pstr = create_utf8_from_char(_("Foreign Intelligence Report") , adj_font(12));
+    pstr = create_utf8_from_char_fonto(_("Foreign Intelligence Report"),
+                                       FONTO_ATTENTION);
     pstr->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -263,12 +264,12 @@ void update_intel_dialog(struct player *p)
     area = pWindow->area;
 
     /* ---------- */
-    /* exit button */
+    /* Exit button */
     pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                             adj_font(12));
+    pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                   FONTO_ATTENTION);
     area.w = MAX(area.w, pBuf->size.w + adj_size(10));
     pBuf->action = exit_intel_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -297,7 +298,7 @@ void update_intel_dialog(struct player *p)
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information about the %s Spaceship"),
                 nation_adjective_for_player(p));
-    pBuf->info_label = create_utf8_from_char(cBuf, adj_font(12));
+    pBuf->info_label = create_utf8_from_char_fonto(cBuf, FONTO_ATTENTION);
 
     add_to_gui_list(ID_ICON, pBuf);
 
@@ -397,9 +398,10 @@ void update_intel_dialog(struct player *p)
         pBuf->action = tech_callback;
         set_wstate(pBuf, FC_WS_NORMAL);
 
-        pBuf->info_label =
-            create_utf8_from_char(advance_name_translation
-                                  (advance_by_number(i)), adj_font(12));
+        pBuf->info_label
+          = create_utf8_from_char_fonto(advance_name_translation
+                                        (advance_by_number(i)),
+                                        FONTO_ATTENTION);
 
         add_to_gui_list(ID_ICON, pBuf);
 

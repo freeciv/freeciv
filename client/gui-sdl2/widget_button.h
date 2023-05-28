@@ -19,6 +19,11 @@
 			   create_utf8_from_char(pCharString, iPtsize),          \
 			   flags)
 
+#define create_icon_button_from_chars_fonto(pIcon, pDest, pCharString, fonto, flags) \
+	create_icon_button(pIcon, pDest,                                             \
+			   create_utf8_from_char_fonto(pCharString, fonto),          \
+			   flags)
+
 #define create_themeicon_button_from_chars(pIcon_theme, pDest, pCharString, iPtsize, flags) \
 	create_themeicon_button(pIcon_theme, pDest,                 \
 				create_utf8_from_char(pCharString,  \

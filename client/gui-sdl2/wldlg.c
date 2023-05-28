@@ -1122,7 +1122,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     fc_snprintf(cbuf, sizeof(cbuf), "%s", global_worklist_name(gwl));
   }
 
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
@@ -1131,7 +1131,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   /* --------------------------- */
 
   fc_snprintf(cbuf, sizeof(cbuf),
-              /* TRANS: length of worklist */
+              /* TRANS: Length of worklist */
               PL_("( %d entry )", "( %d entries )", len), len);
   pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -1183,7 +1183,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     } else {
       fc_snprintf(cbuf, sizeof(cbuf), "-");
     }
-    pstr = create_utf8_from_char(cbuf, adj_font(12));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
     pBuf = create_iconlabel(pIcon, pWindow->dst, pstr,

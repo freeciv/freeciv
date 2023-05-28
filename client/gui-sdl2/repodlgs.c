@@ -222,7 +222,8 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
           utype_name_translation(ut2),
           value, tBuf);
 
-    pstr = create_utf8_from_char(_("Upgrade Obsolete Units"), adj_font(12));
+    pstr = create_utf8_from_char_fonto(_("Upgrade Obsolete Units"),
+                                       FONTO_ATTENTION);
     pstr->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -249,10 +250,10 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     area.h += (pText->h + adj_size(10));
     area.w = MAX(area.w, pText->w + adj_size(20));
 
-    /* cancel button */
-    pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                              pWindow->dst, _("No"),
-                                              adj_font(12), 0);
+    /* Cancel button */
+    pBuf = create_themeicon_button_from_chars_fonto(current_theme->CANCEL_Icon,
+                                                    pWindow->dst, _("No"),
+                                                    FONTO_ATTENTION, 0);
 
     pBuf->action = cancel_upgrade_unit_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -262,8 +263,10 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     add_to_gui_list(ID_BUTTON, pBuf);
 
     if (value <= client.conn.playing->economic.gold) {
-      pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
-                                                _("Yes"), adj_font(12), 0);
+      pBuf = create_themeicon_button_from_chars_fonto(current_theme->OK_Icon,
+                                                      pWindow->dst,
+                                                      _("Yes"),
+                                                      FONTO_ATTENTION, 0);
 
       pBuf->action = ok_upgrade_unit_window_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -395,7 +398,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   FREEUTF8STR(pstr);
 
   /* --------------- */
-  pstr = create_utf8_from_char(_("Units Report"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Units Report"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -409,10 +412,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   area = pWindow->area;
 
   /* ------------------------- */
-  /* exit button */
+  /* Exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                 FONTO_ATTENTION);
   pBuf->action = exit_units_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -490,8 +494,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       hh = pBuf->size.h;
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
 
-      /* unit type name */
-      pstr = create_utf8_from_char(utype_name_translation(i), adj_font(12));
+      /* Unit type name */
+      pstr = create_utf8_from_char_fonto(utype_name_translation(i),
+                                         FONTO_ATTENTION);
       pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
       pBuf = create_iconlabel(NULL, pWindow->dst, pstr,
                               (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
@@ -1060,7 +1065,7 @@ void real_units_report_dialog_update(void *unused)
 }
 
 /**************************************************************************
-  Popup (or raise) the units report (F2).  It may or may not be modal.
+  Popup (or raise) the units report (F2). It may or may not be modal.
 **************************************************************************/
 void units_report_dialog_popup(bool make_modal)
 {
@@ -1613,7 +1618,7 @@ static int popup_sell_impr_callback(struct widget *pWidget)
                   improvement_name_translation(improvement_by_number(imp)));
     }
 
-    pstr = create_utf8_from_char(_("Sell It?"), adj_font(12));
+    pstr = create_utf8_from_char_fonto(_("Sell It?"), FONTO_ATTENTION);
     pstr->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -1640,10 +1645,10 @@ static int popup_sell_impr_callback(struct widget *pWidget)
     area.w = MAX(area.w, pText->w + adj_size(20));
     area.h += (pText->h + adj_size(10));
 
-    /* cancel button */
-    pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                              pWindow->dst, _("No"),
-                                              adj_font(12), 0);
+    /* Cancel button */
+    pBuf = create_themeicon_button_from_chars_fonto(current_theme->CANCEL_Icon,
+                                                    pWindow->dst, _("No"),
+                                                    FONTO_ATTENTION, 0);
 
     pBuf->action = cancel_sell_impr_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1653,8 +1658,10 @@ static int popup_sell_impr_callback(struct widget *pWidget)
     add_to_gui_list(ID_BUTTON, pBuf);
 
     if (count > 0) {
-      pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
-                                                _("Sell"), adj_font(12), 0);
+      pBuf = create_themeicon_button_from_chars_fonto(current_theme->OK_Icon,
+                                                      pWindow->dst,
+                                                      _("Sell"),
+                                                      FONTO_ATTENTION, 0);
 
       pBuf->action = ok_sell_impr_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -1825,7 +1832,7 @@ void economy_report_dialog_popup(bool make_modal)
     return;
   }
 
-  /* disable "Economy" button */
+  /* Disable "Economy" button */
   pBuf = get_tax_rates_widget();
   set_wstate(pBuf, FC_WS_DISABLED);
   widget_redraw(pBuf);
@@ -1836,7 +1843,7 @@ void economy_report_dialog_popup(bool make_modal)
   get_economy_report_data(entries, &entries_used, &total, &tax);
 
   /* --------------- */
-  pstr = create_utf8_from_char(_("Economy Report"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Economy Report"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -1852,14 +1859,14 @@ void economy_report_dialog_popup(bool make_modal)
 
   /* "Treasury" text surface */
   fc_snprintf(cbuf, sizeof(cbuf), _("Treasury: "));
-  pstr2 = create_utf8_from_char(cbuf, adj_font(12));
+  pstr2 = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr2->style |= TTF_STYLE_BOLD;
   pTreasuryText = create_text_surf_from_utf8(pstr2);
   w3 = MAX(w3, pTreasuryText->w);
 
   /* "Treasury" value label*/
   fc_snprintf(cbuf, sizeof(cbuf), "%d", client.conn.playing->economic.gold);
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(pIcons->pBIG_Coin, pWindow->dst, pstr,
@@ -1877,9 +1884,9 @@ void economy_report_dialog_popup(bool make_modal)
   w3 = MAX(w3, pTaxRateText->w);
 
   /* "Tax Rate" value label */
-  /* it is important to leave 1 space at ending of this string */
+  /* It is important to leave 1 space at ending of this string. */
   fc_snprintf(cbuf, sizeof(cbuf), "%d%% ", client.conn.playing->economic.tax);
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
@@ -1897,7 +1904,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   /* "Total Icome" value label */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", tax);
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
@@ -1914,7 +1921,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   /* "Total Cost" value label */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total);
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
@@ -1932,7 +1939,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   /* "Net Icome" value label */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", tax - total);
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   if (tax - total < 0) {
@@ -2047,7 +2054,7 @@ void economy_report_dialog_popup(bool make_modal)
   /* ---- */
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Update"));
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pBuf = create_themeicon_button(current_theme->Small_OK_Icon, pWindow->dst, pstr, 0);
   pBuf->action = apply_taxrates_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -2057,7 +2064,7 @@ void economy_report_dialog_popup(bool make_modal)
   /* ---- */
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Close Dialog (Esc)"));
-  pstr = create_utf8_from_char(cbuf, adj_font(12));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = pstr;
@@ -2568,7 +2575,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 }
 
 /**************************************************************************
-  enable science dialog group ( without window )
+  Enable science dialog group ( without window )
 **************************************************************************/
 static void enable_science_dialog(void)
 {
@@ -2577,7 +2584,7 @@ static void enable_science_dialog(void)
 }
 
 /**************************************************************************
-  disable science dialog group ( without window )
+  Disable science dialog group ( without window )
 **************************************************************************/
 static void disable_science_dialog(void)
 {
@@ -2616,19 +2623,19 @@ void real_science_report_dialog_update(void *unused)
       cost = 0;
     }
 
-    /* update current research icons */
+    /* Update current research icons */
     FREESURFACE(pChangeResearchButton->theme);
     pChangeResearchButton->theme = get_tech_icon(presearch->researching);
     FREESURFACE(pChangeResearchGoalButton->theme);
     pChangeResearchGoalButton->theme = get_tech_icon(presearch->tech_goal);
 
-    /* redraw Window */
+    /* Redraw Window */
     widget_redraw(pWindow);
 
     /* ------------------------------------- */
 
-    /* research progress text */
-    pStr = create_utf8_from_char(science_dialog_text(), adj_font(12));
+    /* Research progress text */
+    pStr = create_utf8_from_char_fonto(science_dialog_text(), FONTO_ATTENTION);
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_theme_color(COLOR_THEME_SCIENCEDLG_TEXT);
 
@@ -2933,7 +2940,8 @@ static void popup_change_research_dialog(void)
 
   pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pstr = create_utf8_from_char(_("What should we focus on now?"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("What should we focus on now?"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -2946,11 +2954,11 @@ static void popup_change_research_dialog(void)
   area = pWindow->area;
 
   /* ------------------------- */
-  /* exit button */
+  /* Exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                 FONTO_ATTENTION);
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3121,7 +3129,7 @@ static void popup_change_research_goal_dialog(void)
 
   pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pstr = create_utf8_from_char(_("Select target :"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Select target :"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -3134,11 +3142,11 @@ static void popup_change_research_goal_dialog(void)
   area = pWindow->area;
 
   /* ------------------------- */
-  /* exit button */
+  /* Exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                 FONTO_ATTENTION);
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3350,7 +3358,7 @@ void science_report_dialog_popup(bool raise)
 
   presearch = research_get(client_player());
 
-  /* disable research button */
+  /* Disable research button */
   pWidget = get_research_widget();
   set_wstate(pWidget, FC_WS_DISABLED);
   widget_redraw(pWidget);
@@ -3359,7 +3367,7 @@ void science_report_dialog_popup(bool raise)
   pScienceDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* TRANS: Research report title */
-  pstr = create_utf8_from_char(_("Research"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Research"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
 #ifdef SMALL_SCREEN
@@ -3417,12 +3425,12 @@ void science_report_dialog_popup(bool raise)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, pChangeResearchGoalButton);
 
   /* ------ */
-  /* exit button */
+  /* Exit button */
   pExitButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                  WF_WIDGET_HAS_INFO_LABEL
                                  | WF_RESTORE_BACKGROUND);
-  pExitButton->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                                  adj_font(12));
+  pExitButton->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                        FONTO_ATTENTION);
   pExitButton->action = popdown_science_dialog_callback;
   set_wstate(pExitButton, FC_WS_NORMAL);
   pExitButton->key = SDLK_ESCAPE;

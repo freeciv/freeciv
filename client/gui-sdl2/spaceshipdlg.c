@@ -156,7 +156,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     fc_snprintf(cbuf, sizeof(cbuf), _("The %s Spaceship"),
                 nation_adjective_for_player(pPlayer));
-    pstr = create_utf8_from_char(cbuf, adj_font(12));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
     pstr->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -171,12 +171,12 @@ void popup_spaceship_dialog(struct player *pPlayer)
     area = pWindow->area;
 
     /* ---------- */
-    /* create exit button */
+    /* Create exit button */
     pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                             adj_font(12));
+    pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                   FONTO_ATTENTION);
     pBuf->data.player = pPlayer;
     pBuf->action = exit_space_dialog_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -185,15 +185,17 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     add_to_gui_list(ID_BUTTON, pBuf);
 
-    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
-                                              _("Launch"), adj_font(12), 0);
+    pBuf = create_themeicon_button_from_chars_fonto(current_theme->OK_Icon,
+                                                    pWindow->dst,
+                                                    _("Launch"),
+                                                    FONTO_ATTENTION, 0);
 
     pBuf->action = launch_spaceship_callback;
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h + adj_size(20);
     add_to_gui_list(ID_BUTTON, pBuf);
 
-    pstr = create_utf8_from_char(get_spaceship_descr(NULL), adj_font(12));
+    pstr = create_utf8_from_char_fonto(get_spaceship_descr(NULL), FONTO_ATTENTION);
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
     area.w = MAX(area.w, pBuf->size.w);
