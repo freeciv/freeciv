@@ -511,12 +511,13 @@ static struct widget *option_widget_new(struct option *poption,
   help_text = fc_strdup(option_help_text(poption));
   fc_break_lines(help_text, 50);
 
-  widget = create_iconlabel_from_chars(NULL, window->dst,
-                                       option_description(poption),
-                                       adj_font(12),
-                                       flags | WF_WIDGET_HAS_INFO_LABEL);
+  widget = create_iconlabel_from_chars_fonto(NULL, window->dst,
+                                             option_description(poption),
+                                             FONTO_ATTENTION,
+                                             flags | WF_WIDGET_HAS_INFO_LABEL);
   widget->string_utf8->style |= TTF_STYLE_BOLD;
-  widget->info_label = create_utf8_from_char(help_text, adj_font(12));
+  widget->info_label = create_utf8_from_char_fonto(help_text,
+                                                   FONTO_ATTENTION);
   widget->action = none_callback;
   set_wstate(widget, FC_WS_NORMAL);
   remake_label_size(widget);
@@ -534,9 +535,10 @@ static struct widget *option_widget_new(struct option *poption,
       char buf[64];
 
       fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
-      widget = create_edit_from_chars(NULL, window->dst, buf, adj_font(12),
-                                      adj_size(25),
-                                      flags | WF_WIDGET_HAS_INFO_LABEL);
+      widget = create_edit_from_chars_fonto(NULL, window->dst, buf,
+                                            FONTO_ATTENTION,
+                                            adj_size(25),
+                                            flags | WF_WIDGET_HAS_INFO_LABEL);
     }
     break;
 
@@ -545,15 +547,17 @@ static struct widget *option_widget_new(struct option *poption,
       const struct strvec *values = option_str_values(poption);
 
       if (NULL != values) {
-        widget = combo_new_from_chars(NULL, window->dst, adj_font(12),
-                                      option_str_get(poption), values,
-                                      adj_size(25),
-                                      flags | WF_WIDGET_HAS_INFO_LABEL);
+        widget = combo_new_from_chars_fonto(NULL, window->dst,
+                                            FONTO_ATTENTION,
+                                            option_str_get(poption), values,
+                                            adj_size(25),
+                                            flags | WF_WIDGET_HAS_INFO_LABEL);
       } else {
-        widget = create_edit_from_chars(NULL, window->dst,
-                                        option_str_get(poption),
-                                        adj_font(12), adj_size(25),
-                                        flags | WF_WIDGET_HAS_INFO_LABEL);
+        widget = create_edit_from_chars_fonto(NULL, window->dst,
+                                              option_str_get(poption),
+                                              FONTO_ATTENTION,
+                                              adj_size(25),
+                                              flags | WF_WIDGET_HAS_INFO_LABEL);
       }
     }
     break;
@@ -569,10 +573,11 @@ static struct widget *option_widget_new(struct option *poption,
         strvec_set(translated_values, i, _(strvec_get(values, i)));
       }
 
-      widget = combo_new_from_chars(NULL, window->dst, adj_font(12),
-                                    _(option_enum_get_str(poption)),
-                                    translated_values, adj_size(25),
-                                    flags | WF_WIDGET_HAS_INFO_LABEL);
+      widget = combo_new_from_chars_fonto(NULL, window->dst,
+                                          FONTO_ATTENTION,
+                                          _(option_enum_get_str(poption)),
+                                          translated_values, adj_size(25),
+                                          flags | WF_WIDGET_HAS_INFO_LABEL);
       widget->destroy = enum_widget_destroy;
     }
     break;
@@ -588,19 +593,21 @@ static struct widget *option_widget_new(struct option *poption,
         fc_assert(video_mode_to_string(buf, sizeof(buf), &vmod));
       }
 
-      widget = combo_new_from_chars(NULL, window->dst, adj_font(12),
-                                    buf, video_mode_list(), adj_size(25),
-                                    flags | WF_WIDGET_HAS_INFO_LABEL);
+      widget = combo_new_from_chars_fonto(NULL, window->dst,
+                                          FONTO_ATTENTION,
+                                          buf, video_mode_list(), adj_size(25),
+                                          flags | WF_WIDGET_HAS_INFO_LABEL);
       widget->destroy = video_mode_widget_destroy;
     }
     break;
 
   case OT_FONT:
     {
-      widget = create_edit_from_chars(NULL, window->dst,
-                                      option_font_get(poption),
-                                      adj_font(12), adj_size(25),
-                                      flags | WF_WIDGET_HAS_INFO_LABEL);
+      widget = create_edit_from_chars_fonto(NULL, window->dst,
+                                            option_font_get(poption),
+                                            FONTO_ATTENTION,
+                                            adj_size(25),
+                                            flags | WF_WIDGET_HAS_INFO_LABEL);
     }
     break;
 
@@ -614,10 +621,11 @@ static struct widget *option_widget_new(struct option *poption,
 
   if (NULL == widget) {
     /* Not implemented. */
-    widget = create_iconlabel_from_chars(NULL, window->dst, "",
-                                         adj_font(12), flags);
+    widget = create_iconlabel_from_chars_fonto(NULL, window->dst, "",
+                                               FONTO_ATTENTION, flags);
   } else {
-    widget->info_label = create_utf8_from_char(help_text, adj_font(12));
+    widget->info_label = create_utf8_from_char_fonto(help_text,
+                                                     FONTO_ATTENTION);
     widget->action = none_callback;
     if (option_is_changeable(poption)) {
       set_wstate(widget, FC_WS_NORMAL);
@@ -786,7 +794,7 @@ static struct option_dialog *option_dialog_new(void)
   pdialog->mode = ODM_MAIN;
 
   /* Create window widget. */
-  str = create_utf8_from_char(_("Options"), adj_font(12));
+  str = create_utf8_from_char_fonto(_("Options"), FONTO_ATTENTION);
   str->style |= TTF_STYLE_BOLD;
 
   window = create_window_skeleton(NULL, str, 0);
@@ -797,11 +805,12 @@ static struct option_dialog *option_dialog_new(void)
   pdialog->end_widget_list = window;
 
   /* Create close button widget. */
-  close_button = create_themeicon(current_theme->small_cancel_icon, window->dst,
+  close_button = create_themeicon(current_theme->small_cancel_icon,
+                                  window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  close_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                                   adj_font(12));
+  close_button->info_label
+    = create_utf8_from_char_fonto(_("Close Dialog (Esc)"), FONTO_ATTENTION);
   close_button->action = back_callback;
   set_wstate(close_button, FC_WS_NORMAL);
   close_button->key = SDLK_ESCAPE;
@@ -809,18 +818,18 @@ static struct option_dialog *option_dialog_new(void)
   pdialog->core_widget_list = close_button;
 
   /* Create client options button widget. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Local options"),
-                                         adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Local options"),
+                                               FONTO_ATTENTION, 0);
   widget->action = client_options_callback;
   set_wstate(widget, FC_WS_NORMAL);
   widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
   add_to_gui_list(ID_OPTIONS_CLIENT_BUTTON, widget);
 
   /* Create server options button widget. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Server options"),
-                                         adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Server options"),
+                                               FONTO_ATTENTION, 0);
   widget->action = server_options_callback;
   if (client.conn.established) {
     set_wstate(widget, FC_WS_NORMAL);
@@ -829,8 +838,9 @@ static struct option_dialog *option_dialog_new(void)
   add_to_gui_list(ID_OPTIONS_SERVER_BUTTON, widget);
 
   /* Create global worklists button widget. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Worklists"), adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Worklists"),
+                                               FONTO_ATTENTION, 0);
   widget->action = work_lists_callback;
   if (C_S_RUNNING == client_state()) {
     set_wstate(widget, FC_WS_NORMAL);
@@ -839,17 +849,18 @@ static struct option_dialog *option_dialog_new(void)
   add_to_gui_list(ID_OPTIONS_WORKLIST_BUTTON, widget);
 
   /* Create save game button widget. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Save Local Options"),
-                                         adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Save Local Options"),
+                                               FONTO_ATTENTION, 0);
   widget->action = save_client_options_callback;
   set_wstate(widget, FC_WS_NORMAL);
   widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
   add_to_gui_list(ID_OPTIONS_SAVE_BUTTON, widget);
 
   /* Create save game button widget. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Save Game"), adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Save Game"),
+                                               FONTO_ATTENTION, 0);
   widget->action = save_game_callback;
   if (C_S_RUNNING == client_state()) {
     set_wstate(widget, FC_WS_NORMAL);
@@ -858,8 +869,9 @@ static struct option_dialog *option_dialog_new(void)
   add_to_gui_list(ID_OPTIONS_SAVE_GAME_BUTTON, widget);
 
   /* Create help browser button widget. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Help Browser"), adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Help Browser"),
+                                               FONTO_ATTENTION, 0);
   widget->action = help_browser_callback;
   widget->key = SDLK_h;
   if (client.conn.established) {
@@ -869,8 +881,9 @@ static struct option_dialog *option_dialog_new(void)
   add_to_gui_list(ID_OPTIONS_HELP_BROWSER_BUTTON, widget);
 
   /* Create leave game button widget. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Leave Game"), adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Leave Game"),
+                                               FONTO_ATTENTION, 0);
   widget->action = disconnect_callback;
   widget->key = SDLK_q;
   if (client.conn.established) {
@@ -880,8 +893,9 @@ static struct option_dialog *option_dialog_new(void)
   add_to_gui_list(ID_OPTIONS_DISC_BUTTON, widget);
 
   /* Create quit widget button. */
-  widget = create_icon_button_from_chars(NULL, window->dst,
-                                         _("Quit"), adj_font(12), 0);
+  widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                               _("Quit"),
+                                               FONTO_ATTENTION, 0);
   widget->action = exit_callback;
   widget->key = SDLK_q;
   set_wstate(widget, FC_WS_NORMAL);
@@ -975,9 +989,9 @@ static void option_dialog_optset(struct option_dialog *pdialog,
       continue;
     }
 
-    widget = create_icon_button_from_chars(NULL, window->dst,
-                                           optset_category_name(poptset, i),
-                                           adj_font(12), 0);
+    widget = create_icon_button_from_chars_fonto(NULL, window->dst,
+                                                 optset_category_name(poptset, i),
+                                                 FONTO_ATTENTION, 0);
     widget->action = option_category_callback;
     set_wstate(widget, FC_WS_NORMAL);
     widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
@@ -1021,8 +1035,8 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   apply_button = create_themeicon(current_theme->small_ok_icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  apply_button->info_label = create_utf8_from_char(_("Apply changes"),
-                                                   adj_font(12));
+  apply_button->info_label = create_utf8_from_char_fonto(_("Apply changes"),
+                                                         FONTO_ATTENTION);
   apply_button->action = apply_callback;
   set_wstate(apply_button, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_APPLY_BUTTON, apply_button);
@@ -1147,10 +1161,11 @@ static int add_new_worklist_callback(struct widget *widget)
     selected_widget = NULL;
 
     /* Create list element. */
-    new_worklist_widget =
-      create_iconlabel_from_chars(NULL, widget->dst,
-                                  global_worklist_name(pgwl),
-                                  adj_font(12), WF_RESTORE_BACKGROUND);
+    new_worklist_widget
+      = create_iconlabel_from_chars_fonto(NULL, widget->dst,
+                                          global_worklist_name(pgwl),
+                                          FONTO_ATTENTION,
+                                          WF_RESTORE_BACKGROUND);
     new_worklist_widget->id = MAX_ID - global_worklist_id(pgwl);
     new_worklist_widget->string_utf8->style |= SF_CENTER;
     set_wstate(new_worklist_widget, FC_WS_NORMAL);
@@ -1225,10 +1240,10 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
 
   /* Build the global worklists list. */
   global_worklists_iterate(pgwl) {
-    widget = create_iconlabel_from_chars(NULL, window->dst,
-                                         global_worklist_name(pgwl),
-                                         adj_font(12),
-                                         WF_RESTORE_BACKGROUND);
+    widget = create_iconlabel_from_chars_fonto(NULL, window->dst,
+                                               global_worklist_name(pgwl),
+                                               FONTO_ATTENTION,
+                                               WF_RESTORE_BACKGROUND);
     set_wstate(widget, FC_WS_NORMAL);
     add_to_gui_list(MAX_ID - global_worklist_id(pgwl), widget);
     widget->action = edit_worklist_callback;
@@ -1242,9 +1257,10 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   } global_worklists_iterate_end;
 
   /* Create the adding item. */
-  widget = create_iconlabel_from_chars(NULL, window->dst,
-                                       _("Add new worklist"), adj_font(12),
-                                       WF_RESTORE_BACKGROUND);
+  widget = create_iconlabel_from_chars_fonto(NULL, window->dst,
+                                             _("Add new worklist"),
+                                             FONTO_ATTENTION,
+                                             WF_RESTORE_BACKGROUND);
   set_wstate(widget, FC_WS_NORMAL);
   add_to_gui_list(ID_ADD_NEW_WORKLIST, widget);
   widget->action = add_new_worklist_callback;
@@ -1372,7 +1388,8 @@ void init_options_button(void)
                                     | WF_RESTORE_BACKGROUND);
   options_button->action = optiondlg_callback;
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
-  options_button->info_label = create_utf8_from_char(buf, adj_font(12));
+  options_button->info_label
+    = create_utf8_from_char_fonto(buf, FONTO_ATTENTION);
   options_button->key = SDLK_ESCAPE;
   set_wflag(options_button, WF_HIDDEN);
   widget_set_position(options_button, adj_size(5), adj_size(5));
