@@ -253,7 +253,9 @@ void interpret_tilde(char *buf, size_t buf_size, const char *filename);
 char *interpret_tilde_alloc(const char *filename);
 char *skip_to_basename(char *filepath);
 
-bool make_dir(const char *pathname)
+#define DIRMODE_DEFAULT (-1)
+
+bool make_dir(const char *pathname, int mode)
        fc__attribute((nonnull (1)));
 bool make_dir_for_file(char *filename)
        fc__attribute((nonnull (1)));

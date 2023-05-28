@@ -144,7 +144,7 @@ void create_mpdb(const char *filename, bool scenario_db)
     /* Nothing */
   }
   local_name[i] = '\0';
-  if (!make_dir(local_name)) {
+  if (!make_dir(local_name, DIRMODE_DEFAULT)) {
     log_error(_("Can't create directory \"%s\" for modpack database."), local_name);
     return;
   }

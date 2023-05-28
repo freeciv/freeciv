@@ -6320,7 +6320,7 @@ void options_save(option_save_log_callback log_cb)
 
   if (i > 0) {
     dir_name[i] = '\0';
-    if (!make_dir(dir_name)) {
+    if (!make_dir(dir_name, DIRMODE_DEFAULT)) {
       log_cb(LOG_ERROR, _("Saving options failed, cannot create directory %s"),
              dir_name);
       secfile_destroy(sf);

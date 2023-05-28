@@ -1749,14 +1749,22 @@ char *skip_to_basename(char *filepath)
   TODO: Make errno available after a failure, preferably via fc_get_errno().
         Currently there's things potentially messing errno between
         failed mkdir() and the function return.
+
+  @param  pathname  directory path to create
+  @param  mode      directory creation mode, or negative for default mode
+  @return           success or not
 ****************************************************************************/
-bool make_dir(const char *pathname)
+bool make_dir(const char *pathname, int mode)
 {
   char *dir;
   char *path = NULL;
 
   if (pathname[0] == '\0') {
     return FALSE;
+  }
+
+  if (mode < 0) {
+    mode = 0755;
   }
 
   path = interpret_tilde_alloc(pathname);
@@ -1800,14 +1808,14 @@ bool make_dir(const char *pathname)
       }
     }
 #else  /* HAVE__MKDIR */
-    if (mkdir(path, 0755) == -1
+    if (mkdir(path, mode) == -1
         && fc_get_errno() != EEXIST) {
       free(path);
       return FALSE;
     }
 #endif /* HAVE__MKDIR */
 #else  /* FREECIV_MSWINDOWS */
-    if (mkdir(path, 0755) == -1
+    if (mkdir(path, mode) == -1
         && fc_get_errno() != EEXIST) {
       free(path);
       return FALSE;
@@ -1840,7 +1848,7 @@ bool make_dir_for_file(char *filename)
   filename[i] = '\0';
   log_debug("Create directory \"%s\"", filename);
 
-  if (!make_dir(filename)) {
+  if (!make_dir(filename, DIRMODE_DEFAULT)) {
     return FALSE;
   }
   filename[i] = DIR_SEPARATOR_CHAR;

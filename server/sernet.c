@@ -518,7 +518,7 @@ static void incoming_client_packets(struct connection *pconn)
   - input from server operator in stdin
 
   This function also handles prompt printing, via the con_prompt_*
-  functions.  That is, other functions should not need to do so.  --dwp
+  functions. That is, other functions should not need to do so.  --dwp
 *****************************************************************************/
 enum server_events server_sniff_all_input(void)
 {
@@ -542,13 +542,13 @@ enum server_events server_sniff_all_input(void)
         int fcdl = strlen(storage_dir) + 1;
         char *fc_dir = fc_malloc(fcdl);
 
-        if (fc_dir != NULL) {
+        if (fc_dir != nullptr) {
           fc_snprintf(fc_dir, fcdl, "%s", storage_dir);
 
-          if (make_dir(fc_dir)) {
+          if (make_dir(fc_dir, DIRMODE_DEFAULT)) {
             history_file
               = fc_malloc(strlen(fc_dir) + 1 + strlen(HISTORY_FILENAME) + 1);
-            if (history_file) {
+            if (history_file != nullptr) {
               strcpy(history_file, fc_dir);
               strcat(history_file, "/");
               strcat(history_file, HISTORY_FILENAME);
@@ -556,6 +556,7 @@ enum server_events server_sniff_all_input(void)
               read_history(history_file);
             }
           }
+
           FC_FREE(fc_dir);
         }
       }

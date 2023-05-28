@@ -2054,7 +2054,7 @@ static bool img_save(const struct img *pimg, const char *mapimgfile,
   }
 
   if (!path_is_absolute(mapimgfile) && path != NULL && path[0] != '\0') {
-    if (!make_dir(path)) {
+    if (!make_dir(path, DIRMODE_DEFAULT)) {
       MAPIMG_LOG(_("can't create directory"));
       return FALSE;
     }

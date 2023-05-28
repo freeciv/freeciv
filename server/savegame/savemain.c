@@ -192,7 +192,7 @@ void save_game(const char *orig_filename, const char *save_reason,
 
   /* If orig_filename is NULL or empty, use a generated default name. */
   if (filename[0] == '\0') {
-    /* manual save */
+    /* Manual save */
     generate_save_name(game.server.save_name, filename,
                        sizeof(stdata->filepath) + stdata->filepath - filename, "manual");
   }
@@ -253,7 +253,7 @@ void save_game(const char *orig_filename, const char *save_reason,
     if (!scenario) {
       /* Ensure the saves directory exists. */
       if (srvarg.saves_pathname[0] != '\0'
-          && !make_dir(srvarg.saves_pathname)) {
+          && !make_dir(srvarg.saves_pathname, DIRMODE_DEFAULT)) {
         log_error(_("Can't create saves directory %s!"),
                   srvarg.saves_pathname);
         /* Don't tell server paths to clients */
@@ -271,7 +271,7 @@ void save_game(const char *orig_filename, const char *save_reason,
     } else {
       /* Make sure scenario directory exist */
       if (srvarg.scenarios_pathname[0] != '\0'
-          && !make_dir(srvarg.scenarios_pathname)) {
+          && !make_dir(srvarg.scenarios_pathname, DIRMODE_DEFAULT)) {
         log_error(_("Can't create scenario saves directory %s!"),
                   srvarg.scenarios_pathname);
         /* Don't tell server paths to clients */

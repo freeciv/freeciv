@@ -3370,7 +3370,7 @@ static bool save_luadata(const char *filename)
 **************************************************************************/
 bool save_ruleset(const char *path, const char *name, struct rule_data *data)
 {
-  if (make_dir(path)) {
+  if (make_dir(path, DIRMODE_DEFAULT)) {
     bool success = TRUE;
     char filename[500];
 

@@ -673,7 +673,7 @@ void send_client_wants_hack(const char *filename)
       return;
     }
 
-    if (!make_dir(sdir)) {
+    if (!make_dir(sdir, DIRMODE_DEFAULT)) {
       log_error("Couldn't create storage directory for token.");
       return;
     }
