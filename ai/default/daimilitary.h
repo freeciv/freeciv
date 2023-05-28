@@ -37,10 +37,6 @@ int assess_defense_quadratic(struct ai_type *ait, struct city *pcity);
 int assess_defense_unit(struct ai_type *ait, struct city *pcity,
                         struct unit *punit, bool igwall);
 int assess_defense(struct ai_type *ait, struct city *pcity);
-int dai_unit_defense_desirability(struct ai_type *ait,
-                                  const struct unit_type *punittype);
-int dai_unit_attack_desirability(struct ai_type *ait,
-                                 const struct unit_type *punittype);
 bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
                                struct city *pcity, unsigned int danger,
                                struct adv_choice *choice, adv_want extra_want);
