@@ -537,7 +537,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   if (sdl2_client_flags & CF_UNITINFO_SHOWN) {
     info_window = get_unit_info_window_widget();
 
-    /* blit theme surface */
+    /* Blit theme surface */
     widget_redraw(info_window);
 
     if (punit) {
@@ -549,7 +549,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       const char *vetname;
 
       /* Get and draw unit name (with veteran status) */
-      pstr = create_utf8_from_char(unit_name_translation(punit), adj_font(12));
+      pstr = create_utf8_from_char_fonto(unit_name_translation(punit),
+                                         FONTO_ATTENTION);
       pstr->style |= TTF_STYLE_BOLD;
       pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
       name = create_text_surf_from_utf8(pstr);
