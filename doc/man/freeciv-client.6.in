@@ -47,7 +47,8 @@ accepts the following parameters following \fB\-\-\fP:
 .B freeciv-qt
 accepts the standard Qt parameters following \fB\-\-\fP; see the Qt
 documentation. It also accepts
-.B [ \-h|\-\-help ]
+.B [ \-h|\-\-help ] \
+[ \-f|\-\-flags ]
 
 .B freeciv-sdl2
 accepts the following parameters following \fB\-\-\fP:
