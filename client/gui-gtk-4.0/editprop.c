@@ -3012,7 +3012,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_widget_set_halign(text, GTK_ALIGN_END);
     gtk_editable_set_width_chars(GTK_EDITABLE(text), 8);
     g_signal_connect(text, "changed",
-        G_CALLBACK(objprop_widget_text_changed), op);
+                     G_CALLBACK(objprop_widget_text_changed), op);
     gtk_box_append(GTK_BOX(hbox), text);
     objprop_set_child_widget(op, "text", text);
     return;
@@ -3117,6 +3117,8 @@ static void objprop_refresh_widget(struct objprop *op,
   enum object_property_ids propid;
   double min, max, step, big_step;
   char buf[256];
+  const char *newtext;
+  GtkEntryBuffer *buffer;
 
   if (!op || !objprop_has_widget(op)) {
     return;
@@ -3129,7 +3131,7 @@ static void objprop_refresh_widget(struct objprop *op,
 
   propid = objprop_get_id(op);
 
-  /* NB: We must take care to propval_free the return value of
+  /* NB: We must take care to propval_free() the return value of
    * objbind_get_value_from_object(), since it always makes a
    * copy, but to NOT free the result of objbind_get_modified_value()
    * since it returns its own stored value. */
@@ -3216,10 +3218,16 @@ static void objprop_refresh_widget(struct objprop *op,
     if (pv) {
       /* Most of these are semantically in "v_const_string",
        * but this works as the address is the same regardless. */
-      gtk_entry_buffer_set_text(gtk_text_get_buffer(GTK_TEXT(text)),
-                                pv->data.v_string, -1);
+      newtext = pv->data.v_string;
     } else {
-      gtk_entry_buffer_set_text(gtk_text_get_buffer(GTK_TEXT(text)), "", -1);
+      newtext = "";
+    }
+    buffer = gtk_text_get_buffer(GTK_TEXT(text));
+
+    /* Only set the text if it has changed. This breaks
+     * recursive loop. */
+    if (strcmp(newtext, gtk_entry_buffer_get_text(buffer))) {
+      gtk_entry_buffer_set_text(buffer, newtext, -1);
     }
     gtk_widget_set_sensitive(text, pv != NULL);
     break;
@@ -3243,7 +3251,7 @@ static void objprop_refresh_widget(struct objprop *op,
       }
       gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), pv->data.v_int);
       enable_gobject_callback(G_OBJECT(spin),
-          G_CALLBACK(objprop_widget_spin_button_changed));
+                              G_CALLBACK(objprop_widget_spin_button_changed));
     }
     gtk_widget_set_sensitive(spin, pv != NULL);
     break;
