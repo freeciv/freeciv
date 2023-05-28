@@ -154,8 +154,10 @@ nls (boolean):
 gitrev (boolean):
   Include git commit id to the version string.
 
-freeciv-web (boolean):
-  Build freeciv-web version instead of normal one.
+server ('disabled'/'enabled'/'freeciv-web'):
+  Whether to build server, or not. Special value 'freeciv-web'
+  means that freeciv-web version will be built instead of
+  the regular server.
 
 gen-packets-args (array):
   Aditional packet generator arguments passed to common/generate_packets.py.

@@ -65,10 +65,11 @@ option('gitrev',
        value: false,
        description: 'Include git commit id to the version string')
 
-option('freeciv-web',
-       type: 'boolean',
-       value: false,
-       description: 'Make a freeciv-web server build instead of normal one')
+option('server',
+       type: 'combo',
+       choices: ['disabled', 'enabled', 'freeciv-web' ],
+       value: 'enabled',
+       description: 'What kind of server should be build, if any')
 
 option('gen-packets-args',
        type: 'array',
