@@ -143,7 +143,7 @@ void put_window_near_map_tile(struct widget *pwindow,
 
 /**********************************************************************//**
   This function is called when the client disconnects or the game is
-  over.  It should close all dialog windows for that game.
+  over. It should close all dialog windows for that game.
 **************************************************************************/
 void popdown_all_game_dialogs(void)
 {
@@ -320,7 +320,7 @@ static struct notify_goto_dialog *notify_goto_dialog_new(void)
   utf8_str *str;
 
   /* Window. */
-  str = create_utf8_from_char("", adj_font(12));
+  str = create_utf8_from_char_fonto("", FONTO_ATTENTION);
   str->style |= TTF_STYLE_BOLD;
 
   pdialog->window = create_window_skeleton(NULL, str, 0);
@@ -334,8 +334,8 @@ static struct notify_goto_dialog *notify_goto_dialog_new(void)
                                            pdialog->window->dst,
                                            WF_WIDGET_HAS_INFO_LABEL
                                            | WF_RESTORE_BACKGROUND);
-  pdialog->close_button->info_label =
-      create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
+  pdialog->close_button->info_label
+    = create_utf8_from_char_fonto(_("Close Dialog (Esc)"), FONTO_ATTENTION);
   pdialog->close_button->action = notify_goto_dialog_close_callback;
   pdialog->close_button->data.ptr = pdialog;
   set_wstate(pdialog->close_button, FC_WS_NORMAL);
@@ -388,9 +388,10 @@ static void notify_goto_dialog_update(struct notify_goto_dialog *pdialog)
   if (NULL != pdialog->label) {
     del_widget_pointer_from_gui_list(pdialog->label);
   }
-  pdialog->label = create_iconlabel_from_chars(NULL, pdialog->window->dst,
-                                               pdata->lines, adj_font(12),
-                                               WF_RESTORE_BACKGROUND);
+  pdialog->label = create_iconlabel_from_chars_fonto(NULL, pdialog->window->dst,
+                                                     pdata->lines,
+                                                     FONTO_ATTENTION,
+                                                     WF_RESTORE_BACKGROUND);
   pdialog->label->action = notify_goto_dialog_goto_callback;
   pdialog->label->data.ptr = pdialog;
   set_wstate(pdialog->label, FC_WS_NORMAL);
@@ -433,7 +434,7 @@ static void notify_goto_dialog_advance(struct notify_goto_dialog *pdialog)
 
 /**********************************************************************//**
   Popup a dialog to display information about an event that has a
-  specific location.  The user should be given the option to goto that
+  specific location. The user should be given the option to goto that
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
@@ -521,7 +522,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
 
   notify_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pstr = create_utf8_from_char(caption, adj_font(12));
+  pstr = create_utf8_from_char_fonto(caption, FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -535,11 +536,11 @@ void popup_notify_dialog(const char *caption, const char *headline,
   area = pwindow->area;
 
   /* ---------- */
-  /* create exit button */
+  /* Create exit button */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                          adj_font(12));
+  buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                FONTO_ATTENTION);
   buf->action = exit_notify_dialog_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -554,7 +555,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   headline_surf = create_text_surf_from_utf8(pstr);
 
   if (lines && *lines != '\0') {
-    change_ptsize_utf8(pstr, adj_font(12));
+    change_fonto_utf8(pstr, FONTO_ATTENTION);
     pstr->style &= ~TTF_STYLE_BOLD;
     copy_chars_to_utf8_str(pstr, lines);
     lines_surf = create_text_surf_from_utf8(pstr);
@@ -699,7 +700,8 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
 
   unit_upgrade_result = unit_upgrade_info(punit, cbuf, sizeof(cbuf));
 
-  pstr = create_utf8_from_char(_("Upgrade Obsolete Units"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Upgrade Obsolete Units"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -727,9 +729,9 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   area.h += (text->h + adj_size(10));
 
   /* Cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
-                                           pwindow->dst, _("Cancel"),
-                                           adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->cancel_icon,
+                                                 pwindow->dst, _("Cancel"),
+                                                 FONTO_ATTENTION, 0);
 
   buf->action = cancel_upgrade_unit_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -739,8 +741,10 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   add_to_gui_list(ID_BUTTON, buf);
 
   if (UU_OK == unit_upgrade_result) {
-    buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
-                                             _("Upgrade"), adj_font(12), 0);
+    buf = create_themeicon_button_from_chars_fonto(current_theme->ok_icon,
+                                                   pwindow->dst,
+                                                   _("Upgrade"),
+                                                   FONTO_ATTENTION, 0);
 
     buf->action = ok_upgrade_unit_window_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -897,7 +901,7 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
     unit_list_destroy(punits);
   }
 
-  pstr = create_utf8_from_char(_("Disband Units"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Disband Units"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -925,9 +929,9 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   area.h += (text->h + adj_size(10));
 
   /* Cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
-                                           pwindow->dst, _("Cancel"),
-                                           adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->cancel_icon,
+                                                 pwindow->dst, _("Cancel"),
+                                                 FONTO_ATTENTION, 0);
 
   buf->action = cancel_disband_unit_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -937,8 +941,10 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   add_to_gui_list(ID_BUTTON, buf);
 
   if (unit_disband_result) {
-    buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
-                                             _("Disband"), adj_font(12), 0);
+    buf = create_themeicon_button_from_chars_fonto(current_theme->ok_icon,
+                                                   pwindow->dst,
+                                                   _("Disband"),
+                                                   FONTO_ATTENTION, 0);
 
     buf->action = ok_disband_unit_window_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1103,8 +1109,8 @@ void unit_select_dialog_popup(struct tile *ptile)
   is_unit_move_blocked = TRUE;
   unit_select_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  fc_snprintf(cbuf , sizeof(cbuf), "%s (%d)", _("Unit selection") , n);
-  pstr = create_utf8_from_char(cbuf , adj_font(12));
+  fc_snprintf(cbuf, sizeof(cbuf), "%s (%d)", _("Unit selection"), n);
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -1118,11 +1124,11 @@ void unit_select_dialog_popup(struct tile *ptile)
   area = pwindow->area;
 
   /* ---------- */
-  /* create exit button */
+  /* Create exit button */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                          adj_font(12));
+  buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                FONTO_ATTENTION);
   buf->action = exit_unit_select_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -1336,7 +1342,10 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   fc_snprintf(cbuf, sizeof(cbuf), "%s [%d,%d]", _("Terrain Info"),
               TILE_XY(ptile));
 
-  pwindow = create_window_skeleton(NULL, create_utf8_from_char(cbuf , adj_font(12)), 0);
+  pwindow
+    = create_window_skeleton(NULL,
+                             create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION),
+                             0);
   pwindow->string_utf8->style |= TTF_STYLE_BOLD;
 
   pwindow->action = terrain_info_window_dlg_callback;
@@ -1348,7 +1357,8 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   area = pwindow->area;
 
   /* ---------- */
-  pstr = create_utf8_from_char(popup_info_text(ptile), adj_font(12));
+  pstr = create_utf8_from_char_fonto(popup_info_text(ptile),
+                                     FONTO_ATTENTION);
   pstr->style |= SF_CENTER;
   buf = create_iconlabel(surf, pwindow->dst, pstr, 0);
 
@@ -1373,11 +1383,11 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   buf->size.x = area.x + adj_size(10);
   buf->size.y = area.y;
 
-  /* exit icon */
+  /* Exit icon */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                          adj_font(12));
+  buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                FONTO_ATTENTION);
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
   buf->action = exit_terrain_info_dialog_callback;
@@ -1719,7 +1729,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
   cont->id0 = index_to_map_pos_x(tile_index(ptile));
   cont->id1 = index_to_map_pos_y(tile_index(ptile));
 
-  pstr = create_utf8_from_char(_("Advanced Menu") , adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Advanced Menu"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -1736,8 +1746,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
   /* Exit button */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                          adj_font(12));
+  buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                FONTO_ATTENTION);
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_advanced_terrain_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -2286,8 +2296,8 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   is_unit_move_blocked = TRUE;
   pillage_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
-  /* window */
-  pstr = create_utf8_from_char(_("What To Pillage") , adj_font(12));
+  /* Window */
+  pstr = create_utf8_from_char_fonto(_("What To Pillage"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -2303,11 +2313,11 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   area.h = MAX(area.h, adj_size(2));
 
   /* ---------- */
-  /* exit button */
+  /* Exit button */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                          adj_font(12));
+  buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                FONTO_ATTENTION);
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_pillage_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -2454,7 +2464,8 @@ void popup_government_dialog(void)
   gov_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* Create window */
-  pstr = create_utf8_from_char(_("Choose Your New Government"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Choose Your New Government"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
   /* This win. size is temp. */
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -2473,9 +2484,10 @@ void popup_government_dialog(void)
     }
 
     if (can_change_to_government(client.conn.playing, gov)) {
-      pstr = create_utf8_from_char(government_name_translation(gov), adj_font(12));
-      gov_button =
-          create_icon_button(get_government_surface(gov), pwindow->dst, pstr, 0);
+      pstr = create_utf8_from_char_fonto(government_name_translation(gov),
+                                         FONTO_ATTENTION);
+      gov_button
+        = create_icon_button(get_government_surface(gov), pwindow->dst, pstr, 0);
       gov_button->action = government_dlg_callback;
 
       max_w = MAX(max_w, gov_button->size.w);
@@ -2894,7 +2906,7 @@ static int nation_button_callback(struct widget *nation_button)
     redraw_group(nation_dlg->begin_widget_list, nation_dlg->end_widget_list, 0);
     widget_flush(nation_dlg->end_widget_list);
   } else {
-    /* pop up nation description */
+    /* Pop up nation description */
     struct widget *pwindow, *ok_button;
     utf8_str *pstr;
     SDL_Surface *text;
@@ -2907,8 +2919,8 @@ static int nation_button_callback(struct widget *nation_button)
     if (!help_dlg) {
       help_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
-      pstr = create_utf8_from_char(nation_plural_translation(pnation),
-                                   adj_font(12));
+      pstr = create_utf8_from_char_fonto(nation_plural_translation(pnation),
+                                         FONTO_ATTENTION);
       pstr->style |= TTF_STYLE_BOLD;
 
       pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -2940,7 +2952,7 @@ static int nation_button_callback(struct widget *nation_button)
       char info[4096];
 
       helptext_nation(info, sizeof(info), pnation, NULL);
-      pstr = create_utf8_from_char(info, adj_font(12));
+      pstr = create_utf8_from_char_fonto(info, FONTO_ATTENTION);
     }
 
     pstr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_LEGEND);
@@ -3125,7 +3137,8 @@ void popup_races_dialog(struct player *pplayer)
   nation_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* Create window widget */
-  pstr = create_utf8_from_char(_("What nation will you be?"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("What nation will you be?"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window(NULL, pstr, w, h, WF_FREE_DATA);
@@ -3148,7 +3161,7 @@ void popup_races_dialog(struct player *pplayer)
                0, 0, main_bg->w - 1, main_bg->h - 1,
                get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
 
-  pstr = create_utf8_str(NULL, 0, adj_font(12));
+  pstr = create_utf8_str_fonto(NULL, 0, FONTO_ATTENTION);
   pstr->style |= (SF_CENTER|TTF_STYLE_BOLD);
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
@@ -3164,7 +3177,7 @@ void popup_races_dialog(struct player *pplayer)
     tmp_surf = crop_rect_from_surface(main_bg, NULL);
 
     copy_chars_to_utf8_str(pstr, nation_plural_translation(pnation));
-    change_ptsize_utf8(pstr, adj_font(12));
+    change_fonto_utf8(pstr, FONTO_ATTENTION);
     text_name
       = create_text_surf_smaller_than_w(pstr, tmp_surf->w - adj_size(4));
 
@@ -3218,7 +3231,8 @@ void popup_races_dialog(struct player *pplayer)
     utf8_str *natset_str;
     struct option *poption;
 
-    natset_str = create_utf8_from_char(_("Nation set"), adj_font(12));
+    natset_str = create_utf8_from_char_fonto(_("Nation set"),
+                                             FONTO_ATTENTION);
     change_ptsize_utf8(natset_str, adj_font(24));
     nationsets = create_iconlabel(NULL, pwindow->dst, natset_str, 0);
     add_to_gui_list(ID_LABEL, nationsets);
@@ -3227,8 +3241,9 @@ void popup_races_dialog(struct player *pplayer)
     poption = optset_option_by_name(server_optset, "nationset");
     setup->set = nation_set_by_setting_value(option_str_get(poption));
 
-    natset_str = create_utf8_from_char(nation_set_name_translation(setup->set),
-                                       adj_font(12));
+    natset_str
+      = create_utf8_from_char_fonto(nation_set_name_translation(setup->set),
+                                    FONTO_ATTENTION);
     change_ptsize_utf8(natset_str, adj_font(24));
 
     pwidget = create_iconlabel(NULL, pwindow->dst, natset_str, 0);
@@ -3349,18 +3364,20 @@ void popup_races_dialog(struct player *pplayer)
   /* ---------------------------------------------------------- */
 
   /* Create Cancel button */
-  pwidget = create_themeicon_button_from_chars(current_theme->cancel_icon,
+  pwidget
+    = create_themeicon_button_from_chars_fonto(current_theme->cancel_icon,
                                                pwindow->dst, _("Cancel"),
-                                               adj_font(12), 0);
+                                               FONTO_ATTENTION, 0);
   pwidget->action = races_dialog_cancel_callback;
   set_wstate(pwidget, FC_WS_NORMAL);
 
   add_to_gui_list(ID_NATION_WIZARD_DISCONNECT_BUTTON, pwidget);
 
   /* Create OK button */
-  pwidget =
-    create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
-                                       _("OK"), adj_font(12), 0);
+  pwidget
+    = create_themeicon_button_from_chars_fonto(current_theme->ok_icon,
+                                               pwindow->dst,
+                                               _("OK"), FONTO_ATTENTION, 0);
   pwidget->action = races_dialog_ok_callback;
 
   set_wstate(pwidget, FC_WS_NORMAL);
@@ -3506,7 +3523,7 @@ void popup_races_dialog(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Close the nation selection dialog.  This should allow the user to
+  Close the nation selection dialog. This should allow the user to
   (at least) select a unit to activate.
 **************************************************************************/
 void popdown_races_dialog(void)

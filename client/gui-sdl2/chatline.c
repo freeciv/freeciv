@@ -198,10 +198,11 @@ static void popup_load_game_dialog(void)
   widget_redraw(conn_dlg->start_button);
   widget_mark_dirty(conn_dlg->start_button);
 
-  /* create dialog */
+  /* Create dialog */
   load_dialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  title = create_utf8_from_char(_("Choose Saved Game to Load"), adj_font(12));
+  title = create_utf8_from_char_fonto(_("Choose Saved Game to Load"),
+                                      FONTO_ATTENTION);
   title->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, title, 0);
@@ -214,12 +215,13 @@ static void popup_load_game_dialog(void)
 
   area = pwindow->area;
 
-  /* close button */
-  close_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+  /* Close button */
+  close_button = create_themeicon(current_theme->small_cancel_icon,
+                                  pwindow->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  close_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                                   adj_font(12));
+  close_button->info_label
+    = create_utf8_from_char_fonto(_("Close Dialog (Esc)"), FONTO_ATTENTION);
   close_button->action = exit_load_dlg_callback;
   set_wstate(close_button, FC_WS_NORMAL);
   close_button->key = SDLK_ESCAPE;
@@ -230,11 +232,11 @@ static void popup_load_game_dialog(void)
 
   load_dialog->begin_widget_list = close_button;
 
-  /* create scrollbar */
+  /* Create scrollbar */
   scrollbar_width = create_vertical_scrollbar(load_dialog, 1, 20, TRUE, TRUE);
   hide_scrollbar(load_dialog->scroll);
 
-  /* search for user saved games. */
+  /* Search for user saved games. */
   files = fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
   fileinfo_list_iterate(files, pfile) {
     count++;
@@ -358,8 +360,9 @@ void popup_input_line(void)
 {
   struct widget *input_edit;
 
-  input_edit = create_edit_from_chars(NULL, main_data.gui, "", adj_font(12),
-                                      adj_size(400), 0);
+  input_edit = create_edit_from_chars_fonto(NULL, main_data.gui, "",
+                                            FONTO_ATTENTION,
+                                            adj_size(400), 0);
 
   input_edit->size.x = (main_window_width() - input_edit->size.w) / 2;
   input_edit->size.y = (main_window_height() - input_edit->size.h) / 2;
@@ -376,7 +379,7 @@ void popup_input_line(void)
 }
 
 /**********************************************************************//**
-  Appends the string to the chat output window.  The string should be
+  Appends the string to the chat output window. The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
 void real_output_window_append(const char *astring,
@@ -447,16 +450,18 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
   fc_assert_ret(msg != NULL);
   fc_assert_ret(n_alloc != 0);
 
-  pstr = create_utf8_str(msg, n_alloc, adj_font(12));
+  pstr = create_utf8_str_fonto(msg, n_alloc, FONTO_ATTENTION);
 
-  if (convert_utf8_str_to_const_surface_width(pstr, conn_dlg->text_width - adj_size(5))) {
+  if (convert_utf8_str_to_const_surface_width(pstr,
+                                              conn_dlg->text_width - adj_size(5))) {
     utf8_str *pstr2;
     int count = 0;
     char **utf8_texts = create_new_line_utf8strs(pstr->text);
 
     while (utf8_texts[count] != NULL) {
-      pstr2 = create_utf8_str(utf8_texts[count],
-                              strlen(utf8_texts[count]) + 1, adj_font(12));
+      pstr2 = create_utf8_str_fonto(utf8_texts[count],
+                                    strlen(utf8_texts[count]) + 1,
+                                    FONTO_ATTENTION);
       pstr2->bgcol = (SDL_Color) {0, 0, 0, 0};
       buf = create_themelabel2(NULL, pwindow->dst,
                                pstr2, conn_dlg->text_width, 0,
@@ -572,7 +577,7 @@ void real_conn_list_dialog_update(void *unused)
   if (C_S_PREPARING == client_state()) {
     if (conn_dlg) {
       struct widget *buf = NULL, *pwindow = conn_dlg->end_widget_list;
-      utf8_str *pstr = create_utf8_str(NULL, 0, adj_font(12));
+      utf8_str *pstr = create_utf8_str_fonto(NULL, 0, FONTO_ATTENTION);
       bool create;
 
       pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -668,7 +673,7 @@ static void popup_conn_list_dialog(void)
   struct widget* back_button = NULL;
   struct widget *start_game_button = NULL;
   struct widget *select_nation_button = NULL;
-/*  struct widget *server_settings_button = NULL;*/
+/*  struct widget *server_settings_button = NULL; */
   utf8_str *pstr = NULL;
   int n;
   SDL_Rect area;
@@ -692,16 +697,17 @@ static void popup_conn_list_dialog(void)
 
   widget_set_position(pwindow, 0, 0);
 
-  /* create window background */
+  /* Create window background */
   surf = theme_get_background(active_theme, BACKGROUND_CONNLISTDLG);
   if (resize_window(pwindow, surf, NULL, main_window_width(),
                     main_window_height())) {
     FREESURFACE(surf);
   }
 
-  conn_dlg->text_width = pwindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);
+  conn_dlg->text_width
+    = pwindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);
 
-  /* chat area background */
+  /* Chat area background */
   area.x = adj_size(10);
   area.y = adj_size(14);
   area.w = conn_dlg->text_width + adj_size(20);
@@ -712,7 +718,7 @@ static void popup_conn_list_dialog(void)
                area.x - 1, area.y - 1, area.w + 1, area.h + 1,
                get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
 
-  /* user list background */
+  /* User list background */
   area.x = pwindow->size.w - adj_size(130);
   area.y = adj_size(14);
   area.w = adj_size(120);
@@ -727,7 +733,7 @@ static void popup_conn_list_dialog(void)
 
   /* -------------------------------- */
 
-  /* chat area */
+  /* Chat area */
 
   conn_dlg->chat_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
@@ -737,7 +743,7 @@ static void popup_conn_list_dialog(void)
     char cbuf[256];
 
     fc_snprintf(cbuf, sizeof(cbuf), _("Total users logged in : %d"), n);
-    pstr = create_utf8_from_char(cbuf, adj_font(12));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_ATTENTION);
   }
 
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -770,9 +776,10 @@ static void popup_conn_list_dialog(void)
 
   /* Input field */
 
-  buf = create_edit_from_chars(NULL, pwindow->dst, "",
-                               adj_font(12), pwindow->size.w - adj_size(10) - adj_size(10),
-                               (WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
+  buf = create_edit_from_chars_fonto(NULL, pwindow->dst, "",
+                                     FONTO_ATTENTION,
+                                     pwindow->size.w - adj_size(10) - adj_size(10),
+                                     (WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
 
   buf->size.x = adj_size(10);
   buf->size.y = pwindow->size.h - adj_size(40) - adj_size(5) - buf->size.h;
@@ -783,8 +790,9 @@ static void popup_conn_list_dialog(void)
 
   /* Buttons */
 
-  buf = create_themeicon_button_from_chars(current_theme->back_icon, pwindow->dst,
-                                           _("Back"), adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->back_icon,
+                                                 pwindow->dst,
+                                                 _("Back"), FONTO_ATTENTION, 0);
   buf->size.x = adj_size(10);
   buf->size.y = pwindow->size.h - adj_size(10) - buf->size.h;
   conn_dlg->back_button = buf;
@@ -794,8 +802,10 @@ static void popup_conn_list_dialog(void)
   add_to_gui_list(ID_BUTTON, buf);
   back_button = buf;
 
-  buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
-                                           _("Start"), adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->ok_icon,
+                                                 pwindow->dst,
+                                                 _("Start"),
+                                                 FONTO_ATTENTION, 0);
   buf->size.x = pwindow->size.w - adj_size(10) - buf->size.w;
   buf->size.y = back_button->size.y;
   conn_dlg->start_button = buf;
@@ -804,8 +814,9 @@ static void popup_conn_list_dialog(void)
   add_to_gui_list(ID_BUTTON, buf);
   start_game_button = buf;
 
-  buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
-                                           _("Pick Nation"), adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(NULL, pwindow->dst,
+                                                 _("Pick Nation"),
+                                                 FONTO_ATTENTION, 0);
   buf->size.h = start_game_button->size.h;
   buf->size.x = start_game_button->size.x - adj_size(10) - buf->size.w;
   buf->size.y = start_game_button->size.y;
@@ -815,8 +826,9 @@ static void popup_conn_list_dialog(void)
   add_to_gui_list(ID_BUTTON, buf);
   select_nation_button = buf;
 
-  buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
-                                           _("Load Game"), adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(NULL, pwindow->dst,
+                                                 _("Load Game"),
+                                                 FONTO_ATTENTION, 0);
   buf->size.h = select_nation_button->size.h;
   buf->size.x = select_nation_button->size.x - adj_size(10) - buf->size.w;
   buf->size.y = select_nation_button->size.y;
@@ -825,11 +837,11 @@ static void popup_conn_list_dialog(void)
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, buf);
 
-  /* not implemented yet */
+  /* Not implemented yet */
 #if 0
-  buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
-                                           _("Server Settings"),
-                                           adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(NULL, pwindow->dst,
+                                                 _("Server Settings"),
+                                                 FONTO_ATTENTION, 0);
   buf->size.h = select_nation_button->size.h;
   buf->size.x = select_nation_button->size.x - adj_size(10) - buf->size.w;
   buf->size.y = select_nation_button->size.y;
@@ -840,10 +852,10 @@ static void popup_conn_list_dialog(void)
   server_settings_button = buf;
 #endif /* 0 */
 
-  /* not implemented yet */
+  /* Not implemented yet */
 #if 0
-  buf = create_themeicon_button_from_chars(NULL, pwindow->dst->surface,
-                                           "?", adj_font(12), 0);
+  buf = create_themeicon_button_from_chars_fonto(NULL, pwindow->dst->surface,
+                                                 "?", FONTO_ATTENTION, 0);
   buf->size.y = pwindow->size.y + pwindow->size.h - (buf->size.h + 7);
   buf->size.x = pwindow->size.x + pwindow->size.w - (buf->size.w + 10) - 5;
 

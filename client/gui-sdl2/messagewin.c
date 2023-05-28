@@ -253,8 +253,8 @@ void meswin_dialog_popup(bool raise)
 
   msg_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  /* create window */
-  pstr = create_utf8_from_char(_("Messages"), adj_font(12));
+  /* Create window */
+  pstr = create_utf8_from_char_fonto(_("Messages"), FONTO_ATTENTION);
   pstr->style = TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);

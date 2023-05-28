@@ -160,10 +160,15 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
 **************************************************************************/
 static Uint16 fonto_ptsize(enum font_origin origin)
 {
+  int def;
+
   switch (origin) {
   case FONTO_DEFAULT:
     /* Rely on create_utf8_str() default */
     return 0;
+  case FONTO_ATTENTION:
+    def = ptsize_default();
+    return adj_font(MAX(def + 1, def * 1.2));
   }
 
   return 0;

@@ -394,7 +394,8 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   diplomat_dlg->target_ids[ATK_CITY] = vcity->id;
   diplomat_dlg->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pstr = create_utf8_from_char(_("Select Advance to Steal"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Select Advance to Steal"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -409,11 +410,11 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   area.w = MAX(area.w, adj_size(8));
 
   /* ------------------ */
-  /* exit button */
+  /* Exit button */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                          adj_font(12));
+  buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                FONTO_ATTENTION);
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_spy_tgt_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -970,10 +971,11 @@ void popup_action_selection(struct unit *actor_unit,
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&title, _("Choose Your %s's Strategy"),
              unit_name_translation(actor_unit));
-    pstr = create_utf8_from_char(astr_str(&title), adj_font(12));
+    pstr = create_utf8_from_char_fonto(astr_str(&title), FONTO_ATTENTION);
     astr_free(&title);
   } else {
-    pstr = create_utf8_from_char(_("Subvert Enemy Unit"), adj_font(12));
+    pstr = create_utf8_from_char_fonto(_("Subvert Enemy Unit"),
+                                       FONTO_ATTENTION);
   }
 
   pstr->style |= TTF_STYLE_BOLD;
@@ -1328,10 +1330,11 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
 
   cont = fc_calloc(1, sizeof(struct container));
   cont->id0 = pcity->id;
-  cont->id1 = actor->id; /* spy id */
+  cont->id1 = actor->id; /* Spy id */
   cont->value = paction->id;
 
-  pstr = create_utf8_from_char(_("Select Improvement to Sabotage") , adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Select Improvement to Sabotage"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -1346,11 +1349,11 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   area.h = MAX(area.h, adj_size(2));
 
   /* ---------- */
-  /* exit button */
+  /* Exit button */
   buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                          adj_font(12));
+  buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                FONTO_ATTENTION);
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_spy_tgt_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1639,8 +1642,8 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
                                           client_player()->economic.gold),
               client_player()->economic.gold);
 
-  /* window */
-  pstr = create_utf8_from_char(_("Incite a Revolt!"), adj_font(12));
+  /* Window */
+  pstr = create_utf8_from_char_fonto(_("Incite a Revolt!"), FONTO_ATTENTION);
 
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1657,12 +1660,12 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
   area.h = MAX(area.h, adj_size(2));
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
-    /* exit button */
+    /* Exit button */
     buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                            WF_WIDGET_HAS_INFO_LABEL
                            | WF_RESTORE_BACKGROUND);
-    buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+    buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                  FONTO_ATTENTION);
     area.w += buf->size.w + adj_size(10);
     buf->action = exit_incite_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1727,12 +1730,12 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     area.h += buf->size.h;
 
   } else {
-    /* exit button */
+    /* Exit button */
     buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                            WF_WIDGET_HAS_INFO_LABEL
                            | WF_RESTORE_BACKGROUND);
-    buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+    buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                  FONTO_ATTENTION);
     area.w += buf->size.w + adj_size(10);
     buf->action = exit_incite_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1902,8 +1905,8 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
                                           client_player()->economic.gold),
               client_player()->economic.gold);
 
-  /* window */
-  pstr = create_utf8_from_char(_("Bribe Enemy Unit"), adj_font(12));
+  /* Window */
+  pstr = create_utf8_from_char_fonto(_("Bribe Enemy Unit"), FONTO_ATTENTION);
 
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1955,12 +1958,12 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
     area.h += buf->size.h;
 
   } else {
-    /* exit button */
+    /* Exit button */
     buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                            WF_WIDGET_HAS_INFO_LABEL
                            | WF_RESTORE_BACKGROUND);
-    buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+    buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                  FONTO_ATTENTION);
     area.w += buf->size.w + adj_size(10);
     buf->action = exit_bribe_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);

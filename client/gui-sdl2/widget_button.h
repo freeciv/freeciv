@@ -14,22 +14,31 @@
 #ifndef FC__WIDGET_BUTTON_H
 #define FC__WIDGET_BUTTON_H
 
-#define create_icon_button_from_chars(icon, pdest, char_string, ptsize, flags) \
-        create_icon_button(icon, pdest,                                        \
-                           create_utf8_from_char(char_string, ptsize),         \
-                           flags)
+#define create_icon_button_from_chars(icon, pdest, char_string,         \
+                                      ptsize, flags)                    \
+  create_icon_button(icon, pdest,                                       \
+                     create_utf8_from_char(char_string, ptsize),        \
+                     flags)
 
-#define create_themeicon_button_from_chars(icon_theme, pdest, char_string, ptsize, flags) \
+#define create_icon_button_from_chars_fonto(icon, pdest, char_string,  \
+                                            fonto, flags)              \
+  create_icon_button(icon, pdest,                                      \
+                     create_utf8_from_char_fonto(char_string, fonto),  \
+                     flags)
+
+#define create_themeicon_button_from_chars(icon_theme, pdest,          \
+                                           char_string, ptsize, flags) \
   create_themeicon_button(icon_theme, pdest,                           \
                           create_utf8_from_char(char_string,           \
                                                 ptsize),               \
                           flags)
 
-#define create_themeicon_button_from_chars_fonto(icon_theme, pdest,         \
-                                                 char_string, fonto, flags) \
-  create_themeicon_button(icon_theme, pdest,                                \
-                          create_utf8_from_char_fonto(char_string,          \
-                                                      fonto),               \
+#define create_themeicon_button_from_chars_fonto(icon_theme, pdest,    \
+                                                 char_string,          \
+                                                 fonto, flags)         \
+  create_themeicon_button(icon_theme, pdest,                           \
+                          create_utf8_from_char_fonto(char_string,     \
+                                                      fonto),          \
                           flags)
 
 struct widget *create_icon_button(SDL_Surface *icon,

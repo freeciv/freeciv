@@ -160,10 +160,10 @@ static void show_main_page(void)
   area = pwindow->area;
 
   /* Freeciv version */
-  /* TRANS: Freeciv 2.4.0 */
+  /* TRANS: Freeciv 3.2.0 */
   fc_snprintf(verbuf, sizeof(verbuf), _("Freeciv %s"), VERSION_STRING);
-  pwidget = create_iconlabel_from_chars(NULL, pwindow->dst, verbuf,
-                                        adj_font(12),
+  pwidget = create_iconlabel_from_chars_fonto(NULL, pwindow->dst, verbuf,
+                                              FONTO_ATTENTION,
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   pwidget->string_utf8->style |= SF_CENTER | TTF_STYLE_BOLD;
@@ -176,8 +176,8 @@ static void show_main_page(void)
 
   /* TRANS: gui-sdl2 client */
   fc_snprintf(verbuf, sizeof(verbuf), _("%s client"), client_string);
-  pwidget = create_iconlabel_from_chars(NULL, pwindow->dst, verbuf,
-                                        adj_font(12),
+  pwidget = create_iconlabel_from_chars_fonto(NULL, pwindow->dst, verbuf,
+                                              FONTO_ATTENTION,
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   pwidget->string_utf8->style |= SF_CENTER | TTF_STYLE_BOLD;
