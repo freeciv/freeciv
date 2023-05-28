@@ -77,9 +77,6 @@ static void apply_notify_font(struct option *poption);
 static void apply_sidebar(struct option *poption);
 static void apply_titlebar(struct option *poption);
 
-// Uncomment to enable svg flags
-//#define FC_QT_SVGFLAG
-
 /**********************************************************************//**
   Return fc_client instance
 **************************************************************************/
@@ -101,10 +98,6 @@ int main(int argc, char **argv)
 {
   setup_gui_funcs();
 
-#ifdef FC_QT_SVGFLAG
-  svg_flag_enable();
-#endif // FC_QT_SVGFLAG
-
   return client_main(argc, argv, TRUE);
 }
 
@@ -122,6 +115,8 @@ static void print_usage()
   fc_fprintf(stderr,
              _("Other gui-specific options are:\n"));
 
+  fc_fprintf(stderr,
+             _("-f, --flags\tEnable svgflags features\n"));
   fc_fprintf(stderr,
              _("-s, --shortcutreset\tReset shortcut keys to "
                "default values\n"));
@@ -148,6 +143,8 @@ static bool parse_options(int argc, char **argv)
     }
     if (is_option("--shortcutreset", argv[i])) {
       shortcutreset();
+    } else if (is_option("--flags", argv[i])) {
+      svg_flag_enable();
     }
     // Can't check against unknown options, as those might be Qt options
 
