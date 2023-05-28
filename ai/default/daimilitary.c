@@ -79,6 +79,11 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
                                   const struct civ_map *dmap,
                                   player_unit_list_getter ul_cb);
 
+static adv_want dai_unit_attack_desirability(struct ai_type *ait,
+                                             const struct unit_type *punittype);
+static adv_want dai_unit_defense_desirability(struct ai_type *ait,
+                                              const struct unit_type *punittype);
+
 /**********************************************************************//**
   Choose the best unit the city can build to defend against attacker v.
 **************************************************************************/
@@ -142,8 +147,8 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
                                              bool allow_gold_upkeep)
 {
   struct unit_type *bestid = NULL;
-  int best = -1;
-  int cur;
+  adv_want best = -1;
+  adv_want cur;
   struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(putype) {
@@ -157,7 +162,7 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
             && utype_class(putype)->adv.sea_move != MOVE_NONE)) {
       if (can_city_build_unit_now(pcity, putype)
           && (cur > best
-              || (cur == best
+              || (ADV_WANTS_EQ(cur, best)
                   && utype_build_shield_cost(pcity, NULL, putype)
                     <= utype_build_shield_cost(pcity, NULL, bestid)))) {
         best = cur;
@@ -184,7 +189,7 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
                                               bool allow_gold_upkeep)
 {
   struct unit_type *bestid = NULL;
-  int best = 0;
+  adv_want best = 0;
   struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(putype) {
@@ -208,10 +213,10 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
 
     /* Now find best */
     if (can_city_build_unit_now(pcity, putype)) {
-      const int desire = dai_unit_defense_desirability(ait, putype);
+      const adv_want desire = dai_unit_defense_desirability(ait, putype);
 
       if (desire > best
-          || (desire == best && utype_build_shield_cost(pcity, NULL, putype) <=
+          || (ADV_WANTS_EQ(desire, best) && utype_build_shield_cost(pcity, NULL, putype) <=
               utype_build_shield_cost(pcity, NULL, bestid))) {
         best = desire;
         bestid = putype;
@@ -966,10 +971,10 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   How much we would want that unit to defend a city? (Do not use this
   function to find bodyguards for ships or air units.)
 **************************************************************************/
-int dai_unit_defense_desirability(struct ai_type *ait,
-                                  const struct unit_type *punittype)
+static adv_want dai_unit_defense_desirability(struct ai_type *ait,
+                                              const struct unit_type *punittype)
 {
-  int desire = punittype->hp;
+  adv_want desire = punittype->hp;
   int attack = punittype->attack_strength;
   int defense = punittype->defense_strength;
   int maxbonus_pct = 0;
@@ -1003,10 +1008,10 @@ int dai_unit_defense_desirability(struct ai_type *ait,
 /**********************************************************************//**
   How much we would want that unit to attack with?
 **************************************************************************/
-int dai_unit_attack_desirability(struct ai_type *ait,
-                                 const struct unit_type *punittype)
+static adv_want dai_unit_attack_desirability(struct ai_type *ait,
+                                             const struct unit_type *punittype)
 {
-  int desire = punittype->hp;
+  adv_want desire = punittype->hp;
   int attack = punittype->attack_strength;
   int defense = punittype->defense_strength;
 
@@ -1018,7 +1023,7 @@ int dai_unit_attack_desirability(struct ai_type *ait,
     desire += desire / 2;
   }
   if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
-    desire /= 10; /* but might actually be worth it */
+    desire /= 10; /* But might actually be worth it */
   }
   if (utype_has_flag(punittype, UTYF_CITYBUSTER)) {
     desire += desire / 2;
@@ -1029,6 +1034,7 @@ int dai_unit_attack_desirability(struct ai_type *ait,
   if (punittype->adv.igwall) {
     desire += desire / 4;
   }
+
   return desire;
 }
 
