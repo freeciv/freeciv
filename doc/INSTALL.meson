@@ -161,8 +161,10 @@ nls (boolean):
 gitrev (boolean):
   Include git commit id to the version string.
 
-freeciv-web (boolean):
-  Build freeciv-web version instead of normal one.
+server ('disabled'/'enabled'/'freeciv-web'):
+  Whether to build server, or not. Special value 'freeciv-web'
+  means that freeciv-web version will be built instead of
+  the regular server.
 
 qtver ('qt5'/'qt6'):
   Whether to build Qt5 or Qt6 versions of the binaries.

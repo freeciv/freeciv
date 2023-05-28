@@ -99,7 +99,9 @@ else
     '".:data/scenarios:@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios:@FREECIV_STORAGE_DIR@/scenarios:@DATADIR@/freeciv/scenarios"')
 endif
 
-if get_option('freeciv-web')
+server_type = get_option('server')
+
+if server_type == 'freeciv-web'
   pub_conf_data.set('FREECIV_WEB', 1)
   server_binary_name = 'freeciv-web'
 else
@@ -1054,38 +1056,41 @@ server_lib = static_library('fc_server',
   dependencies: lua_dep
   )
 
-executable(server_binary_name,
-  'server/civserver.c',
-  servericon,
-  include_directories: server_inc,
-  link_with: [server_lib, common_lib, ais],
-  dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
-  install: true
-  )
+if server_type != 'disabled'
+  executable(server_binary_name,
+    'server/civserver.c',
+    servericon,
+    include_directories: server_inc,
+    link_with: [server_lib, common_lib, ais],
+    dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
+    install: true
+    )
 
-install_data(
-  'lua/database.lua',
-  install_dir : join_paths(get_option('sysconfdir'), 'freeciv')
-  )
+  install_data(
+    'lua/database.lua',
+    install_dir : join_paths(get_option('sysconfdir'), 'freeciv')
+    )
+
+  install_data(
+    'bootstrap/org.freeciv.server.desktop',
+    install_dir : join_paths(get_option('prefix'), 'share/applications')
+    )
+
+  custom_target('mi_server',
+                input: 'bootstrap/org.freeciv.server.metainfo.xml.in',
+                output: '@BASENAME@',
+                command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                          '@OUTPUT@',
+                          meson.project_build_root(), 'development'],
+                install: true,
+                install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
+endif
 
 install_data(
   'data/ruledit/comments-3.1.txt',
   install_dir : join_paths(get_option('datadir'), 'freeciv/ruledit')
   )
-
-install_data(
-  'bootstrap/org.freeciv.server.desktop',
-  install_dir : join_paths(get_option('prefix'), 'share/applications')
-  )
-
-custom_target('mi_server',
-              input: 'bootstrap/org.freeciv.server.metainfo.xml.in',
-              output: '@BASENAME@',
-              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
-              install: true,
-              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
 nations = [
   'abkhaz',
