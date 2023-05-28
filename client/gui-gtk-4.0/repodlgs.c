@@ -275,7 +275,7 @@ static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
   GtkAdjustment *vadjustment;
   gint hadjustment_value;
   gint vadjustment_value;
-  GtkScrolledWindow *sw;
+  GtkViewport *vp;
 
   if (!tileset_is_fully_loaded()) {
     return;
@@ -284,9 +284,9 @@ static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
   get_reqtree_dimensions(reqtree, &rtwidth, &rtheight);
   gtk_widget_set_size_request(GTK_WIDGET(widget), rtwidth, rtheight);
 
-  sw = GTK_SCROLLED_WINDOW(gtk_widget_get_parent(GTK_WIDGET(widget)));
-  hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(sw));
-  vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(sw));
+  vp = GTK_VIEWPORT(gtk_widget_get_parent(GTK_WIDGET(widget)));
+  hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(vp));
+  vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(vp));
 
   hadjustment_value = (gint)gtk_adjustment_get_value(hadjustment);
   vadjustment_value = (gint)gtk_adjustment_get_value(vadjustment);
@@ -350,13 +350,9 @@ static void science_diagram_data(GtkWidget *widget, bool show_all)
 ****************************************************************************/
 static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
 {
-  GtkScrolledWindow *sw = GTK_SCROLLED_WINDOW(gtk_widget_get_parent(diagram));
+  GtkViewport *vp = GTK_VIEWPORT(gtk_widget_get_parent(diagram));
   struct reqtree *reqtree;
   int x, y, width, height;
-
-  if (!GTK_IS_SCROLLED_WINDOW(sw)) {
-    return;
-  }
 
   reqtree = g_object_get_data(G_OBJECT(diagram), "reqtree");
   get_reqtree_dimensions(reqtree, &width, &height);
@@ -364,13 +360,13 @@ static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
     GtkAdjustment *adjust = NULL;
     gdouble value;
 
-    adjust = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw));
+    adjust = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(vp));
     value = (gtk_adjustment_get_lower(adjust)
       + gtk_adjustment_get_upper(adjust)
       - gtk_adjustment_get_page_size(adjust)) / width * x;
     gtk_adjustment_set_value(adjust, value);
 
-    adjust = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
+    adjust = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(vp));
     value = (gtk_adjustment_get_lower(adjust)
       + gtk_adjustment_get_upper(adjust)
       - gtk_adjustment_get_page_size(adjust)) / height * y;
