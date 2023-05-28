@@ -385,7 +385,8 @@ void popup_players_dialog(bool raise)
 
   pPlayers_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pstr = create_utf8_from_char(Q_("?header:Players"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(Q_("?header:Players"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -396,11 +397,11 @@ void popup_players_dialog(bool raise)
   add_to_gui_list(ID_WINDOW, pWindow);
   pPlayers_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
-  /* exit button */
+  /* Exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                 FONTO_ATTENTION);
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -683,7 +684,7 @@ void popup_players_nations_dialog(void)
   pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
   /* TRANS: Nations report title */
-  pstr = create_utf8_from_char(_("Nations") , adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Nations"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -697,11 +698,11 @@ void popup_players_nations_dialog(void)
   area = pWindow->area;
 
   /* ---------- */
-  /* exit button */
+  /* Exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                 FONTO_ATTENTION);
   area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);

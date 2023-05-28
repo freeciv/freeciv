@@ -158,7 +158,7 @@ static void update_goto_dialog(void)
 
     city_list_iterate(pPlayer->cities, pCity) {
 
-      /* FIXME: should use unit_can_airlift_to(). */
+      /* FIXME: Should use unit_can_airlift_to(). */
       if (!GOTO && !pCity->airlift) {
 	continue;
       }
@@ -166,7 +166,7 @@ static void update_goto_dialog(void)
       fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name_get(pCity),
                   city_size_get(pCity));
 
-      pstr = create_utf8_from_char(cBuf, adj_font(12));
+      pstr = create_utf8_from_char_fonto(cBuf, FONTO_ATTENTION);
       pstr->style |= TTF_STYLE_BOLD;
 
       if (!player_owns_city(owner, pCity)) {
@@ -233,7 +233,7 @@ static void update_goto_dialog(void)
     hide_scrollbar(pGotoDlg->pScroll);
   }
 
-  /* redraw */
+  /* Redraw */
   redraw_group(pGotoDlg->pBeginWidgetList, pGotoDlg->pEndWidgetList, 0);
   widget_flush(pGotoDlg->pEndWidgetList);
 }
@@ -257,7 +257,8 @@ static void popup_goto_airlift_dialog(void)
 
   pGotoDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pstr = create_utf8_from_char(_("Select destination"), adj_font(12));
+  pstr = create_utf8_from_char_fonto(_("Select destination"),
+                                     FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);
@@ -271,11 +272,11 @@ static void popup_goto_airlift_dialog(void)
   area = pWindow->area;
 
   /* ---------- */
-  /* create exit button */
+  /* Create exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+  pBuf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                 FONTO_ATTENTION);
   pBuf->action = exit_goto_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -305,9 +306,9 @@ static void popup_goto_airlift_dialog(void)
                            | WF_WIDGET_HAS_INFO_LABEL);
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
 
-    pBuf->info_label =
-        create_utf8_from_char(nation_adjective_for_player(pPlayer),
-                               adj_font(12));
+    pBuf->info_label
+      = create_utf8_from_char_fonto(nation_adjective_for_player(pPlayer),
+                                    FONTO_ATTENTION);
     pBuf->info_label->style &= ~SF_CENTER;
     set_wstate(pBuf, FC_WS_NORMAL);
 
