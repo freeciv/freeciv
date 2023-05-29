@@ -409,6 +409,17 @@ else
   lzma_dep = []
 endif
 
+zlib_dep = c_compiler.find_library('z', dirs: cross_lib_path,
+                                   required:true)
+
+if zlib_dep.found()
+  pub_conf_data.set('FREECIV_HAVE_LIBZ', 1)
+endif
+
+if not c_compiler.has_header('zlib.h', args: header_arg)
+  error('Mandatory header zlib.h not found!')
+endif
+
 zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
                                    required:false)
 
@@ -921,7 +932,7 @@ common_lib = library('freeciv',
   sources: [specenum, pack_common,
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
-  dependencies: [c_compiler.find_library('z', dirs: cross_lib_path),
+  dependencies: [zlib_dep,
                  curl_dep, m_dep, sqlite3_dep, icu_dep,
                  net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
