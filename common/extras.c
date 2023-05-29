@@ -318,7 +318,8 @@ void _extra_to_removed_by_list(struct extra_type *pextra,
 {
   extra_type_list_append(removed_by[rmcause], pextra);
 
-  if (rmcause == ERM_CLEANPOLLUTION || rmcause == ERM_CLEANFALLOUT) {
+  if (rmcause == ERM_CLEAN
+      || rmcause == ERM_CLEANPOLLUTION || rmcause == ERM_CLEANFALLOUT) {
     extra_type_list_append(cleanable, pextra);
   }
 }
