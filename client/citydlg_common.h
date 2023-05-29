@@ -18,7 +18,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <stddef.h>		/* size_t */
+#include <stddef.h>             /* size_t */
 
 /* utility */
 #include "support.h"            /* bool type */

@@ -36,12 +36,12 @@
 
 /* client */
 #include "citydlg_common.h"
-#include "client_main.h"		/* for can_client_issue_orders() */
+#include "client_main.h"                /* For can_client_issue_orders() */
 #include "climap.h"
 #include "control.h"
 #include "mapview_common.h"
-#include "options.h"		/* for concise_city_production */
-#include "tilespec.h"		/* for tileset_is_isometric(tileset) */
+#include "options.h"            /* For concise_city_production */
+#include "tilespec.h"           /* For tileset_is_isometric(tileset) */
 
 static int citydlg_map_width, citydlg_map_height;
 
@@ -69,7 +69,7 @@ void generate_citydlg_dimensions(void)
   int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
   int max_rad = rs_max_city_radius_sq();
 
-  /* use maximum possible squared city radius. */
+  /* Use maximum possible squared city radius. */
   city_map_iterate_without_index(max_rad, city_x, city_y) {
     float canvas_x, canvas_y;
 
@@ -110,7 +110,7 @@ bool city_to_canvas_pos(float *canvas_x, float *canvas_y, int city_x,
 
 /**********************************************************************//**
   Converts a citymap canvas position to a (cartesian) city coordinate
-  position.  Returns TRUE iff the city position is valid.
+  position. Returns TRUE iff the city position is valid.
 **************************************************************************/
 bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
                         int canvas_x, int canvas_y)
@@ -133,7 +133,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
        canvas position (0,0). */
     canvas_x -= W / 2;
 
-    /* Perform a pi/4 rotation, with scaling.  See canvas_pos_to_map_pos
+    /* Perform a pi/4 rotation, with scaling. See canvas_pos_to_map_pos
        for a full explanation. */
     *city_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
     *city_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
@@ -153,39 +153,39 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
   return is_valid_city_coords(city_radius_sq, *city_x, *city_y);
 }
 
-/* Iterate over all known tiles in the city.  This iteration follows the
+/* Iterate over all known tiles in the city. This iteration follows the
  * painter's algorithm and can be used for drawing. */
-#define citydlg_iterate(pcity, ptile, pedge, pcorner, _x, _y)		\
-{									\
+#define citydlg_iterate(pcity, ptile, pedge, pcorner, _x, _y)           \
+{                                                                       \
   float _x##_0, _y##_0;                                                 \
   int _tile_x, _tile_y;                                                 \
-  const int _x##_w = get_citydlg_canvas_width();			\
-  const int _y##_h = get_citydlg_canvas_height();			\
+  const int _x##_w = get_citydlg_canvas_width();                        \
+  const int _y##_h = get_citydlg_canvas_height();                       \
   index_to_map_pos(&_tile_x, &_tile_y, tile_index((pcity)->tile));      \
-									\
+                                                                        \
   map_to_gui_vector(tileset, 1.0, &_x##_0, &_y##_0, _tile_x, _tile_y);  \
-  _x##_0 -= (_x##_w - tileset_tile_width(tileset)) / 2;			\
-  _y##_0 -= (_y##_h - tileset_tile_height(tileset)) / 2;		\
-  log_debug("citydlg: %f,%f + %dx%d",					\
-	    _x##_0, _y##_0, _x##_w, _y##_h);				\
-									\
-  gui_rect_iterate_coord(_x##_0, _y##_0, _x##_w, _y##_h,		\
+  _x##_0 -= (_x##_w - tileset_tile_width(tileset)) / 2;                 \
+  _y##_0 -= (_y##_h - tileset_tile_height(tileset)) / 2;                \
+  log_debug("citydlg: %f,%f + %dx%d",                                   \
+            _x##_0, _y##_0, _x##_w, _y##_h);                            \
+                                                                        \
+  gui_rect_iterate_coord(_x##_0, _y##_0, _x##_w, _y##_h,                \
                          ptile, pedge, pcorner, _x##_g, _y##_g, 1.0) {  \
-    const int _x = _x##_g - _x##_0;					\
-    const int _y = _y##_g - _y##_0;					\
+    const int _x = _x##_g - _x##_0;                                     \
+    const int _y = _y##_g - _y##_0;                                     \
     {
 
-#define citydlg_iterate_end						\
-    }									\
-  } gui_rect_iterate_coord_end;						\
+#define citydlg_iterate_end                                             \
+    }                                                                   \
+  } gui_rect_iterate_coord_end;                                         \
 }
 
 /**********************************************************************//**
-  Draw the full city map onto the canvas store.  Works for both isometric
+  Draw the full city map onto the canvas store. Works for both isometric
   and orthogonal views.
 **************************************************************************/
 void city_dialog_redraw_map(struct city *pcity,
-			    struct canvas *pcanvas)
+                            struct canvas *pcanvas)
 {
   struct tileset *tmp;
 
@@ -197,14 +197,14 @@ void city_dialog_redraw_map(struct city *pcity,
 
   /* First make it all black. */
   canvas_put_rectangle(pcanvas, get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
-		       0, 0,
-		       get_citydlg_canvas_width(),
-		       get_citydlg_canvas_height());
+                       0, 0,
+                       get_citydlg_canvas_width(),
+                       get_citydlg_canvas_height());
 
   mapview_layer_iterate(layer) {
     citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y) {
       struct unit *punit
-	= ptile ? get_drawable_unit(tileset, ptile, pcity) : NULL;
+        = ptile ? get_drawable_unit(tileset, ptile, pcity) : NULL;
       struct city *pcity_draw = ptile ? tile_city(ptile) : NULL;
 
       put_one_element(pcanvas, 1.0, layer, ptile, pedge, pcorner,
@@ -230,21 +230,21 @@ char *city_production_cost_str(const struct city *pcity)
 
   if (build_slots > 1
       && city_production_build_units(pcity, TRUE, &num_units)) {
-    /* the city could build more than one unit of the selected type */
+    /* The city could build more than one unit of the selected type */
     if (num_units == 0) {
-      /* no unit will be finished this turn but one is build */
+      /* No unit will be finished this turn but one is build */
       num_units++;
     }
 
     if (build_slots > num_units) {
-      /* some build slots for units will be unused */
+      /* Some build slots for units will be unused */
       fc_snprintf(cost_str, sizeof(cost_str), "{%d*%d}", num_units, cost);
     } else {
-      /* maximal number of units will be build */
+      /* Maximal number of units will be build */
       fc_snprintf(cost_str, sizeof(cost_str), "[%d*%d]", num_units, cost);
     }
   } else {
-    /* nothing special */
+    /* Nothing special */
     fc_snprintf(cost_str, sizeof(cost_str), "%3d", cost);
   }
 
@@ -253,12 +253,12 @@ char *city_production_cost_str(const struct city *pcity)
 
 /**********************************************************************//**
   Find the city dialog city production text for the given city, and
-  place it into the buffer.  This will check the
-  concise_city_production option.  pcity may be NULL; in this case a
+  place it into the buffer. This will check the
+  concise_city_production option. pcity may be NULL; in this case a
   filler string is returned.
 **************************************************************************/
 void get_city_dialog_production(struct city *pcity,
-				char *buffer, size_t buffer_len)
+                                char *buffer, size_t buffer_len)
 {
   char time_str[50], *cost_str;
   int turns, stock;
@@ -266,11 +266,11 @@ void get_city_dialog_production(struct city *pcity,
   if (pcity == NULL) {
     /*
      * Some GUIs use this to build a "filler string" so that they can
-     * properly size the widget to hold the string.  This has some
+     * properly size the widget to hold the string. This has some
      * obvious problems; the big one is that we have two forms of time
-     * information: "XXX turns" and "never".  Later this may need to
+     * information: "XXX turns" and "never". Later this may need to
      * be extended to return the longer of the two; in the meantime
-     * translators can fudge it by changing this "filler" string. 
+     * translators can fudge it by changing this "filler" string.
      */
     /* TRANS: Use longer of "XXX turns" and "never" */
     fc_strlcpy(buffer, Q_("?filler:XXX/XXX XXX turns"), buffer_len);
@@ -316,16 +316,15 @@ void get_city_dialog_production(struct city *pcity,
   }
 }
 
-
 /**********************************************************************//**
- Pretty sprints the info about a production (name, info, cost, turns
- to build) into a single text string.
+  Pretty sprints the info about a production (name, info, cost, turns
+  to build) into a single text string.
 
- This is very similar to get_city_dialog_production_row(); the
- difference is that instead of placing the data into an array of
- strings it all goes into one long string.  This means it can be used
- by frontends that do not use a tabled structure, but it also gives
- less flexibility.
+  This is very similar to get_city_dialog_production_row(); the
+  difference is that instead of placing the data into an array of
+  strings it all goes into one long string. This means it can be used
+  by frontends that do not use a tabled structure, but it also gives
+  less flexibility.
 **************************************************************************/
 void get_city_dialog_production_full(char *buffer, size_t buffer_len,
                                      struct universal *target,
@@ -359,8 +358,8 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 
   if (turns < FC_INFINITY) {
     cat_snprintf(buffer, buffer_len,
-		 PL_("%d turn", "%d turns", turns),
-		 turns);
+                 PL_("%d turn", "%d turns", turns),
+                 turns);
   } else {
     cat_snprintf(buffer, buffer_len, _("never"));
   }
@@ -400,7 +399,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     } else {
       int upkeep = pcity ? city_improvement_upkeep(pcity, pimprove)
                          : pimprove->upkeep;
-      /* from city.c city_improvement_name_translation() */
+      /* From city.c city_improvement_name_translation() */
       if (pcity && is_improvement_redundant(pcity, pimprove)) {
         fc_snprintf(buf[1], column_size, "%d*", upkeep);
       } else {
@@ -544,7 +543,7 @@ static void city_sum_add_real(struct city_sum *sum, double value,
       return;
     }
   }
-  
+
   /* Didn't find description already, so add it to the end. */
   sum->sums = fc_realloc(sum->sums, (sum->n + 1) * sizeof(sum->sums[0]));
   sum->sums[sum->n].value   = value;
@@ -576,7 +575,7 @@ static void
                               const char *auxfmt,
                               double aux,
                               const char *posfmt,
-                              const char *negfmt, 
+                              const char *negfmt,
                               ...)
 {
   va_list args;
@@ -620,7 +619,7 @@ static void
   desc = astr_to_str(&astr);
   va_end(args);
 
-  /* Descriptions will be freed individually, so need to strdup */
+  /* Descriptions will be freed individually, so need to fc_strdup() */
   city_sum_add_real(sum, value, FALSE, NULL, 0, desc, fc_strdup(desc));
 }
 
@@ -647,7 +646,7 @@ static void
   desc = astr_to_str(&astr);
   va_end(args);
 
-  /* Descriptions will be freed individually, so need to strdup */
+  /* Descriptions will be freed individually, so need to fc_strdup() */
   city_sum_add_real(sum, value, TRUE, NULL, 0, desc, fc_strdup(desc));
 }
 
@@ -662,6 +661,7 @@ static double city_sum_total(struct city_sum *sum)
   for (i = 0; i < sum->n; i++) {
     total += sum->sums[i].value;
   }
+
   return total;
 }
 
@@ -678,6 +678,7 @@ static inline int city_sum_compare(double val1, double val2)
   if (fabs(val1-val2) < 0.0000001) {
     return 0;
   }
+
   return (val1 > val2 ? +1 : -1);
 }
 
@@ -761,21 +762,22 @@ void get_city_dialog_output_text(const struct city *pcity,
   city_sum_add(sum, pcity->citizen_base[otype],
                Q_("?city_surplus:Citizens"));
 
-  /* Hack to get around the ugliness of add_tax_income. */
+  /* Hack to get around the ugliness of add_tax_income(). */
   memset(tax, 0, O_LAST * sizeof(*tax));
   add_tax_income(city_owner(pcity), pcity->prod[O_TRADE], tax);
   city_sum_add_if_nonzero(sum, tax[otype],
                           Q_("?city_surplus:Taxed from trade"));
 
-  /* Special cases for "bonus" production.  See set_city_production in
+  /* Special cases for "bonus" production. See set_city_production() in
    * city.c. */
   if (otype == O_TRADE) {
     trade_routes_iterate(pcity, proute) {
-      /* NB: (proute->value == 0) is valid case.  The trade route
+      /* NB: (proute->value == 0) is valid case. The trade route
        * is established but doesn't give trade surplus. */
       struct city *trade_city = game_city_by_number(proute->partner);
       /* TRANS: Trade partner unknown to client */
-      const char *name = trade_city ? city_name_get(trade_city) : _("(unknown)");
+      const char *name
+        = trade_city ? city_name_get(trade_city) : _("(unknown)");
       int value = proute->value
         * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100;
 
@@ -818,16 +820,16 @@ void get_city_dialog_output_text(const struct city *pcity,
       (void) get_city_bonus_effects(plist, pcity, output, eft[priority]);
 
       effect_list_iterate(plist, peffect) {
-	char buf2[512];
+        char buf2[512];
         int delta;
-	int new_total;
+        int new_total;
 
-	get_effect_req_text(peffect, buf2, sizeof(buf2));
+        get_effect_req_text(peffect, buf2, sizeof(buf2));
 
         if (peffect->multiplier) {
           int mul = player_multiplier_effect_value(city_owner(pcity),
                                                    peffect->multiplier);
-          
+
           if (mul == 0) {
             /* Suppress text when multiplier setting suppresses effect
              * (this will also suppress it when the city owner's policy
@@ -910,8 +912,8 @@ void get_city_dialog_output_text(const struct city *pcity,
 
   city_sum_print(sum, buf, bufsz, TRUE,
                  Q_("?city_surplus:"
-	            "==== : Adds up to\n"
-	            "%4.0f : Total surplus"), (double) pcity->surplus[otype]);
+                    "==== : Adds up to\n"
+                    "%4.0f : Total surplus"), (double) pcity->surplus[otype]);
 }
 
 /**********************************************************************//**
@@ -956,7 +958,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
     if (peffect->multiplier) {
       int mul = player_multiplier_effect_value(city_owner(pcity),
                                                peffect->multiplier);
-      
+
       if (mul == 0) {
         /* Suppress text when multiplier setting suppresses effect
          * (this will also suppress it when the city owner's policy
@@ -990,7 +992,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
   Return text describing the pollution output.
 **************************************************************************/
 void get_city_dialog_pollution_text(const struct city *pcity,
-				    char *buf, size_t bufsz)
+                                    char *buf, size_t bufsz)
 {
   int pollu, prod, pop, mod;
   struct city_sum *sum = city_sum_new(Q_("?city_pollution:%+4.0f : %s"));
@@ -1000,7 +1002,7 @@ void get_city_dialog_pollution_text(const struct city *pcity,
   pollu = city_pollution_types(pcity,
                                pcity->prod[O_SHIELD]
                                + pcity->unhappy_penalty[O_SHIELD],
-			       &prod, &pop, &mod);
+                               &prod, &pop, &mod);
   buf[0] = '\0';
 
   city_sum_add(sum, prod, Q_("?city_pollution:Pollution from shields"));
@@ -1008,8 +1010,8 @@ void get_city_dialog_pollution_text(const struct city *pcity,
   city_sum_add(sum, mod,  Q_("?city_pollution:Pollution modifier"));
   city_sum_print(sum, buf, bufsz, FALSE,
                  Q_("?city_pollution:"
-	            "==== : Adds up to\n"
-	            "%4.0f : Total surplus"), (double)pollu);
+                    "==== : Adds up to\n"
+                    "%4.0f : Total surplus"), (double)pollu);
 }
 
 /**********************************************************************//**
@@ -1041,7 +1043,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
     if (peffect->multiplier) {
       mul = player_multiplier_effect_value(city_owner(pcity),
                                            peffect->multiplier);
-      
+
       if (mul == 0) {
         /* Suppress text when multiplier setting suppresses effect
          * (this will also suppress it when the city owner's policy
@@ -1051,7 +1053,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
     }
 
     value = (peffect->value * mul) / 100;
-    /* TRANS: text describing source of culture bonus ("Library+Republic") */
+    /* TRANS: Text describing source of culture bonus ("Library+Republic") */
     city_sum_add_if_nonzero(sum, value, Q_("?city_culture:%s"), buf2);
   } effect_list_iterate_end;
   effect_list_destroy(plist);
@@ -1059,7 +1061,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
   city_sum_print(sum, buf, bufsz, TRUE,
                  Q_("?city_culture:"
                     "==== : Adds up to\n"
-	            "%4.0f : Total culture"), (double)pcity->client.culture);
+                    "%4.0f : Total culture"), (double)pcity->client.culture);
 }
 
 /**********************************************************************//**
@@ -1083,14 +1085,14 @@ void get_city_dialog_airlift_text(const struct city *pcity,
      * aren't limited. */
     fc_snprintf(src, sizeof(src), _("unlimited take offs%s"),
                 game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST
-                /* TRANS: airlift unlimited take offs proviso used above.
+                /* TRANS: Airlift unlimited take offs proviso used above.
                  * Plural based on remaining airlift capacity. */
                 ? "" : PL_(" (until the landing has been spent)",
                            " (until all landings have been spent)",
                            pcity->airlift));
   } else {
     fc_snprintf(src, sizeof(src),
-                /* TRANS: airlift. Possible take offs text. Number is
+                /* TRANS: Airlift. Possible take offs text. Number is
                  * airlift capacity. */
                 PL_("%d take off", "%d take offs", pcity->airlift),
                 pcity->airlift);
@@ -1101,11 +1103,11 @@ void get_city_dialog_airlift_text(const struct city *pcity,
 
     unlimited++;
 
-    /* TRANS: airlift. Possible landings text. */
+    /* TRANS: Airlift. Possible landings text. */
     fc_snprintf(dest, sizeof(dest), _("unlimited landings"));
   } else {
     fc_snprintf(dest, sizeof(dest),
-                /* TRANS: airlift. Possible landings text.
+                /* TRANS: Airlift. Possible landings text.
                  * Number is airlift capacity. */
                 PL_("%d landing", "%d landings", pcity->airlift),
                 pcity->airlift);
@@ -1113,17 +1115,17 @@ void get_city_dialog_airlift_text(const struct city *pcity,
 
   switch (unlimited) {
   case 2:
-    /* TRANS: airlift take offs and landings */
+    /* TRANS: Airlift take offs and landings */
     fc_snprintf(buf, bufsz, _("unlimited take offs and landings"));
     break;
   case 1:
-    /* TRANS: airlift take offs and landings. One is unlimited. The first
+    /* TRANS: Airlift take offs and landings. One is unlimited. The first
      * string is the take offs text. The 2nd string is the landings text. */
     fc_snprintf(buf, bufsz, _("%s and %s"), src, dest);
     break;
   default:
     fc_snprintf(buf, bufsz,
-                /* TRANS: airlift take offs or landings, no unlimited.
+                /* TRANS: Airlift take offs or landings, no unlimited.
                  * Number is airlift capacity. */
                 PL_("%d take off or landing", "%d take offs or landings",
                     pcity->airlift),
@@ -1147,7 +1149,7 @@ void get_city_dialog_airlift_value(const struct city *pcity,
 
     unlimited++;
 
-    /* TRANS: airlift. Possible take offs text. String is a symbol that
+    /* TRANS: Airlift. Possible take offs text. String is a symbol that
      * indicates that terms and conditions apply when landings are limited
      * and empty when they aren't limited. */
     fc_snprintf(src, sizeof(src), _("   ∞%s"),
@@ -1156,7 +1158,7 @@ void get_city_dialog_airlift_value(const struct city *pcity,
                  * used above. */
                 ? "" : Q_("?landings:*"));
   } else {
-    /* TRANS: airlift. Possible take offs text. Number is
+    /* TRANS: Airlift. Possible take offs text. Number is
      * airlift capacity. */
     fc_snprintf(src, sizeof(src), Q_("?takeoffs:%4d"), pcity->airlift);
   }
@@ -1166,35 +1168,35 @@ void get_city_dialog_airlift_value(const struct city *pcity,
 
     unlimited++;
 
-    /* TRANS: airlift. Possible landings text. */
+    /* TRANS: Airlift. Possible landings text. */
     fc_snprintf(dest, sizeof(dest), _("   ∞"));
   } else {
-    /* TRANS: airlift. Possible landings text. */
+    /* TRANS: Airlift. Possible landings text. */
     fc_snprintf(dest, sizeof(dest), Q_("?landings:%4d"), pcity->airlift);
   }
 
   switch (unlimited) {
   case 2:
-    /* TRANS: unlimited airlift take offs and landings */
+    /* TRANS: Unlimited airlift take offs and landings */
     fc_snprintf(buf, bufsz, _("   ∞"));
     break;
   case 1:
-    /* TRANS: airlift take offs and landings. One is unlimited. The first
+    /* TRANS: Airlift take offs and landings. One is unlimited. The first
      * string is the take offs text. The 2nd string is the landings text.
      * For English, initials of d)epartures and a)rrivals were chosen. */
     fc_snprintf(buf, bufsz, _("d: %s a: %s"), src, dest);
     break;
   default:
-    /* TRANS: airlift take offs or landings, no unlimited */
+    /* TRANS: Airlift take offs or landings, no unlimited */
     fc_snprintf(buf, bufsz, Q_("?airlifts:%s"), src);
     break;
   }
 }
 
 /**********************************************************************//**
-  Provide a list of all citizens in the city, in order.  "index"
+  Provide a list of all citizens in the city, in order. "index"
   should be the happiness index (currently [0..4]; 4 = final
-  happiness).  "citizens" should be an array large enough to hold all
+  happiness). "citizens" should be an array large enough to hold all
   citizens (use MAX_CITY_SIZE to be on the safe side).
 **************************************************************************/
 int get_city_citizen_types(struct city *pcity, enum citizen_feeling idx,
@@ -1228,6 +1230,7 @@ int get_city_citizen_types(struct city *pcity, enum citizen_feeling idx,
               "not equal %d city size in \"%s\".",
               i, city_size_get(pcity), city_name_get(pcity));
   }
+
   return i;
 }
 
@@ -1281,7 +1284,7 @@ void activate_all_units(struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Change the production of a given city.  Return the request ID.
+  Change the production of a given city. Return the request ID.
 **************************************************************************/
 int city_change_production(struct city *pcity, struct universal *target)
 {
@@ -1291,7 +1294,7 @@ int city_change_production(struct city *pcity, struct universal *target)
 }
 
 /**********************************************************************//**
-  Set the worklist for a given city.  Return the request ID.
+  Set the worklist for a given city. Return the request ID.
 
   Note that the worklist does NOT include the current production.
 **************************************************************************/
@@ -1307,13 +1310,13 @@ void city_worklist_commit(struct city *pcity, struct worklist *pwl)
 {
   int k;
 
-  /* Update the worklist.  Remember, though -- the current build
+  /* Update the worklist. Remember, though -- the current build
      target really isn't in the worklist; don't send it to the server
-     as part of the worklist.  Of course, we have to search through
+     as part of the worklist. Of course, we have to search through
      the current worklist to find the first _now_available_ build
      target (to cope with players who try mean things like adding a
      Battleship to a city worklist when the player doesn't even yet
-     have the Map Making tech).  */
+     have the Map Making tech). */
 
   for (k = 0; k < MAX_LEN_WORKLIST; k++) {
     int same_as_current_build;
@@ -1327,7 +1330,7 @@ void city_worklist_commit(struct city *pcity, struct worklist *pwl)
 
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is
-       finished elsewhere, ie unbuildable. */
+       finished elsewhere, i.e., unbuildable. */
     if (k == 0
         && VUT_IMPROVEMENT == target.kind
         && is_wonder(target.value.building)
@@ -1341,11 +1344,11 @@ void city_worklist_commit(struct city *pcity, struct worklist *pwl)
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
         /* Change the current target */
-	city_change_production(pcity, &target);
+        city_change_production(pcity, &target);
       }
 
       /* This item is now (and may have always been) the current
-         build target.  Drop it out of the worklist. */
+         build target. Drop it out of the worklist. */
       worklist_remove(pwl, k);
       break;
     }
@@ -1356,7 +1359,7 @@ void city_worklist_commit(struct city *pcity, struct worklist *pwl)
 }
 
 /**********************************************************************//**
-  Insert an item into the city's queue.  This function will send new
+  Insert an item into the city's queue. This function will send new
   production requests to the server but will NOT send the new worklist
   to the server - the caller should call city_set_worklist() if the
   function returns TRUE.
@@ -1434,7 +1437,7 @@ bool city_queue_clear(struct city *pcity)
   Note that the queue DOES include the current production.
 **************************************************************************/
 bool city_queue_insert_worklist(struct city *pcity, int position,
-				const struct worklist *worklist)
+                                const struct worklist *worklist)
 {
   bool success = FALSE;
 
@@ -1445,9 +1448,9 @@ bool city_queue_insert_worklist(struct city *pcity, int position,
   worklist_iterate(worklist, target) {
     if (base_city_queue_insert(pcity, position, &target)) {
       if (position > 0) {
-	/* Move to the next position (unless position == -1 in which case
-	 * we're appending. */
-	position++;
+        /* Move to the next position (unless position == -1 in which case
+         * we're appending. */
+        position++;
       }
       success = TRUE;
     }
@@ -1520,8 +1523,8 @@ bool city_set_queue(struct city *pcity, const struct worklist *pqueue)
 **************************************************************************/
 bool city_can_buy(const struct city *pcity)
 {
-  /* See really_handle_city_buy() in the server.  However this function
-   * doesn't allow for error messages.  It doesn't check the cost of
+  /* See really_handle_city_buy() in the server. However this function
+   * doesn't allow for error messages. It doesn't check the cost of
    * buying; that's handled separately (and with an error message). */
   return (can_client_issue_orders()
           && NULL != pcity
@@ -1536,7 +1539,7 @@ bool city_can_buy(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Change the production of a given city.  Return the request ID.
+  Change the production of a given city. Return the request ID.
 **************************************************************************/
 int city_sell_improvement(struct city *pcity, Impr_type_id sell_id)
 {
@@ -1544,7 +1547,7 @@ int city_sell_improvement(struct city *pcity, Impr_type_id sell_id)
 }
 
 /**********************************************************************//**
-  Buy the current production item in a given city.  Return the request ID.
+  Buy the current production item in a given city. Return the request ID.
 **************************************************************************/
 int city_buy_production(struct city *pcity)
 {
@@ -1552,7 +1555,7 @@ int city_buy_production(struct city *pcity)
 }
 
 /**********************************************************************//**
-  Change a specialist in the given city.  Return the request ID.
+  Change a specialist in the given city. Return the request ID.
 **************************************************************************/
 int city_change_specialist(struct city *pcity, Specialist_type_id from,
                            Specialist_type_id to)
@@ -1562,7 +1565,7 @@ int city_change_specialist(struct city *pcity, Specialist_type_id from,
 }
 
 /**********************************************************************//**
-  Toggle a worker<->specialist at the given city tile.  Return the
+  Toggle a worker<->specialist at the given city tile. Return the
   request ID.
 **************************************************************************/
 int city_toggle_worker(struct city *pcity, int city_x, int city_y)
@@ -1594,7 +1597,7 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 }
 
 /**********************************************************************//**
-  Tell the server to rename the city.  Return the request ID.
+  Tell the server to rename the city. Return the request ID.
 **************************************************************************/
 int city_rename(struct city *pcity, const char *name)
 {
