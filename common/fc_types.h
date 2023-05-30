@@ -573,6 +573,8 @@ const char *ai_level_name_update_cb(const char *old);
 #define SPECENUM_VALUE2NAME "Disorder"
 #define SPECENUM_VALUE3 CITYS_CELEBRATION
 #define SPECENUM_VALUE3NAME "Celebration"
+#define SPECENUM_VALUE4 CITYS_TRANSFERRED
+#define SPECENUM_VALUE4NAME "Transferred"
 #define SPECENUM_COUNT CITYS_LAST
 #include "specenum_gen.h"
 

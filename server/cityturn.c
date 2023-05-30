@@ -1883,7 +1883,10 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         log_error("worklist_change_build_target() has bogus preq");
         break;
       case VUT_CITYSTATUS:
-        if (preq->source.value.citystatus == CITYS_OWNED_BY_ORIGINAL) {
+        if (preq->source.value.citystatus == CITYS_TRANSFERRED) {
+          /* If there's a change, it will invalidate worklist anyway. */
+          purge = TRUE;
+        } else if (preq->source.value.citystatus == CITYS_OWNED_BY_ORIGINAL) {
           if (preq->range == REQ_RANGE_CITY || preq->range == REQ_RANGE_TILE) {
             /* Can't change at these ranges */
             purge = TRUE;

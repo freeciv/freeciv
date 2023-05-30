@@ -416,7 +416,8 @@ tactical_req_cb(const struct req_context *context,
     return tri_req_active_turns(n_data, 5 /* WAG */,
                                 context, other_player, req);
   case VUT_CITYSTATUS:
-    if (CITYS_OWNED_BY_ORIGINAL != req->source.value.citystatus) {
+    if (CITYS_OWNED_BY_ORIGINAL != req->source.value.citystatus
+        && CITYS_TRANSFERRED != req->source.value.citystatus) {
       return TRI_MAYBE;
     }
     fc__fallthrough;

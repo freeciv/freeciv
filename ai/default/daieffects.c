@@ -816,6 +816,12 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
         } else {
           return city_owner(pcity) != pcity->original;
         }
+      } else if (preq->source.value.citystatus == CITYS_TRANSFERRED) {
+        if ((preq->present && pcity->acquire_t == CACQ_FOUNDED)
+            || (!preq->present && pcity->acquire_t != CACQ_FOUNDED)) {
+          /* Would change only when the AI loses the city */
+          return FALSE;
+        }
       }
     }
     break;
