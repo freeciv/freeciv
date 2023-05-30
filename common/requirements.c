@@ -156,7 +156,7 @@ static enum req_unchanging_status
 #define REQUC_CITYTILE unchanging_citytile
 
 /**********************************************************************//**
-  Special CityStatus case handler. Changes easily save for OwnedByOriginal
+  Special CityStatus case handler. Changes easily save for owner.
 **************************************************************************/
 static enum req_unchanging_status
   unchanging_citystatus(enum req_unchanging_status def,
@@ -164,10 +164,13 @@ static enum req_unchanging_status
                         const struct requirement *req)
 {
   fc_assert_ret_val(VUT_CITYSTATUS == req->source.kind, REQUCH_NO);
-  if (CITYS_OWNED_BY_ORIGINAL == req->source.value.citystatus
-      && REQ_RANGE_CITY == req->range) {
+
+  if (REQ_RANGE_CITY == req->range
+      && (CITYS_OWNED_BY_ORIGINAL == req->source.value.citystatus
+          || CITYS_TRANSFERRED == req->source.value.citystatus)) {
     return REQUCH_CTRL;
   }
+
   return def;
 }
 #define REQUC_CITYSTATUS unchanging_citystatus
@@ -4768,6 +4771,47 @@ is_citystatus_req_active(const struct req_context *context,
 
     return TRI_MAYBE;
 
+  case CITYS_TRANSFERRED:
+    switch (req->range) {
+    case REQ_RANGE_CITY:
+      return BOOL_TO_TRISTATE(context->city->acquire_t != CACQ_FOUNDED);
+    case REQ_RANGE_TRADEROUTE:
+      {
+        enum fc_tristate ret;
+
+        if (context->city->acquire_t != CACQ_FOUNDED) {
+          return TRI_YES;
+        }
+
+        ret = TRI_NO;
+        trade_partners_iterate(context->city, trade_partner) {
+          if (trade_partner == NULL) {
+            ret = TRI_MAYBE;
+          } else if (trade_partner->acquire_t != CACQ_FOUNDED) {
+            return TRI_YES;
+          }
+        } trade_partners_iterate_end;
+
+        return ret;
+      }
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      break;
+    }
+
+    fc_assert_msg(FALSE, "Invalid range %d for citystatus Transferred.",
+                         req->range);
+
+    return TRI_MAYBE;
+
   case CITYS_LAST:
     break;
   }
@@ -6752,6 +6796,10 @@ const char *universal_name_translation(const struct universal *psource,
       break;
     case CITYS_CELEBRATION:
       fc_strlcat(buf, _("Celebration"), bufsz);
+      break;
+    case CITYS_TRANSFERRED:
+      /* TRANS: CityStatus value - city has changed hands */
+      fc_strlcat(buf, _("Transferred"), bufsz);
       break;
     case CITYS_LAST:
       fc_assert(psource->value.citystatus != CITYS_LAST);

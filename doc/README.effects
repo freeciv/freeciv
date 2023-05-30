@@ -121,7 +121,10 @@ CityTile is "Center" (city center), "Claimed" (tile owned by any player),
  is a port, it's a tile of the nearby ocean but not of its continent).
 MinLatitude and MaxLatitude are numbers from -1000 (south pole) to 1000
  (north pole).
-CityStatus is "OwnedByOriginal", "Starved", "Disorder", or "Celebration"
+CityStatus is "OwnedByOriginal", "Transferred", "Starved",
+ "Disorder", or "Celebration"
+ The difference between "OwnedByOriginal" and "Transferred" is that
+ former is fullfilled also for liberated cities.
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
