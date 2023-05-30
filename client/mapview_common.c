@@ -1897,12 +1897,8 @@ static void show_full_citybar(struct canvas *pcanvas,
     || should_draw_trade_routes;
 
 
-  if (width != NULL) {
-    *width = 0;
-  }
-  if (height != NULL) {
-    *height = 0;
-  }
+  *width = 0;
+  *height = 0;
 
   if (!gui_options.draw_city_names && !should_draw_lower_bar) {
     return;
