@@ -22,7 +22,7 @@ MAJOR CHANGES FROM 3.1.x to 3.2.0
 MAJOR CHANGES FROM 3.0.x to 3.1.0
 ---------------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-03-11)
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-05-30)
 
    The major changes in Freeciv 3.1 are new Qt6- and gtk4-clients,
    improved balance for civ2civ3 ruleset, experimental meson based
@@ -71,6 +71,8 @@ Changes affecting players (supplied rulesets)
      * Rulesets except civ1, civ2, alien, and stub have new
        Eliminate Spy action, that is just diplomatic battle with no
        further actions OSDN#46173
+     * Player looting dying player (one who lost gameloss unit)
+       now get notifications about what the loot contains OSDN#45152
 
      * nations
           + Esperant nation city list updated OSDN#45762
@@ -111,6 +113,9 @@ Changes affecting players (supplied rulesets)
             causing unhappiness OSDN#45225
           + Homeless diplomats may home themselves, to gain ability
             to bribe units OSDN#45070
+          + Barracks and Sun Tzu affect Small Land units too OSDN#47636
+          + Bribe Unit, Spy Attack, and Incite City give victim
+            casus belli even when the actions fail OSDN#46239
 
      * civ1
           + Alliance clauses are no longer available HRM#768396
@@ -143,6 +148,8 @@ Changes affecting players (supplied rulesets)
             setting is enabled HRM#824810
           + The chance to gain veterancy from combat depends on how
             challenging it was OSDN#43203
+          + Bribe Unit, and Incite City give victim casus belli
+            even when the actions fail OSDN#46239
 
      * experimental
           + Ruleset has been made ready to migrate under name goldkeep
@@ -195,6 +202,9 @@ Changes affecting players (supplied rulesets)
             causing unhappiness OSDN#45225
           + Homeless diplomats may home themselves, to gain ability
             to bribe units OSDN#45070
+          + Barracks and Sun Tzu affect Small Land units too OSDN#47636
+          + Bribe Unit, Spy Attack, and Incite City give victim
+            casus belli even when the actions fail OSDN#46239
 
 Changes affecting other rulesets / modders
 
@@ -550,7 +560,8 @@ AI
      now respect that also when examining potential Paradrop targets
      OSDN#41722
    * AI remembers its current Wonder building plans over game save/load cycle,
-     so it as easily abandon Wonder building on savegame load HRM#857459
+     so it not abandon Wonder building on savegame load as easily
+     HRM#857459
    * Hard level AI is no longer allowed to set tax rates freely,
      but max rates rules apply to it OSDN#42333
    * AI's want for various things is not as easily clipped as before
@@ -570,10 +581,9 @@ Clients
    * New gtk4-client added HRM#637945
    * City dialog shows if a tech has ever been stolen from the city
      HRM#657146
-   * Improved the way untergeted action gets listed in the target
+   * Improved the way untargeted action gets listed in the target
      selection dialogs HRM#862482
-   * City Governor can be asked to maximize city growth speed
-     (NOTE: No client supports this at the moment) HRM#839704
+   * City Governor can be asked to maximize city growth speed HRM#839704
    * New Pop up actions last move to allied client option HRM#875939
    * Audio volume control added HRM#885685
    * Fast auto attack support added OSDN#42719
