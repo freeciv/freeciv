@@ -565,8 +565,8 @@ static void hard_code_oblig_hard_reqs(void)
                                           TER_NO_CITIES),
                           TRUE,
                           N_("All action enablers for %s must require that"
-                          " the target doesn't has"
-                          " the NoCities terrain flag."),
+                             " the target doesn't have"
+                             " the NoCities terrain flag."),
                           ACTRES_FOUND_CITY,
                           ACTRES_NONE);
 
