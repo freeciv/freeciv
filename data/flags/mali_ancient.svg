@@ -1,5 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1650" height="1100">
-<rect width="1650" height="1100" fill="#ce1126"/>
-<rect width="1210" height="660" x="220" y="220" fill="#fcd116"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1650"
+   height="1100"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="mali_ancient.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.42909091"
+     inkscape:cx="828.49576"
+     inkscape:cy="558.15678"
+     inkscape:window-width="823"
+     inkscape:window-height="648"
+     inkscape:window-x="629"
+     inkscape:window-y="122"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg6" />
+  <rect
+     width="1650"
+     height="1100"
+     fill="#ce1126"
+     id="rect2" />
+  <rect
+     width="1210"
+     height="660"
+     x="220"
+     y="220"
+     fill="#fcd116"
+     id="rect4" />
 </svg>
