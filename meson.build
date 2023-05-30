@@ -530,10 +530,16 @@ else
   priv_conf_data.set('HAVE_FCDB', 1)
   priv_conf_data.set('HAVE_FCDB_SQLITE3', 1)
   zlib_dep = c_compiler.find_library('z', dirs: cross_lib_path)
+  if not c_compiler.has_header('zlib.h', args: header_arg)
+    error('Mandatory header zlib.h not found!')
+  endif
   icu_dep = dependency('icu-uc')
   syslua = get_option('syslua')
   lua_dep_tmp = dependency('lua-5.4', required:false)
 endif
+
+# Set unconditionally, as it was checked as hard requirement
+pub_conf_data.set('FREECIV_HAVE_LIBZ', 1)
 
 if syslua != 'false' and lua_dep_tmp.found()
   lua_inc_path = []

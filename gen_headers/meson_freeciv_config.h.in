@@ -136,6 +136,9 @@
 /* Readline support */
 #mesondefine FREECIV_HAVE_LIBREADLINE
 
+/* zlib is available */
+#mesondefine FREECIV_HAVE_LIBZ
+
 /* liblzma is available */
 #mesondefine FREECIV_HAVE_LIBLZMA
 
