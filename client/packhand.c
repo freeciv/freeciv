@@ -5555,8 +5555,8 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 }
 
 /**********************************************************************//**
-Handle each counter ruleset's packet send from server instance to this
-client.
+  Handle each counter's ruleset packet sent from server instance to this
+  client.
 **************************************************************************/
 void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
 {
@@ -5570,8 +5570,7 @@ void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
   curr->def = packet->def;
 
   if (!counter_behaviour_is_valid(curr->type)
-    || curr->target != CTGT_CITY) {
-
+      || curr->target != CTGT_CITY) {
     return;
   }
 
@@ -5580,30 +5579,31 @@ void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
 }
 
 /**********************************************************************//**
-Handle updating city's counter, when server request
+  Handle updating city's counters, when server request
 **************************************************************************/
 void handle_city_update_counters(const struct packet_city_update_counters *packet)
 {
-  uint8_t i;
-  uint8_t counters_count = counters_get_city_counters_count();
-
+  int i;
+  int counters_count;
   struct city *pcity = game_city_by_number(packet->city);
 
   if (NULL == pcity) {
-
-    return;
-  }
-
-  if (counters_count != packet->count) {
-
     return;
   }
 
   counters_count = counters_get_city_counters_count();
+  if (counters_count != packet->count) {
+    return;
+  }
+
   for (i = 0; i < counters_count; i++) {
     pcity->counter_values[i] = packet->counters[i];
   }
 
-  update_city_description(pcity);
+  if (pcity->tile != NULL) {
+    /* City's location known */
+    update_city_description(pcity);
+  }
+
   city_report_dialog_update_city(pcity);
 }
