@@ -1,9 +1,21 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl2-nsi.sh <freeciv files dir> <output dir> <version> <win32|win64|win>
+# ./create-freeciv-gtk-qt-nsi.sh <freeciv files dir> <output dir> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id]
 
-ARCH_KEY_PART="$4"
-if test "$4" != "win32" && test "$4" != "win64" ; then
+if test "x$8" != "x" ; then
+  EXE_ID="$8"
+else
+  EXE_ID="$4"
+fi
+
+if test "x$7" != "x" ; then
+  MPEXE_ID="$7"
+else
+  MPEXE_ID="$EXE_ID"
+fi
+
+ARCH_KEY_PART="$6"
+if test "$6" != "win32" && test "$6" != "win64" ; then
   ARCH_INST_PART="-${ARCH_KEY_PART}"
 else
   ARCH_INST_PART=""
@@ -18,9 +30,11 @@ SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv"
 !define VERSION $3
-!define GUI_ID sdl2
-!define GUI_NAME SDL2
-!define WIN_ARCH $4
+!define GUI_ID $4
+!define EXE_ID $EXE_ID
+!define MPEXE_ID $MPEXE_ID
+!define GUI_NAME $5
+!define WIN_ARCH $6
 !define ARCH_KEY_PART ${ARCH_KEY_PART}
 !define ARCH_INST_PART ${ARCH_INST_PART}
 !define KEYROOT "Freeciv"
@@ -35,7 +49,7 @@ SetCompressor /SOLID lzma
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${APP_KEY_PART}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
@@ -109,14 +123,6 @@ EOF
   echo -n "/x $name.soundspec /x $name "
   done
 
-  # CJK fonts
-  echo -n "/x COPYING.fireflysung "
-  echo -n "/x fireflysung.ttf "
-  echo -n "/x COPYING.sazanami "
-  echo -n "/x sazanami-gothic.ttf "
-  echo -n "/x COPYING.UnDotum "
-  echo -n "/x UnDotum.ttf "
-
   echo "$1\\*.*"
 
 cat <<EOF
@@ -126,9 +132,17 @@ cat <<EOF
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${EXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${EXE_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-gtk4.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-gtk4.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-sdl2.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-sdl2.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.exe" 0 SW_SHOWMINIMIZED
+EOF
+
+if test "$4" = "qt5" || test "$4" = "xqt6" ; then
+    echo "CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
+fi
+
+cat <<EOF
+
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Documentation.lnk" "\$INSTDIR\doc\freeciv"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Uninstall.lnk" "\$INSTDIR\uninstall.exe"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Website.lnk" "\$INSTDIR\Freeciv.url"
@@ -175,14 +189,14 @@ SectionGroupEnd
 
 EOF
 
-### additional languages ###
+### Additional languages ###
 
 cat <<EOF
 SectionGroup "Additional languages (translation %)"
 
 EOF
 
-cat ../../bootstrap/langstat_core.txt |
+cat ../../../bootstrap/langstat_core.txt |
 sort -k 1 |
 iconv -f UTF-8 -t ISO-8859-1 |
 while read -r code prct name
@@ -191,24 +205,6 @@ if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
 echo "  Section \"$name ($code) $prct\""
 echo "  SetOutPath \$INSTDIR\\share\\locale\\$code"
 echo "  File /r $1\\share\\locale\\$code\*.*"
-
-# install special fonts for CJK locales
-if [ "$name" = "zh_CN" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1\\data\\themes\\gui-sdl2\\human\\COPYING.fireflysung"
-echo "  File /r $1\\data\\themes\\gui-sdl2\\human\\fireflysung.ttf"
-fi
-if [ "$name" = "ja" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1\\data\\themes\\gui-sdl2\\human\\COPYING.sazanami"
-echo "  File /r $1\\data\\themes\\gui-sdl2\\human\\sazanami-gothic.ttf"
-fi
-if [ "$name" = "ko" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1\\data\\themes\\gui-sdl2\\human\\COPYING.UnDotum"
-echo "  File /r $1\\data\\themes\\gui-sdl2\\human\\UnDotum.ttf"
-fi
-
 echo "  SetOutPath \$INSTDIR"
 echo "  SectionEnd"
 echo
@@ -222,7 +218,7 @@ EOF
 
 cat <<EOF
 ;--------------------------------
-;Installer Functions
+; Installer Functions
 
 Function .onInit
 
@@ -261,7 +257,7 @@ Start Menu shortcut properties."
   \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_core.txt |
   sort -k 1 |
   iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
@@ -286,7 +282,7 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_core.txt |
   iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
   do
@@ -299,7 +295,7 @@ cat <<EOF
 FunctionEnd
 
 Function RunFreeciv
-  nsExec::Exec '"\$INSTDIR\freeciv-sdl2.cmd" \$DefaultLanguageCode'
+  nsExec::Exec '"\$INSTDIR\freeciv-\${EXE_ID}.cmd" \$DefaultLanguageCode'
 FunctionEnd
 
 EOF

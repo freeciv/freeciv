@@ -132,7 +132,7 @@ ruledit-install-qt6:
 
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	$(eval FREECIV_VERSION := $(shell ../../../fc_version))
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-client-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
@@ -143,7 +143,7 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 install-freeciv-common: clean-install-client-arch
 	# Create build directory
 	mkdir -p $(BUILD_DIR)/$(WINARCH)-client-$(GUI)
-	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); meson setup $(IMSYS2_DIR)/../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dfollowtag='windows-S3_3' -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); meson setup $(IMSYS2_DIR)/../../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dfollowtag='windows-S3_3' -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
 	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja
 	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja install
 	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja langstat_core.txt
@@ -153,13 +153,13 @@ install-freeciv-common: clean-install-client-arch
 	mv $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/freeciv $(INST_DIR)/$(WINARCH)-client-$(GUI)/data
 	mv $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/doc $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-client-$(GUI)/doc/freeciv/installer
-	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-client-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cat licenses/header.txt ../../../COPYING > $(INST_DIR)/$(WINARCH)-client-$(GUI)/doc/freeciv/installer/COPYING.installer
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-ruledit-common: clean-ruledit-install-arch
 	# Create build directory
 	mkdir -p $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI)
-	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); meson setup $(IMSYS2_DIR)/../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-ruledit-$(GUI) -Dfollowtag='windows-S3_3' -Dclients=[] -Dfcmp=[] -Druledit=true -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); meson setup $(IMSYS2_DIR)/../../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-ruledit-$(GUI) -Dfollowtag='windows-S3_3' -Dclients=[] -Dfcmp=[] -Druledit=true -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
 	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja
 	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja install
 	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja langstat_core.txt langstat_ruledit.txt
@@ -169,7 +169,7 @@ install-ruledit-common: clean-ruledit-install-arch
 	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/freeciv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/data
 	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/doc $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer
-	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cat licenses/header.txt ../../../COPYING > $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
 	cp freeciv-ruledit.cmd Freeciv.url $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 
 SOUND_DLLS := \
@@ -368,7 +368,7 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	# Extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	$(eval FREECIV_VERSION := $(shell ../../../fc_version))
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi

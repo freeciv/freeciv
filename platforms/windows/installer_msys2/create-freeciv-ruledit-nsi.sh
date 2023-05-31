@@ -1,21 +1,9 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <freeciv files dir> <output dir> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id]
+# ./create-freeciv-ruledit.sh <freeciv files dir> <output dir> <version> <win32|win64|win>
 
-if test "x$8" != "x" ; then
-  EXE_ID="$8"
-else
-  EXE_ID="$4"
-fi
-
-if test "x$7" != "x" ; then
-  MPEXE_ID="$7"
-else
-  MPEXE_ID="$EXE_ID"
-fi
-
-ARCH_KEY_PART="$6"
-if test "$6" != "win32" && test "$6" != "win64" ; then
+ARCH_KEY_PART="$4"
+if test "$4" != "win32" && test "$4" != "win64" ; then
   ARCH_INST_PART="-${ARCH_KEY_PART}"
 else
   ARCH_INST_PART=""
@@ -28,19 +16,15 @@ cat <<EOF
 Unicode true
 SetCompressor /SOLID lzma
 
-!define APPNAME "Freeciv"
+!define APPNAME "Freeciv-ruledit"
 !define VERSION $3
-!define GUI_ID $4
-!define EXE_ID $EXE_ID
-!define MPEXE_ID $MPEXE_ID
-!define GUI_NAME $5
-!define WIN_ARCH $6
+!define WIN_ARCH $4
 !define ARCH_KEY_PART ${ARCH_KEY_PART}
 !define ARCH_INST_PART ${ARCH_INST_PART}
 !define KEYROOT "Freeciv"
-!define APP_KEY_PART "client-\${GUI_ID}"
+!define APP_KEY_PART "ruledit"
 
-!define APPID "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
+!define APPID "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
@@ -49,7 +33,7 @@ SetCompressor /SOLID lzma
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${APP_KEY_PART}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
@@ -57,8 +41,8 @@ SetCompressor /SOLID lzma
 
 ;General
 
-Name "\${APPNAME} \${VERSION} (\${GUI_NAME} client)"
-OutFile "$2/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
+Name "Freeciv Ruleset Editor \${VERSION}"
+OutFile "$2/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-setup.exe"
 
 ;Variables
 
@@ -85,7 +69,7 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MUI_PAGE_INSTFILES
 
 !define MUI_FINISHPAGE_RUN
-!define MUI_FINISHPAGE_RUN_FUNCTION RunFreeciv
+!define MUI_FINISHPAGE_RUN_FUNCTION RunFreecivRuledit
 !insertmacro MUI_PAGE_FINISH
 
 !insertmacro MUI_UNPAGE_CONFIRM
@@ -115,12 +99,15 @@ EOF
   # languages
   echo -n "/x locale "
 
-  # soundsets
-  find $1/data -mindepth 1 -maxdepth 1 -name *.soundspec -printf %f\\n |
-  sed 's|.soundspec||' |
+  # rulesets
+  find $1/data -mindepth 2 -maxdepth 2 -name game.ruleset -printf %P\\n |
+  sed 's|/game.ruleset||' |
   while read -r name
   do
-  echo -n "/x $name.soundspec /x $name "
+    echo -n "/x $name "
+    if test -f "$1/data/$name.modpack" ; then
+      echo -n "/x $name.modpack "
+    fi
   done
 
   echo "$1\\*.*"
@@ -132,18 +119,11 @@ cat <<EOF
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${EXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${EXE_ID}.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk" "\$INSTDIR\freeciv-ruledit.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-ruledit.exe" 0 SW_SHOWMINIMIZED
 EOF
-
-if test "$4" = "qt5" || test "$4" = "xqt6" ; then
-    echo "CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
-fi
 
 cat <<EOF
 
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Documentation.lnk" "\$INSTDIR\doc\freeciv"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Uninstall.lnk" "\$INSTDIR\uninstall.exe"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Website.lnk" "\$INSTDIR\Freeciv.url"
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -160,28 +140,25 @@ SectionEnd
 
 EOF
 
-### soundsets ###
+### rulesets ###
 
 cat <<EOF
-SectionGroup "Soundsets"
+SectionGroup "Rulesets"
 
 EOF
 
-find $1/data -mindepth 1 -maxdepth 1 -name *.soundspec -printf %f\\n |
+find $1/data -mindepth 2 -maxdepth 2 -name game.ruleset -printf %P\\n |
 sort |
-sed 's|.soundspec||' |
+sed 's|/game.ruleset||' |
 while read -r name
 do
-if test -d $1/data/$name; then
+# Intentionally leave .modpack out. Ruledit does not use it.
 echo "  Section \"$name\""
-echo "  SetOutPath \$INSTDIR\\data"
-echo "  File /r $1\data\\$name.soundspec"
 echo "  SetOutPath \$INSTDIR\\data\\$name"
 echo "  File /r $1\\data\\$name\*.*"
 echo "  SetOutPath \$INSTDIR"
 echo "  SectionEnd"
 echo
-fi
 done
 
 cat <<EOF
@@ -189,19 +166,19 @@ SectionGroupEnd
 
 EOF
 
-### additional languages ###
+### Additional languages ###
 
 cat <<EOF
 SectionGroup "Additional languages (translation %)"
 
 EOF
 
-cat ../../bootstrap/langstat_core.txt |
+cat ../../../bootstrap/langstat_ruledit.txt |
 sort -k 1 |
 iconv -f UTF-8 -t ISO-8859-1 |
 while read -r code prct name
 do
-if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
+if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-ruledit.mo; then
 echo "  Section \"$name ($code) $prct\""
 echo "  SetOutPath \$INSTDIR\\share\\locale\\$code"
 echo "  File /r $1\\share\\locale\\$code\*.*"
@@ -218,7 +195,7 @@ EOF
 
 cat <<EOF
 ;--------------------------------
-;Installer Functions
+; Installer Functions
 
 Function .onInit
 
@@ -241,11 +218,11 @@ Function DefaultLanguage
   \${EndIf}
 
   \${NSD_CreateLabel} 0 0 100% 30% \
-"If you want to play Freeciv in a language other than your Windows language or \
+"If you want to run Freeciv Ruleset Editor in a language other than your Windows language or \
 if Freeciv's auto-detection of your Windows language does not work correctly, \
-you can select a specific language to be used by Freeciv here. Be sure \
+you can select a specific language to be used by Freeciv Ruleset Editor here. Be sure \
 you haven't unmarked the installation of the corresponding language files \
-in the previous dialog. You can also change this setting later in the Freeciv \
+in the previous dialog. You can also change this setting later in the Freeciv Ruleset Editor \
 Start Menu shortcut properties."
   Pop \$DefaultLanguageLabel
 
@@ -257,12 +234,12 @@ Start Menu shortcut properties."
   \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_ruledit.txt |
   sort -k 1 |
   iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
   do
-  if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
+  if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-ruledit.mo; then
   echo "  \${NSD_CB_AddString} \$DefaultLanguageDropList \"$name ($code) $prct\""
   fi
   done
@@ -282,7 +259,7 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_ruledit.txt |
   iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
   do
@@ -294,8 +271,8 @@ EOF
 cat <<EOF
 FunctionEnd
 
-Function RunFreeciv
-  nsExec::Exec '"\$INSTDIR\freeciv-\${EXE_ID}.cmd" \$DefaultLanguageCode'
+Function RunFreecivRuledit
+  nsExec::Exec '"\$INSTDIR\freeciv-ruledit.cmd" \$DefaultLanguageCode'
 FunctionEnd
 
 EOF
