@@ -1816,6 +1816,8 @@ void server_quit(void)
     } phase_players_iterate_end;
   }
 
+  save_system_close();
+
   if (game.server.save_timer != NULL) {
     timer_destroy(game.server.save_timer);
     game.server.save_timer = NULL;
@@ -3478,13 +3480,13 @@ void srv_main(void)
       server_sniff_all_input();
     }
 
-    /* Close it even between games. */
-    save_system_close();
-
     if (game.info.timeout == -1 || srvarg.exit_on_end) {
       /* For autogames or if the -e option is specified, exit the server. */
       server_quit();
     }
+
+    /* Close it even between games. */
+    save_system_close();
 
     /* Reset server */
     server_game_free();
