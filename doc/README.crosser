@@ -60,7 +60,7 @@ If everything is set up correctly, easiest way
 to do the build is to run
 > ./build_all_installer.sh
 on windows/installer_cross/.
-Currently these scripts need to be run their own
+Currently these scripts need to be run on their own
 directory, and they produce their output there
 (wihin freeciv tree). If everything success, final
 installers are generated to Output/
