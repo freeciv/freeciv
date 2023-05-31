@@ -281,28 +281,6 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
               }
             }
           } extra_type_by_rmcause_iterate_end;
-          extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
-            int rmtime = pterrain->extra_removal_times[extra_index(pextra)];
-
-            if (rmtime != 0) {
-              if (clean_time < 0) {
-                clean_time = rmtime;
-              } else if (clean_time != rmtime) {
-                clean_time = 0; /* Give up */
-              }
-            }
-          } extra_type_by_rmcause_iterate_end;
-          extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-            int rmtime = pterrain->extra_removal_times[extra_index(pextra)];
-
-            if (rmtime != 0) {
-              if (clean_time < 0) {
-                clean_time = rmtime;
-              } else if (clean_time != rmtime) {
-                clean_time = 0; /* Give up */
-              }
-            }
-          } extra_type_by_rmcause_iterate_end;
         }
 
         if (pillage_time != 0 && pterrain->pillage_time != 0) {
@@ -325,36 +303,6 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       int time = -1, factor = -1;
 
       extra_type_by_rmcause_iterate(ERM_CLEAN, pextra) {
-        if (pextra->removal_time == 0) {
-          if (factor < 0) {
-            factor = pextra->removal_time_factor;
-          } else if (factor != pextra->removal_time_factor) {
-            factor = 0; /* Give up */
-          }
-        } else {
-          if (time < 0) {
-            time = pextra->removal_time;
-          } else if (time != pextra->removal_time) {
-            time = 0; /* Give up */
-          }
-        }
-      } extra_type_by_rmcause_iterate_end;
-      extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
-        if (pextra->removal_time == 0) {
-          if (factor < 0) {
-            factor = pextra->removal_time_factor;
-          } else if (factor != pextra->removal_time_factor) {
-            factor = 0; /* Give up */
-          }
-        } else {
-          if (time < 0) {
-            time = pextra->removal_time;
-          } else if (time != pextra->removal_time) {
-            time = 0; /* Give up */
-          }
-        }
-      } extra_type_by_rmcause_iterate_end;
-      extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
         if (pextra->removal_time == 0) {
           if (factor < 0) {
             factor = pextra->removal_time_factor;
@@ -3852,8 +3800,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                        pillage_time), pillage_time);
     }
   }
-  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-      || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+  if (is_extra_removed_by(pextra, ERM_CLEAN)) {
     int clean_time = -1;
 
     if (pextra->removal_time != 0) {
