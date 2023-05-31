@@ -325,16 +325,21 @@ static void toplevel_focus(GtkWidget *w, GtkDirectionType arg,
   prevents users from accidentally missing messages when the chatline
   gets scrolled up a small amount and stops scrolling down automatically.
 **************************************************************************/
-static void main_message_area_resize(GtkWidget *widget, int width, int height,
-                                     gpointer data)
+void main_message_area_resize(void *data)
 {
-  static int old_width = 0, old_height = 0;
+  if (get_current_client_page() == PAGE_GAME) {
+    static int old_width = 0, old_height = 0;
+    int width = gtk_widget_get_width(GTK_WIDGET(main_message_area));
+    int height = gtk_widget_get_height(GTK_WIDGET(main_message_area));
 
-  if (width != old_width
-      || height != old_height) {
-    chatline_scroll_to_bottom(TRUE);
-    old_width = width;
-    old_height = height;
+    if (width != old_width
+        || height != old_height) {
+      chatline_scroll_to_bottom(TRUE);
+      old_width = width;
+      old_height = height;
+    }
+
+    add_idle_callback(main_message_area_resize, NULL);
   }
 }
 
@@ -1533,8 +1538,6 @@ static void setup_widgets(void)
   set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), text);
-  g_signal_connect(text, "resize",
-                   G_CALLBACK(main_message_area_resize), NULL);
 
   gtk_widget_set_name(text, "chatline");
 
@@ -1549,7 +1552,7 @@ static void setup_widgets(void)
 
   chat_welcome_message(TRUE);
 
-  /* the chat line */
+  /* The chat line */
   view = inputline_toolkit_view_new();
   gtk_grid_attach(GTK_GRID(vgrid), view, 0, grid_row++, 1, 1);
   gtk_widget_set_margin_bottom(view, 3);
@@ -2338,7 +2341,7 @@ struct callback {
 };
 
 /**********************************************************************//**
-  A wrapper for the callback called through add_idle_callback.
+  A wrapper for the callback called through add_idle_callback().
 **************************************************************************/
 static gboolean idle_callback_wrapper(gpointer data)
 {
@@ -2351,7 +2354,7 @@ static gboolean idle_callback_wrapper(gpointer data)
 }
 
 /**********************************************************************//**
-  Enqueue a callback to be called during an idle moment.  The 'callback'
+  Enqueue a callback to be called during an idle moment. The 'callback'
   function should be called sometimes soon, and passed the 'data' pointer
   as its data.
 **************************************************************************/
