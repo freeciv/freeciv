@@ -2016,14 +2016,6 @@ static void clean_callback(GtkMenuItem *item, gpointer data)
     if (can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, pextra)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN,
                                          pextra);
-    } else if (can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION,
-                                             pextra)) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION,
-                                         pextra);
-    } else if (can_unit_do_activity_targeted(punit, ACTIVITY_FALLOUT,
-                                             pextra)) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_FALLOUT,
-                                         pextra);
     }
   } unit_list_iterate_end;
 }
@@ -2515,13 +2507,7 @@ void real_menus_update(void)
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
                                  can_units_do_activity_targeted(punits,
                                                                 ACTIVITY_CLEAN,
-                                                                pextra)
-                                 || can_units_do_activity_targeted(punits,
-                                                                   ACTIVITY_POLLUTION,
-                                                                   pextra)
-                                 || can_units_do_activity_targeted(punits,
-                                                                   ACTIVITY_FALLOUT,
-                                                                   pextra));
+                                                                pextra));
       }
     }
     g_list_free(list);
@@ -2586,15 +2572,14 @@ void real_menus_update(void)
   menu_entry_set_sensitive("BUILD_AIRBASE",
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
   menu_entry_set_sensitive("CLEAN",
-                           can_units_do_activity(punits, ACTIVITY_CLEAN)
-                           || can_units_do_activity(punits, ACTIVITY_POLLUTION)
-                           || can_units_do_activity(punits, ACTIVITY_FALLOUT));
+                           can_units_do_activity(punits, ACTIVITY_CLEAN));
   menu_entry_set_sensitive("UNIT_SENTRY",
                            can_units_do_activity(punits, ACTIVITY_SENTRY));
   menu_entry_set_sensitive("DO_PARADROP",
                            can_units_do(punits, can_unit_paradrop));
-  /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases where
-   * selecting the command results in a dialog box listing options of what to pillage */
+  /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases
+   * where selecting the command results in a dialog box listing options of
+   * what to pillage */
   menu_entry_set_sensitive("DO_PILLAGE",
                            can_units_do_activity(punits, ACTIVITY_PILLAGE));
   menu_entry_set_sensitive("UNIT_DISBAND",
@@ -3036,24 +3021,6 @@ void real_menus_init(void)
       g_signal_connect(item, "activate", G_CALLBACK(clean_callback), pextra);
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       gtk_widget_show(item);
-    } extra_type_by_rmcause_iterate_end;
-    extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
-      if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
-        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
-        g_object_set_data(G_OBJECT(item), "nuisance", pextra);
-        g_signal_connect(item, "activate", G_CALLBACK(clean_callback), pextra);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      }
-    } extra_type_by_rmcause_iterate_end;
-    extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-      if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
-        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
-        g_object_set_data(G_OBJECT(item), "nuisance", pextra);
-        g_signal_connect(item, "activate", G_CALLBACK(clean_callback), pextra);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      }
     } extra_type_by_rmcause_iterate_end;
   }
 

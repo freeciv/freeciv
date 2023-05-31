@@ -2786,12 +2786,6 @@ static void clean_menu_callback(GSimpleAction *action,
     if (can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, pextra)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN,
                                          pextra);
-    } else if (can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION, pextra)) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION,
-                                         pextra);
-    } else {
-      request_new_unit_activity_targeted(punit, ACTIVITY_FALLOUT,
-                                         pextra);
     }
   } unit_list_iterate_end;
 }
@@ -3676,52 +3670,6 @@ void real_menus_update(void)
     fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
     menu_item_append_unref(submenu,
                            g_menu_item_new(extra_name_translation(pextra), actname));
-  } extra_type_by_rmcause_iterate_end;
-
-  extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
-    if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
-      char actname[256];
-      GSimpleAction *act;
-
-      fc_snprintf(actname, sizeof(actname), "clean_%d", i);
-      act = g_simple_action_new(actname, NULL);
-      g_simple_action_set_enabled(act,
-                                  can_units_do_activity_targeted(punits,
-                                                                 ACTIVITY_CLEAN,
-                                                                 pextra)
-                                  || can_units_do_activity_targeted(punits,
-                                                                    ACTIVITY_POLLUTION,
-                                                                    pextra));
-      g_action_map_add_action(map, G_ACTION(act));
-      g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
-
-      fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
-      menu_item_append_unref(submenu,
-                             g_menu_item_new(extra_name_translation(pextra), actname));
-    }
-  } extra_type_by_rmcause_iterate_end;
-
-  extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-    if (!is_extra_removed_by(pextra, ERM_CLEAN)) {
-      char actname[256];
-      GSimpleAction *act;
-
-      fc_snprintf(actname, sizeof(actname), "clean_%d", i);
-      act = g_simple_action_new(actname, NULL);
-      g_simple_action_set_enabled(act,
-                                  can_units_do_activity_targeted(punits,
-                                                                 ACTIVITY_CLEAN,
-                                                                 pextra)
-                                  || can_units_do_activity_targeted(punits,
-                                                                    ACTIVITY_FALLOUT,
-                                                                    pextra));
-      g_action_map_add_action(map, G_ACTION(act));
-      g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
-
-      fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
-      menu_item_append_unref(submenu,
-                             g_menu_item_new(extra_name_translation(pextra), actname));
-    }
   } extra_type_by_rmcause_iterate_end;
 
   g_menu_remove(work_menu, 5);

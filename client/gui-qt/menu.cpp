@@ -2593,18 +2593,6 @@ void mr_menu::slot_clean()
 
     if (pextra != NULL) {
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN, pextra);
-    } else {
-      pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
-                                  unit_owner(punit), punit);
-      if (pextra != NULL) {
-        request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
-      } else {
-        pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANFALLOUT,
-                                    unit_owner(punit), punit);
-        if (pextra != NULL) {
-          request_new_unit_activity_targeted(punit, ACTIVITY_FALLOUT, pextra);
-        }
-      }
     }
   } unit_list_iterate_end;
 }
