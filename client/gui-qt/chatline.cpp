@@ -603,7 +603,11 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
           if (color == "#00008B") {
             color = bg_color.name();
           } else {
+#ifdef FC_QT6X_MODE
+            qc = QColor::fromString(color);
+#else  // FC_QT6X_MODE
             qc.setNamedColor(color);
+#endif // FC_QT6X_MODE
             qc = qc.lighter(200);
             color = qc.name();
           }
@@ -613,7 +617,13 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
       }
       if (text_tag_color_background(ptag)) {
         color = text_tag_color_background(ptag);
-        if (QColor::isValidColor(color)) {
+        if (
+#ifdef FC_QT6X_MODE
+            QColor::isValidColorName(color)
+#else  // FC_QT6X_MODE
+            QColor::isValidColor(color)
+#endif // FC_QT6X_MODE
+            ) {
           str_col = QString("<span style= background-color:%1;>").arg(color);
           mm.insert(stop, "</span>");
           mm.insert(start, str_col);
