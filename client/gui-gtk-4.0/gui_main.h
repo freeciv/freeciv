@@ -22,6 +22,8 @@
 #define GUI_GTK_OPTION_STR(optname) "gui_gtk4_" #optname
 #define GUI_GTK_DEFAULT_THEME_NAME FC_GTK4_DEFAULT_THEME_NAME
 
+void main_message_area_resize(void *data);
+
 /* Network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
 

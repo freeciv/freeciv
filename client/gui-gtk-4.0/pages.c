@@ -3478,7 +3478,7 @@ enum client_pages get_current_client_page(void)
 }
 
 /**********************************************************************//**
-  Changes the current page.  The action is delayed.
+  Changes the current page. The action is delayed.
 **************************************************************************/
 void real_set_client_page(enum client_pages new_page)
 {
@@ -3585,6 +3585,7 @@ void real_set_client_page(enum client_pages new_page)
     refresh_chat_buttons();
     center_on_something();
     mapview_thaw();
+    add_idle_callback(main_message_area_resize, NULL);
     break;
   case PAGE_NETWORK:
     update_network_lists();
