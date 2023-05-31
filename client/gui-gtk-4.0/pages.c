@@ -584,7 +584,6 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   GtkCellRenderer *rend;
   GtkTreeSelection *selection;
   struct save_dialog *pdialog;
-  int grids_row = 0;
 
   fc_assert_ret_val(NULL != action, NULL);
   fc_assert_ret_val(NULL != files, NULL);
@@ -622,10 +621,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                    G_CALLBACK(save_dialog_row_callback), pdialog);
   pdialog->tree_view = GTK_TREE_VIEW(view);
 
-  sbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
+  sbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_box_append(vbox, sbox);
 
   label = g_object_new(GTK_TYPE_LABEL,
@@ -635,7 +631,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_grid_attach(GTK_GRID(sbox), label, 0, grids_row++, 1, 1);
+  gtk_box_append(GTK_BOX(sbox), label);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw), 300);
@@ -644,7 +640,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
-  gtk_grid_attach(GTK_GRID(sbox), sw, 0, grids_row++, 1, 1);
+  gtk_box_append(GTK_BOX(sbox), sw);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
@@ -663,15 +659,11 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                    G_CALLBACK(save_dialog_entry_callback), pdialog);
   pdialog->entry = GTK_ENTRY(entry);
 
-  sbox = gtk_grid_new();
-  grids_row = 0;
+  sbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_widget_set_margin_bottom(sbox, 12);
   gtk_widget_set_margin_end(sbox, 12);
   gtk_widget_set_margin_start(sbox, 12);
   gtk_widget_set_margin_top(sbox, 12);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -680,14 +672,14 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_grid_attach(GTK_GRID(sbox), label, 0, grids_row++, 1, 1);
+  gtk_box_append(GTK_BOX(sbox), label);
 
-  gtk_grid_attach(GTK_GRID(sbox), entry, 0, grids_row++, 1, 1);
+  gtk_box_append(GTK_BOX(sbox), entry);
   gtk_box_append(vbox, sbox);
 
   save_dialog_update(pdialog);
   gtk_window_set_focus(GTK_WINDOW(shell), entry);
-  gtk_widget_show(GTK_WIDGET(vbox));
+  gtk_widget_set_visible(GTK_WIDGET(vbox), TRUE);
 
   return shell;
 }
@@ -3527,14 +3519,10 @@ void real_set_client_page(enum client_pages new_page)
   case PAGE_MAIN:
   case PAGE_START:
     if (is_server_running()) {
-      if (game.info.is_new_game) {
-        gtk_widget_show(start_options_table);
-      } else {
-        gtk_widget_hide(start_options_table);
-      }
+      gtk_widget_set_visible(start_options_table, game.info.is_new_game);
       update_start_page();
     } else {
-      gtk_widget_hide(start_options_table);
+      gtk_widget_set_visible(start_options_table, FALSE);
     }
     voteinfo_gui_update();
     overview_size_changed();
@@ -3564,12 +3552,12 @@ void real_set_client_page(enum client_pages new_page)
     break;
   }
 
-  /* hide/show statusbar. */
+  /* Hide/show statusbar. */
   if (new_page == PAGE_START || new_page == PAGE_GAME) {
     clear_network_statusbar();
-    gtk_widget_hide(statusbar_frame);
+    gtk_widget_set_visible(statusbar_frame, FALSE);
   } else {
-    gtk_widget_show(statusbar_frame);
+    gtk_widget_set_visible(statusbar_frame, TRUE);
   }
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(toplevel_tabs), new_page);

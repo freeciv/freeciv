@@ -1236,7 +1236,7 @@ static void create_city_report_dialog(bool make_modal)
                                                    "text", i, NULL);
     header = gtk_label_new(titles[i]);
     gtk_widget_set_tooltip_text(header, spec->explanation);
-    gtk_widget_show(header);
+    gtk_widget_set_visible(header, TRUE);
     gtk_tree_view_column_set_widget(col, header);
     gtk_tree_view_column_set_visible(col, spec->show);
     gtk_tree_view_column_set_sort_column_id(col, i);

@@ -103,8 +103,7 @@ void choice_dialog_button_move_to_the_end(GtkWidget *cd,
 GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
                                const gchar *text)
 {
-  GtkWidget *dshell, *dlabel, *vgrid, *bbox;
-  int grid_row = 0;
+  GtkWidget *dshell, *dlabel, *vbox, *bbox;
 
   dshell = gtk_window_new();
   setup_dialog(dshell, toplevel);
@@ -114,29 +113,26 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
   gtk_window_set_transient_for(GTK_WINDOW(dshell), parent);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dshell), TRUE);
 
-  vgrid = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 5);
-  gtk_window_set_child(GTK_WINDOW(dshell), vgrid);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+  gtk_window_set_child(GTK_WINDOW(dshell), vbox);
 
-  gtk_widget_set_margin_start(vgrid, 5);
-  gtk_widget_set_margin_end(vgrid, 5);
-  gtk_widget_set_margin_top(vgrid, 5);
-  gtk_widget_set_margin_bottom(vgrid, 5);
+  gtk_widget_set_margin_start(vbox, 5);
+  gtk_widget_set_margin_end(vbox, 5);
+  gtk_widget_set_margin_top(vbox, 5);
+  gtk_widget_set_margin_bottom(vbox, 5);
 
   dlabel = gtk_label_new(text);
-  gtk_grid_attach(GTK_GRID(vgrid), dlabel, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), dlabel);
 
   bbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
-  gtk_grid_attach(GTK_GRID(vgrid), bbox, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), bbox);
 
   g_object_set_data(G_OBJECT(dshell), "bbox", bbox);
   g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(0));
   g_object_set_data(G_OBJECT(dshell), "hide", GINT_TO_POINTER(FALSE));
 
-  gtk_widget_show(vgrid);
-  gtk_widget_show(dlabel);
+  gtk_widget_set_visible(vbox, TRUE);
+  gtk_widget_set_visible(dlabel, TRUE);
 
   return dshell;
 }
@@ -148,7 +144,7 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
 static void choice_dialog_clicked(GtkWidget *w, gpointer data)
 {
   if (g_object_get_data(G_OBJECT(data), "hide")) {
-    gtk_widget_hide(GTK_WIDGET(data));
+    gtk_widget_set_visible(GTK_WIDGET(data), FALSE);
   } else {
     gtk_window_destroy(GTK_WINDOW(data));
   }
@@ -199,8 +195,8 @@ void choice_dialog_end(GtkWidget *dshell)
 
   bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
 
-  gtk_widget_show(bbox);
-  gtk_widget_show(dshell);
+  gtk_widget_set_visible(bbox, TRUE);
+  gtk_widget_set_visible(dshell, TRUE);
 }
 
 /*******************************************************************//**

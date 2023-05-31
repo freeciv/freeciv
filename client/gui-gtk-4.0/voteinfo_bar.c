@@ -229,7 +229,7 @@ void voteinfo_gui_update(void)
   }
 
   if (!voteinfo_bar_can_be_shown()) {
-    gtk_widget_hide(vib->box);
+    gtk_widget_set_visible(vib->box, FALSE);
     return;
   }
 
@@ -306,10 +306,10 @@ void voteinfo_gui_update(void)
   need_scroll = !gtk_widget_get_visible(vib->box)
     && chatline_is_scrolled_to_bottom();
 
-  gtk_widget_show(vib->box);
+  gtk_widget_set_visible(vib->box, TRUE);
 
   if (vote_count <= 1) {
-    gtk_widget_hide(vib->next_button);
+    gtk_widget_set_visible(vib->next_button, FALSE);
   }
 
   if (need_scroll) {

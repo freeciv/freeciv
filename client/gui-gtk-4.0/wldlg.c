@@ -217,9 +217,8 @@ static void cell_edited(GtkCellRendererText *cell,
 static GtkWidget *create_worklists_report(void)
 {
   GtkWidget *shell, *list;
-  GtkWidget *vgrid, *label, *sw;
+  GtkWidget *vbox, *label, *sw;
   GtkCellRenderer *rend;
-  int grid_row = 0;
 
   shell = gtk_dialog_new_with_buttons(_("Edit worklists"),
                                       NULL,
@@ -240,11 +239,9 @@ static GtkWidget *create_worklists_report(void)
   g_signal_connect(shell, "destroy",
                    G_CALLBACK(worklists_destroy_callback), NULL);
 
-  vgrid = gtk_grid_new();
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 2);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), vgrid);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))),
+                 vbox);
 
   worklists_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
@@ -277,9 +274,9 @@ static GtkWidget *create_worklists_report(void)
                        "label", _("_Worklists:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
 
-  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
-  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
-  gtk_widget_show(vgrid);
+  gtk_box_append(GTK_BOX(vbox), label);
+  gtk_box_append(GTK_BOX(vbox), sw);
+  gtk_widget_set_visible(vbox, TRUE);
 
   return shell;
 }
@@ -403,8 +400,9 @@ static void popup_worklist(struct global_worklist *pgwl)
     reset_global_worklist(editor, pgwl);
     insert_worklist(global_worklist_id(pgwl), editor);
 
-    gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), editor);
-    gtk_widget_show(editor);
+    gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))),
+                   editor);
+    gtk_widget_set_visible(editor, TRUE);
 
     refresh_worklist(editor);
   }
@@ -1359,8 +1357,8 @@ GtkWidget *create_worklist(void)
                    G_CALLBACK(dst_selection_callback), ptr);
 
 
-  gtk_widget_show(table);
-  gtk_widget_show(bbox);
+  gtk_widget_set_visible(table, TRUE);
+  gtk_widget_set_visible(bbox, TRUE);
 
   return editor;
 }
@@ -1473,7 +1471,7 @@ static void reset_global_worklist(GtkWidget *editor,
   gtk_list_store_clear(ptr->src);
   gtk_list_store_clear(ptr->dst);
 
-  gtk_widget_hide(ptr->change_cmd);
+  gtk_widget_set_visible(ptr->change_cmd, FALSE);
   g_object_set(ptr->src_col, "visible", FALSE, NULL);
   g_object_set(ptr->dst_col, "visible", FALSE, NULL);
 

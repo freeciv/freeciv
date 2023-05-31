@@ -373,7 +373,7 @@ static GtkWidget *create_multiplier_dialog(void)
   g_signal_connect(shell, "response",
                    G_CALLBACK(multipliers_command_callback), NULL);
 
-  gtk_widget_show(content);
+  gtk_widget_set_visible(content, TRUE);
 
   return shell;
 }
@@ -499,7 +499,7 @@ static GtkWidget *create_rates_dialog(void)
   g_signal_connect(shell, "destroy",
                    G_CALLBACK(widget_destroyed), &rates_dialog_shell);
 
-  gtk_widget_show(shell);
+  gtk_widget_set_visible(shell, TRUE);
 
   rates_tax_value = -1;
   rates_lux_value = -1;

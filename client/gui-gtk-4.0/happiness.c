@@ -252,7 +252,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(table), label, 0, NUM_HAPPINESS_MODIFIERS, 2, 1);
 
-  gtk_widget_show(pdialog->shell);
+  gtk_widget_set_visible(pdialog->shell, TRUE);
   dialog_list_prepend(dialog_list, pdialog);
   refresh_happiness_dialog(pcity);
 
@@ -316,7 +316,7 @@ void close_happiness_dialog(struct city *pcity)
     return;
   }
 
-  gtk_widget_hide(pdialog->shell);
+  gtk_widget_set_visible(pdialog->shell, FALSE);
 
   dialog_list_remove(dialog_list, pdialog);
 

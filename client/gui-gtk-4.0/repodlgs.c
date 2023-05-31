@@ -1717,11 +1717,12 @@ static void units_report_init(struct units_report *preport)
 
     if (strlen(unit_report_columns[i].title) > 0) {
       GtkWidget *header = gtk_label_new(Q_(unit_report_columns[i].title));
+
       if (unit_report_columns[i].tooltip) {
         gtk_widget_set_tooltip_text(header,
                                     Q_(unit_report_columns[i].tooltip));
       }
-      gtk_widget_show(header);
+      gtk_widget_set_visible(header, TRUE);
       col = gtk_tree_view_column_new();
       gtk_tree_view_column_set_widget(col, header);
       if (unit_report_columns[i].rightalign) {

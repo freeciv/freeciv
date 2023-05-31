@@ -72,9 +72,10 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
               theme_name, current_name);
 
   label = gtk_label_new(buf);
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                 label);
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
-  gtk_widget_show(label);
+  gtk_widget_set_visible(label, TRUE);
 
   theme_suggestion_response(blocking_dialog(dialog));
 

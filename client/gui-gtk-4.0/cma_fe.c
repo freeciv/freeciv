@@ -422,8 +422,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   g_signal_connect(pdialog->happy_button, "toggled",
                    G_CALLBACK(hscale_changed), pdialog);
 
-  pdialog->factor[O_LAST] = hscale =
-      gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+  pdialog->factor[O_LAST] = hscale
+    = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
   gtk_range_set_range(GTK_RANGE(hscale), 0, 50);
   gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
   layout = gtk_scale_get_layout(GTK_SCALE(hscale));
@@ -469,7 +469,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_widget_set_name(pdialog->active_command, "comment_label");
   gtk_box_append(GTK_BOX(hbox), pdialog->active_command);
 
-  gtk_widget_show(pdialog->shell);
+  gtk_widget_set_visible(pdialog->shell, TRUE);
 
   dialog_list_prepend(dialog_list, pdialog);
 
@@ -477,7 +477,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 
-  /* refresh is done in refresh_city_dialog */
+  /* Refresh is done in refresh_city_dialog() */
 
   return pdialog;
 }

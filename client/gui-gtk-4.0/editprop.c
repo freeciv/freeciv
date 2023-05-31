@@ -3760,8 +3760,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
     break;
   }
 
-  gtk_widget_show(ev->panel_widget);
-  gtk_widget_show(ev->view_widget);
+  gtk_widget_set_visible(ev->panel_widget, TRUE);
+  gtk_widget_set_visible(ev->view_widget, TRUE);
 
   return ev;
 }
@@ -4716,11 +4716,7 @@ static void property_page_quick_find_entry_changed(GtkWidget *entry,
     matched = property_filter_match(pf, op);
     w = objprop_get_widget(op);
     if (objprop_has_widget(op) && w != NULL) {
-      if (matched) {
-        gtk_widget_show(w);
-      } else {
-        gtk_widget_hide(w);
-      }
+      gtk_widget_set_visible(w, matched);
     }
     col = objprop_get_treeview_column(op);
     if (objprop_show_in_listview(op) && col != NULL) {
@@ -4958,7 +4954,7 @@ property_page_new(enum editor_object_type objtype,
   button = gtk_button_new_with_mnemonic(_("_Close"));
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect_swapped(button, "clicked",
-      G_CALLBACK(gtk_widget_hide), pe->widget);
+      G_CALLBACK(fc_gtk_widget_hide), pe->widget);
   gtk_grid_attach(GTK_GRID(hgrid2), button, grid2_col++, 0, 1, 1);
 
   /* Now create the properties panel. */
@@ -6276,11 +6272,11 @@ void property_editor_load_tiles(struct property_editor *pe,
 void property_editor_popup(struct property_editor *pe,
                            enum editor_object_type objtype)
 {
-  if (!pe || !pe->widget) {
+  if (pe == NULL || pe->widget == NULL) {
     return;
   }
 
-  gtk_widget_show(pe->widget);
+  gtk_widget_set_visible(pe->widget, TRUE);
 
   gtk_window_present(GTK_WINDOW(pe->widget));
   if (objtype < NUM_OBJTYPES) {
@@ -6293,10 +6289,11 @@ void property_editor_popup(struct property_editor *pe,
 ****************************************************************************/
 void property_editor_popdown(struct property_editor *pe)
 {
-  if (!pe || !pe->widget) {
+  if (pe == NULL || pe->widget == NULL) {
     return;
   }
-  gtk_widget_hide(pe->widget);
+
+  gtk_widget_set_visible(pe->widget, FALSE);
 }
 
 /************************************************************************//**

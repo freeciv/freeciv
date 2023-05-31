@@ -92,11 +92,12 @@ GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname,
 
   input = gtk_entry_new();
   gtk_frame_set_child(GTK_FRAME(label), input);
-  gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(input)), postinputtest, -1);
+  gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(input)),
+                            postinputtest, -1);
   gtk_entry_set_activates_default(GTK_ENTRY(input), TRUE);
   g_object_set_data(G_OBJECT(shell), "iinput", input);
 
-  gtk_widget_show(GTK_WIDGET(shell));
+  gtk_widget_set_visible(GTK_WIDGET(shell), TRUE);
   gtk_window_present(GTK_WINDOW(shell));
 
   return shell;

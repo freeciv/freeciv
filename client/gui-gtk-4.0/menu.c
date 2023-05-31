@@ -4325,7 +4325,7 @@ void real_menus_init(void)
     /* Add new government entries. */
     item = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gtk_widget_show(item);
+    gtk_widget_set_visible(item, TRUE);
 
     governments_iterate(g) {
       if (g != game.government_during_revolution) {
@@ -4337,7 +4337,7 @@ void real_menus_init(void)
         g_signal_connect(item, "activate",
                          G_CALLBACK(government_callback), g);
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
+        gtk_widget_set_visible(item, TRUE);
       }
     } governments_iterate_end;
   }
