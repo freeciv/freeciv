@@ -518,7 +518,8 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(worker_type,
                                                     pplayer, O_FOOD)) {
     if (worker_want > 0) {
-      CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion " ADV_WANT_PRINTF, 
+      CITY_LOG(LOG_DEBUG, pcity,
+               "desires terrain improvers with passion " ADV_WANT_PRINTF,
                worker_want);
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                            UTYF_SETTLERS, worker_want, FALSE);
@@ -561,7 +562,8 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
                                                        pplayer, O_FOOD)) {
 
       if (founder_want > choice->want) {
-        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion " ADV_WANT_PRINTF,
+        CITY_LOG(LOG_DEBUG, pcity,
+                 "desires founders with passion " ADV_WANT_PRINTF,
                  founder_want);
         dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                              action_id_get_role(ACTION_FOUND_CITY),
@@ -575,14 +577,15 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
          * if they are blockaded or in inland seas. */
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
-        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion " ADV_WANT_PRINTF
+        CITY_LOG(LOG_DEBUG, pcity,
+                 "desires founders with passion " ADV_WANT_PRINTF
                  " and asks for a new boat (%d of %d free)",
                  -founder_want, ai->stats.available_boats, ai->stats.boats);
 
         /* First fill choice with founder information */
         choice->want = 0 - founder_want;
         choice->type = CT_CIVILIAN;
-        choice->value.utype = founder_type; /* default */
+        choice->value.utype = founder_type; /* Default */
         choice->need_boat = TRUE;
 
         /* Then try to overwrite it with ferryboat information
@@ -624,10 +627,10 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
     choice = adv_better_choice_free(choice, cur);
   }
 
-  if (choice->want >= 200) {
+  if (choice->want > DAI_WANT_DOMESTIC_MAX) {
     /* If we don't do following, we buy caravans in city X when we should be
      * saving money to buy defenses for city Y. -- Syela */
-    choice->want = 199;
+    choice->want = DAI_WANT_DOMESTIC_MAX;
   }
 
   return choice;

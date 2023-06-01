@@ -1918,7 +1918,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
               && uchoice.value.utype->defense_strength == 1) {
             /* FIXME: check other reqs (unit class?) */
             if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
-              /* unlikely */
+              /* Unlikely */
               uchoice.want = MIN(49, danger);
             } else {
               uchoice.want = MIN(25, danger);
