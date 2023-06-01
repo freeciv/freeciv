@@ -34,9 +34,9 @@ void worker_task_init(struct worker_task *ptask)
   ptask->want = 0;
 }
 
-/************************************************************************//**
-  Returns TRUE iff the specified worker_task is sane.
-****************************************************************************/
+/*************************************************************************
+  Returns TRUE iff the specified task is sane.
+*************************************************************************/
 bool worker_task_is_sane(struct worker_task *ptask)
 {
   if (ptask == NULL) {
@@ -52,14 +52,22 @@ bool worker_task_is_sane(struct worker_task *ptask)
   }
 
   if (activity_requires_target(ptask->act)) {
-    if (ptask->tgt == NULL) {
-      return FALSE;
-    }
-    if (!is_extra_caused_by(ptask->tgt,
-                            activity_to_extra_cause(ptask->act))
-        && !is_extra_removed_by(ptask->tgt,
-                                activity_to_extra_rmcause(ptask->act))) {
-      return FALSE;
+    if (ptask->tgt != NULL) {
+      if (!is_extra_caused_by(ptask->tgt,
+                              activity_to_extra_cause(ptask->act))
+          && !is_extra_removed_by(ptask->tgt,
+                                  activity_to_extra_rmcause(ptask->act))) {
+        return FALSE;
+      }
+    } else {
+      struct terrain *pterrain = tile_terrain(ptask->ptile);
+
+      if ((ptask->act != ACTIVITY_IRRIGATE
+           || pterrain->irrigation_result == pterrain)
+          && (ptask->act != ACTIVITY_MINE
+              && pterrain->mining_result == pterrain)) {
+        return FALSE;
+      }
     }
   }
 
