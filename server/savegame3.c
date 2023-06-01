@@ -6953,14 +6953,14 @@ static void sg_load_treaties(struct loaddata *loading)
             add_clause(ptreaty, pgiver, type, value);
           }
         }
-
-        /* These must be after clauses have been added so that acceptance
-         * does not get cleared by what seems like changes to the treaty. */
-        ptreaty->accept0 = secfile_lookup_bool_default(loading->file, FALSE,
-                                                       "treaty%d.accept0", tidx);
-        ptreaty->accept1 = secfile_lookup_bool_default(loading->file, FALSE,
-                                                       "treaty%d.accept1", tidx);
       }
+
+      /* These must be after clauses have been added so that acceptance
+       * does not get cleared by what seems like changes to the treaty. */
+      ptreaty->accept0 = secfile_lookup_bool_default(loading->file, FALSE,
+                                                     "treaty%d.accept0", tidx);
+      ptreaty->accept1 = secfile_lookup_bool_default(loading->file, FALSE,
+                                                     "treaty%d.accept1", tidx);
     }
   }
 }
