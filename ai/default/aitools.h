@@ -28,6 +28,10 @@ struct pft_amphibious;
 
 struct adv_risk_cost;
 
+#define DAI_WANT_BELOW_MIL_EMERGENCY (1000.0)
+#define DAI_WANT_MILITARY_EMERGENCY  (DAI_WANT_BELOW_MIL_EMERGENCY + 0.1)
+#define DAI_WANT_DOMESTIC_MAX (DAI_WANT_MILITARY_EMERGENCY / 4 * 3)
+
 const char *dai_unit_task_rule_name(const enum ai_unit_task task);
 const char *dai_choice_rule_name(const struct adv_choice *choice);
 
@@ -36,7 +40,8 @@ adv_want military_amortize(struct player *pplayer, struct city *pcity,
 int stack_cost(struct unit *pattacker, struct unit *pdefender);
 
 void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
-                             struct tile *ptile, struct pf_path *path, int step);
+                             struct tile *ptile, struct pf_path *path,
+                             int step);
 
 void dai_fill_unit_param(struct ai_type *ait,
                          struct pf_parameter *parameter,
