@@ -2187,12 +2187,26 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
     /* Append a unit struct to the proper list. */
     punit = unpackage_short_unit(packet);
     if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
-      fc_assert(pcity->client.collecting_info_units_supported != NULL);
-      unit_list_append(pcity->client.collecting_info_units_supported, punit);
+      if (pcity->client.collecting_info_units_supported != NULL) {
+        unit_list_append(pcity->client.collecting_info_units_supported, punit);
+      } else {
+        /* pcity->client.collecting_info_units_supported should not be NULL,
+         * but older servers never started the sequence for observers. */
+        fc_assert_msg(!(has_capability("obsinv", client.conn.capability)
+                        && client_is_observer()),
+                      "Supported units list NULL");
+      }
     } else {
       fc_assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
-      fc_assert(pcity->client.collecting_info_units_present != NULL);
-      unit_list_append(pcity->client.collecting_info_units_present, punit);
+      if (pcity->client.collecting_info_units_present != NULL) {
+        unit_list_append(pcity->client.collecting_info_units_present, punit);
+      } else {
+        /* pcity->client.collecting_info_units_present should not be NULL,
+         * but older servers never started the sequence for observers. */
+        fc_assert_msg(!(has_capability("obsinv", client.conn.capability)
+                        && client_is_observer()),
+                      "Present units list NULL");
+      }
     }
 
     /* Done with special case. */
