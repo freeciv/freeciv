@@ -26,7 +26,7 @@
 extern struct sprite *intro_gfx_sprite;
 
 /* This name is to avoid a naming conflict with a global 'cursors'
- * variable in GTK+-2.6.  See PR#12459. */
+ * variable in GTK+-2.6. See PR#12459. */
 extern GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
-#endif  /* FC__GRAPHICS_H */
+#endif /* FC__GRAPHICS_H */

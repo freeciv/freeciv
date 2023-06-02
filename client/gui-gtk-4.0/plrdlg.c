@@ -655,10 +655,10 @@ void create_players_dialog(void)
       g_object_set(renderer, "style-set", TRUE, "weight-set", TRUE, NULL);
 
       col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
-	  "text", i,
-	  "style", PLR_DLG_COL_STYLE,
-	  "weight", PLR_DLG_COL_WEIGHT,
-	  NULL);
+                                                     "text", i,
+                                                     "style", PLR_DLG_COL_STYLE,
+                                                     "weight", PLR_DLG_COL_WEIGHT,
+                                                     NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
       break;
     case COL_RIGHT_TEXT:
@@ -666,10 +666,10 @@ void create_players_dialog(void)
       g_object_set(renderer, "style-set", TRUE, "weight-set", TRUE, NULL);
 
       col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
-	  "text", i,
-	  "style", PLR_DLG_COL_STYLE,
-	  "weight", PLR_DLG_COL_WEIGHT,
-	  NULL);
+                                                     "text", i,
+                                                     "style", PLR_DLG_COL_STYLE,
+                                                     "weight", PLR_DLG_COL_WEIGHT,
+                                                     NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
       g_object_set(renderer, "xalign", 1.0, NULL);
       gtk_tree_view_column_set_alignment(col, 1.0);
@@ -748,7 +748,7 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
 
   flag = get_nation_flag_sprite(tileset, nation);
 
-  /* calculate the bounding box ... */
+  /* Calculate the bounding box ... */
   sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
 
   fc_assert_ret_val(x0 != -1, NULL);
@@ -759,10 +759,10 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
   w = (x1 - x0) + 1;
   h = (y1 - y0) + 1;
 
-  /* if the flag is smaller then 5 x 5, something is wrong */
+  /* If the flag is smaller then 5 x 5, something is wrong */
   fc_assert_ret_val(w >= MIN_DIMENSION && h >= MIN_DIMENSION, NULL);
 
-  /* croping */
+  /* Croping */
   im = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
   if (im != NULL) {
     GdkPixbuf *pixbuf = sprite_get_pixbuf(flag);
@@ -772,7 +772,7 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
     g_object_unref(G_OBJECT(pixbuf));
   }
 
-  /* and finally store the scaled flag pixbuf in the static flags array */
+  /* Finally store the scaled flag pixbuf in the static flags array */
   return im;
 }
 
@@ -974,7 +974,7 @@ void players_war_callback(GSimpleAction *action, GVariant *parameter,
                diplstate_type_translated_name(newstate));
     }
 
-    /* can be any pact clause */
+    /* Can be any pact clause */
     confirm_cancel_pact(CLAUSE_CEASEFIRE, plrno,
                         astr_to_str(&title), astr_to_str(&question));
   }

@@ -314,7 +314,7 @@ static bool chatline_autocomplete(GtkEditable *editable)
     return FALSE;
   }
 
-  /* Part 2: compare with player and user names. */
+  /* Part 2: Compare with player and user names. */
   num = check_player_or_user_name(p, name, MAX_MATCHES);
   if (1 == num) {
     gtk_editable_delete_text(editable, pos - prefix_len, pos);
@@ -339,6 +339,7 @@ static bool chatline_autocomplete(GtkEditable *editable)
   }
 
   g_free(chars);
+
   return TRUE;
 }
 
@@ -761,7 +762,7 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
 
   controller = GTK_EVENT_CONTROLLER(gtk_event_controller_motion_new());
   g_signal_connect(controller, "motion",
-		   G_CALLBACK(chat_pointer_motion), NULL);
+                   G_CALLBACK(chat_pointer_motion), NULL);
   gtk_widget_add_controller(view, controller);
 }
 
@@ -871,7 +872,7 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
                                        "underline", PANGO_UNDERLINE_SINGLE,
                                        NULL);
 
-      /* Type 0 is reserved for non-link tags.  So, add 1 to the
+      /* Type 0 is reserved for non-link tags. So, add 1 to the
        * type value. */
       g_object_set_data(G_OBJECT(tag), "type",
                         GINT_TO_POINTER(text_tag_link_type(ptag) + 1));
@@ -884,7 +885,7 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
 }
 
 /**********************************************************************//**
-  Appends the string to the chat output window.  The string should be
+  Appends the string to the chat output window. The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
 void real_output_window_append(const char *astring,
@@ -1003,7 +1004,7 @@ bool chatline_is_scrolled_to_bottom(void)
   Scrolls the pregame and in-game chat windows all the way to the bottom.
 
   Why do we do it in such a convuluted fasion rather than calling
-  chatline_scroll_to_bottom directly from toplevel_configure?
+  chatline_scroll_to_bottom() directly from toplevel_configure?
   Because the widget is not at its final size yet when the configure
   event occurs.
 **************************************************************************/
@@ -1012,6 +1013,7 @@ static gboolean chatline_scroll_callback(gpointer data)
   chatline_scroll_to_bottom(FALSE);     /* Not delayed this time! */
 
   *((guint *) data) = 0;
+
   return FALSE;         /* Remove this idle function. */
 }
 
@@ -1121,8 +1123,8 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
     color_set(entry, color_target, NULL, data);
   } else if (res == GTK_RESPONSE_OK) {
     /* Apply the new color. */
-    GtkColorChooser *chooser =
-      GTK_COLOR_CHOOSER(g_object_get_data(G_OBJECT(dialog), "chooser"));
+    GtkColorChooser *chooser
+      = GTK_COLOR_CHOOSER(g_object_get_data(G_OBJECT(dialog), "chooser"));
     GdkRGBA new_color;
 
     gtk_color_chooser_get_rgba(chooser, &new_color);

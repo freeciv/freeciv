@@ -170,8 +170,8 @@ GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer = NULL;
 static GtkWidget *allied_chat_toggle_button;
 
-static enum Display_color_type display_color_type;  /* practically unused */
-static gint timer_id;                               /*       ditto        */
+static enum Display_color_type display_color_type;  /* Practically unused */
+static gint timer_id;                               /*       Ditto        */
 static GIOChannel *srv_channel;
 static guint srv_id;
 gint cur_x, cur_y;
@@ -265,7 +265,7 @@ static gboolean timer_callback(gpointer data)
 **************************************************************************/
 static void print_usage(void)
 {
-  /* add client-specific usage information here */
+  /* Add client-specific usage information here */
   fc_fprintf(stderr,
              _("gtk4-client gui-specific options are:\n"));
 
@@ -340,12 +340,12 @@ static void toplevel_focus(GtkWidget *w, GtkDirectionType arg,
     case GTK_DIR_TAB_BACKWARD:
 
       if (!gtk_widget_get_can_focus(w)) {
-	return;
+        return;
       }
 
       if (!gtk_widget_is_focus(w)) {
-	gtk_widget_grab_focus(w);
-	return;
+        gtk_widget_grab_focus(w);
+        return;
       }
       break;
 
@@ -1579,10 +1579,10 @@ static void setup_widgets(void)
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw),
-				    TRUE);
+                                    TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
-  				 GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_ALWAYS);
   gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
 
   label = gtk_label_new(_("Chat"));
@@ -2050,7 +2050,7 @@ static void activate_gui(GtkApplication *app, gpointer data)
   tileset_init(tileset);
   tileset_load_tiles(tileset);
 
-  /* keep the icon of the executable on Windows (see PR#36491) */
+  /* Keep the icon of the executable on Windows (see PR#36491) */
 #ifndef FREECIV_MSWINDOWS
   {
     /* Only call this after tileset_load_tiles is called. */
@@ -2289,7 +2289,7 @@ static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
   Set socket writability state
 **************************************************************************/
 static void set_wait_for_writable_socket(struct connection *pc,
-					 bool socket_writable)
+                                         bool socket_writable)
 {
   static bool previous_state = FALSE;
 
@@ -2375,10 +2375,10 @@ void popup_quit_dialog(void)
 
   if (!dialog) {
     dialog = gtk_message_dialog_new(NULL,
-	0,
-	GTK_MESSAGE_WARNING,
-	GTK_BUTTONS_YES_NO,
-	_("Are you sure you want to quit?"));
+                                    0,
+                                    GTK_MESSAGE_WARNING,
+                                    GTK_BUTTONS_YES_NO,
+                                    _("Are you sure you want to quit?"));
     setup_dialog(dialog, toplevel);
 
     g_signal_connect(dialog, "response",
@@ -2487,7 +2487,6 @@ static void apply_reqtree_text_font(struct option *poption)
 **************************************************************************/
 void options_extra_init(void)
 {
-
   struct option *poption;
 
 #define option_var_set_callback(var, callback)                              \

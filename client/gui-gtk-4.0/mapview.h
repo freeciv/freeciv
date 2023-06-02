@@ -59,4 +59,4 @@ void mapview_freeze(void);
 void mapview_thaw(void);
 bool mapview_is_frozen(void);
 
-#endif  /* FC__MAPVIEW_H */
+#endif /* FC__MAPVIEW_H */

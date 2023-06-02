@@ -24,4 +24,4 @@ GdkPixbuf *create_player_icon(const struct player *plr);
 
 extern struct gui_dialog *players_dialog_shell;
 
-#endif  /* FC__PLRDLG_H */
+#endif /* FC__PLRDLG_H */

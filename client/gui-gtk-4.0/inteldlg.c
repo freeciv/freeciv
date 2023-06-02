@@ -273,7 +273,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), notebook);
 
-  /* overview tab. */
+  /* Overview tab. */
   table = gtk_grid_new();
   gtk_widget_set_margin_bottom(table, 6);
   gtk_widget_set_margin_end(table, 6);
@@ -304,7 +304,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
     }
   }
 
-  /* diplomacy tab. */
+  /* Diplomacy tab. */
   pdialog->diplstates = gtk_tree_store_new(1, G_TYPE_STRING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->diplstates));
@@ -333,7 +333,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   label = gtk_label_new_with_mnemonic(_("_Diplomacy"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
@@ -359,12 +359,12 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 
   rend = gtk_cell_renderer_toggle_new();
   col = gtk_tree_view_column_new_with_attributes(NULL, rend,
-    "active", 0, NULL);
+                                                 "active", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(NULL, rend,
-    "text", 1, NULL);
+                                                 "text", 1, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   sw = gtk_scrolled_window_new();
@@ -372,7 +372,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   label = gtk_label_new_with_mnemonic(_("_Techs"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
@@ -418,7 +418,7 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
 
   pdialog->rule = gtk_label_new("-");
 
-  /* columns: 0 - wonder name, 1 - location (city/unknown/lost),
+  /* Columns: 0 - wonder name, 1 - location (city/unknown/lost),
    * 2 - strikethrough (for lost or obsolete),
    * 3 - font weight (great wonders in bold) */
   pdialog->wonders = gtk_list_store_new(4, G_TYPE_STRING,
@@ -491,13 +491,13 @@ void update_intel_dialog(struct player *p)
     bool embassy_knowledge = global_observer || team_has_embassy(me->team, p);
     bool trade_knowledge = global_observer || p == me || could_intel_with_player(me, p);
 
-    /* window title. */
+    /* Window title. */
     gchar *title = g_strdup_printf(_("Foreign Intelligence: %s Empire"),
-			  nation_adjective_for_player(p));
+                                   nation_adjective_for_player(p));
     gtk_window_set_title(GTK_WINDOW(pdialog->shell), title);
     g_free(title);
 
-    /* diplomacy tab. */
+    /* Diplomacy tab. */
     gtk_tree_store_clear(pdialog->diplstates);
 
     for (i = 0; i < ARRAY_SIZE(diplstates); i++) {
@@ -518,18 +518,18 @@ void update_intel_dialog(struct player *p)
       GValue v = { 0, };
 
       if (other == p || !other->is_alive) {
-	continue;
+        continue;
       }
       state = player_diplstate_get(p, other);
       gtk_tree_store_append(pdialog->diplstates, &it,
-			    &diplstates[state->type]);
+                            &diplstates[state->type]);
       g_value_init(&v, G_TYPE_STRING);
       g_value_set_static_string(&v, player_name(other));
       gtk_tree_store_set_value(pdialog->diplstates, &it, 0, &v);
       g_value_unset(&v);
     } players_iterate_end;
 
-    /* techs tab. */
+    /* Techs tab. */
     gtk_list_store_clear(pdialog->techs);
 
     mresearch = research_get(client_player());
@@ -549,7 +549,7 @@ void update_intel_dialog(struct player *p)
       }
     } advance_index_iterate_end;
 
-    /* table labels. */
+    /* Table labels. */
     for (i = 0; i < ARRAY_SIZE(pdialog->table_labels); i++) {
       if (pdialog->table_labels[i]) {
         struct city *pcity;
@@ -612,7 +612,7 @@ void update_intel_dialog(struct player *p)
               break;
             case A_UNSET:
               if (embassy_knowledge) {
-                /* TRANS: missing value */
+                /* TRANS: Missing value */
                 buf = g_strdup(_("(none)"));
               } else {
                 buf = g_strdup(_("(Unknown)"));
@@ -639,7 +639,7 @@ void update_intel_dialog(struct player *p)
 
         if (buf) {
           gtk_label_set_text(GTK_LABEL(pdialog->table_labels[i]), buf);
-	  g_free(buf);
+          g_free(buf);
         }
       }
     }
@@ -709,7 +709,7 @@ void update_intel_wonder_dialog(struct player *p)
                            0, improvement_name_translation(impr),
                            1, cityname,
                            2, is_lost,
-                           /* font weight: great wonders in bold */
+                           /* Font weight: great wonders in bold */
                            3, is_great_wonder(impr) ? 700 : 400,
                            -1);
       }

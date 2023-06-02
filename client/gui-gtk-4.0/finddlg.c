@@ -84,7 +84,7 @@ void popup_find_dialog(void)
 
     store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
     gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
-	0, GTK_SORT_ASCENDING);
+                                         0, GTK_SORT_ASCENDING);
 
     find_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(find_view));
@@ -94,7 +94,7 @@ void popup_find_dialog(void)
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(NULL, renderer,
-	"text", 0, NULL);
+                                                      "text", 0, NULL);
     gtk_tree_view_column_set_sort_order(column, GTK_SORT_ASCENDING);
     gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
 
@@ -105,22 +105,22 @@ void popup_find_dialog(void)
     gtk_widget_set_margin_top(sw, 2);
     gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-	GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), find_view);
 
     gtk_widget_set_hexpand(GTK_WIDGET(find_view), TRUE);
     gtk_widget_set_vexpand(GTK_WIDGET(find_view), TRUE);
 
     label = g_object_new(GTK_TYPE_LABEL,
-	"use-underline", TRUE,
-	"mnemonic-widget", find_view,
-	"label", _("Ci_ties:"),
-	"xalign", 0.0, "yalign", 0.5, NULL);
+                         "use-underline", TRUE,
+                         "mnemonic-widget", find_view,
+                         "label", _("Ci_ties:"),
+                         "xalign", 0.0, "yalign", 0.5, NULL);
     gui_dialog_add_content_widget(find_dialog_shell, label);
     gui_dialog_add_content_widget(find_dialog_shell, sw);
 
     g_signal_connect(selection, "changed",
-	G_CALLBACK(find_selection_callback), store);
+                     G_CALLBACK(find_selection_callback), store);
 
     update_find_dialog(store);
     gtk_tree_view_focus(GTK_TREE_VIEW(find_view));
@@ -174,10 +174,11 @@ static void find_response(struct gui_dialog *dlg, int response, gpointer data)
       gtk_tree_model_get(model, &it, 1, &pcity, -1);
 
       if (pcity) {
-	pos = pcity->tile;
+        pos = pcity->tile;
       }
     }
   }
+
   gui_dialog_destroy(dlg);
 }
 

@@ -237,7 +237,7 @@ static void popup_diplomacy_dialog(struct Treaty *ptreaty, struct player *they,
   gui_dialog_present(pdialog->dialog);
   /* We initated the meeting - Make the tab active */
   if (initiator == client_player()) {
-    /* we have to raise the diplomacy meeting tab as well as the selected
+    /* We have to raise the diplomacy meeting tab as well as the selected
      * meeting. */
     fc_assert_ret(dipl_main != NULL);
     gui_dialog_raise(dipl_main->dialog);
@@ -592,10 +592,10 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
   clause_list_iterate(pdialog->treaty->clauses, pclause) {
     if (i == index[0]) {
       dsend_packet_diplomacy_remove_clause_req(&client.conn,
-					       player_number(pdialog->treaty->plr1),
-					       player_number(pclause->from),
-					       pclause->type,
-					       pclause->value);
+                                               player_number(pdialog->treaty->plr1),
+                                               player_number(pclause->from),
+                                               pclause->type,
+                                               pclause->value);
       return;
     }
     i++;
@@ -1054,8 +1054,8 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   if (blank) {
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it, 0,
-		       _("--- This treaty is blank. "
-		 	 "Please add some clauses. ---"), -1);
+                       _("--- This treaty is blank. "
+                         "Please add some clauses. ---"), -1);
   }
 
   pixbuf = get_thumb_pixbuf(pdialog->treaty->accept0);

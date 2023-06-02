@@ -79,8 +79,8 @@ GtkWidget *icon_label_button_new(const gchar *icon_name,
 }
 
 /**********************************************************************//**
-  Changes the label (with mnemonic) on an existing stockbutton.  See
-  gtk_stockbutton_new.
+  Changes the label (with mnemonic) on an existing stockbutton.
+  See gtk_stockbutton_new().
 **************************************************************************/
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text)
 {
@@ -88,10 +88,10 @@ void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text)
 }
 
 /**********************************************************************//**
-  Returns gettext-converted list of n strings.  The individual strings
-  in the list are as returned by gettext().  In case of no NLS, the strings
+  Returns gettext-converted list of n strings. The individual strings
+  in the list are as returned by gettext(). In case of no NLS, the strings
   will be the original strings, so caller should ensure that the originals
-  persist for as long as required.  (For no NLS, still allocate the
+  persist for as long as required. (For no NLS, still allocate the
   list, for consistency.)
 
   (This is not directly gui/gtk related, but it fits in here
@@ -215,6 +215,7 @@ gint gtk_tree_selection_get_row(GtkTreeSelection *selection)
     row = idx[0];
     gtk_tree_path_free(path);
   }
+
   return row;
 }
 
@@ -375,10 +376,10 @@ static gint gui_dialog_delete_tab_handler(struct gui_dialog* dlg)
     gui_dialog_set_return_dialog(dlg, NULL);
   }
 
-  /* emit response signal. */
+  /* Emit response signal. */
   gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
 
-  /* do the destroy by default. */
+  /* Do the destroy by default. */
   return FALSE;
 }
 

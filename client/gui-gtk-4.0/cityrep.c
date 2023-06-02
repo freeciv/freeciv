@@ -78,7 +78,7 @@ enum city_operation_type {
 static void create_city_report_dialog(bool make_modal);
 
 static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
-				    GtkTreeViewColumn *col, gpointer data);
+                                    GtkTreeViewColumn *col, gpointer data);
 
 static void city_command_callback(struct gui_dialog *dlg, int response,
                                   gpointer data);
@@ -356,16 +356,16 @@ static void append_impr_or_unit_to_menu(GMenu *menu,
     data = (struct city **)g_ptr_array_free(selected, FALSE);
     targets_used
       = collect_production_targets(targets, data, num_selected, append_units,
-				   append_wonders, TRUE, test_func);
+                                   append_wonders, TRUE, test_func);
     g_free(data);
   } else {
     targets_used = collect_production_targets(targets, NULL, 0, append_units,
-					      append_wonders, FALSE,
-					      test_func);
+                                              append_wonders, FALSE,
+                                              test_func);
   }
 
   name_and_sort_items(targets, targets_used, items,
-		      city_operation != CO_NONE, NULL);
+                      city_operation != CO_NONE, NULL);
 
   for (i = 0; i < 4; i++) {
     row[i] = buf[i];
@@ -410,7 +410,7 @@ static void append_impr_or_unit_to_menu(GMenu *menu,
 
     for (i = 0; i < 3; i++) {
       if (row[i][0] == '\0') {
-	continue;
+        continue;
       }
 
       if (city_operation == CO_SELL && i != 0) {
@@ -442,7 +442,7 @@ static void append_impr_or_unit_to_menu(GMenu *menu,
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
     g_signal_connect(menu_item, "activate", callback,
-		     GINT_TO_POINTER(cid_encode(target)));
+                     GINT_TO_POINTER(cid_encode(target)));
 #endif /* MENUS_GTK3 */
   }
 
@@ -526,7 +526,7 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
   if (NULL != pcity) {
     (void) city_queue_insert(pcity, 1, &target);
   }
-  /* perhaps should warn the user if not successful? */
+  /* Perhaps should warn the user if not successful? */
 }
 
 /************************************************************************//**
@@ -598,23 +598,23 @@ static void select_impr_or_unit_callback(GSimpleAction *action,
     switch (city_operation) {
     case CO_LAST:
       gtk_tree_selection_selected_foreach(city_selection,
-					  worklist_last_impr_or_unit_iterate,
-					  GINT_TO_POINTER(cid_encode(target)));
+                                          worklist_last_impr_or_unit_iterate,
+                                          GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_CHANGE:
       gtk_tree_selection_selected_foreach(city_selection,
-					  impr_or_unit_iterate,
-					  GINT_TO_POINTER(cid_encode(target)));
+                                          impr_or_unit_iterate,
+                                          GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_FIRST:
       gtk_tree_selection_selected_foreach(city_selection,
-					  worklist_first_impr_or_unit_iterate,
-					  GINT_TO_POINTER(cid_encode(target)));
+                                          worklist_first_impr_or_unit_iterate,
+                                          GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_NEXT:
       gtk_tree_selection_selected_foreach(city_selection,
-					  worklist_next_impr_or_unit_iterate,
-					  GINT_TO_POINTER(cid_encode(target)));
+                                          worklist_next_impr_or_unit_iterate,
+                                          GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_NEXT_TO_LAST:
       foreach_func = worklist_next_to_last_impr_or_unit_iterate;
@@ -740,7 +740,7 @@ static void select_governor_callback(GSimpleAction *action,
       }
 
       if (select) {
-	itree_select(city_selection, &it);
+        itree_select(city_selection, &it);
       }
     }
   } else {
@@ -2008,7 +2008,9 @@ void hilite_cities_from_canvas(void)
   ITree it;
   GtkTreeModel *model;
 
-  if (!city_dialog_shell) return;
+  if (!city_dialog_shell) {
+    return;
+  }
 
   model = GTK_TREE_MODEL(city_model);
 

@@ -90,7 +90,7 @@ void load_cursors(void)
     for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
       int hot_x, hot_y;
       struct sprite *sprite
-	= get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
+        = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
       GdkPixbuf *pixbuf = sprite_get_pixbuf(sprite);
       GdkTexture *texture = gdk_texture_new_for_pixbuf(pixbuf);
 

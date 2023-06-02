@@ -1206,6 +1206,7 @@ static bool propval_equal(struct propval *pva,
 
     improvement_iterate(pimprove) {
       int id, vatb, vbtb;
+
       id = improvement_index(pimprove);
       vatb = pva->data.v_built[id].turn;
       vbtb = pvb->data.v_built[id].turn;
@@ -3964,8 +3965,8 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 
   case OPID_PLAYER_NATION:
     {
-      enum barbarian_type barbarian_type =
-          nation_barbarian_type(pv->data.v_nation);
+      enum barbarian_type barbarian_type
+        = nation_barbarian_type(pv->data.v_nation);
 
       gtk_list_store_clear(store);
       nations_iterate(pnation) {
@@ -5397,6 +5398,7 @@ static void property_page_fill_widgets(struct property_page *pp)
 
     if (gtk_tree_model_get_iter_first(model, &iter)) {
       GtkTreeSelection *sel;
+
       sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(pp->object_view));
       gtk_tree_selection_select_iter(sel, &iter);
     }
@@ -6166,7 +6168,7 @@ static bool property_editor_add_page(struct property_editor *pe,
 ****************************************************************************/
 static struct property_page *
 property_editor_get_page(struct property_editor *pe,
-			 enum editor_object_type objtype)
+                         enum editor_object_type objtype)
 {
   if (!pe || !(objtype < NUM_OBJTYPES)) {
     return NULL;

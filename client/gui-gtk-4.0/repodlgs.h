@@ -20,4 +20,4 @@ void science_report_dialog_popdown(void);
 void economy_report_dialog_popdown(void);
 void units_report_dialog_popdown(void);
 
-#endif  /* FC__REPODLGS_H */
+#endif /* FC__REPODLGS_H */

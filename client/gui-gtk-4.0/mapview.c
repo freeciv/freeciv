@@ -33,7 +33,7 @@
 
 /* common */
 #include "game.h"
-#include "government.h"	        /* government_graphic() */
+#include "government.h"         /* government_graphic() */
 #include "map.h"
 #include "nation.h"
 #include "player.h"
@@ -264,7 +264,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
 
 /**********************************************************************//**
   Update the information label which gives info on the current unit and the
-  square under the current unit, for specified unit.  Note that in practice
+  square under the current unit, for specified unit. Note that in practice
   punit is always the focus unit.
   Clears label if punit is NULL.
   Also updates the cursor for the map_canvas (this is related because the
@@ -278,10 +278,10 @@ void update_unit_info_label(struct unit_list *punits)
 
   label = gtk_frame_get_label_widget(GTK_FRAME(unit_info_frame));
   gtk_label_set_text(GTK_LABEL(label),
-		     get_unit_info_label_text1(punits));
+                     get_unit_info_label_text1(punits));
 
   gtk_label_set_text(GTK_LABEL(unit_info_label),
-		     get_unit_info_label_text2(punits, 0));
+                     get_unit_info_label_text2(punits, 0));
 
   update_unit_pix_label(punits);
 }
@@ -296,7 +296,7 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
 
 /**********************************************************************//**
   Set information for the indicator icons typically shown in the main
-  client window.  The parameters tell which sprite to use for the
+  client window. The parameters tell which sprite to use for the
   indicator.
 **************************************************************************/
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
@@ -348,6 +348,7 @@ struct canvas *get_overview_window(void)
   if (can_client_change_view()) {
     gtk_widget_queue_draw(overview_canvas);
   }
+
   return NULL;
 }
 
@@ -414,10 +415,10 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
                      int width, int height, gpointer data)
 {
   if (can_client_change_view() && !map_is_empty() && !mapview_is_frozen()) {
-    /* First we mark the area to be updated as dirty.  Then we unqueue
+    /* First we mark the area to be updated as dirty. Then we unqueue
      * any pending updates, to make sure only the most up-to-date data
      * is written (otherwise drawing bugs happen when old data is copied
-     * to screen).  Then we draw all changed areas to the screen. */
+     * to screen). Then we draw all changed areas to the screen. */
     update_animation();
     unqueue_mapview_updates(FALSE);
     cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
@@ -446,8 +447,8 @@ void dirty_all(void)
 }
 
 /**********************************************************************//**
-  Flush all regions that have been previously marked as dirty.  See
-  dirty_rect and dirty_all.  This function is generally called after we've
+  Flush all regions that have been previously marked as dirty. See
+  dirty_rect() and dirty_all(). This function is generally called after we've
   processed a batch of drawing operations.
 **************************************************************************/
 void flush_dirty(void)
@@ -548,9 +549,9 @@ void pixmap_put_overlay_tile(GdkSurface *pixmap, float zoom,
   Only used for isometric view.
 **************************************************************************/
 void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
-				  int canvas_x, int canvas_y,
-				  struct sprite *ssprite,
-				  bool fog)
+                                  int canvas_x, int canvas_y,
+                                  struct sprite *ssprite,
+                                  bool fog)
 {
   cairo_t *cr;
   int sswidth, ssheight;
@@ -622,7 +623,7 @@ void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
 }
 
 /**********************************************************************//**
- Draws a cross-hair overlay on a tile
+  Draws a cross-hair overlay on a tile
 **************************************************************************/
 void put_cross_overlay_tile(struct tile *ptile)
 {
@@ -632,8 +633,8 @@ void put_cross_overlay_tile(struct tile *ptile)
     GtkNative *nat = gtk_widget_get_native(map_canvas);
 
     pixmap_put_overlay_tile(gtk_native_get_surface(nat), map_zoom,
-			    canvas_x / map_zoom, canvas_y / map_zoom,
-			    get_attention_crosshair_sprite(tileset));
+                            canvas_x / map_zoom, canvas_y / map_zoom,
+                            get_attention_crosshair_sprite(tileset));
   }
 }
 
@@ -696,11 +697,11 @@ void update_map_canvas_scrollbars_size(void)
                                map_vadj);
 
   g_signal_connect(map_hadj, "value_changed",
-	G_CALLBACK(scrollbar_jump_callback),
-	GINT_TO_POINTER(TRUE));
+                   G_CALLBACK(scrollbar_jump_callback),
+                   GINT_TO_POINTER(TRUE));
   g_signal_connect(map_vadj, "value_changed",
-	G_CALLBACK(scrollbar_jump_callback),
-	GINT_TO_POINTER(FALSE));
+                   G_CALLBACK(scrollbar_jump_callback),
+                   GINT_TO_POINTER(FALSE));
 }
 
 /**********************************************************************//**
@@ -758,7 +759,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 }
 
 /**********************************************************************//**
-  This function is called when the tileset is changed.
+  This function is called when the tileset has changed.
 **************************************************************************/
 void tileset_changed(void)
 {
@@ -768,7 +769,7 @@ void tileset_changed(void)
   blank_max_unit_size();
   editgui_tileset_changed();
 
-  /* keep the icon of the executable on Windows (see PR#36491) */
+  /* Keep the icon of the executable on Windows (see PR#36491) */
 #ifndef FREECIV_MSWINDOWS
   {
     /* Only call this after tileset_load_tiles is called. */

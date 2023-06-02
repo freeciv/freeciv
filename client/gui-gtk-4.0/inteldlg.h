@@ -23,4 +23,4 @@ void popup_intel_wonder_dialog(struct player *p);
 void update_intel_wonder_dialog(struct player *p);
 void close_intel_wonder_dialog(struct player *p);
 
-#endif  /* FC__INTELDLG_H */
+#endif /* FC__INTELDLG_H */

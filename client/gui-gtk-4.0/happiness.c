@@ -39,11 +39,11 @@
 #include "happiness.h"
 #include "mapview.h"
 
-/* semi-arbitrary number that controls the width of the happiness widget */
+/* Semi-arbitrary number that controls the width of the happiness widget */
 #define HAPPINESS_PIX_WIDTH 30
 
-#define	FEELING_WIDTH	(HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset))
-#define	FEELING_HEIGHT	(tileset_small_sprite_height(tileset))
+#define FEELING_WIDTH   (HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset))
+#define FEELING_HEIGHT  (tileset_small_sprite_height(tileset))
 
 #define NUM_HAPPINESS_MODIFIERS 6
 
@@ -210,7 +210,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
     GtkWidget *pic;
     GtkEventController *controller;
 
-    /* Set spacing between lines of citizens*/
+    /* Set spacing between lines of citizens */
 
     /* Happiness labels */
     label = gtk_label_new(happiness_label_str[i]);

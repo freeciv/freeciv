@@ -880,6 +880,7 @@ static void clear_network_statusbar(void)
     txt = g_queue_pop_head(statusbar_queue);
     free(txt);
   }
+
   gtk_label_set_text(GTK_LABEL(statusbar), "");
 }
 
@@ -1066,15 +1067,15 @@ static void connect_callback(GtkWidget *w, gpointer data)
       sz_strlcpy(reply.password,
           gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(network_confirm_password))));
       if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
-	fc_password[0] = '\0';
-	send_packet_authentication_reply(&client.conn, &reply);
+        fc_password[0] = '\0';
+        send_packet_authentication_reply(&client.conn, &reply);
 
-	set_connection_state(WAITING_TYPE);
+        set_connection_state(WAITING_TYPE);
       } else {
-	append_network_statusbar(_("Passwords don't match, enter password."),
+        append_network_statusbar(_("Passwords don't match, enter password."),
                                  TRUE);
 
-	set_connection_state(NEW_PASSWORD_TYPE);
+        set_connection_state(NEW_PASSWORD_TYPE);
       }
     }
     return;
@@ -1096,9 +1097,9 @@ static void connect_callback(GtkWidget *w, gpointer data)
   Connect on list item double-click.
 **************************************************************************/
 static void network_activate_callback(GtkTreeView *view,
-                      		      GtkTreePath *arg1,
-				      GtkTreeViewColumn *arg2,
-				      gpointer data)
+                                      GtkTreePath *arg1,
+                                      GtkTreeViewColumn *arg2,
+                                      gpointer data)
 {
   connect_callback(NULL, data);
 }
@@ -1261,7 +1262,7 @@ GtkWidget *create_network_page(void)
   gtk_widget_set_margin_bottom(sw, 4);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
@@ -1312,7 +1313,7 @@ GtkWidget *create_network_page(void)
   gtk_widget_set_margin_bottom(sw, 4);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   if (GUI_GTK_OPTION(metaserver_tab_first)) {
     gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), sw, label);
@@ -1342,12 +1343,12 @@ GtkWidget *create_network_page(void)
   gtk_grid_attach(GTK_GRID(table), network_host, 1, 0, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", network_host,
-		       "label", _("_Host:"),
-		       "xalign", 0.0,
-		       "yalign", 0.5,
-		       NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", network_host,
+                       "label", _("_Host:"),
+                       "xalign", 0.0,
+                       "yalign", 0.5,
+                       NULL);
   network_host_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
@@ -1357,12 +1358,12 @@ GtkWidget *create_network_page(void)
   gtk_grid_attach(GTK_GRID(table), network_port, 1, 1, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", network_port,
-		       "label", _("_Port:"),
-		       "xalign", 0.0,
-		       "yalign", 0.5,
-		       NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", network_port,
+                       "label", _("_Port:"),
+                       "xalign", 0.0,
+                       "yalign", 0.5,
+                       NULL);
   network_port_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 1);
 
@@ -1373,12 +1374,12 @@ GtkWidget *create_network_page(void)
   gtk_grid_attach(GTK_GRID(table), network_login, 1, 3, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", network_login,
-		       "label", _("_Login:"),
-		       "xalign", 0.0,
-		       "yalign", 0.5,
-		       NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", network_login,
+                       "label", _("_Login:"),
+                       "xalign", 0.0,
+                       "yalign", 0.5,
+                       NULL);
   gtk_widget_set_margin_top(label, 10);
   network_login_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 3, 1, 1);
@@ -1390,12 +1391,12 @@ GtkWidget *create_network_page(void)
   gtk_grid_attach(GTK_GRID(table), network_password, 1, 4, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", network_password,
-		       "label", _("Pass_word:"),
-		       "xalign", 0.0,
-		       "yalign", 0.5,
-		       NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", network_password,
+                       "label", _("Pass_word:"),
+                       "xalign", 0.0,
+                       "yalign", 0.5,
+                       NULL);
   network_password_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 4, 1, 1);
 
@@ -1406,12 +1407,12 @@ GtkWidget *create_network_page(void)
   gtk_grid_attach(GTK_GRID(table), network_confirm_password, 1, 5, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", network_confirm_password,
-		       "label", _("Conf_irm Password:"),
-		       "xalign", 0.0,
-		       "yalign", 0.5,
-		       NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", network_confirm_password,
+                       "label", _("Conf_irm Password:"),
+                       "xalign", 0.0,
+                       "yalign", 0.5,
+                       NULL);
   network_confirm_password_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 5, 1, 1);
 
@@ -1433,7 +1434,7 @@ GtkWidget *create_network_page(void)
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   gtk_box_append(GTK_BOX(hbox), sw);
 
@@ -1618,7 +1619,7 @@ static void ai_skill_callback(GtkWidget *w, gpointer data)
 }
 
 /* HACK: sometimes when creating the ruleset combo the value is set without
- * the user's control.  In this case we don't want to do a /read. */
+ * the user's control. In this case we don't want to do a /read. */
 static bool no_ruleset_callback = FALSE;
 
 /**********************************************************************//**
@@ -1832,8 +1833,8 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
 
   /* Show popup. */
   popup = gtk_message_dialog_new(NULL, 0,
-				 GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				 "%s", buf);
+                                 GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+                                 "%s", buf);
   gtk_window_set_title(GTK_WINDOW(popup), _("Player/conn info"));
   setup_dialog(popup, toplevel);
   g_signal_connect(popup, "response", G_CALLBACK(gtk_window_destroy), NULL);
@@ -2769,6 +2770,7 @@ GtkWidget *create_start_page(void)
                                     GTK_UPDATE_IF_VALID);
   if (server_optset != NULL) {
     struct option *paifill = optset_option_by_name(server_optset, "aifill");
+
     if (paifill) {
       gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin),
                                 option_int_get(paifill));
@@ -2780,8 +2782,8 @@ GtkWidget *create_start_page(void)
   gtk_grid_attach(GTK_GRID(table), spin, 1, 0, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", spin,
+                       "use-underline", TRUE,
+                       "mnemonic-widget", spin,
                        /* TRANS: Keep individual lines short */
                        "label", _("Number of _Players\n(including AI):"),
                        "xalign", 0.0,
@@ -2807,8 +2809,8 @@ GtkWidget *create_start_page(void)
   gtk_grid_attach(GTK_GRID(table), ai_lvl_combobox, 1, 1, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", ai_lvl_combobox,
+                       "use-underline", TRUE,
+                       "mnemonic-widget", ai_lvl_combobox,
                        "label", _("AI Skill _Level:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
@@ -2822,8 +2824,8 @@ GtkWidget *create_start_page(void)
   gtk_grid_attach(GTK_GRID(table), ruleset_combo, 1, 2, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", GTK_COMBO_BOX_TEXT(ruleset_combo),
+                       "use-underline", TRUE,
+                       "mnemonic-widget", GTK_COMBO_BOX_TEXT(ruleset_combo),
                        "label", _("Ruleset:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
@@ -3072,7 +3074,7 @@ GtkWidget *create_load_page(void)
   gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw), 300);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
-  				 GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   gtk_grid_attach(GTK_GRID(sbox), sw, 0, sbox_row++, 1, 1);
 
@@ -3114,11 +3116,11 @@ static void scenario_list_callback(void)
 
   if (gtk_tree_selection_get_selected(scenario_selection, NULL, &it)) {
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
-		       2, &description, -1);
+                       2, &description, -1);
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
-		       3, &authors, -1);
+                       3, &authors, -1);
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
-		       1, &filename, -1);
+                       1, &filename, -1);
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
                        4, &ver, -1);
     filename = skip_to_basename(filename);
@@ -3368,7 +3370,7 @@ GtkWidget *create_scenario_page(void)
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
-  				 GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   gtk_grid_attach(GTK_GRID(sbox), sw, 0, 0, 1, 2);
 
@@ -3383,7 +3385,7 @@ GtkWidget *create_scenario_page(void)
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
-  				 GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), text);
 
   text = gtk_text_view_new();
@@ -3706,7 +3708,7 @@ void mapimg_client_save(const char *filename)
 }
 
 /**********************************************************************//**
-  Set the list of available rulesets.  The default ruleset should be
+  Set the list of available rulesets. The default ruleset should be
   "default", and if the user changes this then set_ruleset() should be
   called.
 **************************************************************************/
@@ -3726,7 +3728,7 @@ void set_rulesets(int num_rulesets, char **rulesets)
 
   no_ruleset_callback = TRUE;
 
-  /* HACK: server should tell us the current ruleset. */
+  /* HACK: Server should tell us the current ruleset. */
   gtk_combo_box_set_active(GTK_COMBO_BOX(ruleset_combo), def_idx);
 
   no_ruleset_callback = FALSE;

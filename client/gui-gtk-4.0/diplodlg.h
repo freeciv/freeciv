@@ -15,10 +15,10 @@
 
 #include <gtk/gtk.h>
 
-/* include */
+/* client/include */
 #include "diplodlg_g.h"
 
 void diplomacy_dialog_init(void);
 void diplomacy_dialog_done(void);
 
-#endif  /* FC__DIPLODLG_H */
+#endif /* FC__DIPLODLG_H */

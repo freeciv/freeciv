@@ -41,4 +41,4 @@ void ai_fill_changed_by_server(int aifill);
 
 void destroy_server_scans(void);
 
-#endif  /* FC__PAGES_H */
+#endif /* FC__PAGES_H */

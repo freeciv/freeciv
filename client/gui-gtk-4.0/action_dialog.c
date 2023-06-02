@@ -89,7 +89,7 @@ struct action_data {
   int target_extra_id;
 };
 
-/* TODO: maybe this should be in the dialog itself? */
+/* TODO: Maybe this should be in the dialog itself? */
 static struct action_data *act_sel_dialog_data;
 
 /**********************************************************************//**
@@ -312,7 +312,7 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
       break;
     case ASTK_EXTRA:
     case ASTK_EXTRA_NOT_THERE:
-      /* TODO: validate if the extra is there? */
+      /* TODO: Validate if the extra is there? */
       sub_target = args->target_extra_id;
       if (NULL == extra_by_number(sub_target)) {
         /* Did the ruleset change? */
@@ -435,7 +435,6 @@ static void found_city_callback(GtkWidget *w, gpointer data)
 static void upgrade_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
-
   struct action_data *args = act_sel_dialog_data;
 
   if ((punit = game_unit_by_number(args->actor_unit_id))
@@ -571,8 +570,8 @@ static void spy_advances_callback(GtkTreeSelection *select,
   Create spy's tech stealing dialog
 **************************************************************************/
 static void create_advances_list(struct player *pplayer,
-				 struct player *pvictim,
-				 struct action_data *args)
+                                 struct player *pvictim,
+                                 struct action_data *args)
 {
   GtkWidget *sw, *frame, *label, *vgrid, *view;
   GtkListStore *store;
@@ -589,7 +588,7 @@ static void create_advances_list(struct player *pplayer,
   setup_dialog(spy_tech_shell, toplevel);
 
   gtk_dialog_set_default_response(GTK_DIALOG(spy_tech_shell),
-				  GTK_RESPONSE_ACCEPT);
+                                  GTK_RESPONSE_ACCEPT);
 
   frame = gtk_frame_new(_("Select Advance to Steal"));
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), frame);
@@ -610,7 +609,7 @@ static void create_advances_list(struct player *pplayer,
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(NULL, rend,
-						 "text", 0, NULL);
+                                                 "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   label = g_object_new(GTK_TYPE_LABEL,
@@ -633,7 +632,7 @@ static void create_advances_list(struct player *pplayer,
   gtk_grid_attach(GTK_GRID(vgrid), sw, 0, 1, 1, 1);
 
   /* Now populate the list */
-  if (pvictim) { /* you don't want to know what lag can do -- Syela */
+  if (pvictim) { /* You don't want to know what lag can do -- Syela */
     const struct research *presearch = research_get(pplayer);
     const struct research *vresearch = research_get(pvictim);
     GtkTreeIter it;
@@ -644,14 +643,14 @@ static void create_advances_list(struct player *pplayer,
                                       game.info.tech_steal_allow_holes)
           && research_invention_state(vresearch, i) == TECH_KNOWN
           && research_invention_state(presearch, i) != TECH_KNOWN) {
-	gtk_list_store_append(store, &it);
+        gtk_list_store_append(store, &it);
 
-	g_value_init(&value, G_TYPE_STRING);
+        g_value_init(&value, G_TYPE_STRING);
         g_value_set_static_string(&value, research_advance_name_translation
                                               (presearch, i));
-	gtk_list_store_set_value(store, &it, 0, &value);
-	g_value_unset(&value);
-	gtk_list_store_set(store, &it, 1, i, -1);
+        gtk_list_store_set_value(store, &it, 0, &value);
+        g_value_unset(&value);
+        gtk_list_store_set(store, &it, 1, i, -1);
       }
     } advance_index_iterate_end;
 
@@ -757,8 +756,8 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
   Creates spy's building sabotaging dialog
 **************************************************************************/
 static void create_improvements_list(struct player *pplayer,
-				     struct city *pcity,
-				     struct action_data *args)
+                                     struct city *pcity,
+                                     struct action_data *args)
 {
   GtkWidget *sw, *frame, *label, *vgrid, *view;
   GtkListStore *store;
@@ -776,7 +775,7 @@ static void create_improvements_list(struct player *pplayer,
   setup_dialog(spy_sabotage_shell, toplevel);
 
   gtk_dialog_set_default_response(GTK_DIALOG(spy_sabotage_shell),
-				  GTK_RESPONSE_ACCEPT);
+                                  GTK_RESPONSE_ACCEPT);
 
   frame = gtk_frame_new(_("Select Improvement to Sabotage"));
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), frame);
@@ -797,7 +796,7 @@ static void create_improvements_list(struct player *pplayer,
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(NULL, rend,
-						 "text", 0, NULL);
+                                                 "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   label = g_object_new(GTK_TYPE_LABEL,
@@ -883,9 +882,9 @@ static void spy_steal_popup_shared(GtkWidget *w, gpointer data)
     pvictim = city_owner(pvcity);
   }
 
-/* it is concievable that pvcity will not be found, because something
-has happened to the city during latency.  Therefore we must initialize
-pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
+/* It is concievable that pvcity will not be found, because something
+   has happened to the city during latency. Therefore we must initialize
+   pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 
   /* FIXME: Don't discard the second tech choice dialog. */
   if (!spy_tech_shell) {
@@ -1197,7 +1196,7 @@ static void act_sel_wait_callback(GtkWidget *w, gpointer data)
 
   key_unit_wait();
 
-  /* the dialog was destroyed when key_unit_wait() resulted in
+  /* The dialog was destroyed when key_unit_wait() resulted in
    * action_selection_close() being called. */
 
   free(args);
@@ -1514,37 +1513,37 @@ void popup_action_selection(struct unit *actor_unit,
 
   if (target_unit != NULL
       && unit_list_size(target_tile->units) > 1) {
-    action_button_map[BUTTON_NEW_UNIT_TGT] =
-        choice_dialog_get_number_of_buttons(shl);
+    action_button_map[BUTTON_NEW_UNIT_TGT]
+      = choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Change unit target"),
                       (GCallback)act_sel_new_unit_tgt_callback,
                       GINT_TO_POINTER(ACTION_NONE), TRUE, NULL);
   }
 
   if (target_extra != NULL) {
-    action_button_map[BUTTON_NEW_EXTRA_TGT] =
-        choice_dialog_get_number_of_buttons(shl);
+    action_button_map[BUTTON_NEW_EXTRA_TGT]
+      = choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Change extra target"),
                       (GCallback)act_sel_new_extra_tgt_callback,
                       GINT_TO_POINTER(ACTION_NONE), TRUE, NULL);
   }
 
-  action_button_map[BUTTON_LOCATION] =
-      choice_dialog_get_number_of_buttons(shl);
+  action_button_map[BUTTON_LOCATION]
+    = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, _("Show Location"),
                     (GCallback)act_sel_location_callback,
                     GINT_TO_POINTER(ACTION_NONE),
                     TRUE, NULL);
 
-  action_button_map[BUTTON_WAIT] =
-      choice_dialog_get_number_of_buttons(shl);
+  action_button_map[BUTTON_WAIT]
+    = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, _("_Wait"),
                     (GCallback)act_sel_wait_callback,
                     GINT_TO_POINTER(ACTION_NONE),
                     TRUE, NULL);
 
-  action_button_map[BUTTON_CANCEL] =
-      choice_dialog_get_number_of_buttons(shl);
+  action_button_map[BUTTON_CANCEL]
+    = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, _("_Cancel"),
                     (GCallback)act_sel_cancel_callback,
                     GINT_TO_POINTER(ACTION_NONE),

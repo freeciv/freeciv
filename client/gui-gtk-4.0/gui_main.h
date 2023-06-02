@@ -33,7 +33,7 @@ extern PangoFontDescription *reqtree_text_style;
 
 #define single_tile_pixmap (mapview.single_tile->pixmap)
 
-extern GtkTextView *	main_message_area;
+extern GtkTextView *    main_message_area;
 extern GtkWidget *      text_scrollbar;
 extern GtkWidget *      toplevel;
 extern GtkWidget *      top_vbox;
@@ -44,7 +44,7 @@ extern GtkWidget *      bulb_label;
 extern GtkWidget *      sun_label;
 extern GtkWidget *      flake_label;
 extern GtkWidget *      government_label;
-extern GtkWidget *	econ_widget;
+extern GtkWidget *      econ_widget;
 extern GtkWidget *      map_canvas;             /* GtkDrawingArea */
 extern GtkWidget *      overview_canvas;        /* GtkDrawingArea */
 extern GtkWidget *      overview_scrolled_window;        /* GtkScrolledWindow */
@@ -56,12 +56,12 @@ extern GtkWidget *      unit_info_frame;
 extern GtkWidget *      map_horizontal_scrollbar;
 extern GtkWidget *      map_vertical_scrollbar;
 
-extern GtkWidget *	toplevel_tabs;
-extern GtkWidget *	top_notebook;
+extern GtkWidget *      toplevel_tabs;
+extern GtkWidget *      top_notebook;
 extern GtkWidget *      map_widget;
-extern GtkWidget *	bottom_notebook;
-extern GtkWidget *	right_notebook;
-extern GtkTextBuffer *	message_buffer;
+extern GtkWidget *      bottom_notebook;
+extern GtkWidget *      right_notebook;
+extern GtkTextBuffer *  message_buffer;
 
 extern int overview_canvas_store_width;
 extern int overview_canvas_store_height;

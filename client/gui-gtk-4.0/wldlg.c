@@ -1558,11 +1558,11 @@ void refresh_worklist(GtkWidget *editor)
     gtk_tree_path_free(path);
   }
 
-  /* refresh target worklist. */
+  /* Refresh target worklist. */
   model = GTK_TREE_MODEL(ptr->dst);
   exists = gtk_tree_model_get_iter_first(model, &it);
 
-  /* dance around worklist braindamage. */
+  /* Dance around worklist braindamage. */
   if (ptr->pcity != NULL) {
     city_get_queue(ptr->pcity, &queue);
   } else {
@@ -1640,7 +1640,7 @@ static void commit_worklist(struct worklist_data *ptr)
       gint id;
       struct universal univ;
 
-      /* oops, the player has a worklist longer than what we can store. */
+      /* Oops, the player has a worklist longer than what we can store. */
       if (i >= MAX_LEN_WORKLIST) {
         break;
       }

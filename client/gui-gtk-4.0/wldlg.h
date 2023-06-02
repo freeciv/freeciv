@@ -25,10 +25,10 @@
 
 #include "wldlg_g.h"
 
-/* the global worklist view. */
+/* The global worklist view. */
 void popup_worklists_report(void);
 
-/* an individual worklist. */
+/* An individual worklist. */
 GtkWidget *create_worklist(void);
 void reset_city_worklist(GtkWidget *editor, struct city *pcity);
 void refresh_worklist(GtkWidget *editor);

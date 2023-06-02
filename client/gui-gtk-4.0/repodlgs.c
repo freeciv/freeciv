@@ -267,7 +267,7 @@ static gboolean science_diagram_right_button_up(GtkGestureClick *gesture,
 static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
                                    int width, int height, gpointer data)
 {
-  /* FIXME: this currently redraws everything! */
+  /* FIXME: This currently redraws everything! */
   struct canvas canvas = FC_STATIC_CANVAS_INIT;
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int rtwidth, rtheight;
@@ -824,7 +824,7 @@ enum economy_report_columns {
   ERD_COL_COUNT,
   ERD_COL_COST,
   ERD_COL_TOTAL_COST,
-  ERD_COL_EMPTY,  /*  will make an empty space for scroll bar */
+  ERD_COL_EMPTY,  /*  Will make an empty space for scroll bar */
 
   /* Not visible. */
   ERD_COL_IS_IMPROVEMENT,
@@ -873,12 +873,12 @@ economy_report_column_name(enum economy_report_columns col)
     /* TRANS: Upkeep total, count*cost. */
     return _("U Total");
   case ERD_COL_EMPTY:
-    /* empty space for scrollbar*/
+    /* Empty space for scrollbar*/
     return "   ";
   case ERD_COL_IS_IMPROVEMENT:
   case ERD_COL_CID:
   case ERD_COL_NUM:
-    break;	/* no more columns will be displayed after reaching this */
+    break;      /* No more columns will be displayed after reaching this */
   }
 
   return NULL;
@@ -1023,6 +1023,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
               || (ERD_RES_SELL_REDUNDANT == response))) {
         bool redundant = (ERD_RES_SELL_REDUNDANT == response);
         gint count;
+
         gtk_tree_model_get(model, &iter,
                            redundant ? ERD_COL_REDUNDANT : ERD_COL_COUNT,
                            &count, -1);
@@ -1117,6 +1118,7 @@ static void economy_report_selection_callback(GtkTreeSelection *selection,
       {
         bool can_sell = can_sell_building(selected.value.building);
         gint redundant;
+
         gtk_tree_model_get(model, &iter, ERD_COL_REDUNDANT, &redundant, -1);
 
         gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_REDUNDANT,
@@ -1197,6 +1199,7 @@ static void economy_report_init(struct economy_report *preport)
 #endif
     } else {
       bool is_redundant = (i == ERD_COL_REDUNDANT);
+
       renderer = gtk_cell_renderer_text_new();
       if (is_redundant) {
         /* Special treatment: hide "Redundant" column for units */
@@ -1327,7 +1330,7 @@ enum units_report_columns {
   URD_COL_SHIELD,
   URD_COL_FOOD,
   URD_COL_GOLD,
-  URD_COL_EMPTY,	/* empty space for scrollbar */
+  URD_COL_EMPTY,        /* Empty space for scrollbar */
 
   /* Not visible. */
   URD_COL_TEXT_WEIGHT,

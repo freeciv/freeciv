@@ -16,6 +16,6 @@
 /* client */
 #include "finddlg_g.h"
 
-/* nothing to add */
+/* Nothing to add */
 
-#endif  /* FC__FINDDLG_H */
+#endif /* FC__FINDDLG_H */
