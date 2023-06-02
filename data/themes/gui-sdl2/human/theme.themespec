@@ -8,14 +8,18 @@ name = "human"
 priority = 20
 
 ; The font to be used:
-font_file         = "themes/gui-sdl2/human/DejaVuSans.ttf"
+default_font_file = "themes/gui-sdl2/human/DejaVuSans.ttf"
+default_font_size = 10
+
 ; To use CJK fonts, provide the path to the font below.
 ; Fonts recommended for Freeciv can be fetched from git S3_2 branch, e.g.:
 ; https://raw.githubusercontent.com/freeciv/freeciv/S3_2/data/themes/gui-sdl2/human/fireflysung.ttf
-font_file_zh_CN   = "themes/gui-sdl2/human/fireflysung.ttf"
-font_file_ja      = "themes/gui-sdl2/human/sazanami-gothic.ttf"
-font_file_ko      = "themes/gui-sdl2/human/UnDotum.ttf"
-default_font_size = 10
+fonts =
+  { "langname", "font_file"
+    "zh_CN",    "themes/gui-sdl2/human/fireflysung.ttf"
+    "ja",       "themes/gui-sdl2/human/sazanami-gothic.ttf"
+    "ko",       "themes/gui-sdl2/human/UnDotum.ttf"
+  }
 
 ; Below, the graphics spec files; must be somewhere (anywhere) in
 ; the data path. Order may be important for color allocation on

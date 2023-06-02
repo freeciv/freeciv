@@ -294,7 +294,8 @@ static bool check_themespec_capabilities(struct section_file *file,
 static void theme_free_toplevel(struct theme *t)
 {
   if (t->font_filename) {
-    FC_FREE(t->font_filename);
+    free(t->font_filename);
+    t->font_filename = NULL;
   }
 
   t->default_font_size = 0;
@@ -724,7 +725,8 @@ struct theme *theme_read_toplevel(const char *theme_name)
   bool duplicates_ok;
   struct theme *t = theme_new();
   const char *langname;
-  const char *filename, *c;
+  const char *filename, *t_fontname;
+  const char *lang;
 
   fname = themespec_fullname(theme_name);
   if (!fname) {
@@ -754,29 +756,35 @@ struct theme *theme_read_toplevel(const char *theme_name)
   file_capstr = secfile_lookup_str(file, "themespec.options");
   duplicates_ok = has_capabilities("+duplicates_ok", file_capstr);
 
-  (void) secfile_entry_by_path(file, "themespec.name"); /* currently unused */
+  (void) secfile_entry_by_path(file, "themespec.name"); /* Currently unused */
 
   sz_strlcpy(t->name, theme_name);
   t->priority = secfile_lookup_int_default(file, 0, "themespec.priority");
 
   langname = setup_langname();
-  if (langname) {
-    if (strstr(langname, "zh_CN") != NULL) {
-      c = secfile_lookup_str(file, "themespec.font_file_zh_CN");
-    } else if (strstr(langname, "ja") != NULL) {
-      c = secfile_lookup_str(file, "themespec.font_file_ja");
-    } else if (strstr(langname, "ko") != NULL) {
-      c = secfile_lookup_str(file, "themespec.font_file_ko");
+
+  t_fontname = NULL;
+  for (i = 0;
+       (lang = secfile_lookup_str_default(file, NULL, "themespec.fonts%d.langname", i)) != NULL;
+       i++) {
+    if (langname != NULL && strstr(langname, lang) != NULL) {
+      t_fontname = secfile_lookup_str(file, "themespec.fonts%d.font_file", i);
+      /* Don't break the loop, but read all the entries to avoid "unused entry" warnings */
     } else {
-      c = secfile_lookup_str(file, "themespec.font_file");
+      (void) secfile_entry_lookup(file, "themespec.fonts%d.font_file", i);
     }
-  } else {
-    c = secfile_lookup_str(file, "themespec.font_file");
   }
-  if ((filename = fileinfoname(get_data_dirs(), c))) {
+
+  if (t_fontname == NULL) {
+    t_fontname = secfile_lookup_str(file, "themespec.default_font_file");
+  } else {
+    (void) secfile_entry_lookup(file, "themespec.default_font_file");
+  }
+
+  if ((filename = fileinfoname(get_data_dirs(), t_fontname))) {
     t->font_filename = fc_strdup(filename);
   } else {
-    log_fatal("Could not open font: %s", c);
+    log_fatal("Could not open font: %s", t_fontname);
     secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
