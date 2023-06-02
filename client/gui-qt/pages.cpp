@@ -1362,7 +1362,11 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
           load_pix->setPixmap(*(new QPixmap));
         }
 
+#ifdef FC_QT5_MODE
         QPixmap pm = load_pix->pixmap(Qt::ReturnByValue);
+#else  // FC_QT5_MODE
+        QPixmap pm = load_pix->pixmap();
+#endif // FC_QT5_MODE
 
         load_pix->setFixedSize(pm.width(),
                                pm.height());
