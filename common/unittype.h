@@ -758,15 +758,16 @@ void unit_class_flags_free(void);
 struct unit_type *unit_type_array_first(void);
 const struct unit_type *unit_type_array_last(void);
 
-#define unit_type_iterate(_p)						\
-{									\
-  struct unit_type *_p = unit_type_array_first();			\
-  if (NULL != _p) {							\
-    for (; _p <= unit_type_array_last(); _p++) {
+#define unit_type_iterate(_p)                                           \
+{                                                                       \
+  struct unit_type *_p = unit_type_array_first();                       \
+  if (NULL != _p) {                                                     \
+    const struct unit_type *_end_##_p = unit_type_array_last();         \
+    for (; _p <= _end_##_p; _p++) {
 
-#define unit_type_iterate_end						\
-    }									\
-  }									\
+#define unit_type_iterate_end                                           \
+    }                                                                   \
+  }                                                                     \
 }
 
 #define unit_active_type_iterate(_p)                                    \
@@ -795,15 +796,16 @@ void set_unit_type_caches(struct unit_type *ptype);
 struct unit_class *unit_class_array_first(void);
 const struct unit_class *unit_class_array_last(void);
 
-#define unit_class_iterate(_p)						\
-{									\
-  struct unit_class *_p = unit_class_array_first();			\
-  if (NULL != _p) {							\
-    for (; _p <= unit_class_array_last(); _p++) {
+#define unit_class_iterate(_p)                                          \
+{                                                                       \
+  struct unit_class *_p = unit_class_array_first();                     \
+  if (NULL != _p) {                                                     \
+    const struct unit_class *_end_##_p = unit_class_array_last();       \
+    for (; _p <= _end_##_p; _p++) {
 
-#define unit_class_iterate_end						\
-    }									\
-  }									\
+#define unit_class_iterate_end                                          \
+    }                                                                   \
+  }                                                                     \
 }
 
 #define unit_active_class_iterate(_p)                                    \
@@ -834,4 +836,4 @@ const struct unit_class *unit_class_array_last(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__UNITTYPE_H */
+#endif /* FC__UNITTYPE_H */
