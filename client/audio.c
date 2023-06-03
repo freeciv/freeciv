@@ -45,7 +45,7 @@
 #define MUSICSPEC_SUFFIX        ".musicspec"
 
 #define SOUNDSPEC_CAPSTR "+Freeciv-soundset-Devel-2022-07-03"
-#define MUSICSPEC_CAPSTR "+Freeciv-2.6-musicset"
+#define MUSICSPEC_CAPSTR "+Freeciv-musicspec-3.2-Devel-2023-Jun-03"
 
 /* Keep them open throughout */
 static struct section_file *ss_tagfile = NULL;
