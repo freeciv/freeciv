@@ -50,8 +50,9 @@ format_version = 40
 ;                 or "Convert".
 ; reqs		= requirements to build the building (see effects.ruleset
 ;		  and README.effects for help on requirements)
-; graphic	= icon of improvement (used in city dialog)
-; graphic_alt	= alternate icon of improvement
+; graphic       = icon of improvement (used in city dialog)
+; graphic_alt   = alternate icon of improvement
+; graphic_alt2  = second alternative icon.
 ; obsolete_by	= requirements for the building to become obsolete
 ; build_cost	= production shields required to build
 ; upkeep	= monetary upkeep value
@@ -84,6 +85,7 @@ reqs	=
     }
 graphic         = "b.antigrav_port"
 graphic_alt     = "b.airport"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -106,6 +108,7 @@ reqs	=
     }
 graphic         = "b.archive"
 graphic_alt     = "b.library"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -121,8 +124,12 @@ Increases the science production of a city by 75%.")
 [building_basic_infrastructure]
 name		= _("Basic Infrastructure")
 genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+    }
 graphic         = "b.basic_infra"
 graphic_alt     = "b.super_highways"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -149,6 +156,7 @@ reqs    =
     }
 graphic         = "b.bunker"
 graphic_alt     = "b.sam_battery"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -172,6 +180,7 @@ reqs    =
     }
 graphic         = "b.central_mine"
 graphic_alt     = "b.mfg_plant"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -194,6 +203,7 @@ reqs	=
     }
 graphic         = "b.cyberpart_factory"
 graphic_alt     = "b.marketplace"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -216,6 +226,7 @@ reqs    =
     }
 graphic         = "b.factory"
 graphic_alt     = "-"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -238,6 +249,7 @@ reqs    =
     }
 graphic         = "b.filter"
 graphic_alt     = "b.sewer_system"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -260,6 +272,7 @@ reqs    =
     }
 graphic         = "b.force_walls"
 graphic_alt     = "b.city_walls"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -281,6 +294,7 @@ reqs	=
     }
 graphic         = "b.headquarters"
 graphic_alt     = "b.palace"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -303,6 +317,7 @@ reqs	=
     }
 graphic         = "b.hospital"
 graphic_alt     = "b.aqueduct"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -325,6 +340,7 @@ reqs	=
     }
 graphic         = "b.information_distillery"
 graphic_alt     = "b.isaac_newtons_college"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -347,6 +363,7 @@ reqs	=
     }
 graphic         = "b.mood_center"
 graphic_alt     = "b.colosseum"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -369,6 +386,7 @@ reqs	=
     }
 graphic         = "b.training_facility"
 graphic_alt     = "b.barracks_i"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -391,6 +409,7 @@ reqs	=
     }
 graphic         = "b.transportation"
 graphic_alt     = "b.mass_transit"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -416,6 +435,7 @@ reqs	=
     }
 graphic         = "b.radar_tower"
 graphic_alt     = "b.coastal_defense"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -436,6 +456,7 @@ reqs	=
     }
 graphic         = "b.radiation_resistor"
 graphic_alt     = "b.nuclear_plant"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -457,6 +478,7 @@ reqs	=
     }
 graphic         = "b.research_nest"
 graphic_alt     = "b.university"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -478,6 +500,7 @@ reqs    =
     }
 graphic         = "b.secret_police"
 graphic_alt     = "b.police_station"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -500,6 +523,7 @@ reqs    =
     }
 graphic         = "b.skyscraper"
 graphic_alt     = "b.stock_exchange"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -521,6 +545,7 @@ reqs	=
     }
 graphic         = "b.vr_theatre"
 graphic_alt     = "b.temple"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -544,6 +569,7 @@ reqs	=
     }
 graphic         = "b.coinage"
 graphic_alt     = "b.capitalization"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -566,6 +592,7 @@ reqs	=
     }
 graphic         = "b.space_component"
 graphic_alt	= "-"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -589,6 +616,7 @@ reqs	=
     }
 graphic         = "b.space_modules"
 graphic_alt	= "-"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -621,6 +649,7 @@ reqs	=
     }
 graphic         = "b.space_structural"
 graphic_alt	= "-"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -643,6 +672,7 @@ reqs	=
     }
 graphic         = "b.earth_monument"
 graphic_alt     = "b.colossus"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -666,6 +696,7 @@ reqs	=
     }
 graphic         = "b.great_tunnel"
 graphic_alt     = "b.king_richards_crusade"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -689,6 +720,7 @@ reqs	=
     }
 graphic         = "b.antigrav_ctrl_center"
 graphic_alt     = "b.eiffel_tower"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -713,6 +745,7 @@ reqs	=
     }
 graphic         = "b.oceanic_downtown"
 graphic_alt     = "b.asmiths_trading_co"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -734,6 +767,7 @@ reqs	=
     }
 graphic         = "b.monument_co_op"
 graphic_alt     = "b.womens_suffrage"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -757,6 +791,7 @@ reqs	=
     }
 graphic         = "b.protector"
 graphic_alt     = "b.great_wall"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }

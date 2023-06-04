@@ -49,8 +49,9 @@ format_version = 40
 ;                 or "Convert".
 ; reqs		= requirements to build the building (see effects.ruleset
 ;		  and README.effects for help on requirements)
-; graphic	= icon of improvement (used in city dialog)
-; graphic_alt	= alternate icon of improvement
+; graphic       = icon of improvement (used in city dialog)
+; graphic_alt   = alternate icon of improvement
+; graphic_alt2  = second alternative icon.
 ; obsolete_by	= requirements for the building to become obsolete
 ; build_cost	= production shields required to build
 ; upkeep	= monetary upkeep value
@@ -82,8 +83,9 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Masonry", "Player"
     }
-graphic	= "b.city_walls"
-graphic_alt	= "-"
+graphic         = "b.city_walls"
+graphic_alt     = "-"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -104,8 +106,9 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Spirits", "Player"
     }
-graphic	= "b.sacred_grove"
-graphic_alt	= "b.temple"
+graphic         = "b.sacred_grove"
+graphic_alt     = "b.temple"
+graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
     }
@@ -128,6 +131,7 @@ reqs	=
     }
 graphic         = "b.throne"
 graphic_alt	= "b.palace"
+graphic_alt2    = "-"
 obsolete_by     =
     { "type", "name", "range"
     }

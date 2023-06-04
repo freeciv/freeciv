@@ -50,16 +50,17 @@ BV_DEFINE(bv_imprs, B_LAST);
 struct impr_type {
   Impr_type_id item_number;
   struct name_translation name;
-  bool ruledit_disabled;                /* Does not really exist - hole in improvements array */
+  bool ruledit_disabled;                /* Doesn't really exist - hole in improvements array */
   void *ruledit_dlg;
-  char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
-  char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
+  char graphic_str[MAX_LEN_NAME];       /* City icon of improv. */
+  char graphic_alt[MAX_LEN_NAME];       /* City icon of improv. */
+  char graphic_alt2[MAX_LEN_NAME];      /* City icon of improv. */
   struct requirement_vector reqs;
   struct requirement_vector obsolete_by;
-  int build_cost;			/* Use wrappers to access this. */
+  int build_cost;                       /* Use wrappers to access this. */
   int upkeep;
-  int sabotage;		/* Base chance of diplomat sabotage succeeding. */
-  enum impr_genus_id genus;		/* genus; e.g. GreatWonder */
+  int sabotage;                         /* Base chance of diplomat sabotage succeeding. */
+  enum impr_genus_id genus;             /* Genus; e.g. GreatWonder */
   bv_impr_flags flags;
   struct strvec *helptext;
   char soundtag[MAX_LEN_NAME];
