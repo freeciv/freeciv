@@ -316,7 +316,6 @@ void show_tile_labels(int canvas_base_x, int canvas_base_y,
 bool show_unit_orders(struct unit *punit);
 
 void draw_segment(struct tile *ptile, enum direction8 dir);
-void undraw_segment(struct tile *ptile, enum direction8 dir);
 
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
                              struct unit *punit1, int hp1);
