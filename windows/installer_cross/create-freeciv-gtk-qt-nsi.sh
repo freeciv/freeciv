@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id] [unistall setup script]
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id] [uninstall setup script]
 
 if test "x$7" != "x" ; then
   EXE_ID="$7"

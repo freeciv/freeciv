@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl2-nsi.sh <Freeciv files directory> <version> <win32|win64|win> [unistall setup script]
+# ./create-freeciv-sdl2-nsi.sh <Freeciv files directory> <version> <win32|win64|win> [uninstall setup script]
 
 if test "x$4" != "x" && ! test -x "$4" ; then
   echo "$4 not an executable script" >&2
