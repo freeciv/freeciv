@@ -2858,10 +2858,11 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 #define SET_SPRITE_OPT(field, tag) \
   t->sprites.field = load_sprite(t, tag, TRUE, TRUE, FALSE)
 
-#define SET_SPRITE_ALT_OPT(field, tag, alt)                                 \
-  do {                                                                      \
-    t->sprites.field = tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, tag, alt,\
-                                                   "sprite", #field, TRUE); \
+#define SET_SPRITE_ALT_OPT(field, tag, alt)                                  \
+  do {                                                                       \
+    t->sprites.field = tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, tag, alt, \
+                                                   NULL, "sprite", #field,   \
+                                                   TRUE);                    \
   } while (FALSE)
 
 /************************************************************************//**
@@ -3611,19 +3612,20 @@ void tileset_load_tiles(struct tileset *t)
 }
 
 /************************************************************************//**
-  Lookup sprite to match tag, or else to match alt if don't find,
-  or else return NULL, and emit log message.
+  Lookup sprite to match tag, alt, or alt2, in that order.
+  If none can be found, return NULL, and emit log message.
+  alt2 can be NULL.
 ****************************************************************************/
 struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
                                            enum log_level level,
                                            const char *tag, const char *alt,
-                                           const char *what,
-                                           const char *name,
+                                           const char *alt2,
+                                           const char *what, const char *name,
                                            bool scale)
 {
   struct sprite *sp;
 
-  /* (should get sprite_hash before connection) */
+  /* (Should get sprite_hash before connection) */
   fc_assert_ret_val_msg(NULL != t->sprite_hash, NULL,
                         "attempt to lookup for %s \"%s\" before "
                         "sprite_hash setup", what, name);
@@ -3637,6 +3639,16 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
                 "(instead of \"%s\") for %s \"%s\".",
                 alt, tag, what, name);
     return sp;
+  }
+
+  if (alt2 != NULL) {
+    sp = load_sprite(t, alt2, scale, TRUE, FALSE);
+    if (sp) {
+      log_verbose("Using second alternate graphic \"%s\" "
+                  "(instead of \"%s\" or \"%s\") for %s \"%s\".",
+                  alt2, tag, alt, what, name);
+      return sp;
+    }
   }
 
   tileset_error(level, tileset_name_get(t),
@@ -3808,10 +3820,11 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 void tileset_setup_impr_type(struct tileset *t,
                              struct impr_type *pimprove)
 {
-  t->sprites.building[improvement_index(pimprove)] =
-    tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, pimprove->graphic_str,
-                                pimprove->graphic_alt, "improvement",
-                                improvement_rule_name(pimprove), FALSE);
+  t->sprites.building[improvement_index(pimprove)]
+    = tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, pimprove->graphic_str,
+                                  pimprove->graphic_alt, pimprove->graphic_alt2,
+                                  "improvement",
+                                  improvement_rule_name(pimprove), FALSE);
 
   /* Should maybe do something if NULL, eg generic default? */
 }
@@ -3824,10 +3837,10 @@ void tileset_setup_tech_type(struct tileset *t,
                              struct advance *padvance)
 {
   if (valid_advance(padvance)) {
-    t->sprites.tech[advance_index(padvance)] =
-      tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, padvance->graphic_str,
-                                  padvance->graphic_alt, "technology",
-                                  advance_rule_name(padvance), FALSE);
+    t->sprites.tech[advance_index(padvance)]
+      = tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, padvance->graphic_str,
+                                    padvance->graphic_alt, NULL, "technology",
+                                    advance_rule_name(padvance), FALSE);
 
     /* Should maybe do something if NULL, eg generic default? */
   } else {
@@ -4172,10 +4185,10 @@ void tileset_setup_tile_type(struct tileset *t,
         for (i = 0; i < t->num_index_cardinal; i++) {
           fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s_%s",
                       l, draw->name, cardinal_index_str(t, i));
-          dlp->match[i] =
-            tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
-                                        "matched terrain",
-                                        terrain_rule_name(pterrain), TRUE);
+          dlp->match[i]
+            = tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+                                          NULL, "matched terrain",
+                                          terrain_rule_name(pterrain), TRUE);
         }
         break;
       case MATCH_PAIR:
@@ -4218,19 +4231,19 @@ void tileset_setup_tile_type(struct tileset *t,
           case MATCH_NONE:
             fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c",
                         l, draw->name, direction4letters[dir]);
-            dlp->cells[i] =
-              tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
-                                          "cell terrain",
-                                          terrain_rule_name(pterrain), TRUE);
+            dlp->cells[i]
+              = tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+                                            NULL, "cell terrain",
+                                            terrain_rule_name(pterrain), TRUE);
             break;
           case MATCH_SAME:
             fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c%d%d%d",
                         l, draw->name, direction4letters[dir],
                         (value) & 1, (value >> 1) & 1, (value >> 2) & 1);
-            dlp->cells[i] =
-              tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
-                                          "same cell terrain",
-                                          terrain_rule_name(pterrain), TRUE);
+            dlp->cells[i]
+              = tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+                                            NULL, "same cell terrain",
+                                            terrain_rule_name(pterrain), TRUE);
             break;
           case MATCH_PAIR:
             fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c_%c_%c_%c",
@@ -4238,10 +4251,10 @@ void tileset_setup_tile_type(struct tileset *t,
                         tslp->match_types[dlp->match_index[(value) & 1]][0],
                         tslp->match_types[dlp->match_index[(value >> 1) & 1]][0],
                         tslp->match_types[dlp->match_index[(value >> 2) & 1]][0]);
-            dlp->cells[i] =
-              tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
-                                          "cell pair terrain",
-                                          terrain_rule_name(pterrain), TRUE);
+            dlp->cells[i]
+              = tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+                                            NULL, "cell pair terrain",
+                                            terrain_rule_name(pterrain), TRUE);
             break;
           case MATCH_FULL:
             {
@@ -4328,10 +4341,10 @@ void tileset_setup_tile_type(struct tileset *t,
 
   /* Try an optional special name */
   fc_snprintf(buffer, sizeof(buffer), "t.blend.%s", draw->name);
-  draw->blender =
-    tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, buffer, "",
-                                "blend terrain",
-                                terrain_rule_name(pterrain), TRUE);
+  draw->blender
+    = tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, buffer, "",
+                                  NULL, "blend terrain",
+                                  terrain_rule_name(pterrain), TRUE);
 
   if (draw->blending > 0) {
     const int bl = draw->blending - 1;
@@ -4350,10 +4363,10 @@ void tileset_setup_tile_type(struct tileset *t,
     if (NULL == draw->blender) {
       /* Try an unloaded base name */
       fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s1", bl, draw->name);
-      draw->blender =
-        tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
-                                    "base (blend) terrain",
-                                    terrain_rule_name(pterrain), TRUE);
+      draw->blender
+        = tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
+                                      NULL, "base (blend) terrain",
+                                      terrain_rule_name(pterrain), TRUE);
     }
   }
 
@@ -4385,10 +4398,10 @@ void tileset_setup_tile_type(struct tileset *t,
 void tileset_setup_government(struct tileset *t,
                               struct government *gov)
 {
-  t->sprites.government[government_index(gov)] =
-    tiles_lookup_sprite_tag_alt(t, LOG_FATAL, gov->graphic_str,
-                                gov->graphic_alt, "government",
-                                government_rule_name(gov), FALSE);
+  t->sprites.government[government_index(gov)]
+    = tiles_lookup_sprite_tag_alt(t, LOG_FATAL, gov->graphic_str,
+                                  gov->graphic_alt, NULL, "government",
+                                  government_rule_name(gov), FALSE);
 
   /* Should probably do something if NULL, eg generic default? */
 }

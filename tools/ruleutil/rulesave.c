@@ -437,6 +437,9 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
       if (strcmp(pb->graphic_alt, "-")) {
         secfile_insert_str(sfile, pb->graphic_alt, "%s.graphic_alt", path);
       }
+      if (strcmp(pb->graphic_alt2, "-")) {
+        secfile_insert_str(sfile, pb->graphic_alt2, "%s.graphic_alt2", path);
+      }
       if (strcmp(pb->soundtag, "-")) {
         secfile_insert_str(sfile, pb->soundtag, "%s.sound", path);
       }

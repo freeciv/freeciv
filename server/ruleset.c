@@ -2842,6 +2842,9 @@ static bool load_ruleset_buildings(struct section_file *file,
       sz_strlcpy(b->graphic_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.graphic_alt", sec_name));
+      sz_strlcpy(b->graphic_alt2,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic_alt2", sec_name));
 
       sz_strlcpy(b->soundtag,
                  secfile_lookup_str_default(file, "-",
@@ -8399,6 +8402,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name_get(&b->name));
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
+    sz_strlcpy(packet.graphic_alt2, b->graphic_alt2);
     j = 0;
     requirement_vector_iterate(&b->reqs, preq) {
       packet.reqs[j++] = *preq;

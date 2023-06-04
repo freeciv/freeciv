@@ -143,7 +143,7 @@ unittype_item::unittype_item(QWidget *parent,
   hbox_upkeep->addWidget(&shield_upkeep);
   lab = new QLabel("");
   spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "upkeep.shield",
-                                    "citybar.shields", "", "", false);
+                                    "citybar.shields", NULL, "", "", false);
   img = spr->pm->toImage();
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
@@ -164,7 +164,7 @@ unittype_item::unittype_item(QWidget *parent,
   hbox_upkeep->addWidget(&food_upkeep);
   lab = new QLabel("");
   spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "citybar.food",
-                                    "citybar.food", "", "", false);
+                                    "citybar.food", NULL, "", "", false);
   img = spr->pm->toImage();
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);

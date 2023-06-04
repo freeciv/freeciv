@@ -414,6 +414,7 @@ struct sprite *get_event_sprite(const struct tileset *t, enum event_type event);
 struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
                                            enum log_level level,
                                            const char *tag, const char *alt,
+                                           const char *alt2,
                                            const char *what,
                                            const char *name,
                                            bool scale);

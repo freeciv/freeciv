@@ -3877,6 +3877,7 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
   names_set(&b->name, NULL, p->name, p->rule_name);
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
+  sz_strlcpy(b->graphic_alt2, p->graphic_alt2);
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&b->reqs, p->reqs[i]);
   }

@@ -105,6 +105,15 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   impr_layout->addWidget(label, row, 0);
   impr_layout->addWidget(gfx_tag_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Second alt gfx tag")));
+  label->setParent(this);
+
+  gfx_tag_alt2 = new QLineEdit(this);
+  connect(gfx_tag_alt2, SIGNAL(returnPressed()), this, SLOT(gfx_tag_alt2_given()));
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(gfx_tag_alt2, row++, 1);
+
   refresh();
 
   main_layout->addLayout(impr_layout);
@@ -134,6 +143,7 @@ void edit_impr::refresh()
   genus_button->setText(impr_genus_id_name(impr->genus));
   gfx_tag->setText(impr->graphic_str);
   gfx_tag_alt->setText(impr->graphic_alt);
+  gfx_tag_alt2->setText(impr->graphic_alt2);
 }
 
 /**********************************************************************//**
@@ -190,4 +200,14 @@ void edit_impr::gfx_tag_alt_given()
   QByteArray tag_bytes = gfx_tag_alt->text().toUtf8();
 
   sz_strlcpy(impr->graphic_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new secondary alternative graphics tag.
+**************************************************************************/
+void edit_impr::gfx_tag_alt2_given()
+{
+  QByteArray tag_bytes = gfx_tag_alt2->text().toUtf8();
+
+  sz_strlcpy(impr->graphic_alt2, tag_bytes);
 }

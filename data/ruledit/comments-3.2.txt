@@ -44,6 +44,7 @@ buildings = "\
 ;                 and README.effects for help on requirements)\n\
 ; graphic       = icon of improvement (used in city dialog)\n\
 ; graphic_alt   = alternate icon of improvement\n\
+; graphic_alt2  = second alternative icon.\n\
 ; obsolete_by   = requirements for the building to become obsolete\n\
 ; build_cost    = production shields required to build\n\
 ; upkeep        = monetary upkeep value\n\
