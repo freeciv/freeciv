@@ -1916,7 +1916,7 @@ static struct setting settings[] = {
           N_("Allow researching multiple technologies"),
           N_("Allows switching to any technology without wasting old "
              "research. Bulbs are never transferred to new technology. "
-             "Techpenalty options are inefective after enabling that "
+             "Techpenalty options are ineffective after enabling that "
              "option."), NULL, NULL,
           GAME_DEFAULT_MULTIRESEARCH)
 
