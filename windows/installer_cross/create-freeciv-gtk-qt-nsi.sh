@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3.22|qt> <GTK+2|GTK+3|Qt> <win32|win64|win> [mp gui] [unistall setup script]
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3.22|qt> <GTK+2|GTK+3|Qt> <win32|win64|win> [mp gui] [uninstall setup script]
 
 if test "x$6" != "x" ; then
   MPGUI_ID="$6"
