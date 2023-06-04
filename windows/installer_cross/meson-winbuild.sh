@@ -75,7 +75,7 @@ fi
 
 QTPARAMS=""
 
-case $GUI in
+case "$GUI" in
   gtk3.22) FCMP="gtk3"
            RULEDIT=false ;;
   gtk4) FCMP="gtk4"
@@ -100,6 +100,12 @@ esac
 
 if test "$CLIENT" = "" ; then
   CLIENT="$GUI"
+fi
+
+if test "$GUI" = "ruledit" ; then
+  SERVER="disabled"
+else
+  SERVER="enabled"
 fi
 
 BUILD_DIR="meson/build/${SETUP}-${GUI}"
@@ -149,6 +155,7 @@ if ! meson setup \
      -Dsyslua=false \
      -Dmwand=false \
      -Dreadline=false \
+     -Dserver="$SERVER" \
      -Druledit="$RULEDIT" \
      $QTPARAMS \
      $EXTRA_CONFIG \
