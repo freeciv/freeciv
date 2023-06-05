@@ -6379,6 +6379,7 @@ int fill_sprite_array(struct tileset *t,
                          TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
                          FULL_TILE_Y_OFFSET + t->activity_offset_y);
             break;
+          case ACTIVITY_CLEAN:
           case ACTIVITY_POLLUTION:
           case ACTIVITY_FALLOUT:
             if (ptask->tgt != NULL) {
