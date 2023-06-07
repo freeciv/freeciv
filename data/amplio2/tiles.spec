@@ -111,9 +111,7 @@ tiles = { "row", "column", "tag"
 ; Unit Extras(not activities)
 
   3, 10, "unit.connect"
-  4, 10, "unit.auto_attack",
-         "unit.auto_worker"
+  4, 10, "unit.auto_worker", "unit.auto_attack"
   5, 10, "unit.stack"
   6, 10, "unit.loaded"
-
 }
