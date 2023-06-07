@@ -1,4 +1,4 @@
-# gnulib-common.m4 serial 85
+# gnulib-common.m4 serial 87
 dnl Copyright (C) 2007-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -619,7 +619,7 @@ AC_DEFUN([gl_COMMON_BODY], [
   dnl gl_cross_guess_normal    (to be used when 'yes' is good and 'no' is bad),
   dnl gl_cross_guess_inverted  (to be used when 'no' is good and 'yes' is bad).
   AC_ARG_ENABLE([cross-guesses],
-    [AS_HELP_STRING([--enable-cross-guesses={conservative|risky}],
+    [AS_HELP_STRING([[--enable-cross-guesses={conservative|risky}]],
        [specify policy for cross-compilation guesses])],
     [if test "x$enableval" != xconservative && test "x$enableval" != xrisky; then
        AC_MSG_WARN([invalid argument supplied to --enable-cross-guesses])
