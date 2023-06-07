@@ -149,7 +149,7 @@ flags         = ""
 ;                 for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
-; impr_req	= required city improvement, names from buildings.ruleset
+; impr_req      = required city improvement, names from buildings.ruleset
 ; gov_req       = required government, names from governments.ruleset
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; build_cost    = production shields required to build
@@ -230,15 +230,15 @@ flags         = ""
 ; "IgTer"       = use constant move cost defined in igter_cost (terrain.ruleset)
 ;                 rather than terrain/road etc cost, unless terrain cost is
 ;                 less
-; "OneAttack"	= can only make a single attack, regardless of movement points
-; "FieldUnit"	= cause unhappiness even when not being aggressive
+; "OneAttack"   = can only make a single attack, regardless of movement points
+; "FieldUnit"   = cause unhappiness even when not being aggressive
 ; "AttackAny"   = can attack unreachable units
 ; "BeachLander" = won't lose all its movement when moving from non-native
 ;                 terrain to native terrain even if slow_invasions is on.
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported
-;		  units other than missiles
-; "Settlers"	= can irrigate and build roads
-; "Diplomat"	= can do diplomat actions (see diplchance server option)
+;                 units other than missiles
+; "Settlers"    = can irrigate and build roads
+; "Diplomat"    = can do diplomat actions (see diplchance server option)
 ; "Spy"         = strong in diplomatic battles. _Must_ be "Diplomat" also
 ; "CoastStrict" = (sea only) cannot leave coast
 ; "Coast"       = (sea only) can refuel on coast. Set fuel to force unit
@@ -246,24 +246,24 @@ flags         = ""
 ; "Only_Native_Attack" = cannot attack targets on non-native tiles even if
 ;                 unit class can
 ; "Cant_Fortify" =  cannot fortify even if unit class has "CanFortify" flag
-; "Fanatic"	= can only be built by governments that allow them
-;		  (see civ2/governments.ruleset, Fundamentalism government)
-; "Unique"	= a player can only have one of these units in the game at
-;		  the same time; barbarians cannot use this at present
-; "GameLoss"	= losing one of these units means you lose the game, but it
-;		  is produced without homecity and upkeep
+; "Fanatic"     = can only be built by governments that allow them
+;                 (see civ2/governments.ruleset, Fundamentalism government)
+; "Unique"      = a player can only have one of these units in the game at
+;                 the same time; barbarians cannot use this at present
+; "GameLoss"    = losing one of these units means you lose the game, but it
+;                 is produced without homecity and upkeep
 ; "EvacuateFirst" = the game will try to rescue units with this flag before
 ;                 it tries to rescue units without it when their transport
 ;                 is destroyed. Think of the Birkenhead drill ("women and
 ;                 children first"). Replace "women and children" with
 ;                 "units with the EvacuateFirst unit type flag".
-; "SuperSpy"	= this unit always wins diplomatic contests, that is, unless
-;		  it encounters another SuperSpy, in which case defender wins;
-;		  can also be used on non-diplomat units, in which case it can
-;		  protect cities from diplomats; also 100% spy survival chance
-; "NoHome"	= this unit has no homecity and will be free of all upkeep, and
-;		  therefore will not revolt along with its city of origin should
-;		  it be incited
+; "SuperSpy"    = this unit always wins diplomatic contests, that is, unless
+;                 it encounters another SuperSpy, in which case defender wins;
+;                 can also be used on non-diplomat units, in which case it can
+;                 protect cities from diplomats; also 100% spy survival chance
+; "NoHome"      = this unit has no homecity and will be free of all upkeep, and
+;                 therefore will not revolt along with its city of origin should
+;                 it be incited
 ; "NoVeteran"   = this unit cannot gain veteran levels through experience
 ;                 (as if both raise_chance and work_raise_chance were zero);
 ;                 it can still gain veterancy through Veteran_Build, etc
@@ -273,7 +273,7 @@ flags         = ""
 ;                     attacking a city
 ;                     defended by a city wall (or other city building defense)
 ; "BadCityDefender" = if attacked while in a city, firepower is set to 1
-;		  and firepower of attacker is doubled (the Pearl Harbour
+;                 and firepower of attacker is doubled (the Pearl Harbour
 ;                 rule)
 ; "BarbarianOnly" = only barbarians can build this unit
 ; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
@@ -325,11 +325,11 @@ flags         = ""
 ; "Ferryboat"             = AI hint: useful for ferrying
 ; "Barbarian"             = can be created as land barbarian
 ; "BarbarianTech"         = can be created as land barbarian, if someone has
-;		            researched its tech requirements
+;                           researched its tech requirements
 ; "BarbarianBoat"         = can be created as boat for sea barbarian
 ; "BarbarianBuild"        = can be built by barbarians
 ; "BarbarianBuildTech"    = can be built by barbarians if someone has
-;		            researched its tech requirements
+;                           researched its tech requirements
 ; "BarbarianLeader"       = this unit is the barbarian leader (only one)
 ; "BarbarianSea"          = can be created as a barbarian that disembarks from a barbarian boat
 ; "BarbarianSeaTech"      = can be created as a barbarian that disembarks from a barbarian boat
