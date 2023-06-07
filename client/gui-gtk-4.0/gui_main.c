@@ -2449,6 +2449,18 @@ static void allied_chat_only_callback(struct option *poption)
 }
 
 /**********************************************************************//**
+  Option callback for the 'fullscreen' gtk-gui option.
+**************************************************************************/
+void fullscreen_opt_refresh(struct option *poption)
+{
+  if (GUI_GTK_OPTION(fullscreen)) {
+    gtk_window_fullscreen(GTK_WINDOW(toplevel));
+  } else {
+    gtk_window_unfullscreen(GTK_WINDOW(toplevel));
+  }
+}
+
+/**********************************************************************//**
   Change the city names font.
 **************************************************************************/
 static void apply_city_names_font(struct option *poption)
@@ -2499,6 +2511,8 @@ void options_extra_init(void)
 
   option_var_set_callback(allied_chat_only,
                           allied_chat_only_callback);
+  option_var_set_callback(fullscreen,
+                          fullscreen_opt_refresh);
 
   option_var_set_callback(font_city_names,
                           apply_city_names_font);

@@ -2064,11 +2064,7 @@ static void full_screen_callback(GSimpleAction *action, GVariant *parameter,
   info->state ^= 1;
   GUI_GTK_OPTION(fullscreen) = info->state;
 
-  if (GUI_GTK_OPTION(fullscreen)) {
-    gtk_window_fullscreen(GTK_WINDOW(toplevel));
-  } else {
-    gtk_window_unfullscreen(GTK_WINDOW(toplevel));
-  }
+  fullscreen_opt_refresh(NULL);
 
   g_menu_remove(view_menu, VMENU_FULL_SCREEN);
 
