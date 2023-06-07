@@ -183,7 +183,7 @@ if test "$INST_CROSS_MODE" != "release" ; then
   fi
 fi
 
-INSTDIR="freeciv-$SETUP-${VERREV}${NAMEP}"
+INSTDIR="autotools/install/freeciv-$SETUP-${VERREV}${NAMEP}"
 
 if test "$GUI" = "ruledit" ; then
   if ! make -C autotools/build/${SETUP}-${GUI}/translations/ruledit update-po ||
