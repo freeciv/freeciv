@@ -759,19 +759,33 @@ struct theme *theme_read_toplevel(const char *theme_name)
   t->priority = secfile_lookup_int_default(file, 0, "themespec.priority");
 
   langname = setup_langname();
-  if (langname) {
-    if (strstr(langname, "zh_CN") != NULL) {
-      c = secfile_lookup_str(file, "themespec.font_file_zh_CN");
-    } else if (strstr(langname, "ja") != NULL) {
-      c = secfile_lookup_str(file, "themespec.font_file_ja");
-    } else if (strstr(langname, "ko") != NULL) {
-      c = secfile_lookup_str(file, "themespec.font_file_ko");
-    } else {
-      c = secfile_lookup_str(file, "themespec.font_file");
-    }
+
+  c = NULL;
+
+  if (langname != NULL && strstr(langname, "zh_CN") != NULL) {
+    c = secfile_lookup_str(file, "themespec.font_file_zh_CN");
   } else {
-    c = secfile_lookup_str(file, "themespec.font_file");
+    (void) secfile_entry_lookup(file, "themespec.font_file_zh_CN");
   }
+
+  if (c == NULL && langname != NULL && strstr(langname, "ja") != NULL) {
+    c = secfile_lookup_str(file, "themespec.font_file_ja");
+  } else {
+    (void) secfile_entry_lookup(file, "themespec.font_file_ja");
+  }
+
+  if (c == NULL && langname != NULL && strstr(langname, "ko") != NULL) {
+    c = secfile_lookup_str(file, "themespec.font_file_ko");
+  } else {
+    (void) secfile_entry_lookup(file, "themespec.font_file_ko");
+  }
+
+  if (c == NULL) {
+    c = secfile_lookup_str(file, "themespec.font_file");
+  } else {
+    (void) secfile_entry_lookup(file, "themespec.font_file");
+  }
+
   if ((filename = fileinfoname(get_data_dirs(), c))) {
     t->font_filename = fc_strdup(filename);
   } else {
