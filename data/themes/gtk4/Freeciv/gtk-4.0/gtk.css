@@ -1,32 +1,4 @@
 * {
-  -GtkWidget-outline-style: auto;
-  -GtkButton-margin-start: 1;
-  -GtkButton-margin-end: 1;
-  -GtkButton-margin-top: 1;
-  -GtkButton-margin-bottom: 1;
-  -GtkButton-padding: 2;
-
-  -GtkRange-margin-start: 1;
-  -GtkRange-margin-end: 1;
-  -GtkRange-margin-top: 1;
-  -GtkRange-margin-bottom: 1;
-  -GtkRange-min-width: 15;
-  -GtkRange-min-height: 15;
-
-  -GtkScale-min-width: 11;
-  -GtkScale-min-height: 21;
-
-  -GtkPaned-width: 6;
-  -GtkScrollbar-min-width: 50;
-  -GtkScrollbar-min-height: 50;
-  -GtkCheckButton-min-width: 12;
-  -GtkCheckButton-min-height: 12;
-  -GtkCheckButton-margin-start: 3;
-  -GtkCheckButton-margin-end: 3;
-  -GtkCheckButton-margin-top: 3;
-  -GtkCheckButton-margin-bottom: 3;
-  -GtkStatusbar-text-shadow: none;
-  -GtkSpinButton-text-shadow: none;
 
   padding: 2px;
 
@@ -45,10 +17,46 @@
 
 @import url("menubar.css");
 
+.button.toggle {
+  min-width: 12px;
+  min-height: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
 .progressbar {
   color: #000000;
   background-color: #ffffff;
   background-image: none;
+}
+
+.range {
+  margin-left: 1px;
+  margin-right: 1px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  min-width: 15px;
+  min-height: 15px;
+}
+
+.scale {
+  min-width: 11px;
+  min-height: 21px;
+}
+
+.scrollbar {
+  min-width: 50px;
+  min-height: 50px;
+}
+
+.spinbutton {
+  text-shadow: none;
+}
+
+.paned {
+  min-width: 6px;
 }
 
 :hover {
@@ -87,7 +95,7 @@
   background-image: url("Shadows/text-entry.png");
   /* background-repeat: repeat; */
   background-size: cover;
-  -Gtkwidget-outline-width: 0;
+  outline-width: 0;
   color: #635b48;
   background-color: #e7d6b0;
 }
@@ -96,6 +104,11 @@
   border-width: 3px;
   border-image-source: url("Buttons/button-normal.png");
   border-image-repeat: stretch;
+  margin-left: 1px;
+  margin-right: 1px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  padding: 2px;
 }
 
 .button.default {
@@ -208,12 +221,16 @@ GtkTreeMenu.menu {
   color: #0000FF;
 }
 
-GtkTreeView {
-  -GtkTreeView-odd-row-color: #ffffff;
-  -GtkTreeView-even-row-color: #ffffff;
-
+.treeview {
   border-width: 2px;
+}
 
+.treeview.view.even, .treeview.view.sorted.even {
+  background-color: #ffffff;
+}
+
+.treeview.view.odd, .treeview.view.sorted.odd {
+  background-color: #000000;
 }
 
 GtkTreeview column-header {
