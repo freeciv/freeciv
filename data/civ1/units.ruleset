@@ -239,8 +239,8 @@ flags         = "Missile", "Unreachable", "HutNothing"
 ;                 This is useful when the combination of a unit's bonuses
 ;                 becomes complex enough to make the auto generated help
 ;                 ugly or inaccurate.
-; flags         = special flag strings; list of built-in flags (see
-;                 classic/units.ruleset) and/or user flags defined above
+; flags         = special flag strings; list of built-in flags described below
+;                 and/or user flags defined above
 ;
 ; veteran_names = Special veteran level for this unit. See the definitions in
 ;                 game.ruleset. All of the veteran_* entries have to have the
@@ -289,15 +289,89 @@ flags         = "Missile", "Unreachable", "HutNothing"
 ;                          Bonus is defined in defenders entry.
 ;
 ;
+; ** Flags **
+;
+; "IgZOC"       = ignore Zones of Control (ZOC) even if unit class has
+;                 "ZOC" flag
+; "HasNoZOC"    = unit has no Zone of Control (ZOC), thus any unit can move
+;                 around it freely
+; "NonMil"      = a non-military unit: no attacks; no martial law; can enter
+;                 peaceful borders; DoesntOccupyTile
+; "IgTer"       = use constant move cost defined in igter_cost (terrain.ruleset)
+;                 rather than terrain/road etc cost, unless terrain cost is
+;                 less
+; "FieldUnit"   = cause unhappiness even when not being aggressive
+; "Settlers"    = can irrigate and build roads
+; "Diplomat"    = can defend against diplomat actions (see diplchance
+;                 server option)
+; "Spy"         = strong in diplomatic battles. _Must_ be "Diplomat" also
+; "CoastStrict" = (sea only) cannot leave coast
+; "Coast"       = (sea only) can refuel on coast. Set fuel to force unit
+;                 to regularly end turn on coast
+; "Only_Native_Attack" = cannot attack targets on non-native tiles even if
+;                 unit class can
+; "Fanatic"     = can only be built by governments that allow them
+;                 (see civ2/governments.ruleset, Fundamentalism government)
+; "Unique"      = a player can only have one of these units in the game at
+;                 the same time; barbarians cannot use this at present
+; "GameLoss"    = losing one of these units means you lose the game, but it
+;                 is produced without homecity and upkeep
+; "EvacuateFirst" = the game will try to rescue units with this flag before
+;                 it tries to rescue units without it when their transport
+;                 is destroyed. Think of the Birkenhead drill ("women and
+;                 children first"). Replace "women and children" with
+;                 "units with the EvacuateFirst unit type flag".
+; "SuperSpy"    = this unit always wins diplomatic contests, that is, unless
+;                 it encounters another SuperSpy, in which case defender wins;
+;                 can also be used on non-diplomat units, in which case it can
+;                 protect cities from diplomats; also 100% spy survival chance
+; "NoHome"      = this unit is built with no homecity, free of all upkeep, and
+;                 therefore will not revolt along with its city of origin should
+;                 it be incited
+; "NoVeteran"   = this unit cannot gain veteran levels through experience
+;                 (as if both base_raise_chance and work_raise_chance were zero);
+;                 it can still gain veterancy through Veteran_Build, etc
+; "CityBuster"  = this unit has double firepower against cities
+; "NoBuild"     = this unit cannot be built
+; "BadWallAttacker" = the firepower of this unit is set to 1 if
+;                 attacking a city
+;                 defended by a city wall (or other city building defense)
+; "BadCityDefender" = if attacked while in a city, firepower is set to 1
+;                 and firepower of attacker is doubled (the Pearl Harbour
+;                 rule)
+; "BarbarianOnly" = only barbarians can build this unit
+; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
+; "NewCityGamesOnly" = unit can't be built on scenarios where founding new cities
+;                 is not allowed. Give this flag to units that would make no sense
+;                 to have in a game with such a scenario
+; "CanEscape"   = this unit has, given that certain conditions are
+;                 fulfilled, a 50% chance to escape rather than being
+;                 killed when killstack is enabled and the defender of its
+;                 tile is defeated. The conditions are that it has more move
+;                 points than required to move to an adjacent tile plus the
+;                 attackers move points and that the attacker doesn't have
+;                 the "CanKillEscaping" unit type flag.
+; "CanKillEscaping" = an attack from this unit ignores the "CanEscape" unit
+;                 type flag.
+; "Provoking" =   a unit considering to auto attack this unit will choose to
+;                 do so even if has better odds when defending against it
+;                 then when attacking it. Applies when the autoattack server
+;                 setting is enabled.
+; "NeverProtects" = doesn't protect reachable units on its tile from enemy
+;                 attackers, even if the unreachableprotects server setting
+;                 is enabled and the unit class is unreachable
+; "RandomMovement" = Unit makes random movements in the beginning of the turn,
+;                 player has no control over its movement
+;
 ; Following actions require extra fields:
 ;  "Attack" and "Suicide Attack"
 ;   attack = base attack strength
-;  "Bombard" (do not appear in Civ1)
+;  "Bombard"
 ;   attack       = base attack strength
 ;   bombard_rate = the number of shots fired at enemy units when attacking
 ;  "Join City"
 ;   pop_cost = the number of population added to the target city
-;  "Paradrop Unit" (does not appear in Civ1)
+;  "Paradrop Unit"
 ;   paratroopers_range  = the maximal range the unit can be paradropped to.
 ;                         Max range is 65534.
 ;  "Upgrade Unit"
@@ -342,7 +416,6 @@ flags         = "Missile", "Unreachable", "HutNothing"
 ; "AttackFastStartUnit"   = Gets granted as 'a' startunit
 ; "AttackStrongStartUnit" = Gets granted as 'A' startunit
 ;
-
 ; Civ1 does not have initial explorers, but we want to do something
 ; sensible if the explorer server option is set non-zero.
 ; Likely options:
