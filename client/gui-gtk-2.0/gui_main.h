@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 
 /* client */
 #include "gui_main_g.h"
+#include "options.h"
 
 /* gui-gtk-2.0 */
 #include "gtkpixcomm.h"
@@ -91,6 +92,8 @@ void reset_unit_table(void);
 void popup_quit_dialog(void);
 void quit_gtk_main(void);
 void refresh_chat_buttons(void);
+
+void fullscreen_opt_refresh(struct option *poption);
 
 bool is_gui_up(void);
 

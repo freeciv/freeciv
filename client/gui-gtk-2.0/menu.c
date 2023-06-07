@@ -829,11 +829,7 @@ static void full_screen_callback(GtkToggleAction *action, gpointer data)
   if (gui_options.gui_gtk2_fullscreen ^ gtk_toggle_action_get_active(action)) {
     gui_options.gui_gtk2_fullscreen ^= 1;
 
-    if (gui_options.gui_gtk2_fullscreen) {
-      gtk_window_fullscreen(GTK_WINDOW(toplevel));
-    } else {
-      gtk_window_unfullscreen(GTK_WINDOW(toplevel));
-    }
+    fullscreen_opt_refresh(NULL);
   }
 }
 

@@ -1318,11 +1318,7 @@ static void full_screen_callback(GtkCheckMenuItem *item, gpointer data)
   if (GUI_GTK_OPTION(fullscreen) ^ gtk_check_menu_item_get_active(item)) {
     GUI_GTK_OPTION(fullscreen) ^= 1;
 
-    if (GUI_GTK_OPTION(fullscreen)) {
-      gtk_window_fullscreen(GTK_WINDOW(toplevel));
-    } else {
-      gtk_window_unfullscreen(GTK_WINDOW(toplevel));
-    }
+    fullscreen_opt_refresh(NULL);
   }
 }
 
