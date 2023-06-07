@@ -217,7 +217,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;                 for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
-; impr_req	= required city improvement, names from buildings.ruleset
+; impr_req      = required city improvement, names from buildings.ruleset
 ; gov_req       = required government, names from governments.ruleset
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; build_cost    = production shields required to build
@@ -285,7 +285,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;                   supported in client
 ; sound_fight     = optional sound effect when the unit fights
 ; sound_fight_alt = optional alternative sound effect if above not
-;	            supported in client
+;                   supported in client
 ; helptext        = optional help text string; should escape all raw newlines
 ;                   so that xgettext parsing works
 ;
@@ -322,16 +322,16 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;
 ; "IgZOC"       = ignore Zones of Control (ZOC) even if unit class has
 ;                 "ZOC" flag
-; "HasNoZOC"	= unit has no Zone of Control (ZOC), thus any unit can move
-;		  around it freely
-; "NonMil"	= a non-military unit: no attacks; no martial law; can enter
+; "HasNoZOC"    = unit has no Zone of Control (ZOC), thus any unit can move
+;                 around it freely
+; "NonMil"      = a non-military unit: no attacks; no martial law; can enter
 ;                 peaceful borders; DoesntOccupyTile
 ; "IgTer"       = use constant move cost defined in igter_cost (terrain.ruleset)
 ;                 rather than terrain/road etc cost, unless terrain cost is
 ;                 less
-; "FieldUnit"	= cause unhappiness even when not being aggressive
-; "Settlers"	= can irrigate and build roads
-; "Diplomat"	= can defend against diplomat actions (see diplchance
+; "FieldUnit"   = cause unhappiness even when not being aggressive
+; "Settlers"    = can irrigate and build roads
+; "Diplomat"    = can defend against diplomat actions (see diplchance
 ;                 server option)
 ; "Spy"         = strong in diplomatic battles. _Must_ be "Diplomat" also
 ; "CoastStrict" = (sea only) cannot leave coast
@@ -339,34 +339,34 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;                 to regularly end turn on coast
 ; "Only_Native_Attack" = cannot attack targets on non-native tiles even if
 ;                 unit class can
-; "Fanatic"	= can only be built by governments that allow them
-;		  (see civ2/governments.ruleset, Fundamentalism government)
-; "Unique"	= a player can only have one of these units in the game at
-;		  the same time; barbarians cannot use this at present
-; "GameLoss"	= losing one of these units means you lose the game, but it
-;		  is produced without homecity and upkeep
+; "Fanatic"     = can only be built by governments that allow them
+;                 (see civ2/governments.ruleset, Fundamentalism government)
+; "Unique"      = a player can only have one of these units in the game at
+;                 the same time; barbarians cannot use this at present
+; "GameLoss"    = losing one of these units means you lose the game, but it
+;                 is produced without homecity and upkeep
 ; "EvacuateFirst" = the game will try to rescue units with this flag before
 ;                 it tries to rescue units without it when their transport
 ;                 is destroyed. Think of the Birkenhead drill ("women and
 ;                 children first"). Replace "women and children" with
 ;                 "units with the EvacuateFirst unit type flag".
-; "SuperSpy"	= this unit always wins diplomatic contests, that is, unless
-;		  it encounters another SuperSpy, in which case defender wins;
-;		  can also be used on non-diplomat units, in which case it can
-;		  protect cities from diplomats; also 100% spy survival chance
-; "NoHome"	= this unit is built with no homecity, free of all upkeep, and
-;		  therefore will not revolt along with its city of origin should
-;		  it be incited
+; "SuperSpy"    = this unit always wins diplomatic contests, that is, unless
+;                 it encounters another SuperSpy, in which case defender wins;
+;                 can also be used on non-diplomat units, in which case it can
+;                 protect cities from diplomats; also 100% spy survival chance
+; "NoHome"      = this unit is built with no homecity, free of all upkeep, and
+;                 therefore will not revolt along with its city of origin should
+;                 it be incited
 ; "NoVeteran"   = this unit cannot gain veteran levels through experience
 ;                 (as if both base_raise_chance and work_raise_chance were zero);
 ;                 it can still gain veterancy through Veteran_Build, etc
 ; "CityBuster"  = this unit has double firepower against cities
 ; "NoBuild"     = this unit cannot be built
-; "BadWallAttacker"	= the firepower of this unit is set to 1 if
+; "BadWallAttacker" = the firepower of this unit is set to 1 if
 ;                 attacking a city
-;		  defended by a city wall (or other city building defense)
-; "BadCityDefender"	= if attacked while in a city, firepower is set to 1
-;		  and firepower of attacker is doubled (the Pearl Harbour
+;                 defended by a city wall (or other city building defense)
+; "BadCityDefender" = if attacked while in a city, firepower is set to 1
+;                 and firepower of attacker is doubled (the Pearl Harbour
 ;                 rule)
 ; "BarbarianOnly" = only barbarians can build this unit
 ; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
@@ -423,7 +423,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ; "BarbarianBoat"         = can be created as boat for sea barbarian
 ; "BarbarianBuild"        = can be built by barbarians
 ; "BarbarianBuildTech"    = can be built by barbarians if someone has
-;                        researched its tech requirements
+;                           researched its tech requirements
 ; "BarbarianLeader"       = this unit is the barbarian leader (only one)
 ; "BarbarianSea"          = can be created as a barbarian that disembarks from a barbarian boat
 ; "BarbarianSeaTech"      = can be created as a barbarian that disembarks from a barbarian boat
@@ -1859,7 +1859,7 @@ tp_defense    = "Alight"
 cargo         = "Missile"
 vision_layer  = "Subsurface"
 flags         = "BadCityDefender", "Provoking",
-	        "Only_Native_Attack"
+                "Only_Native_Attack"
 roles         = "Hunter"
 helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
