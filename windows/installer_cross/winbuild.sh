@@ -186,7 +186,7 @@ if ! ${SRC_ROOT}/autogen.sh --no-configure-run ; then
   exit 1
 fi
 
-INSTALL_DIR="$(pwd)/freeciv-${VERREV}${NAMEP}"
+INSTALL_DIR="$(pwd)/autotools/install/freeciv-${VERREV}${NAMEP}"
 
 if ! (
 cd "${BUILD_DIR}"
