@@ -9493,17 +9493,11 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
-    /* Can only happen here because 3.1 rulesets may not have a
-     * actions.ruleset. Remember to move it with the others in 3.3. */
-    if (compat_info.version < RSFORMAT_3_2) {
+    /* 3.1 rulesets have no actions.ruleset. */
+    if (compat_info.compat_mode && compat_info.version < RSFORMAT_3_2) {
       ok = load_ruleset_actions(gamefile, gamefile, &compat_info);
     } else {
-      if (secfile_section_prefix_present(actionfile, ACTION_ENABLER_SECTION_PREFIX)) {
-        ok = load_ruleset_actions(actionfile, gamefile, &compat_info);
-      } else {
-        /* Actions not moved to actions.ruleset, or there's none */
-        ok = load_ruleset_actions(gamefile, gamefile, &compat_info);
-      }
+      ok = load_ruleset_actions(actionfile, gamefile, &compat_info);
     }
   }
 
