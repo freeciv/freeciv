@@ -669,7 +669,7 @@ bool option_reset(struct option *poption)
 }
 
 /****************************************************************************
-  Set the function to call every time this option changes.  Can be NULL.
+  Set the function to call every time this option changes. Can be NULL.
 ****************************************************************************/
 void option_set_changed_callback(struct option *poption,
                                  void (*callback) (struct option *))
@@ -2554,7 +2554,7 @@ static struct client_option client_options[] = {
                      "in the city dialog, the Economy report or the Units "
                      "report."),
                   COC_FONT, GUI_GTK2,
-                  "Sans 9", NULL),
+                  "Sans 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk2_font_comment_label, "comment_label",
                   N_("Comment Label"),
                   N_("This font is used to display comment labels, such as "
@@ -2775,7 +2775,7 @@ static struct client_option client_options[] = {
                      "in the city dialog, the Economy report or the Units "
                      "report."),
                   COC_FONT, GUI_GTK3,
-                  "Sans 9", NULL),
+                  "Sans 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_comment_label, "comment_label",
                   N_("Comment Label"),
                   N_("This font is used to display comment labels, such as "
@@ -2996,7 +2996,7 @@ static struct client_option client_options[] = {
                      "in the city dialog, the Economy report or the Units "
                      "report."),
                   COC_FONT, GUI_GTK3_22,
-                  "Sans 9", NULL),
+                  "Sans 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_22_font_comment_label, "comment_label",
                   N_("Comment Label"),
                   N_("This font is used to display comment labels, such as "
