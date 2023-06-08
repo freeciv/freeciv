@@ -1958,7 +1958,6 @@ void fc_client::start_page_menu(QPoint pos)
   bool need_empty_team;
   const char *level_cmd, *level_name;
   int level, count;
-  player *selected_player;
   QVariant qvar, qvar2;
 
   me = client.conn.username;
@@ -1976,20 +1975,14 @@ void fc_client::start_page_menu(QPoint pos)
    * qvar = 1 -> selected player (stored in qvar2)
    */
 
-  selected_player = NULL;
-  if (qvar == 0) {
-    return;
-  }
   if (qvar == 1) {
-    selected_player = (player *) qvar2.value < void *>();
-  }
+    player *pplayer = (player *) qvar2.value < void *>();
 
-  page_menu = new QMenu(this);
-  page_submenu_AI = new QMenu(this);
-  page_submenu_team = new QMenu(this);
+    if (pplayer != nullptr) {
+      page_menu = new QMenu(this);
+      page_submenu_AI = new QMenu(this);
+      page_submenu_team = new QMenu(this);
 
-  players_iterate(pplayer) {
-    if (selected_player && selected_player == pplayer) {
       splayer = QString(pplayer->name);
       sp = "\"" + splayer + "\"";
       if (me != splayer) {
@@ -2051,12 +2044,12 @@ void fc_client::start_page_menu(QPoint pos)
       }
 
       // Put to Team X submenu
-      if (pplayer && game.info.is_new_game) {
+      if (game.info.is_new_game) {
         page_menu->addMenu(page_submenu_team);
         page_submenu_team->setTitle(_("Put on team"));
         page_menu->addMenu(page_submenu_team);
         count = pplayer->team ?
-            player_list_size(team_members(pplayer->team)) : 0;
+          player_list_size(team_members(pplayer->team)) : 0;
         need_empty_team = (count != 1);
         team_slots_iterate(tslot) {
           if (!team_slot_is_used(tslot)) {
@@ -2068,7 +2061,7 @@ void fc_client::start_page_menu(QPoint pos)
           str = team_slot_name_translation(tslot);
           action = new QAction(str, start_players_tree);
           str = "/team" + sp + " \"" + QString(team_slot_rule_name(tslot))
-              + "\"";
+            + "\"";
           QObject::connect(action, &QAction::triggered, [this,str]() {
             send_fake_chat_message(str);
           });
@@ -2076,7 +2069,7 @@ void fc_client::start_page_menu(QPoint pos)
         } team_slots_iterate_end;
       }
 
-      if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
+      if (ALLOW_CTRL <= client.conn.access_level) {
         str = QString(_("Aitoggle player"));
         action = new QAction(str, start_players_tree);
         str = "/aitoggle " + sp;
@@ -2087,9 +2080,8 @@ void fc_client::start_page_menu(QPoint pos)
       }
 
       page_menu->popup(global_pos);
-      return;
     }
-  } players_iterate_end;
+  }
 }
 
 /**********************************************************************//**
