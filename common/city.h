@@ -42,8 +42,8 @@ enum production_class_type {
   PCT_LAST
 };
 
-/* Various city options.  These are stored by the server and can be
- * toggled by the user.  Each one defaults to off.  Adding new ones
+/* Various city options. These are stored by the server and can be
+ * toggled by the user. Each one defaults to off. Adding new ones
  * will break network compatibility. If you want to reorder or remove
  * an option remember to load the city option order from the savegame.
  * It is stored in savefile.city_options_vector
@@ -62,6 +62,20 @@ enum production_class_type {
 #define SPECENUM_VALUE2NAME "Tax_Specialists"
 #define SPECENUM_COUNT CITYO_LAST
 #define SPECENUM_BITVECTOR bv_city_options
+#include "specenum_gen.h"
+
+/* Used in savegames, and there's currently no order of the values
+ * stored in the savegame. Implement that before touching the values. */
+#define SPECENUM_NAME city_wl_cancel_behavior
+#define SPECENUM_VALUE0 WLCB_SMART
+  /* TRANS: Worklist Cancelling behavior
+   * (when something cannot be built right away) */
+#define SPECENUM_VALUE0NAME N_("?wlcb:Smart")
+#define SPECENUM_VALUE1 WLCB_ALWAYS_PURGE
+#define SPECENUM_VALUE1NAME N_("?wlcb:Always Purge")
+#define SPECENUM_VALUE2 WLCB_ALWAYS_POSTPONE
+#define SPECENUM_VALUE2NAME N_("?wlcb:Always Postpone")
+#define SPECENUM_COUNT WLCB_LAST
 #include "specenum_gen.h"
 
 /* The city includes all tiles dx^2 + dy^2 <= CITY_MAP_*_RADIUS_SQ */
@@ -387,6 +401,7 @@ struct city {
   struct worklist worklist;
 
   bv_city_options city_options;
+  enum city_wl_cancel_behavior wlcb;
 
   struct unit_list *units_supported;
 
@@ -396,7 +411,7 @@ struct city {
 
   struct worker_task_list *task_reqs;
 
-  int steal; /* diplomats steal once; for spies, gets harder */
+  int steal; /* Diplomats steal once; for spies, gets harder */
 
   struct {
     size_t length;

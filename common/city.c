@@ -3355,6 +3355,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->capital = CAPITAL_NOT;
   city_size_set(pcity, 1);
   pcity->specialists[DEFAULT_SPECIALIST] = 1;
+  pcity->wlcb = WLCB_SMART;
 
   output_type_iterate(o) {
     pcity->bonus[o] = 100;

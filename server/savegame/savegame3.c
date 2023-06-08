@@ -1627,8 +1627,8 @@ static void sg_load_savefile(struct loaddata *loading)
 
   /* Load city options order. */
   loading->coptions.size
-      = secfile_lookup_int_default(loading->file, 0,
-                                   "savefile.city_options_size");
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.city_options_size");
 
   sg_failure_ret(loading->coptions.size > 0,
                  "Failed to load city options order: %s",
@@ -4970,7 +4970,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   const char *stylename;
   int partner;
   int want;
-  int acq_t_tmp;
+  int tmp_int;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -5080,10 +5080,10 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->turn_founded,
                                      "%s.turn_founded", citystr),
                   FALSE, "%s", secfile_error());
-  sg_warn_ret_val(secfile_lookup_int(loading->file, &acq_t_tmp,
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &tmp_int,
                                      "%s.acquire_t", citystr),
                   FALSE, "%s", secfile_error());
-  pcity->acquire_t = acq_t_tmp;
+  pcity->acquire_t = tmp_int;
   sg_warn_ret_val(secfile_lookup_bool(loading->file, &pcity->did_buy, "%s.did_buy",
                                       citystr), FALSE, "%s", secfile_error());
   sg_warn_ret_val(secfile_lookup_bool(loading->file, &pcity->did_sell, "%s.did_sell",
@@ -5144,7 +5144,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     pcity->style = city_style(pcity);
   }
 
-  pcity->server.synced = FALSE; /* must re-sync with clients */
+  pcity->server.synced = FALSE; /* Must re-sync with clients */
 
   /* Initialise list of city improvements. */
   for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
@@ -5164,8 +5164,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                    str[i], citystr)
 
     if (str[i] == '1') {
-      struct impr_type *pimprove =
-          improvement_by_rule_name(loading->improvement.order[i]);
+      struct impr_type *pimprove
+        = improvement_by_rule_name(loading->improvement.order[i]);
 
       if (pimprove) {
         city_add_improvement(pcity, pimprove);
@@ -5252,6 +5252,10 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       BV_SET(pcity->city_options, loading->coptions.order[i]);
     }
   }
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &tmp_int,
+                                     "%s.wlcb", citystr),
+                  FALSE, "%s", secfile_error());
+  pcity->wlcb = tmp_int;
 
   /* Load the city rally point. */
   {
@@ -5647,6 +5651,8 @@ static void sg_save_player_cities(struct savedata *saving,
       secfile_insert_bool(saving->file, BV_ISSET(pcity->city_options, j),
                           "%s.option%d", buf, j);
     }
+    secfile_insert_int(saving->file, pcity->wlcb,
+                       "%s.wlcb", buf);
 
     CALL_FUNC_EACH_AI(city_save, saving->file, pcity, buf);
 
