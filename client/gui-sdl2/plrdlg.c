@@ -430,7 +430,7 @@ void popup_players_dialog(bool raise)
     }
     set_wstate(buf, FC_WS_NORMAL);
     add_to_gui_list(ID_CHECKBOX, buf);
-  } 
+  }
   /* ---------- */
 
   players_iterate(pplayer) {

@@ -762,10 +762,10 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
   }
 
   redraw_edit_chain(&edt);
-  
+
   set_wstate(edit_widget, FC_WS_PRESSED);
   {
-    /* local loop */  
+    /* Local loop */
     Uint16 rety = gui_event_loop((void *)&edt, NULL,
                                  edit_key_down, NULL, edit_textinput, NULL, NULL, NULL,
                                  edit_mouse_button_down, NULL, NULL);
@@ -779,10 +779,10 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
     } else {
       ret = (enum edit_return_codes) rety;
 
-      /* this is here because we have no knowledge that edit_widget exist
+      /* This is here because we have no knowledge that edit_widget exist
          or nor in force exit mode from gui loop */
 
-      /* reset font settings */
+      /* Reset font settings */
       if (!((edit_widget->string_utf8->style & 0x0F) & TTF_STYLE_NORMAL)) {
         TTF_SetFontStyle(edit_widget->string_utf8->font, TTF_STYLE_NORMAL);
       }
@@ -807,12 +807,12 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
 
   FREESURFACE(edt.bg);
 
-  /* disable repeat key */
+  /* Disable repeat key */
 
 #if 0
   SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 
-  /* disable Unicode */
+  /* Disable Unicode */
   SDL_EnableUNICODE(0);
 #endif /* 0 */
 

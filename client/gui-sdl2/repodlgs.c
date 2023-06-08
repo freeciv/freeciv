@@ -2007,7 +2007,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR, buf);
 
-  w2 += adj_size(184);  
+  w2 += adj_size(184);
 
   /* lux rate iconlabel */
 
@@ -2130,7 +2130,7 @@ void economy_report_dialog_popup(bool make_modal)
       text = create_text_surf_from_utf8(pstr);
 
       /*-----------------*/
-  
+
       zoomed = get_building_surface(pimprove);
       zoomed = zoomSurface(zoomed, DEFAULT_ZOOM * ((float)54 / zoomed->w),
                            DEFAULT_ZOOM * ((float)54 / zoomed->w), 1);

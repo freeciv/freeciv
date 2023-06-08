@@ -402,7 +402,7 @@ void setup_auxiliary_tech_icons(void)
 
   FREESURFACE(surf);
 
-  /* TRANS: Future Technology */ 
+  /* TRANS: Future Technology */
   copy_chars_to_utf8_str(pstr, _("FT"));
   surf = create_text_surf_from_utf8(pstr);
   blit_entire_src(surf, future_tech_icon,

@@ -64,7 +64,7 @@ struct small_diplomat_dialog {
   action_id act_id;
   struct small_dialog *pdialog;
 };
- 
+
 extern bool is_unit_move_blocked;
 
 void popdown_diplomat_dialog(void);
@@ -522,7 +522,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
     if (count > max_row) {
       diplomat_dlg->pdialog->active_widget_list = diplomat_dlg->pdialog->end_active_widget_list;
       count = max_row;
-      idx = create_vertical_scrollbar(diplomat_dlg->pdialog, col, count, TRUE, TRUE);  
+      idx = create_vertical_scrollbar(diplomat_dlg->pdialog, col, count, TRUE, TRUE);
     }
   } else {
     count = 1;
@@ -981,7 +981,7 @@ void popup_action_selection(struct unit *actor_unit,
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
-  
+
   pwindow->action = diplomat_dlg_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
 
@@ -1322,7 +1322,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   }
 
   is_unit_move_blocked = TRUE;
-  
+
   diplomat_dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   diplomat_dlg->actor_unit_id = actor->id;
   diplomat_dlg->target_ids[ATK_CITY] = pcity->id;

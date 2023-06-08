@@ -42,7 +42,7 @@ static char *color_names[] = {
   "custom_widget_normal_text",
   "custom_widget_selected_frame",
   "custom_widget_selected_text",
-  "custom_widget_pressed_frame", 
+  "custom_widget_pressed_frame",
   "custom_widget_pressed_text",
   "custom_widget_disabled_text",
   "editfield_caret",

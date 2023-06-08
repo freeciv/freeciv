@@ -478,7 +478,7 @@ static void update_button_hold_state(void)
         button_behavior.hold_state = MB_HOLD_LONG;
         button_down_on_map(&button_behavior);
       }
-    }  
+    }
   }
 
   return;

@@ -549,7 +549,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
     }
 
     add_to_gui_list(MAX_ID - i, buf);
-    
+
     if (i > 10) {
       set_wflag(buf, WF_HIDDEN);
     }

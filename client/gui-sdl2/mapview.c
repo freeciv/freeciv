@@ -289,7 +289,7 @@ void gui_flush(void)
 {
   if (C_S_RUNNING == client_state()) {
     refresh_overview();
-  }    
+  }
 }
 
 /* ===================================================================== */
@@ -599,7 +599,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             const char *diplo_nation_plural_adjectives[DS_LAST] =
               {"" /* unused, DS_ARMISTICE */, Q_("?nation:Hostile"),
                "" /* unused, DS_CEASEFIRE */,
-               Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
+               Q_("?nation:Peaceful"), Q_("?nation:Friendly"),
                Q_("?nation:Mysterious")};
 
             if (tile_owner(ptile) == client.conn.playing) {
@@ -1081,7 +1081,7 @@ void update_city_descriptions(void)
 **************************************************************************/
 struct canvas *get_overview_window(void)
 {
-  return overview_canvas;  
+  return overview_canvas;
 }
 
 /**********************************************************************//**
@@ -1097,7 +1097,7 @@ void get_overview_area_dimensions(int *width, int *height)
      smaller than DEFAULT_OVERVIEW_H, increase OVERVIEW_TILE_SIZE
      by 1 until the height condition is met.
   */
-  int overview_tile_size_bak = OVERVIEW_TILE_SIZE;  
+  int overview_tile_size_bak = OVERVIEW_TILE_SIZE;
   int xfact = MAP_IS_ISOMETRIC ? 2 : 1;
   int shift = (MAP_IS_ISOMETRIC && !current_wrap_has_flag(WRAP_X)) ? -1 : 0;
 

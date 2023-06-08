@@ -601,12 +601,12 @@ void popup_notify_dialog(const char *caption, const char *headline,
   FREESURFACE(headline_surf);
   FREESURFACE(lines_surf);
 
-  /* exit button */
+  /* Exit button */
   buf = pwindow->prev;
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
 
-  /* redraw */
+  /* Redraw */
   redraw_group(notify_dlg->begin_widget_list, pwindow, 0);
   widget_flush(pwindow);
 }
@@ -629,7 +629,7 @@ static int upgrade_unit_window_callback(struct widget *pwindow)
 }
 
 /**********************************************************************//**
-  User interacted with upgrade unit dialog cancel -button 
+  User interacted with upgrade unit dialog cancel -button
 **************************************************************************/
 static int cancel_upgrade_unit_callback(struct widget *pwidget)
 {
@@ -1224,7 +1224,7 @@ void unit_select_dialog_popup(struct tile *ptile)
     w -= n;
   }
 
-  /* exit button */
+  /* Exit button */
   buf = pwindow->prev;
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
@@ -1241,7 +1241,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   }
 
   /* ==================================================== */
-  /* redraw */
+  /* Redraw */
   redraw_group(unit_select_dlg->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
@@ -2152,13 +2152,13 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
     units_h = 0;
   }
 
-  /* exit button */
+  /* Exit button */
   buf = pwindow->prev;
 
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
 
-  /* terrain info */
+  /* Terrain info */
   buf = buf->prev;
 
   buf->size.x = area.x + 1;
@@ -2207,7 +2207,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
   }
 
   /* -------------------- */
-  /* redraw */
+  /* Redraw */
   redraw_group(advanced_terrain_dlg->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
@@ -2360,21 +2360,21 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   put_window_near_map_tile(pwindow, pwindow->size.w, pwindow->size.h,
                            unit_tile(punit));
 
-  /* setup widget size and start position */
+  /* Setup widget size and start position */
 
-  /* exit button */  
+  /* Exit button */
   buf = pwindow->prev;
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
 
-  /* first special to pillage */
+  /* First special to pillage */
   buf = buf->prev;
   setup_vertical_widgets_position(1,
                                   area.x, area.y + 1, area.w, 0,
                                   pillage_dlg->begin_widget_list, buf);
 
   /* --------------------- */
-  /* redraw */
+  /* Redraw */
   redraw_group(pillage_dlg->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
@@ -3499,7 +3499,7 @@ void popup_races_dialog(struct player *pplayer)
   create_line(pwindow->theme,
               area.x,
               natinfo_y + natinfo_h - adj_size(7) - buf->prev->size.h - adj_size(10),
-              area.w - 1, 
+              area.w - 1,
               natinfo_y + natinfo_h - adj_size(7) - buf->prev->size.h - adj_size(10),
               get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
 
@@ -3682,7 +3682,7 @@ bool handmade_scenario_warning(void)
 void real_multipliers_dialog_update(void *unused)
 {
   /* PORTME */
-} 
+}
 
 /**********************************************************************//**
   Unit wants to get into some transport on given tile.

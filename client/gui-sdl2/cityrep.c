@@ -602,7 +602,7 @@ static void real_info_city_report_dialog_update(void)
     pbuf->data.city = pcity;
     pbuf->action = popup_buy_production_from_city_report_callback;
     if (city_can_buy(pcity)) {
-      set_wstate(pbuf, FC_WS_NORMAL);    
+      set_wstate(pbuf, FC_WS_NORMAL);
     }
 
     count += COL;

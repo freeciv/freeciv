@@ -2538,7 +2538,7 @@ bool map_event_handler(SDL_Keysym key)
         }
         return FALSE;
 
-        /* show national borders - Ctrl+b */
+        /* Show national borders - Ctrl+b */
       case SDLK_b:
         if (LCTRL || RCTRL) {
           key_map_borders_toggle();
@@ -2546,17 +2546,17 @@ bool map_event_handler(SDL_Keysym key)
         return FALSE;
 
       case SDLK_n:
-        /* show native tiles - Ctrl+Shift+n */ 
+        /* Show native tiles - Ctrl+Shift+n */
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           key_map_native_toggle();
         } else if (LCTRL || RCTRL) {
-          /* show city names - Ctrl+n */
+          /* Show city names - Ctrl+n */
           key_city_names_toggle();
         }
         return FALSE;
 
-        /* show city growth Ctrl+o */
-        /* show pollution - Ctrl+Shift+o */
+        /* Show city growth Ctrl+o */
+        /* Show pollution - Ctrl+Shift+o */
       case SDLK_o:
         if (LCTRL || RCTRL) {
           if (LSHIFT || RSHIFT) {
@@ -2567,69 +2567,69 @@ bool map_event_handler(SDL_Keysym key)
         }
         return FALSE;
 
-        /* show bases - Ctrl+Shift+f */
+        /* Show bases - Ctrl+Shift+f */
       case SDLK_f:
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           request_toggle_bases();
         }
         return FALSE;
 
-      /* show city productions - Ctrl+p */
+        /* Show city productions - Ctrl+p */
       case SDLK_p:
         if (LCTRL || RCTRL) {
           key_city_productions_toggle();
         }
         return FALSE;
 
-        /* show city trade routes - Ctrl+d */
+        /* Show city trade routes - Ctrl+d */
       case SDLK_d:
         if (LCTRL || RCTRL) {
           key_city_trade_routes_toggle();
         }
         return FALSE;
 
-        /* *** some additional shortcuts that work in the SDL client only *** */
+        /* *** Some additional shortcuts that work in the SDL client only *** */
 
-        /* show terrain - Ctrl+Shift+t */
+        /* Show terrain - Ctrl+Shift+t */
       case SDLK_t:
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           key_terrain_toggle();
         }
         return FALSE;
 
-        /* (show coastline) */
+        /* (Show coastline) */
 
-      /* (show roads and rails) */
+      /* (Show roads and rails) */
 
-      /* show irrigation - Ctrl+i */
+      /* Show irrigation - Ctrl+i */
       case SDLK_i:
         if (LCTRL || RCTRL) {
           key_irrigation_toggle();
         }
         return FALSE;
 
-        /* show mines - Ctrl+m */
+        /* Show mines - Ctrl+m */
       case SDLK_m:
         if (LCTRL || RCTRL) {
           key_mines_toggle();
         }
         return FALSE;
 
-        /* show resources - Ctrl+s */
+        /* Show resources - Ctrl+s */
       case SDLK_s:
         if (LCTRL || RCTRL) {
           key_resources_toggle();
         }
         return FALSE;
 
-        /* show huts - Ctrl+h */
+        /* Show huts - Ctrl+h */
       case SDLK_h:
         if (LCTRL || RCTRL) {
           key_huts_toggle();
         }
         return FALSE;
 
-        /* show cities - Ctrl+c */
+        /* Show cities - Ctrl+c */
       case SDLK_c:
         if (LCTRL || RCTRL) {
           request_toggle_cities();
@@ -2638,14 +2638,14 @@ bool map_event_handler(SDL_Keysym key)
         }
         return FALSE;
 
-        /* show units - Ctrl+u */
+        /* Show units - Ctrl+u */
       case SDLK_u:
         if (LCTRL || RCTRL) {
           key_units_toggle();
         }
         return FALSE;
 
-        /* (show focus unit) */
+        /* (Show focus unit) */
 
         /* Show city output - Ctrl+v */
       case SDLK_v:
@@ -2750,7 +2750,7 @@ static int move_new_city_dlg_callback(struct widget *pwindow)
 
 /* ============================== Native =============================== */
 
-  
+
 /**********************************************************************//**
   Popup a dialog to ask for the name of a new city.  The given string
   should be used as a suggestion.
@@ -2832,7 +2832,7 @@ void popup_newcity_dialog(struct unit *punit, const char *suggest_name)
   /* I make this hack to center label on window */
   if (label->size.w < area.w) {
     label->size.w = area.w;
-  } else { 
+  } else {
     area.w = MAX(pwindow->area.w, label->size.w + adj_size(10));
   }
 

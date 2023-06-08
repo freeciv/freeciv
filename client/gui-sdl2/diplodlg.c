@@ -296,7 +296,7 @@ static int vision_callback(struct widget *pwidget)
     if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
       pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
-  
+
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
@@ -1280,7 +1280,7 @@ static void popdown_diplomacy_dialog(struct diplomacy_dialog *pdialog)
                                 pdialog->pdialog->end_widget_list);
 
     FC_FREE(pdialog->pdialog->scroll);
-    FC_FREE(pdialog->pdialog);  
+    FC_FREE(pdialog->pdialog);
     FC_FREE(pdialog);
   }
 }

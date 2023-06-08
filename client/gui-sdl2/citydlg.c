@@ -130,7 +130,7 @@ static void rebuild_citydlg_title_str(struct widget *pwindow, struct city *pcity
          one.
 **************************************************************************/
 struct impr_type *get_building_for_effect(enum effect_type effect_type)
-{ 
+{
   improvement_iterate(pimprove) {
     if (building_has_effect(pimprove, effect_type)) {
       return pimprove;
@@ -1571,7 +1571,7 @@ void enable_city_dlg_widgets(void)
         } /* while */
       }
     }
-  
+
     if (!city_can_buy(pcity_dlg->pcity) && pcity_dlg->buy_button) {
       set_wstate(pcity_dlg->buy_button, FC_WS_DISABLED);
     }
@@ -2366,7 +2366,7 @@ static void redraw_happiness_city_dialog(const struct widget *city_window,
 
                 alphablit(tmp, NULL, city_window->dst->surface, &dest, 255);
                 dest.y += (tmp->h + 1);
- 
+
                 FREESURFACE(tmp);
               }
             } requirement_vector_iterate_end;
@@ -3210,7 +3210,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
   FREESURFACE(buf2);
-  
+
   if (count) {
     if (count > 11) {
       step = (adj_size(154) - icons->big_shield->h) / adj_size((10 + count - 11));
@@ -3436,7 +3436,7 @@ static void rebuild_imprm_list(struct city *pcity)
     pcity_dlg->imprv->active_widget_list = NULL;
     FC_FREE(pcity_dlg->imprv->scroll);
   }
- 
+
   add_dock = pcity_dlg->add_point;
   buf = last = add_dock;
 

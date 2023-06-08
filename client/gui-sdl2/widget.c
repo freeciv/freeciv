@@ -217,7 +217,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, enum widget_state state,
 /**********************************************************************//**
   Find the next visible widget in the widget list starting with
   start_widget that is drawn at position (x, y). If start_widget is NULL,
-  the search starts with the first entry of the main widget list. 
+  the search starts with the first entry of the main widget list.
 **************************************************************************/
 struct widget *find_next_widget_at_pos(struct widget *start_widget,
                                        int x, int y)
@@ -423,7 +423,7 @@ void unselect_widget_action(void)
     if (!(get_wflags(selected_widget) & WF_HIDDEN)) {
       selected_widget->unselect(selected_widget);
 
-      /* turn off quick info timer/counter */ 
+      /* Turn off quick info timer/counter */
       widget_info_counter = 0;
     }
   }
@@ -431,7 +431,7 @@ void unselect_widget_action(void)
   if (info_area) {
     flush_rect(info_area, FALSE);
     FC_FREE(info_area);
-    FREESURFACE(info_label);    
+    FREESURFACE(info_label);
   }
 
   selected_widget = NULL;

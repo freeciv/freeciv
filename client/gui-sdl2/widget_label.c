@@ -35,12 +35,12 @@
 #include "widget_p.h"
 
 static int (*baseclass_redraw)(struct widget *pwidget);
-  
+
 /**********************************************************************//**
   Blit themelabel2 gfx to surface its on.
 **************************************************************************/
 static inline int redraw_themelabel2(struct widget *label)
-{    
+{
   SDL_Rect src = {0,0, label->size.w, label->size.h};
   SDL_Rect dst = {label->size.x, label->size.y, 0, 0};
 /*
@@ -457,7 +457,7 @@ int redraw_iconlabel(struct widget *label)
   }
 
   text = create_text_surf_from_utf8(label->string_utf8);
-  
+
   if (label->theme) { /* Icon */
     if (text) {
       if (flags & WF_ICON_CENTER_RIGHT) {

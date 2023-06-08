@@ -78,7 +78,7 @@ static void popup_new_user_passwd_dialog(const char *message);
   Provide a packet handler for packet_game_load
 **************************************************************************/
 void handle_game_load(bool load_successful, const char *filename)
-{ 
+{
   /* PORTME */
 }
 
@@ -286,7 +286,7 @@ void popup_connection_dialog(bool lan_scan)
 
   if (!server_list) {
     if (lan_scan) {
-      output_window_append(ftc_client, _("No LAN servers found")); 
+      output_window_append(ftc_client, _("No LAN servers found"));
     } else {
       output_window_append(ftc_client, _("No public servers found"));
     }
@@ -749,7 +749,7 @@ static int send_passwd_callback(struct widget *pwidget)
     widget_redraw(pwidget);
 
     widget_mark_dirty(pwidget);
-    
+
     flush_dirty();
 
     send_packet_authentication_reply(&client.conn, &reply);

@@ -126,7 +126,7 @@ void draw_mouse_cursor(void)
     } else {
       area = (SDL_Rect){0, 0, 0, 0};
     }
-  } 
+  }
 }
 
 /**********************************************************************//**
@@ -163,7 +163,7 @@ void load_cursors(void)
 **************************************************************************/
 void unload_cursors(void)
 {
-  enum cursor_type cursor;  
+  enum cursor_type cursor;
   int frame;
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
@@ -177,7 +177,7 @@ void unload_cursors(void)
 }
 
 /**********************************************************************//**
-  This function is used to animate the mouse cursor. 
+  This function is used to animate the mouse cursor.
 **************************************************************************/
 void animate_mouse_cursor(void)
 {

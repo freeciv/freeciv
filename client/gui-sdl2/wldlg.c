@@ -1836,7 +1836,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
                                   area.h - 1, TRUE);
 
   }
- 
+
   /* ----------------------------------- */
   FREEUTF8STR(pstr);
   FREESURFACE(main_surf);

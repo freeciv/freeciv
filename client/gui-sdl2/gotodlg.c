@@ -109,7 +109,7 @@ static int goto_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct city *pdestcity = game_city_by_number(MAX_ID - pwidget->id);
-  
+
     if (pdestcity) {
       struct unit *punit = head_of_units_in_focus();
 

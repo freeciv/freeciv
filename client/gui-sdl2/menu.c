@@ -634,7 +634,7 @@ void create_units_order_widgets(void)
   buf->info_label = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT);
   buf->key = SDLK_a;
   add_to_gui_list(ID_UNIT_ORDER_AUTO_WORKER, buf);
-  /* --------- */    
+  /* --------- */
 
   /* Wake Up Others */
   fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)",
