@@ -1237,7 +1237,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   transfer_city_units(ptaker, pgiver, old_city_units,
                       pcity, NULL,
                       kill_outside, transfer_unit_verbose);
-  /* The units themselves are allready freed by transfer_city_units(). */
+  /* The units themselves are already freed by transfer_city_units(). */
   unit_list_destroy(old_city_units);
 
   if (resolve_stack) {
