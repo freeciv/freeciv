@@ -477,23 +477,6 @@ if zstd_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
 endif
 
-mw_req = get_option('mwand')
-if mw_req != 'false'
-  mw_dep = dependency('MagickWand', version : '>= 7.0', required : false)
-  if mw_dep.found()
-    pub_conf_data.set('FREECIV_MWAND7', '1')
-  else
-    mw_dep = dependency('MagickWand', version : '>= 6.0', required : false)
-  endif
-  if mw_dep.found()
-    priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
-  elif mw_req == 'true'
-    error('MagickWand support requested but not found.')
-  endif
-else
-  mw_dep = []
-endif
-
 if c_compiler.compiles('''
 #include <stddef>
 int main(void) { int *var = nullptr; return 0; }''',
@@ -540,6 +523,49 @@ endif
 
 # Set unconditionally, as it was checked as hard requirement
 pub_conf_data.set('FREECIV_HAVE_LIBZ', 1)
+
+mw_req = get_option('mwand')
+mw_extra_dep = []
+if mw_req != 'false'
+  mw_dep = dependency('MagickWand', version : '>= 7.0', required : false)
+  if mw_dep.found()
+    pub_conf_data.set('FREECIV_MWAND7', '1')
+    mwand_incl = '#include <MagickWand/MagickWand.h>'
+  else
+    mw_dep = dependency('MagickWand', version : '>= 6.0', required : false)
+    if mw_dep.found()
+      mwand_incl = '#include <wand/MagickWand.h>'
+    endif
+  endif
+  if mw_dep.found()
+    if not c_compiler.links(mwand_incl + '''
+int main(void) { MagickWandGenesis(); }''',
+    name: 'mwand links',
+    dependencies: mw_dep)
+      mw_extra_dep = [c_compiler.find_library('urlmon', dirs: cross_lib_path,
+                                              required: false),
+                      c_compiler.find_library('gdi32', dirs: cross_lib_path,
+                                              required: false)]
+      if c_compiler.links(mwand_incl + '''
+int main(void) { MagickWandGenesis(); }''',
+      name: 'mwand links',
+      dependencies: [mw_dep, mw_extra_dep, zlib_dep, lzma_dep, net_dep])
+        priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
+      elif mw_req == 'true'
+        error('MagickWand support requested but not found.')
+      else
+        mw_dep = []
+        mw_extra_dep = []
+      endif
+    else
+      priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
+    endif
+  elif mw_req == 'true'
+    error('MagickWand support requested but not found.')
+  endif
+else
+  mw_dep = []
+endif
 
 if syslua != 'false' and lua_dep_tmp.found()
   lua_inc_path = []
@@ -1217,7 +1243,7 @@ if server_type != 'disabled'
     servericon,
     include_directories: server_inc,
     link_with: [server_lib, common_lib, ais],
-    dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
+    dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
     install: true
     )
 
@@ -2942,7 +2968,7 @@ executable('freeciv-gtk3.22',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_50',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_50'],
   include_directories: client_inc,
-  dependencies: [gtk322_dep, net_dep, gettext_dep],
+  dependencies: [gtk322_dep, net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
   install: true
   )
@@ -3033,7 +3059,7 @@ executable('freeciv-gtk4',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_66'],
   include_directories: client_inc,
-  dependencies: [gtk4_dep, net_dep, gettext_dep],
+  dependencies: [gtk4_dep, net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
   install: true
   )
@@ -3146,7 +3172,7 @@ executable('freeciv-qt',
   'client/gui-qt/wldlg.cpp',
   mocced_client, clienticon,
   include_directories: [client_inc, include_directories('client/gui-qt')],
-  dependencies: [qt_dep, net_dep, gettext_dep],
+  dependencies: [qt_dep, net_dep, gettext_dep, mw_extra_dep],
   override_options: qt_opts,
   link_with: client_common,
   install: true)
@@ -3388,7 +3414,7 @@ executable('freeciv-sdl2',
                  c_compiler.find_library('SDL2_image', dirs: cross_lib_path),
                  sdl2_gfx_dep,
                  c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path),
-                 net_dep, gettext_dep],
+                 net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
   install: true
   )
@@ -3486,7 +3512,7 @@ executable('freeciv-stub',
   'client/gui-stub/wldlg.c',
   clienticon,
   include_directories: client_inc,
-  dependencies: [audio_dep, net_dep, gettext_dep],
+  dependencies: [audio_dep, net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
   install: true
   )
@@ -3651,7 +3677,7 @@ executable('freeciv-ruleup',
   'tools/ruleup.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
-  dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
   install: true
   )
 
@@ -3719,7 +3745,8 @@ executable('freeciv-ruledit',
   'tools/ruledit/validity.c',
   mocced_ruledit, rulediticon,
   include_directories: tool_inc,
-  dependencies: [qt_dep, m_dep, net_dep, readline_dep, gettext_dep],
+  dependencies: [qt_dep, m_dep, net_dep, readline_dep, gettext_dep,
+                 mw_extra_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
   override_options: qt_opts,
   install: true
@@ -3752,7 +3779,7 @@ executable('freeciv-manual',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
-  dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
   install: true
   )
 

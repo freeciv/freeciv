@@ -104,8 +104,10 @@ fi
 
 if test "$GUI" = "ruledit" ; then
   SERVER="disabled"
+  MWAND="false"
 else
   SERVER="enabled"
+  MWAND="true"
 fi
 
 BUILD_DIR="meson/build/${SETUP}-${GUI}"
@@ -153,10 +155,11 @@ if ! meson setup \
      -Dmin-win-ver="$MIN_WINVER" \
      -Dclients="$CLIENT" -Dfcmp="$FCMP" \
      -Dsyslua=false \
-     -Dmwand=false \
+     -Dmwand="${MWAND}" \
      -Dreadline=false \
      -Dserver="$SERVER" \
      -Druledit="$RULEDIT" \
+     -Ddefault_library=static \
      $QTPARAMS \
      $EXTRA_CONFIG \
      "${SRC_ROOT}" ; then
