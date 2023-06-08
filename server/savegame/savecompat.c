@@ -2346,6 +2346,9 @@ static void compat_load_030200(struct loaddata *loading,
             secfile_insert_int(loading->file, CACQ_CONQUEST,
                                "player%d.c%d.acquire_t",
                                plrno, cnro);
+            secfile_insert_int(loading->file, WLCB_SMART,
+                               "player%d.c%d.wlcb",
+                               plrno, cnro);
           } else {
             secfile_insert_int(loading->file, CACQ_FOUNDED,
                                "player%d.c%d.acquire_t",
@@ -2751,6 +2754,13 @@ static void compat_load_dev(struct loaddata *loading)
                                  "player%d.c%d.acquire_t",
                                  plrno, cnro);
             }
+          }
+          if (secfile_entry_lookup(loading->file,
+                                   "player%d.c%d.wlcb",
+                                   plrno, cnro) == NULL) {
+            secfile_insert_int(loading->file, WLCB_SMART,
+                               "player%d.c%d.wlcb",
+                               plrno, cnro);
           }
         }
 

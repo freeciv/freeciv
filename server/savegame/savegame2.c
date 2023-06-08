@@ -3745,6 +3745,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       BV_SET(pcity->city_options, loading->coptions.order[i]);
     }
   }
+  /* Was never stored to savegame2 saves */
+  pcity->wlcb = WLCB_SMART;
 
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
 

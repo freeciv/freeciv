@@ -1139,6 +1139,10 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
   bool purge = FALSE;
   bool known = FALSE;
 
+  if (pcity->wlcb == WLCB_ALWAYS_PURGE) {
+    return TRUE;
+  }
+
   switch (target->kind) {
   case VUT_UTYPE:
     ptarget = target->value.utype;
@@ -1156,7 +1160,16 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
     fc_assert_ret_val((target->kind == VUT_IMPROVEMENT
                        || target->kind == VUT_UTYPE), FALSE);
     return FALSE;
-    break;
+  }
+
+  if (pcity->wlcb == WLCB_ALWAYS_POSTPONE) {
+    notify_player(pplayer, city_tile(pcity),
+                  E_CITY_CANTBUILD, ftc_server,
+                  _("%s can't build %s from the worklist. "
+                    "Postponing..."),
+                  city_link(pcity),
+                  tgt_name);
+    return FALSE;
   }
 
   requirement_vector_iterate(build_reqs, preq) {
