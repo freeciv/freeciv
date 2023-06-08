@@ -101,6 +101,10 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 static bool city_build_building(struct player *pplayer, struct city *pcity);
 static bool city_build_unit(struct player *pplayer, struct city *pcity);
 static bool city_build_stuff(struct player *pplayer, struct city *pcity);
+static struct unit *city_create_unit(struct city *pcity,
+                                     const struct unit_type *utype,
+                                     struct citizens_reduction *red)
+  fc__attribute((nonnull (1, 2)));
 static const struct impr_type *building_upgrades_to(struct city *pcity,
                                                     const struct impr_type *pimprove);
 static void upgrade_building_prod(struct city *pcity);
