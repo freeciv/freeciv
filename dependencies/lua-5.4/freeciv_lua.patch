@@ -1,22 +1,6 @@
-diff -Nurd lua-5.4/src/ldebug.c lua-5.4/src/ldebug.c
---- lua-5.4/src/ldebug.c	2022-07-27 04:12:01.194770626 +0300
-+++ lua-5.4/src/ldebug.c	2022-07-27 04:12:30.295004426 +0300
-@@ -824,8 +824,11 @@
-   va_start(argp, fmt);
-   msg = luaO_pushvfstring(L, fmt, argp);  /* format message */
-   va_end(argp);
--  if (isLua(ci))  /* if Lua function, add source:line information */
-+  if (isLua(ci)) {  /* if Lua function, add source:line information */
-     luaG_addinfo(L, msg, ci_func(ci)->p->source, getcurrentline(ci));
-+    setobjs2s(L, L->top - 2, L->top - 1);  /* remove 'msg' from the stack */
-+    L->top--;
-+  }
-   luaG_errormsg(L);
- }
- 
 diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
---- lua-5.4/src/ldo.c	2022-07-27 04:12:15.110882400 +0300
-+++ lua-5.4/src/ldo.c	2022-04-11 04:08:36.230473165 +0300
+--- lua-5.4/src/ldo.c	2023-06-08 05:45:43.164933363 +0300
++++ lua-5.4/src/ldo.c	2023-06-08 05:45:54.989049862 +0300
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -38,8 +22,8 @@ diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
  
  
 diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
---- lua-5.4/src/liolib.c	2022-07-27 04:12:15.110882400 +0300
-+++ lua-5.4/src/liolib.c	2022-04-11 04:08:36.230473165 +0300
+--- lua-5.4/src/liolib.c	2023-06-08 05:45:43.164933363 +0300
++++ lua-5.4/src/liolib.c	2023-06-08 05:45:54.989049862 +0300
 @@ -54,7 +54,7 @@
  
  #if !defined(l_popen)		/* { */
@@ -59,9 +43,9 @@ diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
  #include <sys/types.h>
  
 diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
---- lua-5.4/src/loslib.c	2022-07-27 04:12:15.110882400 +0300
-+++ lua-5.4/src/loslib.c	2022-04-11 04:08:36.234473192 +0300
-@@ -83,7 +83,7 @@
+--- lua-5.4/src/loslib.c	2023-06-08 05:45:43.164933363 +0300
++++ lua-5.4/src/loslib.c	2023-06-08 05:45:54.989049862 +0300
+@@ -74,7 +74,7 @@
  ** where it uses gmtime_r/localtime_r
  */
  
@@ -70,7 +54,7 @@ diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
  
  #define l_gmtime(t,r)		gmtime_r(t,r)
  #define l_localtime(t,r)	localtime_r(t,r)
-@@ -110,7 +110,7 @@
+@@ -101,7 +101,7 @@
  */
  #if !defined(lua_tmpnam)	/* { */
  
@@ -79,20 +63,9 @@ diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
  
  #include <unistd.h>
  
-diff -Nurd lua-5.4/src/lparser.c lua-5.4/src/lparser.c
---- lua-5.4/src/lparser.c	2022-07-27 04:12:15.110882400 +0300
-+++ lua-5.4/src/lparser.c	2022-04-27 20:52:05.111044045 +0300
-@@ -468,6 +468,7 @@
-     expdesc key;
-     singlevaraux(fs, ls->envn, var, 1);  /* get environment variable */
-     lua_assert(var->k != VVOID);  /* this one must exist */
-+    luaK_exp2anyregup(fs, var);  /* but could be a constant */
-     codestring(&key, varname);  /* key is variable name */
-     luaK_indexed(fs, var, &key);  /* env[varname] */
-   }
 diff -Nurd lua-5.4/src/luaconf.h lua-5.4/src/luaconf.h
---- lua-5.4/src/luaconf.h	2022-07-27 04:12:15.114882434 +0300
-+++ lua-5.4/src/luaconf.h	2022-04-11 04:08:36.234473192 +0300
+--- lua-5.4/src/luaconf.h	2023-06-08 05:45:43.164933363 +0300
++++ lua-5.4/src/luaconf.h	2023-06-08 05:45:54.989049862 +0300
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>
@@ -101,27 +74,3 @@ diff -Nurd lua-5.4/src/luaconf.h lua-5.4/src/luaconf.h
  
  /*
  ** ===================================================================
-diff -Nurd lua-5.4/src/lvm.c lua-5.4/src/lvm.c
---- lua-5.4/src/lvm.c	2022-07-27 04:12:01.198770660 +0300
-+++ lua-5.4/src/lvm.c	2022-07-27 04:12:30.295004426 +0300
-@@ -656,8 +656,10 @@
-       /* collect total length and number of strings */
-       for (n = 1; n < total && tostring(L, s2v(top - n - 1)); n++) {
-         size_t l = vslen(s2v(top - n - 1));
--        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl))
-+        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl)) {
-+          L->top = top - total;  /* pop strings to avoid wasting stack */
-           luaG_runerror(L, "string length overflow");
-+        }
-         tl += l;
-       }
-       if (tl <= LUAI_MAXSHORTLEN) {  /* is result a short string? */
-@@ -672,7 +674,7 @@
-       setsvalue2s(L, top - n, ts);  /* create result */
-     }
-     total -= n-1;  /* got 'n' strings to create 1 new */
--    L->top -= n-1;  /* popped 'n' strings and pushed one */
-+    L->top = top - (n - 1);  /* popped 'n' strings and pushed one */
-   } while (total > 1);  /* repeat until only 1 result left */
- }
- 
