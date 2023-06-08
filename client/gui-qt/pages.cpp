@@ -1936,22 +1936,17 @@ void fc_client::update_buttons()
 void fc_client::start_page_menu(QPoint pos)
 {
   QAction *action;
-  QMenu *menu, *submenu_AI, *submenu_team;
   QPoint global_pos = start_players_tree->mapToGlobal(pos);
   QString me, splayer, str, sp;
   bool need_empty_team;
   const char *level_cmd, *level_name;
   int level, count;
   QSignalMapper *player_menu_mapper;
-  player *selected_player;
   QVariant qvar, qvar2;
 
   me = client.conn.username;
   QTreeWidgetItem *item = start_players_tree->itemAt(pos);
 
-  menu = new QMenu(this);
-  submenu_AI = new QMenu(this);
-  submenu_team = new QMenu(this);
   if (!item) {
     return;
   }
@@ -1964,16 +1959,18 @@ void fc_client::start_page_menu(QPoint pos)
    * qvar = 1 -> selected player (stored in qvar2)
    */
 
-  selected_player = NULL;
-  if (qvar == 0) {
-    return;
-  }
   if (qvar == 1) {
-    selected_player = (player *) qvar2.value < void *>();
-  }
-  player_menu_mapper = new QSignalMapper;
-  players_iterate(pplayer) {
-    if (selected_player && selected_player == pplayer) {
+    player *pplayer = (player *) qvar2.value < void *>();
+
+    if (pplayer != nullptr) {
+      QMenu *menu, *submenu_AI, *submenu_team;
+
+      player_menu_mapper = new QSignalMapper;
+
+      menu = new QMenu(this);
+      submenu_AI = new QMenu(this);
+      submenu_team = new QMenu(this);
+
       splayer = QString(pplayer->name);
       sp = "\"" + splayer + "\"";
       if (me != splayer) {
@@ -2039,12 +2036,12 @@ void fc_client::start_page_menu(QPoint pos)
       /**
       * Put to Team X submenu
       */
-      if (pplayer && game.info.is_new_game) {
+      if (game.info.is_new_game) {
         menu->addMenu(submenu_team);
         submenu_team->setTitle(_("Put on team"));
         menu->addMenu(submenu_team);
         count = pplayer->team ?
-            player_list_size(team_members(pplayer->team)) : 0;
+          player_list_size(team_members(pplayer->team)) : 0;
         need_empty_team = (count != 1);
         team_slots_iterate(tslot) {
           if (!team_slot_is_used(tslot)) {
@@ -2056,7 +2053,7 @@ void fc_client::start_page_menu(QPoint pos)
           str = team_slot_name_translation(tslot);
           action = new QAction(str, start_players_tree);
           str = "/team" + sp + " \"" + QString(team_slot_rule_name(tslot))
-              + "\"";
+            + "\"";
           connect(action, SIGNAL(triggered()),
                   player_menu_mapper, SLOT(map()));
           player_menu_mapper->setMapping(action, str);
@@ -2064,7 +2061,7 @@ void fc_client::start_page_menu(QPoint pos)
         } team_slots_iterate_end;
       }
 
-      if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
+      if (ALLOW_CTRL <= client.conn.access_level) {
         str = QString(_("Aitoggle player"));
         action = new QAction(str, start_players_tree);
         str = "/aitoggle " + sp;
@@ -2078,12 +2075,11 @@ void fc_client::start_page_menu(QPoint pos)
       menu->popup(global_pos);
       return;
     }
-  } players_iterate_end;
-  delete player_menu_mapper;
+  }
 }
 
 /***************************************************************************
- Calls dialog selecting nations
+  Calls dialog selecting nations
 ***************************************************************************/
 void fc_client::slot_pick_nation()
 {
