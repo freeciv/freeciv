@@ -1,5 +1,5 @@
 # lib-link.m4 serial 33
-dnl Copyright (C) 2001-2022 Free Software Foundation, Inc.
+dnl Copyright (C) 2001-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -224,7 +224,7 @@ AC_DEFUN([AC_LIB_LINKFLAGS_BODY],
     additional_libdir3=
   fi
   dnl Search the library and its dependencies in $additional_libdir and
-  dnl $LDFLAGS. Using breadth-first-seach.
+  dnl $LDFLAGS. Use breadth-first search.
   LIB[]NAME=
   LTLIB[]NAME=
   INC[]NAME=
