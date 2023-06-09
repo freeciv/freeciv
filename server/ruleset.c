@@ -3719,13 +3719,25 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       free(slist);
 
+      /* Handle before rscompat_extra_rmcause_3_2() might need the values */
+      pextra->removal_time = 0; /* Default */
+      lookup_time(file, &pextra->removal_time, section, "removal_time",
+                  filename, extra_rule_name(pextra), &ok);
+      pextra->removal_time_factor
+        = secfile_lookup_int_default(file, 1, "%s.removal_time_factor",
+                                     section);
+
+      /* Do not clear after this point.
+       * rscompat_extra_rmcause_3_2() might set a flag we want to keep. */
+      BV_CLR_ALL(pextra->flags);
+
       slist = secfile_lookup_str_vec(file, &nval, "%s.rmcauses", section);
       pextra->rmcauses = 0;
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
 
         if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-          sval = rscompat_extra_rmcause_3_2(sval);
+          sval = rscompat_extra_rmcause_3_2(pextra, sval);
         }
 
         rmcause = extra_rmcause_by_name(sval, fc_strcasecmp);
@@ -3802,16 +3814,15 @@ static bool load_ruleset_terrain(struct section_file *file,
       pextra->generated = secfile_lookup_bool_default(file, TRUE,
                                                       "%s.generated", section);
 
-      pextra->build_time = 0; /* default */
+      pextra->build_time = 0; /* Default */
       lookup_time(file, &pextra->build_time, section, "build_time",
                   filename, extra_rule_name(pextra), &ok);
       pextra->build_time_factor = secfile_lookup_int_default(file, 1,
                                                              "%s.build_time_factor", section);
-      pextra->removal_time = 0; /* default */
-      lookup_time(file, &pextra->removal_time, section, "removal_time",
-                  filename, extra_rule_name(pextra), &ok);
-      pextra->removal_time_factor = secfile_lookup_int_default(file, 1,
-                                                               "%s.removal_time_factor", section);
+
+      /* removal_time handled earlier, so that rscompat_extra_rmcause_3_2()
+       * can use them. */
+
       pextra->infracost = secfile_lookup_int_default(file, 0,
                                                      "%s.infracost", section);
       if (pextra->infracost > 0) {
@@ -3876,7 +3887,6 @@ static bool load_ruleset_terrain(struct section_file *file,
       }
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
-      BV_CLR_ALL(pextra->flags);
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
         enum extra_flag_id flag;

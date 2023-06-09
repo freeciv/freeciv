@@ -567,14 +567,34 @@ int add_user_extra_flags_3_2(int start)
 /**********************************************************************//**
   Adjust rmcause name of an extra loaded from a 3.1 ruleset.
 **************************************************************************/
-const char *rscompat_extra_rmcause_3_2(const char *old_name)
+const char *rscompat_extra_rmcause_3_2(struct extra_type *pextra,
+                                       const char *old_name)
 {
-  if (!fc_strcasecmp("CleanPollution", old_name)
-      || !fc_strcasecmp("CleanFallout", old_name)) {
-    return "Clean";
+  const char *retname = old_name;
+
+  if (!fc_strcasecmp("CleanPollution", old_name)) {
+    /* Don't give this flag to extras that have been using
+     * removal time not tied to terrain, so it won't get
+     * overridden by "ActivityTime" effects we also add. */
+    if (pextra->removal_time == 0) {
+      BV_SET(pextra->flags,
+             extra_flag_id_by_name("CleanAsPollution", fc_strcasecmp));
+    }
+    retname = "Clean";
   }
 
-  return old_name;
+  if (!fc_strcasecmp("CleanFallout", old_name)) {
+    /* Don't give this flag to extras that have been using
+     * removal time not tied to terrain, so it won't get
+     * overridden by "ActivityTime" effects we also add. */
+    if (pextra->removal_time == 0) {
+      BV_SET(pextra->flags,
+             extra_flag_id_by_name("CleanAsFallout", fc_strcasecmp));
+    }
+    retname = "Clean";
+  }
+
+  return retname;
 }
 
 /**********************************************************************//**
@@ -593,21 +613,6 @@ void rscompat_extra_adjust_3_2(struct extra_type *pextra)
                               req_from_str("MinLatitude", "Tile",
                                            FALSE, TRUE, FALSE,
                                            "-980"));
-  }
-
-  /* Don't give these flags to extras that have been using
-   * removal time not tied to terrain, so it won't get
-   * overridden by "ActivityTime" effects we also add. */
-  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-      && pextra->removal_time == 0) {
-    BV_SET(pextra->flags,
-           extra_flag_id_by_name("CleanAsPollution", fc_strcasecmp));
-  }
-
-  if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
-      && pextra->removal_time == 0) {
-    BV_SET(pextra->flags,
-           extra_flag_id_by_name("CleanAsFallout", fc_strcasecmp));
   }
 }
 
