@@ -95,7 +95,7 @@ static struct dialog_list *dialog_list;
 static struct intel_dialog *create_intel_dialog(struct player *p);
 
 /****************************************************************
-  Initialize intelligenze dialogs
+  Initialize intelligence dialogs
 *****************************************************************/
 void intel_dialog_init(void)
 {
@@ -103,7 +103,7 @@ void intel_dialog_init(void)
 }
 
 /****************************************************************
-  Free resources allocated for intelligenze dialogs
+  Free resources allocated for intelligence dialogs
 *****************************************************************/
 void intel_dialog_done(void)
 {
@@ -111,7 +111,7 @@ void intel_dialog_done(void)
 }
 
 /****************************************************************
-  Get intelligenze dialog between client user and other player
+  Get intelligence dialog between client user and other player
   passed as parameter.
 *****************************************************************/
 static struct intel_dialog *get_intel_dialog(struct player *pplayer)
@@ -126,7 +126,7 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 }
 
 /****************************************************************
-  Open intelligenze dialog
+  Open intelligence dialog
 *****************************************************************/
 void popup_intel_dialog(struct player *p)
 {
@@ -142,7 +142,7 @@ void popup_intel_dialog(struct player *p)
 }
 
 /****************************************************************
-  Intelligenze dialog destruction requested
+  Intelligence dialog destruction requested
 *****************************************************************/
 static void intel_destroy_callback(GtkWidget *w, gpointer data)
 {
@@ -163,7 +163,7 @@ void close_intel_dialog(struct player *p)
 }
 
 /****************************************************************
-  Create new intelligenze dialog between client user and player
+  Create new intelligence dialog between client user and player
   given as parameter.
 *****************************************************************/
 static struct intel_dialog *create_intel_dialog(struct player *p)
