@@ -3417,17 +3417,27 @@ endif
 
 if get_option('clients').contains('sdl2')
 
-sdl2_gfx_dep = c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path,
-                                       required: false)
+sdl2_gfx_dep = []
+sdl2_gfx_src = []
+sdl2_gfx_inc = []
+sdl2_gfx_cargs = []
+sdl2_image_dep = []
+sdl2_ttf_dep = []
 
-if not sdl2_gfx_dep.found()
-  sdl2_gfx_src = 'dependencies/SDL2_gfx/SDL2_rotozoom.c'
-  sdl2_gfx_inc = include_directories('dependencies')
-  sdl2_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
-else
-  sdl2_gfx_src = []
-  sdl2_gfx_inc = []
-  sdl2_gfx_cargs = []
+if not emscripten
+  sdl2_gfx_dep = c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path,
+                                         required: false)
+
+  if not sdl2_gfx_dep.found()
+    sdl2_gfx_src = 'dependencies/SDL2_gfx/SDL2_rotozoom.c'
+    sdl2_gfx_inc = include_directories('dependencies')
+    sdl2_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
+  endif
+
+  sdl2_image_dep = c_compiler.find_library('SDL2_image', dirs: cross_lib_path,
+                                           required: false)
+  sdl2_ttf_dep = c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path,
+                                         required: false)
 endif
 
 executable('freeciv-sdl2',
@@ -3484,9 +3494,7 @@ executable('freeciv-sdl2',
   c_args: sdl2_gfx_cargs,
   include_directories: [client_inc, sdl2_gfx_inc ],
   dependencies: [sdl2main_dep, audio_dep,
-                 c_compiler.find_library('SDL2_image', dirs: cross_lib_path),
-                 sdl2_gfx_dep,
-                 c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path),
+                 sdl2_image_dep, sdl2_gfx_dep, sdl2_ttf_dep,
                  net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
   install: true
