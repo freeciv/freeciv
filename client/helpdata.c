@@ -3126,8 +3126,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 #endif
     /* FIXME: if we knew the raise chances on the client, we could be
      * more specific here about whether veteran status can be acquired
-     * through combat/missions/work. Should also take into account
-     * UTYF_NO_VETERAN when writing this text. (Gna patch #4794) */
+     * through combat/missions/work. */
     CATLSTR(buf, bufsz, _("%s May acquire veteran status.\n"), BULLET);
     if (utype_veteran_has_power_bonus(utype)) {
       if (utype_can_do_action(utype, ACTION_ATTACK)

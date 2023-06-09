@@ -1322,5 +1322,4 @@ target_reqs    =
 action        = "Gain Veterancy"
 actor_reqs    =
     { "type",         "name",         "range", "present"
-      "UnitFlag",     "NoVeteran",    "Local", FALSE
     }

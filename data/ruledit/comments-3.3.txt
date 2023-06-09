@@ -471,9 +471,6 @@ utypes = "\
 ; \"NoHome\"      = this unit is built with no homecity, free of all upkeep, and\n\
 ;                 therefore will not revolt along with its city of origin should\n\
 ;                 it be incited\n\
-; \"NoVeteran\"   = this unit cannot gain veteran levels through experience\n\
-;                 (as if both base_raise_chance and work_raise_chance were zero);\n\
-;                 it can still gain veterancy through Veteran_Build, etc\n\
 ; \"CityBuster\"  = this unit has double firepower against cities\n\
 ; \"NoBuild\"     = this unit cannot be built\n\
 ; \"BadWallAttacker\" = the firepower of this unit is set to 1 if\n\

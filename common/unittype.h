@@ -243,9 +243,9 @@ struct unit_class {
 /* Has no homecity */
 #define SPECENUM_VALUE19 UTYF_NOHOME
 #define SPECENUM_VALUE19NAME N_("?unitflag:NoHome")
-/* Cannot increase veteran level */
-#define SPECENUM_VALUE20 UTYF_NO_VETERAN
-#define SPECENUM_VALUE20NAME N_("?unitflag:NoVeteran")
+/* Unreserved - clean out */
+#define SPECENUM_VALUE20 UTYF_UNRESERVED
+#define SPECENUM_VALUE20NAME "Unreserved"
 /* Gets double firepower against cities */
 #define SPECENUM_VALUE21 UTYF_CITYBUSTER
 #define SPECENUM_VALUE21NAME N_("?unitflag:CityBuster")

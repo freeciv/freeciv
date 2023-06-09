@@ -354,9 +354,6 @@ flags         = "Missile", "DoesntOccupyTile"
 ; "NoHome"      = this unit is built with no homecity, free of all upkeep, and
 ;                 therefore will not revolt along with its city of origin should
 ;                 it be incited
-; "NoVeteran"   = this unit cannot gain veteran levels through experience
-;                 (as if both base_raise_chance and work_raise_chance were zero);
-;                 it can still gain veterancy through Veteran_Build, etc
 ; "CityBuster"  = this unit has double firepower against cities
 ; "NoBuild"     = this unit cannot be built
 ; "BadWallAttacker" = the firepower of this unit is set to 1 if

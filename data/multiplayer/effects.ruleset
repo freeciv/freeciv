@@ -792,7 +792,6 @@ reqs	=
       "Building", "Airport", "City", TRUE
       "UnitClass", "Air", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_0a]
@@ -803,7 +802,6 @@ reqs	=
       "Building", "Airport", "City", TRUE
       "UnitClass", "Helicopter", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_0b]
@@ -814,7 +812,6 @@ reqs	=
       "Building", "Airport", "City", TRUE
       "UnitClass", "Missile", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_1]
@@ -892,7 +889,6 @@ reqs	=
       "BuildingFlag", "Barracks",  "City",  TRUE
       "UnitClass",    "Land",      "Local", TRUE
       "UnitFlag",     "NonMil",    "Local", FALSE
-      "UnitFlag",     "NoVeteran", "Local", FALSE
     }
 
 [effect_barracks_regen]
@@ -1394,7 +1390,6 @@ reqs	=
       "Building", "Port Facility", "City", TRUE
       "UnitClass", "Sea", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_port_facility_1]
@@ -1414,7 +1409,6 @@ reqs	=
       "Building", "Port Facility", "City", TRUE
       "UnitClass", "Trireme", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_port_facility_trireme_1]
@@ -2122,7 +2116,6 @@ reqs	=
       "Building", "Sun Tzu's War Academy", "Continent", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_united_nations]
