@@ -75,7 +75,7 @@ static inline int regen_turns(struct unit *punit, struct tile *ptile,
 
 /******************************************************************//**
   Looks for nearest airbase for punit reachable imediatly.
-  Returns NULL if not found.  The path is stored in the path
+  Returns NULL if not found. The path is stored in the path
   argument if not NULL.
   If the unit is damaged, flies to an airbase that can repair
   the unit in a minimal number of turns.
@@ -113,7 +113,7 @@ static struct tile *find_nearest_airbase(struct unit *punit,
           best = ptile;
           break;
         } else if (!best || regt < best_regt) {
-          /* regenerates faster */
+          /* Regenerates faster */
           best_regt = regt;
           best = ptile;
         }
@@ -141,8 +141,8 @@ static bool dai_should_we_air_attack_tile(struct ai_type *ait,
   struct city *acity = tile_city(ptile);
 
   /* For a virtual unit (punit->id == 0), all targets are good */
-  /* TODO: There is a danger of producing too many units that will not 
-   * attack anything.  Production should not happen if there is an idle 
+  /* TODO: There is a danger of producing too many units that will not
+   * attack anything. Production should not happen if there is an idle
    * unit of the same type nearby */
   if (acity && punit->id != 0
       && def_ai_city_data(acity, ait)->invasion.occupy == 0
@@ -164,17 +164,17 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
                                                  struct tile *dst_tile)
 {
   struct unit *pdefender;
-  /* unit costs in shields */
+  /* Unit costs in shields */
   int balanced_cost, unit_cost, victim_cost = 0;
-  /* unit stats */
+  /* Unit stats */
   int unit_attack, victim_defense;
-  /* final answer */
+  /* Final answer */
   adv_want profit;
-  /* time spent in the air */
+  /* Time spent in the air */
   int sortie_time;
   struct civ_map *nmap = &(wld.map);
 
-#define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
+#define PROB_MULTIPLIER 100 /* Should unify with those in combat.c */
 
   if (!can_unit_attack_tile(punit, NULL, dst_tile)
       || !(pdefender = get_defender(nmap, punit, dst_tile, NULL))) {
@@ -208,13 +208,14 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
 
   balanced_cost = build_cost_balanced(unit_type_get(punit));
 
-  sortie_time = (utype_pays_mp_for_action_estimate(
-                 action_by_number(ACTION_ATTACK),
-                 unit_type_get(punit), unit_owner(punit),
-                 /* Assume that dst_tile is closer to the tile the actor
-                  * unit will attack from than its current tile. */
-                 dst_tile,
-                 dst_tile) >= MAX_MOVE_FRAGS ? 1 : 0);
+  sortie_time
+    = (utype_pays_mp_for_action_estimate(nmap,
+                                         action_by_number(ACTION_ATTACK),
+                                         unit_type_get(punit), unit_owner(punit),
+                                         /* Assume that dst_tile is closer to the tile the actor
+                                          * unit will attack from than its current tile. */
+                                         dst_tile,
+                                         dst_tile) >= MAX_MOVE_FRAGS ? 1 : 0);
 
   profit = kill_desire(victim_cost, unit_attack, unit_cost, victim_defense, 1)
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;
@@ -237,7 +238,7 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
 /******************************************************************//**
   Find something to bomb
   Air-units specific victim search
-  Returns the want for the best target.  The targets are stored in the
+  Returns the want for the best target. The targets are stored in the
   path and pptile arguments if not NULL.
   TODO: take counterattack dangers into account
   TODO: make separate handicaps for air units seeing targets
