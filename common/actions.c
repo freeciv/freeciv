@@ -6199,84 +6199,17 @@ struct act_prob action_prob_fall_back(const struct act_prob *ap1,
 **************************************************************************/
 int action_dice_roll_initial_odds(const struct action *paction)
 {
-  switch (paction->result) {
-  case ACTRES_STRIKE_BUILDING:
-  case ACTRES_STRIKE_PRODUCTION:
-  case ACTRES_SPY_SPREAD_PLAGUE:
-  case ACTRES_SPY_STEAL_TECH:
-  case ACTRES_SPY_TARGETED_STEAL_TECH:
-  case ACTRES_SPY_INCITE_CITY:
-  case ACTRES_SPY_SABOTAGE_CITY:
-  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTRES_SPY_STEAL_GOLD:
-  case ACTRES_STEAL_MAPS:
-  case ACTRES_SPY_NUKE:
-  case ACTRES_SPY_POISON:
+  switch (actres_dice_type(paction->result)) {
+  case DRT_DIPLCHANCE:
     if (BV_ISSET(game.info.diplchance_initial_odds, paction->id)) {
       /* Take the initial odds from the diplchance setting. */
       return server_setting_value_int_get(
             server_setting_by_name("diplchance"));
-    } else {
-      /* No initial odds. */
-      return 100;
     }
-  case ACTRES_ESTABLISH_EMBASSY:
-  case ACTRES_SPY_INVESTIGATE_CITY:
-  case ACTRES_TRADE_ROUTE:
-  case ACTRES_MARKETPLACE:
-  case ACTRES_HELP_WONDER:
-  case ACTRES_SPY_BRIBE_UNIT:
-  case ACTRES_SPY_SABOTAGE_UNIT:
-  case ACTRES_CAPTURE_UNITS:
-  case ACTRES_FOUND_CITY:
-  case ACTRES_JOIN_CITY:
-  case ACTRES_BOMBARD:
-  case ACTRES_NUKE:
-  case ACTRES_NUKE_UNITS:
-  case ACTRES_DESTROY_CITY:
-  case ACTRES_EXPEL_UNIT:
-  case ACTRES_DISBAND_UNIT_RECOVER:
-  case ACTRES_DISBAND_UNIT:
-  case ACTRES_HOME_CITY:
-  case ACTRES_HOMELESS:
-  case ACTRES_UPGRADE_UNIT:
-  case ACTRES_PARADROP:
-  case ACTRES_PARADROP_CONQUER:
-  case ACTRES_AIRLIFT:
-  case ACTRES_ATTACK:
-  case ACTRES_WIPE_UNITS:
-  case ACTRES_CONQUER_CITY:
-  case ACTRES_CONQUER_EXTRAS:
-  case ACTRES_HEAL_UNIT:
-  case ACTRES_TRANSFORM_TERRAIN:
-  case ACTRES_CULTIVATE:
-  case ACTRES_PLANT:
-  case ACTRES_PILLAGE:
-  case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
-  case ACTRES_FORTIFY:
-  case ACTRES_ROAD:
-  case ACTRES_CONVERT:
-  case ACTRES_BASE:
-  case ACTRES_MINE:
-  case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_DEBOARD:
-  case ACTRES_TRANSPORT_UNLOAD:
-  case ACTRES_TRANSPORT_LOAD:
-  case ACTRES_TRANSPORT_DISEMBARK:
-  case ACTRES_TRANSPORT_BOARD:
-  case ACTRES_TRANSPORT_EMBARK:
-  case ACTRES_SPY_ATTACK:
-  case ACTRES_HUT_ENTER:
-  case ACTRES_HUT_FRIGHTEN:
-  case ACTRES_UNIT_MOVE:
-  case ACTRES_TELEPORT:
-  case ACTRES_ENABLER_CHECK:
-  case ACTRES_SPY_ESCAPE:
-  case ACTRES_NONE:
-    /* No additional dice roll. */
+    fc__fallthrough;
+  case DRT_CERTAIN:
+    return 100;
+  case DRT_NONE:
     break;
   }
 
