@@ -1390,7 +1390,8 @@ int utype_pays_mp_for_action_base(const struct action *paction,
   Returns an estimate of the amount of movement points successfully
   performing the specified action will consume in the actor unit type.
 **************************************************************************/
-int utype_pays_mp_for_action_estimate(const struct action *paction,
+int utype_pays_mp_for_action_estimate(const struct civ_map *nmap,
+                                      const struct action *paction,
                                       const struct unit_type *putype,
                                       const struct player *act_player,
                                       const struct tile *act_tile,
@@ -1409,7 +1410,7 @@ int utype_pays_mp_for_action_estimate(const struct action *paction,
 
   if (utype_pays_for_regular_move_to_tgt(paction, putype)) {
     /* Add the cost from the move. */
-    mpco += map_move_cost(&(wld.map), act_player, putype,
+    mpco += map_move_cost(nmap, act_player, putype,
                           act_tile, tgt_tile);
   }
 
