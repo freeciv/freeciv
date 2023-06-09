@@ -190,7 +190,7 @@
 
 #endif /* USE_DUFFS_LOOP */
 
-/* shrink surface on 320x240 screen*/
+/* Shrink surface on 320x240 screen */
 #ifdef GUI_SDL2_SMALL_SCREEN
 #define DEFAULT_ZOOM 0.5
 #define adj_surf(surf) zoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
@@ -283,6 +283,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
 void init_sdl(int f);
 void quit_sdl(void);
 bool set_video_mode(unsigned width, unsigned height, unsigned flags);
+bool create_surfaces(int width, int height);
 
 void update_main_screen(void);
 
@@ -317,43 +318,43 @@ void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect);
 #define crop_rect_from_screen(rect) \
   crop_rect_from_surface(main_data.screen, &rect)
 
-/* free surface with check and clear pointer */
-#define FREESURFACE(ptr)		\
-do {					\
-  if (ptr) {				\
-    SDL_FreeSurface(ptr);		\
-    ptr = NULL;				\
-  }					\
+/* Free surface with check and clear pointer */
+#define FREESURFACE(ptr)                \
+do {                                    \
+  if (ptr) {                            \
+    SDL_FreeSurface(ptr);               \
+    ptr = NULL;                         \
+  }                                     \
 } while (FALSE)
 
 /*
- *  lock surface
+ * Lock surface
  */
-#define lock_surf(surf)	\
-do {				\
-  if (SDL_MUSTLOCK(surf)) {	\
-    SDL_LockSurface(surf);	\
-  }				\
+#define lock_surf(surf)         \
+do {                            \
+  if (SDL_MUSTLOCK(surf)) {     \
+    SDL_LockSurface(surf);      \
+  }                             \
 } while (FALSE)
 
 
 /*
- *   unlock surface
+ * Unlock surface
  */
-#define unlock_surf(surf)		\
-do {					\
-    if (SDL_MUSTLOCK(surf)) {		\
-	SDL_UnlockSurface(surf);	\
-    }                                   \
+#define unlock_surf(surf)               \
+do {                                    \
+  if (SDL_MUSTLOCK(surf)) {             \
+    SDL_UnlockSurface(surf);            \
+  }                                     \
 } while (FALSE)
 
 /*
- *   lock screen surface
+ *  Lock screen surface
  */
 #define lock_screen() lock_surf(main_data.screen)
 
 /*
- *   unlock screen surface
+ *  Unlock screen surface
  */
 #define unlock_screen() unlock_surf(main_data.screen)
 
