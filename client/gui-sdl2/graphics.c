@@ -56,7 +56,7 @@
 
 struct sdl2_data main_data;
 
-static SDL_Surface *main_surface;
+static SDL_Surface *main_surface = NULL;
 
 static bool render_dirty = TRUE;
 
@@ -511,7 +511,8 @@ void init_sdl(int flags)
   main_data.guis = NULL;
   main_data.gui = NULL;
   main_data.map = NULL;
-  main_data.dummy = NULL; /* can't create yet -- hope we don't need it */
+  main_data.dummy = NULL; /* Can't create yet -- hope we don't need it */
+  main_data.renderer = NULL;
   main_data.rects_count = 0;
   main_data.guis_count = 0;
 
@@ -537,46 +538,26 @@ void init_sdl(int flags)
 }
 
 /**********************************************************************//**
-  Free screen buffers
+  Free existing surfaces
 **************************************************************************/
-void quit_sdl(void)
+static void free_surfaces(void)
 {
-  FC_FREE(main_data.guis);
-  gui_layer_destroy(&main_data.gui);
-  FREESURFACE(main_data.map);
-  FREESURFACE(main_data.dummy);
-  SDL_DestroyTexture(main_data.maintext);
-  SDL_DestroyRenderer(main_data.renderer);
-  FREESURFACE(main_surface);
+  if (main_data.renderer != NULL) {
+    SDL_DestroyRenderer(main_data.renderer);
+    main_data.renderer = NULL;
+
+    FREESURFACE(main_surface);
+  }
 }
 
 /**********************************************************************//**
-  Switch to given video mode.
+  Create new main window surfaces.
 **************************************************************************/
-bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
+bool create_surfaces(int width, int height)
 {
   unsigned flags;
 
-  main_data.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      width, height,
-                                      0);
-
-  if (main_data.screen == NULL) {
-    log_fatal(_("Failed to create main window: %s"), SDL_GetError());
-    return FALSE;
-  }
-
-  if (flags_in & SDL_WINDOW_FULLSCREEN) {
-    SDL_DisplayMode mode;
-
-    /* Use SDL_WINDOW_FULLSCREEN_DESKTOP instead of real SDL_WINDOW_FULLSCREEN */
-    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
-    SDL_GetWindowDisplayMode(main_data.screen, &mode);
-    width = mode.w;
-    height = mode.h;
-  }
+  free_surfaces();
 
   if (is_bigendian()) {
     main_surface = SDL_CreateRGBSurface(0, width, height, 32,
@@ -631,6 +612,53 @@ bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
   }
 
   clear_surface(main_data.gui->surface, NULL);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Free screen buffers
+**************************************************************************/
+void quit_sdl(void)
+{
+  FC_FREE(main_data.guis);
+  gui_layer_destroy(&main_data.gui);
+  FREESURFACE(main_data.map);
+  FREESURFACE(main_data.dummy);
+  SDL_DestroyTexture(main_data.maintext);
+
+  free_surfaces();
+}
+
+/**********************************************************************//**
+  Switch to given video mode.
+**************************************************************************/
+bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
+{
+  main_data.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
+                                      SDL_WINDOWPOS_UNDEFINED,
+                                      SDL_WINDOWPOS_UNDEFINED,
+                                      width, height,
+                                      0);
+
+  if (main_data.screen == NULL) {
+    log_fatal(_("Failed to create main window: %s"), SDL_GetError());
+    return FALSE;
+  }
+
+  if (flags_in & SDL_WINDOW_FULLSCREEN) {
+    SDL_DisplayMode mode;
+
+    /* Use SDL_WINDOW_FULLSCREEN_DESKTOP instead of real SDL_WINDOW_FULLSCREEN */
+    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_GetWindowDisplayMode(main_data.screen, &mode);
+    width = mode.w;
+    height = mode.h;
+  }
+
+  if (!create_surfaces(width, height)) {
+    return FALSE;
+  }
 
   return TRUE;
 }
