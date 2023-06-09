@@ -1263,7 +1263,6 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
                                           city_owner(acity), ptile, FALSE,
                                           pdef->veteran);
       if (vulnerability < m) {
-        vulnerability = m;
         benefit = unit_build_shield_cost(pdef);
         def_vet = pdef->veteran;
         def_type = unit_type_get(pdef);
