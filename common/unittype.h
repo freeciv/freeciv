@@ -30,6 +30,7 @@ struct astring;         /* Actually defined in "utility/astring.h". */
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
 struct ai_type;
+struct civ_map;
 
 /* U_LAST is a value which is guaranteed to be larger than all
  * actual Unit_type_id values. It is used as a flag value;
@@ -480,7 +481,7 @@ struct veteran_system {
 struct unit_type {
   Unit_type_id item_number;
   struct name_translation name;
-  bool ruledit_disabled;              /* Does not really exist - hole in units array */
+  bool ruledit_disabled;                /* Does not really exist - hole in units array */
   void *ruledit_dlg;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -488,14 +489,15 @@ struct unit_type {
   char sound_move_alt[MAX_LEN_NAME];
   char sound_fight[MAX_LEN_NAME];
   char sound_fight_alt[MAX_LEN_NAME];
-  int build_cost;			/* Use wrappers to access this. */
-  int pop_cost;  /* number of workers the unit contains (e.g., settlers, engineers)*/
+  int build_cost;                       /* Use wrappers to access this. */
+  int pop_cost;                         /* Number of workers the unit contains
+                                         * (e.g., settlers, engineers) */
   int attack_strength;
   int defense_strength;
   int move_rate;
-  int unknown_move_cost; /* See utype_unknown_move_cost(). */
+  int unknown_move_cost;                /* See utype_unknown_move_cost(). */
 
-  struct advance *require_advance;	/* may be NULL */
+  struct advance *require_advance;      /* May be NULL */
   struct requirement_vector build_reqs;
 
   int vision_radius_sq;
@@ -696,7 +698,8 @@ bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
 int utype_pays_mp_for_action_base(const struct action *paction,
                                   const struct unit_type *putype);
 
-int utype_pays_mp_for_action_estimate(const struct action *paction,
+int utype_pays_mp_for_action_estimate(const struct civ_map *nmap,
+                                      const struct action *paction,
                                       const struct unit_type *putype,
                                       const struct player *act_player,
                                       const struct tile *act_tile,
@@ -713,9 +716,9 @@ struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, 
 struct unit_type *get_role_unit(int role, int role_index);
 struct unit_type *best_role_unit(const struct city *pcity, int role);
 struct unit_type *best_role_unit_for_player(const struct player *pplayer,
-					    int role);
+                                            int role);
 struct unit_type *first_role_unit_for_player(const struct player *pplayer,
-					     int role);
+                                             int role);
 bool role_units_translations(struct astring *astr, int flag, bool alts);
 
 /* General unit class routines */
@@ -801,8 +804,8 @@ int utype_happy_cost(const struct unit_type *ut, const struct player *pplayer);
 const struct unit_type *can_upgrade_unittype(const struct player *pplayer,
                                              const struct unit_type *punittype);
 int unit_upgrade_price(const struct player *pplayer,
-		       const struct unit_type *from,
-		       const struct unit_type *to);
+                       const struct unit_type *from,
+                       const struct unit_type *to);
 
 bool utype_player_already_has_this(const struct player *pplayer,
                                    const struct unit_type *putype);
@@ -810,11 +813,11 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
                                           const struct unit_type *putype);
 
 bool can_player_build_unit_direct(const struct player *p,
-				  const struct unit_type *punittype);
+                                  const struct unit_type *punittype);
 bool can_player_build_unit_later(const struct player *p,
-				 const struct unit_type *punittype);
+                                 const struct unit_type *punittype);
 bool can_player_build_unit_now(const struct player *p,
-			       const struct unit_type *punittype);
+                               const struct unit_type *punittype);
 
 #define utype_fuel(ptype) (ptype)->fuel
 
