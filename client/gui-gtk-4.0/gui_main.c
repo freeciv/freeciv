@@ -1927,14 +1927,6 @@ int ui_main(int argc, char **argv)
   g_application_run(G_APPLICATION(fc_app), 0, NULL);
   gui_up = FALSE;
 
-  /* We have extra ref for unit_info_box that has protected
-   * it from getting destroyed when editinfobox_refresh()
-   * moves widgets around. Free that extra ref here. */
-  g_object_unref(unit_info_box);
-  if (empty_unit_paintable != NULL) {
-    g_object_unref(empty_unit_paintable);
-  }
-
   destroy_server_scans();
   free_mapcanvas_and_overview();
   spaceship_dialog_done();
@@ -1945,6 +1937,15 @@ int ui_main(int argc, char **argv)
   diplomacy_dialog_done();
   cma_fe_done();
   free_unit_table();
+
+  /* We have extra ref for unit_info_box that has protected
+   * it from getting destroyed when editinfobox_refresh()
+   * moves widgets around. Free that extra ref here. */
+  g_object_unref(unit_info_box);
+  if (empty_unit_paintable != NULL) {
+    g_object_unref(empty_unit_paintable);
+  }
+
   editgui_free();
   gtk_window_destroy(GTK_WINDOW(toplevel));
   message_buffer = NULL; /* Result of destruction of everything */
