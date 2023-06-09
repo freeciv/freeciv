@@ -114,7 +114,7 @@ static struct wonder_dialog_list *wonder_dialogs;
 static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p);
 
 /**********************************************************************//**
-  Initialize intelligenze dialogs
+  Initialize intelligence dialogs
 **************************************************************************/
 void intel_dialog_init(void)
 {
@@ -123,7 +123,7 @@ void intel_dialog_init(void)
 }
 
 /**********************************************************************//**
-  Free resources allocated for intelligenze dialogs
+  Free resources allocated for intelligence dialogs
 **************************************************************************/
 void intel_dialog_done(void)
 {
