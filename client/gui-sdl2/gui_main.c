@@ -899,6 +899,33 @@ static void resize_window_callback(struct option *poption)
 }
 
 /**********************************************************************//**
+  Change fullscreen status after option changed.
+**************************************************************************/
+static void fullscreen_callback(struct option *poption)
+{
+  SDL_DisplayMode mode;
+
+  if (gui_options.gui_sdl2_fullscreen) {
+    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+  } else {
+    SDL_SetWindowFullscreen(main_data.screen, 0);
+  }
+
+  SDL_GetWindowDisplayMode(main_data.screen, &mode);
+
+  if (!create_surfaces(mode.w, mode.h)) {
+    /* Try to revert */
+    if (!gui_options.gui_sdl2_fullscreen) {
+      SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    } else {
+      SDL_SetWindowFullscreen(main_data.screen, 0);
+    }
+  }
+
+  update_queue_add(real_resize_window_callback, NULL);
+}
+
+/**********************************************************************//**
   Extra initializers for client options. Here we make set the callback
   for the specific gui-sdl2 options.
 **************************************************************************/
@@ -913,7 +940,7 @@ void options_extra_init(void)
     log_error("Didn't find option %s!", #var);                              \
   }
 
-  option_var_set_callback(gui_sdl2_fullscreen, resize_window_callback);
+  option_var_set_callback(gui_sdl2_fullscreen, fullscreen_callback);
   option_var_set_callback(gui_sdl2_screen, resize_window_callback);
 #undef option_var_set_callback
 }
@@ -1077,7 +1104,7 @@ void ui_exit(void)
 {
 
 #if defined UNDER_CE && defined SMALL_SCREEN
-  /* change back to window mode to restore the title bar */
+  /* Change back to window mode to restore the title bar */
   set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
 #endif
 
