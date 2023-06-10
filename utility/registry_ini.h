@@ -409,6 +409,13 @@ struct entry *secfile_entry_lookup(const struct section_file *secfile,
                                    const char *path, ...)
                                    fc__attribute((__format__ (__printf__, 2, 3)));
 
+/* Macros to silence "unused entry" warnings about entries that
+ * we intentionally ignore. */
+#define secfile_entry_ignore(_sfile_, _fmt_, ...) \
+  (void) secfile_entry_lookup(_sfile_, _fmt_, ## __VA_ARGS__)
+#define secfile_entry_ignore_by_path(_sfile_, _path_) \
+  (void) secfile_entry_by_path(_sfile_, _path_)
+
 bool secfile_lookup_bool(const struct section_file *secfile, bool *bval,
                          const char *path, ...)
                          fc__warn_unused_result

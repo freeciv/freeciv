@@ -1629,10 +1629,10 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
   }
 
   /* Currently unused */
-  (void) secfile_entry_lookup(file, "info.artists");
+  secfile_entry_ignore(file, "info.artists");
 
   /* Not used here */
-  (void) secfile_entry_lookup(file, "file.gfx");
+  secfile_entry_ignore(file, "file.gfx");
 
   if ((sections = secfile_sections_by_name_prefix(file, "grid_"))) {
     section_list_iterate(sections, psection) {
@@ -2544,13 +2544,13 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     type_name = "svg";
 
     /* Avoid "unused entry" warning about the other list */
-    (void) secfile_entry_by_path(file, "tilespec.files_pixel");
+    secfile_entry_ignore_by_path(file, "tilespec.files_pixel");
   } else {
     slist_type = SFILE_PIXEL;
     type_name = "pixel";
 
     /* Avoid "unused entry" warning about the other list */
-    (void) secfile_entry_by_path(file, "tilespec.files_svg");
+    secfile_entry_ignore_by_path(file, "tilespec.files_svg");
   }
 
   spec_filenames[slist_type] = secfile_lookup_str_vec(file,
