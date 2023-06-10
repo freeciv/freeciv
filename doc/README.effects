@@ -313,8 +313,10 @@ Conquest_Tech_Pct
 
 Defend_Bonus
     Increases defensive bonuses of units. Any unit requirements on this effect
-    will be applied to the _attacking_ unit. Attackers with "BadWallAttacker" flag
-    will have their firepower set to 1.
+    will be applied to the _attacking_ unit type. Requirements about
+    properties of a specific unit are ignored.
+    Attackers with "BadWallAttacker" flag will have their firepower set to
+    "combat_rules.low_firepower_badwallattacker" from game.ruleset.
 
 Empire_Size_Base
     Once your civilization has more cities than the value of this effect,
