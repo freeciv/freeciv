@@ -611,7 +611,7 @@ void create_units_order_widgets(void)
   }
   /* --------- */
 
-  /* Auto-Explore */
+  /* Auto Explore */
   fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)", _("Auto Explore"), "X");
   buf = create_themeicon(current_theme->o_autoexp_icon, main_data.gui,
                          WF_HIDDEN | WF_RESTORE_BACKGROUND
@@ -623,10 +623,10 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_AUTO_EXPLORE, buf);
   /* --------- */
 
-  /* Auto-Settler */
+  /* Auto Worker */
   fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)", _("Auto Settler"), "A");
 
-  buf = create_themeicon(current_theme->o_autosett_icon, main_data.gui,
+  buf = create_themeicon(current_theme->o_autowork_icon, main_data.gui,
                          WF_HIDDEN | WF_RESTORE_BACKGROUND
                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(buf, FC_WS_NORMAL);

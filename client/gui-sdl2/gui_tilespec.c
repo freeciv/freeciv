@@ -323,7 +323,7 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(buf, order_icon, "theme.order_empty");
   load_order_theme_surface(buf, o_autoconnect_icon, "theme.order_auto_connect");
   load_order_theme_surface(buf, o_autoexp_icon, "theme.order_auto_explorer");
-  load_order_theme_surface(buf, o_autosett_icon, "theme.order_auto_settler");
+  load_order_theme_surface(buf, o_autowork_icon, "theme.order_auto_worker");
   load_order_theme_surface(buf, o_build_city_icon, "theme.order_build_city");
   load_order_theme_surface(buf, OCutDownForest_Icon, "theme.order_cutdown_forest");
   load_order_theme_surface(buf, OPlantForest_Icon, "theme.order_plant_forest");

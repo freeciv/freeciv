@@ -59,11 +59,11 @@
  *                   have duplicates should specify "+duplicates_ok")
  */
 
-#define SPEC_SDL2_CAPSTR "+Freeciv-sdl2-spec-Devel-2022-Dec-05"
+#define SPEC_SDL2_CAPSTR "+Freeciv-sdl2-3.3-spec-Devel-2023-Jun-10"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
- * +Freeciv-3.2-sdl2-spec  -  basic format for Freeciv versions 3.2.x; required
+ * +Freeciv-3.3-sdl2-spec  -  basic format for Freeciv versions 3.3.x; required
  */
 
 #define THEMESPEC_SUFFIX ".themespec"
