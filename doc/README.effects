@@ -404,12 +404,14 @@ Unit_Vision_Radius_Sq
 
 Defend_Bonus
     Increases defensive bonuses of units. Any unit requirements on this effect
-    will be applied to the _attacking_ unit. Attackers with "BadWallAttacker" flag
-    will have their firepower set to 1.
+    will be applied to the _attacking_ unit type. Requirements about
+    properties of a specific unit are ignored.
+    Attackers with "BadWallAttacker" flag will have their firepower set to 1.
 
 Attack_Bonus
     Increases offensive bonuses of units. Unit requirements on this effect are
-    the attacking unit itself.
+    the attacking unit type itself. Requirements about
+    properties of a specific unit are ignored.
 
 Gain_AI_Love
     Gain amount points of "AI love" with AI(s).
