@@ -1583,10 +1583,10 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
   }
 
   /* Currently unused */
-  (void) secfile_entry_lookup(file, "info.artists");
+  secfile_entry_ignore(file, "info.artists");
 
   /* Not used here */
-  (void) secfile_entry_lookup(file, "file.gfx");
+  secfile_entry_ignore(file, "file.gfx");
 
   if ((sections = secfile_sections_by_name_prefix(file, "grid_"))) {
     section_list_iterate(sections, psection) {
