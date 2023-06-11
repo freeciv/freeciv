@@ -5272,7 +5272,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     techs = recalculate_techs_researched(presearch);
 
     if (presearch->techs_researched != techs) {
-      sg_regr(03000300,
+      sg_regr(3000300,
               _("%s had finished researches count wrong."),
               research_name_translation(presearch));
       presearch->techs_researched = techs;
