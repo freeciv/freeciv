@@ -3091,15 +3091,9 @@ void enable_interface(bool enable)
 ***************************************************************************/
 void mr_menu::slot_fullscreen()
 {
-  if (!gui_options.gui_qt_fullscreen) {
-    gui()->showFullScreen();
-    gui()->game_tab_widget->showFullScreen();
-  } else {
-    // FIXME Doesnt return properly, probably something with sidebar
-    gui()->showNormal();
-    gui()->game_tab_widget->showNormal();
-  }
   gui_options.gui_qt_fullscreen = !gui_options.gui_qt_fullscreen;
+
+  gui()->apply_fullscreen();
 }
 
 /****************************************************************
