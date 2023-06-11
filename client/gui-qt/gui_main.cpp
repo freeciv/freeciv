@@ -75,6 +75,7 @@ static void apply_help_font(struct option *poption);
 static void apply_notify_font(struct option *poption);
 static void apply_sidebar(struct option *poption);
 static void apply_titlebar(struct option *poption);
+static void apply_fullscreen(struct option *poption);
 
 /**********************************************************************//**
   Return fc_client instance
@@ -252,6 +253,8 @@ void qtg_options_extra_init()
                           apply_titlebar);
   option_var_set_callback(gui_qt_sidebar_left,
                           apply_sidebar);
+  option_var_set_callback(gui_qt_fullscreen,
+                          apply_fullscreen);
 #undef option_var_set_callback
 }
 
@@ -468,6 +471,13 @@ static void apply_notify_font(struct option *poption)
   }
 }
 
+/**********************************************************************//**
+  Applies fullscreen changes
+**************************************************************************/
+static void apply_fullscreen(struct option *poption)
+{
+  gui()->apply_fullscreen();
+}
 
 /**********************************************************************//**
   Stub for editor function

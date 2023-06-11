@@ -250,6 +250,7 @@ public:
                                  const char *message);
   choice_dialog *get_diplo_dialog();
   void update_sidebar_position();
+  void apply_fullscreen();
 
   mr_idle mr_idler;
   QWidget *central_wdg;
