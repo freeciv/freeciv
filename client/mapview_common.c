@@ -2468,22 +2468,22 @@ bool show_unit_orders(struct unit *punit)
         break;
       }
 
+      if (ptile == NULL) {
+        /* This shouldn't happen unless the server gives us invalid
+         * data. */
+        log_warn("Unit orders with illegal tile.");
+        break;
+      }
+
       order = &punit->orders.list[idx];
 
       switch (order->order) {
       case ORDER_MOVE:
         draw_segment(ptile, order->dir);
         ptile = mapstep(&(wld.map), ptile, order->dir);
-        if (!ptile) {
-          /* This shouldn't happen unless the server gives us invalid
-           * data. To avoid disaster we need to break out of the
-           * switch and the enclosing for loop. */
-          fc_assert(NULL != ptile);
-          i = punit->orders.length;
-        }
         break;
       default:
-        /* TODO: graphics for other orders. */
+        /* TODO: Graphics for other orders. */
         break;
       }
     }
