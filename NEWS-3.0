@@ -1,10 +1,163 @@
 ========================
-Welcome to Freeciv 3.0.7
+Welcome to Freeciv 3.0.8
 ========================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.0.7 to 3.0.8
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-11)
+
+3.0.8 is a generic bugfix release.
+
+Server / General
+
+    * Fixed server file descriptor leak when loading lua command files
+      osdn#47609
+    * Silenced some unused entry warnings when loading saved games
+      osdn#47793 osdn#47709 osdn#47670
+    * Fixed memory handling issues when number of continents change
+      on a map with no lakes at all osdn#47825
+    * Fixed handling of unit shield upkeep osdn#47938 osdn#48023
+    * Fixed erroneously failing worker task sanity checks osdn#47542
+    * Fixed loading acceptance of zero-clause treaties from savegames
+      osdn#48127
+
+Changes affecting players (supplied rulesets)
+
+    * Fixed some path finding miscalculations osdn#47731 osdn#47746
+    * Observers are kept in sync with city investigation
+      osdn#46186 osdn#48046
+    * Worklist items currently unreachable because of terrain class
+      (Land / Oceanic) requirement are now purged rather than postponed.
+      Requirements of exact terrain are still just postponed osdn#47493
+
+    * experimental
+         + All buildings now have graphics tags in them, even those
+           that supplied tilesets do not provide graphics for.
+           This makes it possible for a custom tileset to provide
+           those graphics osdn#48086
+
+Changes affecting other rulesets / modders
+
+    * Units within transport no longer cause ZoC osdn#47656
+    * Fixed crash with requirements on range Traderoute osdn#47653
+
+Changes affecting server operators
+
+    * Victory type logged to server console osdn#42618
+
+General
+
+    * Fixed memory leaks, bad memory access, and improved cleanup
+      on shutdown
+      osdn#47900 osdn#45906 osdn#47660 osdn#47982 osdn#46191 osdn#48120
+    * Optimizations osdn#47738 osdn#45917 osdn#47838 osdn#47959 osdn#47729
+    * Various internal changes which should only affect developers.
+      osdn#47671 osdn#47797 osdn#47894 osdn#47909 osdn#48026 osdn#48104
+
+AI
+
+    * Fixed several places where wants were rounded to integers,
+      often causing low want (lower than '1') to be not wanted
+      at all ('0')
+      osdn#46286 osdn#47776 osdn#47901 osdn#47957 osdn#47973 osdn#48097
+    * Fixed an issue in how AI evaluates whether building a new building
+      would enable or disable unit actions. Notable consequences of
+      this bug was how AI was afraid to build Coinage, and went
+      for idle Caravans instead osdn#42169
+    * Make AI prepared for a building providing multiple requirements
+      for effect osdn#47831
+    * Fixed crash with recursive autoworker displacement osdn#47992
+
+Clients
+
+    * Fixed clipping of the draw area on gui independent part
+      of client code. Notably this made gtk-clients to give warnings
+      like "Invalid rectangle passed" osdn#42262
+    * Fixed potential crash in an attempt to use server settings before
+      server has sent them osdn#47663
+    * Tell if there's no version information in metaserver reply
+       osdn#47943 osdn#48056
+
+    * Editor mode
+         + Tile changes now trigger related side effects osdn#46424
+
+    * gtk
+         + Properly update available techs list when last real tech
+           discovered, and Future Techs become available osdn#45434
+         + Help Browser nation pages now show flag image osdn#47824
+         + Help Browser shows images of extras on their pages osdn#47624
+         + Client shows when one is observer, and not a controlling player
+           osdn#48045
+         + Made applying fullscreen option from the options dialog
+           to take effect immediately osdn#47531
+
+    * qt
+         + Fixed sorting of nations dialog columns osdn#47856
+         + Fixed crash when the client-side game state gets inconsistent
+           between server sent packages osdn#47882
+
+    * sdl2
+         + Theme font size is actually used. This initial implementation
+           is just a start, but better than nothing
+           osdn#47681 osdn#47703 osdn#48037 osdn#48100
+         + Fixed issues with transparent parts of text surfaces osdn#47564
+         + Fixed unused entry warnings when loading the theme osdn#45866
+
+Tools
+Manual Generator
+
+    * Terrains page layout improved osdn#47819
+
+Ruledit
+
+    * Added extra values editing dialog osdn#47818
+    * Effects count now shown on stats osdn#47906
+
+Tilesets, Art, etc
+
+    * Corrected/updated flag file formats osdn#47742
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#48163
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#47785 osdn#47840 osdn#47932 osdn#47985 osdn#48015 osdn#48113
+      osdn#48027
+
+Translations
+
+    * Updated translations: fi, fr, ru
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      osdn#47725 osdn#47769 osdn#47855 osdn#47890 osdn#48078 osdn#48076
+      osdn#48077
+    * Compressing supplied scenarion files is now silent under
+      automake's silent mode osdn#47761
+    * Fixed some clang analyzer warnings
+      osdn#47765 osdn#47811 osdn#47850 osdn#47891 osdn#47926 osdn#45822
+      osdn#48025 osdn#47994 osdn#48069 osdn#48081 osdn#48109
+    * Autotools: Added large files support osdn#47830
+    * Autotools: Added year 2038 support, if autoconf supports it osdn#47710
+    * Flatpak updates
+         + Made flatpak .yml format more standard osdn#47760
+         + Qt-client flatpak no longer include ruledit that would
+           be hidden within the container anyway osdn#47910
+    * Metadata updates
+         + New server screenshot osdn#48128
+    * Crosser improvements
+         + Updated Crosser environment to use to version 2.6 osdn#47665
+         + Crosser based installers now use 64bit side of
+           the Windows Registry osdn#47724
+    * fc_gitrev_gen.h now removed by 'make distclean' osdn#47976
 
 
 CHANGES FROM 3.0.6 to 3.0.7
