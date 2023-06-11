@@ -4121,7 +4121,7 @@ static void sg_load_player_main(struct loaddata *loading,
     /* FIXME: If either party is barbarian, we cannot enforce below check */
 #if 0
     if (ds->type == DS_WAR && ds->first_contact_turn <= 0) {
-      sg_regr(03020000,
+      sg_regr(3020000,
               "Player%d: War with player %d who has never been met. "
               "Reverted to No Contact state.", plrno, i);
       ds->type = DS_NO_CONTACT;
@@ -4129,7 +4129,7 @@ static void sg_load_player_main(struct loaddata *loading,
 #endif
 
     if (valid_dst_closest(ds) != ds->max_state) {
-      sg_regr(03020000,
+      sg_regr(3020000,
               "Player%d: closest diplstate to player %d less than current. "
               "Updated.", plrno, i);
       ds->max_state = ds->type;
@@ -7882,7 +7882,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     techs = recalculate_techs_researched(presearch);
 
     if (presearch->techs_researched != techs) {
-      sg_regr(03000300,
+      sg_regr(3000300,
               _("%s had finished researches count wrong."),
               research_name_translation(presearch));
       presearch->techs_researched = techs;

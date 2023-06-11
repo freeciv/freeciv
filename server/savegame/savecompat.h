@@ -188,6 +188,8 @@ struct loaddata {
     sg_check_ret_val(_val);                                                 \
   }
 
+/* Resist urge to write version numbers with leading zero; "030?0?00",
+ * as that makes compiler to consider them octal. */
 #define sg_regr(fixversion, message, ...)                                   \
   if (loading->full_version >= fixversion) {                                \
     log_sg(message, ## __VA_ARGS__);                                        \
