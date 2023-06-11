@@ -604,9 +604,8 @@ bool client_start_server(void)
    * When a typical player launches a game, they want the map orientation
    * to match the tileset orientation. So if you use an isometric tileset,
    * you get an iso-map and for a classic tileset you get a classic map.
-   * In both cases the map wraps in the X direction by default.
    *
-   * This works with hex maps too now. A hex map always has
+   * This works also with hex maps. A hex map always has
    * tileset_is_isometric(tileset) return TRUE. An iso-hex map has
    * tileset_hex_height(tileset) != 0, while a non-iso hex map
    * has tileset_hex_width(tileset) != 0.
@@ -620,14 +619,25 @@ bool client_start_server(void)
    * server setting infos. */
   {
     char topobuf[16];
+    bool iso = FALSE;
+    int hh = tileset_hex_height(tileset);
 
-    fc_strlcpy(topobuf, "WRAPX", sizeof(topobuf));
-    if (tileset_is_isometric(tileset) && 0 == tileset_hex_height(tileset)) {
-      fc_strlcat(topobuf, "|ISO", sizeof(topobuf));
+    if (hh == 0 && tileset_is_isometric(tileset)) {
+      fc_strlcpy(topobuf, "ISO", sizeof(topobuf));
+      iso = TRUE;
     }
-    if (0 < tileset_hex_width(tileset) || 0 < tileset_hex_height(tileset)) {
-      fc_strlcat(topobuf, "|HEX", sizeof(topobuf));
+
+    if (0 < hh || 0 < tileset_hex_width(tileset)) {
+      if (iso) {
+        fc_strlcat(topobuf, "|HEX", sizeof(topobuf));
+      } else {
+        fc_strlcpy(topobuf, "HEX", sizeof(topobuf));
+      }
+    } else if (!iso) {
+      /* Empty value */
+      topobuf[0] = '\0';
     }
+
     desired_settable_option_update("topology", topobuf, FALSE);
   }
 
