@@ -1148,6 +1148,8 @@ enum fc_tristate actres_possible(enum action_result result,
   case ACTRES_NONE:
     /* No known hard coded requirements. */
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   return def;

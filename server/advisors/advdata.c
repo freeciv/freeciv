@@ -934,6 +934,8 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
        * wonder gives shields. */
       /* TODO: Individual and well balanced values. */
       break;
+
+    ASSERT_UNUSED_ACTRES_CASES;
     }
   } action_iterate_end;
 

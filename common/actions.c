@@ -2272,6 +2272,8 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   return FALSE;
@@ -2365,6 +2367,8 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   return FALSE;
@@ -3468,6 +3472,8 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_NONE:
     /* No hard unit type requirements. */
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   return TRUE;
@@ -3664,6 +3670,8 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_NONE:
     /* No hard unit requirements. */
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   return TRI_YES;
@@ -4980,6 +4988,8 @@ action_prob(const action_id wanted_action,
      * Lua? */
     chance = ACTPROB_NOT_IMPLEMENTED;
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   /* Non signal action probabilities should be in range. */
@@ -6838,9 +6848,12 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_user_action_4";
   case ACTION_COUNT:
     break;
+
+  ASSERT_UNUSED_ACTION_CASES;
   }
 
   fc_assert(act >= 0 && act < ACTION_COUNT);
+
   return NULL;
 }
 
@@ -7301,9 +7314,12 @@ const char *action_min_range_ruleset_var_name(int act)
     return "user_action_4_min_range";
   case ACTION_COUNT:
     break;
+
+  ASSERT_UNUSED_ACTION_CASES;
   }
 
   fc_assert(act >= 0 && act < ACTION_COUNT);
+
   return NULL;
 }
 
@@ -7387,9 +7403,12 @@ int action_min_range_default(enum action_result result)
     return RS_DEFAULT_MOVE_MIN_RANGE;
   case ACTRES_NONE:
     return RS_DEFAULT_ACTION_MIN_RANGE;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   fc_assert(action_result_is_valid(result) || result == ACTRES_NONE);
+
   return 0;
 }
 
@@ -7538,9 +7557,12 @@ const char *action_max_range_ruleset_var_name(int act)
     return "user_action_4_max_range";
   case ACTION_COUNT:
     break;
+
+  ASSERT_UNUSED_ACTION_CASES;
   }
 
   fc_assert(act >= 0 && act < ACTION_COUNT);
+
   return NULL;
 }
 
@@ -7627,6 +7649,8 @@ int action_max_range_default(enum action_result result)
     return ACTION_DISTANCE_UNLIMITED;
   case ACTRES_NONE:
     return RS_DEFAULT_ACTION_MAX_RANGE;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   fc_assert(action_result_is_valid(result) || result == ACTRES_NONE);
@@ -7771,9 +7795,12 @@ const char *action_target_kind_ruleset_var_name(int act)
     return "user_action_4_target_kind";
   case ACTION_COUNT:
     break;
+
+  ASSERT_UNUSED_ACTION_CASES;
   }
 
   fc_assert(act >= 0 && act < ACTION_COUNT);
+
   return NULL;
 }
 
@@ -7862,6 +7889,8 @@ action_target_kind_default(enum action_result result)
     return ATK_SELF;
   case ACTRES_NONE:
     return RS_DEFAULT_USER_ACTION_TARGET_KIND;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   /* Should never be reached. */
@@ -7971,6 +8000,8 @@ bool action_result_legal_target_kind(enum action_result result,
       break;
     }
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   /* Should never be reached. */
@@ -8066,6 +8097,8 @@ action_sub_target_kind_default(enum action_result result)
     return ASTK_NONE;
   case ACTRES_NONE:
     return ASTK_NONE;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   /* Should never be reached. */
@@ -8212,9 +8245,12 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
     return "user_action_4_actor_consuming_always";
   case ACTION_COUNT:
     break;
+
+  ASSERT_UNUSED_ACTION_CASES;
   }
 
   fc_assert(act >= 0 && act < ACTION_COUNT);
+
   return NULL;
 }
 
@@ -8371,6 +8407,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_COUNT:
     fc_assert_ret_val(action_number(act) != ACTION_COUNT, NULL);
     break;
+
+  ASSERT_UNUSED_ACTION_CASES;
   }
 
   return NULL;
@@ -8518,6 +8556,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_COUNT:
     fc_assert_ret_val(action_number(act) != ACTION_COUNT, NULL);
     break;
+
+  ASSERT_UNUSED_ACTION_CASES;
   }
 
   return NULL;

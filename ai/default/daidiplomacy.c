@@ -2061,6 +2061,8 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
       /* Various */
       dai_incident_simple(receiver, violator, victim, scope, 1);
       break;
+
+    ASSERT_UNUSED_ACTRES_CASES;
     }
     break;
   case INCIDENT_WAR:

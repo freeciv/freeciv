@@ -23,6 +23,20 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* If 'enum gen_action' has currently unused values that should
+ * not be used in 'switch - cases', put those cases here. E.g.:
+ *
+ *#define ASSERT_UNUSED_ACTION_CASES              \
+ *   case ACTION_UNUSED_1:                        \
+ *     fc_assert_msg(FALSE, "ACTION_UNUSED_1");   \
+ *     break;                                     \
+  *   case ACTION_UNUSED_2:                       \
+ *     fc_assert_msg(FALSE, "ACTION_UNUSED_2");   \
+ *     break;
+ */
+#define ASSERT_UNUSED_ACTION_CASES            \
+  /* No unused actions at the moment */
+
 #define SPECENUM_NAME action_actor_kind
 #define SPECENUM_VALUE0 AAK_UNIT
 #define SPECENUM_VALUE0NAME N_("a unit")
