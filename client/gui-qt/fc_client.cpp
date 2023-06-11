@@ -366,10 +366,11 @@ void fc_client::switch_page(int new_pg)
     showMaximized();
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
+
     if (gui_options.gui_qt_fullscreen) {
-      gui()->showFullScreen();
-      gui()->game_tab_widget->showFullScreen();
+      apply_fullscreen();
     }
+
     menuBar()->setVisible(true);
     mapview_wdg->setFocus();
     center_on_something();
@@ -402,6 +403,21 @@ void fc_client::switch_page(int new_pg)
     }
     set_client_page(PAGE_MAIN);
     break;
+  }
+}
+
+/************************************************************************//**
+  Apply current fullscreen option
+****************************************************************************/
+void fc_client::apply_fullscreen()
+{
+  if (gui_options.gui_qt_fullscreen) {
+    gui()->showFullScreen();
+    gui()->game_tab_widget->showFullScreen();
+  } else {
+    // FIXME: Doesn't return properly, probably something with sidebar
+    gui()->showNormal();
+    gui()->game_tab_widget->showNormal();
   }
 }
 
