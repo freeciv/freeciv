@@ -1182,6 +1182,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_NONE:
     /* No special help. */
     break;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   /* Look for war requirements from the action enablers. */
@@ -3972,6 +3974,8 @@ bool unit_perform_action(struct player *pplayer,
   case ACTRES_ENABLER_CHECK:
     fc_assert(paction->result != ACTRES_ENABLER_CHECK);
     return FALSE;
+
+  ASSERT_UNUSED_ACTRES_CASES;
   }
 
   /* Something must have gone wrong. */

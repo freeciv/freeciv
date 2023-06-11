@@ -22,6 +22,20 @@ extern "C" {
 
 struct req_context;
 
+/* If 'enum action_result' has currently unused values that should
+ * not be used in 'switch - cases', put those cases here. E.g.:
+ *
+ *#define ASSERT_UNUSED_ACTRES_CASES              \
+ *   case ACTRES_UNUSED_1:                        \
+ *     fc_assert_msg(FALSE, "ACTRES_UNUSED_1");   \
+ *     break;                                     \
+  *   case ACTRES_UNUSED_2:                       \
+ *     fc_assert_msg(FALSE, "ACTRES_UNUSED_2");   \
+ *     break;
+ */
+#define ASSERT_UNUSED_ACTRES_CASES            \
+  /* No unused action results at the moment */
+
 /* When making changes to this, update also atk_helpnames at actions.c */
 #define SPECENUM_NAME action_target_kind
 #define SPECENUM_VALUE0 ATK_CITY
