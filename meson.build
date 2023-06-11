@@ -1,5 +1,5 @@
 
-project('freeciv', ['c', 'cpp'], meson_version: '>= 0.57.0')
+project('freeciv', ['c', 'cpp'], meson_version: '>= 0.60.0')
 
 c_compiler = meson.get_compiler('c')
 cxx_compiler = meson.get_compiler('cpp')
@@ -537,7 +537,7 @@ else
   endif
   icu_dep = dependency('icu-uc')
   syslua = get_option('syslua')
-  lua_dep_tmp = dependency('lua-5.4', required:false)
+  lua_dep_tmp = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required:false)
 endif
 
 # Set unconditionally, as it was checked as hard requirement
