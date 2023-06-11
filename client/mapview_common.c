@@ -2429,7 +2429,7 @@ void show_tile_labels(int canvas_base_x, int canvas_base_y,
 }
 
 /****************************************************************************
-  Draw the goto route for the unit.  Return TRUE if anything is drawn.
+  Draw the goto route for the unit. Return TRUE if anything is drawn.
 
   This duplicates drawing code that is run during the hover state.
 ****************************************************************************/
@@ -2444,27 +2444,27 @@ bool show_unit_orders(struct unit *punit)
       struct unit_order *order;
 
       if (punit->orders.index + i >= punit->orders.length
-	  && !punit->orders.repeat) {
-	break;
+          && !punit->orders.repeat) {
+        break;
+      }
+
+      if (ptile == NULL) {
+        /* This shouldn't happen unless the server gives us invalid
+         * data. */
+        log_error("Unit orders with illegal tile.");
+        break;
       }
 
       order = &punit->orders.list[idx];
 
       switch (order->order) {
       case ORDER_MOVE:
-	draw_segment(ptile, order->dir);
-	ptile = mapstep(ptile, order->dir);
-	if (!ptile) {
-	  /* This shouldn't happen unless the server gives us invalid
-	   * data.  To avoid disaster we need to break out of the
-	   * switch and the enclosing for loop. */
-          fc_assert(NULL != ptile);
-	  i = punit->orders.length;
-	}
-	break;
+        draw_segment(ptile, order->dir);
+        ptile = mapstep(ptile, order->dir);
+        break;
       default:
-	/* TODO: graphics for other orders. */
-	break;
+        /* TODO: Graphics for other orders. */
+        break;
       }
     }
     return TRUE;
@@ -2474,7 +2474,7 @@ bool show_unit_orders(struct unit *punit)
 }
 
 /****************************************************************************
-  Draw a goto line at the given location and direction.  The line goes from
+  Draw a goto line at the given location and direction. The line goes from
   the source tile to the adjacent tile in the given direction.
 ****************************************************************************/
 void draw_segment(struct tile *src_tile, enum direction8 dir)
