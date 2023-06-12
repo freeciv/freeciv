@@ -1321,7 +1321,7 @@ static void package_player_info(struct player *plr,
     info_level = min_info_level;
   }
 
-  /* multipliers */
+  /* Multipliers */
   packet->multip_count = multiplier_count();
   if (info_level >= INFO_FULL) {
     multipliers_iterate(pmul) {
@@ -1410,23 +1410,34 @@ static void package_player_info(struct player *plr,
         player_has_real_embassy(plr, pother);
     } players_iterate_end;
     packet->gives_shared_vision = plr->gives_shared_vision;
+    packet->gives_shared_tiles = plr->gives_shared_tiles;
   } else {
     packet->target_government = packet->government;
     memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
-    if (receiver && player_has_real_embassy(plr, receiver)) {
-      packet->real_embassy[player_index(receiver)] = TRUE;
-    }
-
     BV_CLR_ALL(packet->gives_shared_vision);
-    if (receiver && gives_shared_vision(plr, receiver)) {
-      BV_SET(packet->gives_shared_vision, player_index(receiver));
+    BV_CLR_ALL(packet->gives_shared_tiles);
+
+    if (receiver != NULL) {
+      int ridx = player_index(receiver);
+
+      if (player_has_real_embassy(plr, receiver)) {
+        packet->real_embassy[ridx] = TRUE;
+      }
+
+      if (gives_shared_vision(plr, receiver)) {
+        BV_SET(packet->gives_shared_vision, ridx);
+      }
+
+      if (gives_shared_tiles(plr, receiver)) {
+        BV_SET(packet->gives_shared_tiles, ridx);
+      }
     }
   }
 
   /* Make absolutely sure - in case you lose your embassy! */
   if (info_level >= INFO_EMBASSY 
       || (receiver
-	  && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
+          && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
     packet->tech_upkeep = player_tech_upkeep(plr);
   } else {
     packet->tech_upkeep = 0;
@@ -1542,7 +1553,7 @@ static void package_player_diplstate(struct player *plr1,
   Return level of information player should receive about another.
 **************************************************************************/
 static enum plr_info_level player_info_level(struct player *plr,
-					     struct player *receiver)
+                                             struct player *receiver)
 {
   if (S_S_RUNNING > server_state()) {
     return INFO_MINIMUM;
@@ -1556,6 +1567,7 @@ static enum plr_info_level player_info_level(struct player *plr,
   if (receiver && could_intel_with_player(receiver, plr)) {
     return INFO_MEETING;
   }
+
   return INFO_MINIMUM;
 }
 
