@@ -17,8 +17,9 @@
 
 #define AI_MOD_DEFAULT "classic"
 
-#define AI_MOD_STATIC_CLASSIC
-#define AI_MOD_STATIC_TEX
+#mesondefine AI_MOD_STATIC_CLASSIC
+#mesondefine AI_MOD_STATIC_TEX
+#mesondefine AI_MOD_STATIC_STUB
 
 #define DEFAULT_SOCK_PORT 5556
 
