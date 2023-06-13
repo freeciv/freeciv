@@ -983,8 +983,13 @@ void gui_update_font(const char *font_name, const char *font_value)
   size = pango_font_description_get_size(desc);
 
   if (size != 0) {
-    str = g_strdup_printf("#Freeciv #%s { font-family: %s; font-size: %dpx;%s%s}",
-                          font_name, fam, size / PANGO_SCALE, style, weight);
+    if (pango_font_description_get_size_is_absolute(desc)) {
+      str = g_strdup_printf("#Freeciv #%s { font-family: %s; font-size: %dpx;%s%s}",
+                            font_name, fam, size / PANGO_SCALE, style, weight);
+    } else {
+      str = g_strdup_printf("#Freeciv #%s { font-family: %s; font-size: %dpt;%s%s}",
+                            font_name, fam, size / PANGO_SCALE, style, weight);
+    }
   } else {
     str = g_strdup_printf("#Freeciv #%s { font-family: %s;%s%s}",
                           font_name, fam, style, weight);
