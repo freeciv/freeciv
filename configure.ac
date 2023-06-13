@@ -1962,7 +1962,6 @@ AC_CONFIG_FILES([Makefile
 	  platforms/Makefile
 	  platforms/windows/Makefile
 	  platforms/windows/icons/Makefile
-	  windows/Makefile
 	  client/Makefile
 	  client/agents/Makefile
 	  client/include/Makefile

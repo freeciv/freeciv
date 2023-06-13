@@ -35,12 +35,12 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
   exit 1
 fi
 
-SRC_ROOT="$(cd ../.. || exit 1 ; pwd)"
+SRC_ROOT="$(cd ../../.. || exit 1 ; pwd)"
 
-VERREV="$(${SRC_ROOT}/fc_version)"
-if test "$INST_CROSS_MODE" != "release" ; then
-  if test -d ${SRC_ROOT}/.git || test -f ${SRC_ROOT}/.git ; then
-    VERREV="$VERREV-$(cd ${SRC_ROOT} && git rev-parse --short HEAD)"
+VERREV="$("${SRC_ROOT}/fc_version")"
+if test "${INST_CROSS_MODE}" != "release" ; then
+  if test -d "${SRC_ROOT}/.git" || test -f "${SRC_ROOT}/.git" ; then
+    VERREV="$VERREV-$(cd "${SRC_ROOT}" && git rev-parse --short HEAD)"
   fi
 fi
 
@@ -181,7 +181,7 @@ echo "----------------------------------"
 export CC="$TARGET-gcc -static-libgcc -static-libstdc++"
 export CXX="$TARGET-g++ -static-libgcc -static-libstdc++"
 
-if ! ${SRC_ROOT}/autogen.sh --no-configure-run ; then
+if ! "${SRC_ROOT}/autogen.sh" --no-configure-run ; then
   echo "Autogen failed" >&2
   exit 1
 fi
@@ -201,7 +201,7 @@ if test "$MOCCMD" = "" && test "$MOC_CROSSER" != "" ; then
   MOCPARAM="MOCCMD=${MOC_CROSSER}"
 fi
 
-if ! ${SRC_ROOT}/configure \
+if ! "${SRC_ROOT}/configure" \
      ac_cv_working_gettimeofday=yes \
      $MOCPARAM \
      FREECIV_LABEL_FORCE="<base>-crs" \
@@ -217,7 +217,7 @@ if ! ${SRC_ROOT}/configure \
      --enable-fcmp=$FCMP \
      --enable-debug \
      --host=$TARGET \
-     --build=$(${SRC_ROOT}/bootstrap/config.guess) \
+     --build=$("${SRC_ROOT}/bootstrap/config.guess") \
      --with-libiconv-prefix=${DLLSPATH} \
      --with-sqlite3-prefix=${DLLSPATH} \
      --with-followtag="crosser" \

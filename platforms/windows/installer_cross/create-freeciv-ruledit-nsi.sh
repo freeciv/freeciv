@@ -1,11 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl2-nsi.sh <freeciv files dir> <output dir> <version> <win32|win64|win> [uninstall setup script]
-
-if test "$5" != "" && ! test -x "$5" ; then
-  echo "$5 not an executable script" >&2
-  exit 1
-fi
+# ./create-freeciv-ruledit.sh <freeciv files dir> <output dir> <version> <win32|win64|win>
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -14,15 +9,13 @@ cat <<EOF
 Unicode true
 SetCompressor /SOLID lzma
 
-!define APPNAME "Freeciv"
+!define APPNAME "Freeciv-ruledit"
 !define VERSION $3
-!define GUI_ID sdl2
-!define GUI_NAME SDL2
 !define WIN_ARCH $4
 !define KEYROOT "Freeciv"
-!define APP_KEY_PART "client-\${GUI_ID}"
+!define APP_KEY_PART "ruledit"
 
-!define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
+!define APPID "\${APPNAME}-\${VERSION}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
@@ -32,7 +25,7 @@ SetCompressor /SOLID lzma
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}-\${APP_KEY_PART}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
@@ -40,8 +33,8 @@ SetCompressor /SOLID lzma
 
 ; General
 
-Name "\${APPNAME} \${VERSION} (\${GUI_NAME} client)"
-OutFile "$2/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
+Name "Freeciv Ruleset Editor \${VERSION}"
+OutFile "$2/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-setup.exe"
 
 ; Variables
 
@@ -67,10 +60,8 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MUI_PAGE_STARTMENU "Application" \$STARTMENU_FOLDER
 !insertmacro MUI_PAGE_INSTFILES
 
-Page custom HelperScriptFunction
-
 !define MUI_FINISHPAGE_RUN
-!define MUI_FINISHPAGE_RUN_FUNCTION RunFreeciv
+!define MUI_FINISHPAGE_RUN_FUNCTION RunFreecivRuledit
 !insertmacro MUI_PAGE_FINISH
 
 !insertmacro MUI_UNPAGE_CONFIRM
@@ -100,21 +91,16 @@ EOF
   # Languages
   echo -n "/x locale "
 
-  # Soundsets
-  find $1/data -mindepth 1 -maxdepth 1 -name *.soundspec -printf %f\\n |
-  sed 's|.soundspec||' |
+  # Rulesets
+  find $1/data -mindepth 2 -maxdepth 2 -name game.ruleset -printf %P\\n |
+  sed 's|/game.ruleset||' |
   while read -r name
   do
-  echo -n "/x $name.soundspec /x $name "
+    echo -n "/x $name "
+    if test -f "$1/data/$name.modpack" ; then
+      echo -n "/x $name.modpack "
+    fi
   done
-
-  # CJK fonts
-  echo -n "/x COPYING.fireflysung "
-  echo -n "/x fireflysung.ttf "
-  echo -n "/x COPYING.sazanami "
-  echo -n "/x sazanami-gothic.ttf "
-  echo -n "/x COPYING.UnDotum "
-  echo -n "/x UnDotum.ttf "
 
   echo "$1\\*.*"
 
@@ -125,10 +111,11 @@ cat <<EOF
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-gtk4.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-gtk4.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-sdl2.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-sdl2.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Documentation.lnk" "\$INSTDIR\doc\freeciv"
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk" "\$INSTDIR\freeciv-ruledit.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-ruledit.exe" 0 SW_SHOWMINIMIZED
+EOF
+
+cat <<EOF
+
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Uninstall.lnk" "\$INSTDIR\uninstall.exe"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Website.lnk" "\$INSTDIR\Freeciv.url"
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -145,28 +132,25 @@ SectionEnd
 
 EOF
 
-### Soundsets ###
+### Rulesets ###
 
 cat <<EOF
-SectionGroup "Soundsets"
+SectionGroup "Rulesets"
 
 EOF
 
-find $1/data -mindepth 1 -maxdepth 1 -name *.soundspec -printf %f\\n |
+find $1/data -mindepth 2 -maxdepth 2 -name game.ruleset -printf %P\\n |
 sort |
-sed 's|.soundspec||' |
+sed 's|/game.ruleset||' |
 while read -r name
 do
-if test -d $1/data/$name; then
+# Intentionally leave .modpack out. Ruledit does not use it.
 echo "  Section \"$name\""
-echo "  SetOutPath \$INSTDIR\\data"
-echo "  File /r $1\data\\$name.soundspec"
-echo "  SetOutPath \$INSTDIR\\data\\$name"
-echo "  File /r $1\\data\\$name\*.*"
+echo "  SetOutPath \$INSTDIR/data/$name" | sed 's,/,\\,g'
+echo "  File /r $1/data/$name/*.*"
 echo "  SetOutPath \$INSTDIR"
 echo "  SectionEnd"
 echo
-fi
 done
 
 cat <<EOF
@@ -181,32 +165,14 @@ SectionGroup "Additional languages (translation %)"
 
 EOF
 
-cat ../../bootstrap/langstat_core.txt |
+cat ../../../bootstrap/langstat_ruledit.txt |
 sort -k 1 |
 while read -r code prct name
 do
-if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
+if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-ruledit.mo; then
 echo "  Section \"$name ($code) $prct\""
 echo "  SetOutPath \$INSTDIR/share/locale/$code" | sed 's,/,\\,g'
 echo "  File /r $1/share/locale/$code/*.*"
-
-# Install special fonts for CJK locales
-if [ "$name" = "zh_CN" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.fireflysung"
-echo "  File /r $1/data/themes/gui-sdl2/human/fireflysung.ttf"
-fi
-if [ "$name" = "ja" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.sazanami"
-echo "  File /r $1/data/themes/gui-sdl2/human/sazanami-gothic.ttf"
-fi
-if [ "$name" = "ko" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.UnDotum"
-echo "  File /r $1/data/themes/gui-sdl2/human/UnDotum.ttf"
-fi
-
 echo "  SetOutPath \$INSTDIR"
 echo "  SectionEnd"
 echo
@@ -244,11 +210,11 @@ Function DefaultLanguage
   \${EndIf}
 
   \${NSD_CreateLabel} 0 0 100% 30% \
-"If you want to play Freeciv in a language other than your Windows language or \
+"If you want to run Freeciv Ruleset Editor in a language other than your Windows language or \
 if Freeciv's auto-detection of your Windows language does not work correctly, \
-you can select a specific language to be used by Freeciv here. Be sure \
+you can select a specific language to be used by Freeciv Ruleset Editor here. Be sure \
 you haven't unmarked the installation of the corresponding language files \
-in the previous dialog. You can also change this setting later in the Freeciv \
+in the previous dialog. You can also change this setting later in the Freeciv Ruleset Editor \
 Start Menu shortcut properties."
   Pop \$DefaultLanguageLabel
 
@@ -260,11 +226,11 @@ Start Menu shortcut properties."
   \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_ruledit.txt |
   sort -k 1 |
   while read -r code prct name
   do
-  if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
+  if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-ruledit.mo; then
   echo "  \${NSD_CB_AddString} \$DefaultLanguageDropList \"$name ($code) $prct\""
   fi
   done
@@ -284,7 +250,7 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_ruledit.txt |
   while read -r code prct name
   do
     echo "  \${If} \$LangName == \"$name ($code) $prct\""
@@ -295,12 +261,8 @@ EOF
 cat <<EOF
 FunctionEnd
 
-Function HelperScriptFunction
-  nsExec::Exec '"\$INSTDIR\bin\\installer-helper.cmd"'
-FunctionEnd
-
-Function RunFreeciv
-  nsExec::Exec '"\$INSTDIR\freeciv-sdl2.cmd" \$DefaultLanguageCode'
+Function RunFreecivRuledit
+  nsExec::Exec '"\$INSTDIR\freeciv-ruledit.cmd" \$DefaultLanguageCode'
 FunctionEnd
 
 EOF
@@ -337,10 +299,6 @@ while read -r name
 do
 echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
 done
-
-if test "$5" != "" ; then
-  $5
-fi
 
 cat <<EOF
 

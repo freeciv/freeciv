@@ -1,21 +1,9 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <freeciv files dir> <output dir> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id] [uninstall setup script]
+# ./create-freeciv-sdl2-nsi.sh <freeciv files dir> <output dir> <version> <win32|win64|win> [uninstall setup script]
 
-if test "$8" != "" ; then
-  EXE_ID="$8"
-else
-  EXE_ID="$4"
-fi
-
-if test "$7" != "" ; then
-  MPEXE_ID="$7"
-else
-  MPEXE_ID="$EXE_ID"
-fi
-
-if test "$9" != "" && ! test -x "$9" ; then
-  echo "$9 not an executable script" >&2
+if test "$5" != "" && ! test -x "$5" ; then
+  echo "$5 not an executable script" >&2
   exit 1
 fi
 
@@ -28,11 +16,9 @@ SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv"
 !define VERSION $3
-!define GUI_ID $4
-!define EXE_ID $EXE_ID
-!define MPEXE_ID $MPEXE_ID
-!define GUI_NAME $5
-!define WIN_ARCH $6
+!define GUI_ID sdl2
+!define GUI_NAME SDL2
+!define WIN_ARCH $4
 !define KEYROOT "Freeciv"
 !define APP_KEY_PART "client-\${GUI_ID}"
 
@@ -122,6 +108,14 @@ EOF
   echo -n "/x $name.soundspec /x $name "
   done
 
+  # CJK fonts
+  echo -n "/x COPYING.fireflysung "
+  echo -n "/x fireflysung.ttf "
+  echo -n "/x COPYING.sazanami "
+  echo -n "/x sazanami-gothic.ttf "
+  echo -n "/x COPYING.UnDotum "
+  echo -n "/x UnDotum.ttf "
+
   echo "$1\\*.*"
 
 cat <<EOF
@@ -131,17 +125,9 @@ cat <<EOF
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${EXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${EXE_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.exe" 0 SW_SHOWMINIMIZED
-EOF
-
-if test "$4" = "qt5" || test "$4" = "qt6" ; then
-  echo "  CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\\\\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\\\\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
-fi
-
-cat <<EOF
-
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-gtk4.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-gtk4.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-sdl2.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-sdl2.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Documentation.lnk" "\$INSTDIR\doc\freeciv"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Uninstall.lnk" "\$INSTDIR\uninstall.exe"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Website.lnk" "\$INSTDIR\Freeciv.url"
@@ -195,7 +181,7 @@ SectionGroup "Additional languages (translation %)"
 
 EOF
 
-cat ../../bootstrap/langstat_core.txt |
+cat ../../../bootstrap/langstat_core.txt |
 sort -k 1 |
 while read -r code prct name
 do
@@ -203,6 +189,24 @@ if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
 echo "  Section \"$name ($code) $prct\""
 echo "  SetOutPath \$INSTDIR/share/locale/$code" | sed 's,/,\\,g'
 echo "  File /r $1/share/locale/$code/*.*"
+
+# Install special fonts for CJK locales
+if [ "$name" = "zh_CN" ]; then
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
+echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.fireflysung"
+echo "  File /r $1/data/themes/gui-sdl2/human/fireflysung.ttf"
+fi
+if [ "$name" = "ja" ]; then
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
+echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.sazanami"
+echo "  File /r $1/data/themes/gui-sdl2/human/sazanami-gothic.ttf"
+fi
+if [ "$name" = "ko" ]; then
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
+echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.UnDotum"
+echo "  File /r $1/data/themes/gui-sdl2/human/UnDotum.ttf"
+fi
+
 echo "  SetOutPath \$INSTDIR"
 echo "  SectionEnd"
 echo
@@ -256,7 +260,7 @@ Start Menu shortcut properties."
   \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_core.txt |
   sort -k 1 |
   while read -r code prct name
   do
@@ -280,7 +284,7 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../bootstrap/langstat_core.txt |
+  cat ../../../bootstrap/langstat_core.txt |
   while read -r code prct name
   do
     echo "  \${If} \$LangName == \"$name ($code) $prct\""
@@ -296,7 +300,7 @@ Function HelperScriptFunction
 FunctionEnd
 
 Function RunFreeciv
-  nsExec::Exec '"\$INSTDIR\freeciv-\${EXE_ID}.cmd" \$DefaultLanguageCode'
+  nsExec::Exec '"\$INSTDIR\freeciv-sdl2.cmd" \$DefaultLanguageCode'
 FunctionEnd
 
 EOF
@@ -334,8 +338,8 @@ do
 echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
 done
 
-if test "$9" != "" ; then
-  $9
+if test "$5" != "" ; then
+  $5
 fi
 
 cat <<EOF

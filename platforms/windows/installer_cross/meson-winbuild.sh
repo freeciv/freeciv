@@ -43,12 +43,12 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
   exit 1
 fi
 
-SRC_ROOT="$(cd ../.. || exit 1 ; pwd)"
+SRC_ROOT="$(cd ../../.. || exit 1 ; pwd)"
 
-VERREV="$(${SRC_ROOT}/fc_version)"
-if test "$INST_CROSS_MODE" != "release" ; then
-  if test -d ${SRC_ROOT}/.git || test -f ${SRC_ROOT}/.git ; then
-    VERREV="$VERREV-$(cd ${SRC_ROOT} && git rev-parse --short HEAD)"
+VERREV="$("${SRC_ROOT}/fc_version")"
+if test "${INST_CROSS_MODE}" != "release" ; then
+  if test -d "${SRC_ROOT}/.git" || test -f "${SRC_ROOT}/.git" ; then
+    VERREV="$VERREV-$(cd "${SRC_ROOT}" && git rev-parse --short HEAD)"
   fi
 fi
 

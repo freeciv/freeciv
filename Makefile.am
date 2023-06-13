@@ -21,7 +21,6 @@ SUBDIRS =		\
 	utility		\
 	common		\
 	tests		\
-	windows		\
 	platforms	\
 	$(SSUBDIRS)	\
 	client		\

@@ -158,7 +158,9 @@ fi
 
 SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
-VERREV="$(../../fc_version)"
+SRC_ROOT="$(cd ../../.. || exit 1 ; pwd)"
+
+VERREV="$("${SRC_ROOT}/fc_version")"
 
 if ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
   echo "langstat_core.txt creation failed!" >&2
@@ -171,9 +173,9 @@ if test "$GUI" = "ruledit" &&
   exit 1
 fi
 
-if test "$INST_CROSS_MODE" != "release" ; then
-  if test -d ../../.git || test -f ../../.git ; then
-    VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
+if test "${INST_CROSS_MODE}" != "release" ; then
+  if test -d "${SRC_ROOT}/.git" || test -f "${SRC_ROOT}/.git" ; then
+    VERREV="$VERREV-$(cd "${SRC_ROOT}" && git rev-parse --short HEAD)"
   fi
 fi
 
@@ -183,8 +185,8 @@ if ! mv $INSTDIR/bin/* $INSTDIR/ ||
    ! mv $INSTDIR/share/freeciv $INSTDIR/data ||
    ! mv $INSTDIR/share/doc $INSTDIR/ ||
    ! mkdir -p $INSTDIR/doc/freeciv/installer ||
-   ! cat licenses/header.txt ../../COPYING \
-     > $INSTDIR/doc/freeciv/installer/COPYING.installer ||
+   ! cat licenses/header.txt "${SRC_ROOT}/COPYING" \
+     > "${INSTDIR}/doc/freeciv/installer/COPYING.installer" ||
    ! rm -Rf $INSTDIR/lib ||
    ! cp Freeciv.url $INSTDIR/
 then
