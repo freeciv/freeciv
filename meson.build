@@ -64,7 +64,6 @@ elif testmatic != '' and testmatic != 'no'
   error('Unknown testmatic value ' + testmatic)
 endif
 
-pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
 priv_conf_data.set('BINDIR',
                    join_paths(get_option('prefix'), get_option('bindir')))
 
@@ -154,6 +153,17 @@ if server_type == 'freeciv-web'
 else
   pub_conf_data.set('FREECIV_DELTA_PROTOCOL', 1)
   server_binary_name = 'freeciv-server'
+endif
+
+if server_type == 'disabled'
+  pub_conf_data.set('FREECIV_AI_MOD_LAST', 1)
+
+  priv_conf_data.set('AI_MOD_STATIC_STUB', 1)
+else
+  pub_conf_data.set('FREECIV_AI_MOD_LAST', 2)
+
+  priv_conf_data.set('AI_MOD_STATIC_CLASSIC', 1)
+  priv_conf_data.set('AI_MOD_STATIC_TEX', 1)
 endif
 
 if meson.is_cross_build()
@@ -1126,6 +1136,16 @@ common_lib = library('freeciv',
   install : true
   )
 
+if server_type == 'disabled'
+
+ais = static_library('fc_ai',
+  'ai/stub/stubai.c',
+  sources: [verhdr],
+  include_directories: [server_inc, include_directories('ai/default')]
+  )
+
+else
+
 ais = static_library('fc_ai',
   'ai/classic/classicai.c',
   'ai/tex/texai.c',
@@ -1156,6 +1176,8 @@ ais = static_library('fc_ai',
   sources: [verhdr],
   include_directories: [server_inc, include_directories('ai/default')]
   )
+
+endif
 
 server_lib = static_library('fc_server',
   'ai/aitraits.c',
