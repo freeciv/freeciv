@@ -1979,7 +1979,8 @@ void fc_client::start_page_menu(QPoint pos)
     player *pplayer = (player *) qvar2.value < void *>();
 
     if (pplayer != nullptr) {
-      page_menu = new QMenu(this);
+      QMenu *page_menu = new QMenu(this);
+
       page_submenu_AI = new QMenu(this);
       page_submenu_team = new QMenu(this);
 
