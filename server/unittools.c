@@ -152,9 +152,10 @@ static void wipe_unit_full(struct unit *punit, bool transported,
                            enum unit_loss_reason reason,
                            struct player *killer);
 
-static int get_unit_vision_base(struct unit *punit, enum vision_layer vlayer,
+static int get_unit_vision_base(const struct unit *punit,
+                                enum vision_layer vlayer,
                                 const int base);
-static int unit_vision_range_modifiers(struct unit *punit,
+static int unit_vision_range_modifiers(const struct unit *punit,
                                        const struct tile *ptile);
 
 /**********************************************************************//**
@@ -1636,7 +1637,7 @@ void transform_unit(struct unit *punit, const struct unit_type *to_unit,
     unit_activities_cancel(punit);
   }
 
-  /* update unit upkeep */
+  /* Update unit upkeep */
   city_units_upkeep(game_city_by_number(punit->homecity));
 
   conn_list_do_buffer(pplayer->connections);
@@ -3638,7 +3639,7 @@ static bool unit_move_consequences(struct unit *punit,
     }
   }
 
-  /* entering/leaving a fortress or friendly territory */
+  /* Entering/leaving a fortress or friendly territory */
   if (homecity_start_pos || homecity_end_pos) {
     bool friendly_end = FALSE;
 
@@ -3721,9 +3722,9 @@ static void check_unit_activity(struct unit *punit)
 /**********************************************************************//**
   Create a new unit move data, or use previous one if available.
 **************************************************************************/
-static struct unit_move_data *unit_move_data(struct unit *punit,
-                                             struct tile *psrctile,
-                                             struct tile *pdesttile)
+static struct unit_move_data *unit_move_data_get(struct unit *punit,
+                                                 const struct tile *psrctile,
+                                                 const struct tile *pdesttile)
 {
   struct unit_move_data *pdata;
   struct player *powner = unit_owner(punit);
@@ -3757,15 +3758,16 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
   Move the unit using move_data.
 **************************************************************************/
 static void unit_move_by_data(struct unit_move_data *pdata,
-                              struct tile *psrctile, struct tile *pdesttile)
+                              const struct tile *psrctile,
+                              struct tile *pdesttile)
 {
   struct vision *new_vision;
   struct unit *punit = pdata->punit;
   int mod = unit_vision_range_modifiers(punit, pdesttile);
-  const v_radius_t radius_sq =
-    V_RADIUS(get_unit_vision_base(punit, V_MAIN, mod),
-             get_unit_vision_base(punit, V_INVIS, mod),
-             get_unit_vision_base(punit, V_SUBSURFACE, mod));
+  const v_radius_t radius_sq
+    = V_RADIUS(get_unit_vision_base(punit, V_MAIN, mod),
+               get_unit_vision_base(punit, V_INVIS, mod),
+               get_unit_vision_base(punit, V_SUBSURFACE, mod));
 
   /* Remove unit from the source tile. */
   fc_assert(unit_tile(punit) == psrctile);
@@ -3825,8 +3827,79 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
 }
 
 /**********************************************************************//**
+  Construct list of move datas of the unit and it its cargo.
+**************************************************************************/
+static struct unit_move_data_list *construct_move_data_list(struct unit *punit,
+                                                            const struct tile *psrctile,
+                                                            struct tile *pdesttile,
+                                                            bool adj)
+{
+  struct unit_move_data_list *plist
+    = unit_move_data_list_new_full(unit_move_data_unref);
+  struct unit_move_data *pdata;
+
+  /* Make new data for 'punit'. */
+  pdata = unit_move_data_get(punit, psrctile, pdesttile);
+  unit_move_data_list_prepend(plist, pdata);
+
+  /* Add all contained units. */
+  unit_cargo_iterate(punit, pcargo) {
+    struct unit_move_data *cargo_data;
+
+    cargo_data = unit_move_data_get(pcargo, psrctile, pdesttile);
+    unit_move_data_list_append(plist, cargo_data);
+  } unit_cargo_iterate_end;
+
+  /* Determine the players able to see the move(s), now that the player
+   * vision has been increased. */
+  if (adj) {
+    /* Main unit for adjacent move: the move is visible for every player
+     * able to see on the matching unit layer. */
+    enum vision_layer vlayer = unit_type_get(punit)->vlayer;
+
+    players_iterate(oplayer) {
+      if (map_is_known_and_seen(psrctile, oplayer, vlayer)
+          || map_is_known_and_seen(pdesttile, oplayer, vlayer)) {
+        BV_SET(pdata->can_see_unit, player_index(oplayer));
+        BV_SET(pdata->can_see_move, player_index(oplayer));
+      }
+    } players_iterate_end;
+  }
+
+  unit_move_data_list_iterate(plist, pmove_data) {
+
+    unit_move_by_data(pmove_data, psrctile, pdesttile);
+
+    if (adj && pmove_data->punit == punit) {
+      /* If positions are adjacent, we have already handled 'punit'. See
+       * above. */
+      continue;
+    }
+
+    players_iterate(oplayer) {
+      if ((adj
+           && can_player_see_unit_at(oplayer, pmove_data->punit, psrctile,
+                                     pmove_data != pdata))
+          || can_player_see_unit_at(oplayer, pmove_data->punit, pdesttile,
+                                    pmove_data != pdata)) {
+        BV_SET(pmove_data->can_see_unit, player_index(oplayer));
+        BV_SET(pmove_data->can_see_move, player_index(oplayer));
+      }
+      if (can_player_see_unit_at(oplayer, pmove_data->punit, psrctile,
+                                 pmove_data != pdata)) {
+        /* The unit was seen with its source tile even if it was
+         * teleported. */
+        BV_SET(pmove_data->can_see_unit, player_index(oplayer));
+      }
+    } players_iterate_end;
+  } unit_move_data_list_iterate_end;
+
+  return plist;
+}
+
+/**********************************************************************//**
   Moves a unit. No checks whatsoever! This is meant as a practical
-  function for other functions, like do_airline, which do the checking
+  function for other functions, like do_airline(), which do the checking
   themselves.
 
   If you move a unit you should always use this function, as it also sets
@@ -3847,8 +3920,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   struct unit *ptransporter;
   struct packet_unit_info src_info, dest_info;
   struct packet_unit_short_info src_sinfo, dest_sinfo;
-  struct unit_move_data_list *plist =
-      unit_move_data_list_new_full(unit_move_data_unref);
+  struct unit_move_data_list *plist;
   struct unit_move_data *pdata;
   int saved_id;
   bool unit_lives;
@@ -3887,15 +3959,13 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
     package_short_unit(punit, &src_sinfo, UNIT_INFO_IDENTITY, 0);
   }
 
-  /* Make new data for 'punit'. */
-  pdata = unit_move_data(punit, psrctile, pdesttile);
-  unit_move_data_list_prepend(plist, pdata);
-
   /* Set unit orientation */
   if (adj) {
     /* Only change orientation when moving to adjacent tile */
     punit->facing = facing;
   }
+
+  plist = construct_move_data_list(punit, psrctile, pdesttile, adj);
 
   /* Move magic. */
   punit->moved = TRUE;
@@ -3909,8 +3979,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   punit->action_decision_tile = NULL;
   punit->action_decision_want = ACT_DEC_NOTHING;
 
-  if (!adj
-      && action_tgt_city(punit, pdesttile, FALSE)) {
+  if (!adj && action_tgt_city(punit, pdesttile, FALSE)) {
     /* The unit can perform an action to the city at the destination tile.
      * A long distance move (like an airlift) doesn't ask what action to
      * perform before moving. Ask now. */
@@ -3929,63 +3998,15 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
     tile_claim_bases(pdesttile, pplayer);
   }
 
-  /* Move all contained units. */
-  unit_cargo_iterate(punit, pcargo) {
-    pdata = unit_move_data(pcargo, psrctile, pdesttile);
-    unit_move_data_list_append(plist, pdata);
-  } unit_cargo_iterate_end;
-
-  /* Get data for 'punit'. */
   pdata = unit_move_data_list_front(plist);
-
-  /* Determine the players able to see the move(s), now that the player
-   * vision has been increased. */
-  if (adj) {
-    /*  Main unit for adjacent move: the move is visible for every player
-     * able to see on the matching unit layer. */
-    enum vision_layer vlayer = unit_type_get(punit)->vlayer;
-
-    players_iterate(oplayer) {
-      if (map_is_known_and_seen(psrctile, oplayer, vlayer)
-          || map_is_known_and_seen(pdesttile, oplayer, vlayer)) {
-        BV_SET(pdata->can_see_unit, player_index(oplayer));
-        BV_SET(pdata->can_see_move, player_index(oplayer));
-      }
-    } players_iterate_end;
-  }
-
-  unit_move_data_list_iterate(plist, pmove_data) {
-
-    unit_move_by_data(pmove_data, psrctile, pdesttile);
-
-    if (adj && pmove_data == pdata) {
-      /* If positions are adjacent, we have already handled 'punit'. See
-       * above. */
-      continue;
-    }
-
-    players_iterate(oplayer) {
-      if ((adj
-           && can_player_see_unit_at(oplayer, pmove_data->punit, psrctile,
-                                     pmove_data != pdata))
-          || can_player_see_unit_at(oplayer, pmove_data->punit, pdesttile,
-                                    pmove_data != pdata)) {
-        BV_SET(pmove_data->can_see_unit, player_index(oplayer));
-        BV_SET(pmove_data->can_see_move, player_index(oplayer));
-      }
-      if (can_player_see_unit_at(oplayer, pmove_data->punit, psrctile,
-                                 pmove_data != pdata)) {
-        /* The unit was seen with its source tile even if it was
-         * teleported. */
-        BV_SET(pmove_data->can_see_unit, player_index(oplayer));
-      }
-    } players_iterate_end;
-  } unit_move_data_list_iterate_end;
+  fc_assert(pdata->punit == punit);
 
   /* Check timeout settings. */
   if (current_turn_timeout() != 0 && game.server.timeoutaddenemymove > 0) {
     bool new_information_for_enemy = FALSE;
 
+    /* FIXME: Seen enemy cargo in a non-enemy transport should count too,
+    *         if they are ever seen. */
     phase_players_iterate(penemy) {
       /* Increase the timeout if an enemy unit moves and the
        * timeoutaddenemymove setting is in use. */
@@ -4748,7 +4769,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
   Note that vision MUST be independent of transported_by for this to work
   properly.
 **************************************************************************/
-static int get_unit_vision_base(struct unit *punit, enum vision_layer vlayer,
+static int get_unit_vision_base(const struct unit *punit,
+                                enum vision_layer vlayer,
                                 const int base)
 {
   switch (vlayer) {
@@ -4769,7 +4791,7 @@ static int get_unit_vision_base(struct unit *punit, enum vision_layer vlayer,
 /**********************************************************************//**
   Return unit vision range modifiers unit would have at the given tile.
 **************************************************************************/
-static int unit_vision_range_modifiers(struct unit *punit,
+static int unit_vision_range_modifiers(const struct unit *punit,
                                        const struct tile *ptile)
 {
   const struct unit_type *utype = unit_type_get(punit);
@@ -4787,7 +4809,7 @@ static int unit_vision_range_modifiers(struct unit *punit,
   Note that vision MUST be independent of transported_by for this to work
   properly.
 **************************************************************************/
-int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
+int get_unit_vision_at(const struct unit *punit, const struct tile *ptile,
                        enum vision_layer vlayer)
 {
   return get_unit_vision_base(punit, vlayer,
@@ -4805,8 +4827,8 @@ void unit_refresh_vision(struct unit *punit)
   struct vision *uvision = punit->server.vision;
   const struct tile *utile = unit_tile(punit);
   int mod = unit_vision_range_modifiers(punit, utile);
-  const v_radius_t radius_sq =
-      V_RADIUS(get_unit_vision_base(punit, V_MAIN, mod),
+  const v_radius_t radius_sq
+    = V_RADIUS(get_unit_vision_base(punit, V_MAIN, mod),
                get_unit_vision_base(punit, V_INVIS, mod),
                get_unit_vision_base(punit, V_SUBSURFACE, mod));
 
