@@ -325,9 +325,10 @@ struct unit_class {
 #define SPECENUM_VALUE77 UTYF_USER_FLAG_48
 #define SPECENUM_VALUE78 UTYF_USER_FLAG_49
 #define SPECENUM_VALUE79 UTYF_USER_FLAG_50
+#define SPECENUM_VALUE80 UTYF_USER_FLAG_51
 /* Note that first role must have value next to last flag */
 
-#define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_50
+#define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_51
 #define MAX_NUM_USER_UNIT_FLAGS (UTYF_LAST_USER_FLAG - UTYF_USER_FLAG_1 + 1)
 #define SPECENUM_NAMEOVERRIDE
 #define SPECENUM_BITVECTOR bv_unit_type_flags
@@ -349,92 +350,92 @@ struct unit_class {
 
 #define SPECENUM_NAME unit_role_id
 /* Built first when city established */
-#define SPECENUM_VALUE80 L_FIRSTBUILD
-#define SPECENUM_VALUE80NAME N_("?unitflag:FirstBuild")
+#define SPECENUM_VALUE81 L_FIRSTBUILD
+#define SPECENUM_VALUE81NAME N_("?unitflag:FirstBuild")
 /* Explorer unit */
-#define SPECENUM_VALUE81 L_EXPLORER
-#define SPECENUM_VALUE81NAME N_("?unitflag:Explorer")
+#define SPECENUM_VALUE82 L_EXPLORER
+#define SPECENUM_VALUE82NAME N_("?unitflag:Explorer")
 /* Can be found in hut */
-#define SPECENUM_VALUE82 L_HUT
-#define SPECENUM_VALUE82NAME N_("?unitflag:Hut")
+#define SPECENUM_VALUE83 L_HUT
+#define SPECENUM_VALUE83NAME N_("?unitflag:Hut")
 /* Can be found in hut, tech required */
-#define SPECENUM_VALUE83 L_HUT_TECH
-#define SPECENUM_VALUE83NAME N_("?unitflag:HutTech")
+#define SPECENUM_VALUE84 L_HUT_TECH
+#define SPECENUM_VALUE84NAME N_("?unitflag:HutTech")
 /* Created in Partisan circumstances */
-#define SPECENUM_VALUE84 L_PARTISAN
-#define SPECENUM_VALUE84NAME N_("?unitflag:Partisan")
+#define SPECENUM_VALUE85 L_PARTISAN
+#define SPECENUM_VALUE85NAME N_("?unitflag:Partisan")
 /* Ok on defense (AI) */
-#define SPECENUM_VALUE85 L_DEFEND_OK
-#define SPECENUM_VALUE85NAME N_("?unitflag:DefendOk")
+#define SPECENUM_VALUE86 L_DEFEND_OK
+#define SPECENUM_VALUE86NAME N_("?unitflag:DefendOk")
 /* Primary purpose is defense (AI) */
-#define SPECENUM_VALUE86 L_DEFEND_GOOD
-#define SPECENUM_VALUE86NAME N_("?unitflag:DefendGood")
+#define SPECENUM_VALUE87 L_DEFEND_GOOD
+#define SPECENUM_VALUE87NAME N_("?unitflag:DefendGood")
 /* Useful for ferrying (AI) */
-#define SPECENUM_VALUE87 L_FERRYBOAT
-#define SPECENUM_VALUE87NAME N_("?unitflag:FerryBoat")
+#define SPECENUM_VALUE88 L_FERRYBOAT
+#define SPECENUM_VALUE88NAME N_("?unitflag:FerryBoat")
 /* Barbarians unit, land only */
-#define SPECENUM_VALUE88 L_BARBARIAN
-#define SPECENUM_VALUE88NAME N_("?unitflag:Barbarian")
+#define SPECENUM_VALUE89 L_BARBARIAN
+#define SPECENUM_VALUE89NAME N_("?unitflag:Barbarian")
 /* Barbarians unit, global tech required */
-#define SPECENUM_VALUE89 L_BARBARIAN_TECH
-#define SPECENUM_VALUE89NAME N_("?unitflag:BarbarianTech")
+#define SPECENUM_VALUE90 L_BARBARIAN_TECH
+#define SPECENUM_VALUE90NAME N_("?unitflag:BarbarianTech")
 /* Barbarian boat */
-#define SPECENUM_VALUE90 L_BARBARIAN_BOAT
-#define SPECENUM_VALUE90NAME N_("?unitflag:BarbarianBoat")
+#define SPECENUM_VALUE91 L_BARBARIAN_BOAT
+#define SPECENUM_VALUE91NAME N_("?unitflag:BarbarianBoat")
 /* Barbarians boat, global tech required */
-#define SPECENUM_VALUE91 L_BARBARIAN_BOAT_TECH
-#define SPECENUM_VALUE91NAME N_("?unitflag:BarbarianBoatTech")
+#define SPECENUM_VALUE92 L_BARBARIAN_BOAT_TECH
+#define SPECENUM_VALUE92NAME N_("?unitflag:BarbarianBoatTech")
 /* What barbarians should build */
-#define SPECENUM_VALUE92 L_BARBARIAN_BUILD
-#define SPECENUM_VALUE92NAME N_("?unitflag:BarbarianBuild")
+#define SPECENUM_VALUE93 L_BARBARIAN_BUILD
+#define SPECENUM_VALUE93NAME N_("?unitflag:BarbarianBuild")
 /* Barbarians build when global tech */
-#define SPECENUM_VALUE93 L_BARBARIAN_BUILD_TECH
-#define SPECENUM_VALUE93NAME N_("?unitflag:BarbarianBuildTech")
+#define SPECENUM_VALUE94 L_BARBARIAN_BUILD_TECH
+#define SPECENUM_VALUE94NAME N_("?unitflag:BarbarianBuildTech")
 /* Barbarian leader */
-#define SPECENUM_VALUE94 L_BARBARIAN_LEADER
-#define SPECENUM_VALUE94NAME N_("?unitflag:BarbarianLeader")
+#define SPECENUM_VALUE95 L_BARBARIAN_LEADER
+#define SPECENUM_VALUE95NAME N_("?unitflag:BarbarianLeader")
 /* Sea raider unit */
-#define SPECENUM_VALUE95 L_BARBARIAN_SEA
-#define SPECENUM_VALUE95NAME N_("?unitflag:BarbarianSea")
+#define SPECENUM_VALUE96 L_BARBARIAN_SEA
+#define SPECENUM_VALUE96NAME N_("?unitflag:BarbarianSea")
 /* Sea raider unit, global tech required */
-#define SPECENUM_VALUE96 L_BARBARIAN_SEA_TECH
-#define SPECENUM_VALUE96NAME N_("?unitflag:BarbarianSeaTech")
+#define SPECENUM_VALUE97 L_BARBARIAN_SEA_TECH
+#define SPECENUM_VALUE97NAME N_("?unitflag:BarbarianSeaTech")
 /* StartUnit: Cities */
-#define SPECENUM_VALUE97 L_START_CITIES
-#define SPECENUM_VALUE97NAME N_("?unitflag:CitiesStartUnit")
+#define SPECENUM_VALUE98 L_START_CITIES
+#define SPECENUM_VALUE98NAME N_("?unitflag:CitiesStartUnit")
 /* StartUnit: Worker */
-#define SPECENUM_VALUE98 L_START_WORKER
-#define SPECENUM_VALUE98NAME N_("?unitflag:WorkerStartUnit")
+#define SPECENUM_VALUE99 L_START_WORKER
+#define SPECENUM_VALUE99NAME N_("?unitflag:WorkerStartUnit")
 /* StartUnit: Explorer */
-#define SPECENUM_VALUE99 L_START_EXPLORER
-#define SPECENUM_VALUE99NAME N_("?unitflag:ExplorerStartUnit")
+#define SPECENUM_VALUE100 L_START_EXPLORER
+#define SPECENUM_VALUE100NAME N_("?unitflag:ExplorerStartUnit")
 /* StartUnit: King */
-#define SPECENUM_VALUE100 L_START_KING
-#define SPECENUM_VALUE100NAME N_("?unitflag:KingStartUnit")
+#define SPECENUM_VALUE101 L_START_KING
+#define SPECENUM_VALUE101NAME N_("?unitflag:KingStartUnit")
 /* StartUnit: Diplomat */
-#define SPECENUM_VALUE101 L_START_DIPLOMAT
-#define SPECENUM_VALUE101NAME N_("?unitflag:DiplomatStartUnit")
+#define SPECENUM_VALUE102 L_START_DIPLOMAT
+#define SPECENUM_VALUE102NAME N_("?unitflag:DiplomatStartUnit")
 /* StartUnit: Ferryboat */
-#define SPECENUM_VALUE102 L_START_FERRY
-#define SPECENUM_VALUE102NAME N_("?unitflag:FerryStartUnit")
+#define SPECENUM_VALUE103 L_START_FERRY
+#define SPECENUM_VALUE103NAME N_("?unitflag:FerryStartUnit")
 /* StartUnit: DefendOk */
-#define SPECENUM_VALUE103 L_START_DEFEND_OK
-#define SPECENUM_VALUE103NAME N_("?unitflag:DefendOkStartUnit")
+#define SPECENUM_VALUE104 L_START_DEFEND_OK
+#define SPECENUM_VALUE104NAME N_("?unitflag:DefendOkStartUnit")
 /* StartUnit: DefendGood */
-#define SPECENUM_VALUE104 L_START_DEFEND_GOOD
-#define SPECENUM_VALUE104NAME N_("?unitflag:DefendGoodStartUnit")
+#define SPECENUM_VALUE105 L_START_DEFEND_GOOD
+#define SPECENUM_VALUE105NAME N_("?unitflag:DefendGoodStartUnit")
 /* StartUnit: AttackFast */
-#define SPECENUM_VALUE105 L_START_ATTACK_FAST
-#define SPECENUM_VALUE105NAME N_("?unitflag:AttackFastStartUnit")
+#define SPECENUM_VALUE106 L_START_ATTACK_FAST
+#define SPECENUM_VALUE106NAME N_("?unitflag:AttackFastStartUnit")
 /* StartUnit: AttackStrong */
-#define SPECENUM_VALUE106 L_START_ATTACK_STRONG
-#define SPECENUM_VALUE106NAME N_("?unitflag:AttackStrongStartUnit")
+#define SPECENUM_VALUE107 L_START_ATTACK_STRONG
+#define SPECENUM_VALUE107NAME N_("?unitflag:AttackStrongStartUnit")
 /* AI hunter type unit */
-#define SPECENUM_VALUE107 L_HUNTER
-#define SPECENUM_VALUE107NAME N_("?unitflag:Hunter")
+#define SPECENUM_VALUE108 L_HUNTER
+#define SPECENUM_VALUE108NAME N_("?unitflag:Hunter")
 /* Can improve terrain */
-#define SPECENUM_VALUE108 L_SETTLERS
-#define SPECENUM_VALUE108NAME N_("?unitflag:Settlers")
+#define SPECENUM_VALUE109 L_SETTLERS
+#define SPECENUM_VALUE109NAME N_("?unitflag:Settlers")
 #define L_LAST (L_SETTLERS + 1)
 
 #include "specenum_gen.h"

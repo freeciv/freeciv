@@ -47,9 +47,9 @@ FC_STATIC_ASSERT((ARRAY_SIZE(_new_flags_)                                 \
                   <= _LAST_USER_FLAG_ - _LAST_USER_FLAG_PREV_),           \
                  not_enough_new_##_name_##_user_flags)
 
-#define UTYF_LAST_USER_FLAG_3_0 UTYF_USER_FLAG_40
-#define UCF_LAST_USER_FLAG_3_0 UCF_USER_FLAG_8
-#define TER_LAST_USER_FLAG_3_0 TER_USER_8
+#define UTYF_LAST_USER_FLAG_3_2 UTYF_USER_FLAG_50
+
+static int first_free_unit_type_user_flag(void);
 
 /**********************************************************************//**
   Initialize rscompat information structure
@@ -329,6 +329,51 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
 **************************************************************************/
 bool rscompat_names(struct rscompat_info *info)
 {
+  if (info->version < RSFORMAT_3_3) {
+    int first_free;
+    int i;
+
+    /* Some unit type flags moved to the ruleset between 3.2 and 3.3.
+     * Add them back as user flags.
+     * XXX: ruleset might not need all of these, and may have enough
+     * flags of its own that these additional ones prevent conversion. */
+    const struct {
+      const char *name;
+      const char *helptxt;
+    } new_flags_33[] = {
+      { N_("NoVeteran"), N_("May acquire veteran status.") }
+    };
+
+    enough_new_user_flags(new_flags_33, unit_type,
+                          UTYF_LAST_USER_FLAG, UTYF_LAST_USER_FLAG_3_2);
+
+    /* Unit type flags. */
+    first_free = first_free_unit_type_user_flag() + UTYF_USER_FLAG_1;
+
+    for (i = 0; i < ARRAY_SIZE(new_flags_33); i++) {
+      if (UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
+        /* Can't add the user unit type flags. */
+        ruleset_error(NULL, LOG_ERROR,
+                      "Can't upgrade the ruleset. Not enough free unit type "
+                      "user flags to add user flags for the unit type flags "
+                      "that used to be hardcoded.");
+        return FALSE;
+      }
+      /* Shouldn't be possible for valid old ruleset to have flag names that
+       * clash with these ones */
+      if (unit_type_flag_id_by_name(new_flags_33[i].name, fc_strcasecmp)
+          != unit_type_flag_id_invalid()) {
+        ruleset_error(NULL, LOG_ERROR,
+                      "Ruleset had illegal user unit type flag '%s'",
+                      new_flags_33[i].name);
+        return FALSE;
+      }
+      set_user_unit_type_flag_name(first_free + i,
+                                   new_flags_33[i].name,
+                                   new_flags_33[i].helptxt);
+    }
+  }
+
   /* No errors encountered. */
   return TRUE;
 }
@@ -368,4 +413,23 @@ void rscompat_postprocess(struct rscompat_info *info)
    * the rules risks bad rules. A user that saves the ruleset rather than
    * using it risks an unexpected change on the next load and save. */
   autoadjust_ruleset_data();
+}
+
+/**********************************************************************//**
+  Find and return the first unused unit type user flag. If all unit type
+  user flags are taken MAX_NUM_USER_UNIT_FLAGS is returned.
+**************************************************************************/
+static int first_free_unit_type_user_flag(void)
+{
+  int flag;
+
+  /* Find the first unused user defined unit type flag. */
+  for (flag = 0; flag < MAX_NUM_USER_UNIT_FLAGS; flag++) {
+    if (unit_type_flag_id_name_cb(flag + UTYF_USER_FLAG_1) == NULL) {
+      return flag;
+    }
+  }
+
+  /* All unit type user flags are taken. */
+  return MAX_NUM_USER_UNIT_FLAGS;
 }
