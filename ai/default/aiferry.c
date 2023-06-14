@@ -834,13 +834,14 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       return FALSE;
     }
 
-    action_by_result_iterate(paction, act_id, ACTRES_TRANSPORT_BOARD) {
-      if (action_prob_possible(action_prob_vs_unit(punit,
-                                                   paction->id,
+    action_by_result_iterate(paction, ACTRES_TRANSPORT_BOARD) {
+      enum gen_action act_id = action_id(paction);
+
+      if (action_prob_possible(action_prob_vs_unit(punit, act_id,
                                                    ferryboat))) {
         if (unit_perform_action(pplayer,
                                 punit->id, ferryboat->id, 0, "",
-                                paction->id, ACT_REQ_PLAYER)) {
+                                act_id, ACT_REQ_PLAYER)) {
           board_success = TRUE;
           break;
         }
@@ -899,20 +900,23 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
         fc_assert(same_pos(unit_tile(punit), unit_tile(bodyguard)));
 
         /* Bodyguard either uses the same boat or none at all. */
-        action_by_result_iterate(paction, act_id, ACTRES_TRANSPORT_BOARD) {
+        action_by_result_iterate(paction, ACTRES_TRANSPORT_BOARD) {
+          enum gen_action act_id = action_id(paction);
+
           if (action_prob_possible(action_prob_vs_unit(bodyguard,
-                                                       paction->id,
+                                                       act_id,
                                                        ferryboat))) {
             if (unit_perform_action(pplayer,
                                     bodyguard->id, ferryboat->id, 0, "",
-                                    paction->id, ACT_REQ_PLAYER)) {
+                                    act_id, ACT_REQ_PLAYER)) {
               break;
             }
           }
         } action_by_result_iterate_end;
       }
+
       if (!aiferry_goto_amphibious(ait, ferryboat, punit, dest_tile)) {
-        /* died */
+        /* Died */
         return FALSE;
       }
       if (same_pos(unit_tile(punit), dest_tile)) {
