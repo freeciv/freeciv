@@ -447,6 +447,17 @@ struct action_enabler
   }                                                    \
 }
 
+/* Get 'struct action_id_list' and related functions: */
+#define SPECLIST_TAG action
+#define SPECLIST_TYPE struct action
+#include "speclist.h"
+
+#define action_list_iterate(_list_, _act_) \
+  TYPED_LIST_ITERATE(struct action, _list_, _act_)
+#define action_list_iterate_end LIST_ITERATE_END
+
+struct action_list *action_list_by_result(enum action_result result);
+
 /* TODO: Turn this to an iteration over precalculated list */
 #define action_noninternal_iterate(_act_)              \
 {                                                      \
@@ -458,16 +469,12 @@ struct action_enabler
   } action_iterate_end;                                \
 }
 
-#define action_by_result_iterate(_paction_, _act_id_, _result_)           \
+#define action_by_result_iterate(_paction_, _result_)                     \
 {                                                                         \
-  action_iterate(_act_id_) {                                              \
-    struct action *_paction_ = action_by_number(_act_id_);                \
-    if (!action_has_result(_paction_, _result_)) {                        \
-      continue;                                                           \
-    }
+  action_list_iterate(action_list_by_result(_result_), _paction_) {       \
 
 #define action_by_result_iterate_end                                      \
-  } action_iterate_end;                                                   \
+  } action_list_iterate_end;                                              \
 }
 
 #define action_by_activity_iterate(_paction_, _act_id_, _activity_)       \

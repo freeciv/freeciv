@@ -130,14 +130,14 @@ int utype_unknown_move_cost(const struct unit_type *utype)
 
   /* Move cost from effects. */
   worst_effect_mc = 0;
-  action_by_result_iterate(paction, act_id, ACTRES_UNIT_MOVE) {
+  action_by_result_iterate(paction, ACTRES_UNIT_MOVE) {
     struct universal req_pattern[] = {
       { .kind = VUT_ACTION, .value.action = paction },
       { .kind = VUT_UTYPE,  .value.utype = utype },
     };
     int max_effect_mc;
 
-    if (!utype_can_do_action(utype, paction->id)) {
+    if (!utype_can_do_action(utype, action_id(paction))) {
       /* Not relevant. */
       continue;
     }

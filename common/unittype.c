@@ -389,8 +389,8 @@ bool utype_can_do_action_result(const struct unit_type *putype,
 {
   fc_assert_ret_val(putype, FALSE);
 
-  action_by_result_iterate(paction, act_id, result) {
-    if (utype_can_do_action(putype, paction->id)) {
+  action_by_result_iterate(paction, result) {
+    if (utype_can_do_action(putype, action_id(paction))) {
       return TRUE;
     }
   } action_by_result_iterate_end;
@@ -979,8 +979,8 @@ bool utype_can_do_action_result_when_ustate(const struct unit_type *putype,
 {
   fc_assert_ret_val(putype, FALSE);
 
-  action_by_result_iterate(paction, act_id, result) {
-    if (utype_can_do_act_when_ustate(putype, paction->id, prop, is_there)) {
+  action_by_result_iterate(paction, result) {
+    if (utype_can_do_act_when_ustate(putype, action_id(paction), prop, is_there)) {
       return TRUE;
     }
   } action_by_result_iterate_end;
@@ -1229,8 +1229,8 @@ bool utype_is_consumed_by_action(const struct action *paction,
 bool utype_is_consumed_by_action_result(enum action_result result,
                                         const struct unit_type *utype)
 {
-  action_by_result_iterate(paction, act_id, result) {
-    if (!utype_can_do_action(utype, paction->id)) {
+  action_by_result_iterate(paction, result) {
+    if (!utype_can_do_action(utype, action_id(paction))) {
       continue;
     }
 
