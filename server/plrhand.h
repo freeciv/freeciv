@@ -76,7 +76,7 @@ void fit_nationset_to_players(void);
 
 void check_player_max_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2,
-		  struct tile *ptile);
+                  struct tile *ptile);
 void maybe_make_contact(struct tile *ptile, struct player *pplayer);
 void enter_war(struct player *pplayer, struct player *pplayer2);
 void player_update_last_war_action(struct player *pplayer);
@@ -95,39 +95,39 @@ void set_shuffled_players(int *shuffled_players);
 struct player *shuffled_player(int i);
 void reset_all_start_commands(bool plrchange);
 
-#define shuffled_players_iterate(NAME_pplayer)\
-do {\
-  int MY_i;\
-  struct player *NAME_pplayer;\
-  log_debug("shuffled_players_iterate @ %s line %d",\
-            __FILE__, __FC_LINE__);\
-  for (MY_i = 0; MY_i < player_slot_count(); MY_i++) {\
-    NAME_pplayer = shuffled_player(MY_i);\
-    if (NAME_pplayer != NULL) {\
+#define shuffled_players_iterate(NAME_pplayer)         \
+do {                                                   \
+  int MY_i;                                            \
+  struct player *NAME_pplayer;                         \
+  log_debug("shuffled_players_iterate @ %s line %d",   \
+            __FILE__, __FC_LINE__);                    \
+  for (MY_i = 0; MY_i < player_slot_count(); MY_i++) { \
+    NAME_pplayer = shuffled_player(MY_i);              \
+    if (NAME_pplayer != nullptr) {
 
-#define shuffled_players_iterate_end\
-    }\
-  }\
+#define shuffled_players_iterate_end                   \
+    }                                                  \
+  }                                                    \
 } while (FALSE)
 
-#define phase_players_iterate(pplayer)\
-do {\
-  shuffled_players_iterate(pplayer) {\
+#define phase_players_iterate(pplayer)                 \
+do {                                                   \
+  shuffled_players_iterate(pplayer) {                  \
     if (is_player_phase(pplayer, game.info.phase)) {
 
-#define phase_players_iterate_end\
-    }\
-  } shuffled_players_iterate_end;\
+#define phase_players_iterate_end                      \
+    }                                                  \
+  } shuffled_players_iterate_end;                      \
 } while (FALSE);
 
-#define alive_phase_players_iterate(pplayer) \
-do { \
-  phase_players_iterate(pplayer) { \
+#define alive_phase_players_iterate(pplayer)           \
+do {                                                   \
+  phase_players_iterate(pplayer) {                     \
     if (pplayer->is_alive) {
 
-#define alive_phase_players_iterate_end \
-    } \
-  } phase_players_iterate_end \
+#define alive_phase_players_iterate_end                \
+    }                                                  \
+  } phase_players_iterate_end                          \
 } while (FALSE);
 
 bool civil_war_possible(struct player *pplayer, bool conquering_city,
@@ -158,7 +158,7 @@ void send_delegation_info(const struct connection *pconn);
 
 struct player *player_by_user_delegated(const char *name);
 
-/* player colors */
+/* Player colors */
 void playercolor_init(void);
 void playercolor_free(void);
 
