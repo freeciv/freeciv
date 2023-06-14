@@ -143,6 +143,8 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
 FC_STATIC_ASSERT(MAP_DISTANCE_MAX <= ACTION_DISTANCE_LAST_NON_SIGNAL,
                  action_range_can_not_cover_the_whole_map);
 
+static struct action_list *actlist_by_result[ACTRES_LAST];
+
 /**********************************************************************//**
   Returns a new array of alternative action enabler contradictions. Only
   one has to not contradict the enabler for it to be seen as fulfilled.
@@ -1458,6 +1460,10 @@ void actions_init(void)
 {
   int i, j;
 
+  for (i = 0; i < ACTRES_LAST; i++) {
+    actlist_by_result[i] = action_list_new();
+  }
+
   /* Hard code the actions */
   hard_code_actions();
 
@@ -1554,6 +1560,11 @@ void actions_free(void)
   }
 
   astr_free(&ui_name_str);
+
+  for (i = 0; i < ACTRES_LAST; i++) {
+    action_list_destroy(actlist_by_result[i]);
+    actlist_by_result[i] = NULL;
+  }
 }
 
 /**********************************************************************//**
@@ -1598,6 +1609,11 @@ static struct action *action_new(action_id id,
   action->id = id;
 
   action->result = result;
+
+  if (result != ACTRES_LAST) {
+    action_list_append(actlist_by_result[result], action);
+  }
+
   /* Not set here */
   BV_CLR_ALL(action->sub_results);
 
@@ -9275,4 +9291,14 @@ const char *action_target_kind_help(enum action_target_kind kind)
   fc_assert(kind >= 0 && kind < ATK_COUNT);
 
   return _(atk_helpnames[kind]);
+}
+
+/************************************************************************//**
+  Returns action id list by result.
+****************************************************************************/
+struct action_list *action_list_by_result(enum action_result result)
+{
+  fc_assert(result < ACTRES_LAST);
+
+  return actlist_by_result[result];
 }

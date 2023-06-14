@@ -836,9 +836,8 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       return FALSE;
     }
 
-    action_by_result_iterate(paction, act_id, ACTRES_TRANSPORT_BOARD) {
-      if (action_prob_possible(action_prob_vs_unit(punit,
-                                                   paction->id,
+    action_by_result_iterate(paction, ACTRES_TRANSPORT_BOARD) {
+      if (action_prob_possible(action_prob_vs_unit(punit, paction->id,
                                                    ferryboat))) {
         if (unit_perform_action(pplayer,
                                 punit->id, ferryboat->id, 0, "",
@@ -901,7 +900,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
         fc_assert(same_pos(unit_tile(punit), unit_tile(bodyguard)));
 
         /* Bodyguard either uses the same boat or none at all. */
-        action_by_result_iterate(paction, act_id, ACTRES_TRANSPORT_BOARD) {
+        action_by_result_iterate(paction, ACTRES_TRANSPORT_BOARD) {
           if (action_prob_possible(action_prob_vs_unit(bodyguard,
                                                        paction->id,
                                                        ferryboat))) {
@@ -913,8 +912,9 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
           }
         } action_by_result_iterate_end;
       }
+
       if (!aiferry_goto_amphibious(ait, ferryboat, punit, dest_tile)) {
-        /* died */
+        /* Died */
         return FALSE;
       }
       if (same_pos(unit_tile(punit), dest_tile)) {

@@ -1447,8 +1447,8 @@ bool city_can_be_built_here(const struct tile *ptile,
     return TRUE;
   }
 
-  action_by_result_iterate(paction, act_id, ACTRES_FOUND_CITY) {
-    if (!utype_can_do_action(unit_type_get(punit), act_id)) {
+  action_by_result_iterate(paction, ACTRES_FOUND_CITY) {
+    if (!utype_can_do_action(unit_type_get(punit), paction->id)) {
       /* This action can't be done by this unit type at all. */
       continue;
     }

@@ -1348,12 +1348,12 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       action_list_end(nuke_actions, i);
     }
 
-    action_list_iterate(nuke_actions, act_id) {
+    action_array_iterate(nuke_actions, act_id) {
       if (num_role_units(action_id_get_role(act_id)) > 0) {
         u = get_role_unit(action_id_get_role(act_id), 0);
         break;
       }
-    } action_list_iterate_end;
+    } action_array_iterate_end;
 
     if (u) {
       if (advance_number(u->require_advance) != A_NONE) {

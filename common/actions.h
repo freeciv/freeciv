@@ -472,16 +472,23 @@ struct action_enabler
   }                                                    \
 }
 
-#define action_by_result_iterate(_paction_, _act_id_, _result_)           \
+/* Get 'struct action_id_list' and related functions: */
+#define SPECLIST_TAG action
+#define SPECLIST_TYPE struct action
+#include "speclist.h"
+
+#define action_list_iterate(_list_, _act_) \
+  TYPED_LIST_ITERATE(struct action, _list_, _act_)
+#define action_list_iterate_end LIST_ITERATE_END
+
+struct action_list *action_list_by_result(enum action_result result);
+
+#define action_by_result_iterate(_paction_, _result_)                     \
 {                                                                         \
-  action_iterate(_act_id_) {                                              \
-    struct action *_paction_ = action_by_number(_act_id_);                \
-    if (!action_has_result(_paction_, _result_)) {                        \
-      continue;                                                           \
-    }
+  action_list_iterate(action_list_by_result(_result_), _paction_) {       \
 
 #define action_by_result_iterate_end                                      \
-  } action_iterate_end;                                                   \
+  } action_list_iterate_end;                                              \
 }
 
 #define action_by_activity_iterate(_paction_, _act_id_, _activity_)       \
@@ -496,7 +503,7 @@ struct action_enabler
   } action_iterate_end;                                                   \
 }
 
-#define action_list_iterate(_act_list_, _act_id_)                         \
+#define action_array_iterate(_act_list_, _act_id_)                        \
 {                                                                         \
   int _pos_;                                                              \
                                                                           \
@@ -508,7 +515,7 @@ struct action_enabler
       break;                                                              \
     }
 
-#define action_list_iterate_end                              \
+#define action_array_iterate_end                                          \
   }                                                                       \
 }
 
@@ -599,10 +606,10 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 } action_auto_perf_iterate_end
 
 #define action_auto_perf_actions_iterate(_autoperf_, _act_id_)            \
-  action_list_iterate(_autoperf_->alternatives, _act_id_)
+  action_array_iterate(_autoperf_->alternatives, _act_id_)
 
 #define action_auto_perf_actions_iterate_end                              \
-  action_list_iterate_end
+  action_array_iterate_end
 
 /* Hard coded location of action auto performers. Used for conversion while
  * action auto performers aren't directly exposed to the ruleset. */

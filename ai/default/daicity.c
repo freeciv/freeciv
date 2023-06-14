@@ -412,7 +412,7 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
         continue;
       }
 
-      action_list_iterate(upgrade_actions, act_id) {
+      action_array_iterate(upgrade_actions, act_id) {
         if (action_ever_possible(act_id)) {
           const struct action *paction = action_by_number(act_id);
           int cost = unit_upgrade_price(pplayer, old_type, punittype);
@@ -438,7 +438,7 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
             increase_maxbuycost(pplayer, cost);
           }
         }
-      } action_list_iterate_end;
+      } action_array_iterate_end;
     }
   } unit_list_iterate_end;
 }

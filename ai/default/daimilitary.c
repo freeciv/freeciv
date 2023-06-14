@@ -561,35 +561,34 @@ static unsigned int assess_danger_unit(const struct city *pcity,
   }
 
   /* Find the worst attack action to expect */
-  action_by_result_iterate(paction, id, ACTRES_ATTACK) {
+  action_by_result_iterate(paction, ACTRES_ATTACK) {
     /* Is it possible that punit will do action id to the city? */
-    int b;
 
-    if (action_may_happen_unit_on_city(id, punit, pcity, *move_time)) {
+    if (action_may_happen_unit_on_city(paction->id, punit, pcity, *move_time)) {
+      int b;
+
       attack_danger = TRUE;
-    } else {
-      continue;
-    }
-    b = get_unittype_bonus(uowner, ptile, punittype, paction, EFT_ATTACK_BONUS);
-    if (b > amod) {
-      amod = b;
+
+      b = get_unittype_bonus(uowner, ptile, punittype, paction, EFT_ATTACK_BONUS);
+      if (b > amod) {
+        amod = b;
+      }
     }
   } action_by_result_iterate_end;
 
   /* FIXME: it's a dummy support for anti-bombard defense just to do something against
    * approaching bombarders. Some better logic is needed, see OSDN#41778 */
   if (!attack_danger) {
-    action_by_result_iterate(paction, id, ACTRES_BOMBARD) {
-      int b;
+    action_by_result_iterate(paction, ACTRES_BOMBARD) {
+      if (action_may_happen_unit_on_city(paction->id, punit, pcity, *move_time)) {
+        int b;
 
-      if (action_may_happen_unit_on_city(id, punit, pcity, *move_time)) {
         attack_danger = TRUE;
-      } else {
-        continue;
-      }
-      b = get_unittype_bonus(uowner, ptile, punittype, paction, EFT_ATTACK_BONUS);
-      if (b > amod) {
-        amod = b;
+
+        b = get_unittype_bonus(uowner, ptile, punittype, paction, EFT_ATTACK_BONUS);
+        if (b > amod) {
+          amod = b;
+        }
       }
     } action_by_result_iterate_end;
     /* Here something should be done cuz the modifier affects

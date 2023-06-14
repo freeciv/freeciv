@@ -1594,8 +1594,8 @@ bool autoadjust_ruleset_data(void)
       enum action_result blocked_result = must_block[i].blocked;
       enum action_result blocker_result = must_block[i].blocker;
 
-      action_by_result_iterate (blocked, blocker_id, blocked_result) {
-        action_by_result_iterate (blocker, blocked_id, blocker_result) {
+      action_by_result_iterate(blocked, blocked_result) {
+        action_by_result_iterate(blocker, blocker_result) {
           if (!action_would_be_blocked_by(blocked, blocker)) {
             log_verbose("Autoblocking %s with %s",
                         action_rule_name(blocked),

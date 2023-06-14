@@ -945,7 +945,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("UnitFlag", "Local", FALSE, TRUE,
                                             TRUE, "OneAttack"));
 
-    action_by_result_iterate(paction, act_id, ACTRES_ATTACK) {
+    action_by_result_iterate(paction, ACTRES_ATTACK) {
       if (paction->actor_consuming_always) {
         /* Not relevant. */
         continue;
@@ -996,10 +996,10 @@ void rscompat_postprocess(struct rscompat_info *info)
         continue;
       }
 
-      action_by_result_iterate(paction, act_id, ACTRES_PARADROP) {
+      action_by_result_iterate(paction, ACTRES_PARADROP) {
         paratroopers_mr_sub_to_effect(putype, paction);
       } action_by_result_iterate_end;
-      action_by_result_iterate(paction, act_id, ACTRES_PARADROP_CONQUER) {
+      action_by_result_iterate(paction, ACTRES_PARADROP_CONQUER) {
         paratroopers_mr_sub_to_effect(putype, paction);
       } action_by_result_iterate_end;
     } unit_type_iterate_end;
@@ -1608,8 +1608,7 @@ void rscompat_postprocess(struct rscompat_info *info)
           action_enablers_for_action(ACTION_PARADROP), ae) {
       struct action_enabler *edit;
 
-      action_by_result_iterate(para_action, para_id,
-                               ACTRES_PARADROP_CONQUER) {
+      action_by_result_iterate(para_action, ACTRES_PARADROP_CONQUER) {
         /* Conquer City and/or owned Extra during war if one is there */
         edit = action_enabler_copy(ae);
         edit->action = para_action->id;
@@ -1671,7 +1670,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         } extra_type_by_cause_iterate_end;
       } action_by_result_iterate_end;
 
-      action_by_result_iterate(para_action, para_id, ACTRES_PARADROP) {
+      action_by_result_iterate(para_action, ACTRES_PARADROP) {
         if (para_action->id == ACTION_PARADROP) {
           /* Use when not at war and against unclaimed tiles. */
           e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,

@@ -301,6 +301,8 @@ enum output_type_id {
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"
 
+#define ACTRES_LAST ACTRES_NONE
+
 /* Used in the network protocol. */
 #define SPECENUM_NAME action_sub_result
 /* Will enter each enterable hut at the target tile */

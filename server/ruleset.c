@@ -7287,7 +7287,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           /* Hard code action sub results for now. */
 
           /* Unit Enter Hut */
-          action_by_result_iterate(paction, act_id, ACTRES_HUT_ENTER) {
+          action_by_result_iterate(paction, ACTRES_HUT_ENTER) {
             BV_SET(paction->sub_results, ACT_SUB_RES_HUT_ENTER);
           } action_by_result_iterate_end;
           BV_SET(action_by_number(ACTION_PARADROP_ENTER)->sub_results,
@@ -7296,7 +7296,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  ACT_SUB_RES_HUT_ENTER);
 
           /* Unit Frighten Hut */
-          action_by_result_iterate(paction, act_id, ACTRES_HUT_FRIGHTEN) {
+          action_by_result_iterate(paction, ACTRES_HUT_FRIGHTEN) {
             BV_SET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN);
           } action_by_result_iterate_end;
           BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN)->sub_results,
