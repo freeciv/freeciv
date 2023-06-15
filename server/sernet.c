@@ -1467,12 +1467,17 @@ static void send_ping_times_to_all(void)
     if (!pconn->used) {
       continue;
     }
-    fc_assert(i < ARRAY_SIZE(packet.conn_id_new));
-    packet.conn_id_new[i] = pconn->id;
-    packet.ping_time_6[i] = pconn->ping_time;
-    if (i < 256) {
-      packet.conn_id_old[i] = pconn->id;
-      packet.ping_time_7[i] = pconn->ping_time; /* _7 really is the OLD protocol */
+
+    if (i < ARRAY_SIZE(packet.conn_id_new)) {
+      packet.conn_id_new[i] = pconn->id;
+      packet.ping_time_6[i] = pconn->ping_time;
+      if (i < 256) {
+        packet.conn_id_old[i] = pconn->id;
+        /* _7 really is the OLD protocol */
+        packet.ping_time_7[i] = pconn->ping_time;
+      }
+    } else {
+      fc_assert(i < ARRAY_SIZE(packet.conn_id_new)); /* Always fails */
     }
     i++;
   } conn_list_iterate_end;
