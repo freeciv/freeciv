@@ -1437,8 +1437,8 @@ static double map_relative_southness(const struct tile *ptile)
   do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
     /* Compute natural coordinates relative to world size.
      * x and y are in the range [0.0, 1.0] */
-    x = (double)ntl_x / (NATURAL_WIDTH - 1);
-    y = (double)ntl_y / (NATURAL_HEIGHT - 1);
+    x = (double)ntl_x / (MAP_NATURAL_WIDTH - 1);
+    y = (double)ntl_y / (MAP_NATURAL_HEIGHT - 1);
   } do_in_natural_pos_end;
 
   if (!current_wrap_has_flag(WRAP_Y)) {
@@ -1618,9 +1618,9 @@ bool is_singular_tile(const struct tile *ptile, int dist)
     dist *= MAP_IS_ISOMETRIC ? 2 : 1;
 
     return ((!current_wrap_has_flag(WRAP_X)
-             && (ntl_x < dist || ntl_x >= NATURAL_WIDTH - dist))
+             && (ntl_x < dist || ntl_x >= MAP_NATURAL_WIDTH - dist))
             || (!current_wrap_has_flag(WRAP_Y)
-                && (ntl_y < dist || ntl_y >= NATURAL_HEIGHT - dist)));
+                && (ntl_y < dist || ntl_y >= MAP_NATURAL_HEIGHT - dist)));
   } do_in_natural_pos_end;
 }
 

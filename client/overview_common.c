@@ -73,10 +73,9 @@ static void gui_to_natural_pos(const struct tileset *t,
     map_y = gui_yd / H;
   }
 
-  /* Now convert to natural positions.  Note this assumes the macro form
+  /* Now convert to natural positions. Note this assumes the macro form
    * of the conversion will work with floating-point values. */
   MAP_TO_NATURAL_POS(ntl_x, ntl_y, map_x, map_y);
-
 }
 
 /************************************************************************//**
@@ -94,22 +93,22 @@ static void gui_to_overview_pos(const struct tileset *t,
   *ovr_x = floor((ntl_x - (double)gui_options.overview.map_x0) * OVERVIEW_TILE_SIZE);
   *ovr_y = floor((ntl_y - (double)gui_options.overview.map_y0) * OVERVIEW_TILE_SIZE);
 
-  /* Now do additional adjustments.  See map_to_overview_pos(). */
+  /* Now do additional adjustments. See map_to_overview_pos(). */
   if (current_wrap_has_flag(WRAP_X)) {
-    *ovr_x = FC_WRAP(*ovr_x, NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
+    *ovr_x = FC_WRAP(*ovr_x, MAP_NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
   } else {
     if (MAP_IS_ISOMETRIC) {
       /* HACK: For iso-maps that don't wrap in the X direction we clip
-       * a half-tile off of the left and right of the overview.  This
-       * means some tiles only are halfway shown.  However it means we
-       * don't show any unreal tiles, which we'd otherwise be doing.  The
-       * rest of the code can't handle unreal tiles in the overview. */
+       * a half-tile off of the left and right of the overview.
+       * This means some tiles only are halfway shown. However it means we
+       * don't show any unreal tiles, which we'd otherwise be doing.
+       * The rest of the code can't handle unreal tiles in the overview. */
       *ovr_x -= OVERVIEW_TILE_SIZE;
     }
   }
 
   if (current_wrap_has_flag(WRAP_Y)) {
-    *ovr_y = FC_WRAP(*ovr_y, NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
+    *ovr_y = FC_WRAP(*ovr_y, MAP_NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
   }
 }
 
@@ -294,18 +293,20 @@ void center_tile_overviewcanvas(void)
                      mapview.gui_x0 + mapview.width / 2,
                      mapview.gui_y0 + mapview.height / 2);
 
-  /* NOTE: this embeds the map wrapping in the overview code.  This is
+  /* NOTE: this embeds the map wrapping in the overview code. This is
    * basically necessary for the overview to be efficiently
    * updated. */
   if (current_wrap_has_flag(WRAP_X)) {
-    gui_options.overview.map_x0 = wrap_double(ntl_x - (double)NATURAL_WIDTH / 2.0,
-                                              NATURAL_WIDTH);
+    gui_options.overview.map_x0
+      = wrap_double(ntl_x - (double)MAP_NATURAL_WIDTH / 2.0,
+                    MAP_NATURAL_WIDTH);
   } else {
     gui_options.overview.map_x0 = 0;
   }
   if (current_wrap_has_flag(WRAP_Y)) {
-    gui_options.overview.map_y0 = wrap_double(ntl_y - (double)NATURAL_HEIGHT / 2.0,
-                                              NATURAL_HEIGHT);
+    gui_options.overview.map_y0
+      = wrap_double(ntl_y - (double)MAP_NATURAL_HEIGHT / 2.0,
+                    MAP_NATURAL_HEIGHT);
   } else {
     gui_options.overview.map_y0 = 0;
   }
@@ -332,19 +333,19 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
     int ovr_y = ntl_y - gui_options.overview.map_y0;
 
     if (current_wrap_has_flag(WRAP_X)) {
-      ovr_x = FC_WRAP(ovr_x, NATURAL_WIDTH);
+      ovr_x = FC_WRAP(ovr_x, MAP_NATURAL_WIDTH);
     } else {
       if (MAP_IS_ISOMETRIC) {
         /* HACK: For iso-maps that don't wrap in the X direction we clip
-         * a half-tile off of the left and right of the overview.  This
-         * means some tiles only are halfway shown.  However it means we
-         * don't show any unreal tiles, which we'd otherwise be doing.  The
-         * rest of the code can't handle unreal tiles in the overview. */
+         * a half-tile off of the left and right of the overview.
+         * This means some tiles only are halfway shown. However it means we
+         * don't show any unreal tiles, which we'd otherwise be doing.
+         * The rest of the code can't handle unreal tiles in the overview. */
         ovr_x--;
       }
     }
     if (current_wrap_has_flag(WRAP_Y)) {
-      ovr_y = FC_WRAP(ovr_y, NATURAL_HEIGHT);
+      ovr_y = FC_WRAP(ovr_y, MAP_NATURAL_HEIGHT);
     }
     *overview_x = OVERVIEW_TILE_SIZE * ovr_x;
     *overview_y = OVERVIEW_TILE_SIZE * ovr_y;
@@ -361,7 +362,7 @@ void overview_to_map_pos(int *map_x, int *map_y,
   int ntl_y = overview_y / OVERVIEW_TILE_SIZE + gui_options.overview.map_y0;
 
   if (MAP_IS_ISOMETRIC && !current_wrap_has_flag(WRAP_X)) {
-    /* Clip half tile left and right.  See comment in map_to_overview_pos. */
+    /* Clip half tile left and right. See comment in map_to_overview_pos(). */
     ntl_x++;
   }
 
@@ -430,7 +431,7 @@ void overview_update_tile(struct tile *ptile)
         }
       } else {
         /* Clip half tile left and right.
-         * See comment in map_to_overview_pos. */
+         * See comment in map_to_overview_pos(). */
         overview_x -= OVERVIEW_TILE_SIZE;
       }
     }
@@ -453,7 +454,7 @@ void calculate_overview_dimensions(void)
 
   static int recursion = 0; /* Just to be safe. */
 
-  /* Clip half tile left and right.  See comment in map_to_overview_pos. */
+  /* Clip half tile left and right. See comment in map_to_overview_pos(). */
   int shift = (MAP_IS_ISOMETRIC && !current_wrap_has_flag(WRAP_X)) ? -1 : 0;
 
   if (recursion > 0 || wld.map.xsize <= 0 || wld.map.ysize <= 0) {
@@ -464,7 +465,7 @@ void calculate_overview_dimensions(void)
   get_overview_area_dimensions(&w, &h);
   get_overview_area_dimensions(&w, &h);
 
-  /* Set the scale of the overview map.  This attempts to limit the
+  /* Set the scale of the overview map. This attempts to limit the
    * overview to the size of the area available.
    *
    * It rounds up since this gives good results with the default settings.

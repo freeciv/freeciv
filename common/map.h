@@ -39,11 +39,6 @@ static const bool C_CARDINAL = TRUE;
 static const bool C_NUMBER = FALSE;
 static const bool C_PERCENT = TRUE;
 
-#define MAP_IS_ISOMETRIC (CURRENT_TOPOLOGY & (TF_ISO + TF_HEX))
-
-#define CURRENT_TOPOLOGY (wld.map.topology_id)
-#define CURRENT_WRAP (wld.map.wrap_id)
-
 #define topo_has_flag(topo, flag) (((topo) & (flag)) != 0)
 #define current_topo_has_flag(flag) topo_has_flag((CURRENT_TOPOLOGY), (flag))
 
@@ -133,14 +128,12 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #define map_startpos_iterate_end generic_iterate_end
 
 
-/* Number of index coordinates (for sanity checks and allocations) */
-#define MAP_INDEX_SIZE (wld.map.xsize * wld.map.ysize)
-
 #ifdef FREECIV_DEBUG
 #define CHECK_MAP_POS(x,y) \
   fc_assert(is_normal_map_pos((x),(y)))
 #define CHECK_NATIVE_POS(x, y) \
-  fc_assert((x) >= 0 && (x) < wld.map.xsize && (y) >= 0 && (y) < wld.map.ysize)
+  fc_assert((x) >= 0 && (x) < MAP_NATIVE_WIDTH && \
+            (y) >= 0 && (y) < MAP_NATIVE_HEIGHT)
 #define CHECK_INDEX(mindex) \
   fc_assert((mindex) >= 0 && (mindex) < MAP_INDEX_SIZE)
 #else  /* FREECIV_DEBUG */
@@ -150,7 +143,7 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #endif /* FREECIV_DEBUG */
 
 #define native_pos_to_index_nocheck(nat_x, nat_y)                            \
-  ((nat_x) + (nat_y) * wld.map.xsize)
+  ((nat_x) + (nat_y) * MAP_NATIVE_WIDTH)
 #define native_pos_to_index(nat_x, nat_y)                                    \
   (CHECK_NATIVE_POS((nat_x), (nat_y)),                                       \
    native_pos_to_index_nocheck(nat_x, nat_y))
@@ -158,32 +151,32 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
   (*(pnat_x) = index_to_native_pos_x(mindex),                                \
    *(pnat_y) = index_to_native_pos_y(mindex))
 #define index_to_native_pos_x(mindex)                                        \
-  ((mindex) % wld.map.xsize) 
+  ((mindex) % MAP_NATIVE_WIDTH)
 #define index_to_native_pos_y(mindex)                                        \
-  ((mindex) / wld.map.xsize)
+  ((mindex) / MAP_NATIVE_WIDTH)
 
 /* Obscure math.  See explanation in doc/HACKING. */
 #define NATIVE_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                     \
   (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + ((nat_y) & 1)) / 2 + (nat_x),                  \
-      *(pmap_y) = (nat_y) - *(pmap_x) + wld.map.xsize)                      \
+      *(pmap_y) = (nat_y) - *(pmap_x) + MAP_NATIVE_WIDTH)                   \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATIVE_POS(pnat_x, pnat_y, map_x, map_y)                     \
   (MAP_IS_ISOMETRIC							    \
-   ? (*(pnat_y) = (map_x) + (map_y) - wld.map.xsize,                        \
+   ? (*(pnat_y) = (map_x) + (map_y) - MAP_NATIVE_WIDTH,                     \
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
 #define NATURAL_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                    \
   (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + (nat_x)) / 2,                                  \
-      *(pmap_y) = (nat_y) - *(pmap_x) + wld.map.xsize)                      \
+      *(pmap_y) = (nat_y) - *(pmap_x) + MAP_NATIVE_WIDTH)                   \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATURAL_POS(pnat_x, pnat_y, map_x, map_y)                    \
   (MAP_IS_ISOMETRIC							    \
-   ? (*(pnat_y) = (map_x) + (map_y) - wld.map.xsize,                        \
+   ? (*(pnat_y) = (map_x) + (map_y) - MAP_NATIVE_WIDTH,                     \
       *(pnat_x) = 2 * (map_x) - *(pnat_y))                                  \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
@@ -217,14 +210,6 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #define do_in_natural_pos_end                                                \
   }                                                                         \
 }
-
-/* Width and height of the map, in native coordinates. */
-#define NATIVE_WIDTH wld.map.xsize
-#define NATIVE_HEIGHT wld.map.ysize
-
-/* Width and height of the map, in natural coordinates. */
-#define NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * wld.map.xsize : wld.map.xsize)
-#define NATURAL_HEIGHT wld.map.ysize
 
 static inline int map_pos_to_index(struct civ_map *nmap,
                                    int map_x, int map_y);
@@ -327,10 +312,10 @@ bool terrain_surroundings_allow_change(const struct tile *ptile,
 
 extern struct terrain_misc terrain_control;
 
-/* This iterates outwards from the starting point.  Every tile within max_dist
+/* This iterates outwards from the starting point. Every tile within max_dist
  * (including the starting tile) will show up exactly once, in an outward
- * (based on real map distance) order.  The returned values are always real
- * and are normalized.  The starting position must be normal.
+ * (based on real map distance) order. The returned values are always real
+ * and are normalized. The starting position must be normal.
  *
  * See also iterate_outward() */
 #define iterate_outward_dxy(nmap, start_tile, max_dist, _tile, _x, _y)      \
@@ -392,7 +377,7 @@ extern struct terrain_misc terrain_control;
 
 /* 
  * Iterate through all tiles in a circle with given center and squared
- * radius.  Positions returned will have adjusted (x, y); unreal
+ * radius. Positions returned will have adjusted (x, y); unreal
  * positions will be automatically discarded. 
  */
 #define circle_iterate(nmap, center_tile, sq_radius, tile_itr)           \
@@ -420,7 +405,7 @@ extern struct terrain_misc terrain_control;
 }
 
 /* Iterate itr_tile through all map tiles adjacent to the given center map
- * position, with normalization.  Does not include the center position.
+ * position, with normalization. Does not include the center position.
  * The order of positions is unspecified. */
 #define adjc_iterate(nmap, center_tile, itr_tile)                           \
 {									    \
@@ -448,8 +433,8 @@ extern struct terrain_misc terrain_control;
   adjc_dirlist_base_iterate_end
 
 /* Iterate itr_tile through all map tiles cardinally adjacent to the given
- * center map position, with normalization.  Does not include the center
- * position.  The order of positions is unspecified. */
+ * center map position, with normalization. Does not include the center
+ * position. The order of positions is unspecified. */
 #define cardinal_adjc_iterate(nmap, center_tile, itr_tile)                \
   adjc_dirlist_iterate(nmap, center_tile, itr_tile, _dir_itr##itr_tile,   \
 		       wld.map.cardinal_dirs, wld.map.num_cardinal_dirs)
@@ -483,11 +468,11 @@ extern struct terrain_misc terrain_control;
   } cardinal_adjc_iterate_end;
 
 /* Iterate through all tiles adjacent to a tile using the given list of
- * directions.  _dir is the directional value, (center_x, center_y) is
- * the center tile (which must be normalized).  The center tile is not
+ * directions. _dir is the directional value, (center_x, center_y) is
+ * the center tile (which must be normalized). The center tile is not
  * included in the iteration.
  *
- * This macro should not be used directly.  Instead, use adjc_iterate,
+ * This macro should not be used directly. Instead, use adjc_iterate,
  * cardinal_adjc_iterate, or related iterators. */
 #define adjc_dirlist_iterate(nmap, center_tile, _tile, _dir,                \
 			     dirlist, dircount)				    \
@@ -555,7 +540,7 @@ extern struct terrain_misc terrain_control;
 
 BV_DEFINE(dir_vector, 8);
 
-/* return the reverse of the direction */
+/* Return the reverse of the direction */
 #define DIR_REVERSE(dir) (7 - (dir))
 
 enum direction8 dir_cw(enum direction8 dir);
@@ -696,7 +681,7 @@ moves. Includes MAP_MAX_LINEAR_SIZE because a map can be non wrapping. */
 #define MAP_DEFAULT_TEAM_PLACEMENT  TEAM_PLACEMENT_CLOSEST
 
 /*
- * Inline function definitions.  These are at the bottom because they may use
+ * Inline function definitions. These are at the bottom because they may use
  * elements defined above.
  */
 
@@ -730,13 +715,13 @@ static inline int index_to_map_pos_y(int mindex)
 
 /****************************************************************************
   A "border position" is any map position that _may have_ positions within
-  real map distance dist that are non-normal.  To see its correctness,
+  real map distance dist that are non-normal. To see its correctness,
   consider the case where dist is 1 or 0.
 ****************************************************************************/
 static inline bool is_border_tile(const struct tile *ptile, int dist)
 {
   /* HACK: An iso-map compresses the value in the X direction but not in
-   * the Y direction.  Hence (x+1,y) is 1 tile away while (x,y+2) is also
+   * the Y direction. Hence (x+1,y) is 1 tile away while (x,y+2) is also
    * one tile away. */
   int xdist = dist;
   int ydist = (MAP_IS_ISOMETRIC ? (2 * dist) : dist);
@@ -744,10 +729,10 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
 
   index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
 
-  return (nat_x < xdist 
+  return (nat_x < xdist
           || nat_y < ydist
-          || nat_x >= wld.map.xsize - xdist
-          || nat_y >= wld.map.ysize - ydist);
+          || nat_x >= MAP_NATIVE_WIDTH - xdist
+          || nat_y >= MAP_NATIVE_HEIGHT - ydist);
 }
 
 enum direction8 rand_direction(void);
@@ -757,4 +742,4 @@ enum direction8 opposite_direction(enum direction8 dir);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__MAP_H */
+#endif /* FC__MAP_H */

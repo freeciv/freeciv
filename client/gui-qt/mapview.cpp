@@ -616,14 +616,14 @@ static void gui_to_overview(int *ovr_x, int *ovr_y, int gui_x, int gui_y)
            * OVERVIEW_TILE_SIZE);
 
   if (current_wrap_has_flag(WRAP_X)) {
-    *ovr_x = FC_WRAP(*ovr_x, NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
+    *ovr_x = FC_WRAP(*ovr_x, MAP_NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
   } else {
     if (MAP_IS_ISOMETRIC) {
       *ovr_x -= OVERVIEW_TILE_SIZE;
     }
   }
   if (current_wrap_has_flag(WRAP_Y)) {
-    *ovr_y = FC_WRAP(*ovr_y, NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
+    *ovr_y = FC_WRAP(*ovr_y, MAP_NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
   }
 }
 

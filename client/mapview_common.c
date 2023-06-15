@@ -3262,10 +3262,10 @@ static bool can_do_cached_drawing(void)
      * We divide by 4 below because we have to divide by 2 twice. The
      * first division by 2 is because the square must be half the size
      * of the (width+height). The second division by two is because for
-     * an iso-map, NATURAL_XXX has a scale of 2, whereas for iso-view
+     * an iso-map, MAP_NATURAL_XXX has a scale of 2, whereas for iso-view
      * NORMAL_TILE_XXX has a scale of 2. */
-    return (w <= (NATURAL_WIDTH + NATURAL_HEIGHT) * W / 4
-            && h <= (NATURAL_WIDTH + NATURAL_HEIGHT) * H / 4);
+    return (w <= (MAP_NATURAL_WIDTH + MAP_NATURAL_HEIGHT) * W / 4
+            && h <= (MAP_NATURAL_WIDTH + MAP_NATURAL_HEIGHT) * H / 4);
   } else {
     /* Matching. */
     const int isofactor = (tileset_is_isometric(tileset) ? 2 : 1);
@@ -3274,13 +3274,14 @@ static bool can_do_cached_drawing(void)
     /* Now we can use the full width and height, with the exception of a small
      * area on each side. */
     if (current_wrap_has_flag(WRAP_X)
-        && w > (NATURAL_WIDTH - isodiff) * W / isofactor) {
+        && w > (MAP_NATURAL_WIDTH - isodiff) * W / isofactor) {
       return FALSE;
     }
     if (current_wrap_has_flag(WRAP_Y)
-        && h > (NATURAL_HEIGHT - isodiff) * H / isofactor) {
+        && h > (MAP_NATURAL_HEIGHT - isodiff) * H / isofactor) {
       return FALSE;
     }
+
     return TRUE;
   }
 }
