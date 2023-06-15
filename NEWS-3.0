@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.7 to 3.0.8
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-11)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-15)
 
 3.0.8 is a generic bugfix release.
 
@@ -56,6 +56,7 @@ General
     * Fixed memory leaks, bad memory access, and improved cleanup
       on shutdown
       osdn#47900 osdn#45906 osdn#47660 osdn#47982 osdn#46191 osdn#48120
+      osdn#48143
     * Optimizations osdn#47738 osdn#45917 osdn#47838 osdn#47959 osdn#47729
     * Various internal changes which should only affect developers.
       osdn#47671 osdn#47797 osdn#47894 osdn#47909 osdn#48026 osdn#48104
@@ -96,6 +97,8 @@ Clients
            osdn#48045
          + Made applying fullscreen option from the options dialog
            to take effect immediately osdn#47531
+         + Fixed applying "Small Font" setting. Previously it wasn't
+           effective at all {{osdn|48186}}
 
     * qt
          + Fixed sorting of nations dialog columns osdn#47856
@@ -144,7 +147,7 @@ Build/portability
       automake's silent mode osdn#47761
     * Fixed some clang analyzer warnings
       osdn#47765 osdn#47811 osdn#47850 osdn#47891 osdn#47926 osdn#45822
-      osdn#48025 osdn#47994 osdn#48069 osdn#48081 osdn#48109
+      osdn#48025 osdn#47994 osdn#48069 osdn#48081 osdn#48109 osdn#48194
     * Autotools: Added large files support osdn#47830
     * Autotools: Added year 2038 support, if autoconf supports it osdn#47710
     * Flatpak updates
