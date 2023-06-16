@@ -7824,7 +7824,7 @@ static bool load_ruleset_actions(struct section_file *file,
         } else {
           load_action_ui_name(file, act_id,
                               action_ui_name_ruleset_var_name(act_id),
-                              rscompat_action_ui_name_S3_2(compat, act_id));
+                              rscompat_action_ui_name_3_2(compat, act_id));
         }
 
         if (!ok) {
@@ -7975,10 +7975,13 @@ static bool load_ruleset_actions(struct section_file *file,
         struct requirement_vector *actor_reqs;
         struct requirement_vector *target_reqs;
         const char *action_text;
+        const char *orig_name;
 
         enabler = action_enabler_new();
 
-        action_text = secfile_lookup_str(file, "%s.action", sec_name);
+        orig_name = secfile_lookup_str(file, "%s.action", sec_name);
+
+        action_text = rscompat_action_rule_name_3_2(compat, orig_name);
 
         if (action_text == NULL) {
           ruleset_error(NULL, LOG_ERROR,
@@ -8014,6 +8017,8 @@ static bool load_ruleset_actions(struct section_file *file,
         }
 
         requirement_vector_copy(&enabler->target_reqs, target_reqs);
+
+        rscompat_action_enabler_adjust_3_2(compat, enabler, orig_name);
 
         action_enabler_add(enabler);
       } section_list_iterate_end;

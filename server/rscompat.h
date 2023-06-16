@@ -76,8 +76,13 @@ void rscompat_settings_do_special_handling(struct section_file *file,
 bool rscompat_terrain_extra_rmtime_3_2(struct section_file *file,
                                        const char *tsection,
                                        struct terrain *pterrain);
-const char *rscompat_action_ui_name_S3_2(struct rscompat_info *compat,
-                                         int act_id);
+const char *rscompat_action_rule_name_3_2(struct rscompat_info *compat,
+                                          const char *orig);
+const char *rscompat_action_ui_name_3_2(struct rscompat_info *compat,
+                                        int act_id);
+void rscompat_action_enabler_adjust_3_2(struct rscompat_info *compat,
+                                        struct action_enabler *enabler,
+                                        const char *orig_name);
 
 /* In ruleset.c, but should not be in public interface - make static again once
  * rscompat.c no longer needs. */

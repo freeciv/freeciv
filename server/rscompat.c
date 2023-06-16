@@ -386,35 +386,6 @@ void rscompat_postprocess(struct rscompat_info *info)
                                               action_rule_name(paction)));
     } action_iterate_end;
 
-    action_enablers_iterate(ae) {
-      if (enabler_get_action_id(ae) == ACTION_CLEAN_POLLUTION) {
-        /* TODO: Stop making the copy to preserve enabler for
-         * the original action. */
-        struct action_enabler *copy = action_enabler_copy(ae);
-
-        copy->action = ACTION_CLEAN;
-        requirement_vector_append(&copy->target_reqs,
-                                  req_from_str("ExtraFlag", "Local",
-                                               FALSE, TRUE, TRUE,
-                                               "CleanAsPollution"));
-
-        action_enabler_add(copy);
-      }
-      if (enabler_get_action_id(ae) == ACTION_CLEAN_FALLOUT) {
-        /* TODO: Stop making the copy to preserve enabler for
-         * the original action. */
-        struct action_enabler *copy = action_enabler_copy(ae);
-
-        copy->action = ACTION_CLEAN;
-        requirement_vector_append(&copy->target_reqs,
-                                  req_from_str("ExtraFlag", "Local",
-                                               FALSE, TRUE, TRUE,
-                                               "CleanAsFallout"));
-
-        action_enabler_add(copy);
-      }
-    } action_enablers_iterate_end;
-
     /* That Attack and Bombard can't destroy a city
      * has moved to the ruleset. */
     peffect = effect_new(EFT_UNIT_NO_LOSE_POP,
@@ -748,10 +719,45 @@ bool rscompat_terrain_extra_rmtime_3_2(struct section_file *file,
 }
 
 /**********************************************************************//**
+  Adjust freeciv-3.1 ruleset action rule name to freeciv-3.2
+**************************************************************************/
+const char *rscompat_action_rule_name_3_2(struct rscompat_info *compat,
+                                          const char *orig)
+{
+  if (compat->compat_mode && compat->version < RSFORMAT_3_2
+      && (!fc_strcasecmp("CleanPollution", orig)
+          || !fc_strcasecmp("CleanFallout", orig))) {
+    return "Clean";
+  }
+
+  return orig;
+}
+
+/**********************************************************************//**
+  Adjust freeciv-3.1 ruleset action enabler to freeciv-3.2
+**************************************************************************/
+void rscompat_action_enabler_adjust_3_2(struct rscompat_info *compat,
+                                        struct action_enabler *enabler,
+                                        const char *orig_name)
+{
+  if (!fc_strcasecmp("CleanAsPollution", orig_name)) {
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("ExtraFlag", "Local",
+                                           FALSE, TRUE, TRUE,
+                                           "CleanAsPollution"));
+  } else if (!fc_strcasecmp("CleanAsFallout", orig_name)) {
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("ExtraFlag", "Local",
+                                           FALSE, TRUE, TRUE,
+                                           "CleanAsFallout"));
+  }
+}
+
+/**********************************************************************//**
   Adjust freeciv-3.1 ruleset action ui_name to freeciv-3.2
 **************************************************************************/
-const char *rscompat_action_ui_name_S3_2(struct rscompat_info *compat,
-                                         int act_id)
+const char *rscompat_action_ui_name_3_2(struct rscompat_info *compat,
+                                        int act_id)
 {
   if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
     if (act_id == ACTION_TRANSPORT_DEBOARD) {
