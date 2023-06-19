@@ -7644,7 +7644,7 @@ static bool load_ruleset_actions(struct section_file *file,
           ok = FALSE;
         } else if (!load_action_actor_consuming_always(file, act_id)) {
           ok = FALSE;
-        } else if (!action_id_is_internal(act_id)) {
+        } else {
           load_action_ui_name(file, act_id,
                               action_ui_name_ruleset_var_name(act_id));
         }

@@ -1987,8 +1987,6 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
   /* Text representation of the probability. */
   const char *probtxt;
 
-  fc_assert(!action_id_is_internal(act_id));
-
   if (!actions_are_ready()) {
     /* Could be a client who haven't gotten the ruleset yet */
 
@@ -7205,7 +7203,7 @@ const char *action_ui_name_default(int act)
     /* TRANS: _User Action 4 (100% chance of success). */
     return N_("%sUser Action 4%s");
   case ACTION_GAIN_VETERANCY:
-    fc_assert(!action_id_is_internal(act)); /* Fail always */
+    return N_("%sGain Veterancy%s");
     break;
   }
 
