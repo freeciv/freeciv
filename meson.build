@@ -546,6 +546,7 @@ endif
 
 potential_size_t_formats = [ '%zu', '%ld', '%lld', '%I64d', '%I32d' ]
 
+size_t_f = ''
 foreach format : potential_size_t_formats
   if c_compiler.compiles('''#include <stdio.h>
 #if defined(__GNUC__)
@@ -558,9 +559,14 @@ int main(void) { size_t var = 0; fr("''' + format + '''", var); return 0; }''',
   include_directories: include_directories(cross_inc_path),
   args: ['-Werror', '-Wall'])
     priv_conf_data.set('SIZE_T_PRINTF', '"' + format + '"')
+    size_t_f = format
     break
   endif
 endforeach
+
+if size_t_f == ''
+  error('Cannot find correct printf format specifier for size_t')
+endif
 
 if get_option('audio') or get_option('clients').contains('sdl2')
   if host_system == 'windows'
