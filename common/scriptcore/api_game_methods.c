@@ -291,6 +291,27 @@ int api_methods_city_culture_get(lua_State *L, City *pcity)
 }
 
 /**********************************************************************//**
+Returns rule name of the counter.
+**************************************************************************/
+const char *api_methods_counter_rule_name(lua_State *L, Counter *c)
+{
+  LUASCRIPT_CHECK_ARG_NIL(L, c, 2, Counter, NULL);
+
+  return counter_rule_name(c);
+}
+
+/**********************************************************************//**
+Returns translation name of the counter.
+**************************************************************************/
+const char *api_methods_counter_name_translation(lua_State *L, Counter *c)
+{
+  LUASCRIPT_CHECK_ARG_NIL(L, c, 2, Counter, NULL);
+
+  return counter_name_translation(c);
+}
+
+
+/**********************************************************************//**
   Return TRUE iff city happy
 **************************************************************************/
 bool api_methods_is_city_happy(lua_State *L, City *pcity)

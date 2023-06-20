@@ -47,6 +47,10 @@ struct City {
   const int id;
 };
 
+struct Counter
+{
+};
+
 struct Connection {
   const int id;
 };
@@ -162,6 +166,11 @@ module game {
 
   const char *api_methods_game_ruleset_name
     @ ruleset_name (lua_State *L);
+}
+
+module Counter {
+  const char *api_methods_counter_rule_name @ rule_name (lua_State *L, Counter *c);
+  const char *api_methods_counter_name_translation @ name_translation (lua_State *L, Counter *c);
 }
 
 /* Module Player. */
@@ -528,6 +537,10 @@ module City_List_Link {
 
 /* Module find. */
 module find {
+  Counter *api_find_counter_by_name
+    @ counter (lua_State *L, const char *name);
+  Counter *api_find_counter
+    @ counter (lua_State *L, int counter_id);
   Player *api_find_player_by_name
     @ player (lua_State *L, const char *name);
   Player *api_find_player

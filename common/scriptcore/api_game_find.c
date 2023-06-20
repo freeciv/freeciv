@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "counters.h"
 #include "idex.h"
 #include "map.h"
 #include "movement.h"
@@ -367,6 +368,27 @@ Action *api_find_action_type_by_name(lua_State *L, const char *name)
   LUASCRIPT_CHECK_ARG_NIL(L, name, 2, string, NULL);
 
   return action_by_rule_name(name);
+}
+
+/**********************************************************************//**
+  Returns the counter specified by id.
+**************************************************************************/
+Counter *api_find_counter(lua_State *L, int counter_id)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
+  return counter_by_id(counter_id);
+}
+
+/**********************************************************************//**
+  Returns the counter specified by name.
+**************************************************************************/
+Counter *api_find_counter_by_name(lua_State *L, const char *name)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, name, 2, string, NULL);
+
+  return counter_by_rule_name(name);
 }
 
 /**********************************************************************//**
