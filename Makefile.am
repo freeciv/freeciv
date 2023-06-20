@@ -25,6 +25,7 @@ SUBDIRS = gen_headers $(DSUBDIRS) dependencies utility common tests windows $(SS
 
 EXTRA_DIST =	autogen.sh 			\
 		configure.ac			\
+		m4/build-to-host.m4		\
 		m4/c99.m4			\
 		m4/c11.m4			\
 		m4/c++11.m4			\
