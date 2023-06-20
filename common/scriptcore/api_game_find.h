@@ -30,6 +30,9 @@ Player *api_find_player(lua_State *L, int player_id);
 
 City *api_find_city(lua_State *L, Player *pplayer, int city_id);
 
+Counter *api_find_counter_by_name(lua_State *L, const char *name);
+Counter *api_find_counter(lua_State *L, int counter_id);
+
 Unit *api_find_unit(lua_State *L, Player *pplayer, int unit_id);
 Unit *api_find_transport_unit(lua_State *L, Player *pplayer, Unit_Type *ptype,
                               Tile *ptile);
