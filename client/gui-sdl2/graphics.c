@@ -1235,7 +1235,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface *pSurface, SDL_Rect *pRect,
 
       P = P | D;
 
-      /* Fix me to little - big EDIAN */
+      /* Fix me to little - big ENDIAN */
 
       pixel[0] = P & 0xff;
       pixel[1] = (P >> 8) & 0xff;
@@ -1282,7 +1282,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface *pSurface, SDL_Rect *pRect,
 
       P = P | D;
 
-      /* Fix me to little - big EDIAN */
+      /* Fix me to little - big ENDIAN */
 
       pixel[0] = P & 0xff;
       pixel[1] = (P >> 8) & 0xff;
