@@ -6270,8 +6270,13 @@ static bool load_action_ui_name(struct section_file *file, int act,
   const char *text;
   const char *def = action_ui_name_default(act);
 
-  text = secfile_lookup_str_default(file, def,
-                                    "actions.%s", entry_name);
+  if (entry_name == NULL) {
+    text = def;
+  } else {
+    text = secfile_lookup_str_default(file, def,
+                                      "actions.%s", entry_name);
+  }
+
   sz_strlcpy(action_by_number(act)->ui_name, text);
 
   return TRUE;
@@ -7645,8 +7650,13 @@ static bool load_ruleset_actions(struct section_file *file,
         } else if (!load_action_actor_consuming_always(file, act_id)) {
           ok = FALSE;
         } else {
-          load_action_ui_name(file, act_id,
-                              action_ui_name_ruleset_var_name(act_id));
+          const char *entry_name = NULL;
+
+          if (!action_id_is_internal(act_id)) {
+            entry_name = action_ui_name_ruleset_var_name(act_id);
+          }
+
+          load_action_ui_name(file, act_id, entry_name);
         }
 
         if (!ok) {
