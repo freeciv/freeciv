@@ -116,6 +116,10 @@ enum output_type_id {
 #define SPECENUM_VALUE2NAME "Celebration"
 #define SPECENUM_VALUE3 CB_CITY_DISORDER_TURNS
 #define SPECENUM_VALUE3NAME "Disorder"
+#define SPECENUM_VALUE4 CB_USER
+#define SPECENUM_VALUE4NAME "User"
+
+
 
 #define SPECENUM_COUNT COUNTER_BEHAVIOUR_LAST
 #include "specenum_gen.h"

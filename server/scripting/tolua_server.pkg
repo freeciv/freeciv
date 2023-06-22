@@ -34,6 +34,7 @@ $#include "console.h"
 /* server/scripting */
 $#include "api_server_edit.h"
 $#include "api_server_base.h"
+$#include "api_server_counters.h"
 $#include "api_server_luadata.h"
 $#include "api_server_notify.h"
 $#include "api_server_game_methods.h"
@@ -54,6 +55,11 @@ module server {
     const char *api_server_setting_get
       @ get (lua_State *L, const char *setting_name);
   }
+}
+
+module Counter {
+  void api_counter_increase @ increase (lua_State *L, Counter *c, City *city);
+  void api_counter_zero @ zero (lua_State *L, Counter *c, City *city);
 }
 
 /* Notify module. */
