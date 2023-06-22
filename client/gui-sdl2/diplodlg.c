@@ -307,7 +307,7 @@ static int vision_callback(struct widget *pwidget)
 }
 
 /**********************************************************************//**
-  User interacted with embassy -widget.
+  User interacted with Embassy -widget.
 **************************************************************************/
 static int embassy_callback(struct widget *pwidget)
 {
@@ -322,6 +322,27 @@ static int embassy_callback(struct widget *pwidget)
                                              player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              CLAUSE_EMBASSY, 0);
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User interacted with Shared Tiles -widget.
+**************************************************************************/
+static int shared_tiles_callback(struct widget *pwidget)
+{
+  if (PRESSED_EVENT(main_data.event)) {
+    struct diplomacy_dialog *pdialog;
+
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
+    }
+
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
+                                             player_number(pdialog->treaty->plr1),
+                                             pwidget->data.cont->id0,
+                                             CLAUSE_SHARED_TILES, 0);
   }
 
   return -1;
@@ -652,7 +673,23 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
     count++;
   }
 
+  if (clause_enabled(CLAUSE_SHARED_TILES)) {
+    buf = create_iconlabel_from_chars_fonto(NULL, pwindow->dst,
+                                            _("Share tiles"), FONTO_ATTENTION,
+                                            (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    buf->string_utf8->fgcol
+      = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
+    width = MAX(width, buf->size.w);
+    height = MAX(height, buf->size.h);
+    buf->action = shared_tiles_callback;
+    buf->data.cont = cont;
+    set_wstate(buf, FC_WS_NORMAL);
+    add_to_gui_list(ID_LABEL, buf);
+    count++;
+  }
+
   /* ---------------------------- */
+
   if (clause_enabled(CLAUSE_GOLD) && pplayer0->economic.gold > 0) {
     cont->value = pplayer0->economic.gold;
 
@@ -678,6 +715,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
     add_to_gui_list(ID_LABEL, buf);
     count++;
   }
+
   /* ---------------------------- */
 
   /* Trading: advances */
