@@ -2642,9 +2642,12 @@ void send_nation_availability(struct conn_list *dest,
 **************************************************************************/
 void fit_nationset_to_players(void)
 {
-  int misfits[nation_set_count()];
+  int ncount = nation_set_count();
+  int misfits[ncount];
+
+  memset(misfits, 0, sizeof(misfits));
+
   nation_sets_iterate(pset) {
-    misfits[nation_set_index(pset)] = 0;
     players_iterate(pplayer) {
       if (pplayer->nation != NO_NATION_SELECTED
           && !nation_is_in_set(pplayer->nation, pset)) {
@@ -2658,25 +2661,22 @@ void fit_nationset_to_players(void)
     return;
   }
 
-  /* Otherwise, pick the least worst set (requires unsetting fewest
+  /* Otherwise, pick the least bad set (requires unsetting fewest
    * players, possibly none). */
   {
-    /* Quell compiler warning; but least_misfits initializer won't be used */
-    int i, least_misfits = -1;
-    const struct nation_set *best = nullptr;
+    int i, least_misfits;
+    const struct nation_set *best;
 
-    fc_assert(nation_set_count() > 0);
-    for (i = 0; i < nation_set_count(); i++) {
+    fc_assert(ncount > 0);
+
+    best = nation_set_by_number(0);
+    least_misfits = misfits[0];
+    for (i = 1; i < ncount && least_misfits != 0; i++) {
       if (best == nullptr || misfits[i] < least_misfits) {
         best = nation_set_by_number(i);
         least_misfits = misfits[i];
-        if (least_misfits == 0) {
-          /* Not going to do any better. */
-          break;
-        }
       }
     }
-    fc_assert(least_misfits >= 0);
 
     log_verbose("Current nationset \"%s\" doesn't fit all existing players.",
                 nation_set_rule_name(current_nationset()));
