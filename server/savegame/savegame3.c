@@ -3795,6 +3795,7 @@ static void sg_load_players(struct loaddata *loading)
     BV_CLR_ALL(pplayer->server.really_gives_vision);
   } players_iterate_end;
 
+  /* Set up shared vision... */
   players_iterate(pplayer) {
     int plr1 = player_index(pplayer);
 
@@ -3803,6 +3804,26 @@ static void sg_load_players(struct loaddata *loading)
       if (secfile_lookup_bool_default(loading->file, FALSE,
               "player%d.diplstate%d.gives_shared_vision", plr1, plr2)) {
         give_shared_vision(pplayer, pplayer2);
+      }
+    } players_iterate_end;
+  } players_iterate_end;
+
+  /* ...and check it */
+  players_iterate(pplayer1) {
+    players_iterate(pplayer2) {
+      if (players_on_same_team(pplayer1, pplayer2)) {
+        if (!really_gives_vision(pplayer1, pplayer2)) {
+          sg_regr(3000900,
+                  _("%s did not give shared vision to team member %s."),
+                  player_name(pplayer1), player_name(pplayer2));
+          give_shared_vision(pplayer1, pplayer2);
+        }
+        if (!really_gives_vision(pplayer2, pplayer1)) {
+          sg_regr(3000900,
+                  _("%s did not give shared vision to team member %s."),
+                  player_name(pplayer2), player_name(pplayer1));
+          give_shared_vision(pplayer2, pplayer1);
+        }
       }
     } players_iterate_end;
   } players_iterate_end;
