@@ -3,16 +3,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv (ruledit) S3_0\n"
+"Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-25 17:44+0200\n"
-"PO-Revision-Date: 2023-02-17 22:14+0100\n"
+"POT-Creation-Date: 2023-06-22 21:50+0300\n"
+"PO-Revision-Date: 2023-06-17 06:51+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
-"Language-Team: hubkow@users.sourceforge.net\n"
+"Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.0.1\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
@@ -20,6 +22,42 @@ msgstr ""
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
 msgstr "Zamknij"
+
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:91
+msgid "Graphics tag"
+msgstr "Znacznik grafiki"
+
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:100
+msgid "Alt graphics tag"
+msgstr "Alternatywny znacznik grafiki"
+
+#: tools/ruledit/edit_extra.cpp:66
+msgid "Activity graphics tag"
+msgstr "Znacznik grafiki"
+
+#: tools/ruledit/edit_extra.cpp:75
+msgid "Alt activity gfx tag"
+msgstr "Alternatywny znacznik grafiki"
+
+#: tools/ruledit/edit_extra.cpp:84
+msgid "Second alt activity gfx tag"
+msgstr "Drugi alternatywny znacznik grafiki"
+
+#: tools/ruledit/edit_extra.cpp:93
+msgid "Removal activity graphics tag"
+msgstr "Alternatywny znacznik grafiki usuwania"
+
+#: tools/ruledit/edit_extra.cpp:102
+msgid "Alt removal activity gfx tag"
+msgstr "Znacznik grafiki usuwania"
+
+#: tools/ruledit/edit_extra.cpp:111
+#, fuzzy
+#| msgid "Second alt activity gfx tag"
+msgid "Second alt removal activity gfx tag"
+msgstr "Drugi alternatywny znacznik grafiki"
 
 #: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:50
 msgid "Build Cost"
@@ -33,25 +71,19 @@ msgstr "Koszta"
 msgid "Genus"
 msgstr "Rodzaj"
 
-#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
-#: tools/ruledit/edit_utype.cpp:91
-msgid "Graphics tag"
-msgstr ""
-
-#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
-#: tools/ruledit/edit_utype.cpp:100
-msgid "Alt graphics tag"
-msgstr ""
+#: tools/ruledit/edit_impr.cpp:108 tools/ruledit/edit_utype.cpp:109
+#, fuzzy
+#| msgid "Second alt activity gfx tag"
+msgid "Second alt gfx tag"
+msgstr "Drugi alternatywny znacznik grafiki"
 
 #: tools/ruledit/edit_terrain.cpp:49
-#, fuzzy
-#| msgid "Move Rate"
 msgid "Move Cost"
-msgstr "Szybkość"
+msgstr "Koszt ruchu"
 
 #: tools/ruledit/edit_terrain.cpp:59
 msgid "Defense Bonus %"
-msgstr ""
+msgstr "Dodatek do obrony %"
 
 #: tools/ruledit/edit_utype.cpp:61
 msgid "Attack Strength"
@@ -78,7 +110,7 @@ msgid "Comment"
 msgstr ""
 
 #: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
-#: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 #: tools/ruledit/tab_unit.cpp:87
 msgid "Requirements"
@@ -351,7 +383,7 @@ msgid "Quit?"
 msgstr "Zakończyć?"
 
 #: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_counters.cpp:82
-#: tools/ruledit/tab_extras.cpp:65 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
 #: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
 #: tools/ruledit/tab_tech.cpp:64 tools/ruledit/tab_terrains.cpp:68
 #: tools/ruledit/tab_unit.cpp:64
@@ -363,8 +395,8 @@ msgstr "Nazwa zasady"
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
-#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_extras.cpp:78
-#: tools/ruledit/tab_extras.cpp:148 tools/ruledit/tab_extras.cpp:149
+#: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
+#: tools/ruledit/tab_extras.cpp:155 tools/ruledit/tab_extras.cpp:156
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
 #: tools/ruledit/tab_good.cpp:149 tools/ruledit/tab_good.cpp:150
 #: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
@@ -381,20 +413,20 @@ msgid "None"
 msgstr "Brak"
 
 #: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_counters.cpp:89
-#: tools/ruledit/tab_extras.cpp:73 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
 #: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
 #: tools/ruledit/tab_tech.cpp:72 tools/ruledit/tab_terrains.cpp:76
 #: tools/ruledit/tab_unit.cpp:72
 msgid "Name"
 msgstr "Nazwa"
 
-#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
-#: tools/ruledit/tab_unit.cpp:83
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
 msgstr "Edytuj wartości"
 
 #: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_counters.cpp:134
-#: tools/ruledit/tab_extras.cpp:88 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
 #: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:109
 #: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:91
 msgid "Effects"
@@ -490,15 +522,15 @@ msgstr "Aktywator (agent)"
 msgid "action enabler for %s"
 msgstr "aktywator dla %s"
 
-#: tools/ruledit/tab_extras.cpp:92
+#: tools/ruledit/tab_extras.cpp:99
 msgid "Add Extra"
 msgstr "Wstaw dodatek"
 
-#: tools/ruledit/tab_extras.cpp:97
+#: tools/ruledit/tab_extras.cpp:104
 msgid "Remove this Extra"
 msgstr "Usuń ten dodatek"
 
-#: tools/ruledit/tab_extras.cpp:183
+#: tools/ruledit/tab_extras.cpp:190
 msgid "An extra with that rule name already exists!"
 msgstr "Dodatek o tej nazwie już istnieje!"
 
@@ -660,7 +692,11 @@ msgstr "Dobra"
 msgid "?stat:Multipliers"
 msgstr "?stat:Mnożniki"
 
-#: tools/ruledit/tab_misc.cpp:235
+#: tools/ruledit/tab_misc.cpp:231
+msgid "?stat:Effects"
+msgstr "Efekty"
+
+#: tools/ruledit/tab_misc.cpp:239
 msgid "Refresh Stats"
 msgstr "Odśwież statystyki"
 
@@ -668,23 +704,23 @@ msgstr "Odśwież statystyki"
 msgid "Ruleset saved"
 msgstr "Zapisano zestaw zasad"
 
-#: tools/ruledit/tab_misc.cpp:450
+#: tools/ruledit/tab_misc.cpp:468
 msgid "Always active"
 msgstr "Zawsze aktywne"
 
-#: tools/ruledit/tab_misc.cpp:471
+#: tools/ruledit/tab_misc.cpp:489
 msgid "Sanity Check"
 msgstr "Test poprawności"
 
-#: tools/ruledit/tab_misc.cpp:478
+#: tools/ruledit/tab_misc.cpp:496
 msgid "Sanity check failed!"
 msgstr "Test poprawności nie powiódł się!"
 
-#: tools/ruledit/tab_misc.cpp:480
+#: tools/ruledit/tab_misc.cpp:498
 msgid "Sanity check success"
 msgstr "Test poprawności powiódł się"
 
-#: tools/ruledit/tab_misc.cpp:489
+#: tools/ruledit/tab_misc.cpp:507
 msgid "All effects"
 msgstr "Wszystkie efekty"
 
