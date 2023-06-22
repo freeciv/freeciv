@@ -1538,7 +1538,11 @@ static void create_vision_dependencies(void)
 void give_shared_vision(struct player *pfrom, struct player *pto)
 {
   bv_player save_vision[player_slot_count()];
-  if (pfrom == pto) return;
+
+  if (pfrom == pto) {
+    return;
+  }
+
   if (gives_shared_vision(pfrom, pto)) {
     log_error("Trying to give shared vision from %s to %s, "
               "but that vision is already given!",

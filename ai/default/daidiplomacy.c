@@ -1570,6 +1570,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
           || pplayers_at_war(pplayer, aplayer)) {
         continue;
       }
+
       /* A spaceship victory is always one single player's or team's victory */
       if (aplayer->spaceship.state == SSHIP_LAUNCHED
           && adv->dipl.spacerace_leader == aplayer
@@ -1579,15 +1580,15 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
                            "yourself alone betrays your true intentions, and I "
                            "will have no more of our alliance!"),
                          player_name(pplayer));
-	handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
-				     CLAUSE_ALLIANCE);
+        handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
+                                     CLAUSE_ALLIANCE);
         if (gives_shared_vision(pplayer, aplayer)) {
           remove_shared_vision(pplayer, aplayer);
         }
         /* Never forgive this */
         pplayer->ai_common.love[player_index(aplayer)] = -MAX_AI_LOVE;
       } else if (ship->state == SSHIP_STARTED 
-		 && adip->warned_about_space == 0) {
+                 && adip->warned_about_space == 0) {
         pplayer->ai_common.love[player_index(aplayer)] -= MAX_AI_LOVE / 10;
         adip->warned_about_space = 10 + fc_rand(6);
         dai_diplo_notify(aplayer,
@@ -1677,22 +1678,24 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
   /*** Actually declare war (when we have moved units into position) ***/
 
   players_iterate(aplayer) {
-    struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
+    if (!players_on_same_team(pplayer, aplayer)) {
+      struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
 
-    if (!aplayer->is_alive) {
-      adip->countdown = -1;
-      continue;
-    }
-    if (adip->countdown > 0) {
-      adip->countdown--;
-    } else if (adip->countdown == 0) {
-      if (!WAR(pplayer, aplayer)) {
-        DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "Declaring war!");
-        dai_go_to_war(ait, pplayer, aplayer, adip->war_reason);
+      if (!aplayer->is_alive) {
+        adip->countdown = -1;
+        continue;
       }
-    } else if (adip->countdown < -1) {
-      /* negative countdown less than -1 is war stubbornness */
-      adip->countdown++;
+      if (adip->countdown > 0) {
+        adip->countdown--;
+      } else if (adip->countdown == 0) {
+        if (!WAR(pplayer, aplayer)) {
+          DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "Declaring war!");
+          dai_go_to_war(ait, pplayer, aplayer, adip->war_reason);
+        }
+      } else if (adip->countdown < -1) {
+        /* Negative countdown less than -1 is war stubbornness */
+        adip->countdown++;
+      }
     }
   } players_iterate_end;
 
@@ -1713,7 +1716,8 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       if (gives_shared_vision(pplayer, aplayer)) {
         if (!pplayers_allied(pplayer, aplayer)) {
           remove_shared_vision(pplayer, aplayer);
-        } else if (!shared_vision_is_safe(pplayer, aplayer)) {
+        } else if (!players_on_same_team(pplayer, aplayer)
+                   && !shared_vision_is_safe(pplayer, aplayer)) {
           dai_diplo_notify(aplayer,
                            _("*%s (AI)* Sorry, sharing vision with you "
                              "is no longer safe."),
@@ -1801,26 +1805,27 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
                                player_name(target));
               adip->ally_patience--;
             }
-          } else {
-            if (fc_rand(5) == 1) {
-              dai_diplo_notify(aplayer,
-                               _("*%s (AI)* Dishonored one, we made a pact of "
-                                 "alliance, and yet you remain at peace with our mortal "
-                                 "enemy, %s! This is unacceptable; our alliance is no "
-                                 "more!"),
-                               player_name(pplayer),
-                               player_name(target));
-              DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
-              /* to peace */
-              handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
-                                           CLAUSE_ALLIANCE);
-              pplayer->ai_common.love[player_index(aplayer)] =
-                MIN(pplayer->ai_common.love[player_index(aplayer)], 0);
-              if (gives_shared_vision(pplayer, aplayer)) {
-                remove_shared_vision(pplayer, aplayer);
-              }
-              fc_assert(!gives_shared_vision(pplayer, aplayer));
+          } else if (fc_rand(5) == 1
+                     && !players_on_same_team(pplayer, aplayer)) {
+            dai_diplo_notify(aplayer,
+                             _("*%s (AI)* Dishonored one, we made a pact of "
+                               "alliance, and yet you remain at peace with our mortal "
+                               "enemy, %s! This is unacceptable; our alliance is no "
+                               "more!"),
+                             player_name(pplayer),
+                             player_name(target));
+            DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer,
+                      "breaking useless alliance");
+            /* To peace */
+            handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
+                                         CLAUSE_ALLIANCE);
+            pplayer->ai_common.love[player_index(aplayer)]
+              = MIN(pplayer->ai_common.love[player_index(aplayer)], 0);
+            if (gives_shared_vision(pplayer, aplayer)) {
+              remove_shared_vision(pplayer, aplayer);
             }
+
+            fc_assert(!gives_shared_vision(pplayer, aplayer));
           }
         }
         break;
