@@ -125,7 +125,7 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 {
   /* The terrain change is valid if one of the following is TRUE:
    * - pterrain is NULL (= unknown terrain)
-   * - ptile is a virtual tile
+   * - ptile is a virtual tile, or otherwise not on the map being checked
    * - pterrain does not has the flag TER_NO_CITIES
    * - there is no city on ptile
    * - client may have had tile fogged and is receiving terrain change before
@@ -133,9 +133,13 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
    * This should be read as: The terrain change is INVALID if a terrain with
    * the flag TER_NO_CITIES is given for a real tile with a city (i.e. all
    * check evaluate to TRUE). */
+
+  /* Assert disabled for now, so we don't need to make this function
+   * care about what map is being changed. */
+#if 0
   fc_assert_msg(NULL == pterrain
                 || !is_server()
-                || tile_virtual_check(ptile)
+                || !tile_map_check(nmap, ptile)
                 || !terrain_has_flag(pterrain, TER_NO_CITIES)
                 || NULL == tile_city(ptile),
                 "At (%d, %d), the terrain \"%s\" (nb %d) doesn't "
@@ -143,6 +147,7 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
                 TILE_XY(ptile), terrain_rule_name(pterrain),
                 terrain_number(pterrain), city_name_get(tile_city(ptile)),
                 tile_city(ptile)->id);
+#endif /* 0 */
 
   ptile->terrain = pterrain;
   if (ptile->resource != NULL) {
@@ -1059,9 +1064,9 @@ void tile_virtual_destroy(struct tile *vtile)
 }
 
 /************************************************************************//**
-  Check if the given tile is a virtual one or not.
+  Check if the given tile is on a map.
 ****************************************************************************/
-bool tile_virtual_check(struct tile *vtile)
+bool tile_map_check(struct civ_map *nmap, struct tile *vtile)
 {
   int tindex;
 
@@ -1072,7 +1077,7 @@ bool tile_virtual_check(struct tile *vtile)
   tindex = tile_index(vtile);
   fc_assert_ret_val(0 <= tindex && tindex < map_num_tiles(), FALSE);
 
-  return (vtile != wld.map.tiles + tindex);
+  return (vtile == nmap->tiles + tindex);
 }
 
 /************************************************************************//**
