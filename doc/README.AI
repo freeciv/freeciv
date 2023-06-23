@@ -74,17 +74,18 @@ Build calculations are expressed through a structure called adv_choice.
 This has a variable called "want", which determines how much the AI
 wants whatever item is pointed to by choice->type. choice->want is
 
-   -199   get_a_boat
-   < 0    an error
-   == 0   no want, nothing to do
-   <= 100 normal want
-    > 100 critical want, used to requisition emergency needs
-    > ??? probably an error (1024 is a reasonable upper bound)
-    > 200 Frequently used as a cap. When want exceeds this value,
-          it is reduced to a lower number.
+   < 0                              Get a boat instead,
+                                    absolute value of the want correct
+   == 0                             No want, nothing to do
+   <= DAI_WANT_BELOW_MIL_EMERGENCY  Normal want
+    > DAI_WANT_MILITARY_EMERGENCY   Critical want,
+                                    used to requisition emergency needs
+    > DAI_WANT_DOMESTIC_MAX         Frequently used as a cap.
+                                    When want exceeds this value,
+                                    it is reduced to a lower number.
 
 These are ideal numbers, your mileage while travelling through the
-code may vary considerably.  Technology and diplomats, in particular,
+code may vary considerably. Technology and diplomats, in particular,
 seem to violate these standards.
 
 
