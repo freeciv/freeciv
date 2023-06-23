@@ -598,40 +598,38 @@ void impr_item::wheelEvent(QWheelEvent *event)
 ****************************************************************************/
 void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
 {
-  hud_message_box ask(city_dlg);
-  QString s;
-  char buf[256];
-  int price;
-  int ret;
-
   if (!can_client_issue_orders()) {
     return;
   }
 
   if (event->button() == Qt::LeftButton) {
-    if (test_player_sell_building_now(client.conn.playing, pcity,
-                                      impr) != TR_SUCCESS) {
-      return;
-    }
+    if (test_player_sell_building_now(client_player(), pcity,
+                                      impr) == TR_SUCCESS) {
+      QString s;
+      char buf[256];
+      int price;
+      int ret;
+      hud_message_box ask(city_dlg);
 
-    price = impr_sell_gold(impr);
-    fc_snprintf(buf, ARRAY_SIZE(buf),
-                PL_("Sell %s for %d gold?",
-                    "Sell %s for %d gold?", price),
-                city_improvement_name_translation(pcity, impr), price);
+      price = impr_sell_gold(impr);
+      fc_snprintf(buf, ARRAY_SIZE(buf),
+                  PL_("Sell %s for %d gold?",
+                      "Sell %s for %d gold?", price),
+                  city_improvement_name_translation(pcity, impr), price);
 
-    s = QString(buf);
-    ask.set_text_title(s, (_("Sell improvement?")));
-    ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-    ret = ask.exec();
+      s = QString(buf);
+      ask.set_text_title(s, (_("Sell improvement?")));
+      ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+      ret = ask.exec();
 
-    switch (ret) {
-    case QMessageBox::Cancel:
-      return;
+      switch (ret) {
+      case QMessageBox::Cancel:
+        return;
 
-    case QMessageBox::Ok:
-      city_sell_improvement(pcity, improvement_number(impr));
-      break;
+      case QMessageBox::Ok:
+        city_sell_improvement(pcity, improvement_number(impr));
+        break;
+      }
     }
   }
 }
