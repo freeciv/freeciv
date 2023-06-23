@@ -90,11 +90,11 @@ struct tile {
 struct city *tile_city(const struct tile *ptile);
 
 #define tile_continent(_tile) ((_tile)->continent)
-/*Continent_id tile_continent(const struct tile *ptile);*/
+/* Continent_id tile_continent(const struct tile *ptile); */
 void tile_set_continent(struct tile *ptile, Continent_id val);
 
 #define tile_owner(_tile) ((_tile)->owner)
-/*struct player *tile_owner(const struct tile *ptile);*/
+/* struct player *tile_owner(const struct tile *ptile); */
 void tile_set_owner(struct tile *ptile, struct player *pplayer,
                     struct tile *claimer);
 #define tile_claimer(_tile) ((_tile)->claimer)
@@ -104,11 +104,11 @@ static inline bool tile_resource_is_valid(const struct tile *ptile)
 { return ptile->resource != NULL
     && BV_ISSET(ptile->extras, ptile->resource->id);
 }
-/*const struct resource *tile_resource(const struct tile *ptile);*/
+/* const struct resource *tile_resource(const struct tile *ptile); */
 void tile_set_resource(struct tile *ptile, struct extra_type *presource);
 
 #define tile_terrain(_tile) ((_tile)->terrain)
-/*struct terrain *tile_terrain(const struct tile *ptile);*/
+/* struct terrain *tile_terrain(const struct tile *ptile); */
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
 
 #define tile_worked(_tile) ((_tile)->worked)
@@ -160,12 +160,12 @@ enum known_type tile_get_known(const struct tile *ptile,
 bool tile_is_seen(const struct tile *target_tile,
                   const struct player *pow_player);
 
-/* A somewhat arbitrary integer value.  Activity times are multiplied by
- * this amount, and divided by them later before being used.  This may
+/* A somewhat arbitrary integer value. Activity times are multiplied by
+ * this amount, and divided by them later before being used. This may
  * help to avoid rounding errors; however it should probably be removed. */
 #define ACTIVITY_FACTOR 10
 int tile_activity_time(enum unit_activity activity,
-		       const struct tile *ptile,
+                       const struct tile *ptile,
                        const struct extra_type *tgt);
 
 /* These are higher-level functions that handle side effects on the tile. */
@@ -182,7 +182,8 @@ const char *tile_get_info_text(const struct tile *ptile,
 /* Virtual tiles are tiles that do not exist on the game map. */
 struct tile *tile_virtual_new(const struct tile *ptile);
 void tile_virtual_destroy(struct tile *vtile);
-bool tile_virtual_check(struct tile *vtile);
+
+bool tile_map_check(struct civ_map *nmap, struct tile *vtile);
 
 void *tile_hash_key(const struct tile *ptile);
 
