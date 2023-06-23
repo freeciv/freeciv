@@ -617,23 +617,23 @@ void impr_item::wheelEvent(QWheelEvent *event)
 ****************************************************************************/
 void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
 {
-  hud_message_box *ask;
-  QString s;
-  char buf[256];
-  int price;
-  const int impr_id = improvement_number(impr);
-  const int city_id = dlgcity->id;
-
   if (!can_client_issue_orders()) {
     return;
   }
 
   if (event->button() == Qt::LeftButton) {
-    ask = new hud_message_box(city_dlg);
-    if (test_player_sell_building_now(client.conn.playing, dlgcity,
+    char buf[256];
+    int price;
+    const int impr_id = improvement_number(impr);
+    const int city_id = dlgcity->id;
+    hud_message_box *ask;
+
+    if (test_player_sell_building_now(client_player(), dlgcity,
                                       impr) != TR_SUCCESS) {
       return;
     }
+
+    ask = new hud_message_box(city_dlg);
 
     price = impr_sell_gold(impr);
     fc_snprintf(buf, ARRAY_SIZE(buf),
@@ -647,7 +647,7 @@ void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
     connect(ask, &hud_message_box::accepted, [=]() {
       struct city *pcity = game_city_by_number(city_id);
 
-      if (!pcity) {
+      if (pcity == nullptr) {
         return;
       }
       city_sell_improvement(pcity, impr_id);
