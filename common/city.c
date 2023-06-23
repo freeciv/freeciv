@@ -51,7 +51,7 @@
 
 static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data);
 #ifdef FREECIV_DEBUG
-/* only used for debugging */
+/* Only used for debugging */
 static void citylog_map_index(enum log_level level);
 static void citylog_map_radius_sq(enum log_level level);
 #endif /* FREECIV_DEBUG */
@@ -63,10 +63,10 @@ static struct iter_index *city_map_index = NULL;
  * coordinates x and y are in the range [0, CITY_MAP_MAX_SIZE] */
 static int city_map_xy[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
 
-/* number of tiles of a city; depends on the squared city radius */
+/* Number of tiles of a city; depends on the squared city radius */
 static int city_map_numtiles[CITY_MAP_MAX_RADIUS_SQ + 1];
 
-/* definitions and functions for the tile_cache */
+/* Definitions and functions for the tile_cache */
 struct tile_cache {
   int output[O_LAST];
 };
@@ -76,9 +76,13 @@ static inline int city_tile_cache_get_output(const struct city *pcity,
                                              int city_tile_index,
                                              enum output_type_id o);
 
+static const struct city *nearest_gov_center(const struct city *pcity,
+                                             int *min_dist)
+  fc__attribute((nonnull (1, 2)));
+
 struct citystyle *city_styles = NULL;
 
-/* One day these values may be read in from the ruleset.  In the meantime
+/* One day these values may be read in from the ruleset. In the meantime
  * they're just an easy way to access information about each output type. */
 struct output_type output_types[O_LAST] = {
   {O_FOOD, N_("Food"), "food", TRUE, UNHAPPY_PENALTY_SURPLUS},
@@ -1347,7 +1351,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
 
 /**********************************************************************//**
   Calculate the production output the given tile is capable of producing
-  for the city.  The output type is given by 'otype' (generally O_FOOD,
+  for the city. The output type is given by 'otype' (generally O_FOOD,
   O_SHIELD, or O_TRADE).
 
   NOTE: As of now, return value does not represent output on end of turn
@@ -1880,7 +1884,7 @@ int city_change_production_penalty(const struct city *pcity,
     unpenalized_shields = pcity->before_change_shields;
   } else if (city_built_last_turn(pcity)) {
     /* Surplus shields from the previous production won't be penalized if
-     * you change production on the very next turn.  But you can only use
+     * you change production on the very next turn. But you can only use
      * up to the city's surplus amount of shields in this way. */
     unpenalized_shields = MIN(pcity->last_turns_shield_surplus,
                               pcity->before_change_shields);
@@ -1937,10 +1941,10 @@ int city_turns_to_build(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Calculates the turns which are needed for the city to grow.  A value
-  of FC_INFINITY means the city will never grow.  A value of 0 means
-  city growth is blocked.  A negative value of -x means the city will
-  shrink in x turns.  A positive value of x means the city will grow in
+  Calculates the turns which are needed for the city to grow. A value
+  of FC_INFINITY means the city will never grow. A value of 0 means
+  city growth is blocked. A negative value of -x means the city will
+  shrink in x turns. A positive value of x means the city will grow in
   x turns.
 **************************************************************************/
 int city_turns_to_grow(const struct city *pcity)
@@ -1949,7 +1953,7 @@ int city_turns_to_grow(const struct city *pcity)
     return (city_granary_size(city_size_get(pcity)) - pcity->food_stock +
 	    pcity->surplus[O_FOOD] - 1) / pcity->surplus[O_FOOD];
   } else if (pcity->surplus[O_FOOD] < 0) {
-    /* turns before famine loss */
+    /* Turns before famine loss */
     return -1 + (pcity->food_stock / pcity->surplus[O_FOOD]);
   } else {
     return FC_INFINITY;
@@ -2229,8 +2233,40 @@ bool city_built_last_turn(const struct city *pcity)
 }
 
 /**********************************************************************//**
+  Find government center nearest to given city.
+**************************************************************************/
+static const struct city *nearest_gov_center(const struct city *pcity,
+                                             int *min_dist)
+{
+  const struct city *gov_center = NULL;
+
+  *min_dist = FC_INFINITY;
+
+  /* Check the special case that city itself is gov center
+   * before expensive iteration through all cities. */
+  if (is_gov_center(pcity)) {
+    *min_dist = 0;
+    return pcity;
+  } else {
+    city_list_iterate(city_owner(pcity)->cities, gc) {
+      /* Do not recheck current city */
+      if (gc != pcity && is_gov_center(gc)) {
+        int dist = real_map_distance(gc->tile, pcity->tile);
+
+        if (dist < *min_dist) {
+          gov_center = gc;
+          *min_dist = dist;
+        }
+      }
+    } city_list_iterate_end;
+  }
+
+  return gov_center;
+}
+
+/**********************************************************************//**
   Calculate output (food, trade and shields) generated by the worked tiles
-  of a city.  This will completely overwrite the output[] array.
+  of a city. This will completely overwrite the output[] array.
 
   'workers_map' is an boolean array which defines the placement of the
   workers within the city map. It uses the tile index and its size is
@@ -2365,6 +2401,34 @@ static inline int city_tile_cache_get_output(const struct city *pcity,
 static void set_surpluses(struct city *pcity)
 {
   output_type_iterate(o) {
+    int surplus = pcity->prod[o] - pcity->usage[o];
+
+    /* Add 'surplus' waste to 'usage'. */
+    if (surplus > 0) {
+      int waste_by_rel_dist
+        = get_city_output_bonus(pcity, get_output_type(o),
+                                EFT_SURPLUS_WASTE_PCT_BY_REL_DISTANCE);
+
+      if (waste_by_rel_dist > 0) {
+        int min_dist;
+        const struct city *gov_center = nearest_gov_center(pcity, &min_dist);
+
+        if (gov_center == NULL) {
+          /* No gov center - no income */
+          pcity->usage[o] = pcity->prod[o];
+        } else {
+          int waste_level = waste_by_rel_dist * 50 * min_dist / 100
+            / MAX(MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT);
+
+          if (waste_level < 100) {
+            pcity->usage[o] += (surplus * waste_level / 100);
+          } else {
+            pcity->usage[o] = pcity->prod[o];
+          }
+        }
+      }
+    }
+
     pcity->surplus[o] = pcity->prod[o] - pcity->usage[o];
   } output_type_iterate_end;
 }
@@ -3098,9 +3162,9 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
 }
 
 /**********************************************************************//**
-  Give corruption/waste generated by city.  otype gives the output type
-  (O_SHIELD/O_TRADE).  'total' gives the total output of this type in the
-  city.  If non-NULL, 'breakdown' should be an OLOSS_LAST-sized array
+  Give corruption/waste generated by city. otype gives the output type
+  (O_SHIELD/O_TRADE). 'total' gives the total output of this type in the
+  city. If non-NULL, 'breakdown' should be an OLOSS_LAST-sized array
   which will be filled in with a breakdown of the kinds of waste
   (not cumulative).
 **************************************************************************/
@@ -3108,12 +3172,12 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
                int *breakdown)
 {
   int penalty_waste = 0;
-  int penalty_size = 0;  /* separate notradesize/fulltradesize from normal
+  int penalty_size = 0;  /* Separate notradesize/fulltradesize from normal
                           * corruption */
-  int total_eft = total; /* normal corruption calculated on total reduced by
+  int total_eft = total; /* Normal corruption calculated on total reduced by
                           * possible size penalty */
-  int waste_level = get_city_output_bonus(pcity, get_output_type(otype),
-                                          EFT_OUTPUT_WASTE);
+  const struct output_type *output = get_output_type(otype);
+  int waste_level = get_city_output_bonus(pcity, output, EFT_OUTPUT_WASTE);
   bool waste_all = FALSE;
 
   if (otype == O_TRADE) {
@@ -3141,42 +3205,23 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
   /* Distance-based waste.
    * Don't bother calculating if there's nothing left to lose. */
   if (total_eft > 0) {
-    int waste_by_dist = get_city_output_bonus(pcity, get_output_type(otype),
+    int waste_by_dist = get_city_output_bonus(pcity, output,
                                               EFT_OUTPUT_WASTE_BY_DISTANCE);
-    int waste_by_rel_dist = get_city_output_bonus(pcity, get_output_type(otype),
+    int waste_by_rel_dist = get_city_output_bonus(pcity, output,
                                                   EFT_OUTPUT_WASTE_BY_REL_DISTANCE);
     if (waste_by_dist > 0 || waste_by_rel_dist > 0) {
-      const struct city *gov_center = NULL;
-      int min_dist = FC_INFINITY;
-
-      /* Check the special case that city itself is gov center
-       * before expensive iteration through all cities. */
-      if (is_gov_center(pcity)) {
-        gov_center = pcity;
-        min_dist = 0;
-      } else {
-        city_list_iterate(city_owner(pcity)->cities, gc) {
-          /* Do not recheck current city */
-          if (gc != pcity && is_gov_center(gc)) {
-            int dist = real_map_distance(gc->tile, pcity->tile);
-
-            if (dist < min_dist) {
-              gov_center = gc;
-              min_dist = dist;
-            }
-          }
-        } city_list_iterate_end;
-      }
+      int min_dist;
+      const struct city *gov_center = nearest_gov_center(pcity, &min_dist);
 
       if (gov_center == NULL) {
-        waste_all = TRUE; /* no gov center - no income */
+        waste_all = TRUE; /* No gov center - no income */
       } else {
         waste_level += waste_by_dist * min_dist / 100;
         if (waste_by_rel_dist > 0) {
 	  /* Multiply by 50 as an "standard size" for which EFT_OUTPUT_WASTE_BY_DISTANCE
 	   * and EFT_OUTPUT_WASTE_BY_REL_DISTANCE would give same result. */
           waste_level += waste_by_rel_dist * 50 * min_dist / 100
-	    / MAX(wld.map.xsize, wld.map.ysize);
+	    / MAX(MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT);
         }
       }
     }
@@ -3185,15 +3230,15 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
   if (waste_all) {
     penalty_waste = total_eft;
   } else {
-    int waste_pct = get_city_output_bonus(pcity, get_output_type(otype),
+    int waste_pct = get_city_output_bonus(pcity, output,
                                           EFT_OUTPUT_WASTE_PCT);
 
-    /* corruption/waste calculated only for the actually produced amount */
+    /* Corruption/waste calculated only for the actually produced amount */
     if (waste_level > 0) {
       penalty_waste = total_eft * waste_level / 100;
     }
 
-    /* bonus calculated only for the actually produced amount */
+    /* Bonus calculated only for the actually produced amount */
     penalty_waste -= penalty_waste * waste_pct / 100;
 
     /* Clip */
@@ -3205,7 +3250,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
     breakdown[OLOSS_SIZE]  = penalty_size;
   }
 
-  /* add up total penalty */
+  /* Add up total penalty */
   return penalty_waste + penalty_size;
 }
 
@@ -3225,8 +3270,8 @@ citizens city_specialists(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Return the "best" specialist available in the game.  This specialist will
-  have the most of the given type of output.  If pcity is given then only
+  Return the "best" specialist available in the game. This specialist will
+  have the most of the given type of output. If pcity is given then only
   specialists usable by pcity will be considered.
 **************************************************************************/
 Specialist_type_id best_specialist(Output_type_id otype,
