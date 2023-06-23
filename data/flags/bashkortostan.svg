@@ -1,23 +1,126 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="450px" height="300px" viewBox="0 0 450 300">
-<defs>
-<g id="petal">
-<line x1="0" y1="0" x2="25" y2="0" stroke="gold" stroke-width="2"/>
-<circle cx="25" cy="0" r="5" fill="gold"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xml:space="preserve"
+   width="450px"
+   height="300px"
+   viewBox="0 0 450 300"
+   version="1.1"
+   id="svg35"
+   sodipodi:docname="bashkortostan.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview37"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   showgrid="false"
+   inkscape:zoom="1.5733333"
+   inkscape:cx="223.41102"
+   inkscape:cy="155.40254"
+   inkscape:window-width="843"
+   inkscape:window-height="662"
+   inkscape:window-x="451"
+   inkscape:window-y="121"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="svg35" />
+<defs
+   id="defs7">
+<g
+   id="petal">
+<line
+   x1="0"
+   y1="0"
+   x2="25"
+   y2="0"
+   stroke="gold"
+   stroke-width="2"
+   id="line2" />
+<circle
+   cx="25"
+   cy="0"
+   r="5"
+   fill="gold"
+   id="circle4" />
 </g>
 </defs>
-<rect fill="#0070FF" width="450" height="100" x="0" y="0"/>
-<rect fill="white" width="450" height="100" x="0" y="100"/>
-<rect fill="#007000" width="450" height="100" x="0" y="200"/>
-<circle cx="225" cy="150" r="37.5" stroke="gold" stroke-width="5" fill="none"/>
-<circle cx="225" cy="150" r="8" fill="gold"/>
-<use x="225" y="150" xlink:href="#petal"/> 
-<use transform="translate(225, 150) rotate(-30)" xlink:href="#petal"/> 
-<use transform="translate(225, 150) rotate(-60)" xlink:href="#petal"/> 
-<use transform="translate(225, 150) rotate(-90)" xlink:href="#petal"/> 
-<use transform="translate(225, 150) rotate(-120)" xlink:href="#petal"/> 
-<use transform="translate(225, 150) rotate(-150)" xlink:href="#petal"/> 
-<use transform="translate(225, 150) rotate(-180)" xlink:href="#petal"/> 
-<line x1="225" y1="150" x2="225" y2="175" stroke="gold" stroke-width="2"/>
+<rect
+   fill="#0070FF"
+   width="450"
+   height="100"
+   x="0"
+   y="0"
+   id="rect9" />
+<rect
+   fill="white"
+   width="450"
+   height="100"
+   x="0"
+   y="100"
+   id="rect11" />
+<rect
+   fill="#007000"
+   width="450"
+   height="100"
+   x="0"
+   y="200"
+   id="rect13" />
+<circle
+   cx="225"
+   cy="150"
+   r="37.5"
+   stroke="gold"
+   stroke-width="5"
+   fill="none"
+   id="circle15" />
+<circle
+   cx="225"
+   cy="150"
+   r="8"
+   fill="gold"
+   id="circle17" />
+<use
+   x="225"
+   y="150"
+   xlink:href="#petal"
+   id="use19" />
+<use
+   transform="translate(225, 150) rotate(-30)"
+   xlink:href="#petal"
+   id="use21" />
+<use
+   transform="translate(225, 150) rotate(-60)"
+   xlink:href="#petal"
+   id="use23" />
+<use
+   transform="translate(225, 150) rotate(-90)"
+   xlink:href="#petal"
+   id="use25" />
+<use
+   transform="translate(225, 150) rotate(-120)"
+   xlink:href="#petal"
+   id="use27" />
+<use
+   transform="translate(225, 150) rotate(-150)"
+   xlink:href="#petal"
+   id="use29" />
+<use
+   transform="translate(225, 150) rotate(-180)"
+   xlink:href="#petal"
+   id="use31" />
+<line
+   x1="225"
+   y1="150"
+   x2="225"
+   y2="175"
+   stroke="gold"
+   stroke-width="2"
+   id="line33" />
 </svg>
