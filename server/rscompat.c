@@ -725,8 +725,8 @@ const char *rscompat_action_rule_name_3_2(struct rscompat_info *compat,
                                           const char *orig)
 {
   if (compat->compat_mode && compat->version < RSFORMAT_3_2
-      && (!fc_strcasecmp("CleanPollution", orig)
-          || !fc_strcasecmp("CleanFallout", orig))) {
+      && (!fc_strcasecmp("Clean Pollution", orig)
+          || !fc_strcasecmp("Clean Fallout", orig))) {
     return "Clean";
   }
 
