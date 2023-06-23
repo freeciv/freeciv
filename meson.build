@@ -459,7 +459,20 @@ endif
 icu_dep = dependency('icu-uc')
 
 syslua = get_option('syslua')
-lua_dep_tmp = dependency('lua-5.4', required:false)
+
+slua_candidates = [
+  'lua-5.4',
+  'lua-54',
+  'lua54',
+  'lua5.4'
+]
+
+foreach cand : slua_candidates
+  lua_dep_tmp = dependency(cand, required:false)
+  if lua_dep_tmp.found()
+    break
+  endif
+endforeach
 
 if syslua != 'false' and lua_dep_tmp.found()
   lua_inc_path = []
