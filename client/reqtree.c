@@ -382,8 +382,8 @@ static void calculate_diagram_layout(struct reqtree *tree)
 
 
 /*************************************************************************
-  Create a "dummy" tech tree from current ruleset.  This tree is then
-  fleshed out further (see create_reqtree). This tree doesn't include
+  Create a "dummy" tech tree from current ruleset. This tree is then
+  fleshed out further (see create_reqtree() ). This tree doesn't include
   dummy edges. Layering and ordering isn't done also.
 
   If pplayer is given, add only techs reachable by that player to tree.
@@ -394,10 +394,11 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
   const struct research *presearch = research_get(pplayer);
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   int j;
-  struct tree_node *nodes[advance_count()];
+  Tech_type_id ac = advance_count();
+  struct tree_node *nodes[ac];
 
   nodes[A_NONE] = NULL;
-  advance_index_iterate(A_FIRST, tech) {
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     if (!valid_advance_by_number(tech)) {
       nodes[tech] = NULL;
       continue;
@@ -405,16 +406,16 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
     if (pplayer && !show_all
         && !research_invention_reachable(presearch, tech)) {
       /* Reqtree requested for particular player and this tech is
-       * unreachable to him/her. */
+       * unreachable to them. */
       nodes[tech] = NULL;
       continue;
     }
     nodes[tech] = new_tree_node();
     nodes[tech]->is_dummy = FALSE;
     nodes[tech]->tech = tech;
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
-  advance_index_iterate(A_FIRST, tech) {
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     struct advance *padvance = valid_advance_by_number(tech);
     Tech_type_id tech_one, tech_two;
 
@@ -435,9 +436,9 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
       continue;
     }
 
-    /* Formerly, we used to remove the redundant requirement nodes (the
-     * technologies already included in the requirements of the other
-     * requirement).  However, it doesn't look like a good idea, because
+    /* Formerly, we used to remove the redundant requirement nodes
+     * (the technologies already included in the requirements of the other
+     * requirement). However, it doesn't look like a good idea, because
      * a player can steal any technology independently of the technology
      * tree. */
     if (A_NONE != tech_one && A_LAST != tech_two) {
@@ -446,18 +447,18 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
         add_requirement(nodes[tech], nodes[tech_two]);
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
-  /* Copy nodes from local array to dynamically allocated one. 
+  /* Copy nodes from local array to dynamically allocated one.
    * Skip non-existing entries */
-  tree->nodes = fc_calloc(advance_count(), sizeof(*tree->nodes));
+  tree->nodes = fc_calloc(ac, sizeof(*tree->nodes));
   j = 0;
-  advance_index_iterate(A_FIRST, tech) {
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     if (nodes[tech]) {
       fc_assert_action(valid_advance_by_number(nodes[tech]->tech), continue);
       tree->nodes[j++] = nodes[tech];
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
   tree->num_nodes = j;
   tree->layers = NULL;
 
