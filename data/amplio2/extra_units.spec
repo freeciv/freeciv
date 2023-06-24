@@ -11,6 +11,7 @@ artists = "
     GriffonSpade
     VladimirSlavik
     ngunjaca
+    omero (operative)
 "
 
 [file]
@@ -39,6 +40,8 @@ tiles = { "row", "column", "tag"
   8,  4, "u.rowboat"
 
   9,  1, "u.emissary"
+
+  9,  4, "u.operative"
 
  10,  3, "u.lion"
 
