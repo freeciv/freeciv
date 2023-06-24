@@ -2498,14 +2498,14 @@ static void apply_reqtree_text_font(struct option *poption)
 **************************************************************************/
 void options_extra_init(void)
 {
-
   struct option *poption;
 
 #define option_var_set_callback(var, callback)                              \
-  if ((poption = optset_option_by_name(client_optset, GUI_GTK_OPTION_STR(var)))) { \
+  if ((poption = optset_option_by_name(client_optset,                       \
+                                       GUI_GTK_OPTION_STR(var)))) {         \
     option_set_changed_callback(poption, callback);                         \
   } else {                                                                  \
-    log_error("Didn't find option %s!", GUI_GTK_OPTION_STR(var));      \
+    log_error("Didn't find option %s!", GUI_GTK_OPTION_STR(var));           \
   }
 
   option_var_set_callback(allied_chat_only,

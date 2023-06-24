@@ -351,21 +351,24 @@ void themespec_try_read(const char *theme_name)
 
     if (active_theme == NULL) {
       log_fatal(_("No usable default theme found, aborting!"));
+
       exit(EXIT_FAILURE);
     }
 
     log_verbose("Trying theme \"%s\".", active_theme->name);
   }
-/*  sz_strlcpy(gui_sdl2_default_theme_name, theme_get_name(theme));*/
+
+  /*  sz_strlcpy(GUI_SDL_OPTION(default_theme_name),
+                 theme_get_name(theme)); */
 }
 
 /************************************************************************//**
   Read a new themespec in from scratch.
 
   Unlike the initial reading code, which reads pieces one at a time,
-  this gets rid of the old data and reads in the new all at once.  If the
-  new theme fails to load the old theme may be reloaded; otherwise the
-  client will exit.  If a NULL name is given the current theme will be
+  this gets rid of the old data and reads in the new all at once.
+  If the new theme fails to load the old theme may be reloaded; otherwise
+  the client will exit. If a NULL name is given the current theme will be
   reread.
 
   It will also call the necessary functions to redraw the graphics.
@@ -398,7 +401,7 @@ void themespec_reread(const char *new_theme_name)
 
   /* Step 2:  Read.
    *
-   * We read in the new theme.  This should be pretty straightforward.
+   * We read in the new theme. This should be pretty straightforward.
    */
   if (!(active_theme = theme_read_toplevel(theme_name))) {
     if (!(active_theme = theme_read_toplevel(old_name))) {
@@ -407,21 +410,22 @@ void themespec_reread(const char *new_theme_name)
                          "Failed to re-read the currently loaded theme.");
     }
   }
-/*  sz_strlcpy(gui_sdl2_default_theme_name, theme->name);*/
+  /* sz_strlcpy(GUI_SDL_OPTION(default_theme_name), theme->name); */
+
   theme_load_sprites(active_theme);
 
   /* Step 3: Setup
    *
-   * This is a seriously sticky problem.  On startup, we build a hash
+   * This is a seriously sticky problem. On startup, we build a hash
    * from all the sprite data. Then, when we connect to a server, the
    * server sends us ruleset data a piece at a time and we use this data
-   * to assemble the sprite structures.  But if we change while connected
-   *  we have to reassemble all of these.  This should just involve
-   * calling themespec_setup_*** on everything.  But how do we tell what
+   * to assemble the sprite structures. But if we change while connected
+   *  we have to reassemble all of these. This should just involve
+   * calling themespec_setup_*** on everything. But how do we tell what
    * "everything" is?
    *
    * The below code just does things straightforwardly, by setting up
-   * each possible sprite again.  Hopefully it catches everything, and
+   * each possible sprite again. Hopefully it catches everything, and
    * doesn't mess up too badly if we change themes while not connected
    * to a server.
    */
@@ -439,8 +443,8 @@ void themespec_reread(const char *new_theme_name)
 /*  theme_changed();*/
   can_slide = FALSE;
   center_tile_mapcanvas(center_tile);
-  /* update_map_canvas_visible forces a full redraw.  Otherwise with fast
-   * drawing we might not get one.  Of course this is slower. */
+  /* update_map_canvas_visible() forces a full redraw. Otherwise with fast
+   * drawing we might not get one. Of course this is slower. */
   update_map_canvas_visible();
   can_slide = TRUE;
 }

@@ -103,8 +103,8 @@ void draw_mouse_cursor(void)
   int cursor_y = 0;
   static SDL_Rect area = {0, 0, 0, 0};
 
-  if (gui_options.gui_sdl2_use_color_cursors) {
-    /* restore background */
+  if (GUI_SDL_OPTION(use_color_cursors)) {
+    /* Restore background */
     if (area.w != 0) {
       flush_rect(&area, TRUE);
     }
@@ -116,9 +116,9 @@ void draw_mouse_cursor(void)
       area.w = current_color_cursor.cursor->w;
       area.h = current_color_cursor.cursor->h;
 
-      /* show cursor */
+      /* Show cursor */
       screen_blit(current_color_cursor.cursor, NULL, &area, 255);
-      /* update screen */
+      /* Update screen */
       update_main_screen();
 #if 0
       SDL_UpdateRect(main_data.screen, area.x, area.y, area.w, area.h);
@@ -188,16 +188,18 @@ void animate_mouse_cursor(void)
   }
 
   if (mouse_cursor_type != CURSOR_DEFAULT) {
-    if (!gui_options.gui_sdl2_do_cursor_animation
+    if (!GUI_SDL_OPTION(do_cursor_animation)
         || (cursor_frame == NUM_CURSOR_FRAMES)) {
       cursor_frame = 0;
     }
 
-    if (gui_options.gui_sdl2_use_color_cursors) {
-      current_color_cursor.cursor = GET_SURF(get_cursor_sprite(tileset,
-                                    mouse_cursor_type,
-                                    &current_color_cursor.hot_x,
-                                    &current_color_cursor.hot_y, cursor_frame));
+    if (GUI_SDL_OPTION(use_color_cursors)) {
+      current_color_cursor.cursor
+        = GET_SURF(get_cursor_sprite(tileset,
+                                     mouse_cursor_type,
+                                     &current_color_cursor.hot_x,
+                                     &current_color_cursor.hot_y,
+                                     cursor_frame));
     } else {
       SDL_SetCursor(fc_cursors[mouse_cursor_type][cursor_frame]);
     }
@@ -219,12 +221,12 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
 
   if (mouse_cursor_type == CURSOR_DEFAULT) {
     SDL_SetCursor(std_cursor);
-    if (gui_options.gui_sdl2_use_color_cursors) {
+    if (GUI_SDL_OPTION(use_color_cursors)) {
       current_color_cursor.cursor = NULL;
     }
     mouse_cursor_changed = FALSE;
   } else {
-    if (gui_options.gui_sdl2_use_color_cursors) {
+    if (GUI_SDL_OPTION(use_color_cursors)) {
       SDL_SetCursor(disabled_cursor);
     }
     mouse_cursor_changed = TRUE;
