@@ -32,6 +32,9 @@
 /* client/include */
 #include "gui_main_g.h"
 
+#define GUI_SDL_OPTION(optname) gui_options.gui_sdl2_##optname
+#define GUI_SDL_OPTION_STR(optname) "gui_sdl2_" #optname
+
 /* Enable this to adjust sizes for 320x240 resolution */
 /* #define SMALL_SCREEN */
 

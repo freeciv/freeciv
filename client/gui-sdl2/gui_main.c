@@ -187,14 +187,15 @@ static void parse_options(int argc, char **argv)
       print_usage();
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen", argv[i])) {
-      gui_options.gui_sdl2_fullscreen = TRUE;
+      GUI_SDL_OPTION(fullscreen) = TRUE;
     } else if (is_option("--swrenderer", argv[i])) {
       sdl2_client_flags |= CF_SWRENDERER;
     } else if ((option = get_option_malloc("--theme", argv, &i, argc, FALSE))) {
-      sz_strlcpy(gui_options.gui_sdl2_default_theme_name, option);
+      sz_strlcpy(GUI_SDL_OPTION(default_theme_name), option);
       free(option);
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+
       exit(EXIT_FAILURE);
     }
 
@@ -430,7 +431,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
   }
 
 #ifndef UNDER_CE
-  if (gui_options.gui_sdl2_fullscreen) {
+  if (GUI_SDL_OPTION(fullscreen)) {
     check_scroll_area(motion_event->x, motion_event->y);
   }
 #endif /* UNDER_CE */
@@ -909,7 +910,7 @@ static void fullscreen_callback(struct option *poption)
 {
   SDL_DisplayMode mode;
 
-  if (gui_options.gui_sdl2_fullscreen) {
+  if (GUI_SDL_OPTION(fullscreen)) {
     SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
   } else {
     SDL_SetWindowFullscreen(main_data.screen, 0);
@@ -919,7 +920,7 @@ static void fullscreen_callback(struct option *poption)
 
   if (!create_surfaces(mode.w, mode.h)) {
     /* Try to revert */
-    if (!gui_options.gui_sdl2_fullscreen) {
+    if (!GUI_SDL_OPTION(fullscreen)) {
       SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
     } else {
       SDL_SetWindowFullscreen(main_data.screen, 0);
@@ -938,14 +939,15 @@ void options_extra_init(void)
   struct option *poption;
 
 #define option_var_set_callback(var, callback)                              \
-  if ((poption = optset_option_by_name(client_optset, #var))) {             \
+  if ((poption = optset_option_by_name(client_optset,                       \
+                                       GUI_SDL_OPTION_STR(var)))) {         \
     option_set_changed_callback(poption, callback);                         \
   } else {                                                                  \
-    log_error("Didn't find option %s!", #var);                              \
+    log_error("Didn't find option %s!", GUI_SDL_OPTION_STR(var));           \
   }
 
-  option_var_set_callback(gui_sdl2_fullscreen, fullscreen_callback);
-  option_var_set_callback(gui_sdl2_screen, resize_window_callback);
+  option_var_set_callback(fullscreen, fullscreen_callback);
+  option_var_set_callback(screen, resize_window_callback);
 #undef option_var_set_callback
 }
 
@@ -957,7 +959,7 @@ static void clear_double_messages_call(void)
 {
   int i;
 
-  /* clear double call */
+  /* Clear double call */
   for (i = 0; i <= event_type_max(); i++) {
     if (messages_where[i] & MW_MESSAGES) {
       messages_where[i] &= ~MW_OUTPUT;
@@ -1014,14 +1016,15 @@ int ui_main(int argc, char *argv[])
     migrate_options_from_sdl();
   }
 
-  if (gui_options.gui_sdl2_fullscreen) {
+  if (GUI_SDL_OPTION(fullscreen)) {
     flags |= SDL_WINDOW_FULLSCREEN;
   } else {
     flags &= ~SDL_WINDOW_FULLSCREEN;
   }
+
   log_normal(_("Using Video Output: %s"), SDL_GetCurrentVideoDriver());
-  if (!set_video_mode(gui_options.gui_sdl2_screen.width,
-                      gui_options.gui_sdl2_screen.height,
+  if (!set_video_mode(GUI_SDL_OPTION(screen.width),
+                      GUI_SDL_OPTION(screen.height),
                       flags)) {
     return EXIT_FAILURE;
   }

@@ -580,7 +580,7 @@ bool create_surfaces(int width, int height)
     return FALSE;
   }
 
-  if (gui_options.gui_sdl2_swrenderer
+  if (GUI_SDL_OPTION(swrenderer)
       || (sdl2_client_flags & CF_SWRENDERER)) {
     flags = SDL_RENDERER_SOFTWARE;
   } else {
