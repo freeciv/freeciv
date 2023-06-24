@@ -589,7 +589,8 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
 
   /* military_advisor_choose_build() does something idiotic,
    * this function should not be called if there is danger... */
-  if (choice->want >= 100 && choice->type != CT_ATTACKER) {
+  if (choice->want >= DAI_WANT_MILITARY_EMERGENCY
+      && choice->type != CT_ATTACKER) {
     return FALSE;
   }
 
