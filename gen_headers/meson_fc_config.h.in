@@ -77,6 +77,15 @@
 /* Can run programs as root */
 #mesondefine ALWAYS_ROOT
 
+/* Development version save game compatibility */
+#mesondefine FREECIV_DEV_SAVE_COMPAT
+
+#ifdef FREECIV_DEV_SAVE_COMPAT
+/* Current development versions */
+#define FREECIV_DEV_SAVE_COMPAT_3_3
+#define FREECIV_DEV_SAVE_COMPAT_3_2
+#endif /* FREECIV_DEV_SAVE_COMPAT */
+
 /* Have magickwand mapimg toolkit */
 #mesondefine HAVE_MAPIMG_MAGICKWAND
 

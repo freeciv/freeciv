@@ -17,6 +17,7 @@ mp_list_url = ''
 storage_dir = ''
 default_port = ''
 testmatic = ''
+dev_save_compat = ''
 
 proj_def = get_option('project-definition')
 if proj_def != ''
@@ -34,6 +35,8 @@ if proj_def != ''
         default_port = item.substring(21)
       elif item.startswith('FREECIV_TESTMATIC')
         testmatic = item.substring(18)
+      elif item.startswith('FREECIV_DEV_SAVE_COMPAT')
+        dev_save_compat = item.substring(24)
       elif not item.startswith('#') and item != ''
         error('Unknown parameter ' + item + ' in project definition')
       endif
@@ -62,6 +65,12 @@ if testmatic == 'yes'
   pub_conf_data.set('FREECIV_TESTMATIC', 1)
 elif testmatic != '' and testmatic != 'no'
   error('Unknown testmatic value ' + testmatic)
+endif
+
+if dev_save_compat == 'yes'
+  priv_conf_data.set('FREECIV_DEV_SAVE_COMPAT', 1)
+elif dev_save_compat != '' and dev_save_compat != 'no'
+  error('Unknown dev_save_compat value ' + dev_save_compat)
 endif
 
 priv_conf_data.set('BINDIR',
