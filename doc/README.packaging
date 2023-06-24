@@ -26,6 +26,7 @@ Updating from 3.2 to 3.3
   against relatively new gtk4 versions
 * Build with meson supports building gtk4x modpack installer that is linked
   against relatively new gtk4 versions
+* va_copy support is now mandatory
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

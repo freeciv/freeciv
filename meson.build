@@ -382,7 +382,6 @@ priv_functions = [
   'fcntl',
   'ioctl',
   'vsnprintf',
-  'va_copy',
   'localtime_r'
   ]
 

@@ -78,7 +78,7 @@
 #define n_alloc _private_n_alloc_
 
 static const struct astring zero_astr = ASTRING_INIT;
-static char *astr_buffer = NULL;
+static char *astr_buffer = nullptr;
 static size_t astr_buffer_alloc = 0;
 
 static fc_mutex astr_mutex;
@@ -92,19 +92,14 @@ static void astr_buffer_free(void);
 ****************************************************************************/
 static inline char *astr_buffer_get(size_t *alloc)
 {
-  if (!astr_buffer) {
-#ifndef HAVE_VA_COPY
-    /* This buffer will never be grown, so it should be big enough
-     * from the beginning. */
-    astr_buffer_alloc = 65536;
-#else
+  if (astr_buffer == nullptr) {
     astr_buffer_alloc = 4096;
-#endif
     astr_buffer = fc_malloc(astr_buffer_alloc);
     atexit(astr_buffer_free);
   }
 
   *alloc = astr_buffer_alloc;
+
   return astr_buffer;
 }
 
@@ -156,6 +151,7 @@ void astr_free(struct astring *astr)
     fc_assert_ret(NULL != astr->str);
     free(astr->str);
   }
+
   *astr = zero_astr;
 }
 
@@ -223,11 +219,9 @@ static inline void astr_vadd_at(struct astring *astr, size_t at,
   char *buffer;
   size_t buffer_size;
   size_t req_len;
+  va_list copy;
 
   fc_mutex_allocate(&astr_mutex);
-
-#ifdef HAVE_VA_COPY
-  va_list copy;
 
   buffer = astr_buffer_get(&buffer_size);
 
@@ -244,16 +238,6 @@ static inline void astr_vadd_at(struct astring *astr, size_t at,
     }
   }
   va_end(copy);
-#else  /* HAVE_VA_COPY */
-  buffer = astr_buffer_get(&buffer_size);
-
-  req_len = fc_vsnprintf(buffer, buffer_size, format, ap);
-
-  if (req_len > buffer_size) {
-    /* What we actually got */
-    req_len = buffer_size;
-  }
-#endif /* HAVE_VA_COPY */
 
   req_len += at + 1;
 
