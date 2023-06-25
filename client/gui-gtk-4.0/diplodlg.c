@@ -319,6 +319,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
     const struct research *gresearch = research_get(pgiver);
     const struct research *oresearch = research_get(pother);
     GList *sorting_list = NULL;
+    bool team_embassy = team_has_embassy(pgiver->team, pother);
     int i;
 
     submenu = g_menu_new();
@@ -327,8 +328,9 @@ static GMenu *create_clause_menu(GActionGroup *group,
       Tech_type_id tech = advance_number(padvance);
 
       if (research_invention_state(gresearch, tech) == TECH_KNOWN
-          && research_invention_gettable(oresearch, tech,
-                                         game.info.tech_trade_allow_holes)
+          && (!team_embassy /* We don't know what the other could actually receive */
+              || research_invention_gettable(oresearch, tech,
+                                             game.info.tech_trade_allow_holes))
           && (research_invention_state(oresearch, tech) == TECH_UNKNOWN
               || research_invention_state(oresearch, tech)
                  == TECH_PREREQS_KNOWN)) {
