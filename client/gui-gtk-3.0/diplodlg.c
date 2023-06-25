@@ -542,7 +542,7 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
                                _("Cancel _all meetings"),
                                RESPONSE_CANCEL_MEETING_ALL);
 
-    /* Responces for _all_ meetings. */
+    /* Responses for _all_ meetings. */
     gui_dialog_response_set_callback(dipl_main->dialog,
                                      diplomacy_main_response);
     gui_dialog_set_default_response(dipl_main->dialog,
@@ -699,7 +699,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
                              _("Cancel meeting"), RESPONSE_CANCEL_MEETING);
 
-  /* Responces for one meeting. */
+  /* Responses for one meeting. */
   gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
   gui_dialog_set_default_response(pdialog->dialog, RESPONSE_CANCEL_MEETING);
 
