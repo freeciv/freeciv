@@ -2130,7 +2130,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case DEBOARD:
-        if (units_can_unload(punits)) {
+        if (units_can_unload(&(wld.map), punits)) {
           i.value()->setEnabled(true);
         }
         break;

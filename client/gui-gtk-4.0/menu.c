@@ -3932,7 +3932,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive(map, "UNIT_BOARD",
                            units_can_load(punits));
   menu_entry_set_sensitive(map, "UNIT_DEBOARD",
-                           units_can_unload(punits));
+                           units_can_unload(&(wld.map), punits));
   menu_entry_set_sensitive(map, "UNIT_UNLOAD_TRANSPORTER",
                            units_are_occupied(punits));
 

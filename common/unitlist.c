@@ -277,12 +277,13 @@ bool units_can_load(const struct unit_list *punits)
 /************************************************************************//**
   Return TRUE iff any of these units can unload.
 ****************************************************************************/
-bool units_can_unload(const struct unit_list *punits)
+bool units_can_unload(const struct civ_map *nmap,
+                      const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
     if (unit_transported(punit)
         && can_unit_unload(punit, unit_transport_get(punit))
-        && can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))) {
+        && can_unit_exist_at_tile(nmap, punit, unit_tile(punit))) {
       return TRUE;
     }
   } unit_list_iterate_end;

@@ -1324,7 +1324,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_BOARD);
       }
 
-      if (units_can_unload(punits)) {
+      if (units_can_unload(&(wld.map), punits)) {
         local_show(ID_UNIT_ORDER_DEBOARD);
       } else {
         local_hide(ID_UNIT_ORDER_DEBOARD);

@@ -2595,7 +2595,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("UNIT_BOARD",
                            units_can_load(punits));
   menu_entry_set_sensitive("UNIT_DEBOARD",
-                           units_can_unload(punits));
+                           units_can_unload(&(wld.map), punits));
   menu_entry_set_sensitive("UNIT_UNSENTRY", 
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));

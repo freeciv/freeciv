@@ -839,7 +839,7 @@ void unit_item::create_actions()
     load = NULL;
   }
 
-  if (units_can_unload(qunits)) {
+  if (units_can_unload(&(wld.map), qunits)) {
     unload = new QAction(_("Unload"), this);
     connect(unload, &QAction::triggered, this, &unit_item::unload_unit);
   } else {
