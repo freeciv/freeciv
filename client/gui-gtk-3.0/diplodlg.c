@@ -274,6 +274,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     const struct research *oresearch = research_get(pother);
     GtkWidget *advance_item;
     GList *sorting_list = NULL;
+    bool embassy = player_has_embassy(pgiver, pother);
 
     advance_item = gtk_menu_item_new_with_mnemonic(_("_Advances"));
     gtk_menu_shell_append(GTK_MENU_SHELL(parent), advance_item);
@@ -282,8 +283,9 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       Tech_type_id i = advance_number(padvance);
 
       if (research_invention_state(gresearch, i) == TECH_KNOWN
-          && research_invention_gettable(oresearch, i,
-                                         game.info.tech_trade_allow_holes)
+          && (!embassy /* We don't know what the other could actually receive */
+              || research_invention_gettable(oresearch, i,
+                                             game.info.tech_trade_allow_holes))
           && (research_invention_state(oresearch, i) == TECH_UNKNOWN
               || research_invention_state(oresearch, i)
                  == TECH_PREREQS_KNOWN)) {
