@@ -733,6 +733,32 @@ if get_option('audio') or get_option('clients').contains('sdl2')
   endif
 endif
 
+if get_option('clients').contains('sdl3')
+  if host_system == 'windows'
+    sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
+                    c_compiler.find_library('SDL2main', dirs: cross_lib_path),
+                    c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+  else
+    if emscripten
+      emscripten_sdl3_args = [
+        '-s', 'USE_SDL=2'
+      ]
+
+      emscripten_sdl3_args += [
+        '-s', 'USE_SDL_IMAGE=2',
+        '-s', 'USE_SDL_TTF=2',
+        '-s', 'USE_SDL_GFX=2'
+      ]
+
+      add_global_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
+      add_global_link_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
+      sdl3main_dep = []
+    else
+      sdl3main_dep = [c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+    endif
+  endif
+endif
+
 if qtver == 'qt5'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00', language : 'cpp')
   priv_conf_data.set('FC_QT5_MODE', 1)
@@ -3588,6 +3614,146 @@ custom_target('mi_sdl2',
                         meson.project_build_root(), 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
+endif
+
+if get_option('clients').contains('sdl3')
+
+sdl3_gfx_dep = []
+sdl3_gfx_src = []
+sdl3_gfx_inc = []
+sdl3_gfx_cargs = []
+sdl3_image_dep = []
+sdl3_ttf_dep = []
+
+if not emscripten
+  sdl3_gfx_dep = c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path,
+                                         required: false)
+
+  if not sdl3_gfx_dep.found()
+    sdl3_gfx_src = 'dependencies/SDL2_gfx/SDL2_rotozoom.c'
+    sdl3_gfx_inc = include_directories('dependencies')
+    sdl3_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
+  endif
+
+  sdl3_image_dep = c_compiler.find_library('SDL2_image', dirs: cross_lib_path,
+                                           required: false)
+  sdl3_ttf_dep = c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path,
+                                         required: false)
+endif
+
+executable('freeciv-sdl2x',
+  'client/gui-sdl2/action_dialog.c',
+  'client/gui-sdl2/canvas.c',
+  'client/gui-sdl2/chatline.c',
+  'client/gui-sdl2/citydlg.c',
+  'client/gui-sdl2/cityrep.c',
+  'client/gui-sdl2/cma_fe.c',
+  'client/gui-sdl2/colors.c',
+  'client/gui-sdl2/connectdlg.c',
+  'client/gui-sdl2/dialogs.c',
+  'client/gui-sdl2/diplodlg.c',
+  'client/gui-sdl2/finddlg.c',
+  'client/gui-sdl2/gotodlg.c',
+  'client/gui-sdl2/graphics.c',
+  'client/gui-sdl2/gui_main.c',
+  'client/gui-sdl2/gui_mouse.c',
+  'client/gui-sdl2/gui_string.c',
+  'client/gui-sdl2/gui_tilespec.c',
+  'client/gui-sdl2/helpdlg.c',
+  'client/gui-sdl2/infradlg.c',
+  'client/gui-sdl2/inteldlg.c',
+  'client/gui-sdl2/luaconsole.c',
+  'client/gui-sdl2/mapctrl.c',
+  'client/gui-sdl2/mapview.c',
+  'client/gui-sdl2/menu.c',
+  'client/gui-sdl2/messagewin.c',
+  'client/gui-sdl2/optiondlg.c',
+  'client/gui-sdl2/pages.c',
+  'client/gui-sdl2/plrdlg.c',
+  'client/gui-sdl2/repodlgs.c',
+  'client/gui-sdl2/spaceshipdlg.c',
+  'client/gui-sdl2/sprite.c',
+  'client/gui-sdl2/themebackgrounds.c',
+  'client/gui-sdl2/themecolors.c',
+  'client/gui-sdl2/themes.c',
+  'client/gui-sdl2/themespec.c',
+  'client/gui-sdl2/utf8string.c',
+  'client/gui-sdl2/voteinfo_bar.c',
+  'client/gui-sdl2/widget_button.c',
+  'client/gui-sdl2/widget.c',
+  'client/gui-sdl2/widget_checkbox.c',
+  'client/gui-sdl2/widget_combo.c',
+  'client/gui-sdl2/widget_core.c',
+  'client/gui-sdl2/widget_edit.c',
+  'client/gui-sdl2/widget_icon.c',
+  'client/gui-sdl2/widget_label.c',
+  'client/gui-sdl2/widget_scrollbar.c',
+  'client/gui-sdl2/widget_window.c',
+  'client/gui-sdl2/wldlg.c',
+  sdl3_gfx_src,
+  clienticon,
+  c_args: sdl3_gfx_cargs,
+  include_directories: [client_inc, sdl3_gfx_inc ],
+  dependencies: [sdl3main_dep, audio_dep,
+                 sdl3_image_dep, sdl3_gfx_dep, sdl3_ttf_dep,
+                 net_dep, gettext_dep, mw_extra_dep],
+  link_with: client_common,
+  install: true
+  )
+
+install_data('data/themes/gui-sdl2/human/backgrounds.themespec',
+             'data/themes/gui-sdl2/human/bg2.png',
+             'data/themes/gui-sdl2/human/bg.png',
+             'data/themes/gui-sdl2/human/city_fist.png',
+             'data/themes/gui-sdl2/human/city_fist.tspec',
+             'data/themes/gui-sdl2/human/city.png',
+             'data/themes/gui-sdl2/human/city.tspec',
+             'data/themes/gui-sdl2/human/colors.themespec',
+             'data/themes/gui-sdl2/human/COPYING.DejaVu',
+             'data/themes/gui-sdl2/human/COPYING.fireflysung',
+             'data/themes/gui-sdl2/human/COPYING.sazanami',
+             'data/themes/gui-sdl2/human/COPYING.UnDotum',
+             'data/themes/gui-sdl2/human/DejaVuSans.ttf',
+             'data/themes/gui-sdl2/human/dip_icons.png',
+             'data/themes/gui-sdl2/human/dip_icons.tspec',
+             'data/themes/gui-sdl2/human/fireflysung.ttf',
+             'data/themes/gui-sdl2/human/icons.png',
+             'data/themes/gui-sdl2/human/icons.tspec',
+             'data/themes/gui-sdl2/human/intro.png',
+             'data/themes/gui-sdl2/human/options_bg.png',
+             'data/themes/gui-sdl2/human/sazanami-gothic.ttf',
+             'data/themes/gui-sdl2/human/small_theme_buttons.png',
+             'data/themes/gui-sdl2/human/small_theme_buttons.tspec',
+             'data/themes/gui-sdl2/human/tech_tree.png',
+             'data/themes/gui-sdl2/human/tech_tree.tspec',
+             'data/themes/gui-sdl2/human/theme_boxs.png',
+             'data/themes/gui-sdl2/human/theme_boxs.tspec',
+             'data/themes/gui-sdl2/human/theme_buttons.png',
+             'data/themes/gui-sdl2/human/theme_buttons.tspec',
+             'data/themes/gui-sdl2/human/theme_orders_buttons.png',
+             'data/themes/gui-sdl2/human/theme_orders_buttons.tspec',
+             'data/themes/gui-sdl2/human/theme_scrolls.png',
+             'data/themes/gui-sdl2/human/theme_scrolls.tspec',
+             'data/themes/gui-sdl2/human/theme.themespec',
+             'data/themes/gui-sdl2/human/UnDotum.ttf',
+             'data/themes/gui-sdl2/human/world.png',
+             install_dir : join_paths(get_option('datadir'),
+                           'freeciv/themes/gui-sdl2/human'))
+
+install_data(
+  'bootstrap/org.freeciv.sdl2.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
+
+#custom_target('mi_sdl3',
+#              input: 'bootstrap/org.freeciv.sdl3.metainfo.xml.in',
+#              output: '@BASENAME@',
+#              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+#                        '@OUTPUT@',
+#                        meson.project_build_root(), 'development'],
+#              install: true,
+#              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
 endif
 
