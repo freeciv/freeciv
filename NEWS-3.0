@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.7 to 3.0.8
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-15)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-25)
 
 3.0.8 is a generic bugfix release.
 
@@ -56,7 +56,7 @@ General
     * Fixed memory leaks, bad memory access, and improved cleanup
       on shutdown
       osdn#47900 osdn#45906 osdn#47660 osdn#47982 osdn#46191 osdn#48120
-      osdn#48143
+      osdn#48143 osdn#45570
     * Optimizations osdn#47738 osdn#45917 osdn#47838 osdn#47959 osdn#47729
     * Various internal changes which should only affect developers.
       osdn#47671 osdn#47797 osdn#47894 osdn#47909 osdn#48026 osdn#48104
@@ -98,12 +98,16 @@ Clients
          + Made applying fullscreen option from the options dialog
            to take effect immediately osdn#47531
          + Fixed applying "Small Font" setting. Previously it wasn't
-           effective at all {{osdn|48186}}
+           effective at all osdn#48186
+         + gtk3/gtk3.22 Fixed mixup in font size, causing size set
+           in settings in points getting applied in pixels osdn#48185
 
     * qt
          + Fixed sorting of nations dialog columns osdn#47856
          + Fixed crash when the client-side game state gets inconsistent
            between server sent packages osdn#47882
+         + Made applying fullscreen option from the options dialog
+           to take effect immediately osdn#48180
 
     * sdl2
          + Theme font size is actually used. This initial implementation
@@ -132,22 +136,23 @@ Help / Documentation
       osdn#48163
     * Miscellaneous changes to developer/install/ruleset docs
       osdn#47785 osdn#47840 osdn#47932 osdn#47985 osdn#48015 osdn#48113
-      osdn#48027
+      osdn#48027 osdn#47859
 
 Translations
 
-    * Updated translations: fi, fr, ru
+    * Updated translations: fi, fr, pl, ru
 
 Build/portability
 
     * Refreshed bootstrap files from their upstreams
       osdn#47725 osdn#47769 osdn#47855 osdn#47890 osdn#48078 osdn#48076
-      osdn#48077
+      osdn#48077 osdn#48207 osdn#48242
     * Compressing supplied scenarion files is now silent under
       automake's silent mode osdn#47761
     * Fixed some clang analyzer warnings
       osdn#47765 osdn#47811 osdn#47850 osdn#47891 osdn#47926 osdn#45822
       osdn#48025 osdn#47994 osdn#48069 osdn#48081 osdn#48109 osdn#48194
+      osdn#48139
     * Autotools: Added large files support osdn#47830
     * Autotools: Added year 2038 support, if autoconf supports it osdn#47710
     * Flatpak updates
@@ -161,6 +166,7 @@ Build/portability
          + Crosser based installers now use 64bit side of
            the Windows Registry osdn#47724
     * fc_gitrev_gen.h now removed by 'make distclean' osdn#47976
+    * Fixed compile error with gcc-14 development version osdn#48248
 
 
 CHANGES FROM 3.0.6 to 3.0.7
@@ -236,7 +242,7 @@ Clients
     * gtk
          + Do not show empty Production tab on diplomat's
            city investigation dialog osdn#45318
-         + gtk3/gtk.22 Area of the Battle Animation is now set correctly
+         + gtk3/gtk3.22 Area of the Battle Animation is now set correctly
            on screen osdn#47705
 
     * qt
