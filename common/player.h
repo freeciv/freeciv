@@ -198,14 +198,14 @@ enum dipl_reason {
 
 /* The following are for "pacts" */
 struct player_diplstate {
-  enum diplstate_type type; /* this player's disposition towards other */
-  enum diplstate_type max_state; /* maximum treaty level ever had */
-  int first_contact_turn; /* turn we had first contact with this player */
-  int turns_left; /* until pact (e.g., cease-fire) ends */
-  int has_reason_to_cancel; /* 0: no, 1: this turn, 2: this or next turn */
-  int contact_turns_left; /* until contact ends */
+  enum diplstate_type type;  /* This player's disposition towards other */
+  enum diplstate_type max_state; /* Maximum treaty level ever had */
+  int first_contact_turn;    /* Turn we had first contact with this player */
+  char turns_left;           /* Until pact (e.g., cease-fire) ends */
+  char has_reason_to_cancel; /* 0: no, 1: this turn, 2: this or next turn */
+  char contact_turns_left;   /* Until contact ends */
 
-  int auto_cancel_turn; /* used to avoid asymmetric turns_left */
+  int auto_cancel_turn;      /* Used to avoid asymmetric turns_left */
 };
 
 /***************************************************************************
