@@ -23,6 +23,7 @@ Updating from 3.1 to 3.2
 * Threaded AI has been dropped completely
 * Minimum meson requirement for builds made with it is 0.60.0
 * Meson based build is no longer considered experimental, but a supported one
+* Build with meson supports building experimental sdl3-client
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
