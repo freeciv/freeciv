@@ -635,7 +635,7 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
                           _("Cancel _all meetings"),
                           RESPONSE_CANCEL_MEETING_ALL);
 
-    /* Responces for _all_ meetings. */
+    /* Responses for _all_ meetings. */
     gui_dialog_response_set_callback(dipl_main->dialog,
                                      diplomacy_main_response);
 
@@ -793,7 +793,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct Treaty *ptreaty,
   gui_dialog_add_button(pdialog->dialog, NULL,
                         _("Cancel meeting"), RESPONSE_CANCEL_MEETING);
 
-  /* Responces for one meeting. */
+  /* Responses for one meeting. */
   gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
 
   /* Label for the new meeting. */
