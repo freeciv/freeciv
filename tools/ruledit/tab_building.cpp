@@ -120,13 +120,11 @@ void tab_building::refresh()
 {
   bldg_list->clear();
 
-  improvement_iterate(pimpr) {
-    if (!pimpr->ruledit_disabled) {
-      QListWidgetItem *item = new QListWidgetItem(improvement_rule_name(pimpr));
+  improvement_re_active_iterate(pimpr) {
+    QListWidgetItem *item = new QListWidgetItem(improvement_rule_name(pimpr));
 
-      bldg_list->insertItem(improvement_index(pimpr), item);
-    }
-  } improvement_iterate_end;
+    bldg_list->insertItem(improvement_index(pimpr), item);
+  } improvement_re_active_iterate_end;
 }
 
 /**********************************************************************//**
