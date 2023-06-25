@@ -135,13 +135,11 @@ void tab_tech::refresh()
 {
   tech_list->clear();
 
-  advance_iterate(A_FIRST, padv) {
-    if (padv->require[AR_ONE] != A_NEVER) {
-      QListWidgetItem *item = new QListWidgetItem(advance_rule_name(padv));
+  advance_re_active_iterate(padv) {
+    QListWidgetItem *item = new QListWidgetItem(advance_rule_name(padv));
 
-      tech_list->insertItem(advance_index(padv), item);
-    }
-  } advance_iterate_end;
+    tech_list->insertItem(advance_index(padv), item);
+  } advance_re_active_iterate_end;
 
   techs_to_menu(req1);
   techs_to_menu(req2);

@@ -115,13 +115,11 @@ void tab_unit::refresh()
 {
   unit_list->clear();
 
-  unit_type_iterate(ptype) {
-    if (!ptype->ruledit_disabled) {
-      QListWidgetItem *item = new QListWidgetItem(utype_rule_name(ptype));
+  unit_type_re_active_iterate(ptype) {
+    QListWidgetItem *item = new QListWidgetItem(utype_rule_name(ptype));
 
-      unit_list->insertItem(utype_index(ptype), item);
-    }
-  } unit_type_iterate_end;
+    unit_list->insertItem(utype_index(ptype), item);
+  } unit_type_re_active_iterate_end;
 }
 
 /**********************************************************************//**

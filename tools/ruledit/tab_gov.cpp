@@ -114,14 +114,12 @@ void tab_gov::refresh()
 {
   gov_list->clear();
 
-  governments_iterate(pgov) {
-    if (!pgov->ruledit_disabled) {
-      QListWidgetItem *item =
-        new QListWidgetItem(QString::fromUtf8(government_rule_name(pgov)));
+  governments_re_active_iterate(pgov) {
+    QListWidgetItem *item
+      = new QListWidgetItem(QString::fromUtf8(government_rule_name(pgov)));
 
-      gov_list->insertItem(government_index(pgov), item);
-    }
-  } governments_iterate_end;
+    gov_list->insertItem(government_index(pgov), item);
+  } governments_re_active_iterate_end;
 }
 
 /**********************************************************************//**
