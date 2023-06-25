@@ -115,14 +115,12 @@ void tab_good::refresh()
 {
   good_list->clear();
 
-  goods_type_iterate(pgood) {
-    if (!pgood->ruledit_disabled) {
-      QListWidgetItem *item =
-        new QListWidgetItem(QString::fromUtf8(goods_rule_name(pgood)));
+  goods_type_re_active_iterate(pgood) {
+    QListWidgetItem *item
+      = new QListWidgetItem(QString::fromUtf8(goods_rule_name(pgood)));
 
-      good_list->insertItem(goods_index(pgood), item);
-    }
-  } goods_type_iterate_end;
+    good_list->insertItem(goods_index(pgood), item);
+  } goods_type_re_active_iterate_end;
 }
 
 /**********************************************************************//**

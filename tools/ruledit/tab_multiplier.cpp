@@ -110,14 +110,12 @@ void tab_multiplier::refresh()
 {
   mpr_list->clear();
 
-  multipliers_iterate(pmul) {
-    if (!pmul->ruledit_disabled) {
-      QListWidgetItem *item =
-        new QListWidgetItem(QString::fromUtf8(multiplier_rule_name(pmul)));
+  multipliers_re_active_iterate(pmul) {
+    QListWidgetItem *item
+      = new QListWidgetItem(QString::fromUtf8(multiplier_rule_name(pmul)));
 
-      mpr_list->insertItem(multiplier_index(pmul), item);
-    }
-  } multipliers_iterate_end;
+    mpr_list->insertItem(multiplier_index(pmul), item);
+  } multipliers_re_active_iterate_end;
 }
 
 /**********************************************************************//**

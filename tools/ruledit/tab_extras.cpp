@@ -121,14 +121,12 @@ void tab_extras::refresh()
 {
   extra_list->clear();
 
-  extra_type_iterate(pextra) {
-    if (!pextra->ruledit_disabled) {
-      QListWidgetItem *item =
-        new QListWidgetItem(QString::fromUtf8(extra_rule_name(pextra)));
+  extra_type_re_active_iterate(pextra) {
+    QListWidgetItem *item
+      = new QListWidgetItem(QString::fromUtf8(extra_rule_name(pextra)));
 
-      extra_list->insertItem(extra_index(pextra), item);
-    }
-  } extra_type_iterate_end;
+    extra_list->insertItem(extra_index(pextra), item);
+  } extra_type_re_active_iterate_end;
 }
 
 /**********************************************************************//**
