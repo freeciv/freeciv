@@ -339,7 +339,7 @@ reqs	=
       "Tech", "Global Knowledge", "Player"
     }
 graphic         = "b.information_distillery"
-graphic_alt     = "b.isaac_newtons_college"
+graphic_alt     = "b.research_lab"
 graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
