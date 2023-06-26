@@ -1412,7 +1412,7 @@ static void popup_war_dialog(struct player *pPlayer)
   /* Label */
   fc_snprintf(cBuf, sizeof(cBuf), _("Shall we declare WAR on them?"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(14));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_HEADING);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_WARDLG_TEXT);
 
@@ -1544,16 +1544,18 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     /* ============================================================= */
     /* Label */
     if (client.conn.playing == NULL || client.conn.playing->is_male) {
-      fc_snprintf(cBuf, sizeof(cBuf), _("Sir!, the %s ambassador has arrived\n"
-                                        "What are your wishes?"),
+      fc_snprintf(cBuf, sizeof(cBuf),
+                  _("Sir!, the %s ambassador has arrived\n"
+                    "What are your wishes?"),
                   nation_adjective_for_player(pPlayer));
     } else {
-      fc_snprintf(cBuf, sizeof(cBuf), _("Ma'am!, the %s ambassador has arrived\n"
-                                        "What are your wishes?"),
+      fc_snprintf(cBuf, sizeof(cBuf),
+                  _("Ma'am!, the %s ambassador has arrived\n"
+                    "What are your wishes?"),
                   nation_adjective_for_player(pPlayer));
     }
 
-    pstr = create_utf8_from_char(cBuf, adj_font(14));
+    pstr = create_utf8_from_char_fonto(cBuf, FONTO_HEADING);
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_TEXT);
 

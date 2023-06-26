@@ -189,9 +189,10 @@ static void show_main_page(void)
   add_to_gui_list(ID_LABEL, pWidget);
 
   /* Start New Game */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Start New Game"),
-                                        adj_font(14),
-                                        (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+  pWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                              _("Start New Game"),
+                                              FONTO_HEADING,
+                  (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   pWidget->action = start_new_game_callback;
   pWidget->string_utf8->style |= SF_CENTER;
@@ -204,9 +205,10 @@ static void show_main_page(void)
   add_to_gui_list(ID_START_NEW_GAME, pWidget);
 
   /* Load Game */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Load Game"),
-                                        adj_font(14),
-                                        (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
+  pWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                              _("Load Game"),
+                                              FONTO_HEADING,
+                                (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
 
   pWidget->action = load_game_callback;
   pWidget->string_utf8->style |= SF_CENTER;
@@ -219,9 +221,10 @@ static void show_main_page(void)
   count++;
 
   /* Join Game */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Game"),
-                                        adj_font(14),
-                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+  pWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                              _("Join Game"),
+                                              FONTO_HEADING,
+                                  WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = join_game_callback;
   pWidget->string_utf8->style |= SF_CENTER;
@@ -234,9 +237,10 @@ static void show_main_page(void)
   count++;
 
   /* Join Pubserver */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Pubserver"),
-                                        adj_font(14),
-                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+  pWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                              _("Join Pubserver"),
+                                              FONTO_HEADING,
+                                  WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = servers_callback;
   pWidget->string_utf8->style |= SF_CENTER;
@@ -249,9 +253,10 @@ static void show_main_page(void)
   count++;
 
   /* Join LAN Server */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join LAN Server"),
-                                        adj_font(14),
-                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+  pWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                              _("Join LAN Server"),
+                                              FONTO_HEADING,
+                                  WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = servers_callback;
   pWidget->string_utf8->style |= SF_CENTER;
@@ -264,9 +269,10 @@ static void show_main_page(void)
   count++;
 
   /* Options */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Options"),
-                                        adj_font(14),
-                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+  pWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                              _("Options"),
+                                              FONTO_HEADING,
+                                  WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = options_callback;
   pWidget->string_utf8->style |= SF_CENTER;
@@ -279,9 +285,10 @@ static void show_main_page(void)
   count++;
 
   /* Quit */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Quit"),
-                                        adj_font(14),
-                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+  pWidget = create_iconlabel_from_chars_fonto(NULL, pWindow->dst,
+                                              _("Quit"),
+                                              FONTO_HEADING,
+                                  WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = quit_callback;
   pWidget->string_utf8->style |= SF_CENTER;

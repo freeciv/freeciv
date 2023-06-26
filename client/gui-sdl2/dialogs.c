@@ -2884,8 +2884,10 @@ static int nation_button_callback(struct widget *pNationButton)
       pHelpDlg->pEndWidgetList = pWindow;
       add_to_gui_list(ID_WINDOW, pWindow);
 
-      pOK_Button = create_themeicon_button_from_chars(current_theme->OK_Icon,
-                               pWindow->dst, _("OK"), adj_font(14), 0);
+      pOK_Button
+        = create_themeicon_button_from_chars_fonto(current_theme->OK_Icon,
+                                                   pWindow->dst, _("OK"),
+                                                   FONTO_HEADING, 0);
       pOK_Button->action = cancel_help_dlg_callback;
       set_wstate(pOK_Button, FC_WS_NORMAL);
       pOK_Button->key = SDLK_ESCAPE;
@@ -2894,7 +2896,8 @@ static int nation_button_callback(struct widget *pNationButton)
     } else {
       pWindow = pHelpDlg->pEndWidgetList;
       pOK_Button = pHelpDlg->pBeginWidgetList;
-      /* undraw window */
+
+      /* Undraw window */
       widget_undraw(pWindow);
       widget_mark_dirty(pWindow);
     }
@@ -3272,8 +3275,9 @@ void popup_races_dialog(struct player *pplayer)
   pSetup->pName_Prev = pWidget;
 
   /* Change sex button */
-  pWidget = create_icon_button_from_chars(NULL, pWindow->dst,
-                                          _("Male"), adj_font(14), 0);
+  pWidget = create_icon_button_from_chars_fonto(NULL, pWindow->dst,
+                                                _("Male"),
+                                                FONTO_HEADING, 0);
   pWidget->action = change_sex_callback;
   pWidget->size.w = adj_size(100);
   pWidget->size.h = adj_size(22);

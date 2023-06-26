@@ -307,7 +307,7 @@ void update_intel_dialog(struct player *p)
                 _("Intelligence Information for the %s Empire"),
                 nation_adjective_for_player(p));
 
-    pstr = create_utf8_from_char(cBuf, adj_font(14));
+    pstr = create_utf8_from_char_fonto(cBuf, FONTO_HEADING);
     pstr->style |= TTF_STYLE_BOLD;
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
