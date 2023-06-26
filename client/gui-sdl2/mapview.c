@@ -949,7 +949,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
         fc_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
                     _("End of Turn"), _("Press"), _("Shift+Return"));
-        pstr = create_utf8_from_char(buf, adj_font(14));
+        pstr = create_utf8_from_char_fonto(buf, FONTO_HEADING);
         pstr->style = SF_CENTER;
         pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
         buf_surf = create_text_surf_from_utf8(pstr);
@@ -959,12 +959,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         alphablit(buf_surf, NULL, info_window->dst->surface, &area, 255);
         FREESURFACE(buf_surf);
         FREEUTF8STR(pstr);
-        /* fix the bug of child dialogs not showing up when player's turn ends */
+        /* Fix the bug of child dialogs not showing up when player's turn ends */
         flush_all();
       }
     }
 
-    /* draw buttons */
+    /* Draw buttons */
     redraw_group(info_window->private_data.adv_dlg->begin_widget_list,
                  info_window->private_data.adv_dlg->end_widget_list->prev, 0);
 
