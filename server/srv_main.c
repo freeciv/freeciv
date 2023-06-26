@@ -3250,7 +3250,9 @@ static void srv_ready(void)
       players_iterate(pdest) {
         if (players_on_same_team(pplayer, pdest)
             && player_number(pplayer) != player_number(pdest)) {
-          player_diplstate_get(pplayer, pdest)->type = DS_TEAM;
+          set_diplstate_type(player_diplstate_get(pplayer, pdest),
+                             player_diplstate_get(pdest, pplayer),
+                             DS_TEAM);
           give_shared_vision(pplayer, pdest);
           BV_SET(pplayer->real_embassy, player_index(pdest));
         }
