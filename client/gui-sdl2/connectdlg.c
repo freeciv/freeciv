@@ -309,9 +309,10 @@ void popup_connection_dialog(bool lan_scan)
   meta_server->end_widget_list = pwindow;
 
   /* Cancel button */
-  new_widget = create_themeicon_button_from_chars(current_theme->cancel_icon,
-                                                  pwindow->dst, _("Cancel"),
-                                                  adj_font(14), 0);
+  new_widget
+    = create_themeicon_button_from_chars_fonto(current_theme->cancel_icon,
+                                               pwindow->dst, _("Cancel"),
+                                               FONTO_HEADING, 0);
   new_widget->action = exit_meta_server_dlg_callback;
   set_wstate(new_widget, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, new_widget);
@@ -319,7 +320,7 @@ void popup_connection_dialog(bool lan_scan)
   /* Servers */
   server_list_iterate(server_list, server) {
 
-    /* TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
+    /* TRANS: "host.example.com Port 5556 Ver: 3.1.0 Running Players 3\n
      * [server message]" */
     fc_snprintf(cbuf, sizeof(cbuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
                 server->host, server->port, server->version, _(server->state),
@@ -569,9 +570,10 @@ void popup_join_game_dialog(void)
   area.h += buf->size.h + adj_size(20);
 
   /* Player name edit */
-  buf = create_edit_from_chars(NULL, pwindow->dst, user_name, adj_font(14),
-                               adj_size(210),
-                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+  buf = create_edit_from_chars_fonto(NULL, pwindow->dst, user_name,
+                                     FONTO_HEADING,
+                                     adj_size(210),
+                                     (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_playername_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_PLAYER_NAME_EDIT, buf);
@@ -586,8 +588,9 @@ void popup_join_game_dialog(void)
   area.h += buf->size.h + adj_size(5);
 
   /* Server name edit */
-  buf = create_edit_from_chars(NULL, pwindow->dst, server_host, adj_font(14),
-                               adj_size(210), WF_RESTORE_BACKGROUND);
+  buf = create_edit_from_chars_fonto(NULL, pwindow->dst, server_host,
+                                     FONTO_HEADING,
+                                     adj_size(210), WF_RESTORE_BACKGROUND);
 
   buf->action = convert_servername_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -605,9 +608,10 @@ void popup_join_game_dialog(void)
   /* Port edit */
   fc_snprintf(port_str, sizeof(port_str), "%d", server_port);
 
-  buf = create_edit_from_chars(NULL, pwindow->dst, port_str, adj_font(14),
-                               adj_size(210),
-                               WF_RESTORE_BACKGROUND);
+  buf = create_edit_from_chars_fonto(NULL, pwindow->dst, port_str,
+                                     FONTO_HEADING,
+                                     adj_size(210),
+                                     WF_RESTORE_BACKGROUND);
 
   buf->action = convert_portnr_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -615,17 +619,19 @@ void popup_join_game_dialog(void)
   area.h += buf->size.h + adj_size(20);
 
   /* Connect button */
-  buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
-                                           _("Connect"), adj_font(14), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->ok_icon,
+                                                 pwindow->dst,
+                                                 _("Connect"),
+                                                 FONTO_HEADING, 0);
   buf->action = connect_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_RETURN;
   add_to_gui_list(ID_CONNECT_BUTTON, buf);
 
   /* Cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
-                                           pwindow->dst, _("Cancel"),
-                                           adj_font(14), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->cancel_icon,
+                                                 pwindow->dst, _("Cancel"),
+                                                 FONTO_HEADING, 0);
   buf->action = cancel_connect_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -811,16 +817,20 @@ static void popup_user_passwd_dialog(const char *message)
   area.h += buf->size.h + adj_size(10);
 
   /* Next button */
-  buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
-                                           _("Next"), adj_font(14), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->ok_icon,
+                                                 pwindow->dst,
+                                                 _("Next"),
+                                                 FONTO_HEADING, 0);
   buf->action = send_passwd_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_RETURN;
   add_to_gui_list(ID_BUTTON, buf);
 
   /* Cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->cancel_icon, pwindow->dst,
-                                           _("Cancel"), adj_font(14), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->cancel_icon,
+                                                 pwindow->dst,
+                                                 _("Cancel"),
+                                                 FONTO_HEADING, 0);
   buf->action = cancel_passwd_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -983,16 +993,18 @@ static void popup_new_user_passwd_dialog(const char *message)
   area.h += buf->size.h + adj_size(10);
 
   /* Next button */
-  buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
-                                           _("Next"), adj_font(14), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->ok_icon,
+                                                 pwindow->dst,
+                                                 _("Next"),
+                                                 FONTO_HEADING, 0);
   buf->action = send_passwd_callback;
   buf->key = SDLK_RETURN;
   add_to_gui_list(ID_BUTTON, buf);
 
   /* Cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
-                                           pwindow->dst, _("Cancel"),
-                                           adj_font(14), 0);
+  buf = create_themeicon_button_from_chars_fonto(current_theme->cancel_icon,
+                                                 pwindow->dst, _("Cancel"),
+                                                 FONTO_HEADING, 0);
   buf->action = cancel_passwd_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;

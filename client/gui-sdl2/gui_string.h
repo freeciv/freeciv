@@ -62,7 +62,8 @@ typedef struct utf8_str {
 
 enum font_origin {
   FONTO_DEFAULT,
-  FONTO_ATTENTION
+  FONTO_ATTENTION,
+  FONTO_HEADING
 };
 
 utf8_str *create_utf8_str_fonto(char *in_text, size_t n_alloc,
