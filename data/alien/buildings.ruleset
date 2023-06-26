@@ -311,7 +311,7 @@ reqs	=
       "Tech", "Global Knowledge", "Player"
     }
 graphic         = "b.information_distillery"
-graphic_alt     = "b.isaac_newtons_college"
+graphic_alt     = "b.research_lab"
 obsolete_by	=
     { "type", "name", "range"
     }

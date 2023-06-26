@@ -22,5 +22,5 @@ pixel_border = 0
 
 tiles = { "row", "column", "tag"
   0,  0, "b.hospital"
-  0,  1, "b.genetic_lab"
+  0,  1, "b.genetic_lab", "b.headquarters"
 }
