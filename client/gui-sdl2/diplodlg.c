@@ -1437,7 +1437,7 @@ static void popup_war_dialog(struct player *pplayer)
   /* Label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Shall we declare WAR on them?"));
 
-  pstr = create_utf8_from_char(cbuf, adj_font(14));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_HEADING);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_WARDLG_TEXT);
 
@@ -1578,7 +1578,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
                   nation_adjective_for_player(pplayer));
     }
 
-    pstr = create_utf8_from_char(cbuf, adj_font(14));
+    pstr = create_utf8_from_char_fonto(cbuf, FONTO_HEADING);
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_TEXT);
 

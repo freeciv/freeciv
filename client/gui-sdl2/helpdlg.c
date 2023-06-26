@@ -1071,7 +1071,7 @@ static void redraw_tech_info_dlg(void)
                get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /* -------------------------- */
-  pstr = create_utf8_from_char(_("Allows"), adj_font(14));
+  pstr = create_utf8_from_char_fonto(_("Allows"), FONTO_HEADING);
   pstr->style |= TTF_STYLE_BOLD;
 
   text0 = create_text_surf_from_utf8(pstr);
@@ -1224,10 +1224,11 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       if (VUT_ADVANCE == preq->source.kind
           && advance_number(preq->source.value.advance) == tech) {
 
-        pwidget = create_iconlabel_from_chars(adj_surf(get_government_surface(gov)),
+        pwidget
+          = create_iconlabel_from_chars_fonto(adj_surf(get_government_surface(gov)),
                 pwindow->dst,
                 government_name_translation(gov),
-                adj_font(14),
+                FONTO_HEADING,
                 WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR | WF_FREE_THEME);
         set_wstate(pwidget, FC_WS_NORMAL);
         pwidget->action = change_gov_callback;
@@ -1250,12 +1251,12 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
         if (VUT_ADVANCE == preq->source.kind
             && advance_number(preq->source.value.advance) == tech) {
           surf = get_building_surface(pimprove);
-          pwidget = create_iconlabel_from_chars(
+          pwidget = create_iconlabel_from_chars_fonto(
                   resize_surface_box(surf, adj_size(48), adj_size(48), 1, TRUE,
                                      TRUE),
                   pwindow->dst,
                   improvement_name_translation(pimprove),
-                  adj_font(14),
+                  FONTO_HEADING,
                   WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR);
           set_wstate(pwidget, FC_WS_NORMAL);
           if (is_wonder(pimprove)) {
@@ -1275,13 +1276,11 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   unit_count = 0;
   unit_type_iterate(un) {
-    struct unit_type *punittype = un;
-
-    if (advance_number(punittype->require_advance) == tech) {
-      pwidget = create_iconlabel_from_chars(
+    if (advance_number(un->require_advance) == tech) {
+      pwidget = create_iconlabel_from_chars_fonto(
                                    resize_surface_box(get_unittype_surface(un, direction8_invalid()),
                                    adj_size(48), adj_size(48), 1, TRUE, TRUE),
-                  pwindow->dst, utype_name_translation(punittype), adj_font(14),
+                  pwindow->dst, utype_name_translation(un), FONTO_HEADING,
                   (WF_FREE_THEME | WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_unit_callback;
