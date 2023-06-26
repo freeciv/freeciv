@@ -13,6 +13,9 @@ if test "x$7" != "x" && ! test -x "$7" ; then
   exit 1
 fi
 
+ARCH_KEY_PART="crs"
+ARCH_INST_PART="-crs"
+
 cat <<EOF
 ; Freeciv Windows installer script
 ; some parts adapted from Wesnoth installer script
@@ -26,28 +29,31 @@ SetCompressor /SOLID lzma
 !define MPGUI_ID $MPGUI_ID
 !define GUI_NAME $4
 !define WIN_ARCH $5
-!define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
+!define ARCH_KEY_PART ${ARCH_KEY_PART}
+!define ARCH_INST_PART ${ARCH_INST_PART}
+
+!define APPID "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
 !define MULTIUSER_USE_PROGRAMFILES64
-!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}-\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
 
-;General
+; General
 
 Name "\${APPNAME} \${VERSION} (\${GUI_NAME} client)"
 OutFile "Output/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
 
-;Variables
+; Variables
 
 Var STARTMENU_FOLDER
 Var DefaultLanguageCode
@@ -62,9 +68,9 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MULTIUSER_PAGE_INSTALLMODE
 !insertmacro MUI_PAGE_DIRECTORY
 
-;Start Menu Folder Page Configuration
+; Start Menu Folder Page Configuration
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "SHCTX" 
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}" 
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "\$(^Name)"
 
@@ -80,13 +86,13 @@ Page custom HelperScriptFunction
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
 
-;Languages
+; Languages
 
 !insertmacro MUI_LANGUAGE "English"
 
 EOF
 
-### required files ###
+### Required files ###
 
 cat <<EOF
 ; The stuff to install
@@ -97,14 +103,14 @@ Section "\${APPNAME} (required)"
   SetOutPath \$INSTDIR
 EOF
 
-  # find files and directories to exclude from default installation
+  # Find files and directories to exclude from default installation
 
   echo -n "  File /nonfatal /r "
 
-  # languages
+  # Languages
   echo -n "/x locale "
 
-  # soundsets
+  # Soundsets
   find $1/data -mindepth 1 -maxdepth 1 -name *.soundspec -printf %f\\n |
   sed 's|.soundspec||' |
   while read -r name
@@ -117,7 +123,7 @@ EOF
 cat <<EOF
 
   ; Write the installation path into the registry
-  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID} "" "\$INSTDIR"
+  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID} "" "\$INSTDIR"
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
@@ -127,7 +133,7 @@ cat <<EOF
 EOF
 
 if test "x$3" = "xqt" ; then
-    echo "  CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\\\\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\\\\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
+  echo "  CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\\\\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\\\\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
 fi
 
 cat <<EOF
@@ -149,7 +155,7 @@ SectionEnd
 
 EOF
 
-### soundsets ###
+### Soundsets ###
 
 cat <<EOF
 SectionGroup "Soundsets"
@@ -178,7 +184,7 @@ SectionGroupEnd
 
 EOF
 
-### additional languages ###
+### Additional languages ###
 
 cat <<EOF
 SectionGroup "Additional languages (translation %)"
@@ -291,13 +297,13 @@ FunctionEnd
 
 EOF
 
-### uninstall section ###
+### Uninstall section ###
 
 cat <<EOF
-; special uninstall section.
+; Special uninstall section.
 Section "Uninstall"
 
-  ; remove files
+  ; Remove files
 EOF
 
 find $1 -type f |
@@ -333,19 +339,20 @@ cat <<EOF
   ; MUST REMOVE UNINSTALLER, too
   Delete "\$INSTDIR\uninstall.exe"
 
-  ; remove install directory, if empty
+  ; Remove install directory, if empty
   RMDir "\$INSTDIR"
 
-  ; remove shortcuts, if any.
+  ; Remove shortcuts, if any.
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" \$STARTMENU_FOLDER
   Delete "\$SMPROGRAMS\\\$STARTMENU_FOLDER\*.*"
   RMDir "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
 
   ; Remove registry keys
   DeleteRegKey "SHCTX" "Software\Microsoft\Windows\CurrentVersion\Uninstall\\\${APPID}"
-  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID} ""
-  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID} "Start Menu Folder"
-  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}
+  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID} ""
+  DeleteRegValue "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID} "Start Menu Folder"
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}
 SectionEnd
