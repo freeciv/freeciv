@@ -114,7 +114,7 @@ void citizens_nation_add(struct city *pcity, const struct player_slot *pslot,
   fc_assert_ret(pcity != NULL);
   fc_assert_ret(pcity->nationality != NULL);
 
-  fc_assert_ret(MAX_CITY_SIZE - nationality > add);
+  fc_assert_ret(MAX_CITY_SIZE - nationality >= add);
   fc_assert_ret(nationality >= -add);
 
   citizens_nation_set(pcity, pslot, nationality + add);
