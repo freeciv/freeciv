@@ -1074,12 +1074,11 @@ static void setup_widgets(void)
 {
   GtkWidget *page, *hgrid, *hgrid2, *label;
   GtkWidget *frame, *table, *table2, *paned, *sw, *text;
-  GtkWidget *button, *view, *vgrid, *vbox, *right_vbox = NULL;
+  GtkWidget *button, *view, *mainbox, *vbox, *right_vbox = NULL;
   int i;
   GtkWidget *notebook, *statusbar;
   GtkWidget *dtach_lowbox = NULL;
   struct sprite *spr;
-  int grid_row = 0;
   int right_row = 0;
   int top_row = 0;
   int grid_col = 0;
@@ -1095,14 +1094,11 @@ static void setup_widgets(void)
   toplevel_tabs = notebook;
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
-  vgrid = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
-  gtk_window_set_child(GTK_WINDOW(toplevel), vgrid);
-  gtk_grid_attach(GTK_GRID(vgrid), notebook, 0, grid_row++, 1, 1);
+  mainbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
+  gtk_window_set_child(GTK_WINDOW(toplevel), mainbox);
+  gtk_box_append(GTK_BOX(mainbox), notebook);
   statusbar = create_statusbar();
-  gtk_grid_attach(GTK_GRID(vgrid), statusbar, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(mainbox), statusbar);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       create_main_page(), NULL);
@@ -1241,12 +1237,9 @@ static void setup_widgets(void)
 
   main_frame_civ_name = frame;
 
-  vgrid = gtk_grid_new();
-  grid_row = 0;
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_frame_set_child(GTK_FRAME(frame), vgrid);
-  gtk_widget_set_hexpand(vgrid, TRUE);
+  mainbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  gtk_frame_set_child(GTK_FRAME(frame), mainbox);
+  gtk_widget_set_hexpand(mainbox, TRUE);
 
   label = gtk_label_new(NULL);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -1260,7 +1253,7 @@ static void setup_widgets(void)
   g_signal_connect(mc_controller, "pressed",
                    G_CALLBACK(show_info_popup), frame);
   gtk_widget_add_controller(label, mc_controller);
-  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(mainbox), label);
   main_label_info = label;
 
   /* Production status */
@@ -1436,14 +1429,10 @@ static void setup_widgets(void)
 
   map_widget = gtk_grid_new();
 
-  vgrid = gtk_grid_new();
-  grid_row = 0;
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_attach(GTK_GRID(vgrid), map_widget, 0, grid_row++, 1, 1);
+  mainbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  gtk_box_append(GTK_BOX(mainbox), map_widget);
 
-  gtk_grid_attach(GTK_GRID(vgrid), editgui_get_editbar()->widget,
-                  0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(mainbox), editgui_get_editbar()->widget);
   ebar = editgui_get_editbar()->widget;
   gtk_widget_set_margin_bottom(ebar, 4);
   gtk_widget_set_margin_end(ebar, 4);
@@ -1451,7 +1440,7 @@ static void setup_widgets(void)
   gtk_widget_set_margin_top(ebar, 4);
 
   label = gtk_label_new(Q_("?noun:View"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), vgrid, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), mainbox, label);
 
   frame = gtk_frame_new(NULL);
   gtk_grid_attach(GTK_GRID(map_widget), frame, 0, 0, 1, 1);
@@ -1537,21 +1526,18 @@ static void setup_widgets(void)
     gtk_paned_set_end_child(GTK_PANED(paned), dtach_lowbox);
     avbox = detached_widget_fill(dtach_lowbox);
 
-    vgrid = gtk_grid_new();
-    grid_row = 0;
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                   GTK_ORIENTATION_VERTICAL);
+    mainbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     if (!GUI_GTK_OPTION(small_display_layout)) {
-      gtk_grid_attach(GTK_GRID(vgrid), ingame_votebar, 0, grid_row++, 1, 1);
+      gtk_box_append(GTK_BOX(mainbox), ingame_votebar);
     }
-    gtk_box_append(GTK_BOX(avbox), vgrid);
+    gtk_box_append(GTK_BOX(avbox), mainbox);
 
     if (GUI_GTK_OPTION(small_display_layout)) {
       hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     } else {
       hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
     }
-    gtk_grid_attach(GTK_GRID(vgrid), hpaned, 0, grid_row++, 1, 1);
+    gtk_box_append(GTK_BOX(mainbox), hpaned);
     gtk_widget_set_margin_bottom(hpaned, 4);
     gtk_widget_set_margin_end(hpaned, 4);
     gtk_widget_set_margin_start(hpaned, 4);
@@ -1572,21 +1558,18 @@ static void setup_widgets(void)
     }
   }
 
-  vgrid = gtk_grid_new();
-  grid_row = 0;
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
+  mainbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw),
-				    TRUE);
+                                    TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
-  				 GTK_POLICY_ALWAYS);
-  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
+                                 GTK_POLICY_ALWAYS);
+  gtk_box_append(GTK_BOX(mainbox), sw);
 
   label = gtk_label_new(_("Chat"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), vgrid, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), mainbox, label);
 
   text = gtk_text_view_new_with_buffer(message_buffer);
   gtk_widget_set_hexpand(text, TRUE);
@@ -1610,7 +1593,7 @@ static void setup_widgets(void)
 
   /* The chat line */
   view = inputline_toolkit_view_new();
-  gtk_grid_attach(GTK_GRID(vgrid), view, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(mainbox), view);
   gtk_widget_set_margin_bottom(view, 3);
   gtk_widget_set_margin_end(view, 3);
   gtk_widget_set_margin_start(view, 3);
