@@ -1132,7 +1132,9 @@ void city_size_add(struct city *pcity, int add)
   citizens size = city_size_get(pcity);
 
   fc_assert_ret(pcity != NULL);
-  fc_assert_ret(MAX_CITY_SIZE - size > add);
+  fc_assert_ret(MAX_CITY_SIZE - size >= add);
+
+  /* Client sets size to zero to start stacking citizens in */
   fc_assert_ret(size >= -add);
 
   city_size_set(pcity, size + add);
