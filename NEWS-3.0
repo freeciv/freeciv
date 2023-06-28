@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.7 to 3.0.8
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-25)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-28)
 
 3.0.8 is a generic bugfix release.
 
@@ -136,11 +136,16 @@ Help / Documentation
       osdn#48163
     * Miscellaneous changes to developer/install/ruleset docs
       osdn#47785 osdn#47840 osdn#47932 osdn#47985 osdn#48015 osdn#48113
-      osdn#48027 osdn#47859
+      osdn#48027 osdn#47859 osdn#47796 osdn#48276
 
 Translations
 
     * Updated translations: fi, fr, pl, ru
+         + Complete translations: Polish
+         + Incomplete translations:
+            Finnish (100% core, 93% nations, 100% ruledit),
+            French (99% core, 100% nations, 99% ruledit),
+            Russian (99% core, 100% nations, 100% ruledit)
 
 Build/portability
 
