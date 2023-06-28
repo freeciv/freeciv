@@ -437,7 +437,8 @@ else
   # Maybe it exist as a macro instead?
   if c_compiler.compiles(net_incl + '''
 int main(void) { getaddrinfo(NULL, NULL, NULL, NULL); }''',
-  include_directories: include_directories(cross_inc_path))
+  include_directories: include_directories(cross_inc_path),
+  name: 'getaddrinfo() as a macro')
     priv_conf_data.set('HAVE_GETADDRINFO', 1)
     pub_conf_data.set('FREECIV_IPV6_SUPPORT', 1)
   else
@@ -500,6 +501,7 @@ endif
 if c_compiler.compiles('''
 #include <stddef>
 int main(void) { int *var = nullptr; return 0; }''',
+  name: 'c23 nullptr',
   include_directories: include_directories(cross_inc_path))
   pub_conf_data.set('FREECIV_HAVE_C23_NULLPTR', 1)
 endif
@@ -507,6 +509,7 @@ endif
 if cxx_compiler.compiles('''
 #include <cstddef>
 int main(void) { int *var = nullptr; return 0; }''',
+  name: 'cxx nullptr',
   include_directories: include_directories(cross_inc_path))
   pub_conf_data.set('FREECIV_HAVE_CXX_NULLPTR', 1)
 endif
@@ -634,6 +637,7 @@ endif
 
 if c_compiler.compiles('''#include <netinet/in.h>
 int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''',
+  name: 'ip_mreqn',
   include_directories: include_directories(cross_inc_path))
   priv_conf_data.set('HAVE_IP_MREQN', 1)
 endif
@@ -654,6 +658,7 @@ endif
 if c_compiler.compiles('''#include <stddef.h>
 #include <iconv.h>
 int main(void) { iconv_t cd; const char **c; iconv(cd, c, NULL, NULL); return 0; }''',
+  name: 'iconv const',
   include_directories: include_directories(cross_inc_path))
   priv_conf_data.set('ICONV_CONST', 'const')
 else
@@ -682,6 +687,7 @@ void fr(const char *form, ...)
 #define fr(_a_,_b_) printf(_a_,_b_)
 #endif
 int main(void) { size_t var = 0; fr("''' + format + '''", var); return 0; }''',
+  name: 'size_t printf as ' + format,
   include_directories: include_directories(cross_inc_path),
   args: ['-Werror', '-Wall'])
     priv_conf_data.set('SIZE_T_PRINTF', '"' + format + '"')
@@ -836,6 +842,7 @@ if not emscripten
 #include <stddef.h>
 #include <curl/curl.h>
 int main(void) { curl_mime *mime = curl_mime_init(NULL); }''',
+  name: 'curl mime API',
   include_directories: include_directories(cross_inc_path)
   )
     priv_conf_data.set('HAVE_CURL_MIME_API', 1)
