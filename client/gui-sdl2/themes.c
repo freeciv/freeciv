@@ -57,7 +57,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   themespec_try_read(buf);
   theme_load_sprites(theme);
 
-  update_font_from_theme(theme_default_font_size(theme));
+  update_font_from_theme(default_font_size(theme));
 }
 
 /*****************************************************************************
