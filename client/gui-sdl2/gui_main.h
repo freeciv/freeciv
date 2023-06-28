@@ -32,6 +32,8 @@
 /* client/include */
 #include "gui_main_g.h"
 
+struct theme;
+
 /* Enable this to adjust sizes for 320x240 resolution */
 /* #define SMALL_SCREEN */
 
@@ -124,6 +126,7 @@ Uint16 gui_event_loop(void *data, void (*loop_action)(void *data),
                       Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
                                                      void *data));
 
+unsigned default_font_size(struct theme *act_theme);
 void update_font_from_theme(int theme_font_size);
 
 /* Shrink sizes for 320x240 screen */
