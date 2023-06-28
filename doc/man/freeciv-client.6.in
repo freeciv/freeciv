@@ -9,7 +9,7 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "November 2nd 2016"
+.TH FREECIV 6 "June 28th 2023"
 .SH NAME
 freeciv-gtk3.22, freeciv-gtk4, freeciv-sdl2, freeciv-qt \
 \- The clients for the Freeciv game
@@ -53,6 +53,7 @@ documentation. It also accepts
 .B freeciv-sdl2
 accepts the following parameters following \fB\-\-\fP:
 .B [ \-f|\-\-fullscreen ] \
+[ \-F|\-\-Font \fsize\fP ] \
 [ \-h|\-\-help ] \
 [ \-s|\-\-swrenderer ] \
 [ \-t|\-\-theme \fIstring\fP ]

@@ -114,6 +114,8 @@ int *client_font_sizes[FONT_COUNT] = {
   &city_productions_font_size  /* FONT_REQTREE_TEXT; not used yet */
 };
 
+static unsigned font_size_parameter = 0;
+
 /* ================================ Private ============================ */
 static int net_socket = -1;
 static bool autoconnect = FALSE;
@@ -167,6 +169,8 @@ static void print_usage(void)
   /* Add client-specific usage information here */
   fc_fprintf(stderr,
              _("  -f,  --fullscreen\tStart Client in Fullscreen mode\n"));
+  fc_fprintf(stderr,
+             _("  -F,  --Font SIZE\tUse SIZE as the base font size\n"));
   fc_fprintf(stderr, _("  -s,  --swrenderer\tUse SW renderer\n"));
   fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 
@@ -190,6 +194,12 @@ static void parse_options(int argc, char **argv)
       GUI_SDL_OPTION(fullscreen) = TRUE;
     } else if (is_option("--swrenderer", argv[i])) {
       sdl2_client_flags |= CF_SWRENDERER;
+    } else if ((option = get_option_malloc("--Font", argv, &i, argc, FALSE))) {
+      if (!str_to_uint(option, &font_size_parameter)) {
+        fc_fprintf(stderr, _("Invalid font size %s"), option);
+        exit(EXIT_FAILURE);
+      }
+      free(option);
     } else if ((option = get_option_malloc("--theme", argv, &i, argc, FALSE))) {
       sz_strlcpy(GUI_SDL_OPTION(default_theme_name), option);
       free(option);
@@ -1275,6 +1285,15 @@ void gui_update_font(const char *font_name, const char *font_value)
   /* FONT_REQTREE_TEXT not used yet */
 
 #undef CHECK_FONT
+}
+
+/**********************************************************************//**
+  Return default font size, from any source.
+**************************************************************************/
+unsigned default_font_size(struct theme *act_theme)
+{
+  return font_size_parameter > 0 ? font_size_parameter :
+    theme_default_font_size(act_theme);
 }
 
 /**********************************************************************//**
