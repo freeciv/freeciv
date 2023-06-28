@@ -2404,6 +2404,37 @@ static void compat_load_030300(struct loaddata *loading,
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 3.3.0");
+
+  {
+    int ssa_count;
+
+    ssa_count = secfile_lookup_int_default(loading->file, 0,
+                                           "savefile.server_side_agent_size");
+    if (ssa_count > 0) {
+      const char **modname;
+      const char **savemod;
+      int j;
+      const char *aw_name = "AutoWorker";
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->ssa.size,
+                                       "savefile.server_side_agent_list");
+
+      savemod = fc_calloc(ssa_count, sizeof(*savemod));
+
+      for (j = 0; j < ssa_count; j++) {
+        if (!fc_strcasecmp("Autosettlers", modname[j])) {
+          savemod[j] = aw_name;
+        } else {
+          savemod[j] = modname[j];
+        }
+      }
+
+      secfile_replace_str_vec(loading->file, savemod, ssa_count,
+                              "savefile.server_side_agent_list");
+
+      free(savemod);
+    }
+  }
 }
 
 /************************************************************************//**
@@ -3112,6 +3143,37 @@ static void compat_load_dev(struct loaddata *loading)
       }
     }
 
+    {
+      int ssa_count;
+
+      ssa_count = secfile_lookup_int_default(loading->file, 0,
+                                             "savefile.server_side_agent_size");
+      if (ssa_count > 0) {
+        const char **modname;
+        const char **savemod;
+        int j;
+        const char *aw_name = "AutoWorker";
+
+        modname = secfile_lookup_str_vec(loading->file, &loading->ssa.size,
+                                         "savefile.server_side_agent_list");
+
+        savemod = fc_calloc(ssa_count, sizeof(*savemod));
+
+        for (j = 0; j < ssa_count; j++) {
+          if (!fc_strcasecmp("Autosettlers", modname[j])) {
+            savemod[j] = aw_name;
+          } else {
+            savemod[j] = modname[j];
+          }
+        }
+
+        secfile_replace_str_vec(loading->file, savemod, ssa_count,
+                                "savefile.server_side_agent_list");
+
+        free(savemod);
+      }
+    }
+
   } /* Version < 3.2.91 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_3 */
@@ -3132,14 +3194,14 @@ static void compat_post_load_dev(struct loaddata *loading)
     game_version = 2060000;
   }
 
-#ifdef FREECIV_DEV_SAVE_COMPAT_3_2
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_3
 
-  if (game_version < 3019100) {
-    /* Before version number bump to 3.1.91 */
+  if (game_version < 3029100) {
+    /* Before version number bump to 3.2.91 */
 
-  } /* Version < 3.1.91 */
+  } /* Version < 3.2.91 */
 
-#endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_3 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
