@@ -60,7 +60,7 @@ static TTF_Font *load_font(Uint16 ptsize);
 static SDL_Surface *create_utf8_surf(utf8_str *pstr);
 static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 
-#define ptsize_default() adj_font(theme_default_font_size(active_theme))
+#define ptsize_default() adj_font(default_font_size(active_theme))
 
 /**********************************************************************//**
   Adjust font sizes for small screen.
