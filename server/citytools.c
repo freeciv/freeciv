@@ -230,7 +230,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * If natural city names aren't being used, we just return the
    * base value.  This will have the effect of the first-listed
    * city being used.  We do this here rather than special-casing
-   * it elewhere because this localizes everything to this
+   * it elsewhere because this localizes everything to this
    * function, even though it's a bit inefficient.
    */
   if (!game.server.natural_city_names) {
