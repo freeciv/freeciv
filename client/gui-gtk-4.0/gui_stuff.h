@@ -23,8 +23,6 @@ GtkWidget *icon_label_button_new(const gchar *icon_name,
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text);
 void gtk_expose_now(GtkWidget *w);
 
-void fc_gtk_widget_hide(GtkWidget *hide, void *data);
-
 void intl_slist(int n, const char **s, bool *done);
 
 /* the standard GTK+ 2.0 API is braindamaged. this is slightly better! */
