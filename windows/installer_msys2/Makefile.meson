@@ -14,6 +14,7 @@ OUT_DIR=meson/output
 BUILD_DIR=meson/build
 INST_DIR=meson/install
 NSI_DIR=meson/nsi
+SRC_ROOT=../..
 
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
@@ -89,6 +90,7 @@ all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-instal
 all-win32+: gtk3.22-install sdl2-install gtk4-install qt5-install ruledit-install-qt5
 
 snapshot:
+	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
 
 ci:
@@ -138,7 +140,7 @@ ruledit-install-qt6:
 
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-client-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
@@ -159,7 +161,7 @@ install-freeciv-common: clean-install-client-arch
 	mv $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/freeciv $(INST_DIR)/$(WINARCH)-client-$(GUI)/data
 	mv $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/doc $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-client-$(GUI)/doc/freeciv/installer
-	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-client-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cat licenses/header.txt $(SRC_ROOT)/COPYING > $(INST_DIR)/$(WINARCH)-client-$(GUI)/doc/freeciv/installer/COPYING.installer
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-ruledit-common: clean-ruledit-install-arch
@@ -175,7 +177,7 @@ install-ruledit-common: clean-ruledit-install-arch
 	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/freeciv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/data
 	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/doc $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer
-	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cat licenses/header.txt $(SRC_ROOT)/COPYING > $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
 	cp freeciv-ruledit.cmd Freeciv.url $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 
 SOUND_DLLS := \
@@ -374,7 +376,7 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	# Extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
