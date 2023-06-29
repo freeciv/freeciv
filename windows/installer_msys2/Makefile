@@ -66,7 +66,7 @@ ruledit-installer:
 # The $(WINARCH) value we got for this run is not good. The new run
 # launched from this target will pick correct value.
 snapshot:
-	cd ../.. ; ./autogen.sh --no-configure-run
+	cd ../.. ; ./scripts/refresh_changelog.sh ; ./autogen.sh --no-configure-run
 	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev CFLAGS=\\\"-Werror $$CFLAGS\\\"" all
 
 
