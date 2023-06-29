@@ -139,7 +139,7 @@ ruledit-installer-qt6:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="$(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-ruledit-qt6
 
 snapshot:
-	cd $(SRC_ROOT) ; ./autogen.sh --no-configure-run
+	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh ; ./autogen.sh --no-configure-run
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=$(SRC_ROOT)/../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
 
 ci:
