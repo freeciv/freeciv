@@ -1171,11 +1171,3 @@ GtkWidget *widget_get_child(GtkWidget *wdg)
 {
   return gtk_widget_get_first_child(wdg);
 }
-
-/**********************************************************************//**
-  Callback to hide a widget.
-**************************************************************************/
-void fc_gtk_widget_hide(GtkWidget *hide, void *data)
-{
-  gtk_widget_set_visible(GTK_WIDGET(data), FALSE);
-}

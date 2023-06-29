@@ -4955,7 +4955,7 @@ property_page_new(enum editor_object_type objtype,
   button = gtk_button_new_with_mnemonic(_("_Close"));
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect_swapped(button, "clicked",
-      G_CALLBACK(fc_gtk_widget_hide), pe->widget);
+                           G_CALLBACK(gtk_window_close), pe->widget);
   gtk_grid_attach(GTK_GRID(hgrid2), button, grid2_col++, 0, 1, 1);
 
   /* Now create the properties panel. */
