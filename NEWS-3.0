@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.7 to 3.0.8
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-28)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.8>, 2023-06-30)
 
 3.0.8 is a generic bugfix release.
 
@@ -140,12 +140,11 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: fi, fr, pl, ru
-         + Complete translations: Polish
+    * Updated translations:
+         + Complete translations: Polish, Russian
          + Incomplete translations:
             Finnish (100% core, 93% nations, 100% ruledit),
-            French (99% core, 100% nations, 99% ruledit),
-            Russian (99% core, 100% nations, 100% ruledit)
+            French (99% core, 100% nations, 99% ruledit)
 
 Build/portability
 
