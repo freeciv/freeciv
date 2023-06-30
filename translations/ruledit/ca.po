@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-03-20 17:16+0200\n"
+"POT-Creation-Date: 2023-06-23 16:17+0300\n"
 "PO-Revision-Date: 2023-03-19 00:22+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -27,6 +27,40 @@ msgstr ""
 msgid "Close"
 msgstr "Tancar"
 
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:107
+msgid "Graphics tag"
+msgstr "Etiqueta de gràfics"
+
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:116
+msgid "Alt graphics tag"
+msgstr "Etiqueta de gràfics alternatius"
+
+#: tools/ruledit/edit_extra.cpp:66
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Activity graphics tag"
+msgstr "Etiqueta de gràfics alternatius"
+
+#: tools/ruledit/edit_extra.cpp:75
+msgid "Alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:84
+msgid "Second alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:93
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Removal activity graphics tag"
+msgstr "Etiqueta de gràfics alternatius"
+
+#: tools/ruledit/edit_extra.cpp:102
+msgid "Alt removal activity gfx tag"
+msgstr ""
+
 #: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Cost de Construcció"
@@ -38,16 +72,6 @@ msgstr "Manteniment"
 #: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Genus"
-
-#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
-#: tools/ruledit/edit_utype.cpp:107
-msgid "Graphics tag"
-msgstr "Etiqueta de gràfics"
-
-#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
-#: tools/ruledit/edit_utype.cpp:116
-msgid "Alt graphics tag"
-msgstr "Etiqueta de gràfics alternatius"
 
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
@@ -282,7 +306,7 @@ msgstr "Segur que voleu sortir?"
 msgid "Quit?"
 msgstr "Sortir?"
 
-#: tools/ruledit/tab_building.cpp:66 tools/ruledit/tab_extras.cpp:64
+#: tools/ruledit/tab_building.cpp:66 tools/ruledit/tab_extras.cpp:67
 #: tools/ruledit/tab_good.cpp:65 tools/ruledit/tab_gov.cpp:64
 #: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:67
 #: tools/ruledit/tab_unit.cpp:65
@@ -292,8 +316,8 @@ msgstr "Nom de Regla"
 #: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_building.cpp:79
 #: tools/ruledit/tab_building.cpp:148 tools/ruledit/tab_building.cpp:149
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
-#: tools/ruledit/tab_extras.cpp:67 tools/ruledit/tab_extras.cpp:77
-#: tools/ruledit/tab_extras.cpp:143 tools/ruledit/tab_extras.cpp:144
+#: tools/ruledit/tab_extras.cpp:70 tools/ruledit/tab_extras.cpp:80
+#: tools/ruledit/tab_extras.cpp:150 tools/ruledit/tab_extras.cpp:151
 #: tools/ruledit/tab_good.cpp:68 tools/ruledit/tab_good.cpp:78
 #: tools/ruledit/tab_good.cpp:144 tools/ruledit/tab_good.cpp:145
 #: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
@@ -307,19 +331,19 @@ msgstr "Nom de Regla"
 msgid "None"
 msgstr "Cap"
 
-#: tools/ruledit/tab_building.cpp:74 tools/ruledit/tab_extras.cpp:72
+#: tools/ruledit/tab_building.cpp:74 tools/ruledit/tab_extras.cpp:75
 #: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
 #: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:75
 #: tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_building.cpp:85 tools/ruledit/tab_terrains.cpp:91
-#: tools/ruledit/tab_unit.cpp:84
+#: tools/ruledit/tab_building.cpp:85 tools/ruledit/tab_extras.cpp:86
+#: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:84
 msgid "Edit Values"
 msgstr "Valors d'Edició"
 
-#: tools/ruledit/tab_building.cpp:89 tools/ruledit/tab_extras.cpp:83
+#: tools/ruledit/tab_building.cpp:89 tools/ruledit/tab_extras.cpp:90
 #: tools/ruledit/tab_good.cpp:84 tools/ruledit/tab_gov.cpp:83
 msgid "Requirements"
 msgstr "Requeriments"
@@ -384,15 +408,15 @@ msgstr "Facilitador (actor)"
 msgid "action enabler for %s"
 msgstr "facilitador d'accions per a %s"
 
-#: tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_extras.cpp:94
 msgid "Add Extra"
 msgstr "Afegir Extra"
 
-#: tools/ruledit/tab_extras.cpp:92
+#: tools/ruledit/tab_extras.cpp:99
 msgid "Remove this Extra"
 msgstr "Treure aquest Extra"
 
-#: tools/ruledit/tab_extras.cpp:178
+#: tools/ruledit/tab_extras.cpp:185
 msgid "An extra with that rule name already exists!"
 msgstr "Ja existeix una extra amb aquest nom de regla!"
 
@@ -540,23 +564,29 @@ msgstr "Béns"
 msgid "?stat:Multipliers"
 msgstr "Multiplicadors"
 
-#: tools/ruledit/tab_misc.cpp:224
+#: tools/ruledit/tab_misc.cpp:220
+#, fuzzy
+#| msgid "?stat:Techs"
+msgid "?stat:Effects"
+msgstr "Tecnologies"
+
+#: tools/ruledit/tab_misc.cpp:228
 msgid "Refresh Stats"
 msgstr "Refrescar Estadístiques"
 
-#: tools/ruledit/tab_misc.cpp:306
+#: tools/ruledit/tab_misc.cpp:310
 msgid "Ruleset saved"
 msgstr "Joc de regles desat"
 
-#: tools/ruledit/tab_misc.cpp:472
+#: tools/ruledit/tab_misc.cpp:490
 msgid "Sanity Check"
 msgstr "Comprovació de coherència"
 
-#: tools/ruledit/tab_misc.cpp:479
+#: tools/ruledit/tab_misc.cpp:497
 msgid "Sanity check failed!"
 msgstr "La comprovació de coherència ha fallat!"
 
-#: tools/ruledit/tab_misc.cpp:481
+#: tools/ruledit/tab_misc.cpp:499
 msgid "Sanity check success"
 msgstr "La comprovació de coherència ha tingut èxit"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-04-16 22:30+0200\n"
+"POT-Creation-Date: 2023-06-23 16:17+0300\n"
 "PO-Revision-Date: 2023-05-19 00:09+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -556,23 +556,29 @@ msgstr "Biens"
 msgid "?stat:Multipliers"
 msgstr "Multiplicateurs"
 
-#: tools/ruledit/tab_misc.cpp:224
+#: tools/ruledit/tab_misc.cpp:220
+#, fuzzy
+#| msgid "?stat:Techs"
+msgid "?stat:Effects"
+msgstr "Technologies"
+
+#: tools/ruledit/tab_misc.cpp:228
 msgid "Refresh Stats"
 msgstr "Rafraichir les stats"
 
-#: tools/ruledit/tab_misc.cpp:306
+#: tools/ruledit/tab_misc.cpp:310
 msgid "Ruleset saved"
 msgstr "Règles du jeu sauvegardées"
 
-#: tools/ruledit/tab_misc.cpp:472
+#: tools/ruledit/tab_misc.cpp:490
 msgid "Sanity Check"
 msgstr "Vérification de cohérence"
 
-#: tools/ruledit/tab_misc.cpp:479
+#: tools/ruledit/tab_misc.cpp:497
 msgid "Sanity check failed!"
 msgstr "Vérification de cohérence échouée !"
 
-#: tools/ruledit/tab_misc.cpp:481
+#: tools/ruledit/tab_misc.cpp:499
 msgid "Sanity check success"
 msgstr "Vérification de cohérence réussie"
 
