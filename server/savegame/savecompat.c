@@ -1657,8 +1657,6 @@ static void unit_order_activity_to_action(struct unit *act_unit)
 
     switch (order->activity) {
     case ACTIVITY_CLEAN:
-    case ACTIVITY_POLLUTION:
-    case ACTIVITY_FALLOUT:
     case ACTIVITY_MINE:
     case ACTIVITY_IRRIGATE:
     case ACTIVITY_PLANT:

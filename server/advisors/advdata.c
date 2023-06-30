@@ -920,8 +920,6 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTRES_MINE:
     case ACTRES_IRRIGATE:
     case ACTRES_CLEAN:
-    case ACTRES_CLEAN_POLLUTION:
-    case ACTRES_CLEAN_FALLOUT:
     case ACTRES_TRANSPORT_DEBOARD:
     case ACTRES_TRANSPORT_UNLOAD:
     case ACTRES_TRANSPORT_DISEMBARK:
@@ -929,8 +927,8 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTRES_TRANSPORT_LOAD:
     case ACTRES_TRANSPORT_EMBARK:
       /* Could be good. An embassy gives permanent contact. A trade
-       * route gives gold per turn. Join city gives population. Help
-       * wonder gives shields. */
+       * route gives gold per turn. Join city gives population.
+       * Help wonder gives shields. */
       /* TODO: Individual and well balanced values. */
       break;
 

@@ -760,8 +760,6 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
   /* Terrain and activity specific removal time */
   switch (activity) {
   case ACTIVITY_CLEAN:
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT:
     return pterrain->extra_removal_times[extra_index(tgt)] * factor;
   case ACTIVITY_PILLAGE:
     return pterrain->pillage_time * factor;

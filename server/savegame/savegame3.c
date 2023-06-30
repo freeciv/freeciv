@@ -148,6 +148,10 @@
 
 extern bool sg_success;
 
+#define ACTIVITY_OLD_POLLUTION_SG3 (ACTIVITY_LAST + 1)
+#define ACTIVITY_OLD_FALLOUT_SG3 (ACTIVITY_OLD_POLLUTION_SG3 + 1)
+#define ACTIVITY_LAST_SAVEGAME3 (ACTIVITY_OLD_FALLOUT_SG3 + 1)
+
 #ifdef FREECIV_TESTMATIC
 #define SAVE_DUMMY_TURN_CHANGE_TIME 1
 #endif
@@ -292,7 +296,7 @@ static enum unit_orders char2order(char order);
 static char order2char(enum unit_orders order);
 static enum direction8 char2dir(char dir);
 static char dir2char(enum direction8 dir);
-static char activity2char(enum unit_activity activity);
+static char activity2char(int activity);
 static enum unit_activity char2activity(char activity);
 static char *quote_block(const void *const data, int length);
 static int unquote_block(const char *const quoted_, void *dest,
@@ -807,15 +811,18 @@ static char dir2char(enum direction8 dir)
 
 /************************************************************************//**
   Returns a character identifier for an activity. See also char2activity().
+
+  activity type is 'int', and not 'enum_activity' for supporting
+  deprecated values (..._OLD_...)
 ****************************************************************************/
-static char activity2char(enum unit_activity activity)
+static char activity2char(int activity)
 {
   switch (activity) {
   case ACTIVITY_IDLE:
     return 'w';
   case ACTIVITY_CLEAN:
     return 'C';
-  case ACTIVITY_POLLUTION:
+  case ACTIVITY_OLD_POLLUTION_SG3:
     return 'p';
   case ACTIVITY_MINE:
     return 'm';
@@ -839,7 +846,7 @@ static char activity2char(enum unit_activity activity)
     return 'o';
   case ACTIVITY_FORTIFYING:
     return 'y';
-  case ACTIVITY_FALLOUT:
+  case ACTIVITY_OLD_FALLOUT_SG3:
     return 'u';
   case ACTIVITY_BASE:
     return 'b';
@@ -863,7 +870,7 @@ static enum unit_activity char2activity(char activity)
 {
   enum unit_activity a;
 
-  for (a = 0; a < ACTIVITY_LAST; a++) {
+  for (a = 0; a < ACTIVITY_LAST_SAVEGAME3; a++) {
     char achar = activity2char(a);
 
     if (activity == achar) {

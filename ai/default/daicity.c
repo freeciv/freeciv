@@ -1291,8 +1291,6 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
@@ -1312,8 +1310,12 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_TELEPORT:
   case ACTRES_HOMELESS:
   case ACTRES_ENABLER_CHECK:
+
+  case ACTRES_UNUSED_1:
+  case ACTRES_UNUSED_2:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");
+    break;
   }
 
   /* Wrong action. Ignore it. */

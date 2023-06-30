@@ -523,8 +523,6 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_MINE,
                           ACTRES_IRRIGATE,
                           ACTRES_CLEAN,
-                          ACTRES_CLEAN_POLLUTION,
-                          ACTRES_CLEAN_FALLOUT,
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of the rule that a
@@ -1343,14 +1341,6 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_CLEAN, ACTRES_CLEAN,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
-  actions[ACTION_CLEAN_POLLUTION] =
-      unit_action_new(ACTION_CLEAN_POLLUTION, ACTRES_CLEAN_POLLUTION,
-                      TRUE, FALSE,
-                      MAK_STAYS, 0, 0, FALSE);
-  actions[ACTION_CLEAN_FALLOUT] =
-      unit_action_new(ACTION_CLEAN_FALLOUT, ACTRES_CLEAN_FALLOUT,
-                      TRUE, FALSE,
-                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_FORTIFY] =
       unit_action_new(ACTION_FORTIFY, ACTRES_FORTIFY,
                       TRUE, FALSE,
@@ -1523,6 +1513,19 @@ static void hard_code_actions(void)
                       MAK_UNREPRESENTABLE,
                       /* Overwritten by the ruleset */
                       0, 1, FALSE);
+
+  /* The structure even for these need to be created, for
+   * the action_id_rule_name() to work on iterations. */
+  actions[ACTION_UNUSED_1]
+    = unit_action_new(ACTION_UNUSED_1, ACTRES_NONE,
+                      FALSE, FALSE,
+                      MAK_UNREPRESENTABLE,
+                      0, 0, FALSE);
+  actions[ACTION_UNUSED_2]
+    = unit_action_new(ACTION_UNUSED_2, ACTRES_NONE,
+                      FALSE, FALSE,
+                      MAK_UNREPRESENTABLE,
+                      0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -2175,8 +2178,6 @@ int action_get_act_time(const struct action *paction,
   switch (pactivity) {
   case ACTIVITY_PILLAGE:
   case ACTIVITY_CLEAN:
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_IRRIGATE:
@@ -2273,8 +2274,6 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_CONVERT:
   case ACTRES_TRANSPORT_DEBOARD:
@@ -2314,13 +2313,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_PILLAGE:
     return is_extra_removed_by(pextra, ERM_PILLAGE);
   case ACTRES_CLEAN:
-    return is_extra_removed_by(pextra, ERM_CLEAN)
-      || is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-      || is_extra_removed_by(pextra, ERM_CLEANFALLOUT);
-  case ACTRES_CLEAN_POLLUTION:
-    return is_extra_removed_by(pextra, ERM_CLEANPOLLUTION);
-  case ACTRES_CLEAN_FALLOUT:
-    return is_extra_removed_by(pextra, ERM_CLEANFALLOUT);
+    return is_extra_removed_by(pextra, ERM_CLEAN);
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
     return is_extra_removed_by(pextra, ERM_ENTER);
@@ -3475,8 +3468,6 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_HEAL_UNIT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -3673,8 +3664,6 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_ROAD:
   case ACTRES_BASE:
@@ -4959,8 +4948,6 @@ action_prob(const action_id wanted_action,
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
@@ -5009,7 +4996,10 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_NOT_IMPLEMENTED;
     break;
 
-  ASSERT_UNUSED_ACTRES_CASES;
+  case ACTRES_UNUSED_1:
+  case ACTRES_UNUSED_2:
+    chance = ACTPROB_NOT_IMPLEMENTED;
+    break;
   }
 
   /* Non signal action probabilities should be in range. */
@@ -6806,10 +6796,6 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_pillage";
   case ACTION_CLEAN:
     return "ui_name_clean";
-  case ACTION_CLEAN_POLLUTION:
-    return "ui_name_clean_pollution";
-  case ACTION_CLEAN_FALLOUT:
-    return "ui_name_clean_fallout";
   case ACTION_FORTIFY:
     return "ui_name_fortify";
   case ACTION_ROAD:
@@ -7126,12 +7112,6 @@ const char *action_ui_name_default(int act)
   case ACTION_CLEAN:
     /* TRANS: Clean (100% chance of success). */
     return N_("%sClean%s");
-  case ACTION_CLEAN_POLLUTION:
-    /* TRANS: Clean _Pollution (100% chance of success). */
-    return N_("Clean %sPollution%s");
-  case ACTION_CLEAN_FALLOUT:
-    /* TRANS: Clean _Fallout (100% chance of success). */
-    return N_("Clean %sFallout%s");
   case ACTION_FORTIFY:
     /* TRANS: _Fortify (100% chance of success). */
     return N_("%sFortify%s");
@@ -7230,7 +7210,7 @@ const char *action_ui_name_default(int act)
   Return min range ruleset variable name for the action or NULL if min
   range can't be set in the ruleset.
 
-  TODO: make actions generic and put min_range in a field of the action.
+  TODO: Make actions generic and put min_range in a field of the action.
 **************************************************************************/
 const char *action_min_range_ruleset_var_name(int act)
 {
@@ -7299,8 +7279,6 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -7422,8 +7400,6 @@ int action_min_range_default(enum action_result result)
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
@@ -7533,8 +7509,6 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -7662,8 +7636,6 @@ int action_max_range_default(enum action_result result)
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
@@ -7783,8 +7755,6 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_CLEAN:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -7920,8 +7890,6 @@ action_target_kind_default(enum action_result result)
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_ROAD:
   case ACTRES_BASE:
   case ACTRES_MINE:
@@ -8014,8 +7982,6 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_ROAD:
   case ACTRES_BASE:
   case ACTRES_MINE:
@@ -8134,8 +8100,6 @@ action_sub_target_kind_default(enum action_result result)
     return ASTK_NONE;
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
     return ASTK_EXTRA;
   case ACTRES_ROAD:
   case ACTRES_BASE:
@@ -8230,8 +8194,6 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -8414,8 +8376,6 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -8559,8 +8519,6 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:

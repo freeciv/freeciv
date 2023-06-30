@@ -902,14 +902,12 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_CLEAN:
-  case ACTIVITY_POLLUTION:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_PILLAGE:
   case ACTIVITY_CULTIVATE:
   case ACTIVITY_PLANT:
   case ACTIVITY_TRANSFORM:
-  case ACTIVITY_FALLOUT:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
     punit->activity_count += get_activity_rate_this_turn(punit);
@@ -962,22 +960,9 @@ static void update_unit_activity(struct unit *punit)
                                     NULL, punit);
         if (pextra != NULL) {
           punit->activity_target = pextra;
-        } else {
-          pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
-                                      NULL, punit);
-
-          if (pextra != NULL) {
-            punit->activity_target = pextra;
-          } else {
-            pextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
-                                        NULL, punit);
-            punit->activity_target = pextra;
-          }
         }
       } else {
-        if (is_extra_removed_by(punit->activity_target, ERM_CLEAN)
-            || is_extra_removed_by(punit->activity_target, ERM_CLEANPOLLUTION)
-            || is_extra_removed_by(punit->activity_target, ERM_CLEANFALLOUT)) {
+        if (is_extra_removed_by(punit->activity_target, ERM_CLEAN)) {
           pextra = punit->activity_target;
         } else {
           pextra = NULL;
@@ -990,32 +975,6 @@ static void update_unit_activity(struct unit *punit)
           unit_activity_done = TRUE;
         }
       }
-    }
-    break;
-
-  case ACTIVITY_POLLUTION:
-    /* TODO: Remove this fallback target setting when target always correctly
-     *       set */
-    if (punit->activity_target == NULL) {
-      punit->activity_target = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
-                                                  NULL, punit);
-    }
-    if (total_activity_done(ptile, ACTIVITY_POLLUTION, punit->activity_target)) {
-      destroy_extra(ptile, punit->activity_target);
-      unit_activity_done = TRUE;
-    }
-    break;
-
-  case ACTIVITY_FALLOUT:
-    /* TODO: Remove this fallback target setting when target always correctly
-     *       set */
-    if (punit->activity_target == NULL) {
-      punit->activity_target = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
-                                                  NULL, punit);
-    }
-    if (total_activity_done(ptile, ACTIVITY_FALLOUT, punit->activity_target)) {
-      destroy_extra(ptile, punit->activity_target);
-      unit_activity_done = TRUE;
     }
     break;
 
@@ -3700,8 +3659,6 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_GOTO:
     break;
   case ACTIVITY_CLEAN:
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_CULTIVATE:

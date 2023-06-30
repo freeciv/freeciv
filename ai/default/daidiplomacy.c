@@ -2038,15 +2038,13 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_HOMELESS:
     case ACTRES_UPGRADE_UNIT:
     case ACTRES_PARADROP:
-    case ACTRES_PARADROP_CONQUER: /* TODO: bigger incident */
+    case ACTRES_PARADROP_CONQUER: /* TODO: Bigger incident */
     case ACTRES_AIRLIFT:
     case ACTRES_HEAL_UNIT:
     case ACTRES_TRANSFORM_TERRAIN:
     case ACTRES_CULTIVATE:
     case ACTRES_PLANT:
     case ACTRES_CLEAN:
-    case ACTRES_CLEAN_POLLUTION:
-    case ACTRES_CLEAN_FALLOUT:
     case ACTRES_FORTIFY:
     case ACTRES_ROAD:
     case ACTRES_CONVERT:

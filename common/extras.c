@@ -318,8 +318,7 @@ void _extra_to_removed_by_list(struct extra_type *pextra,
 {
   extra_type_list_append(removed_by[rmcause], pextra);
 
-  if (rmcause == ERM_CLEAN
-      || rmcause == ERM_CLEANPOLLUTION || rmcause == ERM_CLEANFALLOUT) {
+  if (rmcause == ERM_CLEAN) {
     extra_type_list_append(cleanable, pextra);
   }
 }
@@ -1020,8 +1019,6 @@ bool is_extra_removed_by_worker_action(const struct extra_type *pextra)
   /* Is any of the worker remove action bits set? */
   return (pextra->rmcauses
           & (1 << ERM_CLEAN
-             | 1 << ERM_CLEANPOLLUTION
-             | 1 << ERM_CLEANFALLOUT
              | 1 << ERM_PILLAGE));
 }
 
@@ -1076,10 +1073,6 @@ enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act)
     return ERM_CLEAN;
   case ACTIVITY_PILLAGE:
     return ERM_PILLAGE;
-  case ACTIVITY_POLLUTION:
-    return ERM_CLEANPOLLUTION;
-  case ACTIVITY_FALLOUT:
-    return ERM_CLEANFALLOUT;
   default:
     break;
   }
