@@ -142,7 +142,9 @@ extern bool sg_success;
 
 #define ACTIVITY_OLD_ROAD (ACTIVITY_LAST + 1)
 #define ACTIVITY_OLD_RAILROAD (ACTIVITY_LAST + 2)
-#define ACTIVITY_LAST_SAVEGAME2 (ACTIVITY_LAST + 3)
+#define ACTIVITY_OLD_POLLUTION_SG2 (ACTIVITY_OLD_RAILROAD + 1)
+#define ACTIVITY_OLD_FALLOUT_SG2 (ACTIVITY_OLD_POLLUTION_SG2 + 1)
+#define ACTIVITY_LAST_SAVEGAME2 (ACTIVITY_OLD_FALLOUT_SG2 + 1)
 
 /*
  * This loops over the entire map to save data. It collects all the data of
@@ -659,7 +661,7 @@ static char activity2char(int activity)
     return 'w';
   case ACTIVITY_CLEAN:
     return 'C';
-  case ACTIVITY_POLLUTION:
+  case ACTIVITY_OLD_POLLUTION_SG2:
     return 'p';
   case ACTIVITY_OLD_ROAD:
     return 'r';
@@ -683,7 +685,7 @@ static char activity2char(int activity)
     return 'o';
   case ACTIVITY_FORTIFYING:
     return 'y';
-  case ACTIVITY_FALLOUT:
+  case ACTIVITY_OLD_FALLOUT_SG2:
     return 'u';
   case ACTIVITY_BASE:
     return 'b';
@@ -4154,25 +4156,16 @@ static bool sg_load_player_unit(struct loaddata *loading,
       } else {
         set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
       }
-    } else if (activity == ACTIVITY_POLLUTION) {
+    } else if (activity == ACTIVITY_OLD_POLLUTION_SG2
+               || activity == ACTIVITY_OLD_FALLOUT_SG2) {
       struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANPOLLUTION,
+                                                  ERM_CLEAN,
                                                   unit_owner(punit),
                                                   punit);
       if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_POLLUTION, tgt);
+        set_unit_activity_targeted(punit, ACTIVITY_CLEAN, tgt);
       } else {
-        set_unit_activity_targeted(punit, ACTIVITY_POLLUTION, NULL);
-      }
-    } else if (activity == ACTIVITY_FALLOUT) {
-      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANFALLOUT,
-                                                  unit_owner(punit),
-                                                  punit);
-      if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_FALLOUT, tgt);
-      } else {
-        set_unit_activity_targeted(punit, ACTIVITY_FALLOUT, NULL);
+        set_unit_activity_targeted(punit, ACTIVITY_CLEAN, NULL);
       }
     } else {
       set_unit_activity_targeted(punit, activity, NULL);
@@ -4253,19 +4246,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
       } else {
         punit->changed_from_target = NULL;
       }
-    } else if (punit->changed_from == ACTIVITY_POLLUTION) {
+    } else if (punit->changed_from == ACTIVITY_OLD_POLLUTION_SG2
+               || punit->changed_from == ACTIVITY_OLD_FALLOUT_SG2) {
       struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANPOLLUTION,
-                                                  unit_owner(punit),
-                                                  punit);
-      if (tgt != NULL) {
-        punit->changed_from_target = tgt;
-      } else {
-        punit->changed_from_target = NULL;
-      }
-    } else if (punit->changed_from == ACTIVITY_FALLOUT) {
-      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANFALLOUT,
+                                                  ERM_CLEAN,
                                                   unit_owner(punit),
                                                   punit);
       if (tgt != NULL) {

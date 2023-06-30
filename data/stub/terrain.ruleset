@@ -357,7 +357,6 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;                           [resource_*] / [base_*] / [road_*] section)
 ; rmcauses                = events that can remove extra type.
 ;                           "Clean", "Pillage", "Disappear", or "Enter"
-;                           For now also "CleanPollution", "CleanFallout"
 ; infracost               = Number of infrapoints it costs to place this
 ;                           extra. 0, the default, means extra cannot be placed.
 ; graphic                 = tag specifying preferred graphic

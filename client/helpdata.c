@@ -2832,8 +2832,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
         break;
       case ACTRES_CLEAN:
-      case ACTRES_CLEAN_POLLUTION:
-      case ACTRES_CLEAN_FALLOUT:
         {
           struct astring extras_and = ASTRING_INIT;
           struct strvec *extras_vec = strvec_new();

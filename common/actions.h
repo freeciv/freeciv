@@ -35,7 +35,12 @@ extern "C" {
  *     break;
  */
 #define ASSERT_UNUSED_ACTION_CASES            \
-  /* No unused actions at the moment */
+  case ACTION_UNUSED_1:                       \
+    fc_assert_msg(FALSE, "ACTION_UNUSED_1");  \
+    break;                                    \
+  case ACTION_UNUSED_2:                       \
+    fc_assert_msg(FALSE, "ACTION_UNUSED_2");  \
+    break;
 
 #define SPECENUM_NAME action_actor_kind
 #define SPECENUM_VALUE0 AAK_UNIT
@@ -180,10 +185,11 @@ const char *gen_action_name_update_cb(const char *old_name);
 #define SPECENUM_VALUE64NAME "Build Base"
 #define SPECENUM_VALUE65 ACTION_PILLAGE
 #define SPECENUM_VALUE65NAME "Pillage"
-#define SPECENUM_VALUE66 ACTION_CLEAN_POLLUTION
-#define SPECENUM_VALUE66NAME "Clean Pollution"
-#define SPECENUM_VALUE67 ACTION_CLEAN_FALLOUT
-#define SPECENUM_VALUE67NAME "Clean Fallout"
+/* TODO: Rearrange actions to get rid of these */
+#define SPECENUM_VALUE66 ACTION_UNUSED_1
+#define SPECENUM_VALUE66NAME "Unused1"
+#define SPECENUM_VALUE67 ACTION_UNUSED_2
+#define SPECENUM_VALUE67NAME "Unused2"
 #define SPECENUM_VALUE68 ACTION_TRANSPORT_BOARD
 #define SPECENUM_VALUE68NAME "Transport Board"
 #define SPECENUM_VALUE69 ACTION_TRANSPORT_BOARD2
@@ -435,9 +441,11 @@ struct action_enabler
 #define action_iterate(_act_)                                             \
 {                                                                         \
   action_id _act_;                                                        \
-  for (_act_ = 0; _act_ < NUM_ACTIONS; _act_++) {
+  for (_act_ = 0; _act_ < NUM_ACTIONS; _act_++) {                         \
+    if (_act_ != ACTION_UNUSED_1 && _act_ != ACTION_UNUSED_2) {
 
 #define action_iterate_end                             \
+    }                                                  \
   }                                                    \
 }
 

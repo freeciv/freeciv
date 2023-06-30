@@ -34,7 +34,12 @@ struct req_context;
  *     break;
  */
 #define ASSERT_UNUSED_ACTRES_CASES            \
-  /* No unused action results at the moment */
+  case ACTRES_UNUSED_1:                       \
+    fc_assert_msg(FALSE, "ACTRES_UNUSED_1");  \
+    break;                                    \
+  case ACTRES_UNUSED_2:                       \
+    fc_assert_msg(FALSE, "ACTRES_UNUSED_2");  \
+    break;
 
 /* When making changes to this, update also atk_helpnames at actions.c */
 #define SPECENUM_NAME action_target_kind

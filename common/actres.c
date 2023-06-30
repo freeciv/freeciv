@@ -123,10 +123,10 @@ static struct actres act_results[ACTRES_LAST] = {
     FALSE, ACTIVITY_MINE, DRT_NONE },
   { ACT_TGT_COMPL_MANDATORY, ABK_NONE,       /* ACTRES_IRRIGATE */
     FALSE, ACTIVITY_IRRIGATE, DRT_NONE },
-  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_CLEAN_POLLUTION */
-    FALSE, ACTIVITY_POLLUTION, DRT_NONE },
-  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_CLEAN_FALLOUT */
-    FALSE, ACTIVITY_FALLOUT, DRT_NONE },
+  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_UNUSED_1 */
+    FALSE, ACTIVITY_LAST, DRT_NONE },
+  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_UNUSED_2 */
+    FALSE, ACTIVITY_LAST, DRT_NONE },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TRANSPORT_DEBOARD */
     FALSE, ACTIVITY_LAST, DRT_NONE },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TRANSPORT_UNLOAD */
@@ -764,33 +764,16 @@ enum fc_tristate actres_possible(enum action_result result,
 
       if (target_extra != NULL) {
         if (tile_has_extra(target->tile, target_extra)
-            && (is_extra_removed_by(target_extra, ERM_CLEAN)
-                || is_extra_removed_by(target_extra, ERM_CLEANPOLLUTION)
-                || is_extra_removed_by(target_extra, ERM_CLEANFALLOUT))) {
+            && (is_extra_removed_by(target_extra, ERM_CLEAN))) {
           pextra = target_extra;
         }
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
-
         pextra = prev_extra_in_tile(target->tile,
                                     ERM_CLEAN,
                                     actor->player,
                                     actor->unit);
-
-        if (pextra == NULL) {
-          pextra = prev_extra_in_tile(target->tile,
-                                      ERM_CLEANPOLLUTION,
-                                      actor->player,
-                                      actor->unit);
-
-          if (pextra == NULL) {
-            pextra = prev_extra_in_tile(target->tile,
-                                        ERM_CLEANFALLOUT,
-                                        actor->player,
-                                        actor->unit);
-          }
-        }
       }
 
       if (pextra != NULL && pterrain->extra_removal_times[extra_index(pextra)] > 0
@@ -800,88 +783,6 @@ enum fc_tristate actres_possible(enum action_result result,
 
       return TRI_NO;
     }
-
-  case ACTRES_CLEAN_POLLUTION:
-    {
-      const struct extra_type *pextra;
-
-      pterrain = tile_terrain(target->tile);
-
-      if (target_extra != NULL) {
-        pextra = target_extra;
-
-        if (!is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
-          return TRI_NO;
-        }
-
-        if (!tile_has_extra(target->tile, pextra)) {
-          return TRI_NO;
-        }
-      } else {
-        /* TODO: Make sure that all callers set target so that
-         * we don't need this fallback. */
-        pextra = prev_extra_in_tile(target->tile,
-                                    ERM_CLEANPOLLUTION,
-                                    actor->player,
-                                    actor->unit);
-        if (pextra == NULL) {
-          /* No available pollution extras */
-          return TRI_NO;
-        }
-      }
-
-      if (pterrain->extra_removal_times[extra_index(pextra)] == 0) {
-        return TRI_NO;
-      }
-
-      if (can_remove_extra(pextra, actor->unit, target->tile)) {
-        return TRI_YES;
-      }
-
-      return TRI_NO;
-    }
-    break;
-
-  case ACTRES_CLEAN_FALLOUT:
-    {
-      const struct extra_type *pextra;
-
-      pterrain = tile_terrain(target->tile);
-
-      if (target_extra != NULL) {
-        pextra = target_extra;
-
-        if (!is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
-          return TRI_NO;
-        }
-
-        if (!tile_has_extra(target->tile, pextra)) {
-          return TRI_NO;
-        }
-      } else {
-        /* TODO: Make sure that all callers set target so that
-         * we don't need this fallback. */
-        pextra = prev_extra_in_tile(target->tile,
-                                    ERM_CLEANFALLOUT,
-                                    actor->player,
-                                    actor->unit);
-        if (pextra == NULL) {
-          /* No available fallout extras */
-          return TRI_NO;
-        }
-      }
-
-      if (pterrain->extra_removal_times[extra_index(pextra)] == 0) {
-        return TRI_NO;
-      }
-
-      if (can_remove_extra(pextra, actor->unit, target->tile)) {
-        return TRI_YES;
-      }
-
-      return TRI_NO;
-    }
-    break;
 
   case ACTRES_TRANSPORT_DEBOARD:
     if (!can_unit_unload(actor->unit, target->unit)) {

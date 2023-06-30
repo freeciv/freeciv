@@ -1158,8 +1158,6 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_CONVERT:
   case ACTRES_ROAD:
@@ -3935,8 +3933,6 @@ bool unit_perform_action(struct player *pplayer,
                                                         &target_extra));
     break;
   case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
     ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
                                                          paction,

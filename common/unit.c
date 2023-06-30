@@ -44,7 +44,7 @@
 const Activity_type_id tile_changing_activities[] =
     { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
       ACTIVITY_BASE, ACTIVITY_CULTIVATE, ACTIVITY_PLANT, ACTIVITY_TRANSFORM,
-      ACTIVITY_CLEAN, ACTIVITY_POLLUTION, ACTIVITY_FALLOUT, ACTIVITY_LAST };
+      ACTIVITY_CLEAN, ACTIVITY_LAST };
 
 struct cargo_iter {
   struct iterator vtable;
@@ -564,8 +564,6 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
   case ACTIVITY_CLEAN:
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT:
     return TRUE;
   case ACTIVITY_IDLE:
   case ACTIVITY_FORTIFIED:
@@ -615,8 +613,6 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Idle");
   case ACTIVITY_CLEAN:
     return _("Clean");
-  case ACTIVITY_POLLUTION:
-    return _("Pollution");
   case ACTIVITY_MINE:
     /* TRANS: Activity name, verb in English */
     return Q_("?act:Mine");
@@ -641,8 +637,6 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Explore");
   case ACTIVITY_TRANSFORM:
     return _("Transform");
-  case ACTIVITY_FALLOUT:
-    return _("Fallout");
   case ACTIVITY_BASE:
     return _("Base");
   case ACTIVITY_GEN_ROAD:
@@ -967,20 +961,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return is_action_enabled_unit_on_tile(ACTION_CLEAN,
                                           punit, ptile, target);
 
-  case ACTIVITY_POLLUTION:
-    /* The call below doesn't support actor tile speculation. */
-    fc_assert_msg(unit_tile(punit) == ptile,
-                  "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(ACTION_CLEAN_POLLUTION,
-                                          punit, ptile, target);
-
-  case ACTIVITY_FALLOUT:
-    /* The call below doesn't support actor tile speculation. */
-    fc_assert_msg(unit_tile(punit) == ptile,
-                  "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(ACTION_CLEAN_FALLOUT,
-                                          punit, ptile, target);
-
   case ACTIVITY_MINE:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
@@ -1184,8 +1164,6 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     }
     return;
   case ACTIVITY_CLEAN:
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT:
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_FORTIFIED:
@@ -1519,8 +1497,6 @@ bool is_clean_activity(enum unit_activity activity)
   switch (activity) {
   case ACTIVITY_PILLAGE:
   case ACTIVITY_CLEAN:
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT:
     return TRUE;
   default:
     return FALSE;
@@ -2576,8 +2552,6 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       case ACTIVITY_BASE:
       case ACTIVITY_GEN_ROAD:
       case ACTIVITY_CLEAN:
-      case ACTIVITY_POLLUTION:
-      case ACTIVITY_FALLOUT:
       case ACTIVITY_PILLAGE:
       case ACTIVITY_MINE:
       case ACTIVITY_IRRIGATE:
