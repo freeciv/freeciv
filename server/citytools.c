@@ -2645,12 +2645,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
 /************************************************************************//**
   Updates a players knowledge about a city. If the player_tile already
-  contains a city it must be the same city (avoid problems by always calling
+  contains a city, it must be the same city (avoid problems by always calling
   reality_check_city() first)
 
   Returns TRUE iff anything has changed for the player city (i.e., if the
-  client needs to be updated with a *short* city packet).  This information
-  is only used in refresh_dumb_cities; elsewhere the data is (of necessity)
+  client needs to be updated with a *short* city packet). This information
+  is only used in refresh_dumb_city(); elsewhere the data is (of necessity)
   broadcast regardless.
 ****************************************************************************/
 bool update_dumb_city(struct player *pplayer, struct city *pcity)
