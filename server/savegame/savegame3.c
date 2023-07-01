@@ -3811,7 +3811,11 @@ static void sg_load_players(struct loaddata *loading)
   /* ...and check it */
   players_iterate(pplayer1) {
     players_iterate(pplayer2) {
-      if (players_on_same_team(pplayer1, pplayer2)) {
+      /* TODO: Is there a good reason player is not marked as
+       *       giving shared vision to themselves -> really_gives_vision()
+       *       returning FALSE when pplayer1 == pplayer2 */
+      if (pplayer1 != pplayer2
+          && players_on_same_team(pplayer1, pplayer2)) {
         if (!really_gives_vision(pplayer1, pplayer2)) {
           sg_regr(3000900,
                   _("%s did not give shared vision to team member %s."),
