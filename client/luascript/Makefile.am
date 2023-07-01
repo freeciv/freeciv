@@ -33,7 +33,8 @@ libscripting_client_la_LIBADD = \
 	$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS)
 
 tolua_client_gen.c tolua_client_gen.h: tolua_client.pkg
-	$(TOLUA) -n client -o $(srcdir)/tolua_client_gen.c \
+	@if ! $(AM_V_P) ; then echo "  tolua    tolua_client" ; fi
+	$(AM_V_at) $(TOLUA) -n client -o $(srcdir)/tolua_client_gen.c \
 	-H $(srcdir)/tolua_client_gen.h $(srcdir)/tolua_client.pkg
 
 # These files are not generated to builddir, but to srcdir */

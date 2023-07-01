@@ -66,19 +66,23 @@ libscriptcore_la_LIBADD =	\
 	$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS)
 
 tolua_common_a_gen.c tolua_common_a_gen.h: tolua_common_a.pkg
-	$(TOLUA) -n common_a -o $(srcdir)/tolua_common_a_gen.c \
+	@if ! $(AM_V_P) ; then echo "  tolua    tolua_common_a" ; fi
+	$(AM_V_at) $(TOLUA) -n common_a -o $(srcdir)/tolua_common_a_gen.c \
 	-H $(srcdir)/tolua_common_a_gen.h $(srcdir)/tolua_common_a.pkg
 
 tolua_common_z_gen.c tolua_common_z_gen.h: tolua_common_z.pkg
-	$(TOLUA) -n common_z -o $(srcdir)/tolua_common_z_gen.c \
+	@if ! $(AM_V_P) ; then echo "  tolua    tolua_common_z" ; fi
+	$(AM_V_at) $(TOLUA) -n common_z -o $(srcdir)/tolua_common_z_gen.c \
 	-H $(srcdir)/tolua_common_z_gen.h $(srcdir)/tolua_common_z.pkg
 
 tolua_game_gen.c tolua_game_gen.h: tolua_game.pkg
-	$(TOLUA) -n game -o $(srcdir)/tolua_game_gen.c \
+	@if ! $(AM_V_P) ; then echo "  tolua    tolua_game" ; fi
+	$(AM_V_at) $(TOLUA) -n game -o $(srcdir)/tolua_game_gen.c \
 	-H $(srcdir)/tolua_game_gen.h $(srcdir)/tolua_game.pkg
 
 tolua_signal_gen.c tolua_signal_gen.h: tolua_signal.pkg
-	$(TOLUA) -n signal -o $(srcdir)/tolua_signal_gen.c \
+	@if ! $(AM_V_P) ; then echo "  tolua    tolua_signal" ; fi
+	$(AM_V_at) $(TOLUA) -n signal -o $(srcdir)/tolua_signal_gen.c \
 	-H $(srcdir)/tolua_signal_gen.h $(srcdir)/tolua_signal.pkg
 
 # These files are not generated to builddir, but to srcdir */
