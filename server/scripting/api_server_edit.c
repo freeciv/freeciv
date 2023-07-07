@@ -625,6 +625,18 @@ void api_edit_remove_city(lua_State *L, City *pcity)
 }
 
 /**********************************************************************//**
+  Transfer city from player to another.
+**************************************************************************/
+bool api_edit_transfer_city(lua_State *L, City *pcity, Player *new_owner)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, new_owner, 3, Player, FALSE);
+
+  return transfer_city(new_owner, pcity, FALSE, FALSE, FALSE, FALSE, FALSE);
+}
+
+/**********************************************************************//**
   Create a building to a city
 **************************************************************************/
 void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr)
