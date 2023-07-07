@@ -26,6 +26,7 @@ jobs:
             automake1.16
             libtool
             autoconf
+            mingw-w64-ucrt-x86_64-7zip
             mingw-w64-ucrt-x86_64-meson
             mingw-w64-ucrt-x86_64-pkgconf
             mingw-w64-ucrt-x86_64-gcc
@@ -40,6 +41,7 @@ jobs:
             mingw-w64-ucrt-x86_64-gtk3
             mingw-w64-ucrt-x86_64-gtk4
             mingw-w64-ucrt-x86_64-qt6-base
+            mingw-w64-ucrt-x86_64-qt6-svg
             mingw-w64-ucrt-x86_64-SDL2_image
             mingw-w64-ucrt-x86_64-SDL2_ttf
             mingw-w64-ucrt-x86_64-SDL2_gfx
