@@ -19,7 +19,7 @@
 
 struct lua_State;
 
-/* type of climate change */
+/* Type of climate change */
 enum climate_change_type {
   CLIMATE_CHANGE_GLOBAL_WARMING,
   CLIMATE_CHANGE_NUCLEAR_WINTER
@@ -72,6 +72,7 @@ bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
 bool api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
                           const char *name);
 void api_edit_remove_city(lua_State *L, City *pcity);
+bool api_edit_transfer_city(lua_State *L, City *pcity, Player *new_owner);
 void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr);
 void api_edit_remove_building(lua_State *L, City *pcity, Building_Type *impr);
 Player *api_edit_create_player(lua_State *L, const char *username,
