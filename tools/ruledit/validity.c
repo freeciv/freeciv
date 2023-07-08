@@ -268,6 +268,20 @@ bool is_utype_needed(struct unit_type *ptype, requirers_cb cb,
 }
 
 /**********************************************************************//**
+  Check if anything in ruleset needs achievement type
+**************************************************************************/
+bool is_achievement_needed(struct achievement *pach, requirers_cb cb,
+                           void *data)
+{
+  struct universal uni = { .value.achievement = pach, .kind = VUT_ACHIEVEMENT };
+  bool needed = FALSE;
+
+  needed |= is_universal_needed(&uni, cb, data);
+
+  return needed;
+}
+
+/**********************************************************************//**
   Check if anything in ruleset needs goods type
 **************************************************************************/
 bool is_good_needed(struct goods_type *pgood, requirers_cb cb,
