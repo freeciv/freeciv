@@ -59,6 +59,28 @@ struct functions *fc_interface_funcs(void);
 void libfreeciv_init(bool check_fc_interface);
 void libfreeciv_free(void);
 
+extern bool am_i_server;
+
+
+/**********************************************************************//**
+  Is the program type server?
+**************************************************************************/
+static inline bool is_server(void)
+{
+  return am_i_server;
+}
+
+void i_am_server(void);
+void i_am_client(void);
+
+/**********************************************************************//**
+  Set program type to tool.
+**************************************************************************/
+static inline void i_am_tool(void)
+{
+  i_am_server(); /* No difference between a tool and server at the moment */
+}
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

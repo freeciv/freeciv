@@ -294,27 +294,6 @@ struct civ_game {
   } callbacks;
 };
 
-extern bool am_i_server;
-
-/**********************************************************************//**
-  Is the program type server?
-**************************************************************************/
-static inline bool is_server(void)
-{
-  return am_i_server;
-}
-
-void i_am_server(void);
-void i_am_client(void);
-
-/**********************************************************************//**
-  Set program type to tool.
-**************************************************************************/
-static inline void i_am_tool(void)
-{
-  i_am_server(); /* No difference between a tool and server at the moment */
-}
-
 void game_init(bool keep_ruleset_value);
 void game_map_init(void);
 void game_free(void);
