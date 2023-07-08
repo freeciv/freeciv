@@ -1279,11 +1279,12 @@ static enum cb_error_level dai_do_build_city(struct ai_type *ait,
                 player_name(pplayer), TILE_XY(ptile), reason);
       return CBE_FATAL;
     }
+
     return CBE_RECOVERABLE;
   }
 
-  /* We have to rebuild at least the cache for this city.  This event is
-   * rare enough we might as well build the whole thing.  Who knows what
+  /* We have to rebuild at least the cache for this city. This event is
+   * rare enough we might as well build the whole thing. Who knows what
    * else might be cached in the future? */
   fc_assert_ret_val(pplayer == city_owner(pcity), FALSE);
   initialize_infrastructure_cache(pplayer);
@@ -1296,7 +1297,7 @@ static enum cb_error_level dai_do_build_city(struct ai_type *ait,
 
 /**************************************************************************
   Return want for city settler. Note that we rely here on the fact that
-  ai_settler_init() has been run while doing autosettlers.
+  citymap_turn_init() has been run while doing autosettlers.
 **************************************************************************/
 void contemplate_new_city(struct ai_type *ait, struct city *pcity)
 {
@@ -1331,12 +1332,12 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
       fc_assert_ret(0 <= result->result); /* 'result' is not freed! */
 
       CITY_LOG(LOG_DEBUG, pcity, "want(%d) to establish city at"
-               " (%d, %d) and will %s to get there", result->result, 
-               TILE_XY(result->tile), 
-               (result->virt_boat ? "build a boat" : 
+               " (%d, %d) and will %s to get there", result->result,
+               TILE_XY(result->tile),
+               (result->virt_boat ? "build a boat" :
                 (result->overseas ? "use a boat" : "walk")));
 
-      city_data->founder_want = (result->virt_boat ? 
+      city_data->founder_want = (result->virt_boat ?
                                  -result->result : result->result);
       city_data->founder_boat = result->overseas;
 
