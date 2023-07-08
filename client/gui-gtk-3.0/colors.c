@@ -32,34 +32,6 @@
 #include "colors.h"
 
 /************************************************************************//**
-  Get display color type of default visual
-****************************************************************************/
-enum Display_color_type get_visual(void)
-{
-  GdkVisual *visual;
-  GdkVisualType type;
-
-  visual = gdk_screen_get_system_visual(gdk_screen_get_default());
-  type = gdk_visual_get_visual_type(visual);
-
-  if (type == GDK_VISUAL_STATIC_GRAY) { 
-    /* StaticGray, use black and white */
-    log_verbose("found B/W display.");
-    return BW_DISPLAY;
-  }
-
-  if (type < GDK_VISUAL_STATIC_COLOR) {
-    /* No color visual available at default depth */
-    log_verbose("found grayscale(?) display.");
-    return GRAYSCALE_DISPLAY;
-  }
-
-  log_verbose("color system booted ok.");
-
-  return COLOR_DISPLAY;
-}
-
-/************************************************************************//**
   Allocate a color (well, sort of)
   and return a pointer to it.
 ****************************************************************************/
