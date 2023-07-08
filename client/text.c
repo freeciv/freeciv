@@ -556,7 +556,7 @@ const char *get_airlift_text(const struct unit_list *punits,
     enum unit_airlift_result result;
 
     /* NULL will tell us about the capability of airlifting from source */
-    result = test_unit_can_airlift_to(client_player(), punit, pdest);
+    result = test_unit_can_airlift_to(&(wld.map), client_player(), punit, pdest);
 
     switch (result) {
     case AR_NO_MOVES:
