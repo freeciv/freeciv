@@ -316,7 +316,7 @@ bool fc_client::chat_active_on_page(enum client_pages check)
   Switch from one client page to another.
   Argument is int cause QSignalMapper doesn't want to work with enum
   Because chat widget is in 2 layouts we need to switch between them here
-  (addWidget removes it from prevoius layout automatically)
+  (addWidget removes it from previous layout automatically)
 ****************************************************************************/
 void fc_client::switch_page(int new_pg)
 {
