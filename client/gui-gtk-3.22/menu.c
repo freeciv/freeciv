@@ -274,7 +274,7 @@ static struct menu_entry_info menu_entries[] =
   { "MENU_CIVILIZATION", N_("C_ivilization"), 0, 0,
     NULL, MGROUP_SAFE },
   { "MENU_BATTLE_GROUPS", N_("_Battle Groups"), 0, 0,
-    NULL, MGROUP_SAFE },
+    NULL, MGROUP_PLAYING },
   { "MENU_HELP", N_("_Help"), 0, 0, NULL, MGROUP_SAFE },
   { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"), 0, 0,
     G_CALLBACK(clear_chat_logs_callback), MGROUP_SAFE },
