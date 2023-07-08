@@ -348,7 +348,7 @@ static double trade_benefit(const struct player *caravan_owner,
     return 0;
   }
   if (max_trade_routes(src) <= 0 || max_trade_routes(dest) <= 0) {
-    /* Can't create new traderoutes even by replacing old ones if
+    /* Can't create new trade routes even by replacing old ones if
      * there's no slots at all. */
     return 0;
   }

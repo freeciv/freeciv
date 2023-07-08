@@ -588,9 +588,9 @@ Trade_Revenue_Bonus
     The amount value is taken from the caravan's home city.
 
 Traderoute_Pct
-    Percentage bonus for trade from traderoutes. This bonus applies after
-    the value of the traderoute is already calculated. It affects one end
-    of the traderoute only.
+    Percentage bonus for trade from trade routes. This bonus applies after
+    the value of the trade route is already calculated. It affects one end
+    of the trade route only.
 
 Unhappy_Factor
     Multiply unhappy unit upkeep by amount.

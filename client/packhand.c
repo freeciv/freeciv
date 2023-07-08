@@ -732,7 +732,7 @@ void handle_city_info(const struct packet_city_info *packet)
     name_changed = (0 != strncmp(packet->name, pcity->name,
                                  MAX_LEN_CITYNAME));
 
-    while (trade_route_list_size(pcity->routes) > packet->traderoute_count) {
+    while (trade_route_list_size(pcity->routes) > packet->trade_route_count) {
       struct trade_route *proute = trade_route_list_get(pcity->routes, -1);
 
       trade_route_list_remove(pcity->routes, proute);
@@ -1119,9 +1119,10 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 }
 
 /************************************************************************//**
-  A traderoute-info packet contains information about one end of a traderoute
+  A trade route-info packet contains information about one end
+  of a trade route
 ****************************************************************************/
-void handle_traderoute_info(const struct packet_traderoute_info *packet)
+void handle_trade_route_info(const struct packet_trade_route_info *packet)
 {
   struct city *pcity = game_city_by_number(packet->city);
   struct trade_route *proute;

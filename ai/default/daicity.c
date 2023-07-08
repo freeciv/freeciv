@@ -86,28 +86,28 @@
 
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
-#define city_range_iterate(city_here, list, range, city)		\
-{									\
-  city_list_iterate(list, city) {					\
-    if (range == REQ_RANGE_PLAYER					\
-        || range == REQ_RANGE_TEAM					\
+#define city_range_iterate(city_here, list, range, city)                \
+{                                                                       \
+  city_list_iterate(list, city) {                                       \
+    if (range == REQ_RANGE_PLAYER                                       \
+        || range == REQ_RANGE_TEAM                                      \
         || range == REQ_RANGE_ALLIANCE                                  \
-        || (range == REQ_RANGE_TRADEROUTE                               \
+        || (range == REQ_RANGE_TRADE_ROUTE                              \
          && (city == city_here                                          \
              || have_cities_trade_route(city, city_here)))              \
-     || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)		\
-      && city == city_here)						\
-     || (range == REQ_RANGE_CONTINENT					\
-      && tile_continent(city->tile) ==					\
-	 tile_continent(city_here->tile))) {
+     || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)          \
+      && city == city_here)                                             \
+     || (range == REQ_RANGE_CONTINENT                                   \
+      && tile_continent(city->tile) ==                                  \
+         tile_continent(city_here->tile))) {
 
-#define city_range_iterate_end						\
-    }									\
-  } city_list_iterate_end;						\
+#define city_range_iterate_end                                          \
+    }                                                                   \
+  } city_list_iterate_end;                                              \
 }
 
-#define CITY_EMERGENCY(pcity)						\
- (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)			\
+#define CITY_EMERGENCY(pcity)                                           \
+ (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)                   \
   || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
 
 static void dai_city_sell_noncritical(struct city *pcity, bool redundant_only);
@@ -279,7 +279,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   if (city_data->choice.want == 0) {
     /* Fallbacks do happen with techlevel 0, which is now default. -- Per */
     CITY_LOG(LOG_WANT, pcity, "Falling back - didn't want to build soldiers,"
-	     " workers, caravans, settlers, or buildings!");
+             " workers, caravans, settlers, or buildings!");
     city_data->choice.want = 1;
     if (best_role_unit(pcity, action_id_get_role(ACTION_TRADE_ROUTE))) {
       city_data->choice.value.utype
@@ -323,8 +323,8 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
 #endif /* ADV_CHOICE_TRACK */
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire " ADV_WANT_PRINTF ".",
-	     dai_choice_rule_name(&city_data->choice),
-	     city_data->choice.want);
+             dai_choice_rule_name(&city_data->choice),
+             city_data->choice.want);
 
     switch (city_data->choice.type) {
     case CT_CIVILIAN:
@@ -1649,7 +1649,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   }
 
   /* All the trade partners and the city being considered. */
-  cities[REQ_RANGE_TRADEROUTE] = city_num_trade_routes(pcity)+1;
+  cities[REQ_RANGE_TRADE_ROUTE] = city_num_trade_routes(pcity) + 1;
 
   cities[REQ_RANGE_CITY] = cities[REQ_RANGE_LOCAL] = 1;
 

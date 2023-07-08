@@ -2214,7 +2214,7 @@ static struct setting settings[] = {
   GEN_ENUM("trade_revenue_style", game.info.trade_revenue_style,
           SSET_RULES, SSET_ECONOMICS, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Trade revenue style"),
-          N_("The formula for the trade a city receives from a traderoute. "
+          N_("The formula for the trade a city receives from a trade route. "
              "CLASSIC revenues are given by the sum of the two city sizes "
              "plus the distance between them, with multipliers for overseas "
              "and international routes. "

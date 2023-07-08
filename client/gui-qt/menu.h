@@ -69,7 +69,7 @@ enum munit {
   AIRLIFT,
   BUILD_WONDER,
   AUTOTRADEROUTE,
-  ORDER_TRADEROUTE,
+  ORDER_TRADE_ROUTE,
   ORDER_DIPLOMAT_DLG,
   UPGRADE,
   NOT_4_OBS,
@@ -366,7 +366,7 @@ private slots:
   void slot_city_growth();
   void slot_city_production();
   void slot_city_buycost();
-  void slot_city_traderoutes();
+  void slot_city_trade_routes();
   void slot_stack_size();
   void slot_city_names();
   void zoom_in();

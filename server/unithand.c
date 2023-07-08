@@ -5481,7 +5481,7 @@ static bool unit_do_help_build(struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Handle request to establish traderoute. If pcity_dest is NULL, assumes
+  Handle request to establish trade route. If pcity_dest is NULL, assumes
   that unit is inside target city.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
@@ -5503,7 +5503,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   struct city *pcity_homecity;
   struct trade_route_list *routes_out_of_dest;
   struct trade_route_list *routes_out_of_home;
-  enum traderoute_bonus_type bonus_type;
+  enum trade_route_bonus_type bonus_type;
   struct goods_type *goods;
   const char *goods_str;
   const struct unit_type *act_utype;

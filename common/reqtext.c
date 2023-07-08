@@ -128,7 +128,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -206,7 +206,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -281,7 +281,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -672,9 +672,9 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* surviving or non-wonder continent-ranged requirements not supported */
+      /* Surviving or non-wonder continent-ranged requirements not supported */
       break;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         if (can_improvement_go_obsolete(preq->source.value.building)) {
@@ -823,7 +823,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      extra_name_translation(preq->source.value.extra));
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -863,7 +863,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_LOCAL:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -929,7 +929,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -1033,7 +1033,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1103,7 +1103,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1133,7 +1133,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_NATIONALITY:
     switch (preq->range) {
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -1259,7 +1259,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1334,7 +1334,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
@@ -1362,7 +1362,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1447,7 +1447,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
@@ -1475,7 +1475,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1504,7 +1504,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1544,7 +1544,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1573,7 +1573,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1617,7 +1617,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
       case REQ_RANGE_TEAM:
@@ -1719,7 +1719,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
       case REQ_RANGE_TEAM:
@@ -1750,7 +1750,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
       case REQ_RANGE_TEAM:
@@ -1785,7 +1785,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
       case REQ_RANGE_TEAM:
@@ -1877,7 +1877,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_MINSIZE:
     switch (preq->range) {
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -1947,7 +1947,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      preq->source.value.minculture);
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2072,7 +2072,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      preq->source.value.minforeignpct);
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2160,7 +2160,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -2262,7 +2262,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      (preq->source.value.terrainclass));
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2358,7 +2358,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2452,7 +2452,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2546,7 +2546,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       }
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2688,7 +2688,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
@@ -2717,7 +2717,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -2790,7 +2790,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       case REQ_RANGE_CITY:
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
       case REQ_RANGE_TEAM:
@@ -2830,7 +2830,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                        city_property);
         }
         return TRUE;
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
         fc_strlcat(buf, prefix, bufsz);
         if (preq->present) {
           /* TRANS: city property ("owned by original", etc) */

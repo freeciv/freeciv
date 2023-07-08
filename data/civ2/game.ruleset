@@ -859,7 +859,7 @@ target_reqs    =
       "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
-[actionenabler_traderoute]
+[actionenabler_trade_route]
 action = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -1525,7 +1525,7 @@ negative_label = _("BC")
 ; For each of the trade route types:
 ; "pct"        - Trade income %. If this is 0, trade route cannot be
 ;                established at all
-; "cancelling" - What to do to previously established traderoutes when they
+; "cancelling" - What to do to previously established trade routes when they
 ;                turn illegal
 ;                "Active"   - Keep them active (although they will only
 ;                             provide nonzero income if illegal due to
@@ -1534,10 +1534,10 @@ negative_label = _("BC")
 ;                "Cancel"   - Cancel them altogether
 ;
 ; TODO: What`s correct "cancelling" behavior for civ2? If you have established
-;       traderoute with enemy city nearby and conquer it -> what happens to traderoute
+;       trade route with enemy city nearby and conquer it -> what happens to trade route
 ;       between your cities with less than trademindist distance?
 ;
-; "bonus"      - One-time bonuses granted when traderoute established
+; "bonus"      - One-time bonuses granted when trade route established
 ;                "None"     - No one-time bonus
 ;                "Gold"     - Bonus to gold
 ;                "Science"  - Bonus to research
@@ -1586,7 +1586,7 @@ goods_selection = "Arrival"
 ;                           This value is applied to both ends of bidirectional routes.
 ; to_pct                  = Income for the receiving end of the trade route. Default is 100%
 ;                           This value is not used at all in case of bidirectional routes.
-; onetime_pct             = Onetime bonuses when traderoute is established. Default is 100%
+; onetime_pct             = Onetime bonuses when trade route gets established. Default is 100%
 ; flags
 ;   - "Bidirectional"     = Trade route carrying the goods does not have "from" and "to"
 ;                           ends, but both ends are considered the same.

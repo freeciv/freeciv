@@ -762,7 +762,7 @@ void get_city_dialog_output_text(const struct city *pcity,
       /* TRANS: Trade partner unknown to client */
       const char *name = trade_city ? city_name_get(trade_city) : _("(unknown)");
       int value = proute->value
-        * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100;
+        * (100 + get_city_bonus(pcity, EFT_TRADE_ROUTE_PCT)) / 100;
 
       switch (proute->dir) {
       case RDIR_BIDIRECTIONAL:

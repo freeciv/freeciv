@@ -94,7 +94,7 @@ fc_shortcut default_shortcuts[] = {
   {SC_SHOW_UNITS, Qt::Key_Space, Qt::AllButtons, Qt::ControlModifier,
     _("Units selection (for tile under mouse position)") },
   {SC_TRADE_ROUTES, Qt::Key_D, Qt::AllButtons, Qt::ControlModifier,
-    _("City Traderoutes") },
+    _("City Trade Routes") },
   {SC_CITY_PROD, Qt::Key_P, Qt::AllButtons, Qt::ControlModifier,
     _("City Production Levels") },
   {SC_CITY_NAMES, Qt::Key_N, Qt::AllButtons, Qt::ControlModifier,

@@ -96,8 +96,8 @@ static bool is_tile_seen_city(const struct player *pow_player,
   Returns TRUE iff all the tiles of a city and all the tiles of its trade
   partners are seen by pow_player.
 **************************************************************************/
-static bool is_tile_seen_traderoute(const struct player *pow_player,
-                                    const struct city *target_city)
+static bool is_tile_seen_trade_route(const struct player *pow_player,
+                                     const struct city *target_city)
 {
   /* Don't know who the trade routes will go to. */
   if (!can_player_see_city_internals(pow_player, target_city)) {
@@ -186,7 +186,7 @@ static bool is_req_knowable(const struct player *pov_player,
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
@@ -241,7 +241,7 @@ static bool is_req_knowable(const struct player *pov_player,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -326,7 +326,7 @@ static bool is_req_knowable(const struct player *pov_player,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Invalid range */
@@ -399,7 +399,7 @@ static bool is_req_knowable(const struct player *pov_player,
       /* Unknown */
       return FALSE;
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -435,7 +435,7 @@ static bool is_req_knowable(const struct player *pov_player,
       /* Only wonders (great or small) can be required in those ranges.
        * Wonders are always visible. */
       return TRUE;
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       /* Could be known for trade routes to cities owned by pov_player as
        * long as the requirement is present. Not present requirements would
        * require knowledge that no trade routes to another foreign city
@@ -550,7 +550,7 @@ static bool is_req_knowable(const struct player *pov_player,
       return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
@@ -592,11 +592,11 @@ static bool is_req_knowable(const struct player *pov_player,
        * tile. Is returning TRUE in those cases worth the added complexity
        * and the extra work for the computer? */
       return is_tile_seen_city(pov_player, context->city);
-    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_TRADE_ROUTE:
       /* TODO: The answer is known when the universal is located on a seen
        * tile. Is returning TRUE in those cases worth the added complexity
        * and the extra work for the computer? */
-      return is_tile_seen_traderoute(pov_player, context->city);
+      return is_tile_seen_trade_route(pov_player, context->city);
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_ALLIANCE:

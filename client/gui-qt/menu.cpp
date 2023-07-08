@@ -1144,12 +1144,12 @@ void mr_menu::setup_menus()
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_buycost);
   connect(act, &QAction::triggered, this, &mr_menu::slot_city_buycost);
-  act = menu->addAction(_("City Traderoutes"));
+  act = menu->addAction(_("City Trade Routes"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_trade_routes);
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_TRADE_ROUTES))));
-  connect(act, &QAction::triggered, this, &mr_menu::slot_city_traderoutes);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_city_trade_routes);
   act = menu->addAction(_("Unit Stack Size"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_unit_stack_size);
@@ -1389,7 +1389,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(QString(action_id_name_translation(ACTION_TRADE_ROUTE))
                         .replace("&", "&&"));
   act->setShortcut(QKeySequence(tr("r")));
-  menu_list.insert(ORDER_TRADEROUTE, act);
+  menu_list.insert(ORDER_TRADE_ROUTE, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_road);
 
   multiplayer_menu = this->addMenu(_("Multiplayer"));
@@ -2493,7 +2493,7 @@ void mr_menu::menus_sensitive()
         }
         break;
 
-      case ORDER_TRADEROUTE:
+      case ORDER_TRADE_ROUTE:
         i.value()->setText(
           QString(action_id_name_translation(ACTION_TRADE_ROUTE))
           .replace("&", "&&"));
@@ -3332,9 +3332,9 @@ void mr_menu::slot_city_production()
 }
 
 /**********************************************************************//**
-  Action "SHOW CITY TRADEROUTES"
+  Action "SHOW CITY TRADE ROUTES"
 **************************************************************************/
-void mr_menu::slot_city_traderoutes()
+void mr_menu::slot_city_trade_routes()
 {
   key_city_trade_routes_toggle();
 }

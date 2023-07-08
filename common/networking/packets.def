@@ -244,7 +244,7 @@ type FTM                = uint8(enum free_tech_method)
 type GLS                = uint8(enum gameloss_style)
 type UTYF               = uint8(enum unit_type_flag_id)
 type CBONUS_TYPE        = uint8(enum combat_bonus_type)
-type TRI                = uint8(enum traderoute_illegal_cancelling)
+type TRI                = uint8(enum trade_route_illegal_cancelling)
 type RDIR               = uint8(enum route_direction)
 type MOVE_MODE          = uint8(enum road_move_mode)
 type ACTION_AUTO_CAUSE  = uint8(enum action_auto_perf_cause)
@@ -259,7 +259,7 @@ type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
 type TECH_COST_STYLE    = uint8(enum tech_cost_style)
 type TECH_LEAKAGE_STYLE = uint8(enum tech_leakage_style)
 type GOLD_UPKEEP_STYLE  = uint8(enum gold_upkeep_style)
-type TR_BONUS_TYPE      = uint8(enum traderoute_bonus_type)
+type TR_BONUS_TYPE      = uint8(enum trade_route_bonus_type)
 type GOODS_SELECTION    = uint8(enum goods_selection_method)
 type EUS                = uint8(enum extra_unit_seen_type)
 type VLAYER             = uint8(enum vision_layer)
@@ -736,7 +736,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   SINT16 food_stock;
   UINT16 shield_stock;
 
-  UINT8 traderoute_count;
+  UINT8 trade_route_count;
 
   UINT16 pollution;
   UINT16 illness_trade;
@@ -797,7 +797,7 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), 
   ESTRING name[MAX_LEN_CITYNAME];
 end
 
-PACKET_TRADEROUTE_INFO = 249; sc, lsend, handle-via-packet
+PACKET_TRADE_ROUTE_INFO = 249; sc, lsend, handle-via-packet
   CITY city;
   UINT8 index;
   CITY partner;
