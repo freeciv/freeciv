@@ -182,28 +182,33 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 
 /**************************************************************************
   Similar to is_my_zoc(), but with some changes:
-  - destination (x0,y0) need not be adjacent?
+  - destination (x0, y0) need not be adjacent?
   - don't care about some directions?
 
-  Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela
+  Fix to bizarre did-not-find bug. Thanks, Katvrr -- Syela
 **************************************************************************/
 static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
 {
-  if (same_pos(ptile, unit_tile(myunit))) {
-    return FALSE; /* can't be my zoc */
+  struct tile *utile = unit_tile(myunit);
+  struct player *owner;
+
+  if (same_pos(ptile, utile)) {
+    return FALSE; /* Can't be my zoc */
   }
-  if (is_tiles_adjacent(ptile, unit_tile(myunit))
-      && !is_non_allied_unit_tile(ptile, unit_owner(myunit))) {
+
+  owner = unit_owner(myunit);
+  if (is_tiles_adjacent(ptile, utile)
+      && !is_non_allied_unit_tile(ptile, owner)) {
     return FALSE;
   }
 
   adjc_iterate(ptile, atile) {
     if (!terrain_has_flag(tile_terrain(atile), TER_NO_ZOC)
-	&& is_non_allied_unit_tile(atile, unit_owner(myunit))) {
+	&& is_non_allied_unit_tile(atile, owner)) {
       return FALSE;
     }
   } adjc_iterate_end;
-  
+
   return TRUE;
 }
 
@@ -422,8 +427,8 @@ static unsigned stack_risk(const struct tile *ptile,
    * if we enter or try to enter the tile. */
   if (risk_cost->enemy_zoc_cost != 0
       && (is_non_allied_city_tile(ptile, param->owner)
-	  || !is_my_zoc(param->owner, ptile)
-	  || is_non_allied_unit_tile(ptile, param->owner))) {
+          || !is_plr_zoc_srv(param->owner, ptile)
+          || is_non_allied_unit_tile(ptile, param->owner))) {
     /* We could become stuck. */
     risk += risk_cost->enemy_zoc_cost;
   }

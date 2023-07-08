@@ -57,25 +57,7 @@
 struct civ_game game;
 struct world wld;
 
-bool am_i_server = FALSE;
-
 static void game_defaults(bool keep_ruleset_value);
-
-/**************************************************************************
-  Set program type to server.
-**************************************************************************/
-void i_am_server(void)
-{
-  am_i_server = TRUE;
-}
-
-/**************************************************************************
-  Set program type to client.
-**************************************************************************/
-void i_am_client(void)
-{
-  am_i_server = FALSE;
-}
 
 /**************************************************************************
   Count the # of thousand citizen in a civilisation.
@@ -110,7 +92,7 @@ struct city *game_city_by_name(const char *name)
 
 /**************************************************************************
   Often used function to get a city pointer from a city ID.
-  City may be any city in the game.  This now always uses fast idex
+  City may be any city in the game. This now always uses fast idex
   method, instead of looking through all cities of all players.
 **************************************************************************/
 struct city *game_city_by_number(int id)

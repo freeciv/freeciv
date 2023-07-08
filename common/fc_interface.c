@@ -40,6 +40,8 @@ const struct functions *fc_funcs = NULL;
    available via fc_funcs. */
 bool fc_funcs_defined = FALSE;
 
+bool am_i_server = FALSE;
+
 /**************************************************************************
   Return the function pointer. Only possible before interface_init() was
   called (fc_funcs_defined FALSE).
@@ -49,6 +51,22 @@ struct functions *fc_interface_funcs(void)
   fc_assert_exit(!fc_funcs_defined);
 
   return &fc_functions;
+}
+
+/**************************************************************************
+  Set program type to server.
+**************************************************************************/
+void i_am_server(void)
+{
+  am_i_server = TRUE;
+}
+
+/**************************************************************************
+  Set program type to client.
+**************************************************************************/
+void i_am_client(void)
+{
+  am_i_server = FALSE;
 }
 
 /**************************************************************************

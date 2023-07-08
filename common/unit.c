@@ -1414,21 +1414,59 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
 }
 
 /**************************************************************************
-  Is this square controlled by the pplayer?
+  Is this square controlled by the pplayer? Function to be used on
+  server side only.
 
-  Here "is_my_zoc" means essentially a square which is *not* adjacent to an
+  Here "plr zoc" means essentially a square which is *not* adjacent to an
+  enemy unit (that has a ZOC) on a terrain that has zoc rules.
+**************************************************************************/
+bool is_plr_zoc_srv(const struct player *pplayer, const struct tile *ptile0)
+{
+  square_iterate(ptile0, 1, ptile) {
+    struct terrain *pterrain;
+    struct city *pcity;
+
+    pterrain = tile_terrain(ptile);
+    if (terrain_has_flag(pterrain, TER_NO_ZOC)) {
+      continue;
+    }
+
+    pcity = tile_non_allied_city(ptile, pplayer);
+    if (pcity != NULL) {
+      if (unit_list_size(ptile->units) > 0) {
+        /* Occupied enemy city, it doesn't matter if units inside have
+         * UTYF_NOZOC or not. Fogged city is assumed to be occupied. */
+        return FALSE;
+      }
+    } else {
+      unit_list_iterate(ptile->units, punit) {
+        if (!unit_transported_server(punit)
+            && !pplayers_allied(unit_owner(punit), pplayer)
+            && !unit_has_type_flag(punit, UTYF_NOZOC)) {
+          return FALSE;
+        }
+      } unit_list_iterate_end;
+    }
+  } square_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Is this square controlled by the pplayer? Function to be used on
+  client side only.
+
+  Here "plr zoc" means essentially a square which is *not* adjacent to an
   enemy unit (that has a ZOC) on a terrain that has zoc rules.
 
-  Since this function is also used in the client, it has to deal with some
-  client-specific features, like FoW and the fact that the client cannot 
+  Since this function is used in the client, it has to deal with some
+  client-specific features, like FoW and the fact that the client cannot
   see units inside enemy cities.
 **************************************************************************/
-bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
+bool is_plr_zoc_client(const struct player *pplayer, const struct tile *ptile0)
 {
-  struct terrain *pterrain;
-  bool srv = is_server();
-
   square_iterate(ptile0, 1, ptile) {
+    struct terrain *pterrain;
     struct city *pcity;
 
     pterrain = tile_terrain(ptile);
@@ -1439,27 +1477,18 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 
     pcity = tile_non_allied_city(ptile, pplayer);
     if (pcity != NULL) {
-      if ((srv && unit_list_size(ptile->units) > 0)
-          || (!srv && (pcity->client.occupied
-                       || TILE_KNOWN_UNSEEN == tile_get_known(ptile, pplayer)))) {
+      if (pcity->client.occupied
+          || TILE_KNOWN_UNSEEN == tile_get_known(ptile, pplayer)) {
         /* Occupied enemy city, it doesn't matter if units inside have
          * UTYF_NOZOC or not. Fogged city is assumed to be occupied. */
         return FALSE;
       }
     } else {
       unit_list_iterate(ptile->units, punit) {
-        if (srv) {
-          if (!unit_transported_server(punit)
-              && !pplayers_allied(unit_owner(punit), pplayer)
-              && !unit_has_type_flag(punit, UTYF_NOZOC)) {
-            return FALSE;
-          }
-        } else {
-          if (!unit_transported_client(punit)
-              && !pplayers_allied(unit_owner(punit), pplayer)
-              && !unit_has_type_flag(punit, UTYF_NOZOC)) {
-            return FALSE;
-          }
+        if (!unit_transported_client(punit)
+            && !pplayers_allied(unit_owner(punit), pplayer)
+            && !unit_has_type_flag(punit, UTYF_NOZOC)) {
+          return FALSE;
         }
       } unit_list_iterate_end;
     }
