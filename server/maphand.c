@@ -2325,32 +2325,42 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
                     struct player *powner, struct player *ploser)
 {
   struct base_type *pbase;
+  bv_player *could_see_unit = NULL;
   int units_num = 0;
-  bv_player *could_see_unit BAD_HEURISTIC_INIT(NULL);
+  int ul_size;
 
   if (!tile_has_extra(ptile, pextra)) {
     return;
   }
 
   if (pextra->eus != EUS_NORMAL) {
-    int i = 0;
+    ul_size = unit_list_size(ptile->units);
+  } else {
+    ul_size = 0;
+  }
 
-    units_num = unit_list_size(ptile->units);
+  int stored_units[ul_size + 1];
 
-    if (units_num > 0) {
-      could_see_unit = fc_malloc(sizeof(*could_see_unit) * units_num);
+  if (ul_size > 0) {
+    int i;
 
-      unit_list_iterate(ptile->units, aunit) {
-        BV_CLR_ALL(could_see_unit[i]);
-        players_iterate(aplayer) {
-          if (can_player_see_unit(aplayer, aunit)) {
-            BV_SET(could_see_unit[i], player_index(aplayer));
-          }
-        } players_iterate_end;
-        i++;
-      } unit_list_iterate_end;
-    } else {
-      could_see_unit = NULL; /* To keep compiler happy */
+    could_see_unit = fc_malloc(sizeof(*could_see_unit) * ul_size);
+
+    unit_list_iterate(ptile->units, aunit) {
+      stored_units[units_num++] = aunit->id;
+    } unit_list_iterate_end;
+
+    fc_assert(units_num == ul_size);
+
+    for (i = 0; i < units_num; i++) {
+      struct unit *aunit = game_unit_by_number(stored_units[i]);
+
+      BV_CLR_ALL(could_see_unit[i]);
+      players_iterate(aplayer) {
+        if (can_player_see_unit(aplayer, aunit)) {
+          BV_SET(could_see_unit[i], player_index(aplayer));
+        }
+      } players_iterate_end;
     }
   }
 
@@ -2404,14 +2414,11 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
   }
 
   if (units_num > 0) {
-    int i = 0;
+    int i;
 
-    fc_assert(pextra->eus != EUS_NORMAL);
+    for (i = 0; i < units_num; i++) {
+      struct unit *aunit = game_unit_by_number(stored_units[i]);
 
-    /* TODO: Is it really safe, after all the potential effects above
-     * function calls can have, to assume that the tile has the same units
-     * in the same order as when could_see_unit[] was first created? */
-    unit_list_iterate(ptile->units, aunit) {
       players_iterate(aplayer) {
         if (can_player_see_unit(aplayer, aunit)) {
           if (!BV_ISSET(could_see_unit[i], player_index(aplayer))) {
@@ -2423,8 +2430,7 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
           }
         }
       } players_iterate_end;
-      i++;
-    } unit_list_iterate_end;
+    }
 
     free(could_see_unit);
   }
