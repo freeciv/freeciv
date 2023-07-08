@@ -27,7 +27,7 @@ if ! test -f "${EMSDK_ROOT}/emsdk_env.sh" ; then
 fi
 
 # Sometimes emsdk environment setup script requires
-# cwd to be it's own directory.
+# cwd to be its own directory.
 cd "${EMSDK_ROOT}" || exit 1
 if ! . "./emsdk_env.sh" ; then
   echo "Sourcing \"${EMSDK_ROOT}/emsdk_env.sh\" failed!" >&2
