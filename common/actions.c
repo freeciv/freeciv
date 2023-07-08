@@ -3916,7 +3916,7 @@ is_action_possible(const action_id wanted_action,
         /* No need to check again. */
         return TRI_NO;
       } else {
-        square_iterate(&(wld.map), target->tile,
+        square_iterate(nmap, target->tile,
                        game.info.citymindist - 1, otile) {
           if (tile_city(otile) != NULL
               && plr_sees_tile(actor->player, otile)) {
@@ -3938,7 +3938,7 @@ is_action_possible(const action_id wanted_action,
     if (!omniscient) {
       /* The player may not have enough information to find out if
        * citymindist blocks or not. This doesn't depend on if it blocks. */
-      square_iterate(&(wld.map), target->tile,
+      square_iterate(nmap, target->tile,
                      game.info.citymindist - 1, otile) {
         if (!plr_sees_tile(actor->player, otile)) {
           /* Could have a city that blocks via citymindist. Even if this
@@ -4077,7 +4077,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_AIRLIFT:
     /* Reason: Keep the old rules. */
     /* Info leak: same as test_unit_can_airlift_to() */
-    switch (test_unit_can_airlift_to(omniscient ? NULL : actor->player,
+    switch (test_unit_can_airlift_to(nmap, omniscient ? NULL : actor->player,
                                      actor->unit, target->city)) {
     case AR_OK:
       return TRI_YES;
@@ -4106,7 +4106,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_CONQUER_CITY:
     /* Reason: "Conquer City" involves moving into the city. */
-    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
+    if (!unit_can_move_to_tile(nmap, actor->unit, target->tile,
                                FALSE, FALSE, TRUE)) {
       return TRI_NO;
     }
@@ -4115,7 +4115,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_CONQUER_EXTRAS:
     /* Reason: "Conquer Extras" involves moving to the tile. */
-    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
+    if (!unit_can_move_to_tile(nmap, actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
@@ -4410,7 +4410,7 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_TRANSPORT_DISEMBARK:
-    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
+    if (!unit_can_move_to_tile(nmap, actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       /* Reason: involves moving to the tile. */
       return TRI_NO;
@@ -4441,7 +4441,7 @@ is_action_possible(const action_id wanted_action,
       /* Keep the old rules. */
       return TRI_NO;
     }
-    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
+    if (!unit_can_move_to_tile(nmap, actor->unit, target->tile,
                                FALSE, TRUE, FALSE)) {
       /* Reason: involves moving to the tile. */
       return TRI_NO;
@@ -4503,7 +4503,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
     /* Reason: involves moving to the tile. */
-    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
+    if (!unit_can_move_to_tile(nmap, actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
@@ -4515,13 +4515,13 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_UNIT_MOVE:
     /* Reason: is moving to the tile. */
-    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
+    if (!unit_can_move_to_tile(nmap, actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
 
     /* Reason: Don't override "Transport Embark" */
-    if (!can_unit_exist_at_tile(&(wld.map), actor->unit, target->tile)) {
+    if (!can_unit_exist_at_tile(nmap, actor->unit, target->tile)) {
       return TRI_NO;
     }
 

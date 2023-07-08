@@ -70,17 +70,18 @@ bool are_unit_orders_equal(const struct unit_order *order1,
 }
 
 /**********************************************************************//**
-  Determines if punit can be airlifted to dest_city now!  So punit needs
+  Determines if punit can be airlifted to dest_city now! So punit needs
   to be in a city now.
   If pdest_city is NULL, just indicate whether it's possible for the unit
   to be airlifted at all from its current position.
   The 'restriction' parameter specifies which player's knowledge this is
   based on -- one player can't see whether another's cities are currently
-  able to airlift.  (Clients other than global observers should only call
+  able to airlift. (Clients other than global observers should only call
   this with a non-NULL 'restriction'.)
 **************************************************************************/
 enum unit_airlift_result
-    test_unit_can_airlift_to(const struct player *restriction,
+    test_unit_can_airlift_to(const struct civ_map *nmap,
+                             const struct player *restriction,
                              const struct unit *punit,
                              const struct city *pdest_city)
 {
@@ -118,7 +119,7 @@ enum unit_airlift_result
       && (NULL == restriction
           || (tile_get_known(city_tile(pdest_city), restriction)
               == TILE_KNOWN_SEEN))
-      && !can_unit_exist_at_tile(&(wld.map), punit, city_tile(pdest_city))) {
+      && !can_unit_exist_at_tile(nmap, punit, city_tile(pdest_city))) {
     /* Can't exist at the destination tile. */
     return AR_BAD_DST_CITY;
   }
@@ -178,7 +179,7 @@ enum unit_airlift_result
 }
 
 /**********************************************************************//**
-  Determines if punit can be airlifted to dest_city now!  So punit needs
+  Determines if punit can be airlifted to dest_city now! So punit needs
   to be in a city now.
   On the server this gives correct information; on the client it errs on the
   side of saying airlifting is possible even if it's not certain given

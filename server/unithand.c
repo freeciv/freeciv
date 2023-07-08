@@ -1310,7 +1310,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   const struct unit_type *act_utype = unit_type_get(punit);
   struct player *tgt_player = NULL;
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
-  bool can_exist = can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit));
+  struct civ_map *nmap = &(wld.map);
+  bool can_exist = can_unit_exist_at_tile(nmap, punit, unit_tile(punit));
   bool on_native = is_native_tile(unit_type_get(punit), unit_tile(punit));
   int action_custom;
 
@@ -1406,7 +1407,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       action_custom = unit_upgrade_test(punit, FALSE);
       break;
     case ACTRES_AIRLIFT:
-      action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
+      action_custom = test_unit_can_airlift_to(nmap, NULL, punit, target_city);
       break;
     case ACTRES_NUKE_UNITS:
       action_custom = unit_attack_units_at_tile_result(punit, paction,
@@ -1418,7 +1419,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       break;
     case ACTRES_CONQUER_CITY:
       if (target_city) {
-        action_custom = unit_move_to_tile_test(&(wld.map), punit,
+        action_custom = unit_move_to_tile_test(nmap, punit,
                                                punit->activity,
                                                unit_tile(punit),
                                                city_tile(target_city),
@@ -1429,7 +1430,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       break;
     case ACTRES_TRANSPORT_EMBARK:
       if (target_unit) {
-        action_custom = unit_move_to_tile_test(&(wld.map), punit,
+        action_custom = unit_move_to_tile_test(nmap, punit,
                                                punit->activity,
                                                unit_tile(punit),
                                                unit_tile(target_unit),
@@ -1444,7 +1445,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     case ACTRES_CONQUER_EXTRAS:
     case ACTRES_UNIT_MOVE:
       if (target_tile) {
-        action_custom = unit_move_to_tile_test(&(wld.map), punit,
+        action_custom = unit_move_to_tile_test(nmap, punit,
                                                punit->activity,
                                                unit_tile(punit),
                                                target_tile,
@@ -1502,7 +1503,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && target_tile != NULL
              && map_is_known_and_seen(target_tile, act_player,
                                       V_MAIN)
-             && (!can_unit_exist_at_tile(&(wld.map), punit, target_tile)
+             && (!can_unit_exist_at_tile(nmap, punit, target_tile)
                  && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
                      || !unit_could_load_at(punit, target_tile)))) {
     explnat->kind = ANEK_BAD_TERRAIN_TGT;
