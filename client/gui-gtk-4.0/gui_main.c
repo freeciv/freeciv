@@ -170,7 +170,6 @@ GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer = NULL;
 static GtkWidget *allied_chat_toggle_button;
 
-static enum Display_color_type display_color_type;  /* Practically unused */
 static gint timer_id;                               /*       Ditto        */
 static GIOChannel *srv_channel;
 static guint srv_id;
@@ -2006,11 +2005,9 @@ static void activate_gui(GtkApplication *app, gpointer data)
                                        0, 0, 0, 0);
   g_signal_connect(toplevel, "move-focus", G_CALLBACK(toplevel_focus), NULL);
 
-  display_color_type = get_visual();
-
   options_iterate(client_optset, poption) {
     if (OT_FONT == option_type(poption)) {
-      /* Force to call the appropriated callback. */
+      /* Force to call the appropriate callback. */
       option_changed(poption);
     }
   } options_iterate_end;
