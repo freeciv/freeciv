@@ -611,7 +611,7 @@ void update_city_activities(struct player *pplayer)
 
       citizens_convert(pcity);
 
-      /* Cancel traderoutes that cannot exist any more */
+      /* Cancel trade routes that cannot exist any more */
       trade_routes_iterate_safe(pcity, proute) {
         struct city *tcity = game_city_by_number(proute->partner);
 
@@ -1428,7 +1428,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_NATION:
-        if (preq->range < REQ_RANGE_TRADEROUTE
+        if (preq->range < REQ_RANGE_TRADE_ROUTE
             || preq->range == REQ_RANGE_PLAYER) {
           /* At higher ranges, new players with their nations may arrive */
           purge = TRUE;
@@ -1458,7 +1458,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_NATIONGROUP:
-        if (preq->range < REQ_RANGE_TRADEROUTE
+        if (preq->range < REQ_RANGE_TRADE_ROUTE
             || preq->range == REQ_RANGE_PLAYER) {
           /* At higher ranges, new players with their nations may arrive */
           purge = TRUE;

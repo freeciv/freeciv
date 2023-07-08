@@ -1084,14 +1084,14 @@ trade_settings = "\
 ; For each of the trade route types:\n\
 ; \"pct\"        - Trade income %. If this is 0, trade route cannot be\n\
 ;                established at all\n\
-; \"cancelling\" - What to do to previously established traderoutes when they\n\
+; \"cancelling\" - What to do to previously established trade routes when they\n\
 ;                turn illegal\n\
 ;                \"Active\"   - Keep them active (although they will only\n\
 ;                             provide nonzero income if illegal due to\n\
 ;                             trademindist rather than pct==0)\n\
 ;                \"Inactive\" - Keep them inactive\n\
 ;                \"Cancel\"   - Cancel them altogether\n\
-; \"bonus\"      - One-time bonuses granted when traderoute established\n\
+; \"bonus\"      - One-time bonuses granted when trade route established\n\
 ;                \"None\"     - No one-time bonus\n\
 ;                \"Gold\"     - Bonus to gold\n\
 ;                \"Science\"  - Bonus to research\n\
@@ -1118,7 +1118,7 @@ goods = "\
 ;                           This value is applied to both ends of bidirectional routes.\n\
 ; to_pct                  = Income for the receiving end of the trade route. Default is 100\%\n\
 ;                           This value is not used at all in case of bidirectional routes.\n\
-; onetime_pct             = Onetime bonuses when traderoute is established. Default is 100\%\n\
+; onetime_pct             = Onetime bonuses when trade route gets established. Default is 100\%\n\
 ; flags\n\
 ;   - \"Bidirectional\"     = Trade route carrying the goods does not have \"from\" and \"to\"\n\
 ;                           ends, but both ends are considered the same.\n\

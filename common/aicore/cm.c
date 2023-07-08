@@ -1623,9 +1623,9 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 
   }
 
-  /* we found the basic production, however, bonus, taxes,
-     free production, tithes, traderoutes are missing
-     we add free production, and have the city.c code do the rest */
+  /* We found the basic production, however, bonus, taxes,
+   * free production, tithes, trade routes are missing.
+   * We add free production, and have the city.c code do the rest */
 
   struct city *pcity = state->pcity;
   struct tile *pcenter = city_tile(pcity);

@@ -7512,21 +7512,21 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                     "trade.settings%d.pct", i);
         cancelling = secfile_lookup_str_default(file, "Active",
                                                 "trade.settings%d.cancelling", i);
-        set->cancelling = traderoute_cancelling_type_by_name(cancelling);
+        set->cancelling = trade_route_cancelling_type_by_name(cancelling);
         if (set->cancelling == TRI_LAST) {
           ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" unknown traderoute cancelling type \"%s\".",
+                        "\"%s\" unknown trade route cancelling type \"%s\".",
                         filename, cancelling);
           ok = FALSE;
         }
 
         bonus = secfile_lookup_str_default(file, "None", "trade.settings%d.bonus", i);
 
-        set->bonus_type = traderoute_bonus_type_by_name(bonus, fc_strcasecmp);
+        set->bonus_type = trade_route_bonus_type_by_name(bonus, fc_strcasecmp);
 
-        if (!traderoute_bonus_type_is_valid(set->bonus_type)) {
+        if (!trade_route_bonus_type_is_valid(set->bonus_type)) {
           ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" unknown traderoute bonus type \"%s\".",
+                        "\"%s\" unknown trade route bonus type \"%s\".",
                         filename, bonus);
           ok = FALSE;
         }

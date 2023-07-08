@@ -679,7 +679,7 @@ adv_want dai_effect_value(struct player *pplayer,
       }
     }
     break;
-  case EFT_TRADEROUTE_PCT:
+  case EFT_TRADE_ROUTE_PCT:
     {
       int trade = 0;
 

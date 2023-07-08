@@ -440,7 +440,7 @@ target_reqs    =
       "MaxUnitsOnTile", "1", "Tile", TRUE
     }
 
-[actionenabler_traderoute]
+[actionenabler_trade_route]
 action = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
