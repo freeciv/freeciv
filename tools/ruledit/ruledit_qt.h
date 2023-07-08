@@ -29,6 +29,7 @@ class QLineEdit;
 class QStackedLayout;
 
 class requirers_dlg;
+class tab_achievement;
 class tab_building;
 class tab_good;
 class tab_gov;
@@ -131,6 +132,7 @@ signals:
     QWidget *central;
     QStackedLayout *main_layout;
 
+    tab_achievement *ach;
     tab_building *bldg;
     tab_misc *misc;
     tab_tech *tech;

@@ -34,6 +34,7 @@ MOC_FILES = \
 	    meta_req_vec_fix.cpp	\
             meta_requirers_dlg.cpp \
             meta_ruledit_qt.cpp \
+            meta_tab_achievement.cpp	\
             meta_tab_building.cpp \
             meta_tab_enablers.cpp \
 	    meta_tab_extras.cpp	\
@@ -59,6 +60,8 @@ freeciv_ruledit_SOURCES =	\
 		edit_utype.h	\
 		effect_edit.cpp	\
 		effect_edit.h	\
+		tab_achievement.cpp	\
+		tab_achievement.h	\
 		tab_building.cpp \
 		tab_building.h	\
 		tab_enablers.cpp \

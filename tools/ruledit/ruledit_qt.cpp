@@ -45,6 +45,7 @@
 #include "req_edit.h"
 #include "req_vec_fix.h"
 #include "ruledit.h"
+#include "tab_achievement.h"
 #include "tab_building.h"
 #include "tab_enablers.h"
 #include "tab_extras.h"
@@ -172,6 +173,8 @@ void ruledit_gui::setup(QWidget *central_in)
   stack->addTab(bldg, QString::fromUtf8(R__("Buildings")));
   unit = new tab_unit(this);
   stack->addTab(unit, QString::fromUtf8(R__("Units")));
+  ach = new tab_achievement(this);
+  stack->addTab(ach, QString::fromUtf8(R__("Achievements")));
   good = new tab_good(this);
   stack->addTab(good, QString::fromUtf8(R__("Goods")));
   gov = new tab_gov(this);
@@ -253,6 +256,7 @@ void ruledit_gui::launch_now()
       data.nationlist = NULL;
     }
 
+    ach->refresh();
     bldg->refresh();
     misc->ruleset_loaded();
     nation->refresh();
