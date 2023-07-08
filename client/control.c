@@ -2183,7 +2183,7 @@ void request_unit_unload(struct unit *pcargo)
 }
 
 /**********************************************************************//**
-  Send request to do caravan action - establishing traderoute or
+  Send request to do caravan action - establishing trade route or
   helping in wonder building - to server.
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, action_id action)
@@ -3463,7 +3463,7 @@ void key_unit_teleport(void)
 }
 
 /**********************************************************************//**
-  Handle user 'establish traderoute' input
+  Handle user 'establish trade route' input
 **************************************************************************/
 void key_unit_trade_route(void)
 {

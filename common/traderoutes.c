@@ -34,7 +34,7 @@ const char *trade_route_type_names[] = {
   "Enemy", "EnemyIC", "Team", "TeamIC"
 };
 
-const char *traderoute_cancelling_type_names[] = {
+const char *trade_route_cancelling_type_names[] = {
   "Active", "Inactive", "Cancel"
 };
 
@@ -53,7 +53,7 @@ unsigned max_trade_routes(const struct city *pcity)
 }
 
 /*********************************************************************//**
-  What is type of the traderoute between two cities.
+  What is type of the trade route between two cities.
 *************************************************************************/
 enum trade_route_type cities_trade_route_type(const struct city *pcity1,
                                               const struct city *pcity2)
@@ -169,24 +169,24 @@ enum trade_route_type trade_route_type_by_name(const char *name)
 }
 
 /*********************************************************************//**
-  Return human readable name of traderoute cancelling type
+  Return human readable name of trade route cancelling type
 *************************************************************************/
-const char *traderoute_cancelling_type_name(enum traderoute_illegal_cancelling type)
+const char *trade_route_cancelling_type_name(enum trade_route_illegal_cancelling type)
 {
   fc_assert_ret_val(type >= TRI_ACTIVE && type < TRI_LAST, NULL);
 
-  return traderoute_cancelling_type_names[type];
+  return trade_route_cancelling_type_names[type];
 }
 
 /*********************************************************************//**
-  Get traderoute cancelling type by name.
+  Get trade route cancelling type by name.
 *************************************************************************/
-enum traderoute_illegal_cancelling traderoute_cancelling_type_by_name(const char *name)
+enum trade_route_illegal_cancelling trade_route_cancelling_type_by_name(const char *name)
 {
-  enum traderoute_illegal_cancelling type;
+  enum trade_route_illegal_cancelling type;
 
   for (type = TRI_ACTIVE; type < TRI_LAST; type++) {
-    if (!fc_strcasecmp(traderoute_cancelling_type_names[type], name)) {
+    if (!fc_strcasecmp(trade_route_cancelling_type_names[type], name)) {
       return type;
     }
   }
@@ -717,7 +717,7 @@ bool city_receives_goods(const struct city *pcity,
 }
 
 /*********************************************************************//**
-  Return goods type for the new traderoute between given cities.
+  Return goods type for the new trade route between given cities.
 *************************************************************************/
 struct goods_type *goods_from_city_to_unit(struct city *src, struct unit *punit)
 {

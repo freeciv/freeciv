@@ -1428,7 +1428,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
                        "action \'%s\'.\n"), BULLET,
                      action_id_name_translation(act));
         break;
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
         /* At least one action enabler needed the building in its target
          * requirements. */
         cat_snprintf(buf, bufsz,
@@ -1572,7 +1572,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
                      BULLET,
                      action_id_name_translation(act));
         break;
-      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_TRADE_ROUTE:
         cat_snprintf(buf, bufsz,
                      /* TRANS: Incite City */
                      _("%s Makes it impossible to do the action \'%s\' to "
@@ -4108,10 +4108,10 @@ void helptext_goods(char *buf, size_t bufsz, struct player *pplayer,
 
   if (pgood->onetime_pct == 0) {
     cat_snprintf(buf, bufsz,
-                 _("There's no bonuses paid when traderoute is established.\n\n"));
+                 _("There's no bonuses paid when trade route gets established.\n\n"));
   } else if (pgood->onetime_pct != 100) {
     cat_snprintf(buf, bufsz,
-                 _("When traderoute is established, %d%% of the normal bonus is paid.\n"),
+                 _("When trade route gets established, %d%% of the normal bonus is paid.\n"),
                  pgood->onetime_pct);
   }
   cat_snprintf(buf, bufsz, _("Sending city enjoys %d%% income from the route.\n"),

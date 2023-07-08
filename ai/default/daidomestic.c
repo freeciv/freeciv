@@ -253,7 +253,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   /* Look for proper destination city for trade. */
   if (trade_route_type_trade_pct(TRT_NATIONAL) > 0
       || trade_route_type_trade_pct(TRT_NATIONAL_IC) > 0) {
-    /* National traderoutes have value */
+    /* National trade routes have value */
     city_list_iterate(pplayer->cities, acity) {
       if (can_cities_trade(pcity, acity)) {
         if (tile_continent(acity->tile) != continent) {
@@ -278,7 +278,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   }
 
   /* FIXME: This check should consider more about relative
-   * income from different traderoute types. This works just
+   * income from different trade route types. This works just
    * with more typical ruleset setups. */
   if (prefer_different_cont && !dest_city_nat_different_cont) {
     if (trade_route_type_trade_pct(TRT_IN_IC) >
@@ -328,7 +328,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   }
 
   trade_routes = city_num_trade_routes(pcity);
-  /* Count also caravans enroute to establish traderoutes */
+  /* Count also caravans enroute to establish trade routes */
   caravan_units = 0;
   unit_list_iterate(pcity->units_supported, punit) {
     if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)) {

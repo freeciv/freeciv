@@ -184,7 +184,7 @@ static bool sanity_check_req_individual(rs_conversion_logger logger,
                       "%s (only great wonders supported)", list_for,
                       improvement_name_translation(pimprove));
         return FALSE;
-      } else if (preq->range > REQ_RANGE_TRADEROUTE && !is_wonder(pimprove)) {
+      } else if (preq->range > REQ_RANGE_TRADE_ROUTE && !is_wonder(pimprove)) {
         ruleset_error(logger, LOG_ERROR,
                       "%s: %s-ranged requirement not supported for "
                       "%s (only wonders supported)", list_for,

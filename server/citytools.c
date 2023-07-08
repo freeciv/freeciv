@@ -981,7 +981,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
       free(proute);
       free(back);
 
-      /* Now announce the traderoute removal */
+      /* Now announce the trade route removal */
       announce_trade_route_removal(pcity, partner, FALSE);
     }
 
@@ -2223,7 +2223,7 @@ void broadcast_city_info(struct city *pcity)
   struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = city_owner(pcity);
-  struct traderoute_packet_list *routes;
+  struct trade_route_packet_list *routes;
   struct packet_web_city_info_addition *webp_ptr;
 
   /* Send to everyone who can see the city. */
@@ -2243,7 +2243,7 @@ void broadcast_city_info(struct city *pcity)
     webp_ptr = NULL;
   }
 
-  routes = traderoute_packet_list_new();
+  routes = trade_route_packet_list_new();
   package_city(pcity, &packet, &nat_packet, &rally_packet,
                webp_ptr, routes, FALSE);
 
@@ -2257,9 +2257,9 @@ void broadcast_city_info(struct city *pcity)
         lsend_packet_city_rally_point(pplayer->connections, &rally_packet, FALSE);
         web_lsend_packet(city_info_addition, pplayer->connections,
                          webp_ptr, FALSE);
-        traderoute_packet_list_iterate(routes, route_packet) {
-          lsend_packet_traderoute_info(pplayer->connections, route_packet);
-        } traderoute_packet_list_iterate_end;
+        trade_route_packet_list_iterate(routes, route_packet) {
+          lsend_packet_trade_route_info(pplayer->connections, route_packet);
+        } trade_route_packet_list_iterate_end;
       } else if (player_can_see_city_externals(pplayer, pcity)) {
         reality_check_city(pplayer, pcity->tile);
         update_dumb_city(pplayer, pcity);
@@ -2280,10 +2280,10 @@ void broadcast_city_info(struct city *pcity)
     }
   } conn_list_iterate_end;
 
-  traderoute_packet_list_iterate(routes, route_packet) {
+  trade_route_packet_list_iterate(routes, route_packet) {
     FC_FREE(route_packet);
-  } traderoute_packet_list_iterate_end;
-  traderoute_packet_list_destroy(routes);
+  } trade_route_packet_list_iterate_end;
+  trade_route_packet_list_destroy(routes);
 }
 
 /************************************************************************//**
@@ -2394,7 +2394,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = NULL;
-  struct traderoute_packet_list *routes = NULL;
+  struct trade_route_packet_list *routes = NULL;
   struct packet_web_city_info_addition *webp_ptr;
 
   if (!pcity) {
@@ -2422,7 +2422,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       /* Wait that city has been rearranged, if it's currently
        * not in sane state. */
 
-      routes = traderoute_packet_list_new();
+      routes = trade_route_packet_list_new();
 
       /* Send all info to the owner */
       update_dumb_city(powner, pcity);
@@ -2433,18 +2433,18 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       lsend_packet_city_nationalities(dest, &nat_packet, FALSE);
       lsend_packet_city_rally_point(dest, &rally_packet, FALSE);
       web_lsend_packet(city_info_addition, dest, webp_ptr, FALSE);
-      traderoute_packet_list_iterate(routes, route_packet) {
-        lsend_packet_traderoute_info(dest, route_packet);
-      } traderoute_packet_list_iterate_end;
+      trade_route_packet_list_iterate(routes, route_packet) {
+        lsend_packet_trade_route_info(dest, route_packet);
+      } trade_route_packet_list_iterate_end;
       if (dest == powner->connections) {
         /* HACK: send also a copy to global observers. */
         packet.original = city_original_owner(pcity, NULL);
         conn_list_iterate(game.est_connections, pconn) {
           if (conn_is_global_observer(pconn)) {
             send_packet_city_info(pconn, &packet, FALSE);
-            traderoute_packet_list_iterate(routes, route_packet) {
-              send_packet_traderoute_info(pconn, route_packet);
-            } traderoute_packet_list_iterate_end;
+            trade_route_packet_list_iterate(routes, route_packet) {
+              send_packet_trade_route_info(pconn, route_packet);
+            } trade_route_packet_list_iterate_end;
           }
         } conn_list_iterate_end;
       }
@@ -2453,7 +2453,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
     /* send info to non-owner */
     if (!pviewer) {  /* observer */
       if (pcity) {
-        routes = traderoute_packet_list_new();
+        routes = trade_route_packet_list_new();
 
         /* Should be dumb_city info? */
         package_city(pcity, &packet, &nat_packet, &rally_packet,
@@ -2462,9 +2462,9 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
         lsend_packet_city_nationalities(dest, &nat_packet, FALSE);
         lsend_packet_city_rally_point(dest, &rally_packet, FALSE);
         web_lsend_packet(city_info_addition, dest, webp_ptr, FALSE);
-        traderoute_packet_list_iterate(routes, route_packet) {
-          lsend_packet_traderoute_info(dest, route_packet);
-        } traderoute_packet_list_iterate_end;
+        trade_route_packet_list_iterate(routes, route_packet) {
+          lsend_packet_trade_route_info(dest, route_packet);
+        } trade_route_packet_list_iterate_end;
       }
     } else {
       if (map_is_known_and_seen(ptile, pviewer, V_MAIN)) {
@@ -2484,10 +2484,10 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   }
 
   if (routes != NULL) {
-    traderoute_packet_list_iterate(routes, route_packet) {
+    trade_route_packet_list_iterate(routes, route_packet) {
       FC_FREE(route_packet);
-    } traderoute_packet_list_iterate_end;
-    traderoute_packet_list_destroy(routes);
+    } trade_route_packet_list_iterate_end;
+    trade_route_packet_list_destroy(routes);
   }
 }
 
@@ -2500,7 +2500,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
                   struct packet_city_nationalities *nat_packet,
                   struct packet_city_rally_point *rally_packet,
                   struct packet_web_city_info_addition *web_packet,
-                  struct traderoute_packet_list *routes,
+                  struct trade_route_packet_list *routes,
                   bool dipl_invest)
 {
   int i;
@@ -2600,7 +2600,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   i = 0;
   trade_routes_iterate(pcity, proute) {
-    struct packet_traderoute_info *tri_packet = fc_malloc(sizeof(struct packet_traderoute_info));
+    struct packet_trade_route_info *tri_packet = fc_malloc(sizeof(struct packet_trade_route_info));
 
     tri_packet->city = pcity->id;
     tri_packet->index = i;
@@ -2609,12 +2609,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     tri_packet->direction = proute->dir;
     tri_packet->goods = goods_number(proute->goods);
 
-    traderoute_packet_list_append(routes, tri_packet);
+    trade_route_packet_list_append(routes, tri_packet);
 
     i++;
   } trade_routes_iterate_end;
 
-  packet->traderoute_count = i;
+  packet->trade_route_count = i;
 
   output_type_iterate(o) {
     packet->surplus[o] = pcity->surplus[o];

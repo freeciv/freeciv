@@ -1719,7 +1719,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   set_count = 0;
   for (trt = 0; trt < TRT_LAST; trt++) {
     struct trade_route_settings *set = trade_route_settings_by_type(trt);
-    const char *cancelling = traderoute_cancelling_type_name(set->cancelling);
+    const char *cancelling = trade_route_cancelling_type_name(set->cancelling);
 
     if (set->trade_pct != 100 || strcmp(cancelling, "Active")) {
       char path[256];
@@ -1733,7 +1733,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                          "%s.pct", path);
       secfile_insert_str(sfile, cancelling,
                          "%s.cancelling", path);
-      secfile_insert_str(sfile, traderoute_bonus_type_name(set->bonus_type),
+      secfile_insert_str(sfile, trade_route_bonus_type_name(set->bonus_type),
                          "%s.bonus", path);
     }
   }
