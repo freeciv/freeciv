@@ -1665,8 +1665,11 @@ void show_new_turn_info()
   research = research_get(client_player());
   s = QString(_("Year: %1 (Turn: %2)"))
       .arg(calendar_text()).arg(game.info.turn) + "\n";
-  s = s + QString(nation_plural_for_player(client_player()));
-  s = s + " - " + QString(_("Population: %1"))
+  s += QString(nation_plural_for_player(client_player()));
+  if (client_is_observer()) {
+    s += QString(_(" (observer)"));
+  }
+  s += " - " + QString(_("Population: %1"))
       .arg(population_to_text(civ_population(client.conn.playing)));
   if (research->researching != A_UNKNOWN
       && research->researching != A_UNSET
