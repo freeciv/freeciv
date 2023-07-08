@@ -52,6 +52,22 @@ struct functions *fc_interface_funcs(void)
 }
 
 /************************************************************************//**
+  Set program type to server.
+****************************************************************************/
+void i_am_server(void)
+{
+  am_i_server = TRUE;
+}
+
+/************************************************************************//**
+  Set program type to client.
+****************************************************************************/
+void i_am_client(void)
+{
+  am_i_server = FALSE;
+}
+
+/************************************************************************//**
   Initialize libfreeciv.
 
   @param check_fc_interface  Whether to also test and initialize functions.

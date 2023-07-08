@@ -69,22 +69,6 @@ bool _ruleset_compat_mode = FALSE;
 static void game_defaults(bool keep_ruleset_value);
 
 /**********************************************************************//**
-  Set program type to server.
-**************************************************************************/
-void i_am_server(void)
-{
-  am_i_server = TRUE;
-}
-
-/**********************************************************************//**
-  Set program type to client.
-**************************************************************************/
-void i_am_client(void)
-{
-  am_i_server = FALSE;
-}
-
-/**********************************************************************//**
   Count the # of thousand citizen in a civilisation.
 **************************************************************************/
 int civ_population(const struct player *pplayer)
@@ -117,14 +101,13 @@ struct city *game_city_by_name(const char *name)
 
 /**********************************************************************//**
   Often used function to get a city pointer from a city ID.
-  City may be any city in the game.  This now always uses fast idex
+  City may be any city in the game. This now always uses fast idex
   method, instead of looking through all cities of all players.
 **************************************************************************/
 struct city *game_city_by_number(int id)
 {
   return idex_lookup_city(&wld, id);
 }
-
 
 /**********************************************************************//**
   Find unit out of all units in game: now uses fast idex method,
