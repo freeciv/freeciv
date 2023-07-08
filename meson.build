@@ -327,7 +327,8 @@ priv_functions = [
 
 foreach func : priv_functions
   if c_compiler.has_function(func,
-                             dependencies: net_dep)
+                             dependencies: net_dep,
+                             args: ['-O'])
     priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
@@ -345,7 +346,8 @@ liblua_functions = [
 
 foreach func : liblua_functions
   if c_compiler.has_function(func,
-                             dependencies: net_dep)
+                             dependencies: net_dep,
+                             args: ['-O'])
     liblua_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
@@ -354,14 +356,16 @@ if c_compiler.has_header('unistd.h')
   liblua_conf_data.set('FREECIV_HAVE_UNISTD_H', 1)
 endif
 
-if c_compiler.has_function('BCryptGenRandom', args: '-lbcrypt')
+if c_compiler.has_function('BCryptGenRandom', args: ['-lbcrypt', '-O'])
   bcrypt_lib_dep = c_compiler.find_library('bcrypt')
   priv_conf_data.set('HAVE_BCRYPTGENRANDOM', 1)
 else
   bcrypt_lib_dep = []
 endif
 
-if c_compiler.has_function('getaddrinfo', dependencies: net_dep)
+if c_compiler.has_function('getaddrinfo',
+                           dependencies: net_dep,
+                           args: ['-O'])
   priv_conf_data.set('HAVE_GETADDRINFO', 1)
   pub_conf_data.set('FREECIV_IPV6_SUPPORT', 1)
 else
@@ -378,13 +382,15 @@ int main(void) { getaddrinfo(NULL, NULL, NULL, NULL); }''',
 endif
 
 if c_compiler.has_header('libcharset.h', args: header_arg)
-  if c_compiler.has_function('locale_charset')
+  if c_compiler.has_function('locale_charset', args: ['-O'])
     priv_conf_data.set('HAVE_LIBCHARSET', 1)
     charset_dep = []
   else
     charset_dep = c_compiler.find_library('charset', dirs: cross_lib_path,
                                           required: false)
-    if charset_dep.found() and c_compiler.has_function('locale_charset', dependencies: charset_dep)
+    if charset_dep.found() and c_compiler.has_function('locale_charset',
+                                                       dependencies: charset_dep,
+                                                       args: ['-O'])
       priv_conf_data.set('HAVE_LIBCHARSET', 1)
     else
       charset_dep = []
@@ -400,7 +406,8 @@ if rl_req != 'false'
                                          required:false)
 
   if readline_dep.found() and c_compiler.has_function('rl_completion_suppress_append',
-                                                      dependencies: readline_dep)
+                                                      dependencies: readline_dep,
+                                                      args: ['-O'])
     pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
   elif rl_req == 'true'
     error('Readline support requested but not found.')
@@ -527,7 +534,7 @@ int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''',
   priv_conf_data.set('HAVE_IP_MREQN', 1)
 endif
 
-if c_compiler.has_function('iconv', args: header_arg)
+if c_compiler.has_function('iconv', args: [header_arg, '-O'])
   priv_conf_data.set('HAVE_ICONV', 1)
   iconv_lib_dep = []
 elif c_compiler.has_header_symbol('iconv.h', 'iconv', args: header_arg)
@@ -574,7 +581,7 @@ void fr(const char *form, ...)
 int main(void) { size_t var = 0; fr("''' + format + '''", var); return 0; }''',
   name: 'size_t printf as ' + format,
   include_directories: include_directories(cross_inc_path),
-  args: ['-Werror', '-Wall'])
+  args: ['-Werror', '-Wall', '-O'])
     priv_conf_data.set('SIZE_T_PRINTF', '"' + format + '"')
     size_t_f = format
     break
