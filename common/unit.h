@@ -22,6 +22,7 @@ extern "C" {
 
 /* common */
 #include "base.h"
+#include "fc_interface.h"
 #include "fc_types.h"
 #include "map_types.h"
 #include "terrain.h"            /* enum tile_special_type */
@@ -448,8 +449,25 @@ static inline bool is_non_attack_unit_tile(const struct tile *ptile,
 struct unit *unit_occupies_tile(const struct tile *ptile,
                                 const struct player *pplayer);
 
-bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile,
-               const struct civ_map *zmap);
+bool is_plr_zoc_srv(const struct player *unit_owner, const struct tile *ptile,
+                    const struct civ_map *zmap);
+bool is_plr_zoc_client(const struct player *unit_owner, const struct tile *ptile,
+                       const struct civ_map *zmap);
+
+/**********************************************************************//**
+  Is this square controlled by the unit_owner? This function can be
+  used both by the server and the client side.
+
+  Here "is_my_zoc" means essentially a square which is *not* adjacent to an
+  enemy unit (that has a ZOC) on a terrain that has zoc rules.
+**************************************************************************/
+static inline bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile,
+                             const struct civ_map *zmap)
+{
+  return is_server()
+    ? is_plr_zoc_srv(unit_owner, ptile, zmap) : is_plr_zoc_client(unit_owner, ptile, zmap);
+}
+
 bool unit_being_aggressive(const struct unit *punit);
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 

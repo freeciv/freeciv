@@ -811,7 +811,7 @@ static inline void pft_fill_parameter(struct pf_parameter *parameter,
   }
 
   if (!unit_type_really_ignores_zoc(punittype)) {
-    parameter->get_zoc = is_my_zoc;
+    parameter->get_zoc = is_server() ? is_plr_zoc_srv : is_plr_zoc_client;
   } else {
     parameter->get_zoc = NULL;
   }
@@ -853,7 +853,7 @@ static void pft_fill_overlap_param(struct pf_parameter *parameter,
   parameter->ignore_none_scopes = FALSE;
 
   if (!unit_type_really_ignores_zoc(punittype)) {
-    parameter->get_zoc = is_my_zoc;
+    parameter->get_zoc = is_server() ? is_plr_zoc_srv : is_plr_zoc_client;
   } else {
     parameter->get_zoc = NULL;
   }
@@ -904,7 +904,7 @@ static void pft_fill_attack_param(struct pf_parameter *parameter,
   parameter->actions &= ~PF_AA_CITY_ATTACK;
 
   if (!unit_type_really_ignores_zoc(punittype)) {
-    parameter->get_zoc = is_my_zoc;
+    parameter->get_zoc = is_server() ? is_plr_zoc_srv : is_plr_zoc_client;
   } else {
     parameter->get_zoc = NULL;
   }
