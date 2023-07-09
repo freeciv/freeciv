@@ -77,7 +77,7 @@ jobs:
             sdl2_mixer \
             sdl2_ttf \
             qt@6 \
-            mysql-client@5.7 \
+            mysql-client \
             postgresql \
             unixodbc
       - name: build
