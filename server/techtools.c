@@ -408,7 +408,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
   could_switch = create_current_governments_data(presearch);
 
-  /* getting tech allows us to change research without applying techpenalty
+  /* Getting tech allows us to change research without applying techpenalty
    * (without losing bulbs) */
   if (tech_found == presearch->researching) {
     presearch->free_bulbs = presearch->bulbs_researched;
@@ -437,9 +437,10 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
   /* Make proper changes for all players. Use shuffled order, in case
    * a script would detect a signal. */
   shuffled_players_iterate(aplayer) {
+    bool shares_research = (presearch == research_get(aplayer));
     i = player_index(aplayer);
 
-    if (presearch == research_get(aplayer)) {
+    if (shares_research) {
       char buf[250];
 
       /* Only for players sharing the research. */
@@ -450,7 +451,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
         upgrade_all_city_extras(aplayer, was_discovery);
 
         /* Revealing of extras with visibility_req */
-        whole_map_iterate(&(wld.map),ptile) {
+        whole_map_iterate(&(wld.map), ptile) {
           if (map_is_known_and_seen(ptile, aplayer, V_MAIN)) {
             if (update_player_tile_knowledge(aplayer, ptile)) {
               send_tile_info(aplayer->connections, ptile, FALSE);
@@ -463,9 +464,11 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
        * that world-ranged effects will not be updated immediately. */
       unit_list_refresh_vision(aplayer->units);
 
-      fc_snprintf(buf, sizeof(buf), _("Discovery of %s"), advance_name);
+      if (shares_research) {
+        fc_snprintf(buf, sizeof(buf), _("Discovery of %s"), advance_name);
 
-      notify_new_government_options(aplayer, could_switch, buf);
+        notify_new_government_options(aplayer, could_switch, buf);
+      }
     }
 
     /* For any player. */
