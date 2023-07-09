@@ -10,14 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIHUNT_H
-#define FC__AIHUNT_H
+#ifndef FC__DAIHUNTER_H
+#define FC__DAIHUNTER_H
 
 /* utility */
 #include "support.h"            /* bool type */
-
-/* common */
-#include "fc_types.h"
 
 void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
                        struct city *pcity, struct adv_choice *choice,
@@ -26,4 +23,4 @@ bool dai_hunter_qualify(struct player *pplayer, struct unit *punit);
 int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
                       struct unit *punit);
 
-#endif /* FC__AIHUNT_H */
+#endif /* FC__DAIHUNTER_H */

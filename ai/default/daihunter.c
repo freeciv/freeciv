@@ -34,7 +34,6 @@
 #include "pf_tools.h"
 
 /* server */
-#include "citytools.h"
 #include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"
@@ -42,18 +41,16 @@
 /* server/advisors */
 #include "advdata.h"
 #include "advgoto.h"
-#include "advtools.h"
 
 /* ai */
 #include "handicaps.h"
 
 /* ai/default */
-#include "daicity.h"
 #include "daiplayer.h"
 #include "daitools.h"
 #include "daiunit.h"
 
-#include "aihunt.h"
+#include "daihunter.h"
 
 
 /**********************************************************************//**
@@ -227,7 +224,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
 static void eval_hunter_want(struct ai_type *ait, struct player *pplayer,
                              struct city *pcity,
                              struct adv_choice *choice,
-			     struct unit_type *best_type,
+                             struct unit_type *best_type,
                              int veteran)
 {
   struct unit *virtualunit;
@@ -330,8 +327,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
           continue;
         }
         unit_list_iterate(ptile->units, victim) {
-          enum diplstate_type ds =
-	    player_diplstate_get(pplayer, unit_owner(victim))->type;
+          enum diplstate_type ds
+            = player_diplstate_get(pplayer, unit_owner(victim))->type;
           const struct unit_type *ptype;
           const struct unit_type *victim_type;
 
