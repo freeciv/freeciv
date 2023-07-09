@@ -3699,6 +3699,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                    && (tslot = team_slot_by_number(team)),
                    "Invalid team definition for player %s (nb %d).",
                    player_name(pplayer), player_number(pplayer));
+    /* Should never fail when slot given is not NULL */
     team_add_player(pplayer, team_new(tslot));
   } players_iterate_end;
 

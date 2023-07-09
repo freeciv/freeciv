@@ -1619,6 +1619,7 @@ void server_player_init(struct player *pplayer, bool initmap,
   }
   if (needs_team) {
     team_add_player(pplayer, NULL);
+    fc_assert(pplayer->team != NULL);
   }
 
   /* This must be done after team information is initialised

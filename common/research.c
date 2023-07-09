@@ -48,7 +48,8 @@ struct research_player_iter {
 };
 #define RESEARCH_PLAYER_ITER(p) ((struct research_player_iter *) p)
 
-static struct research research_array[MAX_NUM_PLAYER_SLOTS];
+#define RESEARCH_ARRAY_SIZE MAX(MAX_NUM_PLAYER_SLOTS, MAX_NUM_TEAM_SLOTS)
+static struct research research_array[RESEARCH_ARRAY_SIZE];
 
 static struct name_translation advance_unset_name = NAME_INIT;
 static struct name_translation advance_future_name = NAME_INIT;
