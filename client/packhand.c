@@ -2473,6 +2473,8 @@ void handle_player_info(const struct packet_player_info *pinfo)
   /* Team. */
   tslot = team_slot_by_number(pinfo->team);
   fc_assert(NULL != tslot);
+
+  /* Should never fail when slot given is not nullptr */
   team_add_player(pplayer, team_new(tslot));
 
   pnation = nation_by_number(pinfo->nation);
