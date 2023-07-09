@@ -2432,10 +2432,11 @@ static bool team_command(struct connection *caller, char *str, bool check)
       tslot = team_slot_by_number(teamno);
     }
   }
+
   if (NULL == tslot) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
               _("No such team %s. Please give a "
-              "valid team name or number."), arg[1]);
+                "valid team name or number."), arg[1]);
     goto cleanup;
   }
 
@@ -2444,19 +2445,23 @@ static bool team_command(struct connection *caller, char *str, bool check)
     cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Cannot team a barbarian."));
     goto cleanup;
   }
+
   if (!check) {
+    /* Should never fail when slot given is not NULL */
     team_add_player(pplayer, team_new(tslot));
     send_player_info_c(pplayer, NULL);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
               player_name(pplayer),
               team_slot_name_translation(tslot));
   }
+
   res = TRUE;
 
   cleanup:
   for (i = 0; i < ntokens; i++) {
     free(arg[i]);
   }
+
   return res;
 }
 
