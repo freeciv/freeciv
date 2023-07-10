@@ -1,4 +1,4 @@
-# locale-fr.m4 serial 21
+# locale-fr.m4 serial 22
 dnl Copyright (C) 2003, 2005-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -133,6 +133,12 @@ int main () {
     rm -fr conftest*
   ])
   LOCALE_FR=$gt_cv_locale_fr
+  case $LOCALE_FR in #(
+    '' | *[[[:space:]\"\$\'*@<:@]]*)
+      dnl This locale name might cause trouble with sh or make.
+      AC_MSG_WARN([invalid locale "$LOCALE_FR"; assuming "none"])
+      LOCALE_FR=none;;
+  esac
   AC_SUBST([LOCALE_FR])
 ])
 
@@ -261,6 +267,12 @@ int main () {
     esac
   ])
   LOCALE_FR_UTF8=$gt_cv_locale_fr_utf8
+  case $LOCALE_FR_UTF8 in #(
+    '' | *[[[:space:]\"\$\'*@<:@]]*)
+      dnl This locale name might cause trouble with sh or make.
+      AC_MSG_WARN([invalid locale "$LOCALE_FR_UTF8"; assuming "none"])
+      LOCALE_FR_UTF8=none;;
+  esac
   AC_SUBST([LOCALE_FR_UTF8])
 
   dnl Users of $LOCALE_FR_UTF8 need to know which of the locale categories they
