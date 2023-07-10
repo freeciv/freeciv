@@ -485,7 +485,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
         || (units[utype_index(i)].building_count > 0)) {
       upgrade = (can_upgrade_unittype(client.conn.playing, i) != NULL);
 
-      /* unit type icon */
+      /* Unit type icon */
       pBuf = create_iconlabel(adj_surf(get_unittype_surface(i, direction8_invalid())), pWindow->dst, NULL,
                               WF_RESTORE_BACKGROUND | WF_FREE_THEME);
       if (count > adj_size(72)) {
@@ -607,7 +607,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
 
       count += adj_size(8);
-      area.h += (hh/2);
+      area.h += (hh / 2);
     }
   } unit_type_iterate_end;
 
@@ -900,15 +900,15 @@ void real_units_report_dialog_update(void *unused)
 
     get_units_report_data(units, &units_total);
 
-    /* find if there are new units entry (if not then rebuild all) */
-    pWidget = pUnitsDlg->pEndActiveWidgetList; /* icon of first list entry */
+    /* Find if there are new units entry (if not then rebuild all) */
+    pWidget = pUnitsDlg->pEndActiveWidgetList; /* Icon of first list entry */
     unit_type_iterate(i) {
       if ((units[utype_index(i)].active_count > 0)
           || (units[utype_index(i)].building_count > 0)) {
         is_in_list = FALSE;
 
-        pbuf = pWidget; /* unit type icon */
-        while (pbuf) {
+        pbuf = pWidget; /* Unit type icon */
+        while (pbuf != NULL) {
           if ((MAX_ID - pbuf->ID) == utype_number(i)) {
             is_in_list = TRUE;
             pWidget = pbuf;
@@ -919,7 +919,7 @@ void real_units_report_dialog_update(void *unused)
             break;
           }
 
-          /* first widget of next list entry */
+          /* First widget of next list entry */
           pbuf = pbuf->prev->prev->prev->prev->prev->prev->prev->prev;
         }
 
@@ -930,128 +930,142 @@ void real_units_report_dialog_update(void *unused)
       }
     } unit_type_iterate_end;
 
-    /* update list */
+    /* Update list */
     pWidget = pUnitsDlg->pEndActiveWidgetList;
-    unit_type_iterate(i) {
-      pbuf = pWidget; /* first widget (icon) of the first list entry */
+    if (pWidget != NULL) {
+      unit_type_iterate(i) {
+        pbuf = pWidget; /* First widget (icon) of the first list entry */
 
-      if ((units[utype_index(i)].active_count > 0) || (units[utype_index(i)].building_count > 0)) {
-        /* the player has at least one unit of this type */
+        if ((units[utype_index(i)].active_count > 0)
+            || (units[utype_index(i)].building_count > 0)) {
+          /* The player has at least one unit of this type */
 
-        search_finished = FALSE;
-        while (!search_finished) {
-          if ((MAX_ID - pbuf->ID) == utype_number(i)) { /* list entry for this unit type found */
+          search_finished = FALSE;
+          while (!search_finished) {
+            if ((MAX_ID - pbuf->ID) == utype_number(i)) {
+              /* List entry for this unit type found */
 
-            upgrade = (can_upgrade_unittype(client.conn.playing, i) != NULL);
+              upgrade = (can_upgrade_unittype(client.conn.playing, i) != NULL);
 
-            pbuf = pbuf->prev; /* unit type name */
-            if (upgrade) {
-              pbuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
-              pbuf->action = popup_upgrade_unit_callback;
-              set_wstate(pbuf, FC_WS_NORMAL);
-            }
+              pbuf = pbuf->prev; /* Unit type name */
+              if (upgrade) {
+                pbuf->string_utf8->fgcol
+                  = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
+                pbuf->action = popup_upgrade_unit_callback;
+                set_wstate(pbuf, FC_WS_NORMAL);
+              }
 
-            pbuf = pbuf->prev; /* active */
-            fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].active_count);
-            copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
+              pbuf = pbuf->prev; /* Active */
+              fc_snprintf(cbuf, sizeof(cbuf), "%d",
+                          units[utype_index(i)].active_count);
+              copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-            pbuf = pbuf->prev; /* shield upkeep */
-            fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
-            copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
+              pbuf = pbuf->prev; /* Shield upkeep */
+              fc_snprintf(cbuf, sizeof(cbuf), "%d",
+                          units[utype_index(i)].upkeep[O_SHIELD]);
+              copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-            pbuf = pbuf->prev; /* food upkeep */
-            fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
-            copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
+              pbuf = pbuf->prev; /* Food upkeep */
+              fc_snprintf(cbuf, sizeof(cbuf), "%d",
+                          units[utype_index(i)].upkeep[O_FOOD]);
+              copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-            pbuf = pbuf->prev; /* gold upkeep */
-            fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
-            copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
+              pbuf = pbuf->prev; /* Gold upkeep */
+              fc_snprintf(cbuf, sizeof(cbuf), "%d",
+                          units[utype_index(i)].upkeep[O_GOLD]);
+              copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-            pbuf = pbuf->prev; /* building */
-            if (units[utype_index(i)].building_count > 0) {
-              fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].building_count);
-            } else {
-              fc_snprintf(cbuf, sizeof(cbuf), "--");
-            }
-            copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
+              pbuf = pbuf->prev; /* Building */
+              if (units[utype_index(i)].building_count > 0) {
+                fc_snprintf(cbuf, sizeof(cbuf), "%d",
+                            units[utype_index(i)].building_count);
+              } else {
+                fc_snprintf(cbuf, sizeof(cbuf), "--");
+              }
+              copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-            pbuf = pbuf->prev; /* soonest completion */
-            if (units[utype_index(i)].building_count > 0) {
-              fc_snprintf(cbuf, sizeof(cbuf), "%d %s", units[utype_index(i)].soonest_completions,
-                          PL_("turn", "turns", units[utype_index(i)].soonest_completions));
-            } else {
-              fc_snprintf(cbuf, sizeof(cbuf), "--");
-            }
-            copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
+              pbuf = pbuf->prev; /* Soonest completion */
+              if (units[utype_index(i)].building_count > 0) {
+                fc_snprintf(cbuf, sizeof(cbuf), "%d %s",
+                            units[utype_index(i)].soonest_completions,
+                            PL_("turn", "turns",
+                                units[utype_index(i)].soonest_completions));
+              } else {
+                fc_snprintf(cbuf, sizeof(cbuf), "--");
+              }
+              copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-            pWidget = pbuf->prev; /* icon of next unit type */
+              pWidget = pbuf->prev; /* Icon of next unit type */
 
-            search_finished = TRUE;
-
-          } else { /* list entry for this unit type not found yet */
-
-            /* search it */
-            pbuf = pWidget->next;
-            do {
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pbuf->prev);
-            } while (((MAX_ID - pbuf->prev->ID) != utype_number(i))
-                     && (pbuf->prev != pUnitsDlg->pBeginActiveWidgetList));
-
-            if (pbuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
-              /* list entry not found - can this really happen? */
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pbuf->prev);
-              pWidget = pbuf->prev; /* pUnitsDlg->pBeginActiveWidgetList */
               search_finished = TRUE;
+
+            } else { /* List entry for this unit type not found yet */
+
+              /* Search it */
+              pbuf = pWidget->next;
+              do {
+                del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+                                                            pbuf->prev);
+              } while (((MAX_ID - pbuf->prev->ID) != utype_number(i))
+                       && (pbuf->prev != pUnitsDlg->pBeginActiveWidgetList));
+
+              if (pbuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
+                /* List entry not found - can this really happen? */
+                del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+                                                            pbuf->prev);
+                pWidget = pbuf->prev; /* pUnitsDlg->pBeginActiveWidgetList */
+                search_finished = TRUE;
+              } else {
+                /* Found it */
+                pbuf = pbuf->prev; /* First widget (icon) of list entry */
+              }
+            }
+          }
+        } else { /* Player has no unit of this type */
+          if (pbuf->next != pUnitsDlg->pBeginActiveWidgetList) {
+            if (utype_number(i) < (MAX_ID - pbuf->ID)) {
+              continue;
             } else {
-              /* found it */
-              pbuf = pbuf->prev; /* first widget (icon) of list entry */
+              pbuf = pbuf->next;
+              do {
+                del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+                                                            pbuf->prev);
+              } while (((MAX_ID - pbuf->prev->ID) == utype_number(i))
+                       && (pbuf->prev != pUnitsDlg->pBeginActiveWidgetList));
+              if (pbuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
+                del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+                                                            pbuf->prev);
+              }
+              pWidget = pbuf->prev;
             }
           }
         }
-      } else { /* player has no unit of this type */
-        if (pbuf && pbuf->next != pUnitsDlg->pBeginActiveWidgetList) {
-          if (utype_number(i) < (MAX_ID - pbuf->ID)) {
-            continue;
-          } else {
-            pbuf = pbuf->next;
-            do {
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
-                                                          pbuf->prev);
-            } while (((MAX_ID - pbuf->prev->ID) == utype_number(i))
-                     && (pbuf->prev != pUnitsDlg->pBeginActiveWidgetList));
-            if (pbuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
-                                                          pbuf->prev);
-            }
-            pWidget = pbuf->prev;
-          }
-        }
-      }
-    } unit_type_iterate_end;
+      } unit_type_iterate_end;
+    }
 
     /* -------------------------------------- */
 
-    /* total active */
+    /* Total active */
     pbuf = pUnitsDlg->pEndWidgetList->prev->prev;
     fc_snprintf(cbuf, sizeof(cbuf), "%d", units_total.active_count);
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-    /* total shields cost */
+    /* Total shields cost */
     pbuf = pbuf->prev;
     fc_snprintf(cbuf, sizeof(cbuf), "%d", units_total.upkeep[O_SHIELD]);
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-    /* total food cost widget */
+    /* Total food cost widget */
     pbuf = pbuf->prev;
     fc_snprintf(cbuf, sizeof(cbuf), "%d", units_total.upkeep[O_FOOD]);
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-    /* total gold cost widget */
+    /* Total gold cost widget */
     pbuf = pbuf->prev;
     fc_snprintf(cbuf, sizeof(cbuf), "%d", units_total.upkeep[O_GOLD]);
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
-    /* total building count */
+    /* Total building count */
     pbuf = pbuf->prev;
     fc_snprintf(cbuf, sizeof(cbuf), "%d", units_total.building_count);
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
