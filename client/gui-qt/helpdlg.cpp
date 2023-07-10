@@ -1602,11 +1602,13 @@ struct terrain *help_widget::terrain_max_values()
 struct unit_type *help_widget::uclass_max_values(struct unit_class *uclass)
 {
   struct unit_type *max = new struct unit_type;
+
   max->uclass = uclass;
   max->attack_strength = 0;
   max->bombard_rate = 0;
   max->build_cost = 0;
   max->city_size = 0;
+  max->convert_time = 0;
   max->defense_strength = 0;
   max->firepower = 0;
   max->fuel = 0;
@@ -1621,10 +1623,13 @@ struct unit_type *help_widget::uclass_max_values(struct unit_class *uclass)
   max->upkeep[O_SHIELD] = 0;
   max->upkeep[O_TRADE] = 0;
   max->vision_radius_sq = 0;
+
   unit_type_iterate(utype) {
     if (utype->uclass == uclass) {
-#define SET_MAX(v) \
+
+#define SET_MAX(v)                                      \
       max->v = max->v > utype->v ? max->v : utype->v
+
       SET_MAX(attack_strength);
       SET_MAX(bombard_rate);
       SET_MAX(build_cost);
@@ -1644,8 +1649,11 @@ struct unit_type *help_widget::uclass_max_values(struct unit_class *uclass)
       SET_MAX(upkeep[O_SHIELD]);
       SET_MAX(upkeep[O_TRADE]);
       SET_MAX(vision_radius_sq);
+
 #undef SET_MAX
+
     }
   } unit_type_iterate_end
+
   return max;
 }
