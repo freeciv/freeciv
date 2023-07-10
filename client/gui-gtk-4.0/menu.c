@@ -75,11 +75,6 @@ static bool menus_built = FALSE;
 
 static GMenu *setup_menus(GtkApplication *app);
 
-#ifdef MENUS_GTK3
-static void menu_entry_set_active(const char *key,
-                                  gboolean is_active);
-#endif /* MENUS_GTK3 */
-
 static void view_menu_update_sensitivity(GActionMap *map);
 
 enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
@@ -3281,21 +3276,6 @@ static struct menu_entry_info *menu_entry_info_find(const char *key)
   return NULL;
 }
 
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Sets an menu entry sensitive.
-****************************************************************************/
-static void menu_entry_set_active(const char *key,
-                                  gboolean is_active)
-{
-  GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM(gtk_builder_get_object(ui_builder, key));
-
-  if (item != NULL) {
-    gtk_check_menu_item_set_active(item, is_active);
-  }
-}
-#endif /* MENUS_GTK3 */
-
 /************************************************************************//**
   Sets sensitivity of an menu entry, found by info.
 ****************************************************************************/
@@ -3352,14 +3332,6 @@ static void menus_rename(const char *key,
   if (item != NULL) {
     gtk_menu_item_set_label(GTK_MENU_ITEM(item), new_label);
   }
-}
-
-/************************************************************************//**
-  Find the child menu of an action.
-****************************************************************************/
-static GtkMenu *find_menu(const char *key)
-{
-  return GTK_MENU(gtk_builder_get_object(ui_builder, key));
 }
 #endif /* MENUS_GTK3 */
 
@@ -3812,75 +3784,6 @@ void real_menus_update(void)
                            (can_units_do(punits, unit_can_add_or_build_city)
                             || can_units_do(punits, unit_can_help_build_wonder_here)));
 
-#ifdef MENUS_GTK3
-  /* Set base sensitivity. */
-  if ((menu = find_menu("<MENU>/BUILD_BASE"))) {
-    GtkWidget *iter;
-    struct extra_type *pextra;
-
-    for (iter = gtk_widget_get_first_child(menu);
-         iter != NULL;
-         iter = gtk_widget_get_next_sibling(iter)) {
-      pextra = g_object_get_data(G_OBJECT(iter), "base");
-      if (NULL != pextra) {
-        gtk_widget_set_sensitive(GTK_WIDGET(iter),
-                                 can_units_do_activity_targeted(punits,
-                                                                ACTIVITY_BASE,
-                                                                pextra));
-      }
-    }
-  }
-
-  /* Set road sensitivity. */
-  if ((menu = find_menu("<MENU>/BUILD_PATH"))) {
-    GtkWidget *iter;
-    struct extra_type *pextra;
-
-    for (iter = gtk_widget_get_first_child(menu);
-         iter != NULL;
-         iter = gtk_widget_get_next_sibling(iter)) {
-      pextra = g_object_get_data(G_OBJECT(iter), "road");
-      if (NULL != pextra) {
-        gtk_widget_set_sensitive(GTK_WIDGET(iter),
-                                 can_units_do_activity_targeted(punits,
-                                                                ACTIVITY_GEN_ROAD,
-                                                                pextra));
-      }
-    }
-  }
-
-  /* Set Go to and... action visibility. */
-  if ((menu = find_menu("<MENU>/GOTO_AND"))) {
-    GtkWidget *iter;
-    struct action *paction;
-
-    bool can_do_something = FALSE;
-
-    /* Enable a menu item if it is theoretically possible that one of the
-     * selected units can perform it. Checking if the action can be performed
-     * at the current tile is pointless since it should be performed at the
-     * target tile. */
-    for (iter = gtk_widget_get_first_child(menu);
-         iter != NULL;
-         iter = gtk_widget_get_next_sibling(iter)) {
-      paction = g_object_get_data(G_OBJECT(iter), "end_action");
-      if (NULL != paction) {
-        if (units_can_do_action(punits, paction->id, TRUE)) {
-          gtk_widget_set_visible(GTK_WIDGET(iter), TRUE);
-          gtk_widget_set_sensitive(GTK_WIDGET(iter), TRUE);
-          can_do_something = TRUE;
-        } else {
-          gtk_widget_set_visible(GTK_WIDGET(iter), FALSE);
-          gtk_widget_set_sensitive(GTK_WIDGET(iter), FALSE);
-        }
-      }
-    }
-
-    /* Only sensitive if an action may be possible. */
-    menu_entry_set_sensitive("MENU_GOTO_AND", can_do_something);
-  }
-#endif /* MENUS_GTK3 */
-
   menu_entry_set_sensitive(map, "DO_ACTION",
                            units_can_do_action(punits, ACTION_ANY, TRUE));
 
@@ -4179,54 +4082,6 @@ void real_menus_update(void)
 #endif /* MENUS_GTK3 */
 }
 
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Add an accelerator to an item in the "Go to and..." menu.
-****************************************************************************/
-static void menu_unit_goto_and_add_accel(GtkWidget *item, action_id act_id,
-                                         const guint accel_key,
-                                         const GdkModifierType accel_mods)
-{
-  const char *path = gtk_menu_item_get_accel_path(GTK_MENU_ITEM(item));
-
-  if (path == NULL) {
-    char buf[MAX_LEN_NAME + strlen("<MENU>/GOTO_AND/")];
-
-    fc_snprintf(buf, sizeof(buf), "<MENU>/GOTO_AND/%s",
-                action_id_rule_name(act_id));
-    gtk_menu_item_set_accel_path(GTK_MENU_ITEM(item), buf);
-    path = buf; /* Not NULL, but not usable either outside this block */
-  }
-
-  if (path != NULL) {
-    gtk_accel_map_add_entry(gtk_menu_item_get_accel_path(GTK_MENU_ITEM(item)),
-                            accel_key, accel_mods);
-  }
-}
-
-/************************************************************************//**
-  Recursively remove previous entries in a menu and its sub menus.
-****************************************************************************/
-static void menu_remove_previous_entries(GtkMenu *menu)
-{
-  GtkWidget *iter;
-  GtkWidget *sub_menu;
-
-  for (iter = gtk_widget_get_first_child(menu);
-       iter != NULL; ) {
-    GtkWidget *cur;
-
-    if ((sub_menu = gtk_menu_item_get_submenu(iter)) != NULL) {
-      menu_remove_previous_entries(GTK_MENU(sub_menu));
-      gtk_widget_destroy(sub_menu);
-    }
-    cur = iter;
-    iter = gtk_widget_get_next_sibling(iter);
-    gtk_widget_destroy(GTK_WIDGET(cur));
-  }
-}
-#endif /* MENUS_GTK3 */
-
 /************************************************************************//**
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc. Call menus_update().
@@ -4249,89 +4104,11 @@ void real_menus_init(void)
   menus_rename("BUILD_FORTRESS", Q_(terrain_control.gui_type_base0));
   menus_rename("BUILD_AIRBASE", Q_(terrain_control.gui_type_base1));
 
-  if ((menu = find_menu("<MENU>/GOVERNMENT"))) {
-    GtkWidget *iter;
-    GtkWidget *item;
-    char buf[256];
-
-    /* Remove previous government entries. */
-    for (iter = gtk_widget_get_first_child(menu);
-         iter != NULL; ) {
-      GtkWidget *cur = iter;
-
-      iter = gtk_widget_get_next_sibling(iter);
-      if (g_object_get_data(G_OBJECT(cur), "government") != NULL
-          || GTK_IS_SEPARATOR_MENU_ITEM(cur)) {
-        gtk_widget_destroy(GTK_WIDGET(cur));
-      }
-    }
-
-    /* Add new government entries. */
-    item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gtk_widget_show(item);
-
-    governments_iterate(g) {
-      if (g != game.government_during_revolution) {
-        /* TRANS: %s is a government name */
-        fc_snprintf(buf, sizeof(buf), _("%s..."),
-                    government_name_translation(g));
-        item = gtk_menu_item_new_with_label(buf);
-        g_object_set_data(G_OBJECT(item), "government", g);
-        g_signal_connect(item, "activate",
-                         G_CALLBACK(government_callback), g);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      }
-    } governments_iterate_end;
-  }
-
   menu_entry_group_set_sensitive(MGROUP_SAFE, TRUE);
   menu_entry_group_set_sensitive(MGROUP_PLAYER, client_has_player());
 
   menu_entry_set_sensitive("SHOW_NATIONAL_BORDERS",
                            BORDERS_DISABLED != game.info.borders);
-
-  menu_entry_set_active("SHOW_CITY_NAMES",
-                        gui_options.draw_city_names);
-  menu_entry_set_active("SHOW_CITY_GROWTH",
-                        gui_options.draw_city_growth);
-  menu_entry_set_active("SHOW_CITY_PRODUCTIONS",
-                        gui_options.draw_city_productions);
-  menu_entry_set_active("SHOW_CITY_BUY_COST",
-                        gui_options.draw_city_buycost);
-  menu_entry_set_active("SHOW_CITY_TRADE_ROUTES",
-                        gui_options.draw_city_trade_routes);
-  menu_entry_set_active("SHOW_TERRAIN",
-                        gui_options.draw_terrain);
-  menu_entry_set_active("SHOW_COASTLINE",
-                        gui_options.draw_coastline);
-  menu_entry_set_active("SHOW_PATHS",
-                        gui_options.draw_roads_rails);
-  menu_entry_set_active("SHOW_IRRIGATION",
-                        gui_options.draw_irrigation);
-  menu_entry_set_active("SHOW_MINES",
-                        gui_options.draw_mines);
-  menu_entry_set_active("SHOW_BASES",
-                        gui_options.draw_fortress_airbase);
-  menu_entry_set_active("SHOW_RESOURCES",
-                        gui_options.draw_specials);
-  menu_entry_set_active("SHOW_HUTS",
-                        gui_options.draw_huts);
-  menu_entry_set_active("SHOW_POLLUTION",
-                        gui_options.draw_pollution);
-  menu_entry_set_active("SHOW_CITIES",
-                        gui_options.draw_cities);
-  menu_entry_set_active("SHOW_UNITS",
-                        gui_options.draw_units);
-  menu_entry_set_active("SHOW_UNIT_SOLID_BG",
-                        gui_options.solid_color_behind_units);
-  menu_entry_set_active("SHOW_UNIT_SHIELDS",
-                        gui_options.draw_unit_shields);
-  menu_entry_set_active("SHOW_FOCUS_UNIT",
-                        gui_options.draw_focus_unit);
-  menu_entry_set_active("SHOW_FOG_OF_WAR",
-                        gui_options.draw_fog_of_war);
 
   view_menu_update_sensitivity();
 
