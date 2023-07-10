@@ -213,7 +213,7 @@ void configure_fonts()
 }
 
 /************************************************************************//**
-  Returns long font name, sets given for for use
+  Returns long font name, sets given font for use
 ****************************************************************************/
 QString configure_font(QString font_name, QStringList sl, int size,
                        bool bold)
