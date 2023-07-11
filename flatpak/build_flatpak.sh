@@ -13,6 +13,14 @@
 
 FCVER=$(../fc_version)
 
+# On a git clone, regenerate configure with autogen.sh
+if test -f ../.git && test -x ../autogen.sh ; then
+  if ! ( cd .. && ./autogen.sh --no-configure-run ) ; then
+    echo "Autogen.sh FAILED" >&2
+    exit 1
+  fi
+fi
+
 if ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.gtk322.yml ||
    ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.mp.gtk3.yml ||
    ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.mp.gtk4.yml ||
