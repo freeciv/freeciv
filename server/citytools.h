@@ -29,7 +29,7 @@
 
 int build_points_left(struct city *pcity);
 
-void transfer_city_units(struct player *pplayer, struct player *pvictim, 
+void transfer_city_units(struct player *pplayer, struct player *pvictim,
                          struct unit_list *units, struct city *pcity,
                          struct city *exclude_city,
                          int kill_outside, bool verbose);
@@ -41,7 +41,8 @@ struct city *find_closest_city(const struct tile *ptile,
                                const struct player *pplayer,
                                bool only_ocean, bool only_continent,
                                bool only_known, bool only_player,
-                               bool only_enemy, const struct unit_class *pclass);
+                               bool only_enemy,
+                               const struct unit_class *pclass);
 bool unit_conquer_city(struct unit *punit, struct city *pcity);
 
 bool send_city_suppression(bool now);
@@ -79,9 +80,9 @@ bool city_illness_strike(struct city *pcity);
 
 void do_sell_building(struct player *pplayer, struct city *pcity,
                       struct impr_type *pimprove, const char *reason);
-struct city
-*build_or_move_building(struct city *pcity, struct impr_type *pimprove,
-                        struct player **oldcity_owner);
+struct city *build_or_move_building(struct city *pcity,
+                                    struct impr_type *pimprove,
+                                    struct player **oldcity_owner);
 bool building_removed(struct city *pcity, const struct impr_type *pimprove,
                       const char *reason, struct unit *destroyer);
 void building_lost(struct city *pcity, const struct impr_type *pimprove,
@@ -104,7 +105,7 @@ void city_thaw_workers(struct city *pcity);
 void city_freeze_workers_queue(struct city *pcity);
 void city_thaw_workers_queue(void);
 
-/* city map functions */
+/* City map functions */
 void city_map_update_empty(struct city *pcity, struct tile *ptile);
 void city_map_update_worker(struct city *pcity, struct tile *ptile);
 
