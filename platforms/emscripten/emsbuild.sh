@@ -35,9 +35,6 @@ if ! . "./emsdk_env.sh" ; then
 fi
 cd "${BUILD_ROOT}" || exit 1
 
-# Add more emsdk directories to PATH
-export PATH="${EMSDK_ROOT}/upstream/emscripten:$PATH"
-
 sed -e "s,<EMSDK_ROOT>,${EMSDK_ROOT}," \
     "${PLATFORM_ROOT}/setups/cross-ems.tmpl" > cross.txt
 
