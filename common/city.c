@@ -2407,9 +2407,10 @@ static void set_surpluses(struct city *pcity)
 
     /* Add 'surplus' waste to 'usage'. */
     if (surplus > 0) {
+      struct output_type *output = get_output_type(o);
+      int waste_level = get_city_output_bonus(pcity, output, EFT_SURPLUS_WASTE_PCT);
       int waste_by_rel_dist
-        = get_city_output_bonus(pcity, get_output_type(o),
-                                EFT_SURPLUS_WASTE_PCT_BY_REL_DISTANCE);
+        = get_city_output_bonus(pcity, output, EFT_SURPLUS_WASTE_PCT_BY_REL_DISTANCE);
 
       if (waste_by_rel_dist > 0) {
         int min_dist;
@@ -2417,16 +2418,18 @@ static void set_surpluses(struct city *pcity)
 
         if (gov_center == NULL) {
           /* No gov center - no income */
-          pcity->usage[o] = pcity->prod[o];
+          waste_level = 100;
         } else {
-          int waste_level = waste_by_rel_dist * 50 * min_dist / 100
+          waste_level += waste_by_rel_dist * 50 * min_dist / 100
             / MAX(MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT);
+        }
+      }
 
-          if (waste_level < 100) {
-            pcity->usage[o] += (surplus * waste_level / 100);
-          } else {
-            pcity->usage[o] = pcity->prod[o];
-          }
+      if (waste_level > 0) {
+        if (waste_level < 100) {
+          pcity->usage[o] += (surplus * waste_level / 100);
+        } else {
+          pcity->usage[o] = pcity->prod[o];
         }
       }
     }
