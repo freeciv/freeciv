@@ -1205,7 +1205,6 @@ void bounce_unit(struct unit *punit, bool verbose)
 {
   struct player *pplayer;
   struct tile *punit_tile;
-  struct unit_list *pcargo_units;
   int count = 0;
 
   /* I assume that there are no topologies that have more than
@@ -1252,6 +1251,8 @@ void bounce_unit(struct unit *punit, bool verbose)
   /* Didn't find a place to bounce the unit, going to disband it.
    * Try to bounce transported units. */
   if (0 < get_transporter_occupancy(punit)) {
+    struct unit_list *pcargo_units;
+
     pcargo_units = unit_transport_cargo(punit);
     unit_list_iterate(pcargo_units, pcargo) {
       bounce_unit(pcargo, verbose);
@@ -1984,13 +1985,13 @@ static void wipe_unit_full(struct unit *punit, bool transported,
         if (!can_unit_exist_at_tile(pcargo, ptile)) {
           unit_list_prepend(imperiled, pcargo);
         } else {
-        /* These units do not need to be saved. */
+          /* These units do not need to be saved. */
           healthy = TRUE;
         }
       }
 
-      /* Could use unit_transport_unload_send here, but that would
-       * call send_unit_info for the transporter unnecessarily.
+      /* Could use unit_transport_unload_send() here, but that would
+       * call send_unit_info() for the transporter unnecessarily.
        * Note that this means that unit might to get seen briefly
        * by clients other than owner's, for example as a result of
        * update of homecity common to this cargo and some other
@@ -2175,6 +2176,7 @@ static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
       }
     }
   }
+
   /* The unit could not use transport on the tile, and could not teleport. */
   return FALSE;
 }
@@ -2230,6 +2232,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
     /* Destroyed by a script */
     return NULL;
   }
+
   return gained_unit;   /* Returns the replacement. */
 }
 
