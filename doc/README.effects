@@ -646,6 +646,9 @@ Stealings_Ignore
     diplomats to steal tech multiple times from the same city, or make it easier
     for spies.
 
+Surplus_Waste_Pct
+   Base waste from what otherwise would be the surplus.
+
 Surplus_Waste_Pct_By_Rel_Distance
     City gets extra waste based on distance to nearest Government Center, relative
     to world size. This is a percentage calculated from what otherwise would
