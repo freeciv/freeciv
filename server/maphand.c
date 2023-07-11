@@ -1791,45 +1791,71 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
 }
 
 /**********************************************************************//**
+  Bounce one unit from tile on terrain change.
+**************************************************************************/
+static void terrain_change_bounce_single_unit(struct unit *punit,
+                                              struct tile *from)
+{
+  bool unit_alive = TRUE;
+
+  /* Look for a nearby safe tile */
+  adjc_iterate(&(wld.map), from, ptile2) {
+    if (can_unit_exist_at_tile(&(wld.map), punit, ptile2)
+        && !is_non_allied_unit_tile(ptile2, unit_owner(punit))
+        && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
+      log_verbose("Moved %s %s due to changing terrain at (%d,%d).",
+                  nation_rule_name(nation_of_unit(punit)),
+                  unit_rule_name(punit), TILE_XY(unit_tile(punit)));
+      notify_player(unit_owner(punit), unit_tile(punit),
+                    E_UNIT_RELOCATED, ftc_server,
+                    _("Moved your %s due to changing terrain."),
+                    unit_link(punit));
+
+      /* TODO: should a unit be able to bounce to a transport like is
+       * done below? What if the unit can't legally enter the transport,
+       * say because the transport is Unreachable and the unit doesn't
+       * have it in its embarks field or because "Transport Embark"
+       * isn't enabled? Kept like it was to preserve the old rules for
+       * now. -- Sveinung */
+      unit_alive = unit_move(punit, ptile2, 0,
+                             NULL, TRUE, FALSE, FALSE, FALSE, FALSE);
+      if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
+        unit_activity_handling(punit, ACTIVITY_IDLE);
+      }
+      break;
+    }
+  } adjc_iterate_end;
+
+  if (unit_alive && unit_tile(punit) == from) {
+    /* If we get here we could not move punit. */
+
+    /* Try to bounce transported units. */
+    if (0 < get_transporter_occupancy(punit)) {
+      struct unit_list *pcargo_units;
+
+      pcargo_units = unit_transport_cargo(punit);
+      unit_list_iterate_safe(pcargo_units, pcargo) {
+        terrain_change_bounce_single_unit(pcargo, from);
+      } unit_list_iterate_safe_end;
+    }
+  }
+}
+
+/**********************************************************************//**
   Helper function for bounce_units_on_terrain_change() that checks units
   on a single tile.
 **************************************************************************/
 static void check_units_single_tile(struct tile *ptile)
 {
   unit_list_iterate_safe(ptile->units, punit) {
-    bool unit_alive = TRUE;
+    int id = punit->id;
 
-    if (unit_tile(punit) == ptile
-        && !unit_transported(punit)
+    /* Top-level transports only. Each handle their own cargo */
+    if (!unit_transported(punit)
         && !can_unit_exist_at_tile(&(wld.map), punit, ptile)) {
-      /* look for a nearby safe tile */
-      adjc_iterate(&(wld.map), ptile, ptile2) {
-        if (can_unit_exist_at_tile(&(wld.map), punit, ptile2)
-            && !is_non_allied_unit_tile(ptile2, unit_owner(punit))
-            && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
-          log_verbose("Moved %s %s due to changing terrain at (%d,%d).",
-                      nation_rule_name(nation_of_unit(punit)),
-                      unit_rule_name(punit), TILE_XY(unit_tile(punit)));
-          notify_player(unit_owner(punit), unit_tile(punit),
-                        E_UNIT_RELOCATED, ftc_server,
-                        _("Moved your %s due to changing terrain."),
-                        unit_link(punit));
-          /* TODO: should a unit be able to bounce to a transport like is
-           * done below? What if the unit can't legally enter the transport,
-           * say because the transport is Unreachable and the unit doesn't
-           * have it in its embarks field or because "Transport Embark"
-           * isn't enabled? Kept like it was to preserve the old rules for
-           * now. -- Sveinung */
-          unit_alive = unit_move(punit, ptile2, 0,
-                                 NULL, TRUE, FALSE, FALSE, FALSE, FALSE);
-          if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
-            unit_activity_handling(punit, ACTIVITY_IDLE);
-          }
-          break;
-        }
-      } adjc_iterate_end;
-      if (unit_alive && unit_tile(punit) == ptile) {
-        /* If we get here we could not move punit. */
+      terrain_change_bounce_single_unit(punit, ptile);
+
+      if (unit_is_alive(id) && unit_tile(punit) == ptile) {
         log_verbose("Disbanded %s %s due to changing land "
                     " to sea at (%d, %d).",
                     nation_rule_name(nation_of_unit(punit)),
