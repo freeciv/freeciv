@@ -740,7 +740,7 @@ static int unit_foodbox_cost(struct unit *punit)
 
 /**********************************************************************//**
   Estimates the want for a terrain improver (aka worker) by creating a
-  virtual unit and feeding it to settler_evaluate_improvements.
+  virtual unit and feeding it to settler_evaluate_improvements().
 
   TODO: AI does not ship UTYF_SETTLERS around, only UTYF_CITIES - Per
 **************************************************************************/
@@ -760,6 +760,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   Continent_id place = tile_continent(pcenter);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct dai_private_data *private = (struct dai_private_data *)ait->private;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!private->contemplace_workers) {
     /* AI type uses custom method to set worker want and type. */
@@ -780,7 +781,8 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   /* Advisors data space not allocated as it's not needed in the
      lifetime of the virtualunit. */
   unit_tile_set(virtualunit, pcenter);
-  want = settler_evaluate_improvements(virtualunit, &best_act, &best_target,
+  want = settler_evaluate_improvements(nmap, virtualunit,
+                                       &best_act, &best_target,
                                        &best_tile,
                                        NULL, NULL);
   if (unit_type_get(virtualunit)->pop_cost >= city_size_get(pcity)) {

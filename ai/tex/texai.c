@@ -390,11 +390,14 @@ static void texwai_auto_settler_reset(struct player *pplayer)
 /**********************************************************************//**
   Call default ai with tex ai type as parameter.
 **************************************************************************/
-static void texwai_auto_settler_run(struct player *pplayer, struct unit *punit,
+static void texwai_auto_settler_run(struct player *pplayer,
+                                    struct unit *punit,
                                     struct settlermap *state)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_auto_settler_run, pplayer, punit, state);
+
+  /* TODO: Operate on tex map */
+  TEXAI_DFUNC(dai_auto_settler_run, &(wld.map), pplayer, punit, state);
 }
 
 /**********************************************************************//**
@@ -405,7 +408,9 @@ static void texwai_auto_settler_cont(struct player *pplayer,
                                      struct settlermap *state)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_auto_settler_cont, pplayer, punit, state);
+
+  /* TODO: Operate on tex map */
+  TEXAI_DFUNC(dai_auto_settler_cont, &(wld.map), pplayer, punit, state);
 }
 
 /**********************************************************************//**

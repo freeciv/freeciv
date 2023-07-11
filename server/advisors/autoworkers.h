@@ -25,12 +25,14 @@ void adv_settlers_free(void);
 
 void auto_settlers_player(struct player *pplayer);
 
-void auto_settler_findwork(struct player *pplayer, 
+void auto_settler_findwork(const struct civ_map *nmap,
+                           struct player *pplayer,
                            struct unit *punit,
                            struct settlermap *state,
                            int recursion);
 
-bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
+bool auto_settler_setup_work(const struct civ_map *nmap,
+                             struct player *pplayer, struct unit *punit,
                              struct settlermap *state, int recursion,
                              struct pf_path *path,
                              struct tile *best_tile,
@@ -38,7 +40,8 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                              struct extra_type **best_target,
                              int completion_time);
 
-adv_want settler_evaluate_improvements(struct unit *punit,
+adv_want settler_evaluate_improvements(const struct civ_map *nmap,
+                                       struct unit *punit,
                                        enum unit_activity *best_act,
                                        struct extra_type **best_target,
                                        struct tile **best_tile,
@@ -53,10 +56,12 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
 void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
                        struct tile *ptile);
 
-bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
+bool adv_settler_safe_tile(const struct civ_map *nmap,
+                           const struct player *pplayer, struct unit *punit,
                            struct tile *ptile);
 
-adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad);
+adv_want adv_settlers_road_bonus(const struct civ_map *nmap,
+                                 struct tile *ptile, struct road_type *proad);
 
 bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                         enum unit_activity activity,

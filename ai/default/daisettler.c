@@ -1010,17 +1010,18 @@ void dai_auto_settler_init(struct ai_plr *ai)
 /*************************************************************************//**
   Auto settler that can also build cities.
 *****************************************************************************/
-void dai_auto_settler_run(struct ai_type *ait, struct player *pplayer,
+void dai_auto_settler_run(struct ai_type *ait, const struct civ_map *nmap,
+                          struct player *pplayer,
                           struct unit *punit, struct settlermap *state)
 {
-  adv_want best_impr = 0; /* value of best terrain improvement we can do */
+  adv_want best_impr = 0; /* Value of best terrain improvement we can do */
   enum unit_activity best_act;
   struct extra_type *best_target;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
   struct city *pcity = NULL;
 
-  /* time it will take worker to complete its given task */
+  /* Time it will take worker to complete its given task */
   int completion_time = 0;
 
   CHECK_UNIT(punit);
@@ -1033,13 +1034,13 @@ BUILD_CITY:
     struct tile *ptile = punit->goto_tile;
     int sanity = punit->id;
 
-    /* Check that the mission is still possible.  If the tile has become
+    /* Check that the mission is still possible. If the tile has become
      * unavailable, call it off. */
     if (!city_can_be_built_here(ptile, punit)) {
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       set_unit_activity(punit, ACTIVITY_IDLE);
       send_unit_info(NULL, punit);
-      return; /* avoid recursion at all cost */
+      return; /* Avoid recursion at all cost */
     } else {
      /* Go there */
       if ((!dai_gothere(ait, pplayer, punit, ptile)
@@ -1059,7 +1060,7 @@ BUILD_CITY:
             /* Only known way to end in here is that hut turned in to a city
              * when settler entered tile. So this is not going to lead in any
              * serious recursion. */
-            dai_auto_settler_run(ait, pplayer, punit, state);
+            dai_auto_settler_run(ait, nmap, pplayer, punit, state);
           }
 
           return;
@@ -1097,7 +1098,8 @@ BUILD_CITY:
     }
 
     if (pcity == NULL) {
-      best_impr = settler_evaluate_improvements(punit, &best_act, &best_target,
+      best_impr = settler_evaluate_improvements(nmap, punit,
+                                                &best_act, &best_target,
                                                 &best_tile, &path, state);
       if (path) {
         completion_time = pf_path_last_position(path)->turn;
@@ -1163,7 +1165,7 @@ BUILD_CITY:
   }
 
   if (best_tile != NULL
-      && auto_settler_setup_work(pplayer, punit, state, 0, path,
+      && auto_settler_setup_work(nmap, pplayer, punit, state, 0, path,
                                  best_tile, best_act, &best_target,
                                  completion_time)) {
     if (pcity != NULL) {
@@ -1181,10 +1183,12 @@ CLEANUP:
 /*************************************************************************//**
   Auto settler continuing its work.
 *****************************************************************************/
-void dai_auto_settler_cont(struct ai_type *ait, struct player *pplayer,
+void dai_auto_settler_cont(struct ai_type *ait, const struct civ_map *nmap,
+                           struct player *pplayer,
                            struct unit *punit, struct settlermap *state)
 {
-  if (!adv_settler_safe_tile(pplayer, punit, unit_tile(punit))) {
+  if (!adv_settler_safe_tile(nmap, pplayer, punit,
+                             unit_tile(punit))) {
     unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 }
