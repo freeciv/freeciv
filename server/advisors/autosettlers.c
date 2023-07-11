@@ -130,7 +130,8 @@ void auto_settlers_ruleset_init(void)
   This calculates the overall benefit of connecting the civilization; this
   is independent from the local tile (trade) bonus granted by the road.
 **************************************************************************/
-adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
+adv_want adv_settlers_road_bonus(const struct civ_map *nmap,
+                                 struct tile *ptile, struct road_type *proad)
 {
 #define MAX_DEP_ROADS 5
 
@@ -161,7 +162,7 @@ adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 
   index_to_map_pos(&x, &y, tile_index(ptile));
   for (i = 0; i < 12; i++) {
-    struct tile *tile1 = map_pos_to_tile(&(wld.map), x + dx[i], y + dy[i]);
+    struct tile *tile1 = map_pos_to_tile(nmap, x + dx[i], y + dy[i]);
 
     if (!tile1) {
       real_road[i] = FALSE;
@@ -301,7 +302,7 @@ adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 
 /**********************************************************************//**
   Compares the best known tile improvement action with improving ptile
-  with activity act.  Calculates the value of improving the tile by
+  with activity act. Calculates the value of improving the tile by
   discounting the total value by the time it would take to do the work
   and multiplying by some factor.
 **************************************************************************/
@@ -421,21 +422,22 @@ autosettler_tile_behavior(const struct tile *ptile,
 /**********************************************************************//**
   Finds tiles to improve, using punit.
 
-  The returned value is the goodness of the best tile and action found.  If
-  this return value is > 0, then best_tile indicates the tile chosen,
+  The returned value is the goodness of the best tile and action found.
+  If this return value is > 0, then best_tile indicates the tile chosen,
   bestact indicates the activity it wants to do, and path (if not NULL)
-  indicates the path to follow for the unit.  If 0 is returned
+  indicates the path to follow for the unit. If 0 is returned
   then there are no worthwhile activities available.
 
   completion_time is the time that would be taken by punit to travel to
   and complete work at best_tile
 
   state contains, for each tile, the unit id of the worker en route,
-  and the eta of this worker (if any).  This information
+  and the eta of this worker (if any). This information
   is used to possibly displace this previously assigned worker.
   if this array is NULL, workers are never displaced.
 **************************************************************************/
-adv_want settler_evaluate_improvements(struct unit *punit,
+adv_want settler_evaluate_improvements(const struct civ_map *nmap,
+                                       struct unit *punit,
                                        enum unit_activity *best_act,
                                        struct extra_type **best_target,
                                        struct tile **best_tile,
@@ -455,7 +457,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
   int best_extra = 0;
   int best_delay = 0;
 
-  /* closest worker, if any, headed towards target tile */
+  /* Closest worker, if any, headed towards target tile */
   struct unit *enroute = NULL;
 
   pft_fill_unit_parameter(&parameter, punit);
@@ -466,7 +468,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *pcenter = city_tile(pcity);
 
-    /* try to work near the city */
+    /* Try to work near the city */
     city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
                             cindex) {
       bool consider = TRUE;
@@ -477,7 +479,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
         continue;
       }
 
-      if (!adv_settler_safe_tile(pplayer, punit, ptile)) {
+      if (!adv_settler_safe_tile(nmap, pplayer, punit, ptile)) {
         /* Too dangerous place */
         continue;
       }
@@ -677,7 +679,8 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                   }
                 }
 
-                extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
+                extra = adv_settlers_road_bonus(nmap, ptile, proad)
+                  * mc_multiplier / mc_divisor;
 
               } else {
                 extra = 0;
@@ -910,7 +913,8 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
   Find some work for our settlers and/or workers.
 **************************************************************************/
 #define LOG_SETTLER LOG_DEBUG
-void auto_settler_findwork(struct player *pplayer, 
+void auto_settler_findwork(const struct civ_map *nmap,
+                           struct player *pplayer,
                            struct unit *punit,
                            struct settlermap *state,
                            int recursion)
@@ -958,7 +962,7 @@ void auto_settler_findwork(struct player *pplayer,
 
     best_target = best_task->tgt;
 
-    if (auto_settler_setup_work(pplayer, punit, state, recursion,
+    if (auto_settler_setup_work(nmap, pplayer, punit, state, recursion,
                                 path, best_task->ptile, best_task->act,
                                 &best_target, completion_time)) {
       clear_worker_task(taskcity, best_task);
@@ -975,7 +979,7 @@ void auto_settler_findwork(struct player *pplayer,
 
   if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
-    settler_evaluate_improvements(punit, &best_act, &best_target,
+    settler_evaluate_improvements(nmap, punit, &best_act, &best_target,
                                   &best_tile, &path, state);
     if (path) {
       completion_time = pf_path_last_position(path)->turn;
@@ -984,7 +988,7 @@ void auto_settler_findwork(struct player *pplayer,
 
     adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
 
-    auto_settler_setup_work(pplayer, punit, state, recursion, path,
+    auto_settler_setup_work(nmap, pplayer, punit, state, recursion, path,
                             best_tile, best_act, &best_target,
                             completion_time);
 
@@ -998,7 +1002,8 @@ void auto_settler_findwork(struct player *pplayer,
   Setup our settler to do the work it has found. Returns TRUE if
   started actual work.
 **************************************************************************/
-bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
+bool auto_settler_setup_work(const struct civ_map *nmap,
+                             struct player *pplayer, struct unit *punit,
                              struct settlermap *state, int recursion,
                              struct pf_path *path,
                              struct tile *best_tile,
@@ -1047,7 +1052,7 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
       struct tile *old_pos = unit_tile(punit);
 
       displaced->goto_tile = NULL;
-      auto_settler_findwork(pplayer, displaced, state, recursion + 1);
+      auto_settler_findwork(nmap, pplayer, displaced, state, recursion + 1);
       if (NULL == player_unit_by_number(pplayer, saved_id)) {
         /* Actions of the displaced settler somehow caused this settler
          * to die. (maybe by recursively giving control back to this unit)
@@ -1129,7 +1134,8 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 /**********************************************************************//**
   Do we consider tile safe for autosettler to work?
 **************************************************************************/
-bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
+bool adv_settler_safe_tile(const struct civ_map *nmap,
+                           const struct player *pplayer, struct unit *punit,
                            struct tile *ptile)
 {
   unit_list_iterate(ptile->units, defender) {
@@ -1138,7 +1144,8 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
     }
   } unit_list_iterate_end;
 
-  if (is_square_threatened(pplayer, ptile, !has_handicap(pplayer, H_FOG))) {
+  if (is_square_threatened(nmap, pplayer, ptile,
+                           !has_handicap(pplayer, H_FOG))) {
     return FALSE;
   }
 
@@ -1152,6 +1159,7 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
 void auto_settlers_player(struct player *pplayer) 
 {
   struct settlermap *state;
+  const struct civ_map *nmap = &(wld.map);
 
   state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
 
@@ -1163,7 +1171,7 @@ void auto_settlers_player(struct player *pplayer)
     citymap_turn_init(pplayer);
   }
 
-  whole_map_iterate(&(wld.map), ptile) {
+  whole_map_iterate(nmap, ptile) {
     state[tile_index(ptile)].enroute = -1;
     state[tile_index(ptile)].eta = FC_INFINITY;    
   } whole_map_iterate_end;
@@ -1188,7 +1196,7 @@ void auto_settlers_player(struct player *pplayer)
             pplayer->ai_common.frost, game.info.nuclearwinter);
 
   /* Auto-settle with a settler unit if it's under AI control (e.g. human
-   * player auto-settler mode) or if the player is an AI.  But don't
+   * player auto-settler mode) or if the player is an AI. But don't
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
@@ -1210,7 +1218,8 @@ void auto_settlers_player(struct player *pplayer)
       }
       if (punit->activity != ACTIVITY_IDLE) {
         if (!is_ai(pplayer)) {
-          if (!adv_settler_safe_tile(pplayer, punit, unit_tile(punit))) {
+          if (!adv_settler_safe_tile(nmap, pplayer, punit,
+                                     unit_tile(punit))) {
             unit_activity_handling(punit, ACTIVITY_IDLE);
           }
         } else {
@@ -1219,7 +1228,7 @@ void auto_settlers_player(struct player *pplayer)
       }
       if (punit->activity == ACTIVITY_IDLE) {
         if (!is_ai(pplayer)) {
-          auto_settler_findwork(pplayer, punit, state, 0);
+          auto_settler_findwork(nmap, pplayer, punit, state, 0);
         } else {
           CALL_PLR_AI_FUNC(settler_run, pplayer, pplayer, punit, state);
         }

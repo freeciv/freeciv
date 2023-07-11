@@ -354,10 +354,11 @@ bool unit_can_do_action_sub_result(const struct unit *punit,
 /**********************************************************************//**
   Return TRUE iff this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
-bool is_square_threatened(const struct player *pplayer,
-			  const struct tile *ptile, bool omniscient)
+bool is_square_threatened(const struct civ_map *nmap,
+                          const struct player *pplayer,
+                          const struct tile *ptile, bool omniscient)
 {
-  square_iterate(&(wld.map), ptile, 2, ptile1) {
+  square_iterate(nmap, ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
       if ((omniscient
            || can_player_see_unit(pplayer, punit))
@@ -365,9 +366,9 @@ bool is_square_threatened(const struct player *pplayer,
           && utype_acts_hostile(unit_type_get(punit))
           && (is_native_tile(unit_type_get(punit), ptile)
               || (can_attack_non_native(unit_type_get(punit))
-                  && is_native_near_tile(&(wld.map),
+                  && is_native_near_tile(nmap,
                                          unit_class_get(punit), ptile)))) {
-	return TRUE;
+        return TRUE;
       }
     } unit_list_iterate_end;
   } square_iterate_end;

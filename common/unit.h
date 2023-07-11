@@ -364,9 +364,10 @@ bool unit_can_do_action_result(const struct unit *punit,
                                enum action_result result);
 bool unit_can_do_action_sub_result(const struct unit *punit,
                                    enum action_sub_result sub_result);
-bool is_square_threatened(const struct player *pplayer,
+bool is_square_threatened(const struct civ_map *nmap,
+                          const struct player *pplayer,
                           const struct tile *ptile, bool omniscient);
-bool is_field_unit(const struct unit *punit);              /* ships+aero */
+bool is_field_unit(const struct unit *punit);
 bool is_hiding_unit(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
 
