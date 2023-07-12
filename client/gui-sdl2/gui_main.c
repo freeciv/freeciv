@@ -1025,6 +1025,14 @@ int ui_main(int argc, char *argv[])
   if (!gui_options.gui_sdl2_migrated_from_sdl) {
     migrate_options_from_sdl();
   }
+  if (!GUI_SDL_OPTION(default_screen_size_set)) {
+    if (font_size_parameter > 10) {
+      GUI_SDL_OPTION(screen) = VIDEO_MODE(640 * font_size_parameter / 10,
+                                          480 * font_size_parameter / 10);
+    }
+
+    GUI_SDL_OPTION(default_screen_size_set) = TRUE;
+  }
 
   if (GUI_SDL_OPTION(fullscreen)) {
     flags |= SDL_WINDOW_FULLSCREEN;
@@ -1099,7 +1107,7 @@ int ui_main(int argc, char *argv[])
 
   setup_auxiliary_tech_icons();
 
-  /* this need correct main_data.screen size */
+  /* This needs correct main_data.screen size */
   init_mapcanvas_and_overview();
 
   set_client_state(C_S_DISCONNECTED);

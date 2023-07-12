@@ -46,7 +46,7 @@ struct video_mode {
 };
 
 #define VIDEO_MODE(ARG_width, ARG_height)       \
-    { ARG_width, ARG_height }
+  (struct video_mode){ ARG_width, ARG_height }
 
 /****************************************************************************
   Constructor.
@@ -133,6 +133,7 @@ struct client_options
   bool gui_gtk3_migrated_from_2_5;
   bool gui_qt_migrated_from_2_5;
   bool gui_qt_default_fonts_set;
+  bool gui_sdl2_default_screen_size_set;
 
   bool migrate_fullscreen;
 

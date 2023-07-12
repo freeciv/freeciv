@@ -107,6 +107,7 @@ struct client_options gui_options = {
 /** Flags **/
 
   .gui_qt_default_fonts_set = FALSE,
+  .gui_sdl2_default_screen_size_set = FALSE,
 
 /** Local Options: **/
 
@@ -5821,7 +5822,7 @@ void options_load(void)
   }
   if (!(sf = secfile_load(name, TRUE))) {
     log_debug("Error loading option file '%s':\n%s", name, secfile_error());
-    /* try to create the rc file */
+    /* Try to create the rc file */
     sf = secfile_new(TRUE);
     secfile_insert_str(sf, VERSION_STRING, "client.version");
 
@@ -5876,9 +5877,12 @@ void options_load(void)
                                 "%s.migration_qt_from_2_5", prefix);
 
   /* Flag values */
-  gui_options.gui_qt_default_fonts_set =
-    secfile_lookup_bool_default(sf, gui_options.gui_qt_default_fonts_set,
-                                "%s.flag_qt_default_fonts_set", prefix);
+  gui_options.gui_qt_default_fonts_set
+    = secfile_lookup_bool_default(sf, gui_options.gui_qt_default_fonts_set,
+                                  "%s.flag_qt_default_fonts_set", prefix);
+  gui_options.gui_sdl2_default_screen_size_set
+    = secfile_lookup_bool_default(sf, gui_options.gui_sdl2_default_screen_size_set,
+                                  "%s.flag_sdl2_default_screen_size_set", prefix);
 
   /* These are not gui-enabled yet */
   gui_options.zoom_set
@@ -6012,6 +6016,8 @@ void options_save(option_save_log_callback log_cb)
   /* Flag */
   secfile_insert_bool(sf, gui_options.gui_qt_default_fonts_set,
                       "client.flag_qt_default_fonts_set");
+  secfile_insert_bool(sf, gui_options.gui_sdl2_default_screen_size_set,
+                      "client.flag_sdl2_default_screen_size_set");
 
   /* gui-enabled options */
   client_options_iterate_all(poption) {
