@@ -103,10 +103,11 @@ export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
 mkdir build
 cd build
 meson setup .. \
+  -Dqtver=qt6x \
   -Ddebug=true \
   -Druledit=true \
   -Dsyslua=true \
-  -Dclients=gtk3.22,sdl2,gtk4,qt,stub \
+  -Dclients=gtk3.22,sdl2,gtk4,qt,stub,gtk4x,sdl3 \
   -Dfcmp=gtk3,gtk4,qt,cli \
   -Dfollowtag=macos \
   -Dprefix=${HOME}/freeciv/mac-meson \
