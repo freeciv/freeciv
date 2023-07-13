@@ -33,7 +33,6 @@ struct adv_risk_cost;
 #define DAI_WANT_DOMESTIC_MAX (DAI_WANT_MILITARY_EMERGENCY / 4 * 3)
 
 const char *dai_unit_task_rule_name(const enum ai_unit_task task);
-const char *dai_choice_rule_name(const struct adv_choice *choice);
 
 adv_want military_amortize(struct player *pplayer, struct city *pcity,
                            adv_want value, int delay, int build_cost);

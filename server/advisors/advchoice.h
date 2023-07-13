@@ -66,6 +66,8 @@ struct adv_choice *adv_better_choice_free(struct adv_choice *first,
 
 bool is_unit_choice_type(enum choice_type type);
 
+const char *adv_choice_rule_name(const struct adv_choice *choice);
+
 #ifdef ADV_CHOICE_TRACK
 void adv_choice_copy(struct adv_choice *dest, struct adv_choice *src);
 void adv_choice_set_use(struct adv_choice *choice, const char *use);
