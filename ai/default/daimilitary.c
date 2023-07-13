@@ -2002,7 +2002,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   } else {
     CITY_LOG(LOGLEVEL_BUILD, pcity,
              "military advisor choice: %s (want " ADV_WANT_PRINTF ")",
-             dai_choice_rule_name(choice),
+             adv_choice_rule_name(choice),
              choice->want);
   }
 

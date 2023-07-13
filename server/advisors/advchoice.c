@@ -117,6 +117,28 @@ bool is_unit_choice_type(enum choice_type type)
    return type == CT_CIVILIAN || type == CT_ATTACKER || type == CT_DEFENDER;
 }
 
+/**********************************************************************//**
+  Return the (untranslated) rule name of the adv_choice.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *adv_choice_rule_name(const struct adv_choice *choice)
+{
+  switch (choice->type) {
+  case CT_BUILDING:
+    return improvement_rule_name(choice->value.building);
+  case CT_NONE:
+    return "None";
+  case CT_CIVILIAN:
+  case CT_ATTACKER:
+  case CT_DEFENDER:
+    return utype_rule_name(choice->value.utype);
+  case CT_LAST:
+    break;
+  }
+
+  return "(unknown)";
+}
+
 #ifdef ADV_CHOICE_TRACK
 /**********************************************************************//**
   Copy contents of one choice structure to the other
@@ -166,13 +188,7 @@ void adv_choice_log_info(struct adv_choice *choice,
     use = "<unknown>";
   }
 
-  if (choice->type == CT_BUILDING) {
-    name = improvement_rule_name(choice->value.building);
-  } else if (choice->type == CT_NONE) {
-    name = "None";
-  } else {
-    name = utype_rule_name(choice->value.utype);
-  }
+  name = adv_choice_rule_name(choice);
 
   if (loc2 != NULL) {
     log_base(ADV_CHOICE_LOG_LEVEL, "Choice at \"%s:%s\": %s, "
