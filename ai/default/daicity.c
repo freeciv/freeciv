@@ -315,14 +315,14 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
     if (city_data->choice.log_if_chosen) {
       log_normal("%s wants %s for %s with desire " ADV_WANT_PRINTF ".",
                  city_name_get(pcity),
-                 dai_choice_rule_name(&city_data->choice),
+                 adv_choice_rule_name(&city_data->choice),
                  city_data->choice.use,
                  city_data->choice.want);
     }
 #endif /* ADV_CHOICE_TRACK */
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire " ADV_WANT_PRINTF ".",
-             dai_choice_rule_name(&city_data->choice),
+             adv_choice_rule_name(&city_data->choice),
              city_data->choice.want);
 
     switch (city_data->choice.type) {
@@ -651,7 +651,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
             || (bestchoice.want > 200 && city_data->urgency > 1))) {
       /* Buy stuff */
       CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want " ADV_WANT_PRINTF ")",
-               dai_choice_rule_name(&bestchoice),
+               adv_choice_rule_name(&bestchoice),
                buycost,
                bestchoice.want);
       really_handle_city_buy(pplayer, pcity);
@@ -660,7 +660,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
                && assess_defense(ait, pcity) == 0) {
       /* We have no gold but MUST have a defender */
       CITY_LOG(LOG_BUY, pcity, "must have %s but can't afford it (%d < %d)!",
-               dai_choice_rule_name(&bestchoice),
+               adv_choice_rule_name(&bestchoice),
                pplayer->economic.gold,
                buycost);
       try_to_sell_stuff(pplayer, pcity);

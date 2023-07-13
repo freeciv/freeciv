@@ -99,41 +99,20 @@ const char *dai_unit_task_rule_name(const enum ai_unit_task task)
    case AIUNIT_WONDER:
      return "Wonder";
   }
-  /* no default, ensure all types handled somehow */
-  log_error("Unsupported ai_unit_task %d.", task);
-  return NULL;
-}
 
-/**********************************************************************//**
-  Return the (untranslated) rule name of the adv_choice.
-  You don't have to free the return pointer.
-**************************************************************************/
-const char *dai_choice_rule_name(const struct adv_choice *choice)
-{
-  switch (choice->type) {
-  case CT_NONE:
-    return "(nothing)";
-  case CT_BUILDING:
-    return improvement_rule_name(choice->value.building);
-  case CT_CIVILIAN:
-  case CT_ATTACKER:
-  case CT_DEFENDER:
-    return utype_rule_name(choice->value.utype);
-  case CT_LAST:
-    return "(unknown)";
-  };
-  /* no default, ensure all types handled somehow */
-  log_error("Unsupported ai_unit_task %d.", choice->type);
+  /* No default, ensure all types handled somehow */
+  log_error("Unsupported ai_unit_task %d.", task);
+
   return NULL;
 }
 
 /**********************************************************************//**
   Amortize a want modified by the shields (build_cost) we risk losing.
-  We add the build time of the unit(s) we risk to amortize delay. The
-  build time is calculated as the build cost divided by the production
+  We add the build time of the unit(s) we risk to amortize delay.
+  The build time is calculated as the build cost divided by the production
   output of the unit's homecity or the city where we want to produce
   the unit. If the city has less than average shield output, we
-  instead use the average, to encourage long-term thinking.
+  use the average instead, to encourage long-term thinking.
 **************************************************************************/
 adv_want military_amortize(struct player *pplayer, struct city *pcity,
                            adv_want value, int delay, int build_cost)
