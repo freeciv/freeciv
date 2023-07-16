@@ -1955,6 +1955,7 @@ AC_CONFIG_FILES([Makefile
 	  server/scripting/Makefile
           tools/Makefile
           tools/fcmp/Makefile
+          tools/manual/Makefile
           tools/ruledit/Makefile
           tools/ruleutil/Makefile
           tools/shared/Makefile

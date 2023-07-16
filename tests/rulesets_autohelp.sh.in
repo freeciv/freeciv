@@ -27,7 +27,7 @@ export FREECIV_DATA_PATH
 
 for ruleset in $rulesets; do
   echo "Loading $ruleset"
-  @abs_top_builddir@/tools/freeciv-manual -r $ruleset || exit 1
+  @abs_top_builddir@/tools/manual/freeciv-manual -r $ruleset || exit 1
 done
 
 echo "The automatic help text generation works for all tested rulesets."
