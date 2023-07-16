@@ -63,7 +63,6 @@
 
 #include "mapview.h"
 
-extern SDL_Event *pFlush_User_Event;
 extern SDL_Rect *pInfo_Area;
 
 int overview_start_x = 0;
@@ -135,17 +134,17 @@ void unqueue_flush(void)
 
 /**************************************************************************
   Called when a region is marked dirty, this function queues a flush event
-  to be handled later by SDL.  The flush may end up being done
+  to be handled later by SDL. The flush may end up being done
   by freeciv before then, in which case it will be a wasted call.
 **************************************************************************/
 void queue_flush(void)
 {
   if (!is_flush_queued) {
-    if (SDL_PushEvent(pFlush_User_Event) == 0) {
+    if (flush_event()) {
       is_flush_queued = TRUE;
     } else {
       /* We don't want to set is_flush_queued in this case, since then
-       * the flush code would simply stop working.  But this means the
+       * the flush code would simply stop working. But this means the
        * below message may be repeated many times. */
       log_error(_("The SDL event buffer is full;"
                   " you may see drawing errors as a result."));
