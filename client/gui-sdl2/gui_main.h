@@ -132,6 +132,8 @@ Uint16 gui_event_loop(void *data, void (*loop_action)(void *data),
 unsigned default_font_size(struct theme *act_theme);
 void update_font_from_theme(int theme_font_size);
 
+bool flush_event(void);
+
 /* Shrink sizes for 320x240 screen */
 #ifdef GUI_SDL2_SMALL_SCREEN
   #define adj_size(size) ((size) / 2)
