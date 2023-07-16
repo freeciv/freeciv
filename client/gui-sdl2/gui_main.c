@@ -99,7 +99,6 @@ Uint32 widget_info_counter = 0;
 int MOVE_STEP_X = DEFAULT_MOVE_STEP;
 int MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 extern bool draw_goto_patrol_lines;
-SDL_Event *flush_event = NULL;
 bool is_unit_move_blocked;
 bool LSHIFT;
 bool RSHIFT;
@@ -125,9 +124,16 @@ static enum direction8 scroll_dir;
 static struct finger_behavior finger_behavior;
 static struct mouse_button_behavior button_behavior;
 
+static SDL_Event __net_user_event;
+static SDL_Event __anim_user_event;
+static SDL_Event __info_user_event;
+static SDL_Event __flush_user_event;
+static SDL_Event __map_scroll_user_event;
+
 static SDL_Event *net_user_event = NULL;
 static SDL_Event *anim_user_event = NULL;
 static SDL_Event *info_user_event = NULL;
+static SDL_Event *flush_user_event = NULL;
 static SDL_Event *map_scroll_user_event = NULL;
 
 static void print_usage(void);
@@ -604,7 +610,7 @@ Uint16 gui_event_loop(void *data,
   t_last_map_scrolling = t_last_unit_anim = real_timer_next_call = SDL_GetTicks();
   while (ID == ID_ERROR) {
     /* ========================================= */
-    /* net check with 10ms delay event loop */
+    /* Net check with 10ms delay event loop */
     if (net_socket >= 0) {
       FD_ZERO(&civfdset);
 
@@ -629,7 +635,7 @@ Uint16 gui_event_loop(void *data,
           }
         }
       }
-    } else { /* if connection is not establish */
+    } else { /* If connection is not establish */
       SDL_Delay(10);
     }
     /* ========================================= */
@@ -1007,11 +1013,6 @@ static void migrate_options_from_sdl(void)
 **************************************************************************/
 int ui_main(int argc, char *argv[])
 {
-  SDL_Event __net_user_event;
-  SDL_Event __anim_user_event;
-  SDL_Event __info_user_event;
-  SDL_Event __flush_user_event;
-  SDL_Event __map_scroll_user_event;
   Uint32 flags = 0;
 
   parse_options(argc, argv);
@@ -1060,7 +1061,7 @@ int ui_main(int argc, char *argv[])
   __flush_user_event.user.code = FLUSH;
   __flush_user_event.user.data1 = NULL;
   __flush_user_event.user.data2 = NULL;
-  flush_event = &__flush_user_event;
+  flush_user_event = &__flush_user_event;
 
   SDL_zero(__map_scroll_user_event);
   __map_scroll_user_event.type = user_event_type;
@@ -1304,4 +1305,12 @@ void update_font_from_theme(int theme_font_size)
 void insert_client_build_info(char *outbuf, size_t outlen)
 {
   /* PORTME */
+}
+
+/**********************************************************************//**
+  Queue a flush event to be handled later by SDL.
+**************************************************************************/
+bool flush_event(void)
+{
+  return SDL_PushEvent(flush_user_event) >= 0;
 }
