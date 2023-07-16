@@ -4091,7 +4091,7 @@ custom_target('mi_ruledit',
 endif
 
 executable('freeciv-manual',
-  'tools/civmanual.c',
+  'tools/manual/fc_manual.c',
   'client/helpdata.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,

@@ -373,7 +373,6 @@ data/scenarios/north_america.sav
 data/scenarios/europe_1900_WWI.sav
 data/scenarios/tutorial.sav
 translations/Strings.txt
-tools/civmanual.c
 tools/ruleup.c
 tools/fcmp/download.c
 tools/fcmp/modinst.c
@@ -385,6 +384,7 @@ tools/fcmp/mpgui_gtk3.c
 tools/fcmp/mpgui_gtk4.c
 tools/fcmp/mpgui_qt.cpp
 tools/fcmp/mpgui_qt_worker.cpp
+tools/manual/fc_manual.c
 tools/ruleutil/rulesave.c
 server/actiontools.c
 server/aiiface.c
