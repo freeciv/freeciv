@@ -338,7 +338,7 @@ void option_dialog::set_int(struct option *poption, int value)
   That function is not executed when user changes font, but when applying or 
   resetting options.
 ****************************************************************************/
-void option_dialog::set_font(struct option* poption, QString s)
+void option_dialog::set_font(struct option *poption, QString s)
 {
   QStringList ql;
   QPushButton *qp;

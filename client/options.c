@@ -1700,14 +1700,14 @@ struct client_option {
 /*
  * Generate a client option of type OT_FONT.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
  *        Be sure to pass the array variable and not a pointer to it because
  *        the size is calculated with sizeof().
  * otgt:  The target widget style.
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determin for what particular client
@@ -1739,11 +1739,11 @@ struct client_option {
 /*
  * Generate a client option of type OT_COLOR.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determin for what particular client
