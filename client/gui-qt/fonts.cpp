@@ -80,7 +80,7 @@ void fc_font::init_fonts()
   QString s;
 
   /**
-   * default font names are:
+   * Default font names are:
    * gui_qt_font_notify_label and so on.
    * (full list is in options.c in client dir)
    */
@@ -94,6 +94,7 @@ void fc_font::init_fonts()
       set_font(s, f);
     }
   } options_iterate_end;
+
   get_mapfont_size();
 }
 
@@ -121,7 +122,30 @@ void fc_font::get_mapfont_size()
 ****************************************************************************/
 void fc_font::set_font(QString name, QFont * qf)
 {
-  font_map.insert(name,qf);
+  font_map.insert(name, qf);
+}
+
+/************************************************************************//**
+  Tries to choose good font for a single role.
+****************************************************************************/
+static void configure_single(QString role, QStringList sl, int size,
+                             char *font_opt, bool bold = false)
+{
+  QString font_name;
+
+  font_name = configure_font(role, sl, size, bold);
+  if (font_name.isEmpty()) {
+    QByteArray fn_bytes;
+
+    fn_bytes = role.toLocal8Bit();
+    log_error(_("Failed to setup font for role %s."),
+              fn_bytes.data());
+  } else {
+    QByteArray fn_bytes;
+
+    fn_bytes = font_name.toLocal8Bit();
+    fc_strlcpy(font_opt, fn_bytes.data(), FONT_NAME_SIZE);
+  }
 }
 
 /************************************************************************//**
@@ -138,7 +162,6 @@ void configure_fonts()
   qreal screen_size = screen->geometry().width() / physical_dpi + 5;
   qreal scale = (physical_dpi * screen_size / (logical_dpi * 27))
                 / screen->devicePixelRatio();
-  QByteArray fn_bytes;
 
   max = qRound(scale * 16);
   smaller = qRound(scale * 12);
@@ -148,68 +171,44 @@ void configure_fonts()
   sl << "Segoe UI" << "Cousine" << "Liberation Sans" << "Droid Sans"
      << "Ubuntu" << "Noto Sans" << "DejaVu Sans" << "Luxi Sans"
      << "Lucida Sans" << "Trebuchet MS" << "Times New Roman";
-  font_name = configure_font(fonts::default_font, sl, max);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_default,
-               fn_bytes.data(), 512);
-  }
-  font_name = configure_font(fonts::city_names, sl, smaller, true);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_city_names,
-               fn_bytes.data(), 512);
-  }
+  configure_single(fonts::default_font, sl, max,
+                   gui_options.gui_qt_font_default);
+
+  configure_single(fonts::city_names, sl, smaller,
+                   gui_options.gui_qt_font_city_names, true);
+
   // Default for help text
-  font_name = configure_font(fonts::help_text, sl, default_size);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_help_text,
-               fn_bytes.data(), 512);
-  }
-  sl.clear();
+  configure_single(fonts::help_text, sl, default_size,
+                   gui_options.gui_qt_font_help_text);
 
   // Notify
+  sl.clear();
   sl  <<  "Cousine" << "Liberation Mono" << "Source Code Pro"
       << "Source Code Pro [ADBO]"
       << "Noto Mono" << "Ubuntu Mono" << "Courier New";
-  font_name = configure_font(fonts::notify_label, sl, default_size);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_notify_label,
-               fn_bytes.data(), 512);
-  }
+
+  configure_single(fonts::notify_label, sl, default_size,
+                   gui_options.gui_qt_font_notify_label);
 
   // Standard for chat
-  font_name = configure_font(fonts::chatline, sl, default_size);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_chatline,
-               fn_bytes.data(), 512);
-  }
+  configure_single(fonts::chatline, sl, default_size,
+                   gui_options.gui_qt_font_chatline);
 
   // City production
   sl.clear();
   sl  << "Arimo" << "Play" <<  "Tinos" << "Ubuntu" << "Times New Roman"
       << "Droid Sans" << "Noto Sans";
-  font_name = configure_font(fonts::city_productions, sl, default_size,
-                             true);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_city_productions,
-               fn_bytes.data(), 512);
-  }
+
+  configure_single(fonts::city_productions, sl, default_size,
+                   gui_options.gui_qt_font_city_productions, true);
 
   // Reqtree
   sl.clear();
   sl  << "Papyrus" << "Segoe Script" << "Comic Sans MS"
       << "Droid Sans" << "Noto Sans" << "Ubuntu";
-  font_name = configure_font(fonts::reqtree_text, sl, max, true);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_reqtree_text,
-               fn_bytes.data(), 512);
-  }
+
+  configure_single(fonts::reqtree_text, sl, max,
+                   gui_options.gui_qt_font_reqtree_text, true);
 }
 
 /************************************************************************//**
@@ -269,5 +268,6 @@ QString configure_font(QString font_name, QStringList sl, int size,
       return fn_bytes.data();
     }
   }
+
   return QString();
 }

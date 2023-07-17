@@ -28,6 +28,8 @@ extern "C" {
 
 #define DEFAULT_METASERVER_OPTION "default"
 
+#define FONT_NAME_SIZE 512
+
 #if MINOR_VERSION >= 90
 #define MAJOR_NEW_OPTION_FILE_NAME (MAJOR_VERSION + 1)
 #define MINOR_NEW_OPTION_FILE_NAME 0
@@ -240,19 +242,19 @@ struct client_options
   int gui_gtk2_citydlg_xsize;
   int gui_gtk2_citydlg_ysize;
   int gui_gtk2_popup_tech_help;
-  char gui_gtk2_font_city_label[512];
-  char gui_gtk2_font_notify_label[512];
-  char gui_gtk2_font_spaceship_label[512];
-  char gui_gtk2_font_help_label[512];
-  char gui_gtk2_font_help_link[512];
-  char gui_gtk2_font_help_text[512];
-  char gui_gtk2_font_chatline[512];
-  char gui_gtk2_font_beta_label[512];
-  char gui_gtk2_font_small[512];
-  char gui_gtk2_font_comment_label[512];
-  char gui_gtk2_font_city_names[512];
-  char gui_gtk2_font_city_productions[512];
-  char gui_gtk2_font_reqtree_text[512];
+  char gui_gtk2_font_city_label[FONT_NAME_SIZE];
+  char gui_gtk2_font_notify_label[FONT_NAME_SIZE];
+  char gui_gtk2_font_spaceship_label[FONT_NAME_SIZE];
+  char gui_gtk2_font_help_label[FONT_NAME_SIZE];
+  char gui_gtk2_font_help_link[FONT_NAME_SIZE];
+  char gui_gtk2_font_help_text[FONT_NAME_SIZE];
+  char gui_gtk2_font_chatline[FONT_NAME_SIZE];
+  char gui_gtk2_font_beta_label[FONT_NAME_SIZE];
+  char gui_gtk2_font_small[FONT_NAME_SIZE];
+  char gui_gtk2_font_comment_label[FONT_NAME_SIZE];
+  char gui_gtk2_font_city_names[FONT_NAME_SIZE];
+  char gui_gtk2_font_city_productions[FONT_NAME_SIZE];
+  char gui_gtk2_font_reqtree_text[FONT_NAME_SIZE];
 
 /* gui-gtk-3.0 client specific options.
  * These are still kept just so users can migrate them to later gtk-clients */
@@ -275,19 +277,19 @@ struct client_options
   int gui_gtk3_popup_tech_help;
   int gui_gtk3_governor_range_min;
   int gui_gtk3_governor_range_max;
-  char gui_gtk3_font_city_label[512];
-  char gui_gtk3_font_notify_label[512];
-  char gui_gtk3_font_spaceship_label[512];
-  char gui_gtk3_font_help_label[512];
-  char gui_gtk3_font_help_link[512];
-  char gui_gtk3_font_help_text[512];
-  char gui_gtk3_font_chatline[512];
-  char gui_gtk3_font_beta_label[512];
-  char gui_gtk3_font_small[512];
-  char gui_gtk3_font_comment_label[512];
-  char gui_gtk3_font_city_names[512];
-  char gui_gtk3_font_city_productions[512];
-  char gui_gtk3_font_reqtree_text[512];
+  char gui_gtk3_font_city_label[FONT_NAME_SIZE];
+  char gui_gtk3_font_notify_label[FONT_NAME_SIZE];
+  char gui_gtk3_font_spaceship_label[FONT_NAME_SIZE];
+  char gui_gtk3_font_help_label[FONT_NAME_SIZE];
+  char gui_gtk3_font_help_link[FONT_NAME_SIZE];
+  char gui_gtk3_font_help_text[FONT_NAME_SIZE];
+  char gui_gtk3_font_chatline[FONT_NAME_SIZE];
+  char gui_gtk3_font_beta_label[FONT_NAME_SIZE];
+  char gui_gtk3_font_small[FONT_NAME_SIZE];
+  char gui_gtk3_font_comment_label[FONT_NAME_SIZE];
+  char gui_gtk3_font_city_names[FONT_NAME_SIZE];
+  char gui_gtk3_font_city_productions[FONT_NAME_SIZE];
+  char gui_gtk3_font_reqtree_text[FONT_NAME_SIZE];
 
   /* gui-gtk-3.22 client specific options. */
 #define FC_GTK3_22_DEFAULT_THEME_NAME "Freeciv"
@@ -311,19 +313,19 @@ struct client_options
   int gui_gtk3_22_popup_tech_help;
   int gui_gtk3_22_governor_range_min;
   int gui_gtk3_22_governor_range_max;
-  char gui_gtk3_22_font_city_label[512];
-  char gui_gtk3_22_font_notify_label[512];
-  char gui_gtk3_22_font_spaceship_label[512];
-  char gui_gtk3_22_font_help_label[512];
-  char gui_gtk3_22_font_help_link[512];
-  char gui_gtk3_22_font_help_text[512];
-  char gui_gtk3_22_font_chatline[512];
-  char gui_gtk3_22_font_beta_label[512];
-  char gui_gtk3_22_font_small[512];
-  char gui_gtk3_22_font_comment_label[512];
-  char gui_gtk3_22_font_city_names[512];
-  char gui_gtk3_22_font_city_productions[512];
-  char gui_gtk3_22_font_reqtree_text[512];
+  char gui_gtk3_22_font_city_label[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_notify_label[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_spaceship_label[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_help_label[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_help_link[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_help_text[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_chatline[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_beta_label[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_small[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_comment_label[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_city_names[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_city_productions[FONT_NAME_SIZE];
+  char gui_gtk3_22_font_reqtree_text[FONT_NAME_SIZE];
 
 /* gui-gtk-4.0 client specific options. */
 #define FC_GTK4_DEFAULT_THEME_NAME "Freeciv"
@@ -347,19 +349,19 @@ struct client_options
   int gui_gtk4_popup_tech_help;
   int gui_gtk4_governor_range_min;
   int gui_gtk4_governor_range_max;
-  char gui_gtk4_font_city_label[512];
-  char gui_gtk4_font_notify_label[512];
-  char gui_gtk4_font_spaceship_label[512];
-  char gui_gtk4_font_help_label[512];
-  char gui_gtk4_font_help_link[512];
-  char gui_gtk4_font_help_text[512];
-  char gui_gtk4_font_chatline[512];
-  char gui_gtk4_font_beta_label[512];
-  char gui_gtk4_font_small[512];
-  char gui_gtk4_font_comment_label[512];
-  char gui_gtk4_font_city_names[512];
-  char gui_gtk4_font_city_productions[512];
-  char gui_gtk4_font_reqtree_text[512];
+  char gui_gtk4_font_city_label[FONT_NAME_SIZE];
+  char gui_gtk4_font_notify_label[FONT_NAME_SIZE];
+  char gui_gtk4_font_spaceship_label[FONT_NAME_SIZE];
+  char gui_gtk4_font_help_label[FONT_NAME_SIZE];
+  char gui_gtk4_font_help_link[FONT_NAME_SIZE];
+  char gui_gtk4_font_help_text[FONT_NAME_SIZE];
+  char gui_gtk4_font_chatline[FONT_NAME_SIZE];
+  char gui_gtk4_font_beta_label[FONT_NAME_SIZE];
+  char gui_gtk4_font_small[FONT_NAME_SIZE];
+  char gui_gtk4_font_comment_label[FONT_NAME_SIZE];
+  char gui_gtk4_font_city_names[FONT_NAME_SIZE];
+  char gui_gtk4_font_city_productions[FONT_NAME_SIZE];
+  char gui_gtk4_font_reqtree_text[FONT_NAME_SIZE];
 
 /* gui-gtk-5.0 client specific options. */
 #define FC_GTK5_DEFAULT_THEME_NAME "Freeciv"
@@ -383,19 +385,19 @@ struct client_options
   int gui_gtk5_popup_tech_help;
   int gui_gtk5_governor_range_min;
   int gui_gtk5_governor_range_max;
-  char gui_gtk5_font_city_label[512];
-  char gui_gtk5_font_notify_label[512];
-  char gui_gtk5_font_spaceship_label[512];
-  char gui_gtk5_font_help_label[512];
-  char gui_gtk5_font_help_link[512];
-  char gui_gtk5_font_help_text[512];
-  char gui_gtk5_font_chatline[512];
-  char gui_gtk5_font_beta_label[512];
-  char gui_gtk5_font_small[512];
-  char gui_gtk5_font_comment_label[512];
-  char gui_gtk5_font_city_names[512];
-  char gui_gtk5_font_city_productions[512];
-  char gui_gtk5_font_reqtree_text[512];
+  char gui_gtk5_font_city_label[FONT_NAME_SIZE];
+  char gui_gtk5_font_notify_label[FONT_NAME_SIZE];
+  char gui_gtk5_font_spaceship_label[FONT_NAME_SIZE];
+  char gui_gtk5_font_help_label[FONT_NAME_SIZE];
+  char gui_gtk5_font_help_link[FONT_NAME_SIZE];
+  char gui_gtk5_font_help_text[FONT_NAME_SIZE];
+  char gui_gtk5_font_chatline[FONT_NAME_SIZE];
+  char gui_gtk5_font_beta_label[FONT_NAME_SIZE];
+  char gui_gtk5_font_small[FONT_NAME_SIZE];
+  char gui_gtk5_font_comment_label[FONT_NAME_SIZE];
+  char gui_gtk5_font_city_names[FONT_NAME_SIZE];
+  char gui_gtk5_font_city_productions[FONT_NAME_SIZE];
+  char gui_gtk5_font_reqtree_text[FONT_NAME_SIZE];
 
 /* gui-sdl client specific options.
  * These are still kept just so users can migrate them to sdl2-client */
@@ -422,14 +424,14 @@ struct client_options
   bool gui_qt_allied_chat_only;
   bool gui_qt_sidebar_left;
   char gui_qt_default_theme_name[512];
-  char gui_qt_font_default[512];
-  char gui_qt_font_notify_label[512];
-  char gui_qt_font_help_label[512];
-  char gui_qt_font_help_text[512];
-  char gui_qt_font_chatline[512];
-  char gui_qt_font_city_names[512];
-  char gui_qt_font_city_productions[512];
-  char gui_qt_font_reqtree_text[512];
+  char gui_qt_font_default[FONT_NAME_SIZE];
+  char gui_qt_font_notify_label[FONT_NAME_SIZE];
+  char gui_qt_font_help_label[FONT_NAME_SIZE];
+  char gui_qt_font_help_text[FONT_NAME_SIZE];
+  char gui_qt_font_chatline[FONT_NAME_SIZE];
+  char gui_qt_font_city_names[FONT_NAME_SIZE];
+  char gui_qt_font_city_productions[FONT_NAME_SIZE];
+  char gui_qt_font_reqtree_text[FONT_NAME_SIZE];
   bool gui_qt_show_titlebar;
   char gui_qt_wakeup_text[512];
   bool gui_qt_show_relations_panel;
