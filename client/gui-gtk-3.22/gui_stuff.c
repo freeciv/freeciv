@@ -508,7 +508,7 @@ static gboolean click_on_tab_callback(GtkWidget *w,
   Sets pdlg to point to the dialog once it is create, Zeroes pdlg on
   dialog destruction.
   user_data will be passed through response function
-  check_top indicates if the layout deision should depend on the parent.
+  check_top indicates if the layout decision should depend on the parent.
 **************************************************************************/
 void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
                     gpointer user_data, bool check_top)
