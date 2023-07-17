@@ -175,7 +175,7 @@ void gui_remove_net_input(void)
   Set one of the unit icons (specified by idx) in the information area
   based on punit.
 
-  punit is the unit the information should be taken from. Use NULL to
+  punit is the unit the information should be taken from. Use nullptr to
   clear the icon.
 
   idx specified which icon should be modified. Use idx == -1 to indicate

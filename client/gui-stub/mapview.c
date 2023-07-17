@@ -61,14 +61,14 @@ void update_info_label(void)
 
 /************************************************************************//**
   Update the information label which gives info on the current unit
-  and the tile under the current unit, for specified unit.  Note that
+  and the tile under the current unit, for specified unit. Note that
   in practice punit is always the focus unit.
 
-  Clears label if punit is NULL.
+  Clears label if punit is nullptr.
 
   Typically also updates the cursor for the map_canvas (this is
   related because the info label may includes "select destination"
-  prompt etc).  And it may call update_unit_pix_label() to update the
+  prompt etc). And it may call update_unit_pix_label() to update the
   icons for units on this tile.
 ****************************************************************************/
 void update_unit_info_label(struct unit_list *punitlist)
@@ -135,12 +135,12 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 struct canvas *get_overview_window(void)
 {
   /* PORTME */
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
-  Mark the rectangular region as "dirty" so that we know to flush it
-  later.
+  Mark the rectangular region as "dirty" so that we know to flush
+  it later.
 ****************************************************************************/
 void dirty_rect(int canvas_x, int canvas_y,
                 int pixel_width, int pixel_height)

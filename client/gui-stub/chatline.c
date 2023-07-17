@@ -41,7 +41,7 @@ void gui_real_output_window_append(const char *astring,
 void log_output_window(void)
 {
   /* PORTME */
-  write_chatline_content(NULL);
+  write_chatline_content(nullptr);
 }
 
 /**********************************************************************//**

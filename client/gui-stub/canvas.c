@@ -26,7 +26,7 @@
 struct canvas *gui_canvas_create(int width, int height)
 {
   /* PORTME */
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -156,26 +156,26 @@ void gui_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 }
 
 /************************************************************************//**
-  Return the size of the given text in the given font.  This size should
-  include the ascent and descent of the text.  Either of width or height
-  may be NULL in which case those values simply shouldn't be filled out.
+  Return the size of the given text in the given font. This size should
+  include the ascent and descent of the text. Either of width or height
+  may be nullptr in which case those values simply shouldn't be filled out.
 ****************************************************************************/
 void gui_get_text_size(int *width, int *height,
                        enum client_font font, const char *text)
 {
   /* PORTME */
-  if (width) {
+  if (width != nullptr) {
     *width = 0;
   }
-  if (height) {
+  if (height != nullptr) {
     *height = 0;
   }
 }
 
 /************************************************************************//**
-  Draw the text onto the canvas in the given color and font.  The canvas
+  Draw the text onto the canvas in the given color and font. The canvas
   position does not account for the ascent of the text; this function must
-  take care of this manually.  The text will not be NULL but may be empty.
+  take care of this manually. The text can't be nullptr but may be empty.
 ****************************************************************************/
 void gui_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
                          enum client_font font, struct color *pcolor,
