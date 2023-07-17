@@ -141,6 +141,9 @@ ruledit-install-qt6:
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
+	# Create portable .7z
+	mkdir -p $(OUT_DIR)/portable
+	7z a -r $(OUT_DIR)/portable/Freeciv-$(FREECIV_VERSION)-client-$(WINARCH)-$(GUI).7z $(INST_DIR)/$(WINARCH)-client-$(GUI)
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-client-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
@@ -377,6 +380,9 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
+	# Create portable .7z
+	mkdir -p $(OUT_DIR)/portable
+	7z a -r $(OUT_DIR)/portable/Freeciv-$(FREECIV_VERSION)-ruledit-$(WINARCH)-$(GUI).7z $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
@@ -436,6 +442,7 @@ clean-install-client-arch:
 clean-installer-common:
 	rm -f $(OUT_DIR)/Freeciv-*-$(GUI)-setup.exe
 	rm -f $(NSI_DIR)/*-$(GUI).nsi
+	rm -f $(OUT_DIR)/portable/Freeciv-*-client-*-$(GUI).7z
 
 clean-ruledit-install:
 	rm -rf $(INST_DIR)/*-ruledit-$(GUI)
@@ -446,6 +453,7 @@ clean-ruledit-install-arch:
 clean-ruledit-common:
 	rm -f $(OUT_DIR)/Freeciv-ruledit-*-setup.exe
 	rm -f $(NSI_DIR)/*-ruledit-$(GUI).nsi
+	rm -f $(OUT_DIR)/portable/Freeciv-*-ruledit-*-$(GUI).7z
 
 clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-client clean-install-client clean-installer-common
