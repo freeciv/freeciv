@@ -1617,9 +1617,11 @@ void send_connect_route(enum unit_activity activity,
 
     memset(&p, 0, sizeof(p));
 
-    for (i = 0; i < goto_map->num_parts; i++) {
+    i = 0;
+    do {
       path = pf_path_concat(path, goto_map->parts[i].path);
-    }
+      i++;
+    } while (i < goto_map->num_parts);
 
     p.unit_id = punit->id;
     p.src_tile = tile_index(unit_tile(punit));
@@ -1739,8 +1741,9 @@ static bool order_demands_direction(enum unit_orders order, action_id act_id)
 
 /**************************************************************************
   Send the current goto route (i.e., the one generated via
-  HOVER_STATE) to the server.  The route might involve more than one
-  part if waypoints were used.  FIXME: danger paths are not supported.
+  HOVER_STATE) to the server. The route might involve more than one
+  part, if waypoints were used.
+  FIXME: danger paths are not supported.
 **************************************************************************/
 void send_goto_route(void)
 {
@@ -1756,9 +1759,11 @@ void send_goto_route(void)
       continue;
     }
 
-    for (i = 0; i < goto_map->num_parts; i++) {
+    i = 0;
+    do {
       path = pf_path_concat(path, goto_map->parts[i].path);
-    }
+      i++;
+    } while (i < goto_map->num_parts);
 
     clear_unit_orders(punit);
 
