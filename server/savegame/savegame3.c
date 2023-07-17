@@ -2625,16 +2625,19 @@ static void sg_load_counters(struct loaddata *loading)
   length = secfile_lookup_int_default(loading->file, 0,
                               "savefile.city_counters_order_size");
 
-  if (length) {
-    loading->counter.order = secfile_lookup_str_vec(loading->file, &loading->counter.size, "savefile.city_counters_order_vector");
+  if (0==length) {
 
-    sg_failure_ret(loading->counter.order != 0,
+    return;
+  }
+
+  loading->counter.order = secfile_lookup_str_vec(loading->file, &loading->counter.size, "savefile.city_counters_order_vector");
+
+  sg_failure_ret(loading->counter.order != 0,
                    "Failed to load counter's ruleset order: %s",
                    secfile_error());
-    sg_failure_ret(loading->counter.size = length,
+  sg_failure_ret(loading->counter.size = length,
                    "Counter vector in savegame have bad size: %s",
                    secfile_error());
-  }
 
   int corder[length];
 
