@@ -1316,8 +1316,8 @@ static void leave_callback(GSimpleAction *action,
                            gpointer data)
 {
   if (is_server_running()) {
-    GtkWidget* dialog =
-        gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_WARNING,
+    GtkWidget *dialog
+      = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_WARNING,
                                GTK_BUTTONS_OK_CANCEL,
                                _("Leaving a local game will end it!"));
     setup_dialog(dialog, toplevel);
@@ -3413,7 +3413,7 @@ void real_menus_update(void)
   struct extra_type_list *extras;
   bool conn_possible;
 
-  if (!menus_built) {
+  if (!menus_built || client_state() == C_S_DISCONNECTED) {
     return;
   }
 
@@ -3680,7 +3680,7 @@ void real_menus_update(void)
   struct terrain *pterrain;
 #endif /* MENUS_GTK3 */
 
-  if (!menus_built || !can_client_change_view()) {
+  if (!can_client_change_view()) {
     return;
   }
 
