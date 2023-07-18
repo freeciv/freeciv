@@ -387,7 +387,7 @@ static void twai_auto_settler_run(struct player *pplayer, struct unit *punit,
                                   struct settlermap *state)
 {
   TAI_AIT;
-  TAI_DFUNC(dai_auto_settler_run, pplayer, punit, state);
+  TAI_DFUNC(dai_auto_settler_run, &(wld.map), pplayer, punit, state);
 }
 
 /**********************************************************************//**
@@ -397,7 +397,7 @@ static void twai_auto_settler_cont(struct player *pplayer, struct unit *punit,
                                    struct settlermap *state)
 {
   TAI_AIT;
-  TAI_DFUNC(dai_auto_settler_cont, pplayer, punit, state);
+  TAI_DFUNC(dai_auto_settler_cont, &(wld.map), pplayer, punit, state);
 }
 
 /**********************************************************************//**
