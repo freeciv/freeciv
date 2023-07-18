@@ -1282,7 +1282,7 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                         struct extra_type *target,
                                         const struct tile *ptile)
 {
-  action_by_activity_iterate(paction, act_id, activity) {
+  action_by_activity_iterate(paction, activity) {
     if (action_get_actor_kind(paction) != AAK_UNIT) {
       /* Not relevant. */
       continue;
@@ -1330,5 +1330,6 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
   } action_by_activity_iterate_end;
 
   log_debug("No action found for activity %d", activity);
+
   return FALSE;
 }

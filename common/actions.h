@@ -465,6 +465,7 @@ struct action_enabler
 #define action_list_iterate_end LIST_ITERATE_END
 
 struct action_list *action_list_by_result(enum action_result result);
+struct action_list *action_list_by_activity(enum unit_activity activity);
 
 /* TODO: Turn this to an iteration over precalculated list */
 #define action_noninternal_iterate(_act_)              \
@@ -485,16 +486,12 @@ struct action_list *action_list_by_result(enum action_result result);
   } action_list_iterate_end;                                              \
 }
 
-#define action_by_activity_iterate(_paction_, _act_id_, _activity_)       \
+#define action_by_activity_iterate(_paction_, _activity_)                 \
 {                                                                         \
-  action_iterate(_act_id_) {                                              \
-    struct action *_paction_ = action_by_number(_act_id_);                \
-    if (actres_activity_result(_paction_->result) != _activity_) {        \
-      continue;                                                           \
-    }
+  action_list_iterate(action_list_by_activity(_activity_), _paction_) {
 
 #define action_by_activity_iterate_end                                    \
-  } action_iterate_end;                                                   \
+  } action_list_iterate_end;                                              \
 }
 
 #define action_array_iterate(_act_array_, _act_id_)                         \
