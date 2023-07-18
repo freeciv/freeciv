@@ -4822,9 +4822,9 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
     }
   }
 
-  /* If attacker wins, and occupychance > 0, it might move in.  Don't move in
+  /* If attacker wins, and occupychance > 0, it might move in. Don't move in
    * if there are enemy units in the tile (a fortress, city or air base with
-   * multiple defenders and unstacked combat). Note that this could mean 
+   * multiple defenders and unstacked combat). Note that this could mean
    * capturing (or destroying) a city. */
 
   if (pwinner == punit && fc_rand(100) < game.server.occupychance
@@ -4835,6 +4835,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
 
     int old_moves = punit->moves_left;
     int full_moves = unit_move_rate(punit);
+    int id = punit->id;
 
     punit->moves_left = full_moves;
     /* Post attack occupy move. */
@@ -4842,15 +4843,17 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                                          NULL, NULL, paction,
                                          def_tile, tile_city(def_tile),
                                          NULL, NULL)) {
-      int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
+      if (unit_is_alive(id)) {
+        int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
-      /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.
-       * Attack SINGLE_COST is already calculated in to old_moves. */
-      punit->moves_left = old_moves - mcost;
-      if (punit->moves_left < 0) {
-        punit->moves_left = 0;
+        /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.
+         * Attack SINGLE_COST is already calculated in to old_moves. */
+        punit->moves_left = old_moves - mcost;
+        if (punit->moves_left < 0) {
+          punit->moves_left = 0;
+        }
       }
-    } else {
+    } else if (unit_is_alive(id)) {
       punit->moves_left = old_moves;
     }
   }
