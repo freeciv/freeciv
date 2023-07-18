@@ -438,15 +438,23 @@ struct action_enabler
     }                                                                 \
   } action_enabler_list_iterate_end
 
-#define action_iterate(_act_)                                             \
+#define action_iterate_all(_act_)                                         \
 {                                                                         \
   action_id _act_;                                                        \
-  for (_act_ = 0; _act_ < NUM_ACTIONS; _act_++) {                         \
+  for (_act_ = 0; _act_ < NUM_ACTIONS; _act_++) {
+
+#define action_iterate_all_end                                            \
+  }                                                                       \
+}
+
+#define action_iterate(_act_)                                             \
+{                                                                         \
+  action_iterate_all(_act_) {                                             \
     if (_act_ != ACTION_UNUSED_1 && _act_ != ACTION_UNUSED_2) {
 
-#define action_iterate_end                             \
-    }                                                  \
-  }                                                    \
+#define action_iterate_end                                                \
+    }                                                                     \
+  } action_iterate_all_end;                                               \
 }
 
 /* Get 'struct action_id_list' and related functions: */
