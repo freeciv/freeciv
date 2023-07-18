@@ -23,7 +23,7 @@ extern "C" {
 #include "worklist.h"
 
 /*
- * Every TIMER_INTERVAL milliseconds real_timer_callback is
+ * Every TIMER_INTERVAL milliseconds real_timer_callback() is
  * called. TIMER_INTERVAL has to stay 500 because real_timer_callback
  * also updates the timeout info.
  */
@@ -34,9 +34,9 @@ extern "C" {
  *
  * C_S_INITIAL:      Client boot, only used once on program start.
  * C_S_DISCONNECTED: The state when the client is not connected
- *                   to a server.  In this state, neither game nor ruleset
+ *                   to a server. In this state, neither game nor ruleset
  *                   is in effect.
- * C_S_PREPARING:    Connected in pregame.  Game and ruleset are done.
+ * C_S_PREPARING:    Connected in pregame. Game and ruleset are done.
  * C_S_RUNNING:      Connected ith game in progress.
  * C_S_OVER:         Connected with game over.
  */
@@ -136,4 +136,4 @@ extern const bool gui_use_transliteration;
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CLIENT_MAIN_H */
+#endif /* FC__CLIENT_MAIN_H */
