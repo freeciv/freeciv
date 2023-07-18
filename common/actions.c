@@ -144,6 +144,7 @@ FC_STATIC_ASSERT(MAP_DISTANCE_MAX <= ACTION_DISTANCE_LAST_NON_SIGNAL,
                  action_range_can_not_cover_the_whole_map);
 
 static struct action_list *actlist_by_result[ACTRES_LAST];
+static struct action_list *actlist_by_activity[ACTIVITY_LAST];
 
 /**********************************************************************//**
   Returns a new array of alternative action enabler contradictions. Only
@@ -1463,6 +1464,9 @@ void actions_init(void)
   for (i = 0; i < ACTRES_LAST; i++) {
     actlist_by_result[i] = action_list_new();
   }
+  for (i = 0; i < ACTIVITY_LAST; i++) {
+    actlist_by_activity[i] = action_list_new();
+  }
 
   /* Hard code the actions */
   hard_code_actions();
@@ -1565,6 +1569,10 @@ void actions_free(void)
     action_list_destroy(actlist_by_result[i]);
     actlist_by_result[i] = NULL;
   }
+  for (i = 0; i < ACTIVITY_LAST; i++) {
+    action_list_destroy(actlist_by_activity[i]);
+    actlist_by_activity[i] = NULL;
+  }
 }
 
 /**********************************************************************//**
@@ -1611,7 +1619,13 @@ static struct action *action_new(action_id id,
   action->result = result;
 
   if (result != ACTRES_LAST) {
+    enum unit_activity act = action_get_activity(action);
+
     action_list_append(actlist_by_result[result], action);
+
+    if (act != ACTIVITY_LAST) {
+      action_list_append(actlist_by_activity[act], action);
+    }
   }
 
   /* Not set here */
@@ -9294,11 +9308,21 @@ const char *action_target_kind_help(enum action_target_kind kind)
 }
 
 /************************************************************************//**
-  Returns action id list by result.
+  Returns action list by result.
 ****************************************************************************/
 struct action_list *action_list_by_result(enum action_result result)
 {
   fc_assert(result < ACTRES_LAST);
 
   return actlist_by_result[result];
+}
+
+/************************************************************************//**
+  Returns action list by activity.
+****************************************************************************/
+struct action_list *action_list_by_activity(enum unit_activity activity)
+{
+  fc_assert(activity < ACTIVITY_LAST);
+
+  return actlist_by_activity[activity];
 }

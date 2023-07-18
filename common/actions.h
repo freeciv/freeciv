@@ -482,6 +482,7 @@ struct action_enabler
 #define action_list_iterate_end LIST_ITERATE_END
 
 struct action_list *action_list_by_result(enum action_result result);
+struct action_list *action_list_by_activity(enum unit_activity activity);
 
 #define action_by_result_iterate(_paction_, _result_)                     \
 {                                                                         \
@@ -491,16 +492,12 @@ struct action_list *action_list_by_result(enum action_result result);
   } action_list_iterate_end;                                              \
 }
 
-#define action_by_activity_iterate(_paction_, _act_id_, _activity_)       \
+#define action_by_activity_iterate(_paction_, _activity_)                 \
 {                                                                         \
-  action_iterate(_act_id_) {                                              \
-    struct action *_paction_ = action_by_number(_act_id_);                \
-    if (action_get_activity(_paction_) != _activity_) {                   \
-      continue;                                                           \
-    }
+  action_list_iterate(action_list_by_activity(_activity_), _paction_) {
 
 #define action_by_activity_iterate_end                                    \
-  } action_iterate_end;                                                   \
+  } action_list_iterate_end;                                              \
 }
 
 #define action_array_iterate(_act_list_, _act_id_)                        \
