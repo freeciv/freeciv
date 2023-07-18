@@ -1547,9 +1547,9 @@ void actions_init(void)
   hard_code_actions();
 
   /* Initialize the action enabler list */
-  action_iterate(act) {
+  action_iterate_all(act) {
     action_enablers_by_action[act] = action_enabler_list_new();
-  } action_iterate_end;
+  } action_iterate_all_end;
 
   /* Initialize action obligatory hard requirements. */
 
@@ -1609,7 +1609,7 @@ void actions_free(void)
   /* Don't consider the actions to be initialized any longer. */
   actions_initialized = FALSE;
 
-  action_iterate(act) {
+  action_iterate_all(act) {
     action_enabler_list_iterate(action_enablers_by_action[act], enabler) {
       action_enabler_free(enabler);
     } action_enabler_list_iterate_end;
@@ -1617,7 +1617,7 @@ void actions_free(void)
     action_enabler_list_destroy(action_enablers_by_action[act]);
 
     FC_FREE(actions[act]);
-  } action_iterate_end;
+  } action_iterate_all_end;
 
   /* Free the obligatory hard action requirements. */
   for (i = 0; i < ACTRES_NONE; i++) {
