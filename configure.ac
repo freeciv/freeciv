@@ -486,24 +486,6 @@ AS_IF([test "x$enable_delta_protocol" = "xno"], [
 dnl extra arguments for the packet generator
 AC_ARG_VAR([GENERATE_PACKETS_ARGS], [Additional arguments for the packet generator])
 
-FC_WEB_OPTIONS
-
-AC_ARG_ENABLE([fcweb],
-  AS_HELP_STRING([--enable-fcweb], [build fcweb version of server [false]]),
-[case "${enableval}" in
-  yes)
-    fcweb=true ;;
-  no)
-    fcweb=false ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcweb]) ;;
-esac], [fcweb=false])
-
-FC_WEB_CLIENT
-
-AS_IF([test "x$fcweb" = "xtrue"],
-      AC_SUBST([SRVBIN], [freeciv-web]),
-      AC_SUBST([SRVBIN], [freeciv-server]))
-
 FC_TESTMATIC
 
 dnl no:   Do not compile client.
@@ -515,10 +497,6 @@ AC_ARG_ENABLE([client],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
-
-if test "x$fcweb" = "xtrue" && test "x$client" = "xauto" ; then
-  clients=no
-fi
 
 gui_gtk3_22=no
 gui_gtk4=no

@@ -27,6 +27,8 @@ Updating from 3.2 to 3.3
 * Build with meson supports building gtk4x modpack installer that is linked
   against relatively new gtk4 versions
 * va_copy support is now mandatory
+* Building web version of the server with autotools is no longer supported.
+  Make such builds with meson instead.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
