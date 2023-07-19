@@ -3489,22 +3489,30 @@ void show_tech_gained_dialog(Tech_type_id tech)
 /****************************************************************
   Show tileset error dialog.
 *****************************************************************/
-void show_tileset_error(const char *tset_name, const char *msg)
+void show_tileset_error(bool fatal, const char *tset_name, const char *msg)
 {
-  char buf[1024];
+  QWidget *parent;
+  fc_client *std_gui = gui();
 
-  if (tset_name != NULL) {
-    fc_snprintf(buf, sizeof(buf),
-                _("Tileset \"%s\" problem, it's probably incompatible with the"
-                  " ruleset:\n%s"), tset_name, msg);
+  if (std_gui != nullptr) {
+    parent = std_gui->central_wdg;
   } else {
-    fc_snprintf(buf, sizeof(buf),
-                _("Tileset problem, it's probably incompatible with the"
-                  " ruleset:\n%s"), msg);
+    parent = nullptr;
   }
 
-  if (QCoreApplication::instance() != nullptr) {
-    QMessageBox ask(gui()->central_wdg);
+  if (std_gui != nullptr || fatal) {
+    char buf[1024];
+    QMessageBox ask(parent);
+
+    if (tset_name != NULL) {
+      fc_snprintf(buf, sizeof(buf),
+                  _("Tileset \"%s\" problem, it's probably incompatible with "
+                    "the ruleset:\n%s"), tset_name, msg);
+    } else {
+      fc_snprintf(buf, sizeof(buf),
+                  _("Tileset problem, it's probably incompatible with "
+                    "the ruleset:\n%s"), msg);
+    }
 
     ask.setText(buf);
     ask.setStandardButtons(QMessageBox::Ok);

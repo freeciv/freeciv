@@ -592,11 +592,11 @@ void tileset_error(enum log_level level, const char *tset_name,
   log_base(level, "%s", buf);
 
   if (level <= LOG_NORMAL) {
-    show_tileset_error(tset_name, buf);
-  }
+    show_tileset_error(level == LOG_FATAL, tset_name, buf);
 
-  if (level == LOG_FATAL) {
-    exit(EXIT_FAILURE);
+    if (level == LOG_FATAL) {
+      exit(EXIT_FAILURE);
+    }
   }
 }
 
