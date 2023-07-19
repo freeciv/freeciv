@@ -1,8 +1,17 @@
 
-project('freeciv', ['c', 'cpp'], meson_version: '>= 0.60.0')
+project('freeciv', ['c'], meson_version: '>= 0.60.0')
 
 c_compiler = meson.get_compiler('c')
-cxx_compiler = meson.get_compiler('cpp')
+
+if get_option('ruledit') or \
+   get_option('clients').contains('qt') or \
+   get_option('fcmp').contains('qt')
+  add_languages('cpp', native: false)
+  cxx_build = true
+  cxx_compiler = meson.get_compiler('cpp')
+else
+  cxx_build = false
+endif
 
 if c_compiler.has_argument('-Wno-nonnull-compare')
   add_global_arguments('-Wno-nonnull-compare', language : 'c')
@@ -202,9 +211,7 @@ if host_system == 'windows'
     add_global_arguments('-D_WIN32_WINNT=' + min_win_ver, language: ['c', 'cpp'])
   endif
 
-  if get_option('ruledit') or \
-     get_option('clients').contains('qt') or \
-     get_option('fcmp').contains('qt')
+  if cxx_build
     if get_option('debug')
       # Qt flags have malformed macro definition triggering this error
       # Also C compiler affected as the macro is on its commandline too
@@ -500,7 +507,7 @@ int main(void) { int *var = nullptr; return 0; }''',
   pub_conf_data.set('FREECIV_HAVE_C23_NULLPTR', 1)
 endif
 
-if cxx_compiler.compiles('''
+if cxx_build and cxx_compiler.compiles('''
 #include <cstddef>
 int main(void) { int *var = nullptr; return 0; }''',
   name: 'cxx nullptr',
@@ -856,7 +863,7 @@ if crosser
   pub_conf_data.set('FREECIV_CROSSER', 1)
 endif
 
-if cxx_compiler.compiles('''
+if cxx_build and cxx_compiler.compiles('''
 class me {
 void top(); };
 void me::top() { [=, this]() {}; };
