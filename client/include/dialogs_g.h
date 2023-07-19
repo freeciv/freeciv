@@ -36,7 +36,8 @@ GUI_FUNC_PROTO(void, popup_notify_goto_dialog, const char *headline,
                struct tile *ptile)
 GUI_FUNC_PROTO(void, popup_notify_dialog, const char *caption,
                const char *headline, const char *lines)
-GUI_FUNC_PROTO(void, popup_connect_msg, const char *headline, const char *message)
+GUI_FUNC_PROTO(void, popup_connect_msg,
+               const char *headline, const char *message)
 
 GUI_FUNC_PROTO(void, popup_races_dialog, struct player *pplayer)
 GUI_FUNC_PROTO(void, popdown_races_dialog, void)
@@ -81,7 +82,8 @@ GUI_FUNC_PROTO(void, popup_soundset_suggestion_dialog, void)
 GUI_FUNC_PROTO(void, popup_musicset_suggestion_dialog, void)
 GUI_FUNC_PROTO(bool, popup_theme_suggestion_dialog, const char *theme_name)
 GUI_FUNC_PROTO(void, show_tech_gained_dialog, Tech_type_id tech)
-GUI_FUNC_PROTO(void, show_tileset_error, const char *tset_name, const char *msg)
+GUI_FUNC_PROTO(void, show_tileset_error,
+               bool fatal, const char *tset_name, const char *msg)
 GUI_FUNC_PROTO(bool, handmade_scenario_warning, void)
 
 GUI_FUNC_PROTO(void, popdown_all_game_dialogs, void)
