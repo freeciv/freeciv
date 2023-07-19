@@ -83,7 +83,7 @@ tiles = { "row", "column", "tag"
   2, 11, "e_tech_goal"
 
   3,  0,  "e_unit_lost_att"
-  3,  1,  "e_unit_win_att"
+  3,  1,  "e_unit_win_att", "e_city_conquered"
   3,  1,  "e_unit_action_actor_success"
   3,  2,  "e_unit_buy"
   3,  3,  "e_unit_built"

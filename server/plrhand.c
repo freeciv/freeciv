@@ -485,7 +485,7 @@ void player_loot_player(struct player *pvictor, struct player *pvictim)
            * give verbose messages of every unit transferred,
            * and raze buildings according to raze chance
            * (also removes palace) */
-          notify_player(pvictor, city_tile(pcity), E_UNIT_WIN_ATT,
+          notify_player(pvictor, city_tile(pcity), E_CITY_CONQUERED,
                         ftc_server,
                         /* TRANS: Getting a city as loot */
                         _("You conquer %s as loot!"),

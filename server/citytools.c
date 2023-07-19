@@ -2018,7 +2018,7 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
   if (city_size_get(pcity) <= 1) {
     int saved_id = pcity->id;
 
-    notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
+    notify_player(pplayer, city_tile(pcity), E_CITY_CONQUERED, ftc_server,
                   _("You destroy %s completely."),
                   city_tile_link(pcity));
     notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
@@ -2047,55 +2047,55 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
   send_player_info_c(cplayer, cplayer->connections);
   if (pcity->original != pplayer) {
     if (coins > 0) {
-      notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
-		    PL_("You conquer %s; your lootings accumulate"
-			" to %d gold!",
-			"You conquer %s; your lootings accumulate"
-			" to %d gold!", coins), 
-		    city_link(pcity),
-		    coins);
+      notify_player(pplayer, city_tile(pcity), E_CITY_CONQUERED, ftc_server,
+                    PL_("You conquer %s; your lootings accumulate"
+                        " to %d gold!",
+                        "You conquer %s; your lootings accumulate"
+                        " to %d gold!", coins),
+                    city_link(pcity),
+                    coins);
       notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
-		    PL_("%s conquered %s and looted %d gold"
-			" from the city.",
-			"%s conquered %s and looted %d gold"
-			" from the city.", coins),
-		    player_name(pplayer),
-		    city_link(pcity),
-		    coins);
+                    PL_("%s conquered %s and looted %d gold"
+                        " from the city.",
+                        "%s conquered %s and looted %d gold"
+                        " from the city.", coins),
+                    player_name(pplayer),
+                    city_link(pcity),
+                    coins);
     } else {
-      notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
-		    _("You conquer %s."),
-		    city_link(pcity));
+      notify_player(pplayer, city_tile(pcity), E_CITY_CONQUERED, ftc_server,
+                    _("You conquer %s."),
+                    city_link(pcity));
       notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
-		    _("%s conquered %s."),
-		    player_name(pplayer),
-		    city_link(pcity));
+                    _("%s conquered %s."),
+                    player_name(pplayer),
+                    city_link(pcity));
     }
   } else {
     if (coins > 0) {
-      notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
-		    PL_("You have liberated %s!"
-			" Lootings accumulate to %d gold.",
-			"You have liberated %s!"
-			" Lootings accumulate to %d gold.", coins),
-		    city_link(pcity),
-		    coins);
+      notify_player(pplayer, city_tile(pcity), E_CITY_CONQUERED, ftc_server,
+                    PL_("You have liberated %s!"
+                        " Lootings accumulate to %d gold.",
+                        "You have liberated %s!"
+                        " Lootings accumulate to %d gold.", coins),
+                    city_link(pcity),
+                    coins);
       notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
-		    PL_("%s liberated %s and looted %d gold"
-			" from the city.",
-			"%s liberated %s and looted %d gold"
-			" from the city.", coins),
-		    player_name(pplayer),
-		    city_link(pcity),
-		    coins);
+                    PL_("%s liberated %s and looted %d gold"
+                        " from the city.",
+                        "%s liberated %s and looted %d gold"
+                        " from the city.", coins),
+                    player_name(pplayer),
+                    city_link(pcity),
+                    coins);
     } else {
-      notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
-		    _("You have liberated %s!"),
-		    city_link(pcity));
+      notify_player(pplayer, city_tile(pcity), E_CITY_CONQUERED, ftc_server,
+                    _("You have liberated %s!"),
+                    city_link(pcity));
       notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
-		    _("%s liberated %s."),
-		    player_name(pplayer),
-		    city_link(pcity));
+                    _("%s liberated %s."),
+                    player_name(pplayer),
+                    city_link(pcity));
     }
   }
 

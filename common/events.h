@@ -174,11 +174,12 @@ extern "C" {
 #define SPECENUM_VALUE135 E_INFRAPOINTS
 #define SPECENUM_VALUE136 E_HUT_MAP
 #define SPECENUM_VALUE137 E_TREATY_SHARED_TILES
+#define SPECENUM_VALUE138 E_CITY_CONQUERED
 /*
  * Note: If you add a new event, make sure you make a similar change
- * to the events array in "common/events.c" using GEN_EV, to
- * "data/stdsounds.soundspec", which serves as the documentation to
- * soundset authors, and to "data/misc/events.spec".
+ * to the events array in "common/events.c" using GEN_EV,
+ * to "data/stdsounds.soundspec", which serves as the documentation
+ * to soundset authors, and to "data/misc/events.spec".
  */
 #define SPECENUM_COUNT E_COUNT
 /* The sound system also generates "e_client_quit", although there's no
