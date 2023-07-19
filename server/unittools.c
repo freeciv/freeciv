@@ -1157,9 +1157,9 @@ void bounce_unit(struct unit *punit, bool verbose)
    * Try to bounce transported units. */
   if (0 < get_transporter_occupancy(punit)) {
     pcargo_units = unit_transport_cargo(punit);
-    unit_list_iterate(pcargo_units, pcargo) {
+    unit_list_iterate_safe(pcargo_units, pcargo) {
       bounce_unit(pcargo, verbose);
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   }
 
   if (verbose) {
@@ -1168,9 +1168,9 @@ void bounce_unit(struct unit *punit, bool verbose)
                   _("Disbanded your %s."),
                   unit_tile_link(punit));
   }
+
   wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
 }
-
 
 /**************************************************************************
   Throw pplayer's units from non allied cities
@@ -1256,10 +1256,10 @@ static void resolve_stack_conflicts(struct player *pplayer,
           bounce_unit(aunit, verbose);
         }
       } unit_list_iterate_safe_end;
-    }    
+    }
   } unit_list_iterate_safe_end;
 }
-				
+
 /**************************************************************************
   When in civil war or an alliance breaks there will potentially be units 
   from both sides coexisting on the same squares.  This routine resolves 
