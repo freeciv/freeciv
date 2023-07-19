@@ -218,6 +218,7 @@ e_bad_command = "stdsounds/illegal.ogg" ; [fcol]
 ;e_city_gran_throttle = ""
 ;e_city_growth = ""
 ;e_city_lost = ""
+;e_city_conquered = ""
 ;e_city_love = ""
 ;e_city_may_soon_grow = ""
 ;e_city_normal = ""

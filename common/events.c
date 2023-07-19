@@ -80,7 +80,7 @@ static struct {
   char *full_descr;
   enum event_type event;
 } events[] = {
-  /* TRANS: this and following strings are names for events which cause the
+  /* TRANS: This and following strings are names for events which cause the
    * server to generate messages. They are used in configuring how the client
    * handles the different types of messages. Some of them will be displayed
    * with prefixes, such as "Technology: Learned From Great Library". */
@@ -226,6 +226,7 @@ static struct {
   GEN_EV(E_INFRAPOINTS,         E_S_NATION,      N_("Infrapoints")),
   GEN_EV(E_HUT_MAP,             E_S_HUT,         N_("Map found from a hut")),
   GEN_EV(E_TREATY_SHARED_TILES, E_S_TREATY,      N_("Tiles shared")),
+  GEN_EV(E_CITY_CONQUERED,      E_S_CITY,        N_("Conquered")),
   /* The sound system also generates "e_client_quit", although there's no
    * corresponding identifier E_CLIENT_QUIT. */
 };
@@ -233,7 +234,7 @@ static struct {
 
 /*
  * Maps from enum event_type to indexes of events[]. Set by
- * events_init.
+ * events_init().
  */
 static int event_to_index[E_COUNT];
 
@@ -284,8 +285,7 @@ const char *get_event_tag(enum event_type event)
 }
 
 /**********************************************************************//**
- If is_city_event is FALSE this event doesn't effect a city even if
- there is a city at the event location.
+  Does the event affect a city if there's one at the event location.
 **************************************************************************/
 bool is_city_event(enum event_type event)
 {
