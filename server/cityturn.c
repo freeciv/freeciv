@@ -3535,9 +3535,9 @@ static void update_city_activity(struct city *pcity)
 
     /* Handle the illness. */
     if (game.info.illness_on) {
-      /* recalculate city illness; illness due to trade has to be saved
-       * within the city struct as the client has not all data to
-       * calculate it */
+      /* Recalculate city illness; illness due to trade has to be saved
+       * within the city struct, as the client does not have all
+       * the data to calculate it */
       pcity->server.illness
         = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade), NULL);
 
@@ -3565,9 +3565,21 @@ static void update_city_activity(struct city *pcity)
     pplayer->economic.infra_points += get_city_bonus(pcity, EFT_INFRA_POINTS);
 
     /* Update the treasury. */
-    pplayer->economic.gold += pcity->prod[O_GOLD];
-    pplayer->economic.gold -= city_total_impr_gold_upkeep(pcity);
-    pplayer->economic.gold -= city_total_unit_gold_upkeep(pcity);
+    pplayer->economic.gold += pcity->surplus[O_GOLD];
+
+    /* FIXME: Nation level upkeep should be paid after ALL cities
+     *        have been processed, not after each individual city. */
+    if (game.info.gold_upkeep_style != GOLD_UPKEEP_CITY) {
+      /* Unit upkeep was not included in city balance ->
+       * not reduced from the city surplus. */
+      pplayer->economic.gold -= city_total_unit_gold_upkeep(pcity);
+
+      if (game.info.gold_upkeep_style == GOLD_UPKEEP_NATION) {
+        /* Building upkeep was not included in city balance ->
+         * not reduced from the city surplus. */
+        pplayer->economic.gold -= city_total_impr_gold_upkeep(pcity);
+      }
+    }
 
     /* Remember how much gold upkeep each unit was paid. */
     unit_list_iterate(pcity->units_supported, punit) {
