@@ -13,10 +13,15 @@ finish-args:
   - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-qt
-    buildsystem: simple
-    build-commands:
-      - mkdir build
-      - cd build && ../configure --prefix=/app --with-qtver=qt6 --enable-client=qt --disable-fcmp --disable-ruledit --disable-freeciv-manual && make -j$(nproc) && make install
+    buildsystem: autotools
+    no-autogen: true
+    builddir: true
+    config-opts:
+      - --with-qtver=qt6
+      - --enable-client=qt
+      - --disable-fcmp
+      - --disable-ruledit
+      - --disable-freeciv-manual
     sources:
       - type: dir
         path: ../..
