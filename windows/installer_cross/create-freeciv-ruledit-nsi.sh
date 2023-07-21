@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-ruledit.sh <Freeciv files directory> <version> <win32|win64|win>
+# ./create-freeciv-ruledit.sh <Freeciv files directory> <version> <gui id> <gui name> <win32|win64|win>
 
 ARCH_KEY_PART="crs"
 ARCH_INST_PART="-crs"
@@ -14,13 +14,15 @@ SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv-ruledit"
 !define VERSION $2
-!define WIN_ARCH $3
+!define GUI_ID $3
+!define GUI_NAME $4
+!define WIN_ARCH $5
 !define ARCH_KEY_PART ${ARCH_KEY_PART}
 !define ARCH_INST_PART ${ARCH_INST_PART}
 !define KEYROOT "Freeciv"
-!define APP_KEY_PART "ruledit"
+!define APP_KEY_PART "ruledit-\${GUI_ID}"
 
-!define APPID "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}"
+!define APPID "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
@@ -30,7 +32,7 @@ SetCompressor /SOLID lzma
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
@@ -38,8 +40,8 @@ SetCompressor /SOLID lzma
 
 ; General
 
-Name "Freeciv Ruleset Editor \${VERSION}"
-OutFile "Output/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-setup.exe"
+Name "Freeciv Ruleset Editor \${VERSION} (\${GUI_NAME})"
+OutFile "Output/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
 
 ; Variables
 

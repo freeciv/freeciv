@@ -223,18 +223,20 @@ if ! add_common_env $DLLSPATH $INSTDIR ; then
 fi
 
 if test "x$GUI" = "xruledit" ; then
-  if ! cp freeciv-ruledit.cmd $INSTDIR/
+  if ! cp freeciv-ruledit.cmd "${INSTDIR}/"
   then
     echo "Adding cmd-file failed!" >&2
     exit 1
   fi
 
-  if ! add_qt6_env $DLLSPATH $INSTDIR ; then
+  if ! add_qt6_env "${DLLSPATH}" "${INSTDIR}" ; then
     echo "Copying Qt6 environment failed!" >&2
     exit 1
   fi
 
-  if ! ./create-freeciv-ruledit-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-ruledit-$SETUP-$VERREV.nsi
+  if ! ./create-freeciv-ruledit-nsi.sh \
+         "${INSTDIR}" "${VERREV}" "qt6" "Qt6" "${SETUP}" \
+           > "Freeciv-ruledit-${SETUP}-${VERREV}.nsi"
   then
     exit 1
   fi
