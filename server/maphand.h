@@ -89,8 +89,10 @@ void remove_player_from_maps(struct player *pplayer);
 
 struct vision_site *map_get_player_city(const struct tile *ptile,
                                         const struct player *pplayer);
-struct vision_site *map_get_player_site(const struct tile *ptile,
-                                        const struct player *pplayer);
+#define map_get_playermap_site(_plrtile_) (_plrtile_)->site
+#define map_get_player_site(_ptile_, _pplayer_) \
+  map_get_playermap_site(map_get_player_tile(_ptile_, _pplayer_))
+
 struct player_tile *map_get_player_tile(const struct tile *ptile,
                                         const struct player *pplayer);
 bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile);

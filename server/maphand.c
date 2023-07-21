@@ -86,6 +86,9 @@ static inline int map_get_seen(const struct player *pplayer,
 static inline int map_get_own_seen(const struct player *pplayer,
                                    const struct tile *ptile,
                                    enum vision_layer vlayer);
+static inline bool map_is_also_seen(const struct tile *ptile,
+                                    const struct player *pplayer,
+                                    enum vision_layer vlayer);
 
 static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
                                struct player *pplayer);
@@ -482,7 +485,7 @@ bool send_tile_suppression(bool now)
   the tile. If dest is NULL, sends to all clients (game.est_connections)
   which know and see tile.
 
-  Note that this function does not update the playermap.  For that call
+  Note that this function does not update the playermap. For that call
   update_tile_knowledge().
 **************************************************************************/
 void send_tile_info(struct conn_list *dest, struct tile *ptile,
@@ -514,12 +517,17 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
+    bool known;
 
     if (NULL == pplayer && !pconn->observer) {
       continue;
     }
 
-    if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
+    if (pplayer != NULL) {
+      known = map_is_known(ptile, pplayer);
+    }
+
+    if (pplayer == NULL || (known && map_is_also_seen(ptile, pplayer, V_MAIN))) {
       info.known = TILE_KNOWN_SEEN;
       info.continent = tile_continent(ptile);
       owner = tile_owner(ptile);
@@ -557,9 +565,9 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       }
 
       send_packet_tile_info(pconn, &info);
-    } else if (pplayer && map_is_known(ptile, pplayer)) {
+    } else if (pplayer != NULL && known) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
-      struct vision_site *psite = map_get_player_site(ptile, pplayer);
+      struct vision_site *psite = map_get_playermap_site(plrtile);
 
       info.known = TILE_KNOWN_UNSEEN;
       info.continent = tile_continent(ptile);
@@ -743,10 +751,10 @@ void map_set_border_vision(struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Shows the area to the player.  Unless the tile is "seen", it will remain
+  Shows the area to the player. Unless the tile is "seen", it will remain
   fogged and units will be hidden.
 
-  Callers may wish to buffer_shared_vision before calling this function.
+  Callers may wish to buffer_shared_vision() before calling this function.
 **************************************************************************/
 void map_show_tile(struct player *src_player, struct tile *ptile)
 {
@@ -798,7 +806,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 /**********************************************************************//**
   Hides the area to the player.
 
-  Callers may wish to buffer_shared_vision before calling this function.
+  Callers may wish to buffer_shared_vision() before calling this function.
 **************************************************************************/
 void map_hide_tile(struct player *src_player, struct tile *ptile)
 {
@@ -871,7 +879,7 @@ void map_show_all(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Return whether the player knows the tile.  Knowing a tile means you've
+  Return whether the player knows the tile. Knowing a tile means you've
   seen it once (as opposed to seeing a tile which means you can see it now).
 **************************************************************************/
 bool map_is_known(const struct tile *ptile, const struct player *pplayer)
@@ -885,6 +893,18 @@ bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 }
 
 /**********************************************************************//**
+  Returns whether the layer 'vlayer' of the tile 'ptile' is seen
+  by the player 'pplayer'. Only call this when you already know
+  the tile to be known.
+**************************************************************************/
+static inline bool map_is_also_seen(const struct tile *ptile,
+                                    const struct player *pplayer,
+                                    enum vision_layer vlayer)
+{
+  return map_get_seen(pplayer, ptile, vlayer) > 0;
+}
+
+/**********************************************************************//**
   Returns whether the layer 'vlayer' of the tile 'ptile' is known and seen
   by the player 'pplayer'.
 **************************************************************************/
@@ -892,16 +912,15 @@ bool map_is_known_and_seen(const struct tile *ptile,
                            const struct player *pplayer,
                            enum vision_layer vlayer)
 {
-  return (map_is_known(ptile, pplayer)
-          && 0 < map_get_seen(pplayer, ptile, vlayer));
+  return map_is_known(ptile, pplayer) && map_is_also_seen(ptile, pplayer, vlayer);
 }
 
 /**********************************************************************//**
-  Return whether the player can see the tile.  Seeing a tile means you have
+  Return whether the player can see the tile. Seeing a tile means you have
   vision of it now (as opposed to knowing a tile which means you've seen it
-  before).  Note that a tile can be seen but not known (currently this only
+  before). Note that a tile can be seen but not known (currently this only
   happens when a city is founded with some unknown tiles in its radius); in
-  this case the tile is unknown (but map_get_seen will still return TRUE).
+  this case the tile is unknown (but map_get_seen() will still return TRUE).
 **************************************************************************/
 static inline int map_get_seen(const struct player *pplayer,
                                const struct tile *ptile,
@@ -1342,17 +1361,8 @@ struct vision_site *map_get_player_city(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Returns site located at given tile from player map.
-**************************************************************************/
-struct vision_site *map_get_player_site(const struct tile *ptile,
-					const struct player *pplayer)
-{
-  return map_get_player_tile(ptile, pplayer)->site;
-}
-
-/**********************************************************************//**
   Players' information of tiles is tracked so that fogged area can be kept
-  consistent even when the client disconnects.  This function returns the
+  consistent even when the client disconnects. This function returns the
   player tile information for the given tile and player.
 **************************************************************************/
 struct player_tile *map_get_player_tile(const struct tile *ptile,
@@ -1457,8 +1467,6 @@ static bool really_give_tile_info_from_player_to_player(struct player *pfrom,
                                                         struct player *pdest,
                                                         struct tile *ptile)
 {
-  struct player_tile *from_tile, *dest_tile;
-
   if (!map_is_known_and_seen(ptile, pdest, V_MAIN)) {
     /* I can just hear people scream as they try to comprehend this if :).
      * Let me try in words:
@@ -1472,6 +1480,8 @@ static bool really_give_tile_info_from_player_to_player(struct player *pfrom,
             && (((map_get_player_tile(ptile, pfrom)->last_updated
                   > map_get_player_tile(ptile, pdest)->last_updated))
                 || !map_is_known(ptile, pdest)))) {
+      struct player_tile *from_tile, *dest_tile;
+
       from_tile = map_get_player_tile(ptile, pfrom);
       dest_tile = map_get_player_tile(ptile, pdest);
       /* Update and send tile knowledge */
