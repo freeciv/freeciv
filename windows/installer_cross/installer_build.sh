@@ -236,19 +236,19 @@ if ! mkdir -p autotools/output ; then
 fi
 
 if test "$GUI" = "ruledit" ; then
-  if ! cp freeciv-ruledit.cmd $INSTDIR/
+  if ! cp freeciv-ruledit.cmd "${INSTDIR}/"
   then
     echo "Adding cmd-file failed!" >&2
     exit 1
   fi
 
-  if ! add_qt6_env $DLLSPATH $INSTDIR ; then
+  if ! add_qt6_env "${DLLSPATH}" "${INSTDIR}" ; then
     echo "Copying Qt6 environment failed!" >&2
     exit 1
   fi
 
   if ! ./create-freeciv-ruledit-nsi.sh \
-         "$INSTDIR" "autotools/output" "$VERREV" "$SETUP" \
+         "${INSTDIR}" "autotools/output" "${VERREV}" "qt6" "Qt6" "${SETUP}" \
            > "${NSI_DIR}/ruledit-${SETUP}-${VERREV}.nsi"
   then
     exit 1
