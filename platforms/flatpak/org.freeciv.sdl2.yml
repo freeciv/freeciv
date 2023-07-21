@@ -19,10 +19,13 @@ modules:
         url: https://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.4.tar.gz
         sha256: 63e0e01addedc9df2f85b93a248f06e8a04affa014a835c2ea34bfe34e576262
   - name: freeciv-sdl2
-    buildsystem: simple
-    build-commands:
-      - mkdir build
-      - cd build && ../configure --prefix=/app --enable-client=sdl2 --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+    buildsystem: autotools
+    no-autogen: true
+    builddir: true
+    config-opts:
+      - --enable-client=sdl2
+      - --disable-fcmp
+      - --disable-freeciv-manual
     sources:
       - type: dir
         path: ../..

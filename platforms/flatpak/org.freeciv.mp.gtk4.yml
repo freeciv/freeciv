@@ -12,10 +12,14 @@ finish-args:
   - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-mp-gtk4
-    buildsystem: simple
-    build-commands:
-      - mkdir build
-      - cd build && ../configure --prefix=/app --enable-fcmp=gtk4 --disable-client --disable-server --disable-freeciv-manual && make -j$(nproc) && make install
+    buildsystem: autotools
+    no-autogen: true
+    builddir: true
+    config-opts:
+      - --enable-fcmp=gtk4
+      - --disable-client
+      - --disable-server
+      - --disable-freeciv-manual
     sources:
       - type: dir
         path: ../..
