@@ -612,6 +612,7 @@ void handle_player_change_government(struct player *pplayer,
   if (turns <= 0
       && pplayer->target_government != game.government_during_revolution) {
     notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,
+                  /* TRANS: Switching to a new form of government */
                   _("The %s will switch to %s in the end of "
                     "the player phase."),
                   nation_plural_for_player(pplayer),
@@ -619,7 +620,7 @@ void handle_player_change_government(struct player *pplayer,
     return;
   } else if (turns > 0) {
     notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,
-                  /* TRANS: this is a message event so don't make it
+                  /* TRANS: This is a message event so don't make it
                    * too long. */
                   PL_("The %s have incited a revolt! "
                       "%d turn of anarchy will ensue! "
