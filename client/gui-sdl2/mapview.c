@@ -395,7 +395,7 @@ void overview_size_changed(void)
 
 /**********************************************************************//**
   Typically an info box is provided to tell the player about the state
-  of their civilization.  This function is called when the label is
+  of their civilization. This function is called when the label is
   changed.
 **************************************************************************/
 void update_info_label(void)
@@ -414,13 +414,9 @@ void update_info_label(void)
     return;
   }
 
-#ifdef SMALL_SCREEN
-  ptext = create_utf8_str(NULL, 0, 8);
-#else
-  ptext = create_utf8_str(NULL, 0, 10);
-#endif
+  ptext = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
 
-  /* set text settings */
+  /* Set text settings */
   ptext->style |= TTF_STYLE_BOLD;
   ptext->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_INFO_TEXT);
   ptext->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -446,7 +442,8 @@ void update_info_label(void)
                 client.conn.playing->economic.luxury,
                 client.conn.playing->economic.science);
 #endif /* SMALL_SCREEN */
-    /* convert to utf8_str and create text surface */
+
+    /* Convert to utf8_str and create text surface */
     copy_chars_to_utf8_str(ptext, buffer);
     tmp = create_text_surf_from_utf8(ptext);
 
@@ -466,7 +463,7 @@ void update_info_label(void)
                 area.y + area.h - 1,
                 get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 
-    /* vertical lines */
+    /* Vertical lines */
     create_line(main_data.gui->surface,
                 area.x + area.w - 1, area.y + 1, area.x + area.w - 1,
                 area.y + area.h - 2,
@@ -475,7 +472,7 @@ void update_info_label(void)
                 area.x, area.y + 1, area.x, area.y + area.h - 2,
                 get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 
-    /* blit text to screen */
+    /* Blit text to screen */
     blit_entire_src(tmp, main_data.gui->surface, area.x + adj_size(5),
                     area.y + adj_size(2));
 
