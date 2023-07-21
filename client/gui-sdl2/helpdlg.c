@@ -1674,7 +1674,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
                                        struct widget *pwindow,
                                        struct techs_buttons *store)
 {
-  int i, w, h, req_count , targets_count, sub_req_count, sub_targets_count;
+  int i, w, h, req_count, targets_count, sub_req_count, sub_targets_count;
   struct widget *pwidget;
   struct widget *ptech;
   utf8_str *pstr;
@@ -1696,7 +1696,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   ptech = pwidget;
   dock = pwidget;
 
-  req_count  = 0;
+  req_count = 0;
   for (i = AR_ONE; i <= AR_TWO; i++) {
     Tech_type_id ar = advance_required(tech, i);
     struct advance *vap = valid_advance_by_number(ar);
@@ -1711,16 +1711,13 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       pwidget->id = MAX_ID - ar;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
-      store->requirement_button[i] = pwidget;
-      req_count++;
-    } else {
-      store->requirement_button[i] = NULL;
+      store->requirement_button[req_count++] = pwidget;
     }
   }
 
   sub_req_count = 0;
 
-  if (store->show_full_tree && req_count) {
+  if (store->show_full_tree && req_count > 0) {
     int j, sub_tech;
 
     for (j = 0; j < req_count; j++) {
@@ -1772,7 +1769,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   }
 
   sub_targets_count = 0;
-  if (targets_count) {
+  if (targets_count > 0) {
     int sub_tech;
 
     for (i = 0; i < targets_count; i++) {
@@ -1806,13 +1803,15 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   FREEUTF8STR(pstr);
 
   /* ------------------------------------------ */
-  if (sub_req_count) {
+  if (sub_req_count > 0) {
     w = (adj_size(20) + store->sub_req[0]->size.w) * 2;
     w += (pwindow->size.w - (20 + store->sub_req[0]->size.w + w + ptech->size.w)) / 2;
   } else {
-    if (req_count) {
-      w = (pwindow->area.x + 1 + width + store->requirement_button[0]->size.w * 2 + adj_size(20));
-      w += (pwindow->size.w - ((adj_size(20) + store->requirement_button[0]->size.w) + w + ptech->size.w)) / 2;
+    if (req_count > 0) {
+      w = (pwindow->area.x + 1
+           + width + store->requirement_button[0]->size.w * 2 + adj_size(20));
+      w += (pwindow->size.w - ((adj_size(20) + store->requirement_button[0]->size.w)
+                               + w + ptech->size.w)) / 2;
     } else {
       w = (pwindow->size.w - ptech->size.w) / 2;
     }
@@ -1821,29 +1820,31 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   ptech->size.x = pwindow->size.x + w;
   ptech->size.y = pwindow->area.y + (pwindow->area.h - ptech->size.h) / 2;
 
-  if (req_count) {
+  if (req_count > 0) {
     h = (req_count == 1 ? store->requirement_button[0]->size.h :
         req_count * (store->requirement_button[0]->size.h + adj_size(80)) - adj_size(80));
     h = ptech->size.y + (ptech->size.h - h) / 2;
     for (i = 0; i < req_count; i++) {
-      store->requirement_button[i]->size.x = ptech->size.x - adj_size(20) - store->requirement_button[i]->size.w;
+      store->requirement_button[i]->size.x
+        = ptech->size.x - adj_size(20) - store->requirement_button[i]->size.w;
       store->requirement_button[i]->size.y = h;
       h += (store->requirement_button[i]->size.h + adj_size(80));
     }
   }
 
-  if (sub_req_count) {
+  if (sub_req_count > 0) {
     h = (sub_req_count == 1 ? store->sub_req[0]->size.h :
      sub_req_count * (store->sub_req[0]->size.h + adj_size(20)) - adj_size(20));
     h = ptech->size.y + (ptech->size.h - h) / 2;
     for (i = 0; i < sub_req_count; i++) {
-      store->sub_req[i]->size.x = ptech->size.x - (adj_size(20) + store->sub_req[i]->size.w) * 2;
+      store->sub_req[i]->size.x
+        = ptech->size.x - (adj_size(20) + store->sub_req[i]->size.w) * 2;
       store->sub_req[i]->size.y = h;
       h += (store->sub_req[i]->size.h + adj_size(20));
     }
   }
 
-  if (targets_count) {
+  if (targets_count > 0) {
     h = (targets_count == 1 ? store->targets[0]->size.h :
      targets_count * (store->targets[0]->size.h + adj_size(20)) - adj_size(20));
     h = ptech->size.y + (ptech->size.h - h) / 2;
@@ -1854,22 +1855,29 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     }
   }
 
-  if (sub_targets_count) {
+  if (sub_targets_count > 0) {
     if (sub_targets_count < 3) {
-      store->sub_targets[0]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[0]->size.w;
-      store->sub_targets[0]->size.y = ptech->size.y - store->sub_targets[0]->size.h - adj_size(10);
+      store->sub_targets[0]->size.x
+        = ptech->size.x + ptech->size.w - store->sub_targets[0]->size.w;
+      store->sub_targets[0]->size.y
+        = ptech->size.y - store->sub_targets[0]->size.h - adj_size(10);
       if (store->sub_targets[1]) {
-        store->sub_targets[1]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[1]->size.w;
+        store->sub_targets[1]->size.x
+          = ptech->size.x + ptech->size.w - store->sub_targets[1]->size.w;
         store->sub_targets[1]->size.y = ptech->size.y + ptech->size.h + adj_size(10);
       }
     } else {
       if (sub_targets_count < 5) {
         for (i = 0; i < MIN(sub_targets_count, 4); i++) {
-          store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+          store->sub_targets[i]->size.x
+            = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
           if (i < 2) {
-            store->sub_targets[i]->size.y = ptech->size.y - (store->sub_targets[i]->size.h + adj_size(5)) * ( 2 - i );
+            store->sub_targets[i]->size.y
+              = ptech->size.y - (store->sub_targets[i]->size.h + adj_size(5)) * (2 - i);
           } else {
-            store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(5)  + (store->sub_targets[i]->size.h + adj_size(5)) * ( i - 2 );
+            store->sub_targets[i]->size.y
+              = ptech->size.y + ptech->size.h + adj_size(5)
+                + (store->sub_targets[i]->size.h + adj_size(5)) * (i - 2);
           }
         }
       } else {
@@ -1877,28 +1885,37 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
         for (i = 0; i < MIN(sub_targets_count, 6); i++) {
           switch (i) {
           case 0:
-            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.x
+              = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
             store->sub_targets[i]->size.y = ptech->size.y - h * 2;
             break;
           case 1:
-            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w * 2 - adj_size(10);
+            store->sub_targets[i]->size.x
+              = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w * 2
+                - adj_size(10);
             store->sub_targets[i]->size.y = ptech->size.y - h - h / 2;
             break;
           case 2:
-            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.x
+              = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
             store->sub_targets[i]->size.y = ptech->size.y - h;
             break;
           case 3:
-            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.x
+              = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
             store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6);
             break;
           case 4:
-            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.x
+              = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
             store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6) + h;
             break;
           default:
-            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w * 2 - adj_size(10);
-            store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6) + h / 2 ;
+            store->sub_targets[i]->size.x
+              = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w * 2
+                - adj_size(10);
+            store->sub_targets[i]->size.y
+              = ptech->size.y + ptech->size.h + adj_size(6) + h / 2 ;
             break;
           }
         }
