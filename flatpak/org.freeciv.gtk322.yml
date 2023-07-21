@@ -13,10 +13,13 @@ finish-args:
   - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-gtk3.22
-    buildsystem: simple
-    build-commands:
-      - mkdir build
-      - cd build && ../configure --prefix=/app --enable-client=gtk3.22 --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+    buildsystem: autotools
+    no-autogen: true
+    builddir: true
+    config-opts:
+      - --enable-client=gtk3.22
+      - --disable-fcmp
+      - --disable-freeciv-manual
     sources:
       - type: dir
         path: ..
