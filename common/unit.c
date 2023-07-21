@@ -166,7 +166,7 @@ enum unit_airlift_result
           && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
               || !game.info.airlift_to_always_enabled)) {
         /* The destination cannot support airlifted units for this turn
-         * (maybe already airlifed or no airport).
+         * (maybe already airlifted or no airport).
          * See also do_airline() in server/unittools.h. */
         return AR_DST_NO_FLIGHTS;
       } /* else continue */
