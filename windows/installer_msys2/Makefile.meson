@@ -16,6 +16,8 @@ INST_DIR=meson/install
 NSI_DIR=meson/nsi
 SRC_ROOT=../..
 
+7ZDIR=$(OUT_DIR)/portable
+
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
 ARCHDIR=mingw64
@@ -142,8 +144,8 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
 	# Create portable .7z
-	mkdir -p $(OUT_DIR)/portable
-	7z a -r $(OUT_DIR)/portable/Freeciv-$(FREECIV_VERSION)-client-$(WINARCH)-$(GUI).7z $(INST_DIR)/$(WINARCH)-client-$(GUI)
+	mkdir -p $(7ZDIR)
+	7z a -r $(7ZDIR)/Freeciv-$(FREECIV_VERSION)-client-$(WINARCH)-$(GUI).7z ./$(INST_DIR)/$(WINARCH)-client-$(GUI)/*
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-client-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
@@ -381,8 +383,8 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
 	# Create portable .7z
-	mkdir -p $(OUT_DIR)/portable
-	7z a -r $(OUT_DIR)/portable/Freeciv-$(FREECIV_VERSION)-ruledit-$(WINARCH)-$(GUI).7z $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)
+	mkdir -p $(7ZDIR)
+	7z a -r $(7ZDIR)/Freeciv-$(FREECIV_VERSION)-ruledit-$(WINARCH)-$(GUI).7z ./$(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/*
 	# Create NSIS script
 	mkdir -p $(NSI_DIR)
 	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
