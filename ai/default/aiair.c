@@ -75,7 +75,7 @@ static inline int regen_turns(struct unit *punit, struct tile *ptile,
 }
 
 /******************************************************************//**
-  Looks for nearest airbase for punit reachable imediatly.
+  Looks for nearest airbase for punit reachable immediately.
   Returns NULL if not found. The path is stored in the path
   argument if not NULL.
   If the unit is damaged, flies to an airbase that can repair
