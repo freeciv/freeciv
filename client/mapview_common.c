@@ -1947,8 +1947,7 @@ static void show_full_citybar(struct canvas *pcanvas,
       }
     }
 
-    /* TODO: Configurable "svg_height" (here 44) */
-    get_flag_dimensions(flag, &flag_rect, 44);
+    get_flag_dimensions(flag, &flag_rect, tileset_svg_flag_height(tileset));
     flag_rect.w *= map_zoom; flag_rect.h *= map_zoom;
     get_sprite_dimensions(occupy, &occupy_rect.w, &occupy_rect.h);
     occupy_rect.w *= map_zoom; occupy_rect.h *= map_zoom;

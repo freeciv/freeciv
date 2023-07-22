@@ -502,6 +502,7 @@ struct tileset {
   int small_sprite_width, small_sprite_height;
 
   int max_upkeep_height;
+  int svg_height;
 
   char *main_intro_filename;
 
@@ -2191,6 +2192,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
                                                        "tilespec.unit_upkeep_offset_y");
   t->unit_upkeep_small_offset_y = secfile_lookup_int_default(file, t->unit_upkeep_offset_y,
                                                              "tilespec.unit_upkeep_small_offset_y");
+  t->svg_height = secfile_lookup_int_default(file, 44, "tilespec.svg_height");
+
   t->city_size_offset_x = t->scale * t->city_size_offset_x;
   t->city_size_offset_y = t->scale * t->city_size_offset_y;
   t->select_offset_x = t->scale * t->select_offset_x;
@@ -2211,6 +2214,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   t->tilelabel_offset_y = t->scale * t->tilelabel_offset_y;
   t->occupied_offset_x = t->scale * t->occupied_offset_x;
   t->occupied_offset_y = t->scale * t->occupied_offset_y;
+  t->svg_height *= t->scale;
+
   if (t->scale != 1.0f
       && t->unit_upkeep_offset_y != tileset_tile_height(t)) {
     t->unit_upkeep_offset_y = t->scale * t->unit_upkeep_offset_y;
@@ -7559,4 +7564,12 @@ char *tileset_what_ruleset(struct tileset *t)
 int tileset_topo_index(struct tileset *t)
 {
   return t->ts_topo_idx;
+}
+
+/************************************************************************//**
+  Return tileset svg flag height
+****************************************************************************/
+int tileset_svg_flag_height(struct tileset *t)
+{
+  return t->svg_height;
 }
