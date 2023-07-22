@@ -1,6 +1,4 @@
-/Makefile
 /Makefile.in
-/.deps
 /packets_gen.c
 /packets_gen.h
 /fc_gitrev_gen.h

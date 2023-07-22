@@ -1,6 +1,4 @@
 /Makefile.in
-/Makefile
-/.deps
 /meta_conversion_log.cpp
 /meta_edit_extra.cpp
 /meta_edit_impr.cpp

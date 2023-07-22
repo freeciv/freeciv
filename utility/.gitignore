@@ -1,5 +1,3 @@
-/Makefile
 /Makefile.in
-/.deps
 /libcivutility.a
 /specenum_gen.h

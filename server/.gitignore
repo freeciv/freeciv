@@ -1,7 +1,5 @@
-/Makefile
 /Makefile.in
 /freeciv-server
 /freeciv-web
-/.deps
 /hand_gen.c
 /hand_gen.h

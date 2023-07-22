@@ -1,6 +1,4 @@
 /Makefile.in
-/Makefile
-/.deps
 /meta_fc_client.cpp
 /meta_ratesdlg.cpp
 /meta_mapview.cpp

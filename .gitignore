@@ -20,7 +20,6 @@
 /aclocal.m4
 /autom4te.cache
 /config.cache
-/Makefile
 /Makefile.in
 /config.log
 /config.status
@@ -29,7 +28,6 @@
 /fcser
 /fcruledit
 /fcruleup
-/.deps
 /*.sav
 /*.sav.gz
 /manual*.html

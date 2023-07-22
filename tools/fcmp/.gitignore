@@ -1,5 +1,3 @@
-/.deps
-/Makefile
 /Makefile.in
 /meta_mpgui_qt.cpp
 /meta_mpgui_qt_worker.cpp

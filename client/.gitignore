@@ -1,10 +1,8 @@
-/Makefile
 /Makefile.in
 /freeciv-gtk4
 /freeciv-gtk3.22
 /freeciv-sdl2
 /freeciv-qt
 /freeciv-stub
-/.deps
 /packhand_gen.c
 /packhand_gen.h
