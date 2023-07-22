@@ -97,6 +97,8 @@ options include:
                           height in isometric tileset
   small_tile_width      : the width of icon sprites
   small_tile_height     : the height of icon sprites
+  svg_height            : The height svg flags should be drawn to,
+                          if they are used
   fog_style             : Specifies how fog is drawn.
                           "Auto" :     Code automatically adds fog.
                           "Sprite :    A single fog sprite is drawn on top of all

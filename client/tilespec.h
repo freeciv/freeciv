@@ -460,6 +460,7 @@ const char *tileset_summary(struct tileset *t);
 const char *tileset_description(struct tileset *t);
 char *tileset_what_ruleset(struct tileset *t);
 int tileset_topo_index(struct tileset *t);
+int tileset_svg_flag_height(struct tileset *t);
 
 #ifdef __cplusplus
 }
