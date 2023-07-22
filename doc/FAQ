@@ -36,7 +36,7 @@
              1.21 How do I play on a rectangular grid?
              1.22 How do I create teams of AI or human players?
              1.23 I want more action.
-             1.24 I can't see trade routes in the city dialog (GTK+)
+             1.24 I can't see trade routes in the city dialog (GTK)
         2 Community
              2.1 Does Freeciv violate any rights of the makers of
                Civilization I or II?
@@ -543,7 +543,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.24 I can't see trade routes in the city dialog (GTK+)
+1.24 I can't see trade routes in the city dialog (GTK)
 
    In the GTK client, you can see the effect of trade routes by left
    clicking and holding on the trade value in the Info panel of the city
