@@ -655,7 +655,9 @@ static bool manual_command(struct tag_types *tag_info)
           } requirement_vector_iterate_end;
         }
 
-        fprintf(doc, "</td>\n<td>%s</td>\n</tr>\n\n", buf);
+        fprintf(doc,
+                "</td>\n<td>%s</td>\n</tr><tr><td colspan=\"5\"><hr></td></tr>\n\n",
+                buf);
       } improvement_iterate_end;
 
       fprintf(doc, "</table>");
