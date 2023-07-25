@@ -18,9 +18,31 @@ else
   cxx_build = false
 endif
 
-if c_compiler.has_argument('-Wno-nonnull-compare')
-  add_global_arguments('-Wno-nonnull-compare', language : 'c')
-endif
+c_args = [
+  '-Wno-nonnull-compare'
+  ]
+
+c_cpp_args = [
+  '-Wmissing-declarations'
+  ]
+
+foreach arg : c_args
+  if c_compiler.has_argument(arg)
+    add_global_arguments(arg, language : 'c')
+  endif
+endforeach
+
+foreach arg : c_cpp_args
+  if c_compiler.has_argument(arg)
+    add_global_arguments(arg, language : 'c')
+  endif
+
+  if cxx_build
+    if cxx_compiler.has_argument(arg)
+      add_global_arguments(arg, language : 'cpp')
+    endif
+  endif
+endforeach
 
 add_global_arguments('-fPIC', language : 'cpp')
 
