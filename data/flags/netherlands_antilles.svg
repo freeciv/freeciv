@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    width="900"
-   height="600">
-  <rect width="900" height="600" fill="#ffffff"/>
-  <rect width="200" height="600" x="350" fill="#ae1c28"/>
-  <rect width="900" height="200" y="200" fill="#21468b"/>
+   height="600"
+   id="svg14"
+   sodipodi:docname="netherlands_antilles.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs18" />
+  <sodipodi:namedview
+     id="namedview16"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.78666667"
+     inkscape:cx="449.36441"
+     inkscape:cy="307.62712"
+     inkscape:window-width="825"
+     inkscape:window-height="647"
+     inkscape:window-x="500"
+     inkscape:window-y="112"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg14" />
+  <rect
+     width="900"
+     height="600"
+     fill="#ffffff"
+     id="rect2" />
+  <rect
+     width="200"
+     height="600"
+     x="350"
+     fill="#ae1c28"
+     id="rect4" />
+  <rect
+     width="900"
+     height="200"
+     y="200"
+     fill="#21468b"
+     id="rect6" />
   <path
      sodipodi:type="star"
      style="fill:#ffffff;fill-opacity:1;stroke:none"
