@@ -1637,7 +1637,8 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_PILLAGE:
       action_iterate(act_id) {
         struct action *paction = action_by_number(act_id);
-        if (action_get_activity(paction) == order->activity) {
+
+        if (actres_get_activity(paction->result) == order->activity) {
           order->order = ORDER_PERFORM_ACTION;
           order->action = action_number(paction);
           order->activity = ACTIVITY_LAST;

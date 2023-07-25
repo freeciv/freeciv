@@ -990,7 +990,8 @@ bool is_extra_removed_by_worker_action(const struct extra_type *pextra)
 bool is_extra_caused_by_action(const struct extra_type *pextra,
                                const struct action *paction)
 {
-  enum unit_activity act = action_get_activity(paction);
+  enum unit_activity act = actres_get_activity(paction->result);
+
   return is_extra_caused_by(pextra, activity_to_extra_cause(act));
 }
 
@@ -1000,7 +1001,8 @@ bool is_extra_caused_by_action(const struct extra_type *pextra,
 bool is_extra_removed_by_action(const struct extra_type *pextra,
                                 const struct action *paction)
 {
-  enum unit_activity act = action_get_activity(paction);
+  enum unit_activity act = actres_get_activity(paction->result);
+
   return is_extra_removed_by(pextra, activity_to_extra_rmcause(act));
 }
 

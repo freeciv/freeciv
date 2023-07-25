@@ -597,8 +597,8 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
                                                       ptile,
                                                       parameter.omniscience,
                                                       ptile, pextra))) {
-                    act = action_get_activity(taction);
-                    eval_act = action_get_activity(taction);
+                    act = actres_get_activity(taction->result);
+                    eval_act = actres_get_activity(taction->result);
                     break;
                   }
                 }
@@ -615,7 +615,7 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
                                                       ptile,
                                                       parameter.omniscience,
                                                       ptile, pextra))) {
-                    act = action_get_activity(taction);
+                    act = actres_get_activity(taction->result);
                     break;
                   }
                 }

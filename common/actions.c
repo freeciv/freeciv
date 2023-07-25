@@ -1619,7 +1619,7 @@ static struct action *action_new(action_id id,
   action->result = result;
 
   if (result != ACTRES_LAST) {
-    enum unit_activity act = action_get_activity(action);
+    enum unit_activity act = actres_get_activity(result);
 
     action_list_append(actlist_by_result[result], action);
 
@@ -2133,35 +2133,31 @@ int action_get_role(const struct action *paction)
   Returns the unit activity this action may cause or ACTIVITY_LAST if the
   action doesn't result in a unit activity.
 **************************************************************************/
-enum unit_activity action_get_activity(const struct action *paction)
+enum unit_activity actres_get_activity(enum action_result result)
 {
-  fc_assert_msg(AAK_UNIT == action_get_actor_kind(paction),
-                "Action %s isn't performed by a unit",
-                action_rule_name(paction));
-
-  if (action_has_result(paction, ACTRES_FORTIFY)) {
+  if (result == ACTRES_FORTIFY) {
     return ACTIVITY_FORTIFYING;
-  } else if (action_has_result(paction, ACTRES_BASE)) {
+  } else if (result == ACTRES_BASE) {
     return ACTIVITY_BASE;
-  } else if (action_has_result(paction, ACTRES_ROAD)) {
+  } else if (result == ACTRES_ROAD) {
     return ACTIVITY_GEN_ROAD;
-  } else if (action_has_result(paction, ACTRES_PILLAGE)) {
+  } else if (result == ACTRES_PILLAGE) {
     return ACTIVITY_PILLAGE;
-  } else if (action_has_result(paction, ACTRES_CLEAN_POLLUTION)) {
+  } else if (result == ACTRES_CLEAN_POLLUTION) {
     return ACTIVITY_POLLUTION;
-  } else if (action_has_result(paction, ACTRES_CLEAN_FALLOUT)) {
+  } else if (result == ACTRES_CLEAN_FALLOUT) {
     return ACTIVITY_FALLOUT;
-  } else if (action_has_result(paction, ACTRES_TRANSFORM_TERRAIN)) {
+  } else if (result == ACTRES_TRANSFORM_TERRAIN) {
     return ACTIVITY_TRANSFORM;
-  } else if (action_has_result(paction, ACTRES_CONVERT)) {
+  } else if (result == ACTRES_CONVERT) {
     return ACTIVITY_CONVERT;
-  } else if (action_has_result(paction, ACTRES_PLANT)) {
+  } else if (result == ACTRES_PLANT) {
     return ACTIVITY_PLANT;
-  } else if (action_has_result(paction, ACTRES_MINE)) {
+  } else if (result == ACTRES_MINE) {
     return ACTIVITY_MINE;
-  } else if (action_has_result(paction, ACTRES_CULTIVATE)) {
+  } else if (result == ACTRES_CULTIVATE) {
     return ACTIVITY_CULTIVATE;
-  } else if (action_has_result(paction, ACTRES_IRRIGATE)) {
+  } else if (result == ACTRES_IRRIGATE) {
     return ACTIVITY_IRRIGATE;
   } else {
     return ACTIVITY_LAST;
@@ -2179,7 +2175,7 @@ int action_get_act_time(const struct action *paction,
                         const struct tile *tgt_tile,
                         const struct extra_type *tgt_extra)
 {
-  enum unit_activity pactivity = action_get_activity(paction);
+  enum unit_activity pactivity = actres_get_activity(paction->result);
 
   if (pactivity == ACTIVITY_LAST) {
     /* Happens instantaneously, not at turn change. */

@@ -262,7 +262,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == pplayer
             && unit_has_type_flag(punit, UTYF_SETTLERS)
-            && punit->activity == action_get_activity(paction)) {
+            && punit->activity == actres_get_activity(paction->result)) {
           consider = FALSE;
           break;
         }
@@ -328,7 +328,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
         if ((value - orig_value) * TWMP > worked->want) {
           worked->want  = TWMP * (value - orig_value);
           worked->ptile = ptile;
-          worked->act   = action_get_activity(paction);
+          worked->act   = actres_get_activity(paction->result);
           worked->tgt   = tgt;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
@@ -356,7 +356,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
           state->uw_max_base = base_value;
           unworked->want  = TWMP * (value - orig_value);
           unworked->ptile = ptile;
-          unworked->act   = action_get_activity(paction);
+          unworked->act   = actres_get_activity(paction->result);
           unworked->tgt   = tgt;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {

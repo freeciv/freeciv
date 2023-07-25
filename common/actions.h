@@ -707,9 +707,9 @@ int action_get_role(const struct action *paction);
 #define action_id_get_role(act_id)                                        \
   action_get_role(action_by_number(act_id))
 
-enum unit_activity action_get_activity(const struct action *paction);
+enum unit_activity actres_get_activity(enum action_result result);
 #define action_id_get_activity(act_id)                                    \
-  action_get_activity(action_by_number(act_id))
+  actres_get_activity(action_by_number(act_id)->result)
 
 const char *action_rule_name(const struct action *action);
 const char *action_id_rule_name(action_id act_id);

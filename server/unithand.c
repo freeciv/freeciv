@@ -3261,9 +3261,9 @@ bool unit_perform_action(struct player *pplayer,
     break;
   }
 
-  if (action_get_activity(paction) != ACTIVITY_LAST
+  if (actres_get_activity(paction->result) != ACTIVITY_LAST
       && unit_activity_needs_target_from_client(
-           action_get_activity(paction))
+           actres_get_activity(paction->result))
       && target_extra == NULL) {
     /* Missing required action extra target. */
     log_verbose("unit_perform_action() action %d requires action "
@@ -6103,7 +6103,7 @@ static void unit_activity_dependencies(struct unit *punit,
 static bool do_action_activity(struct unit *punit,
                                const struct action *paction)
 {
-  enum unit_activity new_activity = action_get_activity(paction);
+  enum unit_activity new_activity = actres_get_activity(paction->result);
 
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
   fc_assert_ret_val(!activity_requires_target(new_activity), FALSE);
@@ -6167,7 +6167,7 @@ static bool do_action_activity_targeted(struct unit *punit,
                                         const struct action *paction,
                                         struct extra_type **new_target)
 {
-  enum unit_activity new_activity = action_get_activity(paction);
+  enum unit_activity new_activity = actres_get_activity(paction->result);
 
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
   fc_assert_ret_val(activity_requires_target(new_activity),
