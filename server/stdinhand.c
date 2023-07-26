@@ -4419,11 +4419,26 @@ static bool quit_game(struct connection *caller, bool check)
 }
 
 /**********************************************************************//**
-  Main entry point for "command input".
+  Main entry point for "command input". Version to be used with
+  statically allocated 'str'
 **************************************************************************/
 bool handle_stdin_input(struct connection *caller, char *str)
 {
   return handle_stdin_input_real(caller, str, FALSE, 0);
+}
+
+/**********************************************************************//**
+  Entry point for "command input". Version that frees 'str' in the end.
+**************************************************************************/
+bool handle_stdin_input_free(struct connection *caller, char *str)
+{
+  bool ret = handle_stdin_input_real(caller, str, FALSE, 0);
+
+  /* Since handle_stdin_input_real() returned,
+   * we can be sure this was not freed in atexit(). */
+  free(str);
+
+  return ret;
 }
 
 /**********************************************************************//**

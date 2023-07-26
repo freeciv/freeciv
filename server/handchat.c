@@ -347,7 +347,8 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
   */
   if (real_message[0] == SERVER_COMMAND_PREFIX) {
     /* Pass it to the command parser, which will chop the prefix off */
-    (void) handle_stdin_input(pconn, real_message);
+    handle_stdin_input(pconn, real_message);
+
     return;
   }
 
