@@ -31,6 +31,7 @@ void cmd_reply(enum command_id cmd, struct connection *caller,
                fc__attribute((__format__ (__printf__, 4, 5)));
 
 bool handle_stdin_input(struct connection *caller, char *str);
+bool handle_stdin_input_free(struct connection *caller, char *str);
 void set_ai_level_direct(struct player *pplayer, enum ai_level level);
 bool read_init_script(struct connection *caller, const char *script_filename,
                       bool from_cmdline, bool check);
