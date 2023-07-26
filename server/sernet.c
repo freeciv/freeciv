@@ -154,6 +154,8 @@ static void handle_stdin_close(void)
 
 #endif /* FREECIV_HAVE_LIBREADLINE || (!FREECIV_SOCKET_ZERO_NOT_STDIN && !FREECIV_HAVE_LIBREADLINE) */
 
+static char *current_internal = NULL;
+
 #ifdef FREECIV_HAVE_LIBREADLINE
 /****************************************************************************/
 
@@ -163,7 +165,6 @@ static void handle_stdin_close(void)
 static char *history_file = NULL;
 static bool readline_handled_input = FALSE;
 static bool readline_initialized = FALSE;
-static char *current_internal = NULL;
 
 /*************************************************************************//**
   Readline callback for input.
@@ -186,9 +187,7 @@ static void handle_readline_input_callback(char *line)
   con_prompt_enter();           /* just got an 'Enter' hit */
   current_internal = local_to_internal_string_malloc(line);
   free(line); /* This is already freed if we exit() with /quit command */
-  (void) handle_stdin_input(NULL, current_internal);
-  free(current_internal); /* Since handle_stdin_input() returned,
-                           * we can be sure this was not freed in atexit. */
+  handle_stdin_input_free(NULL, current_internal);
   current_internal = NULL;
 
   readline_handled_input = TRUE;
@@ -214,12 +213,12 @@ void readline_atexit(void)
     rl_callback_handler_remove();
     readline_initialized = FALSE;
   }
+#endif /* FREECIV_HAVE_LIBREADLINE */
 
   if (current_internal != NULL) {
     free(current_internal);
     current_internal = NULL;
   }
-#endif /* FREECIV_HAVE_LIBREADLINE */
 }
 
 /*************************************************************************//**
@@ -823,11 +822,11 @@ enum server_events server_sniff_all_input(void)
     }
 #ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
     if (!no_input && (bufptr = fc_read_console())) {
-      char *bufptr_internal = local_to_internal_string_malloc(bufptr);
+      current_internal = local_to_internal_string_malloc(bufptr);
 
-      con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input(NULL, bufptr_internal);
-      free(bufptr_internal);
+      con_prompt_enter();      /* Will need a new prompt, regardless */
+      handle_stdin_input_free(NULL, current_internal);
+      current_internal = NULL;
     }
 #else  /* !FREECIV_SOCKET_ZERO_NOT_STDIN */
     if (!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
@@ -867,12 +866,12 @@ enum server_events server_sniff_all_input(void)
         handle_stdin_close();
       }
 
-      con_prompt_enter();	/* will need a new prompt, regardless */
+      con_prompt_enter();       /* Will need a new prompt, regardless */
 
       if (didget >= 0) {
-        buf_internal = local_to_internal_string_malloc(buffer);
-        handle_stdin_input(NULL, buf_internal);
-        free(buf_internal);
+        current_internal = local_to_internal_string_malloc(buffer);
+        handle_stdin_input_free(NULL, current_internal);
+        current_internal = NULL;
       }
       free(buffer);
 #endif /* !FREECIV_HAVE_LIBREADLINE */
