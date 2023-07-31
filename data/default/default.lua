@@ -184,19 +184,23 @@ signal.connect("hut_frighten", "_deflua_hut_frighten_callback")
 --[[
   Make partisans around conquered city
 
-  if requirements to make partisans when a city is conquered is fulfilled
+  If requirements to make partisans are fulfilled when a city is conquered,
   this routine makes a lot of partisans based on the city`s size.
-  To be candidate for partisans the following things must be satisfied:
-  1) The loser of the city is the original owner.
-  2) The Inspire_Partisans effect must be larger than zero.
+  To be candidate for partisans, the following things must be satisfied:
+  1) The loser of the city must have local support:
+  1a) If citizen nationality is enabled:
+      Big enough percentage of the city citizens must be of their nationality
+  1b) If citizen nationality is disabled:
+      They must be the original owner (founder) of the city
+  2) The Inspire_Partisans effect value must be bigger than zero
 
   If these conditions are ever satisfied, the ruleset must have a unit
   with the Partisan role.
 
   In the default ruleset, the requirements for inspiring partisans are:
-  a) Guerilla warfare must be known by atleast 1 player
+  a) Guerilla warfare must be known at least by one player
   b) The player must know about Communism and Gunpowder
-  c) The player must run either a democracy or a communist society.
+  c) The player must run either a democracy or a communist government
 ]]--
 
 function _deflua_make_partisans_callback(city, loser, winner, reason)
