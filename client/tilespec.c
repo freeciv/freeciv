@@ -5247,7 +5247,7 @@ static int fill_fog_sprite_array(const struct tileset *t,
 }
 
 /************************************************************************//**
-  Helper function for fill_terrain_sprite_layer.
+  Helper function for fill_terrain_sprite_layer().
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct tileset *t,
                                      struct drawn_sprite *sprs,
@@ -5362,14 +5362,14 @@ static int fill_terrain_sprite_array(struct tileset *t,
           break;
         case MATCH_FULL:
         default:
-          {
+          if (count > 0) {
             int n[3];
-            int j = 0;
+            int j;
 
-            for (; j < 3; j++) {
-              int k = 0;
+            for (j = 0; j < 3; j++) {
+              int k;
 
-              for (; k < count; k++) {
+              for (k = 0; k < count; k++) {
                 n[j] = k; /* Default to last entry */
                 if (m[j] == dlp->match_index[k]) {
                   break;
@@ -5382,6 +5382,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
           }
           break;
         };
+
         array_index = array_index * NUM_CORNER_DIRS + i;
 
         s = dlp->cells[array_index];
