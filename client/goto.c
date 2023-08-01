@@ -964,7 +964,7 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
   case HOVER_GOTO:
   case HOVER_PATROL:
     if (goto_last_action == ACTION_NUKE) {
-      /* We only want targets reachable immediatly... */
+      /* We only want targets reachable immediately... */
       parameter->move_rate = 0;
       /* ...then we don't need to deal with dangers or refuel points. */
       parameter->is_pos_dangerous = NULL;
