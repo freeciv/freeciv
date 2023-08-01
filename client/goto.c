@@ -966,7 +966,7 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
     if (action_id_has_result_safe(goto_last_action, ACTRES_NUKE_UNITS)
         || action_id_has_result_safe(goto_last_action, ACTRES_NUKE)) {
       /* TODO: consider doing the same for other actor consuming actions. */
-      /* We only want targets reachable immediatly... */
+      /* We only want targets reachable immediately... */
       parameter->move_rate = 0;
       /* ...then we don't need to deal with dangers or refuel points. */
       parameter->is_pos_dangerous = NULL;
