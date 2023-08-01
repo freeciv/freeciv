@@ -688,7 +688,7 @@ void conn_reset_delta_state(struct connection *pc)
 
 /**********************************************************************//**
   Freeze the connection. Then the packets sent to it won't be sent
-  immediatly, but later, using a compression method. See futher details in
+  immediately, but later, using a compression method. See futher details in
   common/packets.[ch].
 **************************************************************************/
 void conn_compression_freeze(struct connection *pconn)
