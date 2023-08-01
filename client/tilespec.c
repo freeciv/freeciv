@@ -4856,7 +4856,7 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
 }
 
 /****************************************************************************
-  Helper function for fill_terrain_sprite_layer.
+  Helper function for fill_terrain_sprite_layer().
   Fill in the sprite array for blended terrain.
 ****************************************************************************/
 static int fill_terrain_sprite_blending(const struct tileset *t,
@@ -5023,74 +5023,76 @@ static int fill_terrain_sprite_array(struct tileset *t,
     }
   case CELL_CORNER:
     {
-      /* Divide the tile up into four rectangular cells.  Each of these
+      /* Divide the tile up into four rectangular cells. Each of these
        * cells covers one corner, and each is adjacent to 3 different
-       * tiles.  For each cell we pick a sprite based upon the adjacent
-       * terrains at each of those tiles.  Thus, we have 8 different sprites
+       * tiles. For each cell we pick a sprite based upon the adjacent
+       * terrains at each of those tiles. Thus, we have 8 different sprites
        * for each of the 4 cells (32 sprites total).
        *
        * These arrays correspond to the direction4 ordering. */
       const int W = t->normal_tile_width;
       const int H = t->normal_tile_height;
       const int iso_offsets[4][2] = {
-	{W / 4, 0}, {W / 4, H / 2}, {W / 2, H / 4}, {0, H / 4}
+        {W / 4, 0}, {W / 4, H / 2}, {W / 2, H / 4}, {0, H / 4}
       };
       const int noniso_offsets[4][2] = {
-	{0, 0}, {W / 2, H / 2}, {W / 2, 0}, {0, H / 2}
+        {0, 0}, {W / 2, H / 2}, {W / 2, 0}, {0, H / 2}
       };
 
-      /* put corner cells */
+      /* Put corner cells */
       for (i = 0; i < NUM_CORNER_DIRS; i++) {
-	const int count = dlp->match_indices;
-	int array_index = 0;
-	enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
-	int x = (t->type == TS_ISOMETRIC ? iso_offsets[i][0] : noniso_offsets[i][0]);
-	int y = (t->type == TS_ISOMETRIC ? iso_offsets[i][1] : noniso_offsets[i][1]);
-	int m[3] = {MATCH(dir_ccw(dir)), MATCH(dir), MATCH(dir_cw(dir))};
-	struct sprite *s;
+        const int count = dlp->match_indices;
+        int array_index = 0;
+        enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
+        int x = (t->type == TS_ISOMETRIC ? iso_offsets[i][0] : noniso_offsets[i][0]);
+        int y = (t->type == TS_ISOMETRIC ? iso_offsets[i][1] : noniso_offsets[i][1]);
+        int m[3] = {MATCH(dir_ccw(dir)), MATCH(dir), MATCH(dir_cw(dir))};
+        struct sprite *s;
 
-	/* synthesize 4 dimensional array? */
-	switch (dlp->match_style) {
-	case MATCH_NONE:
-	  /* We have no need for matching, just plug the piece in place. */
-	  break;
-	case MATCH_SAME:
-	  array_index = array_index * 2 + (m[2] != this);
-	  array_index = array_index * 2 + (m[1] != this);
-	  array_index = array_index * 2 + (m[0] != this);
-	  break;
-	case MATCH_PAIR:
-	  array_index = array_index * 2 + (m[2] == that);
-	  array_index = array_index * 2 + (m[1] == that);
-	  array_index = array_index * 2 + (m[0] == that);
-	  break;
-	case MATCH_FULL:
-	default:
-	  {
-	    int n[3];
-	    int j = 0;
-	    for (; j < 3; j++) {
-	      int k = 0;
-	      for (; k < count; k++) {
-		n[j] = k; /* default to last entry */
-		if (m[j] == dlp->match_index[k])
-		{
-		  break;
-		}
-	      }
-	    }
-	    array_index = array_index * count + n[2];
-	    array_index = array_index * count + n[1];
-	    array_index = array_index * count + n[0];
-	  }
-	  break;
-	};
-	array_index = array_index * NUM_CORNER_DIRS + i;
+        /* Synthesize 4 dimensional array? */
+        switch (dlp->match_style) {
+        case MATCH_NONE:
+          /* We have no need for matching, just plug the piece in place. */
+          break;
+        case MATCH_SAME:
+          array_index = array_index * 2 + (m[2] != this);
+          array_index = array_index * 2 + (m[1] != this);
+          array_index = array_index * 2 + (m[0] != this);
+          break;
+        case MATCH_PAIR:
+          array_index = array_index * 2 + (m[2] == that);
+          array_index = array_index * 2 + (m[1] == that);
+          array_index = array_index * 2 + (m[0] == that);
+          break;
+        case MATCH_FULL:
+        default:
+          if (count > 0) {
+            int n[3];
+            int j;
 
-	s = dlp->cells[array_index];
-	if (s) {
-	  ADD_SPRITE(s, TRUE, x, y);
-	}
+            for (j = 0; j < 3; j++) {
+              int k;
+
+              for (k = 0; k < count; k++) {
+                n[j] = k; /* Default to last entry */
+                if (m[j] == dlp->match_index[k]) {
+                  break;
+                }
+              }
+            }
+            array_index = array_index * count + n[2];
+            array_index = array_index * count + n[1];
+            array_index = array_index * count + n[0];
+          }
+          break;
+        };
+
+        array_index = array_index * NUM_CORNER_DIRS + i;
+
+        s = dlp->cells[array_index];
+        if (s) {
+          ADD_SPRITE(s, TRUE, x, y);
+        }
       }
       break;
     }
