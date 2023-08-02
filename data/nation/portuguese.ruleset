@@ -5,15 +5,18 @@ translation_domain = "freeciv-core"
 name   = _("Portuguese")
 plural = _("?plural:Portuguese")
 groups = "Medieval", "Early Modern", "Modern", "European", "Core"
-legend = _("Portugal founded the first of the great mercantile empires\
- in the 1400s on the shipbuilding advances funded by Prince Henry the\
- Navigator.")
+legend = _("Portugal was originally a Castillian county that achieved\
+ independence. After finishing it's reconquista in 1249, Portugal\
+ founded the first of the great mercantile empires in the 1400s on the\
+ shipbuilding advances funded by Prince Henry the Navigator.")
 
 leaders = {
  "name",                        "sex"
  "Afonso Henriques",            "Male"
  "Sancho I",                    "Male"
  "Dinis",                       "Male"
+ "José",                        "Male"
+ "Pedro IV",                    "Male"
  "Afonso IV",                   "Male"
  "João I",                      "Male"
  "João II",                     "Male"
@@ -92,7 +95,7 @@ cities =
  "Marvão",
  "Mafra",
  "Palmela",
- "Cascais",
+ "Cascais (ocean)",
  "Estoril",
  "Funchal",
  "Ponta Delgada",
@@ -103,4 +106,5 @@ cities =
  "Maia",
  "Figueira da Foz (river)",
  "Matosinhos",
- "Vila Nova de Gaia"
+ "Vila Nova de Gaia",
+ "Pombal",
