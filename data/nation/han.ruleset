@@ -2,7 +2,7 @@
 
 name   = _("Han")
 plural = _("?plural:Han")
-groups = "Ancient", "Medieval", "Early Modern", "Asian"
+groups = "Ancient", "Medieval", "Asian"
 legend = _("The Han people are the majority ethnic group in China, tracing\
  their lineage back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the\
  Yellow Emperor), legendary god-kings of prehistory.")
