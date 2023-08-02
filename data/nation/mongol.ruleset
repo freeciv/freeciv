@@ -43,7 +43,7 @@ init_buildings = ""
 init_units = ""
 
 civilwar_nations = "Tibetan", "Tuvan", "Kalmyk", "Timurid", "Uyghur", "Tatar",
- "Crimean Tatar", "Buryat", "Golden Horde"
+ "Crimean Tatar", "Buryat", "Golden Horde", "Chinese"
 
 cities =
  "Karakorum", ; Каракорум
