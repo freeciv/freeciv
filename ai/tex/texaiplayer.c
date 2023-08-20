@@ -197,7 +197,8 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
 
         if (tex_city != NULL) {
           choice = military_advisor_choose_build(ait, msg->plr, tex_city,
-                                                 texai_map_get(), texai_player_units);
+                                                 texai_map_get(),
+                                                 texai_player_units);
           choice_req->city_id = tex_city->id;
           adv_choice_copy(&(choice_req->choice), choice);
           adv_free_choice(choice);
@@ -284,6 +285,7 @@ void texai_player_alloc(struct ai_type *ait, struct player *pplayer)
   dai_data_init(ait, pplayer);
 
   player_data->units = unit_list_new();
+  player_data->cities = city_list_new();
 }
 
 /**********************************************************************//**
@@ -299,6 +301,7 @@ void texai_player_free(struct ai_type *ait, struct player *pplayer)
   if (player_data != NULL) {
     player_set_ai_data(pplayer, ait, NULL);
     unit_list_destroy(player_data->units);
+    city_list_destroy(player_data->cities);
     FC_FREE(player_data);
   }
 }

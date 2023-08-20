@@ -182,6 +182,7 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
 
   if (msgtype == TEXAI_MSG_CITY_CREATED) {
     struct tile *ptile;
+    struct texai_plr *plr_data;
 
     if (idex_lookup_city(&texai_world, info->id) != NULL) {
       return;
@@ -194,6 +195,8 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
     pcity->id = info->id;
 
     idex_register_city(&texai_world, pcity);
+    plr_data = player_ai_data(pplayer, texai_get_self());
+    city_list_prepend(plr_data->cities, pcity);
     tile_set_worked(ptile, pcity);
   } else {
     pcity = idex_lookup_city(&texai_world, info->id);
@@ -240,8 +243,12 @@ void texai_city_destruction_recv(void *data)
   struct city *pcity = idex_lookup_city(&texai_world, info->id);
 
   if (pcity != NULL) {
+    struct texai_plr *plr_data;
+
     adv_city_free(pcity);
     tile_set_worked(city_tile(pcity), NULL);
+    plr_data = player_ai_data(city_owner(pcity), texai_get_self());
+    city_list_remove(plr_data->cities, pcity);
     idex_unregister_city(&texai_world, pcity);
     destroy_city_virtual(pcity);
   } else {
