@@ -481,7 +481,7 @@ void adv_city_alloc(struct city *pcity)
 
   pcity->server.adv->act_cache = NULL;
   pcity->server.adv->act_cache_radius_sq = -1;
-  /* allocate memory for pcity->ai->act_cache */
+  /* Allocate memory for pcity->ai->act_cache */
   adv_city_update(pcity);
 }
 
