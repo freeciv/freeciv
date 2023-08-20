@@ -81,14 +81,15 @@ function alien_hut_get_barbarians(unit)
     return true
   end
 
+  local dead_link = unit:tile_link_text()
   local alive = tile:unleash_barbarians()
   if alive then
     notify.event(owner, tile, E.HUT_BARB,
-                  _("It was a trap! Set by the outcasts."));
+                 _("It was a trap! Set by the outcasts."));
   else
     notify.event(owner, tile, E.HUT_BARB_KILLED,
-                  _("Your %s has been killed by outcasts!"),
-                  type:name_translation());
+                 _("Your %s has been killed by outcasts!"),
+                 dead_link);
   end
   return alive
 end
