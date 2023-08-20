@@ -52,8 +52,8 @@ function hermit_nest_blown(unit, extra)
   if extra == "Hermit" then
     notify.event(unit.owner, unit.tile, E.HUT_BARB,
                  _("Your %s has overflied a Hermit's Place and destroyed it!"),
-                 unit.utype:name_translation())
-    -- do not process default.lua
+                 unit:link_text())
+    -- Do not process default.lua
     return true
   end
 end
@@ -454,10 +454,10 @@ function notify_unit_unit(action, actor, target)
                E.UNIT_ACTION_ACTOR_SUCCESS,
                -- /* TRANS: Your Marines does Disrupt Supply Lines to American Armor. */
                _("Your %s does %s to %s %s."),
-               actor.utype:name_translation(),
+               actor:link_text(),
                action:name_translation(),
                target.owner.nation:name_translation(),
-               target.utype:name_translation())
+               target:link_text())
 
   -- Notify target
   notify.event(target.owner, actor.tile,
@@ -465,9 +465,9 @@ function notify_unit_unit(action, actor, target)
                -- /* TRANS: German Paratroopers does Disrupt Supply Lines to your Armor. */
                _("%s %s does %s to your %s."),
                actor.owner.nation:name_translation(),
-               actor.utype:name_translation(),
+               actor:link_Text(),
                action:name_translation(),
-               target.utype:name_translation())
+               target:link_text())
 end
 
 -- Handle unit targeted unit action start
@@ -482,20 +482,20 @@ signal.connect("action_started_unit_unit", "action_started_unit_unit_callback")
 
 -- Use Ancient Transportation Network
 function transport_network(action, actor, target)
-  local actor_name = actor.utype:name_translation()
+  local actor_link = actor:link_text()
   local invade_city_val = effects.unit_bonus(actor, target.owner,
                                              "User_Effect_1")
   local invade_extra_val = effects.unit_vs_tile_bonus(actor, target,
                                                       "User_Effect_2")
   local survived = actor:teleport(target,
-                                  -- allow transport to transport
+                                  -- Allow transport to transport
                                   find.transport_unit(actor.owner,
                                                       actor.utype, target),
                                   true,
-                                  -- take city and castle conquest from
+                                  -- Take city and castle conquest from
                                   -- boolean user effects
                                   invade_city_val > 0, invade_extra_val > 0,
-                                  -- a unit appearing from the Ancient
+                                  -- A unit appearing from the Ancient
                                   -- Transportation Network is scary to see
                                   false, true)
 
@@ -505,7 +505,7 @@ function transport_network(action, actor, target)
                  -- /* TRANS: Your Marines didn't survive doing
                  --  * Use Ancient Transportation Network. */
                  _("Your %s didn't survive doing %s."),
-                 actor_name,
+                 actor_link,
                  action:name_translation())
     notify.event(actor.owner, target,
                  E.UNIT_ACTION_ACTOR_FAILURE,
