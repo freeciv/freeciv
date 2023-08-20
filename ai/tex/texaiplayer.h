@@ -41,8 +41,9 @@ struct texai_reqs
 
 struct texai_plr
 {
-  struct ai_plr defai; /* Keep this first so default ai finds it */
+  struct ai_plr defai; /* Keep this first so default AI finds it */
   struct unit_list *units;
+  struct city_list *cities;
 };
 
 struct ai_type *texai_get_self(void); /* Actually in texai.c */
