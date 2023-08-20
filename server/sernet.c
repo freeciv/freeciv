@@ -840,7 +840,6 @@ enum server_events server_sniff_all_input(void)
 #else  /* !FREECIV_HAVE_LIBREADLINE */
       ssize_t didget;
       char *buffer = NULL; /* Must be NULL when calling getline() */
-      char *buf_internal;
 
 #ifdef HAVE_GETLINE
       size_t len = 0;
