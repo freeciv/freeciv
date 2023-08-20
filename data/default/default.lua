@@ -19,9 +19,10 @@
 function _deflua_hut_get_gold(unit, gold)
   local owner = unit.owner
 
-  notify.event(owner, unit.tile, E.HUT_GOLD, PL_("You found %d gold.",
-                                                 "You found %d gold.", gold),
-               gold)
+  notify.event(owner, unit.tile, E.HUT_GOLD,
+               -- TRANS: Begins with a unit name
+               PL_("%s found %d gold.", "%s found %d gold.", gold),
+               unit:link_text(), gold)
   owner:change_gold(gold)
 end
 
@@ -40,10 +41,10 @@ function _deflua_hut_get_tech(unit)
                  _("You found %s in ancient scrolls of wisdom."),
                  tech:name_translation())
     notify.research(owner, false, E.TECH_GAIN,
-                 -- /* TRANS: One player got tech for the whole team. */
-                 _("The %s found %s in ancient scrolls of wisdom for you."),
-                 owner.nation:plural_translation(),
-                 tech:name_translation())
+                    -- /* TRANS: One player got tech for the whole team. */
+                    _("The %s found %s in ancient scrolls of wisdom for you."),
+                    owner.nation:plural_translation(),
+                    tech:name_translation())
     notify.research_embassies(owner, E.TECH_EMBASSY,
                  -- /* TRANS: first %s is nation plural or team name */
                  _("The %s have acquired %s from ancient scrolls of wisdom."),
@@ -114,15 +115,16 @@ function _deflua_hut_get_barbarians(unit)
                    _("An abandoned village is here."))
     return true
   end
-  
+
+  local dead_link = unit:tile_link_text()
   local alive = tile:unleash_barbarians()
   if alive then
     notify.event(owner, tile, E.HUT_BARB,
-                  _("You have unleashed a horde of barbarians!"));
+                 _("You have unleashed a horde of barbarians!"));
   else
     notify.event(owner, tile, E.HUT_BARB_KILLED,
-                  _("Your %s has been killed by barbarians!"),
-                  utype:name_translation());
+                 _("Your %s has been killed by barbarians!"),
+                 dead_link);
   end
   return alive
 end
@@ -132,7 +134,8 @@ function _deflua_hut_reveal_map(unit)
   local owner = unit.owner
 
   notify.event(owner, unit.tile, E.HUT_MAP,
-               _("You find a map of the surrounding terrain."))
+               _("%s finds a map of the surrounding terrain."),
+               unit:link_text())
   for revealtile in unit.tile:circle_iterate(30) do
     revealtile:show(owner)
   end
@@ -214,9 +217,9 @@ function _deflua_make_partisans_callback(city, loser, winner, reason)
   end
   city.tile:place_partisans(loser, partisans, city:map_sq_radius())
   notify.event(loser, city.tile, E.CITY_LOST,
-      _("The loss of %s has inspired partisans!"), city.name)
+      _("The loss of %s has inspired partisans!"), city:link_text())
   notify.event(winner, city.tile, E.UNIT_WIN_ATT,
-      _("The loss of %s has inspired partisans!"), city.name)
+      _("The loss of %s has inspired partisans!"), city:link_text())
 end
 
 signal.connect("city_transferred", "_deflua_make_partisans_callback")

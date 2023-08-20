@@ -104,10 +104,10 @@ function notify_unit_unit(action, actor, target)
                E.UNIT_ACTION_ACTOR_SUCCESS,
                -- /* TRANS: Your Marines does Disrupt Supply Lines to American Armor. */
                _("Your %s does %s to %s %s."),
-               actor.utype:name_translation(),
+               actor:link_text(),
                action:name_translation(),
                target.owner.nation:name_translation(),
-               target.utype:name_translation())
+               target:link_text())
 
   -- Notify target
   notify.event(target.owner, actor.tile,
@@ -115,9 +115,9 @@ function notify_unit_unit(action, actor, target)
                -- /* TRANS: German Paratroopers does Disrupt Supply Lines to your Armor. */
                _("%s %s does %s to your %s."),
                actor.owner.nation:name_translation(),
-               actor.utype:name_translation(),
+               actor:link_text(),
                action:name_translation(),
-               target.utype:name_translation())
+               target:link_text())
 end
 
 -- Handle unit targeted unit action start
