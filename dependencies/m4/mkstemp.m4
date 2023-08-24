@@ -1,4 +1,4 @@
-#serial 29
+#serial 30
 
 # Copyright (C) 2001, 2003-2007, 2009-2023 Free Software Foundation, Inc.
 # This file is free software; the Free Software Foundation
@@ -63,7 +63,7 @@ AC_DEFUN([gl_FUNC_MKSTEMP],
                                  # Guess yes on musl systems.
              *-musl* | midipix*) gl_cv_func_working_mkstemp="guessing yes" ;;
                                  # Guess no on native Windows.
-             mingw*)             gl_cv_func_working_mkstemp="guessing no" ;;
+             mingw* | windows*)  gl_cv_func_working_mkstemp="guessing no" ;;
                                  # If we don't know, obey --enable-cross-guesses.
              *)                  gl_cv_func_working_mkstemp="$gl_cross_guess_normal" ;;
            esac
