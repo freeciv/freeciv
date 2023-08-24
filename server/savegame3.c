@@ -3454,21 +3454,21 @@ static void sg_load_players_basic(struct loaddata *loading)
    * handles this ... */
   if (secfile_lookup_int_default(loading->file, -1,
                                  "players.shuffled_player_%d", 0) >= 0) {
-    int shuffled_players[player_slot_count()];
-    bool shuffled_player_set[player_slot_count()];
+    int slots = player_slot_count();
+    int plrcount = player_count();
+    int shuffled_players[slots];
+    bool shuffled_player_set[slots];
 
-    player_slots_iterate(pslot) {
-      int plrid = player_slot_index(pslot);
-
+    for (i = 0; i < slots; i++) {
       /* Array to save used numbers. */
-      shuffled_player_set[plrid] = FALSE;
+      shuffled_player_set[i] = FALSE;
       /* List of all player IDs (needed for set_shuffled_players()). It is
        * initialised with the value -1 to indicate that no value is set. */
-      shuffled_players[plrid] = -1;
-    } player_slots_iterate_end;
+      shuffled_players[i] = -1;
+    }
 
     /* Load shuffled player list. */
-    for (i = 0; i < player_count(); i++){
+    for (i = 0; i < plrcount; i++){
       int shuffle
         = secfile_lookup_int_default(loading->file, -1,
                                      "players.shuffled_player_%d", i);
@@ -3493,14 +3493,15 @@ static void sg_load_players_basic(struct loaddata *loading)
 
     if (shuffle_loaded) {
       /* Insert missing numbers. */
-      int shuffle_index = player_count();
-      for (i = 0; i < player_slot_count(); i++){
+      int shuffle_index = plrcount;
+
+      for (i = 0; i < slots; i++){
         if (!shuffled_player_set[i]) {
-          shuffled_players[shuffle_index] = i;
-          shuffle_index++;
+          shuffled_players[shuffle_index++] = i;
         }
-        /* shuffle_index must not grow behind the size of shuffled_players. */
-        sg_failure_ret(shuffle_index <= player_slot_count(),
+
+        /* shuffle_index must not grow higher than size of shuffled_players. */
+        sg_failure_ret(shuffle_index <= slots,
                        "Invalid player shuffle data!");
       }
 
@@ -3508,6 +3509,7 @@ static void sg_load_players_basic(struct loaddata *loading)
       log_debug("[load shuffle] player_count() = %d", player_count());
       player_slots_iterate(pslot) {
         int plrid = player_slot_index(pslot);
+
         log_debug("[load shuffle] id: %3d => slot: %3d | slot %3d: %s",
                   plrid, shuffled_players[plrid], plrid,
                   shuffled_player_set[plrid] ? "is used" : "-");
