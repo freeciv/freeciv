@@ -708,7 +708,7 @@ static void real_info_city_report_dialog_update(void)
   FREESURFACE(pCMA_Icon);
 
   /* -------------- */
-  /* populations food unkeep background and label */
+  /* populations food upkeep background and label */
   dst.x += (ww + 1);
   dst.y = area.y + 1;
   w = dst.x + adj_size(2);
