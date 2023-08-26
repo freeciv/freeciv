@@ -892,6 +892,10 @@ if crosser
   pub_conf_data.set('FREECIV_CROSSER', 1)
 endif
 
+if get_option('svgflags')
+  pub_conf_data.set('FREECIV_SVG_FLAGS', 1)
+endif
+
 if cxx_build and cxx_compiler.compiles('''
 class me {
 void top(); };

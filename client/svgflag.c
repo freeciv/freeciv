@@ -32,13 +32,19 @@ bool _prefer_svg = FALSE;
 static const char **ordered_extensions = NULL;
 
 /**********************************************************************//**
-  Enable svg flag features.
+  Try to enable svg flag features.
+
+  @return Whether operation succeeded
 **************************************************************************/
 bool svg_flag_enable(void)
 {
+#ifdef FREECIV_SVG_FLAGS
   _prefer_svg = TRUE;
 
   return TRUE;
+#else  // FREECIV_SVG_FLAGS
+  return FALSE;
+#endif // FREECIV_SVG_FLAGS
 }
 
 /**********************************************************************//**
