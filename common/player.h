@@ -60,6 +60,9 @@ enum plrcolor_mode {
 #define SPECENUM_VALUE0NAME "ai"
 #define SPECENUM_VALUE1 PLRF_SCENARIO_RESERVED
 #define SPECENUM_VALUE1NAME "ScenarioReserved"
+/* TRUE if player has ever had a city. */
+#define SPECENUM_VALUE2 PLRF_FIRST_CITY
+#define SPECENUM_VALUE2NAME "FirstCity"
 #define SPECENUM_COUNT  PLRF_COUNT
 #define SPECENUM_BITVECTOR bv_plr_flags
 #include "specenum_gen.h"
@@ -325,10 +328,6 @@ struct player
     struct {
       /* Only used in the server (./ai/ and ./server/). */
       bv_pstatus status;
-
-      bool got_first_city; /* used to give player init_buildings in first
-                            * city. Once set, never becomes unset.
-                            * (Previously 'capital'.) */
 
       struct player_tile *private_map;
 
@@ -599,4 +598,4 @@ static inline bool player_is_cpuhog(const struct player *pplayer)
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__PLAYER_H */
+#endif /* FC__PLAYER_H */

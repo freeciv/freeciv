@@ -2289,8 +2289,8 @@ static void compat_load_030200(struct loaddata *loading,
       bool got_tech = FALSE;
       int bulbs = 0;
       bool got_tech_multi
-       = secfile_lookup_bool_default(loading->file, FALSE,
-                                     "research.r%d.got_tech_multi", i);
+        = secfile_lookup_bool_default(loading->file, FALSE,
+                                      "research.r%d.got_tech_multi", i);
 
       if (secfile_lookup_bool(loading->file, &got_tech,
                               "research.r%d.got_tech", i)
@@ -2322,9 +2322,37 @@ static void compat_load_030200(struct loaddata *loading,
       int ncities;
       int cnro;
       size_t wlist_max_length = 0;
+      bool first_city;
 
       if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
         continue;
+      }
+
+      first_city = secfile_lookup_bool_default(loading->file, FALSE,
+                                               "player%d.got_first_city",
+                                               plrno);
+      if (first_city) {
+        const char **flag_names = fc_calloc(PLRF_COUNT, sizeof(char *));
+        int flagcount = 0;
+        const char **flags_sg;
+        size_t nval;
+
+        flag_names[flagcount++] = plr_flag_id_name(PLRF_FIRST_CITY);
+
+        flags_sg = secfile_lookup_str_vec(loading->file, &nval,
+                                          "player%d.flags", plrno);
+
+        for (i = 0; i < nval; i++) {
+          enum plr_flag_id fid = plr_flag_id_by_name(flags_sg[i],
+                                                     fc_strcasecmp);
+
+          flag_names[flagcount++] = plr_flag_id_name(fid);
+        }
+
+        secfile_replace_str_vec(loading->file, flag_names, flagcount,
+                                "player%d.flags", plrno);
+
+        free(flag_names);
       }
 
       ncities = secfile_lookup_int_default(loading->file, 0,
@@ -3052,6 +3080,46 @@ static void compat_load_dev(struct loaddata *loading)
           }
         }
       }
+    }
+
+    {
+      player_slots_iterate(pslot) {
+        int plrno = player_slot_index(pslot);
+        bool first_city;
+
+        if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+          continue;
+        }
+
+        first_city = secfile_lookup_bool_default(loading->file, FALSE,
+                                                 "player%d.got_first_city",
+                                                 plrno);
+
+        if (first_city) {
+          const char **flag_names = fc_calloc(PLRF_COUNT, sizeof(char *));
+          int flagcount = 0;
+          const char **flags_sg;
+          size_t nval;
+          int i;
+
+          flag_names[flagcount++] = plr_flag_id_name(PLRF_FIRST_CITY);
+
+          flags_sg = secfile_lookup_str_vec(loading->file, &nval,
+                                            "player%d.flags", plrno);
+
+          for (i = 0; i < nval; i++) {
+            enum plr_flag_id fid = plr_flag_id_by_name(flags_sg[i],
+                                                       fc_strcasecmp);
+
+            flag_names[flagcount++] = plr_flag_id_name(fid);
+          }
+
+          secfile_replace_str_vec(loading->file, flag_names, flagcount,
+                                  "player%d.flags", plrno);
+
+          free(flag_names);
+        }
+      } player_slots_iterate_end;
     }
 
   } /* Version < 3.1.94 */

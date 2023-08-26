@@ -523,8 +523,8 @@ static void check_players(const char *file, const char *function, int line)
     SANITY_CHECK(!pplayer->nation || pplayer->nation->player == pplayer);
     SANITY_CHECK(player_list_search(team_members(pplayer->team), pplayer));
 
-    SANITY_CHECK(!(city_list_size(pplayer->cities) > 0
-                   && !pplayer->server.got_first_city));
+    SANITY_CHECK(player_has_flag(pplayer, PLRF_FIRST_CITY)
+                 || city_list_size(pplayer->cities) == 0);
 
     city_list_iterate(pplayer->cities, pcity) {
       if (pcity->capital == CAPITAL_PRIMARY) {

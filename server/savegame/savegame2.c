@@ -2960,11 +2960,6 @@ static void sg_load_player_main(struct loaddata *loading,
     = secfile_lookup_int_default(loading->file, -1,
                                  "player%d.revolution_finishes", plrno);
 
-  sg_failure_ret(secfile_lookup_bool(loading->file,
-                                     &plr->server.got_first_city,
-                                     "player%d.got_first_city", plrno),
-                 "%s", secfile_error());
-
   /* Load diplomatic data (diplstate + embassy + vision).
    * Shared vision is loaded in sg_load_players(). */
   BV_CLR_ALL(plr->real_embassy);
@@ -3408,13 +3403,14 @@ static void sg_load_player_cities(struct loaddata *loading,
     ncities = 0;
   }
 
-  if (!plr->server.got_first_city && ncities > 0) {
+  if (!player_has_flag(plr, PLRF_FIRST_CITY) && ncities > 0) {
     /* Probably barbarians in an old savegame; fix up */
-    plr->server.got_first_city = TRUE;
+    BV_SET(plr->flags, PLRF_FIRST_CITY);
   }
 
   wlist_max_length = secfile_lookup_int_default(loading->file, 0,
-                                                "player%d.wl_max_length", plrno);
+                                                "player%d.wl_max_length",
+                                                plrno);
 
   /* Load all cities of the player. */
   for (i = 0; i < ncities; i++) {

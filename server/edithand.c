@@ -954,7 +954,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   pplayer->unassigned_user = TRUE;
   pplayer->is_connected = FALSE;
   pplayer->government = init_government_of_nation(pnation);
-  pplayer->server.got_first_city = FALSE;
+  BV_CLR(pplayer->flags, PLRF_FIRST_CITY);
 
   pplayer->economic.gold = 0;
   pplayer->economic.infra_points = 0;
