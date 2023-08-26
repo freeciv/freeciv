@@ -167,7 +167,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->is_connected = FALSE;
   barbarians->government = init_government_of_nation(nation);
   fc_assert(barbarians->revolution_finishes < 0);
-  barbarians->server.got_first_city = FALSE;
+  BV_CLR(barbarians->flags, PLRF_FIRST_CITY);
   barbarians->economic.gold = 100;
 
   barbarians->phase_done = TRUE;

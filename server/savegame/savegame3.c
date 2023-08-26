@@ -4132,11 +4132,6 @@ static void sg_load_player_main(struct loaddata *loading,
     = secfile_lookup_int_default(loading->file, -1,
                                  "player%d.revolution_finishes", plrno);
 
-  sg_failure_ret(secfile_lookup_bool(loading->file,
-                                     &plr->server.got_first_city,
-                                     "player%d.got_first_city", plrno),
-                 "%s", secfile_error());
-
   /* Load diplomatic data (diplstate + embassy + vision).
    * Shared vision is loaded in sg_load_players(). */
   BV_CLR_ALL(plr->real_embassy);
@@ -4735,8 +4730,6 @@ static void sg_save_player_main(struct savedata *saving,
                        "player%d.achievement_count", plrno);
   }
 
-  secfile_insert_bool(saving->file, plr->server.got_first_city,
-                      "player%d.got_first_city", plrno);
   secfile_insert_int(saving->file, plr->revolution_finishes,
                      "player%d.revolution_finishes", plrno);
 
@@ -4891,13 +4884,9 @@ static void sg_load_player_cities(struct loaddata *loading,
     ncities = 0;
   }
 
-  if (!plr->server.got_first_city && ncities > 0) {
-    /* Probably barbarians in an old savegame; fix up */
-    plr->server.got_first_city = TRUE;
-  }
-
   wlist_max_length = secfile_lookup_int_default(loading->file, 0,
-                                                "player%d.wl_max_length", plrno);
+                                                "player%d.wl_max_length",
+                                                plrno);
   routes_max = secfile_lookup_int_default(loading->file, 0,
                                           "player%d.routes_max_length", plrno);
 

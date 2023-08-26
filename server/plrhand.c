@@ -1608,7 +1608,7 @@ void server_player_init(struct player *pplayer, bool initmap,
 {
   player_status_reset(pplayer);
 
-  pplayer->server.got_first_city = FALSE;
+  BV_CLR(pplayer->flags, PLRF_FIRST_CITY);
   BV_CLR_ALL(pplayer->server.really_gives_vision);
   BV_CLR_ALL(pplayer->server.debug);
 
@@ -2779,7 +2779,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->government = init_government_of_nation(nation_of_player(cplayer));
   fc_assert(cplayer->revolution_finishes < 0);
   /* No capital for the splitted player. */
-  cplayer->server.got_first_city = FALSE;
+  BV_CLR(cplayer->flags, PLRF_FIRST_CITY);
 
   players_iterate(other_player) {
     struct player_diplstate *ds_co

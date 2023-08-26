@@ -1277,7 +1277,8 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
       if (build_free) {
         city_build_free_buildings(pcity);
       } /* Else caller should probably ensure palace is built */
-      ptaker->server.got_first_city = TRUE;
+
+      BV_SET(ptaker->flags, PLRF_FIRST_CITY);
     }
 
     citizens_convert_conquest(pcity);
@@ -1440,7 +1441,7 @@ void city_build_free_buildings(struct city *pcity)
   /* If this isn't the first city a player has ever had, they only get
    * any initial buildings with the SaveSmallWonder flag, and then only
    * if savepalace is enabled. */
-  first_city = !pplayer->server.got_first_city;
+  first_city = !player_has_flag(pplayer, PLRF_FIRST_CITY);
 
   has_small_wonders = FALSE;
   has_great_wonders = FALSE;
@@ -1550,7 +1551,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
     /* Free initial buildings, or at least a palace if they were
      * previously careless enough to lose all their cities */
     city_build_free_buildings(pcity);
-    pplayer->server.got_first_city = TRUE;
+    BV_SET(pplayer->flags, PLRF_FIRST_CITY);
   }
 
   /* Set up citizens nationality. */
