@@ -607,7 +607,8 @@ static void real_info_city_report_dialog_update(void)
 
   H = hh;
   pCityRep->pBeginWidgetList = pbuf;
-  /* setup window width */
+
+  /* Setup window width */
   area.w = name_w + adj_size(6) + pText1->w + adj_size(8) + pCMA_Icon->w
     + (pIcons->pBIG_Food->w + adj_size(6)) * 10 + pText2->w + adj_size(6)
     + pUnits_Icon->w + adj_size(6) + prod_w + adj_size(170);
@@ -650,35 +651,35 @@ static void real_info_city_report_dialog_update(void)
                       (main_window_width() - pWindow->size.w) / 2,
                       (main_window_height() - pWindow->size.h) / 2);
 
-  /* exit button */
+  /* Exit button */
   pbuf = pWindow->prev;
   pbuf->size.x = area.x + area.w - pbuf->size.w - 1;
   pbuf->size.y = pWindow->size.y + adj_size(2);
 
 /* FIXME: not implemented yet */
 #if 0
-  /* info button */
+  /* Info button */
   pbuf = pbuf->prev;
   pbuf->size.x = area.x + area.w - pbuf->size.w - adj_size(5);
   pbuf->size.y = area.y + area.h - pbuf->size.h - adj_size(5);
 
-  /* happy button */
+  /* Happy button */
   pbuf = pbuf->prev;
   pbuf->size.x = pbuf->next->size.x - adj_size(5) - pbuf->size.w;
   pbuf->size.y = pbuf->next->size.y;
 
-  /* army button */
+  /* Army button */
   pbuf = pbuf->prev;
   pbuf->size.x = pbuf->next->size.x - adj_size(5) - pbuf->size.w;
   pbuf->size.y = pbuf->next->size.y;
 
-  /* supported button */
+  /* Supported button */
   pbuf = pbuf->prev;
   pbuf->size.x = pbuf->next->size.x - adj_size(5) - pbuf->size.w;
   pbuf->size.y = pbuf->next->size.y;
 #endif /* 0 */
 
-  /* cities background and labels */
+  /* Cities background and labels */
   dst.x = area.x + adj_size(2);
   dst.y = area.y + 1;
   dst.w = (name_w + adj_size(6)) + (pText1->w + adj_size(8)) + adj_size(5);
@@ -694,13 +695,13 @@ static void real_info_city_report_dialog_update(void)
   alphablit(pText3, NULL, pWindow->theme, &dst, 255);
   FREESURFACE(pText3);
 
-  /* city size background and label */
+  /* City size background and label */
   dst.x = area.x + adj_size(5) + name_w + adj_size(5 + 4);
   alphablit(pText1, NULL, pWindow->theme, &dst, 255);
   ww = pText1->w;
   FREESURFACE(pText1);
 
-  /* cma icon */
+  /* CMA icon */
   dst.x += (ww + adj_size(9));
   dst.y = area.y + 1 + (pText2->h - pCMA_Icon->h) / 2;
   alphablit(pCMA_Icon, NULL, pWindow->theme, &dst, 255);
@@ -708,7 +709,7 @@ static void real_info_city_report_dialog_update(void)
   FREESURFACE(pCMA_Icon);
 
   /* -------------- */
-  /* populations food upkeep background and label */
+  /* Populations food upkeep background and label */
   dst.x += (ww + 1);
   dst.y = area.y + 1;
   w = dst.x + adj_size(2);
@@ -726,12 +727,12 @@ static void real_info_city_report_dialog_update(void)
   dst.x += adj_size(5);
   alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst, 255);
 
-  /* food surplus Icon */
+  /* Food surplus Icon */
   w += (pIcons->pBIG_Food->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
   alphablit(pIcons->pBIG_Food_Surplus, NULL, pWindow->theme, &dst, 255);
 
-  /* to grow label */
+  /* To grow label */
   w += (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1;
@@ -741,7 +742,7 @@ static void real_info_city_report_dialog_update(void)
   FREESURFACE(pText2);
   /* -------------- */
 
-  /* trade, corruptions, gold, science, luxury income background and label */
+  /* Trade, corruptions, gold, science, luxury income background and label */
   dst.x = w + (ww + adj_size(8));
   dst.y = area.y + 1;
   w = dst.x + adj_size(2);
@@ -818,7 +819,6 @@ static void real_info_city_report_dialog_update(void)
 
   w += (pIcons->pBIG_Shield_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w;
-  w += adj_size(2);
   dst.y = area.y + 1;
   dst.w = adj_size(36) + adj_size(5) + prod_w;
   dst.h = hh + adj_size(2);
@@ -840,90 +840,91 @@ static void real_info_city_report_dialog_update(void)
 
     H += adj_size(2);
     pbuf = pbuf->prev;
+
     while (TRUE) {
 
-      /* city name */
+      /* City name */
       pbuf->size.x = start_x;
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
       pbuf->size.w = name_w;
 
-      /* city size */
+      /* City size */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(5);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* cma */
+      /* CMA */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(6);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* food cons. */
+      /* Food cons. */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(6);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* food surplus */
+      /* Food surplus */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* time to grow */
+      /* Time to grow */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* trade */
+      /* Trade */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(5);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* trade corruptions */
+      /* Trade corruptions */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* net gold income */
+      /* Net gold income */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* science income */
+      /* Science income */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* luxuries income */
+      /* Luxuries income */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* total production */
+      /* Total production */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(6);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* waste */
+      /* Waste */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* units support */
+      /* Units support */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* producrion surplus */
+      /* Producrion surplus */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* currently build */
-      /* icon */
+      /* Currently build */
+      /* Icon */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* label */
+      /* Label */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(5);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
@@ -943,6 +944,7 @@ static void real_info_city_report_dialog_update(void)
     }
 
   }
+
   /* ----------------------------------- */
   redraw_group(pCityRep->pBeginWidgetList, pWindow, 0);
   widget_mark_dirty(pWindow);
