@@ -51,6 +51,9 @@
 /* Has thread condition variable implementation */
 #define FREECIV_HAVE_THREAD_COND
 
+/* Has svg flags support enabled */
+#mesondefine FREECIV_SVG_FLAGS
+
 /* Max number of AI modules */
 #define FREECIV_AI_MOD_LAST @FREECIV_AI_MOD_LAST@
 

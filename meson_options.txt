@@ -91,3 +91,8 @@ option('min-win-ver',
        type: 'string',
        value: '',
        description: 'Minimum Windows version to support')
+
+option('svgflags',
+       type: 'boolean',
+       value: false,
+       description: 'svg flags features enabled on build level')
