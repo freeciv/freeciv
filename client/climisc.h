@@ -114,7 +114,7 @@ void create_event(struct tile *ptile, enum event_type event,
 struct city *get_nearest_city(const struct unit *punit, int *sq_dist);
 
 void cityrep_buy(struct city *pcity);
-void common_taxrates_callback(int i);
+void common_taxrates_callback(int idx, bool reverse);
 
 bool can_units_do_connect(struct unit_list *punits,
                           enum unit_activity activity,

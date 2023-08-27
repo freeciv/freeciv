@@ -1419,9 +1419,10 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
 /**********************************************************************//**
   Adjust tax rates from main window
 **************************************************************************/
-gboolean taxrates_callback(GtkWidget * w, GdkEventButton * ev, gpointer data)
+gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
-  common_taxrates_callback((size_t) data);
+  common_taxrates_callback((size_t) data, FALSE);
+
   return TRUE;
 }
 
