@@ -24,4 +24,4 @@ void message_dialog_button_set_sensitive(GtkWidget *shl, int button,
 gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 void nationset_sync_to_server(const char *nationset);
 
-#endif  /* FC__DIALOGS_H */
+#endif /* FC__DIALOGS_H */

@@ -1447,7 +1447,21 @@ gboolean taxrates_callback(GtkGestureClick *gesture, int n_press,
   GtkWidget *widget = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture));
 
   common_taxrates_callback(GPOINTER_TO_UINT(g_object_get_data(G_OBJECT(widget),
-                                                              "rate_button")));
+                                                              "rate_button")), FALSE);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Adjust tax rates from main window
+**************************************************************************/
+gboolean reverse_taxrates_callback(GtkGestureClick *gesture, int n_press,
+				   double x, double y)
+{
+  GtkWidget *widget = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture));
+
+  common_taxrates_callback(GPOINTER_TO_UINT(g_object_get_data(G_OBJECT(widget),
+                                                              "rate_button")), TRUE);
 
   return TRUE;
 }
