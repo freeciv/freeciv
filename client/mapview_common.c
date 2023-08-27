@@ -184,6 +184,29 @@ void animations_init(void)
 void animations_free(void)
 {
   if (animations != NULL) {
+    int i;
+    size_t last = animation_list_size(animations);
+
+    for (i = 0; i < last; i++) {
+      struct animation *anim = animation_list_get(animations, i);
+
+      switch (anim->type) {
+      case ANIM_MOVEMENT:
+        free(anim->movement.mover);
+        break;
+      case ANIM_BATTLE:
+        unit_virtual_destroy(anim->battle.virt_winner);
+        unit_virtual_destroy(anim->battle.virt_loser);
+        break;
+      case ANIM_EXPL:
+      case ANIM_NUKE:
+        /* Nothing to free */
+        break;
+      }
+
+      free(anim);
+    }
+
     animation_list_destroy(animations);
   }
 }
@@ -235,8 +258,9 @@ static bool movement_animation(struct animation *anim, double time_gone)
     if (time_gone >= timing_sec) {
       /* Animation over */
       if (--anim->movement.mover->refcount <= 0) {
-        FC_FREE(anim->movement.mover);
+        free(anim->movement.mover);
       }
+
       return TRUE;
     }
   } else {
