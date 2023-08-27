@@ -767,8 +767,7 @@ int tile_move_cost_ptrs(const struct unit *punit,
 {
   const struct unit_class *pclass = utype_class(punittype);
   int cost;
-  bool cardinality_checked = FALSE;
-  bool cardinal_move BAD_HEURISTIC_INIT(FALSE);
+  char cardinal_move = -1;
   bool ri;
 
   /* Try to exit early for detectable conditions */
@@ -826,11 +825,11 @@ int tile_move_cost_ptrs(const struct unit *punit,
           if (proad->move_mode == RMM_FAST_ALWAYS) {
             cost = proad->move_cost;
           } else {
-            if (!cardinality_checked) {
-              cardinal_move = (ALL_DIRECTIONS_CARDINAL() || is_move_cardinal(t1, t2));
-              cardinality_checked = TRUE;
+            if (cardinal_move < 0) {
+              cardinal_move = (ALL_DIRECTIONS_CARDINAL()
+                               || is_move_cardinal(t1, t2)) ? 1 : 0;
             }
-            if (cardinal_move) {
+            if (cardinal_move > 0) {
               cost = proad->move_cost;
             } else {
               switch (proad->move_mode) {
@@ -870,10 +869,11 @@ int tile_move_cost_ptrs(const struct unit *punit,
   }
 
   if (terrain_control.pythagorean_diagonal) {
-    if (!cardinality_checked) {
-      cardinal_move = (ALL_DIRECTIONS_CARDINAL() || is_move_cardinal(t1, t2));
+    if (cardinal_move < 0) {
+      cardinal_move = (ALL_DIRECTIONS_CARDINAL()
+                       || is_move_cardinal(t1, t2)) ? 1 : 0;
     }
-    if (!cardinal_move) {
+    if (cardinal_move == 0) {
       return (int) (cost * 1.41421356f);
     }
   }
