@@ -1179,7 +1179,7 @@ void cityrep_buy(struct city *pcity)
 /**********************************************************************//**
   Switch between tax/sci/lux at given slot.
 **************************************************************************/
-void common_taxrates_callback(int i)
+void common_taxrates_callback(int idx, bool reverse)
 {
   int lux_end, sci_end, tax, lux, sci;
   int delta = 10;
@@ -1195,17 +1195,32 @@ void common_taxrates_callback(int i)
   sci = client.conn.playing->economic.science;
   tax = client.conn.playing->economic.tax;
 
-  i *= 10;
-  if (i < lux_end) {
-    lux -= delta;
-    sci += delta;
-  } else if (i < sci_end) {
-    sci -= delta;
-    tax += delta;
+  idx *= 10;
+
+  if (reverse) {
+    if (idx < lux_end) {
+      lux -= delta;
+      tax += delta;
+    } else if (idx < sci_end) {
+      sci -= delta;
+      lux += delta;
+    } else {
+      tax -= delta;
+      sci += delta;
+    }
   } else {
-    tax -= delta;
-    lux += delta;
+    if (idx < lux_end) {
+      lux -= delta;
+      sci += delta;
+    } else if (idx < sci_end) {
+      sci -= delta;
+      tax += delta;
+    } else {
+      tax -= delta;
+      lux += delta;
+    }
   }
+
   dsend_packet_player_rates(&client.conn, tax, lux, sci);
 }
 

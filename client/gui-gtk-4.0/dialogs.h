@@ -23,6 +23,8 @@ void message_dialog_button_set_sensitive(GtkWidget *shl, int button,
                                          gboolean state);
 gboolean taxrates_callback(GtkGestureClick *gesture, int n_press,
                            double x, double y);
+gboolean reverse_taxrates_callback(GtkGestureClick *gesture, int n_press,
+				   double x, double y);
 void nationset_sync_to_server(const char *nationset);
 
-#endif  /* FC__DIALOGS_H */
+#endif /* FC__DIALOGS_H */
