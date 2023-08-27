@@ -49,6 +49,9 @@ On Debian derivatives those packages are
 - mingw-w64
 - g++-mingw-w64
 
+Other requirements
+- nsis
+
 TODO: Find out what other native side requirements
       crosser build has and list them.
 
