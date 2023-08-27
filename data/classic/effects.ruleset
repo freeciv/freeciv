@@ -729,7 +729,6 @@ reqs	=
       "Building", "Airport", "City", TRUE
       "UnitClass", "Air", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_0a]
@@ -740,7 +739,6 @@ reqs	=
       "Building", "Airport", "City", TRUE
       "UnitClass", "Helicopter", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_0b]
@@ -751,7 +749,6 @@ reqs	=
       "Building", "Airport", "City", TRUE
       "UnitClass", "Missile", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_1]
@@ -829,7 +826,6 @@ reqs	=
       "Building", "Barracks", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_barracks_1]
@@ -849,7 +845,6 @@ reqs	=
       "Building", "Barracks II", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_barracks_ii_1]
@@ -869,7 +864,6 @@ reqs	=
       "Building", "Barracks III", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_barracks_iii_1]
@@ -1361,7 +1355,6 @@ reqs	=
       "Building", "Port Facility", "City", TRUE
       "UnitClass", "Sea", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_port_facility_1]
@@ -1381,7 +1374,6 @@ reqs	=
       "Building", "Port Facility", "City", TRUE
       "UnitClass", "Trireme", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_port_facility_trireme_1]
@@ -1975,7 +1967,6 @@ reqs	=
       "Building", "Lighthouse", "Player", TRUE
       "UnitClass", "Sea", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
       "Building", "Port Facility", "City", FALSE
     }
 
@@ -1996,7 +1987,6 @@ reqs	=
       "Building", "Lighthouse", "Player", TRUE
       "UnitClass", "Trireme", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
       "Building", "Port Facility", "City", FALSE
     }
 
@@ -2127,7 +2117,6 @@ reqs	=
       "Building", "Sun Tzu's War Academy", "Player", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_sun_tzus_war_academy_1]
