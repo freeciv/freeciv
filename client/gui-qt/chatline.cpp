@@ -34,7 +34,7 @@
 // client
 #include "audio.h"
 #include "climap.h"
-#include "climisc.h"      // For write_chatline_content
+#include "climisc.h"      // For write_chatline_content()
 #include "connectdlg_common.h"
 #include "control.h"
 #include "game.h"
@@ -369,12 +369,14 @@ void chatwdg::anchor_clicked(const QUrl &link)
   QStringList sl;
   int id;
   enum text_link_type type;
+  struct tile *ptile = nullptr;
+
   sl = link.toString().split(",");
   n = sl.at(0).toInt();
   id = sl.at(1).toInt();
 
   type = static_cast<text_link_type>(n);
-  struct tile *ptile = NULL;
+
   switch (type) {
   case TLT_CITY: {
     struct city *pcity = game_city_by_number(id);
@@ -405,7 +407,7 @@ void chatwdg::anchor_clicked(const QUrl &link)
   }
   break;
   }
-  if (ptile) {
+  if (ptile != nullptr) {
     center_tile_mapcanvas(ptile);
     link_mark_restore(type, id);
   }
@@ -414,7 +416,7 @@ void chatwdg::anchor_clicked(const QUrl &link)
 /***********************************************************************//**
   Adds news string to chatwdg (from chat_listener interface)
 ***************************************************************************/
-void chatwdg::chat_message_received(const QString& message,
+void chatwdg::chat_message_received(const QString &message,
                                     const struct text_tag_list *tags)
 {
   QColor col = chat_output->palette().color(QPalette::Text);
@@ -474,6 +476,7 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
       event->setAccepted(true);
     }
   }
+
   return QObject::eventFilter(obj, event);
 }
 
@@ -546,7 +549,6 @@ void chatwdg::make_link(struct tile *ptile)
   chat_line->setFocus();
 }
 
-
 /***********************************************************************//**
   Applies tags to text
 ***************************************************************************/
@@ -562,10 +564,10 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
   QMultiMap <int, QString> mm;
   QByteArray str_bytes;
 
-  if (tags == NULL) {
+  if (tags == nullptr) {
     return str;
   }
-  str_bytes = str.toLocal8Bit();
+  str_bytes = str.toUtf8();
   qba = str_bytes.data();
 
   text_tag_list_iterate(tags, ptag) {
@@ -621,7 +623,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
       }
       break;
     case TTT_LINK: {
-      struct color *pcolor = NULL;
+      struct color *pcolor = nullptr;
 
       switch (text_tag_link_type(ptag)) {
       case TLT_CITY:
@@ -635,7 +637,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
         break;
       }
 
-      if (!pcolor) {
+      if (pcolor == nullptr) {
         break; // Not a valid link type case.
       }
       color = pcolor->qcolor.name(QColor::HexRgb);
@@ -730,7 +732,7 @@ static bool is_plain_public_message(QString s)
 }
 
 /***********************************************************************//**
-  Appends the string to the chat output window.  The string should be
+  Appends the string to the chat output window. The string should be
   inserted on its own line, although it will have no newline.
 ***************************************************************************/
 void qtg_real_output_window_append(const char *astring,
