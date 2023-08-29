@@ -679,9 +679,10 @@ static bool amphibious_is_pos_dangerous(const struct tile *ptile,
 ****************************************************************************/
 static inline void
 pft_fill_default_parameter(struct pf_parameter *parameter,
+                           const struct civ_map *nmap,
                            const struct unit_type *punittype)
 {
-  parameter->map = &(wld.map);
+  parameter->map = nmap;
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;
@@ -729,6 +730,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
 ****************************************************************************/
 static inline void
 pft_fill_utype_default_parameter(struct pf_parameter *parameter,
+                                 const struct civ_map *nmap,
                                  const struct unit_type *punittype,
                                  struct tile *pstart_tile,
                                  struct player *powner)
@@ -740,7 +742,7 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
     veteran_level = utype_veteran_levels(punittype) - 1;
   }
 
-  pft_fill_default_parameter(parameter, punittype);
+  pft_fill_default_parameter(parameter, nmap, punittype);
 
   parameter->start_tile = pstart_tile;
   parameter->moves_left_initially = punittype->move_rate;
@@ -766,12 +768,13 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
 ****************************************************************************/
 static inline void
 pft_fill_unit_default_parameter(struct pf_parameter *parameter,
+                                const struct civ_map *nmap,
                                 const struct unit *punit)
 {
   const struct unit *ptrans = unit_transport_get(punit);
   const struct unit_type *ptype = unit_type_get(punit);
 
-  pft_fill_default_parameter(parameter, ptype);
+  pft_fill_default_parameter(parameter, nmap, ptype);
 
   parameter->start_tile = unit_tile(punit);
   parameter->moves_left_initially = punit->moves_left;
@@ -821,11 +824,12 @@ static inline void pft_fill_parameter(struct pf_parameter *parameter,
   Fill classic parameters for an unit type.
 ****************************************************************************/
 void pft_fill_utype_parameter(struct pf_parameter *parameter,
+                              const struct civ_map *nmap,
                               const struct unit_type *punittype,
                               struct tile *pstart_tile,
                               struct player *pplayer)
 {
-  pft_fill_utype_default_parameter(parameter, punittype,
+  pft_fill_utype_default_parameter(parameter, nmap, punittype,
                                    pstart_tile, pplayer);
   pft_fill_parameter(parameter, punittype);
 }
@@ -834,9 +838,10 @@ void pft_fill_utype_parameter(struct pf_parameter *parameter,
   Fill classic parameters for an unit.
 ****************************************************************************/
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
+                             const struct civ_map *nmap,
                              const struct unit *punit)
 {
-  pft_fill_unit_default_parameter(parameter, punit);
+  pft_fill_unit_default_parameter(parameter, nmap, punit);
   pft_fill_parameter(parameter, unit_type_get(punit));
 }
 
@@ -869,11 +874,12 @@ static void pft_fill_overlap_param(struct pf_parameter *parameter,
   For sea/land bombardment and for ferry types.
 ****************************************************************************/
 void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
+                                  const struct civ_map *nmap,
                                   const struct unit_type *punittype,
                                   struct tile *pstart_tile,
                                   struct player *pplayer)
 {
-  pft_fill_utype_default_parameter(parameter, punittype,
+  pft_fill_utype_default_parameter(parameter, nmap, punittype,
                                    pstart_tile, pplayer);
   pft_fill_overlap_param(parameter, punittype);
 }
@@ -883,9 +889,10 @@ void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
   For sea/land bombardment and for ferries.
 ****************************************************************************/
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
+                                 const struct civ_map *nmap,
                                  const struct unit *punit)
 {
-  pft_fill_unit_default_parameter(parameter, punit);
+  pft_fill_unit_default_parameter(parameter, nmap, punit);
   pft_fill_overlap_param(parameter, unit_type_get(punit));
 }
 
@@ -924,11 +931,12 @@ static void pft_fill_attack_param(struct pf_parameter *parameter,
   Consider attacking and non-attacking possibilities properly.
 ****************************************************************************/
 void pft_fill_utype_attack_param(struct pf_parameter *parameter,
+                                 const struct civ_map *nmap,
                                  const struct unit_type *punittype,
                                  struct tile *pstart_tile,
                                  struct player *pplayer)
 {
-  pft_fill_utype_default_parameter(parameter, punittype,
+  pft_fill_utype_default_parameter(parameter, nmap, punittype,
                                    pstart_tile, pplayer);
   pft_fill_attack_param(parameter, punittype);
 }
@@ -939,9 +947,10 @@ void pft_fill_utype_attack_param(struct pf_parameter *parameter,
   Consider attacking and non-attacking possibilities properly.
 ****************************************************************************/
 void pft_fill_unit_attack_param(struct pf_parameter *parameter,
+                                const struct civ_map *nmap,
                                 const struct unit *punit)
 {
-  pft_fill_unit_default_parameter(parameter, punit);
+  pft_fill_unit_default_parameter(parameter, nmap, punit);
   pft_fill_attack_param(parameter, unit_type_get(punit));
 }
 

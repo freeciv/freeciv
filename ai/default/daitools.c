@@ -292,13 +292,16 @@ bool dai_gothere(struct ai_type *ait, struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns the destination for a unit moving towards a given final destination.
-  That is, it gives a suitable way-point, if necessary.
+  Returns the destination for a unit moving towards a given
+  final destination. That is, it gives a suitable way-point,
+  if necessary.
   For example, aircraft need these way-points to refuel.
 **************************************************************************/
 struct tile *immediate_destination(struct unit *punit,
                                    struct tile *dest_tile)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (!same_pos(unit_tile(punit), dest_tile)
       && utype_fuel(unit_type_get(punit))) {
     struct pf_parameter parameter;
@@ -307,7 +310,7 @@ struct tile *immediate_destination(struct unit *punit,
     size_t i;
     struct player *pplayer = unit_owner(punit);
 
-    pft_fill_unit_parameter(&parameter, punit);
+    pft_fill_unit_parameter(&parameter, nmap, punit);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
     path = pf_map_path(pfm, punit->goto_tile);
@@ -424,6 +427,7 @@ bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
 bool goto_is_sane(struct unit *punit, struct tile *ptile)
 {
   bool can_get_there = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   if (same_pos(unit_tile(punit), ptile)) {
     can_get_there = TRUE;
@@ -431,7 +435,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile)
     struct pf_parameter parameter;
     struct pf_map *pfm;
 
-    pft_fill_unit_attack_param(&parameter, punit);
+    pft_fill_unit_attack_param(&parameter, nmap, punit);
     pfm = pf_map_new(&parameter);
 
     if (pf_map_move_cost(pfm, ptile) != PF_IMPOSSIBLE_MC) {
@@ -472,6 +476,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   bool is_ferry;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   struct player *pplayer = unit_owner(punit);
+  const struct civ_map *nmap = &(wld.map);
 
   /* This function is now always omniscient and should not be used
    * for human players any more. */
@@ -484,7 +489,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   if (is_ferry) {
     /* The destination may be a coastal land tile,
      * in which case the ferry should stop on an adjacent tile. */
-    pft_fill_unit_overlap_param(parameter, punit);
+    pft_fill_unit_overlap_param(parameter, nmap, punit);
   } else if (!utype_fuel(unit_type_get(punit))
              && utype_can_do_action_result(unit_type_get(punit),
                                            ACTRES_ATTACK)
@@ -494,9 +499,9 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
                  || unit_data->task == AIUNIT_HUNTER)) {
     /* Use attack movement for defenders and escorts so they can
      * make defensive attacks */
-    pft_fill_unit_attack_param(parameter, punit);
+    pft_fill_unit_attack_param(parameter, nmap, punit);
   } else {
-    pft_fill_unit_parameter(parameter, punit);
+    pft_fill_unit_parameter(parameter, nmap, punit);
   }
   parameter->omniscience = !has_handicap(pplayer, H_MAP);
 

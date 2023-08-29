@@ -460,7 +460,7 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
   /* Closest worker, if any, headed towards target tile */
   struct unit *enroute = NULL;
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   parameter.get_TB = autosettler_tile_behavior;
   pfm = pf_map_new(&parameter);
@@ -836,8 +836,9 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
   struct worker_task *best = NULL;
   struct city *taskcity = NULL;
   int dist = FC_INFINITY;
+  const struct civ_map *nmap = &(wld.map);
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   parameter.get_TB = autosettler_tile_behavior;
   pfm = pf_map_new(&parameter);
@@ -1083,7 +1084,7 @@ bool auto_settler_setup_work(const struct civ_map *nmap,
              TILE_XY(best_tile));
 
     if (!path) {
-      pft_fill_unit_parameter(&parameter, punit);
+      pft_fill_unit_parameter(&parameter, nmap, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
       parameter.get_TB = autosettler_tile_behavior;
       pfm = pf_map_new(&parameter);

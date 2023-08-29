@@ -648,6 +648,7 @@ void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
   struct unit *ghost;
   int maxrange;
   struct city *wonder_city = game_city_by_number(adv->wonder_city);
+  const struct civ_map *nmap = &(wld.map);
 
   city_list_iterate(pplayer->cities, acity) {
     /* Mark unavailable */
@@ -671,7 +672,7 @@ void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
   ghost = unit_virtual_create(pplayer, wonder_city, punittype, 0);
   maxrange = unit_move_rate(ghost) * 7;
 
-  pft_fill_unit_parameter(&parameter, ghost);
+  pft_fill_unit_parameter(&parameter, nmap, ghost);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
