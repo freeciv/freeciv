@@ -362,7 +362,8 @@ static void consider_settler_action(const struct player *pplayer,
     }
 
     /* At least one of the previous best or current tile is in use
-     * Prefer the tile that gets improved more, regarless of the resulting total */
+     * Prefer the tile that gets improved more, regardless of
+     * the resulting total */
 
     base_value = new_tile_value - old_tile_value;
     total_value = base_value * WORKER_FACTOR;
