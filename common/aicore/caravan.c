@@ -193,7 +193,7 @@ int caravan_result_compare(const struct caravan_result *a,
 
 /************************************************************************//**
   We use the path finding in several places.
-  This provides a single implementation of that.  It is critical that
+  This provides a single implementation of that. It is critical that
   this function be re-entrant since we call it recursively.
 
   The callback should return TRUE if it wants to stop searching,
@@ -213,11 +213,12 @@ static void caravan_search_from(const struct unit *caravan,
   struct pf_map *pfm;
   struct pf_parameter pfparam;
   int end_time;
+  const struct civ_map *nmap = &(wld.map);
 
   end_time = param->horizon - turns_before;
 
   /* Initialize the pf run. */
-  pft_fill_unit_parameter(&pfparam, (struct unit *) caravan);
+  pft_fill_unit_parameter(&pfparam, nmap, (struct unit *) caravan);
   pfparam.start_tile = start_tile;
   pfparam.moves_left_initially = moves_left_before;
   pfparam.omniscience = omniscient;
@@ -228,7 +229,7 @@ static void caravan_search_from(const struct unit *caravan,
      otherwise, run the callback if we're on a city.
      Do-while loop rather than while loop to make sure to process the
      start tile.
-   */
+  */
   pf_map_positions_iterate(pfm, pos, TRUE) {
     struct city *pcity;
 

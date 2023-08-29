@@ -468,6 +468,8 @@ static void do_upgrade_effects(struct player *pplayer)
 **************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* 1) get Leonardo out of the way first: */
   do_upgrade_effects(pplayer);
 
@@ -512,12 +514,11 @@ void player_restore_units(struct player *pplayer)
         if (carrier) {
           unit_transport_load_tp_status(punit, carrier, FALSE);
         } else {
-          bool alive = true;
-
           struct pf_map *pfm;
           struct pf_parameter parameter;
+          bool alive = TRUE;
 
-          pft_fill_unit_parameter(&parameter, punit);
+          pft_fill_unit_parameter(&parameter, nmap, punit);
           parameter.omniscience = !has_handicap(pplayer, H_MAP);
           pfm = pf_map_new(&parameter);
 

@@ -1226,6 +1226,7 @@ static void process_attacker_want(struct ai_type *ait,
   int needferry = 0;
   bool unhap = dai_assess_military_unhappiness(pcity);
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+  const struct civ_map *nmap = &(wld.map);
 
   /* Has to be initialized to make gcc happy */
   struct ai_city *acity_data = NULL;
@@ -1295,7 +1296,7 @@ static void process_attacker_want(struct ai_type *ait,
 
       attack *= attack;
 
-      pft_fill_utype_parameter(&parameter, punittype, city_tile(pcity),
+      pft_fill_utype_parameter(&parameter, nmap, punittype, city_tile(pcity),
                                pplayer);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
       pfm = pf_map_new(&parameter);

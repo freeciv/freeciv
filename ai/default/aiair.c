@@ -94,8 +94,9 @@ static struct tile *find_nearest_airbase(struct unit *punit,
   struct tile *best = NULL;
   int lost_hp = unit_type_get(punit)->hp - punit->hp;
   int best_regt = FC_INFINITY;
+  const struct civ_map *nmap = &(wld.map);
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
@@ -253,8 +254,9 @@ static adv_want find_something_to_bomb(struct ai_type *ait, struct unit *punit,
   struct pf_map *pfm;
   struct tile *best_tile = NULL;
   adv_want best = 0;
+  const struct civ_map *nmap = &(wld.map);
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
@@ -329,6 +331,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
   int regen_turns_min = FC_INFINITY;
   bool defend = FALSE; /* Used only for lost_hp > 0 */
   bool refuel_start = FALSE; /* Used for not a "grave danger" start */
+  const struct civ_map *nmap = &(wld.map);
 
   /* Consider staying at the current position
    * before we generate the map, maybe we should not */
@@ -373,7 +376,8 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
       refuel_start = TRUE;
     }
   }
-  pft_fill_unit_parameter(&parameter, punit);
+
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {

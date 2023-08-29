@@ -131,8 +131,9 @@ static bool explorer_goto(struct unit *punit, struct tile *ptile)
   struct pf_map *pfm;
   struct pf_path *path;
   struct player *pplayer = unit_owner(punit);
+  const struct civ_map *nmap = &(wld.map);
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   parameter.get_TB = explorer_tb;
   adv_avoid_risks(&parameter, &risk_cost, punit, NORMAL_STACKING_FEARFULNESS);
@@ -158,7 +159,7 @@ static bool explorer_goto(struct unit *punit, struct tile *ptile)
 /**********************************************************************//**
   Return a value indicating how desirable it is to explore the given tile.
   In general, we want to discover unknown terrain of the opposite kind to
-  our natural terrain, i.e. pedestrians like ocean and boats like land.
+  our natural terrain, i.e., pedestrians like ocean and boats like land.
   Even if terrain is known, but of opposite kind, we still want it
   -- so that we follow the shoreline.
   We also would like discovering tiles which can be harvested by our cities --
@@ -261,7 +262,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Handle eXplore mode of a unit (explorers are always in eXplore mode 
+  Handle eXplore mode of a unit (explorers are always in eXplore mode
   for AI) - explores unknown territory, finds huts.
 
   MR_OK: there is more territory to be explored.
@@ -285,7 +286,7 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
    * order to be better than the current most_desirable tile. */
   int max_dist = FC_INFINITY;
 
-  /* Coordinates of most desirable tile. Initialized to make 
+  /* Coordinates of most desirable tile. Initialized to make
    * compiler happy. Also MC to the best tile. */
   struct tile *best_tile = NULL;
   int best_MC = FC_INFINITY;
@@ -293,6 +294,8 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
   /* Path-finding stuff */
   struct pf_map *pfm;
   struct pf_parameter parameter;
+
+  const struct civ_map *nmap = &(wld.map);
 
 #define DIST_FACTOR   0.6
 
@@ -303,12 +306,13 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
 
   if (!is_human(pplayer) && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
     UNIT_LOG(LOG_DEBUG, punit, "exploration too dangerous!");
+
     return MR_BAD_ACTIVITY; /* too dangerous */
   }
 
   TIMING_LOG(AIT_EXPLORER, TIMER_START);
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.get_TB = no_fights_or_unknown;
   /* When exploring, even AI should pretend to not cheat. */
   parameter.omniscience = FALSE;

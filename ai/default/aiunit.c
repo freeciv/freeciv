@@ -528,8 +528,9 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   /* Want of the best target */
   int max_want = 0;
   struct player *pplayer = unit_owner(punit);
- 
-  pft_fill_unit_attack_param(&parameter, punit);
+  const struct civ_map *nmap = &(wld.map);
+
+  pft_fill_unit_attack_param(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   /* When trying to find rampage targets we ignore risks such as
    * enemy units because we are looking for trouble!
@@ -721,6 +722,7 @@ adv_want look_for_charge(struct ai_type *ait, struct player *pplayer,
   int def, best_def = -1;
   /* Arbitrary: 3 turns. */
   const int max_move_cost = 3 * unit_move_rate(punit);
+  const struct civ_map *nmap = &(wld.map);
 
   *aunit = NULL;
   *acity = NULL;
@@ -730,7 +732,7 @@ adv_want look_for_charge(struct ai_type *ait, struct player *pplayer,
     return 0;
   }
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
@@ -1275,7 +1277,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   bcost = unit_build_shield_cost_base(punit);
   bcost_bal = build_cost_balanced(punit_type);
 
-  pft_fill_unit_attack_param(&parameter, punit);
+  pft_fill_unit_attack_param(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   punit_map = pf_map_new(&parameter);
 
@@ -1302,7 +1304,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
 
   if (NULL != ferryboat) {
     boattype = unit_type_get(ferryboat);
-    pft_fill_unit_overlap_param(&parameter, ferryboat);
+    pft_fill_unit_overlap_param(&parameter, nmap, ferryboat);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     ferry_map = pf_map_new(&parameter);
   } else {
@@ -1313,8 +1315,8 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
     }
     if (NULL != boattype && harbor) {
       /* Let's simulate a boat at 'punit' position. */
-      pft_fill_utype_overlap_param(&parameter, boattype, punit_tile,
-                                   pplayer);
+      pft_fill_utype_overlap_param(&parameter, nmap, boattype,
+                                   punit_tile, pplayer);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
       ferry_map = pf_map_new(&parameter);
     } else {
@@ -1629,8 +1631,9 @@ struct city *find_nearest_safe_city(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity, *best_city = NULL;
   int best = FC_INFINITY, cur;
+  const struct civ_map *nmap = &(wld.map);
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 
@@ -2928,13 +2931,15 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   int move_cost, best_move_cost;
   int body_guards;
   bool alive = TRUE;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(leader);
 
-  if (0 == leader->moves_left
+  if (leader->moves_left == 0
       || (can_unit_survive_at_tile(&(wld.map), leader, leader_tile)
           && 1 < unit_list_size(leader_tile->units))) {
     unit_activity_handling(leader, ACTIVITY_SENTRY);
+
     return;
   }
 
@@ -2975,11 +2980,12 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   } unit_list_iterate_end;
 
   if (0 < body_guards) {
-    pft_fill_unit_parameter(&parameter, leader);
+    pft_fill_unit_parameter(&parameter, nmap, leader);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
 
-    /* Find the closest body guard. FIXME: maybe choose the strongest too? */
+    /* Find the closest body guard.
+     * FIXME: maybe choose the strongest too? */
     pf_map_tiles_iterate(pfm, ptile, FALSE) {
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == pplayer
@@ -3028,7 +3034,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
     return;
   }
 
-  pft_fill_unit_parameter(&parameter, worst_danger);
+  pft_fill_unit_parameter(&parameter, nmap, worst_danger);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
   best_move_cost = pf_map_move_cost(pfm, leader_tile);
@@ -3416,8 +3422,9 @@ bool dai_unit_can_strike_my_unit(const struct unit *attacker,
   const struct tile *ptarget = unit_tile(defender);
   int max_move_cost = attacker->moves_left;
   bool able_to_strike = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
-  pft_fill_unit_parameter(&parameter, attacker);
+  pft_fill_unit_parameter(&parameter, nmap, attacker);
   parameter.omniscience = !has_handicap(unit_owner(defender), H_MAP);
   pfm = pf_map_new(&parameter);
 

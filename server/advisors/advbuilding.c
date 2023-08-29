@@ -60,20 +60,21 @@ static void calculate_city_clusters(struct player *pplayer)
   struct unit_type *punittype;
   struct unit *ghost;
   int range;
+  const struct civ_map *nmap = &(wld.map);
 
   city_list_iterate(pplayer->cities, pcity) {
     pcity->server.adv->downtown = 0;
   } city_list_iterate_end;
 
   if (num_role_units(action_id_get_role(ACTION_HELP_WONDER)) == 0) {
-    return; /* ruleset has no help wonder unit */
+    return; /* Ruleset has no help wonder unit */
   }
 
   punittype = best_role_unit_for_player(pplayer,
       action_id_get_role(ACTION_HELP_WONDER));
 
-  if (!punittype) {
-    /* simulate future unit */
+  if (punittype == NULL) {
+    /* Simulate future unit */
     punittype = get_role_unit(action_id_get_role(ACTION_HELP_WONDER), 0);
   }
 
@@ -89,7 +90,7 @@ static void calculate_city_clusters(struct player *pplayer)
     struct adv_city *city_data = pcity->server.adv;
 
     unit_tile_set(ghost, pcity->tile);
-    pft_fill_unit_parameter(&parameter, ghost);
+    pft_fill_unit_parameter(&parameter, nmap, ghost);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
 
@@ -99,7 +100,7 @@ static void calculate_city_clusters(struct player *pplayer)
       if (move_cost > range) {
         break;
       }
-      if (!acity) {
+      if (acity == NULL) {
         continue;
       }
       if (city_owner(acity) == pplayer) {

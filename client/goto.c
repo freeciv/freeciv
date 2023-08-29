@@ -888,7 +888,7 @@ no_fights_or_unknown_goto(const struct tile *ptile,
 static void goto_fill_parameter_base(struct pf_parameter *parameter,
                                      const struct unit *punit)
 {
-  pft_fill_unit_parameter(parameter, punit);
+  pft_fill_unit_parameter(parameter, &(wld.map), punit);
 
   fc_assert(parameter->get_EC == NULL);
   fc_assert(parameter->get_TB == NULL);
