@@ -782,7 +782,10 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
 
   if (loss_remain > 0) {
     /* Take it out on workers */
-    loss_remain -= city_reduce_workers(pcity, loss_remain);
+#ifndef FREECIV_NDEBUG
+    loss_remain -=
+#endif /* FREECIV_NDEBUG */
+      city_reduce_workers(pcity, loss_remain);
   }
 
   /* Update citizens. */
@@ -837,7 +840,10 @@ void city_repair_size(struct city *pcity, int change)
     int need = change + city_reduce_specialists(pcity, -change);
 
     if (0 > need) {
-      need += city_reduce_workers(pcity, -need);
+#ifndef FREECIV_NDEBUG
+      need +=
+#endif /* FREECIV_NDEBUG */
+        city_reduce_workers(pcity, -need);
     }
 
     fc_assert_msg(0 == need,
