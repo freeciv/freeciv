@@ -171,6 +171,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
   struct unit_type *ut = best_role_unit(pcity, UTYF_DIPLOMAT);
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
   int expenses;
+  const struct civ_map *nmap = &(wld.map);
 
   dai_calc_data(pplayer, NULL, &expenses, NULL);
 
@@ -198,7 +199,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
       pplayer, pcity, ut,
       city_production_unit_veteran_level(pcity, ut));
 
-    pft_fill_unit_parameter(&parameter, punit);
+    pft_fill_unit_parameter(&parameter, nmap, punit);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     pfm = pf_map_new(&parameter);
 
@@ -709,7 +710,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
 
 /**************************************************************************//**
   If we are the only diplomat in a threatened city, defend against enemy
-  actions. The passive defense is set by game.diplchance.  The active
+  actions. The passive defense is set by game.diplchance. The active
   defense is to bribe units which end their move nearby. Our next trick is
   to look for enemy cities on our continent and do our diplomat things.
 
@@ -725,13 +726,14 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
   struct pf_map *pfm;
   struct pf_position pos;
   struct unit_ai *unit_data;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
   /* Generate map */
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
-  parameter.get_zoc = NULL; /* kludge */
+  parameter.get_zoc = NULL; /* Kludge */
   parameter.get_TB = no_intermediate_fights;
   pfm = pf_map_new(&parameter);
 
@@ -791,15 +793,15 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
     }
   }
 
-  /* We may need a new map now. Both because we cannot get paths from an 
+  /* We may need a new map now. Both because we cannot get paths from an
    * old map, and we need paths to move, and because fctd below requires
    * a new map for its iterator. */
   if (!same_pos(parameter.start_tile, unit_tile(punit))
       || unit_data->task == AIUNIT_NONE) {
     pf_map_destroy(pfm);
-    pft_fill_unit_parameter(&parameter, punit);
+    pft_fill_unit_parameter(&parameter, nmap, punit);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
-    parameter.get_zoc = NULL; /* kludge */
+    parameter.get_zoc = NULL; /* Kludge */
     parameter.get_TB = no_intermediate_fights;
     pfm = pf_map_new(&parameter);
   }

@@ -309,6 +309,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
   int target_sanity = target->id;
   struct pf_parameter parameter;
   struct pf_map *pfm;
+  const struct civ_map *nmap = &(wld.map);
 
   unit_list_iterate_safe(unit_tile(punit)->units, missile) {
     struct unit *sucker = NULL;
@@ -317,7 +318,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
         && utype_can_do_action(unit_type_get(missile),
                                ACTION_SUICIDE_ATTACK)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
-      pft_fill_unit_parameter(&parameter, punit);
+      pft_fill_unit_parameter(&parameter, nmap, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
       pfm = pf_map_new(&parameter);
 
@@ -444,7 +445,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
   fc_assert_ret_val(!is_barbarian(pplayer), 0);
   fc_assert_ret_val(pplayer->is_alive, 0);
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
 

@@ -44,21 +44,27 @@ struct pft_amphibious
 
 
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
+                             const struct civ_map *nmap,
                              const struct unit *punit);
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
+                                 const struct civ_map *nmap,
                                  const struct unit *punit);
 void pft_fill_unit_attack_param(struct pf_parameter *parameter,
+                                const struct civ_map *nmap,
                                 const struct unit *punit);
 
 void pft_fill_utype_parameter(struct pf_parameter *parameter,
+                              const struct civ_map *nmap,
                               const struct unit_type *punittype,
                               struct tile *pstart_tile,
                               struct player *pplayer);
 void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
+                                  const struct civ_map *nmap,
                                   const struct unit_type *punittype,
                                   struct tile *pstart_tile,
                                   struct player *pplayer);
 void pft_fill_utype_attack_param(struct pf_parameter *parameter,
+                                 const struct civ_map *nmap,
                                  const struct unit_type *punittype,
                                  struct tile *pstart_tile,
                                  struct player *pplayer);

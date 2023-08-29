@@ -885,6 +885,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
   struct player *pplayer = unit_owner(punit);
   struct unit *ferry = NULL;
   struct cityresult *cr1 = NULL, *cr2 = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(is_ai(pplayer), NULL);
   /* Only virtual units may use virtual boats: */
@@ -892,7 +893,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
 
   /* Phase 1: Consider building cities on our continent */
 
-  pft_fill_unit_parameter(&parameter, punit);
+  pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   cr1 = settler_map_iterate(ait, &parameter, punit, 0);
 
@@ -942,7 +943,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
     }
 
     fc_assert(dai_is_ferry(ferry, ait));
-    pft_fill_unit_overlap_param(&parameter, ferry);
+    pft_fill_unit_overlap_param(&parameter, nmap, ferry);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     parameter.get_TB = no_fights_or_unknown;
 

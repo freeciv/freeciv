@@ -502,6 +502,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
   struct pf_parameter param;
   struct pf_map *search_map;
   struct player *pplayer = unit_owner(punit);
+  const struct civ_map *nmap = &(wld.map);
 
   /* currently assigned ferry */
   int ferryboat = def_ai_unit_data(punit, ait)->ferryboat;
@@ -526,7 +527,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
     return 0;
   }
 
-  pft_fill_unit_parameter(&param, punit);
+  pft_fill_unit_parameter(&param, nmap, punit);
   param.omniscience = !has_handicap(pplayer, H_MAP);
   param.get_TB = no_fights_or_unknown;
   param.get_EC = sea_move;
@@ -954,8 +955,10 @@ static bool aiferry_findcargo(struct ai_type *ait, struct unit *pferry)
   /* Path-finding stuff */
   struct pf_map *pfm;
   struct pf_parameter parameter;
-  int passengers = dai_plr_data_get(ait, unit_owner(pferry), NULL)->stats.passengers;
+  int passengers = dai_plr_data_get(ait, unit_owner(pferry),
+                                    NULL)->stats.passengers;
   struct player *pplayer;
+  const struct civ_map *nmap = &(wld.map);
 
   if (passengers <= 0) {
     /* No passangers anywhere */
@@ -965,12 +968,12 @@ static bool aiferry_findcargo(struct ai_type *ait, struct unit *pferry)
   UNIT_LOG(LOGLEVEL_FERRY, pferry, "Ferryboat is looking for cargo.");
 
   pplayer = unit_owner(pferry);
-  pft_fill_unit_overlap_param(&parameter, pferry);
+  pft_fill_unit_overlap_param(&parameter, nmap, pferry);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   /* If we have omniscience, we use it, since paths to some places
-   * might be "blocked" by unknown.  We don't want to fight though */
+   * might be "blocked" by unknown. We don't want to fight though */
   parameter.get_TB = no_fights;
-  
+
   pfm = pf_map_new(&parameter);
   pf_map_tiles_iterate(pfm, ptile, TRUE) {
     unit_list_iterate(ptile->units, aunit) {
@@ -1023,10 +1026,11 @@ static bool aiferry_find_interested_city(struct ai_type *ait,
   int turns_horizon = FC_INFINITY;
   /* Future return value */
   bool needed = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   UNIT_LOG(LOGLEVEL_FERRY, pferry, "Ferry looking for a city that needs it");
 
-  pft_fill_unit_parameter(&parameter, pferry);
+  pft_fill_unit_parameter(&parameter, nmap, pferry);
   /* We are looking for our own cities, no need to look into the unknown */
   parameter.get_TB = no_fights_or_unknown;
   parameter.omniscience = FALSE;
