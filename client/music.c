@@ -30,6 +30,10 @@
 
 #include "music.h"
 
+
+static char *ms_summary = NULL;
+static char *ms_description = NULL;
+
 /**********************************************************************//**
   Start music suitable for current game situation
 **************************************************************************/
@@ -129,5 +133,72 @@ void musicspec_reread_callback(struct option *poption)
     start_menu_music("music_menu", NULL);
   } else {
     start_style_music();
+  }
+}
+
+/**********************************************************************//**
+  Load specified musicspec.
+
+  This is called from the audio code, and not the vice versa.
+**************************************************************************/
+struct section_file *musicspec_load(const char *ms_filename)
+{
+  struct section_file *tagfile = secfile_load(ms_filename, TRUE);
+
+  if (tagfile != NULL) {
+    const char *mstr;
+
+    mstr = secfile_lookup_str_default(tagfile, "", "musicspec.summary");
+    if (mstr[0] != '\0') {
+      size_t len;
+
+      /* Musicset summary found */
+      len = strlen(mstr);
+      ms_summary = fc_malloc(len + 1);
+      fc_strlcpy(ms_summary, mstr, len + 1);
+    } else {
+      /* No summary */
+      if (ms_summary != NULL) {
+        free(ms_summary);
+        ms_summary = NULL;
+      }
+    }
+
+    mstr = secfile_lookup_str_default(tagfile, "", "musicspec.description");
+    if (mstr[0] != '\0') {
+      size_t len;
+
+      /* Musicset description found */
+      len = strlen(mstr);
+      ms_description = fc_malloc(len + 1);
+      fc_strlcpy(ms_description, mstr, len + 1);
+    } else {
+      /* No summary */
+      if (ms_description != NULL) {
+        free(ms_description);
+        ms_description = NULL;
+      }
+    }
+  }
+
+  return tagfile;
+}
+
+/**********************************************************************//**
+  Close the musicspec.
+  Tagfile should refer to currently active musicspec as some data
+  is not retrievable from tagfile alone, but currently active music only.
+
+  This is called from the audio code, and not the vice versa.
+**************************************************************************/
+void musicspec_close(struct section_file *tagfile)
+{
+  if (tagfile != NULL) {
+    free(ms_summary);
+    ms_summary = NULL;
+    free(ms_description);
+    ms_description = NULL;
+
+    secfile_destroy(tagfile);
   }
 }
