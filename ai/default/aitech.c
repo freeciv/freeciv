@@ -75,8 +75,8 @@ static void dai_select_tech(struct ai_type *ait,
   struct research *presearch = research_get(pplayer);
   Tech_type_id newtech, newgoal;
   int num_cities_nonzero = MAX(1, city_list_size(pplayer->cities));
-  int values[MAX(A_LAST, A_UNSET + 1)];
-  int goal_values[MAX(A_LAST, A_UNSET + 1)];
+  int values[MAX(A_ARRAY_SIZE, A_UNSET + 1)];
+  int goal_values[MAX(A_ARRAY_SIZE, A_UNSET + 1)];
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
   Tech_type_id ac;
 
