@@ -148,7 +148,7 @@ void progress_bar::set_pixmap(int n)
 {
   struct sprite *sprite;
 
-  if (valid_advance_by_number(n)) {
+  if (valid_advance_by_number(n) && !is_future_tech(n)) {
     sprite = get_tech_sprite(tileset, n);
   } else {
     sprite = nullptr;
