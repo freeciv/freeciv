@@ -1,7 +1,3 @@
 /Makefile.in
 /meta_mpgui_qt.cpp
 /meta_mpgui_qt_worker.cpp
-/freeciv-mp-cli
-/freeciv-mp-gtk3
-/freeciv-mp-gtk4
-/freeciv-mp-qt
