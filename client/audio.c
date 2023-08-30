@@ -34,8 +34,9 @@
 #include "audio_none.h"
 #ifdef AUDIO_SDL
 #include "audio_sdl.h"
-#endif
+#endif /* AUDIO_SDL */
 #include "client_main.h"
+#include "music.h"
 #include "options.h"
 
 #include "audio.h"
@@ -283,7 +284,9 @@ void audio_real_init(const char *const soundset_name,
     /* We explicitly choose none plugin, silently skip the code below */
     log_verbose("Proceeding with sound support disabled.");
     ss_tagfile = NULL;
+    musicspec_close(ms_tagfile);
     ms_tagfile = NULL;
+
     return;
   }
   if (num_plugins_used == 1) {
@@ -293,7 +296,9 @@ void audio_real_init(const char *const soundset_name,
     log_normal(_("For sound support, install SDL2_mixer"));
     log_normal("http://www.libsdl.org/projects/SDL_mixer/index.html");
     ss_tagfile = NULL;
+    musicspec_close(ms_tagfile);
     ms_tagfile = NULL;
+
     return;
   }
   if (!soundset_name) {
@@ -316,7 +321,9 @@ void audio_real_init(const char *const soundset_name,
                "https://www.freeciv.org/wiki/Sounds");
     log_normal(_("Proceeding with sound support disabled."));
     ss_tagfile = NULL;
+    musicspec_close(ms_tagfile);
     ms_tagfile = NULL;
+
     return;
   }
   if (!(ss_tagfile = secfile_load(ss_filename, TRUE))) {
@@ -324,7 +331,7 @@ void audio_real_init(const char *const soundset_name,
               secfile_error());
     exit(EXIT_FAILURE);
   }
-  if (!(ms_tagfile = secfile_load(ms_filename, TRUE))) {
+  if (!(ms_tagfile = musicspec_load(ms_filename))) {
     log_fatal(_("Could not load music spec-file '%s':\n%s"), ms_filename,
               secfile_error());
     exit(EXIT_FAILURE);
@@ -661,7 +668,7 @@ void audio_shutdown(bool play_quit_tag)
     ss_tagfile = NULL;
   }
   if (NULL != ms_tagfile) {
-    secfile_destroy(ms_tagfile);
+    musicspec_close(ms_tagfile);
     ms_tagfile = NULL;
   }
 }

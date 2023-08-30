@@ -1926,7 +1926,8 @@ static struct client_option client_options[] = {
                          "this is the same as using the -m command-line "
                          "parameter. Use modpack installer utility to install "
                          "additional musicsets."),
-                      COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list, musicspec_reread_callback, 0),
+                      COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list,
+                      musicspec_reread_callback, 0),
   GEN_STR_LIST_OPTION(default_sound_plugin_name,
                       N_("Sound plugin"),
                       N_("If you have a problem with sound, try changing "
