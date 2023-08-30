@@ -525,10 +525,6 @@ int add_user_extra_flags_3_2(int start)
 {
   int i = 0;
 
-  /* TODO: Do we need "CleanAsPollution", or can we treat
-   *       it as the default while "CleanAsFallout" is special case? */
-  set_user_extra_flag_name(EF_USER_FLAG_1 + start + i++,
-                           "CleanAsPollution", NULL);
   set_user_extra_flag_name(EF_USER_FLAG_1 + start + i++,
                            "CleanAsFallout", NULL);
 
@@ -544,13 +540,6 @@ const char *rscompat_extra_rmcause_3_2(struct extra_type *pextra,
   const char *retname = old_name;
 
   if (!fc_strcasecmp("CleanPollution", old_name)) {
-    /* Don't give this flag to extras that have been using
-     * removal time not tied to terrain, so it won't get
-     * overridden by "ActivityTime" effects we also add. */
-    if (pextra->removal_time == 0) {
-      BV_SET(pextra->flags,
-             extra_flag_id_by_name("CleanAsPollution", fc_strcasecmp));
-    }
     retname = "Clean";
   }
 
@@ -740,12 +729,7 @@ void rscompat_action_enabler_adjust_3_2(struct rscompat_info *compat,
                                         struct action_enabler *enabler,
                                         const char *orig_name)
 {
-  if (!fc_strcasecmp("CleanAsPollution", orig_name)) {
-    requirement_vector_append(&enabler->target_reqs,
-                              req_from_str("ExtraFlag", "Local",
-                                           FALSE, TRUE, TRUE,
-                                           "CleanAsPollution"));
-  } else if (!fc_strcasecmp("CleanAsFallout", orig_name)) {
+  if (!fc_strcasecmp("CleanAsFallout", orig_name)) {
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("ExtraFlag", "Local",
                                            FALSE, TRUE, TRUE,
