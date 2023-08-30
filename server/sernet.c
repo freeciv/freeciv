@@ -839,17 +839,17 @@ enum server_events server_sniff_all_input(void)
       continue;
 #else  /* !FREECIV_HAVE_LIBREADLINE */
       ssize_t didget;
-      char *buffer = NULL; /* Must be NULL when calling getline() */
+      char *buffer;
 
 #ifdef HAVE_GETLINE
       size_t len = 0;
 
+      buffer = NULL; /* Must be NULL when calling getline() */
       didget = getline(&buffer, &len, stdin);
       if (didget >= 1) {
-        buffer[didget-1] = '\0'; /* overwrite newline character */
-        didget--;
-        log_debug("Got line: \"%s\" (%ld, %ld)", buffer,
-                  (long int) didget, (long int) len);
+        buffer[--didget] = '\0'; /* Overwrite newline character */
+        log_debug("Got line: \"%s\" (" SIZE_T_PRINTF ", " SIZE_T_PRINTF ")", buffer,
+                  didget, len);
       }
 #else  /* HAVE_GETLINE */
       buffer = malloc(BUF_SIZE + 1);
@@ -858,7 +858,7 @@ enum server_events server_sniff_all_input(void)
       if (didget > 0) {
         buffer[didget] = '\0';
       } else {
-        didget = -1; /* error or end-of-file: closing stdin... */
+        didget = -1; /* Error or end-of-file: closing stdin... */
       }
 #endif /* HAVE_GETLINE */
       if (didget < 0) {
@@ -877,7 +877,7 @@ enum server_events server_sniff_all_input(void)
     } else
 #endif /* !FREECIV_SOCKET_ZERO_NOT_STDIN */
 
-    {                             /* input from a player */
+    {                             /* Input from a player */
       for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
         struct connection *pconn = connections + i;
         int nb;
