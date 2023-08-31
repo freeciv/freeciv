@@ -913,7 +913,7 @@ static void real_info_city_report_dialog_update(void)
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
 
-      /* Producrion surplus */
+      /* Production surplus */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
       pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
