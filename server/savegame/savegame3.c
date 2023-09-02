@@ -3986,6 +3986,8 @@ static void sg_load_player_main(struct loaddata *loading,
     const char *sval = slist[i];
     enum plr_flag_id fid = plr_flag_id_by_name(sval, fc_strcasecmp);
 
+    sg_failure_ret(plr_flag_id_is_valid(fid), "Invalid player flag \"%s\".", sval);
+
     BV_SET(plr->flags, fid);
   }
   free(slist);
