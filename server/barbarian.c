@@ -492,7 +492,7 @@ static bool is_near_land(struct tile *tile0)
 }
 
 /**********************************************************************//**
-  Return this or a neighbouring tile that is free of any units
+  Return this or a neighboring tile that is free of any units
 **************************************************************************/
 static struct tile *find_empty_tile_nearby(struct tile *ptile)
 {
@@ -510,7 +510,7 @@ static struct tile *find_empty_tile_nearby(struct tile *ptile)
   1. It's not closer than MIN_UNREST_DIST and not further than 
      MAX_UNREST_DIST from the nearest city. City owner is called 'victim' 
      here.
-  2. The place or a neighbouring tile must be empty to deploy the units.
+  2. The place or a neighboring tile must be empty to deploy the units.
   3. If it's the sea it shouldn't be far from the land. (questionable)
   4. Place must be known to the victim
   5. The uprising chance depends also on the victim empire size, its

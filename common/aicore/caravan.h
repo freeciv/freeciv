@@ -93,7 +93,7 @@ struct caravan_parameter {
     bool account_for_broken_routes;
 
     /*
-     * Allow trading with allies and peaceful neighbours.
+     * Allow trading with allies and peaceful neighbors.
      * BUG: currently we only consider allies.
      */
     enum foreign_trade_limit allow_foreign_trade;

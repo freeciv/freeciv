@@ -800,7 +800,7 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
       if (NULL != powner
        && powner != pplayer
        && pplayers_in_peace(powner, pplayer)) {
-        /* Land theft does not make for good neighbours. */
+        /* Land theft does not make for good neighbors. */
         continue;
       }
     }

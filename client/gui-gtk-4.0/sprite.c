@@ -316,7 +316,7 @@ struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h)
 /************************************************************************//**
   Method returns the bounding box of a sprite. It assumes a rectangular
   object/mask. The bounding box contains the border (pixel which have
-  unset pixel as neighbours) pixel.
+  unset pixel as neighbors) pixel.
 ****************************************************************************/
 void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y)
