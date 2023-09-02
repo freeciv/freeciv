@@ -182,9 +182,9 @@ void tilespec_setup_city_icons(void)
   load_city_icon_surface(spr, big_colb, "city.colb");
   load_city_icon_surface(spr, pBIG_Face, "city.red_face");
   load_city_icon_surface(spr, big_coin_corr, "city.dark_coin");
-  load_city_icon_surface(spr, big_coin_upkeep, "city.unkeep_coin");
+  load_city_icon_surface(spr, big_coin_upkeep, "city.upkeep_coin");
 
-  /* small icon */
+  /* Small icon */
   load_city_icon_surface(spr, food, "city.small_food");
   load_city_icon_surface(spr, shield, "city.small_shield");
   load_city_icon_surface(spr, trade, "city.small_trade");
@@ -217,7 +217,7 @@ void tilespec_setup_city_icons(void)
 
   /* ================================================================= */
 
-  /* force reload citizens icons */
+  /* Force reload citizens icons */
   icons->style = 999;
 }
 
