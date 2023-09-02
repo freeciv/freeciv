@@ -233,6 +233,9 @@ static void help_ruleset_callback(GSimpleAction *action,
 static void help_tileset_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
+static void help_musicset_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 static void help_nations_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
@@ -977,6 +980,9 @@ static struct menu_entry_info menu_entries[] =
   { "HELP_TILESET", N_("About Current Tileset"),
     "help_tileset", NULL, MGROUP_SAFE,
     NULL, FALSE },
+  { "HELP_MUSICSET", N_("About Current Musicset"),
+    "help_musicset", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "HELP_NATIONS", N_("About Nations"),
     "help_nations", NULL, MGROUP_SAFE,
     NULL, FALSE },
@@ -1153,6 +1159,7 @@ const GActionEntry acts[] = {
   { "help_space_race", help_space_race_callback },
   { "help_ruleset", help_ruleset_callback },
   { "help_tileset", help_tileset_callback },
+  { "help_musicset", help_musicset_callback },
   { "help_nations", help_nations_callback },
   { "help_connecting", help_connecting_callback },
   { "help_controls", help_controls_callback },
@@ -1606,6 +1613,16 @@ static void help_tileset_callback(GSimpleAction *action,
                                   gpointer data)
 {
   popup_help_dialog_string(HELP_TILESET_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_MUSICSET" callback.
+****************************************************************************/
+static void help_musicset_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
+{
+  popup_help_dialog_string(HELP_MUSICSET_ITEM);
 }
 
 /************************************************************************//**
@@ -3255,6 +3272,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "HELP_SPACE_RACE");
   menu_entry_init(topmenu, "HELP_RULESET");
   menu_entry_init(topmenu, "HELP_TILESET");
+  menu_entry_init(topmenu, "HELP_MUSICSET");
   menu_entry_init(topmenu, "HELP_NATIONS");
   menu_entry_init(topmenu, "HELP_CONNECTING");
   menu_entry_init(topmenu, "HELP_CONTROLS");
