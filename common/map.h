@@ -270,8 +270,6 @@ void map_distance_vector(int *dx, int *dy, const struct tile *ptile0,
 int map_num_tiles(void);
 #define map_size_checked()  MAX(map_num_tiles() / 1000, 1)
 
-struct tile *rand_neighbour(const struct civ_map *nmap,
-                            const struct tile *ptile);
 struct tile *rand_map_pos(const struct civ_map *nmap);
 struct tile *rand_map_pos_filtered(const struct civ_map *nmap, void *data,
                                    bool (*filter)(const struct tile *ptile,

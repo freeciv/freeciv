@@ -224,6 +224,7 @@ void building_advisor(struct player *pplayer)
       if (is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
         value /= 2;
       }
+
       /* Downtown is the number of cities within a certain pf range.
        * These may be able to help with caravans. Also look at the whole
        * continent. */
@@ -235,10 +236,12 @@ void building_advisor(struct player *pplayer)
           value += adv->stats.cities[place] / 8;
         }
       }
+
       if (place >= 0 && adv->continents[place].threat > 0) {
-        /* We have threatening neighbours: -25% */
+        /* We have threatening neighbors: -25% */
         value -= value / 4;
       }
+
       /* Require that there is at least some neighbors for wonder helpers,
        * if ruleset supports it. */
       if (value > best_candidate_value
@@ -248,6 +251,7 @@ void building_advisor(struct player *pplayer)
         best_candidate_value = value;
       }
     } city_list_iterate_end;
+
     if (best_candidate) {
       CITY_LOG(LOG_DEBUG, best_candidate, "chosen as wonder-city!");
       adv->wonder_city = best_candidate->id;

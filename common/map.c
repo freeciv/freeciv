@@ -1047,7 +1047,7 @@ void base_map_distance_vector(int *dx, int *dy,
 
 /*******************************************************************//**
   Topology function to find the vector which has the minimum "real"
-  distance between the map positions (x0, y0) and (x1, y1).  If there is
+  distance between the map positions (x0, y0) and (x1, y1). If there is
   more than one vector with equal distance, no guarantee is made about
   which is found.
 
@@ -1058,8 +1058,8 @@ void base_map_distance_vector(int *dx, int *dy,
   (See also: real_map_distance, map_distance, and sq_map_distance.)
 
   With the standard topology the ranges of the return value are:
-    -map.xsize/2 <= dx <= map.xsize/2
-    -map.ysize   <  dy <  map.ysize
+    -map.xsize / 2 <= dx <= map.xsize / 2
+    -map.ysize     <  dy <  map.ysize
 ***********************************************************************/
 void map_distance_vector(int *dx, int *dy,
                          const struct tile *tile0,
@@ -1073,44 +1073,7 @@ void map_distance_vector(int *dx, int *dy,
 }
 
 /*******************************************************************//**
-  Random neighbouring square.
-***********************************************************************/
-struct tile *rand_neighbour(const struct civ_map *nmap,
-                            const struct tile *ptile)
-{
-  int n;
-  struct tile *tile1;
-
-  /* 
-   * list of all 8 directions 
-   */
-  enum direction8 dirs[8] = {
-    DIR8_NORTHWEST, DIR8_NORTH, DIR8_NORTHEAST, DIR8_WEST, DIR8_EAST,
-    DIR8_SOUTHWEST, DIR8_SOUTH, DIR8_SOUTHEAST
-  };
-
-  /* This clever loop by Trent Piepho will take no more than
-   * 8 tries to find a valid direction. */
-  for (n = 8; n > 0; n--) {
-    enum direction8 choice = (enum direction8) fc_rand(n);
-
-    /* this neighbour's OK */
-    tile1 = mapstep(nmap, ptile, dirs[choice]);
-    if (tile1) {
-      return tile1;
-    }
-
-    /* Choice was bad, so replace it with the last direction in the list.
-     * On the next iteration, one fewer choices will remain. */
-    dirs[choice] = dirs[n - 1];
-  }
-
-  fc_assert(FALSE);     /* Are we on a 1x1 map with no wrapping??? */
-  return NULL;
-}
-
-/*******************************************************************//**
-  Random square anywhere on the map.  Only normal positions (for which
+  Random square anywhere on the map. Only normal positions (for which
   is_normal_map_pos returns true) will be found.
 ***********************************************************************/
 struct tile *rand_map_pos(const struct civ_map *nmap)
@@ -1122,7 +1085,7 @@ struct tile *rand_map_pos(const struct civ_map *nmap)
 
 /*******************************************************************//**
   Give a random tile anywhere on the map for which the 'filter' function
-  returns TRUE.  Return FALSE if none can be found.  The filter may be
+  returns TRUE. Return FALSE if none can be found. The filter may be
   NULL if any position is okay; if non-NULL it shouldn't have any side
   effects.
 ***********************************************************************/
