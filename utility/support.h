@@ -148,6 +148,9 @@ int fc_strcasecmp(const char *str0, const char *str1);
 int fc_strncasecmp(const char *str0, const char *str1, size_t n);
 int fc_strncasequotecmp(const char *str0, const char *str1, size_t n);
 
+/* TODO: Make UTF-8 aware */
+#define fc_strncmp(_s1_, _s2_, _len_) strncmp(_s1_, _s2_, _len_)
+
 void fc_support_init(void);
 void fc_support_free(void);
 bool are_support_services_available(void);

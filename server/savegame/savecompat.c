@@ -393,15 +393,18 @@ static void compat_load_020400(struct loaddata *loading,
       /* This savefile contains known information in a sane format.
        * Just move any entries to where 2.4.x+ expect to find them. */
       struct section *map = secfile_section_by_name(loading->file, "map");
-      if (map) {
+
+      if (map != NULL) {
         entry_list_iterate(section_entries(map), pentry) {
           const char *name = entry_name(pentry);
-          if (strncmp(name, "kvb", 3) == 0) {
+
+          if (!fc_strncmp(name, "kvb", 3)) {
             /* Rename the "kvb..." entry to "k..." */
             char *name2 = fc_strdup(name), *newname = name2 + 2;
+
             *newname = 'k';
             /* Savefile probably contains existing "k" entries, which are bogus
-             * so we trash them */
+             * so we trash them. */
             secfile_entry_delete(loading->file, "map.%s", newname);
             entry_set_name(pentry, newname);
             FC_FREE(name2);

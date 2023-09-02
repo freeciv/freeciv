@@ -1066,7 +1066,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
           gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(network_password))));
       sz_strlcpy(reply.password,
           gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(network_confirm_password))));
-      if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
+      if (!fc_strncmp(reply.password, fc_password, MAX_LEN_NAME)) {
         fc_password[0] = '\0';
         send_packet_authentication_reply(&client.conn, &reply);
 

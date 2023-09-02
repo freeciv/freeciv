@@ -1290,13 +1290,13 @@ static bool scan_score_log(char *id)
     *ptr = '\0';
 
     if (line_nr == 1) {
-      if (strncmp(line, scorelog_magic, strlen(scorelog_magic)) != 0) {
+      if (fc_strncmp(line, scorelog_magic, strlen(scorelog_magic))) {
         log_error("[%s:%d] Bad file magic!", game.server.scorefile, line_nr);
         return FALSE;
       }
     }
 
-    if (strncmp(line, "id ", strlen("id ")) == 0) {
+    if (!fc_strncmp(line, "id ", strlen("id "))) {
       if (strlen(id) > 0) {
         log_error("[%s:%d] Multiple ID entries!", game.server.scorefile,
                   line_nr);
@@ -1311,7 +1311,7 @@ static bool scan_score_log(char *id)
       }
     }
 
-    if (strncmp(line, "turn ", strlen("turn ")) == 0) {
+    if (!fc_strncmp(line, "turn ", strlen("turn "))) {
       if (sscanf(line + strlen("turn "), "%d", &turn) != 1) {
         log_error("[%s:%d] Bad line (turn)!", game.server.scorefile,
                   line_nr);
@@ -1322,7 +1322,7 @@ static bool scan_score_log(char *id)
       score_log->last_turn = turn;
     }
 
-    if (strncmp(line, "addplayer ", strlen("addplayer ")) == 0) {
+    if (!fc_strncmp(line, "addplayer ", strlen("addplayer "))) {
       /* If you change this, be sure to adjust plr_name buffer size to
        * match longest possible string read. */
       if (3 != sscanf(line + strlen("addplayer "), "%d %d %s",
@@ -1361,7 +1361,7 @@ static bool scan_score_log(char *id)
       plrdata_slot_init(plrdata, plr_name);
     }
 
-    if (strncmp(line, "delplayer ", strlen("delplayer ")) == 0) {
+    if (!fc_strncmp(line, "delplayer ", strlen("delplayer "))) {
       if (2 != sscanf(line + strlen("delplayer "), "%d %d",
                       &turn, &plr_no)) {
         log_error("[%s:%d] Bad line (delplayer)!",

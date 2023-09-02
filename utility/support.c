@@ -230,7 +230,7 @@ int fc_strcasecmp(const char *str0, const char *str1)
 
 /************************************************************************//**
   Compare strings like strncmp(), but ignoring case.
-  ie, only compares first n chars. UTF8 aware.
+  i.e. only compares first n chars. UTF8 aware.
 ****************************************************************************/
 int fc_strncasecmp(const char *str0, const char *str1, size_t n)
 {

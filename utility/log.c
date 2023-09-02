@@ -451,8 +451,8 @@ static void log_real(enum log_level level, bool print_from_where,
     fs = stderr;
   }
 
-  if (level == prev_level && 0 == strncmp(msg, last_msg,
-                                          MAX_LEN_LOG_LINE - 1)) {
+  if (level == prev_level && !fc_strncmp(msg, last_msg,
+                                         MAX_LEN_LOG_LINE - 1)) {
     repeated++;
     if (repeated == next) {
       fc_snprintf(buf, sizeof(buf),

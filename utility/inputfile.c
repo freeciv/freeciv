@@ -382,14 +382,14 @@ static bool check_include(struct inputfile *inf)
     return FALSE;
   }
 
-  if (strncmp(astr_str(&inf->cur_line), include_prefix, len) != 0) {
+  if (fc_strncmp(astr_str(&inf->cur_line), include_prefix, len)) {
     return FALSE;
   }
 
-  /* from here, the include-line must be well formed */
-  /* keep inf->cur_line_pos accurate just so error messages are useful */
+  /* From here, the include-line must be well formed.
+   * Keep inf->cur_line_pos accurate just so error messages are useful */
 
-  /* skip any whitespace: */
+  /* Skip any whitespace: */
   inf->cur_line_pos = len;
   c = astr_str(&inf->cur_line) + len;
   while (*c != '\0' && fc_isspace(*c)) {
