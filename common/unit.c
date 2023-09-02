@@ -1388,15 +1388,30 @@ bool is_plr_zoc_srv(const struct player *pplayer, const struct tile *ptile0,
     if (pcity != NULL) {
       if (unit_list_size(ptile->units) > 0) {
         /* Occupied enemy city, it doesn't matter if units inside have
-         * UTYF_NOZOC or not. Fogged city is assumed to be occupied. */
+         * UTYF_NOZOC or not. */
         return FALSE;
       }
     } else {
       unit_list_iterate(ptile->units, punit) {
-        if (!unit_transported_server(punit)
-            && !pplayers_allied(unit_owner(punit), pplayer)
-            && !unit_has_type_flag(punit, UTYF_NOZOC)) {
-          return FALSE;
+        if (!pplayers_allied(unit_owner(punit), pplayer)
+            && !unit_has_type_flag(punit, UTYF_NOZOC)
+            && !unit_transported_server(punit)) {
+          bool hidden = FALSE;
+
+          /* We do NOT check the possibility that player is allied with an extra owner,
+           * and should thus see inside the extra.
+           * This is to avoid the situation where having an alliance with third player
+           * suddenly causes ZoC from a unit that would not cause it without the alliance. */
+          extra_type_list_iterate(unit_class_get(punit)->cache.hiding_extras, pextra) {
+            if (tile_has_extra(ptile, pextra)) {
+              hidden = TRUE;
+              break;
+            }
+          } extra_type_list_iterate_end;
+
+          if (!hidden) {
+            return FALSE;
+          }
         }
       } unit_list_iterate_end;
     }
