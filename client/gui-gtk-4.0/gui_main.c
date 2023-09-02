@@ -102,7 +102,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-4.0";
+const char *client_string = GUI_NAME_FULL;
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
@@ -1950,6 +1950,7 @@ static void activate_gui(GtkApplication *app, gpointer data)
   PangoFontDescription *toplevel_font_name;
   guint sig;
   GtkEventController *controller;
+  char window_name[1024];
 
   toplevel = gtk_application_window_new(app);
   if (vmode.width > 0 && vmode.height > 0) {
@@ -2000,7 +2001,8 @@ static void activate_gui(GtkApplication *app, gpointer data)
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
   }
 
-  gtk_window_set_title(GTK_WINDOW(toplevel), _("Freeciv"));
+  fc_snprintf(window_name, sizeof(window_name), _("Freeciv (%s)"), GUI_NAME_SHORT);
+  gtk_window_set_title(GTK_WINDOW(toplevel), window_name);
 
   g_signal_connect(toplevel, "close-request",
                    G_CALLBACK(quit_dialog_callback), NULL);
