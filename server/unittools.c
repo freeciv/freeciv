@@ -4889,11 +4889,8 @@ void random_movements(struct player *pplayer)
       int id = punit->id;
 
       while (moved && unit_is_alive(id) && punit->moves_left > 0) {
-        /* Search for random direction to move to mostly copied from
-         * rand_neighbour() */
-
         /*
-         * list of all 8 directions
+         * List of all 8 directions
          */
         enum direction8 dirs[8] = {
           DIR8_NORTHWEST, DIR8_NORTH, DIR8_NORTHEAST, DIR8_WEST, DIR8_EAST,
@@ -4908,7 +4905,8 @@ void random_movements(struct player *pplayer)
           struct tile *dest = mapstep(&(wld.map), curtile, dirs[choice]);
 
           if (dest != NULL) {
-            if (action_prob_possible(action_prob_vs_units(punit, ACTION_ATTACK, dest))) {
+            if (action_prob_possible(action_prob_vs_units(punit, ACTION_ATTACK,
+                                                          dest))) {
               if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
                                       "", ACTION_ATTACK, ACT_REQ_RULES)) {
                 moved = TRUE;
@@ -4917,21 +4915,25 @@ void random_movements(struct player *pplayer)
             }
 
             if (!moved) {
-              if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE, punit, dest, NULL)) {
-                if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
-                                        "", ACTION_UNIT_MOVE, ACT_REQ_RULES)) {
+              if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE, punit, dest,
+                                                 NULL)) {
+                if (unit_perform_action(pplayer, id, tile_index(dest),
+                                        NO_TARGET, "", ACTION_UNIT_MOVE,
+                                        ACT_REQ_RULES)) {
                   moved = TRUE;
                 }
-              } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2, punit, dest,
-                                                        NULL)) {
-                if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
-                                        "", ACTION_UNIT_MOVE2, ACT_REQ_RULES)) {
+              } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2,
+                                                        punit, dest, NULL)) {
+                if (unit_perform_action(pplayer, id, tile_index(dest),
+                                        NO_TARGET, "", ACTION_UNIT_MOVE2,
+                                        ACT_REQ_RULES)) {
                   moved = TRUE;
                 }
-              } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE3, punit, dest,
-                                                        NULL)) {
-                if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
-                                        "", ACTION_UNIT_MOVE3, ACT_REQ_RULES)) {
+              } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE3,
+                                                        punit, dest, NULL)) {
+                if (unit_perform_action(pplayer, id, tile_index(dest),
+                                        NO_TARGET, "", ACTION_UNIT_MOVE3,
+                                        ACT_REQ_RULES)) {
                   moved = TRUE;
                 }
               }
@@ -4939,8 +4941,9 @@ void random_movements(struct player *pplayer)
           }
 
           if (!moved) {
-            /* Choice was bad, so replace it with the last direction in the list.
-             * On the next iteration, one fewer choices will remain. */
+            /* Choice was bad, so replace it with the last direction
+             * in the list. On the next iteration, one fewer choice
+             * will remain. */
             dirs[choice] = dirs[n - 1];
           }
         }

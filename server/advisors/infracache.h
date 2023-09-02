@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,8 +31,8 @@ struct adv_city {
    */
   adv_want building_want[B_LAST];
 
-  int downtown;                 /* distance from neighbours, for locating
-                                   wonders wisely */
+  int downtown;                 /* Distance from neighbors, for locating
+                                 * wonders wisely */
 };
 
 void adv_city_alloc(struct city *pcity);
@@ -58,4 +58,4 @@ void adv_city_worker_rmextra_set(struct city *pcity, int city_tile_index,
 int adv_city_worker_rmextra_get(const struct city *pcity, int city_tile_index,
                                 const struct extra_type *pextra);
 
-#endif   /* FC__INFRACACHE_H */
+#endif /* FC__INFRACACHE_H */

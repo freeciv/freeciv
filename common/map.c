@@ -1083,44 +1083,6 @@ void map_distance_vector(int *dx, int *dy,
 }
 
 /*******************************************************************//**
-  Random neighbouring square.
-***********************************************************************/
-struct tile *rand_neighbour(const struct civ_map *nmap,
-                            const struct tile *ptile)
-{
-  int n;
-  struct tile *tile1;
-
-  /*
-   * List of all 8 directions
-   */
-  enum direction8 dirs[8] = {
-    DIR8_NORTHWEST, DIR8_NORTH, DIR8_NORTHEAST, DIR8_WEST, DIR8_EAST,
-    DIR8_SOUTHWEST, DIR8_SOUTH, DIR8_SOUTHEAST
-  };
-
-  /* This clever loop by Trent Piepho will take no more than
-   * 8 tries to find a valid direction. */
-  for (n = 8; n > 0; n--) {
-    enum direction8 choice = (enum direction8) fc_rand(n);
-
-    /* This neighbour is OK */
-    tile1 = mapstep(nmap, ptile, dirs[choice]);
-    if (tile1) {
-      return tile1;
-    }
-
-    /* Choice was bad, so replace it with the last direction in the list.
-     * On the next iteration, one fewer choices will remain. */
-    dirs[choice] = dirs[n - 1];
-  }
-
-  fc_assert(FALSE);     /* Are we on a 1x1 map with no wrapping??? */
-
-  return nullptr;
-}
-
-/*******************************************************************//**
   Random square anywhere on the map. Only normal positions (for which
   is_normal_map_pos() returns TRUE) will be found.
 ***********************************************************************/
