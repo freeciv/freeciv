@@ -59,9 +59,9 @@ static canvas *terrain_canvas(struct terrain *terrain,
                               enum extra_cause cause = EC_COUNT);
 
 /**********************************************************************//**
-  Popup the help dialog to get help on the given string topic.  Note
-  that the topic may appear in multiple sections of the help (it may
-  be both an improvement and a unit, for example).
+  Popup the help dialog to get help on the given string topic.
+  Note that the topic may appear in multiple sections of the help
+  (it may be both an improvement and a unit, for example).
 
   The given string should be untranslated.
 **************************************************************************/
@@ -810,6 +810,7 @@ void help_widget::set_topic(const help_item *topic)
     case HELP_MULTIPLIER:
     case HELP_RULESET:
     case HELP_TILESET:
+    case HELP_MUSICSET:
     case HELP_TEXT:
       set_topic_other(topic, title);
       break;

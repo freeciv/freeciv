@@ -202,3 +202,19 @@ void musicspec_close(struct section_file *tagfile)
     secfile_destroy(tagfile);
   }
 }
+
+/**********************************************************************//**
+  Return summary of the current musicset. Can be NULL.
+**************************************************************************/
+const char *current_musicset_summary(void)
+{
+  return ms_summary;
+}
+
+/**********************************************************************//**
+  Return description of the current musicset. Can be NULL.
+**************************************************************************/
+const char *current_musicset_description(void)
+{
+  return ms_description;
+}

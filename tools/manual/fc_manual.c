@@ -54,6 +54,7 @@
 #include "climisc.h"
 #include "helpdata.h"
 #include "helpdlg_g.h"
+#include "music.h"
 #include "tilespec.h"
 
 /* server */
@@ -266,6 +267,22 @@ const char *tileset_summary(struct tileset *t)
   Client stub
 **************************************************************************/
 const char *tileset_description(struct tileset *t)
+{
+  return NULL;
+}
+
+/**********************************************************************//**
+  Client stub
+**************************************************************************/
+const char *current_musicset_summary(void)
+{
+  return NULL;
+}
+
+/**********************************************************************//**
+  Client stub
+**************************************************************************/
+const char *current_musicset_description(void)
 {
   return NULL;
 }
