@@ -1065,16 +1065,16 @@ static void connect_callback(GtkWidget *w, gpointer data)
           gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(network_password))));
       sz_strlcpy(reply.password,
           gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(network_confirm_password))));
-      if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
-	fc_password[0] = '\0';
-	send_packet_authentication_reply(&client.conn, &reply);
+      if (!fc_strncmp(reply.password, fc_password, MAX_LEN_NAME)) {
+        fc_password[0] = '\0';
+        send_packet_authentication_reply(&client.conn, &reply);
 
-	set_connection_state(WAITING_TYPE);
+        set_connection_state(WAITING_TYPE);
       } else {
-	append_network_statusbar(_("Passwords don't match, enter password."),
+        append_network_statusbar(_("Passwords don't match, enter password."),
                                  TRUE);
 
-	set_connection_state(NEW_PASSWORD_TYPE);
+        set_connection_state(NEW_PASSWORD_TYPE);
       }
     }
     return;

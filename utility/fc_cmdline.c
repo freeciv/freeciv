@@ -57,9 +57,9 @@ char *get_option_malloc(const char *option_name,
     cmdline_values = cmdline_value_list_new();
   }
 
-  if (strcmp(option_name, argv[*i]) == 0
-      || (strncmp(option_name, argv[*i], len) == 0 && argv[*i][len] == '=')
-      || strncmp(option_name + 1, argv[*i], 2) == 0) {
+  if (!strcmp(option_name, argv[*i])
+      || (!fc_strncmp(option_name, argv[*i], len) && argv[*i][len] == '=')
+      || !fc_strncmp(option_name + 1, argv[*i], 2)) {
     char *opt = argv[*i] + (argv[*i][1] != '-' ? 0 : len);
     char *ret;
 
@@ -111,8 +111,8 @@ void cmdline_option_values_free(void)
 **************************************************************************/
 bool is_option(const char *option_name, char *option)
 {
-  return (strcmp(option_name, option) == 0
-          || strncmp(option_name + 1, option, 2) == 0);
+  return (!strcmp(option_name, option)
+          || !fc_strncmp(option_name + 1, option, 2));
 }
 
 /**********************************************************************//**

@@ -1632,7 +1632,7 @@ void fc_client::slot_connect()
     sz_strlcpy(reply.password,
                ba_bytes.data());
 
-    if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
+    if (!fc_strncmp(reply.password, fc_password, MAX_LEN_NAME)) {
       fc_password[0] = '\0';
       send_packet_authentication_reply(&client.conn, &reply);
       set_connection_state(WAITING_TYPE);

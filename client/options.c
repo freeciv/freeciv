@@ -5713,7 +5713,7 @@ static void options_dialogs_load(struct section_file *sf)
   if (NULL != entries) {
     entry_list_iterate(entries, pentry) {
       for (prefix = prefixes; NULL != *prefix; prefix++) {
-        if (0 == strncmp(*prefix, entry_name(pentry), strlen(*prefix))
+        if (!fc_strncmp(*prefix, entry_name(pentry), strlen(*prefix))
             && secfile_lookup_bool(sf, &visible, "client.%s",
                                    entry_name(pentry))) {
           dialog_options_hash_replace(dialog_options_hash,

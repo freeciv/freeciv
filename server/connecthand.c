@@ -723,7 +723,7 @@ static bool connection_attach_real(struct connection *pconn,
   /* We don't want the connection's username on another player. */
   players_iterate(aplayer) {
     if (aplayer != pplayer
-        && 0 == strncmp(aplayer->username, pconn->username, MAX_LEN_NAME)) {
+        && !fc_strncmp(aplayer->username, pconn->username, MAX_LEN_NAME)) {
       sz_strlcpy(aplayer->username, _(ANON_USER_NAME));
       aplayer->unassigned_user = TRUE;
       send_player_info_c(aplayer, NULL);

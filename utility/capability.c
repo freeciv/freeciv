@@ -40,7 +40,7 @@
 
 /***********************************************************************//**
   This routine returns TRUE if the capability in cap appears
-  in the capability list in capstr.  The capabilities in capstr
+  in the capability list in capstr. The capabilities in capstr
   are allowed to start with a "+", but the capability in cap must not.
 ***************************************************************************/
 static bool fc_has_capability(const char *cap, const char *capstr,
@@ -60,7 +60,7 @@ static bool fc_has_capability(const char *cap, const char *capstr,
     fc_assert(next >= capstr);
 
     if (((size_t)(next - capstr) == cap_len)
-        && strncmp(cap, capstr, cap_len) == 0) {
+        && !fc_strncmp(cap, capstr, cap_len)) {
       return TRUE;
     }
     if (*next == '\0') {

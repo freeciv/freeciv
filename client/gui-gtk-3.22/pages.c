@@ -1046,25 +1046,25 @@ static void connect_callback(GtkWidget *w, gpointer data)
   case NEW_PASSWORD_TYPE:
     if (w != network_password) {
       sz_strlcpy(fc_password,
-	  gtk_entry_get_text(GTK_ENTRY(network_password)));
+                 gtk_entry_get_text(GTK_ENTRY(network_password)));
       sz_strlcpy(reply.password,
-	  gtk_entry_get_text(GTK_ENTRY(network_confirm_password)));
-      if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
-	fc_password[0] = '\0';
-	send_packet_authentication_reply(&client.conn, &reply);
+                 gtk_entry_get_text(GTK_ENTRY(network_confirm_password)));
+      if (!fc_strncmp(reply.password, fc_password, MAX_LEN_NAME)) {
+        fc_password[0] = '\0';
+        send_packet_authentication_reply(&client.conn, &reply);
 
-	set_connection_state(WAITING_TYPE);
+        set_connection_state(WAITING_TYPE);
       } else { 
-	append_network_statusbar(_("Passwords don't match, enter password."),
+        append_network_statusbar(_("Passwords don't match, enter password."),
                                  TRUE);
 
-	set_connection_state(NEW_PASSWORD_TYPE);
+        set_connection_state(NEW_PASSWORD_TYPE);
       }
     }
     return;
   case ENTER_PASSWORD_TYPE:
     sz_strlcpy(reply.password,
-	gtk_entry_get_text(GTK_ENTRY(network_password)));
+               gtk_entry_get_text(GTK_ENTRY(network_password)));
     send_packet_authentication_reply(&client.conn, &reply);
 
     set_connection_state(WAITING_TYPE);

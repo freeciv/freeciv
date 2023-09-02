@@ -1428,7 +1428,7 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
-  if (0 != strncmp(packet->scenario_name, game.scenario.name, 256)) {
+  if (fc_strncmp(packet->scenario_name, game.scenario.name, 256)) {
     sz_strlcpy(game.scenario.name, packet->scenario_name);
     changed = TRUE;
   }
@@ -1436,8 +1436,8 @@ void handle_edit_game(struct connection *pc,
   FC_STATIC_ASSERT(sizeof(packet->scenario_authors) == sizeof(game.scenario.authors),
                    scen_authors_field_size_mismatch);
 
-  if (0 != strncmp(packet->scenario_authors, game.scenario.authors,
-                   sizeof(game.scenario.authors))) {
+  if (fc_strncmp(packet->scenario_authors, game.scenario.authors,
+                 sizeof(game.scenario.authors))) {
     sz_strlcpy(game.scenario.authors, packet->scenario_authors);
     changed = TRUE;
   }
@@ -1483,8 +1483,8 @@ void handle_edit_game(struct connection *pc,
 ****************************************************************************/
 void handle_edit_scenario_desc(struct connection *pc, const char *scenario_desc)
 {
-  if (0 != strncmp(scenario_desc, game.scenario_desc.description,
-                   MAX_LEN_PACKET)) {
+  if (fc_strncmp(scenario_desc, game.scenario_desc.description,
+                 MAX_LEN_PACKET)) {
     sz_strlcpy(game.scenario_desc.description, scenario_desc);
     send_scenario_description(NULL);
   }

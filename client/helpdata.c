@@ -1080,9 +1080,9 @@ void boot_help_texts(void)
         bool inserted;
         const char *para = paras[i];
 
-        if (strncmp(para, "$", 1) == 0) {
-          inserted =
-            insert_generated_text(long_buffer, sizeof(long_buffer), para+1);
+        if (!fc_strncmp(para, "$", 1)) {
+          inserted
+            = insert_generated_text(long_buffer, sizeof(long_buffer), para+1);
         } else {
           sz_strlcat(long_buffer, _(para));
           inserted = TRUE;

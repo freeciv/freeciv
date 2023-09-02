@@ -734,7 +734,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           for (; *c != '\0' && is_legal_table_entry_name(*c, FALSE); c++) {
             /* nothing */
           }
-          if (0 != strncmp(c, "0.", 2)) {
+          if (fc_strncmp(c, "0.", 2)) {
             break;
           }
           c += 2;
@@ -753,7 +753,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
            */
           save_iter = ent_iter;
 
-          /* write the column names, and calculate ncol: */
+          /* Write the column names, and calculate ncol: */
           ncol = 0;
           col_iter = save_iter;
           for (; (col_pentry = entry_list_link_data(col_iter));
@@ -762,7 +762,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
               continue;
             }
             col_entry_name = entry_name(col_pentry);
-            if (strncmp(col_entry_name, first, offset) != 0) {
+            if (fc_strncmp(col_entry_name, first, offset)) {
               break;
             }
             fz_fprintf(fs, "%s\"%s\"", (ncol == 0 ? "" : ","),
@@ -772,7 +772,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           fz_fprintf(fs, "\n");
 
           /* Iterate over rows and columns, incrementing ent_iter as we go,
-           * and writing values to the table.  Have a separate iterator
+           * and writing values to the table. Have a separate iterator
            * to the column names to check they all match.
            */
           irow = icol = 0;
@@ -2883,7 +2883,7 @@ secfile_sections_by_name_prefix(const struct section_file *secfile,
   }
 
   section_list_iterate(secfile->sections, psection) {
-    if (0 == strncmp(section_name(psection), prefix, len)) {
+    if (!fc_strncmp(section_name(psection), prefix, len)) {
       if (NULL == matches) {
         matches = section_list_new();
       }
@@ -2911,7 +2911,7 @@ bool secfile_section_prefix_present(const struct section_file *secfile,
   }
 
   section_list_iterate(secfile->sections, psection) {
-    if (!strncmp(section_name(psection), prefix, len)) {
+    if (!fc_strncmp(section_name(psection), prefix, len)) {
       return TRUE;
     }
   } section_list_iterate_end;

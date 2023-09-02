@@ -926,16 +926,17 @@ static int convert_second_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pwidget->string_utf8->text != NULL
-        && !strncmp(fc_password, pwidget->string_utf8->text, MAX_LEN_NAME)) {
-      set_wstate(pwidget->prev, FC_WS_NORMAL); /* next button */
+        && !fc_strncmp(fc_password, pwidget->string_utf8->text,
+                       MAX_LEN_NAME)) {
+      set_wstate(pwidget->prev, FC_WS_NORMAL); /* Next button */
       widget_redraw(pwidget->prev);
       widget_flush(pwidget->prev);
     } else {
       memset(fc_password, 0, MAX_LEN_NAME);
       fc_password[0] = '\0';
 
-      FC_FREE(pwidget->next->string_utf8->text);/* first edit */
-      FC_FREE(pwidget->string_utf8->text); /* second edit */
+      FC_FREE(pwidget->next->string_utf8->text);/* First edit */
+      FC_FREE(pwidget->string_utf8->text); /* Second edit */
 
       popup_new_user_passwd_dialog(_("Passwords don't match, enter password."));
     }
