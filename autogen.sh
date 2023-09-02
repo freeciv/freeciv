@@ -236,10 +236,10 @@ cd "$SRCDIR"
 }
 
 # autoconf and autoheader version numbers must be kept in sync
-real_package_name "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 65 || DIE=1
-AUTOCONF=$REALPKGNAME
-real_package_name "autoheader" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 65 || DIE=1
-AUTOHEADER=$REALPKGNAME
+real_package_name "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 69 || DIE=1
+AUTOCONF="${REALPKGNAME}"
+real_package_name "autoheader" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 69 || DIE=1
+AUTOHEADER="${REALPKGNAME}"
 
 # automake and aclocal version numbers must be kept in sync
 real_package_name "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 13 || DIE=1
@@ -292,10 +292,10 @@ $ACLOCAL -I m4 -I dependencies/m4 $ACLOCAL_FLAGS || {
   echo "$ACLOCAL failed on libtool files run"
   exit 1
 }
-echo "+ running $AUTOCONF ... "
-$AUTOCONF || {
+echo "+ running ${AUTOCONF} ... "
+"${AUTOCONF}" || {
   echo
-  echo "$AUTOCONF failed"
+  echo "${AUTOCONF} failed"
   exit 1
 }
 echo "+ running $AUTOMAKE ... "

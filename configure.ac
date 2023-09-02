@@ -4,7 +4,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT([Freeciv], m4_esyscmd([./fc_version | tr -d '\n']),
         [https://osdn.net/projects/freeciv/ticket/],
         [freeciv], [https://www.freeciv.org/])
-AC_PREREQ(2.65)
+AC_PREREQ(2.69)
 
 if test "x$(pwd)" = "x$(cd $srcdir && pwd)" ; then
   AC_MSG_ERROR([Attempted to configure source directory. You have to use separate build dir])
