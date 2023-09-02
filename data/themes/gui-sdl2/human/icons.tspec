@@ -24,10 +24,9 @@ pixel_border = 1
 
 tiles = { "row", "column", "tag"
 
-; used by all city styles
+; Used by all city styles
 
   0,  0, "city.pollution"
-
 }
 
 [grid_city_resource]
@@ -50,8 +49,7 @@ tiles = { "row", "column", "tag"
   0,  5, "city.colb"
   1,  3, "city.red_face"
   1,  4, "city.dark_coin"
-  1,  5, "city.unkeep_coin"
-
+  1,  5, "city.upkeep_coin"
 }
 
 [grid_city_small_resource]
@@ -70,5 +68,4 @@ tiles = { "row", "column", "tag"
   1,  0, "city.small_lux"
   1,  1, "city.small_coin"
   1,  2, "city.small_colb"
-
 }
