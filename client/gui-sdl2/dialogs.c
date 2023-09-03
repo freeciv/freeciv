@@ -549,7 +549,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   add_to_gui_list(ID_BUTTON, buf);
   notify_dlg->begin_widget_list = buf;
 
-  pstr = create_utf8_from_char(headline, adj_font(16));
+  pstr = create_utf8_from_char_fonto(headline, FONTO_BIG);
   pstr->style |= TTF_STYLE_BOLD;
 
   headline_surf = create_text_surf_from_utf8(pstr);
@@ -3300,8 +3300,9 @@ void popup_races_dialog(struct player *pplayer)
   add_to_gui_list(ID_LABEL, pwidget);
 
   /* Create leader name edit */
-  pwidget = create_edit_from_chars(NULL, pwindow->dst,
-                                   NULL, adj_font(16), adj_size(200), 0);
+  pwidget = create_edit_from_chars_fonto(NULL, pwindow->dst,
+                                         NULL, FONTO_BIG,
+                                         adj_size(200), 0);
   pwidget->size.h = adj_size(24);
 
   set_wstate(pwidget, FC_WS_NORMAL);
