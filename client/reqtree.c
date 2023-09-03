@@ -642,7 +642,7 @@ static void set_layers(struct reqtree *tree)
   int i;
   int num_layers = 0;
   
-  /* count total number of layers */
+  /* Count total number of layers */
   for (i = 0; i < tree->num_nodes; i++) {
     num_layers = MAX(num_layers, tree->nodes[i]->layer);
   }
@@ -664,8 +664,8 @@ static void set_layers(struct reqtree *tree)
     }
 
     for (i = 0; i < num_layers; i++) {
-      tree->layers[i] =
-	  fc_malloc(sizeof(*tree->layers[i]) * tree->layer_size[i]);
+      tree->layers[i]
+        = fc_malloc(sizeof(*tree->layers[i]) * tree->layer_size[i]);
     }
     for (i = 0; i < tree->num_nodes; i++) {
       struct tree_node *node = tree->nodes[i];
@@ -700,38 +700,40 @@ static int cmp_func(const void *_a, const void *_b)
 
 /*********************************************************************//**
   Simple heuristic: Sort nodes on the given layer by the average x-value
-  of its' parents.
+  of its parents.
 *************************************************************************/
 static void barycentric_sort(struct reqtree *tree, int layer)
 {
-  struct node_and_float T[tree->layer_size[layer]];
-  int i, j;
-  float v;
+  if (tree->layer_size[layer] > 0) {
+    struct node_and_float T[tree->layer_size[layer]];
+    int i, j;
+    float v;
 
-  for (i = 0; i < tree->layer_size[layer]; i++) {
-    struct tree_node *node = tree->layers[layer][i];
+    for (i = 0; i < tree->layer_size[layer]; i++) {
+      struct tree_node *node = tree->layers[layer][i];
 
-    T[i].node = node;
-    v = 0.0;
-    for (j = 0; j < node->nrequire; j++) {
-      v += node->require[j]->order;
+      T[i].node = node;
+      v = 0.0;
+      for (j = 0; j < node->nrequire; j++) {
+        v += node->require[j]->order;
+      }
+      if (node->nrequire > 0) {
+        v /= (float) node->nrequire;
+      }
+      T[i].value = v;
     }
-    if (node->nrequire > 0) {
-      v /= (float) node->nrequire;
-    }
-    T[i].value = v;
-  }
-  qsort(T, tree->layer_size[layer], sizeof(*T),
-	cmp_func);
+    qsort(T, tree->layer_size[layer], sizeof(*T),
+          cmp_func);
 
-  for (i = 0; i < tree->layer_size[layer]; i++) {
-    tree->layers[layer][i] = T[i].node;
-    T[i].node->order = i;
+    for (i = 0; i < tree->layer_size[layer]; i++) {
+      tree->layers[layer][i] = T[i].node;
+      T[i].node->order = i;
+    }
   }
 }
 
 /*********************************************************************//**
-  Calculate number of edge crossings between layer and layer+1
+  Calculate number of edge crossings between layer and layer + 1
 *************************************************************************/
 static int count_crossings(struct reqtree *tree, int layer)
 {
@@ -829,7 +831,7 @@ static void improve(struct reqtree *tree)
 
 /*********************************************************************//**
   Generate optimized tech_tree from current ruleset.
-  You should free it by destroy_reqtree.
+  You should free it by destroy_reqtree().
 
   If pplayer is not NULL, techs unreachable to that player are not shown.
 *************************************************************************/
@@ -843,14 +845,14 @@ struct reqtree *create_reqtree(struct player *pplayer, bool show_all)
   tree2 = add_dummy_nodes(tree1);
   destroy_reqtree(tree1);
   set_layers(tree2);
-  
+
   /* It's good heuristics for beginning */
   for (j = 0; j < 20; j++) {
     for (i = 0; i < tree2->num_layers; i++) {
       barycentric_sort(tree2, i);
     }
   }
-  
+
   /* Now burn some CPU */
   for (j = 0; j < 20; j++) {
     improve(tree2);
