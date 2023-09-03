@@ -2478,11 +2478,10 @@ static void compat_load_dev(struct loaddata *loading)
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
-  log_debug("Upgrading data between development revisions");
+  log_verbose("Upgrading data between development revisions");
 
-  if (!secfile_lookup_int(loading->file, &game_version, "scenario.game_version")) {
-    game_version = 2060000;
-  }
+  sg_failure_ret(secfile_lookup_int(loading->file, &game_version, "scenario.game_version"),
+                 "No save version found");
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_2
 
@@ -2996,7 +2995,7 @@ static void compat_load_dev(struct loaddata *loading)
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_3
 
   if (game_version < 3029100) {
-    /* Before version number bump to 3.2.91 */
+    /* Before version number bump to 3.2.91, September 2023 */
 
     {
       const char *str = secfile_lookup_str_default(loading->file, NULL,
@@ -3233,6 +3232,11 @@ static void compat_load_dev(struct loaddata *loading)
     }
 
   } /* Version < 3.2.91 */
+
+  if (game_version < 3029200) {
+    /* Before version number bump to 3.2.92 */
+
+  } /* Version < 3.2.92 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_3 */
 }
