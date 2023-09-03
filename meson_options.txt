@@ -85,7 +85,7 @@ option('qtver',
 option('project-definition',
        type: 'string',
        value: '',
-       description: 'File with project defition')
+       description: 'File with project definition')
 
 option('min-win-ver',
        type: 'string',
