@@ -43,7 +43,7 @@
 #include "daiplayer.h"
 #include "daiunit.h"
 
-#include "aitech.h"
+#include "daitech.h"
 
 struct ai_tech_choice {
   Tech_type_id choice;        /* The id of the most needed tech */

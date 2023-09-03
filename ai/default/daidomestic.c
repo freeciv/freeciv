@@ -52,11 +52,11 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aitech.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
+#include "daitech.h"
 #include "daitools.h"
 
 #include "daidomestic.h"
@@ -65,7 +65,7 @@
 /***********************************************************************//**
   Evaluate the need for units (like caravans) that aid wonder construction.
   If another city is building wonder and needs help but pplayer is not
-  advanced enough to build caravans, the corresponding tech will be 
+  advanced enough to build caravans, the corresponding tech will be
   stimulated.
 ****************************************************************************/
 static void dai_choose_help_wonder(struct ai_type *ait,

@@ -54,13 +54,13 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aitech.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomacy.h"
 #include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
+#include "daitech.h"
 #include "daitools.h"
 
 #include "aihand.h"
@@ -68,9 +68,9 @@
 /*****************************************************************************
   A man builds a city
   With banks and cathedrals
-  A man melts the sand so he can 
+  A man melts the sand so he can
   See the world outside
-  A man makes a car 
+  A man makes a car
   And builds a road to run them on
   A man dreams of leaving
   but he always stays behind
