@@ -238,7 +238,7 @@ void popup_connection_dialog(bool lan_scan)
   area = label_window->area;
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Creating Server List..."));
-  pstr = create_utf8_from_char(cbuf, adj_font(16));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_BIG);
   pstr->style = TTF_STYLE_BOLD;
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
   new_widget = create_iconlabel(NULL, label_window->dst, pstr,
@@ -808,9 +808,10 @@ static void popup_user_passwd_dialog(const char *message)
   area.h += adj_size(10) + buf->size.h + adj_size(5);
 
   /* Password edit */
-  buf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
-                     adj_size(210),
-                     (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+  buf = create_edit(NULL, pwindow->dst,
+                    create_utf8_str_fonto(NULL, 0, FONTO_BIG),
+                    adj_size(210),
+                    (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_passwd_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_EDIT, buf);
@@ -977,18 +978,20 @@ static void popup_new_user_passwd_dialog(const char *message)
   area.h += adj_size(10) + buf->size.h + adj_size(5);
 
   /* Password edit */
-  buf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
-                     adj_size(210),
-                     (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+  buf = create_edit(NULL, pwindow->dst,
+                    create_utf8_str_fonto(NULL, 0, FONTO_BIG),
+                    adj_size(210),
+                    (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_first_passwd_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_EDIT, buf);
   area.h += buf->size.h + adj_size(5);
 
   /* Second password edit */
-  buf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
-                     adj_size(210),
-                     (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+  buf = create_edit(NULL, pwindow->dst,
+                    create_utf8_str_fonto(NULL, 0, FONTO_BIG),
+                    adj_size(210),
+                    (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_second_passwd_callback;
   add_to_gui_list(ID_EDIT, buf);
   area.h += buf->size.h + adj_size(10);
