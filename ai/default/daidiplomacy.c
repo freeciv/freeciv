@@ -1369,6 +1369,7 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
     } else {
       /* There would be Senate even during revolution. Better not to revolt for nothing */
       pplayer->government = real_gov;
+      adip->countdown = -1; /* War declaration aborted */
 
       DIPLO_LOG(ait, LOG_DEBUG, pplayer, target,
                 "Not revolting, as there would be Senate regardless.");
@@ -1382,6 +1383,8 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
     if (pplayer_can_cancel_treaty(pplayer, target) != DIPL_OK) {
       DIPLO_LOG(ait, LOG_ERROR, pplayer, target,
                 "Wanted to cancel treaty but was unable to.");
+      adip->countdown = -1; /* War declaration aborted */
+
       return;
     }
     handle_diplomacy_cancel_pact(pplayer, player_number(target), clause_type_invalid());
