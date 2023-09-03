@@ -707,38 +707,40 @@ static int cmp_func(const void *_a, const void *_b)
 
 /*********************************************************************//**
   Simple heuristic: Sort nodes on the given layer by the average x-value
-  of its' parents.
+  of its parents.
 *************************************************************************/
 static void barycentric_sort(struct reqtree *tree, int layer)
 {
-  struct node_and_float T[tree->layer_size[layer]];
-  int i, j;
-  float v;
+  if (tree->layer_size[layer] > 0) {
+    struct node_and_float T[tree->layer_size[layer]];
+    int i, j;
+    float v;
 
-  for (i = 0; i < tree->layer_size[layer]; i++) {
-    struct tree_node *node = tree->layers[layer][i];
+    for (i = 0; i < tree->layer_size[layer]; i++) {
+      struct tree_node *node = tree->layers[layer][i];
 
-    T[i].node = node;
-    v = 0.0;
-    for (j = 0; j < node->nrequire; j++) {
-      v += node->require[j]->order;
+      T[i].node = node;
+      v = 0.0;
+      for (j = 0; j < node->nrequire; j++) {
+        v += node->require[j]->order;
+      }
+      if (node->nrequire > 0) {
+        v /= (float) node->nrequire;
+      }
+      T[i].value = v;
     }
-    if (node->nrequire > 0) {
-      v /= (float) node->nrequire;
-    }
-    T[i].value = v;
-  }
-  qsort(T, tree->layer_size[layer], sizeof(*T),
-        cmp_func);
+    qsort(T, tree->layer_size[layer], sizeof(*T),
+          cmp_func);
 
-  for (i = 0; i < tree->layer_size[layer]; i++) {
-    tree->layers[layer][i] = T[i].node;
-    T[i].node->order = i;
+    for (i = 0; i < tree->layer_size[layer]; i++) {
+      tree->layers[layer][i] = T[i].node;
+      T[i].node->order = i;
+    }
   }
 }
 
 /*********************************************************************//**
-  Calculate number of edge crossings between layer and layer+1
+  Calculate number of edge crossings between layer and layer + 1
 *************************************************************************/
 static int count_crossings(struct reqtree *tree, int layer)
 {
