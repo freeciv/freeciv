@@ -172,6 +172,9 @@ static Uint16 fonto_ptsize(enum font_origin origin)
   case FONTO_HEADING:
     def = ptsize_default();
     return adj_font(MAX(def + 2, def * 1.4));
+  case FONTO_BIG:
+    def = ptsize_default();
+    return adj_font(MAX(def + 3, def * 1.6));
   }
 
   return 0;
