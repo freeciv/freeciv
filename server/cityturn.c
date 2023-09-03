@@ -749,7 +749,7 @@ static citizens city_reduce_workers(struct city *pcity, citizens change)
 }
 
 /**********************************************************************//**
-  Reduce the city size.  Return TRUE if the city survives the population
+  Reduce the city size. Return TRUE if the city survives the population
   loss. Even if the city has wrong sum of nationalities entering
   this function, leaves it with correct citizens.
 **************************************************************************/
@@ -910,7 +910,7 @@ static void city_reset_foodbox(struct city *pcity, int new_size,
   the city to the clients as part of this function. There might be several
   calls to this function at once, and those actions are needed only once.
 **************************************************************************/
-static bool city_increase_size(struct city *pcity, struct player *nationality)
+static bool city_increase_size(struct city *pcity)
 {
   int new_food;
   int savings_pct = city_growth_granary_savings(pcity);
@@ -919,7 +919,6 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
   const struct impr_type *pimprove = pcity->production.value.building;
-  int saved_id = pcity->id;
 
   if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
     /* Need improvement */
@@ -940,6 +939,7 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
                 * (100 * 100 - game.server.aqueductloss * (100 - savings_pct))
                 / (100 * 100));
     pcity->food_stock = MIN(pcity->food_stock, new_food);
+
     return FALSE;
   }
 
@@ -975,6 +975,21 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
     pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
   }
 
+  /* Deprecated signal. Connect your lua functions to "city_size_change" that's
+   * emitted from calling functions which know the 'reason' of the increase. */
+  script_server_signal_emit("city_growth", pcity, city_size_get(pcity));
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Do the city refresh after its size has increased, by any amount.
+**************************************************************************/
+static void city_refresh_after_city_size_increase(struct city *pcity,
+                                                  struct player *nationality)
+{
+  struct player *powner = city_owner(pcity);
+
   /* Update citizens. */
   citizens_update(pcity, nationality);
 
@@ -996,16 +1011,9 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
                 _("%s grows to size %d."),
                 city_link(pcity), city_size_get(pcity));
 
-  /* Deprecated signal. Connect your lua functions to "city_size_change" that's
-   * emitted from calling functions which know the 'reason' of the increase. */
-  script_server_signal_emit("city_growth", pcity, city_size_get(pcity));
-  if (city_exist(saved_id)) {
-    /* Script didn't destroy this city */
-    sanity_check_city(pcity);
-  }
-  sync_cities();
+  sanity_check_city(pcity);
 
-  return TRUE;
+  sync_cities();
 }
 
 /**********************************************************************//**
@@ -1019,18 +1027,26 @@ bool city_change_size(struct city *pcity, citizens size,
   if (change > 0) {
     int old_size = city_size_get(pcity);
     int real_change;
+    int current_size = city_size_get(pcity);
+    int id = pcity->id;
 
     /* Increase city size until size reached, or increase fails */
-    while (size > city_size_get(pcity)
-           && city_increase_size(pcity, nationality)) {
-      /* city_increase_size() does all the work. */
+    while (size > current_size && city_increase_size(pcity)) {
+      /* TODO: This is currently needed only because there's
+       *       deprecated script signal "city_growth" emitted.
+       *       Check the need after signal has been dropped completely. */
+      if (!city_exist(id)) {
+        return FALSE;
+      }
+
+      current_size++;
     }
 
-    real_change = city_size_get(pcity) - old_size;
+    city_refresh_after_city_size_increase(pcity, nationality);
+
+    real_change = current_size - old_size;
 
     if (real_change != 0 && reason != NULL) {
-      int id = pcity->id;
-
       script_server_signal_emit("city_size_change", pcity, real_change,
                                 reason);
 
@@ -1071,10 +1087,11 @@ static void city_populate(struct city *pcity, struct player *nationality)
     } else {
       bool success;
 
-      success = city_increase_size(pcity, nationality);
+      success = city_increase_size(pcity);
       map_claim_border(pcity->tile, pcity->owner, -1);
 
       if (success) {
+        city_refresh_after_city_size_increase(pcity, nationality);
         script_server_signal_emit("city_size_change", pcity, 1, "growth");
       }
     }
@@ -3897,7 +3914,6 @@ static bool do_city_migration(struct city *pcity_from,
   char name_from[MAX_LEN_LINK], name_to[MAX_LEN_LINK];
   const char *nation_from, *nation_to;
   struct city *rcity = NULL;
-  bool incr_success;
   int to_id = pcity_to->id;
 
   if (!pcity_from || !pcity_to) {
@@ -4089,10 +4105,12 @@ static bool do_city_migration(struct city *pcity_from,
                   name_from, nation_from, name_to);
   }
 
-  /* raise size of receiver city */
+  /* Increase size of receiver city */
   if (city_exist(to_id)) {
-    incr_success = city_increase_size(pcity_to, pplayer_citizen);
+    bool incr_success = city_increase_size(pcity_to);
+
     if (city_exist(to_id)) {
+      city_refresh_after_city_size_increase(pcity_to, pplayer_citizen);
       city_refresh_vision(pcity_to);
       if (city_refresh(pcity_to)) {
         auto_arrange_workers(pcity_to);
