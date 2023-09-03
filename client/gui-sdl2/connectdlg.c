@@ -247,7 +247,7 @@ void popup_connection_dialog(bool lan_scan)
   area = pLabelWindow->area;
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
-  pstr = create_utf8_from_char(cBuf, adj_font(16));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_BIG);
   pstr->style = TTF_STYLE_BOLD;
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
   pNewWidget = create_iconlabel(NULL, pLabelWindow->dst, pstr,
@@ -817,7 +817,8 @@ static void popup_user_passwd_dialog(const char *pMessage)
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
 
   /* Password edit */
-  pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  pBuf = create_edit(NULL, pWindow->dst,
+                     create_utf8_str_fonto(NULL, 0, FONTO_BIG),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_passwd_callback;
@@ -984,7 +985,8 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
 
   /* Password edit */
-  pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  pBuf = create_edit(NULL, pWindow->dst,
+                     create_utf8_str_fonto(NULL, 0, FONTO_BIG),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_first_passwd_callback;
@@ -993,7 +995,8 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area.h += pBuf->size.h + adj_size(5);
 
   /* Second password edit */
-  pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  pBuf = create_edit(NULL, pWindow->dst,
+                     create_utf8_str_fonto(NULL, 0, FONTO_BIG),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_second_passwd_callback;
