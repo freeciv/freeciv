@@ -30,6 +30,9 @@ void musicspec_reread_callback(struct option *poption);
 
 struct section_file *musicspec_load(const char *ms_filename);
 void musicspec_close(struct section_file *tagfile);
+
+const char *current_musicset_name(void);
+const char *current_musicset_version(void);
 const char *current_musicset_summary(void);
 const char *current_musicset_description(void);
 

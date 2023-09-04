@@ -31,8 +31,12 @@
 #include "music.h"
 
 
-static char *ms_summary = NULL;
-static char *ms_description = NULL;
+struct musicset {
+  char name[MAX_LEN_NAME];
+  char version[MAX_LEN_NAME];
+  char *summary;
+  char *description;
+} current_ms = { .summary = NULL, .description = NULL };
 
 /**********************************************************************//**
   Start music suitable for current game situation
@@ -148,19 +152,32 @@ struct section_file *musicspec_load(const char *ms_filename)
   if (tagfile != NULL) {
     const char *mstr;
 
+    mstr = secfile_lookup_str(tagfile, "musicspec.name");
+    /* Musicset name found */
+    sz_strlcpy(current_ms.name, mstr);
+
+    mstr = secfile_lookup_str_default(tagfile, "", "musicspec.version");
+    if (mstr[0] != '\0') {
+    /* Musicset version found */
+      sz_strlcpy(current_ms.version, mstr);
+    } else {
+      /* No version information */
+      current_ms.version[0] = '\0';
+    }
+
     mstr = secfile_lookup_str_default(tagfile, "", "musicspec.summary");
     if (mstr[0] != '\0') {
       size_t len;
 
       /* Musicset summary found */
       len = strlen(mstr);
-      ms_summary = fc_malloc(len + 1);
-      fc_strlcpy(ms_summary, mstr, len + 1);
+      current_ms.summary = fc_malloc(len + 1);
+      fc_strlcpy(current_ms.summary, mstr, len + 1);
     } else {
       /* No summary */
-      if (ms_summary != NULL) {
-        free(ms_summary);
-        ms_summary = NULL;
+      if (current_ms.summary != NULL) {
+        free(current_ms.summary);
+        current_ms.summary = NULL;
       }
     }
 
@@ -170,13 +187,13 @@ struct section_file *musicspec_load(const char *ms_filename)
 
       /* Musicset description found */
       len = strlen(mstr);
-      ms_description = fc_malloc(len + 1);
-      fc_strlcpy(ms_description, mstr, len + 1);
+      current_ms.description = fc_malloc(len + 1);
+      fc_strlcpy(current_ms.description, mstr, len + 1);
     } else {
-      /* No summary */
-      if (ms_description != NULL) {
-        free(ms_description);
-        ms_description = NULL;
+      /* No Description */
+      if (current_ms.description != NULL) {
+        free(current_ms.description);
+        current_ms.description = NULL;
       }
     }
   }
@@ -194,13 +211,33 @@ struct section_file *musicspec_load(const char *ms_filename)
 void musicspec_close(struct section_file *tagfile)
 {
   if (tagfile != NULL) {
-    free(ms_summary);
-    ms_summary = NULL;
-    free(ms_description);
-    ms_description = NULL;
+    free(current_ms.summary);
+    current_ms.summary = NULL;
+    free(current_ms.description);
+    current_ms.description = NULL;
 
     secfile_destroy(tagfile);
   }
+}
+
+/**********************************************************************//**
+  Return name of the current musicset.
+**************************************************************************/
+const char *current_musicset_name(void)
+{
+  return current_ms.name;
+}
+
+/**********************************************************************//**
+  Return version of the current musicset. Can be NULL.
+**************************************************************************/
+const char *current_musicset_version(void)
+{
+  if (current_ms.version[0] == '\0') {
+    return NULL;
+  }
+
+  return current_ms.version;
 }
 
 /**********************************************************************//**
@@ -208,7 +245,7 @@ void musicspec_close(struct section_file *tagfile)
 **************************************************************************/
 const char *current_musicset_summary(void)
 {
-  return ms_summary;
+  return current_ms.summary;
 }
 
 /**********************************************************************//**
@@ -216,5 +253,5 @@ const char *current_musicset_summary(void)
 **************************************************************************/
 const char *current_musicset_description(void)
 {
-  return ms_description;
+  return current_ms.description;
 }

@@ -2,6 +2,12 @@
 ; Format and options of this spec file:
 options = "+Freeciv-musicspec-3.2-Devel-2023-Jun-03"
 
+; A simple name for the musicset specified by this file:
+name = "Stdmusic"
+
+; There`s no separate versioning in musicsets part of main freeciv distribution
+;version = ""
+
 [info]
 artists = "\
 "
