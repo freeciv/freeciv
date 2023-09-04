@@ -14,11 +14,23 @@ else
 endif
 
 c_args = [
-  '-Wno-nonnull-compare'
+  '-Wno-nonnull-compare',
+  '-Wnested-externs'
   ]
 
 c_cpp_args = [
-  '-Wmissing-declarations'
+  '-Wall',
+  '-Wmissing-declarations',
+  '-Wpointer-arith',
+  '-Wcast-align',
+  '-Wmissing-prototypes',
+  '-Wmissing-declarations',
+  '-Wformat',
+  '-Wformat-security',
+  '-Wshadow',
+  '-Wold-style-declaration',
+  '-Wold-style-definition',
+  '-Wtype-limits'
   ]
 
 foreach arg : c_args
