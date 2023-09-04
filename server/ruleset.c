@@ -3891,7 +3891,8 @@ static bool load_ruleset_terrain(struct section_file *file,
         const char *sval = slist[j];
         enum extra_flag_id flag;
 
-        if (compat->compat_mode && !fc_strcasecmp("NoAggressive", sval)) {
+        if (compat->compat_mode && compat->version < RSFORMAT_3_2
+            && !fc_strcasecmp("NoAggressive", sval)) {
           if (pextra->no_aggr_near_city >= 0) {
             ruleset_error(NULL, LOG_ERROR,
                           "\"%s\" extra \"%s\" has both no_aggr_near_city set and old style "
