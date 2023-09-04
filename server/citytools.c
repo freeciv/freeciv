@@ -1672,7 +1672,7 @@ bool create_city_for_player(struct player *pplayer, struct tile *ptile,
                             const char *name)
 {
   if (is_enemy_unit_tile(ptile, pplayer)
-      || !city_can_be_built_here(ptile, NULL)) {
+      || !city_can_be_built_here(ptile, NULL, FALSE)) {
     return FALSE;
   }
 
