@@ -1167,13 +1167,17 @@ int api_methods_tile_sq_distance(lua_State *L, Tile *ptile1, Tile *ptile2)
 
 /**********************************************************************//**
   Can punit found a city on its tile?
+
+  FIXME: Unlike name suggests, this is currently used for finding
+         cities from huts and the like, and is not suitable for checking
+         if specified unit could act to build a city.
 **************************************************************************/
 bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, punit, FALSE);
 
-  return city_can_be_built_here(unit_tile(punit), punit);
+  return city_can_be_built_here(unit_tile(punit), punit, TRUE);
 }
 
 /**********************************************************************//**

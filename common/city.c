@@ -1438,8 +1438,11 @@ bool citymindist_prevents_city_on_tile(const struct tile *ptile)
   blue (e.g., through editing).
 **************************************************************************/
 bool city_can_be_built_here(const struct tile *ptile,
-                            const struct unit *punit)
+                            const struct unit *punit,
+                            bool hut_test)
 {
+  struct civ_map *nmap = &(wld.map);
+
   if (!city_can_be_built_tile_only(ptile)) {
     return FALSE;
   }
@@ -1449,6 +1452,25 @@ bool city_can_be_built_here(const struct tile *ptile,
     return TRUE;
   }
 
+  if (hut_test) {
+    struct player *towner;
+
+    /* Huts can be found only from native tiles, owned by the unit owner.
+     * Unlike actual city building, this behavior is not affected
+     * by the ruleset. */
+    if (!can_unit_exist_at_tile(nmap, punit, ptile)) {
+      return FALSE;
+    }
+
+    towner = tile_owner(ptile);
+
+    if (towner == NULL || towner == unit_owner(punit)) {
+      return TRUE;
+    }
+
+    return FALSE;
+  }
+
   action_by_result_iterate(paction, ACTRES_FOUND_CITY) {
     if (!utype_can_do_action(unit_type_get(punit), paction->id)) {
       /* This action can't be done by this unit type at all. */
@@ -1456,7 +1478,7 @@ bool city_can_be_built_here(const struct tile *ptile,
     }
 
     /* Non native tile detection */
-    if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
+    if (!can_unit_exist_at_tile(nmap, punit, ptile)
         /* The ruleset may allow founding cities on non native terrain. */
         && !utype_can_do_act_when_ustate(unit_type_get(punit), paction->id,
                                          USP_LIVABLE_TILE, FALSE)) {
