@@ -455,7 +455,7 @@ static bool is_req_knowable(const struct player *pow_player,
         && (req->range == REQ_RANGE_PLAYER
             || req->range == REQ_RANGE_TEAM
             || req->range == REQ_RANGE_ALLIANCE)) {
-      /* The player (that can have a nationality or be alllied to someone
+      /* The player (that can have a nationality or be allied to someone
        * with the nationality) may exist but not be passed when the problem
        * type is RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
