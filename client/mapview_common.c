@@ -2873,21 +2873,21 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
         if ((NULL == client.conn.playing
              || unit_owner(psettler) == client.conn.playing)
             && unit_can_do_action(psettler, ACTION_FOUND_CITY)
-            && city_can_be_built_here(unit_tile(psettler), psettler)) {
-          if (!closest_settler) {
+            && city_can_be_built_here(unit_tile(psettler), psettler, FALSE)) {
+          if (closest_settler == NULL) {
             closest_settler = psettler;
           }
-          if (!best_settler && psettler->client.colored) {
+          if (best_settler == NULL && psettler->client.colored) {
             best_settler = psettler;
           }
         }
       } unit_list_iterate_end;
     } city_tile_iterate_end;
 
-    if (best_settler) {
+    if (best_settler != NULL) {
       /* Rule e */
       *punit = best_settler;
-    } else if (closest_settler) {
+    } else if (closest_settler != NULL) {
       /* Rule f */
       *punit = closest_settler;
     }

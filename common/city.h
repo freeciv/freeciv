@@ -683,11 +683,11 @@ void generate_city_map_indices(void);
 void free_city_map_index(void);
 void city_production_caravan_shields_init(void);
 
-/* output on spot */
+/* Output on spot */
 int city_tile_output(const struct city *pcity, const struct tile *ptile,
-		     bool is_celebrating, Output_type_id otype);
+                     bool is_celebrating, Output_type_id otype);
 int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
-			 Output_type_id otype);
+                         Output_type_id otype);
 
 bool base_city_can_work_tile(const struct player *restriction,
                              const struct city *pcity,
@@ -697,10 +697,11 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile);
 bool citymindist_prevents_city_on_tile(const struct tile *ptile);
 
 bool city_can_be_built_here(const struct tile *ptile,
-                            const struct unit *punit);
+                            const struct unit *punit,
+                            bool hut_test);
 bool city_can_be_built_tile_only(const struct tile *ptile);
 
-/* list functions */
+/* List functions */
 struct city *city_list_find_number(struct city_list *This, int id);
 struct city *city_list_find_name(struct city_list *This, const char *name);
 
