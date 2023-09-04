@@ -3747,30 +3747,16 @@ static bool load_ruleset_terrain(struct section_file *file,
         const char *sval = slist[j];
         enum extra_flag_id flag;
 
-        if (compat->compat_mode && !fc_strcasecmp("NoAggressive", sval)) {
-          if (pextra->no_aggr_near_city >= 0) {
-            ruleset_error(NULL, LOG_ERROR,
-                          "\"%s\" extra \"%s\" has both no_aggr_near_city set and old style "
-                          "NoAggressive flag",
-                          filename, extra_rule_name(pextra));
-            ok = FALSE;
-            break;
-          }
-          /* Old NoAggressive flag meant distance of 3. */
-          pextra->no_aggr_near_city = 3;
+        flag = extra_flag_id_by_name(sval, fc_strcasecmp);
+
+        if (!extra_flag_id_is_valid(flag)) {
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\" extra \"%s\": unknown flag \"%s\".",
+                        filename, extra_rule_name(pextra), sval);
+          ok = FALSE;
+          break;
         } else {
-
-          flag = extra_flag_id_by_name(sval, fc_strcasecmp);
-
-          if (!extra_flag_id_is_valid(flag)) {
-            ruleset_error(NULL, LOG_ERROR,
-                          "\"%s\" extra \"%s\": unknown flag \"%s\".",
-                          filename, extra_rule_name(pextra), sval);
-            ok = FALSE;
-            break;
-          } else {
-            BV_SET(pextra->flags, flag);
-          }
+          BV_SET(pextra->flags, flag);
         }
       }
       free(slist);
