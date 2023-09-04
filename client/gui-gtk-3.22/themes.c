@@ -48,7 +48,8 @@ void gui_load_theme(const char *directory, const char *theme_name)
 
   if (fc_css_provider == NULL) {
     fc_css_provider = gtk_css_provider_new();
-    gtk_style_context_add_provider(gtk_widget_get_style_context(toplevel),
+    gtk_style_context_add_provider_for_screen(
+        gtk_widget_get_screen(toplevel),
         GTK_STYLE_PROVIDER(fc_css_provider),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   }
@@ -71,10 +72,10 @@ void gui_clear_theme(void)
 {
   bool theme_loaded;
 
-  /* try to load user defined theme */
+  /* Try to load user defined theme */
   theme_loaded = load_theme(GUI_GTK_OPTION(default_theme_name));
 
-  /* no user defined theme loaded -> try to load Freeciv default theme */
+  /* No user defined theme loaded -> try to load Freeciv default theme */
   if (!theme_loaded) {
     theme_loaded = load_theme(GUI_GTK_DEFAULT_THEME_NAME);
     if (theme_loaded) {
@@ -82,7 +83,7 @@ void gui_clear_theme(void)
     }
   }
 
-  /* still no theme loaded -> load system default theme */
+  /* Still no theme loaded -> load system default theme */
   if (!theme_loaded) {
     static GtkCssProvider *default_provider = NULL;
 
