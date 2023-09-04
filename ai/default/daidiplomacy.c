@@ -1339,8 +1339,10 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
   /* This will take us straight to war. */
   while (player_diplstate_get(pplayer, target)->type != DS_WAR) {
     if (pplayer_can_cancel_treaty(pplayer, target) != DIPL_OK) {
-      DIPLO_LOG(ait, LOG_ERROR, pplayer, target, "Wanted to cancel treaty but "
-                "was unable to.");
+      DIPLO_LOG(ait, LOG_ERROR, pplayer, target,
+                "Wanted to cancel treaty but was unable to.");
+      adip->countdown = -1; /* War declaration aborted */
+
       return;
     }
     handle_diplomacy_cancel_pact(pplayer, player_number(target), clause_type_invalid());
