@@ -1025,13 +1025,10 @@ void boot_help_texts(void)
             break;
           case HELP_MUSICSET:
             {
-              /* TODO: Parts related to musicset name and version
-               *       currently commented out, untile the musicspec
-               *       format supports them. */
               int desc_len;
               int len;
-              // const char *ms_name = musicset_name_get(tileset);
-              // const char *version = musicset_version(tileset);
+              const char *ms_name = current_musicset_name();
+              const char *version = current_musicset_version();
               const char *summary = current_musicset_summary();
               const char *description = current_musicset_description();
 
@@ -1045,9 +1042,8 @@ void boot_help_texts(void)
                 desc_len = 0;
               }
               if (summary != NULL) {
-#if 0
-                if (version[0] != '\0') {
-                  len = strlen(_(ts_name))
+                if (version != NULL && version[0] != '\0') {
+                  len = strlen(_(ms_name))
                     + strlen(" ")
                     + strlen(version)
                     + strlen("\n\n")
@@ -1056,7 +1052,7 @@ void boot_help_texts(void)
 
                   pitem->text = fc_malloc(len + desc_len);
                   fc_snprintf(pitem->text, len, "%s %s\n\n%s",
-                              _(ts_name), version, _(summary));
+                              _(ms_name), version, _(summary));
                 } else {
                   len = strlen(_(ms_name))
                     + strlen("\n\n")
@@ -1067,16 +1063,10 @@ void boot_help_texts(void)
                   fc_snprintf(pitem->text, len, "%s\n\n%s",
                               _(ms_name), _(summary));
                 }
-#else
-                len = strlen(_(summary)) + 1;
-                pitem->text = fc_malloc(len + desc_len);
-                fc_snprintf(pitem->text, len, "%s", _(summary));
-#endif
               } else {
                 const char *nodesc = _("Current musicset contains no summary.");
 
-#if 0
-                if (version[0] != '\0') {
+                if (version != NULL && version[0] != '\0') {
                   len = strlen(_(ms_name))
                     + strlen(" ")
                     + strlen(version)
@@ -1099,11 +1089,6 @@ void boot_help_texts(void)
                               _(ms_name),
                               nodesc);
                 }
-#else
-                len = strlen(nodesc) + 1;
-                pitem->text = fc_malloc(len + desc_len);
-                fc_snprintf(pitem->text, len, "%s", nodesc);
-#endif
               }
               if (description != NULL) {
                 fc_strlcat(pitem->text, "\n\n", len + desc_len);
