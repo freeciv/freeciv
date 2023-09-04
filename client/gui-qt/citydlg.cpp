@@ -1367,7 +1367,7 @@ void city_map::context_menu(QPoint point)
   ptask = worker_task_list_get(mcity->task_reqs, 0);
 
   wid_act = new QWidgetAction(this);
-  wid_act->setDefaultWidget(new QLabel(_("Autosettler activity:")));
+  wid_act->setDefaultWidget(new QLabel(_("Autoworker activity:")));
 
   con_menu = new QMenu(this);
   con_menu->addAction(wid_act);

@@ -2954,8 +2954,8 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     workertask_req.loc = ptile;
 
     shl = choice_dialog_start(GTK_WINDOW(toplevel),
-			       _("What Action to Request"),
-			       _("Select autosettler activity:"));
+                              _("What Action to Request"),
+                              _("Select autoworker activity:"));
 
     ptask = worker_task_list_get(pcity->task_reqs, 0);
     if (ptask != NULL) {

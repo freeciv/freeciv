@@ -338,7 +338,7 @@
               <object class="GtkMenuItem" id="BUILD_CITY" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="AUTO_SETTLER" />
+              <object class="GtkMenuItem" id="AUTO_WORKER" />
             </child>
             <child>
               <object class="GtkSeparatorMenuItem" />

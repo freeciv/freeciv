@@ -244,7 +244,7 @@ static void unit_upgrade_callback(GtkMenuItem *item, gpointer data);
 static void unit_convert_callback(GtkMenuItem *item, gpointer data);
 static void unit_disband_callback(GtkMenuItem *item, gpointer data);
 static void build_city_callback(GtkMenuItem *item, gpointer data);
-static void auto_settle_callback(GtkMenuItem *item, gpointer data);
+static void auto_work_callback(GtkMenuItem *item, gpointer data);
 static void build_road_callback(GtkMenuItem *item, gpointer data);
 static void build_irrigation_callback(GtkMenuItem *item, gpointer data);
 static void cultivate_callback(GtkMenuItem *item, gpointer data);
@@ -566,8 +566,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(unit_disband_callback), MGROUP_UNIT },
   { "BUILD_CITY", N_("_Build City"), GDK_KEY_b, 0,
     G_CALLBACK(build_city_callback), MGROUP_UNIT },
-  { "AUTO_SETTLER", N_("_Auto Settler"), GDK_KEY_a, 0,
-    G_CALLBACK(auto_settle_callback), MGROUP_UNIT },
+  { "AUTO_WORKER", N_("_Auto Worker"), GDK_KEY_a, 0,
+    G_CALLBACK(auto_work_callback), MGROUP_UNIT },
   { "BUILD_ROAD", N_("Build _Road"), GDK_KEY_r, 0,
     G_CALLBACK(build_road_callback), MGROUP_UNIT },
   { "BUILD_IRRIGATION", N_("Build _Irrigation"), GDK_KEY_i, 0,
@@ -1761,11 +1761,11 @@ static void build_city_callback(GtkMenuItem *item, gpointer data)
 }
 
 /************************************************************************//**
-  Action "AUTO_SETTLE" callback.
+  Action "AUTO_WORK" callback.
 ****************************************************************************/
-static void auto_settle_callback(GtkMenuItem *action, gpointer data)
+static void auto_work_callback(GtkMenuItem *action, gpointer data)
 {
-  key_unit_auto_settle();
+  key_unit_auto_work();
 }
 
 /************************************************************************//**
@@ -2599,7 +2599,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("UNIT_UNSENTRY", 
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
-  menu_entry_set_sensitive("AUTO_SETTLER",
+  menu_entry_set_sensitive("AUTO_WORKER",
                            can_units_do(punits, can_unit_do_autoworker));
   menu_entry_set_sensitive("UNIT_EXPLORE",
                            can_units_do_activity(punits, ACTIVITY_EXPLORE));

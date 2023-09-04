@@ -1301,11 +1301,11 @@ void mr_menu::setup_menus()
                    fc_shortcuts::sc()->get_shortcut(SC_BUILDCITY))));
   menu_list.insert(BUILD, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_city);
-  act = main_menu->addAction(_("Auto Settler"));
+  act = main_menu->addAction(_("Auto Worker"));
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_AUTOMATE))));
   menu_list.insert(AUTOWORKER, act);
-  connect(act, &QAction::triggered, this, &mr_menu::slot_auto_settler);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_auto_worker);
   main_menu->addSeparator();
   act = main_menu->addAction(_("Build Road"));
   menu_list.insert(ROAD, act);
@@ -2711,11 +2711,11 @@ void mr_menu::slot_action()
 }
 
 /**********************************************************************//**
-  Action "AUTO_SETTLER"
+  Action "AUTO_WORKER"
 **************************************************************************/
-void mr_menu::slot_auto_settler()
+void mr_menu::slot_auto_worker()
 {
-  key_unit_auto_settle();
+  key_unit_auto_work();
 }
 
 /**********************************************************************//**

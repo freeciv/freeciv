@@ -243,7 +243,7 @@ void key_recall_previous_focus_unit(void);
 void key_unit_move(enum direction8 gui_dir);
 void key_unit_airbase(void);
 void key_unit_auto_explore(void);
-void key_unit_auto_settle(void);
+void key_unit_auto_work(void);
 void key_unit_build_city(void);
 void key_unit_build_wonder(void);
 void key_unit_connect(enum unit_activity activity,

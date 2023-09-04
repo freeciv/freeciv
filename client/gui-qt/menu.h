@@ -314,7 +314,7 @@ private slots:
   void slot_build_path(int id);
   void slot_build_base(int id);
   void slot_build_city();
-  void slot_auto_settler();
+  void slot_auto_worker();
   void slot_build_road();
   void slot_build_irrigation();
   void slot_cultivate();

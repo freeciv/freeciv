@@ -473,9 +473,9 @@ static void unit_deboard_callback(GSimpleAction *action,
 static void build_city_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
-static void auto_settle_callback(GSimpleAction *action,
-                                 GVariant *parameter,
-                                 gpointer data);
+static void auto_work_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
 static void cultivate_callback(GSimpleAction *action,
                                GVariant *parameter,
                                gpointer data);
@@ -786,8 +786,8 @@ static struct menu_entry_info menu_entries[] =
   { "BUILD_CITY", N_("_Build City"),
     "build_city", "b", MGROUP_UNIT,
     NULL, FALSE },
-  { "AUTO_SETTLER", N_("_Auto Settler"),
-    "auto_settle", "a", MGROUP_UNIT,
+  { "AUTO_WORKER", N_("_Auto Worker"),
+    "auto_work", "a", MGROUP_UNIT,
     NULL, FALSE },
   { "BUILD_ROAD", N_("Build _Road"),
     "build_road", "r", MGROUP_UNIT,
@@ -1106,7 +1106,7 @@ const GActionEntry acts[] = {
   { "done", unit_done_callback },
 
   { "build_city", build_city_callback },
-  { "auto_settle", auto_settle_callback },
+  { "auto_work", auto_work_callback },
   { "build_road", build_road_callback },
   { "build_irrigation", build_irrigation_callback },
   { "build_mine", build_mine_callback },
@@ -2472,13 +2472,13 @@ static void build_city_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
-  Action "AUTO_SETTLE" callback.
+  Action "AUTO_WORK" callback.
 ****************************************************************************/
-static void auto_settle_callback(GSimpleAction *action,
-                                 GVariant *parameter,
-                                 gpointer data)
+static void auto_work_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
-  key_unit_auto_settle();
+  key_unit_auto_work();
 }
 
 /************************************************************************//**
@@ -3168,7 +3168,7 @@ static GMenu *setup_menus(GtkApplication *app)
 
   work_menu = g_menu_new();
   menu_entry_init(work_menu, "BUILD_CITY");
-  menu_entry_init(work_menu, "AUTO_SETTLER");
+  menu_entry_init(work_menu, "AUTO_WORKER");
 
   /* Placeholder submenus (so that menu update has something to replace) */
   submenu = g_menu_new();
@@ -3846,7 +3846,7 @@ void real_menus_update(void)
                            units_can_do_action(punits, ACTION_DISBAND_UNIT,
                                                TRUE));
 
-  menu_entry_set_sensitive(map, "AUTO_SETTLER",
+  menu_entry_set_sensitive(map, "AUTO_WORKER",
                            can_units_do(punits, can_unit_do_autoworker));
   menu_entry_set_sensitive(map, "UNIT_EXPLORE",
                            can_units_do_activity(punits, ACTIVITY_EXPLORE));

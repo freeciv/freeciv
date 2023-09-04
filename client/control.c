@@ -1356,7 +1356,7 @@ int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pe
 
 /*******************************************************************//**
   Can tile be irrigated by given unit? Unit can be NULL to check if
-  any settler type unit of any player can irrigate.
+  any worker type unit of any player can irrigate.
 ***********************************************************************/
 static bool can_be_irrigated(const struct tile *ptile,
                              const struct unit *punit)
@@ -3552,7 +3552,7 @@ void key_unit_auto_explore(void)
   Call to request (from the server) that the focus unit is put into
   autoworker mode.
 **************************************************************************/
-void key_unit_auto_settle(void)
+void key_unit_auto_work(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     if (can_unit_do_autoworker(punit)) {

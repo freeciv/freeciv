@@ -624,7 +624,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Auto Worker */
-  fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)", _("Auto Settler"), "A");
+  fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)", _("Auto Worker"), "A");
 
   buf = create_themeicon(current_theme->o_autowork_icon, main_data.gui,
                          WF_HIDDEN | WF_RESTORE_BACKGROUND
