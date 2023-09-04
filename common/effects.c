@@ -907,8 +907,8 @@ int get_city_specialist_output_bonus(const struct city *pcity,
   pcity must be supplied.
 
   FIXME: this is now used both for tile bonuses, tile-output bonuses,
-  and city-output bonuses.  Thus ptile or poutput may be NULL for
-  certain callers.  This could be changed by adding 2 new functions to
+  and city-output bonuses. Thus ptile or poutput may be NULL for
+  certain callers. This could be changed by adding 2 new functions to
   the interface but they'd be almost identical and their likely names
   would conflict with functions already in city.c.
   It's also very similar to get_tile_output_bonus(); it should be
