@@ -45,8 +45,6 @@ extern "C" {
 /* Used in the network protocol. See diplomat_success_vs_defender() */
 #define MAX_VET_LEVELS 20
 #define MAX_EXTRA_TYPES 128 /* Used in the network protocol. */
-#define MAX_BASE_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
-#define MAX_ROAD_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
 #define MAX_GOODS_TYPES 25
 #define MAX_DISASTER_TYPES 10
 #define MAX_ACHIEVEMENT_TYPES 40
@@ -546,9 +544,7 @@ struct universal {
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_extras, MAX_EXTRA_TYPES);
-BV_DEFINE(bv_special, MAX_EXTRA_TYPES);
-BV_DEFINE(bv_bases, MAX_BASE_TYPES);
-BV_DEFINE(bv_roads, MAX_ROAD_TYPES);
+BV_DEFINE(bv_max_extras, MAX_EXTRA_TYPES);
 BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 
 /* Used in the network protocol. */

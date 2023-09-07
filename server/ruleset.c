@@ -2574,15 +2574,15 @@ static bool load_terrain_names(struct section_file *file,
   section_list_destroy(sec);
   sec = NULL;
 
-  /* base names */
+  /* Base names */
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, BASE_SECTION_PREFIX);
     nval = (NULL != sec ? section_list_size(sec) : 0);
-    if (nval > MAX_BASE_TYPES) {
+    if (nval > MAX_EXTRA_TYPES) {
       ruleset_error(NULL, LOG_ERROR,
                     "\"%s\": Too many base types (%d, max %d)",
-                    filename, nval, MAX_BASE_TYPES);
+                    filename, nval, MAX_EXTRA_TYPES);
       ok = FALSE;
     }
 
@@ -2627,15 +2627,15 @@ static bool load_terrain_names(struct section_file *file,
   section_list_destroy(sec);
   sec = NULL;
 
-  /* road names */
+  /* Road names */
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, ROAD_SECTION_PREFIX);
     nval = (NULL != sec ? section_list_size(sec) : 0);
-    if (nval > MAX_ROAD_TYPES) {
+    if (nval > MAX_EXTRA_TYPES) {
       ruleset_error(NULL, LOG_ERROR,
                     "\"%s\": Too many road types (%d, max %d)",
-                    filename, nval, MAX_ROAD_TYPES);
+                    filename, nval, MAX_EXTRA_TYPES);
       ok = FALSE;
     }
 

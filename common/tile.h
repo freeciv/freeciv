@@ -119,7 +119,6 @@ static inline const bv_extras *tile_extras(const struct tile *ptile)
   return &(ptile->extras);
 }
 
-void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase);

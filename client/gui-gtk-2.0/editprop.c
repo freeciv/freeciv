@@ -228,9 +228,9 @@ union propval_data {
   const char *v_const_string;
   GdkPixbuf *v_pixbuf;
   struct built_status *v_built;
-  bv_special v_bv_special;
-  bv_roads v_bv_roads;
-  bv_bases v_bv_bases;
+  bv_max_extras v_bv_special;
+  bv_max_extras v_bv_roads;
+  bv_max_extras v_bv_bases;
   struct nation_type *v_nation;
   struct nation_hash *v_nation_hash;
   struct government *v_gov;
