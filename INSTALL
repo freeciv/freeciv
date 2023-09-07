@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 02-Sep-23.
+Last minor update was 07-Sep-23.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -141,12 +141,12 @@ version for SDL2 is 2.0.6.
 1a. Prerequisites for the Gtk+ 3.22 client:
 ==========================================
 
- - "pkg-config".
+ - "pkgconf", or older "pkg-config"
 
-   "pkg-config" is a system for managing library compile/link flags that
+   "pkgconf" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
+      https://distfiles.dereferenced.org/pkgconf/pkgconf-2.0.2.tar.xz
 
  - The "Glib" utility library.
 
@@ -206,22 +206,17 @@ version for SDL2 is 2.0.6.
    "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
 
 If you are going to make these yourself, build and install them in the
-following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
+following order: pkgconf, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
 1b. Prerequisites for the Gtk 4.0 client:
 ==========================================
 
- - "pkg-config" or "pkgconf"
+ - "pkgconf", or older "pkg-config"
 
-   "pkg-config" is a system for managing library compile/link flags that
+   "pkgconf" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
-
-   "pkgconf" is a newer replacement for "pkg-config"
-   You may obtain it at:
-
-      https://gitea.treehouse.systems/ariadne/pkgconf/archive/pkgconf-1.8.0.tar.gz
+      https://distfiles.dereferenced.org/pkgconf/pkgconf-2.0.2.tar.xz
 
  - The "Glib" utility library.
 
@@ -277,7 +272,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    "Gtk" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
 
 If you are going to make these yourself, build and install them in the
-following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk.
+following order: pkgconf, Glib, Atk, Pango, Gdk-Pixbuf, Gtk.
 
 1c. Prerequisites for the SDL2 client:
 =====================================
