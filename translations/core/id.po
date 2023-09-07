@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2023-02-25 18:02+0200\n"
-"PO-Revision-Date: 2012-07-26 20:54+0100\n"
+"PO-Revision-Date: 2023-09-07 14:27+0300\n"
 "Last-Translator: Dadan Haryana <dadanhrn@gmail.com>\n"
 "Language-Team: Indonesian <>\n"
 "Language: id\n"
@@ -14959,7 +14959,7 @@ msgstr[0] "Massa:           %5d ton"
 #: client/text.c:1530
 #, c-format
 msgid "Travel time:     %5.1f years"
-msgstr "Lama perjalanan: %5.lf tahun"
+msgstr "Lama perjalanan: %5.1f tahun"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1534
