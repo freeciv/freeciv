@@ -3,6 +3,8 @@ project('freeciv', ['c'], meson_version: '>= 0.60.0')
 
 c_compiler = meson.get_compiler('c')
 
+b_root = meson.project_build_root()
+
 if get_option('ruledit') or \
    get_option('clients').contains('qt') or \
    get_option('fcmp').contains('qt')
@@ -86,6 +88,8 @@ if proj_def != ''
   endif
 endif
 
+homepage_url = '"https://www.freeciv.org"'
+
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
 liblua_conf_data = configuration_data()
@@ -100,6 +104,8 @@ if default_port == ''
   default_port = 5556
 endif
 priv_conf_data.set('DEFAULT_SOCK_PORT', default_port)
+
+priv_conf_data.set('HOMEPAGE_URL', homepage_url)
 
 if testmatic == 'yes'
   pub_conf_data.set('FREECIV_TESTMATIC', 1)
@@ -117,7 +123,8 @@ priv_conf_data.set('SYSCONFDIR',
 
 # Release cycle phases
 # See fc_version about proper values for these.
-priv_conf_data.set('DATASUBDIR', 'test')
+datasubdir = 'test'
+priv_conf_data.set('DATASUBDIR', datasubdir)
 priv_conf_data.set('IS_DEVEL_VERSION', 1)
 priv_conf_data.set('IS_FREEZE_VERSION', 0)
 priv_conf_data.set('IS_BETA_VERSION', 0)
@@ -920,6 +927,38 @@ configure_file(input : 'gen_headers/meson_freeciv_config.h.in',
 configure_file(input : 'gen_headers/meson_liblua_config.h.in',
                output : 'liblua_config.h',
                configuration: liblua_conf_data)
+
+man_pages = [
+  'freeciv',
+  'freeciv-client',
+  'freeciv-manual',
+  'freeciv-modpack',
+  'freeciv-ruledit',
+  'freeciv-ruleup',
+  'freeciv-server'
+  ]
+
+man_links = [
+  'freeciv-gtk3.22',
+  'freeciv-gtk4',
+  'freeciv-sdl2',
+  'freeciv-qt',
+  'freeciv-mp-gtk3',
+  'freeciv-mp-gtk4',
+  'freeciv-mp-qt',
+  'freeciv-mp-cli'
+  ]
+
+foreach manp : man_pages
+  man_conf_data = configuration_data()
+  man_conf_data.set('HOMEPAGE_URL', '"' + homepage_url + '"')
+  man_conf_data.set('BUG_URL', '"https://osdn.net/projects/freeciv/ticket/"')
+  man_conf_data.set('MAIL_ADDRESS', '"freeciv-dev at freelists.org"')
+  man_conf_data.set('DATASUBDIR', '"' + datasubdir + '"')
+  configure_file(input : 'doc/man/' + manp + '.6.in',
+                 output : manp + '.6',
+                 configuration : man_conf_data)
+endforeach
 
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: ['c', 'cpp'])
@@ -3020,6 +3059,20 @@ foreach iconsize : i
                  install_dir : join_paths(get_option('datadir'), 'icons/hicolor', iconsize, 'apps'))
 endforeach
 
+foreach manp : man_pages
+  install_data(
+    join_paths(b_root, manp + '.6'),
+    install_dir : get_option('mandir')
+    )
+endforeach
+
+foreach manp : man_links
+  install_data(
+    join_paths('doc/man/', manp + '.6'),
+    install_dir : get_option('mandir')
+    )
+endforeach
+
 gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22', required : false)
 gtk4_dep = dependency('gtk4', version : '>= 4.0.0', required : false)
 
@@ -3107,8 +3160,7 @@ custom_target('mi_gtk322',
               input: 'bootstrap/org.freeciv.gtk322.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3195,8 +3247,7 @@ custom_target('mi_gtk4',
               input: 'bootstrap/org.freeciv.gtk4.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3450,8 +3501,7 @@ custom_target('mi_qt',
               input: 'bootstrap/org.freeciv.qt.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3591,8 +3641,7 @@ custom_target('mi_sdl2',
               input: 'bootstrap/org.freeciv.sdl2.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3731,8 +3780,7 @@ install_data(
 #              input: 'bootstrap/org.freeciv.sdl3.metainfo.xml.in',
 #              output: '@BASENAME@',
 #              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-#                        '@OUTPUT@',
-#                        meson.project_build_root(), 'development'],
+#                        '@OUTPUT@', b_root, 'development'],
 #              install: true,
 #              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3830,8 +3878,7 @@ custom_target('mi_mp_gtk3',
               input: 'bootstrap/org.freeciv.mp.gtk3.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3866,8 +3913,7 @@ custom_target('mi_mp_gtk4',
               input: 'bootstrap/org.freeciv.mp.gtk4.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3909,8 +3955,7 @@ custom_target('mi_mp_qt',
               input: 'bootstrap/org.freeciv.mp.qt.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -4032,8 +4077,7 @@ custom_target('mi_ruledit',
               input: 'bootstrap/org.freeciv.ruledit.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@',
-                        meson.project_build_root(), 'development'],
+                        '@OUTPUT@', b_root, 'development'],
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
