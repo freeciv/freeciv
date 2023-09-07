@@ -11,7 +11,8 @@
 #define LOCALEDIR "@LOCALEDIR@"
 
 #define BUG_URL "https://osdn.net/projects/freeciv/ticket/"
-#define WIKI_URL "https://www.freeciv.org/"
+
+#mesondefine WIKI_URL
 
 #define DATASUBDIR "@DATASUBDIR@"
 
