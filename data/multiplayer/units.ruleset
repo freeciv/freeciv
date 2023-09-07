@@ -388,6 +388,11 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;                 is enabled and the unit class is unreachable
 ; "RandomMovement" = Unit makes random movements in the beginning of the turn,
 ;                 player has no control over its movement
+; "Flagless"      = Unit national flag is not shown on client, except for
+;                 the owner.
+;                 Note that currently the information is available for
+;                 the client anyway, so this is not a rule like a feature yet.
+;
 ;
 ; Following actions require extra fields:
 ;  "Attack" and "Suicide Attack"

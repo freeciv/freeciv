@@ -3571,7 +3571,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     break;
   };
 
-  /* no other place to initialize these variables */
+  /* No other place to initialize these variables */
   sprite_vector_init(&t->sprites.nation_flag);
   sprite_vector_init(&t->sprites.nation_shield);
 }
@@ -4573,9 +4573,13 @@ static int fill_unit_sprite_array(const struct tileset *t,
 
   if (backdrop) {
     if (!gui_options.solid_color_behind_units) {
-      ADD_SPRITE(get_unit_nation_flag_sprite(t, punit), TRUE,
-                 FULL_TILE_X_OFFSET + t->unit_flag_offset_x,
-                 FULL_TILE_Y_OFFSET + t->unit_flag_offset_y);
+      if (!unit_has_type_flag(punit, UTYF_FLAGLESS)
+          || client_is_global_observer()
+          || unit_owner(punit) == client_player()) {
+        ADD_SPRITE(get_unit_nation_flag_sprite(t, punit), TRUE,
+                   FULL_TILE_X_OFFSET + t->unit_flag_offset_x,
+                   FULL_TILE_Y_OFFSET + t->unit_flag_offset_y);
+      }
     } else {
       /* Taken care of in the LAYER_BACKGROUND. */
     }
@@ -5801,7 +5805,7 @@ static bool is_extra_drawing_enabled(struct extra_type *pextra)
   Fill in the sprite array for the given tile, city, and unit.
 
   ptile, if specified, gives the tile. If specified the terrain and specials
-  will be drawn for this tile. In this case (map_x,map_y) should give the
+  will be drawn for this tile. In this case (map_x, map_y) should give the
   location of the tile.
 
   punit, if specified, gives the unit. For tile drawing this should
@@ -5826,22 +5830,27 @@ int fill_sprite_array(struct tileset *t,
   bv_extras textras_near[8];
   bv_extras textras;
   struct terrain *tterrain_near[8];
-  struct terrain *pterrain = NULL;
+  struct terrain *pterrain = nullptr;
   struct drawn_sprite *save_sprs = sprs;
-  struct player *owner = NULL;
+  struct player *owner = nullptr;
   /* Unit drawing is disabled when the view options are turned off,
    * but only where we're drawing on the mapview. */
-  bool do_draw_unit = (punit && (gui_options.draw_units || !ptile
-                                 || (gui_options.draw_focus_unit
-                                     && unit_is_in_focus(punit))));
+  bool do_draw_unit = (punit != nullptr && (gui_options.draw_units
+                                            || ptile == nullptr
+                                            || (gui_options.draw_focus_unit
+                                                && unit_is_in_focus(punit))));
+  bool flagless = (do_draw_unit
+                   && unit_has_type_flag(punit, UTYF_FLAGLESS)
+                   && !client_is_global_observer()
+                   && unit_owner(punit) != client_player());
   bool solid_bg = (gui_options.solid_color_behind_units
-                   && (do_draw_unit
-                       || (pcity && gui_options.draw_cities)
-                       || (ptile && !gui_options.draw_terrain)));
+                   && ((do_draw_unit && !flagless)
+                       || (pcity != nullptr && gui_options.draw_cities)
+                       || (ptile != nullptr && !gui_options.draw_terrain)));
 
   if (citymode) {
     int count = 0, i, cx, cy;
-    const struct tile *const *tiles = NULL;
+    const struct tile *const *tiles = nullptr;
     bool valid = FALSE;
 
     if (ptile) {
@@ -5890,7 +5899,7 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_BACKGROUND:
     /* Set up background color. */
     if (gui_options.solid_color_behind_units) {
-      if (do_draw_unit) {
+      if (!flagless) {
         owner = unit_owner(punit);
       } else if (pcity && gui_options.draw_cities) {
         owner = city_owner(pcity);
