@@ -81,7 +81,7 @@ struct road_type {
 
   struct requirement_vector first_reqs;
 
-  bv_roads integrates;
+  bv_max_extras integrates;
   bv_road_flags flags;
 
   /* Same information as in integrates, but iterating through this list is much

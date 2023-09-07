@@ -70,7 +70,7 @@ struct terrain_select {
 };
 
 
-static struct extra_type *river_types[MAX_ROAD_TYPES];
+static struct extra_type *river_types[MAX_EXTRA_TYPES];
 static int river_type_count = 0;
 
 #define SPECLIST_TAG terrain_select
