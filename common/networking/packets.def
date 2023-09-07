@@ -276,8 +276,7 @@ type BV_ACTION_SUB_RES  = bitvector(bv_action_sub_results)
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
 type BV_GOODS_FLAGS     = bitvector(bv_goods_flags)
 type BV_EXTRAS          = bitvector(bv_extras)
-type BV_BASES           = bitvector(bv_bases)
-type BV_ROADS           = bitvector(bv_roads)
+type BV_MAX_EXTRAS      = bitvector(bv_max_extras)
 type BV_ROAD_FLAGS      = bitvector(bv_road_flags)
 type BV_CAUSES          = bitvector(bv_causes)
 type BV_RMCAUSES        = bitvector(bv_rmcauses)
@@ -285,7 +284,6 @@ type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
 type BV_IMPRS           = bitvector(bv_imprs)
 type BV_PLAYER          = bitvector(bv_player)
-type BV_SPECIAL         = bitvector(bv_special)
 type BV_STARTPOS_NATIONS= bitvector(bv_startpos_nations)
 type BV_TECH_FLAGS      = bitvector(bv_tech_flags)
 type BV_TERRAIN_FLAGS   = bitvector(bv_terrain_flags)
@@ -1828,7 +1826,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT16 tile_incr[O_LAST];
   UINT16 tile_bonus[O_LAST];
   ROAD_COMPAT compat;
-  BV_ROADS integrates;
+  BV_MAX_EXTRAS integrates;
   BV_ROAD_FLAGS flags;
 end
 
