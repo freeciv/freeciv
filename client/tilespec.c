@@ -4268,7 +4268,7 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
     (map_x, map_y) : the (normalized) map position
   The values we fill in:
     tterrain_near  : terrain types of all adjacent terrain
-    tspecial_near  : specials of all adjacent terrain
+    textra_near    : extras of all adjacent terrain
 ****************************************************************************/
 static void build_tile_data(const struct tile *ptile,
                             struct terrain *pterrain,
@@ -6874,7 +6874,7 @@ int fill_basic_terrain_layer_sprite_array(struct tileset *t,
   struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
 
   struct terrain *tterrain_near[8];
-  bv_special tspecial_near[8];
+  bv_extras textra_near[8];
 
   struct tile dummy_tile; /* :( */
 
@@ -6885,7 +6885,7 @@ int fill_basic_terrain_layer_sprite_array(struct tileset *t,
   
   for (i = 0; i < 8; i++) {
     tterrain_near[i] = pterrain;
-    BV_CLR_ALL(tspecial_near[i]);
+    BV_CLR_ALL(textra_near[i]);
   }
 
   i = draw->is_reversed ? draw->num_layers - layer - 1 : layer;

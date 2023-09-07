@@ -3452,14 +3452,14 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     game.control._count = _maximum;                                         \
   }
 
-  VALIDATE(num_unit_classes,	UCL_LAST,		"unit classes");
-  VALIDATE(num_unit_types,	U_LAST,			"unit types");
-  VALIDATE(num_impr_types,	B_LAST,			"improvements");
-  VALIDATE(num_tech_types,      A_LAST,                 "advances");
-  VALIDATE(num_base_types,	MAX_BASE_TYPES,		"bases");
-  VALIDATE(num_road_types,      MAX_ROAD_TYPES,         "roads");
-  VALIDATE(num_resource_types,	MAX_RESOURCE_TYPES,     "resources");
-  VALIDATE(num_disaster_types,  MAX_DISASTER_TYPES,     "disasters");
+  VALIDATE(num_unit_classes,    UCL_LAST,                "unit classes");
+  VALIDATE(num_unit_types,      U_LAST,                  "unit types");
+  VALIDATE(num_impr_types,      B_LAST,                  "improvements");
+  VALIDATE(num_tech_types,      A_LAST,                  "advances");
+  VALIDATE(num_base_types,      MAX_EXTRA_TYPES,         "bases");
+  VALIDATE(num_road_types,      MAX_EXTRA_TYPES,         "roads");
+  VALIDATE(num_resource_types,  MAX_RESOURCE_TYPES,      "resources");
+  VALIDATE(num_disaster_types,  MAX_DISASTER_TYPES,      "disasters");
   VALIDATE(num_achievement_types, MAX_ACHIEVEMENT_TYPES, "achievements");
 
   /* game.control.government_count, game.control.nation_count and
