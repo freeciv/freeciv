@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-11 18:21+0300\n"
-"PO-Revision-Date: 2023-09-11 18:35+0300\n"
+"POT-Creation-Date: 2023-09-13 12:38+0300\n"
+"PO-Revision-Date: 2023-09-13 12:41+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -15677,7 +15677,7 @@ msgstr "Ei löydy maaston pohjakuvaa tunnisteelle \"%s\"."
 msgid "Nation %s: no national flag."
 msgstr "Kansan \"%s\" lippua ei löydy."
 
-#: client/tilespec.c:5734
+#: client/tilespec.c:5738
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -15686,7 +15686,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:6316
+#: client/tilespec.c:6325
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -15695,12 +15695,12 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:6505
+#: client/tilespec.c:6514
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:6510
+#: client/tilespec.c:6519
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -20980,7 +20980,7 @@ msgstr "Yllyttävä"
 msgid "?unitflag:NeverProtects"
 msgstr "Suojelematon"
 
-#: common/unittype.h:209 common/unittype.h:439
+#: common/unittype.h:209 common/unittype.h:442
 msgid "?unitflag:Settlers"
 msgstr "Työläinen"
 
@@ -21068,115 +21068,119 @@ msgstr "Pakenevan tappava"
 msgid "?unitflag:RandomMovement"
 msgstr "Satunnaisesti liikkuva"
 
-#: common/unittype.h:355
+#: common/unittype.h:280
+msgid "?unitflag:Flagless"
+msgstr "Liputon"
+
+#: common/unittype.h:358
 msgid "?unitflag:FirstBuild"
 msgstr "Ensimmäinen rakennettava"
 
-#: common/unittype.h:358
+#: common/unittype.h:361
 msgid "?unitflag:Explorer"
 msgstr "Kartoittaja"
 
-#: common/unittype.h:361
+#: common/unittype.h:364
 msgid "?unitflag:Hut"
 msgstr "Majasta löytyvä"
 
-#: common/unittype.h:364
+#: common/unittype.h:367
 msgid "?unitflag:HutTech"
 msgstr "Majasta löytyvä kun tekniikka tunnetaan"
 
-#: common/unittype.h:367
+#: common/unittype.h:370
 msgid "?unitflag:Partisan"
 msgstr "Sissiryhmä"
 
-#: common/unittype.h:370
+#: common/unittype.h:373
 msgid "?unitflag:DefendOk"
 msgstr "Ok puolustaja"
 
-#: common/unittype.h:373
+#: common/unittype.h:376
 msgid "?unitflag:DefendGood"
 msgstr "Hyvä puolustaja"
 
-#: common/unittype.h:376
+#: common/unittype.h:379
 msgid "?unitflag:FerryBoat"
 msgstr "Kuljetusalus"
 
-#: common/unittype.h:379
+#: common/unittype.h:382
 msgid "?unitflag:Barbarian"
 msgstr "Barbaari"
 
-#: common/unittype.h:382
+#: common/unittype.h:385
 msgid "?unitflag:BarbarianTech"
 msgstr "Teknologian mahdollistama barbaari"
 
-#: common/unittype.h:385
+#: common/unittype.h:388
 msgid "?unitflag:BarbarianBoat"
 msgstr "Barbaarialus"
 
-#: common/unittype.h:388
+#: common/unittype.h:391
 msgid "?unitflag:BarbarianBoatTech"
 msgstr "Teknologian mahdollistama barbaarialus"
 
-#: common/unittype.h:391
+#: common/unittype.h:394
 msgid "?unitflag:BarbarianBuild"
 msgstr "Barbaarien rakennettava"
 
-#: common/unittype.h:394
+#: common/unittype.h:397
 msgid "?unitflag:BarbarianBuildTech"
 msgstr "Teknologian mahdollistama barbaarien rakennettava"
 
-#: common/unittype.h:397
+#: common/unittype.h:400
 msgid "?unitflag:BarbarianLeader"
 msgstr "Barbaarijohtaja"
 
-#: common/unittype.h:400
+#: common/unittype.h:403
 msgid "?unitflag:BarbarianSea"
 msgstr "Meribarbaari"
 
-#: common/unittype.h:403
+#: common/unittype.h:406
 msgid "?unitflag:BarbarianSeaTech"
 msgstr "Teknologian mahdollistama meribarbaari"
 
-#: common/unittype.h:406
+#: common/unittype.h:409
 msgid "?unitflag:CitiesStartUnit"
 msgstr "Kaupunginperustaja-aloitusyksikkö"
 
-#: common/unittype.h:409
+#: common/unittype.h:412
 msgid "?unitflag:WorkerStartUnit"
 msgstr "Työläisaloitusyksikkö"
 
-#: common/unittype.h:412
+#: common/unittype.h:415
 msgid "?unitflag:ExplorerStartUnit"
 msgstr "Kartoittaja-aloitusyksikkö"
 
-#: common/unittype.h:415
+#: common/unittype.h:418
 msgid "?unitflag:KingStartUnit"
 msgstr "Kuningasaloitusyksikkö"
 
-#: common/unittype.h:418
+#: common/unittype.h:421
 msgid "?unitflag:DiplomatStartUnit"
 msgstr "Diplomaattialoitusyksikkö"
 
-#: common/unittype.h:421
+#: common/unittype.h:424
 msgid "?unitflag:FerryStartUnit"
 msgstr "Kuljetusalusaloitusyksikkö"
 
-#: common/unittype.h:424
+#: common/unittype.h:427
 msgid "?unitflag:DefendOkStartUnit"
 msgstr "Aloitusyksikkö, Ok puolustaja"
 
-#: common/unittype.h:427
+#: common/unittype.h:430
 msgid "?unitflag:DefendGoodStartUnit"
 msgstr "Aloitusyksikkö, Hyvä puolustaja"
 
-#: common/unittype.h:430
+#: common/unittype.h:433
 msgid "?unitflag:AttackFastStartUnit"
 msgstr "Aloitusyksikkö, Nopea hyökkääjä"
 
-#: common/unittype.h:433
+#: common/unittype.h:436
 msgid "?unitflag:AttackStrongStartUnit"
 msgstr "Aloitusyksikkö, Vahva hyökkääjä"
 
-#: common/unittype.h:436
+#: common/unittype.h:439
 msgid "?unitflag:Hunter"
 msgstr "Metsästäjä"
 
@@ -24463,12 +24467,12 @@ msgstr "Ihmeenrakentaja"
 msgid "AddToCity"
 msgstr "Lisää kaupunkiin"
 
-#: data/civ1/units.ruleset:28 data/civ1/units.ruleset:1351
-#: data/civ2/units.ruleset:33 data/civ2/units.ruleset:2144
-#: data/classic/units.ruleset:40 data/classic/units.ruleset:2102
-#: data/sandbox/units.ruleset:46 data/sandbox/units.ruleset:2439
-#: data/civ2civ3/units.ruleset:42 data/civ2civ3/units.ruleset:2330
-#: data/multiplayer/units.ruleset:39 data/multiplayer/units.ruleset:2213
+#: data/civ1/units.ruleset:28 data/civ1/units.ruleset:1356
+#: data/civ2/units.ruleset:33 data/civ2/units.ruleset:2149
+#: data/classic/units.ruleset:40 data/classic/units.ruleset:2107
+#: data/sandbox/units.ruleset:46 data/sandbox/units.ruleset:2444
+#: data/civ2civ3/units.ruleset:42 data/civ2civ3/units.ruleset:2335
+#: data/multiplayer/units.ruleset:39 data/multiplayer/units.ruleset:2218
 msgid "Nuclear"
 msgstr "Ydinohjus"
 
@@ -24524,33 +24528,33 @@ msgstr "Saa 50% puolustusedun kaupungissa ollessaan."
 msgid "HutNothing"
 msgstr "MökistäVälittämätön"
 
-#: data/civ1/units.ruleset:52 data/civ1/units.ruleset:1433
-#: data/civ2/units.ruleset:60 data/civ2/units.ruleset:2226
-#: data/civ2/units.ruleset:2325 data/classic/units.ruleset:66
-#: data/classic/units.ruleset:475 data/classic/units.ruleset:524
-#: data/classic/units.ruleset:569 data/classic/units.ruleset:2132
-#: data/classic/units.ruleset:2504 data/classic/units.ruleset:2545
-#: data/sandbox/units.ruleset:80 data/sandbox/units.ruleset:520
-#: data/sandbox/units.ruleset:568 data/sandbox/units.ruleset:612
-#: data/sandbox/units.ruleset:705 data/sandbox/units.ruleset:2380
-#: data/sandbox/units.ruleset:2469 data/sandbox/units.ruleset:2532
-#: data/sandbox/units.ruleset:2942 data/sandbox/units.ruleset:2984
-#: data/civ2civ3/units.ruleset:70 data/civ2civ3/units.ruleset:507
-#: data/civ2civ3/units.ruleset:555 data/civ2civ3/units.ruleset:598
-#: data/civ2civ3/units.ruleset:2272 data/civ2civ3/units.ruleset:2360
-#: data/civ2civ3/units.ruleset:2762 data/civ2civ3/units.ruleset:2803
-#: data/multiplayer/units.ruleset:66 data/multiplayer/units.ruleset:475
-#: data/multiplayer/units.ruleset:525 data/multiplayer/units.ruleset:570
-#: data/multiplayer/units.ruleset:2243 data/multiplayer/units.ruleset:2603
-#: data/multiplayer/units.ruleset:2644
+#: data/civ1/units.ruleset:52 data/civ1/units.ruleset:1438
+#: data/civ2/units.ruleset:60 data/civ2/units.ruleset:2231
+#: data/civ2/units.ruleset:2330 data/classic/units.ruleset:66
+#: data/classic/units.ruleset:480 data/classic/units.ruleset:529
+#: data/classic/units.ruleset:574 data/classic/units.ruleset:2137
+#: data/classic/units.ruleset:2509 data/classic/units.ruleset:2550
+#: data/sandbox/units.ruleset:80 data/sandbox/units.ruleset:525
+#: data/sandbox/units.ruleset:573 data/sandbox/units.ruleset:617
+#: data/sandbox/units.ruleset:710 data/sandbox/units.ruleset:2385
+#: data/sandbox/units.ruleset:2474 data/sandbox/units.ruleset:2537
+#: data/sandbox/units.ruleset:2947 data/sandbox/units.ruleset:2989
+#: data/civ2civ3/units.ruleset:70 data/civ2civ3/units.ruleset:512
+#: data/civ2civ3/units.ruleset:560 data/civ2civ3/units.ruleset:603
+#: data/civ2civ3/units.ruleset:2277 data/civ2civ3/units.ruleset:2365
+#: data/civ2civ3/units.ruleset:2767 data/civ2civ3/units.ruleset:2808
+#: data/multiplayer/units.ruleset:66 data/multiplayer/units.ruleset:480
+#: data/multiplayer/units.ruleset:530 data/multiplayer/units.ruleset:575
+#: data/multiplayer/units.ruleset:2248 data/multiplayer/units.ruleset:2608
+#: data/multiplayer/units.ruleset:2649
 msgid "green"
 msgstr "kokematon"
 
-#: data/civ1/units.ruleset:52 data/civ1/units.ruleset:1433
-#: data/civ2/units.ruleset:60 data/civ2/units.ruleset:2226
-#: data/civ2/units.ruleset:2325 data/classic/units.ruleset:66
-#: data/sandbox/units.ruleset:80 data/sandbox/units.ruleset:2380
-#: data/civ2civ3/units.ruleset:70 data/civ2civ3/units.ruleset:2272
+#: data/civ1/units.ruleset:52 data/civ1/units.ruleset:1438
+#: data/civ2/units.ruleset:60 data/civ2/units.ruleset:2231
+#: data/civ2/units.ruleset:2330 data/classic/units.ruleset:66
+#: data/sandbox/units.ruleset:80 data/sandbox/units.ruleset:2385
+#: data/civ2civ3/units.ruleset:70 data/civ2civ3/units.ruleset:2277
 #: data/multiplayer/units.ruleset:66
 msgid "veteran"
 msgstr "konkari"
@@ -24595,14 +24599,14 @@ msgid "?unitclass:Missile"
 msgstr "ohjusjoukkojen"
 
 # NOTE: All unit names are now transformed to singular or something that can be with only mild ridicule be treated as singular, to facilitate more sensible use in sentences. Words like 'ryhmä' refer to civillian groups, '-väki' is used where possible, 'joukkue' and 'joukko' for cannon fodder, 'partio' for anything mounted, and other words for suitable other special cases.
-#: data/civ1/units.ruleset:429 data/civ2/units.ruleset:438
-#: data/classic/units.ruleset:448 data/sandbox/units.ruleset:492
-#: data/civ2civ3/units.ruleset:479 data/alien/units.ruleset:445
-#: data/multiplayer/units.ruleset:448
+#: data/civ1/units.ruleset:434 data/civ2/units.ruleset:443
+#: data/classic/units.ruleset:453 data/sandbox/units.ruleset:497
+#: data/civ2civ3/units.ruleset:484 data/alien/units.ruleset:450
+#: data/multiplayer/units.ruleset:453
 msgid "Settlers"
 msgstr "Uudisraivaajaryhmä"
 
-#: data/civ1/units.ruleset:456 data/civ2/units.ruleset:466
+#: data/civ1/units.ruleset:461 data/civ2/units.ruleset:471
 msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities, and can also improve terrain; see the help on "
@@ -24612,7 +24616,7 @@ msgstr ""
 "saada uusia kaupunkeja perustettua, ja sen lisäksi he voivat parantaa "
 "ruutuja. Katso ohjen kohta \"Maasto\" ja \"Maastonmuokkaukset\"."
 
-#: data/civ1/units.ruleset:460 data/classic/units.ruleset:487
+#: data/civ1/units.ruleset:465 data/classic/units.ruleset:492
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
@@ -24623,13 +24627,13 @@ msgstr ""
 "Uudisraivaajat vaativat kaksinkertaisen määrän ruokaa Tasavallassa ja "
 "Demokratiassa."
 
-#: data/civ1/units.ruleset:467
+#: data/civ1/units.ruleset:472
 msgid "Militia"
 msgstr "Nostoväki"
 
-#: data/civ1/units.ruleset:494 data/civ2/units.ruleset:552
-#: data/classic/units.ruleset:620 data/sandbox/units.ruleset:742
-#: data/civ2civ3/units.ruleset:687 data/multiplayer/units.ruleset:621
+#: data/civ1/units.ruleset:499 data/civ2/units.ruleset:557
+#: data/classic/units.ruleset:625 data/sandbox/units.ruleset:747
+#: data/civ2civ3/units.ruleset:692 data/multiplayer/units.ruleset:626
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
@@ -24637,29 +24641,29 @@ msgstr ""
 "Näitä yksiköitä voi valmistaa heti pelin alussa. Se on kaikkein heikoin "
 "sotilasyksikkö."
 
-#: data/civ1/units.ruleset:500 data/civ2/units.ruleset:558
-#: data/classic/units.ruleset:626 data/sandbox/units.ruleset:748
-#: data/civ2civ3/units.ruleset:693 data/multiplayer/units.ruleset:627
+#: data/civ1/units.ruleset:505 data/civ2/units.ruleset:563
+#: data/classic/units.ruleset:631 data/sandbox/units.ruleset:753
+#: data/civ2civ3/units.ruleset:698 data/multiplayer/units.ruleset:632
 msgid "Phalanx"
 msgstr "Falangi"
 
-#: data/civ1/units.ruleset:530 data/civ2/units.ruleset:588
-#: data/classic/units.ruleset:656 data/sandbox/units.ruleset:778
-#: data/civ2civ3/units.ruleset:723 data/multiplayer/units.ruleset:657
+#: data/civ1/units.ruleset:535 data/civ2/units.ruleset:593
+#: data/classic/units.ruleset:661 data/sandbox/units.ruleset:783
+#: data/civ2civ3/units.ruleset:728 data/multiplayer/units.ruleset:662
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
 msgstr ""
 "Falangi on kaupunkiesi puolustamiseen soveltuvaa, kilvin ja keihäin "
 "varustettua, säännöllistä muodostelmaa noudattavaa jalkaväkeä."
 
-#: data/civ1/units.ruleset:535 data/civ2/units.ruleset:629
-#: data/classic/units.ruleset:697 data/sandbox/units.ruleset:819
-#: data/civ2civ3/units.ruleset:764 data/multiplayer/units.ruleset:698
+#: data/civ1/units.ruleset:540 data/civ2/units.ruleset:634
+#: data/classic/units.ruleset:702 data/sandbox/units.ruleset:824
+#: data/civ2civ3/units.ruleset:769 data/multiplayer/units.ruleset:703
 msgid "Legion"
 msgstr "Legioona"
 
-#: data/civ1/units.ruleset:565 data/civ2/units.ruleset:659
-#: data/classic/units.ruleset:727 data/sandbox/units.ruleset:849
-#: data/civ2civ3/units.ruleset:794 data/multiplayer/units.ruleset:728
+#: data/civ1/units.ruleset:570 data/civ2/units.ruleset:664
+#: data/classic/units.ruleset:732 data/sandbox/units.ruleset:854
+#: data/civ2civ3/units.ruleset:799 data/multiplayer/units.ruleset:733
 msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
@@ -24667,13 +24671,13 @@ msgstr ""
 "Legioonalaiset ovat raskaasti aseistettua ja kurinalaista jalkaväkeä, joiden "
 "hyökkäysteho on erinomainen."
 
-#: data/civ1/units.ruleset:571 data/civ2/units.ruleset:705
-#: data/classic/units.ruleset:773 data/sandbox/units.ruleset:891
-#: data/civ2civ3/units.ruleset:836 data/multiplayer/units.ruleset:774
+#: data/civ1/units.ruleset:576 data/civ2/units.ruleset:710
+#: data/classic/units.ruleset:778 data/sandbox/units.ruleset:896
+#: data/civ2civ3/units.ruleset:841 data/multiplayer/units.ruleset:779
 msgid "Musketeers"
 msgstr "Muskettijoukkue"
 
-#: data/civ1/units.ruleset:602
+#: data/civ1/units.ruleset:607
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Phalanx as "
 "the preferred city defender."
@@ -24681,15 +24685,15 @@ msgstr ""
 "Muskettijoukkue on jalkaväkeä, joka on varustettu varhaisilla tuliaseilla. "
 "Ne korvaavat falangin suositeltuna kaupunginpuolustajana."
 
-#: data/civ1/units.ruleset:609 data/civ2/units.ruleset:862
-#: data/classic/units.ruleset:891 data/sandbox/units.ruleset:929
-#: data/civ2civ3/units.ruleset:874 data/multiplayer/units.ruleset:931
+#: data/civ1/units.ruleset:614 data/civ2/units.ruleset:867
+#: data/classic/units.ruleset:896 data/sandbox/units.ruleset:934
+#: data/civ2civ3/units.ruleset:879 data/multiplayer/units.ruleset:936
 msgid "Riflemen"
 msgstr "Kiväärijoukkue"
 
-#: data/civ1/units.ruleset:639 data/civ2/units.ruleset:892
-#: data/classic/units.ruleset:921 data/sandbox/units.ruleset:959
-#: data/civ2civ3/units.ruleset:904 data/multiplayer/units.ruleset:961
+#: data/civ1/units.ruleset:644 data/civ2/units.ruleset:897
+#: data/classic/units.ruleset:926 data/sandbox/units.ruleset:964
+#: data/civ2civ3/units.ruleset:909 data/multiplayer/units.ruleset:966
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
@@ -24697,13 +24701,13 @@ msgstr ""
 "kaupunkejasi."
 
 # Liberal translation
-#: data/civ1/units.ruleset:645 data/civ2/units.ruleset:974
-#: data/classic/units.ruleset:1003 data/sandbox/units.ruleset:1172
-#: data/civ2civ3/units.ruleset:1116 data/multiplayer/units.ruleset:1043
+#: data/civ1/units.ruleset:650 data/civ2/units.ruleset:979
+#: data/classic/units.ruleset:1008 data/sandbox/units.ruleset:1177
+#: data/civ2civ3/units.ruleset:1121 data/multiplayer/units.ruleset:1048
 msgid "Mech. Inf."
 msgstr "Panssarijalkaväki"
 
-#: data/civ1/units.ruleset:675
+#: data/civ1/units.ruleset:680
 msgid ""
 "Mechanized Infantry; this unit has the strongest defense strength of any "
 "land unit, but is only available near the end of the technology tree."
@@ -24711,13 +24715,13 @@ msgstr ""
 "Moottoroidun panssarijalkaväen puolustuskyky on maavoimien suurin, mutta se "
 "on käytettävissä vasta aivan pelin loppuvaiheessa."
 
-#: data/civ1/units.ruleset:682 data/civ2/units.ruleset:1228
-#: data/classic/units.ruleset:1185 data/sandbox/units.ruleset:1431
-#: data/civ2civ3/units.ruleset:1375 data/multiplayer/units.ruleset:1297
+#: data/civ1/units.ruleset:687 data/civ2/units.ruleset:1233
+#: data/classic/units.ruleset:1190 data/sandbox/units.ruleset:1436
+#: data/civ2civ3/units.ruleset:1380 data/multiplayer/units.ruleset:1302
 msgid "Cavalry"
 msgstr "Ratsuväki"
 
-#: data/civ1/units.ruleset:712
+#: data/civ1/units.ruleset:717
 msgid ""
 "Cavalry are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
@@ -24725,14 +24729,14 @@ msgstr ""
 "Ratsuväki koostuu ratsain liikuvista sotureista. Murrettuaan vihollisen "
 "vastarinnan se voi edetä nopeasti syvälle vihollisen selustaan."
 
-#: data/civ1/units.ruleset:719 data/civ2/units.ruleset:1048
-#: data/classic/units.ruleset:1077 data/sandbox/units.ruleset:1248
-#: data/civ2civ3/units.ruleset:1192 data/multiplayer/units.ruleset:1117
+#: data/civ1/units.ruleset:724 data/civ2/units.ruleset:1053
+#: data/classic/units.ruleset:1082 data/sandbox/units.ruleset:1253
+#: data/civ2civ3/units.ruleset:1197 data/multiplayer/units.ruleset:1122
 msgid "Chariot"
 msgstr "Sotavaunu"
 
 # civ1
-#: data/civ1/units.ruleset:749
+#: data/civ1/units.ruleset:754
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "Cavalry."
@@ -24740,26 +24744,26 @@ msgstr ""
 "Hevosten vetämät Sotavaunut ovat tavallista Ratsuväkeä vahvempia mutta myös "
 "kalliimpia."
 
-#: data/civ1/units.ruleset:755 data/civ2/units.ruleset:1156
-#: data/classic/units.ruleset:1113 data/sandbox/units.ruleset:1360
-#: data/civ2civ3/units.ruleset:1304 data/multiplayer/units.ruleset:1225
+#: data/civ1/units.ruleset:760 data/civ2/units.ruleset:1161
+#: data/classic/units.ruleset:1118 data/sandbox/units.ruleset:1365
+#: data/civ2civ3/units.ruleset:1309 data/multiplayer/units.ruleset:1230
 msgid "Knights"
 msgstr "Ritarikaarti"
 
-#: data/civ1/units.ruleset:786 data/civ2/units.ruleset:1187
-#: data/classic/units.ruleset:1144 data/sandbox/units.ruleset:1391
-#: data/civ2civ3/units.ruleset:1335 data/multiplayer/units.ruleset:1256
+#: data/civ1/units.ruleset:791 data/civ2/units.ruleset:1192
+#: data/classic/units.ruleset:1149 data/sandbox/units.ruleset:1396
+#: data/civ2civ3/units.ruleset:1340 data/multiplayer/units.ruleset:1261
 msgid "Knights are mounted and heavily armored warriors."
 msgstr "Ritarit ovat raskaasti haarniskoituja ja ratsain liikkuvia sotureita."
 
-#: data/civ1/units.ruleset:791 data/civ2/units.ruleset:1263
-#: data/classic/units.ruleset:1220 data/sandbox/units.ruleset:1466
-#: data/civ2civ3/units.ruleset:1410 data/multiplayer/units.ruleset:1332
+#: data/civ1/units.ruleset:796 data/civ2/units.ruleset:1268
+#: data/classic/units.ruleset:1225 data/sandbox/units.ruleset:1471
+#: data/civ2civ3/units.ruleset:1415 data/multiplayer/units.ruleset:1337
 msgid "Armor"
 msgstr "Panssarivaunu"
 
-#: data/civ1/units.ruleset:821 data/civ2/units.ruleset:1293
-#: data/classic/units.ruleset:1250 data/multiplayer/units.ruleset:1362
+#: data/civ1/units.ruleset:826 data/civ2/units.ruleset:1298
+#: data/classic/units.ruleset:1255 data/multiplayer/units.ruleset:1367
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
@@ -24768,15 +24772,15 @@ msgstr ""
 "vahvempia ja paremmin räimimistä sietäviä kuin mikä tahansa yhden "
 "hevosvoiman ratsuyksikkö."
 
-#: data/civ1/units.ruleset:828 data/civ2/units.ruleset:1300
-#: data/classic/units.ruleset:1257 data/sandbox/units.ruleset:1505
-#: data/civ2civ3/units.ruleset:1449 data/multiplayer/units.ruleset:1369
+#: data/civ1/units.ruleset:833 data/civ2/units.ruleset:1305
+#: data/classic/units.ruleset:1262 data/sandbox/units.ruleset:1510
+#: data/civ2civ3/units.ruleset:1454 data/multiplayer/units.ruleset:1374
 msgid "Catapult"
 msgstr "Katapultti"
 
-#: data/civ1/units.ruleset:858 data/civ2/units.ruleset:1330
-#: data/classic/units.ruleset:1287 data/sandbox/units.ruleset:1535
-#: data/civ2civ3/units.ruleset:1479 data/multiplayer/units.ruleset:1399
+#: data/civ1/units.ruleset:863 data/civ2/units.ruleset:1335
+#: data/classic/units.ruleset:1292 data/sandbox/units.ruleset:1540
+#: data/civ2civ3/units.ruleset:1484 data/multiplayer/units.ruleset:1404
 msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
@@ -24785,14 +24789,14 @@ msgstr ""
 "hyökkääjiä mutta toivottomia puolustajia ja tarvitsevat siksi saattojoukkoja "
 "toimiakseen tehokkaasti."
 
-#: data/civ1/units.ruleset:865 data/civ2/units.ruleset:1337
-#: data/classic/units.ruleset:1294 data/sandbox/units.ruleset:1547
-#: data/civ2civ3/units.ruleset:1491 data/multiplayer/units.ruleset:1406
+#: data/civ1/units.ruleset:870 data/civ2/units.ruleset:1342
+#: data/classic/units.ruleset:1299 data/sandbox/units.ruleset:1552
+#: data/civ2civ3/units.ruleset:1496 data/multiplayer/units.ruleset:1411
 msgid "Cannon"
 msgstr "Kanuuna"
 
-#: data/civ1/units.ruleset:895 data/civ2/units.ruleset:1367
-#: data/classic/units.ruleset:1324 data/multiplayer/units.ruleset:1436
+#: data/civ1/units.ruleset:900 data/civ2/units.ruleset:1372
+#: data/classic/units.ruleset:1329 data/multiplayer/units.ruleset:1441
 msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
 "distances. They are very strong attackers but equally weak defenders and "
@@ -24802,13 +24806,13 @@ msgstr ""
 "ovat erinomaisien vahvoja hyökkääjiä mutta toivottomia puolustajia ja "
 "tarvitsevat siksi saattojoukkoja toimiakseen tehokkaasti."
 
-#: data/civ1/units.ruleset:903 data/civ2/units.ruleset:1375
-#: data/classic/units.ruleset:1332 data/sandbox/units.ruleset:1585
-#: data/civ2civ3/units.ruleset:1529 data/multiplayer/units.ruleset:1444
+#: data/civ1/units.ruleset:908 data/civ2/units.ruleset:1380
+#: data/classic/units.ruleset:1337 data/sandbox/units.ruleset:1590
+#: data/civ2civ3/units.ruleset:1534 data/multiplayer/units.ruleset:1449
 msgid "Artillery"
 msgstr "Tykistö"
 
-#: data/civ1/units.ruleset:933
+#: data/civ1/units.ruleset:938
 msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities. It can shoot over city walls, ignoring their effect."
@@ -24817,16 +24821,16 @@ msgstr ""
 "puolustuskyky on kohentunut. Se voi ampua kaupunginmuurien yli, jättäen "
 "näiden vaikutuksen puolustukseen huomiotta."
 
-#: data/civ1/units.ruleset:940 data/civ2/units.ruleset:38
-#: data/civ2/units.ruleset:1449 data/classic/units.ruleset:1406
-#: data/sandbox/units.ruleset:1659 data/civ2civ3/units.ruleset:1603
-#: data/multiplayer/units.ruleset:1518
+#: data/civ1/units.ruleset:945 data/civ2/units.ruleset:38
+#: data/civ2/units.ruleset:1454 data/classic/units.ruleset:1411
+#: data/sandbox/units.ruleset:1664 data/civ2civ3/units.ruleset:1608
+#: data/multiplayer/units.ruleset:1523
 msgid "Fighter"
 msgstr "Hävittäjäkone"
 
-#: data/civ1/units.ruleset:971 data/civ2/units.ruleset:1487
-#: data/classic/units.ruleset:1443 data/sandbox/units.ruleset:1690
-#: data/civ2civ3/units.ruleset:1634 data/multiplayer/units.ruleset:1555
+#: data/civ1/units.ruleset:976 data/civ2/units.ruleset:1492
+#: data/classic/units.ruleset:1448 data/sandbox/units.ruleset:1695
+#: data/civ2civ3/units.ruleset:1639 data/multiplayer/units.ruleset:1560
 msgid ""
 "Fighters are your first airborne units. They can move anywhere and attack "
 "any unit."
@@ -24834,17 +24838,17 @@ msgstr ""
 "Hävittäjäkoneet ovat ilmavoimiesi ensimmäisiä yksiköitä. Ne voivat liikkua "
 "mihin tahansa ja hyökätä minkä tahansa yksikön kimppuun."
 
-#: data/civ1/units.ruleset:977 data/civ2/units.ruleset:39
-#: data/civ2/units.ruleset:1493 data/classic/units.ruleset:45
-#: data/classic/units.ruleset:1449 data/sandbox/units.ruleset:1701
-#: data/civ2civ3/units.ruleset:1645 data/multiplayer/units.ruleset:45
-#: data/multiplayer/units.ruleset:1561
+#: data/civ1/units.ruleset:982 data/civ2/units.ruleset:39
+#: data/civ2/units.ruleset:1498 data/classic/units.ruleset:45
+#: data/classic/units.ruleset:1454 data/sandbox/units.ruleset:1706
+#: data/civ2civ3/units.ruleset:1650 data/multiplayer/units.ruleset:45
+#: data/multiplayer/units.ruleset:1566
 msgid "Bomber"
 msgstr "Pommikone"
 
-#: data/civ1/units.ruleset:1007 data/civ2/units.ruleset:1523
-#: data/classic/units.ruleset:1479 data/sandbox/units.ruleset:1732
-#: data/civ2civ3/units.ruleset:1675 data/multiplayer/units.ruleset:1591
+#: data/civ1/units.ruleset:1012 data/civ2/units.ruleset:1528
+#: data/classic/units.ruleset:1484 data/sandbox/units.ruleset:1737
+#: data/civ2civ3/units.ruleset:1680 data/multiplayer/units.ruleset:1596
 msgid ""
 "Bombers are specialized airborne units that may only attack ground targets, "
 "not other airborne units."
@@ -24855,13 +24859,13 @@ msgstr ""
 
 # Finnish translations of some naval units based on Jussi Mannerberg's book (JARKKO)
 #. TRANS: unit type
-#: data/civ1/units.ruleset:1015 data/civ2/units.ruleset:1651
-#: data/classic/units.ruleset:1609 data/sandbox/units.ruleset:1874
-#: data/civ2civ3/units.ruleset:1816 data/multiplayer/units.ruleset:1720
+#: data/civ1/units.ruleset:1020 data/civ2/units.ruleset:1656
+#: data/classic/units.ruleset:1614 data/sandbox/units.ruleset:1879
+#: data/civ2civ3/units.ruleset:1821 data/multiplayer/units.ruleset:1725
 msgid "Trireme"
 msgstr "Kaleeri"
 
-#: data/civ1/units.ruleset:1046 data/civ2/units.ruleset:1682
+#: data/civ1/units.ruleset:1051 data/civ2/units.ruleset:1687
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not stray too far from the shore."
@@ -24870,23 +24874,23 @@ msgstr ""
 "kykenee jossain määrin myös hyökkäykseen; sen sijaan se ei saa eksyä liian "
 "kauas rannikosta."
 
-#: data/civ1/units.ruleset:1053
+#: data/civ1/units.ruleset:1058
 msgid "Sail"
 msgstr "Purjelaiva"
 
-#: data/civ1/units.ruleset:1084
+#: data/civ1/units.ruleset:1089
 msgid ""
 "The Sail replaces the Trireme and is much more reliable on the open seas."
 msgstr "Purjelaiva korvaa kaleerin ja on sitä paljon luotettavampi avomerellä."
 
-#: data/civ1/units.ruleset:1090 data/civ2/units.ruleset:1764
-#: data/classic/units.ruleset:1722 data/sandbox/units.ruleset:1992
-#: data/civ2civ3/units.ruleset:1931 data/multiplayer/units.ruleset:1833
+#: data/civ1/units.ruleset:1095 data/civ2/units.ruleset:1769
+#: data/classic/units.ruleset:1727 data/sandbox/units.ruleset:1997
+#: data/civ2civ3/units.ruleset:1936 data/multiplayer/units.ruleset:1838
 msgid "Frigate"
 msgstr "Fregatti"
 
-#: data/civ1/units.ruleset:1121 data/civ2/units.ruleset:1795
-#: data/classic/units.ruleset:1753 data/multiplayer/units.ruleset:1864
+#: data/civ1/units.ruleset:1126 data/civ2/units.ruleset:1800
+#: data/classic/units.ruleset:1758 data/multiplayer/units.ruleset:1869
 msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
@@ -24894,14 +24898,14 @@ msgstr ""
 "Fregatti on monipuolinen alus, joka on sekä vahva hyökkääjä että kelvollinen "
 "kuljetusalus."
 
-#: data/civ1/units.ruleset:1128 data/civ2/units.ruleset:1802
-#: data/classic/units.ruleset:1760 data/sandbox/units.ruleset:2028
-#: data/civ2civ3/units.ruleset:1967 data/multiplayer/units.ruleset:1871
+#: data/civ1/units.ruleset:1133 data/civ2/units.ruleset:1807
+#: data/classic/units.ruleset:1765 data/sandbox/units.ruleset:2033
+#: data/civ2civ3/units.ruleset:1972 data/multiplayer/units.ruleset:1876
 msgid "Ironclad"
 msgstr "Panssarilaiva"
 
-#: data/civ1/units.ruleset:1158 data/civ2/units.ruleset:1832
-#: data/classic/units.ruleset:1790 data/multiplayer/units.ruleset:1901
+#: data/civ1/units.ruleset:1163 data/civ2/units.ruleset:1837
+#: data/classic/units.ruleset:1795 data/multiplayer/units.ruleset:1906
 msgid ""
 "The Ironclad is an armored ship that is much more sturdy than the Frigate "
 "but loses the latter's transport capability."
@@ -24909,27 +24913,27 @@ msgstr ""
 "Panssarilaiva on panssaroitu alus joka on paljon kestävämpi kuin fregatti, "
 "muttei kykene sen tavoin kuljettamaan yksiköitä."
 
-#: data/civ1/units.ruleset:1165 data/civ2/units.ruleset:1877
-#: data/classic/units.ruleset:1835 data/sandbox/units.ruleset:2107
-#: data/civ2civ3/units.ruleset:2046 data/multiplayer/units.ruleset:1946
+#: data/civ1/units.ruleset:1170 data/civ2/units.ruleset:1882
+#: data/classic/units.ruleset:1840 data/sandbox/units.ruleset:2112
+#: data/civ2civ3/units.ruleset:2051 data/multiplayer/units.ruleset:1951
 msgid "Cruiser"
 msgstr "Risteilijä"
 
-#: data/civ1/units.ruleset:1195 data/civ2/units.ruleset:1907
-#: data/classic/units.ruleset:1865 data/sandbox/units.ruleset:2137
-#: data/civ2civ3/units.ruleset:2076 data/multiplayer/units.ruleset:1976
+#: data/civ1/units.ruleset:1200 data/civ2/units.ruleset:1912
+#: data/classic/units.ruleset:1870 data/sandbox/units.ruleset:2142
+#: data/civ2civ3/units.ruleset:2081 data/multiplayer/units.ruleset:1981
 msgid "The Cruiser is a strong offensive boat unit."
 msgstr "Risteilijä on hyökkäysteholtaan vahva alus."
 
-#: data/civ1/units.ruleset:1200 data/civ2/units.ruleset:1952
-#: data/classic/units.ruleset:1910 data/sandbox/units.ruleset:2182
-#: data/civ2civ3/units.ruleset:2121 data/multiplayer/units.ruleset:2021
+#: data/civ1/units.ruleset:1205 data/civ2/units.ruleset:1957
+#: data/classic/units.ruleset:1915 data/sandbox/units.ruleset:2187
+#: data/civ2civ3/units.ruleset:2126 data/multiplayer/units.ruleset:2026
 msgid "Battleship"
 msgstr "Taistelulaiva"
 
-#: data/civ1/units.ruleset:1230 data/civ2/units.ruleset:1982
-#: data/classic/units.ruleset:1940 data/sandbox/units.ruleset:2216
-#: data/civ2civ3/units.ruleset:2151 data/multiplayer/units.ruleset:2051
+#: data/civ1/units.ruleset:1235 data/civ2/units.ruleset:1987
+#: data/classic/units.ruleset:1945 data/sandbox/units.ruleset:2221
+#: data/civ2civ3/units.ruleset:2156 data/multiplayer/units.ruleset:2056
 msgid ""
 "The Battleship is the supreme naval unit with excellent offensive and "
 "defensive values."
@@ -24937,16 +24941,16 @@ msgstr ""
 "Taistelulaiva on ylivertainen laivaston yksikkö, jonka sekä hyökkäys- että "
 "puolustusteho ovat erinomaisia."
 
-#: data/civ1/units.ruleset:1236 data/civ2/units.ruleset:1988
-#: data/classic/units.ruleset:1946 data/sandbox/units.ruleset:33
-#: data/sandbox/units.ruleset:2222 data/civ2civ3/units.ruleset:33
-#: data/civ2civ3/units.ruleset:2157 data/multiplayer/units.ruleset:2057
+#: data/civ1/units.ruleset:1241 data/civ2/units.ruleset:1993
+#: data/classic/units.ruleset:1951 data/sandbox/units.ruleset:33
+#: data/sandbox/units.ruleset:2227 data/civ2civ3/units.ruleset:33
+#: data/civ2civ3/units.ruleset:2162 data/multiplayer/units.ruleset:2062
 msgid "Submarine"
 msgstr "Sukellusvene"
 
-#: data/civ1/units.ruleset:1267 data/civ2/units.ruleset:2021
-#: data/classic/units.ruleset:1979 data/sandbox/units.ruleset:2255
-#: data/civ2civ3/units.ruleset:2190 data/multiplayer/units.ruleset:2090
+#: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:2026
+#: data/classic/units.ruleset:1984 data/sandbox/units.ruleset:2260
+#: data/civ2civ3/units.ruleset:2195 data/multiplayer/units.ruleset:2095
 msgid ""
 "Traveling under the surface of the ocean, Submarines have a very high "
 "strategic value, but a weak defense if caught off guard."
@@ -24954,21 +24958,21 @@ msgstr ""
 "Merenpinnan alapuolella kulkevilla sukellusveneillä on paljon strategista "
 "arvoa, mutta ne ovat heikkoja puolustautumaan tullessaan yllätetyiksi."
 
-#: data/civ1/units.ruleset:1274 data/civ2/units.ruleset:2028
-#: data/classic/units.ruleset:1986 data/sandbox/units.ruleset:2302
-#: data/civ2civ3/units.ruleset:2197 data/multiplayer/units.ruleset:2097
+#: data/civ1/units.ruleset:1279 data/civ2/units.ruleset:2033
+#: data/classic/units.ruleset:1991 data/sandbox/units.ruleset:2307
+#: data/civ2civ3/units.ruleset:2202 data/multiplayer/units.ruleset:2102
 msgid "Carrier"
 msgstr "Lentotukialus"
 
-#: data/civ1/units.ruleset:1305 data/civ2/units.ruleset:2059
-#: data/classic/units.ruleset:2017 data/sandbox/units.ruleset:2336
-#: data/civ2civ3/units.ruleset:2228 data/multiplayer/units.ruleset:2128
+#: data/civ1/units.ruleset:1310 data/civ2/units.ruleset:2064
+#: data/classic/units.ruleset:2022 data/sandbox/units.ruleset:2341
+#: data/civ2civ3/units.ruleset:2233 data/multiplayer/units.ruleset:2133
 msgid "The Carrier is a mobile airport."
 msgstr "Lentotukialus on liikkuva lentokenttä."
 
-#: data/civ1/units.ruleset:1307 data/civ2/units.ruleset:2061
-#: data/classic/units.ruleset:2019 data/sandbox/units.ruleset:2342
-#: data/civ2civ3/units.ruleset:2234 data/multiplayer/units.ruleset:2130
+#: data/civ1/units.ruleset:1312 data/civ2/units.ruleset:2066
+#: data/classic/units.ruleset:2024 data/sandbox/units.ruleset:2347
+#: data/civ2civ3/units.ruleset:2239 data/multiplayer/units.ruleset:2135
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
@@ -24977,24 +24981,24 @@ msgstr ""
 "aluksella sillä täyteen lastatun tukialuksen menettäminen on ERITTÄIN "
 "tuskallista ja kallista."
 
-#: data/civ1/units.ruleset:1314 data/civ2/units.ruleset:2068
-#: data/classic/units.ruleset:2026 data/sandbox/units.ruleset:2349
-#: data/civ2civ3/units.ruleset:2241 data/multiplayer/units.ruleset:2137
+#: data/civ1/units.ruleset:1319 data/civ2/units.ruleset:2073
+#: data/classic/units.ruleset:2031 data/sandbox/units.ruleset:2354
+#: data/civ2civ3/units.ruleset:2246 data/multiplayer/units.ruleset:2142
 msgid "Transport"
 msgstr "Rahtilaiva"
 
-#: data/civ1/units.ruleset:1345 data/civ2/units.ruleset:2099
-#: data/classic/units.ruleset:2057 data/sandbox/units.ruleset:2386
-#: data/civ2civ3/units.ruleset:2278 data/multiplayer/units.ruleset:2168
+#: data/civ1/units.ruleset:1350 data/civ2/units.ruleset:2104
+#: data/classic/units.ruleset:2062 data/sandbox/units.ruleset:2391
+#: data/civ2civ3/units.ruleset:2283 data/multiplayer/units.ruleset:2173
 msgid ""
 "The Transport cannot attack on its own but may defend itself when under "
 "attack."
 msgstr ""
 "Rahtilaiva ei voi hyökätä itse, mutta voi puolustautua hyökkäystä vastaan."
 
-#: data/civ1/units.ruleset:1381 data/civ2/units.ruleset:2174
-#: data/classic/units.ruleset:2138 data/sandbox/units.ruleset:2538
-#: data/multiplayer/units.ruleset:2249
+#: data/civ1/units.ruleset:1386 data/civ2/units.ruleset:2179
+#: data/classic/units.ruleset:2143 data/sandbox/units.ruleset:2543
+#: data/multiplayer/units.ruleset:2254
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player."
@@ -25003,7 +25007,7 @@ msgstr ""
 "edistysaskeleen ja kuka tahansa pelaaja on saanut Manhattan-projektin "
 "valmiiksi."
 
-#: data/civ1/units.ruleset:1384 data/civ2/units.ruleset:2177
+#: data/civ1/units.ruleset:1389 data/civ2/units.ruleset:2182
 msgid ""
 "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
 "squares for rectangular grids), including friendly units. Any city within "
@@ -25017,8 +25021,8 @@ msgstr ""
 "voi jäädä ydinlaskeumaa, joka ilmenee saasteena ja vaikuttaa "
 "ilmastonmuutokseen."
 
-#: data/civ1/units.ruleset:1390 data/civ2/units.ruleset:2183
-#: data/classic/units.ruleset:2149 data/multiplayer/units.ruleset:2260
+#: data/civ1/units.ruleset:1395 data/civ2/units.ruleset:2188
+#: data/classic/units.ruleset:2154 data/multiplayer/units.ruleset:2265
 msgid ""
 "TIP 1:  Nuking the ocean will not generate fallout, and is a most effective "
 "(but expensive!!) way of getting rid of enemy ships."
@@ -25026,7 +25030,7 @@ msgstr ""
 "VIHJE 1: Ydinisku valtamereen ei aiheuta laskeumaa ja se on kaikkein "
 "tehokkain (joskin kallis) tapa päästä eroon vihollisen laivoista."
 
-#: data/civ1/units.ruleset:1394
+#: data/civ1/units.ruleset:1399
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -25041,15 +25045,15 @@ msgstr ""
 "ydintalven syntymahdollisuuden ja käytät ydinaseitasi "
 "ympäristöystävällisesti!"
 
-#: data/civ1/units.ruleset:1404 data/civ2/units.ruleset:2197
-#: data/classic/units.ruleset:2163 data/sandbox/units.ruleset:2566
-#: data/civ2civ3/units.ruleset:2392 data/multiplayer/units.ruleset:2274
+#: data/civ1/units.ruleset:1409 data/civ2/units.ruleset:2202
+#: data/classic/units.ruleset:2168 data/sandbox/units.ruleset:2571
+#: data/civ2civ3/units.ruleset:2397 data/multiplayer/units.ruleset:2279
 msgid "Diplomat"
 msgstr "Diplomaatti"
 
-#: data/civ1/units.ruleset:1439 data/civ2/units.ruleset:2232
-#: data/classic/units.ruleset:2206 data/sandbox/units.ruleset:2611
-#: data/civ2civ3/units.ruleset:2437 data/multiplayer/units.ruleset:2317
+#: data/civ1/units.ruleset:1444 data/civ2/units.ruleset:2237
+#: data/classic/units.ruleset:2211 data/sandbox/units.ruleset:2616
+#: data/civ2civ3/units.ruleset:2442 data/multiplayer/units.ruleset:2322
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -25061,8 +25065,8 @@ msgstr ""
 "peiteoperaatioita, joiden tavoitteena on vastustajiesi vahingoittaminen. "
 "Omissa kaupungeissasi diplomaatit antavat suojaa peiteoperaatioita vastaan."
 
-#: data/civ1/units.ruleset:1445 data/civ2/units.ruleset:2238
-#: data/classic/units.ruleset:2212 data/multiplayer/units.ruleset:2323
+#: data/civ1/units.ruleset:1450 data/civ2/units.ruleset:2243
+#: data/classic/units.ruleset:2217 data/multiplayer/units.ruleset:2328
 msgid ""
 "Many covert actions may be attempted even in peacetime, but the more "
 "aggressive actions will be discovered and cause diplomatic incidents, which "
@@ -25073,8 +25077,8 @@ msgstr ""
 "selkkauksen, minkä seurauksena myös Tasavallat ja Demokratiat voivat purkaa "
 "niitä sitovat sopimukset."
 
-#: data/civ1/units.ruleset:1449 data/civ2/units.ruleset:2242
-#: data/classic/units.ruleset:2216 data/multiplayer/units.ruleset:2327
+#: data/civ1/units.ruleset:1454 data/civ2/units.ruleset:2247
+#: data/classic/units.ruleset:2221 data/multiplayer/units.ruleset:2332
 msgid ""
 "If a foreign unit is alone on a tile, you may attempt to bribe it with your "
 "Diplomat. By paying a sum of gold the unit will immediately become yours; "
@@ -25089,7 +25093,7 @@ msgstr ""
 "kuitenkaan lahjoa. Lahjonta rauhan aikana aiheuttaa diplomaatisen "
 "selkkauksen."
 
-#: data/civ1/units.ruleset:1456 data/civ2/units.ruleset:2249
+#: data/civ1/units.ruleset:1461 data/civ2/units.ruleset:2254
 msgid ""
 "Diplomats can also perform a number of actions in another player's city, "
 "although each Diplomat may attempt only one action. Most of these actions "
@@ -25105,14 +25109,14 @@ msgstr ""
 "joko oma tai vihollisen yksikkö tuhoutuu. Jos puolustava yksikkö tuhoutuu, "
 "menetät yhden liikepisteen ja voit yrittää uudelleen."
 
-#: data/civ1/units.ruleset:1463 data/civ2/units.ruleset:2256
-#: data/classic/units.ruleset:2231 data/sandbox/units.ruleset:2637
-#: data/civ2civ3/units.ruleset:2463 data/multiplayer/units.ruleset:2342
+#: data/civ1/units.ruleset:1468 data/civ2/units.ruleset:2261
+#: data/classic/units.ruleset:2236 data/sandbox/units.ruleset:2642
+#: data/civ2civ3/units.ruleset:2468 data/multiplayer/units.ruleset:2347
 msgid "The actions available to Diplomats in a city are:"
 msgstr "Diplomaatille mahdolliset toimet kaupungissa ovat:"
 
-#: data/civ1/units.ruleset:1465 data/civ2/units.ruleset:2258
-#: data/classic/units.ruleset:2233 data/multiplayer/units.ruleset:2344
+#: data/civ1/units.ruleset:1470 data/civ2/units.ruleset:2263
+#: data/classic/units.ruleset:2238 data/multiplayer/units.ruleset:2349
 msgid ""
 " - \"Establish Embassy\": This action always succeeds, and gives permanent "
 "contact with the city's owner, as well as intelligence on their tax rates "
@@ -25122,8 +25126,8 @@ msgstr ""
 "kaupunkia hallussa pitävään kansakuntaan ja tarjoaa lisäksi tiedustelutietoa "
 "veroasteista ja teknologioista."
 
-#: data/civ1/units.ruleset:1469 data/civ2/units.ruleset:2262
-#: data/classic/units.ruleset:2237 data/multiplayer/units.ruleset:2348
+#: data/civ1/units.ruleset:1474 data/civ2/units.ruleset:2267
+#: data/classic/units.ruleset:2242 data/multiplayer/units.ruleset:2353
 msgid ""
 " - \"Investigate City\": Your unit attempts to report detailed information "
 "about the city: its status, what buildings and units are within, and what it "
@@ -25133,9 +25137,9 @@ msgstr ""
 "kaupungista: kaupungin tila, rakennukset ja paikalla olevat yksiköt sekä "
 "nykyinen tuotantohanke."
 
-#: data/civ1/units.ruleset:1473 data/civ2/units.ruleset:2266
-#: data/classic/units.ruleset:2241 data/sandbox/units.ruleset:2650
-#: data/civ2civ3/units.ruleset:2476 data/multiplayer/units.ruleset:2352
+#: data/civ1/units.ruleset:1478 data/civ2/units.ruleset:2271
+#: data/classic/units.ruleset:2246 data/sandbox/units.ruleset:2655
+#: data/civ2civ3/units.ruleset:2481 data/multiplayer/units.ruleset:2357
 msgid ""
 " - \"Sabotage City\": Your unit attempts either to disrupt all the city's "
 "work so far towards its current project, or to destroy an existing building "
@@ -25150,9 +25154,9 @@ msgstr ""
 "puolittavat kumpikin onnistumistodennäköisyyden. Sabotaasi on mahdollista "
 "vain kun osapuolet ovat avoimesti sodassa keskenään."
 
-#: data/civ1/units.ruleset:1480 data/civ2/units.ruleset:2273
-#: data/classic/units.ruleset:2248 data/sandbox/units.ruleset:2657
-#: data/civ2civ3/units.ruleset:2483 data/multiplayer/units.ruleset:2359
+#: data/civ1/units.ruleset:1485 data/civ2/units.ruleset:2278
+#: data/classic/units.ruleset:2253 data/sandbox/units.ruleset:2662
+#: data/civ2civ3/units.ruleset:2488 data/multiplayer/units.ruleset:2364
 msgid ""
 " - \"Steal Technology\": Your unit attempts to learn the secrets of a random "
 "technology known to the city's owner but not to you. Technology may only be "
@@ -25165,8 +25169,8 @@ msgstr ""
 "yrittää muutenkin kuin sodan aikana, mutta se aiheuttaa diplomaattisen "
 "selkkauksen."
 
-#: data/civ1/units.ruleset:1486 data/civ2/units.ruleset:2279
-#: data/classic/units.ruleset:2254 data/multiplayer/units.ruleset:2365
+#: data/civ1/units.ruleset:1491 data/civ2/units.ruleset:2284
+#: data/classic/units.ruleset:2259 data/multiplayer/units.ruleset:2370
 msgid ""
 " - \"Incite a Revolt\": In return for gold a foreign city will change "
 "allegiance and join your empire, bringing along all nearby units that call "
@@ -25186,9 +25190,9 @@ msgstr ""
 "demokratialle kuuluvassa kaupungissa. Kapinan lietsontaa voi yrittää rauhan "
 "aikana, mutta se aiheuttaa diplomaattisen selkkauksen."
 
-#: data/civ1/units.ruleset:1496 data/civ2/units.ruleset:2289
-#: data/classic/units.ruleset:2264 data/sandbox/units.ruleset:2672
-#: data/civ2civ3/units.ruleset:2498 data/multiplayer/units.ruleset:2375
+#: data/civ1/units.ruleset:1501 data/civ2/units.ruleset:2294
+#: data/classic/units.ruleset:2269 data/sandbox/units.ruleset:2677
+#: data/civ2civ3/units.ruleset:2503 data/multiplayer/units.ruleset:2380
 msgid ""
 "In some game strategies, hordes of Diplomats can be used to wreak havoc on "
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
@@ -25198,15 +25202,15 @@ msgstr ""
 "vihollisen keskuudessa. Eipä ihme että diplomaatit usein herättävät "
 "epäilystä ja pelkoa!"
 
-#: data/civ1/units.ruleset:1503 data/civ2/units.ruleset:2360
-#: data/classic/units.ruleset:2348 data/sandbox/units.ruleset:2773
-#: data/civ2civ3/units.ruleset:2596 data/alien/units.ruleset:1470
-#: data/multiplayer/units.ruleset:2459
+#: data/civ1/units.ruleset:1508 data/civ2/units.ruleset:2365
+#: data/classic/units.ruleset:2353 data/sandbox/units.ruleset:2778
+#: data/civ2civ3/units.ruleset:2601 data/alien/units.ruleset:1475
+#: data/multiplayer/units.ruleset:2464
 msgid "Caravan"
 msgstr "Karavaani"
 
-#: data/civ1/units.ruleset:1533 data/civ2/units.ruleset:2390
-#: data/classic/units.ruleset:2378
+#: data/civ1/units.ruleset:1538 data/civ2/units.ruleset:2395
+#: data/classic/units.ruleset:2383
 msgid ""
 "A Caravan carries goods or material for trading with distant cities and "
 "foreign countries, or to help build wonders in your cities."
@@ -25215,7 +25219,7 @@ msgstr ""
 "vieraille maille myytäviksi tai käytettäväksi ihmeen rakennusaineina omissa "
 "kaupungeissasi."
 
-#: data/civ1/units.ruleset:1536 data/civ2/units.ruleset:2393
+#: data/civ1/units.ruleset:1541 data/civ2/units.ruleset:2398
 msgid ""
 "Caravans can establish trade routes with your own cities or those of other "
 "nations (even enemies) by traveling to them. A route's ongoing revenue is "
@@ -25237,8 +25241,8 @@ msgstr ""
 "saat vain sen tuoton mutta sen tuotto on kaksinkertainen. Kukin kaupunki voi "
 "olla kolmen kauppareitin päätepiste."
 
-#: data/civ1/units.ruleset:1546 data/civ2/units.ruleset:2403
-#: data/classic/units.ruleset:2394
+#: data/civ1/units.ruleset:1551 data/civ2/units.ruleset:2408
+#: data/classic/units.ruleset:2399
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder."
@@ -25246,9 +25250,9 @@ msgstr ""
 "Jokainen ihmeen rakentamiseen käytettävä Karavaani edistää ihmeen "
 "valmistumista 50:llä yksiköllä."
 
-#: data/civ1/units.ruleset:1549 data/civ2/units.ruleset:2406
-#: data/classic/units.ruleset:2397 data/sandbox/units.ruleset:2820
-#: data/civ2civ3/units.ruleset:2641 data/multiplayer/units.ruleset:2495
+#: data/civ1/units.ruleset:1554 data/civ2/units.ruleset:2411
+#: data/classic/units.ruleset:2402 data/sandbox/units.ruleset:2825
+#: data/civ2civ3/units.ruleset:2646 data/multiplayer/units.ruleset:2500
 msgid ""
 "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
 "into a city where you have started to build a wonder, and finish it in only "
@@ -25258,15 +25262,15 @@ msgstr ""
 "kaupunkiin, johon olet alkanut rakentaa ihmettä. Näin voit saada ihmeen "
 "valmiiksi yhden vuoron aikana!"
 
-#: data/civ1/units.ruleset:1556 data/civ2/units.ruleset:2485
-#: data/classic/units.ruleset:2517 data/sandbox/units.ruleset:2955
-#: data/civ2civ3/units.ruleset:2775 data/multiplayer/units.ruleset:2616
+#: data/civ1/units.ruleset:1561 data/civ2/units.ruleset:2490
+#: data/classic/units.ruleset:2522 data/sandbox/units.ruleset:2960
+#: data/civ2civ3/units.ruleset:2780 data/multiplayer/units.ruleset:2621
 msgid "Barbarian Leader"
 msgstr "Barbaarijohtaja"
 
-#: data/civ1/units.ruleset:1583 data/civ2/units.ruleset:2512
-#: data/classic/units.ruleset:2551 data/sandbox/units.ruleset:2990
-#: data/civ2civ3/units.ruleset:2809 data/multiplayer/units.ruleset:2650
+#: data/civ1/units.ruleset:1588 data/civ2/units.ruleset:2517
+#: data/classic/units.ruleset:2556 data/sandbox/units.ruleset:2995
+#: data/civ2civ3/units.ruleset:2814 data/multiplayer/units.ruleset:2655
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world."
@@ -25274,7 +25278,7 @@ msgstr ""
 "Barbaarijohtaja ilmaantuu aina, kun maailman jossakin kolkassa barbaarit "
 "lähtevät sotajalalle."
 
-#: data/civ1/units.ruleset:1586
+#: data/civ1/units.ruleset:1591
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "ransom is paid, but only to land units. Usually the ransom is 100 gold, but "
@@ -26796,10 +26800,10 @@ msgid "Attack value halved when attacking Pikemen."
 msgstr "Hyökkäysarvo puolitettu hyökättäessä keihäsmiehiä vastaan."
 
 #. TRANS: unit type
-#: data/civ2/units.ruleset:28 data/civ2/units.ruleset:1531
-#: data/classic/units.ruleset:34 data/classic/units.ruleset:1487
-#: data/sandbox/units.ruleset:1748 data/civ2civ3/units.ruleset:1691
-#: data/multiplayer/units.ruleset:34 data/multiplayer/units.ruleset:1599
+#: data/civ2/units.ruleset:28 data/civ2/units.ruleset:1536
+#: data/classic/units.ruleset:34 data/classic/units.ruleset:1492
+#: data/sandbox/units.ruleset:1753 data/civ2civ3/units.ruleset:1696
+#: data/multiplayer/units.ruleset:34 data/multiplayer/units.ruleset:1604
 msgid "Helicopter"
 msgstr "Helikopteri"
 
@@ -26808,12 +26812,12 @@ msgstr "Helikopteri"
 msgid "Defends very badly against Fighters."
 msgstr "Puolustautuu hyvin heikosti hävittäjäkoneita vastaan."
 
-#: data/civ2/units.ruleset:34 data/civ2/units.ruleset:933
-#: data/classic/units.ruleset:41 data/classic/units.ruleset:962
-#: data/sandbox/units.ruleset:49 data/sandbox/units.ruleset:1129
-#: data/civ2civ3/units.ruleset:43 data/civ2civ3/units.ruleset:1073
+#: data/civ2/units.ruleset:34 data/civ2/units.ruleset:938
+#: data/classic/units.ruleset:41 data/classic/units.ruleset:967
+#: data/sandbox/units.ruleset:49 data/sandbox/units.ruleset:1134
+#: data/civ2civ3/units.ruleset:43 data/civ2civ3/units.ruleset:1078
 #: data/alien/units.ruleset:33 data/multiplayer/units.ruleset:41
-#: data/multiplayer/units.ruleset:1002
+#: data/multiplayer/units.ruleset:1007
 msgid "Paratroopers"
 msgstr "Laskuvarjojääkäripartio"
 
@@ -26825,11 +26829,11 @@ msgstr ""
 "Voidaan tiputtaa maahan ystävällismielisestä kaupungista tai sopivasta "
 "tukikohdasta lähtien."
 
-#: data/civ2/units.ruleset:35 data/civ2/units.ruleset:898
-#: data/classic/units.ruleset:42 data/classic/units.ruleset:927
-#: data/sandbox/units.ruleset:50 data/sandbox/units.ruleset:1092
-#: data/civ2civ3/units.ruleset:44 data/civ2civ3/units.ruleset:1036
-#: data/multiplayer/units.ruleset:42 data/multiplayer/units.ruleset:967
+#: data/civ2/units.ruleset:35 data/civ2/units.ruleset:903
+#: data/classic/units.ruleset:42 data/classic/units.ruleset:932
+#: data/sandbox/units.ruleset:50 data/sandbox/units.ruleset:1097
+#: data/civ2civ3/units.ruleset:44 data/civ2civ3/units.ruleset:1041
+#: data/multiplayer/units.ruleset:42 data/multiplayer/units.ruleset:972
 msgid "Marines"
 msgstr "Merijalkaväki"
 
@@ -26845,7 +26849,7 @@ msgstr "  · Voidaan lennättää sopivasta kaupungista."
 msgid "?unitclass:Helicopter"
 msgstr "helikopterijoukkojen"
 
-#: data/civ2/units.ruleset:470
+#: data/civ2/units.ruleset:475
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers require twice as much food "
@@ -26856,13 +26860,13 @@ msgstr ""
 "Tasavallassa, Demokratiassa, Kommunismissa ja Fundamentalismissa "
 "Uudisraivaajat vaativat kaksinkertaisen määrän ruokaa."
 
-#: data/civ2/units.ruleset:478 data/classic/units.ruleset:539
-#: data/sandbox/units.ruleset:624 data/civ2civ3/units.ruleset:610
-#: data/multiplayer/units.ruleset:540
+#: data/civ2/units.ruleset:483 data/classic/units.ruleset:544
+#: data/sandbox/units.ruleset:629 data/civ2civ3/units.ruleset:615
+#: data/multiplayer/units.ruleset:545
 msgid "Engineers"
 msgstr "Teknikkoryhmä"
 
-#: data/civ2/units.ruleset:509
+#: data/civ2/units.ruleset:514
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -26875,7 +26879,7 @@ msgstr ""
 "maastonmuokkauksia (esimerkiksi muuttaa tundran autiomaaksi) jotka ovat "
 "liian vaativia Uudisraivaajille."
 
-#: data/civ2/units.ruleset:515
+#: data/civ2/units.ruleset:520
 msgid ""
 "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require "
 "the same resources as ordinary Settlers."
@@ -26883,7 +26887,7 @@ msgstr ""
 "VIHJE 1:   Ajanmukaista työläiset teknikoiksi heti kun se on mahdollista, "
 "koska teknikkojen ylläpitokustannukset ovat samat kuin työläisten."
 
-#: data/civ2/units.ruleset:518
+#: data/civ2/units.ruleset:523
 msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
@@ -26893,20 +26897,20 @@ msgstr ""
 "valmistamaan räjähteitä ennenkuin työpaja vanhentuu. Näin työläisesi "
 "ajanmukaistetaan ilman kustannuksia."
 
-#: data/civ2/units.ruleset:525 data/classic/units.ruleset:593
-#: data/sandbox/units.ruleset:715 data/civ2civ3/units.ruleset:660
-#: data/multiplayer/units.ruleset:594
+#: data/civ2/units.ruleset:530 data/classic/units.ruleset:598
+#: data/sandbox/units.ruleset:720 data/civ2civ3/units.ruleset:665
+#: data/multiplayer/units.ruleset:599
 msgid "Warriors"
 msgstr "Soturijoukko"
 
-#: data/civ2/units.ruleset:593 data/classic/units.ruleset:661
-#: data/sandbox/units.ruleset:783 data/civ2civ3/units.ruleset:728
-#: data/multiplayer/units.ruleset:662
+#: data/civ2/units.ruleset:598 data/classic/units.ruleset:666
+#: data/sandbox/units.ruleset:788 data/civ2civ3/units.ruleset:733
+#: data/multiplayer/units.ruleset:667
 msgid "Archers"
 msgstr "Jousimiespartio"
 
-#: data/civ2/units.ruleset:623 data/classic/units.ruleset:691
-#: data/multiplayer/units.ruleset:692
+#: data/civ2/units.ruleset:628 data/classic/units.ruleset:696
+#: data/multiplayer/units.ruleset:697
 msgid ""
 "Archers fight with bows and arrows and have a good offensive value as well "
 "as decent defense."
@@ -26915,15 +26919,15 @@ msgstr ""
 "puolustus kelvollinen."
 
 # Perhaps peitsimiehet? This seems too much like ordinary warriors.
-#: data/civ2/units.ruleset:665 data/classic/units.ruleset:733
-#: data/sandbox/units.ruleset:855 data/civ2civ3/units.ruleset:800
-#: data/multiplayer/units.ruleset:734
+#: data/civ2/units.ruleset:670 data/classic/units.ruleset:738
+#: data/sandbox/units.ruleset:860 data/civ2civ3/units.ruleset:805
+#: data/multiplayer/units.ruleset:739
 msgid "Pikemen"
 msgstr "Keihäsjoukkue"
 
-#: data/civ2/units.ruleset:699 data/classic/units.ruleset:767
-#: data/sandbox/units.ruleset:885 data/civ2civ3/units.ruleset:830
-#: data/multiplayer/units.ruleset:768
+#: data/civ2/units.ruleset:704 data/classic/units.ruleset:772
+#: data/sandbox/units.ruleset:890 data/civ2civ3/units.ruleset:835
+#: data/multiplayer/units.ruleset:773
 msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
@@ -26931,9 +26935,9 @@ msgstr ""
 "Pitkin keihäin varustetut Keihäsmiehet korvaavat Falangin suositeltuna "
 "kaupunginpuolustajana."
 
-#: data/civ2/units.ruleset:736 data/classic/units.ruleset:804
-#: data/sandbox/units.ruleset:922 data/civ2civ3/units.ruleset:867
-#: data/multiplayer/units.ruleset:805
+#: data/civ2/units.ruleset:741 data/classic/units.ruleset:809
+#: data/sandbox/units.ruleset:927 data/civ2civ3/units.ruleset:872
+#: data/multiplayer/units.ruleset:810
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
@@ -26941,19 +26945,19 @@ msgstr ""
 "Muskettijoukkue on jalkaväkeä, joka on varustettu varhaisilla tuliaseilla. "
 "Ne korvaavat Keihäsmiehet suositeltuna kaupunginpuolustajana."
 
-#: data/civ2/units.ruleset:743 data/sandbox/units.ruleset:1049
-#: data/civ2civ3/units.ruleset:994 data/multiplayer/units.ruleset:812
+#: data/civ2/units.ruleset:748 data/sandbox/units.ruleset:1054
+#: data/civ2civ3/units.ruleset:999 data/multiplayer/units.ruleset:817
 msgid "Fanatics"
 msgstr "Fanaatikkolauma"
 
-#: data/civ2/units.ruleset:774 data/sandbox/units.ruleset:1083
-#: data/civ2civ3/units.ruleset:1027 data/multiplayer/units.ruleset:843
+#: data/civ2/units.ruleset:779 data/sandbox/units.ruleset:1088
+#: data/civ2civ3/units.ruleset:1032 data/multiplayer/units.ruleset:848
 msgid "Fanatics are warriors extremely devoted to a higher cause."
 msgstr ""
 "Fanaatikot ovat taistelijoita, jotka ovat sitoutuneet taistelemaan "
 "viimeiseen asti korkeamman aatteen puolesta."
 
-#: data/civ2/units.ruleset:776 data/multiplayer/units.ruleset:845
+#: data/civ2/units.ruleset:781 data/multiplayer/units.ruleset:850
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
@@ -26961,15 +26965,15 @@ msgstr ""
 "Fundamentalistivaltioiden ei tarvitse huolehtia fanaatikkoyksiköiden "
 "ylläpidosta."
 
-#: data/civ2/units.ruleset:782 data/classic/units.ruleset:811
-#: data/sandbox/units.ruleset:1003 data/civ2civ3/units.ruleset:948
-#: data/multiplayer/units.ruleset:851
+#: data/civ2/units.ruleset:787 data/classic/units.ruleset:816
+#: data/sandbox/units.ruleset:1008 data/civ2civ3/units.ruleset:953
+#: data/multiplayer/units.ruleset:856
 msgid "Partisan"
 msgstr "Sissiryhmä"
 
-#: data/civ2/units.ruleset:812 data/classic/units.ruleset:841
-#: data/sandbox/units.ruleset:1035 data/civ2civ3/units.ruleset:980
-#: data/multiplayer/units.ruleset:881
+#: data/civ2/units.ruleset:817 data/classic/units.ruleset:846
+#: data/sandbox/units.ruleset:1040 data/civ2civ3/units.ruleset:985
+#: data/multiplayer/units.ruleset:886
 msgid ""
 "Partisans are guerilla fighters who are experts at using the terrain to "
 "their advantage."
@@ -26977,8 +26981,8 @@ msgstr ""
 "Sissiryhmät muodostuvat paikallisista vastarintaliikkeen jäsenistä, jotka "
 "osaavat käyttää maastoa erinomaisesti hyödykseen."
 
-#: data/civ2/units.ruleset:815 data/classic/units.ruleset:844
-#: data/multiplayer/units.ruleset:884
+#: data/civ2/units.ruleset:820 data/classic/units.ruleset:849
+#: data/multiplayer/units.ruleset:889
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -26996,28 +27000,28 @@ msgstr ""
 " - Olet saavuttanut edistysaskeleet Kommunismi ja Ruuti.\n"
 " - Valtiomuotosi on joko demokratia tai kommunismi."
 
-#: data/civ2/units.ruleset:826 data/classic/units.ruleset:855
-#: data/sandbox/units.ruleset:965 data/civ2civ3/units.ruleset:910
-#: data/multiplayer/units.ruleset:895
+#: data/civ2/units.ruleset:831 data/classic/units.ruleset:860
+#: data/sandbox/units.ruleset:970 data/civ2civ3/units.ruleset:915
+#: data/multiplayer/units.ruleset:900
 msgid "Alpine Troops"
 msgstr "Alppijääkäripartio"
 
-#: data/civ2/units.ruleset:856 data/classic/units.ruleset:885
-#: data/sandbox/units.ruleset:997 data/civ2civ3/units.ruleset:942
-#: data/multiplayer/units.ruleset:925
+#: data/civ2/units.ruleset:861 data/classic/units.ruleset:890
+#: data/sandbox/units.ruleset:1002 data/civ2civ3/units.ruleset:947
+#: data/multiplayer/units.ruleset:930
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
 msgstr ""
 "Alppijääkäripartiot ovat nopeasti liikkuvia yksiköitä ja erinomaisia "
 "puolustautujia."
 
-#: data/civ2/units.ruleset:928 data/classic/units.ruleset:957
-#: data/sandbox/units.ruleset:1124 data/civ2civ3/units.ruleset:1068
-#: data/multiplayer/units.ruleset:997
+#: data/civ2/units.ruleset:933 data/classic/units.ruleset:962
+#: data/sandbox/units.ruleset:1129 data/civ2civ3/units.ruleset:1073
+#: data/multiplayer/units.ruleset:1002
 msgid "Marines are infantry who are experts at marine warfare."
 msgstr "Merijalkaväki erikoistuu sodankäyntiin merellä."
 
-#: data/civ2/units.ruleset:963 data/classic/units.ruleset:992
-#: data/multiplayer/units.ruleset:1032
+#: data/civ2/units.ruleset:968 data/classic/units.ruleset:997
+#: data/multiplayer/units.ruleset:1037
 msgid ""
 "Paratroopers are experts at airborne attacks. From a friendly city or "
 "airbase, Paratroopers who have not expended any movement points can paradrop "
@@ -27033,8 +27037,8 @@ msgstr ""
 "johon sinulla ei ole näköyhteyttä, sillä vihollisyksiköiden miehittämään "
 "ruutuun hypätessään laskuvarjojoukot ovat helppoja kohteita!)"
 
-#: data/civ2/units.ruleset:1004 data/classic/units.ruleset:1033
-#: data/multiplayer/units.ruleset:1073
+#: data/civ2/units.ruleset:1009 data/classic/units.ruleset:1038
+#: data/multiplayer/units.ruleset:1078
 msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
 "unit, but is only available near the end of the technology tree."
@@ -27042,15 +27046,15 @@ msgstr ""
 "Moottoroidun panssarijalkaväen puolustuskyky on maavoimien suurin, mutta se "
 "on käytettävissä vasta aivan pelin loppuvaiheessa."
 
-#: data/civ2/units.ruleset:1011 data/classic/units.ruleset:1040
-#: data/sandbox/units.ruleset:1211 data/civ2civ3/units.ruleset:1155
-#: data/multiplayer/units.ruleset:1080
+#: data/civ2/units.ruleset:1016 data/classic/units.ruleset:1045
+#: data/sandbox/units.ruleset:1216 data/civ2civ3/units.ruleset:1160
+#: data/multiplayer/units.ruleset:1085
 msgid "Horsemen"
 msgstr "Hevospartio"
 
-#: data/civ2/units.ruleset:1041 data/classic/units.ruleset:1070
-#: data/sandbox/units.ruleset:1241 data/civ2civ3/units.ruleset:1185
-#: data/multiplayer/units.ruleset:1110
+#: data/civ2/units.ruleset:1046 data/classic/units.ruleset:1075
+#: data/sandbox/units.ruleset:1246 data/civ2civ3/units.ruleset:1190
+#: data/multiplayer/units.ruleset:1115
 msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
@@ -27058,8 +27062,8 @@ msgstr ""
 "Hevospartio koostuu ratsain liikuvista sotureista. Murrettuaan vihollisen "
 "vastarinnan se voi edetä nopeasti syvälle vihollisen selustaan."
 
-#: data/civ2/units.ruleset:1078 data/classic/units.ruleset:1107
-#: data/multiplayer/units.ruleset:1147
+#: data/civ2/units.ruleset:1083 data/classic/units.ruleset:1112
+#: data/multiplayer/units.ruleset:1152
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
@@ -27067,12 +27071,12 @@ msgstr ""
 "Hevosten vetämät Sotavaunut ovat tavallista Hevospartiota vahvempia mutta "
 "myös kalliimpia yksiköitä."
 
-#: data/civ2/units.ruleset:1084 data/sandbox/units.ruleset:1288
-#: data/civ2civ3/units.ruleset:1232 data/multiplayer/units.ruleset:1153
+#: data/civ2/units.ruleset:1089 data/sandbox/units.ruleset:1293
+#: data/civ2civ3/units.ruleset:1237 data/multiplayer/units.ruleset:1158
 msgid "Elephants"
 msgstr "Sotanorsupartio"
 
-#: data/civ2/units.ruleset:1114 data/multiplayer/units.ruleset:1183
+#: data/civ2/units.ruleset:1119 data/multiplayer/units.ruleset:1188
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
@@ -27081,39 +27085,39 @@ msgstr ""
 "käytetään usein voimakkaina rynnäkköyksikköinä, mutta ne puolustautuvat "
 "huonosti useimpia muita yksiköitä vastaan."
 
-#: data/civ2/units.ruleset:1120 data/sandbox/units.ruleset:1324
-#: data/civ2civ3/units.ruleset:1268 data/multiplayer/units.ruleset:1189
+#: data/civ2/units.ruleset:1125 data/sandbox/units.ruleset:1329
+#: data/civ2civ3/units.ruleset:1273 data/multiplayer/units.ruleset:1194
 msgid "Crusaders"
 msgstr "Ristiritarikaarti"
 
-#: data/civ2/units.ruleset:1150 data/sandbox/units.ruleset:1354
-#: data/civ2civ3/units.ruleset:1298 data/multiplayer/units.ruleset:1219
+#: data/civ2/units.ruleset:1155 data/sandbox/units.ruleset:1359
+#: data/civ2civ3/units.ruleset:1303 data/multiplayer/units.ruleset:1224
 msgid ""
 "Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr ""
 "Ristiritarit ovat äärimmäisen kurinalaista ratsuväkeä, jota ajaa eteenpäin "
 "elämää suurempi tehtävä."
 
-#: data/civ2/units.ruleset:1192 data/classic/units.ruleset:1149
-#: data/sandbox/units.ruleset:1396 data/civ2civ3/units.ruleset:1340
-#: data/multiplayer/units.ruleset:1261
+#: data/civ2/units.ruleset:1197 data/classic/units.ruleset:1154
+#: data/sandbox/units.ruleset:1401 data/civ2civ3/units.ruleset:1345
+#: data/multiplayer/units.ruleset:1266
 msgid "Dragoons"
 msgstr "Rakuunapartio"
 
-#: data/civ2/units.ruleset:1223 data/classic/units.ruleset:1180
-#: data/sandbox/units.ruleset:1426 data/civ2civ3/units.ruleset:1370
-#: data/multiplayer/units.ruleset:1292
+#: data/civ2/units.ruleset:1228 data/classic/units.ruleset:1185
+#: data/sandbox/units.ruleset:1431 data/civ2civ3/units.ruleset:1375
+#: data/multiplayer/units.ruleset:1297
 msgid "Dragoons are mounted warriors carrying early firearms."
 msgstr "Rakuunat ovat varhaisia tuliaseita käyttäviä ratsusotilaita."
 
-#: data/civ2/units.ruleset:1258 data/classic/units.ruleset:1215
-#: data/sandbox/units.ruleset:1461 data/civ2civ3/units.ruleset:1405
-#: data/multiplayer/units.ruleset:1327
+#: data/civ2/units.ruleset:1263 data/classic/units.ruleset:1220
+#: data/sandbox/units.ruleset:1466 data/civ2civ3/units.ruleset:1410
+#: data/multiplayer/units.ruleset:1332
 msgid "Cavalry are mounted and highly trained soldiers."
 msgstr "Ratsuväki on tarkkaan koulutettua."
 
-#: data/civ2/units.ruleset:1405 data/classic/units.ruleset:1362
-#: data/multiplayer/units.ruleset:1474
+#: data/civ2/units.ruleset:1410 data/classic/units.ruleset:1367
+#: data/multiplayer/units.ruleset:1479
 msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
@@ -27122,14 +27126,14 @@ msgstr ""
 "mutta toivoton puolustaja ja tarvitsee siksi saattojoukon toimiakseen "
 "tehokkaasti."
 
-#: data/civ2/units.ruleset:1412 data/classic/units.ruleset:1369
-#: data/sandbox/units.ruleset:1622 data/civ2civ3/units.ruleset:1566
-#: data/multiplayer/units.ruleset:1481
+#: data/civ2/units.ruleset:1417 data/classic/units.ruleset:1374
+#: data/sandbox/units.ruleset:1627 data/civ2civ3/units.ruleset:1571
+#: data/multiplayer/units.ruleset:1486
 msgid "Howitzer"
 msgstr "Haupitsi"
 
-#: data/civ2/units.ruleset:1442 data/classic/units.ruleset:1399
-#: data/multiplayer/units.ruleset:1511
+#: data/civ2/units.ruleset:1447 data/classic/units.ruleset:1404
+#: data/multiplayer/units.ruleset:1516
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities. They can shoot over city walls, ignoring their "
@@ -27139,12 +27143,12 @@ msgstr ""
 "Tykistöön verrattuna. Se voi ampua kaupunginmuurien yli, jättäen näiden "
 "vaikutuksen puolustukseen huomiotta."
 
-#: data/civ2/units.ruleset:1490 data/civ2/units.ruleset:1611
+#: data/civ2/units.ruleset:1495 data/civ2/units.ruleset:1616
 msgid "Fighters scramble from cities, repulsing enemy airstrikes."
 msgstr ""
 "Hävittäjät rynnäköivät kaupungeista torjumaan vihollisen ilmahyökkäykset."
 
-#: data/civ2/units.ruleset:1561 data/classic/units.ruleset:1517
+#: data/civ2/units.ruleset:1566 data/classic/units.ruleset:1522
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities. Care must be exercised, because Helicopters lose a small amount of "
@@ -27158,50 +27162,50 @@ msgstr ""
 "tai lentotukialuksessa (paitsi jos sinulla on ihme Yhdistyneet Kansakunnat). "
 "Lisäksi jopa maavoimien yksiköt voivat hyökätä Helikopterien kimppuun."
 
-#: data/civ2/units.ruleset:1570 data/classic/units.ruleset:1526
-#: data/sandbox/units.ruleset:1797 data/civ2civ3/units.ruleset:1740
-#: data/multiplayer/units.ruleset:1637
+#: data/civ2/units.ruleset:1575 data/classic/units.ruleset:1531
+#: data/sandbox/units.ruleset:1802 data/civ2civ3/units.ruleset:1745
+#: data/multiplayer/units.ruleset:1642
 msgid "Stealth Fighter"
 msgstr "Häivehävittäjä"
 
-#: data/civ2/units.ruleset:1608 data/classic/units.ruleset:1564
-#: data/sandbox/units.ruleset:1829 data/civ2civ3/units.ruleset:1772
-#: data/multiplayer/units.ruleset:1675
+#: data/civ2/units.ruleset:1613 data/classic/units.ruleset:1569
+#: data/sandbox/units.ruleset:1834 data/civ2civ3/units.ruleset:1777
+#: data/multiplayer/units.ruleset:1680
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Sekä toimintasäteeltään että tulivoimaltaan kohennettu hävittäjälentokone."
 
-#: data/civ2/units.ruleset:1614 data/classic/units.ruleset:1570
-#: data/sandbox/units.ruleset:1835 data/civ2civ3/units.ruleset:1778
-#: data/multiplayer/units.ruleset:1681
+#: data/civ2/units.ruleset:1619 data/classic/units.ruleset:1575
+#: data/sandbox/units.ruleset:1840 data/civ2civ3/units.ruleset:1783
+#: data/multiplayer/units.ruleset:1686
 msgid "Stealth Bomber"
 msgstr "Häivepommikone"
 
-#: data/civ2/units.ruleset:1644 data/classic/units.ruleset:1602
-#: data/sandbox/units.ruleset:1867 data/civ2civ3/units.ruleset:1809
-#: data/multiplayer/units.ruleset:1713
+#: data/civ2/units.ruleset:1649 data/classic/units.ruleset:1607
+#: data/sandbox/units.ruleset:1872 data/civ2civ3/units.ruleset:1814
+#: data/multiplayer/units.ruleset:1718
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr "Sekä toimintasäteeltään että tulivoimaltaan kohennettu pommikone."
 
-#: data/civ2/units.ruleset:1689 data/classic/units.ruleset:1647
-#: data/sandbox/units.ruleset:1915 data/civ2civ3/units.ruleset:1856
-#: data/multiplayer/units.ruleset:1758
+#: data/civ2/units.ruleset:1694 data/classic/units.ruleset:1652
+#: data/sandbox/units.ruleset:1920 data/civ2civ3/units.ruleset:1861
+#: data/multiplayer/units.ruleset:1763
 msgid "Caravel"
 msgstr "Karaveli"
 
-#: data/civ2/units.ruleset:1720
+#: data/civ2/units.ruleset:1725
 msgid ""
 "The Caravel replaces the Trireme and is much more reliable on the open seas."
 msgstr "Karaveli korvaa kaleerin ja on paljon luotettavampi avomerellä."
 
-#: data/civ2/units.ruleset:1726 data/classic/units.ruleset:1684
-#: data/sandbox/units.ruleset:1954 data/civ2civ3/units.ruleset:1894
-#: data/multiplayer/units.ruleset:1795
+#: data/civ2/units.ruleset:1731 data/classic/units.ruleset:1689
+#: data/sandbox/units.ruleset:1959 data/civ2civ3/units.ruleset:1899
+#: data/multiplayer/units.ruleset:1800
 msgid "Galleon"
 msgstr "Kaljuuna"
 
-#: data/civ2/units.ruleset:1757 data/classic/units.ruleset:1715
-#: data/multiplayer/units.ruleset:1826
+#: data/civ2/units.ruleset:1762 data/classic/units.ruleset:1720
+#: data/multiplayer/units.ruleset:1831
 msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "it may still defend itself when attacked."
@@ -27209,20 +27213,20 @@ msgstr ""
 "Kaljuuna on puhdas kuljetusalus eikä voi hyökätä toisten laivojen kimppuun; "
 "se kykenee silti tosin puolustautumaan hyökkäykseltä."
 
-#: data/civ2/units.ruleset:1839 data/classic/units.ruleset:1797
-#: data/sandbox/units.ruleset:2064 data/civ2civ3/units.ruleset:2003
-#: data/alien/units.ruleset:1326 data/multiplayer/units.ruleset:1908
+#: data/civ2/units.ruleset:1844 data/classic/units.ruleset:1802
+#: data/sandbox/units.ruleset:2069 data/civ2civ3/units.ruleset:2008
+#: data/alien/units.ruleset:1331 data/multiplayer/units.ruleset:1913
 msgid "Destroyer"
 msgstr "Hävittäjä"
 
-#: data/civ2/units.ruleset:1869 data/classic/units.ruleset:1827
-#: data/multiplayer/units.ruleset:1938
+#: data/civ2/units.ruleset:1874 data/classic/units.ruleset:1832
+#: data/multiplayer/units.ruleset:1943
 msgid "An improved Ironclad, with better move rate and vision."
 msgstr ""
 "Kehittyneempi panssarilaiva, jolla on parempi liikkuvuus ja näkökenttä."
 
-#: data/civ2/units.ruleset:1871 data/classic/units.ruleset:1829
-#: data/multiplayer/units.ruleset:1940
+#: data/civ2/units.ruleset:1876 data/classic/units.ruleset:1834
+#: data/multiplayer/units.ruleset:1945
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -27230,30 +27234,30 @@ msgstr ""
 "VIHJE: Erittäin nopea alus, joka sopii hyvin vihollisen kuljetusalusten "
 "tuhoamiseen."
 
-#: data/civ2/units.ruleset:1912 data/classic/units.ruleset:1870
-#: data/sandbox/units.ruleset:2142 data/civ2civ3/units.ruleset:2081
-#: data/multiplayer/units.ruleset:1981
+#: data/civ2/units.ruleset:1917 data/classic/units.ruleset:1875
+#: data/sandbox/units.ruleset:2147 data/civ2civ3/units.ruleset:2086
+#: data/multiplayer/units.ruleset:1986
 msgid "AEGIS Cruiser"
 msgstr "Ohjusristeilijä"
 
-#: data/civ2/units.ruleset:1946 data/classic/units.ruleset:1904
-#: data/sandbox/units.ruleset:2176 data/civ2civ3/units.ruleset:2115
-#: data/multiplayer/units.ruleset:2015
+#: data/civ2/units.ruleset:1951 data/classic/units.ruleset:1909
+#: data/sandbox/units.ruleset:2181 data/civ2civ3/units.ruleset:2120
+#: data/multiplayer/units.ruleset:2020
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr ""
 "Ohjusristeilijä on varustettu tehokkaalla tietotekniikkaa ja ohjuksia "
 "hyödyntävällä ilmatorjuntajärjestelmällä."
 
-#: data/civ2/units.ruleset:2105 data/classic/units.ruleset:2063
-#: data/sandbox/units.ruleset:2398 data/civ2civ3/units.ruleset:2290
-#: data/multiplayer/units.ruleset:2174
+#: data/civ2/units.ruleset:2110 data/classic/units.ruleset:2068
+#: data/sandbox/units.ruleset:2403 data/civ2civ3/units.ruleset:2295
+#: data/multiplayer/units.ruleset:2179
 msgid "Cruise Missile"
 msgstr "Risteilyohjus"
 
-#: data/civ2/units.ruleset:2135 data/classic/units.ruleset:2093
-#: data/sandbox/units.ruleset:2430 data/civ2civ3/units.ruleset:2321
-#: data/multiplayer/units.ruleset:2204
+#: data/civ2/units.ruleset:2140 data/classic/units.ruleset:2098
+#: data/sandbox/units.ruleset:2435 data/civ2civ3/units.ruleset:2326
+#: data/multiplayer/units.ruleset:2209
 msgid ""
 "The Cruise Missile is a long-distance missile that can strike deep into "
 "enemy territory."
@@ -27261,9 +27265,9 @@ msgstr ""
 "Risteilyohjus on pitkänmatkan ohjus, joka voi iskeä syvälle vihollisen "
 "alueelle."
 
-#: data/civ2/units.ruleset:2138 data/classic/units.ruleset:2096
-#: data/sandbox/units.ruleset:2433 data/civ2civ3/units.ruleset:2324
-#: data/multiplayer/units.ruleset:2207
+#: data/civ2/units.ruleset:2143 data/classic/units.ruleset:2101
+#: data/sandbox/units.ruleset:2438 data/civ2civ3/units.ruleset:2329
+#: data/multiplayer/units.ruleset:2212
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -27271,7 +27275,7 @@ msgstr ""
 "VIHJE: kourallinen risteilyohjuksia voi pitää kallisarvoisen kotimaasi "
 "lähivedet vapaina vihollisen aluksista."
 
-#: data/civ2/units.ruleset:2187
+#: data/civ2/units.ruleset:2192
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -27286,24 +27290,24 @@ msgstr ""
 "syntyy! Minimoit ydintalven syntymahdollisuuden ja käytät ydinaseitasi "
 "ympäristöystävällisesti!"
 
-#: data/civ2/units.ruleset:2296 data/classic/units.ruleset:2274
-#: data/sandbox/units.ruleset:2695 data/civ2civ3/units.ruleset:2521
-#: data/multiplayer/units.ruleset:2385
+#: data/civ2/units.ruleset:2301 data/classic/units.ruleset:2279
+#: data/sandbox/units.ruleset:2700 data/civ2civ3/units.ruleset:2526
+#: data/multiplayer/units.ruleset:2390
 msgid "Spy"
 msgstr "Vakooja"
 
-#: data/civ2/units.ruleset:2331 data/classic/units.ruleset:2318
-#: data/sandbox/units.ruleset:2740 data/civ2civ3/units.ruleset:2566
-#: data/multiplayer/units.ruleset:2429
+#: data/civ2/units.ruleset:2336 data/classic/units.ruleset:2323
+#: data/sandbox/units.ruleset:2745 data/civ2civ3/units.ruleset:2571
+#: data/multiplayer/units.ruleset:2434
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
 msgstr ""
 "Nimensä mukaisesti Vakooja on edeltäjäänsä Diplomaattia kehittyneempi "
 "vakoilun enemmän tai vähemmän jaloissa taidoissa."
 
-#: data/civ2/units.ruleset:2333 data/classic/units.ruleset:2320
-#: data/sandbox/units.ruleset:2742 data/civ2civ3/units.ruleset:2568
-#: data/multiplayer/units.ruleset:2431
+#: data/civ2/units.ruleset:2338 data/classic/units.ruleset:2325
+#: data/sandbox/units.ruleset:2747 data/civ2civ3/units.ruleset:2573
+#: data/multiplayer/units.ruleset:2436
 msgid ""
 "She can perform all the functions of the Diplomat; refer to the Diplomat "
 "entry for more details. Unlike a Diplomat, a Spy may also survive an "
@@ -27317,8 +27321,8 @@ msgstr ""
 "Diplomaattia tehokkaampia kaupunkien puolustamisessa vieraiden valtojen "
 "Diplomaatteja ja Vakoojia vastaan."
 
-#: data/civ2/units.ruleset:2339 data/classic/units.ruleset:2326
-#: data/civ2civ3/units.ruleset:2574 data/multiplayer/units.ruleset:2437
+#: data/civ2/units.ruleset:2344 data/classic/units.ruleset:2331
+#: data/civ2civ3/units.ruleset:2579 data/multiplayer/units.ruleset:2442
 msgid ""
 "A Spy can also be used to:\n"
 " - sabotage an enemy unit (reducing its hit points to half), if it is alone "
@@ -27342,9 +27346,9 @@ msgstr ""
 "- halutun kohteen sabotoimiseen kaupungissa (tosin todennäköisyys onnistua "
 "on pienempi)."
 
-#: data/civ2/units.ruleset:2351 data/classic/units.ruleset:2338
-#: data/sandbox/units.ruleset:2763 data/civ2civ3/units.ruleset:2586
-#: data/multiplayer/units.ruleset:2449
+#: data/civ2/units.ruleset:2356 data/classic/units.ruleset:2343
+#: data/sandbox/units.ruleset:2768 data/civ2civ3/units.ruleset:2591
+#: data/multiplayer/units.ruleset:2454
 msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
@@ -27353,18 +27357,18 @@ msgstr ""
 "lietsonta, myrkyttäminen) pakenee tehtävän jälkeen lähimpään "
 "ystävällismieliseen kaupunkiin."
 
-#: data/civ2/units.ruleset:2355
+#: data/civ2/units.ruleset:2360
 msgid "Spies built under a Communist government will be built as veteran."
 msgstr ""
 "Kommunistisen hallituksen alla rakennetut vakoojat aloittavat konkareina."
 
-#: data/civ2/units.ruleset:2413 data/classic/units.ruleset:2404
-#: data/sandbox/units.ruleset:2827 data/civ2civ3/units.ruleset:2648
-#: data/alien/units.ruleset:1430 data/multiplayer/units.ruleset:2502
+#: data/civ2/units.ruleset:2418 data/classic/units.ruleset:2409
+#: data/sandbox/units.ruleset:2832 data/civ2civ3/units.ruleset:2653
+#: data/alien/units.ruleset:1435 data/multiplayer/units.ruleset:2507
 msgid "Freight"
 msgstr "Rekka-auto"
 
-#: data/civ2/units.ruleset:2443
+#: data/civ2/units.ruleset:2448
 msgid ""
 "The Freight unit replaces the Caravan, moves at twice the speed and brings "
 "you twice bigger benefit at arrival."
@@ -27372,15 +27376,15 @@ msgstr ""
 "Rekka korvaa karavaanin, liikkuu kaksinkertaisella nopeudella ja antaa "
 "kaksinkertaisen bonuksen kauppareitin valmistumishetkellä."
 
-#: data/civ2/units.ruleset:2449 data/classic/units.ruleset:2439
-#: data/sandbox/units.ruleset:2864 data/civ2civ3/units.ruleset:2684
-#: data/alien/units.ruleset:1186 data/multiplayer/units.ruleset:2538
+#: data/civ2/units.ruleset:2454 data/classic/units.ruleset:2444
+#: data/sandbox/units.ruleset:2869 data/civ2civ3/units.ruleset:2689
+#: data/alien/units.ruleset:1191 data/multiplayer/units.ruleset:2543
 msgid "Explorer"
 msgstr "Seikkailija"
 
-#: data/civ2/units.ruleset:2479 data/classic/units.ruleset:2469
-#: data/sandbox/units.ruleset:2894 data/civ2civ3/units.ruleset:2714
-#: data/multiplayer/units.ruleset:2568
+#: data/civ2/units.ruleset:2484 data/classic/units.ruleset:2474
+#: data/sandbox/units.ruleset:2899 data/civ2civ3/units.ruleset:2719
+#: data/multiplayer/units.ruleset:2573
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
@@ -27388,9 +27392,9 @@ msgstr ""
 "Seikkailijat ovat rohkeita yksilöitä, jotka ovat erittäin hyödyllisiä "
 "tuntemattomien alueiden kartoituksessa."
 
-#: data/civ2/units.ruleset:2515 data/classic/units.ruleset:2554
-#: data/sandbox/units.ruleset:2993 data/civ2civ3/units.ruleset:2812
-#: data/multiplayer/units.ruleset:2653
+#: data/civ2/units.ruleset:2520 data/classic/units.ruleset:2559
+#: data/sandbox/units.ruleset:2998 data/civ2civ3/units.ruleset:2817
+#: data/multiplayer/units.ruleset:2658
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "ransom is paid, but only to land units and helicopters. Usually the ransom "
@@ -28280,14 +28284,14 @@ msgid "AttFromNonNative"
 msgstr "Mistä hyvänsä hyökkäävä"
 
 #: data/classic/units.ruleset:66 data/sandbox/units.ruleset:80
-#: data/sandbox/units.ruleset:2380 data/civ2civ3/units.ruleset:70
-#: data/civ2civ3/units.ruleset:2272 data/multiplayer/units.ruleset:66
+#: data/sandbox/units.ruleset:2385 data/civ2civ3/units.ruleset:70
+#: data/civ2civ3/units.ruleset:2277 data/multiplayer/units.ruleset:66
 msgid "hardened"
 msgstr "karaistunut"
 
 #: data/classic/units.ruleset:66 data/sandbox/units.ruleset:80
-#: data/sandbox/units.ruleset:2380 data/civ2civ3/units.ruleset:70
-#: data/civ2civ3/units.ruleset:2272 data/multiplayer/units.ruleset:66
+#: data/sandbox/units.ruleset:2385 data/civ2civ3/units.ruleset:70
+#: data/civ2civ3/units.ruleset:2277 data/multiplayer/units.ruleset:66
 msgid "elite"
 msgstr "eliitti"
 
@@ -28297,8 +28301,8 @@ msgstr "eliitti"
 msgid "?unitclass:Trireme"
 msgstr "soutulaivaston"
 
-#: data/classic/units.ruleset:481 data/sandbox/units.ruleset:526
-#: data/civ2civ3/units.ruleset:513 data/multiplayer/units.ruleset:481
+#: data/classic/units.ruleset:486 data/sandbox/units.ruleset:531
+#: data/civ2civ3/units.ruleset:518 data/multiplayer/units.ruleset:486
 msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities."
@@ -28306,7 +28310,7 @@ msgstr ""
 "Uudisasukkaat ovat yksi pelin avainyksiköistä koska he ovat yleisin tapa "
 "saada uusia kaupunkeja perustettua."
 
-#: data/classic/units.ruleset:484 data/multiplayer/units.ruleset:484
+#: data/classic/units.ruleset:489 data/multiplayer/units.ruleset:489
 msgid ""
 "Settlers can also perform most of the same terrain alterations as Workers "
 "(but cannot build Airbases or Buoys)."
@@ -28314,13 +28318,13 @@ msgstr ""
 "Uudisasukkaat voivat myös tehdä samat maastonmuokkaukset kuin työläiset "
 "(paitsi lentotukikohdan tai poijun rakentamisen)."
 
-#: data/classic/units.ruleset:494 data/sandbox/units.ruleset:584
-#: data/civ2civ3/units.ruleset:571 data/multiplayer/units.ruleset:495
+#: data/classic/units.ruleset:499 data/sandbox/units.ruleset:589
+#: data/civ2civ3/units.ruleset:576 data/multiplayer/units.ruleset:500
 msgid "?unit:Workers"
 msgstr "Työläisjoukko"
 
-#: data/classic/units.ruleset:530 data/sandbox/units.ruleset:618
-#: data/civ2civ3/units.ruleset:604 data/multiplayer/units.ruleset:531
+#: data/classic/units.ruleset:535 data/sandbox/units.ruleset:623
+#: data/civ2civ3/units.ruleset:609 data/multiplayer/units.ruleset:536
 msgid ""
 "Workers have the ability to improve terrain tiles. See the help on Terrain "
 "and Terrain Alterations for the effects of their actions."
@@ -28328,7 +28332,7 @@ msgstr ""
 "Työläiset voivat paranta ajoitakin maastoruutuja. Hae tietoa näiden "
 "toimintojen vaikutuksista kohdista \"Maasto\" ja \"Maastonmuokkaukset\"."
 
-#: data/classic/units.ruleset:533 data/multiplayer/units.ruleset:534
+#: data/classic/units.ruleset:538 data/multiplayer/units.ruleset:539
 msgid ""
 "Workers can build airbases and buoys, which Settlers cannot. Workers must be "
 "on board a ship to build buoys."
@@ -28337,7 +28341,7 @@ msgstr ""
 "uudisasukkaat. Työläisten täytyy olla laivan kyydissä voidakseen rakentaa "
 "poijuja."
 
-#: data/classic/units.ruleset:575 data/multiplayer/units.ruleset:576
+#: data/classic/units.ruleset:580 data/multiplayer/units.ruleset:581
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast. Engineers may also perform major terrain transformations which are "
@@ -28354,7 +28358,7 @@ msgstr ""
 "kyytiin, ja ympäröivissä ruuduissa on riittävästi maata). Lisätietoja "
 "kappaleesta Maastonmuokkaus."
 
-#: data/classic/units.ruleset:583 data/multiplayer/units.ruleset:584
+#: data/classic/units.ruleset:588 data/multiplayer/units.ruleset:589
 msgid ""
 "TIP 1:  Upgrade Workers to Engineers when possible, as Engineers require the "
 "same resources as ordinary Workers."
@@ -28363,7 +28367,7 @@ msgstr ""
 "mahdollista, koska teknikkojen ylläpitokustannukset ovat samat kuin "
 "työläisten."
 
-#: data/classic/units.ruleset:586 data/multiplayer/units.ruleset:587
+#: data/classic/units.ruleset:591 data/multiplayer/units.ruleset:592
 msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
@@ -28373,7 +28377,7 @@ msgstr ""
 "räjähteitä ennenkuin työpaja vanhentuu. Näin työläisesi ajanmukaistetaan "
 "ilman kustannuksia."
 
-#: data/classic/units.ruleset:1640 data/multiplayer/units.ruleset:1751
+#: data/classic/units.ruleset:1645 data/multiplayer/units.ruleset:1756
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not enter deep ocean tiles."
@@ -28382,14 +28386,14 @@ msgstr ""
 "kykenee jossain määrin myös hyökkäykseen; sen sijaan se ei kykene liikkumaan "
 "syvänmeren ruuduilla."
 
-#: data/classic/units.ruleset:1678 data/multiplayer/units.ruleset:1789
+#: data/classic/units.ruleset:1683 data/multiplayer/units.ruleset:1794
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
 msgstr ""
 "Karaveli korvaa kaleerin ja kykenee liikkumaan myös avomeren ruuduilla."
 
-#: data/classic/units.ruleset:2141 data/sandbox/units.ruleset:2483
-#: data/sandbox/units.ruleset:2545 data/civ2civ3/units.ruleset:2374
-#: data/multiplayer/units.ruleset:2252
+#: data/classic/units.ruleset:2146 data/sandbox/units.ruleset:2488
+#: data/sandbox/units.ruleset:2550 data/civ2civ3/units.ruleset:2379
+#: data/multiplayer/units.ruleset:2257
 msgid ""
 "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
 "squares for rectangular grids), including friendly units. Any city within "
@@ -28401,9 +28405,9 @@ msgstr ""
 "vaikutusalueella menettävät puolet asukasluvustaan, kaupunkien ulkopuolelle "
 "voi jäädä ydinlaskeumaa."
 
-#: data/classic/units.ruleset:2146 data/sandbox/units.ruleset:2488
-#: data/sandbox/units.ruleset:2550 data/civ2civ3/units.ruleset:2379
-#: data/multiplayer/units.ruleset:2257
+#: data/classic/units.ruleset:2151 data/sandbox/units.ruleset:2493
+#: data/sandbox/units.ruleset:2555 data/civ2civ3/units.ruleset:2384
+#: data/multiplayer/units.ruleset:2262
 msgid ""
 "Nuclear fallout reduces tile output and increases the risk of global nuclear "
 "winter; see the help on Fallout."
@@ -28411,7 +28415,7 @@ msgstr ""
 "Ydinlaskeuma heikentää ruudun hyödyntämistä ja lisää maailmanlaajuisen "
 "ydintalven riskiä. Katso ohjeen kohta \"Laskeuma\"."
 
-#: data/classic/units.ruleset:2153 data/multiplayer/units.ruleset:2264
+#: data/classic/units.ruleset:2158 data/multiplayer/units.ruleset:2269
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -28427,31 +28431,31 @@ msgstr ""
 "ympäristöystävällisesti!"
 
 #. TRANS: diplomatic rank.
-#: data/classic/units.ruleset:2194 data/sandbox/units.ruleset:2599
-#: data/civ2civ3/units.ruleset:2425 data/multiplayer/units.ruleset:2305
+#: data/classic/units.ruleset:2199 data/sandbox/units.ruleset:2604
+#: data/civ2civ3/units.ruleset:2430 data/multiplayer/units.ruleset:2310
 msgid "?diplomatic_rank:attaché"
 msgstr "virkailija"
 
 #. TRANS: diplomatic rank
-#: data/classic/units.ruleset:2196 data/sandbox/units.ruleset:2601
-#: data/civ2civ3/units.ruleset:2427 data/multiplayer/units.ruleset:2307
+#: data/classic/units.ruleset:2201 data/sandbox/units.ruleset:2606
+#: data/civ2civ3/units.ruleset:2432 data/multiplayer/units.ruleset:2312
 msgid "?diplomatic_rank:secretary"
 msgstr "sihteeri"
 
 #. TRANS: diplomatic rank
-#: data/classic/units.ruleset:2198 data/sandbox/units.ruleset:2603
-#: data/civ2civ3/units.ruleset:2429 data/multiplayer/units.ruleset:2309
+#: data/classic/units.ruleset:2203 data/sandbox/units.ruleset:2608
+#: data/civ2civ3/units.ruleset:2434 data/multiplayer/units.ruleset:2314
 msgid "?diplomatic_rank:envoy"
 msgstr "lähettiläs"
 
 #. TRANS: diplomatic rank
-#: data/classic/units.ruleset:2200 data/sandbox/units.ruleset:2605
-#: data/civ2civ3/units.ruleset:2431 data/multiplayer/units.ruleset:2311
+#: data/classic/units.ruleset:2205 data/sandbox/units.ruleset:2610
+#: data/civ2civ3/units.ruleset:2436 data/multiplayer/units.ruleset:2316
 msgid "?diplomatic_rank:ambassador"
 msgstr "suurlähettiläs"
 
-#: data/classic/units.ruleset:2223 data/sandbox/units.ruleset:2629
-#: data/civ2civ3/units.ruleset:2455 data/multiplayer/units.ruleset:2334
+#: data/classic/units.ruleset:2228 data/sandbox/units.ruleset:2634
+#: data/civ2civ3/units.ruleset:2460 data/multiplayer/units.ruleset:2339
 msgid ""
 "Diplomats can also perform a number of actions in another player's city, "
 "although each Diplomat may attempt only one action. Most of these actions "
@@ -28469,7 +28473,7 @@ msgstr ""
 "Hallitsija, se voittaa aina. Jos puolustava yksikkö tuhoutuu, menetät yhden "
 "liikepisteen ja voit yrittää uudelleen."
 
-#: data/classic/units.ruleset:2268 data/multiplayer/units.ruleset:2379
+#: data/classic/units.ruleset:2273 data/multiplayer/units.ruleset:2384
 msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
@@ -28478,30 +28482,30 @@ msgstr ""
 "ylennettyinä ensimmäiselle kokemustasolle (sihteeri)."
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2306 data/sandbox/units.ruleset:2728
-#: data/civ2civ3/units.ruleset:2554 data/multiplayer/units.ruleset:2417
+#: data/classic/units.ruleset:2311 data/sandbox/units.ruleset:2733
+#: data/civ2civ3/units.ruleset:2559 data/multiplayer/units.ruleset:2422
 msgid "?spy_level:informant"
 msgstr "informoija"
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2308 data/sandbox/units.ruleset:2730
-#: data/civ2civ3/units.ruleset:2556 data/multiplayer/units.ruleset:2419
+#: data/classic/units.ruleset:2313 data/sandbox/units.ruleset:2735
+#: data/civ2civ3/units.ruleset:2561 data/multiplayer/units.ruleset:2424
 msgid "?spy_level:handler"
 msgstr "toimija"
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2310 data/sandbox/units.ruleset:2732
-#: data/civ2civ3/units.ruleset:2558 data/multiplayer/units.ruleset:2421
+#: data/classic/units.ruleset:2315 data/sandbox/units.ruleset:2737
+#: data/civ2civ3/units.ruleset:2563 data/multiplayer/units.ruleset:2426
 msgid "?spy_level:agent"
 msgstr "agentti"
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2312 data/sandbox/units.ruleset:2734
-#: data/civ2civ3/units.ruleset:2560 data/multiplayer/units.ruleset:2423
+#: data/classic/units.ruleset:2317 data/sandbox/units.ruleset:2739
+#: data/civ2civ3/units.ruleset:2565 data/multiplayer/units.ruleset:2428
 msgid "?spy_level:spymaster"
 msgstr "mestarivakooja"
 
-#: data/classic/units.ruleset:2342 data/multiplayer/units.ruleset:2453
+#: data/classic/units.ruleset:2347 data/multiplayer/units.ruleset:2458
 msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
@@ -28509,7 +28513,7 @@ msgstr ""
 "Kommunistisen hallinnon alla rakennetut vakoojat aloittavat valmiiksi "
 "ylennettynä ensimmäiselle kokemustasolle (toimija)."
 
-#: data/classic/units.ruleset:2381
+#: data/classic/units.ruleset:2386
 msgid ""
 "Caravans can establish trade routes with your own cities or those of other "
 "nations (even enemies) by traveling to them. A route's ongoing revenue is "
@@ -28529,7 +28533,7 @@ msgstr ""
 "päätepisteet vai vain toisen niistä: jos omistat vain yhden kaupungeista, "
 "saat vain sen tuoton mutta sen tuotto on kaksinkertainen."
 
-#: data/classic/units.ruleset:2390
+#: data/classic/units.ruleset:2395
 msgid ""
 "Initially cities can support a maximum of two trade routes. Knowledge of the "
 "technologies Magnetism and The Corporation each increase this limit by one; "
@@ -28539,36 +28543,36 @@ msgstr ""
 "magnetismin että osakeyhtiöiden tuntemus mahdollistaa yhden lisäkauppareitin "
 "perustamisen. Jos ne tunnetaan molemmat, kauppareittejä voi perustaa neljä."
 
-#: data/classic/units.ruleset:2434
+#: data/classic/units.ruleset:2439
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "Rekka-auto liikkuu kaksinkertaisella nopeudella edeltäjäänsä Karavaaniin "
 "verrattuna."
 
-#: data/classic/units.ruleset:2475 data/sandbox/units.ruleset:2913
-#: data/civ2civ3/units.ruleset:2733 data/multiplayer/units.ruleset:2574
+#: data/classic/units.ruleset:2480 data/sandbox/units.ruleset:2918
+#: data/civ2civ3/units.ruleset:2738 data/multiplayer/units.ruleset:2579
 msgid "?unit:Leader"
 msgstr "Hallitsija"
 
-#: data/classic/units.ruleset:2510 data/sandbox/units.ruleset:2948
-#: data/civ2civ3/units.ruleset:2768 data/multiplayer/units.ruleset:2609
+#: data/classic/units.ruleset:2515 data/sandbox/units.ruleset:2953
+#: data/civ2civ3/units.ruleset:2773 data/multiplayer/units.ruleset:2614
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "Tämä yksikkö edustaa sinua. Häviät pelin jos menetät tämän yksikön; "
 "ymmärtänet miksi."
 
-#: data/classic/units.ruleset:2512 data/sandbox/units.ruleset:2950
-#: data/civ2civ3/units.ruleset:2770 data/multiplayer/units.ruleset:2611
+#: data/classic/units.ruleset:2517 data/sandbox/units.ruleset:2955
+#: data/civ2civ3/units.ruleset:2775 data/multiplayer/units.ruleset:2616
 msgid "Won't unleash barbarians from huts."
 msgstr "· Ei vapauta barbaareita mökeistä."
 
-#: data/classic/units.ruleset:2562 data/sandbox/units.ruleset:3001
-#: data/civ2civ3/units.ruleset:2820 data/multiplayer/units.ruleset:2661
+#: data/classic/units.ruleset:2567 data/sandbox/units.ruleset:3006
+#: data/civ2civ3/units.ruleset:2825 data/multiplayer/units.ruleset:2666
 msgid "AWACS"
 msgstr "Tutkakone"
 
-#: data/classic/units.ruleset:2592 data/sandbox/units.ruleset:3031
-#: data/civ2civ3/units.ruleset:2850 data/multiplayer/units.ruleset:2691
+#: data/classic/units.ruleset:2597 data/sandbox/units.ruleset:3036
+#: data/civ2civ3/units.ruleset:2855 data/multiplayer/units.ruleset:2696
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -31282,12 +31286,12 @@ msgstr "järeiden maavoimien"
 msgid "?unitclass:Merchant"
 msgstr "kaupankävijöiden"
 
-#: data/sandbox/units.ruleset:529 data/civ2civ3/units.ruleset:516
+#: data/sandbox/units.ruleset:534 data/civ2civ3/units.ruleset:521
 msgid "Settlers can also perform the same terrain alterations as Workers."
 msgstr ""
 "Uudisasukkaat voivat myös tehdä samat maastonmuokkaukset kuin työläiset."
 
-#: data/sandbox/units.ruleset:531 data/civ2civ3/units.ruleset:518
+#: data/sandbox/units.ruleset:536 data/civ2civ3/units.ruleset:523
 msgid ""
 "TIP: optimal production of Settlers occurs in cities of at most size 4, or "
 "cities with a Granary of at most size 6."
@@ -31296,11 +31300,11 @@ msgstr ""
 "viljosiilon sisältävien kaupunkien tapauksessa korkeintaan koon kuusi, "
 "kaupungeissa."
 
-#: data/sandbox/units.ruleset:537 data/civ2civ3/units.ruleset:524
+#: data/sandbox/units.ruleset:542 data/civ2civ3/units.ruleset:529
 msgid "Migrants"
 msgstr "Siirtolaiset"
 
-#: data/sandbox/units.ruleset:574 data/civ2civ3/units.ruleset:561
+#: data/sandbox/units.ruleset:579 data/civ2civ3/units.ruleset:566
 msgid ""
 "Migrants can be used to transfer population to other cities, but may not "
 "found new cities. They can also perform the same terrain alterations as "
@@ -31310,7 +31314,7 @@ msgstr ""
 "mutta ne eivät voi perustaa kokonaan uusia kaupunkeja. Ne voivat tehdä samat "
 "maastonmuokkaukset kuin työläiset."
 
-#: data/sandbox/units.ruleset:578 data/civ2civ3/units.ruleset:565
+#: data/sandbox/units.ruleset:583 data/civ2civ3/units.ruleset:570
 msgid ""
 "TIP: Migrants can be a good alternative to Workers in overpopulated cities, "
 "as they benefit from free food upkeep."
@@ -31318,23 +31322,23 @@ msgstr ""
 "VIHJE: Siirtolaiset voivat olla hyvä vaihtoehto työläisille kaupungeissa "
 "joissa on turhan suuri väestö, koska ne hyötyvät ilmaisesta ruokaylläpidosta."
 
-#: data/sandbox/units.ruleset:654 data/civ2civ3/units.ruleset:639
+#: data/sandbox/units.ruleset:659 data/civ2civ3/units.ruleset:644
 msgid "beginner"
 msgstr "aloittelija"
 
-#: data/sandbox/units.ruleset:654 data/civ2civ3/units.ruleset:639
+#: data/sandbox/units.ruleset:659 data/civ2civ3/units.ruleset:644
 msgid "seasoned"
 msgstr "kokenut"
 
-#: data/sandbox/units.ruleset:654 data/civ2civ3/units.ruleset:639
+#: data/sandbox/units.ruleset:659 data/civ2civ3/units.ruleset:644
 msgid "senior"
 msgstr "vanhempi tekijä"
 
-#: data/sandbox/units.ruleset:654 data/civ2civ3/units.ruleset:639
+#: data/sandbox/units.ruleset:659 data/civ2civ3/units.ruleset:644
 msgid "expert"
 msgstr "asiantuntija"
 
-#: data/sandbox/units.ruleset:660 data/civ2civ3/units.ruleset:645
+#: data/sandbox/units.ruleset:665 data/civ2civ3/units.ruleset:650
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast, move twice as "
 "fast, and may gain experience from work enabling them to work even faster."
@@ -31344,7 +31348,7 @@ msgstr ""
 "työkokemuksen myötä saada entistä nopeamman työskentelyn mahdollistavia "
 "ylennyksiä."
 
-#: data/sandbox/units.ruleset:664 data/civ2civ3/units.ruleset:649
+#: data/sandbox/units.ruleset:669 data/civ2civ3/units.ruleset:654
 msgid ""
 "With knowledge of Fusion Power, Engineers may also perform more radical "
 "terrain transformations than Workers, Settlers, or Migrants, with the "
@@ -31360,19 +31364,19 @@ msgstr ""
 "paljon maaruutuja valmiiksi ruudun ympärillä). Lue lisää kappaleesta "
 "Maastonmuokkaukset."
 
-#: data/sandbox/units.ruleset:675
+#: data/sandbox/units.ruleset:680
 msgid "Mechanic"
 msgstr "Mekaanikko"
 
-#: data/sandbox/units.ruleset:710
+#: data/sandbox/units.ruleset:715
 msgid "A Mechanic can repair machines in the field."
 msgstr "Mekaanikko voi korjata koneita kentällä."
 
-#: data/sandbox/units.ruleset:813 data/civ2civ3/units.ruleset:758
+#: data/sandbox/units.ruleset:818 data/civ2civ3/units.ruleset:763
 msgid "Archers fight with bows and arrows and have a good offensive value."
 msgstr "Jousimiehet taistelevat jousin ja nuolin. Niiden hyökkäysteho on hyvä."
 
-#: data/sandbox/units.ruleset:1038 data/civ2civ3/units.ruleset:983
+#: data/sandbox/units.ruleset:1043 data/civ2civ3/units.ruleset:988
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -31391,7 +31395,7 @@ msgstr ""
 " - Olet saavuttanut edistysaskeleet Kommunismi ja Ruuti.\n"
 " - Valtiomuotosi on joko demokratia tai kommunismi."
 
-#: data/sandbox/units.ruleset:1085 data/civ2civ3/units.ruleset:1029
+#: data/sandbox/units.ruleset:1090 data/civ2civ3/units.ruleset:1034
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "upkeep nor causing military unhappiness.  Instead, each unit reduces the "
@@ -31400,7 +31404,7 @@ msgstr ""
 "Fundamentalistivaltioiden ei tarvitse huolehtia fanaatikkoyksiköiden "
 "ylläpidosta. Sen sijaan jokainen yksikkö pienentää kaupungin kokoa yhdellä."
 
-#: data/sandbox/units.ruleset:1161 data/civ2civ3/units.ruleset:1105
+#: data/sandbox/units.ruleset:1166 data/civ2civ3/units.ruleset:1110
 msgid ""
 "Paratroopers are experts at airborne attacks. From a friendly city, airbase, "
 "or airstrip, Paratroopers who have not expended any movement points can "
@@ -31416,11 +31420,11 @@ msgstr ""
 "alueelle johon sinulla ei ole näköyhteyttä, sillä vihollisyksiköiden "
 "miehittämään ruutuun hypätessään laskuvarjojoukot ovat helppoja kohteita!)"
 
-#: data/sandbox/units.ruleset:1168
+#: data/sandbox/units.ruleset:1173
 msgid "Veteran Paratroopers can land on forest and jungle tiles."
 msgstr "Konkarilaskuvarjojääkärit voivat hypätä metsä- ja viidakkoruutuihin."
 
-#: data/sandbox/units.ruleset:1202 data/civ2civ3/units.ruleset:1146
+#: data/sandbox/units.ruleset:1207 data/civ2civ3/units.ruleset:1151
 msgid ""
 "The Mechanized Infantry has the strongest inherent defensive strength of any "
 "land unit, and is very fast on roads and easy terrain, but it is hindered "
@@ -31432,7 +31436,7 @@ msgstr ""
 "(vuoret, suot, viidakot) se ei voi liikkua ja se on käytettävissä vasta "
 "aivan pelin loppuvaiheessa."
 
-#: data/sandbox/units.ruleset:1278 data/civ2civ3/units.ruleset:1222
+#: data/sandbox/units.ruleset:1283 data/civ2civ3/units.ruleset:1227
 msgid ""
 "Chariots are horse-pulled war wagons. They have a stronger attack than "
 "Horsemen, but their speed comes at a cost: they are more expensive to build, "
@@ -31446,7 +31450,7 @@ msgstr ""
 "(vuoret, rämeent ja viidakot) jollei siellä ole teitä. Alkupelin alukset "
 "(kaleeri ja karaveli) eivät kykene kuljettamaan niitä."
 
-#: data/sandbox/units.ruleset:1318 data/civ2civ3/units.ruleset:1262
+#: data/sandbox/units.ruleset:1323 data/civ2civ3/units.ruleset:1267
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops."
@@ -31454,7 +31458,7 @@ msgstr ""
 "Sotanorsupartiossa on jättiläismäisiä sotaan koulutettuja eläimiä. Niitä "
 "käytetään usein voimakkaina rynnäkköyksikköinä."
 
-#: data/sandbox/units.ruleset:1496 data/civ2civ3/units.ruleset:1440
+#: data/sandbox/units.ruleset:1501 data/civ2civ3/units.ruleset:1445
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit. However, they are less adaptable to very rough "
@@ -31467,7 +31471,7 @@ msgstr ""
 "viidakossa muutoin kuin teitä pitkin, eikä maasto tarjoa niille "
 "puolustusbonuksia."
 
-#: data/sandbox/units.ruleset:1539 data/civ2civ3/units.ruleset:1483
+#: data/sandbox/units.ruleset:1544 data/civ2civ3/units.ruleset:1488
 msgid ""
 "While powerful, Catapults (and their successors) are bulky and awkward; they "
 "require roads to move in rough terrain (mountains, swamps, and jungles), are "
@@ -31479,7 +31483,7 @@ msgstr ""
 "heikko, ja ne ovat liian suuria varhaisten laivojen (kaleerit ja karavelit) "
 "kuljettaa."
 
-#: data/sandbox/units.ruleset:1577 data/civ2civ3/units.ruleset:1521
+#: data/sandbox/units.ruleset:1582 data/civ2civ3/units.ruleset:1526
 msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
 "distances. As with the catapults they replace, they are very strong "
@@ -31491,7 +31495,7 @@ msgstr ""
 "tarvitsevat siksi saattojoukkoja toimiakseen tehokkaasti, eivätkä ne voi "
 "kulkea missä hyvänsä maastossa."
 
-#: data/sandbox/units.ruleset:1615 data/civ2civ3/units.ruleset:1559
+#: data/sandbox/units.ruleset:1620 data/civ2civ3/units.ruleset:1564
 msgid ""
 "The artillery is an upgraded cannon. As with its predecessors, it is a very "
 "strong attacker but equally weak defender and will need an escort to be "
@@ -31501,7 +31505,7 @@ msgstr ""
 "mutta toivoton puolustaja ja tarvitsee siksi saattojoukon toimiakseen "
 "tehokkaasti, eivätkä ne voi kulkea missä hyvänsä maastossa."
 
-#: data/sandbox/units.ruleset:1652 data/civ2civ3/units.ruleset:1596
+#: data/sandbox/units.ruleset:1657 data/civ2civ3/units.ruleset:1601
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities. However, they still have the limited mobility of "
@@ -31511,7 +31515,7 @@ msgstr ""
 "Tykistöön verrattuna. Niillä on silti yhä rajoituksensa hankalissa "
 "maastoissa liikkumisessa."
 
-#: data/sandbox/units.ruleset:1695 data/civ2civ3/units.ruleset:1639
+#: data/sandbox/units.ruleset:1700 data/civ2civ3/units.ruleset:1644
 #, no-c-format
 msgid ""
 "Fighters and other aircraft lose 10% of their hitpoints for every turn not "
@@ -31521,7 +31525,7 @@ msgstr ""
 "kierroksella, jota ne eivät vietä kaupungissa, kiitotiellä, "
 "lentotukikohdassa tai tukialuksella."
 
-#: data/sandbox/units.ruleset:1736 data/civ2civ3/units.ruleset:1679
+#: data/sandbox/units.ruleset:1741 data/civ2civ3/units.ruleset:1684
 msgid ""
 "A Bomber's attack against units on land is a bombard attack; against units "
 "on water it has a regular attack."
@@ -31529,7 +31533,7 @@ msgstr ""
 "Maaruutuja vastaan hyökkäävän pommikoneen hyökkäys on pommitushyökkäys. "
 "Meriruutuihin se hyökää tavallisen hyökkäyksen säännöin."
 
-#: data/sandbox/units.ruleset:1741 data/civ2civ3/units.ruleset:1684
+#: data/sandbox/units.ruleset:1746 data/civ2civ3/units.ruleset:1689
 #, no-c-format
 msgid ""
 "As with other aircraft, Bombers lose 10% of their hitpoints for every turn "
@@ -31539,7 +31543,7 @@ msgstr ""
 "jokaisella kierroksen vaihdolla, jonka ne viettävät ilmassa, eivätkä "
 "kaupungissa, kiitotiellä, lentotukikohdassa tai lentotukialuksella."
 
-#: data/sandbox/units.ruleset:1780 data/civ2civ3/units.ruleset:1723
+#: data/sandbox/units.ruleset:1785 data/civ2civ3/units.ruleset:1728
 msgid ""
 "A Helicopter's attack against units on land is a bombard attack; against "
 "units on water it has a regular attack."
@@ -31547,7 +31551,7 @@ msgstr ""
 "Maaruutuja vastaan hyökkäävän helikopterin hyökkäys on pommitushyökkäys. "
 "Meriruutuihin se hyökää tavallisen hyökkäyksen säännöin."
 
-#: data/sandbox/units.ruleset:1783 data/civ2civ3/units.ruleset:1726
+#: data/sandbox/units.ruleset:1788 data/civ2civ3/units.ruleset:1731
 msgid ""
 "Helicopters can also transport one military land unit; while most troops "
 "must load or unload in a city, airstrip, or airbase (and not in the field or "
@@ -31562,7 +31566,7 @@ msgstr ""
 "alppijääkäreille, merijalkaväelle, sissijoukoille ja fanaatikoille) se "
 "voidaan tehdä missä vain."
 
-#: data/sandbox/units.ruleset:1789 data/civ2civ3/units.ruleset:1732
+#: data/sandbox/units.ruleset:1794 data/civ2civ3/units.ruleset:1737
 msgid ""
 "Unlike other aircraft, Helicopters are not required to return to a city, "
 "base, or Carrier to refuel after a set number of turns; however, care must "
@@ -31574,7 +31578,7 @@ msgstr ""
 "tarkkana, sillä lennosa ollessaan ne menettävät terveyttään tasaiseen "
 "tahtiin."
 
-#: data/sandbox/units.ruleset:1906 data/civ2civ3/units.ruleset:1847
+#: data/sandbox/units.ruleset:1911 data/civ2civ3/units.ruleset:1852
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship, and "
 "unlike later boats can travel on rivers, but it may not enter deep ocean "
@@ -31586,7 +31590,7 @@ msgstr ""
 "ruuduilla se sen sijaan ei pysty liikkumaan. Se ei voi hyökätä, mutta "
 "kykenee puolustautumaan hyökkäyksen kohteeksi joutuessaan."
 
-#: data/sandbox/units.ruleset:1947
+#: data/sandbox/units.ruleset:1952
 msgid ""
 "The Caravel is a sailing ship that can enter any ocean tile, but have to "
 "spend at least every third turn change next to land to load supplies for the "
@@ -31596,7 +31600,7 @@ msgstr ""
 "mutta sen täytyy viettää vähintään joka kolmas kierroksenvaihto maaruudun "
 "vieressä lastatakseen ruokaa ja tarvikkeita miehistölleen."
 
-#: data/sandbox/units.ruleset:1986 data/civ2civ3/units.ruleset:1925
+#: data/sandbox/units.ruleset:1991 data/civ2civ3/units.ruleset:1930
 msgid ""
 "The Galleon is a big transport ship, the first which can transport large "
 "wheeled units."
@@ -31604,7 +31608,7 @@ msgstr ""
 "Kaljuuna on suuri kuljetusalus, ensimmäinen suurtenkin pyörällisten "
 "yksiköiden kuljettamiseen kykenevä."
 
-#: data/sandbox/units.ruleset:2022 data/civ2civ3/units.ruleset:1961
+#: data/sandbox/units.ruleset:2027 data/civ2civ3/units.ruleset:1966
 msgid ""
 "The Frigate is a specialized ship with a strong offensive value, and can "
 "attack units on land, but it cannot transport units."
@@ -31612,12 +31616,12 @@ msgstr ""
 "Fregatti on vahva hyökkääjä, kykenevä hyökkäämään rannallakin olevia "
 "yksiköitä vastaan. Se ei kykene kuljettamaan muita yksiköitä."
 
-#: data/sandbox/units.ruleset:2058 data/civ2civ3/units.ruleset:1997
+#: data/sandbox/units.ruleset:2063 data/civ2civ3/units.ruleset:2002
 msgid "The Ironclad is an armored ship, more sturdy than the Frigate."
 msgstr ""
 "Panssarilaiva on panssaroitu alus joka on paljon kestävämpi kuin fregatti."
 
-#: data/sandbox/units.ruleset:2098 data/civ2civ3/units.ruleset:2037
+#: data/sandbox/units.ruleset:2103 data/civ2civ3/units.ruleset:2042
 msgid ""
 "An improved Ironclad, with better move rate and vision. Anti-submarine "
 "weapons double its defense against Submarines."
@@ -31625,7 +31629,7 @@ msgstr ""
 "Kehittyneempi panssarilaiva, jolla on parempi liikkuvuus ja näkökenttä. "
 "Erityisaseistus kaksinkertaistaa sen puolustusarvon sukellusveneitä vastaan."
 
-#: data/sandbox/units.ruleset:2101 data/civ2civ3/units.ruleset:2040
+#: data/sandbox/units.ruleset:2106 data/civ2civ3/units.ruleset:2045
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports and Submarines."
@@ -31633,19 +31637,19 @@ msgstr ""
 "VIHJE: Erittäin nopea alus, joka sopii hyvin vihollisen kuljetusalusten ja "
 "sukellusveneiden metsästämiseen."
 
-#: data/sandbox/units.ruleset:2262
+#: data/sandbox/units.ruleset:2267
 msgid "SSBN"
 msgstr "Ballististen ohjusten sukellusvene"
 
-#: data/sandbox/units.ruleset:2295
+#: data/sandbox/units.ruleset:2300
 msgid "A SSBN is a nuclear submarine."
 msgstr "Ballistisia ohjuksia kuljettava ydinsukellusvene."
 
-#: data/sandbox/units.ruleset:2297
+#: data/sandbox/units.ruleset:2302
 msgid "It gets tactical nukes once you discover Rocketry."
 msgstr "Se saa käyttöönsä taktiset ydinaseet kun rakettitiede keksitään."
 
-#: data/sandbox/units.ruleset:2338 data/civ2civ3/units.ruleset:2230
+#: data/sandbox/units.ruleset:2343 data/civ2civ3/units.ruleset:2235
 msgid ""
 "It can transport aircraft and military land units (not wheeled), although "
 "land units cannot always be transferred to and from Helicopters while "
@@ -31655,7 +31659,7 @@ msgstr ""
 "varustettuja), vaikkakaan yksköitä ei aina voi siirtää kannelle "
 "laskeutuneesta helikopterista tai helikopteriin (Ks. Helikopteri)"
 
-#: data/sandbox/units.ruleset:2389 data/civ2civ3/units.ruleset:2281
+#: data/sandbox/units.ruleset:2394 data/civ2civ3/units.ruleset:2286
 msgid ""
 "Transports can also clean pollution and fallout on water tiles, and with "
 "knowledge of Miniaturization, may build oil platforms on deep ocean tiles "
@@ -31665,7 +31669,7 @@ msgstr ""
 "Pientekniikan keksimisestä lähtien ne voivat rakentaa porauspisteitä syvän "
 "meren ruutuihin, porauslauttojen käytettäväksi."
 
-#: data/sandbox/units.ruleset:2475 data/civ2civ3/units.ruleset:2366
+#: data/sandbox/units.ruleset:2480 data/civ2civ3/units.ruleset:2371
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player. However, without "
@@ -31676,7 +31680,7 @@ msgstr ""
 "valmiiksi. Ilman lisäteknologiaa ne eivät voi kuitenkaan liikkua "
 "itsenäisesti."
 
-#: data/sandbox/units.ruleset:2479 data/civ2civ3/units.ruleset:2370
+#: data/sandbox/units.ruleset:2484 data/civ2civ3/units.ruleset:2375
 msgid ""
 "With Advanced Flight, all Nuclear units (including those already built) gain "
 "a range of 8 movement points, and Rocketry increases this to 16."
@@ -31685,8 +31689,8 @@ msgstr ""
 "ennemmin rakennetut) liikkua 8 liikepisteen verran, rakettitiede kasvattaa "
 "tämän 16 pisteeseen."
 
-#: data/sandbox/units.ruleset:2491 data/sandbox/units.ruleset:2556
-#: data/civ2civ3/units.ruleset:2382
+#: data/sandbox/units.ruleset:2496 data/sandbox/units.ruleset:2561
+#: data/civ2civ3/units.ruleset:2387
 msgid ""
 "TIP:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -31701,11 +31705,11 @@ msgstr ""
 "se syntyy! Minimoit ydintalven syntymahdollisuuden ja käytät ydinaseitasi "
 "ympäristöystävällisesti!"
 
-#: data/sandbox/units.ruleset:2501
+#: data/sandbox/units.ruleset:2506
 msgid "ICBM"
 msgstr "Mannertenvälinen ohjus"
 
-#: data/sandbox/units.ruleset:2541
+#: data/sandbox/units.ruleset:2546
 msgid ""
 "Has unlimited range but 0 moves. Specify the target tile by selecting the "
 "ICBM, ordering `Do...` (or by pressing `d`) and then clicking at the target "
@@ -31715,7 +31719,7 @@ msgstr ""
 "ohjus, ja käskemällä sitä \"Toimi...\" -valikosta (tai painamalla 'd' "
 "näppäintä) ja klikkaamalla kohdetta."
 
-#: data/sandbox/units.ruleset:2553
+#: data/sandbox/units.ruleset:2558
 msgid ""
 "Make sure that the upkeep (gold and shield) of your ICBM is paid. A non "
 "maintained nuke will detonate in place."
@@ -31723,7 +31727,7 @@ msgstr ""
 "Pidä huolta että ydinkärkiesi ylläpito (sekä rahalliset kustannukset että "
 "tuotanto) tulee maksetuksi. Laiminlyöty ydinase räjähtää siellä missä on."
 
-#: data/sandbox/units.ruleset:2617 data/civ2civ3/units.ruleset:2443
+#: data/sandbox/units.ruleset:2622 data/civ2civ3/units.ruleset:2448
 msgid ""
 "Many covert actions may be attempted even in peacetime, but the more "
 "aggressive actions will be discovered and cause diplomatic incidents, giving "
@@ -31736,7 +31740,7 @@ msgstr ""
 "niitä sitovat sopimukset. Myös ydinasevallat vapautuvat Yhdistyneiden "
 "Kansakuntien asettamista rajoituksista."
 
-#: data/sandbox/units.ruleset:2623 data/civ2civ3/units.ruleset:2449
+#: data/sandbox/units.ruleset:2628 data/civ2civ3/units.ruleset:2454
 msgid ""
 "If a foreign unit is alone on a tile, you may attempt to bribe it with your "
 "Diplomat. By paying a sum of gold the unit will immediately become yours; "
@@ -31750,8 +31754,8 @@ msgstr ""
 "kansakunnan tilasta. Lahjonta rauhan aikana aiheuttaa diplomaatisen "
 "selkkauksen. Kodittomat diplomaatit eivät voi lahjoa yksiköitä."
 
-#: data/sandbox/units.ruleset:2639 data/sandbox/units.ruleset:2899
-#: data/civ2civ3/units.ruleset:2465 data/civ2civ3/units.ruleset:2719
+#: data/sandbox/units.ruleset:2644 data/sandbox/units.ruleset:2904
+#: data/civ2civ3/units.ruleset:2470 data/civ2civ3/units.ruleset:2724
 msgid ""
 " - \"Establish Embassy\": This action always succeeds, and gives permanent "
 "contact with the city's owner, as well as intelligence on their tax rates "
@@ -31764,8 +31768,8 @@ msgstr ""
 "jonka kanssa pelaajalla on lähetystö, laskee pelaajan kustannuksia tutkia "
 "teknologia itsekin."
 
-#: data/sandbox/units.ruleset:2645 data/sandbox/units.ruleset:2905
-#: data/civ2civ3/units.ruleset:2471 data/civ2civ3/units.ruleset:2725
+#: data/sandbox/units.ruleset:2650 data/sandbox/units.ruleset:2910
+#: data/civ2civ3/units.ruleset:2476 data/civ2civ3/units.ruleset:2730
 msgid ""
 " - \"Investigate City\": Your unit attempts to report detailed information "
 "about the city: its status, what buildings and units are within, and what it "
@@ -31775,7 +31779,7 @@ msgstr ""
 "kaupungista: kaupungin tila, rakennukset ja paikalla olevat yksiköt sekä "
 "nykyinen tuotantohanke. Tämä operaatio ei kuluta sen toteuttavaa yksikköä."
 
-#: data/sandbox/units.ruleset:2663 data/civ2civ3/units.ruleset:2489
+#: data/sandbox/units.ruleset:2668 data/civ2civ3/units.ruleset:2494
 msgid ""
 " - \"Incite a Revolt\": In return for gold a foreign city will change "
 "allegiance and join your empire, bringing along all nearby units that call "
@@ -31795,7 +31799,7 @@ msgstr ""
 "voi lietsoa kapinaa. Kapinan lietsontaa voi yrittää rauhan aikana, mutta se "
 "aiheuttaa diplomaattisen selkkauksen."
 
-#: data/sandbox/units.ruleset:2676 data/civ2civ3/units.ruleset:2502
+#: data/sandbox/units.ruleset:2681 data/civ2civ3/units.ruleset:2507
 msgid ""
 "Diplomats built under Communist or Federation governments will start at the "
 "first veteran level (secretary)."
@@ -31803,7 +31807,7 @@ msgstr ""
 "Kommunistisen tai federaation hallinnon alla rakennetut diplomaatit "
 "aloittavat valmiiksi ylennettyinä ensimmäiselle kokemustasolle (sihteeri)."
 
-#: data/sandbox/units.ruleset:2681 data/civ2civ3/units.ruleset:2507
+#: data/sandbox/units.ruleset:2686 data/civ2civ3/units.ruleset:2512
 #, no-c-format
 msgid ""
 "The cost to bribe units or incite cities increases +50% for each 1000 "
@@ -31816,7 +31820,7 @@ msgstr ""
 "sitä että etäisyys pääkaupunkiin olisi vain kuudennes todellisesta), silloin "
 "kun pelaajalla on vähintään 10000 kulttuuripistettä."
 
-#: data/sandbox/units.ruleset:2688 data/civ2civ3/units.ruleset:2514
+#: data/sandbox/units.ruleset:2693 data/civ2civ3/units.ruleset:2519
 #, no-c-format
 msgid ""
 "A city gets +5% resistance in diplomatic fights against enemy agents for "
@@ -31827,7 +31831,7 @@ msgstr ""
 "vastustuskykyä taisteluissa vihollisagentteja vastaan, kunnes +50% on "
 "saavutettu tuhannen kulttuuripisteen kohdalla."
 
-#: data/sandbox/units.ruleset:2748
+#: data/sandbox/units.ruleset:2753
 msgid ""
 "A Spy can also be used to:\n"
 " - sabotage an enemy unit (reducing its hit points to half), if it is alone "
@@ -31855,7 +31859,7 @@ msgstr ""
 "- levittää ruttoa, jos kaupungissa on tutkimuslaitos ja vakoojan omistaja "
 "tuntee lääketieteen. Ole varovainen! Rutto leviää kauppareittejä pitkin."
 
-#: data/sandbox/units.ruleset:2767 data/civ2civ3/units.ruleset:2590
+#: data/sandbox/units.ruleset:2772 data/civ2civ3/units.ruleset:2595
 msgid ""
 "Spies built under Communist or Federation governments will start at the "
 "first veteran level (handler)."
@@ -31863,7 +31867,7 @@ msgstr ""
 "Kommunistisen tai federaation hallinnon alla rakennetut vakoojat aloittavat "
 "valmiiksi ylennettynä ensimmäiselle kokemustasolle (toimija)."
 
-#: data/sandbox/units.ruleset:2804 data/civ2civ3/units.ruleset:2626
+#: data/sandbox/units.ruleset:2809 data/civ2civ3/units.ruleset:2631
 msgid ""
 "A Caravan carries goods or material for trading with other nations, or to "
 "help build wonders in your own cities."
@@ -31871,7 +31875,7 @@ msgstr ""
 "Karavaani toimittaa tuotteita tai raaka-aineita myytäväksi muille kansoille, "
 "tai käytettäväksi ihmeen rakennusaineina omissa kaupungeissasi."
 
-#: data/sandbox/units.ruleset:2807
+#: data/sandbox/units.ruleset:2812
 msgid ""
 "Caravans can only travel on roads, railroads, rivers or ships. (Caravans "
 "cannot take advantage of maglevs, but may travel on the railroads that "
@@ -31881,7 +31885,7 @@ msgstr ""
 "kuljettamana. Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne "
 "liikkuvat maglev-ruuduissakin vain alla olevan rautatien mukaista nopeutta."
 
-#: data/sandbox/units.ruleset:2811 data/civ2civ3/units.ruleset:2632
+#: data/sandbox/units.ruleset:2816 data/civ2civ3/units.ruleset:2637
 msgid ""
 "A Caravan sent to a foreign city (one not owned by an enemy) can establish a "
 "trade route. The route's ongoing revenue is doubled if the two cities "
@@ -31893,7 +31897,7 @@ msgstr ""
 "eri mantereilla. Kullakin kaupungilla voi olla korkeintaan kaksi "
 "kauppareittiä."
 
-#: data/sandbox/units.ruleset:2816 data/civ2civ3/units.ruleset:2637
+#: data/sandbox/units.ruleset:2821 data/civ2civ3/units.ruleset:2642
 msgid ""
 "A Caravan sent to one of your own cities that is building a wonder can add "
 "50 shields towards its production. If your city is not building a wonder, "
@@ -31903,7 +31907,7 @@ msgstr ""
 "auttaa ihmeen rakentamisessa 50 kilven verran. Omistajansa kaupunkeja, jotka "
 "eivät ole rakentamassa ihmettä, karavaani ei voi auttaa."
 
-#: data/sandbox/units.ruleset:2858 data/civ2civ3/units.ruleset:2678
+#: data/sandbox/units.ruleset:2863 data/civ2civ3/units.ruleset:2683
 msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. It has "
 "the same behavior and movement restrictions."
@@ -31911,17 +31915,17 @@ msgstr ""
 "Rekka korvaa karavaanin ja liikkuu kaksinkertaisella nopeudella. Sillä on "
 "samat liikkumisrajoitukset kuin karavaanilla."
 
-#: data/sandbox/units.ruleset:2897 data/civ2civ3/units.ruleset:2717
+#: data/sandbox/units.ruleset:2902 data/civ2civ3/units.ruleset:2722
 msgid "Explorers can also perform some actions in another player's city:"
 msgstr ""
 "Seikkailijat voivat myös suorittaa joitakin tehtäviä toisten pelaajien "
 "kaupungeissa:"
 
-#: data/sandbox/units.ruleset:3038 data/civ2civ3/units.ruleset:2857
+#: data/sandbox/units.ruleset:3043 data/civ2civ3/units.ruleset:2862
 msgid "Storm"
 msgstr "Myrsky"
 
-#: data/sandbox/units.ruleset:3066 data/civ2civ3/units.ruleset:2885
+#: data/sandbox/units.ruleset:3071 data/civ2civ3/units.ruleset:2890
 msgid "Storms move randomly at seas."
 msgstr "Myrkyt liikkuvat satunnaisesti ympäri meriä."
 
@@ -32033,12 +32037,12 @@ msgstr "Lennätettävä"
 msgid "Can be airlifted from a suitable city."
 msgstr "Voidaan lennättää sopivasta kaupungista."
 
-#: data/civ2civ3/units.ruleset:1888
+#: data/civ2civ3/units.ruleset:1893
 msgid "The Caravel is a sailing ship that can enter any ocean tile."
 msgstr ""
 "Karaveli on purjealus, joka kykenee liikkumaan millaisella merellä hyvänsä."
 
-#: data/civ2civ3/units.ruleset:2629
+#: data/civ2civ3/units.ruleset:2634
 msgid ""
 "Caravans cannot take advantage of maglevs, but may travel on the railroads "
 "that accompany them."
@@ -33890,15 +33894,15 @@ msgstr "Hehkuvia kiviä"
 msgid "Rocks in the area have unusually bright glow."
 msgstr "Tämän alueen kivillä on poikkeuksellisen voimakas hehku."
 
-#: data/alien/units.ruleset:55 data/alien/units.ruleset:1541
+#: data/alien/units.ruleset:55 data/alien/units.ruleset:1546
 msgid "Regular"
 msgstr "Tavallinen"
 
-#: data/alien/units.ruleset:55 data/alien/units.ruleset:1541
+#: data/alien/units.ruleset:55 data/alien/units.ruleset:1546
 msgid "Elite"
 msgstr "Eliitti"
 
-#: data/alien/units.ruleset:55 data/alien/units.ruleset:1541
+#: data/alien/units.ruleset:55 data/alien/units.ruleset:1546
 msgid "Superb"
 msgstr "Erinomainen"
 
@@ -33922,7 +33926,7 @@ msgstr "antigravitaatio"
 msgid "?unitclass:Burrowing"
 msgstr "kaivautuvien"
 
-#: data/alien/units.ruleset:472
+#: data/alien/units.ruleset:477
 msgid ""
 "This is Earth technology settler. Most military enemy units can capture it "
 "instead of killing it."
@@ -33930,11 +33934,11 @@ msgstr ""
 "Tämä on maasta peräisin olevaa teknologiaa käyttävä uudisasukas. Useimmat "
 "vihollisen sotilasyksiköt voivat kaapata sen tappamisen sijaan."
 
-#: data/alien/units.ruleset:478
+#: data/alien/units.ruleset:483
 msgid "Native Settlers"
 msgstr "Luontainen uudisasukasjoukko"
 
-#: data/alien/units.ruleset:507
+#: data/alien/units.ruleset:512
 msgid ""
 "This is native Settler that can enter radiating areas. Most military enemy "
 "units can capture it instead of killing it."
@@ -33943,27 +33947,27 @@ msgstr ""
 "kulkea myös säteilevässä maastossa. Useimmat vihollisen sotilasyksiköt "
 "voivat vangita sen tappamisen sijaan."
 
-#: data/alien/units.ruleset:513
+#: data/alien/units.ruleset:518
 msgid "Engineer"
 msgstr "Teknikko"
 
-#: data/alien/units.ruleset:540
+#: data/alien/units.ruleset:545
 msgid "This is Earth technology engineer."
 msgstr "Tämän on maan teknologialla varustettu teknikko."
 
-#: data/alien/units.ruleset:545
+#: data/alien/units.ruleset:550
 msgid "Native Engineer"
 msgstr "Luontainen teknikkoryhmä"
 
-#: data/alien/units.ruleset:576
+#: data/alien/units.ruleset:581
 msgid "Native version of the Engineer unit."
 msgstr "Paikallisista olennoista muodostuva versio teknikkoryhmästä."
 
-#: data/alien/units.ruleset:581
+#: data/alien/units.ruleset:586
 msgid "Water Engineer"
 msgstr "Vesiteknikko"
 
-#: data/alien/units.ruleset:613
+#: data/alien/units.ruleset:618
 msgid ""
 "Amphibious Engineer that can also establish new cities on Ocean. Cities "
 "cannot be located on Boiling Ocean."
@@ -33971,11 +33975,11 @@ msgstr ""
 "Amfibinen teknikkoryhmä, joka voi myös perustaa kaupunkeja, myös merelle. "
 "Kiehuvan meren ruutuihin kaupunkeja ei voi perustaa."
 
-#: data/alien/units.ruleset:619
+#: data/alien/units.ruleset:624
 msgid "Star Marines"
 msgstr "Tähtijalkaväki"
 
-#: data/alien/units.ruleset:646
+#: data/alien/units.ruleset:651
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "military unit."
@@ -33983,45 +33987,45 @@ msgstr ""
 "Näitä yksiköitä voi valmistaa heti pelin alussa. Se on kaikkein heikoin "
 "sotilasyksikkö."
 
-#: data/alien/units.ruleset:652
+#: data/alien/units.ruleset:657
 msgid "Cyborgs"
 msgstr "Cyborgit"
 
-#: data/alien/units.ruleset:682
+#: data/alien/units.ruleset:687
 msgid "Attack power to the early game."
 msgstr "Hyökkäysvoimaa pelin alkupuolelle."
 
-#: data/alien/units.ruleset:687
+#: data/alien/units.ruleset:692
 msgid "Tank"
 msgstr "Tankki"
 
-#: data/alien/units.ruleset:718
+#: data/alien/units.ruleset:723
 msgid "This is the most powerful Earth technology unit."
 msgstr "Tämä on voimakkain maasta perityn teknologian yksikkö."
 
-#: data/alien/units.ruleset:723
+#: data/alien/units.ruleset:728
 msgid "War Monster"
 msgstr "Sotahirviö"
 
-#: data/alien/units.ruleset:753
+#: data/alien/units.ruleset:758
 msgid "As a native unit, this can move and fight on radiating areas too."
 msgstr ""
 "Paikallisena olentona tämä voi liikkua ja taistella myös säteilevillä "
 "alueilla."
 
-#: data/alien/units.ruleset:758
+#: data/alien/units.ruleset:763
 msgid "Crusher"
 msgstr "Murskaaja"
 
-#: data/alien/units.ruleset:788
+#: data/alien/units.ruleset:793
 msgid "Alien lifeform trained to be fast."
 msgstr "Nopeaksi treenattu vieras eliömuoto."
 
-#: data/alien/units.ruleset:793
+#: data/alien/units.ruleset:798
 msgid "Cyber Alien"
 msgstr "Kybereliö"
 
-#: data/alien/units.ruleset:823
+#: data/alien/units.ruleset:828
 msgid ""
 "Alien lifeform with cybernetic implants. Good in combat, and has better "
 "vision than any purely organic unit."
@@ -34030,35 +34034,35 @@ msgstr ""
 "näkökyvyn kuin yksikään puhtaasti orgaaninen yksikkö."
 
 #. TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role
-#: data/alien/units.ruleset:829
+#: data/alien/units.ruleset:834
 msgid "Rex"
 msgstr "Rex"
 
-#: data/alien/units.ruleset:858
+#: data/alien/units.ruleset:863
 msgid "Most powerful alien lifeform, like one from Earth's Jurassic period."
 msgstr "Kaikkein voimakkain vieras olento, kuin suoraan maan jurakaudelta."
 
-#: data/alien/units.ruleset:863
+#: data/alien/units.ruleset:868
 msgid "Paradropper"
 msgstr "Tiputtautuja"
 
-#: data/alien/units.ruleset:893
+#: data/alien/units.ruleset:898
 msgid "Alien lifeform able to paradrop."
 msgstr "Vieras eliömuoto, joka kykenee tiputtautumaan taistelukentälle."
 
-#: data/alien/units.ruleset:898
+#: data/alien/units.ruleset:903
 msgid "Turtle Defender"
 msgstr "Kilpikonnapuolustaja"
 
-#: data/alien/units.ruleset:929
+#: data/alien/units.ruleset:934
 msgid "This is excellent defense vehicle."
 msgstr "Tämä on erinomainen puolustusajoneuvo."
 
-#: data/alien/units.ruleset:934
+#: data/alien/units.ruleset:939
 msgid "Earth Sub"
 msgstr "Maasukeltaja"
 
-#: data/alien/units.ruleset:964
+#: data/alien/units.ruleset:969
 msgid ""
 "Burrow through earth. Only some special units can attack against Earth Sub. "
 "These can pass ocean tiles only through Burrow Tubes."
@@ -34066,11 +34070,11 @@ msgstr ""
 "Kaivautuu maan läpi. Vain jotkut erikoisyksiköt voivat hyökätä maasukeltajan "
 "kimppuun. Nämä pääsevät meren ylitse vain kaivuuputkia pitkin."
 
-#: data/alien/units.ruleset:969
+#: data/alien/units.ruleset:974
 msgid "Hunter"
 msgstr "Metsästäjä"
 
-#: data/alien/units.ruleset:1001
+#: data/alien/units.ruleset:1006
 msgid ""
 "Burrowing unit that also has capability to attack Antigravity units with its "
 "own minimissiles.\n"
@@ -34084,11 +34088,11 @@ msgstr ""
 "Se toimii myös maanmuokkauksia tekevänä yksikkönä vihamielisillä alueilla, "
 "hyvin kykenevänä puolustamaan itseään."
 
-#: data/alien/units.ruleset:1008
+#: data/alien/units.ruleset:1013
 msgid "Light Saucer"
 msgstr "Kevyt lautanen"
 
-#: data/alien/units.ruleset:1038
+#: data/alien/units.ruleset:1043
 msgid ""
 "Nobody, but some of the other Antigravity units and Hunters can attack this "
 "unit. This unit itself can attack other Antigravity units."
@@ -34097,11 +34101,11 @@ msgstr ""
 "yksikön kimppuun. Yksikkö itse voi hyökätä toisia antigravitaatioyksiköitä "
 "vastaan."
 
-#: data/alien/units.ruleset:1043
+#: data/alien/units.ruleset:1048
 msgid "Bomb Saucer"
 msgstr "Pommilautanen"
 
-#: data/alien/units.ruleset:1073
+#: data/alien/units.ruleset:1078
 msgid ""
 "Nobody, but some of the other Antigravity and Hunters units can attack this "
 "unit."
@@ -34109,20 +34113,20 @@ msgstr ""
 "Ainoastaan jotkin toiset antigravitaatioyksiköt ja metsästäjät voivat "
 "hyökätä tämän yksikön kimppuun."
 
-#: data/alien/units.ruleset:1077
+#: data/alien/units.ruleset:1082
 msgid "Spitter"
 msgstr "Sylkijä"
 
-#: data/alien/units.ruleset:1108
+#: data/alien/units.ruleset:1113
 msgid "This alien lifeform is first bombarding unit."
 msgstr ""
 "Tämä vieras eliömuoto on ensimmäinen pommitushyökkäykseen pystyvä yksikkö."
 
-#: data/alien/units.ruleset:1113
+#: data/alien/units.ruleset:1118
 msgid "Heavy Spitter"
 msgstr "Raskas sylkijä"
 
-#: data/alien/units.ruleset:1145
+#: data/alien/units.ruleset:1150
 msgid ""
 "This improved spitter can both make bombard attacks, and transport missiles "
 "next to targets."
@@ -34130,11 +34134,11 @@ msgstr ""
 "Tämä paranneltu sylkijä voi sekä tehdä pommitushyökkäyksiä että kuljettaa "
 "ohjuksia riittävän lähelle niiden maalia."
 
-#: data/alien/units.ruleset:1150
+#: data/alien/units.ruleset:1155
 msgid "Biomass"
 msgstr "Biomassa"
 
-#: data/alien/units.ruleset:1181
+#: data/alien/units.ruleset:1186
 msgid ""
 "Just let the biomass to engulf your tank and pick it up, then enjoy the ride "
 "in the radiation-safe inside of the slimy being."
@@ -34142,7 +34146,7 @@ msgstr ""
 "Anna biomassan ympäröidä tankkisi, ja anna sen nauttia matkastaan säteilyltä "
 "suojatussa tilassa limaisen olennon sisällä."
 
-#: data/alien/units.ruleset:1213
+#: data/alien/units.ruleset:1218
 msgid ""
 "Like all Earthly units, Explorer are unable to enter radiating tiles. They "
 "can maintain themselves, no upkeep cost to homecity."
@@ -34151,29 +34155,29 @@ msgstr ""
 "kulkea säteilevissä ruuduissa. Ne kykynevät huolehtimaan itsestään, eivätkä "
 "tarvitse ylläpitoa kotikaupungistaan."
 
-#: data/alien/units.ruleset:1219
+#: data/alien/units.ruleset:1224
 msgid "Scout Animal"
 msgstr "Tiedustelueläin"
 
-#: data/alien/units.ruleset:1249
+#: data/alien/units.ruleset:1254
 msgid "This is native scout animal that can enter any land terrain."
 msgstr "Vieras eliömuoto, joka voi liikkua missä hyvänsä maaruuduissa."
 
-#: data/alien/units.ruleset:1254
+#: data/alien/units.ruleset:1259
 msgid "Raft"
 msgstr "Lautta"
 
-#: data/alien/units.ruleset:1283
+#: data/alien/units.ruleset:1288
 msgid "  This vessel allows coastal travel, but not on Boiling Seas."
 msgstr ""
 "  Tämä alus mahdollistaa matkustamisen rannikkoa pitkin, ei kuitenkaan "
 "kiehuvalla merellä."
 
-#: data/alien/units.ruleset:1288
+#: data/alien/units.ruleset:1293
 msgid "Ship"
 msgstr "Laiva"
 
-#: data/alien/units.ruleset:1320
+#: data/alien/units.ruleset:1325
 msgid ""
 "  This is basic ship type. It has no any special equipment, so it cannot "
 "enter boiling seas."
@@ -34181,31 +34185,31 @@ msgstr ""
 "  Tämä on peruslaiva. Siihen ei kuulu erikoislaitteistoja, joten se ei voi "
 "kulkea kiehuvalla merellä."
 
-#: data/alien/units.ruleset:1355
+#: data/alien/units.ruleset:1360
 msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
 msgstr ""
 "Tämä alus on taistelua varten! Harmillisesti se ei kuitenkaan voi kulkea "
 "kiehuvalla merellä."
 
-#: data/alien/units.ruleset:1360
+#: data/alien/units.ruleset:1365
 msgid "Battle Unit"
 msgstr "Taisteluyksikkö"
 
-#: data/alien/units.ruleset:1389
+#: data/alien/units.ruleset:1394
 msgid "Amphibious battle machine."
 msgstr "Amfibinen taistelukone."
 
-#: data/alien/units.ruleset:1393
+#: data/alien/units.ruleset:1398
 msgid "Amphibious Transport"
 msgstr "Amfibikuljetusalus"
 
-#: data/alien/units.ruleset:1425
+#: data/alien/units.ruleset:1430
 msgid "This is first unit that can enter boiling oceans - and more."
 msgstr ""
 "Tämä on ensimmäinen yksikkö, joka voi kulkea kiehuvalla merellä - ja lähes "
 "kaikkialla muuallakin."
 
-#: data/alien/units.ruleset:1460
+#: data/alien/units.ruleset:1465
 msgid ""
 "Earth technology unit that can establish trade routes and transfer goods to "
 "help build wonders in other cities."
@@ -34213,7 +34217,7 @@ msgstr ""
 "Maan teknologian yksikkö, joka voi perustaa kauppareittejä ja kuljettaa "
 "tarvikkeita auttaakseen ihmeen rakentamista toisessa kaupungissa."
 
-#: data/alien/units.ruleset:1463 data/alien/units.ruleset:1503
+#: data/alien/units.ruleset:1468 data/alien/units.ruleset:1508
 msgid ""
 "Trade routes with other factions provide three times as much ongoing trade "
 "as routes within your faction. Each city can support up to four trade routes."
@@ -34222,15 +34226,15 @@ msgstr ""
 "määrän kauppaa kuin ryhmittymän sisäiset kauppareitit. Jokainen kaupunki voi "
 "ylläpitää neljää kauppareittiä."
 
-#: data/alien/units.ruleset:1501
+#: data/alien/units.ruleset:1506
 msgid "Native caravan unit, that can move on all land terrains."
 msgstr "Luontainen karavaaniyksikkö, joka voi liikkua kaikilla maaruuduilla."
 
-#: data/alien/units.ruleset:1510
+#: data/alien/units.ruleset:1515
 msgid "Stealth Spy"
 msgstr "Häivevakooja"
 
-#: data/alien/units.ruleset:1547
+#: data/alien/units.ruleset:1552
 msgid ""
 "Stealth Spy can make diplomatic actions, and is invisible until next to "
 "enemy unit or city."
@@ -34238,19 +34242,19 @@ msgstr ""
 "Häivevakooja voi tehdä diplomaattisia toimintoja ja on näkymätön paitsi "
 "vihollisyksikön tai -kaupungin vieressä."
 
-#: data/alien/units.ruleset:1552
+#: data/alien/units.ruleset:1557
 msgid "Teleporting Missile"
 msgstr "Teleporttaava ohjus"
 
-#: data/alien/units.ruleset:1579
+#: data/alien/units.ruleset:1584
 msgid "Teleporting Missile can teleport and attack to neighbor tile."
 msgstr "Teleporttaava ohjus voi teleportata hyökätäkseen viereiseen ruutuun."
 
-#: data/alien/units.ruleset:1583
+#: data/alien/units.ruleset:1588
 msgid "Antiburrow Missile"
 msgstr "Antikaivautujaohjus"
 
-#: data/alien/units.ruleset:1611
+#: data/alien/units.ruleset:1616
 msgid ""
 "Missile that can attack also against burrowing units. Since more expensive "
 "than normal Teleporting Missile, does not completely replace it."
@@ -38923,7 +38927,7 @@ msgstr "Infra"
 msgid "Can build infrastructure."
 msgstr "Voi rakentaa infrastruktuuria"
 
-#: data/multiplayer/units.ruleset:487
+#: data/multiplayer/units.ruleset:492
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
@@ -38935,7 +38939,7 @@ msgstr ""
 "Tasavallassa ja Demokratiassa Uudisraivaajat vaativat kaksinkertaisen määrän "
 "ruokaa, Fundamentalismissa kolminkertaisen."
 
-#: data/multiplayer/units.ruleset:1629
+#: data/multiplayer/units.ruleset:1634
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities. Care must be exercised, because Helicopters lose a small amount of "
@@ -38947,14 +38951,14 @@ msgstr ""
 "hieman joka pelivuorolla, jota ne eivät vietä kaupungissa, lentotukikohdassa "
 "tai tukialuksella, ja lisäksi maayksikötkin voivat hyökätä niiden kimppuun."
 
-#: data/multiplayer/units.ruleset:2489
+#: data/multiplayer/units.ruleset:2494
 msgid ""
 "A Caravan carries goods or material to help build wonders in your cities."
 msgstr ""
 "Karavaani toimittaa tuotteita tai raaka-aineita käytettäväksi ihmeen "
 "rakennusaineina muissa kaupungeissa."
 
-#: data/multiplayer/units.ruleset:2492
+#: data/multiplayer/units.ruleset:2497
 msgid ""
 "Every Caravan that is used to build a wonder will add 30 shields towards the "
 "production of the wonder."
@@ -38962,7 +38966,7 @@ msgstr ""
 "Ihmeen rakentamiseen käytettävä Karavaani edistää sen valmistumista 30 "
 "yksiköllä."
 
-#: data/multiplayer/units.ruleset:2532
+#: data/multiplayer/units.ruleset:2537
 msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. Each "
 "Freight used to build a wonder will add 50 shields."
@@ -46610,15 +46614,15 @@ msgstr "Rakenna tyypin A tukikohta"
 msgid "?gui_type:Build Type B Base"
 msgstr "Rakenna tyypin B tukikohta"
 
-#: server/ruleset.c:9183
+#: server/ruleset.c:9168
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Sääntökokoelmaa ei voitu ladata. Pidetään edellinen käytössä."
 
-#: server/ruleset.c:9205
+#: server/ruleset.c:9190
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr "Sääntökokoelmaa ei voitu ladata. Palataan oletuskokoelmaan."
 
-#: server/ruleset.c:9212
+#: server/ruleset.c:9197
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -46627,7 +46631,7 @@ msgstr ""
 "yhteensopiva sääntökokoelma on olemassa git-repositoryssa https://github.com/"
 "freeciv/freeciv-web"
 
-#: server/ruleset.c:9256
+#: server/ruleset.c:9241
 msgid "Loading rulesets."
 msgstr "Lataan sääntökokoelmaa."
 
