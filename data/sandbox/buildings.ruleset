@@ -538,7 +538,7 @@ TIP: to maximise the speed with which a city grows, you should build a \
 Granary before it grows larger than size 4.\
 ")
 
-[building_harbour]
+[building_harbor]
 name            = _("Harbor")
 rule_name       = "Harbour"     ; en_GB spelling used originally
 genus		= "Improvement"
@@ -547,8 +547,8 @@ reqs	=
       "Tech", "Seafaring", "Player"
       "TerrainFlag", "Sea", "Adjacent"
     }
-graphic         = "b.harbour"
-graphic_alt     = "-"
+graphic         = "b.harbor"
+graphic_alt     = "b.harbour"
 graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
