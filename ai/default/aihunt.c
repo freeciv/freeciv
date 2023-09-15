@@ -383,8 +383,9 @@ static void dai_hunter_try_launch(struct ai_type *ait,
             dai_unit_attack(ait, missile, unit_tile(sucker));
           }
         }
-        target = game_unit_by_number(target_sanity); /* Sanity */
-        break; /* try next missile, if any */
+        if (game_unit_by_number(target_sanity) == NULL) {
+          return; /* Target killed */
+        }
       }
     } /* if */
   } unit_list_iterate_safe_end;
