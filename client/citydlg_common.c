@@ -133,7 +133,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
        canvas position (0,0). */
     canvas_x -= W / 2;
 
-    /* Perform a pi/4 rotation, with scaling.  See canvas_pos_to_map_pos
+    /* Perform a pi / 4 rotation, with scaling. See gui_to_map_pos()
        for a full explanation. */
     *city_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
     *city_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
@@ -143,7 +143,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
   }
 
   /* Add on the offset of the top-left corner to get the final
-   * coordinates (like in canvas_to_map_pos). */
+   * coordinates (like in gui_to_map_pos() ). */
   *city_x = CITY_REL2ABS(*city_x);
   *city_y = CITY_REL2ABS(*city_y);
 
