@@ -125,6 +125,9 @@ fc_client::fc_client() : QMainWindow()
     pages_layout[i] = NULL;
     pages[i] = NULL;
   }
+
+  setWindowTitle(_("Freeciv (Qt)"));
+
   init();
 }
 
