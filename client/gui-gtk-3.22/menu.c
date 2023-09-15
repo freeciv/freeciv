@@ -188,7 +188,7 @@ static void show_city_trade_routes_callback(GtkCheckMenuItem *item,
                                             gpointer data);
 static void show_terrain_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_coastline_callback(GtkCheckMenuItem *item, gpointer data);
-static void show_road_rails_callback(GtkCheckMenuItem *item, gpointer data);
+static void show_paths_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_irrigation_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_mine_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_bases_callback(GtkCheckMenuItem *item, gpointer data);
@@ -454,7 +454,7 @@ static struct menu_entry_info menu_entries[] =
   { "SHOW_COASTLINE", N_("C_oastline"), 0, 0,
     G_CALLBACK(show_coastline_callback), MGROUP_SAFE },
   { "SHOW_PATHS", N_("_Paths"), 0, 0,
-    G_CALLBACK(show_road_rails_callback), MGROUP_SAFE },
+    G_CALLBACK(show_paths_callback), MGROUP_SAFE },
   { "SHOW_IRRIGATION", N_("_Irrigation"), 0, 0,
     G_CALLBACK(show_irrigation_callback), MGROUP_SAFE },
   { "SHOW_MINES", N_("_Mines"), 0, 0,
@@ -1299,12 +1299,12 @@ static void show_coastline_callback(GtkCheckMenuItem *item, gpointer data)
 }
 
 /************************************************************************//**
-  Item "SHOW_ROAD_RAILS" callback.
+  Item "SHOW_PATHS" callback.
 ****************************************************************************/
-static void show_road_rails_callback(GtkCheckMenuItem *item, gpointer data)
+static void show_paths_callback(GtkCheckMenuItem *item, gpointer data)
 {
-  if (gui_options.draw_roads_rails ^ gtk_check_menu_item_get_active(item)) {
-    key_roads_rails_toggle();
+  if (gui_options.draw_paths ^ gtk_check_menu_item_get_active(item)) {
+    key_paths_toggle();
   }
 }
 
@@ -3164,7 +3164,7 @@ void real_menus_init(void)
   menu_entry_set_active("SHOW_COASTLINE",
                         gui_options.draw_coastline);
   menu_entry_set_active("SHOW_PATHS",
-                        gui_options.draw_roads_rails);
+                        gui_options.draw_paths);
   menu_entry_set_active("SHOW_IRRIGATION",
                         gui_options.draw_irrigation);
   menu_entry_set_active("SHOW_MINES",
