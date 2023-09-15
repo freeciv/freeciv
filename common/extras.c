@@ -36,6 +36,7 @@ static struct extra_type_list *caused_by[EC_LAST];
 static struct extra_type_list *removed_by[ERM_COUNT];
 static struct extra_type_list *cleanable;
 static struct extra_type_list *unit_hidden;
+static struct extra_type_list *zoccers;
 
 /************************************************************************//**
   Initialize extras structures.
@@ -52,6 +53,7 @@ void extras_init(void)
   }
   cleanable = extra_type_list_new();
   unit_hidden = extra_type_list_new();
+  zoccers = extra_type_list_new();
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
@@ -114,6 +116,8 @@ void extras_free(void)
   cleanable = NULL;
   extra_type_list_destroy(unit_hidden);
   unit_hidden = NULL;
+  extra_type_list_destroy(zoccers);
+  zoccers = NULL;
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
@@ -251,6 +255,14 @@ struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
 struct extra_type_list *extra_type_list_of_unit_hiders(void)
 {
   return unit_hidden;
+}
+
+/************************************************************************//**
+  Returns extra types that cauze ZoC by themselves.
+****************************************************************************/
+struct extra_type_list *extra_type_list_of_zoccers(void)
+{
+  return zoccers;
 }
 
 /************************************************************************//**
