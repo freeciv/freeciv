@@ -1,36 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
-  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="900" height="600" viewBox="-72 -28 144 96"
- xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
- preserveAspectRatio="xMidYMid meet" zoomAndPan="magnify">
-
-   <rect x="-50%" y="-28" width="100%" height="100%" fill="#006233"/>
-   
-
-   <circle r="31" fill="#ffc400" cy="8"/>
-
-   <path d="M -30,0 A 30,30 0 0,0 30,0 V -24 H -30" fill="#006233"/>
-
-
-   <g transform="scale(12, 12)" fill="#ffc400">
-
-   <g id="cone">
-
-     <polygon id="triangle" points="0,0 0,1 0.5,1" transform="translate(0, -1) rotate(18)"/>
-
-     <use xlink:href="#triangle" transform="scale(-1, 1)"/>
-
-   </g>
-
-   <use xlink:href="#cone" transform="rotate(72)"/>
-
-   <use xlink:href="#cone" transform="rotate(-72)"/>
-
-   <use xlink:href="#cone" transform="rotate(144)"/>
-
-   <use xlink:href="#cone" transform="rotate(-144)"/>
-
-</g>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="900"
+   height="600"
+   viewBox="-72 -28 144 96"
+   preserveAspectRatio="xMidYMid meet"
+   zoomAndPan="magnify"
+   version="1.1"
+   id="svg22"
+   sodipodi:docname="mauritania.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs26" />
+  <sodipodi:namedview
+     id="namedview24"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0598745"
+     inkscape:cx="454.29907"
+     inkscape:cy="301.45079"
+     inkscape:window-width="1113"
+     inkscape:window-height="896"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg22" />
+  <rect
+     x="-50%"
+     y="-28"
+     width="100%"
+     height="100%"
+     fill="#006233"
+     id="rect2" />
+  <circle
+     r="31"
+     fill="#ffc400"
+     cy="8"
+     id="circle4" />
+  <path
+     d="M -30,0 A 30,30 0 0,0 30,0 V -24 H -30"
+     fill="#006233"
+     id="path6" />
+  <g
+     transform="scale(12, 12)"
+     fill="#ffc400"
+     id="g20">
+    <g
+       id="cone">
+      <polygon
+         id="triangle"
+         points="0,0 0,1 0.5,1"
+         transform="translate(0, -1) rotate(18)" />
+      <use
+         xlink:href="#triangle"
+         transform="scale(-1, 1)"
+         id="use9" />
+    </g>
+    <use
+       xlink:href="#cone"
+       transform="rotate(72)"
+       id="use12" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(-72)"
+       id="use14" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(144)"
+       id="use16" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(-144)"
+       id="use18" />
+  </g>
 </svg>
