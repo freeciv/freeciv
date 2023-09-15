@@ -1754,7 +1754,7 @@ const struct menu_entry_option_map meoms[] = {
     VMENU_CITY_TRADE_ROUTES },
   { "SHOW_TERRAIN", &gui_options.draw_terrain, VMENU_TERRAIN },
   { "SHOW_COASTLINE", &gui_options.draw_coastline, VMENU_COASTLINE },
-  { "SHOW_PATHS", &gui_options.draw_roads_rails, VMENU_PATHS },
+  { "SHOW_PATHS", &gui_options.draw_paths, VMENU_PATHS },
   { "SHOW_IRRIGATION", &gui_options.draw_irrigation, VMENU_IRRIGATION },
   { "SHOW_MINES", &gui_options.draw_mines, VMENU_MINES },
   { "SHOW_BASES", &gui_options.draw_fortress_airbase, VMENU_BASES },
@@ -1938,7 +1938,7 @@ static void show_paths_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data)
 {
-  view_menu_item_toggle(key_roads_rails_toggle, FALSE, data);
+  view_menu_item_toggle(key_paths_toggle, FALSE, data);
 }
 
 /************************************************************************//**

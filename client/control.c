@@ -2541,15 +2541,15 @@ void request_toggle_coastline(void)
 }
 
 /**********************************************************************//**
-  Toggle display of roads and rails
+  Toggle display of paths
 **************************************************************************/
-void request_toggle_roads_rails(void)
+void request_toggle_paths(void)
 {
   if (!can_client_change_view()) {
     return;
   }
 
-  gui_options.draw_roads_rails ^= 1;
+  gui_options.draw_paths ^= 1;
   update_map_canvas_visible();
 }
 
@@ -3920,11 +3920,11 @@ void key_coastline_toggle(void)
 }
 
 /**********************************************************************//**
-  Handle user 'toggle road/railroad display' input
+  Handle user 'toggle paths display' input
 **************************************************************************/
-void key_roads_rails_toggle(void)
+void key_paths_toggle(void)
 {
-  request_toggle_roads_rails();
+  request_toggle_paths();
 }
 
 /**********************************************************************//**

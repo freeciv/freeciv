@@ -5769,7 +5769,7 @@ static bool is_extra_drawing_enabled(struct extra_type *pextra)
     no_disable = FALSE;
   }
   if (is_extra_caused_by(pextra, EC_ROAD)) {
-    if (gui_options.draw_roads_rails) {
+    if (gui_options.draw_paths) {
       return TRUE;
     }
     no_disable = FALSE;

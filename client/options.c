@@ -167,7 +167,7 @@ struct client_options gui_options = {
   .draw_city_trade_routes = FALSE,
   .draw_terrain = TRUE,
   .draw_coastline = FALSE,
-  .draw_roads_rails = TRUE,
+  .draw_paths = TRUE,
   .draw_irrigation = TRUE,
   .draw_mines = TRUE,
   .draw_fortress_airbase = TRUE,
@@ -187,7 +187,7 @@ struct client_options gui_options = {
   .reqtree_show_icons = TRUE,
   .reqtree_curved_lines = FALSE,
 
-/* options for map images */
+/* Options for map images */
 /*  .mapimg_format, */
   .mapimg_zoom = 2,
 /* See the definition of MAPIMG_LAYER in mapimg.h. */
@@ -1472,11 +1472,11 @@ struct client_option {
 /*
  * Generate a client option of type OT_BOOLEAN.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determine for what particular client
@@ -1506,11 +1506,11 @@ struct client_option {
 /*
  * Generate a client option of type OT_INTEGER.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determine for what particular client
@@ -1544,13 +1544,13 @@ struct client_option {
 /*
  * Generate a client option of type OT_STRING.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
  *        Be sure to pass the array variable and not a pointer to it because
  *        the size is calculated with sizeof().
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determines for what particular client
@@ -1583,13 +1583,13 @@ struct client_option {
  * Generate a client option of type OT_STRING with a string accessor
  * function.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
  *        Be sure to pass the array variable and not a pointer to it because
  *        the size is calculated with sizeof().
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determine for what particular client
@@ -1623,11 +1623,11 @@ struct client_option {
 /*
  * Generate a client option of type OT_ENUM.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determine for what particular client
@@ -1661,11 +1661,11 @@ struct client_option {
 /*
  * Generate a client option of type OT_BITWISE.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determine for what particular client
@@ -1774,11 +1774,11 @@ struct client_option {
 /*
  * Generate a client option of type OT_VIDEO_MODE.
  *
- * oname: The option data.  Note it is used as name to be loaded or saved.
+ * oname: The option data. Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- * odesc: A short description of the client option.  Should be used with the
+ * odesc: A short description of the client option. Should be used with the
  *        N_() macro.
- * ohelp: The help text for the client option.  Should be used with the N_()
+ * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determine for what particular client
@@ -2054,9 +2054,9 @@ static struct client_option client_options[] = {
                      "land from the ocean."),
                   COC_GRAPHICS, GUI_STUB, FALSE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_roads_rails, N_("Draw the roads and the railroads"),
-                  N_("Setting this option will draw the roads and the "
-                     "railroads on the map."),
+  GEN_BOOL_OPTION(draw_paths, N_("Draw the paths"),
+                  N_("Setting this option will draw all kind of paths "
+                     "on the map."),
                   COC_GRAPHICS, GUI_STUB, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_irrigation, N_("Draw the irrigation"),
@@ -3736,7 +3736,7 @@ static bool client_option_video_mode_set(struct option *poption,
 }
 
 /************************************************************************//**
-  Load the option from a file.  Returns TRUE if the option changed.
+  Load the option from a file. Returns TRUE if the option changed.
 ****************************************************************************/
 static bool client_option_load(struct option *poption,
                                struct section_file *sf)
@@ -3748,9 +3748,22 @@ static bool client_option_load(struct option *poption,
   case OT_BOOLEAN:
     {
       bool value;
+      const char *pname = option_name(poption);
+      const char *old_paths = "draw_roads_rails";
+
+      if (!strcmp("draw_paths", pname)) {
+        /* Renamed in freeciv-3.2 */
+        if (secfile_lookup_bool(sf, &value, "client.draw_paths")
+            && option_bool_set(poption, value)) {
+          return TRUE;
+        }
+
+        /* Try by old name. */
+        pname = old_paths;
+      }
 
       return (secfile_lookup_bool(sf, &value, "client.%s",
-                                  option_name(poption))
+                                  pname)
               && option_bool_set(poption, value));
     }
   case OT_INTEGER:
@@ -5843,7 +5856,7 @@ void options_load(void)
   }
   secfile_allow_digital_boolean(sf, allow_digital_boolean);
 
-  /* a "secret" option for the lazy. TODO: make this saveable */
+  /* A "secret" option for the lazy. TODO: make this saveable */
   sz_strlcpy(fc_password,
              secfile_lookup_str_default(sf, "", "%s.password", prefix));
 
