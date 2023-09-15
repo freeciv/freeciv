@@ -1375,6 +1375,8 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
 bool is_plr_zoc_srv(const struct player *pplayer, const struct tile *ptile0,
                     const struct civ_map *zmap)
 {
+  struct extra_type_list *zoccers = extra_type_list_of_zoccers();
+
   square_iterate(zmap, ptile0, 1, ptile) {
     struct terrain *pterrain;
     struct city *pcity;
@@ -1392,6 +1394,14 @@ bool is_plr_zoc_srv(const struct player *pplayer, const struct tile *ptile0,
         return FALSE;
       }
     } else {
+      if (!pplayers_allied(extra_owner(ptile), pplayer)) {
+        extra_type_list_iterate(zoccers, pextra) {
+          if (tile_has_extra(ptile, pextra)) {
+            return FALSE;
+          }
+        } extra_type_list_iterate_end;
+      }
+
       unit_list_iterate(ptile->units, punit) {
         if (!pplayers_allied(unit_owner(punit), pplayer)
             && !unit_has_type_flag(punit, UTYF_NOZOC)
@@ -1434,6 +1444,8 @@ bool is_plr_zoc_srv(const struct player *pplayer, const struct tile *ptile0,
 bool is_plr_zoc_client(const struct player *pplayer, const struct tile *ptile0,
                        const struct civ_map *zmap)
 {
+  struct extra_type_list *zoccers = extra_type_list_of_zoccers();
+
   square_iterate(zmap, ptile0, 1, ptile) {
     struct terrain *pterrain;
     struct city *pcity;
@@ -1453,6 +1465,14 @@ bool is_plr_zoc_client(const struct player *pplayer, const struct tile *ptile0,
         return FALSE;
       }
     } else {
+      if (!pplayers_allied(extra_owner(ptile), pplayer)) {
+        extra_type_list_iterate(zoccers, pextra) {
+          if (tile_has_extra(ptile, pextra)) {
+            return FALSE;
+          }
+        } extra_type_list_iterate_end;
+      }
+
       unit_list_iterate(ptile->units, punit) {
         if (!unit_transported_client(punit)
             && !pplayers_allied(unit_owner(punit), pplayer)

@@ -4258,6 +4258,9 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   if (pextra->no_aggr_near_city >= 0) {
     extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
   }
+  if (extra_has_flag(pextra, EF_CAUSE_ZOC)) {
+    extra_type_list_append(extra_type_list_of_zoccers(), pextra);
+  }
   pextra->hidden_by = p->hidden_by;
   pextra->bridged_over = p->bridged_over;
   pextra->conflicts = p->conflicts;

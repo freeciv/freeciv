@@ -59,17 +59,20 @@ struct road_type;
 /* Units inside will not die all at once */
 #define SPECENUM_VALUE10 EF_NO_STACK_DEATH
 #define SPECENUM_VALUE10NAME N_("NoStackDeath")
+/* Extra itself makes tile to be considered extra owners ZoC */
+#define SPECENUM_VALUE11 EF_CAUSE_ZOC
+#define SPECENUM_VALUE11NAME N_("CauseZoC")
 
-#define SPECENUM_VALUE11 EF_USER_FLAG_1
-#define SPECENUM_VALUE12 EF_USER_FLAG_2
-#define SPECENUM_VALUE13 EF_USER_FLAG_3
-#define SPECENUM_VALUE14 EF_USER_FLAG_4
-#define SPECENUM_VALUE15 EF_USER_FLAG_5
-#define SPECENUM_VALUE16 EF_USER_FLAG_6
-#define SPECENUM_VALUE17 EF_USER_FLAG_7
-#define SPECENUM_VALUE18 EF_USER_FLAG_8
-#define SPECENUM_VALUE19 EF_USER_FLAG_9
-#define SPECENUM_VALUE20 EF_USER_FLAG_10
+#define SPECENUM_VALUE12 EF_USER_FLAG_1
+#define SPECENUM_VALUE13 EF_USER_FLAG_2
+#define SPECENUM_VALUE14 EF_USER_FLAG_3
+#define SPECENUM_VALUE15 EF_USER_FLAG_4
+#define SPECENUM_VALUE16 EF_USER_FLAG_5
+#define SPECENUM_VALUE17 EF_USER_FLAG_6
+#define SPECENUM_VALUE18 EF_USER_FLAG_7
+#define SPECENUM_VALUE19 EF_USER_FLAG_8
+#define SPECENUM_VALUE20 EF_USER_FLAG_9
+#define SPECENUM_VALUE21 EF_USER_FLAG_10
 
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_NAMEOVERRIDE
@@ -194,6 +197,7 @@ struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause caus
                                        bool generated);
 
 struct extra_type_list *extra_type_list_of_unit_hiders(void);
+struct extra_type_list *extra_type_list_of_zoccers(void);
 
 #define is_extra_caused_by(e, c) (e->causes & (1 << c))
 bool is_extra_caused_by_worker_action(const struct extra_type *pextra);

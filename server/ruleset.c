@@ -3764,6 +3764,10 @@ static bool load_ruleset_terrain(struct section_file *file,
         extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
       }
 
+      if (extra_has_flag(pextra, EF_CAUSE_ZOC)) {
+        extra_type_list_append(extra_type_list_of_zoccers(), pextra);
+      }
+
       if (!ok) {
         break;
       }
