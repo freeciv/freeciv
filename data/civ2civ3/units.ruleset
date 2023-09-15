@@ -2885,7 +2885,8 @@ uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "NoBuild", "Cant_Fortify", "Unbribable",
-                "HasNoZOC", "NoVeteran", "RandomMovement"
+                "HasNoZOC", "NoVeteran", "RandomMovement",
+                "Flagless"
 roles         = ""
 helptext      = _("\
 Storms move randomly at seas.\
