@@ -68,6 +68,8 @@ QString current_theme;
 ****************************************************************************/
 fc_client::fc_client() : QMainWindow()
 {
+  QString wtitle;
+
 #ifdef FC_QT5_MODE
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 #endif // FC_QT5_MODE
@@ -130,6 +132,20 @@ fc_client::fc_client() : QMainWindow()
     pages_layout[i] = NULL;
     pages[i] = NULL;
   }
+
+  wtitle = _("Freeciv (%1)");
+  wtitle = wtitle.arg(
+#ifdef FC_QT6X_MODE
+                      "Qt6x"
+#elif FC_QT5_MODE
+                      "Qt5"
+#else  // FC_QT6X_MODE
+                      "Qt6"
+#endif // FC_QT6X_MODE
+                      );
+
+  setWindowTitle(wtitle);
+
   init();
 }
 
