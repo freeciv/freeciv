@@ -62,9 +62,6 @@ struct resource_type {
 /* A hard limit on the number of terrains; useful for static arrays.
  * Used in the network protocol. */
 #define MAX_NUM_TERRAINS (96)
-/* Reflect reality; but theoretically could be larger than terrains!
- * Used in the network protocol. */
-#define MAX_RESOURCE_TYPES (MAX_NUM_TERRAINS / 2)
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME terrain_class

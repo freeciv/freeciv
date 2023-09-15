@@ -3021,15 +3021,14 @@ static bool load_terrain_names(struct section_file *file,
   section_list_destroy(sec);
   sec = NULL;
 
-  /* resource names */
-
+  /* Resource names */
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, RESOURCE_SECTION_PREFIX);
     nval = (NULL != sec ? section_list_size(sec) : 0);
-    if (nval > MAX_RESOURCE_TYPES) {
+    if (nval > MAX_EXTRA_TYPES) {
       ruleset_error(NULL, LOG_ERROR,
                     "\"%s\": Too many resource types (%d, max %d)",
-                    filename, nval, MAX_RESOURCE_TYPES);
+                    filename, nval, MAX_EXTRA_TYPES);
       ok = FALSE;
     }
 
