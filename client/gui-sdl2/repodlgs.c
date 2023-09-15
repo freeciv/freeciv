@@ -1996,7 +1996,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   w2 = adj_size(10) + pBuf->size.w;  
 
-  /* lux rate slider */
+  /* Lux rate slider */
   pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
                            (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
@@ -2009,11 +2009,11 @@ void economy_report_dialog_popup(bool make_modal)
 
   w2 += adj_size(184);  
 
-  /* lux rate iconlabel */
+  /* Lux rate iconlabel */
 
-  /* it is important to leave 1 space at ending of this string */
+  /* It is important to leave 1 space at the end of this string. */
   fc_snprintf(cbuf, sizeof(cbuf), "%d%% ", client.conn.playing->economic.luxury);
-  pstr = create_utf8_from_char(cbuf, adj_font(11));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_SLIGHTLY_BIGGER);
   pstr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_iconlabel(pIcons->pBIG_Luxury, pWindow->dst, pstr,
@@ -2042,7 +2042,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX, pBuf);
 
-  /* science rate slider */
+  /* Science rate slider */
   pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
                            (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
@@ -2054,10 +2054,10 @@ void economy_report_dialog_popup(bool make_modal)
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR, pBuf);
 
-  /* science rate iconlabel */
-  /* it is important to leave 1 space at ending of this string */
+  /* Science rate iconlabel */
+  /* It is important to leave 1 space at the end of this string */
   fc_snprintf(cbuf, sizeof(cbuf), "%d%% ", client.conn.playing->economic.science);
-  pstr = create_utf8_from_char(cbuf, adj_font(11));
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_SLIGHTLY_BIGGER);
   pstr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_iconlabel(pIcons->pBIG_Colb, pWindow->dst, pstr,

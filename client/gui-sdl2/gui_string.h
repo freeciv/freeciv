@@ -62,6 +62,7 @@ typedef struct utf8_str {
 
 enum font_origin {
   FONTO_DEFAULT,
+  FONTO_SLIGHTLY_BIGGER,
   FONTO_ATTENTION,
   FONTO_HEADING,
   FONTO_BIG
