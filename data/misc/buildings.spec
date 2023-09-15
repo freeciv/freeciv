@@ -59,7 +59,7 @@ tiles = { "row", "column", "tag"
   3,  2, "b.sam_battery"
   3,  3, "b.coastal_defense"
   3,  4, "b.solar_plant"
-  3,  5, "b.harbour"
+  3,  5, "b.harbor", "b.harbour"
   3,  6, "b.offshore_platform"
   3,  7, "b.airport"
 

@@ -430,7 +430,7 @@ The amount of stored food will be set to half full whenever a city\
  and more easily withstand famine.\
 ")
 
-[building_harbour]
+[building_harbor]
 name            = _("Harbor")
 rule_name       = "Harbour"     ; en_GB spelling used originally
 genus		= "Improvement"
@@ -439,8 +439,8 @@ reqs	=
       "Tech", "Seafaring", "Player"
       "TerrainClass", "Oceanic", "Adjacent"
     }
-graphic         = "b.harbour"
-graphic_alt     = "-"
+graphic         = "b.harbor"
+graphic_alt     = "b.harbour"
 graphic_alt2    = "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -451,7 +451,7 @@ sabotage	= 100
 sound		= "b_harbour"
 sound_alt	= "b_generic"
 helptext	= _("\
-Gives one extra food resource on all Oceanic tiles.  The city needs\
+Gives one extra food resource on all Oceanic tiles. The city needs\
  to be coastal to build this improvement.\
 ")
 
