@@ -988,7 +988,7 @@ static void create_city_options_widget_list(struct city *pCity)
   /* ----- */
 
   fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("New citizens are"));
-  pstr = create_utf8_from_char(cBuf, adj_font(11));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_SLIGHTLY_BIGGER);
   pstr->style |= SF_CENTER;
 
   if (BV_ISSET(pCity->city_options, CITYO_NEW_EINSTEIN)) {
@@ -1932,7 +1932,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
   FREESURFACE(pSurf);
 
-  change_ptsize_utf8(pstr, adj_font(11));
+  change_fonto_utf8(pstr, FONTO_SLIGHTLY_BIGGER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_INFOPANEL);
 
   if (pCity->pollution) {
