@@ -177,12 +177,12 @@ static struct intel_dialog *create_intel_dialog(struct player *pplayer)
 **************************************************************************/
 void popup_intel_dialog(struct player *p)
 {
-  struct intel_dialog *pdialog;
+  struct intel_dialog *pdialog = get_intel_dialog(p);
 
-  if (!(pdialog = get_intel_dialog(p))) {
-    pdialog = create_intel_dialog(p);
+  if (pdialog == NULL) {
+    create_intel_dialog(p);
   } else {
-    /* bring existing dialog to front */
+    /* Bring existing dialog to front */
     select_window_group_dialog(pdialog->pdialog->begin_widget_list,
                                pdialog->pdialog->end_widget_list);
   }
