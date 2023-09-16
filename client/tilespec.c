@@ -4573,9 +4573,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
 
   if (backdrop) {
     if (!gui_options.solid_color_behind_units) {
-      if (!unit_has_type_flag(punit, UTYF_FLAGLESS)
-          || client_is_global_observer()
-          || unit_owner(punit) == client_player()) {
+      if (!is_flagless_to_player(punit, client_player())) {
         ADD_SPRITE(get_unit_nation_flag_sprite(t, punit), TRUE,
                    FULL_TILE_X_OFFSET + t->unit_flag_offset_x,
                    FULL_TILE_Y_OFFSET + t->unit_flag_offset_y);
@@ -5840,9 +5838,7 @@ int fill_sprite_array(struct tileset *t,
                                             || (gui_options.draw_focus_unit
                                                 && unit_is_in_focus(punit))));
   bool flagless = (do_draw_unit
-                   && unit_has_type_flag(punit, UTYF_FLAGLESS)
-                   && !client_is_global_observer()
-                   && unit_owner(punit) != client_player());
+                   && is_flagless_to_player(punit, client_player()));
   bool solid_bg = (gui_options.solid_color_behind_units
                    && ((do_draw_unit && !flagless)
                        || (pcity != nullptr && gui_options.draw_cities)

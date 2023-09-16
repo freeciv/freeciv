@@ -353,6 +353,30 @@ bool is_special_unit(const struct unit *punit)
 }
 
 /**********************************************************************//**
+  Does player see flag of the unit?
+
+  @param  punit   Unit to check flag for
+  @param  pplayer Player whose vision we're interested about, or nullptr
+                  for global observer.
+  @return         Is flag seen
+**************************************************************************/
+bool is_flagless_to_player(const struct unit *punit,
+                           const struct player *pplayer)
+{
+  if (unit_owner(punit) != pplayer
+      && unit_has_type_flag(punit, UTYF_FLAGLESS)) {
+    if (pplayer == nullptr) {
+      /* Global observer always sees the flags */
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Return TRUE iff this unit can do the specified generalized (ruleset
   defined) action enabler controlled action.
 **************************************************************************/

@@ -358,6 +358,8 @@ bool is_occupying_unit(const struct unit *punit);
 bool is_enter_borders_unit(const struct unit *punit);
 bool is_guard_unit(const struct unit *punit);
 bool is_special_unit(const struct unit *punit);
+bool is_flagless_to_player(const struct unit *punit,
+                           const struct player *pplayer);
 bool unit_can_do_action(const struct unit *punit,
                         const action_id act_id);
 bool unit_can_do_action_result(const struct unit *punit,
