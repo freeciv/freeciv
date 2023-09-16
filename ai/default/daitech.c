@@ -78,7 +78,7 @@ static void dai_select_tech(struct ai_type *ait,
   int values[MAX(A_ARRAY_SIZE, A_UNSET + 1)];
   int goal_values[MAX(A_ARRAY_SIZE, A_UNSET + 1)];
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
-  Tech_type_id ac;
+  Tech_type_id ac = advance_count();
 
   memset(values, 0, sizeof(values));
   values[A_UNSET] = -1;
@@ -91,12 +91,12 @@ static void dai_select_tech(struct ai_type *ait,
   if (is_future_tech(presearch->researching)) {
     bool real_found = FALSE;
 
-    advance_index_iterate(A_FIRST, i) {
+    advance_index_iterate_max(A_FIRST, i, ac) {
       if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
         real_found = TRUE;
         break;
       }
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
 
     if (!real_found) {
       if (choice) {
@@ -115,7 +115,6 @@ static void dai_select_tech(struct ai_type *ait,
 
   /* Fill in values for the techs: want of the tech
    * + average want of those we will discover en route */
-  ac = advance_count();
   advance_index_iterate_max(A_FIRST, i, ac) {
     if (valid_advance_by_number(i)) {
       int steps = research_goal_unknown_techs(presearch, i);
