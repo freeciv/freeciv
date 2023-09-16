@@ -78,6 +78,7 @@ static void dai_select_tech(struct ai_type *ait,
   int values[MAX(A_ARRAY_SIZE, A_UNSET + 1)];
   int goal_values[MAX(A_ARRAY_SIZE, A_UNSET + 1)];
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+  size_t acount = advance_count();
 
   memset(values, 0, sizeof(values));
   values[A_UNSET] = -1;
@@ -90,12 +91,12 @@ static void dai_select_tech(struct ai_type *ait,
   if (is_future_tech(presearch->researching)) {
     bool real_found = FALSE;
 
-    advance_index_iterate(A_FIRST, i) {
+    advance_index_iterate_max(A_FIRST, i, acount) {
       if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
         real_found = TRUE;
         break;
       }
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
 
     if (!real_found) {
       if (choice) {
@@ -114,24 +115,24 @@ static void dai_select_tech(struct ai_type *ait,
 
   /* Fill in values for the techs: want of the tech
    * + average want of those we will discover en route */
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, acount) {
     if (valid_advance_by_number(i)) {
       int steps = research_goal_unknown_techs(presearch, i);
 
       /* We only want it if we haven't got it (so AI is human after all) */
       if (steps > 0) { 
         values[i] += plr_data->tech_want[i];
-	advance_index_iterate(A_FIRST, k) {
+	advance_index_iterate_max(A_FIRST, k, acount) {
           if (research_goal_tech_req(presearch, i, k)) {
             values[k] += plr_data->tech_want[i] / steps;
 	  }
-	} advance_index_iterate_end;
+	} advance_index_iterate_max_end;
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   /* Fill in the values for the tech goals */
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, acount) {
     if (valid_advance_by_number(i)) {
       int steps = research_goal_unknown_techs(presearch, i);
 
@@ -142,11 +143,11 @@ static void dai_select_tech(struct ai_type *ait,
       }
 
       goal_values[i] = values[i];      
-      advance_index_iterate(A_FIRST, k) {
+      advance_index_iterate_max(A_FIRST, k, acount) {
         if (research_goal_tech_req(presearch, i, k)) {
 	  goal_values[i] += values[k];
 	}
-      } advance_index_iterate_end;
+      } advance_index_iterate_max_end;
 
       /* This is the best I could do. It still sometimes does freaky stuff
        * like setting goal to Republic and learning Monarchy, but that's what
@@ -161,11 +162,11 @@ static void dai_select_tech(struct ai_type *ait,
     } else {
       goal_values[i] = -1;
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   newtech = A_UNSET;
   newgoal = A_UNSET;
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, acount) {
     if (valid_advance_by_number(i)) {
       if (values[i] > values[newtech]
           && research_invention_gettable(presearch, i, TRUE)) {
@@ -176,16 +177,18 @@ static void dai_select_tech(struct ai_type *ait,
 	newgoal = i;
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
+
 #ifdef REALLY_DEBUG_THIS
-  advance_index_iterate(A_FIRST, id) {
+  advance_index_iterate_max(A_FIRST, id, acount) {
     if (values[id] > 0
         && research_invention_state(presearch, id) == TECH_PREREQS_KNOWN) {
       TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(id),
               "turn end want: %d", values[id]);
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 #endif /* REALLY_DEBUG_THIS */
+
   if (choice) {
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;
