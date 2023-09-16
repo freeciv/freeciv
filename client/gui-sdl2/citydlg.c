@@ -2584,7 +2584,7 @@ static void redraw_city_dialog(struct city *pCity)
 
   FREESURFACE(pBuf);
 
-  /* draw productions schields */
+  /* draw productions shields */
   if (pCity->surplus[O_SHIELD]) {
 
     if (pCity->surplus[O_SHIELD] > 0) {
