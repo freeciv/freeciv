@@ -567,7 +567,7 @@ int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''',
   priv_conf_data.set('HAVE_IP_MREQN', 1)
 endif
 
-if c_compiler.has_function('iconv', args: [header_arg, '-O'])
+if c_compiler.has_function('iconv', args: header_arg + ['-O'])
   priv_conf_data.set('HAVE_ICONV', 1)
   iconv_lib_dep = []
 elif c_compiler.has_header_symbol('iconv.h', 'iconv', args: header_arg)
