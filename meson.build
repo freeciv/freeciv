@@ -62,6 +62,7 @@ mp_list_url = ''
 storage_dir = ''
 default_port = ''
 testmatic = ''
+homepage_url = '"https://www.freeciv.org/"'
 
 proj_def = get_option('project-definition')
 if proj_def != ''
@@ -79,6 +80,8 @@ if proj_def != ''
         default_port = item.substring(21)
       elif item.startswith('FREECIV_TESTMATIC')
         testmatic = item.substring(18)
+      elif item.startswith('FREECIV_HOMEPAGE')
+        homepage_url = '"' + item.substring(17) + '"'
       elif not item.startswith('#') and item != ''
         error('Unknown parameter ' + item + ' in project definition')
       endif
@@ -87,8 +90,6 @@ if proj_def != ''
     error('Project definition file ' + proj_def + ' not found!')
   endif
 endif
-
-homepage_url = '"https://www.freeciv.org"'
 
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
