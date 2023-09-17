@@ -188,7 +188,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 					   packet->veteran);
 
   /* Owner, veteran, and type fields are already filled in by
-   * unit_virtual_create. */
+   * unit_virtual_create() */
   punit->nationality = player_by_number(packet->nationality);
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
@@ -260,7 +260,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 }
 
 /****************************************************************************
-  Unpackage a short_unit_info packet.  This extracts a limited amount of
+  Unpackage a short_unit_info packet. This extracts a limited amount of
   information about the unit, and is sent for units we shouldn't know
   everything about (like our enemies' units).
 
@@ -275,9 +275,9 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   struct unit *punit = unit_virtual_create(player_by_number(packet->owner),
 					   NULL,
 					   utype_by_number(packet->type),
-					   FALSE);
+					   0);
 
-  /* Owner and type fields are already filled in by unit_virtual_create. */
+  /* Owner and type fields are already filled in by unit_virtual_create() */
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
   punit->facing = packet->facing;
