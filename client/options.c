@@ -1479,7 +1479,7 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef:  The default value of this client option (FALSE or TRUE).
  * ocb:   A callback function of type void (*)(struct option *) called when
@@ -1513,7 +1513,7 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef:  The default value of this client option.
  * omin:  The minimal value of this client option.
@@ -1592,7 +1592,7 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef:  The default string for this client option.
  * oacc:  The string accessor where to find the allowed values of type
@@ -1630,7 +1630,7 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef:  The default value for this client option.
  * oacc:  The name accessor of type 'const struct copt_val_name * (*) (int)'.
@@ -1668,7 +1668,7 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef:  The default value for this client option.
  * oacc:  The name accessor of type 'const struct copt_val_name * (*) (int)'.
@@ -1710,7 +1710,7 @@ struct client_option {
  * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef:  The default string for this client option.
  * ocb:   A callback function of type void (*)(struct option *) called when
@@ -1746,7 +1746,7 @@ struct client_option {
  * ohelp: The help text for the client option. Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef_fg, odef_bg:  The default values for this client option.
  * ocb:   A callback function of type void (*)(struct option *) called when
@@ -1781,7 +1781,7 @@ struct client_option {
  * ohelp: The help text for the client option.  Should be used with the N_()
  *        macro.
  * ocat:  The client_option_class of this client option.
- * ospec: A gui_type enumerator which determin for what particular client
+ * ospec: A gui_type enumerator which determine for what particular client
  *        gui this option is for. Sets to GUI_STUB for common options.
  * odef_width, odef_height:  The default values for this client option.
  * ocb:   A callback function of type void (*)(struct option *) called when
