@@ -236,8 +236,7 @@ of the general syntax. Its filename must end in ".mpdl".
 Here is an example of a .mpdl file:
 
 [info]
-options = "+Freeciv-mpdl-Devel-3.2-2022.Jul.14"
-baseURL = "./ancients-6f88ee23de"
+options = "+Freeciv-mpdl-Devel-3.2-2023.Sep.17"
 name    = "Ancients"
 type    = "Modpack"
 version = "3.1-0"
@@ -248,13 +247,26 @@ list =
   "Ancients-tiles", "./ancients-tiles.mpdl", "Tileset", "3.1-0"
 }
 
-[files]
+[files_1]
+baseURL = "./ancients-6f88ee23de"
+
 list =
 { "src", "dest"
   "ancients/ancients.serv", "ancients.serv"
   "ancients/game.ruleset"
   ; ...
 }
+
+[files_2]
+baseURL = "https://ancients.org/docs/"
+
+list =
+{ "src"
+  "ancients/ChangeLog"
+  "ancients/Usage"
+  ; ...
+}
+
 
 The [info] section has overall control information:
  - "options": must be exactly as shown in the example.
@@ -279,16 +291,20 @@ The [info] section has overall control information:
         than one of the above kinds of material
       - "Group": contains no files but only depends on other modpacks
      At the moment, only "Scenario" causes special behavior.
+
+The [files_*] sections lists the individual files comprising your modpack.
+(They must list every file individually; any files in the same directory
+on the webserver that are not listed will not be downloaded.)
+The "files_" part is mandatory. It can be followed by any identifier as long
+as each such section has a distinct name.
+
  - "baseURL":
      URL to prepend to the "src" filenames in the [files] section.
      May be relative to the .mpdl file (starting with "./"), or
      absolute (in which case the files can be on some web server
      different to where the .mpdl file lives).
 
-The [files] section lists the individual files comprising your modpack.
-(It must list every file individually; any files in the same directory
-on the webserver that are not listed will not be downloaded.)
-After the header, each line can contain two strings:
+For entries in the list, each line can contain two strings:
  - "src"
      Mandatory. Path of file on webserver, relative to "baseURL",
      and also by default installation path.
