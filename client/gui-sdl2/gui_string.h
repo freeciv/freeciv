@@ -65,7 +65,8 @@ enum font_origin {
   FONTO_SLIGHTLY_BIGGER,
   FONTO_ATTENTION,
   FONTO_HEADING,
-  FONTO_BIG
+  FONTO_BIG,
+  FONTO_MAX
 };
 
 utf8_str *create_utf8_str_fonto(char *in_text, size_t n_alloc,

@@ -371,10 +371,12 @@ void popup_impr_info(Impr_type_id impr)
   pImpr_type = improvement_by_number(impr);
 
   pSurf = get_building_surface(pImpr_type);
-  pImprNameLabel = create_iconlabel_from_chars(
-                     ResizeSurfaceBox(pSurf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
-                     pWindow->dst, city_improvement_name_translation(NULL, pImpr_type),
-                     adj_font(24), WF_FREE_THEME);
+  pImprNameLabel
+    = create_iconlabel_from_chars_fonto(ResizeSurfaceBox(pSurf, adj_size(64), adj_size(48),
+                                                         1, TRUE, TRUE),
+                                        pWindow->dst,
+                                        city_improvement_name_translation(NULL, pImpr_type),
+                                        FONTO_MAX, WF_FREE_THEME);
 
   pImprNameLabel->ID = ID_LABEL;
   DownAdd(pImprNameLabel, pDock);
@@ -797,10 +799,11 @@ void popup_unit_info(Unit_type_id type_id)
   }
 
   pUnitType = utype_by_number(type_id);
-  pUnitNameLabel= create_iconlabel_from_chars(
-                adj_surf(get_unittype_surface(pUnitType, direction8_invalid())),
-                pWindow->dst, utype_name_translation(pUnitType),
-                adj_font(24), WF_FREE_THEME);
+  pUnitNameLabel
+    = create_iconlabel_from_chars_fonto(adj_surf(get_unittype_surface(pUnitType,
+                                                                      direction8_invalid())),
+                                        pWindow->dst, utype_name_translation(pUnitType),
+                                        FONTO_MAX, WF_FREE_THEME);
 
   pUnitNameLabel->ID = ID_LABEL;
   DownAdd(pUnitNameLabel, pDock);
@@ -1136,7 +1139,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   start_x = (pWindow->area.x + adj_size(1) + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
 
-  /* tech tree icon */
+  /* Tech tree icon */
   pWidget = create_icon2(current_theme->Tech_Tree_Icon, pWindow->dst,
                          WF_RESTORE_BACKGROUND);
 
@@ -1146,18 +1149,17 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   DownAdd(pWidget, pDock);
   pDock = pWidget;
 
-  /* tech name (heading) */
-  pWidget = create_iconlabel_from_chars(get_tech_icon(tech),
-                    pWindow->dst,
-                    advance_name_translation(advance_by_number(tech)),
-                    adj_font(24),
-                    WF_FREE_THEME);
+  /* Tech name (heading) */
+  pWidget = create_iconlabel_from_chars_fonto(get_tech_icon(tech),
+                                              pWindow->dst,
+                                              advance_name_translation(advance_by_number(tech)),
+                                              FONTO_MAX, WF_FREE_THEME);
 
   pWidget->ID = ID_LABEL;
   DownAdd(pWidget, pDock);
   pDock = pWidget;
 
-  /* target techs */
+  /* Target techs */
   targets_count = 0;
   advance_index_iterate(A_FIRST, aidx) {
     if ((targets_count < 6)
