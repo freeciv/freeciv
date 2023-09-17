@@ -222,7 +222,7 @@ bool can_attack_non_native(const struct unit_type *utype)
 
 /************************************************************************//**
   This unit can attack from non-native tiles (Marines can attack from
-  transport, ships from harbour cities)
+  transport, ships from harbor cities)
 ****************************************************************************/
 bool can_attack_from_non_native(const struct unit_type *utype)
 {

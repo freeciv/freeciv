@@ -265,7 +265,7 @@ uclasses = "\
 ; min_speed           = Minimum speed after damage and effects (whole movement points)\n\
 ; hp_loss_pct         = Hitpoints lost each turn if unit not in city or native base\n\
 ; non_native_def_pct  = Defense power percentage applying when defending on\n\
-;                       non-native terrain (such as ship in harbour)\n\
+;                       non-native terrain (such as ship in harbor)\n\
 ; flags               = List of unit class flags (from the following list; you\n\
 ;                       cannot add custom unit class flags)\n\
 ; helptext            = optional help text string; should escape all raw newlines\n\
