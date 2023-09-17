@@ -372,10 +372,12 @@ void popup_impr_info(Impr_type_id impr)
   pimpr_type = improvement_by_number(impr);
 
   surf = get_building_surface(pimpr_type);
-  impr_name_label = create_iconlabel_from_chars(
-                     resize_surface_box(surf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
-                     pwindow->dst, city_improvement_name_translation(NULL, pimpr_type),
-                     adj_font(24), WF_FREE_THEME);
+  impr_name_label
+    = create_iconlabel_from_chars_fonto(resize_surface_box(surf, adj_size(64),
+                                                           adj_size(48), 1, TRUE, TRUE),
+                                        pwindow->dst,
+                                        city_improvement_name_translation(NULL, pimpr_type),
+                                        FONTO_MAX, WF_FREE_THEME);
 
   impr_name_label->id = ID_LABEL;
   widget_add_as_prev(impr_name_label, dock);
@@ -799,10 +801,11 @@ void popup_unit_info(Unit_type_id type_id)
   }
 
   punittype = utype_by_number(type_id);
-  unit_name_label = create_iconlabel_from_chars(
-                adj_surf(get_unittype_surface(punittype, direction8_invalid())),
-                pwindow->dst, utype_name_translation(punittype),
-                adj_font(24), WF_FREE_THEME);
+  unit_name_label
+    = create_iconlabel_from_chars_fonto(adj_surf(get_unittype_surface(punittype,
+                                                                      direction8_invalid())),
+                                        pwindow->dst, utype_name_translation(punittype),
+                                        FONTO_MAX, WF_FREE_THEME);
 
   unit_name_label->id = ID_LABEL;
   widget_add_as_prev(unit_name_label, dock);
@@ -1152,11 +1155,11 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   dock = pwidget;
 
   /* Tech name (heading) */
-  pwidget = create_iconlabel_from_chars(get_tech_icon(tech),
-                    pwindow->dst,
-                    advance_name_translation(advance_by_number(tech)),
-                    adj_font(24),
-                    WF_FREE_THEME);
+  pwidget
+    = create_iconlabel_from_chars_fonto(get_tech_icon(tech),
+                                        pwindow->dst,
+                                        advance_name_translation(advance_by_number(tech)),
+                                        FONTO_MAX, WF_FREE_THEME);
 
   pwidget->id = ID_LABEL;
   widget_add_as_prev(pwidget, dock);
