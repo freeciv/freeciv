@@ -3225,9 +3225,11 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 }
 
 /************************************************************************//**
-  Change from worked to empty.
-  city_x, city_y are city map coordinates.
+  Change city tile from worked to empty.
   Call sync_cities() to send the affected cities to the clients.
+
+  @param pcity City to change worker status
+  @param ptile Tile to clear worker from
 ****************************************************************************/
 void city_map_update_empty(struct city *pcity, struct tile *ptile)
 {
@@ -3237,9 +3239,11 @@ void city_map_update_empty(struct city *pcity, struct tile *ptile)
 }
 
 /************************************************************************//**
-  Change from empty to worked.
-  city_x, city_y are city map coordinates.
+  Change city tile from empty to worked.
   Call sync_cities() to send the affected cities to the clients.
+
+  @param pcity City to change worker status
+  @param ptile Tile to set worker to
 ****************************************************************************/
 void city_map_update_worker(struct city *pcity, struct tile *ptile)
 {
