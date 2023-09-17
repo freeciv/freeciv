@@ -11,16 +11,14 @@ finish-args:
   - --filesystem=~/.freeciv:create
 modules:
   - name: freeciv-ruledit
-    buildsystem: autotools
+    buildsystem: meson
     no-autogen: true
-    builddir: true
     config-opts:
-      - --with-qtver=qt6
-      - --enable-ruledit
-      - --disable-client
-      - --disable-server
-      - --disable-fcmp
-      - --disable-freeciv-manual
+      - -Dqtver=qt6
+      - -Druledit=true
+      - -Dclients=[]
+      - -Dserver=disabled
+      - -Dfcmp=[]
     sources:
       - type: dir
         path: ../..

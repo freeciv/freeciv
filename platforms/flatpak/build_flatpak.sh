@@ -16,14 +16,6 @@ BROOT="$(pwd)"
 cd "$(dirname "$0")" || exit 1
 FCVER=$(../../fc_version)
 
-# On a git clone, regenerate configure with autogen.sh
-if test -f ../../.git && test -x ../../autogen.sh ; then
-  if ! ( cd ../.. && ./autogen.sh --no-configure-run ) ; then
-    echo "Autogen.sh FAILED" >&2
-    exit 1
-  fi
-fi
-
 if ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk4.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk322.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.mp.gtk4.yml ||
