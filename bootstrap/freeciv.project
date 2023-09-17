@@ -20,3 +20,6 @@ fi
 FREECIV_DEFAULT_PORT=5556
 # Default + 1000
 FREECIV_JSON_PORT=6556
+
+# Project homepage URL
+HOMEPAGE_URL="https://www.freeciv.org/"
