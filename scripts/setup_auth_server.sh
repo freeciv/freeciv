@@ -24,7 +24,7 @@ then
 else
   PROGRAM_NAME="setup_auth_server.sh"
 fi
-PROGRAM_VERSION="0.10"
+PROGRAM_VERSION="0.15"
 
 #############################################################################
 #
@@ -49,14 +49,14 @@ ask_yes_no() {
 
     read ANSWER
 
-    if test "x$ANSWER" = "xy" || test "x$ANSWER" = "xyes" ||
-       test "x$ANSWER" = "xY" || test "x$ANSWER" = "xYES" ||
-       test "x$ANSWER" = "xYes"
+    if test "${ANSWER}" = "y" || test "${ANSWER}" = "yes" ||
+       test "${ANSWER}" = "Y" || test "${ANSWER}" = "YES" ||
+       test "${ANSWER}" = "Yes"
     then
       return 1
-    elif test "x$ANSWER" = "xn" || test "x$ANSWER" = "xno" ||
-       test "x$ANSWER" = "xN" || test "x$ANSWER" = "xNO" ||
-       test "x$ANSWER" = "xNo"
+    elif test "${ANSWER}" = "n" || test "${ANSWER}" = "no" ||
+       test "${ANSWER}" = "N" || test "${ANSWER}" = "NO" ||
+       test "${ANSWER}" = "No"
     then
       return 0
     else
@@ -77,58 +77,58 @@ ask_yes_no() {
 make_query() {
   declare -i MYSQL_RETURN
 
-  if test "x$MYSQL_SERVER" != "x"
+  if test "${MYSQL_SERVER}" != ""
   then
-   MYSQL_SERVER_PARAM="-h$MYSQL_SERVER"
+   MYSQL_SERVER_PARAM="-h${MYSQL_SERVER}"
   else
    MYSQL_SERVER_PARAM=
   fi
-  if test "x$MYSQL_PORT" != "x"
+  if test "${MYSQL_PORT}" != ""
   then
-   MYSQL_PORT_PARAM="-P$MYSQL_PORT"
+   MYSQL_PORT_PARAM="-P${MYSQL_PORT}"
   else
    MYSQL_PORT_PARAM=
   fi
-  if test "x$MYSQL_DATABASE" != "x"
+  if test "${MYSQL_DATABASE}" != ""
   then
-   MYSQL_DATABASE_PARAM="-D$MYSQL_DATABASE"
+   MYSQL_DATABASE_PARAM="-D${MYSQL_DATABASE}"
   else
    MYSQL_DATABASE_PARAM=
   fi
-  if test "x$MYSQL_USER" != "x"
+  if test "${MYSQL_USER}" != ""
   then
-   MYSQL_USER_PARAM="-u$MYSQL_USER"
+   MYSQL_USER_PARAM="-u${MYSQL_USER}"
   else
    MYSQL_USER_PARAM=
   fi
-  if test "x$MYSQL_PASSWORD" = "x*"
+  if test "${MYSQL_PASSWORD}" = "*"
   then
    MYSQL_PASSWORD_PARAM="-p"
-  elif test "x$MYSQL_PASSWORD" != "x"
+  elif test "${MYSQL_PASSWORD}" != ""
   then
-   MYSQL_PASSWORD_PARAM="-p$MYSQL_PASSWORD"
+   MYSQL_PASSWORD_PARAM="-p${MYSQL_PASSWORD}"
   else
    MYSQL_PASSWORD_PARAM=
   fi
 
-  if test "x$1" != "x-"
+  if test "$1" != "-"
   then
-    echo "$1" | mysql $MYSQL_SERVER_PARAM $MYSQL_PORT_PARAM \
-                      $MYSQL_USER_PARAM $MYSQL_PASSWORD_PARAM \
-                      $MYSQL_DATABASE_PARAM
+    echo "$1" | mysql ${MYSQL_SERVER_PARAM} ${MYSQL_PORT_PARAM} \
+                      ${MYSQL_USER_PARAM} ${MYSQL_PASSWORD_PARAM} \
+                      ${MYSQL_DATABASE_PARAM}
   else
-    mysql $MYSQL_SERVER_PARAM $MYSQL_PORT_PARAM \
-          $MYSQL_USER_PARAM $MYSQL_PASSWORD_PARAM \
-          $MYSQL_DATABASE_PARAM
+    mysql ${MYSQL_SERVER_PARAM} ${MYSQL_PORT_PARAM} \
+          ${MYSQL_USER_PARAM} ${MYSQL_PASSWORD_PARAM} \
+          ${MYSQL_DATABASE_PARAM}
   fi
 
   MYSQL_RETURN=$?
 
-  return $MYSQL_RETURN
+  return ${MYSQL_RETURN}
 }
 
 print_usage() {
-  echo "Usage: $PROGRAM_NAME [-v|--version] [-h|--help]"
+  echo "Usage: ${PROGRAM_NAME} [-v|--version] [-h|--help]"
 }
 
 #############################################################################
@@ -137,24 +137,24 @@ print_usage() {
 
 # Check for commandline parameters
 
-if test "x$1" = "x-v" || test "x$1" = "x--version"
+if test "$1" = "-v" || test "$1" = "--version"
 then
-  echo "$PROGRAM_NAME version $PROGRAM_VERSION"
+  echo "${PROGRAM_NAME} version ${PROGRAM_VERSION}"
 
   # If we have several parameters fall through to usage, otherwise exit
-  if test "x$2" = "x"
+  if test "$2" = ""
   then
     exit 0
   fi
 fi
 
-if test "x$1" != "x"
+if test "$1" != ""
 then
   print_usage
 
-  if test "x$2" = "x"
+  if test "$2" = ""
   then
-    if test "x$1" = "x-h" || test "x$1" = "x--help"
+    if test "$1" = "-h" || test "$1" = "--help"
     then
       exit 0
     fi
@@ -207,11 +207,11 @@ MYSQL_DATABASE=""
 while test $CONNECTED = no
 do
   echo "Please answer questions determining how to contact MySQL server."
-  echo -n "server ($MYSQL_SERVER)> "
+  echo -n "server (${MYSQL_SERVER})> "
   read MYSQL_SERVER_NEW
-  echo -n "port ($MYSQL_PORT)> "
+  echo -n "port (${MYSQL_PORT})> "
   read MYSQL_PORT_NEW
-  echo -n "username ($MYSQL_USER)> "
+  echo -n "username (${MYSQL_USER})> "
   read MYSQL_USER_NEW
   echo "If password is not required, say \"-\"."
   echo "If you want MySQL server to prompt it, say \"*\"."
@@ -219,21 +219,21 @@ do
   echo -n "password > "
   read MYSQL_PASSWORD_NEW
 
-  if test "x$MYSQL_SERVER_NEW" != "x"
+  if test "${MYSQL_SERVER_NEW}" != ""
   then
-    MYSQL_SERVER="$MYSQL_SERVER_NEW"
+    MYSQL_SERVER="${MYSQL_SERVER_NEW}"
   fi
-  if test "x$MYSQL_PORT_NEW" != "x"
+  if test "${MYSQL_PORT_NEW}" != ""
   then
-    MYSQL_PORT="$MYSQL_PORT_NEW"
+    MYSQL_PORT="${MYSQL_PORT_NEW}"
   fi
-  if test "x$MYSQL_USER_NEW" != "x"
+  if test "${MYSQL_USER_NEW}" != ""
   then
-    export MYSQL_USER="$MYSQL_USER_NEW"
+    export MYSQL_USER="${MYSQL_USER_NEW}"
   fi
-  if test "x$MYSQL_PASSWORD_NEW" != "x"
+  if test "${MYSQL_PASSWORD_NEW}" != ""
   then
-    if test "x$MYSQL_PASSWORD_NEW" == "x-"
+    if test "${MYSQL_PASSWORD_NEW}" == "-"
     then
       # No password
       MYSQL_PASSWORD=""
@@ -266,37 +266,37 @@ do
 
   # Make sure that make_query doesn't try to select any database
   # for this query
-  MYSQL_DATABASE_TMP="$MYSQL_DATABASE"
+  MYSQL_DATABASE_TMP="${MYSQL_DATABASE}"
   MYSQL_DATABASE=""
 
   # List Databases - remove header and internal database.
   DBLIST="$(make_query 'show databases' | grep -v '^Database$' | grep -v '^information_schema$')"
 
-  echo "$DBLIST" | grep "$MYSQL_DATABASE_TMP" > /dev/null
+  echo "${DBLIST}" | grep "${MYSQL_DATABASE_TMP}" > /dev/null
   GREPRESULT=$?
 
   # See if automatically proposed database is in the list
   if test $GREPRESULT -eq 0
   then
     # Keep current default
-    MYSQL_DATABASE_TMP="$MYSQL_DATABASE_TMP"
+    MYSQL_DATABASE_TMP="${MYSQL_DATABASE_TMP}"
   else
     # Select first one from the list
-    MYSQL_DATABASE_TMP=$(echo "$DBLIST" | head -n 1)
+    MYSQL_DATABASE_TMP=$(echo "${DBLIST}" | head -n 1)
   fi
 
   # Start lines with " -"
-  echo "$DBLIST" | sed 's/^/ -/'
+  echo "${DBLIST}" | sed 's/^/ -/'
   echo
   echo "Please select which one to use."
-  echo -n "($MYSQL_DATABASE_TMP)> "
+  echo -n "(${MYSQL_DATABASE_TMP})> "
   read MYSQL_DATABASE_NEW
 
-  if test "x$MYSQL_DATABASE_NEW" != "x"
+  if test "${MYSQL_DATABASE_NEW}" != ""
   then
-    MYSQL_DATABASE="$MYSQL_DATABASE_NEW"
+    MYSQL_DATABASE="${MYSQL_DATABASE_NEW}"
   else
-    MYSQL_DATABASE="$MYSQL_DATABASE_TMP"
+    MYSQL_DATABASE="${MYSQL_DATABASE_TMP}"
   fi
 
   # Try to connect using that database
@@ -322,14 +322,15 @@ done
 # These are hardcoded here, and not prompted
 TABLE_USER="auth"
 TABLE_LOG="loginlog"
+TABLE_META="table_meta"
 
 TABLELIST="$(make_query 'show tables' | grep -v '^Tables_in_')"
 
-if test "x$TABLELIST" != "x"
+if test "${TABLELIST}" != ""
 then
   echo "This database already contains some tables."
 
-  echo "$TABLELIST" | grep "$TABLE_USER" > /dev/null
+  echo "${TABLELIST}" | grep "${TABLE_USER}" > /dev/null
   GREPRESULT=$?
 
   if test $GREPRESULT -eq 0
@@ -339,7 +340,7 @@ then
     USER_TABLE_PRESENT=no
   fi
 
-  echo "$TABLELIST" | grep "$TABLE_LOG" > /dev/null
+  echo "${TABLELIST}" | grep "${TABLE_LOG}" > /dev/null
   GREPRESULT=$?
 
   if test $GREPRESULT -eq 0
@@ -349,17 +350,32 @@ then
     LOG_TABLE_PRESENT=no
   fi
 
-  if test $LOG_TABLE_PRESENT = yes ||
-     test $USER_TABLE_PRESENT = yes
+  echo "${TABLELIST}" | grep "${TABLE_META}" > /dev/null
+  GREPRESULT=$?
+
+  if test $GREPRESULT -eq 0
+  then
+    META_TABLE_PRESENT=yes
+  else
+    META_TABLE_PRESENT=no
+  fi
+
+  if test "${LOG_TABLE_PRESENT}" = yes ||
+     test "${USER_TABLE_PRESENT}" = yes ||
+     test "${META_TABLE_PRESENT}" = yes
   then
     echo "There are even tables with the names Freeciv would use."
-    if test $USER_TABLE_PRESENT = yes
+    if test "${USER_TABLE_PRESENT}" = yes
     then
-      echo " -$TABLE_USER"
+      echo " -${TABLE_USER}"
     fi
-    if test $LOG_TABLE_PRESENT = yes
+    if test "${LOG_TABLE_PRESENT}" = yes
     then
-      echo " -$TABLE_LOG"
+      echo " -${TABLE_LOG}"
+    fi
+    if test "${META_TABLE_PRESENT}" = yes
+    then
+      echo " -${TABLE_META}"
     fi
 
     echo "Maybe you have already attempted to create Freeciv tables?"
@@ -376,20 +392,29 @@ then
     fi
 
     # Drop tables
-    if test $USER_TABLE_PRESENT = yes
+    if test "${USER_TABLE_PRESENT}" = yes
     then
-      if ! make_query "drop table $TABLE_USER"
+      if ! make_query "drop table ${TABLE_USER}"
       then
-        echo "Dropping table $TABLE_USER failed!"
+        echo "Dropping table ${TABLE_USER} failed!"
         echo "Aborting!"
         exit 1
       fi
     fi
-    if test $LOG_TABLE_PRESENT = yes
+    if test "${LOG_TABLE_PRESENT}" = yes
     then
-      if ! make_query "drop table $TABLE_LOG"
+      if ! make_query "drop table ${TABLE_LOG}"
       then
-        echo "Dropping table $TABLE_LOG failed!"
+        echo "Dropping table ${TABLE_LOG} failed!"
+        echo "Aborting!"
+        exit 1
+      fi
+    fi
+    if test "${META_TABLE_PRESENT}" = yes
+    then
+      if ! make_query "drop table ${TABLE_META}"
+      then
+        echo "Dropping table ${TABLE_META} failed!"
         echo "Aborting!"
         exit 1
       fi
@@ -397,17 +422,17 @@ then
 
     # Updated tablelist
     TABLELIST="$(make_query 'show tables' | grep -v '^Tables_in_')"
-    if test "x$TABLELIST" != "x"
+    if test "${TABLELIST}" != ""
     then
       echo "After dropping Freeciv tables, others remain."
     fi
   fi
 
   # Do we still have tables in that database?
-  if test "x$TABLELIST" != "x"
+  if test "${TABLELIST}" != ""
   then
     # Print them, each line starting with " -"
-    echo "$TABLELIST" | sed 's/^/ -/'
+    echo "${TABLELIST}" | sed 's/^/ -/'
     echo "Table names do not conflict with tables Freeciv would use."
 
     if ask_yes_no "\nDo you really want to use this database for Freeciv\nplayer authentication?"
@@ -424,7 +449,12 @@ echo "Now we create the Freeciv tables."
 # Maybe we should read it from separate file in the future.
 # The tables here are as the supplied data/database.lua expects to find them.
 (echo \
- "CREATE TABLE $TABLE_USER ( \
+ "CREATE TABLE ${TABLE_META} ( \
+   capstr varchar(256) default NULL, \
+   gamecount int(11) default '0' \
+ );"
+ echo \
+ "CREATE TABLE ${TABLE_USER} ( \
    id int(11) NOT NULL auto_increment, \
    name varchar(48) default NULL, \
    password varchar(32) default NULL, \
@@ -438,7 +468,7 @@ echo "Now we create the Freeciv tables."
    UNIQUE KEY name (name) \
  );"
  echo \
- "CREATE TABLE $TABLE_LOG ( \
+ "CREATE TABLE ${TABLE_LOG} ( \
    id int(11) NOT NULL auto_increment, \
    name varchar(48) default NULL, \
    logintime int(11) default NULL, \
@@ -446,6 +476,8 @@ echo "Now we create the Freeciv tables."
    succeed enum('S','F') default 'S', \
    PRIMARY KEY  (id) \
  );"
+ echo \
+ "INSERT INTO ${TABLE_META} VALUES ('+fcdb', 0);"
 ) | make_query "-"
 
 QUERYRESULT=$?
@@ -466,22 +498,22 @@ do
   echo "Give name for Freeciv server authentication config file we"
   echo "are about to generate next."
 
-  echo -n "($CONFIG_FILE) > "
+  echo -n "(${CONFIG_FILE}) > "
   read CONFIG_FILE_NEW
 
-  if test "x$CONFIG_FILE_NEW" != "x"
+  if test "${CONFIG_FILE_NEW}" != ""
   then
-    CONFIG_FILE="$CONFIG_FILE_NEW"
+    CONFIG_FILE="${CONFIG_FILE_NEW}"
   fi
 
   # Default is to test file creation
   TRY_FILE=yes
-  if test -e "$CONFIG_FILE"
+  if test -e "${CONFIG_FILE}"
   then
     echo "$CONFIG_FILE already exists"
     # Default is not to test overwriting
     TRY_FILE=no
-    if test -d "$CONFIG_FILE"
+    if test -d "${CONFIG_FILE}"
     then
       echo "and it's a directory. Can't overwrite with file."
     else
@@ -494,7 +526,7 @@ do
 
   if test $TRY_FILE = "yes"
   then
-    if touch "$CONFIG_FILE"
+    if touch "${CONFIG_FILE}"
     then
       ACCEPTABLE_FILE=yes
     else
@@ -510,9 +542,9 @@ do
 done
 
 SAVE_PASSWORD=no
-if test "x$MYSQL_PASSWORD" != "x" &&
-   test "x$MYSQL_PASSWORD" != "x-" &&
-   test "x$MYSQL_PASSWORD" != "x*"
+if test "${MYSQL_PASSWORD}" != "" &&
+   test "${MYSQL_PASSWORD}" != "-" &&
+   test "${MYSQL_PASSWORD}" != "*"
 then
   # User has given password for this script, should it also
   # go to config script? If user has not given password even
@@ -551,11 +583,12 @@ fi
  echo "database=\"$MYSQL_DATABASE\""
  echo
  echo "; Table names"
- echo "table_user=\"$TABLE_USER\""
- echo "table_log=\"$TABLE_LOG\""
-) > $CONFIG_FILE
+ echo "table_user=\"${TABLE_USER}\""
+ echo "table_log=\"${TABLE_LOG}\""
+ echo "table_meta=\"${TABLE_META}\""
+) > "${CONFIG_FILE}"
 
 echo "Config file generated."
 echo "Auth server setup finished."
 echo "To use the newly created database, run"
-echo "  freeciv-server --Database $CONFIG_FILE --auth"
+echo "  freeciv-server --Database \"${CONFIG_FILE}\" --auth"

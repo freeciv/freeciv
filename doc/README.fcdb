@@ -177,6 +177,7 @@ example (for MySQL; SQLite does not need all of these options).
   database="Freeciv"
   table_user="auth"
   table_log="loginlog"
+  table_meta="fcdb_meta"
 
 If that's sufficient for you, it's not necessary to read on.
 
@@ -198,6 +199,9 @@ Freeciv expects the following lua functions to be defined in database.lua:
 
   -- Test and initialise the database connection
   function database_init()
+
+  -- Get capstr of the database
+  function database_capstr()
 
   -- Free the database connection
   function database_free()
