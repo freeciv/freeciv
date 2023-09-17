@@ -83,21 +83,18 @@ static const char *download_modpack_recursive(const char *URL,
   char local_dir[2048];
   char local_name[2048];
   int start_idx;
-  int filenbr, total_files;
+  int total_files;
   struct section_file *control;
   const char *control_capstr;
-  const char *baseURLpart;
   enum modpack_type type;
   const char *typestr;
   const char *mpname;
   const char *mpver;
-  char baseURL[2048];
-  char fileURL[2048];
   const char *src_name;
   bool partial_failure = FALSE;
   int dep;
   const char *dep_name;
-  int URL_len;
+  struct section_list *sec;
 
   if (recursion > 5) {
     return _("Recursive dependencies too deep");
@@ -182,25 +179,6 @@ static const char *download_modpack_recursive(const char *URL,
                 "%s" DIR_SEPARATOR DATASUBDIR, fcmp->inst_prefix);
   }
 
-  baseURLpart = secfile_lookup_str(control, "info.baseURL");
-
-  if (baseURLpart[0] == '.') {
-    char URLstart[start_idx];
-
-    strncpy(URLstart, URL, start_idx - 1);
-    URLstart[start_idx - 1] = '\0';
-    fc_snprintf(baseURL, sizeof(baseURL), "%s%s",
-                URLstart, baseURLpart + 1);
-  } else {
-    sz_strlcpy(baseURL, baseURLpart);
-  }
-
-  /* Remove potential ending '/' as one will get added later. */
-  URL_len = strlen(baseURL);
-  if (baseURL[URL_len - 1] == '/') {
-    baseURL[URL_len - 1] = '\0';
-  }
-
   dep = 0;
   do {
     dep_name = secfile_lookup_str_default(control, NULL,
@@ -273,116 +251,162 @@ static const char *download_modpack_recursive(const char *URL,
 
 
   total_files = 0;
-  do {
-    src_name = secfile_lookup_str_default(control, NULL,
-                                          "files.list%d.src", total_files);
+  sec = secfile_sections_by_name_prefix(control, "files_");
 
-    if (src_name != NULL) {
-      total_files++;
+  if (sec != NULL) {
+    size_t sec_count = section_list_size(sec);
+    size_t i;
+    int filenbr = 0;
+
+    for (i = 0; i < sec_count; i++) {
+      const char *sec_name = section_name(section_list_get(sec, i));
+
+      do {
+        src_name = secfile_lookup_str_default(control, NULL,
+                                              "%s.list%d.src",
+                                              sec_name, total_files);
+
+        if (src_name != NULL) {
+          total_files++;
+        }
+      } while (src_name != NULL);
     }
-  } while (src_name != NULL);
 
-  if (pbcb != NULL) {
-    /* Control file already downloaded */
-    pbcb(1, total_files + 1);
-  }
+    if (pbcb != NULL) {
+      /* Control file already downloaded */
+      pbcb(1, total_files + 1);
+    }
 
-  for (filenbr = 0; filenbr < total_files; filenbr++) {
-    const char *dest_name;
+    for (i = 0; i < sec_count; i++) {
+      const char *sec_name = section_name(section_list_get(sec, i));
+      const char *baseURLpart;
+      int URL_len;
+      char baseURL[2048];
+      int j;
+
+      baseURLpart = secfile_lookup_str(control, "%s.baseURL", sec_name);
+
+      if (baseURLpart[0] == '.') {
+        char URLstart[start_idx];
+
+        strncpy(URLstart, URL, start_idx - 1);
+        URLstart[start_idx - 1] = '\0';
+        fc_snprintf(baseURL, sizeof(baseURL), "%s%s",
+                    URLstart, baseURLpart + 1);
+      } else {
+        sz_strlcpy(baseURL, baseURLpart);
+      }
+
+      /* Remove potential ending '/' as one will get added later. */
+      URL_len = strlen(baseURL);
+      if (baseURL[URL_len - 1] == '/') {
+        baseURL[URL_len - 1] = '\0';
+      }
+
+      for (j = 0;
+           (src_name = secfile_lookup_str_default(control, NULL,
+                                                  "%s.list%d.src", sec_name, j)) != NULL;
+           j++) {
+        const char *dest_name;
 
 #ifndef DIR_SEPARATOR_IS_DEFAULT
-    char *dest_name_copy;
+        char *dest_name_copy;
 #else  /* DIR_SEPARATOR_IS_DEFAULT */
 #define dest_name_copy dest_name
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
 
-    int i;
-    bool illegal_filename = FALSE;
+        int k;
+        bool illegal_filename = FALSE;
 
-    src_name = secfile_lookup_str_default(control, NULL,
-                                          "files.list%d.src", filenbr);
+        dest_name = secfile_lookup_str_default(control, NULL,
+                                               "%s.list%d.dest", sec_name, j);
 
-    dest_name = secfile_lookup_str_default(control, NULL,
-                                           "files.list%d.dest", filenbr);
-
-    if (dest_name == NULL || dest_name[0] == '\0') {
-      /* Missing dest name is ok, we just default to src_name */
-      dest_name = src_name;
-    }
-
-#ifndef DIR_SEPARATOR_IS_DEFAULT
-    dest_name_copy = fc_malloc(strlen(dest_name) + 1);
-#endif /* DIR_SEPARATOR_IS_DEFAULT */
-
-    for (i = 0; dest_name[i] != '\0'; i++) {
-      if (dest_name[i] == '.' && dest_name[i + 1] == '.') {
-        if (mcb != NULL) {
-          char buf[2048];
-
-          fc_snprintf(buf, sizeof(buf), _("Illegal path for %s"),
-                      dest_name);
-          mcb(buf);
+        if (dest_name == NULL || dest_name[0] == '\0') {
+          /* Missing dest name is ok, we just default to src_name */
+          dest_name = src_name;
         }
-        partial_failure = TRUE;
-        illegal_filename = TRUE;
-      }
 
 #ifndef DIR_SEPARATOR_IS_DEFAULT
-      if (dest_name[i] == '/') {
-        dest_name_copy[i] = DIR_SEPARATOR_CHAR;
-      } else {
-        dest_name_copy[i] = dest_name[i];
-      }
+        dest_name_copy = fc_malloc(strlen(dest_name) + 1);
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
-    }
+
+        for (k = 0; dest_name[k] != '\0'; k++) {
+          if (dest_name[k] == '.' && dest_name[k + 1] == '.') {
+            if (mcb != NULL) {
+              char buf[2048];
+
+              fc_snprintf(buf, sizeof(buf), _("Illegal path for %s"),
+                          dest_name);
+              mcb(buf);
+            }
+            partial_failure = TRUE;
+            illegal_filename = TRUE;
+          }
 
 #ifndef DIR_SEPARATOR_IS_DEFAULT
-    dest_name_copy[i] = '\0';
+          if (dest_name[k] == '/') {
+            dest_name_copy[k] = DIR_SEPARATOR_CHAR;
+          } else {
+            dest_name_copy[k] = dest_name[k];
+          }
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
-
-    if (!illegal_filename) {
-      fc_snprintf(local_name, sizeof(local_name),
-                  "%s" DIR_SEPARATOR "%s", local_dir, dest_name_copy);
-
-#ifndef DIR_SEPARATOR_IS_DEFAULT
-      free(dest_name_copy);
-#endif /* DIR_SEPARATOR_IS_DEFAULT */
-
-      if (!make_dir_for_file(local_name)) {
-        secfile_destroy(control);
-        return _("Cannot create required directories");
-      }
-
-      if (mcb != NULL) {
-        char buf[2048];
-
-        fc_snprintf(buf, sizeof(buf), _("Downloading %s"), src_name);
-        mcb(buf);
-      }
-
-      fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
-      log_debug("Download \"%s\" as \"%s\".", fileURL, local_name);
-      if (!netfile_download_file(fileURL, local_name, nf_cb, mcb)) {
-        if (mcb != NULL) {
-          char buf[2048];
-
-          fc_snprintf(buf, sizeof(buf), _("Failed to download %s"),
-                      src_name);
-          mcb(buf);
         }
-        partial_failure = TRUE;
-      }
-    } else {
-#ifndef DIR_SEPARATOR_IS_DEFAULT
-      free(dest_name_copy);
-#endif /* DIR_SEPARATOR_IS_DEFAULT */
-    }
 
-    if (pbcb != NULL) {
-      /* Count download of control file also */
-      pbcb(filenbr + 2, total_files + 1);
+#ifndef DIR_SEPARATOR_IS_DEFAULT
+        dest_name_copy[k] = '\0';
+#endif /* DIR_SEPARATOR_IS_DEFAULT */
+
+        if (!illegal_filename) {
+          char fileURL[2048];
+
+          fc_snprintf(local_name, sizeof(local_name),
+                      "%s" DIR_SEPARATOR "%s", local_dir, dest_name_copy);
+
+#ifndef DIR_SEPARATOR_IS_DEFAULT
+          free(dest_name_copy);
+#endif /* DIR_SEPARATOR_IS_DEFAULT */
+
+          if (!make_dir_for_file(local_name)) {
+            secfile_destroy(control);
+            return _("Cannot create required directories");
+          }
+
+          if (mcb != NULL) {
+            char buf[2048];
+
+            fc_snprintf(buf, sizeof(buf), _("Downloading %s"), src_name);
+            mcb(buf);
+          }
+
+          fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
+          log_debug("Download \"%s\" as \"%s\".", fileURL, local_name);
+          if (!netfile_download_file(fileURL, local_name, nf_cb, mcb)) {
+            if (mcb != NULL) {
+              char buf[2048];
+
+              fc_snprintf(buf, sizeof(buf), _("Failed to download %s"),
+                          src_name);
+              mcb(buf);
+            }
+            partial_failure = TRUE;
+          }
+        } else {
+#ifndef DIR_SEPARATOR_IS_DEFAULT
+          free(dest_name_copy);
+#endif /* DIR_SEPARATOR_IS_DEFAULT */
+        }
+
+        filenbr++;
+
+        if (pbcb != NULL) {
+          /* Count download of control file also */
+          pbcb(filenbr + 1, total_files + 1);
+        }
+      }
     }
   }
+
+  section_list_destroy(sec);
 
   if (partial_failure) {
     secfile_destroy(control);
