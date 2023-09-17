@@ -31,10 +31,10 @@ void dai_auto_settler_free(struct ai_plr *ai);
 void dai_auto_settler_reset(struct ai_type *ait, struct player *pplayer);
 void dai_auto_settler_run(struct ai_type *ait, const struct civ_map *nmap,
                           struct player *pplayer,
-                          struct unit *punit, struct settlermap *state);
+                          struct unit *punit, struct workermap *state);
 void dai_auto_settler_cont(struct ai_type *ait, const struct civ_map *nmap,
                            struct player *pplayer,
-                           struct unit *punit, struct settlermap *state);
+                           struct unit *punit, struct workermap *state);
 
 void contemplate_new_city(struct ai_type *ait, struct city *pcity);
 

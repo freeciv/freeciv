@@ -369,7 +369,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
           }
         }
 
-        extra = adv_settlers_road_bonus(&(wld.map), ptile, proad)
+        extra = adv_workers_road_bonus(&(wld.map), ptile, proad)
           * mc_multiplier / mc_divisor;
 
         if (removing) {

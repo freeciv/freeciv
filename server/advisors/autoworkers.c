@@ -69,9 +69,9 @@
  * goodness of building worker units. */
 #define WORKER_FACTOR 1024
 
-struct settlermap {
-  int enroute; /* unit ID of settler en route to this tile */
-  int eta; /* estimated number of turns until enroute arrives */
+struct workermap {
+  int enroute; /* Unit ID of worker en route to this tile */
+  int eta;     /* Estimated number of turns until enroute arrives */
 };
 
 action_id aw_actions_transform[MAX_NUM_ACTIONS];
@@ -83,16 +83,16 @@ static struct timer *aw_timer = NULL;
 /**********************************************************************//**
   Free resources allocated for autoworkers system
 **************************************************************************/
-void adv_settlers_free(void)
+void adv_workers_free(void)
 {
   timer_destroy(aw_timer);
   aw_timer = NULL;
 }
 
 /**********************************************************************//**
-  Initialize auto settlers based on the ruleset.
+  Initialize autoworkers based on the ruleset.
 **************************************************************************/
-void auto_settlers_ruleset_init(void)
+void auto_workers_ruleset_init(void)
 {
   int i;
 
@@ -129,8 +129,8 @@ void auto_settlers_ruleset_init(void)
   This calculates the overall benefit of connecting the civilization; this
   is independent from the local tile (trade) bonus granted by the road.
 **************************************************************************/
-adv_want adv_settlers_road_bonus(const struct civ_map *nmap,
-                                 struct tile *ptile, struct road_type *proad)
+adv_want adv_workers_road_bonus(const struct civ_map *nmap,
+                                struct tile *ptile, struct road_type *proad)
 {
 #define MAX_DEP_ROADS 5
 
@@ -305,21 +305,21 @@ adv_want adv_settlers_road_bonus(const struct civ_map *nmap,
   discounting the total value by the time it would take to do the work
   and multiplying by some factor.
 **************************************************************************/
-static void consider_settler_action(const struct player *pplayer, 
-                                    enum unit_activity act,
-                                    struct extra_type *target,
-                                    adv_want extra,
-                                    int new_tile_value, int old_tile_value,
-                                    bool in_use, int delay,
-                                    adv_want *best_value,
-                                    int *best_old_tile_value,
-                                    int *best_extra,
-                                    bool *improve_worked,
-                                    int *best_delay,
-                                    enum unit_activity *best_act,
-                                    struct extra_type **best_target,
-                                    struct tile **best_tile,
-                                    struct tile *ptile)
+static void consider_worker_action(const struct player *pplayer,
+                                   enum unit_activity act,
+                                   struct extra_type *target,
+                                   adv_want extra,
+                                   int new_tile_value, int old_tile_value,
+                                   bool in_use, int delay,
+                                   adv_want *best_value,
+                                   int *best_old_tile_value,
+                                   int *best_extra,
+                                   bool *improve_worked,
+                                   int *best_delay,
+                                   enum unit_activity *best_act,
+                                   struct extra_type **best_target,
+                                   struct tile **best_tile,
+                                   struct tile *ptile)
 {
   bool improves;
   int total_value = 0, base_value = 0;
@@ -407,15 +407,16 @@ static void consider_settler_action(const struct player *pplayer,
   Don't enter in enemy territories.
 **************************************************************************/
 static enum tile_behavior
-autosettler_tile_behavior(const struct tile *ptile,
-                          enum known_type known,
-                          const struct pf_parameter *param)
+autoworker_tile_behavior(const struct tile *ptile,
+                         enum known_type known,
+                         const struct pf_parameter *param)
 {
   const struct player *owner = tile_owner(ptile);
 
   if (NULL != owner && !pplayers_allied(owner, param->owner)) {
     return TB_IGNORE;
   }
+
   return TB_NORMAL;
 }
 
@@ -436,13 +437,13 @@ autosettler_tile_behavior(const struct tile *ptile,
   is used to possibly displace this previously assigned worker.
   if this array is NULL, workers are never displaced.
 **************************************************************************/
-adv_want settler_evaluate_improvements(const struct civ_map *nmap,
-                                       struct unit *punit,
-                                       enum unit_activity *best_act,
-                                       struct extra_type **best_target,
-                                       struct tile **best_tile,
-                                       struct pf_path **path,
-                                       struct settlermap *state)
+adv_want worker_evaluate_improvements(const struct civ_map *nmap,
+                                      struct unit *punit,
+                                      enum unit_activity *best_act,
+                                      struct extra_type **best_target,
+                                      struct tile **best_tile,
+                                      struct pf_path **path,
+                                      struct workermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
@@ -462,7 +463,7 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
 
   pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
-  parameter.get_TB = autosettler_tile_behavior;
+  parameter.get_TB = autoworker_tile_behavior;
   pfm = pf_map_new(&parameter);
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -479,7 +480,7 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
         continue;
       }
 
-      if (!adv_settler_safe_tile(nmap, pplayer, punit, ptile)) {
+      if (!adv_worker_safe_tile(nmap, pplayer, punit, ptile)) {
         /* Too dangerous place */
         continue;
       }
@@ -566,14 +567,14 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
                 turns++;
               }
 
-              consider_settler_action(pplayer,
-                                      action_id_get_activity(act),
-                                      target, 0.0, base_value,
-                                      oldv, in_use, turns,
-                                      &best_newv, &best_oldv, &best_extra,
-                                      &improve_worked,
-                                      &best_delay, best_act, best_target,
-                                      best_tile, ptile);
+              consider_worker_action(pplayer,
+                                     action_id_get_activity(act),
+                                     target, 0.0, base_value,
+                                     oldv, in_use, turns,
+                                     &best_newv, &best_oldv, &best_extra,
+                                     &improve_worked,
+                                     &best_delay, best_act, best_target,
+                                     best_tile, ptile);
 
             } /* endif: can the worker perform this action */
           } aw_transform_action_iterate_end;
@@ -679,7 +680,7 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
                   }
                 }
 
-                extra = adv_settlers_road_bonus(nmap, ptile, proad)
+                extra = adv_workers_road_bonus(nmap, ptile, proad)
                   * mc_multiplier / mc_divisor;
 
               } else {
@@ -698,12 +699,12 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
               }
 
               if (act != ACTIVITY_LAST) {
-                consider_settler_action(pplayer, act, pextra, extra, base_value,
-                                        oldv, in_use, turns,
-                                        &best_newv, &best_oldv, &best_extra,
-                                        &improve_worked,
-                                        &best_delay, best_act, best_target,
-                                        best_tile, ptile);
+                consider_worker_action(pplayer, act, pextra, extra, base_value,
+                                       oldv, in_use, turns,
+                                       &best_newv, &best_oldv, &best_extra,
+                                       &improve_worked,
+                                       &best_delay, best_act, best_target,
+                                       best_tile, ptile);
               } else {
                 fc_assert(!removing);
 
@@ -723,19 +724,21 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
                      * of dependency and target build turns, which decreases want. This can
                      * result in either bigger or lesser want than when checking dependency
                      * road for the sake of itself when its turn in extra_type_iterate() is. */
-                    int dep_turns = turns + get_turns_for_activity_at(punit,
-                                                                      ACTIVITY_GEN_ROAD,
-                                                                      ptile,
-                                                                      dep_tgt);
-                    int dep_value = base_value + adv_city_worker_extra_get(pcity, cindex, dep_tgt);
+                    int dep_turns
+                      = turns + get_turns_for_activity_at(punit,
+                                                          ACTIVITY_GEN_ROAD,
+                                                          ptile, dep_tgt);
+                    int dep_value
+                      = base_value + adv_city_worker_extra_get(pcity, cindex,
+                                                               dep_tgt);
 
-                    consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
-                                            dep_value,
-                                            oldv, in_use, dep_turns,
-                                            &best_newv, &best_oldv, &best_extra,
-                                            &improve_worked,
-                                            &best_delay, best_act, best_target,
-                                            best_tile, ptile);
+                    consider_worker_action(pplayer, ACTIVITY_GEN_ROAD,
+                                           dep_tgt, extra, dep_value,
+                                           oldv, in_use, dep_turns,
+                                           &best_newv, &best_oldv, &best_extra,
+                                           &improve_worked,
+                                           &best_delay, best_act, best_target,
+                                           best_tile, ptile);
                   }
                 } road_deps_iterate_end;
 
@@ -764,21 +767,23 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
                         /* Consider building dependency extra for later upgrade to
                          * target extra. See similar road implementation above for
                          * extended commentary. */
-                        int dep_turns = turns + get_turns_for_activity_at(punit,
-                                                                          eval_dep_act,
-                                                                          ptile,
-                                                                          pdep);
-                        int dep_value = base_value + adv_city_worker_extra_get(pcity,
-                                                                               cindex,
-                                                                               pdep);
+                        int dep_turns
+                          = turns + get_turns_for_activity_at(punit,
+                                                              eval_dep_act,
+                                                              ptile, pdep);
+                        int dep_value
+                          = base_value + adv_city_worker_extra_get(pcity,
+                                                                   cindex,
+                                                                   pdep);
 
-                        consider_settler_action(pplayer, eval_dep_act, pdep,
-                                                0.0, dep_value, oldv, in_use,
-                                                dep_turns, &best_newv, &best_oldv,
-                                                &best_extra, &improve_worked,
-                                                &best_delay,
-                                                best_act, best_target,
-                                                best_tile, ptile);
+                        consider_worker_action(pplayer, eval_dep_act, pdep,
+                                               0.0, dep_value, oldv, in_use,
+                                               dep_turns, &best_newv,
+                                               &best_oldv,
+                                               &best_extra, &improve_worked,
+                                               &best_delay,
+                                               best_act, best_target,
+                                               best_tile, ptile);
                       }
                     }
                   }
@@ -792,20 +797,22 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
   } city_list_iterate_end;
 
   if (!improve_worked) {
-    /* best_newv contains total value of improved tile. Check amount of improvement
-     * instead. */
-    best_newv = amortize((best_newv - best_oldv + best_extra) * WORKER_FACTOR, best_delay);
+    /* best_newv contains total value of improved tile. Check amount
+     * of improvement instead. */
+    best_newv = amortize((best_newv - best_oldv + best_extra) * WORKER_FACTOR,
+                         best_delay);
   }
   best_newv /= WORKER_FACTOR;
 
   best_newv = MAX(best_newv, 0); /* sanity */
 
   if (best_newv > 0) {
-    log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire " ADV_WANT_PRINTF,
+    log_debug("Worker %d@(%d,%d) wants to %s at (%d,%d) with desire "
+              ADV_WANT_PRINTF,
               punit->id, TILE_XY(unit_tile(punit)),
               get_activity_text(*best_act), TILE_XY(*best_tile), best_newv);
   } else {
-    /* Fill in dummy values.  The callers should check if the return value
+    /* Fill in dummy values. The callers should check if the return value
      * is > 0 but this will avoid confusing them. */
     *best_act = ACTIVITY_IDLE;
     *best_tile = NULL;
@@ -823,10 +830,10 @@ adv_want settler_evaluate_improvements(const struct civ_map *nmap,
 /**********************************************************************//**
   Return best city request to fulfill.
 **************************************************************************/
-struct city *settler_evaluate_city_requests(struct unit *punit,
-                                            struct worker_task **best_task,
-                                            struct pf_path **path,
-                                            struct settlermap *state)
+struct city *worker_evaluate_city_requests(struct unit *punit,
+                                           struct worker_task **best_task,
+                                           struct pf_path **path,
+                                           struct workermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
@@ -840,7 +847,7 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
 
   pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
-  parameter.get_TB = autosettler_tile_behavior;
+  parameter.get_TB = autoworker_tile_behavior;
   pfm = pf_map_new(&parameter);
 
   /* Have nearby cities requests? */
@@ -858,10 +865,10 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
       } unit_list_iterate_end;
 
       if (consider
-          && auto_settlers_speculate_can_act_at(punit, ptask->act,
-                                                parameter.omniscience,
-                                                ptask->tgt, ptask->ptile)) {
-        /* closest worker, if any, headed towards target tile */
+          && auto_workers_speculate_can_act_at(punit, ptask->act,
+                                               parameter.omniscience,
+                                               ptask->tgt, ptask->ptile)) {
+        /* Closest worker, if any, headed towards target tile */
         struct unit *enroute = NULL;
 
         if (state) {
@@ -911,14 +918,14 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
 }
 
 /**********************************************************************//**
-  Find some work for our settlers and/or workers.
+  Find some work for our workers.
 **************************************************************************/
-#define LOG_SETTLER LOG_DEBUG
-void auto_settler_findwork(const struct civ_map *nmap,
-                           struct player *pplayer,
-                           struct unit *punit,
-                           struct settlermap *state,
-                           int recursion)
+#define LOG_WORKER LOG_DEBUG
+void auto_worker_findwork(const struct civ_map *nmap,
+                          struct player *pplayer,
+                          struct unit *punit,
+                          struct workermap *state,
+                          int recursion)
 {
   struct worker_task *best_task;
   enum unit_activity best_act;
@@ -952,7 +959,7 @@ void auto_settler_findwork(const struct civ_map *nmap,
 
   /* Have nearby cities requests? */
 
-  taskcity = settler_evaluate_city_requests(punit, &best_task, &path, state);
+  taskcity = worker_evaluate_city_requests(punit, &best_task, &path, state);
 
   if (taskcity != NULL) {
     if (path != NULL) {
@@ -963,9 +970,9 @@ void auto_settler_findwork(const struct civ_map *nmap,
 
     best_target = best_task->tgt;
 
-    if (auto_settler_setup_work(nmap, pplayer, punit, state, recursion,
-                                path, best_task->ptile, best_task->act,
-                                &best_target, completion_time)) {
+    if (auto_worker_setup_work(nmap, pplayer, punit, state, recursion,
+                               path, best_task->ptile, best_task->act,
+                               &best_target, completion_time)) {
       clear_worker_task(taskcity, best_task);
     }
 
@@ -980,8 +987,8 @@ void auto_settler_findwork(const struct civ_map *nmap,
 
   if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
-    settler_evaluate_improvements(nmap, punit, &best_act, &best_target,
-                                  &best_tile, &path, state);
+    worker_evaluate_improvements(nmap, punit, &best_act, &best_target,
+                                 &best_tile, &path, state);
     if (path) {
       completion_time = pf_path_last_position(path)->turn;
     }
@@ -989,9 +996,9 @@ void auto_settler_findwork(const struct civ_map *nmap,
 
     adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
 
-    auto_settler_setup_work(nmap, pplayer, punit, state, recursion, path,
-                            best_tile, best_act, &best_target,
-                            completion_time);
+    auto_worker_setup_work(nmap, pplayer, punit, state, recursion, path,
+                           best_tile, best_act, &best_target,
+                           completion_time);
 
     if (NULL != path) {
       pf_path_destroy(path);
@@ -1000,19 +1007,19 @@ void auto_settler_findwork(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Setup our settler to do the work it has found. Returns TRUE if
+  Setup our worker to do the work it has found. Returns TRUE if
   started actual work.
 **************************************************************************/
-bool auto_settler_setup_work(const struct civ_map *nmap,
-                             struct player *pplayer, struct unit *punit,
-                             struct settlermap *state, int recursion,
-                             struct pf_path *path,
-                             struct tile *best_tile,
-                             enum unit_activity best_act,
-                             struct extra_type **best_target,
-                             int completion_time)
+bool auto_worker_setup_work(const struct civ_map *nmap,
+                            struct player *pplayer, struct unit *punit,
+                            struct workermap *state, int recursion,
+                            struct pf_path *path,
+                            struct tile *best_tile,
+                            enum unit_activity best_act,
+                            struct extra_type **best_target,
+                            int completion_time)
 {
-  /* Run the "autosettler" program */
+  /* Run the "autoworker" program */
   if (punit->server.adv->task == AUT_AUTO_SETTLER) {
     struct pf_map *pfm = NULL;
     struct pf_parameter parameter;
@@ -1053,16 +1060,16 @@ bool auto_settler_setup_work(const struct civ_map *nmap,
       struct tile *old_pos = unit_tile(punit);
 
       displaced->goto_tile = NULL;
-      auto_settler_findwork(nmap, pplayer, displaced, state, recursion + 1);
+      auto_worker_findwork(nmap, pplayer, displaced, state, recursion + 1);
       if (NULL == player_unit_by_number(pplayer, saved_id)) {
-        /* Actions of the displaced settler somehow caused this settler
+        /* Actions of the displaced worker somehow caused this worker
          * to die. (maybe by recursively giving control back to this unit)
          */
         return FALSE;
       }
       if (goto_tile != punit->goto_tile || old_pos != unit_tile(punit)
           || punit->activity != ACTIVITY_IDLE) {
-        /* Actions of the displaced settler somehow caused this settler
+        /* Actions of the displaced worker somehow caused this worker
          * to get a new job, or to already move toward current job.
          * (A displaced B, B displaced C, C displaced A)
          */
@@ -1086,7 +1093,7 @@ bool auto_settler_setup_work(const struct civ_map *nmap,
     if (!path) {
       pft_fill_unit_parameter(&parameter, nmap, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
-      parameter.get_TB = autosettler_tile_behavior;
+      parameter.get_TB = autoworker_tile_behavior;
       pfm = pf_map_new(&parameter);
       path = pf_map_path(pfm, best_tile);
     }
@@ -1130,14 +1137,14 @@ bool auto_settler_setup_work(const struct civ_map *nmap,
 
   return FALSE;
 }
-#undef LOG_SETTLER
+#undef LOG_WORKER
 
 /**********************************************************************//**
-  Do we consider tile safe for autosettler to work?
+  Do we consider tile safe for autoworker to work?
 **************************************************************************/
-bool adv_settler_safe_tile(const struct civ_map *nmap,
-                           const struct player *pplayer, struct unit *punit,
-                           struct tile *ptile)
+bool adv_worker_safe_tile(const struct civ_map *nmap,
+                          const struct player *pplayer, struct unit *punit,
+                          struct tile *ptile)
 {
   unit_list_iterate(ptile->units, defender) {
     if (is_guard_unit(defender)) {
@@ -1154,12 +1161,12 @@ bool adv_settler_safe_tile(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Run through all the players settlers and let those on ai.control work 
+  Run through all the players workers and let those on ai.control work
   automagically.
 **************************************************************************/
-void auto_settlers_player(struct player *pplayer) 
+void auto_workers_player(struct player *pplayer)
 {
-  struct settlermap *state;
+  struct workermap *state;
   const struct civ_map *nmap = &(wld.map);
 
   state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
@@ -1197,9 +1204,9 @@ void auto_settlers_player(struct player *pplayer)
   log_debug("Frost = %d, game.nuclearwinter=%d",
             pplayer->ai_common.frost, game.info.nuclearwinter);
 
-  /* Auto-settle with a settler unit if it's under AI control (e.g. human
-   * player auto-settler mode) or if the player is an AI. But don't
-   * auto-settle with a unit under orders even for an AI player - these come
+  /* Auto-worke with a worker unit if it's under AI control (e.g. human
+   * player autoworker mode) or if the player is an AI. But don't
+   * autowork with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
     if ((punit->ssa_controller == SSA_AUTOWORKER || is_ai(pplayer))
@@ -1220,7 +1227,7 @@ void auto_settlers_player(struct player *pplayer)
       }
       if (punit->activity != ACTIVITY_IDLE) {
         if (!is_ai(pplayer)) {
-          if (!adv_settler_safe_tile(nmap, pplayer, punit,
+          if (!adv_worker_safe_tile(nmap, pplayer, punit,
                                      unit_tile(punit))) {
             unit_activity_handling(punit, ACTIVITY_IDLE);
           }
@@ -1230,14 +1237,14 @@ void auto_settlers_player(struct player *pplayer)
       }
       if (punit->activity == ACTIVITY_IDLE) {
         if (!is_ai(pplayer)) {
-          auto_settler_findwork(nmap, pplayer, punit, state, 0);
+          auto_worker_findwork(nmap, pplayer, punit, state, 0);
         } else {
           CALL_PLR_AI_FUNC(settler_run, pplayer, pplayer, punit, state);
         }
       }
     }
   } unit_list_iterate_safe_end;
-  /* Reset auto settler state for the next run. */
+  /* Reset auto worker state for the next run. */
   if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(settler_reset, pplayer, pplayer);
   }
@@ -1245,11 +1252,11 @@ void auto_settlers_player(struct player *pplayer)
   if (timer_in_use(aw_timer)) {
 
 #ifdef LOG_TIMERS
-    log_verbose("%s autosettlers consumed %g milliseconds.",
+    log_verbose("%s autoworkers consumed %g milliseconds.",
                 nation_rule_name(nation_of_player(pplayer)),
                 1000.0 * timer_read_seconds(aw_timer));
 #else
-    log_verbose("%s autosettlers finished",
+    log_verbose("%s autoworkers finished",
                 nation_rule_name(nation_of_player(pplayer)));
 #endif
 
@@ -1278,11 +1285,11 @@ void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
   Returns TRUE iff the unit can do the targeted activity at the given
   location.
 **************************************************************************/
-bool auto_settlers_speculate_can_act_at(const struct unit *punit,
-                                        enum unit_activity activity,
-                                        bool omniscient_cheat,
-                                        struct extra_type *target,
-                                        const struct tile *ptile)
+bool auto_workers_speculate_can_act_at(const struct unit *punit,
+                                       enum unit_activity activity,
+                                       bool omniscient_cheat,
+                                       struct extra_type *target,
+                                       const struct tile *ptile)
 {
   action_by_activity_iterate(paction, activity) {
     if (action_get_actor_kind(paction) != AAK_UNIT) {

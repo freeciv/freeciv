@@ -1469,7 +1469,7 @@ static void end_phase(void)
     } unit_list_iterate_end;
   } players_iterate_end;
   phase_players_iterate(pplayer) {
-    auto_settlers_player(pplayer);
+    auto_workers_player(pplayer);
     if (is_ai(pplayer)) {
       CALL_PLR_AI_FUNC(last_activities, pplayer, pplayer);
     }
@@ -1894,7 +1894,7 @@ void fc__noreturn server_quit(void)
   mapimg_free();
   server_game_free();
   voting_free();
-  adv_settlers_free();
+  adv_workers_free();
   ai_timer_free();
   if (game.server.phase_timer != NULL) {
     timer_destroy(game.server.phase_timer);

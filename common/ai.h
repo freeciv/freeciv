@@ -37,7 +37,7 @@ struct adv_choice;
 struct city;
 struct unit;
 struct tile;
-struct settlermap;
+struct workermap;
 struct pf_path;
 struct section_file;
 struct adv_data;
@@ -231,12 +231,12 @@ struct ai_type
 
     /* Called for player AI type when autosettlers should find new work. */
     void (*settler_run)(struct player *pplayer, struct unit *punit,
-                        struct settlermap *state);
+                        struct workermap *state);
 
     /* Called for player AI type for each autosettler still working.
        Cancelling current work there will result in settler_run() call. */
     void (*settler_cont)(struct player *pplayer, struct unit *punit,
-                         struct settlermap *state);
+                         struct workermap *state);
 
     /* Called for player AI type when unit wants to autoexplore towards a tile. */
     void (*want_to_explore)(struct unit *punit, struct tile *target,

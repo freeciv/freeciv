@@ -107,6 +107,6 @@ void adv_units_ruleset_init(void)
     ptype->adv.worker = utype_has_flag(ptype, UTYF_SETTLERS);
   } unit_type_iterate_end;
 
-  /* Initialize autosettlers actions */
-  auto_settlers_ruleset_init();
+  /* Initialize autoworkers actions */
+  auto_workers_ruleset_init();
 }

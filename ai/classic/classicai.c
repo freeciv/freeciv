@@ -410,7 +410,7 @@ static void cai_auto_settler_reset(struct player *pplayer)
 **************************************************************************/
 static void cai_auto_settler_run(struct player *pplayer,
                                  struct unit *punit,
-                                 struct settlermap *state)
+                                 struct workermap *state)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
@@ -422,7 +422,7 @@ static void cai_auto_settler_run(struct player *pplayer,
 **************************************************************************/
 static void cai_auto_settler_cont(struct player *pplayer,
                                   struct unit *punit,
-                                  struct settlermap *state)
+                                  struct workermap *state)
 {
   struct ai_type *deftype = classic_ai_get_self();
 

@@ -1013,7 +1013,7 @@ void dai_auto_settler_init(struct ai_plr *ai)
 *****************************************************************************/
 void dai_auto_settler_run(struct ai_type *ait, const struct civ_map *nmap,
                           struct player *pplayer,
-                          struct unit *punit, struct settlermap *state)
+                          struct unit *punit, struct workermap *state)
 {
   adv_want best_impr = 0; /* Value of best terrain improvement we can do */
   enum unit_activity best_act;
@@ -1085,7 +1085,7 @@ BUILD_CITY:
     TIMING_LOG(AIT_WORKERS, TIMER_START);
 
     /* Have nearby cities requests? */
-    pcity = settler_evaluate_city_requests(punit, &best_task, &path, state);
+    pcity = worker_evaluate_city_requests(punit, &best_task, &path, state);
 
     if (pcity != NULL) {
       if (path != NULL) {
@@ -1100,10 +1100,10 @@ BUILD_CITY:
     }
 
     if (pcity == NULL) {
-      best_impr = settler_evaluate_improvements(nmap, punit,
-                                                &best_act, &best_target,
-                                                &best_tile, &path, state);
-      if (path) {
+      best_impr = worker_evaluate_improvements(nmap, punit,
+                                               &best_act, &best_target,
+                                               &best_tile, &path, state);
+      if (path != NULL) {
         completion_time = pf_path_last_position(path)->turn;
       }
     }
@@ -1167,9 +1167,9 @@ BUILD_CITY:
   }
 
   if (best_tile != NULL
-      && auto_settler_setup_work(nmap, pplayer, punit, state, 0, path,
-                                 best_tile, best_act, &best_target,
-                                 completion_time)) {
+      && auto_worker_setup_work(nmap, pplayer, punit, state, 0, path,
+                                best_tile, best_act, &best_target,
+                                completion_time)) {
     if (pcity != NULL) {
       clear_worker_tasks(pcity);
     }
@@ -1187,10 +1187,10 @@ CLEANUP:
 *****************************************************************************/
 void dai_auto_settler_cont(struct ai_type *ait, const struct civ_map *nmap,
                            struct player *pplayer,
-                           struct unit *punit, struct settlermap *state)
+                           struct unit *punit, struct workermap *state)
 {
-  if (!adv_settler_safe_tile(nmap, pplayer, punit,
-                             unit_tile(punit))) {
+  if (!adv_worker_safe_tile(nmap, pplayer, punit,
+                            unit_tile(punit))) {
     unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 }

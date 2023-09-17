@@ -781,10 +781,10 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   /* Advisors data space not allocated as it's not needed in the
      lifetime of the virtualunit. */
   unit_tile_set(virtualunit, pcenter);
-  want = settler_evaluate_improvements(nmap, virtualunit,
-                                       &best_act, &best_target,
-                                       &best_tile,
-                                       NULL, NULL);
+  want = worker_evaluate_improvements(nmap, virtualunit,
+                                      &best_act, &best_target,
+                                      &best_tile,
+                                      NULL, NULL);
   if (unit_type_get(virtualunit)->pop_cost >= city_size_get(pcity)) {
     /* We don't like disbanding the city as a side effect */
     unit_virtual_destroy(virtualunit);

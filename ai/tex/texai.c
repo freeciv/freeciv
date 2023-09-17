@@ -392,7 +392,7 @@ static void texwai_auto_settler_reset(struct player *pplayer)
 **************************************************************************/
 static void texwai_auto_settler_run(struct player *pplayer,
                                     struct unit *punit,
-                                    struct settlermap *state)
+                                    struct workermap *state)
 {
   TEXAI_AIT;
 
@@ -405,7 +405,7 @@ static void texwai_auto_settler_run(struct player *pplayer,
 **************************************************************************/
 static void texwai_auto_settler_cont(struct player *pplayer,
                                      struct unit *punit,
-                                     struct settlermap *state)
+                                     struct workermap *state)
 {
   TEXAI_AIT;
 
