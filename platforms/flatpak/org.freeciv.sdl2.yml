@@ -13,19 +13,13 @@ finish-args:
   - --socket=pulseaudio
   - --filesystem=~/.freeciv:create
 modules:
-  - name: sdl2-gfx
-    sources:
-      - type: archive
-        url: https://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.4.tar.gz
-        sha256: 63e0e01addedc9df2f85b93a248f06e8a04affa014a835c2ea34bfe34e576262
   - name: freeciv-sdl2
-    buildsystem: autotools
+    buildsystem: meson
     no-autogen: true
-    builddir: true
     config-opts:
-      - --enable-client=sdl2
-      - --disable-fcmp
-      - --disable-freeciv-manual
+      - -Dclients=sdl2
+      - -Dfcmp=[]
+      - -Druledit=false
     sources:
       - type: dir
         path: ../..
