@@ -4291,27 +4291,23 @@ msgstr "_Observi"
 
 #: client/gui-gtk-3.0/editprop.c:4540 client/gui-gtk-3.22/editprop.c:4540
 #: client/gui-gtk-4.0/editprop.c:4540 tools/fcmp/modinst.h:45
-#, fuzzy
 msgid "Scenario"
-msgstr "Elekti scenejon"
+msgstr "Scenaro"
 
 #: client/gui-gtk-3.0/editprop.c:4543 client/gui-gtk-3.22/editprop.c:4544
 #: client/gui-gtk-4.0/editprop.c:4544
-#, fuzzy
 msgid "Scenario Name"
-msgstr "Startigi scenejon"
+msgstr "Nomo de Scenaro"
 
 #: client/gui-gtk-3.0/editprop.c:4547 client/gui-gtk-3.22/editprop.c:4548
 #: client/gui-gtk-4.0/editprop.c:4548
-#, fuzzy
 msgid "Scenario Authors"
-msgstr "Grupa venko por %s"
+msgstr "Aŭtoroj de Scenaro"
 
 #: client/gui-gtk-3.0/editprop.c:4551 client/gui-gtk-3.22/editprop.c:4552
 #: client/gui-gtk-4.0/editprop.c:4552
-#, fuzzy
 msgid "Scenario Description"
-msgstr "Priskribo:"
+msgstr "Priskribo de Scenaro"
 
 #: client/gui-gtk-3.0/editprop.c:4555 client/gui-gtk-3.22/editprop.c:4556
 #: client/gui-gtk-4.0/editprop.c:4556
@@ -5267,26 +5263,23 @@ msgstr "_Konservi babil-protokolon"
 
 #: client/gui-gtk-3.0/menu.c:281 client/gui-gtk-3.22/menu.c:284
 #: client/gui-gtk-4.0/menu.c:548
-#, fuzzy
 msgid "_Local Client"
 msgstr "_Loka kliento"
 
 #: client/gui-gtk-3.0/menu.c:283 client/gui-gtk-3.22/menu.c:286
 #: client/gui-gtk-4.0/menu.c:551
-#, fuzzy
 msgid "_Message"
 msgstr "_Mesaĝoj"
 
 #: client/gui-gtk-3.0/menu.c:285 client/gui-gtk-3.22/menu.c:288
 #: client/gui-gtk-4.0/menu.c:554
-#, fuzzy
 msgid "_Remote Server"
 msgstr "_Fora servilo"
 
 #: client/gui-gtk-3.0/menu.c:287 client/gui-gtk-3.22/menu.c:290
 #: client/gui-gtk-4.0/menu.c:557
 msgid "Save Options _Now"
-msgstr "Konservu opciojn _nun"
+msgstr "Konservi opciojn _nun"
 
 #: client/gui-gtk-3.0/menu.c:289 client/gui-gtk-3.22/menu.c:292
 #: client/gui-gtk-4.0/menu.c:565
@@ -5330,15 +5323,13 @@ msgstr "_Trovi urbon"
 
 #: client/gui-gtk-3.0/menu.c:305 client/gui-gtk-3.22/menu.c:308
 #: client/gui-gtk-4.0/menu.c:593
-#, fuzzy
 msgid "Work_lists"
-msgstr "Laborlisto"
+msgstr "Labor_listoj"
 
 #: client/gui-gtk-3.0/menu.c:308 client/gui-gtk-3.22/menu.c:317
 #: client/gui-gtk-4.0/menu.c:614
-#, fuzzy
 msgid "Client _Lua Script"
-msgstr "_Ŝargu unuon"
+msgstr "Klienta Programeto en _Lua"
 
 #: client/gui-gtk-3.0/menu.c:310 client/gui-gtk-3.22/menu.c:319
 #: client/gui-gtk-4.0/menu.c:840
@@ -5555,13 +5546,12 @@ msgstr "Pri Freeciv"
 #: client/gui-gtk-3.0/menu.c:418 client/gui-gtk-3.22/menu.c:427
 #: client/gui-gtk-4.0/menu.c:560
 msgid "Save Options on _Exit"
-msgstr "Konservu opciojn _elirante"
+msgstr "Konservi opciojn _elirante"
 
 #: client/gui-gtk-3.0/menu.c:420 client/gui-gtk-3.22/menu.c:429
 #: client/gui-gtk-4.0/menu.c:602
-#, fuzzy
 msgid "_Editing Mode"
-msgstr "Redakta moduso"
+msgstr "_Redakta reĝimo"
 
 #: client/gui-gtk-3.0/menu.c:422 client/gui-gtk-3.22/menu.c:431
 #: client/gui-gtk-4.0/menu.c:619
@@ -5706,7 +5696,6 @@ msgstr "Aktiva unuo"
 
 #: client/gui-gtk-3.0/menu.c:475 client/gui-gtk-3.22/menu.c:484
 #: client/gui-gtk-4.0/menu.c:697
-#, fuzzy
 msgid "Fog of _War"
 msgstr "Milit-nebulo"
 
@@ -5718,27 +5707,24 @@ msgstr "Plenekrane"
 
 #: client/gui-gtk-3.0/menu.c:480 client/gui-gtk-3.22/menu.c:489
 #: client/gui-gtk-4.0/menu.c:1008
-#, fuzzy
 msgid "Recalculate _Borders"
-msgstr "Reen taksu la landlimojn"
+msgstr "Rekalkuli la Landlimojn"
 
 #: client/gui-gtk-3.0/menu.c:482 client/gui-gtk-3.22/menu.c:491
 #: client/gui-gtk-4.0/menu.c:605
-#, fuzzy
 msgid "Toggle Fog of _War"
-msgstr "Milit-nebulo"
+msgstr "Baskuligi la Milit-nebulon"
 
 #: client/gui-gtk-3.0/menu.c:485 client/gui-gtk-3.22/menu.c:494
 #: client/gui-gtk-4.0/menu.c:608
 msgid "Game/Scenario Properties"
-msgstr ""
+msgstr "Ecoj de la Ludo/Scenaro"
 
 #: client/gui-gtk-3.0/menu.c:487 client/gui-gtk-3.0/pages.c:3514
 #: client/gui-gtk-3.22/menu.c:496 client/gui-gtk-3.22/pages.c:3513
 #: client/gui-gtk-4.0/menu.c:611 client/gui-gtk-4.0/pages.c:3668
-#, fuzzy
 msgid "Save Scenario"
-msgstr "Startigu scenejon"
+msgstr "Konservi Scenaron"
 
 #: client/gui-gtk-3.0/menu.c:490 client/gui-gtk-3.22/menu.c:499
 #: client/gui-gtk-4.0/menu.c:704
@@ -6157,7 +6143,7 @@ msgid ""
 msgstr ""
 "Kie oni vidigas la mesaĝojn?\n"
 "<b>Fen</b> en normala fenestro ; <b>Mes</b> en la fenestro de la mesaĝoj ; "
-"<b>Pop</b> en unu ŝprucfenestro"
+"<b>Ŝpruc.</b> en unu ŝprucfenestro"
 
 #: client/gui-gtk-3.0/messagedlg.c:125 client/gui-gtk-3.22/messagedlg.c:125
 #: client/gui-gtk-4.0/messagedlg.c:130 client/gui-qt/messagedlg.cpp:53
@@ -6253,7 +6239,7 @@ msgstr "Startigi _novan ludon"
 #: client/gui-gtk-3.0/pages.c:320 client/gui-gtk-3.22/pages.c:320
 #: client/gui-gtk-4.0/pages.c:329
 msgid "Start _Scenario Game"
-msgstr "Startigi scenejon"
+msgstr "Startigi _Scenaron"
 
 #: client/gui-gtk-3.0/pages.c:326 client/gui-gtk-3.22/pages.c:326
 #: client/gui-gtk-4.0/pages.c:335
@@ -6343,9 +6329,8 @@ msgstr "Ludantoj"
 #: client/gui-gtk-3.0/pages.c:1228 client/gui-gtk-3.0/pages.c:1273
 #: client/gui-gtk-3.22/pages.c:1229 client/gui-gtk-3.22/pages.c:1274
 #: client/gui-gtk-4.0/pages.c:1260 client/gui-gtk-4.0/pages.c:1311
-#, fuzzy
 msgid "Humans"
-msgstr "Homo"
+msgstr "Homoj"
 
 #: client/gui-gtk-3.0/pages.c:1229 client/gui-gtk-3.0/pages.c:1274
 #: client/gui-gtk-3.22/pages.c:1230 client/gui-gtk-3.22/pages.c:1275
@@ -6367,7 +6352,7 @@ msgstr "Interreta _Metaservilo"
 #: client/gui-gtk-3.0/pages.c:1315 client/gui-gtk-3.22/pages.c:1316
 #: client/gui-gtk-4.0/pages.c:1355
 msgid "_Host:"
-msgstr "_Gast.komp:"
+msgstr "_Gastiga komputilo:"
 
 #: client/gui-gtk-3.0/pages.c:1330 client/gui-gtk-3.22/pages.c:1331
 #: client/gui-gtk-4.0/pages.c:1370
@@ -6388,12 +6373,12 @@ msgstr "Konf_irmu pasvorton:"
 #: client/gui-gtk-4.0/pages.c:1437 client/gui-qt/pages.cpp:323
 #: client/gui-qt/pages.cpp:653
 msgid "Host"
-msgstr "Gast. komputilo"
+msgstr "Gastiga komp."
 
 #: client/gui-gtk-3.0/pages.c:1427 client/gui-gtk-3.22/pages.c:1428
 #: client/gui-gtk-4.0/pages.c:1466
 msgid "C_onnect"
-msgstr "K_onektu"
+msgstr "K_onekti"
 
 #: client/gui-gtk-3.0/pages.c:1754 client/gui-gtk-3.22/pages.c:1756
 #: client/gui-gtk-4.0/pages.c:1829
@@ -6622,18 +6607,17 @@ msgstr ""
 #: client/gui-gtk-3.0/pages.c:3044 client/gui-gtk-3.22/pages.c:3044
 #: client/gui-gtk-4.0/pages.c:3187 client/gui-qt/pages.cpp:574
 msgid "Choose a Scenario"
-msgstr "Elektu scenejon"
+msgstr "Elekti Scenaron"
 
 #: client/gui-gtk-3.0/pages.c:3208 client/gui-gtk-3.22/pages.c:3208
 #: client/gui-gtk-4.0/pages.c:3358
 msgid "Choose a _Scenario:"
-msgstr "Elektu _scenejon:"
+msgstr "Elekti _Scenaron:"
 
 #: client/gui-gtk-3.0/pages.c:3264 client/gui-gtk-3.22/pages.c:3264
 #: client/gui-gtk-4.0/pages.c:3411
-#, fuzzy
 msgid "Filename:"
-msgstr "Konservu dosiernomon:"
+msgstr "Dosiernomo:"
 
 #. TRANS: Scenario format version
 #: client/gui-gtk-3.0/pages.c:3278 client/gui-gtk-3.22/pages.c:3278
@@ -6660,15 +6644,13 @@ msgstr "Konservu dosiernomon:"
 
 #: client/gui-gtk-3.0/pages.c:3514 client/gui-gtk-3.22/pages.c:3513
 #: client/gui-gtk-4.0/pages.c:3668
-#, fuzzy
 msgid "Saved Sce_narios:"
-msgstr "Startigu scenejon"
+msgstr "Konservitaj Sce_naroj"
 
 #: client/gui-gtk-3.0/pages.c:3515 client/gui-gtk-3.22/pages.c:3514
 #: client/gui-gtk-4.0/pages.c:3669
-#, fuzzy
 msgid "Save Sc_enario:"
-msgstr "Startigu scenejon"
+msgstr "Konservi Sc_enaron"
 
 #: client/gui-gtk-3.0/pages.c:3543 client/gui-gtk-3.22/pages.c:3542
 #: client/gui-gtk-4.0/pages.c:3697
@@ -7360,7 +7342,7 @@ msgstr "nova"
 #: client/gui-gtk-3.0/wldlg.c:218 client/gui-gtk-3.22/wldlg.c:218
 #: client/gui-gtk-4.0/wldlg.c:223
 msgid "Edit worklists"
-msgstr "Redaktu laborlistojn"
+msgstr "Redakti laborlistojn"
 
 #: client/gui-gtk-3.0/wldlg.c:273 client/gui-gtk-3.22/wldlg.c:273
 #: client/gui-gtk-4.0/wldlg.c:276
@@ -7479,15 +7461,13 @@ msgstr "Bone"
 #: client/gui-gtk-3.22/cma_fe.c:306 client/gui-gtk-3.22/pages.c:585
 #: client/gui-gtk-3.22/wldlg.c:223 client/gui-gtk-4.0/cma_fe.c:323
 #: client/gui-gtk-4.0/pages.c:600 client/gui-gtk-4.0/wldlg.c:228
-#, fuzzy
 msgid "_Delete"
-msgstr "Forigu"
+msgstr "Forigi"
 
 #: client/gui-gtk-3.22/editprop.c:4989 client/gui-gtk-3.22/optiondlg.c:362
 #: client/gui-gtk-4.0/editprop.c:5006 client/gui-gtk-4.0/optiondlg.c:388
-#, fuzzy
 msgid "_Refresh"
-msgstr "Ĝisdatigu"
+msgstr "Ĝisdatigi"
 
 #: client/gui-gtk-3.22/editprop.c:4999 client/gui-gtk-3.22/optiondlg.c:364
 #: client/gui-gtk-4.0/editprop.c:5016 client/gui-gtk-4.0/optiondlg.c:390
@@ -7549,20 +7529,18 @@ msgid "_Open"
 msgstr "_Malfermi"
 
 #: client/gui-gtk-3.22/menu.c:311 client/gui-gtk-4.0/menu.c:596
-#, fuzzy
 msgid "Rally point dialog"
-msgstr "Fermu fenestron"
+msgstr "Unuo-kunvenejoj"
 
 #: client/gui-gtk-3.22/menu.c:314 client/gui-gtk-4.0/menu.c:599
 msgid "Infra dialog"
-msgstr ""
+msgstr "Infrastrukturo"
 
 #: client/gui-gtk-3.22/optiondlg.c:361 client/gui-gtk-3.22/pages.c:458
 #: client/gui-gtk-3.22/pages.c:587 client/gui-gtk-4.0/optiondlg.c:387
 #: client/gui-gtk-4.0/pages.c:472 client/gui-gtk-4.0/pages.c:602
-#, fuzzy
 msgid "_Save"
-msgstr "Konservu ludon"
+msgstr "_Konservi"
 
 #: client/gui-gtk-3.22/pages.c:343 client/gui-gtk-4.0/pages.c:352
 msgid "E_xit"
@@ -7571,9 +7549,8 @@ msgstr "E_liri"
 #: client/gui-gtk-3.22/pages.c:1228 client/gui-gtk-3.22/pages.c:1273
 #: client/gui-gtk-4.0/pages.c:1259 client/gui-gtk-4.0/pages.c:1310
 #: client/gui-qt/pages.cpp:1254
-#, fuzzy
 msgid "Players"
-msgstr "Ludanto"
+msgstr "Ludantoj"
 
 #: client/gui-gtk-3.22/rallypointdlg.c:77 client/gui-gtk-4.0/rallypointdlg.c:77
 msgid "Place Rally Point"
@@ -8133,9 +8110,8 @@ msgid "Male"
 msgstr "Malina"
 
 #: client/gui-qt/dialogs.cpp:485
-#, fuzzy
 msgid "Choose nation"
-msgstr "Elektu scenejon"
+msgstr "Elektu nacion"
 
 #: client/gui-qt/dialogs.cpp:486
 #, fuzzy
@@ -9247,38 +9223,33 @@ msgid "Qt6 client"
 msgstr "Tiu ĉi komando estas nur por klientoj."
 
 #: client/gui-qt/pages.cpp:203
-#, fuzzy
 msgid "Start new game"
-msgstr "Startigu novan ludon"
+msgstr "Startigi novan ludon"
 
 #: client/gui-qt/pages.cpp:203
-#, fuzzy
 msgid "Start scenario game"
-msgstr "Startigu scenejon"
+msgstr "Startigi scenaron"
 
 #: client/gui-qt/pages.cpp:204
 msgid "Load saved game"
 msgstr "Ŝargi konservitan ludon"
 
 #: client/gui-qt/pages.cpp:204
-#, fuzzy
 msgid "Connect to network game"
-msgstr "K_onekto al retan ludon"
+msgstr "Konekti al reta ludo"
 
 #: client/gui-qt/pages.cpp:381 client/gui-qt/pages.cpp:408
 #: client/gui-sdl2/connectdlg.c:619
 msgid "Connect"
-msgstr "Konektu"
+msgstr "Konekti"
 
 #: client/gui-qt/pages.cpp:381
-#, fuzzy
 msgid "Login"
-msgstr "Nomo:"
+msgstr "Uzantnomo"
 
 #: client/gui-qt/pages.cpp:382
-#, fuzzy
 msgid "Password"
-msgstr "Pasvorto:"
+msgstr "Pasvorto"
 
 #: client/gui-qt/pages.cpp:382
 #, fuzzy
@@ -9315,9 +9286,8 @@ msgid "Browse..."
 msgstr "_Foliumu..."
 
 #: client/gui-qt/pages.cpp:617
-#, fuzzy
 msgid "Load Scenario"
-msgstr "Startigu scenejon"
+msgstr "Ŝargi Scenaron"
 
 #: client/gui-qt/pages.cpp:669
 msgid "Disconnect"
@@ -9339,14 +9309,12 @@ msgid "Open Save File"
 msgstr "Konservu dosiernomon:"
 
 #: client/gui-qt/pages.cpp:855
-#, fuzzy
 msgid "Scenarios Files"
-msgstr "Startigu scenejon"
+msgstr "Dosieroj de Scenaroj"
 
 #: client/gui-qt/pages.cpp:858
-#, fuzzy
 msgid "Open Scenario File"
-msgstr "Startigu scenejon"
+msgstr "Malfermu Scenaro-dosieron"
 
 #: client/gui-qt/pages.cpp:1247
 msgid "Turn"
@@ -14953,7 +14921,7 @@ msgstr ""
 #: client/servers.c:160
 #, c-format
 msgid "There is no newer %s release of Freeciv available."
-msgstr ""
+msgstr "Ne haveblas pli nova %s eldono de Freeciv."
 
 #: client/servers.c:250
 #, fuzzy, c-format
@@ -17096,9 +17064,9 @@ msgstr "Malamika diplomacia ago: %s"
 #: data/classic/game.ruleset:647 data/sandbox/game.ruleset:688
 #: data/civ2civ3/game.ruleset:663 data/alien/game.ruleset:588
 #: data/multiplayer/game.ruleset:641 data/multiplayer/game.ruleset:644
-#, fuzzy, c-format
+#, c-format
 msgid "Enter %sHut%s"
-msgstr "Eniru la bazaron"
+msgstr "Eniri la %skabanon%s"
 
 #. TRANS: Frighten _Hut (100% chance of success).
 #: common/actions.c:7862 data/civ2/game.ruleset:606
@@ -29291,7 +29259,7 @@ msgstr ""
 
 #: data/sandbox/governments.ruleset:102 data/civ2civ3/governments.ruleset:102
 msgid "Tribal"
-msgstr ""
+msgstr "Triba"
 
 #: data/sandbox/governments.ruleset:111 data/civ2civ3/governments.ruleset:111
 msgid ""
@@ -37108,14 +37076,12 @@ msgid ""
 msgstr ""
 
 #: data/scenarios/earth-small.sav:7
-#, fuzzy
 msgid "Overhead 80x50 map of the Earth."
-msgstr "Klasika 85x80 mapo de Britaj Insuloj."
+msgstr "Desupra mapo de la Tero, je 85x80."
 
 #: data/scenarios/europe.sav:5
-#, fuzzy
 msgid "Europe (classic/giant)"
-msgstr "Eŭropo (giganta/klasika)"
+msgstr "Eŭropo (klasika/giganta)"
 
 #: data/scenarios/europe.sav:6
 msgid ""
@@ -37124,23 +37090,20 @@ msgid ""
 msgstr ""
 
 #: data/scenarios/europe.sav:7
-#, fuzzy
 msgid "Overhead 177x100 map of Europe."
-msgstr "Klasika ege larĝa mapo de Eŭropo."
+msgstr "Desupra mapo de Eŭropo, je 177x100."
 
 #: data/scenarios/france.sav:5
-#, fuzzy
 msgid "France (classic/large)"
-msgstr "Tero (klasika, larĝa)"
+msgstr "Francujo (klasika/granda)"
 
 #: data/scenarios/france.sav:6
 msgid "Mathieu Roy"
 msgstr ""
 
 #: data/scenarios/france.sav:7
-#, fuzzy
 msgid "Overhead 140x90 map of France."
-msgstr "Klasika 160x90 scenejo de Terglobo."
+msgstr "Desupra mapo de Francujo, je 140x90."
 
 #: data/scenarios/hagworld.sav:5
 #, fuzzy
@@ -37204,9 +37167,8 @@ msgid "North America (classic/medium)"
 msgstr "Tero (klasika, meza)"
 
 #: data/scenarios/north_america.sav:7
-#, fuzzy
 msgid "Overhead 116x100 map of North America (conical projection)."
-msgstr "Klasika 160x90 scenejo de Terglobo."
+msgstr "Desupra mapo de Nord-Ameriko (konusa projekcio), je 116x100."
 
 #: data/scenarios/europe_1900_WWI.sav:5
 msgid "Europe 1900"
@@ -39878,20 +39840,17 @@ msgid "saves DIR"
 msgstr ""
 
 #: server/civserver.c:431
-#, fuzzy
 msgid "Save games to directory DIR"
-msgstr "Konservu la ludon en dosiero."
+msgstr "Konservi ludojn en la dosierujo DIR"
 
 #. TRANS: "scenarios" is exactly what user must type, do not translate.
 #: server/civserver.c:434
-#, fuzzy
 msgid "scenarios DIR"
-msgstr "Elektu scenejon"
+msgstr ""
 
 #: server/civserver.c:435
-#, fuzzy
 msgid "Save scenarios to directory DIR"
-msgstr "Konservu la ludon en dosiero."
+msgstr "Konservi scenarojn en la dosierujo DIR"
 
 #. TRANS: "Serverid" is exactly what user must type, do not translate.
 #: server/civserver.c:438
@@ -43227,9 +43186,8 @@ msgid "Proportional to tile trade"
 msgstr ""
 
 #: server/settings.c:284
-#, fuzzy
 msgid "Scenario map"
-msgstr "Elektu scenejon"
+msgstr "Scenara mapo"
 
 #: server/settings.c:285
 msgid "Fully random height"
@@ -45964,7 +45922,7 @@ msgstr[1] "%s Ĉiuj tiuj unuoj estos dissolvitaj post %d vicoj laŭ pactraktato.
 #: server/srv_main.c:860 server/srv_main.c:871
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr "Via unuo %s estis dissolvitaj laŭ via pactraktato kun la %s."
+msgstr "Via unuo %s estis dissolvita laŭ via pactraktato kun la %s."
 
 #: server/srv_main.c:921
 #, c-format
@@ -46064,9 +46022,9 @@ msgid "You are not allowed to edit."
 msgstr "Vi ne rajtas agordi tiun ĉi opcion."
 
 #: server/srv_main.c:2275 server/stdinhand.c:4268
-#, fuzzy, c-format
+#, c-format
 msgid "%s nation is not available for user selection."
-msgstr "%s nacio ne estas disponebla en tiu ĉi scenejo."
+msgstr "%s nacio ne estas disponebla kiel uzanto-elekto."
 
 #: server/srv_main.c:2281 server/stdinhand.c:4276
 #, c-format
@@ -47142,9 +47100,8 @@ msgid "Cannot load a game while another is running."
 msgstr "Vi ne povas ŝargi ludon dum alia ludo estas plenumanta."
 
 #: server/stdinhand.c:3789
-#, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
-msgstr "Estas neeble trovi konservitan ludon aŭ scenejon nomitan \"%s\"."
+msgstr "Estas neeble trovi konservitan ludon aŭ scenaron nomitan \"%s\"."
 
 #: server/stdinhand.c:3803
 #, c-format
@@ -47959,7 +47916,7 @@ msgstr "Esplikojn estas disponeblaj pri la jenaj servil-opcioj:"
 
 #: server/stdinhand.c:6784
 msgid "List of scenarios available:"
-msgstr "Listo pri scenejoj disponeblaj:"
+msgstr "Listo de scenaroj disponeblaj:"
 
 #. TRANS: don't translate text between ''
 #: server/stdinhand.c:6809
