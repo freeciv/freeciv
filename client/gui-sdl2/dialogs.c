@@ -3228,7 +3228,7 @@ void popup_races_dialog(struct player *pplayer)
 
     natset_str = create_utf8_from_char_fonto(_("Nation set"),
                                              FONTO_ATTENTION);
-    change_ptsize_utf8(natset_str, adj_font(24));
+    change_fonto_utf8(natset_str, FONTO_MAX);
     nationsets = create_iconlabel(NULL, pwindow->dst, natset_str, 0);
     add_to_gui_list(ID_LABEL, nationsets);
 
@@ -3239,7 +3239,7 @@ void popup_races_dialog(struct player *pplayer)
     natset_str
       = create_utf8_from_char_fonto(nation_set_name_translation(setup->set),
                                     FONTO_ATTENTION);
-    change_ptsize_utf8(natset_str, adj_font(24));
+    change_fonto_utf8(natset_str, FONTO_MAX);
 
     pwidget = create_iconlabel(NULL, pwindow->dst, natset_str, 0);
 
@@ -3275,7 +3275,7 @@ void popup_races_dialog(struct player *pplayer)
   setup->nation_style = style_number(style_of_nation(pnat));
 
   copy_chars_to_utf8_str(pstr, nation_plural_translation(pnat));
-  change_ptsize_utf8(pstr, adj_font(24));
+  change_fonto_utf8(pstr, FONTO_MAX);
   pstr->render = 2;
   pstr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_TEXT);
 
