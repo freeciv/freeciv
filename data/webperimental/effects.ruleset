@@ -1103,7 +1103,7 @@ reqs	=
       "Building", "Granary", "City"
     }
 
-[effect_harbour]
+[effect_harbor]
 type    = "Output_Add_Tile"
 value	= 1
 reqs	=
