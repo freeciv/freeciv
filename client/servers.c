@@ -76,6 +76,7 @@
 #include "chatline_common.h"
 #include "chatline_g.h"
 #include "client_main.h"
+#include "options.h"
 #include "servers.h"
 
 #include "gui_main_g.h"
@@ -119,6 +120,8 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   int nservers, i, j;
   const char *latest_ver;
   const char *comment;
+  char *followtag;
+  char *q_followtag;
 
   /* Have the string outside Q_() so it won't get collected for translation here.
    * Actual collected string lives in translations/Strings.txt */
@@ -129,8 +132,16 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     return NULL;
   }
 
-  latest_ver = secfile_lookup_str_default(file, NULL, "versions." FOLLOWTAG);
-  comment = secfile_lookup_str_default(file, NULL, "version_comments." FOLLOWTAG);
+  if (fc_strcasecmp(DEFAULT_FOLLOWTAG_OPTION, gui_options.followtag_override)) {
+    followtag = gui_options.followtag_override;
+    q_followtag = gui_options.followtag_override;
+  } else {
+    followtag = FOLLOWTAG;
+    q_followtag = QUALIFIED_FOLLOWTAG;
+  }
+
+  latest_ver = secfile_lookup_str_default(file, NULL, "versions.%s", followtag);
+  comment = secfile_lookup_str_default(file, NULL, "version_comments.%s", followtag);
 
   if (latest_ver == NULL && comment == NULL) {
     char vertext[2048];
@@ -139,7 +150,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                 /* TRANS: Type is version tag name like "stable", "S3_2",
                  * "windows" (which can also be localised -- msgids start
                  * '?vertag:') */
-                _("There's no %s release yet."), Q_(QUALIFIED_FOLLOWTAG));
+                _("There's no %s release yet."), Q_(q_followtag));
     log_verbose("%s", vertext);
     version_message(vertext);
   } else {
@@ -147,8 +158,8 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
       const char *my_comparable = fc_comparable_version();
       char vertext[2048];
 
-      log_verbose("Metaserver says latest '" FOLLOWTAG "' version is '%s'; we have '%s'",
-                  latest_ver, my_comparable);
+      log_verbose("Metaserver says latest '%s' version is '%s'; we have '%s'",
+                  followtag, latest_ver, my_comparable);
       if (cvercmp_greater(latest_ver, my_comparable)) {
 
         fc_snprintf(vertext, sizeof(vertext),
@@ -156,20 +167,20 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                      * "windows" (which can also be localised -- msgids start
                      * '?vertag:') */
                     _("Latest %s release of Freeciv is %s, this is %s."),
-                    Q_(QUALIFIED_FOLLOWTAG), latest_ver, my_comparable);
+                    Q_(q_followtag), latest_ver, my_comparable);
 
         version_message(vertext);
       } else if (comment == NULL) {
         fc_snprintf(vertext, sizeof(vertext),
                     _("There is no newer %s release of Freeciv available."),
-                    FOLLOWTAG);
+                    followtag);
 
         version_message(vertext);
       }
     }
 
     if (comment != NULL) {
-      log_verbose("Mesaserver comment about '" FOLLOWTAG "': %s", comment);
+      log_verbose("Mesaserver comment about '%s': %s", followtag, comment);
       version_message(comment);
     }
   }

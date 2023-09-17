@@ -27,6 +27,7 @@ extern "C" {
 #include "mapimg.h"
 
 #define DEFAULT_METASERVER_OPTION "default"
+#define DEFAULT_FOLLOWTAG_OPTION  "builtin"
 
 #define FONT_NAME_SIZE 512
 
@@ -111,6 +112,7 @@ struct client_options
   bool heartbeat_enabled;
   bool send_desired_settings;
   char default_metaserver[512];
+  char followtag_override[5112];
   char default_tileset_square_name[512];
   char default_tileset_hex_name[512];
   char default_tileset_isohex_name[512];

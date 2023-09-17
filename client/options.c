@@ -83,6 +83,8 @@ struct client_options gui_options = {
   .default_sound_plugin_name = "\0",
   .default_chat_logfile = GUI_DEFAULT_CHAT_LOGFILE,
 
+  .followtag_override = DEFAULT_FOLLOWTAG_OPTION,
+
   .save_options_on_exit = TRUE,
 
   .use_prev_server = FALSE,
@@ -1904,6 +1906,14 @@ static struct client_option client_options[] = {
                      "cut the connection due to a connectivity outage, if "
                      "the client would otherwise sit idle for a long period."),
                   COC_NETWORK, GUI_STUB, TRUE, NULL),
+  GEN_STR_OPTION(followtag_override,
+                 N_("Followtag override"),
+                 /* TRANS: Leave 'builtin' untranslated */
+                 N_("Followtag determines which kind of new freeciv versions' "
+                    "availability gets checked from the metaserver. Special "
+                    "value 'builtin' means that value builtin to the client "
+                    "gets used."),
+                 COC_NETWORK, GUI_STUB, DEFAULT_FOLLOWTAG_OPTION, NULL, 0),
   GEN_BOOL_OPTION(send_desired_settings,
                   N_("Send desired settings to the server"),
                   N_("In single-player mode client usually sends user's "
