@@ -111,7 +111,7 @@ static void restore_access_level(struct connection *pconn)
 
 /**********************************************************************//**
   This is used when a new player joins a server, before the game
-  has started.  If pconn is NULL, is an AI, else a client.
+  has started. If pconn is NULL, is an AI, else a client.
 
   N.B. this only attachs a connection to a player if 
        pconn->username == player->username
@@ -137,10 +137,10 @@ void establish_new_connection(struct connection *pconn)
   bool delegation_error = FALSE;
   struct packet_set_topology topo_packet;
 
-  /* zero out the password */
+  /* Zero out the password */
   memset(pconn->server.password, 0, sizeof(pconn->server.password));
 
-  /* send join_reply packet */
+  /* Send join_reply packet */
   packet.you_can_join = TRUE;
   sz_strlcpy(packet.capability, our_capability);
   fc_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
@@ -166,7 +166,7 @@ void establish_new_connection(struct connection *pconn)
     (void) send_server_info_to_metaserver(META_INFO);
   }
 
-  /* introduce the server to the connection */
+  /* Introduce the server to the connection */
   if (fc_gethostname(hostname, sizeof(hostname)) == 0) {
     notify_conn(dest, NULL, E_CONNECTION, ftc_any,
                 _("Welcome to the %s Server running at %s port %d."),
@@ -184,7 +184,9 @@ void establish_new_connection(struct connection *pconn)
   log_normal(_("%s has connected from %s."), pconn->username, pconn->addr);
 
   if (srvarg.fcdb_enabled) {
-    script_fcdb_call("conn_established", pconn);
+    if (script_fcdb_capstr()) {
+      script_fcdb_call("conn_established", pconn);
+    }
   }
 
   conn_compression_freeze(pconn);

@@ -36,7 +36,8 @@ local function get_option(name, is_sensitive)
   local defaults = {
     backend    = "sqlite",
     table_user = "fcdb_auth",
-    table_log  = "fcdb_log"
+    table_log  = "fcdb_log",
+    table_meta = "fcdb_meta"
   }
   local val = fcdb.option(name)
   if val then
@@ -101,10 +102,18 @@ function sqlite_createdb()
 
   local table_user = get_option("table_user")
   local table_log  = get_option("table_log")
+  local table_meta = get_option("table_meta")
 
   if not dbh then
     error("Missing database connection")
   end
+
+  query = string.format([[
+CREATE TABLE %s (
+  capstr VARCHAR(256) default NULL,
+  gamecount INTEGER default '0'
+);]], table_meta)
+  assert(dbh:execute(query))
 
   query = string.format([[
 CREATE TABLE %s (
@@ -130,11 +139,20 @@ CREATE TABLE %s (
   succeed TEXT default 'S'
 );]], table_log)
   assert(dbh:execute(query))
+
+  query = string.format([[
+INSERT INTO %s VALUES ('+fcdb', 0);]], table_meta)
+  assert(dbh:execute(query))
 end
 
 -- **************************************************************************
 -- For MySQL, the following shapes of tables are expected
 -- (scripts/setup_auth_server.sh automates this):
+--
+-- CREATE TABLE fcdb_meta (
+--   capstr varchar(256) default NULL,
+--   gamecount int(11) default '0'
+-- );
 --
 -- CREATE TABLE fcdb_auth (
 --   id int(11) NOT NULL auto_increment,
@@ -280,6 +298,19 @@ function user_log(conn, success)
                           VALUES ('%s', %s, '%s', '%s')]],
                         table_log, username, os.time(), ipaddr, success_str)
   assert(dbh:execute(query))
+end
+
+function database_capstr()
+  local table_meta = get_option("table_meta")
+
+  query = string.format([[SELECT capstr FROM %s]], table_meta)
+  local res = assert(dbh:execute(query))
+
+  local caps = res:fetch({}, "a")
+
+  res:close()
+
+  return string.format('%s', caps.capstr)
 end
 
 -- **************************************************************************
