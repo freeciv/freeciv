@@ -740,7 +740,7 @@ static void popup_minimap_scale_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
-  pstr = create_utf8_from_char(cBuf, adj_font(24));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_MAX);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
@@ -759,7 +759,7 @@ static void popup_minimap_scale_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
-  pstr = create_utf8_from_char(cBuf, adj_font(24));
+  pstr = create_utf8_from_char_fonto(cBuf, FONTO_MAX);
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
