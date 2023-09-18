@@ -1486,6 +1486,14 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_TELEPORT, ACTRES_TELEPORT,
                       TRUE, TRUE,
                       MAK_TELEPORT, 1, 1, FALSE);
+  actions[ACTION_TELEPORT2] =
+      unit_action_new(ACTION_TELEPORT2, ACTRES_TELEPORT,
+                      TRUE, TRUE,
+                      MAK_TELEPORT, 1, 1, FALSE);
+  actions[ACTION_TELEPORT3] =
+      unit_action_new(ACTION_TELEPORT3, ACTRES_TELEPORT,
+                      TRUE, TRUE,
+                      MAK_TELEPORT, 1, 1, FALSE);
   actions[ACTION_GAIN_VETERANCY] =
       unit_action_new(ACTION_GAIN_VETERANCY, ACTRES_ENABLER_CHECK,
                       TRUE, FALSE,
@@ -6880,6 +6888,10 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_unit_move_3";
   case ACTION_TELEPORT:
     return "ui_name_teleport";
+  case ACTION_TELEPORT2:
+    return "ui_name_teleport_2";
+  case ACTION_TELEPORT3:
+    return "ui_name_teleport_3";
   case ACTION_SPY_ESCAPE:
     return "ui_name_escape";
   case ACTION_USER_ACTION1:
@@ -7195,6 +7207,8 @@ const char *action_ui_name_default(int act)
     /* TRANS: Regular _Move (100% chance of success). */
     return N_("Regular %sMove%s");
   case ACTION_TELEPORT:
+  case ACTION_TELEPORT2:
+  case ACTION_TELEPORT3:
     /* TRANS: _Teleport (100% chance of success). */
     return N_("%sTeleport%s");
   case ACTION_SPY_ESCAPE:
@@ -7347,6 +7361,10 @@ const char *action_min_range_ruleset_var_name(int act)
     return "nuke_units_min_range";
   case ACTION_TELEPORT:
     return "teleport_min_range";
+  case ACTION_TELEPORT2:
+    return "teleport_2_min_range";
+  case ACTION_TELEPORT3:
+    return "teleport_3_min_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_min_range";
   case ACTION_USER_ACTION2:
@@ -7587,6 +7605,10 @@ const char *action_max_range_ruleset_var_name(int act)
     return "airlift_max_range";
   case ACTION_TELEPORT:
     return "teleport_max_range";
+  case ACTION_TELEPORT2:
+    return "teleport_2_max_range";
+  case ACTION_TELEPORT3:
+    return "teleport_3_max_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_max_range";
   case ACTION_USER_ACTION2:
@@ -7812,6 +7834,8 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
   case ACTION_TELEPORT:
+  case ACTION_TELEPORT2:
+  case ACTION_TELEPORT3:
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
     /* Target kind is not ruleset changeable */
@@ -8251,6 +8275,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
   case ACTION_TELEPORT:
+  case ACTION_TELEPORT2:
+  case ACTION_TELEPORT3:
   case ACTION_GAIN_VETERANCY:
   case ACTION_SPY_ESCAPE:
     /* Actor consuming always is not ruleset changeable */
@@ -8334,6 +8360,10 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "move_3_blocked_by";
   case ACTION_TELEPORT:
     return "teleport_blocked_by";
+  case ACTION_TELEPORT2:
+    return "teleport_2_blocked_by";
+  case ACTION_TELEPORT3:
+    return "teleport_3_blocked_by";
   case ACTION_SPY_ESCAPE:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
@@ -8573,6 +8603,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
   case ACTION_TELEPORT:
+  case ACTION_TELEPORT2:
+  case ACTION_TELEPORT3:
   case ACTION_GAIN_VETERANCY:
   case ACTION_SPY_ESCAPE:
   case ACTION_USER_ACTION1:

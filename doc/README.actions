@@ -1413,6 +1413,20 @@ Actions done by a unit against a tile
 * the target tile can't contain any city or units not allied to the actor
   unit and all its cargo.
 
+"Teleport 2" - telepor unit to the target tile.
+* UI name can be set using ui_name_teleport_2
+* any action listed in teleport_2_blocked_by must be impossible
+* the range of legal distance between actor unit and target tile
+  must be between teleport_2_min_range and teleport_2_max_range
+* See "Teleport" for everything else.
+
+"Teleport 3" - telepor unit to the target tile.
+* UI name can be set using ui_name_teleport_3
+* any action listed in teleport_3_blocked_by must be impossible
+* the range of legal distance between actor unit and target tile
+  must be between teleport_3_min_range and teleport_3_max_range
+* See "Teleport" for everything else.
+
 Actions done by a unit against all extras at a tile
 ===================================================
 "Conquer Extras" - Claim ownership of an extra.
