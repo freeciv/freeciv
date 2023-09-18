@@ -60,13 +60,20 @@ static TTF_Font *load_font(Uint16 ptsize);
 static SDL_Surface *create_utf8_surf(utf8_str *pstr);
 static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 
+/* Adjust font sizes on 320x240 screen */
+#ifdef GUI_SDL2_SMALL_SCREEN
+  static int adj_font(int size);
+#else  /* GUI_SDL2_SMALL_SCREEN */
+  #define adj_font(size) size
+#endif /* GUI_SDL2_SMALL_SCREEN */
+
 #define ptsize_default() adj_font(default_font_size(active_theme))
 
 /**********************************************************************//**
   Adjust font sizes for small screen.
 **************************************************************************/
 #ifdef GUI_SDL2_SMALL_SCREEN
-int adj_font(int size)
+static int adj_font(int size)
 {
   switch (size) {
   case 24:
@@ -172,6 +179,9 @@ static Uint16 fonto_ptsize(enum font_origin origin)
   case FONTO_ATTENTION:
     def = ptsize_default();
     return adj_font(MAX(def + 1, def * 1.2));
+  case FONTO_ATTENTION_PLUS:
+    def = ptsize_default();
+    return adj_font(MAX(def + 1, def * 1.2)); /* Same as FONTO_ATTENTION, when def < 10 */
   case FONTO_HEADING:
     def = ptsize_default();
     return adj_font(MAX(def + 2, def * 1.4));
