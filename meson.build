@@ -1402,7 +1402,7 @@ server_lib = static_library('fc_server',
 
 if server_type != 'disabled'
   executable(server_binary_name,
-    'server/civserver.c',
+    'server/srv_entrypoint.c',
     servericon,
     include_directories: server_inc,
     link_with: [server_lib, common_lib, ais],

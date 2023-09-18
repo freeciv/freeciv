@@ -26,7 +26,7 @@ SERVERICON = $(top_builddir)/platforms/windows/icons/servericon.o
 endif
 
 exe_sources = \
-		civserver.c
+		srv_entrypoint.c
 
 libfreeciv_srv_la_SOURCES = \
 		actiontools.c	\
