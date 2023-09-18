@@ -7929,6 +7929,11 @@ static bool load_ruleset_actions(struct section_file *file,
                                                  ACTION_ATTACK))) {
       ok = FALSE;
     } else if (!load_action_post_success_force(file, filename,
+                                               ACTION_AUTO_POST_ATTACK2,
+                                               action_by_number(
+                                                 ACTION_ATTACK2))) {
+      ok = FALSE;
+    } else if (!load_action_post_success_force(file, filename,
                                                ACTION_AUTO_POST_WIPE_UNITS,
                                                action_by_number(
                                                  ACTION_WIPE_UNITS))) {

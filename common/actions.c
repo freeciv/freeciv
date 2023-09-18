@@ -1265,8 +1265,20 @@ static void hard_code_actions(void)
                        * tells it to move. */
                       MAK_FORCED,
                       1, 1, FALSE);
+  actions[ACTION_ATTACK2] =
+      unit_action_new(ACTION_ATTACK2, ACTRES_ATTACK,
+                      FALSE, TRUE,
+                      /* Tries a forced move if the target unit's tile has
+                       * no non-allied units and the occupychance dice roll
+                       * tells it to move. */
+                      MAK_FORCED,
+                      1, 1, FALSE);
   actions[ACTION_SUICIDE_ATTACK] =
       unit_action_new(ACTION_SUICIDE_ATTACK, ACTRES_ATTACK,
+                      FALSE, TRUE,
+                      MAK_FORCED, 1, 1, TRUE);
+  actions[ACTION_SUICIDE_ATTACK2] =
+      unit_action_new(ACTION_SUICIDE_ATTACK2, ACTRES_ATTACK,
                       FALSE, TRUE,
                       MAK_FORCED, 1, 1, TRUE);
   actions[ACTION_WIPE_UNITS] =
@@ -1513,16 +1525,14 @@ static void hard_code_actions(void)
 
   /* The structure even for these need to be created, for
    * the action_id_rule_name() to work on iterations. */
+
+  /*
   actions[ACTION_UNUSED_1]
     = unit_action_new(ACTION_UNUSED_1, ACTRES_NONE,
                       FALSE, FALSE,
                       MAK_UNREPRESENTABLE,
                       0, 0, FALSE);
-  actions[ACTION_UNUSED_2]
-    = unit_action_new(ACTION_UNUSED_2, ACTRES_NONE,
-                      FALSE, FALSE,
-                      MAK_UNREPRESENTABLE,
-                      0, 0, FALSE);
+  */
 }
 
 /**********************************************************************//**
@@ -6744,8 +6754,12 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_airlift_unit";
   case ACTION_ATTACK:
     return "ui_name_attack";
+  case ACTION_ATTACK2:
+    return "ui_name_attack_2";
   case ACTION_SUICIDE_ATTACK:
     return "ui_name_suicide_attack";
+  case ACTION_SUICIDE_ATTACK2:
+    return "ui_name_suicide_attack_2";
   case ACTION_WIPE_UNITS:
     return "ui_name_wipe_units";
   case ACTION_STRIKE_BUILDING:
@@ -7046,9 +7060,11 @@ const char *action_ui_name_default(int act)
     /* TRANS: _Airlift to City (100% chance of success). */
     return N_("%sAirlift to City%s");
   case ACTION_ATTACK:
+  case ACTION_ATTACK2:
     /* TRANS: _Attack (100% chance of success). */
     return N_("%sAttack%s");
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_SUICIDE_ATTACK2:
     /* TRANS: _Suicide Attack (100% chance of success). */
     return N_("%sSuicide Attack%s");
   case ACTION_WIPE_UNITS:
@@ -7244,7 +7260,9 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
+  case ACTION_ATTACK2:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_SUICIDE_ATTACK2:
   case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
@@ -7473,7 +7491,9 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_PARADROP_ENTER:
   case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_ATTACK:
+  case ACTION_ATTACK2:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_SUICIDE_ATTACK2:
   case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
@@ -7719,7 +7739,9 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
+  case ACTION_ATTACK2:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_SUICIDE_ATTACK2:
   case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
@@ -8156,7 +8178,9 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
+  case ACTION_ATTACK2:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_SUICIDE_ATTACK2:
   case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
@@ -8276,8 +8300,12 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "nuke_units_blocked_by";
   case ACTION_ATTACK:
     return "attack_blocked_by";
+  case ACTION_ATTACK2:
+    return "attack_2_blocked_by";
   case ACTION_SUICIDE_ATTACK:
     return "suicide_attack_blocked_by";
+  case ACTION_SUICIDE_ATTACK2:
+    return "suicide_attack_2_blocked_by";
   case ACTION_WIPE_UNITS:
     return "wipe_units_blocked_by";
   case ACTION_CONQUER_CITY:
@@ -8425,6 +8453,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
     return "bribe_unit_post_success_forced_actions";
   case ACTION_ATTACK:
     return "attack_post_success_forced_actions";
+  case ACTION_ATTACK2:
+    return "attack_2_post_success_forced_actions";
   case ACTION_WIPE_UNITS:
     return "wipe_units_post_success_forced_actions";
   case ACTION_MARKETPLACE:
@@ -8436,6 +8466,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_NUKE_CITY:
   case ACTION_NUKE_UNITS:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_SUICIDE_ATTACK2:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_CONQUER_CITY3:

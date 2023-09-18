@@ -35,12 +35,7 @@ extern "C" {
  *     break;
  */
 #define ASSERT_UNUSED_ACTION_CASES            \
-  case ACTION_UNUSED_1:                       \
-    fc_assert_msg(FALSE, "ACTION_UNUSED_1");  \
-    break;                                    \
-  case ACTION_UNUSED_2:                       \
-    fc_assert_msg(FALSE, "ACTION_UNUSED_2");  \
-    break;
+
 
 #define SPECENUM_NAME action_actor_kind
 #define SPECENUM_VALUE0 AAK_UNIT
@@ -145,51 +140,50 @@ const char *gen_action_name_update_cb(const char *old_name);
 #define SPECENUM_VALUE44NAME "Airlift Unit"
 #define SPECENUM_VALUE45 ACTION_ATTACK
 #define SPECENUM_VALUE45NAME "Attack"
-#define SPECENUM_VALUE46 ACTION_SUICIDE_ATTACK
-#define SPECENUM_VALUE46NAME "Suicide Attack"
-#define SPECENUM_VALUE47 ACTION_STRIKE_BUILDING
-#define SPECENUM_VALUE47NAME "Surgical Strike Building"
-#define SPECENUM_VALUE48 ACTION_STRIKE_PRODUCTION
-#define SPECENUM_VALUE48NAME "Surgical Strike Production"
-#define SPECENUM_VALUE49 ACTION_CONQUER_CITY
-#define SPECENUM_VALUE49NAME "Conquer City"
-#define SPECENUM_VALUE50 ACTION_CONQUER_CITY2
-#define SPECENUM_VALUE50NAME "Conquer City 2"
-#define SPECENUM_VALUE51 ACTION_CONQUER_CITY3
-#define SPECENUM_VALUE51NAME "Conquer City 3"
-#define SPECENUM_VALUE52 ACTION_CONQUER_CITY4
-#define SPECENUM_VALUE52NAME "Conquer City 4"
-#define SPECENUM_VALUE53 ACTION_BOMBARD
-#define SPECENUM_VALUE53NAME "Bombard"
-#define SPECENUM_VALUE54 ACTION_BOMBARD2
-#define SPECENUM_VALUE54NAME "Bombard 2"
-#define SPECENUM_VALUE55 ACTION_BOMBARD3
-#define SPECENUM_VALUE55NAME "Bombard 3"
-#define SPECENUM_VALUE56 ACTION_BOMBARD_LETHAL
-#define SPECENUM_VALUE56NAME "Bombard Lethal"
-#define SPECENUM_VALUE57 ACTION_FORTIFY
-#define SPECENUM_VALUE57NAME "Fortify"
-#define SPECENUM_VALUE58 ACTION_CULTIVATE
-#define SPECENUM_VALUE58NAME "Cultivate"
-#define SPECENUM_VALUE59 ACTION_PLANT
-#define SPECENUM_VALUE59NAME "Plant"
-#define SPECENUM_VALUE60 ACTION_TRANSFORM_TERRAIN
-#define SPECENUM_VALUE60NAME "Transform Terrain"
-#define SPECENUM_VALUE61 ACTION_ROAD
-#define SPECENUM_VALUE61NAME "Build Road"
-#define SPECENUM_VALUE62 ACTION_IRRIGATE
-#define SPECENUM_VALUE62NAME "Build Irrigation"
-#define SPECENUM_VALUE63 ACTION_MINE
-#define SPECENUM_VALUE63NAME "Build Mine"
-#define SPECENUM_VALUE64 ACTION_BASE
-#define SPECENUM_VALUE64NAME "Build Base"
-#define SPECENUM_VALUE65 ACTION_PILLAGE
-#define SPECENUM_VALUE65NAME "Pillage"
-/* TODO: Rearrange actions to get rid of these */
-#define SPECENUM_VALUE66 ACTION_UNUSED_1
-#define SPECENUM_VALUE66NAME "Unused1"
-#define SPECENUM_VALUE67 ACTION_UNUSED_2
-#define SPECENUM_VALUE67NAME "Unused2"
+#define SPECENUM_VALUE46 ACTION_ATTACK2
+#define SPECENUM_VALUE46NAME "Attack 2"
+#define SPECENUM_VALUE47 ACTION_SUICIDE_ATTACK
+#define SPECENUM_VALUE47NAME "Suicide Attack"
+#define SPECENUM_VALUE48 ACTION_SUICIDE_ATTACK2
+#define SPECENUM_VALUE48NAME "Suicide Attack 2"
+#define SPECENUM_VALUE49 ACTION_STRIKE_BUILDING
+#define SPECENUM_VALUE49NAME "Surgical Strike Building"
+#define SPECENUM_VALUE50 ACTION_STRIKE_PRODUCTION
+#define SPECENUM_VALUE50NAME "Surgical Strike Production"
+#define SPECENUM_VALUE51 ACTION_CONQUER_CITY
+#define SPECENUM_VALUE51NAME "Conquer City"
+#define SPECENUM_VALUE52 ACTION_CONQUER_CITY2
+#define SPECENUM_VALUE52NAME "Conquer City 2"
+#define SPECENUM_VALUE53 ACTION_CONQUER_CITY3
+#define SPECENUM_VALUE53NAME "Conquer City 3"
+#define SPECENUM_VALUE54 ACTION_CONQUER_CITY4
+#define SPECENUM_VALUE54NAME "Conquer City 4"
+#define SPECENUM_VALUE55 ACTION_BOMBARD
+#define SPECENUM_VALUE55NAME "Bombard"
+#define SPECENUM_VALUE56 ACTION_BOMBARD2
+#define SPECENUM_VALUE56NAME "Bombard 2"
+#define SPECENUM_VALUE57 ACTION_BOMBARD3
+#define SPECENUM_VALUE57NAME "Bombard 3"
+#define SPECENUM_VALUE58 ACTION_BOMBARD_LETHAL
+#define SPECENUM_VALUE58NAME "Bombard Lethal"
+#define SPECENUM_VALUE59 ACTION_FORTIFY
+#define SPECENUM_VALUE59NAME "Fortify"
+#define SPECENUM_VALUE60 ACTION_CULTIVATE
+#define SPECENUM_VALUE60NAME "Cultivate"
+#define SPECENUM_VALUE61 ACTION_PLANT
+#define SPECENUM_VALUE61NAME "Plant"
+#define SPECENUM_VALUE62 ACTION_TRANSFORM_TERRAIN
+#define SPECENUM_VALUE62NAME "Transform Terrain"
+#define SPECENUM_VALUE63 ACTION_ROAD
+#define SPECENUM_VALUE63NAME "Build Road"
+#define SPECENUM_VALUE64 ACTION_IRRIGATE
+#define SPECENUM_VALUE64NAME "Build Irrigation"
+#define SPECENUM_VALUE65 ACTION_MINE
+#define SPECENUM_VALUE65NAME "Build Mine"
+#define SPECENUM_VALUE66 ACTION_BASE
+#define SPECENUM_VALUE66NAME "Build Base"
+#define SPECENUM_VALUE67 ACTION_PILLAGE
+#define SPECENUM_VALUE67NAME "Pillage"
 #define SPECENUM_VALUE68 ACTION_TRANSPORT_BOARD
 #define SPECENUM_VALUE68NAME "Transport Board"
 #define SPECENUM_VALUE69 ACTION_TRANSPORT_BOARD2
@@ -447,13 +441,12 @@ struct action_enabler
   }                                                                       \
 }
 
+/* Filter out unused action slots, in versions where those exist */
 #define action_iterate(_act_)                                             \
 {                                                                         \
-  action_iterate_all(_act_) {                                             \
-    if (_act_ != ACTION_UNUSED_1 && _act_ != ACTION_UNUSED_2) {
+  action_iterate_all(_act_) {
 
 #define action_iterate_end                                                \
-    }                                                                     \
   } action_iterate_all_end;                                               \
 }
 
@@ -594,16 +587,18 @@ action_auto_perf_iterate(_act_perf_) {                                    \
   action_array_iterate_end
 
 /* Hard coded location of action auto performers. Used for conversion while
- * action auto performers aren't directly exposed to the ruleset. */
+ * action auto performers aren't directly exposed to the ruleset.
+ * Remember to update also MAX_NUM_ACTION_AUTO_PERFORMERS when changing these. */
 #define ACTION_AUTO_UPKEEP_FOOD     0
 #define ACTION_AUTO_UPKEEP_GOLD     1
 #define ACTION_AUTO_UPKEEP_SHIELD   2
 #define ACTION_AUTO_MOVED_ADJ       3
 #define ACTION_AUTO_POST_BRIBE      4
 #define ACTION_AUTO_POST_ATTACK     5
-#define ACTION_AUTO_ESCAPE_CITY     6
-#define ACTION_AUTO_ESCAPE_STACK    7
-#define ACTION_AUTO_POST_WIPE_UNITS 8
+#define ACTION_AUTO_POST_ATTACK2    6
+#define ACTION_AUTO_ESCAPE_CITY     7
+#define ACTION_AUTO_ESCAPE_STACK    8
+#define ACTION_AUTO_POST_WIPE_UNITS 9
 
 /* Initialization */
 void actions_init(void);
