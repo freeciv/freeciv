@@ -264,9 +264,9 @@ static void packhand_init(void)
 static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 {
   struct unit *punit = unit_virtual_create(player_by_number(packet->owner),
-					   NULL,
-					   utype_by_number(packet->type),
-					   packet->veteran);
+                                           nullptr,
+                                           utype_by_number(packet->type),
+                                           packet->veteran);
 
   /* Owner, veteran, and type fields are already filled in by
    * unit_virtual_create() */
@@ -284,7 +284,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->activity_count = packet->activity_count;
 
   if (packet->activity_tgt == EXTRA_NONE) {
-    punit->activity_target = NULL;
+    punit->activity_target = nullptr;
   } else {
     punit->activity_target = extra_by_number(packet->activity_tgt);
   }
@@ -293,7 +293,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->changed_from_count = packet->changed_from_count;
 
  if (packet->changed_from_tgt == EXTRA_NONE) {
-    punit->changed_from_target = NULL;
+    punit->changed_from_target = nullptr;
   } else {
     punit->changed_from_target = extra_by_number(packet->changed_from_tgt);
   }
@@ -315,7 +315,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   if (packet->carrying >= 0) {
     punit->carrying = goods_by_number(packet->carrying);
   } else {
-    punit->carrying = NULL;
+    punit->carrying = nullptr;
   }
 
   punit->battlegroup = packet->battlegroup;
@@ -360,22 +360,34 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 static struct unit *
 unpackage_short_unit(const struct packet_unit_short_info *packet)
 {
-  struct unit *punit = unit_virtual_create(player_by_number(packet->owner),
-					   NULL,
-					   utype_by_number(packet->type),
-					   0);
+  struct unit *punit;
+  struct player *owner;
+
+  if (packet->owner == OWNER_NONE) {
+    /* Silently ignore for now. */
+    return nullptr;
+/*
+    owner = nullptr;
+*/
+  } else {
+    owner = player_by_number(packet->owner);
+  }
+
+  punit = unit_virtual_create(owner, nullptr,
+                              utype_by_number(packet->type),
+                              0);
 
   /* Owner and type fields are already filled in by unit_virtual_create() */
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(&(wld.map), packet->tile));
   punit->facing = packet->facing;
-  punit->nationality = NULL;
+  punit->nationality = nullptr;
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
 
   if (packet->activity_tgt == EXTRA_NONE) {
-    punit->activity_target = NULL;
+    punit->activity_target = nullptr;
   } else {
     punit->activity_target = extra_by_number(packet->activity_tgt);
   }
@@ -1695,19 +1707,26 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool need_units_report_update = FALSE;
   bool repaint_unit = FALSE;
   bool repaint_city = FALSE;	/* regards unit's homecity */
-  struct tile *old_tile = NULL;
+  struct tile *old_tile = nullptr;
   bool check_focus = FALSE;     /* conservative focus change */
   bool moved = FALSE;
   bool ret = FALSE;
+  struct player *owner = unit_owner(packet_unit);
+  struct player *plr = client_player();
 
-  punit = player_unit_by_number(unit_owner(packet_unit), packet_unit->id);
-  if (!punit && game_unit_by_number(packet_unit->id)) {
+  if (owner == nullptr) {
+    punit = nullptr;
+  } else {
+    punit = player_unit_by_number(owner, packet_unit->id);
+  }
+
+  if (punit == nullptr && game_unit_by_number(packet_unit->id)) {
     /* This means unit has changed owner. We deal with this here
      * by simply deleting the old one and creating a new one. */
     handle_unit_remove(packet_unit->id);
   }
 
-  if (punit) {
+  if (punit != nullptr) {
     /* In some situations, the size of repaint units require can change;
      * in particular, city-builder units sometimes get a potential-city
      * outline, but to speed up redraws we don't repaint this whole area
@@ -1728,8 +1747,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     if (punit->ssa_controller != packet_unit->ssa_controller) {
       punit->ssa_controller = packet_unit->ssa_controller;
       repaint_unit = TRUE;
-      /* AI is set:     may change focus */
-      /* AI is cleared: keep focus */
+      /* AI is set:     May change focus */
+      /* AI is cleared: Keep focus */
       if (packet_unit->ssa_controller != SSA_NONE
           && unit_is_in_focus(punit)) {
         check_focus = TRUE;
@@ -1765,14 +1784,14 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       /* Wakeup Focus */
       if (gui_options.wakeup_focus 
-          && NULL != client.conn.playing
-          && is_human(client.conn.playing)
-          && unit_owner(punit) == client.conn.playing
+          && plr != nullptr
+          && is_human(plr)
+          && owner == plr
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
           && !unit_is_in_focus(punit)
-          && is_player_phase(client.conn.playing, game.info.phase)) {
-        /* many wakeup units per tile are handled */
+          && is_player_phase(plr, game.info.phase)) {
+        /* Many wakeup units per tile are handled */
         unit_focus_urgent(punit);
         check_focus = FALSE; /* and keep it */
       }
@@ -1794,8 +1813,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       if (punit->client.occupied != packet_unit->client.occupied) {
         if (get_focus_unit_on_tile(unit_tile(packet_unit))) {
           /* Special case: (un)loading a unit in a transporter on the same
-           *tile as the focus unit may (dis)allow the focus unit to be
-           * loaded.  Thus the orders->(un)load menu item needs updating. */
+           * tile as the focus unit may (dis)allow the focus unit to be
+           * loaded. Thus the orders->(un)load menu item needs updating. */
           need_menus_update = TRUE;
         }
         punit->client.occupied = packet_unit->client.occupied;
@@ -1812,10 +1831,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	free(punit->orders.list);
       }
       punit->orders.list = packet_unit->orders.list;
-      packet_unit->orders.list = NULL;
+      packet_unit->orders.list = nullptr;
 
-      if (NULL == client.conn.playing
-          || unit_owner(punit) == client.conn.playing) {
+      if (plr == nullptr || owner == plr) {
         refresh_unit_city_dialogs(punit);
       }
     } /*** End of Change in activity or activity's target. ***/
@@ -1884,8 +1902,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* Show where the unit is going. */
       do_move_unit(punit, packet_unit);
 
-      if (ccity != NULL)  {
-	if (can_player_see_units_in_city(client.conn.playing, ccity)) {
+      if (ccity != nullptr)  {
+	if (can_player_see_units_in_city(plr, ccity)) {
 	  /* Unit moved out of a city - update the occupied status. */
 	  bool new_occupied =
 	    (unit_list_size(ccity->tile->units) > 0);
@@ -1907,7 +1925,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       }
 
       if ((ccity = tile_city(unit_tile(punit)))) {
-        if (can_player_see_units_in_city(client.conn.playing, ccity)) {
+        if (can_player_see_units_in_city(plr, ccity)) {
           /* Unit moved into a city - obviously it's occupied. */
           if (!ccity->client.occupied) {
             ccity->client.occupied = TRUE;
@@ -1992,7 +2010,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     punit = packet_unit;
     idex_register_unit(&wld, punit);
 
-    unit_list_prepend(unit_owner(punit)->units, punit);
+    if (owner != nullptr) {
+      unit_list_prepend(owner->units, punit);
+    }
     unit_list_prepend(unit_tile(punit)->units, punit);
 
     unit_register_battlegroup(punit);
@@ -2050,6 +2070,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* First, we have to unload the unit from its old transporter. */
       unit_transport_unload(punit);
       unit_transport_load(punit, ptrans, TRUE);
+
 #ifdef DEBUG_TRANSPORT
       log_debug("load %s (ID: %d) onto %s (ID: %d)",
                 unit_name_translation(punit), punit->id,
@@ -2062,6 +2083,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       log_debug("%s (ID: %d) is not loaded", unit_name_translation(punit),
                 punit->id);
 #endif /* DEBUG_TRANSPORT */
+
     }
   }
 
@@ -2078,9 +2100,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   }
 
   if ((check_focus || get_num_units_in_focus() == 0)
-      && NULL != client.conn.playing
-      && is_human(client.conn.playing)
-      && is_player_phase(client.conn.playing, game.info.phase)) {
+      && plr != nullptr
+      && is_human(plr)
+      && is_player_phase(plr, game.info.phase)) {
     unit_focus_update();
   }
 
@@ -2088,7 +2110,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     menus_update();
   }
 
-  if (!client_has_player() || unit_owner(punit) == client_player()) {
+  if (!client_has_player() || owner == plr) {
     if (need_economy_report_update) {
       economy_report_dialog_update();
     }
@@ -2158,13 +2180,15 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
 
     /* Append a unit struct to the proper list. */
     punit = unpackage_short_unit(packet);
-    if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
-      fc_assert(pcity->client.collecting_info_units_supported != NULL);
-      unit_list_append(pcity->client.collecting_info_units_supported, punit);
-    } else {
-      fc_assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
-      fc_assert(pcity->client.collecting_info_units_present != NULL);
-      unit_list_append(pcity->client.collecting_info_units_present, punit);
+    if (punit != nullptr) {
+      if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
+        fc_assert(pcity->client.collecting_info_units_supported != NULL);
+        unit_list_append(pcity->client.collecting_info_units_supported, punit);
+      } else {
+        fc_assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
+        fc_assert(pcity->client.collecting_info_units_present != NULL);
+        unit_list_append(pcity->client.collecting_info_units_present, punit);
+      }
     }
 
     /* Done with special case. */
@@ -2176,7 +2200,7 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
   }
 
   punit = unpackage_short_unit(packet);
-  if (handle_unit_packet_common(punit)) {
+  if (punit != nullptr && handle_unit_packet_common(punit)) {
     punit->client.transported_by = -1;
     unit_virtual_destroy(punit);
   }

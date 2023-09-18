@@ -1629,7 +1629,7 @@ bool is_targeted_activity(enum unit_activity activity)
 }
 
 /**********************************************************************//**
-  Create a virtual unit skeleton. pcity can be NULL, but then you need
+  Create a virtual unit skeleton. pcity can be nullptr, but then you need
   to set tile and homecity yourself.
 **************************************************************************/
 struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
@@ -1644,26 +1644,26 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   /* It does not register the unit so the id is set to 0. */
   punit->id = IDENTITY_NUMBER_ZERO;
 
-  fc_assert_ret_val(NULL != punittype, NULL);   /* No untyped units! */
+  fc_assert_ret_val(punittype != nullptr, nullptr);               /* No untyped units! */
   punit->utype = punittype;
 
-  fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned units! */
+  fc_assert_ret_val(!is_server() || pplayer != nullptr, nullptr); /* No unowned units! */
   punit->owner = pplayer;
   punit->nationality = pplayer;
 
   punit->refcount = 1;
   punit->facing = rand_direction();
 
-  if (pcity) {
+  if (pcity != nullptr) {
     unit_tile_set(punit, pcity->tile);
     punit->homecity = pcity->id;
   } else {
-    unit_tile_set(punit, NULL);
+    unit_tile_set(punit, nullptr);
     punit->homecity = IDENTITY_NUMBER_ZERO;
   }
 
   memset(punit->upkeep, 0, O_LAST * sizeof(*punit->upkeep));
-  punit->goto_tile = NULL;
+  punit->goto_tile = nullptr;
   max_vet_lvl = utype_veteran_levels(punittype) - 1;
   punit->veteran = MIN(veteran_level, max_vet_lvl);
   /* A unit new and fresh ... */
@@ -1683,17 +1683,17 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   punit->paradropped = FALSE;
   punit->done_moving = FALSE;
 
-  punit->transporter = NULL;
+  punit->transporter = nullptr;
   punit->transporting = unit_list_new();
 
-  punit->carrying = NULL;
+  punit->carrying = nullptr;
 
   set_unit_activity(punit, ACTIVITY_IDLE);
   punit->battlegroup = BATTLEGROUP_NONE;
   punit->has_orders = FALSE;
 
   punit->action_decision_want = ACT_DEC_NOTHING;
-  punit->action_decision_tile = NULL;
+  punit->action_decision_tile = nullptr;
 
   punit->stay = FALSE;
 
@@ -1703,7 +1703,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
 
     punit->server.dying = FALSE;
 
-    punit->server.removal_callback = NULL;
+    punit->server.removal_callback = nullptr;
 
     memset(punit->server.upkeep_paid, 0,
            O_LAST * sizeof(*punit->server.upkeep_paid));
@@ -1711,7 +1711,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
     punit->server.ord_map = 0;
     punit->server.ord_city = 0;
 
-    punit->server.vision = NULL; /* No vision. */
+    punit->server.vision = nullptr; /* No vision. */
     punit->server.action_timestamp = 0;
     /* Must be an invalid turn number, and an invalid previous turn
      * number. */
@@ -1725,7 +1725,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
     punit->client.focus_status = FOCUS_AVAIL;
     punit->client.transported_by = -1;
     punit->client.colored = FALSE;
-    punit->client.act_prob_cache = NULL;
+    punit->client.act_prob_cache = nullptr;
   }
 
   return punit;

@@ -47,6 +47,8 @@ struct nation_type;
  * anonymous. */
 #define ANON_USER_NAME N_("Unassigned")
 
+#define OWNER_NONE (-1)
+
 enum plrcolor_mode {
   PLRCOL_PLR_ORDER,
   PLRCOL_PLR_RANDOM,
