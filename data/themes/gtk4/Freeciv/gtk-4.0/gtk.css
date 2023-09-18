@@ -203,7 +203,7 @@ GtkTreeMenu.menu {
   background-color: #e7d6b0;
 }
 
-.tooltip {
+tooltip * {
   color: #635b48;
   background-color: #d7d7d7;
 }
