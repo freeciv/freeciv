@@ -1005,8 +1005,8 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   const struct unit *tgt_unit;
 
   const struct action_auto_perf *autoperf
-      = action_auto_perf_unit_sel(cause, actor, other_player,
-                                  eval_output, eval_action);
+    = action_auto_perf_unit_sel(cause, actor, other_player,
+                                eval_output, eval_action);
 
   if (!autoperf) {
     /* No matching Action Auto Performer. */
@@ -1106,8 +1106,8 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
   const struct unit *tgt_unit;
 
   const struct action_auto_perf *autoperf
-      = action_auto_perf_unit_sel(cause, actor, other_player,
-                                  eval_output, eval_action);
+    = action_auto_perf_unit_sel(cause, actor, other_player,
+                                eval_output, eval_action);
 
   if (!autoperf) {
     /* No matching Action Auto Performer. */
