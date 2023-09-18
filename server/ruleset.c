@@ -6276,35 +6276,38 @@ static bool load_action_ui_name(struct section_file *file, int act,
 **************************************************************************/
 static bool load_action_range_max(struct section_file *file, action_id act)
 {
-  struct entry *pentry;
-  int max_range;
   struct action *paction = action_by_number(act);
+  const char *vname = action_max_range_ruleset_var_name(act);
 
-  pentry = secfile_entry_lookup(file, "actions.%s",
-                                action_max_range_ruleset_var_name(act));
+  if (vname != NULL) {
+    struct entry *pentry;
+    int max_range;
 
-  if (!pentry) {
-    max_range = action_max_range_default(paction->result);
-  } else {
-    const char *custom;
+    pentry = secfile_entry_lookup(file, "actions.%s", vname);
 
-    if (entry_type_get(pentry) == ENTRY_INT
-        && entry_int_get(pentry, &max_range)) {
-      /* max_range already assigned */
-    } else if (entry_type_get(pentry) == ENTRY_STR
-               && entry_str_get(pentry, &custom)
-               && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
-      max_range = ACTION_DISTANCE_UNLIMITED;
+    if (pentry == NULL) {
+      max_range = action_max_range_default(paction->result);
     } else {
-      ruleset_error(NULL, LOG_ERROR, "Bad actions.%s",
-                    action_max_range_ruleset_var_name(act));
-      action_by_number(act)->max_distance = action_max_range_default(paction->result);
+      const char *custom;
 
-      return FALSE;
+      if (entry_type_get(pentry) == ENTRY_INT
+          && entry_int_get(pentry, &max_range)) {
+        /* max_range already assigned */
+      } else if (entry_type_get(pentry) == ENTRY_STR
+                 && entry_str_get(pentry, &custom)
+                 && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
+        max_range = ACTION_DISTANCE_UNLIMITED;
+      } else {
+        ruleset_error(NULL, LOG_ERROR, "Bad actions.%s",
+                      action_max_range_ruleset_var_name(act));
+        action_by_number(act)->max_distance = action_max_range_default(paction->result);
+
+        return FALSE;
+      }
     }
-  }
 
-  action_by_number(act)->max_distance = max_range;
+    action_by_number(act)->max_distance = max_range;
+  }
 
   return TRUE;
 }
@@ -6315,21 +6318,20 @@ static bool load_action_range_max(struct section_file *file, action_id act)
 static bool load_action_range(struct section_file *file, action_id act)
 {
   struct action *paction = action_by_number(act);
+  const char *vname;
 
-  if (action_max_range_ruleset_var_name(act) != NULL) {
-    /* Max range can be loaded from the ruleset. */
-    if (!load_action_range_max(file, act)) {
-      return FALSE;
-    }
+  if (!load_action_range_max(file, act)) {
+    return FALSE;
   }
 
-  if (action_min_range_ruleset_var_name(act) != NULL) {
+  vname = action_min_range_ruleset_var_name(act);
+  if (vname != NULL) {
     /* Min range can be loaded from the ruleset. */
     action_by_number(act)->min_distance
       = secfile_lookup_int_default(file,
                                    action_min_range_default(paction->result),
                                    "actions.%s",
-                                   action_min_range_ruleset_var_name(act));
+                                   vname);
   }
 
   return TRUE;
