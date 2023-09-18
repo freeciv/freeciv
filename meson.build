@@ -905,7 +905,8 @@ if crosser
   pub_conf_data.set('FREECIV_CROSSER', 1)
 endif
 
-if get_option('svgflags')
+svgflags = get_option('svgflags')
+if svgflags
   pub_conf_data.set('FREECIV_SVG_FLAGS', 1)
 endif
 
@@ -2791,6 +2792,10 @@ foreach flag : flags
   install_data(join_paths('data/flags', flag + '-large.png'),
                join_paths('data/flags', flag + '-shield-large.png'),
                install_dir : join_paths(get_option('datadir'), 'freeciv/flags'))
+  if svgflags
+    install_data(join_paths('data/flags', flag + '.svg'),
+                 install_dir : join_paths(get_option('datadir'), 'freeciv/flags'))
+  endif
 endforeach
 
 install_data('data/override/flags-large.spec',
