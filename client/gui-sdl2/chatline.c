@@ -182,7 +182,7 @@ static void popup_load_game_dialog(void)
     return;
   }
 
-  /* disable buttons */
+  /* Disable buttons */
   set_wstate(pConnDlg->pBackButton, FC_WS_DISABLED);
   widget_redraw(pConnDlg->pBackButton);
   widget_mark_dirty(pConnDlg->pBackButton);
@@ -238,12 +238,12 @@ static void popup_load_game_dialog(void)
   fileinfo_list_iterate(files, pfile) {
     count++;
 
-    filename = create_utf8_from_char(pfile->name, adj_font(13));
+    filename = create_utf8_from_char_fonto(pfile->name, FONTO_ATTENTION_PLUS);
     filename->style |= SF_CENTER;
     pFilenameLabel = create_iconlabel(NULL, pWindow->dst, filename,
       (WF_FREE_DATA | WF_SELECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
 
-    /* store filename */
+    /* Store filename */
     pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
     fc_strlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
 
@@ -251,7 +251,7 @@ static void popup_load_game_dialog(void)
 
     set_wstate(pFilenameLabel, FC_WS_NORMAL);
 
-    /* FIXME: this was supposed to be add_widget_to_vertical_scroll_widget_list(), but
+    /* FIXME: This was supposed to be add_widget_to_vertical_scroll_widget_list(), but
      * add_widget_to_vertical_scroll_widget_list() needs the scrollbar area to be defined
      * for updating the scrollbar position, but the area is not known yet (depends on
      * maximum label width) */
@@ -285,7 +285,7 @@ static void popup_load_game_dialog(void)
                                 area.y + 1,
                                 area.h - adj_size(2), TRUE);
 
-  /* add filename labels to list */
+  /* Add filename labels to list */
   pFilenameLabel = pFirstLabel;
   while (pFilenameLabel) {
     pFilenameLabel->size.w = area.w - scrollbar_width - 3;
@@ -323,7 +323,7 @@ static void popup_load_game_dialog(void)
                       area.x + area.w - pCloseButton->size.w - 1,
                       pWindow->size.y + adj_size(2));
 
-  /* FIXME: the scrollbar already got a background saved in
+  /* FIXME: The scrollbar already got a background saved in
    * add_widget_to_vertical_scroll_widget_list(), but the window
    * is not drawn yet, so this saved background is wrong.
    * Deleting it here as a workaround. */

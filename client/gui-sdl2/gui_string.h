@@ -64,6 +64,7 @@ enum font_origin {
   FONTO_DEFAULT,
   FONTO_SLIGHTLY_BIGGER,
   FONTO_ATTENTION,
+  FONTO_ATTENTION_PLUS,
   FONTO_HEADING,
   FONTO_BIG,
   FONTO_MAX
@@ -73,10 +74,8 @@ utf8_str *create_utf8_str_fonto(char *in_text, size_t n_alloc,
                                 enum font_origin origin);
 utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize);
 utf8_str *copy_chars_to_utf8_str(utf8_str *pstr, const char *pchars);
-bool convert_utf8_str_to_const_surface_width(utf8_str *pstr,
-                                             int width);
-int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y,
-               utf8_str *pstr);
+bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width);
+int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y, utf8_str *pstr);
 SDL_Surface *create_text_surf_from_utf8(utf8_str *pstr);
 SDL_Surface *create_text_surf_smaller_than_w(utf8_str *pstr, int w);
 void utf8_str_size(utf8_str *pstr, SDL_Rect *fill);
@@ -86,15 +85,8 @@ void change_fonto_utf8(utf8_str *pstr, enum font_origin origin);
 void unload_font(Uint16 ptsize);
 void free_font_system(void);
 
-/* adjust font sizes on 320x240 screen */
-#ifdef SMALL_SCREEN
-  int adj_font(int size);
-#else
-  #define adj_font(size) size
-#endif
-
 /*
- *	here we use ordinary free( ... ) because check is made 
+ *	Here we use ordinary free( ... ) because check is made
  *	on start.
  */
 #define FREEUTF8STR( pstr )             \
