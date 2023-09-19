@@ -1978,15 +1978,6 @@ static int num_continent_buildings(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns the number of buildings of a certain type in a city.
-**************************************************************************/
-static int num_city_buildings(const struct city *pcity,
-			      const struct impr_type *building)
-{
-  return (city_has_building(pcity, building) ? 1 : 0);
-}
-
-/**********************************************************************//**
   Determine whether a building requirement is satisfied in a given context,
   ignoring parts of the requirement that can be handled uniformly for all
   requirement types.
@@ -2087,7 +2078,7 @@ is_building_req_active(const struct req_context *context,
       }
     case REQ_RANGE_TRADE_ROUTE:
       if (context->city) {
-        if (num_city_buildings(context->city, building) > 0) {
+        if (city_has_building(context->city, building)) {
           return TRI_YES;
         } else {
           enum fc_tristate ret = TRI_NO;
@@ -2095,7 +2086,7 @@ is_building_req_active(const struct req_context *context,
           trade_partners_iterate(context->city, trade_partner) {
             if (trade_partner == NULL) {
               ret = TRI_MAYBE;
-            } else if (num_city_buildings(trade_partner, building) > 0) {
+            } else if (city_has_building(trade_partner, building)) {
               return TRI_YES;
             }
           } trade_partners_iterate_end;
@@ -2107,8 +2098,7 @@ is_building_req_active(const struct req_context *context,
       }
     case REQ_RANGE_CITY:
       if (context->city) {
-        return BOOL_TO_TRISTATE(num_city_buildings(context->city, building)
-                                > 0);
+        return BOOL_TO_TRISTATE(city_has_building(context->city, building));
       } else {
         return TRI_MAYBE;
       }
@@ -2128,7 +2118,7 @@ is_building_req_active(const struct req_context *context,
         const struct city *pcity = tile_city(context->tile);
 
         if (pcity) {
-          return BOOL_TO_TRISTATE(num_city_buildings(pcity, building) > 0);
+          return BOOL_TO_TRISTATE(city_has_building(pcity, building));
         } else {
           return TRI_NO;
         }
