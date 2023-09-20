@@ -761,7 +761,7 @@ flags       = ""
 graphic     = "a.unified_theory"
 graphic_alt = "-"
 helptext    = _("We now understand that radiation and antigravity are two \
-sides of the same phenomenom.")
+sides of the same phenomenon.")
 
 [advance_virtual_reality]
 name        = _("Virtual Entertainment")
