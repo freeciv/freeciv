@@ -26,7 +26,7 @@
 #   sind in erster Linie für Entwickler bestimmt, und die können in der
 #   Regel kein Deutsch. Soweit diesen Meldungen nicht bereits ein
 #   Entwicklerkommentar (TRANS:) migegeben wurde, findet sich dort ein
-#   Übersetzerkomentar (CK: TECHNICAL, EH: oder MG:).
+#   Übersetzerkommentar (CK: TECHNICAL, EH: oder MG:).
 #
 # - In Deutschland ist bekanntlicherweise alles genormt, so auch
 #   Staaten- und Staatsangehörigenbezeichnungen. Hierzulande übernimmt
@@ -66,11 +66,11 @@ msgstr "Schließen"
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
-msgstr "Gebäude"
+msgstr "Baukosten"
 
 #: tools/ruledit/edit_impr.cpp:62
 msgid "Upkeep"
-msgstr ""
+msgstr "Unterhaltungskosten"
 
 #: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
@@ -267,7 +267,7 @@ msgstr "Fatal [SIGNAL]"
 
 #: tools/ruledit/ruledit.cpp:179
 msgid "Raise a signal on failed assertion"
-msgstr "Bei fehlgeschlagener Ausnahme ein Signal geben"
+msgstr "Bei fehlgeschlagener Zusicherung ein Signal geben"
 
 #: tools/ruledit/ruledit.cpp:193
 msgid "Can only edit one ruleset at a time.\n"
@@ -501,7 +501,7 @@ msgstr "Anforderungen des Akteurs"
 
 #: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
-msgstr "Anforderungen des Ziel"
+msgstr "Zielanforderungen"
 
 #: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
@@ -567,7 +567,7 @@ msgstr "Ware entfernen"
 
 #: tools/ruledit/tab_good.cpp:184
 msgid "A good with that rule name already exists!"
-msgstr "Eine Gut mit diesem Regelnamen existiert bereits!"
+msgstr "Ein Gut mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_gov.cpp:92
 #, fuzzy
@@ -831,7 +831,7 @@ msgstr "Reichweite:"
 
 #: tools/ruledit/req_edit.cpp:121 tools/ruledit/req_edit.cpp:311
 msgid "Allows"
-msgstr ""
+msgstr "Erlaubt"
 
 #: tools/ruledit/req_edit.cpp:122 tools/ruledit/req_edit.cpp:313
 #: tools/ruledit/req_edit.cpp:361
@@ -851,7 +851,7 @@ msgstr "Anforderung löschen"
 #: tools/ruledit/req_edit.cpp:162
 #, c-format
 msgid "%s prevents"
-msgstr ""
+msgstr "%s verhindert"
 
 #: tools/ruledit/validity.c:50 tools/ruledit/validity.c:371
 msgid "Effect"
@@ -871,7 +871,7 @@ msgstr "Musikstil"
 #: tools/ruledit/validity.c:167
 #, c-format
 msgid "%s clause"
-msgstr ""
+msgstr "%s Klausel"
 
 #: tools/ruledit/validity.c:302
 msgid "Conflicting extra"

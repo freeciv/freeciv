@@ -26,7 +26,7 @@
 #   sind in erster Linie für Entwickler bestimmt, und die können in der
 #   Regel kein Deutsch. Soweit diesen Meldungen nicht bereits ein
 #   Entwicklerkommentar (TRANS:) migegeben wurde, findet sich dort ein
-#   Übersetzerkomentar (CK: TECHNICAL, EH: oder MG:).
+#   Übersetzerkommentar (CK: TECHNICAL, EH: oder MG:).
 #
 # Weitere Hinweise:
 #
@@ -14060,9 +14060,9 @@ msgstr ""
 "Wenn diese Option aktiv ist, wird jeder vom Regelwerk vorgeschlagene "
 "Soundsatz automatisch benutzt."
 
-#: client/options.c:2350
+#: client/options.c:2412
 msgid "Autoaccept musicset suggestions"
-msgstr "Vorschläge zum Feldergrafik-Satz automatisch akzeptieren"
+msgstr "Vorschläge zum Musiksatz automatisch akzeptieren"
 
 #: client/options.c:2351
 msgid ""
