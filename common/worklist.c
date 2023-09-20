@@ -70,7 +70,7 @@ bool worklist_is_empty(const struct worklist *pwl)
 
 /************************************************************************//**
   Fill in the id and is_unit values for the head of the worklist
-  if the worklist is non-empty.  Return 1 iff id and is_unit
+  if the worklist is non-empty.  Return 1 if id and is_unit
   are valid.
 ****************************************************************************/
 bool worklist_peek(const struct worklist *pwl, struct universal *prod)
@@ -187,7 +187,7 @@ bool worklist_insert(struct worklist *pwl, const struct universal *prod,
 }
 
 /************************************************************************//**
-  Return TRUE iff the two worklists are equal.
+  Return TRUE if the two worklists are equal.
 ****************************************************************************/
 bool are_worklists_equal(const struct worklist *wlist1,
                          const struct worklist *wlist2)

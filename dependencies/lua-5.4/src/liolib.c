@@ -357,7 +357,7 @@ static int io_readline (lua_State *L);
 ** the following upvalues:
 ** 1) The file being read (first value in the stack)
 ** 2) the number of arguments to read
-** 3) a boolean, true iff file has to be closed when finished ('toclose')
+** 3) a boolean, true if file has to be closed when finished ('toclose')
 ** *) a variable number of format arguments (rest of the stack)
 */
 static void aux_lines (lua_State *L, int toclose) {
@@ -559,7 +559,7 @@ static int read_chars (lua_State *L, FILE *f, size_t n) {
   nr = fread(p, sizeof(char), n, f);  /* try to read 'n' chars */
   luaL_addsize(&b, nr);
   luaL_pushresult(&b);  /* close buffer */
-  return (nr > 0);  /* true iff read something */
+  return (nr > 0);  /* true if read something */
 }
 
 

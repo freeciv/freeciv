@@ -1172,7 +1172,7 @@ bool read_init_script(struct connection *caller, const char *script_filename,
 }
 
 /**********************************************************************//**
-  Returns FALSE iff there was an error.
+  Returns FALSE if there was an error.
 
   Security: We will look for a file with mandatory extension '.serv',
   and on public servers we will not look outside the data directories.

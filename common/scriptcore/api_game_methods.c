@@ -191,7 +191,7 @@ const char
 }
 
 /**********************************************************************//**
-  Return TRUE iff city has building
+  Return TRUE if city has building
 **************************************************************************/
 bool api_methods_city_has_building(lua_State *L, City *pcity,
                                    Building_Type *building)
@@ -291,7 +291,7 @@ int api_methods_city_culture_get(lua_State *L, City *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff city happy
+  Return TRUE if city happy
 **************************************************************************/
 bool api_methods_is_city_happy(lua_State *L, City *pcity)
 {
@@ -303,7 +303,7 @@ bool api_methods_is_city_happy(lua_State *L, City *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff city is unhappy
+  Return TRUE if city is unhappy
 **************************************************************************/
 bool api_methods_is_city_unhappy(lua_State *L, City *pcity)
 {
@@ -315,7 +315,7 @@ bool api_methods_is_city_unhappy(lua_State *L, City *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff city is celebrating
+  Return TRUE if city is celebrating
 **************************************************************************/
 bool api_methods_is_city_celebrating(lua_State *L, City *pcity)
 {
@@ -326,7 +326,7 @@ bool api_methods_is_city_celebrating(lua_State *L, City *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff city is government center
+  Return TRUE if city is government center
 **************************************************************************/
 bool api_methods_is_gov_center(lua_State *L, City *pcity)
 {
@@ -444,7 +444,7 @@ const char *api_methods_player_controlling_gui(lua_State *L,
 }
 
 /**********************************************************************//**
-  Return TRUE iff player has wonder
+  Return TRUE if player has wonder
 **************************************************************************/
 bool api_methods_player_has_wonder(lua_State *L, Player *pplayer,
                                    Building_Type *building)
@@ -526,7 +526,7 @@ bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
 }
 
 /**********************************************************************//**
-  Return TRUE iff pplayer can research ptech now (but does not know it).
+  Return TRUE if pplayer can research ptech now (but does not know it).
   In client, considers known information only.
 **************************************************************************/
 bool api_method_player_can_research(lua_State *L, Player *pplayer,
@@ -1413,7 +1413,7 @@ bool api_methods_unit_type_has_role(lua_State *L, Unit_Type *punit_type,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the unit type can exist on the tile.
+  Return TRUE if the unit type can exist on the tile.
 **************************************************************************/
 bool api_methods_unit_type_can_exist_at_tile(lua_State *L,
                                              Unit_Type *punit_type,

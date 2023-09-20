@@ -143,7 +143,7 @@ bool dataio_get_conv_callback(char *dst, size_t ndst, const char *src,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the output has size bytes available.
+  Returns TRUE if the output has size bytes available.
 **************************************************************************/
 static bool enough_space(struct raw_data_out *dout, size_t size)
 {
@@ -157,7 +157,7 @@ static bool enough_space(struct raw_data_out *dout, size_t size)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the input contains size unread bytes.
+  Returns TRUE if the input contains size unread bytes.
 **************************************************************************/
 static bool enough_data(struct data_in *din, size_t size)
 {

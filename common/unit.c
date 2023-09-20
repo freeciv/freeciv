@@ -198,7 +198,7 @@ bool unit_can_airlift_to(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the unit is following client-side orders.
+  Return TRUE if the unit is following client-side orders.
 **************************************************************************/
 bool unit_has_orders(const struct unit *punit)
 {
@@ -208,7 +208,7 @@ bool unit_has_orders(const struct unit *punit)
 /**********************************************************************//**
   Returns how many shields the unit (type) is worth.
   @param punit     the unit. Can be NULL if punittype is set.
-  @param punittype the unit's type. Can be NULL iff punit is set.
+  @param punittype the unit's type. Can be NULL if punit is set.
   @param paction   the action the unit does when valued.
   @return the unit's value in shields.
 **************************************************************************/
@@ -278,7 +278,7 @@ bool unit_can_help_build_wonder_here(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff this unit can be disbanded at its current location to
+  Return TRUE if this unit can be disbanded at its current location to
   provide a trade route from the homecity to the target city.
 **************************************************************************/
 bool unit_can_est_trade_route_here(const struct unit *punit)
@@ -377,7 +377,7 @@ bool is_flagless_to_player(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Return TRUE iff this unit can do the specified generalized (ruleset
+  Return TRUE if this unit can do the specified generalized (ruleset
   defined) action enabler controlled action.
 **************************************************************************/
 bool unit_can_do_action(const struct unit *punit,
@@ -387,7 +387,7 @@ bool unit_can_do_action(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Return TRUE iff this unit can do any enabler controlled action with the
+  Return TRUE if this unit can do any enabler controlled action with the
   specified action result.
 **************************************************************************/
 bool unit_can_do_action_result(const struct unit *punit,
@@ -397,7 +397,7 @@ bool unit_can_do_action_result(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Return TRUE iff this unit can do any enabler controlled action with the
+  Return TRUE if this unit can do any enabler controlled action with the
   specified action sub result.
 **************************************************************************/
 bool unit_can_do_action_sub_result(const struct unit *punit,
@@ -407,7 +407,7 @@ bool unit_can_do_action_sub_result(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Return TRUE iff this tile is threatened from any unit within 2 tiles.
+  Return TRUE if this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
 bool is_square_threatened(const struct civ_map *nmap,
                           const struct player *pplayer,
@@ -466,7 +466,7 @@ bool is_hiding_unit(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff this unit can add to a current city or build a new city
+  Return TRUE if this unit can add to a current city or build a new city
   at its current location.
 **************************************************************************/
 bool unit_can_add_or_build_city(const struct unit *punit)
@@ -483,7 +483,7 @@ bool unit_can_add_or_build_city(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the unit can change homecity to the given city.
+  Return TRUE if the unit can change homecity to the given city.
 **************************************************************************/
 bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity)
@@ -498,7 +498,7 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the unit can change homecity at its current location.
+  Return TRUE if the unit can change homecity at its current location.
 **************************************************************************/
 bool can_unit_change_homecity(const struct unit *punit)
 {
@@ -697,7 +697,7 @@ bool could_unit_be_in_transport(const struct unit *pcargo,
     return FALSE;
   }
 
-  /* Check iff this is a valid transport. */
+  /* Check if this is a valid transport. */
   if (!unit_transport_check(pcargo, ptrans)) {
     return FALSE;
   }
@@ -712,7 +712,7 @@ bool could_unit_be_in_transport(const struct unit *pcargo,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given unit could be loaded into the transporter
+  Return TRUE if the given unit could be loaded into the transporter
   if we moved there.
 **************************************************************************/
 bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
@@ -738,7 +738,7 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given unit can be loaded into the transporter.
+  Return TRUE if the given unit can be loaded into the transporter.
 **************************************************************************/
 bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
 {
@@ -759,7 +759,7 @@ bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given unit can be unloaded from its current
+  Return TRUE if the given unit can be unloaded from its current
   transporter.
 
   This function checks everything *except* the legality of the position
@@ -789,7 +789,7 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given unit can leave its current transporter without
+  Return TRUE if the given unit can leave its current transporter without
   doing any other action or move.
 **************************************************************************/
 bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
@@ -875,7 +875,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the unit can do the given untargeted activity at its
+  Return TRUE if the unit can do the given untargeted activity at its
   current location.
 
   Note that some activities must be targeted; see
@@ -2383,7 +2383,7 @@ bool unit_transport_unload(struct unit *pcargo)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the unit is transported.
+  Returns TRUE if the unit is transported.
 **************************************************************************/
 bool unit_transported(const struct unit *pcargo)
 {
@@ -2607,7 +2607,7 @@ bool unit_is_cityfounder(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the unit order array is sane.
+  Returns TRUE if the unit order array is sane.
 **************************************************************************/
 bool unit_order_list_is_sane(int length, const struct unit_order *orders)
 {

@@ -517,7 +517,7 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the turn done button should be enabled.
+  Return TRUE if the turn done button should be enabled.
 **************************************************************************/
 bool get_turn_done_button_state(void)
 {
@@ -526,7 +526,7 @@ bool get_turn_done_button_state(void)
 }
 
 /**********************************************************************//**
-  Return TRUE iff client can end turn.
+  Return TRUE if client can end turn.
 **************************************************************************/
 bool can_end_turn(void)
 {

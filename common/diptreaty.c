@@ -31,7 +31,7 @@ static struct clause_info clause_infos[CLAUSE_COUNT];
 static struct treaty_list *treaties = NULL;
 
 /**********************************************************************//**
-  Returns TRUE iff pplayer could do diplomacy in the game at all.
+  Returns TRUE if pplayer could do diplomacy in the game at all.
 **************************************************************************/
 bool diplomacy_possible(const struct player *pplayer1,
                         const struct player *pplayer2)
@@ -59,7 +59,7 @@ bool diplomacy_possible(const struct player *pplayer1,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff pplayer could do diplomatic meetings with aplayer.
+  Returns TRUE if pplayer could do diplomatic meetings with aplayer.
 **************************************************************************/
 bool could_meet_with_player(const struct player *pplayer,
                             const struct player *aplayer)
@@ -79,7 +79,7 @@ bool could_meet_with_player(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff pplayer can get intelligence about aplayer.
+  Returns TRUE if pplayer can get intelligence about aplayer.
 **************************************************************************/
 bool could_intel_with_player(const struct player *pplayer,
                              const struct player *aplayer)

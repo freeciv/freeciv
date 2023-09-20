@@ -955,7 +955,7 @@ bool is_real_map_pos(const struct civ_map *nmap, int x, int y)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the map position is normal. "Normal" here means that
+  Returns TRUE if the map position is normal. "Normal" here means that
   it is both a real/valid coordinate set and that the coordinates are in
   their canonical/proper form. In plain English: the coordinates must be
   on the map.
@@ -1228,7 +1228,7 @@ enum direction8 dir_ccw(enum direction8 dir)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the given direction is a valid one. Does not use
+  Returns TRUE if the given direction is a valid one. Does not use
   value from the cache, but can be used to calculate the cache.
 ***********************************************************************/
 static bool is_valid_dir_calculate(enum direction8 dir)
@@ -1253,7 +1253,7 @@ static bool is_valid_dir_calculate(enum direction8 dir)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the given direction is a valid one.
+  Returns TRUE if the given direction is a valid one.
 
   If the direction could be out of range you should use
   map_untrusted_dir_is_valid() instead.
@@ -1266,7 +1266,7 @@ bool is_valid_dir(enum direction8 dir)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the given direction is a valid one.
+  Returns TRUE if the given direction is a valid one.
 
   Doesn't trust the input. Can be used to validate a direction from an
   untrusted source.
@@ -1282,7 +1282,7 @@ bool map_untrusted_dir_is_valid(enum direction8 dir)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the given direction is a cardinal one. Does not use
+  Returns TRUE if the given direction is a cardinal one. Does not use
   value from the cache, but can be used to calculate the cache.
 
   Cardinal directions are those in which adjacent tiles share an edge not
@@ -1309,7 +1309,7 @@ static bool is_cardinal_dir_calculate(enum direction8 dir)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the given direction is a cardinal one.
+  Returns TRUE if the given direction is a cardinal one.
 
   Cardinal directions are those in which adjacent tiles share an edge not
   just a vertex.
@@ -1361,7 +1361,7 @@ int get_direction_for_step(const struct civ_map *nmap,
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the move from the position (start_x, start_y) to
+  Returns TRUE if the move from the position (start_x, start_y) to
   (end_x, end_y) is a cardinal one.
 ***********************************************************************/
 bool is_move_cardinal(const struct civ_map *nmap,

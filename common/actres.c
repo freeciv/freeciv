@@ -211,7 +211,7 @@ enum action_battle_kind actres_get_battle_kind(enum action_result result)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action result indicates hostile action.
+  Returns TRUE if the specified action result indicates hostile action.
 **************************************************************************/
 bool actres_is_hostile(enum action_result result)
 {
@@ -253,7 +253,7 @@ enum dice_roll_type actres_dice_type(enum action_result result)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified player knows (has seen) the specified
+  Returns TRUE if the specified player knows (has seen) the specified
   tile.
 **************************************************************************/
 static bool plr_knows_tile(const struct player *plr,

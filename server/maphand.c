@@ -341,7 +341,7 @@ void upgrade_all_city_extras(struct player *pplayer, bool discovery)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the player me really gives shared vision to player them.
+  Return TRUE if the player me really gives shared vision to player them.
 **************************************************************************/
 bool really_gives_vision(struct player *me, struct player *them)
 {
@@ -2040,7 +2040,7 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 }
 
 /**********************************************************************//**
-  Ocean tile can be claimed iff one of the following conditions stands:
+  Ocean tile can be claimed if one of the following conditions stands:
   a) it is an inland lake not larger than MAXIMUM_OCEAN_SIZE
   b) it is adjacent to only one continent and not more than two ocean tiles
   c) It is one tile away from a border source

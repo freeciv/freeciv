@@ -202,7 +202,7 @@ static inline void SPECPQ_FOO(_pq_replace)(SPECPQ_PQ *_pq,
 
 /************************************************************************//**
   Remove the highest-ranking item from the queue and store it in 'pdata'.
-  'pdata' may be NULL. Return FALSE iff no item could be removed, because
+  'pdata' may be NULL. Return FALSE if no item could be removed, because
   the queue was empty.
 ****************************************************************************/
 static inline bool SPECPQ_FOO(_pq_remove)(SPECPQ_PQ *_pq,
@@ -267,7 +267,7 @@ static inline bool SPECPQ_FOO(_pq_peek)(const SPECPQ_PQ *_pq,
 
 /************************************************************************//**
   Set the highest priority of the queue in 'datum_priority'. Return FALSE
-  iff the queue is empty.
+  if the queue is empty.
 ****************************************************************************/
 static inline bool SPECPQ_FOO(_pq_priority)(const SPECPQ_PQ *_pq,
                                             SPECPQ_PRIORITY_TYPE *ppriority)

@@ -528,7 +528,7 @@ int effect_value_from_universals(enum effect_type type,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified effect type is guaranteed to always have
+  Returns TRUE if the specified effect type is guaranteed to always have
   a value at or above the specified value given the presence of the
   specified list of universals.
   Note that it may be true that the effect type always will be at or above
@@ -538,7 +538,7 @@ int effect_value_from_universals(enum effect_type type,
   @param unis      the list of present universals
   @param n_unis    the number of universals in unis
   @param min_value the value the effect always should be at or above
-  @return TRUE iff the function promises that the value of the effect type
+  @return TRUE if the function promises that the value of the effect type
                never will be below min_value given the specified
                universals.
 **************************************************************************/
@@ -665,7 +665,7 @@ bool building_has_effect(const struct impr_type *pimprove,
 }
 
 /**********************************************************************//**
-  Return TRUE iff any of the disabling requirements for this effect are
+  Return TRUE if any of the disabling requirements for this effect are
   active, which would prevent it from taking effect.
   (Assumes that any requirement specified in the ruleset with a negative
   sense is an impediment.)

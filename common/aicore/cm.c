@@ -434,7 +434,7 @@ static void tile_type_vector_free_all(struct tile_type_vector *vec)
 }
 
 /************************************************************************//**
-  Return TRUE iff all categories of the two types are equal.  This means
+  Return TRUE if all categories of the two types are equal.  This means
   all production outputs are equal and the is_specialist fields are also
   equal.
 ****************************************************************************/
@@ -582,7 +582,7 @@ static const struct cm_tile *tile_get(const struct cm_tile_type *ptype, int j)
 ****************************************************************************/
 
 /************************************************************************//**
-  Return TRUE iff fitness A is strictly better than fitness B.
+  Return TRUE if fitness A is strictly better than fitness B.
 ****************************************************************************/
 static bool fitness_better(struct cm_fitness a, struct cm_fitness b)
 {
@@ -1273,7 +1273,7 @@ static void init_tile_lattice(struct city *pcity,
 
 
 /************************************************************************//**
-  Return TRUE iff the stack is empty.
+  Return TRUE if the stack is empty.
 ****************************************************************************/
 static bool choice_stack_empty(struct cm_state *state)
 {

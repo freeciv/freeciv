@@ -322,7 +322,7 @@ struct extra_type *resource_extra_get(const struct resource_type *presource)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff any cardinally adjacent tile contains the given terrain.
+  Returns TRUE if any cardinally adjacent tile contains the given terrain.
 **************************************************************************/
 bool is_terrain_card_near(const struct tile *ptile,
 			  const struct terrain *pterrain,
@@ -342,7 +342,7 @@ bool is_terrain_card_near(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff any adjacent tile contains the given terrain.
+  Returns TRUE if any adjacent tile contains the given terrain.
 **************************************************************************/
 bool is_terrain_near_tile(const struct tile *ptile,
 			  const struct terrain *pterrain,
@@ -410,7 +410,7 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff any cardinally adjacent tile contains the given resource.
+  Returns TRUE if any cardinally adjacent tile contains the given resource.
 **************************************************************************/
 bool is_resource_card_near(const struct tile *ptile,
                            const struct extra_type *pres,
@@ -430,7 +430,7 @@ bool is_resource_card_near(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff any adjacent tile contains the given resource.
+  Returns TRUE if any adjacent tile contains the given resource.
 **************************************************************************/
 bool is_resource_near_tile(const struct tile *ptile,
                            const struct extra_type *pres,
@@ -450,7 +450,7 @@ bool is_resource_near_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff any cardinally adjacent tile contains terrain with the
+  Returns TRUE if any cardinally adjacent tile contains terrain with the
   given flag (does not check ptile itself).
 **************************************************************************/
 bool is_terrain_flag_card_near(const struct tile *ptile,
@@ -469,7 +469,7 @@ bool is_terrain_flag_card_near(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff any adjacent tile contains terrain with the given flag
+  Returns TRUE if any adjacent tile contains terrain with the given flag
   (does not check ptile itself).
 **************************************************************************/
 bool is_terrain_flag_near_tile(const struct tile *ptile,

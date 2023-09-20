@@ -1242,7 +1242,7 @@ double real_timer_callback(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the client can control player.
+  Returns TRUE if the client can control player.
 **************************************************************************/
 bool can_client_control(void)
 {
@@ -1251,7 +1251,7 @@ bool can_client_control(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the client can issue orders (such as giving unit
+  Returns TRUE if the client can issue orders (such as giving unit
   commands).  This function should be called each time before allowing the
   user to give an order.
 **************************************************************************/
@@ -1262,7 +1262,7 @@ bool can_client_issue_orders(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the client can do diplomatic meetings with another
+  Returns TRUE if the client can do diplomatic meetings with another
   given player.
 **************************************************************************/
 bool can_meet_with_player(const struct player *pplayer)
@@ -1273,7 +1273,7 @@ bool can_meet_with_player(const struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the client can get intelligence from another
+  Returns TRUE if the client can get intelligence from another
   given player.
 **************************************************************************/
 bool can_intel_with_player(const struct player *pplayer)

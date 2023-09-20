@@ -36,7 +36,7 @@
 /********************************************************************//**
   Initialize universal value with a value suitable for the kind.
 
-  Returns TRUE iff there's any values universal kind can have with
+  Returns TRUE if there's any values universal kind can have with
   current ruleset.
 ************************************************************************/
 bool universal_value_initial(struct universal *src)

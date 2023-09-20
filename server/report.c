@@ -1252,7 +1252,7 @@ static void plrdata_slot_free(struct plrdata_slot *plrdata)
   values contained in the file. Returns the player_names indexed by
   player_no at the end of the log file.
 
-  Returns TRUE iff the file had read successfully.
+  Returns TRUE if the file had read successfully.
 **************************************************************************/
 static bool scan_score_log(char *id)
 {

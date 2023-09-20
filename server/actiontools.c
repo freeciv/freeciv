@@ -713,7 +713,7 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
 }
 
 /**********************************************************************//**
-  Returns the tile iff it, from the point of view of the owner of the
+  Returns the tile if it, from the point of view of the owner of the
   actor unit, looks like a target tile.
 
   Returns NULL if the player knows that the actor unit can't do any
@@ -1176,7 +1176,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the spy/diplomat was caught outside of a diplomatic
+  Returns TRUE if the spy/diplomat was caught outside of a diplomatic
   battle.
 ****************************************************************************/
 bool action_failed_dice_roll(const struct player *act_player,

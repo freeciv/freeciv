@@ -214,7 +214,7 @@ static int str_char (lua_State *L) {
 ** push stuff.)
 */
 struct str_Writer {
-  int init;  /* true iff buffer has been initialized */
+  int init;  /* true if buffer has been initialized */
   luaL_Buffer B;
 };
 
@@ -1408,7 +1408,7 @@ static int str_format (lua_State *L) {
 /* dummy union to get native endianness */
 static const union {
   int dummy;
-  char little;  /* true iff machine is little endian */
+  char little;  /* true if machine is little endian */
 } nativeendian = {1};
 
 

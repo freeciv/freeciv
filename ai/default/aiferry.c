@@ -631,7 +631,7 @@ static void dai_activate_passengers(struct ai_type *ait, struct unit *ferry)
   The passenger is assumed to be on the given ferry.
   The destination may be inland, in which case the passenger will ride
   the ferry to a beach head, disembark, then continue on land.
-  Return FALSE iff we died.
+  Return FALSE if we died.
 **************************************************************************/
 bool dai_amphibious_goto_constrained(struct ai_type *ait,
                                      struct unit *ferry,
@@ -727,7 +727,7 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
 
 /**********************************************************************//**
   Move a passenger on a ferry to a specified destination.
-  Return FALSE iff we died.
+  Return FALSE if we died.
 **************************************************************************/
 bool aiferry_goto_amphibious(struct ai_type *ait, struct unit *ferry,
 			     struct unit *passenger, struct tile *ptile)

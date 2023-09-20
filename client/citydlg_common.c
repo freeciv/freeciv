@@ -110,7 +110,7 @@ bool city_to_canvas_pos(float *canvas_x, float *canvas_y, int city_x,
 
 /**********************************************************************//**
   Converts a citymap canvas position to a (cartesian) city coordinate
-  position. Returns TRUE iff the city position is valid.
+  position. Returns TRUE if the city position is valid.
 **************************************************************************/
 bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
                         int canvas_x, int canvas_y)
@@ -1519,7 +1519,7 @@ bool city_set_queue(struct city *pcity, const struct worklist *pqueue)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the city can buy.
+  Return TRUE if the city can buy.
 **************************************************************************/
 bool city_can_buy(const struct city *pcity)
 {

@@ -4981,7 +4981,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
 }
 
 /************************************************************************//**
-  Returns a possibly legal attack action iff it is the only interesting
+  Returns a possibly legal attack action if it is the only interesting
   action that currently is legal.
 ****************************************************************************/
 static action_id auto_attack_act(const struct act_prob *act_probs)

@@ -559,7 +559,7 @@ requirement_vector_by_number fix_enabler_item::vector_getter()
   Check if the specified vector belongs to this item
 
   @param vec the requirement vector that may belong to this item.
-  @return true iff the vector belongs to this item.
+  @return true if the vector belongs to this item.
 **************************************************************************/
 bool fix_enabler_item::vector_in_item(const struct requirement_vector *vec)
 {

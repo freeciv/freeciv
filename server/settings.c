@@ -5217,7 +5217,7 @@ void settings_init(bool act)
 }
 
 /************************************************************************//**
-  Reset all settings iff they are changeable.
+  Reset all settings if they are changeable.
 ****************************************************************************/
 void settings_reset(void)
 {

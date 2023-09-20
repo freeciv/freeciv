@@ -279,7 +279,7 @@ bool luascript_func_call(struct fc_lua *fcl, const char *func_name, ...)
 }
 
 /**********************************************************************//**
-  Return iff the function is required.
+  Return if the function is required.
 **************************************************************************/
 bool luascript_func_is_required(struct fc_lua *fcl, const char *func_name)
 {

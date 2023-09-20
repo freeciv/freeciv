@@ -603,7 +603,7 @@ static int solvegotos (LexState *ls, Labeldesc *lb) {
 ** 'last' tells whether label is the last non-op statement in its
 ** block. Solves all pending gotos to this new label and adds
 ** a close instruction if necessary.
-** Returns true iff it added a close instruction.
+** Returns true if it added a close instruction.
 */
 static int createlabel (LexState *ls, TString *name, int line,
                         int last) {

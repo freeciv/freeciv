@@ -1762,7 +1762,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the specified unit type is able to perform an action
+  Returns TRUE if the specified unit type is able to perform an action
   that allows it to escape to the closest closest domestic city once done.
 
   See diplomat_escape() for more.
@@ -4788,7 +4788,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case EFT_OUTPUT_BONUS:
       case EFT_OUTPUT_BONUS_2:
-        /* FIXME: makes most sense iff world_value == 0 */
+        /* FIXME: makes most sense if world_value == 0 */
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'and' */
                      _("%s %s production is increased %d%%.\n"),

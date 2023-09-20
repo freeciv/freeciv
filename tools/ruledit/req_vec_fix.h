@@ -120,7 +120,7 @@ public:
   /********************************************************************//**
     Check if the specified vector belongs to this item
     @param vec the requirement vector that may belong to this item.
-    @return true iff the vector belongs to this item.
+    @return true if the vector belongs to this item.
   ************************************************************************/
   virtual bool vector_in_item(const struct requirement_vector *vec) = 0;
 

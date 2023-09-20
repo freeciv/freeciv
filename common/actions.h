@@ -369,7 +369,7 @@ struct action
   enum act_tgt_compl target_complexity;
 
   /* Limits on the distance on the map between the actor and the target.
-   * The action is legal iff the distance is min_distance, max_distance or
+   * The action is legal if the distance is min_distance, max_distance or
    * a value in between. */
   int min_distance, max_distance;
 

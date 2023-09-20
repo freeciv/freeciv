@@ -1263,7 +1263,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
 /************************************************************************//**
   Fill buffer with text about upgrading units on the list.
 
-  Returns TRUE iff any units can be upgraded.
+  Returns TRUE if any units can be upgraded.
 ****************************************************************************/
 bool get_units_upgrade_info(char *buf, size_t bufsz,
                             struct unit_list *punits)
@@ -1329,7 +1329,7 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
 /************************************************************************//**
   Fill buffer with text about disbanding units on the list.
 
-  Returns TRUE iff any units can be disbanded.
+  Returns TRUE if any units can be disbanded.
 ****************************************************************************/
 bool get_units_disband_info(char *buf, size_t bufsz,
                             struct unit_list *punits)

@@ -736,7 +736,7 @@ bool genhash_remove_full(struct genhash *pgenhash, const void *key,
 
 
 /************************************************************************//**
-  Returns TRUE iff the hash tables contains the same pairs of key/data.
+  Returns TRUE if the hash tables contains the same pairs of key/data.
 ****************************************************************************/
 bool genhashs_are_equal(const struct genhash *pgenhash1,
                         const struct genhash *pgenhash2)
@@ -745,7 +745,7 @@ bool genhashs_are_equal(const struct genhash *pgenhash1,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the hash tables contains the same pairs of key/data.
+  Returns TRUE if the hash tables contains the same pairs of key/data.
 ****************************************************************************/
 bool genhashs_are_equal_full(const struct genhash *pgenhash1,
                              const struct genhash *pgenhash2,

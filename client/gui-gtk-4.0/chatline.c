@@ -67,7 +67,7 @@ static struct inputline_toolkit {
 static void inputline_make_tag(GtkEntry *entry, enum text_tag_type type);
 
 /**********************************************************************//**
-  Returns TRUE iff the input line has focus.
+  Returns TRUE if the input line has focus.
 **************************************************************************/
 bool inputline_has_focus(void)
 {
@@ -83,7 +83,7 @@ void inputline_grab_focus(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the input line is currently visible.
+  Returns TRUE if the input line is currently visible.
 **************************************************************************/
 bool inputline_is_visible(void)
 {

@@ -2209,7 +2209,7 @@ static bool dai_caravan_can_trade_cities_diff_cont(struct player *pplayer,
 
 /**********************************************************************//**
   Try to move caravan to suitable city and to make it caravan's homecity.
-  Returns FALSE iff caravan dies.
+  Returns FALSE if caravan dies.
 **************************************************************************/
 static bool search_homecity_for_caravan(struct ai_type *ait, struct unit *punit)
 {

@@ -167,7 +167,7 @@ int utype_unknown_move_cost(const struct unit_type *utype)
 }
 
 /************************************************************************//**
-  Return TRUE iff the unit can be a defender at its current location.
+  Return TRUE if the unit can be a defender at its current location.
   This should be checked when looking for a defender - not all units on the
   tile are valid defenders.
 ****************************************************************************/
@@ -197,7 +197,7 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
 }
 
 /************************************************************************//**
-  Returns TRUE iff a unit of this type can attack non-native tiles (eg.
+  Returns TRUE if a unit of this type can attack non-native tiles (eg.
   Ships ability to shore bombardment) given that it can perform an attack
   action.
 ****************************************************************************/
@@ -283,7 +283,7 @@ bool is_city_channel_tile(const struct civ_map *nmap,
 }
 
 /************************************************************************//**
-  Return TRUE iff a unit of the given unit type can "exist" at this location.
+  Return TRUE if a unit of the given unit type can "exist" at this location.
   This means it can physically be present on the tile (without the use of a
   transporter). See also can_unit_survive_at_tile().
 ****************************************************************************/
@@ -312,7 +312,7 @@ bool can_exist_at_tile(const struct civ_map *nmap,
 }
 
 /************************************************************************//**
-  Return TRUE iff the unit can "exist" at this location.  This means it can
+  Return TRUE if the unit can "exist" at this location.  This means it can
   physically be present on the tile (without the use of a transporter).  See
   also can_unit_survive_at_tile().
 ****************************************************************************/
@@ -480,7 +480,7 @@ bool is_native_near_tile(const struct civ_map *nmap,
 }
 
 /************************************************************************//**
-  Return TRUE iff the unit can "survive" at this location. This means it can
+  Return TRUE if the unit can "survive" at this location. This means it can
   not only be physically present at the tile but will be able to survive
   indefinitely on its own (without a transporter). Units that require fuel
   or have a danger of drowning are examples of non-survivable units.
@@ -850,7 +850,7 @@ unit_teleport_to_tile_test(const struct civ_map *nmap,
 }
 
 /************************************************************************//**
-  Return true iff transporter has ability to transport transported.
+  Return true if transporter has ability to transport transported.
 ****************************************************************************/
 bool can_unit_transport(const struct unit *transporter,
                         const struct unit *transported)
@@ -863,7 +863,7 @@ bool can_unit_transport(const struct unit *transporter,
 }
 
 /************************************************************************//**
-  Return TRUE iff transporter type has ability to transport transported class.
+  Return TRUE if transporter type has ability to transport transported class.
 ****************************************************************************/
 bool can_unit_type_transport(const struct unit_type *transporter,
                              const struct unit_class *transported)

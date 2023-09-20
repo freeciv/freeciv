@@ -269,7 +269,7 @@ static void set2 (lua_State *L, IdxT i, IdxT j) {
 
 
 /*
-** Return true iff value at stack index 'a' is less than the value at
+** Return true if value at stack index 'a' is less than the value at
 ** index 'b' (according to the order of the sort).
 */
 static int sort_comp (lua_State *L, int a, int b) {

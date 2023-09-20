@@ -241,7 +241,7 @@ struct universal universal_by_rule_name(const char *kind,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified activity can appear in an "Activity"
+  Returns TRUE if the specified activity can appear in an "Activity"
   requirement.
 **************************************************************************/
 static bool activity_is_valid_in_requirement(enum unit_activity act)
@@ -253,7 +253,7 @@ static bool activity_is_valid_in_requirement(enum unit_activity act)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified universal legally can appear in a
+  Returns TRUE if the specified universal legally can appear in a
   requirement.
 **************************************************************************/
 bool universal_is_legal_in_requirement(const struct universal *univ)
@@ -5579,7 +5579,7 @@ enum req_unchanging_status
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the requirement vector vec contains the requirement
+  Returns TRUE if the requirement vector vec contains the requirement
   req.
 **************************************************************************/
 bool is_req_in_vec(const struct requirement *req,
@@ -5595,7 +5595,7 @@ bool is_req_in_vec(const struct requirement *req,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified requirement vector has a positive
+  Returns TRUE if the specified requirement vector has a positive
   requirement of the specified requirement type.
   @param reqs the requirement vector to look in
   @param kind the requirement type to look for
@@ -5612,12 +5612,12 @@ bool req_vec_wants_type(const struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified universal is known to never be there.
+  Returns TRUE if the specified universal is known to never be there.
   Note that this function may return FALSE even when it is impossible for
   the universal to appear in the game if that can't be detected.
 
   @param source the universal to check the absence of.
-  @return TRUE iff the universal never will appear.
+  @return TRUE if the universal never will appear.
 **************************************************************************/
 bool universal_never_there(const struct universal *source)
 {
@@ -5692,11 +5692,11 @@ bool universal_never_there(const struct universal *source)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified requirement is known to be impossible to
+  Returns TRUE if the specified requirement is known to be impossible to
   fulfill. Note that this function may return FALSE even when it is
   impossible to fulfill a requirement if it can't detect it.
   @param req the requirement to check the possibility of.
-  @return TRUE iff the requirement never can be fulfilled.
+  @return TRUE if the requirement never can be fulfilled.
 **************************************************************************/
 bool req_is_impossible_to_fulfill(const struct requirement *req)
 {
@@ -5705,11 +5705,11 @@ bool req_is_impossible_to_fulfill(const struct requirement *req)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified requirement vector is known to be
+  Returns TRUE if the specified requirement vector is known to be
   impossible to fulfill. Note that this function may return FALSE even when
   it is impossible to fulfill a requirement if it can't detect it.
   @param reqs the requirement vector to check the possibility of.
-  @return TRUE iff the requirement vector never can be fulfilled.
+  @return TRUE if the requirement vector never can be fulfilled.
 **************************************************************************/
 bool req_vec_is_impossible_to_fulfill(const struct requirement_vector *reqs)
 {
@@ -5830,7 +5830,7 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified requirement vector modification was
+  Returns TRUE if the specified requirement vector modification was
   successfully applied to the specified target requirement vector.
   @param modification the requirement vector change
   @param getter a function that returns a pointer to the requirement
@@ -6217,7 +6217,7 @@ req_vec_suggest_improvement(const struct requirement_vector *vec,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the two sources are equivalent.  Note this isn't the
+  Return TRUE if the two sources are equivalent.  Note this isn't the
   same as an == or memcmp check.
 ***************************************************************************/
 bool are_universals_equal(const struct universal *psource1,
@@ -6852,7 +6852,7 @@ int universal_build_shield_cost(const struct city *pcity,
 
 /**********************************************************************//**
   Replaces all instances of the universal to_replace with replacement in
-  the requirement vector reqs and returns TRUE iff any requirements were
+  the requirement vector reqs and returns TRUE if any requirements were
   replaced.
 **************************************************************************/
 bool universal_replace_in_req_vec(struct requirement_vector *reqs,
@@ -6872,7 +6872,7 @@ bool universal_replace_in_req_vec(struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the universal 'psource' is directly mentioned by any of
+  Returns TRUE if the universal 'psource' is directly mentioned by any of
   the requirements in 'reqs'.
 **************************************************************************/
 bool universal_is_mentioned_by_requirements(
@@ -6889,7 +6889,7 @@ bool universal_is_mentioned_by_requirements(
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the presence of any of the specified universals is
+  Returns TRUE if the presence of any of the specified universals is
   enough to guarantee that the specified requirement vector never will be
   fulfilled.
   @param reqs   the requirement vector that never should be fulfilled
@@ -6917,7 +6917,7 @@ bool universals_mean_unfulfilled(struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the presence of the specified universals is enough to
+  Returns TRUE if the presence of the specified universals is enough to
   know if the specified requirement vector is fulfilled. This means that
   the requirement vector can't check anything it can't find in the listed
   universals.
@@ -6926,7 +6926,7 @@ bool universals_mean_unfulfilled(struct requirement_vector *reqs,
   @param reqs   the requirement vector certainty is wanted about
   @param unis   the universals that are present
   @param n_unis the number of universals in unis
-  @return TRUE iff the specified universals is everything required to find
+  @return TRUE if the specified universals is everything required to find
                out whether the specified requirement vector is fulfilled or
                not
 **************************************************************************/
@@ -7022,7 +7022,7 @@ bool universal_fulfills_requirements(bool check_necessary,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified universal is relevant to fulfilling the
+  Returns TRUE if the specified universal is relevant to fulfilling the
   specified requirement.
 **************************************************************************/
 bool universal_is_relevant_to_requirement(const struct requirement *req,

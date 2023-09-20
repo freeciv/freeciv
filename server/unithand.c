@@ -245,7 +245,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
 /**********************************************************************//**
   Upgrade the unit to a newer unit type.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_upgrade(struct player *pplayer,
@@ -304,7 +304,7 @@ non_allied_not_listed_at(const struct player *pplayer,
 /**********************************************************************//**
   Capture all the units at pdesttile using punit.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_capture_units(struct player *pplayer,
@@ -532,7 +532,7 @@ static bool occupy_move(struct tile *def_tile, struct unit *punit,
 /**********************************************************************//**
   Wipe all units at target tile.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_wipe_units(struct unit *punit,
@@ -585,7 +585,7 @@ static bool do_wipe_units(struct unit *punit,
 /**********************************************************************//**
   Expel the target unit to its owner's capital.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_expel_unit(struct player *pplayer,
@@ -675,7 +675,7 @@ static bool do_expel_unit(struct player *pplayer,
 /**********************************************************************//**
   Claim all ownable extras at tgt_tile.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_conquer_extras(struct player *act_player,
@@ -714,7 +714,7 @@ static bool do_conquer_extras(struct player *act_player,
 /**********************************************************************//**
   Restore some of the target unit's hit points.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_heal_unit(struct player *act_player,
@@ -813,7 +813,7 @@ static bool do_heal_unit(struct player *act_player,
 /**********************************************************************//**
   Unload actor unit from target unit.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_deboard(struct player *act_player,
@@ -832,7 +832,7 @@ static bool do_unit_deboard(struct player *act_player,
 
   Assumes that all checks for action legality has been done.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_board(struct player *act_player,
@@ -855,7 +855,7 @@ static bool do_unit_board(struct player *act_player,
 
   Assumes that all checks for action legality has been done.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_load(struct player *act_player,
@@ -876,7 +876,7 @@ static bool do_unit_load(struct player *act_player,
 /**********************************************************************//**
   Unload target unit from actor unit.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_unload(struct player *act_player,
@@ -893,7 +893,7 @@ static bool do_unit_unload(struct player *act_player,
 /**********************************************************************//**
   Disembark actor unit from target unit to target tile.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_disembark(struct player *act_player,
@@ -921,7 +921,7 @@ static bool do_disembark(struct player *act_player,
 /**********************************************************************//**
   Enter a hut at the target tile.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_hut(struct player *act_player,
@@ -951,7 +951,7 @@ static bool do_unit_hut(struct player *act_player,
 
   Assumes that all checks for action legality has been done.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_embark(struct player *act_player,
@@ -989,7 +989,7 @@ static bool do_unit_embark(struct player *act_player,
 /**********************************************************************//**
   Deletes a unit's home city making it unhomed.
 
-  Returns TRUE iff the action could be done, FALSE if it couldn't.
+  Returns TRUE if the action could be done, FALSE if it couldn't.
 **************************************************************************/
 static bool do_unit_make_homeless(struct unit *punit,
                                   const struct action *paction)
@@ -1000,7 +1000,7 @@ static bool do_unit_make_homeless(struct unit *punit,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the player is able to change their diplomatic
+  Returns TRUE if the player is able to change their diplomatic
   relationship to the other player to war.
 
   Note that the player can't declare war on someone they already are at war
@@ -1024,7 +1024,7 @@ static bool rel_may_become_war(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff player1 declaring war on player2 is possible and would
+  Returns TRUE if player1 declaring war on player2 is possible and would
   result in a unit of the specified type belonging to player1 going
   from being unable to do the specified action to player2 to being able to
   perform it.
@@ -1314,7 +1314,7 @@ static struct player *need_war_player(const struct unit *actor,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified tile has a unit seen by and not allied to
+  Returns TRUE if the specified tile has a unit seen by and not allied to
   the specified player.
 **************************************************************************/
 static bool
@@ -1332,7 +1332,7 @@ tile_has_units_not_allied_to_but_seen_by(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified terrain type blocks the specified action.
+  Returns TRUE if the specified terrain type blocks the specified action.
 
   If the "action" is ACTION_ANY all actions are checked.
 **************************************************************************/
@@ -1374,7 +1374,7 @@ static bool does_terrain_block_action(const action_id act_id,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified nation blocks the specified action.
+  Returns TRUE if the specified nation blocks the specified action.
 
   If the "action" is ACTION_ANY all actions are checked.
 **************************************************************************/
@@ -2954,7 +2954,7 @@ void illegal_action_msg(struct player *pplayer,
   @param tgt_player the owner of the intended target of the action.
   @param tgt_tile the tile of the target of the action.
   @param requester who ordered the action performed?
-  @return TRUE iff player was punished for trying to do the illegal action.
+  @return TRUE if player was punished for trying to do the illegal action.
 **************************************************************************/
 static bool illegal_action_pay_price(struct player *pplayer,
                                      bool information_revealed,
@@ -3295,7 +3295,7 @@ void unit_do_action(struct player *pplayer,
 
   The action must be a valid action.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 bool unit_perform_action(struct player *pplayer,
@@ -4095,7 +4095,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
 /**********************************************************************//**
   Change a unit's home city.
 
-  Returns TRUE iff the action could be done, FALSE if it couldn't.
+  Returns TRUE if the action could be done, FALSE if it couldn't.
 **************************************************************************/
 static bool do_unit_change_homecity(struct unit *punit,
                                     struct city *pcity,
@@ -4128,7 +4128,7 @@ static bool do_unit_change_homecity(struct unit *punit,
   This function assumes that the target city is valid. It should only be
   called after checking that the unit legally can join the target city.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool city_add_unit(struct player *pplayer, struct unit *punit,
@@ -4189,7 +4189,7 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   which to build a city. It should only be called after a call to a
   function like test_unit_add_or_build_city, which does the checking.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool city_build(struct player *pplayer, struct unit *punit,
@@ -4502,7 +4502,7 @@ static void unit_attack_civilian_casualties(const struct unit *punit,
   This function assumes the bombard is legal. The calling function should
   have already made all necessary checks.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_bombard(struct unit *punit, struct tile *ptile,
@@ -4618,7 +4618,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
   This function assumes the attack is legal. The calling function should
   have already made all necessary checks.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_nuke(struct player *pplayer, struct unit *punit,
@@ -4688,7 +4688,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
   This function assumes the destruction is legal. The calling function
   should have already made all necessary checks.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_do_destroy_city(struct player *act_player,
@@ -4861,7 +4861,7 @@ static const char *unit_firepower_if_not_one(int firepower)
   This function assumes the attack is legal. The calling function should
   have already made all necessary checks.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_attack(struct unit *punit, struct tile *def_tile,
@@ -5164,7 +5164,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   This function assumes the attack is legal. The calling function should
   have already made all necessary checks.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_strike_city_production(struct player *act_player,
@@ -5251,7 +5251,7 @@ static bool do_unit_strike_city_production(struct player *act_player,
   This function assumes the attack is legal. The calling function should
   have already made all necessary checks.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_strike_city_building(struct player *act_player,
@@ -5354,7 +5354,7 @@ static bool do_unit_strike_city_building(struct player *act_player,
   This function assumes the attack is legal. The calling function should
   have already made all necessary checks.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_conquer_city(struct player *act_player,
@@ -5463,7 +5463,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 /**********************************************************************//**
   Moves the unit from one tile to another.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_do_regular_move(struct player *actor_player,
@@ -5693,7 +5693,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   stock for the current production is determined by the
   Unit_Shield_Value_Pct effect.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_do_help_build(struct player *pplayer,
@@ -5808,7 +5808,7 @@ static bool unit_do_help_build(struct player *pplayer,
   Handle request to establish trade route. If pcity_dest is NULL, assumes
   that unit is inside target city.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_unit_establish_trade(struct player *pplayer,
@@ -6337,7 +6337,7 @@ void handle_unit_server_side_agent_set(struct player *pplayer,
 
 /**********************************************************************//**
   Change controlling server side agent.
-  @returns TRUE iff the server side agent was changed.
+  @returns TRUE if the server side agent was changed.
 **************************************************************************/
 bool unit_server_side_agent_set(struct player *pplayer,
                                 struct unit *punit,
@@ -6420,7 +6420,7 @@ static void unit_activity_dependencies(struct unit *punit,
 /**********************************************************************//**
   Perform an action that is an activity.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_action_activity(struct unit *punit,
@@ -6460,7 +6460,7 @@ bool unit_activity_handling(struct unit *punit,
 /**********************************************************************//**
   Handle request for changing activity.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_activity_internal(struct unit *punit,
@@ -6483,7 +6483,7 @@ static bool unit_activity_internal(struct unit *punit,
 /**********************************************************************//**
   Perform an action that is an activity.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool do_action_activity_targeted(struct unit *punit,
@@ -6519,7 +6519,7 @@ bool unit_activity_handling_targeted(struct unit *punit,
 /**********************************************************************//**
   Handle request for targeted activity.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_activity_targeted_internal(struct unit *punit,

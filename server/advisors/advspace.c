@@ -28,7 +28,7 @@
 /************************************************************************//**
   Place all available spaceship components.
 
-  Returns TRUE iff at least one part was placed.
+  Returns TRUE if at least one part was placed.
 ****************************************************************************/
 bool adv_spaceship_autoplace(struct player *pplayer,
                              struct player_spaceship *ship)

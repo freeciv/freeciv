@@ -222,7 +222,7 @@ const void *req_vec_fix::item()
 
 /**********************************************************************//**
   Find the next requirement vector problem and its suggested solutions.
-  @return true iff a new problem was found.
+  @return true if a new problem was found.
 **************************************************************************/
 bool req_vec_fix::refresh()
 {

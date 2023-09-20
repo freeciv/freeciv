@@ -429,7 +429,7 @@ bool improvement_obsolete(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff improvement provides units buildable in city
+  Returns TRUE if improvement provides units buildable in city
 **************************************************************************/
 static bool impr_provides_buildable_units(const struct city *pcity,
                                           const struct impr_type *pimprove)
@@ -450,7 +450,7 @@ static bool impr_provides_buildable_units(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff improvement provides extras buildable in city
+  Returns TRUE if improvement provides extras buildable in city
 **************************************************************************/
 static bool impr_provides_buildable_extras(const struct city *pcity,
                                            const struct impr_type *pimprove)
@@ -476,7 +476,7 @@ static bool impr_provides_buildable_extras(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff improvement prevents a disaster in city
+  Returns TRUE if improvement prevents a disaster in city
 **************************************************************************/
 static bool impr_prevents_disaster(const struct city *pcity,
                                    const struct impr_type *pimprove)
@@ -497,7 +497,7 @@ static bool impr_prevents_disaster(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff improvement protects against an action on the city
+  Returns TRUE if improvement protects against an action on the city
   FIXME: This is prone to false positives: for example, if one requires
          a special tech or unit to perform an action, and no other player
          has or can gain that tech or unit, protection is still claimed.
@@ -522,7 +522,7 @@ static bool impr_protects_vs_actions(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff improvement allows its owner to perform an action.
+  Returns TRUE if improvement allows its owner to perform an action.
 **************************************************************************/
 static bool impr_allows_actions(const struct city *pcity,
                                 const struct impr_type *pimprove)
@@ -586,7 +586,7 @@ static bool improvement_has_side_effects(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff improvement provides some effect (good or bad).
+  Returns TRUE if improvement provides some effect (good or bad).
 **************************************************************************/
 static bool improvement_has_effects(const struct city *pcity,
                                     const struct impr_type *pimprove)
@@ -1078,7 +1078,7 @@ struct city *city_from_small_wonder(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the improvement can be sold.
+  Return TRUE if the improvement can be sold.
 **************************************************************************/
 bool can_sell_building(const struct impr_type *pimprove)
 {
@@ -1087,7 +1087,7 @@ bool can_sell_building(const struct impr_type *pimprove)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the city can sell the given improvement.
+  Return TRUE if the city can sell the given improvement.
 **************************************************************************/
 bool can_city_sell_building(const struct city *pcity,
                             const struct impr_type *pimprove)
@@ -1097,7 +1097,7 @@ bool can_city_sell_building(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the building is sellable one.
+  Return TRUE if the building is sellable one.
 **************************************************************************/
 bool is_building_sellable(const struct impr_type *pimprove)
 {
@@ -1105,8 +1105,8 @@ bool is_building_sellable(const struct impr_type *pimprove)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the player can sell the given improvement from city.
-  If pimprove is NULL, returns iff city could sell some building type (this
+  Return TRUE if the player can sell the given improvement from city.
+  If pimprove is NULL, returns if city could sell some building type (this
   does not check if such building is in this city)
 **************************************************************************/
 enum test_result test_player_sell_building_now(struct player *pplayer,

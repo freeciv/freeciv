@@ -1080,7 +1080,7 @@ void unit_forget_last_activity(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff activity requires some sort of target to be specified by
+  Return TRUE if activity requires some sort of target to be specified by
   the client.
 **************************************************************************/
 bool unit_activity_needs_target_from_client(enum unit_activity activity)
@@ -3869,7 +3869,7 @@ static struct unit_move_data_list *construct_move_data_list(struct unit *punit,
   the transport status of the unit correctly. Note that the source tile (the
   current tile of the unit) and pdesttile need not be adjacent.
 
-  Returns TRUE iff unit still alive.
+  Returns TRUE if unit still alive.
 **************************************************************************/
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
                struct unit *embark_to, bool find_embark_target,
@@ -4271,7 +4271,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff it is reasonable to assume that the player is wathing
+  Returns TRUE if it is reasonable to assume that the player is wathing
   the unit.
 
   Since the player is watching the unit there is no need to inform them

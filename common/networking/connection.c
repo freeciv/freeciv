@@ -506,7 +506,7 @@ const char *conn_description(const struct connection *pconn)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the connection is currently allowed to edit.
+  Return TRUE if the connection is currently allowed to edit.
 **************************************************************************/
 bool can_conn_edit(const struct connection *pconn)
 {
@@ -516,7 +516,7 @@ bool can_conn_edit(const struct connection *pconn)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the connection is allowed to start editing.
+  Return TRUE if the connection is allowed to start editing.
 **************************************************************************/
 bool can_conn_enable_editing(const struct connection *pconn)
 {

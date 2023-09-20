@@ -93,7 +93,7 @@ static struct {
 } stats;
 
 /************************************************************************//**
-  Returns TRUE iff the two results are equal. Both results have to be
+  Returns TRUE if the two results are equal. Both results have to be
   results for the given city.
 ****************************************************************************/
 static bool fc_results_are_equal(const struct cm_result *result1,

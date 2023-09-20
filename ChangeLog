@@ -7025,7 +7025,7 @@ Date:   Thu Oct 20 22:23:49 2022 +0300
 
     Add "Tile" range to "Building" reqs
 
-    Is true iff there is a city on the context tile and it has the building.
+    Is true if there is a city on the context tile and it has the building.
 
     See OSDN#45885
 

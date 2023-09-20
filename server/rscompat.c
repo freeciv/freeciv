@@ -159,7 +159,7 @@ bool rscompat_check_cap_and_version(struct section_file *file,
   Add all hard obligatory requirements to an action enabler or disable it.
 
   @param ae the action enabler to add requirements to.
-  @return TRUE iff adding obligatory hard reqs for the enabler's action
+  @return TRUE if adding obligatory hard reqs for the enabler's action
                needs to restart - say if an enabler was added or removed.
 **************************************************************************/
 static bool

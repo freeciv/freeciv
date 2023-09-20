@@ -277,7 +277,7 @@ bool is_safe_filename(const char *name)
 /************************************************************************//**
   This is used in sundry places to make sure that names of cities,
   players etc. do not contain yucky characters of various sorts.
-  Returns TRUE iff the name is acceptable.
+  Returns TRUE if the name is acceptable.
   FIXME:  Not internationalised.
 ****************************************************************************/
 bool is_ascii_name(const char *name)
@@ -2418,7 +2418,7 @@ static size_t extract_escapes(const char *format, char *escapes,
 }
 
 /************************************************************************//**
-  Returns TRUE iff both formats are compatible (if 'format1' can be used
+  Returns TRUE if both formats are compatible (if 'format1' can be used
   instead 'format2' and reciprocally).
 ****************************************************************************/
 bool formats_match(const char *format1, const char *format2)

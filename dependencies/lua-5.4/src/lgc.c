@@ -467,7 +467,7 @@ static void traverseweakvalue (global_State *g, Table *h) {
 
 /*
 ** Traverse an ephemeron table and link it to proper list. Returns true
-** iff any object was marked during this traversal (which implies that
+** if any object was marked during this traversal (which implies that
 ** convergence has to continue). During propagation phase, keep table
 ** in 'grayagain' list, to be visited again in the atomic phase. In
 ** the atomic phase, if table has any white->white entry, it has to

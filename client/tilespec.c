@@ -1025,7 +1025,7 @@ static enum direction8 dir_by_tileset_name(const char *str)
 }
 
 /************************************************************************//**
-  Return TRUE iff the dir is valid in this tileset.
+  Return TRUE if the dir is valid in this tileset.
 ****************************************************************************/
 static bool is_valid_tileset_dir(const struct tileset *t,
                                  enum direction8 dir)
@@ -1040,7 +1040,7 @@ static bool is_valid_tileset_dir(const struct tileset *t,
 }
 
 /************************************************************************//**
-  Return TRUE iff the dir is cardinal in this tileset.
+  Return TRUE if the dir is cardinal in this tileset.
 
   "Cardinal", in this sense, means that a tile will share a border with
   another tile in the direction rather than sharing just a single vertex.
@@ -1273,7 +1273,7 @@ void tileset_free(struct tileset *t)
   Call this function with the (guessed) name of the tileset, when
   starting the client.
 
-  Returns TRUE iff tileset with suggested tileset_name was loaded.
+  Returns TRUE if tileset with suggested tileset_name was loaded.
 ****************************************************************************/
 bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
                        bool global_default)
@@ -1332,7 +1332,7 @@ bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
 
   It will also call the necessary functions to redraw the graphics.
 
-  Returns TRUE iff new tileset has been succesfully loaded.
+  Returns TRUE if new tileset has been succesfully loaded.
 ****************************************************************************/
 bool tilespec_reread(const char *new_tileset_name,
                      bool game_fully_initialized, float scale)
@@ -2807,7 +2807,7 @@ static void unload_sprite(struct tileset *t, const char *tag_name)
 }
 
 /************************************************************************//**
-  Return TRUE iff the specified sprite exists in the tileset (whether
+  Return TRUE if the specified sprite exists in the tileset (whether
   or not it is currently loaded).
 ****************************************************************************/
 static bool sprite_exists(const struct tileset *t, const char *tag_name)

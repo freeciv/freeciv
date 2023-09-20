@@ -57,7 +57,7 @@ enum sset_type server_setting_type_get(server_setting_id id)
 }
 
 /***********************************************************************//**
-  Returns TRUE iff a server setting with the specified id exists.
+  Returns TRUE if a server setting with the specified id exists.
 ***************************************************************************/
 bool server_setting_exists(server_setting_id id)
 {

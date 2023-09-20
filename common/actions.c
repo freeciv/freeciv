@@ -1651,7 +1651,7 @@ void actions_free(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the actions are initialized.
+  Returns TRUE if the actions are initialized.
 
   Doesn't care about action enablers.
 **************************************************************************/
@@ -1765,7 +1765,7 @@ unit_action_new(action_id id,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action ID refers to a valid action.
+  Returns TRUE if the specified action ID refers to a valid action.
 **************************************************************************/
 bool action_id_exists(const action_id act_id)
 {
@@ -1827,7 +1827,7 @@ enum action_sub_target_kind action_get_sub_target_kind(
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action allows the player to provide
+  Returns TRUE if the specified action allows the player to provide
   details in addition to actor and target. Returns FALSE if the action
   doesn't support any additional details.
 **************************************************************************/
@@ -1839,7 +1839,7 @@ bool action_has_complex_target(const struct action *paction)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action REQUIRES the player to provide
+  Returns TRUE if the specified action REQUIRES the player to provide
   details in addition to actor and target. Returns FALSE if the action
   doesn't support any additional details or if they can be set by Freeciv
   it self.
@@ -1852,7 +1852,7 @@ bool action_requires_details(const struct action *paction)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff a unit's ability to perform this action will pop up the
+  Returns TRUE if a unit's ability to perform this action will pop up the
   action selection dialog before the player asks for it only in exceptional
   cases.
 
@@ -1869,7 +1869,7 @@ bool action_id_is_rare_pop_up(action_id act_id)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified distance between actor and target is
+  Returns TRUE if the specified distance between actor and target is
   sm,aller or equal to the max range accepted by the specified action.
 **************************************************************************/
 bool action_distance_inside_max(const struct action *action,
@@ -1880,7 +1880,7 @@ bool action_distance_inside_max(const struct action *action,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified distance between actor and target is
+  Returns TRUE if the specified distance between actor and target is
   within the range acceptable to the specified action.
 **************************************************************************/
 bool action_distance_accepted(const struct action *action,
@@ -1893,7 +1893,7 @@ bool action_distance_accepted(const struct action *action,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff blocked will be illegal if blocker is legal.
+  Returns TRUE if blocked will be illegal if blocker is legal.
 **************************************************************************/
 bool action_would_be_blocked_by(const struct action *blocked,
                                 const struct action *blocker)
@@ -2219,7 +2219,7 @@ int action_get_act_time(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action can create the specified extra.
+  Returns TRUE if the specified action can create the specified extra.
 **************************************************************************/
 bool action_creates_extra(const struct action *paction,
                           const struct extra_type *pextra)
@@ -2313,7 +2313,7 @@ bool action_creates_extra(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action can remove the specified extra.
+  Returns TRUE if the specified action can remove the specified extra.
 **************************************************************************/
 bool action_removes_extra(const struct action *paction,
                           const struct extra_type *pextra)
@@ -3309,7 +3309,7 @@ struct action *action_is_blocked_by(const struct action *act,
   @param paction the action to check the hard reqs for
   @param actor_unittype the unit type that may be able to act
   @param ignore_third_party ignore if potential targets etc exists
-  @return TRUE iff the specified unit type can perform the wanted action
+  @return TRUE if the specified unit type can perform the wanted action
           given that an action enabler later will enable it.
 **************************************************************************/
 static bool
@@ -3517,7 +3517,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
 
   @param paction the action to check the hard reqs for
   @param actor_unittype the unit type that may be able to act
-  @return TRUE iff the specified unit type can perform the wanted action
+  @return TRUE if the specified unit type can perform the wanted action
           given that an action enabler later will enable it.
 **************************************************************************/
 bool
@@ -3529,7 +3529,7 @@ action_actor_utype_hard_reqs_ok(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the wanted action is possible as far as the actor is
+  Returns TRUE if the wanted action is possible as far as the actor is
   concerned given that an action enabler later will enable it. Will, unlike
   action_actor_utype_hard_reqs_ok(), check the actor unit's current state.
 
@@ -3873,7 +3873,7 @@ is_action_possible(const action_id wanted_action,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the action enabler is active
+  Return TRUE if the action enabler is active
 
   actor may be NULL. This is equivalent to passing an empty context.
   target may be NULL. This is equivalent to passing an empty context.
@@ -5946,7 +5946,7 @@ struct act_prob action_prob_new_unknown(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given action probability belongs to an action that
+  Returns TRUE if the given action probability belongs to an action that
   may be possible.
 **************************************************************************/
 bool action_prob_possible(const struct act_prob probability)
@@ -5956,7 +5956,7 @@ bool action_prob_possible(const struct act_prob probability)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given action probability is certain that its action
+  Returns TRUE if the given action probability is certain that its action
   is possible.
 **************************************************************************/
 bool action_prob_certain(const struct act_prob probability)
@@ -5966,7 +5966,7 @@ bool action_prob_certain(const struct act_prob probability)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given action probability represents the lack of
+  Returns TRUE if the given action probability represents the lack of
   an action probability.
 **************************************************************************/
 static inline bool
@@ -5977,7 +5977,7 @@ action_prob_not_relevant(const struct act_prob probability)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given action probability represents that support
+  Returns TRUE if the given action probability represents that support
   for finding this action probability currently is missing from Freeciv.
 **************************************************************************/
 static inline bool
@@ -5988,7 +5988,7 @@ action_prob_not_impl(const struct act_prob probability)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given action probability represents a special
+  Returns TRUE if the given action probability represents a special
   signal value rather than a regular action probability value.
 **************************************************************************/
 static inline bool
@@ -5998,7 +5998,7 @@ action_prob_is_signal(const struct act_prob probability)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff ap1 and ap2 are equal.
+  Returns TRUE if ap1 and ap2 are equal.
 **************************************************************************/
 bool are_action_probabilitys_equal(const struct act_prob *ap1,
                                    const struct act_prob *ap2)
@@ -6434,7 +6434,7 @@ bool action_mp_full_makes_legal(const struct unit *actor,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action enabler may be active for an actor
+  Returns TRUE if the specified action enabler may be active for an actor
   of the specified unit type in the current ruleset.
   Note that the answer may be "no" even if this function returns TRUE. It
   may just be unable to detect it.
@@ -6460,7 +6460,7 @@ bool action_enabler_utype_possible_actor(const struct action_enabler *ae,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action enabler may have an actor that it
+  Returns TRUE if the specified action enabler may have an actor that it
   may be enabled for in the current ruleset. An enabler can't be enabled if
   no potential actor fulfills both its action's hard requirements and its
   own actor requirement vector, actor_reqs.
@@ -6494,7 +6494,7 @@ bool action_enabler_possible_actor(const struct action_enabler *ae)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action has an actor that fulfills its
+  Returns TRUE if the specified action has an actor that fulfills its
   hard requirements in the current ruleset.
   @param paction the action to check
   @returns TRUE if the action's hard requirement may be fulfilled in
@@ -7933,7 +7933,7 @@ action_target_kind_default(enum action_result result)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified action result works with the specified
+  Returns TRUE if the specified action result works with the specified
   action target kind.
 **************************************************************************/
 bool action_result_legal_target_kind(enum action_result result,

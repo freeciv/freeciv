@@ -287,7 +287,7 @@ bool city_base_to_city_map(int *city_map_x, int *city_map_y,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff pcity's city map includes the specified tile.
+  Returns TRUE if pcity's city map includes the specified tile.
 **************************************************************************/
 bool city_map_includes_tile(const struct city *const pcity,
                             const struct tile *map_tile)
@@ -1048,7 +1048,7 @@ int city_unit_slots_available(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given city can use this kind of specialist.
+  Returns TRUE if the given city can use this kind of specialist.
 **************************************************************************/
 bool city_can_use_specialist(const struct city *pcity,
                              Specialist_type_id type)
@@ -1062,7 +1062,7 @@ bool city_can_use_specialist(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given city can change what it is building
+  Returns TRUE if the given city can change what it is building
 **************************************************************************/
 bool city_can_change_build(const struct city *pcity)
 {
@@ -1222,7 +1222,7 @@ int city_total_unit_gold_upkeep(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the city has this building in it.
+  Return TRUE if the city has this building in it.
 **************************************************************************/
 bool city_has_building(const struct city *pcity,
                        const struct impr_type *pimprove)
@@ -1439,7 +1439,7 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff it is illegal to found a city on the specified tile
+  Returns TRUE if it is illegal to found a city on the specified tile
   because of citymindist.
 **************************************************************************/
 bool citymindist_prevents_city_on_tile(const struct tile *ptile)
@@ -1551,7 +1551,7 @@ bool city_can_be_built_tile_only(const struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Return TRUE iff this city is its nation's capital.  The capital city is
+  Return TRUE if this city is its nation's capital.  The capital city is
   special-cased in a number of ways.
 **************************************************************************/
 bool is_capital(const struct city *pcity)
@@ -1560,7 +1560,7 @@ bool is_capital(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff this city is governmental center.
+  Return TRUE if this city is governmental center.
 **************************************************************************/
 bool is_gov_center(const struct city *pcity)
 {
@@ -1584,7 +1584,7 @@ bool city_got_defense_effect(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the city is happy.  A happy city will start celebrating
+  Return TRUE if the city is happy.  A happy city will start celebrating
   soon.
   A city can only be happy if half or more of the population is happy,
   none of the population is unhappy or angry, and it has sufficient size.
@@ -1598,7 +1598,7 @@ bool city_happy(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the city is unhappy.  An unhappy city will fall
+  Return TRUE if the city is unhappy.  An unhappy city will fall
   into disorder soon.
 **************************************************************************/
 bool city_unhappy(const struct city *pcity)
@@ -1638,7 +1638,7 @@ bool city_rapture_grow(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the city is occupied.
+  Returns TRUE if the city is occupied.
 **************************************************************************/
 bool city_is_occupied(const struct city *pcity)
 {
@@ -1832,7 +1832,7 @@ void city_production_caravan_shields_init(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified production should get shields from
+  Returns TRUE if the specified production should get shields from
   units that has done ACTION_HELP_WONDER.
 **************************************************************************/
 bool city_production_gets_caravan_shields(const struct universal *tgt)
@@ -1985,7 +1985,7 @@ int city_turns_to_grow(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the city can grow to the given size.
+  Return TRUE if the city can grow to the given size.
 **************************************************************************/
 bool city_can_grow_to(const struct city *pcity, int pop_size)
 {
@@ -2082,7 +2082,7 @@ bool is_friendly_city_near(const struct player *owner,
 }
 
 /**********************************************************************//**
-  Return TRUE iff a city exists within a city radius of the given 
+  Return TRUE if a city exists within a city radius of the given 
   location. may_be_on_center determines if a city at x,y counts.
 **************************************************************************/
 bool city_exists_within_max_city_map(const struct tile *ptile,
@@ -3353,7 +3353,7 @@ void city_remove_improvement(struct city *pcity,
 }
 
 /**********************************************************************//**
- Returns TRUE iff the city has set the given option.
+ Returns TRUE if the city has set the given option.
 **************************************************************************/
 bool is_city_option_set(const struct city *pcity, enum city_options option)
 {

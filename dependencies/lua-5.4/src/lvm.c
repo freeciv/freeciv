@@ -260,7 +260,7 @@ static int forprep (lua_State *L, StkId ra) {
 
 /*
 ** Execute a step of a float numerical for loop, returning
-** true iff the loop must continue. (The integer case is
+** true if the loop must continue. (The integer case is
 ** written online with opcode OP_FORLOOP, for performance.)
 */
 static int floatforloop (StkId ra) {

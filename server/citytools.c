@@ -1064,7 +1064,7 @@ static void build_free_small_wonders(struct player *pplayer,
   The kill_outside and transfer_unit_verbose arguments are passed to
   transfer_city_units(), which is called in the middle of the function.
 
-  Return TRUE iff the city remains after transferring (the city may be
+  Return TRUE if the city remains after transferring (the city may be
   destroyed by a script, notably with bouncing or wiping units).
 ****************************************************************************/
 bool transfer_city(struct player *ptaker, struct city *pcity,
@@ -1962,7 +1962,7 @@ void remove_city(struct city *pcity)
     - Transported units trying to conquer a city should be unloaded before
       this function is called.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool unit_conquer_city(struct unit *punit, struct city *pcity)
@@ -2730,7 +2730,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   contains a city, it must be the same city (avoid problems by always calling
   reality_check_city() first)
 
-  Returns TRUE iff anything has changed for the player city
+  Returns TRUE if anything has changed for the player city
   (i.e., if the client needs to be updated with a *short* city packet).
   This information is only used in refresh_dumb_city();
   elsewhere the data is (of necessity) broadcast regardless.

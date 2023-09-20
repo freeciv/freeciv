@@ -187,7 +187,7 @@ class ScriptConfig:
         __class__.get_argparser().parse_args(args, namespace = self)
 
     def log_verbose(self, *args):
-        """Print the given arguments iff verbose logging is enabled"""
+        """Print the given arguments if verbose logging is enabled"""
         if self.verbose:
             print(*args)
 
@@ -1554,7 +1554,7 @@ if (differ) {
 """ % (cmp, i)
 
     def get_put_wrapper(self, packet: "Variant", i: int, deltafragment: bool) -> str:
-        """Generate code conditionally putting this field iff its bit in the
+        """Generate code conditionally putting this field if its bit in the
         `fields` bitvector is set.
 
         Does nothing for boolean fields folded into the packet header.
@@ -1611,7 +1611,7 @@ if (e) {{
         return self.type_info.get_code_put(Location(self.name), deltafragment and self.diff)
 
     def get_get_wrapper(self, packet: "Variant", i: int, deltafragment: bool) -> str:
-        """Generate code conditionally getting this field iff its bit in the
+        """Generate code conditionally getting this field if its bit in the
         `fields` bitvector is set.
 
         For boolean fields folded into the packet header, instead reads the
@@ -2576,7 +2576,7 @@ class Packet:
     @property
     def no_packet(self) -> bool:
         """Whether this packet's send functions should take no packet
-        argument. This is the case iff this packet has no fields."""
+        argument. This is the case if this packet has no fields."""
         return not self.fields
 
     @property

@@ -295,7 +295,7 @@ research_advance_name_translation(const struct research *presearch,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the requirement vector may become active against the
+  Returns TRUE if the requirement vector may become active against the
   given target.
 
   If may become active if all unchangeable requirements are active.
@@ -315,7 +315,7 @@ static bool reqs_may_activate(const struct req_context *context,
 
 /************************************************************************//**
   Evaluates the legality of starting to research this tech according to
-  reqs_eval() and the tech's research_reqs. Returns TRUE iff legal.
+  reqs_eval() and the tech's research_reqs. Returns TRUE if legal.
 
   The reqs_eval() argument evaluates the requirements. One variant may
   check the current situation while another may check potential future
@@ -358,7 +358,7 @@ research_allowed(const struct research *presearch,
 }
 
 /************************************************************************//**
-  Returns TRUE iff researching the given tech is allowed according to its
+  Returns TRUE if researching the given tech is allowed according to its
   research_reqs.
 
   Helper for research_update().
@@ -367,7 +367,7 @@ research_allowed(const struct research *presearch,
   research_allowed(presearch, tech, are_reqs_active)
 
 /************************************************************************//**
-  Returns TRUE iff researching the given tech may become allowed according
+  Returns TRUE if researching the given tech may become allowed according
   to its research_reqs.
 
   Helper for research_get_reachable_rreqs().
@@ -376,7 +376,7 @@ research_allowed(const struct research *presearch,
   research_allowed(presearch, tech, reqs_may_activate)
 
 /************************************************************************//**
-  Returns TRUE iff the given tech is ever reachable by the players sharing
+  Returns TRUE if the given tech is ever reachable by the players sharing
   the research as far as research_reqs are concerned.
 
   Helper for research_get_reachable().
@@ -432,7 +432,7 @@ static bool research_get_reachable_rreqs(const struct research *presearch,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the given tech is ever reachable by the players sharing
+  Returns TRUE if the given tech is ever reachable by the players sharing
   the research by checking tech tree limitations.
 
   Helper for research_update().
@@ -473,7 +473,7 @@ static bool research_get_reachable(const struct research *presearch,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the players sharing 'presearch' already have got the
+  Returns TRUE if the players sharing 'presearch' already have got the
   knowledge of all root requirement technologies for 'tech' (without which
   it's impossible to gain 'tech').
 
@@ -659,7 +659,7 @@ enum tech_state research_invention_set(struct research *presearch,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the given tech is ever reachable via research by the
+  Returns TRUE if the given tech is ever reachable via research by the
   players sharing the research by checking tech tree limitations.
 
   'presearch' may be NULL in which case a simplified result is returned
@@ -684,7 +684,7 @@ bool research_invention_reachable(const struct research *presearch,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the given tech can be given to the players sharing the
+  Returns TRUE if the given tech can be given to the players sharing the
   research immediately.
 
   If allow_holes is TRUE, any tech with known root reqs is ok. If it's

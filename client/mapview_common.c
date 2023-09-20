@@ -970,7 +970,7 @@ static void base_set_mapview_origin(float gui_x0, float gui_y0)
 }
 
 /************************************************************************//**
-  Adjust mapview origin values. Returns TRUE iff values are different from
+  Adjust mapview origin values. Returns TRUE if values are different from
   current mapview.
 ****************************************************************************/
 static bool calc_mapview_origin(float *gui_x0, float *gui_y0)
@@ -1254,7 +1254,7 @@ void center_tile_mapcanvas(const struct tile *ptile)
 }
 
 /************************************************************************//**
-  Return TRUE iff the given map position has a tile visible on the
+  Return TRUE if the given map position has a tile visible on the
   map canvas.
 ****************************************************************************/
 bool tile_visible_mapcanvas(struct tile *ptile)
@@ -1265,7 +1265,7 @@ bool tile_visible_mapcanvas(struct tile *ptile)
 }
 
 /************************************************************************//**
-  Return TRUE iff the given map position has a tile visible within the
+  Return TRUE if the given map position has a tile visible within the
   interior of the map canvas. This information is used to determine
   when we need to recenter the map canvas.
 
@@ -3597,7 +3597,7 @@ void mapdeco_clear_gotoroutes(void)
 /************************************************************************//**
   Called if the map in the GUI is resized.
 
-  Returns TRUE iff the canvas was redrawn.
+  Returns TRUE if the canvas was redrawn.
 ****************************************************************************/
 bool map_canvas_resized(int width, int height)
 {

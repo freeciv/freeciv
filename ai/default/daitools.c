@@ -367,7 +367,7 @@ void dai_log_path(struct unit *punit,
 /**********************************************************************//**
   Go to specified destination, subject to given PF constraints,
   but do not disturb existing role or activity
-  and do not clear the role's destination. Return FALSE iff we died.
+  and do not clear the role's destination. Return FALSE if we died.
 
   parameter: the PF constraints on the computed path. The unit will move
   as far along the computed path is it can; the movement code will impose
@@ -598,7 +598,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
 
 /**********************************************************************//**
   Go to specified destination but do not disturb existing role or activity
-  and do not clear the role's destination. Return FALSE iff we died.
+  and do not clear the role's destination. Return FALSE if we died.
 **************************************************************************/
 bool dai_unit_goto(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 {

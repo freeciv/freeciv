@@ -152,7 +152,7 @@ void luaconsole_dialog_popdown(void)
 }
 
 /*************************************************************************//**
-  Return TRUE iff the lua console is open.
+  Return TRUE if the lua console is open.
 *****************************************************************************/
 bool luaconsole_dialog_is_open(void)
 {

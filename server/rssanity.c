@@ -100,7 +100,7 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given server setting is visible enough to be
+  Returns TRUE if the given server setting is visible enough to be
   allowed to appear in ServerSetting requirements.
 **************************************************************************/
 static bool sanity_check_setting_is_seen(struct setting *pset)
@@ -109,7 +109,7 @@ static bool sanity_check_setting_is_seen(struct setting *pset)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified server setting is a game rule and
+  Returns TRUE if the specified server setting is a game rule and
  therefore may appear in a requirement.
 **************************************************************************/
 static bool sanity_check_setting_is_game_rule(struct setting *pset)
@@ -136,7 +136,7 @@ static bool sanity_check_setting_is_game_rule(struct setting *pset)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the given server setting and value combination is
+  Returns TRUE if the given server setting and value combination is
   allowed to appear in ServerSetting requirements.
 **************************************************************************/
 bool sanity_check_server_setting_value_in_req(ssetv ssetval)
@@ -476,7 +476,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
   max_tiles is number of tiles that can provide requirement. Value -1
   disables checking based on number of tiles.
 
-  Returns TRUE iff everything ok.
+  Returns TRUE if everything ok.
 
   TODO: This is based on current hardcoded range limitations.
         - There should be method of automatically determining these
@@ -840,7 +840,7 @@ static bool sanity_check_boolean_effects(rs_conversion_logger logger)
   for some cross-referencing which was impossible to do while only one
   party was loaded in load_ruleset_xxx()
 
-  Returns TRUE iff everything ok.
+  Returns TRUE if everything ok.
 **************************************************************************/
 bool sanity_check_ruleset_data(struct rscompat_info *compat)
 {
@@ -1535,7 +1535,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 /**********************************************************************//**
   Apply some automatic defaults to already loaded rulesets.
 
-  Returns TRUE iff everything ok.
+  Returns TRUE if everything ok.
 **************************************************************************/
 bool autoadjust_ruleset_data(void)
 {

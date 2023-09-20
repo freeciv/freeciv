@@ -726,7 +726,7 @@ typedef union Node {
 /*
 ** About 'alimit': if 'isrealasize(t)' is true, then 'alimit' is the
 ** real size of 'array'. Otherwise, the real size of 'array' is the
-** smallest power of two not smaller than 'alimit' (or zero iff 'alimit'
+** smallest power of two not smaller than 'alimit' (or zero if 'alimit'
 ** is zero); 'alimit' is then used as a hint for #t.
 */
 

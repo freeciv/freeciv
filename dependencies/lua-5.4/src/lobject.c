@@ -231,7 +231,7 @@ static const char *l_str2dloc (const char *s, lua_Number *result, int mode) {
                           : lua_str2number(s, &endptr);
   if (endptr == s) return NULL;  /* nothing recognized? */
   while (lisspace(cast_uchar(*endptr))) endptr++;  /* skip trailing spaces */
-  return (*endptr == '\0') ? endptr : NULL;  /* OK iff no trailing chars */
+  return (*endptr == '\0') ? endptr : NULL;  /* OK if no trailing chars */
 }
 
 

@@ -1017,7 +1017,7 @@ static void city_refresh_after_city_size_increase(struct city *pcity,
 }
 
 /**********************************************************************//**
-  Change the city size. Return TRUE iff the city is still alive afterwards.
+  Change the city size. Return TRUE if the city is still alive afterwards.
 **************************************************************************/
 bool city_change_size(struct city *pcity, citizens size,
                       struct player *nationality, const char *reason)
@@ -4147,7 +4147,7 @@ static bool do_city_migration(struct city *pcity_from,
   'game.server.mgr_worldchance' gives the chance for migration between all
   nations.
 
-  Returns TRUE iff there has been INTERNATIONAL migration.
+  Returns TRUE if there has been INTERNATIONAL migration.
 **************************************************************************/
 bool check_city_migrations(void)
 {
@@ -4178,7 +4178,7 @@ bool check_city_migrations(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the city's food stock was emptied. Should empty the
+  Returns TRUE if the city's food stock was emptied. Should empty the
   food stock unless it already is empty.
 **************************************************************************/
 bool city_empty_food_stock(struct city *pcity) {

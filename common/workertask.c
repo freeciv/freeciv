@@ -35,7 +35,7 @@ void worker_task_init(struct worker_task *ptask)
 }
 
 /************************************************************************//**
-  Returns TRUE iff the specified worker_task is sane.
+  Returns TRUE if the specified worker_task is sane.
 ****************************************************************************/
 bool worker_task_is_sane(struct worker_task *ptask)
 {

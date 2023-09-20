@@ -91,7 +91,7 @@ static int frozen_level;
 static bool currently_running = FALSE;
 
 /************************************************************************//**
-  Return TRUE iff the two agent calls are equal.
+  Return TRUE if the two agent calls are equal.
 ****************************************************************************/
 static bool calls_are_equal(const struct call *pcall1,
                             const struct call *pcall2)
@@ -309,7 +309,7 @@ static struct my_agent *agent_by_name(const char *agent_name)
 }
 
 /************************************************************************//**
-  Returns TRUE iff currently handled packet was caused by the given
+  Returns TRUE if currently handled packet was caused by the given
   agent.
 ****************************************************************************/
 static bool is_outstanding_request(struct my_agent *agent)
@@ -798,7 +798,7 @@ void cause_a_city_changed_for_agent(const char *name_of_calling_agent,
 }
 
 /************************************************************************//**
-  Returns TRUE iff some agent is currently busy.
+  Returns TRUE if some agent is currently busy.
 ****************************************************************************/
 bool agents_busy(void)
 {

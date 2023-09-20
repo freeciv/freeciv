@@ -615,7 +615,7 @@ struct section_file *secfile_from_stream(fz_FILE *stream,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the character is legal in a table entry name.
+  Returns TRUE if the character is legal in a table entry name.
 **************************************************************************/
 static bool is_legal_table_entry_name(char c, bool num)
 {

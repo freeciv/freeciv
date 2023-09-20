@@ -91,7 +91,7 @@ static void diplomat_escape_full(struct player *pplayer,
   'pplayer' is the player who tries to poison 'pcity' with its unit
   'pdiplomat'.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
@@ -208,7 +208,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   'act_player' is the player who tries to infect 'tgt_city' with its unit
   'act_unit'.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_spread_plague(struct player *act_player, struct unit *act_unit,
@@ -318,7 +318,7 @@ bool spy_spread_plague(struct player *act_player, struct unit *act_unit,
   - The actor unit always survives the investigation unless the action
     being performed is configured to always consume the actor unit.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
@@ -477,7 +477,7 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
   - The actor unit always survives establishing the embassy unless the action
     being performed is configured to always consume the actor unit.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
@@ -542,7 +542,7 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   - The saboteur may be captured and executed, or escape to its home town.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
@@ -637,7 +637,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   - A successful briber will try to move onto the victim's square.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
@@ -801,7 +801,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   - Check for infiltration success. The entire point of this action.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_attack(struct player *act_player, struct unit *act_unit,
@@ -885,7 +885,7 @@ int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
   FIXME: It should give a loss of reputation to steal from a player you are
   not at war with
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
@@ -1129,7 +1129,7 @@ bool diplomat_may_lose_gold(struct player *dec_player, struct player *inc_player
   - The provocateur may be captured and executed, or escape to its home
     town.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
@@ -1278,7 +1278,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   - The saboteur may be captured and executed, or escape to its home town.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
@@ -1550,7 +1550,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   - Check for basic success.  Again, our thief may not survive this.
   - Can't steal if there is no money to take.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
@@ -1692,7 +1692,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   - Check for infiltration success. Our thief may not survive this.
   - Check for basic success.  Again, our thief may not survive this.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
@@ -1828,7 +1828,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   - Check for infiltration success. Our thief may not survive this.
   - Check for basic success.  Again, our thief may not survive this.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
@@ -2337,7 +2337,7 @@ static void diplomat_escape_full(struct player *pplayer,
 
   May be captured and executed, or escape to the nearest domestic city.
 
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_escape(struct player *pplayer,

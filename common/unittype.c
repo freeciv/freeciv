@@ -281,7 +281,7 @@ bool utype_can_take_over(const struct unit_type *punittype)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given cargo type has no restrictions on when it can
+  Return TRUE if the given cargo type has no restrictions on when it can
   load onto the given transporter.
   (Does not check that cargo is valid for transport!)
 **************************************************************************/
@@ -293,7 +293,7 @@ bool utype_can_freely_load(const struct unit_type *pcargotype,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given cargo type has no restrictions on when it can
+  Return TRUE if the given cargo type has no restrictions on when it can
   unload from the given transporter.
   (Does not check that cargo is valid for transport!)
 **************************************************************************/
@@ -353,7 +353,7 @@ static void unit_can_act_cache_set(struct unit_type *putype)
 }
 
 /**********************************************************************//**
-  Return TRUE iff units of this type can do actions controlled by
+  Return TRUE if units of this type can do actions controlled by
   generalized (ruleset defined) action enablers.
 **************************************************************************/
 bool utype_may_act_at_all(const struct unit_type *putype)
@@ -362,7 +362,7 @@ bool utype_may_act_at_all(const struct unit_type *putype)
 }
 
 /**********************************************************************//**
-  Return TRUE iff units of the given type can do the specified generalized
+  Return TRUE if units of the given type can do the specified generalized
   (ruleset defined) action enabler controlled action.
 
   Note that a specific unit in a specific situation still may be unable to
@@ -378,7 +378,7 @@ bool utype_can_do_action(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
-  Return TRUE iff units of the given type can do any enabler controlled
+  Return TRUE if units of the given type can do any enabler controlled
   action with the specified action result.
 
   Note that a specific unit in a specific situation still may be unable to
@@ -399,7 +399,7 @@ bool utype_can_do_action_result(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
-  Return TRUE iff units of the given type can do any enabler controlled
+  Return TRUE if units of the given type can do any enabler controlled
   action with the specified action sub result.
 
   Note that a specific unit in a specific situation still may be unable to
@@ -427,7 +427,7 @@ bool utype_can_do_action_sub_result(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the unit type can perform the action corresponding to
+  Return TRUE if the unit type can perform the action corresponding to
   the unit type role.
 **************************************************************************/
 static bool utype_can_do_action_role(const struct unit_type *putype,
@@ -437,7 +437,7 @@ static bool utype_can_do_action_role(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
-  Return TRUE iff units of this type can do hostile actions controlled by
+  Return TRUE if units of this type can do hostile actions controlled by
   generalized (ruleset defined) action enablers.
 **************************************************************************/
 bool utype_acts_hostile(const struct unit_type *putype)
@@ -936,7 +936,7 @@ void unit_type_action_cache_init(void)
 }
 
 /**********************************************************************//**
-  Return TRUE iff there exists an (action enabler controlled) action that a
+  Return TRUE if there exists an (action enabler controlled) action that a
   unit of the type punit_type can perform while its unit state property
   prop has the value is_there.
 **************************************************************************/
@@ -948,7 +948,7 @@ bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the unit type can do the specified (action enabler
+  Return TRUE if the unit type can do the specified (action enabler
   controlled) action while its unit state property prop has the value
   is_there.
 **************************************************************************/
@@ -965,7 +965,7 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
-  Return TRUE iff units of the given type can do any enabler controlled
+  Return TRUE if units of the given type can do any enabler controlled
   action with the specified action result while its unit state property
   prop has the value is_there.
 
@@ -989,7 +989,7 @@ bool utype_can_do_action_result_when_ustate(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the unit type can do the specified (action enabler
+  Returns TRUE if the unit type can do the specified (action enabler
   controlled) action while its target's CityTile property state has the
   value is_there.
 **************************************************************************/
@@ -1006,7 +1006,7 @@ bool utype_can_do_act_if_tgt_citytile(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given (action enabler controlled) action can be
+  Return TRUE if the given (action enabler controlled) action can be
   performed by a unit of the given type while the given property of its
   owner's diplomatic relationship to the target's owner has the given
   value.
@@ -1027,7 +1027,7 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given (action enabler controlled) action can be
+  Return TRUE if the given (action enabler controlled) action can be
   performed by a unit of the given type while the given property of its
   owner's diplomatic relationship to the target tile's owner has the given
   value.
@@ -1047,7 +1047,7 @@ utype_can_act_if_tgt_diplrel_tile_other(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given (action enabler controlled) action may be
+  Return TRUE if the given (action enabler controlled) action may be
   performed by a unit of the given type that has the given number of move
   fragments left.
 
@@ -1114,7 +1114,7 @@ bool utype_may_act_move_frags(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given (action enabler controlled) action may be
+  Return TRUE if the given (action enabler controlled) action may be
   performed by a unit of the given type if the target tile has the given
   property.
 
@@ -1182,7 +1182,7 @@ bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff performing the specified action always will consume all
+  Returns TRUE if performing the specified action always will consume all
   remaining MP of an actor unit of the specified type.
   @param putype  the unit type performing the action
   @param paction the action that is performed
@@ -1196,7 +1196,7 @@ bool utype_action_takes_all_mp(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff performing the specified action always will consume all
+  Returns TRUE if performing the specified action always will consume all
   remaining MP of an actor unit of the specified type when the specified
   unit state property is true *after* the action has been performed.
   @param putype  the unit type performing the action
@@ -1213,7 +1213,7 @@ bool utype_action_takes_all_mp_if_ustate_is(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff performing the specified action will consume an actor
+  Returns TRUE if performing the specified action will consume an actor
   unit of the specified type.
 **************************************************************************/
 bool utype_is_consumed_by_action(const struct action *paction,
@@ -1223,7 +1223,7 @@ bool utype_is_consumed_by_action(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff performing an action with the specified action result
+  Returns TRUE if performing an action with the specified action result
   will consume an actor unit of the specified type.
 **************************************************************************/
 bool utype_is_consumed_by_action_result(enum action_result result,
@@ -1243,7 +1243,7 @@ bool utype_is_consumed_by_action_result(enum action_result result,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff successfully performing the specified action always will
+  Returns TRUE if successfully performing the specified action always will
   move the actor unit of the specified type to the target's tile.
 **************************************************************************/
 bool utype_is_moved_to_tgt_by_action(const struct action *paction,
@@ -1282,7 +1282,7 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff successfully performing the specified action never will
+  Returns TRUE if successfully performing the specified action never will
   move the actor unit from its current tile.
 **************************************************************************/
 bool utype_is_unmoved_by_action(const struct action *paction,
@@ -1322,7 +1322,7 @@ bool utype_is_unmoved_by_action(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff successfully performing the specified action always
+  Returns TRUE if successfully performing the specified action always
   will cost the actor unit of the specified type the move fragments it
   would take to perform a regular move to the target's tile. This cost
   is added to the cost of successfully performing the action.
@@ -1922,7 +1922,7 @@ const char *unit_type_flag_helptxt(enum unit_type_flag_id id)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the unit type is unique and the player already has one.
+  Returns TRUE if the unit type is unique and the player already has one.
 **************************************************************************/
 bool utype_player_already_has_this_unique(const struct player *pplayer,
                                           const struct unit_type *putype)
@@ -1936,7 +1936,7 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the player already has a unit of this type.
+  Returns TRUE if the player already has a unit of this type.
 **************************************************************************/
 bool utype_player_already_has_this(const struct player *pplayer,
                                    const struct unit_type *putype)
@@ -2959,7 +2959,7 @@ bool utype_is_cityfounder(const struct unit_type *utype)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified unit class flag is in use by any unit
+  Returns TRUE if the specified unit class flag is in use by any unit
   class.
   @param ucflag the unit class flag to check if is in use.
   @returns TRUE if the unit class flag is used in the current ruleset.
@@ -2978,7 +2978,7 @@ bool uclass_flag_is_in_use(enum unit_class_flag_id ucflag)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified unit type flag is in use by any unit
+  Returns TRUE if the specified unit type flag is in use by any unit
   type.
   @param uflag the unit type flag to check if is in use.
   @returns TRUE if the unit type flag is used in the current ruleset.

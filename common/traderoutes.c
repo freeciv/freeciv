@@ -206,7 +206,7 @@ trade_route_settings_by_type(enum trade_route_type type)
 }
 
 /*********************************************************************//**
-  Return TRUE iff the two cities are capable of trade; i.e., if a caravan
+  Return TRUE if the two cities are capable of trade; i.e., if a caravan
   from one city can enter the other to sell its goods.
 
   See also can_establish_trade_route().
@@ -267,7 +267,7 @@ int city_trade_removable(const struct city *pcity,
 }
 
 /*********************************************************************//**
-  Returns TRUE iff the two cities can establish a trade route.  We look
+  Returns TRUE if the two cities can establish a trade route.  We look
   at the distance and ownership of the cities as well as their existing
   trade routes.  Should only be called if you already know that
   can_cities_trade().

@@ -644,7 +644,7 @@ static bool lose_tech(struct research *research)
   'check_tech' is TRUE) completes the research. If the total number of bulbs
   is negative due to tech upkeep, one (randomly chosen) tech may be lost.
   free_bulbs allows to set the bulbs free for player to invest into any
-  tech (in multiresearch mode it happens iff the tech is not selected).
+  tech (in multiresearch mode it happens if the tech is not selected).
 
   The caller is responsible for sending updated player information.
 

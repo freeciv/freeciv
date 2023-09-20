@@ -1541,7 +1541,7 @@ static void make_huts(int number)
 }
 
 /**********************************************************************//**
-  Return TRUE iff there's a resource within one tile of the given map
+  Return TRUE if there's a resource within one tile of the given map
   position.
 **************************************************************************/
 static bool is_resource_close(const struct tile *ptile)

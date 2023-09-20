@@ -993,7 +993,7 @@ void luaK_exp2val (FuncState *fs, expdesc *e) {
 
 /*
 ** Try to make 'e' a K expression with an index in the range of R/K
-** indices. Return true iff succeeded.
+** indices. Return true if succeeded.
 */
 static int luaK_exp2K (FuncState *fs, expdesc *e) {
   if (!hasjumps(e)) {
@@ -1023,7 +1023,7 @@ static int luaK_exp2K (FuncState *fs, expdesc *e) {
 ** Ensures final expression result is in a valid R/K index
 ** (that is, it is either in a register or in 'k' with an index
 ** in the range of R/K indices).
-** Returns 1 iff expression is K.
+** Returns 1 if expression is K.
 */
 static int exp2RK (FuncState *fs, expdesc *e) {
   if (luaK_exp2K(fs, e))
@@ -1327,7 +1327,7 @@ static int validop (int op, TValue *v1, TValue *v2) {
 
 
 /*
-** Try to "constant-fold" an operation; return 1 iff successful.
+** Try to "constant-fold" an operation; return 1 if successful.
 ** (In this case, 'e1' has the final result.)
 */
 static int constfolding (FuncState *fs, int op, expdesc *e1,
@@ -1791,7 +1791,7 @@ void luaK_settablesize (FuncState *fs, int pc, int ra, int asize, int hsize) {
   int rb = (hsize != 0) ? luaO_ceillog2(hsize) + 1 : 0;  /* hash size */
   int extra = asize / (MAXARG_C + 1);  /* higher bits of array size */
   int rc = asize % (MAXARG_C + 1);  /* lower bits of array size */
-  int k = (extra > 0);  /* true iff needs extra argument */
+  int k = (extra > 0);  /* true if needs extra argument */
   *inst = CREATE_ABCk(OP_NEWTABLE, ra, rb, rc, k);
   *(inst + 1) = CREATE_Ax(OP_EXTRAARG, extra);
 }

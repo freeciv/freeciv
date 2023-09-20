@@ -24,7 +24,7 @@ extern "C" {
 #include "log.h"
 #include "support.h" /* bool, fc__attribute */
 
-/* Yields TRUE iff the bit bit_no is set in val. */
+/* Yields TRUE if the bit bit_no is set in val. */
 #define TEST_BIT(val, bit_no)                                               \
   (((val) & (1u << (bit_no))) == (1u << (bit_no)))
 

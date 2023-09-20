@@ -494,7 +494,7 @@ int player_in_territory(const struct player *pplayer,
 			const struct player *pplayer2);
 
 /**************************************************************************
-  Return TRUE iff player is any kind of barbarian
+  Return TRUE if player is any kind of barbarian
 **************************************************************************/
 static inline bool is_barbarian(const struct player *pplayer)
 {

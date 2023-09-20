@@ -119,7 +119,7 @@ static struct unit *punit_defending = NULL;
 static int action_selection_in_progress_for = IDENTITY_NUMBER_ZERO;
 
 /*
- * This variable is TRUE iff a NON-AI controlled unit was focused this
+ * This variable is TRUE if a NON-AI controlled unit was focused this
  * turn.
  */
 bool non_ai_unit_focus;
@@ -328,7 +328,7 @@ void clear_hover_state(void)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the client should ask the server about what actions a
+  Returns TRUE if the client should ask the server about what actions a
   unit can perform.
 **************************************************************************/
 bool should_ask_server_for_actions(const struct unit *punit)
@@ -341,7 +341,7 @@ bool should_ask_server_for_actions(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff it is OK to ask the server about what actions a unit
+  Returns TRUE if it is OK to ask the server about what actions a unit
   can perform.
 **************************************************************************/
 static bool can_ask_server_for_actions(void)
@@ -378,7 +378,7 @@ static void ask_server_for_actions(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff this unit is in focus.
+  Return TRUE if this unit is in focus.
 **************************************************************************/
 bool unit_is_in_focus(const struct unit *punit)
 {
@@ -386,7 +386,7 @@ bool unit_is_in_focus(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff a unit on this tile is in focus.
+  Return TRUE if a unit on this tile is in focus.
 **************************************************************************/
 struct unit *get_focus_unit_on_tile(const struct tile *ptile)
 {

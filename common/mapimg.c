@@ -2439,7 +2439,7 @@ static void img_createmap(struct img *pimg)
 
     /* known tiles */
     if (plr_knowledge && pplayer != NULL && tile_knowledge == TILE_UNKNOWN) {
-      /* plot nothing iff tile is not known */
+      /* plot nothing if tile is not known */
       continue;
     }
 

@@ -119,7 +119,7 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
 }
 
 /*******************************************************************//**
-  Returns TRUE iff p1 can be in alliance with p2.
+  Returns TRUE if p1 can be in alliance with p2.
 
   Check that we are not at war with any of p2's allies. Note
   that for an alliance to be made, we need to check this both
@@ -256,7 +256,7 @@ bool player_has_embassy_from_effect(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Return TRUE iff the given player owns the city.
+  Return TRUE if the given player owns the city.
 ***********************************************************************/
 bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 {
@@ -264,7 +264,7 @@ bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 }
 
 /*******************************************************************//**
-  Return TRUE iff the player can invade a particular tile (linked with
+  Return TRUE if the player can invade a particular tile (linked with
   borders and diplomatic states).
 ***********************************************************************/
 bool player_can_invade_tile(const struct player *pplayer,
@@ -836,7 +836,7 @@ struct player *player_by_number(const int player_id)
 
 /*******************************************************************//**
   Set the player's nation to the given nation (may be NULL).  Returns TRUE
-  iff there was a change.
+  if there was a change.
   Doesn't check if the nation is legal wrt nationset.
 ***********************************************************************/
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
@@ -939,7 +939,7 @@ int player_age(const struct player *pplayer)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff pplayer can trust that ptile really has no units when
+  Returns TRUE if pplayer can trust that ptile really has no units when
   it looks empty. A tile looks empty if the player can't see any units on
   it and it doesn't contain anything marked as occupied by a unit.
 
@@ -1067,7 +1067,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified player can see the specified tile.
+  Returns TRUE if the specified player can see the specified tile.
 **************************************************************************/
 bool can_player_see_tile(const struct player *plr,
                          const struct tile *ptile)
@@ -1090,7 +1090,7 @@ bool can_player_see_unit(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Return TRUE iff the player can see units in the city.  Either they
+  Return TRUE if the player can see units in the city.  Either they
   can see all units or none.
 
   If the player can see units in the city, then the server sends the
@@ -1120,7 +1120,7 @@ bool can_player_see_units_in_city(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Return TRUE iff the player can see the city's internals.  This means the
+  Return TRUE if the player can see the city's internals.  This means the
   full city packet is sent to the client, who should then be able to popup
   a dialog for it.
 
@@ -1134,7 +1134,7 @@ bool can_player_see_city_internals(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Returns TRUE iff pow_player can see externally visible features of
+  Returns TRUE if pow_player can see externally visible features of
   target_city.
 
   A city's external features are visible to its owner, to players that
@@ -1225,7 +1225,7 @@ struct unit *player_unit_by_number(const struct player *pplayer, int unit_id)
 }
 
 /*******************************************************************//**
-  Return true iff x,y is inside any of the player's city map.
+  Return true if x,y is inside any of the player's city map.
 ***********************************************************************/
 bool player_in_city_map(const struct player *pplayer,
                         const struct tile *ptile)
@@ -1301,7 +1301,7 @@ int player_get_expected_income(const struct player *pplayer)
 }
 
 /*******************************************************************//**
-  Returns TRUE iff the player knows at least one tech which has the
+  Returns TRUE if the player knows at least one tech which has the
   given flag.
 ***********************************************************************/
 bool player_knows_techs_with_flag(const struct player *pplayer,
@@ -1362,7 +1362,7 @@ const char *love_text(const int love)
 }
 
 /*******************************************************************//**
-  Returns true iff players can attack each other.
+  Returns true if players can attack each other.
 ***********************************************************************/
 bool pplayers_at_war(const struct player *pplayer,
                      const struct player *pplayer2)
@@ -1379,7 +1379,7 @@ bool pplayers_at_war(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Returns true iff players are allied.
+  Returns true if players are allied.
 ***********************************************************************/
 bool pplayers_allied(const struct player *pplayer,
                      const struct player *pplayer2)
@@ -1400,7 +1400,7 @@ bool pplayers_allied(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Returns true iff players are allied or at peace.
+  Returns true if players are allied or at peace.
 ***********************************************************************/
 bool pplayers_in_peace(const struct player *pplayer,
                        const struct player *pplayer2)
@@ -1432,7 +1432,7 @@ bool players_non_invade(const struct player *pplayer1,
 }
 
 /*******************************************************************//**
-  Returns true iff players have peace, cease-fire, or
+  Returns true if players have peace, cease-fire, or
   armistice.
 ***********************************************************************/
 bool pplayers_non_attack(const struct player *pplayer,
@@ -1459,7 +1459,7 @@ bool players_on_same_team(const struct player *pplayer1,
 }
 
 /*******************************************************************//**
-  Return TRUE iff the player me gives shared vision to player them.
+  Return TRUE if the player me gives shared vision to player them.
 ***********************************************************************/
 bool gives_shared_vision(const struct player *me, const struct player *them)
 {
@@ -1467,7 +1467,7 @@ bool gives_shared_vision(const struct player *me, const struct player *them)
 }
 
 /*******************************************************************//**
-  Return TRUE iff the player me gives shared tiles to player them.
+  Return TRUE if the player me gives shared tiles to player them.
 ***********************************************************************/
 bool gives_shared_tiles(const struct player *me, const struct player *them)
 {
@@ -1475,7 +1475,7 @@ bool gives_shared_tiles(const struct player *me, const struct player *them)
 }
 
 /*******************************************************************//**
-  Return TRUE iff the two diplstates are equal.
+  Return TRUE if the two diplstates are equal.
 ***********************************************************************/
 bool are_diplstates_equal(const struct player_diplstate *pds1,
                           const struct player_diplstate *pds2)
@@ -1486,7 +1486,7 @@ bool are_diplstates_equal(const struct player_diplstate *pds1,
 }
 
 /*******************************************************************//**
-  Return TRUE iff player1 has the diplomatic relation to player2
+  Return TRUE if player1 has the diplomatic relation to player2
 ***********************************************************************/
 bool is_diplrel_between(const struct player *player1,
                         const struct player *player2,
@@ -1536,7 +1536,7 @@ bool is_diplrel_between(const struct player *player1,
 }
 
 /*******************************************************************//**
-  Return TRUE iff pplayer has the diplomatic relation to any living player
+  Return TRUE if pplayer has the diplomatic relation to any living player
 ***********************************************************************/
 bool is_diplrel_to_other(const struct player *pplayer, int diplrel)
 {

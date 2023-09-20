@@ -1181,7 +1181,7 @@ void nation_sets_groups_free(void)
 }
 
 /************************************************************************//**
-  Return TRUE iff the editor is allowed to edit the player's nation in
+  Return TRUE if the editor is allowed to edit the player's nation in
   pregame.
 ****************************************************************************/
 bool can_conn_edit_players_nation(const struct connection *pconn,

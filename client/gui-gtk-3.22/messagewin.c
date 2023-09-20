@@ -438,7 +438,7 @@ void meswin_dialog_popdown(void)
 }
 
 /************************************************************************//**
-  Return TRUE iff the message window is open.
+  Return TRUE if the message window is open.
 ****************************************************************************/
 bool meswin_dialog_is_open(void)
 {

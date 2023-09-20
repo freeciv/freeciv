@@ -42,7 +42,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile);
 /**********************************************************************//**
   Move a unit along a path without disturbing its activity, role
   or assigned destination
-  Return FALSE iff we died.
+  Return FALSE if we died.
 **************************************************************************/
 bool adv_follow_path(struct unit *punit, struct pf_path *path,
                      struct tile *ptile)

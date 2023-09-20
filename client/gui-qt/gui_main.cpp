@@ -130,7 +130,7 @@ static void print_usage()
 
 /**********************************************************************//**
   Search for gui-specific command line options, that are not handled by Qt
-  (QApplication). Returns true iff program is to be executed, and not
+  (QApplication). Returns true if program is to be executed, and not
   to exit after showing the results from option parsing.
 **************************************************************************/
 static bool parse_options(int argc, char **argv)

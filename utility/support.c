@@ -1118,7 +1118,7 @@ char *fc_read_console(void)
 #endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 
 /************************************************************************//**
-  Returns TRUE iff the file is a regular file or a link to a regular
+  Returns TRUE if the file is a regular file or a link to a regular
   file or write_access is TRUE and the file doesn't exists yet.
 ****************************************************************************/
 bool is_reg_file_for_access(const char *name, bool write_access)

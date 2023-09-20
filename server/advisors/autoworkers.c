@@ -1275,7 +1275,7 @@ void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the unit can do the targeted activity at the given
+  Returns TRUE if the unit can do the targeted activity at the given
   location.
 **************************************************************************/
 bool auto_settlers_speculate_can_act_at(const struct unit *punit,

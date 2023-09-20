@@ -661,7 +661,7 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
 }
 
 /************************************************************************//**
-  Returns TRUE iff an extra that conflicts with pextra exists at ptile.
+  Returns TRUE if an extra that conflicts with pextra exists at ptile.
 ****************************************************************************/
 bool extra_conflicting_on_tile(const struct extra_type *pextra,
                                const struct tile *ptile)
@@ -677,7 +677,7 @@ bool extra_conflicting_on_tile(const struct extra_type *pextra,
 }
 
 /************************************************************************//**
-  Returns TRUE iff an extra on the tile is a hut (removed by entering).
+  Returns TRUE if an extra on the tile is a hut (removed by entering).
   The effect of entering is handled by unit_enter_hut() in unittools.c
 ****************************************************************************/
 bool hut_on_tile(const struct tile *ptile)
@@ -692,7 +692,7 @@ bool hut_on_tile(const struct tile *ptile)
 }
 
 /************************************************************************//**
-  Returns TRUE iff the unit can enter any hut on the tile.
+  Returns TRUE if the unit can enter any hut on the tile.
   For the unit, tests only its class and its owner.
 ****************************************************************************/
 bool unit_can_enter_hut(const struct unit *punit,
@@ -718,7 +718,7 @@ bool unit_can_enter_hut(const struct unit *punit,
 }
 
 /************************************************************************//**
-  Returns TRUE iff the unit can enter or frighten any hut on the tile.
+  Returns TRUE if the unit can enter or frighten any hut on the tile.
   For the unit, tests only its class and its owner.
 ****************************************************************************/
 bool unit_can_displace_hut(const struct unit *punit,
@@ -850,7 +850,7 @@ bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag)
 }
 
 /************************************************************************//**
-  Returns TRUE iff any cardinally adjacent tile contains an extra with
+  Returns TRUE if any cardinally adjacent tile contains an extra with
   the given flag (does not check ptile itself).
 ****************************************************************************/
 bool is_extra_flag_card_near(const struct tile *ptile, enum extra_flag_id flag)
@@ -869,7 +869,7 @@ bool is_extra_flag_card_near(const struct tile *ptile, enum extra_flag_id flag)
 }
 
 /************************************************************************//**
-  Returns TRUE iff any adjacent tile contains an extra with the given flag
+  Returns TRUE if any adjacent tile contains an extra with the given flag
   (does not check ptile itself).
 ****************************************************************************/
 bool is_extra_flag_near_tile(const struct tile *ptile, enum extra_flag_id flag)
@@ -963,7 +963,7 @@ const char *extra_flag_helptxt(enum extra_flag_id id)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the specified extra type flag is in use by any extra
+  Returns TRUE if the specified extra type flag is in use by any extra
   type.
   @param id the extra type flag to check if is in use.
   @returns TRUE if the extra type flag is used in the current ruleset.

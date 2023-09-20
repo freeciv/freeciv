@@ -344,7 +344,7 @@ void set_server_state(enum server_states newstate)
 }
 
 /**********************************************************************//**
-  Returns iff the game was started once upon a time.
+  Returns if the game was started once upon a time.
 **************************************************************************/
 bool game_was_started(void)
 {
