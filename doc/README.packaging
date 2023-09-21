@@ -30,6 +30,7 @@ Updating from 3.2 to 3.3
 * va_copy support is now mandatory
 * Building web version of the server with autotools is no longer supported.
   Make such builds with meson instead.
+* Minimum Python requirement for code generation scripts is 3.6.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
