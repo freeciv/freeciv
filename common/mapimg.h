@@ -28,7 +28,7 @@
     mapimg_define()     Define a new map image.
     mapimg_delete()     Delete a map image definition.
     mapimg_show()       Show the map image definition.
-    mapimg_id2str()     Convert the map image definition to a string. Usefull
+    mapimg_id2str()     Convert the map image definition to a string. Useful
                         to save the definitions.
     mapimg_create()     ...
     mapimg_colortest()  ...
