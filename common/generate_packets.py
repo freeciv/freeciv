@@ -13,7 +13,7 @@
 #   GNU General Public License for more details.
 #
 
-# This script runs under Python 3.5 and up. Please leave it so.
+# This script runs under Python 3.6 and up. Please leave it so.
 # It might also run under older versions, but no such guarantees are made.
 
 import re
@@ -54,6 +54,41 @@ def file_path(s: "str | Path") -> Path:
 class ScriptConfig:
     """Contains configuration info for the script's execution, along with
     functions closely tied to that configuration"""
+
+    def_paths: "list[Path]"
+    """Paths to definition files, in load order"""
+    common_header_path: "Path | None"
+    """Output path for the common header, or None if that should not
+    be generated"""
+    common_impl_path: "Path | None"
+    """Output path for the common implementation, or None if that
+    should not be generated"""
+    server_header_path: "Path | None"
+    """Output path for the server header, or None if that should not
+    be generated"""
+    server_impl_path: "Path | None"
+    """Output path for the server implementation, or None if that
+    should not be generated"""
+    client_header_path: "Path | None"
+    """Output path for the client header, or None if that should not
+    be generated"""
+    client_impl_path: "Path | None"
+    """Output path for the client implementation, or None if that
+    should not be generated"""
+
+    verbose: bool
+    """Whether to enable verbose logging"""
+    lazy_overwrite: bool
+    """Whether to lazily overwrite output files"""
+
+    gen_stats: bool
+    """Whether to generate delta stats code"""
+    log_macro: "str | None"
+    """The macro used for log calls, or None if no log calls should
+    be generated"""
+
+    fold_bool: bool
+    """Whether to fold boolean fields into the packet header"""
 
     @staticmethod
     def get_argparser() -> argparse.ArgumentParser:
@@ -144,46 +179,6 @@ class ScriptConfig:
         return parser
 
     def __init__(self, args: "typing.Sequence[str] | None" = None):
-        # type hints and docstrings for fields
-        # FIXME: Once we can use Python 3.6 features, turn these into
-        # (class-level) variable annotations
-        if typing.TYPE_CHECKING:
-            self.def_paths = [file_path("")]
-            """Paths to definition files, in load order"""
-            optional_path = (file_path(""), None)[int()]
-            self.common_header_path = optional_path
-            """Output path for the common header, or None if that should not
-            be generated"""
-            self.common_impl_path = optional_path
-            """Output path for the common implementation, or None if that
-            should not be generated"""
-            self.server_header_path = optional_path
-            """Output path for the server header, or None if that should not
-            be generated"""
-            self.server_impl_path = optional_path
-            """Output path for the server implementation, or None if that
-            should not be generated"""
-            self.client_header_path = optional_path
-            """Output path for the client header, or None if that should not
-            be generated"""
-            self.client_impl_path = optional_path
-            """Output path for the client implementation, or None if that
-            should not be generated"""
-
-            self.verbose = False
-            """Whether to enable verbose logging"""
-            self.lazy_overwrite = False
-            """Whether to lazily overwrite output files"""
-
-            self.gen_stats = False
-            """Whether to generate delta stats code"""
-            self.log_macro = str() or None
-            """The macro used for log calls, or None if no log calls should
-            be generated"""
-
-            self.fold_bool = True
-            """Whether to fold boolean fields into the packet header"""
-
         __class__.get_argparser().parse_args(args, namespace = self)
 
     def log_verbose(self, *args):
@@ -337,7 +332,7 @@ def powerset(iterable: typing.Iterable[T_co]) -> "typing.Iterator[tuple[T_co, ..
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
-INSERT_PREFIX_PATTERN = re.compile(r"^(?!#|$)", re.MULTILINE)
+INSERT_PREFIX_PATTERN: "typing.Final" = re.compile(r"^(?!#|$)", re.MULTILINE)
 """Matches the beginning of nonempty lines that are not preprocessor
 directives, i.e. don't start with a #"""
 
@@ -354,17 +349,21 @@ class Location:
 
     _INDICES = "ijk"
 
+    name: str
+    """The name associated with this location; used in log messages."""
+    location: str
+    """The actual location as used in code"""
+    depth: int
+    """The array nesting depth of this location; used to determine index
+    variable names."""
+
     def __init__(self, name: str, location: "str | None" = None, depth: int = 0):
         self.name = name
-        """The name associated with this location; used in log messages."""
         if location is None:
             self.location = name
-            """The actual location as used in code"""
         else:
             self.location = location
         self.depth = depth
-        """The array nesting depth of this location; used to determine index
-        variable names."""
 
     def deeper(self, new_location: str) -> "Location":
         """Return the given string as a new Location with the same name as
@@ -405,6 +404,18 @@ class FieldFlags:
     REMOVE_CAP_PATTERN = re.compile(r"^remove-cap\(([^()]+)\)$")
     """Matches a remove-cap flag (optional capability)"""
 
+    is_key: bool = False
+    """Whether the field is a key field"""
+
+    diff: bool = False
+    """Whether the field should be deep-diffed for transmission"""
+
+    add_caps: "set[str]"
+    """The capabilities required to enable the field"""
+
+    remove_caps: "set[str]"
+    """The capabilities that disable the field"""
+
     @classmethod
     @cache
     def parse(cls, flags_text: str) -> "FieldFlags":
@@ -416,18 +427,9 @@ class FieldFlags:
             if stripped
         )
 
-    is_key = False
-    """Whether the field is a key field"""
-
-    diff = False
-    """Whether the field should be deep-diffed for transmission"""
-
     def __init__(self, flag_texts: typing.Iterable[str]):
         self.add_caps = set()
-        """The capabilities required to enable the field"""
-
         self.remove_caps = set()
-        """The capabilities that disable the field"""
 
         for flag in flag_texts:
             if flag == "key":
@@ -463,6 +465,13 @@ class SizeInfo:
     - the declared / maximum size
     - the field name for the actual size (optional)"""
 
+    declared: str
+    """Maximum size; used in declarations"""
+
+    _actual: "str | None"
+    """Name of the field to use for the actual size, or None if the
+    entire array should always be transmitted."""
+
     @classmethod
     @cache
     def parse(cls, size_text) -> "SizeInfo":
@@ -474,10 +483,7 @@ class SizeInfo:
 
     def __init__(self, declared: str, actual: "str | None"):
         self.declared = declared
-        """Maximum size; used in declarations"""
         self._actual = actual
-        """Name of the field to use for the actual size, or None if the
-        entire array should always be transmitted."""
 
     @property
     def constant(self) -> bool:
@@ -549,7 +555,7 @@ class RawFieldType(ABC):
         return "<{self.__class__.__name__} {self}>".format(self = self)
 
 
-FieldTypeConstructor = typing.Callable[[str, str], RawFieldType]
+FieldTypeConstructor: "typing.TypeAlias" = typing.Callable[[str, str], RawFieldType]
 
 class TypeRegistry:
     """Determines what Python class to use for field types based on their
@@ -562,32 +568,40 @@ class TypeRegistry:
     - dataio type
     - public type (aka struct type)"""
 
+    dataio_types: "dict[str, FieldTypeConstructor]"
+    """Dictionary mapping dataio types to the constructor used for
+    field types with that dataio type.
+
+    This is the primary factor deciding what constructor to use for a
+    given field type."""
+
+    dataio_patterns: "dict[typing.Pattern[str], FieldTypeConstructor]"
+    """Dictionary mapping RegEx patterns to the constructor used for
+    field types whose dataio type matches that pattern.
+
+    Matches are cached in self.dataio_types."""
+
+    public_types: "dict[str, FieldTypeConstructor]"
+    """Like self.dataio_types, but for public types.
+
+    This is only checked if there are no matches in self.dataio_types
+    and self.dataio_patterns."""
+
+    public_patterns: "dict[typing.Pattern[str], FieldTypeConstructor]"
+    """Like self.dataio_patterns, but for public types.
+
+    Matches are cached in self.public_types."""
+
+    fallback: FieldTypeConstructor
+    """Fallback constructor used when there are no matches for either
+    dataio type or public type."""
+
     def __init__(self, fallback: FieldTypeConstructor):
-        # FIXME: Once we can use Python 3.6 features, turn these into
-        # (class-level) variable annotations
-        self.dataio_types = {} # type: dict[str, FieldTypeConstructor]
-        """Dictionary mapping dataio types to the constructor used for
-        field types with that dataio type.
-
-        This is the primary factor deciding what constructor to use for a
-        given field type."""
-        self.dataio_patterns = {} # type: dict[typing.Pattern[str], FieldTypeConstructor]
-        """Dictionary mapping RegEx patterns to the constructor used for
-        field types whose dataio type matches that pattern.
-
-        Matches are cached in self.dataio_types."""
-        self.public_types = {} # type: dict[str, FieldTypeConstructor]
-        """Like self.dataio_types, but for public types.
-
-        This is only checked if there are no matches in self.dataio_types
-        and self.dataio_patterns."""
-        self.public_patterns = {} # type: dict[typing.Pattern[str], FieldTypeConstructor]
-        """Like self.dataio_patterns, but for public types.
-
-        Matches are cached in self.public_types."""
+        self.dataio_types = {}
+        self.dataio_patterns = {}
+        self.public_types = {}
+        self.public_patterns = {}
         self.fallback = fallback
-        """Fallback constructor used when there are no matches for either
-        dataio type or public type."""
 
     def parse(self, type_text: str) -> RawFieldType:
         """Parse a single field type"""
@@ -634,13 +648,19 @@ class TypeRegistry:
 class NeedSizeType(RawFieldType):
     """Helper class for field types that require a size to be usable."""
 
+    dataio_type: str
+    """The dataio type passed to self.cls"""
+
+    public_type: str
+    """The public type passed to self.cls"""
+
+    cls: typing.Callable[[str, str, SizeInfo], "FieldType"]
+    """The field type constructed when adding a size to this type"""
+
     def __init__(self, dataio_type: str, public_type: str, cls: typing.Callable[[str, str, SizeInfo], "FieldType"]):
         self.dataio_type = dataio_type
-        """The dataio type passed to self.cls"""
         self.public_type = public_type
-        """The public type passed to self.cls"""
         self.cls = cls
-        """The field type constructed when adding a size to this type"""
 
     def array(self, size: SizeInfo) -> "FieldType":
         """Add an array size to make a useable type."""
@@ -654,7 +674,7 @@ class FieldType(RawFieldType):
     """Abstract base class (ABC) for classes representing type information
     usable for fields of a packet"""
 
-    foldable = False
+    foldable: bool = False
     """Whether a field of this type can be folded into the packet header"""
 
     @cache
@@ -718,11 +738,15 @@ class FieldType(RawFieldType):
 class BasicType(FieldType):
     """Type information for a field without any specialized treatment"""
 
+    dataio_type: str
+    """How fields of this type are transmitted over network"""
+
+    public_type: str
+    """How fields of this type are represented in C code"""
+
     def __init__(self, dataio_type: str, public_type: str):
         self.dataio_type = dataio_type
-        """How fields of this type are transmitted over network"""
         self.public_type = public_type
-        """How fields of this type are represented in C code"""
 
     def get_code_declaration(self, location: Location) -> str:
         return """\
@@ -760,7 +784,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{location})) {
     def __str__(self) -> str:
         return "{self.dataio_type}({self.public_type})".format(self = self)
 
-DEFAULT_REGISTRY = TypeRegistry(BasicType)
+DEFAULT_REGISTRY: "typing.Final" = TypeRegistry(BasicType)
 """The default type registry used by a PacketsDefinition when no other
 registry is given."""
 
@@ -816,7 +840,7 @@ class BoolType(IntType):
     TYPE_PATTERN = re.compile(r"^bool\d*$")
     """Matches a bool dataio type"""
 
-    foldable = True
+    foldable: bool = True
 
     @typing.overload
     def __init__(self, dataio_info: str, public_type: str): ...
@@ -851,6 +875,10 @@ class FloatType(BasicType):
     - non-numeric dataio type
     - numeric float factor"""
 
+    float_factor: int
+    """Granularity (fixed-point factor) used to transmit this type in an
+    integer"""
+
     @typing.overload
     def __init__(self, dataio_info: str, public_type: str): ...
     @typing.overload
@@ -870,8 +898,6 @@ class FloatType(BasicType):
 
         super().__init__(dataio_type, public_type)
         self.float_factor = int(float_factor)
-        """Granularity (fixed-point factor) used to transmit this type in an
-        integer"""
 
     def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
         return """\
@@ -1008,10 +1034,12 @@ DEFAULT_REGISTRY.dataio_types["worklist"] = WorklistType
 class SizedType(BasicType):
     """Abstract base class (ABC) for field types that include a size"""
 
+    size: SizeInfo
+    """Size info (maximum and actual) of this type"""
+
     def __init__(self, dataio_type: str, public_type: str, size: SizeInfo):
         super().__init__(dataio_type, public_type)
         self.size = size
-        """Size info (maximum and actual) of this type"""
 
     def get_code_declaration(self, location: Location) -> str:
         return super().get_code_declaration(
@@ -1108,11 +1136,15 @@ class ArrayType(FieldType):
     another FieldType for the array's elements, which may also be an
     ArrayType (for multi-dimensionaly arrays)."""
 
+    elem: FieldType
+    """The type of the array elements"""
+
+    size: SizeInfo
+    """The length (maximum and actual) of the array"""
+
     def __init__(self, elem: FieldType, size: SizeInfo):
         self.elem = elem
-        """The type of the array elements"""
         self.size = size
-        """The length (maximum and actual) of the array"""
 
     def get_code_declaration(self, location: Location) -> str:
         return self.elem.get_code_declaration(
@@ -1393,6 +1425,18 @@ class Field:
     - everything except the final array size
     - the final array size"""
 
+    cfg: ScriptConfig
+    """Configuration used when generating code for this field"""
+
+    name: str
+    """This field's name (identifier)"""
+
+    type_info: FieldType
+    """This field's type information; see FieldType"""
+
+    flags: FieldFlags
+    """This field's flags; see FieldFlags"""
+
     @classmethod
     def parse(cls, cfg: ScriptConfig, line: str, resolve_type: typing.Callable[[str], RawFieldType]) -> "typing.Iterable[Field]":
         """Parse a single line defining one or more fields"""
@@ -1422,14 +1466,9 @@ class Field:
 
     def __init__(self, cfg: ScriptConfig, name: str, type_info: FieldType, flags: FieldFlags):
         self.cfg = cfg
-        """Configuration used when generating code for this field"""
         self.name = name
-        """This field's name (identifier)"""
-
         self.type_info = type_info
-        """This field's type information; see FieldType"""
         self.flags = flags
-        """This field's flags; see FieldFlags"""
 
     @property
     def is_key(self) -> bool:
@@ -1661,44 +1700,64 @@ class Variant:
     remove-cap fields have different variants for different combinations of
     the relevant optional capabilities."""
 
+    packet: "Packet"
+    """The packet this is a variant of"""
+
+    no: int
+    """The numeric variant ID (not packet ID) of this variant"""
+
+    name: str
+    """The full name of this variant"""
+
+    poscaps: typing.AbstractSet[str]
+    """The set of optional capabilities that must be present to use this
+    variant"""
+
+    negcaps: typing.AbstractSet[str]
+    """The set of optional capabilities that must *not* be present to
+    use this variant"""
+
+    fields: typing.Sequence[Field]
+    """All fields that are transmitted when using this variant"""
+
+    key_fields: typing.Sequence[Field]
+    """The key fields that are used for this variant"""
+
+    other_fields: typing.Sequence[Field]
+    """The non-key fields that are transmitted when using this variant"""
+
+    keys_format: str
+    """The printf format string for this variant's key fields in
+    generated log calls
+
+    See also self.keys_arg"""
+
+    keys_arg: str
+    """The arguments passed when formatting this variant's key fields in
+    generated log calls
+
+    See also self.keys_format"""
+
     def __init__(self, poscaps: typing.Iterable[str], negcaps: typing.Iterable[str],
                        packet: "Packet", no: int):
         self.packet = packet
-        """The packet this is a variant of"""
-        self.no=no
-        """The numeric variant ID (not packet ID) of this variant"""
+        self.no = no
         self.name = "%s_%d" % (packet.name, no)
-        """The full name of this variant"""
 
         self.poscaps = set(poscaps)
-        """The set of optional capabilities that must be present to use this
-        variant"""
         self.negcaps = set(negcaps)
-        """The set of optional capabilities that must *not* be present to
-        use this variant"""
         self.fields = [
             field
             for field in packet.fields
             if field.present_with_caps(self.poscaps)
         ]
-        """All fields that are transmitted when using this variant"""
         self.key_fields = [field for field in self.fields if field.is_key]
-        """The key fields that are used for this variant"""
         self.other_fields = [field for field in self.fields if not field.is_key]
-        """The non-key fields that are transmitted when using this variant"""
         # FIXME: Doesn't work with non-int key fields
-        self.keys_format=", ".join(["%d"]*len(self.key_fields))
-        """The printf format string for this variant's key fields in
-        generated log calls
-
-        See also self.keys_arg"""
+        self.keys_format = ", ".join(["%d"] * len(self.key_fields))
         self.keys_arg = ", ".join("real_packet->" + field.name for field in self.key_fields)
-        """The arguments passed when formatting this variant's key fields in
-        generated log calls
-
-        See also self.keys_format"""
         if self.keys_arg:
-            self.keys_arg=",\n    "+self.keys_arg
+            self.keys_arg = ",\n    " + self.keys_arg
 
         if not self.fields and packet.fields:
             raise ValueError("empty variant for nonempty {self.packet_name} with capabilities {self.poscaps}".format(self = self))
@@ -2425,63 +2484,84 @@ class Packet:
     Groups:
     - the packet type to cancel"""
 
-    is_info = "no"
+    cfg: ScriptConfig
+    """Configuration used when generating code for this packet"""
+
+    type: str
+    """The packet type in allcaps (PACKET_FOO), as defined in the
+    packet_type enum
+
+    See also self.name"""
+
+    type_number: int
+    """The numeric ID of this packet type"""
+
+    cancel: "list[str]"
+    """List of packet types to drop from the cache when sending or
+    receiving this packet type"""
+
+    is_info: 'typing.Literal["no", "yes", "game"]' = "no"
     """Whether this is an is-info or is-game-info packet.
     "no" means normal, "yes" means is-info, "game" means is-game-info"""
 
-    want_dsend = False
+    want_dsend: bool = False
     """Whether to generate a direct-send function taking field values
     instead of a packet struct"""
 
-    want_lsend = False
+    want_lsend: bool = False
     """Whether to generate a list-send function sending a packet to
     multiple connections"""
 
-    want_force = False
+    want_force: bool = False
     """Whether send functions should take a force_to_send parameter
     to override discarding is-info packets where nothing changed"""
 
-    want_pre_send = False
+    want_pre_send: bool = False
     """Whether a pre-send hook should be called when sending this packet"""
 
-    want_post_send = False
+    want_post_send: bool = False
     """Whether a post-send hook should be called after sending this packet"""
 
-    want_post_recv = False
+    want_post_recv: bool = False
     """Wheter a post-receive hook should be called when receiving this
     packet"""
 
-    delta = True
+    delta: bool = True
     """Whether to use delta optimization for this packet"""
 
-    no_handle = False
+    no_handle: bool = False
     """Whether this packet should *not* be handled normally"""
 
-    handle_via_packet = True
+    handle_via_packet: bool = True
     """Whether to pass the entire packet (by reference) to the handle
     function (rather than each field individually)"""
 
-    handle_per_conn = False
+    handle_per_conn: bool = False
     """Whether this packet's handle function should be called with the
     connection instead of the attached player"""
+
+    dirs: Directions
+    """Which directions this packet can be sent in"""
+
+    fields: "list[Field]"
+    """List of all fields of this packet"""
+
+    key_fields: "list[Field]"
+    """List of only the key fields of this packet"""
+
+    other_fields: "list[Field]"
+    """List of only the non-key fields of this packet"""
+
+    variants: "list[Variant]"
+    """List of all variants of this packet"""
 
     def __init__(self, cfg: ScriptConfig, packet_type: str, packet_number: int, flags_text: str,
                        lines: typing.Iterable[str], resolve_type: typing.Callable[[str], RawFieldType]):
         self.cfg = cfg
-        """Configuration used when generating code for this packet"""
         self.type = packet_type
-        """The packet type in allcaps (PACKET_FOO), as defined in the
-        packet_type enum
-
-        See also self.name"""
         self.type_number = packet_number
-        """The numeric ID of this packet type"""
 
-        # FIXME: Once we can use Python 3.6 features, use variable
-        # annotations instead of empty comprehensions to set element type
-        self.cancel = [str(_) for _ in ()]
-        """List of packet types to drop from the cache when sending or
-        receiving this packet type"""
+        self.cancel = []
         dirs = set()
 
         for flag in flags_text.split(","):
@@ -2539,18 +2619,14 @@ class Packet:
         if not dirs:
             raise ValueError("no directions defined for %s" % self.name)
         self.dirs = Directions(dirs)
-        """Which directions this packet can be sent in"""
 
         self.fields = [
             field
             for line in lines
             for field in Field.parse(self.cfg, line, resolve_type)
         ]
-        """List of all fields of this packet"""
         self.key_fields = [field for field in self.fields if field.is_key]
-        """List of only the key fields of this packet"""
         self.other_fields = [field for field in self.fields if not field.is_key]
-        """List of only the non-key fields of this packet"""
 
         # valid, since self.fields is already set
         if self.no_packet:
@@ -2566,7 +2642,6 @@ class Packet:
             Variant(caps, all_caps.difference(caps), self, i + 100)
             for i, caps in enumerate(powerset(sorted(all_caps)))
         ]
-        """List of all variants of this packet"""
 
     @property
     def name(self) -> str:
@@ -2868,6 +2943,28 @@ class PacketsDefinition(typing.Iterable[Packet]):
     PACKET_END_PATTERN = re.compile(r"^\s*end\s*$")
     """Matches the "end" line terminating a packet definition"""
 
+    cfg: ScriptConfig
+    """Configuration used for code generated from this definition"""
+
+    type_registry: TypeRegistry
+    """Type registry used to resolve type classes for field types"""
+
+    types: "dict[str, RawFieldType]"
+    """Maps type aliases and definitions to the parsed type"""
+
+    packets: "list[Packet]"
+    """List of all packets, in order of definition"""
+
+    packets_by_type: "dict[str, Packet]"
+    """Maps packet types (PACKET_FOO) to the packet with that type"""
+
+    packets_by_number: "dict[int, Packet]"
+    """Maps packet IDs to the packet with that ID"""
+
+    packets_by_dirs: "dict[Directions, list[Packet]]"
+    """Maps packet directions to lists of packets with those
+    directions, in order of definition"""
+
     @classmethod
     def _clean_lines(cls, lines: typing.Iterable[str]) -> typing.Iterator[str]:
         """Strip comments and leading/trailing whitespace from the given
@@ -2974,40 +3071,15 @@ class PacketsDefinition(typing.Iterable[Packet]):
 
     def __init__(self, cfg: ScriptConfig, type_registry: "TypeRegistry | None" = None):
         self.cfg = cfg
-        """Configuration used for code generated from this definition"""
         self.type_registry = type_registry or DEFAULT_REGISTRY
-        """Type registry used to resolve type classes for field types"""
-        # FIXME: Once we can use Python 3.6 features, use variable
-        # annotations instead of empty comprehensions to set element type
-        self.types = {
-            str(_): self.type_registry(_, _)
-            for _ in ()
-        }
-        """Maps type aliases and definitions to the parsed type"""
-        self.packets = [
-            Packet(*[_])
-            for _ in ()
-        ]
-        """List of all packets, in order of definition"""
-        self.packets_by_type = {
-            str(_): self.packets[_]
-            for _ in ()
-        }
-        """Maps packet types (PACKET_FOO) to the packet with that type"""
-        self.packets_by_number = {
-            int(_): self.packets[_]
-            for _ in ()
-        }
-        """Maps packet IDs to the packet with that ID"""
+        self.types = {}
+        self.packets = []
+        self.packets_by_type = {}
+        self.packets_by_number = {}
         self.packets_by_dirs = {
-            dirs: [
-                self.packets[_]
-                for _ in ()
-            ]
+            dirs: []
             for dirs in Directions
         }
-        """Maps packet directions to lists of packets with those
-        directions, in order of definition"""
 
     def __iter__(self) -> typing.Iterator[Packet]:
         return iter(self.packets)
