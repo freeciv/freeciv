@@ -2057,7 +2057,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     }
     break;
   case INCIDENT_LAST:
-    /* Assert that always fails, but with meaningfull message */
+    /* Assert that always fails, but with meaningful message */
     fc_assert(type != INCIDENT_LAST);
     break;
   }
