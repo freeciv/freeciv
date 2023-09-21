@@ -3337,7 +3337,7 @@ struct city *create_city_virtual(struct player *pplayer,
   /* City structure was allocated with fc_calloc(), so contents are initially
    * zero. There is no need to initialize it a second time. */
 
-  /* Now set some usefull default values. */
+  /* Now set some useful default values. */
   pcity->capital = CAPITAL_NOT;
   city_size_set(pcity, 1);
   pcity->specialists[DEFAULT_SPECIALIST] = 1;
