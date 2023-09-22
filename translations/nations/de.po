@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2023-08-26 22:17+0300\n"
-"PO-Revision-Date: 2022-10-05 22:08+0200\n"
-"Last-Translator: Andreas Engel <ae4@mein-ramberg.de>\n"
+"PO-Revision-Date: 2023-01-15 11:43+0100\n"
+"Last-Translator: Andreas Engel <ae3@mein-ramberg.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -8662,8 +8662,6 @@ msgid "Métis"
 msgstr "Métis"
 
 #: data/nation/metis.ruleset:6
-#, fuzzy
-#| msgid "?plural:Metis"
 msgid "?plural:Métis"
 msgstr "Métis"
 
@@ -10788,14 +10786,6 @@ msgstr "Russinen"
 
 #: data/nation/rusyn.ruleset:6
 #, fuzzy
-#| msgid ""
-#| "The Rusyns are an ethnic group on the western periphery of the East "
-#| "Slavic nations. They live mainly in the Polish-Ukrainian-Slovak "
-#| "borderland and in the Vojvodina. In medieval times the Rusyn homeland was "
-#| "the site of the Duchy of Galicia-Volhynia and the Kingdom of Rus. In "
-#| "later times the lands were under Polish and later Austrian rule. Rusyns "
-#| "formed two ephemeral states after World War I: the Lemko-Rusyn Republic "
-#| "and the Komancza Republic."
 msgid ""
 "The Rusyns are an ethnic group on the western periphery of the East Slavic "
 "nations. They live mainly in the Polish-Ukrainian-Slovak borderland and in "
@@ -14075,6 +14065,57 @@ msgstr ""
 "1979, die Herrschaft der weißen Minderheit zu beenden. Seit 1980 wird das "
 "Land von Robert Mugabe regiert, der international einen ebenso schlechten "
 "Ruf genießt wie das Vorgängerregime."
+
+#, fuzzy
+#~| msgid "?plural:Liberians"
+#~ msgid "?plural:Liegeans"
+#~ msgstr "Liberianer"
+
+#, fuzzy, c-format
+#~| msgid "?female:Tribune %s"
+#~ msgid "?female:Princess %s"
+#~ msgstr "Tribunin %s"
+
+#, fuzzy, c-format
+#~| msgid "?female:Prime Minister %s"
+#~ msgid "?female:Prime Ministress %s"
+#~ msgstr "Premierministerin %s"
+
+#, fuzzy, c-format
+#~| msgid "Sergeant %s"
+#~ msgid "Regent %s"
+#~ msgstr "Sergeant %s"
+
+#, fuzzy
+#~| msgid "?plural:Papuans"
+#~ msgid "?plural:Palauans"
+#~ msgstr "Papua"
+
+#, fuzzy
+#~| msgid ""
+#~| "Texas, \"the Lone Star State\" is the second largest and second most "
+#~| "populous state of the USA, famous for its \"larger than life\" cowboy "
+#~| "mentality. During its history, Texas has been ruled in full or in part "
+#~| "by six countries: France, Spain, Mexico, the Texas Republic, the "
+#~| "Confederacy and the USA - as expressed in the slogan \"six flags over "
+#~| "Texas\"."
+#~ msgid ""
+#~ "Texas, \"the Lone Star State\" is the second largest and second most "
+#~ "populous state of the USA, famous for its \"larger than life\" cowboy "
+#~ "culture and Mexican heritage. After the famous Battle of the Alamo, The "
+#~ "Texians defeated the Mexicans at San Jacinto and declared independence. "
+#~ "The Republic of Texas lasted from 1836 to 1846, after which it became the "
+#~ "28th state of the United States. Historically, Texas was ruled in full or "
+#~ "in part by six nations: France, Spain, Mexico, the Republic of Texas, the "
+#~ "Confederacy, and the USA, as expressed in the slogan \"six flags over "
+#~ "Texas\"."
+#~ msgstr ""
+#~ "Texas, „The Lone Star State“, ist der zweitgrößte und "
+#~ "zweitbevölkerungsreichste Bundesstaat der USA, berühmt für seine „larger "
+#~ "than life“-Cowboy-Mentalität. Im Laufe seiner Geschichte wurde Texas ganz "
+#~ "oder teilweise von sechs Ländern regiert: Frankreich, Spanien, Mexiko, "
+#~ "der Republik Texas, der Konföderation und den USA – wie es der Slogan "
+#~ "„six flags over Texas“ ausdrückt."
 
 #~ msgid "American"
 #~ msgstr "amerikanisch"
