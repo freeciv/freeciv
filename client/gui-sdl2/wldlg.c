@@ -670,7 +670,6 @@ static int worklist_editor_item_callback(struct widget *pwidget)
 static void add_global_worklist(struct widget *pwidget)
 {
   struct global_worklist *gwl = global_worklist_by_id(MAX_ID - pwidget->id);
-  struct widget *buf = editor->work->end_active_widget_list;
   const struct worklist *pworklist;
   int count, firstfree;
 
@@ -688,6 +687,8 @@ static void add_global_worklist(struct widget *pwidget)
   firstfree = worklist_length(&editor->worklist_copy);
   /* Copy global worklist to city worklist */
   for (count = 0 ; count < worklist_length(pworklist); count++) {
+    struct widget *buf;
+
     /* Global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
     if (!can_city_build_later(editor->pcity, &pworklist->entries[count])) {
