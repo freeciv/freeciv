@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-23 06:15+0200\n"
+"POT-Creation-Date: 2023-09-22 15:53+0300\n"
 "PO-Revision-Date: 2021-09-27 11:47+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -348,22 +348,22 @@ msgstr "Sultanino %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:22 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:25 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:22 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:25
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
 msgstr "Guberniestro %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:22 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:25 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:22 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:25
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "?female:Guberniestrino %s"
@@ -988,14 +988,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/amazonian.ruleset:3
-#, fuzzy
 msgid "Amazonian"
-msgstr "Armena"
+msgstr "Amazona"
 
 #: data/nation/amazonian.ruleset:4
-#, fuzzy
 msgid "?plural:Amazons"
-msgstr "?plural:Arameoj"
+msgstr "?plural:Amazonoj"
 
 #: data/nation/amazonian.ruleset:6
 msgid ""
@@ -1170,7 +1168,7 @@ msgstr "?female:Granda Ŝamanino"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr "antarkta"
+msgstr "Antarkta"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
@@ -2274,7 +2272,7 @@ msgid ""
 msgstr ""
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2290,7 +2288,7 @@ msgid "General %s"
 msgstr "Generalo"
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2305,19 +2303,21 @@ msgid "?female:General %s"
 msgstr "?female:Ĝeneralo"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, fuzzy, c-format
 msgid "Reverend %s"
 msgstr "Reverendo"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, fuzzy, c-format
 msgid "?female:Reverend %s"
 msgstr "?female:Reverendo"
@@ -2852,14 +2852,14 @@ msgid ""
 "center of the world's entertainment and technology industries."
 msgstr ""
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, fuzzy, c-format
 msgid "Sheriff %s"
 msgstr "Ŝejko"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, fuzzy, c-format
 msgid "?female:Sheriff %s"
 msgstr "?female:Ĉefino"
@@ -3189,14 +3189,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:3
-#, fuzzy
 msgid "Chananean"
-msgstr "Kanada"
+msgstr "Ĉananea"
 
 #: data/nation/chananean.ruleset:4
-#, fuzzy
 msgid "?plural:Chananeans"
-msgstr "?plural:Kanadanoj"
+msgstr "?plural:Ĉananeoj"
 
 #: data/nation/chananean.ruleset:6
 msgid ""
@@ -3211,14 +3209,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "%s Alpha"
-msgstr "Alfabeto"
+msgstr "%s Alfao"
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Alpha"
-msgstr "?female:Ĉefino"
+msgstr "?female:%s Alfaino"
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
@@ -3996,14 +3994,12 @@ msgid "Prophetess %s"
 msgstr "Profetino"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "Traka"
+msgstr "Dakia"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "?plural:Trakoj"
+msgstr "?plural:Dakoj"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -4111,14 +4107,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/dryad.ruleset:3
-#, fuzzy
 msgid "Dryad"
-msgstr "Malaktiva"
+msgstr "Driada"
 
 #: data/nation/dryad.ruleset:4
-#, fuzzy
 msgid "?plural:Dryads"
-msgstr "?plural:Araboj"
+msgstr "?plural:Driadoj"
 
 #: data/nation/dryad.ruleset:6
 msgid ""
@@ -4228,14 +4222,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/elamite.ruleset:3
-#, fuzzy
 msgid "Elamite"
-msgstr "elita"
+msgstr "Elama"
 
 #: data/nation/elamite.ruleset:4
-#, fuzzy
 msgid "?plural:Elamites"
-msgstr "?plural:Emirlandanoj"
+msgstr "?plural:Elamanoj"
 
 #: data/nation/elamite.ruleset:6
 msgid ""
@@ -4263,12 +4255,11 @@ msgstr ""
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
-msgstr ""
+msgstr "Epira"
 
 #: data/nation/epirote.ruleset:4
-#, fuzzy
 msgid "?plural:Epirotes"
-msgstr "?plural:Piratoj"
+msgstr "?plural:Epiranoj"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -4325,7 +4316,7 @@ msgstr ""
 
 #: data/nation/esperant.ruleset:3
 msgid "Esperant"
-msgstr "esperanta"
+msgstr "Esperanta"
 
 #: data/nation/esperant.ruleset:4
 msgid "?plural:Esperants"
@@ -4337,7 +4328,7 @@ msgstr "Esperantistoj estas tutmonda komunumo kunigita de Esperanto."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "estona"
+msgstr "Estona"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
@@ -4361,12 +4352,11 @@ msgstr "?female:Premierino %s"
 
 #: data/nation/etruscan.ruleset:3
 msgid "Etruscan"
-msgstr ""
+msgstr "Etruska"
 
 #: data/nation/etruscan.ruleset:4
-#, fuzzy
 msgid "?plural:Etruscans"
-msgstr "?plural:Prusoj"
+msgstr "?plural:Etruskoj"
 
 #: data/nation/etruscan.ruleset:6
 msgid ""
@@ -4383,7 +4373,7 @@ msgstr ""
 
 #: data/nation/european.ruleset:3
 msgid "European"
-msgstr "eŭropa"
+msgstr "Eŭropa"
 
 #: data/nation/european.ruleset:4
 msgid "?plural:Europeans"
@@ -4612,14 +4602,36 @@ msgstr "Kapitan-Generalo"
 msgid "?female:Captain %s"
 msgstr "Kapitan-Generalo"
 
-#: data/nation/formosan.ruleset:3
-msgid "Formosan"
+#: data/nation/florida.ruleset:3
+#, fuzzy
+msgid "Floridian"
+msgstr "Argentina"
+
+#: data/nation/florida.ruleset:4
+#, fuzzy
+msgid "?plural:Floridians"
+msgstr "?plural:Persoj"
+
+#: data/nation/florida.ruleset:6
+msgid ""
+"Florida is the third most populous state of the USA and is well known for "
+"its tourism. It was repeatedly colonized by Spain and Great Britain before "
+"the \"Florida Patriots\" proclaimed the Republic of East Florida in 1812. "
+"Despite being suppressed by Spain the first time, in 1817 adventurers "
+"establied the Republic of the Floridas on Amelia Island which was "
+"incorporated by the USA with the rest of modern Florida in 1822. It joined "
+"the Confederacy in 1861 but rejoined the USA in 1868 and has since been the "
+"site of the Apollo 11 Space Launch, which let humans land on the moon for "
+"the first time in history."
 msgstr ""
 
+#: data/nation/formosan.ruleset:3
+msgid "Formosan"
+msgstr "Formoza"
+
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "?plural:Normanoj"
+msgstr "?plural:Formozanoj"
 
 #: data/nation/formosan.ruleset:7
 #, no-c-format
@@ -4663,14 +4675,12 @@ msgid "Prince-Bishop %s"
 msgstr "Princino"
 
 #: data/nation/frankish.ruleset:3
-#, fuzzy
 msgid "Frankish"
-msgstr "Turka"
+msgstr "Franka"
 
 #: data/nation/frankish.ruleset:4
-#, fuzzy
 msgid "?plural:Franks"
-msgstr "?plural:Persoj"
+msgstr "?plural:Frankoj"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -4780,14 +4790,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gaelic.ruleset:3
-#, fuzzy
 msgid "Gaelic"
-msgstr "Gaŭla"
+msgstr "Gaela"
 
 #: data/nation/gaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Gaels"
-msgstr "?plural:Gaŭloj"
+msgstr "?plural:Gaeloj"
 
 #: data/nation/gaelic.ruleset:6
 msgid ""
@@ -4823,7 +4831,7 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr "gaŭla"
+msgstr "Gaŭla"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
@@ -4927,12 +4935,11 @@ msgstr "Gruzoj estis en la unuaj popoloj kiuj adoptis Kristanismon, en 300 PK."
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "Gepida"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "?plural:Bengalanoj"
+msgstr "?plural:Gepidoj"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5313,25 +5320,25 @@ msgstr "?female:Prezidantino"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
-msgstr "komputpirata"
+msgstr "Kodumula"
 
 #: data/nation/hacker.ruleset:4
 msgid "?plural:Hackers"
-msgstr "?plural:Komputpiratoj"
+msgstr "?plural:Kodumuloj"
 
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
 msgstr ""
 
 #: data/nation/hacker.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?title:Hacker %s"
-msgstr "?title:Komputpirato"
+msgstr "?title:Kodumulo %s"
 
 #: data/nation/hacker.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Hacker %s"
-msgstr "?female:Komputpiratino"
+msgstr "?female:Kodumulino %s"
 
 #: data/nation/hacker.ruleset:36
 #, fuzzy, c-format
@@ -8605,7 +8612,6 @@ msgstr ""
 
 #: data/nation/palauan.ruleset:4
 #, fuzzy
-#| msgid "?plural:Papuans"
 msgid "?plural:Palauans"
 msgstr "?plural:Papuanoj"
 
@@ -8831,7 +8837,7 @@ msgstr ""
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "fenica"
+msgstr "Fenica"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
@@ -11422,12 +11428,11 @@ msgstr ""
 
 #: data/nation/volapuk.ruleset:3
 msgid "Volapükan"
-msgstr ""
+msgstr "Volapuka"
 
 #: data/nation/volapuk.ruleset:6
-#, fuzzy
 msgid "?plural:Volapükans"
-msgstr "?plural:Papuanoj"
+msgstr "?plural:Volapukistoj"
 
 #: data/nation/volapuk.ruleset:8
 msgid ""
@@ -11512,12 +11517,11 @@ msgstr ""
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
-msgstr ""
+msgstr "Homlupa"
 
 #: data/nation/werewolf.ruleset:5
-#, fuzzy
 msgid "?plural:Werewolves"
-msgstr "?plural:Kimroj"
+msgstr "?plural:Homlupoj"
 
 #: data/nation/werewolf.ruleset:7
 msgid ""
