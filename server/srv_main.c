@@ -132,6 +132,7 @@
 #include "savemain.h"
 
 /* server/scripting */
+#include "script_fcdb.h"
 #include "script_server.h"
 #include "luascript_types.h"
 
@@ -3428,11 +3429,17 @@ static void srv_ready(void)
     } players_iterate_end;
   }
 
+  if (srvarg.fcdb_enabled) {
+    script_fcdb_call("game_start", (lua_Integer)game.server.dbid,
+                     &game.server.dbid);
+    log_debug("dbid: %d", game.server.dbid);
+  }
+
   CALL_FUNC_EACH_AI(game_start);
 }
 
 /**********************************************************************//**
-  Initialize game data for the server (corresponds to server_game_free).
+  Initialize game data for the server (corresponds to server_game_free() ).
 **************************************************************************/
 void server_game_init(bool keep_ruleset_value)
 {

@@ -313,6 +313,27 @@ function database_capstr()
   return string.format('%s', caps.capstr)
 end
 
+function game_start(oldid)
+  local table_meta = get_option("table_meta")
+
+  if oldid >= 0 then
+    return oldid
+  end
+
+  query = string.format([[SELECT gamecount FROM %s]], table_meta)
+  local res = assert(dbh:execute(query))
+
+  local count_row = res:fetch({}, "a")
+  count = count_row.gamecount + 1
+
+  res:close()
+
+  query = string.format([[UPDATE %s set gamecount = %d]], table_meta, count)
+  assert(dbh:execute(query))
+
+  return count
+end
+
 -- **************************************************************************
 -- freeciv database entry functions
 -- **************************************************************************

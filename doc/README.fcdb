@@ -209,6 +209,9 @@ Freeciv expects the following lua functions to be defined in database.lua:
   -- Called when connection has been fully established
   function conn_established(conn)
 
+  -- Called when the game starts. Return dbid to use now on
+  function game_start(oldid)
+
 Where 'conn' is an object representing the connection to the client which
 requests access.
 
