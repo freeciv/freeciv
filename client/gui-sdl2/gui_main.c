@@ -1302,7 +1302,8 @@ void gui_update_font(const char *font_name, const char *font_value)
 unsigned default_font_size(struct theme *act_theme)
 {
   return font_size_parameter > 0 ? font_size_parameter :
-    theme_default_font_size(act_theme);
+    (GUI_SDL_OPTION(use_theme_font_size) ? theme_default_font_size(act_theme) :
+     GUI_SDL_OPTION(font_size));
 }
 
 /**********************************************************************//**

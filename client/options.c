@@ -357,6 +357,8 @@ struct client_options gui_options = {
   .gui_sdl2_use_color_cursors = TRUE,
   .gui_sdl2_font_city_names = "10",
   .gui_sdl2_font_city_productions = "10",
+  .gui_sdl2_use_theme_font_size = TRUE,
+  .gui_sdl2_font_size = 10,
 
 /* gui-qt client specific options. */
   .gui_qt_fullscreen = FALSE,
@@ -3151,6 +3153,15 @@ static struct client_option client_options[] = {
                      "production names on the map."),
                   COC_FONT, GUI_SDL2,
                   "10", font_changed_callback),
+  GEN_BOOL_OPTION(gui_sdl2_use_theme_font_size, N_("Use theme defined font size"),
+                  N_("Disable this to override base font size set by theme "
+                     "by the setting below."),
+                  COC_FONT, GUI_SDL2, TRUE, NULL),
+  GEN_INT_OPTION(gui_sdl2_font_size, N_("Base Font Size"),
+                 N_("Base Font Size. All the fonts' sizes are defined relative "
+                    "to this. This option has effect only if theme font sizes "
+                    "option is disabled."),
+                 COC_FONT, GUI_SDL2, 10, 6, 50, NULL),
 
   /* gui-qt client specific options. */
   GEN_BOOL_OPTION(gui_qt_fullscreen, N_("Fullscreen"),
