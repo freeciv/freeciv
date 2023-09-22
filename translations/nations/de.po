@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-23 06:15+0200\n"
+"POT-Creation-Date: 2023-08-26 20:14+0300\n"
 "PO-Revision-Date: 2023-01-15 11:43+0100\n"
 "Last-Translator: Andreas Engel <ae3@mein-ramberg.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -370,22 +370,22 @@ msgstr "Sultana %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:22 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:25 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:22 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:25
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
 msgstr "Gouverneur %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:22 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:25 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:22 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:25
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "Gouverneurin %s"
@@ -2522,7 +2522,7 @@ msgstr ""
 "niedergerungen wurden."
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2538,7 +2538,7 @@ msgid "General %s"
 msgstr "General %s"
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2553,19 +2553,21 @@ msgid "?female:General %s"
 msgstr "Generälin %s"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Pfarrer %s"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "Pfarrerin %s"
@@ -3185,14 +3187,14 @@ msgstr ""
 "wurde er ein Zentrum der weltweiten Unterhaltungs- und Technologie-"
 "Industrien."
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "Sheriff %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
 msgstr "Sheriff %s"
@@ -5335,6 +5337,29 @@ msgstr "Kapitän %s"
 #, c-format
 msgid "?female:Captain %s"
 msgstr "Kapitänin %s"
+
+#: data/nation/florida.ruleset:3
+#, fuzzy
+msgid "Floridian"
+msgstr "florentinisch"
+
+#: data/nation/florida.ruleset:4
+#, fuzzy
+msgid "?plural:Floridians"
+msgstr "Friesen"
+
+#: data/nation/florida.ruleset:6
+msgid ""
+"Florida is the third most populous state of the USA and is well known for "
+"its tourism. It was repeatedly colonized by Spain and Great Britain before "
+"the \"Florida Patriots\" proclaimed the Republic of East Florida in 1812. "
+"Despite being suppressed by Spain the first time, in 1817 adventurers "
+"establied the Republic of the Floridas on Amelia Island which was "
+"incorporated by the USA with the rest of modern Florida in 1822. It joined "
+"the Confederacy in 1861 but rejoined the USA in 1868 and has since been the "
+"site of the Apollo 11 Space Launch, which let humans land on the moon for "
+"the first time in history."
+msgstr ""
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
@@ -7910,7 +7935,6 @@ msgstr ""
 
 #: data/nation/liege.ruleset:4
 #, fuzzy
-#| msgid "?plural:Liberians"
 msgid "?plural:Liegeans"
 msgstr "Liberianer"
 
@@ -7927,19 +7951,16 @@ msgstr ""
 
 #: data/nation/liege.ruleset:28
 #, fuzzy, c-format
-#| msgid "?female:Tribune %s"
 msgid "?female:Princess %s"
 msgstr "Tribunin %s"
 
 #: data/nation/liege.ruleset:29
 #, fuzzy, c-format
-#| msgid "?female:Prime Minister %s"
 msgid "?female:Prime Ministress %s"
 msgstr "Premierministerin %s"
 
 #: data/nation/liege.ruleset:31
 #, fuzzy, c-format
-#| msgid "Sergeant %s"
 msgid "Regent %s"
 msgstr "Sergeant %s"
 
@@ -10126,7 +10147,6 @@ msgstr ""
 
 #: data/nation/palauan.ruleset:4
 #, fuzzy
-#| msgid "?plural:Papuans"
 msgid "?plural:Palauans"
 msgstr "Papua"
 
@@ -10843,14 +10863,6 @@ msgstr "Russinen"
 
 #: data/nation/rusyn.ruleset:6
 #, fuzzy
-#| msgid ""
-#| "The Rusyns are an ethnic group on the western periphery of the East "
-#| "Slavic nations. They live mainly in the Polish-Ukrainian-Slovak "
-#| "borderland and in the Vojvodina. In medieval times the Rusyn homeland was "
-#| "the site of the Duchy of Galicia-Volhynia and the Kingdom of Rus. In "
-#| "later times the lands were under Polish and later Austrian rule. Rusyns "
-#| "formed two ephemeral states after World War I: the Lemko-Rusyn Republic "
-#| "and the Komancza Republic."
 msgid ""
 "The Rusyns are an ethnic group on the western periphery of the East Slavic "
 "nations. They live mainly in the Polish-Ukrainian-Slovak borderland and in "
@@ -12605,12 +12617,6 @@ msgstr "Texaner"
 
 #: data/nation/texan.ruleset:6
 #, fuzzy
-#| msgid ""
-#| "Texas, \"the Lone Star State\" is the second largest and second most "
-#| "populous state of the USA, famous for its \"larger than life\" cowboy "
-#| "mentality. During its history, Texas has been ruled in full or in part by "
-#| "six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
-#| "and the USA - as expressed in the slogan \"six flags over Texas\"."
 msgid ""
 "Texas, \"the Lone Star State\" is the second largest and second most "
 "populous state of the USA, famous for its \"larger than life\" cowboy "
