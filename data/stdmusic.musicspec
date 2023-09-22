@@ -8,6 +8,12 @@ name = "Stdmusic"
 ; There`s no separate versioning in musicsets part of main freeciv distribution
 ;version = ""
 
+; Summary of the musicset
+summary = _("Minimal musicset with just menu music.")
+
+; Detailed description, typically loaded from separate file (asterisks syntax)
+;description = *filename.txt*
+
 [info]
 artists = "\
 "
