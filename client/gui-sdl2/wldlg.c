@@ -670,7 +670,6 @@ static int worklist_editor_item_callback(struct widget *pWidget)
 static void add_global_worklist(struct widget *pWidget)
 {
   struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pWidget->ID);
-  struct widget *pBuf = pEditor->pWork->pEndActiveWidgetList;
   const struct worklist *pWorkList;
   int count, firstfree;
 
@@ -686,9 +685,11 @@ static void add_global_worklist(struct widget *pWidget)
   }
 
   firstfree = worklist_length(&pEditor->worklist_copy);
-  /* copy global worklist to city worklist */
+  /* Copy global worklist to city worklist */
   for (count = 0 ; count < worklist_length(pWorkList); count++) {
-    /* global worklist can have targets unavilable in current state of game
+    struct widget *buf;
+
+    /* Global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
     if (!can_city_build_later(pEditor->pCity, &pWorkList->entries[count])) {
       continue;
@@ -698,31 +699,31 @@ static void add_global_worklist(struct widget *pWidget)
 
     /* Create widget */
     if (VUT_UTYPE == pWorkList->entries[count].kind) {
-      pBuf = create_iconlabel(NULL, pWidget->dst,
-                              create_utf8_from_char_fonto(
+      buf = create_iconlabel(NULL, pWidget->dst,
+                             create_utf8_from_char_fonto(
                       utype_name_translation(pWorkList->entries[count].value.utype),
                       FONTO_DEFAULT),
-                              (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      pBuf->ID = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
+                             (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+      buf->ID = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
     } else {
-      pBuf = create_iconlabel(NULL, pWidget->dst,
-                              create_utf8_from_char_fonto(
+      buf = create_iconlabel(NULL, pWidget->dst,
+                             create_utf8_from_char_fonto(
                       city_improvement_name_translation(pEditor->pCity,
                                                         pWorkList->entries[count].value.building),
                       FONTO_DEFAULT),
-                              (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      pBuf->ID = MAX_ID - cid_encode_building(pWorkList->entries[count].value.building);
+                             (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+      buf->ID = MAX_ID - cid_encode_building(pWorkList->entries[count].value.building);
     }
 
-    pBuf->string_utf8->style |= SF_CENTER;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->action = worklist_editor_item_callback;
-    pBuf->size.w = adj_size(126);
-    pBuf->data.ptr = fc_calloc(1, sizeof(int));
-    *((int *)pBuf->data.ptr) = firstfree;
+    buf->string_utf8->style |= SF_CENTER;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->action = worklist_editor_item_callback;
+    buf->size.w = adj_size(126);
+    buf->data.ptr = fc_calloc(1, sizeof(int));
+    *((int *)buf->data.ptr) = firstfree;
 
     add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
-                                              pBuf, pEditor->pWork->pBeginActiveWidgetList,
+                                              buf, pEditor->pWork->pBeginActiveWidgetList,
                                               FALSE,
                                               pEditor->pEndWidgetList->area.x + adj_size(2),
                                               pEditor->pEndWidgetList->area.y + adj_size(152));
