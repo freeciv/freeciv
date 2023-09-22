@@ -1154,7 +1154,7 @@ BUILD_CITY:
         /* We had a city result, just worse than best impr */
         cityresult_destroy(result);
       }
-      adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
+      adv_unit_new_task(punit, AUT_AUTO_WORKER, best_tile);
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "cannot find work");
       fc_assert(result == NULL);
@@ -1163,7 +1163,7 @@ BUILD_CITY:
     }
   } else {
     /* We are a worker or engineer */
-    adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
+    adv_unit_new_task(punit, AUT_AUTO_WORKER, best_tile);
   }
 
   if (best_tile != NULL

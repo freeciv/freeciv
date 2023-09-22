@@ -2535,7 +2535,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
   dai_military_findjob(ait, pplayer, punit);
 
   switch (unit_data->task) {
-  case AIUNIT_AUTO_SETTLER:
+  case AIUNIT_AUTO_WORKER:
   case AIUNIT_BUILD_CITY:
     fc_assert(FALSE); /* This is not the place for this role */
     break;
@@ -2614,9 +2614,9 @@ static void dai_manage_settler(struct ai_type *ait, struct player *pplayer,
 
   unit_server_side_agent_set(pplayer, punit, SSA_AUTOWORKER);
   unit_data->done = TRUE; /* We will manage this unit later... ugh */
-  /* If BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
+  /* If BUILD_CITY must remain BUILD_CITY, otherwise turn into autoworker */
   if (unit_data->task == AIUNIT_NONE) {
-    adv_unit_new_task(punit, AUT_AUTO_SETTLER, NULL);
+    adv_unit_new_task(punit, AUT_AUTO_WORKER, NULL);
   }
 }
 

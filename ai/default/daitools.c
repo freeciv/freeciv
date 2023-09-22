@@ -78,8 +78,8 @@ const char *dai_unit_task_rule_name(const enum ai_unit_task task)
   switch (task) {
    case AIUNIT_NONE:
      return "None";
-   case AIUNIT_AUTO_SETTLER:
-     return "Auto settler";
+   case AIUNIT_AUTO_WORKER:
+     return "Auto worker";
    case AIUNIT_BUILD_CITY:
      return "Build city";
    case AIUNIT_DEFEND_HOME:
@@ -564,7 +564,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     /* Default tile behaviour */
   } else if (utype_may_act_at_all(unit_type_get(punit))) {
     switch (unit_data->task) {
-    case AIUNIT_AUTO_SETTLER:
+    case AIUNIT_AUTO_WORKER:
     case AIUNIT_BUILD_CITY:
       /* Strange, but not impossible */
       parameter->get_TB = no_fights;
@@ -619,8 +619,8 @@ void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
 {
   /* Keep ai_unit_task in sync with adv task */
   switch (task) {
-   case AUT_AUTO_SETTLER:
-     dai_unit_new_task(ait, punit, AIUNIT_AUTO_SETTLER, ptile);
+   case AUT_AUTO_WORKER:
+     dai_unit_new_task(ait, punit, AIUNIT_AUTO_WORKER, ptile);
      break;
    case AUT_BUILD_CITY:
      dai_unit_new_task(ait, punit, AIUNIT_BUILD_CITY, ptile);
@@ -734,8 +734,8 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
   /* Map ai tasks to advisor tasks. For most ai tasks there is
      no advisor, so AUT_NONE is set. */
   switch (unit_data->task) {
-   case AIUNIT_AUTO_SETTLER:
-     punit->server.adv->task = AUT_AUTO_SETTLER;
+   case AIUNIT_AUTO_WORKER:
+     punit->server.adv->task = AUT_AUTO_WORKER;
      break;
    case AIUNIT_BUILD_CITY:
      punit->server.adv->task = AUT_BUILD_CITY;

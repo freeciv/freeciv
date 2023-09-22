@@ -24,17 +24,17 @@ struct pf_path;
 
 struct section_file;
 
-enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
+enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_WORKER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_ESCORT, 
                     AIUNIT_EXPLORE, AIUNIT_RECOVER, AIUNIT_HUNTER,
                     AIUNIT_TRADE, AIUNIT_WONDER };
 
 struct unit_ai {
   /* The following are unit ids or special indicator values (<=0) */
-  int ferryboat; /* the ferryboat assigned to us */
-  int passenger; /* the unit assigned to this ferryboat */
-  int bodyguard; /* the unit bodyguarding us */
-  int charge; /* the unit this unit is bodyguarding */
+  int ferryboat; /* The ferryboat assigned to us */
+  int passenger; /* The unit assigned to this ferryboat */
+  int bodyguard; /* The unit bodyguarding us */
+  int charge;    /* The unit this unit is bodyguarding */
 
   struct tile *prev_struct, *cur_struct;
   struct tile **prev_pos, **cur_pos;
@@ -72,8 +72,8 @@ struct unit_type_ai
 #define POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, aplayer)               \
   (WAR(pplayer, aplayer) || NEVER_MET(pplayer, aplayer)                 \
    || dai_diplomacy_get(ait, pplayer, aplayer)->countdown >= 0)
-#define UNITTYPE_COSTS(ut)						\
-  (ut->pop_cost * 3 + ut->happy_cost					\
+#define UNITTYPE_COSTS(ut)                                              \
+  (ut->pop_cost * 3 + ut->happy_cost                                    \
    + ut->upkeep[O_SHIELD] + ut->upkeep[O_FOOD] + ut->upkeep[O_GOLD])
 
 /* Invasion types */
@@ -129,11 +129,11 @@ const struct impr_type *utype_needs_improvement(const struct unit_type *putype,
                                                 const struct city *pcity);
 
 bool is_on_unit_upgrade_path(const struct unit_type *test,
-			     const struct unit_type *base);
+                             const struct unit_type *base);
 
 void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
                                  struct unit *punit,
-				 enum override_bool *result);
+                                 enum override_bool *result);
 
 void dai_units_ruleset_init(struct ai_type *ait);
 void dai_units_ruleset_close(struct ai_type *ait);
@@ -142,14 +142,14 @@ void dai_unit_init(struct ai_type *ait, struct unit *punit);
 void dai_unit_turn_end(struct ai_type *ait, struct unit *punit);
 void dai_unit_close(struct ai_type *ait, struct unit *punit);
 
-#define simple_ai_unit_type_iterate(_ut)				\
-{									\
-  struct unit_type *_ut;						\
-  int _ut##_index = 0;							\
+#define simple_ai_unit_type_iterate(_ut)                                \
+{                                                                       \
+  struct unit_type *_ut;                                                \
+  int _ut##_index = 0;                                                  \
   while (NULL != (_ut = simple_ai_types[_ut##_index++])) {
 
-#define simple_ai_unit_type_iterate_end					\
-  }									\
+#define simple_ai_unit_type_iterate_end                                 \
+  }                                                                     \
 }
 
 void dai_unit_save(struct ai_type *ait, const char *aitstr,

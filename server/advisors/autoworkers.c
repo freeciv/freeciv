@@ -966,7 +966,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
       completion_time = pf_path_last_position(path)->turn;
     }
 
-    adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
+    adv_unit_new_task(punit, AUT_AUTO_WORKER, best_tile);
 
     best_target = best_task->tgt;
 
@@ -994,7 +994,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
     }
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
 
-    adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
+    adv_unit_new_task(punit, AUT_AUTO_WORKER, best_tile);
 
     auto_worker_setup_work(nmap, pplayer, punit, state, recursion, path,
                            best_tile, best_act, &best_target,
@@ -1020,7 +1020,7 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
                             int completion_time)
 {
   /* Run the "autoworker" program */
-  if (punit->server.adv->task == AUT_AUTO_SETTLER) {
+  if (punit->server.adv->task == AUT_AUTO_WORKER) {
     struct pf_map *pfm = NULL;
     struct pf_parameter parameter;
     bool working = FALSE;

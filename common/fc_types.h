@@ -366,7 +366,7 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_COUNT CBR_LAST
 #include "specenum_gen.h"
 
-enum adv_unit_task { AUT_NONE, AUT_AUTO_SETTLER, AUT_BUILD_CITY };
+enum adv_unit_task { AUT_NONE, AUT_AUTO_WORKER, AUT_BUILD_CITY };
 
 typedef signed short Continent_id;
 typedef int Terrain_type_id;
