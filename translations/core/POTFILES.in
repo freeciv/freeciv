@@ -393,7 +393,6 @@ server/barbarian.c
 server/cityhand.c
 server/citytools.c
 server/cityturn.c
-server/civserver.c
 server/commands.c
 server/connecthand.c
 server/console.c
@@ -423,6 +422,7 @@ server/sernet.c
 server/settings.c
 server/settings.h
 server/spacerace.c
+server/srv_entrypoint.c
 server/srv_main.c
 server/srv_signal.c
 server/stdinhand.c
