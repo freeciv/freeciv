@@ -158,6 +158,7 @@ void map_init(struct civ_map *imap, bool server_side)
 {
   imap->topology_id = MAP_DEFAULT_TOPO;
   imap->wrap_id = MAP_DEFAULT_WRAP;
+  imap->altitude_info = FALSE;
   imap->num_continents = 0;
   imap->num_oceans = 0;
   imap->tiles = nullptr;

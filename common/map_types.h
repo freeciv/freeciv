@@ -71,23 +71,24 @@ enum map_startpos {
 struct civ_map {
   int topology_id;
   int wrap_id;
+  bool altitude_info;
   enum direction8 valid_dirs[8], cardinal_dirs[8];
   int num_valid_dirs, num_cardinal_dirs;
   struct iter_index *iterate_outwards_indices;
   int num_iterate_outwards_indices;
-  int xsize, ysize; /* native dimensions */
+  int xsize, ysize;   /* Native dimensions */
   int north_latitude;
   int south_latitude;
   int num_continents;
-  int num_oceans;               /* not updated at the client */
+  int num_oceans;     /* Not updated at the client */
   struct tile *tiles;
   struct startpos_hash *startpos_table;
 
   union {
     struct {
-      enum mapsize_type mapsize; /* how the map size is defined */
-      int size; /* used to calculate [xy]size */
-      int tilesperplayer; /* tiles per player; used to calculate size */
+      enum mapsize_type mapsize; /* How the map size is defined */
+      int size;                  /* Used to calculate [xy]size */
+      int tilesperplayer;        /* Tiles per player; used to calculate size */
       randseed seed_setting;
       randseed seed;
       int riches;

@@ -647,6 +647,7 @@ void send_map_info(struct conn_list *dest)
   minfo.wrap_id = wld.map.wrap_id;
   minfo.north_latitude = wld.map.north_latitude;
   minfo.south_latitude = wld.map.south_latitude;
+  minfo.altitude_info = wld.map.altitude_info;
 
   lsend_packet_map_info(dest, &minfo);
 }

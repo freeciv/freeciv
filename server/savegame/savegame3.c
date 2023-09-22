@@ -1198,7 +1198,7 @@ static Tech_type_id technology_load(struct section_file *file,
   name = secfile_lookup_str(file, path_with_name, plrno);
 
   if (!name || name[0] == '\0') {
-    /* used by researching_saved */
+    /* Used by researching_saved */
     return A_UNKNOWN;
   }
   if (fc_strcasecmp(name, "A_FUTURE") == 0) {
@@ -1231,7 +1231,7 @@ static void technology_save(struct section_file *file,
               "%s_name", path);
 
   switch (tech) {
-    case A_UNKNOWN: /* used by researching_saved */
+    case A_UNKNOWN: /* Used by researching_saved */
        name = "";
        break;
     case A_NONE:
@@ -2739,6 +2739,11 @@ static void sg_load_map(struct loaddata *loading)
    *   2) when map is actually generated, it re-initialize this to FALSE. */
   wld.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
+
+  sg_failure_ret(secfile_lookup_bool(loading->file, &wld.map.altitude_info,
+                                     "map.altitude"),
+                 "%s", secfile_error());
+
   game.scenario.have_resources
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_resources");
 
@@ -2797,6 +2802,8 @@ static void sg_save_map(struct savedata *saving)
     secfile_insert_bool(saving->file, TRUE, "map.have_huts");
     secfile_insert_bool(saving->file, TRUE, "map.have_resources");
   }
+
+  secfile_insert_bool(saving->file, wld.map.altitude_info, "map.altitude");
 
   /* For debugging purposes only.
    * Do not save it if it's 0 (not known);

@@ -649,6 +649,7 @@ PACKET_MAP_INFO = 17; sc, lsend
   UINT8 wrap_id;
   SINT16 north_latitude;
   SINT16 south_latitude;
+  BOOL altitude_info;
 end
 
 PACKET_NUKE_TILE_INFO = 18; sc, dsend, lsend, handle-via-fields

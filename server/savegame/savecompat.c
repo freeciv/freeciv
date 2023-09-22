@@ -2434,6 +2434,8 @@ static void compat_load_030300(struct loaddata *loading,
 
   log_debug("Upgrading data from savegame to version 3.3.0");
 
+  secfile_insert_bool(loading->file, FALSE, "map.altitude");
+
   {
     int ssa_count;
 
@@ -3235,6 +3237,8 @@ static void compat_load_dev(struct loaddata *loading)
 
   if (game_version < 3029200) {
     /* Before version number bump to 3.2.92 */
+
+    secfile_insert_bool(loading->file, FALSE, "map.altitude");
 
   } /* Version < 3.2.92 */
 

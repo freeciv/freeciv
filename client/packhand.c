@@ -2229,8 +2229,8 @@ void handle_set_topology(int topology_id, int wrap_id)
 }
 
 /************************************************************************//**
-  Receive information about the map size and topology from the server. We
-  initialize some global variables at the same time.
+  Receive information about the map size and topology from the server.
+  We initialize some global variables at the same time.
 ****************************************************************************/
 void handle_map_info(const struct packet_map_info *packet)
 {
@@ -2246,8 +2246,10 @@ void handle_map_info(const struct packet_map_info *packet)
 
   wld.map.north_latitude = packet->north_latitude;
   wld.map.south_latitude = packet->south_latitude;
+  wld.map.altitude_info = packet->altitude_info;
 
-  if (tileset_map_topo_compatible(packet->topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
+  if (tileset_map_topo_compatible(packet->topology_id,
+                                  tileset, &ts_topo) == TOPO_INCOMP_HARD) {
     tileset_error(LOG_NORMAL, tileset_name_get(tileset),
                   _("Map topology (%s) and tileset (%s) incompatible."),
                   describe_topology(packet->topology_id), describe_topology(ts_topo));
