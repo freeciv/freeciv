@@ -112,6 +112,8 @@ static struct fc_lua *fcl = NULL;
 
   conn_established(Connection pconn)
     - called when connection has been fully established
+  gase_start(int oldid)
+    - called when game starts. Should return game db id to use now on.
 
   If an error occurred, the functions return a non-NULL string error
   message as the last return value.
@@ -137,6 +139,8 @@ static void script_fcdb_functions_define(void)
                      API_TYPE_CONNECTION, API_TYPE_PLAYER, API_TYPE_BOOL,
                      API_TYPE_BOOL);
   luascript_func_add(fcl, "conn_established", FALSE, 1, 0, API_TYPE_CONNECTION);
+  luascript_func_add(fcl, "game_start", FALSE, 1, 1,
+                     API_TYPE_INT, API_TYPE_INT);
 }
 
 /**********************************************************************//**

@@ -536,6 +536,7 @@ void game_ruleset_init(void)
 
   if (is_server()) {
     game.server.luadata = NULL;
+    game.server.dbid = -1;
     game.server.ruledit.nationlist = NULL;
     game.server.ruledit.embedded_nations = NULL;
     game.server.ruledit.embedded_nations_count = 0;

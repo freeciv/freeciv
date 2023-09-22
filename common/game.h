@@ -244,6 +244,7 @@ struct civ_game {
       struct rgbcolor_list *plr_colors;
 
       struct section_file *luadata;
+      int dbid;
 
       struct {
         int turns;
