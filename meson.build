@@ -5,7 +5,7 @@ c_compiler = meson.get_compiler('c')
 
 b_root = meson.project_build_root()
 
-if get_option('ruledit') or \
+if get_option('tools').contains('ruledit') or \
    get_option('clients').contains('qt') or \
    get_option('fcmp').contains('qt')
   add_languages('cpp', native: false)
@@ -4093,7 +4093,7 @@ executable('freeciv-ruleup',
   install: true
   )
 
-if get_option('ruledit')
+if get_option('tools').contains('ruledit')
 
 if not qt_dep.found()
   if qtver == 'qt6' or qtver == 'qt6x'
