@@ -30,7 +30,11 @@
 #include "rand.h"
 #include "registry.h"
 
+#endif /* __EMSCRIPTEN__ */
+
 #include "netfile.h"
+
+#ifndef __EMSCRIPTEN__
 
 struct netfile_post {
 #ifdef HAVE_CURL_MIME_API
