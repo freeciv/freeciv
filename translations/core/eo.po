@@ -2486,7 +2486,7 @@ msgstr ""
 #: client/gui-gtk-4.0/action_dialog.c:1413 client/gui-qt/dialogs.cpp:2056
 #, c-format
 msgid "Your %s is ready to act against %s %s."
-msgstr "Via %s pretas agi kontraŭ %s unuo %s."
+msgstr "Via unuo %s pretas agi kontraŭ %s unuo %s."
 
 #. TRANS: %s is a unit name, e.g., Diplomat, Spy
 #: client/gui-gtk-3.0/action_dialog.c:1434
@@ -3135,7 +3135,7 @@ msgstr "Tavolo de urboj"
 #: data/sandbox/units.ruleset:31 data/civ2civ3/units.ruleset:31
 #: data/multiplayer/units.ruleset:31 tools/civmanual.c:469
 msgid "Transform"
-msgstr "Transformu"
+msgstr "Transformi"
 
 #: client/gui-gtk-3.0/citydlg.c:2988 client/gui-gtk-3.22/citydlg.c:3004
 #: client/gui-gtk-4.0/citydlg.c:3123 client/gui-qt/citydlg.cpp:1428
@@ -3145,9 +3145,8 @@ msgstr "Malpolui"
 
 #: client/gui-gtk-3.0/citydlg.c:2994 client/gui-gtk-3.22/citydlg.c:3010
 #: client/gui-gtk-4.0/citydlg.c:3129 client/gui-qt/citydlg.cpp:1433
-#, fuzzy
 msgid "Clean Fallout"
-msgstr "Malpolui radioaktivan refalon"
+msgstr "Forpurigi radioaktivajn restaĵojn"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.0/citydlg.c:3094 client/gui-gtk-3.22/citydlg.c:3110
@@ -4850,7 +4849,7 @@ msgstr "Nutraĵo/Prod/Kom:"
 #: client/gui-gtk-3.0/helpdlg.c:128 client/gui-gtk-3.22/helpdlg.c:128
 #: client/gui-gtk-4.0/helpdlg.c:128
 msgid "Resources:"
-msgstr "Risurcoj:"
+msgstr "Rimedoj:"
 
 #. TRANS: Label for build cost for extras in help. Will be followed by
 #. * something like "3 MP" (where MP = Movement Points)
@@ -5231,9 +5230,8 @@ msgid "?verb:_View"
 msgstr "?verb:_Vidi"
 
 #: client/gui-gtk-3.0/menu.c:270 client/gui-gtk-3.22/menu.c:273
-#, fuzzy
 msgid "_Improvements"
-msgstr "_Urbaj plibonigoj:"
+msgstr "_Plibonigoj"
 
 #: client/gui-gtk-3.0/menu.c:272 client/gui-gtk-3.22/menu.c:275
 #: client/gui-gtk-4.0/menu.c:3211
@@ -5555,16 +5553,14 @@ msgstr "_Redakta reĝimo"
 
 #: client/gui-gtk-3.0/menu.c:422 client/gui-gtk-3.22/menu.c:431
 #: client/gui-gtk-4.0/menu.c:619
-#, fuzzy
 msgid "Cit_y Outlines"
-msgstr "Limoj de la urbo"
+msgstr "UrboLimoj"
 
 #: client/gui-gtk-3.0/menu.c:424 client/gui-gtk-3.22/menu.c:433
 #: client/gui-gtk-4.0/menu.c:622 client/gui-qt/menu.cpp:1097
 #: client/gui-qt/shortcuts.cpp:67
-#, fuzzy
 msgid "City Output"
-msgstr "Opcioj pri urbo"
+msgstr "Rikolto de kaheloj"
 
 #: client/gui-gtk-3.0/menu.c:426 client/gui-gtk-3.22/menu.c:435
 #: client/gui-gtk-4.0/menu.c:625
@@ -5579,13 +5575,13 @@ msgstr "Landlimoj"
 #: client/gui-gtk-3.0/menu.c:430 client/gui-gtk-3.22/menu.c:439
 #: client/gui-gtk-4.0/menu.c:631 client/gui-qt/menu.cpp:1115
 msgid "Native Tiles"
-msgstr ""
+msgstr "Kaheloj de indiĝenoj"
+# FIXME: not 100% sure what this means in game terms
 
 #: client/gui-gtk-3.0/menu.c:432 client/gui-gtk-3.22/menu.c:441
 #: client/gui-gtk-4.0/menu.c:634 client/gui-qt/menu.cpp:1120
-#, fuzzy
 msgid "City Full Bar"
-msgstr "Murzono"
+msgstr "Plenaj informŝildoj pri urboj"
 
 #: client/gui-gtk-3.0/menu.c:434 client/gui-gtk-3.22/menu.c:443
 #: client/gui-gtk-4.0/menu.c:637
@@ -5599,31 +5595,26 @@ msgstr "_Pliiĝoj de la urboj"
 
 #: client/gui-gtk-3.0/menu.c:438 client/gui-gtk-3.22/menu.c:447
 #: client/gui-gtk-4.0/menu.c:643
-#, fuzzy
-#| msgid "City Production"
 msgid "City _Production"
-msgstr "Produktado de la urbo"
+msgstr "_Rikolto ĉirkaŭ urboj"
 
 #: client/gui-gtk-3.0/menu.c:440 client/gui-gtk-3.22/menu.c:449
 #: client/gui-gtk-4.0/menu.c:646 client/gui-qt/menu.cpp:1143
-#, fuzzy
 msgid "City Buy Cost"
-msgstr "Elspezo:"
+msgstr "Prezoj de aĉetoj en urboj"
 
 #: client/gui-gtk-3.0/menu.c:442 client/gui-gtk-3.22/menu.c:451
 #: client/gui-gtk-4.0/menu.c:649
-#, fuzzy
 msgid "City Tra_deroutes"
-msgstr "Komercaj kursoj:"
+msgstr "Komercaj kursoj el urboj"
 
 #: client/gui-gtk-3.0/menu.c:444 client/gui-gtk-3.22/menu.c:453
 #: client/gui-gtk-4.0/menu.c:652
 msgid "_Terrain"
-msgstr "_Grundo"
+msgstr "_Tereno"
 
 #: client/gui-gtk-3.0/menu.c:446 client/gui-gtk-3.22/menu.c:455
 #: client/gui-gtk-4.0/menu.c:655
-#, fuzzy
 msgid "C_oastline"
 msgstr "Marbordo"
 
@@ -5649,20 +5640,18 @@ msgstr "_Bazoj"
 
 #: client/gui-gtk-3.0/menu.c:456 client/gui-gtk-3.22/menu.c:465
 #: client/gui-gtk-4.0/menu.c:670
-#, fuzzy
 msgid "_Resources"
-msgstr "Produktado"
+msgstr "_Rimedoj"
 
 #: client/gui-gtk-3.0/menu.c:458 client/gui-gtk-3.22/menu.c:467
 #: client/gui-gtk-4.0/menu.c:673
 msgid "_Huts"
-msgstr ""
+msgstr "_Kabanoj"
 
 #: client/gui-gtk-3.0/menu.c:460 client/gui-gtk-3.22/menu.c:469
 #: client/gui-gtk-4.0/menu.c:676
-#, fuzzy
 msgid "Po_llution & Fallout"
-msgstr "Poluo kaj radioaktiveco"
+msgstr "Poluaĵo kaj radioaktiveco"
 
 #: client/gui-gtk-3.0/menu.c:462 client/gui-gtk-3.22/menu.c:471
 #: client/gui-gtk-4.0/menu.c:679
@@ -5671,28 +5660,24 @@ msgstr "_Urboj"
 
 #: client/gui-gtk-3.0/menu.c:466 client/gui-gtk-3.22/menu.c:475
 #: client/gui-gtk-4.0/menu.c:685
-#, fuzzy
 msgid "Unit Solid Background"
-msgstr "Solida fona koloro por la unuoj"
+msgstr "Solidaj unuo-fonoj"
 
 #: client/gui-gtk-3.0/menu.c:468 client/gui-gtk-3.22/menu.c:477
 #: client/gui-gtk-4.0/menu.c:688
-#, fuzzy
 msgid "Unit shields"
-msgstr "produktado"
+msgstr "Unuo-ŝildoj"
 
 #: client/gui-gtk-3.0/menu.c:470 client/gui-gtk-3.22/menu.c:479
 #: client/gui-gtk-4.0/menu.c:691 client/gui-qt/menu.cpp:1153
 #: client/gui-qt/shortcuts.cpp:176
-#, fuzzy
 msgid "Unit Stack Size"
-msgstr "La atako malsukcesis"
+msgstr "Kvantoj de unuoj en stakoj"
 
 #: client/gui-gtk-3.0/menu.c:473 client/gui-gtk-3.22/menu.c:482
 #: client/gui-gtk-4.0/menu.c:694
-#, fuzzy
 msgid "Focu_s Unit"
-msgstr "Aktiva unuo"
+msgstr "Enfokusigi unuon"
 
 #: client/gui-gtk-3.0/menu.c:475 client/gui-gtk-3.22/menu.c:484
 #: client/gui-gtk-4.0/menu.c:697
@@ -5701,7 +5686,6 @@ msgstr "Milit-nebulo"
 
 #: client/gui-gtk-3.0/menu.c:477 client/gui-gtk-3.22/menu.c:486
 #: client/gui-gtk-4.0/menu.c:701
-#, fuzzy
 msgid "_Fullscreen"
 msgstr "Plenekrane"
 
@@ -5914,7 +5898,7 @@ msgstr "_Dissolvi"
 #: client/gui-gtk-3.0/menu.c:558 client/gui-gtk-3.22/menu.c:567
 #: client/gui-gtk-4.0/menu.c:782
 msgid "_Build City"
-msgstr "_Fondu urbon (_B)"
+msgstr "_Fondi urbon"
 
 #: client/gui-gtk-3.0/menu.c:560 client/gui-gtk-3.22/menu.c:569
 #: client/gui-gtk-4.0/menu.c:785
@@ -9541,7 +9525,7 @@ msgstr "Enhejmiĝi"
 
 #: client/gui-qt/shortcuts.cpp:128
 msgid "Build City"
-msgstr "Fondu urbon"
+msgstr "Fondi urbon"
 
 #: client/gui-qt/shortcuts.cpp:140
 msgid "Explode Nuclear"
@@ -12147,9 +12131,8 @@ msgstr[1] ""
 
 #. TRANS: ...performing this action ... Casus Belli
 #: client/helpdata.c:2560
-#, fuzzy
 msgid "successfully"
-msgstr "%s estis transportitaj sukcese."
+msgstr "sukcese"
 
 #. TRANS: ...performing this action ... Casus Belli
 #: client/helpdata.c:2562
@@ -17025,33 +17008,33 @@ msgstr "Landlimo"
 #: data/classic/game.ruleset:641 data/sandbox/game.ruleset:675
 #: data/civ2civ3/game.ruleset:657 data/alien/game.ruleset:585
 #: data/multiplayer/game.ruleset:635
-#, fuzzy, c-format
+#, c-format
 msgid "%sEmbark%s"
-msgstr "Landlimo"
+msgstr "%sEnŝipigi%s"
 
 #. TRANS: _Unload (100% chance of success).
 #: common/actions.c:7839 data/civ1/game.ruleset:546 data/civ2/game.ruleset:594
 #: data/classic/game.ruleset:632 data/sandbox/game.ruleset:666
 #: data/civ2civ3/game.ruleset:648 data/alien/game.ruleset:576
 #: data/multiplayer/game.ruleset:626
-#, fuzzy, c-format
+#, c-format
 msgid "%sUnload%s"
-msgstr "Malŝargu"
+msgstr "%sMalŝarĝi%s"
 
 #. TRANS: _Disembark (100% chance of success).
 #: common/actions.c:7844 data/civ1/game.ruleset:549 data/civ2/game.ruleset:597
 #: data/classic/game.ruleset:635 data/sandbox/game.ruleset:669
 #: data/civ2civ3/game.ruleset:651 data/alien/game.ruleset:579
 #: data/multiplayer/game.ruleset:629
-#, fuzzy, c-format
+#, c-format
 msgid "%sDisembark%s"
-msgstr "Landlimo"
+msgstr "%sElŝipigi%s"
 
 #. TRANS: _Disembark 2 (100% chance of success).
 #: common/actions.c:7847
-#, fuzzy, c-format
+#, c-format
 msgid "%sDisembark 2%s"
-msgstr "Landlimo"
+msgstr "%sElŝipigi 2%s"
 
 #. TRANS: _Eliminate Diplomat (100% chance of success).
 #: common/actions.c:7850
@@ -22685,9 +22668,9 @@ msgstr "Instigi al %sribelo%s"
 #: data/classic/game.ruleset:545 data/sandbox/game.ruleset:570
 #: data/civ2civ3/game.ruleset:564 data/alien/game.ruleset:504
 #: data/multiplayer/game.ruleset:539
-#, fuzzy, c-format
+#, c-format
 msgid "%sBuild City%s"
-msgstr "Fondu urbon"
+msgstr "%sFondi urbon%s"
 
 #. TRANS: _Add to City (100% chance of success).
 #: data/civ1/game.ruleset:486 data/civ2/game.ruleset:525
@@ -22756,18 +22739,18 @@ msgstr ""
 #: data/sandbox/game.ruleset:3081 data/civ2civ3/game.ruleset:1866
 #: data/alien/game.ruleset:1416
 msgid "Earthquake"
-msgstr ""
+msgstr "Tertremo"
 
 #: data/civ1/game.ruleset:1202 data/classic/game.ruleset:1744
 #: data/sandbox/game.ruleset:3099 data/civ2civ3/game.ruleset:1884
 #: data/alien/game.ruleset:1421
 msgid "Fire"
-msgstr ""
+msgstr "Incendio"
 
 #: data/civ1/game.ruleset:1211 data/sandbox/game.ruleset:3090
 #: data/civ2civ3/game.ruleset:1875
 msgid "Flood"
-msgstr ""
+msgstr "Inundo"
 
 #: data/civ1/game.ruleset:1221
 #, fuzzy
@@ -24858,7 +24841,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:392
 msgid "Militia"
-msgstr "Milicanoj"
+msgstr "Milico"
 
 #: data/civ1/units.ruleset:419 data/civ2/units.ruleset:473
 #: data/classic/units.ruleset:613 data/sandbox/units.ruleset:731
@@ -24935,7 +24918,7 @@ msgstr ""
 #: data/classic/units.ruleset:1133 data/sandbox/units.ruleset:1366
 #: data/civ2civ3/units.ruleset:1313 data/multiplayer/units.ruleset:1236
 msgid "Cavalry"
-msgstr "Kavalerianoj"
+msgstr "Kavalerio"
 
 #: data/civ1/units.ruleset:619
 msgid ""
@@ -24947,7 +24930,7 @@ msgstr ""
 #: data/classic/units.ruleset:1034 data/sandbox/units.ruleset:1198
 #: data/civ2civ3/units.ruleset:1145 data/multiplayer/units.ruleset:1071
 msgid "Chariot"
-msgstr "Militĉaroj"
+msgstr "Militĉaro"
 
 #: data/civ1/units.ruleset:653
 msgid ""
@@ -24971,7 +24954,7 @@ msgstr ""
 #: data/classic/units.ruleset:1165 data/sandbox/units.ruleset:1398
 #: data/civ2civ3/units.ruleset:1345 data/multiplayer/units.ruleset:1268
 msgid "Armor"
-msgstr "Blendaŭtoj"
+msgstr "Blendaŭto"
 
 #: data/civ1/units.ruleset:719 data/civ2/units.ruleset:1154
 #: data/classic/units.ruleset:1192 data/multiplayer/units.ruleset:1295
@@ -24984,7 +24967,7 @@ msgstr ""
 #: data/classic/units.ruleset:1199 data/sandbox/units.ruleset:1434
 #: data/civ2civ3/units.ruleset:1381 data/multiplayer/units.ruleset:1302
 msgid "Catapult"
-msgstr "Katapultoj"
+msgstr "Katapulto"
 
 #: data/civ1/units.ruleset:753 data/civ2/units.ruleset:1188
 #: data/classic/units.ruleset:1226 data/sandbox/units.ruleset:1461
@@ -24998,7 +24981,7 @@ msgstr ""
 #: data/classic/units.ruleset:1233 data/sandbox/units.ruleset:1473
 #: data/civ2civ3/units.ruleset:1420 data/multiplayer/units.ruleset:1336
 msgid "Cannon"
-msgstr "Kanonoj"
+msgstr "Kanono"
 
 #: data/civ1/units.ruleset:787 data/civ2/units.ruleset:1222
 #: data/classic/units.ruleset:1260 data/multiplayer/units.ruleset:1363
@@ -25025,7 +25008,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1576 data/civ2civ3/units.ruleset:1523
 #: data/multiplayer/units.ruleset:1439
 msgid "Fighter"
-msgstr "Ĉasaviadiloj"
+msgstr "Ĉasaviadilo"
 
 #: data/civ1/units.ruleset:857 data/civ2/units.ruleset:1333
 #: data/classic/units.ruleset:1370 data/sandbox/units.ruleset:1604
@@ -25041,7 +25024,7 @@ msgstr ""
 #: data/civ2civ3/units.ruleset:1562 data/multiplayer/units.ruleset:45
 #: data/multiplayer/units.ruleset:1479
 msgid "Bomber"
-msgstr "Bombaj ĉasaviadiloj"
+msgstr "Bomba ĉasaviadilo"
 
 #: data/civ1/units.ruleset:890 data/civ2/units.ruleset:1366
 #: data/classic/units.ruleset:1403 data/sandbox/units.ruleset:1643
@@ -25056,7 +25039,7 @@ msgstr ""
 #: data/classic/units.ruleset:1524 data/sandbox/units.ruleset:1776
 #: data/civ2civ3/units.ruleset:1721 data/multiplayer/units.ruleset:1626
 msgid "Trireme"
-msgstr "Triremoj"
+msgstr "Triremo"
 
 #: data/civ1/units.ruleset:926 data/civ2/units.ruleset:1513
 msgid ""
@@ -27244,7 +27227,7 @@ msgstr "Via unuo, %s, estis mortigita de la barbaroj!"
 
 #: data/default/default.lua:135
 msgid "You find a map of the surrounding terrain."
-msgstr ""
+msgstr "Vi trovas mapon de la ĉirkaŭa tereno."
 
 #: data/default/default.lua:178
 #, fuzzy
@@ -27311,9 +27294,8 @@ msgid "?nationgroup:Medieval"
 msgstr "?nationgroup:Mezepoka"
 
 #: data/default/nationlist.ruleset:66
-#, fuzzy
 msgid "?nationgroup:Early Modern"
-msgstr "?nationgroup:Moderna"
+msgstr "?nationgroup:Frumoderna"
 
 #: data/default/nationlist.ruleset:72
 msgid "?nationgroup:African"
@@ -27336,9 +27318,8 @@ msgid "?nationgroup:Oceanian"
 msgstr "?nationgroup:Oceania"
 
 #: data/default/nationlist.ruleset:87
-#, fuzzy
 msgid "?nationgroup:Imaginary"
-msgstr "?nationgroup:Azia"
+msgstr "?nationgroup:Imaga"
 
 #: data/classic/buildings.ruleset:321 data/sandbox/buildings.ruleset:416
 #: data/civ2civ3/buildings.ruleset:413 data/multiplayer/buildings.ruleset:113
@@ -27606,7 +27587,7 @@ msgstr "%s konkeris %s-n."
 #: data/multiplayer/game.ruleset:632 server/rscompat.c:1983
 #, c-format
 msgid "%sDisembark from non native%s"
-msgstr ""
+msgstr "%sElŝipigi el alinacia ŝipo%s"
 
 #. TRANS: Eliminate _Spy (100% chance of success).
 #: data/classic/game.ruleset:644 data/sandbox/game.ruleset:678
@@ -27647,9 +27628,8 @@ msgstr ""
 
 #: data/classic/game.ruleset:1749 data/sandbox/game.ruleset:3108
 #: data/civ2civ3/game.ruleset:1893
-#, fuzzy
 msgid "Industrial Accident"
-msgstr "Industriiĝo"
+msgstr "Industria Akcidento"
 
 #: data/classic/game.ruleset:1758 data/sandbox/game.ruleset:3117
 #: data/civ2civ3/game.ruleset:1902
@@ -27823,7 +27803,7 @@ msgstr ""
 #: data/classic/terrain.ruleset:1237 data/sandbox/terrain.ruleset:1267
 #: data/civ2civ3/terrain.ruleset:1266 data/multiplayer/terrain.ruleset:1211
 msgid "Oil Well"
-msgstr ""
+msgstr "Naftopompilo"
 
 #: data/classic/terrain.ruleset:1255 data/multiplayer/terrain.ruleset:1229
 msgid ""
@@ -28853,7 +28833,7 @@ msgstr ""
 
 #: data/sandbox/buildings.ruleset:1955 data/civ2civ3/buildings.ruleset:1811
 msgid "Mausoleum of Mausolos"
-msgstr ""
+msgstr "Maŭzoleo de Halikarnaso"
 
 #: data/sandbox/buildings.ruleset:1972 data/civ2civ3/buildings.ruleset:1828
 #, fuzzy
@@ -28866,9 +28846,8 @@ msgstr ""
 "kontinento kie la Mirindaĵo estis konstruita."
 
 #: data/sandbox/buildings.ruleset:1979 data/civ2civ3/buildings.ruleset:1835
-#, fuzzy
 msgid "Statue of Zeus"
-msgstr "Statuo de la Libereco"
+msgstr "Statuo de Zeŭso"
 
 #: data/sandbox/buildings.ruleset:1996 data/civ2civ3/buildings.ruleset:1852
 msgid ""
@@ -41109,19 +41088,19 @@ msgstr ""
 "La %s ne havas la promesitan kvanton da oro! La traktato estas nuligita!"
 
 #: server/diplhand.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "You gave an embassy to %s."
-msgstr "Vi donis komunan vidon al %s."
+msgstr "Vi donis ambasadejon al %s."
 
 #: server/diplhand.c:490
 #, c-format
 msgid "%s allowed you to create an embassy!"
-msgstr ""
+msgstr "%s permesis al vi krei ambasadejon!"
 
 #: server/diplhand.c:513
 #, c-format
 msgid "You are taught the knowledge of %s."
-msgstr "Vi estis instruita pri %s."
+msgstr "Vi estas instruita pri %s."
 
 #: server/diplhand.c:522
 #, fuzzy, c-format
@@ -48020,17 +47999,18 @@ msgstr ""
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr ""
-"%s estas lernita. Niaj sciencistoj koncentriĝas pri %s; la celo estas %s."
+"Ni lernis la teĥnologion %s. Niaj sciencistoj koncentriĝas pri %s; la "
+"celo estas %s."
 
 #: server/techtools.c:549
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
-msgstr "Lernis %sn. Sciencistoj ne scias, kion studi sekve."
+msgstr "Ni lernis la teĥnologion %s. Sciencistoj ne scias, kion studi sekve."
 
 #: server/techtools.c:554
 #, fuzzy, c-format
 msgid "Learned %s. Scientists choose to research %s."
-msgstr "%s estas lernita. Niaj sciencistoj elektas studi pri %s."
+msgstr "Ni lernis la teĥnologion %s. Sciencistoj elektas esplori pri %s."
 
 #: server/techtools.c:593
 #, fuzzy, c-format
@@ -48907,7 +48887,7 @@ msgstr[1] ""
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:5666
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "research."
@@ -48915,15 +48895,15 @@ msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "research."
 msgstr[0] ""
-"Viaj %s estas alvenintaj de %s al %s, kaj la enspezo estas %d poentojn de "
-"oro kaj studo."
+"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d poento da "
+"esploro."
 msgstr[1] ""
-"Viaj %s estas alvenintaj de %s al %s, kaj la enspezo estas %d poentojn de "
-"oro kaj studo."
+"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d poentoj da "
+"esploro."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:5681
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold and research."
@@ -48931,11 +48911,11 @@ msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold and research."
 msgstr[0] ""
-"Viaj %s estas alvenintaj de %s al %s, kaj la enspezo estas %d poentojn de "
-"oro kaj studo."
+"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d poento da "
+"oro kaj esploro."
 msgstr[1] ""
-"Viaj %s estas alvenintaj de %s al %s, kaj la enspezo estas %d poentojn de "
-"oro kaj studo."
+"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d poentoj da "
+"oro kaj esploro."
 
 #: server/unithand.c:5723
 #, c-format
@@ -48992,7 +48972,7 @@ msgstr "La ordonoj por %s estis nuligitaj pro malsukcesa movo."
 #: server/unittools.c:1236
 #, c-format
 msgid "Teleported your %s to %s."
-msgstr "Viaj %s estis teletransportitaj al %s."
+msgstr "Via unuo %s estas teletransportita al %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
 #: server/unittools.c:1303
@@ -49160,7 +49140,7 @@ msgstr "La %s eksplodigis atombombon!"
 #: server/unittools.c:2972
 #, c-format
 msgid "%s transported successfully."
-msgstr "%s estis transportitaj sukcese."
+msgstr "Unuo %s estas transportita sukcese."
 
 #: server/unittools.c:3055
 #, c-format

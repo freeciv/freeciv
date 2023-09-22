@@ -988,14 +988,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/amazonian.ruleset:3
-#, fuzzy
 msgid "Amazonian"
-msgstr "Armena"
+msgstr "Amazona"
 
 #: data/nation/amazonian.ruleset:4
-#, fuzzy
 msgid "?plural:Amazons"
-msgstr "?plural:Arameoj"
+msgstr "?plural:Amazonoj"
 
 #: data/nation/amazonian.ruleset:6
 msgid ""
@@ -1170,7 +1168,7 @@ msgstr "?female:Granda Ŝamanino"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr "antarkta"
+msgstr "Antarkta"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
@@ -3191,14 +3189,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:3
-#, fuzzy
 msgid "Chananean"
-msgstr "Kanada"
+msgstr "Ĉananea"
 
 #: data/nation/chananean.ruleset:4
-#, fuzzy
 msgid "?plural:Chananeans"
-msgstr "?plural:Kanadanoj"
+msgstr "?plural:Ĉananeoj"
 
 #: data/nation/chananean.ruleset:6
 msgid ""
@@ -3213,14 +3209,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "%s Alpha"
-msgstr "Alfabeto"
+msgstr "%s Alfao"
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Alpha"
-msgstr "?female:Ĉefino"
+msgstr "?female:%s Alfaino"
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
@@ -3998,14 +3994,12 @@ msgid "Prophetess %s"
 msgstr "Profetino"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "Traka"
+msgstr "Dakia"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "?plural:Trakoj"
+msgstr "?plural:Dakoj"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -4113,14 +4107,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/dryad.ruleset:3
-#, fuzzy
 msgid "Dryad"
-msgstr "Malaktiva"
+msgstr "Driada"
 
 #: data/nation/dryad.ruleset:4
-#, fuzzy
 msgid "?plural:Dryads"
-msgstr "?plural:Araboj"
+msgstr "?plural:Driadoj"
 
 #: data/nation/dryad.ruleset:6
 msgid ""
@@ -4230,14 +4222,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/elamite.ruleset:3
-#, fuzzy
 msgid "Elamite"
-msgstr "elita"
+msgstr "Elama"
 
 #: data/nation/elamite.ruleset:4
-#, fuzzy
 msgid "?plural:Elamites"
-msgstr "?plural:Emirlandanoj"
+msgstr "?plural:Elamanoj"
 
 #: data/nation/elamite.ruleset:6
 msgid ""
@@ -4265,12 +4255,11 @@ msgstr ""
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
-msgstr ""
+msgstr "Epira"
 
 #: data/nation/epirote.ruleset:4
-#, fuzzy
 msgid "?plural:Epirotes"
-msgstr "?plural:Piratoj"
+msgstr "?plural:Epiranoj"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -4327,7 +4316,7 @@ msgstr ""
 
 #: data/nation/esperant.ruleset:3
 msgid "Esperant"
-msgstr "esperanta"
+msgstr "Esperanta"
 
 #: data/nation/esperant.ruleset:4
 msgid "?plural:Esperants"
@@ -4339,7 +4328,7 @@ msgstr "Esperantistoj estas tutmonda komunumo kunigita de Esperanto."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "estona"
+msgstr "Estona"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
@@ -4363,12 +4352,11 @@ msgstr "?female:Premierino %s"
 
 #: data/nation/etruscan.ruleset:3
 msgid "Etruscan"
-msgstr ""
+msgstr "Etruska"
 
 #: data/nation/etruscan.ruleset:4
-#, fuzzy
 msgid "?plural:Etruscans"
-msgstr "?plural:Prusoj"
+msgstr "?plural:Etruskoj"
 
 #: data/nation/etruscan.ruleset:6
 msgid ""
@@ -4385,7 +4373,7 @@ msgstr ""
 
 #: data/nation/european.ruleset:3
 msgid "European"
-msgstr "eŭropa"
+msgstr "Eŭropa"
 
 #: data/nation/european.ruleset:4
 msgid "?plural:Europeans"
@@ -4639,12 +4627,11 @@ msgstr ""
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
-msgstr ""
+msgstr "Formoza"
 
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "?plural:Normanoj"
+msgstr "?plural:Formozanoj"
 
 #: data/nation/formosan.ruleset:7
 #, no-c-format
@@ -4688,14 +4675,12 @@ msgid "Prince-Bishop %s"
 msgstr "Princino"
 
 #: data/nation/frankish.ruleset:3
-#, fuzzy
 msgid "Frankish"
-msgstr "Turka"
+msgstr "Franka"
 
 #: data/nation/frankish.ruleset:4
-#, fuzzy
 msgid "?plural:Franks"
-msgstr "?plural:Persoj"
+msgstr "?plural:Frankoj"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -4805,14 +4790,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gaelic.ruleset:3
-#, fuzzy
 msgid "Gaelic"
-msgstr "Gaŭla"
+msgstr "Gaela"
 
 #: data/nation/gaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Gaels"
-msgstr "?plural:Gaŭloj"
+msgstr "?plural:Gaeloj"
 
 #: data/nation/gaelic.ruleset:6
 msgid ""
@@ -4848,7 +4831,7 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr "gaŭla"
+msgstr "Gaŭla"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
@@ -4952,12 +4935,11 @@ msgstr "Gruzoj estis en la unuaj popoloj kiuj adoptis Kristanismon, en 300 PK."
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "Gepida"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "?plural:Bengalanoj"
+msgstr "?plural:Gepidoj"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5338,25 +5320,25 @@ msgstr "?female:Prezidantino"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
-msgstr "komputpirata"
+msgstr "Kodumula"
 
 #: data/nation/hacker.ruleset:4
 msgid "?plural:Hackers"
-msgstr "?plural:Komputpiratoj"
+msgstr "?plural:Kodumuloj"
 
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
 msgstr ""
 
 #: data/nation/hacker.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?title:Hacker %s"
-msgstr "?title:Komputpirato"
+msgstr "?title:Kodumulo %s"
 
 #: data/nation/hacker.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Hacker %s"
-msgstr "?female:Komputpiratino"
+msgstr "?female:Kodumulino %s"
 
 #: data/nation/hacker.ruleset:36
 #, fuzzy, c-format
@@ -8856,7 +8838,7 @@ msgstr ""
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "fenica"
+msgstr "Fenica"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
@@ -11447,12 +11429,11 @@ msgstr ""
 
 #: data/nation/volapuk.ruleset:3
 msgid "Volapükan"
-msgstr ""
+msgstr "Volapuka"
 
 #: data/nation/volapuk.ruleset:6
-#, fuzzy
 msgid "?plural:Volapükans"
-msgstr "?plural:Papuanoj"
+msgstr "?plural:Volapukistoj"
 
 #: data/nation/volapuk.ruleset:8
 msgid ""
@@ -11537,12 +11518,11 @@ msgstr ""
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
-msgstr ""
+msgstr "Homlupa"
 
 #: data/nation/werewolf.ruleset:5
-#, fuzzy
 msgid "?plural:Werewolves"
-msgstr "?plural:Kimroj"
+msgstr "?plural:Homlupoj"
 
 #: data/nation/werewolf.ruleset:7
 msgid ""
