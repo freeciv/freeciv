@@ -82,6 +82,8 @@ libfreeciv_la_SOURCES = \
 		name_translation.h \
 		nation.c        \
 		nation.h        \
+		oblig_reqs.c	\
+		oblig_reqs.h	\
 		packets_gen.c	\
 		packets_gen.h	\
 		player.c	\
