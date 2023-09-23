@@ -212,7 +212,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
                                          bool socket_writable);
 
 static void print_usage(void);
-static void parse_options(int argc, char **argv);
+static bool parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev);
@@ -274,19 +274,22 @@ static void print_usage(void)
 /**************************************************************************
   Search for command line options. Right now, it's just help.
 **************************************************************************/
-static void parse_options(int argc, char **argv)
+static bool parse_options(int argc, char **argv)
 {
   int i = 1;
 
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage();
-      exit(EXIT_SUCCESS);
+
+      return FALSE;
     }
     /* Can't check against unknown options, as those might be gtk options */
 
     i++;
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1547,196 +1550,195 @@ int ui_main(int argc, char **argv)
   const gchar *home;
   guint sig;
 
-  parse_options(argc, argv);
+  if (parse_options(argc, argv)) {
+    /* The locale has already been set in init_nls() and the windows-specific
+     * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
+    gtk_disable_setlocale();
 
-  /* the locale has already been set in init_nls() and the windows-specific
-   * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
-  gtk_disable_setlocale();
-
-  /* GTK withdraw gtk options. Process GTK arguments */
-  if (!gtk_init_check(&argc, &argv)) {
-    log_fatal(_("Failed to open graphical mode."));
-    exit(EXIT_FAILURE);
-  }
-
-  /* Load resources */
-  gtk_rc_parse_string(fallback_resources);
-
-  home = g_get_home_dir();
-  if (home) {
-    gchar *str;
-
-    str = g_build_filename(home, ".freeciv.rc-2.0", NULL);
-    gtk_rc_parse(str);
-    g_free(str);
-  }
-
-  toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  g_signal_connect(toplevel, "key_press_event",
-                   G_CALLBACK(toplevel_handler), NULL);
-
-  gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
-  gtk_widget_realize(toplevel);
-  gtk_widget_set_name(toplevel, "Freeciv");
-  root_window = toplevel->window;
-
-  if (gui_options.first_boot) {
-    /* We're using fresh defaults for this version of this client,
-     * so prevent any future migrations from other versions */
-    gui_options.gui_gtk2_migrated_from_2_5 = TRUE;
-  } else {
-    if (!gui_options.gui_gtk2_migrated_from_2_5) {
-      migrate_options_from_2_5();
+    /* GTK withdraw gtk options. Process GTK arguments */
+    if (!gtk_init_check(&argc, &argv)) {
+      log_fatal(_("Failed to open graphical mode."));
+      exit(EXIT_FAILURE);
     }
-  }
 
-  if (gui_options.gui_gtk2_fullscreen) {
-    gtk_window_fullscreen(GTK_WINDOW(toplevel));
-  }
+    /* Load resources */
+    gtk_rc_parse_string(fallback_resources);
 
-  gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
+    home = g_get_home_dir();
+    if (home) {
+      gchar *str;
 
-  g_signal_connect(toplevel, "delete_event",
-                   G_CALLBACK(quit_dialog_callback), NULL);
-
-  /* Disable GTK+ cursor key focus movement */
-  sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
-  g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
-                                       0, 0, 0, 0);
-  g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
-
-
-  display_color_type = get_visual();
-
-  civ_gc = gdk_gc_new(root_window);
-
-  options_iterate(client_optset, poption) {
-    if (OT_FONT == option_type(poption)) {
-      /* Force to call the appropriated callback. */
-      option_changed(poption);
+      str = g_build_filename(home, ".freeciv.rc-2.0", NULL);
+      gtk_rc_parse(str);
+      g_free(str);
     }
-  } options_iterate_end;
 
-  if (NULL == city_names_style) {
-    city_names_style = gtk_style_new();
-    log_error("city_names_style should have been set by options.");
-  }
-  if (NULL == city_productions_style) {
-    city_productions_style = gtk_style_new();
-    log_error("city_productions_style should have been set by options.");
-  }
-  if (NULL == reqtree_text_style) {
-    reqtree_text_style = gtk_style_new();
-    log_error("reqtree_text_style should have been set by options.");
-  }
+    toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    g_signal_connect(toplevel, "key_press_event",
+                     G_CALLBACK(toplevel_handler), NULL);
 
-  fill_bg_gc = gdk_gc_new(root_window);
+    gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
+    gtk_widget_realize(toplevel);
+    gtk_widget_set_name(toplevel, "Freeciv");
+    root_window = toplevel->window;
 
-  /* for isometric view. always create. the tileset can change at run time. */
-  thin_line_gc = gdk_gc_new(root_window);
-  thick_line_gc = gdk_gc_new(root_window);
-  border_line_gc = gdk_gc_new(root_window);
-  gdk_gc_set_line_attributes(thin_line_gc, 1,
-                             GDK_LINE_SOLID,
-                             GDK_CAP_NOT_LAST,
-                             GDK_JOIN_MITER);
-  gdk_gc_set_line_attributes(thick_line_gc, 2,
-                             GDK_LINE_SOLID,
-                             GDK_CAP_NOT_LAST,
-                             GDK_JOIN_MITER);
-  gdk_gc_set_line_attributes(border_line_gc, BORDER_WIDTH,
-                             GDK_LINE_ON_OFF_DASH,
-                             GDK_CAP_NOT_LAST,
-                             GDK_JOIN_MITER);
+    if (gui_options.first_boot) {
+      /* We're using fresh defaults for this version of this client,
+       * so prevent any future migrations from other versions */
+      gui_options.gui_gtk2_migrated_from_2_5 = TRUE;
+    } else {
+      if (!gui_options.gui_gtk2_migrated_from_2_5) {
+        migrate_options_from_2_5();
+      }
+    }
 
-  fill_tile_gc = gdk_gc_new(root_window);
-  gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
+    if (gui_options.gui_gtk2_fullscreen) {
+      gtk_window_fullscreen(GTK_WINDOW(toplevel));
+    }
 
-  {
-    char d1[] = {0x03, 0x0c, 0x03, 0x0c};
-    char d2[] = {0x08, 0x02, 0x08, 0x02};
-    char d3[] = {0xAA, 0x55, 0xAA, 0x55};
+    gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
-    gray50 = gdk_bitmap_create_from_data(root_window, d1, 4, 4);
-    gray25 = gdk_bitmap_create_from_data(root_window, d2, 4, 4);
-    black50 = gdk_bitmap_create_from_data(root_window, d3, 4, 4);
-  }
+    g_signal_connect(toplevel, "delete_event",
+                     G_CALLBACK(quit_dialog_callback), NULL);
 
-  {
-    GdkColor pixel;
+    /* Disable GTK+ cursor key focus movement */
+    sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
+    g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
+                                         0, 0, 0, 0);
+    g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
 
-    mask_bitmap = gdk_pixmap_new(root_window, 1, 1, 1);
+    display_color_type = get_visual();
 
-    mask_fg_gc = gdk_gc_new(mask_bitmap);
-    pixel.pixel = 1;
-    gdk_gc_set_foreground(mask_fg_gc, &pixel);
-    gdk_gc_set_function(mask_fg_gc, GDK_OR);
+    civ_gc = gdk_gc_new(root_window);
 
-    mask_bg_gc = gdk_gc_new(mask_bitmap);
-    pixel.pixel = 0;
-    gdk_gc_set_foreground(mask_bg_gc, &pixel);
-  }
+    options_iterate(client_optset, poption) {
+      if (OT_FONT == option_type(poption)) {
+        /* Force to call the appropriated callback. */
+        option_changed(poption);
+      }
+    } options_iterate_end;
 
-  selection_gc = gdk_gc_new(root_window);
-  gdk_gc_set_function(selection_gc, GDK_XOR);
+    if (NULL == city_names_style) {
+      city_names_style = gtk_style_new();
+      log_error("city_names_style should have been set by options.");
+    }
+    if (NULL == city_productions_style) {
+      city_productions_style = gtk_style_new();
+      log_error("city_productions_style should have been set by options.");
+    }
+    if (NULL == reqtree_text_style) {
+      reqtree_text_style = gtk_style_new();
+      log_error("reqtree_text_style should have been set by options.");
+    }
 
-  tileset_init(tileset);
-  tileset_load_tiles(tileset);
+    fill_bg_gc = gdk_gc_new(root_window);
 
-  /* keep the icon of the executable on Windows (see PR#36491) */
+    /* For isometric view. always create. the tileset can change at run time. */
+    thin_line_gc = gdk_gc_new(root_window);
+    thick_line_gc = gdk_gc_new(root_window);
+    border_line_gc = gdk_gc_new(root_window);
+    gdk_gc_set_line_attributes(thin_line_gc, 1,
+                               GDK_LINE_SOLID,
+                               GDK_CAP_NOT_LAST,
+                               GDK_JOIN_MITER);
+    gdk_gc_set_line_attributes(thick_line_gc, 2,
+                               GDK_LINE_SOLID,
+                               GDK_CAP_NOT_LAST,
+                               GDK_JOIN_MITER);
+    gdk_gc_set_line_attributes(border_line_gc, BORDER_WIDTH,
+                               GDK_LINE_ON_OFF_DASH,
+                               GDK_CAP_NOT_LAST,
+                               GDK_JOIN_MITER);
+
+    fill_tile_gc = gdk_gc_new(root_window);
+    gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
+
+    {
+      char d1[] = {0x03, 0x0c, 0x03, 0x0c};
+      char d2[] = {0x08, 0x02, 0x08, 0x02};
+      char d3[] = {0xAA, 0x55, 0xAA, 0x55};
+
+      gray50 = gdk_bitmap_create_from_data(root_window, d1, 4, 4);
+      gray25 = gdk_bitmap_create_from_data(root_window, d2, 4, 4);
+      black50 = gdk_bitmap_create_from_data(root_window, d3, 4, 4);
+    }
+
+    {
+      GdkColor pixel;
+
+      mask_bitmap = gdk_pixmap_new(root_window, 1, 1, 1);
+
+      mask_fg_gc = gdk_gc_new(mask_bitmap);
+      pixel.pixel = 1;
+      gdk_gc_set_foreground(mask_fg_gc, &pixel);
+      gdk_gc_set_function(mask_fg_gc, GDK_OR);
+
+      mask_bg_gc = gdk_gc_new(mask_bitmap);
+      pixel.pixel = 0;
+      gdk_gc_set_foreground(mask_bg_gc, &pixel);
+    }
+
+    selection_gc = gdk_gc_new(root_window);
+    gdk_gc_set_function(selection_gc, GDK_XOR);
+
+    tileset_init(tileset);
+    tileset_load_tiles(tileset);
+
+    /* Keep the icon of the executable on Windows (see PR#36491) */
 #ifndef FREECIV_MSWINDOWS
-  /* Only call this after tileset_load_tiles is called. */
-  gtk_window_set_icon(GTK_WINDOW(toplevel),
-		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
+    /* Only call this after tileset_load_tiles is called. */
+    gtk_window_set_icon(GTK_WINDOW(toplevel),
+                        sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
 #endif
 
-  setup_widgets();
-  load_cursors();
-  cma_fe_init();
-  diplomacy_dialog_init();
-  luaconsole_dialog_init();
-  happiness_dialog_init();
-  citizens_dialog_init();
-  intel_dialog_init();
-  spaceship_dialog_init();
-  chatline_init();
-  init_mapcanvas_and_overview();
+    setup_widgets();
+    load_cursors();
+    cma_fe_init();
+    diplomacy_dialog_init();
+    luaconsole_dialog_init();
+    happiness_dialog_init();
+    citizens_dialog_init();
+    intel_dialog_init();
+    spaceship_dialog_init();
+    chatline_init();
+    init_mapcanvas_and_overview();
 
-  tileset_use_preferred_theme(tileset);
+    tileset_use_preferred_theme(tileset);
 
-  gtk_widget_show(toplevel);
+    gtk_widget_show(toplevel);
 
-  /* assumes toplevel showing */
-  set_client_state(C_S_DISCONNECTED);
+    /* Assumes toplevel showing */
+    set_client_state(C_S_DISCONNECTED);
 
-  /* assumes client_state is set */
-  timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
+    /* Assumes client_state is set */
+    timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
-  gui_up = TRUE;
-  gtk_main();
-  gui_up = FALSE;
+    gui_up = TRUE;
+    gtk_main();
+    gui_up = FALSE;
 
-  destroy_server_scans();
-  free_mapcanvas_and_overview();
-  spaceship_dialog_done();
-  intel_dialog_done();
-  citizens_dialog_done();
-  luaconsole_dialog_done();
-  happiness_dialog_done();
-  diplomacy_dialog_done();
-  cma_fe_done();
-  free_unit_table();
+    destroy_server_scans();
+    free_mapcanvas_and_overview();
+    spaceship_dialog_done();
+    intel_dialog_done();
+    citizens_dialog_done();
+    luaconsole_dialog_done();
+    happiness_dialog_done();
+    diplomacy_dialog_done();
+    cma_fe_done();
+    free_unit_table();
 
-  /* We have extra ref for unit_info_box that has protected
-   * it from getting destroyed when editinfobox_refresh()
-   * moves widgets around. Free that extra ref here. */
-  g_object_unref(unit_info_box);
+    /* We have extra ref for unit_info_box that has protected
+     * it from getting destroyed when editinfobox_refresh()
+     * moves widgets around. Free that extra ref here. */
+    g_object_unref(unit_info_box);
 
-  editgui_free();
-  gtk_widget_destroy(toplevel_tabs);
-  gtk_widget_destroy(toplevel);
-  message_buffer = NULL; /* Result of destruction of everything */
-  tileset_free_tiles(tileset);
+    editgui_free();
+    gtk_widget_destroy(toplevel_tabs);
+    gtk_widget_destroy(toplevel);
+    message_buffer = NULL; /* Result of destruction of everything */
+    tileset_free_tiles(tileset);
+  }
 
   return EXIT_SUCCESS;
 }

@@ -73,14 +73,15 @@ static void print_usage(const char *argv0)
 /**************************************************************************
   Parse and enact any gui-specific command-line options.
 **************************************************************************/
-static void parse_options(int argc, char **argv)
+static bool parse_options(int argc, char **argv)
 {
   int i = 1;
 
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
-      exit(EXIT_SUCCESS);
+
+      return FALSE;
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);
@@ -88,22 +89,24 @@ static void parse_options(int argc, char **argv)
 
     i++;
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
-  The main loop for the UI.  This is called from main(), and when it
+  The main loop for the UI. This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
 int gui_ui_main(int argc, char *argv[])
 {
-  parse_options(argc, argv);
+  if (parse_options(argc, argv)) {
+    /* PORTME */
+    fc_fprintf(stderr, "Freeciv rules!\n");
 
-  /* PORTME */
-  fc_fprintf(stderr, "Freeciv rules!\n");
+    /* Main loop here */
 
-  /* Main loop here */
-
-  start_quitting();
+    start_quitting();
+  }
 
   return EXIT_SUCCESS;
 }
