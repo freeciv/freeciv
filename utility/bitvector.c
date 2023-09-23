@@ -33,18 +33,19 @@
 #include "bitvector.h"
 
 /* There are two types of bitvectors defined in this file:
-   (1) bv_*  - static bitvectors; used for data which where the length is
+   (1) bv_*  - static bitvectors; used for data where the length is
                fixed (number of players; flags for enums; ...). They are
-               named bv_* and the macros BV_* are defined.
-   (2) dbv_* - dynamic bitvectors; its size is not known a priori but defined
-               by the player (map known bitvectors). This bitvectors are
-               given as 'struct dbv' and the information can be accessed
-               using the functions dbv_*(). They uses the BV_* macros. */
+               named bv_*, and BV_* macros are defined.
+   (2) dbv_* - dynamic bitvectors; their size is not known a priori
+               but defined by the player (map known bitvectors).
+               These bitvectors are given as 'struct dbv' and the information
+               can be accessed using dbv_*() functions.
+               They use BV_* macros. */
 
 /***********************************************************************//**
   Initialize a dynamic bitvector of size 'bits'. 'bits' must be greater
-  than 0 and lower than the maximal size given by MAX_DBV_LENGTH. The
-  bitvector is set to all clear.
+  than 0 and lower than the maximal size given by MAX_DBV_LENGTH.
+  The bitvector is set to all clear.
 ***************************************************************************/
 void dbv_init(struct dbv *pdbv, int bits)
 {
@@ -232,6 +233,7 @@ bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
                    size_t size1, size_t size2)
 {
   size_t i;
+
   fc_assert_ret_val(size1 == size2, FALSE);
 
   for (i = 0; i < size1; i++) {
@@ -241,17 +243,19 @@ bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
     vec1++;
     vec2++;
   }
+
   return FALSE;
 }
 
 /***********************************************************************//**
-  Compares elements of two bitvectors. Both vectors are expected to have
+  Compare elements of two bitvectors. Both vectors are expected to have
   same number of elements, i.e. , size1 must be equal to size2.
 ***************************************************************************/
 bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
                   size_t size1, size_t size2)
 {
   size_t i;
+
   fc_assert_ret_val(size1 == size2, FALSE);
 
   for (i = 0; i < size1; i++) {
@@ -261,6 +265,7 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
     vec1++;
     vec2++;
   }
+
   return TRUE;
 }
 
@@ -271,8 +276,7 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
   Both vectors are expected to have same number of elements,
   i.e. , size1 must be equal to size2.
 
-  Don't call this function directly, use BV_SET_ALL_FROM macro
-  instead.
+  Don't call this function directly, use BV_SET_ALL_FROM macro instead.
 ***************************************************************************/
 void bv_set_all_from(unsigned char *vec_to,
                      const unsigned char *vec_from,
@@ -294,8 +298,7 @@ void bv_set_all_from(unsigned char *vec_to,
   Both vectors are expected to have same number of elements,
   i.e. , size1 must be equal to size2.
 
-  Don't call this function directly, use BV_CLR_ALL_FROM macro
-  instead.
+  Don't call this function directly, use BV_CLR_ALL_FROM macro instead.
 ***************************************************************************/
 void bv_clr_all_from(unsigned char *vec_to,
                      const unsigned char *vec_from,
