@@ -416,10 +416,8 @@ static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
   n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->grid);
 
   if (n == num) {
-    GtkStyleContext *context = gtk_widget_get_style_context(dlg->v.tab.label);
-
-    gtk_style_context_remove_class(context, "alert");
-    gtk_style_context_remove_class(context, "notice");
+    gtk_widget_remove_css_class(dlg->v.tab.label, "alert");
+    gtk_widget_remove_css_class(dlg->v.tab.label, "notice");
   }
 }
 
@@ -603,9 +601,6 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
                            G_CALLBACK(gui_dialog_switch_page_handler), dlg);
       dlg->v.tab.child = dlg->grid;
 
-      gtk_style_context_add_provider(gtk_widget_get_style_context(label),
-                                     GTK_STYLE_PROVIDER(dlg_tab_provider),
-                                     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
 
@@ -787,10 +782,7 @@ void gui_dialog_present(struct gui_dialog *dlg)
       n = gtk_notebook_page_num(notebook, dlg->grid);
 
       if (current != n) {
-        GtkWidget *label = dlg->v.tab.label;
-
-        gtk_style_context_add_class(gtk_widget_get_style_context(label),
-                                    "notice");
+        gtk_widget_add_css_class(dlg->v.tab.label, "notice");
       }
     }
     break;
@@ -839,12 +831,9 @@ void gui_dialog_alert(struct gui_dialog *dlg)
       n = gtk_notebook_page_num(notebook, dlg->grid);
 
       if (current != n) {
-        GtkWidget *label = dlg->v.tab.label;
-        GtkStyleContext *context = gtk_widget_get_style_context(label);
-
         /* Have only alert - remove notice if it exist. */
-        gtk_style_context_remove_class(context, "notice");
-        gtk_style_context_add_class(context, "alert");
+        gtk_widget_remove_css_class(dlg->v.tab.label, "notice");
+        gtk_widget_add_css_class(dlg->v.tab.label, "alert");
       }
     }
     break;
@@ -1102,6 +1091,11 @@ void dlg_tab_provider_prepare(void)
                                   "color: rgba(0, 0, 255, 255);\n"
                                   "}\n",
                                   -1);
+
+  gtk_style_context_add_provider_for_display(
+                                     gtk_widget_get_display(toplevel),
+                                     GTK_STYLE_PROVIDER(dlg_tab_provider),
+                                     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
 
 /**********************************************************************//**

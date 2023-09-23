@@ -837,24 +837,12 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
                                       "  color: rgba(255, 0.0, 0.0, 255);\n"
                                       "}",
                                       -1);
-    }
 
-    /* GRANARY */
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[INFO_GRANARY]),
+      gtk_style_context_add_provider_for_display(
+                                   gtk_widget_get_display(toplevel),
                                    GTK_STYLE_PROVIDER(emergency_provider),
                                    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    /* GROWTH */
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[INFO_GROWTH]),
-                                   GTK_STYLE_PROVIDER(emergency_provider),
-                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    /* POLLUTION */
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[INFO_POLLUTION]),
-                                   GTK_STYLE_PROVIDER(emergency_provider),
-                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    /* ILLNESS */
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[INFO_ILLNESS]),
-                                   GTK_STYLE_PROVIDER(emergency_provider),
-                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    }
   }
 
   gtk_widget_set_visible(table, TRUE);
@@ -1908,29 +1896,29 @@ static void city_dialog_update_information(GtkWidget **info_label,
   /* For starvation, the "4" below is arbitrary. 3 turns should be enough
    * of a warning. */
   if (granaryturns > -4 && granaryturns < 0) {
-    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[INFO_GRANARY]), "emergency");
+    gtk_widget_add_css_class(info_label[INFO_GRANARY], "emergency");
   } else {
-    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[INFO_GRANARY]), "emergency");
+    gtk_widget_remove_css_class(info_label[INFO_GRANARY], "emergency");
   }
 
   if (granaryturns == 0 || pcity->surplus[O_FOOD] < 0) {
-    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[INFO_GROWTH]), "emergency");
+    gtk_widget_add_css_class(info_label[INFO_GROWTH], "emergency");
   } else {
-    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[INFO_GROWTH]), "emergency");
+    gtk_widget_remove_css_class(info_label[INFO_GROWTH], "emergency");
   }
 
-  /* someone could add the color &orange for better granularity here */
+  /* Someone could add the color &orange for better granularity here */
   if (pcity->pollution >= 10) {
-    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[INFO_POLLUTION]), "emergency");
+    gtk_widget_add_css_class(info_label[INFO_POLLUTION], "emergency");
   } else {
-    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[INFO_POLLUTION]), "emergency");
+    gtk_widget_remove_css_class(info_label[INFO_POLLUTION], "emergency");
   }
 
-  /* illness is in tenth of percent, i.e 100 == 10.0% */
+  /* Illness is in tenth of percent, i.e 100 == 10.0% */
   if (illness >= 100) {
-    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[INFO_ILLNESS]), "emergency");
+    gtk_widget_add_css_class(info_label[INFO_ILLNESS], "emergency");
   } else {
-    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[INFO_ILLNESS]), "emergency");
+    gtk_widget_remove_css_class(info_label[INFO_ILLNESS], "emergency");
   }
 }
 
