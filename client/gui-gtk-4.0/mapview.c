@@ -82,13 +82,12 @@ void update_turn_done_button(bool do_restore)
 
   if ((do_restore && flip) || !do_restore) {
     static GtkCssProvider *tdb_provider = NULL;
-    GtkStyleContext *scontext = gtk_widget_get_style_context(turn_done_button);
 
     if (tdb_provider == NULL) {
       tdb_provider = gtk_css_provider_new();
 
       gtk_css_provider_load_from_data(tdb_provider,
-                                      ".lighted {\n"
+                                      ".td_lighted {\n"
                                       "color: rgba(235, 127, 235, 255);\n"
                                       "background-color: rgba(127, 127, 127, 255);\n"
                                       "}\n",
@@ -96,15 +95,16 @@ void update_turn_done_button(bool do_restore)
 
       /* Turn Done button is persistent, so we only need to do this
        * once too. */
-      gtk_style_context_add_provider(scontext,
+      gtk_style_context_add_provider_for_display(
+                                     gtk_widget_get_display(toplevel),
                                      GTK_STYLE_PROVIDER(tdb_provider),
                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
     }
 
     if (flip) {
-      gtk_style_context_add_class(scontext, "lighted");
+      gtk_widget_add_css_class(turn_done_button, "td_lighted");
     } else {
-      gtk_style_context_remove_class(scontext, "lighted");
+      gtk_widget_remove_css_class(turn_done_button, "td_lighted");
     }
 
     flip = !flip;
