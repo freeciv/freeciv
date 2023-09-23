@@ -55,6 +55,7 @@ class_flags =
     _("Airliftable"), _("Can be airlifted from a suitable city.")
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
     _("Barracks"), _("Benefits from barracks")
+    _("Ground"), _("Ground units")
   }
 
 [veteran_system]
@@ -154,7 +155,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "Airliftable", "Barracks"
+                "TerrainDefense", "Airliftable", "Barracks", "Ground"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -162,7 +163,8 @@ name          = _("?unitclass:Small Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "CanFortify", "TerrainDefense", "DoesntOccupyTile", "Airliftable"
+                "ZOC", "CanFortify", "TerrainDefense", "DoesntOccupyTile", "Airliftable",
+                "Ground"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -171,7 +173,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom","ZOC", "CanFortify", "KillCitizen", "Airliftable",
-                "Barracks"
+                "Barracks", "Ground"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
@@ -179,7 +181,7 @@ name          = _("?unitclass:Merchant")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
-                "ZOC", "TerrainDefense", "TerrainSpeed", "Airliftable"
+                "ZOC", "TerrainDefense", "TerrainSpeed", "Airliftable", "Ground"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */

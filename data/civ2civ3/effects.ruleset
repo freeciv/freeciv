@@ -245,22 +245,14 @@ reqs    =
       "Extra", "Airbase", "Local"
     }
 
-; Fortress HP regen (Every Land units)
+; Fortress HP regen (All Ground units)
 [effect_fortress_hp_regen]
 type    = "HP_Regen"
 value   = 25
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Fortress", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",     "range"
+      "UnitClassFlag", "Ground",   "Local"
+      "Extra",         "Fortress", "Local"
     }
 
 [effect_fort_defense]
@@ -377,41 +369,25 @@ reqs    =
       "Tech", "Electricity", "Player"
     }
 
-; Vision benefit from mountains (for every land unit)
+; Vision benefit from mountains (All Ground unit)
 [effect_mountains_vision]
 type    = "Unit_Vision_Radius_Sq"
 value   = 4
 reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Mountains", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",      "range"
+      "Terrain",       "Mountains", "Local"
+      "UnitClassFlag", "Ground",    "Local"
     }
 
-; Movement penalty if ended turn at mountains (for every land unit)
+; Movement penalty if ended turn at mountains (All Ground units)
 [effect_mountains_movement]
 type    = "Move_Bonus"
 value   = -1
 reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Mountains", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
-      "Extra", "Road", "Local", FALSE
+    { "type",          "name",      "range", "present"
+      "Terrain",       "Mountains", "Local", TRUE
+      "UnitClassFlag", "Ground",    "Local", TRUE
+      "Extra",         "Road",      "Local", FALSE
     }
 
 ; Nuclear power gives +1 moves to sea units
@@ -1868,22 +1844,14 @@ reqs    =
       "Gov", "Communism", "Player", FALSE
     }
 
-; Every Land
+; All Ground units
 [effect_city_defense_0]
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "CityTile", "Center", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",   "range"
+      "UnitClassFlag", "Ground", "Local"
+      "CityTile",      "Center", "Local"
     }
 
 ; Every Land, Sea, Trireme
@@ -1910,17 +1878,9 @@ reqs    =
 type    = "Defend_Bonus"
 value   = 100
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "City Walls", "City", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",       "range"
+      "Building",      "City Walls", "City"
+      "UnitClassFlag", "Ground",     "Local"
     }
 
 [effect_city_walls_1]
@@ -3109,23 +3069,15 @@ reqs	=
       "Building", "Great Library", "City"
     }
 
-; Every Land unit
+; All Ground units
 [effect_great_wall]
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Great Wall", "Player", TRUE
-      "CityTile", "Center", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",       "range"
+      "Building",      "Great Wall", "Player"
+      "CityTile",      "Center",     "Local"
+      "UnitClassFlag", "Ground",     "Local"
     }
 
 [effect_great_wall_1]

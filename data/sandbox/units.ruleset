@@ -61,6 +61,7 @@ class_flags =
     _("Expellable"), _("Can be peacefully expelled from foreign tiles.")
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
     _("Barracks"), _("Benefits from barracks")
+    _("Ground"), _("Ground units")
   }
 
 [veteran_system]
@@ -160,7 +161,8 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "LightWeight", "BorderPolice", "Barracks"
+                "TerrainDefense", "LightWeight", "BorderPolice", "Barracks",
+                "Ground"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -169,7 +171,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
                 "ZOC", "TerrainDefense", "DoesntOccupyTile", "LightWeight",
-                "Expellable"
+                "Expellable", "Ground"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -178,7 +180,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom","ZOC", "CanFortify", "KillCitizen", "MediumWeight",
-                "Barracks"
+                "Barracks", "Ground"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
@@ -187,7 +189,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
                 "ZOC", "TerrainDefense", "TerrainSpeed", "MediumWeight",
-                "Expellable"
+                "Expellable", "Ground"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
