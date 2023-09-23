@@ -50,10 +50,11 @@ option('audio',
        value: true,
        description: 'Build in sound support')
 
-option('ruledit',
-       type: 'boolean',
-       value: true,
-       description: 'Build ruleset editor')
+option('tools',
+       type: 'array',
+       choices: ['ruledit'],
+       value: ['ruledit'],
+       description: 'Extra tools to build')
 
 option('nls',
        type: 'boolean',

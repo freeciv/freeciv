@@ -150,8 +150,10 @@ readline ('try'/'true'/'false')
 audio (boolean):
   Build sound support to the clients. Defaults to true.
 
-ruledit (boolean):
-  Build ruleset editor. Defaults to true.
+tools (array):
+  Extra tools to build:
+   * ruledit : Ruleset editor
+  Default is to build them all.
 
 nls (boolean):
   Build in Native Language Support. Defaults to true.

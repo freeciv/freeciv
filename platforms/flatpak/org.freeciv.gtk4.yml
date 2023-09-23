@@ -18,7 +18,7 @@ modules:
     config-opts:
       - -Dclients=gtk4
       - -Dfcmp=[]
-      - -Druledit=false
+      - -Dtools=[]
     sources:
       - type: dir
         path: ../..

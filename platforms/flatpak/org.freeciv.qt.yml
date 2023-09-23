@@ -19,7 +19,7 @@ modules:
       - -Dqtver=qt6
       - -Dclients=qt
       - -Dfcmp=[]
-      - -Druledit=false
+      - -Dtools=[]
     sources:
       - type: dir
         path: ../..

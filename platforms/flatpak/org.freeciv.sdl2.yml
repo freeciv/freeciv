@@ -19,7 +19,7 @@ modules:
     config-opts:
       - -Dclients=sdl2
       - -Dfcmp=[]
-      - -Druledit=false
+      - -Dtools=[]
     sources:
       - type: dir
         path: ../..

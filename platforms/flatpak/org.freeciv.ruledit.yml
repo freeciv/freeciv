@@ -15,7 +15,7 @@ modules:
     no-autogen: true
     config-opts:
       - -Dqtver=qt6
-      - -Druledit=true
+      - -Dtools=ruledit
       - -Dclients=[]
       - -Dserver=disabled
       - -Dfcmp=[]

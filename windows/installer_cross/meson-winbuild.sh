@@ -7,7 +7,7 @@
 # See COPYING available from the same location you got this script.
 #
 
-MESON_WINBUILD_VERSION="3.1.0-beta"
+MESON_WINBUILD_VERSION="3.2.0-alpha"
 MIN_WINVER=0x0603 # Windows 8.1. Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.7
 
@@ -77,23 +77,23 @@ QTPARAMS=""
 
 case "${GUI}" in
   gtk3.22) FCMP="gtk3"
-           RULEDIT=false ;;
+           TOOLS="[]" ;;
   gtk4) FCMP="gtk4"
-        RULEDIT=false ;;
+        TOOLS="[]" ;;
   sdl2) FCMP="gtk4"
-        RULEDIT=false ;;
+        TOOLS="[]" ;;
   qt5) CLIENT="qt"
        FCMP="qt"
-       RULEDIT=true
+       TOOLS="ruledit"
        QTPARAMS="-Dqtver=qt5" ;;
   qt6) CLIENT="qt"
        FCMP="qt"
-       RULEDIT=true
+       TOOLS="ruledit"
        MIN_WINVER=0x0A00
        QTPARAMS="-Dqtver=qt6" ;;
   ruledit) CLIENT="[]"
            FCMP="[]"
-           RULEDIT=true
+           TOOLS="ruledit"
            MIN_WINVER=0x0A00
            QTPARAMS="-Dqtver=qt6" ;;
 esac
@@ -158,7 +158,7 @@ if ! meson setup \
      -Dmwand="${MWAND}" \
      -Dreadline=false \
      -Dserver="${SERVER}" \
-     -Druledit="${RULEDIT}" \
+     -Dtools="${TOOLS}" \
      -Ddefault_library=static \
      ${QTPARAMS} \
      ${EXTRA_CONFIG} \
