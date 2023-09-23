@@ -84,7 +84,7 @@ extern "C" {
 #endif /* FREECIV_ENABLE_NLS */
 
 /* This provides an untranslated version of Q_ that allows the caller to
- * get access to the original string.  This may be needed for comparisons,
+ * get access to the original string. This may be needed for comparisons,
  * for instance. */
 #define Qn_(String) skip_intl_qualifier_prefix(String)
 
@@ -102,4 +102,4 @@ const char *get_locale_dir(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__FCINTL_H */
+#endif /* FC__FCINTL_H */
