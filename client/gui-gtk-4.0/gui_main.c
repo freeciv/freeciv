@@ -197,7 +197,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
 
 static void print_usage(void);
 static void activate_gui(GtkApplication *app, gpointer data);
-static void parse_options(int argc, char **argv);
+static bool parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkEventControllerKey *controller,
                                            guint keyval,
                                            guint keycode,
@@ -288,7 +288,7 @@ static void print_usage(void)
 /**********************************************************************//**
   Search for gui-specific command line options.
 **************************************************************************/
-static void parse_options(int argc, char **argv)
+static bool parse_options(int argc, char **argv)
 {
   int i = 1;
 
@@ -297,7 +297,8 @@ static void parse_options(int argc, char **argv)
 
     if (is_option("--help", argv[i])) {
       print_usage();
-      exit(EXIT_SUCCESS);
+
+      return FALSE;
 
 #ifdef EXP_ZOOM_LEVELS
     } else if ((option = get_option_malloc("--zoom", argv, &i, argc, FALSE))) {
@@ -326,6 +327,8 @@ static void parse_options(int argc, char **argv)
 
     i++;
   }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -1896,48 +1899,48 @@ static void migrate_options_from_gtk3_22(void)
 **************************************************************************/
 int ui_main(int argc, char **argv)
 {
-  parse_options(argc, argv);
+  if (parse_options(argc, argv)) {
+    /* The locale has already been set in init_nls() and the windows-specific
+     * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
+    gtk_disable_setlocale();
 
-  /* The locale has already been set in init_nls() and the windows-specific
-   * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
-  gtk_disable_setlocale();
+    if (!gtk_init_check()) {
+      log_fatal(_("Failed to open graphical mode."));
+      return EXIT_FAILURE;
+    }
 
-  if (!gtk_init_check()) {
-    log_fatal(_("Failed to open graphical mode."));
-    exit(EXIT_FAILURE);
+    menus_set_initial_toggle_values();
+
+    gui_up = TRUE;
+    fc_app = gtk_application_new(NULL, 0);
+    g_signal_connect(fc_app, "activate", G_CALLBACK(activate_gui), NULL);
+    g_application_run(G_APPLICATION(fc_app), 0, NULL);
+    gui_up = FALSE;
+
+    destroy_server_scans();
+    free_mapcanvas_and_overview();
+    spaceship_dialog_done();
+    intel_dialog_done();
+    citizens_dialog_done();
+    luaconsole_dialog_done();
+    happiness_dialog_done();
+    diplomacy_dialog_done();
+    cma_fe_done();
+    free_unit_table();
+
+    /* We have extra ref for unit_info_box that has protected
+     * it from getting destroyed when editinfobox_refresh()
+     * moves widgets around. Free that extra ref here. */
+    g_object_unref(unit_info_box);
+    if (empty_unit_paintable != NULL) {
+      g_object_unref(empty_unit_paintable);
+    }
+
+    editgui_free();
+    gtk_window_destroy(GTK_WINDOW(toplevel));
+    message_buffer = NULL; /* Result of destruction of everything */
+    tileset_free_tiles(tileset);
   }
-
-  menus_set_initial_toggle_values();
-
-  gui_up = TRUE;
-  fc_app = gtk_application_new(NULL, 0);
-  g_signal_connect(fc_app, "activate", G_CALLBACK(activate_gui), NULL);
-  g_application_run(G_APPLICATION(fc_app), 0, NULL);
-  gui_up = FALSE;
-
-  destroy_server_scans();
-  free_mapcanvas_and_overview();
-  spaceship_dialog_done();
-  intel_dialog_done();
-  citizens_dialog_done();
-  luaconsole_dialog_done();
-  happiness_dialog_done();
-  diplomacy_dialog_done();
-  cma_fe_done();
-  free_unit_table();
-
-  /* We have extra ref for unit_info_box that has protected
-   * it from getting destroyed when editinfobox_refresh()
-   * moves widgets around. Free that extra ref here. */
-  g_object_unref(unit_info_box);
-  if (empty_unit_paintable != NULL) {
-    g_object_unref(empty_unit_paintable);
-  }
-
-  editgui_free();
-  gtk_window_destroy(GTK_WINDOW(toplevel));
-  message_buffer = NULL; /* Result of destruction of everything */
-  tileset_free_tiles(tileset);
 
   return EXIT_SUCCESS;
 }
