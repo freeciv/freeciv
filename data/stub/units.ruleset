@@ -251,7 +251,7 @@ flags         = ""
 ;                 less
 ; "FieldUnit"   = cause unhappiness even when not being aggressive
 ; "AttackAny"   = can attack unreachable units
-; "Settlers"    = can irrigate and build roads
+; "Workers"     = can irrigate and build roads
 ; "Diplomat"    = can do diplomat actions (see diplchance server option)
 ; "Spy"         = strong in diplomatic battles. _Must_ be "Diplomat" also
 ; "CoastStrict" = (sea only) cannot leave coast
@@ -395,7 +395,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers"
+flags         = "Workers"
 roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
 helptext      = _("\
   This is the only land unit type you can build.\

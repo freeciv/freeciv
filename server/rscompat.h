@@ -57,6 +57,7 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                                            const char *rfor);
 
 /* Functions specific to 3.2 -> 3.3 transition */
+const char *rscompat_utype_flag_name_3_3(const char *old_name);
 
 #ifdef __cplusplus
 }

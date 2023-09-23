@@ -242,14 +242,14 @@ target_reqs    =
 action        = "Cultivate"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Settlers",     "Local", TRUE
+      "UnitFlag",      "Workers",      "Local", TRUE
     }
 
 [actionenabler_plant]
 action        = "Plant"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Settlers",     "Local", TRUE
+      "UnitFlag",      "Workers",      "Local", TRUE
     }
 
 [actionenabler_deboard]

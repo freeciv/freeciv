@@ -3939,7 +3939,7 @@ void real_menus_update(void)
   if (units_can_do_action(punits, ACTION_TRADE_ROUTE, TRUE)) {
     menus_rename("BUILD_ROAD",
                  action_get_ui_name_mnemonic(ACTION_TRADE_ROUTE, "_"));
-  } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+  } else if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
     char road_item[500];
     struct extra_type *pextra = NULL;
 
@@ -4009,7 +4009,7 @@ void real_menus_update(void)
 
     pterrain = tile_terrain(unit_tile(first));
 
-    if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+    if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
       struct extra_type *pextra = NULL;
 
       /* FIXME: this overloading doesn't work well with multiple focus
@@ -4041,7 +4041,7 @@ void real_menus_update(void)
       sz_strlcpy(cultext, _("_Cultivate"));
     }
 
-    if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+    if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
       struct extra_type *pextra = NULL;
 
       /* FIXME: this overloading doesn't work well with multiple focus

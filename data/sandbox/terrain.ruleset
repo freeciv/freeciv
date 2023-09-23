@@ -1660,7 +1660,7 @@ reqs           =
       "Tech", "Construction", "Player", TRUE, FALSE
       "Tech", "Feudalism", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "UnitFlag", "Fortress", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
       "Extra", "River", "Tile", FALSE, FALSE
@@ -1699,7 +1699,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Radio", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 0
@@ -1742,7 +1742,7 @@ reqs           =
       "Extra", "Airstrip", "Tile", TRUE, FALSE
       "Tech", "Radio", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
       "Extra", "River", "Tile", FALSE, FALSE
     }
@@ -1785,7 +1785,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Radio", "Player", TRUE, FALSE
       "TerrainClass", "Oceanic", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
     }
 visibility_req = "Radio"
@@ -1869,7 +1869,7 @@ rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "UnitClass", "Sea", "Local", FALSE, TRUE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
     }
@@ -1909,7 +1909,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Railroad", "Player", TRUE, FALSE
       "Extra", "Road", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "UnitClass", "Sea", "Local", FALSE, TRUE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
     }
@@ -1949,7 +1949,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Superconductors", "Player", TRUE, FALSE
       "Extra", "Railroad", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "UnitClass", "Sea", "Local", FALSE, TRUE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
     }

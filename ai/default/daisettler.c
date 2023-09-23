@@ -1079,7 +1079,7 @@ BUILD_CITY:
 
   /*** Try find some work ***/
 
-  if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
+  if (unit_has_type_flag(punit, UTYF_WORKERS)) {
     struct worker_task *best_task;
 
     TIMING_LOG(AIT_WORKERS, TIMER_START);

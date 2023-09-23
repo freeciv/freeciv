@@ -2153,7 +2153,7 @@ void mr_menu::menus_sensitive()
         }
 
         if (units_all_same_tile) {
-          if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+          if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
             struct extra_type *pextra = NULL;
 
             /* FIXME: this overloading doesn't work well with multiple focus
@@ -2186,7 +2186,7 @@ void mr_menu::menus_sensitive()
           i.value()->setEnabled(true);
         }
         if (units_all_same_tile) {
-          if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+          if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
             struct extra_type *pextra = NULL;
 
             /* FIXME: this overloading doesn't work well with multiple focus

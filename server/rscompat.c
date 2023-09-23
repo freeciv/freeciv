@@ -433,3 +433,15 @@ static int first_free_unit_type_user_flag(void)
   /* All unit type user flags are taken. */
   return MAX_NUM_USER_UNIT_FLAGS;
 }
+
+/**********************************************************************//**
+  Convert 3.2 unit type flag name to 3.3 one.
+**************************************************************************/
+const char *rscompat_utype_flag_name_3_3(const char *old_name)
+{
+  if (!strcasecmp("Settlers", old_name)) {
+    return "Workers";
+  }
+
+  return old_name;
+}

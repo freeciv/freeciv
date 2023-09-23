@@ -293,9 +293,9 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
                                        &(city_data->choice), 0)) {
         adv_choice_set_use(&(city_data->choice), "fallback defender");
         CITY_LOG(LOG_DEBUG, pcity, "Building fallback defender");
-      } else if (best_role_unit(pcity, UTYF_SETTLERS)) {
+      } else if (best_role_unit(pcity, UTYF_WORKERS)) {
         city_data->choice.value.utype
-          = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
+          = dai_role_utype_for_terrain_class(pcity, UTYF_WORKERS, TC_LAND);
         city_data->choice.type = CT_CIVILIAN;
         adv_choice_set_use(&(city_data->choice), "fallback worker");
       } else {
@@ -742,7 +742,7 @@ static int unit_foodbox_cost(struct unit *punit)
   Estimates the want for a terrain improver (aka worker) by creating a
   virtual unit and feeding it to settler_evaluate_improvements().
 
-  TODO: AI does not ship UTYF_SETTLERS around, only UTYF_CITIES - Per
+  TODO: AI does not ship UTYF_WORKERS around, only UTYF_CITIES - Per
 **************************************************************************/
 static void contemplate_terrain_improvements(struct ai_type *ait,
                                              struct city *pcity)
@@ -769,10 +769,10 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
 
   city_data->worker_want = 0; /* Make sure old want does not stay if we don't want now */
 
-  utype = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
+  utype = dai_role_utype_for_terrain_class(pcity, UTYF_WORKERS, TC_LAND);
 
   if (utype == NULL) {
-    log_debug("No UTYF_SETTLERS role unit available");
+    log_debug("No UTYF_WORKERS role unit available");
     return;
   }
 
@@ -836,12 +836,12 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   fc_assert(want >= 0);
 
   city_data->worker_want = want;
-  city_data->worker_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
+  city_data->worker_type = dai_role_utype_for_terrain_class(pcity, UTYF_WORKERS,
                                                             place >= 0 ? TC_LAND : TC_OCEAN);
 }
 
 /**********************************************************************//**
-  One of the top level AI functions.  It does (by calling other functions):
+  One of the top level AI functions. It does (by calling other functions):
   worker allocations,
   build choices,
   extra gold spending.

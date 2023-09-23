@@ -1426,7 +1426,7 @@ bool can_unit_do_connect(struct unit *punit,
   case ACTIVITY_IRRIGATE:
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
-    if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+    if (!unit_has_type_flag(punit, UTYF_WORKERS)) {
       return FALSE;
     }
     if (tile_has_extra(ptile, tgt)) {

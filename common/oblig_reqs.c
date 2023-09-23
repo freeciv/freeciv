@@ -404,11 +404,11 @@ void hard_code_oblig_hard_reqs(void)
    * unit type flag. */
   oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE,
-                                          UTYF_SETTLERS),
+                                          UTYF_WORKERS),
                           FALSE,
                           N_("All action enablers for %s must require"
                              " that the actor has"
-                             " the Settlers utype flag."),
+                             " the Workers utype flag."),
                           ACTRES_TRANSFORM_TERRAIN,
                           ACTRES_CULTIVATE,
                           ACTRES_PLANT,

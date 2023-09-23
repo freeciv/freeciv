@@ -1128,7 +1128,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Construction", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
@@ -1160,7 +1160,7 @@ rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
-      "UnitFlag", "Settlers", "Local"
+      "UnitFlag", "Workers", "Local"
       "TerrainClass", "Land", "Tile"
     }
 build_time     = 0
@@ -1195,7 +1195,7 @@ reqs           =
     { "type", "name", "range", "present"
       "Tech", "Railroad", "Player", TRUE
       "Extra", "Road", "Tile", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
+      "UnitFlag", "Workers", "Local", TRUE
       "TerrainClass", "Land", "Tile", TRUE
       "CityTile", "Center", "Tile", FALSE
     }

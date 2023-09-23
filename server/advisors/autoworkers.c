@@ -489,7 +489,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
       unit_list_iterate(ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
             && aunit->id != punit->id
-            && unit_has_type_flag(aunit, UTYF_SETTLERS)) {
+            && unit_has_type_flag(aunit, UTYF_WORKERS)) {
           consider = FALSE;
         }
       } unit_list_iterate_end;
@@ -859,7 +859,7 @@ struct city *worker_evaluate_city_requests(struct unit *punit,
       unit_list_iterate(ptask->ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
             && aunit->id != punit->id
-            && unit_has_type_flag(aunit, UTYF_SETTLERS)) {
+            && unit_has_type_flag(aunit, UTYF_WORKERS)) {
           consider = FALSE;
         }
       } unit_list_iterate_end;
@@ -955,7 +955,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
 
   fc_assert_ret(pplayer && punit);
   fc_assert_ret(unit_is_cityfounder(punit)
-                || unit_has_type_flag(punit, UTYF_SETTLERS));
+                || unit_has_type_flag(punit, UTYF_WORKERS));
 
   /* Have nearby cities requests? */
 
@@ -985,7 +985,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
 
   /*** Try find some work ***/
 
-  if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
+  if (unit_has_type_flag(punit, UTYF_WORKERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
     worker_evaluate_improvements(nmap, punit, &best_act, &best_target,
                                  &best_tile, &path, state);

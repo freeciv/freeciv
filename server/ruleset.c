@@ -2122,6 +2122,11 @@ static bool load_ruleset_units(struct section_file *file,
         if (strcmp(sval, "") == 0) {
           continue;
         }
+
+        if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
+          sval = rscompat_utype_flag_name_3_3(sval);
+        }
+
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
         if (!unit_class_flag_id_is_valid(ival)) {
           ok = FALSE;

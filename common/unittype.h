@@ -174,6 +174,8 @@ struct unit_class {
   } cache;
 };
 
+const char *unit_type_flag_id_name_update_cb(const char *old_name);
+
 /* Unit "special effects" flags:
  * Note this is now an enumerated type, and not power-of-two integers
  * for bits, though unit_type.flags is still a bitfield, and code
@@ -205,8 +207,8 @@ struct unit_class {
 #define SPECENUM_VALUE6 UTYF_NEVER_PROTECTS
 #define SPECENUM_VALUE6NAME N_("?unitflag:NeverProtects")
 /* Does not include ability to found cities */
-#define SPECENUM_VALUE7 UTYF_SETTLERS
-#define SPECENUM_VALUE7NAME N_("?unitflag:Settlers")
+#define SPECENUM_VALUE7 UTYF_WORKERS
+#define SPECENUM_VALUE7NAME N_("?unitflag:Workers")
 #define SPECENUM_VALUE8 UTYF_DIPLOMAT
 #define SPECENUM_VALUE8NAME N_("?unitflag:Diplomat")
 /* Can't leave the coast */
@@ -335,6 +337,7 @@ struct unit_class {
 #define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_51
 #define MAX_NUM_USER_UNIT_FLAGS (UTYF_LAST_USER_FLAG - UTYF_USER_FLAG_1 + 1)
 #define SPECENUM_NAMEOVERRIDE
+#define SPECENUM_NAME_UPDATER
 #define SPECENUM_BITVECTOR bv_unit_type_flags
 #include "specenum_gen.h"
 
@@ -344,7 +347,7 @@ struct unit_class {
    but determine which units are used (mainly by the server or AI)
    in various circumstances, or "roles".
    Note that in some cases flags can act as roles, eg, we don't need
-   a role for "settlers", because we can just use UTYF_SETTLERS.
+   a role for "workers", because we can just use UTYF_WORKERS.
    (Now have to consider ACTION_FOUND_CITY too)
    So we make sure flag values and role values are distinct,
    so some functions can use them interchangably.

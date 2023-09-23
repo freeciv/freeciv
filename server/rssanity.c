@@ -694,8 +694,8 @@ static bool rs_barbarian_units(rs_conversion_logger logger)
 static bool rs_common_units(rs_conversion_logger logger)
 {
   /* Check some required flags and roles etc: */
-  if (num_role_units(UTYF_SETTLERS) == 0) {
-    ruleset_error(logger, LOG_ERROR, "No flag Settler units");
+  if (num_role_units(UTYF_WORKERS) == 0) {
+    ruleset_error(logger, LOG_ERROR, "No flag Worker units");
     return FALSE;
   }
   if (num_role_units(L_START_EXPLORER) == 0) {

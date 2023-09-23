@@ -522,14 +522,14 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
                "desires terrain improvers with passion " ADV_WANT_PRINTF,
                worker_want);
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
-                           UTYF_SETTLERS, worker_want, FALSE);
+                           UTYF_WORKERS, worker_want, FALSE);
       adv_choice_set_use(choice, "worker");
     }
     /* Terrain improvers don't use boats (yet) */
 
   } else if (worker_type == NULL && worker_want > 0) {
     /* Can't build workers. Lets stimulate science */
-    dai_wants_role_unit(ait, pplayer, pcity, UTYF_SETTLERS, worker_want);
+    dai_wants_role_unit(ait, pplayer, pcity, UTYF_WORKERS, worker_want);
   }
 
   /* Find out desire for city founders */

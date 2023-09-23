@@ -979,7 +979,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Strong Force", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
@@ -1007,7 +1007,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Force Channeling", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
@@ -1034,7 +1034,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Commercial Antigravity", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitFlag", "Workers", "Local", TRUE, FALSE
       "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
@@ -1060,7 +1060,7 @@ rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
-      "UnitFlag", "Settlers", "Local"
+      "UnitFlag", "Workers", "Local"
       "TerrainClass", "Land", "Tile"
     }
 build_time     = 0
@@ -1091,7 +1091,7 @@ reqs           =
     { "type", "name", "range"
       "Tech", "Brute Force", "Player"
       "Extra", "Road", "Tile"
-      "UnitFlag", "Settlers", "Local"
+      "UnitFlag", "Workers", "Local"
       "TerrainClass", "Land", "Tile"
     }
 build_time     = 3
@@ -1120,7 +1120,7 @@ reqs           =
     { "type", "name", "range"
       "Tech", "Maglev", "Player"
       "Extra", "Highway", "Tile"
-      "UnitFlag", "Settlers", "Local"
+      "UnitFlag", "Workers", "Local"
       "TerrainClass", "Land", "Tile"
     }
 build_time     = 3
@@ -1151,7 +1151,7 @@ rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Strong Resistance", "Player"
-      "UnitFlag", "Settlers", "Local"
+      "UnitFlag", "Workers", "Local"
       "TerrainFlag", "Radiating", "Tile"
       "TerrainClass", "Land", "Tile" ; Needed explicitly for automatic move type assignment
     }
@@ -1182,7 +1182,7 @@ rmact_gfx_alt2 = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Burrowing", "Player"
-      "UnitFlag", "Settlers", "Local"
+      "UnitFlag", "Workers", "Local"
       "TerrainClass", "Oceanic", "Tile"
     }
 build_time     = 3

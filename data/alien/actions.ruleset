@@ -726,14 +726,14 @@ actor_reqs    =
 action        = "Cultivate"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Settlers",     "Local", TRUE
+      "UnitFlag",      "Workers",      "Local", TRUE
     }
 
 [actionenabler_plant]
 action        = "Plant"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Settlers",     "Local", TRUE
+      "UnitFlag",      "Workers",      "Local", TRUE
     }
 
 [actionenabler_pillage]
@@ -747,7 +747,7 @@ actor_reqs    =
 action        = "Clean"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Settlers",     "Local", TRUE
+      "UnitFlag",      "Workers",      "Local", TRUE
     }
 
 [actionenabler_fortify_terrain]
@@ -774,7 +774,7 @@ actor_reqs    =
 action        = "Build Road"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
+      "UnitFlag",      "Workers",      "Local"
     }
 target_reqs   =
     { "type",         "name",    "range"
@@ -785,7 +785,7 @@ target_reqs   =
 action        = "Build Base"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
+      "UnitFlag",      "Workers",      "Local"
     }
 target_reqs   =
     { "type",         "name",    "range"
@@ -796,7 +796,7 @@ target_reqs   =
 action        = "Build Mine"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
+      "UnitFlag",      "Workers",      "Local"
     }
 target_reqs    =
     { "type",         "name",            "range", "present"
@@ -808,7 +808,7 @@ target_reqs    =
 action        = "Build Mine"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
+      "UnitFlag",      "Workers",      "Local"
       "Tech",          "Burrowing",    "Player"
     }
 target_reqs    =
@@ -820,7 +820,7 @@ target_reqs    =
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",         "name",          "range"
-      "UnitFlag",     "Settlers" ,     "Local"
+      "UnitFlag",     "Workers",       "Local"
       "Tech",         "Manufacturing", "Player"
     }
 target_reqs    =
@@ -833,7 +833,7 @@ target_reqs    =
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",     "name",          "range"
-      "UnitFlag", "Settlers",      "Local"
+      "UnitFlag", "Workers",       "Local"
       "Tech",     "Manufacturing", "Player"
     }
 target_reqs    =
@@ -846,7 +846,7 @@ target_reqs    =
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",     "name",          "range"
-      "UnitFlag", "Settlers",      "Local"
+      "UnitFlag", "Workers",       "Local"
       "Tech",     "Manufacturing", "Player"
     }
 target_reqs    =
@@ -859,7 +859,7 @@ target_reqs    =
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
+      "UnitFlag",      "Workers",      "Local"
       "Tech",          "Water Flow",   "Player"
     }
 target_reqs    =
@@ -872,7 +872,7 @@ target_reqs    =
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
+      "UnitFlag",      "Workers",      "Local"
       "Tech",          "Water Flow",   "Player"
     }
 target_reqs    =
@@ -885,7 +885,7 @@ target_reqs    =
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",     "name",       "range"
-      "UnitFlag", "Settlers",   "Local"
+      "UnitFlag", "Workers",    "Local"
       "Tech",     "Water Flow", "Player"
     }
 target_reqs    =
@@ -898,7 +898,7 @@ target_reqs    =
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",     "name",         "range"
-      "UnitFlag", "Settlers",     "Local"
+      "UnitFlag", "Workers",      "Local"
       "Tech",     "Deep Pumping", "Player"
     }
 target_reqs    =

@@ -334,7 +334,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;                 rather than terrain/road etc cost, unless terrain cost is
 ;                 less
 ; "FieldUnit"   = cause unhappiness even when not being aggressive
-; "Settlers"    = can irrigate and build roads
+; "Workers"     = can irrigate and build roads
 ; "Diplomat"    = can defend against diplomat actions (see diplchance
 ;                 server option)
 ; "Spy"         = strong in diplomatic battles. _Must_ be "Diplomat" also
@@ -479,7 +479,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC",
+flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC",
                 "AddToCity", "Cities", "Expellable", "LightWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
@@ -529,7 +529,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC",
+flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC",
                 "Airbase", "Expellable", "LightWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
@@ -575,7 +575,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC",
+flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC",
                 "Transform", "Airbase", "Expellable", "MediumWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")

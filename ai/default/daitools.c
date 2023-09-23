@@ -542,7 +542,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     parameter->get_zoc = NULL;
   }
 
-  if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
+  if (unit_has_type_flag(punit, UTYF_WORKERS)) {
     parameter->get_TB = no_fights;
   } else if (long_path && unit_is_cityfounder(punit)) {
     /* Default tile behaviour;

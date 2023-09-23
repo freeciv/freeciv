@@ -3171,7 +3171,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                   BULLET);
         }
       }
-      if (utype_has_flag(utype, UTYF_SETTLERS)) {
+      if (utype_has_flag(utype, UTYF_WORKERS)) {
         CATLSTR(buf, bufsz,
                 /* TRANS: indented; preserve leading spaces */
                 _("  %s Veterans work faster.\n"), BULLET);

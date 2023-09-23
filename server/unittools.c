@@ -260,7 +260,7 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
      * For example with a base chance of 50% for green units and a modifier
      * of +50% the end chance is 75%. */
     chance = vlevel->base_raise_chance * mod / 100;
-  } else if (settler && unit_has_type_flag(punit, UTYF_SETTLERS)) {
+  } else if (settler && unit_has_type_flag(punit, UTYF_WORKERS)) {
     chance = base_chance * vlevel->work_raise_chance / 100;
   } else {
     /* No battle and no work done. */

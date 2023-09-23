@@ -361,7 +361,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
 ;                 rather than terrain/road etc cost, unless terrain cost is
 ;                 less
 ; "FieldUnit"   = cause unhappiness even when not being aggressive
-; "Settlers"    = can irrigate and build roads
+; "Workers"     = can irrigate and build roads
 ; "Diplomat"    = can defend against diplomat actions (see diplchance
 ;                 server option)
 ; "Spy"         = strong in diplomatic battles. _Must_ be "Diplomat" also
@@ -506,7 +506,7 @@ uk_shield     = 0
 uk_food       = 1
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity",
+flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity",
                 "Cities", "Fortress"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
@@ -554,7 +554,7 @@ uk_shield     = 0
 uk_food       = 1
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity",
+flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity",
                 "Capturable", "Fortress"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
@@ -598,7 +598,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
 tp_defense    = "Alight"
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress"
+flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0
@@ -640,7 +640,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
 tp_defense    = "Alight"
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress", "Transform"
+flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress", "Transform"
 veteran_names = _("beginner"), _("seasoned"), _("senior"), _("expert")
 veteran_base_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 3, 2, 1, 0
@@ -2272,7 +2272,7 @@ uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
-flags         = "Settlers", "BadCityDefender", "HasNoZOC",
+flags         = "Workers", "BadCityDefender", "HasNoZOC",
                 "Provoking", "NonMil"
 veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
 veteran_base_raise_chance      = 50, 33, 20, 0

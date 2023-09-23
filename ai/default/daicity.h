@@ -58,11 +58,11 @@ struct ai_city {
   bool diplomat_threat;         /* enemy diplomat or spy is near the city */
   bool has_diplomat;            /* this city has diplomat or spy defender */
 
-  /* These values are for builder (UTYF_SETTLERS) and founder (UTYF_CITIES) units.
+  /* These values are for builder (UTYF_WORKERS) and founder (UTYF_CITIES) units.
    * Negative values indicate that the city needs a boat first;
    * -value is the degree of want in that case. */
-  bool founder_boat;            /* city founder will need a boat */
-  int founder_turn;             /* only recalculate every Nth turn */
+  bool founder_boat;            /* City founder will need a boat */
+  int founder_turn;             /* Only recalculate every Nth turn */
   int founder_want;
   int worker_want;
   struct unit_type *worker_type;

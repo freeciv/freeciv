@@ -104,7 +104,7 @@ void adv_units_ruleset_init(void)
       } unit_class_iterate_end;
     }
 
-    ptype->adv.worker = utype_has_flag(ptype, UTYF_SETTLERS);
+    ptype->adv.worker = utype_has_flag(ptype, UTYF_WORKERS);
   } unit_type_iterate_end;
 
   /* Initialize autoworkers actions */
