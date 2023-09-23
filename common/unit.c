@@ -2262,31 +2262,42 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
   unit. For a damaged unit the price is reduced. For a veteran unit, it is
   increased.
 
-  The bribe cost for settlers are halved.
+  @param  punit  Unit to bribe
+  @param  briber Player that wants to bribe
+  @return        Bribe cost
 **************************************************************************/
 int unit_bribe_cost(struct unit *punit, struct player *briber)
 {
-  int cost, default_hp, dist = 0;
+  int cost, default_hp;
   struct tile *ptile = unit_tile(punit);
+  struct player *owner = unit_owner(punit);
+  const struct unit_type *ptype = unit_type_get(punit);
 
   fc_assert_ret_val(punit != NULL, 0);
 
-  default_hp = unit_type_get(punit)->hp;
-  cost = unit_owner(punit)->economic.gold + game.info.base_bribe_cost;
+  default_hp = ptype->hp;
 
-  /* Consider the distance to the capital. */
-  dist = GAME_UNIT_BRIBE_DIST_MAX;
-  city_list_iterate(unit_owner(punit)->cities, capital) {
-    if (is_capital(capital)) {
-      int tmp = map_distance(capital->tile, ptile);
+  cost = game.info.base_bribe_cost;
 
-      if (tmp < dist) {
-        dist = tmp;
+  if (owner != nullptr) {
+    int dist = 0;
+
+    cost += owner->economic.gold;
+
+    /* Consider the distance to the capital. */
+    dist = GAME_UNIT_BRIBE_DIST_MAX;
+    city_list_iterate(owner->cities, capital) {
+      if (is_capital(capital)) {
+        int tmp = map_distance(capital->tile, ptile);
+
+        if (tmp < dist) {
+          dist = tmp;
+        }
       }
-    }
-  } city_list_iterate_end;
+    } city_list_iterate_end;
 
-  cost /= dist + 2;
+    cost /= dist + 2;
+  }
 
   /* Consider the build cost. */
   cost *= unit_build_shield_cost_base(punit) / 10.0;
@@ -2295,13 +2306,13 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
   cost += (cost
            * get_target_bonus_effects(NULL,
                                       &(const struct req_context) {
-                                        .player = unit_owner(punit),
+                                        .player = owner,
                                         .city = game_city_by_number(
                                           punit->homecity
                                         ),
                                         .tile = ptile,
                                         .unit = punit,
-                                        .unittype = unit_type_get(punit),
+                                        .unittype = ptype,
                                       },
                                       briber,
                                       EFT_UNIT_BRIBE_COST_PCT))
@@ -2310,20 +2321,20 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
   /* Veterans are not cheap. */
   {
     const struct veteran_level *vlevel
-      = utype_veteran_level(unit_type_get(punit), punit->veteran);
+      = utype_veteran_level(ptype, punit->veteran);
 
     fc_assert_ret_val(vlevel != NULL, 0);
     cost = cost * vlevel->power_fact / 100;
-    if (unit_type_get(punit)->move_rate > 0) {
-      cost += cost * vlevel->move_bonus / unit_type_get(punit)->move_rate;
+    if (ptype->move_rate > 0) {
+      cost += cost * vlevel->move_bonus / ptype->move_rate;
     } else {
       cost += cost * vlevel->move_bonus / SINGLE_MOVE;
     }
   }
 
-  /* Cost now contains the basic bribe cost.  We now reduce it by:
-   *    bribecost = cost/2 + cost/2 * damage/hp
-   *              = cost/2 * (1 + damage/hp) */
+  /* Cost now contains the basic bribe cost. We now reduce it by:
+   *    bribecost = cost / 2 + cost / 2 * damage / hp
+   *              = cost / 2 * (1 + damage / hp) */
   return ((float)cost / 2 * (1.0 + (float)punit->hp / default_hp));
 }
 

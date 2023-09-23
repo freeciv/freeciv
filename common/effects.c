@@ -1029,9 +1029,9 @@ int get_building_bonus(const struct city *pcity,
   Returns the effect bonus that applies at a tile for a given unittype.
 
   For instance with EFT_DEFEND_BONUS the attacker's unittype and the
-  defending tile should be passed in.  Slightly counter-intuitive!
-  See doc/README.effects to see how the unittype applies for each effect
-  here.
+  defending tile should be passed in. Slightly counter-intuitive!
+  See doc/README.effects to see how the unittype applies for
+  each effect here.
 **************************************************************************/
 int get_unittype_bonus(const struct player *pplayer,
                        const struct tile *ptile,
@@ -1045,15 +1045,15 @@ int get_unittype_bonus(const struct player *pplayer,
     return 0;
   }
 
-  fc_assert_ret_val(pplayer != NULL && punittype != NULL, 0);
+  fc_assert_ret_val(punittype != nullptr, 0);
 
-  if (ptile != NULL) {
+  if (ptile != nullptr) {
     pcity = tile_city(ptile);
   } else {
-    pcity = NULL;
+    pcity = nullptr;
   }
 
-  return get_target_bonus_effects(NULL,
+  return get_target_bonus_effects(nullptr,
                                   &(const struct req_context) {
                                     .player = pplayer,
                                     .city = pcity,
@@ -1061,7 +1061,7 @@ int get_unittype_bonus(const struct player *pplayer,
                                     .unittype = punittype,
                                     .action = paction,
                                   },
-                                  NULL,
+                                  nullptr,
                                   effect_type);
 }
 
