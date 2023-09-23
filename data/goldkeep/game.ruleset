@@ -572,6 +572,8 @@ goods_selection = "Leaving"
 ; to_pct                  = Income for the receiving end of the trade route. Default is 100%
 ;                           This value is not used at all in case of bidirectional routes.
 ; onetime_pct             = Onetime bonuses when trade route gets established. Default is 100%
+; priority                = Trade routes get replaced by higher priority goods, or higher
+;                           trade value when priority is the same.
 ; flags
 ;   - "Bidirectional"     = Trade route carrying the goods does not have "from" and "to"
 ;                           ends, but both ends are considered the same.
@@ -588,7 +590,8 @@ goods_selection = "Leaving"
 ; */ <-- avoid gettext warnings
 
 [goods_good]
-name = _("Goods")
+name           = _("Goods")
+priority       = 1
 
 
 ; /* <-- avoid gettext warnings

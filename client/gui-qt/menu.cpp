@@ -219,7 +219,7 @@ void trade_generator::calculate_inner(trade_city *tc)
 
   foreach (ttc, cities) {
     if (!have_cities_trade_route(tc->city, ttc->city)
-        && can_establish_trade_route(tc->city, ttc->city)) {
+        && can_establish_trade_route(tc->city, ttc->city, GOODS_HIGH_PRIORITY)) {
       tc->poss_trade_num++;
       tc->pos_cities.append(ttc->city);
     }

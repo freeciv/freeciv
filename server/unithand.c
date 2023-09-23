@@ -5849,11 +5849,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
     return FALSE;
   }
 
-  if (game.info.goods_selection == GSM_ARRIVAL) {
-    goods =  goods_from_city_to_unit(pcity_homecity, punit);
-  } else {
-    goods = punit->carrying;
-  }
+  goods = unit_current_goods(punit, pcity_homecity);
+
   if (goods == NULL) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Sorry, your %s cannot establish"
@@ -5881,7 +5878,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   routes_out_of_home = trade_route_list_new();
   routes_out_of_dest = trade_route_list_new();
 
-  /* This part of code works like can_establish_trade_route, except
+  /* This part of code works like can_establish_trade_route(), except
    * that we actually do the action of making the trade route. */
 
   /* If we can't make a new trade route we can still get the trade bonus. */
@@ -5901,7 +5898,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* See if there's a trade route we can cancel at the home city. */
     if (home_overbooked >= 0) {
       if (home_max <= 0
-          || (city_trade_removable(pcity_homecity, routes_out_of_home)
+          || (city_trade_removable(pcity_homecity, goods->priority, routes_out_of_home)
               >= trade)) {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,
@@ -5925,7 +5922,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* See if there's a trade route we can cancel at the dest city. */
     if (can_establish && dest_overbooked >= 0) {
       if (dest_max <= 0
-          || (city_trade_removable(pcity_dest, routes_out_of_dest)
+          || (city_trade_removable(pcity_dest, goods->priority, routes_out_of_dest)
               >= trade)) {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,

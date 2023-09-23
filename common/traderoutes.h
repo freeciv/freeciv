@@ -112,7 +112,8 @@ struct trade_route_settings *
 trade_route_settings_by_type(enum trade_route_type type);
 
 bool can_cities_trade(const struct city *pc1, const struct city *pc2);
-bool can_establish_trade_route(const struct city *pc1, const struct city *pc2);
+bool can_establish_trade_route(const struct city *pc1, const struct city *pc2,
+                               int priority);
 bool have_cities_trade_route(const struct city *pc1, const struct city *pc2);
 int trade_base_between_cities(const struct city *pc1, const struct city *pc2);
 int trade_from_route(const struct city *pc1, const struct trade_route *route,
@@ -124,7 +125,7 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const struct unit_type *ut,
                                        struct goods_type *pgood,
                                        const bool establish_trade);
-int city_trade_removable(const struct city *pcity,
+int city_trade_removable(const struct city *pcity, int priority,
                          struct trade_route_list *would_remove);
 
 #define trade_routes_iterate(c, proute)                     \
@@ -179,6 +180,9 @@ do {                                                        \
 #define SPECENUM_BITVECTOR bv_goods_flags
 #include "specenum_gen.h"
 
+/* Some places assume this to be bigger than any actual goods priority */
+#define GOODS_HIGH_PRIORITY 100
+
 struct goods_type
 {
   int id;
@@ -190,6 +194,8 @@ struct goods_type
   int from_pct;
   int to_pct;
   int onetime_pct;
+
+  int priority;
 
   bv_goods_flags flags;
 
@@ -213,8 +219,11 @@ bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag);
 
 bool goods_can_be_provided(const struct city *pcity,
                            const struct goods_type *pgood,
-                           struct unit *punit);
-struct goods_type *goods_from_city_to_unit(struct city *src, struct unit *punit);
+                           const struct unit *punit);
+struct goods_type *goods_from_city_to_unit(const struct city *src,
+                                           const struct unit *punit);
+struct goods_type *unit_current_goods(const struct unit *punit,
+                                      const struct city *homecity);
 bool city_receives_goods(const struct city *pcity,
                          const struct goods_type *pgood);
 

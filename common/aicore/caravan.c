@@ -254,13 +254,15 @@ static void caravan_search_from(const struct unit *caravan,
 static double windfall_benefit(const struct unit *caravan,
                                const struct city *src,
                                const struct city *dest,
+                               const struct goods_type *pgood,
                                const struct caravan_parameter *param)
 {
   if (!param->consider_windfall || !can_cities_trade(src, dest)) {
     return 0;
   } else {
     bool can_establish = (unit_can_do_action(caravan, ACTION_TRADE_ROUTE)
-                          && can_establish_trade_route(src, dest));
+                          && can_establish_trade_route(src, dest,
+                                                       pgood->priority));
     int bonus = get_caravan_enter_city_trade_bonus(src, dest,
                                                    unit_type_get(caravan),
                                                    NULL, can_establish);
@@ -285,30 +287,31 @@ static double windfall_benefit(const struct unit *caravan,
 ****************************************************************************/
 static int one_city_trade_benefit(const struct city *pcity,
                                   const struct player *pplayer,
+                                  const struct goods_type *pgood,
                                   bool countloser, int newtrade)
 {
   int losttrade = 0;
 
-  /* if the city is owned by someone else, we don't benefit from the
+  /* If the city is owned by someone else, we don't benefit from the
      new trade (but we might still lose from a broken trade route) */
   if (city_owner(pcity) != pplayer) {
     newtrade = 0;
   }
 
   if (city_num_trade_routes(pcity) < max_trade_routes(pcity)) {
-    /* if the city can handle this route, we don't break any old routes */
+    /* If the city can handle this route, we don't break any old routes */
     losttrade = 0;
   } else {
     struct trade_route_list *would_remove = (countloser ? trade_route_list_new() : NULL);
-    int oldtrade = city_trade_removable(pcity, would_remove);
+    int oldtrade = city_trade_removable(pcity, pgood->priority, would_remove);
 
-    /* if we own the city, the trade benefit is only by how much
+    /* If we own the city, the trade benefit is only by how much
        better we are than the old trade route */
     if (city_owner(pcity) == pplayer) {
       newtrade -= oldtrade;
     }
 
-    /* if the cities that lost a trade route is one of ours, and if we
+    /* If the cities that lost a trade route is one of ours, and if we
        care about accounting for the lost trade, count it. */
     if (countloser) {
       trade_route_list_iterate(would_remove, plost) {
@@ -326,7 +329,7 @@ static int one_city_trade_benefit(const struct city *pcity,
     }
   }
 
-  /* find the increase or decrease in trade we benefit from */
+  /* Find the increase or decrease in trade we benefit from */
   return newtrade - losttrade;
 }
 
@@ -338,15 +341,17 @@ static int one_city_trade_benefit(const struct city *pcity,
 static double trade_benefit(const struct player *caravan_owner,
                             const struct city *src,
                             const struct city *dest,
+                            const struct goods_type *pgood,
                             const struct caravan_parameter *param)
 {
-  /* do we care about trade at all? */
+  /* Do we care about trade at all? */
   if (!param->consider_trade) {
     return 0;
   }
 
-  /* first, see if a new route is made. */
-  if (!can_cities_trade(src, dest) || !can_establish_trade_route(src, dest)) {
+  /* First, see if a new route is made. */
+  if (!can_cities_trade(src, dest)
+      || !can_establish_trade_route(src, dest, pgood->priority)) {
     return 0;
   }
   if (max_trade_routes(src) <= 0 || max_trade_routes(dest) <= 0) {
@@ -359,8 +364,10 @@ static double trade_benefit(const struct player *caravan_owner,
     bool countloser = param->account_for_broken_routes;
     int newtrade = trade_base_between_cities(src, dest);
 
-    return one_city_trade_benefit(src, caravan_owner, countloser, newtrade)
-         + one_city_trade_benefit(dest, caravan_owner, countloser, newtrade);
+    return one_city_trade_benefit(src, caravan_owner, pgood,
+                                  countloser, newtrade)
+      + one_city_trade_benefit(dest, caravan_owner, pgood,
+                               countloser, newtrade);
   } else {
     /* Always fails. */
     fc_assert_msg(!param->convert_trade,
@@ -461,7 +468,7 @@ static bool does_foreign_trade_param_allow(const struct caravan_parameter *param
 
 /************************************************************************//**
   Compute the discounted reward from the trade route that is indicated
-  by the src, dest, and arrival_time fields of the result:  Fills in
+  by the src, dest, and arrival_time fields of the result: Fills in
   the value and help_wonder fields.
   Assumes the owner of src is the owner of the caravan.
 ****************************************************************************/
@@ -482,6 +489,7 @@ static bool get_discounted_reward(const struct unit *caravan,
   bool consider_wonder;
   bool consider_trade;
   bool consider_windfall;
+  struct goods_type *pgood;
 
   /* if no foreign trade is allowed, just quit. */
   if (!does_foreign_trade_param_allow(parameter, pplayer_src, pplayer_dest)) {
@@ -514,7 +522,7 @@ static bool get_discounted_reward(const struct unit *caravan,
 
   if (consider_wonder) {
     wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
-    /* we want to aid for wonder building */
+    /* We want to aid for wonder building */
     wonder *= 2;
 
     wonder = presentvalue(wonder, arrival_time, discount);
@@ -522,8 +530,10 @@ static bool get_discounted_reward(const struct unit *caravan,
     wonder = -1.0;
   }
 
+  pgood = goods_from_city_to_unit(src, NULL);
+
   if (consider_trade) {
-    trade = trade_benefit(pplayer_src, src, dest, parameter);
+    trade = trade_benefit(pplayer_src, src, dest, pgood, parameter);
     if (parameter->horizon == FC_INFINITY) {
       trade = perpetuity(trade, discount);
     } else {
@@ -535,7 +545,7 @@ static bool get_discounted_reward(const struct unit *caravan,
   }
 
   if (consider_windfall) {
-    windfall = windfall_benefit(caravan, src, dest, parameter);
+    windfall = windfall_benefit(caravan, src, dest, pgood, parameter);
     windfall = presentvalue(windfall, arrival_time, discount);
   } else {
     windfall = 0.0;
@@ -573,8 +583,8 @@ static bool get_discounted_reward(const struct unit *caravan,
 ****************************************************************************/
 
 /************************************************************************//**
-  Ignoring the transit time, return the value of moving the caravan to
-  dest.
+  Ignoring the transit time, return the value of moving the caravan
+  to dest.
 ****************************************************************************/
 static void caravan_evaluate_notransit(const struct unit *caravan,
                                        const struct city *dest,
@@ -589,7 +599,7 @@ static void caravan_evaluate_notransit(const struct unit *caravan,
 
 /************************************************************************//**
   Structure and callback for the caravan_search invocation in
-  caravan_evaluate_withtransit.
+  caravan_evaluate_withtransit().
 ****************************************************************************/
 struct cewt_data {
   const struct unit *caravan;
@@ -812,13 +822,13 @@ static bool cowt_callback(void *vdata, const struct city *pcity,
   caravan_result_init(&current, game_city_by_number(caravan->homecity),
                       pcity, arrival_time);
 
-  /* first, see what benefit we'd get from not changing home city */
+  /* First, see what benefit we'd get from not changing home city */
   get_discounted_reward(caravan, data->param, &current);
   if (caravan_result_compare(&current, data->best) > 0) {
     *data->best = current;
   }
 
-  /* next, try changing home city (if we're allowed to) */
+  /* Next, try changing home city (if we're allowed to) */
   if (city_owner(pcity) == unit_owner(caravan)) {
     caravan_find_best_destination_withtransit(
                 caravan, data->param, pcity, arrival_time, moves_left, data->omniscient,
@@ -828,7 +838,7 @@ static bool cowt_callback(void *vdata, const struct city *pcity,
     }
   }
 
-  return FALSE; /* don't stop searching */
+  return FALSE; /* Don't stop searching */
 }
 
 /************************************************************************//**

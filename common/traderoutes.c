@@ -228,7 +228,7 @@ bool can_cities_trade(const struct city *pc1, const struct city *pc2)
   replaced by a new one. The target routes to be removed
   will be put into 'would_remove', if set.
 *************************************************************************/
-int city_trade_removable(const struct city *pcity,
+int city_trade_removable(const struct city *pcity, int priority,
                          struct trade_route_list *would_remove)
 {
   struct trade_route *sorted[MAX_TRADE_ROUTES];
@@ -237,21 +237,29 @@ int city_trade_removable(const struct city *pcity,
   /* Sort trade route values. */
   num = 0;
   trade_routes_iterate(pcity, proute) {
-    for (j = num; j > 0 && (proute->value < sorted[j - 1]->value) ; j--) {
-      sorted[j] = sorted[j - 1];
+    if (proute->goods->priority <= priority) {
+      for (j = num; j > 0 && proute->goods->priority > sorted[j - 1]->goods->priority; j--) ;
+
+      /* Search place amoung same priority ones. */
+      for (; j > 0
+             && (proute->value < sorted[j - 1]->value)
+             && (proute->goods->priority == sorted[j - 1]->goods->priority) ;
+           j--) {
+        sorted[j] = sorted[j - 1];
+      }
+      sorted[j] = proute;
+      num++;
     }
-    sorted[j] = proute;
-    num++;
   } trade_routes_iterate_end;
 
   /* No trade routes at all. */
-  if (0 == num) {
+  if (num == 0) {
     return 0;
   }
 
   /* Adjust number of concerned trade routes. */
   num += 1 - max_trade_routes(pcity);
-  if (0 >= num) {
+  if (num < 0) {
     num = 1;
   }
 
@@ -267,12 +275,13 @@ int city_trade_removable(const struct city *pcity,
 }
 
 /*********************************************************************//**
-  Returns TRUE iff the two cities can establish a trade route.  We look
+  Returns TRUE iff the two cities can establish a trade route. We look
   at the distance and ownership of the cities as well as their existing
-  trade routes.  Should only be called if you already know that
+  trade routes. Should only be called if you already know that
   can_cities_trade().
 *************************************************************************/
-bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
+bool can_establish_trade_route(const struct city *pc1, const struct city *pc2,
+                               int priority)
 {
   int trade = -1;
   int maxpc1;
@@ -293,24 +302,24 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
   if (maxpc2 <= 0) {
     return FALSE;
   }
-    
+
   if (city_num_trade_routes(pc1) >= maxpc1) {
     trade = trade_base_between_cities(pc1, pc2);
-    /* can we replace trade route? */
-    if (city_trade_removable(pc1, NULL) >= trade) {
+    /* Can we replace trade route? */
+    if (city_trade_removable(pc1, priority, NULL) >= trade) {
       return FALSE;
     }
   }
-  
+
   if (city_num_trade_routes(pc2) >= maxpc2) {
     if (trade == -1) {
       trade = trade_base_between_cities(pc1, pc2);
     }
-    /* can we replace trade route? */
-    if (city_trade_removable(pc2, NULL) >= trade) {
+    /* Can we replace trade route? */
+    if (city_trade_removable(pc2, priority, NULL) >= trade) {
       return FALSE;
     }
-  }  
+  }
 
   return TRUE;
 }
@@ -674,7 +683,7 @@ bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag)
 *************************************************************************/
 bool goods_can_be_provided(const struct city *pcity,
                            const struct goods_type *pgood,
-                           struct unit *punit)
+                           const struct unit *punit)
 {
   return are_reqs_active(&(const struct req_context) {
                            .player = city_owner(pcity),
@@ -719,7 +728,8 @@ bool city_receives_goods(const struct city *pcity,
 /*********************************************************************//**
   Return goods type for the new trade route between given cities.
 *************************************************************************/
-struct goods_type *goods_from_city_to_unit(struct city *src, struct unit *punit)
+struct goods_type *goods_from_city_to_unit(const struct city *src,
+                                           const struct unit *punit)
 {
   int i = 0;
   struct goods_type *potential[MAX_GOODS_TYPES];
@@ -735,4 +745,21 @@ struct goods_type *goods_from_city_to_unit(struct city *src, struct unit *punit)
   }
 
   return potential[fc_rand(i)];
+}
+
+/*********************************************************************//**
+  What goods unit would provide if it established trade route now?
+
+  @param punit    Unit to establish the trade route
+  @param homecity Homecity of the unit. Can be used speculatively.
+  @return         What good unit would provide
+*************************************************************************/
+struct goods_type *unit_current_goods(const struct unit *punit,
+                                      const struct city *homecity)
+{
+  if (game.info.goods_selection == GSM_ARRIVAL) {
+    return goods_from_city_to_unit(homecity, punit);
+  }
+
+  return punit->carrying;
 }

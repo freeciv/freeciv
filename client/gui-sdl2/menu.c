@@ -1138,8 +1138,9 @@ void real_menus_update(void)
                                                          unit_type_get(punit),
                                                          punit->carrying,
                                                          TRUE);
+        struct goods_type *pgood = unit_current_goods(punit, homecity);
 
-        if (can_establish_trade_route(homecity, pcity)) {
+        if (can_establish_trade_route(homecity, pcity, pgood->priority)) {
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("%s With %s ( %d one time bonus + %d trade ) (R)"),
                       action_id_name_translation(ACTION_TRADE_ROUTE),

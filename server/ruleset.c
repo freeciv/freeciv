@@ -7411,6 +7411,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                  "%s.to_pct", sec_name);
       pgood->onetime_pct = secfile_lookup_int_default(file, 100,
                                                       "%s.onetime_pct", sec_name);
+      pgood->priority = secfile_lookup_int_default(file, 1,
+                                                   "%s.priority", sec_name);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
       BV_CLR_ALL(pgood->flags);

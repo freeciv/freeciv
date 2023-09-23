@@ -1120,6 +1120,8 @@ goods = "\
 ; to_pct                  = Income for the receiving end of the trade route. Default is 100\%\n\
 ;                           This value is not used at all in case of bidirectional routes.\n\
 ; onetime_pct             = Onetime bonuses when trade route gets established. Default is 100\%\n\
+; priority                = Trade routes get replaced by higher priority goods, or higher\n\
+;                           trade value when priority is the same.\n\
 ; flags\n\
 ;   - \"Bidirectional\"     = Trade route carrying the goods does not have \"from\" and \"to\"\n\
 ;                           ends, but both ends are considered the same.\n\

@@ -639,6 +639,8 @@ goods_selection = "Leaving"
 ; to_pct                  = Income for the receiving end of the trade route. Default is 100%
 ;                           This value is not used at all in case of bidirectional routes.
 ; onetime_pct             = Onetime bonuses when trade route gets established. Default is 100%
+; priority                = Trade routes get replaced by higher priority goods, or higher
+;                           trade value when priority is the same.
 ; flags
 ;   - "Bidirectional"     = Trade route carrying the goods does not have "from" and "to"
 ;                           ends, but both ends are considered the same.
@@ -655,78 +657,86 @@ goods_selection = "Leaving"
 ; */ <-- avoid gettext warnings
 
 [goods_wares]
-name  = _("Wares")
-flags = "Bidirectional"
+name           = _("Wares")
+priority       = 1
+flags          = "Bidirectional"
 
 [goods_spice]
-name  = _("Spice")
-reqs  =
+name           = _("Spice")
+priority       = 1
+reqs =
     { "type", "name", "range"
       "Extra", "Spice", "City"
     }
-from_pct = 135
-to_pct   = 100
-flags = "Depletes"
+from_pct       = 135
+to_pct         = 100
+flags          = "Depletes"
 
 [goods_gems]
-name  = _("Gems")
-reqs  =
+name           = _("Gems")
+priority       = 1
+reqs =
     { "type", "name", "range"
       "Extra", "Gems", "City"
     }
-from_pct = 135
-to_pct   = 100
-flags = "Depletes"
+from_pct       = 135
+to_pct         = 100
+flags          = "Depletes"
 
 [goods_jewelry]
-name = _("Jewelry")
+name           = _("Jewelry")
+priority       = 1
 reqs =
     { "type", "name", "range"
       "Good", "Gems", "City"
     }
-from_pct = 250
-to_pct   = 150
-flags = "Depletes"
+from_pct       = 250
+to_pct         = 150
+flags          = "Depletes"
 
 [goods_ore]
-name = _("Ore")
+name           = _("Ore")
+priority       = 1
 reqs =
     { "type", "name", "range"
       "Extra", "Mine", "City"
     }
-flags = "Depletes"
+flags          = "Depletes"
 
 [goods_metal]
-name = _("Metal")
+name           = _("Metal")
+priority       = 1
 reqs =
     { "type", "name", "range"
       "Good", "Ore", "City"
     }
-from_pct = 135
-to_pct   = 100
-flags = "Depletes"
+from_pct       = 135
+to_pct         = 100
+flags          = "Depletes"
 
 [goods_good]
-name = _("Goods")
+name           = _("Goods")
+priority       = 1
 reqs =
     { "type", "name", "range", "present"
       "Good", "Metal", "City", TRUE
       "Tech", "Electronics", "Player", FALSE
     }
-from_pct = 150
-to_pct   = 135
-flags = "Depletes"
+from_pct       = 150
+to_pct         = 135
+flags          = "Depletes"
 
 [goods_equipment]
-name = _("Equipment")
+name           = _("Equipment")
+priority       = 1
 reqs =
     { "type", "name", "range"
       "Good", "Metal", "City"
       "Tech", "Electronics", "Player"
     }
-from_pct = 200
-to_pct   = 150
-flags = "Depletes"
+from_pct       = 200
+to_pct         = 150
+flags          = "Depletes"
 
 
 ; /* <-- avoid gettext warnings

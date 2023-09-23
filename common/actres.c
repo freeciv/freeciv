@@ -444,9 +444,13 @@ enum fc_tristate actres_possible(enum action_result result,
 
       /* There are more restrictions on establishing a trade route than on
        * entering the market place. */
-      if (result == ACTRES_TRADE_ROUTE
-          && !can_establish_trade_route(homecity, target->city)) {
-        return TRI_NO;
+      if (result == ACTRES_TRADE_ROUTE) {
+        struct goods_type *pgood = unit_current_goods(actor->unit, homecity);
+
+        if (!can_establish_trade_route(homecity, target->city,
+                                       pgood->priority)) {
+          return TRI_NO;
+        }
       }
     }
 

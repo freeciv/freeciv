@@ -332,7 +332,9 @@ const char *popup_info_text(struct tile *ptile)
 
       if (utype_can_do_action(unit_type_get(pfocus_unit), ACTION_TRADE_ROUTE)
           && can_cities_trade(hcity, pcity)
-          && can_establish_trade_route(hcity, pcity)) {
+          && can_establish_trade_route(hcity, pcity,
+                                       unit_current_goods(pfocus_unit,
+                                                          hcity)->priority)) {
         /* TRANS: "Trade from Warsaw: 5" */
         astr_add_line(&str, _("Trade from %s: %d"),
                       city_name_get(hcity),

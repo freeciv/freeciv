@@ -2295,15 +2295,17 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
 
   if ((unit_data->task == AIUNIT_TRADE
        || unit_data->task == AIUNIT_WONDER)) {
-    /* we are moving to our destination */
-    /* we check to see if our current goal is feasible */
+    /* We are moving to our destination */
+    /* We check to see if our current goal is feasible */
     struct city *city_dest = tile_city(punit->goto_tile);
+    struct goods_type *pgood = unit_current_goods(punit, homecity);
 
     if ((city_dest == NULL) 
         || !pplayers_allied(unit_owner(punit), city_dest->owner)
         || (unit_data->task == AIUNIT_TRADE
             && !(can_cities_trade(homecity, city_dest)
-                 && can_establish_trade_route(homecity, city_dest)))
+                 && can_establish_trade_route(homecity, city_dest,
+                                              pgood->priority)))
         || (unit_data->task == AIUNIT_WONDER
             /* Helping the (new) production is illegal. */
             && !city_production_gets_caravan_shields(&city_dest->production))

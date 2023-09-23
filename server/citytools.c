@@ -964,7 +964,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
     back = remove_trade_route(pcity, proute, FALSE, FALSE);
 
     keep_route = can_cities_trade(pcity, partner)
-      && can_establish_trade_route(pcity, partner);
+      && can_establish_trade_route(pcity, partner, proute->goods->priority);
 
     if (!keep_route) {
       enum trade_route_type type = cities_trade_route_type(pcity, partner);
