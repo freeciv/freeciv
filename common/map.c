@@ -976,7 +976,7 @@ bool is_normal_map_pos(int x, int y)
   returned.
 
   Note, we need to leave x and y with sane values even in the unreal case.
-  Some callers may for instance call nearest_real_pos on these values.
+  Some callers may for instance call nearest_real_tile() on these values.
 ***********************************************************************/
 bool normalize_map_pos(const struct civ_map *nmap, int *x, int *y)
 {
