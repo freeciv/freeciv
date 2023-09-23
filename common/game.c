@@ -124,6 +124,7 @@ struct unit *game_unit_by_number(int id)
 void game_remove_unit(struct world *gworld, struct unit *punit)
 {
   struct city *pcity;
+  struct player *owner;
 
   /* It's possible that during city transfer homecity/unit owner
    * information is inconsistent, and client then tries to remove
@@ -132,13 +133,14 @@ void game_remove_unit(struct world *gworld, struct unit *punit)
    * Thus cannot use player_city_by_number() here, but have to
    * consider cities of all players. */
   pcity = game_city_by_number(punit->homecity);
-  if (pcity) {
+
+  if (pcity != nullptr) {
     unit_list_remove(pcity->units_supported, punit);
 
     log_debug("game_remove_unit()"
               " at (%d,%d) unit %d, %s %s home (%d,%d) city %d, %s %s",
               TILE_XY(unit_tile(punit)),
-              punit->id, 
+              punit->id,
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               TILE_XY(pcity->tile),
@@ -148,27 +150,32 @@ void game_remove_unit(struct world *gworld, struct unit *punit)
   } else if (IDENTITY_NUMBER_ZERO == punit->homecity) {
     log_debug("game_remove_unit() at (%d,%d) unit %d, %s %s home %d",
               TILE_XY(unit_tile(punit)),
-              punit->id, 
+              punit->id,
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               punit->homecity);
   } else {
     log_error("game_remove_unit() at (%d,%d) unit %d, %s %s home %d invalid",
               TILE_XY(unit_tile(punit)),
-              punit->id, 
+              punit->id,
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               punit->homecity);
   }
 
   unit_list_remove(unit_tile(punit)->units, punit);
-  unit_list_remove(unit_owner(punit)->units, punit);
+
+  owner = unit_owner(punit);
+  if (owner != nullptr) {
+    unit_list_remove(owner->units, punit);
+  }
 
   idex_unregister_unit(gworld, punit);
 
   if (game.callbacks.unit_deallocate) {
     (game.callbacks.unit_deallocate)(punit->id);
   }
+
   unit_virtual_destroy(punit);
 }
 
