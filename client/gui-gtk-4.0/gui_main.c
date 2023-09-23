@@ -860,11 +860,11 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
   }
 
   b = gtk_toggle_button_new();
-  gtk_style_context_add_provider(gtk_widget_get_style_context(b),
+  gtk_style_context_add_provider_for_display(
+                                 gtk_widget_get_display(toplevel),
                                  GTK_STYLE_PROVIDER(detach_button_provider),
                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  gtk_style_context_add_class(gtk_widget_get_style_context(b),
-                              "detach_button");
+  gtk_widget_add_css_class(b, "detach_button");
 
   gtk_box_append(GTK_BOX(tearbox), b);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), tearbox);
