@@ -196,7 +196,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
                                          bool socket_writable);
 
 static void print_usage(void);
-static void parse_options(int argc, char **argv);
+static bool parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev);
@@ -283,7 +283,7 @@ static void log_gtk_warns(const gchar *log_domain, GLogLevelFlags log_level,
 /**********************************************************************//**
   Search for gui-specific command-line options.
 **************************************************************************/
-static void parse_options(int argc, char **argv)
+static bool parse_options(int argc, char **argv)
 {
   int i = 1;
   bool gtk_warns_enabled = FALSE;
@@ -293,7 +293,8 @@ static void parse_options(int argc, char **argv)
 
     if (is_option("--help", argv[i])) {
       print_usage();
-      exit(EXIT_SUCCESS);
+
+      return FALSE;
     } else if (is_option("--gtk-warnings", argv[i])) {
       gtk_warns_enabled = TRUE;
     } else if ((option = get_option_malloc("--resolution", argv, &i, argc, FALSE))) {
@@ -311,6 +312,8 @@ static void parse_options(int argc, char **argv)
   if (!gtk_warns_enabled) {
     g_log_set_handler("Gtk", G_LOG_LEVEL_WARNING, log_gtk_warns, NULL);
   }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -1700,153 +1703,153 @@ int ui_main(int argc, char **argv)
   PangoFontDescription *toplevel_font_name;
   guint sig;
 
-  parse_options(argc, argv);
+  if (parse_options(argc, argv)) {
+    /* The locale has already been set in init_nls() and the windows-specific
+     * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
+    gtk_disable_setlocale();
 
-  /* the locale has already been set in init_nls() and the windows-specific
-   * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
-  gtk_disable_setlocale();
+    /* GTK withdraw gtk options. Process GTK arguments */
+    if (!gtk_init_check(&argc, &argv)) {
+      log_fatal(_("Failed to open graphical mode."));
+      exit(EXIT_FAILURE);
+    }
 
-  /* GTK withdraw gtk options. Process GTK arguments */
-  if (!gtk_init_check(&argc, &argv)) {
-    log_fatal(_("Failed to open graphical mode."));
-    exit(EXIT_FAILURE);
-  }
+    help_system_init();
 
-  help_system_init();
+    toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);
+    if (vmode.width > 0 && vmode.height > 0) {
+      gtk_window_resize(GTK_WINDOW(toplevel), vmode.width, vmode.height);
+    }
+    g_signal_connect(toplevel, "key_press_event",
+                     G_CALLBACK(toplevel_handler), NULL);
 
-  toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);
-  if (vmode.width > 0 && vmode.height > 0) {
-    gtk_window_resize(GTK_WINDOW(toplevel), vmode.width, vmode.height);
-  }
-  g_signal_connect(toplevel, "key_press_event",
-                   G_CALLBACK(toplevel_handler), NULL);
+    gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
+    gtk_widget_realize(toplevel);
+    gtk_widget_set_name(toplevel, "Freeciv");
+    root_window = gtk_widget_get_window(toplevel);
 
-  gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
-  gtk_widget_realize(toplevel);
-  gtk_widget_set_name(toplevel, "Freeciv");
-  root_window = gtk_widget_get_window(toplevel);
-
-  if (gui_options.first_boot) {
-    adjust_default_options();
-    /* We're using fresh defaults for this version of this client,
-     * so prevent any future migrations from other clients / versions */
-    GUI_GTK_OPTION(migrated_from_gtk2) = TRUE;
-    GUI_GTK_OPTION(migrated_from_2_5) = TRUE;
-  } else {
-    if (!GUI_GTK_OPTION(migrated_from_gtk2)) {
-      migrate_options_from_gtk2();
-      /* We want a fresh look at screen-size-related defaults */
+    if (gui_options.first_boot) {
       adjust_default_options();
-      /* We don't ever want to consider pre-2.6 fullscreen option again */
+      /* We're using fresh defaults for this version of this client,
+       * so prevent any future migrations from other clients / versions */
+      GUI_GTK_OPTION(migrated_from_gtk2) = TRUE;
       GUI_GTK_OPTION(migrated_from_2_5) = TRUE;
-    } else if (!GUI_GTK_OPTION(migrated_from_2_5)) {
-      /* This only affects the fullscreen option, which we don't want
-       * to touch if adjust_default_options() just adjusted it. */
-      migrate_options_from_2_5();
+    } else {
+      if (!GUI_GTK_OPTION(migrated_from_gtk2)) {
+        migrate_options_from_gtk2();
+        /* We want a fresh look at screen-size-related defaults */
+        adjust_default_options();
+        /* We don't ever want to consider pre-2.6 fullscreen option again */
+        GUI_GTK_OPTION(migrated_from_2_5) = TRUE;
+      } else if (!GUI_GTK_OPTION(migrated_from_2_5)) {
+        /* This only affects the fullscreen option, which we don't want
+         * to touch if adjust_default_options() just adjusted it. */
+        migrate_options_from_2_5();
+      }
     }
-  }
 
-  if (GUI_GTK_OPTION(fullscreen)) {
-    gtk_window_fullscreen(GTK_WINDOW(toplevel));
-  }
-
-  gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
-
-  g_signal_connect(toplevel, "delete_event",
-                   G_CALLBACK(quit_dialog_callback), NULL);
-
-  /* Disable GTK+ cursor key focus movement */
-  sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
-  g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
-                                       0, 0, 0, 0);
-  g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
-
-  options_iterate(client_optset, poption) {
-    if (OT_FONT == option_type(poption)) {
-      /* Force to call the appropriate callback. */
-      option_changed(poption);
+    if (GUI_GTK_OPTION(fullscreen)) {
+      gtk_window_fullscreen(GTK_WINDOW(toplevel));
     }
-  } options_iterate_end;
 
-  toplevel_font_name = pango_context_get_font_description(
-                           gtk_widget_get_pango_context(toplevel));
+    gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
-  if (NULL == city_names_style) {
-    city_names_style = pango_font_description_copy(toplevel_font_name);
-    log_error("city_names_style should have been set by options.");
-  }
-  if (NULL == city_productions_style) {
-    city_productions_style = pango_font_description_copy(toplevel_font_name);
-    log_error("city_productions_style should have been set by options.");
-  }
-  if (NULL == reqtree_text_style) {
-    reqtree_text_style = pango_font_description_copy(toplevel_font_name);
-    log_error("reqtree_text_style should have been set by options.");
-  }
+    g_signal_connect(toplevel, "delete_event",
+                     G_CALLBACK(quit_dialog_callback), NULL);
 
-  tileset_init(tileset);
-  tileset_load_tiles(tileset);
+    /* Disable GTK+ cursor key focus movement */
+    sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
+    g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
+                                         0, 0, 0, 0);
+    g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
 
-  /* keep the icon of the executable on Windows (see PR#36491) */
+    options_iterate(client_optset, poption) {
+      if (OT_FONT == option_type(poption)) {
+        /* Force to call the appropriate callback. */
+        option_changed(poption);
+      }
+    } options_iterate_end;
+
+    toplevel_font_name = pango_context_get_font_description(
+                             gtk_widget_get_pango_context(toplevel));
+
+    if (NULL == city_names_style) {
+      city_names_style = pango_font_description_copy(toplevel_font_name);
+      log_error("city_names_style should have been set by options.");
+    }
+    if (NULL == city_productions_style) {
+      city_productions_style = pango_font_description_copy(toplevel_font_name);
+      log_error("city_productions_style should have been set by options.");
+    }
+    if (NULL == reqtree_text_style) {
+      reqtree_text_style = pango_font_description_copy(toplevel_font_name);
+      log_error("reqtree_text_style should have been set by options.");
+    }
+
+    tileset_init(tileset);
+    tileset_load_tiles(tileset);
+
+    /* Keep the icon of the executable on Windows (see PR#36491) */
 #ifndef FREECIV_MSWINDOWS
-  {
-    GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV));
+    {
+      GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV));
 
-    /* Only call this after tileset_load_tiles is called. */
-    gtk_window_set_icon(GTK_WINDOW(toplevel), pixbuf);
-    g_object_unref(pixbuf);
-  }
+      /* Only call this after tileset_load_tiles is called. */
+      gtk_window_set_icon(GTK_WINDOW(toplevel), pixbuf);
+      g_object_unref(pixbuf);
+    }
 #endif /* FREECIV_MSWINDOWS */
 
-  setup_widgets();
-  load_cursors();
-  cma_fe_init();
-  diplomacy_dialog_init();
-  luaconsole_dialog_init();
-  happiness_dialog_init();
-  citizens_dialog_init();
-  intel_dialog_init();
-  spaceship_dialog_init();
-  chatline_init();
-  init_mapcanvas_and_overview();
+    setup_widgets();
+    load_cursors();
+    cma_fe_init();
+    diplomacy_dialog_init();
+    luaconsole_dialog_init();
+    happiness_dialog_init();
+    citizens_dialog_init();
+    intel_dialog_init();
+    spaceship_dialog_init();
+    chatline_init();
+    init_mapcanvas_and_overview();
 
-  tileset_use_preferred_theme(tileset);
+    tileset_use_preferred_theme(tileset);
 
-  gtk_widget_show(toplevel);
+    gtk_widget_show(toplevel);
 
-  /* assumes toplevel showing */
-  set_client_state(C_S_DISCONNECTED);
+    /* Assumes toplevel showing */
+    set_client_state(C_S_DISCONNECTED);
 
-  /* assumes client_state is set */
-  timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
+    /* Assumes client_state is set */
+    timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
-  gui_up = TRUE;
-  gtk_main();
-  gui_up = FALSE;
+    gui_up = TRUE;
+    gtk_main();
+    gui_up = FALSE;
 
-  destroy_server_scans();
-  free_mapcanvas_and_overview();
-  spaceship_dialog_done();
-  intel_dialog_done();
-  citizens_dialog_done();
-  luaconsole_dialog_done();
-  happiness_dialog_done();
-  diplomacy_dialog_done();
-  cma_fe_done();
-  free_unit_table();
+    destroy_server_scans();
+    free_mapcanvas_and_overview();
+    spaceship_dialog_done();
+    intel_dialog_done();
+    citizens_dialog_done();
+    luaconsole_dialog_done();
+    happiness_dialog_done();
+    diplomacy_dialog_done();
+    cma_fe_done();
+    free_unit_table();
 
-  /* We have extra ref for unit_info_box that has protected
-   * it from getting destroyed when editinfobox_refresh()
-   * moves widgets around. Free that extra ref here. */
-  g_object_unref(unit_info_box);
+    /* We have extra ref for unit_info_box that has protected
+     * it from getting destroyed when editinfobox_refresh()
+     * moves widgets around. Free that extra ref here. */
+    g_object_unref(unit_info_box);
 
-  editgui_free();
-  gtk_widget_destroy(toplevel_tabs);
-  gtk_widget_destroy(toplevel);
-  menus_free();
-  message_buffer = NULL; /* Result of destruction of everything */
-  tileset_free_tiles(tileset);
+    editgui_free();
+    gtk_widget_destroy(toplevel_tabs);
+    gtk_widget_destroy(toplevel);
+    menus_free();
+    message_buffer = NULL; /* Result of destruction of everything */
+    tileset_free_tiles(tileset);
+  }
 
   return EXIT_SUCCESS;
 }

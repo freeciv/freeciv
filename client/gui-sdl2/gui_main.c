@@ -137,7 +137,7 @@ static SDL_Event *flush_user_event = NULL;
 static SDL_Event *map_scroll_user_event = NULL;
 
 static void print_usage(void);
-static void parse_options(int argc, char **argv);
+static bool parse_options(int argc, char **argv);
 static int check_scroll_area(int x, int y);
 
 int user_event_type;
@@ -187,7 +187,7 @@ static void print_usage(void)
 /**********************************************************************//**
   Search for gui-specific command-line options.
 **************************************************************************/
-static void parse_options(int argc, char **argv)
+static bool parse_options(int argc, char **argv)
 {
   int i = 1;
   char *option = NULL;
@@ -195,7 +195,8 @@ static void parse_options(int argc, char **argv)
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage();
-      exit(EXIT_SUCCESS);
+
+      return FALSE;
     } else if (is_option("--fullscreen", argv[i])) {
       gui_options.gui_sdl2_fullscreen = TRUE;
     } else if (is_option("--swrenderer", argv[i])) {
@@ -216,6 +217,8 @@ static void parse_options(int argc, char **argv)
 
     i++;
   }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -1008,102 +1011,134 @@ static void migrate_options_from_sdl(void)
 }
 
 /**********************************************************************//**
-  The main loop for the UI.  This is called from main(), and when it
+  The main loop for the UI. This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
 int ui_main(int argc, char *argv[])
 {
   Uint32 flags = 0;
 
-  parse_options(argc, argv);
+  if (parse_options(argc, argv)) {
+    if (!gui_options.gui_sdl2_migrated_from_sdl) {
+      migrate_options_from_sdl();
+    }
 
-  if (!gui_options.gui_sdl2_migrated_from_sdl) {
-    migrate_options_from_sdl();
+    if (gui_options.gui_sdl2_fullscreen) {
+      flags |= SDL_WINDOW_FULLSCREEN;
+    } else {
+      flags &= ~SDL_WINDOW_FULLSCREEN;
+    }
+    log_normal(_("Using Video Output: %s"), SDL_GetCurrentVideoDriver());
+    if (!set_video_mode(gui_options.gui_sdl2_screen.width,
+                        gui_options.gui_sdl2_screen.height,
+                        flags)) {
+      return EXIT_FAILURE;
+    }
+
+    user_event_type = SDL_RegisterEvents(1);
+
+    SDL_zero(__net_user_event);
+    __net_user_event.type = user_event_type;
+    __net_user_event.user.code = NET;
+    __net_user_event.user.data1 = NULL;
+    __net_user_event.user.data2 = NULL;
+    net_user_event = &__net_user_event;
+
+    SDL_zero(__anim_user_event);
+    __anim_user_event.type = user_event_type;
+    __anim_user_event.user.code = EVENT_ERROR;
+    __anim_user_event.user.data1 = NULL;
+    __anim_user_event.user.data2 = NULL;
+    anim_user_event = &__anim_user_event;
+
+    SDL_zero(__info_user_event);
+    __info_user_event.type = user_event_type;
+    __info_user_event.user.code = SHOW_WIDGET_INFO_LABEL;
+    __info_user_event.user.data1 = NULL;
+    __info_user_event.user.data2 = NULL;
+    info_user_event = &__info_user_event;
+
+    SDL_zero(__flush_user_event);
+    __flush_user_event.type = user_event_type;
+    __flush_user_event.user.code = FLUSH;
+    __flush_user_event.user.data1 = NULL;
+    __flush_user_event.user.data2 = NULL;
+    flush_user_event = &__flush_user_event;
+
+    SDL_zero(__map_scroll_user_event);
+    __map_scroll_user_event.type = user_event_type;
+    __map_scroll_user_event.user.code = MAP_SCROLL;
+    __map_scroll_user_event.user.data1 = NULL;
+    __map_scroll_user_event.user.data2 = NULL;
+    map_scroll_user_event = &__map_scroll_user_event;
+
+    is_unit_move_blocked = FALSE;
+
+    sdl2_client_flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS
+                          |CF_DRAW_PLAYERS_WAR_STATUS
+                          |CF_DRAW_PLAYERS_CEASEFIRE_STATUS
+                          |CF_DRAW_PLAYERS_PEACE_STATUS
+                          |CF_DRAW_PLAYERS_ALLIANCE_STATUS);
+
+    tileset_init(tileset);
+    tileset_load_tiles(tileset);
+    tileset_use_preferred_theme(tileset);
+
+    load_cursors();
+
+    callbacks = callback_list_new();
+
+    diplomacy_dialog_init();
+    intel_dialog_init();
+
+    clear_double_messages_call();
+
+    setup_auxiliary_tech_icons();
+
+    /* This need correct main_data.screen size */
+    init_mapcanvas_and_overview();
+
+    set_client_state(C_S_DISCONNECTED);
+
+    /* Main game loop */
+    gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler, NULL,
+                   main_finger_down_handler, main_finger_up_handler, NULL,
+                   main_mouse_button_down_handler, main_mouse_button_up_handler,
+                   main_mouse_motion_handler);
+    start_quitting();
+
+#if defined UNDER_CE && defined SMALL_SCREEN
+    /* Change back to window mode to restore the title bar */
+    set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
+#endif
+
+    city_map_canvas_free();
+
+    free_mapcanvas_and_overview();
+
+    free_auxiliary_tech_icons();
+
+    diplomacy_dialog_done();
+    intel_dialog_done();
+
+    callback_list_destroy(callbacks);
+    callbacks = NULL;
+
+    unload_cursors();
+
+    free(button_behavior.event);
+    button_behavior.event = NULL;
+
+    meswin_dialog_popdown();
+
+    del_main_list();
+
+    free_font_system();
+    theme_free(active_theme);
+    active_theme = NULL;
+
+    quit_sdl();
   }
-
-  if (gui_options.gui_sdl2_fullscreen) {
-    flags |= SDL_WINDOW_FULLSCREEN;
-  } else {
-    flags &= ~SDL_WINDOW_FULLSCREEN;
-  }
-  log_normal(_("Using Video Output: %s"), SDL_GetCurrentVideoDriver());
-  if (!set_video_mode(gui_options.gui_sdl2_screen.width,
-                      gui_options.gui_sdl2_screen.height,
-                      flags)) {
-    return EXIT_FAILURE;
-  }
-
-  user_event_type = SDL_RegisterEvents(1);
-
-  SDL_zero(__net_user_event);
-  __net_user_event.type = user_event_type;
-  __net_user_event.user.code = NET;
-  __net_user_event.user.data1 = NULL;
-  __net_user_event.user.data2 = NULL;
-  net_user_event = &__net_user_event;
-
-  SDL_zero(__anim_user_event);
-  __anim_user_event.type = user_event_type;
-  __anim_user_event.user.code = EVENT_ERROR;
-  __anim_user_event.user.data1 = NULL;
-  __anim_user_event.user.data2 = NULL;
-  anim_user_event = &__anim_user_event;
-
-  SDL_zero(__info_user_event);
-  __info_user_event.type = user_event_type;
-  __info_user_event.user.code = SHOW_WIDGET_INFO_LABEL;
-  __info_user_event.user.data1 = NULL;
-  __info_user_event.user.data2 = NULL;
-  info_user_event = &__info_user_event;
-
-  SDL_zero(__flush_user_event);
-  __flush_user_event.type = user_event_type;
-  __flush_user_event.user.code = FLUSH;
-  __flush_user_event.user.data1 = NULL;
-  __flush_user_event.user.data2 = NULL;
-  flush_user_event = &__flush_user_event;
-
-  SDL_zero(__map_scroll_user_event);
-  __map_scroll_user_event.type = user_event_type;
-  __map_scroll_user_event.user.code = MAP_SCROLL;
-  __map_scroll_user_event.user.data1 = NULL;
-  __map_scroll_user_event.user.data2 = NULL;
-  map_scroll_user_event = &__map_scroll_user_event;
-
-  is_unit_move_blocked = FALSE;
-
-  sdl2_client_flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS
-                       |CF_DRAW_PLAYERS_WAR_STATUS
-                       |CF_DRAW_PLAYERS_CEASEFIRE_STATUS
-                       |CF_DRAW_PLAYERS_PEACE_STATUS
-                       |CF_DRAW_PLAYERS_ALLIANCE_STATUS);
-
-  tileset_init(tileset);
-  tileset_load_tiles(tileset);
-  tileset_use_preferred_theme(tileset);
-
-  load_cursors();
-
-  callbacks = callback_list_new();
-
-  diplomacy_dialog_init();
-  intel_dialog_init();
-
-  clear_double_messages_call();
-
-  setup_auxiliary_tech_icons();
-
-  /* this need correct main_data.screen size */
-  init_mapcanvas_and_overview();
-
-  set_client_state(C_S_DISCONNECTED);
-
-  /* Main game loop */
-  gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler, NULL,
-                 main_finger_down_handler, main_finger_up_handler, NULL,
-                 main_mouse_button_down_handler, main_mouse_button_up_handler,
-                 main_mouse_motion_handler);
-  start_quitting();
 
   return EXIT_SUCCESS;
 }
@@ -1113,37 +1148,6 @@ int ui_main(int argc, char *argv[])
 **************************************************************************/
 void ui_exit(void)
 {
-
-#if defined UNDER_CE && defined SMALL_SCREEN
-  /* Change back to window mode to restore the title bar */
-  set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
-#endif
-
-  city_map_canvas_free();
-
-  free_mapcanvas_and_overview();
-
-  free_auxiliary_tech_icons();
-
-  diplomacy_dialog_done();
-  intel_dialog_done();
-
-  callback_list_destroy(callbacks);
-  callbacks = NULL;
-
-  unload_cursors();
-
-  FC_FREE(button_behavior.event);
-
-  meswin_dialog_popdown();
-
-  del_main_list();
-
-  free_font_system();
-  theme_free(active_theme);
-  active_theme = NULL;
-
-  quit_sdl();
 }
 
 /**********************************************************************//**
