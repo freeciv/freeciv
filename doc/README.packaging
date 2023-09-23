@@ -25,7 +25,7 @@ Updating from 3.0 to 3.1
   authentication and modpack installer support from the build to not
   have that requirement.
 * Sqlite3 based player authentication support is enabled by default
-* Added gtk4-client. It's still in development.
+* Added gtk4-client.
 * Lua version to use is 5.4 now
 * Experimental meson based build system has been added in parallel with
   the official autotools one
@@ -150,7 +150,8 @@ Building multiple clients at once
 ---------------------------------
 Starting from 2.2 it has been possible to build multiple clients running
 'make' just once. Just give configure option "--enable-client" comma
-separated list of clients to compile, e.g. "--enable-client=gtk3,gtk4,sdl2,qt"
+separated list of clients to compile,
+e.g. "--enable-client=gtk3.22,gtk4,sdl2,qt"
 
 ----------------------------------------------------------------------
 Savegame compression support
