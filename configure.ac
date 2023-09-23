@@ -1099,14 +1099,14 @@ if test "x$client" != "xno"; then
   dnl Gtk-3.22-specific overrides
   FC_GTK3_22_CLIENT
 
+  dnl Gtk-4.0-specific overrides
+  FC_GTK4_CLIENT
+
   dnl QT-specific overrides
   FC_QT_CLIENT
 
   dnl SDL2-specific overrides
   FC_SDL2_CLIENT
-
-  dnl Gtk-4.0-specific overrides
-  FC_GTK4_CLIENT
 
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
@@ -2029,13 +2029,10 @@ AC_MSG_NOTICE([
 
   Maintained client frontends:
     Gtk-3.22 $gui_gtk3_22
-    SDL2:    $gui_sdl2
-    QT:      $gui_qt
-    Stub:    $gui_stub
-
-  In-development client frontends:
-   (these are not yet ready for general use)
     Gtk-4.0: $gui_gtk4
+    QT:      $gui_qt
+    SDL2:    $gui_sdl2
+    Stub:    $gui_stub
 
   == Server ==
   Build freeciv server:  $server
