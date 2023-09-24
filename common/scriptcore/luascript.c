@@ -102,7 +102,7 @@ static luaL_Reg luascript_lualibs_secure[] = {
 };
 
 static luaL_Reg luascript_lualibs_permissive[] = {
-  /* Using default libraries excluding: package, io, and bit32 */
+  /* Using default libraries excluding: package, and bit32 */
   {"_G", luaopen_base},
   {LUA_COLIBNAME, luaopen_coroutine},
   {LUA_TABLIBNAME, luaopen_table},
@@ -110,6 +110,7 @@ static luaL_Reg luascript_lualibs_permissive[] = {
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_DBLIBNAME, luaopen_debug},
+  {LUA_IOLIBNAME, luaopen_io },
   {LUA_OSLIBNAME, luaopen_os},
   {NULL, NULL}
 };
