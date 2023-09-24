@@ -142,6 +142,9 @@
 /* zlib is available */
 #mesondefine FREECIV_HAVE_LIBZ
 
+/* libbzip2 is available */
+#mesondefine FREECIV_HAVE_LIBBZ2
+
 /* liblzma is available */
 #mesondefine FREECIV_HAVE_LIBLZMA
 

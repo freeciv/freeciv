@@ -521,6 +521,19 @@ else
   readline_dep = []
 endif
 
+if c_compiler.has_header('bzlib.h', args: header_arg)
+  priv_conf_data.set('HAVE_BZLIB_H', 1)
+
+  bz2_dep = c_compiler.find_library('bz2', dirs: cross_lib_path,
+                                    required:false)
+
+  if bz2_dep.found()
+    pub_conf_data.set('FREECIV_HAVE_LIBBZ2', 1)
+  endif
+else
+  bz2_dep = []
+endif
+
 if c_compiler.has_header('lzma.h', args: header_arg)
   priv_conf_data.set('HAVE_LZMA_H', 1)
 
@@ -1260,7 +1273,7 @@ common_lib = library('freeciv',
   link_whole: fc_deps,
   dependencies: [zlib_dep,
                  curl_dep, m_dep, sqlite3_dep, icu_dep,
-                 net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
+                 net_dep, jansson_dep, lua_dep, bz2_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep, charset_dep, mw_dep,
                  dependency('threads')],

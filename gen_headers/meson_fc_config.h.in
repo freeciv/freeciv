@@ -249,6 +249,9 @@
 /* bind() available */
 #mesondefine HAVE_BIND
 
+/* <bzlib.h> header available */
+#mesondefine HAVE_BZLIB_H
+
 /* clock_gettime() available */
 #mesondefine HAVE_CLOCK_GETTIME
 
