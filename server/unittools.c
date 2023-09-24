@@ -4575,7 +4575,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       if (action_get_sub_target_kind(oaction) == ASTK_EXTRA_NOT_THERE
           && pextra != NULL
-          && action_creates_extra(oaction, pextra)
+          && actres_creates_extra(oaction->result, pextra)
           && tile_has_extra(dst_tile, pextra)) {
         /* Already there. Move on to the next order. */
         break;

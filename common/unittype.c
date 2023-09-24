@@ -225,7 +225,7 @@ bool utype_can_create_extra(const struct unit_type *putype,
       continue;
     }
 
-    if (action_creates_extra(paction, pextra)) {
+    if (actres_creates_extra(paction->result, pextra)) {
       /* Can create */
       return TRUE;
     }

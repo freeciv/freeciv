@@ -2890,7 +2890,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           struct strvec *extras_vec = strvec_new();
 
           extra_type_iterate(pextra) {
-            if (action_creates_extra(paction, pextra)) {
+            if (actres_creates_extra(paction->result, pextra)) {
               strvec_append(extras_vec, extra_name_translation(pextra));
             }
           } extra_type_iterate_end;
