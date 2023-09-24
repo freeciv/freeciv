@@ -20,6 +20,9 @@
 #include <string.h>
 #include <math.h> /* exp, sqrt */
 
+/* dependencies/lua */
+#include "lua.h" /* lua_Integer */
+
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -829,7 +832,8 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   if (reason != NULL) {
     int id = pcity->id;
 
-    script_server_signal_emit("city_size_change", pcity, -pop_loss, reason);
+    script_server_signal_emit("city_size_change", pcity,
+                              (lua_Integer)(-pop_loss), reason);
 
     return city_exist(id);
   }
@@ -977,7 +981,8 @@ static bool city_increase_size(struct city *pcity)
 
   /* Deprecated signal. Connect your lua functions to "city_size_change" that's
    * emitted from calling functions which know the 'reason' of the increase. */
-  script_server_signal_emit("city_growth", pcity, city_size_get(pcity));
+  script_server_signal_emit("city_growth", pcity,
+                            (lua_Integer)city_size_get(pcity));
 
   return TRUE;
 }
@@ -1047,8 +1052,8 @@ bool city_change_size(struct city *pcity, citizens size,
     real_change = current_size - old_size;
 
     if (real_change != 0 && reason != NULL) {
-      script_server_signal_emit("city_size_change", pcity, real_change,
-                                reason);
+      script_server_signal_emit("city_size_change", pcity,
+                                (lua_Integer)real_change, reason);
 
       if (!city_exist(id)) {
         return FALSE;
@@ -1092,7 +1097,8 @@ static void city_populate(struct city *pcity, struct player *nationality)
 
       if (success) {
         city_refresh_after_city_size_increase(pcity, nationality);
-        script_server_signal_emit("city_size_change", pcity, 1, "growth");
+        script_server_signal_emit("city_size_change", pcity,
+                                  (lua_Integer)1, "growth");
       }
     }
   } else if (pcity->food_stock < 0) {
@@ -4038,8 +4044,8 @@ static bool do_city_migration(struct city *pcity_from,
                           -1, TRUE);
       sz_strlcpy(name_from, city_tile_link(pcity_from));
 
-      script_server_signal_emit("city_size_change", pcity_from, -1,
-                                "migration_from");
+      script_server_signal_emit("city_size_change", pcity_from,
+                                (lua_Integer)(-1), "migration_from");
 
       if (city_exist(id)) {
         script_server_signal_emit("city_destroyed", pcity_from,
@@ -4116,8 +4122,8 @@ static bool do_city_migration(struct city *pcity_from,
         auto_arrange_workers(pcity_to);
       }
       if (incr_success) {
-        script_server_signal_emit("city_size_change", pcity_to, 1,
-                                  "migration_to");
+        script_server_signal_emit("city_size_change", pcity_to,
+                                  (lua_Integer)1, "migration_to");
       }
     }
   }
