@@ -153,6 +153,14 @@ struct section_file *musicspec_load(const char *ms_filename)
     const char *mstr;
 
     mstr = secfile_lookup_str(tagfile, "musicspec.name");
+
+    if (mstr == NULL) {
+      log_error(_("Musicset from %s has no name defined!"), ms_filename);
+      secfile_destroy(tagfile);
+
+      return NULL;
+    }
+
     /* Musicset name found */
     sz_strlcpy(current_ms.name, mstr);
 
