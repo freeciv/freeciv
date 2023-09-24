@@ -104,7 +104,7 @@ mkdir build
 cd build
 meson setup .. \
   -Ddebug=true \
-  -Dtools=ruledit \
+  -Dtools=ruledit,manual \
   -Dsyslua=true \
   -Dclients=gtk3.22,sdl2,gtk4,qt,stub \
   -Dfcmp=gtk3,gtk4,qt,cli \

@@ -4089,6 +4089,8 @@ custom_target('mi_ruledit',
 
 endif
 
+if get_option('tools').contains('manual')
+
 executable('freeciv-manual',
   'tools/manual/fc_manual.c',
   'client/helpdata.c',
@@ -4098,6 +4100,8 @@ executable('freeciv-manual',
   dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
   install: true
   )
+
+endif
 
 install_data(
   'data/default/default.lua',
