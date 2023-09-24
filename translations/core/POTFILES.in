@@ -372,6 +372,7 @@ data/scenarios/japan.sav
 data/scenarios/north_america.sav
 data/scenarios/europe_1900_WWI.sav
 data/scenarios/tutorial.sav
+gen_headers/enums/terrain_enums.def
 translations/Strings.txt
 tools/ruleup.c
 tools/fcmp/download.c

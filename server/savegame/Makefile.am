@@ -12,7 +12,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/server/generator \
 	-I$(top_srcdir)/server/scripting \
 	-I$(top_srcdir)/ai \
-	-I$(top_srcdir)/dependencies/tinycthread
+	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums
 
 libsavegame_la_SOURCES = \
 	savecompat.c	\

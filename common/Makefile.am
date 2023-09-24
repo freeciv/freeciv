@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/networking \
 	-I$(srcdir)/scriptcore \
 	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
 	$(MAPIMG_WAND_CFLAGS) $(JANSSON_CFLAGS)
 
 libfreeciv_la_SOURCES = \

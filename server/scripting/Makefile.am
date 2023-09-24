@@ -15,6 +15,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/server/savegame \
 	-I$(top_srcdir)/ai \
 	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE_CFLAGS) \
 	$(LUA_CFLAGS) $(LUASQL_CFLAGS) $(TOLUA_CFLAGS)
 

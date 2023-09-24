@@ -8,6 +8,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/aicore \
 	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
 	$(JANSSON_CFLAGS)
 
 libfcivnetwork_la_SOURCES = \

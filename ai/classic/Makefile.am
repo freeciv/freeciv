@@ -14,7 +14,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/server/advisors \
 	-I$(top_srcdir)/ai/default \
-	-I$(top_srcdir)/dependencies/tinycthread
+	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums
 
 da_sources = \
 	classicai.c	\

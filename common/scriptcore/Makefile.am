@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/aicore \
 	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
 	$(LUA_CFLAGS) $(LUASQL_CFLAGS) $(TOLUA_CFLAGS)
 
 # tolua_[common_a|common_z|game]_gen.[ch] are now distributed to aid in

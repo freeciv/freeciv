@@ -12,6 +12,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/../agents \
 	-I$(srcdir)/../luascript \
 	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
 	$(gui_gtk3_22_cflags) $(SOUND_CFLAGS)
 
 libgui_gtk3_22_la_SOURCES = \

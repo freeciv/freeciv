@@ -11,6 +11,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/../include \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
 	$(CLIENT_CFLAGS)
 
 libagents_la_SOURCES = 		\

@@ -988,7 +988,7 @@ common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/luasql/src', 'dependencies/tinycthread',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
   'utility', 'common', 'common/networking', 'common/scriptcore',
-  'common/aicore')
+  'common/aicore', 'gen_headers/enums')
 
 server_inc = [common_inc, include_directories('server', 'server/advisors',
               'server/scripting', 'server/generator', 'server/savegame',

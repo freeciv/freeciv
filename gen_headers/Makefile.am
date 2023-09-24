@@ -1,6 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS = enums
+
 EXTRA_DIST = \
+	generate_enums.py \
 	generate_version_header.sh \
 	liblua_config.h.in \
 	freeciv_config.h.in \

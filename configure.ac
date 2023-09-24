@@ -1965,6 +1965,7 @@ AC_CONFIG_FILES([Makefile
           tools/ruleutil/Makefile
           tools/shared/Makefile
           gen_headers/Makefile
+          gen_headers/enums/Makefile
           translations/Makefile
 	  translations/core/Makefile.in
 	  translations/nations/Makefile.in

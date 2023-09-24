@@ -33,7 +33,8 @@ common_cppflags = \
 	-I$(top_srcdir)/client/include \
 	-I$(top_srcdir)/tools/ruleutil \
 	-I$(top_srcdir)/tools/shared \
-	-I$(top_srcdir)/dependencies/tinycthread
+	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums
 
 AM_CPPFLAGS = $(common_cppflags)
 

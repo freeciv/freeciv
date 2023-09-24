@@ -10,7 +10,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/networking \
-	-I$(top_srcdir)/dependencies/tinycthread
+	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums
 
 if AI_MOD_STATIC_STUB
 libstubai_la_SOURCES = stubai.c

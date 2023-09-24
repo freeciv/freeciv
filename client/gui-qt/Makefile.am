@@ -17,6 +17,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/networking \
 	-I$(srcdir)/../agents \
 	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
         $(gui_qt_cppflags) $(SOUND_CFLAGS)
 
 AM_CFLAGS = $(gui_qt_cflags)

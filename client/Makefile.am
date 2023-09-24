@@ -60,7 +60,8 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/agents \
 	$(CLIENT_CFLAGS) $(SOUND_CFLAGS) \
 	-I$(top_srcdir)/dependencies/cvercmp \
-	-I$(top_srcdir)/dependencies/tinycthread
+	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums
 
 AM_LIBTOOLFLAGS = --preserve-dup-deps
 
