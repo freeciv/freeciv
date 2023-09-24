@@ -83,9 +83,6 @@ static void map_change_own_seen(struct player *pplayer,
 static inline int map_get_seen(const struct player *pplayer,
                                const struct tile *ptile,
                                enum vision_layer vlayer);
-static inline int map_get_own_seen(const struct player *pplayer,
-                                   const struct tile *ptile,
-                                   enum vision_layer vlayer);
 
 static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
                                struct player *pplayer);
@@ -1093,16 +1090,16 @@ void map_change_seen(struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns the own seen count of a tile for a player. It doesn't count the
-  shared vision.
+  Get own seen count from player tile. Doesn't count shared vision.
 
-  See also map_get_seen().
+  @param plrtile Player tile to check own seen count from
+  @param vlayer  Vision layer which we want the count for
+  @return        Own seen count
 **************************************************************************/
-static inline int map_get_own_seen(const struct player *pplayer,
-                                   const struct tile *ptile,
-                                   enum vision_layer vlayer)
+static inline int player_tile_own_seen(const struct player_tile *plrtile,
+                                       enum vision_layer vlayer)
 {
-  return map_get_player_tile(ptile, pplayer)->own_seen[vlayer];
+  return plrtile->own_seen[vlayer];
 }
 
 /**********************************************************************//**
@@ -1630,10 +1627,11 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
         log_debug("really giving shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
         whole_map_iterate(&(wld.map), ptile) {
+          const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
           const v_radius_t change =
-              V_RADIUS(map_get_own_seen(pplayer, ptile, V_MAIN),
-                       map_get_own_seen(pplayer, ptile, V_INVIS),
-                       map_get_own_seen(pplayer, ptile, V_SUBSURFACE));
+              V_RADIUS(player_tile_own_seen(plrtile, V_MAIN),
+                       player_tile_own_seen(plrtile, V_INVIS),
+                       player_tile_own_seen(plrtile, V_SUBSURFACE));
 
           if (0 < change[V_MAIN] || 0 < change[V_INVIS]) {
             map_change_seen(pplayer2, ptile, change,
@@ -1688,10 +1686,11 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
         log_debug("really removing shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
         whole_map_iterate(&(wld.map), ptile) {
+          const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
           const v_radius_t change =
-              V_RADIUS(-map_get_own_seen(pplayer, ptile, V_MAIN),
-                       -map_get_own_seen(pplayer, ptile, V_INVIS),
-                       -map_get_own_seen(pplayer, ptile, V_SUBSURFACE));
+              V_RADIUS(-player_tile_own_seen(plrtile, V_MAIN),
+                       -player_tile_own_seen(plrtile, V_INVIS),
+                       -player_tile_own_seen(plrtile, V_SUBSURFACE));
 
           if (0 > change[V_MAIN] || 0 > change[V_INVIS]) {
             map_change_seen(pplayer2, ptile, change, FALSE);
