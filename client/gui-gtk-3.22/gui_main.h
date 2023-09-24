@@ -19,6 +19,9 @@
 #include "gui_main_g.h"
 #include "options.h"
 
+#define GUI_NAME_FULL  "gui-gtk-3.22"
+#define GUI_NAME_SHORT "gtk3.22"
+
 #define GUI_GTK_OPTION(optname) gui_options.gui_gtk3_22_##optname
 #define GUI_GTK_OPTION_STR(optname) "gui_gtk3_22_" #optname
 #define GUI_GTK_DEFAULT_THEME_NAME FC_GTK3_22_DEFAULT_THEME_NAME
