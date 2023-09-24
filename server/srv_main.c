@@ -1143,8 +1143,10 @@ static void begin_turn(bool is_new_turn)
                               (lua_Integer)game.info.turn,
                               (lua_Integer)game.info.year);
     script_server_signal_emit("turn_started",
-                              game.info.turn > 0 ? game.info.turn - 1
-                              : game.info.turn, game.info.year);
+                              game.info.turn > 0
+                              ? (lua_Integer)game.info.turn - 1
+                              : (lua_Integer)game.info.turn,
+                              (lua_Integer)game.info.year);
 
     /* We build scores at the beginning of every turn.  We have to
      * build them at the beginning so that the AI can use the data,
