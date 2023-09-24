@@ -624,7 +624,7 @@ void hud_units::update_actions(unit_list *punits)
   text_str = QString(unit_name_translation(punit));
   owner = punit->owner;
   pcity = player_city_by_number(owner, punit->homecity);
-  if (pcity != NULL) {
+  if (pcity != nullptr) {
     text_str = QString(("%1(%2)"))
                .arg(unit_name_translation(punit), city_name_get(pcity));
   }

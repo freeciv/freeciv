@@ -587,7 +587,7 @@ races_dialog::races_dialog(struct player *pplayer,
 
   if (C_S_RUNNING == client_state()) {
     title = _("Edit Nation");
-  } else if (NULL != pplayer && pplayer == client.conn.playing) {
+  } else if (pplayer != nullptr && pplayer == client_player()) {
     title = _("What Nation Will You Be?");
   } else {
     title = _("Pick Nation");
@@ -774,7 +774,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
   qvar = index.data(Qt::UserRole);
   selected_nation = qvar.toInt();
 
-  helptext_nation(buf, sizeof(buf), nation_by_number(selected_nation), NULL);
+  helptext_nation(buf, sizeof(buf), nation_by_number(selected_nation), nullptr);
   description->setPlainText(buf);
   leader_name->clear();
   if (client.conn.playing == tplayer) {
@@ -857,7 +857,7 @@ void races_dialog::ok_pressed()
   }
 
   natplr = nation_by_number(selected_nation)->player;
-  if (natplr != NULL && natplr != client_player()) {
+  if (natplr != nullptr && natplr != client_player()) {
     output_window_append(ftc_client,
                          _("Nation has been chosen by other player"));
     return;
@@ -1128,7 +1128,7 @@ notify_goto::notify_goto(const char *headline, const char *lines,
     inspect_but->setVisible(false);
   } else {
     struct city *pcity = tile_city(gtile);
-    inspect_but->setVisible(NULL != pcity
+    inspect_but->setVisible(pcity != nullptr
                             && city_owner(pcity) == client.conn.playing);
   }
   setWindowTitle(headline);
@@ -1252,7 +1252,7 @@ void popdown_races_dialog(void)
 ***************************************************************************/
 void unit_select_dialog_popup(struct tile *ptile)
 {
-  if (ptile != NULL
+  if (ptile != nullptr
       && (unit_list_size(ptile->units) > 1
           || (unit_list_size(ptile->units) == 1 && tile_city(ptile)))) {
     gui()->toggle_unit_sel_widget(ptile);
@@ -1421,7 +1421,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   targeted_unit = nullptr;
   // No buttons are added yet.
   for (int i = 0; i < BUTTON_COUNT; i++) {
-    action_button_map << NULL;
+    action_button_map << nullptr;
   }
 }
 
@@ -1432,11 +1432,11 @@ choice_dialog::~choice_dialog()
 {
   buttons_list.clear();
   action_button_map.clear();
-  gui()->set_diplo_dialog(NULL);
+  gui()->set_diplo_dialog(nullptr);
 
   if (run_on_close) {
     run_on_close(unit_id);
-    run_on_close = NULL;
+    run_on_close = nullptr;
   }
 }
 
@@ -1541,7 +1541,7 @@ Choice_dialog_button *choice_dialog::get_identified_button(const int id)
 {
   if (id < 0) {
     fc_assert_msg(0 <= id, "Invalid button ID.");
-    return NULL;
+    return nullptr;
   }
 
   return action_button_map[id];
@@ -1664,7 +1664,7 @@ void choice_dialog::update_dialog(const struct act_prob *act_probs)
                            targeted_unit, targeted_unit->tile,
                            (sub_target_id[ASTK_EXTRA] != EXTRA_NONE
                               ? extra_by_number(sub_target_id[ASTK_EXTRA])
-                              : NULL),
+                              : nullptr),
                            act_probs);
   layout->addLayout(unit_skip);
 }
@@ -1744,8 +1744,8 @@ static void caravan_marketplace(QVariant data1, QVariant data2)
   int actor_unit_id = data1.toInt();
   int target_city_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_unit_id)
-      && NULL != game_city_by_number(target_city_id)) {
+  if (game_unit_by_number(actor_unit_id) != nullptr
+      && game_city_by_number(target_city_id) != nullptr) {
     request_do_action(ACTION_MARKETPLACE, actor_unit_id,
                       target_city_id, 0, "");
   }
@@ -1759,8 +1759,8 @@ static void caravan_establish_trade(QVariant data1, QVariant data2)
   int actor_unit_id = data1.toInt();
   int target_city_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_unit_id)
-      && NULL != game_city_by_number(target_city_id)) {
+  if (game_unit_by_number(actor_unit_id) != nullptr
+      && game_city_by_number(target_city_id) != nullptr) {
     request_do_action(ACTION_TRADE_ROUTE, actor_unit_id,
                       target_city_id, 0, "");
   }
@@ -1774,8 +1774,8 @@ static void caravan_help_build(QVariant data1, QVariant data2)
   int caravan_id = data1.toInt();
   int caravan_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(caravan_id)
-      && NULL != game_city_by_number(caravan_target_id)) {
+  if (game_unit_by_number(caravan_id) != nullptr
+      && game_city_by_number(caravan_target_id) != nullptr) {
     request_do_action(ACTION_HELP_WONDER,
                       caravan_id, caravan_target_id, 0, "");
   }
@@ -1789,8 +1789,8 @@ static void unit_disband_recover(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(tgt_city_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
     request_do_action(ACTION_DISBAND_UNIT_RECOVER,
                       actor_id, tgt_city_id, 0, "");
   }
@@ -1804,8 +1804,8 @@ static void unit_home_city(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(tgt_city_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
     request_do_action(ACTION_HOME_CITY,
                       actor_id, tgt_city_id, 0, "");
   }
@@ -1821,8 +1821,8 @@ static void unit_upgrade(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
-  if ((punit = game_unit_by_number(actor_id))
-      && NULL != game_city_by_number(tgt_city_id)) {
+  if ((punit = game_unit_by_number(actor_id)) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
     struct unit_list *as_list;
 
     as_list = unit_list_new();
@@ -1840,8 +1840,8 @@ static void airlift(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(tgt_city_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
     request_do_action(ACTION_AIRLIFT,
                       actor_id, tgt_city_id, 0, "");
   }
@@ -1855,8 +1855,8 @@ static void conquer_city(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(tgt_city_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
     request_do_action(ACTION_CONQUER_CITY,
                       actor_id, tgt_city_id, 0, "");
   }
@@ -1870,8 +1870,8 @@ static void conquer_city2(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(tgt_city_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
     request_do_action(ACTION_CONQUER_CITY2,
                       actor_id, tgt_city_id, 0, "");
   }
@@ -1885,7 +1885,7 @@ static void conquer_extras(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)) {
+  if (game_unit_by_number(actor_id) != nullptr) {
     request_do_action(ACTION_CONQUER_EXTRAS,
                       actor_id, target_id, 0, "");
   }
@@ -1899,7 +1899,7 @@ static void conquer_extras2(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)) {
+  if (game_unit_by_number(actor_id) != nullptr) {
     request_do_action(ACTION_CONQUER_EXTRAS2,
                       actor_id, target_id, 0, "");
   }
@@ -2021,14 +2021,16 @@ void popup_action_selection(struct unit *actor_unit,
   foreach (caras, gui()->trade_gen.lines) {
     if (caras.autocaravan == actor_unit) {
       int i;
-      if (nullptr != game_unit_by_number(actor_unit->id)
-          && nullptr != game_city_by_number(target_city->id)) {
+
+      if (game_unit_by_number(actor_unit->id) != nullptr
+          && game_city_by_number(target_city->id) != nullptr) {
         request_do_action(ACTION_TRADE_ROUTE, actor_unit->id,
                           target_city->id, 0, "");
         client_unit_init_act_prob_cache(actor_unit);
         diplomat_queue_handle_primary(actor_unit->id);
         i = gui()->trade_gen.lines.indexOf(caras);
         gui()->trade_gen.lines.takeAt(i);
+
         return;
       }
     }
@@ -2037,6 +2039,7 @@ void popup_action_selection(struct unit *actor_unit,
       && try_default_city_action(actor_unit->id, target_city->id)
       && action_prob_possible(act_probs[unit_act])) {
     diplomat_queue_handle_primary(actor_unit->id);
+
     return;
   }
 
@@ -2044,6 +2047,7 @@ void popup_action_selection(struct unit *actor_unit,
       && try_default_unit_action(actor_unit->id, target_unit->id)
       && action_prob_possible(act_probs[city_act])) {
     diplomat_queue_handle_primary(actor_unit->id);
+
     return;
   }
   /* Could be caused by the server failing to reply to a request for more
@@ -2061,18 +2065,18 @@ void popup_action_selection(struct unit *actor_unit,
            _("Choose Your %s's Strategy"),
            unit_name_translation(actor_unit));
 
-  if (target_city && actor_homecity) {
+  if (target_city != nullptr && actor_homecity != nullptr) {
     astr_set(&text,
              _("Your %s from %s reaches the city of %s.\nWhat now?"),
              unit_name_translation(actor_unit),
              city_name_get(actor_homecity),
              city_name_get(target_city));
-  } else if (target_city) {
+  } else if (target_city != nullptr) {
     astr_set(&text,
              _("Your %s has arrived at %s.\nWhat is your command?"),
              unit_name_translation(actor_unit),
              city_name_get(target_city));
-  } else if (target_unit) {
+  } else if (target_unit != nullptr) {
     astr_set(&text,
              // TRANS: Your Spy is ready to act against Roman Freight.
              _("Your %s is ready to act against %s %s."),
@@ -2080,7 +2084,9 @@ void popup_action_selection(struct unit *actor_unit,
              nation_adjective_for_player(unit_owner(target_unit)),
              unit_name_translation(target_unit));
   } else {
-    fc_assert_msg(target_unit || target_city || target_tile,
+    fc_assert_msg(target_unit != nullptr
+                  || target_city != nullptr
+                  || target_tile != nullptr,
                   "No target specified.");
 
     astr_set(&text,
@@ -2394,7 +2400,7 @@ static void fortify(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)) {
+  if (game_unit_by_number(actor_id) != nullptr) {
     request_do_action(ACTION_FORTIFY, actor_id,
                       target_id, 0, "");
   }
@@ -2420,7 +2426,7 @@ static void homeless(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)) {
+  if (game_unit_by_number(actor_id) != nullptr) {
     request_do_action(ACTION_HOMELESS, actor_id,
                       target_id, 0, "");
   }
@@ -2434,8 +2440,8 @@ static void diplomat_bribe(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_unit_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_unit_by_number(diplomat_target_id) != nullptr) {
     // Wait for the server's reply before moving on to the next queued diplomat.
     is_more_user_input_needed = TRUE;
 
@@ -2630,8 +2636,8 @@ static void disembark1(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_TRANSPORT_DISEMBARK1,
                       actor_id, target_id, 0, "");
   }
@@ -2645,8 +2651,8 @@ static void disembark2(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_TRANSPORT_DISEMBARK2,
                       actor_id, target_id, 0, "");
   }
@@ -2660,8 +2666,8 @@ static void enter_hut(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_HUT_ENTER,
                       actor_id, target_id, 0, "");
   }
@@ -2675,8 +2681,8 @@ static void enter_hut2(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_HUT_ENTER2,
                       actor_id, target_id, 0, "");
   }
@@ -2690,8 +2696,8 @@ static void frighten_hut(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_HUT_FRIGHTEN,
                       actor_id, target_id, 0, "");
   }
@@ -2705,8 +2711,8 @@ static void frighten_hut2(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_HUT_FRIGHTEN2,
                       actor_id, target_id, 0, "");
   }
@@ -2827,8 +2833,8 @@ static void transform_terrain(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_TRANSFORM_TERRAIN,
                       actor_id, target_id, 0, "");
   }
@@ -2842,8 +2848,8 @@ static void cultivate(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_CULTIVATE,
                       actor_id, target_id, 0, "");
   }
@@ -2857,8 +2863,8 @@ static void plant(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PLANT,
                       actor_id, target_id, 0, "");
   }
@@ -2872,8 +2878,8 @@ static void pillage(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PILLAGE,
                       actor_id, target_id,
                       /* FIXME: will cause problems if more than
@@ -2892,8 +2898,8 @@ static void clean(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_CLEAN,
                       actor_id, target_id,
                       /* FIXME: will cause problems if more than
@@ -2912,9 +2918,9 @@ static void road(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)
-      && NULL != extra_by_number(action_selection_target_extra())) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr
+      && extra_by_number(action_selection_target_extra()) != nullptr) {
     request_do_action(ACTION_ROAD,
                       actor_id, target_id,
                       /* FIXME: will cause problems if more than
@@ -2933,9 +2939,9 @@ static void base(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)
-      && NULL != extra_by_number(action_selection_target_extra())) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr
+      && extra_by_number(action_selection_target_extra()) != nullptr) {
     request_do_action(ACTION_BASE,
                       actor_id, target_id,
                       /* FIXME: will cause problems if more than
@@ -2954,9 +2960,9 @@ static void mine(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)
-      && NULL != extra_by_number(action_selection_target_extra())) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr
+      && extra_by_number(action_selection_target_extra()) != nullptr) {
     request_do_action(ACTION_MINE,
                       actor_id, target_id,
                       /* FIXME: will cause problems if more than
@@ -2975,9 +2981,9 @@ static void irrigate(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)
-      && NULL != extra_by_number(action_selection_target_extra())) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr
+      && extra_by_number(action_selection_target_extra()) != nullptr) {
     request_do_action(ACTION_IRRIGATE,
                       actor_id, target_id,
                       /* FIXME: will cause problems if more than
@@ -2996,8 +3002,8 @@ static void nuke(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
     request_do_action(ACTION_NUKE,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3011,8 +3017,8 @@ static void attack(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
     request_do_action(ACTION_ATTACK,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3026,8 +3032,8 @@ static void suicide_attack(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SUICIDE_ATTACK,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3041,8 +3047,8 @@ static void paradrop(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP,
                       actor_id, target_id, 0, "");
   }
@@ -3056,8 +3062,8 @@ static void paradrop_conquer(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_CONQUER,
                       actor_id, target_id, 0, "");
   }
@@ -3071,8 +3077,8 @@ static void paradrop_frighten(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_FRIGHTEN,
                       actor_id, target_id, 0, "");
   }
@@ -3086,8 +3092,8 @@ static void paradrop_frighten_conquer(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_FRIGHTEN_CONQUER,
                       actor_id, target_id, 0, "");
   }
@@ -3101,8 +3107,8 @@ static void paradrop_enter(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_ENTER,
                       actor_id, target_id, 0, "");
   }
@@ -3116,8 +3122,8 @@ static void paradrop_enter_conquer(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_ENTER_CONQUER,
                       actor_id, target_id, 0, "");
   }
@@ -3131,8 +3137,8 @@ static void join_city(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(target_id) != nullptr) {
     request_do_action(ACTION_JOIN_CITY,
                       actor_id, target_id, 0, "");
   }
@@ -3151,12 +3157,12 @@ static void spy_steal_shared(QVariant data1, QVariant data2,
   int diplomat_target_id = data2.toInt();
   struct unit *actor_unit = game_unit_by_number(diplomat_id);
   struct city *pvcity = game_city_by_number(diplomat_target_id);
-  struct player *pvictim = NULL;
+  struct player *pvictim = nullptr;
   choice_dialog *cd;
   QList<QVariant> actor_and_target;
 
   cd = gui()->get_diplo_dialog();
-  if (cd != NULL) {
+  if (cd != nullptr) {
     cd->close();
   }
 
@@ -3237,8 +3243,8 @@ static void spy_steal_something(QVariant data1, QVariant data2)
   int diplomat_target_id = data1.toList().at(1).toInt();
   action_id act_id = data1.toList().at(2).toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     if (data2.toInt() == A_UNSET) {
       // This is the untargeted version.
       request_do_action(get_non_targeted_action_id(act_id),
@@ -3259,8 +3265,8 @@ static void spy_request_strike_bld_list(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(target_id) != nullptr) {
     // Wait for the server's reply before moving on to the next queued diplomat.
     is_more_user_input_needed = TRUE;
 
@@ -3276,8 +3282,8 @@ static void spy_request_sabotage_list(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     // Wait for the server's reply before moving on to the next queued diplomat.
     is_more_user_input_needed = TRUE;
 
@@ -3294,8 +3300,8 @@ static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     /* Wait for the server's reply before moving on to the next queued
      * diplomat. */
     is_more_user_input_needed = TRUE;
@@ -3313,8 +3319,8 @@ static void spy_poison(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_POISON,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3328,8 +3334,8 @@ static void spy_poison_esc(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_POISON_ESC,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3343,8 +3349,8 @@ static void spy_nuke_city(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_NUKE,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3358,8 +3364,8 @@ static void spy_nuke_city_esc(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_NUKE_ESC,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3373,8 +3379,8 @@ static void nuke_city(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != game_city_by_number(target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(target_id) != nullptr) {
     request_do_action(ACTION_NUKE_CITY,
                       actor_id, target_id, 0, "");
   }
@@ -3388,8 +3394,8 @@ static void destroy_city(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_DESTROY_CITY,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3403,8 +3409,8 @@ static void spy_steal_gold(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_STEAL_GOLD,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3418,8 +3424,8 @@ static void spy_steal_gold_esc(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_STEAL_GOLD_ESC,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3433,8 +3439,8 @@ static void spy_steal_maps(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_STEAL_MAPS,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3448,8 +3454,8 @@ static void spy_steal_maps_esc(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_STEAL_MAPS_ESC,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3463,8 +3469,8 @@ static void spy_escape(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_ESCAPE,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -3478,8 +3484,8 @@ static void spy_embassy(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_ESTABLISH_EMBASSY, diplomat_id,
                       diplomat_target_id, 0, "");
   }
@@ -3493,8 +3499,8 @@ static void diplomat_embassy(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_ESTABLISH_EMBASSY_STAY, diplomat_id,
                       diplomat_target_id, 0, "");
   }
@@ -3508,8 +3514,8 @@ static void spy_investigate(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_city_by_number(diplomat_target_id)
-      && NULL != game_unit_by_number(diplomat_id)) {
+  if (game_city_by_number(diplomat_target_id) != nullptr
+      && game_unit_by_number(diplomat_id) != nullptr) {
     request_do_action(ACTION_SPY_INVESTIGATE_CITY, diplomat_id,
                       diplomat_target_id, 0, "");
   }
@@ -3523,8 +3529,8 @@ static void diplomat_investigate(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_city_by_number(diplomat_target_id)
-      && NULL != game_unit_by_number(diplomat_id)) {
+  if (game_city_by_number(diplomat_target_id) != nullptr
+      && game_unit_by_number(diplomat_id) != nullptr) {
     request_do_action(ACTION_INV_CITY_SPEND, diplomat_id,
                       diplomat_target_id, 0, "");
   }
@@ -3538,8 +3544,8 @@ static void diplomat_sabotage(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
                       diplomat_target_id, B_LAST + 1, "");
   }
@@ -3553,8 +3559,8 @@ static void diplomat_sabotage_esc(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_SABOTAGE_CITY_ESC, diplomat_id,
                       diplomat_target_id, B_LAST + 1, "");
   }
@@ -3568,8 +3574,8 @@ static void diplomat_steal(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
                       diplomat_target_id, A_UNSET, "");
   }
@@ -3583,8 +3589,8 @@ static void diplomat_steal_esc(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SPY_STEAL_TECH_ESC, diplomat_id,
                       diplomat_target_id, A_UNSET, "");
   }
@@ -3598,8 +3604,8 @@ static void diplomat_incite(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     // Wait for the server's reply before moving on to the next queued diplomat.
     is_more_user_input_needed = TRUE;
 
@@ -3616,8 +3622,8 @@ static void diplomat_incite_escape(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     // Wait for the server's reply before moving on to the next queued diplomat.
     is_more_user_input_needed = TRUE;
 
@@ -3634,8 +3640,8 @@ static void regular_move(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
-  if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(&(wld.map), target_id)) {
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_UNIT_MOVE,
                       actor_id, target_id, 0, "");
   }
@@ -3780,8 +3786,8 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   int diplomat_target_id = data1.toList().at(1).toInt();
   action_id act_id = data1.toList().at(2).toInt();
 
-  if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != game_city_by_number(diplomat_target_id)) {
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
     if (data2.toInt() == B_LAST) {
       // This is the untargeted version.
       request_do_action(get_non_targeted_action_id(act_id),
@@ -4104,7 +4110,7 @@ int action_selection_actor_unit(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
 
-  if (cd != NULL) {
+  if (cd != nullptr) {
     return cd->unit_id;
   } else {
     return IDENTITY_NUMBER_ZERO;
@@ -4121,7 +4127,7 @@ int action_selection_target_city(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
 
-  if (cd != NULL) {
+  if (cd != nullptr) {
     return cd->target_id[ATK_CITY];
   } else {
     return IDENTITY_NUMBER_ZERO;
@@ -4138,7 +4144,7 @@ int action_selection_target_tile(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
 
-  if (cd != NULL) {
+  if (cd != nullptr) {
     return cd->target_id[ATK_TILE];
   } else {
     return TILE_INDEX_NONE;
@@ -4155,7 +4161,7 @@ int action_selection_target_extra(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
 
-  if (cd != NULL) {
+  if (cd != nullptr) {
     return cd->sub_target_id[ASTK_EXTRA];
   } else {
     return EXTRA_NONE;
@@ -4172,7 +4178,7 @@ int action_selection_target_unit(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
 
-  if (cd != NULL) {
+  if (cd != nullptr) {
     return cd->target_id[ATK_UNIT];
   } else {
     return IDENTITY_NUMBER_ZERO;
@@ -4195,8 +4201,8 @@ void action_selection_refresh(struct unit *actor_unit,
   QVariant qv1, qv2;
 
   asd = gui()->get_diplo_dialog();
-  if (asd == NULL) {
-    fc_assert_msg(asd != NULL,
+  if (asd == nullptr) {
+    fc_assert_msg(asd != nullptr,
                   "The action selection dialog should have been open");
     return;
   }
@@ -4210,14 +4216,14 @@ void action_selection_refresh(struct unit *actor_unit,
   qv1 = actor_unit->id;
 
   cancel_button = asd->get_identified_button(BUTTON_CANCEL);
-  if (cancel_button != NULL) {
+  if (cancel_button != nullptr) {
     /* Temporary remove the Cancel button so it won't end up above
      * any added buttons. */
     asd->stack_button(cancel_button);
   }
 
   wait_button = asd->get_identified_button(BUTTON_WAIT);
-  if (wait_button != NULL) {
+  if (wait_button != nullptr) {
     /* Temporary remove the Wait button so it won't end up above
      * any added buttons. */
     asd->stack_button(wait_button);
@@ -4239,22 +4245,22 @@ void action_selection_refresh(struct unit *actor_unit,
     // Put the target id in qv2.
     switch (action_id_get_target_kind(act)) {
     case ATK_UNIT:
-      if (target_unit != NULL) {
+      if (target_unit != nullptr) {
         qv2 = target_unit->id;
       } else {
         fc_assert_msg(!action_prob_possible(act_probs[act])
-                      || target_unit != NULL,
+                      || target_unit != nullptr,
                       "Action enabled against non existing unit!");
 
         qv2 = IDENTITY_NUMBER_ZERO;
       }
       break;
     case ATK_CITY:
-      if (target_city != NULL) {
+      if (target_city != nullptr) {
         qv2 = target_city->id;
       } else {
         fc_assert_msg(!action_prob_possible(act_probs[act])
-                      || target_city != NULL,
+                      || target_city != nullptr,
                       "Action enabled against non existing city!");
 
         qv2 = IDENTITY_NUMBER_ZERO;
@@ -4263,11 +4269,11 @@ void action_selection_refresh(struct unit *actor_unit,
     case ATK_TILE:
     case ATK_EXTRAS:
     case ATK_UNITS:
-      if (target_tile != NULL) {
+      if (target_tile != nullptr) {
         qv2 = tile_index(target_tile);
       } else {
         fc_assert_msg(!action_prob_possible(act_probs[act])
-                      || target_tile != NULL,
+                      || target_tile != nullptr,
                       "Action enabled against all units on "
                       "non existing tile!");
 
@@ -4295,7 +4301,7 @@ void action_selection_refresh(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (wait_button != NULL || cancel_button != NULL) {
+  if (wait_button != nullptr || cancel_button != nullptr) {
     /* Reinsert the non action buttons below any potential
      * buttons recently added. */
     asd->unstack_all_buttons();
@@ -4310,7 +4316,7 @@ void action_selection_close(void)
   choice_dialog *cd;
 
   cd = gui()->get_diplo_dialog();
-  if (cd != NULL) {
+  if (cd != nullptr) {
     did_not_decide = true;
     cd->close();
   }
@@ -4341,7 +4347,7 @@ void show_tileset_error(bool fatal, const char *tset_name, const char *msg)
     char buf[1024];
     QMessageBox *ask = new QMessageBox(parent);
 
-    if (tset_name != NULL) {
+    if (tset_name != nullptr) {
       fc_snprintf(buf, sizeof(buf),
                   _("Tileset \"%s\" problem, it's probably incompatible with "
                     "the ruleset:\n%s"), tset_name, msg);
@@ -4418,13 +4424,13 @@ units_select::units_select(tile *ptile, QWidget *parent)
 
   setParent(parent);
   utile = ptile;
-  pix = NULL;
+  pix = nullptr;
   show_line = 0;
   highligh_num = -1;
   ufont.setItalic(true);
   info_font = *fc_font::instance()->get_font(fonts::notify_label);
   update_units();
-  h_pix = NULL;
+  h_pix = nullptr;
   create_pixmap();
   p = mapFromGlobal(QCursor::pos());
   cw = new close_widget(this);
@@ -4475,9 +4481,9 @@ void units_select::create_pixmap()
   struct unit *punit;
   float isosize;
 
-  if (pix != NULL) {
+  if (pix != nullptr) {
     delete pix;
-    pix = NULL;
+    pix = nullptr;
   };
   isosize = 0.7;
   if (tileset_hex_height(tileset) > 0 || tileset_hex_width(tileset) > 0) {
@@ -4554,7 +4560,7 @@ void units_select::create_pixmap()
       y = y + item_size.height();
     }
     punit = unit_list.at(i);
-    Q_ASSERT(punit != NULL);
+    Q_ASSERT(punit != nullptr);
 
     if (i == highligh_num) {
       p.drawPixmap(x, y, *h_pix);
@@ -4700,7 +4706,7 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
     }
   }
   h = fm.height();
-  if (pix != NULL) {
+  if (pix != nullptr) {
     painter->drawPixmap(10, h + 3, *pix);
     pen.setColor(palette().color(QPalette::Text));
     painter->setPen(pen);
@@ -4764,7 +4770,7 @@ void units_select::update_units()
   struct unit_list *punit_list;
 
   unit_count = 0;
-  if (utile == NULL) {
+  if (utile == nullptr) {
     struct unit *punit = head_of_units_in_focus();
     if (punit) {
       utile = unit_tile(punit);
@@ -4803,7 +4809,7 @@ void units_select::wheelEvent(QWheelEvent *event)
 {
   int nr;
 
-  if (!more && utile == NULL) {
+  if (!more && utile == nullptr) {
     return;
   }
   nr = qCeil(static_cast<qreal>(unit_list_size(utile->units)) / 4) - 3;
@@ -4880,7 +4886,7 @@ bool qtg_request_transport(struct unit *pcargo, struct tile *ptile)
   tcount = unit_list_size(potential_transports);
 
   if (tcount == 0) {
-    fc_assert(best_transport == NULL);
+    fc_assert(best_transport == nullptr);
     unit_list_destroy(potential_transports);
 
     return false; // Unit was not handled here.
@@ -4954,7 +4960,7 @@ void qtg_request_action_confirmation(const char *expl,
   hdr = QString(_("Are you sure you want to do %1?")).
                 arg(QString(action_id_name_translation(data->act)));
 
-  if (expl != NULL) {
+  if (expl != nullptr) {
     body_text += QString(expl);
   }
 

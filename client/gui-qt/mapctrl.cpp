@@ -267,11 +267,11 @@ void map_view::shortcut_pressed(int key)
   }
 
   // Rally point - select tile  - skip
-  if (bt == Qt::LeftButton && gui()->rallies.hover_tile && ctile != NULL) {
+  if (bt == Qt::LeftButton && gui()->rallies.hover_tile && ctile != nullptr) {
     char text[1024];
     struct city *rcity = gui()->rallies.rally_city;
 
-    fc_assert_ret(rcity != NULL);
+    fc_assert_ret(rcity != nullptr);
 
     if (send_rally_tile(rcity, ctile, FALSE)) {
       fc_snprintf(text, sizeof(text),
@@ -285,7 +285,7 @@ void map_view::shortcut_pressed(int key)
       output_window_append(ftc_client, text);
     }
 
-    gui()->rallies.rally_city = NULL;
+    gui()->rallies.rally_city = nullptr;
     gui()->rallies.hover_tile = false;
 
     return;
@@ -548,7 +548,7 @@ void map_view::mouseMoveEvent(QMouseEvent *event)
 **************************************************************************/
 void fc_client::popup_tile_info(struct tile *ptile)
 {
-  struct unit *punit = NULL;
+  struct unit *punit = nullptr;
 
   if (info_tile_wdg != nullptr) {
     popdown_tile_info();

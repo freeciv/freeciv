@@ -773,7 +773,7 @@ void qtg_real_output_window_append(const char *astring,
   if (str.contains(wakeup) && client_state() < C_S_RUNNING
       && !wakeup.isEmpty()) {
     qapp->alert(gui()->central_wdg);
-    audio_play_sound("e_player_wake", NULL);
+    audio_play_sound("e_player_wake", nullptr);
   }
 
   chat_listener::update_word_list();
@@ -788,7 +788,7 @@ void qtg_real_output_window_append(const char *astring,
 void log_output_window(void)
 {
   // PORTME
-  write_chatline_content(NULL);
+  write_chatline_content(nullptr);
 }
 
 /***********************************************************************//**

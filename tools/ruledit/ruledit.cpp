@@ -68,7 +68,7 @@ int main(int argc, char **argv)
   // Load Windows post-crash debugger
 #ifdef FREECIV_MSWINDOWS
 # ifndef FREECIV_NDEBUG
-  if (LoadLibrary("exchndl.dll") == NULL) {
+  if (LoadLibrary("exchndl.dll") == nullptr) {
 #  ifdef FREECIV_DEBUG
     fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
 #  endif // FREECIV_DEBUG
@@ -94,7 +94,7 @@ int main(int argc, char **argv)
   registry_module_init();
 
   // Initialize command line arguments.
-  reargs.ruleset = NULL;
+  reargs.ruleset = nullptr;
 
   ui_options = re_parse_cmdline(argc, argv);
 
@@ -226,7 +226,7 @@ static int re_parse_cmdline(int argc, char *argv[])
     i++;
   }
 
-  log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
+  log_init(nullptr, loglevel, nullptr, nullptr, fatal_assertions);
 
   return ui_options;
 }

@@ -134,7 +134,7 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   label = new QLabel;
   sprite = get_nation_flag_sprite(tileset,
                                   nation_of_player(we));
-  if (sprite != NULL) {
+  if (sprite != nullptr) {
     if (svg) {
       plr1_label->setPixmap(sprite->pm->scaledToHeight(FLAG_HEIGHT_DIPLDLG));
     } else  {
@@ -154,7 +154,7 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   sprite2 = get_nation_flag_sprite(tileset,
                                    nation_of_player(they));
   plr2_label = new QLabel;
-  if (sprite2 != NULL) {
+  if (sprite2 != nullptr) {
     if (svg) {
       plr2_label->setPixmap(sprite2->pm->scaledToHeight(FLAG_HEIGHT_DIPLDLG));
     } else {
@@ -700,7 +700,7 @@ void diplo_wdg::update_wdg()
   bool blank;
   int i;
   struct sprite *sprite;
-  QPixmap *pix = NULL;
+  QPixmap *pix = nullptr;
   QTableWidgetItem *qitem;
 
   blank = true;
@@ -730,7 +730,7 @@ void diplo_wdg::update_wdg()
   }
 
   sprite = get_treaty_thumb_sprite(tileset, treaty->accept1);
-  if (sprite != NULL) {
+  if (sprite != nullptr) {
     pix = sprite->pm;
     plr1_accept->setPixmap(*pix);
   } else {
@@ -738,7 +738,7 @@ void diplo_wdg::update_wdg()
   }
 
   sprite = get_treaty_thumb_sprite(tileset, treaty->accept0);
-  if (sprite != NULL) {
+  if (sprite != nullptr) {
     pix = sprite->pm;
     plr2_accept->setPixmap(*pix);
   } else {
@@ -799,17 +799,17 @@ void diplo_dlg::add_widget(struct Treaty *ptreaty, struct player *they,
   QPixmap *pix;
   int i;
 
-  pix = NULL;
+  pix = nullptr;
   dw = new diplo_wdg(ptreaty, they, initiator);
   treaty_list.insert(they, dw);
   i = addTab(dw, nation_plural_for_player(they));
   dw->set_index(i);
   sprite = get_nation_flag_sprite(tileset,
                                   nation_of_player(they));
-  if (sprite != NULL) {
+  if (sprite != nullptr) {
     pix = sprite->pm;
   }
-  if (pix != NULL) {
+  if (pix != nullptr) {
     setTabIcon(i, QIcon(*pix));
   }
 }
@@ -1012,7 +1012,7 @@ void qtg_init_meeting(struct Treaty *ptreaty, struct player *they,
   }
 
   fw = dd->find_widget(they);
-  if (fw == NULL) {
+  if (fw == nullptr) {
     dd->add_widget(ptreaty, they, initiator);
     gui()->game_tab_widget->setCurrentIndex(i);
   }

@@ -73,13 +73,13 @@ enabler_problem_level(struct action_enabler *enabler)
 {
   struct req_vec_problem *problem = action_enabler_suggest_repair(enabler);
 
-  if (problem != NULL) {
+  if (problem != nullptr) {
     req_vec_problem_free(problem);
     return RVPS_REPAIR;
   }
 
   problem = action_enabler_suggest_improvement(enabler);
-  if (problem != NULL) {
+  if (problem != nullptr) {
     req_vec_problem_free(problem);
     return RVPS_IMPROVE;
   }
@@ -411,7 +411,7 @@ fix_enabler_item::fix_enabler_item(struct action_enabler *enabler)
   char buf[MAX_LEN_NAME * 2];
   struct action *paction = enabler_get_action(enabler);
 
-  fc_assert_ret(paction != NULL);
+  fc_assert_ret(paction != nullptr);
 
   /* Can't use QString::asprintf() as msys libintl.h defines asprintf()
    * as a macro */
@@ -481,7 +481,7 @@ struct req_vec_problem *fix_enabler_item::find_next_problem(void)
 {
   struct req_vec_problem *out = action_enabler_suggest_repair(local_copy);
 
-  if (out != NULL) {
+  if (out != nullptr) {
     return out;
   }
 

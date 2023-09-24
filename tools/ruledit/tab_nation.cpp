@@ -67,7 +67,7 @@ tab_nation::tab_nation(ruledit_gui *ui_in) : QWidget()
 **************************************************************************/
 void tab_nation::refresh()
 {
-  if (ui->data.nationlist == NULL) {
+  if (ui->data.nationlist == nullptr) {
     via_include->setChecked(false);
     nationlist->setEnabled(false);
   } else {
@@ -90,7 +90,7 @@ void tab_nation::flush_widgets()
     nln_bytes = nationlist->text().toUtf8();
     ui->data.nationlist = fc_strdup(nln_bytes.data());
   } else {
-    ui->data.nationlist = NULL;
+    ui->data.nationlist = nullptr;
   }
 }
 
@@ -100,7 +100,7 @@ void tab_nation::flush_widgets()
 void tab_nation::nationlist_toggle(bool checked)
 {
   if (checked) {
-    if (ui->data.nationlist_saved != NULL) {
+    if (ui->data.nationlist_saved != nullptr) {
       ui->data.nationlist = ui->data.nationlist_saved;
     } else {
       ui->data.nationlist = fc_strdup("default/nationlist.ruleset");
@@ -111,7 +111,7 @@ void tab_nation::nationlist_toggle(bool checked)
     FC_FREE(ui->data.nationlist_saved);
     nln_bytes = nationlist->text().toUtf8();
     ui->data.nationlist_saved = fc_strdup(nln_bytes.data());
-    ui->data.nationlist = NULL;
+    ui->data.nationlist = nullptr;
   }
 
   refresh();

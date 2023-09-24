@@ -409,7 +409,7 @@ void city_widget::city_view()
   }
   pcity = selected_cities[0];
 
-  Q_ASSERT(pcity != NULL);
+  Q_ASSERT(pcity != nullptr);
   if (gui_options.center_when_popup_city) {
     center_tile_mapcanvas(pcity->tile);
   }
@@ -426,7 +426,7 @@ void city_widget::clear_worlist()
   struct city *pcity;
 
   foreach(pcity, selected_cities) {
-    Q_ASSERT(pcity != NULL);
+    Q_ASSERT(pcity != nullptr);
     city_set_worklist(pcity, &empty);
   }
 }
@@ -439,7 +439,7 @@ void city_widget::buy()
   struct city *pcity;
 
   foreach(pcity, selected_cities) {
-    Q_ASSERT(pcity != NULL);
+    Q_ASSERT(pcity != nullptr);
     cityrep_buy(pcity);
   }
 }
@@ -455,7 +455,7 @@ void city_widget::center()
     return;
   }
   pcity = selected_cities[0];
-  Q_ASSERT(pcity != NULL);
+  Q_ASSERT(pcity != nullptr);
   center_tile_mapcanvas(pcity->tile);
   gui()->game_tab_widget->setCurrentIndex(0);
 }
@@ -570,7 +570,7 @@ void city_widget::display_list_menu(const QPoint &)
     target = cid_decode(id);
 
     city_list_iterate(client_player()->cities, iter_city) {
-      if (NULL != iter_city) {
+      if (iter_city != nullptr) {
         switch (m_state) {
         case SELECT_IMPR:
           if (need_clear) {
@@ -642,7 +642,7 @@ void city_widget::display_list_menu(const QPoint &)
     } city_list_iterate_end;
 
     foreach (pcity_mid, selected_cities) {
-      if (nullptr != pcity_mid) {
+      if (pcity_mid != nullptr) {
         switch (m_state) {
         case CHANGE_PROD_NOW:
           city_change_production(pcity_mid, &target);
@@ -688,7 +688,7 @@ void city_widget::display_list_menu(const QPoint &)
           }
           break;
         case CMA:
-          if (NULL != pcity_mid) {
+          if (pcity_mid != nullptr) {
             if (CMA_NONE == id) {
               cma_release_city(pcity_mid);
             } else {
@@ -712,7 +712,7 @@ void city_widget::display_list_menu(const QPoint &)
           }
           break;
         case BUY:
-          if (NULL != pcity_mid) {
+          if (pcity_mid != nullptr) {
             if (city_can_buy(pcity_mid)) {
               city_buy_production(pcity_mid);
             }
@@ -856,7 +856,8 @@ void city_widget::select_coastal()
       continue;
     }
     pcity = reinterpret_cast<city *>(qvar.value<void *>());
-    if (NULL != pcity && is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
+    if (pcity != nullptr
+        && is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
       selection.append(QItemSelectionRange(i));
     }
   }
@@ -883,7 +884,7 @@ void city_widget::select_same_island()
     }
     pcity = reinterpret_cast<city *>(qvar.value<void *>());
     foreach (pscity, selected_cities) {
-      if (NULL != pcity
+      if (pcity != nullptr
           && (tile_continent(pcity->tile)
               == tile_continent(pscity->tile))) {
         selection.append(QItemSelectionRange(i));
@@ -918,7 +919,7 @@ void city_widget::select_building_something()
     act = qobject_cast<QAction *>(sender());
     qvar = act->data();
     str = qvar.toString();
-    if (NULL != pcity) {
+    if (pcity != nullptr) {
       if (str == "impr" && VUT_IMPROVEMENT == pcity->production.kind
           && !is_wonder(pcity->production.value.building)
           && !is_convert_improvement(pcity->production.value.building)) {
@@ -1066,7 +1067,7 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
   targets_used
       = collect_production_targets(targets, city_data, num_sel, append_units,
                                    append_wonders, true, test_func);
-  name_and_sort_items(targets, targets_used, items, true, NULL);
+  name_and_sort_items(targets, targets_used, items, true, nullptr);
   for (i = 0; i < 4; i++) {
     row[i] = buf[i];
   }
@@ -1076,7 +1077,7 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
     char txt[256];
 
     str.clear();
-    get_city_dialog_production_row(row, sizeof(buf[0]), &target, NULL);
+    get_city_dialog_production_row(row, sizeof(buf[0]), &target, nullptr);
     fc_snprintf(txt, ARRAY_SIZE(txt), "%s ", row[0]);
     str = str + QString(txt);
     list.insert(str, cid_encode(target));

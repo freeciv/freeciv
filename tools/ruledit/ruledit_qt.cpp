@@ -116,8 +116,8 @@ void ruledit_gui::setup(QWidget *central_in)
   const char *rev_ver;
   const char *mode;
 
-  data.nationlist = NULL;
-  data.nationlist_saved = NULL;
+  data.nationlist = nullptr;
+  data.nationlist_saved = nullptr;
 
   central = central_in;
 
@@ -129,7 +129,7 @@ void ruledit_gui::setup(QWidget *central_in)
   mode = R__("built in Qt5 mode.");
 #endif // FC_QT5_MODE
 
-  if (rev_ver == NULL) {
+  if (rev_ver == nullptr) {
     fc_snprintf(verbuf, sizeof(verbuf), "%s%s\n%s", word_version(),
                 VERSION_STRING, mode);
   } else {
@@ -249,14 +249,14 @@ void ruledit_gui::launch_now()
 {
   convlog = new conversion_log(QString::fromUtf8(R__("Old ruleset to a new format")));
 
-  if (load_rulesets(NULL, NULL, TRUE, conversion_log_cb, FALSE, TRUE, TRUE)) {
+  if (load_rulesets(nullptr, nullptr, TRUE, conversion_log_cb, FALSE, TRUE, TRUE)) {
     display_msg(R__("Ruleset loaded"));
 
     // Make freeable copy
-    if (game.server.ruledit.nationlist != NULL) {
+    if (game.server.ruledit.nationlist != nullptr) {
       data.nationlist = fc_strdup(game.server.ruledit.nationlist);
     } else {
-      data.nationlist = NULL;
+      data.nationlist = nullptr;
     }
 
     ach->refresh();

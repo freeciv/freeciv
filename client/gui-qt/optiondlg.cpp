@@ -218,7 +218,7 @@ void option_dialog::apply_option(int response)
     break;
   case RESPONSE_SAVE:
     desired_settable_options_update();
-    options_save(NULL);
+    options_save(nullptr);
     break;
   case RESPONSE_RESET:
     full_reset();
@@ -375,7 +375,7 @@ void option_dialog::set_string(struct option *poption, const char *string)
   QComboBox *cb;
   QLineEdit *le;
 
-  if (option_str_values(poption) != NULL) {
+  if (option_str_values(poption) != nullptr) {
     cb = reinterpret_cast<QComboBox *>(option_get_gui_data(poption));
     i = cb->findText(string);
     if (i != -1) {
@@ -395,7 +395,7 @@ QByteArray option_dialog::get_string(struct option *poption)
   QComboBox *cb;
   QLineEdit *le;
 
-  if (option_str_values(poption) != NULL) {
+  if (option_str_values(poption) != nullptr) {
     cb = reinterpret_cast<QComboBox *>(option_get_gui_data(poption));
     return cb->currentText().toUtf8();
   } else {
@@ -474,7 +474,7 @@ unsigned int option_dialog::get_bitwise(struct option *poption)
 void option_dialog::set_button_color(QPushButton *button,
                                      const char *colorname)
 {
-  if (button != nullptr && colorname != NULL && colorname[0] != '\0') {
+  if (button != nullptr && colorname != nullptr && colorname[0] != '\0') {
     QString s1 = "QPushButton { background-color: ";
     QString s2 = ";}";
     QColor col;
@@ -671,7 +671,7 @@ void option_dialog::add_option(struct option *poption)
 
   case OT_STRING:
     values = option_str_values(poption);
-    if (NULL != values) {
+    if (values != nullptr) {
       combo = new QComboBox();
       strvec_iterate(values, value) {
         combo->addItem(value);

@@ -808,20 +808,20 @@ void unit_item::create_actions()
     sentry = new QAction(_("Sentry unit"), this);
     connect(sentry, &QAction::triggered, this, &unit_item::sentry_unit);
   } else {
-    sentry = NULL;
+    sentry = nullptr;
   }
 
   if (can_unit_do_activity(qunit, ACTIVITY_FORTIFYING)) {
     fortify = new QAction(_("Fortify unit"), this);
     connect(fortify, &QAction::triggered, this, &unit_item::fortify_unit);
   } else {
-    fortify = NULL;
+    fortify = nullptr;
   }
   if (unit_can_do_action(qunit, ACTION_DISBAND_UNIT)) {
     disband_action = new QAction(_("Disband unit"), this);
     connect(disband_action, &QAction::triggered, this, &unit_item::disband);
   } else {
-    disband_action = NULL;
+    disband_action = nullptr;
   }
 
   if (can_unit_change_homecity(qunit)) {
@@ -829,35 +829,35 @@ void unit_item::create_actions()
                               this);
     connect(change_home, &QAction::triggered, this, &unit_item::change_homecity);
   } else {
-    change_home = NULL;
+    change_home = nullptr;
   }
 
   if (units_can_load(qunits)) {
     load = new QAction(_("Load"), this);
     connect(load, &QAction::triggered, this, &unit_item::load_unit);
   } else {
-    load = NULL;
+    load = nullptr;
   }
 
   if (units_can_unload(&(wld.map), qunits)) {
     unload = new QAction(_("Unload"), this);
     connect(unload, &QAction::triggered, this, &unit_item::unload_unit);
   } else {
-    unload = NULL;
+    unload = nullptr;
   }
 
   if (units_are_occupied(qunits)) {
     unload_trans = new QAction(_("Unload All From Transporter"), this);
     connect(unload_trans, &QAction::triggered, this, &unit_item::unload_all);
   } else {
-    unload_trans = NULL;
+    unload_trans = nullptr;
   }
 
   if (units_can_upgrade(qunits)) {
     upgrade = new QAction(_("Upgrade Unit"), this);
     connect(upgrade, &QAction::triggered, this, &unit_item::upgrade_unit);
   } else {
-    upgrade = NULL;
+    upgrade = nullptr;
   }
 
   unit_list_destroy(qunits);
@@ -1173,7 +1173,7 @@ void city_label::mousePressEvent(QMouseEvent *event)
   int w = tileset_small_sprite_width(tileset) / gui()->map_scale;
   int num_citizens = pcity->size;
 
-  if (cma_is_city_under_agent(pcity, NULL)) {
+  if (cma_is_city_under_agent(pcity, nullptr)) {
     return;
   }
 
@@ -1238,7 +1238,7 @@ void city_map::paintEvent(QPaintEvent *event)
   painter.begin(this);
   painter.drawPixmap(0, 0, zoomed_pixmap);
 
-  if (cma_is_city_under_agent(mcity, NULL)) {
+  if (cma_is_city_under_agent(mcity, nullptr)) {
     painter.fillRect(0, 0, zoomed_pixmap.width(), zoomed_pixmap.height(),
                      QBrush(QColor(60, 60 , 60 , 110)));
     painter.setPen(QColor(255, 255, 255));
@@ -1372,38 +1372,38 @@ void city_map::context_menu(QPoint point)
   con_menu = new QMenu(this);
   con_menu->addAction(wid_act);
 
-  if (pterr->plant_result != NULL
-      && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
+  if (pterr->plant_result != nullptr
+      && action_id_univs_not_blocking(ACTION_PLANT, nullptr, &for_terr)) {
     con_plant = con_menu->addAction(_("Plant"));
   }
-  if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
+  if (action_id_univs_not_blocking(ACTION_MINE, nullptr, &for_terr)) {
     con_mine = con_menu->addAction(Q_("?act:Mine"));
   }
 
-  if (pterr->cultivate_result != NULL
-      && action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr)) {
+  if (pterr->cultivate_result != nullptr
+      && action_id_univs_not_blocking(ACTION_CULTIVATE, nullptr, &for_terr)) {
     con_cultivate = con_menu->addAction(_("Cultivate"));
   }
-  if (action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
+  if (action_id_univs_not_blocking(ACTION_IRRIGATE, nullptr, &for_terr)) {
     con_irrig = con_menu->addAction(_("Irrigate"));
   }
 
-  if (pterr->transform_result != pterr && pterr->transform_result != NULL
+  if (pterr->transform_result != pterr && pterr->transform_result != nullptr
       && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
-                                      NULL, &for_terr)) {
+                                      nullptr, &for_terr)) {
     con_trfrm = con_menu->addAction(_("Transform"));
   }
 
-  if (next_extra_for_tile(ptile, EC_ROAD, city_owner(mcity), NULL) != NULL) {
+  if (next_extra_for_tile(ptile, EC_ROAD, city_owner(mcity), nullptr) != nullptr) {
     con_road = con_menu->addAction(_("Road"));
   }
 
   if (prev_extra_in_tile(ptile, ERM_CLEAN,
-                         city_owner(mcity), NULL) != NULL) {
+                         city_owner(mcity), nullptr) != nullptr) {
     con_clean = con_menu->addAction(_("Clean"));
   }
 
-  if (ptask != NULL) {
+  if (ptask != nullptr) {
     con_clear = con_menu->addAction(_("Clear"));
   }
 
@@ -1452,14 +1452,14 @@ void city_map::context_menu(QPoint point)
       struct extra_type *tgt;
 
       if (cause != EC_NONE) {
-        tgt = next_extra_for_tile(ptile, cause, city_owner(mcity), NULL);
+        tgt = next_extra_for_tile(ptile, cause, city_owner(mcity), nullptr);
       } else if (rmcause != ERM_NONE) {
-        tgt = prev_extra_in_tile(ptile, rmcause, city_owner(mcity), NULL);
+        tgt = prev_extra_in_tile(ptile, rmcause, city_owner(mcity), nullptr);
       } else {
-        tgt = NULL;
+        tgt = nullptr;
       }
 
-      if (tgt != NULL) {
+      if (tgt != nullptr) {
         task.tgt = extra_index(tgt);
       } else {
         task.tgt = -1;
@@ -1516,7 +1516,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
 
   setMouseTracking(true);
   selected_row_p = -1;
-  dlgcity = NULL;
+  dlgcity = nullptr;
   lcity_name = new QPushButton(this);
   lcity_name->setToolTip(_("Click to change city name"));
 
@@ -1565,7 +1565,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
 
   connect(lcity_name, &QAbstractButton::clicked, this, &city_dialog::city_rename);
   citizens_label = new city_label(FEELING_FINAL, this);
-  citizen_pixmap = NULL;
+  citizen_pixmap = nullptr;
   view = new city_map(this);
 
   zoom_vbox = new QVBoxLayout();
@@ -2120,8 +2120,10 @@ void city_dialog::show_happiness()
 ****************************************************************************/
 void city_dialog::update_disabled()
 {
-  if (NULL == client.conn.playing
-      || city_owner(dlgcity) != client.conn.playing) {
+  struct player *pplayer = client_player();
+
+  if (pplayer == nullptr
+      || city_owner(dlgcity) != pplayer) {
     prev_city_but->setDisabled(true);
     next_city_but->setDisabled(true);
     buy_button->setDisabled(true);
@@ -2130,9 +2132,6 @@ void city_dialog::update_disabled()
     current_units->setDisabled(true);
     supported_units->setDisabled(true);
     view->setDisabled(true);
-
-    if (!client_is_observer()) {
-    }
   } else {
     prev_city_but->setEnabled(true);
     next_city_but->setEnabled(true);
@@ -2158,12 +2157,15 @@ void city_dialog::update_disabled()
 ****************************************************************************/
 void city_dialog::update_prod_buttons()
 {
+  struct player *pplayer = client_player();
+
   work_next_but->setDisabled(true);
   work_prev_but->setDisabled(true);
   work_add_but->setDisabled(true);
   work_rem_but->setDisabled(true);
 
-  if (client.conn.playing && city_owner(dlgcity) == client.conn.playing) {
+  if (pplayer != nullptr
+      && city_owner(dlgcity) == pplayer) {
     work_add_but->setEnabled(true);
 
     if (selected_row_p >= 0 && selected_row_p < p_table_p->rowCount()) {
@@ -2379,7 +2381,7 @@ void city_dialog::save_cma()
 ****************************************************************************/
 void city_dialog::cma_enable()
 {
-  if (cma_is_city_under_agent(dlgcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
     cma_release_city(dlgcity);
 
     return;
@@ -2421,7 +2423,7 @@ void city_dialog::cma_double_clicked(int row, int column)
     return;
   }
   param = cmafec_preset_get_parameter(row);
-  if (cma_is_city_under_agent(dlgcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
     cma_release_city(dlgcity);
   }
 
@@ -2453,7 +2455,7 @@ void city_dialog::cma_selected(const QItemSelection &sl,
   param = cmafec_preset_get_parameter(ind);
   update_sliders();
 
-  if (cma_is_city_under_agent(dlgcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
     cma_release_city(dlgcity);
     cma_put_city_under_agent(dlgcity, param);
   }
@@ -2539,7 +2541,7 @@ void city_dialog::update_cma_tab()
     cma_table->setItem(0, 0, item);
   }
 
-  if (cma_is_city_under_agent(dlgcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
     view->update();
     s = QString(cmafec_get_short_descr_of_city(dlgcity));
     pix = style()->standardPixmap(QStyle::SP_DialogApplyButton);
@@ -2561,7 +2563,7 @@ void city_dialog::update_cma_tab()
     cma_result->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   }
 
-  if (cma_is_city_under_agent(dlgcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
     cmafec_get_fe_parameter(dlgcity, &param);
     i = cmafec_preset_get_index_of_parameter(const_cast <struct
                                              cm_parameter *const >(&param));
@@ -2610,7 +2612,7 @@ void city_dialog::cma_remove()
 ****************************************************************************/
 void city_dialog::cma_toggle_changed(int val)
 {
-  if (cma_is_city_under_agent(dlgcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
     cma_changed();
     update_cma_tab();
   }
@@ -2635,7 +2637,7 @@ void city_dialog::cma_slider(int value)
   label = reinterpret_cast<QLabel *>(qvar.value<void *>());
   label->setText(QString::number(value));
 
-  if (cma_is_city_under_agent(dlgcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
     cma_changed();
     update_cma_tab();
   }
@@ -2788,15 +2790,16 @@ void city_dialog::update_buy_button()
 {
   QString str;
   int value;
+  struct player *pplayer = client_player();
 
   buy_button->setDisabled(true);
 
-  if (!client_is_observer() && client.conn.playing != NULL) {
+  if (!client_is_observer() && pplayer != nullptr) {
     value = dlgcity->client.buy_cost;
     str = QString(PL_("Buy (%1 gold)", "Buy (%1 gold)",
                       value)).arg(QString::number(value));
 
-    if (client.conn.playing->economic.gold >= value && value != 0) {
+    if (pplayer->economic.gold >= value && value != 0) {
       buy_button->setEnabled(true);
     }
   } else {
@@ -2929,7 +2932,7 @@ void city_dialog::update_nation_table()
 {
   QFont f = QApplication::font();
   QFontMetrics fm(f);
-  QPixmap *pix = NULL;
+  QPixmap *pix = nullptr;
   QPixmap pix_scaled;
   QString str;
   QStringList info_list;
@@ -2972,7 +2975,7 @@ void city_dialog::update_nation_table()
                                         nation_of_player
                                         (player_slot_get_player(pslot)));
 
-        if (sprite != NULL) {
+        if (sprite != nullptr) {
           pix = sprite->pm;
           pix_scaled = pix->scaledToHeight(h);
           item->setData(Qt::DecorationRole, pix_scaled);
@@ -3090,7 +3093,7 @@ void city_dialog::update_info_label()
     fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]),
                 "  -.-");
   } else {
-    illness = city_illness_calc(dlgcity, NULL, NULL, NULL, NULL);
+    illness = city_illness_calc(dlgcity, nullptr, nullptr, nullptr, nullptr);
     // Illness is in tenth of percent
     fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]),
                 "%5.1f%%", (float) illness / 10.0);
@@ -3164,11 +3167,13 @@ void city_dialog::update_units()
   int n;
   int happy_cost;
   int free_unhappy = get_city_bonus(dlgcity, EFT_MAKE_CONTENT_MIL);
+  struct player *pplayer = client_player();
+
   supported_units->setUpdatesEnabled(false);
   supported_units->clear_layout();
 
-  if (NULL != client.conn.playing
-      && city_owner(dlgcity) != client.conn.playing) {
+  if (pplayer != nullptr
+      && city_owner(dlgcity) != pplayer) {
     units = dlgcity->client.info_units_supported;
   } else {
     units = dlgcity->units_supported;
@@ -3188,8 +3193,8 @@ void city_dialog::update_units()
   current_units->setUpdatesEnabled(true);
   current_units->clear_layout();
 
-  if (NULL != client.conn.playing
-      && city_owner(dlgcity) != client.conn.playing) {
+  if (pplayer != nullptr
+      && city_owner(dlgcity) != pplayer) {
     units = dlgcity->client.info_units_present;
   } else {
     units = dlgcity->tile->units;
@@ -3233,29 +3238,30 @@ void city_dialog::item_selected(const QItemSelection &sl,
 void city_dialog::next_city()
 {
   int size, i;
-  struct city *other_pcity = NULL;
+  struct city *other_pcity = nullptr;
+  struct player *pplayer = client_player();
 
-  if (NULL == client.conn.playing) {
+  if (pplayer == nullptr) {
     return;
   }
 
-  size = city_list_size(client.conn.playing->cities);
+  size = city_list_size(pplayer->cities);
 
   if (size <= 1) {
     return;
   }
 
   for (i = 0; i < size; i++) {
-    if (dlgcity == city_list_get(client.conn.playing->cities, i)) {
+    if (dlgcity == city_list_get(pplayer->cities, i)) {
       break;
     }
   }
 
   if (i >= size - 1) {
     // Current city last in the list (size - 1) or disappeared (size)
-    other_pcity = city_list_get(client.conn.playing->cities, 0);
+    other_pcity = city_list_get(pplayer->cities, 0);
   } else {
-    other_pcity = city_list_get(client.conn.playing->cities, i + 1);
+    other_pcity = city_list_get(pplayer->cities, i + 1);
   }
 
   center_tile_mapcanvas(other_pcity->tile);
@@ -3268,29 +3274,30 @@ void city_dialog::next_city()
 void city_dialog::prev_city()
 {
   int size, i;
-  struct city *other_pcity = NULL;
+  struct city *other_pcity = nullptr;
+  struct player *pplayer = client_player();
 
-  if (NULL == client.conn.playing) {
+  if (pplayer == nullptr) {
     return;
   }
 
-  size = city_list_size(client.conn.playing->cities);
+  size = city_list_size(pplayer->cities);
 
   if (size <= 1) {
     return;
   }
 
   for (i = 0; i < size; i++) {
-    if (dlgcity == city_list_get(client.conn.playing->cities, i)) {
+    if (dlgcity == city_list_get(pplayer->cities, i)) {
       break;
     }
   }
 
   if (i == 0 || i == size) {
     // Current city in the beginning of the list or disappeared
-    other_pcity = city_list_get(client.conn.playing->cities, size - 1);
+    other_pcity = city_list_get(pplayer->cities, size - 1);
   } else {
-    other_pcity = city_list_get(client.conn.playing->cities, i - 1);
+    other_pcity = city_list_get(pplayer->cities, i - 1);
   }
 
   center_tile_mapcanvas(other_pcity->tile);
@@ -3372,7 +3379,7 @@ void city_dialog::update_improvements()
 {
   QFont f = QApplication::font();
   QFontMetrics fm(f);
-  QPixmap *pix = NULL;
+  QPixmap *pix = nullptr;
   QPixmap pix_scaled;
   QString str, tooltip;
   QTableWidgetItem *qitem;
@@ -3417,7 +3424,7 @@ void city_dialog::update_improvements()
 
     if (VUT_UTYPE == target.kind) {
       str = utype_values_translation(target.value.utype);
-      cost = utype_build_shield_cost(dlgcity, NULL, target.value.utype);
+      cost = utype_build_shield_cost(dlgcity, nullptr, target.value.utype);
       tooltip = get_tooltip_unit(target.value.utype, true).trimmed();
       sprite = get_unittype_sprite(get_tileset(), target.value.utype,
                                    ACTIVITY_LAST,
@@ -3859,6 +3866,7 @@ QString get_tooltip_improvement(const impr_type *building, struct city *pcity,
   QString upkeep;
   QString s1, s2, str;
   const char *req = skip_intl_qualifier_prefix(_("?tech:None"));
+  struct player *pplayer = client_player();
 
   if (pcity != nullptr) {
     upkeep = QString::number(city_improvement_upkeep(pcity, building));
@@ -3882,7 +3890,8 @@ QString get_tooltip_improvement(const impr_type *building, struct city *pcity,
                .arg(impr_build_shield_cost(pcity, building))
                .arg(upkeep).toHtmlEscaped();
   } else {
-    int cost_est = impr_estimate_build_shield_cost(client.conn.playing, NULL, building);
+    int cost_est = impr_estimate_build_shield_cost(pplayer,
+                                                   nullptr, building);
 
     def_str += QString(_("Cost Estimate: %1, Upkeep: %2\n"))
                .arg(cost_est)
@@ -3895,8 +3904,8 @@ QString get_tooltip_improvement(const impr_type *building, struct city *pcity,
   if (ext) {
     char buffer[8192];
 
-    str = helptext_building(buffer, sizeof(buffer), client.conn.playing,
-                            NULL, building);
+    str = helptext_building(buffer, sizeof(buffer), pplayer,
+                            nullptr, building);
     str = cut_helptext(str);
     str = split_text(str, true);
     str = str.trimmed();
@@ -3965,7 +3974,7 @@ QString get_tooltip_unit(const struct unit_type *utype, bool ext)
     char buf2[1];
 
     buf2[0] = '\0';
-    str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
+    str = helptext_unit(buffer, sizeof(buffer), client_player(),
                         buf2, utype);
     str = cut_helptext(str);
     str = split_text(str, true);
@@ -3986,22 +3995,23 @@ QString get_tooltip(QVariant qvar)
   char buffer[8192];
   char buf2[1];
   struct universal *target;
+  struct player *pplayer = client_player();
 
   buf2[0] = '\0';
   target = reinterpret_cast<universal *>(qvar.value<void *>());
 
-  if (target == NULL) {
+  if (target == nullptr) {
   } else if (VUT_UTYPE == target->kind) {
     def_str = get_tooltip_unit(target->value.utype);
-    str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
+    str = helptext_unit(buffer, sizeof(buffer), pplayer,
                         buf2, target->value.utype);
   } else {
     if (!is_convert_improvement(target->value.building)) {
       def_str = get_tooltip_improvement(target->value.building);
     }
 
-    str = helptext_building(buffer, sizeof(buffer), client.conn.playing,
-                            NULL, target->value.building);
+    str = helptext_building(buffer, sizeof(buffer), pplayer,
+                            nullptr, target->value.building);
   }
 
   // Remove all lines from help which has '*' in first 3 chars
@@ -4066,7 +4076,7 @@ void city_production_delegate::paint(QPainter *painter,
 
   target = reinterpret_cast<universal *>(qvar.value<void *>());
 
-  if (target == NULL) {
+  if (target == nullptr) {
     col.qcolor = Qt::white;
     sprite = qtg_create_sprite(100, 100, &col);
     free_sprite = true;
@@ -4111,7 +4121,7 @@ void city_production_delegate::paint(QPainter *painter,
     is_coinage = improvement_has_flag(target->value.building, IF_GOLD);
   }
 
-  if (sprite != NULL) {
+  if (sprite != nullptr) {
     pix = sprite->pm;
     pix_scaled = pix->scaledToHeight(item_height - 2, Qt::SmoothTransformation);
 
@@ -4211,7 +4221,7 @@ production_item::production_item(struct universal *ptarget,
 production_item::~production_item()
 {
   // Allocated as renegade in model
-  if (target != NULL) {
+  if (target != nullptr) {
     delete target;
   }
 }
@@ -4508,7 +4518,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
     return;
   }
   target = reinterpret_cast<universal *>(qvar.value<void *>());
-  if (target != NULL) {
+  if (target != nullptr) {
     city_get_queue(pw_city, &queue);
     switch (when_change) {
     case 0: // Change current target

@@ -47,7 +47,7 @@
 
 #include "mpgui_qt.h"
 
-struct fcmp_params fcmp = { MODPACK_LIST_URL, NULL, NULL };
+struct fcmp_params fcmp = { MODPACK_LIST_URL, nullptr, nullptr };
 
 static mpgui *gui;
 

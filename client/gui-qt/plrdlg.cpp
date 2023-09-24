@@ -326,12 +326,12 @@ bool plr_sorter::lessThan(const QModelIndex &left,
 {
   struct player_dlg_column *column = &(player_dlg_columns[left.column()]);
 
-  if (column->sort_func != NULL) {
+  if (column->sort_func != nullptr) {
     int li = left.row();
     int ri = right.row();
     int i = 0;
-    struct player *lplr = NULL;
-    struct player *rplr = NULL;
+    struct player *lplr = nullptr;
+    struct player *rplr = nullptr;
 
     // Duplicates populate() logic to find player matching index
     players_iterate(pplayer) {
@@ -362,7 +362,7 @@ bool plr_sorter::lessThan(const QModelIndex &left,
 plr_widget::plr_widget(plr_report *pr): QTreeView()
 {
   plr = pr;
-  other_player = NULL;
+  other_player = nullptr;
   selected_player = nullptr;
   pid = new plr_item_delegate(this);
   setItemDelegate(pid);
@@ -516,7 +516,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   QString rule;
   bool intel;
 
-  other_player = NULL;
+  other_player = nullptr;
   intel_str.clear();
   tech_str.clear();
   ally_str.clear();
@@ -740,12 +740,12 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       if (wonder_is_built(pplayer, impr)) {
         struct city *wcity = city_from_wonder(pplayer, impr);
 
-        if (wcity != NULL) {
+        if (wcity != nullptr) {
           cityname = city_name_get(wcity);
         } else {
           cityname = _("(unknown city)");
         }
-        if (improvement_obsolete(pplayer, impr, NULL)) {
+        if (improvement_obsolete(pplayer, impr, nullptr)) {
           notes = _(" (obsolete)");
         }
       } else if (wonder_is_lost(pplayer, impr)) {
@@ -1072,6 +1072,7 @@ void plr_report::update_report(bool update_selection)
 {
   QModelIndex qmi;
   int player_count = 0;
+  struct player *cplayer;
 
   /* First make sure number of rows is correct - there can be new
    * nations because of civil war. We don't want our actions to
@@ -1106,15 +1107,17 @@ void plr_report::update_report(bool update_selection)
   tech_label->setText(plr_wdg->tech_str);
   wonder_label->setText(plr_wdg->wonder_str);
   other_player = plr_wdg->other_player;
-  if (other_player == NULL || !can_client_issue_orders()) {
+  if (other_player == nullptr || !can_client_issue_orders()) {
     return;
   }
-  if (NULL != client.conn.playing) {
-    if (other_player != client.conn.playing) {
+
+  cplayer = client_player();
+  if (cplayer != nullptr) {
+    if (other_player != cplayer) {
 
       // We keep button sensitive in case of DIPL_SENATE_BLOCKING, so that player
       // can request server side to check requirements of those effects with omniscience
-      if (pplayer_can_cancel_treaty(client_player(), other_player) != DIPL_ERROR) {
+      if (pplayer_can_cancel_treaty(cplayer, other_player) != DIPL_ERROR) {
         cancel_but->setEnabled(true);
       }
       toggle_ai_but->setText(_("AI Mode"));
@@ -1124,13 +1127,14 @@ void plr_report::update_report(bool update_selection)
   } else {
     toggle_ai_but->setText(_("AI Mode"));
   }
-  if (gives_shared_vision(client_player(), other_player)
-      && !players_on_same_team(client_player(), other_player)) {
+  if (gives_shared_vision(cplayer, other_player)
+      && !players_on_same_team(cplayer, other_player)) {
     withdraw_but->setEnabled(true);
   }
   if (can_meet_with_player(other_player)) {
     meet_but->setEnabled(true);
   }
+
   plr_wdg->restore_selection();
 }
 

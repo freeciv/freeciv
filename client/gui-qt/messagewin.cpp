@@ -261,7 +261,7 @@ void messagewdg::item_selected(const QItemSelection &sl,
   index = indexes.at(0);
   i = index.row();
   pmsg = meswin_get_message(i);
-  if (i > -1 && pmsg != NULL) {
+  if (i > -1 && pmsg != nullptr) {
     if (QApplication::mouseButtons() == Qt::LeftButton
         || QApplication::mouseButtons() == Qt::RightButton) {
       meswin_set_visited_state(i, true);
@@ -355,7 +355,7 @@ void messagewdg::msg(const struct message *pmsg)
     item->setFont(f);
   }
   icon = get_event_sprite(tileset, pmsg->event);
-  if (icon != NULL) {
+  if (icon != nullptr) {
     pix = icon->pm;
     item->setIcon(QIcon(*pix));
   }
@@ -406,7 +406,7 @@ void real_meswin_dialog_update(void *unused)
   int i, num;
   const struct message *pmsg;
 
-  if (gui()->infotab == NULL) {
+  if (gui()->infotab == nullptr) {
     return;
   }
   gui()->infotab->msgwdg->clr();

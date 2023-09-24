@@ -88,13 +88,15 @@ void trade_generator::add_all_cities()
 {
   int i, s;
   struct city *pcity;
+  struct player *pplayer = client_player();
+
   clear_trade_planing();
-  s = city_list_size(client.conn.playing->cities);
+  s = city_list_size(pplayer->cities);
   if (s == 0) {
     return;
   }
   for (i = 0; i < s; i++) {
-    pcity = city_list_get(client.conn.playing->cities, i);
+    pcity = city_list_get(pplayer->cities, i);
     add_city(pcity);
   }
 }
@@ -551,7 +553,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   struct tile *newtile = tile_virtual_new(ptile);
   const char *text;
 
-  tile_apply_activity(newtile, activity, NULL);
+  tile_apply_activity(newtile, activity, nullptr);
   text = tile_get_info_text(newtile, FALSE, 0);
   tile_virtual_destroy(newtile);
 
@@ -634,11 +636,11 @@ void gov_menu::update()
     gov = government_by_number(i);
     if (gov != revol_gov) { // Skip revolution goverment
       sprite = get_government_sprite(tileset, gov);
-      if (sprite != NULL) {
+      if (sprite != nullptr) {
         actions[j + 1]->setIcon(QIcon(*(sprite->pm)));
       }
       actions[j + 1]->setEnabled(
-        can_change_to_government(client.conn.playing, gov));
+        can_change_to_government(client_player(), gov));
       j++;
     } else {
       actions[0]->setEnabled(!client_is_observer()
@@ -1871,19 +1873,22 @@ void mr_menu::update_airlift_menu()
 {
   Unit_type_id utype_id;
   QAction *act;
+  struct player *pplayer;
 
   airlift_menu->clear();
   if (client_is_observer()) {
     return;
   }
+
+  pplayer = client_player();
   unit_type_iterate(utype) {
     utype_id = utype_index(utype);
 
-    if (!can_player_build_unit_now(client.conn.playing, utype)
+    if (!can_player_build_unit_now(pplayer, utype)
         || !utype_can_do_action(utype, ACTION_AIRLIFT)) {
       continue;
     }
-    if (!can_player_build_unit_now(client.conn.playing, utype)
+    if (!can_player_build_unit_now(pplayer, utype)
         && !has_player_unit_type(utype_id)) {
       continue;
     }
@@ -2008,8 +2013,8 @@ void mr_menu::menus_sensitive()
   bool any_cities = false;
   bool city_on_tile = false;
   bool units_all_same_tile = true;
-  const struct tile *ptile = NULL;
-  const struct unit_type *ptype = NULL;
+  const struct tile *ptile = nullptr;
+  const struct unit_type *ptype = nullptr;
 
   players_iterate(pplayer) {
     if (city_list_size(pplayer->cities)) {
@@ -2093,7 +2098,7 @@ void mr_menu::menus_sensitive()
   unit_list_iterate(punits, punit) {
     const struct unit_type *ntype;
 
-    fc_assert((ptile == NULL) == (ptype == NULL));
+    fc_assert((ptile == nullptr) == (ptype == nullptr));
 
     ntype = unit_type_get(punit);
 
@@ -2154,19 +2159,19 @@ void mr_menu::menus_sensitive()
 
         if (units_all_same_tile) {
           if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
-            struct extra_type *pextra = NULL;
+            struct extra_type *pextra = nullptr;
 
             /* FIXME: this overloading doesn't work well with multiple focus
              * units. */
             unit_list_iterate(punits, builder) {
               pextra = next_extra_for_tile(unit_tile(builder), EC_MINE,
                                            unit_owner(builder), builder);
-              if (pextra != NULL) {
+              if (pextra != nullptr) {
                 break;
               }
             } unit_list_iterate_end;
 
-            if (pextra != NULL) {
+            if (pextra != nullptr) {
               i.value()->setText(
                 // TRANS: Build mine of specific type
                 QString(_("Build %1"))
@@ -2187,19 +2192,19 @@ void mr_menu::menus_sensitive()
         }
         if (units_all_same_tile) {
           if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
-            struct extra_type *pextra = NULL;
+            struct extra_type *pextra = nullptr;
 
             /* FIXME: this overloading doesn't work well with multiple focus
              * units. */
             unit_list_iterate(punits, builder) {
               pextra = next_extra_for_tile(unit_tile(builder), EC_IRRIGATION,
                                            unit_owner(builder), builder);
-              if (pextra != NULL) {
+              if (pextra != nullptr) {
                 break;
               }
             } unit_list_iterate_end;
 
-            if (pextra != NULL) {
+            if (pextra != nullptr) {
               i.value()->setText(
                 // TRANS: Build irrigation of specific type
                 QString(_("Build %1"))
@@ -2393,7 +2398,7 @@ void mr_menu::menus_sensitive()
         break;
       case CONNECT_ROAD:
         proad = road_by_gui_type(ROAD_GUI_ROAD);
-        if (proad != NULL) {
+        if (proad != nullptr) {
           tgt = road_extra_get(proad);
         } else {
           break;
@@ -2411,7 +2416,7 @@ void mr_menu::menus_sensitive()
 
       case CONNECT_RAIL:
         proad = road_by_gui_type(ROAD_GUI_RAILROAD);
-        if (proad != NULL) {
+        if (proad != nullptr) {
           tgt = road_extra_get(proad);
         } else {
           break;
@@ -2423,7 +2428,7 @@ void mr_menu::menus_sensitive()
 
       case CONNECT_MAGLEV:
         proad = road_by_gui_type(ROAD_GUI_MAGLEV);
-        if (proad != NULL) {
+        if (proad != nullptr) {
           tgt = road_extra_get(proad);
         } else {
           break;
@@ -2517,8 +2522,10 @@ void mr_menu::slot_show_research_tab()
 **************************************************************************/
 void mr_menu::slot_spaceship()
 {
-  if (NULL != client.conn.playing) {
-    popup_spaceship_dialog(client.conn.playing);
+  struct player *pplayer = client_player();
+
+  if (pplayer != nullptr) {
+    popup_spaceship_dialog(pplayer);
   }
 }
 
@@ -2591,7 +2598,7 @@ void mr_menu::slot_clean()
     pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEAN,
                                 unit_owner(punit), punit);
 
-    if (pextra != NULL) {
+    if (pextra != nullptr) {
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN, pextra);
     }
   } unit_list_iterate_end;
@@ -2620,7 +2627,7 @@ void mr_menu::slot_conn_rail()
 {
   struct road_type *prail = road_by_gui_type(ROAD_GUI_RAILROAD);
 
-  if (prail != NULL) {
+  if (prail != nullptr) {
     struct extra_type *tgt;
 
     tgt = road_extra_get(prail);
@@ -2635,7 +2642,7 @@ void mr_menu::slot_conn_maglev()
 {
   struct road_type *pmaglev = road_by_gui_type(ROAD_GUI_MAGLEV);
 
-  if (pmaglev != NULL) {
+  if (pmaglev != nullptr) {
     struct extra_type *tgt;
 
     tgt = road_extra_get(pmaglev);
@@ -2666,7 +2673,7 @@ void mr_menu::slot_conn_road()
 {
   struct road_type *proad = road_by_gui_type(ROAD_GUI_ROAD);
 
-  if (proad != NULL) {
+  if (proad != nullptr) {
     struct extra_type *tgt;
 
     tgt = road_extra_get(proad);
@@ -2732,7 +2739,7 @@ void mr_menu::slot_build_road()
                                                  punit);
     bool building_road = false;
 
-    if (tgt != NULL
+    if (tgt != nullptr
         && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
       building_road = true;
@@ -2960,11 +2967,11 @@ void mr_menu::slot_delayed_goto()
     return;
   }
   if (hover_state != HOVER_GOTO) {
-    set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
+    set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, nullptr,
                     NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
-    control_mouse_cursor(NULL);
+    control_mouse_cursor(nullptr);
   }
   unit_list_iterate(get_units_in_focus(), punit) {
     i++;
@@ -3612,7 +3619,7 @@ void mr_menu::messages_options()
 **************************************************************************/
 void mr_menu::save_options_now()
 {
-  options_save(NULL);
+  options_save(nullptr);
 }
 
 /**********************************************************************//**
@@ -3678,7 +3685,7 @@ void mr_menu::save_image()
 **************************************************************************/
 void mr_menu::save_game()
 {
-  send_save_game(NULL);
+  send_save_game(nullptr);
 }
 
 /**********************************************************************//**
@@ -3755,7 +3762,8 @@ bool mr_menu::confirm_disruptive_selection()
 void multiairlift(struct city *acity, Unit_type_id ut)
 {
   struct tile *ptile;
-  city_list_iterate(client.conn.playing->cities, pcity) {
+
+  city_list_iterate(client_player()->cities, pcity) {
     if (get_city_bonus(pcity, EFT_AIRLIFT) > 0) {
       ptile = city_tile(pcity);
       unit_list_iterate(ptile->units, punit) {

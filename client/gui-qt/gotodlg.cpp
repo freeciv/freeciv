@@ -224,7 +224,7 @@ void goto_dialog::show_me()
     final_p.setY(height());
   }
   move(final_p.x(), final_p.y() - height());
-  if (original_tile == NULL) {
+  if (original_tile == nullptr) {
     init();
   }
   show();
@@ -267,7 +267,7 @@ void goto_dialog::fill_tab(player *pplayer)
   QPixmap *pix;
   QPixmap pix_scaled;
   QTableWidgetItem *item;
-  unit *punit = NULL;
+  unit *punit = nullptr;
   int rnum = 0;
   int rvalue = 0;
   enum route_direction rdir = RDIR_NONE;
@@ -291,7 +291,7 @@ void goto_dialog::fill_tab(player *pplayer)
 
       case GOTODLG_NATION:
         sprite = get_nation_flag_sprite(tileset, nation_of_player(pplayer));
-        if (sprite != NULL) {
+        if (sprite != nullptr) {
           pix = sprite->pm;
           pix_scaled = pix->scaledToHeight(h);
           item->setData(Qt::DecorationRole, pix_scaled);
@@ -312,7 +312,7 @@ void goto_dialog::fill_tab(player *pplayer)
 
       case GOTODLG_AIRLIFT:
         at = get_airlift_text(get_units_in_focus(), pcity);
-        if (at == NULL) {
+        if (at == nullptr) {
           str = "-";
         } else {
           str = at;
@@ -329,7 +329,7 @@ void goto_dialog::fill_tab(player *pplayer)
 
       case GOTODLG_DISTANCE:
         punit = head_of_units_in_focus();
-        if (punit == NULL) {
+        if (punit == nullptr) {
           str = "-";
           item->setTextAlignment(Qt::AlignHCenter);
         } else {
@@ -346,7 +346,7 @@ void goto_dialog::fill_tab(player *pplayer)
         rvalue = 0;
         rdir = RDIR_NONE;
         rdir_value = 0;
-        if (punit != NULL) {
+        if (punit != nullptr) {
           trade_routes_iterate(pcity, proute) {
             rnum++;
             rvalue += proute->value;

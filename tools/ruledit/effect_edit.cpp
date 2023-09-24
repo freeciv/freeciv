@@ -258,13 +258,13 @@ void effect_edit::fill_active()
   if (selected != nullptr) {
     edit_type_button->setText(effect_type_name(selected->type));
     value_box->setValue(selected->value);
-    if (selected->multiplier != NULL) {
+    if (selected->multiplier != nullptr) {
       mp_button->setText(multiplier_rule_name(selected->multiplier));
     } else {
       mp_button->setText(NO_MULTIPLIER_NAME);
     }
 
-    if (selected->rulesave.comment == NULL) {
+    if (selected->rulesave.comment == nullptr) {
       comment->setText("");
     } else {
       comment->setText(selected->rulesave.comment);
@@ -332,7 +332,7 @@ void effect_edit::closeEvent(QCloseEvent *event)
 **************************************************************************/
 void effect_edit::add_now()
 {
-  struct effect *peffect = effect_new((enum effect_type)0, 0, NULL);
+  struct effect *peffect = effect_new((enum effect_type)0, 0, nullptr);
 
   if (filter.kind != VUT_NONE) {
     struct requirement req;
@@ -372,7 +372,7 @@ void effect_edit::multiplier_menu(QAction *action)
   }
 
   if (!fc_strcasecmp(NO_MULTIPLIER_NAME, an_bytes)) {
-    selected->multiplier = NULL;
+    selected->multiplier = nullptr;
   } else {
     selected->multiplier = multiplier_by_rule_name(an_bytes);
   }
@@ -386,14 +386,14 @@ void effect_edit::multiplier_menu(QAction *action)
 void effect_edit::comment_given()
 {
   if (selected != nullptr) {
-    if (selected->rulesave.comment != NULL) {
+    if (selected->rulesave.comment != nullptr) {
       free(selected->rulesave.comment);
     }
 
     if (!comment->text().isEmpty()) {
       selected->rulesave.comment = fc_strdup(comment->text().toUtf8());
     } else {
-      selected->rulesave.comment = NULL;
+      selected->rulesave.comment = nullptr;
     }
 
     fill_active();

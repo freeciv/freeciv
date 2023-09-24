@@ -90,7 +90,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   PWSTR folder_path;
 
   if (SHGetKnownFolderPath(FOLDERID_Documents, KF_FLAG_DEFAULT,
-                           NULL, &folder_path) == S_OK) {
+                           nullptr, &folder_path) == S_OK) {
     savedir->setText(QString::fromWCharArray(folder_path) + "\\ruledit-tmp");
   } else {
     savedir->setText("ruledit-tmp");
@@ -250,7 +250,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
 **************************************************************************/
 void tab_misc::ruleset_loaded()
 {
-  if (game.server.ruledit.description_file != NULL) {
+  if (game.server.ruledit.description_file != nullptr) {
     desc_via_file->setChecked(true);
     desc_file->setText(game.server.ruledit.description_file);
   } else {
@@ -292,7 +292,7 @@ void tab_misc::save_now()
   strncpy(game.control.version, ba_bytes.data(),
           sizeof(game.control.version) - 1);
 
-  if (!autoadjust_ruleset_data() || !sanity_check_ruleset_data(NULL)) {
+  if (!autoadjust_ruleset_data() || !sanity_check_ruleset_data(nullptr)) {
     QMessageBox *box = new QMessageBox();
 
     box->setText("Current data fails sanity checks. Save anyway?");
@@ -519,10 +519,10 @@ void tab_misc::flush_widgets()
     df_bytes = desc_file->text().toUtf8();
     game.server.ruledit.description_file = fc_strdup(df_bytes.data());
   } else {
-    if (game.server.ruledit.description_file != NULL) {
+    if (game.server.ruledit.description_file != nullptr) {
       free(game.server.ruledit.description_file);
     }
-    game.server.ruledit.description_file = NULL;
+    game.server.ruledit.description_file = nullptr;
   }
 }
 

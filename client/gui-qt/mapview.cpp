@@ -1029,7 +1029,7 @@ void fc_client::update_info_label(void)
                       client_warming_sprite(),
                       client_cooling_sprite(), client_government_sprite());
 
-  if (client.conn.playing != NULL) {
+  if (client.conn.playing != nullptr) {
     if (player_get_expected_income(client.conn.playing) > 0) {
       eco_info = QString(_("%1 (+%2)"))
                  .arg(QString::number(client.conn.playing->economic.gold),
@@ -1055,7 +1055,7 @@ void fc_client::update_info_label(void)
   and the tile under the current unit, for specified unit.  Note that
   in practice punit is always the focus unit.
 
-  Clears label if punit is NULL.
+  Clears label if punit is nullptr.
 
   Typically also updates the cursor for the map_canvas (this is
   related because the info label may includes "select destination"
@@ -1120,7 +1120,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 struct canvas *get_overview_window(void)
 {
   gui()->minimapview_wdg->update_image();
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**

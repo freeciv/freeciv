@@ -28,7 +28,7 @@
 static const char **gfx_array_extensions = nullptr;
 
 /************************************************************************//**
-  Return a NULL-terminated, permanently allocated array of possible
+  Return a nullptr-terminated, permanently allocated array of possible
   graphics types extensions.  Extensions listed first will be checked
   first.
 ****************************************************************************/
@@ -54,7 +54,7 @@ const char **gfx_fileextensions(void)
     gfx_array_extensions[j] = ext;
     j++;
   }
-  gfx_array_extensions[j] = NULL;
+  gfx_array_extensions[j] = nullptr;
 
   return gfx_array_extensions;
 }
@@ -115,10 +115,10 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
   int heightzoom;
   int hex = 0;
 
-  fc_assert_ret_val(source, NULL);
+  fc_assert_ret_val(source, nullptr);
 
   if (!width || !height) {
-    return NULL;
+    return nullptr;
   }
   if (scale != 1.0f && (tileset_hex_height(tileset) > 0
       || tileset_hex_width(tileset) > 0)) {

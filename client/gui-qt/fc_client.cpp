@@ -81,47 +81,47 @@ fc_client::fc_client() : QMainWindow()
    * were created.
    * After adding new QObjects null them here.
    */
-  main_wdg = NULL;
-  connect_lan = NULL;
-  connect_metaserver = NULL;
-  central_layout = NULL;
-  output_window = NULL;
-  scenarios_view = NULL;
-  connect_host_edit = NULL;
-  connect_port_edit = NULL;
-  connect_login_edit = NULL;
-  connect_password_edit = NULL;
-  connect_confirm_password_edit = NULL;
-  button = NULL;
-  button_box = NULL;
-  server_notifier = NULL;
-  chat_line = NULL;
-  lan_widget = NULL;
-  wan_widget = NULL;
-  info_widget = NULL;
-  saves_load = NULL;
-  scenarios_load = NULL;
-  meta_scan_timer = NULL;
-  lan_scan_timer = NULL;
-  status_bar = NULL;
-  status_bar_label = NULL;
-  menu_bar = NULL;
-  mapview_wdg = NULL;
+  main_wdg = nullptr;
+  connect_lan = nullptr;
+  connect_metaserver = nullptr;
+  central_layout = nullptr;
+  output_window = nullptr;
+  scenarios_view = nullptr;
+  connect_host_edit = nullptr;
+  connect_port_edit = nullptr;
+  connect_login_edit = nullptr;
+  connect_password_edit = nullptr;
+  connect_confirm_password_edit = nullptr;
+  button = nullptr;
+  button_box = nullptr;
+  server_notifier = nullptr;
+  chat_line = nullptr;
+  lan_widget = nullptr;
+  wan_widget = nullptr;
+  info_widget = nullptr;
+  saves_load = nullptr;
+  scenarios_load = nullptr;
+  meta_scan_timer = nullptr;
+  lan_scan_timer = nullptr;
+  status_bar = nullptr;
+  status_bar_label = nullptr;
+  menu_bar = nullptr;
+  mapview_wdg = nullptr;
   sidebar_wdg = nullptr;
-  msgwdg = NULL;
-  infotab = NULL;
-  central_wdg = NULL;
-  game_tab_widget = NULL;
-  start_players_tree = NULL;
-  unit_sel = NULL;
+  msgwdg = nullptr;
+  infotab = nullptr;
+  central_wdg = nullptr;
+  game_tab_widget = nullptr;
+  start_players_tree = nullptr;
+  unit_sel = nullptr;
   info_tile_wdg = nullptr;
-  opened_dialog = NULL;
+  opened_dialog = nullptr;
   current_file = "";
   status_bar_queue.clear();
   quitting = false;
-  pre_vote = NULL;
-  x_vote = NULL;
-  gtd = NULL;
+  pre_vote = nullptr;
+  x_vote = nullptr;
+  gtd = nullptr;
   update_info_timer = nullptr;
   unitinfo_wdg = nullptr;
   battlelog_wdg = nullptr;
@@ -129,8 +129,8 @@ fc_client::fc_client() : QMainWindow()
   map_scale = 1.0f;
   map_font_scale = true;
   for (int i = 0; i <= PAGE_GAME; i++) {
-    pages_layout[i] = NULL;
-    pages[i] = NULL;
+    pages_layout[i] = nullptr;
+    pages[i] = nullptr;
   }
 
   wtitle = _("Freeciv (%1)");
@@ -264,7 +264,7 @@ void fc_client::fc_main(QApplication *qapp)
   qRegisterMetaType<QTextCursor>("QTextCursor");
   qRegisterMetaType<QTextBlock>("QTextBlock");
   fc_allocate_ow_mutex();
-  real_output_window_append(_("This is Qt-client for Freeciv."), NULL, -1);
+  real_output_window_append(_("This is Qt-client for Freeciv."), nullptr, -1);
   fc_release_ow_mutex();
   chat_welcome_message(true);
 
@@ -312,7 +312,7 @@ void fc_client::chat_message_received(const QString &message,
   QColor col = output_window->palette().color(QPalette::Text);
   QString str = apply_tags(message, tags, col);
 
-  if (output_window != NULL) {
+  if (output_window != nullptr) {
     output_window->append(str);
     output_window->verticalScrollBar()->setSliderPosition(
                               output_window->verticalScrollBar()->maximum());
@@ -621,7 +621,7 @@ bool fc_client::is_repo_dlg_open(QString str)
 
   w = opened_repo_dlgs.value(str);
 
-  if (w == NULL) {
+  if (w == nullptr) {
     return false;
   }
 
@@ -832,7 +832,7 @@ void fc_client::write_settings()
 ****************************************************************************/
 void fc_client::toggle_unit_sel_widget(struct tile *ptile)
 {
-  if (unit_sel != NULL) {
+  if (unit_sel != nullptr) {
     unit_sel->close();
     delete unit_sel;
     unit_sel = new units_select(ptile, gui()->mapview_wdg);
@@ -848,7 +848,7 @@ void fc_client::toggle_unit_sel_widget(struct tile *ptile)
 ****************************************************************************/
 void fc_client::update_unit_sel()
 {
-  if (unit_sel != NULL) {
+  if (unit_sel != nullptr) {
     unit_sel->update_units();
     unit_sel->create_pixmap();
     unit_sel->update();

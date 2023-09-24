@@ -659,7 +659,7 @@ void update_turn_done_tooltip()
 {
   struct option *opt = optset_option_by_name(server_optset, "fixedlength");
 
-  if (opt != NULL && option_bool_get(opt)) {
+  if (opt != nullptr && option_bool_get(opt)) {
     gui()->sw_endturn->setToolTip(_("Fixed length turns"));
   } else {
     char buf[256];

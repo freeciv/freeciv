@@ -143,7 +143,7 @@ unittype_item::unittype_item(QWidget *parent,
   hbox_upkeep->addWidget(&shield_upkeep);
   lab = new QLabel("");
   spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "upkeep.shield",
-                                    "citybar.shields", NULL, "", "", false);
+                                    "citybar.shields", nullptr, "", "", false);
   img = spr->pm->toImage();
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
@@ -164,7 +164,7 @@ unittype_item::unittype_item(QWidget *parent,
   hbox_upkeep->addWidget(&food_upkeep);
   lab = new QLabel("");
   spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "citybar.food",
-                                    "citybar.food", NULL, "", "", false);
+                                    "citybar.food", nullptr, "", "", false);
   img = spr->pm->toImage();
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
@@ -551,8 +551,8 @@ bool comp_less_than(const qlist_item &q1, const qlist_item &q2)
 ****************************************************************************/
 research_diagram::research_diagram(QWidget *parent): QWidget(parent)
 {
-  pcanvas = NULL;
-  req = NULL;
+  pcanvas = nullptr;
+  req = nullptr;
   reset();
   setMouseTracking(true);
 }
@@ -700,10 +700,10 @@ void research_diagram::update_reqtree()
 void research_diagram::reset()
 {
   timer_active = false;
-  if (req != NULL) {
+  if (req != nullptr) {
     destroy_reqtree(req);
   }
-  if (pcanvas != NULL) {
+  if (pcanvas != nullptr) {
     canvas_free(pcanvas);
   }
   req = create_reqtree(client_player(), true);
@@ -771,13 +771,14 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
   QString def_str;
   char buffer[8192];
   char buf2[1];
+  struct player *pplayer = client_player();
 
   buf2[0] = '\0';
   for (i = 0; i < tt_help.count(); i++) {
     rttp = tt_help.at(i);
     if (rttp->rect.contains(event->pos())) {
       if (rttp->tech_id != -1) {
-        helptext_advance(buffer, sizeof(buffer), client.conn.playing,
+        helptext_advance(buffer, sizeof(buffer), pplayer,
                          buf2, rttp->tech_id);
         tt_text = QString(buffer);
         def_str = "<p style='white-space:pre'><b>"
@@ -787,15 +788,15 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       } else if (rttp->timpr != nullptr) {
         def_str = get_tooltip_improvement(rttp->timpr, nullptr);
         tt_text = helptext_building(buffer, sizeof(buffer),
-                                     client.conn.playing, NULL, rttp->timpr);
+                                    pplayer, nullptr, rttp->timpr);
         tt_text = cut_helptext(tt_text);
       } else if (rttp->tunit != nullptr) {
         def_str = get_tooltip_unit(rttp->tunit);
-        tt_text += helptext_unit(buffer, sizeof(buffer), client.conn.playing,
-                                buf2, rttp->tunit);
+        tt_text += helptext_unit(buffer, sizeof(buffer), pplayer,
+                                 buf2, rttp->tunit);
         tt_text = cut_helptext(tt_text);
       } else if (rttp->tgov != nullptr) {
-        helptext_government(buffer, sizeof(buffer), client.conn.playing,
+        helptext_government(buffer, sizeof(buffer), pplayer,
                             buf2, rttp->tgov);
         tt_text = QString(buffer);
         tt_text = cut_helptext(tt_text);
@@ -877,8 +878,8 @@ science_report::science_report(): QWidget()
   res_diag = new research_diagram();
   scroll = new QScrollArea();
 
-  curr_list = NULL;
-  goal_list = NULL;
+  curr_list = nullptr;
+  goal_list = nullptr;
   progress->setTextVisible(true);
   progress_label->setSizePolicy(size_fixed_policy);
   sci_layout->addWidget(progress_label, 0, 0, 1, 8);
@@ -974,7 +975,7 @@ void science_report::update_report()
   struct sprite *sp;
   Tech_type_id ac;
 
-  fc_assert_ret(NULL != research);
+  fc_assert_ret(research != nullptr);
 
   if (curr_list) {
     delete curr_list;
@@ -1164,7 +1165,7 @@ void qtg_real_science_report_dialog_update(void *unused)
   QString str;
   struct player *plr = client_player();
 
-  if (NULL != plr) {
+  if (plr != nullptr) {
     struct research *research = research_get(plr);
 
     if (research->researching == A_UNSET) {
@@ -1298,12 +1299,12 @@ void eco_report::update_report()
     struct improvement_entry *pentry = building_entries + i;
     struct impr_type *pimprove = pentry->type;
 
-    pix = NULL;
+    pix = nullptr;
     sprite = get_building_sprite(tileset, pimprove);
-    if (sprite != NULL) {
+    if (sprite != nullptr) {
       pix = sprite->pm;
     }
-    if (pix != NULL) {
+    if (pix != nullptr) {
       pix_scaled = pix->scaledToHeight(h);
     } else {
       pix_scaled.fill();
@@ -1346,10 +1347,10 @@ void eco_report::update_report()
     struct unit_type *putype = pentry->type;
     cid id;
 
-    pix = NULL;
+    pix = nullptr;
     sprite = get_unittype_sprite(tileset, putype,
                                  ACTIVITY_LAST, direction8_invalid());
-    if (sprite != NULL) {
+    if (sprite != nullptr) {
       pix = sprite->pm;
     }
     id = cid_encode_unit(putype);
@@ -1360,7 +1361,7 @@ void eco_report::update_report()
       item->setTextAlignment(Qt::AlignHCenter);
       switch (j) {
       case 0:
-        if (pix != NULL) {
+        if (pix != nullptr) {
           pix_scaled = pix->scaledToHeight(h);
           item->setData(Qt::DecorationRole, pix_scaled);
         }
@@ -1632,7 +1633,7 @@ void endgame_report::update_report(const struct packet_endgame_player *packet)
         break;
       case 1:
         pix = get_nation_flag_sprite(tileset, nation_of_player(pplayer))->pm;
-        if (pix != NULL) {
+        if (pix != nullptr) {
           item->setData(Qt::DecorationRole, *pix);
         }
         break;

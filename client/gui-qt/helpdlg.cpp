@@ -53,9 +53,9 @@
 #define MAX_HELP_TEXT_SIZE 8192
 #define REQ_LABEL_NEVER _("(Never)")
 #define REQ_LABEL_NONE _("?tech:None")
-static help_dialog *help_dlg = NULL;
+static help_dialog *help_dlg = nullptr;
 static canvas *terrain_canvas(struct terrain *terrain,
-                              const struct extra_type *resource = NULL,
+                              const struct extra_type *resource = nullptr,
                               enum extra_cause cause = EC_COUNT);
 
 /**********************************************************************//**
@@ -103,7 +103,7 @@ void popdown_help_dialog(void)
   if (help_dlg) {
     help_dlg->setVisible(false);
     help_dlg->deleteLater();
-    help_dlg = NULL;
+    help_dlg = nullptr;
   }
 }
 
@@ -435,8 +435,8 @@ void help_dialog::item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev)
 **************************************************************************/
 help_widget::help_widget(QWidget *parent) :
   QWidget(parent),
-  main_widget(NULL), text_browser(NULL), bottom_panel(NULL),
-  info_panel(NULL), splitter(NULL), info_layout(NULL)
+  main_widget(nullptr), text_browser(nullptr), bottom_panel(nullptr),
+  info_panel(nullptr), splitter(nullptr), info_layout(nullptr)
 {
   setup_ui();
 }
@@ -446,8 +446,8 @@ help_widget::help_widget(QWidget *parent) :
 **************************************************************************/
 help_widget::help_widget(const help_item *topic, QWidget *parent) :
   QWidget(parent),
-  main_widget(NULL), text_browser(NULL), bottom_panel(NULL),
-  info_panel(NULL), splitter(NULL), info_layout(NULL)
+  main_widget(nullptr), text_browser(nullptr), bottom_panel(nullptr),
+  info_panel(nullptr), splitter(nullptr), info_layout(nullptr)
 {
   setup_ui();
   set_topic(topic);
@@ -529,7 +529,7 @@ void help_widget::do_layout(bool horizontal)
   }
 
   layout()->removeWidget(main_widget);
-  main_widget->setParent(NULL);
+  main_widget->setParent(nullptr);
 
   if (bottom_panel) {
     splitter = new QSplitter(bottom_layout);
@@ -599,17 +599,17 @@ void help_widget::undo_layout()
     splitter_sizes = splitter->sizes();
   }
   // Unparent the widget we want to keep
-  text_browser->setParent(NULL);
+  text_browser->setParent(nullptr);
   // Delete everything else
   if (text_browser != main_widget) {
     main_widget->deleteLater();
   }
   // Reset pointers to defaults
   main_widget = text_browser;
-  bottom_panel = NULL;
-  info_panel = NULL;
-  splitter = NULL;
-  info_layout = NULL;
+  bottom_panel = nullptr;
+  info_panel = nullptr;
+  splitter = nullptr;
+  info_layout = nullptr;
 }
 
 /**********************************************************************//**
@@ -1223,7 +1223,7 @@ static canvas *terrain_canvas(struct terrain *terrain,
     put_drawn_sprites(canvas, 1.0f, 0, canvas_y, count, sprs, false);
   }
 
-  pextra = NULL;
+  pextra = nullptr;
   if (cause != EC_COUNT) {
     extra_type_by_cause_iterate(cause, e) {
       pextra = e;
@@ -1234,7 +1234,7 @@ static canvas *terrain_canvas(struct terrain *terrain,
     put_drawn_sprites(canvas, 1.0f, 0, canvas_y, count, sprs, false);
   }
 
-  if (resource != NULL) {
+  if (resource != nullptr) {
     count = fill_basic_extra_sprite_array(tileset, sprs, resource);
     put_drawn_sprites(canvas, 1.0f, 0, canvas_y, count, sprs, false);
   }
@@ -1339,7 +1339,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->cultivate_result != T_NONE
         && action_id_univs_not_blocking(ACTION_CULTIVATE,
-                                        NULL, &for_terr)) {
+                                        nullptr, &for_terr)) {
       QLabel *tb;
       char cult_buffer[1024];
 
@@ -1361,7 +1361,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (pterrain->plant_result != T_NONE
-        && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
+        && action_id_univs_not_blocking(ACTION_PLANT, nullptr, &for_terr)) {
       QLabel *tb;
       char plant_buffer[1024];
 
@@ -1384,7 +1384,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->transform_result != T_NONE
         && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
-                                        NULL, &for_terr)) {
+                                        nullptr, &for_terr)) {
       QLabel *tb;
       char tf_buffer[1024];
 
@@ -1405,20 +1405,20 @@ void help_widget::set_topic_terrain(const help_item *topic,
       info_layout->addWidget(tb);
     }
 
-    if (action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_IRRIGATE, nullptr, &for_terr)) {
       // TRANS: This and similar literal strings interpreted as (Qt) HTML
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE,
                                     _("Build as irrigation"));
     }
-    if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_MINE, nullptr, &for_terr)) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE,
                                     _("Build as mine"));
     }
-    if (action_id_univs_not_blocking(ACTION_ROAD, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_ROAD, nullptr, &for_terr)) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD,
                                     _("Build as road"));
     }
-    if (action_id_univs_not_blocking(ACTION_BASE, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_BASE, nullptr, &for_terr)) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE,
                                     _("Build as base"));
     }

@@ -152,7 +152,7 @@ void req_edit::refresh_item(QListWidgetItem *item, struct requirement *preq)
   char buf[512];
 
   buf[0] = '\0';
-  if (!req_text_insert(buf, sizeof(buf), NULL, preq, VERB_ACTUAL, "")) {
+  if (!req_text_insert(buf, sizeof(buf), nullptr, preq, VERB_ACTUAL, "")) {
     if (preq->present) {
       universal_name_translation(&preq->source, buf, sizeof(buf));
     } else {
@@ -224,7 +224,7 @@ void req_edit::clear_selected()
   selected = nullptr;
 
   selected_values.source.kind = VUT_NONE;
-  selected_values.source.value.advance = NULL;
+  selected_values.source.value.advance = nullptr;
   selected_values.range = REQ_RANGE_LOCAL;
   selected_values.present = true;
   selected_values.survives = false;

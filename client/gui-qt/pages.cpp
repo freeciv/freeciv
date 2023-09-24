@@ -157,7 +157,7 @@ void fc_client::create_main_page(void)
 
   rev_ver = fc_git_revision();
 
-  if (rev_ver == NULL) {
+  if (rev_ver == nullptr) {
     // TRANS: "version 3.1.0, Qt5 client"
 #ifdef FC_QT5_MODE
     fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt5 client"),
@@ -869,7 +869,7 @@ void fc_client::browse_scenarios(void)
 void fc_client::update_server_list(enum server_scan_type sstype,
                                    const struct server_list *list)
 {
-  QTableWidget* sel = NULL;
+  QTableWidget *sel = nullptr;
   QString host, portstr;
   int port;
   int row;
@@ -984,26 +984,26 @@ void fc_client::destroy_server_scans(void)
 {
   if (meta_scan) {
     server_scan_finish(meta_scan);
-    meta_scan = NULL;
+    meta_scan = nullptr;
   }
 
-  if (meta_scan_timer != NULL) {
+  if (meta_scan_timer != nullptr) {
     meta_scan_timer->stop();
     meta_scan_timer->disconnect();
     delete meta_scan_timer;
-    meta_scan_timer = NULL;
+    meta_scan_timer = nullptr;
   }
 
   if (lan_scan) {
     server_scan_finish(lan_scan);
-    lan_scan = NULL;
+    lan_scan = nullptr;
   }
 
-  if (lan_scan_timer != NULL) {
+  if (lan_scan_timer != nullptr) {
     lan_scan_timer->stop();
     lan_scan_timer->disconnect();
     delete lan_scan_timer;
-    lan_scan_timer = NULL;
+    lan_scan_timer = nullptr;
   }
 }
 
@@ -1065,7 +1065,7 @@ bool fc_client::check_server_scan(server_scan *scan_data)
 **************************************************************************/
 void fc_client::slot_lan_scan()
 {
-  if (lan_scan_timer == NULL) {
+  if (lan_scan_timer == nullptr) {
     return;
   }
   check_server_scan(lan_scan);
@@ -1076,7 +1076,7 @@ void fc_client::slot_lan_scan()
 **************************************************************************/
 void fc_client::slot_meta_scan()
 {
-  if (meta_scan_timer == NULL) {
+  if (meta_scan_timer == nullptr) {
     return;
   }
   check_server_scan(meta_scan);
@@ -1147,7 +1147,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
 
   client_pages cpage = current_page();
   const char *terr_name;
-  const struct server *pserver = NULL;
+  const struct server *pserver = nullptr;
   int ii = 0;
   int k, col, n, nat_y, nat_x;
   struct section_file *sf;
@@ -1324,12 +1324,12 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
         // Load possible terrains and their identifiers (chars)
         if ((sf = secfile_load_section(fn_bytes.data(),
                                        "savefile", true))) {
-          while ((terr_name = secfile_lookup_str_default(sf, NULL,
-                                 "savefile.terrident%d.name", ii)) != NULL) {
+          while ((terr_name = secfile_lookup_str_default(sf, nullptr,
+                                 "savefile.terrident%d.name", ii)) != nullptr) {
             struct terrain *pterr = terrain_by_rule_name(terr_name);
 
-            if (pterr != NULL) {
-              const char *iptr = secfile_lookup_str_default(sf, NULL,
+            if (pterr != nullptr) {
+              const char *iptr = secfile_lookup_str_default(sf, nullptr,
                                       "savefile.terrident%d.identifier", ii);
               pterr->identifier_load = *iptr;
             }
@@ -1468,10 +1468,10 @@ void fc_client::update_scenarios_page(void)
       } else {
         fcdev = fcver - (fcver % 10000); // Patch version does not count.
       }
-      sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
-      sdescription = secfile_lookup_str_default(sf, NULL,
+      sname = secfile_lookup_str_default(sf, nullptr, "scenario.name");
+      sdescription = secfile_lookup_str_default(sf, nullptr,
                      "scenario.description");
-      sauthors = secfile_lookup_str_default(sf, NULL,
+      sauthors = secfile_lookup_str_default(sf, nullptr,
                                             "scenario.authors");
       // Ignore scenarios for newer freeciv versions than we are.
       if (fcdev <= current_dev) {
@@ -1538,7 +1538,7 @@ void fc_client::update_scenarios_page(void)
              .toHtmlEscaped()
            + "</b>"
            << QString(pfile->fullname).toHtmlEscaped()
-           << QString(NULL != sdescription && '\0' != sdescription[0]
+           << QString(sdescription != nullptr && '\0' != sdescription[0]
                       ? Q_(sdescription) : "").toHtmlEscaped() + st + format
            << QString::number(fcver).toHtmlEscaped();
         sl.replaceInStrings("\n", "<br>");
@@ -1828,7 +1828,7 @@ void fc_client::update_start_page()
   global_item->setData(0, Qt::UserRole, qvar2);
 
   conn_list_iterate(game.est_connections, pconn) {
-    if (NULL != pconn->playing || !pconn->observer) {
+    if (pconn->playing != nullptr || !pconn->observer) {
       continue;
     }
     item = new QTreeWidgetItem();
@@ -1861,7 +1861,7 @@ void fc_client::update_start_page()
   detach_item->setData(0, Qt::UserRole, qvar2);
 
   conn_list_iterate(game.all_connections, pconn) {
-    if (NULL != pconn->playing || pconn->observer) {
+    if (pconn->playing != nullptr || pconn->observer) {
       continue;
     }
     item = new QTreeWidgetItem();
@@ -2114,32 +2114,33 @@ void fc_client::update_sidebar_tooltips()
   int max;
   int entries_used, building_total, unit_total, tax;
   char buf[256];
-
   struct improvement_entry building_entries[B_LAST];
   struct unit_entry unit_entries[U_LAST];
+  struct player *pplayer;
 
   if (current_page() != PAGE_GAME) {
     return;
   }
 
-  if (NULL != client.conn.playing) {
-    max = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
+  pplayer = client_player();
+  if (pplayer != nullptr) {
+    max = get_player_bonus(pplayer, EFT_MAX_RATES);
   } else {
     max = 100;
   }
 
   if (!client_is_global_observer()) {
     sw_science->set_tooltip(science_dialog_text());
-    str = QString(nation_plural_for_player(client_player()));
+    str = QString(nation_plural_for_player(pplayer));
     str = str + '\n' + get_info_label_text(false);
     sw_map->set_tooltip(str);
     str = QString(_("Tax: %1% Science: %2% Luxury: %3%\n"))
-          .arg(client.conn.playing->economic.tax)
-          .arg(client.conn.playing->economic.luxury)
-          .arg(client.conn.playing->economic.science);
+          .arg(pplayer->economic.tax)
+          .arg(pplayer->economic.luxury)
+          .arg(pplayer->economic.science);
 
     str += QString(_("%1 - max rate: %2%")).
-           arg(government_name_for_player(client.conn.playing),
+           arg(government_name_for_player(pplayer),
                QString::number(max));
 
     get_economy_report_units_data(unit_entries, &entries_used, &unit_total);
@@ -2148,9 +2149,9 @@ void fc_client::update_sidebar_tooltips()
     fc_snprintf(buf, sizeof(buf), _("Income: %d    Total Costs: %d"),
                 tax, building_total + unit_total);
     sw_economy->set_tooltip(buf);
-    if (player_primary_capital(client_player())) {
+    if (player_primary_capital(pplayer)) {
       sw_cities->set_tooltip(text_happiness_cities(
-                                     player_primary_capital(client_player())));
+                                     player_primary_capital(pplayer)));
     }
   } else {
     sw_tax->set_tooltip("");
@@ -2158,6 +2159,7 @@ void fc_client::update_sidebar_tooltips()
     sw_map->set_tooltip("");
     sw_economy->set_tooltip("");
   }
+
   sw_indicators->set_tooltip(QString(get_info_label_text_popup()));
 }
 
