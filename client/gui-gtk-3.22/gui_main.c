@@ -102,7 +102,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-3.22";
+const char *client_string = GUI_NAME_FULL;
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
@@ -1912,6 +1912,8 @@ int ui_main(int argc, char **argv)
   guint sig;
 
   if (parse_options(argc, argv)) {
+    char window_name[1024];
+
     /* The locale has already been set in init_nls() and the windows-specific
      * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
     gtk_disable_setlocale();
@@ -1970,7 +1972,8 @@ int ui_main(int argc, char **argv)
       gtk_window_fullscreen(GTK_WINDOW(toplevel));
     }
 
-    gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
+    fc_snprintf(window_name, sizeof(window_name), _("Freeciv (%s)"), GUI_NAME_SHORT);
+    gtk_window_set_title(GTK_WINDOW(toplevel), window_name);
 
     g_signal_connect(toplevel, "delete_event",
                      G_CALLBACK(quit_dialog_callback), NULL);
