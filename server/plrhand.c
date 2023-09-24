@@ -2399,7 +2399,9 @@ void send_nation_availability(struct conn_list *dest,
 /****************************************************************************
   Try to select a nation set that fits the current players' nations, or
   failing that, unset the nations of some of the players.
-  To be called when loading an old savegame that predates nationsets.
+
+  Does not update clients, as is assumed to be called during game setup,
+  and to be followed by sending full game info to clients.
 ****************************************************************************/
 void fit_nationset_to_players(void)
 {
