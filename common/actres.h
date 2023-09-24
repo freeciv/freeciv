@@ -117,6 +117,8 @@ struct actres {
   bool hostile;
   enum unit_activity activity;
   enum dice_roll_type dice;
+  enum extra_cause ecause; /* Could deduct this from 'activity', but we should merge
+                            * activities completely with actions in the future */
 };
 
 void actres_init(void);
@@ -127,6 +129,8 @@ enum action_battle_kind actres_get_battle_kind(enum action_result result);
 bool actres_is_hostile(enum action_result result);
 enum unit_activity actres_activity_result(enum action_result result);
 enum dice_roll_type actres_dice_type(enum action_result result);
+bool actres_creates_extra(enum action_result result,
+                          const struct extra_type *pextra);
 
 enum fc_tristate actres_possible(enum action_result result,
                                  const struct req_context *actor,
