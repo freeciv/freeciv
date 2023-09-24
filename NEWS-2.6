@@ -1,10 +1,97 @@
-========================
-Welcome to Freeciv 2.6.9
-========================
+=========================
+Welcome to Freeciv 2.6.10
+=========================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.9 to 2.6.10
+----------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-2.6.10>, 2023-09-25)
+
+2.6.10 is a generic bugfix release on freeciv-2.6 series.
+
+Server / General
+
+    * Fixed handling of unit shield upkeep osdn#47938 osdn#48023
+    * Fixed erroneously failing worker task sanity checks osdn#47542
+    * Fixed loading acceptance of zero-clause treaties from savegames
+      osdn#48127
+    * Fixed assert failures when city grows to freeciv's internal
+      max city size (255) osdn#48296
+    * Fixed memory corruption when transport is not bounced,
+      but cargo is osdn#48392
+
+Changes affecting players (supplied rulesets)
+
+    * Observers are kept in sync with city investigation osdn#46186 osdn#48046
+
+    * experimental
+         + All buildings now have graphics tags in them, even those
+           that supplied tilesets do not provide graphics for.
+           This makes it possible for a custom tileset to provide
+           those graphics osdn#48086
+
+General
+
+    * Fixed memory leaks, bad memory access, and improved cleanup on shutdown
+      osdn#47900 osdn#45906 osdn#47660 osdn#47982 osdn#46191 osdn#45570
+      osdn#48399 osdn#48446
+    * Various internal changes which should only affect developers.
+      osdn#48026 osdn#48645
+
+AI
+
+    * Fixed crash with recursive autoworker displacement osdn#47992
+    * Fixed diplomatic states corruption after Senate blocked AI's
+      war declaration osdn#47786
+
+Clients
+
+    * Fixed potential crash in an attempt to use server settings before
+      server has sent them osdn#47663
+
+    * gtk
+         + Fixed applying Small Font setting. Previously it wasn't
+           effective at all osdn#48186
+         + gtk3/gtk3.22: Fixed mixup in font size, causing size set in settings
+           in points getting applied in pixels osdn#48185
+         + Made it possible to offer techs in a treaty even if player has
+           no embassy to see what techs the other player already has osdn#45552
+         + gtk3/gtk3.22: Fixed bad padding in theme osdn#48669
+
+    * Qt
+         + Fixed crash when the client-side game state gets inconsistent
+           between server sent packages osdn#47882
+         + Fixed wrong unit convert times shown in help osdn#48377
+
+    * sdl/2
+         + sdl2: Improvements to theme provided font size setting usage
+           osdn#48037 osdn#48100 osdn#48271 osdn#48427 osdn#48573 osdn#48574
+           osdn#48629 osdn#48641
+         + sdl2: Fixed issues with transparent parts of text surfaces osdn#47564
+         + sdl2: Fixed units report crash when player has no units osdn#48379
+         + Fixed help tech tree crash when tech requirements are not
+           in first slots osdn#48436
+
+
+Help / Documentation
+
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#47720 osdn#47840
+
+Translations
+
+    * Updated translations: fr, id, ru
+
+Build/portability
+
+    * Autotools: Added year 2038 support, if autoconf supports it osdn#47710
+    * Fixed compiler warning about uninitialized variable caused by
+      bad compiler heuristics osdn#48544
 
 
 CHANGES FROM 2.6.8 to 2.6.9
