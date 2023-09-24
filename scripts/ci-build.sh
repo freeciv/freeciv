@@ -105,7 +105,7 @@ cd build
 meson setup .. \
   -Dqtver=qt6x \
   -Ddebug=true \
-  -Dtools=ruledit \
+  -Dtools=ruledit,manual \
   -Dsyslua=true \
   -Dclients=gtk3.22,sdl2,gtk4,qt,stub,gtk4x,sdl3 \
   -Dfcmp=gtk3,gtk4,qt,cli \

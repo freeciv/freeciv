@@ -153,6 +153,7 @@ audio (boolean):
 tools (array):
   Extra tools to build:
    * ruledit : Ruleset editor
+   * manual:   Manual generator
   Default is to build them all.
 
 nls (boolean):

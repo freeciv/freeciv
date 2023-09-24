@@ -75,20 +75,18 @@ fi
 
 QTPARAMS=""
 
+TOOLS=manual
 case "${GUI}" in
-  gtk3.22) FCMP="gtk3"
-           TOOLS="[]" ;;
-  gtk4) FCMP="gtk4"
-        TOOLS="[]" ;;
-  sdl2) FCMP="gtk4"
-        TOOLS="[]" ;;
+  gtk3.22) FCMP="gtk3" ;;
+  gtk4) FCMP="gtk4" ;;
+  sdl2) FCMP="gtk4" ;;
   qt5) CLIENT="qt"
        FCMP="qt"
-       TOOLS="ruledit"
+       TOOLS="${TOOLS},ruledit"
        QTPARAMS="-Dqtver=qt5" ;;
   qt6) CLIENT="qt"
        FCMP="qt"
-       TOOLS="ruledit"
+       TOOLS="${TOOLS},ruledit"
        MIN_WINVER=0x0A00
        QTPARAMS="-Dqtver=qt6" ;;
   ruledit) CLIENT="[]"

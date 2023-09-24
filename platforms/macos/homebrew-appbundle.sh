@@ -102,7 +102,7 @@ fi
 cd build || exit 1
 
 if ! meson setup .. \
-       -Dtools=[] \
+       -Dtools=manual \
        -Dsyslua=true \
        -Ddebug=false \
        -Dclients=gtk4,qt \
