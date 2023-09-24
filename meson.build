@@ -803,7 +803,8 @@ client_inc = [common_inc, include_directories('client', 'client/include',
 tool_inc = [server_inc, include_directories('tools/ruleutil', 'tools/shared')]
 
 runwrap = custom_target('runwrap', output: 'run.sh',
-              command: [sh_exe, files('bootstrap/generate_meson_run.sh'), '@OUTPUT@'],
+              command: [sh_exe, files('bootstrap/generate_meson_run.sh'),
+                        '@OUTPUT@', storage_dir, datasubdir],
               depend_files: files('bootstrap/generate_meson_run.sh'),
               build_by_default: true)
 
