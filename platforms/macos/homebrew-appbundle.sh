@@ -102,14 +102,14 @@ fi
 cd build || exit 1
 
 if ! meson setup .. \
-       -Druledit=false \
+       -Dtools=[] \
        -Dsyslua=true \
        -Ddebug=false \
        -Dclients=gtk4,qt \
        -Dfcmp=qt \
        -Dfollowtag=macos-S3_3 \
        -Ddefault_library=static \
-       -Dprefix="$CONTENTSDIR" ||
+       -Dprefix="${CONTENTSDIR}" ||
    ! ninja ||
    ! ninja install
 then
