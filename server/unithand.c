@@ -19,6 +19,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* dependencies/lua */
+#include "lua.h" /* lua_Integer */
+
 /* utility */
 #include "astring.h"
 #include "fcintl.h"
@@ -3386,14 +3389,15 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
 
   send_city_info(NULL, pcity);
 
-  script_server_signal_emit("city_size_change", pcity, amount, "unit_added");
+  script_server_signal_emit("city_size_change", pcity,
+                            (lua_Integer)amount, "unit_added");
 
   return TRUE;
 }
 
 /**************************************************************************
   This function assumes a certain level of consistency checking: There
-  is no city under punit->(x,y), and that location is a valid one on
+  is no city under punit->(x, y), and that location is a valid one on
   which to build a city. It should only be called after a call to a
   function like test_unit_add_or_build_city, which does the checking.
 
