@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-06-22 21:44+0300\n"
-"PO-Revision-Date: 2023-06-17 06:51+0200\n"
+"POT-Creation-Date: 2023-08-26 20:14+0300\n"
+"PO-Revision-Date: 2023-09-22 13:29+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -279,15 +279,15 @@ msgstr "Nieprawidłowy numer sygnału \"%s\".\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:126
+#: tools/ruledit/ruledit_qt.cpp:127
 msgid "built in Qt6 mode."
 msgstr "skompilowano w trybie Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:128
+#: tools/ruledit/ruledit_qt.cpp:129
 msgid "built in Qt5 mode."
 msgstr "skompilowano w trybie Qt5."
 
-#: tools/ruledit/ruledit_qt.cpp:135
+#: tools/ruledit/ruledit_qt.cpp:136
 #, c-format
 msgid ""
 "%s%s\n"
@@ -298,139 +298,158 @@ msgstr ""
 "łatka: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:150
+#: tools/ruledit/ruledit_qt.cpp:151
 msgid "Give ruleset to use as starting point."
 msgstr "Podaj zestaw zasad będący punktem wyjścia."
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Start editing"
 msgstr "Rozpocznij edycję"
 
-#: tools/ruledit/ruledit_qt.cpp:169
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
 msgstr "Różne"
 
-#: tools/ruledit/ruledit_qt.cpp:171
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:173
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
 msgstr "Budynki"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Units"
 msgstr "Jednostki"
 
-#: tools/ruledit/ruledit_qt.cpp:177
+#: tools/ruledit/ruledit_qt.cpp:178
+msgid "Achievements"
+msgstr "Osiągnięcia"
+
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Goods"
 msgstr "Dobra"
 
-#: tools/ruledit/ruledit_qt.cpp:179
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Governments"
 msgstr "Ustroje"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Enablers"
 msgstr "Aktywatory"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Extras"
 msgstr "Usprawnienia"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Terrains"
 msgstr "Tereny"
 
-#: tools/ruledit/ruledit_qt.cpp:187
+#: tools/ruledit/ruledit_qt.cpp:190
 msgid "Multipliers"
 msgstr "Mnożniki"
 
-#: tools/ruledit/ruledit_qt.cpp:189
+#: tools/ruledit/ruledit_qt.cpp:192
 msgid "Counters"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:191
+#: tools/ruledit/ruledit_qt.cpp:194
 msgid "Nations"
 msgstr "Narody"
 
-#: tools/ruledit/ruledit_qt.cpp:200
+#: tools/ruledit/ruledit_qt.cpp:203
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:247
+#: tools/ruledit/ruledit_qt.cpp:250
 msgid "Old ruleset to a new format"
 msgstr "Stary zestaw zasad na nowy format"
 
-#: tools/ruledit/ruledit_qt.cpp:250
+#: tools/ruledit/ruledit_qt.cpp:253
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:273
+#: tools/ruledit/ruledit_qt.cpp:277
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
 
-#: tools/ruledit/ruledit_qt.cpp:451
+#: tools/ruledit/ruledit_qt.cpp:455
 msgid "Freeciv Ruleset Editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:484
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno chcesz zakończyć?"
 
-#: tools/ruledit/ruledit_qt.cpp:488
+#: tools/ruledit/ruledit_qt.cpp:492
 msgid "Quit?"
 msgstr "Zakończyć?"
 
-#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_counters.cpp:82
-#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
-#: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
-#: tools/ruledit/tab_tech.cpp:64 tools/ruledit/tab_terrains.cpp:68
-#: tools/ruledit/tab_unit.cpp:64
+#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_counters.cpp:82 tools/ruledit/tab_extras.cpp:68
+#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
+#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
+#: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:64
 msgid "Rule Name"
 msgstr "Nazwa zasady"
 
+#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
+#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
-#: tools/ruledit/tab_building.cpp:153 tools/ruledit/tab_building.cpp:154
+#: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
-#: tools/ruledit/tab_extras.cpp:155 tools/ruledit/tab_extras.cpp:156
+#: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
-#: tools/ruledit/tab_good.cpp:149 tools/ruledit/tab_good.cpp:150
+#: tools/ruledit/tab_good.cpp:147 tools/ruledit/tab_good.cpp:148
 #: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
-#: tools/ruledit/tab_gov.cpp:148 tools/ruledit/tab_gov.cpp:149
+#: tools/ruledit/tab_gov.cpp:146 tools/ruledit/tab_gov.cpp:147
 #: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
-#: tools/ruledit/tab_multiplier.cpp:144 tools/ruledit/tab_multiplier.cpp:145
+#: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
-#: tools/ruledit/tab_tech.cpp:231 tools/ruledit/tab_tech.cpp:232
+#: tools/ruledit/tab_tech.cpp:229 tools/ruledit/tab_tech.cpp:230
 #: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
-#: tools/ruledit/tab_terrains.cpp:151 tools/ruledit/tab_terrains.cpp:152
+#: tools/ruledit/tab_terrains.cpp:149 tools/ruledit/tab_terrains.cpp:150
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
-#: tools/ruledit/tab_unit.cpp:150 tools/ruledit/tab_unit.cpp:151
+#: tools/ruledit/tab_unit.cpp:148 tools/ruledit/tab_unit.cpp:149
 msgid "None"
 msgstr "Brak"
 
-#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_counters.cpp:89
-#: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
-#: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
-#: tools/ruledit/tab_tech.cpp:72 tools/ruledit/tab_terrains.cpp:76
-#: tools/ruledit/tab_unit.cpp:72
+#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_counters.cpp:89 tools/ruledit/tab_extras.cpp:76
+#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
+#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
+#: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:72
 msgid "Name"
 msgstr "Nazwa"
+
+#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
+#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
+#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
+#: tools/ruledit/tab_unit.cpp:91
+msgid "Effects"
+msgstr "Efekty"
+
+#: tools/ruledit/tab_achievement.cpp:89
+msgid "Add Achievement"
+msgstr "Dodaj osiągnięcie"
+
+#: tools/ruledit/tab_achievement.cpp:94
+msgid "Remove this Achievement"
+msgstr "Usuń to osiągnięcie"
+
+#: tools/ruledit/tab_achievement.cpp:179
+msgid "An achievement with that rule name already exists!"
+msgstr "Osiągnięcie o tej nazwie już istnieje!"
 
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
 #: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
 msgstr "Edytuj wartości"
-
-#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_counters.cpp:134
-#: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
-#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:109
-#: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:91
-msgid "Effects"
-msgstr "Efekty"
 
 #: tools/ruledit/tab_building.cpp:98
 msgid "Add Building"
@@ -440,7 +459,7 @@ msgstr "Dodaj budynek"
 msgid "Remove this Building"
 msgstr "Usuń ten budynek"
 
-#: tools/ruledit/tab_building.cpp:188
+#: tools/ruledit/tab_building.cpp:186
 msgid "A building with that rule name already exists!"
 msgstr "Budynek o tej nazwie reguły już istnieje!"
 
@@ -530,7 +549,7 @@ msgstr "Wstaw dodatek"
 msgid "Remove this Extra"
 msgstr "Usuń ten dodatek"
 
-#: tools/ruledit/tab_extras.cpp:190
+#: tools/ruledit/tab_extras.cpp:188
 msgid "An extra with that rule name already exists!"
 msgstr "Dodatek o tej nazwie już istnieje!"
 
@@ -542,7 +561,7 @@ msgstr "Dodaj dobro"
 msgid "Remove this Good"
 msgstr "Usuń to dobro"
 
-#: tools/ruledit/tab_good.cpp:184
+#: tools/ruledit/tab_good.cpp:182
 msgid "A good with that rule name already exists!"
 msgstr "Gracz o tej nazwie już bierze udział w grze!"
 
@@ -554,7 +573,7 @@ msgstr "Dodaj ustrój"
 msgid "Remove this Government"
 msgstr "Usuń ten ustrój"
 
-#: tools/ruledit/tab_gov.cpp:183
+#: tools/ruledit/tab_gov.cpp:181
 msgid "A government with that rule name already exists!"
 msgstr "Ustrój o tej nazwie już istnieje!"
 
@@ -732,7 +751,7 @@ msgstr "Dodaj mnożnik"
 msgid "Remove this Multiplier"
 msgstr "Usuń ten mnożnik"
 
-#: tools/ruledit/tab_multiplier.cpp:179
+#: tools/ruledit/tab_multiplier.cpp:177
 msgid "A multiplier with that rule name already exists!"
 msgstr "Mnożnik z tą zasadą już istnieje!"
 
@@ -764,11 +783,11 @@ msgstr "Dodaj technologię"
 msgid "Remove this tech"
 msgstr "Usuń tą technologię"
 
-#: tools/ruledit/tab_tech.cpp:199
+#: tools/ruledit/tab_tech.cpp:197
 msgid "Never"
 msgstr "Nigdy"
 
-#: tools/ruledit/tab_tech.cpp:356
+#: tools/ruledit/tab_tech.cpp:354
 msgid "A tech with that rule name already exists!"
 msgstr "Technologia o tej nazwie reguły istnieje!"
 
@@ -780,7 +799,7 @@ msgstr "Wstaw teren"
 msgid "Remove this Terrain"
 msgstr "Usuń ten teren"
 
-#: tools/ruledit/tab_terrains.cpp:186
+#: tools/ruledit/tab_terrains.cpp:184
 msgid "A terrain with that rule name already exists!"
 msgstr "Teren o tej nazwie już istnieje!"
 
@@ -792,7 +811,7 @@ msgstr "Dodaj jednostkę"
 msgid "Remove this Unit"
 msgstr "Usuń tą jednostkę"
 
-#: tools/ruledit/tab_unit.cpp:185
+#: tools/ruledit/tab_unit.cpp:183
 msgid "A unit type with that rule name already exists!"
 msgstr "Typ jednostki o tej nazwie reguły już istnieje!"
 
@@ -822,7 +841,7 @@ msgstr "Usuń wymaganie"
 msgid "%s prevents"
 msgstr "%s uniemożliwia"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:371
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:385
 msgid "Effect"
 msgstr "Efekt"
 
@@ -841,11 +860,11 @@ msgstr "Styl muzyki"
 msgid "%s clause"
 msgstr "klauzula %s"
 
-#: tools/ruledit/validity.c:302
+#: tools/ruledit/validity.c:316
 msgid "Conflicting extra"
 msgstr "Niezgodne usprawnienie"
 
-#: tools/ruledit/validity.c:305
+#: tools/ruledit/validity.c:319
 msgid "Hidden extra"
 msgstr "Ukryte usprawnienie"
 
