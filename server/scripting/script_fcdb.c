@@ -56,6 +56,7 @@
 
 /* server */
 #include "console.h"
+#include "srv_main.h"
 #include "stdinhand.h"
 
 /* server/scripting */
@@ -299,7 +300,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
     return FALSE;
   }
 
-  if (!script_fcdb_call("database_init")) {
+  if (srvarg.fcdb_enabled && !script_fcdb_call("database_init")) {
     log_error("Error connecting to the database");
     script_fcdb_free();
     return FALSE;
