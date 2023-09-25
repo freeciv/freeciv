@@ -16,7 +16,7 @@ MAJOR CHANGES FROM 3.1.x to 3.2.0
 MAJOR CHANGES FROM 3.0.x to 3.1.0
 ---------------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-05-30)
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-09-25)
 
    The major changes in Freeciv 3.1 are new Qt6- and gtk4-clients,
    improved balance for civ2civ3 ruleset, experimental meson based
@@ -67,6 +67,8 @@ Changes affecting players (supplied rulesets)
        further actions OSDN#46173
      * Player looting dying player (one who lost gameloss unit)
        now get notifications about what the loot contains OSDN#45152
+     * Messages from supplied lua scripts, such as handling unit entering
+       hut tile, now have unit/city/tile links in place OSDN#43389
 
      * nations
           + Esperant nation city list updated OSDN#45762
@@ -604,6 +606,10 @@ Clients
             (not requiring client restart) they are changed in the options
             OSDN#44907
 
+   * sdl2
+          + Change to "fullscreen" option now takes effect immediately,
+            not requiring client restart OSDN#48198
+
 Tools
 Modpack Installer
 
@@ -627,6 +633,7 @@ Ruledit
           + Detection of contradicting requirements in a requirement vector
             OSDN#42100
    * Stub ruleset is now part of main freeciv distribution OSDN#43618
+   * Added Achievements tab OSDN#48134
 
 Manual Generator
 
@@ -639,8 +646,9 @@ Tilesets, Art, etc
 
    * Extra animal unit sprites added to Amplio2 and to tilesets
      inheriting its units HRM#721407
-   * Extra unit sprites added to ''cimpletoon'' and to tilesets
+   * Extra unit sprites added to Cimpletoon and to tilesets
      inheriting its units OSDN#44853
+   * Alternative Spy added to Amplio2 extra sprites OSDN#48282
 
 Help / Documentation
 
@@ -683,6 +691,8 @@ Build/portability
      OSDN#44549
    * For native builds, default is not to use improved tolua version
      coming with freeciv, instead of system one OSDN#46199
+   * Crosser updated to version 2.7 OSDN#48552
+   * Ruledit flatpak added OSDN#47634
 
   See doc/README.packaging for more information.
 
