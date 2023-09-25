@@ -57,10 +57,6 @@ setup.)
 Now start the server with
   freeciv-server --Database fc_auth.conf --auth --Newusers
 
-The first time you do this, you need to create the database file and its
-tables with the following server command:
-  /fcdb lua sqlite_createdb()
-
 Now you can create some users by connecting with the client; due to the
 --Newusers flag, when you connect with the client with a previously unknown
 username, the server will prompt for a password and save the new account to

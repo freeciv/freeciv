@@ -83,10 +83,23 @@ local function sqlite_connect()
 
   local sql = ls_sqlite3.sqlite3()
 
-  -- Load the database parameters.
   local database = get_option("database")
 
-  dbh = assert(sql:connect(database))
+  -- Check database existence
+  local dfile = io.open(database, "r")
+  if (dfile) then
+    -- Close the file
+    dfile:close()
+
+    -- Load the database parameters.
+    dbh = assert(sql:connect(database))
+  else
+    -- Open the connection before trying to create db through it.
+    dbh = assert(sql:connect(database))
+
+    -- Create a fresh database
+    sqlite_createdb()
+  end
 end
 
 -- Set up tables for an SQLite database.
