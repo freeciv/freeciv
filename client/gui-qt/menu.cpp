@@ -779,7 +779,7 @@ void go_act_menu::create()
         case ASTK_EXTRA_NOT_THERE:
           extra_type_iterate(pextra) {
             if (!actres_creates_extra(paction->result, pextra)
-                && !action_removes_extra(paction, pextra)) {
+                && !actres_removes_extra(paction->result, pextra)) {
               // Not relevant
               continue;
             }

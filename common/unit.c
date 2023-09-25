@@ -2739,8 +2739,8 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
             return FALSE;
           }
         } else {
-          if (!(action_removes_extra(paction, pextra)
-                || actres_creates_extra(paction->result, pextra))) {
+          if (!actres_removes_extra(paction->result, pextra)
+              && !actres_creates_extra(paction->result, pextra)) {
             /* Target extra is irrelevant for the action. */
             log_error("at index %d, cannot do %s to %s.", i,
                       action_id_rule_name(orders[i].action),

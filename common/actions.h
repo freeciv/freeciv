@@ -685,9 +685,6 @@ int action_get_act_time(const struct action *paction,
   action_get_act_time(action_by_number(act_id),                            \
                       actor_unit, tgt_tile, tgt_extra)
 
-bool action_removes_extra(const struct action *paction,
-                          const struct extra_type *pextra);
-
 bool action_id_is_rare_pop_up(action_id act_id);
 
 bool action_distance_accepted(const struct action *action,
