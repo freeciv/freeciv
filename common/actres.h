@@ -119,6 +119,7 @@ struct actres {
   enum dice_roll_type dice;
   enum extra_cause ecause; /* Could deduct this from 'activity', but we should merge
                             * activities completely with actions in the future */
+  enum extra_rmcause ermcause;
 };
 
 void actres_init(void);
@@ -130,6 +131,8 @@ bool actres_is_hostile(enum action_result result);
 enum unit_activity actres_activity_result(enum action_result result);
 enum dice_roll_type actres_dice_type(enum action_result result);
 bool actres_creates_extra(enum action_result result,
+                          const struct extra_type *pextra);
+bool actres_removes_extra(enum action_result result,
                           const struct extra_type *pextra);
 
 enum fc_tristate actres_possible(enum action_result result,

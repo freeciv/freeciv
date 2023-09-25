@@ -249,7 +249,7 @@ bool utype_can_remove_extra(const struct unit_type *putype,
       continue;
     }
 
-    if (action_removes_extra(paction, pextra)) {
+    if (actres_removes_extra(paction->result, pextra)) {
       /* Can remove */
       return TRUE;
     }

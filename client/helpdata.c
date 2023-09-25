@@ -2913,7 +2913,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           struct strvec *extras_vec = strvec_new();
 
           extra_type_iterate(pextra) {
-            if (action_removes_extra(paction, pextra)) {
+            if (actres_removes_extra(paction->result, pextra)) {
               strvec_append(extras_vec, extra_name_translation(pextra));
             }
           } extra_type_iterate_end;
@@ -2935,7 +2935,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           struct strvec *extras_vec = strvec_new();
 
           extra_type_iterate(pextra) {
-            if (action_removes_extra(paction, pextra)) {
+            if (actres_removes_extra(paction->result, pextra)) {
               strvec_append(extras_vec, extra_name_translation(pextra));
             }
           } extra_type_iterate_end;
