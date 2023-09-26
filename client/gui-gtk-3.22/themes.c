@@ -34,20 +34,21 @@
 
 #include "themes_g.h"
 
+static GtkCssProvider *theme_provider = NULL;
+
 /*****************************************************************************
   Loads a gtk theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
-  static GtkCssProvider *fc_css_provider = NULL;
   GError *error = NULL;
   char buf[strlen(directory) + strlen(theme_name) + 32];
 
-  if (fc_css_provider == NULL) {
-    fc_css_provider = gtk_css_provider_new();
+  if (theme_provider == NULL) {
+    theme_provider = gtk_css_provider_new();
     gtk_style_context_add_provider_for_screen(
         gtk_widget_get_screen(toplevel),
-        GTK_STYLE_PROVIDER(fc_css_provider),
+        GTK_STYLE_PROVIDER(theme_provider),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   }
 
@@ -55,9 +56,9 @@ void gui_load_theme(const char *directory, const char *theme_name)
   fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-3.0/gtk.css", directory,
               theme_name);
 
-  gtk_css_provider_load_from_file(fc_css_provider, g_file_new_for_path(buf), &error);
+  gtk_css_provider_load_from_file(theme_provider, g_file_new_for_path(buf), &error);
 
-  if (error) {
+  if (error != NULL) {
     g_warning("%s\n", error->message);
   }
 }
@@ -81,16 +82,11 @@ void gui_clear_theme(void)
   }
 
   /* Still no theme loaded -> load system default theme */
-  if (!theme_loaded) {
-    static GtkCssProvider *default_provider = NULL;
-
-    if (default_provider == NULL) {
-      default_provider = gtk_css_provider_new();
-    }
-    gtk_style_context_add_provider_for_screen(
+  if (!theme_loaded && theme_provider != NULL) {
+    gtk_style_context_remove_provider_for_screen(
         gtk_widget_get_screen(toplevel),
-        GTK_STYLE_PROVIDER(default_provider),
-        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+        GTK_STYLE_PROVIDER(theme_provider));
+    theme_provider = NULL;
   }
 }
 
