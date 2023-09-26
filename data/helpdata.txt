@@ -1583,6 +1583,9 @@ generate = "Ruleset"
 [help_gen_tileset]
 generate = "Tileset"
 
+[help_gen_musicset]
+generate = "Musicset"
+
 [help_nations]
 name = _("About Nations")
 text = _("\
