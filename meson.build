@@ -3458,12 +3458,12 @@ executable('freeciv-mp-gtk3',
   )
 
 install_data(
-  'bootstrap/org.freeciv.mp.gtk3.desktop',
+  'bootstrap/org.freeciv.gtk3.mp.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
 custom_target('mi_mp_gtk3',
-              input: 'bootstrap/org.freeciv.mp.gtk3.metainfo.xml.in',
+              input: 'bootstrap/org.freeciv.gtk3.mp.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
@@ -3493,12 +3493,12 @@ executable('freeciv-mp-gtk4',
   )
 
 install_data(
-  'bootstrap/org.freeciv.mp.gtk4.desktop',
+  'bootstrap/org.freeciv.gtk4.mp.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
 custom_target('mi_mp_gtk4',
-              input: 'bootstrap/org.freeciv.mp.gtk4.metainfo.xml.in',
+              input: 'bootstrap/org.freeciv.gtk4.mp.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
@@ -3535,12 +3535,12 @@ executable('freeciv-mp-qt',
   )
 
 install_data(
-  'bootstrap/org.freeciv.mp.qt.desktop',
+  'bootstrap/org.freeciv.qt.mp.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
 custom_target('mi_mp_qt',
-              input: 'bootstrap/org.freeciv.mp.qt.metainfo.xml.in',
+              input: 'bootstrap/org.freeciv.qt.mp.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],

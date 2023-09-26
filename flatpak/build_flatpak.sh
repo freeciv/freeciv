@@ -23,16 +23,16 @@ fi
 
 if ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.gtk4.yml ||
    ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.gtk322.yml ||
-   ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.mp.gtk4.yml ||
-   ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.mp.gtk3.yml ||
+   ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.gtk4.mp.yml ||
+   ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.gtk3.mp.yml ||
    ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.qt.yml ||
    ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.sdl2.yml ||
    ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.ruledit.yml ||
    ! flatpak build-update-repo repo ||
    ! flatpak build-bundle repo "freeciv-gtk4-${FCVER}.flatpak" org.freeciv.gtk4 ||
    ! flatpak build-bundle repo "freeciv-gtk3.22-${FCVER}.flatpak" org.freeciv.gtk322 ||
-   ! flatpak build-bundle repo "freeciv-mp-gtk4-${FCVER}.flatpak" org.freeciv.mp.gtk4 ||
-   ! flatpak build-bundle repo "freeciv-mp-gtk3-${FCVER}.flatpak" org.freeciv.mp.gtk3 ||
+   ! flatpak build-bundle repo "freeciv-gtk4-mp-${FCVER}.flatpak" org.freeciv.gtk4.mp ||
+   ! flatpak build-bundle repo "freeciv-gtk3-mp-${FCVER}.flatpak" org.freeciv.gtk3.mp ||
    ! flatpak build-bundle repo "freeciv-qt-${FCVER}.flatpak" org.freeciv.qt ||
    ! flatpak build-bundle repo "freeciv-sdl2-${FCVER}.flatpak" org.freeciv.sdl2 ||
    ! flatpak build-bundle repo "freeciv-ruledit-${FCVER}.flatpak" org.freeciv.ruledit

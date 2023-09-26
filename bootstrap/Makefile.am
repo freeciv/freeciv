@@ -27,9 +27,9 @@ EXTRA_DIST =	freeciv.project		\
 		org.freeciv.sdl2.desktop	\
 		org.freeciv.qt.desktop \
 		org.freeciv.server.desktop	\
-		org.freeciv.mp.gtk3.desktop	\
-		org.freeciv.mp.gtk4.desktop	\
-		org.freeciv.mp.qt.desktop	\
+		org.freeciv.gtk3.mp.desktop	\
+		org.freeciv.gtk4.mp.desktop	\
+		org.freeciv.qt.mp.desktop	\
 		org.freeciv.ruledit.desktop	\
 		org.freeciv.gtk3.metainfo.xml.in \
 		org.freeciv.gtk322.metainfo.xml.in \
@@ -37,9 +37,9 @@ EXTRA_DIST =	freeciv.project		\
 		org.freeciv.sdl2.metainfo.xml.in \
 		org.freeciv.qt.metainfo.xml.in \
 		org.freeciv.server.metainfo.xml.in \
-		org.freeciv.mp.gtk3.metainfo.xml.in \
-		org.freeciv.mp.gtk4.metainfo.xml.in \
-		org.freeciv.mp.qt.metainfo.xml.in \
+		org.freeciv.gtk3.mp.metainfo.xml.in \
+		org.freeciv.gtk4.mp.metainfo.xml.in \
+		org.freeciv.qt.mp.metainfo.xml.in \
 		org.freeciv.ruledit.metainfo.xml.in \
 		config.rpath		\
 		Makerules.mk		\
@@ -79,18 +79,18 @@ desktopfile_DATA  += org.freeciv.qt.desktop
 endif
 
 if MODINST_GTK3
-metainfofile_DATA += org.freeciv.mp.gtk3.metainfo.xml
-desktopfile_DATA  += org.freeciv.mp.gtk3.desktop
+metainfofile_DATA += org.freeciv.gtk3.mp.metainfo.xml
+desktopfile_DATA  += org.freeciv.gtk3.mp.desktop
 endif
 
 if MODINST_GTK4
-metainfofile_DATA += org.freeciv.mp.gtk4.metainfo.xml
-desktopfile_DATA  += org.freeciv.mp.gtk4.desktop
+metainfofile_DATA += org.freeciv.gtk4.mp.metainfo.xml
+desktopfile_DATA  += org.freeciv.gtk4.mp.desktop
 endif
 
 if MODINST_QT
-metainfofile_DATA += org.freeciv.mp.qt.metainfo.xml
-desktopfile_DATA  += org.freeciv.mp.qt.desktop
+metainfofile_DATA += org.freeciv.qt.mp.metainfo.xml
+desktopfile_DATA  += org.freeciv.qt.mp.desktop
 endif
 
 if RULEDIT
