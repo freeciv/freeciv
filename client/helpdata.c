@@ -70,7 +70,7 @@
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
   "Techs", "Terrain", "Extras", "Goods", "Specialists", "Governments",
-  "Ruleset", "Tileset", "Nations", "Multipliers", NULL
+  "Ruleset", "Tileset", "Musicset", "Nations", "Multipliers", NULL
 };
 
 #define SPECLIST_TAG help
@@ -640,6 +640,7 @@ static struct help_item *new_help_item(int type)
   pitem->topic = NULL;
   pitem->text = NULL;
   pitem->type = type;
+
   return pitem;
 }
 
@@ -1183,7 +1184,7 @@ void boot_help_texts(void)
 
 /****************************************************************************
   The following few functions are essentially wrappers for the
-  help_nodes help_list.  This allows us to avoid exporting the
+  help_nodes help_list. This allows us to avoid exporting the
   help_list, and instead only access it through a controlled
   interface.
 ****************************************************************************/
@@ -1285,7 +1286,7 @@ void help_iter_start(void)
 
 /************************************************************************//**
   Returns next help item; after help_iter_start(), this is
-  the first item.  At end, returns NULL.
+  the first item. At end, returns NULL.
 ****************************************************************************/
 const struct help_item *help_iter_next(void)
 {
