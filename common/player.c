@@ -1369,6 +1369,10 @@ bool pplayers_at_war(const struct player *pplayer,
 {
   enum diplstate_type ds;
 
+  if (pplayer == nullptr || pplayer2 == nullptr) {
+    return TRUE;
+  }
+
   if (pplayer == pplayer2) {
     return FALSE;
   }
