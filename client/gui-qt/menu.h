@@ -415,6 +415,18 @@ private slots:
   void slot_endgame();
   void slot_top_five();
   void slot_traveler();
+  void slot_bg1select();
+  void slot_bg1assign();
+  void slot_bg1append();
+  void slot_bg2select();
+  void slot_bg2assign();
+  void slot_bg2append();
+  void slot_bg3select();
+  void slot_bg3assign();
+  void slot_bg3append();
+  void slot_bg4select();
+  void slot_bg4assign();
+  void slot_bg4append();
 
 private:
   struct tile *find_last_unit_pos(struct unit *punit, int pos);
