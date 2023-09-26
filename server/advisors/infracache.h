@@ -24,7 +24,7 @@ struct adv_city {
   struct worker_activity_cache *act_cache;
   int act_cache_radius_sq;
 
-  /* building desirabilities - easiest to handle them here -- Syela */
+  /* Building desirabilities - easiest to handle them here -- Syela */
   /* The units of building_want are output
    * (shields/gold/luxuries) multiplied by a priority
    * (SHIELD_WEIGHTING, etc or ai->shields_priority, etc)
@@ -42,13 +42,13 @@ void initialize_infrastructure_cache(struct player *pplayer);
 
 void adv_city_update(struct city *pcity);
 
-int city_tile_value(const struct city *pcity, const struct tile *ptile,
-                    int foodneed, int prodneed);
+adv_want city_tile_value(const struct city *pcity, const struct tile *ptile,
+                         int foodneed, int prodneed);
 
 void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
-                             enum unit_activity act_id, int value);
-int adv_city_worker_act_get(const struct city *pcity, int city_tile_index,
-                            enum unit_activity act_id);
+                             enum unit_activity act_id, adv_want value);
+adv_want adv_city_worker_act_get(const struct city *pcity, int city_tile_index,
+                                 enum unit_activity act_id);
 void adv_city_worker_extra_set(struct city *pcity, int city_tile_index,
                                const struct extra_type *pextra, int value);
 int adv_city_worker_extra_get(const struct city *pcity, int city_tile_index,
