@@ -1,8 +1,8 @@
-app-id: org.freeciv.mp.gtk3
-runtime: org.freedesktop.Platform
-runtime-version: '23.08'
-sdk: org.freedesktop.Sdk
-command: freeciv-mp-gtk3
+app-id: org.freeciv.gtk4.mp
+runtime: org.gnome.Platform
+runtime-version: '45'
+sdk: org.gnome.Sdk
+command: freeciv-mp-gtk4
 rename-icon: freeciv-modpack
 finish-args:
   - --socket=wayland
@@ -11,11 +11,11 @@ finish-args:
   - --share=network
   - --filesystem=~/.freeciv:create
 modules:
-  - name: freeciv-mp-gtk3
+  - name: freeciv-mp-gtk4
     buildsystem: meson
     no-autogen: true
     config-opts:
-      - -Dfcmp=gtk3
+      - -Dfcmp=gtk4
       - -Dclients=[]
       - -Dserver=disabled
       - -Dtools=[]
