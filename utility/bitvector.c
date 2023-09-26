@@ -199,6 +199,36 @@ bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2)
 }
 
 /***********************************************************************//**
+  Copy dynamic bit vector content from another.
+***************************************************************************/
+void dbv_copy(struct dbv *dest, const struct dbv *src)
+{
+  if (dest->bits != src->bits) {
+    dbv_resize(dest, src->bits);
+  }
+
+  memcpy(&dest->vec, &src->vec, _BV_BYTES(src->bits));
+}
+
+/***********************************************************************//**
+  Copy dynamic bit vector content to static bitvector. Static vector
+  is assumed to be at least same size as the dynamic one.
+***************************************************************************/
+void dbv_to_bv(unsigned char *dest, const struct dbv *src)
+{
+  memcpy(dest, &(src->vec), _BV_BYTES(src->bits));
+}
+
+/***********************************************************************//**
+  Copy static bit vector content to dynamic bitvector. Static vector
+  is assumed to be at least same size as the dynamic one.
+***************************************************************************/
+void bv_to_dbv(struct dbv *dest, const unsigned char *src)
+{
+  memcpy(&(dest->vec), dest, _BV_BYTES(dest->bits));
+}
+
+/***********************************************************************//**
   Debug a dynamic bitvector.
 ***************************************************************************/
 void dbv_debug(struct dbv *pdbv)
