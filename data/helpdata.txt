@@ -1799,7 +1799,7 @@ Editing Mode (GTK):\n\
     Ctrl-E: toggle editing mode\n\
     Ctrl-M: toggle fog of war in editing mode\n\
 "), _("\
-Battle Groups (GTK):\n\
+Battle Groups (GTK & Qt):\n\
 ====================\n\
     Four Battle Groups are supported, controlled by F1, F2, F3, and F4.\n\
     Ctrl-F?:       Assign selected units as a Battle Group\n\

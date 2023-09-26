@@ -1408,6 +1408,7 @@ void mr_menu::setup_menus()
   menu_list.insert(ORDER_TRADEROUTE, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_road);
 
+  // Multiplayer Menu
   multiplayer_menu = this->addMenu(_("Multiplayer"));
   act = multiplayer_menu->addAction(_("Delayed Goto"));
   act->setShortcut(QKeySequence(tr("z")));
@@ -1613,7 +1614,58 @@ void mr_menu::setup_menus()
   menu_list.insert(ENDGAME, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_endgame);
 
-  /* Help Menu */
+  // Battle Groups Menu
+  menu = this->addMenu(_("Battle Groups"));
+
+  act = menu->addAction(_("Select Battle Group 1"));
+  act->setShortcut(QKeySequence(tr("Shift+F1")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg1select);
+
+  act = menu->addAction(_("Assign Battle Group 1"));
+  act->setShortcut(QKeySequence(tr("Ctrl+F1")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg1assign);
+
+  act = menu->addAction(_("Append Battle Group 1"));
+  act->setShortcut(QKeySequence(tr("Ctrl+Shift+F1")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg1append);
+
+  act = menu->addAction(_("Select Battle Group 2"));
+  act->setShortcut(QKeySequence(tr("Shift+F2")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg2select);
+
+  act = menu->addAction(_("Assign Battle Group 2"));
+  act->setShortcut(QKeySequence(tr("Ctrl+F2")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg2assign);
+
+  act = menu->addAction(_("Append Battle Group 2"));
+  act->setShortcut(QKeySequence(tr("Ctrl+Shift+F2")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg2append);
+
+  act = menu->addAction(_("Select Battle Group 3"));
+  act->setShortcut(QKeySequence(tr("Shift+F3")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg3select);
+
+  act = menu->addAction(_("Assign Battle Group 3"));
+  act->setShortcut(QKeySequence(tr("Ctrl+F3")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg3assign);
+
+  act = menu->addAction(_("Append Battle Group 3"));
+  act->setShortcut(QKeySequence(tr("Ctrl+Shift+F3")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg3append);
+
+  act = menu->addAction(_("Select Battle Group 4"));
+  act->setShortcut(QKeySequence(tr("Shift+F4")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg4select);
+
+  act = menu->addAction(_("Assign Battle Group 4"));
+  act->setShortcut(QKeySequence(tr("Ctrl+F4")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg4assign);
+
+  act = menu->addAction(_("Append Battle Group 4"));
+  act->setShortcut(QKeySequence(tr("Ctrl+Shift+F4")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_bg4append);
+
+  // Help Menu
   menu = this->addMenu(_("Help"));
 
   signal_help_mapper = new QSignalMapper(this);
@@ -3679,6 +3731,102 @@ bool mr_menu::confirm_disruptive_selection()
   return (ask->set_text_title(_("Selection will cancel current assignments!"),
                               _("Confirm Disruptive Selection"), true)
           == QMessageBox::Ok);
+}
+
+/**********************************************************************//**
+  Select Battle Group 1
+**************************************************************************/
+void mr_menu::slot_bg1select()
+{
+  key_unit_select_battlegroup(0, FALSE);
+}
+
+/**********************************************************************//**
+  Assign Battle Group 1
+**************************************************************************/
+void mr_menu::slot_bg1assign()
+{
+  key_unit_assign_battlegroup(0, FALSE);
+}
+
+/**********************************************************************//**
+  Append Battle Group 1
+**************************************************************************/
+void mr_menu::slot_bg1append()
+{
+  key_unit_assign_battlegroup(0, TRUE);
+}
+
+/**********************************************************************//**
+  Select Battle Group 2
+**************************************************************************/
+void mr_menu::slot_bg2select()
+{
+  key_unit_select_battlegroup(1, FALSE);
+}
+
+/**********************************************************************//**
+  Assign Battle Group 2
+**************************************************************************/
+void mr_menu::slot_bg2assign()
+{
+  key_unit_assign_battlegroup(1, FALSE);
+}
+
+/**********************************************************************//**
+  Append Battle Group 2
+**************************************************************************/
+void mr_menu::slot_bg2append()
+{
+  key_unit_assign_battlegroup(1, TRUE);
+}
+
+/**********************************************************************//**
+  Select Battle Group 3
+**************************************************************************/
+void mr_menu::slot_bg3select()
+{
+  key_unit_select_battlegroup(2, FALSE);
+}
+
+/**********************************************************************//**
+  Assign Battle Group 3
+**************************************************************************/
+void mr_menu::slot_bg3assign()
+{
+  key_unit_assign_battlegroup(2, FALSE);
+}
+
+/**********************************************************************//**
+  Append Battle Group 3
+**************************************************************************/
+void mr_menu::slot_bg3append()
+{
+  key_unit_assign_battlegroup(2, TRUE);
+}
+
+/**********************************************************************//**
+  Select Battle Group 4
+**************************************************************************/
+void mr_menu::slot_bg4select()
+{
+  key_unit_select_battlegroup(3, FALSE);
+}
+
+/**********************************************************************//**
+  Assign Battle Group 4
+**************************************************************************/
+void mr_menu::slot_bg4assign()
+{
+  key_unit_assign_battlegroup(3, FALSE);
+}
+
+/**********************************************************************//**
+  Append Battle Group 4
+**************************************************************************/
+void mr_menu::slot_bg4append()
+{
+  key_unit_assign_battlegroup(3, TRUE);
 }
 
 /**********************************************************************//**
