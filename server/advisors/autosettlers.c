@@ -299,10 +299,11 @@ static void consider_settler_action(const struct player *pplayer,
                                     enum unit_activity act,
                                     struct extra_type *target,
                                     adv_want extra,
-                                    int new_tile_value, int old_tile_value,
+                                    adv_want new_tile_value,
+                                    adv_want old_tile_value,
                                     bool in_use, int delay,
                                     adv_want *best_value,
-                                    int *best_old_tile_value,
+                                    adv_want *best_old_tile_value,
                                     int *best_extra,
                                     bool *improve_worked,
                                     int *best_delay,
@@ -312,7 +313,8 @@ static void consider_settler_action(const struct player *pplayer,
                                     struct tile *ptile)
 {
   bool improves;
-  int total_value = 0, base_value = 0;
+  adv_want total_value = 0;
+  adv_want base_value = 0;
   int old_improvement_value;
 
   fc_assert(act != ACTIVITY_LAST);
@@ -361,7 +363,7 @@ static void consider_settler_action(const struct player *pplayer,
     }
     total_value += extra * WORKER_FACTOR;
 
-    /* use factor to prevent rounding errors */
+    /* Use factor to prevent rounding errors */
     total_value = amortize(total_value, delay);
 
     if (*improve_worked) {
@@ -437,10 +439,10 @@ adv_want settler_evaluate_improvements(struct unit *punit,
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_position pos;
-  int oldv;             /* Current value of consideration tile. */
-  int best_oldv = 9999; /* oldv of best target so far; compared if
-                         * newv == best_newv; not initialized to zero,
-                         * so that newv = 0 activities are not chosen. */
+  adv_want oldv;             /* Current value of consideration tile. */
+  adv_want best_oldv = 9999; /* oldv of best target so far; compared if
+                              * newv == best_newv; not initialized to zero,
+                              * so that newv = 0 activities are not chosen. */
   adv_want best_newv = 0;
   bool improve_worked = FALSE;
   int best_extra = 0;
@@ -535,7 +537,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
             if (adv_city_worker_act_get(pcity, cindex, act) >= 0
                 && can_unit_do_activity_targeted_at(punit, act, target,
                                                     ptile)) {
-              int base_value = adv_city_worker_act_get(pcity, cindex, act);
+              adv_want base_value = adv_city_worker_act_get(pcity, cindex, act);
 
               turns = pos.turn + get_turns_for_activity_at(punit, act, ptile,
                                                            target);
@@ -557,7 +559,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
           extra_type_iterate(pextra) {
             enum unit_activity act = ACTIVITY_LAST;
             enum unit_activity eval_act = ACTIVITY_LAST;
-            int base_value;
+            adv_want base_value;
             bool removing = tile_has_extra(ptile, pextra);
 
             if (removing) {
@@ -687,7 +689,8 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                                                       ACTIVITY_GEN_ROAD,
                                                                       ptile,
                                                                       dep_tgt);
-                    int dep_value = base_value + adv_city_worker_extra_get(pcity, cindex, dep_tgt);
+                    adv_want dep_value
+                      = base_value + adv_city_worker_extra_get(pcity, cindex, dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
                                             dep_value,
@@ -713,9 +716,9 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                                                       ACTIVITY_BASE,
                                                                       ptile,
                                                                       dep_tgt);
-                    int dep_value = base_value + adv_city_worker_extra_get(pcity,
-                                                                           cindex,
-                                                                           dep_tgt);
+                    adv_want dep_value
+                      = base_value + adv_city_worker_extra_get(pcity, cindex,
+                                                               dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
                                             0.0, dep_value, oldv, in_use,
