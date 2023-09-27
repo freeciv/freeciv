@@ -274,17 +274,9 @@ reqs    =
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Fort", "Tile", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-;      "UnitClass", "Sea", "Local", FALSE
-;      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",   "range", "present"
+      "Extra",         "Fort",   "Tile",  TRUE
+      "UnitClassFlag", "Aerial", "Local", FALSE
     }
 
 ; Cumulative with fort
@@ -297,22 +289,15 @@ reqs    =
       "Extra", "Fortress", "Tile", TRUE
     }
 
-; Airstrip HP regen (Every Air unit)
+; Airstrip HP regen (All Air units except Missiles)
 [effect_airstrip_hp_regen]
 type    = "HP_Regen"
 value   = 10
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Airstrip", "Tile", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",     "range", "present"
+      "Extra",         "Airstrip", "Tile",  TRUE
+      "UnitClassFlag", "Aerial",   "Local", TRUE
+      "UnitClassFlag", "Missile",  "Local", FALSE
     }
 
 ; Airbase HP regen: cumulative with airstrip
@@ -322,34 +307,19 @@ reqs    =
 type    = "HP_Regen"
 value   = 24
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Airbase", "Tile", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",    "range", "present"
+      "Extra",         "Airbase", "Tile",  TRUE
+      "UnitClassFlag", "Aerial",  "Local", TRUE
+      "UnitClassFlag", "Missile", "Local", FALSE
     }
 
 [effect_airstrip_defense]
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Airstrip", "Tile", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
-;      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",     "range"
+      "Extra",         "Airstrip", "Tile"
+      "UnitClassFlag", "Aerial",   "Local"
     }
 
 ; Cumulative with airstrip
@@ -1880,23 +1850,15 @@ reqs    =
       "CityTile",      "Center", "Tile"
     }
 
-; Every Land, Sea, Trireme
+; All Ground and Naval units
 [effect_city_defense_1]
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "MinSize", "9", "City", TRUE
-      "CityTile", "Center", "Tile", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-;      "UnitClass", "Sea", "Local", FALSE
-;      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",   "range", "present"
+      "MinSize",       "9",      "City",  TRUE
+      "CityTile",      "Center", "Tile",  TRUE
+      "UnitClassFlag", "Aerial", "Local", FALSE
     }
 
 ; Every Land

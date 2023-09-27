@@ -74,6 +74,7 @@ class_flags =
                      _("Gets a 50% defensive bonus while in cities.")
     _("Barracks"), _("Benefits from barracks")
     _("Ground"), _("Ground units")
+    _("Aerial"), _("Aerial units")
   }
 
 [veteran_system]
@@ -161,7 +162,7 @@ name          = _("?unitclass:Missile")
 min_speed     = 0
 hp_loss_pct   = 0
 flags         = "Missile", "Unreachable", "DoesntOccupyTile",
-                "MediumWeight", "HutFrighten"
+                "MediumWeight", "HutFrighten", "Aerial"
 
 [unitclass_land]
 ; /* TRANS: Unit class: used adjectivally */
@@ -222,7 +223,8 @@ flags         = "ZOC", "DamageSlows", "AttFromNonNative", "MediumWeight"
 name          = _("?unitclass:Helicopter")
 min_speed     = 1
 hp_loss_pct   = 10
-flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom", "MediumWeight"
+flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom", "MediumWeight",
+                "Aerial"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
@@ -230,7 +232,7 @@ name          = _("?unitclass:Air")
 min_speed     = 1
 hp_loss_pct   = 10
 flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
-                "MediumWeight", "HutFrighten"
+                "MediumWeight", "HutFrighten", "Aerial"
 
 ; /* <-- avoid gettext warnings
 ;
