@@ -56,6 +56,7 @@ class_flags =
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
     _("Barracks"), _("Benefits from barracks")
     _("Ground"), _("Ground units")
+    _("Aerial"), _("Aerial units")
   }
 
 [veteran_system]
@@ -146,7 +147,8 @@ name          = _("?unitclass:Missile")
 min_speed     = 0
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"
-flags         = "Missile", "Unreachable", "DoesntOccupyTile", "Airliftable"
+flags         = "Missile", "Unreachable", "DoesntOccupyTile", "Airliftable",
+                "Aerial"
 
 [unitclass_land]
 ; /* TRANS: Unit class: used adjectivally */
@@ -202,7 +204,8 @@ flags         = "ZOC", "DamageSlows", "AttFromNonNative"
 name          = _("?unitclass:Helicopter")
 min_speed     = 1
 hp_loss_pct   = 10
-flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom", "Airliftable"
+flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom", "Airliftable",
+                "Aerial"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
@@ -210,7 +213,8 @@ name          = _("?unitclass:Air")
 min_speed     = 1
 hp_loss_pct   = 10
 hut_behavior  = "Frighten"
-flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
+flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable",
+                "Aerial"
 
 ; /* <-- avoid gettext warnings
 ;
