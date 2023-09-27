@@ -776,7 +776,7 @@ int tile_move_cost_ptrs(const struct civ_map *nmap,
 {
   const struct unit_class *pclass = utype_class(punittype);
   int cost;
-  char cardinal_move = -1;
+  signed char cardinal_move = -1;
   bool ri;
 
   /* Try to exit early for detectable conditions */
