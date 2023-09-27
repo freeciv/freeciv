@@ -787,7 +787,7 @@ is known, Thick Mountains can also be mined.\
 ")
 
 [extra_pollution]
-name           = _("Pollution")
+name           = _("?extra:Pollution")
 category       = "Nuisance"
 causes         = "Pollution"
 rmcauses       = "CleanPollution"

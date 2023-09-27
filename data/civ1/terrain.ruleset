@@ -927,7 +927,7 @@ Building a mine on an irrigated tile will destroy the irrigation.\
 ")
 
 [extra_pollution]
-name           = _("Pollution")
+name           = _("?extra:Pollution")
 category       = "Nuisance"
 causes         = "Pollution", "Fallout"
 rmcauses       = "CleanPollution"
