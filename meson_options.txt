@@ -52,8 +52,8 @@ option('audio',
 
 option('tools',
        type: 'array',
-       choices: ['ruledit', 'manual'],
-       value: ['ruledit', 'manual'],
+       choices: ['ruledit', 'manual', 'ruleup'],
+       value: ['ruledit', 'manual', 'ruleup'],
        description: 'Extra tools to build')
 
 option('nls',
