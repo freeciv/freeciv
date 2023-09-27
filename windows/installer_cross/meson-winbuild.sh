@@ -75,7 +75,7 @@ fi
 
 QTPARAMS=""
 
-TOOLS=manual
+TOOLS=manual,ruleup
 case "${GUI}" in
   gtk3.22) FCMP="gtk3" ;;
   gtk4) FCMP="gtk4" ;;

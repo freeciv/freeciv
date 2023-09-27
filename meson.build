@@ -4002,6 +4002,8 @@ tool_lib = static_library('fc_toolutil',
   include_directories: server_inc,
   )
 
+if get_option('tools').contains('ruleup')
+
 executable('freeciv-ruleup',
   'tools/ruleup.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
@@ -4009,6 +4011,8 @@ executable('freeciv-ruleup',
   dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
   install: true
   )
+
+endif
 
 if get_option('tools').contains('ruledit')
 
