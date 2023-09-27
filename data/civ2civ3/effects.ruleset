@@ -259,17 +259,9 @@ reqs    =
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Fort", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-;      "UnitClass", "Sea", "Local", FALSE
-;      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",   "range", "present"
+      "Extra",         "Fort",   "Local", TRUE
+      "UnitClassFlag", "Aerial", "Local", FALSE
     }
 
 ; Cumulative with fort
@@ -282,22 +274,15 @@ reqs    =
       "Extra", "Fortress", "Local", TRUE
     }
 
-; Airstrip HP regen (Every Air unit)
+; Airstrip HP regen (All Aerial units except Missiles)
 [effect_airstrip_hp_regen]
 type    = "HP_Regen"
 value   = 10
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Airstrip", "Local", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",     "range", "present"
+      "Extra",         "Airstrip", "Local", TRUE
+      "UnitClassFlag", "Aerial",   "Local", TRUE
+      "UnitClassFlag", "Missile",  "Local", FALSE
     }
 
 ; Airbase HP regen: cumulative with airstrip
@@ -307,34 +292,19 @@ reqs    =
 type    = "HP_Regen"
 value   = 24
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Airbase", "Local", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",    "range", "present"
+      "Extra",         "Airbase", "Local", TRUE
+      "UnitClassFlag", "Aerial",  "Local", TRUE
+      "UnitClassFlag", "Missile", "Local", FALSE
     }
 
 [effect_airstrip_defense]
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Airstrip", "Local", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
-;      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",     "range"
+      "Extra",         "Airstrip", "Local"
+      "UnitClassFlag", "Aerial",   "Local"
     }
 
 ; Cumulative with airstrip
@@ -1903,18 +1873,10 @@ reqs    =
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "MinSize", "9", "City", TRUE
-      "CityTile", "Center", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-;      "UnitClass", "Sea", "Local", FALSE
-;      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+    { "type",          "name",   "range", "present"
+      "MinSize",       "9",      "City",  TRUE
+      "CityTile",      "Center", "Local", TRUE
+      "UnitClassFlag", "Aerial", "Local", FALSE
     }
 
 ; Every Land
