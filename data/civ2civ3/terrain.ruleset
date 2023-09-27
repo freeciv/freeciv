@@ -1318,7 +1318,7 @@ or directly by Transport units.\
 ")
 
 [extra_pollution]
-name           = _("Pollution")
+name           = _("?extra:Pollution")
 category       = "Nuisance"
 causes         = "Pollution"
 rmcauses       = "CleanPollution"
