@@ -1284,7 +1284,7 @@ Building an oil well on an irrigated tile will destroy the irrigation.\
 ")
 
 [extra_pollution]
-name           = _("Pollution")
+name           = _("?extra:Pollution")
 category       = "Nuisance"
 causes         = "Pollution"
 rmcauses       = "Clean"
