@@ -32,6 +32,9 @@
 #include "game.h"
 #include "nation.h"
 
+/* client */
+#include "zoom.h"
+
 /* gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
@@ -143,7 +146,7 @@ void popup_find_dialog(void)
     return;
   }
 
-  original = canvas_pos_to_tile(main_data.map->w / 2, main_data.map->h / 2);
+  original = canvas_pos_to_tile(main_data.map->w / 2, main_data.map->h / 2, map_zoom);
 
   find_city_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 

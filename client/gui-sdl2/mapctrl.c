@@ -43,6 +43,7 @@
 #include "climisc.h"
 #include "overview_common.h"
 #include "update_queue.h"
+#include "zoom.h"
 
 /* client/gui-sdl2 */
 #include "citydlg.h"
@@ -2302,7 +2303,8 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
       update_mouse_cursor(CURSOR_DEFAULT);
       /* popup context menu */
       if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
-                                      (int) button_behavior->event->y))) {
+                                      (int) button_behavior->event->y,
+                                      mouse_zoom))) {
         popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
                                       button_behavior->event->y);
       }
@@ -2329,7 +2331,8 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
     case MB_HOLD_MEDIUM:
       /* popup context menu */
       if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
-                                      (int) button_behavior->event->y))) {
+                                      (int) button_behavior->event->y,
+                                      mouse_zoom))) {
         popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
                                       button_behavior->event->y);
       }
@@ -2361,7 +2364,8 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
     case MB_HOLD_SHORT:
       if (LSHIFT || LALT || LCTRL) {
         if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
-                                        (int) button_behavior->event->y))) {
+                                        (int) button_behavior->event->y,
+                                        mouse_zoom))) {
           if (LSHIFT) {
             popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
                                           button_behavior->event->y);
@@ -2409,9 +2413,10 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
     case MB_HOLD_LONG:
 /*        break;*/
     default:
-      /* popup context menu */
+      /* Popup context menu */
       if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
-                                      (int) button_behavior->event->y))) {
+                                      (int) button_behavior->event->y,
+                                      mouse_zoom))) {
         popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
                                       button_behavior->event->y);
       }

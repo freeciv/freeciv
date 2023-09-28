@@ -224,6 +224,10 @@ static void free_unit_table(void);
 
 static void adjust_default_options(void);
 
+static float zoom_steps_custom[] = {
+  -1.0, 0.13, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, -1.0
+};
+
 /**********************************************************************//**
   Callback for freelog
 **************************************************************************/
@@ -682,7 +686,7 @@ static gboolean mouse_scroll_mapcanvas(GtkEventControllerScroll *controller,
   scroll_y += ystep * dy;
   scroll_x += xstep * dx;
 
-  set_mapview_scroll_pos(scroll_x, scroll_y);
+  set_mapview_scroll_pos(scroll_x, scroll_y, mouse_zoom);
 
   /* Emulating mouse move now */
   if (!gtk_widget_has_focus(map_canvas)) {
@@ -703,7 +707,7 @@ static gboolean mouse_scroll_mapcanvas(GtkEventControllerScroll *controller,
     maybe_activate_keyboardless_goto(cur_x, cur_y);
   }
 
-  control_mouse_cursor(canvas_pos_to_tile(cur_x, cur_y));
+  control_mouse_cursor(canvas_pos_to_tile(cur_x, cur_y, mouse_zoom));
 
   return TRUE;
 }
@@ -1719,6 +1723,8 @@ void ui_init(void)
   log_set_callback(log_callback_utf8);
   set_g_log_callbacks();
   set_frame_by_frame_animation();
+  zoom_phase_set(FALSE);
+  zoom_set_steps(zoom_steps_custom);
 }
 
 /**********************************************************************//**

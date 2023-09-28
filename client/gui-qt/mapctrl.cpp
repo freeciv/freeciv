@@ -33,6 +33,7 @@
 #include "themes_common.h"
 #include "tile.h"
 #include "unit.h"
+#include "zoom.h"
 
 // gui-qt
 #include "citydlg.h"
@@ -225,7 +226,7 @@ void map_view::shortcut_pressed(int key)
   bt = QApplication::mouseButtons();
   pos = mapFromGlobal(QCursor::pos());
 
-  ctile = canvas_pos_to_tile(pos.x(), pos.y());
+  ctile = canvas_pos_to_tile(pos.x(), pos.y(), map_zoom);
   pcity = ctile ? tile_city(ctile) : nullptr;
 
   if (pcity && pcity->owner != client_player()) {
@@ -236,7 +237,7 @@ void map_view::shortcut_pressed(int key)
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc->mouse && md == sc->mod
       && gui()->trade_gen.hover_city) {
-    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    ctile = canvas_pos_to_tile(pos.x(), pos.y(), map_zoom);
     gui()->trade_gen.add_tile(ctile);
     gui()->mapview_wdg->repaint();
 
@@ -249,7 +250,7 @@ void map_view::shortcut_pressed(int key)
     char text[1024];
     struct city *rcity;
 
-    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    ctile = canvas_pos_to_tile(pos.x(), pos.y(), map_zoom);
     rcity = tile_city(ctile);
     if (rcity) {
       gui()->rallies.hover_tile = true;
@@ -292,7 +293,7 @@ void map_view::shortcut_pressed(int key)
   }
 
   if (bt == Qt::LeftButton && gui()->menu_bar->delayed_order) {
-    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    ctile = canvas_pos_to_tile(pos.x(), pos.y(), map_zoom);
     gui()->menu_bar->set_tile_for_order(ctile);
     clear_hover_state();
     exit_goto_state();
@@ -307,7 +308,7 @@ void map_view::shortcut_pressed(int key)
   if (bt  == Qt::LeftButton && gui()->menu_bar->quick_airlifting) {
     struct city *acity;
 
-    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    ctile = canvas_pos_to_tile(pos.x(), pos.y(), map_zoom);
     acity = tile_city(ctile);
     if (acity) {
       multiairlift(acity, gui()->menu_bar->airlift_type_id);
@@ -536,11 +537,13 @@ void map_view::mouseReleaseEvent(QMouseEvent *event)
 void map_view::mouseMoveEvent(QMouseEvent *event)
 {
   update_line(event->pos().x(), event->pos().y());
+
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
     maybe_activate_keyboardless_goto(event->pos().x(), event->pos().y());
   }
   control_mouse_cursor(canvas_pos_to_tile(event->pos().x(),
-                                          event->pos().y()));
+                                          event->pos().y(),
+                                          map_zoom));
 }
 
 /**********************************************************************//**

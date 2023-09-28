@@ -38,6 +38,7 @@
 #include "editor.h"
 #include "tilespec.h"
 #include "text.h"
+#include "zoom.h"
 
 /* client/agents */
 #include "cma_core.h"
@@ -73,10 +74,10 @@ static void popit(struct tile *ptile)
     GtkAllocation alloc;
     float canvas_x, canvas_y;
 
-    tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+    tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, ptile);
     gtk_widget_get_allocation(map_canvas, &alloc);
-    rect.x = canvas_x - alloc.x;
-    rect.y = canvas_y - alloc.y;
+    rect.x = (canvas_x * mouse_zoom / map_zoom) - alloc.x;
+    rect.y = (canvas_y * mouse_zoom / map_zoom) - alloc.y;
     rect.width = tileset_full_tile_width(tileset);
     rect.height = tileset_tile_height(tileset);
 
@@ -218,7 +219,7 @@ gboolean left_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
   }
 
   gtk_widget_grab_focus(map_canvas);
-  ptile = canvas_pos_to_tile(x, y);
+  ptile = canvas_pos_to_tile(x, y, mouse_zoom);
 
   state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(gesture));
 
@@ -274,7 +275,7 @@ gboolean right_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
   }
 
   gtk_widget_grab_focus(map_canvas);
-  ptile = canvas_pos_to_tile(x, y);
+  ptile = canvas_pos_to_tile(x, y, mouse_zoom);
   pcity = ptile ? tile_city(ptile) : NULL;
 
   state = gtk_event_controller_get_current_event_state(
@@ -315,7 +316,7 @@ gboolean right_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
     }
     if (hover_state == HOVER_NONE) {
       anchor_selection_rectangle(x, y);
-      rbutton_down = TRUE; /* causes rectangle updates */
+      rbutton_down = TRUE; /* Causes rectangle updates */
     }
   }
 
@@ -342,7 +343,7 @@ gboolean middle_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
   }
 
   gtk_widget_grab_focus(map_canvas);
-  ptile = canvas_pos_to_tile(x, y);
+  ptile = canvas_pos_to_tile(x, y, mouse_zoom);
 
   state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(gesture));
 
@@ -439,7 +440,7 @@ gboolean move_mapcanvas(GtkEventControllerMotion *controller,
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
     maybe_activate_keyboardless_goto(x, y);
   }
-  control_mouse_cursor(canvas_pos_to_tile(x, y));
+  control_mouse_cursor(canvas_pos_to_tile(x, y, mouse_zoom));
 
   return TRUE;
 }

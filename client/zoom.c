@@ -17,12 +17,16 @@
 
 /* client */
 #include "mapview_common.h"
+#include "mapview_g.h"
 
 #include "zoom.h"
 
 
 float map_zoom = 1.0;
 bool zoom_enabled = FALSE;
+
+float mouse_zoom = 1.0;
+bool zoom_individual_tiles = TRUE;
 
 static float default_zoom_steps[] = {
 #ifdef EXP_ZOOM_LEVELS
@@ -49,9 +53,15 @@ static struct zoom_data
 void zoom_set(float new_zoom)
 {
   zoom_enabled = TRUE;
-  map_zoom = new_zoom;
+  mouse_zoom = new_zoom;
 
-  map_canvas_resized(mapview.width, mapview.height);
+  if (zoom_individual_tiles) {
+    map_zoom = new_zoom;
+
+    map_canvas_resized(mapview.width, mapview.height);
+  } else {
+    map_canvas_size_refresh();
+  }
 }
 
 /**********************************************************************//**
@@ -61,6 +71,7 @@ void zoom_1_0(void)
 {
   zoom_enabled = FALSE;
   map_zoom = 1.0;
+  mouse_zoom = 1.0;
 
   map_canvas_resized(mapview.width, mapview.height);
 }
@@ -80,6 +91,20 @@ void zoom_set_steps(float *steps)
 }
 
 /**********************************************************************//**
+  Set time zooming takes place. Default is to zoom individual tiles.
+  Gui needs to implement alternatives themselves.
+**************************************************************************/
+void zoom_phase_set(bool individual_tiles)
+{
+  zoom_individual_tiles = individual_tiles;
+
+  if (!individual_tiles) {
+    map_zoom = 1.0;
+    zoom_enabled = FALSE;
+  }
+}
+
+/**********************************************************************//**
   Zoom level one step up
 **************************************************************************/
 void zoom_step_up(void)
@@ -89,7 +114,7 @@ void zoom_step_up(void)
   /* Even if below previous step, close enough is considered to be in
    * previous step so that change is not miniscule */
   for (i = 1 ;
-       zoom_steps[i] < map_zoom * 1.05 && zoom_steps[i] > 0.0 ;
+       zoom_steps[i] < mouse_zoom * 1.05 && zoom_steps[i] > 0.0 ;
        i++ ) {
     /* Empty */
   }
@@ -113,7 +138,7 @@ void zoom_step_down(void)
   /* Even if above previous step, close enough is considered to be in
    * previous step so that change is not miniscule */
   for (i = 1;
-       zoom_steps[i] < map_zoom * 1.05 && zoom_steps[i] > 0.0 ;
+       zoom_steps[i] < mouse_zoom * 1.05 && zoom_steps[i] > 0.0 ;
        i++) {
   }
 
@@ -135,8 +160,8 @@ void zoom_step_down(void)
 void zoom_start(float tgt, bool tgt_1_0, float factor, float interval)
 {
   zdata.tgt = tgt;
-  if ((tgt < map_zoom && factor > 1.0)
-      || (tgt > map_zoom && factor < 1.0)) {
+  if ((tgt < mouse_zoom && factor > 1.0)
+      || (tgt > mouse_zoom && factor < 1.0)) {
     factor = 1.0 / factor;
   }
   zdata.factor = factor;
@@ -151,7 +176,7 @@ void zoom_start(float tgt, bool tgt_1_0, float factor, float interval)
 bool zoom_update(double time_until_next_call)
 {
   if (zdata.active) {
-    float new_zoom = map_zoom * zdata.factor;
+    float new_zoom = mouse_zoom * zdata.factor;
 
     if ((zdata.factor > 1.0 && new_zoom > zdata.tgt)
         || (zdata.factor < 1.0 && new_zoom < zdata.tgt)) {

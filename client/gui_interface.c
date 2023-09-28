@@ -344,6 +344,14 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 }
 
 /**********************************************************************//**
+  Call map_canvas_size_refresh callback
+**************************************************************************/
+void map_canvas_size_refresh(void)
+{
+  funcs.map_canvas_size_refresh();
+}
+
+/**********************************************************************//**
   Call set_rulesets callback
 **************************************************************************/
 void set_rulesets(int num_rulesets, char **rulesets)

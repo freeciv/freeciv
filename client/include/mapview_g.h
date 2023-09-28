@@ -53,10 +53,12 @@ GUI_FUNC_PROTO(void, gui_flush, void)
 GUI_FUNC_PROTO(void, update_map_canvas_scrollbars, void)
 GUI_FUNC_PROTO(void, update_map_canvas_scrollbars_size, void)
 
+GUI_FUNC_PROTO(void, map_canvas_size_refresh, void)
+
 GUI_FUNC_PROTO(void, put_cross_overlay_tile, struct tile *ptile)
 
 GUI_FUNC_PROTO(void, draw_selection_rectangle, int canvas_x, int canvas_y,
                int w, int h)
 GUI_FUNC_PROTO(void, tileset_changed, void)
 
-#endif  /* FC__MAPVIEW_G_H */
+#endif /* FC__MAPVIEW_G_H */
