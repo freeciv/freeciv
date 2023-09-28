@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-11 16:54+0300\n"
-"PO-Revision-Date: 2023-09-22 13:26+0200\n"
+"POT-Creation-Date: 2023-09-25 08:23+0300\n"
+"PO-Revision-Date: 2023-09-28 10:12+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -569,8 +569,8 @@ msgstr "własny"
 #: client/citydlg_common.c:453 client/gui-gtk-3.0/citydlg.c:1841
 #: client/gui-gtk-3.22/citydlg.c:1871 client/gui-gtk-4.0/citydlg.c:1883
 #: client/gui-qt/citydlg.cpp:3093 client/gui-sdl2/cityrep.c:572
-#: client/gui-sdl2/cityrep.c:1114 client/gui-sdl2/wldlg.c:1459
-#: client/gui-sdl2/wldlg.c:1463 client/text.c:931
+#: client/gui-sdl2/cityrep.c:1114 client/gui-sdl2/wldlg.c:1460
+#: client/gui-sdl2/wldlg.c:1464 client/text.c:931
 msgid "never"
 msgstr "nigdy"
 
@@ -784,25 +784,25 @@ msgid "%d/turn"
 msgstr "%d/turę"
 
 #: client/citydlg_common.c:401 client/citydlg_common.c:411
-#: client/gui-sdl2/wldlg.c:1427
+#: client/gui-sdl2/wldlg.c:1428
 msgid "Obsolete"
 msgstr "Przestarzałe"
 
 #: client/citydlg_common.c:403 client/citydlg_common.c:413
-#: client/gui-sdl2/repodlgs.c:2131 client/gui-sdl2/wldlg.c:1430
-#: client/gui-sdl2/wldlg.c:1438 common/events.c:93 common/events.c:170
+#: client/gui-sdl2/repodlgs.c:2131 client/gui-sdl2/wldlg.c:1431
+#: client/gui-sdl2/wldlg.c:1439 common/events.c:93 common/events.c:170
 msgid "Built"
 msgstr "Zbudowano"
 
-#: client/citydlg_common.c:405 client/gui-sdl2/wldlg.c:1432
+#: client/citydlg_common.c:405 client/gui-sdl2/wldlg.c:1433
 msgid "Destroyed"
 msgstr "Zniszczony"
 
-#: client/citydlg_common.c:407 client/gui-sdl2/wldlg.c:1434
+#: client/citydlg_common.c:407 client/gui-sdl2/wldlg.c:1435
 msgid "Great Wonder"
 msgstr "Wielki cud"
 
-#: client/citydlg_common.c:415 client/gui-sdl2/wldlg.c:1440
+#: client/citydlg_common.c:415 client/gui-sdl2/wldlg.c:1441
 msgid "Small Wonder"
 msgstr "Mały cud"
 
@@ -1248,7 +1248,7 @@ msgstr "Najlepsze jednostki obronne"
 #: client/gui-gtk-4.0/menu.c:947 client/gui-gtk-4.0/repodlgs.c:1690
 #: client/gui-qt/cityrep.cpp:740 client/gui-qt/menu.cpp:1557
 #: client/gui-qt/pages.cpp:731 client/gui-qt/pages.cpp:1297
-#: client/gui-sdl2/helpdlg.c:767 client/gui-sdl2/mapctrl.c:1731
+#: client/gui-sdl2/helpdlg.c:769 client/gui-sdl2/mapctrl.c:1731
 #: client/gui-sdl2/repodlgs.c:394 client/include/helpdlg_g.h:46
 #: data/helpdata.txt:1040
 msgid "Units"
@@ -4778,13 +4778,13 @@ msgstr ""
 #: client/gui-gtk-3.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:111
 #: client/gui-gtk-3.22/helpdlg.c:107 client/gui-gtk-3.22/helpdlg.c:111
 #: client/gui-gtk-4.0/helpdlg.c:107 client/gui-gtk-4.0/helpdlg.c:111
-#: client/gui-qt/helpdlg.cpp:1018 client/gui-sdl2/helpdlg.c:385
+#: client/gui-qt/helpdlg.cpp:1018 client/gui-sdl2/helpdlg.c:387
 msgid "Base Cost:"
 msgstr "Koszt podstawowy:"
 
 #: client/gui-gtk-3.0/helpdlg.c:107 client/gui-gtk-3.22/helpdlg.c:107
 #: client/gui-gtk-4.0/helpdlg.c:107 client/gui-qt/helpdlg.cpp:1024
-#: client/gui-sdl2/helpdlg.c:395 client/gui-sdl2/helpdlg.c:823
+#: client/gui-sdl2/helpdlg.c:397 client/gui-sdl2/helpdlg.c:827
 msgid "Upkeep:"
 msgstr "Utrzymanie:"
 
@@ -4793,7 +4793,7 @@ msgstr "Utrzymanie:"
 #: client/gui-gtk-3.22/helpdlg.c:111 client/gui-gtk-3.22/helpdlg.c:122
 #: client/gui-gtk-4.0/helpdlg.c:107 client/gui-gtk-4.0/helpdlg.c:111
 #: client/gui-gtk-4.0/helpdlg.c:122 client/gui-qt/helpdlg.cpp:1050
-#: client/gui-sdl2/helpdlg.c:407 client/gui-sdl2/helpdlg.c:863
+#: client/gui-sdl2/helpdlg.c:409 client/gui-sdl2/helpdlg.c:867
 msgid "Requirement:"
 msgstr "Wymagania:"
 
@@ -4801,43 +4801,43 @@ msgstr "Wymagania:"
 #: client/gui-gtk-3.22/helpdlg.c:111 client/gui-gtk-3.22/helpdlg.c:122
 #: client/gui-gtk-4.0/helpdlg.c:111 client/gui-gtk-4.0/helpdlg.c:122
 #: client/gui-qt/citydlg.cpp:3893 client/gui-qt/helpdlg.cpp:1069
-#: client/gui-sdl2/helpdlg.c:450 client/gui-sdl2/helpdlg.c:892
+#: client/gui-sdl2/helpdlg.c:452 client/gui-sdl2/helpdlg.c:896
 msgid "Obsolete by:"
 msgstr "Przestarzałe przy:"
 
 #: client/gui-gtk-3.0/helpdlg.c:118 client/gui-gtk-3.22/helpdlg.c:118
 #: client/gui-gtk-4.0/helpdlg.c:118 client/gui-qt/citydlg.cpp:3964
-#: client/gui-qt/helpdlg.cpp:915 client/gui-sdl2/helpdlg.c:814
+#: client/gui-qt/helpdlg.cpp:915 client/gui-sdl2/helpdlg.c:818
 msgid "Cost:"
 msgstr "Koszt:"
 
 #: client/gui-gtk-3.0/helpdlg.c:118 client/gui-gtk-3.22/helpdlg.c:118
 #: client/gui-gtk-4.0/helpdlg.c:118 client/gui-qt/citydlg.cpp:3957
-#: client/gui-qt/helpdlg.cpp:905 client/gui-sdl2/helpdlg.c:847
+#: client/gui-qt/helpdlg.cpp:905 client/gui-sdl2/helpdlg.c:851
 msgid "Attack:"
 msgstr "Atak:"
 
 #: client/gui-gtk-3.0/helpdlg.c:119 client/gui-gtk-3.22/helpdlg.c:119
 #: client/gui-gtk-4.0/helpdlg.c:119 client/gui-qt/citydlg.cpp:3959
-#: client/gui-qt/helpdlg.cpp:907 client/gui-sdl2/helpdlg.c:848
+#: client/gui-qt/helpdlg.cpp:907 client/gui-sdl2/helpdlg.c:852
 msgid "Defense:"
 msgstr "Obrona:"
 
 #: client/gui-gtk-3.0/helpdlg.c:119 client/gui-gtk-3.22/helpdlg.c:119
 #: client/gui-gtk-4.0/helpdlg.c:119 client/gui-qt/citydlg.cpp:3961
-#: client/gui-sdl2/helpdlg.c:849
+#: client/gui-sdl2/helpdlg.c:853
 msgid "Move:"
 msgstr "Ruch:"
 
 #: client/gui-gtk-3.0/helpdlg.c:120 client/gui-gtk-3.22/helpdlg.c:120
 #: client/gui-gtk-4.0/helpdlg.c:120 client/gui-qt/citydlg.cpp:3973
-#: client/gui-qt/helpdlg.cpp:917 client/gui-sdl2/helpdlg.c:851
+#: client/gui-qt/helpdlg.cpp:917 client/gui-sdl2/helpdlg.c:855
 msgid "Firepower:"
 msgstr "Siła Ognia:"
 
 #: client/gui-gtk-3.0/helpdlg.c:120 client/gui-gtk-3.22/helpdlg.c:120
 #: client/gui-gtk-4.0/helpdlg.c:120 client/gui-qt/citydlg.cpp:3971
-#: client/gui-qt/helpdlg.cpp:914 client/gui-sdl2/helpdlg.c:852
+#: client/gui-qt/helpdlg.cpp:914 client/gui-sdl2/helpdlg.c:856
 msgid "Hitpoints:"
 msgstr "Punkty obrażeń:"
 
@@ -4848,7 +4848,7 @@ msgstr "Utrzymanie:"
 
 #: client/gui-gtk-3.0/helpdlg.c:121 client/gui-gtk-3.22/helpdlg.c:121
 #: client/gui-gtk-4.0/helpdlg.c:121 client/gui-qt/citydlg.cpp:3975
-#: client/gui-sdl2/helpdlg.c:850
+#: client/gui-sdl2/helpdlg.c:854
 msgid "Vision:"
 msgstr "Pole widzenia:"
 
@@ -4895,7 +4895,7 @@ msgstr "Dodatek (Ż/P/H)"
 #: client/gui-qt/helpdlg.cpp:55 client/gui-qt/plrdlg.cpp:690
 #: client/gui-qt/plrdlg.cpp:696 client/gui-qt/repodlgs.cpp:1083
 #: client/gui-qt/repodlgs.cpp:1165 client/gui-sdl2/gui_tilespec.c:384
-#: client/gui-sdl2/helpdlg.c:872 client/gui-sdl2/mapview.c:346
+#: client/gui-sdl2/helpdlg.c:876 client/gui-sdl2/mapview.c:346
 #: common/research.c:86 common/tech.c:477
 msgid "?tech:None"
 msgstr "?tech:Brak"
@@ -4935,7 +4935,7 @@ msgstr "Zwiń wszystko"
 #: client/gui-gtk-4.0/helpdlg.c:1226 client/gui-gtk-4.0/helpdlg.c:1238
 #: client/gui-gtk-4.0/helpdlg.c:1246 client/gui-gtk-4.0/helpdlg.c:1264
 #: client/gui-qt/helpdlg.cpp:1117 client/gui-qt/helpdlg.cpp:1133
-#: client/gui-qt/helpdlg.cpp:1174 client/gui-sdl2/helpdlg.c:1074
+#: client/gui-qt/helpdlg.cpp:1174 client/gui-sdl2/helpdlg.c:1078
 msgid "Allows"
 msgstr "Pozwala na"
 
@@ -6012,7 +6012,7 @@ msgstr "_Rewolucja..."
 #: client/gui-gtk-3.0/menu.c:633 client/gui-gtk-3.0/pages.c:143
 #: client/gui-gtk-3.22/menu.c:642 client/gui-gtk-3.22/pages.c:143
 #: client/gui-gtk-4.0/menu.c:1189 client/gui-gtk-4.0/pages.c:147
-#: client/gui-qt/fc_client.cpp:870 client/gui-qt/menu.cpp:1000
+#: client/gui-qt/fc_client.cpp:884 client/gui-qt/menu.cpp:1000
 msgid "Set local options"
 msgstr "Lokalne opcje"
 
@@ -6488,7 +6488,7 @@ msgstr "<%s AI>"
 
 #: client/gui-gtk-3.0/pages.c:2400 client/gui-gtk-3.22/pages.c:2401
 #: client/gui-gtk-4.0/pages.c:2519 client/gui-qt/dialogs.cpp:550
-#: client/gui-qt/fc_client.cpp:1265 client/gui-qt/pages.cpp:1721
+#: client/gui-qt/fc_client.cpp:1279 client/gui-qt/pages.cpp:1721
 msgid "Random"
 msgstr "Losowy"
 
@@ -7446,11 +7446,11 @@ msgstr[2] "%d infrapunktów"
 
 #: client/gui-gtk-3.22/infradlg.c:191 client/gui-gtk-4.0/infradlg.c:199
 msgid "No infra possible. Select another tile."
-msgstr "Infrapunkty niemożliwe. Wybierz inne pole."
+msgstr "Infrastruktura niemożliwe. Wybierz inne pole."
 
 #: client/gui-gtk-3.22/infradlg.c:194 client/gui-gtk-4.0/infradlg.c:202
 msgid "Select infra for the tile, or another tile."
-msgstr ""
+msgstr "Wybierz infrastrukturę dla tego lub innego pola."
 
 #: client/gui-gtk-3.22/luaconsole.c:318 client/gui-gtk-3.22/pages.c:458
 #: client/gui-gtk-4.0/luaconsole.c:320 client/gui-gtk-4.0/pages.c:472
@@ -7463,7 +7463,7 @@ msgstr "Okno punktu zbornego"
 
 #: client/gui-gtk-3.22/menu.c:314 client/gui-gtk-4.0/menu.c:594
 msgid "Infra dialog"
-msgstr "Dialog infrapunktów"
+msgstr "Okno dialogowe infrastruktury"
 
 #: client/gui-gtk-3.22/optiondlg.c:361 client/gui-gtk-3.22/pages.c:458
 #: client/gui-gtk-3.22/pages.c:587 client/gui-gtk-4.0/optiondlg.c:387
@@ -7597,7 +7597,6 @@ msgstr "Przenoszenie opcji z klienta gtk3.22 do klienta gtk4"
 
 #: client/gui-gtk-4.0/gui_main.c:1939
 #, c-format
-#| msgid "Freeciv %s"
 msgid "Freeciv (%s)"
 msgstr "Freeciv (%s)"
 
@@ -8137,7 +8136,7 @@ msgid "Maps"
 msgstr "Mapy"
 
 #: client/gui-qt/diplodlg.cpp:365 client/gui-sdl2/diplodlg.c:697
-#: client/gui-sdl2/helpdlg.c:2028
+#: client/gui-sdl2/helpdlg.c:2032
 msgid "Advances"
 msgstr "Wynalazki"
 
@@ -8153,44 +8152,48 @@ msgstr "Daj ambasadę"
 msgid "Pacts"
 msgstr "Pakty"
 
-#: client/gui-qt/fc_client.cpp:159
+#: client/gui-qt/fc_client.cpp:136
+msgid "Freeciv (%1)"
+msgstr "Freeciv (%1)"
+
+#: client/gui-qt/fc_client.cpp:173
 msgid "Welcome to Freeciv"
 msgstr "Witamy we Freeciv"
 
-#: client/gui-qt/fc_client.cpp:251
+#: client/gui-qt/fc_client.cpp:265
 msgid "This is Qt-client for Freeciv."
 msgstr "To jest klient Qt dla Freeciv."
 
-#: client/gui-qt/fc_client.cpp:543 client/gui-qt/pages.cpp:1899
+#: client/gui-qt/fc_client.cpp:557 client/gui-qt/pages.cpp:1899
 msgid "Don't Observe"
 msgstr "Nie obserwuj"
 
-#: client/gui-qt/fc_client.cpp:546 client/gui-qt/pages.cpp:681
+#: client/gui-qt/fc_client.cpp:560 client/gui-qt/pages.cpp:681
 #: client/gui-qt/pages.cpp:1901 client/gui-qt/pages.cpp:1996
 msgid "Observe"
 msgstr "Obserwuj"
 
-#: client/gui-qt/fc_client.cpp:1164
+#: client/gui-qt/fc_client.cpp:1178
 msgid "Client Options"
 msgstr "Opcje klienta"
 
-#: client/gui-qt/fc_client.cpp:1192
+#: client/gui-qt/fc_client.cpp:1206
 msgid "More Game Options"
 msgstr "Więcej opcji"
 
-#: client/gui-qt/fc_client.cpp:1198
+#: client/gui-qt/fc_client.cpp:1212
 msgid "Nation:"
 msgstr "Naród:"
 
-#: client/gui-qt/fc_client.cpp:1199
+#: client/gui-qt/fc_client.cpp:1213
 msgid "Rules:"
 msgstr "Zasady:"
 
-#: client/gui-qt/fc_client.cpp:1204
+#: client/gui-qt/fc_client.cpp:1218
 msgid "Players:"
 msgstr "Gracze:"
 
-#: client/gui-qt/fc_client.cpp:1340
+#: client/gui-qt/fc_client.cpp:1354
 msgid "Set server options"
 msgstr "Ustaw opcje serwera"
 
@@ -9164,10 +9167,8 @@ msgid "Wonders of %1 Empire"
 msgstr "Cudy Imperium %1."
 
 #: client/gui-qt/plrdlg.cpp:729
-#, fuzzy
-#| msgid "Ruler:"
 msgid "Rule: "
-msgstr "Władca:"
+msgstr "Zasada:"
 
 #: client/gui-qt/plrdlg.cpp:746 client/gui-sdl2/inteldlg.c:457
 msgid " (obsolete)"
@@ -9526,7 +9527,7 @@ msgstr "<b>%1 zaproponował/a głosowanie:</b>"
 #: client/gui-sdl2/dialogs.c:1386 client/gui-sdl2/dialogs.c:1746
 #: client/gui-sdl2/dialogs.c:2316 client/gui-sdl2/finddlg.c:167
 #: client/gui-sdl2/gotodlg.c:279 client/gui-sdl2/helpdlg.c:267
-#: client/gui-sdl2/helpdlg.c:694 client/gui-sdl2/helpdlg.c:1979
+#: client/gui-sdl2/helpdlg.c:696 client/gui-sdl2/helpdlg.c:1983
 #: client/gui-sdl2/inteldlg.c:271 client/gui-sdl2/optiondlg.c:813
 #: client/gui-sdl2/plrdlg.c:377 client/gui-sdl2/plrdlg.c:698
 #: client/gui-sdl2/repodlgs.c:418 client/gui-sdl2/repodlgs.c:2087
@@ -9721,9 +9722,9 @@ msgstr "Zmniejszy się: %d %s"
 #: client/gui-sdl2/menu.c:1283 client/gui-sdl2/menu.c:1299
 #: client/gui-sdl2/menu.c:1321 client/gui-sdl2/plrdlg.c:736
 #: client/gui-sdl2/repodlgs.c:594 client/gui-sdl2/repodlgs.c:993
-#: client/gui-sdl2/wldlg.c:961 client/gui-sdl2/wldlg.c:1165
-#: client/gui-sdl2/wldlg.c:1470 client/gui-sdl2/wldlg.c:1475
-#: client/gui-sdl2/wldlg.c:1600
+#: client/gui-sdl2/wldlg.c:962 client/gui-sdl2/wldlg.c:1166
+#: client/gui-sdl2/wldlg.c:1471 client/gui-sdl2/wldlg.c:1476
+#: client/gui-sdl2/wldlg.c:1601
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "tura"
@@ -10173,64 +10174,64 @@ msgstr "Tech. Przysz."
 msgid "Help : Improvements"
 msgstr "Pomoc: Budynki"
 
-#: client/gui-sdl2/helpdlg.c:439 tools/civmanual.c:627 tools/civmanual.c:647
+#: client/gui-sdl2/helpdlg.c:441 tools/civmanual.c:627 tools/civmanual.c:647
 msgid "?req:None"
 msgstr "?req:Brak"
 
-#: client/gui-sdl2/helpdlg.c:465
+#: client/gui-sdl2/helpdlg.c:467
 msgid "Never"
 msgstr "Nigdy"
 
-#: client/gui-sdl2/helpdlg.c:673
+#: client/gui-sdl2/helpdlg.c:675
 msgid "Help : Units"
 msgstr "Pomoc : Jednostki"
 
-#: client/gui-sdl2/helpdlg.c:815 client/gui-sdl2/helpdlg.c:827
-#: client/gui-sdl2/wldlg.c:1458 client/gui-sdl2/wldlg.c:1463
-#: client/gui-sdl2/wldlg.c:1469 client/gui-sdl2/wldlg.c:1474
-#: client/gui-sdl2/wldlg.c:1494 client/gui-sdl2/wldlg.c:1498
-#: client/gui-sdl2/wldlg.c:1591 client/gui-sdl2/wldlg.c:1599
-#: client/gui-sdl2/wldlg.c:1611
+#: client/gui-sdl2/helpdlg.c:819 client/gui-sdl2/helpdlg.c:831
+#: client/gui-sdl2/wldlg.c:1459 client/gui-sdl2/wldlg.c:1464
+#: client/gui-sdl2/wldlg.c:1470 client/gui-sdl2/wldlg.c:1475
+#: client/gui-sdl2/wldlg.c:1495 client/gui-sdl2/wldlg.c:1499
+#: client/gui-sdl2/wldlg.c:1592 client/gui-sdl2/wldlg.c:1600
+#: client/gui-sdl2/wldlg.c:1612
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "pkt. prod."
 msgstr[1] "pkt. prod."
 msgstr[2] "pkt. prod."
 
-#: client/gui-sdl2/helpdlg.c:819 client/gui-sdl2/helpdlg.c:842
+#: client/gui-sdl2/helpdlg.c:823 client/gui-sdl2/helpdlg.c:846
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "mieszkaniec"
 msgstr[1] "mieszkańcy"
 msgstr[2] "mieszkańców"
 
-#: client/gui-sdl2/helpdlg.c:832
+#: client/gui-sdl2/helpdlg.c:836
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "żywność"
 msgstr[1] "żywności"
 msgstr[2] "żywności"
 
-#: client/gui-sdl2/helpdlg.c:837
+#: client/gui-sdl2/helpdlg.c:841
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "szt. złota"
 msgstr[1] "szt. złota"
 msgstr[2] "szt. złota"
 
-#: client/gui-sdl2/helpdlg.c:900 tools/civmanual.c:742
+#: client/gui-sdl2/helpdlg.c:904 tools/civmanual.c:742
 msgid "?utype:None"
 msgstr "?utype:Brak"
 
-#: client/gui-sdl2/helpdlg.c:1094
+#: client/gui-sdl2/helpdlg.c:1098
 msgid "( with "
 msgstr "( z "
 
-#: client/gui-sdl2/helpdlg.c:1097
+#: client/gui-sdl2/helpdlg.c:1101
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl2/helpdlg.c:1959
+#: client/gui-sdl2/helpdlg.c:1963
 msgid "Help : Advances Tree"
 msgstr "Pomoc : Technologie"
 
@@ -10896,7 +10897,7 @@ msgstr ""
 "Nie mogę otworzyć \"%s\".\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:950 client/gui-sdl2/wldlg.c:1155
+#: client/gui-sdl2/wldlg.c:951 client/gui-sdl2/wldlg.c:1156
 #, c-format
 msgid ""
 "%s\n"
@@ -10914,7 +10915,7 @@ msgstr[2] ""
 "%s\n"
 "%d złota/turę"
 
-#: client/gui-sdl2/wldlg.c:958 client/gui-sdl2/wldlg.c:1162
+#: client/gui-sdl2/wldlg.c:959 client/gui-sdl2/wldlg.c:1163
 #, c-format
 msgid ""
 "%s\n"
@@ -10923,7 +10924,7 @@ msgstr ""
 "%s\n"
 "zablokowane!"
 
-#: client/gui-sdl2/wldlg.c:960 client/gui-sdl2/wldlg.c:1164
+#: client/gui-sdl2/wldlg.c:961 client/gui-sdl2/wldlg.c:1165
 #, c-format
 msgid ""
 "%s\n"
@@ -10932,7 +10933,7 @@ msgstr ""
 "%s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:964 client/gui-sdl2/wldlg.c:1168
+#: client/gui-sdl2/wldlg.c:965 client/gui-sdl2/wldlg.c:1169
 #, c-format
 msgid ""
 "%s\n"
@@ -10943,7 +10944,7 @@ msgstr ""
 
 #. TRANS: length of worklist
 #. TRANS: Length of worklist
-#: client/gui-sdl2/wldlg.c:1018 client/gui-sdl2/wldlg.c:1134
+#: client/gui-sdl2/wldlg.c:1019 client/gui-sdl2/wldlg.c:1135
 #, c-format
 msgid "( %d entry )"
 msgid_plural "( %d entries )"
@@ -10951,7 +10952,7 @@ msgstr[0] "( %d pozycja )"
 msgstr[1] "( %d pozycji )"
 msgstr[2] "( %d pozycji )"
 
-#: client/gui-sdl2/wldlg.c:1118
+#: client/gui-sdl2/wldlg.c:1119
 #, c-format
 msgid ""
 "Worklist of\n"
@@ -10960,7 +10961,7 @@ msgstr ""
 "Plan prac\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1456
+#: client/gui-sdl2/wldlg.c:1457
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10971,7 +10972,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1461
+#: client/gui-sdl2/wldlg.c:1462
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -10980,7 +10981,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1467
+#: client/gui-sdl2/wldlg.c:1468
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10991,7 +10992,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1472
+#: client/gui-sdl2/wldlg.c:1473
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -11000,7 +11001,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1482
+#: client/gui-sdl2/wldlg.c:1483
 #, c-format
 msgid "%d gold per turn"
 msgid_plural "%d gold per turn"
@@ -11008,7 +11009,7 @@ msgstr[0] "%d złota/turę"
 msgstr[1] "%d złota/turę"
 msgstr[2] "%d złota/turę"
 
-#: client/gui-sdl2/wldlg.c:1492
+#: client/gui-sdl2/wldlg.c:1493
 #, c-format
 msgid ""
 "(%s)\n"
@@ -11019,16 +11020,16 @@ msgstr ""
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: client/gui-sdl2/wldlg.c:1496 common/calendar.c:126 common/calendar.c:130
+#: client/gui-sdl2/wldlg.c:1497 common/calendar.c:126 common/calendar.c:130
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1501
+#: client/gui-sdl2/wldlg.c:1502
 msgid "shields into gold"
 msgstr "produkcja na złoto"
 
-#: client/gui-sdl2/wldlg.c:1586
+#: client/gui-sdl2/wldlg.c:1587
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -11039,7 +11040,7 @@ msgstr ""
 "%d/%d %s\n"
 "nigdy"
 
-#: client/gui-sdl2/wldlg.c:1594
+#: client/gui-sdl2/wldlg.c:1595
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -11050,7 +11051,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1606
+#: client/gui-sdl2/wldlg.c:1607
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -33627,10 +33628,10 @@ msgstr "Teoria Unifikacji"
 #: data/alien/techs.ruleset:764
 msgid ""
 "We now understand that radiation and antigravity are two sides of the same "
-"phenomenom."
+"phenomenon."
 msgstr ""
-"Wiemy już teraz, że promieniowanie i grawitacja to dwa aspekty tego samego "
-"zjawiska."
+"Wiemy już teraz, że promieniowanie i antygrawitacja to dwa aspekty tego "
+"samego zjawiska."
 
 #: data/alien/techs.ruleset:768
 msgid "Virtual Entertainment"
@@ -42372,7 +42373,7 @@ msgstr "%s buduje %s%s."
 msgid "The %s have started building The %s in %s."
 msgstr "%s rozpoczęli budowę %s w mieście %s."
 
-#: server/citytools.c:3285
+#: server/citytools.c:3289
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -42380,16 +42381,16 @@ msgstr[0] "Sprzedajesz %s w mieście %s (odcięta od morza) za %d sztukę złota
 msgstr[1] "Sprzedajesz %s w mieście %s (odcięta od morza) za %d sztuki złota."
 msgstr[2] "Sprzedajesz %s w mieście %s (odcięta od morza) za %d sztuk złota."
 
-#: server/citytools.c:3419
+#: server/citytools.c:3423
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Rozmiar mapy miasta %s to %s."
 
-#: server/citytools.c:3421
+#: server/citytools.c:3425
 msgid "increased"
 msgstr "zwiększono"
 
-#: server/citytools.c:3422
+#: server/citytools.c:3426
 msgid "reduced"
 msgstr "zmniejszono"
 
@@ -53863,12 +53864,12 @@ msgstr[2] " (łącznie %d powtórzeń)"
 
 #. TRANS: first %s is URL, second is Curl error message
 #. * (not in Freeciv translation domain)
-#: utility/netfile.c:128
+#: utility/netfile.c:132
 #, c-format
 msgid "Failed to fetch %s: %s"
 msgstr "Nie udało się pobrać %s: %s"
 
-#: utility/netfile.c:177 utility/registry_ini.c:663
+#: utility/netfile.c:181 utility/registry_ini.c:663
 #, c-format
 msgid "Could not open %s for writing"
 msgstr "Nie mogę otworzyć pliku %s w trybie zapisu"
