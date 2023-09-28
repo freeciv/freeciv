@@ -317,8 +317,9 @@ enum counter_target { CTGT_CITY };
 /* TODO: Move close to "Move" */
 #define SPECENUM_VALUE65 ACTRES_TELEPORT
 #define SPECENUM_VALUE65NAME "Teleport"
+#define SPECENUM_VALUE66 ACTRES_TELEPORT_CONQUER
 /* Hardcoded action that's just controlled by enablers */
-#define SPECENUM_VALUE66 ACTRES_ENABLER_CHECK
+#define SPECENUM_VALUE67 ACTRES_ENABLER_CHECK
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_LAST
 #include "specenum_gen.h"

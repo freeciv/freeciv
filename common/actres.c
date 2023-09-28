@@ -229,6 +229,9 @@ static struct actres act_results[ACTRES_LAST] = {
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TELEPORT */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE },
+  { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TELEPORT_CONQUER */
+    FALSE, ACTIVITY_LAST, DRT_NONE,
+    EC_NONE, ERM_NONE },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_ENABLER_CHECK */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE }
@@ -1047,7 +1050,7 @@ enum fc_tristate actres_possible(enum action_result result,
 
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
-
+  case ACTRES_TELEPORT_CONQUER:
     if (result == ACTRES_UNIT_MOVE) {
       /* Reason: is moving to the tile. */
       if (!unit_can_move_to_tile(nmap, actor->unit, target->tile,
@@ -1055,11 +1058,11 @@ enum fc_tristate actres_possible(enum action_result result,
         return TRI_NO;
       }
     } else {
-      fc_assert(result == ACTRES_TELEPORT);
+      fc_assert(result == ACTRES_TELEPORT || result == ACTRES_TELEPORT_CONQUER);
 
       /* Reason: is teleporting to the tile. */
       if (!unit_can_teleport_to_tile(nmap, actor->unit, target->tile,
-                                     FALSE, FALSE)) {
+                                     FALSE, result == ACTRES_TELEPORT_CONQUER)) {
         return TRI_NO;
       }
     }
@@ -1070,7 +1073,7 @@ enum fc_tristate actres_possible(enum action_result result,
     }
 
     /* We cannot move a transport into a tile that holds
-     * units or cities not allied with all of our cargo. */
+     * units or cities not allied with ani of our cargo. */
     if (get_transporter_capacity(actor->unit) > 0) {
       unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
         if (unit_contained_in(pcargo, actor->unit)

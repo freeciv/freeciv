@@ -685,6 +685,11 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_TELEPORT3, ACTRES_TELEPORT,
                       TRUE, TRUE,
                       MAK_TELEPORT, 1, 1, FALSE);
+  actions[ACTION_TELEPORT_CONQUER] =
+      unit_action_new(ACTION_TELEPORT_CONQUER, ACTRES_TELEPORT_CONQUER,
+                      TRUE, TRUE,
+                      MAK_TELEPORT, 1,
+                      ACTION_DISTANCE_MAX, FALSE);
   actions[ACTION_GAIN_VETERANCY] =
       unit_action_new(ACTION_GAIN_VETERANCY, ACTRES_ENABLER_CHECK,
                       TRUE, FALSE,
@@ -2484,6 +2489,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_SPY_ATTACK:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
   case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     /* No hard unit type requirements. */
@@ -2626,6 +2632,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_HOMELESS:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -2698,9 +2705,9 @@ action_hard_reqs_actor(const struct action *paction,
   Can return maybe when not omniscient. Should always return yes or no when
   omniscient.
 
-  This is done by checking the action's hard requirements. Hard
-  requirements must be fulfilled before an action can be done. The reason
-  why is usually that code dealing with the action assumes that the
+  This is done by checking the action's hard requirements.
+  Hard requirements must be fulfilled before an action can be done.
+  The reason why is usually that code dealing with the action assumes that
   requirements are true. A requirement may also end up here if it can't be
   expressed in a requirement vector or if its absence makes the action
   pointless.
@@ -3987,6 +3994,7 @@ action_prob(const action_id wanted_action,
     break;
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
     chance = ACTPROB_CERTAIN;
     break;
     /* Not UI action, so chance is meaningless */
@@ -5879,6 +5887,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_teleport_2";
   case ACTION_TELEPORT3:
     return "ui_name_teleport_3";
+  case ACTION_TELEPORT_CONQUER:
+    return "ui_name_teleport_conquer";
   case ACTION_SPY_ESCAPE:
     return "ui_name_escape";
   case ACTION_USER_ACTION1:
@@ -6200,6 +6210,9 @@ const char *action_ui_name_default(int act)
   case ACTION_TELEPORT3:
     /* TRANS: _Teleport (100% chance of success). */
     return N_("%sTeleport%s");
+  case ACTION_TELEPORT_CONQUER:
+    /* TRANS: _Teleport to Conquer (100% chance of success). */
+    return N_("%sTeleport to Conquer%s");
   case ACTION_SPY_ESCAPE:
     /* TRANS: _Escape To Nearest City (100% chance of success). */
     return N_("%sEscape To Nearest City%s");
@@ -6356,6 +6369,8 @@ const char *action_min_range_ruleset_var_name(int act)
     return "teleport_2_min_range";
   case ACTION_TELEPORT3:
     return "teleport_3_min_range";
+  case ACTION_TELEPORT_CONQUER:
+    return "teleport_conquer_min_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_min_range";
   case ACTION_USER_ACTION2:
@@ -6450,6 +6465,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_NUKE_UNITS:
     return RS_DEFAULT_ACTION_MIN_RANGE;
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
     return RS_DEFAULT_MOVE_MIN_RANGE;
   case ACTRES_NONE:
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -6602,6 +6618,8 @@ const char *action_max_range_ruleset_var_name(int act)
     return "teleport_2_max_range";
   case ACTION_TELEPORT3:
     return "teleport_3_max_range";
+  case ACTION_TELEPORT_CONQUER:
+    return "teleport_conquer_max_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_max_range";
   case ACTION_USER_ACTION2:
@@ -6699,6 +6717,7 @@ int action_max_range_default(enum action_result result)
     return RS_DEFAULT_ACTION_MAX_RANGE;
   case ACTRES_AIRLIFT:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
     return ACTION_DISTANCE_UNLIMITED;
   case ACTRES_NONE:
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -6831,6 +6850,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_TELEPORT:
   case ACTION_TELEPORT2:
   case ACTION_TELEPORT3:
+  case ACTION_TELEPORT_CONQUER:
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
     /* Target kind is not ruleset changeable */
@@ -6932,6 +6952,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
     return ATK_TILE;
   case ACTRES_CONQUER_EXTRAS:
     return ATK_EXTRAS;
@@ -7024,6 +7045,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
     return tgt_kind == ATK_TILE;
   case ACTRES_CONQUER_EXTRAS:
     return tgt_kind == ATK_EXTRAS;
@@ -7128,6 +7150,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
   case ACTRES_ENABLER_CHECK:
   case ACTRES_SPY_ESCAPE:
     return ASTK_NONE;
@@ -7274,6 +7297,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_TELEPORT:
   case ACTION_TELEPORT2:
   case ACTION_TELEPORT3:
+  case ACTION_TELEPORT_CONQUER:
   case ACTION_GAIN_VETERANCY:
   case ACTION_SPY_ESCAPE:
     /* Actor consuming always is not ruleset changeable */
@@ -7365,6 +7389,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "teleport_2_blocked_by";
   case ACTION_TELEPORT3:
     return "teleport_3_blocked_by";
+  case ACTION_TELEPORT_CONQUER:
+    return "teleport_conquer_blocked_by";
   case ACTION_SPY_ESCAPE:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
@@ -7609,6 +7635,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_TELEPORT:
   case ACTION_TELEPORT2:
   case ACTION_TELEPORT3:
+  case ACTION_TELEPORT_CONQUER:
   case ACTION_GAIN_VETERANCY:
   case ACTION_SPY_ESCAPE:
   case ACTION_USER_ACTION1:

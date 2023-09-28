@@ -736,7 +736,7 @@ void hard_code_oblig_hard_reqs(void)
                           N_("All action enablers for %s must require"
                              " that the actor isn't transported."),
                           ACTRES_UNIT_MOVE,
-                          ACTRES_TELEPORT,
+                          ACTRES_TELEPORT, ACTRES_TELEPORT_CONQUER,
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: assumed by the Freeciv code. */

@@ -1118,7 +1118,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_PARADROP_CONQUER:
     /* Target is a tile but a city can block it. */
     fc_assert_action(action_get_target_kind(paction) == ATK_TILE, break);
-    if (target_tile
+    if (target_tile != NULL
         && map_is_known_and_seen(target_tile, actor_player, V_MAIN)) {
       /* Seen tile unit savers */
 
@@ -1188,6 +1188,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
   case ACTRES_ENABLER_CHECK:
   case ACTRES_SPY_ESCAPE:
   case ACTRES_NONE:
@@ -3923,9 +3924,12 @@ bool unit_perform_action(struct player *pplayer,
                                                   target_tile, paction));
     break;
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
     ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_move(actor_unit, target_tile, 0,
-                                       NULL, FALSE, FALSE, FALSE,
+                                       NULL, FALSE,
+                                       paction->result == ACTRES_TELEPORT_CONQUER,
+                                       paction->result == ACTRES_TELEPORT_CONQUER,
                                        FALSE, FALSE));
     break;
   case ACTRES_TRANSFORM_TERRAIN:
