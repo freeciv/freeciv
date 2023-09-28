@@ -4111,6 +4111,7 @@ if get_option('tools').contains('manual')
 
 executable('freeciv-manual',
   'tools/manual/fc_manual.c',
+  'tools/manual/manual_settings.c',
   'client/helpdata.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,

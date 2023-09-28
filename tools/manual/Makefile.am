@@ -16,8 +16,10 @@ common_cppflags = \
 
 AM_CPPFLAGS = $(common_cppflags)
 
-freeciv_manual_SOURCES =                                                   \
-		fc_manual.c
+freeciv_manual_SOURCES =		\
+		fc_manual.c		\
+		fc_manual.h		\
+		manual_settings.c
 
 # This is a bit of a hack. The program links in with the server lib
 # but also uses some files from the client.

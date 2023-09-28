@@ -389,6 +389,7 @@ tools/fcmp/mpgui_gtk4.c
 tools/fcmp/mpgui_qt.cpp
 tools/fcmp/mpgui_qt_worker.cpp
 tools/manual/fc_manual.c
+tools/manual/manual_settings.c
 tools/ruleutil/rulesave.c
 server/actiontools.c
 server/aiiface.c
