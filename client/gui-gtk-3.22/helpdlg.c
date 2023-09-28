@@ -782,8 +782,8 @@ static void create_help_dialog(void)
   gtk_widget_show(help_tree);
   gtk_container_add(GTK_CONTAINER(help_box), help_tree_sw);
 
-  help_tree_expand =
-	gtk_button_new_with_label(_("Expand All"));
+  help_tree_expand
+    = gtk_button_new_with_label(_("Expand All"));
   help_tree_collapse = gtk_button_new_with_label(_("Collapse All"));
 
   g_signal_connect(help_tree_expand, "clicked",

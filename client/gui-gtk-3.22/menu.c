@@ -156,6 +156,7 @@ static void help_tech_callback(GtkMenuItem *item, gpointer data);
 static void help_space_race_callback(GtkMenuItem *item, gpointer data);
 static void help_ruleset_callback(GtkMenuItem *item, gpointer data);
 static void help_tileset_callback(GtkMenuItem *item, gpointer data);
+static void help_musicset_callback(GtkMenuItem *item, gpointer data);
 static void help_nations_callback(GtkMenuItem *item, gpointer data);
 static void help_connecting_callback(GtkMenuItem *item, gpointer data);
 static void help_controls_callback(GtkMenuItem *item, gpointer data);
@@ -405,6 +406,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(help_ruleset_callback), MGROUP_SAFE },
   { "HELP_TILESET", N_("About Current Tileset"), 0, 0,
     G_CALLBACK(help_tileset_callback), MGROUP_SAFE },
+  { "HELP_MUSICSET", N_("About Current Musicset"), 0, 0,
+    G_CALLBACK(help_musicset_callback), MGROUP_SAFE },
   { "HELP_NATIONS", N_("About Nations"), 0, 0,
     G_CALLBACK(help_nations_callback), MGROUP_SAFE },
   { "HELP_CONNECTING", N_("Connecting"), 0, 0,
@@ -1010,6 +1013,14 @@ static void help_ruleset_callback(GtkMenuItem *item, gpointer data)
 static void help_tileset_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_TILESET_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_MUSICSET" callback.
+****************************************************************************/
+static void help_musicset_callback(GtkMenuItem *item, gpointer data)
+{
+  popup_help_dialog_string(HELP_MUSICSET_ITEM);
 }
 
 /************************************************************************//**
