@@ -300,11 +300,19 @@ bool script_fcdb_init(const char *fcdb_luafile)
     return FALSE;
   }
 
-  if (srvarg.fcdb_enabled && !script_fcdb_call("database_init")) {
-    log_error("Error connecting to the database");
-    script_fcdb_free();
-    return FALSE;
+  if (srvarg.fcdb_enabled) {
+    if (!script_fcdb_call("database_init")) {
+      log_error("Error connecting to the database");
+      script_fcdb_free();
+      return FALSE;
+    }
+
+    if (!script_fcdb_capstr()) {
+      log_error(_("Database capabilities not compatible with server"));
+      return FALSE;
+    }
   }
+
 #endif /* HAVE_FCDB */
 
   return TRUE;
