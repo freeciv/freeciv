@@ -82,6 +82,7 @@ struct client_options gui_options = {
   .default_music_set_name = "stdmusic",
   .default_sound_plugin_name = "\0",
   .default_chat_logfile = GUI_DEFAULT_CHAT_LOGFILE,
+  .default_topology = TS_TOPO_ISOHEX,
 
   .followtag_override = DEFAULT_FOLLOWTAG_OPTION,
 
@@ -5936,8 +5937,12 @@ void options_load(void)
     = secfile_lookup_bool_default(sf, TRUE,
                                   "%s.gui_qt_show_wonders_panel", prefix);
 
+  /* default_tileset_name present until freeciv-3.2 */
   str = secfile_lookup_str_default(sf, NULL, "client.default_tileset_name");
-  if (str != NULL) {
+  if (str == NULL) {
+    gui_options.default_topology = secfile_lookup_int_default(sf, TS_TOPO_ISOHEX,
+                                                              "client.default_topology");
+  } else {
     sz_strlcpy(gui_options.default_tileset_name, str);
   }
   str = secfile_lookup_str_default(sf, NULL, "client.default_tileset_overhead_name");
@@ -6077,9 +6082,12 @@ void options_save(option_save_log_callback log_cb)
   secfile_insert_bool(sf, gui_options.gui_qt_show_wonders_panel,
                       "client.gui_qt_show_wonders_panel");
 
-  if (gui_options.default_tileset_name[0] != '\0') {
-    secfile_insert_str(sf, gui_options.default_tileset_name,
-                       "client.default_tileset_name");
+  if (tileset != NULL) {
+    secfile_insert_int(sf, tileset_topo_index(tileset),
+                       "client.default_topology");
+  } else {
+    secfile_insert_int(sf, gui_options.default_topology,
+                       "client.default_topology");
   }
 
   message_options_save(sf, "client");

@@ -1079,6 +1079,24 @@ static int ts_topology_index(int actual_topology)
 }
 
 /************************************************************************//**
+  Convert properties of an index of tileset topology type to one
+  (but not necessarily the only one) topology.
+****************************************************************************/
+int index_ts_topology(int idx)
+{
+  switch (idx) {
+  case TS_TOPO_SQUARE:
+    return TF_ISO;
+  case TS_TOPO_HEX:
+    return TF_HEX;
+  case TS_TOPO_ISOHEX:
+    return TF_HEX | TF_ISO;
+  }
+
+  return 0;
+}
+
+/************************************************************************//**
   Returns a static list of tilesets available on the system by
   searching all data directories for files matching TILESPEC_SUFFIX.
 ****************************************************************************/
@@ -1315,7 +1333,7 @@ bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
   option_set_default_ts(tileset);
 
   if (global_default) {
-    sz_strlcpy(gui_options.default_tileset_name, tileset_basename(tileset));
+    gui_options.default_topology = tileset_topo_index(tileset);
   }
 
   return original;
@@ -1485,7 +1503,7 @@ bool tilespec_reread(const char *new_tileset_name,
 }
 
 /************************************************************************//**
-  This is merely a wrapper for tilespec_reread (above) for use in
+  This is merely a wrapper for tilespec_reread() (above) for use in
   options.c and the client local options dialog.
 ****************************************************************************/
 void tilespec_reread_callback(struct option *poption)
@@ -1506,13 +1524,14 @@ void tilespec_reread_callback(struct option *poption)
 
   tileset_name = option_str_get(poption);
 
-  /* As it's going to be 'current' tileset, make it global default if
-   * options saved. */
-  sz_strlcpy(gui_options.default_tileset_name, tileset_name);
-
   fc_assert_ret(NULL != tileset_name && tileset_name[0] != '\0');
   tileset_update = TRUE;
   tilespec_reread(tileset_name, client.conn.established, 1.0f);
+
+  /* As it's going to be 'current' tileset, make it global default if
+   * options saved. */
+  gui_options.default_topology = tileset_topo_index(tileset);
+
   tileset_update = FALSE;
   menus_init();
 }

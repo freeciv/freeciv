@@ -462,6 +462,8 @@ char *tileset_what_ruleset(struct tileset *t);
 int tileset_topo_index(struct tileset *t);
 int tileset_svg_flag_height(struct tileset *t);
 
+int index_ts_topology(int idx);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

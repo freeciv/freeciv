@@ -331,7 +331,13 @@ int default_tileset_select(void)
       return EXIT_FAILURE;
     }
   } else {
-    tilespec_try_read(gui_options.default_tileset_name, FALSE, -1, TRUE);
+    if (gui_options.default_tileset_name[0] == '\0') {
+      /* Use topology by default */
+      tilespec_try_read(tileset_name_for_topology(index_ts_topology(gui_options.default_topology)),
+                        FALSE, -1, TRUE);
+    } else {
+      tilespec_try_read(gui_options.default_tileset_name, FALSE, -1, TRUE);
+    }
   }
 
   editor_init();
