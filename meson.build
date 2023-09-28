@@ -4019,7 +4019,7 @@ if not gtk5_dep.found()
 endif
 
 executable('freeciv-mp-gtk4x',
-  'tools/fcmp/mpgui_gtk4.c',
+  'tools/fcmp/mpgui_gtk5.c',
   mpicon,
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_8',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_10',
