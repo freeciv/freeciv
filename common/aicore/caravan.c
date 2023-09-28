@@ -91,29 +91,31 @@ bool caravan_parameter_is_legal(const struct caravan_parameter *parameter)
 }
 
 /****************************************************************************
+  Human readable name of the foreign_trade_limit
+****************************************************************************/
+static const char *ftl_name(enum foreign_trade_limit ftl)
+{
+  switch (ftl) {
+  case FTL_NATIONAL_ONLY:
+    return "no";
+  case FTL_ALLIED:
+    return "allied";
+  case FTL_PEACEFUL:
+    return "peaceful";
+  case FTL_NONWAR:
+    return "anything but enemies";
+  }
+
+  return "<illegal>";
+}
+
+/****************************************************************************
   For debugging, print out the parameter.
 ****************************************************************************/
 void caravan_parameter_log_real(const struct caravan_parameter *parameter,
                                 enum log_level level, const char *file,
                                 const char *function, int line)
 {
-  const char *foreign = "<illegal>";
-
-  switch (parameter->allow_foreign_trade) {
-  case FTL_NATIONAL_ONLY:
-    foreign = "no";
-    break;
-  case FTL_ALLIED:
-    foreign = "allied";
-    break;
-  case FTL_PEACEFUL:
-    foreign = "peaceful";
-    break;
-  case FTL_NONWAR:
-    foreign = "anything but enemies";
-    break;
-  }
-
   do_log(file, function, line, FALSE, level,
          "parameter {\n"
          "  horizon   = %d\n"
@@ -130,7 +132,7 @@ void caravan_parameter_log_real(const struct caravan_parameter *parameter,
          parameter->consider_trade ? "trade" : "-",
          parameter->consider_wonders ? "wonders" : "-",
          parameter->account_for_broken_routes ? "yes" : "no",
-         foreign,
+         ftl_name(parameter->allow_foreign_trade),
          parameter->ignore_transit_time ? "yes" : "no",
          parameter->convert_trade ? "yes" : "no");
 }
