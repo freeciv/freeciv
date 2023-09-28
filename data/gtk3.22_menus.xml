@@ -600,6 +600,9 @@
               <object class="GtkMenuItem" id="HELP_TILESET" />
             </child>
             <child>
+              <object class="GtkMenuItem" id="HELP_MUSICSET" />
+            </child>
+            <child>
               <object class="GtkMenuItem" id="HELP_NATIONS" />
             </child>
             <child>
