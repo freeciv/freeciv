@@ -576,7 +576,7 @@ void popup_quit_dialog()
   QObject::connect(ask, &hud_message_box::accepted, [=]() {
     start_quitting();
     if (client.conn.used) {
-      disconnect_from_server();
+      disconnect_from_server(FALSE);
     }
     gui()->write_settings();
     qapp->quit();

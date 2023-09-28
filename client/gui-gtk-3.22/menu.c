@@ -715,7 +715,7 @@ static void leave_local_game_response(GtkWidget *dialog, gint response)
     /* It might be killed already */
     if (client.conn.used) {
       /* It will also kill the server */
-      disconnect_from_server();
+      disconnect_from_server(TRUE);
     }
   }
 }
@@ -736,7 +736,7 @@ static void leave_callback(GtkMenuItem *item, gpointer data)
                      G_CALLBACK(leave_local_game_response), NULL);
     gtk_window_present(GTK_WINDOW(dialog));
   } else {
-    disconnect_from_server();
+    disconnect_from_server(TRUE);
   }
 }
 

@@ -785,10 +785,10 @@ void client_packet_input(void *packet, int type)
       && PACKET_SERVER_INFO != type) {
     log_error("Received packet %s (%d) before establishing connection!",
               packet_name(type), type);
-    disconnect_from_server();
+    disconnect_from_server(FALSE);
   } else if (!client_handle_packet(type, packet)) {
     log_error("Received unknown packet (type %d) from server!", type);
-    disconnect_from_server();
+    disconnect_from_server(FALSE);
   }
 }
 

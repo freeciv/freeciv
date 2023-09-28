@@ -432,7 +432,7 @@ static int disconnect_conn_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     popdown_conn_list_dialog();
     flush_dirty();
-    disconnect_from_server();
+    disconnect_from_server(TRUE);
   }
 
   return -1;

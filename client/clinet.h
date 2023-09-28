@@ -25,7 +25,7 @@ void make_connection(int socket, const char *username);
 void input_from_server(int fd);
 void input_from_server_till_request_got_processed(int fd,
                                                   int expected_request_id);
-void disconnect_from_server(void);
+void disconnect_from_server(bool leaving_sound);
 
 double try_to_autoconnect(void);
 void start_autoconnecting_to_server(void);
@@ -34,4 +34,4 @@ void start_autoconnecting_to_server(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CLINET_H */
+#endif /* FC__CLINET_H */

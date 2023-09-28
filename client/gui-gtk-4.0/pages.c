@@ -155,7 +155,7 @@ static void main_callback(GtkWidget *w, gpointer data)
   enum client_pages page = PAGE_MAIN;
 
   if (client.conn.used) {
-    disconnect_from_server();
+    disconnect_from_server(TRUE);
   }
   if (page != get_client_page()) {
     set_client_page(page);

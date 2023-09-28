@@ -390,7 +390,7 @@ static int disconnect_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     popdown_optiondlg(TRUE);
     enable_options_button();
-    disconnect_from_server();
+    disconnect_from_server(TRUE);
   }
 
   return -1;
@@ -403,7 +403,7 @@ static int exit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_optiondlg(TRUE);
-    disconnect_from_server();
+    disconnect_from_server(FALSE);
     force_exit_from_event_loop();
   }
 

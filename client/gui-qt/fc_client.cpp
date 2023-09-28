@@ -413,7 +413,7 @@ void fc_client::switch_page(int new_pg)
     break;
   default:
     if (client.conn.used) {
-      disconnect_from_server();
+      disconnect_from_server(TRUE);
     }
     set_client_page(PAGE_MAIN);
     break;
@@ -537,7 +537,7 @@ void fc_client::quit()
 void fc_client::slot_disconnect()
 {
   if (client.conn.used) {
-    disconnect_from_server();
+    disconnect_from_server(TRUE);
   }
 
   switch_page(PAGE_MAIN);

@@ -771,7 +771,7 @@ static int cancel_passwd_callback(struct widget *pwidget)
 {
   memset(fc_password, 0, MAX_LEN_NAME);
   fc_password[0] = '\0';
-  disconnect_from_server();
+  disconnect_from_server(TRUE);
 
   return cancel_connect_dlg_callback(pwidget);
 }
