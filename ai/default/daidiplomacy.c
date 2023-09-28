@@ -2030,6 +2030,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
       break;
     case ACTRES_UNIT_MOVE:
     case ACTRES_TELEPORT:
+    case ACTRES_TELEPORT_CONQUER:
     case ACTRES_SPY_ESCAPE:
     case ACTRES_TRADE_ROUTE:
     case ACTRES_MARKETPLACE:

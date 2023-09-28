@@ -1309,6 +1309,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
+  case ACTRES_TELEPORT_CONQUER:
   case ACTRES_HOMELESS:
   case ACTRES_ENABLER_CHECK:
 
