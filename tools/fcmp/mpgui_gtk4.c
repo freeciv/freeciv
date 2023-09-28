@@ -598,7 +598,7 @@ static void activate_gui(GtkApplication *app, gpointer data)
 
   modinst_setup_widgets();
 
-  gtk_widget_show(toplevel);
+  gtk_widget_set_visible(toplevel, TRUE);
 
   if (fcmp.autoinstall != NULL) {
     gui_download_modpack(fcmp.autoinstall);
