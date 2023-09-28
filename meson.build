@@ -798,8 +798,8 @@ endif
 if get_option('clients').contains('sdl3')
   if host_system == 'windows'
     sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL2main', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+                    c_compiler.find_library('SDL3main', dirs: cross_lib_path),
+                    c_compiler.find_library('SDL3', dirs: cross_lib_path)]
   else
     if emscripten
       emscripten_sdl3_args = [
@@ -822,7 +822,7 @@ if get_option('clients').contains('sdl3')
       add_global_link_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
       sdl3main_dep = []
     else
-      sdl3main_dep = [c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+      sdl3main_dep = [c_compiler.find_library('SDL3', dirs: cross_lib_path)]
     endif
   endif
 endif
@@ -3677,7 +3677,7 @@ sdl3_image_dep = []
 sdl3_ttf_dep = []
 
 if not emscripten
-  sdl3_gfx_dep = c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path,
+  sdl3_gfx_dep = c_compiler.find_library('SDL3_gfx', dirs: cross_lib_path,
                                          required: false)
 
   if not sdl3_gfx_dep.found()
@@ -3686,9 +3686,9 @@ if not emscripten
     sdl3_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
   endif
 
-  sdl3_image_dep = c_compiler.find_library('SDL2_image', dirs: cross_lib_path,
+  sdl3_image_dep = c_compiler.find_library('SDL3_image', dirs: cross_lib_path,
                                            required: false)
-  sdl3_ttf_dep = c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path,
+  sdl3_ttf_dep = c_compiler.find_library('SDL3_ttf', dirs: cross_lib_path,
                                          required: false)
 endif
 
