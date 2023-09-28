@@ -392,6 +392,16 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 }
 
 /**********************************************************************//**
+  Refresh map canvas size information
+**************************************************************************/
+void map_canvas_size_refresh(void)
+{
+  /* Needed only with full screen zoom mode.
+   * Not needed, nor implemented, in this client. */
+  fc_assert(FALSE);
+}
+
+/**********************************************************************//**
   Redraw map canvas.
 **************************************************************************/
 gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
@@ -613,7 +623,7 @@ void put_cross_overlay_tile(struct tile *ptile)
 {
   float canvas_x, canvas_y;
 
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, ptile)) {
     pixmap_put_overlay_tile(gtk_widget_get_window(map_canvas), map_zoom,
 			    canvas_x / map_zoom, canvas_y / map_zoom,
 			    get_attention_crosshair_sprite(tileset));
@@ -703,7 +713,7 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
     scroll_y = gtk_adjustment_get_value(adj);
   }
 
-  set_mapview_scroll_pos(scroll_x, scroll_y);
+  set_mapview_scroll_pos(scroll_x, scroll_y, mouse_zoom);
 }
 
 /**********************************************************************//**

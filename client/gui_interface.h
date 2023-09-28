@@ -97,6 +97,8 @@ struct gui_funcs {
                           enum client_font font, struct color *pcolor,
                           const char *text);
 
+  void (*map_canvas_size_refresh)(void);
+
   void (*set_rulesets)(int num_rulesets, char **rulesets);
   void (*options_extra_init)(void);
   void (*server_connect)(void);

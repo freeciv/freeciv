@@ -78,6 +78,8 @@ void setup_gui_funcs(void)
   funcs->get_text_size = gui_get_text_size;
   funcs->canvas_put_text = gui_canvas_put_text;
 
+  funcs->map_canvas_size_refresh = gui_map_canvas_size_refresh;
+
   funcs->set_rulesets = gui_set_rulesets;
   funcs->options_extra_init = gui_options_extra_init;
   funcs->server_connect = gui_server_connect;

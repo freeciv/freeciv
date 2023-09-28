@@ -68,6 +68,8 @@ void setup_gui_funcs()
   funcs->get_text_size = qtg_get_text_size;
   funcs->canvas_put_text = qtg_canvas_put_text;
 
+  funcs->map_canvas_size_refresh = qtg_map_canvas_size_refresh;
+
   funcs->set_rulesets = qtg_set_rulesets;
   funcs->options_extra_init = qtg_options_extra_init;
   funcs->server_connect = qtg_server_connect;

@@ -66,6 +66,9 @@ static GtkAdjustment *map_hadj, *map_vadj;
 static int cursor_timer_id = 0, cursor_type = -1, cursor_frame = 0;
 static int mapview_frozen_level = 0;
 
+static int mc_actual_width = -1;
+static int mc_actual_height = -1;
+
 /**********************************************************************//**
   If do_restore is FALSE it will invert the turn done button style. If
   called regularly from a timer this will give a blinking turn done
@@ -403,7 +406,19 @@ bool mapview_is_frozen(void)
 void map_canvas_resize(GtkWidget *w, int width, int height,
                        gpointer data)
 {
-  map_canvas_resized(width, height);
+  mc_actual_width = width;
+  mc_actual_height = height;
+
+  map_canvas_size_refresh();
+}
+
+/**********************************************************************//**
+  Refresh map canvas size information
+**************************************************************************/
+void map_canvas_size_refresh(void)
+{
+  map_canvas_resized(mc_actual_width / mouse_zoom,
+                     mc_actual_height / mouse_zoom);
 }
 
 /**********************************************************************//**
@@ -419,6 +434,7 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
      * to screen).  Then we draw all changed areas to the screen. */
     update_animation();
     unqueue_mapview_updates(FALSE);
+    cairo_scale(cr, mouse_zoom, mouse_zoom);
     cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
     cairo_paint(cr);
   }
@@ -627,7 +643,7 @@ void put_cross_overlay_tile(struct tile *ptile)
 {
   float canvas_x, canvas_y;
 
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, ptile)) {
     GtkNative *nat = gtk_widget_get_native(map_canvas);
 
     pixmap_put_overlay_tile(gtk_native_get_surface(nat), map_zoom,
@@ -721,7 +737,7 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
     scroll_y = gtk_adjustment_get_value(adj);
   }
 
-  set_mapview_scroll_pos(scroll_x, scroll_y);
+  set_mapview_scroll_pos(scroll_x, scroll_y, mouse_zoom);
 }
 
 /**********************************************************************//**

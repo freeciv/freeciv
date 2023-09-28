@@ -59,6 +59,7 @@
 #include "editgui_g.h"
 #include "tilespec.h"
 #include "update_queue.h"
+#include "zoom.h"
 
 /* gui-sdl2 */
 #include "chatline.h"
@@ -336,7 +337,7 @@ static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
       finger_behavior.finger_down_ticks = SDL_GetTicks();
       finger_behavior.event = *touch_event;
       finger_behavior.hold_state = MB_HOLD_SHORT;
-      finger_behavior.ptile = canvas_pos_to_tile(x, y);
+      finger_behavior.ptile = canvas_pos_to_tile(x, y, mouse_zoom);
     }
   }
   return ID_ERROR;
@@ -390,7 +391,8 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
       button_behavior.button_down_ticks = SDL_GetTicks();
       *button_behavior.event = *button_event;
       button_behavior.hold_state = MB_HOLD_SHORT;
-      button_behavior.ptile = canvas_pos_to_tile(button_event->x, button_event->y);
+      button_behavior.ptile = canvas_pos_to_tile(button_event->x, button_event->y,
+                                                 mouse_zoom);
     }
 #ifdef UNDER_CE
     }
@@ -438,7 +440,8 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
   /* stop evaluating button hold time when moving to another tile in medium
    * hold state or above */
   if (button_behavior.counting && (button_behavior.hold_state >= MB_HOLD_MEDIUM)) {
-    ptile = canvas_pos_to_tile(motion_event->x, motion_event->y);
+    ptile = canvas_pos_to_tile(motion_event->x, motion_event->y,
+                               mouse_zoom);
     if (tile_index(ptile) != tile_index(button_behavior.ptile)) {
       button_behavior.counting = FALSE;
     }
@@ -465,7 +468,8 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
     if (selected_widget) {
       unselect_widget_action();
     } else {
-      control_mouse_cursor(canvas_pos_to_tile(motion_event->x, motion_event->y));
+      control_mouse_cursor(canvas_pos_to_tile(motion_event->x, motion_event->y,
+                                              mouse_zoom));
     }
   }
 

@@ -41,6 +41,7 @@
 #include "sprite.h"
 #include "repodlgs.h"
 #include "text.h"
+#include "zoom.h"
 
 // gui-qt
 #include "colors.h"
@@ -100,8 +101,8 @@ void draw_calculated_trade_routes(QPainter *painter)
                                TILE_XY(qgilles.t2));
       map_to_gui_vector(tileset, 1.0, &w, &h, dx, dy);
 
-      tile_to_canvas_pos(&x1, &y1, qgilles.t1);
-      tile_to_canvas_pos(&x2, &y2, qgilles.t2);
+      tile_to_canvas_pos(&x1, &y1, map_zoom, qgilles.t1);
+      tile_to_canvas_pos(&x2, &y2, map_zoom, qgilles.t2);
 
       /* Dont draw if route was already established */
       if (tile_city(qgilles.t1) && tile_city(qgilles.t2)
@@ -136,7 +137,7 @@ void draw_calculated_trade_routes(QPainter *painter)
   foreach (pcity, gui()->trade_gen.virtual_cities) {
     float canvas_x, canvas_y;
     if (pcity->tile != nullptr
-        && tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile)) {
+        && tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, pcity->tile)) {
       painter->drawPixmap(static_cast<int>(canvas_x),
                           static_cast<int>(canvas_y),
                           *get_attention_crosshair_sprite(tileset)->pm);
@@ -1236,7 +1237,7 @@ void put_cross_overlay_tile(struct tile *ptile)
 {
   float canvas_x, canvas_y;
 
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, ptile)) {
     pixmap_put_overlay_tile(canvas_x, canvas_y,
                             get_attention_crosshair_sprite(tileset));
   }
@@ -1373,7 +1374,7 @@ void info_tile::calc_size()
   setFixedHeight(str_list.count() * (fm.height() + 5));
   setFixedWidth(w + 10);
 
-  if (tile_to_canvas_pos(&x, &y, itile)) {
+  if (tile_to_canvas_pos(&x, &y, map_zoom, itile)) {
     int fin_x;
     int fin_y;
     int wh = height();
@@ -1444,4 +1445,14 @@ void qtg_start_turn()
   last_center_capital = 0;
   last_center_player_city = 0;
   last_center_enemy_city = 0;
+}
+
+/**********************************************************************//**
+  Refresh map canvas size information
+**************************************************************************/
+void qtg_map_canvas_size_refresh(void)
+{
+  /* Needed only with full screen zoom mode.
+   * Not needed, nor implemented, in this client. */
+  fc_assert(false);
 }

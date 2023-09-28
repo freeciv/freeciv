@@ -217,6 +217,16 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   /* PORTME */
 }
 
+/**********************************************************************//**
+  Refresh map canvas size information
+**************************************************************************/
+void gui_map_canvas_size_refresh(void)
+{
+  /* Needed only with full screen zoom mode.
+   * Not needed, nor implemented, in this client. */
+  fc_assert(FALSE);
+}
+
 /************************************************************************//**
   This function is called when the tileset is changed.
 ****************************************************************************/

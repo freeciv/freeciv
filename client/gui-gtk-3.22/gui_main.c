@@ -696,7 +696,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
       return FALSE;
   };
 
-  set_mapview_scroll_pos(scroll_x, scroll_y);
+  set_mapview_scroll_pos(scroll_x, scroll_y, mouse_zoom);
 
   /* Emulating mouse move now */
   if (!gtk_widget_has_focus(map_canvas)) {
@@ -712,7 +712,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
     maybe_activate_keyboardless_goto(cur_x, cur_y);
   }
 
-  control_mouse_cursor(canvas_pos_to_tile(cur_x, cur_y));
+  control_mouse_cursor(canvas_pos_to_tile(cur_x, cur_y, mouse_zoom));
 
   return TRUE;
 }

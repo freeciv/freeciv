@@ -44,6 +44,7 @@
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
+#include "zoom.h"
 
 /* Selection Rectangle */
 static float rec_anchor_x, rec_anchor_y;  /* canvas coordinates for anchor */
@@ -79,15 +80,16 @@ static void define_tiles_within_rectangle(bool append);
 
 /**********************************************************************//**
   Called when Right Mouse Button is depressed. Record the canvas
-  coordinates of the center of the tile, which may be unreal. This
-  anchor is not the drawing start point, but is used to calculate
+  coordinates of the center of the tile, which may be unreal.
+  This anchor is not the drawing start point, but is used to calculate
   width, height. Also record the current mapview centering.
 **************************************************************************/
 void anchor_selection_rectangle(int canvas_x, int canvas_y)
 {
-  struct tile *ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y,
+                                                  mouse_zoom);
 
-  tile_to_canvas_pos(&rec_anchor_x, &rec_anchor_y, ptile);
+  tile_to_canvas_pos(&rec_anchor_x, &rec_anchor_y, map_zoom, ptile);
   rec_anchor_x += tileset_tile_width(tileset) / 2;
   rec_anchor_y += tileset_tile_height(tileset) / 2;
   /* FIXME: This may be off-by-one. */
@@ -98,7 +100,7 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
 /**********************************************************************//**
   Iterate over the pixel boundaries of the rectangle and pick the tiles
   whose center falls within. Axis pixel incrementation is half tile size to
-  accomodate tilesets with varying tile shapes and proportions of X/Y.
+  accomodate tilesets with varying tile shapes and proportions of X / Y.
 
   These operations are performed on the tiles:
   -  Make tiles that contain owned cities hilited
@@ -141,7 +143,7 @@ static void define_tiles_within_rectangle(bool append)
 	continue;
       }
 
-      ptile = canvas_pos_to_tile(x, y);
+      ptile = canvas_pos_to_tile(x, y, map_zoom);
       if (!ptile) {
 	continue;
       }
@@ -149,7 +151,7 @@ static void define_tiles_within_rectangle(bool append)
       /*  "Half-tile" indentation must match, or we'll process
        *  some tiles twice in the case of rectangular shape tiles.
        */
-      tile_to_canvas_pos(&x2, &y2, ptile);
+      tile_to_canvas_pos(&x2, &y2, map_zoom, ptile);
 
       if ((yy % 2) != 0 && ((rec_corner_x % W) ^ abs((int)x2 % W)) != 0) {
 	continue;
@@ -198,14 +200,14 @@ static void define_tiles_within_rectangle(bool append)
 **************************************************************************/
 void update_selection_rectangle(float canvas_x, float canvas_y)
 {
-  const int W = tileset_tile_width(tileset),    half_W = W / 2;
-  const int H = tileset_tile_height(tileset),   half_H = H / 2;
+  const int W = tileset_tile_width(tileset),  half_W = W / 2;
+  const int H = tileset_tile_height(tileset), half_H = H / 2;
   static struct tile *rec_tile = NULL;
   int diff_x, diff_y;
   struct tile *center_tile;
   struct tile *ptile;
 
-  ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y);
+  ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y, mouse_zoom);
 
   /*  Did mouse pointer move beyond the current tile's
    *  boundaries? Avoid macros; tile may be unreal!
@@ -218,9 +220,8 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
   /* Clear previous rectangle. */
   draw_selection_rectangle(rec_corner_x, rec_corner_y, rec_w, rec_h);
 
-  /*  Fix canvas coords to the center of the tile.
-   */
-  tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+  /* Fix canvas coords to the center of the tile. */
+  tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, ptile);
   canvas_x += half_W;
   canvas_y += half_H;
 
@@ -358,7 +359,7 @@ void toggle_tile_hilite(struct tile *ptile)
 **************************************************************************/
 void key_city_overlay(int canvas_x, int canvas_y)
 {
-  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
   if (can_client_change_view() && ptile) {
     struct unit *punit;
@@ -482,7 +483,7 @@ void upgrade_canvas_clipboard(void)
 **************************************************************************/
 void release_goto_button(int canvas_x, int canvas_y)
 {
-  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
   if (keyboardless_goto_active
       && (hover_state == HOVER_GOTO || hover_state == HOVER_GOTO_SEL_TGT)
@@ -497,12 +498,12 @@ void release_goto_button(int canvas_x, int canvas_y)
 }
 
 /**********************************************************************//**
- The goto hover state is only activated when the mouse pointer moves
- beyond the tile where the button was depressed, to avoid mouse typos.
+  The goto hover state is only activated when the mouse pointer moves
+  beyond the tile where the button was depressed, to avoid mouse typos.
 **************************************************************************/
 void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
 {
-  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
   if (ptile && get_num_units_in_focus() > 0
       && !same_pos(keyboardless_goto_start_tile, ptile)
@@ -542,7 +543,7 @@ bool can_end_turn(void)
 }
 
 /**********************************************************************//**
-  Scroll the mapview half a screen in the given direction.  This is a GUI
+  Scroll the mapview half a screen in the given direction. This is a GUI
   direction; i.e., DIR8_NORTH is "up" on the mapview.
 **************************************************************************/
 void scroll_mapview(enum direction8 gui_dir)
@@ -555,18 +556,18 @@ void scroll_mapview(enum direction8 gui_dir)
 
   gui_x += DIR_DX[gui_dir] * mapview.width / 2;
   gui_y += DIR_DY[gui_dir] * mapview.height / 2;
-  set_mapview_origin(gui_x, gui_y);
+  set_mapview_origin(gui_x, gui_y, map_zoom);
 }
 
 /**********************************************************************//**
   Do some appropriate action when the "main" mouse button (usually
-  left-click) is pressed.  For more sophisticated user control use (or
-  write) a different xxx_button_pressed function.
+  left-click) is pressed. For more sophisticated user control use
+  (or write) a different xxx_button_pressed function.
 **************************************************************************/
 void action_button_pressed(int canvas_x, int canvas_y,
                            enum quickselect_type qtype)
 {
-  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
   if (can_client_change_view() && ptile) {
     /* FIXME: Some actions here will need to check can_client_issue_orders.
@@ -580,7 +581,7 @@ void action_button_pressed(int canvas_x, int canvas_y,
 **************************************************************************/
 void wakeup_button_pressed(int canvas_x, int canvas_y)
 {
-  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
   if (can_client_issue_orders() && ptile) {
     wakeup_sentried_units(ptile);
@@ -592,7 +593,7 @@ void wakeup_button_pressed(int canvas_x, int canvas_y)
 **************************************************************************/
 void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 {
-  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
   if (NULL != ptile && can_client_issue_orders()) {
     struct city *pcity = find_city_near_tile(ptile);
@@ -629,7 +630,8 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 void recenter_button_pressed(int canvas_x, int canvas_y)
 {
   /* We use the "nearest" tile here so off-map clicks will still work. */
-  struct tile *ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y);
+  struct tile *ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y,
+                                                  mouse_zoom);
 
   if (can_client_change_view() && ptile) {
     center_tile_mapcanvas(ptile);
@@ -666,12 +668,12 @@ void update_line(int canvas_x, int canvas_y)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
-    ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+    ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
     is_valid_goto_draw_line(ptile);
     break;
   case HOVER_GOTO_SEL_TGT:
-    ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+    ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
     punits = get_units_in_focus();
 
     set_hover_state(punits, hover_state, connect_activity, connect_tgt,

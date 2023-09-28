@@ -555,9 +555,9 @@ void handle_team_name_info(int team_id, const char *team_name)
 }
 
 /************************************************************************//**
-  A combat packet.  The server tells us the attacker and defender as well
+  A combat packet. The server tells us the attacker and defender as well
   as both of their hitpoints after the combat is over (in most combat, one
-  unit always dies and their HP drops to zero).  If make_winner_veteran is
+  unit always dies and their HP drops to zero). If make_winner_veteran is
   set then the surviving unit becomes veteran.
 ****************************************************************************/
 void handle_unit_combat_info(const struct packet_unit_combat_info *packet)

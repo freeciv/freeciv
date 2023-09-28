@@ -51,6 +51,7 @@
 #include "helpdata.h" /* for helptext_nation() */
 #include "packhand.h"
 #include "text.h"
+#include "zoom.h"
 
 /* gui-sdl2 */
 #include "chatline.h"
@@ -111,7 +112,7 @@ void put_window_near_map_tile(struct widget *pwindow,
   float canvas_x, canvas_y;
   int window_x = 0, window_y = 0;
 
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, ptile)) {
     if (canvas_x + tileset_tile_width(tileset) + window_width >= main_window_width()) {
       if (canvas_x - window_width < 0) {
         window_x = (main_window_width() - window_width) / 2;
