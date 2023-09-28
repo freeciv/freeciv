@@ -1238,3 +1238,13 @@ void update_overview_scroll_window_pos(int x, int y)
 **************************************************************************/
 void start_turn(void)
 {}
+
+/**********************************************************************//**
+  Refresh map canvas size information
+**************************************************************************/
+void map_canvas_size_refresh(void)
+{
+  /* Needed only with full screen zoom mode.
+   * Not needed, nor implemented, in this client. */
+  fc_assert(FALSE);
+}

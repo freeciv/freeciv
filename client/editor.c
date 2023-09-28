@@ -667,7 +667,7 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
     return;
   }
 
-  ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
   if (ptile == NULL) {
     return;
   }
@@ -731,8 +731,8 @@ static void editor_end_selection_rectangle(int canvas_x, int canvas_y)
 
   if (editor->selrect_width <= 0 || editor->selrect_height <= 0) {
     struct tile *ptile;
-    
-    ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+
+    ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
     if (ptile && editor->selection_mode == SELECTION_MODE_ADD) {
       editor_selection_add(ptile);
     } else if (ptile && editor->selection_mode == SELECTION_MODE_REMOVE) {
@@ -872,7 +872,7 @@ void editor_mouse_move(int canvas_x, int canvas_y, int modifiers)
   }
 
   old = editor_get_current_tile();
-  ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+  ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
   if (!ptile) {
     return;

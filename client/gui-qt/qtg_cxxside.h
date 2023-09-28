@@ -97,6 +97,8 @@ void qtg_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
                          enum client_font font, struct color *pcolor,
                          const char *text);
 
+void qtg_map_canvas_size_refresh(void);
+
 void qtg_set_rulesets(int num_rulesets, char **rulesets);
 void qtg_options_extra_init();
 void qtg_server_connect();

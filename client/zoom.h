@@ -20,6 +20,7 @@ extern "C" {
 void zoom_set(float new_zoom);
 void zoom_1_0(void);
 void zoom_set_steps(float *steps);
+void zoom_phase_set(bool individual_tiles);
 
 #define zoom_get_level() map_zoom
 #define zoom_is_enabled() zoom_enabled
@@ -32,6 +33,7 @@ bool zoom_update(double time_until_next_call);
 
 extern bool zoom_enabled;
 extern float map_zoom;
+extern float mouse_zoom;
 
 #ifdef __cplusplus
 }
