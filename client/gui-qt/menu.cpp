@@ -3731,12 +3731,12 @@ void mr_menu::back_to_menu()
 
     connect(ask, &hud_message_box::accepted, [=]() {
       if (client.conn.used) {
-        disconnect_from_server();
+        disconnect_from_server(TRUE);
       }
     });
     ask->show();
   } else {
-    disconnect_from_server();
+    disconnect_from_server(TRUE);
   }
 }
 

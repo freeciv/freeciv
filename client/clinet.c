@@ -74,6 +74,7 @@
 /* client */
 #include "agents.h"
 #include "attribute.h"
+#include "audio.h"
 #include "chatline_g.h"
 #include "client_main.h"
 #include "climisc.h"
@@ -302,7 +303,7 @@ void make_connection(int sock, const char *username)
   Get rid of server connection. This also kills internal server if it's
   used.
 **************************************************************************/
-void disconnect_from_server(void)
+void disconnect_from_server(bool leaving_sound)
 {
   const bool force = !client.conn.used;
 
@@ -320,6 +321,10 @@ void disconnect_from_server(void)
     client_kill_server(TRUE);
   }
   output_window_append(ftc_client, _("Disconnected from server."));
+
+  if (leaving_sound) {
+    audio_play_sound("e_leave_game", NULL);
+  }
 
   if (gui_options.save_options_on_exit) {
     options_save(NULL);
