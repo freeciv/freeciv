@@ -201,6 +201,9 @@ if test "$MOCCMD" = "" && test "$MOC_CROSSER" != "" ; then
   MOCPARAM="MOCCMD=${MOC_CROSSER}"
 fi
 
+PATH="${DLLSPATH}/linux/bin:${PATH}"
+hash -r
+
 if ! ${SRC_ROOT}/configure \
      ac_cv_working_gettimeofday=yes \
      $MOCPARAM \
