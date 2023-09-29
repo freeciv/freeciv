@@ -1,3 +1,2773 @@
+commit 463ad8d16e929d598f9e13a93d5941ca930f7fa3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 29 13:33:23 2023 +0300
+
+    Set version number to 3.1.0-beta3
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 00c9a828c7646018a2d4ddcbfe4b2f40cf095283
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 29 13:32:04 2023 +0300
+
+    'make update-po' before 3.1.0-beta3 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e328d2312daec217be2a72458c96e4ddd8f03083
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 29 12:10:11 2023 +0300
+
+    NEWS-3.1: Update beta3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f279ce653cd959bb39e1dd05679ebcaf4b190126
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 27 23:13:36 2023 +0300
+
+    tile_move_cost_ptrs(): Make cardinal_move signed
+
+    It can contain value -1 in it.
+
+    See osdn #48737
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5588bb994a00b440e26b754248859e0b982e4a18
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 28 21:20:57 2023 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2023-09-28).
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c8e87aab750bd90fea8ec9665360f03ec18c7a24
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 24 23:11:37 2023 +0300
+
+    Improve fit_nationset_to_players() comments
+
+    See osdn #48266
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 681b6ed52360a3c2b8900277ee18ac06b56a2a8d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 26 16:58:05 2023 +0300
+
+    NEWS-3.1: Refresh beta3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 533d9587414bfcdf9b95157a1a088b62492f0b37
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 23 15:11:30 2023 +0300
+
+    Correct "nearest_real_pos" in comment to "nearest_real_tile()"
+
+    See osdn #48526
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 64ab59521ea7878fbd3b02155568d02b414af6f5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 26 16:17:14 2023 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1e8e65dd9a71fbbafd5cfc6fc7ee207e28e4aa89
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 23 03:30:06 2023 +0300
+
+    gtk3(.22) theme: Correct setting tooltip color
+
+    See osdn #48670
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5aed008489cda54679bf7713fa6c3cb9eaba42f8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 23 09:31:30 2023 +0300
+
+    gnulib-common.m4: Update to serial 89
+
+    See osdn #48706
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 51dc8406b5784ecee9579873a5b3fba17440bdf9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 25 08:25:20 2023 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2023-09-22).
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6db2ec77affd8e37c8b6d18adbebe1e1fa2e9bf0
+Author: Michael Ortmann <keine email>
+Date:   Wed Sep 20 03:54:04 2023 +0200
+
+    Alien: Fix typo "phenomenom" -> "phenomenon"
+
+    See osdn #48693
+
+commit d2bd777d2fc3804f898d8c66a57b993cce80558a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 25 07:42:41 2023 +0300
+
+    NEWS: Refresh to match 3.1.0-beta3
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d542e2e5279778777228be78c4fdb39578b9bdc1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 25 07:36:12 2023 +0300
+
+    NEWS-3.1: Refresh corrections to 3.1.0-beta3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f7376e3abfe4fbd12cd2931daad894baa3ffcf95
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 25 01:26:04 2023 +0300
+
+    NEWS-3.1: Refresh 3.1.0-beta3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bb1b0a98e6943cc452d927396e61756e9e197b64
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 23 09:56:29 2023 +0300
+
+    Reword bitvector.c comments
+
+    See osdn #48707
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2c7184c6b6b81a9977266d2c8f7a9dd9ae43436d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 22 11:48:59 2023 +0300
+
+    gtk3(.22) theme: Disable global padding
+
+    See osdn #48669
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1da432374c36635204cdb7c0b4ad250131d8d707
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 22 14:47:49 2023 +0300
+
+    sdl2: Fix add_global_worklist() dead 'buf' assignment
+
+    See osdn #48688
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 80ff6d7f257ebab35ace873bbf0b2525a894201a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 16 16:31:33 2023 +0300
+
+    gtk4: Apply theme to all dialogs
+
+    See osdn #48634
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c754c1d699cca654823cd0c478fc962412c70e2e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 22 11:19:17 2023 +0300
+
+    Flatpak: Update gnome Sdk & Platform to 45
+
+    See osdn #48689
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 95da1e146a1ad83e480d0df56676a8c0b995a881
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 22 11:13:07 2023 +0300
+
+    emscripten: Provide netfile_free() prototype
+
+    See osdn #48683
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d033883268da97b581c67c113b3fe2cd2d2b9be6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 18 16:25:00 2023 +0300
+
+    gtk4 theme: Correct setting tooltip color
+
+    See osdn #48660
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit aa9033e7b003b9f9c1842961e24f4308a9c0fe2d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 22 16:31:44 2023 +0300
+
+    Merge German translation from main branch
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 720a23741f240d7cc1dc39f3d9d5e402a2b32364
+Author: Benno Lang <transmogribenno@gmail.com>
+Date:   Fri Sep 22 21:27:02 2023 +0930
+
+    Update Esperanto translation
+
+commit 0684994127a1336b62772db1a7dfdeabdf74cb1a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 18 05:56:46 2023 +0300
+
+    sdl2: Make size 13 fonts to adjust to theme font size
+
+    Some clean up made, as this replaces the last direct
+    use of adj_font()
+
+    See osdn #48641
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0c5a6f492b22d09df9fb74873602b760b60a66a2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 21 18:48:32 2023 +0300
+
+    Comment typofix: "Usefull" -> "Useful"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6f02d8fa2067a427420541d757cbd566284c45d7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 21 10:37:51 2023 +0300
+
+    Comment typofix: "usefull" -> "useful"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1ac6ec41bbac797541e775d9af3b8cfb010f0845
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 21 09:47:43 2023 +0300
+
+    Comment typofix: "meaningfull" -> "meaningful"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 93de2a4cb7147ea860a1c21e1516373e9a886f75
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 18 04:36:26 2023 +0300
+
+    Drop FC_..._TO_...() cast macros involving unsigned values
+
+    See osdn #46414
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 92512f8c0c8fcbc5d1d20c8598d78064cfe47100
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 18 15:54:11 2023 +0300
+
+    gtk4 theme: Disable global padding
+
+    See osdn #48659
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 587fe3357245120945bf780f261ef00855005f14
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 17 18:16:12 2023 +0300
+
+    Update city_map_update_[empty|worker]() headers
+
+    See osdn #48652
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b9d66aaaf669195c9057dfc94f95174dfd10d4d2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 17 09:00:50 2023 +0300
+
+    unpackage_short_unit(): Use 0, not FALSE, veteran level
+
+    See osdn #48645
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6474da4cc4b45fb6fa89ac94fa8d0bb79c3334b4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 17 05:42:23 2023 +0300
+
+    sdl2: Make size 24 fonts to adjust to theme font size
+
+    See osdn #48629
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4a9d7f384c4e726bf28fe2fac7416e5a58b4b410
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 18 10:24:33 2023 +0300
+
+    NEWS-3.1: Add 3.1.0-beta3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 31ba50c73d14e9324e28bd887e7e56b609ff4691
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 16 19:32:23 2023 +0300
+
+    sdl2: Fix dead assignment in popup_intel_dialog()
+
+    See osdn #48636
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 579197fc37a25b83243d285b0ee8f0d82b560b40
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 16 18:49:05 2023 +0300
+
+    dai_select_tech(): Get advance_count() just once
+
+    Use advance_index_iterate_max() with a max value that compiler
+    knows to be the same, instead of advance_index_iterate()
+
+    See osdn #48635
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cd03c19f13f657ba9281551797ff78b98c490f14
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 16 13:10:12 2023 +0300
+
+    Meson: Fix build with meson-0.59
+
+    See osdn #48633
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 29ef2c6a2b45f0b31a90f12863c2d0d0ab12ca0d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 15 14:54:20 2023 +0300
+
+    Correct name of 'gui_to_map_pos()' in comments
+
+    Was referred as 'canvas_pos_to_map_pos()'
+
+    See osdn #48594
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 96660a8d0368b9c1125f0dfcfd6794dff3b3568b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 15 15:10:01 2023 +0300
+
+    Qt: Tell Qt5/Qt6 -mode in window title
+
+    See osdn #48603
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c014c70ee6a5c3bc935f96414f41e4a3e41e9d09
+Author: Benno Lang <transmogribenno@gmail.com>
+Date:   Sun Sep 17 17:33:53 2023 +0930
+
+    Update Esperanto translation
+
+commit f6f417a29d1f82241138e972ef413b85bae7931e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 15 12:00:05 2023 +0300
+
+    gnulib-common.m4: Update to serial 88
+
+    See osdn #48611
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 20d7dce34aff9d31da4072c892f6c1583a11caf7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 15 13:35:23 2023 +0300
+
+    AI: Make missile carriers able to launch multiple missiles
+
+    See osdn #45927
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c86be7ad992f605ec34680dc856b1257cff06e2f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 17 06:50:12 2023 +0300
+
+    Comment typofix: "determin" -> "determine"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8496760f809011086a9b299abc981194748aa91c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 15 12:20:30 2023 +0300
+
+    sdl2: Make size 11 fonts to adjust to theme font size
+
+    See osdn #48574
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 53680bf41e828452c0a108d21ab8012f0eb630bc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 15 11:28:45 2023 +0300
+
+    BUGS: Instruct reporter to tell Qt5/Qt6 mode
+
+    See osdn #48615
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 89e2e1e431563d795a38cca92185d51802d8e02c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 15 11:10:33 2023 +0300
+
+    Flatpak: Update freedesktop Sdk & Platform to 23.08
+
+    See osdn #48599
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 75a1c85a807956d10d242b22c761f656da604fb9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 16 04:04:53 2023 +0300
+
+    Comment typofix: "schields" -> "shields"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cf86289fc087638ca5a43740a3c73bb983166323
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Wed Sep 13 21:12:32 2023 +0500
+
+    Update for Russian translation.
+
+commit c7e19d75778596f1ac4bec197b266d102d4753a9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 11 17:00:12 2023 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cdb5f2ef3db54d257f63ce01447755a6c11659b9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 7 12:39:48 2023 +0300
+
+    INSTALL: Document pkgconf by default
+
+    Replace pkg-config in documentation.
+
+    See osdn #48586
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ee6888615450d775e7bc9f8e276b5bddddf708f0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 9 15:21:40 2023 +0300
+
+    gtk3: Fix build
+
+    See osdn #48612
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f33231d269bce6af7f032c5cbb2a3a4048957eb4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 7 13:34:11 2023 +0300
+
+    Meson: Generate man-pages
+
+    See osdn #46208
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8d2da15235b2ba887cafcd09d2ccf8eae040a293
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 3 08:37:00 2023 +0300
+
+    AI: Set countdown correctly if senate blocks war completely
+
+    Reported by alain_bkr
+
+    See osdn #47786
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e0fbd50bc928326eedc37f0e5da22d299653592d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 7 15:12:00 2023 +0300
+
+    id.po: Fix syntax
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 35c87bcb435b8ecbd61c029af64a97532a687d7b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 4 12:22:28 2023 +0300
+
+    Lua: Fix Unit:is_on_possible_city_tile()
+
+    See osdn #48582
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bd1be3e2d8504ddfcbd3ff7becee2c1063d897a0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 2 23:29:39 2023 +0300
+
+    gtk4: Make toplevel window title to tell gui type
+
+    See osdn #48569
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 58b11b6db3a788e0c9dc2c555e26c021aa55ecb5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 2 15:14:17 2023 +0300
+
+    Update to crosser-2.7
+
+    See osdn #48552
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d20228a32f6036a00fcb1c97023b13be67068461
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 2 23:01:43 2023 +0300
+
+    Stop units hidden by extras imposing ZoC
+
+    Requested by bard
+
+    See osdn #47700
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1a7d0a4e4c6f3d5d000c3f9a631e30e5443b1649
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 3 07:24:22 2023 +0300
+
+    sdl2: Make size 16 fonts to adjust to theme font size
+
+    See osdn #48573
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5bf88a37a8d26e1c8abc4937395f27d7ad861559
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 3 05:47:36 2023 +0300
+
+    Fix zero-size VLA error in barycentric_sort()
+
+    See osdn #48570
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d5c34368830a7ce8ead72822e62d13948d5f9013
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 2 20:49:14 2023 +0300
+
+    AI: Make wants in struct cityresult adv_want
+
+    See osdn #48370
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit aa924d588a5b9dd947fc70154071bff74c18f6e8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 2 14:02:43 2023 +0300
+
+    Unify occurrences of "neighbour" to "neighbor"
+
+    Drop obsolete rand_neighbour() completely.
+
+    See osdn #48549
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 75f4ee0ea85b184cfd8bbd4bfa8bbd95fa5e6ea5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 4 04:01:59 2023 +0300
+
+    Comment typofix: "alllied" -> "allied"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d8f6a8059d73d43a9816b4575b4918775540a686
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 2 12:27:55 2023 +0300
+
+    Fix handling of invalid player flag on savegame load
+
+    See osdn #48563
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e164484572667aa4d0403257562fe77193e57e21
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 3 13:15:42 2023 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 64a9110b82a5d28ca0879acfa5970146c5e1f01f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Aug 30 06:21:41 2023 +0300
+
+    AI: Use A_ARRAY_SIZE in dai_select_tech()
+
+    A_LAST was wrongly used
+
+    See osdn #47961
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ca4707292c1d78ae9394fecbb7f810b4f2be892c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Aug 30 07:05:49 2023 +0300
+
+    Qt: Fix science dialog crash with a Future Tech
+
+    Reported by alain_bkr
+
+    See osdn #47787
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit afc158b457c282a34ff20228fae4b5089e88f2be
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Aug 30 05:35:36 2023 +0300
+
+    server_sniff_all_input(): Use SIZE_T_PRINTF for didget value
+
+    See osdn #48560
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b7913197137ae746e6620e7d40c1f3dd279cdf6b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 29 16:03:07 2023 +0300
+
+    Qt6: Fix chatline UTF8 handling
+
+    See osdn #48557
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8d5993c6cd91643e3c6bfa9b213ce98cbb82d248
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 29 16:30:24 2023 +0300
+
+    Make path finding map agnostic
+
+    Take map as parameter, unhardcoding old assumption of
+    the main map being used.
+
+    See osdn #48556
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b609bfa4e1c7197015b10f0c8a2611b46669b190
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 31 20:18:31 2023 +0300
+
+    Comment typofix: "Producrion" -> "Production"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 67d34ca95ec973f2d1d6fcadf35e45e4a0ef98a3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 29 14:19:51 2023 +0300
+
+    cityturn.c: Fix dead assignments on non-assert builds
+
+    See osdn #48555
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2c5c44718c4593edb56179b5ea273c89dab6deb9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 27 06:57:00 2023 +0300
+
+    Rulesets: Drop deprecated NoVeteran requirements
+
+    Rulesets with no unit with NoVeteran flag never
+    need to check against it.
+
+    Requested by Sveinung Kvilhaugsvik
+
+    See osdn #41796
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5deafb88d84afdab0666c413b3afff4be8cd6918
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 27 10:45:39 2023 +0300
+
+    gtk4: Add reverse taxrates adjustment
+
+    Make it possible to adjust taxrates to reverse direction
+    by right click.
+
+    See osdn #48547
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a9a54ae8ea009a2952b5d28026368fec161b8193
+Author: rvid19 <53793291+rvid19@users.noreply.github.com>
+Date:   Sat Aug 26 16:20:02 2023 +0300
+
+    Update portuguese.ruleset
+
+    Some updates to the Portuguese:
+    - New monarchs. (Some of the most important ones.)
+    - Extended legend.
+
+    Ported to S3_1 by Marko Lindqvist
+
+    See osdn #48528
+
+commit 8fef7f9f1ec6577fa95eb4696c7cefd7c2012b66
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 27 06:18:48 2023 +0300
+
+    animations_free(): Free all animations data
+
+    Previously only the main animations list was freed,
+    not individual animations.
+
+    See osdn #48446
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9972985fae1ca278da534f667f62d1d284662629
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 29 15:36:02 2023 +0300
+
+    Comment typofix: "regarless" -> "regardless"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9a0885eac7c5300cca562cbd2f466bb0c8eb3c95
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 27 05:42:54 2023 +0300
+
+    README.crosser: List 'nsis' as a requirement
+
+    See osdn #48543
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f1fee323f0d8524a099a3116d2a6fd677c98d075
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 27 06:00:01 2023 +0300
+
+    tile_move_cost_ptrs(): Rework to avoid BAD_HEURISTIC_INIT()
+
+    See osdn #48544
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a620a0a23458a7cde3ce0433e0c80a90ed3b85af
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 26 17:23:47 2023 +0300
+
+    sdl2: Fix cityrep.c unused 'w' clang analyzer warning
+
+    See osdn #48541
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3e7b46f92d62bcc00530d06384c14742ceb515f8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 26 15:39:25 2023 +0300
+
+    locale-fr.m4: Update to serial 23
+
+    See osdn #48540
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 34b82fc497aa015f285f337a57d13140da0369ec
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 24 14:03:03 2023 +0300
+
+    README.effects: Clarify that effect values are cumulative
+
+    Generally rewrite the chapter about effect ruleset entry fields.
+
+    Reported by omero
+
+    See osdn #48374
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e4a914d6c38bc05283a0bffb8c7dda2ce7576d1d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 24 13:22:07 2023 +0300
+
+    mkstemp.m4: Update to serial 30
+
+    See osdn #48537
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 874f3071d522ad327f44b5b805c1297d2ca2b40d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 26 17:18:52 2023 +0300
+
+    Comment typofix: "unkeep" -> "upkeep"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9a5eb84744d5909460cee746758e0d1c5c56c785
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 24 12:22:33 2023 +0300
+
+    Savegame: Fix shuffled players order loading warning
+
+    Clang analyzer warned about garbage value being used.
+
+    See osdn #48536
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2bd3f139d7fcb3887f35717023df25495a45ddf8
+Author: rvid19 <53793291+rvid19@users.noreply.github.com>
+Date:   Fri Aug 4 11:43:18 2023 +0100
+
+    Change Despotism title in portuguese.ruleset
+
+    The Portucalense county was a county and not a viscounty.
+
+    See osdn #48531
+
+commit 79f25d5def7c6028b096fe654df96696a473634d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 20 15:54:54 2023 +0300
+
+    Create unit/city/tile links for messages from supplied lua scripts
+
+    See osdn #43389
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 348c80d35facf6ee2f577c4e8a420d353759b3b7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 20 12:40:53 2023 +0300
+
+    Tex: Maintain player specific cities lists
+
+    See osdn #48523
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b397620eecb988421e8d7751db81b71e0f35cdce
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 20 11:09:42 2023 +0300
+
+    Fix compiler warning on non-readline builds
+
+    See osdn #48454
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 380f2a28778930a3b7fd5c283db7862586d2f185
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 25 23:22:42 2023 +0300
+
+    Replace action_get_activity() by actres_get_activity()
+
+    As a side-effect, fixes an use of uninitialized action actor kind.
+
+    See osdn #48443
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 011ec37884bf2cf5c3a870abff661680b7032f5e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 1 00:54:21 2023 +0300
+
+    default.lua: Improve Partisan comments
+
+    See osdn #48438
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d130afb40e67caed8f73378b7fc28087445f467b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 1 18:27:51 2023 +0300
+
+    fill_terrain_sprite_array(): Fix garbage value use
+
+    See osdn #48456
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 50202b5b86219568dee2617932ae2919062a0b4d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 23 21:36:13 2023 +0300
+
+    Manual: Separate Buildings by a ruler
+
+    See osdn #48440
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7236ed0c164aafe1d3cd0d264928fadbeb2f3366
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 1 11:34:14 2023 +0300
+
+    Comment typofix: "immediatly" -> "immediately"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 43924ff4961f816f277c54734aa42f05de8e7854
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 26 10:23:26 2023 +0300
+
+    Free encoding buffers on non-readline builds
+
+    See osdn #48445
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3fb66da1ed097a5619e50ea7ac36a07429319f95
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 26 00:07:15 2023 +0300
+
+    Meson: Add "-Wmissing-declarations"
+
+    See osdn #48444
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 66dfc9fb7067e15d440e55c0360b54bf1f8ee3e1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 22 02:16:57 2023 +0300
+
+    sdl2 tech tree: Fix crash when reqs not in order
+
+    Help was assuming that if tech has any reqs,
+    those are in first slots.
+
+    See osdn #48436
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7ac87e2ff765f7f0861a7afa7cecb5f00548d017
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 22 00:09:34 2023 +0300
+
+    Increase treasury by precalculated city gold surplus value
+
+    The value was recalculated at the time of treasury adjustment.
+    The calculation did not always match already performed
+    correct calcuation, and there's no point in trying to maintain
+    such recalculation.
+
+    See osdn #48391
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d8e0a2c1fb8e30d31f39f6d43c4a7a9b3fee6046
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 21 19:11:32 2023 +0300
+
+    Flatpak: Switch to autotools buildsystem
+
+    Stop defining individual build commands for
+    buildsystem: simple, by switching to buildsystem: autotools
+
+    See osdn #48430
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f6029dfcdf5b9fdf047eebc3bd57fb21b1e5bfdf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 21 07:03:25 2023 +0300
+
+    sdl2: Unhardcode info label font size
+
+    Respect changes to base font size.
+
+    See osdn #48427
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2d72c5c52ea3a0fad99bac1d8a96646a36a5506f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 19 22:33:49 2023 +0300
+
+    bounce_unit(): Fix unit list corruption on iteration
+
+    Transported units were bounced away from transported list,
+    within normal unit list iteration.
+    Turn that to a safe-iterator.
+
+    See osdn #48392
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4ce96b05786ba7c7c4c3a9d69c288e21494a4f02
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 21 16:38:15 2023 +0300
+
+    installer_cross: Add ruledit gui type to registry key name
+
+    Also to default install directory name
+
+    See osdn #48431
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b5aba4d455436f4c4b8fe9053651fa2f5f613631
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 19 21:16:55 2023 +0300
+
+    Qt: Fix non-fatal tileset error messages on startup
+
+    All tileset errors, both fatal and non-fatal, were
+    just crashing the client on startup.
+
+    Fixed, so that:
+    - Fatal errors show an error dialog before
+      client closes.
+    - Non-fatal won't crash, and error dialogs
+      will be shown when client runs
+
+    See osdn #47915
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1bf0247ab8acfb9742ba868c5c8a8528596a32d9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 19 12:35:29 2023 +0300
+
+    AI: Make _WEIGHTING values adv_want
+
+    To make sure calculations made with them have necessary accuracy.
+
+    See osdn #47736
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 04fc8a0b92880d345c8131e629cc6cded9044329
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 22 07:20:43 2023 +0300
+
+    Comment typofix: "imediatly" -> "immediately"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5548ac616206cdec67f6bbde6e0f9374dafde1f8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 18 21:03:45 2023 +0300
+
+    gtk4: Do not refresh menus after disconnecting
+
+    See osdn #48419
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 50770d6ffff858f600678c28d86f28da9d95ce54
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 18 17:13:37 2023 +0300
+
+    occupying move: Fix crash if unit died on autoperformers
+
+    See osdn #48300
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 61d4209bc82e861f5657fd3f5f5065bb30bc4ccc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 21 18:05:57 2023 +0300
+
+    Comment typofix: "airlifed" -> "airlifted"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 09272f4e9316e080ce0ddee5c8ebc06309006daa
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 19 05:56:31 2023 +0300
+
+    Meson: Require C++ compiler only when really needed
+
+    See osdn #47471
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c149e7575613420ed3f763fed2b0a0733b412efb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 17 22:27:07 2023 +0300
+
+    Qt: Log failures to find a font during initial setup
+
+    See osdn #48385
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e2c221af410662a034ccc0f67ecc44f549112342
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 18 06:39:10 2023 +0300
+
+    Make action_by_activity_iterate() to go over cached list
+
+    No point in iterating over all the actions, and then to
+    pick just one or two that match the result.
+
+    See osdn #48411
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b9586d4dd5e031d0e26eb410fc0b8d4526294550
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 17 23:56:43 2023 +0300
+
+    build_all_installers.sh: Improve env var quotation
+
+    See osdn #48409
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit de7422c33e8e68c00ab13c3f246340699ec7e63e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 16 08:14:47 2023 +0300
+
+    sdl2: Move reusable SDL_Events from ui_main() to module level
+
+    To make sure they stay in scope.
+
+    See osdn #48399
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 13605ee07a5e4ababecbe68c5e3ad168a4fbfca6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 17 03:51:12 2023 +0300
+
+    goto.c: Fix clang analyzer warnings about NULL 'path' dereference
+
+    See osdn #48406
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit daa37efd09313bf4606f9c687219e07e0efb32bd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 13 03:18:25 2023 +0300
+
+    Replace dai_choice_rule_name() with adv_choice_rule_name()
+
+    - Introduce adv_choice_rule_name()
+    - Make adv_choice_log_info() to use adv_choice_rule_name()
+    - Change dai_choice_rule_name() users to use adv_choice_rule_name()
+    - Drop dai_choice_rule_name()
+
+    See osdn #47808
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9abcdc083c114a25ff01b3a26c09c54956f70edc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 12 00:33:46 2023 +0300
+
+    Flatpak: Move configure regeneration out from .yml
+
+    Run autogen.sh on ./build_flatpak.sh, on host.
+
+    See osdn #48394
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e6188a33687e6ff6bdec3eab4dbfa4fb28aebbb1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 18 07:20:39 2023 +0300
+
+    AI: Fix threaded AI build
+
+    See osdn #48413
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fb8d6fdf770d7dd28d719ec39dec491bffa98821
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 11 23:17:09 2023 +0300
+
+    Make is_square_threatened() to take map as parameter
+
+    Pass map as a parameter around in the autosettlers code.
+
+    See osdn #48396
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 97332890a75fca6e1d727f65d6d341d60f8b6725
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 17 21:43:24 2023 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 064f34e1d4b2fde6b997b4e36d9cd4357fe23af6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 10 23:18:56 2023 +0300
+
+    gtk4: Drop obsolete gtk3 code from menu.c
+
+    See osdn #48383
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bfa3b3a43eb43e1ef434e5733cbaa1dba1ceb268
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 11 05:15:02 2023 +0300
+
+    Bounce cargo when transport lost due to terrain change
+
+    If neither transport nor cargo can remain on the changed terraain,
+    and transport itself cannot even bounce, try to bounce cargo itself.
+
+    Reported by Alexandro Ignatiev
+
+    See osdn #46277
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6833a88eb6db227fcc9b1d2d5bb1bd7f4a70a40b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 17 06:48:41 2023 +0300
+
+    Comment typofix: "deision" -> "decision"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dea4a368f5cbe592d7ec283f3e0998d5d7823a2a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 10 07:02:36 2023 +0300
+
+    sdl2: Fix units report update crash with no units
+
+    See osdn #48379
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9fde187769d26d8daad0944ffe80692b6d54e2d1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 10 01:28:37 2023 +0300
+
+    Check that team_new() has found a free team slot
+
+    See osdn #48290
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3331a9093cadf0f529900597f41a17016898c219
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 10 22:38:02 2023 +0300
+
+    Meson: Drop global -Werror from debug builds
+
+    User is expected to explicitly control werror with
+    meson's -Dwerror
+
+    See osdn #48382
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 60883251b3634e408ebf27ef1bda525f68159ce0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 10 04:45:43 2023 +0300
+
+    Qt help_widget::uclass_max_values(): Initialize convert_time
+
+    If whatever value was in memory is bigger than any convert_time
+    to compare to, that random value was considered as
+    the highest actually existing value.
+
+    See osdn #48377
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 560d0c5f42ea8cc0ce40aa297172f2646bfff75e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 22:18:04 2023 +0300
+
+    Unify "Traderoute" to "Trade Route"
+
+    The only things not changed:
+    - Ruleset format (i.e. requirement and effect names)
+    - Savegame format
+    - File names
+
+    See osdn #45913
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c4cb9b408fe5eb76eac22e7454cfb1d2408a338b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 10 05:44:09 2023 +0300
+
+    locale-fr.m4: Update to serial 22
+
+    See osdn #48378
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0e4465a18c75faa638f96645833d985374efe827
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 20:56:21 2023 +0300
+
+    gtk: Drop unused display_color_type
+
+    See osdn #48297
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e09c5ddc78984d2b0b3dbc6173420b40678e9648
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 9 08:15:43 2023 +0300
+
+    Correct ruleset comments about transport_cap
+
+    It was claiming that suitable cargo types would still
+    be defined by flags.
+
+    See osdn #48182
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ca060e9423804eb426329042230e19dd45a32302
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 18:12:56 2023 +0300
+
+    Refactor map_claim_base() to tolerate changes in unit list
+
+    map_claim_base() iterates over supported units list several
+    times, and assumes that same unit is at the same index each time.
+    Make that more robust by storing list of unit ids locally.
+
+    See osdn #48363
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a9d4890c59a58b80ec522451e3ee36fd8e6a2e90
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 18:28:22 2023 +0300
+
+    Qt: Tell if player is observer in hud
+
+    See osdn #48132
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0c32f68212f95fdc580ed26a720c164b1f85acf6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 12 02:16:18 2023 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5b7861ddd84e82bb682461ce5633f9587da9eccd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 10:07:28 2023 +0300
+
+    Split is_my_zoc() to server and client versions
+
+    See osdn #47794
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 71eae54000b69ce5f15901d9665a94ee6f941988
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 9 07:32:59 2023 +0300
+
+    CI: Use new mysql-client on mac build again
+
+    See osdn #48372
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c8b578835cd14c664cb43a67efa0f28dbbbe13e2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 12:26:21 2023 +0300
+
+    Meson: Fix configure on FORTIFY_SOURCE envs
+
+    See osdn #48362
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 09819b3587884264b943db18243ede407083ab13
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 9 02:19:13 2023 +0300
+
+    AI: Correct contemplate_new_city() header
+
+    It referred to long-gone ai_settler_init()
+    Replaced by citymap_turn_init()
+
+    See osdn #48368
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 58822b07a4f4c5771460fb9bbdfb8009f6b7acb2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 20:22:17 2023 +0300
+
+    test_unit_can_airlift_to(): Take map as parameter
+
+    See osdn #48365
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cb7835db837eb574ab343982898f24b1011fe37b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 11 00:17:52 2023 +0300
+
+    Update Finnish translation of ruledit domain
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f4a2ba38c8c417365145171d89f28177d81c9cba
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 12:38:12 2023 +0300
+
+    gtk3(.22): Make Battle Groups menu insensitive for observers
+
+    See osdn #48298
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1b605fadfd4f775aea62165901d3eb4f7053fab8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 10 15:15:08 2023 +0300
+
+    Comment typofix: "for for" -> "font for"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b966f1f80195306c6519114c9118fcc40b4f84a3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 05:44:58 2023 +0300
+
+    Ruledit: Add Achievements tab
+
+    See osdn #48134
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 290b131d36a7ce64c0564a19f3eacf1d30ca265b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 08:47:58 2023 +0300
+
+    Apply lua-5.4.6 upsteam patch 1
+
+    See osdn #48303
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 126b42f9e085eaee80b0be2a52cf08e9dc1b6540
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 2 02:13:50 2023 +0300
+
+    sammarinese.ruleset: Correct name of "Borgo Maggiore"
+
+    Reported by omero
+
+    See osdn #48316
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 07ba0e4b9b5b3c37d5bea2e6be5065e0e9ca1259
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 28 00:40:46 2023 +0300
+
+    Correct city size asserts
+
+    Both city_size_add() and citizens_nation_add() had off-by-one
+    error causing assert to fail when adding final citizen for
+    maximal city size
+
+    See osdn #48296
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c3bc268c1267b07350a9c101c2b316aa12324234
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 1 10:20:59 2023 +0300
+
+    Respect automake silent mode when running tolua
+
+    See osdn #47468
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4228ee2bf852e9da0964a71512a51d77743ebccc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 8 18:33:58 2023 +0300
+
+    Comment typofix: "prevoius" -> "previous"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c44b65536d51f65b42cff3efd6ae27f7a215ae4e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 1 10:45:01 2023 +0300
+
+    Update update_dumb_city() header
+
+    - Correct name of refresh_dumb_city()
+    - Minor style fixes
+
+    See osdn #48315
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5b01ca21615ab4ac0301490035eadadee91409e1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 28 06:56:32 2023 +0300
+
+    sdl2: Add commandline parameter -- --Font SIZE
+
+    See osdn #48305
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c163a47bdf50b78da5e13e73c01fc8c381242dee
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 1 04:48:04 2023 +0300
+
+    Fix warning about player not providing shared vision to themselves
+
+    See osdn #48311
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3fa14acc0409dff5317d829844fb1797a49dd60c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 29 07:29:22 2023 +0300
+
+    Msys2: Refresh ChangeLog before snapshot build creation
+
+    See osdn #44497
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b9cb7a5fd17b4a71d68a808bdecd78b9d467ddde
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 26 17:11:07 2023 +0300
+
+    Set diplstate max_state correctly for teamed players
+
+    See osdn #48295
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0ca7644a3664a5c4214d20853e47e45d078f287f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 26 22:51:43 2023 +0300
+
+    installer_cross: Add "crs" as arch part for registry/install dir
+
+    Unify installer_cross Registry Key paths and default
+    installation directory with msys2 by adding "crs" as
+    equivalent to the arch part of the msys2 paths.
+
+    See osdn #47343
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 50f570c3dee292d08efe33efc92da16a25d7eaa4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 26 20:15:14 2023 +0300
+
+    Use extra_buildings.spec|png with alio/alien
+
+    - Hospital sprite comes directly from extra_buildings
+    - For Headquerters, alternative tag is added for genetic_lab
+    - Also changed alien Information Distillery to fallback
+      to Research Lab sprite instead of that of Isaac Newton's College
+
+    See osdn #48189
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2bb280223244bd158c3a2e146303f5901b3056d1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 25 14:07:45 2023 +0300
+
+    gtk: Make it possible to offer techs even without embassy
+
+    Tech trading was not possible unless there was an embassy,
+    as the player didn't know if the other can receive offered tech.
+    It should be possible to offer tech unless one is sure that
+    the other cannot receive it.
+
+    See osdn #45552
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b2cfd21065af30ef275370e6ad522225977169a0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 26 01:42:06 2023 +0300
+
+    Make diplstate struct smaller
+
+    Turn fields with small maximum values from int to char.
+
+    See osdn #48293
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7cb295ee9204369451adf1761ecba2340fa0885c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 26 17:47:38 2023 +0300
+
+    gtk4: Correct options_extra_init() header
+
+    It was claiming function to be part of gtk3.22-client.
+
+    See osdn #48280
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 986f07c68935ac2426d6961acda8c380d2134300
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 28 07:42:50 2023 +0300
+
+    Meson: Give names to all compile tests
+
+    See osdn #47851
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f5ffeebf0de24378133545a423d46094ec84fd9c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 30 15:34:09 2023 +0300
+
+    FAQ: Update latest stable version number to 3.0.8
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 25f07e1cdfdaa7c1edda19913fd85277022dcc96
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 27 04:31:54 2023 +0300
+
+    gtk4: Replace setup_widgets() hgrid with a GtkBox
+
+    See osdn #43226
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9f7405680eb4cc40b81b7c5cd89e503a47d1779b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 25 01:28:11 2023 +0300
+
+    AI: Use DAI_WANT_MILITARY_EMERGENCY in dai_choose_attacker_air()
+
+    It was mistakenly using old magic value of 100.
+
+    See osdn #48197
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 99f45c6b47772ee02438c94786453578b10a3328
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 29 08:08:14 2023 +0300
+
+    Comment typofix: "elewhere" -> "elsewhere"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e95b0e3e7425ac7c3db048db262b068cf65be248
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 24 10:33:21 2023 +0300
+
+    Amplio2: Add Operative sprite to extra_units
+
+    Art by omero
+
+    See osdn #48282
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2e4dfd6eb5c702a4d8ba8b660f89d6041dd06151
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 26 16:43:58 2023 +0300
+
+    sdl2: Make size 14 fonts to adjust to theme font size
+
+    See osdn #48271
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7b6049fab6dbf40dd75c41db3db7ef4883cadc36
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 25 12:52:12 2023 +0300
+
+    Ruledit: Use _re_active_iterate() at tab_???::refresh()
+
+    See osdn #48288
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 276592c3d8af490b1cd2fe1464d9adab52b481a6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 24 08:56:29 2023 +0300
+
+    INSTALL: Update libcurl description to mention https protocol
+
+    See osdn #48276
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b751b5e33c49c82419398bc1fbdb84bcec399741
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 23 18:52:09 2023 +0300
+
+    create_dummy_reqtree(): Avoid redundant advance_count() calls
+
+    See osdn #48274
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 52f6eb076c492d4a0a60f6ddcc009c172703bbc1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 24 00:13:37 2023 +0300
+
+    Update setup-msys2 CHANGELOG.md URL
+
+    See osdn #48278
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 28367c3d7b77b5213ac96437baca6081792ec8c8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 23 09:22:20 2023 +0300
+
+    README.AI: Update want values documentation
+
+    See osdn #47796
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7aa0d964baa46ff9c504a706be38f2b6e86e9266
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 23 19:43:21 2023 +0300
+
+    Qt: Fix hud_message_box leak
+
+    See osdn #48275
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 069439d1e19c9434045d1d8b3ae88d41ec06c8c7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 22 17:47:36 2023 +0300
+
+    AI: Stop cancelling shared vision to team members
+
+    There are other side effects on the fixed checks
+    of team and/or alliance.
+
+    - AI no longer tries to declare war on a team member.
+      While it couldn't do that before, it suffered some
+      side-effects of preparing to war.
+
+    See osdn #48152
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit aea6e0a36eae4cf6e7c9a47a54e57eaafd923980
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 23 22:28:57 2023 +0300
+
+    Meson: Find system-lua in multiple places
+
+    Lua doesn't have a default pkg-config (etc) and distros are fragmented.
+    Look for it in any of its multitude of hiding places.
+
+    Reported, and original patch, by Matt Jolly
+
+    See osdn #48234
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d615c61318164a40b8583c12a4cca9ca6ea0ce5e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 20 23:46:45 2023 +0300
+
+    Update gettext.m4 to serial 77
+
+    Add its new dependency build-to-host.m4
+
+    See osdn #48263
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 935555c96eadb1f01045fa691c3fd0d097bc32b3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 23 05:34:13 2023 +0300
+
+    Replace tile_virtual_check() with tile_map_check()
+
+    - Rename tile_virtual_check() as tile_map_check()
+    - Add map -parameter for it
+
+    It's (never was) if the tile is virtual, but only if the tile
+    exist on a specific map. The old implementation hardcoded
+    the check to be against the main map.
+
+    See osdn #48269
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3b0b11b1879099d92fc4dded2cce84e53e24ba2d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 25 09:21:12 2023 +0300
+
+    Comment typofix: "Responces" -> "Responses"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3ade29660b2a70050ad47e49f92fdcd5877d3712
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 22 06:55:17 2023 +0300
+
+    Fix fit_nationset_to_players() clang analyzer garbage value warning
+
+    Clang considered least_misfits[i] to potentially have
+    a garbage value when it's used.
+
+    See osdn #48265
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 91f164d7d527c9e21b1f6cdb6b6cad7262404db7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 19 18:24:50 2023 +0300
+
+    Meson: Make failure to find SIZE_T_PRINTF fatal
+
+    See osdn #48259
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 49a0481b9de0aa202378ea9afc5848a57b1f4c2d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 23 20:33:47 2023 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b1d32f4ff4f33d56b8133681c1319efb3c170f58
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 14 11:16:30 2023 +0300
+
+    Make action_by_result_iterate() to go over cached list
+
+    No point in iterating over all the actions, and then to
+    pick just one or two that match the result.
+
+    See osdn #47904
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 471e3704a6013af424011de6dfab94b15bb74101
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 15 06:17:28 2023 +0300
+
+    Refresh locale-fr.m4 from gnulib upstream
+
+    Serial still 21
+
+    See osdn #48242
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3f4e623438a5a1cd15542f2a21c49806c05c0fb4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 23 09:05:16 2023 +0300
+
+    Comment typofix: "dialogues" -> "dialogs"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 92a1d1eed351974b2605e70995f3b0f93e3f32f9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 22 21:41:52 2023 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2023-06-17).
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e896007f6ce6b248fa6df8d52658888ad9e4aab6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 13 16:08:02 2023 +0300
+
+    Qt: Clean out page_menu from fc_client.h
+
+    See osdn #48235
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c7b687e2adf6795f3f48e641834e25462fb92332
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 13 20:05:24 2023 +0300
+
+    Meson: Include just stub AI when server not built
+
+    See osdn #48193
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2fcbb8a31c5c2ea98982b028eb8418dd15db5ac5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 21 07:49:53 2023 +0300
+
+    Comment typofix: "EDIAN" -> "ENDIAN"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9f0e598a8d352382c984c2ca228de18ff4986752
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 13 07:08:57 2023 +0300
+
+    gtk: Set font size unit correctly
+
+    Reported by skywind3000
+
+    See osdn #48185
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 64a284b53295cc64be7c225f7d8a4cc5ba9b7e83
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 11 09:52:19 2023 +0300
+
+    show_unit_orders(): Check initial tile
+
+    Loop to go through unit order steps checked target tile
+    only when orders caused it to update, but not the tile
+    unit starts from.
+
+    See osdn #48139
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 86332e61e30d96233ecf9641381d05f33f385486
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 12 01:51:01 2023 +0300
+
+    Qt: Apply changes to 'fullscreen' option changes immediately
+
+    When 'fullscreen' option was changed via options dialog,
+    it was taken to use only after a client restart.
+    Add an option changed callback to Qt-client that apply
+    the change immediately.
+
+    Reported by onluntuva
+
+    See osdn #48180
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 627e55cd046619b028f0e1450079e86569dc47ec
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 11 05:38:05 2023 +0300
+
+    Correct version numbers in sg_regr() uses to decimal
+
+    Format "030?0?00" was being used, where the leading zero
+    made compiler to consider them octals.
+
+    See osdn #48212
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b214d165c8bd91c2ed746809069392531a618853
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 10 17:53:48 2023 +0300
+
+    gtk4: Drop unused image_..._from_surface()
+
+    See osdn #48213
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5755eaf0db01a647ce73f18546c1062cdcffc732
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 10 02:28:59 2023 +0300
+
+    lib-link.m4: Refresh from gnulib upstream
+
+    Comment-only update. Serial still 33.
+
+    See osdn #48207
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dc35de733b3757fb069654a3f49aa7feaef3b94c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 10 04:04:15 2023 +0300
+
+    Add macros to mark secfile entries ignored
+
+    These macros
+    (secfile_entry_ignore() and secfile_entry_ignore_by_path() )
+    silence "unused entry" warnings from secfile loading.
+    They wrap secfile_entry_lookup() and secfile_entry_by_path()
+    calls traditionally used for the task, but names of these
+    new macros should indicate more clearly why the entry lookup
+    is done, and also makes it possible to search for these
+    specific cases.
+
+    Some cases in tilespec code have been converted to use
+    the new macros as an example, but mostly this patch just
+    provides the macros. They are not taken to use everywhere yet.
+
+    See osdn #48208
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f3b00e52a425d1bdedd040f06cda50dbf7bd770b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 9 21:07:11 2023 +0300
+
+    gtk: Destroy widgets in correct order in shutdown
+
+    If editor mode was active at the time client closes,
+    some widgets got destroyed too early, other parts of
+    the code still relying on them.
+
+    See osdn #45570
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fd8530a24b7d1852c8bce617fe37f8ccdae1c432
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 10 00:04:09 2023 +0300
+
+    Editor: Set created player's infra_points to zero
+
+    For consistency with how gold is handled.
+
+    See osdn #48204
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c5e8bf10dbf3515c2f6fa0d54a4376d36be9d9c9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 10 19:44:34 2023 +0300
+
+    README.effects: Tell that [Defend|Attack]_Bonus reqs have unit type resolution
+
+    Replace also mention of hardcoded firepower '1' with correct
+    game.ruleset reference.
+
+    Reported by bard
+
+    See osdn #47859
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 486afdefc93b857dd9eadb72e28c5b03062354b0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 9 05:06:26 2023 +0300
+
+    sdl2: Make 'fullscreen' option change to take effect runtime
+
+    No need to restart the client.
+
+    See osdn #48198
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 91fd3718fee22557fb65ef2f7eaf9556562a010b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 9 03:55:20 2023 +0300
+
+    utype_pays_mp_for_action_estimate(): Take map as parameter
+
+    The function was hardcoded to use wld.map
+
+    See osdn #48196
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 858c6db0c5a46196100de224578f0dee5b4f4bd5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 8 17:35:10 2023 +0300
+
+    gtk: Make Small Font setting to take effect
+
+    See osdn #48186
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 336881ccdc313cdd64f3e7ee55b535c993381a15
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 9 03:08:15 2023 +0300
+
+    AI: Fix dead 'vulnerability' assignment in kill_something_with()
+
+    See osdn #48194
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ba7921d55769138f316a5a0bf0290574d7f8cb8c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 8 04:13:47 2023 +0300
+
+    Qt: Refactor fc_client::start_page_menu()
+
+    - Do not allocate memory when it's not needed
+    - Removed useless players iteration as we need to act on
+      selected player only
+    - Cleaned out some other redundant checks
+
+    See osdn #48143
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 13abf7c6d58b08056e912e04af15180674f8d87f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 8 16:51:31 2023 +0300
+
+    Flatpak: Update org.kde.Sdk to version 6.5
+
+    See osdn #48188
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 68431738edf1077d617d5f6b8b81ae3891ae60b4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 8 06:08:05 2023 +0300
+
+    Update included lua to version 5.4.6
+
+    See osdn #47798
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ee2485fa4f45ee02ed6b4d58e909a985e031bf85
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 8 02:33:23 2023 +0300
+
+    gtk4 theme: Fix warnings
+
+    See osdn: #47441
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5d1563f1637604255a18278b7786df27df9994e0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 24 03:03:37 2023 +0300
+
+    Meson: Compress scenario files installed
+
+    Due to failure of msys2 gzip on CI system, this is currently
+    not used on windows builds.
+
+    See osdn #47826
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2cb5062c550a1f3b32b806b01942009c2d2cca06
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 9 01:27:31 2023 +0300
+
+    Give city_create_unit() parameters nonnull attribute
+
+    To make it easier detect if someone adds a call
+    potentially with NULL.
+
+    Reported by Lexxie
+
+    See osdn #45893
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e1320a06a880450f3cc05653f3a4eea5edf6f3b8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 7 07:06:21 2023 +0300
+
+    gtk: Apply changes to 'fullscreen' option changes immediately
+
+    When 'fullscreen' option was changed via options dialog,
+    it was taken to use only after a client restart.
+    Add an option changed callback to gtk-clients that apply
+    the change immediately.
+
+    Reported by onluntuva
+
+    See osdn #47531
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d0619d0faa8c3e9f6b98653e742ea7e86f84f5d8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 4 16:30:45 2023 +0300
+
+    mapview_common.h: Drop declaration of undraw_segment()
+
+    It doesn't exist.
+
+    See osdn #48104
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d328a825e426352309d236ef97d0b0d18601f5bc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 8 00:16:00 2023 +0300
+
+    civ/2: Add unit type flags documentation
+
+    Update formatting in all rulesets
+
+    See osdn #48027
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 46e9f2a89b17f2ce885c3fea32eb1ff158a9c1c7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 10 21:36:09 2023 +0300
+
+    Comment typofix: "ingore" -> "ignore"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1bbfd971a7c3d66381d59f2e01c1eba406caf625
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 7 22:56:23 2023 +0300
+
+    sdl2 theme: Fix "unused entry" warnings about CJK fonts
+
+    See osdn #45866
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 02c824f7a7c2b97d2e65874b9c99183f08c9348a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jun 7 06:10:00 2023 +0300
+
+    gnulib-common.m4: Update to serial 87
+
+    See osdn #48077
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit af1286f1370a604f782594be97546c6e55a3956e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 10 01:54:38 2023 +0300
+
+    Comment typofix: "intelligenze" -> "intelligence"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c73adc1d10956b54f1876c3facb5b9820a2996f8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 3 11:00:40 2023 +0300
+
+    Improve unit_..._iterate()
+
+    Call unit_..._array_last() just once, and not on every iteration.
+
+    See osdn #47729
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8bb6c369178e528e35db11b208ca111124d63104
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 2 05:36:57 2023 +0300
+
+    Qt: Avoid deprecated QLabel::pixmap(Qt::ReturnByValue)
+
+    See osdn #48126
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 78a3073d567ff144a36e46f979c82029f695314b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 9 02:07:26 2023 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1a2f64b525faa5ed073b43e00d6703be3832346d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 4 15:50:47 2023 +0300
+
+    Fix "inefective" typo
+
+    See osdn #48163
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e7e05c9eb7225423ee1cff4da6284236d8fb27fc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 2 04:29:58 2023 +0300
+
+    locale-fr.m4: Update to serial 21
+
+    See osdn #48076
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 27af251e09772a93fac6e9d83be4abb569383b1e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 8 03:59:36 2023 +0300
+
+    Comment typofix: "allready" -> "already"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 74132bbe986eeeb9a60ea9f3329b082e53c98cef
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 2 01:44:02 2023 +0300
+
+    AI: Adjust max want domestic advisor might assign
+
+    To match changed military emergency indicator value
+
+    See osdn #47823
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c30364ab0e267c59e68c5d42504b8c6adfb1dcd6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 1 16:26:20 2023 +0300
+
+    Client: Do not assert against bad behavior from pre-obsinv server
+
+    Servers without "obsinv" capability are known to be buggy.
+    Handle such servers best we can, assert only when connected
+    to a newer server.
+
+    See osdn #48046
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fddf83b880d668cc1c0cda2dd15df86e72ff56dd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 31 20:33:39 2023 +0300
+
+    README.crosser: Update
+
+    - Add missing 'on' ("run their" -> "run on their")
+
+    See osdn #48113
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1f442e3ad437091feb836dedbbd066b6ec5edde3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 1 03:46:38 2023 +0300
+
+    Savegame: Fix loading acceptance of zero-clause treaties
+
+    See osdn #48127
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 18236873a5763ec5601ca16c2d1399410324f651
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 31 03:27:50 2023 +0300
+
+    gtk4: Fix chat area autoscrolling on resize
+
+    See osdn #48117
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 07461268c3ba92ba23d2d3a36eb44fc34a27934f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 1 04:49:52 2023 +0300
+
+    Update server screenshot
+
+    See osdn #48128
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b6626e297a78ff3e9e99d26d1fc2873aeafd042d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 31 17:01:09 2023 +0300
+
+    Close save system on midgame server quit
+
+    Closing was taking place when game finished.
+
+    See osdn #48120
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0e257c8c527d128d6a8cf98ee752837a265caf92
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 28 13:22:29 2023 +0300
+
+    Meson: Make it possible to disable server build
+
+    Turn former boolean 'freeciv-web' option to
+    a three-value 'server' option.
+
+    See osdn #48098
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9eebf6540e3c0817b6f472aa603bc28ad1967f03
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 4 11:20:48 2023 +0300
+
+    Comment typofix: "unistall" -> "uninstall"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a4e8fedf50fddcb6f2c6b8244ae304125aad56a6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 30 17:53:16 2023 +0300
+
+    Fix typo "doesn't has"
+
+    See osdn #48112
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 603e238ecd8fddad4c6f4bb7c81b2dbaa10f0368
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 28 19:55:39 2023 +0300
+
+    sdl2: Make size 12 fonts to adjust to theme font size
+
+    See osdn #48100
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit be7108b1acad5c4d6460bae9e0622a0d15190bf7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 30 02:10:16 2023 +0300
+
+    Meson: Fix gzipped saves support
+
+    See osdn #48101
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c4021ec7c5e6274a3cc43e765ac502b2c19b5ff6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 01:56:26 2023 +0300
+
+    Purge worklist items with unreachable terrain class requirements
+
+    Assume that terrain class requirements not fulfilled currently
+    are never going to be fulfilled, so purge worklist items instead
+    of postponing
+
+    Requested by alain_bkr
+
+    See osdn #47493
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 386813fceb2c9319b5cdc54c870081b0ecb08e68
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 28 07:08:10 2023 +0300
+
+    gtk4: Fix editor hang when editing text labels
+
+    See osdn #48095
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a02c345c5f3152912857eba07430722131f233d0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon May 29 19:26:28 2023 +0300
+
+    lib-ld.m4: Update to serial 11
+
+    See osdn #48078
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7af2aaf58e82bcb660e04a560e98eb129b3220d8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 28 11:46:41 2023 +0300
+
+    AI: Make dai_unit_..._desirability() return adv_want
+
+    See osdn #48097
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 25305c4b94026a3e2244eccf00002acbab506a80
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 09:45:34 2023 +0300
+
+    gtk: Tell if player is observer in left panel
+
+    See osdn #48045
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 458374d7bc7a1ca7414792a4a358007aa5951c95
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 28 22:51:59 2023 +0300
+
+    experimental: Add graphic_tag for all buildings
+
+    Hospital and Genetic Lab were missing one.
+
+    See osdn #48086
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3975613abdba3a23126e7f18ab029e47d59254a4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 28 04:32:42 2023 +0300
+
+    gtk4: Fix science dialog ScrolledWindow / Viewport confusion
+
+    See osdn #47445
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9dd6ea4faf94002f633f01918bb1ee34464c744a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 16:32:18 2023 +0300
+
+    extra_buildings.png: Add Hospital and Genetic Lab
+
+    Art by omero
+
+    See osdn #48085
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d1e2a0178190e3a7d1ba5a550d3fc42fb8f13727
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 30 15:41:14 2023 +0300
+
+    NEWS: Refresh freeciv-3.1 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 666cd1e2e6c83f387e8e8ec058ddf1ac47e70984
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 30 15:33:54 2023 +0300
+
+    NEWS-3.1: Typofixes to 3.1.0-beta2 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e73436ecc05f5d7c9ed668dfc933e58ad61dd41a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 03:52:23 2023 +0300
+
+    Update gtk4-client screenshot
+
+    See osdn #47621
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 728c00f3233b7c598c1e42319dd472ceebea3fd7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 30 10:45:29 2023 +0300
+
+    Fix -Wtautological-pointer-compare in show_full_citybar()
+
+    See osdn #48109
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 88c51ab9887bc7911487de8363920c5ee15b4234
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 07:00:22 2023 +0300
+
+    Set nonnull attribute to some show_full_citybar() parameters
+
+    See osdn #48081
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5bf1bb2d417ffbf3d14368915b92bfa73f5f1c3b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 00:18:20 2023 +0300
+
+    gtk4: Fix updating current production image on citydlg
+
+    See osdn #47439
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c123f696fd100c545ffd108dc8099a0c0df4c3c0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 26 23:16:30 2023 +0300
+
+    Add nonnull attribute to ap_diplomat_battle() tgt_tile
+
+    See osdn #48069
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7f170764e790ab5cfbb0a571dbc13257dcd85756
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 26 19:38:45 2023 +0300
+
+    sdl2: Fix text surface transparent color issues
+
+    Sometimes areas that are supposed to be transparent were
+    shown filled with random color.
+
+    See osdn #47564
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c374076001568703383caed4b59af5357b580bcd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 26 20:22:37 2023 +0300
+
+    Update stdlib_h.m4 to serial 75
+
+    See osdn #47890
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f35c6065df10ddcba0bb82d16f4770ed05e414c6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 24 01:07:42 2023 +0300
+
+    Make combat.c functions to take map as parameter
+
+    They were hardcoded to use the main map.
+
+    See osdn #47949
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fb822706d6dbc7ccc82e12ae1e9a20e23257ef63
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 17:30:19 2023 +0300
+
+    Comment typofix: "where determinated" -> "were determined"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 175b5c0875148ae7f11d5d12233a48321068e180
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 24 00:20:58 2023 +0300
+
+    gtk4: Correct citydlg governor tab layout
+
+    See osdn #47446
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a48af661bffe6697d5f82a499e0ceecb64e87de3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 24 00:26:53 2023 +0300
+
+    flatpak: Add ruledit flatpak
+
+    See osdn #47634
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 61e910a36b76bc033cb7a23ddc9430ffa8e4830c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 23 21:44:44 2023 +0300
+
+    Refactor transfer_city() to tolerate changes in unit list
+
+    transfer_city() iterates over supported units list several
+    times, and assumes that same unit is at the same index each time.
+    Make that more robust by storing list of unit ids locally.
+
+    See osdn #47994
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ee20ae035749bb9bc6c173faf6473d6df2687288
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 27 00:58:45 2023 +0300
+
+    Comment typofix: "considerung" -> "considering"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 66d0f46a5e12ed209135feb1634d312c67136d79
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 23 20:46:30 2023 +0300
+
+    Avoid just the prefix "?vertag:" getting collected for translation
+
+    See osdn #48056
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a831836d02c09a698ff69dd4f089bae238ff986c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 24 05:33:34 2023 +0300
+
+    Comment typofix: "Memmory" -> "Memory"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 44105891dcd6e5f23dcd5b9a54f3a95535c3037e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 23 22:23:23 2023 +0300
+
+    Comment typofix: "dialg" -> "dialog"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cc249753d67df234276f631d477023ccb703e866
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 23 19:28:26 2023 +0300
+
+    NEWS: Fix a typo in 3.1.0 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bcb9485fadbb37b970853782bf4a5b37d1e17ef3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 23 17:52:26 2023 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 90a032892fba885c16a4e9b9cfbadfd0a88cf526
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 23 17:29:10 2023 +0300
+
+    ChangeLog: Refresh for 3.1.0-beta2 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit f40a2c7d6bf5ca116013090b977765f48c85cbd5
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Tue May 23 17:28:27 2023 +0300
