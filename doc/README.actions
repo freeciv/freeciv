@@ -130,7 +130,7 @@ about to get started. The second is the actor. The third parameter is the
 target. The parameters of action_started_unit_city is therefore action,
 actor_unit and finally target city.
 Latter signal has four parameters; action that was finished,
-whether action was succesfull, actor, and target. Actor and/or target
+whether action was successful, actor, and target. Actor and/or target
 might be nil if they got destroyed by the action.
 
 To get the rule name of an action, that is the name used in action enablers,

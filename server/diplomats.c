@@ -1074,7 +1074,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   - If the provocateur is captured and executed, there is probability
     that they were carrying bag with some gold, which will be lost.
   - There is chance, that this gold will be transferred to nation
-    which succesfully defended against inciting revolt.
+    which successfully defended against inciting revolt.
 
   Returns TRUE if money is lost, FALSE if not.
 ****************************************************************************/
