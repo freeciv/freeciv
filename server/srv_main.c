@@ -115,6 +115,7 @@
 #include "settings.h"
 #include "spacerace.h"
 #include "srv_log.h"
+#include "srv_signal.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unithand.h"
@@ -1931,6 +1932,7 @@ void fc__noreturn server_quit(void)
   con_log_close();
   cmdline_option_values_free();
   readline_atexit();
+  signal_timer_free();
 
   exit(EXIT_SUCCESS);
 }
