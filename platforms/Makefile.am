@@ -8,8 +8,8 @@ EXTRA_DIST =						\
 		flatpak/build_flatpak.sh		\
 		flatpak/org.freeciv.gtk322.yml		\
 		flatpak/org.freeciv.gtk4.yml		\
-		flatpak/org.freeciv.mp.gtk3.yml		\
-		flatpak/org.freeciv.mp.gtk4.yml		\
+		flatpak/org.freeciv.gtk3.mp.yml		\
+		flatpak/org.freeciv.gtk4.mp.yml		\
 		flatpak/org.freeciv.qt.yml		\
 		flatpak/org.freeciv.sdl2.yml		\
 		flatpak/org.freeciv.ruledit.yml		\
