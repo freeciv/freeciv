@@ -91,8 +91,8 @@ EXTRA_DIST =	autogen.sh 			\
 		platforms/flatpak/build_flatpak.sh	\
 		platforms/flatpak/org.freeciv.gtk322.yml	\
 		platforms/flatpak/org.freeciv.gtk4.yml	\
-		platforms/flatpak/org.freeciv.mp.gtk3.yml	\
-		platforms/flatpak/org.freeciv.mp.gtk4.yml	\
+		platforms/flatpak/org.freeciv.gtk3.mp.yml	\
+		platforms/flatpak/org.freeciv.gtk4.mp.yml	\
 		platforms/flatpak/org.freeciv.qt.yml	\
 		platforms/flatpak/org.freeciv.sdl2.yml	\
 		platforms/flatpak/org.freeciv.ruledit.yml	\
