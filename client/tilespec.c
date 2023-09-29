@@ -1294,7 +1294,7 @@ bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
 
   It will also call the necessary functions to redraw the graphics.
 
-  Returns TRUE iff new tileset has been succesfully loaded.
+  Returns TRUE iff new tileset has been successfully loaded.
 ****************************************************************************/
 bool tilespec_reread(const char *new_tileset_name,
                      bool game_fully_initialized, float scale)

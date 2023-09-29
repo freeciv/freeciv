@@ -290,10 +290,10 @@ void qtg_sound_bell()
 }
 
 /**********************************************************************//**
-  Wait for data on the given socket.  Call input_from_server() when data
+  Wait for data on the given socket. Call input_from_server() when data
   is ready to be read.
 
-  This function is called after the client succesfully has connected
+  This function is called after the client has successfully connected
   to the server.
 **************************************************************************/
 void qtg_add_net_input(int sock)

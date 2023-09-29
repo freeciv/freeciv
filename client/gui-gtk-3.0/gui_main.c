@@ -2091,8 +2091,8 @@ static void set_wait_for_writable_socket(struct connection *pc,
 }
 
 /**********************************************************************//**
-  This function is called after the client succesfully
-  has connected to the server
+  This function is called after the client has successfully
+  connected to the server
 **************************************************************************/
 void add_net_input(int sock)
 {

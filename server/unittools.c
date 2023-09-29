@@ -1221,7 +1221,7 @@ void place_partisans(struct tile *pcenter, struct player *powner,
 
 /**********************************************************************//**
   Teleport punit to city at cost specified. Returns success. Note that unit
-  may die if it succesfully moves, i.e., even when return value is TRUE.
+  may die if it successfully moves, i.e., even when return value is TRUE.
   (If specified cost is -1, then teleportation costs all movement.)
 **************************************************************************/
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
@@ -3035,7 +3035,7 @@ void do_explore(struct unit *punit)
 
 /**********************************************************************//**
   Returns whether the drop was made or not. Note that it also returns 1
-  in the case where the drop was succesful, but the unit was killed by
+  in the case where the drop was successful, but the unit was killed by
   barbarians in a hut.
 **************************************************************************/
 bool do_paradrop(struct unit *punit, struct tile *ptile,

@@ -604,7 +604,7 @@ static void compat_load_020500(struct loaddata *loading,
           continue;
         }
         /* In 2.4.x and prior, "killcitizen" listed move types that
-         * killed citizens after succesfull attack. Now killcitizen
+         * killed citizens after successful attack. Now killcitizen
          * is just boolean and classes affected are defined in ruleset. */
         if (!fc_strcasecmp("killcitizen", name)) {
           int value;
