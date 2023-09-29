@@ -1,7 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <rect width="600" height="400" fill="#fae62a"/>
-  <rect width="600" height="300" fill="#ed2129"/>
-  <rect width="600" height="200" fill="#000000"/>
-  <rect width="600" height="100" fill="#ffffff"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="600"
+   height="400"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="seminole.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.5992398"
+     inkscape:cx="300.7679"
+     inkscape:cy="202.59625"
+     inkscape:window-width="1120"
+     inkscape:window-height="855"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg10" />
+  <rect
+     width="600"
+     height="400"
+     fill="#fae62a"
+     id="rect2" />
+  <rect
+     width="600"
+     height="300"
+     fill="#ed2129"
+     id="rect4" />
+  <rect
+     width="600"
+     height="200"
+     fill="#000000"
+     id="rect6" />
+  <rect
+     width="600"
+     height="100"
+     fill="#ffffff"
+     id="rect8" />
 </svg>
