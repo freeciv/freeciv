@@ -105,8 +105,8 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
 
   BV_CLR_ALL(pspresent);
 
-  extra_type_iterate(pextra) {
-    if (is_extra_removed_by(pextra, ERM_PILLAGE) && tile_has_extra(ptile, pextra)) {
+  extra_type_by_rmcause_iterate(ERM_PILLAGE, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
       struct tile *missingset = tile_virtual_new(ptile);
       bool dependency = FALSE;
 
@@ -129,7 +129,7 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
         count++;
       }
     }
-  } extra_type_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
   if (pcount) {
     *pcount = count;
