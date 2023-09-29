@@ -42,7 +42,7 @@
   the penalty for reduced hitpoints, the active effects, and any veteran
   bonuses.
 
-  'utype' and 'pplayer' must be set. 'ptile' can be NULL.
+  'utype' must be set. 'pplayer' and 'ptile' can be nullptrs.
 ****************************************************************************/
 int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
                     const struct player *pplayer, int veteran_level,
@@ -53,10 +53,9 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
   int base_move_rate, move_rate;
   int min_speed;
 
-  fc_assert_ret_val(NULL != utype, 0);
-  fc_assert_ret_val(NULL != pplayer, 0);
+  fc_assert_ret_val(utype != nullptr, 0);
   vlevel = utype_veteran_level(utype, veteran_level);
-  fc_assert_ret_val(NULL != vlevel, 0);
+  fc_assert_ret_val(vlevel != nullptr, 0);
   uclass = utype_class(utype);
 
   base_move_rate = utype->move_rate + vlevel->move_bonus;
@@ -69,7 +68,7 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
 
   /* Add on effects bonus (Magellan's Expedition, Lighthouse,
    * Nuclear Power). */
-  move_rate += (get_unittype_bonus(pplayer, ptile, utype, NULL,
+  move_rate += (get_unittype_bonus(pplayer, ptile, utype, nullptr,
                                    EFT_MOVE_BONUS)
                 * SINGLE_MOVE);
 
