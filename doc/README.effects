@@ -166,7 +166,7 @@ Action_Odds_Pct
     "Poison City Escape".
 
 Action_Resist_Pct
-    Reduces the odds of action against the player to be succesfull.
+    Reduces the odds of action against the player to be successful.
     The difference to negative Action_Odds_Pct effect is that when evaluating
     requirements for this effect, player is the target player of the action.
     Supported for the same actions as Action_Odds_Pct (applied at the same time)

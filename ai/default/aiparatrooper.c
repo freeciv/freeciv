@@ -265,12 +265,12 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
       } action_iterate_end;
 
       if (jump_performed) {
-	/* successfull! */
+	/* Successful! */
         if (NULL == game_unit_by_number(sanity)) {
-	  /* the unit did not survive the move */
+	  /* The unit did not survive the move */
 	  return;
 	}
-	/* and we attack the target */
+	/* We attack the target */
         (void) dai_military_rampage(punit, RAMPAGE_ANYTHING,
                                     RAMPAGE_ANYTHING);
       }
@@ -292,7 +292,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
     if (acity) {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Going to %s", city_name_get(acity));
       if (!dai_unit_goto(ait, punit, acity->tile)) {
-        /* die or unsuccessfull move */
+        /* Died or unsuccessful move */
         return;
       }
     } else {
