@@ -111,6 +111,7 @@ struct client_options gui_options = {
 
   .gui_qt_default_fonts_set = FALSE,
   .gui_sdl2_default_screen_size_set = FALSE,
+  .gui_sdl3_default_screen_size_set = FALSE,
 
 /** Local Options: **/
 
@@ -360,6 +361,18 @@ struct client_options gui_options = {
   .gui_sdl2_font_city_productions = "10",
   .gui_sdl2_use_theme_font_size = TRUE,
   .gui_sdl2_font_size = 10,
+
+/* gui-sdl3 client specific options. */
+  .gui_sdl3_default_theme_name = FC_SDL2_DEFAULT_THEME_NAME,
+  .gui_sdl3_fullscreen = FALSE,
+  .gui_sdl3_screen = VIDEO_MODE(640, 480),
+  .gui_sdl3_swrenderer = FALSE,
+  .gui_sdl3_do_cursor_animation = TRUE,
+  .gui_sdl3_use_color_cursors = TRUE,
+  .gui_sdl3_font_city_names = "10",
+  .gui_sdl3_font_city_productions = "10",
+  .gui_sdl3_use_theme_font_size = TRUE,
+  .gui_sdl3_font_size = 10,
 
 /* gui-qt client specific options. */
   .gui_qt_fullscreen = FALSE,
@@ -1952,9 +1965,9 @@ static struct client_option client_options[] = {
                  N_("The chat log file"),
                  N_("The name of the chat log file."),
                  COC_INTERFACE, GUI_STUB, GUI_DEFAULT_CHAT_LOGFILE, NULL, 0),
-  /* gui_gtk3_22/4_default_theme_name and gui_sdl2_default_theme_name are
+  /* gui_gtk3_22/4_default_theme_name and gui_sdl2/3_default_theme_name are
    * different settings to avoid client crash after loading the
-   * style for the other gui.  Keeps 5 different options! */
+   * style for the other gui. Keeps 5 different options! */
   GEN_STR_LIST_OPTION(gui_gtk3_22_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
@@ -1969,6 +1982,11 @@ static struct client_option client_options[] = {
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_SDL2, FC_SDL2_DEFAULT_THEME_NAME,
+                      get_themes_list, theme_reread_callback, 0),
+  GEN_STR_LIST_OPTION(gui_sdl3_default_theme_name, N_("Theme"),
+                      N_("By changing this option you change the "
+                         "active theme."),
+                      COC_GRAPHICS, GUI_SDL3, FC_SDL3_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback, 0),
   GEN_STR_LIST_OPTION(gui_qt_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
@@ -3163,6 +3181,49 @@ static struct client_option client_options[] = {
                     "to this. This option has effect only if theme font sizes "
                     "option is disabled."),
                  COC_FONT, GUI_SDL2, 10, 6, 50, NULL),
+
+  /* gui-sdl3 client specific options. */
+  GEN_BOOL_OPTION(gui_sdl3_fullscreen, N_("Fullscreen"),
+                  N_("If this option is set the client will use the "
+                     "whole screen area for drawing."),
+                  COC_INTERFACE, GUI_SDL3, FALSE, NULL),
+  GEN_VIDEO_OPTION(gui_sdl3_screen, N_("Screen resolution"),
+                   N_("This option controls the resolution of the "
+                      "selected screen."),
+                   COC_INTERFACE, GUI_SDL3, 640, 480, NULL),
+  GEN_BOOL_OPTION(gui_sdl3_swrenderer, N_("Use software rendering"),
+                  N_("Usually hardware rendering is used when possible. "
+                     "With this option set, software rendering is always used."),
+                  COC_GRAPHICS, GUI_SDL3, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_sdl3_do_cursor_animation, N_("Do cursor animation"),
+                  N_("If this option is disabled, the cursor will "
+                     "always be displayed as static."),
+                  COC_INTERFACE, GUI_SDL3, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_sdl3_use_color_cursors, N_("Use color cursors"),
+                  N_("If this option is disabled, the cursor will "
+                     "always be displayed in black and white."),
+                  COC_INTERFACE, GUI_SDL3, TRUE, NULL),
+  GEN_FONT_OPTION(gui_sdl3_font_city_names, "FONT_CITY_NAME",
+                  N_("City Names"),
+                  N_("The size of font used to the display the city names "
+                     "on the map."),
+                  COC_FONT, GUI_SDL3,
+                  "10", font_changed_callback),
+  GEN_FONT_OPTION(gui_sdl3_font_city_productions, "FONT_CITY_PROD",
+                  N_("City Productions"),
+                  N_("The size of font used to the display the city "
+                     "production names on the map."),
+                  COC_FONT, GUI_SDL3,
+                  "10", font_changed_callback),
+  GEN_BOOL_OPTION(gui_sdl3_use_theme_font_size, N_("Use theme defined font size"),
+                  N_("Disable this to override base font size set by theme "
+                     "by the setting below."),
+                  COC_FONT, GUI_SDL3, TRUE, NULL),
+  GEN_INT_OPTION(gui_sdl3_font_size, N_("Base Font Size"),
+                 N_("Base Font Size. All the fonts' sizes are defined relative "
+                    "to this. This option has effect only if theme font sizes "
+                    "option is disabled."),
+                 COC_FONT, GUI_SDL3, 10, 6, 50, NULL),
 
   /* gui-qt client specific options. */
   GEN_BOOL_OPTION(gui_qt_fullscreen, N_("Fullscreen"),
@@ -5919,6 +5980,9 @@ void options_load(void)
   gui_options.gui_sdl2_default_screen_size_set
     = secfile_lookup_bool_default(sf, gui_options.gui_sdl2_default_screen_size_set,
                                   "%s.flag_sdl2_default_screen_size_set", prefix);
+  gui_options.gui_sdl3_default_screen_size_set
+    = secfile_lookup_bool_default(sf, gui_options.gui_sdl3_default_screen_size_set,
+                                  "%s.flag_sdl3_default_screen_size_set", prefix);
 
   /* These are not gui-enabled yet */
   gui_options.zoom_set
@@ -6058,6 +6122,8 @@ void options_save(option_save_log_callback log_cb)
                       "client.flag_qt_default_fonts_set");
   secfile_insert_bool(sf, gui_options.gui_sdl2_default_screen_size_set,
                       "client.flag_sdl2_default_screen_size_set");
+  secfile_insert_bool(sf, gui_options.gui_sdl3_default_screen_size_set,
+                      "client.flag_sdl3_default_screen_size_set");
 
   /* gui-enabled options */
   client_options_iterate_all(poption) {

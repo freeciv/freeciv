@@ -884,18 +884,20 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE2NAME "gtk3"
 #define SPECENUM_VALUE3 GUI_GTK3_22
 #define SPECENUM_VALUE3NAME "gtk3.22"
+#define SPECENUM_VALUE4 GUI_QT
+#define SPECENUM_VALUE4NAME "qt"
 /* GUI_SDL remains for now for keeping client options alive until
  * user has migrated them to sdl2-client */
-#define SPECENUM_VALUE4 GUI_SDL
-#define SPECENUM_VALUE4NAME "sdl"
-#define SPECENUM_VALUE5 GUI_QT
-#define SPECENUM_VALUE5NAME "qt"
+#define SPECENUM_VALUE5 GUI_SDL
+#define SPECENUM_VALUE5NAME "sdl"
 #define SPECENUM_VALUE6 GUI_SDL2
 #define SPECENUM_VALUE6NAME "sdl2"
-#define SPECENUM_VALUE7 GUI_WEB
-#define SPECENUM_VALUE7NAME "web"
-#define SPECENUM_VALUE8 GUI_GTK4
-#define SPECENUM_VALUE8NAME "gtk4"
+#define SPECENUM_VALUE7 GUI_SDL3
+#define SPECENUM_VALUE7NAME "sdl3"
+#define SPECENUM_VALUE8 GUI_WEB
+#define SPECENUM_VALUE8NAME "web"
+#define SPECENUM_VALUE9 GUI_GTK4
+#define SPECENUM_VALUE9NAME "gtk4"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
