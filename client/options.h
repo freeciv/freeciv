@@ -139,6 +139,7 @@ struct client_options
   bool gui_qt_migrated_from_2_5;
   bool gui_qt_default_fonts_set;
   bool gui_sdl2_default_screen_size_set;
+  bool gui_sdl3_default_screen_size_set;
 
   bool migrate_fullscreen;
 
@@ -421,6 +422,19 @@ struct client_options
   char gui_sdl2_font_city_productions[64];
   bool gui_sdl2_use_theme_font_size;
   int  gui_sdl2_font_size;
+
+/* gui-sdl3 client specific options. */
+#define FC_SDL3_DEFAULT_THEME_NAME "human"
+  char gui_sdl3_default_theme_name[512];
+  bool gui_sdl3_fullscreen;
+  struct video_mode gui_sdl3_screen;
+  bool gui_sdl3_swrenderer;
+  bool gui_sdl3_do_cursor_animation;
+  bool gui_sdl3_use_color_cursors;
+  char gui_sdl3_font_city_names[64];
+  char gui_sdl3_font_city_productions[64];
+  bool gui_sdl3_use_theme_font_size;
+  int  gui_sdl3_font_size;
 
 /* gui-qt client specific options. */
 #define FC_QT_DEFAULT_THEME_NAME "NightStalker"
