@@ -62,7 +62,7 @@ IS_BETA_VERSION=1
 NEXT_STABLE_VERSION="3.1.0"
 
 # 0 to disable display of release month until we can make better estimate
-RELEASE_MONTH=0
+RELEASE_MONTH=3
 
 MAIN_VERSION=3.1
 DATASUBDIR=3.1
