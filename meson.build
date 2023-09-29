@@ -760,7 +760,7 @@ if c_compiler.compiles('''int main(void) { __builtin_unreachable(); return 0; }'
     pub_conf_data.set('FREECIV_HAVE_UNREACHABLE', 1)
 endif
 
-if get_option('audio') or get_option('clients').contains('sdl2')
+if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
   if host_system == 'windows'
     sdl2main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
                     c_compiler.find_library('SDL2main', dirs: cross_lib_path),
@@ -771,7 +771,7 @@ if get_option('audio') or get_option('clients').contains('sdl2')
         '-s', 'USE_SDL=2'
       ]
 
-      if get_option('audio')
+      if get_option('audio') == 'sdl2'
         emscripten_sdl2_args += [ '-s', 'USE_SDL_MIXER=2' ]
       endif
 
@@ -833,7 +833,7 @@ else
   qt_opts = 'cpp_std=c++17'
 endif
 
-if get_option('audio')
+if get_option('audio') != 'none'
   priv_conf_data.set('AUDIO_SDL', 1)
 
   if emscripten

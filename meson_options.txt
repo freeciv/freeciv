@@ -46,9 +46,10 @@ option('readline',
        description: 'Enable readline functionality')
 
 option('audio',
-       type: 'boolean',
-       value: true,
-       description: 'Build in sound support')
+       type: 'combo',
+       choices: ['none', 'sdl2'],
+       value: 'sdl2',
+       description: 'Sound support type to build')
 
 option('tools',
        type: 'array',
