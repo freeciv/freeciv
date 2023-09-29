@@ -43,6 +43,8 @@ class edit_impr : public QDialog
     QToolButton *genus_button;
     QLineEdit *gfx_tag;
     QLineEdit *gfx_tag_alt;
+    QLineEdit *sound_tag;
+    QLineEdit *sound_tag_alt;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -53,6 +55,8 @@ class edit_impr : public QDialog
     void genus_menu(QAction *action);
     void gfx_tag_given();
     void gfx_tag_alt_given();
+    void sound_tag_given();
+    void sound_tag_alt_given();
 };
 
 

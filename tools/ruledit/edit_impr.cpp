@@ -105,6 +105,24 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   impr_layout->addWidget(label, row, 0);
   impr_layout->addWidget(gfx_tag_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Sound tag")));
+  label->setParent(this);
+
+  sound_tag = new QLineEdit(this);
+  connect(sound_tag, SIGNAL(returnPressed()), this, SLOT(sound_tag_given()));
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(sound_tag, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Alt sound tag")));
+  label->setParent(this);
+
+  sound_tag_alt = new QLineEdit(this);
+  connect(sound_tag_alt, SIGNAL(returnPressed()), this, SLOT(sound_tag_alt_given()));
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(sound_tag_alt, row++, 1);
+
   refresh();
 
   main_layout->addLayout(impr_layout);
@@ -120,6 +138,8 @@ void edit_impr::closeEvent(QCloseEvent *cevent)
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
+  sound_tag_given();
+  sound_tag_alt_given();
 
   impr->ruledit_dlg = nullptr;
 }
@@ -134,6 +154,8 @@ void edit_impr::refresh()
   genus_button->setText(impr_genus_id_name(impr->genus));
   gfx_tag->setText(impr->graphic_str);
   gfx_tag_alt->setText(impr->graphic_alt);
+  sound_tag->setText(impr->soundtag);
+  sound_tag_alt->setText(impr->soundtag_alt);
 }
 
 /**********************************************************************//**
@@ -190,4 +212,24 @@ void edit_impr::gfx_tag_alt_given()
   QByteArray tag_bytes = gfx_tag_alt->text().toUtf8();
 
   sz_strlcpy(impr->graphic_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new sound tag.
+**************************************************************************/
+void edit_impr::sound_tag_given()
+{
+  QByteArray tag_bytes = sound_tag->text().toUtf8();
+
+  sz_strlcpy(impr->soundtag, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new alternative sound tag.
+**************************************************************************/
+void edit_impr::sound_tag_alt_given()
+{
+  QByteArray tag_bytes = sound_tag_alt->text().toUtf8();
+
+  sz_strlcpy(impr->soundtag_alt, tag_bytes);
 }
