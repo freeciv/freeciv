@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-25 08:23+0300\n"
+"POT-Creation-Date: 2023-09-28 21:19+0300\n"
 "PO-Revision-Date: 2023-09-28 10:12+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
@@ -46095,46 +46095,46 @@ msgstr "Słabo nazwany gracz"
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Spotkałeś/aś %s! Rządzi nimi %s."
 
-#: server/plrhand.c:2838
+#: server/plrhand.c:2840
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Nie można wzniecić wojny domowej u %s - za dużo graczy"
 
-#: server/plrhand.c:2845
+#: server/plrhand.c:2847
 #, c-format
 msgid "Could not throw %s into civil war - maxplayers (%d) reached"
 msgstr ""
 "Nie można wzniecić wojny domowej u %s - osiągnięto maksymalną liczbę graczy "
 "(%d)"
 
-#: server/plrhand.c:2852
+#: server/plrhand.c:2854
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Nie można wzniecić wojny domowej u %s - nie ma już dostępnych narodów"
 
-#: server/plrhand.c:2887
+#: server/plrhand.c:2889
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr "Nie można wzniecić wojny domowej u %s - nie ma dostępnych miast"
 
-#: server/plrhand.c:2909
+#: server/plrhand.c:2911
 msgid "Your nation is thrust into civil war."
 msgstr "W twoim państwie wybuchła wojna domowa."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2913
+#: server/plrhand.c:2915
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s jest przywódcą rebelii %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2935
+#: server/plrhand.c:2937
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s deklaruje posłuszeństwo dla %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2960
+#: server/plrhand.c:2962
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -46144,7 +46144,7 @@ msgstr[2] "Wojna domowa rozbija państwo %s; %s mają teraz %d miast."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3101
+#: server/plrhand.c:3103
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -46154,14 +46154,14 @@ msgstr ""
 "uczestniczysz w rozgrywce. Użyj '/delegate cancel', by anulować "
 "pełnomocnictwo."
 
-#: server/plrhand.c:3113
+#: server/plrhand.c:3115
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Przekazano ci kontrolę nad graczem '%s'."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3122
+#: server/plrhand.c:3124
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Użyj '/delegate take <gracz>' by przejąć kontrolę nad graczem z "
@@ -46774,33 +46774,33 @@ msgid "%s has been added as human player."
 msgstr "%s został/a dodany jako gracz-człowiek."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3738
+#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3737
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s miał/a nieprawidłowy naród; zmieniam na %s."
 
 #: server/savegame/savegame2.c:2786 server/savegame/savegame2.c:2792
-#: server/savegame/savegame3.c:3823 server/savegame/savegame3.c:3829
+#: server/savegame/savegame3.c:3822 server/savegame/savegame3.c:3828
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s nie daje widoku dzielonego członkowi drużyny %s."
 
-#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7732
+#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7731
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s miał/a niewłaściwą technologię badań."
 
-#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7742
+#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7741
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s miał/a niewłaściwy cel badań."
 
-#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7751
+#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7750
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "%s miał/a niewłaściwą ilość badań."
 
-#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7769
+#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7768
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "

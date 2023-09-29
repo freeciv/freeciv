@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-25 08:23+0300\n"
+"POT-Creation-Date: 2023-09-28 21:19+0300\n"
 "PO-Revision-Date: 2023-09-26 16:03+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -46148,48 +46148,48 @@ msgstr "Huonosti nimetty pelaaja"
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Olet kohdannut %s, joita hallitsee %s."
 
-#: server/plrhand.c:2838
+#: server/plrhand.c:2840
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 "%s kansakunta ei voi vajota sisällissotaan - pelissä on liikaa pelaajia"
 
-#: server/plrhand.c:2845
+#: server/plrhand.c:2847
 #, c-format
 msgid "Could not throw %s into civil war - maxplayers (%d) reached"
 msgstr ""
 "%s kansakunta ei voi vajota sisällissotaan - pelissä on jo asetuksen "
 "'maxplayers' (%d) mukainen pelaajamäärä."
 
-#: server/plrhand.c:2852
+#: server/plrhand.c:2854
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 "%s eivät voi vajota sisällissotaan - sopivia kansakuntia ei ole saatavilla"
 
-#: server/plrhand.c:2887
+#: server/plrhand.c:2889
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr "%s eivät voi vajota sisällissotaan - ei ole sopivia kaupunkeja"
 
-#: server/plrhand.c:2909
+#: server/plrhand.c:2911
 msgid "Your nation is thrust into civil war."
 msgstr "Kansakunnassasi syttyy sisällissota."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2913
+#: server/plrhand.c:2915
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s on kapinajohtaja, jota %s seuraavat."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2935
+#: server/plrhand.c:2937
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s irtautuu emämaasta; nyt %s hallitsevat sitä."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2960
+#: server/plrhand.c:2962
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -46198,7 +46198,7 @@ msgstr[1] "Sisällissota jakaa %s kahtia; %s hallitsevat nyt %d kaupunkia."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3101
+#: server/plrhand.c:3103
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -46207,14 +46207,14 @@ msgstr ""
 "Käyttäjä '%s' saa nykyasetuksilla ottaa pelaajasi haltuunsa kun olet poissa. "
 "Voit estää tämän komennolla '/delegate cancel'."
 
-#: server/plrhand.c:3113
+#: server/plrhand.c:3115
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Pelaajan '%s' hallinta on delegoitu sinulle."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3122
+#: server/plrhand.c:3124
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Käytä komentoa '/delegate take <pelaaja>' ottaaksesi haltuun pelaaja jonka "
@@ -46824,33 +46824,33 @@ msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3738
+#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3737
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
 
 #: server/savegame/savegame2.c:2786 server/savegame/savegame2.c:2792
-#: server/savegame/savegame3.c:3823 server/savegame/savegame3.c:3829
+#: server/savegame/savegame3.c:3822 server/savegame/savegame3.c:3828
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s ei antanut jaettua näkymää joukkueensa jäsenelle %s."
 
-#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7732
+#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7731
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7742
+#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7741
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7751
+#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7750
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "Pelaajan %s valmistuneiden tutkimusten laskuri oli virheellinen."
 
-#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7769
+#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7768
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "

@@ -70,7 +70,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-22 16:30+0300\n"
+"POT-Creation-Date: 2023-09-28 21:19+0300\n"
 "PO-Revision-Date: 2023-01-15 11:44+0100\n"
 "Last-Translator: Andreas Engel <ae3@mein-ramberg.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -633,8 +633,8 @@ msgstr "individuell"
 #: client/citydlg_common.c:453 client/gui-gtk-3.0/citydlg.c:1841
 #: client/gui-gtk-3.22/citydlg.c:1871 client/gui-gtk-4.0/citydlg.c:1883
 #: client/gui-qt/citydlg.cpp:3093 client/gui-sdl2/cityrep.c:572
-#: client/gui-sdl2/cityrep.c:1114 client/gui-sdl2/wldlg.c:1459
-#: client/gui-sdl2/wldlg.c:1463 client/text.c:931
+#: client/gui-sdl2/cityrep.c:1114 client/gui-sdl2/wldlg.c:1460
+#: client/gui-sdl2/wldlg.c:1464 client/text.c:931
 msgid "never"
 msgstr "nie"
 
@@ -849,25 +849,25 @@ msgid "%d/turn"
 msgstr "%d Gold"
 
 #: client/citydlg_common.c:401 client/citydlg_common.c:411
-#: client/gui-sdl2/wldlg.c:1427
+#: client/gui-sdl2/wldlg.c:1428
 msgid "Obsolete"
 msgstr "Veraltet"
 
 #: client/citydlg_common.c:403 client/citydlg_common.c:413
-#: client/gui-sdl2/repodlgs.c:2131 client/gui-sdl2/wldlg.c:1430
-#: client/gui-sdl2/wldlg.c:1438 common/events.c:93 common/events.c:170
+#: client/gui-sdl2/repodlgs.c:2131 client/gui-sdl2/wldlg.c:1431
+#: client/gui-sdl2/wldlg.c:1439 common/events.c:93 common/events.c:170
 msgid "Built"
 msgstr "Vorhanden"
 
-#: client/citydlg_common.c:405 client/gui-sdl2/wldlg.c:1432
+#: client/citydlg_common.c:405 client/gui-sdl2/wldlg.c:1433
 msgid "Destroyed"
 msgstr "Zerstört"
 
-#: client/citydlg_common.c:407 client/gui-sdl2/wldlg.c:1434
+#: client/citydlg_common.c:407 client/gui-sdl2/wldlg.c:1435
 msgid "Great Wonder"
 msgstr "Großes Weltwunder"
 
-#: client/citydlg_common.c:415 client/gui-sdl2/wldlg.c:1440
+#: client/citydlg_common.c:415 client/gui-sdl2/wldlg.c:1441
 msgid "Small Wonder"
 msgstr "Kleines Weltwunder"
 
@@ -9832,9 +9832,9 @@ msgstr "Stadt schrumpft: %d %s"
 #: client/gui-sdl2/menu.c:1283 client/gui-sdl2/menu.c:1299
 #: client/gui-sdl2/menu.c:1321 client/gui-sdl2/plrdlg.c:736
 #: client/gui-sdl2/repodlgs.c:594 client/gui-sdl2/repodlgs.c:993
-#: client/gui-sdl2/wldlg.c:961 client/gui-sdl2/wldlg.c:1165
-#: client/gui-sdl2/wldlg.c:1470 client/gui-sdl2/wldlg.c:1475
-#: client/gui-sdl2/wldlg.c:1600
+#: client/gui-sdl2/wldlg.c:962 client/gui-sdl2/wldlg.c:1166
+#: client/gui-sdl2/wldlg.c:1471 client/gui-sdl2/wldlg.c:1476
+#: client/gui-sdl2/wldlg.c:1601
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "Runde"
@@ -10299,11 +10299,11 @@ msgid "Help : Units"
 msgstr "Hilfe : Einheiten"
 
 #: client/gui-sdl2/helpdlg.c:819 client/gui-sdl2/helpdlg.c:831
-#: client/gui-sdl2/wldlg.c:1458 client/gui-sdl2/wldlg.c:1463
-#: client/gui-sdl2/wldlg.c:1469 client/gui-sdl2/wldlg.c:1474
-#: client/gui-sdl2/wldlg.c:1494 client/gui-sdl2/wldlg.c:1498
-#: client/gui-sdl2/wldlg.c:1591 client/gui-sdl2/wldlg.c:1599
-#: client/gui-sdl2/wldlg.c:1611
+#: client/gui-sdl2/wldlg.c:1459 client/gui-sdl2/wldlg.c:1464
+#: client/gui-sdl2/wldlg.c:1470 client/gui-sdl2/wldlg.c:1475
+#: client/gui-sdl2/wldlg.c:1495 client/gui-sdl2/wldlg.c:1499
+#: client/gui-sdl2/wldlg.c:1592 client/gui-sdl2/wldlg.c:1600
+#: client/gui-sdl2/wldlg.c:1612
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "Schild"
@@ -10997,7 +10997,7 @@ msgstr ""
 "'%s' konnte nicht geöffnet werden:\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:950 client/gui-sdl2/wldlg.c:1155
+#: client/gui-sdl2/wldlg.c:951 client/gui-sdl2/wldlg.c:1156
 #, c-format
 msgid ""
 "%s\n"
@@ -11012,7 +11012,7 @@ msgstr[1] ""
 "%s\n"
 "%d Gold pro Runde"
 
-#: client/gui-sdl2/wldlg.c:958 client/gui-sdl2/wldlg.c:1162
+#: client/gui-sdl2/wldlg.c:959 client/gui-sdl2/wldlg.c:1163
 #, c-format
 msgid ""
 "%s\n"
@@ -11021,7 +11021,7 @@ msgstr ""
 "%s\n"
 "gesperrt!"
 
-#: client/gui-sdl2/wldlg.c:960 client/gui-sdl2/wldlg.c:1164
+#: client/gui-sdl2/wldlg.c:961 client/gui-sdl2/wldlg.c:1165
 #, c-format
 msgid ""
 "%s\n"
@@ -11030,7 +11030,7 @@ msgstr ""
 "%s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:964 client/gui-sdl2/wldlg.c:1168
+#: client/gui-sdl2/wldlg.c:965 client/gui-sdl2/wldlg.c:1169
 #, c-format
 msgid ""
 "%s\n"
@@ -11041,14 +11041,14 @@ msgstr ""
 
 #. TRANS: length of worklist
 #. TRANS: Length of worklist
-#: client/gui-sdl2/wldlg.c:1018 client/gui-sdl2/wldlg.c:1134
+#: client/gui-sdl2/wldlg.c:1019 client/gui-sdl2/wldlg.c:1135
 #, c-format
 msgid "( %d entry )"
 msgid_plural "( %d entries )"
 msgstr[0] "( %d Eintrag )"
 msgstr[1] "( %d Einträge )"
 
-#: client/gui-sdl2/wldlg.c:1118
+#: client/gui-sdl2/wldlg.c:1119
 #, c-format
 msgid ""
 "Worklist of\n"
@@ -11057,7 +11057,7 @@ msgstr ""
 "Arbeitsliste von\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1456
+#: client/gui-sdl2/wldlg.c:1457
 #, c-format
 msgid ""
 "(%s)\n"
@@ -11068,7 +11068,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1461
+#: client/gui-sdl2/wldlg.c:1462
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -11077,7 +11077,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1467
+#: client/gui-sdl2/wldlg.c:1468
 #, c-format
 msgid ""
 "(%s)\n"
@@ -11088,7 +11088,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1472
+#: client/gui-sdl2/wldlg.c:1473
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -11097,14 +11097,14 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1482
+#: client/gui-sdl2/wldlg.c:1483
 #, c-format
 msgid "%d gold per turn"
 msgid_plural "%d gold per turn"
 msgstr[0] "%d Gold pro Runde"
 msgstr[1] "%d Gold pro Runde"
 
-#: client/gui-sdl2/wldlg.c:1492
+#: client/gui-sdl2/wldlg.c:1493
 #, c-format
 msgid ""
 "(%s)\n"
@@ -11115,16 +11115,16 @@ msgstr ""
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: client/gui-sdl2/wldlg.c:1496 common/calendar.c:126 common/calendar.c:130
+#: client/gui-sdl2/wldlg.c:1497 common/calendar.c:126 common/calendar.c:130
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1501
+#: client/gui-sdl2/wldlg.c:1502
 msgid "shields into gold"
 msgstr "Schilder in Gold"
 
-#: client/gui-sdl2/wldlg.c:1586
+#: client/gui-sdl2/wldlg.c:1587
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -11135,7 +11135,7 @@ msgstr ""
 "%d/%d %s\n"
 "nie"
 
-#: client/gui-sdl2/wldlg.c:1594
+#: client/gui-sdl2/wldlg.c:1595
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -11146,7 +11146,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1606
+#: client/gui-sdl2/wldlg.c:1607
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -33915,9 +33915,13 @@ msgid "Unified Theory"
 msgstr "Einheitstheorie"
 
 #: data/alien/techs.ruleset:764
+#, fuzzy
+#| msgid ""
+#| "We now understand that radiation and antigravity are two sides of the "
+#| "same phenomenom."
 msgid ""
 "We now understand that radiation and antigravity are two sides of the same "
-"phenomenom."
+"phenomenon."
 msgstr ""
 "Wir verstehen nun, dass es sich bei Strahlung und Antigravitation um zwei "
 "Seiten des gleichen Phänomens handelt."
@@ -46677,47 +46681,47 @@ msgstr "Ein schlecht benannter Spieler"
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Die %s entdeckt. Ihr Herrscher ist %s."
 
-#: server/plrhand.c:2838
+#: server/plrhand.c:2840
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Konnte die %s nicht in den Bürgerkrieg treiben — zu viele Spieler"
 
-#: server/plrhand.c:2845
+#: server/plrhand.c:2847
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - maxplayers (%d) reached"
 msgstr "Konnte die %s nicht in den Bürgerkrieg treiben — zu viele Spieler"
 
-#: server/plrhand.c:2852
+#: server/plrhand.c:2854
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 "Konnte die %s nicht in den Bürgerkrieg treiben — keine Nationen mehr "
 "verfügbar"
 
-#: server/plrhand.c:2887
+#: server/plrhand.c:2889
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr ""
 "Konnte die %s nicht in den Bürgerkrieg treiben — keine Städte verfügbar"
 
-#: server/plrhand.c:2909
+#: server/plrhand.c:2911
 msgid "Your nation is thrust into civil war."
 msgstr "In Ihrer Nation ist der Bürgerkrieg ausgebrochen!"
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2913
+#: server/plrhand.c:2915
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s ist der Anführer der revoltierenden %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2935
+#: server/plrhand.c:2937
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s erklärt ihre Loyalität zu den %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2960
+#: server/plrhand.c:2962
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -46726,7 +46730,7 @@ msgstr[1] "Der Bürgerkrieg spaltet die %s; die %s kontrollieren nun %d Städte.
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3101
+#: server/plrhand.c:3103
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -46736,14 +46740,14 @@ msgstr ""
 "Spieler inne. Verwenden Sie „/delegate cancel“ um diese Berechtigung "
 "aufzuheben."
 
-#: server/plrhand.c:3113
+#: server/plrhand.c:3115
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Kontrolle über den Spieler „%s“ an Sie delegiert."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3122
+#: server/plrhand.c:3124
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Verwenden Sie „/delegate take <Spieler>“ um die Kontrolle über einen "
@@ -47350,33 +47354,33 @@ msgid "%s has been added as human player."
 msgstr "%s ist als menschlicher Spieler dazu gekommen."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3738
+#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3737
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s ist eine ungültige Nation und wird geändert auf %s."
 
 #: server/savegame/savegame2.c:2786 server/savegame/savegame2.c:2792
-#: server/savegame/savegame3.c:3823 server/savegame/savegame3.c:3829
+#: server/savegame/savegame3.c:3822 server/savegame/savegame3.c:3828
 #, fuzzy, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s darf unsere Karte einsehen."
 
-#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7732
+#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7731
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Unzulässiges Forschungsprojekt von %s."
 
-#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7742
+#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7741
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Unzulässiges Forschungsziel von %s."
 
-#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7751
+#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7750
 #, fuzzy, c-format
 msgid "%s had finished researches count wrong."
 msgstr "Unzulässiges Forschungsprojekt von %s."
 
-#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7769
+#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7768
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -54479,12 +54483,12 @@ msgstr[1] " (insgesamt %d Wiederholungen)"
 
 #. TRANS: first %s is URL, second is Curl error message
 #. * (not in Freeciv translation domain)
-#: utility/netfile.c:128
+#: utility/netfile.c:132
 #, c-format
 msgid "Failed to fetch %s: %s"
 msgstr "Konnte %s nicht übertragen: %s"
 
-#: utility/netfile.c:177 utility/registry_ini.c:663
+#: utility/netfile.c:181 utility/registry_ini.c:663
 #, c-format
 msgid "Could not open %s for writing"
 msgstr "Konnte %s nicht zum Schreiben öffnen"

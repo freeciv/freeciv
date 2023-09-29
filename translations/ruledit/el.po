@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-05-13 10:50+0300\n"
+"POT-Creation-Date: 2023-08-26 20:57+0300\n"
 "PO-Revision-Date: 2013-09-09 09:57+0300\n"
 "Last-Translator: Prekates Alexandros <aprekates@gmail.gr>\n"
 "Language-Team: Greek translation team <gr@li.org>\n"
@@ -245,15 +245,15 @@ msgstr ""
 msgid "Unrecognized option: \"%s\"\n"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:125
+#: tools/ruledit/ruledit_qt.cpp:126
 msgid "built in Qt6 mode."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:128
 msgid "built in Qt5 mode."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:134
+#: tools/ruledit/ruledit_qt.cpp:135
 #, c-format
 msgid ""
 "%s%s\n"
@@ -261,136 +261,157 @@ msgid ""
 "%s"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:149
+#: tools/ruledit/ruledit_qt.cpp:150
 msgid "Give ruleset to use as starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:157
+#: tools/ruledit/ruledit_qt.cpp:158
 #, fuzzy
 msgid "Start editing"
 msgstr "Αρχή %d γύρου"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:169
 msgid "Misc"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:171
 #, fuzzy
 msgid "Tech"
 msgstr "_Τεχνολογίες"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:173
 msgid "Buildings"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:175
 msgid "Units"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:177
+msgid "Achievements"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:179
 msgid "Goods"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:178
+#: tools/ruledit/ruledit_qt.cpp:181
 msgid "Governments"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:180
+#: tools/ruledit/ruledit_qt.cpp:183
 msgid "Enablers"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:182
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Extras"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:184
+#: tools/ruledit/ruledit_qt.cpp:187
 msgid "Terrains"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:189
 msgid "Multipliers"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:188
+#: tools/ruledit/ruledit_qt.cpp:191
 msgid "Nations"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:197
+#: tools/ruledit/ruledit_qt.cpp:200
 #, fuzzy
 msgid "Welcome to freeciv-ruledit"
 msgstr "Καλώς ήρθες στο Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:244
+#: tools/ruledit/ruledit_qt.cpp:247
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:247
+#: tools/ruledit/ruledit_qt.cpp:250
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "Έρημος"
 
-#: tools/ruledit/ruledit_qt.cpp:269
+#: tools/ruledit/ruledit_qt.cpp:273
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:447
+#: tools/ruledit/ruledit_qt.cpp:451
 #, fuzzy
 msgid "Freeciv Ruleset Editor"
 msgstr "Λίστα εξυπηρετητών Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:480
+#: tools/ruledit/ruledit_qt.cpp:484
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:484
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Quit?"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:68
-#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
-#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
-#: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:66
+#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
+#: tools/ruledit/tab_tech.cpp:64 tools/ruledit/tab_terrains.cpp:68
+#: tools/ruledit/tab_unit.cpp:66
 #, fuzzy
 msgid "Rule Name"
 msgstr "Όνομα Παίχτη :"
 
+#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
+#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
-#: tools/ruledit/tab_building.cpp:153 tools/ruledit/tab_building.cpp:154
+#: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
-#: tools/ruledit/tab_extras.cpp:155 tools/ruledit/tab_extras.cpp:156
+#: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
-#: tools/ruledit/tab_good.cpp:149 tools/ruledit/tab_good.cpp:150
+#: tools/ruledit/tab_good.cpp:147 tools/ruledit/tab_good.cpp:148
 #: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
-#: tools/ruledit/tab_gov.cpp:148 tools/ruledit/tab_gov.cpp:149
+#: tools/ruledit/tab_gov.cpp:146 tools/ruledit/tab_gov.cpp:147
 #: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
-#: tools/ruledit/tab_multiplier.cpp:144 tools/ruledit/tab_multiplier.cpp:145
+#: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
-#: tools/ruledit/tab_tech.cpp:231 tools/ruledit/tab_tech.cpp:232
+#: tools/ruledit/tab_tech.cpp:229 tools/ruledit/tab_tech.cpp:230
 #: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
-#: tools/ruledit/tab_terrains.cpp:151 tools/ruledit/tab_terrains.cpp:152
+#: tools/ruledit/tab_terrains.cpp:149 tools/ruledit/tab_terrains.cpp:150
 #: tools/ruledit/tab_unit.cpp:69 tools/ruledit/tab_unit.cpp:79
-#: tools/ruledit/tab_unit.cpp:148 tools/ruledit/tab_unit.cpp:149
+#: tools/ruledit/tab_unit.cpp:146 tools/ruledit/tab_unit.cpp:147
 msgid "None"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:76
-#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
-#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
-#: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:74
+#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
+#: tools/ruledit/tab_tech.cpp:72 tools/ruledit/tab_terrains.cpp:76
+#: tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "Όνομα"
+
+#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:109
+#: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:89
+msgid "Effects"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:89
+msgid "Add Achievement"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:94
+#, fuzzy
+msgid "Remove this Achievement"
+msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
+
+#: tools/ruledit/tab_achievement.cpp:179
+msgid "An achievement with that rule name already exists!"
+msgstr ""
 
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
 #: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
-msgstr ""
-
-#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:95
-#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
-#: tools/ruledit/tab_unit.cpp:89
-msgid "Effects"
 msgstr ""
 
 #: tools/ruledit/tab_building.cpp:98
@@ -402,7 +423,7 @@ msgstr ""
 msgid "Remove this Building"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_building.cpp:188
+#: tools/ruledit/tab_building.cpp:186
 msgid "A building with that rule name already exists!"
 msgstr ""
 
@@ -464,7 +485,7 @@ msgstr ""
 msgid "Remove this Extra"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_extras.cpp:190
+#: tools/ruledit/tab_extras.cpp:188
 msgid "An extra with that rule name already exists!"
 msgstr ""
 
@@ -477,7 +498,7 @@ msgstr ""
 msgid "Remove this Good"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_good.cpp:184
+#: tools/ruledit/tab_good.cpp:182
 msgid "A good with that rule name already exists!"
 msgstr ""
 
@@ -490,7 +511,7 @@ msgstr ""
 msgid "Remove this Government"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_gov.cpp:183
+#: tools/ruledit/tab_gov.cpp:181
 msgid "A government with that rule name already exists!"
 msgstr ""
 
@@ -669,7 +690,7 @@ msgstr ""
 msgid "Remove this Multiplier"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_multiplier.cpp:179
+#: tools/ruledit/tab_multiplier.cpp:177
 msgid "A multiplier with that rule name already exists!"
 msgstr ""
 
@@ -702,12 +723,12 @@ msgstr ""
 msgid "Remove this tech"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_tech.cpp:199
+#: tools/ruledit/tab_tech.cpp:197
 #, fuzzy
 msgid "Never"
 msgstr "Νοέμβριος"
 
-#: tools/ruledit/tab_tech.cpp:356
+#: tools/ruledit/tab_tech.cpp:354
 msgid "A tech with that rule name already exists!"
 msgstr ""
 
@@ -720,7 +741,7 @@ msgstr ""
 msgid "Remove this Terrain"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_terrains.cpp:186
+#: tools/ruledit/tab_terrains.cpp:184
 msgid "A terrain with that rule name already exists!"
 msgstr ""
 
@@ -733,7 +754,7 @@ msgstr ""
 msgid "Remove this Unit"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
-#: tools/ruledit/tab_unit.cpp:183
+#: tools/ruledit/tab_unit.cpp:181
 msgid "A unit type with that rule name already exists!"
 msgstr ""
 
@@ -763,7 +784,7 @@ msgstr ""
 msgid "%s prevents"
 msgstr ""
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:361
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:375
 msgid "Effect"
 msgstr ""
 
@@ -782,10 +803,10 @@ msgstr ""
 msgid "%s clause"
 msgstr ""
 
-#: tools/ruledit/validity.c:292
+#: tools/ruledit/validity.c:306
 msgid "Conflicting extra"
 msgstr ""
 
-#: tools/ruledit/validity.c:295
+#: tools/ruledit/validity.c:309
 msgid "Hidden extra"
 msgstr ""
