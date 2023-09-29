@@ -50,31 +50,31 @@ if (S_S_RUNNING == server_state()) {    \
 }                                       \
 exit(EXIT_SUCCESS);
 
+static struct timer *signal_timer = NULL;
+
 /**********************************************************************//**
   This function is called when a SIGINT (ctrl-c) is received. It will exit
   only if two SIGINTs are received within a second.
 **************************************************************************/
 static void signal_handler(int sig)
 {
-  static struct timer *timer = NULL;
-
   switch (sig) {
   case SIGINT:
-    if (timer && timer_read_seconds(timer) <= 1.0) {
+    if (signal_timer != NULL && timer_read_seconds(signal_timer) <= 1.0) {
       save_and_exit(SIGINT);
     } else {
       if (game.info.timeout == -1) {
         log_normal(_("Setting timeout to 0. Autogame will stop."));
         game.info.timeout = 0;
       }
-      if (!timer) {
+      if (signal_timer == NULL) {
         log_normal(_("You must interrupt Freeciv twice "
                      "within one second to make it exit."));
       }
     }
-    timer = timer_renew(timer, TIMER_USER, TIMER_ACTIVE,
-                        timer != NULL ? NULL : "ctrlc");
-    timer_start(timer);
+    signal_timer = timer_renew(signal_timer, TIMER_USER, TIMER_ACTIVE,
+                               signal_timer != NULL ? NULL : "ctrlc");
+    timer_start(signal_timer);
     break;
 
 #ifdef SIGHUP
@@ -141,4 +141,15 @@ void setup_interrupt_handlers(void)
   }
 #endif /* SIGPIPE */
 #endif /* USE_INTERRUPT_HANDLERS */
+}
+
+/**********************************************************************//**
+  Free signal timer
+**************************************************************************/
+void signal_timer_free(void)
+{
+  if (signal_timer != NULL) {
+    timer_destroy(signal_timer);
+    signal_timer = NULL;
+  }
 }

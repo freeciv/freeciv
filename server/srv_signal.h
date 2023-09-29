@@ -14,5 +14,6 @@
 #define FC__SRV_SIGNAL_H
 
 void setup_interrupt_handlers(void);
+void signal_timer_free(void);
 
 #endif /* FC__SRV_SIGNAL_H */
