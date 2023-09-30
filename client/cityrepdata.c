@@ -823,7 +823,7 @@ const char *city_report_spec_tagname(int i)
 }
 
 /********************************************************************//**
-  Initialize city report data.  This deals with ruleset-depedent
+  Initialize city report data.  This deals with ruleset-dependent
   columns and pre-translates the fields (to make things easier on
   the GUI writers).  Should be called before the GUI starts up.
 ************************************************************************/
