@@ -246,6 +246,8 @@ bool tab_unit::initialize_new_utype(struct unit_type *ptype)
   }
 
   name_set(&(ptype->name), 0, "New Unit");
+  BV_CLR_ALL(ptype->flags);
+
   return true;
 }
 

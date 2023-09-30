@@ -225,6 +225,7 @@ bool tab_good::initialize_new_good(struct goods_type *pgood)
   }
 
   name_set(&(pgood->name), 0, "New Good");
+  BV_CLR_ALL(pgood->flags);
 
   return true;
 }

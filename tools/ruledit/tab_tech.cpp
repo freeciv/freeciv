@@ -402,6 +402,7 @@ bool tab_tech::initialize_new_tech(struct advance *padv)
   padv->require[AR_TWO] = none;
   padv->require[AR_ROOT] = none;
   name_set(&(padv->name), 0, "New Tech");
+  BV_CLR_ALL(padv->flags);
 
   return true;
 }
