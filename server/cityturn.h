@@ -56,6 +56,8 @@ bool check_city_migrations(void);
 
 void check_disasters(void);
 
+void city_tc_effect_refresh(struct player *pplayer);
+
 void city_style_refresh(struct city *pcity);
 
 bool player_balance_treasury_units_and_buildings(struct player *pplayer);

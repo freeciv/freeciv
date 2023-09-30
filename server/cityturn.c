@@ -4538,3 +4538,28 @@ void city_counters_refresh(struct city *pcity)
   lsend_packet_city_update_counters(pcity->owner->connections, &packet);
   lsend_packet_city_update_counters(game.glob_observers, &packet);
 }
+
+/**********************************************************************//**
+  Recalculate some city related effects on turn change
+**************************************************************************/
+void city_tc_effect_refresh(struct player *pplayer)
+{
+  city_list_iterate(pplayer->cities, pcity) {
+    bool changed = FALSE;
+
+    city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity),
+                                       city_tile(pcity), ptile, idx, x, y) {
+      if (ptile->worked == pcity
+          && get_city_tile_output_bonus(pcity, ptile, NULL, EFT_TILE_WORKABLE) <= 0) {
+        city_map_update_empty(pcity, ptile);
+        pcity->specialists[DEFAULT_SPECIALIST]++;
+        changed = TRUE;
+      }
+    } city_tile_iterate_skip_free_worked_end;
+
+    if (changed) {
+      auto_arrange_workers(pcity);
+      send_city_info(NULL, pcity);
+    }
+  } city_list_iterate_end;
+}
