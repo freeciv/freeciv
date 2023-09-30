@@ -1,9 +1,9 @@
 [nation_han]
 
-name=_("Han")
-plural=_("?plural:Han")
-groups="Ancient", "Medieval", "Early Modern", "Asian"
-legend=_("The Han people are the majority ethnic group in China, tracing\
+name   = _("Han")
+plural = _("?plural:Han")
+groups = "Ancient", "Medieval", "Early Modern", "Asian"
+legend = _("The Han people are the majority ethnic group in China, tracing\
  their lineage back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the\
  Yellow Emperor), legendary god-kings of prehistory.")
 
@@ -28,22 +28,22 @@ ruler_titles = {
  "Communism",       _("Chairman %s"),     _("Chairwoman %s")
 }
 
-flag="han"
-flag_alt="china"
+flag = "han"
+flag_alt = "china"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Chinese"
-civilwar_nations=
+conflicts_with = "Chinese"
+civilwar_nations =
 ; /* People's Republic of China */
-"Chinese",
+ "Chinese",
 ; /* Republic of China */
-"Taiwanese",
+ "Taiwanese",
 
-"Korean", "Vietnamese", "Miao", "Zhuang", "Cantonese"
+ "Korean", "Vietnamese", "Miao", "Zhuang", "Cantonese"
 
 cities =
 ; Xia dynasty
