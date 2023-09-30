@@ -353,12 +353,12 @@ static bool manual_command(struct tag_types *tag_info)
     return FALSE;
   }
 
-  if (!manual_settings(tag_info)) {
+  if (!manual_settings(tag_info)
+      || !manual_commands(tag_info)) {
     return FALSE;
   }
 
-  for (manuals = MANUAL_COMMANDS; manuals < MANUAL_COUNT; manuals++) {
-    int i;
+  for (manuals = MANUAL_TERRAIN; manuals < MANUAL_COUNT; manuals++) {
     int ri;
     char mnamebuf[20];
     FILE *doc;
@@ -371,48 +371,9 @@ static bool manual_command(struct tag_types *tag_info)
 
     switch (manuals) {
     case MANUAL_SETTINGS:
-      fc_assert(FALSE);
-      break;
-
     case MANUAL_COMMANDS:
-      /* TRANS: markup ... Freeciv version ... markup */
-      fprintf(doc, _("%sFreeciv %s server commands%s\n\n"), tag_info->title_begin,
-              VERSION_STRING, tag_info->title_end);
-      for (i = 0; i < CMD_NUM; i++) {
-        const struct command *cmd = command_by_number(i);
-
-        fprintf(doc, tag_info->item_begin, "cmd", i);
-        fprintf(doc, "%s%s  -  %s%s\n\n", tag_info->sect_title_begin,
-                command_name(cmd), command_short_help(cmd),
-                tag_info->sect_title_end);
-        if (command_synopsis(cmd)) {
-          char *cmdstr = fc_strdup(command_synopsis(cmd));
-          size_t cmdstr_len = strlen(cmdstr) + 1;
-
-          cmdstr = html_special_chars(cmdstr, &cmdstr_len);
-          fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
-                         "<pre>Synopsis:</pre></td>\n<td>"));
-          fprintf(doc, "<pre>%s</pre></td></tr></table>", cmdstr);
-          FC_FREE(cmdstr);
-        }
-        fprintf(doc, _("<p class=\"level\">Level: %s</p>\n"),
-                cmdlevel_name(command_level(cmd)));
-        {
-          char *help = command_extra_help(cmd);
-          if (help) {
-            size_t help_len = strlen(help) + 1;
-
-            fc_break_lines(help, LINE_BREAK);
-            help = html_special_chars(help, &help_len);
-            fprintf(doc, "\n");
-            fprintf(doc, _("<p>Description:</p>\n\n"));
-            fprintf(doc, "<pre>%s</pre>\n", help);
-            FC_FREE(help);
-          }
-        }
-
-        fprintf(doc, "%s", tag_info->item_end);
-      }
+      /* Should be handled in separate functions */
+      fc_assert(FALSE);
       break;
 
     case MANUAL_TERRAIN:
