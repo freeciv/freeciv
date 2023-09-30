@@ -3991,6 +3991,8 @@ executable('freeciv-mp-cli',
 
 endif
 
+if get_option('tools').length() > 0
+
 tool_lib = static_library('fc_toolutil',
   'tools/ruleutil/comments.c',
   'tools/ruleutil/rulesave.c',
@@ -3998,6 +4000,10 @@ tool_lib = static_library('fc_toolutil',
   sources: [verhdr],
   include_directories: server_inc,
   )
+
+else
+  tool_lib = []
+endif
 
 if get_option('tools').contains('ruleup')
 
