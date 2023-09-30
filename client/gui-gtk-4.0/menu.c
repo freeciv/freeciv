@@ -3352,20 +3352,25 @@ static void menu_entry_group_set_sensitive(GActionMap *map,
   }
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Renames an action.
 ****************************************************************************/
-static void menus_rename(const char *key,
-                         const gchar *new_label)
+static void menus_rename(GMenu *parent, int index, const char *key,
+                         const char *new_name)
 {
-  GtkWidget *item = GTK_WIDGET(gtk_builder_get_object(ui_builder, key));
+  struct menu_entry_info *info = menu_entry_info_find(key);
 
-  if (item != NULL) {
-    gtk_menu_item_set_label(GTK_MENU_ITEM(item), new_label);
+  if (info != NULL) {
+    char actname[150];
+    GMenuItem *item;
+
+    fc_snprintf(actname, sizeof(actname), "app.%s", info->action);
+    g_menu_remove(parent, index);
+
+    item = g_menu_item_new(new_name, actname);
+    menu_item_insert_unref(parent, index, item);
   }
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Update the sensitivity of the items in the view menu.
@@ -3394,7 +3399,6 @@ static void view_menu_update_sensitivity(GActionMap *map)
   menu_entry_set_sensitive(map, "SHOW_FOCUS_UNIT", !gui_options.draw_units);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Return the text for the tile, changed by the activity.
 
@@ -3410,9 +3414,9 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   tile_apply_activity(newtile, activity, NULL);
   text = tile_get_info_text(newtile, FALSE, 0);
   tile_virtual_destroy(newtile);
+
   return text;
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Updates the menus.
@@ -3691,12 +3695,10 @@ void real_menus_update(void)
   g_menu_remove(combat_menu, 3);
   g_menu_insert_submenu(combat_menu, 3, _("Build _Base"), G_MENU_MODEL(submenu));
 
-#ifdef MENUS_GTK3
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
   char acttext[128], irrtext[128], mintext[128], transtext[128];
   char cultext[128], plantext[128];
   struct terrain *pterrain;
-#endif /* MENUS_GTK3 */
 
   if (!can_client_change_view()) {
     return;
@@ -3704,7 +3706,6 @@ void real_menus_update(void)
 
   num_units = get_num_units_in_focus();
 
-#ifdef MENUS_GTK3
   if (num_units > 0) {
     const struct tile *ptile = NULL;
     const struct unit_type *ptype = NULL;
@@ -3725,7 +3726,6 @@ void real_menus_update(void)
       }
     } unit_list_iterate_end;
   }
-#endif /* MENUS_GTK3 */
 
   menu_entry_group_set_sensitive(map, MGROUP_EDIT, editor_is_active());
   menu_entry_group_set_sensitive(map, MGROUP_PLAYING,
@@ -3763,7 +3763,6 @@ void real_menus_update(void)
     editgui_refresh();
   }
 
-#ifdef MENUS_GTK3
   {
     char road_buf[500];
 
@@ -3772,17 +3771,16 @@ void real_menus_update(void)
       /* TRANS: Connect with some road type (Road/Railroad) */
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
                extra_name_translation(road_extra_get(proad)));
-      menus_rename("CONNECT_ROAD", road_buf);
+      menus_rename(work_menu, 12, "CONNECT_ROAD", road_buf);
     }
 
     proad = road_by_gui_type(ROAD_GUI_RAILROAD);
     if (proad != NULL) {
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
                extra_name_translation(road_extra_get(proad)));
-      menus_rename("CONNECT_RAIL", road_buf);
+      menus_rename(work_menu, 13, "CONNECT_RAIL", road_buf);
     }
   }
-#endif /* MENUS_GTK3 */
 
   if (!can_client_issue_orders()) {
     return;
@@ -3909,14 +3907,13 @@ void real_menus_update(void)
                            game.info.changable_tax
                            && can_client_issue_orders());
 
-#ifdef MENUS_GTK3
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
-    menus_rename("BUILD_CITY",
+    menus_rename(work_menu, 0, "BUILD_CITY",
                  action_get_ui_name_mnemonic(ACTION_HELP_WONDER, "_"));
   } else {
     bool city_on_tile = FALSE;
 
-    /* FIXME: this overloading doesn't work well with multiple focus
+    /* FIXME: This overloading doesn't work well with multiple focus
      * units. */
     unit_list_iterate(punits, punit) {
       if (tile_city(unit_tile(punit))) {
@@ -3927,23 +3924,23 @@ void real_menus_update(void)
 
     if (city_on_tile && units_can_do_action(punits, ACTION_JOIN_CITY,
                                             TRUE)) {
-      menus_rename("BUILD_CITY",
+      menus_rename(work_menu, 0, "BUILD_CITY",
                    action_get_ui_name_mnemonic(ACTION_JOIN_CITY, "_"));
     } else {
-      /* refresh default order */
-      menus_rename("BUILD_CITY",
+      /* Refresh default order */
+      menus_rename(work_menu, 0, "BUILD_CITY",
                    action_get_ui_name_mnemonic(ACTION_FOUND_CITY, "_"));
     }
   }
 
   if (units_can_do_action(punits, ACTION_TRADE_ROUTE, TRUE)) {
-    menus_rename("BUILD_ROAD",
+    menus_rename(work_menu, 6, "BUILD_ROAD",
                  action_get_ui_name_mnemonic(ACTION_TRADE_ROUTE, "_"));
   } else if (units_have_type_flag(punits, UTYF_WORKERS, TRUE)) {
     char road_item[500];
     struct extra_type *pextra = NULL;
 
-    /* FIXME: this overloading doesn't work well with multiple focus
+    /* FIXME: This overloading doesn't work well with multiple focus
      * units. */
     unit_list_iterate(punits, punit) {
       pextra = next_extra_for_tile(unit_tile(punit), EC_ROAD,
@@ -3957,16 +3954,17 @@ void real_menus_update(void)
       /* TRANS: Build road of specific type (Road/Railroad) */
       snprintf(road_item, sizeof(road_item), _("Build %s"),
                extra_name_translation(pextra));
-      menus_rename("BUILD_ROAD", road_item);
+      menus_rename(work_menu, 6, "BUILD_ROAD", road_item);
     }
   } else {
-    menus_rename("BUILD_ROAD", _("Build _Road"));
+    menus_rename(work_menu, 6, "BUILD_ROAD", _("Build _Road"));
   }
 
-  if (units_all_same_type) {
+  if (units_all_same_type && num_units > 0) {
     struct unit *punit = unit_list_get(punits, 0);
-    const struct unit_type *to_unittype =
-      can_upgrade_unittype(client_player(), unit_type_get(punit));
+    const struct unit_type *to_unittype
+      = can_upgrade_unittype(client_player(), unit_type_get(punit));
+
     if (to_unittype) {
       /* TRANS: %s is a unit type. */
       fc_snprintf(acttext, sizeof(acttext), _("Upgr_ade to %s"),
@@ -3980,14 +3978,15 @@ void real_menus_update(void)
     acttext[0] = '\0';
   }
   if ('\0' != acttext[0]) {
-    menus_rename("UNIT_UPGRADE", acttext);
+    menus_rename(unit_menu, 13, "UNIT_UPGRADE", acttext);
   } else {
-    menus_rename("UNIT_UPGRADE", _("Upgr_ade"));
+    menus_rename(unit_menu, 13, "UNIT_UPGRADE", _("Upgr_ade"));
   }
 
   if (units_can_convert(punits)) {
-    if (units_all_same_type) {
+    if (units_all_same_type && num_units > 0) {
       struct unit *punit = unit_list_get(punits, 0);
+
       /* TRANS: %s is a unit type. */
       fc_snprintf(acttext, sizeof(acttext), _("C_onvert to %s"),
                   utype_name_translation(unit_type_get(punit)->converted_to));
@@ -3995,16 +3994,16 @@ void real_menus_update(void)
       acttext[0] = '\0';
     }
   } else {
-    menu_entry_set_sensitive("UNIT_CONVERT", FALSE);
+    menu_entry_set_sensitive(map, "UNIT_CONVERT", FALSE);
     acttext[0] = '\0';
   }
   if ('\0' != acttext[0]) {
-    menus_rename("UNIT_CONVERT", acttext);
+    menus_rename(unit_menu, 14, "UNIT_CONVERT", acttext);
   } else {
-    menus_rename("UNIT_CONVERT", _("C_onvert"));
+    menus_rename(unit_menu, 14, "UNIT_CONVERT", _("C_onvert"));
   }
 
-  if (units_all_same_tile) {
+  if (units_all_same_tile && num_units > 0) {
     struct unit *first = unit_list_get(punits, 0);
 
     pterrain = tile_terrain(unit_tile(first));
@@ -4088,16 +4087,19 @@ void real_menus_update(void)
     sz_strlcpy(transtext, _("Transf_orm Terrain"));
   }
 
-  menus_rename("BUILD_IRRIGATION", irrtext);
-  menus_rename("CULTIVATE", cultext);
-  menus_rename("BUILD_MINE", mintext);
-  menus_rename("PLANT", plantext);
-  menus_rename("TRANSFORM_TERRAIN", transtext);
+  menus_rename(work_menu, 7, "BUILD_IRRIGATION", irrtext);
+  menus_rename(work_menu, 9, "CULTIVATE", cultext);
+  menus_rename(work_menu, 8, "BUILD_MINE", mintext);
+  menus_rename(work_menu, 10, "PLANT", plantext);
+  menus_rename(work_menu, 11, "TRANSFORM_TERRAIN", transtext);
 
-  menus_rename("UNIT_HOMECITY",
+  menus_rename(unit_menu, 12, "UNIT_HOMECITY",
                action_get_ui_name_mnemonic(ACTION_HOME_CITY, "_"));
 
-#endif /* MENUS_GTK3 */
+  menus_rename(combat_menu, 1, "BUILD_FORTRESS",
+               Q_(terrain_control.gui_type_base0));
+  menus_rename(combat_menu, 2, "BUILD_AIRBASE",
+               Q_(terrain_control.gui_type_base1));
 }
 
 /************************************************************************//**
@@ -4111,16 +4113,12 @@ void real_menus_init(void)
   }
 
 #ifdef MENUS_GTK3
-  GtkMenu *menu;
 
   if (!can_client_change_view()) {
     menu_entry_group_set_sensitive(MGROUP_ALL, FALSE);
 
     return;
   }
-
-  menus_rename("BUILD_FORTRESS", Q_(terrain_control.gui_type_base0));
-  menus_rename("BUILD_AIRBASE", Q_(terrain_control.gui_type_base1));
 
   menu_entry_group_set_sensitive(MGROUP_SAFE, TRUE);
   menu_entry_group_set_sensitive(MGROUP_PLAYER, client_has_player());
@@ -4129,7 +4127,6 @@ void real_menus_init(void)
                            BORDERS_DISABLED != game.info.borders);
 
   view_menu_update_sensitivity();
-
 #endif /* MENUS_GTK3 */
 }
 
