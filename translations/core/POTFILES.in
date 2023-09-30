@@ -164,6 +164,7 @@ client/include/helpdlg_g.h
 client/luaconsole_common.c
 client/mapctrl_common.c
 client/mapview_common.c
+client/music.c
 client/options.c
 client/packhand.c
 client/plrdlg_common.c
@@ -180,6 +181,7 @@ common/actres.h
 common/ai.c
 common/calendar.c
 common/city.c
+common/city.h
 common/clientutils.c
 common/counters.c
 common/effects.c
@@ -212,6 +214,7 @@ common/version.c
 common/networking/connection.c
 common/networking/packets.c
 common/networking/packets_json.c
+common/scriptcore/api_game_effects.c
 data/civ1/actions.ruleset
 data/civ1/buildings.ruleset
 data/civ1/cities.ruleset
@@ -420,6 +423,7 @@ server/savegame/savegame2.c
 server/savegame/savegame3.c
 server/savegame/savemain.c
 server/scripting/api_server_edit.c
+server/scripting/script_fcdb.c
 server/sernet.c
 server/settings.c
 server/settings.h
