@@ -305,24 +305,26 @@ static bool manual_command(void)
           {
             const char *value;
 
-            fprintf(doc, "\n<p class=\"bounds\">%s</p>",
+            fprintf(doc, "\n<p class=\"bounds\">%s</p><ul>",
                     _("Possible values:"));
             for (i = 0; (value = setting_enum_val(pset, i, FALSE)); i++) {
-              fprintf(doc, "\n<p class=\"bounds\"><li/> %s: \"%s\"</p>",
+              fprintf(doc, "\n<li><p class=\"bounds\"> %s: \"%s\"</p>",
                       value, setting_enum_val(pset, i, TRUE));
             }
+            fprintf(doc, "</ul>\n");
           }
           break;
         case SST_BITWISE:
           {
             const char *value;
 
-            fprintf(doc, "\n<p class=\"bounds\">%s</p>",
+            fprintf(doc, "\n<p class=\"bounds\">%s</p><ul>",
                     _("Possible values (option can take any number of these):"));
             for (i = 0; (value = setting_bitwise_bit(pset, i, FALSE)); i++) {
-              fprintf(doc, "\n<p class=\"bounds\"><li/> %s: \"%s\"</p>",
+              fprintf(doc, "\n<li><p class=\"bounds\"> %s: \"%s\"</p>",
                       value, setting_bitwise_bit(pset, i, TRUE));
             }
+            fprintf(doc, "</ul>\n");
           }
           break;
         case SST_BOOL:
