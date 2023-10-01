@@ -774,7 +774,7 @@ static const struct city_report_spec base_city_report_specs[] = {
     N_("?number_trade_routes:R"),
     N_("Number (and total value) of trade routes"),
     NULL, FUNC_TAG(trade_routes) },
-  { FALSE,   3, NULL, N_("?pollution [short]:Pol"), N_("Pollution"),
+  { FALSE,   3, NULL, N_("?pollution [short]:Pol"), N_("?stats:Pollution"),
     NULL, FUNC_TAG(pollution) },
   { FALSE,   4, N_("?plague risk [short]:Pla"), N_("(%)"),
     N_("Plague risk per turn"),
@@ -823,9 +823,9 @@ const char *city_report_spec_tagname(int i)
 }
 
 /********************************************************************//**
-  Initialize city report data.  This deals with ruleset-dependent
+  Initialize city report data. This deals with ruleset-dependent
   columns and pre-translates the fields (to make things easier on
-  the GUI writers).  Should be called before the GUI starts up.
+  the GUI writers). Should be called before the GUI starts up.
 ************************************************************************/
 void init_city_report_game_data(void)
 {
@@ -889,7 +889,7 @@ void init_city_report_game_data(void)
     if (p->title2) {
       p->title2 = Q_(p->title2);
     }
-    p->explanation = _(p->explanation);
+    p->explanation = Q_(p->explanation);
     p++;
   }
 
@@ -899,15 +899,16 @@ void init_city_report_game_data(void)
 
 /************************************************************************
   The following several functions allow intelligent sorting city report
-  fields by column.  This doesn't necessarily do the right thing, but
+  fields by column. This doesn't necessarily do the right thing, but
   it's better than sorting alphabetically.
 
-  The GUI gives us two values to compare (as strings).  We try to split
+  The GUI gives us two values to compare (as strings). We try to split
   them into an array of numeric and string fields, then we compare
-  lexicographically.  Two numeric fields are compared in the obvious
-  way, two character fields are compared alphabetically.  Arbitrarily, a
-  numeric field is sorted before a character field (for "justification"
-  note that numbers are before letters in the ASCII table).
+  lexicographically. Two numeric fields are compared in the obvious
+  way, two character fields are compared alphabetically.
+  Arbitrarily, a numeric field is sorted before a character field
+  (for "justification" note that numbers are before letters
+   in the ASCII table).
 ************************************************************************/
 
 /* A datum is one short string, or one number.

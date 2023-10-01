@@ -173,7 +173,7 @@ static struct dem_row {
   {'P', N_("Production"),       get_production,  production_to_text,  TRUE },
   {'E', N_("Economics"),        get_economics,   economics_to_text,   TRUE },
   {'M', N_("Military Service"), get_mil_service, mil_service_to_text, FALSE },
-  {'O', N_("Pollution"),        get_pollution,   pollution_to_text,   FALSE },
+  {'O', N_("?stats:Pollution"), get_pollution,   pollution_to_text,   FALSE },
   {'C', N_("Culture"),          get_culture,     culture_to_text,     TRUE }
 };
 
