@@ -2629,7 +2629,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 }
 
 /**********************************************************************//**
-  Package a short_unit_info packet.  This contains a limited amount of
+  Package a short_unit_info packet. This contains a limited amount of
   information about the unit, and is sent to players who shouldn't know
   everything (like the unit's owner's enemies).
 **************************************************************************/
@@ -2641,7 +2641,13 @@ void package_short_unit(struct unit *punit,
   packet->info_city_id = info_city_id;
 
   packet->id = punit->id;
-  packet->owner = player_number(unit_owner(punit));
+
+  if (unit_has_type_flag(punit, UTYF_FLAGLESS)) {
+    packet->owner = OWNER_NONE;
+  } else {
+    packet->owner = player_number(unit_owner(punit));
+  }
+
   packet->tile = tile_index(unit_tile(punit));
   packet->facing = punit->facing;
   packet->veteran = punit->veteran;
@@ -2655,15 +2661,15 @@ void package_short_unit(struct unit *punit,
     packet->activity = punit->activity;
   }
 
-  if (punit->activity_target == NULL) {
+  if (punit->activity_target == nullptr) {
     packet->activity_tgt = EXTRA_NONE;
   } else {
     packet->activity_tgt = extra_index(punit->activity_target);
   }
 
   /* Transported_by information is sent to the client even for units that
-   * aren't fully known.  Note that for non-allied players, any transported
-   * unit can't be seen at all.  For allied players we have to know if
+   * aren't fully known. Note that for non-allied players, any transported
+   * unit can't be seen at all. For allied players we have to know if
    * transporters have room in them so that we can load units properly. */
   if (!unit_transported(punit)) {
     packet->transported = FALSE;

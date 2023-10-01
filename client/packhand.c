@@ -364,11 +364,7 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   struct player *owner;
 
   if (packet->owner == OWNER_NONE) {
-    /* Silently ignore for now. */
-    return nullptr;
-/*
     owner = nullptr;
-*/
   } else {
     owner = player_by_number(packet->owner);
   }
