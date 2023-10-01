@@ -39,7 +39,6 @@
 #include "fc_cmdhelp.h"
 #include "fc_interface.h"
 #include "fc_types.h" /* LINE_BREAK */
-#include "game.h"
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
@@ -354,12 +353,12 @@ static bool manual_command(struct tag_types *tag_info)
   }
 
   if (!manual_settings(tag_info)
-      || !manual_commands(tag_info)) {
+      || !manual_commands(tag_info)
+      || !manual_terrain(tag_info)) {
     return FALSE;
   }
 
-  for (manuals = MANUAL_TERRAIN; manuals < MANUAL_COUNT; manuals++) {
-    int ri;
+  for (manuals = MANUAL_BUILDINGS; manuals < MANUAL_COUNT; manuals++) {
     char mnamebuf[20];
     FILE *doc;
 
@@ -372,133 +371,9 @@ static bool manual_command(struct tag_types *tag_info)
     switch (manuals) {
     case MANUAL_SETTINGS:
     case MANUAL_COMMANDS:
+    case MANUAL_TERRAIN:
       /* Should be handled in separate functions */
       fc_assert(FALSE);
-      break;
-
-    case MANUAL_TERRAIN:
-      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-      fprintf(doc, _("%sFreeciv %s terrain help (%s)%s\n\n"), tag_info->title_begin,
-              VERSION_STRING, game.control.name, tag_info->title_end);
-      fprintf(doc, "<table><tr bgcolor=#9bc3d1><th>%s</th>", _("Terrain"));
-      fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
-      fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
-      fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
-              _("Irrigation"), _("Cultivate"), _("Mining"), _("Plant"), _("Transform"),
-              /* xgettext:no-c-format */
-              _("% of Road bonus"), _("turns"));
-      ri = 0;
-      if (game.control.num_road_types > 0) {
-        fprintf(doc, "<th>");
-      }
-      extra_type_by_cause_iterate(EC_ROAD, pextra) {
-        if (++ri < game.control.num_road_types) {
-          fprintf(doc, "%s<br/>", extra_name_translation(pextra));
-        } else {
-          /* Last one */
-          fprintf(doc, "%s</th>", extra_name_translation(pextra));
-        }
-      } extra_type_by_cause_iterate_end;
-      fprintf(doc, "</tr>\n\n");
-      terrain_type_iterate(pterrain) {
-        struct extra_type **r;
-        struct universal for_terr
-            = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
-
-        if (0 == strlen(terrain_rule_name(pterrain))) {
-          /* Must be a disabled piece of terrain */
-          continue;
-        }
-
-        fprintf(doc, "<tr><td>%s%s%s%s</td>",
-                tag_info->image_begin, pterrain->graphic_str,
-                tag_info->image_end,
-                terrain_name_translation(pterrain));
-        fprintf(doc, "<td>%d/%d/%d</td>\n",
-                pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
-                pterrain->output[O_TRADE]);
-
-        /* TODO: include resource frequency information */
-        fprintf(doc, "<td><table width=\"100%%\">\n");
-        for (r = pterrain->resources; *r; r++) {
-          fprintf(doc, "<tr><td>%s%s%s</td><td>%s</td>"
-                  "<td align=\"right\">%d/%d/%d</td></tr>\n",
-                  tag_info->image_begin, (*r)->graphic_str, tag_info->image_end,
-                  extra_name_translation(*r),
-                  (*r)->data.resource->output[O_FOOD],
-                  (*r)->data.resource->output[O_SHIELD],
-                  (*r)->data.resource->output[O_TRADE]);
-        }
-        fprintf(doc, "</table></td>\n");
-
-        fprintf(doc, "<td align=\"center\">%d<br/>+%d%%</td>\n",
-                pterrain->movement_cost, pterrain->defense_bonus);
-
-        fprintf(doc, "<td><table width=\"100%%\">\n");
-        if (action_id_univs_not_blocking(ACTION_IRRIGATE,
-                                         NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>+%d F</td><td align=\"right\">(%d)</td></tr>\n",
-                  pterrain->irrigation_food_incr, pterrain->irrigation_time);
-        } else {
-          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
-        }
-        if (pterrain->cultivate_result != NULL
-            && action_id_univs_not_blocking(ACTION_CULTIVATE,
-                                            NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->cultivate_result),
-                  pterrain->cultivate_time);
-        } else {
-          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
-        }
-        if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>+%d P</td><td align=\"right\">(%d)</td></tr>\n",
-                  pterrain->mining_shield_incr, pterrain->mining_time);
-        } else {
-          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
-        }
-        if (pterrain->plant_result != NULL
-            && action_id_univs_not_blocking(ACTION_PLANT,
-                                            NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->plant_result),
-                  pterrain->plant_time);
-        } else {
-          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
-        }
-
-        if (pterrain->transform_result
-            && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
-                                            NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->transform_result),
-                  pterrain->transform_time);
-        } else {
-          fprintf(doc, "<tr><td>-</td><td align=\"right\">(-)</td></tr>\n");
-        }
-        fprintf(doc, "<tr><td>%d / %d / %d</td></tr>\n</table></td>\n",
-                pterrain->road_output_incr_pct[O_FOOD],
-                pterrain->road_output_incr_pct[O_SHIELD],
-                pterrain->road_output_incr_pct[O_TRADE]);
-
-        ri = 0;
-        if (game.control.num_road_types > 0) {
-          fprintf(doc, "<td>");
-        }
-        extra_type_by_cause_iterate(EC_ROAD, pextra) {
-          if (++ri < game.control.num_road_types) {
-            fprintf(doc, "%d / ", terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD,
-                                                           pextra));
-          } else {
-            fprintf(doc, "%d</td>", terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD,
-                                                             pextra));
-          }
-        } extra_type_by_cause_iterate_end;
-        fprintf(doc, "</tr>\n\n");
-      } terrain_type_iterate_end;
-
-      fprintf(doc, "</table>\n");
-
       break;
 
     case MANUAL_BUILDINGS:
