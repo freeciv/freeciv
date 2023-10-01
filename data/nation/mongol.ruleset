@@ -2,10 +2,10 @@
 
 translation_domain = "freeciv-core"
 
-name=_("Mongol")
-plural=_("?plural:Mongols")
-groups="Medieval", "Early Modern", "Modern", "Asian", "Core"
-legend=_("In the centuries after their unification by Chinggis Khan, the\
+name   = _("Mongol")
+plural = _("?plural:Mongols")
+groups = "Medieval", "Early Modern", "Modern", "Asian", "Core"
+legend = _("In the centuries after their unification by Chinggis Khan, the\
  Mongols conquered the largest empire in human history, encompassing most\
  of the continent of Asia. They became notorious for their utter\
  ruthlessness in warfare.")
@@ -34,18 +34,18 @@ ruler_titles = {
  "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
 }
 
-flag="mongolia"
+flag = "mongolia"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Tibetan", "Tuvan", "Kalmyk", "Timurid", "Uyghur", "Tatar",
+civilwar_nations = "Tibetan", "Tuvan", "Kalmyk", "Timurid", "Uyghur", "Tatar",
  "Crimean Tatar", "Buryat", "Golden Horde"
 
-cities=
+cities =
  "Karakorum", ; Каракорум
  "Ulaanbaatar", ; Улаанбаатар
  "Sainshand", ; Сайншанд
