@@ -451,16 +451,18 @@ void player_loot_player(struct player *pvictor, struct player *pvictim)
     }
   }
 
-  { /* Try to submit some cities */
+  {
+    /* Try to submit some cities */
     int vcsize = city_list_size(pvictim->cities);
     int evcsize = vcsize;
-    int conqsize = evcsize;
+    int conqsize;
 
     if (evcsize < 3) {
       evcsize = 0;
     } else {
       evcsize -=3;
     }
+
     /* About a quarter on average with high numbers less probable */
     conqsize = fc_rand(fc_rand(evcsize));
 
