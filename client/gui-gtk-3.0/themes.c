@@ -45,8 +45,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 
   if (fc_css_provider == NULL) {
     fc_css_provider = gtk_css_provider_new();
-    gtk_style_context_add_provider_for_screen(
-        gtk_widget_get_screen(toplevel),
+    gtk_style_context_add_provider(gtk_widget_get_style_context(toplevel),
         GTK_STYLE_PROVIDER(fc_css_provider),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   }
