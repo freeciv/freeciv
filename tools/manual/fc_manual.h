@@ -22,18 +22,8 @@ extern "C" {
 /* utility */
 #include "support.h"
 
-
-enum manuals {
-  MANUAL_SETTINGS,
-  MANUAL_COMMANDS,
-  MANUAL_TERRAIN,
-  MANUAL_BUILDINGS,
-  MANUAL_WONDERS,
-  MANUAL_GOVS,
-  MANUAL_UNITS,
-  MANUAL_TECHS,
-  MANUAL_COUNT
-};
+/* gen_headers/enums */
+#include "manual_enums_gen.h"
 
 struct tag_types {
   const char *file_ext;
