@@ -1124,7 +1124,7 @@ void real_menus_update(void)
 
       pextra = next_extra_for_tile(ptile, EC_ROAD, unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, pextra)) {
+          && can_unit_do_activity_targeted_client(punit, ACTIVITY_GEN_ROAD, pextra)) {
         struct road_type *proad = extra_road_get(pextra);
         enum road_compat compat = road_compat_special(proad);
 
@@ -1179,8 +1179,8 @@ void real_menus_update(void)
 
       pextra = next_extra_for_tile(ptile, EC_IRRIGATION,
                                    unit_owner(punit), punit);
-      if (pextra != NULL &&
-          can_unit_do_activity_targeted(punit, ACTIVITY_IRRIGATE, pextra)) {
+      if (pextra != NULL
+          && can_unit_do_activity_targeted_client(punit, ACTIVITY_IRRIGATE, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_IRRIGATE,
                                       pextra, punit);
         /* TRANS: "Build Irrigation (I) 5 turns" */
@@ -1198,7 +1198,7 @@ void real_menus_update(void)
       pextra = next_extra_for_tile(ptile, EC_MINE,
                                    unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(punit, ACTIVITY_MINE, pextra)) {
+          && can_unit_do_activity_targeted_client(punit, ACTIVITY_MINE, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_MINE, pextra, punit);
         /* TRANS: "Build Mine (M) 5 turns" */
         fc_snprintf(cbuf, sizeof(cbuf), _("Build %s (%s) %d %s"),
@@ -1212,7 +1212,7 @@ void real_menus_update(void)
         set_wflag(order_mine_button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(punit, ACTIVITY_CULTIVATE)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_CULTIVATE)) {
         /* Activity always results in terrain change */
         time = turns_to_activity_done(ptile, ACTIVITY_CULTIVATE, NULL, punit);
         fc_snprintf(cbuf, sizeof(cbuf), "%s %s (%s) %d %s",
@@ -1225,7 +1225,7 @@ void real_menus_update(void)
         set_wflag(order_cultivate_button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(punit, ACTIVITY_PLANT)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_PLANT)) {
         /* Activity always results in terrain change */
         time = turns_to_activity_done(ptile, ACTIVITY_PLANT, NULL, punit);
         fc_snprintf(cbuf, sizeof(cbuf), "%s %s (%s) %d %s",
@@ -1238,7 +1238,7 @@ void real_menus_update(void)
         set_wflag(order_plant_button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(punit, ACTIVITY_TRANSFORM)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_TRANSFORM)) {
         /* Activity always results in terrain change */
         time = turns_to_activity_done(ptile, ACTIVITY_TRANSFORM, NULL, punit);
         fc_snprintf(cbuf, sizeof(cbuf), "%s %s (%s) %d %s",
@@ -1266,7 +1266,7 @@ void real_menus_update(void)
         set_wflag(order_fortress_button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_FORTIFYING)) {
         local_show(ID_UNIT_ORDER_FORTIFY);
       } else {
         local_hide(ID_UNIT_ORDER_FORTIFY);
@@ -1290,7 +1290,7 @@ void real_menus_update(void)
       pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
                                   unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION, pextra)) {
+          && can_unit_do_activity_targeted_client(punit, ACTIVITY_POLLUTION, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_POLLUTION, pextra,
                                       punit);
         /* TRANS: "Clean Pollution (P) 3 turns" */
@@ -1312,7 +1312,7 @@ void real_menus_update(void)
       pextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
                                   unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(punit, ACTIVITY_FALLOUT, pextra)) {
+          && can_unit_do_activity_targeted_client(punit, ACTIVITY_FALLOUT, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_FALLOUT, pextra,
                                       punit);
         /* TRANS: "Clean Fallout (N) 3 turns" */
@@ -1325,13 +1325,13 @@ void real_menus_update(void)
         set_wflag(order_fallout_button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_SENTRY)) {
         local_show(ID_UNIT_ORDER_SENTRY);
       } else {
         local_hide(ID_UNIT_ORDER_SENTRY);
       }
 
-      if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_PILLAGE)) {
         local_show(ID_UNIT_ORDER_PILLAGE);
       } else {
         local_hide(ID_UNIT_ORDER_PILLAGE);
@@ -1374,7 +1374,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_AUTO_SETTLER);
       }
 
-      if (can_unit_do_activity(punit, ACTIVITY_EXPLORE)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_EXPLORE)) {
         local_show(ID_UNIT_ORDER_AUTO_EXPLORE);
       } else {
         local_hide(ID_UNIT_ORDER_AUTO_EXPLORE);

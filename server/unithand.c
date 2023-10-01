@@ -5871,6 +5871,7 @@ void handle_unit_sscs_set(struct player *pplayer,
                           int value)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  const struct civ_map *nmap = &(wld.map);
 
   if (NULL == punit) {
     /* Being asked to unqueue a "spent" unit because the client haven't
@@ -5936,7 +5937,7 @@ void handle_unit_sscs_set(struct player *pplayer,
         fc_assert(FALSE);
       }
     } else if (value == 1) {
-      if (!can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+      if (!can_unit_do_activity(nmap, punit, ACTIVITY_SENTRY)) {
         return;
       }
 
@@ -6024,6 +6025,8 @@ bool unit_server_side_agent_set(struct player *pplayer,
                                 struct unit *punit,
                                 enum server_side_agent agent)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Check that the agent can be activated for this unit. */
   switch (agent) {
   case SSA_AUTOSETTLER:
@@ -6032,7 +6035,7 @@ bool unit_server_side_agent_set(struct player *pplayer,
     }
     break;
   case SSA_AUTOEXPLORE:
-    if (!can_unit_do_activity(punit, ACTIVITY_EXPLORE)) {
+    if (!can_unit_do_activity(nmap, punit, ACTIVITY_EXPLORE)) {
       return FALSE;
     }
     break;
@@ -6121,6 +6124,8 @@ static bool do_action_activity(struct unit *punit,
 bool unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Must specify target for ACTIVITY_BASE */
   fc_assert_ret_val(new_activity != ACTIVITY_BASE
                     && new_activity != ACTIVITY_GEN_ROAD, FALSE);
@@ -6130,7 +6135,7 @@ bool unit_activity_handling(struct unit *punit,
 
     /* Assume untargeted pillaging if no target specified */
     unit_activity_handling_targeted(punit, new_activity, &target);
-  } else if (can_unit_do_activity(punit, new_activity)) {
+  } else if (can_unit_do_activity(nmap, punit, new_activity)) {
     free_unit_orders(punit);
     unit_activity_internal(punit, new_activity);
   }
@@ -6147,7 +6152,7 @@ bool unit_activity_handling(struct unit *punit,
 static bool unit_activity_internal(struct unit *punit,
                                    enum unit_activity new_activity)
 {
-  if (!can_unit_do_activity(punit, new_activity)) {
+  if (!can_unit_do_activity(&(wld.map), punit, new_activity)) {
     return FALSE;
   } else {
     enum unit_activity old_activity = punit->activity;
@@ -6189,7 +6194,8 @@ bool unit_activity_handling_targeted(struct unit *punit,
 {
   if (!activity_requires_target(new_activity)) {
     unit_activity_handling(punit, new_activity);
-  } else if (can_unit_do_activity_targeted(punit, new_activity, *new_target)) {
+  } else if (can_unit_do_activity_targeted(&(wld.map), punit,
+                                           new_activity, *new_target)) {
     free_unit_orders(punit);
     unit_activity_targeted_internal(punit, new_activity, new_target);
   }
@@ -6207,7 +6213,8 @@ static bool unit_activity_targeted_internal(struct unit *punit,
                                             enum unit_activity new_activity,
                                             struct extra_type **new_target)
 {
-  if (!can_unit_do_activity_targeted(punit, new_activity, *new_target)) {
+  if (!can_unit_do_activity_targeted(&(wld.map), punit,
+                                     new_activity, *new_target)) {
     return FALSE;
   } else {
     enum unit_activity old_activity = punit->activity;

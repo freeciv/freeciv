@@ -2539,7 +2539,7 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEventButton *ev,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     if (punit->activity == ACTIVITY_SENTRY
-	|| !can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+	|| !can_unit_do_activity_client(punit, ACTIVITY_SENTRY)) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 
@@ -2550,7 +2550,7 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEventButton *ev,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     if (punit->activity == ACTIVITY_FORTIFYING
-	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+	|| !can_unit_do_activity_client(punit, ACTIVITY_FORTIFYING)) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 

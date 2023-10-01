@@ -1001,35 +1001,35 @@ int unit_actions::update_actions()
   }
 
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_MINE)) {
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_MINE)) {
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDMINE;
     a->set_pixmap(fc_icons::instance()->get_pixmap("mine"));
     actions.append(a);
   }
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_PLANT)) {
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_PLANT)) {
     a = new hud_action(this);
     a->action_shortcut = SC_PLANT;
     a->set_pixmap(fc_icons::instance()->get_pixmap("plantforest"));
     actions.append(a);
   }
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_IRRIGATE)) {
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_IRRIGATE)) {
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDIRRIGATION;
     a->set_pixmap(fc_icons::instance()->get_pixmap("irrigation"));
     actions.append(a);
   }
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_CULTIVATE)) {
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_CULTIVATE)) {
     a = new hud_action(this);
     a->action_shortcut = SC_CULTIVATE;
     a->set_pixmap(fc_icons::instance()->get_pixmap("chopchop"));
     actions.append(a);
   }
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_TRANSFORM)) {
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_TRANSFORM)) {
     a = new hud_action(this);
     a->action_shortcut = SC_TRANSFORM;
     a->set_pixmap(fc_icons::instance()->get_pixmap("transform"));
@@ -1059,7 +1059,7 @@ int unit_actions::update_actions()
   actions.append(a);
 
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_FORTIFYING)) {
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_FORTIFYING)) {
     a = new hud_action(this);
     a->action_shortcut = SC_FORTIFY;
     a->set_pixmap(fc_icons::instance()->get_pixmap("fortify"));
@@ -1067,7 +1067,7 @@ int unit_actions::update_actions()
   }
 
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_SENTRY)) {
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_SENTRY)) {
     a = new hud_action(this);
     a->action_shortcut = SC_SENTRY;
     a->set_pixmap(fc_icons::instance()->get_pixmap("sentry"));
@@ -1117,8 +1117,8 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Clean pollution */
-  if (can_unit_do_activity(current_unit, ACTIVITY_POLLUTION)) {
+  // Clean pollution
+  if (can_unit_do_activity_client(current_unit, ACTIVITY_POLLUTION)) {
     a = new hud_action(this);
     a->action_shortcut = SC_PARADROP;
     a->set_pixmap(fc_icons::instance()->get_pixmap("pollution"));

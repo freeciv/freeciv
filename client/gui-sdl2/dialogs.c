@@ -1581,7 +1581,7 @@ static int adv_unit_sentry_idle_callback(struct widget *pwidget)
         if (unit_owner(other_unit) == client.conn.playing
             && ACTIVITY_IDLE == other_unit->activity
             && other_unit->ssa_controller == SSA_NONE
-            && can_unit_do_activity(other_unit, ACTIVITY_SENTRY)) {
+            && can_unit_do_activity_client(other_unit, ACTIVITY_SENTRY)) {
           request_new_unit_activity(other_unit, ACTIVITY_SENTRY);
         }
       } unit_list_iterate_end;

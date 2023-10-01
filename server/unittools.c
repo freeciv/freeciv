@@ -1127,22 +1127,24 @@ void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
                                           struct extra_type **target)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (*activity == ACTIVITY_PILLAGE
       && *target == NULL) {
     struct tile *ptile = unit_tile(punit);
     struct extra_type *tgt;
-
     bv_extras extras = *tile_extras(ptile);
 
     while ((tgt = get_preferred_pillage(extras))) {
 
       BV_CLR(extras, extra_index(tgt));
 
-      if (can_unit_do_activity_targeted(punit, *activity, tgt)) {
+      if (can_unit_do_activity_targeted(nmap, punit, *activity, tgt)) {
         *target = tgt;
         return;
       }
     }
+
     /* Nothing we can pillage here. */
     *activity = ACTIVITY_IDLE;
   }
@@ -1205,6 +1207,7 @@ void place_partisans(struct tile *pcenter, struct player *powner,
 {
   struct tile *ptile = NULL;
   struct unit_type *u_type = get_role_unit(L_PARTISAN, 0);
+  const struct civ_map *nmap = &(wld.map);
 
   while (count-- > 0
          && find_a_good_partisan_spot(pcenter, powner, u_type,
@@ -1212,9 +1215,10 @@ void place_partisans(struct tile *pcenter, struct player *powner,
     struct unit *punit;
 
     punit = unit_virtual_prepare(powner, ptile, u_type, 0, 0, -1, -1);
-    if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
-      punit->activity = ACTIVITY_FORTIFIED; /* yes; directly fortified */
+    if (can_unit_do_activity(nmap, punit, ACTIVITY_FORTIFYING)) {
+      punit->activity = ACTIVITY_FORTIFIED; /* Yes; directly fortified */
     }
+
     (void) place_unit(punit, powner, NULL, NULL, FALSE);
   }
 }
@@ -4380,6 +4384,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(unit_has_orders(punit), TRUE);
 
@@ -4491,7 +4496,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
         fc_assert(activity == ACTIVITY_SENTRY);
 
-        if (can_unit_do_activity(punit, activity)) {
+        if (can_unit_do_activity(nmap, punit, activity)) {
           punit->done_moving = TRUE;
           set_unit_activity(punit, activity);
           send_unit_info(NULL, punit);

@@ -37,6 +37,15 @@ enum quickselect_type {
   SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND, SELECT_APPEND,  SELECT_FOCUS
 };
 
+#define can_unit_do_activity_client(_punit_, _act_) \
+  can_unit_do_activity(&(wld.map), _punit_, _act_)
+#define can_unit_do_activity_targeted_client(_punit_, _act_, _tgt_) \
+  can_unit_do_activity_targeted(&(wld.map), _punit_, _act_, _tgt_)
+#define can_units_do_activity_client(_punits_, _act_) \
+  can_units_do_activity(&(wld.map), _punits_, _act_)
+#define can_units_do_activity_targeted_client(_punits_, _act_, _tgt_) \
+  can_units_do_activity_targeted(&(wld.map), _punits_, _act_, _tgt_)
+
 void control_init(void);
 void control_free(void);
 void control_unit_killed(struct unit *punit);

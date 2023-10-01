@@ -846,7 +846,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
   punit->activity = ACTIVITY_IDLE;
   punit->activity_target = NULL;
 
-  result = can_unit_do_activity_targeted(punit, current2, target);
+  result = can_unit_do_activity_targeted(&(wld.map), punit, current2, target);
 
   punit->activity = current;
   punit->activity_target = target;
@@ -859,14 +859,15 @@ bool can_unit_continue_current_activity(struct unit *punit)
   current location.
 
   Note that some activities must be targeted; see
-  can_unit_do_activity_targeted.
+  can_unit_do_activity_targeted().
 **************************************************************************/
-bool can_unit_do_activity(const struct unit *punit,
+bool can_unit_do_activity(const struct civ_map *nmap,
+                          const struct unit *punit,
                           enum unit_activity activity)
 {
   struct extra_type *target = NULL;
 
-  /* FIXME: lots of callers (usually client real_menus_update()) rely on
+  /* FIXME: Lots of callers (usually client real_menus_update()) rely on
    * being able to find out whether an activity is in general possible.
    * Find one for them, but when they come to do the activity, they will
    * have to determine the target themselves */
@@ -892,18 +893,19 @@ bool can_unit_do_activity(const struct unit *punit,
     }
   }
 
-  return can_unit_do_activity_targeted(punit, activity, target);
+  return can_unit_do_activity_targeted(nmap, punit, activity, target);
 }
 
 /**********************************************************************//**
   Return whether the unit can do the targeted activity at its current
   location.
 **************************************************************************/
-bool can_unit_do_activity_targeted(const struct unit *punit,
-				   enum unit_activity activity,
+bool can_unit_do_activity_targeted(const struct civ_map *nmap,
+                                   const struct unit *punit,
+                                   enum unit_activity activity,
                                    struct extra_type *target)
 {
-  return can_unit_do_activity_targeted_at(punit, activity, target,
+  return can_unit_do_activity_targeted_at(nmap, punit, activity, target,
 					  unit_tile(punit));
 }
 
@@ -911,7 +913,8 @@ bool can_unit_do_activity_targeted(const struct unit *punit,
   Return TRUE if the unit can do the targeted activity at the given
   location.
 **************************************************************************/
-bool can_unit_do_activity_targeted_at(const struct unit *punit,
+bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
+                                      const struct unit *punit,
                                       enum unit_activity activity,
                                       struct extra_type *target,
                                       const struct tile *ptile)
@@ -1027,7 +1030,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                           punit, ptile, target);
 
   case ACTIVITY_SENTRY:
-    if (!can_unit_survive_at_tile(&(wld.map), punit, unit_tile(punit))
+    if (!can_unit_survive_at_tile(nmap, punit, unit_tile(punit))
         && !unit_transported(punit)) {
       /* Don't let units sentry on tiles they will die on. */
       return FALSE;
@@ -1068,6 +1071,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   log_error("can_unit_do_activity_targeted_at() unknown activity %d",
             activity);
   return FALSE;
+
 #undef RETURN_IS_ACTIVITY_ENABLED_UNIT_ON
 }
 
@@ -1920,7 +1924,8 @@ static bool can_type_transport_units_cargo(const struct unit_type *utype,
   Tests if something prevents punit from being transformed to to_unittype
   where it is now, presuming its current position is valid.
 
-  FIXME: the transport stack may still fail unit_transport_check in result
+  FIXME: The transport stack may still fail unit_transport_check()
+  in result.
 **************************************************************************/
 enum unit_upgrade_result
 unit_transform_result(const struct unit *punit,
@@ -1941,6 +1946,7 @@ unit_transform_result(const struct unit *punit,
     /* The new unit type can't survive on this terrain. */
     return UU_NOT_TERRAIN;
   }
+
   return UU_OK;
 }
 

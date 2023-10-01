@@ -2551,8 +2551,8 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                      GINT_TO_POINTER(punit->id));
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 punit->activity != ACTIVITY_SENTRY
-                                && can_unit_do_activity(punit,
-                                                        ACTIVITY_SENTRY));
+                                && can_unit_do_activity_client(punit,
+                                                               ACTIVITY_SENTRY));
     menu_item_append_unref(menu, g_menu_item_new(_("_Sentry unit"),
                                                  "win.sentry"));
 
@@ -2563,8 +2563,8 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                      GINT_TO_POINTER(punit->id));
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 punit->activity != ACTIVITY_FORTIFYING
-                                && can_unit_do_activity(punit,
-                                                        ACTIVITY_FORTIFYING));
+                                && can_unit_do_activity_client(punit,
+                                                               ACTIVITY_FORTIFYING));
     menu_item_append_unref(menu, g_menu_item_new(_("_Fortify unit"),
                                                  "win.fortify"));
   }
