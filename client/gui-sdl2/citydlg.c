@@ -475,7 +475,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
       buf->data = button->data;
       buf->action = sentry_units_orders_city_dlg_callback;
       if (punit->activity != ACTIVITY_SENTRY
-          && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+          && can_unit_do_activity_client(punit, ACTIVITY_SENTRY)) {
         set_wstate(buf, FC_WS_NORMAL);
       }
       add_to_gui_list(button->id, buf);
@@ -491,7 +491,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
       buf->data = button->data;
       buf->action = fortify_units_orders_city_dlg_callback;
       if (punit->activity != ACTIVITY_FORTIFYING
-          && can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+          && can_unit_do_activity_client(punit, ACTIVITY_FORTIFYING)) {
         set_wstate(buf, FC_WS_NORMAL);
       }
       add_to_gui_list(button->id, buf);

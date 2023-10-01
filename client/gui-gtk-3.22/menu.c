@@ -1794,7 +1794,7 @@ static void build_road_callback(GtkMenuItem *action, gpointer data)
     bool building_road = FALSE;
 
     if (tgt != NULL
-        && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
+        && can_unit_do_activity_targeted_client(punit, ACTIVITY_GEN_ROAD, tgt)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
       building_road = TRUE;
     }
@@ -2024,7 +2024,7 @@ static void clean_callback(GtkMenuItem *item, gpointer data)
   struct extra_type *pextra = data;
 
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, pextra)) {
+    if (can_unit_do_activity_targeted_client(punit, ACTIVITY_CLEAN, pextra)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN,
                                          pextra);
     }
@@ -2480,9 +2480,9 @@ void real_menus_update(void)
       pextra = g_object_get_data(G_OBJECT(iter->data), "base");
       if (NULL != pextra) {
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
-                                 can_units_do_activity_targeted(punits,
-                                                                ACTIVITY_BASE,
-                                                                pextra));
+                                 can_units_do_activity_targeted_client(punits,
+                                                                       ACTIVITY_BASE,
+                                                                       pextra));
       }
     }
     g_list_free(list);
@@ -2498,9 +2498,9 @@ void real_menus_update(void)
       pextra = g_object_get_data(G_OBJECT(iter->data), "road");
       if (NULL != pextra) {
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
-                                 can_units_do_activity_targeted(punits,
-                                                                ACTIVITY_GEN_ROAD,
-                                                                pextra));
+                                 can_units_do_activity_targeted_client(punits,
+                                                                       ACTIVITY_GEN_ROAD,
+                                                                       pextra));
       }
     }
     g_list_free(list);
@@ -2516,9 +2516,9 @@ void real_menus_update(void)
       pextra = g_object_get_data(G_OBJECT(iter->data), "nuisance");
       if (NULL != pextra) {
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
-                                 can_units_do_activity_targeted(punits,
-                                                                ACTIVITY_CLEAN,
-                                                                pextra));
+                                 can_units_do_activity_targeted_client(punits,
+                                                                       ACTIVITY_CLEAN,
+                                                                       pextra));
       }
     }
     g_list_free(list);
@@ -2566,33 +2566,33 @@ void real_menus_update(void)
                             || can_units_do(punits,
                                             unit_can_est_trade_route_here)));
   menu_entry_set_sensitive("BUILD_IRRIGATION",
-                           can_units_do_activity(punits, ACTIVITY_IRRIGATE));
+                           can_units_do_activity_client(punits, ACTIVITY_IRRIGATE));
   menu_entry_set_sensitive("CULTIVATE",
-                           can_units_do_activity(punits, ACTIVITY_CULTIVATE));
+                           can_units_do_activity_client(punits, ACTIVITY_CULTIVATE));
   menu_entry_set_sensitive("BUILD_MINE",
-                           can_units_do_activity(punits, ACTIVITY_MINE));
+                           can_units_do_activity_client(punits, ACTIVITY_MINE));
   menu_entry_set_sensitive("PLANT",
-                           can_units_do_activity(punits, ACTIVITY_PLANT));
+                           can_units_do_activity_client(punits, ACTIVITY_PLANT));
   menu_entry_set_sensitive("TRANSFORM_TERRAIN",
-                           can_units_do_activity(punits, ACTIVITY_TRANSFORM));
+                           can_units_do_activity_client(punits, ACTIVITY_TRANSFORM));
   menu_entry_set_sensitive("FORTIFY",
-                           can_units_do_activity(punits,
-                                            ACTIVITY_FORTIFYING));
+                           can_units_do_activity_client(punits,
+                                                        ACTIVITY_FORTIFYING));
   menu_entry_set_sensitive("BUILD_FORTRESS",
                            can_units_do_base_gui(punits, BASE_GUI_FORTRESS));
   menu_entry_set_sensitive("BUILD_AIRBASE",
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
   menu_entry_set_sensitive("CLEAN",
-                           can_units_do_activity(punits, ACTIVITY_CLEAN));
+                           can_units_do_activity_client(punits, ACTIVITY_CLEAN));
   menu_entry_set_sensitive("UNIT_SENTRY",
-                           can_units_do_activity(punits, ACTIVITY_SENTRY));
+                           can_units_do_activity_client(punits, ACTIVITY_SENTRY));
   menu_entry_set_sensitive("DO_PARADROP",
                            can_units_do(punits, can_unit_paradrop));
   /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases
    * where selecting the command results in a dialog box listing options of
    * what to pillage */
   menu_entry_set_sensitive("DO_PILLAGE",
-                           can_units_do_activity(punits, ACTIVITY_PILLAGE));
+                           can_units_do_activity_client(punits, ACTIVITY_PILLAGE));
   menu_entry_set_sensitive("UNIT_DISBAND",
                            units_can_do_action(punits, ACTION_DISBAND_UNIT,
                                                TRUE));
@@ -2613,7 +2613,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("AUTO_WORKER",
                            can_units_do(punits, can_unit_do_autoworker));
   menu_entry_set_sensitive("UNIT_EXPLORE",
-                           can_units_do_activity(punits, ACTIVITY_EXPLORE));
+                           can_units_do_activity_client(punits, ACTIVITY_EXPLORE));
 
   proad = road_by_gui_type(ROAD_GUI_ROAD);
   if (proad != NULL) {

@@ -804,14 +804,14 @@ void unit_item::create_actions()
   connect(activate_and_close, &QAction::triggered, this,
           &unit_item::activate_and_close_dialog);
 
-  if (can_unit_do_activity(qunit, ACTIVITY_SENTRY)) {
+  if (can_unit_do_activity_client(qunit, ACTIVITY_SENTRY)) {
     sentry = new QAction(_("Sentry unit"), this);
     connect(sentry, &QAction::triggered, this, &unit_item::sentry_unit);
   } else {
     sentry = nullptr;
   }
 
-  if (can_unit_do_activity(qunit, ACTIVITY_FORTIFYING)) {
+  if (can_unit_do_activity_client(qunit, ACTIVITY_FORTIFYING)) {
     fortify = new QAction(_("Fortify unit"), this);
     connect(fortify, &QAction::triggered, this, &unit_item::fortify_unit);
   } else {

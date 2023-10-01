@@ -2308,7 +2308,7 @@ void request_unit_patrol(void)
 void request_unit_sentry(struct unit *punit)
 {
   if (punit->activity != ACTIVITY_SENTRY
-      && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+      && can_unit_do_activity_client(punit, ACTIVITY_SENTRY)) {
     request_new_unit_activity(punit, ACTIVITY_SENTRY);
   }
 }
@@ -2319,7 +2319,7 @@ void request_unit_sentry(struct unit *punit)
 void request_unit_fortify(struct unit *punit)
 {
   if (punit->activity != ACTIVITY_FORTIFYING
-      && can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+      && can_unit_do_activity_client(punit, ACTIVITY_FORTIFYING)) {
     request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
   }
 }
@@ -2338,8 +2338,8 @@ void request_unit_pillage(struct unit *punit)
 
     BV_CLR_ALL(pspossible);
     extra_type_iterate(potential) {
-      if (can_unit_do_activity_targeted(punit, ACTIVITY_PILLAGE,
-                                        potential)) {
+      if (can_unit_do_activity_targeted_client(punit, ACTIVITY_PILLAGE,
+                                               potential)) {
         BV_SET(pspossible, extra_index(potential));
         count++;
       }
@@ -2932,7 +2932,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     struct unit *punit = unit_list_get(ptile->units, 0);
 
     if (unit_owner(punit) == client.conn.playing) {
-      if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+      if (can_unit_do_activity_client(punit, ACTIVITY_IDLE)) {
         maybe_goto = gui_options.keyboardless_goto;
         if (qtype == SELECT_APPEND) {
           unit_focus_add(punit);
@@ -2947,8 +2947,8 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   } else if (unit_list_size(ptile->units) > 0) {
     /* The stack list is always popped up, even if it includes enemy units.
      * If the server doesn't want the player to know about them it shouldn't
-     * tell them!  The previous behavior would only pop up the stack if you
-     * owned a unit on the tile.  This gave cheating clients an advantage,
+     * tell them! The previous behavior would only pop up the stack if you
+     * owned a unit on the tile. This gave cheating clients an advantage,
      * and also showed you allied units if (and only if) you had a unit on
      * the tile (inconsistent). */
     unit_select_dialog_popup(ptile);
@@ -3542,7 +3542,7 @@ void key_unit_airbase(void)
 void key_unit_auto_explore(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_EXPLORE)) {
+    if (can_unit_do_activity_client(punit, ACTIVITY_EXPLORE)) {
       request_unit_ssa_set(punit, SSA_AUTOEXPLORE);
     }
   } unit_list_iterate_end;
@@ -3577,7 +3577,7 @@ void key_unit_convert(void)
 void key_unit_fortify(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
+    if (can_unit_do_activity_client(punit, ACTIVITY_FORTIFYING)) {
       request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
     }
   } unit_list_iterate_end;
@@ -3621,7 +3621,7 @@ static void key_unit_extra(enum unit_activity act, enum extra_cause cause)
                                                  unit_owner(punit),
                                                  punit);
 
-    if (can_unit_do_activity_targeted(punit, act, tgt)) {
+    if (can_unit_do_activity_targeted_client(punit, act, tgt)) {
       request_new_unit_activity_targeted(punit, act, tgt);
     }
   } unit_list_iterate_end;
@@ -3641,7 +3641,7 @@ void key_unit_irrigate(void)
 void key_unit_cultivate(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_CULTIVATE)) {
+    if (can_unit_do_activity_client(punit, ACTIVITY_CULTIVATE)) {
       request_new_unit_activity(punit, ACTIVITY_CULTIVATE);
     }
   } unit_list_iterate_end;
@@ -3661,7 +3661,7 @@ void key_unit_mine(void)
 void key_unit_plant(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_PLANT)) {
+    if (can_unit_do_activity_client(punit, ACTIVITY_PLANT)) {
       request_new_unit_activity(punit, ACTIVITY_PLANT);
     }
   } unit_list_iterate_end;
@@ -3673,7 +3673,7 @@ void key_unit_plant(void)
 void key_unit_pillage(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)) {
+    if (can_unit_do_activity_client(punit, ACTIVITY_PILLAGE)) {
       request_unit_pillage(punit);
     }
   } unit_list_iterate_end;
@@ -3691,7 +3691,7 @@ void key_unit_clean(void)
                                                 punit);
 
     if (tgt != NULL
-        && can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, tgt)) {
+        && can_unit_do_activity_targeted_client(punit, ACTIVITY_CLEAN, tgt)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN, tgt);
     }
   } unit_list_iterate_end;
@@ -3709,7 +3709,7 @@ void key_unit_road(void)
                                                  punit);
 
     if (tgt != NULL
-        && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
+        && can_unit_do_activity_targeted_client(punit, ACTIVITY_GEN_ROAD, tgt)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
     }
   } unit_list_iterate_end;
@@ -3721,7 +3721,7 @@ void key_unit_road(void)
 void key_unit_sentry(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+    if (can_unit_do_activity_client(punit, ACTIVITY_SENTRY)) {
       request_new_unit_activity(punit, ACTIVITY_SENTRY);
     }
   } unit_list_iterate_end;
@@ -3733,7 +3733,7 @@ void key_unit_sentry(void)
 void key_unit_transform(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_TRANSFORM)) {
+    if (can_unit_do_activity_client(punit, ACTIVITY_TRANSFORM)) {
       request_new_unit_activity(punit, ACTIVITY_TRANSFORM);
     }
   } unit_list_iterate_end;
