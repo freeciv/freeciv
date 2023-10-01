@@ -182,6 +182,12 @@ min-win-ver (string):
   Minimum Windows version the build should support. Versions listed on
   https://learn.microsoft.com/en-us/cpp/porting/modifying-winver-and-win32-winnt?view=msvc-170
 
+localeprefix (string):
+  If non-empty, will be used instead of default prefix when constructing locale path.
+  Default prefix is the regular prefix on most systems,
+  but current directory ('.') in Windows.
+  Unlike regular prefix, this can also be a relative path.
+
 
 Project definition file
 -----------------------

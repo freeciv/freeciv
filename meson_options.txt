@@ -98,3 +98,8 @@ option('svgflags',
        type: 'boolean',
        value: false,
        description: 'svg flags features enabled on build level')
+
+option('localeprefix',
+       type: 'string',
+       value: '',
+       description: 'Localedir prefix to use instead of regular prefix')
