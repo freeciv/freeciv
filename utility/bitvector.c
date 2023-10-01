@@ -199,6 +199,24 @@ bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2)
 }
 
 /***************************************************************************
+  Is content of static bitvector same as that of dynamic one.
+  Comparison size is taken from the dynamic one.
+***************************************************************************/
+bool bv_match_dbv(const struct dbv *match, const unsigned char *src)
+{
+  size_t bytes = _BV_BYTES(match->bits);
+  int i;
+
+  for (i = 0; i < bytes; i++) {
+    if (match->vec[i] != src[i]) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/***************************************************************************
   Copy dynamic bit vector content from another.
 ***************************************************************************/
 void dbv_copy(struct dbv *dest, const struct dbv *src)
