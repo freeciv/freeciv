@@ -1347,6 +1347,30 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           }
         }
         break;
+      case VUT_PLAYER_FLAG:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "need to have %s first. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        plr_flag_id_translated_name(
+                          preq->source.value.plr_flag));
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_player_flag");
+        } else {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "need to not have %s. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        plr_flag_id_translated_name(
+                          preq->source.value.plr_flag));
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "have_player_flag");
+        }
       case VUT_GOVERNMENT:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

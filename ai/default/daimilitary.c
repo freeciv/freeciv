@@ -445,6 +445,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_ACHIEVEMENT:
   case VUT_IMPR_GENUS:
   case VUT_IMPR_FLAG:
+  case VUT_PLAYER_FLAG:
   case VUT_MINCULTURE:
   case VUT_MINTECHS:
   case VUT_ORIGINAL_OWNER:

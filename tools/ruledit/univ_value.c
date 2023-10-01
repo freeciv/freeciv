@@ -227,6 +227,8 @@ bool universal_value_initial(struct universal *src)
   case VUT_IMPR_FLAG:
     src->value.impr_flag = IF_VISIBLE_BY_OTHERS;
     return TRUE;
+  case VUT_PLAYER_FLAG:
+    src->value.plr_flag = PLRF_AI;
   case VUT_ACTION:
     src->value.action = action_by_number(0);
     return TRUE;
@@ -458,6 +460,11 @@ void universal_kind_values(struct universal *univ,
   case VUT_IMPR_FLAG:
     for (i = 0; i < IF_COUNT; i++) {
       cb(impr_flag_id_name(i), univ->value.impr_flag == i, data);
+    }
+    break;
+  case VUT_PLAYER_FLAG:
+    for (i = 0; i < PLRF_COUNT; i++) {
+      cb(plr_flag_id_name(i), univ->value.plr_flag == i, data);
     }
     break;
   case VUT_ACTION:

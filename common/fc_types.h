@@ -664,6 +664,18 @@ const char *ai_level_name_update_cb(const char *old);
 #define IF_LAST_USER_FLAG IF_USER_FLAG_8
 #define MAX_NUM_USER_BUILDING_FLAGS (IF_LAST_USER_FLAG - IF_USER_FLAG_1 + 1)
 
+#define SPECENUM_NAME plr_flag_id
+#define SPECENUM_VALUE0 PLRF_AI
+#define SPECENUM_VALUE0NAME "ai"
+#define SPECENUM_VALUE1 PLRF_SCENARIO_RESERVED
+#define SPECENUM_VALUE1NAME "ScenarioReserved"
+/* TRUE if player has ever had a city. */
+#define SPECENUM_VALUE2 PLRF_FIRST_CITY
+#define SPECENUM_VALUE2NAME "FirstCity"
+#define SPECENUM_COUNT  PLRF_COUNT
+#define SPECENUM_BITVECTOR bv_plr_flags
+#include "specenum_gen.h"
+
 /* A server setting + its value. */
 typedef int ssetv;
 
@@ -724,6 +736,7 @@ typedef union {
   enum unit_activity activity;
   enum impr_genus_id impr_genus;
   enum impr_flag_id impr_flag;
+  enum plr_flag_id plr_flag;
   int minmoves;
   int max_tile_units;
   int minveteran;
@@ -855,6 +868,8 @@ typedef union {
 #define SPECENUM_VALUE53NAME "BuildingFlag"
 #define SPECENUM_VALUE54 VUT_WRAP
 #define SPECENUM_VALUE54NAME "Wrap"
+#define SPECENUM_VALUE55 VUT_PLAYER_FLAG
+#define SPECENUM_VALUE55NAME "PlayerFlag"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT

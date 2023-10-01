@@ -371,6 +371,26 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_PLAYER_FLAG:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, _("Applies to players with \"%s\" flag."),
+                     plr_flag_id_translated_name(
+                       preq->source.value.plr_flag));
+      } else {
+        cat_snprintf(buf, bufsz, _("Doesn't apply to players with \"%s\" flag."),
+                     plr_flag_id_translated_name(
+                       preq->source.value.plr_flag));
+      }
+      return TRUE;
+    default:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_IMPROVEMENT:
     switch (preq->range) {
     case REQ_RANGE_WORLD:

@@ -57,18 +57,6 @@ enum plrcolor_mode {
   PLRCOL_NATION_ORDER
 };
 
-#define SPECENUM_NAME plr_flag_id
-#define SPECENUM_VALUE0 PLRF_AI
-#define SPECENUM_VALUE0NAME "ai"
-#define SPECENUM_VALUE1 PLRF_SCENARIO_RESERVED
-#define SPECENUM_VALUE1NAME "ScenarioReserved"
-/* TRUE if player has ever had a city. */
-#define SPECENUM_VALUE2 PLRF_FIRST_CITY
-#define SPECENUM_VALUE2NAME "FirstCity"
-#define SPECENUM_COUNT  PLRF_COUNT
-#define SPECENUM_BITVECTOR bv_plr_flags
-#include "specenum_gen.h"
-
 struct player_slot;
 
 struct player_economic {
