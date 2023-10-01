@@ -50,6 +50,7 @@ void dbv_clr(struct dbv *pdbv, int bit);
 void dbv_clr_all(struct dbv *pdbv);
 
 bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2);
+bool bv_match_dbv(const struct dbv *match, const unsigned char *src);
 void dbv_copy(struct dbv *dest, const struct dbv *src);
 
 void dbv_to_bv(unsigned char *dest, const struct dbv *src);
