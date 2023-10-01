@@ -47,7 +47,7 @@ option('readline',
 
 option('audio',
        type: 'combo',
-       choices: ['none', 'sdl2'],
+       choices: ['none', 'sdl2', 'sdl3'],
        value: 'sdl2',
        description: 'Sound support type to build')
 

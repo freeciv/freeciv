@@ -17,6 +17,10 @@
 
 #include <string.h>
 
+#ifdef AUDIO_SDL3
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
+#else
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL.h>
 #include <SDL_mixer.h>
@@ -24,6 +28,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #endif /* SDL2_PLAIN_INCLUDE */
+#endif /* AUDIO_SDL3 */
 
 /* utility */
 #include "log.h"
@@ -204,6 +209,9 @@ static void quit_sdl_audio(void)
 **************************************************************************/
 static int init_sdl_audio(void)
 {
+#ifdef AUDIO_SDL3
+  return SDL_Init(SDL_INIT_AUDIO);
+#else  /* AUDIO_SDL3 */
   SDL_SetHint(SDL_HINT_AUDIO_RESAMPLING_MODE, "medium");
 
   if (SDL_WasInit(SDL_INIT_VIDEO)) {
@@ -211,6 +219,7 @@ static int init_sdl_audio(void)
   } else {
     return SDL_Init(SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE);
   }
+#endif /* AUDIO_SDL3 */
 }
 
 /**********************************************************************//**
@@ -243,17 +252,22 @@ static void sdl_audio_shutdown(struct audio_plugin *self)
 **************************************************************************/
 static bool sdl_audio_init(struct audio_plugin *self)
 {
-  /* Initialize variables */
-  const int audio_rate = MIX_DEFAULT_FREQUENCY;
-  const int audio_format = MIX_DEFAULT_FORMAT;
-  const int audio_channels = 2;
   int i;
 
   if (init_sdl_audio() < 0) {
     return FALSE;
   }
 
+#ifdef AUDIO_SDL3
+  if (Mix_OpenAudio(0, NULL) < 0) {
+#else  /* AUDIO_SDL3 */
+  /* Initialize variables */
+  const int audio_rate = MIX_DEFAULT_FREQUENCY;
+  const int audio_format = MIX_DEFAULT_FORMAT;
+  const int audio_channels = 2;
+
   if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, buf_size) < 0) {
+#endif /* AUDIO_SDL3 */
     log_error("Error calling Mix_OpenAudio");
 
     /* Try something else */

@@ -802,6 +802,38 @@ if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
   endif
 endif
 
+if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
+  if host_system == 'windows'
+    sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
+                    c_compiler.find_library('SDL3main', dirs: cross_lib_path),
+                    c_compiler.find_library('SDL3', dirs: cross_lib_path)]
+  else
+    if emscripten
+      emscripten_sdl3_args = [
+        '-s', 'USE_SDL=3'
+      ]
+
+      if get_option('audio') == 'sdl3'
+        emscripten_sdl3_args += [ '-s', 'USE_SDL_MIXER=3' ]
+      endif
+
+      if get_option('clients').contains('sdl3')
+        emscripten_sdl3_args += [
+          '-s', 'USE_SDL_IMAGE=3',
+          '-s', 'USE_SDL_TTF=3',
+          '-s', 'USE_SDL_GFX=3'
+        ]
+      endif
+
+      add_global_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
+      add_global_link_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
+      sdl3main_dep = []
+    else
+      sdl3main_dep = [c_compiler.find_library('SDL3', dirs: cross_lib_path)]
+    endif
+  endif
+endif
+
 if get_option('clients').contains('sdl3')
   if host_system == 'windows'
     sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
@@ -810,13 +842,13 @@ if get_option('clients').contains('sdl3')
   else
     if emscripten
       emscripten_sdl3_args = [
-        '-s', 'USE_SDL=2'
+        '-s', 'USE_SDL=3'
       ]
 
       emscripten_sdl3_args += [
-        '-s', 'USE_SDL_IMAGE=2',
-        '-s', 'USE_SDL_TTF=2',
-        '-s', 'USE_SDL_GFX=2'
+        '-s', 'USE_SDL_IMAGE=3',
+        '-s', 'USE_SDL_TTF=3',
+        '-s', 'USE_SDL_GFX=3'
       ]
 
       add_global_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
@@ -845,6 +877,11 @@ if get_option('audio') != 'none'
 
   if emscripten
     audio_dep = []
+  elif get_option('audio') == 'sdl3'
+    audio_sdl3_dep = c_compiler.find_library('SDL3_mixer',
+                                             dirs: cross_lib_path)
+    audio_dep = [sdl3main_dep, audio_sdl3_dep]
+    priv_conf_data.set('AUDIO_SDL3', 1)
   else
     audio_sdl2_dep = c_compiler.find_library('SDL2_mixer',
                                              dirs: cross_lib_path)
