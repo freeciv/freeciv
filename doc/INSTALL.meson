@@ -147,7 +147,7 @@ readline ('try'/'true'/'false')
   Whether to enable readline functionality on server.
   The default is 'try' to enable it if suitable readline found.
 
-audio ('none'/'sdl2'):
+audio ('none'/'sdl2'/'sdl3'):
   What kind of sound support should be built to the clients. Defaults to sdl2.
 
 tools (array):

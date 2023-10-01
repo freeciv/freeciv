@@ -62,8 +62,11 @@
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
-/* enable audio */
+/* Enable audio */
 #mesondefine AUDIO_SDL
+
+/* Use SDL3_mixer */
+#mesondefine AUDIO_SDL3
 
 /* Native language support enabled */
 #mesondefine ENABLE_NLS
