@@ -77,6 +77,7 @@ UnitClassFlag:   Local
 Nation:          World, Alliance, Team, Player
 NationGroup:     World, Alliance, Team, Player
 Nationality:     Traderoute, City
+PlayerFlag:      Player
 OriginalOwner:   City
 DiplRel:         World, Alliance, Team, Player, Local
 DiplRelTile:     Alliance, Team, Player, Local
