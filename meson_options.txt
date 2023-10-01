@@ -86,3 +86,8 @@ option('min-win-ver',
        type: 'string',
        value: '',
        description: 'Minimum Windows version to support')
+
+option('localeprefix',
+       type: 'string',
+       value: '',
+       description: 'Localedir prefix to use instead of regular prefix')
