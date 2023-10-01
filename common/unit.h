@@ -328,12 +328,15 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 bool can_unit_change_homecity(const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(struct unit *punit);
-bool can_unit_do_activity(const struct unit *punit,
+bool can_unit_do_activity(const struct civ_map *nmap,
+                          const struct unit *punit,
                           enum unit_activity activity);
-bool can_unit_do_activity_targeted(const struct unit *punit,
+bool can_unit_do_activity_targeted(const struct civ_map *nmap,
+                                   const struct unit *punit,
                                    enum unit_activity activity,
                                    struct extra_type *target);
-bool can_unit_do_activity_targeted_at(const struct unit *punit,
+bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
+                                      const struct unit *punit,
                                       enum unit_activity activity,
                                       struct extra_type *target,
                                       const struct tile *ptile);

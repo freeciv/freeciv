@@ -854,17 +854,19 @@ static void dai_military_findjob(struct ai_type *ait,
 {
   const struct unit_type *punittype = unit_type_get(punit);
   struct unit_ai *unit_data;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
-  /* keep barbarians aggressive and primitive */
+  /* Keep barbarians aggressive and primitive */
   if (is_barbarian(pplayer)) {
-    if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)
-	&& is_land_barbarian(pplayer)) {
-      /* land barbarians pillage */
+    if (can_unit_do_activity(nmap, punit, ACTIVITY_PILLAGE)
+        && is_land_barbarian(pplayer)) {
+      /* Land barbarians pillage */
       unit_activity_handling(punit, ACTIVITY_PILLAGE);
     }
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+
     return;
   }
 
@@ -875,6 +877,7 @@ static void dai_military_findjob(struct ai_type *ait,
       || unit_data->task == AIUNIT_DEFEND_HOME) {
     aiguard_update_charge(ait, punit);
   }
+
   if (aiguard_has_charge(ait, punit)
       && unit_data->task == AIUNIT_ESCORT) {
     struct unit *aunit = aiguard_charge_unit(ait, punit);

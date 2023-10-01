@@ -1984,7 +1984,7 @@ void mr_menu::update_roads_menu()
       QObject::connect(act, &QAction::triggered, [this,road_id]() {
         slot_build_path(road_id);
       });
-      if (can_units_do_activity_targeted(punits,
+      if (can_units_do_activity_targeted_client(punits,
         ACTIVITY_GEN_ROAD, pextra)) {
         act->setEnabled(true);
         enabled = true;
@@ -2032,7 +2032,7 @@ void mr_menu::update_bases_menu()
       QObject::connect(act, &QAction::triggered, [this,base_id]() {
         slot_build_base(base_id);
       });
-      if (can_units_do_activity_targeted(punits, ACTIVITY_BASE, pextra)) {
+      if (can_units_do_activity_targeted_client(punits, ACTIVITY_BASE, pextra)) {
         act->setEnabled(true);
         enabled = true;
       } else {
@@ -2170,7 +2170,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case EXPLORE:
-        if (can_units_do_activity(punits, ACTIVITY_EXPLORE)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_EXPLORE)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2200,7 +2200,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case MINE:
-        if (can_units_do_activity(punits, ACTIVITY_MINE)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_MINE)) {
           i.value()->setEnabled(true);
         }
 
@@ -2234,7 +2234,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case IRRIGATION:
-        if (can_units_do_activity(punits, ACTIVITY_IRRIGATE)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_IRRIGATE)) {
           i.value()->setEnabled(true);
         }
         if (units_all_same_tile) {
@@ -2267,7 +2267,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case CULTIVATE:
-        if (can_units_do_activity(punits, ACTIVITY_CULTIVATE)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_CULTIVATE)) {
           i.value()->setEnabled(true);
         }
         if (units_all_same_tile) {
@@ -2290,7 +2290,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case PLANT:
-        if (can_units_do_activity(punits, ACTIVITY_PLANT)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_PLANT)) {
           i.value()->setEnabled(true);
         }
         if (units_all_same_tile) {
@@ -2313,7 +2313,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case TRANSFORM:
-        if (can_units_do_activity(punits, ACTIVITY_TRANSFORM)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_TRANSFORM)) {
           i.value()->setEnabled(true);
         } else {
           break;
@@ -2378,7 +2378,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case FORTIFY:
-        if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_FORTIFYING)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2396,13 +2396,13 @@ void mr_menu::menus_sensitive()
         break;
 
       case CLEAN:
-        if (can_units_do_activity(punits, ACTIVITY_CLEAN)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_CLEAN)) {
           i.value()->setEnabled(true);
         }
         break;
 
       case SENTRY:
-        if (can_units_do_activity(punits, ACTIVITY_SENTRY)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_SENTRY)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2416,7 +2416,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case PILLAGE:
-        if (can_units_do_activity(punits, ACTIVITY_PILLAGE)) {
+        if (can_units_do_activity_client(punits, ACTIVITY_PILLAGE)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2785,7 +2785,7 @@ void mr_menu::slot_build_road()
     bool building_road = false;
 
     if (tgt != NULL
-        && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
+        && can_unit_do_activity_targeted_client(punit, ACTIVITY_GEN_ROAD, tgt)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
       building_road = true;
     }
@@ -3697,8 +3697,8 @@ void mr_menu::slot_build_path(int id)
   unit_list_iterate(get_units_in_focus(), punit) {
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       if (pextra->buildable && pextra->id == id
-          && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD,
-                                           pextra)) {
+          && can_unit_do_activity_targeted_client(punit, ACTIVITY_GEN_ROAD,
+                                                  pextra)) {
         request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, pextra);
       }
     } extra_type_by_cause_iterate_end;
@@ -3713,8 +3713,8 @@ void mr_menu::slot_build_base(int id)
   unit_list_iterate(get_units_in_focus(), punit) {
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (pextra->buildable && pextra->id == id
-          && can_unit_do_activity_targeted(punit, ACTIVITY_BASE,
-                                           pextra)) {
+          && can_unit_do_activity_targeted_client(punit, ACTIVITY_BASE,
+                                                  pextra)) {
         request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
       }
     } extra_type_by_cause_iterate_end;

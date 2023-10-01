@@ -2498,7 +2498,7 @@ static void build_road_callback(GSimpleAction *action,
     bool building_road = FALSE;
 
     if (tgt != NULL
-        && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt)) {
+        && can_unit_do_activity_targeted_client(punit, ACTIVITY_GEN_ROAD, tgt)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, tgt);
       building_road = TRUE;
     }
@@ -2795,7 +2795,7 @@ static void clean_menu_callback(GSimpleAction *action,
   struct extra_type *pextra = data;
 
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity_targeted(punit, ACTIVITY_CLEAN, pextra)) {
+    if (can_unit_do_activity_targeted_client(punit, ACTIVITY_CLEAN, pextra)) {
       request_new_unit_activity_targeted(punit, ACTIVITY_CLEAN,
                                          pextra);
     }
@@ -3581,9 +3581,9 @@ void real_menus_update(void)
       fc_snprintf(actname, sizeof(actname), "path_%d", i);
       act = g_simple_action_new(actname, NULL);
       g_simple_action_set_enabled(act,
-                                  can_units_do_activity_targeted(punits,
-                                                                 ACTIVITY_GEN_ROAD,
-                                                                 pextra));
+                                  can_units_do_activity_targeted_client(punits,
+                                                                        ACTIVITY_GEN_ROAD,
+                                                                        pextra));
       g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(road_callback), pextra);
 
@@ -3606,9 +3606,9 @@ void real_menus_update(void)
       fc_snprintf(actname, sizeof(actname), "irrig_%d", i);
       act = g_simple_action_new(actname, NULL);
       g_simple_action_set_enabled(act,
-                                  can_units_do_activity_targeted(punits,
-                                                                 ACTIVITY_IRRIGATE,
-                                                                 pextra));
+                                  can_units_do_activity_targeted_client(punits,
+                                                                        ACTIVITY_IRRIGATE,
+                                                                        pextra));
       g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(irrigation_callback), pextra);
 
@@ -3631,9 +3631,9 @@ void real_menus_update(void)
       fc_snprintf(actname, sizeof(actname), "mine_%d", i);
       act = g_simple_action_new(actname, NULL);
       g_simple_action_set_enabled(act,
-                                  can_units_do_activity_targeted(punits,
-                                                                 ACTIVITY_MINE,
-                                                                 pextra));
+                                  can_units_do_activity_targeted_client(punits,
+                                                                        ACTIVITY_MINE,
+                                                                        pextra));
       g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(mine_callback), pextra);
 
@@ -3655,9 +3655,9 @@ void real_menus_update(void)
     fc_snprintf(actname, sizeof(actname), "clean_%d", i);
     act = g_simple_action_new(actname, NULL);
     g_simple_action_set_enabled(act,
-                                can_units_do_activity_targeted(punits,
-                                                               ACTIVITY_CLEAN,
-                                                               pextra));
+                                can_units_do_activity_targeted_client(punits,
+                                                                      ACTIVITY_CLEAN,
+                                                                      pextra));
     g_action_map_add_action(map, G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
@@ -3680,9 +3680,9 @@ void real_menus_update(void)
       fc_snprintf(actname, sizeof(actname), "base_%d", i);
       act = g_simple_action_new(actname, NULL);
       g_simple_action_set_enabled(act,
-                                  can_units_do_activity_targeted(punits,
-                                                                 ACTIVITY_BASE,
-                                                                 pextra));
+                                  can_units_do_activity_targeted_client(punits,
+                                                                        ACTIVITY_BASE,
+                                                                        pextra));
       g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(base_callback), pextra);
 
@@ -3809,30 +3809,30 @@ void real_menus_update(void)
                             || can_units_do(punits,
                                             unit_can_est_trade_route_here)));
   menu_entry_set_sensitive(map, "BUILD_IRRIGATION",
-                           can_units_do_activity(punits, ACTIVITY_IRRIGATE));
+                           can_units_do_activity_client(punits, ACTIVITY_IRRIGATE));
   menu_entry_set_sensitive(map, "BUILD_MINE",
-                           can_units_do_activity(punits, ACTIVITY_MINE));
+                           can_units_do_activity_client(punits, ACTIVITY_MINE));
   menu_entry_set_sensitive(map, "CULTIVATE",
-                           can_units_do_activity(punits, ACTIVITY_CULTIVATE));
+                           can_units_do_activity_client(punits, ACTIVITY_CULTIVATE));
   menu_entry_set_sensitive(map, "PLANT",
-                           can_units_do_activity(punits, ACTIVITY_PLANT));
+                           can_units_do_activity_client(punits, ACTIVITY_PLANT));
   menu_entry_set_sensitive(map, "TRANSFORM_TERRAIN",
-                           can_units_do_activity(punits, ACTIVITY_TRANSFORM));
+                           can_units_do_activity_client(punits, ACTIVITY_TRANSFORM));
   menu_entry_set_sensitive(map, "FORTIFY",
-                           can_units_do_activity(punits,
+                           can_units_do_activity_client(punits,
                                                  ACTIVITY_FORTIFYING));
   menu_entry_set_sensitive(map, "PARADROP",
                            can_units_do(punits, can_unit_paradrop));
   menu_entry_set_sensitive(map, "PILLAGE",
-                           can_units_do_activity(punits, ACTIVITY_PILLAGE));
+                           can_units_do_activity_client(punits, ACTIVITY_PILLAGE));
   menu_entry_set_sensitive(map, "CLEAN",
-                           can_units_do_activity(punits, ACTIVITY_CLEAN));
+                           can_units_do_activity_client(punits, ACTIVITY_CLEAN));
   menu_entry_set_sensitive(map, "BUILD_FORTRESS",
                            can_units_do_base_gui(punits, BASE_GUI_FORTRESS));
   menu_entry_set_sensitive(map, "BUILD_AIRBASE",
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
   menu_entry_set_sensitive(map, "UNIT_SENTRY",
-                           can_units_do_activity(punits, ACTIVITY_SENTRY));
+                           can_units_do_activity_client(punits, ACTIVITY_SENTRY));
   menu_entry_set_sensitive(map, "UNSENTRY_ALL",
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
@@ -3847,7 +3847,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive(map, "AUTO_SETTLER",
                            can_units_do(punits, can_unit_do_autosettlers));
   menu_entry_set_sensitive(map, "UNIT_EXPLORE",
-                           can_units_do_activity(punits, ACTIVITY_EXPLORE));
+                           can_units_do_activity_client(punits, ACTIVITY_EXPLORE));
   menu_entry_set_sensitive(map, "UNIT_BOARD",
                            units_can_load(punits));
   menu_entry_set_sensitive(map, "UNIT_DEBOARD",
