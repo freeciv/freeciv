@@ -225,7 +225,7 @@ void dbv_copy(struct dbv *dest, const struct dbv *src)
     dbv_resize(dest, src->bits);
   }
 
-  memcpy(&dest->vec, &src->vec, _BV_BYTES(src->bits));
+  memcpy(&dest->vec, src->vec, _BV_BYTES(src->bits));
 }
 
 /***************************************************************************
@@ -234,7 +234,7 @@ void dbv_copy(struct dbv *dest, const struct dbv *src)
 ***************************************************************************/
 void dbv_to_bv(unsigned char *dest, const struct dbv *src)
 {
-  memcpy(dest, &(src->vec), _BV_BYTES(src->bits));
+  memcpy(dest, src->vec, _BV_BYTES(src->bits));
 }
 
 /***************************************************************************
@@ -243,7 +243,7 @@ void dbv_to_bv(unsigned char *dest, const struct dbv *src)
 ***************************************************************************/
 void bv_to_dbv(struct dbv *dest, const unsigned char *src)
 {
-  memcpy(&(dest->vec), dest, _BV_BYTES(dest->bits));
+  memcpy(dest->vec, dest, _BV_BYTES(dest->bits));
 }
 
 /***************************************************************************
