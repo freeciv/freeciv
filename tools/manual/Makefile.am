@@ -20,7 +20,8 @@ freeciv_manual_SOURCES =		\
 		fc_manual.c		\
 		fc_manual.h		\
 		manual_commands.c	\
-		manual_settings.c
+		manual_settings.c	\
+		manual_terrain.c
 
 # This is a bit of a hack. The program links in with the server lib
 # but also uses some files from the client.

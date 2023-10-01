@@ -61,6 +61,7 @@ char *html_special_chars(char *str, size_t *len);
 /* Individual manual pages */
 bool manual_settings(struct tag_types *tag_info);
 bool manual_commands(struct tag_types *tag_info);
+bool manual_terrain(struct tag_types *tag_info);
 
 #ifdef __cplusplus
 }
