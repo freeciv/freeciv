@@ -210,6 +210,7 @@ void animations_free(void)
     }
 
     animation_list_destroy(animations);
+    animations = NULL;
   }
 }
 
