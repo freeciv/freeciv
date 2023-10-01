@@ -1906,17 +1906,19 @@ static void wipe_unit_full(struct unit *punit, bool transported,
       }
     }
 
-    { /* try to submit some cities */
+    {
+      /* Try to submit some cities */
       int vcsize = city_list_size(pplayer->cities);
       int evcsize = vcsize;
-      int conqsize = evcsize;
+      int conqsize;
 
       if (evcsize < 3) {
         evcsize = 0;
       } else {
         evcsize -=3;
       }
-      /* about a quarter on average with high numbers less probable */
+
+      /* About a quarter on average with high numbers less probable */
       conqsize = fc_rand(fc_rand(evcsize));
 
       log_debug("conqsize=%d", conqsize);
