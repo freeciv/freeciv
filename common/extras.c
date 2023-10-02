@@ -35,6 +35,7 @@ static struct user_flag user_extra_flags[MAX_NUM_USER_EXTRA_FLAGS];
 static struct extra_type_list *caused_by[EC_LAST];
 static struct extra_type_list *removed_by[ERM_COUNT];
 static struct extra_type_list *unit_hidden;
+static struct extra_type_list *terr_claimer;
 
 /****************************************************************************
   Initialize extras structures.
@@ -50,6 +51,7 @@ void extras_init(void)
     removed_by[i] = extra_type_list_new();
   }
   unit_hidden = extra_type_list_new();
+  terr_claimer = extra_type_list_new();
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
@@ -109,6 +111,8 @@ void extras_free(void)
 
   extra_type_list_destroy(unit_hidden);
   unit_hidden = NULL;
+  extra_type_list_destroy(terr_claimer);
+  terr_claimer = NULL;
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
@@ -242,6 +246,14 @@ struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
 struct extra_type_list *extra_type_list_of_unit_hiders(void)
 {
   return unit_hidden;
+}
+
+/**************************************************************************
+  Returns extra types that claim terrain
+**************************************************************************/
+struct extra_type_list *extra_type_list_of_terr_claimers(void)
+{
+  return terr_claimer;
 }
 
 /**************************************************************************

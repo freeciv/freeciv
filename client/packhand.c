@@ -4096,6 +4096,11 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->native_to = p->native_to;
 
   pextra->flags = p->flags;
+
+  if (is_extra_caused_by(pextra, EC_BASE)
+      && territory_claiming_base(extra_base_get(pextra))) {
+    extra_type_list_append(extra_type_list_of_terr_claimers(), pextra);
+  }
   pextra->hidden_by = p->hidden_by;
   pextra->conflicts = p->conflicts;
 

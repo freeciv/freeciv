@@ -3651,6 +3651,11 @@ static bool load_ruleset_terrain(struct section_file *file,
         ok = FALSE;
       }
 
+      if (is_extra_caused_by(pextra, EC_BASE)
+          && territory_claiming_base(extra_base_get(pextra))) {
+        extra_type_list_append(extra_type_list_of_terr_claimers(), pextra);
+      }
+
       if (!ok) {
         break;
       }
