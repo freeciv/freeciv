@@ -8,7 +8,7 @@
 /* Used in the network protocol. */
 enum terrain_class
   prefix TC_
-  count COUNT
+  count
 values
   /* TRANS: terrain class: used adjectivally */
   LAND N_("Land")
@@ -23,7 +23,7 @@ end
  * Used in the network protocol. */
 enum terrain_alteration
   prefix TA_
-  count COUNT
+  count
 values
   /* Can build irrigation without changing terrain */
   /* TRANS: this and following strings may rarely be presented to the player
@@ -82,7 +82,7 @@ end
 
 enum mapgen_terrain_property
   prefix MG_
-  count COUNT
+  count
 values
   MOUNTAINOUS "mountainous"
   GREEN "green"

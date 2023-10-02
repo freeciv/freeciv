@@ -55,8 +55,12 @@ The following <enum options> are supported:
 - bitwise
 - zero <SPECENUM_ZERO> <SPECENUM_ZERONAME (optional)>
   (requires bitwise)
+  If 'prefix' is also given, the <SPECENUM_ZERO> identifier is optional
+  and defaults to ZERO
 - count <SPECENUM_COUNT> <SPECENUM_COUNTNAME (optional)>
   (cannot be used with bitwise)
+  If 'prefix' is also given, the <SPECENUM_COUNT> identifier is optional
+  and defaults to COUNT
 - invalid <SPECENUM_INVALID>
 - name-override
 - name-updater
@@ -354,6 +358,14 @@ class Specenum:
     - the option name
     - (optional) the option's arguments"""
 
+    DEFAULT_ZERO = EnumValue("ZERO", None)
+    """Default SPECENUM_ZERO info when the 'zero' option is used without
+    any identifier, but in conjunction with a 'prefix' option"""
+
+    DEFAULT_COUNT = EnumValue("COUNT", None)
+    """Default SPECENUM_COUNT info when the 'count' option is used without
+    any identifier, but in conjunction with a 'prefix' option"""
+
     name: str
     """The SPECENUM_NAME of this enum"""
 
@@ -417,14 +429,16 @@ class Specenum:
                 if self.zero is not None:
                     raise ValueError(f"duplicate option {option!r} for enum {self.name}")
                 if arg is None:
-                    raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
-                self.zero = EnumValue.parse(arg)
+                    self.zero = __class__.DEFAULT_ZERO
+                else:
+                    self.zero = EnumValue.parse(arg)
             elif option == "count":
                 if self.count is not None:
                     raise ValueError(f"duplicate option {option!r} for enum {self.name}")
                 if arg is None:
-                    raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
-                self.count = EnumValue.parse(arg)
+                    self.count = __class__.DEFAULT_COUNT
+                else:
+                    self.count = EnumValue.parse(arg)
             elif option == "invalid":
                 if self.invalid is not None:
                     raise ValueError(f"duplicate option {option!r} for enum {self.name}")
@@ -459,6 +473,12 @@ class Specenum:
             raise ValueError(f"option 'count' conflicts with option 'bitwise' for enum {self.name}")
         if self.bitvector and self.bitwise:
             raise ValueError(f"option 'bitvector' conflicts with option 'bitwise' for enum {self.name}")
+
+        # check sanity
+        if self.zero is __class__.DEFAULT_ZERO and not self.prefix:
+            raise ValueError(f"option 'zero' for enum {self.name} requires an argument or option 'prefix'")
+        if self.count is __class__.DEFAULT_COUNT and not self.prefix:
+            raise ValueError(f"option 'count' for enum {self.name} requires an argument or option 'prefix'")
 
         self.values = [EnumValue.parse(line) for line in lines]
 
