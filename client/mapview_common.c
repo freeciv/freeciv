@@ -192,7 +192,7 @@ void animations_free(void)
 
       switch (anim->type) {
       case ANIM_MOVEMENT:
-        free(anim->movement.mover);
+        unit_virtual_destroy(anim->movement.mover);
         break;
       case ANIM_BATTLE:
         unit_virtual_destroy(anim->battle.virt_winner);
@@ -259,7 +259,7 @@ static bool movement_animation(struct animation *anim, double time_gone)
     if (time_gone >= timing_sec) {
       /* Animation over */
       if (--anim->movement.mover->refcount <= 0) {
-        free(anim->movement.mover);
+        unit_virtual_destroy(anim->movement.mover);
       }
 
       return TRUE;
