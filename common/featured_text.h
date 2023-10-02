@@ -159,8 +159,8 @@ static inline struct ft_color ft_color_construct(const char *foreground,
 **************************************************************************/
 static inline bool ft_color_requested(const struct ft_color color)
 {
-  return ((NULL != color.foreground && '\0' != color.foreground[0])
-          || (NULL != color.background && '\0' != color.background[0]));
+  return ((color.foreground != nullptr && color.foreground[0] != '\0')
+          || (color.background != nullptr && color.background[0] != '\0'));
 }
 
 /* Predefined colors. */
