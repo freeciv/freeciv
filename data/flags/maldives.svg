@@ -2,21 +2,45 @@
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="600"
-   width="900">
+   width="900"
+   version="1.1"
+   id="svg15"
+   sodipodi:docname="maldives.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs19" />
+  <sodipodi:namedview
+     id="namedview17"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0661599"
+     inkscape:cx="451.15184"
+     inkscape:cy="301.54952"
+     inkscape:window-width="1096"
+     inkscape:window-height="846"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg15" />
   <metadata
      id="metadata3">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title>Maldives</dc:title>
         <dc:description />
         <dc:subject>
           <rdf:Bag>
@@ -66,27 +90,33 @@
   <rect
      height="600"
      fill="#2d9c4b"
-     width="900"/>
+     width="900"
+     id="rect3" />
   <path
      d="M 523.97323,168.50438 C 380.79785,213.1463 401.19688,416.70675 535.3992,432.2451 322.84231,476.50399 292.59292,145.47747 523.97323,168.50438 z"
      sodipodi:nodetypes="ccc"
-     fill="#ffffff"/>
-  <rect
-     height="120"
-     fill="#b71401"
-     width="900"/>
+     fill="#ffffff"
+     id="path5" />
   <rect
      height="120"
      fill="#b71401"
      width="900"
-     y="480" />
+     id="rect7" />
+  <rect
+     height="120"
+     fill="#b71401"
+     width="900"
+     y="480"
+     id="rect9" />
   <rect
      height="600"
      fill="#b71401"
-     width="120"/>
+     width="120"
+     id="rect11" />
   <rect
      height="571.42859"
      fill="#b71401"
      width="120"
-     x="780"/>
+     x="780"
+     id="rect13" />
 </svg>
