@@ -52,6 +52,9 @@ The following <enum options> are supported:
 - prefix <prefix>
   prepended to all VALUEs, including ZERO and COUNT.
   Should include any desired final separator.
+- generic <amount> <identifier>
+  Generate <amount> values with no name and the given identifier
+  followed by their index (starting at 1)
 - bitwise
 - zero <SPECENUM_ZERO> <SPECENUM_ZERONAME (optional)>
   (requires bitwise)
@@ -358,6 +361,19 @@ class Specenum:
     - the option name
     - (optional) the option's arguments"""
 
+    GENERIC_PATTERN = re.compile(r"""
+        ^\s*
+        (\d+)   # amount
+        \s+
+        (\w+)   # identifier prefix
+        \s*$
+    """, re.VERBOSE)
+    """Matches the arguments of a 'generic' enum option.
+
+    Groups:
+    - the number of generic values to generate
+    - the identifier prefix"""
+
     DEFAULT_ZERO = EnumValue("ZERO", None)
     """Default SPECENUM_ZERO info when the 'zero' option is used without
     any identifier, but in conjunction with a 'prefix' option"""
@@ -400,6 +416,9 @@ class Specenum:
     def __init__(self, name: str, lines: typing.Iterable[str]):
         self.name = name
 
+        generic_amount: int = 0
+        generic_prefix: str = ""
+
         lines_iter = iter(lines)
 
         for option_text in takewhile(
@@ -419,6 +438,18 @@ class Specenum:
                 if not arg:
                     raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
                 self.prefix = arg
+            elif option == "generic":
+                if generic_amount:
+                    raise ValueError(f"duplicate option {option!r} for enum {self.name}")
+                if not arg:
+                    raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
+                mo_g = __class__.GENERIC_PATTERN.fullmatch(arg)
+                if mo_g is None:
+                    raise ValueError(f"malformed argument for option {option!r} of enum {self.name}")
+                generic_amount = int(mo_g.group(1))
+                if not generic_amount:
+                    raise ValueError(f"amount for option {option!r} of enum {self.name} must be positive")
+                generic_prefix = mo_g.group(2)
             elif option == "bitwise":
                 if self.bitwise:
                     raise ValueError(f"duplicate option {option!r} for enum {self.name}")
@@ -480,7 +511,12 @@ class Specenum:
         if self.count is __class__.DEFAULT_COUNT and not self.prefix:
             raise ValueError(f"option 'count' for enum {self.name} requires an argument or option 'prefix'")
 
-        self.values = [EnumValue.parse(line) for line in lines]
+        self.values = [
+            EnumValue.parse(line) for line in lines
+        ] + [
+            EnumValue(generic_prefix + str(i), None)
+            for i in range(1, generic_amount + 1)
+        ]
 
     def code_parts(self) -> typing.Iterable[str]:
         """Yield code defining this enum"""
