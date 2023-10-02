@@ -45,6 +45,10 @@ class edit_utype : public QDialog
     QSpinBox *move_rate;
     QLineEdit *gfx_tag;
     QLineEdit *gfx_tag_alt;
+    QLineEdit *sound_move_tag;
+    QLineEdit *sound_move_tag_alt;
+    QLineEdit *sound_fight_tag;
+    QLineEdit *sound_fight_tag_alt;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -57,6 +61,10 @@ class edit_utype : public QDialog
     void set_move_rate(int value);
     void gfx_tag_given();
     void gfx_tag_alt_given();
+    void sound_move_tag_given();
+    void sound_move_tag_alt_given();
+    void sound_fight_tag_given();
+    void sound_fight_tag_alt_given();
 };
 
 #endif // FC__EDIT_UTYPE_H
