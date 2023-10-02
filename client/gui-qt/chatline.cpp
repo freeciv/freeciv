@@ -144,7 +144,7 @@ void chat_listener::send_chat_message(const QString &message)
 
       if (!splayer.compare(s)) {
         if (is_ai(pplayer)) {
-          send_chat(message.toLocal8Bit());
+          send_chat(message.toUtf8());
           send_chat("/away");
           return;
         }
@@ -157,9 +157,9 @@ void chat_listener::send_chat_message(const QString &message)
     if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
         && is_plain_public_message(message)) {
       send_chat((QString(CHAT_ALLIES_PREFIX)
-                 + " " + message).toLocal8Bit());
+                 + " " + message).toUtf8());
     } else {
-      send_chat(message.toLocal8Bit());
+      send_chat(message.toUtf8());
     }
   }
   // Empty messages aren't sent

@@ -137,13 +137,13 @@ static void configure_single(QString role, QStringList sl, int size,
   if (font_name.isEmpty()) {
     QByteArray fn_bytes;
 
-    fn_bytes = role.toLocal8Bit();
+    fn_bytes = role.toUtf8();
     log_error(_("Failed to setup font for role %s."),
               fn_bytes.data());
   } else {
     QByteArray fn_bytes;
 
-    fn_bytes = font_name.toLocal8Bit();
+    fn_bytes = font_name.toUtf8();
     fc_strlcpy(font_opt, fn_bytes.data(), FONT_NAME_SIZE);
   }
 }
@@ -263,7 +263,7 @@ QString configure_font(QString font_name, QStringList sl, int size,
         f->setBold(true);
       }
       fc_font::instance()->set_font(font_name, f);
-      fn_bytes = f->toString().toLocal8Bit();
+      fn_bytes = f->toString().toUtf8();
 
       return fn_bytes.data();
     }

@@ -588,7 +588,7 @@ void qtg_insert_client_build_info(char *outbuf, size_t outlen)
 {
   // There's also an separate entry about Qt in help menu.
 
-  QByteArray ver = QLibraryInfo::version().toString().toLocal8Bit();
+  QByteArray ver = QLibraryInfo::version().toString().toUtf8();
 
   cat_snprintf(outbuf, outlen, _("\nBuilt against Qt %s, using %s"),
                QT_VERSION_STR, ver.data());
