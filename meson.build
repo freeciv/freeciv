@@ -1353,6 +1353,8 @@ common_lib = library('freeciv',
   install : true
   )
 
+if server_type != 'disabled' or get_option('tools').length() > 0
+
 if server_type == 'disabled'
 
 ais = static_library('fc_ai',
@@ -1480,6 +1482,8 @@ server_lib = static_library('fc_server',
                            'server/scripting/tolua_server.pkg')],
   dependencies: lua_dep
   )
+
+endif
 
 if server_type != 'disabled'
   executable(server_binary_name,
