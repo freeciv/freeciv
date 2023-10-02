@@ -4276,6 +4276,10 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   if (extra_has_flag(pextra, EF_NOT_AGGRESSIVE)) {
     extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
   }
+  if (is_extra_caused_by(pextra, EC_BASE)
+      && territory_claiming_base(extra_base_get(pextra))) {
+    extra_type_list_append(extra_type_list_of_terr_claimers(), pextra);
+  }
   pextra->hidden_by = p->hidden_by;
   pextra->bridged_over = p->bridged_over;
   pextra->conflicts = p->conflicts;

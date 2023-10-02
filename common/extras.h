@@ -191,6 +191,7 @@ struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause caus
                                        bool generated);
 
 struct extra_type_list *extra_type_list_of_unit_hiders(void);
+struct extra_type_list *extra_type_list_of_terr_claimers(void);
 
 #define is_extra_caused_by(e, c) (e->causes & (1 << c))
 bool is_extra_caused_by_worker_action(const struct extra_type *pextra);

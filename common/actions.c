@@ -3412,12 +3412,9 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
           break;
         } extra_type_list_iterate_end;
       } else {
-        extra_type_by_cause_iterate(EC_BASE, pextra) {
-          if (!territory_claiming_base(pextra->data.base)) {
-            /* Hard requirement */
-            continue;
-          }
+        struct extra_type_list *terr_claimers = extra_type_list_of_terr_claimers();
 
+        extra_type_list_iterate(terr_claimers, pextra) {
           if (!is_native_extra_to_uclass(pextra, pclass)) {
             /* Hard requirement */
             continue;
@@ -3425,7 +3422,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
 
           has_target = TRUE;
           break;
-        } extra_type_by_cause_iterate_end;
+        } extra_type_list_iterate_end;
       }
 
       if (!has_target) {
