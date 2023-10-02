@@ -115,6 +115,46 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(gfx_tag_alt2, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Move sound tag")));
+  label->setParent(this);
+
+  sound_move_tag = new QLineEdit(this);
+  connect(sound_move_tag, SIGNAL(returnPressed()), this,
+          SLOT(sound_move_tag_given()));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(sound_move_tag, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Alt move sound tag")));
+  label->setParent(this);
+
+  sound_move_tag_alt = new QLineEdit(this);
+  connect(sound_move_tag_alt, SIGNAL(returnPressed()), this,
+          SLOT(sound_move_tag_alt_given()));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(sound_move_tag_alt, row++, 1);
+
+    label = new QLabel(QString::fromUtf8(R__("Fight sound tag")));
+  label->setParent(this);
+
+  sound_fight_tag = new QLineEdit(this);
+  connect(sound_fight_tag, SIGNAL(returnPressed()), this,
+          SLOT(sound_fight_tag_given()));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(sound_fight_tag, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Alt fight sound tag")));
+  label->setParent(this);
+
+  sound_fight_tag_alt = new QLineEdit(this);
+  connect(sound_fight_tag_alt, SIGNAL(returnPressed()), this,
+          SLOT(sound_fight_tag_alt_given()));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(sound_fight_tag_alt, row++, 1);
+
   refresh();
 
   main_layout->addLayout(unit_layout);
@@ -131,6 +171,10 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
   gfx_tag_given();
   gfx_tag_alt_given();
   gfx_tag_alt2_given();
+  sound_move_tag_given();
+  sound_move_tag_alt_given();
+  sound_fight_tag_given();
+  sound_fight_tag_alt_given();
 
   utype->ruledit_dlg = nullptr;
 }
@@ -147,6 +191,10 @@ void edit_utype::refresh()
   gfx_tag->setText(utype->graphic_str);
   gfx_tag_alt->setText(utype->graphic_alt);
   gfx_tag_alt2->setText(utype->graphic_alt2);
+  sound_move_tag->setText(utype->sound_move);
+  sound_move_tag_alt->setText(utype->sound_move_alt);
+  sound_fight_tag->setText(utype->sound_fight);
+  sound_fight_tag_alt->setText(utype->sound_fight_alt);
 }
 
 /**********************************************************************//**
@@ -209,4 +257,44 @@ void edit_utype::gfx_tag_alt2_given()
   QByteArray tag_bytes = gfx_tag_alt2->text().toUtf8();
 
   sz_strlcpy(utype->graphic_alt2, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new move sound tag.
+**************************************************************************/
+void edit_utype::sound_move_tag_given()
+{
+  QByteArray tag_bytes = sound_move_tag->text().toUtf8();
+
+  sz_strlcpy(utype->sound_move, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new alternative move sound tag.
+**************************************************************************/
+void edit_utype::sound_move_tag_alt_given()
+{
+  QByteArray tag_bytes = sound_move_tag_alt->text().toUtf8();
+
+  sz_strlcpy(utype->sound_move_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new move fight tag.
+**************************************************************************/
+void edit_utype::sound_fight_tag_given()
+{
+  QByteArray tag_bytes = sound_fight_tag->text().toUtf8();
+
+  sz_strlcpy(utype->sound_fight, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new alternative fight sound tag.
+**************************************************************************/
+void edit_utype::sound_fight_tag_alt_given()
+{
+  QByteArray tag_bytes = sound_fight_tag_alt->text().toUtf8();
+
+  sz_strlcpy(utype->sound_fight_alt, tag_bytes);
 }
