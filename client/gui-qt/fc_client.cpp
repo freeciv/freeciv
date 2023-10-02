@@ -1023,16 +1023,16 @@ QIcon fc_icons::get_icon(const QString &id)
 
   str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
   // Try custom icon from theme
-  pn_bytes = str.toLocal8Bit();
+  pn_bytes = str.toUtf8();
   png_bytes = QString(pn_bytes.data() + current_theme + DIR_SEPARATOR
-                      + id + ".png").toLocal8Bit();
+                      + id + ".png").toUtf8();
   icon.addFile(fileinfoname(get_data_dirs(),
                             png_bytes.data()));
   str = str + "icons" + DIR_SEPARATOR;
   // Try icon from icons dir
   if (icon.isNull()) {
-    pn_bytes = str.toLocal8Bit();
-    png_bytes = QString(pn_bytes.data() + id + ".png").toLocal8Bit();
+    pn_bytes = str.toUtf8();
+    png_bytes = QString(pn_bytes.data() + id + ".png").toUtf8();
     icon.addFile(fileinfoname(get_data_dirs(),
                               png_bytes.data()));
   }
@@ -1056,13 +1056,13 @@ QPixmap *fc_icons::get_pixmap(const QString &id)
   }
   str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
   png_bytes = QString(str + current_theme + DIR_SEPARATOR
-                      + id + ".png").toLocal8Bit();
+                      + id + ".png").toUtf8();
   status = pm->load(fileinfoname(get_data_dirs(),
                                  png_bytes.data()));
 
   if (!status) {
     str = str + "icons" + DIR_SEPARATOR;
-    png_bytes = QString(str + id + ".png").toLocal8Bit();
+    png_bytes = QString(str + id + ".png").toUtf8();
     pm->load(fileinfoname(get_data_dirs(), png_bytes.data()));
   }
   QPixmapCache::insert(id, *pm);
@@ -1080,7 +1080,7 @@ QString fc_icons::get_path(const QString &id)
 
   str = QString("themes") + DIR_SEPARATOR + "gui-qt"
         + DIR_SEPARATOR + "icons" + DIR_SEPARATOR;
-  png_bytes = QString(str + id + ".png").toLocal8Bit();
+  png_bytes = QString(str + id + ".png").toUtf8();
 
   return fileinfoname(get_data_dirs(),
                       png_bytes.data());
@@ -1333,7 +1333,7 @@ void pregame_options::ruleset_change(int i)
   if (!cruleset->currentText().isEmpty()) {
     QByteArray rn_bytes;
 
-    rn_bytes = cruleset->currentText().toLocal8Bit();
+    rn_bytes = cruleset->currentText().toUtf8();
     set_ruleset(rn_bytes.data());
   }
 }
