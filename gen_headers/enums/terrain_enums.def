@@ -7,12 +7,13 @@
 
 /* Used in the network protocol. */
 enum terrain_class
-  count TC_COUNT
+  prefix TC_
+  count COUNT
 values
   /* TRANS: terrain class: used adjectivally */
-  TC_LAND N_("Land")
+  LAND N_("Land")
   /* TRANS: terrain class: used adjectivally */
-  TC_OCEAN N_("Oceanic")
+  OCEAN N_("Oceanic")
 end
 
 /* Types of alterations available to terrain.
@@ -21,73 +22,76 @@ end
  *
  * Used in the network protocol. */
 enum terrain_alteration
-  count TA_COUNT
+  prefix TA_
+  count COUNT
 values
   /* Can build irrigation without changing terrain */
   /* TRANS: this and following strings may rarely be presented to the player
    * in ruleset help text, to denote the set of terrains which can be altered
    * in a particular way */
-  TA_CAN_IRRIGATE N_("CanIrrigate")
+  CAN_IRRIGATE N_("CanIrrigate")
   /* Can build mine without changing terrain */
-  TA_CAN_MINE     N_("CanMine")
+  CAN_MINE     N_("CanMine")
   /* Can build roads and/or railroads */
-  TA_CAN_ROAD     N_("CanRoad")
+  CAN_ROAD     N_("CanRoad")
   /* Can build military base */
-  TA_CAN_BASE     N_("CanBase")
+  CAN_BASE     N_("CanBase")
   /* Can place extras with infrapoints */
-  TA_CAN_PLACE    N_("CanPlace")
+  CAN_PLACE    N_("CanPlace")
 end
 
 /* Used in the network protocol. */
 enum terrain_flag_id
+  prefix TER_
   name-override
   bitvector bv_terrain_flags
 values
   /* No barbarians summoned on this terrain. */
   /* TRANS: this and following strings are 'terrain flags', which may rarely
    * be presented to the player in ruleset help text */
-  TER_NO_BARBS N_("NoBarbs")
+  NO_BARBS N_("NoBarbs")
   /* No cities on this terrain. */
-  TER_NO_CITIES N_("NoCities")
+  NO_CITIES N_("NoCities")
   /* Players will start on this terrain type. */
-  TER_STARTER N_("Starter")
+  STARTER N_("Starter")
   /* Terrains with this type can have road with "River" flag on them. */
-  TER_CAN_HAVE_RIVER N_("CanHaveRiver")
+  CAN_HAVE_RIVER N_("CanHaveRiver")
   /* this tile is not safe as coast, (all ocean / ice) */
-  TER_UNSAFE_COAST N_("UnsafeCoast")
+  UNSAFE_COAST N_("UnsafeCoast")
   /* Fresh water terrain */
-  TER_FRESHWATER N_("FreshWater")
+  FRESHWATER N_("FreshWater")
   /* Map generator does not place this terrain */
-  TER_NOT_GENERATED N_("NotGenerated")
+  NOT_GENERATED N_("NotGenerated")
   /* Units on this terrain are not generating or subject to zoc */
-  TER_NO_ZOC N_("NoZoc")
+  NO_ZOC N_("NoZoc")
   /* Borders on this terrain are not blocking unit movement */
-  TER_ENTER_BORDERS N_("EnterBorders")
+  ENTER_BORDERS N_("EnterBorders")
   /* Ice-covered terrain (affects minimap) */
-  TER_FROZEN N_("Frozen")
-  TER_USER_1
-  TER_USER_2
-  TER_USER_3
-  TER_USER_4
-  TER_USER_5
-  TER_USER_6
-  TER_USER_7
-  TER_USER_8
-  TER_USER_9
-  TER_USER_LAST
+  FROZEN N_("Frozen")
+  USER_1
+  USER_2
+  USER_3
+  USER_4
+  USER_5
+  USER_6
+  USER_7
+  USER_8
+  USER_9
+  USER_LAST
 end
 
 enum mapgen_terrain_property
-  count MG_COUNT
+  prefix MG_
+  count COUNT
 values
-  MG_MOUNTAINOUS "mountainous"
-  MG_GREEN "green"
-  MG_FOLIAGE "foliage"
-  MG_TROPICAL "tropical"
-  MG_TEMPERATE "temperate"
-  MG_COLD "cold"
-  MG_FROZEN "frozen"
-  MG_WET "wet"
-  MG_DRY "dry"
-  MG_OCEAN_DEPTH "ocean_depth"
+  MOUNTAINOUS "mountainous"
+  GREEN "green"
+  FOLIAGE "foliage"
+  TROPICAL "tropical"
+  TEMPERATE "temperate"
+  COLD "cold"
+  FROZEN "frozen"
+  WET "wet"
+  DRY "dry"
+  OCEAN_DEPTH "ocean_depth"
 end

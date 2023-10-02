@@ -49,6 +49,9 @@ values
 end
 
 The following <enum options> are supported:
+- prefix <prefix>
+  prepended to all VALUEs, including ZERO and COUNT.
+  Should include any desired final separator.
 - bitwise
 - zero <SPECENUM_ZERO> <SPECENUM_ZERONAME (optional)>
   (requires bitwise)
@@ -311,20 +314,20 @@ class EnumValue:
         self.identifier = identifier
         self.name = name
 
-    def code_parts_custom(self, value: str) -> typing.Iterable[str]:
+    def code_parts_custom(self, value: str, prefix: str = "") -> typing.Iterable[str]:
         """Yield code defining this enum value for either a regular value,
         or special values like COUNT and ZERO."""
         yield f"""\
-#define SPECENUM_{value} {self.identifier}
+#define SPECENUM_{value} {prefix}{self.identifier}
 """
         if self.name is not None:
             yield f"""\
 #define SPECENUM_{value}NAME {self.name}
 """
 
-    def code_parts_value(self, index: int) -> typing.Iterable[str]:
+    def code_parts_value(self, index: int, prefix: str = "") -> typing.Iterable[str]:
         """Yield code defining this SPECENUM_VALUE"""
-        yield from self.code_parts_custom(f"VALUE{index}")
+        return self.code_parts_custom(f"VALUE{index}", prefix)
 
 
 # NB: avoid confusion with Python's Enum class
@@ -353,6 +356,9 @@ class Specenum:
 
     name: str
     """The SPECENUM_NAME of this enum"""
+
+    prefix: str = ""
+    """The prefix prepended to all value identifiers"""
 
     bitwise: bool = False
     """Whether this enum is bitwise"""
@@ -395,7 +401,13 @@ class Specenum:
             option: str = mo.group(1)
             arg: "str | None" = mo.group(2)
 
-            if option == "bitwise":
+            if option == "prefix":
+                if self.prefix:
+                    raise ValueError(f"duplicate option {option!r} for enum {self.name}")
+                if not arg:
+                    raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
+                self.prefix = arg
+            elif option == "bitwise":
                 if self.bitwise:
                     raise ValueError(f"duplicate option {option!r} for enum {self.name}")
                 if arg is not None:
@@ -461,13 +473,13 @@ class Specenum:
 #define SPECENUM_BITWISE
 """
             if self.zero is not None:
-                yield from self.zero.code_parts_custom("ZERO")
+                yield from self.zero.code_parts_custom("ZERO", self.prefix)
 
         for i, value in enumerate(self.values):
-            yield from value.code_parts_value(i)
+            yield from value.code_parts_value(i, self.prefix)
 
         if self.count is not None:
-            yield from self.count.code_parts_custom("COUNT")
+            yield from self.count.code_parts_custom("COUNT", self.prefix)
         if self.invalid is not None:
             yield f"""\
 #define SPECENUM_INVALID {self.invalid}
