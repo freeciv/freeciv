@@ -48,14 +48,16 @@ int tile_border_source_radius_sq(struct tile *ptile)
     radius_sq += MIN(city_size_get(pcity), CITY_MAP_MAX_RADIUS_SQ)
                  * game.info.border_size_effect;
   } else {
-    extra_type_by_cause_iterate(EC_BASE, pextra) {
-      struct base_type *pbase = extra_base_get(pextra);
+    struct extra_type_list *terr_claimers = extra_type_list_of_terr_claimers();
 
-      if (tile_has_extra(ptile, pextra) && territory_claiming_base(pbase)) {
+    extra_type_list_iterate(terr_claimers, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        struct base_type *pbase = extra_base_get(pextra);
+
         radius_sq = pbase->border_sq;
         break;
       }
-    } extra_type_by_cause_iterate_end;
+    } extra_type_list_iterate_end;
   }
 
   return radius_sq;
@@ -79,15 +81,15 @@ int tile_border_source_strength(struct tile *ptile)
     strength = (city_size_get(pcity) + 2)
       * (100 + get_city_bonus(pcity, EFT_BORDER_STRENGTH_PCT)) / 100;
   } else {
-    extra_type_by_cause_iterate(EC_BASE, pextra) {
-      struct base_type *pbase = extra_base_get(pextra);
+    struct extra_type_list *terr_claimers = extra_type_list_of_terr_claimers();
 
-      if (tile_has_extra(ptile, pextra) && territory_claiming_base(pbase)) {
-        /* Base strength 100/100 = 1 */
+    extra_type_list_iterate(terr_claimers, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        /* Base strength 100 / 100 = 1 */
         strength = (100 + get_tile_bonus(ptile, EFT_BORDER_STRENGTH_PCT)) / 100;
         break;
       }
-    } extra_type_by_cause_iterate_end;
+    } extra_type_list_iterate_end;
   }
 
   return strength;
@@ -118,13 +120,13 @@ bool is_border_source(struct tile *ptile)
   }
 
   if (extra_owner(ptile) != NULL) {
-    extra_type_by_cause_iterate(EC_BASE, pextra) {
-      struct base_type *pbase = extra_base_get(pextra);
+    struct extra_type_list *terr_claimers = extra_type_list_of_terr_claimers();
 
-      if (tile_has_extra(ptile, pextra) && territory_claiming_base(pbase)) {
+    extra_type_list_iterate(terr_claimers, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
         return TRUE;
       }
-    } extra_type_by_cause_iterate_end;
+    } extra_type_list_iterate_end;
   }
 
   return FALSE;

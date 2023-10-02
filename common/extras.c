@@ -37,6 +37,7 @@ static struct extra_type_list *removed_by[ERM_COUNT];
 static struct extra_type_list *cleanable;
 static struct extra_type_list *unit_hidden;
 static struct extra_type_list *zoccers;
+static struct extra_type_list *terr_claimer;
 
 /************************************************************************//**
   Initialize extras structures.
@@ -54,6 +55,7 @@ void extras_init(void)
   cleanable = extra_type_list_new();
   unit_hidden = extra_type_list_new();
   zoccers = extra_type_list_new();
+  terr_claimer = extra_type_list_new();
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
@@ -118,6 +120,8 @@ void extras_free(void)
   unit_hidden = NULL;
   extra_type_list_destroy(zoccers);
   zoccers = NULL;
+  extra_type_list_destroy(terr_claimer);
+  terr_claimer = NULL;
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
@@ -263,6 +267,14 @@ struct extra_type_list *extra_type_list_of_unit_hiders(void)
 struct extra_type_list *extra_type_list_of_zoccers(void)
 {
   return zoccers;
+}
+
+/************************************************************************//**
+  Returns extra types that claim terrain
+****************************************************************************/
+struct extra_type_list *extra_type_list_of_terr_claimers(void)
+{
+  return terr_claimer;
 }
 
 /************************************************************************//**
