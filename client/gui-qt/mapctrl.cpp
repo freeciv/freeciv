@@ -63,7 +63,7 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
     if (result == QDialog::Accepted) {
       QByteArray ask_bytes;
 
-      ask_bytes = ask->input_edit.text().toLocal8Bit();
+      ask_bytes = ask->input_edit.text().toUtf8();
       finish_city(index_to_tile(&(wld.map), index),
                   ask_bytes.data());
     } else {

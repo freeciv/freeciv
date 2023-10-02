@@ -1106,7 +1106,7 @@ void fc_client::start_scenario()
   if (is_server_running() && !current_file.isEmpty()) {
     QByteArray c_bytes;
 
-    c_bytes = current_file.toLocal8Bit();
+    c_bytes = current_file.toUtf8();
     send_chat_printf("/load %s", c_bytes.data());
     switch_page(PAGE_GAME + 1);
   }
@@ -1124,7 +1124,7 @@ void fc_client::start_from_save()
   if (is_server_running() && !current_file.isEmpty()) {
     QByteArray c_bytes;
 
-    c_bytes = current_file.toLocal8Bit();
+    c_bytes = current_file.toUtf8();
     send_chat_printf("/load %s", c_bytes.data());
     switch_page(PAGE_GAME + 1);
   }
@@ -1231,7 +1231,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
       load_save_text->setText("");
       break;
     }
-    fn_bytes = current_file.toLocal8Bit();
+    fn_bytes = current_file.toUtf8();
     if ((sf = secfile_load_section(fn_bytes.data(),
                                    "game", TRUE))) {
       const char *sname;
@@ -1258,7 +1258,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
       }
       for (int i = 0; i < num_players; i++) {
         pl_str = QString("player") + QString::number(i);
-        pl_bytes = pl_str.toLocal8Bit();
+        pl_bytes = pl_str.toUtf8();
         if ((sf = secfile_load_section(fn_bytes.data(),
                                        pl_bytes.data(), true))) {
           if (!secfile_lookup_bool_default(sf, true,
@@ -1276,7 +1276,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
       }
 
       /* Information about human player */
-      pl_bytes = pl_str.toLocal8Bit();
+      pl_bytes = pl_str.toUtf8();
       if ((sf = secfile_load_section(fn_bytes.data(),
                                      pl_bytes.data(), true))) {
         sname = secfile_lookup_str_default(sf, nullptr, "player%d.nation",
@@ -1609,9 +1609,9 @@ void fc_client::slot_connect()
 
   switch (connection_status) {
   case LOGIN_TYPE:
-    ba_bytes = connect_login_edit->text().toLocal8Bit();
+    ba_bytes = connect_login_edit->text().toUtf8();
     sz_strlcpy(user_name, ba_bytes.data());
-    ba_bytes = connect_host_edit->text().toLocal8Bit();
+    ba_bytes = connect_host_edit->text().toUtf8();
     sz_strlcpy(server_host, ba_bytes.data());
     server_port = connect_port_edit->text().toInt();
 

@@ -2339,7 +2339,7 @@ void city_dialog::city_rename()
       return;
     }
 
-    ask_bytes = ask->input_edit.text().toLocal8Bit();
+    ask_bytes = ask->input_edit.text().toUtf8();
     ::city_rename(pcity, ask_bytes.data());
   });
   ask->show();
@@ -2385,7 +2385,7 @@ void city_dialog::save_cma()
   connect(ask, &hud_message_box::accepted, this,
           CAPTURE_DEFAULT_THIS () {
     struct cm_parameter param;
-    QByteArray ask_bytes = ask->input_edit.text().toLocal8Bit();
+    QByteArray ask_bytes = ask->input_edit.text().toUtf8();
     QString text = ask_bytes.data();
     if (!text.isEmpty()) {
       param.allow_disorder = false;
@@ -2399,7 +2399,7 @@ void city_dialog::save_cma()
         param.factor[i] = slider_tab[2 * i + 1]->value();
       }
 
-      ask_bytes = text.toLocal8Bit();
+      ask_bytes = text.toUtf8();
       cmafec_preset_add(ask_bytes.data(), &param);
       update_cma_tab();
     }
@@ -3653,10 +3653,10 @@ void city_dialog::save_worklist()
     QString text;
     struct city *pcity = game_city_by_number(city_id);
 
-    ask_bytes = ask->input_edit.text().toLocal8Bit();
+    ask_bytes = ask->input_edit.text().toUtf8();
     text = ask_bytes.data();
     if (!text.isEmpty()) {
-      ask_bytes = text.toLocal8Bit();
+      ask_bytes = text.toUtf8();
       gw = global_worklist_new(ask_bytes.data());
       city_get_queue(pcity, &queue);
       global_worklist_set(gw, &queue);

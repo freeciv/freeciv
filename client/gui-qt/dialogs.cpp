@@ -903,9 +903,9 @@ void notify_dialog::restart()
       q = q + QChar('\n');
     }
   }
-  capt_bytes = qcaption.toLocal8Bit();
-  hl_bytes = qheadline.toLocal8Bit();
-  qb_bytes = q.toLocal8Bit();
+  capt_bytes = qcaption.toUtf8();
+  hl_bytes = qheadline.toUtf8();
+  qb_bytes = q.toUtf8();
   popup_notify_dialog(capt_bytes.data(),
                       hl_bytes.data(),
                       qb_bytes.data());
@@ -1151,7 +1151,7 @@ void races_dialog::nationset_changed(int index)
   struct option *poption = optset_option_by_name(server_optset, "nationset");
 
   rule_name = qnation_set->currentData().toString();
-  rn_bytes = rule_name.toLocal8Bit(); /* Hold QByteArray in a variable to
+  rn_bytes = rule_name.toUtf8(); /* Hold QByteArray in a variable to
                                        * extend its, and data() buffer's,
                                        * lifetime */
   rn = rn_bytes.data();

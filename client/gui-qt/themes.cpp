@@ -178,9 +178,9 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
   for (int i = 0; i < *count; i++) {
     QByteArray tn_bytes;
 
-    qba = theme_list[i].toLocal8Bit();
-    data = new char[theme_list[i].toLocal8Bit().length() + 1];
-    tn_bytes = theme_list[i].toLocal8Bit();
+    qba = theme_list[i].toUtf8();
+    data = new char[theme_list[i].toUtf8().length() + 1];
+    tn_bytes = theme_list[i].toUtf8();
     strcpy(data, tn_bytes.data());
     array[i] = data;
   }

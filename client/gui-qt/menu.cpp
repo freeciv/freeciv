@@ -3647,7 +3647,7 @@ void mr_menu::tileset_custom_load()
   foreach (s, sl) {
     QByteArray on_bytes;
 
-    on_bytes = s.toLocal8Bit();
+    on_bytes = s.toUtf8();
     poption = optset_option_by_name(client_optset, on_bytes.data());
     tlset_list = get_tileset_list(poption);
     strvec_iterate(tlset_list, value) {
@@ -3670,7 +3670,7 @@ void mr_menu::load_new_tileset()
   QByteArray tn_bytes;
 
   but = qobject_cast<QPushButton *>(sender());
-  tn_bytes = but->text().toLocal8Bit();
+  tn_bytes = but->text().toUtf8();
   tilespec_reread(tn_bytes.data(), true, 1.0f);
   gui()->map_scale = 1.0f;
   but->parentWidget()->close();
@@ -3870,7 +3870,7 @@ void mr_menu::save_game_as()
   if (!current_file.isEmpty()) {
     QByteArray cf_bytes;
 
-    cf_bytes = current_file.toLocal8Bit();
+    cf_bytes = current_file.toUtf8();
     send_save_game(cf_bytes.data());
   }
 }

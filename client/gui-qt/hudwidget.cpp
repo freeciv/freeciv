@@ -655,7 +655,7 @@ void hud_units::update_actions(unit_list *punits)
   } else if (num > 1) {
     QByteArray ut_bytes;
 
-    ut_bytes = snum.toLocal8Bit();
+    ut_bytes = snum.toUtf8();
     /* TRANS: preserve leading space */
     text_str = text_str + QString(PL_(" +%1 unit",
                                       " +%1 units", num-1))

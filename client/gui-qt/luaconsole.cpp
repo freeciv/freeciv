@@ -79,7 +79,7 @@ void qload_lua_script()
                                               _("Load lua script"),
                                               QDir::homePath(), str);
   if (!qlua_filename.isEmpty()) {
-    script_client_do_file(qlua_filename.toLocal8Bit().constData());
+    script_client_do_file(qlua_filename.toUtf8().constData());
   }
 }
 
@@ -89,6 +89,6 @@ void qload_lua_script()
 void qreload_lua_script()
 {
   if (!qlua_filename.isEmpty()) {
-    script_client_do_file(qlua_filename.toLocal8Bit().constData());
+    script_client_do_file(qlua_filename.toUtf8().constData());
   }
 }

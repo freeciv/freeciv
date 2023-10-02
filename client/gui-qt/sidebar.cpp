@@ -382,7 +382,7 @@ void fc_sidewidget::some_slot()
     QByteArray cn_bytes;
 
     s = QString("/observe \"%1\"").arg(obs_player->name);
-    cn_bytes = s.toLocal8Bit();
+    cn_bytes = s.toUtf8();
     send_chat(cn_bytes.data());
   }
 }
