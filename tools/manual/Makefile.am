@@ -20,6 +20,7 @@ AM_CPPFLAGS = $(common_cppflags)
 freeciv_manual_SOURCES =		\
 		fc_manual.c		\
 		fc_manual.h		\
+		manual_buildings.c	\
 		manual_commands.c	\
 		manual_settings.c	\
 		manual_terrain.c

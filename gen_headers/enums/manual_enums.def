@@ -8,12 +8,12 @@
 enum manuals
   count MANUAL_COUNT
 values
-  MANUAL_SETTINGS  "Settings"
-  MANUAL_COMMANDS  "Commands"
-  MANUAL_TERRAIN   "Terrain"
-  MANUAL_BUILDINGS "Buildings"
-  MANUAL_WONDERS   "Wonders"
-  MANUAL_GOVS      "Governments"
-  MANUAL_UNITS     "Units"
-  MANUAL_TECHS     "Techs"
+  MANUAL_SETTINGS  N_("Settings")
+  MANUAL_COMMANDS  N_("Commands")
+  MANUAL_TERRAIN   N_("Terrain")
+  MANUAL_BUILDINGS N_("Buildings")
+  MANUAL_WONDERS   N_("Wonders")
+  MANUAL_GOVS      N_("Governments")
+  MANUAL_UNITS     N_("Units")
+  MANUAL_TECHS     N_("Techs")
 end

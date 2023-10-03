@@ -4283,6 +4283,7 @@ if get_option('tools').contains('manual')
 
 executable('freeciv-manual',
   'tools/manual/fc_manual.c',
+  'tools/manual/manual_buildings.c',
   'tools/manual/manual_commands.c',
   'tools/manual/manual_settings.c',
   'tools/manual/manual_terrain.c',

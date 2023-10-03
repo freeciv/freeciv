@@ -354,11 +354,12 @@ static bool manual_command(struct tag_types *tag_info)
 
   if (!manual_settings(tag_info)
       || !manual_commands(tag_info)
-      || !manual_terrain(tag_info)) {
+      || !manual_terrain(tag_info)
+      || !manual_buildings(tag_info)) {
     return FALSE;
   }
 
-  for (manuals = MANUAL_BUILDINGS; manuals < MANUAL_COUNT; manuals++) {
+  for (manuals = MANUAL_GOVS; manuals < MANUAL_COUNT; manuals++) {
     char mnamebuf[20];
     FILE *doc;
 
@@ -372,88 +373,10 @@ static bool manual_command(struct tag_types *tag_info)
     case MANUAL_SETTINGS:
     case MANUAL_COMMANDS:
     case MANUAL_TERRAIN:
-      /* Should be handled in separate functions */
-      fc_assert(FALSE);
-      break;
-
     case MANUAL_BUILDINGS:
     case MANUAL_WONDERS:
-      if (manuals == MANUAL_BUILDINGS) {
-        /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-        fprintf(doc, _("%sFreeciv %s buildings help (%s)%s\n\n"), tag_info->title_begin,
-                VERSION_STRING, game.control.name, tag_info->title_end);
-      } else {
-        /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-        fprintf(doc, _("%sFreeciv %s wonders help (%s)%s\n\n"), tag_info->title_begin,
-                VERSION_STRING, game.control.name, tag_info->title_end);
-      }
-
-      fprintf(doc, "<table>\n<tr bgcolor=#9bc3d1><th colspan=2>%s</th>"
-                   "<th>%s<br/>%s</th><th>%s<br/>%s</th><th>%s</th></tr>\n\n",
-              _("Name"), _("Cost"), _("Upkeep"),
-              _("Requirement"), _("Obsolete by"), _("More info"));
-
-      improvement_iterate(pimprove) {
-        char buf[64000];
-
-        if (!valid_improvement(pimprove)
-            || is_great_wonder(pimprove) == (manuals == MANUAL_BUILDINGS)) {
-          continue;
-        }
-
-        helptext_building(buf, sizeof(buf), NULL, NULL, pimprove);
-
-        fprintf(doc, "<tr><td>%s%s%s</td><td>%s</td>\n"
-                     "<td align=\"center\"><b>%d</b><br/>%d</td>\n<td>",
-                tag_info->image_begin, pimprove->graphic_str, tag_info->image_end,
-                improvement_name_translation(pimprove),
-                pimprove->build_cost,
-                pimprove->upkeep);
-
-        if (requirement_vector_size(&pimprove->reqs) == 0) {
-          char text[512];
-
-          strncpy(text, Q_("?req:None"), sizeof(text) - 1);
-          fprintf(doc, "%s<br/>", text);
-        } else {
-          requirement_vector_iterate(&pimprove->reqs, req) {
-            char text[512], text2[512];
-
-            fc_snprintf(text2, sizeof(text2),
-                        /* TRANS: Feature required to be absent. */
-                        req->present ? "%s" : _("no %s"),
-                        universal_name_translation(&req->source,
-                                                   text, sizeof(text)));
-            fprintf(doc, "%s<br/>", text2);
-          } requirement_vector_iterate_end;
-        }
-
-        fprintf(doc, "\n%s\n", tag_info->hline);
-
-        if (requirement_vector_size(&pimprove->obsolete_by) == 0) {
-          char text[512];
-
-          strncpy(text, Q_("?req:None"), sizeof(text) - 1);
-          fprintf(doc, "<em>%s</em><br/>", text);
-        } else {
-          requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-            char text[512], text2[512];
-
-            fc_snprintf(text2, sizeof(text2),
-                        /* TRANS: Feature required to be absent. */
-                        pobs->present ? "%s" : _("no %s"),
-                        universal_name_translation(&pobs->source,
-                                                   text, sizeof(text)));
-            fprintf(doc, "<em>%s</em><br/>", text2);
-          } requirement_vector_iterate_end;
-        }
-
-        fprintf(doc,
-                "</td>\n<td>%s</td>\n</tr><tr><td colspan=\"5\"><hr></td></tr>\n\n",
-                buf);
-      } improvement_iterate_end;
-
-      fprintf(doc, "</table>");
+      /* Should be handled in separate functions */
+      fc_assert(FALSE);
       break;
 
     case MANUAL_GOVS:
