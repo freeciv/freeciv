@@ -712,22 +712,28 @@ static void move_from_container_to_container(GtkWidget *wdg,
 }
 
 /**********************************************************************//**
-  Reattaches the detached widget when the user destroys it.
+  Reattach tearoff to its normal parent and destroy the detach window.
 **************************************************************************/
-static void tearoff_destroy(GtkWidget *w, gpointer data)
+static void tearoff_reattach(GtkWidget *box)
 {
-  GtkWidget *p, *b, *box;
-  GtkWidget *old_parent;
+  GtkWidget *aparent, *cparent;
 
-  box = GTK_WIDGET(data);
-  old_parent = gtk_widget_get_parent(box);
-  p = g_object_get_data(G_OBJECT(w), "parent");
-  b = g_object_get_data(G_OBJECT(w), "toggle");
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(b), FALSE);
+  aparent = g_object_get_data(G_OBJECT(box), "aparent");
+  cparent = gtk_widget_get_parent(box);
 
-  gtk_widget_hide(w);
+  if (aparent != cparent) {
+    move_from_container_to_container(box, cparent, aparent);
 
-  move_from_container_to_container(box, old_parent, p);
+    gtk_window_destroy(GTK_WINDOW(cparent));
+  }
+}
+
+/**********************************************************************//**
+  User requested close of the detach window.
+**************************************************************************/
+static void tearoff_close(GtkWidget *w, gpointer data)
+{
+  tearoff_reattach(GTK_WIDGET(data));
 }
 
 /**********************************************************************//**
@@ -747,10 +753,9 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     setup_dialog(w, toplevel);
     gtk_widget_set_name(w, "Freeciv");
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
-    g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
+    g_signal_connect(w, "close-request", G_CALLBACK(tearoff_close), box);
 
-    g_object_set_data(G_OBJECT(w), "parent", gtk_widget_get_parent(box));
-    g_object_set_data(G_OBJECT(w), "toggle", b);
+    g_object_set_data(G_OBJECT(box), "aparent", gtk_widget_get_parent(box));
 
     temp_hide = g_object_get_data(G_OBJECT(box), "hide-over-reparent");
     if (temp_hide != NULL) {
@@ -765,13 +770,7 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
       gtk_widget_show(temp_hide);
     }
   } else {
-    if (GTK_IS_BOX(old_parent)) {
-      gtk_box_remove(GTK_BOX(old_parent), box);
-    } else {
-      fc_assert(GTK_IS_PANED(old_parent));
-
-      gtk_paned_set_end_child(GTK_PANED(old_parent), NULL);
-    }
+    tearoff_reattach(box);
   }
 }
 
@@ -780,9 +779,9 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
 **************************************************************************/
 static GtkWidget *detached_widget_new(void)
 {
-  GtkWidget *hgrid = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+  GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 
-  return hgrid;
+  return hbox;
 }
 
 /**********************************************************************//**
@@ -1173,7 +1172,6 @@ static void setup_widgets(void)
   gtk_widget_add_controller(overview_canvas, mc_controller);
 
   /* The rest */
-
   ahbox = detached_widget_new();
   gtk_box_append(GTK_BOX(vbox), ahbox);
   gtk_widget_set_hexpand(ahbox, FALSE);
