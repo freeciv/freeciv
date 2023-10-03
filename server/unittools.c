@@ -3018,13 +3018,18 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
     /* Only take in account values from player map. */
     const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
-    if (NULL == plrtile->site
-        && !is_native_to_class(unit_class_get(punit), plrtile->terrain,
-                               &(plrtile->extras))) {
-      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                    _("This unit cannot paradrop into %s."),
-                    terrain_name_translation(plrtile->terrain));
-      return FALSE;
+    if (NULL == plrtile->site) {
+      bv_extras fbv;
+
+      dbv_to_bv(fbv.vec, &(plrtile->extras));
+
+      if (!is_native_to_class(unit_class_get(punit), plrtile->terrain,
+                              &fbv)) {
+        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                      _("This unit cannot paradrop into %s."),
+                      terrain_name_translation(plrtile->terrain));
+        return FALSE;
+      }
     }
 
     if (NULL != plrtile->site

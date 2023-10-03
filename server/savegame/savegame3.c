@@ -308,9 +308,12 @@ static void worklist_save(struct section_file *file,
                           int max_length, const char *path, ...);
 static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
-static char sg_extras_get(bv_extras extras, struct extra_type *presource,
-                          const int *idx);
+static void sg_extras_set_dbv(struct dbv *extras, char ch, struct extra_type **idx);
+static void sg_extras_set_bv(bv_extras *extras, char ch, struct extra_type **idx);
+static char sg_extras_get_dbv(struct dbv *extras, struct extra_type *presource,
+                              const int *idx);
+static char sg_extras_get_bv(bv_extras extras, struct extra_type *presource,
+                             const int *idx);
 static struct terrain *char2terrain(char ch);
 static char terrain2char(const struct terrain *pterrain);
 static Tech_type_id technology_load(struct section_file *file,
@@ -1089,7 +1092,41 @@ static void unit_ordering_apply(void)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
+static void sg_extras_set_dbv(struct dbv *extras, char ch,
+                              struct extra_type **idx)
+{
+  int i, bin;
+  const char *pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    log_sg("Unknown hex value: '%c' (%d)", ch, ch);
+    bin = 0;
+  } else {
+    bin = pch - hex_chars;
+  }
+
+  for (i = 0; i < 4; i++) {
+    struct extra_type *pextra = idx[i];
+
+    if (pextra == NULL) {
+      continue;
+    }
+    if ((bin & (1 << i))
+        && (wld.map.server.have_huts || !is_extra_caused_by(pextra, EC_HUT))) {
+      dbv_set(extras, extra_index(pextra));
+    }
+  }
+}
+
+/************************************************************************//**
+  Helper function for loading extras from a savegame.
+
+  'ch' gives the character loaded from the savegame. Extras are packed
+  in four to a character in hex notation. 'index' is a mapping of
+  savegame bit -> base bit.
+****************************************************************************/
+static void sg_extras_set_bv(bv_extras *extras, char ch,
+                             struct extra_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -1120,8 +1157,41 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
   Extras are packed in four to a character in hex notation. 'index'
   specifies which set of extras are included in this character.
 ****************************************************************************/
-static char sg_extras_get(bv_extras extras, struct extra_type *presource,
-                          const int *idx)
+static char sg_extras_get_dbv(struct dbv *extras, struct extra_type *presource,
+                              const int *idx)
+{
+  int i, bin = 0;
+  int max = dbv_bits(extras);
+
+  for (i = 0; i < 4; i++) {
+    int extra = idx[i];
+
+    if (extra < 0) {
+      break;
+    }
+
+    if (extra < max
+        && (dbv_isset(extras, extra)
+            /* An invalid resource, a resource that can't exist at the tile's
+             * current terrain, isn't in the bit extra vector. Save it so it
+             * can return if the tile's terrain changes to something it can
+             * exist on. */
+            || extra_by_number(extra) == presource)) {
+      bin |= (1 << i);
+    }
+  }
+
+  return hex_chars[bin];
+}
+
+/************************************************************************//**
+  Helper function for saving extras into a savegame.
+
+  Extras are packed in four to a character in hex notation. 'index'
+  specifies which set of extras are included in this character.
+****************************************************************************/
+static char sg_extras_get_bv(bv_extras extras, struct extra_type *presource,
+                             const int *idx)
 {
   int i, bin = 0;
 
@@ -2898,7 +2968,8 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
 
   /* Load extras. */
   halfbyte_iterate_extras(j, loading->extra.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_extras_set(&ptile->extras, ch, loading->extra.order + 4 * j),
+    LOAD_MAP_CHAR(ch, ptile, sg_extras_set_bv(&ptile->extras, ch,
+                                              loading->extra.order + 4 * j),
                   loading->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
 
@@ -2939,7 +3010,7 @@ static void sg_save_map_tiles_extras(struct savedata *saving)
         mod[l] = 4 * j + l;
       }
     }
-    SAVE_MAP_CHAR(ptile, sg_extras_get(ptile->extras, ptile->resource, mod),
+    SAVE_MAP_CHAR(ptile, sg_extras_get_bv(ptile->extras, ptile->resource, mod),
                   saving->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
 }
@@ -6973,8 +7044,8 @@ static void sg_load_player_vision(struct loaddata *loading,
   /* Load player map (extras). */
   halfbyte_iterate_extras(j, loading->extra.size) {
     LOAD_MAP_CHAR(ch, ptile,
-                  sg_extras_set(&map_get_player_tile(ptile, plr)->extras,
-                                ch, loading->extra.order + 4 * j),
+                  sg_extras_set_dbv(&(map_get_player_tile(ptile, plr)->extras),
+                                    ch, loading->extra.order + 4 * j),
                   loading->file, "player%d.map_e%02d_%04d", plrno, j);
   } halfbyte_iterate_extras_end;
 
@@ -7293,9 +7364,9 @@ static void sg_save_player_vision(struct savedata *saving,
     }
 
     SAVE_MAP_CHAR(ptile,
-                  sg_extras_get(map_get_player_tile(ptile, plr)->extras,
-                                map_get_player_tile(ptile, plr)->resource,
-                                mod),
+                  sg_extras_get_dbv(&(map_get_player_tile(ptile, plr)->extras),
+                                    map_get_player_tile(ptile, plr)->resource,
+                                    mod),
                   saving->file, "player%d.map_e%02d_%04d", plrno, j);
   } halfbyte_iterate_extras_end;
 
