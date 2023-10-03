@@ -549,7 +549,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                          : 0;
 
       if (pplayer != NULL) {
-	info.extras = map_get_player_tile(ptile, pplayer)->extras;
+        dbv_to_bv(info.extras.vec, &(map_get_player_tile(ptile, pplayer)->extras));
       } else {
 	info.extras = ptile->extras;
       }
@@ -587,7 +587,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.placing = -1;
       info.place_turn = 0;
 
-      info.extras = plrtile->extras;
+      dbv_to_bv(info.extras.vec, &(plrtile->extras));
 
       /* Labels never change, so they are not subject to fog of war */
       if (ptile->label != NULL) {
@@ -1320,7 +1320,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   plrtile->owner = NULL;
   plrtile->extras_owner = NULL;
   plrtile->site = NULL;
-  BV_CLR_ALL(plrtile->extras);
+  dbv_init(&(plrtile->extras), extra_count());
   if (!game.server.last_updated_year) {
     plrtile->last_updated = game.info.turn;
   } else {
@@ -1343,6 +1343,8 @@ static void player_tile_free(struct tile *ptile, struct player *pplayer)
   if (plrtile->site != NULL) {
     vision_site_destroy(plrtile->site);
   }
+
+  dbv_free(&(plrtile->extras));
 }
 
 /**********************************************************************//**
@@ -1384,16 +1386,16 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
   if (plrtile->terrain != ptile->terrain
-      || !BV_ARE_EQUAL(plrtile->extras, ptile->extras)
+      || !bv_match_dbv(&(plrtile->extras), ptile->extras.vec)
       || plrtile->resource != ptile->resource
       || plrtile->owner != tile_owner(ptile)
       || plrtile->extras_owner != extra_owner(ptile)) {
     plrtile->terrain = ptile->terrain;
     extra_type_iterate(pextra) {
       if (player_knows_extra_exist(pplayer, pextra, ptile)) {
-	BV_SET(plrtile->extras, extra_number(pextra));
+	dbv_set(&(plrtile->extras), extra_number(pextra));
       } else {
-	BV_CLR(plrtile->extras, extra_number(pextra));
+	dbv_clr(&(plrtile->extras), extra_number(pextra));
       }
     } extra_type_iterate_end;
     plrtile->resource = ptile->resource;
@@ -1485,7 +1487,7 @@ static bool really_give_tile_info_from_player_to_player(struct player *pfrom,
       /* Update and send tile knowledge */
       map_set_known(ptile, pdest);
       dest_tile->terrain = from_tile->terrain;
-      dest_tile->extras   = from_tile->extras;
+      dbv_copy(&(dest_tile->extras), &(from_tile->extras));
       dest_tile->resource = from_tile->resource;
       dest_tile->owner    = from_tile->owner;
       dest_tile->extras_owner = from_tile->extras_owner;

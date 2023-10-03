@@ -302,12 +302,20 @@ static void worklist_load(struct section_file *file, int wlist_max_length,
                           struct worklist *pwl,
                           const char *path, ...);
 static void unit_ordering_apply(void);
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
-static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
-                           const enum tile_special_type *idx,
-                           bool rivers_overlay);
-static void sg_bases_set(bv_extras *extras, char ch, struct base_type **idx);
-static void sg_roads_set(bv_extras *extras, char ch, struct road_type **idx);
+static void sg_extras_set_dbv(struct dbv *extras, char ch,
+                              struct extra_type **idx);
+static void sg_extras_set_bv(bv_extras *extras, char ch,
+                             struct extra_type **idx);
+static void sg_special_set_dbv(struct tile *ptile, struct dbv *extras, char ch,
+                               const enum tile_special_type *idx,
+                               bool rivers_overlay);
+static void sg_special_set_bv(struct tile *ptile, bv_extras *extras, char ch,
+                              const enum tile_special_type *idx,
+                              bool rivers_overlay);
+static void sg_bases_set_dbv(struct dbv *extras, char ch, struct base_type **idx);
+static void sg_bases_set_bv(bv_extras *extras, char ch, struct base_type **idx);
+static void sg_roads_set_dbv(struct dbv *extras, char ch, struct road_type **idx);
+static void sg_roads_set_bv(bv_extras *extras, char ch, struct road_type **idx);
 static struct extra_type *char2resource(char c);
 static struct terrain *char2terrain(char ch);
 static Tech_type_id technology_load(struct section_file *file,
@@ -844,7 +852,41 @@ static void unit_ordering_apply(void)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
+static void sg_extras_set_dbv(struct dbv *extras, char ch,
+                              struct extra_type **idx)
+{
+  int i, bin;
+  const char *pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    log_sg("Unknown hex value: '%c' (%d)", ch, ch);
+    bin = 0;
+  } else {
+    bin = pch - hex_chars;
+  }
+
+  for (i = 0; i < 4; i++) {
+    struct extra_type *pextra = idx[i];
+
+    if (pextra == NULL) {
+      continue;
+    }
+    if ((bin & (1 << i))
+        && (wld.map.server.have_huts || !is_extra_caused_by(pextra, EC_HUT))) {
+      dbv_set(extras, extra_index(pextra));
+    }
+  }
+}
+
+/************************************************************************//**
+  Helper function for loading extras from a savegame.
+
+  'ch' gives the character loaded from the savegame. Extras are packed
+  in four to a character in hex notation. 'index' is a mapping of
+  savegame bit -> base bit.
+****************************************************************************/
+static void sg_extras_set_bv(bv_extras *extras, char ch,
+                             struct extra_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -876,9 +918,146 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
-static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
-                           const enum tile_special_type *idx,
-                           bool rivers_overlay)
+static void sg_special_set_dbv(struct tile *ptile, struct dbv *extras, char ch,
+                               const enum tile_special_type *idx,
+                               bool rivers_overlay)
+{
+  int i, bin;
+  const char *pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    log_sg("Unknown hex value: '%c' (%d)", ch, ch);
+    bin = 0;
+  } else {
+    bin = pch - hex_chars;
+  }
+
+  for (i = 0; i < 4; i++) {
+    enum tile_special_type sp = idx[i];
+
+    if (sp == S_LAST) {
+      continue;
+    }
+    if (rivers_overlay && sp != S_OLD_RIVER) {
+      continue;
+    }
+
+    if (sp == S_HUT && !wld.map.server.have_huts) {
+      /* It would be logical to have this in the saving side -
+       * really not saving the huts in the first place, BUT
+       * 1) They have been saved by older versions, so we
+       *    have to deal with such savegames.
+       * 2) This makes scenario author less likely to lose
+       *    one's work completely after carefully placing huts
+       *    and then saving with 'have_huts' disabled. */
+      continue;
+    }
+
+    if (bin & (1 << i)) {
+      if (sp == S_OLD_ROAD) {
+        struct road_type *proad;
+
+        proad = road_by_compat_special(ROCO_ROAD);
+        if (proad) {
+          BV_SET(*extras, extra_index(road_extra_get(proad)));
+        }
+      } else if (sp == S_OLD_RAILROAD) {
+        struct road_type *proad;
+
+        proad = road_by_compat_special(ROCO_RAILROAD);
+        if (proad) {
+          BV_SET(*extras, extra_index(road_extra_get(proad)));
+        }
+      } else if (sp == S_OLD_RIVER) {
+        struct road_type *proad;
+
+        proad = road_by_compat_special(ROCO_RIVER);
+        if (proad) {
+          BV_SET(*extras, extra_index(road_extra_get(proad)));
+        }
+      } else {
+        struct extra_type *pextra = NULL;
+        enum extra_cause cause = EC_COUNT;
+
+        /* Converting from old hardcoded specials to as sensible extra as we can */
+        switch (sp) {
+        case S_IRRIGATION:
+        case S_FARMLAND:
+          /* If old savegame has both irrigation and farmland, EC_IRRIGATION
+           * gets applied twice, which hopefully has the correct result. */
+          cause = EC_IRRIGATION;
+          break;
+        case S_MINE:
+          cause = EC_MINE;
+          break;
+        case S_POLLUTION:
+          cause = EC_POLLUTION;
+          break;
+        case S_HUT:
+          cause = EC_HUT;
+          break;
+        case S_FALLOUT:
+          cause = EC_FALLOUT;
+          break;
+        default:
+          pextra = extra_type_by_rule_name(special_rule_name(sp));
+          break;
+        }
+
+        if (cause != EC_COUNT) {
+          struct tile *vtile = tile_virtual_new(ptile);
+          struct terrain *pterr = tile_terrain(vtile);
+          const struct req_context tile_ctxt = { .tile = vtile };
+
+          /* Do not let the extras already set to the real tile mess with setup
+           * of the player tiles if that's what we're doing. */
+          dbv_to_bv(vtile->extras.vec, extras);
+
+          /* It's ok not to know which player or which unit originally built the extra -
+           * in the rules used when specials were saved these could not have made any
+           * difference. */
+          /* Can't use next_extra_for_tile() as it works for buildable extras only. */
+
+          if ((cause != EC_IRRIGATION || pterr->irrigation_time != 0)
+              && (cause != EC_MINE || pterr->mining_time != 0)
+              && (cause != EC_BASE || pterr->base_time != 0)
+              && (cause != EC_ROAD || pterr->road_time != 0)) {
+            extra_type_by_cause_iterate(cause, candidate) {
+              if (!tile_has_extra(vtile, candidate)) {
+                if ((!is_extra_caused_by(candidate, EC_BASE)
+                     || tile_city(vtile) != NULL
+                     || extra_base_get(candidate)->border_sq <= 0)
+                    && are_reqs_active(&tile_ctxt, tile_owner(vtile),
+                                       &candidate->reqs,
+                                       RPT_POSSIBLE)) {
+                  pextra = candidate;
+                  break;
+                }
+              }
+            } extra_type_by_cause_iterate_end;
+          }
+
+          tile_virtual_destroy(vtile);
+        }
+
+        if (pextra) {
+          dbv_set(extras, extra_index(pextra));
+        }
+      }
+    }
+  }
+}
+
+/************************************************************************//**
+  Complicated helper function for loading specials from a savegame.
+
+  'ch' gives the character loaded from the savegame. Specials are packed
+  in four to a character in hex notation. 'index' is a mapping of
+  savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
+****************************************************************************/
+static void sg_special_set_bv(struct tile *ptile, bv_extras *extras, char ch,
+                              const enum tile_special_type *idx,
+                              bool rivers_overlay)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -1013,7 +1192,39 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_bases_set(bv_extras *extras, char ch, struct base_type **idx)
+static void sg_bases_set_dbv(struct dbv *extras, char ch,
+                             struct base_type **idx)
+{
+  int i, bin;
+  const char *pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    log_sg("Unknown hex value: '%c' (%d)", ch, ch);
+    bin = 0;
+  } else {
+    bin = pch - hex_chars;
+  }
+
+  for (i = 0; i < 4; i++) {
+    struct base_type *pbase = idx[i];
+
+    if (pbase == NULL) {
+      continue;
+    }
+    if (bin & (1 << i)) {
+      dbv_set(extras, extra_index(base_extra_get(pbase)));
+    }
+  }
+}
+
+/************************************************************************//**
+  Helper function for loading bases from a savegame.
+
+  'ch' gives the character loaded from the savegame. Bases are packed
+  in four to a character in hex notation. 'index' is a mapping of
+  savegame bit -> base bit.
+****************************************************************************/
+static void sg_bases_set_bv(bv_extras *extras, char ch, struct base_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -1044,7 +1255,38 @@ static void sg_bases_set(bv_extras *extras, char ch, struct base_type **idx)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> road bit.
 ****************************************************************************/
-static void sg_roads_set(bv_extras *extras, char ch, struct road_type **idx)
+static void sg_roads_set_dbv(struct dbv *extras, char ch, struct road_type **idx)
+{
+  int i, bin;
+  const char *pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    log_sg("Unknown hex value: '%c' (%d)", ch, ch);
+    bin = 0;
+  } else {
+    bin = pch - hex_chars;
+  }
+
+  for (i = 0; i < 4; i++) {
+    struct road_type *proad = idx[i];
+
+    if (proad == NULL) {
+      continue;
+    }
+    if (bin & (1 << i)) {
+      dbv_set(extras, extra_index(road_extra_get(proad)));
+    }
+  }
+}
+
+/************************************************************************//**
+  Helper function for loading roads from a savegame.
+
+  'ch' gives the character loaded from the savegame. Roads are packed
+  in four to a character in hex notation. 'index' is a mapping of
+  savegame bit -> road bit.
+****************************************************************************/
+static void sg_roads_set_bv(bv_extras *extras, char ch, struct road_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -2050,7 +2292,8 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
 
   /* Load extras. */
   halfbyte_iterate_extras(j, loading->extra.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_extras_set(&ptile->extras, ch, loading->extra.order + 4 * j),
+    LOAD_MAP_CHAR(ch, ptile, sg_extras_set_bv(&ptile->extras,
+                                              ch, loading->extra.order + 4 * j),
                   loading->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
 }
@@ -2065,8 +2308,8 @@ static void sg_load_map_tiles_bases(struct loaddata *loading)
 
   /* Load bases. */
   halfbyte_iterate_bases(j, loading->base.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_bases_set(&ptile->extras, ch,
-                                          loading->base.order + 4 * j),
+    LOAD_MAP_CHAR(ch, ptile, sg_bases_set_bv(&ptile->extras, ch,
+                                             loading->base.order + 4 * j),
                   loading->file, "map.b%02d_%04d", j);
   } halfbyte_iterate_bases_end;
 }
@@ -2081,8 +2324,8 @@ static void sg_load_map_tiles_roads(struct loaddata *loading)
 
   /* Load roads. */
   halfbyte_iterate_roads(j, loading->road.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_roads_set(&ptile->extras, ch,
-                                          loading->road.order + 4 * j),
+    LOAD_MAP_CHAR(ch, ptile, sg_roads_set_bv(&ptile->extras, ch,
+                                             loading->road.order + 4 * j),
                   loading->file, "map.r%02d_%04d", j);
   } halfbyte_iterate_roads_end;
 }
@@ -2111,9 +2354,9 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
    * the rivers overlay but no other specials. Scenarios that encode things
    * this way should have the "riversoverlay" capability. */
   halfbyte_iterate_special(j, loading->special.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_special_set(ptile, &ptile->extras, ch,
-                                            loading->special.order + 4 * j,
-                                            rivers_overlay),
+    LOAD_MAP_CHAR(ch, ptile, sg_special_set_bv(ptile, &ptile->extras, ch,
+                                               loading->special.order + 4 * j,
+                                               rivers_overlay),
                   loading->file, "map.spe%02d_%04d", j);
   } halfbyte_iterate_special_end;
 }
@@ -4751,24 +4994,25 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (extras). */
     halfbyte_iterate_extras(j, loading->extra.size) {
       LOAD_MAP_CHAR(ch, ptile,
-                    sg_extras_set(&map_get_player_tile(ptile, plr)->extras,
-                                  ch, loading->extra.order + 4 * j),
+                    sg_extras_set_dbv(&(map_get_player_tile(ptile, plr)->extras),
+                                      ch, loading->extra.order + 4 * j),
                     loading->file, "player%d.map_e%02d_%04d", plrno, j);
     } halfbyte_iterate_extras_end;
   } else {
     /* Load player map (specials). */
     halfbyte_iterate_special(j, loading->special.size) {
       LOAD_MAP_CHAR(ch, ptile,
-                    sg_special_set(ptile, &map_get_player_tile(ptile, plr)->extras,
-                                   ch, loading->special.order + 4 * j, FALSE),
+                    sg_special_set_dbv(ptile,
+                                       &(map_get_player_tile(ptile, plr)->extras),
+                                       ch, loading->special.order + 4 * j, FALSE),
                     loading->file, "player%d.map_spe%02d_%04d", plrno, j);
     } halfbyte_iterate_special_end;
 
     /* Load player map (bases). */
     halfbyte_iterate_bases(j, loading->base.size) {
       LOAD_MAP_CHAR(ch, ptile,
-                    sg_bases_set(&map_get_player_tile(ptile, plr)->extras,
-                                 ch, loading->base.order + 4 * j),
+                    sg_bases_set_dbv(&(map_get_player_tile(ptile, plr)->extras),
+                                     ch, loading->base.order + 4 * j),
                     loading->file, "player%d.map_b%02d_%04d", plrno, j);
     } halfbyte_iterate_bases_end;
 
@@ -4777,8 +5021,8 @@ static void sg_load_player_vision(struct loaddata *loading,
       /* 2.5.0 or newer */
       halfbyte_iterate_roads(j, loading->road.size) {
         LOAD_MAP_CHAR(ch, ptile,
-                      sg_roads_set(&map_get_player_tile(ptile, plr)->extras,
-                                   ch, loading->road.order + 4 * j),
+                      sg_roads_set_dbv(&(map_get_player_tile(ptile, plr)->extras),
+                                       ch, loading->road.order + 4 * j),
                       loading->file, "player%d.map_r%02d_%04d", plrno, j);
       } halfbyte_iterate_roads_end;
     }
