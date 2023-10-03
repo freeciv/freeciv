@@ -1043,7 +1043,7 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
 }
 
 /****************************************************************************
-  Returns TRUE if a beachhead as been found to reach 'dest_tile'.
+  Returns TRUE if a beachhead has been found to reach 'dest_tile'.
 ****************************************************************************/
 bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
                     struct tile *dest_tile,
