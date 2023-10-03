@@ -2730,7 +2730,11 @@ void move_unit_map_canvas(struct unit *punit,
       anim->type = ANIM_MOVEMENT;
       anim->id = punit->id;
       punit->refcount++;
-      anim->movement.mover = punit;
+      anim->movement.mover = unit_virtual_create(unit_owner(punit),
+                                                 NULL, unit_type_get(punit),
+                                                 punit->veteran);
+      anim->movement.mover->hp = punit->hp;
+      anim->movement.mover->facing = punit->facing;
       anim->movement.src = src_tile;
       anim->movement.dest = dest_tile;
       anim->movement.canvas_dx = canvas_dx;
