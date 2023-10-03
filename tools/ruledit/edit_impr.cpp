@@ -147,6 +147,7 @@ void edit_impr::closeEvent(QCloseEvent *cevent)
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
+  gfx_tag_alt2_given();
   sound_tag_given();
   sound_tag_alt_given();
 
