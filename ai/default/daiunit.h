@@ -106,6 +106,7 @@ bool dai_can_unit_type_follow_unit_type(const struct unit_type *follower,
 bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
                     struct tile *dest_tile,
                     const struct unit_type *cargo_type,
+                    const struct unit_type *ferry_type,
                     struct tile **ferry_dest, struct tile **beachhead_tile);
 adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                                 struct unit *punit,

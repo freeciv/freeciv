@@ -143,6 +143,7 @@ static struct unit *goto_map_unit(const struct goto_map *goto_map)
   fc_assert(punit != NULL);
   fc_assert(unit_is_in_focus(punit));
   fc_assert(punit == player_unit_by_number(client_player(), punit->id));
+
   return punit;
 }
 
@@ -559,7 +560,7 @@ static unsigned get_EC(const struct tile *ptile, enum known_type known,
 }
 
 /************************************************************************//**
-  PF callback to prohibit going into the unknown.  Also makes sure we 
+  PF callback to prohibit going into the unknown. Also makes sure we 
   don't plan our route through enemy city/tile.
 ****************************************************************************/
 static enum tile_behavior get_TB_aggr(const struct tile *ptile,
@@ -570,11 +571,13 @@ static enum tile_behavior get_TB_aggr(const struct tile *ptile,
     if (!gui_options.goto_into_unknown) {
       return TB_IGNORE;
     }
-  } else if (is_non_allied_unit_tile(ptile, param->owner)
+  } else if (is_non_allied_unit_tile(ptile, param->owner,
+                                     utype_has_flag(param->utype, UTYF_FLAGLESS))
              || is_non_allied_city_tile(ptile, param->owner)) {
     /* Can attack but can't count on going through */
     return TB_DONT_LEAVE;
   }
+
   return TB_NORMAL;
 }
 
@@ -595,7 +598,8 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
      * establish an embassy can travel to, but not through, enemy cities.
      * FIXME: ACTION_HELP_WONDER units cannot.  */
     return TB_DONT_LEAVE;
-  } else if (is_non_allied_unit_tile(ptile, param->owner)) {
+  } else if (is_non_allied_unit_tile(ptile, param->owner,
+                                     utype_has_flag(param->utype, UTYF_FLAGLESS))) {
     /* Note this must be below the city check. */
     return TB_IGNORE;
   }
@@ -1431,25 +1435,29 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
   }
 
   if (i > 0
-      && order_list[i - 1].order == ORDER_MOVE
-      && (is_non_allied_city_tile(old_tile, client_player())
-          || is_non_allied_unit_tile(old_tile, client_player()))) {
-    /* Won't be able to perform a regular move to the target tile... */
-    if (!final_order) {
-      /* ...and no final order exists. Choose what to do when the unit gets
-       * there. */
-      order_list[i - 1].order = ORDER_ACTION_MOVE;
-    } else {
-      /* ...and a final order exist. Can't assume an action move. Did the
-       * caller hope that the situation would change before the unit got
-       * there? */
+      && order_list[i - 1].order == ORDER_MOVE) {
+    struct player *cplayer = client_player();
 
-      /* It's currently illegal to walk into tiles with non-allied units or
-       * cities. Some actions causes the actor to enter the target tile but
-       * that is a part of the action it self, not a regular pre action
-       * move. */
-      log_verbose("unit or city blocks the path of your %s",
-                  unit_rule_name(punit));
+    if (is_non_allied_city_tile(old_tile, cplayer)
+        || is_non_allied_unit_tile(old_tile, cplayer,
+                                   unit_has_type_flag(punit, UTYF_FLAGLESS))) {
+      /* Won't be able to perform a regular move to the target tile... */
+      if (!final_order) {
+        /* ...and no final order exists. Choose what to do when the unit gets
+         * there. */
+        order_list[i - 1].order = ORDER_ACTION_MOVE;
+      } else {
+        /* ...and a final order exist. Can't assume an action move. Did the
+         * caller hope that the situation would change before the unit got
+         * there? */
+
+        /* It's currently illegal to walk into tiles with non-allied units or
+         * cities. Some actions causes the actor to enter the target tile but
+         * that is a part of the action it self, not a regular pre action
+         * move. */
+        log_verbose("unit or city blocks the path of your %s",
+                    unit_rule_name(punit));
+      }
     }
   }
 
@@ -1799,8 +1807,10 @@ void send_connect_route(enum unit_activity activity,
   Use order_demands_direction() for that.
 ****************************************************************************/
 static bool order_wants_direction(enum unit_orders order, action_id act_id,
-                                  struct tile *tgt_tile)
+                                  struct tile *tgt_tile, struct unit *punit)
 {
+  struct player *cplayer;
+
   switch (order) {
   case ORDER_MOVE:
   case ORDER_ACTION_MOVE:
@@ -1818,8 +1828,10 @@ static bool order_wants_direction(enum unit_orders order, action_id act_id,
       return FALSE;
     }
 
-    if (is_non_allied_city_tile(tgt_tile, client_player())
-        || is_non_allied_unit_tile(tgt_tile, client_player())) {
+    cplayer = client_player();
+    if (is_non_allied_city_tile(tgt_tile, cplayer)
+        || is_non_allied_unit_tile(tgt_tile, cplayer,
+                                   unit_has_type_flag(punit, UTYF_FLAGLESS))) {
       /* Won't be able to move to the target tile to perform the action on
        * top of it. */
       /* TODO: Detect situations where it also would be illegal to perform
@@ -1936,7 +1948,7 @@ void send_goto_route(void)
       if (path->length > 1 && goto_last_tgt == NO_TARGET
           && ((on_tile = path->positions[path->length - 2].tile))
           && order_wants_direction(goto_last_order, goto_last_action,
-                                   tgt_tile)
+                                   tgt_tile, punit)
           && !same_pos(on_tile, tgt_tile)) {
         /* The last order prefers to handle the last direction it self.
          * There exists a tile before the target tile to do it from. */

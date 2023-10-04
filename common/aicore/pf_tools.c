@@ -109,7 +109,8 @@ static enum pf_action pf_get_action(const struct tile *ptile,
     }
   }
 
-  if (is_non_allied_unit_tile(ptile, param->owner)) {
+  if (is_non_allied_unit_tile(ptile, param->owner,
+                              utype_has_flag(param->utype, UTYF_FLAGLESS))) {
     if (PF_AA_DIPLOMAT & param->actions) {
       return PF_ACTION_DIPLOMAT;
     }
@@ -495,7 +496,8 @@ enum tile_behavior no_fights_or_unknown(const struct tile *ptile,
                                         const struct pf_parameter *param)
 {
   if (known == TILE_UNKNOWN
-      || is_non_allied_unit_tile(ptile, param->owner)
+      || is_non_allied_unit_tile(ptile, param->owner,
+                                 utype_has_flag(param->utype, UTYF_FLAGLESS))
       || is_non_allied_city_tile(ptile, param->owner)) {
     /* Can't attack */
     return TB_IGNORE;
@@ -510,7 +512,8 @@ enum tile_behavior no_fights(const struct tile *ptile,
                              enum known_type known,
                              const struct pf_parameter *param)
 {
-  if (is_non_allied_unit_tile(ptile, param->owner)
+  if (is_non_allied_unit_tile(ptile, param->owner,
+                              utype_has_flag(param->utype, UTYF_FLAGLESS))
       || is_non_allied_city_tile(ptile, param->owner)) {
     /* Can't attack */
     return TB_IGNORE;
@@ -525,7 +528,8 @@ enum tile_behavior no_intermediate_fights(const struct tile *ptile,
                                           enum known_type known,
                                           const struct pf_parameter *param)
 {
-  if (is_non_allied_unit_tile(ptile, param->owner)
+  if (is_non_allied_unit_tile(ptile, param->owner,
+                              utype_has_flag(param->utype, UTYF_FLAGLESS))
       || is_non_allied_city_tile(ptile, param->owner)) {
     return TB_DONT_LEAVE;
   }

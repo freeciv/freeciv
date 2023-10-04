@@ -329,7 +329,7 @@ bool unleash_barbarians(struct tile *ptile)
     dir_tiles[dir] = mapstep(&(wld.map), ptile, dir);
     if (dir_tiles[dir] == NULL) {
       terrainc[dir] = terrain_class_invalid();
-    } else if (!is_non_allied_unit_tile(dir_tiles[dir], barbarians)) {
+    } else if (!is_non_allied_unit_tile(dir_tiles[dir], barbarians, TRUE)) {
       if (is_ocean_tile(dir_tiles[dir])) {
         terrainc[dir] = TC_OCEAN;
         ocean_tiles++;

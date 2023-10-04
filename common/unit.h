@@ -416,15 +416,17 @@ static inline bool is_enemy_unit_tile(const struct tile *ptile,
 }
 
 struct unit *tile_non_allied_unit(const struct tile *ptile,
-                                  const struct player *pplayer);
+                                  const struct player *pplayer,
+                                  bool everyone_non_allied);
 
 /**********************************************************************//**
   Are there any non-allied unit(s) on tile?
 **************************************************************************/
 static inline bool is_non_allied_unit_tile(const struct tile *ptile,
-                                           const struct player *pplayer)
+                                           const struct player *pplayer,
+                                           bool everyone_non_allied)
 {
-  return NULL != tile_non_allied_unit(ptile, pplayer);
+  return NULL != tile_non_allied_unit(ptile, pplayer, everyone_non_allied);
 }
 
 struct unit *tile_other_players_unit(const struct tile *ptile,

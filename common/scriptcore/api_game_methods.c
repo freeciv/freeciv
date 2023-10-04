@@ -1198,7 +1198,7 @@ bool api_methods_enemy_tile(lua_State *L, Tile *ptile, Player *against)
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
 
-  if (is_non_allied_unit_tile(ptile, against)) {
+  if (is_non_allied_unit_tile(ptile, against, FALSE)) {
     return TRUE;
   }
 

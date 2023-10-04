@@ -71,7 +71,8 @@ static void place_animal(struct player *plr, int sqrdist)
   }
 
   circle_iterate(&(wld.map), ptile, sqrdist, check) {
-    if (tile_city(check) || is_non_allied_unit_tile(check, plr)) {
+    if (tile_city(check) != NULL
+        || is_non_allied_unit_tile(check, plr, TRUE)) {
       return;
     }
   } circle_iterate_end;

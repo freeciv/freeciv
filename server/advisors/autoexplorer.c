@@ -87,6 +87,8 @@ static bool player_may_explore(const struct tile *ptile,
                                const struct player *pplayer,
                                const struct unit_type *punittype)
 {
+  struct city *pcity;
+
   /* Don't allow military units to cross borders. */
   if (!utype_has_flag(punittype, UTYF_CIVILIAN)
       && !player_can_invade_tile(pplayer, ptile)) {
@@ -94,13 +96,15 @@ static bool player_may_explore(const struct tile *ptile,
   }
 
   /* Can't visit tiles with non-allied units. */
-  if (is_non_allied_unit_tile(ptile, pplayer)) {
+  if (is_non_allied_unit_tile(ptile, pplayer,
+                              utype_has_flag(punittype, UTYF_FLAGLESS))) {
     return FALSE;
   }
 
   /* Non-allied cities are taboo even if no units are inside. */
-  if (tile_city(ptile)
-      && !pplayers_allied(city_owner(tile_city(ptile)), pplayer)) {
+  pcity = tile_city(ptile);
+  if (pcity != NULL
+      && !pplayers_allied(city_owner(pcity), pplayer)) {
     return FALSE;
   }
 

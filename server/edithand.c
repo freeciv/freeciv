@@ -438,6 +438,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
   struct player *pplayer;
   struct city *homecity;
   struct unit *punit;
+  struct city *pcity;
   int id, i;
 
   ptile = index_to_tile(&(wld.map), tile);
@@ -485,9 +486,11 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
     }
   }
 
-  if (is_non_allied_unit_tile(ptile, pplayer)
-      || (tile_city(ptile)
-          && !pplayers_allied(pplayer, city_owner(tile_city(ptile))))) {
+  pcity = tile_city(ptile);
+  if (is_non_allied_unit_tile(ptile, pplayer,
+                              utype_has_flag(punittype, UTYF_FLAGLESS))
+      || (pcity != NULL
+          && !pplayers_allied(pplayer, city_owner(pcity)))) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." type <unit-type> on enemy tile
                  * <tile-coordinates>"... */

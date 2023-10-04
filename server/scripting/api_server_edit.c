@@ -148,7 +148,8 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer,
     return NULL;
   }
 
-  if (is_non_allied_unit_tile(ptile, pplayer)) {
+  if (is_non_allied_unit_tile(ptile, pplayer,
+                              utype_has_flag(ptype, UTYF_FLAGLESS))) {
     luascript_log(fcl, LOG_ERROR, "create_unit_full: tile is occupied by "
                                   "enemy unit");
     return NULL;
@@ -244,8 +245,10 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
       wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
       return FALSE;
     }
-    if (is_non_allied_unit_tile(dest, owner)
-        || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
+    if (is_non_allied_unit_tile(dest, owner,
+                                unit_has_type_flag(punit, UTYF_FLAGLESS))
+        || (pcity != NULL
+            && !pplayers_allied(city_owner(pcity), owner))) {
       wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
       return FALSE;
     }

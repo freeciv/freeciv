@@ -1060,6 +1060,7 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
 bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
                     struct tile *dest_tile,
                     const struct unit_type *cargo_type,
+                    const struct unit_type *ferry_type,
                     struct tile **ferry_dest, struct tile **beachhead_tile)
 {
   if (NULL == tile_city(dest_tile)
@@ -1091,6 +1092,7 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
     struct tile *best_tile = NULL, *best_beach = NULL;
     struct tile_list *checked_tiles = tile_list_new();
     int best_cost = PF_IMPOSSIBLE_MC, cost;
+    bool flagless_ferry = utype_has_flag(ferry_type, UTYF_FLAGLESS);
 
     tile_list_append(checked_tiles, dest_tile);
     adjc_iterate(&(wld.map), dest_tile, beach) {
@@ -1098,7 +1100,8 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
         /* Can land there. */
         adjc_iterate(&(wld.map), beach, ptile) {
           if (!tile_list_search(checked_tiles, ptile)
-              && !is_non_allied_unit_tile(ptile, pplayer)) {
+              && !is_non_allied_unit_tile(ptile, pplayer,
+                                          flagless_ferry)) {
             tile_list_append(checked_tiles, ptile);
             cost = pf_map_move_cost(ferry_map, ptile);
             if (cost != PF_IMPOSSIBLE_MC
@@ -1363,7 +1366,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         struct tile *dest, *beach;
 
         if (!find_beachhead(pplayer, ferry_map, atile, punit_type,
-                            &dest, &beach)) {
+                            boattype, &dest, &beach)) {
           continue;   /* Impossible to go by boat. */
         }
         if (!pf_map_position(ferry_map, dest, &pos)) {
@@ -3111,8 +3114,9 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
     return;
   }
 
-  if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
-      && !is_non_allied_unit_tile(ptile, pplayer)) {
+  if (pcity != NULL && pplayers_allied(city_owner(pcity), pplayer)
+      && !is_non_allied_unit_tile(ptile, pplayer,
+                                  unit_has_type_flag(punit, UTYF_FLAGLESS))) {
     /* We will be safe in a friendly city */
     *result = OVERRIDE_FALSE;
     return;
@@ -3127,12 +3131,12 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
 
   adjc_iterate(&(wld.map), ptile, ptile1) {
     if (has_handicap(pplayer, H_FOG)
-        && !map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
+        && !map_is_known_and_seen(ptile1, pplayer, V_MAIN)) {
       /* We cannot see danger at (ptile1) => assume there is none */
       continue;
     }
     unit_list_iterate(ptile1->units, enemy) {
-      if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) 
+      if (pplayers_at_war(unit_owner(enemy), pplayer) 
           && (unit_attack_unit_at_tile_result(enemy, NULL, punit, ptile)
               == ATT_OK)
           && (unit_attack_units_at_tile_result(enemy, NULL, ptile)

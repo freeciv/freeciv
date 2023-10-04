@@ -316,25 +316,26 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 
   Fix to bizarre did-not-find bug. Thanks, Katvrr -- Syela
 **************************************************************************/
-static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
+static bool adv_could_be_my_zoc(struct unit *punit, struct tile *ptile)
 {
-  struct tile *utile = unit_tile(myunit);
+  struct tile *utile = unit_tile(punit);
   struct player *owner;
   struct civ_map *cmap = &(wld.map);
+  bool flagless = unit_has_type_flag(punit, UTYF_FLAGLESS);
 
   if (same_pos(ptile, utile)) {
     return FALSE; /* Can't be my zoc */
   }
 
-  owner = unit_owner(myunit);
+  owner = unit_owner(punit);
   if (is_tiles_adjacent(ptile, utile)
-      && !is_non_allied_unit_tile(ptile, owner)) {
+      && !is_non_allied_unit_tile(ptile, owner, flagless)) {
     return FALSE;
   }
 
   adjc_iterate(cmap, ptile, atile) {
     if (!terrain_has_flag(tile_terrain(atile), TER_NO_ZOC)
-        && is_non_allied_unit_tile(atile, owner)) {
+        && is_non_allied_unit_tile(atile, owner, flagless)) {
       return FALSE;
     }
   } adjc_iterate_end;
@@ -423,17 +424,19 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   struct city *pcity = tile_city(ptile);
   enum override_bool dc = NO_OVERRIDE;
   int extras_bonus = 0;
+  struct player *owner = unit_owner(punit);
 
   /* Give AI code possibility to decide itself */
-  CALL_PLR_AI_FUNC(consider_tile_dangerous, unit_owner(punit), ptile, punit, &dc);
+  CALL_PLR_AI_FUNC(consider_tile_dangerous, owner, ptile, punit, &dc);
   if (dc == OVERRIDE_TRUE) {
     return TRUE;
   } else if (dc == OVERRIDE_FALSE) {
     return FALSE;
   }
 
-  if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
-      && !is_non_allied_unit_tile(ptile, pplayer)) {
+  if (pcity != NULL && pplayers_allied(city_owner(pcity), owner)
+      && !is_non_allied_unit_tile(ptile, pplayer,
+                                  unit_has_type_flag(punit, UTYF_FLAGLESS))) {
     /* We will be safe in a friendly city */
     return FALSE;
   }
@@ -445,12 +448,12 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   d = adv_unit_def_rating_basic_squared(punit) * db;
 
   adjc_iterate(&(wld.map), ptile, ptile1) {
-    if (!map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
+    if (!map_is_known_and_seen(ptile1, owner, V_MAIN)) {
       /* We cannot see danger at (ptile1) => assume there is none */
       continue;
     }
     unit_list_iterate(ptile1->units, enemy) {
-      if (pplayers_at_war(unit_owner(enemy), unit_owner(punit))
+      if (pplayers_at_war(unit_owner(enemy), owner)
           && (unit_attack_unit_at_tile_result(enemy, NULL, punit, ptile)
               == ATT_OK)
           && (unit_attack_units_at_tile_result(enemy, NULL, ptile)
@@ -464,7 +467,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
     } unit_list_iterate_end;
   } adjc_iterate_end;
 
-  return FALSE; /* as good a quick'n'dirty should be -- Syela */
+  return FALSE; /* As good a quick'n'dirty should be -- Syela */
 }
 
 /**********************************************************************//**
@@ -557,7 +560,8 @@ static unsigned stack_risk(const struct tile *ptile,
   if (risk_cost->enemy_zoc_cost != 0
       && (is_non_allied_city_tile(ptile, param->owner)
           || !is_plr_zoc_srv(param->owner, ptile, param->map)
-          || is_non_allied_unit_tile(ptile, param->owner))) {
+          || is_non_allied_unit_tile(ptile, param->owner,
+                                     utype_has_flag(param->utype, UTYF_FLAGLESS)))) {
     /* We could become stuck. */
     risk += risk_cost->enemy_zoc_cost;
   }

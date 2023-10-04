@@ -1257,7 +1257,7 @@ static void process_attacker_want(struct ai_type *ait,
   }
 
   if (utype_class(orig_utype)->adv.sea_move == MOVE_NONE
-      && !boat && boattype) {
+      && !boat && boattype != NULL) {
     /* Cost of ferry */
     needferry = utype_build_shield_cost(pcity, NULL, boattype);
   }
@@ -1336,7 +1336,7 @@ static void process_attacker_want(struct ai_type *ait,
         struct tile *dest_tile;
 
         if (find_beachhead(pplayer, ferry_map, ptile, punittype,
-                           &dest_tile, NULL)
+                           boattype, &dest_tile, NULL)
             && pf_map_position(ferry_map, dest_tile, &pos)) {
           move_time = pos.turn;
           dest_tile = pf_map_parameter(ferry_map)->start_tile;

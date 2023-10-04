@@ -1320,10 +1320,18 @@ struct unit *tile_enemy_unit(const struct tile *ptile,
   Return one of the non-allied units on the tile, if there is any
 **************************************************************************/
 struct unit *tile_non_allied_unit(const struct tile *ptile,
-                                  const struct player *pplayer)
+                                  const struct player *pplayer,
+                                  bool everyone_non_allied)
 {
   unit_list_iterate(ptile->units, punit) {
-    if (!pplayers_allied(unit_owner(punit), pplayer)) {
+    struct player *owner = unit_owner(punit);
+
+    if (everyone_non_allied && owner != pplayer) {
+      return punit;
+    }
+
+    if (!pplayers_allied(owner, pplayer)
+        || is_flagless_to_player(punit, pplayer)) {
       return punit;
     }
   }

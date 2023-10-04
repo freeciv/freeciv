@@ -3190,7 +3190,7 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 void do_unit_patrol_to(struct tile *ptile)
 {
   if (is_valid_goto_draw_line(ptile)
-      && !is_non_allied_unit_tile(ptile, client.conn.playing)) {
+      && !is_non_allied_unit_tile(ptile, client_player(), FALSE)) {
     send_patrol_route();
   } else {
     create_event(ptile, E_BAD_COMMAND, ftc_client,

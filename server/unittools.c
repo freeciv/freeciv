@@ -1275,7 +1275,8 @@ void bounce_unit(struct unit *punit, bool verbose)
 
     if (can_unit_survive_at_tile(&(wld.map), punit, ptile)
         && !is_non_allied_city_tile(ptile, pplayer)
-        && !is_non_allied_unit_tile(ptile, pplayer)) {
+        && !is_non_allied_unit_tile(ptile, pplayer,
+                                    unit_has_type_flag(punit, UTYF_FLAGLESS))) {
       tiles[count++] = ptile;
     }
   } square_iterate_end;
@@ -1396,7 +1397,9 @@ static void resolve_stack_conflicts(struct player *pplayer,
   unit_list_iterate_safe(pplayer->units, punit) {
     struct tile *ptile = unit_tile(punit);
 
-    if (is_non_allied_unit_tile(ptile, pplayer)) {
+    /* Can pass FALSE 'everyone_non_allied' since no flagless
+     * unit could be stacked there to begin with. */
+    if (is_non_allied_unit_tile(ptile, pplayer, FALSE)) {
       unit_list_iterate_safe(ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
             || unit_owner(aunit) == aplayer
@@ -1552,7 +1555,8 @@ bool is_refuel_point(const struct tile *ptile,
                      const struct player *pplayer,
                      const struct unit *punit)
 {
-  if (is_non_allied_unit_tile(ptile, pplayer)) {
+  if (is_non_allied_unit_tile(ptile, pplayer,
+                              unit_has_type_flag(punit, UTYF_FLAGLESS))) {
     return FALSE;
   }
 
@@ -3027,7 +3031,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
 
   if ((pcity != NULL && !pplayers_allied(pplayer, city_owner(pcity))
        && !action_has_result(paction, ACTRES_PARADROP_CONQUER))
-      || is_non_allied_unit_tile(ptile, pplayer)) {
+      || is_non_allied_unit_tile(ptile, pplayer,
+                                 unit_has_type_flag(punit, UTYF_FLAGLESS))) {
     struct player *main_victim = NULL;
     struct player *secondary_victim = NULL;
     char victim_link[MAX_LEN_LINK];
@@ -4249,8 +4254,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 static bool maybe_cancel_goto_due_to_enemy(struct unit *punit, 
                                            struct tile *ptile)
 {
-  return (is_non_allied_unit_tile(ptile, unit_owner(punit)) 
-	  || is_non_allied_city_tile(ptile, unit_owner(punit)));
+  struct player *owner = unit_owner(punit);
+
+  return (is_non_allied_unit_tile(ptile, owner,
+                                  unit_has_type_flag(punit, UTYF_FLAGLESS)) 
+          || is_non_allied_city_tile(ptile, owner));
 }
 
 /**********************************************************************//**
@@ -4266,7 +4274,8 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
 
   circle_iterate(&(wld.map), unit_tile(punit), radius_sq, ptile) {
-    struct unit *penemy = tile_non_allied_unit(ptile, pplayer);
+    struct unit *penemy = tile_non_allied_unit(ptile, pplayer,
+                                               unit_has_type_flag(punit, UTYF_FLAGLESS));
     struct vision_site *pdcity = map_get_player_site(ptile, pplayer);
 
     if ((penemy && can_player_see_unit(pplayer, penemy))

@@ -992,7 +992,7 @@ static gchar *built_status_to_string(struct built_status *bs)
 
 /************************************************************************//**
   Returns TRUE if a unit can be created at the given tile based on the
-  state of the editor (see editor_unit_virtual_create).
+  state of the editor (see editor_unit_virtual_create() ).
 ****************************************************************************/
 static bool can_create_unit_at_tile(struct tile *ptile)
 {
@@ -1006,7 +1006,7 @@ static bool can_create_unit_at_tile(struct tile *ptile)
   }
 
   vunit = editor_unit_virtual_create();
-  if (!vunit) {
+  if (vunit == NULL) {
     return FALSE;
   }
 
@@ -1014,7 +1014,8 @@ static bool can_create_unit_at_tile(struct tile *ptile)
   pplayer = unit_owner(vunit);
 
   ret = (can_unit_exist_at_tile(&(wld.map), vunit, ptile)
-         && !is_non_allied_unit_tile(ptile, pplayer)
+         && !is_non_allied_unit_tile(ptile, pplayer,
+                                     unit_has_type_flag(vunit, UTYF_FLAGLESS))
          && (pcity == NULL
              || pplayers_allied(city_owner(pcity),
                                 unit_owner(vunit))));

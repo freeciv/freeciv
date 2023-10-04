@@ -664,7 +664,8 @@ unit_move_to_tile_test(const struct civ_map *nmap,
   }
 
   /* 5) */
-  if (is_non_allied_unit_tile(dst_tile, puowner)) {
+  if (is_non_allied_unit_tile(dst_tile, puowner,
+                              utype_has_flag(punittype, UTYF_FLAGLESS))) {
     /* You can't move onto a tile with non-allied units on it (try
      * attacking instead). */
     return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
@@ -692,7 +693,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
     /* You can't move into a non-allied tile.
      *
      * FIXME: this should never happen since it should be caught by check
-     * #4. */
+     * #5. */
     return MR_NO_WAR;
   }
 
@@ -783,7 +784,8 @@ unit_teleport_to_tile_test(const struct civ_map *nmap,
   const struct player *puowner = unit_owner(punit);
 
   /* 1) */
-  if (is_non_allied_unit_tile(dst_tile, puowner)) {
+  if (is_non_allied_unit_tile(dst_tile, puowner,
+                              utype_has_flag(punittype, UTYF_FLAGLESS))) {
     /* You can't move onto a tile with non-allied units on it (try
      * attacking instead). */
     return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;

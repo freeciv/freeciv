@@ -453,17 +453,22 @@ static bool do_capture_units(struct player *pplayer,
       continue;
     }
 
-    if (to_capture
-        && (NULL != pcity /* Keep old behavior */
-            || is_non_allied_city_tile(ptile, unit_owner(to_capture))
-            || (unit_owner(to_capture) == pplayer
-                ? non_allied_not_listed_at(pplayer, capt + (i + 1),
-                                           n - (i + 1), ptile)
-                : (bool)
-                  is_non_allied_unit_tile(ptile, unit_owner(to_capture))))) {
-      /* The captured unit is in a city or with a foreign unit
-       * that its owner is not capturing. Bounce it. */
-      bounce_unit(to_capture, TRUE);
+    if (to_capture != NULL) {
+      struct player *new_owner = unit_owner(to_capture);
+
+      if (NULL != pcity /* Keep old behavior */
+          || is_non_allied_city_tile(ptile, new_owner)
+          || (new_owner == pplayer
+              ? non_allied_not_listed_at(pplayer, capt + (i + 1),
+                                         n - (i + 1), ptile)
+              : (bool)
+                is_non_allied_unit_tile(ptile, new_owner,
+                                        unit_has_type_flag(to_capture,
+                                                           UTYF_FLAGLESS)))) {
+        /* The captured unit is in a city or with a foreign unit
+         * that its owner is not capturing. Bounce it. */
+        bounce_unit(to_capture, TRUE);
+      }
     }
 
     /* Check if the city we are going to home units in stays. */
@@ -497,7 +502,8 @@ static bool do_capture_units(struct player *pplayer,
 static bool occupy_move(struct tile *def_tile, struct unit *punit,
                         const struct action *paction)
 {
-  if (!is_non_allied_unit_tile(def_tile, unit_owner(punit))) {
+  if (!is_non_allied_unit_tile(def_tile, unit_owner(punit),
+                               unit_has_type_flag(punit, UTYF_FLAGLESS))) {
     /* Hack: make sure the unit has enough moves_left for the move to succeed,
      * and adjust moves_left to afterward (if successful). */
     int old_moves = punit->moves_left;

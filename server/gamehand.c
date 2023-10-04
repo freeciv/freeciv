@@ -172,7 +172,8 @@ static struct tile *place_starting_unit(struct tile *starttile,
   if (utype != NULL) {
     iterate_outward(&(wld.map), starttile,
                     wld.map.xsize + wld.map.ysize, itertile) {
-      if (!is_non_allied_unit_tile(itertile, pplayer)
+      if (!is_non_allied_unit_tile(itertile, pplayer,
+                                   utype_has_flag(utype, UTYF_FLAGLESS))
           && is_native_tile(utype, itertile)) {
         ptile = itertile;
         break;
@@ -185,13 +186,15 @@ static struct tile *place_starting_unit(struct tile *starttile,
     return NULL;
   }
 
-  fc_assert_ret_val(!is_non_allied_unit_tile(ptile, pplayer), NULL);
+  fc_assert_ret_val(!is_non_allied_unit_tile(ptile, pplayer,
+                                             utype_has_flag(utype, UTYF_FLAGLESS)),
+                    NULL);
 
   /* For scenarios or dispersion, huts may coincide with player starts (in 
    * other cases, huts are avoided as start positions). Remove any such hut,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
-  /* FIXME: don't remove under a unit that can't enter or frighten hut */
+  /* FIXME: Don't remove under a unit that can't enter or frighten hut */
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       tile_extra_rm_apply(ptile, pextra);
@@ -246,7 +249,7 @@ static struct tile *find_dispersed_position(struct player *pplayer,
              && !is_ocean_tile(ptile)
              && real_map_distance(pcenter, ptile) < game.server.dispersion
                 + 1
-             && !is_non_allied_unit_tile(ptile, pplayer)));
+             && !is_non_allied_unit_tile(ptile, pplayer, TRUE)));
 
   return ptile;
 }

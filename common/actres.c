@@ -955,10 +955,12 @@ enum fc_tristate actres_possible(enum action_result result,
      * units or cities not allied with all of our cargo. */
     if (get_transporter_capacity(actor->unit) > 0) {
       unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
+        struct player *cowner = unit_owner(pcargo);
+
         if (unit_contained_in(pcargo, actor->unit)
-            && (is_non_allied_unit_tile(target->tile, unit_owner(pcargo))
-                || is_non_allied_city_tile(target->tile,
-                                           unit_owner(pcargo)))) {
+            && (is_non_allied_unit_tile(target->tile, cowner,
+                                        unit_has_type_flag(pcargo, UTYF_FLAGLESS))
+                || is_non_allied_city_tile(target->tile, cowner))) {
            return TRI_NO;
         }
       } unit_list_iterate_end;
@@ -985,10 +987,13 @@ enum fc_tristate actres_possible(enum action_result result,
      * units or cities not allied with all of our cargo. */
     if (get_transporter_capacity(actor->unit) > 0) {
       unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
+        struct player *cowner = unit_owner(pcargo);
+
         if (unit_contained_in(pcargo, actor->unit)
-            && (is_non_allied_unit_tile(target->tile, unit_owner(pcargo))
+            && (is_non_allied_unit_tile(target->tile, cowner,
+                                        unit_has_type_flag(pcargo, UTYF_FLAGLESS))
                 || is_non_allied_city_tile(target->tile,
-                                           unit_owner(pcargo)))) {
+                                           cowner))) {
            return TRI_NO;
         }
       } unit_list_iterate_end;
@@ -1076,10 +1081,12 @@ enum fc_tristate actres_possible(enum action_result result,
      * units or cities not allied with ani of our cargo. */
     if (get_transporter_capacity(actor->unit) > 0) {
       unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
+        struct player *cowner = unit_owner(pcargo);
+
         if (unit_contained_in(pcargo, actor->unit)
-            && (is_non_allied_unit_tile(target->tile, unit_owner(pcargo))
-                || is_non_allied_city_tile(target->tile,
-                                           unit_owner(pcargo)))) {
+            && (is_non_allied_unit_tile(target->tile, cowner,
+                                        unit_has_type_flag(pcargo, UTYF_FLAGLESS))
+                || is_non_allied_city_tile(target->tile, cowner))) {
            return TRI_NO;
         }
       } unit_list_iterate_end;
