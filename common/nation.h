@@ -334,8 +334,15 @@ struct iterator *nation_iter_init(struct nation_iter *it);
                   NAME_pnation, nation_iter_sizeof, nation_iter_init)
 #define nations_iterate_end generic_iterate_end
 
+/* Deletion of nations not supported */
+#define nations_re_active_iterate(_pnat_) \
+  nations_iterate(_pnat_)
+
+#define nations_re_active_iterate_end \
+  nations_iterate_end;
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__NATION_H */
+#endif /* FC__NATION_H */

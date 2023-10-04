@@ -628,13 +628,13 @@ static bool rs_barbarian_units(rs_conversion_logger logger)
       bool sea_capable = FALSE;
       struct unit_type *u = get_role_unit(L_BARBARIAN_BOAT, 0);
 
-      terrain_type_iterate(pterr) {
+      terrain_re_active_iterate(pterr) {
         if (is_ocean(pterr)
             && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
           sea_capable = TRUE;
           break;
         }
-      } terrain_type_iterate_end;
+      } terrain_re_active_iterate_end;
 
       if (!sea_capable) {
         ruleset_error(logger, LOG_ERROR,
@@ -648,7 +648,7 @@ static bool rs_barbarian_units(rs_conversion_logger logger)
       return FALSE;
     }
 
-    unit_type_iterate(ptype) {
+    unit_type_re_active_iterate(ptype) {
       if (utype_has_role(ptype, L_BARBARIAN_BOAT)) {
         if (ptype->transport_capacity <= 1) {
           ruleset_error(logger, LOG_ERROR,
@@ -658,7 +658,7 @@ static bool rs_barbarian_units(rs_conversion_logger logger)
           return FALSE;
         }
 
-        unit_type_iterate(pbarb) {
+        unit_type_re_active_iterate(pbarb) {
           if (utype_has_role(pbarb, L_BARBARIAN_SEA)
               || utype_has_role(pbarb, L_BARBARIAN_SEA_TECH)
               || utype_has_role(pbarb, L_BARBARIAN_LEADER)) {
@@ -671,9 +671,9 @@ static bool rs_barbarian_units(rs_conversion_logger logger)
               return FALSE;
             }
           }
-        } unit_type_iterate_end;
+        } unit_type_re_active_iterate_end;
       }
-    } unit_type_iterate_end;
+    } unit_type_re_active_iterate_end;
   }
 
   return TRUE;
@@ -706,13 +706,13 @@ static bool rs_common_units(rs_conversion_logger logger)
     bool sea_capable = FALSE;
     struct unit_type *u = get_role_unit(L_FERRYBOAT, 0);
 
-    terrain_type_iterate(pterr) {
+    terrain_re_active_iterate(pterr) {
       if (is_ocean(pterr)
           && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
         sea_capable = TRUE;
         break;
       }
-    } terrain_type_iterate_end;
+    } terrain_re_active_iterate_end;
 
     if (!sea_capable) {
       ruleset_error(logger, LOG_ERROR,
@@ -738,7 +738,7 @@ static bool rs_common_units(rs_conversion_logger logger)
 static bool rs_buildings(rs_conversion_logger logger)
 {
   /* Special Genus */
-  improvement_iterate(pimprove) {
+  improvement_re_active_iterate(pimprove) {
     if (improvement_has_flag(pimprove, IF_GOLD)
         && pimprove->genus != IG_SPECIAL) {
       ruleset_error(logger, LOG_ERROR,
@@ -774,7 +774,7 @@ static bool rs_buildings(rs_conversion_logger logger)
                     improvement_rule_name(pimprove));
       return FALSE;
     }
-  } improvement_iterate_end;
+  } improvement_re_active_iterate_end;
 
   return TRUE;
 }
@@ -858,7 +858,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   }
 
   /* Advances. */
-  advance_iterate(A_FIRST, padvance) {
+  advance_re_active_iterate(padvance) {
     for (i = AR_ONE; i < AR_SIZE; i++) {
       const struct advance *preq;
 
@@ -929,7 +929,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         ok = FALSE;
       }
     }
-  } advance_iterate_end;
+  } advance_re_active_iterate_end;
 
   if (game.default_government == game.government_during_revolution) {
     ruleset_error(logger, LOG_ERROR,
@@ -941,7 +941,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   }
 
   /* Check that all players can have their initial techs */
-  nations_iterate(pnation) {
+  nations_re_active_iterate(pnation) {
     int techi;
 
     /* Check global initial techs */
@@ -1009,11 +1009,11 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                     nation_rule_name(pnation));
       ok = FALSE;
     }
-  } nations_iterate_end;
+  } nations_re_active_iterate_end;
 
   /* Check against unit upgrade loops */
   num_utypes = game.control.num_unit_types;
-  unit_type_iterate(putype) {
+  unit_type_re_active_iterate(putype) {
     int chain_length = 0;
     const struct unit_type *upgraded = putype;
 
@@ -1028,11 +1028,11 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         obsoleted_by_loop = TRUE;
       }
     }
-  } unit_type_iterate_end;
+  } unit_type_re_active_iterate_end;
 
   /* Some unit type properties depend on other unit type properties to work
    * properly. */
-  unit_type_iterate(putype) {
+  unit_type_re_active_iterate(putype) {
     /* "Spy" is a better "Diplomat". Until all the places that assume that
      * "Diplomat" is set if "Spy" is set is changed this limitation must be
      * kept. */
@@ -1044,10 +1044,10 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                     utype_rule_name(putype));
       ok = FALSE;
     }
-  } unit_type_iterate_end;
+  } unit_type_re_active_iterate_end;
 
   /* Check that unit type fields are in range. */
-  unit_type_iterate(putype) {
+  unit_type_re_active_iterate(putype) {
     if (putype->paratroopers_range < 0
         || putype->paratroopers_range > UNIT_MAX_PARADROP_RANGE) {
       /* Paradrop range is limited by the network protocol. */
@@ -1068,7 +1068,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                     MAX_CITY_SIZE);
       ok = FALSE;
     }
-  } unit_type_iterate_end;
+  } unit_type_re_active_iterate_end;
 
   memset(&els, 0, sizeof(els));
   els.logger = logger;
@@ -1099,65 +1099,63 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   /* Others use requirement vectors */
 
   /* Disasters */
-  disaster_type_iterate(pdis) {
+  disaster_type_re_active_iterate(pdis) {
     if (!sanity_check_req_vec(logger, &pdis->reqs, TRUE, -1,
                               disaster_rule_name(pdis))) {
       ruleset_error(logger, LOG_ERROR,
                     "Disasters have conflicting or invalid requirements!");
       ok = FALSE;
     }
-  } disaster_type_iterate_end;
+  } disaster_type_re_active_iterate_end;
 
   /* Goods */
-  goods_type_iterate(pgood) {
+  goods_type_re_active_iterate(pgood) {
     if (!sanity_check_req_vec(logger, &pgood->reqs, TRUE, -1,
                               goods_rule_name(pgood))) {
       ruleset_error(logger, LOG_ERROR,
                     "Goods have conflicting or invalid requirements!");
       ok = FALSE;
     }
-  } goods_type_iterate_end;
+  } goods_type_re_active_iterate_end;
 
   /* Buildings */
-  improvement_iterate(pimprove) {
+  improvement_re_active_iterate(pimprove) {
     if (!sanity_check_req_vec(logger, &pimprove->reqs, TRUE, -1,
                               improvement_rule_name(pimprove))) {
       ruleset_error(logger, LOG_ERROR,
-                    "Buildings have conflicting or invalid requirements!");
+                    _("Buildings have conflicting or invalid requirements!"));
       ok = FALSE;
     }
     if (!sanity_check_req_vec(logger, &pimprove->obsolete_by, FALSE, -1,
                               improvement_rule_name(pimprove))) {
       ruleset_error(logger, LOG_ERROR,
-                    "Buildings have conflicting or invalid obsolescence req!");
+                    _("Buildings have conflicting or invalid obsolescence req!"));
       ok = FALSE;
     }
-  } improvement_iterate_end;
+  } improvement_re_active_iterate_end;
 
   /* Governments */
-  governments_iterate(pgov) {
+  governments_re_active_iterate(pgov) {
     if (!sanity_check_req_vec(logger, &pgov->reqs, TRUE, -1,
                               government_rule_name(pgov))) {
       ruleset_error(logger, LOG_ERROR,
                     "Governments have conflicting or invalid requirements!");
       ok = FALSE;
     }
-  } governments_iterate_end;
+  } governments_re_active_iterate_end;
 
   /* Specialists */
-  specialist_type_iterate(sp) {
-    struct specialist *psp = specialist_by_number(sp);
-
+  specialist_type_re_active_iterate(psp) {
     if (!sanity_check_req_vec(logger, &psp->reqs, TRUE, -1,
                               specialist_rule_name(psp))) {
       ruleset_error(logger, LOG_ERROR,
                     "Specialists have conflicting or invalid requirements!");
       ok = FALSE;
     }
-  } specialist_type_iterate_end;
+  } specialist_type_re_active_iterate_end;
 
   /* Extras */
-  extra_type_iterate(pextra) {
+  extra_type_re_active_iterate(pextra) {
     if (!sanity_check_req_vec(logger, &pextra->reqs, TRUE, -1,
                               extra_rule_name(pextra))) {
       ruleset_error(logger, LOG_ERROR,
@@ -1178,7 +1176,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                     "Requirements for extra removal defined but not "
                     "a valid remove cause!");
     }
-  } extra_type_iterate_end;
+  } extra_type_re_active_iterate_end;
 
   /* Roads */
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
@@ -1269,7 +1267,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       }
     } action_iterate_end;
 
-    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+    action_enabler_list_re_iterate(action_enablers_for_action(act), enabler) {
       if (!sanity_check_req_vec(logger, &(enabler->actor_reqs), TRUE, -1,
                                 "Action Enabler Actor Reqs")
           || !sanity_check_req_vec(logger, &(enabler->target_reqs), TRUE, -1,
@@ -1338,7 +1336,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
           req_vec_problem_free(problem);
         }
       }
-    } action_enabler_list_iterate_end;
+    } action_enabler_list_re_iterate_end;
 
     if (BV_ISSET(game.info.diplchance_initial_odds, paction->id)
         /* The action performer, action_dice_roll_initial_odds() and the
@@ -1400,25 +1398,25 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   }
 
   /* There must be basic city style for each nation style to start with */
-  styles_iterate(pstyle) {
+  styles_re_active_iterate(pstyle) {
     if (basic_city_style_for_style(pstyle) < 0) {
       ruleset_error(logger, LOG_ERROR,
                     "There's no basic city style for nation style %s",
                     style_rule_name(pstyle));
       ok = FALSE;
     }
-  } styles_iterate_end;
+  } styles_re_active_iterate_end;
 
   /* Music styles */
-  music_styles_iterate(pmus) {
+  music_styles_re_active_iterate(pmus) {
     if (!sanity_check_req_vec(logger, &pmus->reqs, TRUE, -1, "Music Style")) {
       ruleset_error(logger, LOG_ERROR,
                     "Music Styles have conflicting or invalid requirements!");
       ok = FALSE;
     }
-  } music_styles_iterate_end;
+  } music_styles_re_active_iterate_end;
 
-  terrain_type_iterate(pterr) {
+  terrain_re_active_iterate(pterr) {
     struct extra_type **pres;
 
     if (pterr->animal != NULL) {
@@ -1438,28 +1436,28 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         ok = FALSE;
       }
     }
-  } terrain_type_iterate_end;
+  } terrain_re_active_iterate_end;
 
   /* Check that all unit classes can exist somewhere */
-  unit_class_iterate(pclass) {
+  unit_class_re_active_iterate(pclass) {
     if (!uclass_has_flag(pclass, UCF_BUILD_ANYWHERE)) {
       bool can_exist = FALSE;
 
-      terrain_type_iterate(pterr) {
+      terrain_re_active_iterate(pterr) {
         if (BV_ISSET(pterr->native_to, uclass_index(pclass))) {
           can_exist = TRUE;
           break;
         }
-      } terrain_type_iterate_end;
+      } terrain_re_active_iterate_end;
 
       if (!can_exist) {
-        extra_type_iterate(pextra) {
+        extra_type_re_active_iterate(pextra) {
           if (BV_ISSET(pextra->native_to, uclass_index(pclass))
               && extra_has_flag(pextra, EF_NATIVE_TILE)) {
             can_exist = TRUE;
             break;
           }
-        } extra_type_iterate_end;
+        } extra_type_re_active_iterate_end;
       }
 
       if (!can_exist) {
@@ -1469,9 +1467,9 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         ok = FALSE;
       }
     }
-  } unit_class_iterate_end;
+  } unit_class_re_active_iterate_end;
 
-  achievements_iterate(pach) {
+  achievements_re_active_iterate(pach) {
     if (!pach->unique && pach->cons_msg == NULL) {
       ruleset_error(logger, LOG_ERROR,
                     "Achievement %s has no message for consecutive gainers though "
@@ -1479,7 +1477,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                     achievement_rule_name(pach));
       ok = FALSE;
     }
-  } achievements_iterate_end;
+  } achievements_re_active_iterate_end;
 
   if (game.server.ruledit.embedded_nations != NULL) {
     int nati;
