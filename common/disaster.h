@@ -84,10 +84,18 @@ bool can_disaster_happen(const struct disaster_type *pdis,
     struct disaster_type *_p = disaster_by_number(_i_);
 
 #define disaster_type_iterate_end                       \
-  }}
+  }                                                     \
+}
+
+/* Deletion of disasters not supported */
+#define disaster_type_re_active_iterate(_p) \
+  disaster_type_iterate(_p)
+
+#define disaster_type_re_active_iterate_end \
+  disaster_type_iterate_end;
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__DISASTER_H */
+#endif /* FC__DISASTER_H */
