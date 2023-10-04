@@ -98,12 +98,10 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   add_button = new QPushButton(QString::fromUtf8(R__("Add Building")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now2()));
   bldg_layout->addWidget(add_button, 5, 0);
-  show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Building")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   bldg_layout->addWidget(delete_button, 5, 2);
-  show_experimental(delete_button);
 
   refresh();
   update_bldg_info(nullptr);
