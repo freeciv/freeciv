@@ -81,6 +81,13 @@ struct music_style *player_music_style(struct player *plr);
   }                                                            \
 }
 
+/* Deletion of music styles not supported */
+#define music_styles_re_active_iterate(_p)                     \
+  music_styles_iterate(_p)
+
+#define music_styles_re_active_iterate_end                     \
+  music_styles_iterate_end;
+
 int style_of_city(const struct city *pcity);
 
 int basic_city_style_for_style(struct nation_style *pstyle);
