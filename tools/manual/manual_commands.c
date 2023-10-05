@@ -81,7 +81,7 @@ bool manual_commands(struct tag_types *tag_info)
     fprintf(doc, "%s", tag_info->item_end);
   }
 
-  manual_finalize(tag_info, doc, _("Commands"));
+  manual_finalize(tag_info, doc, MANUAL_COMMANDS);
 
   return TRUE;
 }

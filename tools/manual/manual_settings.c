@@ -135,7 +135,7 @@ bool manual_settings(struct tag_types *tag_info)
     fprintf(doc, "%s", tag_info->item_end);
   } settings_iterate_end;
 
-  manual_finalize(tag_info, doc, _("Settings"));
+  manual_finalize(tag_info, doc, MANUAL_SETTINGS);
 
   return TRUE;
 }

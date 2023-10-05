@@ -62,7 +62,7 @@ struct tag_types {
 /* Utility functions */
 FILE *manual_start(struct tag_types *tag_info, int manual_number);
 void manual_finalize(struct tag_types *tag_info, FILE *doc,
-                     const char *manual_name);
+                     enum manuals manual);
 char *html_special_chars(char *str, size_t *len);
 
 /* Individual manual pages */
