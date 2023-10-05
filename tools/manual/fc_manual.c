@@ -330,11 +330,12 @@ FILE *manual_start(struct tag_types *tag_info, int manual_number)
   @param manual_name  Name of the manual
 **************************************************************************/
 void manual_finalize(struct tag_types *tag_info, FILE *doc,
-                     const char *manual_name)
+                     enum manuals manual)
 {
   fprintf(doc, "%s", tag_info->tail);
   fclose(doc);
-  log_normal(_("%s manual successfully written."), manual_name);
+  log_normal(_("%s (%d) manual successfully written."),
+             _(manuals_name(manual)), manual + 1);
 }
 
 /**********************************************************************//**
@@ -360,7 +361,6 @@ static bool manual_command(struct tag_types *tag_info)
   }
 
   for (manuals = MANUAL_GOVS; manuals < MANUAL_COUNT; manuals++) {
-    char mnamebuf[20];
     FILE *doc;
 
     doc = manual_start(tag_info, manuals);
@@ -491,9 +491,7 @@ static bool manual_command(struct tag_types *tag_info)
 
     } /* switch */
 
-    fc_snprintf(mnamebuf, sizeof(mnamebuf), "%d", manuals + 1);
-
-    manual_finalize(tag_info, doc, mnamebuf);
+    manual_finalize(tag_info, doc, manuals);
   } /* manuals */
 
   return TRUE;

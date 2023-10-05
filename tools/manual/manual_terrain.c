@@ -163,7 +163,7 @@ bool manual_terrain(struct tag_types *tag_info)
 
   fprintf(doc, "</table>\n");
 
-  manual_finalize(tag_info, doc, _("Terrain"));
+  manual_finalize(tag_info, doc, MANUAL_TERRAIN);
 
   return TRUE;
 }

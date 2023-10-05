@@ -122,7 +122,7 @@ static bool manual_improvements(struct tag_types *tag_info,
 
   fprintf(doc, "</table>");
 
-  manual_finalize(tag_info, doc, _(manuals_name(manual)));
+  manual_finalize(tag_info, doc, manual);
 
   return TRUE;
 }
