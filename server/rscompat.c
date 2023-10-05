@@ -344,6 +344,30 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
     if (peffect->type == EFT_GROWTH_FOOD) {
       /* Equivalent Shrink_Food effect for each old Growth_Food */
       effect_copy(peffect, EFT_SHRINK_FOOD);
+    } else if (peffect->type == EFT_ACTION_SUCCESS_MOVE_COST) {
+      requirement_vector_iterate(&(peffect->reqs), preq) {
+        if (preq->source.kind == VUT_ACTION
+            && preq->source.value.action == action_by_number(ACTION_ATTACK)) {
+          if (preq->present) {
+            /* Specifically for this action type - create a new effect to OR */
+            struct effect *neffect = effect_copy(peffect, EFT_ACTION_SUCCESS_MOVE_COST);
+
+            requirement_vector_iterate(&(neffect->reqs), nreq) {
+              if (nreq->source.kind == VUT_ACTION
+                  && nreq->source.value.action == action_by_number(ACTION_ATTACK)) {
+                nreq->source.value.action = action_by_number(ACTION_COLLECT_RANSOM);
+              }
+            } requirement_vector_iterate_end;
+          } else {
+            /* Specifically prevent with this action type - add a requirement to AND */
+            requirement_vector_append(&(peffect->reqs),
+                                      req_from_str("Action", "Local",
+                                                   FALSE, FALSE, FALSE,
+                                                   "Collect Ransom"));
+          }
+          break;
+        }
+      } requirement_vector_iterate_end;
     }
   }
 
@@ -373,9 +397,9 @@ void rscompat_postprocess(struct rscompat_info *info)
     action_iterate(act_id) {
       const struct action *paction = action_by_number(act_id);
 
-      if (!(action_has_result(paction, ACTRES_NUKE)
-            || action_has_result(paction, ACTRES_NUKE_UNITS)
-            || action_has_result(paction, ACTRES_SPY_NUKE))) {
+      if (!action_has_result(paction, ACTRES_NUKE)
+           && !action_has_result(paction, ACTRES_NUKE_UNITS)
+           && !action_has_result(paction, ACTRES_SPY_NUKE)) {
         /* Not relevant. */
         continue;
       }
@@ -394,6 +418,17 @@ void rscompat_postprocess(struct rscompat_info *info)
                          NULL);
     effect_req_append(peffect, req_from_str("MinSize", "City", FALSE, FALSE,
                                             FALSE, "2"));
+
+    action_enablers_iterate(ae) {
+      /* "Attack" is split to regular attack and "Collect Ransom" */
+      if (ae->action == ACTION_ATTACK) {
+        struct action_enabler *enabler = action_enabler_copy(ae);
+
+        enabler->action = ACTION_COLLECT_RANSOM;
+
+        action_enabler_add(enabler);
+      }
+    } action_enablers_iterate_end;
   }
 
   /* Make sure that all action enablers added or modified by the

@@ -144,6 +144,7 @@ bool place_unit(struct unit *punit, struct player *pplayer,
 void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
                struct player *killer);
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet);
+void collect_ransom(struct unit *pkiller, struct unit *punit, bool vet);
 
 struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
                                int homecity, enum unit_loss_reason reason)
@@ -153,7 +154,7 @@ void unit_set_removal_callback(struct unit *punit,
                                void (*callback)(struct unit *punit));
 void unit_unset_removal_callback(struct unit *punit);
 
-/* sending to client */
+/* Sending to client */
 void package_unit(struct unit *punit, struct packet_unit_info *packet);
 void package_short_unit(struct unit *punit,
 			struct packet_unit_short_info *packet,

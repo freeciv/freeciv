@@ -1101,6 +1101,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   switch (paction->result) {
   case ACTRES_ATTACK:
   case ACTRES_WIPE_UNITS:
+  case ACTRES_COLLECT_RANSOM:
     /* Target is a unit stack but a city can block it. */
     fc_assert_action(action_get_target_kind(paction) == ATK_UNITS, break);
 
@@ -3868,6 +3869,7 @@ bool unit_perform_action(struct player *pplayer,
                                            paction));
     break;
   case ACTRES_ATTACK:
+  case ACTRES_COLLECT_RANSOM:
     /* Difference is caused by data in the action structure. */
     ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_attack(actor_unit, target_tile, paction));
@@ -5129,8 +5131,14 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                   def_hp_start);
 
     punit->moved = TRUE;	/* We moved */
-    kill_unit(pwinner, ploser,
-              vet && !utype_is_consumed_by_action(paction, punit->utype));
+
+    if (paction->result == ACTRES_COLLECT_RANSOM) {
+      collect_ransom(pwinner, ploser,
+                     vet && !utype_is_consumed_by_action(paction, punit->utype));
+    } else {
+      kill_unit(pwinner, ploser,
+                vet && !utype_is_consumed_by_action(paction, punit->utype));
+    }
 
     /* Now that dead defender is certainly no longer listed as unit
      * supported by the city, we may even remove the city

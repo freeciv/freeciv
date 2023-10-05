@@ -20,7 +20,8 @@ format_version = 30
 ;    { "type",         "name",    "range", "present"
 ;    }
 
-;attack_actions = "Capture Units", "Bombard", "Attack", "Suicide Attack"
+;attack_actions = "Capture Units", "Bombard",
+;                 "Collect Ransom", "Attack", "Suicide Attack"
 
 [actions]
 ; Forbid regular unit move if one of the actions below is legal.
@@ -36,6 +37,12 @@ format_version = 30
 ; performing "Attack".
 ;attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
 ;                                     "Unit Move"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Collect Ransom".
+;collect_ransom_post_success_forced_actions = "Conquer City", "Conquer City 2",
+;                                             "Unit Move"
 
 ; The city that made the unit`s current tile native is gone. This is a Hail
 ; Mary attempt at survival by performing an action. Evaluated against an

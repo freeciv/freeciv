@@ -51,7 +51,7 @@ extern "C" {
 #define MAX_GOODS_TYPES 25
 #define MAX_DISASTER_TYPES 10
 #define MAX_ACHIEVEMENT_TYPES 40
-#define MAX_NUM_ACTION_AUTO_PERFORMERS 10
+#define MAX_NUM_ACTION_AUTO_PERFORMERS 11
 #define MAX_NUM_MULTIPLIERS 15
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
 #define MAX_NUM_NATION_SETS 32 /* Used in the network protocol.
@@ -275,11 +275,11 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_VALUE44NAME "Unit Build Mine"
 #define SPECENUM_VALUE45 ACTRES_IRRIGATE
 #define SPECENUM_VALUE45NAME "Unit Build Irrigation"
-/* TODO: Rearrange action results to get rid of these */
-#define SPECENUM_VALUE46 ACTRES_UNUSED_1
-#define SPECENUM_VALUE46NAME "Unused1"
-#define SPECENUM_VALUE47 ACTRES_UNUSED_2
-#define SPECENUM_VALUE47NAME "Unused2"
+#define SPECENUM_VALUE46 ACTRES_COLLECT_RANSOM
+#define SPECENUM_VALUE46NAME "Collect Ransom"
+/* TODO: Rearrange action results to get rid of this */
+#define SPECENUM_VALUE47 ACTRES_UNUSED_1
+#define SPECENUM_VALUE47NAME "Unused1"
 #define SPECENUM_VALUE48 ACTRES_TRANSPORT_DEBOARD
 #define SPECENUM_VALUE48NAME "Unit Transport Deboard"
 #define SPECENUM_VALUE49 ACTRES_TRANSPORT_UNLOAD

@@ -1286,6 +1286,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_PARADROP:
   case ACTRES_ATTACK:
   case ACTRES_WIPE_UNITS:
+  case ACTRES_COLLECT_RANSOM:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -1314,7 +1315,6 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_ENABLER_CHECK:
 
   case ACTRES_UNUSED_1:
-  case ACTRES_UNUSED_2:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");
     break;

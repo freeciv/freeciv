@@ -1063,6 +1063,14 @@ reqs    =
       "Action", "Attack", "Local", TRUE
     }
 
+[effect_action_success_move_cost_ransom]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 4
+reqs    =
+    { "type",   "name",           "range", "present"
+      "Action", "Collect Ransom", "Local", TRUE
+    }
+
 [effect_action_success_move_cost_paradrop]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 4
