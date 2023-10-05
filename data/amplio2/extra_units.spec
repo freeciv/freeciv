@@ -34,6 +34,8 @@ tiles = { "row", "column", "tag"
 
   6,  4, "u.drone"
 
+  7,  9, "u.feluca"
+
   8,  0, "u.dredger"
   8,  1, "u.longboat"
 
