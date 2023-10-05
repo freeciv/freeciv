@@ -2477,51 +2477,6 @@ void show_tile_labels(int canvas_base_x, int canvas_base_y,
 }
 
 /************************************************************************//**
-  Draw the goto route for the unit. Return TRUE if anything is drawn.
-
-  This duplicates drawing code that is run during the hover state.
-****************************************************************************/
-bool show_unit_orders(struct unit *punit)
-{
-  if (punit && unit_has_orders(punit)) {
-    struct tile *ptile = unit_tile(punit);
-    int i;
-
-    for (i = 0; i < punit->orders.length; i++) {
-      int idx = (punit->orders.index + i) % punit->orders.length;
-      struct unit_order *order;
-
-      if (punit->orders.index + i >= punit->orders.length
-          && !punit->orders.repeat) {
-        break;
-      }
-
-      if (ptile == NULL) {
-        /* This shouldn't happen unless the server gives us invalid
-         * data. */
-        log_warn("Unit orders with illegal tile.");
-        break;
-      }
-
-      order = &punit->orders.list[idx];
-
-      switch (order->order) {
-      case ORDER_MOVE:
-        draw_segment(ptile, order->dir);
-        ptile = mapstep(&(wld.map), ptile, order->dir);
-        break;
-      default:
-        /* TODO: Graphics for other orders. */
-        break;
-      }
-    }
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
-/************************************************************************//**
   Draw a goto line at the given location and direction. The line goes from
   the source tile to the adjacent tile in the given direction.
 ****************************************************************************/

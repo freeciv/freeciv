@@ -314,7 +314,6 @@ void show_city_descriptions(int canvas_base_x, int canvas_base_y,
                             int width_base, int height_base);
 void show_tile_labels(int canvas_base_x, int canvas_base_y,
                       int width_base, int height_base);
-bool show_unit_orders(struct unit *punit);
 
 void draw_segment(struct tile *ptile, enum direction8 dir)
   fc__attribute((nonnull (1)));
