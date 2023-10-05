@@ -783,22 +783,26 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
   int best_turn = 0; /* Which turn we found the best fit */
   struct player *pplayer = unit_owner(punit);
   struct pf_map *pfm;
+  struct unit_class *pclass = unit_class_get(punit);
+  Continent_id curcont = tile_continent(unit_tile(punit));
+  int cost = unit_build_shield_cost_base(punit);
 
   pfm = pf_map_new(parameter);
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     int turns;
 
-    if (boat_cost == 0 && unit_class_get(punit)->adv.sea_move == MOVE_NONE
-        && tile_continent(ptile) != tile_continent(unit_tile(punit))) {
+    if (boat_cost == 0 && pclass->adv.sea_move == MOVE_NONE
+        && tile_continent(ptile) != curcont) {
       /* We have an accidential land bridge. Ignore it. It will in all
        * likelihood go away next turn, or even in a few nanoseconds. */
       continue;
     }
     if (BORDERS_DISABLED != game.info.borders) {
       struct player *powner = tile_owner(ptile);
+
       if (NULL != powner
-       && powner != pplayer
-       && pplayers_in_peace(powner, pplayer)) {
+          && powner != pplayer
+          && pplayers_in_peace(powner, pplayer)) {
         /* Land theft does not make for good neighbors. */
         continue;
       }
@@ -808,7 +812,7 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
     cr = city_desirability(ait, pplayer, punit, ptile);
 
     /* Check if actually found something */
-    if (!cr) {
+    if (cr == NULL) {
       continue;
     }
 
@@ -821,7 +825,7 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
     /* We also penalise here for using a boat (either virtual or real)
      * it's crude but what isn't?
      * Settler gets used, boat can make multiple trips. */
-    cr->result -= unit_build_shield_cost_base(punit) + boat_cost / 3;
+    cr->result -= cost + boat_cost / 3;
 
     /* Find best spot */
     if ((!best && cr->result > 0)
