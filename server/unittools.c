@@ -2279,7 +2279,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
 
 /**********************************************************************//**
   Called when one unit kills another in combat (this function is only
-  called in one place).  It handles all side effects including
+  called in one place). It handles all side effects including
   notifications and killstack.
 **************************************************************************/
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
@@ -2288,9 +2288,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   struct player *pvictim = unit_owner(punit);
   struct player *pvictor = unit_owner(pkiller);
   struct tile *deftile = unit_tile(punit);
-  int ransom, unitcount = 0;
+  int unitcount = 0;
   bool escaped;
-  bool collect_ransom = FALSE;
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
@@ -2298,58 +2297,19 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   /* The unit is doomed. */
   punit->server.dying = TRUE;
 
-  /* barbarian leader ransom hack */
-  if (is_barbarian(pvictim)
-      && uclass_has_flag(unit_class_get(pkiller), UCF_COLLECT_RANSOM)) {
-    collect_ransom = TRUE;
-
-    unit_list_iterate(deftile->units, capture) {
-      if (!unit_has_type_role(capture, L_BARBARIAN_LEADER)) {
-        /* Cannot get ransom when there are other kind of units in the tile */
-        collect_ransom = FALSE;
-        break;
-      }
-    } unit_list_iterate_end;
-
-    if (collect_ransom) {
-      unitcount = unit_list_size(deftile->units);
-      ransom = unitcount * game.server.ransom_gold;
-
-      if (pvictim->economic.gold < ransom) {
-        ransom = pvictim->economic.gold;
-      }
-
-      notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                    PL_("%d Barbarian leader captured.",
-                        "%d Barbarian leaders captured.",
-                        unitcount),
-                    unitcount);
-      notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                    PL_("%d gold ransom paid.",
-                        "%d gold ransom paid.",
-                        ransom),
-                    ransom);
-      pvictor->economic.gold += ransom;
-      pvictim->economic.gold -= ransom;
-      send_player_info_c(pvictor, NULL);   /* let me see my new gold :-) */
+  unit_list_iterate(deftile->units, vunit) {
+    if (pplayers_at_war(pvictor, unit_owner(vunit))
+        && is_unit_reachable_at(vunit, pkiller, deftile)) {
+      unitcount++;
     }
-  }
-
-  if (unitcount == 0) {
-    unit_list_iterate(deftile->units, vunit) {
-      if (pplayers_at_war(pvictor, unit_owner(vunit))
-          && is_unit_reachable_at(vunit, pkiller, deftile)) {
-        unitcount++;
-      }
-    } unit_list_iterate_end;
-  }
+  } unit_list_iterate_end;
 
   if (!is_stack_vulnerable(deftile) || unitcount == 1) {
     if (vet) {
       notify_unit_experience(pkiller);
     }
     wipe_unit(punit, ULR_KILLED, pvictor);
-  } else { /* unitcount > 1 */
+  } else { /* Unitcount > 1 */
     int i;
     int slots = player_slot_count();
     int num_killed[slots];
@@ -2358,14 +2318,14 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
     fc_assert(unitcount > 1);
 
-    /* initialize */
+    /* Initialize */
     for (i = 0; i < slots; i++) {
       num_killed[i] = 0;
       other_killed[i] = NULL;
       num_escaped[i] = 0;
     }
 
-    /* count killed units */
+    /* Count killed units */
     unit_list_iterate_safe(deftile->units, vunit) {
       struct player *vplayer = unit_owner(vunit);
 
@@ -2429,7 +2389,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     } unit_list_iterate_safe_end;
 
     /* Inform the destroyer again if more than one unit was killed */
-    if (unitcount > 1 && !collect_ransom) {
+    if (unitcount > 1) {
       notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
                     /* TRANS: "... Cannon ... the Polish Destroyer ...." */
                     PL_("Your attacking %s succeeded against the %s %s "
@@ -2446,7 +2406,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       notify_unit_experience(pkiller);
     }
 
-    /* inform the owners: this only tells about owned units that were killed.
+    /* Inform the owners: this only tells about owned units that were killed.
      * there may have been 20 units who died but if only 2 belonged to the
      * particular player they'll only learn about those.
      *
@@ -2541,15 +2501,104 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       }
     }
 
-    /* remove the units - note the logic of which units actually die
+    /* Remove the units - note the logic of which units actually die
      * must be mimiced exactly in at least one place up above. */
-    punit = NULL; /* wiped during following iteration so unsafe to use */
+    punit = NULL; /* Wiped during following iteration so unsafe to use */
 
     unit_list_iterate_safe(deftile->units, punit2) {
       if (pplayers_at_war(pvictor, unit_owner(punit2))
 	  && is_unit_reachable_at(punit2, pkiller, deftile)) {
         wipe_unit(punit2, ULR_KILLED, pvictor);
       }
+    } unit_list_iterate_safe_end;
+  }
+}
+
+/**********************************************************************//**
+  Called when one unit collects ransom of another.
+**************************************************************************/
+void collect_ransom(struct unit *pcollector, struct unit *punit, bool vet)
+{
+  struct player *pvictim = unit_owner(punit);
+  struct player *pvictor = unit_owner(pcollector);
+  char pcollector_link[MAX_LEN_LINK], punit_link[MAX_LEN_LINK];
+  struct tile *deftile = unit_tile(punit);
+  int unitcount, ransom;
+
+  /* The unit is doomed. */
+  punit->server.dying = TRUE;
+
+  unitcount = unit_list_size(deftile->units);
+  ransom = unitcount * game.server.ransom_gold;
+
+  if (pvictim->economic.gold < ransom) {
+    ransom = pvictim->economic.gold;
+  }
+
+  notify_player(pvictor, unit_tile(pcollector), E_UNIT_WIN_ATT, ftc_server,
+                PL_("%d Barbarian leader captured.",
+                    "%d Barbarian leaders captured.",
+                    unitcount),
+                unitcount);
+  notify_player(pvictor, unit_tile(pcollector), E_UNIT_WIN_ATT, ftc_server,
+                PL_("%d gold ransom paid.",
+                    "%d gold ransom paid.",
+                    ransom),
+                ransom);
+  pvictor->economic.gold += ransom;
+  pvictim->economic.gold -= ransom;
+  send_player_info_c(pvictor, NULL);   /* Let me see my new gold :-) */
+
+  if (vet) {
+    notify_unit_experience(pcollector);
+  }
+
+  sz_strlcpy(pcollector_link, unit_link(pcollector));
+  sz_strlcpy(punit_link, unit_tile_link(punit));
+
+  if (!is_stack_vulnerable(deftile) || unitcount == 1) {
+    wipe_unit(punit, ULR_KILLED, pvictor);
+  } else {
+    int i;
+    int slots = player_slot_count();
+    int num_collected[slots];
+
+    fc_assert(unitcount > 1);
+
+    /* Initialize */
+    for (i = 0; i < slots; i++) {
+      num_collected[i] = 0;
+    }
+
+    /* Count captured units */
+    unit_list_iterate_safe(deftile->units, vunit) {
+      struct player *vplayer = unit_owner(vunit);
+
+      num_collected[player_index(vplayer)]++;
+    } unit_list_iterate_safe_end;
+
+    for (i = 0; i < slots; i++) {
+      if (num_collected[i] == 1) {
+        notify_player(player_by_number(i), deftile,
+                      E_UNIT_LOST_DEF, ftc_server,
+                      _("%s %s collected ransom of %s."),
+                      nation_adjective_for_player(pvictor),
+                      pcollector_link, punit_link);
+      } else if (num_collected[i] > 1) {
+        notify_player(player_by_number(i), deftile,
+                      E_UNIT_LOST_DEF, ftc_server,
+                      PL_("%s %s collected ransom of %s and %d other unit.",
+                          "%s %s collected ransom of %s and %d other units.",
+                          num_collected[i] - 1),
+                      nation_adjective_for_player(pvictor),
+                      pcollector_link,
+                      punit_link,
+                      num_collected[i] - 1);
+      }
+    }
+
+    unit_list_iterate_safe(deftile->units, punit2) {
+      wipe_unit(punit2, ULR_KILLED, pvictor);
     } unit_list_iterate_safe_end;
   }
 }

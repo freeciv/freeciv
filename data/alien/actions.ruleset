@@ -30,7 +30,8 @@ if_attacker =
       "MinMoveFrags", "1",       "Local", TRUE
     }
 
-attack_actions = "Capture Units", "Bombard", "Attack", "Suicide Attack"
+attack_actions = "Capture Units", "Bombard",
+                 "Collect Ransom", "Attack", "Suicide Attack"
 
 [actions]
 ;  Forbid "Enter Marketplace" if any one of the listed actions are legal.
@@ -40,10 +41,10 @@ enter_marketplace_blocked_by = "Establish Trade Route"
 bombard_blocked_by = "Capture Units"
 
 ; Forbid "Attack" if any one of the listed actions are legal.
-attack_blocked_by = "Capture Units", "Bombard"
+attack_blocked_by = "Collect Ransom", "Capture Units", "Bombard"
 
 ; Forbid "Suicide Attack" if any one of the listed actions are legal.
-suicide_attack_blocked_by = "Capture Units", "Bombard"
+suicide_attack_blocked_by = "Collect Ransom", "Capture Units", "Bombard"
 
 ; Forbid "Conquer City" if any one of the listed actions are legal.
 conquer_city_blocked_by = "Capture Units", "Bombard", "Attack",
@@ -68,6 +69,17 @@ bribe_unit_post_success_forced_actions = "Transport Embark",
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
 attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
+                                     "Transport Disembark",
+                                     "Transport Disembark 2",
+                                     "Conquer Extras", "Conquer Extras 2",
+                                     "Enter Hut", "Enter Hut 2",
+                                     "Unit Move"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Collect Ransom".
+collect_ransom_post_success_forced_actions =
+                                     "Conquer City", "Conquer City 2",
                                      "Transport Disembark",
                                      "Transport Disembark 2",
                                      "Conquer Extras", "Conquer Extras 2",
@@ -550,14 +562,14 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local", TRUE
       "DiplRel", "Foreign", "Local", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",        "name",     "range", "present"
       "CityTile",    "Claimed",  "Tile",  TRUE
       "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
 [actionenabler_attack_from_native]
-action = "Attack"
+action        = "Attack"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "NonMil",       "Local", FALSE
@@ -568,7 +580,29 @@ actor_reqs    =
     }
 
 [actionenabler_attack_uclass_sea]
-action = "Attack"
+action        = "Attack"
+actor_reqs    =
+    { "type",          "name",    "range", "present"
+      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitClassFlag", "Missile", "Local", FALSE
+      "MinMoveFrags",  "1",       "Local", TRUE
+      "UnitClass",     "Sea",     "Local", TRUE
+      "DiplRel",       "War",     "Local", TRUE
+    }
+
+[actionenabler_ransom_from_native]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+    }
+
+[actionenabler_ransom_uclass_sea]
+action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",    "range", "present"
       "UnitFlag",      "NonMil",  "Local", FALSE
@@ -579,7 +613,7 @@ actor_reqs    =
     }
 
 [actionenabler_explode_missile]
-action = "Suicide Attack"
+action        = "Suicide Attack"
 actor_reqs    =
     { "type",          "name",    "range", "present"
       "UnitFlag",      "NonMil",  "Local", FALSE
@@ -589,7 +623,7 @@ actor_reqs    =
     }
 
 [actionenabler_conquer_city_native]
-action = "Conquer City"
+action        = "Conquer City"
 actor_reqs    =
     { "type",           "name",          "range", "present"
       "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
@@ -598,13 +632,13 @@ actor_reqs    =
       "MinMoveFrags",   "1",             "Local", TRUE
       "UnitState",      "OnLivableTile", "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",           "name",          "range", "present"
       "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
 [actionenabler_change_home_city]
-action = "Home City"
+action        = "Home City"
 actor_reqs    =
     { "type",      "name",        "range", "present"
       "UnitState", "HasHomeCity", "Local", TRUE
@@ -612,7 +646,7 @@ actor_reqs    =
     }
 
 [actionenabler_paradrop_base_to_claimed]
-action = "Paradrop Unit Enter"
+action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",          "range", "present"
       "UnitFlag",      "Paratroopers",  "Local", TRUE
@@ -628,7 +662,7 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_base_to_unclaimed]
-action = "Paradrop Unit Enter"
+action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",          "range", "present"
       "UnitFlag",      "Paratroopers",  "Local", TRUE
@@ -642,7 +676,7 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_base_to_war_conquer]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
     { "type",          "name",          "range", "present"
       "UnitFlag",      "Paratroopers",  "Local", TRUE
@@ -659,7 +693,7 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_city_to_claimed]
-action = "Paradrop Unit Enter"
+action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Paratroopers", "Local", TRUE
@@ -675,7 +709,7 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_city_to_unclaimed]
-action = "Paradrop Unit Enter"
+action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Paratroopers", "Local", TRUE
@@ -689,7 +723,7 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_city_to_war_conquer]
-action = "Paradrop Unit Enter Conquer"
+action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
     { "type",          "name",          "range", "present"
       "UnitFlag",      "Paratroopers",  "Local", TRUE
@@ -706,14 +740,14 @@ target_reqs   =
     }
 
 [actionenabler_upgrade_unit]
-action = "Upgrade Unit"
+action        = "Upgrade Unit"
 actor_reqs    =
     { "type",    "name",       "range", "present"
       "DiplRel", "Foreign", "Local", FALSE
     }
 
 [actionenabler_airlift_unit]
-action = "Airlift Unit"
+action        = "Airlift Unit"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "Airliftable",  "Local", TRUE

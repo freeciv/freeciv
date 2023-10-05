@@ -282,20 +282,22 @@ const char *gen_action_name_update_cb(const char *old_name);
 #define SPECENUM_VALUE115NAME "Teleport Conquer"
 #define SPECENUM_VALUE116 ACTION_CLEAN
 #define SPECENUM_VALUE116NAME "Clean"
+#define SPECENUM_VALUE117 ACTION_COLLECT_RANSOM
+#define SPECENUM_VALUE117NAME "Collect Ransom"
 
 /* Enabler checks only */
-#define SPECENUM_VALUE117 ACTION_GAIN_VETERANCY
-#define SPECENUM_VALUE117NAME "Gain Veterancy"
+#define SPECENUM_VALUE118 ACTION_GAIN_VETERANCY
+#define SPECENUM_VALUE118NAME "Gain Veterancy"
 
 /* User actions */
-#define SPECENUM_VALUE118 ACTION_USER_ACTION1
-#define SPECENUM_VALUE118NAME "User Action 1"
-#define SPECENUM_VALUE119 ACTION_USER_ACTION2
-#define SPECENUM_VALUE119NAME "User Action 2"
-#define SPECENUM_VALUE120 ACTION_USER_ACTION3
-#define SPECENUM_VALUE120NAME "User Action 3"
-#define SPECENUM_VALUE121 ACTION_USER_ACTION4
-#define SPECENUM_VALUE121NAME "User Action 4"
+#define SPECENUM_VALUE119 ACTION_USER_ACTION1
+#define SPECENUM_VALUE119NAME "User Action 1"
+#define SPECENUM_VALUE120 ACTION_USER_ACTION2
+#define SPECENUM_VALUE120NAME "User Action 2"
+#define SPECENUM_VALUE121 ACTION_USER_ACTION3
+#define SPECENUM_VALUE121NAME "User Action 3"
+#define SPECENUM_VALUE122 ACTION_USER_ACTION4
+#define SPECENUM_VALUE122NAME "User Action 4"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #define SPECENUM_NAME_UPDATER
@@ -613,16 +615,17 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 /* Hard coded location of action auto performers. Used for conversion while
  * action auto performers aren't directly exposed to the ruleset.
  * Remember to update also MAX_NUM_ACTION_AUTO_PERFORMERS when changing these. */
-#define ACTION_AUTO_UPKEEP_FOOD     0
-#define ACTION_AUTO_UPKEEP_GOLD     1
-#define ACTION_AUTO_UPKEEP_SHIELD   2
-#define ACTION_AUTO_MOVED_ADJ       3
-#define ACTION_AUTO_POST_BRIBE      4
-#define ACTION_AUTO_POST_ATTACK     5
-#define ACTION_AUTO_POST_ATTACK2    6
-#define ACTION_AUTO_ESCAPE_CITY     7
-#define ACTION_AUTO_ESCAPE_STACK    8
-#define ACTION_AUTO_POST_WIPE_UNITS 9
+#define ACTION_AUTO_UPKEEP_FOOD          0
+#define ACTION_AUTO_UPKEEP_GOLD          1
+#define ACTION_AUTO_UPKEEP_SHIELD        2
+#define ACTION_AUTO_MOVED_ADJ            3
+#define ACTION_AUTO_POST_BRIBE           4
+#define ACTION_AUTO_POST_ATTACK          5
+#define ACTION_AUTO_POST_ATTACK2         6
+#define ACTION_AUTO_POST_COLLECT_RANSOM  7
+#define ACTION_AUTO_ESCAPE_CITY          8
+#define ACTION_AUTO_ESCAPE_STACK         9
+#define ACTION_AUTO_POST_WIPE_UNITS     10
 
 /* Initialization */
 void actions_init(void);

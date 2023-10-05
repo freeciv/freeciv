@@ -837,6 +837,7 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTRES_ATTACK:
     case ACTRES_SPY_INCITE_CITY:
     case ACTRES_CONQUER_CITY:
+    case ACTRES_COLLECT_RANSOM:
       bonus += 4;
       break;
     case ACTRES_SPY_BRIBE_UNIT:

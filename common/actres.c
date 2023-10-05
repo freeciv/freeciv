@@ -169,10 +169,10 @@ static struct actres act_results[ACTRES_LAST] = {
   { ACT_TGT_COMPL_MANDATORY, ABK_NONE,       /* ACTRES_IRRIGATE */
     FALSE, ACTIVITY_IRRIGATE, DRT_NONE,
     EC_IRRIGATION, ERM_NONE },
-  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_UNUSED_1 */
-    FALSE, ACTIVITY_LAST, DRT_NONE,
+  { ACT_TGT_COMPL_SIMPLE, ABK_STANDARD,      /* ACTRES_COLLECT_RANSOM */
+    TRUE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE },
-  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_UNUSED_2 */
+  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_UNUSED_1 */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TRANSPORT_DEBOARD */
@@ -667,6 +667,20 @@ enum fc_tristate actres_possible(enum action_result result,
     unit_list_iterate(target->tile->units, punit) {
       if (get_total_defense_power(actor->unit, punit) > 0) {
         return TRI_NO;
+      }
+    } unit_list_iterate_end;
+    break;
+
+  case ACTRES_COLLECT_RANSOM:
+    if (!is_barbarian(actor->player)
+        || !uclass_has_flag(unit_class_get(actor->unit), UCF_COLLECT_RANSOM)) {
+      return FALSE;
+    }
+
+    unit_list_iterate(target->tile->units, punit) {
+      if (!unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
+        /* Cannot get ransom when there are other kind of units in the tile */
+        return FALSE;
       }
     } unit_list_iterate_end;
     break;

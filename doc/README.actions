@@ -897,6 +897,29 @@ Actions done by a unit against all units at a tile
    - it is in a city
    - it is on a tile with a native Extra
 
+"Collect Ransom"
+ * UI name can be set using ui_name_collect_ransom
+ * any action listed in collect_ransom_blocked_by must be impossible
+ * forced actions after success can be set with
+   collect_ransom_post_success_forced_actions
+ * the actor must be on the tile next to the target.
+ * the actor's attack must be above 0
+ * the actor can't have the "NonMil" unit type flag (!)
+ * the actor must be native to the target tile unless it has the
+   "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
+   type flag.
+ * the target tile has no non enemy units. (!)
+ * the target tile has no non enemy city.
+ * the target must be barbarian
+ * the actor must have "CollectRansom" unit class flag
+ * one or all (unreachableprotects) non transported units at the target
+   tile must be reachable. A unit is reachable if any of the following is
+   true:
+   - it doesn't have the "Unreachable" unit class flag
+   - it is listed in the actor unit's targets
+   - it is in a city
+   - it is on a tile with a native Extra
+
 "Nuke Units" - Detonate at the target unit stack. Cause a nuclear explosion.
  * UI name can be set using ui_name_nuke_units
  * set if the actor unit is spent with nuke_units_consuming_always

@@ -33,7 +33,8 @@ if_attacker =
       "UnitFlag",     "NuclearOP", "Local", FALSE
     }
 
-attack_actions = "Capture Units", "Bombard", "Attack", "Suicide Attack"
+attack_actions = "Capture Units", "Bombard",
+                 "Collect Ransom", "Attack", "Suicide Attack"
 
 [actions]
 ; Forbid "Bombard" if any one of the listed actions are legal.
@@ -49,12 +50,12 @@ nuke_city_blocked_by = "Capture Units", "Bombard"
 nuke_units_blocked_by = "Capture Units", "Bombard"
 
 ; Forbid "Attack" if any one of the listed actions are legal.
-attack_blocked_by = "Capture Units", "Bombard",
+attack_blocked_by = "Collect Ransom", "Capture Units", "Bombard",
                     "Explode Nuclear", "Nuke City", "Nuke Units",
                     "Wipe Units"
 
 ; Forbid "Suicide Attack" if any one of the listed actions are legal.
-suicide_attack_blocked_by = "Capture Units", "Bombard",
+suicide_attack_blocked_by = "Collect Ransom", "Capture Units", "Bombard",
                             "Explode Nuclear", "Nuke City", "Nuke Units"
 
 ; Forbid "Conquer City" if any one of the listed actions are legal.
@@ -89,6 +90,18 @@ bribe_unit_post_success_forced_actions = "Transport Embark",
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
 attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
+                                     "Transport Disembark",
+                                     "Transport Disembark 2",
+                                     "Conquer Extras", "Conquer Extras 2",
+                                     "Enter Hut", "Enter Hut 2",
+                                     "Frighten Hut", "Frighten Hut 2",
+                                     "Unit Move"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Collect Ransom".
+collect_ransom_post_success_forced_actions =
+                                     "Conquer City", "Conquer City 2",
                                      "Transport Disembark",
                                      "Transport Disembark 2",
                                      "Conquer Extras", "Conquer Extras 2",
@@ -1521,6 +1534,78 @@ actor_reqs    =
 
 [actionenabler_attack_att_from_non_native_despite_treuga_dei]
 action        = "Attack"
+actor_reqs    =
+    { "type",          "name",             "range", "present", "survives"
+      "UnitFlag",      "NonMil",           "Local", FALSE,     FALSE
+      "UnitClassFlag", "Missile",          "Local", FALSE,     FALSE
+      "MinMoveFrags",  "1",                "Local", TRUE,      FALSE
+      "UnitClassFlag", "AttFromNonNative", "Local", TRUE,      FALSE
+      "DiplRel",       "War",              "Local", TRUE,      FALSE
+      "Tech",          "Communism",        "World", TRUE,      TRUE
+    }
+
+[actionenabler_ransom_from_native]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+      "Building",     "Treuga Dei",    "World", FALSE
+    }
+
+[actionenabler_ransom_from_native_despite_treuga_dei]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE,     FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE,      FALSE
+      "UnitState",     "OnNativeTile", "Local", TRUE,      FALSE
+      "DiplRel",       "War",          "Local", TRUE,      FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
+    }
+
+[actionenabler_ransom_marines]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",       "range", "present"
+      "UnitFlag",      "NonMil",     "Local", FALSE
+      "UnitClassFlag", "Missile",    "Local", FALSE
+      "MinMoveFrags",  "1",          "Local", TRUE
+      "UnitFlag",      "Marines",    "Local", TRUE
+      "DiplRel",       "War",        "Local", TRUE
+      "Building",      "Treuga Dei", "World", FALSE
+    }
+
+[actionenabler_ransom_marines_despite_treuga_dei]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",       "range", "present", "survives"
+      "UnitFlag",      "NonMil",     "Local", FALSE,     FALSE
+      "UnitClassFlag", "Missile",    "Local", FALSE,     FALSE
+      "MinMoveFrags",  "1",          "Local", TRUE,      FALSE
+      "UnitFlag",      "Marines",    "Local", TRUE,      FALSE
+      "DiplRel",       "War",        "Local", TRUE,      FALSE
+      "Tech",          "Communism",  "World", TRUE,      TRUE
+    }
+
+[actionenabler_ransom_att_from_non_native]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",             "range", "present"
+      "UnitFlag",      "NonMil",           "Local", FALSE
+      "UnitClassFlag", "Missile",          "Local", FALSE
+      "MinMoveFrags",  "1",                "Local", TRUE
+      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+      "DiplRel",       "War",              "Local", TRUE
+      "Building",      "Treuga Dei",       "World", FALSE
+    }
+
+[actionenabler_ransom_att_from_non_native_despite_treuga_dei]
+action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",             "range", "present", "survives"
       "UnitFlag",      "NonMil",           "Local", FALSE,     FALSE

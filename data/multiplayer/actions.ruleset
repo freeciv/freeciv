@@ -32,14 +32,16 @@ if_attacker =
       "UnitFlag",     "Nuclear", "Local", FALSE
     }
 
-attack_actions = "Attack", "Suicide Attack"
+attack_actions = "Collect Ransom", "Attack", "Suicide Attack"
 
 [actions]
 ; Forbid "Attack" if any one of the listed actions are legal.
-attack_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units"
+attack_blocked_by = "Collect Ransom", "Explode Nuclear", "Nuke City",
+                    "Nuke Units"
 
 ; Forbid "Suicide Attack" if any one of the listed actions are legal.
-suicide_attack_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units"
+suicide_attack_blocked_by = "Collect Ransom", "Explode Nuclear",
+                            "Nuke City", "Nuke Units"
 
 ; Forbid "Conquer City" if any one of the listed actions are legal.
 conquer_city_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units",
@@ -71,6 +73,18 @@ bribe_unit_post_success_forced_actions = "Transport Embark",
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
 attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
+                                     "Transport Disembark",
+                                     "Transport Disembark 2",
+                                     "Conquer Extras", "Conquer Extras 2",
+                                     "Enter Hut", "Enter Hut 2",
+                                     "Frighten Hut", "Frighten Hut 2",
+                                     "Unit Move"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Collect Ransom".
+collect_ransom_post_success_forced_actions =
+                                     "Conquer City", "Conquer City 2",
                                      "Transport Disembark",
                                      "Transport Disembark 2",
                                      "Conquer Extras", "Conquer Extras 2",
@@ -805,6 +819,39 @@ actor_reqs    =
 
 [actionenabler_attack_att_from_non_native]
 action        = "Attack"
+actor_reqs    =
+    { "type",          "name",             "range", "present"
+      "UnitFlag",      "NonMil",           "Local", FALSE
+      "UnitClassFlag", "Missile",          "Local", FALSE
+      "MinMoveFrags",  "1",                "Local", TRUE
+      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+      "DiplRel",       "War",              "Local", TRUE
+    }
+
+[actionenabler_ransom_from_native]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+    }
+
+[actionenabler_ransom_marines]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",    "range", "present"
+      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitClassFlag", "Missile", "Local", FALSE
+      "MinMoveFrags",  "1",       "Local", TRUE
+      "UnitFlag",      "Marines", "Local", TRUE
+      "DiplRel",       "War",     "Local", TRUE
+    }
+
+[actionenabler_ransom_att_from_non_native]
+action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",             "range", "present"
       "UnitFlag",      "NonMil",           "Local", FALSE

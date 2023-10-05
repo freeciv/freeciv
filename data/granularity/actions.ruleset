@@ -30,7 +30,8 @@ format_version = 40
 ;      "MinMoveFrags", "10"       "Local", TRUE
 ;    }
 
-;attack_actions = "Capture Units", "Bombard", "Attack", "Suicide Attack"
+;attack_actions = "Capture Units", "Bombard",
+;                 "Collect Ransom", "Attack", "Suicide Attack"
 
 [actions]
 ; Forbid regular unit move if one of the actions below is legal.
@@ -45,6 +46,11 @@ bribe_unit_post_success_forced_actions = "Unit Move"
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
 attack_post_success_forced_actions = "Unit Move"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Collect Ransom".
+collect_ransom_post_success_forced_actions = "Unit Move"
 
 ; The city that made the unit`s current tile native is gone. This is a Hail
 ; Mary attempt at survival by performing an action. Evaluated against an

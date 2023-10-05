@@ -2641,6 +2641,24 @@ reqs    =
       "UnitFlag", "OneAttack", "Local", FALSE
     }
 
+[effect_action_success_ransom_one_attack]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",     "name",           "range", "quiet"
+      "Action",   "Collect Ransom", "Local", TRUE
+      "UnitFlag", "OneAttack",      "Local", TRUE
+    }
+
+[effect_action_success_ransom_normal]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 3
+reqs    =
+    { "type",     "name",           "range", "present"
+      "Action",   "Collect Ransom", "Local", TRUE
+      "UnitFlag", "OneAttack",      "Local", FALSE
+    }
+
 [effect_unit_shield_value_recycle]
 type    = "Unit_Shield_Value_Pct"
 value   = -50

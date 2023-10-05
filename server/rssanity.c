@@ -1405,9 +1405,10 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     action_auto_perf_actions_iterate(auto_perf, act_id) {
       struct action *paction = action_by_number(act_id);
 
-      if (!(action_has_result(paction, ACTRES_CAPTURE_UNITS)
-            || action_has_result(paction, ACTRES_BOMBARD)
-            || action_has_result(paction, ACTRES_ATTACK))) {
+      if (!action_has_result(paction, ACTRES_CAPTURE_UNITS)
+          && !action_has_result(paction, ACTRES_BOMBARD)
+          && !action_has_result(paction, ACTRES_ATTACK)
+          && !action_has_result(paction, ACTRES_COLLECT_RANSOM)) {
         /* Only allow removing and changing the order of old auto
          * attack actions for now. Other actions need more testing and
          * fixing of issues caused by a worst case action probability of
