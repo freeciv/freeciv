@@ -564,9 +564,10 @@ static void diplomacy_main_response(struct gui_dialog *dlg, int response,
 static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
 {
   if (NULL != pdialog->dialog) {
-    /* pdialog->dialog may be NULL if the tab have been destroyed
+    /* pdialog->dialog may be NULL if the tab has been destroyed
      * by an other way. */
     gui_dialog_destroy(pdialog->dialog);
+    pdialog->dialog = NULL;
   }
   dialog_list_remove(dialog_list, pdialog);
   free(pdialog);
