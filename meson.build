@@ -1043,7 +1043,7 @@ common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/luasql/src', 'dependencies/tinycthread',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
   'utility', 'common', 'common/networking', 'common/scriptcore',
-  'common/aicore', 'gen_headers/enums')
+  'common/aicore')
 
 server_inc = [common_inc, include_directories('server', 'server/advisors',
               'server/scripting', 'server/generator', 'server/savegame',
@@ -1079,6 +1079,29 @@ ls_ruledit = custom_target('langstat_ruledit', output: 'langstat_ruledit.txt',
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
                          command: [python_exe, files('utility/generate_specenum.py'),
                                    '@OUTPUT@'])
+
+enum_defs = {
+  'common': {
+    'terrain_enums': ['terrain_enums.def', 'terrain_enums_gen.h'],
+  },
+  'manual': {
+    'manual_enums': ['manual_enums.def', 'manual_enums_gen.h'],
+  }
+}
+
+enum_targets = {}
+foreach group, defs : enum_defs
+  tgts = []
+  foreach name, paths : defs
+    tgts += custom_target(name,
+                          input: join_paths('gen_headers/enums', paths[0]),
+                          output: paths[1],
+                          command: [python_exe, files('gen_headers/generate_enums.py'),
+                                    '@OUTPUT@', '@INPUT@'],
+                          depend_files: files('gen_headers/generate_enums.py'))
+  endforeach
+  enum_targets += {group: tgts}
+endforeach
 
 pack_common = custom_target('packets_common',
                             input: files('common/networking/packets.def'),
@@ -1318,7 +1341,7 @@ common_lib = library('freeciv',
   'common/workertask.c',
   'common/worklist.c',
   include_directories : common_inc,
-  sources: [specenum, pack_common,
+  sources: [specenum, enum_targets['common'], pack_common,
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
   dependencies: [zlib_dep,
@@ -4260,6 +4283,7 @@ executable('freeciv-manual',
   'tools/manual/manual_settings.c',
   'tools/manual/manual_terrain.c',
   'client/helpdata.c',
+  sources: [enum_targets['manual']],
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
