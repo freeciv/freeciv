@@ -1723,6 +1723,11 @@ void mr_menu::setup_menus()
     slot_help(HELP_TILESET_ITEM);
   });
 
+  act = main_menu->addAction(Q_(HELP_MUSICSET_ITEM));
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_MUSICSET_ITEM);
+  });
+
   act = main_menu->addAction(Q_(HELP_NATIONS_ITEM));
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_NATIONS_ITEM);
