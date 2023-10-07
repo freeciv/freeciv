@@ -35,28 +35,20 @@
 /* common */
 #include "capstr.h"
 #include "connection.h"
-#include "events.h"
 #include "fc_cmdhelp.h"
 #include "fc_interface.h"
-#include "fc_types.h" /* LINE_BREAK */
-#include "government.h"
-#include "improvement.h"
-#include "map.h"
 #include "movement.h"
-#include "player.h"
 #include "version.h"
 
 /* client */
 #include "client_main.h"
 #include "climisc.h"
 #include "helpdata.h"
-#include "helpdlg_g.h"
 #include "music.h"
 #include "tilespec.h"
 
 /* server */
 #include "citytools.h"
-#include "commands.h"
 #include "connecthand.h"
 #include "console.h"
 #include "diplhand.h"
@@ -356,11 +348,12 @@ static bool manual_command(struct tag_types *tag_info)
   if (!manual_settings(tag_info)
       || !manual_commands(tag_info)
       || !manual_terrain(tag_info)
-      || !manual_buildings(tag_info)) {
+      || !manual_buildings(tag_info)
+      || !manual_governments(tag_info)) {
     return FALSE;
   }
 
-  for (manuals = MANUAL_GOVS; manuals < MANUAL_COUNT; manuals++) {
+  for (manuals = MANUAL_UNITS; manuals < MANUAL_COUNT; manuals++) {
     FILE *doc;
 
     doc = manual_start(tag_info, manuals);
@@ -375,28 +368,9 @@ static bool manual_command(struct tag_types *tag_info)
     case MANUAL_TERRAIN:
     case MANUAL_BUILDINGS:
     case MANUAL_WONDERS:
+    case MANUAL_GOVS:
       /* Should be handled in separate functions */
       fc_assert(FALSE);
-      break;
-
-    case MANUAL_GOVS:
-      /* Freeciv-web uses (parts of) the government HTML output in its own
-       * manual pages. */
-      /* FIXME: this doesn't resemble the wiki manual at all. */
-      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-      fprintf(doc, _("%sFreeciv %s governments help (%s)%s\n\n"), tag_info->title_begin,
-              VERSION_STRING, game.control.name, tag_info->title_end);
-      governments_iterate(pgov) {
-        char buf[64000];
-        fprintf(doc, tag_info->item_begin, "gov", pgov->item_number);
-        fprintf(doc, "%s%s%s\n\n", tag_info->sect_title_begin,
-                government_name_translation(pgov), tag_info->sect_title_end);
-        fprintf(doc, tag_info->subitem_begin, "helptext");
-        helptext_government(buf, sizeof(buf), NULL, NULL, pgov);
-        fprintf(doc, "%s\n\n", buf);
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, "%s", tag_info->item_end);
-      } governments_iterate_end;
       break;
 
     case MANUAL_UNITS:
