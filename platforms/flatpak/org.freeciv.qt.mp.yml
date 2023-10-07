@@ -1,0 +1,25 @@
+app-id: org.freeciv.qt.mp
+runtime: org.kde.Platform
+runtime-version: '6.5'
+sdk: org.kde.Sdk
+command: freeciv-mp-qt
+rename-icon: freeciv-modpack
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --filesystem=~/.freeciv:create
+modules:
+  - name: freeciv-mp-qt
+    buildsystem: meson
+    no-autogen: true
+    config-opts:
+      - -Dfcmp=qt
+      - -Dclients=[]
+      - -Dserver=disabled
+      - -Dtools=[]
+      - -Dqtver=qt6
+    sources:
+      - type: dir
+        path: ../..
