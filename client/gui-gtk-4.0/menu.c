@@ -347,11 +347,6 @@ static void show_focus_unit_callback(GSimpleAction *action,
 static void show_fog_of_war_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
-
-#ifdef MENUS_GTK3
-static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
-
 static void toggle_fog_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
@@ -1010,12 +1005,6 @@ static struct menu_entry_info menu_entries[] =
   { "HELP_ABOUT", N_("About Freeciv"),
     "help_about", NULL, MGROUP_SAFE,
     NULL, FALSE },
-
-#ifdef MENUS_GTK3
-  { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
-    G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
-#endif /* MENUS_GTK3 */
-
   { NULL }
 };
 
@@ -2083,16 +2072,6 @@ static void full_screen_callback(GSimpleAction *action, GVariant *parameter,
   menu_item_insert_unref(view_menu, VMENU_FULL_SCREEN,
                          create_toggle_menu_item(info));
 }
-
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Item "RECALC_BORDERS" callback.
-****************************************************************************/
-static void recalc_borders_callback(GtkMenuItem *item, gpointer data)
-{
-  key_editor_recalculate_borders();
-}
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "TOGGLE_FOG" callback.
