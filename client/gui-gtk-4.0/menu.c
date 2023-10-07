@@ -3424,6 +3424,7 @@ void real_menus_update(void)
 
   i = 0;
   j = 0;
+
   /* Add the new action entries grouped by target kind. */
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
     action_noninternal_iterate(act_id) {
@@ -3799,7 +3800,7 @@ void real_menus_update(void)
                            can_units_do_activity_client(punits, ACTIVITY_TRANSFORM));
   menu_entry_set_sensitive(map, "FORTIFY",
                            can_units_do_activity_client(punits,
-                                                 ACTIVITY_FORTIFYING));
+                                                        ACTIVITY_FORTIFYING));
   menu_entry_set_sensitive(map, "PARADROP",
                            can_units_do(punits, can_unit_paradrop));
   menu_entry_set_sensitive(map, "PILLAGE",
@@ -4138,4 +4139,12 @@ void enable_menus(bool enable)
   /* Workaround for gtk bug that (re)setting the menubar after the window has
    * been already created is not noticed. */
   g_object_notify(G_OBJECT(gtk_settings_get_default()), "gtk-shell-shows-menubar");
+}
+
+/**********************************************************************//**
+  Disable all unit related commands.
+**************************************************************************/
+void menus_disable_unit_commands(void)
+{
+  menu_entry_group_set_sensitive(G_ACTION_MAP(gui_app()), MGROUP_UNIT, FALSE);
 }
