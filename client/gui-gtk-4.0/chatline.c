@@ -45,6 +45,7 @@
 #include "colors.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "menu.h"
 #include "pages.h"
 
 #include "chatline.h"
@@ -87,6 +88,28 @@ void inputline_grab_focus(void)
 bool inputline_is_visible(void)
 {
   return gtk_widget_get_mapped(toolkit.entry);
+}
+
+/**********************************************************************//**
+  Inputline has lost focus
+**************************************************************************/
+static gboolean il_lost_focus(GtkEventControllerFocus *controller,
+                              gpointer data)
+{
+  real_menus_update();
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Inputline has gained focus
+**************************************************************************/
+static gboolean il_gained_focus(GtkEventControllerFocus *controller,
+                                gpointer data)
+{
+  menus_disable_unit_commands();
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -1318,6 +1341,7 @@ void chatline_init(void)
   GdkRGBA color;
   int grid_col = 0;
   GtkEventController *chat_controller;
+  GtkEventController *focus_controller;
 
   /* Chatline history. */
   if (!history_list) {
@@ -1340,6 +1364,12 @@ void chatline_init(void)
   gtk_widget_set_margin_start(entry, 2);
   gtk_widget_set_margin_top(entry, 2);
   gtk_widget_set_hexpand(entry, TRUE);
+  focus_controller = GTK_EVENT_CONTROLLER(gtk_event_controller_focus_new());
+  g_signal_connect(focus_controller, "enter",
+                   G_CALLBACK(il_gained_focus), NULL);
+  g_signal_connect(focus_controller, "leave",
+                   G_CALLBACK(il_lost_focus), NULL);
+  gtk_widget_add_controller(entry, focus_controller);
   toolkit.entry = entry;
 
   hgrid = gtk_grid_new();

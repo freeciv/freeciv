@@ -3392,6 +3392,7 @@ void real_menus_update(void)
 
   i = 0;
   j = 0;
+
   /* Add the new action entries grouped by target kind. */
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
     action_iterate(act_id) {
@@ -4120,4 +4121,12 @@ void enable_menus(bool enable)
   /* Workaround for gtk bug that (re)setting the menubar after the window has
    * been already created is not noticed. */
   g_object_notify(G_OBJECT(gtk_settings_get_default()), "gtk-shell-shows-menubar");
+}
+
+/**********************************************************************//**
+  Disable all unit related commands.
+**************************************************************************/
+void menus_disable_unit_commands(void)
+{
+  menu_entry_group_set_sensitive(G_ACTION_MAP(gui_app()), MGROUP_UNIT, FALSE);
 }
