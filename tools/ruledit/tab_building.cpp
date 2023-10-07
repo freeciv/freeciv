@@ -228,7 +228,7 @@ void tab_building::delete_now()
 }
 
 /**********************************************************************//**
-  Initialize new tech for use.
+  Initialize new building for use.
 **************************************************************************/
 bool tab_building::initialize_new_bldg(struct impr_type *pimpr)
 {
