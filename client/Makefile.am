@@ -7,6 +7,8 @@ if CLIENT_GUI_SDL2
 GUI_SUBDIRS += gui-sdl2
 endif
 
+GUI_SUBDIRS += gui-sdl3
+
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
 endif
