@@ -249,9 +249,7 @@ static bool movement_animation(struct animation *anim, double time_gone)
 
     if (time_gone >= timing_sec) {
       /* Animation over */
-      if (--anim->movement.mover->refcount <= 0) {
-        unit_virtual_destroy(anim->movement.mover);
-      }
+      unit_virtual_destroy(anim->movement.mover);
 
       return TRUE;
     }
@@ -2725,7 +2723,6 @@ void move_unit_map_canvas(struct unit *punit,
 
       anim->type = ANIM_MOVEMENT;
       anim->id = punit->id;
-      punit->refcount++;
       anim->movement.mover = unit_virtual_create(unit_owner(punit),
                                                  NULL, unit_type_get(punit),
                                                  punit->veteran);
