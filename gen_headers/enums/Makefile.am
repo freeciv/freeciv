@@ -10,3 +10,7 @@ EXTRA_DIST = \
 		$(ENUMS_GEN)
 
 BUILT_SOURCES = $(ENUMS_GEN)
+
+$(ENUMS_GEN) : %_enums_gen.h: %_enums.def
+	@if ! $(AM_V_P) ; then echo "  genenum  $@" ; fi
+	$(AM_V_at) $(top_srcdir)/gen_headers/generate_enums.py $(srcdir)/$@ $<
