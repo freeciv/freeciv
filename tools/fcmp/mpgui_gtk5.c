@@ -42,7 +42,7 @@ static GtkWidget *progressbar;
 static GtkWidget *main_list;
 static GtkListStore *main_store;
 static GtkWidget *URL_input;
-static GtkWidget *quit_dialog;
+static GtkAlertDialog *quit_dialog;
 static gboolean downloading = FALSE;
 
 struct fcmp_params fcmp = {
@@ -81,19 +81,15 @@ static void modinst_quit(void)
   This is the response callback for the dialog with the message:
   Are you sure you want to quit?
 **************************************************************************/
-static void quit_dialog_response(GtkWidget *dialog, gint response)
+static void quit_dialog_response(GObject *dialog, GAsyncResult *result,
+                                 gpointer data)
 {
-  gtk_window_destroy(GTK_WINDOW(dialog));
-  if (response == GTK_RESPONSE_YES) {
+  int button = gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(dialog), result, NULL);
+
+  if (button == 0) {
     modinst_quit();
   }
-}
 
-/**********************************************************************//**
-  Quit dialog has been destroyed
-**************************************************************************/
-static void quit_dialog_destroyed(GtkWidget *dialog, void *data)
-{
   quit_dialog = NULL;
 }
 
@@ -102,26 +98,21 @@ static void quit_dialog_destroyed(GtkWidget *dialog, void *data)
 **************************************************************************/
 static gboolean quit_dialog_callback(void)
 {
-  if (downloading) {
+  if (downloading || TRUE) {
     /* Download in progress. Confirm quit from user. */
 
     if (quit_dialog == NULL) {
-      quit_dialog = gtk_message_dialog_new(NULL,
-                                           0,
-                                           GTK_MESSAGE_WARNING,
-                                           GTK_BUTTONS_YES_NO,
-      _("Modpack installation in progress.\nAre you sure you want to quit?"));
+      const char *buttons[] = { _("Quit"), _("Cancel"), NULL };
 
-      gtk_window_set_transient_for(GTK_WINDOW(quit_dialog),
-                                   GTK_WINDOW(toplevel));
+      quit_dialog = gtk_alert_dialog_new(_("Modpack installation in progress.\n"
+                                           "Are you sure you want to quit?"));
 
-      g_signal_connect(quit_dialog, "response",
-                       G_CALLBACK(quit_dialog_response), NULL);
-      g_signal_connect(quit_dialog, "destroy",
-                       G_CALLBACK(quit_dialog_destroyed), NULL);
+      gtk_alert_dialog_set_buttons(GTK_ALERT_DIALOG(quit_dialog), buttons);
+
+      gtk_alert_dialog_choose(GTK_ALERT_DIALOG(quit_dialog),
+                              GTK_WINDOW(toplevel), NULL,
+                              quit_dialog_response, NULL);
     }
-
-    gtk_window_present(GTK_WINDOW(quit_dialog));
 
   } else {
     /* User loses no work by quitting, so let's not annoy them
