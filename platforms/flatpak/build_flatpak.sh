@@ -12,6 +12,12 @@
 #  GNU General Public License for more details.
 
 BROOT="$(pwd)"
+SROOT="$(cd $(dirname "$0") && pwd)"
+
+if test "${BROOT}" = "${SROOT}" ; then
+  echo "Run $0 from a separate build directory." >&2
+  exit 1
+fi
 
 cd "$(dirname "$0")" || exit 1
 FCVER=$(../../fc_version)
