@@ -37,7 +37,6 @@
 #include "connection.h"
 #include "fc_cmdhelp.h"
 #include "fc_interface.h"
-#include "movement.h"
 #include "version.h"
 
 /* client */
@@ -335,8 +334,6 @@ void manual_finalize(struct tag_types *tag_info, FILE *doc,
 **************************************************************************/
 static bool manual_command(struct tag_types *tag_info)
 {
-  enum manuals manuals;
-
   /* Reset aifill to zero */
   game.info.aifill = 0;
 
@@ -349,124 +346,44 @@ static bool manual_command(struct tag_types *tag_info)
       || !manual_commands(tag_info)
       || !manual_terrain(tag_info)
       || !manual_buildings(tag_info)
-      || !manual_governments(tag_info)) {
+      || !manual_governments(tag_info)
+      || !manual_units(tag_info)) {
     return FALSE;
   }
 
-  for (manuals = MANUAL_UNITS; manuals < MANUAL_COUNT; manuals++) {
+  {
     FILE *doc;
 
-    doc = manual_start(tag_info, manuals);
+    doc = manual_start(tag_info, MANUAL_TECHS);
 
     if (doc == NULL) {
       return FALSE;
     }
 
-    switch (manuals) {
-    case MANUAL_SETTINGS:
-    case MANUAL_COMMANDS:
-    case MANUAL_TERRAIN:
-    case MANUAL_BUILDINGS:
-    case MANUAL_WONDERS:
-    case MANUAL_GOVS:
-      /* Should be handled in separate functions */
-      fc_assert(FALSE);
-      break;
-
-    case MANUAL_UNITS:
-      /* Freeciv-web uses (parts of) the unit type HTML output in its own
-       * manual pages. */
-      /* FIXME: this doesn't resemble the wiki manual at all. */
-      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-      fprintf(doc, _("%sFreeciv %s unit types help (%s)%s\n\n"),
-              tag_info->title_begin, VERSION_STRING, game.control.name,
-              tag_info->title_end);
-      unit_type_iterate(putype) {
+    /* FIXME: this doesn't resemble the wiki manual at all. */
+    /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+    fprintf(doc, _("%sFreeciv %s tech help (%s)%s\n\n"),
+            tag_info->title_begin, VERSION_STRING, game.control.name,
+            tag_info->title_end);
+    advance_iterate(ptech) {
+      if (valid_advance(ptech)) {
         char buf[64000];
 
-        fprintf(doc, tag_info->item_begin, "utype", putype->item_number);
+        fprintf(doc, tag_info->item_begin, "tech", ptech->item_number);
         fprintf(doc, "%s%s%s\n\n", tag_info->sect_title_begin,
-                utype_name_translation(putype), tag_info->sect_title_end);
-        fprintf(doc, tag_info->subitem_begin, "cost");
-        fprintf(doc,
-                PL_("Cost: %d shield",
-                    "Cost: %d shields",
-                    utype_build_shield_cost_base(putype)),
-                utype_build_shield_cost_base(putype));
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "upkeep");
-        fprintf(doc, _("Upkeep: %s"),
-                helptext_unit_upkeep_str(putype));
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "moves");
-        fprintf(doc, _("Moves: %s"),
-                move_points_text(putype->move_rate, TRUE));
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "vision");
-        fprintf(doc, _("Vision: %d"),
-                (int)sqrt((double)putype->vision_radius_sq));
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "attack");
-        fprintf(doc, _("Attack: %d"),
-                putype->attack_strength);
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "defense");
-        fprintf(doc, _("Defense: %d"),
-                putype->defense_strength);
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "firepower");
-        fprintf(doc, _("Firepower: %d"),
-                putype->firepower);
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "hitpoints");
-        fprintf(doc, _("Hitpoints: %d"),
-                putype->hp);
-        fprintf(doc, "%s", tag_info->subitem_end);
-        fprintf(doc, tag_info->subitem_begin, "obsolete");
-        fprintf(doc, _("Obsolete by: %s"),
-                U_NOT_OBSOLETED == putype->obsoleted_by ?
-                  Q_("?utype:None") :
-                  utype_name_translation(putype->obsoleted_by));
-        fprintf(doc, "%s", tag_info->subitem_end);
+                advance_name_translation(ptech), tag_info->sect_title_end);
+
         fprintf(doc, tag_info->subitem_begin, "helptext");
-        helptext_unit(buf, sizeof(buf), NULL, "", putype);
+        helptext_advance(buf, sizeof(buf), NULL, "", ptech->item_number);
         fprintf(doc, "%s", buf);
         fprintf(doc, "%s", tag_info->subitem_end);
+
         fprintf(doc, "%s", tag_info->item_end);
-      } unit_type_iterate_end;
-      break;
+      }
+    } advance_iterate_end;
 
-    case MANUAL_TECHS:
-      /* FIXME: this doesn't resemble the wiki manual at all. */
-      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-      fprintf(doc, _("%sFreeciv %s tech help (%s)%s\n\n"),
-              tag_info->title_begin, VERSION_STRING, game.control.name,
-              tag_info->title_end);
-      advance_iterate(ptech) {
-        if (valid_advance(ptech)) {
-          char buf[64000];
-
-          fprintf(doc, tag_info->item_begin, "tech", ptech->item_number);
-          fprintf(doc, "%s%s%s\n\n", tag_info->sect_title_begin,
-                  advance_name_translation(ptech), tag_info->sect_title_end);
-
-          fprintf(doc, tag_info->subitem_begin, "helptext");
-          helptext_advance(buf, sizeof(buf), NULL, "", ptech->item_number);
-          fprintf(doc, "%s", buf);
-          fprintf(doc, "%s", tag_info->subitem_end);
-
-          fprintf(doc, "%s", tag_info->item_end);
-        }
-      } advance_iterate_end;
-      break;
-
-    case MANUAL_COUNT:
-      break;
-
-    } /* switch */
-
-    manual_finalize(tag_info, doc, manuals);
-  } /* manuals */
+    manual_finalize(tag_info, doc, MANUAL_TECHS);
+  }
 
   return TRUE;
 }

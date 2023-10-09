@@ -398,6 +398,7 @@ tools/manual/manual_commands.c
 tools/manual/manual_governments.c
 tools/manual/manual_settings.c
 tools/manual/manual_terrain.c
+tools/manual/manual_units.c
 tools/ruleutil/rulesave.c
 server/actiontools.c
 server/aiiface.c
