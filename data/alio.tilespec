@@ -178,6 +178,7 @@ files =
   "hexemplio/bases.spec",
   "hexemplio/cities.spec",
   "hexemplio/terrain.spec",
+  "hexemplio/savannah.spec",
   "hexemplio/embellishments.spec",
   "hexemplio/forests.spec",
   "hexemplio/mountains.spec",
@@ -312,13 +313,6 @@ layer1_match_type = "land"
 layer2_match_type = "foliage"
 layer2_match_with = "foliage"
 
-[tile_grassland]
-tag = "grassland"
-blend_layer = 1
-num_layers = 2
-layer0_match_type = "lake"
-layer1_match_type = "land"
-
 [tile_hills]
 tag = "hills"
 blend_layer = 1
@@ -330,6 +324,15 @@ layer2_match_with = "hills"
 
 [tile_jungle]
 tag = "jungle"
+blend_layer = 1
+num_layers = 3
+layer0_match_type = "lake"
+layer1_match_type = "land"
+layer2_match_type = "foliage"
+layer2_match_with = "foliage"
+
+[tile_savannah]
+tag = "savannah"
 blend_layer = 1
 num_layers = 3
 layer0_match_type = "lake"
