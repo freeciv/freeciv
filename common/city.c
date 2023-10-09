@@ -1190,7 +1190,7 @@ int city_total_impr_gold_upkeep(const struct city *pcity)
 {
   int gold_needed = 0;
 
-  if (!pcity) {
+  if (pcity == NULL) {
     return 0;
   }
 
@@ -1209,8 +1209,7 @@ int city_total_unit_gold_upkeep(const struct city *pcity)
 {
   int gold_needed = 0;
 
-  if (!pcity || !pcity->units_supported
-      || unit_list_size(pcity->units_supported) < 1) {
+  if (pcity == NULL || pcity->units_supported == NULL) {
     return 0;
   }
 
