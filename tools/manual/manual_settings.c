@@ -47,7 +47,7 @@ bool manual_settings(struct tag_types *tag_info)
   dummy_conn.access_level = ALLOW_CTRL;
 
   /* TRANS: markup ... Freeciv version ... markup */
-  fprintf(doc, _("%sFreeciv %s server options%s\n\n"), tag_info->title_begin,
+  fprintf(doc, _("%sFreeciv %s server settings%s\n\n"), tag_info->title_begin,
           VERSION_STRING, tag_info->title_end);
   settings_iterate(SSET_ALL, pset) {
     char buf[256];
