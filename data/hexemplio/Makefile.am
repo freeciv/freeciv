@@ -28,6 +28,8 @@ pkgdata_DATA =          \
 	roads-maglevs.spec	\
 	roads-rails.png	\
 	roads-rails.spec	\
+	savannah.png	\
+	savannah.spec	\
 	select.png	\
 	select.spec	\
 	terrain.png	\

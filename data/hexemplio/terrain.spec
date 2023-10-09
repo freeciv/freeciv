@@ -36,7 +36,7 @@ tiles = { "row", "column","tag"
 
 ; terrain - layer 0
   0,    0,  "t.l0.desert1"			;[?]
-  0,    1,  "t.l0.plains1"			;[PA]
+  0,    1,  "t.l0.plains1", "t.l0.savannah1"	;[PA]
   0,    1,  "t.l0.hills1"			;[PA]
   0,    1,  "t.l0.mountains1"		;[PA]
   0,    2,  "t.l0.grassland1"		;[PA]
