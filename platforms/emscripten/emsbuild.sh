@@ -43,7 +43,7 @@ if ! CC=emcc CXX=em++ AR=emar meson setup \
      -Ddefault_library=static \
      -Ddebug=true \
      -Dmwand=false \
-     -Druledit=false \
+     -Dtools=[] \
      -Dclients=sdl2,stub \
      -Dfcmp=[] \
      "${PLATFORM_ROOT}/../../"
