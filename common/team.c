@@ -312,7 +312,7 @@ void team_slot_set_defined_name(struct team_slot *tslot,
 
 /****************************************************************************
   Creates a new team for the slot. If slot is NULL, it will lookup to a
-  free slot. If the slot already used, then just return the team.
+  free slot. If the slot is already used, then just return the team.
 ****************************************************************************/
 struct team *team_new(struct team_slot *tslot)
 {
