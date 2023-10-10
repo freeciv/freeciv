@@ -508,12 +508,47 @@ void player_loot_player(struct player *pvictor, struct player *pvictim)
 
 /**********************************************************************//**
   Get length of a revolution.
+
+  @param rltype The way to decide revolution length
+  @param gov    Government that the revolution ends to
+  @return       Revolution length in turns
+**************************************************************************/
+static int revolentype_length(enum revolen_type rltype,
+                              struct government *gov)
+{
+  int max_turns;
+  int change_speed;
+
+  switch (rltype) {
+  case REVOLEN_FIXED:
+    return game.server.revolution_length;
+  case REVOLEN_RANDOM:
+    return fc_rand(game.server.revolution_length) + 1;
+  case REVOLEN_QUICKENING:
+  case REVOLEN_RANDQUICK:
+    /* If everyone changes to this government once, the last 50% of players doing so
+     * will get the minimum time (1 turn) */
+    change_speed = (player_count() / 2) / (game.server.revolution_length - 1);
+    /* It never takes zero players to make revlen shorter */
+    change_speed = MAX(change_speed, 1);
+    max_turns = game.server.revolution_length - gov->changed_to_times / change_speed;
+    max_turns = MAX(1, max_turns);
+    if (game.info.revolentype == REVOLEN_RANDQUICK) {
+      return fc_rand(max_turns) + 1;
+    }
+    return max_turns;
+  }
+
+  fc_assert(FALSE);
+
+  return GAME_DEFAULT_REVOLUTION_LENGTH;
+}
+
+/**********************************************************************//**
+  Get length of a revolution.
 **************************************************************************/
 int revolution_length(struct government *gov, struct player *plr)
 {
-  int turns;
-  int change_speed;
-
   if (!untargeted_revolution_allowed()
       && gov == game.government_during_revolution) {
     /* Targetless revolution not acceptable */
@@ -522,30 +557,7 @@ int revolution_length(struct government *gov, struct player *plr)
     return -1;
   }
 
-  turns = GAME_DEFAULT_REVOLUTION_LENGTH; /* To avoid compiler warning */
-  switch (game.info.revolentype) {
-  case REVOLEN_FIXED:
-    turns = game.server.revolution_length;
-    break;
-  case REVOLEN_RANDOM:
-    turns = fc_rand(game.server.revolution_length) + 1;
-    break;
-  case REVOLEN_QUICKENING:
-  case REVOLEN_RANDQUICK:
-    /* If everyone changes to this government once, the last 50% of players doing so
-     * will get the minimum time (1 turn) */
-    change_speed = (player_count() / 2) / (game.server.revolution_length - 1);
-    /* It never takes zero players to make revlen shorter */
-    change_speed = MAX(change_speed, 1);
-    turns = game.server.revolution_length - gov->changed_to_times / change_speed;
-    turns = MAX(1, turns);
-    if (game.info.revolentype == REVOLEN_RANDQUICK) {
-      turns = fc_rand(turns) + 1;
-    }
-    break;
-  }
-
-  return turns;
+  return revolentype_length(game.info.revolentype, gov);
 }
 
 /**********************************************************************//**
