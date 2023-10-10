@@ -481,7 +481,7 @@ int player_slot_max_used_number(void)
 
 /*******************************************************************//**
   Creates a new player for the slot. If slot is NULL, it will lookup to a
-  free slot. If the slot already used, then just return the player.
+  free slot. If the slot is already used, then just return the player.
 ***********************************************************************/
 struct player *player_new(struct player_slot *pslot)
 {
@@ -489,7 +489,7 @@ struct player *player_new(struct player_slot *pslot)
 
   fc_assert_ret_val(player_slots_initialised(), NULL);
 
-  if (NULL == pslot) {
+  if (pslot == NULL) {
     player_slots_iterate(aslot) {
       if (!player_slot_is_used(aslot)) {
         pslot = aslot;
@@ -497,7 +497,9 @@ struct player *player_new(struct player_slot *pslot)
       }
     } player_slots_iterate_end;
 
-    fc_assert_ret_val(NULL != pslot, NULL);
+    if (pslot == NULL) {
+      return NULL;
+    }
   } else if (NULL != pslot->player) {
     return pslot->player;
   }
