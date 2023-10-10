@@ -29,7 +29,7 @@
 #include <SDL2/SDL.h>
 #endif /* SDL2_PLAIN_INCLUDE */
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "themecolors.h"
 
 #include "colors_g.h"

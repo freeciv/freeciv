@@ -41,7 +41,7 @@
 /* client */
 #include "client_main.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"

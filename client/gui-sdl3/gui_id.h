@@ -19,8 +19,8 @@
     email                : Rafał Bursig <bursig@poczta.fm>
 **********************************************************************/
 
-#ifndef FC__SDL2_GUI_ID_H
-#define FC__SDL2_GUI_ID_H
+#ifndef FC__SDL3_GUI_ID_H
+#define FC__SDL3_GUI_ID_H
 
 enum GUI_ID {
   ID_ERROR = 0,
@@ -214,4 +214,4 @@ enum GUI_ID {
   ID_ADD_NEW_WORKLIST
 };
 
-#endif /* FC__SDL2_GUI_ID_H */
+#endif /* FC__SDL3_GUI_ID_H */

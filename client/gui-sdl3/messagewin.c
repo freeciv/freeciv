@@ -37,7 +37,7 @@
 /* client */
 #include "options.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "citydlg.h"
 #include "colors.h"
 #include "graphics.h"
@@ -52,8 +52,8 @@
 #include "messagewin.h"
 
 
-#ifdef GUI_SDL2_SMALL_SCREEN
-#define N_MSG_VIEW               3    /* max before scrolling happens */
+#ifdef GUI_SDL3_SMALL_SCREEN
+#define N_MSG_VIEW               3    /* Max before scrolling happens */
 #else
 #define N_MSG_VIEW		 6
 #endif

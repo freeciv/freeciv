@@ -34,7 +34,7 @@
 /* common */
 #include "fc_types.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "gui_main.h"
 
 #define SF_CENTER       0x10

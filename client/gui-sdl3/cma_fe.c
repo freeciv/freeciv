@@ -31,7 +31,7 @@
 /* client */
 #include "client_main.h" /* can_client_issue_orders() */
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "citydlg.h"
 #include "cityrep.h"
 #include "cma_fec.h"
@@ -1082,17 +1082,17 @@ void popup_city_cma_dialog(struct city *pcity)
   /* -------------------------------- */
   cma->dlg->begin_widget_list = buf;
 
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
   area.w = MAX(pcity_map->w + adj_size(220) + text_w + adj_size(10) +
                (pwindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
                 pwindow->prev->prev->size.w + adj_size(5 + 55 + 15)), area.w);
   area.h = adj_size(390) - (pwindow->size.w - pwindow->area.w);
-#else  /* GUI_SDL2_SMALL_SCREEN */
+#else  /* GUI_SDL3_SMALL_SCREEN */
   area.w = MAX(pcity_map->w + adj_size(150) + text_w + adj_size(10) +
                (pwindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
                 pwindow->prev->prev->size.w + adj_size(5 + 55 + 15)), area.w);
   area.h = adj_size(360) - (pwindow->size.w - pwindow->area.w);
-#endif /* GUI_SDL2_SMALL_SCREEN */
+#endif /* GUI_SDL3_SMALL_SCREEN */
 
   logo = theme_get_background(active_theme, BACKGROUND_CITYGOVDLG);
   if (resize_window(pwindow, logo, NULL,
@@ -1124,7 +1124,7 @@ void popup_city_cma_dialog(struct city *pcity)
      (text_w + adj_size(10) + pwindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
       pwindow->prev->prev->size.w + adj_size(5 + 55))) / 2;
 
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
   dst.x += 22;
 #endif
 

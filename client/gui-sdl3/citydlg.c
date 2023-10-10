@@ -48,7 +48,7 @@
 #include "control.h"
 #include "text.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "cityrep.h"
 #include "cma_fe.h"
 #include "colors.h"
@@ -1741,7 +1741,7 @@ static int new_name_city_dlg_callback(struct widget *pedit)
 {
   if (pedit->string_utf8->text != NULL) {
     if (strcmp(pedit->string_utf8->text, city_name_get(pcity_dlg->pcity))) {
-      sdl2_client_flags |= CF_CHANGED_CITY_NAME;
+      sdl3_client_flags |= CF_CHANGED_CITY_NAME;
       city_rename(pcity_dlg->pcity, pedit->string_utf8->text);
     }
   } else {
@@ -1769,11 +1769,11 @@ static void refresh_city_names(struct city *pcity)
 
     fc_snprintf(name, MAX_LEN_NAME, "%s", pcity_dlg->city_name_edit->string_utf8->text);
     if ((strcmp(city_name_get(pcity), name) != 0)
-        || (sdl2_client_flags & CF_CHANGED_CITY_NAME)) {
+        || (sdl3_client_flags & CF_CHANGED_CITY_NAME)) {
       copy_chars_to_utf8_str(pcity_dlg->city_name_edit->string_utf8,
                              city_name_get(pcity));
       rebuild_citydlg_title_str(pcity_dlg->end_city_widget_list, pcity);
-      sdl2_client_flags &= ~CF_CHANGED_CITY_NAME;
+      sdl3_client_flags &= ~CF_CHANGED_CITY_NAME;
     }
   }
 }
@@ -2443,10 +2443,10 @@ static void redraw_city_dialog(struct city *pcity)
 
   if ((city_unhappy(pcity) || city_celebrating(pcity) || city_happy(pcity)
        || cma_is_city_under_agent(pcity, NULL))
-      ^ ((sdl2_client_flags & CF_CITY_STATUS_SPECIAL) == CF_CITY_STATUS_SPECIAL)) {
-    /* city status was changed : NORMAL <-> DISORDER, HAPPY, CELEBR. */
+      ^ ((sdl3_client_flags & CF_CITY_STATUS_SPECIAL) == CF_CITY_STATUS_SPECIAL)) {
+    /* City status was changed : NORMAL <-> DISORDER, HAPPY, CELEBR. */
 
-    sdl2_client_flags ^= CF_CITY_STATUS_SPECIAL;
+    sdl3_client_flags ^= CF_CITY_STATUS_SPECIAL;
 
 #if 0
     /* upd. resource map */
@@ -3787,7 +3787,7 @@ void real_city_dialog_popup(struct city *pcity)
   /* ===================================================== */
   if ((city_unhappy(pcity) || city_celebrating(pcity)
        || city_happy(pcity))) {
-    sdl2_client_flags |= CF_CITY_STATUS_SPECIAL;
+    sdl3_client_flags |= CF_CITY_STATUS_SPECIAL;
   }
   /* ===================================================== */
 
@@ -3805,7 +3805,7 @@ void popdown_city_dialog(struct city *pcity)
 
     flush_dirty();
 
-    sdl2_client_flags &= ~CF_CITY_STATUS_SPECIAL;
+    sdl3_client_flags &= ~CF_CITY_STATUS_SPECIAL;
     menus_update();
   }
 }

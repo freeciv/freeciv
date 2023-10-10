@@ -37,7 +37,7 @@
 #include "client_main.h"
 #include "text.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "cityrep.h"
 #include "colors.h"
 #include "dialogs.h"
@@ -1173,11 +1173,11 @@ static int toggle_block_callback(struct widget *pcheckbox)
   if (PRESSED_EVENT(main_data.event)) {
     switch (pcheckbox->id) {
     case ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX:
-      sdl2_client_flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
+      sdl3_client_flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
       return -1;
 
     case ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX:
-      sdl2_client_flags ^= CF_CHANGE_TAXRATE_SCI_BLOCK;
+      sdl3_client_flags ^= CF_CHANGE_TAXRATE_SCI_BLOCK;
       return -1;
 
     default:
@@ -1326,14 +1326,14 @@ static int horiz_taxrate_callback(struct widget *horiz_src)
 
     switch (horiz_src->id) {
       case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
-        if (sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+        if (sdl3_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
           goto END;
         }
         motion.src_rate = (int *)horiz_src->data.ptr;
         motion.horiz_dst = horiz_src->prev->prev->prev; /* sci */
         motion.dst_rate = (int *)motion.horiz_dst->data.ptr;
         motion.tax = 100 - *motion.src_rate - *motion.dst_rate;
-        if ((sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+        if ((sdl3_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
           if (motion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
             motion.horiz_dst = NULL; /* tax */
             motion.dst_rate = &motion.tax;
@@ -1345,20 +1345,20 @@ static int horiz_taxrate_callback(struct widget *horiz_src)
       break;
 
       case ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR:
-        if ((sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+        if ((sdl3_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
           goto END;
         }
         motion.src_rate = (int *)horiz_src->data.ptr;
         motion.horiz_dst = horiz_src->next->next->next; /* lux */
         motion.dst_rate = (int *)motion.horiz_dst->data.ptr;
         motion.tax = 100 - *motion.src_rate - *motion.dst_rate;
-        if (sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+        if (sdl3_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
           if (motion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
-            /* tax */
+            /* Tax */
             motion.horiz_dst = NULL;
             motion.dst_rate = &motion.tax;
           } else {
-            goto END; /* all blocked */
+            goto END; /* All blocked */
           }
         }
 
@@ -1989,7 +1989,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_checkbox(pwindow->dst,
-                        sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
+                        sdl3_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   set_new_checkbox_theme(buf, current_theme->lock_icon,
                          current_theme->unlock_icon);
@@ -2036,7 +2036,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_checkbox(pwindow->dst,
-                        sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
+                        sdl3_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
 
   set_new_checkbox_theme(buf, current_theme->lock_icon,
@@ -3393,11 +3393,11 @@ void science_report_dialog_popup(bool raise)
   pstr = create_utf8_from_char_fonto(_("Research"), FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
   pwindow = create_window(NULL, pstr, 200, 132, 0);
-#else  /* GUI_SDL2_SMALL_SCREEN */
+#else  /* GUI_SDL3_SMALL_SCREEN */
   pwindow = create_window(NULL, pstr, adj_size(400), adj_size(246), 0);
-#endif /* GUI_SDL2_SMALL_SCREEN */
+#endif /* GUI_SDL3_SMALL_SCREEN */
   set_wstate(pwindow, FC_WS_NORMAL);
   pwindow->action = science_dialog_callback;
 

@@ -24,11 +24,11 @@
 /* client */
 #include "options.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "themebackgrounds.h"
 #include "themecolors.h"
 
-struct sprite; /* opaque; gui-dep */
+struct sprite; /* Opaque; gui-dep */
 
 struct theme;
 

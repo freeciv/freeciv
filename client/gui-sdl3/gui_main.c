@@ -62,7 +62,7 @@
 #include "update_queue.h"
 #include "zoom.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrep.h"
@@ -86,7 +86,7 @@
 #define UNITS_TIMER_INTERVAL      128 /* milliseconds */
 #define MAP_SCROLL_TIMER_INTERVAL 500
 
-const char *client_string = "gui-sdl2";
+const char *client_string = "gui-sdl3";
 
 /* The real GUI character encoding is UTF-16 which is not supported by
  * fciconv code at this time. Conversion between UTF-8 and UTF-16 is done
@@ -94,7 +94,7 @@ const char *client_string = "gui-sdl2";
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
-Uint32 sdl2_client_flags = 0;
+Uint32 sdl3_client_flags = 0;
 
 Uint32 widget_info_counter = 0;
 int MOVE_STEP_X = DEFAULT_MOVE_STEP;
@@ -201,7 +201,7 @@ static bool parse_options(int argc, char **argv)
     } else if (is_option("--fullscreen", argv[i])) {
       GUI_SDL_OPTION(fullscreen) = TRUE;
     } else if (is_option("--swrenderer", argv[i])) {
-      sdl2_client_flags |= CF_SWRENDERER;
+      sdl3_client_flags |= CF_SWRENDERER;
     } else if ((option = get_option_malloc("--Font", argv, &i, argc, FALSE))) {
       if (!str_to_uint(option, &font_size_parameter)) {
         fc_fprintf(stderr, _("Invalid font size %s"), option);
@@ -593,7 +593,7 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 }
 
 /**********************************************************************//**
-  SDL2-client main loop.
+  SDL3-client main loop.
 **************************************************************************/
 Uint16 gui_event_loop(void *data,
                       void (*loop_action)(void *data),
@@ -877,7 +877,7 @@ void ui_init(void)
   button_behavior.hold_state = MB_HOLD_SHORT;
   button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));
 
-  sdl2_client_flags = 0;
+  sdl3_client_flags = 0;
   sdl_flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
 
   init_sdl(sdl_flags);
@@ -955,7 +955,7 @@ static void fullscreen_callback(struct option *poption)
 
 /**********************************************************************//**
   Extra initializers for client options. Here we make set the callback
-  for the specific gui-sdl2 options.
+  for the specific gui-sdl3 options.
 **************************************************************************/
 void options_extra_init(void)
 {
@@ -1093,7 +1093,7 @@ int ui_main(int argc, char *argv[])
 
     is_unit_move_blocked = FALSE;
 
-    sdl2_client_flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS
+    sdl3_client_flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS
                           |CF_DRAW_PLAYERS_WAR_STATUS
                           |CF_DRAW_PLAYERS_CEASEFIRE_STATUS
                           |CF_DRAW_PLAYERS_PEACE_STATUS
@@ -1126,7 +1126,7 @@ int ui_main(int argc, char *argv[])
                    main_mouse_motion_handler);
     start_quitting();
 
-#if defined UNDER_CE && defined GUI_SDL2_SMALL_SCREEN
+#if defined UNDER_CE && defined GUI_SDL3_SMALL_SCREEN
     /* Change back to window mode to restore the title bar */
     set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
 #endif
@@ -1174,7 +1174,7 @@ void ui_exit(void)
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_SDL2;
+  return GUI_SDL3;
 }
 
 /**********************************************************************//**
@@ -1192,7 +1192,7 @@ void sound_bell(void)
 void enable_focus_animation(void)
 {
   anim_user_event->user.code = ANIM;
-  sdl2_client_flags |= CF_FOCUS_ANIMATION;
+  sdl3_client_flags |= CF_FOCUS_ANIMATION;
 }
 
 /**********************************************************************//**
@@ -1200,7 +1200,7 @@ void enable_focus_animation(void)
 **************************************************************************/
 void disable_focus_animation(void)
 {
-  sdl2_client_flags &= ~CF_FOCUS_ANIMATION;
+  sdl3_client_flags &= ~CF_FOCUS_ANIMATION;
 }
 
 /**********************************************************************//**

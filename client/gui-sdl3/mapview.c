@@ -53,7 +53,7 @@
 #include "pages_g.h"
 #include "text.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
@@ -158,7 +158,7 @@ void queue_flush(void)
       /* We don't want to set is_flush_queued in this case, since then
        * the flush code would simply stop working. But this means the
        * below message may be repeated many times. */
-      bugreport_request(_("Failed to add events to SDL2 event buffer: %s"),
+      bugreport_request(_("Failed to add events to SDL3 event buffer: %s"),
                         SDL_GetError());
     }
   }
@@ -403,7 +403,7 @@ void update_info_label(void)
   SDL_Color bg_color = {0, 0, 0, 80};
   SDL_Surface *tmp = NULL;
   char buffer[512];
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
   SDL_Rect area = {0, 0, 0, 0};
 #else
   SDL_Rect area = {0, 3, 0, 0};
@@ -422,7 +422,7 @@ void update_info_label(void)
   ptext->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (NULL != client.conn.playing) {
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
     fc_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d "),
@@ -430,7 +430,7 @@ void update_info_label(void)
                 population_to_text(civ_population(client.conn.playing)),
                 calendar_text(),
                 client.conn.playing->economic.gold);
-#else /* GUI_SDL2_SMALL_SCREEN */
+#else /* GUI_SDL3_SMALL_SCREEN */
     fc_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
@@ -441,7 +441,7 @@ void update_info_label(void)
                 client.conn.playing->economic.tax,
                 client.conn.playing->economic.luxury,
                 client.conn.playing->economic.science);
-#endif /* GUI_SDL2_SMALL_SCREEN */
+#endif /* GUI_SDL3_SMALL_SCREEN */
 
     /* Convert to utf8_str and create text surface */
     copy_chars_to_utf8_str(ptext, buffer);
@@ -530,7 +530,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     punit = NULL;
   }
 
-  if (sdl2_client_flags & CF_UNITINFO_SHOWN) {
+  if (sdl3_client_flags & CF_UNITINFO_SHOWN) {
     info_window = get_unit_info_window_widget();
 
     /* Blit theme surface */
@@ -973,7 +973,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 **************************************************************************/
 static bool is_focus_anim_enabled(void)
 {
-  return (sdl2_client_flags & CF_FOCUS_ANIMATION) == CF_FOCUS_ANIMATION;
+  return (sdl3_client_flags & CF_FOCUS_ANIMATION) == CF_FOCUS_ANIMATION;
 }
 
 /**********************************************************************//**
@@ -1121,7 +1121,7 @@ void refresh_overview(void)
   struct widget *minimap;
   SDL_Rect overview_area;
 
-  if (sdl2_client_flags & CF_OVERVIEW_SHOWN) {
+  if (sdl3_client_flags & CF_OVERVIEW_SHOWN) {
     minimap = get_minimap_window_widget();
 
     overview_area = (SDL_Rect) {

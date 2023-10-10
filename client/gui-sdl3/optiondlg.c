@@ -50,7 +50,7 @@
 #include "global_worklist.h"
 #include "pages_g.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "connectdlg.h"
 #include "dialogs.h"
@@ -1394,7 +1394,7 @@ void init_options_button(void)
   set_wflag(options_button, WF_HIDDEN);
   widget_set_position(options_button, adj_size(5), adj_size(5));
 
-#ifndef GUI_SDL2_SMALL_SCREEN
+#ifndef GUI_SDL3_SMALL_SCREEN
   add_to_gui_list(ID_CLIENT_OPTIONS, options_button);
 #endif
 

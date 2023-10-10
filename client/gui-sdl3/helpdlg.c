@@ -35,7 +35,7 @@
 #include "client_main.h"
 #include "helpdata.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_id.h"

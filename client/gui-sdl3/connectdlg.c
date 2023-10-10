@@ -43,7 +43,7 @@
 #include "servers.h"
 #include "update_queue.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "chatline.h"
 #include "colors.h"
 #include "graphics.h"
@@ -645,7 +645,7 @@ void popup_join_game_dialog(void)
 
   dialog_w = MAX(adj_size(40) + buf->size.w * 2, adj_size(210)) + adj_size(80);
 
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
   dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
 #else
   dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
@@ -1150,7 +1150,7 @@ void handle_authentication_req(enum authentication_type type,
 
 /**********************************************************************//**
   Provide an interface for connecting to a Freeciv server.
-  sdl2-client does it as popup main start menu which != connecting dlg.
+  sdl3-client does it as popup main start menu which != connecting dlg.
 **************************************************************************/
 void server_connect(void)
 {

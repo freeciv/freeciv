@@ -14,7 +14,7 @@
 #ifndef FC__WIDGET_SCROLLBAR_H
 #define FC__WIDGET_SCROLLBAR_H
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "widget.h"
 
 struct scroll_bar {

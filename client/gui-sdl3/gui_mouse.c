@@ -28,7 +28,7 @@
 /* client */
 #include "tilespec.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "graphics.h"
 #include "mapview.h"
 #include "sprite.h"

@@ -38,7 +38,7 @@
 /* client */
 #include "graphics_g.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "canvas.h"
 #include "gui_main.h"
 
@@ -191,7 +191,7 @@
 #endif /* USE_DUFFS_LOOP */
 
 /* Shrink surface on 320x240 screen */
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
 #define DEFAULT_ZOOM 0.5
 #define adj_surf(surf) zoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
 #else
@@ -202,22 +202,22 @@
 
 struct gui_layer;
 
-struct sdl2_data {
-  int rects_count;		/* update rect. array counter */
-  int guis_count;		/* gui buffers array counter */
-  SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
-  SDL_Window *screen;           /* main screen buffer */
-  SDL_Surface *map;		/* map buffer */
-  SDL_Surface *dummy;           /* dummy surface for missing sprites */
+struct sdl3_data {
+  int rects_count;		/* Update rect. array counter */
+  int guis_count;		/* Gui buffers array counter */
+  SDL_Rect rects[RECT_LIMIT];	/* Update rect. list */
+  SDL_Window *screen;           /* Main screen buffer */
+  SDL_Surface *map;		/* Map buffer */
+  SDL_Surface *dummy;           /* Dummy surface for missing sprites */
   SDL_Texture *maintext;
   SDL_Renderer *renderer;
   struct canvas map_canvas;
-  struct gui_layer *gui;        /* gui buffer */
-  struct gui_layer **guis;      /* gui buffers used by sdl2-client widgets window menager */
-  SDL_Event event;		/* main event struct */
+  struct gui_layer *gui;        /* Gui buffer */
+  struct gui_layer **guis;      /* Gui buffers used by sdl3-client widgets window menager */
+  SDL_Event event;		/* Main event struct */
 };
 
-extern struct sdl2_data main_data;
+extern struct sdl3_data main_data;
 
 /* GUI layer */
 /* A gui_layer is a surface with its own origin. Each widget belongs

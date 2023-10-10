@@ -36,7 +36,7 @@
 /* client */
 #include "tilespec.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "themespec.h"
 
 #include "colors.h"

@@ -55,7 +55,7 @@
 #include "text.h"
 #include "zoom.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrep.h"
@@ -672,7 +672,7 @@ void popup_upgrade_dialog(struct unit_list *punits)
 
   /* Assume only one unit for now. */
   fc_assert_msg(unit_list_size(punits) <= 1,
-                "SDL2 popup_upgrade_dialog() handles max 1 unit.");
+                "SDL3 popup_upgrade_dialog() handles max 1 unit.");
 
   popup_unit_upgrade_dlg(unit_list_get(punits, 0), FALSE);
 }

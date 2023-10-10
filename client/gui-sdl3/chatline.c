@@ -45,7 +45,7 @@
 #include "ratesdlg_g.h"
 #include "update_queue.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"

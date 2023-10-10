@@ -35,7 +35,7 @@
 #include "log.h"
 #include "mem.h"
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -61,18 +61,18 @@ static SDL_Surface *create_utf8_surf(utf8_str *pstr);
 static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 
 /* Adjust font sizes on 320x240 screen */
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
   static int adj_font(int size);
-#else  /* GUI_SDL2_SMALL_SCREEN */
+#else  /* GUI_SDL3_SMALL_SCREEN */
   #define adj_font(size) size
-#endif /* GUI_SDL2_SMALL_SCREEN */
+#endif /* GUI_SDL3_SMALL_SCREEN */
 
 #define ptsize_default() adj_font(default_font_size(active_theme))
 
 /**********************************************************************//**
   Adjust font sizes for small screen.
 **************************************************************************/
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
 static int adj_font(int size)
 {
   switch (size) {
@@ -98,7 +98,7 @@ static int adj_font(int size)
     return size;
   }
 }
-#endif /* GUI_SDL2_SMALL_SCREEN */
+#endif /* GUI_SDL3_SMALL_SCREEN */
 
 /**********************************************************************//**
   Calculate display size of string.

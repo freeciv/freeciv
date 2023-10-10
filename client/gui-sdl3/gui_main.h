@@ -34,13 +34,13 @@
 
 struct theme;
 
-#define GUI_SDL_OPTION(optname) gui_options.gui_sdl2_##optname
-#define GUI_SDL_OPTION_STR(optname) "gui_sdl2_" #optname
+#define GUI_SDL_OPTION(optname) gui_options.gui_sdl3_##optname
+#define GUI_SDL_OPTION_STR(optname) "gui_sdl3_" #optname
 
 /* Enable this to adjust sizes for 320x240 resolution */
-/* #define GUI_SDL2_SMALL_SCREEN */
+/* #define GUI_SDL3_SMALL_SCREEN */
 
-/* SDL2 client Flags */
+/* SDL3 client Flags */
 #define CF_NONE				0
 #define CF_ORDERS_WIDGETS_CREATED	(1<<0)
 #define CF_MAP_UNIT_W_CREATED		(1<<1)
@@ -97,7 +97,7 @@ struct mouse_button_behavior {
 };
 
 extern struct widget *selected_widget;
-extern Uint32 sdl2_client_flags;
+extern Uint32 sdl3_client_flags;
 extern bool LSHIFT;
 extern bool RSHIFT;
 extern bool LCTRL;
@@ -135,7 +135,7 @@ void update_font_from_theme(int theme_font_size);
 bool flush_event(void);
 
 /* Shrink sizes for 320x240 screen */
-#ifdef GUI_SDL2_SMALL_SCREEN
+#ifdef GUI_SDL3_SMALL_SCREEN
   #define adj_size(size) ((size) / 2)
 #else
   #define adj_size(size) (size)
