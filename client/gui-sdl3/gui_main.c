@@ -1001,23 +1001,31 @@ int main(int argc, char **argv)
 }
 
 /**********************************************************************//**
-  Migrate sdl2 client specific options from sdl client options.
+  Migrate sdl3 client specific options from sdl2 client options.
 **************************************************************************/
-static void migrate_options_from_sdl(void)
+static void migrate_options_from_sdl2(void)
 {
-  log_normal(_("Migrating options from sdl to sdl2 client"));
+  log_normal(_("Migrating options from sdl2 to sdl3 client"));
 
-#define MIGRATE_OPTION(opt) gui_options.gui_sdl2_##opt = gui_options.gui_sdl_##opt;
+#define MIGRATE_OPTION(opt) gui_options.gui_sdl3_##opt = gui_options.gui_sdl2_##opt;
+#define MIGRATE_STR_OPTION(opt) \
+  strncpy(gui_options.gui_sdl3_##opt, gui_options.gui_sdl2_##opt,      \
+          sizeof(gui_options.gui_sdl3_##opt));
 
   /* Default theme name is never migrated */
   MIGRATE_OPTION(fullscreen);
   MIGRATE_OPTION(screen);
+  MIGRATE_OPTION(swrenderer);
   MIGRATE_OPTION(do_cursor_animation);
   MIGRATE_OPTION(use_color_cursors);
+  MIGRATE_STR_OPTION(font_city_names);
+  MIGRATE_STR_OPTION(gont_city_productions);
+  MIGRATE_OPTION(use_theme_font_size);
+  MIGRATE_OPTION(font_size);
 
 #undef MIGRATE_OPTION
 
-  gui_options.gui_sdl2_migrated_from_sdl = TRUE;
+  gui_options.gui_sdl3_migrated_from_sdl2 = TRUE;
 }
 
 /**********************************************************************//**
@@ -1029,8 +1037,8 @@ int ui_main(int argc, char *argv[])
   Uint32 flags = 0;
 
   if (parse_options(argc, argv)) {
-    if (!gui_options.gui_sdl2_migrated_from_sdl) {
-      migrate_options_from_sdl();
+    if (!gui_options.gui_sdl3_migrated_from_sdl2) {
+      migrate_options_from_sdl2();
     }
     if (!GUI_SDL_OPTION(default_screen_size_set)) {
       if (font_size_parameter > 10) {
