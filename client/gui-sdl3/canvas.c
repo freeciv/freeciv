@@ -28,7 +28,7 @@
 #include "log.h"
 #include "mem.h"
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -64,7 +64,7 @@ void canvas_free(struct canvas *store)
 **************************************************************************/
 void canvas_set_zoom(struct canvas *store, float zoom)
 {
-  /* sdl2-client has no zoom support */
+  /* sdl3-client has no zoom support */
 }
 
 /**********************************************************************//**

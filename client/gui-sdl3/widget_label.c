@@ -26,7 +26,7 @@
 #include "log.h"
 #include "mem.h"
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "colors.h"
 #include "graphics.h"
 #include "themespec.h"

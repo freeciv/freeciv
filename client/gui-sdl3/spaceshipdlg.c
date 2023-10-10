@@ -29,7 +29,7 @@
 #include "client_main.h"
 #include "text.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"

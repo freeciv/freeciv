@@ -49,7 +49,7 @@
 #include "connectdlg_common.h"
 #include "global_worklist.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "connectdlg.h"
 #include "dialogs.h"

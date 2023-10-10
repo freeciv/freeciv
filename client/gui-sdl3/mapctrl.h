@@ -32,7 +32,7 @@
 /* common */
 #include "fc_types.h"
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "gui_main.h"
 
 #include "mapctrl_g.h"

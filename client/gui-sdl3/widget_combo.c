@@ -26,7 +26,7 @@
 #include "log.h"
 #include "string_vector.h"
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "colors.h"
 #include "gui_id.h"
 #include "gui_string.h"

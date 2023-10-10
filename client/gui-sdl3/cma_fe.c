@@ -31,7 +31,7 @@
 /* client */
 #include "client_main.h" /* can_client_issue_orders() */
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "citydlg.h"
 #include "cityrep.h"
 #include "cma_fec.h"

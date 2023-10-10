@@ -22,7 +22,7 @@
 #include <SDL2/SDL.h>
 #endif /* SDL2_PLAIN_INCLUDE */
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_id.h"

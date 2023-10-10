@@ -27,7 +27,7 @@
 #include "mem.h"
 #include "string_vector.h"
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "gui_main.h"
 #include "themespec.h"
 
@@ -35,7 +35,7 @@
 #include "themes_g.h"
 
 /*************************************************************************//**
-  Loads a gui-sdl2 theme directory/theme_name
+  Loads a gui-sdl3 theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
@@ -67,7 +67,7 @@ void gui_clear_theme(void)
 {
   if (!load_theme(GUI_SDL_OPTION(default_theme_name))) {
     /* TRANS: No full stop after the URL, could cause confusion. */
-    log_fatal(_("No Sdl2-client theme was found. For instructions on how to "
+    log_fatal(_("No Sdl3-client theme was found. For instructions on how to "
                 "get one, please visit %s"), HOMEPAGE_URL);
 
     exit(EXIT_FAILURE);
@@ -101,7 +101,7 @@ char **get_gui_specific_themes_directories(int *count)
 /*************************************************************************//**
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
-  Useable theme for gui-sdl2 is a directory which contains file theme.themespec.
+  Useable theme for gui-sdl3 is a directory which contains file theme.themespec.
   The caller is responsible for freeing the array and the names
 *****************************************************************************/
 char **get_useable_themes_in_directory(const char *directory, int *count)

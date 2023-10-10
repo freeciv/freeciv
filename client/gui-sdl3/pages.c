@@ -26,7 +26,7 @@
 /* client */
 #include "connectdlg_common.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "chatline.h"
 #include "colors.h"
 #include "connectdlg.h"
@@ -174,7 +174,7 @@ static void show_main_page(void)
 
   add_to_gui_list(ID_LABEL, pwidget);
 
-  /* TRANS: gui-sdl2 client */
+  /* TRANS: gui-sdl3 client */
   fc_snprintf(verbuf, sizeof(verbuf), _("%s client"), client_string);
   pwidget = create_iconlabel_from_chars_fonto(NULL, pwindow->dst, verbuf,
                                               FONTO_ATTENTION,
@@ -340,7 +340,7 @@ static void show_main_page(void)
               area.x + area.w - 1, area.y + (h * 2 - 1),
               &line_color);
 
-  set_output_window_text(_("SDL2-client welcomes you..."));
+  set_output_window_text(_("SDL3-client welcomes you..."));
 
 #if IS_BETA_VERSION || IS_DEVEL_VERSION
   set_output_window_text(unstable_message());

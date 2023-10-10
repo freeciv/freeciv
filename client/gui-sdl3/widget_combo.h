@@ -14,7 +14,7 @@
 #ifndef FC__WIDGET_COMBO_H
 #define FC__WIDGET_COMBO_H
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "gui_string.h"
 
 struct strvec;

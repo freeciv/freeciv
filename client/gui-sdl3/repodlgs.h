@@ -21,7 +21,7 @@
 #include <SDL2/SDL.h>
 #endif /* SDL2_PLAIN_INCLUDE */
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "gui_string.h"
 
 #include "repodlgs_g.h"

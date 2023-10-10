@@ -43,7 +43,7 @@
 /* client */
 #include "tilespec.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "colors.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
@@ -54,7 +54,7 @@
 
 /* ------------------------------ */
 
-struct sdl2_data main_data;
+struct sdl3_data main_data;
 
 static SDL_Surface *main_surface = NULL;
 
@@ -522,7 +522,7 @@ void init_sdl(int flags)
     error = (SDL_Init(flags) < 0);
   }
   if (error) {
-    log_fatal(_("Unable to initialize SDL2 library: %s"), SDL_GetError());
+    log_fatal(_("Unable to initialize SDL3 library: %s"), SDL_GetError());
     exit(EXIT_FAILURE);
   }
 
@@ -530,7 +530,7 @@ void init_sdl(int flags)
 
   /* Initialize the TTF library */
   if (TTF_Init() < 0) {
-    log_fatal(_("Unable to initialize SDL2_ttf library: %s"), SDL_GetError());
+    log_fatal(_("Unable to initialize SDL3_ttf library: %s"), SDL_GetError());
     exit(EXIT_FAILURE);
   }
 
@@ -581,7 +581,7 @@ bool create_surfaces(int width, int height)
   }
 
   if (GUI_SDL_OPTION(swrenderer)
-      || (sdl2_client_flags & CF_SWRENDERER)) {
+      || (sdl3_client_flags & CF_SWRENDERER)) {
     flags = SDL_RENDERER_SOFTWARE;
   } else {
     flags = 0;
@@ -635,7 +635,7 @@ void quit_sdl(void)
 **************************************************************************/
 bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
 {
-  main_data.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
+  main_data.screen = SDL_CreateWindow(_("SDL3 Client for Freeciv"),
                                       SDL_WINDOWPOS_UNDEFINED,
                                       SDL_WINDOWPOS_UNDEFINED,
                                       width, height,
@@ -1349,9 +1349,9 @@ void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
                   Sint16 width, Sint16 height,
                   SDL_Color *pcolor)
 {
-  struct color gsdl2_color = { .color = pcolor };
-  struct sprite *vertical = create_sprite(1, height, &gsdl2_color);
-  struct sprite *horizontal = create_sprite(width, 1, &gsdl2_color);
+  struct color gsdl3_color = { .color = pcolor };
+  struct sprite *vertical = create_sprite(1, height, &gsdl3_color);
+  struct sprite *horizontal = create_sprite(width, 1, &gsdl3_color);
   SDL_Rect tmp, dst = { .x = left, .y = top, .w = 0, .h = 0 };
 
   tmp = dst;
@@ -1388,7 +1388,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
   struct sprite *spr;
   SDL_Rect dst = { xl, yt, w, h };
   SDL_Color *pcol;
-  struct color gsdl2_color;
+  struct color gsdl3_color;
   int l = MAX((xr - xl) + 1, (yb - yt) + 1);
   int i;
 
@@ -1398,8 +1398,8 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
   pcol->b = pcolor->b;
   pcol->a = 0; /* Fill with transparency */
 
-  gsdl2_color.color = pcol;
-  spr = create_sprite(w, h, &gsdl2_color);
+  gsdl3_color.color = pcol;
+  spr = create_sprite(w, h, &gsdl3_color);
 
   lock_surf(spr->psurface);
 

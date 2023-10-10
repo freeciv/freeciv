@@ -39,7 +39,7 @@
 #include "citydlg_common.h"
 #include "client_main.h" /* for client_state() */
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "dialogs.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
@@ -47,7 +47,7 @@
 
 #include "themespec.h"
 
-#define THEMESPEC_SDL2_CAPSTR "+Freeciv-sdl2-3.2-themespec-Devel-2022-Jul-06 duplicates_ok"
+#define THEMESPEC_SDL3_CAPSTR "+Freeciv-sdl2-3.2-themespec-Devel-2022-Jul-06 duplicates_ok"
 /*
  * Themespec capabilities acceptable to this program:
  *
@@ -59,7 +59,7 @@
  *                   have duplicates should specify "+duplicates_ok")
  */
 
-#define SPEC_SDL2_CAPSTR "+Freeciv-sdl2-spec-Devel-2022-Dec-05"
+#define SPEC_SDL3_CAPSTR "+Freeciv-sdl2-spec-Devel-2022-Dec-05"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
@@ -453,7 +453,7 @@ void themespec_reread(const char *new_theme_name)
   Loads the given graphics file (found in the data path) into a newly
   allocated sprite.
 ****************************************************************************/
-static struct sprite *load_sdl2_gfx_file(const char *gfx_filename)
+static struct sprite *load_sdl3_gfx_file(const char *gfx_filename)
 {
   const char **gfx_fileexts = gfx_fileextensions(), *gfx_fileext;
   struct sprite *s;
@@ -501,13 +501,13 @@ static void theme_ensure_big_sprite(struct specfile *sf)
   }
 
   if (!check_themespec_capabilities(file, "spec",
-                                    SPEC_SDL2_CAPSTR, sf->file_name)) {
+                                    SPEC_SDL3_CAPSTR, sf->file_name)) {
     exit(EXIT_FAILURE);
   }
 
   gfx_filename = secfile_lookup_str(file, "file.gfx");
 
-  sf->big_sprite = load_sdl2_gfx_file(gfx_filename);
+  sf->big_sprite = load_sdl3_gfx_file(gfx_filename);
 
   if (!sf->big_sprite) {
     log_fatal("Could not load gfx file for the spec file \"%s\".",
@@ -539,7 +539,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
     exit(EXIT_FAILURE);
   }
   if (!check_themespec_capabilities(file, "spec",
-                                    SPEC_SDL2_CAPSTR, sf->file_name)) {
+                                    SPEC_SDL3_CAPSTR, sf->file_name)) {
     exit(EXIT_FAILURE);
   }
 
@@ -749,7 +749,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   }
 
   if (!check_themespec_capabilities(file, "themespec",
-                                    THEMESPEC_SDL2_CAPSTR, fname)) {
+                                    THEMESPEC_SDL3_CAPSTR, fname)) {
     secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
@@ -868,7 +868,7 @@ static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
     /* If the sprite hasn't been loaded already, then load it. */
     fc_assert_ret_val(ss->ref_count == 0, NULL);
     if (ss->file) {
-      ss->sprite = load_sdl2_gfx_file(ss->file);
+      ss->sprite = load_sdl3_gfx_file(ss->file);
       if (!ss->sprite) {
         log_fatal("Couldn't load gfx file \"%s\" for sprite '%s'.",
                   ss->file, tag_name);

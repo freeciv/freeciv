@@ -42,7 +42,7 @@
 #include "packhand.h"
 #include "servers.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "chatline.h"
 #include "colors.h"
 #include "graphics.h"
@@ -1150,7 +1150,7 @@ void handle_authentication_req(enum authentication_type type,
 
 /**********************************************************************//**
   Provide an interface for connecting to a Freeciv server.
-  sdl2-client does it as popup main start menu which != connecting dlg.
+  sdl3-client does it as popup main start menu which != connecting dlg.
 **************************************************************************/
 void server_connect(void)
 {

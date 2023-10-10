@@ -29,7 +29,7 @@
 #include "log.h"
 #include "mem.h"
 
-/* client/gui-sdl2 */
+/* client/gui-sdl3 */
 #include "colors.h"
 #include "graphics.h"
 
@@ -188,6 +188,6 @@ static struct sprite *ctor_sprite(SDL_Surface *surf)
 ****************************************************************************/
 struct sprite *load_gfxnumber(int num)
 {
-  /* Not supported in sdl2-client */
+  /* Not supported in sdl3-client */
   return NULL;
 }

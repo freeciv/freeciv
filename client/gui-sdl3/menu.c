@@ -46,7 +46,7 @@
 #include "climisc.h"
 #include "control.h"
 
-/* gui-sdl2 */
+/* gui-sdl3 */
 #include "dialogs.h"
 #include "gotodlg.h"
 #include "graphics.h"
@@ -931,7 +931,7 @@ void create_units_order_widgets(void)
 
   begin_order_widget_list = buf;
 
-  sdl2_client_flags |= CF_ORDERS_WIDGETS_CREATED;
+  sdl3_client_flags |= CF_ORDERS_WIDGETS_CREATED;
 }
 
 /**********************************************************************//**
@@ -943,7 +943,7 @@ void delete_units_order_widgets(void)
 
   begin_order_widget_list = NULL;
   end_order_widget_list = NULL;
-  sdl2_client_flags &= ~CF_ORDERS_WIDGETS_CREATED;
+  sdl3_client_flags &= ~CF_ORDERS_WIDGETS_CREATED;
 }
 
 /**********************************************************************//**
@@ -1004,22 +1004,22 @@ void real_menus_update(void)
   if ((C_S_RUNNING != client_state())
       || (get_client_page() != PAGE_GAME)) {
 
-    sdl2_client_flags |= CF_GAME_JUST_STARTED;
+    sdl3_client_flags |= CF_GAME_JUST_STARTED;
 
-    if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
+    if (sdl3_client_flags & CF_MAP_UNIT_W_CREATED) {
       set_wflag(options_button, WF_HIDDEN);
       hide_minimap_window_buttons();
       hide_unitinfo_window_buttons();
     }
 
-    if (sdl2_client_flags & CF_ORDERS_WIDGETS_CREATED) {
+    if (sdl3_client_flags & CF_ORDERS_WIDGETS_CREATED) {
       hide_group(begin_order_widget_list, end_order_widget_list);
     }
 
   } else {
     /* Running state */
-    if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
-      /* show options button */
+    if (sdl3_client_flags & CF_MAP_UNIT_W_CREATED) {
+      /* Show options button */
       clear_wflag(options_button, WF_HIDDEN);
       widget_redraw(options_button);
       widget_mark_dirty(options_button);
@@ -1027,11 +1027,11 @@ void real_menus_update(void)
 
     if (NULL == client.conn.playing) {
       /* Global observer */
-      if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
-        /* show minimap buttons and unitinfo buttons */
+      if (sdl3_client_flags & CF_MAP_UNIT_W_CREATED) {
+        /* Show minimap buttons and unitinfo buttons */
         show_minimap_window_buttons();
         show_unitinfo_window_buttons();
-        /* disable minimap buttons and unitinfo buttons */
+        /* Disable minimap buttons and unitinfo buttons */
         disable_minimap_window_buttons();
         disable_unitinfo_window_buttons();
       }
@@ -1049,10 +1049,10 @@ void real_menus_update(void)
         undraw_order_widgets();
       }
 
-      if (sdl2_client_flags & CF_GAME_JUST_STARTED) {
-        sdl2_client_flags &= ~CF_GAME_JUST_STARTED;
+      if (sdl3_client_flags & CF_GAME_JUST_STARTED) {
+        sdl3_client_flags &= ~CF_GAME_JUST_STARTED;
 
-        /* show minimap buttons and unitinfo buttons */
+        /* Show minimap buttons and unitinfo buttons */
         show_minimap_window_buttons();
         show_unitinfo_window_buttons();
 
