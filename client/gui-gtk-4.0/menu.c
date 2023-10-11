@@ -3199,7 +3199,7 @@ static GMenu *setup_menus(GtkApplication *app)
     register_bg_actions(G_ACTION_MAP(app), i);
   }
 
-  submenu_append_unref(menubar, _("Battle Groups"), G_MENU_MODEL(topmenu));
+  submenu_append_unref(menubar, _("_Battle Groups"), G_MENU_MODEL(topmenu));
 
   topmenu = g_menu_new();
 
