@@ -42,23 +42,24 @@
   3) the tile contains a non-enemy unit
 ***********************************************************************/
 static bool can_player_attack_tile(const struct player *pplayer,
-			    const struct tile *ptile)
+                                   const struct tile *ptile)
 {
   struct city *pcity = tile_city(ptile);
-  
+
   /* 1. Is there anyone there at all? */
-  if (!pcity && unit_list_size((ptile->units)) == 0) {
+  if (pcity == NULL && unit_list_size((ptile->units)) == 0) {
     return FALSE;
   }
 
   /* 2. If there is a city there, can we attack it? */
-  if (pcity && !pplayers_at_war(city_owner(pcity), pplayer)) {
+  if (pcity != NULL && !pplayers_at_war(city_owner(pcity), pplayer)) {
     return FALSE;
   }
 
   /* 3. Are we allowed to attack _all_ units there? */
   unit_list_iterate(ptile->units, aunit) {
-    if (!pplayers_at_war(unit_owner(aunit), pplayer)) {
+    if (!unit_has_type_flag(aunit, UTYF_FLAGLESS)
+        && !pplayers_at_war(unit_owner(aunit), pplayer)) {
       /* Enemy hiding behind a human/diplomatic shield */
       return FALSE;
     }
@@ -181,8 +182,8 @@ unit_attack_unit_at_tile_result(const struct unit *punit,
 
 /*******************************************************************//**
   When unreachable_protects setting is TRUE:
-  To attack a stack, unit must be able to attack every unit there (not
-  including transported units and UTYF_NEVER_PROTECTS units).
+  To attack a stack, unit must be able to attack every unit there
+  (not including transported units and UTYF_NEVER_PROTECTS units).
 ************************************************************************/
 static enum unit_attack_result
 unit_attack_all_at_tile_result(const struct unit *punit,
@@ -193,9 +194,9 @@ unit_attack_all_at_tile_result(const struct unit *punit,
   bool any_neverprotect_unit = FALSE;
 
   unit_list_iterate(ptile->units, aunit) {
-    /* HACK: we don't count transported units here.  This prevents some
+    /* HACK: We don't count transported units here. This prevents some
      * bugs like a submarine carrying a cruise missile being invulnerable
-     * to other sea units.  However from a gameplay perspective it's a hack,
+     * to other sea units. However from a gameplay perspective it's a hack,
      * since players can load and unload their units manually to protect
      * their transporters. */
     if (!unit_transported(aunit)) {
@@ -312,7 +313,8 @@ bool can_unit_attack_tile(const struct unit *punit,
                           const struct action *paction,
                           const struct tile *dest_tile)
 {
-  return (can_player_attack_tile(unit_owner(punit), dest_tile)
+  return ((unit_has_type_flag(punit, UTYF_FLAGLESS)
+           || can_player_attack_tile(unit_owner(punit), dest_tile))
           && (unit_attack_units_at_tile_result(punit, paction, dest_tile)
               == ATT_OK));
 }

@@ -2292,6 +2292,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   struct tile *deftile = unit_tile(punit);
   int unitcount = 0;
   bool escaped;
+  bool flagless_attacker = unit_has_type_flag(pkiller, UTYF_FLAGLESS);
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
@@ -2300,7 +2301,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   punit->server.dying = TRUE;
 
   unit_list_iterate(deftile->units, vunit) {
-    if (pplayers_at_war(pvictor, unit_owner(vunit))
+    if ((flagless_attacker
+         || pplayers_at_war(pvictor, unit_owner(vunit))
+         || unit_has_type_flag(vunit, UTYF_FLAGLESS))
         && is_unit_reachable_at(vunit, pkiller, deftile)) {
       unitcount++;
     }

@@ -330,19 +330,6 @@ void hard_code_oblig_hard_reqs(void)
                           ACTRES_FORTIFY,
                           ACTRES_NONE);
 
-  /* Why this is a hard requirement: there is a hard requirement that
-   * the actor player is at war with the owner of any city on the
-   * target tile.
-   * The Freeciv code assumes that ACTRES_ATTACK has this. */
-  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE, DS_WAR),
-                          FALSE,
-                          N_("All action enablers for %s must require"
-                             " that the actor is at war with the target."),
-                          ACTRES_ATTACK,
-                          ACTRES_WIPE_UNITS,
-                          ACTRES_NONE);
-
   /* Why this is a hard requirement: Keep the old rules. Need to work
    * out corner cases. */
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,

@@ -834,7 +834,7 @@ Actions done by a unit against all units at a tile
  * the actor must be native to the target tile unless it has the
    "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
    type flag.
- * the target tile has no non enemy units. (!)
+ * the target tile has no non enemy units, or actor is Flagless
  * the target tile has no non enemy city.
  * one or all (unreachableprotects) non transported units at the target
    tile must be reachable. A unit is reachable if any of the following is
@@ -861,7 +861,7 @@ Actions done by a unit against all units at a tile
  * the actor must be native to the target tile unless it has the
    "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
    type flag.
- * the target tile has no non enemy units. (!)
+ * the target tile has no non enemy units, or actor is Flagless
  * the target tile has no non enemy city.
  * one or all (unreachableprotects) non transported units at the target
    tile must be reachable. A unit is reachable if any of the following is
@@ -887,7 +887,7 @@ Actions done by a unit against all units at a tile
  * the actor must be native to the target tile unless it has the
    "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
    type flag.
- * the target tile has no non enemy units. (!)
+ * the target tile has no non enemy units, or actor is Flagless
  * the target tile has no non enemy city.
  * the target tile has no units with positive defense strength
  * all units at the target tile must be reachable.

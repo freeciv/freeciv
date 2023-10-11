@@ -1012,8 +1012,8 @@ static bool do_unit_make_homeless(struct unit *punit,
   Returns TRUE iff the player is able to change their diplomatic
   relationship to the other player to war.
 
-  Note that the player can't declare war on someone they already are at war
-  with.
+  Note that the player can't declare war on someone they already are
+  at war with.
 **************************************************************************/
 static bool rel_may_become_war(const struct player *pplayer,
                                const struct player *oplayer)
@@ -1111,12 +1111,14 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     /* Target is a unit stack but a city can block it. */
     fc_assert_action(action_get_target_kind(paction) == ATK_UNITS, break);
 
-    if (target_tile) {
-      struct city *tcity;
+    if (!unit_has_type_flag(actor, UTYF_FLAGLESS)) {
+      if (target_tile != NULL) {
+        struct city *tcity;
 
-      if ((tcity = tile_city(target_tile))
-          && rel_may_become_war(unit_owner(actor), city_owner(tcity))) {
-        return city_owner(tcity);
+        if ((tcity = tile_city(target_tile))
+            && rel_may_become_war(unit_owner(actor), city_owner(tcity))) {
+          return city_owner(tcity);
+        }
       }
     }
     break;
@@ -1220,6 +1222,11 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       /* No target unit. */
       return NULL;
     }
+    if (unit_has_type_flag(target_unit, UTYF_FLAGLESS)) {
+      /* Target unit is flagless anyway - no war needed */
+      return NULL;
+    }
+
     target_player = unit_owner(target_unit);
     break;
   case ATK_UNITS:
@@ -1229,7 +1236,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     }
 
     unit_list_iterate(target_tile->units, tunit) {
-      if (rel_may_become_war(actor_player, unit_owner(tunit))) {
+      if (!unit_has_type_flag(tunit, UTYF_FLAGLESS)
+          && rel_may_become_war(actor_player, unit_owner(tunit))) {
         target_player = unit_owner(tunit);
         break;
       }
@@ -1706,7 +1714,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                 act_id,
                                                 target_tile,
                                                 target_city,
-                                                target_unit))) {
+                                                target_unit)) != NULL) {
     explnat->kind = ANEK_NO_WAR;
     explnat->no_war_with = must_war_player;
   } else if (action_mp_full_makes_legal(punit, act_id)) {
@@ -4922,11 +4930,15 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
 
   /* Sanity checks */
   fc_assert_ret_val_msg(!pplayers_non_attack(pplayer,
-                                             unit_owner(pdefender)),
+                                             unit_owner(pdefender))
+                        || unit_has_type_flag(punit, UTYF_FLAGLESS)
+                        || unit_has_type_flag(pdefender, UTYF_FLAGLESS),
                         FALSE,
                         "Trying to attack a unit with which you have peace "
                         "or cease-fire at (%d, %d).", TILE_XY(def_tile));
-  fc_assert_ret_val_msg(!pplayers_allied(pplayer, unit_owner(pdefender)),
+  fc_assert_ret_val_msg(!pplayers_allied(pplayer, unit_owner(pdefender))
+                        || unit_has_type_flag(punit, UTYF_FLAGLESS)
+                        || unit_has_type_flag(pdefender, UTYF_FLAGLESS),
                         FALSE,
                         "Trying to attack a unit with which you have "
                         "alliance at (%d, %d).", TILE_XY(def_tile));
