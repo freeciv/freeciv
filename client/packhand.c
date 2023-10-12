@@ -4261,10 +4261,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   if (extra_has_flag(pextra, EF_CAUSE_ZOC)) {
     extra_type_list_append(extra_type_list_of_zoccers(), pextra);
   }
-  if (is_extra_caused_by(pextra, EC_BASE)
-      && territory_claiming_base(extra_base_get(pextra))) {
-    extra_type_list_append(extra_type_list_of_terr_claimers(), pextra);
-  }
+
   pextra->hidden_by = p->hidden_by;
   pextra->bridged_over = p->bridged_over;
   pextra->conflicts = p->conflicts;
@@ -4314,6 +4311,11 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   pbase->vision_main_sq = p->vision_main_sq;
   pbase->vision_invis_sq = p->vision_invis_sq;
   pbase->vision_subs_sq = p->vision_subs_sq;
+
+  if (territory_claiming_base(pbase)) {
+    extra_type_list_append(extra_type_list_of_terr_claimers(),
+                           base_extra_get(pbase));
+  }
 }
 
 /************************************************************************//**
