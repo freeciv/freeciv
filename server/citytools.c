@@ -1689,7 +1689,7 @@ void remove_city(struct city *pcity)
     }
   } unit_list_iterate_safe_end;
 
-  /* make sure ships are not left on land when city is removed. */
+  /* Make sure ships are not left on land when city is removed. */
   unit_list_iterate_safe(pcenter->units, punit) {
     bool moved;
     struct unit_type *punittype = unit_type_get(punit);
@@ -1732,6 +1732,7 @@ void remove_city(struct city *pcity)
   dbv_init(&tile_processed, map_num_tiles());
   for (tile_list_append(process_queue, pcenter); tile_list_size(process_queue) > 0;) {
     struct tile *ptile = tile_list_front(process_queue);
+
     tile_list_pop_front(process_queue);
     dbv_set(&tile_processed, tile_index(ptile));
     adjc_iterate(ptile, piter) {
@@ -1855,8 +1856,10 @@ void remove_city(struct city *pcity)
     }
   } conn_list_iterate_end;
 
-  vision_clear_sight(old_vision);
-  vision_free(old_vision);
+  if (old_vision != NULL) {
+    vision_clear_sight(old_vision);
+    vision_free(old_vision);
+  }
 
   /* Infrastructures may have changed. */
   send_tile_info(NULL, pcenter, FALSE);
