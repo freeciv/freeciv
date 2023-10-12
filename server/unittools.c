@@ -1850,9 +1850,11 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
 
   /* Clear the vision before sending unit remove. Else, we might duplicate
    * the PACKET_UNIT_REMOVE if we lose vision of the unit tile. */
-  vision_clear_sight(punit->server.vision);
-  vision_free(punit->server.vision);
-  punit->server.vision = NULL;
+  if (punit->server.vision != NULL) {
+    vision_clear_sight(punit->server.vision);
+    vision_free(punit->server.vision);
+    punit->server.vision = NULL;
+  }
 
   packet.unit_id = punit->id;
   /* Send to onlookers. */
@@ -4119,9 +4121,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 
   /* Clear old vision. */
   unit_move_data_list_iterate(plist, pmove_data) {
-    vision_clear_sight(pmove_data->old_vision);
-    vision_free(pmove_data->old_vision);
-    pmove_data->old_vision = NULL;
+    if (pmove_data->old_vision != NULL) {
+      vision_clear_sight(pmove_data->old_vision);
+      vision_free(pmove_data->old_vision);
+      pmove_data->old_vision = NULL;
+    }
   } unit_move_data_list_iterate_end;
 
   /* Move consequences. */

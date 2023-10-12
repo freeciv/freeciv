@@ -1524,6 +1524,7 @@ static void fc_interface_init_client(void)
   funcs->server_setting_val_bitwise_get = client_ss_val_bitwise_get;
   funcs->create_extra = NULL;
   funcs->destroy_extra = NULL;
+  funcs->destroy_city = NULL;
   funcs->player_tile_vision_get = client_map_is_known_and_seen;
   funcs->player_tile_city_id_get = client_plr_tile_city_id_get;
   funcs->gui_color_free = color_free;
