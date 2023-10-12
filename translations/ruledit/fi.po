@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-07-11 00:08+0300\n"
-"PO-Revision-Date: 2023-07-11 00:13+0300\n"
+"POT-Creation-Date: 2023-10-13 00:13+0300\n"
+"PO-Revision-Date: 2023-10-13 00:18+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -82,6 +82,14 @@ msgstr "Suku"
 msgid "Second alt gfx tag"
 msgstr "Toinen varakuvitustägi"
 
+#: tools/ruledit/edit_impr.cpp:117
+msgid "Sound tag"
+msgstr "Ääniefektitägi"
+
+#: tools/ruledit/edit_impr.cpp:126
+msgid "Alt sound tag"
+msgstr "Varaääniefektitägi"
+
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
 msgstr "Liikkumisen hinta"
@@ -101,6 +109,22 @@ msgstr "Puolustusvoima"
 #: tools/ruledit/edit_utype.cpp:81
 msgid "Move Rate"
 msgstr "Liikkuvuus"
+
+#: tools/ruledit/edit_utype.cpp:118
+msgid "Move sound tag"
+msgstr "Liikkumisäänitägi"
+
+#: tools/ruledit/edit_utype.cpp:128
+msgid "Alt move sound tag"
+msgstr "Varaliikkumisäänitägi"
+
+#: tools/ruledit/edit_utype.cpp:138
+msgid "Fight sound tag"
+msgstr "Taisteluäänitägi"
+
+#: tools/ruledit/edit_utype.cpp:148
+msgid "Alt fight sound tag"
+msgstr "Varataisteluäänitägi"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -403,7 +427,7 @@ msgstr "Sääntönimi"
 #: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
 #: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
-#: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
@@ -461,11 +485,11 @@ msgstr "Muokkaa arvoja"
 msgid "Add Building"
 msgstr "Lisää rakennus"
 
-#: tools/ruledit/tab_building.cpp:103
+#: tools/ruledit/tab_building.cpp:102
 msgid "Remove this Building"
 msgstr "Poista tämä rakennus"
 
-#: tools/ruledit/tab_building.cpp:186
+#: tools/ruledit/tab_building.cpp:184
 msgid "A building with that rule name already exists!"
 msgstr "Rakennus samalla sääntönimellä on jo olemassa!"
 
