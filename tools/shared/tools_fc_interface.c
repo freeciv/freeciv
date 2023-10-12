@@ -61,6 +61,8 @@ void fc_interface_init_tool(void)
 {
   struct functions *funcs = fc_interface_funcs();
 
+  memset(funcs, 0, sizeof(*funcs));
+
   /* May be used when generating help texts */
   funcs->server_setting_by_name = server_ss_by_name;
   funcs->server_setting_name_get = server_ss_name_get;

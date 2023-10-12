@@ -3712,6 +3712,7 @@ static void fc_interface_init_server(void)
   funcs->server_setting_val_bitwise_get = server_ss_val_bitwise_get;
   funcs->create_extra = create_extra;
   funcs->destroy_extra = destroy_extra;
+  funcs->destroy_city = remove_city;
   funcs->player_tile_vision_get = map_is_known_and_seen;
   funcs->player_tile_city_id_get = server_plr_tile_city_id_get;
   funcs->gui_color_free = server_gui_color_free;
