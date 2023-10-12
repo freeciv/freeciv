@@ -325,7 +325,7 @@ static void consider_settler_action(const struct player *pplayer,
 
   if (new_tile_value > old_tile_value) {
     improves = TRUE;
-  } else if (new_tile_value == old_tile_value && extra > 0) {
+  } else if (ADV_WANTS_EQ(new_tile_value, old_tile_value) && extra > 0) {
     improves = TRUE;
   } else {
     improves = FALSE;
@@ -376,7 +376,7 @@ static void consider_settler_action(const struct player *pplayer,
     }
 
     if (total_value > old_improvement_value
-        || (total_value == old_improvement_value
+        || (ADV_WANTS_EQ(total_value, old_improvement_value)
             && old_tile_value > *best_old_tile_value)) {
       if (in_use) {
         *best_value = total_value;
