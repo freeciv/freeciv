@@ -3529,6 +3529,8 @@ static bool load_ruleset_terrain(struct section_file *file,
       }
 
       if (territory_claiming_base(pbase)) {
+        extra_type_list_append(extra_type_list_of_terr_claimers(), pextra);
+
         extra_type_by_cause_iterate(EC_BASE, pextra2) {
           struct base_type *pbase2;
 
@@ -3649,11 +3651,6 @@ static bool load_ruleset_terrain(struct section_file *file,
                       "Illegal compatibility special \"%s\" for road %s",
                       special, extra_rule_name(pextra));
         ok = FALSE;
-      }
-
-      if (is_extra_caused_by(pextra, EC_BASE)
-          && territory_claiming_base(extra_base_get(pextra))) {
-        extra_type_list_append(extra_type_list_of_terr_claimers(), pextra);
       }
 
       if (!ok) {
