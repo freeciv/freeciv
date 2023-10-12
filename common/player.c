@@ -674,7 +674,11 @@ void player_clear(struct player *pplayer, bool full)
   } unit_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) {
-    game_remove_city(pcity);
+    if (fc_funcs->destroy_city != NULL) {
+      fc_funcs->destroy_city(pcity);
+    } else {
+      game_remove_city(pcity);
+    }
   } city_list_iterate_end;
 
   if (full) {

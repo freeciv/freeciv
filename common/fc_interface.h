@@ -33,6 +33,7 @@ struct functions {
   void (*create_extra)(struct tile *ptile, struct extra_type *pextra,
                        struct player *pplayer);
   void (*destroy_extra)(struct tile *ptile, struct extra_type *pextra);
+  void (*destroy_city)(struct city *pcity);
   /* Returns iff the player 'pplayer' has the vision in the layer
      'vision' at tile given by 'ptile'. */
   bool (*player_tile_vision_get)(const struct tile *ptile,

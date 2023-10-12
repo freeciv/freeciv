@@ -3428,6 +3428,7 @@ static void fc_interface_init_server(void)
 
   funcs->create_extra = create_extra;
   funcs->destroy_extra = destroy_extra;
+  funcs->destroy_city = remove_city;
   funcs->player_tile_vision_get = map_is_known_and_seen;
   funcs->gui_color_free = server_gui_color_free;
 

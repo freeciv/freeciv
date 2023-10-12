@@ -1369,6 +1369,7 @@ static void fc_interface_init_client(void)
 
   funcs->create_extra = NULL;
   funcs->destroy_extra = NULL;
+  funcs->destroy_city = NULL;
   funcs->player_tile_vision_get = client_map_is_known_and_seen;
   funcs->gui_color_free = color_free;
 
