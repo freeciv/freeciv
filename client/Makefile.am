@@ -17,6 +17,8 @@ if CLIENT_GUI_GTK_4
 GUI_SUBDIRS += gui-gtk-4.0
 endif
 
+GUI_SUBDIRS += gui-gtk-5.0
+
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 endif

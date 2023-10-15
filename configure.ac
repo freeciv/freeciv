@@ -1951,6 +1951,7 @@ AC_CONFIG_FILES([Makefile
           client/gui-sdl3/Makefile
           client/gui-gtk-3.22/Makefile
           client/gui-gtk-4.0/Makefile
+          client/gui-gtk-5.0/Makefile
           client/gui-qt/Makefile
           client/gui-stub/Makefile
           client/luascript/Makefile
