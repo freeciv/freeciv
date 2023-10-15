@@ -620,6 +620,7 @@ char *mapimg_help(const char *cmdname)
        tool = imagetool_next(tool)) {
     enum imageformat format;
     const struct toolkit *toolkit = img_toolkit_get(tool);
+    const char *separator = "";
 
     if (!toolkit) {
       continue;
@@ -627,12 +628,15 @@ char *mapimg_help(const char *cmdname)
 
     astr_add(&str_format, " - '%s': ", imagetool_name(tool));
 
-    const char *separator = "";
     for (format = imageformat_begin(); format != imageformat_end();
          format = imageformat_next(format)) {
       if (toolkit->formats & format) {
-        astr_add(&str_format, "%s'%s'", separator, imageformat_name(format));
-        separator = ", ";
+        const char *name = imageformat_name(format);
+
+        if (name != NULL) {
+          astr_add(&str_format, "%s'%s'", separator, name);
+          separator = ", ";
+        }
       }
     }
 
