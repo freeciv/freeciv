@@ -15,14 +15,9 @@
 #include <fc_config.h>
 #endif
 
-/* SDL2 */
-#ifdef SDL2_PLAIN_INCLUDE
-#include <SDL.h>
-#include <SDL_image.h>
-#else  /* SDL2_PLAIN_INCLUDE */
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#endif /* SDL2_PLAIN_INCLUDE */
+/* SDL3 */
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 /* utility */
 #include "fcintl.h"

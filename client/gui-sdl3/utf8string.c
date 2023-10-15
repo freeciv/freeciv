@@ -17,12 +17,8 @@
 
 #include <string.h>
 
-/* SDL2 */
-#ifdef SDL2_PLAIN_INCLUDE
-#include <SDL_types.h>
-#else  /* SDL2_PLAIN_INCLUDE */
-#include <SDL2/SDL_types.h>
-#endif /* SDL2_PLAIN_INCLUDE */
+/* SDL3 */
+#include <SDL3/SDL_types.h>
 
 /* utility */
 #include "mem.h"

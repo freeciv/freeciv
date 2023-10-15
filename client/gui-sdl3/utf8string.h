@@ -14,12 +14,8 @@
 #ifndef FC__UTF8STRING_H
 #define FC__UTF8STRING_H
 
-/* SDL2 */
-#ifdef SDL2_PLAIN_INCLUDE
-#include <SDL.h>
-#else  /* SDL2_PLAIN_INCLUDE */
-#include <SDL2/SDL.h>
-#endif /* SDL2_PLAIN_INCLUDE */
+/* SDL3 */
+#include <SDL3/SDL.h>
 
 char **create_new_line_utf8strs(const char *pstr);
 
