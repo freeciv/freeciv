@@ -42,9 +42,10 @@ if ! CC=emcc CXX=em++ AR=emar meson setup \
      --cross-file=cross.txt \
      -Ddefault_library=static \
      -Ddebug=true \
+     -Daudio=none \
      -Dmwand=false \
      -Dtools=[] \
-     -Dclients=sdl2,stub \
+     -Dclients=stub \
      -Dfcmp=[] \
      "${PLATFORM_ROOT}/../../"
 then
