@@ -871,7 +871,14 @@ bool wonder_is_built(const struct player *pplayer,
 struct city *city_from_wonder(const struct player *pplayer,
                               const struct impr_type *pimprove)
 {
-  int city_id = pplayer->wonders[improvement_index(pimprove)];
+  int idx = improvement_index(pimprove);
+  int city_id;
+
+  if (idx < 0) {
+    return NULL;
+  }
+
+  city_id = pplayer->wonders[idx];
 
   fc_assert_ret_val(NULL != pplayer, NULL);
   fc_assert_ret_val(is_wonder(pimprove), NULL);
