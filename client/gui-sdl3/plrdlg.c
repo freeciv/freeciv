@@ -606,7 +606,7 @@ static int player_nation_callback(struct widget *pwidget)
   bool try_dlg = FALSE;
   bool popdown = FALSE;
 
-  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:

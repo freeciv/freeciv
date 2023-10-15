@@ -572,7 +572,7 @@ void force_exit_from_event_loop(void)
 **************************************************************************/
 int FilterMouseMotionEvents(void *data, SDL_Event *event)
 {
-  if (event->type == SDL_MOUSEMOTION) {
+  if (event->type == SDL_EVENT_MOUSE_MOTION) {
     static int x = 0, y = 0;
 
     if (((MOVE_STEP_X > 0) && (abs(event->motion.x - x) >= MOVE_STEP_X))
@@ -725,11 +725,11 @@ Uint16 gui_event_loop(void *data,
 
         switch (main_data.event.type) {
 
-        case SDL_QUIT:
+        case SDL_EVENT_QUIT:
           return MAX_ID;
           break;
 
-        case SDL_KEYUP:
+        case SDL_EVENT_KEY_UP:
           switch (main_data.event.key.keysym.sym) {
             /* find if Shifts are released */
             case SDLK_RSHIFT:
@@ -755,7 +755,7 @@ Uint16 gui_event_loop(void *data,
           }
           break;
 
-        case SDL_KEYDOWN:
+        case SDL_EVENT_KEY_DOWN:
           switch (main_data.event.key.keysym.sym) {
 #if 0
           case SDLK_PRINT:
@@ -798,43 +798,43 @@ Uint16 gui_event_loop(void *data,
           }
           break;
 
-        case SDL_TEXTINPUT:
+        case SDL_EVENT_TEXT_INPUT:
           if (textinput_handler) {
             ID = textinput_handler(main_data.event.text.text, data);
           }
           break;
 
-        case SDL_FINGERDOWN:
+        case SDL_EVENT_FINGER_DOWN:
           if (finger_down_handler) {
             ID = finger_down_handler(&main_data.event.tfinger, data);
           }
           break;
 
-        case SDL_FINGERUP:
+        case SDL_EVENT_FINGER_UP:
           if (finger_up_handler) {
             ID = finger_up_handler(&main_data.event.tfinger, data);
           }
           break;
 
-        case SDL_FINGERMOTION:
+        case SDL_EVENT_FINGER_MOTION:
           if (finger_motion_handler) {
             ID = finger_motion_handler(&main_data.event.tfinger, data);
           }
           break;
 
-        case SDL_MOUSEBUTTONDOWN:
+        case SDL_EVENT_MOUSE_BUTTON_DOWN:
           if (mouse_button_down_handler) {
             ID = mouse_button_down_handler(&main_data.event.button, data);
           }
           break;
 
-        case SDL_MOUSEBUTTONUP:
+        case SDL_EVENT_MOUSE_BUTTON_UP:
           if (mouse_button_up_handler) {
             ID = mouse_button_up_handler(&main_data.event.button, data);
           }
           break;
 
-        case SDL_MOUSEMOTION:
+        case SDL_EVENT_MOUSE_MOTION:
           if (mouse_motion_handler) {
             ID = mouse_motion_handler(&main_data.event.motion, data);
           }

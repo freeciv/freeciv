@@ -123,7 +123,7 @@ struct widget *create_checkbox(struct gui_layer *pdest, bool state,
   set_wflag(cbox, (WF_FREE_STRING | WF_FREE_GFX | WF_FREE_PRIVATE_DATA | flags));
   set_wstate(cbox, FC_WS_DISABLED);
   set_wtype(cbox, WT_CHECKBOX);
-  cbox->mod = KMOD_NONE;
+  cbox->mod = SDL_KMOD_NONE;
   cbox->dst = pdest;
   ptmp->state = state;
   ptmp->true_theme = current_theme->cbox_sell_icon;

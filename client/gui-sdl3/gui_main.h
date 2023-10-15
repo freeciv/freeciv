@@ -65,9 +65,9 @@ struct theme;
 
 /* Predicate for detecting basic widget activation events. */
 #define PRESSED_EVENT(event) (                                              \
-  (event).type == SDL_KEYDOWN                                               \
-  || (event).type == SDL_FINGERDOWN                                         \
-  || ((event).type == SDL_MOUSEBUTTONDOWN                                   \
+  (event).type == SDL_EVENT_KEY_DOWN                                        \
+  || (event).type == SDL_EVENT_FINGER_DOWN                                  \
+  || ((event).type == SDL_EVENT_MOUSE_BUTTON_DOWN                           \
       && (event).button.button == SDL_BUTTON_LEFT))
 
 enum mouse_button_hold_state {

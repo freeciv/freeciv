@@ -121,7 +121,7 @@ static int players_action_callback(struct widget *pwidget)
   set_wstate(pwidget, FC_WS_NORMAL);
   widget_redraw(pwidget);
   widget_mark_dirty(pwidget);
-  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
@@ -168,10 +168,10 @@ static int cities_action_callback(struct widget *button)
   set_wstate(button, FC_WS_DISABLED);
   widget_redraw(button);
   widget_mark_dirty(button);
-  if (main_data.event.type == SDL_KEYDOWN) {
+  if (main_data.event.type == SDL_EVENT_KEY_DOWN) {
     /* Ctrl-F shortcut */
     popup_find_dialog();
-  } else if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  } else if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
@@ -1293,7 +1293,7 @@ static int minimap_window_callback(struct widget *pwidget)
 **************************************************************************/
 static int unit_info_window_callback(struct widget *pwidget)
 {
-  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
@@ -1524,7 +1524,7 @@ void popup_unitinfo_window(void)
   pwidget->info_label = create_utf8_from_char_fonto(buf, FONTO_ATTENTION);
   pwidget->action = revolution_callback;
   pwidget->key = SDLK_g;
-  pwidget->mod = KMOD_CTRL | KMOD_SHIFT;
+  pwidget->mod = SDL_KMOD_CTRL | SDL_KMOD_SHIFT;
 
   add_to_gui_list(ID_REVOLUTION, pwidget);
 
@@ -1687,7 +1687,7 @@ void popup_minimap_window(void)
   pwidget->info_label = create_utf8_from_char_fonto(buf, FONTO_ATTENTION);
   pwidget->action = end_turn_callback;
   pwidget->key = SDLK_RETURN;
-  pwidget->mod = KMOD_SHIFT;
+  pwidget->mod = SDL_KMOD_SHIFT;
 
   add_to_gui_list(ID_NEW_TURN, pwidget);
 
@@ -1715,7 +1715,7 @@ void popup_minimap_window(void)
   pwidget->info_label->style |= SF_CENTER;
   pwidget->action = cities_action_callback;
   pwidget->key = SDLK_f;
-  pwidget->mod = KMOD_CTRL;
+  pwidget->mod = SDL_KMOD_CTRL;
 
   add_to_gui_list(ID_CITIES, pwidget);
 

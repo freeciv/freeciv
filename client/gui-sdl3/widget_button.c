@@ -277,7 +277,7 @@ struct widget *create_icon_button(SDL_Surface *icon, struct gui_layer *pdest,
   set_wflag(button, (WF_FREE_STRING | flags));
   set_wstate(button, FC_WS_DISABLED);
   set_wtype(button, WT_I_BUTTON);
-  button->mod = KMOD_NONE;
+  button->mod = SDL_KMOD_NONE;
   button->dst = pdest;
 
   baseclass_redraw = button->redraw;

@@ -381,7 +381,7 @@ static int units_orders_dlg_callback(struct widget *button)
 **************************************************************************/
 static int units_orders_city_dlg_callback(struct widget *button)
 {
-  bool right_button = (main_data.event.type == SDL_MOUSEBUTTONDOWN
+  bool right_button = (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN
                        && main_data.event.button.button == SDL_BUTTON_RIGHT);
 
   if (PRESSED_EVENT(main_data.event) || right_button) {
@@ -3739,7 +3739,7 @@ void real_city_dialog_popup(struct city *pcity)
     set_wstate(buf, FC_WS_NORMAL);
   }
   buf->key = SDLK_LEFT;
-  buf->mod = KMOD_LSHIFT;
+  buf->mod = SDL_KMOD_LSHIFT;
   add_to_gui_list(ID_CITY_DLG_PREV_BUTTON, buf);
   /* -------- */
 
@@ -3754,7 +3754,7 @@ void real_city_dialog_popup(struct city *pcity)
     set_wstate(buf, FC_WS_NORMAL);
   }
   buf->key = SDLK_RIGHT;
-  buf->mod = KMOD_LSHIFT;
+  buf->mod = SDL_KMOD_LSHIFT;
   add_to_gui_list(ID_CITY_DLG_NEXT_BUTTON, buf);
   /* -------- */
 
