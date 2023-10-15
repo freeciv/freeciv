@@ -24,6 +24,7 @@ freeciv_manual_SOURCES =		\
 		manual_commands.c	\
 		manual_governments.c	\
 		manual_settings.c	\
+		manual_techs.c		\
 		manual_terrain.c	\
 		manual_units.c
 
