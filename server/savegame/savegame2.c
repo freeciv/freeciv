@@ -4028,6 +4028,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   punit->server.birth_turn
     = secfile_lookup_int_default(loading->file, game.info.turn,
                                  "%s.born", unitstr);
+  punit->server.current_form_turn = game.info.turn;
 
   extra_id = secfile_lookup_int_default(loading->file, -2,
                                         "%s.activity_tgt", unitstr);
