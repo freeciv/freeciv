@@ -35,12 +35,8 @@
 #include <unistd.h>
 #endif
 
-/* SDL2 */
-#ifdef SDL2_PLAIN_INCLUDE
-#include <SDL.h>
-#else  /* SDL2_PLAIN_INCLUDE */
-#include <SDL2/SDL.h>
-#endif /* SDL2_PLAIN_INCLUDE */
+/* SDL3 */
+#include <SDL3/SDL.h>
 
 /* utility */
 #include "fc_cmdline.h"

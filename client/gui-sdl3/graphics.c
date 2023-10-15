@@ -25,16 +25,10 @@
 #include <fc_config.h>
 #endif
 
-/* SDL2 */
-#ifdef SDL2_PLAIN_INCLUDE
-#include <SDL_image.h>
-#include <SDL_syswm.h>
-#include <SDL_ttf.h>
-#else  /* SDL2_PLAIN_INCLUDE */
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_syswm.h>
-#include <SDL2/SDL_ttf.h>
-#endif /* SDL2_PLAIN_INCLUDE */
+/* SDL3 */
+#include <SDL3_image/SDL_image.h>
+#include <SDL3/SDL_syswm.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 /* utility */
 #include "fcintl.h"

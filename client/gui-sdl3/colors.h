@@ -22,17 +22,14 @@
 #ifndef FC__COLORS_H
 #define FC__COLORS_H
 
-/* SDL2 */
-#ifdef SDL2_PLAIN_INCLUDE
-#include <SDL.h>
-#else  /* SDL2_PLAIN_INCLUDE */
-#include <SDL2/SDL.h>
-#endif /* SDL2_PLAIN_INCLUDE */
+/* SDL3 */
+#include <SDL3/SDL.h>
+
+/* client */
+#include "colors_g.h"
 
 /* gui-sdl3 */
 #include "themecolors.h"
-
-#include "colors_g.h"
 
 struct color {
   SDL_Color *color;
