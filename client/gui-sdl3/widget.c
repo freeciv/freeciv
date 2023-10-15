@@ -252,7 +252,7 @@ struct widget *find_next_widget_for_key(struct widget *start_widget,
 
   pwidget = start_widget ? start_widget : begin_main_widget_list;
 
-  key.mod &= ~(KMOD_NUM | KMOD_CAPS);
+  key.mod &= ~(SDL_KMOD_NUM | SDL_KMOD_CAPS);
   while (pwidget) {
     if ((pwidget->key == key.sym
          || (pwidget->key == SDLK_RETURN && key.sym == SDLK_KP_ENTER)

@@ -127,7 +127,7 @@ void popup_find_dialog(void)
   struct player *owner = NULL;
   struct tile *original;
   int window_x = 0, window_y = 0;
-  bool mouse = (main_data.event.type == SDL_MOUSEBUTTONDOWN);
+  bool mouse = (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN);
   SDL_Rect area;
 
   /* check that there are any cities to find */

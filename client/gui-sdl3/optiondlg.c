@@ -1095,7 +1095,7 @@ static int edit_worklist_callback(struct widget *widget)
     return -1;
   }
 
-  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       /* Edit. */
