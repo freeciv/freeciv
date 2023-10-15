@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 2.6.9 to 2.6.10
 ----------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-2.6.10>, 2023-09-25)
+   (from <https://www.freeciv.org/wiki/NEWS-2.6.10>, 2023-10-15)
 
 2.6.10 is a generic bugfix release on freeciv-2.6 series.
 
@@ -39,7 +39,8 @@ General
 
     * Fixed memory leaks, bad memory access, and improved cleanup on shutdown
       osdn#47900 osdn#45906 osdn#47660 osdn#47982 osdn#46191 osdn#45570
-      osdn#48399 osdn#48446
+      osdn#48399 osdn#48446 osdn#48787 osdn#48797 osdn#48788 osdn#48821
+      osdn#48807
     * Various internal changes which should only affect developers.
       osdn#48026 osdn#48645
 
@@ -62,6 +63,11 @@ Clients
          + Made it possible to offer techs in a treaty even if player has
            no embassy to see what techs the other player already has osdn#45552
          + gtk3/gtk3.22: Fixed bad padding in theme osdn#48669
+         + gtk3/gtk3.22: Fixed bad tooltip contrast in theme osdn#48670
+         + gtk3.22: Theme gets applied to all windows, not just root one
+           osdn#48580 osdn#48770
+         + gtk3.22: Fixed conflicts between system theme and loaded theme
+           osdn#45601
 
     * Qt
          + Fixed crash when the client-side game state gets inconsistent
@@ -91,7 +97,7 @@ Build/portability
 
     * Autotools: Added year 2038 support, if autoconf supports it osdn#47710
     * Fixed compiler warning about uninitialized variable caused by
-      bad compiler heuristics osdn#48544
+      bad compiler heuristics osdn#48544 osdn#48737
 
 
 CHANGES FROM 2.6.8 to 2.6.9
