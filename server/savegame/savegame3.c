@@ -6026,6 +6026,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
   punit->server.birth_turn
     = secfile_lookup_int_default(loading->file, game.info.turn,
                                  "%s.born", unitstr);
+  punit->server.current_form_turn
+    = secfile_lookup_int_default(loading->file, game.info.turn,
+                                 "%s.current_form_turn", unitstr);
 
   extra_id = secfile_lookup_int_default(loading->file, -2,
                                         "%s.activity_tgt", unitstr);
@@ -6565,6 +6568,8 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, punit->fuel, "%s.fuel", buf);
     secfile_insert_int(saving->file, punit->server.birth_turn,
                       "%s.born", buf);
+    secfile_insert_int(saving->file, punit->server.current_form_turn,
+                      "%s.current_form_turn", buf);
     secfile_insert_int(saving->file, punit->battlegroup,
                        "%s.battlegroup", buf);
 

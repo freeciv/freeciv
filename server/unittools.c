@@ -1598,6 +1598,8 @@ void transform_unit(struct unit *punit, const struct unit_type *to_unit,
     punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
   }
 
+  punit->server.current_form_turn = game.info.turn;
+
   unit_forget_last_activity(punit);
   if (!can_unit_continue_current_activity(punit)) {
     unit_activities_cancel(punit);
