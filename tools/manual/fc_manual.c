@@ -47,13 +47,6 @@
 #include "tilespec.h"
 
 /* server */
-#include "citytools.h"
-#include "connecthand.h"
-#include "console.h"
-#include "diplhand.h"
-#include "gamehand.h"
-#include "plrhand.h"
-#include "report.h"
 #include "ruleset.h"
 #include "settings.h"
 #include "sernet.h"
@@ -347,42 +340,9 @@ static bool manual_command(struct tag_types *tag_info)
       || !manual_terrain(tag_info)
       || !manual_buildings(tag_info)
       || !manual_governments(tag_info)
-      || !manual_units(tag_info)) {
+      || !manual_units(tag_info)
+      || !manual_techs(tag_info)) {
     return FALSE;
-  }
-
-  {
-    FILE *doc;
-
-    doc = manual_start(tag_info, MANUAL_TECHS);
-
-    if (doc == NULL) {
-      return FALSE;
-    }
-
-    /* FIXME: this doesn't resemble the wiki manual at all. */
-    /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-    fprintf(doc, _("%sFreeciv %s tech help (%s)%s\n\n"),
-            tag_info->title_begin, VERSION_STRING, game.control.name,
-            tag_info->title_end);
-    advance_iterate(ptech) {
-      if (valid_advance(ptech)) {
-        char buf[64000];
-
-        fprintf(doc, tag_info->item_begin, "tech", ptech->item_number);
-        fprintf(doc, "%s%s%s\n\n", tag_info->sect_title_begin,
-                advance_name_translation(ptech), tag_info->sect_title_end);
-
-        fprintf(doc, tag_info->subitem_begin, "helptext");
-        helptext_advance(buf, sizeof(buf), NULL, "", ptech->item_number);
-        fprintf(doc, "%s", buf);
-        fprintf(doc, "%s", tag_info->subitem_end);
-
-        fprintf(doc, "%s", tag_info->item_end);
-      }
-    } advance_iterate_end;
-
-    manual_finalize(tag_info, doc, MANUAL_TECHS);
   }
 
   return TRUE;
