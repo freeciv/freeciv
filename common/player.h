@@ -233,6 +233,8 @@ bool player_has_flag(const struct player *pplayer, enum plr_flag_id flag);
 #define set_as_human(plr) BV_CLR((plr)->flags, PLRF_AI)
 #define set_as_ai(plr) BV_SET((plr)->flags, PLRF_AI)
 
+bool player_has_state(const struct player *pplayer, enum plrstate_type state);
+
 struct multiplier_value
 {
   /* Value currently in force. */

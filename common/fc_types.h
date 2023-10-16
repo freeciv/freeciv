@@ -573,6 +573,17 @@ const char *ai_level_name_update_cb(const char *old);
 #include "specenum_gen.h"
 
 /*
+ * PlayerState requirement types.
+ *
+ * Used in the network protocol
+ */
+#define SPECENUM_NAME plrstate_type
+#define SPECENUM_VALUE0 PLRS_BARBARIAN
+#define SPECENUM_VALUE0NAME "Barbarian"
+#define SPECENUM_COUNT PLRS_LAST
+#include "specenum_gen.h"
+
+/*
  * UnitState requirement property types.
  *
  * Used in the network protocol.
@@ -716,6 +727,7 @@ typedef union {
   enum ai_level ai_level;
   enum citytile_type citytile;
   enum citystatus_type citystatus;
+  enum plrstate_type plrstate;
   int minsize;
   int minculture;
   int minforeignpct;
@@ -870,6 +882,8 @@ typedef union {
 #define SPECENUM_VALUE54NAME "Wrap"
 #define SPECENUM_VALUE55 VUT_PLAYER_FLAG
 #define SPECENUM_VALUE55NAME "PlayerFlag"
+#define SPECENUM_VALUE56 VUT_PLAYER_STATE
+#define SPECENUM_VALUE56NAME "PlayerState"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
