@@ -1592,7 +1592,7 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("Ctrl+F1")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg1assign);
 
-  act = main_menu->addAction(_("Append Battle Group 1"));
+  act = main_menu->addAction(_("Append to Battle Group 1"));
   act->setShortcut(QKeySequence(tr("Ctrl+Shift+F1")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg1append);
 
@@ -1604,7 +1604,7 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("Ctrl+F2")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg2assign);
 
-  act = main_menu->addAction(_("Append Battle Group 2"));
+  act = main_menu->addAction(_("Append to Battle Group 2"));
   act->setShortcut(QKeySequence(tr("Ctrl+Shift+F2")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg2append);
 
@@ -1616,7 +1616,7 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("Ctrl+F3")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg3assign);
 
-  act = main_menu->addAction(_("Append Battle Group 3"));
+  act = main_menu->addAction(_("Append to Battle Group 3"));
   act->setShortcut(QKeySequence(tr("Ctrl+Shift+F3")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg3append);
 
@@ -1628,7 +1628,7 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("Ctrl+F4")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg4assign);
 
-  act = main_menu->addAction(_("Append Battle Group 4"));
+  act = main_menu->addAction(_("Append to Battle Group 4"));
   act->setShortcut(QKeySequence(tr("Ctrl+Shift+F4")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_bg4append);
 
