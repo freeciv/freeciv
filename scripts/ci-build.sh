@@ -174,6 +174,29 @@ make install
 echo "Freeciv build successful!"
 ;;
 
+emsdk)
+EMSDK_VER=3.1.47
+
+(
+  # Outside source tree
+  cd ..
+
+  git clone https://github.com/emscripten-core/emsdk
+
+  cd emsdk
+  ./emsdk install "${EMSDK_VER}"
+  ./emsdk activate "${EMSDK_VER}"
+)
+
+EMSDKDIR="$(cd ../emsdk && pwd)"
+
+mkdir build
+cd build
+../platforms/emscripten/emsbuild.sh "${EMSDKDIR}"
+
+echo "Freeciv build successful!"
+;;
+
 *)
 # Fetch S3_2 in the background for the ruleset upgrade test
 git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_2:S3_2 &
