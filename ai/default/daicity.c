@@ -870,10 +870,11 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
     int i;
 
     /* Randomized order */
-    i = 0;
+    count = 0;
     city_list_iterate(pplayer->cities, pcity) {
-      sellers[i++] = pcity;
+      sellers[count++] = pcity;
     } city_list_iterate_end;
+
     for (i = 0; i < count; i++) {
       int replace = fc_rand(count);
       struct city *tmp;
