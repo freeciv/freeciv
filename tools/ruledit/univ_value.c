@@ -229,6 +229,8 @@ bool universal_value_initial(struct universal *src)
     return TRUE;
   case VUT_PLAYER_FLAG:
     src->value.plr_flag = PLRF_AI;
+  case VUT_PLAYER_STATE:
+    src->value.plrstate = PLRS_BARBARIAN;
   case VUT_ACTION:
     src->value.action = action_by_number(0);
     return TRUE;
@@ -465,6 +467,11 @@ void universal_kind_values(struct universal *univ,
   case VUT_PLAYER_FLAG:
     for (i = 0; i < PLRF_COUNT; i++) {
       cb(plr_flag_id_name(i), univ->value.plr_flag == i, data);
+    }
+    break;
+  case VUT_PLAYER_STATE:
+    for (i = 0; i < PLRS_LAST; i++) {
+      cb(plrstate_type_name(i), univ->value.plrstate == i, data);
     }
     break;
   case VUT_ACTION:

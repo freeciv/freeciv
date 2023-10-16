@@ -571,6 +571,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_PLAYER_STATE:
+    source->value.plrstate = plrstate_type_by_name(value, fc_strcasecmp);
+    if (source->value.plrstate != PLRS_LAST) {
+      return;
+    }
+    break;
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     source->value.latitude = atoi(value);
@@ -801,6 +807,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_CITYSTATUS:
     source.value.citystatus = value;
     return source;
+  case VUT_PLAYER_STATE:
+    source.value.plrstate = value;
+    return source;
   case VUT_COUNTER:
     source.value.counter = counter_by_id(value);
     return source;
@@ -948,6 +957,8 @@ int universal_number(const struct universal *source)
     return source->value.citytile;
   case VUT_CITYSTATUS:
     return source->value.citystatus;
+  case VUT_PLAYER_STATE:
+    return source->value.plrstate;
   case VUT_COUNTER:
     return counter_id(source->value.counter);
   case VUT_MINLATITUDE:
@@ -1088,6 +1099,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_DIPLREL_UNITANY:
       case VUT_AI_LEVEL:
       case VUT_PLAYER_FLAG:
+      case VUT_PLAYER_STATE:
         req.range = REQ_RANGE_PLAYER;
         break;
       case VUT_MINYEAR:
@@ -1255,6 +1267,7 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = req.range != REQ_RANGE_CITY;
       break;
     case VUT_PLAYER_FLAG:
+    case VUT_PLAYER_STATE:
       invalid = (req.range != REQ_RANGE_PLAYER);
       break;
     case VUT_IMPROVEMENT:
@@ -1288,6 +1301,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_IMPR_GENUS:
     case VUT_IMPR_FLAG:
     case VUT_PLAYER_FLAG:
+    case VUT_PLAYER_STATE:
     case VUT_GOVERNMENT:
     case VUT_TERRAIN:
     case VUT_UTYPE:
@@ -2272,6 +2286,46 @@ is_plr_flag_req_active(const struct req_context *context,
     return (context->player != NULL
             ? BOOL_TO_TRISTATE(player_has_flag(context->player,
                                                req->source.value.plr_flag))
+            : TRI_MAYBE);
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_TILE:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_TRADE_ROUTE:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
+
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
+  Determine whether a player state requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a building flag
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_plr_state_req_active(const struct req_context *context,
+                        const struct player *other_player,
+                        const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_PLAYER_STATE);
+
+  switch (req->range) {
+  case REQ_RANGE_PLAYER:
+    return (context->player != NULL
+            ? BOOL_TO_TRISTATE(player_has_state(context->player,
+                                                req->source.value.plrstate))
             : TRI_MAYBE);
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_CITY:
@@ -5197,6 +5251,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_IMPR_GENUS] = {is_buildinggenus_req_active, REQUCH_YES},
   [VUT_IMPR_FLAG] = {is_buildingflag_req_active, REQUCH_YES},
   [VUT_PLAYER_FLAG] = {is_plr_flag_req_active, REQUCH_NO},
+  [VUT_PLAYER_STATE] = {is_plr_state_req_active, REQUCH_NO},
   [VUT_MAXLATITUDE] = {is_latitude_req_active, REQUCH_YES},
   [VUT_MAXTILEUNITS] = {is_maxunitsontile_req_active, REQUCH_NO},
   [VUT_MINCALFRAG] = {is_mincalfrag_req_active, REQUCH_NO},
@@ -5710,6 +5765,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_IMPR_GENUS:
   case VUT_IMPR_FLAG:
   case VUT_PLAYER_FLAG:
+  case VUT_PLAYER_STATE:
   case VUT_MINSIZE:
   case VUT_MINCULTURE:
   case VUT_MINFOREIGNPCT:
@@ -6306,6 +6362,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.impr_flag == psource2->value.impr_flag;
   case VUT_PLAYER_FLAG:
     return psource1->value.plr_flag == psource2->value.plr_flag;
+  case VUT_PLAYER_STATE:
+    return psource1->value.plrstate == psource2->value.plrstate;
   case VUT_EXTRA:
     return psource1->value.extra == psource2->value.extra;
   case VUT_GOOD:
@@ -6450,6 +6508,8 @@ const char *universal_rule_name(const struct universal *psource)
     return impr_flag_id_name(psource->value.impr_flag);
   case VUT_PLAYER_FLAG:
     return plr_flag_id_name(psource->value.plr_flag);
+  case VUT_PLAYER_STATE:
+    return plrstate_type_name(psource->value.plrstate);
   case VUT_EXTRA:
     return extra_rule_name(psource->value.extra);
   case VUT_GOOD:
@@ -6604,6 +6664,11 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_PLAYER_FLAG:
     fc_strlcat(buf,
                plr_flag_id_translated_name(psource->value.plr_flag),
+               bufsz);
+    return buf;
+  case VUT_PLAYER_STATE:
+    fc_strlcat(buf,
+               plrstate_type_translated_name(psource->value.plrstate),
                bufsz);
     return buf;
   case VUT_EXTRA:

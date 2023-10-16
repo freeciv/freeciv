@@ -1372,6 +1372,9 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           script_server_signal_emit(signal_name, ptarget,
                                     pcity, "have_player_flag");
         }
+      case VUT_PLAYER_STATE:
+        purge = TRUE;
+        break;
       case VUT_GOVERNMENT:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

@@ -1972,3 +1972,21 @@ bool player_has_flag(const struct player *pplayer, enum plr_flag_id flag)
 {
   return BV_ISSET(pplayer->flags, flag);
 }
+
+/*******************************************************************//**
+  Check if player has given state
+***********************************************************************/
+bool player_has_state(const struct player *pplayer,
+                      enum plrstate_type state)
+{
+  switch (state) {
+  case PLRS_BARBARIAN:
+    return is_barbarian(pplayer);
+  case PLRS_LAST:
+    fc_assert(state != PLRS_LAST);
+    break;
+  }
+
+  fc_assert(plrstate_type_is_valid(state));
+  return FALSE;
+}
