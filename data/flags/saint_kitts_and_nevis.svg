@@ -1,27 +1,105 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg>
-<svg width="900" height="600" viewBox="-75 -50 150 100" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-   <defs>
-      <clipPath id="frame">
-         <rect width="150" height="100" x="-75" y="-50"/>
-      </clipPath>
-   </defs>
-   <path d="M 75,-50 h -150 v 100" fill="#009e49"/>
-   <path d="M -75,50 h 150 v -100" fill="#ce1126"/>
-   <g clip-path="url(#frame)">
-      <path d="M -75,50 L 75,-50" stroke-width="42" stroke="#fcd116"/>
-      <path d="M -75,50 L 75,-50" stroke-width="30" stroke="black"/>
-   </g>
-   <g id="star" transform="translate(28.5,-19) rotate(-33.69) scale(14)" fill="white">
-   <comment>the rotation angle above should be -arctan(2/3)</comment>
-      <g id="cone">
-        <polygon id="triangle" points="0,0 0,1 .5,1" transform="translate(0,-1) rotate(18)"/>
-        <use xlink:href="#triangle" transform="scale(-1,1)" />
-      </g>
-      <use xlink:href="#cone" transform="rotate(72)" />
-      <use xlink:href="#cone" transform="rotate(-72)" />
-      <use xlink:href="#cone" transform="rotate(144)" />
-      <use xlink:href="#cone" transform="rotate(-144)" />
-   </g>
-   <use xlink:href="#star" transform="translate(-57,38)"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="900"
+   height="600"
+   viewBox="-75 -50 150 100"
+   version="1.1"
+   id="svg32"
+   sodipodi:docname="saint_kitts_and_nevis.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview34"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0661599"
+     inkscape:cx="452.55876"
+     inkscape:cy="299.67363"
+     inkscape:window-width="1093"
+     inkscape:window-height="836"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg32" />
+  <defs
+     id="defs5">
+    <clipPath
+       id="frame">
+      <rect
+         width="150"
+         height="100"
+         x="-75"
+         y="-50"
+         id="rect2" />
+    </clipPath>
+  </defs>
+  <path
+     d="M 75,-50 h -150 v 100"
+     fill="#009e49"
+     id="path7" />
+  <path
+     d="M -75,50 h 150 v -100"
+     fill="#ce1126"
+     id="path9" />
+  <g
+     clip-path="url(#frame)"
+     id="g15">
+    <path
+       d="M -75,50 L 75,-50"
+       stroke-width="42"
+       stroke="#fcd116"
+       id="path11" />
+    <path
+       d="M -75,50 L 75,-50"
+       stroke-width="30"
+       stroke="black"
+       id="path13" />
+  </g>
+  <g
+     id="star"
+     transform="translate(28.5,-19) rotate(-33.69) scale(14)"
+     fill="white">
+    <comment>the rotation angle above should be -arctan(2/3)</comment>
+    <g
+       id="cone">
+      <polygon
+         id="triangle"
+         points="0,0 0,1 .5,1"
+         transform="translate(0,-1) rotate(18)" />
+      <use
+         xlink:href="#triangle"
+         transform="scale(-1,1)"
+         id="use18" />
+    </g>
+    <use
+       xlink:href="#cone"
+       transform="rotate(72)"
+       id="use21" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(-72)"
+       id="use23" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(144)"
+       id="use25" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(-144)"
+       id="use27" />
+  </g>
+  <use
+     xlink:href="#star"
+     transform="translate(-57,38)"
+     id="use30" />
 </svg>
