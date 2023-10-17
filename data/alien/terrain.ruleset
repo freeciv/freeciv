@@ -255,11 +255,11 @@ helptext             = _("\
 No unit can enter this terrain, nor can city work the tile.\
 ")
 
-[terrain_grassland]
-name                 = _("Grassland")
-graphic              = "grassland"
-graphic_alt	     = "-"
-identifier	     = "g"
+[terrain_savannah]
+name                 = _("Savannah")
+graphic              = "savannah"
+graphic_alt	     = "grassland"
+identifier	     = "g" ; Since this used to be "Grassland"
 class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
@@ -300,7 +300,7 @@ color.r              = 10
 color.g              = 123
 color.b              = 2
 helptext	     = _("\
-For some reason, there is Earth like grass and animals around.\
+For some reason, there is Earth like plants and animals around.\
 ")
 
 [terrain_alien_forest]
@@ -427,7 +427,7 @@ irrigation_food_incr = 1
 irrigation_time      = 10
 mining_shield_incr   = 1
 mining_time          = 10
-transform_result     = "Grassland"
+transform_result     = "Savannah"
 transform_time       = 40
 placing_time         = 6
 pillage_time         = 1
@@ -1071,7 +1071,7 @@ flags          = "AutoOnCityCenter"
 helptext       = _("\
 Basic Road is available for building from the beginning of the game.\
 \n\n\
-Having Road on Grassland tile provides increase of +1 to trade on that tile.\
+Having Road on Savannah tile provides increase of +1 to trade on that tile.\
 ")
 
 [extra_highway]
