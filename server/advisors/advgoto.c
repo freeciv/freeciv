@@ -55,19 +55,23 @@ bool adv_follow_path(struct unit *punit, struct pf_path *path,
   if (punit->moves_left <= 0) {
     return TRUE;
   }
+
   punit->goto_tile = ptile;
-  unit_activity_handling(punit, ACTIVITY_GOTO);
+  unit_activity_handling(punit, ACTIVITY_GOTO, ACTION_NONE);
   alive = adv_unit_execute_path(punit, path);
+
   if (alive) {
     if (activity != ACTIVITY_GOTO) {
       /* Only go via ACTIVITY_IDLE if we are actually changing the activity */
-      unit_activity_handling(punit, ACTIVITY_IDLE);
+      unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
       send_unit_info(NULL, punit); /* FIXME: probably duplicate */
-      unit_activity_handling_targeted(punit, activity, &tgt);
+      unit_activity_handling_targeted(punit, activity, &tgt,
+                                      activity_default_action(activity));
     }
     punit->goto_tile = old_tile; /* May be NULL. */
     send_unit_info(NULL, punit);
   }
+
   return alive;
 }
 
@@ -280,13 +284,13 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
     }
   }
 
-  /* go */
-  unit_activity_handling(punit, ACTIVITY_IDLE);
+  /* Go */
+  unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
   /* Move */
   /* TODO: Differentiate (server side AI) player from server side agent
    * working for (possibly AI) player by using ACT_REQ_PLAYER and
    * ACT_REQ_SS_AGENT */
-  if (paction && ptrans
+  if (paction != nullptr && ptrans != nullptr
       && action_has_result(paction, ACTRES_TRANSPORT_EMBARK)) {
       /* "Transport Embark". */
       unit_do_action(unit_owner(punit), punit->id, ptrans->id,

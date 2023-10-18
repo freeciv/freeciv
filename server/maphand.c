@@ -1834,7 +1834,7 @@ static void terrain_change_bounce_single_unit(struct unit *punit,
       unit_alive = unit_move(punit, ptile2, 0,
                              NULL, TRUE, FALSE, FALSE, FALSE, FALSE);
       if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
-        unit_activity_handling(punit, ACTIVITY_IDLE);
+        unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
       }
       break;
     }

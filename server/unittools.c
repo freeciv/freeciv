@@ -561,7 +561,7 @@ void player_restore_units(struct player *pplayer)
               if (alive) {
                 /* Clear activity. Unit info will be sent in the end of
 	         * the function. */
-                unit_activity_handling(punit, ACTIVITY_IDLE);
+                unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
                 adv_unit_new_task(punit, AUT_NONE, NULL);
                 punit->goto_tile = NULL;
 
@@ -661,7 +661,7 @@ static void unit_restore_hitpoints(struct unit *punit)
   if (punit->hp >= unit_type_get(punit)->hp) {
     punit->hp = unit_type_get(punit)->hp;
     if (was_lower && punit->activity == ACTIVITY_SENTRY) {
-      set_unit_activity(punit, ACTIVITY_IDLE);
+      set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
     }
   }
 
@@ -832,7 +832,7 @@ void unit_activities_cancel(struct unit *punit)
     free_unit_orders(punit);
   }
 
-  set_unit_activity(punit, ACTIVITY_IDLE);
+  set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
   send_unit_info(NULL, punit);
 }
 
@@ -1028,7 +1028,7 @@ static void update_unit_activity(struct unit *punit)
          * Mark it idle (already finished) so its "current"
          * activity is not considered illegal
          * in tile_change_side_effects() . */
-        set_unit_activity(punit2, ACTIVITY_IDLE);
+        set_unit_activity(punit2, ACTIVITY_IDLE, ACTION_NONE);
       }
     } unit_list_iterate_end;
 
@@ -1039,7 +1039,7 @@ static void update_unit_activity(struct unit *punit)
     if (punit->activity_count
         >= action_id_get_act_time(ACTION_FORTIFY,
                                   punit, ptile, punit->activity_target)) {
-      set_unit_activity(punit, ACTIVITY_FORTIFIED);
+      set_unit_activity(punit, ACTIVITY_FORTIFIED, punit->action);
       unit_activity_done = TRUE;
     }
   }
@@ -1049,7 +1049,7 @@ static void update_unit_activity(struct unit *punit)
         >= action_id_get_act_time(ACTION_CONVERT,
                                   punit, ptile, punit->activity_target)) {
       unit_convert(punit);
-      set_unit_activity(punit, ACTIVITY_IDLE);
+      set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
       unit_activity_done = TRUE;
     }
   }
@@ -2032,7 +2032,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
         /* Activate sentried units - like planes on a disbanded carrier.
          * Note this will activate ground units even if they just change
          * transporter. */
-        set_unit_activity(pcargo, ACTIVITY_IDLE);
+        set_unit_activity(pcargo, ACTIVITY_IDLE, ACTION_NONE);
       }
 
       /* Unit info for unhealthy units will be sent when they are
@@ -2989,23 +2989,23 @@ void do_explore(struct unit *punit)
      return;
    case MR_OK:
      /* FIXME: manage_auto_explorer() isn't supposed to change the activity,
-      * but don't count on this.  See PR#39792.
+      * but don't count on this. See PR#39792.
       */
      if (punit->activity == ACTIVITY_EXPLORE) {
        break;
      }
      /* fallthru */
    default:
-     unit_activity_handling(punit, ACTIVITY_IDLE);
+     unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
 
      /* FIXME: When the manage_auto_explorer() call changes the activity from
       * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
-      * alone.  We reset it here.  See PR#12931. */
+      * alone. We reset it here. See PR#12931. */
      punit->ssa_controller = SSA_NONE;
      break;
   }
 
-  send_unit_info(NULL, punit); /* probably duplicate */
+  send_unit_info(NULL, punit); /* Probably duplicate */
 }
 
 /**********************************************************************//**
@@ -3480,7 +3480,7 @@ static bool unit_survive_autoattack(struct unit *punit)
                1.0 - punitwin, threshold);
 #endif
 
-      unit_activity_handling(penemy, ACTIVITY_IDLE);
+      unit_activity_handling(penemy, ACTIVITY_IDLE, ACTION_NONE);
       action_auto_perf_unit_do(AAPC_UNIT_MOVED_ADJ,
                                penemy, unit_owner(punit), NULL, NULL,
                                tgt_tile, tile_city(tgt_tile), punit, NULL);
@@ -3565,7 +3565,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
               || can_player_see_unit(unit_owner(penemy), punit))
           /* on board transport; don't awaken */
           && can_unit_exist_at_tile(&(wld.map), penemy, unit_tile(penemy))) {
-        set_unit_activity(penemy, ACTIVITY_IDLE);
+        set_unit_activity(penemy, ACTIVITY_IDLE, ACTION_NONE);
         send_unit_info(NULL, penemy);
       }
     } unit_list_iterate_end;
@@ -3753,7 +3753,7 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_CONVERT:
   case ACTIVITY_LAST:
-    set_unit_activity(punit, ACTIVITY_IDLE);
+    set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
     break;
   };
 }
@@ -4174,7 +4174,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
             && !unit_has_orders(punit)
             && punit->ssa_controller == SSA_NONE
             && !can_unit_exist_at_tile(&(wld.map), punit, pdesttile)) {
-          set_unit_activity(punit, ACTIVITY_SENTRY);
+          set_unit_activity(punit, ACTIVITY_SENTRY, ACTION_NONE);
         }
 
         send_unit_info(NULL, punit);
@@ -4478,16 +4478,16 @@ bool execute_orders(struct unit *punit, const bool fresh)
 		  && punit->orders.index + 1 == punit->orders.length);
 
     if (last_order) {
-      /* Clear the orders before we engage in the move.  That way any
+      /* Clear the orders before we engage in the move. That way any
        * has_orders checks will yield FALSE and this will be treated as
-       * a normal move.  This is important: for instance a caravan goto
+       * a normal move. This is important: for instance a caravan goto
        * will popup the caravan dialog on the last move only. */
       free_unit_orders(punit);
     }
 
-    /* Advance the orders one step forward.  This is needed because any
+    /* Advance the orders one step forward. This is needed because any
      * updates sent to the client as a result of the action should include
-     * the new index value.  Note that we have to send_unit_info somewhere
+     * the new index value. Note that we have to send_unit_info() somewhere
      * after this point so that the client is properly updated. */
     punit->orders.index++;
 
@@ -4510,7 +4510,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
         if (can_unit_do_activity(nmap, punit, activity)) {
           punit->done_moving = TRUE;
-          set_unit_activity(punit, activity);
+          /* FIXME: Have actions also with orders */
+          set_unit_activity(punit, activity, activity_default_action(activity));
           send_unit_info(NULL, punit);
 
           break;

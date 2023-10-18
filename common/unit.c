@@ -506,9 +506,9 @@ bool can_unit_change_homecity(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Returns the speed of a unit doing an activity.  This depends on the
+  Returns the speed of a unit doing an activity. This depends on the
   veteran level and the base move_rate of the unit (regardless of HP or
-  effects).  Usually this is just used for settlers but the value is also
+  effects). Usually this is just used for settlers but the value is also
   used for military units doing fortify/pillage activities.
 
   The speed is multiplied by ACTIVITY_FACTOR.
@@ -526,7 +526,7 @@ int get_activity_rate(const struct unit *punit)
    * the number of moves actually remaining or the adjusted move rate.
    * This means sea formers won't have their activity rate increased by
    * Magellan's, and it means injured units work just as fast as
-   * uninjured ones.  Note the value is never less than SINGLE_MOVE. */
+   * uninjured ones. Note the value is never less than SINGLE_MOVE. */
   int move_rate = unit_type_get(punit)->move_rate;
 
   /* All settler actions are multiplied by ACTIVITY_FACTOR. */
@@ -537,7 +537,7 @@ int get_activity_rate(const struct unit *punit)
 
 /**********************************************************************//**
   Returns the amount of work a unit does (will do) on an activity this
-  turn.  Units that have no MP do no work.
+  turn. Units that have no MP do no work.
 
   The speed is multiplied by ACTIVITY_FACTOR.
 **************************************************************************/
@@ -1087,9 +1087,11 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
   Assign a new task to a unit. Doesn't account for changed_from.
 **************************************************************************/
 static void set_unit_activity_internal(struct unit *punit,
-                                       enum unit_activity new_activity)
+                                       enum unit_activity new_activity,
+                                       enum gen_action trigger_action)
 {
   punit->activity = new_activity;
+  punit->action = trigger_action;
   punit->activity_count = 0;
   punit->activity_target = NULL;
   if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
@@ -1101,7 +1103,8 @@ static void set_unit_activity_internal(struct unit *punit,
 /**********************************************************************//**
   Assign a new untargeted task to a unit.
 **************************************************************************/
-void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
+void set_unit_activity(struct unit *punit, enum unit_activity new_activity,
+                       enum gen_action trigger_action)
 {
   fc_assert_ret(!activity_requires_target(new_activity));
 
@@ -1109,7 +1112,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
       && punit->changed_from == ACTIVITY_FORTIFIED) {
     new_activity = ACTIVITY_FORTIFIED;
   }
-  set_unit_activity_internal(punit, new_activity);
+  set_unit_activity_internal(punit, new_activity, trigger_action);
   if (new_activity == punit->changed_from) {
     punit->activity_count = punit->changed_from_count;
   }
@@ -1120,12 +1123,13 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 **************************************************************************/
 void set_unit_activity_targeted(struct unit *punit,
                                 enum unit_activity new_activity,
-                                struct extra_type *new_target)
+                                struct extra_type *new_target,
+                                enum gen_action trigger_action)
 {
   fc_assert_ret(activity_requires_target(new_activity)
                 || new_target == NULL);
 
-  set_unit_activity_internal(punit, new_activity);
+  set_unit_activity_internal(punit, new_activity, trigger_action);
   punit->activity_target = new_target;
   if (new_activity == punit->changed_from
       && new_target == punit->changed_from_target) {
@@ -1144,6 +1148,7 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
       return TRUE;
     }
   } unit_list_iterate_end;
+
   return FALSE;
 }
 
@@ -1700,7 +1705,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
 
   punit->carrying = nullptr;
 
-  set_unit_activity(punit, ACTIVITY_IDLE);
+  set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
   punit->battlegroup = BATTLEGROUP_NONE;
   punit->has_orders = FALSE;
 
@@ -2832,4 +2837,12 @@ struct unit_order *create_unit_orders(int length,
   memcpy(unit_orders, orders, length * sizeof(*(unit_orders)));
 
   return unit_orders;
+}
+
+/**********************************************************************//**
+  Action that matches activity. Currently dummy placeholder.
+**************************************************************************/
+enum gen_action activity_default_action(enum unit_activity act)
+{
+  return ACTION_NONE;
 }

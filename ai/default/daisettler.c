@@ -1043,7 +1043,7 @@ BUILD_CITY:
      * unavailable, call it off. */
     if (!city_can_be_built_here(ptile, punit, FALSE)) {
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
-      set_unit_activity(punit, ACTIVITY_IDLE);
+      set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
       send_unit_info(NULL, punit);
 
       return; /* Avoid recursion at all cost */
@@ -1195,7 +1195,7 @@ void dai_auto_settler_cont(struct ai_type *ait, const struct civ_map *nmap,
 {
   if (!adv_worker_safe_tile(nmap, pplayer, punit,
                             unit_tile(punit))) {
-    unit_activity_handling(punit, ACTIVITY_IDLE);
+    unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
   }
 }
 
@@ -1257,7 +1257,7 @@ static enum cb_error_level dai_do_build_city(struct ai_type *ait,
   struct city *pcity;
 
   fc_assert_ret_val(pplayer == unit_owner(punit), FALSE);
-  unit_activity_handling(punit, ACTIVITY_IDLE);
+  unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
 
   /* Free city reservations */
   dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);

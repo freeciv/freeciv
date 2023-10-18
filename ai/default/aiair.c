@@ -546,7 +546,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
         return; /* The unit died. */
       }
       pf_path_destroy(path);
-      unit_activity_handling(punit, ACTIVITY_IDLE);
+      unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
     } else if ((dst_tile = dai_find_strategic_airbase(ait, punit, &path))) {
       log_debug("%s will fly to (%i, %i) (%s) to fight there",
                 unit_rule_name(punit), TILE_XY(dst_tile),
@@ -561,7 +561,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
       log_debug("%s cannot find anything to kill and is staying put", 
                 unit_rule_name(punit));
       def_ai_unit_data(punit, ait)->done = TRUE;
-      unit_activity_handling(punit, ACTIVITY_IDLE);
+      unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
     }
   }
 

@@ -112,10 +112,12 @@ struct ane_expl {
 };
 
 static bool unit_activity_internal(struct unit *punit,
-                                   enum unit_activity new_activity);
+                                   enum unit_activity new_activity,
+                                   enum gen_action trigger_action);
 static bool unit_activity_targeted_internal(struct unit *punit,
                                             enum unit_activity new_activity,
-                                            struct extra_type **new_target);
+                                            struct extra_type **new_target,
+                                            enum gen_action trigger_action);
 static void illegal_action(struct player *pplayer,
                            struct unit *actor,
                            action_id stopped_action,
@@ -4268,7 +4270,8 @@ static bool city_build(struct player *pplayer, struct unit *punit,
 static void handle_unit_change_activity_real(struct player *pplayer,
                                              int unit_id,
                                              enum unit_activity activity,
-                                             struct extra_type *activity_target)
+                                             struct extra_type *activity_target,
+                                             enum gen_action trigger_action)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
@@ -4303,12 +4306,13 @@ static void handle_unit_change_activity_real(struct player *pplayer,
   }
 
   if (activity == ACTIVITY_EXPLORE) {
-    /* Please use unit_server_side_agent_set. */
+    /* Please use unit_server_side_agent_set(). */
     return;
   }
 
   /* The activity can now be set. */
-  unit_activity_handling_targeted(punit, activity, &activity_target);
+  unit_activity_handling_targeted(punit, activity, &activity_target,
+                                  trigger_action);
 }
 
 /**********************************************************************//**
@@ -4369,7 +4373,8 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
   }
 #endif /* FREECIV_WEB */
 
-  handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target);
+  handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target,
+                                   activity_default_action(activity));
 }
 
 /**********************************************************************//**
@@ -6282,7 +6287,7 @@ void handle_unit_sscs_set(struct player *pplayer,
         return;
       }
 
-      if (!unit_activity_internal(punit, ACTIVITY_IDLE)) {
+      if (!unit_activity_internal(punit, ACTIVITY_IDLE, ACTION_NONE)) {
         /* Impossible to set to Idle? */
         fc_assert(FALSE);
       }
@@ -6291,7 +6296,7 @@ void handle_unit_sscs_set(struct player *pplayer,
         return;
       }
 
-      if (!unit_activity_internal(punit, ACTIVITY_SENTRY)) {
+      if (!unit_activity_internal(punit, ACTIVITY_SENTRY, ACTION_NONE)) {
         /* Should have been caught above */
         fc_assert(FALSE);
       }
@@ -6351,7 +6356,7 @@ void handle_unit_server_side_agent_set(struct player *pplayer,
   unit_plans_clear(punit);
 
   if (agent == SSA_AUTOEXPLORE) {
-    if (!unit_activity_internal(punit, ACTIVITY_EXPLORE)) {
+    if (!unit_activity_internal(punit, ACTIVITY_EXPLORE, ACTION_NONE)) {
       /* Should have been caught above */
       fc_assert(FALSE);
       punit->ssa_controller = SSA_NONE;
@@ -6422,7 +6427,7 @@ static void unit_activity_dependencies(struct unit *punit,
             if (punit2->activity == ACTIVITY_PILLAGE) {
               extra_deps_iterate(&(punit2->activity_target->reqs), pdep) {
                 if (pdep == old_target) {
-                  set_unit_activity(punit2, ACTIVITY_IDLE);
+                  set_unit_activity(punit2, ACTIVITY_IDLE, ACTION_NONE);
                   send_unit_info(NULL, punit2);
                   break;
                 }
@@ -6437,16 +6442,16 @@ static void unit_activity_dependencies(struct unit *punit,
       punit->ssa_controller = SSA_NONE;
       break;
     default: 
-      ; /* do nothing */
+      ; /* Do nothing */
     }
     break;
   case ACTIVITY_EXPLORE:
     punit->ssa_controller = SSA_AUTOEXPLORE;
-    set_unit_activity(punit, ACTIVITY_EXPLORE);
+    set_unit_activity(punit, ACTIVITY_EXPLORE, ACTION_NONE);
     send_unit_info(NULL, punit);
     break;
   default:
-    /* do nothing */
+    /* Do nothing */
     break;
   }
 }
@@ -6465,14 +6470,15 @@ static bool do_action_activity(struct unit *punit,
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
   fc_assert_ret_val(!activity_requires_target(new_activity), FALSE);
 
-  return unit_activity_internal(punit, new_activity);
+  return unit_activity_internal(punit, new_activity, action_id(paction));
 }
 
 /**********************************************************************//**
   Handle request for changing activity.
 **************************************************************************/
 bool unit_activity_handling(struct unit *punit,
-                            enum unit_activity new_activity)
+                            enum unit_activity new_activity,
+                            enum gen_action trigger_action)
 {
   const struct civ_map *nmap = &(wld.map);
 
@@ -6484,10 +6490,11 @@ bool unit_activity_handling(struct unit *punit,
     struct extra_type *target = NULL;
 
     /* Assume untargeted pillaging if no target specified */
-    unit_activity_handling_targeted(punit, new_activity, &target);
+    unit_activity_handling_targeted(punit, new_activity, &target,
+                                    trigger_action);
   } else if (can_unit_do_activity(nmap, punit, new_activity)) {
     free_unit_orders(punit);
-    unit_activity_internal(punit, new_activity);
+    unit_activity_internal(punit, new_activity, trigger_action);
   }
 
   return TRUE;
@@ -6500,7 +6507,8 @@ bool unit_activity_handling(struct unit *punit,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_activity_internal(struct unit *punit,
-                                   enum unit_activity new_activity)
+                                   enum unit_activity new_activity,
+                                   enum gen_action trigger_action)
 {
   if (!can_unit_do_activity(&(wld.map), punit, new_activity)) {
     return FALSE;
@@ -6508,7 +6516,7 @@ static bool unit_activity_internal(struct unit *punit,
     enum unit_activity old_activity = punit->activity;
     struct extra_type *old_target = punit->activity_target;
 
-    set_unit_activity(punit, new_activity);
+    set_unit_activity(punit, new_activity, trigger_action);
     send_unit_info(NULL, punit);
     unit_activity_dependencies(punit, old_activity, old_target);
 
@@ -6530,9 +6538,11 @@ static bool do_action_activity_targeted(struct unit *punit,
 
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
   fc_assert_ret_val(activity_requires_target(new_activity),
-                    unit_activity_internal(punit, new_activity));
+                    unit_activity_internal(punit, new_activity,
+                                           action_id(paction)));
 
-  return unit_activity_targeted_internal(punit, new_activity, new_target);
+  return unit_activity_targeted_internal(punit, new_activity, new_target,
+                                         action_id(paction));
 }
 
 /**********************************************************************//**
@@ -6540,14 +6550,16 @@ static bool do_action_activity_targeted(struct unit *punit,
 **************************************************************************/
 bool unit_activity_handling_targeted(struct unit *punit,
                                      enum unit_activity new_activity,
-                                     struct extra_type **new_target)
+                                     struct extra_type **new_target,
+                                     enum gen_action trigger_action)
 {
   if (!activity_requires_target(new_activity)) {
-    unit_activity_handling(punit, new_activity);
+    unit_activity_handling(punit, new_activity, trigger_action);
   } else if (can_unit_do_activity_targeted(&(wld.map), punit,
                                            new_activity, *new_target)) {
     free_unit_orders(punit);
-    unit_activity_targeted_internal(punit, new_activity, new_target);
+    unit_activity_targeted_internal(punit, new_activity, new_target,
+                                    trigger_action);
   }
 
   return TRUE;
@@ -6561,7 +6573,8 @@ bool unit_activity_handling_targeted(struct unit *punit,
 **************************************************************************/
 static bool unit_activity_targeted_internal(struct unit *punit,
                                             enum unit_activity new_activity,
-                                            struct extra_type **new_target)
+                                            struct extra_type **new_target,
+                                            enum gen_action trigger_action)
 {
   if (!can_unit_do_activity_targeted(&(wld.map), punit,
                                      new_activity, *new_target)) {
@@ -6577,9 +6590,10 @@ static bool unit_activity_targeted_internal(struct unit *punit,
         && !activity_requires_target(new_activity)) {
       /* unit_assign_specific_activity_target() changed our target activity
        * (to ACTIVITY_IDLE in practice) */
-      unit_activity_handling(punit, new_activity);
+      unit_activity_handling(punit, new_activity, trigger_action);
     } else {
-      set_unit_activity_targeted(punit, new_activity, *new_target);
+      set_unit_activity_targeted(punit, new_activity, *new_target,
+                                 trigger_action);
       send_unit_info(NULL, punit);
       unit_activity_dependencies(punit, old_activity, old_target);
 
@@ -6641,7 +6655,7 @@ void handle_unit_orders(struct player *pplayer,
 
   if (ACTIVITY_IDLE != punit->activity) {
     /* New orders implicitly abandon current activity */
-    unit_activity_handling(punit, ACTIVITY_IDLE);
+    unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
   }
 
   if (length) {

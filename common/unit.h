@@ -21,6 +21,7 @@ extern "C" {
 #include "bitvector.h"
 
 /* common */
+#include "actions.h"
 #include "base.h"
 #include "fc_interface.h"
 #include "fc_types.h"
@@ -155,6 +156,7 @@ struct unit {
   struct tile *goto_tile; /* May be NULL. */
 
   enum unit_activity activity;
+  enum gen_action action;
 
   /* The amount of work that has been done on the current activity.  This
    * is counted in turns but is multiplied by ACTIVITY_FACTOR (which allows
@@ -341,10 +343,12 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
                                       enum unit_activity activity,
                                       struct extra_type *target,
                                       const struct tile *ptile);
-void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
+void set_unit_activity(struct unit *punit, enum unit_activity new_activity,
+                       enum gen_action trigger_action);
 void set_unit_activity_targeted(struct unit *punit,
                                 enum unit_activity new_activity,
-                                struct extra_type *new_target);
+                                struct extra_type *new_target,
+                                enum gen_action trigger_action);
 int get_activity_rate(const struct unit *punit);
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,
@@ -565,6 +569,8 @@ struct iterator *cargo_iter_init(struct cargo_iter *iter,
 bool unit_order_list_is_sane(int length, const struct unit_order *orders);
 struct unit_order *create_unit_orders(int length,
                                       const struct unit_order *orders);
+
+enum gen_action activity_default_action(enum unit_activity act);
 
 #ifdef __cplusplus
 }

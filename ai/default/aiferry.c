@@ -615,7 +615,7 @@ static void dai_activate_passengers(struct ai_type *ait, struct unit *ferry)
   
   unit_list_iterate_safe(unit_tile(ferry)->units, aunit) {
     if (unit_transport_get(aunit) == ferry) {
-      unit_activity_handling(aunit, ACTIVITY_IDLE);
+      unit_activity_handling(aunit, ACTIVITY_IDLE, ACTION_NONE);
       def_ai_unit_data(aunit, ait)->done = FALSE;
 
       if (unit_owner(aunit) == ferry_owner) {
@@ -922,7 +922,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       }
       if (same_pos(unit_tile(punit), dest_tile)) {
         /* Arrived */
-        unit_activity_handling(punit, ACTIVITY_IDLE);
+        unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
       } else {
         /* We are in still transit */
         def_ai_unit_data(punit, ait)->done = TRUE;
@@ -1254,7 +1254,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone "
 	   "(moves left: %d).", punit->moves_left);
   aiferry_make_available(ait, punit);
-  unit_activity_handling(punit, ACTIVITY_IDLE);
+  unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
   dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
   CHECK_UNIT(punit);
 

@@ -947,7 +947,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
     log_warn("Workers displacing each other recursing too much.");
 
     adv_unit_new_task(punit, AUT_NONE, NULL);
-    set_unit_activity(punit, ACTIVITY_IDLE);
+    set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
     send_unit_info(NULL, punit);
 
     return; /* Avoid further recursion. */
@@ -1107,13 +1107,16 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
 
       if (alive && same_pos(unit_tile(punit), best_tile)
 	  && punit->moves_left > 0) {
+        enum gen_action action = activity_default_action(best_act);
+
 	/* Reached destination and can start working immediately */
         if (activity_requires_target(best_act)) {
-          unit_activity_handling_targeted(punit, best_act, best_target);
+          unit_activity_handling_targeted(punit, best_act, best_target,
+                                          action);
         } else {
-          unit_activity_handling(punit, best_act);
+          unit_activity_handling(punit, best_act, action);
         }
-        send_unit_info(NULL, punit); /* FIXME: probably duplicate */
+        send_unit_info(NULL, punit); /* FIXME: Probably duplicate */
 
         UNIT_LOG(LOG_DEBUG, punit,
                  "reached its worksite and started work");
@@ -1222,16 +1225,16 @@ void auto_workers_player(struct player *pplayer)
                 TILE_XY(unit_tile(punit)),
                 server_side_agent_name(SSA_AUTOWORKER));
       if (punit->activity == ACTIVITY_SENTRY) {
-        unit_activity_handling(punit, ACTIVITY_IDLE);
+        unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
       }
       if (punit->activity == ACTIVITY_GOTO && punit->moves_left > 0) {
-        unit_activity_handling(punit, ACTIVITY_IDLE);
+        unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
       }
       if (punit->activity != ACTIVITY_IDLE) {
         if (!is_ai(pplayer)) {
           if (!adv_worker_safe_tile(nmap, pplayer, punit,
                                      unit_tile(punit))) {
-            unit_activity_handling(punit, ACTIVITY_IDLE);
+            unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
           }
         } else {
           CALL_PLR_AI_FUNC(settler_cont, pplayer, pplayer, punit, state);

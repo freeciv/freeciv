@@ -863,7 +863,8 @@ static void dai_military_findjob(struct ai_type *ait,
     if (can_unit_do_activity(nmap, punit, ACTIVITY_PILLAGE)
         && is_land_barbarian(pplayer)) {
       /* Land barbarians pillage */
-      unit_activity_handling(punit, ACTIVITY_PILLAGE);
+      unit_activity_handling(punit, ACTIVITY_PILLAGE,
+                             activity_default_action(ACTIVITY_PILLAGE));
     }
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
 
@@ -1799,7 +1800,7 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
          * adv_follow_path(). This way other units will know we're
          * on our way even if we don't reach target yet. */
         punit->goto_tile = dest_tile;
-        unit_activity_handling(punit, ACTIVITY_GOTO);
+        unit_activity_handling(punit, ACTIVITY_GOTO, ACTION_NONE);
         if (NULL != path && !adv_follow_path(punit, path, dest_tile)) {
           /* Died. */
           pf_path_destroy(path);
@@ -2491,7 +2492,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
   CHECK_UNIT(punit);
 
   /* "Escorting" aircraft should not do anything. They are activated
-   * by their transport or charge.  We do _NOT_ set them to 'done'
+   * by their transport or charge. We do _NOT_ set them to 'done'
    * since they may need be activated once our charge moves. */
   if (unit_data->task == AIUNIT_ESCORT
       && utype_fuel(unit_type_get(punit))) {
@@ -2520,7 +2521,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
     result = dai_hunter_manage(ait, pplayer, punit);
     if (NULL == game_unit_by_number(sanity)) {
       TIMING_LOG(AIT_HUNTER, TIMER_STOP);
-      return; /* died */
+      return; /* Died */
     }
     if (result == -1) {
       (void) dai_hunter_manage(ait, pplayer, punit); /* More carnage */
@@ -2566,7 +2567,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
   case AIUNIT_EXPLORE:
     switch (manage_auto_explorer(punit)) {
     case MR_DEATH:
-      /* don't use punit! */
+      /* Don't use punit! */
       return;
     case MR_OK:
       UNIT_LOG(LOG_DEBUG, punit, "more exploring");
@@ -2583,7 +2584,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
     TIMING_LOG(AIT_RECOVER, TIMER_STOP);
     break;
   case AIUNIT_HUNTER:
-    fc_assert(FALSE); /* dealt with above */
+    fc_assert(FALSE); /* Dealt with above */
     break;
   default:
     fc_assert(FALSE);
@@ -2596,17 +2597,18 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
 
     if (unit_list_find(unit_tile(punit)->units,
                        unit_data->ferryboat)) {
-      unit_activity_handling(punit, ACTIVITY_SENTRY);
+      unit_activity_handling(punit, ACTIVITY_SENTRY, ACTION_NONE);
     } else if (pcity || punit->activity == ACTIVITY_IDLE) {
       /* We do not need to fortify in cities - we fortify and sentry
        * according to home defense setup, for easy debugging. */
       if (!pcity || unit_data->task == AIUNIT_DEFEND_HOME) {
         if (punit->activity == ACTIVITY_IDLE
             || punit->activity == ACTIVITY_SENTRY) {
-          unit_activity_handling(punit, ACTIVITY_FORTIFYING);
+          unit_activity_handling(punit, ACTIVITY_FORTIFYING,
+                                 activity_default_action(ACTIVITY_FORTIFYING));
         }
       } else {
-        unit_activity_handling(punit, ACTIVITY_SENTRY);
+        unit_activity_handling(punit, ACTIVITY_SENTRY, ACTION_NONE);
       }
     }
   }
@@ -2946,7 +2948,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   if (leader->moves_left == 0
       || (can_unit_survive_at_tile(&(wld.map), leader, leader_tile)
           && 1 < unit_list_size(leader_tile->units))) {
-    unit_activity_handling(leader, ACTIVITY_SENTRY);
+    unit_activity_handling(leader, ACTIVITY_SENTRY, ACTION_NONE);
 
     return;
   }
@@ -3037,7 +3039,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   pf_reverse_map_destroy(pfrm);
 
   if (NULL == worst_danger) {
-    unit_activity_handling(leader, ACTIVITY_IDLE);
+    unit_activity_handling(leader, ACTIVITY_IDLE, ACTION_NONE);
     UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: no close enemy.");
     return;
   }
@@ -3075,7 +3077,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
     if (same_pos(unit_tile(leader), safest_tile)) {
       UNIT_LOG(LOG_DEBUG, leader, 
                "Barbarian leader: reached the safest position.");
-      unit_activity_handling(leader, ACTIVITY_IDLE);
+      unit_activity_handling(leader, ACTIVITY_IDLE, ACTION_NONE);
       pf_map_destroy(pfm);
       return;
     }

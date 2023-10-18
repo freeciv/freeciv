@@ -340,7 +340,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     UNIT_LOG(LOG_ERROR, punit, "no moves left in ai_diplomat_city()!");
   }
 
-  unit_activity_handling(punit, ACTIVITY_IDLE);
+  unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
 
   /* Select the best potentially legal action. */
   /* FIXME: what if it is illegal? */

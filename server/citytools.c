@@ -1744,7 +1744,7 @@ void remove_city(struct city *pcity)
       continue;
     }
 
-    unit_activity_handling(punit, ACTIVITY_IDLE);
+    unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
     moved = FALSE;
     adjc_iterate(&(wld.map), pcenter, tile1) {
       struct unit *ptrans;

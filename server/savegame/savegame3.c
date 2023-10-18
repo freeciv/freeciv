@@ -6114,16 +6114,20 @@ static bool sg_load_player_unit(struct loaddata *loading,
   if (extra_id != -2) {
     if (extra_id >= 0 && extra_id < loading->extra.size) {
       pextra = loading->extra.order[extra_id];
-      set_unit_activity_targeted(punit, activity, pextra);
+      /* FIXME: Correct action from the savegame */
+      set_unit_activity_targeted(punit, activity, pextra, ACTION_NONE);
     } else if (activity == ACTIVITY_IRRIGATE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
                                                    EC_IRRIGATION,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
+        /* FIXME: Correct action from the savegame */
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt,
+                                   ACTION_NONE);
       } else {
-        set_unit_activity(punit, ACTIVITY_CULTIVATE);
+        /* FIXME: Correct action from the savegame */
+        set_unit_activity(punit, ACTIVITY_CULTIVATE, ACTION_NONE);
       }
     } else if (activity == ACTIVITY_MINE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
@@ -6131,15 +6135,20 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
+        /* FIXME: Correct action from the savegame */
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt,
+                                   ACTION_NONE);
       } else {
-        set_unit_activity(punit, ACTIVITY_PLANT);
+        /* FIXME: Correct action from the savegame */
+        set_unit_activity(punit, ACTIVITY_PLANT, ACTION_NONE);
       }
     } else {
-      set_unit_activity(punit, activity);
+      /* FIXME: Correct action from the savegame */
+      set_unit_activity(punit, activity, ACTION_NONE);
     }
   } else {
-    set_unit_activity_targeted(punit, activity, NULL);
+    /* FIXME: Correct action from the savegame */
+    set_unit_activity_targeted(punit, activity, NULL, ACTION_NONE);
   } /* activity_tgt == NULL */
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->activity_count,

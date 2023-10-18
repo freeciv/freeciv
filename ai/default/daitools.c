@@ -659,7 +659,7 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
 
   if (punit->activity == ACTIVITY_GOTO) {
     /* It would indicate we're going somewhere otherwise */
-    unit_activity_handling(punit, ACTIVITY_IDLE);
+    unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
   }
 
   if (unit_data->task == AIUNIT_BUILD_CITY) {
@@ -800,12 +800,12 @@ static void dai_unit_bodyguard_move(struct ai_type *ait,
   }
 
   if (bodyguard->moves_left <= 0) {
-    /* should generally should not happen */
+    /* Should generally not happen */
     BODYGUARD_LOG(ait, LOG_DEBUG, bodyguard, "was left behind by charge");
     return;
   }
 
-  unit_activity_handling(bodyguard, ACTIVITY_IDLE);
+  unit_activity_handling(bodyguard, ACTIVITY_IDLE, ACTION_NONE);
   (void) dai_unit_move(ait, bodyguard, ptile);
 }
 
@@ -824,7 +824,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   fc_assert_ret_val(is_ai(unit_owner(punit)), TRUE);
   fc_assert_ret_val(is_tiles_adjacent(unit_tile(punit), ptile), TRUE);
 
-  unit_activity_handling(punit, ACTIVITY_IDLE);
+  unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
   /* FIXME: try the next action if the unit tried to do an illegal action.
    * That would allow the AI to stop using the omniscient
    * is_action_enabled_unit_on_*() functions. */
@@ -1235,10 +1235,10 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
     }
   }
 
-  /* go */
-  unit_activity_handling(punit, ACTIVITY_IDLE);
+  /* Go */
+  unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
   /* Move */
-  if (paction && ptrans
+  if (paction != nullptr && ptrans != nullptr
       && action_has_result(paction, ACTRES_TRANSPORT_EMBARK)) {
       /* "Transport Embark". */
       unit_do_action(unit_owner(punit), punit->id, ptrans->id,
