@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         # A mapping from msys2/setup-msys2 version to msys2 version can be
         # found at
@@ -55,7 +55,7 @@ jobs:
     runs-on: macos-13
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           brew install \
@@ -90,7 +90,7 @@ jobs:
     runs-on: macos-13
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           brew install \
@@ -112,7 +112,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -143,7 +143,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -174,7 +174,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -207,7 +207,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -241,7 +241,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -269,7 +269,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
       - name: install dependencies
         run: |
           sudo apt-get update
