@@ -225,7 +225,7 @@ void dbv_copy(struct dbv *dest, const struct dbv *src)
     dbv_resize(dest, src->bits);
   }
 
-  memcpy(&dest->vec, src->vec, _BV_BYTES(src->bits));
+  memcpy(dest->vec, src->vec, _BV_BYTES(src->bits));
 }
 
 /***************************************************************************
