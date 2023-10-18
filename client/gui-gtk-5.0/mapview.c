@@ -51,7 +51,7 @@
 #include "text.h"
 #include "zoom.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "editgui.h"
 #include "graphics.h"

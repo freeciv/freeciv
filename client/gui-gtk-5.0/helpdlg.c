@@ -48,7 +48,7 @@
 #include "options.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"

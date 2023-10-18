@@ -52,7 +52,7 @@
 /* client/agents */
 #include "cma_fec.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "choice_dialog.h"
 #include "citizensinfo.h"
 #include "cityrep.h"
@@ -3480,13 +3480,13 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 
   /* Save size of the city dialog. */
   GUI_GTK_OPTION(citydlg_xsize)
-    = CLIP(GUI_GTK4_CITYDLG_MIN_XSIZE,
+    = CLIP(GUI_GTK5_CITYDLG_MIN_XSIZE,
            gtk_widget_get_allocated_width(pdialog->shell),
-           GUI_GTK4_CITYDLG_MAX_XSIZE);
+           GUI_GTK5_CITYDLG_MAX_XSIZE);
   GUI_GTK_OPTION(citydlg_ysize)
-    = CLIP(GUI_GTK4_CITYDLG_MIN_XSIZE,
+    = CLIP(GUI_GTK5_CITYDLG_MIN_XSIZE,
            gtk_widget_get_allocated_height(pdialog->shell),
-           GUI_GTK4_CITYDLG_MAX_XSIZE);
+           GUI_GTK5_CITYDLG_MAX_XSIZE);
 
   last_page
     = gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));

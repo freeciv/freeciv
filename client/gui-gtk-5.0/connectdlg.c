@@ -38,7 +38,7 @@
 #include "packhand.h"
 #include "tilespec.h"
 
-/* gui-gtk-4.0 */
+/* gui-gtk-5.0 */
 #include "chatline.h"
 #include "colors.h"
 #include "dialogs.h"

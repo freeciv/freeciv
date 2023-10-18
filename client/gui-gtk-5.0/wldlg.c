@@ -41,7 +41,7 @@
 #include "text.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "canvas.h"
 #include "citydlg.h"
 #include "graphics.h"

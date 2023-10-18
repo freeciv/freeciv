@@ -42,7 +42,7 @@
 #include "mapview_common.h"
 #include "update_queue.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "colors.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

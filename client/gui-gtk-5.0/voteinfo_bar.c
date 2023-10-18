@@ -27,7 +27,7 @@
 #include "voteinfo.h"
 #include "update_queue.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "chatline.h"
 
 #include "voteinfo_bar.h"

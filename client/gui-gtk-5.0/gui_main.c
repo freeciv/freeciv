@@ -74,7 +74,7 @@
 #include "tilespec.h"
 #include "zoom.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "chatline.h"
 #include "citizensinfo.h"
 #include "connectdlg.h"
@@ -270,7 +270,7 @@ static void print_usage(void)
 {
   /* Add client-specific usage information here */
   fc_fprintf(stderr,
-             _("gtk4-client gui-specific options are:\n"));
+             _("gtk4x-client gui-specific options are:\n"));
 
   fc_fprintf(stderr,
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
@@ -1854,10 +1854,10 @@ static void migrate_options_from_gtk3_22(void)
 {
   log_normal(_("Migrating options from gtk3.22 to gtk4 client"));
 
-#define MIGRATE_OPTION(opt) GUI_GTK_OPTION(opt) = gui_options.gui_gtk3_22_##opt;
+#define MIGRATE_OPTION(opt) gui_options.gui_gtk4_##opt = gui_options.gui_gtk3_22_##opt;
 #define MIGRATE_STR_OPTION(opt) \
   strncpy(GUI_GTK_OPTION(opt), gui_options.gui_gtk3_22_##opt,      \
-          sizeof(GUI_GTK_OPTION(opt)));
+          sizeof(gui_options.gui_gtk4_##opt));
 
   /* Default theme name is never migrated */
   MIGRATE_OPTION(fullscreen);
@@ -1895,7 +1895,7 @@ static void migrate_options_from_gtk3_22(void)
 #undef MIGRATE_OPTION
 #undef MIGRATE_STR_OPTION
 
-  GUI_GTK_OPTION(migrated_from_gtk3_22) = TRUE;
+  gui_options.gui_gtk4_migrated_from_gtk3_22 = TRUE;
 }
 
 /**********************************************************************//**
@@ -1983,12 +1983,12 @@ static void activate_gui(GtkApplication *app, gpointer data)
     adjust_default_options();
     /* We're using fresh defaults for this version of this client,
      * so prevent any future migrations from other clients / versions */
-    GUI_GTK_OPTION(migrated_from_gtk3_22) = TRUE;
+    gui_options.gui_gtk4_migrated_from_gtk3_22 = TRUE;
     /* Avoid also marking previous Gtk clients as migrated, so that
      * they can have their own run of their adjust_default_options() if
      * they are ever run (as a side effect of Gtk2->Gtk3 migration). */
   } else {
-    if (!GUI_GTK_OPTION(migrated_from_gtk3_22)) {
+    if (!gui_options.gui_gtk4_migrated_from_gtk3_22) {
       if (!gui_options.gui_gtk3_22_migrated_from_gtk3) {
         if (!gui_options.gui_gtk3_migrated_from_gtk2) {
           migrate_options_from_gtk2();
@@ -2101,7 +2101,7 @@ void ui_exit(void)
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_GTK4;
+  return GUI_GTK5;
 }
 
 /**********************************************************************//**
@@ -2491,7 +2491,7 @@ static void apply_reqtree_text_font(struct option *poption)
 
 /**********************************************************************//**
   Extra initializers for client options. Here we make set the callback
-  for the specific gui-gtk-4.0 options.
+  for the specific gui-gtk-5.0 options.
 **************************************************************************/
 void options_extra_init(void)
 {

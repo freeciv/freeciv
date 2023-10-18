@@ -32,7 +32,7 @@
 /* client */
 #include "themes_common.h"
 
-/* gui-gtk-4.0 */
+/* gui-gtk-5.0 */
 #include "gui_main.h"
 
 #include "themes_g.h"
@@ -90,7 +90,7 @@ void gui_clear_theme(void)
 
 /*************************************************************************//**
   Each gui has its own themes directories.
-  For gtk4 these are:
+  For gtk4x these are:
   - /usr/share/themes
   - ~/.themes
   Returns an array containing these strings and sets array size in count.
@@ -106,7 +106,7 @@ char **get_gui_specific_themes_directories(int *count)
 
   *count = 0;
 
-  /* Freeciv-specific GTK4 themes directories */
+  /* Freeciv-specific GTK4x themes directories */
   strvec_iterate(data_dirs, dir_name) {
     char buf[strlen(dir_name) + strlen("/themes/gtk4") + 1];
 
@@ -115,7 +115,7 @@ char **get_gui_specific_themes_directories(int *count)
     directories[(*count)++] = fc_strdup(buf);
   } strvec_iterate_end;
 
-  /* standard GTK themes directory */
+  /* Standard GTK themes directory */
 #ifdef CROSSER
   standard_dir = "../share/themes";
 #else  /* CROSSER */
@@ -123,7 +123,7 @@ char **get_gui_specific_themes_directories(int *count)
 #endif /* CROSSER */
   directories[(*count)++] = fc_strdup(standard_dir);
 
-  /* user GTK themes directory (~/.themes) */
+  /* User GTK themes directory (~/.themes) */
   home_dir = user_home_dir();
   if (home_dir) {
     char buf[strlen(home_dir) + 16];

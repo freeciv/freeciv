@@ -40,7 +40,7 @@
 #include "options.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "gui_main.h"
 
 #include "graphics.h"
@@ -48,7 +48,7 @@
 GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 /***********************************************************************//**
-  Returns TRUE to indicate that gtk4-client supports given view type
+  Returns TRUE to indicate that gtk4x-client supports given view type
 ***************************************************************************/
 bool is_view_supported(enum ts_type type)
 {

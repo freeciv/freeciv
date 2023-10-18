@@ -21,7 +21,7 @@
 /* utility */
 #include "support.h"
 
-/* gui-gtk-4.0 */
+/* gui-gtk-5.0 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 

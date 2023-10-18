@@ -43,7 +43,7 @@
 #include "text.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"

@@ -31,7 +31,7 @@
 #include "control.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-4.0 */
+/* client/gui-gtk-5.0 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "sprite.h"

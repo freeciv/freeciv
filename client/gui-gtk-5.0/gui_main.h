@@ -19,12 +19,12 @@
 #include "gui_main_g.h"
 #include "options.h"
 
-#define GUI_NAME_FULL "gui-gtk-4.0"
-#define GUI_NAME_SHORT "gtk4"
+#define GUI_NAME_FULL "gui-gtk-4.x"
+#define GUI_NAME_SHORT "gtk4x"
 
-#define GUI_GTK_OPTION(optname) gui_options.gui_gtk4_##optname
-#define GUI_GTK_OPTION_STR(optname) "gui_gtk4_" #optname
-#define GUI_GTK_DEFAULT_THEME_NAME FC_GTK4_DEFAULT_THEME_NAME
+#define GUI_GTK_OPTION(optname) gui_options.gui_gtk5_##optname
+#define GUI_GTK_OPTION_STR(optname) "gui_gtk5_" #optname
+#define GUI_GTK_DEFAULT_THEME_NAME FC_GTK5_DEFAULT_THEME_NAME
 
 void main_message_area_resize(void *data);
 
