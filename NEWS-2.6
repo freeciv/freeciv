@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 2.6.9 to 2.6.10
 ----------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-2.6.10>, 2023-10-15)
+   (from <https://www.freeciv.org/wiki/NEWS-2.6.10>, 2023-10-19)
 
 2.6.10 is a generic bugfix release on freeciv-2.6 series.
 
@@ -91,13 +91,18 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: fr, id, ru
+    * Updated translations:
+        + Complete translations: French, Russian
+        + Incomplete translations:
+          Indonesian (36% core, 49% nations, 8% ruledit)
 
 Build/portability
 
     * Autotools: Added year 2038 support, if autoconf supports it osdn#47710
     * Fixed compiler warning about uninitialized variable caused by
       bad compiler heuristics osdn#48544 osdn#48737
+    * Fixed gcc-14 development version compiler warnings
+      osdn#48849 osdn#48850
 
 
 CHANGES FROM 2.6.8 to 2.6.9
