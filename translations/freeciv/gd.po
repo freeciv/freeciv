@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-04-21 01:51+0300\n"
+"POT-Creation-Date: 2023-10-19 04:33+0300\n"
 "PO-Revision-Date: 2014-08-08 08:40+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -159,7 +159,7 @@ msgstr ""
 "*%s (IF)* Seo ur mearachd mu dheireadh 's sibh air ionnsaigh a thoirt air na "
 "%s!"
 
-#: ai/default/daidiplomacy.c:1395
+#: ai/default/daidiplomacy.c:1397
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -180,7 +180,7 @@ msgstr[3] ""
 "*%s (AI)* Bidh sinn a' toirt ionnsaigh mhòr air %s ann an %d cuairt mus cuir "
 "iad an long-fhànais aca air bhog."
 
-#: ai/default/daidiplomacy.c:1406
+#: ai/default/daidiplomacy.c:1408
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -189,7 +189,7 @@ msgstr ""
 "*%s (IF)* Tha dùil againn ri ur taic sa chùis seo. Guma fada beò ar "
 "caidreachas glòrmhor!"
 
-#: ai/default/daidiplomacy.c:1413
+#: ai/default/daidiplomacy.c:1415
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -220,7 +220,7 @@ msgstr[3] ""
 "againn gun glèidh sibh ar caidreachas is gun toir sibhse ionnsaigh air "
 "cuideachd!"
 
-#: ai/default/daidiplomacy.c:1427
+#: ai/default/daidiplomacy.c:1429
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -241,7 +241,7 @@ msgstr[3] ""
 "*%s (AI)* Tha dùil againn a dhol air chreach is spùinn mhòr ann an dùthaich "
 "bheartach %s. Bheir sinn ionnsaigh air ann an %d cuairt."
 
-#: ai/default/daidiplomacy.c:1436
+#: ai/default/daidiplomacy.c:1438
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
@@ -249,7 +249,7 @@ msgstr ""
 "*%s (IF)* Ma tha sibh ag iarraidh cuid dhen chreach, siuthadaibh, gabhaibh "
 "pàirt san iomairt!"
 
-#: ai/default/daidiplomacy.c:1442
+#: ai/default/daidiplomacy.c:1444
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -270,13 +270,13 @@ msgstr[3] ""
 "*%s (AI)* Tha sinn seachd searbh sgìth de %s. Reubamaid a' chùis-bhùirt de "
 "shìobhaltas seo as a chèile. Bheir sinn ionnsaigh air ann an %d cuairt."
 
-#: ai/default/daidiplomacy.c:1453
+#: ai/default/daidiplomacy.c:1455
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (IF)* Tha dùil againn ri ur taic 's sibhse nar caidreabhach glòrmhor."
 
-#: ai/default/daidiplomacy.c:1460
+#: ai/default/daidiplomacy.c:1462
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
@@ -297,7 +297,7 @@ msgstr[3] ""
 "*%s (AI)* Glèidhidh sinn ar caidreachas is bheir sinn ionnsaigh air %s ann "
 "an %d cuairt. Cum ort - tha sinn a' tighinn!"
 
-#: ai/default/daidiplomacy.c:1470
+#: ai/default/daidiplomacy.c:1472
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
@@ -318,7 +318,7 @@ msgstr[3] ""
 "*%s (AI)* Glèidhidh sinn ar caidreachas le %s is bheir sinn ionnsaigh air %s "
 "ann an %d cuairt. Tha dùil againn gun dèan sibhse an dearbh rud cuideachd."
 
-#: ai/default/daidiplomacy.c:1549
+#: ai/default/daidiplomacy.c:1551
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -327,7 +327,7 @@ msgstr ""
 "*%s (IF)* Nochd sibh ur fìor-rùn 's sibhse a' feuchainn ris an fhànas a "
 "cheannsachadh is tha sinn air ar sàrachadh leis a' chaidreachas eadarainn!"
 
-#: ai/default/daidiplomacy.c:1565
+#: ai/default/daidiplomacy.c:1567
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -336,7 +336,7 @@ msgstr ""
 "*%s (IF)* Tha sibh a' cur buaireas oirnn 's sibhse a' feuchainn ris an "
 "fhànas iomallach a cheannsachadh nur n-aonar."
 
-#: ai/default/daidiplomacy.c:1569
+#: ai/default/daidiplomacy.c:1571
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -345,14 +345,14 @@ msgstr ""
 "*%s (IF)* Mura sguireas sibh dhen a bhith a' togail soitheach-fhànais, "
 "faodaidh gum bi agam ri rudeigin a dhèanamh!"
 
-#: ai/default/daidiplomacy.c:1689
+#: ai/default/daidiplomacy.c:1691
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (IF)* Tha mi duilich ach chan eil co-shealladh còmhla ribh sàbhailte "
 "tuilleadh."
 
-#: ai/default/daidiplomacy.c:1760
+#: ai/default/daidiplomacy.c:1762
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -361,7 +361,7 @@ msgstr ""
 "*%s (IF)* Fàilte oirbh, sibhse ur caidreabhas as dìlse. Tha sinn a' gairm "
 "oirbh gus ar nàmhaid a sgriosadh, %s."
 
-#: ai/default/daidiplomacy.c:1768
+#: ai/default/daidiplomacy.c:1770
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -371,7 +371,7 @@ msgstr ""
 "ar nàmhaid fhathast, %s. Carson a tha againn ri ur gealladh a thoirt nur "
 "cuimhne?"
 
-#: ai/default/daidiplomacy.c:1778
+#: ai/default/daidiplomacy.c:1780
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -382,7 +382,7 @@ msgstr ""
 "sìth le ar nàmhaid mhòr fhathast, %s! Cha seas sinn ri giùlan mar seo; tha "
 "ar caidreachas crìochnaichte!"
 
-#: ai/default/daidiplomacy.c:1811
+#: ai/default/daidiplomacy.c:1813
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -391,13 +391,13 @@ msgstr ""
 "*%s (IF)* Fàilte oirbh, a charaid! An seas sibh còmhla rinn ann an "
 "caidreachas?"
 
-#: ai/default/daidiplomacy.c:1828
+#: ai/default/daidiplomacy.c:1830
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr ""
 "*%s (IF)* Fàilte oirbh, a nàbaidh! An aontaich sibh ri dàimh nas sìtheil?"
 
-#: ai/default/daidiplomacy.c:1845
+#: ai/default/daidiplomacy.c:1847
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -406,7 +406,7 @@ msgstr ""
 "*%s (IF)* Tha sinn a' fàs sgìth dhen t-sìor-fhuileachas seo. Saoil an sguir "
 "sinn dhen t-sabaid eadarainn?"
 
-#: ai/default/daidiplomacy.c:2008
+#: ai/default/daidiplomacy.c:2010
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
@@ -573,8 +573,8 @@ msgstr ""
 "gum b' fheairrde dhut sùil a thoirt air."
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/agents/cma_core.c:428 client/gui-sdl/mapview.c:153
-#: client/gui-sdl2/mapview.c:164 server/console.c:74 server/srv_main.c:3149
+#: client/agents/cma_core.c:428 client/gui-sdl/mapview.c:152
+#: client/gui-sdl2/mapview.c:163 server/console.c:74 server/srv_main.c:3149
 #: utility/log.c:520 utility/netintf.c:96 utility/registry_ini.c:742
 #, c-format
 msgid "Please report this message at %s"
@@ -584,7 +584,7 @@ msgstr "Thoir fios mun teachdaireachd seo aig %s"
 #: client/gui-gtk-2.0/cityrep.c:788 client/gui-gtk-3.0/cityrep.c:770
 #: client/gui-gtk-3.0/cityrep.c:796 client/gui-gtk-3.22/cityrep.c:770
 #: client/gui-gtk-3.22/cityrep.c:796 client/gui-qt/repodlgs.cpp:1164
-#: client/gui-sdl/citydlg.c:2053 client/gui-sdl2/citydlg.c:2044
+#: client/gui-sdl/citydlg.c:2053 client/gui-sdl2/citydlg.c:2055
 msgid "none"
 msgstr "chan eil gin"
 
@@ -600,8 +600,8 @@ msgstr "gnàthaichte"
 #: client/gui-gtk-3.0/citydlg.c:1820 client/gui-gtk-3.22/citydlg.c:1852
 #: client/gui-qt/citydlg.cpp:3017 client/gui-sdl/cityrep.c:555
 #: client/gui-sdl/cityrep.c:1087 client/gui-sdl/wldlg.c:1432
-#: client/gui-sdl/wldlg.c:1437 client/gui-sdl2/cityrep.c:567
-#: client/gui-sdl2/cityrep.c:1102 client/gui-sdl2/wldlg.c:1463
+#: client/gui-sdl/wldlg.c:1437 client/gui-sdl2/cityrep.c:569
+#: client/gui-sdl2/cityrep.c:1104 client/gui-sdl2/wldlg.c:1463
 #: client/gui-sdl2/wldlg.c:1468 client/gui-xaw/citydlg.c:252 client/text.c:905
 msgid "never"
 msgstr "chan ann idir"
@@ -832,7 +832,7 @@ msgstr "O fheum"
 
 #: client/citydlg_common.c:401 client/citydlg_common.c:411
 #: client/gui-sdl/repodlgs.c:2050 client/gui-sdl/wldlg.c:1402
-#: client/gui-sdl/wldlg.c:1410 client/gui-sdl2/repodlgs.c:2102
+#: client/gui-sdl/wldlg.c:1410 client/gui-sdl2/repodlgs.c:2123
 #: client/gui-sdl2/wldlg.c:1433 client/gui-sdl2/wldlg.c:1441 common/events.c:93
 #: common/events.c:166
 msgid "Built"
@@ -1207,7 +1207,7 @@ msgstr "Ainm a' bhaile"
 #: client/gui-qt/gotodlg.cpp:53 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:644 client/gui-qt/pages.cpp:1274
 #: client/gui-qt/plrdlg.cpp:488 client/gui-qt/repodlgs.cpp:1569
-#: client/gui-sdl/repodlgs.c:2082 client/gui-sdl2/repodlgs.c:2134
+#: client/gui-sdl/repodlgs.c:2082 client/gui-sdl2/repodlgs.c:2155
 #: client/plrdlg_common.c:308
 msgid "Nation"
 msgstr "Nàisean"
@@ -1314,8 +1314,8 @@ msgstr "Na h-aonadan dìon as fhearr"
 #: client/gui-qt/menu.cpp:1338 client/gui-qt/pages.cpp:723
 #: client/gui-qt/pages.cpp:1286 client/gui-sdl/helpdlg.c:749
 #: client/gui-sdl/mapctrl.c:1597 client/gui-sdl/repodlgs.c:368
-#: client/gui-sdl2/helpdlg.c:756 client/gui-sdl2/mapctrl.c:1710
-#: client/gui-sdl2/repodlgs.c:391 client/gui-xaw/menu.c:161
+#: client/gui-sdl2/helpdlg.c:769 client/gui-sdl2/mapctrl.c:1711
+#: client/gui-sdl2/repodlgs.c:394 client/gui-xaw/menu.c:161
 #: client/gui-xaw/menu.c:223 client/gui-xaw/menu.c:255
 #: client/gui-xaw/repodlgs.c:893 client/gui-xaw/repodlgs.c:1088
 #: client/include/helpdlg_g.h:45 data/Freeciv.in:1913 data/helpdata.txt:1019
@@ -1535,8 +1535,8 @@ msgstr "?cma:Riaghlaiche"
 #: client/gui-gtk-2.0/menu.c:1497 client/gui-gtk-3.0/cityrep.c:1892
 #: client/gui-gtk-3.0/menu.c:1490 client/gui-gtk-3.22/cityrep.c:1891
 #: client/gui-gtk-3.22/menu.c:347 client/gui-sdl/citydlg.c:3807
-#: client/gui-sdl/cma_fe.c:900 client/gui-sdl2/citydlg.c:3680
-#: client/gui-sdl2/cma_fe.c:913 client/gui-xaw/menu.c:267
+#: client/gui-sdl/cma_fe.c:900 client/gui-sdl2/citydlg.c:3694
+#: client/gui-sdl2/cma_fe.c:918 client/gui-xaw/menu.c:267
 #: client/include/helpdlg_g.h:37 data/Freeciv.in:1477 data/helpdata.txt:1779
 msgid "Citizen Governor"
 msgstr "Riaghlaiche nan Saoranach"
@@ -1774,8 +1774,8 @@ msgstr ""
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr "Protacal gairm mì-dhligheach \"%s\".\n"
 
-#: client/client_main.c:558 client/gui-sdl/gui_main.c:199
-#: client/gui-sdl2/gui_main.c:201 client/gui-xaw/gui_main.c:282
+#: client/client_main.c:558 client/gui-sdl/gui_main.c:205
+#: client/gui-sdl2/gui_main.c:207 client/gui-xaw/gui_main.c:282
 #: tools/civmanual.c:644 tools/mpcmdline.c:118
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
@@ -2295,8 +2295,8 @@ msgstr "(noname)"
 #: client/gui-qt/dialogs.cpp:2212 client/gui-qt/dialogs.cpp:2274
 #: client/gui-qt/repodlgs.cpp:213 client/gui-sdl/action_dialog.c:1545
 #: client/gui-sdl/action_dialog.c:1808 client/gui-sdl/citydlg.c:1159
-#: client/gui-sdl/repodlgs.c:189 client/gui-sdl2/action_dialog.c:1496
-#: client/gui-sdl2/action_dialog.c:1757 client/gui-sdl2/citydlg.c:1159
+#: client/gui-sdl/repodlgs.c:189 client/gui-sdl2/action_dialog.c:1499
+#: client/gui-sdl2/action_dialog.c:1760 client/gui-sdl2/citydlg.c:1167
 #: client/gui-sdl2/repodlgs.c:211 client/gui-xaw/citydlg.c:1953
 #: client/gui-xaw/action_dialog.c:181 client/gui-xaw/action_dialog.c:770
 #: client/gui-xaw/repodlgs.c:1014 client/text.c:1292 common/unit.c:2103
@@ -2312,7 +2312,7 @@ msgstr[3] "Tha %d a dh'òr 'nad ionmhais."
 #: client/gui-gtk-2.0/action_dialog.c:276
 #: client/gui-gtk-3.0/action_dialog.c:286
 #: client/gui-gtk-3.22/action_dialog.c:286 client/gui-qt/dialogs.cpp:2280
-#: client/gui-sdl/action_dialog.c:1833 client/gui-sdl2/action_dialog.c:1782
+#: client/gui-sdl/action_dialog.c:1833 client/gui-sdl2/action_dialog.c:1785
 #: client/gui-xaw/action_dialog.c:189
 #, c-format
 msgid ""
@@ -2337,7 +2337,7 @@ msgstr[3] ""
 #: client/gui-gtk-2.0/action_dialog.c:278
 #: client/gui-gtk-3.0/action_dialog.c:288
 #: client/gui-gtk-3.22/action_dialog.c:288 client/gui-qt/dialogs.cpp:2283
-#: client/gui-sdl/action_dialog.c:1814 client/gui-sdl2/action_dialog.c:1763
+#: client/gui-sdl/action_dialog.c:1814 client/gui-sdl2/action_dialog.c:1766
 #: data/Freeciv.in:2417
 msgid "Bribe Enemy Unit"
 msgstr "Thoir brìb dhan aonad nàimhdeil"
@@ -2346,7 +2346,7 @@ msgstr "Thoir brìb dhan aonad nàimhdeil"
 #: client/gui-gtk-2.0/action_dialog.c:284
 #: client/gui-gtk-3.0/action_dialog.c:294
 #: client/gui-gtk-3.22/action_dialog.c:294 client/gui-qt/dialogs.cpp:2299
-#: client/gui-sdl/action_dialog.c:1883 client/gui-sdl2/action_dialog.c:1832
+#: client/gui-sdl/action_dialog.c:1883 client/gui-sdl2/action_dialog.c:1835
 #: client/gui-xaw/action_dialog.c:198
 #, c-format
 msgid ""
@@ -2375,7 +2375,7 @@ msgstr[3] ""
 #: client/gui-gtk-3.22/action_dialog.c:296
 #: client/gui-gtk-3.22/action_dialog.c:915 client/gui-qt/dialogs.cpp:2301
 #: client/gui-sdl/action_dialog.c:1670 client/gui-sdl/action_dialog.c:1895
-#: client/gui-sdl2/action_dialog.c:1618 client/gui-sdl2/action_dialog.c:1844
+#: client/gui-sdl2/action_dialog.c:1621 client/gui-sdl2/action_dialog.c:1847
 #: data/Freeciv.in:2439
 msgid "Traitors Demand Too Much!"
 msgstr "Tha brathadairean ag iarraidh cus!"
@@ -2414,8 +2414,8 @@ msgstr "_Adhartas:"
 #: client/gui-gtk-3.22/action_dialog.c:576
 #: client/gui-gtk-3.22/action_dialog.c:748 client/gui-qt/dialogs.cpp:2019
 #: client/gui-qt/dialogs.cpp:2394 client/gui-sdl/action_dialog.c:572
-#: client/gui-sdl/action_dialog.c:1334 client/gui-sdl2/action_dialog.c:574
-#: client/gui-sdl2/action_dialog.c:1288 client/gui-xaw/action_dialog.c:528
+#: client/gui-sdl/action_dialog.c:1334 client/gui-sdl2/action_dialog.c:575
+#: client/gui-sdl2/action_dialog.c:1291 client/gui-xaw/action_dialog.c:528
 #: client/gui-xaw/action_dialog.c:622
 #, c-format
 msgid "At %s's Discretion"
@@ -2436,7 +2436,7 @@ msgstr "_Sabotais"
 #: client/gui-gtk-2.0/action_dialog.c:676
 #: client/gui-gtk-3.0/action_dialog.c:691
 #: client/gui-gtk-3.22/action_dialog.c:685 client/gui-qt/dialogs.cpp:2363
-#: client/gui-sdl/action_dialog.c:1246 client/gui-sdl2/action_dialog.c:1201
+#: client/gui-sdl/action_dialog.c:1246 client/gui-sdl2/action_dialog.c:1203
 #: data/Freeciv.in:2390
 msgid "Select Improvement to Sabotage"
 msgstr "Tagh an leasachadh air an dèanar sabotais"
@@ -2450,7 +2450,7 @@ msgstr "_Leasachaidhean:"
 #: client/gui-gtk-2.0/action_dialog.c:715
 #: client/gui-gtk-3.0/action_dialog.c:735
 #: client/gui-gtk-3.22/action_dialog.c:729 client/gui-qt/dialogs.cpp:2379
-#: client/gui-sdl/action_dialog.c:1275 client/gui-sdl2/action_dialog.c:1230
+#: client/gui-sdl/action_dialog.c:1275 client/gui-sdl2/action_dialog.c:1233
 #: client/gui-xaw/action_dialog.c:609
 msgid "City Production"
 msgstr "Cinneasachadh a' bhaile"
@@ -2458,7 +2458,7 @@ msgstr "Cinneasachadh a' bhaile"
 #: client/gui-gtk-2.0/action_dialog.c:882
 #: client/gui-gtk-3.0/action_dialog.c:902
 #: client/gui-gtk-3.22/action_dialog.c:896 client/gui-qt/dialogs.cpp:2221
-#: client/gui-sdl/action_dialog.c:1584 client/gui-sdl2/action_dialog.c:1534
+#: client/gui-sdl/action_dialog.c:1584 client/gui-sdl2/action_dialog.c:1537
 #: client/gui-xaw/action_dialog.c:776
 #, c-format
 msgid "You can't incite a revolt in %s."
@@ -2467,7 +2467,7 @@ msgstr "Chan urrainn dhut aramach a bhrosnachadh ann an %s."
 #: client/gui-gtk-2.0/action_dialog.c:884
 #: client/gui-gtk-3.0/action_dialog.c:904
 #: client/gui-gtk-3.22/action_dialog.c:898 client/gui-sdl/action_dialog.c:1595
-#: client/gui-sdl2/action_dialog.c:1545
+#: client/gui-sdl2/action_dialog.c:1548
 msgid "City can't be incited!"
 msgstr "Cha ghabh am baile a bhrosnachadh gu aramach!"
 
@@ -2475,7 +2475,7 @@ msgstr "Cha ghabh am baile a bhrosnachadh gu aramach!"
 #: client/gui-gtk-2.0/action_dialog.c:890
 #: client/gui-gtk-3.0/action_dialog.c:910
 #: client/gui-gtk-3.22/action_dialog.c:904 client/gui-qt/dialogs.cpp:2229
-#: client/gui-sdl/action_dialog.c:1605 client/gui-sdl2/action_dialog.c:1555
+#: client/gui-sdl/action_dialog.c:1605 client/gui-sdl2/action_dialog.c:1558
 #: client/gui-xaw/action_dialog.c:783
 #, c-format
 msgid ""
@@ -2500,7 +2500,7 @@ msgstr[3] ""
 #: client/gui-gtk-2.0/action_dialog.c:892
 #: client/gui-gtk-3.0/action_dialog.c:912
 #: client/gui-gtk-3.22/action_dialog.c:906 client/gui-qt/dialogs.cpp:2233
-#: client/gui-sdl/action_dialog.c:1551 client/gui-sdl2/action_dialog.c:1502
+#: client/gui-sdl/action_dialog.c:1551 client/gui-sdl2/action_dialog.c:1505
 #: data/Freeciv.in:2428
 msgid "Incite a Revolt!"
 msgstr "Brosnaich aramach!"
@@ -2509,7 +2509,7 @@ msgstr "Brosnaich aramach!"
 #: client/gui-gtk-2.0/action_dialog.c:899
 #: client/gui-gtk-3.0/action_dialog.c:919
 #: client/gui-gtk-3.22/action_dialog.c:913 client/gui-qt/dialogs.cpp:2247
-#: client/gui-sdl/action_dialog.c:1657 client/gui-sdl2/action_dialog.c:1606
+#: client/gui-sdl/action_dialog.c:1657 client/gui-sdl2/action_dialog.c:1609
 #: client/gui-xaw/action_dialog.c:793
 #, c-format
 msgid ""
@@ -2535,7 +2535,7 @@ msgstr[3] ""
 #: client/gui-gtk-2.0/action_dialog.c:1140
 #: client/gui-gtk-3.0/action_dialog.c:1234
 #: client/gui-gtk-3.22/action_dialog.c:1228 client/gui-qt/dialogs.cpp:1738
-#: client/gui-sdl/action_dialog.c:968 client/gui-sdl2/action_dialog.c:923
+#: client/gui-sdl/action_dialog.c:968 client/gui-sdl2/action_dialog.c:924
 #, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Tagh ro-innleachd an aonaid agad (%s)"
@@ -2720,7 +2720,7 @@ msgstr "Bratach"
 
 #: client/gui-gtk-2.0/citizensinfo.c:251 client/gui-gtk-3.0/citizensinfo.c:252
 #: client/gui-gtk-3.22/citizensinfo.c:252 client/gui-sdl/citydlg.c:2572
-#: client/gui-sdl2/citydlg.c:2449
+#: client/gui-sdl2/citydlg.c:2460
 msgid "Citizens"
 msgstr "Saoranaich"
 
@@ -2741,12 +2741,12 @@ msgstr "Cinneasachadh:"
 msgid "Trade:"
 msgstr "Malairt:"
 
-#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:759
-#: client/gui-gtk-2.0/diplodlg.c:843 client/gui-gtk-2.0/inteldlg.c:51
-#: client/gui-gtk-3.0/citydlg.c:744 client/gui-gtk-3.0/diplodlg.c:768
-#: client/gui-gtk-3.0/diplodlg.c:855 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-gtk-3.22/citydlg.c:744 client/gui-gtk-3.22/diplodlg.c:765
-#: client/gui-gtk-3.22/diplodlg.c:849 client/gui-gtk-3.22/inteldlg.c:51
+#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:762
+#: client/gui-gtk-2.0/diplodlg.c:846 client/gui-gtk-2.0/inteldlg.c:51
+#: client/gui-gtk-3.0/citydlg.c:744 client/gui-gtk-3.0/diplodlg.c:771
+#: client/gui-gtk-3.0/diplodlg.c:858 client/gui-gtk-3.0/inteldlg.c:51
+#: client/gui-gtk-3.22/citydlg.c:744 client/gui-gtk-3.22/diplodlg.c:766
+#: client/gui-gtk-3.22/diplodlg.c:850 client/gui-gtk-3.22/inteldlg.c:51
 #: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:166
 #: client/gui-qt/diplodlg.cpp:168 client/gui-qt/plrdlg.cpp:499
 msgid "Gold:"
@@ -2827,7 +2827,7 @@ msgstr "_Foir-shealladh"
 #: client/gui-gtk-3.0/citydlg.c:834 client/gui-gtk-3.0/citydlg.c:1314
 #: client/gui-gtk-3.22/citydlg.c:871 client/gui-gtk-3.22/citydlg.c:1351
 #: client/gui-qt/citydlg.cpp:1569 client/gui-sdl/citydlg.c:2557
-#: client/gui-sdl2/citydlg.c:2434
+#: client/gui-sdl2/citydlg.c:2445
 msgid "City map"
 msgstr "Mapa a' bhaile"
 
@@ -2950,7 +2950,7 @@ msgstr "An duilleag ghnìomhach mu dheireadh"
 
 #: client/gui-gtk-2.0/citydlg.c:1194 client/gui-gtk-3.0/citydlg.c:1402
 #: client/gui-gtk-3.22/citydlg.c:1439 client/gui-sdl/citydlg.c:979
-#: client/gui-sdl2/citydlg.c:982
+#: client/gui-sdl2/citydlg.c:990
 msgid "New citizens are"
 msgstr "Nuair a bhios saoranaich ùra ann, nì na leanas dhiubh:"
 
@@ -3008,7 +3008,7 @@ msgstr "<b>%s</b> - %s saoranaich"
 #. TRANS: city growth is blocked.  Keep short.
 #: client/gui-gtk-2.0/citydlg.c:1575 client/gui-gtk-3.0/citydlg.c:1817
 #: client/gui-gtk-3.22/citydlg.c:1849 client/gui-qt/citydlg.cpp:3014
-#: client/gui-sdl/citydlg.c:3337 client/gui-sdl2/citydlg.c:3209
+#: client/gui-sdl/citydlg.c:3337 client/gui-sdl2/citydlg.c:3220
 #: client/gui-xaw/citydlg.c:250
 msgid "blocked"
 msgstr "air a chasgadh"
@@ -3112,7 +3112,7 @@ msgstr "Àrdaich a_n t-aonad"
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2664 client/gui-gtk-3.0/citydlg.c:3059
 #: client/gui-gtk-3.22/citydlg.c:3087 client/gui-sdl/citydlg.c:1170
-#: client/gui-sdl2/citydlg.c:1170 client/gui-xaw/citydlg.c:1961
+#: client/gui-sdl2/citydlg.c:1178 client/gui-xaw/citydlg.c:1961
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -3143,7 +3143,7 @@ msgstr "Ceannaich e!"
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2678 client/gui-gtk-3.0/citydlg.c:3073
 #: client/gui-gtk-3.22/citydlg.c:3101 client/gui-sdl/citydlg.c:1176
-#: client/gui-sdl2/citydlg.c:1176 client/gui-xaw/citydlg.c:1972
+#: client/gui-sdl2/citydlg.c:1184 client/gui-xaw/citydlg.c:1972
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -3166,7 +3166,7 @@ msgstr[3] ""
 
 #: client/gui-gtk-2.0/citydlg.c:2732 client/gui-gtk-3.0/citydlg.c:3127
 #: client/gui-gtk-3.22/citydlg.c:3155 client/gui-qt/citydlg.cpp:611
-#: client/gui-sdl/citydlg.c:1420 client/gui-sdl2/citydlg.c:1416
+#: client/gui-sdl/citydlg.c:1420 client/gui-sdl2/citydlg.c:1427
 #: client/gui-xaw/citydlg.c:2351
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -3296,7 +3296,7 @@ msgstr "Tais_beanadh"
 #: client/gui-gtk-3.22/cityrep.c:1146 client/gui-gtk-3.22/menu.c:317
 #: client/gui-qt/diplodlg.cpp:384 client/gui-qt/menu.cpp:1347
 #: client/gui-qt/pages.cpp:726 client/gui-qt/pages.cpp:1280
-#: client/gui-sdl/diplodlg.c:738 client/gui-sdl2/diplodlg.c:745
+#: client/gui-sdl/diplodlg.c:738 client/gui-sdl2/diplodlg.c:761
 #: client/gui-xaw/cityrep.c:231 client/gui-xaw/cityrep.c:538
 #: client/gui-xaw/menu.c:160 client/gui-xaw/menu.c:226
 #: client/gui-xaw/menu.c:252 client/include/helpdlg_g.h:43 data/Freeciv.in:428
@@ -3317,7 +3317,7 @@ msgstr "_Sgrùd"
 #: client/gui-gtk-3.22/cityrep.c:1516 client/gui-gtk-3.22/cityrep.c:1535
 #: client/gui-gtk-3.22/cityrep.c:1554 client/gui-gtk-3.22/cityrep.c:1573
 #: client/gui-gtk-3.22/cityrep.c:1595 client/gui-sdl/helpdlg.c:332
-#: client/gui-sdl2/helpdlg.c:336
+#: client/gui-sdl2/helpdlg.c:338
 msgid "Improvements"
 msgstr "Leasachaidhean"
 
@@ -3465,19 +3465,19 @@ msgstr "Toraidhean"
 
 #: client/gui-gtk-2.0/cma_fe.c:321 client/gui-gtk-3.0/cma_fe.c:341
 #: client/gui-gtk-3.22/cma_fe.c:340 client/gui-qt/citydlg.cpp:1879
-#: client/gui-sdl/cma_fe.c:930 client/gui-sdl2/cma_fe.c:943
+#: client/gui-sdl/cma_fe.c:930 client/gui-sdl2/cma_fe.c:948
 msgid "Minimal Surplus"
 msgstr "Barrachas air a' char as lugha"
 
 #: client/gui-gtk-2.0/cma_fe.c:324 client/gui-gtk-3.0/cma_fe.c:345
 #: client/gui-gtk-3.22/cma_fe.c:344 client/gui-sdl/cma_fe.c:933
-#: client/gui-sdl2/cma_fe.c:946
+#: client/gui-sdl2/cma_fe.c:951
 msgid "Factor"
 msgstr "Factar"
 
 #: client/gui-gtk-2.0/cma_fe.c:359 client/gui-gtk-3.0/cma_fe.c:392
 #: client/gui-gtk-3.22/cma_fe.c:391 client/gui-qt/citydlg.cpp:1878
-#: client/gui-sdl/cma_fe.c:980 client/gui-sdl2/cma_fe.c:994
+#: client/gui-sdl/cma_fe.c:980 client/gui-sdl2/cma_fe.c:999
 #: client/gui-xaw/cma_fe.c:184 client/gui-xaw/cma_fe.c:226
 msgid "Celebrate"
 msgstr "Comharraich"
@@ -3495,7 +3495,7 @@ msgstr "Tha _an riaghlaiche à comas"
 #: client/gui-gtk-2.0/cma_fe.c:539 client/gui-gtk-3.0/cma_fe.c:572
 #: client/gui-gtk-3.22/cma_fe.c:564 client/gui-qt/citydlg.cpp:2304
 #: client/gui-sdl/cma_fe.c:260 client/gui-sdl/cma_fe.c:335
-#: client/gui-sdl2/cma_fe.c:267 client/gui-sdl2/cma_fe.c:345
+#: client/gui-sdl2/cma_fe.c:267 client/gui-sdl2/cma_fe.c:346
 #: client/gui-xaw/cma_fe.c:439
 msgid "new preset"
 msgstr "ro-sheata ùr"
@@ -3508,7 +3508,7 @@ msgstr "Cuir ainm air an ro-sheata ùr"
 
 #: client/gui-gtk-2.0/cma_fe.c:544 client/gui-gtk-3.0/cma_fe.c:577
 #: client/gui-gtk-3.22/cma_fe.c:569 client/gui-qt/citydlg.cpp:2302
-#: client/gui-sdl/cma_fe.c:324 client/gui-sdl2/cma_fe.c:333
+#: client/gui-sdl/cma_fe.c:324 client/gui-sdl2/cma_fe.c:334
 msgid "What should we name the preset?"
 msgstr "Dè an t-ainm ùr a bu toigh leat air an ro-sheata?"
 
@@ -3545,7 +3545,7 @@ msgstr "Reabhlaid!"
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-2.0/dialogs.c:352 client/gui-gtk-3.0/dialogs.c:368
 #: client/gui-gtk-3.22/dialogs.c:362 client/gui-qt/dialogs.cpp:2421
-#: client/gui-sdl/dialogs.c:2253 client/gui-sdl2/dialogs.c:2242
+#: client/gui-sdl/dialogs.c:2253 client/gui-sdl2/dialogs.c:2251
 #: data/Freeciv.in:2504
 msgid "What To Pillage"
 msgstr "Na thèid a chreachadh"
@@ -3576,7 +3576,7 @@ msgstr "Dè an nàisean a bhios annad fhèin?"
 #: client/gui-gtk-2.0/dialogs.c:852 client/gui-gtk-3.0/dialogs.c:863
 #: client/gui-gtk-3.22/dialogs.c:857 client/gui-qt/dialogs.cpp:415
 #: client/gui-qt/pages.cpp:666 client/gui-sdl/chatline.c:811
-#: client/gui-sdl2/chatline.c:803 data/Freeciv.in:3388
+#: client/gui-sdl2/chatline.c:811 data/Freeciv.in:3388
 msgid "Pick Nation"
 msgstr "Tagh nàisean"
 
@@ -3657,7 +3657,7 @@ msgstr "Tha agad ri gnè a thaghadh."
 
 #: client/gui-gtk-2.0/dialogs.c:1384 client/gui-gtk-3.0/dialogs.c:1395
 #: client/gui-gtk-3.22/dialogs.c:1389 client/gui-qt/dialogs.cpp:673
-#: client/gui-sdl/dialogs.c:2562 client/gui-sdl2/dialogs.c:2549
+#: client/gui-sdl/dialogs.c:2562 client/gui-sdl2/dialogs.c:2560
 #: client/gui-xaw/dialogs.c:1501
 msgid "You must type a legal name."
 msgstr "Tha agad ri ainm còir a chur ann."
@@ -3673,7 +3673,7 @@ msgstr "Àrdaich an t-aonad!"
 #: client/gui-gtk-3.22/dialogs.c:1441 client/gui-gtk-3.22/repodlgs.c:1603
 #: client/gui-qt/dialogs.cpp:2861 client/gui-qt/repodlgs.cpp:225
 #: client/gui-sdl/dialogs.c:678 client/gui-sdl/repodlgs.c:204
-#: client/gui-sdl2/dialogs.c:681 client/gui-sdl2/repodlgs.c:225
+#: client/gui-sdl2/dialogs.c:682 client/gui-sdl2/repodlgs.c:225
 #: data/Freeciv.in:2458
 msgid "Upgrade Obsolete Units"
 msgstr "Àrdaich aonadan a tha o fheum a-nis"
@@ -3683,7 +3683,7 @@ msgstr "Àrdaich aonadan a tha o fheum a-nis"
 #: client/gui-gtk-3.0/dialogs.c:1485 client/gui-gtk-3.0/repodlgs.c:1006
 #: client/gui-gtk-3.22/dialogs.c:1470 client/gui-gtk-3.22/dialogs.c:1479
 #: client/gui-gtk-3.22/repodlgs.c:1005 client/gui-qt/repodlgs.cpp:1458
-#: client/gui-sdl/dialogs.c:872 client/gui-sdl2/dialogs.c:877
+#: client/gui-sdl/dialogs.c:872 client/gui-sdl2/dialogs.c:881
 #: data/Freeciv.in:2477 data/Freeciv.in:2488
 msgid "Disband Units"
 msgstr "Fàsaich aonadan"
@@ -3713,104 +3713,104 @@ msgstr "Mapa na mara"
 msgid "_Maps"
 msgstr "_Mapaichan"
 
-#: client/gui-gtk-2.0/diplodlg.c:278 client/gui-gtk-3.0/diplodlg.c:278
-#: client/gui-gtk-3.22/diplodlg.c:278
+#: client/gui-gtk-2.0/diplodlg.c:279 client/gui-gtk-3.0/diplodlg.c:279
+#: client/gui-gtk-3.22/diplodlg.c:279
 msgid "_Advances"
 msgstr "_Adhartasan"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
-#: client/gui-gtk-2.0/diplodlg.c:305 client/gui-gtk-3.0/diplodlg.c:305
-#: client/gui-gtk-3.22/diplodlg.c:305 client/gui-qt/diplodlg.cpp:360
+#: client/gui-gtk-2.0/diplodlg.c:307 client/gui-gtk-3.0/diplodlg.c:307
+#: client/gui-gtk-3.22/diplodlg.c:307 client/gui-qt/diplodlg.cpp:360
 msgid "All advances"
 msgstr "Gach adhartas"
 
-#: client/gui-gtk-2.0/diplodlg.c:382 client/gui-gtk-2.0/menu.c:1442
-#: client/gui-gtk-3.0/diplodlg.c:382 client/gui-gtk-3.0/menu.c:1435
+#: client/gui-gtk-2.0/diplodlg.c:384 client/gui-gtk-2.0/menu.c:1442
+#: client/gui-gtk-3.0/diplodlg.c:384 client/gui-gtk-3.0/menu.c:1435
 #: client/gui-gtk-3.22/diplodlg.c:382 client/gui-gtk-3.22/menu.c:297
 msgid "_Cities"
 msgstr "_Bailtean"
 
-#: client/gui-gtk-2.0/diplodlg.c:391 client/gui-gtk-3.0/diplodlg.c:391
+#: client/gui-gtk-2.0/diplodlg.c:393 client/gui-gtk-3.0/diplodlg.c:393
 #: client/gui-gtk-3.22/diplodlg.c:391
 msgid "_Give shared vision"
 msgstr "Thoir dhaibh _co-lèirsinn"
 
-#: client/gui-gtk-2.0/diplodlg.c:404 client/gui-gtk-3.0/diplodlg.c:404
+#: client/gui-gtk-2.0/diplodlg.c:406 client/gui-gtk-3.0/diplodlg.c:406
 #: client/gui-gtk-3.22/diplodlg.c:404
 msgid "Give _embassy"
 msgstr "Thoir _dhaibh ambasaid"
 
-#: client/gui-gtk-2.0/diplodlg.c:424 client/gui-gtk-3.0/diplodlg.c:424
+#: client/gui-gtk-2.0/diplodlg.c:426 client/gui-gtk-3.0/diplodlg.c:426
 #: client/gui-gtk-3.22/diplodlg.c:424 client/gui-qt/diplodlg.cpp:422
-#: client/gui-sdl/diplodlg.c:504 client/gui-sdl2/diplodlg.c:510
+#: client/gui-sdl/diplodlg.c:504 client/gui-sdl2/diplodlg.c:512
 #: client/gui-xaw/diplodlg.c:550 common/player.h:137
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Fois-chogaidh"
 
-#: client/gui-gtk-2.0/diplodlg.c:430 client/gui-gtk-3.0/diplodlg.c:430
+#: client/gui-gtk-2.0/diplodlg.c:432 client/gui-gtk-3.0/diplodlg.c:432
 #: client/gui-gtk-3.22/diplodlg.c:430 client/gui-qt/diplodlg.cpp:428
-#: client/gui-sdl/diplodlg.c:518 client/gui-sdl2/diplodlg.c:524
+#: client/gui-sdl/diplodlg.c:518 client/gui-sdl2/diplodlg.c:527
 #: client/gui-xaw/diplodlg.c:554 common/player.h:139
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Sìth"
 
-#: client/gui-gtk-2.0/diplodlg.c:436 client/gui-gtk-3.0/diplodlg.c:436
+#: client/gui-gtk-2.0/diplodlg.c:438 client/gui-gtk-3.0/diplodlg.c:438
 #: client/gui-gtk-3.22/diplodlg.c:436 client/gui-qt/diplodlg.cpp:434
-#: client/gui-sdl/diplodlg.c:533 client/gui-sdl2/diplodlg.c:540
+#: client/gui-sdl/diplodlg.c:533 client/gui-sdl2/diplodlg.c:543
 #: client/gui-xaw/diplodlg.c:558 common/player.h:141
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Caidreachas"
 
-#: client/gui-gtk-2.0/diplodlg.c:442 client/gui-gtk-3.0/diplodlg.c:442
+#: client/gui-gtk-2.0/diplodlg.c:444 client/gui-gtk-3.0/diplodlg.c:444
 #: client/gui-gtk-3.22/diplodlg.c:442
 msgid "_Pacts"
 msgstr "C_o-aontaidhean"
 
-#: client/gui-gtk-2.0/diplodlg.c:501 client/gui-gtk-3.0/diplodlg.c:501
+#: client/gui-gtk-2.0/diplodlg.c:503 client/gui-gtk-3.0/diplodlg.c:503
 #: client/gui-gtk-3.22/diplodlg.c:501
 msgid "Cancel _all meetings"
 msgstr "Cuir dheth gach _coinneamh"
 
-#: client/gui-gtk-2.0/diplodlg.c:578 client/gui-gtk-2.0/diplodlg.c:646
-#: client/gui-gtk-3.0/diplodlg.c:578 client/gui-gtk-3.0/diplodlg.c:648
-#: client/gui-gtk-3.22/diplodlg.c:578 client/gui-gtk-3.22/diplodlg.c:648
+#: client/gui-gtk-2.0/diplodlg.c:581 client/gui-gtk-2.0/diplodlg.c:649
+#: client/gui-gtk-3.0/diplodlg.c:581 client/gui-gtk-3.0/diplodlg.c:651
+#: client/gui-gtk-3.22/diplodlg.c:579 client/gui-gtk-3.22/diplodlg.c:649
 #, c-format
 msgid "Diplomacy [%d]"
 msgstr "Dìoplomasachd [%d]"
 
-#: client/gui-gtk-2.0/diplodlg.c:656 client/gui-gtk-3.0/diplodlg.c:660
-#: client/gui-gtk-3.22/diplodlg.c:660 client/gui-qt/diplodlg.cpp:218
-#: client/gui-sdl/diplodlg.c:930 client/gui-sdl2/diplodlg.c:935
+#: client/gui-gtk-2.0/diplodlg.c:659 client/gui-gtk-3.0/diplodlg.c:663
+#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:218
+#: client/gui-sdl/diplodlg.c:930 client/gui-sdl2/diplodlg.c:956
 #: data/Freeciv.in:528
 msgid "Cancel meeting"
 msgstr "Cuir dheth a' choinneamh"
 
-#: client/gui-gtk-2.0/diplodlg.c:658 client/gui-gtk-3.0/diplodlg.c:658
-#: client/gui-gtk-3.22/diplodlg.c:658 client/gui-qt/diplodlg.cpp:215
-#: client/gui-sdl/diplodlg.c:941 client/gui-sdl2/diplodlg.c:946
+#: client/gui-gtk-2.0/diplodlg.c:661 client/gui-gtk-3.0/diplodlg.c:661
+#: client/gui-gtk-3.22/diplodlg.c:659 client/gui-qt/diplodlg.cpp:215
+#: client/gui-sdl/diplodlg.c:941 client/gui-sdl2/diplodlg.c:967
 #: data/Freeciv.in:519
 msgid "Accept treaty"
 msgstr "Gabh ris a' chùmhnant"
 
-#: client/gui-gtk-2.0/diplodlg.c:731 client/gui-gtk-2.0/diplodlg.c:815
-#: client/gui-gtk-3.0/diplodlg.c:741 client/gui-gtk-3.0/diplodlg.c:828
-#: client/gui-gtk-3.22/diplodlg.c:741 client/gui-gtk-3.22/diplodlg.c:825
+#: client/gui-gtk-2.0/diplodlg.c:734 client/gui-gtk-2.0/diplodlg.c:818
+#: client/gui-gtk-3.0/diplodlg.c:744 client/gui-gtk-3.0/diplodlg.c:831
+#: client/gui-gtk-3.22/diplodlg.c:742 client/gui-gtk-3.22/diplodlg.c:826
 #: client/gui-qt/diplodlg.cpp:183 client/gui-qt/diplodlg.cpp:185
 msgid "Add Clause..."
 msgstr "Cuir clàs ris..."
 
-#: client/gui-gtk-2.0/diplodlg.c:882 client/gui-gtk-3.0/diplodlg.c:895
-#: client/gui-gtk-3.22/diplodlg.c:889
+#: client/gui-gtk-2.0/diplodlg.c:885 client/gui-gtk-3.0/diplodlg.c:898
+#: client/gui-gtk-3.22/diplodlg.c:890
 msgid "C_lauses:"
 msgstr "C_làsaichean:"
 
-#: client/gui-gtk-2.0/diplodlg.c:927 client/gui-gtk-3.0/diplodlg.c:943
-#: client/gui-gtk-3.22/diplodlg.c:937 client/gui-qt/diplodlg.cpp:686
+#: client/gui-gtk-2.0/diplodlg.c:930 client/gui-gtk-3.0/diplodlg.c:946
+#: client/gui-gtk-3.22/diplodlg.c:938 client/gui-qt/diplodlg.cpp:686
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Tha an cùmhnant seo bàn. Cuir clàsaichean ris. ---"
 
-#: client/gui-gtk-2.0/diplodlg.c:1163 client/gui-gtk-3.0/diplodlg.c:1181
-#: client/gui-gtk-3.22/diplodlg.c:1175 client/gui-sdl/diplodlg.c:410
+#: client/gui-gtk-2.0/diplodlg.c:1166 client/gui-gtk-3.0/diplodlg.c:1184
+#: client/gui-gtk-3.22/diplodlg.c:1176 client/gui-sdl/diplodlg.c:410
 #: client/gui-sdl2/diplodlg.c:416 client/gui-xaw/diplodlg.c:980
 msgid "Invalid amount of gold specified."
 msgstr "Shònraich thu suim mhì-dhligheach de dh'òr."
@@ -4186,8 +4186,8 @@ msgstr "Dùin a-mach nàiseanan"
 #: client/gui-gtk-3.0/editprop.c:4439 client/gui-gtk-3.0/plrdlg.c:428
 #: client/gui-gtk-3.22/editprop.c:4438 client/gui-gtk-3.22/plrdlg.c:426
 #: client/gui-qt/pages.cpp:731 client/gui-sdl/mapctrl.c:1570
-#: client/gui-sdl/plrdlg.c:622 client/gui-sdl2/mapctrl.c:1683
-#: client/gui-sdl2/plrdlg.c:686 client/gui-xaw/menu.c:225 data/Freeciv.in:3200
+#: client/gui-sdl/plrdlg.c:622 client/gui-sdl2/mapctrl.c:1684
+#: client/gui-sdl2/plrdlg.c:687 client/gui-xaw/menu.c:225 data/Freeciv.in:3200
 #: data/Freeciv.in:3201
 msgid "Nations"
 msgstr "Nàiseanan"
@@ -4448,7 +4448,7 @@ msgstr "Air fhaicinn (Do-fhaicsinneach)"
 #: client/gui-gtk-3.0/editprop.c:6550 client/gui-gtk-3.0/pages.c:727
 #: client/gui-gtk-3.22/editprop.c:6548 client/gui-gtk-3.22/pages.c:728
 #: client/gui-qt/pages.cpp:904 client/gui-sdl/citydlg.c:2017
-#: client/gui-sdl2/citydlg.c:2008 client/gui-xaw/citydlg.c:1483
+#: client/gui-sdl2/citydlg.c:2019 client/gui-xaw/citydlg.c:1483
 #: client/text.c:170 common/unit.c:655
 msgid "Unknown"
 msgstr "Neo-aithnichte"
@@ -4456,7 +4456,7 @@ msgstr "Neo-aithnichte"
 #: client/gui-gtk-2.0/finddlg.c:72 client/gui-gtk-3.0/finddlg.c:72
 #: client/gui-gtk-3.22/finddlg.c:72 client/gui-sdl/finddlg.c:141
 #: client/gui-sdl/mapctrl.c:1582 client/gui-sdl2/finddlg.c:149
-#: client/gui-sdl2/mapctrl.c:1695 client/gui-xaw/menu.c:131
+#: client/gui-sdl2/mapctrl.c:1696 client/gui-xaw/menu.c:131
 #: data/Freeciv.in:1084
 msgid "Find City"
 msgstr "Lorg baile"
@@ -4510,8 +4510,8 @@ msgstr "Cìsean"
 #: client/gui-gtk-3.0/gamedlgs.c:469 client/gui-gtk-3.0/gamedlgs.c:494
 #: client/gui-gtk-3.22/gamedlgs.c:444 client/gui-gtk-3.22/gamedlgs.c:469
 #: client/gui-gtk-3.22/gamedlgs.c:494 client/gui-sdl/repodlgs.c:1911
-#: client/gui-sdl/repodlgs.c:1957 client/gui-sdl2/repodlgs.c:1962
-#: client/gui-sdl2/repodlgs.c:2008 data/Freeciv.in:1329 data/Freeciv.in:1347
+#: client/gui-sdl/repodlgs.c:1957 client/gui-sdl2/repodlgs.c:1983
+#: client/gui-sdl2/repodlgs.c:2029 data/Freeciv.in:1329 data/Freeciv.in:1347
 #: data/Freeciv.in:1366
 msgid "Lock"
 msgstr "Glais"
@@ -4614,7 +4614,7 @@ msgstr ""
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/gui-gtk-2.0/gui_main.c:281 client/gui-gtk-3.0/gui_main.c:284
 #: client/gui-gtk-3.22/gui_main.c:280 client/gui-qt/gui_main.cpp:128
-#: client/gui-sdl/gui_main.c:174 client/gui-sdl2/gui_main.c:179
+#: client/gui-sdl/gui_main.c:180 client/gui-sdl2/gui_main.c:185
 #: client/gui-xaw/gui_main.c:267 common/fc_cmdhelp.c:136 tools/mpcli.c:115
 #: tools/mpgui_gtk2.c:573 tools/mpgui_gtk3.c:579 tools/mpgui_qt.cpp:102
 #, c-format
@@ -4624,7 +4624,7 @@ msgstr "Dèan aithris air bugaichean aig %s\n"
 #: client/gui-gtk-2.0/gui_main.c:771 client/gui-gtk-2.0/gui_main.c:1582
 #: client/gui-gtk-3.0/gui_main.c:819 client/gui-gtk-3.0/gui_main.c:1770
 #: client/gui-gtk-3.22/gui_main.c:806 client/gui-gtk-3.22/gui_main.c:1839
-#: client/gui-sdl/gui_main.c:797 client/gui-sdl/gui_main.c:812
+#: client/gui-sdl/gui_main.c:803 client/gui-sdl/gui_main.c:818
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -4632,14 +4632,14 @@ msgstr "Freeciv"
 #: client/gui-gtk-3.0/gui_main.c:1361 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1377 client/gui-gtk-3.22/gui_main.c:1385
 #: client/gui-qt/pages.cpp:741 client/gui-sdl/mapctrl.c:1555
-#: client/gui-sdl2/mapctrl.c:1668 data/Freeciv.in:2622
+#: client/gui-sdl2/mapctrl.c:1669 data/Freeciv.in:2622
 msgid "Turn Done"
 msgstr "Cuairt deiseil"
 
 #: client/gui-gtk-2.0/gui_main.c:1264 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1385 client/gui-sdl/mapctrl.c:1555
-#: client/gui-sdl/mapview.c:923 client/gui-sdl2/mapctrl.c:1668
-#: client/gui-sdl2/mapview.c:942
+#: client/gui-sdl/mapview.c:922 client/gui-sdl2/mapctrl.c:1669
+#: client/gui-sdl2/mapview.c:943
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
@@ -4668,13 +4668,13 @@ msgstr "Falamhaich na ceanglaichean"
 msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:2030 client/gui-gtk-3.0/gui_main.c:2171
-#: client/gui-gtk-3.22/gui_main.c:2242 client/gui-qt/gui_main.cpp:551
+#: client/gui-gtk-2.0/gui_main.c:2031 client/gui-gtk-3.0/gui_main.c:2172
+#: client/gui-gtk-3.22/gui_main.c:2243 client/gui-qt/gui_main.cpp:551
 msgid "Are you sure you want to quit?"
 msgstr "A bheil thu cinnteach gu bheil thu airson fàgail?"
 
-#: client/gui-gtk-2.0/gui_main.c:2199 client/gui-gtk-3.0/gui_main.c:2340
-#: client/gui-gtk-3.22/gui_main.c:2411
+#: client/gui-gtk-2.0/gui_main.c:2200 client/gui-gtk-3.0/gui_main.c:2341
+#: client/gui-gtk-3.22/gui_main.c:2412
 #, c-format
 msgid ""
 "\n"
@@ -4731,7 +4731,7 @@ msgstr "Mìorbhailean:"
 #: client/gui-gtk-2.0/happiness.c:213 client/gui-gtk-3.0/happiness.c:225
 #: client/gui-gtk-3.22/happiness.c:225 client/gui-qt/citydlg.cpp:1800
 #: client/gui-sdl/citydlg.c:2086 client/gui-sdl/citydlg.c:3722
-#: client/gui-sdl2/citydlg.c:2076 client/gui-sdl2/citydlg.c:3595
+#: client/gui-sdl2/citydlg.c:2087 client/gui-sdl2/citydlg.c:3606
 msgid "Happiness"
 msgstr "Toileachas"
 
@@ -4749,7 +4749,7 @@ msgstr ""
 #: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3875
 #: client/gui-qt/helpdlg.cpp:897 client/gui-qt/helpdlg.cpp:1000
 #: client/gui-sdl/helpdlg.c:378 client/gui-sdl/helpdlg.c:796
-#: client/gui-sdl2/helpdlg.c:382 client/gui-sdl2/helpdlg.c:803
+#: client/gui-sdl2/helpdlg.c:386 client/gui-sdl2/helpdlg.c:817
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
 msgstr "Cosgais:"
@@ -4757,7 +4757,7 @@ msgstr "Cosgais:"
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-3.0/helpdlg.c:99
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-qt/helpdlg.cpp:1005
 #: client/gui-sdl/helpdlg.c:386 client/gui-sdl/helpdlg.c:805
-#: client/gui-sdl2/helpdlg.c:390 client/gui-sdl2/helpdlg.c:812
+#: client/gui-sdl2/helpdlg.c:395 client/gui-sdl2/helpdlg.c:826
 #: data/Freeciv.in:671
 msgid "Upkeep:"
 msgstr "Beòshlaint:"
@@ -4768,7 +4768,7 @@ msgstr "Beòshlaint:"
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-gtk-3.22/helpdlg.c:102
 #: client/gui-gtk-3.22/helpdlg.c:110 client/gui-qt/helpdlg.cpp:1031
 #: client/gui-sdl/helpdlg.c:397 client/gui-sdl/helpdlg.c:845
-#: client/gui-sdl2/helpdlg.c:401 client/gui-sdl2/helpdlg.c:852
+#: client/gui-sdl2/helpdlg.c:407 client/gui-sdl2/helpdlg.c:866
 #: data/Freeciv.in:712
 msgid "Requirement:"
 msgstr "Riatanas:"
@@ -4778,7 +4778,7 @@ msgstr "Riatanas:"
 #: client/gui-gtk-3.22/helpdlg.c:102 client/gui-gtk-3.22/helpdlg.c:110
 #: client/gui-qt/citydlg.cpp:3812 client/gui-qt/helpdlg.cpp:1050
 #: client/gui-sdl/helpdlg.c:438 client/gui-sdl/helpdlg.c:872
-#: client/gui-sdl2/helpdlg.c:443 client/gui-sdl2/helpdlg.c:879
+#: client/gui-sdl2/helpdlg.c:451 client/gui-sdl2/helpdlg.c:895
 #: data/Freeciv.in:750
 msgid "Obsolete by:"
 msgstr "O fheum:"
@@ -4786,34 +4786,34 @@ msgstr "O fheum:"
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:106
 #: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3868
 #: client/gui-qt/helpdlg.cpp:887 client/gui-sdl/helpdlg.c:829
-#: client/gui-sdl2/helpdlg.c:836 data/Freeciv.in:813
+#: client/gui-sdl2/helpdlg.c:850 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "Ionnsaigh:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3870
 #: client/gui-qt/helpdlg.cpp:889 client/gui-sdl/helpdlg.c:830
-#: client/gui-sdl2/helpdlg.c:837 data/Freeciv.in:831
+#: client/gui-sdl2/helpdlg.c:851 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "Dìon:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3872
-#: client/gui-sdl/helpdlg.c:831 client/gui-sdl2/helpdlg.c:838
+#: client/gui-sdl/helpdlg.c:831 client/gui-sdl2/helpdlg.c:852
 #: data/Freeciv.in:849
 msgid "Move:"
 msgstr "Gluais:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3883
-#: client/gui-sdl/helpdlg.c:833 client/gui-sdl2/helpdlg.c:840
+#: client/gui-sdl/helpdlg.c:833 client/gui-sdl2/helpdlg.c:854
 msgid "FirePower:"
 msgstr "Cumhachd losgaidh:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3881
 #: client/gui-qt/helpdlg.cpp:896 client/gui-sdl/helpdlg.c:834
-#: client/gui-sdl2/helpdlg.c:841 data/Freeciv.in:894
+#: client/gui-sdl2/helpdlg.c:855 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "Puingean beatha:"
 
@@ -4825,7 +4825,7 @@ msgstr "Beòshlaint bhunasach:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:109
 #: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3885
-#: client/gui-sdl/helpdlg.c:832 client/gui-sdl2/helpdlg.c:839
+#: client/gui-sdl/helpdlg.c:832 client/gui-sdl2/helpdlg.c:853
 #: data/Freeciv.in:912
 msgid "Vision:"
 msgstr "Lèirsinn:"
@@ -4872,8 +4872,8 @@ msgstr ""
 #: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:585
 #: client/gui-qt/plrdlg.cpp:591 client/gui-qt/repodlgs.cpp:1084
 #: client/gui-sdl/gui_tilespec.c:374 client/gui-sdl/helpdlg.c:854
-#: client/gui-sdl/mapview.c:331 client/gui-sdl2/gui_tilespec.c:381
-#: client/gui-sdl2/helpdlg.c:861 client/gui-sdl2/mapview.c:346
+#: client/gui-sdl/mapview.c:330 client/gui-sdl2/gui_tilespec.c:381
+#: client/gui-sdl2/helpdlg.c:875 client/gui-sdl2/mapview.c:345
 #: client/gui-xaw/helpdlg.c:831 client/gui-xaw/helpdlg.c:877
 #: client/gui-xaw/helpdlg.c:896 common/research.c:83 common/tech.c:393
 #: tools/civmanual.c:525
@@ -4922,7 +4922,7 @@ msgstr "Co-theannaich a h-uile"
 #: client/gui-gtk-3.22/helpdlg.c:1121 client/gui-gtk-3.22/helpdlg.c:1138
 #: client/gui-qt/helpdlg.cpp:1098 client/gui-qt/helpdlg.cpp:1114
 #: client/gui-qt/helpdlg.cpp:1155 client/gui-sdl/helpdlg.c:1052
-#: client/gui-sdl2/helpdlg.c:1061
+#: client/gui-sdl2/helpdlg.c:1078
 msgid "Allows"
 msgstr "Ceadaichidh seo"
 
@@ -4960,7 +4960,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-3.0/helpdlg.c:1323 client/gui-gtk-3.0/inteldlg.c:437
 #: client/gui-gtk-3.22/helpdlg.c:1249 client/gui-gtk-3.22/helpdlg.c:1357
 #: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:456
-#: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:339
+#: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:340
 #: client/gui-xaw/helpdlg.c:1025 client/gui-xaw/helpdlg.c:1110
 #: common/requirements.c:3228
 #, c-format
@@ -5113,8 +5113,8 @@ msgstr "Fàisneis chèin: Impireachd %s"
 #: client/gui-qt/plrdlg.cpp:483 client/gui-qt/plrdlg.cpp:497
 #: client/gui-sdl/inteldlg.c:316 client/gui-sdl/inteldlg.c:319
 #: client/gui-sdl/inteldlg.c:330 client/gui-sdl/inteldlg.c:348
-#: client/gui-sdl2/inteldlg.c:336 client/gui-sdl2/inteldlg.c:339
-#: client/gui-sdl2/inteldlg.c:350 client/gui-sdl2/inteldlg.c:368
+#: client/gui-sdl2/inteldlg.c:337 client/gui-sdl2/inteldlg.c:340
+#: client/gui-sdl2/inteldlg.c:351 client/gui-sdl2/inteldlg.c:369
 #: common/research.c:86
 msgid "(Unknown)"
 msgstr "(neo-aithnichte)"
@@ -5136,7 +5136,7 @@ msgstr "A' togail baile ùr"
 
 #: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:197
 #: client/gui-gtk-3.22/mapctrl.c:198 client/gui-qt/mapctrl.cpp:56
-#: client/gui-sdl/mapctrl.c:2580 client/gui-sdl2/mapctrl.c:2791
+#: client/gui-sdl/mapctrl.c:2580 client/gui-sdl2/mapctrl.c:2792
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
 msgstr "Dè an t-ainm a chuireas sinn air a' bhaile ùr?"
@@ -6129,7 +6129,7 @@ msgstr "_Brabhsaich..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
 #: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1590
-#: client/gui-sdl/connectdlg.c:942 client/gui-sdl2/connectdlg.c:936
+#: client/gui-sdl/connectdlg.c:942 client/gui-sdl2/connectdlg.c:949
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr ""
@@ -6147,7 +6147,7 @@ msgstr "Ainm an fhrithealaiche"
 #: client/gui-gtk-3.0/pages.c:1221 client/gui-gtk-3.0/pages.c:1266
 #: client/gui-gtk-3.22/pages.c:1222 client/gui-gtk-3.22/pages.c:1267
 #: client/gui-qt/pages.cpp:311 client/gui-qt/pages.cpp:372
-#: client/gui-sdl/mapview.c:644 client/gui-sdl2/mapview.c:666
+#: client/gui-sdl/mapview.c:643 client/gui-sdl2/mapview.c:667
 #: data/Freeciv.in:89
 msgid "Port"
 msgstr "Port"
@@ -6489,7 +6489,7 @@ msgstr "Meadhanach"
 
 #: client/gui-gtk-2.0/pages.c:3317 client/gui-gtk-3.0/pages.c:3451
 #: client/gui-gtk-3.22/pages.c:3449 client/gui-qt/menu.cpp:854
-#: client/gui-sdl/optiondlg.c:828 client/gui-sdl2/optiondlg.c:839
+#: client/gui-sdl/optiondlg.c:828 client/gui-sdl2/optiondlg.c:848
 msgid "Save Game"
 msgstr "Sàbhail an geama"
 
@@ -6619,11 +6619,11 @@ msgstr "Thoir air _falbh a' cho-lèirsinn"
 #: client/gui-gtk-2.0/repodlgs.c:540 client/gui-gtk-3.0/repodlgs.c:560
 #: client/gui-gtk-3.22/repodlgs.c:558 client/gui-qt/menu.cpp:1355
 #: client/gui-qt/pages.cpp:735 client/gui-sdl/mapctrl.c:1398
-#: client/gui-sdl/mapview.c:330 client/gui-sdl/mapview.c:338
-#: client/gui-sdl/mapview.c:346 client/gui-sdl/repodlgs.c:3291
-#: client/gui-sdl2/mapctrl.c:1495 client/gui-sdl2/mapview.c:345
-#: client/gui-sdl2/mapview.c:353 client/gui-sdl2/mapview.c:361
-#: client/gui-sdl2/repodlgs.c:3362 client/gui-xaw/menu.c:229
+#: client/gui-sdl/mapview.c:329 client/gui-sdl/mapview.c:337
+#: client/gui-sdl/mapview.c:345 client/gui-sdl/repodlgs.c:3291
+#: client/gui-sdl2/mapctrl.c:1495 client/gui-sdl2/mapview.c:344
+#: client/gui-sdl2/mapview.c:352 client/gui-sdl2/mapview.c:360
+#: client/gui-sdl2/repodlgs.c:3384 client/gui-xaw/menu.c:229
 #: client/gui-xaw/repodlgs.c:253 client/gui-xaw/repodlgs.c:476
 #: data/Freeciv.in:1384
 msgid "Research"
@@ -6673,7 +6673,7 @@ msgstr "Cosgais"
 #. TRANS: Upkeep total, count*cost.
 #: client/gui-gtk-2.0/repodlgs.c:778 client/gui-gtk-3.0/repodlgs.c:809
 #: client/gui-gtk-3.22/repodlgs.c:808 client/gui-qt/repodlgs.cpp:1213
-#: client/gui-sdl/repodlgs.c:2050 client/gui-sdl2/repodlgs.c:2102
+#: client/gui-sdl/repodlgs.c:2050 client/gui-sdl2/repodlgs.c:2123
 msgid "U Total"
 msgstr "Beòshlaint iomlan"
 
@@ -6993,7 +6993,7 @@ msgstr "Tuairisgeul"
 
 #: client/gui-gtk-2.0/unitselect.c:254 client/gui-gtk-3.0/unitselect.c:255
 #: client/gui-gtk-3.22/unitselect.c:255 client/gui-sdl/dialogs.c:1077
-#: client/gui-sdl2/dialogs.c:1082
+#: client/gui-sdl2/dialogs.c:1088
 msgid "Unit selection"
 msgstr "Taghadh aonaid"
 
@@ -7456,8 +7456,8 @@ msgstr "Colasas"
 
 #: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl/dialogs.c:2876
 #: client/gui-sdl/dialogs.c:3312 client/gui-sdl/mapctrl.c:2560
-#: client/gui-sdl2/dialogs.c:2863 client/gui-sdl2/dialogs.c:3296
-#: client/gui-sdl2/mapctrl.c:2769 common/mapimg.c:304
+#: client/gui-sdl2/dialogs.c:2875 client/gui-sdl2/dialogs.c:3318
+#: client/gui-sdl2/mapctrl.c:2770 common/mapimg.c:304
 msgid "OK"
 msgstr "Ceart ma-thà"
 
@@ -7560,17 +7560,17 @@ msgid "Activate and close dialog"
 msgstr "Dùisg an t-aonad is dùin an còmhradh"
 
 #: client/gui-qt/citydlg.cpp:793 client/gui-sdl/citydlg.c:457
-#: client/gui-sdl2/citydlg.c:460 data/Freeciv.in:1188
+#: client/gui-sdl2/citydlg.c:462 data/Freeciv.in:1188
 msgid "Sentry unit"
 msgstr "Dèan freiceadan dhen aonad"
 
 #: client/gui-qt/citydlg.cpp:800 client/gui-sdl/citydlg.c:472
-#: client/gui-sdl2/citydlg.c:475 data/Freeciv.in:1192
+#: client/gui-sdl2/citydlg.c:478 data/Freeciv.in:1192
 msgid "Fortify unit"
 msgstr "Daingnich an t-aonad"
 
 #: client/gui-qt/citydlg.cpp:807 client/gui-sdl/citydlg.c:488
-#: client/gui-sdl2/citydlg.c:491 data/Freeciv.in:1196 data/Freeciv.in:1224
+#: client/gui-sdl2/citydlg.c:495 data/Freeciv.in:1196 data/Freeciv.in:1224
 msgid "Disband unit"
 msgstr "Fàsaich an t-aonad"
 
@@ -7808,8 +7808,8 @@ msgstr "Suidhich liosta obrach"
 #: client/gui-qt/menu.cpp:833 client/gui-qt/pages.cpp:199
 #: client/gui-sdl/mapctrl.c:1621 client/gui-sdl/optiondlg.c:765
 #: client/gui-sdl/optiondlg.c:1334 client/gui-sdl/pages.c:254
-#: client/gui-sdl2/mapctrl.c:1734 client/gui-sdl2/optiondlg.c:776
-#: client/gui-sdl2/optiondlg.c:1362 client/gui-sdl2/pages.c:264
+#: client/gui-sdl2/mapctrl.c:1735 client/gui-sdl2/optiondlg.c:783
+#: client/gui-sdl2/optiondlg.c:1377 client/gui-sdl2/pages.c:270
 #: data/Freeciv.in:1235
 msgid "Options"
 msgstr "Roghainnean"
@@ -7931,12 +7931,12 @@ msgstr "O fheum air sgàth"
 #: client/gui-sdl/connectdlg.c:832 client/gui-sdl/connectdlg.c:1005
 #: client/gui-sdl/dialogs.c:707 client/gui-sdl/dialogs.c:901
 #: client/gui-sdl/dialogs.c:3302 client/gui-sdl/mapctrl.c:2570
-#: client/gui-sdl2/action_dialog.c:1014 client/gui-sdl2/citydlg.c:533
-#: client/gui-sdl2/citydlg.c:1430 client/gui-sdl2/connectdlg.c:324
-#: client/gui-sdl2/connectdlg.c:636 client/gui-sdl2/connectdlg.c:830
-#: client/gui-sdl2/connectdlg.c:1000 client/gui-sdl2/dialogs.c:710
-#: client/gui-sdl2/dialogs.c:906 client/gui-sdl2/dialogs.c:3286
-#: client/gui-sdl2/mapctrl.c:2780 client/gui-xaw/inputdlg.c:110
+#: client/gui-sdl2/action_dialog.c:1016 client/gui-sdl2/citydlg.c:540
+#: client/gui-sdl2/citydlg.c:1441 client/gui-sdl2/connectdlg.c:325
+#: client/gui-sdl2/connectdlg.c:643 client/gui-sdl2/connectdlg.c:842
+#: client/gui-sdl2/connectdlg.c:1018 client/gui-sdl2/dialogs.c:712
+#: client/gui-sdl2/dialogs.c:910 client/gui-sdl2/dialogs.c:3307
+#: client/gui-sdl2/mapctrl.c:2781 client/gui-xaw/inputdlg.c:110
 #: data/Freeciv.in:1110 data/Freeciv.in:1166 data/Freeciv.in:1208
 #: data/Freeciv.in:1228 data/Freeciv.in:1265 data/Freeciv.in:1298
 #: data/Freeciv.in:1376 data/Freeciv.in:1571 data/Freeciv.in:1826
@@ -7983,8 +7983,8 @@ msgid "Governor"
 msgstr "Riag_hlaiche"
 
 #: client/gui-qt/cityrep.cpp:538 client/gui-sdl/citydlg.c:1441
-#: client/gui-sdl/repodlgs.c:1602 client/gui-sdl2/citydlg.c:1440
-#: client/gui-sdl2/repodlgs.c:1657
+#: client/gui-sdl/repodlgs.c:1602 client/gui-sdl2/citydlg.c:1451
+#: client/gui-sdl2/repodlgs.c:1677
 msgid "Sell"
 msgstr "Tha"
 
@@ -8009,15 +8009,15 @@ msgid "Nation Set:"
 msgstr "Nàisean air a thaghadh"
 
 #: client/gui-qt/dialogs.cpp:317 client/gui-sdl/dialogs.c:2591
-#: client/gui-sdl/dialogs.c:3010 client/gui-sdl2/dialogs.c:2579
-#: client/gui-sdl2/dialogs.c:2994 data/Freeciv.in:3167
+#: client/gui-sdl/dialogs.c:3010 client/gui-sdl2/dialogs.c:2590
+#: client/gui-sdl2/dialogs.c:3008 data/Freeciv.in:3167
 msgid "Female"
 msgstr "Boireann"
 
 #: client/gui-qt/dialogs.cpp:318 client/gui-sdl/dialogs.c:2593
 #: client/gui-sdl/dialogs.c:3008 client/gui-sdl/dialogs.c:3262
-#: client/gui-sdl2/dialogs.c:2581 client/gui-sdl2/dialogs.c:2992
-#: client/gui-sdl2/dialogs.c:3246
+#: client/gui-sdl2/dialogs.c:2592 client/gui-sdl2/dialogs.c:3006
+#: client/gui-sdl2/dialogs.c:3265
 msgid "Male"
 msgstr "Fireann"
 
@@ -8056,7 +8056,7 @@ msgid "Inspect City"
 msgstr "Sgrùd am _baile"
 
 #: client/gui-qt/dialogs.cpp:1838 client/gui-sdl/action_dialog.c:1034
-#: client/gui-sdl2/action_dialog.c:986 data/Freeciv.in:2323
+#: client/gui-sdl2/action_dialog.c:988 data/Freeciv.in:2323
 msgid "Keep moving"
 msgstr "Cum ort a' gluasad"
 
@@ -8094,10 +8094,10 @@ msgstr[3] "A bheil thu cinnteach gu bheil thu airson fàgail?"
 #: client/gui-sdl/action_dialog.c:1845 client/gui-sdl/citydlg.c:1227
 #: client/gui-sdl/cma_fe.c:345 client/gui-sdl/diplodlg.c:1413
 #: client/gui-sdl/plrdlg.c:227 client/gui-sdl/repodlgs.c:245
-#: client/gui-sdl2/action_dialog.c:1567 client/gui-sdl2/action_dialog.c:1794
-#: client/gui-sdl2/citydlg.c:1227 client/gui-sdl2/cma_fe.c:355
-#: client/gui-sdl2/diplodlg.c:1418 client/gui-sdl2/plrdlg.c:274
-#: client/gui-sdl2/repodlgs.c:266 client/gui-xaw/citydlg.c:2476
+#: client/gui-sdl2/action_dialog.c:1570 client/gui-sdl2/action_dialog.c:1797
+#: client/gui-sdl2/citydlg.c:1237 client/gui-sdl2/cma_fe.c:359
+#: client/gui-sdl2/diplodlg.c:1440 client/gui-sdl2/plrdlg.c:274
+#: client/gui-sdl2/repodlgs.c:268 client/gui-xaw/citydlg.c:2476
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
@@ -8113,11 +8113,11 @@ msgstr "Tha"
 #: client/gui-sdl/action_dialog.c:1855 client/gui-sdl/citydlg.c:1216
 #: client/gui-sdl/cma_fe.c:354 client/gui-sdl/diplodlg.c:1402
 #: client/gui-sdl/plrdlg.c:227 client/gui-sdl/repodlgs.c:233
-#: client/gui-sdl/repodlgs.c:1590 client/gui-sdl2/action_dialog.c:1578
-#: client/gui-sdl2/action_dialog.c:1804 client/gui-sdl2/citydlg.c:1216
-#: client/gui-sdl2/cma_fe.c:364 client/gui-sdl2/diplodlg.c:1407
-#: client/gui-sdl2/plrdlg.c:274 client/gui-sdl2/repodlgs.c:254
-#: client/gui-sdl2/repodlgs.c:1645 client/gui-xaw/citydlg.c:2476
+#: client/gui-sdl/repodlgs.c:1590 client/gui-sdl2/action_dialog.c:1581
+#: client/gui-sdl2/action_dialog.c:1807 client/gui-sdl2/citydlg.c:1224
+#: client/gui-sdl2/cma_fe.c:369 client/gui-sdl2/diplodlg.c:1428
+#: client/gui-sdl2/plrdlg.c:274 client/gui-sdl2/repodlgs.c:255
+#: client/gui-sdl2/repodlgs.c:1664 client/gui-xaw/citydlg.c:2476
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
@@ -8213,28 +8213,28 @@ msgstr[2] "%d cuairtean"
 msgstr[3] "%d cuairt"
 
 #: client/gui-qt/diplodlg.cpp:333 client/gui-sdl/diplodlg.c:567
-#: client/gui-sdl2/diplodlg.c:573 data/Freeciv.in:392 data/Freeciv.in:401
+#: client/gui-sdl2/diplodlg.c:577 data/Freeciv.in:392 data/Freeciv.in:401
 msgid "Maps"
 msgstr "Mapaichan"
 
 #: client/gui-qt/diplodlg.cpp:345 client/gui-sdl/diplodlg.c:659
-#: client/gui-sdl/helpdlg.c:1988 client/gui-sdl2/diplodlg.c:666
-#: client/gui-sdl2/helpdlg.c:1998 data/Freeciv.in:410 data/Freeciv.in:419
+#: client/gui-sdl/helpdlg.c:2005 client/gui-sdl2/diplodlg.c:677
+#: client/gui-sdl2/helpdlg.c:2036 data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Adhartasan"
 
 #: client/gui-qt/diplodlg.cpp:404 client/gui-sdl/diplodlg.c:553
-#: client/gui-sdl2/diplodlg.c:559
+#: client/gui-sdl2/diplodlg.c:562
 msgid "Give shared vision"
 msgstr "Thoir dhaibh co-lèirsinn"
 
 #: client/gui-qt/diplodlg.cpp:411 client/gui-sdl/diplodlg.c:606
-#: client/gui-sdl2/diplodlg.c:613
+#: client/gui-sdl2/diplodlg.c:622
 msgid "Give embassy"
 msgstr "Thoir dhaibh ambasaid"
 
 #: client/gui-qt/diplodlg.cpp:420 client/gui-sdl/diplodlg.c:496
-#: client/gui-sdl2/diplodlg.c:502 data/Freeciv.in:510
+#: client/gui-sdl2/diplodlg.c:503 data/Freeciv.in:510
 msgid "Pacts"
 msgstr "Co-aontaidhean"
 
@@ -8749,7 +8749,7 @@ msgstr "Fàg an geama"
 
 #: client/gui-qt/menu.cpp:869 client/gui-qt/pages.cpp:199
 #: client/gui-sdl/optiondlg.c:860 client/gui-sdl/pages.c:268
-#: client/gui-sdl2/optiondlg.c:871 client/gui-sdl2/pages.c:279
+#: client/gui-sdl2/optiondlg.c:883 client/gui-sdl2/pages.c:286
 #: client/gui-xaw/connectdlg.c:341 client/gui-xaw/menu.c:124
 #: data/Freeciv.in:136 data/Freeciv.in:3188
 msgid "Quit"
@@ -8863,7 +8863,7 @@ msgstr "An dearbh sheòrsa àit_e sam bith"
 
 #: client/gui-qt/menu.cpp:1016 client/gui-qt/shortcuts.cpp:130
 #: client/gui-sdl/action_dialog.c:1049 client/gui-sdl/menu.c:423
-#: client/gui-sdl2/action_dialog.c:1001 client/gui-sdl2/menu.c:419
+#: client/gui-sdl2/action_dialog.c:1003 client/gui-sdl2/menu.c:419
 #: client/gui-xaw/menu.c:217
 msgid "Wait"
 msgstr "Fuirich"
@@ -8913,13 +8913,13 @@ msgid "Unsentry All On Tile"
 msgstr "Sguir de gach freiceadan air an leacag"
 
 #: client/gui-qt/menu.cpp:1088 client/gui-qt/shortcuts.cpp:114
-#: client/gui-sdl/citydlg.c:502 client/gui-sdl2/citydlg.c:505
+#: client/gui-sdl/citydlg.c:502 client/gui-sdl2/citydlg.c:510
 #: client/gui-xaw/menu.c:191
 msgid "Set Home City"
 msgstr "Tagh mar bhaile dachaigh"
 
 #: client/gui-qt/menu.cpp:1093 client/gui-qt/shortcuts.cpp:112
-#: client/gui-sdl/dialogs.c:718 client/gui-sdl2/dialogs.c:722
+#: client/gui-sdl/dialogs.c:718 client/gui-sdl2/dialogs.c:725
 #: data/Freeciv.in:1969
 msgid "Upgrade"
 msgstr "Àrdaich"
@@ -8930,7 +8930,7 @@ msgid "Convert"
 msgstr "Io_mpaich"
 
 #: client/gui-qt/menu.cpp:1102 client/gui-qt/repodlgs.cpp:1226
-#: client/gui-sdl/dialogs.c:913 client/gui-sdl2/dialogs.c:918
+#: client/gui-sdl/dialogs.c:913 client/gui-sdl2/dialogs.c:923
 msgid "Disband"
 msgstr "Leig mu sgaoil"
 
@@ -8965,7 +8965,7 @@ msgstr "_Obair"
 
 #: client/gui-qt/menu.cpp:1146 client/gui-qt/menu.cpp:2036
 #: client/gui-qt/shortcuts.cpp:122 client/gui-sdl/mapctrl.c:2550
-#: client/gui-sdl/menu.c:1066 client/gui-sdl2/mapctrl.c:2758
+#: client/gui-sdl/menu.c:1066 client/gui-sdl2/mapctrl.c:2759
 #: client/gui-sdl2/menu.c:1062 client/gui-xaw/menu.c:170
 msgid "Build City"
 msgstr "Tog baile"
@@ -9144,7 +9144,7 @@ msgstr "Muinntir na Pòlainne"
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
 #: client/gui-qt/menu.cpp:1343 client/gui-qt/pages.cpp:1640
-#: client/gui-sdl/plrdlg.c:340 client/gui-sdl2/connectdlg.c:337
+#: client/gui-sdl/plrdlg.c:340 client/gui-sdl2/connectdlg.c:338
 #: client/gui-sdl2/plrdlg.c:388
 #, fuzzy
 #| msgid "?show:Dead Players"
@@ -9296,7 +9296,7 @@ msgid "Connect to network game"
 msgstr "Dè_an ceangal ri geama lìonraidh"
 
 #: client/gui-qt/pages.cpp:372 client/gui-qt/pages.cpp:399
-#: client/gui-sdl/connectdlg.c:629 client/gui-sdl2/connectdlg.c:628
+#: client/gui-sdl/connectdlg.c:629 client/gui-sdl2/connectdlg.c:633
 #: client/gui-xaw/connectdlg.c:326 data/Freeciv.in:125 data/Freeciv.in:2514
 msgid "Connect"
 msgstr "Ceangail"
@@ -9360,7 +9360,7 @@ msgstr "Dì-cheangail"
 
 #: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1874
 #: client/gui-qt/pages.cpp:1878 client/gui-sdl/chatline.c:801
-#: client/gui-sdl2/chatline.c:793 data/Freeciv.in:3404
+#: client/gui-sdl2/chatline.c:800 data/Freeciv.in:3404
 msgid "Start"
 msgstr "Tòisich"
 
@@ -9452,7 +9452,7 @@ msgid "Meet"
 msgstr "Coinnich"
 
 #: client/gui-qt/plrdlg.cpp:663 client/gui-sdl/diplodlg.c:1548
-#: client/gui-sdl2/diplodlg.c:1555
+#: client/gui-sdl2/diplodlg.c:1580
 msgid "Cancel Treaty"
 msgstr "Cuir às dhan chùmhnant"
 
@@ -9766,7 +9766,7 @@ msgid "Observe globally"
 msgstr "Coimhead air a' chluicheadair"
 
 #: client/gui-qt/spaceshipdlg.cpp:56 client/gui-sdl/spaceshipdlg.c:177
-#: client/gui-sdl2/spaceshipdlg.c:189 data/Freeciv.in:1727
+#: client/gui-sdl2/spaceshipdlg.c:190 data/Freeciv.in:1727
 msgid "Launch"
 msgstr "Cuir air bhog"
 
@@ -9800,27 +9800,27 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:1349 client/gui-sdl/dialogs.c:1692
 #: client/gui-sdl/dialogs.c:2272 client/gui-sdl/finddlg.c:159
 #: client/gui-sdl/gotodlg.c:268 client/gui-sdl/helpdlg.c:263
-#: client/gui-sdl/helpdlg.c:679 client/gui-sdl/helpdlg.c:1940
+#: client/gui-sdl/helpdlg.c:679 client/gui-sdl/helpdlg.c:1957
 #: client/gui-sdl/inteldlg.c:252 client/gui-sdl/optiondlg.c:779
 #: client/gui-sdl/plrdlg.c:354 client/gui-sdl/plrdlg.c:639
 #: client/gui-sdl/repodlgs.c:392 client/gui-sdl/repodlgs.c:2008
 #: client/gui-sdl/repodlgs.c:2895 client/gui-sdl/repodlgs.c:3082
 #: client/gui-sdl/repodlgs.c:3353 client/gui-sdl/spaceshipdlg.c:166
-#: client/gui-sdl2/action_dialog.c:497 client/gui-sdl2/action_dialog.c:1219
-#: client/gui-sdl2/action_dialog.c:1523 client/gui-sdl2/action_dialog.c:1593
-#: client/gui-sdl2/action_dialog.c:1819 client/gui-sdl2/chatline.c:221
-#: client/gui-sdl2/citydlg.c:3558 client/gui-sdl2/cma_fe.c:515
-#: client/gui-sdl2/cma_fe.c:931 client/gui-sdl2/dialogs.c:335
-#: client/gui-sdl2/dialogs.c:537 client/gui-sdl2/dialogs.c:1100
-#: client/gui-sdl2/dialogs.c:1353 client/gui-sdl2/dialogs.c:1700
-#: client/gui-sdl2/dialogs.c:2261 client/gui-sdl2/finddlg.c:167
-#: client/gui-sdl2/gotodlg.c:277 client/gui-sdl2/helpdlg.c:265
-#: client/gui-sdl2/helpdlg.c:684 client/gui-sdl2/helpdlg.c:1949
-#: client/gui-sdl2/inteldlg.c:269 client/gui-sdl2/optiondlg.c:790
-#: client/gui-sdl2/plrdlg.c:402 client/gui-sdl2/plrdlg.c:703
-#: client/gui-sdl2/repodlgs.c:415 client/gui-sdl2/repodlgs.c:2059
-#: client/gui-sdl2/repodlgs.c:2952 client/gui-sdl2/repodlgs.c:3140
-#: client/gui-sdl2/repodlgs.c:3424 client/gui-sdl2/spaceshipdlg.c:178
+#: client/gui-sdl2/action_dialog.c:498 client/gui-sdl2/action_dialog.c:1222
+#: client/gui-sdl2/action_dialog.c:1526 client/gui-sdl2/action_dialog.c:1596
+#: client/gui-sdl2/action_dialog.c:1822 client/gui-sdl2/chatline.c:223
+#: client/gui-sdl2/citydlg.c:3569 client/gui-sdl2/cma_fe.c:520
+#: client/gui-sdl2/cma_fe.c:936 client/gui-sdl2/dialogs.c:335
+#: client/gui-sdl2/dialogs.c:538 client/gui-sdl2/dialogs.c:1106
+#: client/gui-sdl2/dialogs.c:1362 client/gui-sdl2/dialogs.c:1709
+#: client/gui-sdl2/dialogs.c:2270 client/gui-sdl2/finddlg.c:167
+#: client/gui-sdl2/gotodlg.c:278 client/gui-sdl2/helpdlg.c:266
+#: client/gui-sdl2/helpdlg.c:697 client/gui-sdl2/helpdlg.c:1987
+#: client/gui-sdl2/inteldlg.c:270 client/gui-sdl2/optiondlg.c:799
+#: client/gui-sdl2/plrdlg.c:403 client/gui-sdl2/plrdlg.c:704
+#: client/gui-sdl2/repodlgs.c:418 client/gui-sdl2/repodlgs.c:2080
+#: client/gui-sdl2/repodlgs.c:2974 client/gui-sdl2/repodlgs.c:3162
+#: client/gui-sdl2/repodlgs.c:3446 client/gui-sdl2/spaceshipdlg.c:178
 msgid "Close Dialog (Esc)"
 msgstr "Dùin an còmhradh (Esc)"
 
@@ -9838,25 +9838,25 @@ msgstr ""
 msgid "%d one time bonus"
 msgstr ""
 
-#: client/gui-sdl/action_dialog.c:973 client/gui-sdl2/action_dialog.c:928
+#: client/gui-sdl/action_dialog.c:973 client/gui-sdl2/action_dialog.c:929
 msgid "Subvert Enemy Unit"
 msgstr "Cuir car dhen aonad nàimhdeil"
 
-#: client/gui-sdl/chatline.c:742 client/gui-sdl2/chatline.c:734
+#: client/gui-sdl/chatline.c:742 client/gui-sdl2/chatline.c:738
 #, c-format
 msgid "Total users logged in : %d"
 msgstr "Àireamh iomlan nan cleachdaichean air logadh a-steach : %d"
 
-#: client/gui-sdl/chatline.c:790 client/gui-sdl2/chatline.c:782
+#: client/gui-sdl/chatline.c:790 client/gui-sdl2/chatline.c:788
 msgid "Back"
 msgstr "Air ais"
 
 #: client/gui-sdl/chatline.c:822 client/gui-sdl/pages.c:198
-#: client/gui-sdl2/chatline.c:814 client/gui-sdl2/pages.c:204
+#: client/gui-sdl2/chatline.c:823 client/gui-sdl2/pages.c:206
 msgid "Load Game"
 msgstr "Luchdaich an geama"
 
-#: client/gui-sdl/chatline.c:834 client/gui-sdl2/chatline.c:826
+#: client/gui-sdl/chatline.c:834 client/gui-sdl2/chatline.c:836
 msgid "Server Settings"
 msgstr "Roghainnean an fhrithealaiche"
 
@@ -9864,158 +9864,158 @@ msgstr "Roghainnean an fhrithealaiche"
 msgid "Unit commands"
 msgstr "Àitheantan aonaid"
 
-#: client/gui-sdl/citydlg.c:443 client/gui-sdl2/citydlg.c:447
+#: client/gui-sdl/citydlg.c:443 client/gui-sdl2/citydlg.c:448
 #: data/Freeciv.in:1184 data/Freeciv.in:1220
 msgid "Activate unit, close dialog"
 msgstr "Dùisg an t-aonad is dùin an còmhradh"
 
-#: client/gui-sdl/citydlg.c:517 client/gui-sdl2/citydlg.c:519
+#: client/gui-sdl/citydlg.c:517 client/gui-sdl2/citydlg.c:525
 #: data/Freeciv.in:1204
 msgid "Upgrade unit"
 msgstr "Àrdaich an t-aonad"
 
-#: client/gui-sdl/citydlg.c:733 client/gui-sdl/mapview.c:800
-#: client/gui-sdl2/citydlg.c:736 client/gui-sdl2/mapview.c:823
+#: client/gui-sdl/citydlg.c:733 client/gui-sdl/mapview.c:799
+#: client/gui-sdl2/citydlg.c:744 client/gui-sdl2/mapview.c:824
 #, fuzzy
 #| msgid "?city:Name"
 msgid "?homecity:None"
 msgstr "?city:Ainm"
 
-#: client/gui-sdl/citydlg.c:958 client/gui-sdl2/citydlg.c:961
+#: client/gui-sdl/citydlg.c:958 client/gui-sdl2/citydlg.c:969
 msgid ""
 "Allow unit production\n"
 "to disband city"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1183 client/gui-sdl2/citydlg.c:1183
+#: client/gui-sdl/citydlg.c:1183 client/gui-sdl2/citydlg.c:1191
 msgid "Sorry, you have already bought here in this turn."
 msgstr "Duilich, rinn thu ceannach an-seo mu thràth sa chuairt seo."
 
-#: client/gui-sdl/citydlg.c:1186 client/gui-sdl2/citydlg.c:1186
+#: client/gui-sdl/citydlg.c:1186 client/gui-sdl2/citydlg.c:1194
 msgid "Sorry, you can't buy here in this turn."
 msgstr "Duilich, chan urrainn dhut ceannach an-seo a' chuairt seo."
 
-#: client/gui-sdl/citydlg.c:1190 client/gui-sdl2/citydlg.c:1190
+#: client/gui-sdl/citydlg.c:1190 client/gui-sdl2/citydlg.c:1198
 msgid "Buy it?"
 msgstr "A bheil thu airson a cheannach?"
 
-#: client/gui-sdl/citydlg.c:1406 client/gui-sdl2/citydlg.c:1402
+#: client/gui-sdl/citydlg.c:1406 client/gui-sdl2/citydlg.c:1413
 msgid "Sell it?"
 msgstr "A bheil thu airson a reic?"
 
 #: client/gui-sdl/citydlg.c:1764 client/gui-sdl/citydlg.c:3765
-#: client/gui-sdl2/citydlg.c:1756 client/gui-sdl2/citydlg.c:3638
+#: client/gui-sdl2/citydlg.c:1767 client/gui-sdl2/citydlg.c:3651
 msgid "City options"
 msgstr "Roghainnean a' bhaile"
 
-#: client/gui-sdl/citydlg.c:1809 client/gui-sdl2/citydlg.c:1801
+#: client/gui-sdl/citydlg.c:1809 client/gui-sdl2/citydlg.c:1812
 #, c-format
 msgid "Supported units: %d"
 msgstr "Aonadan ris a bheil taic: %d"
 
-#: client/gui-sdl/citydlg.c:1867 client/gui-sdl2/citydlg.c:1858
+#: client/gui-sdl/citydlg.c:1867 client/gui-sdl2/citydlg.c:1869
 #, c-format
 msgid "Present units: %d"
 msgstr "Aonadan an làthair: %d"
 
 #: client/gui-sdl/citydlg.c:1916 client/gui-sdl/citydlg.c:3733
-#: client/gui-sdl2/citydlg.c:1907 client/gui-sdl2/citydlg.c:3606
+#: client/gui-sdl2/citydlg.c:1918 client/gui-sdl2/citydlg.c:3618
 msgid "City info"
 msgstr "Fiosrachadh a' bhaile"
 
-#: client/gui-sdl/citydlg.c:1937 client/gui-sdl2/citydlg.c:1928
+#: client/gui-sdl/citydlg.c:1937 client/gui-sdl2/citydlg.c:1939
 #, c-format
 msgid "Pollution: %d"
 msgstr "Truailleadh: %d"
 
-#: client/gui-sdl/citydlg.c:1965 client/gui-sdl2/citydlg.c:1956
+#: client/gui-sdl/citydlg.c:1965 client/gui-sdl2/citydlg.c:1967
 msgid "Pollution: none"
 msgstr "Truailleadh: chan eil gin"
 
-#: client/gui-sdl/citydlg.c:1981 client/gui-sdl2/citydlg.c:1972
+#: client/gui-sdl/citydlg.c:1981 client/gui-sdl2/citydlg.c:1983
 #, fuzzy, c-format
 #| msgid "Plague risk"
 msgid "Plague risk: %.1f%%"
 msgstr "Cunnart plàighe"
 
-#: client/gui-sdl/citydlg.c:1984 client/gui-sdl2/citydlg.c:1975
+#: client/gui-sdl/citydlg.c:1984 client/gui-sdl2/citydlg.c:1986
 #, fuzzy
 #| msgid "Plague risk"
 msgid "Plague risk: none"
 msgstr "Cunnart plàighe"
 
-#: client/gui-sdl/citydlg.c:1993 client/gui-sdl2/citydlg.c:1984
+#: client/gui-sdl/citydlg.c:1993 client/gui-sdl2/citydlg.c:1995
 msgid "Trade routes: "
 msgstr "Slighean malairt:"
 
-#: client/gui-sdl/citydlg.c:2041 client/gui-sdl2/citydlg.c:2032
+#: client/gui-sdl/citydlg.c:2041 client/gui-sdl2/citydlg.c:2043
 #, c-format
 msgid "Trade: +%d"
 msgstr "Malairt: +%d"
 
-#: client/gui-sdl/citydlg.c:2586 client/gui-sdl2/citydlg.c:2463
+#: client/gui-sdl/citydlg.c:2586 client/gui-sdl2/citydlg.c:2474
 msgid "City improvements"
 msgstr "Leasachaidhean baile"
 
-#: client/gui-sdl/citydlg.c:2601 client/gui-sdl2/citydlg.c:2478
+#: client/gui-sdl/citydlg.c:2601 client/gui-sdl2/citydlg.c:2489
 #, c-format
 msgid "Food: %d per turn"
 msgstr "Biadh: %d a' chuairt"
 
-#: client/gui-sdl/citydlg.c:2638 client/gui-sdl2/citydlg.c:2515
+#: client/gui-sdl/citydlg.c:2638 client/gui-sdl2/citydlg.c:2526
 #, c-format
 msgid "?food:Surplus: %d"
 msgstr "?food:Barrachas: %d"
 
-#: client/gui-sdl/citydlg.c:2686 client/gui-sdl2/citydlg.c:2561
+#: client/gui-sdl/citydlg.c:2686 client/gui-sdl2/citydlg.c:2572
 #, c-format
 msgid "Production: %d (%d) per turn"
 msgstr "Cinneasachadh: %d (%d) a' chuairt"
 
-#: client/gui-sdl/citydlg.c:2732 client/gui-sdl2/citydlg.c:2607
+#: client/gui-sdl/citydlg.c:2732 client/gui-sdl2/citydlg.c:2618
 #, c-format
 msgid "?production:Support: %d"
 msgstr "?production:Taic: %d"
 
-#: client/gui-sdl/citydlg.c:2770 client/gui-sdl2/citydlg.c:2646
+#: client/gui-sdl/citydlg.c:2770 client/gui-sdl2/citydlg.c:2657
 #, c-format
 msgid "Trade: %d per turn"
 msgstr "Malairt: %d a' chuairt"
 
-#: client/gui-sdl/citydlg.c:2804 client/gui-sdl2/citydlg.c:2680
+#: client/gui-sdl/citydlg.c:2804 client/gui-sdl2/citydlg.c:2691
 #, c-format
 msgid "Corruption: %d"
 msgstr "Coirbteachd: %d"
 
-#: client/gui-sdl/citydlg.c:2841 client/gui-sdl2/citydlg.c:2716
+#: client/gui-sdl/citydlg.c:2841 client/gui-sdl2/citydlg.c:2727
 #, c-format
 msgid "Gold: %d (%d) per turn"
 msgstr "Òr: %d (%d) a' chuairt"
 
-#: client/gui-sdl/citydlg.c:2888 client/gui-sdl2/citydlg.c:2763
+#: client/gui-sdl/citydlg.c:2888 client/gui-sdl2/citydlg.c:2774
 #, c-format
 msgid "Upkeep: %d"
 msgstr "Beòshlaint: %d"
 
-#: client/gui-sdl/citydlg.c:2927 client/gui-sdl2/citydlg.c:2802
+#: client/gui-sdl/citydlg.c:2927 client/gui-sdl2/citydlg.c:2813
 #, c-format
 msgid "Science: %d per turn"
 msgstr "Saidheans: %d a' chuairt"
 
-#: client/gui-sdl/citydlg.c:2967 client/gui-sdl2/citydlg.c:2842
+#: client/gui-sdl/citydlg.c:2967 client/gui-sdl2/citydlg.c:2853
 #, c-format
 msgid "Luxury: %d per turn"
 msgstr "Sòghalachd: %d a' chuairt"
 
-#: client/gui-sdl/citydlg.c:3005 client/gui-sdl2/citydlg.c:2880
+#: client/gui-sdl/citydlg.c:3005 client/gui-sdl2/citydlg.c:2891
 msgid "City growth: blocked"
 msgstr "Fàs a' bhaile: air a bhacadh"
 
-#: client/gui-sdl/citydlg.c:3007 client/gui-sdl2/citydlg.c:2882
+#: client/gui-sdl/citydlg.c:3007 client/gui-sdl2/citydlg.c:2893
 msgid "City growth: never"
 msgstr "Fàs a' bhaile: chan ann gu bràth"
 
-#: client/gui-sdl/citydlg.c:3011 client/gui-sdl2/citydlg.c:2886
+#: client/gui-sdl/citydlg.c:3011 client/gui-sdl2/citydlg.c:2897
 #, c-format
 msgid "City shrinks: %d %s"
 msgstr "Crìonadh a' bhaile: %d %s"
@@ -10032,17 +10032,17 @@ msgstr "Crìonadh a' bhaile: %d %s"
 #: client/gui-sdl/repodlgs.c:564 client/gui-sdl/repodlgs.c:954
 #: client/gui-sdl/wldlg.c:937 client/gui-sdl/wldlg.c:1143
 #: client/gui-sdl/wldlg.c:1446 client/gui-sdl/wldlg.c:1452
-#: client/gui-sdl/wldlg.c:1574 client/gui-sdl2/citydlg.c:2887
-#: client/gui-sdl2/citydlg.c:2891 client/gui-sdl2/citydlg.c:3212
-#: client/gui-sdl2/cityrep.c:570 client/gui-sdl2/cityrep.c:1105
+#: client/gui-sdl/wldlg.c:1574 client/gui-sdl2/citydlg.c:2898
+#: client/gui-sdl2/citydlg.c:2902 client/gui-sdl2/citydlg.c:3223
+#: client/gui-sdl2/cityrep.c:572 client/gui-sdl2/cityrep.c:1107
 #: client/gui-sdl2/menu.c:1090 client/gui-sdl2/menu.c:1144
 #: client/gui-sdl2/menu.c:1158 client/gui-sdl2/menu.c:1164
 #: client/gui-sdl2/menu.c:1186 client/gui-sdl2/menu.c:1197
 #: client/gui-sdl2/menu.c:1203 client/gui-sdl2/menu.c:1225
 #: client/gui-sdl2/menu.c:1240 client/gui-sdl2/menu.c:1261
 #: client/gui-sdl2/menu.c:1277 client/gui-sdl2/menu.c:1299
-#: client/gui-sdl2/plrdlg.c:739 client/gui-sdl2/repodlgs.c:587
-#: client/gui-sdl2/repodlgs.c:976 client/gui-sdl2/wldlg.c:963
+#: client/gui-sdl2/plrdlg.c:740 client/gui-sdl2/repodlgs.c:592
+#: client/gui-sdl2/repodlgs.c:991 client/gui-sdl2/wldlg.c:963
 #: client/gui-sdl2/wldlg.c:1167 client/gui-sdl2/wldlg.c:1477
 #: client/gui-sdl2/wldlg.c:1483 client/gui-sdl2/wldlg.c:1606
 msgid "turn"
@@ -10052,17 +10052,17 @@ msgstr[1] "chuairt"
 msgstr[2] "cuairtean"
 msgstr[3] "cuairt"
 
-#: client/gui-sdl/citydlg.c:3015 client/gui-sdl2/citydlg.c:2890
+#: client/gui-sdl/citydlg.c:3015 client/gui-sdl2/citydlg.c:2901
 #, c-format
 msgid "City growth: %d %s"
 msgstr "Fàs a' bhaile: %d %s"
 
 #: client/gui-sdl/citydlg.c:3054 client/gui-sdl/citydlg.c:3168
-#: client/gui-sdl2/citydlg.c:2924 client/gui-sdl2/citydlg.c:3036
+#: client/gui-sdl2/citydlg.c:2935 client/gui-sdl2/citydlg.c:3047
 msgid "Stock"
 msgstr "Stòras"
 
-#: client/gui-sdl/citydlg.c:3065 client/gui-sdl2/citydlg.c:2935
+#: client/gui-sdl/citydlg.c:3065 client/gui-sdl2/citydlg.c:2946
 #: data/civ1/buildings.ruleset:279 data/civ2/buildings.ruleset:335
 #: data/classic/buildings.ruleset:376 data/experimental/buildings.ruleset:382
 #: data/civ2civ3/buildings.ruleset:471 data/multiplayer/buildings.ruleset:377
@@ -10070,57 +10070,57 @@ msgstr "Stòras"
 msgid "Granary"
 msgstr "Sìol-lann"
 
-#: client/gui-sdl/citydlg.c:3344 client/gui-sdl2/citydlg.c:3216
+#: client/gui-sdl/citydlg.c:3344 client/gui-sdl2/citydlg.c:3227
 msgid "finished"
 msgstr "deiseil"
 
-#: client/gui-sdl/citydlg.c:3599 client/gui-sdl2/citydlg.c:3472
+#: client/gui-sdl/citydlg.c:3599 client/gui-sdl2/citydlg.c:3483
 #, c-format
 msgid "City of %s (Population %s citizens)"
 msgstr "Baile %s (Sluagh de %s saoranaich)"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3605 client/gui-sdl2/citydlg.c:3478
+#: client/gui-sdl/citydlg.c:3605 client/gui-sdl2/citydlg.c:3489
 msgid " - DISORDER"
 msgstr " - DISORDER"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3609 client/gui-sdl2/citydlg.c:3482
+#: client/gui-sdl/citydlg.c:3609 client/gui-sdl2/citydlg.c:3493
 msgid " - celebrating"
 msgstr " - a' cumail fèill"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3613 client/gui-sdl2/citydlg.c:3486
+#: client/gui-sdl/citydlg.c:3613 client/gui-sdl2/citydlg.c:3497
 msgid " - happy"
 msgstr " - toilichte"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3620 client/gui-sdl2/citydlg.c:3493
+#: client/gui-sdl/citydlg.c:3620 client/gui-sdl2/citydlg.c:3504
 msgid " - under Citizen Governor control."
 msgstr " - fo smachd Riaghlaiche Saoranach"
 
-#: client/gui-sdl/citydlg.c:3698 client/gui-sdl2/citydlg.c:3571
+#: client/gui-sdl/citydlg.c:3698 client/gui-sdl2/citydlg.c:3582
 msgid "Present units"
 msgstr "Aonadan an làthair"
 
-#: client/gui-sdl/citydlg.c:3709 client/gui-sdl2/citydlg.c:3582
+#: client/gui-sdl/citydlg.c:3709 client/gui-sdl2/citydlg.c:3593
 msgid "Supported units"
 msgstr "Aonadan ris a bheil taic"
 
-#: client/gui-sdl/citydlg.c:3778 client/gui-sdl2/citydlg.c:3651
+#: client/gui-sdl/citydlg.c:3778 client/gui-sdl2/citydlg.c:3665
 msgid "Change production"
 msgstr "Atharraich an cinneasachadh"
 
 #: client/gui-sdl/citydlg.c:3792 client/gui-sdl/dialogs.c:1756
-#: client/gui-sdl2/citydlg.c:3665 client/gui-sdl2/dialogs.c:1763
+#: client/gui-sdl2/citydlg.c:3679 client/gui-sdl2/dialogs.c:1772
 msgid "Hurry production"
 msgstr "Greas an cinneasachadh"
 
-#: client/gui-sdl/citydlg.c:3822 client/gui-sdl2/citydlg.c:3695
+#: client/gui-sdl/citydlg.c:3822 client/gui-sdl2/citydlg.c:3709
 msgid "Previous city"
 msgstr "Am baile roimhe"
 
-#: client/gui-sdl/citydlg.c:3837 client/gui-sdl2/citydlg.c:3710
+#: client/gui-sdl/citydlg.c:3837 client/gui-sdl2/citydlg.c:3724
 msgid "Next city"
 msgstr "An t-ath bhaile"
 
@@ -10137,7 +10137,7 @@ msgstr ""
 "am fàs e"
 
 #: client/gui-sdl/cityrep.c:213 client/gui-sdl/mapctrl.c:1581
-#: client/gui-sdl2/cityrep.c:225 client/gui-sdl2/mapctrl.c:1694
+#: client/gui-sdl2/cityrep.c:225 client/gui-sdl2/mapctrl.c:1695
 msgid "Cities Report"
 msgstr "Aithisg nam bailtean"
 
@@ -10145,28 +10145,28 @@ msgstr "Aithisg nam bailtean"
 msgid "Close Dialog"
 msgstr "Dùin an còmhradh"
 
-#: client/gui-sdl/cityrep.c:241 client/gui-sdl2/cityrep.c:253
+#: client/gui-sdl/cityrep.c:241 client/gui-sdl2/cityrep.c:254
 msgid "Information Report"
 msgstr "Aithisg an fhiosrachaidh"
 
-#: client/gui-sdl/cityrep.c:251 client/gui-sdl2/cityrep.c:263
+#: client/gui-sdl/cityrep.c:251 client/gui-sdl2/cityrep.c:264
 msgid "Happiness Report"
 msgstr "Aithisg an toileachais"
 
-#: client/gui-sdl/cityrep.c:261 client/gui-sdl2/cityrep.c:273
+#: client/gui-sdl/cityrep.c:261 client/gui-sdl2/cityrep.c:275
 msgid "Garrison Report"
 msgstr "Aithisg nan gearastan"
 
-#: client/gui-sdl/cityrep.c:271 client/gui-sdl2/cityrep.c:283
+#: client/gui-sdl/cityrep.c:271 client/gui-sdl2/cityrep.c:285
 msgid "Maintenance Report"
 msgstr "Aithisg nan obraichean càraidh"
 
 #: client/gui-sdl/cityrep.c:541 client/gui-sdl/cityrep.c:1070
-#: client/gui-sdl2/cityrep.c:554 client/gui-sdl2/cityrep.c:1087
+#: client/gui-sdl2/cityrep.c:556 client/gui-sdl2/cityrep.c:1089
 msgid "worklist"
 msgstr "liosta obrach"
 
-#: client/gui-sdl/cityrep.c:545 client/gui-sdl2/cityrep.c:558
+#: client/gui-sdl/cityrep.c:545 client/gui-sdl2/cityrep.c:560
 msgid ""
 "\n"
 "finished"
@@ -10174,37 +10174,37 @@ msgstr ""
 "\n"
 "deiseil"
 
-#: client/gui-sdl/cma_fe.c:485 client/gui-sdl2/cma_fe.c:498
+#: client/gui-sdl/cma_fe.c:485 client/gui-sdl2/cma_fe.c:503
 msgid "Presets"
 msgstr "Ro-sheataichean"
 
-#: client/gui-sdl/cma_fe.c:897 client/gui-sdl2/cma_fe.c:910
+#: client/gui-sdl/cma_fe.c:897 client/gui-sdl2/cma_fe.c:915
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
 msgstr "Baile %s (Sluagh de %s saoranaich) : %s"
 
-#: client/gui-sdl/cma_fe.c:1014 client/gui-sdl2/cma_fe.c:1029
+#: client/gui-sdl/cma_fe.c:1014 client/gui-sdl2/cma_fe.c:1034
 msgid "Save settings as..."
 msgstr "Sàbhail na roghainnean mar..."
 
-#: client/gui-sdl/cma_fe.c:1023 client/gui-sdl2/cma_fe.c:1038
+#: client/gui-sdl/cma_fe.c:1023 client/gui-sdl2/cma_fe.c:1043
 msgid "Load settings"
 msgstr "Luchdaich na roghainnean"
 
-#: client/gui-sdl/cma_fe.c:1032 client/gui-sdl2/cma_fe.c:1047
+#: client/gui-sdl/cma_fe.c:1032 client/gui-sdl2/cma_fe.c:1052
 msgid "Delete settings"
 msgstr "Sguab às na roghainnean"
 
-#: client/gui-sdl/cma_fe.c:1041 client/gui-sdl2/cma_fe.c:1056
+#: client/gui-sdl/cma_fe.c:1041 client/gui-sdl2/cma_fe.c:1061
 msgid "Control city"
 msgstr "Smachd aig an riaghlaiche"
 
-#: client/gui-sdl/cma_fe.c:1049 client/gui-sdl2/cma_fe.c:1065
+#: client/gui-sdl/cma_fe.c:1049 client/gui-sdl2/cma_fe.c:1070
 #: data/Freeciv.in:1488
 msgid "Apply once"
 msgstr "Cuir an sàs aon turas"
 
-#: client/gui-sdl/cma_fe.c:1057 client/gui-sdl2/cma_fe.c:1074
+#: client/gui-sdl/cma_fe.c:1057 client/gui-sdl2/cma_fe.c:1079
 msgid "Release city"
 msgstr "Smachd agam-sa"
 
@@ -10213,20 +10213,20 @@ msgid "Creating Server List..."
 msgstr "A' cruthachadh liosta nam frithealaichean..."
 
 #: client/gui-sdl/connectdlg.c:293 client/gui-sdl/connectdlg.c:359
-#: client/gui-sdl2/connectdlg.c:298 client/gui-sdl2/connectdlg.c:365
+#: client/gui-sdl2/connectdlg.c:298 client/gui-sdl2/connectdlg.c:366
 msgid "No LAN servers found"
 msgstr "Cha deach frithealaiche LAN a lorg"
 
 #: client/gui-sdl/connectdlg.c:295 client/gui-sdl/connectdlg.c:361
-#: client/gui-sdl2/connectdlg.c:300 client/gui-sdl2/connectdlg.c:367
+#: client/gui-sdl2/connectdlg.c:300 client/gui-sdl2/connectdlg.c:368
 msgid "No public servers found"
 msgstr "Cha deach frithealaichean poblach a lorg"
 
 #. TRANS: "host.example.com Port 5556 Ver: 2.2.0 Running Players 3\n
 #. * [server message]"
-#. TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
+#. TRANS: "host.example.com Port 5556 Ver: 3.1.0 Running Players 3\n
 #. * [server message]"
-#: client/gui-sdl/connectdlg.c:331 client/gui-sdl2/connectdlg.c:335
+#: client/gui-sdl/connectdlg.c:331 client/gui-sdl2/connectdlg.c:336
 #, c-format
 msgid ""
 "%s Port %d Ver: %s %s %s %d\n"
@@ -10235,29 +10235,29 @@ msgstr ""
 "%s Port %d Tionndadh: %s %s %s %d\n"
 "%s"
 
-#: client/gui-sdl/connectdlg.c:576 client/gui-sdl2/connectdlg.c:575
+#: client/gui-sdl/connectdlg.c:576 client/gui-sdl2/connectdlg.c:576
 msgid "Player Name :"
 msgstr "Ainm a' chluicheadair :"
 
-#: client/gui-sdl/connectdlg.c:592 client/gui-sdl2/connectdlg.c:591
+#: client/gui-sdl/connectdlg.c:592 client/gui-sdl2/connectdlg.c:593
 msgid "Freeciv Server :"
 msgstr "Frithealaiche Freeciv :"
 
-#: client/gui-sdl/connectdlg.c:609 client/gui-sdl2/connectdlg.c:608
+#: client/gui-sdl/connectdlg.c:609 client/gui-sdl2/connectdlg.c:611
 msgid "Port :"
 msgstr "Port :"
 
 #: client/gui-sdl/connectdlg.c:824 client/gui-sdl/connectdlg.c:998
-#: client/gui-sdl2/connectdlg.c:822 client/gui-sdl2/connectdlg.c:993
+#: client/gui-sdl2/connectdlg.c:832 client/gui-sdl2/connectdlg.c:1009
 msgid "Next"
 msgstr "Air adhart"
 
-#: client/gui-sdl/dialogs.c:1117 client/gui-sdl2/dialogs.c:1122
+#: client/gui-sdl/dialogs.c:1117 client/gui-sdl2/dialogs.c:1128
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%s) %s"
 msgstr "Caraid %s (%d / %d) %s(%d,%d,%s) %s"
 
-#: client/gui-sdl/dialogs.c:1129 client/gui-sdl2/dialogs.c:1134
+#: client/gui-sdl/dialogs.c:1129 client/gui-sdl2/dialogs.c:1140
 #, c-format
 msgid "%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"
 msgstr "%s %s %s(I:%d D:%d PG:%s CL:%d) PB:%d%%"
@@ -10267,130 +10267,130 @@ msgstr "%s %s %s(I:%d D:%d PG:%s CL:%d) PB:%d%%"
 #. TRANS: "CtW" = "Chance to Win"; preserve leading space
 #. TRANS: preserve leading space
 #: client/gui-sdl/dialogs.c:1142 client/gui-sdl/dialogs.c:1919
-#: client/gui-sdl/dialogs.c:2051 client/gui-sdl2/dialogs.c:1147
-#: client/gui-sdl2/dialogs.c:1922 client/gui-sdl2/dialogs.c:2047
+#: client/gui-sdl/dialogs.c:2051 client/gui-sdl2/dialogs.c:1153
+#: client/gui-sdl2/dialogs.c:1931 client/gui-sdl2/dialogs.c:2056
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr " CtW: Att:%d%% Def:%d%%"
 
-#: client/gui-sdl/dialogs.c:1281 client/gui-sdl2/dialogs.c:1285
+#: client/gui-sdl/dialogs.c:1281 client/gui-sdl2/dialogs.c:1291
 #, c-format
 msgid "Terrain Defense Bonus: +%d%% "
 msgstr "Duais dìon on talamh: +%d%% "
 
 #: client/gui-sdl/dialogs.c:1306 client/gui-sdl/dialogs.c:1702
-#: client/gui-sdl2/dialogs.c:1310 client/gui-sdl2/dialogs.c:1710
+#: client/gui-sdl2/dialogs.c:1316 client/gui-sdl2/dialogs.c:1719
 msgid "Terrain Info"
 msgstr "Fiosrachadh na talamhainn"
 
-#: client/gui-sdl/dialogs.c:1675 client/gui-sdl2/dialogs.c:1683
+#: client/gui-sdl/dialogs.c:1675 client/gui-sdl2/dialogs.c:1692
 msgid "Advanced Menu"
 msgstr "An clàr-taice adhartach"
 
-#: client/gui-sdl/dialogs.c:1730 client/gui-sdl2/dialogs.c:1737
+#: client/gui-sdl/dialogs.c:1730 client/gui-sdl2/dialogs.c:1746
 #, c-format
 msgid "Zoom to : %s"
 msgstr "Sùm air : %s"
 
-#: client/gui-sdl/dialogs.c:1744 client/gui-sdl2/dialogs.c:1751
+#: client/gui-sdl/dialogs.c:1744 client/gui-sdl2/dialogs.c:1760
 #: data/Freeciv.in:2098
 msgid "Change Production"
 msgstr "Atharraich an cinneasachadh"
 
-#: client/gui-sdl/dialogs.c:1768 client/gui-sdl2/dialogs.c:1775
+#: client/gui-sdl/dialogs.c:1768 client/gui-sdl2/dialogs.c:1784
 msgid "Change City Governor settings"
 msgstr "Atharraich roghainnean riaghlaiche a' bhaile"
 
-#: client/gui-sdl/dialogs.c:1790 client/gui-sdl2/dialogs.c:1796
+#: client/gui-sdl/dialogs.c:1790 client/gui-sdl2/dialogs.c:1805
 msgid "Goto here"
 msgstr "Rach an-seo"
 
-#: client/gui-sdl/dialogs.c:1801 client/gui-sdl2/dialogs.c:1807
+#: client/gui-sdl/dialogs.c:1801 client/gui-sdl2/dialogs.c:1816
 msgid "Patrol here"
 msgstr "Dèan cuairteachan an-seo"
 
-#: client/gui-sdl/dialogs.c:1814 client/gui-sdl2/dialogs.c:1820
+#: client/gui-sdl/dialogs.c:1814 client/gui-sdl2/dialogs.c:1829
 msgid "Connect here"
 msgstr "Dèan ceangal an-seo"
 
-#: client/gui-sdl/dialogs.c:1834 client/gui-sdl2/dialogs.c:1839
+#: client/gui-sdl/dialogs.c:1834 client/gui-sdl2/dialogs.c:1848
 msgid "Paradrop here"
 msgstr "Dèan paradrop an-seo"
 
 #: client/gui-sdl/dialogs.c:1887 client/gui-sdl/dialogs.c:2010
-#: client/gui-sdl2/dialogs.c:1890 client/gui-sdl2/dialogs.c:2006
+#: client/gui-sdl2/dialogs.c:1899 client/gui-sdl2/dialogs.c:2015
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%s) %s"
 msgstr "Dùisg %s (%d / %d) %s (%d,%d,%s) %s"
 
 #: client/gui-sdl/dialogs.c:1906 client/gui-sdl/dialogs.c:2038
-#: client/gui-sdl2/dialogs.c:1909 client/gui-sdl2/dialogs.c:2034
+#: client/gui-sdl2/dialogs.c:1918 client/gui-sdl2/dialogs.c:2043
 #, c-format
 msgid "%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"
 msgstr "%s %s %s (I:%d D:%d PG:%s CL:%d) PB:%d%%"
 
-#: client/gui-sdl/dialogs.c:1968 client/gui-sdl2/dialogs.c:1967
+#: client/gui-sdl/dialogs.c:1968 client/gui-sdl2/dialogs.c:1976
 #: data/Freeciv.in:579
 msgid "Ready all"
 msgstr "Dùisg a h-uile"
 
-#: client/gui-sdl/dialogs.c:1977 client/gui-sdl2/dialogs.c:1976
+#: client/gui-sdl/dialogs.c:1977 client/gui-sdl2/dialogs.c:1985
 msgid "Sentry idle"
 msgstr "Freiceadan 'na thàmh"
 
-#: client/gui-sdl/dialogs.c:2070 client/gui-sdl2/dialogs.c:2065
+#: client/gui-sdl/dialogs.c:2070 client/gui-sdl2/dialogs.c:2074
 #, c-format
 msgid "Look up \"%s\" in the Help Browser"
 msgstr "Lorg \"%s\" ann am brabhsair na cobharach"
 
-#: client/gui-sdl/dialogs.c:2418 client/gui-sdl2/dialogs.c:2407
+#: client/gui-sdl/dialogs.c:2418 client/gui-sdl2/dialogs.c:2416
 msgid "Choose Your New Government"
 msgstr "Tagh an riaghaltas ùr agad"
 
-#: client/gui-sdl/dialogs.c:3081 client/gui-sdl2/dialogs.c:3064
+#: client/gui-sdl/dialogs.c:3081 client/gui-sdl2/dialogs.c:3078
 msgid "What nation will you be?"
 msgstr "Dè an nàisean a bhios annad fhèin?"
 
-#: client/gui-sdl/dialogs.c:3172 client/gui-sdl2/dialogs.c:3156
+#: client/gui-sdl/dialogs.c:3172 client/gui-sdl2/dialogs.c:3171
 #, fuzzy
 #| msgid "Nations"
 msgid "Nation set"
 msgstr "Nàiseanan"
 
-#: client/gui-sdl/diplodlg.c:575 client/gui-sdl2/diplodlg.c:581
+#: client/gui-sdl/diplodlg.c:575 client/gui-sdl2/diplodlg.c:587
 msgid "World map"
 msgstr "Mapa an t-saoghail"
 
-#: client/gui-sdl/diplodlg.c:589 client/gui-sdl2/diplodlg.c:595
+#: client/gui-sdl/diplodlg.c:589 client/gui-sdl2/diplodlg.c:603
 msgid "Sea map"
 msgstr "Mapa na mara"
 
-#: client/gui-sdl/diplodlg.c:622 client/gui-sdl2/diplodlg.c:629
+#: client/gui-sdl/diplodlg.c:622 client/gui-sdl2/diplodlg.c:638
 #: client/gui-xaw/diplodlg.c:497 client/gui-xaw/diplodlg.c:507
 #, c-format
 msgid "Gold(max %d)"
 msgstr "Òr(as motha %d)"
 
-#: client/gui-sdl/diplodlg.c:878 client/gui-sdl2/diplodlg.c:885
+#: client/gui-sdl/diplodlg.c:878 client/gui-sdl2/diplodlg.c:904
 #: data/Freeciv.in:287
 msgid "Diplomacy meeting"
 msgstr "Coinneamh dìoplomasachd"
 
 #. TRANS: "Polish incident !" FIXME!!!
-#: client/gui-sdl/diplodlg.c:1371 client/gui-sdl2/diplodlg.c:1377
+#: client/gui-sdl/diplodlg.c:1371 client/gui-sdl2/diplodlg.c:1398
 #, c-format
 msgid "%s incident !"
 msgstr "Connspaid le %s !"
 
-#: client/gui-sdl/diplodlg.c:1389 client/gui-sdl2/diplodlg.c:1395
+#: client/gui-sdl/diplodlg.c:1389 client/gui-sdl2/diplodlg.c:1416
 msgid "Shall we declare WAR on them?"
 msgstr "An gairm sinn COGADH 'nan aghaidh?"
 
-#: client/gui-sdl/diplodlg.c:1506 client/gui-sdl2/diplodlg.c:1513
+#: client/gui-sdl/diplodlg.c:1506 client/gui-sdl2/diplodlg.c:1536
 msgid "Foreign Minister"
 msgstr "Rùnaire nan Dùthchannan Cèin"
 
-#: client/gui-sdl/diplodlg.c:1523 client/gui-sdl2/diplodlg.c:1530
+#: client/gui-sdl/diplodlg.c:1523 client/gui-sdl2/diplodlg.c:1554
 #, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
@@ -10399,7 +10399,7 @@ msgstr ""
 "Ràinig tosgaire %s\n"
 "Dè ur toil?"
 
-#: client/gui-sdl/diplodlg.c:1527 client/gui-sdl2/diplodlg.c:1534
+#: client/gui-sdl/diplodlg.c:1527 client/gui-sdl2/diplodlg.c:1559
 #, c-format
 msgid ""
 "Ma'am!, the %s ambassador has arrived\n"
@@ -10408,20 +10408,20 @@ msgstr ""
 "A bhean uasail, ràinig tosgaire %s\n"
 "Dè ur toil?"
 
-#: client/gui-sdl/diplodlg.c:1546 client/gui-sdl2/diplodlg.c:1553
+#: client/gui-sdl/diplodlg.c:1546 client/gui-sdl2/diplodlg.c:1578
 msgid "Declare WAR"
 msgstr "Gairm COGADH orra"
 
-#: client/gui-sdl/diplodlg.c:1573 client/gui-sdl2/diplodlg.c:1581
+#: client/gui-sdl/diplodlg.c:1573 client/gui-sdl2/diplodlg.c:1608
 #: data/Freeciv.in:3262
 msgid "Withdraw vision"
 msgstr "Thoir air falbh a' cho-lèirsinn"
 
-#: client/gui-sdl/diplodlg.c:1592 client/gui-sdl2/diplodlg.c:1600
+#: client/gui-sdl/diplodlg.c:1592 client/gui-sdl2/diplodlg.c:1628
 msgid "Call Diplomatic Meeting"
 msgstr "Gairm coinneamh dìoplomasach"
 
-#: client/gui-sdl/diplodlg.c:1608 client/gui-sdl2/diplodlg.c:1616
+#: client/gui-sdl/diplodlg.c:1608 client/gui-sdl2/diplodlg.c:1645
 msgid "Send him back"
 msgstr "Innis dha falbh"
 
@@ -10487,11 +10487,11 @@ msgstr "Cha ghabh an dùmhlachd-bhreacaidh a shuidheachadh: %d x %d %d bpp %s"
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr "A' suidheachadh na dùmhlachd-bhreacaidh mar: %d x %d %d bpp"
 
-#: client/gui-sdl/gui_main.c:168 client/gui-sdl2/gui_main.c:175
+#: client/gui-sdl/gui_main.c:174 client/gui-sdl2/gui_main.c:181
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tTòisich an cliant sa mhodh làn-sgrìn\n"
 
-#: client/gui-sdl/gui_main.c:169
+#: client/gui-sdl/gui_main.c:175
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
@@ -10499,29 +10499,29 @@ msgstr ""
 "  -e,  --eventthread\tInit Event Subsystem san t-snàth eile (Linux agus BeOS "
 "a-mhàin)\n"
 
-#: client/gui-sdl/gui_main.c:171 client/gui-sdl2/gui_main.c:176
+#: client/gui-sdl/gui_main.c:177 client/gui-sdl2/gui_main.c:182
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr "  -t,  --theme THEME\tCleachd an t-ùrlar GUI THEME\n"
 
-#: client/gui-sdl/gui_main.c:640 client/gui-sdl2/gui_main.c:741
+#: client/gui-sdl/gui_main.c:646 client/gui-sdl2/gui_main.c:747
 #, c-format
 msgid "Making screenshot %s"
 msgstr "Dèan glacadh-sgrìn %s"
 
-#: client/gui-sdl/gui_main.c:769 client/gui-sdl2/gui_main.c:995
+#: client/gui-sdl/gui_main.c:775 client/gui-sdl2/gui_main.c:996
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "A' cleachdadh às-chur video: %s"
 
-#: client/gui-sdl/gui_main.c:797 client/gui-sdl/gui_main.c:812
+#: client/gui-sdl/gui_main.c:803 client/gui-sdl/gui_main.c:818
 msgid "SDL Client for Freeciv"
 msgstr "Cliant SDL airson Freeciv"
 
-#: client/gui-sdl/gui_main.c:824
+#: client/gui-sdl/gui_main.c:830
 msgid "Initializing Client"
 msgstr "A' tòiseachadh a' chliant"
 
-#: client/gui-sdl/gui_main.c:835
+#: client/gui-sdl/gui_main.c:841
 msgid "Waiting for the beginning of the game"
 msgstr "A' feitheamh ri toiseach a' gheama"
 
@@ -10534,18 +10534,18 @@ msgstr "TAART"
 msgid "Help : Improvements"
 msgstr "Cobhair : Leasachaidhean"
 
-#: client/gui-sdl/helpdlg.c:427 client/gui-sdl2/helpdlg.c:432
+#: client/gui-sdl/helpdlg.c:427 client/gui-sdl2/helpdlg.c:440
 #: tools/civmanual.c:511
 #, fuzzy
 #| msgid "None"
 msgid "?req:None"
 msgstr "Chan eil gin"
 
-#: client/gui-sdl/helpdlg.c:453 client/gui-sdl2/helpdlg.c:459
+#: client/gui-sdl/helpdlg.c:453 client/gui-sdl2/helpdlg.c:467
 msgid "Never"
 msgstr "Chan ann idir"
 
-#: client/gui-sdl/helpdlg.c:659 client/gui-sdl2/helpdlg.c:664
+#: client/gui-sdl/helpdlg.c:659 client/gui-sdl2/helpdlg.c:676
 msgid "Help : Units"
 msgstr "Cobhair : Aonadan"
 
@@ -10554,8 +10554,8 @@ msgstr "Cobhair : Aonadan"
 #: client/gui-sdl/wldlg.c:1444 client/gui-sdl/wldlg.c:1450
 #: client/gui-sdl/wldlg.c:1469 client/gui-sdl/wldlg.c:1474
 #: client/gui-sdl/wldlg.c:1565 client/gui-sdl/wldlg.c:1573
-#: client/gui-sdl/wldlg.c:1583 client/gui-sdl2/helpdlg.c:804
-#: client/gui-sdl2/helpdlg.c:816 client/gui-sdl2/wldlg.c:1461
+#: client/gui-sdl/wldlg.c:1583 client/gui-sdl2/helpdlg.c:818
+#: client/gui-sdl2/helpdlg.c:830 client/gui-sdl2/wldlg.c:1461
 #: client/gui-sdl2/wldlg.c:1467 client/gui-sdl2/wldlg.c:1475
 #: client/gui-sdl2/wldlg.c:1481 client/gui-sdl2/wldlg.c:1500
 #: client/gui-sdl2/wldlg.c:1505 client/gui-sdl2/wldlg.c:1597
@@ -10568,7 +10568,7 @@ msgstr[2] "sgiathan"
 msgstr[3] "sgiath"
 
 #: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:824
-#: client/gui-sdl2/helpdlg.c:808 client/gui-sdl2/helpdlg.c:831
+#: client/gui-sdl2/helpdlg.c:822 client/gui-sdl2/helpdlg.c:845
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "saoranach"
@@ -10576,7 +10576,7 @@ msgstr[1] "shaoranach"
 msgstr[2] "saoranaich"
 msgstr[3] "saoranach"
 
-#: client/gui-sdl/helpdlg.c:814 client/gui-sdl2/helpdlg.c:821
+#: client/gui-sdl/helpdlg.c:814 client/gui-sdl2/helpdlg.c:835
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "bhiadh"
@@ -10584,7 +10584,7 @@ msgstr[1] "bhiadh"
 msgstr[2] "biadh"
 msgstr[3] "biadh"
 
-#: client/gui-sdl/helpdlg.c:819 client/gui-sdl2/helpdlg.c:826
+#: client/gui-sdl/helpdlg.c:819 client/gui-sdl2/helpdlg.c:840
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "òr"
@@ -10592,19 +10592,19 @@ msgstr[1] "òr"
 msgstr[2] "òr"
 msgstr[3] "òr"
 
-#: client/gui-sdl/helpdlg.c:880 client/gui-sdl2/helpdlg.c:887
+#: client/gui-sdl/helpdlg.c:880 client/gui-sdl2/helpdlg.c:903
 msgid "?utype:None"
 msgstr ""
 
-#: client/gui-sdl/helpdlg.c:1072 client/gui-sdl2/helpdlg.c:1081
+#: client/gui-sdl/helpdlg.c:1072 client/gui-sdl2/helpdlg.c:1098
 msgid "( with "
 msgstr "( le"
 
-#: client/gui-sdl/helpdlg.c:1075 client/gui-sdl2/helpdlg.c:1084
+#: client/gui-sdl/helpdlg.c:1075 client/gui-sdl2/helpdlg.c:1101
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1919 client/gui-sdl2/helpdlg.c:1928
+#: client/gui-sdl/helpdlg.c:1936 client/gui-sdl2/helpdlg.c:1965
 msgid "Help : Advances Tree"
 msgstr "Cobhair : Craobh nan adhartasan"
 
@@ -10613,18 +10613,18 @@ msgstr "Cobhair : Craobh nan adhartasan"
 msgid "Foreign Intelligence Report"
 msgstr "Aithisg na fàisneise chèin"
 
-#: client/gui-sdl/inteldlg.c:277 client/gui-sdl2/inteldlg.c:297
+#: client/gui-sdl/inteldlg.c:277 client/gui-sdl2/inteldlg.c:298
 #, c-format
 msgid "Intelligence Information about the %s Spaceship"
 msgstr "Fàisneis mu shoitheach-fànais %s"
 
-#: client/gui-sdl/inteldlg.c:285 client/gui-sdl2/inteldlg.c:305
+#: client/gui-sdl/inteldlg.c:285 client/gui-sdl2/inteldlg.c:306
 #: client/gui-xaw/inteldlg.c:199
 #, c-format
 msgid "Intelligence Information for the %s Empire"
 msgstr "Fàisneis mu impireachd %s"
 
-#: client/gui-sdl/inteldlg.c:309 client/gui-sdl2/inteldlg.c:329
+#: client/gui-sdl/inteldlg.c:309 client/gui-sdl2/inteldlg.c:330
 #, fuzzy, c-format
 #| msgid ""
 #| "Ruler: %s  Government: %s\n"
@@ -10642,7 +10642,7 @@ msgstr ""
 "Cìs: %d%% Saidheans: %d%% Sòghalachd: %d%%\n"
 "A' rannsachadh: %s(%d/%d)"
 
-#: client/gui-sdl/inteldlg.c:323 client/gui-sdl2/inteldlg.c:343
+#: client/gui-sdl/inteldlg.c:323 client/gui-sdl2/inteldlg.c:344
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
@@ -10655,7 +10655,7 @@ msgstr ""
 "Cìs: %d%% Saidheans: %d%% Sòghalachd: %d%%\n"
 "A' rannsachadh: %s(%d/%d)"
 
-#: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:361
+#: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:362
 #, fuzzy, c-format
 #| msgid ""
 #| "Ruler: %s  Government: %s\n"
@@ -10673,7 +10673,7 @@ msgstr ""
 "Cìs: %d%% Saidheans: %d%% Sòghalachd: %d%%\n"
 "A' rannsachadh: chan eil fhios"
 
-#: client/gui-sdl/inteldlg.c:409 client/gui-sdl2/inteldlg.c:429
+#: client/gui-sdl/inteldlg.c:409 client/gui-sdl2/inteldlg.c:431
 msgid "Their techs that we don't have :"
 msgstr "An teicneolas a tha aca-san nach eil againne :"
 
@@ -10682,7 +10682,7 @@ msgid "Show Unit Info Window"
 msgstr "Seall uinneag fiosrachadh an aonaid"
 
 #: client/gui-sdl/mapctrl.c:336 client/gui-sdl/mapctrl.c:1434
-#: client/gui-sdl2/mapctrl.c:356 client/gui-sdl2/mapctrl.c:1531
+#: client/gui-sdl2/mapctrl.c:356 client/gui-sdl2/mapctrl.c:1532
 msgid "Hide Unit Info Window"
 msgstr "Falaich uinneag fiosrachadh an aonaid"
 
@@ -10691,7 +10691,7 @@ msgid "Show Mini Map"
 msgstr "Seall am meanbh mhapa"
 
 #: client/gui-sdl/mapctrl.c:464 client/gui-sdl/mapctrl.c:1644
-#: client/gui-sdl2/mapctrl.c:486 client/gui-sdl2/mapctrl.c:1756
+#: client/gui-sdl2/mapctrl.c:486 client/gui-sdl2/mapctrl.c:1757
 msgid "Hide Mini Map"
 msgstr "Falaich am meanbh mhapa"
 
@@ -10732,59 +10732,59 @@ msgstr "Leud"
 msgid "Height"
 msgstr "Àirde"
 
-#: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:310
-#: client/gui-sdl/mapview.c:313 client/gui-sdl2/mapctrl.c:1509
-#: client/gui-sdl2/mapview.c:325 client/gui-sdl2/mapview.c:328
+#: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:309
+#: client/gui-sdl/mapview.c:312 client/gui-sdl2/mapctrl.c:1509
+#: client/gui-sdl2/mapview.c:324 client/gui-sdl2/mapview.c:327
 msgid "Revolution"
 msgstr "Reabhlaid"
 
-#: client/gui-sdl/mapctrl.c:1582 client/gui-sdl2/mapctrl.c:1695
+#: client/gui-sdl/mapctrl.c:1582 client/gui-sdl2/mapctrl.c:1696
 msgid "or"
 msgstr "no"
 
-#: client/gui-sdl/mapctrl.c:1608 client/gui-sdl2/mapctrl.c:1721
+#: client/gui-sdl/mapctrl.c:1608 client/gui-sdl2/mapctrl.c:1722
 msgid "Hide Messages"
 msgstr "Falaich na teachdaireachdan"
 
-#: client/gui-sdl/mapview.c:150
+#: client/gui-sdl/mapview.c:149
 msgid "The SDL event buffer is full; you may see drawing errors as a result."
 msgstr ""
 "Tha bufar tachartasan SDL làn; faodaidh gum faic thu mearachdan tarraing air "
 "an sgrìn."
 
-#: client/gui-sdl/mapview.c:314 client/gui-sdl2/mapview.c:329
+#: client/gui-sdl/mapview.c:313 client/gui-sdl2/mapview.c:328
 #, fuzzy
 #| msgid "None"
 msgid "?gov:None"
 msgstr "Chan eil gin"
 
-#: client/gui-sdl/mapview.c:418 client/gui-sdl2/mapview.c:431
+#: client/gui-sdl/mapview.c:417 client/gui-sdl2/mapview.c:426
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr "%s Sluagh: %s  Biadhna: %s  Òr %d"
 
-#: client/gui-sdl/mapview.c:426 client/gui-sdl2/mapview.c:439
+#: client/gui-sdl/mapview.c:425 client/gui-sdl2/mapview.c:434
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s Sluagh: %s  Bliadhna: %s  Òr %d Cìs: %d Sògh: %d Saidh: %d "
 
-#: client/gui-sdl/mapview.c:577 client/gui-sdl2/mapview.c:594 client/text.c:146
+#: client/gui-sdl/mapview.c:576 client/gui-sdl2/mapview.c:595 client/text.c:146
 msgid "?nation:Hostile"
 msgstr "?nation:Nàimhdeil"
 
-#: client/gui-sdl/mapview.c:579 client/gui-sdl2/mapview.c:596 client/text.c:148
+#: client/gui-sdl/mapview.c:578 client/gui-sdl2/mapview.c:597 client/text.c:148
 msgid "?nation:Peaceful"
 msgstr "?nation:Sìtheil"
 
-#: client/gui-sdl/mapview.c:579 client/gui-sdl2/mapview.c:596 client/text.c:148
+#: client/gui-sdl/mapview.c:578 client/gui-sdl2/mapview.c:597 client/text.c:148
 msgid "?nation:Friendly"
 msgstr "?nation:Càirdeil"
 
-#: client/gui-sdl/mapview.c:580 client/gui-sdl2/mapview.c:597 client/text.c:149
+#: client/gui-sdl/mapview.c:579 client/gui-sdl2/mapview.c:598 client/text.c:149
 msgid "?nation:Mysterious"
 msgstr "?nation:Annasach"
 
-#: client/gui-sdl/mapview.c:582 client/gui-sdl2/mapview.c:600
+#: client/gui-sdl/mapview.c:581 client/gui-sdl2/mapview.c:601
 msgid ""
 "\n"
 "Our Territory"
@@ -10792,7 +10792,7 @@ msgstr ""
 "\n"
 "Ar n-àrainn"
 
-#: client/gui-sdl/mapview.c:591 client/gui-sdl2/mapview.c:611
+#: client/gui-sdl/mapview.c:590 client/gui-sdl2/mapview.c:612
 #, c-format
 msgid ""
 "\n"
@@ -10813,7 +10813,7 @@ msgstr[3] ""
 "\n"
 "Àrainn %s (stad-losgaidh %d cuairt)"
 
-#: client/gui-sdl/mapview.c:597 client/gui-sdl2/mapview.c:619
+#: client/gui-sdl/mapview.c:596 client/gui-sdl2/mapview.c:620
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -10840,7 +10840,7 @@ msgstr[3] ""
 "\n"
 "Àrainn %s (stad-losgaidh %d cuairt)"
 
-#: client/gui-sdl/mapview.c:601 client/gui-sdl2/mapview.c:624
+#: client/gui-sdl/mapview.c:600 client/gui-sdl2/mapview.c:625
 #, c-format
 msgid ""
 "\n"
@@ -10849,7 +10849,7 @@ msgstr ""
 "\n"
 "Àrainn %2$s %1$s"
 
-#: client/gui-sdl/mapview.c:606 client/gui-sdl2/mapview.c:629
+#: client/gui-sdl/mapview.c:605 client/gui-sdl2/mapview.c:630
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -10857,28 +10857,28 @@ msgstr ""
 "\n"
 "Àrainn gun seilbheadair"
 
-#: client/gui-sdl/mapview.c:617 client/gui-sdl/mapview.c:618
-#: client/gui-sdl2/mapview.c:639 client/gui-sdl2/mapview.c:640
+#: client/gui-sdl/mapview.c:616 client/gui-sdl/mapview.c:617
+#: client/gui-sdl2/mapview.c:640 client/gui-sdl2/mapview.c:641
 msgid "?city:Neutral"
 msgstr "?city:Neodrach"
 
-#: client/gui-sdl/mapview.c:617 client/gui-sdl2/mapview.c:639 client/text.c:151
+#: client/gui-sdl/mapview.c:616 client/gui-sdl2/mapview.c:640 client/text.c:151
 msgid "?city:Hostile"
 msgstr "?city:Nàimhdeil"
 
-#: client/gui-sdl/mapview.c:618 client/gui-sdl2/mapview.c:640 client/text.c:153
+#: client/gui-sdl/mapview.c:617 client/gui-sdl2/mapview.c:641 client/text.c:153
 msgid "?city:Peaceful"
 msgstr "?city:Sìtheil"
 
-#: client/gui-sdl/mapview.c:619 client/gui-sdl2/mapview.c:641 client/text.c:153
+#: client/gui-sdl/mapview.c:618 client/gui-sdl2/mapview.c:642 client/text.c:153
 msgid "?city:Friendly"
 msgstr "?city:Càirdeil"
 
-#: client/gui-sdl/mapview.c:619 client/gui-sdl2/mapview.c:641 client/text.c:153
+#: client/gui-sdl/mapview.c:618 client/gui-sdl2/mapview.c:642 client/text.c:153
 msgid "?city:Mysterious"
 msgstr "?city:Annasach"
 
-#: client/gui-sdl/mapview.c:622 client/gui-sdl2/mapview.c:644
+#: client/gui-sdl/mapview.c:621 client/gui-sdl2/mapview.c:645
 #, c-format
 msgid ""
 "\n"
@@ -10887,11 +10887,11 @@ msgstr ""
 "\n"
 "Baile %s"
 
-#: client/gui-sdl/mapview.c:636 client/gui-sdl2/mapview.c:658
+#: client/gui-sdl/mapview.c:635 client/gui-sdl2/mapview.c:659
 msgid "?blistbegin: with "
 msgstr "?blistbegin: le "
 
-#: client/gui-sdl/mapview.c:638 client/gui-sdl2/mapview.c:660
+#: client/gui-sdl/mapview.c:637 client/gui-sdl2/mapview.c:661
 #: data/civ1/buildings.ruleset:76 data/civ2/buildings.ruleset:103
 #: data/classic/buildings.ruleset:138 data/experimental/buildings.ruleset:143
 #: data/civ2civ3/buildings.ruleset:226 data/multiplayer/buildings.ruleset:164
@@ -10899,21 +10899,21 @@ msgstr "?blistbegin: le "
 msgid "Barracks"
 msgstr "Taighean-feachd"
 
-#: client/gui-sdl/mapview.c:640 client/gui-sdl/mapview.c:646
-#: client/gui-sdl/mapview.c:652 client/gui-sdl2/mapview.c:662
-#: client/gui-sdl2/mapview.c:668 client/gui-sdl2/mapview.c:674
+#: client/gui-sdl/mapview.c:639 client/gui-sdl/mapview.c:645
+#: client/gui-sdl/mapview.c:651 client/gui-sdl2/mapview.c:663
+#: client/gui-sdl2/mapview.c:669 client/gui-sdl2/mapview.c:675
 #: client/helpdata.c:6366 client/helpdata.c:6374
 msgid "?blistmore:, "
 msgstr "?blistmore:, "
 
-#: client/gui-sdl/mapview.c:650 client/gui-sdl2/mapview.c:672
+#: client/gui-sdl/mapview.c:649 client/gui-sdl2/mapview.c:673
 #: data/civ2/buildings.ruleset:28 data/classic/buildings.ruleset:61
 #: data/experimental/buildings.ruleset:63 data/civ2civ3/buildings.ruleset:61
 #: data/multiplayer/buildings.ruleset:60 data/sandbox/buildings.ruleset:61
 msgid "Airport"
 msgstr "Port-adhair"
 
-#: client/gui-sdl/mapview.c:656 client/gui-sdl2/mapview.c:678
+#: client/gui-sdl/mapview.c:655 client/gui-sdl2/mapview.c:679
 #: data/civ1/buildings.ruleset:182 data/civ2/buildings.ruleset:213
 #: data/classic/buildings.ruleset:252 data/experimental/buildings.ruleset:257
 #: data/civ2civ3/buildings.ruleset:338 data/multiplayer/buildings.ruleset:278
@@ -10921,12 +10921,12 @@ msgstr "Port-adhair"
 msgid "City Walls"
 msgstr "Ballachan a' bhaile"
 
-#: client/gui-sdl/mapview.c:659 client/gui-sdl2/mapview.c:681
+#: client/gui-sdl/mapview.c:658 client/gui-sdl2/mapview.c:682
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:667 client/gui-sdl2/mapview.c:689
+#: client/gui-sdl/mapview.c:666 client/gui-sdl2/mapview.c:690
 #, c-format
 msgid ""
 "\n"
@@ -10935,7 +10935,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl/mapview.c:677 client/gui-sdl2/mapview.c:698
+#: client/gui-sdl/mapview.c:676 client/gui-sdl2/mapview.c:699
 #, c-format
 msgid ""
 "\n"
@@ -10944,11 +10944,11 @@ msgstr ""
 "\n"
 "Biadh/Cinneas/Malairt: %s"
 
-#: client/gui-sdl/mapview.c:923 client/gui-sdl2/mapview.c:942
+#: client/gui-sdl/mapview.c:922 client/gui-sdl2/mapview.c:943
 msgid "End of Turn"
 msgstr "Deireadh na cuairte"
 
-#: client/gui-sdl/mapview.c:923 client/gui-sdl2/mapview.c:942
+#: client/gui-sdl/mapview.c:922 client/gui-sdl2/mapview.c:943
 msgid "Press"
 msgstr "Put"
 
@@ -11080,47 +11080,48 @@ msgid "Local Options"
 msgstr "Na roghainnean ionadail"
 
 #: client/gui-sdl/optiondlg.c:326 client/gui-sdl/optiondlg.c:798
-#: client/gui-sdl2/optiondlg.c:331 client/gui-sdl2/optiondlg.c:809
+#: client/gui-sdl2/optiondlg.c:331 client/gui-sdl2/optiondlg.c:817
 msgid "Server options"
 msgstr "Seall roghainnean an fhrithealaiche"
 
-#: client/gui-sdl/optiondlg.c:789 client/gui-sdl2/optiondlg.c:800
+#: client/gui-sdl/optiondlg.c:789 client/gui-sdl2/optiondlg.c:808
 msgid "Local options"
 msgstr "Na roghainnean ionadail"
 
-#: client/gui-sdl/optiondlg.c:809 client/gui-sdl2/optiondlg.c:820
+#: client/gui-sdl/optiondlg.c:809 client/gui-sdl2/optiondlg.c:828
 #: client/gui-xaw/menu.c:132 data/Freeciv.in:1989
 msgid "Worklists"
 msgstr "Liostaichean obrach"
 
-#: client/gui-sdl/optiondlg.c:819 client/gui-sdl2/optiondlg.c:830
+#: client/gui-sdl/optiondlg.c:819 client/gui-sdl2/optiondlg.c:839
 msgid "Save Local Options"
 msgstr "Sàbhail na roghainnean ionadail"
 
-#: client/gui-sdl/optiondlg.c:838 client/gui-sdl2/optiondlg.c:849
+#: client/gui-sdl/optiondlg.c:838 client/gui-sdl2/optiondlg.c:859
 #, fuzzy
 #| msgid "Freeciv Help Browser"
 msgid "Help Browser"
 msgstr "Brabhsair na cobharach airson Freeciv"
 
-#: client/gui-sdl/optiondlg.c:849 client/gui-sdl2/optiondlg.c:860
+#: client/gui-sdl/optiondlg.c:849 client/gui-sdl2/optiondlg.c:871
 msgid "Leave Game"
 msgstr "Fàg an geama"
 
-#: client/gui-sdl/optiondlg.c:999 client/gui-sdl2/optiondlg.c:1011
+#: client/gui-sdl/optiondlg.c:999 client/gui-sdl2/optiondlg.c:1024
 msgid "Apply changes"
 msgstr "Cuir na h-atharraichean an sàs"
 
-#: client/gui-sdl/optiondlg.c:1113 client/gui-sdl2/optiondlg.c:1129
+#: client/gui-sdl/optiondlg.c:1113 client/gui-sdl2/optiondlg.c:1142
 #: client/gui-xaw/wldlg.c:659
 msgid "empty worklist"
 msgstr "liosta obrach fhalamh"
 
-#: client/gui-sdl/optiondlg.c:1217 client/gui-sdl2/optiondlg.c:1234
+#: client/gui-sdl/optiondlg.c:1217 client/gui-sdl2/optiondlg.c:1248
 msgid "Add new worklist"
 msgstr "Cuir liosta obrach ùr ris"
 
 #. TRANS: Freeciv 2.4.0
+#. TRANS: Freeciv 3.2.0
 #: client/gui-sdl/pages.c:154 client/gui-sdl2/pages.c:161
 #, fuzzy, c-format
 msgid "Freeciv %s"
@@ -11133,19 +11134,19 @@ msgstr "Freeciv"
 msgid "%s client"
 msgstr "Seo %s%s, cliant %s"
 
-#: client/gui-sdl/pages.c:183 client/gui-sdl2/pages.c:189
+#: client/gui-sdl/pages.c:183 client/gui-sdl2/pages.c:190
 msgid "Start New Game"
 msgstr "Tòisich air geama ùr"
 
-#: client/gui-sdl/pages.c:212 client/gui-sdl2/pages.c:219
+#: client/gui-sdl/pages.c:212 client/gui-sdl2/pages.c:222
 msgid "Join Game"
 msgstr "Gabh pàirt ann an geama"
 
-#: client/gui-sdl/pages.c:226 client/gui-sdl2/pages.c:234
+#: client/gui-sdl/pages.c:226 client/gui-sdl2/pages.c:238
 msgid "Join Pubserver"
 msgstr "Gabh pàirt air pubserver"
 
-#: client/gui-sdl/pages.c:240 client/gui-sdl2/pages.c:249
+#: client/gui-sdl/pages.c:240 client/gui-sdl2/pages.c:254
 msgid "Join LAN Server"
 msgstr "Gabh pàirt air frithealaiche LAN"
 
@@ -11153,7 +11154,7 @@ msgstr "Gabh pàirt air frithealaiche LAN"
 msgid "SDLClient welcomes you..."
 msgstr "Tha an SDLClient a' cur fàilte ort..."
 
-#: client/gui-sdl/pages.c:331 client/gui-sdl2/pages.c:343
+#: client/gui-sdl/pages.c:331 client/gui-sdl2/pages.c:350
 #: client/gui-xaw/gui_main.c:537
 #, fuzzy, c-format
 #| msgid "City: %s"
@@ -11161,36 +11162,36 @@ msgid "Commit: %s"
 msgstr "Baile: %s"
 
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
-#: client/gui-sdl/plrdlg.c:432 client/gui-sdl2/plrdlg.c:481
+#: client/gui-sdl/plrdlg.c:432 client/gui-sdl2/plrdlg.c:482
 #: client/plrdlg_common.c:228
 msgid "R.I.P."
 msgstr "Sídh dó (h-)ainimm"
 
-#: client/gui-sdl/plrdlg.c:658 client/gui-sdl2/plrdlg.c:722
+#: client/gui-sdl/plrdlg.c:658 client/gui-sdl2/plrdlg.c:723
 #: client/plrdlg_common.c:312 server/stdinhand.c:3526 server/stdinhand.c:6394
 msgid "AI"
 msgstr "IF"
 
-#: client/gui-sdl/plrdlg.c:662 client/gui-sdl2/plrdlg.c:726
+#: client/gui-sdl/plrdlg.c:662 client/gui-sdl2/plrdlg.c:727
 #: client/plrdlg_common.c:250 client/plrdlg_common.c:259
 msgid "done"
 msgstr "deiseil"
 
-#: client/gui-sdl/plrdlg.c:664 client/gui-sdl2/plrdlg.c:728
+#: client/gui-sdl/plrdlg.c:664 client/gui-sdl2/plrdlg.c:729
 #: client/plrdlg_common.c:261
 msgid "moving"
 msgstr "a' gluasad"
 
-#: client/gui-sdl/plrdlg.c:667 client/gui-sdl2/plrdlg.c:731
+#: client/gui-sdl/plrdlg.c:667 client/gui-sdl2/plrdlg.c:732
 msgid "disconnected"
 msgstr "air dì-cheangal"
 
-#: client/gui-sdl/repodlgs.c:351 client/gui-sdl2/repodlgs.c:374
+#: client/gui-sdl/repodlgs.c:351 client/gui-sdl2/repodlgs.c:377
 #: common/fc_types.h:696
 msgid "active"
 msgstr "gnìomhach"
 
-#: client/gui-sdl/repodlgs.c:356 client/gui-sdl2/repodlgs.c:379
+#: client/gui-sdl/repodlgs.c:356 client/gui-sdl2/repodlgs.c:382
 msgid ""
 "under\n"
 "construction"
@@ -11198,7 +11199,7 @@ msgstr ""
 "ag obair\n"
 "air"
 
-#: client/gui-sdl/repodlgs.c:360 client/gui-sdl2/repodlgs.c:383
+#: client/gui-sdl/repodlgs.c:360 client/gui-sdl2/repodlgs.c:386
 msgid ""
 "soonest\n"
 "completion"
@@ -11206,15 +11207,15 @@ msgstr ""
 "deiseil air\n"
 "a' char as luaithe"
 
-#: client/gui-sdl/repodlgs.c:364 client/gui-sdl2/repodlgs.c:387
+#: client/gui-sdl/repodlgs.c:364 client/gui-sdl2/repodlgs.c:390
 msgid "Total"
 msgstr "Iomlan"
 
-#: client/gui-sdl/repodlgs.c:375 client/gui-sdl2/repodlgs.c:398
+#: client/gui-sdl/repodlgs.c:375 client/gui-sdl2/repodlgs.c:401
 msgid "Units Report"
 msgstr "Aithisg nan aonadan"
 
-#: client/gui-sdl/repodlgs.c:1549 client/gui-sdl2/repodlgs.c:1605
+#: client/gui-sdl/repodlgs.c:1549 client/gui-sdl2/repodlgs.c:1624
 #, c-format
 msgid ""
 "We have %d of %s\n"
@@ -11225,62 +11226,62 @@ msgstr ""
 "(de luach iomlan : %d)\n"
 "'S urrainn dhuinn %d dhiubh a reic air %d de dh'òr."
 
-#: client/gui-sdl/repodlgs.c:1556 client/gui-sdl2/repodlgs.c:1612
+#: client/gui-sdl/repodlgs.c:1556 client/gui-sdl2/repodlgs.c:1631
 #, c-format
 msgid "We can't sell any %s in this turn."
 msgstr "Chan urrainn dhuinn %s sam bith a reic sa chuairt seo."
 
-#: client/gui-sdl/repodlgs.c:1561 client/gui-sdl2/repodlgs.c:1616
+#: client/gui-sdl/repodlgs.c:1561 client/gui-sdl2/repodlgs.c:1635
 msgid "Sell It?"
 msgstr "A bheil thu airson a reic?"
 
-#: client/gui-sdl/repodlgs.c:1788 client/gui-sdl2/repodlgs.c:1839
+#: client/gui-sdl/repodlgs.c:1788 client/gui-sdl2/repodlgs.c:1860
 msgid "Economy Report"
 msgstr "Aithisg an eaconamaidh"
 
-#: client/gui-sdl/repodlgs.c:1803 client/gui-sdl2/repodlgs.c:1854
+#: client/gui-sdl/repodlgs.c:1803 client/gui-sdl2/repodlgs.c:1875
 msgid "Treasury: "
 msgstr "Ionmhas:"
 
-#: client/gui-sdl/repodlgs.c:1823 client/gui-sdl2/repodlgs.c:1874
+#: client/gui-sdl/repodlgs.c:1823 client/gui-sdl2/repodlgs.c:1895
 msgid "Tax Rate: "
 msgstr "Reat cìse:"
 
-#: client/gui-sdl/repodlgs.c:1842 client/gui-sdl2/repodlgs.c:1893
+#: client/gui-sdl/repodlgs.c:1842 client/gui-sdl2/repodlgs.c:1914
 msgid "Total Income: "
 msgstr "Teachd a-steach iomlan:"
 
-#: client/gui-sdl/repodlgs.c:1860 client/gui-sdl2/repodlgs.c:1911
+#: client/gui-sdl/repodlgs.c:1860 client/gui-sdl2/repodlgs.c:1932
 msgid "Total Cost: "
 msgstr "Cosgais iomlan:"
 
-#: client/gui-sdl/repodlgs.c:1877 client/gui-sdl2/repodlgs.c:1928
+#: client/gui-sdl/repodlgs.c:1877 client/gui-sdl2/repodlgs.c:1949
 msgid "Net Income: "
 msgstr "Teachd a-steach glan:"
 
-#: client/gui-sdl/repodlgs.c:1899 client/gui-sdl2/repodlgs.c:1950
+#: client/gui-sdl/repodlgs.c:1899 client/gui-sdl2/repodlgs.c:1971
 #, c-format
 msgid "%s max rate : %d%%"
 msgstr "Reat as motha %s : %d%%"
 
-#: client/gui-sdl/repodlgs.c:1998 client/gui-sdl2/repodlgs.c:2049
+#: client/gui-sdl/repodlgs.c:1998 client/gui-sdl2/repodlgs.c:2070
 #: client/gui-xaw/connectdlg.c:675 data/Freeciv.in:173
 msgid "Update"
 msgstr "Ùraich"
 
-#: client/gui-sdl/repodlgs.c:2084 client/gui-sdl2/repodlgs.c:2136
+#: client/gui-sdl/repodlgs.c:2084 client/gui-sdl2/repodlgs.c:2157
 msgid "Wonder"
 msgstr "Mìorbhail"
 
-#: client/gui-sdl/repodlgs.c:2879 client/gui-sdl2/repodlgs.c:2936
+#: client/gui-sdl/repodlgs.c:2879 client/gui-sdl2/repodlgs.c:2957
 msgid "What should we focus on now?"
 msgstr "Dè nì sinn fòcas air a-nis?"
 
-#: client/gui-sdl/repodlgs.c:3066 client/gui-sdl2/repodlgs.c:3124
+#: client/gui-sdl/repodlgs.c:3066 client/gui-sdl2/repodlgs.c:3146
 msgid "Select target :"
 msgstr "Tagh an targaid :"
 
-#: client/gui-sdl/repodlgs.c:3135 client/gui-sdl2/repodlgs.c:3193
+#: client/gui-sdl/repodlgs.c:3135 client/gui-sdl2/repodlgs.c:3215
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "cheum"
@@ -11288,7 +11289,7 @@ msgstr[1] "cheum"
 msgstr[2] "ceuman"
 msgstr[3] "ceum"
 
-#: client/gui-sdl/repodlgs.c:3429 client/gui-sdl2/repodlgs.c:3500
+#: client/gui-sdl/repodlgs.c:3429 client/gui-sdl2/repodlgs.c:3522
 #: client/gui-xaw/repodlgs.c:1197
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
@@ -11298,12 +11299,12 @@ msgstr[1] "%1$2d: Fhuair %3$s, riaghlaiche %2$s %4$d phuing\n"
 msgstr[2] "%1$2d: Fhuair %3$s, riaghlaiche %2$s %4$d puingean\n"
 msgstr[3] "%1$2d: Fhuair %3$s, riaghlaiche %2$s %4$d puing\n"
 
-#: client/gui-sdl/repodlgs.c:3436 client/gui-sdl2/repodlgs.c:3507
+#: client/gui-sdl/repodlgs.c:3436 client/gui-sdl2/repodlgs.c:3529
 #: client/gui-xaw/repodlgs.c:1204
 msgid "Final Report:"
 msgstr "An aithisg mu dheireadh:"
 
-#: client/gui-sdl/repodlgs.c:3437 client/gui-sdl2/repodlgs.c:3508
+#: client/gui-sdl/repodlgs.c:3437 client/gui-sdl2/repodlgs.c:3530
 #: client/gui-xaw/repodlgs.c:1205
 msgid "The Greatest Civilizations in the world."
 msgstr "Na sìobhaltasan as fhearr san t-saoghal"
@@ -11404,6 +11405,7 @@ msgstr ""
 "deiseil!"
 
 #. TRANS: length of worklist
+#. TRANS: Length of worklist
 #: client/gui-sdl/wldlg.c:994 client/gui-sdl/wldlg.c:1112
 #: client/gui-sdl2/wldlg.c:1020 client/gui-sdl2/wldlg.c:1136
 #, fuzzy, c-format
@@ -11540,16 +11542,16 @@ msgstr "Cha ghabh an leabhar-lann SDL_ttf a luchdadh: %s"
 msgid "SDL2 Client for Freeciv"
 msgstr "Cliant SDL airson Freeciv"
 
-#: client/gui-sdl2/gui_main.c:956
+#: client/gui-sdl2/gui_main.c:962
 msgid "Migrating options from sdl to sdl2 client"
 msgstr ""
 
-#: client/gui-sdl2/mapview.c:161
+#: client/gui-sdl2/mapview.c:160
 #, c-format
 msgid "Failed to add events to SDL2 event buffer: %s"
 msgstr ""
 
-#: client/gui-sdl2/pages.c:333
+#: client/gui-sdl2/pages.c:340
 #, fuzzy
 msgid "SDL2-client welcomes you..."
 msgstr "Tha an SDLClient a' cur fàilte ort..."
@@ -15644,19 +15646,19 @@ msgstr "Cuir lethbhreac dheth dhan bhòrd-chliopaichean (%s)."
 msgid "Clipboard is empty."
 msgstr "Tha am bòrd-chliopaichean falamh."
 
-#: client/mapview_common.c:4039
+#: client/mapview_common.c:4065
 msgid "ISO|Hex"
 msgstr ""
 
-#: client/mapview_common.c:4041 common/fc_types.h:309
+#: client/mapview_common.c:4067 common/fc_types.h:309
 msgid "ISO"
 msgstr ""
 
-#: client/mapview_common.c:4044 common/fc_types.h:311
+#: client/mapview_common.c:4070 common/fc_types.h:311
 msgid "Hex"
 msgstr ""
 
-#: client/mapview_common.c:4047 client/tilespec.h:49
+#: client/mapview_common.c:4073 client/tilespec.h:49
 #, fuzzy
 msgid "Overhead"
 msgstr "_Foir-shealladh"
@@ -17409,39 +17411,39 @@ msgstr "Lìonra"
 msgid "Font"
 msgstr "Cruth-clò"
 
-#: client/options.c:5098
+#: client/options.c:5102
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Ma chuireas tu ro-sheata ris de làimh, na dìochuimhnich gu bheil agad "
 "\"number_of_presets\" ùrachadh cuideachd."
 
-#: client/options.c:5153 client/options.c:5205
+#: client/options.c:5157 client/options.c:5209
 msgid "Cannot find your home directory"
 msgstr "Cha ghabh an t-eòlaire dachaigh agad a lorg"
 
-#: client/options.c:5226 client/options.c:5248 client/options.c:5264
+#: client/options.c:5230 client/options.c:5252 client/options.c:5268
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr ""
 "Cha deach faidhle nan roghainnean '%s' a lorg; a' luchdadh o '%s' 'na àite."
 
-#: client/options.c:5741
+#: client/options.c:5745
 #, fuzzy
 #| msgid "Didn't find the option file."
 msgid "Didn't find the option file. Creating a new one."
 msgstr "Cha deach faidhle nan roghainnean a lorg."
 
-#: client/options.c:5759 client/options.c:5972
+#: client/options.c:5763 client/options.c:5976
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Dh'fhàillig an sàbhaladh, cha ghabh sgrìobhadh a dhèanamh ann an %s"
 
-#: client/options.c:5761 client/options.c:5974
+#: client/options.c:5765 client/options.c:5978
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Chaidh na roghainnean a shàbhaladh san fhaidhle %s"
 
-#: client/options.c:5909
+#: client/options.c:5913
 msgid "Save failed, cannot find a filename."
 msgstr "Dh'fhàillig an sàbhaladh, cha ghabh ainm faidhle a lorg."
 
@@ -17474,25 +17476,25 @@ msgstr ""
 msgid "Welcome"
 msgstr "Fàilte ort"
 
-#: client/packhand.c:1985 client/tilespec.c:1365
+#: client/packhand.c:2035 client/tilespec.c:1365
 #, fuzzy, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr "Tha am faidhle smachd modpack neo-chòrdail"
 
-#: client/packhand.c:2029
+#: client/packhand.c:2079
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 
-#: client/packhand.c:2032
+#: client/packhand.c:2082
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr ""
 
-#: client/packhand.c:2303
+#: client/packhand.c:2353
 msgid "AI mode is now ON."
 msgstr "Tha an Inntinn Fhuadain AIR a-nis."
 
-#: client/packhand.c:2309
+#: client/packhand.c:2359
 msgid "AI mode is now OFF."
 msgstr "Tha an Inntinn Fhuadain DHETH a-nis."
 
@@ -18074,7 +18076,7 @@ msgstr "(Briog airson barrachd fiosrachaidh)"
 msgid "%s People"
 msgstr "%s daoine"
 
-#: client/text.c:982 server/gamehand.c:890
+#: client/text.c:982 server/gamehand.c:891
 #, c-format
 msgid "Year: %s"
 msgstr "Bliadhna: %s"
@@ -18978,12 +18980,12 @@ msgstr "?obsolete:O"
 msgid "?redundant:*"
 msgstr "?redundant:*"
 
-#: common/clientutils.c:271
+#: common/clientutils.c:277
 #, fuzzy, c-format
 msgid "Pillage %s(%d)"
 msgstr "Air chreach"
 
-#: common/clientutils.c:272
+#: common/clientutils.c:278
 #, fuzzy, c-format
 msgid "Clean %s(%d)"
 msgstr "%s (%d)"
@@ -19727,7 +19729,7 @@ msgstr "aon chluicheadair gach cluicheadair ann an \"plrbv\""
 #. * "define" in the first column are server keywords that must not
 #. * be translated. Do not translate keywords in single quotes, but
 #. * strings in <angle brackets> should be translated.
-#: common/mapimg.c:688
+#: common/mapimg.c:692
 #, c-format
 msgid ""
 "This command controls the creation of map images. Supported arguments:\n"
@@ -19823,178 +19825,178 @@ msgstr ""
 " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
 " 'zoom=1:map=t:show=none:format=magick|jpg'"
 
-#: common/mapimg.c:774
+#: common/mapimg.c:778
 msgid "no map definition"
 msgstr "chan eil mìneachadh mapa ann"
 
-#: common/mapimg.c:780
+#: common/mapimg.c:784
 #, c-format
 msgid "map definition string too long (max %d characters)"
 msgstr ""
 "tha mìneachadh a' mhapa ro fhada (%d caractair(ean) air a' char as motha)"
 
-#: common/mapimg.c:786
+#: common/mapimg.c:790
 #, c-format
 msgid "maximum number of map definitions reached (%d)"
 msgstr ""
 "ràinig thu àireamh as motha de mhìneachaidhean mapa a tha ceadaichte (%d)"
 
-#: common/mapimg.c:794
+#: common/mapimg.c:798
 #, c-format
 msgid "duplicate of map image definition %d ('%s')"
 msgstr "dùblachadh mìneachadh ìomhaigh a' mhapa %d ('%s')"
 
-#: common/mapimg.c:815 common/mapimg.c:819
+#: common/mapimg.c:819 common/mapimg.c:823
 #, c-format
 msgid "unknown map option: '%s'"
 msgstr "roghainn mapa neo-aithnichte '%s'"
 
-#: common/mapimg.c:835
+#: common/mapimg.c:839
 #, c-format
 msgid "'show=%s' but no player name 'plrname'"
 msgstr "'show=%s' ach as aonais ainm \"plrname\" a' chluicheadair"
 
-#: common/mapimg.c:842
+#: common/mapimg.c:846
 #, c-format
 msgid "'show=%s' but no player id 'plrid'"
 msgstr "'show=%s' ach as aonais ID \"plrid\" a' chluicheadair"
 
-#: common/mapimg.c:849
+#: common/mapimg.c:853
 #, c-format
 msgid "'show=%s' but no player bitvector 'plrbv'"
 msgstr "'show=%s' ach as aonais bitvector \"plrbv\" a' chluicheadair"
 
-#: common/mapimg.c:1002
+#: common/mapimg.c:1006
 #, c-format
 msgid "invalid character in bitvector: '%c' (%s)"
 msgstr "tha caractar mì-dhligheach sa bitvector: '%c' (%s)"
 
-#: common/mapimg.c:1023
+#: common/mapimg.c:1027
 #, c-format
 msgid "'plrid' should be between 0 and %d"
 msgstr "bu chòir do \"plrid\" a bhith eadar 0 agus %d"
 
-#: common/mapimg.c:1039
+#: common/mapimg.c:1043
 #, c-format
 msgid "player name too long: '%s' (max: %lu)"
 msgstr "tha ainm a' chluicheadair ro fhada: '%s' (as motha: %lu)"
 
-#: common/mapimg.c:1069
+#: common/mapimg.c:1073
 msgid "'turns' should be between 0 and 99"
 msgstr "bu chòir do \"turns\" a bhith eadar 0 agus 99"
 
-#: common/mapimg.c:1087
+#: common/mapimg.c:1091
 msgid "'zoom' factor should be between 1 and 5"
 msgstr "bu chòir dhan fhactar \"zoom\" a bhith eadar 1 agus 5"
 
-#: common/mapimg.c:1106
+#: common/mapimg.c:1110
 #, c-format
 msgid "invalid value for option '%s': '%s'"
 msgstr "luach mì-dhligheach airson na roghainne '%s': '%s'"
 
-#: common/mapimg.c:1130
+#: common/mapimg.c:1134
 msgid "map definition not checked (game not started)"
 msgstr "cha deach mìneachadh a' mhapa a sgrùdadh (geama gun tòiseachadh)"
 
-#: common/mapimg.c:1134
+#: common/mapimg.c:1138
 #, c-format
 msgid "map definition deactivated: %s"
 msgstr "mìneachadh a' mhapa air a chur à comas: %s"
 
-#: common/mapimg.c:1234
+#: common/mapimg.c:1238
 #, c-format
 msgid "Detailed information for map image definition %d\n"
 msgstr "Dùblachadh mìneachadh ìomhaigh a' mhapa %d\n"
 
-#: common/mapimg.c:1237
+#: common/mapimg.c:1241
 #, c-format
 msgid "  - status:                   %s (%s)\n"
 msgstr "  - staid:                   %s (%s)\n"
 
-#: common/mapimg.c:1240
+#: common/mapimg.c:1244
 #, c-format
 msgid "  - status:                   %s\n"
 msgstr "  - staid:                   %s\n"
 
-#: common/mapimg.c:1243
+#: common/mapimg.c:1247
 #, c-format
 msgid "  - file name string:         %s\n"
 msgstr "  - snàithlean ainm an fhaidhle:         %s\n"
 
-#: common/mapimg.c:1245
+#: common/mapimg.c:1249
 #, c-format
 msgid "  - image toolkit:            %s\n"
 msgstr "  - acainnean deilbh:            %s\n"
 
-#: common/mapimg.c:1247
+#: common/mapimg.c:1251
 #, c-format
 msgid "  - image format:             %s\n"
 msgstr "  - fòrmat deilbh:            %s\n"
 
-#: common/mapimg.c:1249
+#: common/mapimg.c:1253
 #, c-format
 msgid "  - zoom factor:              %d\n"
 msgstr "  - factar sùm:              %d\n"
 
-#: common/mapimg.c:1251
+#: common/mapimg.c:1255
 #, c-format
 msgid "  - show area within borders: %s\n"
 msgstr "  - seall an raon am broinn nan crìochan: %s\n"
 
-#: common/mapimg.c:1252 common/mapimg.c:1254 common/mapimg.c:1256
-#: common/mapimg.c:1258 common/mapimg.c:1260 common/mapimg.c:1264
+#: common/mapimg.c:1256 common/mapimg.c:1258 common/mapimg.c:1260
+#: common/mapimg.c:1262 common/mapimg.c:1264 common/mapimg.c:1268
 msgid "yes"
 msgstr "tha"
 
-#: common/mapimg.c:1252 common/mapimg.c:1254 common/mapimg.c:1256
-#: common/mapimg.c:1258 common/mapimg.c:1260 common/mapimg.c:1264
+#: common/mapimg.c:1256 common/mapimg.c:1258 common/mapimg.c:1260
+#: common/mapimg.c:1262 common/mapimg.c:1264 common/mapimg.c:1268
 msgid "no"
 msgstr "chan eil"
 
-#: common/mapimg.c:1253
+#: common/mapimg.c:1257
 #, c-format
 msgid "  - show borders:             %s\n"
 msgstr "  - seall na crìochan:             %s\n"
 
-#: common/mapimg.c:1255
+#: common/mapimg.c:1259
 #, c-format
 msgid "  - show cities:              %s\n"
 msgstr "  - seall na bailtean:              %s\n"
 
-#: common/mapimg.c:1257
+#: common/mapimg.c:1261
 #, c-format
 msgid "  - show fog of war:          %s\n"
 msgstr "  - seall ceò a' chogaidh:          %s\n"
 
-#: common/mapimg.c:1259
+#: common/mapimg.c:1263
 #, c-format
 msgid "  - show player knowledge:    %s\n"
 msgstr "  - seall eòlas a' chluicheadair:    %s\n"
 
-#: common/mapimg.c:1261
+#: common/mapimg.c:1265
 #, c-format
 msgid "  - show terrain:             %s\n"
 msgstr "  - seall an talamh:             %s\n"
 
-#: common/mapimg.c:1262
+#: common/mapimg.c:1266
 msgid "full"
 msgstr "slàn"
 
-#: common/mapimg.c:1262
+#: common/mapimg.c:1266
 msgid "basic"
 msgstr "bunasach"
 
-#: common/mapimg.c:1263
+#: common/mapimg.c:1267
 #, c-format
 msgid "  - show units:               %s\n"
 msgstr "  - seall na h-aonadan:               %s\n"
 
-#: common/mapimg.c:1265
+#: common/mapimg.c:1269
 #, c-format
 msgid "  - players included:         %s"
 msgstr "  - cluicheadairean air an gabhail a-steach:         %s"
 
-#: common/mapimg.c:1275
+#: common/mapimg.c:1279
 #, c-format
 msgid ""
 "\n"
@@ -20003,7 +20005,7 @@ msgstr ""
 "\n"
 "  - ainm a' chluicheadair:              %s"
 
-#: common/mapimg.c:1279
+#: common/mapimg.c:1283
 #, c-format
 msgid ""
 "\n"
@@ -20012,7 +20014,7 @@ msgstr ""
 "\n"
 "  - ID cluicheadair:                %d"
 
-#: common/mapimg.c:1283
+#: common/mapimg.c:1287
 #, c-format
 msgid ""
 "\n"
@@ -20021,54 +20023,54 @@ msgstr ""
 "\n"
 "  - cluicheadairean:                  %s"
 
-#: common/mapimg.c:1338
+#: common/mapimg.c:1342
 msgid "map not yet created"
 msgstr "cha deach am mapa a chruthachadh fhathast"
 
-#: common/mapimg.c:1346 common/mapimg.c:1579
+#: common/mapimg.c:1350 common/mapimg.c:1583
 msgid "map definition not checked or error"
 msgstr "cha deach mìneachadh a' mhapa a sgrùdadh no thachair mearachd"
 
-#: common/mapimg.c:1562
+#: common/mapimg.c:1566
 #, c-format
 msgid "no map definition with id %d"
 msgstr "chan eil mìneachadh mapa ann ris a bheil an ID %d"
 
-#: common/mapimg.c:1668
+#: common/mapimg.c:1672
 #, c-format
 msgid "unknown player name: '%s'"
 msgstr "ainm cluicheadair neo-aithnichte: '%s'"
 
-#: common/mapimg.c:1684
+#: common/mapimg.c:1688
 #, c-format
 msgid "invalid player id: %d"
 msgstr "ID cluicheadair mì-dhligheach: %d"
 
-#: common/mapimg.c:1875
+#: common/mapimg.c:1879
 #, c-format
 msgid "Turn: %4d - Year: %10s"
 msgstr "Cuairt: %4d - Bliadhna: %10s"
 
-#: common/mapimg.c:2044
+#: common/mapimg.c:2048
 msgid "toolkit not defined"
 msgstr "toolkit gun mhìneachadh"
 
-#: common/mapimg.c:2107 common/mapimg.c:2315
+#: common/mapimg.c:2111 common/mapimg.c:2319
 msgid "error generating the file name"
 msgstr "mearachd le gineadh ainm an fhaidhle"
 
-#: common/mapimg.c:2281
+#: common/mapimg.c:2285
 #, c-format
 msgid "error saving map image '%s'"
 msgstr "mearachd le sàbhaladh ìomhaigh a' mhapa: '%s'"
 
-#: common/mapimg.c:2309
+#: common/mapimg.c:2313
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr ""
 "chan urrainn dhan ppm toolkit a chruthachadh ach ìomhaighean dhen t-seòrsa "
 "ppm"
 
-#: common/mapimg.c:2321
+#: common/mapimg.c:2325
 #, c-format
 msgid "could not open file: %s"
 msgstr "cha do ghabh am faidhle a leanas fhosgladh: %s"
@@ -40454,32 +40456,32 @@ msgstr ""
 msgid "The %s worklist is now empty."
 msgstr "Tha liosta nan obraichean falamh a-nis ann an: %s."
 
-#: server/cityturn.c:2093
+#: server/cityturn.c:2096
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Cha dèid aig %s %s a chumail, chaidh an t-aonad a leigeil mu sgaoil."
 
-#: server/cityturn.c:2114
+#: server/cityturn.c:2133
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Chaochail saoranaich ann an %s o nach deach aca %s a chumail beò!"
 
-#: server/cityturn.c:2162 server/cityturn.c:2343
+#: server/cityturn.c:2175 server/cityturn.c:2356
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "Tha %s a' togail %s ach chan eil e ri fhaighinn tuilleadh."
 
-#: server/cityturn.c:2201
+#: server/cityturn.c:2214
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Chuir %s crìoch air togail %s ann an %s."
 
-#: server/cityturn.c:2208
+#: server/cityturn.c:2221
 #, c-format
 msgid "%s has finished building %s."
 msgstr "Chuir %s crìoch air togail %s."
 
-#: server/cityturn.c:2231
+#: server/cityturn.c:2244
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -40497,7 +40499,7 @@ msgstr[3] ""
 "sa bhad."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2245
+#: server/cityturn.c:2258
 #, fuzzy, c-format
 #| msgid "The %s have acquired %s from %s."
 msgid "?frombldg:Acquired %s from %s."
@@ -40505,19 +40507,19 @@ msgstr "Dh'ionnsaich %s %s aig %s."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2251
+#: server/cityturn.c:2264
 #, fuzzy, c-format
 #| msgid "The %s have acquired %s from %s."
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "Dh'ionnsaich %s %s aig %s."
 
-#: server/cityturn.c:2258
+#: server/cityturn.c:2271
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "Thòisich %s air soitheach-fànais a thogail!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2370
+#: server/cityturn.c:2383
 #, fuzzy, c-format
 #| msgid "* Can build new cities (initial population %d).\n"
 #| msgid_plural "* Can build new cities (initial population %d).\n"
@@ -40525,14 +40527,14 @@ msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr "* 'S urrainn dha bailtean ùra a thogail (sluagh de %d ann o thùs).\n"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2405
+#: server/cityturn.c:2418
 #, c-format
 msgid "%s is finished building %s."
 msgstr "Tha %s deiseil le togail %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2430
+#: server/cityturn.c:2443
 #, fuzzy, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
@@ -40541,71 +40543,71 @@ msgstr[1] "Tha %s a' cosg %d de shluagh. Tha %s a' crìonadh dhan mheud %d."
 msgstr[2] "Tha %s a' cosg %d de shluagh. Tha %s a' crìonadh dhan mheud %d."
 msgstr[3] "Tha %s a' cosg %d de shluagh. Tha %s a' crìonadh dhan mheud %d."
 
-#: server/cityturn.c:2506
+#: server/cityturn.c:2519
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Chan eil airgead gu leòr ann gus %s a chumail ann an %s, togalach air a reic!"
 
-#: server/cityturn.c:2595
+#: server/cityturn.c:2608
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Chan eil airgead gu leòr ann. %s air a leigeil mu sgaoil."
 
-#: server/cityturn.c:2841 server/cityturn.c:3650
+#: server/cityturn.c:2854 server/cityturn.c:3663
 #, c-format
 msgid "Pollution near %s."
 msgstr "Truailleadh faisg air %s."
 
-#: server/cityturn.c:3013
+#: server/cityturn.c:3026
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Tha %s a' cumail fèill nad onair."
 
-#: server/cityturn.c:3019
+#: server/cityturn.c:3032
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Chaidh an fhèill a chur dheth ann an %s."
 
-#: server/cityturn.c:3036
+#: server/cityturn.c:3049
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "Dh'èirich plàigh ann an %s! Chaidh muinntir a chall!"
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3099
+#: server/cityturn.c:3112
 msgid " Unrest threatens to spread beyond the city."
 msgstr ""
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3106
+#: server/cityturn.c:3119
 #, fuzzy, c-format
 #| msgid "Civil disorder in %s."
 msgid "Civil disorder in %s.%s"
 msgstr "Ùpraid chatharra ann an %s."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3111
+#: server/cityturn.c:3124
 #, fuzzy, c-format
 #| msgid "CIVIL DISORDER CONTINUES in %s."
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "THA AN ÙPRAID CHATHARRA A' CUMAIL A' DOL ANN AN %s."
 
-#: server/cityturn.c:3117
+#: server/cityturn.c:3130
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s fo rian a-rithist."
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3129
+#: server/cityturn.c:3142
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Fhuair am pobal làmh an uachdair air do riaghaltas (%s) is tha do dhùthaich "
 "ann an ùpraid."
 
-#: server/cityturn.c:3173
+#: server/cityturn.c:3186
 #, fuzzy, c-format
 #| msgid "%s can't build %s yet, and we can't disband our only city."
 msgid "%s can't build %s yet, as we can't disband our only city."
@@ -40614,13 +40616,13 @@ msgstr ""
 "a tha againn a leigeil mu sgaoil."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3204
+#: server/cityturn.c:3217
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s air a leigeil mu sgaoil gu %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3412
+#: server/cityturn.c:3425
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -40629,7 +40631,7 @@ msgstr ""
 "leòr ann!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3419
+#: server/cityturn.c:3432
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -40639,7 +40641,7 @@ msgstr ""
 "biadh gu leòr ann!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3424
+#: server/cityturn.c:3437
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -40649,7 +40651,7 @@ msgstr ""
 "biadh gu leòr ann!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3439
+#: server/cityturn.c:3452
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -40658,7 +40660,7 @@ msgstr ""
 "leasachadh mus fàs e!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3446
+#: server/cityturn.c:3459
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -40667,7 +40669,7 @@ msgstr ""
 "feum air leasachadh mus fàs e!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3451
+#: server/cityturn.c:3464
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -40675,77 +40677,77 @@ msgstr ""
 "Chan urrainn dha na h-imrich o %s (%s) a dhol gu %s a chionn 's gu bheil "
 "feum air leasachadh mus fàs e!"
 
-#: server/cityturn.c:3504
+#: server/cityturn.c:3517
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "Chaidh %s a leigeil mu sgaoil leis na saoranaich ann."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3542
+#: server/cityturn.c:3555
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Dh'fhalbh imrich o %s gu %s air tòir beatha na b' fhearr."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3548
+#: server/cityturn.c:3561
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Dh'fhalbh imrich o %s gu %s (%s) air tòir beatha na b' fhearr."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3553
+#: server/cityturn.c:3566
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Dh'fhalbh imrich o %s (%s) gu %s air tòir beatha na b' fhearr."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:3644
+#: server/cityturn.c:3657
 #, fuzzy, c-format
 msgid "%s was hit by %s."
 msgstr "Chaidh %s a sgriosadh le arm niùclasach aig %s."
 
-#: server/cityturn.c:3658
+#: server/cityturn.c:3671
 #, fuzzy, c-format
 #| msgid "Pollution near %s."
 msgid "Fallout near %s."
 msgstr "Truailleadh faisg air %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:3669
+#: server/cityturn.c:3682
 #, fuzzy, c-format
 #| msgid "Famine destroys %s entirely."
 msgid "%s destroys %s entirely."
 msgstr "Tha gort a' lèir-sgriosadh %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:3675
+#: server/cityturn.c:3688
 #, fuzzy, c-format
 #| msgid "Famine causes population loss in %s."
 msgid "%s causes population loss in %s."
 msgstr "Chaidh muinntir air chall air sgàth gorta ann an %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3699
+#: server/cityturn.c:3712
 #, fuzzy, c-format
 #| msgid "The %s destroyed the %s in %s."
 msgid "%s destroys %s in %s."
 msgstr "Sgrios na %s an %s ann an %s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:3714
+#: server/cityturn.c:3727
 #, fuzzy, c-format
 #| msgid "Your %s destroyed the %s in %s."
 msgid "All stored food destroyed in %s."
 msgstr "Sgrios an %s agad an %s ann an %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3730
+#: server/cityturn.c:3743
 #, fuzzy, c-format
 #| msgid "Production of %s is upgraded to %s in %s."
 msgid "Production of %s in %s destroyed."
 msgstr "Chaidh cinneasachadh %s a leasachadh gu %s ann an %s."
 
-#: server/cityturn.c:3904
+#: server/cityturn.c:3917
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
@@ -40753,7 +40755,7 @@ msgstr ""
 "tòir beatha nas fhearr."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3926
+#: server/cityturn.c:3939
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -42525,86 +42527,86 @@ msgstr "Coinneamh le %s air a chur dheth."
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Chaidh an ceann a sgoltadh dhe do dhioplomat!"
 
-#: server/diplomats.c:117
+#: server/diplomats.c:118
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
 msgstr "Chuir an %s agad puinnsean san uisge ann an %s."
 
-#: server/diplomats.c:121
+#: server/diplomats.c:122
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Thathar a' fàgail air %s gun do chuir e puinnsean san uisge ann an %s."
 
-#: server/diplomats.c:130
+#: server/diplomats.c:131
 #, fuzzy, c-format
 msgid "Your %s destroyed %s by poisoning its water supply."
 msgstr "Cha deach aig an %s agad puinnsean a chur san uisge ann an %s."
 
-#: server/diplomats.c:134
+#: server/diplomats.c:135
 #, fuzzy, c-format
 msgid "%s is suspected of destroying %s by poisoning its water supply."
 msgstr "Thathar a' fàgail air %s gun do chuir e puinnsean san uisge ann an %s."
 
-#: server/diplomats.c:290
+#: server/diplomats.c:297
 #, c-format
 msgid "You have established an embassy in %s."
 msgstr "Stèidhich thu ambasaid ann an %s."
 
-#: server/diplomats.c:294
+#: server/diplomats.c:301
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "Stèidhich na %s ambasaid ann an %s."
 
-#: server/diplomats.c:359
+#: server/diplomats.c:366
 #, fuzzy, c-format
 #| msgid "Your %s succeeded in sabotaging the %s %s."
 msgid "Your %s's successful sabotage killed the %s %s."
 msgstr "Bha an %1$s agad soirbheachail le sabotais %3$s %2$s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:366
+#: server/diplomats.c:373
 #, fuzzy, c-format
 #| msgid "Your %s was nuked by %s."
 msgid "Your %s was killed by %s sabotage!"
 msgstr "Chaidh an %s agad a sgriosadh le arm niùclasach aig %s."
 
-#: server/diplomats.c:377
+#: server/diplomats.c:384
 #, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "Bha an %1$s agad soirbheachail le sabotais %3$s %2$s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:384
+#: server/diplomats.c:391
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Chaidh sabotais a chur air an %s agad le %s!"
 
 #. TRANS: You already have a Leader.
-#: server/diplomats.c:440
+#: server/diplomats.c:447
 #, fuzzy, c-format
 #| msgid "You already have a city called %s."
 msgid "You already have a %s."
 msgstr "Tha baile air a bheil %s agad mu thràth."
 
-#: server/diplomats.c:455
+#: server/diplomats.c:462
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "Chan eil òr gu leòr agad gus brìob a thoirt dhan aonad (%2$s %1$s)."
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:486
+#: server/diplomats.c:493
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Chaidh leis an %s agad le brìb a thoirt dhan aonad (%s)."
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:493
+#: server/diplomats.c:500
 #, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Fhuair an %s agad brìb o làmhan %s."
 
 #. TRANS: Paris was expecting ... Your Spy was caught
-#: server/diplomats.c:650
+#: server/diplomats.c:657
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -42614,7 +42616,7 @@ msgstr ""
 "agad a ghlacadh 's a chur gu bàs."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:657
+#: server/diplomats.c:664
 #, fuzzy, c-format
 #| msgid "The %s %s failed to steal technology from %s."
 msgid ""
@@ -42623,121 +42625,121 @@ msgid ""
 msgstr "Cha deach aig %2$s %1$s air teicneolas a ghoid oirnn ann an %3$s"
 
 #. TRANS: Your Spy was caught ... from %s.
-#: server/diplomats.c:666
+#: server/diplomats.c:673
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr ""
 "Chaidh an %s agad a ghlacadh 's e a' feuchainn ri teicneolas a ghoid air %s."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:673
+#: server/diplomats.c:680
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "Cha deach aig %2$s %1$s air teicneolas a ghoid oirnn ann an %3$s"
 
-#: server/diplomats.c:691
+#: server/diplomats.c:698
 #, c-format
 msgid "No new technology found in %s."
 msgstr "Cha robh teicneolas ùr ri ghoid ann an %s."
 
-#: server/diplomats.c:760
+#: server/diplomats.c:767
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "Chan eil òr gu leòr agad gus car a chur de %s."
 
-#: server/diplomats.c:777
+#: server/diplomats.c:784
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr ""
 "Chaidh an %s agad a ghlacadh 's e a' feuchainn ri aramach a bhrosnachadh!"
 
-#: server/diplomats.c:781
+#: server/diplomats.c:788
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
 "Ghlac thu %2$s %1$s 's e a' feuchainn ri aramach a bhrosnachadh ann an %3$s!"
 
-#: server/diplomats.c:804
+#: server/diplomats.c:811
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr ""
 "Aramach air a bhrosnachadh ann an %s, 's ann fo do riaghladh-sa a tha am "
 "baile a-nis!"
 
-#: server/diplomats.c:807
+#: server/diplomats.c:814
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr ""
 "Dh'èirich %s ann an aramach, 's mòr an t-amharas gur e innleachd %s a bha "
 "seo. "
 
-#: server/diplomats.c:894
+#: server/diplomats.c:901
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Chaidh an %s agad a ghlacadh 's e ri sabotais gnìomhachais!"
 
-#: server/diplomats.c:899
+#: server/diplomats.c:906
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Ghlac thu %2$s %1$s 's e ri sabotais gnìomhachais ann an %3$s!"
 
-#: server/diplomats.c:930
+#: server/diplomats.c:937
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Chan fhaca an %s agad càil ann an %s a b' urrainn dha sabotaiseadh."
 
-#: server/diplomats.c:987
+#: server/diplomats.c:994
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "Chan eil %s buailteach do shabotais!"
 
-#: server/diplomats.c:998
+#: server/diplomats.c:1005
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr ""
 "Cha d' fhuair an %s agad lorg air an %s ann an %s a bha e airson a "
 "shabotaiseadh."
 
-#: server/diplomats.c:1023
+#: server/diplomats.c:1030
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Chaidh aig an %s agad air sgriosadh cinneasachadh %s ann an %s."
 
-#: server/diplomats.c:1030
+#: server/diplomats.c:1037
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr ""
 "Chaidh cinneasachadh %s a sgriosadh ann an %s, 's mòr an t-amharas gur e "
 "innleachd nan %s a bha seo."
 
-#: server/diplomats.c:1053
+#: server/diplomats.c:1060
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Chaidh an %s agad a ghlacadh 's e ri sabotais!"
 
-#: server/diplomats.c:1057
+#: server/diplomats.c:1064
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Ghlac thu %s %s 's e ri sabotais %s ann an %s!"
 
-#: server/diplomats.c:1071
+#: server/diplomats.c:1078
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Sgrios an %s agad an %s ann an %s."
 
-#: server/diplomats.c:1077
+#: server/diplomats.c:1084
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "Sgrios na %s an %s ann an %s."
 
-#: server/diplomats.c:1160
+#: server/diplomats.c:1167
 #, fuzzy, c-format
 #| msgid "Your %s was caught in the attempt of sabotage!"
 msgid "Your %s was caught attempting to steal gold!"
 msgstr "Chaidh an %s agad a ghlacadh 's e ri sabotais!"
 
 #. TRANS: nation, unit, city
-#: server/diplomats.c:1165
+#: server/diplomats.c:1172
 #, fuzzy, c-format
 #| msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgid "You caught %s %s attempting to steal your gold in %s!"
@@ -42745,7 +42747,7 @@ msgstr ""
 "Ghlac thu %2$s %1$s 's e a' feuchainn ri aramach a bhrosnachadh ann an %3$s!"
 
 #. TRANS: unit, gold, city
-#: server/diplomats.c:1207
+#: server/diplomats.c:1214
 #, fuzzy, c-format
 #| msgid "You get %d gold."
 #| msgid_plural "You get %d gold."
@@ -42757,7 +42759,7 @@ msgstr[2] "Fhuair thu %d a dh'òr."
 msgstr[3] "Fhuair thu %d a dh'òr."
 
 #. TRANS: gold, city, nation
-#: server/diplomats.c:1212
+#: server/diplomats.c:1219
 #, c-format
 msgid "%d gold stolen from %s, %s suspected."
 msgid_plural "%d gold stolen from %s, %s suspected."
@@ -42767,20 +42769,20 @@ msgstr[2] ""
 msgstr[3] ""
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1364
+#: server/diplomats.c:1371
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Chaidh %s do nàmhaid a sgriosadh leis an %s agad."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1371
+#: server/diplomats.c:1378
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Chaidh an %s agad a sgriosadh 's e a' dìon %s an aghaidh %s."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1378
+#: server/diplomats.c:1385
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr ""
@@ -42788,7 +42790,7 @@ msgstr ""
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1385
+#: server/diplomats.c:1392
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr ""
@@ -42796,50 +42798,50 @@ msgstr ""
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1394 server/diplomats.c:1405
+#: server/diplomats.c:1401 server/diplomats.c:1412
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Chaidh an %s agad a sgriosadh 's e a' dìon an aghaidh %s."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1399
+#: server/diplomats.c:1406
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "Chaidh aonad %s, %s, agad a sgriosadh 's e a' dìon an aghaidh %s."
 
-#: server/diplomats.c:1427
+#: server/diplomats.c:1434
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Chaidh an %s agad a sgriosadh 's e a' dìon %s."
 
-#: server/diplomats.c:1433
+#: server/diplomats.c:1440
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr ""
 "Chaidh aonad %s, %s, a sgriosadh fhad 's a bhathar a' sìoladh a-steach a %s."
 
-#: server/diplomats.c:1438
+#: server/diplomats.c:1445
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr ""
 "Sgrios aonad %s, %s, aonad %s, %s, fhad 's a bhathar a' sìoladh a-steach a "
 "%s."
 
-#: server/diplomats.c:1443
+#: server/diplomats.c:1450
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr ""
 "Sgrios an %s agad aonad aig %s, %s, fhad 's a bhathar a' sìoladh a-steach a "
 "%s."
 
-#: server/diplomats.c:1451
+#: server/diplomats.c:1458
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "Chaidh aonad %s, %s, a sgriosadh fhad 's a bha e a' sìoladh a-steach dha ar "
 "feachdan."
 
-#: server/diplomats.c:1456
+#: server/diplomats.c:1463
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
@@ -42847,14 +42849,14 @@ msgstr ""
 "ar feachdan."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1462
+#: server/diplomats.c:1469
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "Sgrios an %s agad fhad 's a bha aonad %s, %s, a' sìoladh a-steach dha ar "
 "feachdan."
 
-#: server/diplomats.c:1550
+#: server/diplomats.c:1563
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
@@ -42862,13 +42864,13 @@ msgstr ""
 "Choilean an %s agad am misean gu soirbheachail agus thill e slàn sàbhailte a "
 "%s."
 
-#: server/diplomats.c:1569
+#: server/diplomats.c:1582
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr ""
 "Chaidh an %s agad a ghlacadh as dèidh dha am misean ann an %s a choileanadh."
 
-#: server/diplomats.c:1575
+#: server/diplomats.c:1588
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Chaidh an %s agad a ghlacadh as dèidh dha am misean a choileanadh."
@@ -43218,18 +43220,18 @@ msgstr ""
 msgid "Didn't find optimal solution for team placement in %d iterations."
 msgstr "Cha deach slighe a lorg dhan cheann-uidhe!"
 
-#: server/gamehand.c:866
+#: server/gamehand.c:867
 #, c-format
 msgid "No units placed for %s!"
 msgstr "Cha deach aonad sam bith a chur ann airson %s!"
 
-#: server/gamehand.c:991
+#: server/gamehand.c:992
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 "Chaidh crìoch-ùine na cuairte thar an luach cheadaichte, ga shuidheachadh "
 "air an luach as motha a tha ceadaichte."
 
-#: server/gamehand.c:999
+#: server/gamehand.c:1000
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr ""
 "Tha crìoch-ùine na cuairte nas lugha na neoini, ga shuidheachadh aig neoini."
@@ -50826,67 +50828,67 @@ msgid "%s (needs %0.0f%% in favor)."
 msgstr "%s (feum air %0.0f%% air a shon)."
 
 #. TRANS: "or"-separated string list with one single item.
-#: utility/astring.c:330
+#: utility/astring.c:340
 #, c-format
 msgid "?or-list-single:%s"
 msgstr "?or-list-single:%s"
 
 #. TRANS: "or"-separated string list with 2 items.
-#: utility/astring.c:333
+#: utility/astring.c:343
 #, c-format
 msgid "?or-list:%s or %s"
 msgstr "?or-list:%s no %s"
 
 #. TRANS: start of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:339
+#: utility/astring.c:349
 #, c-format
 msgid "?or-list:%s"
 msgstr "?or-list:%s"
 
 #. TRANS: next elements of an "or"-separated string list with more
 #. * than two items.
-#: utility/astring.c:343
+#: utility/astring.c:353
 #, c-format
 msgid "?or-list:, %s"
 msgstr "?or-list:, %s"
 
 #. TRANS: end of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:347
+#: utility/astring.c:357
 #, c-format
 msgid "?or-list:, or %s"
 msgstr "?or-list: no %s"
 
 #. TRANS: "and"-separated string list with one single item.
-#: utility/astring.c:368
+#: utility/astring.c:378
 #, c-format
 msgid "?and-list-single:%s"
 msgstr "?and-list-single:%s"
 
 #. TRANS: "and"-separated string list with 2 items.
-#: utility/astring.c:371
+#: utility/astring.c:381
 #, c-format
 msgid "?and-list:%s and %s"
 msgstr "?and-list:%s agus %s"
 
 #. TRANS: start of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:377
+#: utility/astring.c:387
 #, c-format
 msgid "?and-list:%s"
 msgstr "?and-list:%s"
 
 #. TRANS: next elements of an "and"-separated string list with more
 #. * than two items.
-#: utility/astring.c:381
+#: utility/astring.c:391
 #, c-format
 msgid "?and-list:, %s"
 msgstr "?and-list:, %s"
 
 #. TRANS: end of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:385
+#: utility/astring.c:395
 #, c-format
 msgid "?and-list:, and %s"
 msgstr "?and-list: agus %s"

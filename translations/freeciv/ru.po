@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-13 20:40+0500\n"
+"POT-Creation-Date: 2023-10-19 04:33+0300\n"
 "PO-Revision-Date: 2023-09-13 20:28+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -1266,7 +1266,7 @@ msgstr "Лучшие защитные соединения"
 #: client/gui-qt/menu.cpp:1338 client/gui-qt/pages.cpp:723
 #: client/gui-qt/pages.cpp:1286 client/gui-sdl/helpdlg.c:749
 #: client/gui-sdl/mapctrl.c:1597 client/gui-sdl/repodlgs.c:368
-#: client/gui-sdl2/helpdlg.c:767 client/gui-sdl2/mapctrl.c:1711
+#: client/gui-sdl2/helpdlg.c:769 client/gui-sdl2/mapctrl.c:1711
 #: client/gui-sdl2/repodlgs.c:394 client/gui-xaw/menu.c:161
 #: client/gui-xaw/menu.c:223 client/gui-xaw/menu.c:255
 #: client/gui-xaw/repodlgs.c:893 client/gui-xaw/repodlgs.c:1088
@@ -2643,12 +2643,12 @@ msgstr "Производство:"
 msgid "Trade:"
 msgstr "Торговля:"
 
-#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:761
-#: client/gui-gtk-2.0/diplodlg.c:845 client/gui-gtk-2.0/inteldlg.c:51
-#: client/gui-gtk-3.0/citydlg.c:744 client/gui-gtk-3.0/diplodlg.c:770
-#: client/gui-gtk-3.0/diplodlg.c:857 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-gtk-3.22/citydlg.c:744 client/gui-gtk-3.22/diplodlg.c:765
-#: client/gui-gtk-3.22/diplodlg.c:849 client/gui-gtk-3.22/inteldlg.c:51
+#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:762
+#: client/gui-gtk-2.0/diplodlg.c:846 client/gui-gtk-2.0/inteldlg.c:51
+#: client/gui-gtk-3.0/citydlg.c:744 client/gui-gtk-3.0/diplodlg.c:771
+#: client/gui-gtk-3.0/diplodlg.c:858 client/gui-gtk-3.0/inteldlg.c:51
+#: client/gui-gtk-3.22/citydlg.c:744 client/gui-gtk-3.22/diplodlg.c:766
+#: client/gui-gtk-3.22/diplodlg.c:850 client/gui-gtk-3.22/inteldlg.c:51
 #: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:166
 #: client/gui-qt/diplodlg.cpp:168 client/gui-qt/plrdlg.cpp:499
 msgid "Gold:"
@@ -3650,46 +3650,46 @@ msgstr "(_P) Договоры"
 msgid "Cancel _all meetings"
 msgstr "(_a) Отменить все переговоры"
 
-#: client/gui-gtk-2.0/diplodlg.c:580 client/gui-gtk-2.0/diplodlg.c:648
-#: client/gui-gtk-3.0/diplodlg.c:580 client/gui-gtk-3.0/diplodlg.c:650
-#: client/gui-gtk-3.22/diplodlg.c:578 client/gui-gtk-3.22/diplodlg.c:648
+#: client/gui-gtk-2.0/diplodlg.c:581 client/gui-gtk-2.0/diplodlg.c:649
+#: client/gui-gtk-3.0/diplodlg.c:581 client/gui-gtk-3.0/diplodlg.c:651
+#: client/gui-gtk-3.22/diplodlg.c:579 client/gui-gtk-3.22/diplodlg.c:649
 #, c-format
 msgid "Diplomacy [%d]"
 msgstr "Дипломатия [%d]"
 
-#: client/gui-gtk-2.0/diplodlg.c:658 client/gui-gtk-3.0/diplodlg.c:662
-#: client/gui-gtk-3.22/diplodlg.c:660 client/gui-qt/diplodlg.cpp:218
+#: client/gui-gtk-2.0/diplodlg.c:659 client/gui-gtk-3.0/diplodlg.c:663
+#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:218
 #: client/gui-sdl/diplodlg.c:930 client/gui-sdl2/diplodlg.c:956
 #: data/Freeciv.in:528
 msgid "Cancel meeting"
 msgstr "Отменить переговоры"
 
-#: client/gui-gtk-2.0/diplodlg.c:660 client/gui-gtk-3.0/diplodlg.c:660
-#: client/gui-gtk-3.22/diplodlg.c:658 client/gui-qt/diplodlg.cpp:215
+#: client/gui-gtk-2.0/diplodlg.c:661 client/gui-gtk-3.0/diplodlg.c:661
+#: client/gui-gtk-3.22/diplodlg.c:659 client/gui-qt/diplodlg.cpp:215
 #: client/gui-sdl/diplodlg.c:941 client/gui-sdl2/diplodlg.c:967
 #: data/Freeciv.in:519
 msgid "Accept treaty"
 msgstr "Подписать соглашение"
 
-#: client/gui-gtk-2.0/diplodlg.c:733 client/gui-gtk-2.0/diplodlg.c:817
-#: client/gui-gtk-3.0/diplodlg.c:743 client/gui-gtk-3.0/diplodlg.c:830
-#: client/gui-gtk-3.22/diplodlg.c:741 client/gui-gtk-3.22/diplodlg.c:825
+#: client/gui-gtk-2.0/diplodlg.c:734 client/gui-gtk-2.0/diplodlg.c:818
+#: client/gui-gtk-3.0/diplodlg.c:744 client/gui-gtk-3.0/diplodlg.c:831
+#: client/gui-gtk-3.22/diplodlg.c:742 client/gui-gtk-3.22/diplodlg.c:826
 #: client/gui-qt/diplodlg.cpp:183 client/gui-qt/diplodlg.cpp:185
 msgid "Add Clause..."
 msgstr "Добавить статью..."
 
-#: client/gui-gtk-2.0/diplodlg.c:884 client/gui-gtk-3.0/diplodlg.c:897
-#: client/gui-gtk-3.22/diplodlg.c:889
+#: client/gui-gtk-2.0/diplodlg.c:885 client/gui-gtk-3.0/diplodlg.c:898
+#: client/gui-gtk-3.22/diplodlg.c:890
 msgid "C_lauses:"
 msgstr "(_l) Статьи:"
 
-#: client/gui-gtk-2.0/diplodlg.c:929 client/gui-gtk-3.0/diplodlg.c:945
-#: client/gui-gtk-3.22/diplodlg.c:937 client/gui-qt/diplodlg.cpp:686
+#: client/gui-gtk-2.0/diplodlg.c:930 client/gui-gtk-3.0/diplodlg.c:946
+#: client/gui-gtk-3.22/diplodlg.c:938 client/gui-qt/diplodlg.cpp:686
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "—— Этот договор не заполнен. Пожалуйста, добавьте статьи. ——"
 
-#: client/gui-gtk-2.0/diplodlg.c:1165 client/gui-gtk-3.0/diplodlg.c:1183
-#: client/gui-gtk-3.22/diplodlg.c:1175 client/gui-sdl/diplodlg.c:410
+#: client/gui-gtk-2.0/diplodlg.c:1166 client/gui-gtk-3.0/diplodlg.c:1184
+#: client/gui-gtk-3.22/diplodlg.c:1176 client/gui-sdl/diplodlg.c:410
 #: client/gui-sdl2/diplodlg.c:416 client/gui-xaw/diplodlg.c:980
 msgid "Invalid amount of gold specified."
 msgstr "Указана неверная сумма."
@@ -4610,7 +4610,7 @@ msgstr "Дополнительная информация доступна по 
 #: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3875
 #: client/gui-qt/helpdlg.cpp:897 client/gui-qt/helpdlg.cpp:1000
 #: client/gui-sdl/helpdlg.c:378 client/gui-sdl/helpdlg.c:796
-#: client/gui-sdl2/helpdlg.c:384 client/gui-sdl2/helpdlg.c:814
+#: client/gui-sdl2/helpdlg.c:386 client/gui-sdl2/helpdlg.c:817
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
 msgstr "Стоимость:"
@@ -4618,7 +4618,7 @@ msgstr "Стоимость:"
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-3.0/helpdlg.c:99
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-qt/helpdlg.cpp:1005
 #: client/gui-sdl/helpdlg.c:386 client/gui-sdl/helpdlg.c:805
-#: client/gui-sdl2/helpdlg.c:393 client/gui-sdl2/helpdlg.c:823
+#: client/gui-sdl2/helpdlg.c:395 client/gui-sdl2/helpdlg.c:826
 #: data/Freeciv.in:671
 msgid "Upkeep:"
 msgstr "Содержание:"
@@ -4629,7 +4629,7 @@ msgstr "Содержание:"
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-gtk-3.22/helpdlg.c:102
 #: client/gui-gtk-3.22/helpdlg.c:110 client/gui-qt/helpdlg.cpp:1031
 #: client/gui-sdl/helpdlg.c:397 client/gui-sdl/helpdlg.c:845
-#: client/gui-sdl2/helpdlg.c:405 client/gui-sdl2/helpdlg.c:863
+#: client/gui-sdl2/helpdlg.c:407 client/gui-sdl2/helpdlg.c:866
 #: data/Freeciv.in:712
 msgid "Requirement:"
 msgstr "Требования:"
@@ -4639,7 +4639,7 @@ msgstr "Требования:"
 #: client/gui-gtk-3.22/helpdlg.c:102 client/gui-gtk-3.22/helpdlg.c:110
 #: client/gui-qt/citydlg.cpp:3812 client/gui-qt/helpdlg.cpp:1050
 #: client/gui-sdl/helpdlg.c:438 client/gui-sdl/helpdlg.c:872
-#: client/gui-sdl2/helpdlg.c:449 client/gui-sdl2/helpdlg.c:892
+#: client/gui-sdl2/helpdlg.c:451 client/gui-sdl2/helpdlg.c:895
 #: data/Freeciv.in:750
 msgid "Obsolete by:"
 msgstr "Упраздняется:"
@@ -4647,34 +4647,34 @@ msgstr "Упраздняется:"
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:106
 #: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3868
 #: client/gui-qt/helpdlg.cpp:887 client/gui-sdl/helpdlg.c:829
-#: client/gui-sdl2/helpdlg.c:847 data/Freeciv.in:813
+#: client/gui-sdl2/helpdlg.c:850 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "Атака:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3870
 #: client/gui-qt/helpdlg.cpp:889 client/gui-sdl/helpdlg.c:830
-#: client/gui-sdl2/helpdlg.c:848 data/Freeciv.in:831
+#: client/gui-sdl2/helpdlg.c:851 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "Защита:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3872
-#: client/gui-sdl/helpdlg.c:831 client/gui-sdl2/helpdlg.c:849
+#: client/gui-sdl/helpdlg.c:831 client/gui-sdl2/helpdlg.c:852
 #: data/Freeciv.in:849
 msgid "Move:"
 msgstr "Очки Движения:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3883
-#: client/gui-sdl/helpdlg.c:833 client/gui-sdl2/helpdlg.c:851
+#: client/gui-sdl/helpdlg.c:833 client/gui-sdl2/helpdlg.c:854
 msgid "FirePower:"
 msgstr "Боевая мощь:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3881
 #: client/gui-qt/helpdlg.cpp:896 client/gui-sdl/helpdlg.c:834
-#: client/gui-sdl2/helpdlg.c:852 data/Freeciv.in:894
+#: client/gui-sdl2/helpdlg.c:855 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "Здоровье:"
 
@@ -4686,7 +4686,7 @@ msgstr "Базовое Содержание:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:109
 #: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3885
-#: client/gui-sdl/helpdlg.c:832 client/gui-sdl2/helpdlg.c:850
+#: client/gui-sdl/helpdlg.c:832 client/gui-sdl2/helpdlg.c:853
 #: data/Freeciv.in:912
 msgid "Vision:"
 msgstr "Дистанция обзора:"
@@ -4734,7 +4734,7 @@ msgstr "Бонус (Е/П/Т):"
 #: client/gui-qt/plrdlg.cpp:591 client/gui-qt/repodlgs.cpp:1084
 #: client/gui-sdl/gui_tilespec.c:374 client/gui-sdl/helpdlg.c:854
 #: client/gui-sdl/mapview.c:330 client/gui-sdl2/gui_tilespec.c:381
-#: client/gui-sdl2/helpdlg.c:872 client/gui-sdl2/mapview.c:345
+#: client/gui-sdl2/helpdlg.c:875 client/gui-sdl2/mapview.c:345
 #: client/gui-xaw/helpdlg.c:831 client/gui-xaw/helpdlg.c:877
 #: client/gui-xaw/helpdlg.c:896 common/research.c:83 common/tech.c:393
 #: tools/civmanual.c:525
@@ -4781,7 +4781,7 @@ msgstr "Свернуть все"
 #: client/gui-gtk-3.22/helpdlg.c:1121 client/gui-gtk-3.22/helpdlg.c:1138
 #: client/gui-qt/helpdlg.cpp:1098 client/gui-qt/helpdlg.cpp:1114
 #: client/gui-qt/helpdlg.cpp:1155 client/gui-sdl/helpdlg.c:1052
-#: client/gui-sdl2/helpdlg.c:1075
+#: client/gui-sdl2/helpdlg.c:1078
 msgid "Allows"
 msgstr "Позволяет"
 
@@ -7846,7 +7846,7 @@ msgstr "Карты"
 
 #: client/gui-qt/diplodlg.cpp:345 client/gui-sdl/diplodlg.c:659
 #: client/gui-sdl/helpdlg.c:2005 client/gui-sdl2/diplodlg.c:677
-#: client/gui-sdl2/helpdlg.c:2034 data/Freeciv.in:410 data/Freeciv.in:419
+#: client/gui-sdl2/helpdlg.c:2036 data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Технологии"
 
@@ -9173,7 +9173,7 @@ msgstr "<b>%1 проголосовал за:</b>"
 #: client/gui-sdl2/dialogs.c:1362 client/gui-sdl2/dialogs.c:1709
 #: client/gui-sdl2/dialogs.c:2270 client/gui-sdl2/finddlg.c:167
 #: client/gui-sdl2/gotodlg.c:278 client/gui-sdl2/helpdlg.c:266
-#: client/gui-sdl2/helpdlg.c:695 client/gui-sdl2/helpdlg.c:1985
+#: client/gui-sdl2/helpdlg.c:697 client/gui-sdl2/helpdlg.c:1987
 #: client/gui-sdl2/inteldlg.c:270 client/gui-sdl2/optiondlg.c:799
 #: client/gui-sdl2/plrdlg.c:403 client/gui-sdl2/plrdlg.c:704
 #: client/gui-sdl2/repodlgs.c:418 client/gui-sdl2/repodlgs.c:2080
@@ -9883,16 +9883,16 @@ msgstr "ТБ"
 msgid "Help : Improvements"
 msgstr "Помощь : Здания"
 
-#: client/gui-sdl/helpdlg.c:427 client/gui-sdl2/helpdlg.c:438
+#: client/gui-sdl/helpdlg.c:427 client/gui-sdl2/helpdlg.c:440
 #: tools/civmanual.c:511
 msgid "?req:None"
 msgstr "Ничего"
 
-#: client/gui-sdl/helpdlg.c:453 client/gui-sdl2/helpdlg.c:465
+#: client/gui-sdl/helpdlg.c:453 client/gui-sdl2/helpdlg.c:467
 msgid "Never"
 msgstr "Никогда"
 
-#: client/gui-sdl/helpdlg.c:659 client/gui-sdl2/helpdlg.c:674
+#: client/gui-sdl/helpdlg.c:659 client/gui-sdl2/helpdlg.c:676
 msgid "Help : Units"
 msgstr "Помощь : Соединения"
 
@@ -9901,8 +9901,8 @@ msgstr "Помощь : Соединения"
 #: client/gui-sdl/wldlg.c:1444 client/gui-sdl/wldlg.c:1450
 #: client/gui-sdl/wldlg.c:1469 client/gui-sdl/wldlg.c:1474
 #: client/gui-sdl/wldlg.c:1565 client/gui-sdl/wldlg.c:1573
-#: client/gui-sdl/wldlg.c:1583 client/gui-sdl2/helpdlg.c:815
-#: client/gui-sdl2/helpdlg.c:827 client/gui-sdl2/wldlg.c:1461
+#: client/gui-sdl/wldlg.c:1583 client/gui-sdl2/helpdlg.c:818
+#: client/gui-sdl2/helpdlg.c:830 client/gui-sdl2/wldlg.c:1461
 #: client/gui-sdl2/wldlg.c:1467 client/gui-sdl2/wldlg.c:1475
 #: client/gui-sdl2/wldlg.c:1481 client/gui-sdl2/wldlg.c:1500
 #: client/gui-sdl2/wldlg.c:1505 client/gui-sdl2/wldlg.c:1597
@@ -9914,40 +9914,40 @@ msgstr[1] "щита"
 msgstr[2] "щитов"
 
 #: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:824
-#: client/gui-sdl2/helpdlg.c:819 client/gui-sdl2/helpdlg.c:842
+#: client/gui-sdl2/helpdlg.c:822 client/gui-sdl2/helpdlg.c:845
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "житель"
 msgstr[1] "жителя"
 msgstr[2] "жителей"
 
-#: client/gui-sdl/helpdlg.c:814 client/gui-sdl2/helpdlg.c:832
+#: client/gui-sdl/helpdlg.c:814 client/gui-sdl2/helpdlg.c:835
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "еда"
 msgstr[1] "еды"
 msgstr[2] "еды"
 
-#: client/gui-sdl/helpdlg.c:819 client/gui-sdl2/helpdlg.c:837
+#: client/gui-sdl/helpdlg.c:819 client/gui-sdl2/helpdlg.c:840
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "золотой"
 msgstr[1] "золота"
 msgstr[2] "золотых"
 
-#: client/gui-sdl/helpdlg.c:880 client/gui-sdl2/helpdlg.c:900
+#: client/gui-sdl/helpdlg.c:880 client/gui-sdl2/helpdlg.c:903
 msgid "?utype:None"
 msgstr "Нет"
 
-#: client/gui-sdl/helpdlg.c:1072 client/gui-sdl2/helpdlg.c:1095
+#: client/gui-sdl/helpdlg.c:1072 client/gui-sdl2/helpdlg.c:1098
 msgid "( with "
 msgstr "( с "
 
-#: client/gui-sdl/helpdlg.c:1075 client/gui-sdl2/helpdlg.c:1098
+#: client/gui-sdl/helpdlg.c:1075 client/gui-sdl2/helpdlg.c:1101
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1936 client/gui-sdl2/helpdlg.c:1963
+#: client/gui-sdl/helpdlg.c:1936 client/gui-sdl2/helpdlg.c:1965
 msgid "Help : Advances Tree"
 msgstr "Помощь : Дерево технологий"
 
@@ -14889,19 +14889,19 @@ msgstr "Скопировать %s в буфер обмена."
 msgid "Clipboard is empty."
 msgstr "Буфер обмена пуст."
 
-#: client/mapview_common.c:4063
+#: client/mapview_common.c:4065
 msgid "ISO|Hex"
 msgstr "Изом.|Гекс."
 
-#: client/mapview_common.c:4065 common/fc_types.h:309
+#: client/mapview_common.c:4067 common/fc_types.h:309
 msgid "ISO"
 msgstr "Изометр."
 
-#: client/mapview_common.c:4068 common/fc_types.h:311
+#: client/mapview_common.c:4070 common/fc_types.h:311
 msgid "Hex"
 msgstr "Гексаг."
 
-#: client/mapview_common.c:4071 client/tilespec.h:49
+#: client/mapview_common.c:4073 client/tilespec.h:49
 msgid "Overhead"
 msgstr "планарные"
 
@@ -18758,7 +18758,7 @@ msgstr "одно изображение на игрока в 'plrbv'"
 #. * "define" in the first column are server keywords that must not
 #. * be translated. Do not translate keywords in single quotes, but
 #. * strings in <angle brackets> should be translated.
-#: common/mapimg.c:688
+#: common/mapimg.c:692
 #, c-format
 msgid ""
 "This command controls the creation of map images. Supported arguments:\n"
@@ -18858,176 +18858,176 @@ msgstr ""
 " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
 " 'zoom=1:map=t:show=none:format=magickwand|jpg'"
 
-#: common/mapimg.c:774
+#: common/mapimg.c:778
 msgid "no map definition"
 msgstr "нет определения карты"
 
-#: common/mapimg.c:780
+#: common/mapimg.c:784
 #, c-format
 msgid "map definition string too long (max %d characters)"
 msgstr "строка определения карты слишком длинная (максимум — %d символов)"
 
-#: common/mapimg.c:786
+#: common/mapimg.c:790
 #, c-format
 msgid "maximum number of map definitions reached (%d)"
 msgstr "достигнуто максимальное число определений карты (%d)"
 
-#: common/mapimg.c:794
+#: common/mapimg.c:798
 #, c-format
 msgid "duplicate of map image definition %d ('%s')"
 msgstr "повторное определение изображения карты %d ('%s')"
 
-#: common/mapimg.c:815 common/mapimg.c:819
+#: common/mapimg.c:819 common/mapimg.c:823
 #, c-format
 msgid "unknown map option: '%s'"
 msgstr "неизвестный параметр карты '%s'"
 
-#: common/mapimg.c:835
+#: common/mapimg.c:839
 #, c-format
 msgid "'show=%s' but no player name 'plrname'"
 msgstr "'show=%s', но это не имя игрока 'plrname'"
 
-#: common/mapimg.c:842
+#: common/mapimg.c:846
 #, c-format
 msgid "'show=%s' but no player id 'plrid'"
 msgstr "'show=%s', но это не id игрока 'plrid'"
 
-#: common/mapimg.c:849
+#: common/mapimg.c:853
 #, c-format
 msgid "'show=%s' but no player bitvector 'plrbv'"
 msgstr "'show=%s', но это не битвектор свойств игрока 'plrbv'"
 
-#: common/mapimg.c:1002
+#: common/mapimg.c:1006
 #, c-format
 msgid "invalid character in bitvector: '%c' (%s)"
 msgstr "Неверный символ '%c' в битвекторе %s"
 
-#: common/mapimg.c:1023
+#: common/mapimg.c:1027
 #, c-format
 msgid "'plrid' should be between 0 and %d"
 msgstr "'plrid' должен быть между 0 и %d"
 
-#: common/mapimg.c:1039
+#: common/mapimg.c:1043
 #, c-format
 msgid "player name too long: '%s' (max: %lu)"
 msgstr "слишком длинное имя игрока: '%s' (макс: %lu)"
 
-#: common/mapimg.c:1069
+#: common/mapimg.c:1073
 msgid "'turns' should be between 0 and 99"
 msgstr "'turns' должно быть между 0 и 99"
 
-#: common/mapimg.c:1087
+#: common/mapimg.c:1091
 msgid "'zoom' factor should be between 1 and 5"
 msgstr "увеличение 'zoom' должно быть от 1 до 5"
 
-#: common/mapimg.c:1106
+#: common/mapimg.c:1110
 #, c-format
 msgid "invalid value for option '%s': '%s'"
 msgstr "неверное значение для параметра '%s': '%s'"
 
-#: common/mapimg.c:1130
+#: common/mapimg.c:1134
 msgid "map definition not checked (game not started)"
 msgstr "определение карты не было проверено (игра не стартовала)"
 
-#: common/mapimg.c:1134
+#: common/mapimg.c:1138
 #, c-format
 msgid "map definition deactivated: %s"
 msgstr "определение карты деактивировано: %s"
 
-#: common/mapimg.c:1234
+#: common/mapimg.c:1238
 #, c-format
 msgid "Detailed information for map image definition %d\n"
 msgstr "Полная информация об определении изображения карты %d\n"
 
-#: common/mapimg.c:1237
+#: common/mapimg.c:1241
 #, c-format
 msgid "  - status:                   %s (%s)\n"
 msgstr "  — статус:                   %s (%s)\n"
 
-#: common/mapimg.c:1240
+#: common/mapimg.c:1244
 #, c-format
 msgid "  - status:                   %s\n"
 msgstr "  — статус:                   %s\n"
 
-#: common/mapimg.c:1243
+#: common/mapimg.c:1247
 #, c-format
 msgid "  - file name string:         %s\n"
 msgstr "  — строка имени файла:       %s\n"
 
-#: common/mapimg.c:1245
+#: common/mapimg.c:1249
 #, c-format
 msgid "  - image toolkit:            %s\n"
 msgstr "  — обработчик изображений:   %s\n"
 
-#: common/mapimg.c:1247
+#: common/mapimg.c:1251
 #, c-format
 msgid "  - image format:             %s\n"
 msgstr "  — формат изображения:       %s\n"
 
-#: common/mapimg.c:1249
+#: common/mapimg.c:1253
 #, c-format
 msgid "  - zoom factor:              %d\n"
 msgstr "  — увеличение:               %d\n"
 
-#: common/mapimg.c:1251
+#: common/mapimg.c:1255
 #, c-format
 msgid "  - show area within borders: %s\n"
 msgstr "  — область внутри границ:    %s\n"
 
-#: common/mapimg.c:1252 common/mapimg.c:1254 common/mapimg.c:1256
-#: common/mapimg.c:1258 common/mapimg.c:1260 common/mapimg.c:1264
+#: common/mapimg.c:1256 common/mapimg.c:1258 common/mapimg.c:1260
+#: common/mapimg.c:1262 common/mapimg.c:1264 common/mapimg.c:1268
 msgid "yes"
 msgstr "да"
 
-#: common/mapimg.c:1252 common/mapimg.c:1254 common/mapimg.c:1256
-#: common/mapimg.c:1258 common/mapimg.c:1260 common/mapimg.c:1264
+#: common/mapimg.c:1256 common/mapimg.c:1258 common/mapimg.c:1260
+#: common/mapimg.c:1262 common/mapimg.c:1264 common/mapimg.c:1268
 msgid "no"
 msgstr "нет"
 
-#: common/mapimg.c:1253
+#: common/mapimg.c:1257
 #, c-format
 msgid "  - show borders:             %s\n"
 msgstr "  — границы:                  %s\n"
 
-#: common/mapimg.c:1255
+#: common/mapimg.c:1259
 #, c-format
 msgid "  - show cities:              %s\n"
 msgstr "  — города:                   %s\n"
 
-#: common/mapimg.c:1257
+#: common/mapimg.c:1261
 #, c-format
 msgid "  - show fog of war:          %s\n"
 msgstr "  — туман войны:              %s\n"
 
-#: common/mapimg.c:1259
+#: common/mapimg.c:1263
 #, c-format
 msgid "  - show player knowledge:    %s\n"
 msgstr "  — знания игрока:            %s\n"
 
-#: common/mapimg.c:1261
+#: common/mapimg.c:1265
 #, c-format
 msgid "  - show terrain:             %s\n"
 msgstr "  — рельеф:                   %s\n"
 
-#: common/mapimg.c:1262
+#: common/mapimg.c:1266
 msgid "full"
 msgstr "полный"
 
-#: common/mapimg.c:1262
+#: common/mapimg.c:1266
 msgid "basic"
 msgstr "базовый"
 
-#: common/mapimg.c:1263
+#: common/mapimg.c:1267
 #, c-format
 msgid "  - show units:               %s\n"
 msgstr "  — соединения:               %s\n"
 
-#: common/mapimg.c:1265
+#: common/mapimg.c:1269
 #, c-format
 msgid "  - players included:         %s"
 msgstr "  — включены игроки:          %s"
 
-#: common/mapimg.c:1275
+#: common/mapimg.c:1279
 #, c-format
 msgid ""
 "\n"
@@ -19036,7 +19036,7 @@ msgstr ""
 "\n"
 "  — имя игрока:               %s"
 
-#: common/mapimg.c:1279
+#: common/mapimg.c:1283
 #, c-format
 msgid ""
 "\n"
@@ -19045,7 +19045,7 @@ msgstr ""
 "\n"
 "  — id игрока:                %d"
 
-#: common/mapimg.c:1283
+#: common/mapimg.c:1287
 #, c-format
 msgid ""
 "\n"
@@ -19054,52 +19054,52 @@ msgstr ""
 "\n"
 "  — игроки:                   %s"
 
-#: common/mapimg.c:1338
+#: common/mapimg.c:1342
 msgid "map not yet created"
 msgstr "карта ещё не создана"
 
-#: common/mapimg.c:1346 common/mapimg.c:1579
+#: common/mapimg.c:1350 common/mapimg.c:1583
 msgid "map definition not checked or error"
 msgstr "определение карты не проверено или вернуло ошибку"
 
-#: common/mapimg.c:1562
+#: common/mapimg.c:1566
 #, c-format
 msgid "no map definition with id %d"
 msgstr "нет определения карты с id %d"
 
-#: common/mapimg.c:1668
+#: common/mapimg.c:1672
 #, c-format
 msgid "unknown player name: '%s'"
 msgstr "неизвестное имя игрока: '%s'"
 
-#: common/mapimg.c:1684
+#: common/mapimg.c:1688
 #, c-format
 msgid "invalid player id: %d"
 msgstr "неверный id игрока: %d"
 
-#: common/mapimg.c:1875
+#: common/mapimg.c:1879
 #, c-format
 msgid "Turn: %4d - Year: %10s"
 msgstr "Ход: %4d — Год: %10s"
 
-#: common/mapimg.c:2044
+#: common/mapimg.c:2048
 msgid "toolkit not defined"
 msgstr "библиотека не определена"
 
-#: common/mapimg.c:2107 common/mapimg.c:2315
+#: common/mapimg.c:2111 common/mapimg.c:2319
 msgid "error generating the file name"
 msgstr "ошибка генерации имени файла"
 
-#: common/mapimg.c:2281
+#: common/mapimg.c:2285
 #, c-format
 msgid "error saving map image '%s'"
 msgstr "ошибка записи изображения карты '%s'"
 
-#: common/mapimg.c:2309
+#: common/mapimg.c:2313
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr "библиотека ppm может сохранять изображения только в формате ppm"
 
-#: common/mapimg.c:2321
+#: common/mapimg.c:2325
 #, c-format
 msgid "could not open file: %s"
 msgstr "невозможно открыть файл: %s"

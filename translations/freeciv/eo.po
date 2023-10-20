@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-04-21 01:51+0300\n"
+"POT-Creation-Date: 2023-10-19 04:33+0300\n"
 "PO-Revision-Date: 2021-09-27 13:20+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -155,7 +155,7 @@ msgstr "*%s (AI)* Viaj kaŝitaj militaĵoj ĵetas la militon sur vi!"
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (IA)* Via agreso kontraŭ %s estis vian lastan eraro!"
 
-#: ai/default/daidiplomacy.c:1395
+#: ai/default/daidiplomacy.c:1397
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -170,14 +170,14 @@ msgstr[1] ""
 "*%s (AI)* Ni totale militos kontraŭ %s en %d vicoj por haltigi la lanĉon de "
 "la kosmoŝipo."
 
-#: ai/default/daidiplomacy.c:1406
+#: ai/default/daidiplomacy.c:1408
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr "*%s (AI)* Via helpo pri tio estos atendita. Vivu nia glora alianco!"
 
-#: ai/default/daidiplomacy.c:1413
+#: ai/default/daidiplomacy.c:1415
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -196,7 +196,7 @@ msgstr[1] ""
 "potence reagos en %d vicoj kaj ni atendas ke vi plenumos la aliancon kun ni "
 "kaj do vi agos sammaniere!"
 
-#: ai/default/daidiplomacy.c:1427
+#: ai/default/daidiplomacy.c:1429
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -211,7 +211,7 @@ msgstr[1] ""
 "*%s (AI)* Ni intencas disrabadi la riĉan civilizon de %s. Ni ekmilitos post "
 "%d vicoj."
 
-#: ai/default/daidiplomacy.c:1436
+#: ai/default/daidiplomacy.c:1438
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
@@ -219,7 +219,7 @@ msgstr ""
 "*%s (AI)* Se vi deziras parton de la kaptaĵo, estu libera pri aliĝo en la "
 "agado!"
 
-#: ai/default/daidiplomacy.c:1442
+#: ai/default/daidiplomacy.c:1444
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -234,14 +234,14 @@ msgstr[1] ""
 "*%s (AI)* Ni havis tion kun %s. Buĉu ni tiun ĉi patosan civilizon! Ni "
 "ekmilitos en %d vicoj."
 
-#: ai/default/daidiplomacy.c:1453
+#: ai/default/daidiplomacy.c:1455
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (AI)* kiel niaj gloraj aliancanoj, ni atendas vian helpon en tiu ĉi "
 "milito."
 
-#: ai/default/daidiplomacy.c:1460
+#: ai/default/daidiplomacy.c:1462
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
@@ -256,7 +256,7 @@ msgstr[1] ""
 "*%s (AI)* Ni plenumos nian aliancon kaj ekmilitos kontraŭ %s en %d vicoj.  "
 "Ek! - Ni estas alvenantaj!"
 
-#: ai/default/daidiplomacy.c:1470
+#: ai/default/daidiplomacy.c:1472
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
@@ -271,7 +271,7 @@ msgstr[1] ""
 "*%s (AI)* Ni plenumos nian aliancon kun %s kaj ekmilitos kontraŭ %s en %d "
 "vicoj.  Ni atendas ke vi faros sammaniere."
 
-#: ai/default/daidiplomacy.c:1549
+#: ai/default/daidiplomacy.c:1551
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -280,7 +280,7 @@ msgstr ""
 "*%s (AI)* Via klopodo por unuflanke konkeri la kosmospacon malkaŝas viajn "
 "efektivajn intencojn, kaj do mi ne volas esti plu via aliancano!"
 
-#: ai/default/daidiplomacy.c:1565
+#: ai/default/daidiplomacy.c:1567
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -288,7 +288,7 @@ msgid ""
 msgstr ""
 "*%s (AI)* Via klopodo por unuflanke superregi la kosmospacon estas ege ataka."
 
-#: ai/default/daidiplomacy.c:1569
+#: ai/default/daidiplomacy.c:1571
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -297,12 +297,12 @@ msgstr ""
 "*%s (IA)* Se vi ne haltigis la konstruadon de via kosmoŝipo, mi severe "
 "dispozicios kontraŭ vi!"
 
-#: ai/default/daidiplomacy.c:1689
+#: ai/default/daidiplomacy.c:1691
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr "*%s (IA)* Mi bedaŭras, sed komuna vido kun vi ne estas plu senriska."
 
-#: ai/default/daidiplomacy.c:1760
+#: ai/default/daidiplomacy.c:1762
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -311,7 +311,7 @@ msgstr ""
 "*%s (IA)* Saluton al nia plej fidela aliancano. Ni adresas al vi por detrui "
 "nian malamikon, %s."
 
-#: ai/default/daidiplomacy.c:1768
+#: ai/default/daidiplomacy.c:1770
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -320,7 +320,7 @@ msgstr ""
 "*%s (IA)* Saluton, aliancano. Mi konstatis ke vi ne ekmilitis ankoraŭ "
 "kontraŭ nia malamiko, %s. Kial do mi devas memorigi al vi pri viaj promesoj?"
 
-#: ai/default/daidiplomacy.c:1778
+#: ai/default/daidiplomacy.c:1780
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -331,7 +331,7 @@ msgstr ""
 "kun nia ĝismorta malamiko, %s! Tio ne estas akceptebla, kaj do nia alianco "
 "ĉesas!"
 
-#: ai/default/daidiplomacy.c:1811
+#: ai/default/daidiplomacy.c:1813
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -340,12 +340,12 @@ msgstr ""
 "*%s (IA)* Saluton, amiko. Ĉu mi povas konsili al vi kune alfronti la "
 "malamikon kaj krei aliancon inter ni?"
 
-#: ai/default/daidiplomacy.c:1828
+#: ai/default/daidiplomacy.c:1830
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr "*%s (IA)* Saluton, najbaro. Ĉu ni povas konsili pli pacajn rilatojn?"
 
-#: ai/default/daidiplomacy.c:1845
+#: ai/default/daidiplomacy.c:1847
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -354,7 +354,7 @@ msgstr ""
 "*%s (AI)* Ni estas naŭzitaj pro tiu ĉi senĉesa sangelverŝo. Ĉu ni povas "
 "konsili ĉesigon de la milito?"
 
-#: ai/default/daidiplomacy.c:2008
+#: ai/default/daidiplomacy.c:2010
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
@@ -502,8 +502,8 @@ msgstr ""
 "La aŭtomata urba regado konfuzis la renkontiĝon kun %s. Estus bone kontroli."
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/agents/cma_core.c:428 client/gui-sdl/mapview.c:153
-#: client/gui-sdl2/mapview.c:164 server/console.c:74 server/srv_main.c:3149
+#: client/agents/cma_core.c:428 client/gui-sdl/mapview.c:152
+#: client/gui-sdl2/mapview.c:163 server/console.c:74 server/srv_main.c:3149
 #: utility/log.c:520 utility/netintf.c:96 utility/registry_ini.c:742
 #, c-format
 msgid "Please report this message at %s"
@@ -513,7 +513,7 @@ msgstr "Bonvolu sendi tiun ĉi mesaĝon al %s"
 #: client/gui-gtk-2.0/cityrep.c:788 client/gui-gtk-3.0/cityrep.c:770
 #: client/gui-gtk-3.0/cityrep.c:796 client/gui-gtk-3.22/cityrep.c:770
 #: client/gui-gtk-3.22/cityrep.c:796 client/gui-qt/repodlgs.cpp:1164
-#: client/gui-sdl/citydlg.c:2053 client/gui-sdl2/citydlg.c:2044
+#: client/gui-sdl/citydlg.c:2053 client/gui-sdl2/citydlg.c:2055
 msgid "none"
 msgstr "neniu"
 
@@ -529,8 +529,8 @@ msgstr "persona"
 #: client/gui-gtk-3.0/citydlg.c:1820 client/gui-gtk-3.22/citydlg.c:1852
 #: client/gui-qt/citydlg.cpp:3017 client/gui-sdl/cityrep.c:555
 #: client/gui-sdl/cityrep.c:1087 client/gui-sdl/wldlg.c:1432
-#: client/gui-sdl/wldlg.c:1437 client/gui-sdl2/cityrep.c:567
-#: client/gui-sdl2/cityrep.c:1102 client/gui-sdl2/wldlg.c:1463
+#: client/gui-sdl/wldlg.c:1437 client/gui-sdl2/cityrep.c:569
+#: client/gui-sdl2/cityrep.c:1104 client/gui-sdl2/wldlg.c:1463
 #: client/gui-sdl2/wldlg.c:1468 client/gui-xaw/citydlg.c:252 client/text.c:905
 msgid "never"
 msgstr "neniam"
@@ -741,7 +741,7 @@ msgstr "Arkaika"
 
 #: client/citydlg_common.c:401 client/citydlg_common.c:411
 #: client/gui-sdl/repodlgs.c:2050 client/gui-sdl/wldlg.c:1402
-#: client/gui-sdl/wldlg.c:1410 client/gui-sdl2/repodlgs.c:2102
+#: client/gui-sdl/wldlg.c:1410 client/gui-sdl2/repodlgs.c:2123
 #: client/gui-sdl2/wldlg.c:1433 client/gui-sdl2/wldlg.c:1441 common/events.c:93
 #: common/events.c:166
 msgid "Built"
@@ -1094,7 +1094,7 @@ msgstr "Urbonomo"
 #: client/gui-qt/gotodlg.cpp:53 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:644 client/gui-qt/pages.cpp:1274
 #: client/gui-qt/plrdlg.cpp:488 client/gui-qt/repodlgs.cpp:1569
-#: client/gui-sdl/repodlgs.c:2082 client/gui-sdl2/repodlgs.c:2134
+#: client/gui-sdl/repodlgs.c:2082 client/gui-sdl2/repodlgs.c:2155
 #: client/plrdlg_common.c:308
 msgid "Nation"
 msgstr "Nacio"
@@ -1203,8 +1203,8 @@ msgstr "La plej bona defend-unuo"
 #: client/gui-qt/menu.cpp:1338 client/gui-qt/pages.cpp:723
 #: client/gui-qt/pages.cpp:1286 client/gui-sdl/helpdlg.c:749
 #: client/gui-sdl/mapctrl.c:1597 client/gui-sdl/repodlgs.c:368
-#: client/gui-sdl2/helpdlg.c:756 client/gui-sdl2/mapctrl.c:1710
-#: client/gui-sdl2/repodlgs.c:391 client/gui-xaw/menu.c:161
+#: client/gui-sdl2/helpdlg.c:769 client/gui-sdl2/mapctrl.c:1711
+#: client/gui-sdl2/repodlgs.c:394 client/gui-xaw/menu.c:161
 #: client/gui-xaw/menu.c:223 client/gui-xaw/menu.c:255
 #: client/gui-xaw/repodlgs.c:893 client/gui-xaw/repodlgs.c:1088
 #: client/include/helpdlg_g.h:45 data/Freeciv.in:1913 data/helpdata.txt:1019
@@ -1422,8 +1422,8 @@ msgstr "?cma:Reganto"
 #: client/gui-gtk-2.0/menu.c:1497 client/gui-gtk-3.0/cityrep.c:1892
 #: client/gui-gtk-3.0/menu.c:1490 client/gui-gtk-3.22/cityrep.c:1891
 #: client/gui-gtk-3.22/menu.c:347 client/gui-sdl/citydlg.c:3807
-#: client/gui-sdl/cma_fe.c:900 client/gui-sdl2/citydlg.c:3680
-#: client/gui-sdl2/cma_fe.c:913 client/gui-xaw/menu.c:267
+#: client/gui-sdl/cma_fe.c:900 client/gui-sdl2/citydlg.c:3694
+#: client/gui-sdl2/cma_fe.c:918 client/gui-xaw/menu.c:267
 #: client/include/helpdlg_g.h:37 data/Freeciv.in:1477 data/helpdata.txt:1779
 msgid "Citizen Governor"
 msgstr "Urba regado"
@@ -1662,8 +1662,8 @@ msgstr ""
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr ""
 
-#: client/client_main.c:558 client/gui-sdl/gui_main.c:199
-#: client/gui-sdl2/gui_main.c:201 client/gui-xaw/gui_main.c:282
+#: client/client_main.c:558 client/gui-sdl/gui_main.c:205
+#: client/gui-sdl2/gui_main.c:207 client/gui-xaw/gui_main.c:282
 #: tools/civmanual.c:644 tools/mpcmdline.c:118
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
@@ -2141,8 +2141,8 @@ msgstr "(nenio)"
 #: client/gui-qt/dialogs.cpp:2212 client/gui-qt/dialogs.cpp:2274
 #: client/gui-qt/repodlgs.cpp:213 client/gui-sdl/action_dialog.c:1545
 #: client/gui-sdl/action_dialog.c:1808 client/gui-sdl/citydlg.c:1159
-#: client/gui-sdl/repodlgs.c:189 client/gui-sdl2/action_dialog.c:1496
-#: client/gui-sdl2/action_dialog.c:1757 client/gui-sdl2/citydlg.c:1159
+#: client/gui-sdl/repodlgs.c:189 client/gui-sdl2/action_dialog.c:1499
+#: client/gui-sdl2/action_dialog.c:1760 client/gui-sdl2/citydlg.c:1167
 #: client/gui-sdl2/repodlgs.c:211 client/gui-xaw/citydlg.c:1953
 #: client/gui-xaw/action_dialog.c:181 client/gui-xaw/action_dialog.c:770
 #: client/gui-xaw/repodlgs.c:1014 client/text.c:1292 common/unit.c:2103
@@ -2160,7 +2160,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/action_dialog.c:276
 #: client/gui-gtk-3.0/action_dialog.c:286
 #: client/gui-gtk-3.22/action_dialog.c:286 client/gui-qt/dialogs.cpp:2280
-#: client/gui-sdl/action_dialog.c:1833 client/gui-sdl2/action_dialog.c:1782
+#: client/gui-sdl/action_dialog.c:1833 client/gui-sdl2/action_dialog.c:1785
 #: client/gui-xaw/action_dialog.c:189
 #, fuzzy, c-format
 msgid ""
@@ -2179,7 +2179,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/action_dialog.c:278
 #: client/gui-gtk-3.0/action_dialog.c:288
 #: client/gui-gtk-3.22/action_dialog.c:288 client/gui-qt/dialogs.cpp:2283
-#: client/gui-sdl/action_dialog.c:1814 client/gui-sdl2/action_dialog.c:1763
+#: client/gui-sdl/action_dialog.c:1814 client/gui-sdl2/action_dialog.c:1766
 #: data/Freeciv.in:2417
 msgid "Bribe Enemy Unit"
 msgstr "Subaĉetu malamikan unuon"
@@ -2188,7 +2188,7 @@ msgstr "Subaĉetu malamikan unuon"
 #: client/gui-gtk-2.0/action_dialog.c:284
 #: client/gui-gtk-3.0/action_dialog.c:294
 #: client/gui-gtk-3.22/action_dialog.c:294 client/gui-qt/dialogs.cpp:2299
-#: client/gui-sdl/action_dialog.c:1883 client/gui-sdl2/action_dialog.c:1832
+#: client/gui-sdl/action_dialog.c:1883 client/gui-sdl2/action_dialog.c:1835
 #: client/gui-xaw/action_dialog.c:198
 #, fuzzy, c-format
 msgid ""
@@ -2211,7 +2211,7 @@ msgstr[1] ""
 #: client/gui-gtk-3.22/action_dialog.c:296
 #: client/gui-gtk-3.22/action_dialog.c:915 client/gui-qt/dialogs.cpp:2301
 #: client/gui-sdl/action_dialog.c:1670 client/gui-sdl/action_dialog.c:1895
-#: client/gui-sdl2/action_dialog.c:1618 client/gui-sdl2/action_dialog.c:1844
+#: client/gui-sdl2/action_dialog.c:1621 client/gui-sdl2/action_dialog.c:1847
 #: data/Freeciv.in:2439
 msgid "Traitors Demand Too Much!"
 msgstr "La perfiduloj postulis tro altan pagon!"
@@ -2250,8 +2250,8 @@ msgstr "_Avanaĵoj:"
 #: client/gui-gtk-3.22/action_dialog.c:576
 #: client/gui-gtk-3.22/action_dialog.c:748 client/gui-qt/dialogs.cpp:2019
 #: client/gui-qt/dialogs.cpp:2394 client/gui-sdl/action_dialog.c:572
-#: client/gui-sdl/action_dialog.c:1334 client/gui-sdl2/action_dialog.c:574
-#: client/gui-sdl2/action_dialog.c:1288 client/gui-xaw/action_dialog.c:528
+#: client/gui-sdl/action_dialog.c:1334 client/gui-sdl2/action_dialog.c:575
+#: client/gui-sdl2/action_dialog.c:1291 client/gui-xaw/action_dialog.c:528
 #: client/gui-xaw/action_dialog.c:622
 #, fuzzy, c-format
 msgid "At %s's Discretion"
@@ -2272,7 +2272,7 @@ msgstr "_Sabotado"
 #: client/gui-gtk-2.0/action_dialog.c:676
 #: client/gui-gtk-3.0/action_dialog.c:691
 #: client/gui-gtk-3.22/action_dialog.c:685 client/gui-qt/dialogs.cpp:2363
-#: client/gui-sdl/action_dialog.c:1246 client/gui-sdl2/action_dialog.c:1201
+#: client/gui-sdl/action_dialog.c:1246 client/gui-sdl2/action_dialog.c:1203
 #: data/Freeciv.in:2390
 msgid "Select Improvement to Sabotage"
 msgstr "Elektu sabotendan plibonigon"
@@ -2286,7 +2286,7 @@ msgstr "_Urbaj plibonigoj:"
 #: client/gui-gtk-2.0/action_dialog.c:715
 #: client/gui-gtk-3.0/action_dialog.c:735
 #: client/gui-gtk-3.22/action_dialog.c:729 client/gui-qt/dialogs.cpp:2379
-#: client/gui-sdl/action_dialog.c:1275 client/gui-sdl2/action_dialog.c:1230
+#: client/gui-sdl/action_dialog.c:1275 client/gui-sdl2/action_dialog.c:1233
 #: client/gui-xaw/action_dialog.c:609
 msgid "City Production"
 msgstr "Produktado de la urbo"
@@ -2294,7 +2294,7 @@ msgstr "Produktado de la urbo"
 #: client/gui-gtk-2.0/action_dialog.c:882
 #: client/gui-gtk-3.0/action_dialog.c:902
 #: client/gui-gtk-3.22/action_dialog.c:896 client/gui-qt/dialogs.cpp:2221
-#: client/gui-sdl/action_dialog.c:1584 client/gui-sdl2/action_dialog.c:1534
+#: client/gui-sdl/action_dialog.c:1584 client/gui-sdl2/action_dialog.c:1537
 #: client/gui-xaw/action_dialog.c:776
 #, c-format
 msgid "You can't incite a revolt in %s."
@@ -2303,7 +2303,7 @@ msgstr "Vi ne povas instigi al ribelo en %s."
 #: client/gui-gtk-2.0/action_dialog.c:884
 #: client/gui-gtk-3.0/action_dialog.c:904
 #: client/gui-gtk-3.22/action_dialog.c:898 client/gui-sdl/action_dialog.c:1595
-#: client/gui-sdl2/action_dialog.c:1545
+#: client/gui-sdl2/action_dialog.c:1548
 msgid "City can't be incited!"
 msgstr "La urbo ne estas instigebla al ribelo!"
 
@@ -2311,7 +2311,7 @@ msgstr "La urbo ne estas instigebla al ribelo!"
 #: client/gui-gtk-2.0/action_dialog.c:890
 #: client/gui-gtk-3.0/action_dialog.c:910
 #: client/gui-gtk-3.22/action_dialog.c:904 client/gui-qt/dialogs.cpp:2229
-#: client/gui-sdl/action_dialog.c:1605 client/gui-sdl2/action_dialog.c:1555
+#: client/gui-sdl/action_dialog.c:1605 client/gui-sdl2/action_dialog.c:1558
 #: client/gui-xaw/action_dialog.c:783
 #, fuzzy, c-format
 msgid ""
@@ -2330,7 +2330,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/action_dialog.c:892
 #: client/gui-gtk-3.0/action_dialog.c:912
 #: client/gui-gtk-3.22/action_dialog.c:906 client/gui-qt/dialogs.cpp:2233
-#: client/gui-sdl/action_dialog.c:1551 client/gui-sdl2/action_dialog.c:1502
+#: client/gui-sdl/action_dialog.c:1551 client/gui-sdl2/action_dialog.c:1505
 #: data/Freeciv.in:2428
 msgid "Incite a Revolt!"
 msgstr "Instigu al ribelo!"
@@ -2339,7 +2339,7 @@ msgstr "Instigu al ribelo!"
 #: client/gui-gtk-2.0/action_dialog.c:899
 #: client/gui-gtk-3.0/action_dialog.c:919
 #: client/gui-gtk-3.22/action_dialog.c:913 client/gui-qt/dialogs.cpp:2247
-#: client/gui-sdl/action_dialog.c:1657 client/gui-sdl2/action_dialog.c:1606
+#: client/gui-sdl/action_dialog.c:1657 client/gui-sdl2/action_dialog.c:1609
 #: client/gui-xaw/action_dialog.c:793
 #, fuzzy, c-format
 msgid ""
@@ -2359,7 +2359,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/action_dialog.c:1140
 #: client/gui-gtk-3.0/action_dialog.c:1234
 #: client/gui-gtk-3.22/action_dialog.c:1228 client/gui-qt/dialogs.cpp:1738
-#: client/gui-sdl/action_dialog.c:968 client/gui-sdl2/action_dialog.c:923
+#: client/gui-sdl/action_dialog.c:968 client/gui-sdl2/action_dialog.c:924
 #, fuzzy, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Elektu strategion por via spiono"
@@ -2548,7 +2548,7 @@ msgstr "Flago"
 
 #: client/gui-gtk-2.0/citizensinfo.c:251 client/gui-gtk-3.0/citizensinfo.c:252
 #: client/gui-gtk-3.22/citizensinfo.c:252 client/gui-sdl/citydlg.c:2572
-#: client/gui-sdl2/citydlg.c:2449
+#: client/gui-sdl2/citydlg.c:2460
 msgid "Citizens"
 msgstr "Civitanoj"
 
@@ -2569,12 +2569,12 @@ msgstr "Prod.:"
 msgid "Trade:"
 msgstr "Kom.:"
 
-#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:759
-#: client/gui-gtk-2.0/diplodlg.c:843 client/gui-gtk-2.0/inteldlg.c:51
-#: client/gui-gtk-3.0/citydlg.c:744 client/gui-gtk-3.0/diplodlg.c:768
-#: client/gui-gtk-3.0/diplodlg.c:855 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-gtk-3.22/citydlg.c:744 client/gui-gtk-3.22/diplodlg.c:765
-#: client/gui-gtk-3.22/diplodlg.c:849 client/gui-gtk-3.22/inteldlg.c:51
+#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:762
+#: client/gui-gtk-2.0/diplodlg.c:846 client/gui-gtk-2.0/inteldlg.c:51
+#: client/gui-gtk-3.0/citydlg.c:744 client/gui-gtk-3.0/diplodlg.c:771
+#: client/gui-gtk-3.0/diplodlg.c:858 client/gui-gtk-3.0/inteldlg.c:51
+#: client/gui-gtk-3.22/citydlg.c:744 client/gui-gtk-3.22/diplodlg.c:766
+#: client/gui-gtk-3.22/diplodlg.c:850 client/gui-gtk-3.22/inteldlg.c:51
 #: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:166
 #: client/gui-qt/diplodlg.cpp:168 client/gui-qt/plrdlg.cpp:499
 msgid "Gold:"
@@ -2653,7 +2653,7 @@ msgstr "_Superrigardo"
 #: client/gui-gtk-3.0/citydlg.c:834 client/gui-gtk-3.0/citydlg.c:1314
 #: client/gui-gtk-3.22/citydlg.c:871 client/gui-gtk-3.22/citydlg.c:1351
 #: client/gui-qt/citydlg.cpp:1569 client/gui-sdl/citydlg.c:2557
-#: client/gui-sdl2/citydlg.c:2434
+#: client/gui-sdl2/citydlg.c:2445
 msgid "City map"
 msgstr "Urba mapo"
 
@@ -2777,7 +2777,7 @@ msgstr "Lasta aktiva paĝo"
 
 #: client/gui-gtk-2.0/citydlg.c:1194 client/gui-gtk-3.0/citydlg.c:1402
 #: client/gui-gtk-3.22/citydlg.c:1439 client/gui-sdl/citydlg.c:979
-#: client/gui-sdl2/citydlg.c:982
+#: client/gui-sdl2/citydlg.c:990
 msgid "New citizens are"
 msgstr "La novaj civitanoj estas"
 
@@ -2836,7 +2836,7 @@ msgstr "<b>%s</b> - %s civitanoj"
 #. TRANS: city growth is blocked.  Keep short.
 #: client/gui-gtk-2.0/citydlg.c:1575 client/gui-gtk-3.0/citydlg.c:1817
 #: client/gui-gtk-3.22/citydlg.c:1849 client/gui-qt/citydlg.cpp:3014
-#: client/gui-sdl/citydlg.c:3337 client/gui-sdl2/citydlg.c:3209
+#: client/gui-sdl/citydlg.c:3337 client/gui-sdl2/citydlg.c:3220
 #: client/gui-xaw/citydlg.c:250
 msgid "blocked"
 msgstr "blokita"
@@ -2937,7 +2937,7 @@ msgstr "Ĝis_datigu unuon"
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2664 client/gui-gtk-3.0/citydlg.c:3059
 #: client/gui-gtk-3.22/citydlg.c:3087 client/gui-sdl/citydlg.c:1170
-#: client/gui-sdl2/citydlg.c:1170 client/gui-xaw/citydlg.c:1961
+#: client/gui-sdl2/citydlg.c:1178 client/gui-xaw/citydlg.c:1961
 #, fuzzy, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -2958,7 +2958,7 @@ msgstr "Aĉetu ĝin!"
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2678 client/gui-gtk-3.0/citydlg.c:3073
 #: client/gui-gtk-3.22/citydlg.c:3101 client/gui-sdl/citydlg.c:1176
-#: client/gui-sdl2/citydlg.c:1176 client/gui-xaw/citydlg.c:1972
+#: client/gui-sdl2/citydlg.c:1184 client/gui-xaw/citydlg.c:1972
 #, fuzzy, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -2971,7 +2971,7 @@ msgstr[1] "Vi gajnis %d ora(j) monero(j)."
 
 #: client/gui-gtk-2.0/citydlg.c:2732 client/gui-gtk-3.0/citydlg.c:3127
 #: client/gui-gtk-3.22/citydlg.c:3155 client/gui-qt/citydlg.cpp:611
-#: client/gui-sdl/citydlg.c:1420 client/gui-sdl2/citydlg.c:1416
+#: client/gui-sdl/citydlg.c:1420 client/gui-sdl2/citydlg.c:1427
 #: client/gui-xaw/citydlg.c:2351
 #, fuzzy, c-format
 msgid "Sell %s for %d gold?"
@@ -3104,7 +3104,7 @@ msgstr "_Ekrano"
 #: client/gui-gtk-3.22/cityrep.c:1146 client/gui-gtk-3.22/menu.c:317
 #: client/gui-qt/diplodlg.cpp:384 client/gui-qt/menu.cpp:1347
 #: client/gui-qt/pages.cpp:726 client/gui-qt/pages.cpp:1280
-#: client/gui-sdl/diplodlg.c:738 client/gui-sdl2/diplodlg.c:745
+#: client/gui-sdl/diplodlg.c:738 client/gui-sdl2/diplodlg.c:761
 #: client/gui-xaw/cityrep.c:231 client/gui-xaw/cityrep.c:538
 #: client/gui-xaw/menu.c:160 client/gui-xaw/menu.c:226
 #: client/gui-xaw/menu.c:252 client/include/helpdlg_g.h:43 data/Freeciv.in:428
@@ -3125,7 +3125,7 @@ msgstr "_Enketado"
 #: client/gui-gtk-3.22/cityrep.c:1516 client/gui-gtk-3.22/cityrep.c:1535
 #: client/gui-gtk-3.22/cityrep.c:1554 client/gui-gtk-3.22/cityrep.c:1573
 #: client/gui-gtk-3.22/cityrep.c:1595 client/gui-sdl/helpdlg.c:332
-#: client/gui-sdl2/helpdlg.c:336
+#: client/gui-sdl2/helpdlg.c:338
 msgid "Improvements"
 msgstr "Urbaj plibonigoj"
 
@@ -3265,19 +3265,19 @@ msgstr "Rezultoj"
 
 #: client/gui-gtk-2.0/cma_fe.c:321 client/gui-gtk-3.0/cma_fe.c:341
 #: client/gui-gtk-3.22/cma_fe.c:340 client/gui-qt/citydlg.cpp:1879
-#: client/gui-sdl/cma_fe.c:930 client/gui-sdl2/cma_fe.c:943
+#: client/gui-sdl/cma_fe.c:930 client/gui-sdl2/cma_fe.c:948
 msgid "Minimal Surplus"
 msgstr "Minimuma troo"
 
 #: client/gui-gtk-2.0/cma_fe.c:324 client/gui-gtk-3.0/cma_fe.c:345
 #: client/gui-gtk-3.22/cma_fe.c:344 client/gui-sdl/cma_fe.c:933
-#: client/gui-sdl2/cma_fe.c:946
+#: client/gui-sdl2/cma_fe.c:951
 msgid "Factor"
 msgstr "Faktoro"
 
 #: client/gui-gtk-2.0/cma_fe.c:359 client/gui-gtk-3.0/cma_fe.c:392
 #: client/gui-gtk-3.22/cma_fe.c:391 client/gui-qt/citydlg.cpp:1878
-#: client/gui-sdl/cma_fe.c:980 client/gui-sdl2/cma_fe.c:994
+#: client/gui-sdl/cma_fe.c:980 client/gui-sdl2/cma_fe.c:999
 #: client/gui-xaw/cma_fe.c:184 client/gui-xaw/cma_fe.c:226
 msgid "Celebrate"
 msgstr "Celebrado"
@@ -3295,7 +3295,7 @@ msgstr "Mal_ebligu reganton"
 #: client/gui-gtk-2.0/cma_fe.c:539 client/gui-gtk-3.0/cma_fe.c:572
 #: client/gui-gtk-3.22/cma_fe.c:564 client/gui-qt/citydlg.cpp:2304
 #: client/gui-sdl/cma_fe.c:260 client/gui-sdl/cma_fe.c:335
-#: client/gui-sdl2/cma_fe.c:267 client/gui-sdl2/cma_fe.c:345
+#: client/gui-sdl2/cma_fe.c:267 client/gui-sdl2/cma_fe.c:346
 #: client/gui-xaw/cma_fe.c:439
 msgid "new preset"
 msgstr ""
@@ -3308,7 +3308,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:544 client/gui-gtk-3.0/cma_fe.c:577
 #: client/gui-gtk-3.22/cma_fe.c:569 client/gui-qt/citydlg.cpp:2302
-#: client/gui-sdl/cma_fe.c:324 client/gui-sdl2/cma_fe.c:333
+#: client/gui-sdl/cma_fe.c:324 client/gui-sdl2/cma_fe.c:334
 msgid "What should we name the preset?"
 msgstr ""
 
@@ -3346,7 +3346,7 @@ msgstr "Revolucio!"
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-2.0/dialogs.c:352 client/gui-gtk-3.0/dialogs.c:368
 #: client/gui-gtk-3.22/dialogs.c:362 client/gui-qt/dialogs.cpp:2421
-#: client/gui-sdl/dialogs.c:2253 client/gui-sdl2/dialogs.c:2242
+#: client/gui-sdl/dialogs.c:2253 client/gui-sdl2/dialogs.c:2251
 #: data/Freeciv.in:2504
 msgid "What To Pillage"
 msgstr "Kio estas disrabenda"
@@ -3377,7 +3377,7 @@ msgstr "Kiu nacio vi deziras esti?"
 #: client/gui-gtk-2.0/dialogs.c:852 client/gui-gtk-3.0/dialogs.c:863
 #: client/gui-gtk-3.22/dialogs.c:857 client/gui-qt/dialogs.cpp:415
 #: client/gui-qt/pages.cpp:666 client/gui-sdl/chatline.c:811
-#: client/gui-sdl2/chatline.c:803 data/Freeciv.in:3388
+#: client/gui-sdl2/chatline.c:811 data/Freeciv.in:3388
 msgid "Pick Nation"
 msgstr "Elektu nacion"
 
@@ -3455,7 +3455,7 @@ msgstr "Vi devas elekti vian sekson."
 
 #: client/gui-gtk-2.0/dialogs.c:1384 client/gui-gtk-3.0/dialogs.c:1395
 #: client/gui-gtk-3.22/dialogs.c:1389 client/gui-qt/dialogs.cpp:673
-#: client/gui-sdl/dialogs.c:2562 client/gui-sdl2/dialogs.c:2549
+#: client/gui-sdl/dialogs.c:2562 client/gui-sdl2/dialogs.c:2560
 #: client/gui-xaw/dialogs.c:1501
 msgid "You must type a legal name."
 msgstr "Vi devas tajpi validan nomon."
@@ -3471,7 +3471,7 @@ msgstr "Ĝisdatigu unuojn!"
 #: client/gui-gtk-3.22/dialogs.c:1441 client/gui-gtk-3.22/repodlgs.c:1603
 #: client/gui-qt/dialogs.cpp:2861 client/gui-qt/repodlgs.cpp:225
 #: client/gui-sdl/dialogs.c:678 client/gui-sdl/repodlgs.c:204
-#: client/gui-sdl2/dialogs.c:681 client/gui-sdl2/repodlgs.c:225
+#: client/gui-sdl2/dialogs.c:682 client/gui-sdl2/repodlgs.c:225
 #: data/Freeciv.in:2458
 msgid "Upgrade Obsolete Units"
 msgstr "Ĝisdatigu arkaikajn unuojn"
@@ -3481,7 +3481,7 @@ msgstr "Ĝisdatigu arkaikajn unuojn"
 #: client/gui-gtk-3.0/dialogs.c:1485 client/gui-gtk-3.0/repodlgs.c:1006
 #: client/gui-gtk-3.22/dialogs.c:1470 client/gui-gtk-3.22/dialogs.c:1479
 #: client/gui-gtk-3.22/repodlgs.c:1005 client/gui-qt/repodlgs.cpp:1458
-#: client/gui-sdl/dialogs.c:872 client/gui-sdl2/dialogs.c:877
+#: client/gui-sdl/dialogs.c:872 client/gui-sdl2/dialogs.c:881
 #: data/Freeciv.in:2477 data/Freeciv.in:2488
 msgid "Disband Units"
 msgstr "Dissolvi unuojn"
@@ -3511,106 +3511,106 @@ msgstr "Mar-mapo"
 msgid "_Maps"
 msgstr "_Mapoj"
 
-#: client/gui-gtk-2.0/diplodlg.c:278 client/gui-gtk-3.0/diplodlg.c:278
-#: client/gui-gtk-3.22/diplodlg.c:278
+#: client/gui-gtk-2.0/diplodlg.c:279 client/gui-gtk-3.0/diplodlg.c:279
+#: client/gui-gtk-3.22/diplodlg.c:279
 msgid "_Advances"
 msgstr "_Avanaĵoj"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
-#: client/gui-gtk-2.0/diplodlg.c:305 client/gui-gtk-3.0/diplodlg.c:305
-#: client/gui-gtk-3.22/diplodlg.c:305 client/gui-qt/diplodlg.cpp:360
+#: client/gui-gtk-2.0/diplodlg.c:307 client/gui-gtk-3.0/diplodlg.c:307
+#: client/gui-gtk-3.22/diplodlg.c:307 client/gui-qt/diplodlg.cpp:360
 #, fuzzy
 msgid "All advances"
 msgstr "Avanaĵoj"
 
-#: client/gui-gtk-2.0/diplodlg.c:382 client/gui-gtk-2.0/menu.c:1442
-#: client/gui-gtk-3.0/diplodlg.c:382 client/gui-gtk-3.0/menu.c:1435
+#: client/gui-gtk-2.0/diplodlg.c:384 client/gui-gtk-2.0/menu.c:1442
+#: client/gui-gtk-3.0/diplodlg.c:384 client/gui-gtk-3.0/menu.c:1435
 #: client/gui-gtk-3.22/diplodlg.c:382 client/gui-gtk-3.22/menu.c:297
 msgid "_Cities"
 msgstr "_Urboj"
 
-#: client/gui-gtk-2.0/diplodlg.c:391 client/gui-gtk-3.0/diplodlg.c:391
+#: client/gui-gtk-2.0/diplodlg.c:393 client/gui-gtk-3.0/diplodlg.c:393
 #: client/gui-gtk-3.22/diplodlg.c:391
 msgid "_Give shared vision"
 msgstr "Doni komunan vidon"
 
-#: client/gui-gtk-2.0/diplodlg.c:404 client/gui-gtk-3.0/diplodlg.c:404
+#: client/gui-gtk-2.0/diplodlg.c:406 client/gui-gtk-3.0/diplodlg.c:406
 #: client/gui-gtk-3.22/diplodlg.c:404
 msgid "Give _embassy"
 msgstr ""
 
-#: client/gui-gtk-2.0/diplodlg.c:424 client/gui-gtk-3.0/diplodlg.c:424
+#: client/gui-gtk-2.0/diplodlg.c:426 client/gui-gtk-3.0/diplodlg.c:426
 #: client/gui-gtk-3.22/diplodlg.c:424 client/gui-qt/diplodlg.cpp:422
-#: client/gui-sdl/diplodlg.c:504 client/gui-sdl2/diplodlg.c:510
+#: client/gui-sdl/diplodlg.c:504 client/gui-sdl2/diplodlg.c:512
 #: client/gui-xaw/diplodlg.c:550 common/player.h:137
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Pafĉesiga"
 
-#: client/gui-gtk-2.0/diplodlg.c:430 client/gui-gtk-3.0/diplodlg.c:430
+#: client/gui-gtk-2.0/diplodlg.c:432 client/gui-gtk-3.0/diplodlg.c:432
 #: client/gui-gtk-3.22/diplodlg.c:430 client/gui-qt/diplodlg.cpp:428
-#: client/gui-sdl/diplodlg.c:518 client/gui-sdl2/diplodlg.c:524
+#: client/gui-sdl/diplodlg.c:518 client/gui-sdl2/diplodlg.c:527
 #: client/gui-xaw/diplodlg.c:554 common/player.h:139
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Paca"
 
-#: client/gui-gtk-2.0/diplodlg.c:436 client/gui-gtk-3.0/diplodlg.c:436
+#: client/gui-gtk-2.0/diplodlg.c:438 client/gui-gtk-3.0/diplodlg.c:438
 #: client/gui-gtk-3.22/diplodlg.c:436 client/gui-qt/diplodlg.cpp:434
-#: client/gui-sdl/diplodlg.c:533 client/gui-sdl2/diplodlg.c:540
+#: client/gui-sdl/diplodlg.c:533 client/gui-sdl2/diplodlg.c:543
 #: client/gui-xaw/diplodlg.c:558 common/player.h:141
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Alianca"
 
-#: client/gui-gtk-2.0/diplodlg.c:442 client/gui-gtk-3.0/diplodlg.c:442
+#: client/gui-gtk-2.0/diplodlg.c:444 client/gui-gtk-3.0/diplodlg.c:444
 #: client/gui-gtk-3.22/diplodlg.c:442
 msgid "_Pacts"
 msgstr "_Paktoj"
 
-#: client/gui-gtk-2.0/diplodlg.c:501 client/gui-gtk-3.0/diplodlg.c:501
+#: client/gui-gtk-2.0/diplodlg.c:503 client/gui-gtk-3.0/diplodlg.c:503
 #: client/gui-gtk-3.22/diplodlg.c:501
 #, fuzzy
 msgid "Cancel _all meetings"
 msgstr "Nuligu renkontiĝon"
 
-#: client/gui-gtk-2.0/diplodlg.c:578 client/gui-gtk-2.0/diplodlg.c:646
-#: client/gui-gtk-3.0/diplodlg.c:578 client/gui-gtk-3.0/diplodlg.c:648
-#: client/gui-gtk-3.22/diplodlg.c:578 client/gui-gtk-3.22/diplodlg.c:648
+#: client/gui-gtk-2.0/diplodlg.c:581 client/gui-gtk-2.0/diplodlg.c:649
+#: client/gui-gtk-3.0/diplodlg.c:581 client/gui-gtk-3.0/diplodlg.c:651
+#: client/gui-gtk-3.22/diplodlg.c:579 client/gui-gtk-3.22/diplodlg.c:649
 #, fuzzy, c-format
 msgid "Diplomacy [%d]"
 msgstr "Diplomatio: %s"
 
-#: client/gui-gtk-2.0/diplodlg.c:656 client/gui-gtk-3.0/diplodlg.c:660
-#: client/gui-gtk-3.22/diplodlg.c:660 client/gui-qt/diplodlg.cpp:218
-#: client/gui-sdl/diplodlg.c:930 client/gui-sdl2/diplodlg.c:935
+#: client/gui-gtk-2.0/diplodlg.c:659 client/gui-gtk-3.0/diplodlg.c:663
+#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:218
+#: client/gui-sdl/diplodlg.c:930 client/gui-sdl2/diplodlg.c:956
 #: data/Freeciv.in:528
 msgid "Cancel meeting"
 msgstr "Nuligu renkontiĝon"
 
-#: client/gui-gtk-2.0/diplodlg.c:658 client/gui-gtk-3.0/diplodlg.c:658
-#: client/gui-gtk-3.22/diplodlg.c:658 client/gui-qt/diplodlg.cpp:215
-#: client/gui-sdl/diplodlg.c:941 client/gui-sdl2/diplodlg.c:946
+#: client/gui-gtk-2.0/diplodlg.c:661 client/gui-gtk-3.0/diplodlg.c:661
+#: client/gui-gtk-3.22/diplodlg.c:659 client/gui-qt/diplodlg.cpp:215
+#: client/gui-sdl/diplodlg.c:941 client/gui-sdl2/diplodlg.c:967
 #: data/Freeciv.in:519
 msgid "Accept treaty"
 msgstr "Subskribu kontrakton"
 
-#: client/gui-gtk-2.0/diplodlg.c:731 client/gui-gtk-2.0/diplodlg.c:815
-#: client/gui-gtk-3.0/diplodlg.c:741 client/gui-gtk-3.0/diplodlg.c:828
-#: client/gui-gtk-3.22/diplodlg.c:741 client/gui-gtk-3.22/diplodlg.c:825
+#: client/gui-gtk-2.0/diplodlg.c:734 client/gui-gtk-2.0/diplodlg.c:818
+#: client/gui-gtk-3.0/diplodlg.c:744 client/gui-gtk-3.0/diplodlg.c:831
+#: client/gui-gtk-3.22/diplodlg.c:742 client/gui-gtk-3.22/diplodlg.c:826
 #: client/gui-qt/diplodlg.cpp:183 client/gui-qt/diplodlg.cpp:185
 msgid "Add Clause..."
 msgstr "Aldonu klaŭzon..."
 
-#: client/gui-gtk-2.0/diplodlg.c:882 client/gui-gtk-3.0/diplodlg.c:895
-#: client/gui-gtk-3.22/diplodlg.c:889
+#: client/gui-gtk-2.0/diplodlg.c:885 client/gui-gtk-3.0/diplodlg.c:898
+#: client/gui-gtk-3.22/diplodlg.c:890
 msgid "C_lauses:"
 msgstr "K_laŭzoj:"
 
-#: client/gui-gtk-2.0/diplodlg.c:927 client/gui-gtk-3.0/diplodlg.c:943
-#: client/gui-gtk-3.22/diplodlg.c:937 client/gui-qt/diplodlg.cpp:686
+#: client/gui-gtk-2.0/diplodlg.c:930 client/gui-gtk-3.0/diplodlg.c:946
+#: client/gui-gtk-3.22/diplodlg.c:938 client/gui-qt/diplodlg.cpp:686
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr ""
 
-#: client/gui-gtk-2.0/diplodlg.c:1163 client/gui-gtk-3.0/diplodlg.c:1181
-#: client/gui-gtk-3.22/diplodlg.c:1175 client/gui-sdl/diplodlg.c:410
+#: client/gui-gtk-2.0/diplodlg.c:1166 client/gui-gtk-3.0/diplodlg.c:1184
+#: client/gui-gtk-3.22/diplodlg.c:1176 client/gui-sdl/diplodlg.c:410
 #: client/gui-sdl2/diplodlg.c:416 client/gui-xaw/diplodlg.c:980
 msgid "Invalid amount of gold specified."
 msgstr "Nevalida kvanto da oro estis specifita."
@@ -3992,8 +3992,8 @@ msgstr "Redaktu nacion"
 #: client/gui-gtk-3.0/editprop.c:4439 client/gui-gtk-3.0/plrdlg.c:428
 #: client/gui-gtk-3.22/editprop.c:4438 client/gui-gtk-3.22/plrdlg.c:426
 #: client/gui-qt/pages.cpp:731 client/gui-sdl/mapctrl.c:1570
-#: client/gui-sdl/plrdlg.c:622 client/gui-sdl2/mapctrl.c:1683
-#: client/gui-sdl2/plrdlg.c:686 client/gui-xaw/menu.c:225 data/Freeciv.in:3200
+#: client/gui-sdl/plrdlg.c:622 client/gui-sdl2/mapctrl.c:1684
+#: client/gui-sdl2/plrdlg.c:687 client/gui-xaw/menu.c:225 data/Freeciv.in:3200
 #: data/Freeciv.in:3201
 msgid "Nations"
 msgstr "Nacioj"
@@ -4252,7 +4252,7 @@ msgstr "Elektu unuo(j)n"
 #: client/gui-gtk-3.0/editprop.c:6550 client/gui-gtk-3.0/pages.c:727
 #: client/gui-gtk-3.22/editprop.c:6548 client/gui-gtk-3.22/pages.c:728
 #: client/gui-qt/pages.cpp:904 client/gui-sdl/citydlg.c:2017
-#: client/gui-sdl2/citydlg.c:2008 client/gui-xaw/citydlg.c:1483
+#: client/gui-sdl2/citydlg.c:2019 client/gui-xaw/citydlg.c:1483
 #: client/text.c:170 common/unit.c:655
 msgid "Unknown"
 msgstr "Nekonata"
@@ -4260,7 +4260,7 @@ msgstr "Nekonata"
 #: client/gui-gtk-2.0/finddlg.c:72 client/gui-gtk-3.0/finddlg.c:72
 #: client/gui-gtk-3.22/finddlg.c:72 client/gui-sdl/finddlg.c:141
 #: client/gui-sdl/mapctrl.c:1582 client/gui-sdl2/finddlg.c:149
-#: client/gui-sdl2/mapctrl.c:1695 client/gui-xaw/menu.c:131
+#: client/gui-sdl2/mapctrl.c:1696 client/gui-xaw/menu.c:131
 #: data/Freeciv.in:1084
 msgid "Find City"
 msgstr "Trovu urbon"
@@ -4313,8 +4313,8 @@ msgstr "Impostoj"
 #: client/gui-gtk-3.0/gamedlgs.c:469 client/gui-gtk-3.0/gamedlgs.c:494
 #: client/gui-gtk-3.22/gamedlgs.c:444 client/gui-gtk-3.22/gamedlgs.c:469
 #: client/gui-gtk-3.22/gamedlgs.c:494 client/gui-sdl/repodlgs.c:1911
-#: client/gui-sdl/repodlgs.c:1957 client/gui-sdl2/repodlgs.c:1962
-#: client/gui-sdl2/repodlgs.c:2008 data/Freeciv.in:1329 data/Freeciv.in:1347
+#: client/gui-sdl/repodlgs.c:1957 client/gui-sdl2/repodlgs.c:1983
+#: client/gui-sdl2/repodlgs.c:2029 data/Freeciv.in:1329 data/Freeciv.in:1347
 #: data/Freeciv.in:1366
 msgid "Lock"
 msgstr "Bloku"
@@ -4417,7 +4417,7 @@ msgstr ""
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/gui-gtk-2.0/gui_main.c:281 client/gui-gtk-3.0/gui_main.c:284
 #: client/gui-gtk-3.22/gui_main.c:280 client/gui-qt/gui_main.cpp:128
-#: client/gui-sdl/gui_main.c:174 client/gui-sdl2/gui_main.c:179
+#: client/gui-sdl/gui_main.c:180 client/gui-sdl2/gui_main.c:185
 #: client/gui-xaw/gui_main.c:267 common/fc_cmdhelp.c:136 tools/mpcli.c:115
 #: tools/mpgui_gtk2.c:573 tools/mpgui_gtk3.c:579 tools/mpgui_qt.cpp:102
 #, c-format
@@ -4427,7 +4427,7 @@ msgstr "Bonvolu raporti pri la eraro al %s\n"
 #: client/gui-gtk-2.0/gui_main.c:771 client/gui-gtk-2.0/gui_main.c:1582
 #: client/gui-gtk-3.0/gui_main.c:819 client/gui-gtk-3.0/gui_main.c:1770
 #: client/gui-gtk-3.22/gui_main.c:806 client/gui-gtk-3.22/gui_main.c:1839
-#: client/gui-sdl/gui_main.c:797 client/gui-sdl/gui_main.c:812
+#: client/gui-sdl/gui_main.c:803 client/gui-sdl/gui_main.c:818
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -4435,14 +4435,14 @@ msgstr "Freeciv"
 #: client/gui-gtk-3.0/gui_main.c:1361 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1377 client/gui-gtk-3.22/gui_main.c:1385
 #: client/gui-qt/pages.cpp:741 client/gui-sdl/mapctrl.c:1555
-#: client/gui-sdl2/mapctrl.c:1668 data/Freeciv.in:2622
+#: client/gui-sdl2/mapctrl.c:1669 data/Freeciv.in:2622
 msgid "Turn Done"
 msgstr "Fino de la vico"
 
 #: client/gui-gtk-2.0/gui_main.c:1264 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1385 client/gui-sdl/mapctrl.c:1555
-#: client/gui-sdl/mapview.c:923 client/gui-sdl2/mapctrl.c:1668
-#: client/gui-sdl2/mapview.c:942
+#: client/gui-sdl/mapview.c:922 client/gui-sdl2/mapctrl.c:1669
+#: client/gui-sdl2/mapview.c:943
 msgid "Shift+Return"
 msgstr "Ŝvkl+Enenklavo"
 
@@ -4472,13 +4472,13 @@ msgstr "Celo de la _Laborlisto:"
 msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:2030 client/gui-gtk-3.0/gui_main.c:2171
-#: client/gui-gtk-3.22/gui_main.c:2242 client/gui-qt/gui_main.cpp:551
+#: client/gui-gtk-2.0/gui_main.c:2031 client/gui-gtk-3.0/gui_main.c:2172
+#: client/gui-gtk-3.22/gui_main.c:2243 client/gui-qt/gui_main.cpp:551
 msgid "Are you sure you want to quit?"
 msgstr "Ĉu vi certe deziras eliri?"
 
-#: client/gui-gtk-2.0/gui_main.c:2199 client/gui-gtk-3.0/gui_main.c:2340
-#: client/gui-gtk-3.22/gui_main.c:2411
+#: client/gui-gtk-2.0/gui_main.c:2200 client/gui-gtk-3.0/gui_main.c:2341
+#: client/gui-gtk-3.22/gui_main.c:2412
 #, c-format
 msgid ""
 "\n"
@@ -4540,7 +4540,7 @@ msgstr "Mirindaĵoj: "
 #: client/gui-gtk-2.0/happiness.c:213 client/gui-gtk-3.0/happiness.c:225
 #: client/gui-gtk-3.22/happiness.c:225 client/gui-qt/citydlg.cpp:1800
 #: client/gui-sdl/citydlg.c:2086 client/gui-sdl/citydlg.c:3722
-#: client/gui-sdl2/citydlg.c:2076 client/gui-sdl2/citydlg.c:3595
+#: client/gui-sdl2/citydlg.c:2087 client/gui-sdl2/citydlg.c:3606
 msgid "Happiness"
 msgstr "Kontenteco"
 
@@ -4556,7 +4556,7 @@ msgstr ""
 #: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3875
 #: client/gui-qt/helpdlg.cpp:897 client/gui-qt/helpdlg.cpp:1000
 #: client/gui-sdl/helpdlg.c:378 client/gui-sdl/helpdlg.c:796
-#: client/gui-sdl2/helpdlg.c:382 client/gui-sdl2/helpdlg.c:803
+#: client/gui-sdl2/helpdlg.c:386 client/gui-sdl2/helpdlg.c:817
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
 msgstr "Kosto:"
@@ -4564,7 +4564,7 @@ msgstr "Kosto:"
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-3.0/helpdlg.c:99
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-qt/helpdlg.cpp:1005
 #: client/gui-sdl/helpdlg.c:386 client/gui-sdl/helpdlg.c:805
-#: client/gui-sdl2/helpdlg.c:390 client/gui-sdl2/helpdlg.c:812
+#: client/gui-sdl2/helpdlg.c:395 client/gui-sdl2/helpdlg.c:826
 #: data/Freeciv.in:671
 msgid "Upkeep:"
 msgstr "Tenado:"
@@ -4575,7 +4575,7 @@ msgstr "Tenado:"
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-gtk-3.22/helpdlg.c:102
 #: client/gui-gtk-3.22/helpdlg.c:110 client/gui-qt/helpdlg.cpp:1031
 #: client/gui-sdl/helpdlg.c:397 client/gui-sdl/helpdlg.c:845
-#: client/gui-sdl2/helpdlg.c:401 client/gui-sdl2/helpdlg.c:852
+#: client/gui-sdl2/helpdlg.c:407 client/gui-sdl2/helpdlg.c:866
 #: data/Freeciv.in:712
 msgid "Requirement:"
 msgstr "Necesaĵoj:"
@@ -4585,7 +4585,7 @@ msgstr "Necesaĵoj:"
 #: client/gui-gtk-3.22/helpdlg.c:102 client/gui-gtk-3.22/helpdlg.c:110
 #: client/gui-qt/citydlg.cpp:3812 client/gui-qt/helpdlg.cpp:1050
 #: client/gui-sdl/helpdlg.c:438 client/gui-sdl/helpdlg.c:872
-#: client/gui-sdl2/helpdlg.c:443 client/gui-sdl2/helpdlg.c:879
+#: client/gui-sdl2/helpdlg.c:451 client/gui-sdl2/helpdlg.c:895
 #: data/Freeciv.in:750
 msgid "Obsolete by:"
 msgstr "Arkaika kun:"
@@ -4593,34 +4593,34 @@ msgstr "Arkaika kun:"
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:106
 #: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3868
 #: client/gui-qt/helpdlg.cpp:887 client/gui-sdl/helpdlg.c:829
-#: client/gui-sdl2/helpdlg.c:836 data/Freeciv.in:813
+#: client/gui-sdl2/helpdlg.c:850 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "Atako:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3870
 #: client/gui-qt/helpdlg.cpp:889 client/gui-sdl/helpdlg.c:830
-#: client/gui-sdl2/helpdlg.c:837 data/Freeciv.in:831
+#: client/gui-sdl2/helpdlg.c:851 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "Defendo:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3872
-#: client/gui-sdl/helpdlg.c:831 client/gui-sdl2/helpdlg.c:838
+#: client/gui-sdl/helpdlg.c:831 client/gui-sdl2/helpdlg.c:852
 #: data/Freeciv.in:849
 msgid "Move:"
 msgstr "Movo:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3883
-#: client/gui-sdl/helpdlg.c:833 client/gui-sdl2/helpdlg.c:840
+#: client/gui-sdl/helpdlg.c:833 client/gui-sdl2/helpdlg.c:854
 msgid "FirePower:"
 msgstr "Pafpovo:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
 #: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3881
 #: client/gui-qt/helpdlg.cpp:896 client/gui-sdl/helpdlg.c:834
-#: client/gui-sdl2/helpdlg.c:841 data/Freeciv.in:894
+#: client/gui-sdl2/helpdlg.c:855 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "Pafceloj:"
 
@@ -4632,7 +4632,7 @@ msgstr "Baza tenado:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:109
 #: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3885
-#: client/gui-sdl/helpdlg.c:832 client/gui-sdl2/helpdlg.c:839
+#: client/gui-sdl/helpdlg.c:832 client/gui-sdl2/helpdlg.c:853
 #: data/Freeciv.in:912
 msgid "Vision:"
 msgstr "Vido:"
@@ -4680,8 +4680,8 @@ msgstr ""
 #: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:585
 #: client/gui-qt/plrdlg.cpp:591 client/gui-qt/repodlgs.cpp:1084
 #: client/gui-sdl/gui_tilespec.c:374 client/gui-sdl/helpdlg.c:854
-#: client/gui-sdl/mapview.c:331 client/gui-sdl2/gui_tilespec.c:381
-#: client/gui-sdl2/helpdlg.c:861 client/gui-sdl2/mapview.c:346
+#: client/gui-sdl/mapview.c:330 client/gui-sdl2/gui_tilespec.c:381
+#: client/gui-sdl2/helpdlg.c:875 client/gui-sdl2/mapview.c:345
 #: client/gui-xaw/helpdlg.c:831 client/gui-xaw/helpdlg.c:877
 #: client/gui-xaw/helpdlg.c:896 common/research.c:83 common/tech.c:393
 #: tools/civmanual.c:525
@@ -4729,7 +4729,7 @@ msgstr "Maletendu ĉion"
 #: client/gui-gtk-3.22/helpdlg.c:1121 client/gui-gtk-3.22/helpdlg.c:1138
 #: client/gui-qt/helpdlg.cpp:1098 client/gui-qt/helpdlg.cpp:1114
 #: client/gui-qt/helpdlg.cpp:1155 client/gui-sdl/helpdlg.c:1052
-#: client/gui-sdl2/helpdlg.c:1061
+#: client/gui-sdl2/helpdlg.c:1078
 msgid "Allows"
 msgstr "Ebligas"
 
@@ -4767,7 +4767,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-3.0/helpdlg.c:1323 client/gui-gtk-3.0/inteldlg.c:437
 #: client/gui-gtk-3.22/helpdlg.c:1249 client/gui-gtk-3.22/helpdlg.c:1357
 #: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:456
-#: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:339
+#: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:340
 #: client/gui-xaw/helpdlg.c:1025 client/gui-xaw/helpdlg.c:1110
 #: common/requirements.c:3228
 #, c-format
@@ -4912,8 +4912,8 @@ msgstr "Spionado: Imperio %s"
 #: client/gui-qt/plrdlg.cpp:483 client/gui-qt/plrdlg.cpp:497
 #: client/gui-sdl/inteldlg.c:316 client/gui-sdl/inteldlg.c:319
 #: client/gui-sdl/inteldlg.c:330 client/gui-sdl/inteldlg.c:348
-#: client/gui-sdl2/inteldlg.c:336 client/gui-sdl2/inteldlg.c:339
-#: client/gui-sdl2/inteldlg.c:350 client/gui-sdl2/inteldlg.c:368
+#: client/gui-sdl2/inteldlg.c:337 client/gui-sdl2/inteldlg.c:340
+#: client/gui-sdl2/inteldlg.c:351 client/gui-sdl2/inteldlg.c:369
 #: common/research.c:86
 msgid "(Unknown)"
 msgstr "(Nekonata)"
@@ -4936,7 +4936,7 @@ msgstr "Konstruu novan urbon"
 
 #: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:197
 #: client/gui-gtk-3.22/mapctrl.c:198 client/gui-qt/mapctrl.cpp:56
-#: client/gui-sdl/mapctrl.c:2580 client/gui-sdl2/mapctrl.c:2791
+#: client/gui-sdl/mapctrl.c:2580 client/gui-sdl2/mapctrl.c:2792
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
 msgstr "Kiel ni nomu nian novan urbon?"
@@ -5978,7 +5978,7 @@ msgstr "_Foliumu..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
 #: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1590
-#: client/gui-sdl/connectdlg.c:942 client/gui-sdl2/connectdlg.c:936
+#: client/gui-sdl/connectdlg.c:942 client/gui-sdl2/connectdlg.c:949
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "Ne kongruas pasvorto, reen enigu pasvorton."
@@ -5994,7 +5994,7 @@ msgstr "Servilnomo"
 #: client/gui-gtk-3.0/pages.c:1221 client/gui-gtk-3.0/pages.c:1266
 #: client/gui-gtk-3.22/pages.c:1222 client/gui-gtk-3.22/pages.c:1267
 #: client/gui-qt/pages.cpp:311 client/gui-qt/pages.cpp:372
-#: client/gui-sdl/mapview.c:644 client/gui-sdl2/mapview.c:666
+#: client/gui-sdl/mapview.c:643 client/gui-sdl2/mapview.c:667
 #: data/Freeciv.in:89
 msgid "Port"
 msgstr "Pordo"
@@ -6335,7 +6335,7 @@ msgstr "Normala"
 
 #: client/gui-gtk-2.0/pages.c:3317 client/gui-gtk-3.0/pages.c:3451
 #: client/gui-gtk-3.22/pages.c:3449 client/gui-qt/menu.cpp:854
-#: client/gui-sdl/optiondlg.c:828 client/gui-sdl2/optiondlg.c:839
+#: client/gui-sdl/optiondlg.c:828 client/gui-sdl2/optiondlg.c:848
 msgid "Save Game"
 msgstr "Konservu ludon"
 
@@ -6470,11 +6470,11 @@ msgstr "_Repripensu la vidon"
 #: client/gui-gtk-2.0/repodlgs.c:540 client/gui-gtk-3.0/repodlgs.c:560
 #: client/gui-gtk-3.22/repodlgs.c:558 client/gui-qt/menu.cpp:1355
 #: client/gui-qt/pages.cpp:735 client/gui-sdl/mapctrl.c:1398
-#: client/gui-sdl/mapview.c:330 client/gui-sdl/mapview.c:338
-#: client/gui-sdl/mapview.c:346 client/gui-sdl/repodlgs.c:3291
-#: client/gui-sdl2/mapctrl.c:1495 client/gui-sdl2/mapview.c:345
-#: client/gui-sdl2/mapview.c:353 client/gui-sdl2/mapview.c:361
-#: client/gui-sdl2/repodlgs.c:3362 client/gui-xaw/menu.c:229
+#: client/gui-sdl/mapview.c:329 client/gui-sdl/mapview.c:337
+#: client/gui-sdl/mapview.c:345 client/gui-sdl/repodlgs.c:3291
+#: client/gui-sdl2/mapctrl.c:1495 client/gui-sdl2/mapview.c:344
+#: client/gui-sdl2/mapview.c:352 client/gui-sdl2/mapview.c:360
+#: client/gui-sdl2/repodlgs.c:3384 client/gui-xaw/menu.c:229
 #: client/gui-xaw/repodlgs.c:253 client/gui-xaw/repodlgs.c:476
 #: data/Freeciv.in:1384
 msgid "Research"
@@ -6526,7 +6526,7 @@ msgstr "Kosto"
 #. TRANS: Upkeep total, count*cost.
 #: client/gui-gtk-2.0/repodlgs.c:778 client/gui-gtk-3.0/repodlgs.c:809
 #: client/gui-gtk-3.22/repodlgs.c:808 client/gui-qt/repodlgs.cpp:1213
-#: client/gui-sdl/repodlgs.c:2050 client/gui-sdl2/repodlgs.c:2102
+#: client/gui-sdl/repodlgs.c:2050 client/gui-sdl2/repodlgs.c:2123
 msgid "U Total"
 msgstr "Kompleta kosto"
 
@@ -6831,7 +6831,7 @@ msgstr "Priskribo:"
 
 #: client/gui-gtk-2.0/unitselect.c:254 client/gui-gtk-3.0/unitselect.c:255
 #: client/gui-gtk-3.22/unitselect.c:255 client/gui-sdl/dialogs.c:1077
-#: client/gui-sdl2/dialogs.c:1082
+#: client/gui-sdl2/dialogs.c:1088
 msgid "Unit selection"
 msgstr "Elekto de unuo"
 
@@ -7278,8 +7278,8 @@ msgstr "Koloso"
 
 #: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl/dialogs.c:2876
 #: client/gui-sdl/dialogs.c:3312 client/gui-sdl/mapctrl.c:2560
-#: client/gui-sdl2/dialogs.c:2863 client/gui-sdl2/dialogs.c:3296
-#: client/gui-sdl2/mapctrl.c:2769 common/mapimg.c:304
+#: client/gui-sdl2/dialogs.c:2875 client/gui-sdl2/dialogs.c:3318
+#: client/gui-sdl2/mapctrl.c:2770 common/mapimg.c:304
 msgid "OK"
 msgstr "Bone"
 
@@ -7374,17 +7374,17 @@ msgid "Activate and close dialog"
 msgstr "Aktivigu unuon kaj fermu la fenestron"
 
 #: client/gui-qt/citydlg.cpp:793 client/gui-sdl/citydlg.c:457
-#: client/gui-sdl2/citydlg.c:460 data/Freeciv.in:1188
+#: client/gui-sdl2/citydlg.c:462 data/Freeciv.in:1188
 msgid "Sentry unit"
 msgstr "Gardosoldato"
 
 #: client/gui-qt/citydlg.cpp:800 client/gui-sdl/citydlg.c:472
-#: client/gui-sdl2/citydlg.c:475 data/Freeciv.in:1192
+#: client/gui-sdl2/citydlg.c:478 data/Freeciv.in:1192
 msgid "Fortify unit"
 msgstr "Fortikigu unuon"
 
 #: client/gui-qt/citydlg.cpp:807 client/gui-sdl/citydlg.c:488
-#: client/gui-sdl2/citydlg.c:491 data/Freeciv.in:1196 data/Freeciv.in:1224
+#: client/gui-sdl2/citydlg.c:495 data/Freeciv.in:1196 data/Freeciv.in:1224
 msgid "Disband unit"
 msgstr "Dissolvi unuon"
 
@@ -7603,8 +7603,8 @@ msgstr "Laborlisto"
 #: client/gui-qt/menu.cpp:833 client/gui-qt/pages.cpp:199
 #: client/gui-sdl/mapctrl.c:1621 client/gui-sdl/optiondlg.c:765
 #: client/gui-sdl/optiondlg.c:1334 client/gui-sdl/pages.c:254
-#: client/gui-sdl2/mapctrl.c:1734 client/gui-sdl2/optiondlg.c:776
-#: client/gui-sdl2/optiondlg.c:1362 client/gui-sdl2/pages.c:264
+#: client/gui-sdl2/mapctrl.c:1735 client/gui-sdl2/optiondlg.c:783
+#: client/gui-sdl2/optiondlg.c:1377 client/gui-sdl2/pages.c:270
 #: data/Freeciv.in:1235
 msgid "Options"
 msgstr "Opcioj"
@@ -7704,12 +7704,12 @@ msgstr "Arkaika kun:"
 #: client/gui-sdl/connectdlg.c:832 client/gui-sdl/connectdlg.c:1005
 #: client/gui-sdl/dialogs.c:707 client/gui-sdl/dialogs.c:901
 #: client/gui-sdl/dialogs.c:3302 client/gui-sdl/mapctrl.c:2570
-#: client/gui-sdl2/action_dialog.c:1014 client/gui-sdl2/citydlg.c:533
-#: client/gui-sdl2/citydlg.c:1430 client/gui-sdl2/connectdlg.c:324
-#: client/gui-sdl2/connectdlg.c:636 client/gui-sdl2/connectdlg.c:830
-#: client/gui-sdl2/connectdlg.c:1000 client/gui-sdl2/dialogs.c:710
-#: client/gui-sdl2/dialogs.c:906 client/gui-sdl2/dialogs.c:3286
-#: client/gui-sdl2/mapctrl.c:2780 client/gui-xaw/inputdlg.c:110
+#: client/gui-sdl2/action_dialog.c:1016 client/gui-sdl2/citydlg.c:540
+#: client/gui-sdl2/citydlg.c:1441 client/gui-sdl2/connectdlg.c:325
+#: client/gui-sdl2/connectdlg.c:643 client/gui-sdl2/connectdlg.c:842
+#: client/gui-sdl2/connectdlg.c:1018 client/gui-sdl2/dialogs.c:712
+#: client/gui-sdl2/dialogs.c:910 client/gui-sdl2/dialogs.c:3307
+#: client/gui-sdl2/mapctrl.c:2781 client/gui-xaw/inputdlg.c:110
 #: data/Freeciv.in:1110 data/Freeciv.in:1166 data/Freeciv.in:1208
 #: data/Freeciv.in:1228 data/Freeciv.in:1265 data/Freeciv.in:1298
 #: data/Freeciv.in:1376 data/Freeciv.in:1571 data/Freeciv.in:1826
@@ -7750,8 +7750,8 @@ msgid "Governor"
 msgstr "_Regado"
 
 #: client/gui-qt/cityrep.cpp:538 client/gui-sdl/citydlg.c:1441
-#: client/gui-sdl/repodlgs.c:1602 client/gui-sdl2/citydlg.c:1440
-#: client/gui-sdl2/repodlgs.c:1657
+#: client/gui-sdl/repodlgs.c:1602 client/gui-sdl2/citydlg.c:1451
+#: client/gui-sdl2/repodlgs.c:1677
 msgid "Sell"
 msgstr "Vendu"
 
@@ -7775,15 +7775,15 @@ msgid "Nation Set:"
 msgstr "La nacio estas elektita"
 
 #: client/gui-qt/dialogs.cpp:317 client/gui-sdl/dialogs.c:2591
-#: client/gui-sdl/dialogs.c:3010 client/gui-sdl2/dialogs.c:2579
-#: client/gui-sdl2/dialogs.c:2994 data/Freeciv.in:3167
+#: client/gui-sdl/dialogs.c:3010 client/gui-sdl2/dialogs.c:2590
+#: client/gui-sdl2/dialogs.c:3008 data/Freeciv.in:3167
 msgid "Female"
 msgstr "Ina"
 
 #: client/gui-qt/dialogs.cpp:318 client/gui-sdl/dialogs.c:2593
 #: client/gui-sdl/dialogs.c:3008 client/gui-sdl/dialogs.c:3262
-#: client/gui-sdl2/dialogs.c:2581 client/gui-sdl2/dialogs.c:2992
-#: client/gui-sdl2/dialogs.c:3246
+#: client/gui-sdl2/dialogs.c:2592 client/gui-sdl2/dialogs.c:3006
+#: client/gui-sdl2/dialogs.c:3265
 msgid "Male"
 msgstr "Malina"
 
@@ -7818,7 +7818,7 @@ msgid "Inspect City"
 msgstr "Enketi la urbon"
 
 #: client/gui-qt/dialogs.cpp:1838 client/gui-sdl/action_dialog.c:1034
-#: client/gui-sdl2/action_dialog.c:986 data/Freeciv.in:2323
+#: client/gui-sdl2/action_dialog.c:988 data/Freeciv.in:2323
 msgid "Keep moving"
 msgstr "Daŭrigu moviĝi"
 
@@ -7852,10 +7852,10 @@ msgstr[1] "Ĉu vi deziras eliri?"
 #: client/gui-sdl/action_dialog.c:1845 client/gui-sdl/citydlg.c:1227
 #: client/gui-sdl/cma_fe.c:345 client/gui-sdl/diplodlg.c:1413
 #: client/gui-sdl/plrdlg.c:227 client/gui-sdl/repodlgs.c:245
-#: client/gui-sdl2/action_dialog.c:1567 client/gui-sdl2/action_dialog.c:1794
-#: client/gui-sdl2/citydlg.c:1227 client/gui-sdl2/cma_fe.c:355
-#: client/gui-sdl2/diplodlg.c:1418 client/gui-sdl2/plrdlg.c:274
-#: client/gui-sdl2/repodlgs.c:266 client/gui-xaw/citydlg.c:2476
+#: client/gui-sdl2/action_dialog.c:1570 client/gui-sdl2/action_dialog.c:1797
+#: client/gui-sdl2/citydlg.c:1237 client/gui-sdl2/cma_fe.c:359
+#: client/gui-sdl2/diplodlg.c:1440 client/gui-sdl2/plrdlg.c:274
+#: client/gui-sdl2/repodlgs.c:268 client/gui-xaw/citydlg.c:2476
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
@@ -7871,11 +7871,11 @@ msgstr "Jes"
 #: client/gui-sdl/action_dialog.c:1855 client/gui-sdl/citydlg.c:1216
 #: client/gui-sdl/cma_fe.c:354 client/gui-sdl/diplodlg.c:1402
 #: client/gui-sdl/plrdlg.c:227 client/gui-sdl/repodlgs.c:233
-#: client/gui-sdl/repodlgs.c:1590 client/gui-sdl2/action_dialog.c:1578
-#: client/gui-sdl2/action_dialog.c:1804 client/gui-sdl2/citydlg.c:1216
-#: client/gui-sdl2/cma_fe.c:364 client/gui-sdl2/diplodlg.c:1407
-#: client/gui-sdl2/plrdlg.c:274 client/gui-sdl2/repodlgs.c:254
-#: client/gui-sdl2/repodlgs.c:1645 client/gui-xaw/citydlg.c:2476
+#: client/gui-sdl/repodlgs.c:1590 client/gui-sdl2/action_dialog.c:1581
+#: client/gui-sdl2/action_dialog.c:1807 client/gui-sdl2/citydlg.c:1224
+#: client/gui-sdl2/cma_fe.c:369 client/gui-sdl2/diplodlg.c:1428
+#: client/gui-sdl2/plrdlg.c:274 client/gui-sdl2/repodlgs.c:255
+#: client/gui-sdl2/repodlgs.c:1664 client/gui-xaw/citydlg.c:2476
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
@@ -7961,29 +7961,29 @@ msgstr[0] "%d vico"
 msgstr[1] "%d vicoj"
 
 #: client/gui-qt/diplodlg.cpp:333 client/gui-sdl/diplodlg.c:567
-#: client/gui-sdl2/diplodlg.c:573 data/Freeciv.in:392 data/Freeciv.in:401
+#: client/gui-sdl2/diplodlg.c:577 data/Freeciv.in:392 data/Freeciv.in:401
 msgid "Maps"
 msgstr "Mapoj"
 
 #: client/gui-qt/diplodlg.cpp:345 client/gui-sdl/diplodlg.c:659
-#: client/gui-sdl/helpdlg.c:1988 client/gui-sdl2/diplodlg.c:666
-#: client/gui-sdl2/helpdlg.c:1998 data/Freeciv.in:410 data/Freeciv.in:419
+#: client/gui-sdl/helpdlg.c:2005 client/gui-sdl2/diplodlg.c:677
+#: client/gui-sdl2/helpdlg.c:2036 data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Avanaĵoj"
 
 #: client/gui-qt/diplodlg.cpp:404 client/gui-sdl/diplodlg.c:553
-#: client/gui-sdl2/diplodlg.c:559
+#: client/gui-sdl2/diplodlg.c:562
 msgid "Give shared vision"
 msgstr "Donu komunan vidon"
 
 #: client/gui-qt/diplodlg.cpp:411 client/gui-sdl/diplodlg.c:606
-#: client/gui-sdl2/diplodlg.c:613
+#: client/gui-sdl2/diplodlg.c:622
 #, fuzzy
 msgid "Give embassy"
 msgstr "Ambasado"
 
 #: client/gui-qt/diplodlg.cpp:420 client/gui-sdl/diplodlg.c:496
-#: client/gui-sdl2/diplodlg.c:502 data/Freeciv.in:510
+#: client/gui-sdl2/diplodlg.c:503 data/Freeciv.in:510
 msgid "Pacts"
 msgstr "Paktoj"
 
@@ -8421,7 +8421,7 @@ msgstr "Forlasu la ludon"
 
 #: client/gui-qt/menu.cpp:869 client/gui-qt/pages.cpp:199
 #: client/gui-sdl/optiondlg.c:860 client/gui-sdl/pages.c:268
-#: client/gui-sdl2/optiondlg.c:871 client/gui-sdl2/pages.c:279
+#: client/gui-sdl2/optiondlg.c:883 client/gui-sdl2/pages.c:286
 #: client/gui-xaw/connectdlg.c:341 client/gui-xaw/menu.c:124
 #: data/Freeciv.in:136 data/Freeciv.in:3188
 msgid "Quit"
@@ -8531,7 +8531,7 @@ msgstr "Elektu laŭ sama speco"
 
 #: client/gui-qt/menu.cpp:1016 client/gui-qt/shortcuts.cpp:130
 #: client/gui-sdl/action_dialog.c:1049 client/gui-sdl/menu.c:423
-#: client/gui-sdl2/action_dialog.c:1001 client/gui-sdl2/menu.c:419
+#: client/gui-sdl2/action_dialog.c:1003 client/gui-sdl2/menu.c:419
 #: client/gui-xaw/menu.c:217
 msgid "Wait"
 msgstr "Atendu"
@@ -8582,14 +8582,14 @@ msgid "Unsentry All On Tile"
 msgstr ""
 
 #: client/gui-qt/menu.cpp:1088 client/gui-qt/shortcuts.cpp:114
-#: client/gui-sdl/citydlg.c:502 client/gui-sdl2/citydlg.c:505
+#: client/gui-sdl/citydlg.c:502 client/gui-sdl2/citydlg.c:510
 #: client/gui-xaw/menu.c:191
 #, fuzzy
 msgid "Set Home City"
 msgstr "Igu ĝin hejmurbo"
 
 #: client/gui-qt/menu.cpp:1093 client/gui-qt/shortcuts.cpp:112
-#: client/gui-sdl/dialogs.c:718 client/gui-sdl2/dialogs.c:722
+#: client/gui-sdl/dialogs.c:718 client/gui-sdl2/dialogs.c:725
 #: data/Freeciv.in:1969
 msgid "Upgrade"
 msgstr "Ĝisdatigu"
@@ -8600,7 +8600,7 @@ msgid "Convert"
 msgstr "K_onektu"
 
 #: client/gui-qt/menu.cpp:1102 client/gui-qt/repodlgs.cpp:1226
-#: client/gui-sdl/dialogs.c:913 client/gui-sdl2/dialogs.c:918
+#: client/gui-sdl/dialogs.c:913 client/gui-sdl2/dialogs.c:923
 #, fuzzy
 msgid "Disband"
 msgstr "Dissolvu"
@@ -8635,7 +8635,7 @@ msgstr "_Laborlistoj"
 
 #: client/gui-qt/menu.cpp:1146 client/gui-qt/menu.cpp:2036
 #: client/gui-qt/shortcuts.cpp:122 client/gui-sdl/mapctrl.c:2550
-#: client/gui-sdl/menu.c:1066 client/gui-sdl2/mapctrl.c:2758
+#: client/gui-sdl/menu.c:1066 client/gui-sdl2/mapctrl.c:2759
 #: client/gui-sdl2/menu.c:1062 client/gui-xaw/menu.c:170
 msgid "Build City"
 msgstr "Fondu urbon"
@@ -8806,7 +8806,7 @@ msgstr ""
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
 #: client/gui-qt/menu.cpp:1343 client/gui-qt/pages.cpp:1640
-#: client/gui-sdl/plrdlg.c:340 client/gui-sdl2/connectdlg.c:337
+#: client/gui-sdl/plrdlg.c:340 client/gui-sdl2/connectdlg.c:338
 #: client/gui-sdl2/plrdlg.c:388
 #, fuzzy
 msgid "?header:Players"
@@ -8954,7 +8954,7 @@ msgid "Connect to network game"
 msgstr "K_onekto al retan ludon"
 
 #: client/gui-qt/pages.cpp:372 client/gui-qt/pages.cpp:399
-#: client/gui-sdl/connectdlg.c:629 client/gui-sdl2/connectdlg.c:628
+#: client/gui-sdl/connectdlg.c:629 client/gui-sdl2/connectdlg.c:633
 #: client/gui-xaw/connectdlg.c:326 data/Freeciv.in:125 data/Freeciv.in:2514
 msgid "Connect"
 msgstr "Konektu"
@@ -9014,7 +9014,7 @@ msgstr "Malkonektiĝu"
 
 #: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1874
 #: client/gui-qt/pages.cpp:1878 client/gui-sdl/chatline.c:801
-#: client/gui-sdl2/chatline.c:793 data/Freeciv.in:3404
+#: client/gui-sdl2/chatline.c:800 data/Freeciv.in:3404
 msgid "Start"
 msgstr "Komencu"
 
@@ -9099,7 +9099,7 @@ msgid "Meet"
 msgstr "Renkontiĝo"
 
 #: client/gui-qt/plrdlg.cpp:663 client/gui-sdl/diplodlg.c:1548
-#: client/gui-sdl2/diplodlg.c:1555
+#: client/gui-sdl2/diplodlg.c:1580
 msgid "Cancel Treaty"
 msgstr "Nuligu kontrakton"
 
@@ -9389,7 +9389,7 @@ msgid "Observe globally"
 msgstr "Observu tiun ĉi ludanton"
 
 #: client/gui-qt/spaceshipdlg.cpp:56 client/gui-sdl/spaceshipdlg.c:177
-#: client/gui-sdl2/spaceshipdlg.c:189 data/Freeciv.in:1727
+#: client/gui-sdl2/spaceshipdlg.c:190 data/Freeciv.in:1727
 msgid "Launch"
 msgstr "Ekflugo"
 
@@ -9418,27 +9418,27 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:1349 client/gui-sdl/dialogs.c:1692
 #: client/gui-sdl/dialogs.c:2272 client/gui-sdl/finddlg.c:159
 #: client/gui-sdl/gotodlg.c:268 client/gui-sdl/helpdlg.c:263
-#: client/gui-sdl/helpdlg.c:679 client/gui-sdl/helpdlg.c:1940
+#: client/gui-sdl/helpdlg.c:679 client/gui-sdl/helpdlg.c:1957
 #: client/gui-sdl/inteldlg.c:252 client/gui-sdl/optiondlg.c:779
 #: client/gui-sdl/plrdlg.c:354 client/gui-sdl/plrdlg.c:639
 #: client/gui-sdl/repodlgs.c:392 client/gui-sdl/repodlgs.c:2008
 #: client/gui-sdl/repodlgs.c:2895 client/gui-sdl/repodlgs.c:3082
 #: client/gui-sdl/repodlgs.c:3353 client/gui-sdl/spaceshipdlg.c:166
-#: client/gui-sdl2/action_dialog.c:497 client/gui-sdl2/action_dialog.c:1219
-#: client/gui-sdl2/action_dialog.c:1523 client/gui-sdl2/action_dialog.c:1593
-#: client/gui-sdl2/action_dialog.c:1819 client/gui-sdl2/chatline.c:221
-#: client/gui-sdl2/citydlg.c:3558 client/gui-sdl2/cma_fe.c:515
-#: client/gui-sdl2/cma_fe.c:931 client/gui-sdl2/dialogs.c:335
-#: client/gui-sdl2/dialogs.c:537 client/gui-sdl2/dialogs.c:1100
-#: client/gui-sdl2/dialogs.c:1353 client/gui-sdl2/dialogs.c:1700
-#: client/gui-sdl2/dialogs.c:2261 client/gui-sdl2/finddlg.c:167
-#: client/gui-sdl2/gotodlg.c:277 client/gui-sdl2/helpdlg.c:265
-#: client/gui-sdl2/helpdlg.c:684 client/gui-sdl2/helpdlg.c:1949
-#: client/gui-sdl2/inteldlg.c:269 client/gui-sdl2/optiondlg.c:790
-#: client/gui-sdl2/plrdlg.c:402 client/gui-sdl2/plrdlg.c:703
-#: client/gui-sdl2/repodlgs.c:415 client/gui-sdl2/repodlgs.c:2059
-#: client/gui-sdl2/repodlgs.c:2952 client/gui-sdl2/repodlgs.c:3140
-#: client/gui-sdl2/repodlgs.c:3424 client/gui-sdl2/spaceshipdlg.c:178
+#: client/gui-sdl2/action_dialog.c:498 client/gui-sdl2/action_dialog.c:1222
+#: client/gui-sdl2/action_dialog.c:1526 client/gui-sdl2/action_dialog.c:1596
+#: client/gui-sdl2/action_dialog.c:1822 client/gui-sdl2/chatline.c:223
+#: client/gui-sdl2/citydlg.c:3569 client/gui-sdl2/cma_fe.c:520
+#: client/gui-sdl2/cma_fe.c:936 client/gui-sdl2/dialogs.c:335
+#: client/gui-sdl2/dialogs.c:538 client/gui-sdl2/dialogs.c:1106
+#: client/gui-sdl2/dialogs.c:1362 client/gui-sdl2/dialogs.c:1709
+#: client/gui-sdl2/dialogs.c:2270 client/gui-sdl2/finddlg.c:167
+#: client/gui-sdl2/gotodlg.c:278 client/gui-sdl2/helpdlg.c:266
+#: client/gui-sdl2/helpdlg.c:697 client/gui-sdl2/helpdlg.c:1987
+#: client/gui-sdl2/inteldlg.c:270 client/gui-sdl2/optiondlg.c:799
+#: client/gui-sdl2/plrdlg.c:403 client/gui-sdl2/plrdlg.c:704
+#: client/gui-sdl2/repodlgs.c:418 client/gui-sdl2/repodlgs.c:2080
+#: client/gui-sdl2/repodlgs.c:2974 client/gui-sdl2/repodlgs.c:3162
+#: client/gui-sdl2/repodlgs.c:3446 client/gui-sdl2/spaceshipdlg.c:178
 msgid "Close Dialog (Esc)"
 msgstr "Fermu fenestron (ESC)"
 
@@ -9456,25 +9456,25 @@ msgstr ""
 msgid "%d one time bonus"
 msgstr ""
 
-#: client/gui-sdl/action_dialog.c:973 client/gui-sdl2/action_dialog.c:928
+#: client/gui-sdl/action_dialog.c:973 client/gui-sdl2/action_dialog.c:929
 msgid "Subvert Enemy Unit"
 msgstr "Ataku malamikan unuon"
 
-#: client/gui-sdl/chatline.c:742 client/gui-sdl2/chatline.c:734
+#: client/gui-sdl/chatline.c:742 client/gui-sdl2/chatline.c:738
 #, c-format
 msgid "Total users logged in : %d"
 msgstr "Sumo de la konektitaj uzantoj: %d"
 
-#: client/gui-sdl/chatline.c:790 client/gui-sdl2/chatline.c:782
+#: client/gui-sdl/chatline.c:790 client/gui-sdl2/chatline.c:788
 msgid "Back"
 msgstr "Antaŭe"
 
 #: client/gui-sdl/chatline.c:822 client/gui-sdl/pages.c:198
-#: client/gui-sdl2/chatline.c:814 client/gui-sdl2/pages.c:204
+#: client/gui-sdl2/chatline.c:823 client/gui-sdl2/pages.c:206
 msgid "Load Game"
 msgstr "Ŝargu ludon"
 
-#: client/gui-sdl/chatline.c:834 client/gui-sdl2/chatline.c:826
+#: client/gui-sdl/chatline.c:834 client/gui-sdl2/chatline.c:836
 msgid "Server Settings"
 msgstr "Agordoj de servilo"
 
@@ -9482,155 +9482,155 @@ msgstr "Agordoj de servilo"
 msgid "Unit commands"
 msgstr "Komandoj por la unuoj"
 
-#: client/gui-sdl/citydlg.c:443 client/gui-sdl2/citydlg.c:447
+#: client/gui-sdl/citydlg.c:443 client/gui-sdl2/citydlg.c:448
 #: data/Freeciv.in:1184 data/Freeciv.in:1220
 msgid "Activate unit, close dialog"
 msgstr "Aktivigu unuon kaj fermu la fenestron"
 
-#: client/gui-sdl/citydlg.c:517 client/gui-sdl2/citydlg.c:519
+#: client/gui-sdl/citydlg.c:517 client/gui-sdl2/citydlg.c:525
 #: data/Freeciv.in:1204
 msgid "Upgrade unit"
 msgstr "Ĝisdatigu unuon"
 
-#: client/gui-sdl/citydlg.c:733 client/gui-sdl/mapview.c:800
-#: client/gui-sdl2/citydlg.c:736 client/gui-sdl2/mapview.c:823
+#: client/gui-sdl/citydlg.c:733 client/gui-sdl/mapview.c:799
+#: client/gui-sdl2/citydlg.c:744 client/gui-sdl2/mapview.c:824
 #, fuzzy
 msgid "?homecity:None"
 msgstr "?city:Nomo"
 
-#: client/gui-sdl/citydlg.c:958 client/gui-sdl2/citydlg.c:961
+#: client/gui-sdl/citydlg.c:958 client/gui-sdl2/citydlg.c:969
 msgid ""
 "Allow unit production\n"
 "to disband city"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1183 client/gui-sdl2/citydlg.c:1183
+#: client/gui-sdl/citydlg.c:1183 client/gui-sdl2/citydlg.c:1191
 msgid "Sorry, you have already bought here in this turn."
 msgstr "Bedaŭre, vi jam aĉetis ĉi tie en ĉi vico."
 
-#: client/gui-sdl/citydlg.c:1186 client/gui-sdl2/citydlg.c:1186
+#: client/gui-sdl/citydlg.c:1186 client/gui-sdl2/citydlg.c:1194
 msgid "Sorry, you can't buy here in this turn."
 msgstr "Bedaŭre, vi ne povas aĉeti ĉi tie en ĉi vico."
 
-#: client/gui-sdl/citydlg.c:1190 client/gui-sdl2/citydlg.c:1190
+#: client/gui-sdl/citydlg.c:1190 client/gui-sdl2/citydlg.c:1198
 msgid "Buy it?"
 msgstr "Ĉu vi aĉetas ĝin?"
 
-#: client/gui-sdl/citydlg.c:1406 client/gui-sdl2/citydlg.c:1402
+#: client/gui-sdl/citydlg.c:1406 client/gui-sdl2/citydlg.c:1413
 msgid "Sell it?"
 msgstr "Ĉu vi vendas ĝin?"
 
 #: client/gui-sdl/citydlg.c:1764 client/gui-sdl/citydlg.c:3765
-#: client/gui-sdl2/citydlg.c:1756 client/gui-sdl2/citydlg.c:3638
+#: client/gui-sdl2/citydlg.c:1767 client/gui-sdl2/citydlg.c:3651
 msgid "City options"
 msgstr "Opcioj por la urbo"
 
-#: client/gui-sdl/citydlg.c:1809 client/gui-sdl2/citydlg.c:1801
+#: client/gui-sdl/citydlg.c:1809 client/gui-sdl2/citydlg.c:1812
 #, c-format
 msgid "Supported units: %d"
 msgstr "Subtenitaj unuoj: %d"
 
-#: client/gui-sdl/citydlg.c:1867 client/gui-sdl2/citydlg.c:1858
+#: client/gui-sdl/citydlg.c:1867 client/gui-sdl2/citydlg.c:1869
 #, c-format
 msgid "Present units: %d"
 msgstr "Ĉeestantaj unuoj: %d"
 
 #: client/gui-sdl/citydlg.c:1916 client/gui-sdl/citydlg.c:3733
-#: client/gui-sdl2/citydlg.c:1907 client/gui-sdl2/citydlg.c:3606
+#: client/gui-sdl2/citydlg.c:1918 client/gui-sdl2/citydlg.c:3618
 msgid "City info"
 msgstr "Pri urbo"
 
-#: client/gui-sdl/citydlg.c:1937 client/gui-sdl2/citydlg.c:1928
+#: client/gui-sdl/citydlg.c:1937 client/gui-sdl2/citydlg.c:1939
 #, c-format
 msgid "Pollution: %d"
 msgstr "Poluo: %d"
 
-#: client/gui-sdl/citydlg.c:1965 client/gui-sdl2/citydlg.c:1956
+#: client/gui-sdl/citydlg.c:1965 client/gui-sdl2/citydlg.c:1967
 msgid "Pollution: none"
 msgstr "Poluo: nenio"
 
-#: client/gui-sdl/citydlg.c:1981 client/gui-sdl2/citydlg.c:1972
+#: client/gui-sdl/citydlg.c:1981 client/gui-sdl2/citydlg.c:1983
 #, fuzzy, c-format
 msgid "Plague risk: %.1f%%"
 msgstr "Risko de pesto"
 
-#: client/gui-sdl/citydlg.c:1984 client/gui-sdl2/citydlg.c:1975
+#: client/gui-sdl/citydlg.c:1984 client/gui-sdl2/citydlg.c:1986
 #, fuzzy
 msgid "Plague risk: none"
 msgstr "Risko de pesto"
 
-#: client/gui-sdl/citydlg.c:1993 client/gui-sdl2/citydlg.c:1984
+#: client/gui-sdl/citydlg.c:1993 client/gui-sdl2/citydlg.c:1995
 msgid "Trade routes: "
 msgstr "Komercaj kursoj: "
 
-#: client/gui-sdl/citydlg.c:2041 client/gui-sdl2/citydlg.c:2032
+#: client/gui-sdl/citydlg.c:2041 client/gui-sdl2/citydlg.c:2043
 #, c-format
 msgid "Trade: +%d"
 msgstr "Komerco: +%d"
 
-#: client/gui-sdl/citydlg.c:2586 client/gui-sdl2/citydlg.c:2463
+#: client/gui-sdl/citydlg.c:2586 client/gui-sdl2/citydlg.c:2474
 msgid "City improvements"
 msgstr "Urbaj plibonigoj"
 
-#: client/gui-sdl/citydlg.c:2601 client/gui-sdl2/citydlg.c:2478
+#: client/gui-sdl/citydlg.c:2601 client/gui-sdl2/citydlg.c:2489
 #, c-format
 msgid "Food: %d per turn"
 msgstr "Nutraĵo: %d povice"
 
-#: client/gui-sdl/citydlg.c:2638 client/gui-sdl2/citydlg.c:2515
+#: client/gui-sdl/citydlg.c:2638 client/gui-sdl2/citydlg.c:2526
 #, c-format
 msgid "?food:Surplus: %d"
 msgstr "?food:Troo : %d"
 
-#: client/gui-sdl/citydlg.c:2686 client/gui-sdl2/citydlg.c:2561
+#: client/gui-sdl/citydlg.c:2686 client/gui-sdl2/citydlg.c:2572
 #, c-format
 msgid "Production: %d (%d) per turn"
 msgstr "Produktado: %d (%d) povice"
 
-#: client/gui-sdl/citydlg.c:2732 client/gui-sdl2/citydlg.c:2607
+#: client/gui-sdl/citydlg.c:2732 client/gui-sdl2/citydlg.c:2618
 #, c-format
 msgid "?production:Support: %d"
 msgstr "?production:Produktaĵo: %d"
 
-#: client/gui-sdl/citydlg.c:2770 client/gui-sdl2/citydlg.c:2646
+#: client/gui-sdl/citydlg.c:2770 client/gui-sdl2/citydlg.c:2657
 #, c-format
 msgid "Trade: %d per turn"
 msgstr "Komerco: %d povice"
 
-#: client/gui-sdl/citydlg.c:2804 client/gui-sdl2/citydlg.c:2680
+#: client/gui-sdl/citydlg.c:2804 client/gui-sdl2/citydlg.c:2691
 #, c-format
 msgid "Corruption: %d"
 msgstr "Subaĉetado: %d"
 
-#: client/gui-sdl/citydlg.c:2841 client/gui-sdl2/citydlg.c:2716
+#: client/gui-sdl/citydlg.c:2841 client/gui-sdl2/citydlg.c:2727
 #, c-format
 msgid "Gold: %d (%d) per turn"
 msgstr "Oro: %d (%d) povice"
 
-#: client/gui-sdl/citydlg.c:2888 client/gui-sdl2/citydlg.c:2763
+#: client/gui-sdl/citydlg.c:2888 client/gui-sdl2/citydlg.c:2774
 #, c-format
 msgid "Upkeep: %d"
 msgstr "Tenado: %d"
 
-#: client/gui-sdl/citydlg.c:2927 client/gui-sdl2/citydlg.c:2802
+#: client/gui-sdl/citydlg.c:2927 client/gui-sdl2/citydlg.c:2813
 #, c-format
 msgid "Science: %d per turn"
 msgstr "Scienco: %d povice"
 
-#: client/gui-sdl/citydlg.c:2967 client/gui-sdl2/citydlg.c:2842
+#: client/gui-sdl/citydlg.c:2967 client/gui-sdl2/citydlg.c:2853
 #, fuzzy, c-format
 msgid "Luxury: %d per turn"
 msgstr "Lukso: %d povice"
 
-#: client/gui-sdl/citydlg.c:3005 client/gui-sdl2/citydlg.c:2880
+#: client/gui-sdl/citydlg.c:3005 client/gui-sdl2/citydlg.c:2891
 msgid "City growth: blocked"
 msgstr "Urba pliiĝo: blokita"
 
-#: client/gui-sdl/citydlg.c:3007 client/gui-sdl2/citydlg.c:2882
+#: client/gui-sdl/citydlg.c:3007 client/gui-sdl2/citydlg.c:2893
 msgid "City growth: never"
 msgstr "Urba pliiĝo: neniam"
 
-#: client/gui-sdl/citydlg.c:3011 client/gui-sdl2/citydlg.c:2886
+#: client/gui-sdl/citydlg.c:3011 client/gui-sdl2/citydlg.c:2897
 #, c-format
 msgid "City shrinks: %d %s"
 msgstr "Urba malpliiĝo: %d %s"
@@ -9647,17 +9647,17 @@ msgstr "Urba malpliiĝo: %d %s"
 #: client/gui-sdl/repodlgs.c:564 client/gui-sdl/repodlgs.c:954
 #: client/gui-sdl/wldlg.c:937 client/gui-sdl/wldlg.c:1143
 #: client/gui-sdl/wldlg.c:1446 client/gui-sdl/wldlg.c:1452
-#: client/gui-sdl/wldlg.c:1574 client/gui-sdl2/citydlg.c:2887
-#: client/gui-sdl2/citydlg.c:2891 client/gui-sdl2/citydlg.c:3212
-#: client/gui-sdl2/cityrep.c:570 client/gui-sdl2/cityrep.c:1105
+#: client/gui-sdl/wldlg.c:1574 client/gui-sdl2/citydlg.c:2898
+#: client/gui-sdl2/citydlg.c:2902 client/gui-sdl2/citydlg.c:3223
+#: client/gui-sdl2/cityrep.c:572 client/gui-sdl2/cityrep.c:1107
 #: client/gui-sdl2/menu.c:1090 client/gui-sdl2/menu.c:1144
 #: client/gui-sdl2/menu.c:1158 client/gui-sdl2/menu.c:1164
 #: client/gui-sdl2/menu.c:1186 client/gui-sdl2/menu.c:1197
 #: client/gui-sdl2/menu.c:1203 client/gui-sdl2/menu.c:1225
 #: client/gui-sdl2/menu.c:1240 client/gui-sdl2/menu.c:1261
 #: client/gui-sdl2/menu.c:1277 client/gui-sdl2/menu.c:1299
-#: client/gui-sdl2/plrdlg.c:739 client/gui-sdl2/repodlgs.c:587
-#: client/gui-sdl2/repodlgs.c:976 client/gui-sdl2/wldlg.c:963
+#: client/gui-sdl2/plrdlg.c:740 client/gui-sdl2/repodlgs.c:592
+#: client/gui-sdl2/repodlgs.c:991 client/gui-sdl2/wldlg.c:963
 #: client/gui-sdl2/wldlg.c:1167 client/gui-sdl2/wldlg.c:1477
 #: client/gui-sdl2/wldlg.c:1483 client/gui-sdl2/wldlg.c:1606
 msgid "turn"
@@ -9665,17 +9665,17 @@ msgid_plural "turns"
 msgstr[0] "vico"
 msgstr[1] "vicoj"
 
-#: client/gui-sdl/citydlg.c:3015 client/gui-sdl2/citydlg.c:2890
+#: client/gui-sdl/citydlg.c:3015 client/gui-sdl2/citydlg.c:2901
 #, fuzzy, c-format
 msgid "City growth: %d %s"
 msgstr "Urba pliiĝo: %d vico"
 
 #: client/gui-sdl/citydlg.c:3054 client/gui-sdl/citydlg.c:3168
-#: client/gui-sdl2/citydlg.c:2924 client/gui-sdl2/citydlg.c:3036
+#: client/gui-sdl2/citydlg.c:2935 client/gui-sdl2/citydlg.c:3047
 msgid "Stock"
 msgstr "Stoko"
 
-#: client/gui-sdl/citydlg.c:3065 client/gui-sdl2/citydlg.c:2935
+#: client/gui-sdl/citydlg.c:3065 client/gui-sdl2/citydlg.c:2946
 #: data/civ1/buildings.ruleset:279 data/civ2/buildings.ruleset:335
 #: data/classic/buildings.ruleset:376 data/experimental/buildings.ruleset:382
 #: data/civ2civ3/buildings.ruleset:471 data/multiplayer/buildings.ruleset:377
@@ -9683,57 +9683,57 @@ msgstr "Stoko"
 msgid "Granary"
 msgstr "Grenejo"
 
-#: client/gui-sdl/citydlg.c:3344 client/gui-sdl2/citydlg.c:3216
+#: client/gui-sdl/citydlg.c:3344 client/gui-sdl2/citydlg.c:3227
 msgid "finished"
 msgstr "finita"
 
-#: client/gui-sdl/citydlg.c:3599 client/gui-sdl2/citydlg.c:3472
+#: client/gui-sdl/citydlg.c:3599 client/gui-sdl2/citydlg.c:3483
 #, c-format
 msgid "City of %s (Population %s citizens)"
 msgstr "Urbo de %s (loĝantaro: %s civitanoj)"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3605 client/gui-sdl2/citydlg.c:3478
+#: client/gui-sdl/citydlg.c:3605 client/gui-sdl2/citydlg.c:3489
 msgid " - DISORDER"
 msgstr " - RIBELO"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3609 client/gui-sdl2/citydlg.c:3482
+#: client/gui-sdl/citydlg.c:3609 client/gui-sdl2/citydlg.c:3493
 msgid " - celebrating"
 msgstr " - celebrado"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3613 client/gui-sdl2/citydlg.c:3486
+#: client/gui-sdl/citydlg.c:3613 client/gui-sdl2/citydlg.c:3497
 msgid " - happy"
 msgstr " - kontenteco"
 
 #. TRANS: preserve leading space
-#: client/gui-sdl/citydlg.c:3620 client/gui-sdl2/citydlg.c:3493
+#: client/gui-sdl/citydlg.c:3620 client/gui-sdl2/citydlg.c:3504
 msgid " - under Citizen Governor control."
 msgstr " - sub la regado de la urba reganto."
 
-#: client/gui-sdl/citydlg.c:3698 client/gui-sdl2/citydlg.c:3571
+#: client/gui-sdl/citydlg.c:3698 client/gui-sdl2/citydlg.c:3582
 msgid "Present units"
 msgstr "Ĉeestantaj unuoj"
 
-#: client/gui-sdl/citydlg.c:3709 client/gui-sdl2/citydlg.c:3582
+#: client/gui-sdl/citydlg.c:3709 client/gui-sdl2/citydlg.c:3593
 msgid "Supported units"
 msgstr "Subtenitaj unuoj"
 
-#: client/gui-sdl/citydlg.c:3778 client/gui-sdl2/citydlg.c:3651
+#: client/gui-sdl/citydlg.c:3778 client/gui-sdl2/citydlg.c:3665
 msgid "Change production"
 msgstr "Ŝanĝu produktadon"
 
 #: client/gui-sdl/citydlg.c:3792 client/gui-sdl/dialogs.c:1756
-#: client/gui-sdl2/citydlg.c:3665 client/gui-sdl2/dialogs.c:1763
+#: client/gui-sdl2/citydlg.c:3679 client/gui-sdl2/dialogs.c:1772
 msgid "Hurry production"
 msgstr "Akcelu produktadon"
 
-#: client/gui-sdl/citydlg.c:3822 client/gui-sdl2/citydlg.c:3695
+#: client/gui-sdl/citydlg.c:3822 client/gui-sdl2/citydlg.c:3709
 msgid "Previous city"
 msgstr "Antaŭa urbo"
 
-#: client/gui-sdl/citydlg.c:3837 client/gui-sdl2/citydlg.c:3710
+#: client/gui-sdl/citydlg.c:3837 client/gui-sdl2/citydlg.c:3724
 msgid "Next city"
 msgstr "Sekva urbo"
 
@@ -9750,7 +9750,7 @@ msgstr ""
 "de pliiĝo"
 
 #: client/gui-sdl/cityrep.c:213 client/gui-sdl/mapctrl.c:1581
-#: client/gui-sdl2/cityrep.c:225 client/gui-sdl2/mapctrl.c:1694
+#: client/gui-sdl2/cityrep.c:225 client/gui-sdl2/mapctrl.c:1695
 msgid "Cities Report"
 msgstr "Raporto pri urboj"
 
@@ -9758,28 +9758,28 @@ msgstr "Raporto pri urboj"
 msgid "Close Dialog"
 msgstr "Fermu fenestron"
 
-#: client/gui-sdl/cityrep.c:241 client/gui-sdl2/cityrep.c:253
+#: client/gui-sdl/cityrep.c:241 client/gui-sdl2/cityrep.c:254
 msgid "Information Report"
 msgstr "Pri:"
 
-#: client/gui-sdl/cityrep.c:251 client/gui-sdl2/cityrep.c:263
+#: client/gui-sdl/cityrep.c:251 client/gui-sdl2/cityrep.c:264
 msgid "Happiness Report"
 msgstr "Raporto pri kontenteco"
 
-#: client/gui-sdl/cityrep.c:261 client/gui-sdl2/cityrep.c:273
+#: client/gui-sdl/cityrep.c:261 client/gui-sdl2/cityrep.c:275
 msgid "Garrison Report"
 msgstr "Raporto de Garrison"
 
-#: client/gui-sdl/cityrep.c:271 client/gui-sdl2/cityrep.c:283
+#: client/gui-sdl/cityrep.c:271 client/gui-sdl2/cityrep.c:285
 msgid "Maintenance Report"
 msgstr "Raporto pri bontenado"
 
 #: client/gui-sdl/cityrep.c:541 client/gui-sdl/cityrep.c:1070
-#: client/gui-sdl2/cityrep.c:554 client/gui-sdl2/cityrep.c:1087
+#: client/gui-sdl2/cityrep.c:556 client/gui-sdl2/cityrep.c:1089
 msgid "worklist"
 msgstr "laborlisto"
 
-#: client/gui-sdl/cityrep.c:545 client/gui-sdl2/cityrep.c:558
+#: client/gui-sdl/cityrep.c:545 client/gui-sdl2/cityrep.c:560
 msgid ""
 "\n"
 "finished"
@@ -9787,37 +9787,37 @@ msgstr ""
 "\n"
 "finita"
 
-#: client/gui-sdl/cma_fe.c:485 client/gui-sdl2/cma_fe.c:498
+#: client/gui-sdl/cma_fe.c:485 client/gui-sdl2/cma_fe.c:503
 msgid "Presets"
 msgstr "Antaŭagordaĵoj"
 
-#: client/gui-sdl/cma_fe.c:897 client/gui-sdl2/cma_fe.c:910
+#: client/gui-sdl/cma_fe.c:897 client/gui-sdl2/cma_fe.c:915
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
 msgstr "Urbo de %s (Populacio %sj civitanoj) : %s"
 
-#: client/gui-sdl/cma_fe.c:1014 client/gui-sdl2/cma_fe.c:1029
+#: client/gui-sdl/cma_fe.c:1014 client/gui-sdl2/cma_fe.c:1034
 msgid "Save settings as..."
 msgstr "Konservu agordaĵojn kiel..."
 
-#: client/gui-sdl/cma_fe.c:1023 client/gui-sdl2/cma_fe.c:1038
+#: client/gui-sdl/cma_fe.c:1023 client/gui-sdl2/cma_fe.c:1043
 msgid "Load settings"
 msgstr "Ŝargu agordaĵojn"
 
-#: client/gui-sdl/cma_fe.c:1032 client/gui-sdl2/cma_fe.c:1047
+#: client/gui-sdl/cma_fe.c:1032 client/gui-sdl2/cma_fe.c:1052
 msgid "Delete settings"
 msgstr "Nuligu agordaĵojn"
 
-#: client/gui-sdl/cma_fe.c:1041 client/gui-sdl2/cma_fe.c:1056
+#: client/gui-sdl/cma_fe.c:1041 client/gui-sdl2/cma_fe.c:1061
 msgid "Control city"
 msgstr "Regu urbon"
 
-#: client/gui-sdl/cma_fe.c:1049 client/gui-sdl2/cma_fe.c:1065
+#: client/gui-sdl/cma_fe.c:1049 client/gui-sdl2/cma_fe.c:1070
 #: data/Freeciv.in:1488
 msgid "Apply once"
 msgstr "Apliku unufoje"
 
-#: client/gui-sdl/cma_fe.c:1057 client/gui-sdl2/cma_fe.c:1074
+#: client/gui-sdl/cma_fe.c:1057 client/gui-sdl2/cma_fe.c:1079
 msgid "Release city"
 msgstr "Malpremu urbon"
 
@@ -9826,49 +9826,49 @@ msgid "Creating Server List..."
 msgstr "Kreante liston pri la serviloj..."
 
 #: client/gui-sdl/connectdlg.c:293 client/gui-sdl/connectdlg.c:359
-#: client/gui-sdl2/connectdlg.c:298 client/gui-sdl2/connectdlg.c:365
+#: client/gui-sdl2/connectdlg.c:298 client/gui-sdl2/connectdlg.c:366
 msgid "No LAN servers found"
 msgstr "Neniu loka servilo estis trovita"
 
 #: client/gui-sdl/connectdlg.c:295 client/gui-sdl/connectdlg.c:361
-#: client/gui-sdl2/connectdlg.c:300 client/gui-sdl2/connectdlg.c:367
+#: client/gui-sdl2/connectdlg.c:300 client/gui-sdl2/connectdlg.c:368
 msgid "No public servers found"
 msgstr "Nenio publika servilo estis trovita"
 
 #. TRANS: "host.example.com Port 5556 Ver: 2.2.0 Running Players 3\n
 #. * [server message]"
-#. TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
+#. TRANS: "host.example.com Port 5556 Ver: 3.1.0 Running Players 3\n
 #. * [server message]"
-#: client/gui-sdl/connectdlg.c:331 client/gui-sdl2/connectdlg.c:335
+#: client/gui-sdl/connectdlg.c:331 client/gui-sdl2/connectdlg.c:336
 #, fuzzy, c-format
 msgid ""
 "%s Port %d Ver: %s %s %s %d\n"
 "%s"
 msgstr "Nova voĉdono (numero %d) de %s: %s."
 
-#: client/gui-sdl/connectdlg.c:576 client/gui-sdl2/connectdlg.c:575
+#: client/gui-sdl/connectdlg.c:576 client/gui-sdl2/connectdlg.c:576
 msgid "Player Name :"
 msgstr "Nomo de ludanto :"
 
-#: client/gui-sdl/connectdlg.c:592 client/gui-sdl2/connectdlg.c:591
+#: client/gui-sdl/connectdlg.c:592 client/gui-sdl2/connectdlg.c:593
 msgid "Freeciv Server :"
 msgstr "Freeciv-Servilo :"
 
-#: client/gui-sdl/connectdlg.c:609 client/gui-sdl2/connectdlg.c:608
+#: client/gui-sdl/connectdlg.c:609 client/gui-sdl2/connectdlg.c:611
 msgid "Port :"
 msgstr "Pordo :"
 
 #: client/gui-sdl/connectdlg.c:824 client/gui-sdl/connectdlg.c:998
-#: client/gui-sdl2/connectdlg.c:822 client/gui-sdl2/connectdlg.c:993
+#: client/gui-sdl2/connectdlg.c:832 client/gui-sdl2/connectdlg.c:1009
 msgid "Next"
 msgstr "Sekva"
 
-#: client/gui-sdl/dialogs.c:1117 client/gui-sdl2/dialogs.c:1122
+#: client/gui-sdl/dialogs.c:1117 client/gui-sdl2/dialogs.c:1128
 #, fuzzy, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%s) %s"
 msgstr "Kontaktu %sn (%d / %d) %sn (%d,%d,%d) %sn"
 
-#: client/gui-sdl/dialogs.c:1129 client/gui-sdl2/dialogs.c:1134
+#: client/gui-sdl/dialogs.c:1129 client/gui-sdl2/dialogs.c:1140
 #, fuzzy, c-format
 msgid "%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"
 msgstr "%sj %sj %s(A:%d D:%d M:%d FP:%d) ĈP:%d%%"
@@ -9878,128 +9878,128 @@ msgstr "%sj %sj %s(A:%d D:%d M:%d FP:%d) ĈP:%d%%"
 #. TRANS: "CtW" = "Chance to Win"; preserve leading space
 #. TRANS: preserve leading space
 #: client/gui-sdl/dialogs.c:1142 client/gui-sdl/dialogs.c:1919
-#: client/gui-sdl/dialogs.c:2051 client/gui-sdl2/dialogs.c:1147
-#: client/gui-sdl2/dialogs.c:1922 client/gui-sdl2/dialogs.c:2047
+#: client/gui-sdl/dialogs.c:2051 client/gui-sdl2/dialogs.c:1153
+#: client/gui-sdl2/dialogs.c:1931 client/gui-sdl2/dialogs.c:2056
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr " Ŝancoj pri venko: A:%d%% D:%d%%"
 
-#: client/gui-sdl/dialogs.c:1281 client/gui-sdl2/dialogs.c:1285
+#: client/gui-sdl/dialogs.c:1281 client/gui-sdl2/dialogs.c:1291
 #, c-format
 msgid "Terrain Defense Bonus: +%d%% "
 msgstr ""
 
 #: client/gui-sdl/dialogs.c:1306 client/gui-sdl/dialogs.c:1702
-#: client/gui-sdl2/dialogs.c:1310 client/gui-sdl2/dialogs.c:1710
+#: client/gui-sdl2/dialogs.c:1316 client/gui-sdl2/dialogs.c:1719
 msgid "Terrain Info"
 msgstr "Pri areo"
 
-#: client/gui-sdl/dialogs.c:1675 client/gui-sdl2/dialogs.c:1683
+#: client/gui-sdl/dialogs.c:1675 client/gui-sdl2/dialogs.c:1692
 msgid "Advanced Menu"
 msgstr "Menuo pri avanaĵoj"
 
-#: client/gui-sdl/dialogs.c:1730 client/gui-sdl2/dialogs.c:1737
+#: client/gui-sdl/dialogs.c:1730 client/gui-sdl2/dialogs.c:1746
 #, c-format
 msgid "Zoom to : %s"
 msgstr "Zomu je : %s"
 
-#: client/gui-sdl/dialogs.c:1744 client/gui-sdl2/dialogs.c:1751
+#: client/gui-sdl/dialogs.c:1744 client/gui-sdl2/dialogs.c:1760
 #: data/Freeciv.in:2098
 msgid "Change Production"
 msgstr "Ŝanĝu produktadon"
 
-#: client/gui-sdl/dialogs.c:1768 client/gui-sdl2/dialogs.c:1775
+#: client/gui-sdl/dialogs.c:1768 client/gui-sdl2/dialogs.c:1784
 msgid "Change City Governor settings"
 msgstr "Ŝanĝu agordojn pri urba regado"
 
-#: client/gui-sdl/dialogs.c:1790 client/gui-sdl2/dialogs.c:1796
+#: client/gui-sdl/dialogs.c:1790 client/gui-sdl2/dialogs.c:1805
 msgid "Goto here"
 msgstr "Iru ĉi tien"
 
-#: client/gui-sdl/dialogs.c:1801 client/gui-sdl2/dialogs.c:1807
+#: client/gui-sdl/dialogs.c:1801 client/gui-sdl2/dialogs.c:1816
 msgid "Patrol here"
 msgstr "Patrolu ĉi tie"
 
-#: client/gui-sdl/dialogs.c:1814 client/gui-sdl2/dialogs.c:1820
+#: client/gui-sdl/dialogs.c:1814 client/gui-sdl2/dialogs.c:1829
 msgid "Connect here"
 msgstr "Kunligu ĉi tie"
 
-#: client/gui-sdl/dialogs.c:1834 client/gui-sdl2/dialogs.c:1839
+#: client/gui-sdl/dialogs.c:1834 client/gui-sdl2/dialogs.c:1848
 msgid "Paradrop here"
 msgstr "Paraŝutu ĉi tie"
 
 #: client/gui-sdl/dialogs.c:1887 client/gui-sdl/dialogs.c:2010
-#: client/gui-sdl2/dialogs.c:1890 client/gui-sdl2/dialogs.c:2006
+#: client/gui-sdl2/dialogs.c:1899 client/gui-sdl2/dialogs.c:2015
 #, fuzzy, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%s) %s"
 msgstr "Aktivigo de %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1906 client/gui-sdl/dialogs.c:2038
-#: client/gui-sdl2/dialogs.c:1909 client/gui-sdl2/dialogs.c:2034
+#: client/gui-sdl2/dialogs.c:1918 client/gui-sdl2/dialogs.c:2043
 #, fuzzy, c-format
 msgid "%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"
 msgstr "%sj %sj %s (A:%d D:%d M:%d FP:%d) ĈP:%d%%"
 
-#: client/gui-sdl/dialogs.c:1968 client/gui-sdl2/dialogs.c:1967
+#: client/gui-sdl/dialogs.c:1968 client/gui-sdl2/dialogs.c:1976
 #: data/Freeciv.in:579
 msgid "Ready all"
 msgstr "Ĉiuj pretaj"
 
-#: client/gui-sdl/dialogs.c:1977 client/gui-sdl2/dialogs.c:1976
+#: client/gui-sdl/dialogs.c:1977 client/gui-sdl2/dialogs.c:1985
 msgid "Sentry idle"
 msgstr "Paŭzigu gardosoldaton"
 
-#: client/gui-sdl/dialogs.c:2070 client/gui-sdl2/dialogs.c:2065
+#: client/gui-sdl/dialogs.c:2070 client/gui-sdl2/dialogs.c:2074
 #, c-format
 msgid "Look up \"%s\" in the Help Browser"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:2418 client/gui-sdl2/dialogs.c:2407
+#: client/gui-sdl/dialogs.c:2418 client/gui-sdl2/dialogs.c:2416
 msgid "Choose Your New Government"
 msgstr "Elektu vian novan regsistemo"
 
-#: client/gui-sdl/dialogs.c:3081 client/gui-sdl2/dialogs.c:3064
+#: client/gui-sdl/dialogs.c:3081 client/gui-sdl2/dialogs.c:3078
 msgid "What nation will you be?"
 msgstr "Kiu nacio vi deziras esti?"
 
-#: client/gui-sdl/dialogs.c:3172 client/gui-sdl2/dialogs.c:3156
+#: client/gui-sdl/dialogs.c:3172 client/gui-sdl2/dialogs.c:3171
 msgid "Nation set"
 msgstr "Naciaro"
 
-#: client/gui-sdl/diplodlg.c:575 client/gui-sdl2/diplodlg.c:581
+#: client/gui-sdl/diplodlg.c:575 client/gui-sdl2/diplodlg.c:587
 msgid "World map"
 msgstr "Mapo de la mondo"
 
-#: client/gui-sdl/diplodlg.c:589 client/gui-sdl2/diplodlg.c:595
+#: client/gui-sdl/diplodlg.c:589 client/gui-sdl2/diplodlg.c:603
 msgid "Sea map"
 msgstr "Mapo de la maro"
 
-#: client/gui-sdl/diplodlg.c:622 client/gui-sdl2/diplodlg.c:629
+#: client/gui-sdl/diplodlg.c:622 client/gui-sdl2/diplodlg.c:638
 #: client/gui-xaw/diplodlg.c:497 client/gui-xaw/diplodlg.c:507
 #, c-format
 msgid "Gold(max %d)"
 msgstr "Oro(maks. %d)"
 
-#: client/gui-sdl/diplodlg.c:878 client/gui-sdl2/diplodlg.c:885
+#: client/gui-sdl/diplodlg.c:878 client/gui-sdl2/diplodlg.c:904
 #: data/Freeciv.in:287
 msgid "Diplomacy meeting"
 msgstr "Diplomatia renkontiĝo"
 
 #. TRANS: "Polish incident !" FIXME!!!
-#: client/gui-sdl/diplodlg.c:1371 client/gui-sdl2/diplodlg.c:1377
+#: client/gui-sdl/diplodlg.c:1371 client/gui-sdl2/diplodlg.c:1398
 #, c-format
 msgid "%s incident !"
 msgstr "%s akcidento !"
 
-#: client/gui-sdl/diplodlg.c:1389 client/gui-sdl2/diplodlg.c:1395
+#: client/gui-sdl/diplodlg.c:1389 client/gui-sdl2/diplodlg.c:1416
 msgid "Shall we declare WAR on them?"
 msgstr "Ĉu ni deklaros militon kontraŭ ili?"
 
-#: client/gui-sdl/diplodlg.c:1506 client/gui-sdl2/diplodlg.c:1513
+#: client/gui-sdl/diplodlg.c:1506 client/gui-sdl2/diplodlg.c:1536
 msgid "Foreign Minister"
 msgstr "Ministro por eksterlandaj aferoj"
 
-#: client/gui-sdl/diplodlg.c:1523 client/gui-sdl2/diplodlg.c:1530
+#: client/gui-sdl/diplodlg.c:1523 client/gui-sdl2/diplodlg.c:1554
 #, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
@@ -10008,7 +10008,7 @@ msgstr ""
 "Moŝto!, la %s ambasadoro alvenis\n"
 "Kiuj estas viaj deziroj?"
 
-#: client/gui-sdl/diplodlg.c:1527 client/gui-sdl2/diplodlg.c:1534
+#: client/gui-sdl/diplodlg.c:1527 client/gui-sdl2/diplodlg.c:1559
 #, fuzzy, c-format
 msgid ""
 "Ma'am!, the %s ambassador has arrived\n"
@@ -10017,20 +10017,20 @@ msgstr ""
 "Moŝto!, la %s ambasadoro alvenis\n"
 "Kiuj estas viaj deziroj?"
 
-#: client/gui-sdl/diplodlg.c:1546 client/gui-sdl2/diplodlg.c:1553
+#: client/gui-sdl/diplodlg.c:1546 client/gui-sdl2/diplodlg.c:1578
 msgid "Declare WAR"
 msgstr "MILITdeklaro"
 
-#: client/gui-sdl/diplodlg.c:1573 client/gui-sdl2/diplodlg.c:1581
+#: client/gui-sdl/diplodlg.c:1573 client/gui-sdl2/diplodlg.c:1608
 #: data/Freeciv.in:3262
 msgid "Withdraw vision"
 msgstr "Repripensu la vidon"
 
-#: client/gui-sdl/diplodlg.c:1592 client/gui-sdl2/diplodlg.c:1600
+#: client/gui-sdl/diplodlg.c:1592 client/gui-sdl2/diplodlg.c:1628
 msgid "Call Diplomatic Meeting"
 msgstr "Voku diplomatian renkontiĝon"
 
-#: client/gui-sdl/diplodlg.c:1608 client/gui-sdl2/diplodlg.c:1616
+#: client/gui-sdl/diplodlg.c:1608 client/gui-sdl2/diplodlg.c:1645
 msgid "Send him back"
 msgstr "Retrosendu lin"
 
@@ -10095,40 +10095,40 @@ msgstr "Estas neeble uzi tiun ĉi difinon: %d x %d %d bpb %s"
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr "Oni agordas la difinon laŭ: %d x %d %d bpb"
 
-#: client/gui-sdl/gui_main.c:168 client/gui-sdl2/gui_main.c:175
+#: client/gui-sdl/gui_main.c:174 client/gui-sdl2/gui_main.c:181
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:169
+#: client/gui-sdl/gui_main.c:175
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:171 client/gui-sdl2/gui_main.c:176
+#: client/gui-sdl/gui_main.c:177 client/gui-sdl2/gui_main.c:182
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:640 client/gui-sdl2/gui_main.c:741
+#: client/gui-sdl/gui_main.c:646 client/gui-sdl2/gui_main.c:747
 #, c-format
 msgid "Making screenshot %s"
 msgstr "Ekfoto de %s"
 
-#: client/gui-sdl/gui_main.c:769 client/gui-sdl2/gui_main.c:995
+#: client/gui-sdl/gui_main.c:775 client/gui-sdl2/gui_main.c:996
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Uzante video-eligon: %s"
 
-#: client/gui-sdl/gui_main.c:797 client/gui-sdl/gui_main.c:812
+#: client/gui-sdl/gui_main.c:803 client/gui-sdl/gui_main.c:818
 #, fuzzy
 msgid "SDL Client for Freeciv"
 msgstr "Bonvenon al Freeciv"
 
-#: client/gui-sdl/gui_main.c:824
+#: client/gui-sdl/gui_main.c:830
 msgid "Initializing Client"
 msgstr "Preparado de la kliento"
 
-#: client/gui-sdl/gui_main.c:835
+#: client/gui-sdl/gui_main.c:841
 msgid "Waiting for the beginning of the game"
 msgstr "Atendante la komencon de la ludo"
 
@@ -10141,17 +10141,17 @@ msgstr "ET"
 msgid "Help : Improvements"
 msgstr "Helpilo: Urbaj plibonigoj"
 
-#: client/gui-sdl/helpdlg.c:427 client/gui-sdl2/helpdlg.c:432
+#: client/gui-sdl/helpdlg.c:427 client/gui-sdl2/helpdlg.c:440
 #: tools/civmanual.c:511
 #, fuzzy
 msgid "?req:None"
 msgstr "Neniu"
 
-#: client/gui-sdl/helpdlg.c:453 client/gui-sdl2/helpdlg.c:459
+#: client/gui-sdl/helpdlg.c:453 client/gui-sdl2/helpdlg.c:467
 msgid "Never"
 msgstr "Neniam"
 
-#: client/gui-sdl/helpdlg.c:659 client/gui-sdl2/helpdlg.c:664
+#: client/gui-sdl/helpdlg.c:659 client/gui-sdl2/helpdlg.c:676
 msgid "Help : Units"
 msgstr "Helpilo: Unuoj"
 
@@ -10160,8 +10160,8 @@ msgstr "Helpilo: Unuoj"
 #: client/gui-sdl/wldlg.c:1444 client/gui-sdl/wldlg.c:1450
 #: client/gui-sdl/wldlg.c:1469 client/gui-sdl/wldlg.c:1474
 #: client/gui-sdl/wldlg.c:1565 client/gui-sdl/wldlg.c:1573
-#: client/gui-sdl/wldlg.c:1583 client/gui-sdl2/helpdlg.c:804
-#: client/gui-sdl2/helpdlg.c:816 client/gui-sdl2/wldlg.c:1461
+#: client/gui-sdl/wldlg.c:1583 client/gui-sdl2/helpdlg.c:818
+#: client/gui-sdl2/helpdlg.c:830 client/gui-sdl2/wldlg.c:1461
 #: client/gui-sdl2/wldlg.c:1467 client/gui-sdl2/wldlg.c:1475
 #: client/gui-sdl2/wldlg.c:1481 client/gui-sdl2/wldlg.c:1500
 #: client/gui-sdl2/wldlg.c:1505 client/gui-sdl2/wldlg.c:1597
@@ -10172,37 +10172,37 @@ msgstr[0] "produktado"
 msgstr[1] "produktadoj"
 
 #: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:824
-#: client/gui-sdl2/helpdlg.c:808 client/gui-sdl2/helpdlg.c:831
+#: client/gui-sdl2/helpdlg.c:822 client/gui-sdl2/helpdlg.c:845
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "civitano"
 msgstr[1] "civitanoj"
 
-#: client/gui-sdl/helpdlg.c:814 client/gui-sdl2/helpdlg.c:821
+#: client/gui-sdl/helpdlg.c:814 client/gui-sdl2/helpdlg.c:835
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "nutraĵo"
 msgstr[1] "nutraĵo"
 
-#: client/gui-sdl/helpdlg.c:819 client/gui-sdl2/helpdlg.c:826
+#: client/gui-sdl/helpdlg.c:819 client/gui-sdl2/helpdlg.c:840
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "oro"
 msgstr[1] "oro"
 
-#: client/gui-sdl/helpdlg.c:880 client/gui-sdl2/helpdlg.c:887
+#: client/gui-sdl/helpdlg.c:880 client/gui-sdl2/helpdlg.c:903
 msgid "?utype:None"
 msgstr ""
 
-#: client/gui-sdl/helpdlg.c:1072 client/gui-sdl2/helpdlg.c:1081
+#: client/gui-sdl/helpdlg.c:1072 client/gui-sdl2/helpdlg.c:1098
 msgid "( with "
 msgstr "( kun "
 
-#: client/gui-sdl/helpdlg.c:1075 client/gui-sdl2/helpdlg.c:1084
+#: client/gui-sdl/helpdlg.c:1075 client/gui-sdl2/helpdlg.c:1101
 msgid " )"
 msgstr " )"
 
-#: client/gui-sdl/helpdlg.c:1919 client/gui-sdl2/helpdlg.c:1928
+#: client/gui-sdl/helpdlg.c:1936 client/gui-sdl2/helpdlg.c:1965
 msgid "Help : Advances Tree"
 msgstr "Helpilo: Arbumo pri la avanaĵoj"
 
@@ -10211,18 +10211,18 @@ msgstr "Helpilo: Arbumo pri la avanaĵoj"
 msgid "Foreign Intelligence Report"
 msgstr "Raporto pri fora spionado"
 
-#: client/gui-sdl/inteldlg.c:277 client/gui-sdl2/inteldlg.c:297
+#: client/gui-sdl/inteldlg.c:277 client/gui-sdl2/inteldlg.c:298
 #, c-format
 msgid "Intelligence Information about the %s Spaceship"
 msgstr "Informoj de la spionoj pri la %s Kosmoŝipo"
 
-#: client/gui-sdl/inteldlg.c:285 client/gui-sdl2/inteldlg.c:305
+#: client/gui-sdl/inteldlg.c:285 client/gui-sdl2/inteldlg.c:306
 #: client/gui-xaw/inteldlg.c:199
 #, c-format
 msgid "Intelligence Information for the %s Empire"
 msgstr "Informoj de la spionoj por la %s Imperio"
 
-#: client/gui-sdl/inteldlg.c:309 client/gui-sdl2/inteldlg.c:329
+#: client/gui-sdl/inteldlg.c:309 client/gui-sdl2/inteldlg.c:330
 #, fuzzy, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
@@ -10235,7 +10235,7 @@ msgstr ""
 "Impostoj: %d%% Scienco: %d%% Lukso: %d%%\n"
 "Studado: %s(%d/%d)"
 
-#: client/gui-sdl/inteldlg.c:323 client/gui-sdl2/inteldlg.c:343
+#: client/gui-sdl/inteldlg.c:323 client/gui-sdl2/inteldlg.c:344
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
@@ -10248,7 +10248,7 @@ msgstr ""
 "Impostoj: %d%% Scienco: %d%% Lukso: %d%%\n"
 "Studado: %s(%d/%d)"
 
-#: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:361
+#: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:362
 #, fuzzy, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
@@ -10261,7 +10261,7 @@ msgstr ""
 "Impostoj: %d%% Scienco: %d%% Lukso: %d%%\n"
 "Studado: nekonata"
 
-#: client/gui-sdl/inteldlg.c:409 client/gui-sdl2/inteldlg.c:429
+#: client/gui-sdl/inteldlg.c:409 client/gui-sdl2/inteldlg.c:431
 msgid "Their techs that we don't have :"
 msgstr "Iliaj teĥnologioj kiujn ni ne havas:"
 
@@ -10270,7 +10270,7 @@ msgid "Show Unit Info Window"
 msgstr "Vidigu fenestron pri unuoj"
 
 #: client/gui-sdl/mapctrl.c:336 client/gui-sdl/mapctrl.c:1434
-#: client/gui-sdl2/mapctrl.c:356 client/gui-sdl2/mapctrl.c:1531
+#: client/gui-sdl2/mapctrl.c:356 client/gui-sdl2/mapctrl.c:1532
 msgid "Hide Unit Info Window"
 msgstr "Kaŝu fenestron pri unuoj"
 
@@ -10280,7 +10280,7 @@ msgid "Show Mini Map"
 msgstr "Vidigu mapeton"
 
 #: client/gui-sdl/mapctrl.c:464 client/gui-sdl/mapctrl.c:1644
-#: client/gui-sdl2/mapctrl.c:486 client/gui-sdl2/mapctrl.c:1756
+#: client/gui-sdl2/mapctrl.c:486 client/gui-sdl2/mapctrl.c:1757
 #, fuzzy
 msgid "Hide Mini Map"
 msgstr "Kaŝu mapeton"
@@ -10325,56 +10325,56 @@ msgstr "Larĝo"
 msgid "Height"
 msgstr "Alto"
 
-#: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:310
-#: client/gui-sdl/mapview.c:313 client/gui-sdl2/mapctrl.c:1509
-#: client/gui-sdl2/mapview.c:325 client/gui-sdl2/mapview.c:328
+#: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:309
+#: client/gui-sdl/mapview.c:312 client/gui-sdl2/mapctrl.c:1509
+#: client/gui-sdl2/mapview.c:324 client/gui-sdl2/mapview.c:327
 msgid "Revolution"
 msgstr "Revolucio"
 
-#: client/gui-sdl/mapctrl.c:1582 client/gui-sdl2/mapctrl.c:1695
+#: client/gui-sdl/mapctrl.c:1582 client/gui-sdl2/mapctrl.c:1696
 msgid "or"
 msgstr "aŭ"
 
-#: client/gui-sdl/mapctrl.c:1608 client/gui-sdl2/mapctrl.c:1721
+#: client/gui-sdl/mapctrl.c:1608 client/gui-sdl2/mapctrl.c:1722
 msgid "Hide Messages"
 msgstr "Kaŝu mesaĝojn"
 
-#: client/gui-sdl/mapview.c:150
+#: client/gui-sdl/mapview.c:149
 msgid "The SDL event buffer is full; you may see drawing errors as a result."
 msgstr ""
 
-#: client/gui-sdl/mapview.c:314 client/gui-sdl2/mapview.c:329
+#: client/gui-sdl/mapview.c:313 client/gui-sdl2/mapview.c:328
 #, fuzzy
 msgid "?gov:None"
 msgstr "Neniu"
 
-#: client/gui-sdl/mapview.c:418 client/gui-sdl2/mapview.c:431
+#: client/gui-sdl/mapview.c:417 client/gui-sdl2/mapview.c:426
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr "%s Populacio: %s  Jaro: %s  Oro %d "
 
-#: client/gui-sdl/mapview.c:426 client/gui-sdl2/mapview.c:439
+#: client/gui-sdl/mapview.c:425 client/gui-sdl2/mapview.c:434
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s Populacio: %s  Jaro: %s  Oro %d Imp.: %d Lukso: %d Sci.: %d "
 
-#: client/gui-sdl/mapview.c:577 client/gui-sdl2/mapview.c:594 client/text.c:146
+#: client/gui-sdl/mapview.c:576 client/gui-sdl2/mapview.c:595 client/text.c:146
 msgid "?nation:Hostile"
 msgstr "?nation:Malamika"
 
-#: client/gui-sdl/mapview.c:579 client/gui-sdl2/mapview.c:596 client/text.c:148
+#: client/gui-sdl/mapview.c:578 client/gui-sdl2/mapview.c:597 client/text.c:148
 msgid "?nation:Peaceful"
 msgstr "?nation:Paca"
 
-#: client/gui-sdl/mapview.c:579 client/gui-sdl2/mapview.c:596 client/text.c:148
+#: client/gui-sdl/mapview.c:578 client/gui-sdl2/mapview.c:597 client/text.c:148
 msgid "?nation:Friendly"
 msgstr "?nation:Amika"
 
-#: client/gui-sdl/mapview.c:580 client/gui-sdl2/mapview.c:597 client/text.c:149
+#: client/gui-sdl/mapview.c:579 client/gui-sdl2/mapview.c:598 client/text.c:149
 msgid "?nation:Mysterious"
 msgstr "?nation:Mistera"
 
-#: client/gui-sdl/mapview.c:582 client/gui-sdl2/mapview.c:600
+#: client/gui-sdl/mapview.c:581 client/gui-sdl2/mapview.c:601
 msgid ""
 "\n"
 "Our Territory"
@@ -10382,7 +10382,7 @@ msgstr ""
 "\n"
 "Nia Teritorio"
 
-#: client/gui-sdl/mapview.c:591 client/gui-sdl2/mapview.c:611
+#: client/gui-sdl/mapview.c:590 client/gui-sdl2/mapview.c:612
 #, c-format
 msgid ""
 "\n"
@@ -10397,7 +10397,7 @@ msgstr[1] ""
 "\n"
 "%s teritorio (%d vicoj de pafĉesigo)"
 
-#: client/gui-sdl/mapview.c:597 client/gui-sdl2/mapview.c:619
+#: client/gui-sdl/mapview.c:596 client/gui-sdl2/mapview.c:620
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -10412,7 +10412,7 @@ msgstr[1] ""
 "\n"
 "%s teritorio (%d vicoj de pafĉesigo)"
 
-#: client/gui-sdl/mapview.c:601 client/gui-sdl2/mapview.c:624
+#: client/gui-sdl/mapview.c:600 client/gui-sdl2/mapview.c:625
 #, c-format
 msgid ""
 "\n"
@@ -10421,7 +10421,7 @@ msgstr ""
 "\n"
 "Teritorio de la %s %s"
 
-#: client/gui-sdl/mapview.c:606 client/gui-sdl2/mapview.c:629
+#: client/gui-sdl/mapview.c:605 client/gui-sdl2/mapview.c:630
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -10429,28 +10429,28 @@ msgstr ""
 "\n"
 "Ne postulita teritorio"
 
-#: client/gui-sdl/mapview.c:617 client/gui-sdl/mapview.c:618
-#: client/gui-sdl2/mapview.c:639 client/gui-sdl2/mapview.c:640
+#: client/gui-sdl/mapview.c:616 client/gui-sdl/mapview.c:617
+#: client/gui-sdl2/mapview.c:640 client/gui-sdl2/mapview.c:641
 msgid "?city:Neutral"
 msgstr "?city:Neŭtrala"
 
-#: client/gui-sdl/mapview.c:617 client/gui-sdl2/mapview.c:639 client/text.c:151
+#: client/gui-sdl/mapview.c:616 client/gui-sdl2/mapview.c:640 client/text.c:151
 msgid "?city:Hostile"
 msgstr "?city:Malamika"
 
-#: client/gui-sdl/mapview.c:618 client/gui-sdl2/mapview.c:640 client/text.c:153
+#: client/gui-sdl/mapview.c:617 client/gui-sdl2/mapview.c:641 client/text.c:153
 msgid "?city:Peaceful"
 msgstr "?city:Paca"
 
-#: client/gui-sdl/mapview.c:619 client/gui-sdl2/mapview.c:641 client/text.c:153
+#: client/gui-sdl/mapview.c:618 client/gui-sdl2/mapview.c:642 client/text.c:153
 msgid "?city:Friendly"
 msgstr "?city:Amika"
 
-#: client/gui-sdl/mapview.c:619 client/gui-sdl2/mapview.c:641 client/text.c:153
+#: client/gui-sdl/mapview.c:618 client/gui-sdl2/mapview.c:642 client/text.c:153
 msgid "?city:Mysterious"
 msgstr "?city:Mistera"
 
-#: client/gui-sdl/mapview.c:622 client/gui-sdl2/mapview.c:644
+#: client/gui-sdl/mapview.c:621 client/gui-sdl2/mapview.c:645
 #, c-format
 msgid ""
 "\n"
@@ -10459,11 +10459,11 @@ msgstr ""
 "\n"
 "Urbo de %s"
 
-#: client/gui-sdl/mapview.c:636 client/gui-sdl2/mapview.c:658
+#: client/gui-sdl/mapview.c:635 client/gui-sdl2/mapview.c:659
 msgid "?blistbegin: with "
 msgstr "?blistbegin: kun "
 
-#: client/gui-sdl/mapview.c:638 client/gui-sdl2/mapview.c:660
+#: client/gui-sdl/mapview.c:637 client/gui-sdl2/mapview.c:661
 #: data/civ1/buildings.ruleset:76 data/civ2/buildings.ruleset:103
 #: data/classic/buildings.ruleset:138 data/experimental/buildings.ruleset:143
 #: data/civ2civ3/buildings.ruleset:226 data/multiplayer/buildings.ruleset:164
@@ -10471,21 +10471,21 @@ msgstr "?blistbegin: kun "
 msgid "Barracks"
 msgstr "Kazernoj"
 
-#: client/gui-sdl/mapview.c:640 client/gui-sdl/mapview.c:646
-#: client/gui-sdl/mapview.c:652 client/gui-sdl2/mapview.c:662
-#: client/gui-sdl2/mapview.c:668 client/gui-sdl2/mapview.c:674
+#: client/gui-sdl/mapview.c:639 client/gui-sdl/mapview.c:645
+#: client/gui-sdl/mapview.c:651 client/gui-sdl2/mapview.c:663
+#: client/gui-sdl2/mapview.c:669 client/gui-sdl2/mapview.c:675
 #: client/helpdata.c:6366 client/helpdata.c:6374
 msgid "?blistmore:, "
 msgstr "?blistmore:, "
 
-#: client/gui-sdl/mapview.c:650 client/gui-sdl2/mapview.c:672
+#: client/gui-sdl/mapview.c:649 client/gui-sdl2/mapview.c:673
 #: data/civ2/buildings.ruleset:28 data/classic/buildings.ruleset:61
 #: data/experimental/buildings.ruleset:63 data/civ2civ3/buildings.ruleset:61
 #: data/multiplayer/buildings.ruleset:60 data/sandbox/buildings.ruleset:61
 msgid "Airport"
 msgstr "Flughaveno"
 
-#: client/gui-sdl/mapview.c:656 client/gui-sdl2/mapview.c:678
+#: client/gui-sdl/mapview.c:655 client/gui-sdl2/mapview.c:679
 #: data/civ1/buildings.ruleset:182 data/civ2/buildings.ruleset:213
 #: data/classic/buildings.ruleset:252 data/experimental/buildings.ruleset:257
 #: data/civ2civ3/buildings.ruleset:338 data/multiplayer/buildings.ruleset:278
@@ -10493,12 +10493,12 @@ msgstr "Flughaveno"
 msgid "City Walls"
 msgstr "Murzono"
 
-#: client/gui-sdl/mapview.c:659 client/gui-sdl2/mapview.c:681
+#: client/gui-sdl/mapview.c:658 client/gui-sdl2/mapview.c:682
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:667 client/gui-sdl2/mapview.c:689
+#: client/gui-sdl/mapview.c:666 client/gui-sdl2/mapview.c:690
 #, c-format
 msgid ""
 "\n"
@@ -10507,7 +10507,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl/mapview.c:677 client/gui-sdl2/mapview.c:698
+#: client/gui-sdl/mapview.c:676 client/gui-sdl2/mapview.c:699
 #, c-format
 msgid ""
 "\n"
@@ -10516,11 +10516,11 @@ msgstr ""
 "\n"
 "Nutraĵo/Prod/Kom: %s"
 
-#: client/gui-sdl/mapview.c:923 client/gui-sdl2/mapview.c:942
+#: client/gui-sdl/mapview.c:922 client/gui-sdl2/mapview.c:943
 msgid "End of Turn"
 msgstr "Fino de la vico"
 
-#: client/gui-sdl/mapview.c:923 client/gui-sdl2/mapview.c:942
+#: client/gui-sdl/mapview.c:922 client/gui-sdl2/mapview.c:943
 msgid "Press"
 msgstr "Premu"
 
@@ -10655,50 +10655,51 @@ msgid "Local Options"
 msgstr "Lokaj opcioj"
 
 #: client/gui-sdl/optiondlg.c:326 client/gui-sdl/optiondlg.c:798
-#: client/gui-sdl2/optiondlg.c:331 client/gui-sdl2/optiondlg.c:809
+#: client/gui-sdl2/optiondlg.c:331 client/gui-sdl2/optiondlg.c:817
 #, fuzzy
 msgid "Server options"
 msgstr "Foraj opcioj"
 
-#: client/gui-sdl/optiondlg.c:789 client/gui-sdl2/optiondlg.c:800
+#: client/gui-sdl/optiondlg.c:789 client/gui-sdl2/optiondlg.c:808
 #, fuzzy
 msgid "Local options"
 msgstr "Lokaj opcioj"
 
-#: client/gui-sdl/optiondlg.c:809 client/gui-sdl2/optiondlg.c:820
+#: client/gui-sdl/optiondlg.c:809 client/gui-sdl2/optiondlg.c:828
 #: client/gui-xaw/menu.c:132 data/Freeciv.in:1989
 msgid "Worklists"
 msgstr "Laborlisto"
 
-#: client/gui-sdl/optiondlg.c:819 client/gui-sdl2/optiondlg.c:830
+#: client/gui-sdl/optiondlg.c:819 client/gui-sdl2/optiondlg.c:839
 #, fuzzy
 msgid "Save Local Options"
 msgstr "Lokaj opcioj"
 
-#: client/gui-sdl/optiondlg.c:838 client/gui-sdl2/optiondlg.c:849
+#: client/gui-sdl/optiondlg.c:838 client/gui-sdl2/optiondlg.c:859
 #, fuzzy
 msgid "Help Browser"
 msgstr "Helpilo pri Freeciv"
 
-#: client/gui-sdl/optiondlg.c:849 client/gui-sdl2/optiondlg.c:860
+#: client/gui-sdl/optiondlg.c:849 client/gui-sdl2/optiondlg.c:871
 msgid "Leave Game"
 msgstr "Forlasu la ludon"
 
-#: client/gui-sdl/optiondlg.c:999 client/gui-sdl2/optiondlg.c:1011
+#: client/gui-sdl/optiondlg.c:999 client/gui-sdl2/optiondlg.c:1024
 #, fuzzy
 msgid "Apply changes"
 msgstr "Apliku unufoje"
 
-#: client/gui-sdl/optiondlg.c:1113 client/gui-sdl2/optiondlg.c:1129
+#: client/gui-sdl/optiondlg.c:1113 client/gui-sdl2/optiondlg.c:1142
 #: client/gui-xaw/wldlg.c:659
 msgid "empty worklist"
 msgstr "malplena laborlisto"
 
-#: client/gui-sdl/optiondlg.c:1217 client/gui-sdl2/optiondlg.c:1234
+#: client/gui-sdl/optiondlg.c:1217 client/gui-sdl2/optiondlg.c:1248
 msgid "Add new worklist"
 msgstr "Aldonu novan laborliston"
 
 #. TRANS: Freeciv 2.4.0
+#. TRANS: Freeciv 3.2.0
 #: client/gui-sdl/pages.c:154 client/gui-sdl2/pages.c:161
 #, fuzzy, c-format
 msgid "Freeciv %s"
@@ -10711,19 +10712,19 @@ msgstr "Freeciv"
 msgid "%s client"
 msgstr "%s kliento"
 
-#: client/gui-sdl/pages.c:183 client/gui-sdl2/pages.c:189
+#: client/gui-sdl/pages.c:183 client/gui-sdl2/pages.c:190
 msgid "Start New Game"
 msgstr "Startigu novan ludon"
 
-#: client/gui-sdl/pages.c:212 client/gui-sdl2/pages.c:219
+#: client/gui-sdl/pages.c:212 client/gui-sdl2/pages.c:222
 msgid "Join Game"
 msgstr "Aliĝu al ludo"
 
-#: client/gui-sdl/pages.c:226 client/gui-sdl2/pages.c:234
+#: client/gui-sdl/pages.c:226 client/gui-sdl2/pages.c:238
 msgid "Join Pubserver"
 msgstr "Aliĝu al la servilo"
 
-#: client/gui-sdl/pages.c:240 client/gui-sdl2/pages.c:249
+#: client/gui-sdl/pages.c:240 client/gui-sdl2/pages.c:254
 msgid "Join LAN Server"
 msgstr "Aliĝu al la loka reto"
 
@@ -10731,63 +10732,63 @@ msgstr "Aliĝu al la loka reto"
 msgid "SDLClient welcomes you..."
 msgstr "SDLClient bonvenigas vin..."
 
-#: client/gui-sdl/pages.c:331 client/gui-sdl2/pages.c:343
+#: client/gui-sdl/pages.c:331 client/gui-sdl2/pages.c:350
 #: client/gui-xaw/gui_main.c:537
 #, fuzzy, c-format
 msgid "Commit: %s"
 msgstr "Urbo: %s"
 
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
-#: client/gui-sdl/plrdlg.c:432 client/gui-sdl2/plrdlg.c:481
+#: client/gui-sdl/plrdlg.c:432 client/gui-sdl2/plrdlg.c:482
 #: client/plrdlg_common.c:228
 msgid "R.I.P."
 msgstr "R.I.P."
 
-#: client/gui-sdl/plrdlg.c:658 client/gui-sdl2/plrdlg.c:722
+#: client/gui-sdl/plrdlg.c:658 client/gui-sdl2/plrdlg.c:723
 #: client/plrdlg_common.c:312 server/stdinhand.c:3526 server/stdinhand.c:6394
 msgid "AI"
 msgstr "AI"
 
-#: client/gui-sdl/plrdlg.c:662 client/gui-sdl2/plrdlg.c:726
+#: client/gui-sdl/plrdlg.c:662 client/gui-sdl2/plrdlg.c:727
 #: client/plrdlg_common.c:250 client/plrdlg_common.c:259
 msgid "done"
 msgstr "farita"
 
-#: client/gui-sdl/plrdlg.c:664 client/gui-sdl2/plrdlg.c:728
+#: client/gui-sdl/plrdlg.c:664 client/gui-sdl2/plrdlg.c:729
 #: client/plrdlg_common.c:261
 msgid "moving"
 msgstr "movanta"
 
-#: client/gui-sdl/plrdlg.c:667 client/gui-sdl2/plrdlg.c:731
+#: client/gui-sdl/plrdlg.c:667 client/gui-sdl2/plrdlg.c:732
 msgid "disconnected"
 msgstr "malkonektita"
 
-#: client/gui-sdl/repodlgs.c:351 client/gui-sdl2/repodlgs.c:374
+#: client/gui-sdl/repodlgs.c:351 client/gui-sdl2/repodlgs.c:377
 #: common/fc_types.h:696
 msgid "active"
 msgstr "aktiva"
 
-#: client/gui-sdl/repodlgs.c:356 client/gui-sdl2/repodlgs.c:379
+#: client/gui-sdl/repodlgs.c:356 client/gui-sdl2/repodlgs.c:382
 msgid ""
 "under\n"
 "construction"
 msgstr "formiĝanta"
 
-#: client/gui-sdl/repodlgs.c:360 client/gui-sdl2/repodlgs.c:383
+#: client/gui-sdl/repodlgs.c:360 client/gui-sdl2/repodlgs.c:386
 msgid ""
 "soonest\n"
 "completion"
 msgstr "finigota"
 
-#: client/gui-sdl/repodlgs.c:364 client/gui-sdl2/repodlgs.c:387
+#: client/gui-sdl/repodlgs.c:364 client/gui-sdl2/repodlgs.c:390
 msgid "Total"
 msgstr "Sumo"
 
-#: client/gui-sdl/repodlgs.c:375 client/gui-sdl2/repodlgs.c:398
+#: client/gui-sdl/repodlgs.c:375 client/gui-sdl2/repodlgs.c:401
 msgid "Units Report"
 msgstr "Raporto pri unuoj"
 
-#: client/gui-sdl/repodlgs.c:1549 client/gui-sdl2/repodlgs.c:1605
+#: client/gui-sdl/repodlgs.c:1549 client/gui-sdl2/repodlgs.c:1624
 #, c-format
 msgid ""
 "We have %d of %s\n"
@@ -10798,68 +10799,68 @@ msgstr ""
 "(sumo estas : %d)\n"
 "Ni povas vendi %d el ili por %d oraj moneroj."
 
-#: client/gui-sdl/repodlgs.c:1556 client/gui-sdl2/repodlgs.c:1612
+#: client/gui-sdl/repodlgs.c:1556 client/gui-sdl2/repodlgs.c:1631
 #, c-format
 msgid "We can't sell any %s in this turn."
 msgstr "Ni povas vendi neniun %sn dum tiu ĉi vico."
 
-#: client/gui-sdl/repodlgs.c:1561 client/gui-sdl2/repodlgs.c:1616
+#: client/gui-sdl/repodlgs.c:1561 client/gui-sdl2/repodlgs.c:1635
 msgid "Sell It?"
 msgstr "Ĉu vi vendas ĝin?"
 
-#: client/gui-sdl/repodlgs.c:1788 client/gui-sdl2/repodlgs.c:1839
+#: client/gui-sdl/repodlgs.c:1788 client/gui-sdl2/repodlgs.c:1860
 msgid "Economy Report"
 msgstr "Ekonomia raporto"
 
-#: client/gui-sdl/repodlgs.c:1803 client/gui-sdl2/repodlgs.c:1854
+#: client/gui-sdl/repodlgs.c:1803 client/gui-sdl2/repodlgs.c:1875
 msgid "Treasury: "
 msgstr "Ŝtata kaso: "
 
-#: client/gui-sdl/repodlgs.c:1823 client/gui-sdl2/repodlgs.c:1874
+#: client/gui-sdl/repodlgs.c:1823 client/gui-sdl2/repodlgs.c:1895
 msgid "Tax Rate: "
 msgstr "Impostado: "
 
-#: client/gui-sdl/repodlgs.c:1842 client/gui-sdl2/repodlgs.c:1893
+#: client/gui-sdl/repodlgs.c:1842 client/gui-sdl2/repodlgs.c:1914
 msgid "Total Income: "
 msgstr "Enspezo: "
 
-#: client/gui-sdl/repodlgs.c:1860 client/gui-sdl2/repodlgs.c:1911
+#: client/gui-sdl/repodlgs.c:1860 client/gui-sdl2/repodlgs.c:1932
 msgid "Total Cost: "
 msgstr "Elspezo: "
 
-#: client/gui-sdl/repodlgs.c:1877 client/gui-sdl2/repodlgs.c:1928
+#: client/gui-sdl/repodlgs.c:1877 client/gui-sdl2/repodlgs.c:1949
 msgid "Net Income: "
 msgstr "Neta enspezo: "
 
-#: client/gui-sdl/repodlgs.c:1899 client/gui-sdl2/repodlgs.c:1950
+#: client/gui-sdl/repodlgs.c:1899 client/gui-sdl2/repodlgs.c:1971
 #, c-format
 msgid "%s max rate : %d%%"
 msgstr "Maksimuma procento de %s: %d%%"
 
-#: client/gui-sdl/repodlgs.c:1998 client/gui-sdl2/repodlgs.c:2049
+#: client/gui-sdl/repodlgs.c:1998 client/gui-sdl2/repodlgs.c:2070
 #: client/gui-xaw/connectdlg.c:675 data/Freeciv.in:173
 msgid "Update"
 msgstr "Ĝisdatigu"
 
-#: client/gui-sdl/repodlgs.c:2084 client/gui-sdl2/repodlgs.c:2136
+#: client/gui-sdl/repodlgs.c:2084 client/gui-sdl2/repodlgs.c:2157
 msgid "Wonder"
 msgstr "Mirindaĵo"
 
-#: client/gui-sdl/repodlgs.c:2879 client/gui-sdl2/repodlgs.c:2936
+#: client/gui-sdl/repodlgs.c:2879 client/gui-sdl2/repodlgs.c:2957
 msgid "What should we focus on now?"
 msgstr "Kion ni devas enfazi nun?"
 
-#: client/gui-sdl/repodlgs.c:3066 client/gui-sdl2/repodlgs.c:3124
+#: client/gui-sdl/repodlgs.c:3066 client/gui-sdl2/repodlgs.c:3146
 msgid "Select target :"
 msgstr "Elektu celon:"
 
-#: client/gui-sdl/repodlgs.c:3135 client/gui-sdl2/repodlgs.c:3193
+#: client/gui-sdl/repodlgs.c:3135 client/gui-sdl2/repodlgs.c:3215
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "paŝo"
 msgstr[1] "paŝoj"
 
-#: client/gui-sdl/repodlgs.c:3429 client/gui-sdl2/repodlgs.c:3500
+#: client/gui-sdl/repodlgs.c:3429 client/gui-sdl2/repodlgs.c:3522
 #: client/gui-xaw/repodlgs.c:1197
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
@@ -10867,12 +10868,12 @@ msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: La %s de %s atingis sume %d poenton\n"
 msgstr[1] "%2d: La %s de %s atingis sume %d poentojn\n"
 
-#: client/gui-sdl/repodlgs.c:3436 client/gui-sdl2/repodlgs.c:3507
+#: client/gui-sdl/repodlgs.c:3436 client/gui-sdl2/repodlgs.c:3529
 #: client/gui-xaw/repodlgs.c:1204
 msgid "Final Report:"
 msgstr "Fina raporto:"
 
-#: client/gui-sdl/repodlgs.c:3437 client/gui-sdl2/repodlgs.c:3508
+#: client/gui-sdl/repodlgs.c:3437 client/gui-sdl2/repodlgs.c:3530
 #: client/gui-xaw/repodlgs.c:1205
 msgid "The Greatest Civilizations in the world."
 msgstr "La Plej Grandaj Civilizoj en la mondo."
@@ -10962,6 +10963,7 @@ msgstr ""
 "estas finita!"
 
 #. TRANS: length of worklist
+#. TRANS: Length of worklist
 #: client/gui-sdl/wldlg.c:994 client/gui-sdl/wldlg.c:1112
 #: client/gui-sdl2/wldlg.c:1020 client/gui-sdl2/wldlg.c:1136
 #, fuzzy, c-format
@@ -11093,16 +11095,16 @@ msgstr "Estas neeble prepari la SDL_ttf bibliotekon: %s"
 msgid "SDL2 Client for Freeciv"
 msgstr "Bonvenon al Freeciv"
 
-#: client/gui-sdl2/gui_main.c:956
+#: client/gui-sdl2/gui_main.c:962
 msgid "Migrating options from sdl to sdl2 client"
 msgstr ""
 
-#: client/gui-sdl2/mapview.c:161
+#: client/gui-sdl2/mapview.c:160
 #, fuzzy, c-format
 msgid "Failed to add events to SDL2 event buffer: %s"
 msgstr "%s malsukcesis konekti kun iu ajn ludanto."
 
-#: client/gui-sdl2/pages.c:333
+#: client/gui-sdl2/pages.c:340
 #, fuzzy
 msgid "SDL2-client welcomes you..."
 msgstr "SDLClient bonvenigas vin..."
@@ -15102,19 +15104,19 @@ msgstr "Kopiu %sn en la poŝon."
 msgid "Clipboard is empty."
 msgstr "La poŝo estas malplena."
 
-#: client/mapview_common.c:4039
+#: client/mapview_common.c:4065
 msgid "ISO|Hex"
 msgstr ""
 
-#: client/mapview_common.c:4041 common/fc_types.h:309
+#: client/mapview_common.c:4067 common/fc_types.h:309
 msgid "ISO"
 msgstr ""
 
-#: client/mapview_common.c:4044 common/fc_types.h:311
+#: client/mapview_common.c:4070 common/fc_types.h:311
 msgid "Hex"
 msgstr ""
 
-#: client/mapview_common.c:4047 client/tilespec.h:49
+#: client/mapview_common.c:4073 client/tilespec.h:49
 #, fuzzy
 msgid "Overhead"
 msgstr "Guberniestro"
@@ -16560,35 +16562,35 @@ msgstr "Reto"
 msgid "Font"
 msgstr "Tiparo"
 
-#: client/options.c:5098
+#: client/options.c:5102
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:5153 client/options.c:5205
+#: client/options.c:5157 client/options.c:5209
 msgid "Cannot find your home directory"
 msgstr "Estas neeble trovi vian hejm-dosierujon"
 
-#: client/options.c:5226 client/options.c:5248 client/options.c:5264
+#: client/options.c:5230 client/options.c:5252 client/options.c:5268
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr ""
 
-#: client/options.c:5741
+#: client/options.c:5745
 #, fuzzy
 msgid "Didn't find the option file. Creating a new one."
 msgstr "Estas neeble trovi irvojon por la alvenpunkto!"
 
-#: client/options.c:5759 client/options.c:5972
+#: client/options.c:5763 client/options.c:5976
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "La konservo malsukcesis, estas neeble skribi en la dosiero %s"
 
-#: client/options.c:5761 client/options.c:5974
+#: client/options.c:5765 client/options.c:5978
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "La agordaĵoj estas konservitaj en la dosiero %s"
 
-#: client/options.c:5909
+#: client/options.c:5913
 msgid "Save failed, cannot find a filename."
 msgstr "La konservo malsukcesis, estas neeble trovi dosiernomon."
 
@@ -16622,26 +16624,26 @@ msgstr ""
 msgid "Welcome"
 msgstr "%s Bonvenon"
 
-#: client/packhand.c:1985 client/tilespec.c:1365
+#: client/packhand.c:2035 client/tilespec.c:1365
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
 
-#: client/packhand.c:2029
+#: client/packhand.c:2079
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 
-#: client/packhand.c:2032
+#: client/packhand.c:2082
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr ""
 
-#: client/packhand.c:2303
+#: client/packhand.c:2353
 #, fuzzy
 msgid "AI mode is now ON."
 msgstr "La IA-moduso nun estas %s."
 
-#: client/packhand.c:2309
+#: client/packhand.c:2359
 #, fuzzy
 msgid "AI mode is now OFF."
 msgstr "La IA-moduso nun estas %s."
@@ -17188,7 +17190,7 @@ msgstr "(Alklaku por havi pli informojn)"
 msgid "%s People"
 msgstr "%s Popolo"
 
-#: client/text.c:982 server/gamehand.c:890
+#: client/text.c:982 server/gamehand.c:891
 #, c-format
 msgid "Year: %s"
 msgstr "Jaro: %s"
@@ -18021,12 +18023,12 @@ msgstr "?obsolete:A"
 msgid "?redundant:*"
 msgstr "?redundant:*"
 
-#: common/clientutils.c:271
+#: common/clientutils.c:277
 #, c-format
 msgid "Pillage %s(%d)"
 msgstr "Disrabado %s(%d)"
 
-#: common/clientutils.c:272
+#: common/clientutils.c:278
 #, fuzzy, c-format
 msgid "Clean %s(%d)"
 msgstr "%s en %s (%s)\n"
@@ -18767,7 +18769,7 @@ msgstr ""
 #. * "define" in the first column are server keywords that must not
 #. * be translated. Do not translate keywords in single quotes, but
 #. * strings in <angle brackets> should be translated.
-#: common/mapimg.c:688
+#: common/mapimg.c:692
 #, c-format
 msgid ""
 "This command controls the creation of map images. Supported arguments:\n"
@@ -18817,247 +18819,247 @@ msgid ""
 " 'zoom=1:map=t:show=none:format=magick|jpg'"
 msgstr ""
 
-#: common/mapimg.c:774
+#: common/mapimg.c:778
 #, fuzzy
 msgid "no map definition"
 msgstr "Listo pri unuaj unuoj de la ludantoj"
 
-#: common/mapimg.c:780
+#: common/mapimg.c:784
 #, c-format
 msgid "map definition string too long (max %d characters)"
 msgstr ""
 
-#: common/mapimg.c:786
+#: common/mapimg.c:790
 #, c-format
 msgid "maximum number of map definitions reached (%d)"
 msgstr ""
 
-#: common/mapimg.c:794
+#: common/mapimg.c:798
 #, fuzzy, c-format
 msgid "duplicate of map image definition %d ('%s')"
 msgstr "Nevalida uzantonomo '%s'"
 
-#: common/mapimg.c:815 common/mapimg.c:819
+#: common/mapimg.c:819 common/mapimg.c:823
 #, fuzzy, c-format
 msgid "unknown map option: '%s'"
 msgstr "La opcio '%s' estas nekonata."
 
-#: common/mapimg.c:835
+#: common/mapimg.c:839
 #, c-format
 msgid "'show=%s' but no player name 'plrname'"
 msgstr ""
 
-#: common/mapimg.c:842
+#: common/mapimg.c:846
 #, c-format
 msgid "'show=%s' but no player id 'plrid'"
 msgstr ""
 
-#: common/mapimg.c:849
+#: common/mapimg.c:853
 #, c-format
 msgid "'show=%s' but no player bitvector 'plrbv'"
 msgstr ""
 
-#: common/mapimg.c:1002
+#: common/mapimg.c:1006
 #, fuzzy, c-format
 msgid "invalid character in bitvector: '%c' (%s)"
 msgstr "Nevalida uzantonomo '%s'"
 
-#: common/mapimg.c:1023
+#: common/mapimg.c:1027
 #, c-format
 msgid "'plrid' should be between 0 and %d"
 msgstr ""
 
-#: common/mapimg.c:1039
+#: common/mapimg.c:1043
 #, fuzzy, c-format
 msgid "player name too long: '%s' (max: %lu)"
 msgstr ""
 "La ĉeno estas tro longa.  Uzo:\n"
 "%s"
 
-#: common/mapimg.c:1069
+#: common/mapimg.c:1073
 msgid "'turns' should be between 0 and 99"
 msgstr ""
 
-#: common/mapimg.c:1087
+#: common/mapimg.c:1091
 msgid "'zoom' factor should be between 1 and 5"
 msgstr ""
 
-#: common/mapimg.c:1106
+#: common/mapimg.c:1110
 #, fuzzy, c-format
 msgid "invalid value for option '%s': '%s'"
 msgstr "Nevalida uzantonomo '%s'"
 
-#: common/mapimg.c:1130
+#: common/mapimg.c:1134
 msgid "map definition not checked (game not started)"
 msgstr ""
 
-#: common/mapimg.c:1134
+#: common/mapimg.c:1138
 #, fuzzy, c-format
 msgid "map definition deactivated: %s"
 msgstr "Atomvintro okazis!"
 
-#: common/mapimg.c:1234
+#: common/mapimg.c:1238
 #, fuzzy, c-format
 msgid "Detailed information for map image definition %d\n"
 msgstr "Nevalida uzantonomo '%s'"
 
-#: common/mapimg.c:1237
+#: common/mapimg.c:1241
 #, fuzzy, c-format
 msgid "  - status:                   %s (%s)\n"
 msgstr "Sumoj:                     %9d%9d%9d%9d"
 
-#: common/mapimg.c:1240
+#: common/mapimg.c:1244
 #, fuzzy, c-format
 msgid "  - status:                   %s\n"
 msgstr "Sumoj:                     %9d%9d%9d%9d"
 
-#: common/mapimg.c:1243
+#: common/mapimg.c:1247
 #, c-format
 msgid "  - file name string:         %s\n"
 msgstr ""
 
-#: common/mapimg.c:1245
+#: common/mapimg.c:1249
 #, c-format
 msgid "  - image toolkit:            %s\n"
 msgstr ""
 
-#: common/mapimg.c:1247
+#: common/mapimg.c:1251
 #, c-format
 msgid "  - image format:             %s\n"
 msgstr ""
 
-#: common/mapimg.c:1249
+#: common/mapimg.c:1253
 #, c-format
 msgid "  - zoom factor:              %d\n"
 msgstr ""
 
-#: common/mapimg.c:1251
+#: common/mapimg.c:1255
 #, fuzzy, c-format
 msgid "  - show area within borders: %s\n"
 msgstr "Desegnu urbostangon"
 
-#: common/mapimg.c:1252 common/mapimg.c:1254 common/mapimg.c:1256
-#: common/mapimg.c:1258 common/mapimg.c:1260 common/mapimg.c:1264
+#: common/mapimg.c:1256 common/mapimg.c:1258 common/mapimg.c:1260
+#: common/mapimg.c:1262 common/mapimg.c:1264 common/mapimg.c:1268
 msgid "yes"
 msgstr "jes"
 
-#: common/mapimg.c:1252 common/mapimg.c:1254 common/mapimg.c:1256
-#: common/mapimg.c:1258 common/mapimg.c:1260 common/mapimg.c:1264
+#: common/mapimg.c:1256 common/mapimg.c:1258 common/mapimg.c:1260
+#: common/mapimg.c:1262 common/mapimg.c:1264 common/mapimg.c:1268
 msgid "no"
 msgstr "ne"
 
-#: common/mapimg.c:1253
+#: common/mapimg.c:1257
 #, c-format
 msgid "  - show borders:             %s\n"
 msgstr ""
 
-#: common/mapimg.c:1255
+#: common/mapimg.c:1259
 #, c-format
 msgid "  - show cities:              %s\n"
 msgstr ""
 
-#: common/mapimg.c:1257
+#: common/mapimg.c:1261
 #, c-format
 msgid "  - show fog of war:          %s\n"
 msgstr ""
 
-#: common/mapimg.c:1259
+#: common/mapimg.c:1263
 #, c-format
 msgid "  - show player knowledge:    %s\n"
 msgstr ""
 
-#: common/mapimg.c:1261
+#: common/mapimg.c:1265
 #, c-format
 msgid "  - show terrain:             %s\n"
 msgstr ""
 
-#: common/mapimg.c:1262
+#: common/mapimg.c:1266
 msgid "full"
 msgstr ""
 
-#: common/mapimg.c:1262
+#: common/mapimg.c:1266
 msgid "basic"
 msgstr ""
 
-#: common/mapimg.c:1263
+#: common/mapimg.c:1267
 #, c-format
 msgid "  - show units:               %s\n"
 msgstr ""
 
-#: common/mapimg.c:1265
+#: common/mapimg.c:1269
 #, c-format
 msgid "  - players included:         %s"
 msgstr ""
 
-#: common/mapimg.c:1275
+#: common/mapimg.c:1279
 #, fuzzy, c-format
 msgid ""
 "\n"
 "  - player name:              %s"
 msgstr "Vojaĝodaŭro:     -     "
 
-#: common/mapimg.c:1279
+#: common/mapimg.c:1283
 #, fuzzy, c-format
 msgid ""
 "\n"
 "  - player id:                %d"
 msgstr "Sumoj:                     %9d%9d%9d%9d"
 
-#: common/mapimg.c:1283
+#: common/mapimg.c:1287
 #, fuzzy, c-format
 msgid ""
 "\n"
 "  - players:                  %s"
 msgstr "Sumoj:                     %9d%9d%9d%9d"
 
-#: common/mapimg.c:1338
+#: common/mapimg.c:1342
 #, fuzzy
 msgid "map not yet created"
 msgstr ", ne preta"
 
-#: common/mapimg.c:1346 common/mapimg.c:1579
+#: common/mapimg.c:1350 common/mapimg.c:1583
 msgid "map definition not checked or error"
 msgstr ""
 
-#: common/mapimg.c:1562
+#: common/mapimg.c:1566
 #, fuzzy, c-format
 msgid "no map definition with id %d"
 msgstr "Atomvintro okazis!"
 
-#: common/mapimg.c:1668
+#: common/mapimg.c:1672
 #, fuzzy, c-format
 msgid "unknown player name: '%s'"
 msgstr "Nomo de la ludanto: %s"
 
-#: common/mapimg.c:1684
+#: common/mapimg.c:1688
 #, fuzzy, c-format
 msgid "invalid player id: %d"
 msgstr "Nevalida argumento %d."
 
-#: common/mapimg.c:1875
+#: common/mapimg.c:1879
 #, c-format
 msgid "Turn: %4d - Year: %10s"
 msgstr ""
 
-#: common/mapimg.c:2044
+#: common/mapimg.c:2048
 #, fuzzy
 msgid "toolkit not defined"
 msgstr "(laborlisto)"
 
-#: common/mapimg.c:2107 common/mapimg.c:2315
+#: common/mapimg.c:2111 common/mapimg.c:2319
 msgid "error generating the file name"
 msgstr ""
 
-#: common/mapimg.c:2281
+#: common/mapimg.c:2285
 #, fuzzy, c-format
 msgid "error saving map image '%s'"
 msgstr "Ŝargante skripton: %s"
 
-#: common/mapimg.c:2309
+#: common/mapimg.c:2313
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr ""
 
-#: common/mapimg.c:2321
+#: common/mapimg.c:2325
 #, fuzzy, c-format
 msgid "could not open file: %s"
 msgstr "Estas neeble malfermi \"%s\"."
@@ -35450,32 +35452,32 @@ msgstr ""
 msgid "The %s worklist is now empty."
 msgstr "La laborlisto de %s estas malplena nun."
 
-#: server/cityturn.c:2093
+#: server/cityturn.c:2096
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s ne povas teni %sn, do la unuo estis dissolvita."
 
-#: server/cityturn.c:2114
+#: server/cityturn.c:2133
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "La civitanoj en %s mortas ĉar ili malsukcesis teni %sn!"
 
-#: server/cityturn.c:2162 server/cityturn.c:2343
+#: server/cityturn.c:2175 server/cityturn.c:2356
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s estas preparanta %sn, kiu ne estas plu disponebla."
 
-#: server/cityturn.c:2201
+#: server/cityturn.c:2214
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "La %s finis konstrui %sn en %s."
 
-#: server/cityturn.c:2208
+#: server/cityturn.c:2221
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s finis produkton de %s."
 
-#: server/cityturn.c:2231
+#: server/cityturn.c:2244
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -35483,127 +35485,127 @@ msgstr[0] "%s plirapidigas la studadon; vi gajnas %d tujan avanaĵon."
 msgstr[1] "%s plirapidigas la studadon; vi gajnas %d tujajn avanaĵojn."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2245
+#: server/cityturn.c:2258
 #, fuzzy, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "La %s aĉetis %sn el %s."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2251
+#: server/cityturn.c:2264
 #, fuzzy, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "La %s aĉetis %sn el %s."
 
-#: server/cityturn.c:2258
+#: server/cityturn.c:2271
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "La %s komencis konstrui kosmoŝipon!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2370
+#: server/cityturn.c:2383
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
 "%s ankoraŭ ne povas produkti %sn. (urba largo: %d, popola kosto de unuo: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2405
+#: server/cityturn.c:2418
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s finis produkton de %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2430
+#: server/cityturn.c:2443
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s kostis %d loĝanton. %s malpligrandiĝis al grando %d."
 msgstr[1] "%s kostis %d loĝantojn. %s malpligrandiĝis al grando %d."
 
-#: server/cityturn.c:2506
+#: server/cityturn.c:2519
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Viaj enspezoj ne permesas al vi bontenadon de %s en %s, do la konstruaĵo "
 "estis vendita!"
 
-#: server/cityturn.c:2595
+#: server/cityturn.c:2608
 #, fuzzy, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Oro estas nesufiĉa. %s estas dissolvitaj"
 
-#: server/cityturn.c:2841 server/cityturn.c:3650
+#: server/cityturn.c:2854 server/cityturn.c:3663
 #, c-format
 msgid "Pollution near %s."
 msgstr "Poluado ĉe %s."
 
-#: server/cityturn.c:3013
+#: server/cityturn.c:3026
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Celebrado por vi en %s."
 
-#: server/cityturn.c:3019
+#: server/cityturn.c:3032
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "La celebrado en %s estas nuligita."
 
-#: server/cityturn.c:3036
+#: server/cityturn.c:3049
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3099
+#: server/cityturn.c:3112
 msgid " Unrest threatens to spread beyond the city."
 msgstr ""
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3106
+#: server/cityturn.c:3119
 #, fuzzy, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "Civitana ribelo en %s."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3111
+#: server/cityturn.c:3124
 #, fuzzy, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "CIVITANA RIBELO PLUDAŬRAS en %s."
 
-#: server/cityturn.c:3117
+#: server/cityturn.c:3130
 #, c-format
 msgid "Order restored in %s."
 msgstr "Publika ordo estis restarigita en %s."
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3129
+#: server/cityturn.c:3142
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "La popolo eksigis vian %s, la nacio ekribelas."
 
-#: server/cityturn.c:3173
+#: server/cityturn.c:3186
 #, fuzzy, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
 "%s ne povas ankoraŭ konstrui %sn kaj ni ne povas forlasi nian nuran urbon."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3204
+#: server/cityturn.c:3217
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s estis forlasita en %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3412
+#: server/cityturn.c:3425
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3419
+#: server/cityturn.c:3432
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -35611,7 +35613,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3424
+#: server/cityturn.c:3437
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -35619,97 +35621,97 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3439
+#: server/cityturn.c:3452
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3446
+#: server/cityturn.c:3459
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3451
+#: server/cityturn.c:3464
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:3504
+#: server/cityturn.c:3517
 #, fuzzy, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s estis forlasita en %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3542
+#: server/cityturn.c:3555
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3548
+#: server/cityturn.c:3561
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3553
+#: server/cityturn.c:3566
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:3644
+#: server/cityturn.c:3657
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%s estis batita per %s."
 
-#: server/cityturn.c:3658
+#: server/cityturn.c:3671
 #, fuzzy, c-format
 msgid "Fallout near %s."
 msgstr "Poluado ĉe %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:3669
+#: server/cityturn.c:3682
 #, fuzzy, c-format
 msgid "%s destroys %s entirely."
 msgstr "Malsatmizero tute detruis %sn."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:3675
+#: server/cityturn.c:3688
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s  kaŭzas malpliigon de loĝantaro en %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3699
+#: server/cityturn.c:3712
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s detruis la %sn en %s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:3714
+#: server/cityturn.c:3727
 #, fuzzy, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Viaj %s detruis la %sn en %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3730
+#: server/cityturn.c:3743
 #, fuzzy, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Produktado de %s altiĝis ĝis %s en %s."
 
-#: server/cityturn.c:3904
+#: server/cityturn.c:3917
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3926
+#: server/cityturn.c:3939
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -37177,83 +37179,83 @@ msgstr "La renkontiĝo kun %s estas nuligita."
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Via diplomato estis senkapigita!"
 
-#: server/diplomats.c:117
+#: server/diplomats.c:118
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
 msgstr "Via %s venenis la akvon en %s."
 
-#: server/diplomats.c:121
+#: server/diplomats.c:122
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "%s estas suspektita pri venenado de la akvon en %s."
 
-#: server/diplomats.c:130
+#: server/diplomats.c:131
 #, fuzzy, c-format
 msgid "Your %s destroyed %s by poisoning its water supply."
 msgstr "Via %s ne povas veneni la akvon en %s."
 
-#: server/diplomats.c:134
+#: server/diplomats.c:135
 #, fuzzy, c-format
 msgid "%s is suspected of destroying %s by poisoning its water supply."
 msgstr "%s estas suspektita pri venenado de la akvon en %s."
 
-#: server/diplomats.c:290
+#: server/diplomats.c:297
 #, fuzzy, c-format
 msgid "You have established an embassy in %s."
 msgstr "Vi senbridigis hordon de barbaroj!"
 
-#: server/diplomats.c:294
+#: server/diplomats.c:301
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "La %s establis ambasadejon en %s."
 
-#: server/diplomats.c:359
+#: server/diplomats.c:366
 #, fuzzy, c-format
 msgid "Your %s's successful sabotage killed the %s %s."
 msgstr "Via %s sukcesis saboti la %sjn %sn."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:366
+#: server/diplomats.c:373
 #, fuzzy, c-format
 msgid "Your %s was killed by %s sabotage!"
 msgstr "Via %s estis atombombita fare de %s."
 
-#: server/diplomats.c:377
+#: server/diplomats.c:384
 #, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "Via %s sukcesis saboti la %sjn %sn."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:384
+#: server/diplomats.c:391
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Via %s estis sabotita de la %s!"
 
 #. TRANS: You already have a Leader.
-#: server/diplomats.c:440
+#: server/diplomats.c:447
 #, fuzzy, c-format
 msgid "You already have a %s."
 msgstr "Vi jam havas urbon nomitan %s."
 
-#: server/diplomats.c:455
+#: server/diplomats.c:462
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "Vi ne havas sufiĉe da oro por subaĉeti la %sjn %sn."
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:486
+#: server/diplomats.c:493
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Via %s sukcesis subaĉeti la %sn."
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:493
+#: server/diplomats.c:500
 #, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Viaj %s estis subaĉetita de la %s."
 
 #. TRANS: Paris was expecting ... Your Spy was caught
-#: server/diplomats.c:650
+#: server/diplomats.c:657
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -37263,7 +37265,7 @@ msgstr ""
 "kaptita kaj ekzekutita."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:657
+#: server/diplomats.c:664
 #, fuzzy, c-format
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
@@ -37271,115 +37273,115 @@ msgid ""
 msgstr "La %sj %s malsukcesi forŝteli teĥnologion el %s."
 
 #. TRANS: Your Spy was caught ... from %s.
-#: server/diplomats.c:666
+#: server/diplomats.c:673
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Via %s estis kaptita dum ŝtelado de teĥnologio de %s."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:673
+#: server/diplomats.c:680
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "La %sj %s malsukcesi forŝteli teĥnologion el %s."
 
-#: server/diplomats.c:691
+#: server/diplomats.c:698
 #, c-format
 msgid "No new technology found in %s."
 msgstr "Neniu nova teĥnologio estis trovita en %s."
 
-#: server/diplomats.c:760
+#: server/diplomats.c:767
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "Vi ne havas sufiĉe da mono por renversi la ordon en %s."
 
-#: server/diplomats.c:777
+#: server/diplomats.c:784
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Via %s estis kaptita dum klopodo por instigi al ribelo!"
 
-#: server/diplomats.c:781
+#: server/diplomats.c:788
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Vi kaptis %sn %sn kiuj klopodis instigi al ribelo en %s!"
 
-#: server/diplomats.c:804
+#: server/diplomats.c:811
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Estis ribelo en %s kaj nun vi havas regadon de la urbo!"
 
-#: server/diplomats.c:807
+#: server/diplomats.c:814
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "%s estas en ribelo, oni suspektas pri influo de %s nacio."
 
-#: server/diplomats.c:894
+#: server/diplomats.c:901
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Via %s estis kaptita dum industria sabotado!"
 
-#: server/diplomats.c:899
+#: server/diplomats.c:906
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Vi kaptis %sn %sn kiu estas plenumanta sabotadon en %s!"
 
-#: server/diplomats.c:930
+#: server/diplomats.c:937
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Via %s trovis nenion saboteblan en %s."
 
-#: server/diplomats.c:987
+#: server/diplomats.c:994
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "Vi ne povas saboti %sn!"
 
-#: server/diplomats.c:998
+#: server/diplomats.c:1005
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Via %s ne trovas la sabotendan %sn en %s."
 
-#: server/diplomats.c:1023
+#: server/diplomats.c:1030
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Via %s sukcesis detrui produktadon de %s en %s."
 
-#: server/diplomats.c:1030
+#: server/diplomats.c:1037
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "La produktado de %s en %s estis detruita, oni suspektis la %sn."
 
-#: server/diplomats.c:1053
+#: server/diplomats.c:1060
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Via %s estis kaptita dum sabotado!"
 
-#: server/diplomats.c:1057
+#: server/diplomats.c:1064
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Vi kaptis %sn %sn dum la sabotado de la %s en %s!"
 
-#: server/diplomats.c:1071
+#: server/diplomats.c:1078
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Viaj %s detruis la %sn en %s."
 
-#: server/diplomats.c:1077
+#: server/diplomats.c:1084
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "La %s detruis la %sn en %s."
 
-#: server/diplomats.c:1160
+#: server/diplomats.c:1167
 #, fuzzy, c-format
 msgid "Your %s was caught attempting to steal gold!"
 msgstr "Via %s estis kaptita dum sabotado!"
 
 #. TRANS: nation, unit, city
-#: server/diplomats.c:1165
+#: server/diplomats.c:1172
 #, fuzzy, c-format
 msgid "You caught %s %s attempting to steal your gold in %s!"
 msgstr "Vi kaptis %sn %sn kiuj klopodis instigi al ribelo en %s!"
 
 #. TRANS: unit, gold, city
-#: server/diplomats.c:1207
+#: server/diplomats.c:1214
 #, fuzzy, c-format
 msgid "Your %s stole %d gold from %s."
 msgid_plural "Your %s stole %d gold from %s."
@@ -37387,7 +37389,7 @@ msgstr[0] "Vi forŝtelis %sn de la %s."
 msgstr[1] "Vi forŝtelis %sn de la %s."
 
 #. TRANS: gold, city, nation
-#: server/diplomats.c:1212
+#: server/diplomats.c:1219
 #, c-format
 msgid "%d gold stolen from %s, %s suspected."
 msgid_plural "%d gold stolen from %s, %s suspected."
@@ -37395,92 +37397,92 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1364
+#: server/diplomats.c:1371
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Malamikaj %s estis mortigitaj de viaj %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1371
+#: server/diplomats.c:1378
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Viaj %s estis mortigitaj, defendante %sn kontraŭ %s."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1378
+#: server/diplomats.c:1385
 #, fuzzy, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "Viaj %s estis mortigitaj, defendante %sn kontraŭ %s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1385
+#: server/diplomats.c:1392
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "Viaj %s estis mortigitaj, defendante %sn kontraŭ %s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1394 server/diplomats.c:1405
+#: server/diplomats.c:1401 server/diplomats.c:1412
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Viaj %s estis mortigitaj dum defendado kontraŭ %s."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1399
+#: server/diplomats.c:1406
 #, fuzzy, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "Viaj %s estis mortigitaj dum defendado kontraŭ %s."
 
-#: server/diplomats.c:1427
+#: server/diplomats.c:1434
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Viaj %s estis mortigitaj de defendantaj %s."
 
-#: server/diplomats.c:1433
+#: server/diplomats.c:1440
 #, fuzzy, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en %s."
 
-#: server/diplomats.c:1438
+#: server/diplomats.c:1445
 #, fuzzy, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en %s."
 
-#: server/diplomats.c:1443
+#: server/diplomats.c:1450
 #, fuzzy, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en %s."
 
-#: server/diplomats.c:1451
+#: server/diplomats.c:1458
 #, fuzzy, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en niaj trupoj."
 
-#: server/diplomats.c:1456
+#: server/diplomats.c:1463
 #, fuzzy, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en niaj trupoj."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1462
+#: server/diplomats.c:1469
 #, fuzzy, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en niaj trupoj."
 
-#: server/diplomats.c:1550
+#: server/diplomats.c:1563
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Via %s plenumis la taskon kaj, sendifekta kaj sekura, revenis al %s."
 
-#: server/diplomats.c:1569
+#: server/diplomats.c:1582
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Via %s estis kaptita post la plenumo de la tasko en %s."
 
-#: server/diplomats.c:1575
+#: server/diplomats.c:1588
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Via %s estis kaptita post la plenumo de la tasko."
@@ -37767,16 +37769,16 @@ msgstr "Estas neeble trovi vian hejm-dosierujon"
 msgid "Didn't find optimal solution for team placement in %d iterations."
 msgstr "Estas neeble trovi irvojon por la alvenpunkto!"
 
-#: server/gamehand.c:866
+#: server/gamehand.c:867
 #, c-format
 msgid "No units placed for %s!"
 msgstr "Neniu unuo estas disponita por %s!"
 
-#: server/gamehand.c:991
+#: server/gamehand.c:992
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 
-#: server/gamehand.c:999
+#: server/gamehand.c:1000
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr ""
 
@@ -44396,13 +44398,13 @@ msgid "%s (needs %0.0f%% in favor)."
 msgstr ""
 
 #. TRANS: "or"-separated string list with one single item.
-#: utility/astring.c:330
+#: utility/astring.c:340
 #, c-format
 msgid "?or-list-single:%s"
 msgstr ""
 
 #. TRANS: "or"-separated string list with 2 items.
-#: utility/astring.c:333
+#: utility/astring.c:343
 #, fuzzy, c-format
 msgid "?or-list:%s or %s"
 msgstr ""
@@ -44411,21 +44413,21 @@ msgstr ""
 
 #. TRANS: start of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:339
+#: utility/astring.c:349
 #, fuzzy, c-format
 msgid "?or-list:%s"
 msgstr "Laborlisto"
 
 #. TRANS: next elements of an "or"-separated string list with more
 #. * than two items.
-#: utility/astring.c:343
+#: utility/astring.c:353
 #, fuzzy, c-format
 msgid "?or-list:, %s"
 msgstr "?clistmore:, %s"
 
 #. TRANS: end of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:347
+#: utility/astring.c:357
 #, fuzzy, c-format
 msgid "?or-list:, or %s"
 msgstr ""
@@ -44433,34 +44435,34 @@ msgstr ""
 "%s"
 
 #. TRANS: "and"-separated string list with one single item.
-#: utility/astring.c:368
+#: utility/astring.c:378
 #, c-format
 msgid "?and-list-single:%s"
 msgstr ""
 
 #. TRANS: "and"-separated string list with 2 items.
-#: utility/astring.c:371
+#: utility/astring.c:381
 #, fuzzy, c-format
 msgid "?and-list:%s and %s"
 msgstr "?clistlast: kaj %s"
 
 #. TRANS: start of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:377
+#: utility/astring.c:387
 #, fuzzy, c-format
 msgid "?and-list:%s"
 msgstr "Granda Majstro"
 
 #. TRANS: next elements of an "and"-separated string list with more
 #. * than two items.
-#: utility/astring.c:381
+#: utility/astring.c:391
 #, fuzzy, c-format
 msgid "?and-list:, %s"
 msgstr "?clistmore:, %s"
 
 #. TRANS: end of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:385
+#: utility/astring.c:395
 #, fuzzy, c-format
 msgid "?and-list:, and %s"
 msgstr "?clistlast:, kaj %s"
