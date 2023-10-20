@@ -205,6 +205,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_AGE:
     src->value.age = 0;
     return TRUE;
+  case VUT_FORM_AGE:
+    src->value.form_age = 0;
+    return TRUE;
   case VUT_NATIONGROUP:
     if (nation_group_count() <= 0) {
       return FALSE;
@@ -491,6 +494,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINVETERAN:
   case VUT_MINHP:
   case VUT_AGE:
+  case VUT_FORM_AGE:
   case VUT_MINTECHS:
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:

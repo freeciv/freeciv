@@ -2109,6 +2109,22 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           purge = TRUE;
         }
         break;
+      case VUT_FORM_AGE:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "only available once %d turns old form. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        preq->source.value.age);
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_form_age");
+        } else {
+          /* Can't go back in time. */
+          purge = TRUE;
+        }
+        break;
       case VUT_NONE:
       case VUT_COUNT:
         fc_assert_ret_val_msg(FALSE, TRUE,

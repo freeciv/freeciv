@@ -853,6 +853,10 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* No way to remove once present. */
     return preq->present;
 
+  case VUT_FORM_AGE:
+    /* FIXME: Sometimes it would be possible to convert back and forth */
+    return preq->present;
+
   case VUT_MINFOREIGNPCT:
     /* No way to add once lost. */
     return !preq->present;

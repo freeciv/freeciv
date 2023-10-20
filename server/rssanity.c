@@ -352,6 +352,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
      case VUT_STYLE:
      case VUT_IMPR_GENUS:
      case VUT_ORIGINAL_OWNER: /* City range -> only one original owner */
+     case VUT_FORM_AGE:
        /* There can be only one requirement of these types (with current
         * range limitations)
         * Requirements might be identical, but we consider multiple

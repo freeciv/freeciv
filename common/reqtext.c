@@ -2868,6 +2868,19 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     return TRUE;
 
+  case VUT_FORM_AGE:
+    fc_strlcat(buf, prefix, bufsz);
+    if (preq->present) {
+      cat_snprintf(buf, bufsz,
+                   _("Requires form age of %d turns."),
+                   preq->source.value.form_age);
+    } else {
+      cat_snprintf(buf, bufsz,
+                   _("Prevented if form age is over %d turns."),
+                   preq->source.value.form_age);
+    }
+    return TRUE;
+
   case VUT_MINTECHS:
     switch (preq->range) {
     case REQ_RANGE_WORLD:

@@ -409,6 +409,7 @@ tactical_req_cb(const struct req_context *context,
     /* If the attack happens, there is a diplrel that allows it */
     return TRI_YES;
   case VUT_AGE:
+  case VUT_FORM_AGE:
   case VUT_MINCALFRAG:
   case VUT_MINYEAR:
     /* If it is not near, won't change */

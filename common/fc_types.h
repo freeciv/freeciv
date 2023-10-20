@@ -754,6 +754,7 @@ typedef union {
   int minveteran;
   int min_hit_points;
   int age;
+  int form_age;
   int min_techs;
   int latitude;
 
@@ -884,6 +885,8 @@ typedef union {
 #define SPECENUM_VALUE55NAME "PlayerFlag"
 #define SPECENUM_VALUE56 VUT_PLAYER_STATE
 #define SPECENUM_VALUE56NAME "PlayerState"
+#define SPECENUM_VALUE57 VUT_FORM_AGE
+#define SPECENUM_VALUE57NAME "FormAge"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT

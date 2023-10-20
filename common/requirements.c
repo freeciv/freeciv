@@ -450,6 +450,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_FORM_AGE:
+    source->value.form_age = atoi(value);
+    if (source->value.form_age > 0) {
+      return;
+    }
+    break;
   case VUT_MINTECHS:
     source->value.min_techs = atoi(value);
     if (source->value.min_techs > 0) {
@@ -744,6 +750,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_AGE:
     source.value.age = value;
     return source;
+  case VUT_FORM_AGE:
+    source.value.form_age = value;
+    return source;
   case VUT_MINTECHS:
     source.value.min_techs = value;
     return source;
@@ -917,6 +926,8 @@ int universal_number(const struct universal *source)
     return source->value.min_hit_points;
   case VUT_AGE:
     return source->value.age;
+  case VUT_FORM_AGE:
+    return source->value.form_age;
   case VUT_MINTECHS:
     return source->value.min_techs;
   case VUT_ACTION:
@@ -1054,6 +1065,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINMOVES:
       case VUT_MINHP:
       case VUT_AGE:
+      case VUT_FORM_AGE:
       case VUT_ACTION:
       case VUT_OTYPE:
       case VUT_SPECIALIST:
@@ -1254,6 +1266,9 @@ struct requirement req_from_str(const char *type, const char *range,
                  && req.range != REQ_RANGE_CITY
                  && req.range != REQ_RANGE_PLAYER);
       break;
+    case VUT_FORM_AGE:
+      invalid = (req.range != REQ_RANGE_LOCAL);
+      break;
     case VUT_IMPR_GENUS:
       /* TODO: Support other ranges too. */
       invalid = (req.range != REQ_RANGE_LOCAL);
@@ -1314,6 +1329,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINMOVES:
     case VUT_MINHP:
     case VUT_AGE:
+    case VUT_FORM_AGE:
     case VUT_ACTION:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
@@ -4281,6 +4297,36 @@ is_age_req_active(const struct req_context *context,
 }
 
 /**********************************************************************//**
+  Determine whether a form age requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a form age requirement
+**************************************************************************/
+static enum fc_tristate
+is_form_age_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_FORM_AGE);
+
+  switch (req->range) {
+  case REQ_RANGE_LOCAL:
+    if (context->unit == NULL || !is_server()) {
+      return TRI_MAYBE;
+    } else {
+      return BOOL_TO_TRISTATE(
+                req->source.value.form_age <=
+                game.info.turn - context->unit->server.current_form_turn);
+    }
+    break;
+  default:
+    return TRI_MAYBE;
+    break;
+  }
+}
+
+/**********************************************************************//**
   Is center of given city in tile. If city is NULL, any city will do.
 **************************************************************************/
 static bool is_city_in_tile(const struct tile *ptile,
@@ -5224,6 +5270,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_ACTIVITY] = {is_activity_req_active, REQUCH_NO},
   [VUT_ADVANCE] = {is_tech_req_active, REQUCH_NO},
   [VUT_AGE] = {is_age_req_active, REQUCH_YES, REQUC_PRESENT},
+  [VUT_FORM_AGE] = {is_form_age_req_active, REQUCH_YES, REQUC_PRESENT},
   [VUT_AI_LEVEL] = {is_ai_req_active, REQUCH_HACK},
   [VUT_CITYSTATUS] = {is_citystatus_req_active, REQUCH_NO, REQUC_CITYSTATUS},
   [VUT_CITYTILE] = {is_citytile_req_active, REQUCH_NO, REQUC_CITYTILE},
@@ -5506,6 +5553,16 @@ tri_req_active_turns(int pass, int period,
       return TRI_MAYBE;
     }
     break;
+  case VUT_FORM_AGE:
+    if (context->unit == NULL || !is_server()) {
+      return TRI_MAYBE;
+    } else {
+      int ua = game.info.turn + pass - context->unit->server.current_form_turn;
+
+      present = req->source.value.form_age <= ua;
+      present1 = req->source.value.form_age <= ua + period;
+    }
+    break;
   case VUT_MINYEAR:
     present = game.info.year + year_inc >= req->source.value.minyear;
     present1 = game.info.year + year_inc1 >= req->source.value.minyear;
@@ -5776,6 +5833,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_MINMOVES:
   case VUT_MINHP:
   case VUT_AGE:
+  case VUT_FORM_AGE:
   case VUT_ROADFLAG:
   case VUT_MINCALFRAG:
   case VUT_TERRAIN:
@@ -6396,6 +6454,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.min_hit_points == psource2->value.min_hit_points;
   case VUT_AGE:
     return psource1->value.age == psource2->value.age;
+  case VUT_FORM_AGE:
+    return psource1->value.form_age == psource2->value.form_age;
   case VUT_MINTECHS:
     return psource1->value.min_techs == psource2->value.min_techs;
   case VUT_ACTION:
@@ -6548,6 +6608,10 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_AGE:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.age);
+
+    return buffer;
+  case VUT_FORM_AGE:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.form_age);
 
     return buffer;
   case VUT_MINTECHS:
@@ -6784,6 +6848,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_AGE:
     cat_snprintf(buf, bufsz, _("Age %d"),
                  psource->value.age);
+    return buf;
+  case VUT_FORM_AGE:
+    cat_snprintf(buf, bufsz, _("Form age %d"),
+                 psource->value.form_age);
     return buf;
   case VUT_MINTECHS:
     cat_snprintf(buf, bufsz, _("%d Techs"),
