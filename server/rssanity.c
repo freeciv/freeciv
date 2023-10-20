@@ -407,7 +407,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
 
     case VUT_COUNTER:
       /* Can have multiple, since many counters (also of the same range)
-       * can met checkpoint */
+       * can meet checkpoint */
     case VUT_SERVERSETTING:
       /* Can have multiple, since there are many settings. */
     case VUT_TOPO:
