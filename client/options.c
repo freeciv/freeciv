@@ -99,6 +99,7 @@ struct client_options gui_options = {
   .default_tileset_iso_name = "\0",
   .gui_gtk3_migrated_from_gtk2 = FALSE,
   .gui_gtk3_22_migrated_from_gtk3 = FALSE,
+  .gui_gtk5_migrated_from_gtk4 = FALSE,
   .gui_gtk4_migrated_from_gtk3_22 = FALSE,
   .gui_sdl2_migrated_from_sdl = FALSE,
   .gui_sdl3_migrated_from_sdl2 = FALSE,
@@ -6222,6 +6223,9 @@ void options_load(void)
   gui_options.gui_gtk4_migrated_from_gtk3_22 =
     secfile_lookup_bool_default(sf, gui_options.gui_gtk4_migrated_from_gtk3_22,
                                 "%s.migration_gtk4_from_gtk3_22", prefix);
+  gui_options.gui_gtk5_migrated_from_gtk4 =
+    secfile_lookup_bool_default(sf, gui_options.gui_gtk5_migrated_from_gtk4,
+                                "%s.migration_gtk5_from_gtk4", prefix);
   gui_options.gui_sdl2_migrated_from_sdl =
     secfile_lookup_bool_default(sf, gui_options.gui_sdl2_migrated_from_sdl,
                                 "%s.migration_sdl2_from_sdl", prefix);
@@ -6373,6 +6377,8 @@ void options_save(option_save_log_callback log_cb)
                       "client.migration_gtk3_22_from_gtk3");
   secfile_insert_bool(sf, gui_options.gui_gtk4_migrated_from_gtk3_22,
                       "client.migration_gtk4_from_gtk3");
+  secfile_insert_bool(sf, gui_options.gui_gtk5_migrated_from_gtk4,
+                      "client.migration_gtk5_from_gtk4");
   secfile_insert_bool(sf, gui_options.gui_sdl2_migrated_from_sdl,
                       "client.migration_sdl2_from_sdl");
   secfile_insert_bool(sf, gui_options.gui_sdl3_migrated_from_sdl2,

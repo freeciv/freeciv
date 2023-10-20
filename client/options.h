@@ -132,6 +132,7 @@ struct client_options
   char default_tileset_iso_name[512];      /* ...overhead and iso topologies. */
   bool gui_gtk3_migrated_from_gtk2;
   bool gui_gtk3_22_migrated_from_gtk3;
+  bool gui_gtk5_migrated_from_gtk4;
   bool gui_gtk4_migrated_from_gtk3_22;
   bool gui_sdl2_migrated_from_sdl;
   bool gui_sdl3_migrated_from_sdl2;

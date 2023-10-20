@@ -1856,7 +1856,7 @@ static void migrate_options_from_gtk3_22(void)
 
 #define MIGRATE_OPTION(opt) gui_options.gui_gtk4_##opt = gui_options.gui_gtk3_22_##opt;
 #define MIGRATE_STR_OPTION(opt) \
-  strncpy(GUI_GTK_OPTION(opt), gui_options.gui_gtk3_22_##opt,      \
+  strncpy(gui_options.gui_gtk4_##opt, gui_options.gui_gtk3_22_##opt,      \
           sizeof(gui_options.gui_gtk4_##opt));
 
   /* Default theme name is never migrated */
@@ -1896,6 +1896,57 @@ static void migrate_options_from_gtk3_22(void)
 #undef MIGRATE_STR_OPTION
 
   gui_options.gui_gtk4_migrated_from_gtk3_22 = TRUE;
+}
+
+/**********************************************************************//**
+  Migrate gtk4x client specific options from gtk4 client options.
+**************************************************************************/
+static void migrate_options_from_gtk4(void)
+{
+  log_normal(_("Migrating options from gtk4 to gtk4x client"));
+
+#define MIGRATE_OPTION(opt) gui_options.gui_gtk5_##opt = gui_options.gui_gtk4_##opt;
+#define MIGRATE_STR_OPTION(opt) \
+  strncpy(gui_options.gui_gtk5_##opt, gui_options.gui_gtk4_##opt,      \
+          sizeof(gui_options.gui_gtk5_##opt));
+
+  /* Default theme name is never migrated */
+  MIGRATE_OPTION(fullscreen);
+  MIGRATE_OPTION(map_scrollbars);
+  MIGRATE_OPTION(dialogs_on_top);
+  MIGRATE_OPTION(show_task_icons);
+  MIGRATE_OPTION(enable_tabs);
+  MIGRATE_OPTION(show_chat_message_time);
+  MIGRATE_OPTION(new_messages_go_to_top);
+  MIGRATE_OPTION(show_message_window_buttons);
+  MIGRATE_OPTION(metaserver_tab_first);
+  MIGRATE_OPTION(allied_chat_only);
+  MIGRATE_OPTION(message_chat_location);
+  MIGRATE_OPTION(small_display_layout);
+  MIGRATE_OPTION(mouse_over_map_focus);
+  MIGRATE_OPTION(chatline_autocompletion);
+  MIGRATE_OPTION(citydlg_xsize);
+  MIGRATE_OPTION(citydlg_ysize);
+  MIGRATE_OPTION(popup_tech_help);
+
+  MIGRATE_STR_OPTION(font_city_label);
+  MIGRATE_STR_OPTION(font_notify_label);
+  MIGRATE_STR_OPTION(font_spaceship_label);
+  MIGRATE_STR_OPTION(font_help_label);
+  MIGRATE_STR_OPTION(font_help_link);
+  MIGRATE_STR_OPTION(font_help_text);
+  MIGRATE_STR_OPTION(font_chatline);
+  MIGRATE_STR_OPTION(font_beta_label);
+  MIGRATE_STR_OPTION(font_small);
+  MIGRATE_STR_OPTION(font_comment_label);
+  MIGRATE_STR_OPTION(font_city_names);
+  MIGRATE_STR_OPTION(font_city_productions);
+  MIGRATE_STR_OPTION(font_reqtree_text);
+
+#undef MIGRATE_OPTION
+#undef MIGRATE_STR_OPTION
+
+  gui_options.gui_gtk5_migrated_from_gtk4 = TRUE;
 }
 
 /**********************************************************************//**
@@ -1983,24 +2034,27 @@ static void activate_gui(GtkApplication *app, gpointer data)
     adjust_default_options();
     /* We're using fresh defaults for this version of this client,
      * so prevent any future migrations from other clients / versions */
-    gui_options.gui_gtk4_migrated_from_gtk3_22 = TRUE;
+    gui_options.gui_gtk5_migrated_from_gtk4 = TRUE;
     /* Avoid also marking previous Gtk clients as migrated, so that
      * they can have their own run of their adjust_default_options() if
-     * they are ever run (as a side effect of Gtk2->Gtk3 migration). */
+     * they are ever run (as a side effect of Gtk3.22->Gtk4 migration). */
   } else {
-    if (!gui_options.gui_gtk4_migrated_from_gtk3_22) {
-      if (!gui_options.gui_gtk3_22_migrated_from_gtk3) {
-        if (!gui_options.gui_gtk3_migrated_from_gtk2) {
-          migrate_options_from_gtk2();
-          /* We want a fresh look at screen-size-related options after Gtk2 */
-          adjust_default_options();
-          /* We don't ever want to consider pre-2.6 fullscreen option again
-           * (even for gui-gtk3) */
-          gui_options.gui_gtk3_migrated_from_2_5 = TRUE;
+    if (!gui_options.gui_gtk5_migrated_from_gtk4) {
+      if (!gui_options.gui_gtk4_migrated_from_gtk3_22) {
+        if (!gui_options.gui_gtk3_22_migrated_from_gtk3) {
+          if (!gui_options.gui_gtk3_migrated_from_gtk2) {
+            migrate_options_from_gtk2();
+            /* We want a fresh look at screen-size-related options after Gtk2 */
+            adjust_default_options();
+            /* We don't ever want to consider pre-2.6 fullscreen option again
+             * (even for gui-gtk3) */
+            gui_options.gui_gtk3_migrated_from_2_5 = TRUE;
+          }
+          migrate_options_from_gtk3();
         }
-        migrate_options_from_gtk3();
+        migrate_options_from_gtk3_22();
       }
-      migrate_options_from_gtk3_22();
+      migrate_options_from_gtk4();
     }
   }
 
