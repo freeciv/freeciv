@@ -1083,7 +1083,7 @@ enum fc_tristate actres_possible(enum action_result result,
     }
 
     /* We cannot move a transport into a tile that holds
-     * units or cities not allied with ani of our cargo. */
+     * units or cities not allied with any of our cargo. */
     if (get_transporter_capacity(actor->unit) > 0) {
       unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
         if (unit_contained_in(pcargo, actor->unit)
