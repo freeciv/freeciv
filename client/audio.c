@@ -294,7 +294,7 @@ void audio_real_init(const char *const soundset_name,
     log_normal(_("No real audio plugin present."));
     log_normal(_("Proceeding with sound support disabled."));
     log_normal(_("For sound support, install SDL2_mixer"));
-    log_normal("http://www.libsdl.org/projects/SDL_mixer/index.html");
+    log_normal("https://github.com/libsdl-org/SDL_mixer");
     ss_tagfile = NULL;
     musicspec_close(ms_tagfile);
     ms_tagfile = NULL;
