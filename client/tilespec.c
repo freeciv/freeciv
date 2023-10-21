@@ -2607,19 +2607,9 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 
   t->color_system = color_system_read(file);
 
-  /* FIXME: remove this hack. */
-  t->preferred_themes =
-    (char **) secfile_lookup_str_vec(file, &num_preferred_themes,
-                                     "tilespec.preferred_themes");
-  if (num_preferred_themes <= 0) {
-    t->preferred_themes =
-      (char **) secfile_lookup_str_vec(file, &num_preferred_themes,
-                                       "tilespec.prefered_themes");
-    if (num_preferred_themes > 0) {
-      log_deprecation("Entry tilespec.prefered_themes in tilespec."
-                      " Use correct spelling tilespec.preferred_themes instead");
-    }
-  }
+  t->preferred_themes
+    = (char **) secfile_lookup_str_vec(file, &num_preferred_themes,
+                                       "tilespec.preferred_themes");
   t->num_preferred_themes = num_preferred_themes;
   for (i = 0; i < t->num_preferred_themes; i++) {
     t->preferred_themes[i] = fc_strdup(t->preferred_themes[i]);
@@ -2627,7 +2617,7 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 
   secfile_check_unused(file);
   secfile_destroy(file);
-  log_verbose("finished reading \"%s\".", fname);
+  log_verbose("Finished reading \"%s\".", fname);
   free(fname);
 
   return t;

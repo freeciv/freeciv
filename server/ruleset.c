@@ -6527,12 +6527,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   /* Section: tileset */
-  pref_text = secfile_lookup_str_default(file, "", "tileset.prefered");
-  if (pref_text[0] != '\0') {
-    log_deprecation("Entry tileset.prefered in game.ruleset."
-                    " Use correct spelling tileset.preferred instead");
-  }
-  pref_text = secfile_lookup_str_default(file, pref_text, "tileset.preferred");
+  pref_text = secfile_lookup_str_default(file, "", "tileset.preferred");
   if (pref_text[0] != '\0') {
     /* There was tileset suggestion */
     sz_strlcpy(game.control.preferred_tileset, pref_text);
@@ -6542,12 +6537,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   /* Section: soundset */
-  pref_text = secfile_lookup_str_default(file, "", "soundset.prefered");
-  if (pref_text[0] != '\0') {
-    log_deprecation("Entry soundset.prefered in game.ruleset."
-                    " Use correct spelling soundset.preferred instead");
-  }
-  pref_text = secfile_lookup_str_default(file, pref_text, "soundset.preferred");
+  pref_text = secfile_lookup_str_default(file, "", "soundset.preferred");
   if (pref_text[0] != '\0') {
     /* There was soundset suggestion */
     sz_strlcpy(game.control.preferred_soundset, pref_text);
@@ -6557,12 +6547,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   /* Section: musicset */
-  pref_text = secfile_lookup_str_default(file, "", "musicset.prefered");
-  if (pref_text[0] != '\0') {
-    log_deprecation("Entry musicset.prefered in game.ruleset."
-                    " Use correct spelling musicset.preferred instead");
-  }
-  pref_text = secfile_lookup_str_default(file, pref_text, "musicset.preferred");
+  pref_text = secfile_lookup_str_default(file, "", "musicset.preferred");
   if (pref_text[0] != '\0') {
     /* There was musicset suggestion */
     sz_strlcpy(game.control.preferred_musicset, pref_text);
