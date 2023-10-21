@@ -5511,9 +5511,7 @@ static void save_cma_presets(struct section_file *file)
   }
 }
 
-/* Old rc file name. */
-#define OLD_OPTION_FILE_NAME ".civclientrc"
-/* New rc file name. */
+/* RC file name. */
 #define MID_OPTION_FILE_NAME ".freeciv-client-rc-%d.%d"
 #define NEW_OPTION_FILE_NAME "freeciv-client-rc-%d.%d"
 
@@ -5634,7 +5632,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
       return NULL;
     }
 
-    /* minor having max value of FIRST_MINOR_NEW_OPTION_FILE_NAME
+    /* Minor having max value of FIRST_MINOR_NEW_OPTION_FILE_NAME
      * works since MID versioning scheme was used within major version 2
      * only (2.2 - 2.6) so the last minor is bigger than any earlier minor. */
     for (major = FIRST_MAJOR_MID_OPTION_FILE_NAME,
@@ -5656,25 +5654,13 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
       }
     }
 
-    /* Try with the old one. */
-    fc_snprintf(name_buffer, sizeof(name_buffer),
-                "%s" DIR_SEPARATOR OLD_OPTION_FILE_NAME, name);
-    if (0 == fc_stat(name_buffer, &buf)) {
-      log_normal(_("Didn't find '%s' option file, "
-                   "loading from '%s' instead."),
-                 get_current_option_file_name() + strlen(name) + 1,
-                 OLD_OPTION_FILE_NAME);
-      *allow_digital_boolean = TRUE;
-      return name_buffer;
-    } else {
-      return NULL;
-    }
+    return NULL;
 #endif /* OPTION_FILE_NAME */
   }
   log_verbose("settings file is %s", name_buffer);
+
   return name_buffer;
 }
-#undef OLD_OPTION_FILE_NAME
 #undef MID_OPTION_FILE_NAME
 #undef NEW_OPTION_FILE_NAME
 #undef FIRST_MAJOR_NEW_OPTION_FILE_NAME
