@@ -121,6 +121,13 @@ int api_utilities_random
 const char *api_utilities_fc_version
   @ fc_version (lua_State *L);
 
+const char *api_utilities_name_version
+  @ name_version (lua_State *L);
+const char *api_utilities_comparable_version
+  @ comparable_version (lua_State *L);
+const char *api_utilities_version_string
+  @ version_string (lua_State *L);
+
 $[
 -- ***************************************************************************
 -- Dump the state of user scalar variables to a Lua code string.

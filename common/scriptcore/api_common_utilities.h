@@ -34,6 +34,9 @@ int api_utilities_direction_id(lua_State *L, Direction dir);
 const char *api_utilities_dir2str(lua_State *L, Direction dir);
 
 const char *api_utilities_fc_version(lua_State *L);
+const char *api_utilities_name_version(lua_State *L);
+const char *api_utilities_comparable_version(lua_State *L);
+const char *api_utilities_version_string(lua_State *L);
 
 void api_utilities_log_base(lua_State *L, int level, const char *message);
 
