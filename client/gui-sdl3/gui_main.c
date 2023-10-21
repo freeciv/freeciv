@@ -874,7 +874,7 @@ void ui_init(void)
   button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));
 
   sdl3_client_flags = 0;
-  sdl_flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
+  sdl_flags = SDL_INIT_VIDEO;
 
   init_sdl(sdl_flags);
 }
