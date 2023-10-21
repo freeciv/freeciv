@@ -822,25 +822,29 @@ type = "SharedTiles"
 ; */ <-- avoid gettext warnings
 
 [counter_owned1]
-name = "Turn_Owned1"
+name = _("Turn Owned 1")
+rule_name = "Turn_Owned1"
 checkpoint = 10
 def = 0
 type = "Owned"
 
 [counter_owned2]
-name = "Turn_Owned2"
+name = _("Turn Owned 2")
+rule_name = "Turn_Owned2"
 checkpoint = 20
 def = 0
 type = "Owned"
 
 [counter_celebrating1]
-name = "Turn_of_Celebration"
+name = _("Turn of Celebration")
+rule_name = "Turn_of_Celebration"
 checkpoint = 5
 def = 0
 type = "Celebration"
 
 [counter_disorder1]
-name = "Turn_of_Disorder"
+name = _("Turn of Disorder")
+rule_name = "Turn_of_Disorder"
 checkpoint = 3
 def = 0
 type = "Disorder"
