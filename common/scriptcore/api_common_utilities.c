@@ -46,11 +46,48 @@ int api_utilities_random(lua_State *L, int min, int max)
 }
 
 /********************************************************************//**
-  Return the version of freeciv lua script
+  Name and version of freeciv.
+  Deprecated because of the confusing function name.
 ************************************************************************/
 const char *api_utilities_fc_version(lua_State *L)
 {
+  LUASCRIPT_CHECK_STATE(L, 0);
+
+  log_deprecation("Deprecated: lua construct \"fc_version\", "
+                  "deprecated since \"3.2\", used. "
+                  "Use \"name_version\" instead.");
+
   return freeciv_name_version();
+}
+
+/********************************************************************//**
+  Return the name and version of freeciv
+************************************************************************/
+const char *api_utilities_name_version(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+
+  return freeciv_name_version();
+}
+
+/********************************************************************//**
+  Comparable freeciv version
+************************************************************************/
+const char *api_utilities_comparable_version(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+
+  return fc_comparable_version();
+}
+
+/********************************************************************//**
+  Version string with no name
+************************************************************************/
+const char *api_utilities_version_string(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+
+  return freeciv_datafile_version();
 }
 
 /********************************************************************//**
