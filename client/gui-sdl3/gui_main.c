@@ -1015,7 +1015,7 @@ static void migrate_options_from_sdl2(void)
   MIGRATE_OPTION(do_cursor_animation);
   MIGRATE_OPTION(use_color_cursors);
   MIGRATE_STR_OPTION(font_city_names);
-  MIGRATE_STR_OPTION(gont_city_productions);
+  MIGRATE_STR_OPTION(font_city_productions);
   MIGRATE_OPTION(use_theme_font_size);
   MIGRATE_OPTION(font_size);
 
