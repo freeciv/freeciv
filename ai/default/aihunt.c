@@ -312,7 +312,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
   struct pf_map *pfm;
   const struct civ_map *nmap = &(wld.map);
 
-  unit_list_iterate_safe(unit_tile(punit)->units, missile) {
+  /* Only directly transported units. Not launching cargo of cargo */
+  unit_list_iterate_safe(punit->transporting, missile) {
     struct unit *sucker = NULL;
 
     if (unit_owner(missile) == pplayer
@@ -364,6 +365,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
         }
       } pf_map_move_costs_iterate_end;
       pf_map_destroy(pfm);
+
       if (sucker) {
         if (unit_transported(missile)) {
           struct unit *ptrans = unit_transport_get(missile);
