@@ -49,10 +49,10 @@ sdl_headers_without_path=yes])
         AC_MSG_RESULT([yes])
         SOUND_SDL_OK=true
       else
-        AC_MSG_RESULT([no SDL2_mixer library found, install from http://www.libsdl.org/projects/SDL_mixer/index.html ])
+        AC_MSG_RESULT([no SDL2_mixer library found, install from https://github.com/libsdl-org/SDL_mixer])
       fi
     else
-      AC_MSG_RESULT([no SDL2_mixer headers found, install from http://www.libsdl.org/projects/SDL_mixer/index.html])
+      AC_MSG_RESULT([no SDL2_mixer headers found, install from https://github.com/libsdl-org/SDL_mixer])
     fi ])
   fi
 fi
