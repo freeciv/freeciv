@@ -1,6 +1,21 @@
 ## Process this file with automake to produce Makefile.in
 
-EXTRA_DIST = \
+noinst_LTLIBRARIES = libgui-gtk5.la
+AM_CPPFLAGS = \
+	-I$(srcdir)/.. \
+	-I$(srcdir)/../include \
+	-I$(top_srcdir)/utility \
+	-I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/aicore \
+	-I$(top_srcdir)/common/networking \
+	-I$(top_srcdir)/common/scriptcore \
+	-I$(srcdir)/../agents \
+	-I$(srcdir)/../luascript \
+	-I$(top_srcdir)/dependencies/tinycthread \
+	-I$(top_srcdir)/gen_headers/enums \
+	$(gui_gtk5_cflags) $(SOUND_CFLAGS)
+
+libgui_gtk5_la_SOURCES = \
 	action_dialog.c \
 	canvas.c	\
 	canvas.h	\
@@ -93,3 +108,5 @@ EXTRA_DIST = \
 	voteinfo_bar.h	\
 	wldlg.c		\
 	wldlg.h
+
+libgui_gtk5_la_LIBADD = -lm
