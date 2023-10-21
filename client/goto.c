@@ -1042,11 +1042,9 @@ void goto_unit_killed(struct unit *punit)
 
   goto_map_unit_iterate(goto_maps, goto_map, ptest) {
     if (ptest == punit) {
-      goto_map_free(goto_map);
-      /* Still safe using goto_map pointer, as it is not used for 
-       * dereferencing, only as value. */
       goto_map_list_remove(goto_maps, goto_map);
-      /* stop now, links are gone! */
+      goto_map_free(goto_map);
+      /* Stop now, links are gone! */
       break;
     }
   } goto_map_unit_iterate_end;
