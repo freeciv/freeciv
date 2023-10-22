@@ -1,4 +1,4 @@
-# lib-ld.m4 serial 11
+# lib-ld.m4 serial 12
 dnl Copyright (C) 1996-2003, 2009-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -67,7 +67,7 @@ else
     if test "$GCC" = yes; then
       # Check if gcc -print-prog-name=ld gives a path.
       case $host in
-        *-*-mingw*)
+        *-*-mingw* | windows*)
           # gcc leaves a trailing carriage return which upsets mingw
           acl_output=`($CC -print-prog-name=ld) 2>&5 | tr -d '\015'` ;;
         *)
