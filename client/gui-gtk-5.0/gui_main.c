@@ -181,6 +181,7 @@ static bool audio_paused = FALSE;
 static bool client_focus = TRUE;
 
 static GtkApplication *fc_app;
+static GtkAlertDialog *quit_dialog = NULL;
 
 static struct video_mode vmode = { -1, -1 };
 
@@ -2392,16 +2393,21 @@ void remove_net_input(void)
   This is the response callback for the dialog with the message:
   Are you sure you want to quit?
 **************************************************************************/
-static void quit_dialog_response(GtkWidget *dialog, gint response)
+static void quit_dialog_response(GObject *dialog, GAsyncResult *result,
+                                 gpointer data)
 {
-  gtk_window_destroy(GTK_WINDOW(dialog));
-  if (response == GTK_RESPONSE_YES) {
+  int button = gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(dialog),
+                                              result, NULL);
+
+  if (button == 0) {
     start_quitting();
     if (client.conn.used) {
       disconnect_from_server(FALSE);
     }
     quit_gtk_main();
   }
+
+  quit_dialog = NULL;
 }
 
 /**********************************************************************//**
@@ -2421,23 +2427,17 @@ void quit_gtk_main(void)
 **************************************************************************/
 void popup_quit_dialog(void)
 {
-  static GtkWidget *dialog;
+  if (quit_dialog == NULL) {
+    const char *buttons[] = { _("Yes"), _("No"), NULL };
 
-  if (!dialog) {
-    dialog = gtk_message_dialog_new(NULL,
-                                    0,
-                                    GTK_MESSAGE_WARNING,
-                                    GTK_BUTTONS_YES_NO,
-                                    _("Are you sure you want to quit?"));
-    setup_dialog(dialog, toplevel);
+    quit_dialog = gtk_alert_dialog_new(_("Are you sure you want to quit?"));
+    gtk_alert_dialog_set_buttons(GTK_ALERT_DIALOG(quit_dialog), buttons);
+    setup_dialog(GTK_WIDGET(quit_dialog), toplevel);
 
-    g_signal_connect(dialog, "response",
-                     G_CALLBACK(quit_dialog_response), NULL);
-    g_signal_connect(dialog, "destroy",
-                     G_CALLBACK(widget_destroyed), &dialog);
+    gtk_alert_dialog_choose(GTK_ALERT_DIALOG(quit_dialog),
+                            GTK_WINDOW(toplevel), NULL,
+                            quit_dialog_response, NULL);
   }
-
-  gtk_window_present(GTK_WINDOW(dialog));
 }
 
 /**********************************************************************//**

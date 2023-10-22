@@ -1292,10 +1292,13 @@ static void save_mapimg_as_callback(GSimpleAction *action, GVariant *parameter,
   This is the response callback for the dialog with the message:
   Leaving a local game will end it!
 ****************************************************************************/
-static void leave_local_game_response(GtkWidget *dialog, gint response)
+static void leave_local_game_response(GObject *dialog, GAsyncResult *result,
+                                      gpointer data)
 {
-  gtk_window_destroy(GTK_WINDOW(dialog));
-  if (response == GTK_RESPONSE_OK) {
+  int button = gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(dialog),
+                                              result, NULL);
+
+  if (button == 0) {
     /* It might be killed already */
     if (client.conn.used) {
       /* It will also kill the server */
@@ -1312,14 +1315,15 @@ static void leave_callback(GSimpleAction *action,
                            gpointer data)
 {
   if (is_server_running()) {
-    GtkWidget *dialog
-      = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_WARNING,
-                               GTK_BUTTONS_OK_CANCEL,
-                               _("Leaving a local game will end it!"));
-    setup_dialog(dialog, toplevel);
-    g_signal_connect(dialog, "response",
-                     G_CALLBACK(leave_local_game_response), NULL);
-    gtk_window_present(GTK_WINDOW(dialog));
+    const char *buttons[] = { _("Leave"), _("Cancel"), NULL };
+    GtkAlertDialog *dialog
+      = gtk_alert_dialog_new(_("Leaving a local game will end it!"));
+
+    gtk_alert_dialog_set_buttons(GTK_ALERT_DIALOG(dialog), buttons);
+    setup_dialog(GTK_WIDGET(dialog), toplevel);
+    gtk_alert_dialog_choose(GTK_ALERT_DIALOG(dialog),
+                            GTK_WINDOW(toplevel), NULL,
+                            leave_local_game_response, NULL);
   } else {
     disconnect_from_server(TRUE);
   }

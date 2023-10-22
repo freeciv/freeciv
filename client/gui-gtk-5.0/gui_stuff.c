@@ -263,7 +263,8 @@ static void close_callback(GtkDialog *dialog, gpointer data)
 **************************************************************************/
 void setup_dialog(GtkWidget *shell, GtkWidget *parent)
 {
-  if (GUI_GTK_OPTION(dialogs_on_top) || GUI_GTK_OPTION(fullscreen)) {
+  if (GTK_IS_WINDOW(shell)
+      && (GUI_GTK_OPTION(dialogs_on_top) || GUI_GTK_OPTION(fullscreen))) {
     gtk_window_set_transient_for(GTK_WINDOW(shell),
                                  GTK_WINDOW(parent));
   }
