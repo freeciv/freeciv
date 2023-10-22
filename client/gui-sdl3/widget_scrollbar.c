@@ -32,7 +32,7 @@
 #include "widget.h"
 #include "widget_p.h"
 
-struct UP_DOWN {
+struct up_down {
   struct widget *begin;
   struct widget *end;
   struct widget *begin_widget_list;
@@ -40,9 +40,9 @@ struct UP_DOWN {
   struct scroll_bar *vscroll;
   float old_y;
   int step;
-  int prev_x;
-  int prev_y;
-  int offset; /* number of pixels the mouse is away from the slider origin */
+  float prev_x;
+  float prev_y;
+  int offset; /* Number of pixels the mouse is away from the slider origin */
 };
 
 #define widget_add_next(new_widget, add_dock)	\
@@ -863,14 +863,14 @@ static struct widget *vertical_scroll_widget_list(struct widget *active_widget_l
 **************************************************************************/
 static void inside_scroll_down_loop(void *data)
 {
-  struct UP_DOWN *down = (struct UP_DOWN *)data;
+  struct up_down *down = (struct up_down *)data;
 
   if (down->end != down->begin_widget_list) {
     if (down->vscroll->pscroll_bar
         && down->vscroll->pscroll_bar->size.y <=
-        down->vscroll->max - down->vscroll->pscroll_bar->size.h) {
+           down->vscroll->max - down->vscroll->pscroll_bar->size.h) {
 
-      /* draw bcgd */
+      /* Draw bcgd */
       widget_undraw(down->vscroll->pscroll_bar);
       widget_mark_dirty(down->vscroll->pscroll_bar);
 
@@ -910,14 +910,14 @@ static void inside_scroll_down_loop(void *data)
 **************************************************************************/
 static void inside_scroll_up_loop(void *data)
 {
-  struct UP_DOWN *up = (struct UP_DOWN *)data;
+  struct up_down *up = (struct up_down *)data;
 
   if (up && up->begin != up->end_widget_list) {
 
     if (up->vscroll->pscroll_bar
         && (up->vscroll->pscroll_bar->size.y >= up->vscroll->min)) {
 
-      /* draw bcgd */
+      /* Draw bcgd */
       widget_undraw(up->vscroll->pscroll_bar);
       widget_mark_dirty(up->vscroll->pscroll_bar);
 
@@ -953,7 +953,7 @@ static void inside_scroll_up_loop(void *data)
 static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
                                           void *data)
 {
-  struct UP_DOWN *motion = (struct UP_DOWN *)data;
+  struct up_down *motion = (struct up_down *)data;
   int yrel;
   int y;
   int normalized_y;
@@ -1052,7 +1052,7 @@ static struct widget *down_scroll_widget_list(struct scroll_bar *vscroll,
                                               struct widget *begin_widget_list,
                                               struct widget *end_widget_list)
 {
-  struct UP_DOWN down;
+  struct up_down down;
   struct widget *begin = begin_active_widget_list;
   int step = vscroll->active * vscroll->step - 1;
 
@@ -1081,7 +1081,7 @@ static struct widget *up_scroll_widget_list(struct scroll_bar *vscroll,
                                             struct widget *begin_widget_list,
                                             struct widget *end_widget_list)
 {
-  struct UP_DOWN up;
+  struct up_down up;
 
   up.step = get_step(vscroll);
   up.begin = begin_active_widget_list;
@@ -1103,7 +1103,7 @@ static struct widget *vertic_scroll_widget_list(struct scroll_bar *vscroll,
                                                 struct widget *begin_widget_list,
                                                 struct widget *end_widget_list)
 {
-  struct UP_DOWN motion;
+  struct up_down motion;
 
   motion.step = get_step(vscroll);
   motion.begin = begin_active_widget_list;
