@@ -35,8 +35,8 @@
 struct move {
   bool moved;
   struct widget *pwindow;
-  int prev_x;
-  int prev_y;
+  float prev_x;
+  float prev_y;
 };
 
 static int (*baseclass_redraw)(struct widget *pwidget);
@@ -134,7 +134,7 @@ static void window_set_position(struct widget *pwindow, int x, int y)
 **************************************************************************/
 static void window_select(struct widget *pwindow)
 {
-  /* nothing */
+  /* Nothing */
 }
 
 /**********************************************************************//**
@@ -142,7 +142,7 @@ static void window_select(struct widget *pwindow)
 **************************************************************************/
 static void window_unselect(struct widget *pwindow)
 {
-  /* nothing */
+  /* Nothing */
 }
 
 /**********************************************************************//**

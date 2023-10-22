@@ -2924,7 +2924,7 @@ void set_turn_done_button_state(bool state)
 **************************************************************************/
 void create_line_at_mouse_pos(void)
 {
-  int pos_x, pos_y;
+  float pos_x, pos_y;
 
   SDL_GetMouseState(&pos_x, &pos_y);
   update_line(pos_x, pos_y);
