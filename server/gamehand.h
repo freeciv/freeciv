@@ -24,6 +24,8 @@ void send_game_info(struct conn_list *dest);
 void send_scenario_info(struct conn_list *dest);
 void send_scenario_description(struct conn_list *dest);
 
+void cache_rulesets(void);
+
 enum unit_role_id crole_to_role_id(char crole);
 struct unit_type *crole_to_unit_type(char crole, struct player *pplayer);
 
@@ -32,4 +34,4 @@ void increase_timeout_because_unit_moved(void);
 
 const char *new_challenge_filename(struct connection *pc);
 
-#endif  /* FC__GAMEHAND_H */
+#endif /* FC__GAMEHAND_H */

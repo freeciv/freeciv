@@ -1102,7 +1102,7 @@ const char *new_challenge_filename(struct connection *pc)
   return get_challenge_filename(pc);
 }
 
-struct mrc_data {
+struct mrc_sendclient_data {
   int count;
   struct packet_ruleset_choices *packet;
 };
@@ -1110,10 +1110,10 @@ struct mrc_data {
 /************************************************************************//**
   Callback called from modpack ruleset cache iteration.
 ****************************************************************************/
-static void ruleset_cache_cb(const char *mp_name, const char *filename,
-                             void *data_in)
+static void ruleset_cache_sendclient_cb(const char *mp_name,
+                                        const char *filename, void *data_in)
 {
-  struct mrc_data *data = (struct mrc_data *)data_in;
+  struct mrc_sendclient_data *data = (struct mrc_sendclient_data *)data_in;
   const int maxlen = sizeof(data->packet->rulesets[data->count]);
 
   if (data->count >= MAX_NUM_RULESETS) {
@@ -1131,15 +1131,11 @@ static void ruleset_cache_cb(const char *mp_name, const char *filename,
 }
 
 /************************************************************************//**
-  Call this on a connection with HACK access to send it a set of ruleset
-  choices.  Probably this should be called immediately when granting
-  HACK access to a connection.
+  Create cache of available rulesets.
 ****************************************************************************/
-static void send_ruleset_choices(struct connection *pc)
+void cache_rulesets(void)
 {
-  struct packet_ruleset_choices packet;
   static bool rulesets_cached = FALSE;
-  struct mrc_data data;
 
   if (!rulesets_cached) {
     struct fileinfo_list *ruleset_choices;
@@ -1161,10 +1157,23 @@ static void send_ruleset_choices(struct connection *pc)
 
     rulesets_cached = TRUE;
   }
+}
+
+/************************************************************************//**
+  Call this on a connection with HACK access to send it a set of ruleset
+  choices. Probably this should be called immediately when granting
+  HACK access to a connection.
+****************************************************************************/
+static void send_ruleset_choices(struct connection *pc)
+{
+  struct packet_ruleset_choices packet;
+  struct mrc_sendclient_data data;
+
+  cache_rulesets();
 
   data.count = 0;
   data.packet = &packet;
-  modpack_ruleset_cache_iterate(ruleset_cache_cb, &data);
+  modpack_ruleset_cache_iterate(ruleset_cache_sendclient_cb, &data);
 
   packet.ruleset_count = data.count;
 
