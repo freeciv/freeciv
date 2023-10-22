@@ -924,16 +924,24 @@ actor_reqs    =
       "UnitState",     "OnNativeTile", "Local", TRUE
       "DiplRel",       "War",          "Local", TRUE
     }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
+    }
 
 [actionenabler_ransom_marines]
 action        = "Collect Ransom"
 actor_reqs    =
-    { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
-      "UnitClassFlag", "Missile", "Local", FALSE
-      "MinMoveFrags",  "1",       "Local", TRUE
-      "UnitFlag",      "Marines", "Local", TRUE
-      "DiplRel",       "War",     "Local", TRUE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitFlag",      "Marines",      "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+    }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
     }
 
 [actionenabler_ransom_att_from_non_native]
@@ -945,6 +953,10 @@ actor_reqs    =
       "MinMoveFrags",  "1",                "Local", TRUE
       "UnitClassFlag", "AttFromNonNative", "Local", TRUE
       "DiplRel",       "War",              "Local", TRUE
+    }
+target_reqs   =
+    { "type",          "name",             "range"
+      "PlayerState",   "Barbarian",        "Player"
     }
 
 [actionenabler_explode_missile]

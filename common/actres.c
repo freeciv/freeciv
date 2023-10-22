@@ -672,8 +672,7 @@ enum fc_tristate actres_possible(enum action_result result,
     break;
 
   case ACTRES_COLLECT_RANSOM:
-    if (!is_barbarian(actor->player)
-        || !uclass_has_flag(unit_class_get(actor->unit), UCF_COLLECT_RANSOM)) {
+    if (!uclass_has_flag(unit_class_get(actor->unit), UCF_COLLECT_RANSOM)) {
       return FALSE;
     }
 

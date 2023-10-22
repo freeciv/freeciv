@@ -1555,6 +1555,10 @@ actor_reqs    =
       "DiplRel",       "War",          "Local", TRUE
       "Building",     "Treuga Dei",    "World", FALSE
     }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
+    }
 
 [actionenabler_ransom_from_native_despite_treuga_dei]
 action        = "Collect Ransom"
@@ -1567,29 +1571,41 @@ actor_reqs    =
       "DiplRel",       "War",          "Local", TRUE,      FALSE
       "Tech",          "Communism",    "World", TRUE,      TRUE
     }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
+    }
 
 [actionenabler_ransom_marines]
 action        = "Collect Ransom"
 actor_reqs    =
-    { "type",          "name",       "range", "present"
-      "UnitFlag",      "NonMil",     "Local", FALSE
-      "UnitClassFlag", "Missile",    "Local", FALSE
-      "MinMoveFrags",  "1",          "Local", TRUE
-      "UnitFlag",      "Marines",    "Local", TRUE
-      "DiplRel",       "War",        "Local", TRUE
-      "Building",      "Treuga Dei", "World", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitFlag",      "Marines",      "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+      "Building",      "Treuga Dei",   "World", FALSE
+    }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
     }
 
 [actionenabler_ransom_marines_despite_treuga_dei]
 action        = "Collect Ransom"
 actor_reqs    =
-    { "type",          "name",       "range", "present", "survives"
-      "UnitFlag",      "NonMil",     "Local", FALSE,     FALSE
-      "UnitClassFlag", "Missile",    "Local", FALSE,     FALSE
-      "MinMoveFrags",  "1",          "Local", TRUE,      FALSE
-      "UnitFlag",      "Marines",    "Local", TRUE,      FALSE
-      "DiplRel",       "War",        "Local", TRUE,      FALSE
-      "Tech",          "Communism",  "World", TRUE,      TRUE
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE,     FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE,      FALSE
+      "UnitFlag",      "Marines",      "Local", TRUE,      FALSE
+      "DiplRel",       "War",          "Local", TRUE,      FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
+    }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
     }
 
 [actionenabler_ransom_att_from_non_native]
@@ -1603,6 +1619,10 @@ actor_reqs    =
       "DiplRel",       "War",              "Local", TRUE
       "Building",      "Treuga Dei",       "World", FALSE
     }
+target_reqs   =
+    { "type",          "name",             "range"
+      "PlayerState",   "Barbarian",        "Player"
+    }
 
 [actionenabler_ransom_att_from_non_native_despite_treuga_dei]
 action        = "Collect Ransom"
@@ -1614,6 +1634,10 @@ actor_reqs    =
       "UnitClassFlag", "AttFromNonNative", "Local", TRUE,      FALSE
       "DiplRel",       "War",              "Local", TRUE,      FALSE
       "Tech",          "Communism",        "World", TRUE,      TRUE
+    }
+target_reqs   =
+    { "type",          "name",             "range"
+      "PlayerState",   "Barbarian",        "Player"
     }
 
 [actionenabler_explode_missile]

@@ -298,6 +298,16 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
   action_iterate(act_id) {
     bool restart_enablers_for_action;
 
+    /* RSFORMAT_3_3 */
+    if (action_has_result(action_by_number(act_id), ACTRES_COLLECT_RANSOM)) {
+      action_enabler_list_iterate(action_enablers_for_action(act_id), ae) {
+        requirement_vector_append(&ae->target_reqs,
+                                  req_from_str("PlayerState", "Player",
+                                               FALSE, TRUE, TRUE,
+                                               "Barbarian"));
+      } action_enabler_list_iterate_end;
+    }
+
     do {
       restart_enablers_for_action = FALSE;
       action_enabler_list_iterate(action_enablers_for_action(act_id), ae) {
@@ -314,6 +324,7 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
         }
       } action_enabler_list_iterate_end;
     } while (restart_enablers_for_action);
+
   } action_iterate_end;
 }
 
@@ -392,7 +403,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)
 {
-  if (!info->compat_mode) {
+  if (!info->compat_mode || info->version >= RSFORMAT_CURRENT) {
     /* There isn't anything here that should be done outside of compat
      * mode. */
     return;
