@@ -49,6 +49,7 @@
 #include "game.h"
 #include "map.h"
 #include "mapimg.h"
+#include "modpack.h"
 #include "packets.h"
 #include "player.h"
 #include "research.h"
@@ -6839,25 +6840,68 @@ void show_players(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
+struct mrc_listcmd_data {
+  struct connection *caller;
+};
+
+/************************************************************************//**
+  Callback called from modpack ruleset cache iteration.
+****************************************************************************/
+static void ruleset_cache_listcmd_cb(const char *mp_name,
+                                     const char *filename, void *data_in)
+{
+  struct mrc_listcmd_data *data = (struct mrc_listcmd_data *)data_in;
+  struct section_file *sf;
+  const char *name;
+  const char *serv;
+  const char *rsdir;
+
+  name = modpack_file_from_ruleset_cache(mp_name);
+
+  if (name == NULL) {
+    log_error("Modpack \"%s\" not in ruleset cache", mp_name);
+    return;
+  }
+
+  sf = secfile_load(name, FALSE);
+
+  if (sf == NULL) {
+    log_error("Failed to load modpack file \"%s\"", name);
+    return;
+  }
+
+  serv = modpack_serv_file(sf);
+  rsdir = modpack_rulesetdir(sf);
+
+  if (serv != NULL || rsdir != NULL) {
+    /* Modpack has ruleset component */
+    cmd_reply(CMD_LIST, data->caller, C_COMMENT, "%s : %s : %s", mp_name,
+              rsdir != NULL ? rsdir : "-",
+              serv != NULL ? serv : "-");
+  }
+
+  secfile_destroy(sf);
+}
+
 /**********************************************************************//**
-  List rulesets (strictly, .serv init script files that conventionally
-  accompany rulesets).
+  List rulesets.
 **************************************************************************/
 static void show_rulesets(struct connection *caller)
 {
-  struct strvec *serv_list;
+  struct mrc_listcmd_data data;
 
   cmd_reply(CMD_LIST, caller, C_COMMENT,
             /* TRANS: don't translate text between '' */
-            _("List of rulesets available with '%sread' command:"),
-	    (caller ? "/" : ""));
+            _("List of available rulesets, and how to load them:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+  cmd_reply(CMD_LIST, caller, C_COMMENT,
+            _("Ruleset : /rulesetdir <dir> : /read <script>"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
-  serv_list = get_init_script_choices();
-  strvec_iterate(serv_list, s) {
-    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", s);
-  } strvec_iterate_end;
-  strvec_destroy(serv_list);
+  cache_rulesets();
+
+  data.caller = caller;
+  modpack_ruleset_cache_iterate(ruleset_cache_listcmd_cb, &data);
 
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }

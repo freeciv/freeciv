@@ -32,7 +32,7 @@ const char *modpack_has_ruleset(struct section_file *sf);
 
 bool modpack_check_capabilities(struct section_file *file, const char *us_capstr,
                                 const char *filename, bool verbose);
-  
+
 const char *modpack_serv_file(struct section_file *sf);
 const char *modpack_rulesetdir(struct section_file *sf);
 
@@ -43,4 +43,4 @@ void modpack_ruleset_cache_iterate(mrc_cb cb, void *data);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__MODPACK_H */
+#endif /* FC__MODPACK_H */
