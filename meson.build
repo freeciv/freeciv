@@ -3419,6 +3419,19 @@ executable('freeciv-gtk4x',
   install: true
   )
 
+install_data(
+  'bootstrap/org.freeciv.gtk4x.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
+
+custom_target('mi_gtk4x',
+              input: 'bootstrap/org.freeciv.gtk4x.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@', b_root, 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
 endif
 
 if qtver == 'qt6' or qtver == 'qt6x'
