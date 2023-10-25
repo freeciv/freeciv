@@ -790,21 +790,22 @@ static void swap(struct reqtree *tree, int layer, int order1, int order2)
 *************************************************************************/
 static void improve(struct reqtree *tree)
 {
-  int crossings[tree->num_layers - 1];
+  int layers = tree->num_layers;
+  int crossings[layers - 1];
   int i, x1, x2, layer;
 
-  for (i = 0; i < tree->num_layers - 1; i++) {
+  for (i = 0; i < layers - 1; i++) {
     crossings[i] = count_crossings(tree, i);
   }
 
-  for (layer = 0; layer < tree->num_layers; layer++) {
+  for (layer = 0; layer < layers; layer++) {
     int layer_size = tree->layer_size[layer];
     int layer_sum = 0;
 
     if (layer > 0) {
       layer_sum += crossings[layer - 1];
     }
-    if (layer < tree->num_layers - 1) {
+    if (layer < layers - 1) {
       layer_sum += crossings[layer];
     }
 
@@ -818,7 +819,7 @@ static void improve(struct reqtree *tree)
         if (layer > 0) {
           new_crossings_before += count_crossings(tree, layer - 1);
         }
-        if (layer < tree->num_layers - 1) {
+        if (layer < layers - 1) {
           new_crossings += count_crossings(tree, layer);
         }
         if (new_crossings + new_crossings_before > layer_sum) {
@@ -828,7 +829,7 @@ static void improve(struct reqtree *tree)
           if (layer > 0) {
             crossings[layer - 1] = new_crossings_before;
           }
-          if (layer < tree->num_layers - 1) {
+          if (layer < layers - 1) {
             crossings[layer] = new_crossings;
           }
         }
