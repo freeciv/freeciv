@@ -128,6 +128,8 @@ const char *api_utilities_comparable_version
 const char *api_utilities_version_string
   @ version_string (lua_State *L);
 
+int api_utilities_versions_compare
+  @ versions_compare (lua_State *L, const char *ver1, const char *ver2);
 $[
 -- ***************************************************************************
 -- Dump the state of user scalar variables to a Lua code string.

@@ -17,6 +17,9 @@
 
 #include <math.h>
 
+/* dependencies/cvercmp */
+#include "cvercmp.h"
+
 /* utilities */
 #include "deprecations.h"
 #include "log.h"
@@ -88,6 +91,36 @@ const char *api_utilities_version_string(lua_State *L)
   LUASCRIPT_CHECK_STATE(L, 0);
 
   return freeciv_datafile_version();
+}
+
+/********************************************************************//**
+  Compare two version strings. Return which one is bigger, or zero
+  if they are equal.
+************************************************************************/
+int api_utilities_versions_compare(lua_State *L,
+                                   const char *ver1, const char *ver2)
+{
+  enum cvercmp_type result;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, ver1, 2, string, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, ver2, 3, string, 0);
+
+  result = cvercmp_cmp(ver1, ver2);
+
+  switch (result) {
+  case CVERCMP_EQUAL:
+    return 0;
+  case CVERCMP_GREATER:
+    return 1;
+  case CVERCMP_LESSER:
+    return -1;
+  default:
+    fc_assert(result == CVERCMP_EQUAL
+              || result == CVERCMP_GREATER
+              || result == CVERCMP_LESSER);
+    return 0;
+  }
 }
 
 /********************************************************************//**

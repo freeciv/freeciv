@@ -143,7 +143,7 @@ if AI_MOD_STATIC_STUB
 da_libs += $(top_builddir)/ai/stub/libstubai.la
 endif
 
-# These files are not generated to builddir, but to srcdir */
+# These files are not generated to builddir, but to srcdir
 MAINTAINERCLEANFILES = \
 	$(srcdir)/hand_gen.c \
 	$(srcdir)/hand_gen.h
@@ -166,6 +166,7 @@ exe_ldflags =
 exe_ldadd = \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
+ $(top_builddir)/dependencies/cvercmp/libcvercmp.la \
  $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(TINYCTHR_LIBS) \
