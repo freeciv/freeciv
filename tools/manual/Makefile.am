@@ -35,5 +35,6 @@ freeciv_manual_LDADD = \
  $(top_builddir)/client/libfc_helpdata.la \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/tools/shared/libtoolsshared.la \
+ $(top_builddir)/dependencies/cvercmp/libcvercmp.la \
  $(INTLLIBS) $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(SERVER_LIBS)

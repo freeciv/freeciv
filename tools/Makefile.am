@@ -40,4 +40,5 @@ freeciv_ruleup_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/tools/ruleutil/libfcruleutil.la \
  $(top_builddir)/tools/shared/libtoolsshared.la \
+ $(top_builddir)/dependencies/cvercmp/libcvercmp.la \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)

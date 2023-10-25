@@ -38,6 +38,8 @@ const char *api_utilities_name_version(lua_State *L);
 const char *api_utilities_comparable_version(lua_State *L);
 const char *api_utilities_version_string(lua_State *L);
 
+int api_utilities_versions_compare(lua_State *L, const char *ver1, const char *ver2);
+
 void api_utilities_log_base(lua_State *L, int level, const char *message);
 
 void api_utilities_deprecation_warning(lua_State *L, char *method,
