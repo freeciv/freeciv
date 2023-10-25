@@ -1206,7 +1206,7 @@ void auto_workers_player(struct player *pplayer)
   log_debug("Frost = %d, game.nuclearwinter=%d",
             pplayer->ai_common.frost, game.info.nuclearwinter);
 
-  /* Auto-worke with a worker unit if it's under AI control (e.g. human
+  /* Auto-work with a worker unit if it's under AI control (e.g. human
    * player autoworker mode) or if the player is an AI. But don't
    * autowork with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
