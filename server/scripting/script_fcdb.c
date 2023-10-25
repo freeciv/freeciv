@@ -113,7 +113,7 @@ static struct fc_lua *fcl = NULL;
 
   conn_established(Connection pconn)
     - called when connection has been fully established
-  gase_start(int oldid)
+  game_start(int oldid)
     - called when game starts. Should return game db id to use now on.
 
   If an error occurred, the functions return a non-NULL string error
