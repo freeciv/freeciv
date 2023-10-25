@@ -232,8 +232,7 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *psource,
 {
   SDL_Surface *new_surf = create_surf_with_format(psource->format,
                                               prect ? prect->w : psource->w,
-                                              prect ? prect->h : psource->h,
-                                              SDL_SWSURFACE);
+                                              prect ? prect->h : psource->h);
 
   if (alphablit(psource, prect, new_surf, NULL, 255) != 0) {
     FREESURFACE(new_surf);
@@ -320,19 +319,15 @@ SDL_Surface *load_surf(const char *fname)
   MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
 SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
-                                     int width, int height,
-                                     Uint32 flags)
+                                     int width, int height)
 {
-  SDL_Surface *surf = SDL_CreateRGBSurface(flags, width, height,
-                                           pf->BitsPerPixel,
-                                           pf->Rmask,
-                                           pf->Gmask,
-                                           pf->Bmask, pf->Amask);
+  SDL_Surface *surf = SDL_CreateSurfaceFrom(NULL, width, height,
+                                            0, pf->format);
 
   if (surf == NULL) {
     log_error(_("Unable to create Sprite (Surface) of size "
-                "%d x %d %d Bits in format %d"),
-              width, height, pf->BitsPerPixel, flags);
+                "%d x %d %d Bits"),
+              width, height, pf->BitsPerPixel);
     return NULL;
   }
 
@@ -344,7 +339,7 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
 **************************************************************************/
 SDL_Surface *create_surf(int width, int height, Uint32 flags)
 {
-  return create_surf_with_format(main_surface->format, width, height, flags);
+  return create_surf_with_format(main_surface->format, width, height);
 }
 
 /**********************************************************************//**
@@ -553,21 +548,8 @@ bool create_surfaces(int width, int height)
 
   free_surfaces();
 
-  if (is_bigendian()) {
-    main_surface = SDL_CreateRGBSurface(0, width, height, 32,
-                                        0x0000FF00, 0x00FF0000,
-                                        0xFF000000, 0x000000FF);
-    main_data.map = SDL_CreateRGBSurface(0, width, height, 32,
-                                         0x0000FF00, 0x00FF0000,
-                                         0xFF000000, 0x000000FF);
-  } else {
-    main_surface = SDL_CreateRGBSurface(0, width, height, 32,
-                                        0x00FF0000, 0x0000FF00,
-                                        0x000000FF, 0xFF000000);
-    main_data.map = SDL_CreateRGBSurface(0, width, height, 32,
-                                         0x00FF0000, 0x0000FF00,
-                                         0x000000FF, 0xFF000000);
-  }
+  main_surface = SDL_CreateSurface(width, height, SDL_PIXELFORMAT_RGBA8888);
+  main_data.map = SDL_CreateSurface(width, height, SDL_PIXELFORMAT_RGBA8888);
 
   if (main_surface == NULL || main_data.map == NULL) {
     log_fatal(_("Failed to create RGB surface: %s"), SDL_GetError());
@@ -1302,15 +1284,8 @@ SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
 **************************************************************************/
 SDL_Surface *copy_surface(SDL_Surface *src)
 {
-  SDL_Surface *dst;
-
-  dst = SDL_CreateRGBSurface(0, src->w, src->h, src->format->BitsPerPixel,
-                             src->format->Rmask, src->format->Gmask,
-                             src->format->Bmask, src->format->Amask);
-
-  SDL_BlitSurface(src, NULL, dst, NULL);
-
-  return dst;
+  return SDL_CreateSurfaceFrom(src->pixels, src->w, src->h, src->pitch,
+                               src->format->format);
 }
 
 /* ============ Freeciv game graphics function =========== */

@@ -376,9 +376,9 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
     SDL_SetColorKey(text, SDL_TRUE, color);
     break;
   case 2:
-      text = create_surf_with_format(tmp[0]->format,
-                                     w, count * tmp[0]->h, tmp[0]->flags);
-      SDL_FillRect(text, NULL, color);
+    text = create_surf_with_format(tmp[0]->format,
+                                   w, count * tmp[0]->h);
+    SDL_FillRect(text, NULL, color);
     break;
   default:
     text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);

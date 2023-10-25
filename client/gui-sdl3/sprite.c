@@ -139,15 +139,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
   fc_assert_ret_val(height > 0, NULL);
   fc_assert_ret_val(pcolor != NULL, NULL);
 
-  if (is_bigendian()) {
-    mypixbuf = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32,
-                                    0x0000FF00, 0x00FF0000,
-                                    0xFF000000, 0x000000FF);
-  } else {
-    mypixbuf = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32,
-                                    0x00FF0000, 0x0000FF00,
-                                    0x000000FF, 0xFF000000);
-  }
+  mypixbuf = SDL_CreateSurface(width, height, SDL_PIXELFORMAT_RGBA8888);
 
   SDL_FillRect(mypixbuf, NULL,
                SDL_MapRGBA(mypixbuf->format,
