@@ -625,8 +625,7 @@ bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
   if (flags_in & SDL_WINDOW_FULLSCREEN) {
     SDL_DisplayMode mode;
 
-    /* Use SDL_WINDOW_FULLSCREEN_DESKTOP instead of real SDL_WINDOW_FULLSCREEN */
-    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN);
     SDL_GetWindowDisplayMode(main_data.screen, &mode);
     width = mode.w;
     height = mode.h;
