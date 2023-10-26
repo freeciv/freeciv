@@ -930,7 +930,7 @@ static void fullscreen_callback(struct option *poption)
   SDL_DisplayMode mode;
 
   if (GUI_SDL_OPTION(fullscreen)) {
-    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN);
   } else {
     SDL_SetWindowFullscreen(main_data.screen, 0);
   }
@@ -940,7 +940,7 @@ static void fullscreen_callback(struct option *poption)
   if (!create_surfaces(mode.w, mode.h)) {
     /* Try to revert */
     if (!GUI_SDL_OPTION(fullscreen)) {
-      SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+      SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN);
     } else {
       SDL_SetWindowFullscreen(main_data.screen, 0);
     }
