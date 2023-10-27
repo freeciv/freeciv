@@ -1,6 +1,6 @@
 app-id: org.freeciv.qt.mp
 runtime: org.kde.Platform
-runtime-version: '6.5'
+runtime-version: '6.6'
 sdk: org.kde.Sdk
 command: freeciv-mp-qt
 rename-icon: freeciv-modpack
