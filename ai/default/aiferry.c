@@ -87,7 +87,7 @@
 #endif
 
 
-/* ========= managing statistics and boat/passanger assignments ======== */
+/* ========= managing statistics and boat/passenger assignments ======== */
 
 /**************************************************************************
   Call to initialize the ferryboat statistics
@@ -925,7 +925,7 @@ static bool aiferry_findcargo(struct ai_type *ait, struct unit *pferry)
   struct player *pplayer;
 
   if (passengers <= 0) {
-    /* No passangers anywhere */
+    /* No passengers anywhere */
     return FALSE;
   }
 
@@ -1123,7 +1123,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
         || unit_data->passenger == FERRY_ABANDON_BOSS) {
       struct unit *candidate = NULL;
 
-      /* Try to select passanger-in-charge from among our passengers */
+      /* Try to select passenger-in-charge from among our passengers */
       unit_list_iterate(punit->transporting, aunit) {
         if (unit_owner(aunit) != pplayer) {
           /* We used to check if ferryboat was set to us or to
