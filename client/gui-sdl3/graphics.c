@@ -612,10 +612,7 @@ void quit_sdl(void)
 bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
 {
   main_data.screen = SDL_CreateWindow(_("SDL3 Client for Freeciv"),
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      width, height,
-                                      0);
+                                      width, height, 0);
 
   if (main_data.screen == NULL) {
     log_fatal(_("Failed to create main window: %s"), SDL_GetError());
