@@ -347,7 +347,7 @@ SDL_Surface *create_surf(int width, int height, Uint32 flags)
 **************************************************************************/
 SDL_Surface *convert_surf(SDL_Surface *surf_in)
 {
-  return SDL_ConvertSurface(surf_in, main_surface->format, 0);
+  return SDL_ConvertSurface(surf_in, main_surface->format);
 }
 
 /**********************************************************************//**
