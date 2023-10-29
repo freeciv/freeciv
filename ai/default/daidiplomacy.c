@@ -1145,12 +1145,13 @@ static void suggest_tech_exchange(struct ai_type *ait,
 {
   struct research *presearch1 = research_get(player1);
   struct research *presearch2 = research_get(player2);
-  int worth[advance_count()];
+  Tech_type_id ac = advance_count();
+  int worth[ac];
   bool is_dangerous;
-    
+
   worth[A_NONE] = 0;
 
-  advance_index_iterate(A_FIRST, tech) {
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     if (research_invention_state(presearch1, tech)
         == TECH_KNOWN) {
       if (research_invention_state(presearch2, tech) != TECH_KNOWN
@@ -1158,7 +1159,7 @@ static void suggest_tech_exchange(struct ai_type *ait,
         worth[tech] = -compute_tech_sell_price(ait, player1, player2, tech,
 	                                       &is_dangerous);
 	if (is_dangerous) {
-	  /* don't try to exchange */
+	  /* Don't try to exchange */
 	  worth[tech] = 0;
 	}
       } else {
@@ -1171,20 +1172,20 @@ static void suggest_tech_exchange(struct ai_type *ait,
         worth[tech] = compute_tech_sell_price(ait, player2, player1, tech,
 	                                      &is_dangerous);
 	if (is_dangerous) {
-	  /* don't try to exchange */
+	  /* Don't try to exchange */
 	  worth[tech] = 0;
 	}
       } else {
         worth[tech] = 0;
       }
     }
-  } advance_index_iterate_end;
-    
-  advance_index_iterate(A_FIRST, tech) {
+  } advance_index_iterate_max_end;
+
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     if (worth[tech] <= 0) {
       continue;
     }
-    advance_index_iterate(A_FIRST, tech2) {
+    advance_index_iterate_max(A_FIRST, tech2, ac) {
       int diff;
 
       if (worth[tech2] >= 0) {
@@ -1194,18 +1195,18 @@ static void suggest_tech_exchange(struct ai_type *ait,
       diff = worth[tech] + worth[tech2];
       if ((diff > 0 && player1->economic.gold >= diff)
           || (diff < 0 && player2->economic.gold >= -diff)
-	  || diff == 0) {
+          || diff == 0) {
         dai_diplomacy_suggest(player1, player2, CLAUSE_ADVANCE, FALSE, tech2);
-	dai_diplomacy_suggest(player1, player2, CLAUSE_ADVANCE, TRUE, tech);
-	if (diff > 0) {
+        dai_diplomacy_suggest(player1, player2, CLAUSE_ADVANCE, TRUE, tech);
+        if (diff > 0) {
           dai_diplomacy_suggest(player1, player2, CLAUSE_GOLD, FALSE, diff);
-	} else if (diff < 0) {
+        } else if (diff < 0) {
           dai_diplomacy_suggest(player1, player2, CLAUSE_GOLD, TRUE, -diff);
-	}
-	return;
+        }
+        return;
       }
-    } advance_index_iterate_end;
-  } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
+  } advance_index_iterate_max_end;
 }
 
 /******************************************************************//**
