@@ -139,6 +139,9 @@ gint blocking_dialog(GtkWidget *dlg);
 void widget_destroyed(GtkWidget *wdg, void *data);
 GtkWidget *widget_get_child(GtkWidget *wdg);
 
+void alert_close_response(GObject *dialog, GAsyncResult *result,
+                          gpointer data);
+
 #define menu_item_insert_unref(menu, index, item) \
 {                                                 \
   GMenuItem *_item_var = item;                    \

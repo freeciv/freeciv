@@ -1166,3 +1166,12 @@ GtkWidget *widget_get_child(GtkWidget *wdg)
 {
   return gtk_widget_get_first_child(wdg);
 }
+
+/**********************************************************************//**
+  Callback for alert dialog that can only be closed.
+**************************************************************************/
+void alert_close_response(GObject *dialog, GAsyncResult *result,
+                          gpointer data)
+{
+  gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(dialog), result, NULL);
+}

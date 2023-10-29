@@ -3182,15 +3182,17 @@ static void draw_map_canvas(struct city_dialog *pdialog)
 /***********************************************************************//**
   User has answered buy cost dialog
 ***************************************************************************/
-static void buy_callback_response(GtkWidget *w, gint response, gpointer data)
+static void buy_callback_response(GObject *dialog, GAsyncResult *result,
+                                  gpointer data)
 {
-  struct city_dialog *pdialog = data;
+  int button = gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(dialog),
+                                              result, NULL);
 
-  if (response == GTK_RESPONSE_YES) {
+  if (button == 0) {
+    struct city_dialog *pdialog = data;
+
     city_buy_production(pdialog->pcity);
   }
-
-  gtk_window_destroy(GTK_WINDOW(w));
 }
 
 /***********************************************************************//**
@@ -3198,7 +3200,7 @@ static void buy_callback_response(GtkWidget *w, gint response, gpointer data)
 ***************************************************************************/
 static void buy_callback(GtkWidget *w, gpointer data)
 {
-  GtkWidget *shell;
+  GtkAlertDialog *shell;
   struct city_dialog *pdialog = data;
   const char *name = city_production_name_translation(pdialog->pcity);
   int value = pdialog->pcity->client.buy_cost;
@@ -3214,32 +3216,31 @@ static void buy_callback(GtkWidget *w, gpointer data)
               client_player()->economic.gold);
 
   if (value <= client_player()->economic.gold) {
-    shell = gtk_message_dialog_new(NULL,
-        GTK_DIALOG_DESTROY_WITH_PARENT,
-        GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+    const char *buttons[] = { _("Yes"), _("No"), NULL };
+
+    shell = gtk_alert_dialog_new(
         /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
         PL_("Buy %s for %d gold?\n%s",
             "Buy %s for %d gold?\n%s", value),
         name, value, buf);
-    setup_dialog(shell, pdialog->shell);
+    gtk_alert_dialog_set_buttons(shell, buttons);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
-    g_signal_connect(shell, "response", G_CALLBACK(buy_callback_response),
-                     pdialog);
-    gtk_window_present(GTK_WINDOW(shell));
+
+    gtk_alert_dialog_choose(shell, GTK_WINDOW(toplevel), NULL,
+                            buy_callback_response, pdialog);
   } else {
-    shell = gtk_message_dialog_new(NULL,
-        GTK_DIALOG_DESTROY_WITH_PARENT,
-        GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+    const char *buttons[] = { _("Close"), NULL };
+
+    shell = gtk_alert_dialog_new(
         /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
         PL_("%s costs %d gold.\n%s",
             "%s costs %d gold.\n%s", value),
         name, value, buf);
-    setup_dialog(shell, pdialog->shell);
+    gtk_alert_dialog_set_buttons(shell, buttons);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
-    g_signal_connect(shell, "response", G_CALLBACK(gtk_window_destroy),
-      NULL);
-    gtk_window_present(GTK_WINDOW(shell));
+    gtk_alert_dialog_choose(shell, GTK_WINDOW(toplevel), NULL,
+                            alert_close_response, NULL);
   }
 }
 
