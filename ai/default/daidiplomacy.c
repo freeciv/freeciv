@@ -1158,9 +1158,9 @@ static void suggest_tech_exchange(struct ai_type *ait,
 {
   struct research *presearch1 = research_get(player1);
   struct research *presearch2 = research_get(player2);
-  int worth[advance_count()];
-  bool is_dangerous;
   Tech_type_id ac = advance_count();
+  int worth[ac];
+  bool is_dangerous;
 
   worth[A_NONE] = 0;
 
