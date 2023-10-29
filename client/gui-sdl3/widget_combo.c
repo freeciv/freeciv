@@ -241,13 +241,13 @@ struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
   set_wflag(combo, WF_FREE_STRING | WF_FREE_GFX | flags);
   set_wstate(combo, FC_WS_DISABLED);
   set_wtype(combo, WT_COMBO);
-  combo->mod = KMOD_NONE;
+  combo->mod = SDL_KMOD_NONE;
 
   baseclass_redraw = combo->redraw;
   combo->redraw = combo_redraw;
   combo->destroy = combo_popdown;
 
-  if (NULL != pstr) {
+  if (pstr != NULL) {
     combo->string_utf8->style |= SF_CENTER;
     utf8_str_size(pstr, &buf);
     buf.h += adj_size(4);
@@ -258,7 +258,7 @@ struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
   combo->size.w = buf.w + adj_size(10);
   combo->size.h = buf.h;
 
-  if (dest) {
+  if (dest != NULL) {
     combo->dst = dest;
   } else {
     combo->dst = add_gui_layer(combo->size.w, combo->size.h);

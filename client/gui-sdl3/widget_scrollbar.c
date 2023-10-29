@@ -168,7 +168,7 @@ struct widget *create_vertical(SDL_Surface *vert_theme, struct gui_layer *pdest,
   set_wflag(vert, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(vert, FC_WS_DISABLED);
   set_wtype(vert, WT_VSCROLLBAR);
-  vert->mod = KMOD_NONE;
+  vert->mod = SDL_KMOD_NONE;
   vert->dst = pdest;
 
   baseclass_redraw = vert->redraw;
@@ -301,7 +301,7 @@ struct widget *create_horizontal(SDL_Surface *horiz_theme,
   set_wflag(hor, WF_FREE_STRING | flags);
   set_wstate(hor, FC_WS_DISABLED);
   set_wtype(hor, WT_HSCROLLBAR);
-  hor->mod = KMOD_NONE;
+  hor->mod = SDL_KMOD_NONE;
   hor->dst = pdest;
 
   baseclass_redraw = hor->redraw;

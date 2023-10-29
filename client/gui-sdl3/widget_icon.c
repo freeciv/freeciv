@@ -216,13 +216,13 @@ struct widget *create_themeicon(SDL_Surface *icon_theme,
   set_wflag(icon_widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(icon_widget, FC_WS_DISABLED);
   set_wtype(icon_widget, WT_ICON);
-  icon_widget->mod = KMOD_NONE;
+  icon_widget->mod = SDL_KMOD_NONE;
   icon_widget->dst = pdest;
 
   baseclass_redraw = icon_widget->redraw;
   icon_widget->redraw = redraw_icon;
 
-  if (icon_theme) {
+  if (icon_theme != NULL) {
     icon_widget->size.w = icon_theme->w / 4;
     icon_widget->size.h = icon_theme->h;
   }
@@ -340,13 +340,13 @@ struct widget *create_icon2(SDL_Surface *icon, struct gui_layer *pdest,
   set_wflag(icon_widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(icon_widget, FC_WS_DISABLED);
   set_wtype(icon_widget, WT_ICON2);
-  icon_widget->mod = KMOD_NONE;
+  icon_widget->mod = SDL_KMOD_NONE;
   icon_widget->dst = pdest;
 
   baseclass_redraw = icon_widget->redraw;
   icon_widget->redraw = redraw_icon2;
 
-  if (icon) {
+  if (icon != NULL) {
     icon_widget->size.w = icon->w + adj_size(4);
     icon_widget->size.h = icon->h + adj_size(4);
   }
