@@ -24,7 +24,7 @@ EXTRA_DIST =	freeciv.project		\
 		langstat_ruledit.txt	\
 		org.freeciv.gtk322.desktop	\
 		org.freeciv.gtk4.desktop	\
-		org.freeciv.gtk5.desktop	\
+		org.freeciv.gtk4x.desktop	\
 		org.freeciv.sdl2.desktop	\
 		org.freeciv.qt.desktop \
 		org.freeciv.server.desktop	\
