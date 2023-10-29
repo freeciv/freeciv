@@ -560,10 +560,10 @@ bool create_surfaces(int width, int height)
       || (sdl3_client_flags & CF_SWRENDERER)) {
     flags = SDL_RENDERER_SOFTWARE;
   } else {
-    flags = 0;
+    flags = SDL_RENDERER_ACCELERATED;
   }
 
-  main_data.renderer = SDL_CreateRenderer(main_data.screen, -1, flags);
+  main_data.renderer = SDL_CreateRenderer(main_data.screen, NULL, flags);
 
   if (main_data.renderer == NULL) {
     log_fatal(_("Failed to create renderer: %s"), SDL_GetError());
