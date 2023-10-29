@@ -191,7 +191,7 @@ struct widget *create_themelabel(SDL_Surface *icon, struct gui_layer *pdest,
              WF_RESTORE_BACKGROUND | flags));
   set_wstate(label, FC_WS_DISABLED);
   set_wtype(label, WT_T_LABEL);
-  label->mod = KMOD_NONE;
+  label->mod = SDL_KMOD_NONE;
   label->dst = pdest;
 
   baseclass_redraw = label->redraw;
@@ -220,7 +220,7 @@ struct widget *create_iconlabel(SDL_Surface *icon, struct gui_layer *pdest,
   set_wflag(icon_label, WF_FREE_STRING | WF_FREE_GFX | flags);
   set_wstate(icon_label, FC_WS_DISABLED);
   set_wtype(icon_label, WT_I_LABEL);
-  icon_label->mod = KMOD_NONE;
+  icon_label->mod = SDL_KMOD_NONE;
   icon_label->dst = pdest;
 
   baseclass_redraw = icon_label->redraw;
@@ -255,7 +255,7 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
   set_wflag(label, (WF_FREE_THEME | WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(label, FC_WS_DISABLED);
   set_wtype(label, WT_T2_LABEL);
-  label->mod = KMOD_NONE;
+  label->mod = SDL_KMOD_NONE;
   baseclass_redraw = label->redraw;
   label->redraw = redraw_label;
 
@@ -275,10 +275,10 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
   area = label->size;
   label->dst = gui_layer_new(0, 0, ptheme);
 
-  /* normal */
+  /* Normal */
   redraw_iconlabel(label);
 
-  /* selected */
+  /* Selected */
   area.x = 0;
   area.y = label->size.h;
 

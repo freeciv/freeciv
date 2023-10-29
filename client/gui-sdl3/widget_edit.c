@@ -350,12 +350,12 @@ struct widget *create_edit(SDL_Surface *background, struct gui_layer *pdest,
   struct widget *pedit = widget_new();
 
   pedit->theme = current_theme->edit;
-  pedit->theme2 = background; /* FIXME: make somewhere use of it */
+  pedit->theme2 = background; /* FIXME: Make use of it somewhere. */
   pedit->string_utf8 = pstr;
   set_wflag(pedit, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pedit, FC_WS_DISABLED);
   set_wtype(pedit, WT_EDIT);
-  pedit->mod = KMOD_NONE;
+  pedit->mod = SDL_KMOD_NONE;
 
   baseclass_redraw = pedit->redraw;
   pedit->redraw = redraw_edit;

@@ -191,7 +191,7 @@ struct widget *create_window_skeleton(struct gui_layer *pdest,
             WF_DRAW_FRAME_AROUND_WIDGET| flags);
   set_wstate(pwindow, FC_WS_DISABLED);
   set_wtype(pwindow, WT_WINDOW);
-  pwindow->mod = KMOD_NONE;
+  pwindow->mod = SDL_KMOD_NONE;
 
   if (get_wflags(pwindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
     w += current_theme->fr_left->w + current_theme->fr_right->w;
@@ -212,7 +212,7 @@ struct widget *create_window_skeleton(struct gui_layer *pdest,
 
   set_client_area(pwindow);
 
-  if (pdest) {
+  if (pdest != NULL) {
     pwindow->dst = pdest;
   } else {
     pwindow->dst = add_gui_layer(w, h);
