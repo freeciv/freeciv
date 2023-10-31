@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,6 +13,7 @@
 #ifndef FC__SCORE_H
 #define FC__SCORE_H
 
+/* common */
 #include "fc_types.h"
 
 void calc_civ_score(struct player *pplayer);
