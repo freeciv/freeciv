@@ -331,7 +331,8 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity);
 bool can_unit_change_homecity(const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
-bool can_unit_continue_current_activity(struct unit *punit);
+bool can_unit_continue_current_activity(struct civ_map *nmap,
+                                        struct unit *punit);
 bool can_unit_do_activity(const struct civ_map *nmap,
                           const struct unit *punit,
                           enum unit_activity activity);

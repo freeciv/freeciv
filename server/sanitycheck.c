@@ -432,7 +432,7 @@ static void check_units(const char *file, const char *function, int line)
       SANITY_CHECK(player_unit_by_number(unit_owner(punit),
                                          punit->id) != NULL);
 
-      if (!can_unit_continue_current_activity(punit)) {
+      if (!can_unit_continue_current_activity(&(wld.map), punit)) {
         SANITY_FAIL("(%4d,%4d) %s has activity %s, "
                     "but it can't continue at %s",
                     TILE_XY(ptile), unit_rule_name(punit),

@@ -3842,7 +3842,7 @@ static void sg_load_players(struct loaddata *loading)
   /* Make sure everything is consistent. */
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
-      if (!can_unit_continue_current_activity(punit)) {
+      if (!can_unit_continue_current_activity(&(wld.map), punit)) {
         struct tile *ptile = unit_tile(punit);
 
         log_sg("%s doing illegal activity in savegame!",
