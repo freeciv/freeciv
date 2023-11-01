@@ -855,7 +855,8 @@ bool can_unit_paradrop(const struct unit *punit)
 /**********************************************************************//**
   Check if the unit's current activity is actually legal.
 **************************************************************************/
-bool can_unit_continue_current_activity(struct unit *punit)
+bool can_unit_continue_current_activity(struct civ_map *nmap,
+                                        struct unit *punit)
 {
   enum unit_activity current = punit->activity;
   struct extra_type *target = punit->activity_target;
@@ -866,7 +867,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
   punit->activity = ACTIVITY_IDLE;
   punit->activity_target = NULL;
 
-  result = can_unit_do_activity_targeted(&(wld.map), punit, current2, target);
+  result = can_unit_do_activity_targeted(nmap, punit, current2, target);
 
   punit->activity = current;
   punit->activity_target = target;
