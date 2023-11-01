@@ -1639,7 +1639,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
     struct city *home = game_city_by_number(punit->homecity);
 
     /* Catch fortress building, transforming into ocean, etc. */
-    if (!can_unit_continue_current_activity(punit)) {
+    if (!can_unit_continue_current_activity(&(wld.map), punit)) {
       unit_activities_cancel(punit);
     }
 

@@ -4076,7 +4076,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
     }
   }
 
-  if (!can_unit_continue_current_activity(punit)) {
+  if (!can_unit_continue_current_activity(&(wld.map), punit)) {
     /* This is mainly for cases where unit owner changes to one not knowing
      * Railroad tech when unit is already building railroad.
      * Does also send_unit_info() */
