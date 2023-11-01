@@ -97,7 +97,8 @@ struct unit_order {
    * 'action'. See action_target_kind and action_sub_target_kind */
   int target;
   int sub_target;
-  /* Only valid for ORDER_PERFORM_ACTION */
+  /* Only valid for ORDER_PERFORM_ACTION and ORDER_ACTIVITY
+   * TODO: Drop ORDER_ACTIVITY, always have activities as result of actions. */
   int action;
   /* Valid for ORDER_MOVE and ORDER_ACTION_MOVE. */
   enum direction8 dir;

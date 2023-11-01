@@ -5807,6 +5807,8 @@ static void sg_save_player_cities(struct savedata *saving,
           sub_targets[j] = pcity->rally_point.orders[j].sub_target;
           activities[j]
             = activity2char(pcity->rally_point.orders[j].activity);
+          actions[j]
+            = pcity->rally_point.orders[j].action;
           break;
         case ORDER_PERFORM_ACTION:
           actions[j] = pcity->rally_point.orders[j].action;
@@ -6379,7 +6381,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
             || (order->order == ORDER_PERFORM_ACTION
                 && !action_id_exists(order->action))
             || (order->order == ORDER_ACTIVITY
-                && order->activity == ACTIVITY_LAST)) {
+                && (order->activity == ACTIVITY_LAST
+                    || !action_id_exists(order->action)))) {
           /* An invalid order. Just drop the orders for this unit. */
           free(punit->orders.list);
           punit->orders.list = NULL;
@@ -6751,6 +6754,7 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_ACTIVITY:
           sub_tgt_vec[j] = punit->orders.list[j].sub_target;
           act_buf[j] = activity2char(punit->orders.list[j].activity);
+          action_buf[j] = punit->orders.list[j].action;
           break;
         case ORDER_PERFORM_ACTION:
           action_buf[j] = punit->orders.list[j].action;

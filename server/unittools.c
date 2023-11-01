@@ -4369,17 +4369,17 @@ static inline bool player_is_watching(struct unit *punit, const bool fresh)
 }
 
 /**********************************************************************//**
-  Executes a unit's orders stored in punit->orders.  The unit is put on idle
+  Executes a unit's orders stored in punit->orders. The unit is put on idle
   if an action fails or if "patrol" is set and an enemy unit is encountered.
 
-  The return value will be TRUE if the unit lives, FALSE otherwise.  (This
-  function used to return a goto_result enumeration, declared in gotohand.h.
-  But this enumeration was never checked by the caller and just lead to
-  confusion.  All the caller really needs to know is if the unit lived or
-  died; everything else is handled internally within execute_orders.)
+  The return value will be TRUE if the unit lives, FALSE otherwise.
+  (This function used to return a goto_result enumeration, declared
+  in gotohand.h. But this enumeration was never checked by the caller and
+  just lead to confusion. All the caller really needs to know is if the unit
+  lived or died; everything else is handled internally within execute_orders.)
 
   If the orders are repeating the loop starts over at the beginning once it
-  completes.  To avoid infinite loops on railroad we stop for this
+  completes. To avoid infinite loops on railroad we stop for this
   turn when the unit is back where it started, even if it have moves left.
 
   A unit will attack under orders only on its final action.
@@ -4510,8 +4510,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
         if (can_unit_do_activity(nmap, punit, activity)) {
           punit->done_moving = TRUE;
-          /* FIXME: Have actions also with orders */
-          set_unit_activity(punit, activity, activity_default_action(activity));
+          set_unit_activity(punit, activity, order.action);
           send_unit_info(NULL, punit);
 
           break;
