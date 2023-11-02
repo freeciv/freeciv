@@ -1,10 +1,177 @@
 ========================
-Welcome to Freeciv 3.0.8
+Welcome to Freeciv 3.0.9
 ========================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.0.8 to 3.0.9
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.9>, 2023-11-02)
+
+3.0.9 is a generic bugfix release in freeciv-3.0 series.
+
+Server / General
+
+    * Set diplomatic relations state correctly between team members
+      osdn#48295
+    * Fixed assert failures when city grows to freeciv's internal
+      max city size (255) osdn#48296
+    * Sammarinese city name Borgo Maggiore corrected osdn#48316
+    * Cargo gets bounced when transport is lost due to terrain change
+      osdn#46277
+    * Fixed crash with recursive autoattacks in case of occupychance
+      setting being > 0 osdn#48300
+    * Fixed memory corruption when transport is not bounced,
+      but cargo is osdn#48392
+    * Corrected amount treasury gets increased by a city
+      in some situations osdn#48391
+    * Cities stop working tiles turned unworkable at turn change osdn#46423
+    * Fixed clearing city border claims when player gets removed
+      from the game osdn#48837
+
+Changes affecting players (supplied rulesets)
+
+    * Units hidden by extras no longer impose ZoC osdn#47700
+
+    * nations
+         + Portuguese viscounty replaced by county osdn#48531
+         + Han dynasty removed from modern era group osdn#48764 osdn#48714
+         + The new nation from Mongols civil war now might be China
+           osdn#48780
+
+    * scenarios
+         + Bordering Glaciers in italy scenario replaced by
+           Inaccessible terrain osdn#42869
+
+Changes affecting other rulesets / modders
+
+    * Fixed problems in passing integer values through lua calls osdn#48722
+
+Changes affecting server operators
+
+    * Fixed handling of invalid player flag on savegame load osdn#48563
+
+General
+
+    * Fixed memory leaks, bad memory access, and improved cleanup
+      on shutdown
+      osdn#48275 osdn#48399 osdn#48445 osdn#48454 osdn#48446 osdn#47186
+      osdn#48787 osdn#48797 osdn#48788 osdn#48821 osdn#48807
+    * Optimizations
+      osdn#48274 osdn#47794 osdn#48635 osdn#48711 osdn#47737 osdn#48525
+      osdn#47345 osdn#48838 osdn#48678
+    * Various internal changes which should only affect developers.
+      osdn#48315 osdn#48197 osdn#48368 osdn#41796 osdn#47961 osdn#48587
+      osdn#48594 osdn#48645 osdn#48652 osdn#46414 osdn#48707 osdn#48526
+      osdn#48266 osdn#48731 osdn#48771 osdn#48772 osdn#48768 osdn#48869
+
+AI
+
+    * AI no longer plans and tries to cancel shared vision from
+      team members osdn#48152
+    * Fixed several places where wants were rounded to integers,
+      often causing low want (lower than '1') to be not wanted
+      at all ('0')
+      osdn#47736 osdn#48370 osdn#48421 osdn#48842
+    * Fixed diplomatic states corruption after Senate blocked AI's
+      war declaration osdn#47786
+    * Made AI missile carriers able to launch multiple missiles osdn#45927
+    * AI missile carriers now launch only such missiles that they
+      are carrying themselves osdn#48627
+
+Clients
+
+    * gtk
+         + Made it possible to offer techs in a treaty even if player
+           has no embassy to see what techs the other player already has
+           osdn#45552
+         + gtk3/gtk3.22: Made Battle Groups menu insensitive for observers
+           osdn#48298
+         + gtk3/gtk3.22: Fixed bad padding in theme osdn#48669
+         + gtk3/gtk3.22: Fixed bad tooltip contrast in theme osdn#48670
+         + gtk3.22: Theme gets applied to all windows, not just root one
+           osdn#48580 osdn#48770
+         + gtk3/gtk3.22: Window title mentions gui type osdn#48600
+         + gtk3.22: Fixed conflicts between system theme and loaded theme
+           osdn#45601
+
+    * Qt
+         + Hud shows when one is observer, and not a controlling player
+            osdn#48132
+         + Fixed wrong unit convert times shown in help osdn#48377
+         + Fixed supposedly non-fatal tileset errors causing a crash,
+           and display of fatal errors before aborting osdn#47915
+         + Fixed Science Dialog crash because of a Future Tech osdn#47787
+         + Window title mentions gui type osdn#48603
+         + Battle Groups menu added osdn#48732 osdn#48860
+
+    * sdl2
+         + Improvements to theme provided font size setting usage
+           osdn#48271 osdn#48427 osdn#48573 osdn#48574 osdn#48629
+           osdn#48641
+         + Added commandline parameter '-- --Font SIZE osdn#48305
+         + Fixed units report crash when player has no units osdn#48379
+         + Fixed help tech tree crash when tech requirements are not
+           in first slots osdn#48436
+
+Tools
+Manual Generator
+
+    * Seperate buildings by a ruler osdn#48440
+    * Setting page format fixed osdn#48762
+
+Ruledit
+
+    * In experimental mode builds, newly initialized objects get
+      their flags properly cleared osdn#48767
+
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#48693 osdn#48710 osdn#48709 osdn#48761 osdn#48743
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#48182 osdn#48438 osdn#48374 osdn#48543 osdn#48877
+
+Translations
+
+    * Updated translations: de, fi, fr, id, pl, ru
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      osdn#48263 osdn#48378 osdn#48537 osdn#48540 osdn#48611 osdn#48706
+      osdn#48799 osdn#48890 osdn#48889
+    * Fixed some clang analyzer warnings
+      osdn#48265 osdn#48363 osdn#48290 osdn#48406 osdn#48456 osdn#48536
+      osdn#48541 osdn#48555 osdn#48570 osdn#48636 osdn#48688 osdn#48623
+      osdn#48776 osdn#48834 osdn#48624 osdn#48677 osdn#48875 osdn#48904
+    * Crosser updates
+         + Registry key and installation directory names unified
+           with default msys2 based installers osdn#47343
+    * Windows Installer (default msys2 ones) snapshot builds now
+      get ChangeLog refreshed to match current commit osdn#44497
+    * Generating source files with tolua is now silent under automake's
+      silent mode osdn#47468
+    * Flatpak updates
+         + Running autogen.sh done once on host, not on each container
+           osdn#48394
+         + Use autotools build system instead of rolling our own list
+           of commands for simple system osdn#48430
+         + Freedesktop sdk and platform updated to 23.08 osdn#48599
+         + Gnome sdk and platform updated to 45 osdn#48689
+         + Qt sdk and platform updated to 5.15-23.08 osdn#48861
+    * Fixed compiler warning about uninitialized variable caused
+      by bad compiler heuristics osdn#48544 osdn#48737
+    * Deprecated function call fixed in gtk4 Modpack Installer osdn#48744
+    * Metainfo updates
+         + Qt modpack installer screenshot updated osdn#48775
+    * Fixed gcc-14 development version compiler warnings
+      osdn#48849 osdn#48850
 
 
 CHANGES FROM 3.0.7 to 3.0.8
