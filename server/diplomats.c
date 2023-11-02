@@ -221,6 +221,12 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   action_consequence_success(ACTION_SPY_INVESTIGATE_CITY, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (has_capability("obsinv", pconn->capability)) {
+      dsend_packet_investigate_finished(pconn, pdiplomat->id, pcity->id);
+    }
+  } conn_list_iterate_end;
+
   /* Spies always survive. Diplomats never do. */
   if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     wipe_unit(pdiplomat, ULR_USED, NULL);
@@ -1482,12 +1488,6 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
       }
     }
   } unit_list_iterate_end;
-
-  conn_list_iterate(pplayer->connections, pconn) {
-    if (has_capability("obsinv", pconn->capability)) {
-      dsend_packet_investigate_finished(pconn, pdiplomat->id, pcity->id);
-    }
-  } conn_list_iterate_end;
 
   return TRUE;
 }
