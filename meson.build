@@ -975,6 +975,25 @@ void me::top() { [=, this]() {}; };
   pub_conf_data.set('FREECIV_HAVE_CXX20_CAPTURE_THIS', 1)
 endif
 
+zbm = c_compiler.run('''
+#include <stdlib.h>
+int main()
+{
+  void *allocation = malloc(0);
+
+  if (allocation != NULL) {
+    free(allocation);
+  }
+
+  return (allocation == NULL);
+}''',
+     name: 'zero-byte malloc()',
+     args: ['-Werror', '-Wall'])
+
+if zbm.returncode() == 0
+  priv_conf_data.set('MALLOC_ZERO_OK', 1)
+endif
+
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
                configuration: priv_conf_data)
