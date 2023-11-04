@@ -3785,7 +3785,7 @@ void real_menus_update(void)
                            can_units_do(punits, can_unit_teleport));
 
   menu_entry_set_sensitive(map, "BUILD_ROAD",
-                           (can_units_do_any_road(punits)
+                           (can_units_do_any_road(&(wld.map), punits)
                             || can_units_do(punits,
                                             unit_can_est_trade_route_here)));
   menu_entry_set_sensitive(map, "BUILD_IRRIGATION",

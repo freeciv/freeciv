@@ -766,7 +766,7 @@ enum fc_tristate actres_possible(enum action_result result,
       /* Reason: This is not a road. */
       return TRI_NO;
     }
-    if (!can_build_road(extra_road_get(target_extra), actor->unit,
+    if (!can_build_road(nmap, extra_road_get(target_extra), actor->unit,
                         target->tile)) {
       return TRI_NO;
     }

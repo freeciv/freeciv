@@ -3208,6 +3208,7 @@ is_roadflag_req_active(const struct req_context *context,
 {
   enum road_flag_id roadflag;
   enum fc_tristate ret;
+  struct civ_map *nmap = &(wld.map);
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ROADFLAG);
 
@@ -3236,13 +3237,15 @@ is_roadflag_req_active(const struct req_context *context,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(tile_has_road_flag(context->tile, roadflag)
-                            || is_road_flag_card_near(context->tile, roadflag));
+                            || is_road_flag_card_near(nmap, context->tile,
+                                                      roadflag));
   case REQ_RANGE_ADJACENT:
     if (!context->tile) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(tile_has_road_flag(context->tile, roadflag)
-                            || is_road_flag_near_tile(context->tile, roadflag));
+                            || is_road_flag_near_tile(nmap, context->tile,
+                                                      roadflag));
   case REQ_RANGE_CITY:
     if (!context->city) {
       return TRI_MAYBE;

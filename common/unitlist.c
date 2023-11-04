@@ -140,13 +140,14 @@ bool can_units_do_activity_targeted(const struct civ_map *nmap,
 /************************************************************************//**
   Returns TRUE if any of the units can build any road.
 ****************************************************************************/
-bool can_units_do_any_road(const struct unit_list *punits)
+bool can_units_do_any_road(const struct civ_map *nmap,
+                           const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
 
-      if (can_build_road(proad, punit, unit_tile(punit))) {
+      if (can_build_road(nmap, proad, punit, unit_tile(punit))) {
         return TRUE;
       }
     } extra_type_by_cause_iterate_end;

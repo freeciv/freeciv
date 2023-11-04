@@ -78,7 +78,8 @@ bool can_units_do_activity_targeted(const struct civ_map *nmap,
                                     const struct unit_list *punits,
                                     enum unit_activity activity,
                                     struct extra_type *pextra);
-bool can_units_do_any_road(const struct unit_list *punits);
+bool can_units_do_any_road(const struct civ_map *nmap,
+                           const struct unit_list *punits);
 bool can_units_do_base_gui(const struct unit_list *punits,
                            enum base_gui_type base_gui);
 bool units_have_type_flag(const struct unit_list *punits,
