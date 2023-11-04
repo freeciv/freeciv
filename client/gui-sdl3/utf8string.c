@@ -17,9 +17,6 @@
 
 #include <string.h>
 
-/* SDL3 */
-#include <SDL3/SDL_types.h>
-
 /* utility */
 #include "mem.h"
 
