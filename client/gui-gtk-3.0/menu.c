@@ -2492,7 +2492,7 @@ void real_menus_update(void)
             (can_units_do(punits, unit_can_add_or_build_city)
              || can_units_do(punits, unit_can_help_build_wonder_here)));
   menu_entry_set_sensitive("BUILD_ROAD",
-                           (can_units_do_any_road(punits)
+                           (can_units_do_any_road(&(wld.map), punits)
                             || can_units_do(punits,
                                             unit_can_est_trade_route_here)));
   menu_entry_set_sensitive("BUILD_IRRIGATION",
