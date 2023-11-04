@@ -1652,7 +1652,7 @@ struct terrain *help_widget::terrain_max_values()
     attack_strength, bombard_rate, build_cost, city_size, convert_time,
     defense_strength, firepower, fuel, happy_cost, hp, move_rate, pop_cost,
     upkeep, vision_radius_sq
-  Other fiels in returned value are undefined. Especially, all pointers are
+  Other fields in returned value are undefined. Especially, all pointers are
   invalid except uclass.
 **************************************************************************/
 struct unit_type *help_widget::uclass_max_values(struct unit_class *uclass)

@@ -460,7 +460,7 @@ static void remove_item_from_worklist(struct widget *pItem)
   }
 
   if (pItem->data.ptr) {
-    /* correct "data" widget fiels */
+    /* correct "data" widget fields */
     struct widget *pBuf = pItem;
 
     if (pBuf != pEditor->pWork->pBeginActiveWidgetList) {
