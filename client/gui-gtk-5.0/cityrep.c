@@ -565,6 +565,52 @@ static void sell_impr_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
+struct scbs_data {
+  const struct impr_type *building;
+  const char *imprname;
+};
+
+/************************************************************************//**
+  Callback for sell dialog response.
+****************************************************************************/
+static void sell_callback_response(GObject *dialog, GAsyncResult *result,
+                                   gpointer data)
+{
+  int button = gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(dialog),
+                                              result, NULL);
+
+  if (button == 0) {
+    struct scbs_data *scbs = (struct scbs_data *)data;
+    struct sell_data sd = { 0, 0, scbs->building };
+    GtkWidget *w;
+
+    gtk_tree_selection_selected_foreach(city_selection,
+                                        sell_impr_iterate, &sd);
+    if (sd.count > 0) {
+      /* FIXME: plurality of sd.count is ignored! */
+      /* TRANS: "Sold 3 Harbor for 90 gold." (Pluralisation is in gold --
+       * second %d -- not in buildings.) */
+      w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+                                 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+                                 PL_("Sold %d %s for %d gold.",
+                                     "Sold %d %s for %d gold.",
+                                     sd.gold),
+                                 sd.count, scbs->imprname, sd.gold);
+    } else {
+      w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+                                 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+                                 _("No %s could be sold."),
+                                 scbs->imprname);
+    }
+
+    g_signal_connect(w, "response",
+                     G_CALLBACK(gtk_window_destroy), NULL);
+    gtk_window_present(GTK_WINDOW(w));      /* Asynchron. */
+  }
+
+  free(data);
+}
+
 /************************************************************************//**
   Some build target, either improvement or unit, has been selected from
   some menu.
@@ -624,47 +670,22 @@ static void select_impr_or_unit_callback(GSimpleAction *action,
     case CO_SELL:
       fc_assert_action(target.kind == VUT_IMPROVEMENT, break);
       {
-        const struct impr_type *building = target.value.building;
-        struct sell_data sd = { 0, 0, building };
-        GtkWidget *w;
-        gint res;
+        struct scbs_data *scbs = fc_malloc(sizeof(struct scbs_data));
+        GtkAlertDialog *w;
         gchar *buf;
-        const char *imprname = improvement_name_translation(building);
+        const char *buttons[] = { _("Yes"), _("No"), NULL };
+
+        scbs->building = target.value.building;
+        scbs->imprname = improvement_name_translation(scbs->building);
 
         /* Ask confirmation */
-        buf = g_strdup_printf(_("Are you sure you want to sell those %s?"), imprname);
-        w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
-                                   GTK_MESSAGE_QUESTION,
-                                   GTK_BUTTONS_YES_NO, "%s", buf);
+        buf = g_strdup_printf(_("Are you sure you want to sell those %s?"), scbs->imprname);
+        w = gtk_alert_dialog_new("%s", buf);
         g_free(buf);
-        res = blocking_dialog(w);    /* Synchron. */
-        gtk_window_destroy(GTK_WINDOW(w));
-        if (res == GTK_RESPONSE_NO) {
-          break;
-        }
-
-        gtk_tree_selection_selected_foreach(city_selection,
-                                            sell_impr_iterate, &sd);
-        if (sd.count > 0) {
-          /* FIXME: plurality of sd.count is ignored! */
-          /* TRANS: "Sold 3 Harbor for 90 gold." (Pluralisation is in gold --
-           * second %d -- not in buildings.) */
-          w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
-                                     GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-                                     PL_("Sold %d %s for %d gold.",
-                                         "Sold %d %s for %d gold.",
-                                         sd.gold),
-                                     sd.count, imprname, sd.gold);
-        } else {
-          w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
-                                     GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-                                     _("No %s could be sold."),
-                                     imprname);
-        }
-
-        g_signal_connect(w, "response",
-                         G_CALLBACK(gtk_window_destroy), NULL);
-        gtk_window_present(GTK_WINDOW(w));      /* Asynchron. */
+        gtk_alert_dialog_set_buttons(w, buttons);
+        gtk_alert_dialog_set_modal(w, TRUE);
+        gtk_alert_dialog_choose(w, GTK_WINDOW(toplevel), NULL,
+                                sell_callback_response, scbs);
       }
       break;
     case CO_NONE:
