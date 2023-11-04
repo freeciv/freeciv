@@ -1308,11 +1308,14 @@ static bool is_activity_on_tile(struct tile *ptile,
   Fill orders to build recursive roads. This modifies ptile, so virtual
   copy of the real tile should be passed.
 **************************************************************************/
-int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pextra,
-                                 const struct unit *punit, const struct player *pplayer, int rec)
+int check_recursive_road_connect(struct tile *ptile,
+                                 const struct extra_type *pextra,
+                                 const struct unit *punit,
+                                 const struct player *pplayer, int rec)
 {
   int activity_mc = 0;
   struct terrain *pterrain = tile_terrain(ptile);
+  const struct civ_map *nmap = &(wld.map);
 
   if (rec > MAX_EXTRA_TYPES) {
     return -1;
@@ -1326,7 +1329,8 @@ int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pe
     if (!tile_has_extra(ptile, pdep)) {
       int single_mc;
 
-      single_mc = check_recursive_road_connect(ptile, pdep, punit, pplayer, rec + 1);
+      single_mc = check_recursive_road_connect(ptile, pdep, punit,
+                                               pplayer, rec + 1);
 
       if (single_mc < 0) {
         return -1;
@@ -1338,11 +1342,12 @@ int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pe
 
   /* Can build road after that? */
   if (punit != NULL) {
-    if (!can_build_road(extra_road_get(pextra), punit, ptile)) {
+    if (!can_build_road(nmap, extra_road_get(pextra), punit, ptile)) {
       return -1;
     }
   } else if (pplayer != NULL) {
-    if (!player_can_build_road(extra_road_get(pextra), pplayer, ptile)) {
+    if (!player_can_build_road(nmap, extra_road_get(pextra),
+                               pplayer, ptile)) {
       return -1;
     }
   }

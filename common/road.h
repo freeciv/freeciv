@@ -105,30 +105,36 @@ struct road_type *road_by_compat_special(enum road_compat compat);
 
 struct road_type *road_by_gui_type(enum road_gui_type gui_type);
 
-int count_road_near_tile(const struct tile *ptile, const struct road_type *proad);
-int count_river_near_tile(const struct tile *ptile,
+int count_road_near_tile(struct civ_map *nmap, const struct tile *ptile,
+                         const struct road_type *proad);
+int count_river_near_tile(struct civ_map *nmap,
+                          const struct tile *ptile,
                           const struct extra_type *priver);
-int count_river_type_tile_card(const struct tile *ptile,
+int count_river_type_tile_card(struct civ_map *nmap,
+                               const struct tile *ptile,
                                const struct extra_type *priver,
                                bool percentage);
-int count_river_type_near_tile(const struct tile *ptile,
+int count_river_type_near_tile(struct civ_map *nmap,
+                               const struct tile *ptile,
                                const struct extra_type *priver,
                                bool percentage);
 
 /* Functions to operate on a road flag. */
 bool road_has_flag(const struct road_type *proad, enum road_flag_id flag);
-bool is_road_flag_card_near(const struct tile *ptile,
+bool is_road_flag_card_near(struct civ_map *nmap, const struct tile *ptile,
                             enum road_flag_id flag);
-bool is_road_flag_near_tile(const struct tile *ptile,
+bool is_road_flag_near_tile(struct civ_map *nmap, const struct tile *ptile,
                             enum road_flag_id flag);
 
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile);
-bool can_build_road(struct road_type *proad,
-		    const struct unit *punit,
-		    const struct tile *ptile);
-bool player_can_build_road(const struct road_type *proad,
-			   const struct player *pplayer,
-			   const struct tile *ptile);
+bool can_build_road(const struct civ_map *nmap,
+                    struct road_type *proad,
+                    const struct unit *punit,
+                    const struct tile *ptile);
+bool player_can_build_road(const struct civ_map *nmap,
+                           const struct road_type *proad,
+                           const struct player *pplayer,
+                           const struct tile *ptile);
 
 bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile);
@@ -164,4 +170,4 @@ void road_types_free(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__ROAD_H */
+#endif /* FC__ROAD_H */

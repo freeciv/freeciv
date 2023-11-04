@@ -1043,7 +1043,7 @@ int unit_actions::update_actions()
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
 
-      if (can_build_road(proad, current_unit, unit_tile(current_unit))) {
+      if (can_build_road(&(wld.map), proad, current_unit, unit_tile(current_unit))) {
         ok = true;
       }
     } extra_type_by_cause_iterate_end;

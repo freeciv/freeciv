@@ -2361,7 +2361,7 @@ void mr_menu::menus_sensitive()
         {
           struct extra_type *pextra = nullptr;
 
-          if (can_units_do_any_road(punits)) {
+          if (can_units_do_any_road(&(wld.map), punits)) {
             i.value()->setEnabled(true);
           }
           unit_list_iterate(punits, punit) {
