@@ -2076,7 +2076,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
         elif self.no_packet:
             pre = f"""\
 
-  pre_send_{self.packet_name}(pc, NULL);
+  pre_send_{self.packet_name}(pc, nullptr);
 """
         else:
             pre = f"""\
@@ -2132,7 +2132,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
         if self.packet.want_post_send:
             if self.no_packet:
                 post = f"""\
-  post_send_{self.packet_name}(pc, NULL);
+  post_send_{self.packet_name}(pc, nullptr);
 """
             else:
                 post = f"""\
@@ -2146,7 +2146,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 #ifdef FREECIV_JSON_CONNECTION
   struct plocation field_addr;
   {
-    struct plocation *field_addr_tmp = plocation_field_new(NULL);
+    struct plocation *field_addr_tmp = plocation_field_new(nullptr);
     field_addr = *field_addr_tmp;
     FC_FREE(field_addr_tmp);
   }
@@ -2185,9 +2185,9 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
         intro = f"""\
 
 #ifdef FREECIV_DELTA_PROTOCOL
-if (NULL == *hash) {{
+if (nullptr == *hash) {{
   *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
-                           NULL, NULL, NULL, free);
+                           nullptr, nullptr, nullptr, free);
 }}
 BV_CLR_ALL(fields);
 
@@ -2263,7 +2263,7 @@ if (e) {
             body += f"""\
 
 hash = pc->phs.sent + {i};
-if (NULL != *hash) {{
+if (nullptr != *hash) {{
   genhash_remove(*hash, real_packet);
 }}
 """
@@ -2336,7 +2336,7 @@ if (NULL != *hash) {{
 #ifdef FREECIV_JSON_CONNECTION
   struct plocation field_addr;
   {
-    struct plocation *field_addr_tmp = plocation_field_new(NULL);
+    struct plocation *field_addr_tmp = plocation_field_new(nullptr);
     field_addr = *field_addr_tmp;
     FC_FREE(field_addr_tmp);
   }
@@ -2401,9 +2401,9 @@ if (NULL != *hash) {{
         body = f"""\
 
 #ifdef FREECIV_DELTA_PROTOCOL
-if (NULL == *hash) {{
+if (nullptr == *hash) {{
   *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
-                           NULL, NULL, NULL, free);
+                           nullptr, nullptr, nullptr, free);
 }}
 
 if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
@@ -2423,7 +2423,7 @@ if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
 
         extro = """\
 
-if (NULL == old) {
+if (nullptr == old) {
   old = fc_malloc(sizeof(*old));
   *old = *real_packet;
   genhash_insert(*hash, old, old);
@@ -2437,7 +2437,7 @@ if (NULL == old) {
             f"""\
 
 hash = pc->phs.received + {cancel_pack};
-if (NULL != *hash) {{
+if (nullptr != *hash) {{
   genhash_remove(*hash, real_packet);
 }}
 """
@@ -2794,7 +2794,7 @@ struct {self.name} {{
               conn_description(pc));
     return -1;
   }}
-  fc_assert_ret_val_msg(pc->phs.handlers->send[{self.type}].{func} != NULL, -1,
+  fc_assert_ret_val_msg(pc->phs.handlers->send[{self.type}].{func} != nullptr, -1,
                         "Handler for {self.type} not installed");
   return pc->phs.handlers->send[{self.type}].{func}(pc{args});
 }}
