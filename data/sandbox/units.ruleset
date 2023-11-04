@@ -439,6 +439,9 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
 ;                 the owner.
 ;                 Note that currently the information is available for
 ;                 the client anyway, so this is not a rule like a feature yet.
+; "ProvidesRansom" = Enemies can collect ransom from the unit. This only happens
+;                 if all the units on tile have this flag - any other kind of
+;                 unit protects them.
 ;
 ;
 ; Following actions require extra fields:
@@ -2987,7 +2990,7 @@ uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "IgZOC", "NonMil", "Unbribable",
                 "EvacuateFirst", "SuperSpy", "NoHome", "NoBuild",
-                "FleshBased"
+                "FleshBased", "ProvidesRansom"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0

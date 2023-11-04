@@ -409,6 +409,12 @@ void rscompat_postprocess(struct rscompat_info *info)
     return;
   }
 
+  unit_type_iterate(ptype) {
+    if (utype_has_role(ptype, L_BARBARIAN_LEADER)) {
+      BV_SET(ptype->flags, UTYF_PROVIDES_RANSOM);
+    }
+  } unit_type_iterate_end;
+
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);

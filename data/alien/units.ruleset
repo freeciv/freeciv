@@ -389,6 +389,9 @@ flags         = "Missile", "DoesntOccupyTile"
 ;                 the owner.
 ;                 Note that currently the information is available for
 ;                 the client anyway, so this is not a rule like a feature yet.
+; "ProvidesRansom" = Enemies can collect ransom from the unit. This only happens
+;                 if all the units on tile have this flag - any other kind of
+;                 unit protects them.
 ;
 ;
 ; Following actions require extra fields:
@@ -682,7 +685,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer"
+flags         = "Capturer", "ProvidesRansom"
 roles         = "DefendOk", "Barbarian", "BarbarianSea", "BarbarianLeader"
 helptext      = _("\
 Attack power to the early game.\

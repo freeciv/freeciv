@@ -330,6 +330,9 @@ flags         = "TerrainSpeed"
 ;                 the owner.
 ;                 Note that currently the information is available for
 ;                 the client anyway, so this is not a rule like a feature yet.
+; "ProvidesRansom" = Enemies can collect ransom from the unit. This only happens
+;                 if all the units on tile have this flag - any other kind of
+;                 unit protects them.
 ;
 ;
 ; Following actions require extra fields:

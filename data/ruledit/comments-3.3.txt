@@ -506,6 +506,9 @@ utypes = "\
 ;                 the owner.\n\
 ;                 Note that currently the information is available for\n\
 ;                 the client anyway, so this is not a rule like a feature yet.\n\
+; \"ProvidesRansom\" = Enemies can collect ransom from the unit. This only happens\n\
+;                 if all the units on tile have this flag - any other kind of\n\
+;                 unit protects them.\n\
 ;\n\
 ; Following actions require extra fields:\n\
 ;  \"Attack\" and \"Suicide Attack\"\n\

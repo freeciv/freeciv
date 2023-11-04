@@ -364,6 +364,9 @@ flags         = "Missile", "Unreachable", "HutNothing"
 ;                 the owner.
 ;                 Note that currently the information is available for
 ;                 the client anyway, so this is not a rule like a feature yet.
+; "ProvidesRansom" = Enemies can collect ransom from the unit. This only happens
+;                 if all the units on tile have this flag - any other kind of
+;                 unit protects them.
 ;
 ;
 ; Following actions require extra fields:
@@ -1583,7 +1586,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "IgZOC", "NonMil", "NoBuild"
+flags         = "IgZOC", "NonMil", "NoBuild", "ProvidesRansom"
 roles         = "BarbarianLeader"
 helptext      = _("\
 One Barbarian Leader appears every time there is a barbarian uprising\

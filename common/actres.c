@@ -677,7 +677,7 @@ enum fc_tristate actres_possible(enum action_result result,
     }
 
     unit_list_iterate(target->tile->units, punit) {
-      if (!unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
+      if (!unit_has_type_flag(punit, UTYF_PROVIDES_RANSOM)) {
         /* Cannot get ransom when there are other kind of units in the tile */
         return FALSE;
       }

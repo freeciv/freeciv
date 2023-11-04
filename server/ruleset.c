@@ -2448,7 +2448,7 @@ static bool load_ruleset_units(struct section_file *file,
   }
 
   if (ok) {
-    /* flags */
+    /* Flags */
     unit_type_iterate(u) {
       const int i = utype_index(u);
 
@@ -2488,7 +2488,7 @@ static bool load_ruleset_units(struct section_file *file,
     } unit_type_iterate_end;
   }
 
-  /* roles */
+  /* Roles */
   if (ok) {
     unit_type_iterate(u) {
       const int i = utype_index(u);
