@@ -408,3 +408,6 @@
 
 /* Custom path to CA cert bundle */
 #mesondefine CUSTOM_CACERT_PATH
+
+/* It's ok to call malloc() for zero bytes */
+#mesondefine MALLOC_ZERO_OK
