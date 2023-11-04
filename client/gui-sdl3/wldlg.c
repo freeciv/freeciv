@@ -455,7 +455,7 @@ static void remove_item_from_worklist(struct widget *item)
   }
 
   if (item->data.ptr) {
-    /* correct "data" widget fiels */
+    /* correct "data" widget fields */
     struct widget *buf = item;
 
     if (buf != editor->work->begin_active_widget_list) {
