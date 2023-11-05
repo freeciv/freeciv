@@ -77,7 +77,7 @@ def make_documentation(file):
  *
  * SPECENUM_NAMEOVERRIDE: call callback function foo_name_cb(enum foo),
  * defined by specenum user, to get name of the enum value. If the function
- * returns NULL, compiled in names are used.
+ * returns nullptr, compiled in names are used.
  *
  * SPECENUM_NAME_UPDATER: call callback function foo_name_update_cb(old_name),
  * defined by specenum user, to get current name to search enum value with.
@@ -113,7 +113,7 @@ def make_documentation(file):
  *
  *  {
  *    static const char *strings[] = {
- *      "TEST1", "test3", "fghdf", NULL
+ *      "TEST1", "test3", "fghdf", nullptr
  *    };
  *    enum test e;
  *    int i;
@@ -432,7 +432,7 @@ static inline const char *SPECENUM_FOO(_name)(enum SPECENUM_NAME enumerator)
   {
     const char *name = SPECENUM_FOO(_name_cb)(enumerator);
 
-    if (name != NULL) {
+    if (name != nullptr) {
       return Qn_(name);
     }
   }
@@ -444,7 +444,7 @@ static inline const char *SPECENUM_FOO(_name)(enum SPECENUM_NAME enumerator)
         file.write('''
 #if %d < SPECENUM_SIZE
 #  ifndef SPECENUM_VALUE%d
-     names[%d] = NULL;
+     names[%d] = nullptr;
 #  elif defined(SPECENUM_VALUE%dNAME)
      names[%d] = Qn_(SPECENUM_VALUE%dNAME);
 #  else
@@ -488,7 +488,7 @@ static inline const char *SPECENUM_FOO(_name)(enum SPECENUM_NAME enumerator)
     return names[enumerator];
   }
 #endif /* SPECENUM_BITWISE */
-  return NULL;
+  return nullptr;
 }
 ''')
     macros.append("SPECENUM_COUNTNAME")
@@ -544,7 +544,7 @@ SPECENUM_FOO(_translated_name)(enum SPECENUM_NAME enumerator)
   {
     const char *name = SPECENUM_FOO(_name_cb)(enumerator);
 
-    if (name != NULL) {
+    if (name != nullptr) {
       return Q_(name);
     }
   }
@@ -556,7 +556,7 @@ SPECENUM_FOO(_translated_name)(enum SPECENUM_NAME enumerator)
         file.write('''
 #if %d < SPECENUM_SIZE
 #  ifndef SPECENUM_VALUE%d
-     names[%d] = NULL;
+     names[%d] = nullptr;
 #  elif defined(SPECENUM_VALUE%dNAME)
      names[%d] = Q_(SPECENUM_VALUE%dNAME);
 #  else
@@ -600,7 +600,7 @@ SPECENUM_FOO(_translated_name)(enum SPECENUM_NAME enumerator)
     return names[enumerator];
   }
 #endif /* SPECENUM_BITWISE */
-  return NULL;
+  return nullptr;
 }
 ''')
 
