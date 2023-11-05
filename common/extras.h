@@ -206,8 +206,10 @@ bool is_extra_removed_by_worker_action(const struct extra_type *pextra);
 bool is_extra_removed_by_action(const struct extra_type *pextra,
                                 const struct action *paction);
 
-bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
-bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
+bool is_extra_card_near(const struct civ_map *nmap, const struct tile *ptile,
+                        const struct extra_type *pextra);
+bool is_extra_near_tile(const struct civ_map *nmap, const struct tile *ptile,
+                        const struct extra_type *pextra);
 
 bool extra_can_be_built(const struct extra_type *pextra, const struct tile *ptile);
 bool can_build_extra(const struct extra_type *pextra,
@@ -246,9 +248,11 @@ bool unit_can_displace_hut(const struct unit *punit,
                            const struct tile *ptile);
 
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
-bool is_extra_flag_card_near(const struct tile *ptile,
+bool is_extra_flag_card_near(const struct civ_map *nmap,
+                             const struct tile *ptile,
                              enum extra_flag_id flag);
-bool is_extra_flag_near_tile(const struct tile *ptile,
+bool is_extra_flag_near_tile(const struct civ_map *nmap,
+                             const struct tile *ptile,
                              enum extra_flag_id flag);
 
 void user_extra_flags_init(void);

@@ -334,9 +334,10 @@ bool is_extra_removed_by(const struct extra_type *pextra,
   Is there extra of the given type cardinally near tile?
   (Does not check ptile itself.)
 ****************************************************************************/
-bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra)
+bool is_extra_card_near(const struct civ_map *nmap, const struct tile *ptile,
+                        const struct extra_type *pextra)
 {
-  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, pextra)) {
       return TRUE;
     }
@@ -349,9 +350,10 @@ bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextr
   Is there extra of the given type near tile?
   (Does not check ptile itself.)
 ****************************************************************************/
-bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra)
+bool is_extra_near_tile(const struct civ_map *nmap, const struct tile *ptile,
+                        const struct extra_type *pextra)
 {
-  adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, pextra)) {
       return TRUE;
     }
@@ -814,11 +816,12 @@ bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag)
   Returns TRUE iff any cardinally adjacent tile contains an extra with
   the given flag (does not check ptile itself).
 ****************************************************************************/
-bool is_extra_flag_card_near(const struct tile *ptile, enum extra_flag_id flag)
+bool is_extra_flag_card_near(const struct civ_map *nmap, const struct tile *ptile,
+                             enum extra_flag_id flag)
 {
   extra_type_iterate(pextra) {
     if (extra_has_flag(pextra, flag)) {
-      cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
+      cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }
@@ -833,11 +836,12 @@ bool is_extra_flag_card_near(const struct tile *ptile, enum extra_flag_id flag)
   Returns TRUE iff any adjacent tile contains an extra with the given flag
   (does not check ptile itself).
 ****************************************************************************/
-bool is_extra_flag_near_tile(const struct tile *ptile, enum extra_flag_id flag)
+bool is_extra_flag_near_tile(const struct civ_map *nmap, const struct tile *ptile,
+                             enum extra_flag_id flag)
 {
   extra_type_iterate(pextra) {
     if (extra_has_flag(pextra, flag)) {
-      adjc_iterate(&(wld.map), ptile, adjc_tile) {
+      adjc_iterate(nmap, ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }
