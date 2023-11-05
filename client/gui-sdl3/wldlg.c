@@ -410,7 +410,7 @@ static void get_target_help_data(struct widget *target)
 **************************************************************************/
 static int worklist_editor_targets_callback(struct widget *pwidget)
 {
-  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       if (editor->pcity) {
@@ -634,7 +634,7 @@ static void swap_item_up_from_worklist(struct widget *item)
 **************************************************************************/
 static int worklist_editor_item_callback(struct widget *pwidget)
 {
-  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       swap_item_up_from_worklist(pwidget);
@@ -846,7 +846,7 @@ static void set_global_worklist(struct widget *pwidget)
 **************************************************************************/
 static int global_worklist_callback(struct widget *pwidget)
 {
-  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (main_data.event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
     switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       add_global_worklist(pwidget);
