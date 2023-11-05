@@ -2714,6 +2714,7 @@ is_extra_req_active(const struct req_context *context,
 {
   const struct extra_type *pextra;
   enum fc_tristate ret;
+  const struct civ_map *nmap = &(wld.map);
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRA);
 
@@ -2736,13 +2737,13 @@ is_extra_req_active(const struct req_context *context,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(tile_has_extra(context->tile, pextra)
-                            || is_extra_card_near(context->tile, pextra));
+                            || is_extra_card_near(nmap, context->tile, pextra));
   case REQ_RANGE_ADJACENT:
     if (!context->tile) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(tile_has_extra(context->tile, pextra)
-                            || is_extra_near_tile(context->tile, pextra));
+                            || is_extra_near_tile(nmap, context->tile, pextra));
   case REQ_RANGE_CITY:
     if (!context->city) {
       return TRI_MAYBE;
@@ -3322,6 +3323,7 @@ is_extraflag_req_active(const struct req_context *context,
 {
   enum extra_flag_id extraflag;
   enum fc_tristate ret;
+  const struct civ_map *nmap = &(wld.map);
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRAFLAG);
 
@@ -3344,13 +3346,13 @@ is_extraflag_req_active(const struct req_context *context,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(tile_has_extra_flag(context->tile, extraflag)
-                            || is_extra_flag_card_near(context->tile, extraflag));
+                            || is_extra_flag_card_near(nmap, context->tile, extraflag));
   case REQ_RANGE_ADJACENT:
     if (!context->tile) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(tile_has_extra_flag(context->tile, extraflag)
-                            || is_extra_flag_near_tile(context->tile, extraflag));
+                            || is_extra_flag_near_tile(nmap, context->tile, extraflag));
   case REQ_RANGE_CITY:
     if (!context->city) {
       return TRI_MAYBE;
