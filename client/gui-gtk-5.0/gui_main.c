@@ -2432,7 +2432,6 @@ void popup_quit_dialog(void)
 
     quit_dialog = gtk_alert_dialog_new(_("Are you sure you want to quit?"));
     gtk_alert_dialog_set_buttons(GTK_ALERT_DIALOG(quit_dialog), buttons);
-    setup_dialog(GTK_WIDGET(quit_dialog), toplevel);
 
     gtk_alert_dialog_choose(GTK_ALERT_DIALOG(quit_dialog),
                             GTK_WINDOW(toplevel), NULL,
