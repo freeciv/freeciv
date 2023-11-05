@@ -223,7 +223,7 @@ static void notify_actor_caught(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Suitcase Nuke ... San Francisco */
-                  _("You have caused an incident getting caught"
+                  _("You have caused an diplomatic incident getting caught"
                     " trying to do %s to %s."),
                   action_name_translation(paction),
                   victim_link);
@@ -233,7 +233,7 @@ static void notify_actor_caught(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Bribe Enemy Unit ... American ... Partisan */
-                  _("You have caused an incident getting caught"
+                  _("You have caused an diplomatic incident getting caught"
                     " trying to do %s to %s %s."),
                   action_name_translation(paction),
                   nation_adjective_for_player(victim_player),
@@ -244,7 +244,7 @@ static void notify_actor_caught(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Explode Nuclear ... (54, 26) */
-                  _("You have caused an incident getting caught"
+                  _("You have caused an diplomatic incident getting caught"
                     " trying to do %s at %s."),
                   action_name_translation(paction),
                   victim_link);
@@ -280,7 +280,7 @@ static void notify_victim_caught(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Suitcase Nuke ... San Francisco */
-                  _("The %s have caused an incident getting caught"
+                  _("The %s have caused an diplomatic incident getting caught"
                     " trying to do %s to %s."),
                   nation_plural_for_player(offender),
                   action_name_translation(paction),
@@ -291,7 +291,7 @@ static void notify_victim_caught(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Bribe Enemy Unit ... Partisan */
-                  _("The %s have caused an incident getting caught"
+                  _("The %s have caused an diplomatic incident getting caught"
                     " trying to do %s to your %s."),
                   nation_plural_for_player(offender),
                   action_name_translation(paction),
@@ -302,7 +302,7 @@ static void notify_victim_caught(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Explode Nuclear ... (54, 26) */
-                  _("The %s have caused an incident getting caught"
+                  _("The %s have caused an diplomatic incident getting caught"
                     " trying to do %s at %s."),
                   nation_plural_for_player(offender),
                   action_name_translation(paction),
@@ -406,7 +406,7 @@ static void notify_actor_success(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Suitcase Nuke ... San Francisco */
-                  _("You have caused an incident doing %s to %s."),
+                  _("You have caused an diplomatic incident doing %s to %s."),
                   action_name_translation(paction),
                   victim_link);
     break;
@@ -415,7 +415,7 @@ static void notify_actor_success(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRAND: Bribe Enemy Unit ... American ... Partisan */
-                  _("You have caused an incident doing %s to %s %s."),
+                  _("You have caused an diplomatic incident doing %s to %s %s."),
                   action_name_translation(paction),
                   nation_adjective_for_player(victim_player),
                   victim_link);
@@ -425,7 +425,7 @@ static void notify_actor_success(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Explode Nuclear ... (54, 26) */
-                  _("You have caused an incident doing %s at %s."),
+                  _("You have caused an diplomatic incident doing %s at %s."),
                   action_name_translation(paction),
                   victim_link);
     break;
@@ -460,7 +460,7 @@ static void notify_victim_success(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Suitcase Nuke ... San Francisco */
-                  _("The %s have caused an incident doing %s to %s."),
+                  _("The %s have caused an diplomatic incident doing %s to %s."),
                   nation_plural_for_player(offender),
                   action_name_translation(paction),
                   victim_link);
@@ -470,7 +470,7 @@ static void notify_victim_success(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Bribe Enemy Unit ... Partisan */
-                  _("The %s have caused an incident doing "
+                  _("The %s have caused an diplomatic incident doing "
                     "%s to your %s."),
                   nation_plural_for_player(offender),
                   action_name_translation(paction),
@@ -481,7 +481,7 @@ static void notify_victim_success(struct player *receiver,
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Explode Nuclear ... (54, 26) */
-                  _("The %s have caused an incident doing %s at %s."),
+                  _("The %s have caused an diplomatic incident doing %s at %s."),
                   nation_plural_for_player(offender),
                   action_name_translation(paction),
                   victim_link);
