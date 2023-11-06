@@ -1,5 +1,5 @@
 #!/bin/sh
 
-if test "x$VERSION_REVTYPE" = "xgit" ; then
-    git checkout $1/translations
+if test "${VERSION_REVTYPE}" = "git" ; then
+  git checkout "$1/translations"
 fi
