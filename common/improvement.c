@@ -504,7 +504,7 @@ static bool impr_allows_actions(const struct city *pcity,
           }
 
           if (utype_player_already_has_this(city_owner(pcity), ut)) {
-            /* The player has a unit that may use the buidling */
+            /* The player has a unit that may use the building */
             return TRUE;
           }
 
