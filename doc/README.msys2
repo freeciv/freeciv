@@ -105,7 +105,7 @@ is located here for quick reference for the specific freeciv revision.
 2.1.2.3) Arch-specific packages for building gtk4-client
  - mingw-w64-<arch>-gtk4
 
-2.1.2.4) Arch-specific packages for buildind Qt5-client and/or Qt5 Ruledit
+2.1.2.4) Arch-specific packages for building Qt5-client and/or Qt5 Ruledit
  - mingw-w64-<arch>-qt5-base
  - mingw-w64-<arch>-qt5-svg
 
