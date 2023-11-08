@@ -92,7 +92,7 @@ is located here for quick reference for the specific freeciv revision.
 2.1.2.2) Arch-specific packages for building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
-2.1.2.3) Arch-specific packages for buildind Qt-client and/or Ruledit
+2.1.2.3) Arch-specific packages for building Qt-client and/or Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
 2.1.2.4) Arch-specific packages for building gtk2-client
