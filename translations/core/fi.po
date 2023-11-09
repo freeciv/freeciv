@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-10-31 00:26+0200\n"
-"PO-Revision-Date: 2023-10-31 00:28+0200\n"
+"POT-Creation-Date: 2023-11-09 21:09+0200\n"
+"PO-Revision-Date: 2023-11-09 21:10+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -141,22 +141,22 @@ msgstr ""
 "%s (AI)* Löysin sinut %s! Anna minulle hyvä syy jättää teidät murskaamatta "
 "tai valmistaudu tuhoosi."
 
-#: ai/default/daidiplomacy.c:1303
+#: ai/default/daidiplomacy.c:1304
 #, c-format
 msgid "*%s (AI)* Space will never be yours."
 msgstr "*%s (AI)* Avaruus ei tule koskaan kuulumaan teille."
 
-#: ai/default/daidiplomacy.c:1309
+#: ai/default/daidiplomacy.c:1310
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (AI)* Olen sietänyt äksyilyänne riittävän pitkään! Tulkoon sota!"
 
-#: ai/default/daidiplomacy.c:1315
+#: ai/default/daidiplomacy.c:1316
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (AI)* Rauhaa? Ehkä joskus toiste."
 
-#: ai/default/daidiplomacy.c:1321
+#: ai/default/daidiplomacy.c:1322
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -165,17 +165,17 @@ msgstr ""
 "*%s (AI)* Lopultakin yhytin teidät! Luulitteko tosiaan pääsevänne kuin koira "
 "veräjästä?"
 
-#: ai/default/daidiplomacy.c:1328
+#: ai/default/daidiplomacy.c:1329
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (AI)* Desanttienne sabotaašitoiminta sai ansaitsemansa lopun!"
 
-#: ai/default/daidiplomacy.c:1336
+#: ai/default/daidiplomacy.c:1337
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)* Liittolaiseni (%s) ahdistelu oli vihonviimeinen erheenne!"
 
-#: ai/default/daidiplomacy.c:1439
+#: ai/default/daidiplomacy.c:1440
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -190,7 +190,7 @@ msgstr[1] ""
 "*%s (AI)* %s saa tuta sotavoimiemme täyden mahdin %d vuoron kuluttua, jotta "
 "avaruusaluksen laukaisu tulee estetyksi."
 
-#: ai/default/daidiplomacy.c:1450
+#: ai/default/daidiplomacy.c:1451
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -199,7 +199,7 @@ msgstr ""
 "*%s (AI)* Odotamme teidän auttavan tässä asiassa. Kauan eläköön mahtava "
 "liittomme!"
 
-#: ai/default/daidiplomacy.c:1457
+#: ai/default/daidiplomacy.c:1458
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated their treaties with us for own gain.  We "
@@ -218,7 +218,7 @@ msgstr[1] ""
 "edukseen. Vastaamme voimakeinoin %d vuoron kuluttua ja odotamme teidän "
 "kunnioittavan liittoumaamme toimimalla samoin!"
 
-#: ai/default/daidiplomacy.c:1471
+#: ai/default/daidiplomacy.c:1472
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -233,13 +233,13 @@ msgstr[1] ""
 "*%s (AI)* %s ui rahassa, joten aiomme ryöstää ja rosvota hänen "
 "kansakuntansa! Sota julistetaan %d vuoron kuluttua."
 
-#: ai/default/daidiplomacy.c:1480
+#: ai/default/daidiplomacy.c:1481
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* Jos haluatte osille ryöstösaaliista, tulkaa mukaan vaan!"
 
-#: ai/default/daidiplomacy.c:1486
+#: ai/default/daidiplomacy.c:1487
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -254,13 +254,13 @@ msgstr[1] ""
 "*%s (AI)* %s käy hermoillemme! Julistamme sodan %d vuoron kuluttua ja "
 "revimme hänen naurettavan kansakuntansa silpuksi."
 
-#: ai/default/daidiplomacy.c:1497
+#: ai/default/daidiplomacy.c:1498
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (AI)* Odotamme apuanne tässä sodassa; olettehan mahtavia liittolaisiamme."
 
-#: ai/default/daidiplomacy.c:1504
+#: ai/default/daidiplomacy.c:1505
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
@@ -275,7 +275,7 @@ msgstr[1] ""
 "*%s (AI)* Kunnioitamme liittoamme, alas %s! Julistamme sodan %d vuoron "
 "kuluttua. Tulossa ollaan!"
 
-#: ai/default/daidiplomacy.c:1514
+#: ai/default/daidiplomacy.c:1515
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
@@ -292,7 +292,7 @@ msgstr[1] ""
 "vihollisemme. Julistamme sodan %d vuoron kuluttua! Odotamme teidän toimivan "
 "samoin."
 
-#: ai/default/daidiplomacy.c:1595
+#: ai/default/daidiplomacy.c:1596
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -301,7 +301,7 @@ msgstr ""
 "*%s (AI)* Yrityksesi valloittaa avaruus yksin itsellesi toi julki todelliset "
 "aikomuksesi. Liittomme on tästä pitäen ohi!"
 
-#: ai/default/daidiplomacy.c:1611
+#: ai/default/daidiplomacy.c:1612
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -309,7 +309,7 @@ msgid ""
 msgstr ""
 "*%s (AI)* Pyrkimyksesi hallita ulkoavaruutta yksin loukkaa meitä syvästi."
 
-#: ai/default/daidiplomacy.c:1615
+#: ai/default/daidiplomacy.c:1616
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -318,14 +318,14 @@ msgstr ""
 "*%s (AI)* Jos et lopeta avaruusaluksesi rakentamista, minun pitää varmaankin "
 "tehdä asialle jotakin!"
 
-#: ai/default/daidiplomacy.c:1738
+#: ai/default/daidiplomacy.c:1739
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (AI)* Pahoittelen, mutta näkymän jakaminen kanssasi ei ole enää "
 "turvallista."
 
-#: ai/default/daidiplomacy.c:1809
+#: ai/default/daidiplomacy.c:1810
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -334,7 +334,7 @@ msgstr ""
 "*%s (AI)* Tervehdys, oi luotettu liittolaisemme. Pyydämme apuanne - "
 "vihollisemme %s pitää tuhota."
 
-#: ai/default/daidiplomacy.c:1817
+#: ai/default/daidiplomacy.c:1818
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -344,7 +344,7 @@ msgstr ""
 "vieläkään ole vastaanottanut sodanjulistustasi. Pitääkö minun muistuttaa "
 "teitä tekemistänne lupauksista?"
 
-#: ai/default/daidiplomacy.c:1827
+#: ai/default/daidiplomacy.c:1828
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -355,7 +355,7 @@ msgstr ""
 "vieläkin juonia rauhassa, ettekä nosta sormeannekaan! Tällaista on mahdoton "
 "hyväksyä, liittomme olkoon purettu!"
 
-#: ai/default/daidiplomacy.c:1861
+#: ai/default/daidiplomacy.c:1862
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -364,13 +364,13 @@ msgstr ""
 "*%s (AI)* Tervehdys, ystävä, haluaisimme ehdottaa yhteisen edun ajamista "
 "liittoutumalla."
 
-#: ai/default/daidiplomacy.c:1878
+#: ai/default/daidiplomacy.c:1879
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr ""
 "*%s (AI)* Tervehdys, naapuri, haluaisimme ehdottaa rauhanomaisempia suhteita."
 
-#: ai/default/daidiplomacy.c:1895
+#: ai/default/daidiplomacy.c:1896
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -379,7 +379,7 @@ msgstr ""
 "*%s (AI)* Tämä jatkuva verenvuodatus väsyttää meitä. Voisimmeko haudata "
 "sotakirveen?"
 
-#: ai/default/daidiplomacy.c:2175
+#: ai/default/daidiplomacy.c:2176
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
@@ -1947,45 +1947,45 @@ msgstr "Vain %s voi tehdä toimen %s."
 msgid "%s can't do %s."
 msgstr "%s ei voi tehdä toimintoa %s."
 
-#: client/control.c:1481
+#: client/control.c:1486
 msgid "Only transporter units can be unloaded."
 msgstr "Vain kuljetusyksiköt pystyvät purkamaan lastinsa."
 
 #. TRANS: Unable to get rid of Leader.
-#: client/control.c:1884
+#: client/control.c:1889
 #, c-format
 msgid "Unable to get rid of %s."
 msgstr "Et voi hankkiutua eroon yksiköstä %s."
 
-#: client/control.c:2035
+#: client/control.c:2040
 msgid "Only settler units can be put into auto mode."
 msgstr "Vain uudisraivaajat voidaan automatisoida."
 
 #. TRANS: paradrop target tile.
-#: client/control.c:2153
+#: client/control.c:2158
 msgid "Click on a tile to paradrop to it."
 msgstr "Valitse laskuvarjohypyn kohderuutu."
 
-#: client/control.c:2160
+#: client/control.c:2165
 msgid "Only paratrooper units can do this."
 msgstr "Vain laskuvarjojääkärit pystyvät tähän."
 
-#: client/control.c:2981 client/control.c:3035 client/control.c:3052
+#: client/control.c:2986 client/control.c:3040 client/control.c:3057
 msgid "Didn't find a route to the destination!"
 msgstr "Kohteeseen ei löytynyt käyttökelpoista reittiä!"
 
-#: client/control.c:3107
+#: client/control.c:3112
 msgid "Oh my! You seem to have no capital!"
 msgstr "Katsohan mokomaa, sinulla ei näköjään ole pääkaupunkia!"
 
 #. TRANS: Perform action inside a goto.
-#: client/control.c:3241
+#: client/control.c:3246
 #, c-format
 msgid "Click on a tile to do %s against it."
 msgstr "Valitse kohderuutu toiminnolle %s."
 
 #. TRANS: "Do..." action selection dialog target.
-#: client/control.c:3255
+#: client/control.c:3260
 msgid ""
 "Click on a tile to act against it. Press 'd' again to act against own tile."
 msgstr ""
@@ -2225,7 +2225,7 @@ msgstr "(nimetön)"
 #: client/gui-qt/dialogs.cpp:3553 client/gui-qt/dialogs.cpp:3616
 #: client/gui-qt/repodlgs.cpp:213 client/gui-sdl2/action_dialog.c:1639
 #: client/gui-sdl2/action_dialog.c:1902 client/gui-sdl2/citydlg.c:1189
-#: client/gui-sdl2/repodlgs.c:211 client/text.c:1328 common/unit.c:2034
+#: client/gui-sdl2/repodlgs.c:211 client/text.c:1328 common/unit.c:2035
 #: server/unithand.c:2014 server/unithand.c:2716
 #, c-format
 msgid "Treasury contains %d gold."
@@ -2440,7 +2440,7 @@ msgstr "Ruudun yksiköt:"
 #: client/gui-gtk-3.22/action_dialog.c:1169
 #: client/gui-gtk-4.0/action_dialog.c:1067
 #: client/gui-gtk-4.0/action_dialog.c:1165 client/gui-qt/cityrep.cpp:523
-#: client/gui-qt/hudwidget.cpp:1413 client/gui-qt/menu.cpp:1161
+#: client/gui-qt/hudwidget.cpp:1415 client/gui-qt/menu.cpp:1161
 msgid "Select"
 msgstr "Valitse"
 
@@ -4945,7 +4945,7 @@ msgstr " kanssa)"
 #: client/gui-gtk-3.22/helpdlg.c:1442 client/gui-gtk-3.22/inteldlg.c:596
 #: client/gui-gtk-4.0/helpdlg.c:1375 client/gui-gtk-4.0/helpdlg.c:1489
 #: client/gui-gtk-4.0/inteldlg.c:613 client/gui-qt/plrdlg.cpp:552
-#: client/gui-sdl2/inteldlg.c:342 common/requirements.c:5472
+#: client/gui-sdl2/inteldlg.c:342 common/requirements.c:5477
 #, c-format
 msgid "(none)"
 msgstr "(ei mitään)"
@@ -5189,7 +5189,7 @@ msgstr ""
 
 #. TRANS: preserve leading space.
 #: client/gui-gtk-3.0/mapview.c:140 client/gui-gtk-3.22/mapview.c:156
-#: client/gui-gtk-4.0/mapview.c:159 client/gui-qt/hudwidget.cpp:1680
+#: client/gui-gtk-4.0/mapview.c:159 client/gui-qt/hudwidget.cpp:1682
 #: common/networking/connection.c:501
 msgid " (observer)"
 msgstr " (tarkkailija)"
@@ -7881,7 +7881,7 @@ msgid "Obsoleted by %1."
 msgstr "Vanhentuu %1 keksimisen myötä"
 
 #: client/gui-qt/citydlg.cpp:4091 client/gui-qt/dialogs.cpp:546
-#: client/gui-qt/hudwidget.cpp:1414 client/gui-qt/messagedlg.cpp:65
+#: client/gui-qt/hudwidget.cpp:1416 client/gui-qt/messagedlg.cpp:65
 #: client/gui-qt/optiondlg.cpp:140 client/gui-qt/pages.cpp:402
 #: client/gui-qt/pages.cpp:539 client/gui-qt/pages.cpp:606
 #: client/gui-qt/ratesdlg.cpp:78 client/gui-qt/ratesdlg.cpp:168
@@ -8083,7 +8083,7 @@ msgstr "LP:"
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:4581 client/gui-qt/hudwidget.cpp:1499
+#: client/gui-qt/dialogs.cpp:4581 client/gui-qt/hudwidget.cpp:1501
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 yksikkö"
@@ -8328,112 +8328,112 @@ msgid_plural " +%1 units"
 msgstr[0] " +%1 yksikkö"
 msgstr[1] " +%1 yksikköä"
 
-#: client/gui-qt/hudwidget.cpp:1258
+#: client/gui-qt/hudwidget.cpp:1260
 msgid "MP"
 msgstr "LP"
 
-#: client/gui-qt/hudwidget.cpp:1332
+#: client/gui-qt/hudwidget.cpp:1334
 msgid "Unit type"
 msgstr "Yksikön tyyppi"
 
-#: client/gui-qt/hudwidget.cpp:1333
+#: client/gui-qt/hudwidget.cpp:1335
 msgid "Selected type"
 msgstr "Tyyppi valittu"
 
-#: client/gui-qt/hudwidget.cpp:1335
+#: client/gui-qt/hudwidget.cpp:1337
 msgid "All types"
 msgstr "Kaikki tyypit"
 
-#: client/gui-qt/hudwidget.cpp:1349
+#: client/gui-qt/hudwidget.cpp:1351
 msgid "Unit activity"
 msgstr "Yksikön toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1350
+#: client/gui-qt/hudwidget.cpp:1352
 msgid "Any activity"
 msgstr "Mikä hyvänsä toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1352 common/fc_types.h:118 common/unit.c:642
+#: client/gui-qt/hudwidget.cpp:1354 common/fc_types.h:118 common/unit.c:642
 msgid "Fortified"
 msgstr "Linnoittautunut"
 
-#: client/gui-qt/hudwidget.cpp:1353 common/fc_types.h:103 common/unit.c:626
+#: client/gui-qt/hudwidget.cpp:1355 common/fc_types.h:103 common/unit.c:626
 msgid "Idle"
 msgstr "Toimeton"
 
-#: client/gui-qt/hudwidget.cpp:1354
+#: client/gui-qt/hudwidget.cpp:1356
 msgid "Sentried"
 msgstr "Vartioivat"
 
-#: client/gui-qt/hudwidget.cpp:1369
+#: client/gui-qt/hudwidget.cpp:1371
 msgid "Unit HP and MP"
 msgstr "Yksikön OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1370
+#: client/gui-qt/hudwidget.cpp:1372
 msgid "Any unit"
 msgstr "Mikä hyvänsä yksikkö"
 
-#: client/gui-qt/hudwidget.cpp:1371
+#: client/gui-qt/hudwidget.cpp:1373
 msgid "Full HP"
 msgstr "Täydet OP:t"
 
-#: client/gui-qt/hudwidget.cpp:1372
+#: client/gui-qt/hudwidget.cpp:1374
 msgid "Full MP"
 msgstr "Täydet LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1373
+#: client/gui-qt/hudwidget.cpp:1375
 msgid "Full HP and MP"
 msgstr "Täydet OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1389
+#: client/gui-qt/hudwidget.cpp:1391
 msgid "Location"
 msgstr "Sijainti"
 
-#: client/gui-qt/hudwidget.cpp:1390
+#: client/gui-qt/hudwidget.cpp:1392
 msgid "Anywhere"
 msgstr "Missä hyvänsä"
 
-#: client/gui-qt/hudwidget.cpp:1391
+#: client/gui-qt/hudwidget.cpp:1393
 msgid "Current tile"
 msgstr "Nykyinen ruutu"
 
-#: client/gui-qt/hudwidget.cpp:1392
+#: client/gui-qt/hudwidget.cpp:1394
 msgid "Current continent"
 msgstr "Nykyinen manner"
 
-#: client/gui-qt/hudwidget.cpp:1393
+#: client/gui-qt/hudwidget.cpp:1395
 msgid "Main continent"
 msgstr "Päämanner"
 
-#: client/gui-qt/hudwidget.cpp:1623
+#: client/gui-qt/hudwidget.cpp:1625
 msgid "Terrain: %1\n"
 msgstr "Maasto: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1624
+#: client/gui-qt/hudwidget.cpp:1626
 msgid "Food/Prod/Trade: %1\n"
 msgstr "Ruoka/tuotanto/kauppa: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1628
+#: client/gui-qt/hudwidget.cpp:1630
 msgid "Infrastructure: %1\n"
 msgstr "Infrastruktuuri: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1630
+#: client/gui-qt/hudwidget.cpp:1632
 msgid "Defense bonus: %1%\n"
 msgstr "Puolustusbonus: %1%\n"
 
-#: client/gui-qt/hudwidget.cpp:1646 client/gui-qt/hudwidget.cpp:1648
+#: client/gui-qt/hudwidget.cpp:1648 client/gui-qt/hudwidget.cpp:1650
 msgid "Movement cost: %1"
 msgstr "Liikkumisen hinta: %1"
 
-#: client/gui-qt/hudwidget.cpp:1676
+#: client/gui-qt/hudwidget.cpp:1678
 msgid "Year: %1 (Turn: %2)"
 msgstr "Vuosi: %1 (Vuoro:%2)"
 
-#: client/gui-qt/hudwidget.cpp:1682
+#: client/gui-qt/hudwidget.cpp:1684
 msgid "Population: %1"
 msgstr "Väkiluku: %1"
 
 #. TRANS: current gold, then loss/gain per turn
-#: client/gui-qt/hudwidget.cpp:1698
+#: client/gui-qt/hudwidget.cpp:1700
 msgid "Gold: %1 (%2)"
 msgstr "Kultaa: %1 (%2)"
 
@@ -20623,7 +20623,7 @@ msgstr "Ei päde \"%s\" kaupunkeihin eikä niiden kauppakumppaneihin."
 
 #. TRANS: default description of a requirement vector
 #. * (used in ruledit)
-#: common/requirements.c:4777
+#: common/requirements.c:4782
 msgid "the requirement vector"
 msgstr "edellytysten lista"
 
@@ -20633,7 +20633,7 @@ msgstr "edellytysten lista"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:4791
+#: common/requirements.c:4796
 #, c-format
 msgid "%s %s from %s"
 msgstr "%s %s listasta %s"
@@ -20644,7 +20644,7 @@ msgstr "%s %s listasta %s"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:4805
+#: common/requirements.c:4810
 #, c-format
 msgid "%s %s to %s"
 msgstr "%s %s listaan %s"
@@ -20652,155 +20652,155 @@ msgstr "%s %s listaan %s"
 #. TRANS: do nothing to a requirement vector (in ruledit).
 #. * The first %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:4816
+#: common/requirements.c:4821
 #, c-format
 msgid "Do nothing to %s"
 msgstr "Älä tee mitään listalle %s"
 
-#: common/requirements.c:4980
+#: common/requirements.c:4985
 #, c-format
 msgid "Requirements {%s} and {%s} contradict each other."
 msgstr "Vaatimukset {%s} ja {%s} ovat keskenään ristiriidassa."
 
-#: common/requirements.c:5072
+#: common/requirements.c:5077
 #, c-format
 msgid "Requirement {%s} requires %s but it will never be there."
 msgstr "Vaatimus {%s} tarvitsisi %s, mutta se ei koskaan toteudu."
 
-#: common/requirements.c:5089
+#: common/requirements.c:5094
 #, c-format
 msgid "Requirement {%s} mentions %s but it will never be there."
 msgstr "Vaatimus {%s} viittaa %s, joka se ei koskaan toteudu."
 
-#: common/requirements.c:5151
+#: common/requirements.c:5156
 #, c-format
 msgid "Requirements {%s} and {%s} are the same."
 msgstr "Vaatimukset {%s} ja {%s} ovat sama asia."
 
-#: common/requirements.c:5478
+#: common/requirements.c:5483
 #, c-format
 msgid "\"%s\" tech"
 msgstr "teknologia \"%s\""
 
-#: common/requirements.c:5520
+#: common/requirements.c:5525
 #, c-format
 msgid "%s citizens"
 msgstr "kansan %s asukkaita"
 
 #. TRANS: Unit type flag
-#: common/requirements.c:5537
+#: common/requirements.c:5542
 #, c-format
 msgid "?utflag:\"%s\" units"
 msgstr "ominaisuuden \"%s\" yksiköt"
 
 # unitclass: %s on "maavoimien" jne.
 #. TRANS: Unit class
-#: common/requirements.c:5544
+#: common/requirements.c:5549
 #, c-format
 msgid "%s units"
 msgstr "%s yksikköjä"
 
 #. TRANS: Unit class flag
-#: common/requirements.c:5550
+#: common/requirements.c:5555
 #, c-format
 msgid "?ucflag:\"%s\" units"
 msgstr "ominaisuuden \"%s\" yksiköt"
 
-#: common/requirements.c:5556
+#: common/requirements.c:5561
 #, c-format
 msgid "Veteran level >=%d"
 msgstr "Veteraanitaso vähintään %d"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:5563
+#: common/requirements.c:5568
 msgid "Transported"
 msgstr "Matkustaja"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On livable tile")
-#: common/requirements.c:5569
+#: common/requirements.c:5574
 msgid "On livable tile"
 msgstr "Ruudussa, jossa selviää omillaan"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:5573
+#: common/requirements.c:5578
 msgid "Transporting"
 msgstr "Kuljettaa yksikköä"
 
 #. TRANS: unit state. (appears in strings like "Missile+Has a home city")
-#: common/requirements.c:5577
+#: common/requirements.c:5582
 msgid "Has a home city"
 msgstr "omaa kotikaupungin"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On native tile")
-#: common/requirements.c:5583
+#: common/requirements.c:5588
 msgid "On native tile"
 msgstr "ruudussa, jossa selviää"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+In native extra")
-#: common/requirements.c:5589
+#: common/requirements.c:5594
 msgid "In native extra"
 msgstr "ruudulisässä, jossa selviää"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+Has moved this turn")
-#: common/requirements.c:5594
+#: common/requirements.c:5599
 msgid "Has moved this turn"
 msgstr "On liikkunut tällä kierroksella"
 
-#: common/requirements.c:5603
+#: common/requirements.c:5608
 #, c-format
 msgid "%s activity"
 msgstr "Toiminto %s"
 
 #. TRANS: Minimum unit movement points left for requirement to be met
 #. * (%s is a string like "1" or "2 1/3")
-#: common/requirements.c:5609
+#: common/requirements.c:5614
 #, c-format
 msgid "%s MP"
 msgstr "%s liikepistettä"
 
 #. TRANS: HP = hit points
-#: common/requirements.c:5614
+#: common/requirements.c:5619
 #, c-format
 msgid "%d HP"
 msgstr "%d osumapistettä"
 
-#: common/requirements.c:5618
+#: common/requirements.c:5623
 #, c-format
 msgid "Age %d"
 msgstr "Ikä %d"
 
-#: common/requirements.c:5622
+#: common/requirements.c:5627
 #, c-format
 msgid "%d Techs"
 msgstr "%d teknologiaa"
 
-#: common/requirements.c:5638
+#: common/requirements.c:5643
 #, c-format
 msgid "Size %d"
 msgstr "Koko %d"
 
-#: common/requirements.c:5642
+#: common/requirements.c:5647
 #, c-format
 msgid "Culture %d"
 msgstr "Kulttuuria %d"
 
-#: common/requirements.c:5646
+#: common/requirements.c:5651
 #, c-format
 msgid "%d%% Foreigners"
 msgstr "%d%% Ulkomaalaisia"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:5651
+#: common/requirements.c:5656
 #, c-format
 msgid "%s AI"
 msgstr "%s AI"
 
 #. TRANS: here <= means 'less than or equal'
-#: common/requirements.c:5656
+#: common/requirements.c:5661
 #, c-format
 msgid "<=%d unit"
 msgid_plural "<=%d units"
@@ -20808,66 +20808,66 @@ msgstr[0] "<= %d yksikkö"
 msgstr[1] "<= %d yksikköä"
 
 #. TRANS: Terrain class: "Land terrain"
-#: common/requirements.c:5662
+#: common/requirements.c:5667
 #, c-format
 msgid "%s terrain"
 msgstr "maastotyyppi: %s"
 
 #. TRANS: Terrain flag
-#: common/requirements.c:5668
+#: common/requirements.c:5673
 #, c-format
 msgid "?terrflag:\"%s\" terrain"
 msgstr "ominaisuuden \"%s\" maasto"
 
 #. TRANS: Road flag
-#: common/requirements.c:5675
+#: common/requirements.c:5680
 #, c-format
 msgid "?roadflag:\"%s\" road"
 msgstr "ominaisuuden \"%s\" polkutyyppi"
 
 #. TRANS: Extra flag
-#: common/requirements.c:5681
+#: common/requirements.c:5686
 #, c-format
 msgid "?extraflag:\"%s\" extra"
 msgstr "ominaisuuden \"%s\" ruutulisä"
 
-#: common/requirements.c:5685
+#: common/requirements.c:5690
 #, c-format
 msgid "After %s"
 msgstr "Vuodesta %s alkaen"
 
 #. TRANS: here >= means 'greater than or equal'.
 #. * %s identifies a calendar fragment (may be bare number).
-#: common/requirements.c:5691
+#: common/requirements.c:5696
 #, c-format
 msgid ">=%s"
 msgstr ">=%s"
 
 #. TRANS: topology flag name ("WrapX", "ISO", etc)
-#: common/requirements.c:5696
+#: common/requirements.c:5701
 #, c-format
 msgid "%s map"
 msgstr "%s kartta"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:5705
+#: common/requirements.c:5710
 #, c-format
 msgid "%s possible"
 msgstr "%s mahdollinen"
 
-#: common/requirements.c:5711
+#: common/requirements.c:5716
 msgid "City center"
 msgstr "Kaupungin keskusta"
 
-#: common/requirements.c:5714
+#: common/requirements.c:5719
 msgid "Tile claimed"
 msgstr "Ruudulla hallitsija"
 
-#: common/requirements.c:5717
+#: common/requirements.c:5722
 msgid "Extras owned"
 msgstr "Ruutulisät omistuksessa"
 
-#: common/requirements.c:5728
+#: common/requirements.c:5733
 msgid "Owned by original"
 msgstr "Alkuperäisen omistuksessa"
 
@@ -20897,22 +20897,22 @@ msgstr "Tulevaisuuden teknologia %d"
 
 #. TRANS: this and following strings are 'road flags', which may rarely
 #. * be presented to the player in ruleset help text
-#: common/road.h:25 data/civ1/terrain.ruleset:1156
+#: common/road.h:29 data/civ1/terrain.ruleset:1156
 #: data/civ2/terrain.ruleset:1296 data/classic/terrain.ruleset:1600
 #: data/sandbox/terrain.ruleset:1907 data/civ2civ3/terrain.ruleset:1803
 #: data/multiplayer/terrain.ruleset:1572
 msgid "River"
 msgstr "joki"
 
-#: common/road.h:27
+#: common/road.h:31
 msgid "UnrestrictedInfra"
 msgstr "RajoittamatonInfra"
 
-#: common/road.h:29
+#: common/road.h:33
 msgid "JumpFrom"
 msgstr "HyppyLähde"
 
-#: common/road.h:31
+#: common/road.h:35
 msgid "JumpTo"
 msgstr "HyppyKohde"
 
@@ -21052,16 +21052,16 @@ msgid "Explore"
 msgstr "Tutki"
 
 # *** '(s/he/it) moves' ***
-#: common/unit.c:1182 common/unit.c:1187
+#: common/unit.c:1183 common/unit.c:1188
 msgid "Moves"
 msgstr "Liikkuu"
 
-#: common/unit.c:1255
+#: common/unit.c:1256
 msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2044
+#: common/unit.c:2045
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -21076,13 +21076,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2053
+#: common/unit.c:2054
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2059
+#: common/unit.c:2060
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -21097,24 +21097,24 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2069
+#: common/unit.c:2070
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2073
+#: common/unit.c:2074
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2078
+#: common/unit.c:2079
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
 
-#: common/unit.c:2085
+#: common/unit.c:2086
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -21123,7 +21123,7 @@ msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, "
 "kuljetettavissa."
 
-#: common/unit.c:2093
+#: common/unit.c:2094
 #, c-format
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "%s ei ole ajanmukaistettavissa kun sillä on toiminto '%s' kesken."
@@ -41850,49 +41850,65 @@ msgstr "Virhe luotaessa hakemistoa %s"
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:226
-#, c-format
-msgid "You have caused an incident getting caught trying to do %s to %s."
+#, fuzzy, c-format
+#| msgid "You have caused an incident getting caught trying to do %s to %s."
+msgid ""
+"You have caused an diplomatic incident getting caught trying to do %s to %s."
 msgstr ""
 "Olet aiheuttanut selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s "
 "kohteenasi %s."
 
 #. TRANS: Bribe Enemy Unit ... American ... Partisan
 #: server/actiontools.c:236
-#, c-format
-msgid "You have caused an incident getting caught trying to do %s to %s %s."
+#, fuzzy, c-format
+#| msgid "You have caused an incident getting caught trying to do %s to %s %s."
+msgid ""
+"You have caused an diplomatic incident getting caught trying to do %s to %s "
+"%s."
 msgstr ""
 "Olet aiheuttanut selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s "
 "kohteenasi %s %s."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:247
-#, c-format
-msgid "You have caused an incident getting caught trying to do %s at %s."
+#, fuzzy, c-format
+#| msgid "You have caused an incident getting caught trying to do %s at %s."
+msgid ""
+"You have caused an diplomatic incident getting caught trying to do %s at %s."
 msgstr ""
 "Olet aiheuttanut selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s "
 "paikassa %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:283
-#, c-format
-msgid "The %s have caused an incident getting caught trying to do %s to %s."
+#, fuzzy, c-format
+#| msgid "The %s have caused an incident getting caught trying to do %s to %s."
+msgid ""
+"The %s have caused an diplomatic incident getting caught trying to do %s to "
+"%s."
 msgstr ""
 "%s ovat aiheuttaneet selkkauksen jäädessään kiinni yrittäessään toimintoa %s "
 "kohteenaan %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:294
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "The %s have caused an incident getting caught trying to do %s to your %s."
 msgid ""
-"The %s have caused an incident getting caught trying to do %s to your %s."
+"The %s have caused an diplomatic incident getting caught trying to do %s to "
+"your %s."
 msgstr ""
 "%s ovat aiheuttaneet selkkauksen jäädessään kiinni yrittäessään toimintoa %s "
 "kohteenaan omistamasi %s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:305
-#, c-format
-msgid "The %s have caused an incident getting caught trying to do %s at %s."
+#, fuzzy, c-format
+#| msgid "The %s have caused an incident getting caught trying to do %s at %s."
+msgid ""
+"The %s have caused an diplomatic incident getting caught trying to do %s at "
+"%s."
 msgstr ""
 "%s ovat aiheuttaneet selkkauksen jäädessään kiinni yrittäessään toimintoa %s "
 "paikassa %s."
@@ -41937,37 +41953,43 @@ msgstr ""
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:409
-#, c-format
-msgid "You have caused an incident doing %s to %s."
+#, fuzzy, c-format
+#| msgid "You have caused an incident doing %s to %s."
+msgid "You have caused an diplomatic incident doing %s to %s."
 msgstr "Toimesi %s kohteena %s ei jää seurauksitta. Siitä seuraa selkkaus."
 
 #: server/actiontools.c:418
-#, c-format
-msgid "You have caused an incident doing %s to %s %s."
+#, fuzzy, c-format
+#| msgid "You have caused an incident doing %s to %s %s."
+msgid "You have caused an diplomatic incident doing %s to %s %s."
 msgstr "Toimesi %s kohteena %s %s ei jää seurauksitta. Siitä seuraa selkkaus."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:428
-#, c-format
-msgid "You have caused an incident doing %s at %s."
+#, fuzzy, c-format
+#| msgid "You have caused an incident doing %s at %s."
+msgid "You have caused an diplomatic incident doing %s at %s."
 msgstr "Toimesi %s paikassa %s ei jää seurauksitta. Siitä seuraa selkkaus."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:463
-#, c-format
-msgid "The %s have caused an incident doing %s to %s."
+#, fuzzy, c-format
+#| msgid "The %s have caused an incident doing %s to %s."
+msgid "The %s have caused an diplomatic incident doing %s to %s."
 msgstr "%s aiheuttavat selkkauksen toimella %s kaupungissa %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:473
-#, c-format
-msgid "The %s have caused an incident doing %s to your %s."
+#, fuzzy, c-format
+#| msgid "The %s have caused an incident doing %s to your %s."
+msgid "The %s have caused an diplomatic incident doing %s to your %s."
 msgstr "%s on aiheuttanut selkkauksen tekemällä toimen %s yksiköllesi %s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:484
-#, c-format
-msgid "The %s have caused an incident doing %s at %s."
+#, fuzzy, c-format
+#| msgid "The %s have caused an incident doing %s at %s."
+msgid "The %s have caused an diplomatic incident doing %s at %s."
 msgstr "%s on aiheuttanut selkkauksen tekemällä toimen %s paikassa %s."
 
 #. TRANS: Suitcase Nuke
@@ -45783,19 +45805,19 @@ msgstr "Vuoron aikaraja on liian suuri ja palautetaan maksimiarvoon"
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Vuoron aikaraja on nollaa pienempi ja muutetaan nollaksi."
 
-#: server/generator/mapgen.c:1459
+#: server/generator/mapgen.c:1460
 msgid "The server couldn't allocate starting positions."
 msgstr "Palvelin ei voinut asettaa aloitussijainteja."
 
-#: server/generator/mapgen.c:2104
+#: server/generator/mapgen.c:2105
 msgid "High landmass - this may take a few seconds."
 msgstr "Paljon maa-alaa – tässä voi mennä jonkin aikaa."
 
-#: server/generator/mapgen.c:2384
+#: server/generator/mapgen.c:2385
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generaattori 3 ei asettanut kaikkia suuria saaria paikalleen."
 
-#: server/generator/mapgen.c:2413
+#: server/generator/mapgen.c:2414
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generaattori 3 jätti %li maa-alasta sijoittamatta."
@@ -53964,7 +53986,7 @@ msgstr "Tiedostoa %s ei voitu avata kirjoitusta varten."
 #: utility/randseed.c:65
 #, c-format
 msgid "getentropy() failed: %s"
-msgstr "getentrotpy() ei onnistunut: %s"
+msgstr "getentropy() ei onnistunut: %s"
 
 #: utility/randseed.c:120
 #, c-format
