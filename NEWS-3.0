@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.8 to 3.0.9
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.9>, 2023-11-02)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.9>, 2023-11-09)
 
 3.0.9 is a generic bugfix release in freeciv-3.0 series.
 
@@ -139,7 +139,13 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: de, fi, fr, id, pl, ru
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+            German (83% core, 99% nations, 4% ruledit)
+            Finnish (100% core, 93% nations, 100% ruledit)
+            French (99% core, 100% nations, 100% ruledit)
+            Indonesian (31% core, 49% nations, 3% ruledit)
 
 Build/portability
 
