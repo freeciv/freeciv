@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-10-28 13:51+0300\n"
+"POT-Creation-Date: 2023-11-09 18:56+0200\n"
 "PO-Revision-Date: 2023-11-03 18:15+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -123,22 +123,22 @@ msgstr ""
 "*%s (AI)* Znalazłem Cię %s! Albo wynagrodzisz mi to, że pozwolę Ci żyć, albo "
 "Cię zgładzę."
 
-#: ai/default/daidiplomacy.c:1290
+#: ai/default/daidiplomacy.c:1291
 #, c-format
 msgid "*%s (AI)* Space will never be yours."
 msgstr "*%s (AI)* Kosmos nigdy nie będzie twój."
 
-#: ai/default/daidiplomacy.c:1296
+#: ai/default/daidiplomacy.c:1297
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (AI)* Mamy już dość twoich brudnych sztuczek! WOJNA!"
 
-#: ai/default/daidiplomacy.c:1302
+#: ai/default/daidiplomacy.c:1303
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (AI)* Pokój? Raczej nie teraz."
 
-#: ai/default/daidiplomacy.c:1308
+#: ai/default/daidiplomacy.c:1309
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -146,17 +146,17 @@ msgid ""
 msgstr ""
 "*%s (AI)* Mamy już ciebie dość! Nie możemy dłużej tolerować twoich zbrodni!"
 
-#: ai/default/daidiplomacy.c:1315
+#: ai/default/daidiplomacy.c:1316
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (AI)* Twoje podstępy doprowadziły do tej wojny!"
 
-#: ai/default/daidiplomacy.c:1323
+#: ai/default/daidiplomacy.c:1324
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)* Atak na %s był twoim ostatnim błędem!"
 
-#: ai/default/daidiplomacy.c:1426
+#: ai/default/daidiplomacy.c:1427
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -174,14 +174,14 @@ msgstr[2] ""
 "*%s (AI)* Totalna wojna przeciwko %s rozpocznie się w ciągu %d tur. Musimy "
 "zatrzymać ich statek kosmiczny."
 
-#: ai/default/daidiplomacy.c:1437
+#: ai/default/daidiplomacy.c:1438
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr "*%s (AI)* Oczekujemy twojej pomocy. Niech żyje nasz wspaniały sojusz!"
 
-#: ai/default/daidiplomacy.c:1444
+#: ai/default/daidiplomacy.c:1445
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -201,7 +201,7 @@ msgstr[2] ""
 "*%s (AI)* %s poważnie naruszyli nasze traktaty. Odpowiemy siłą w ciągu %d "
 "tur. Oczekujemy, że uszanujesz nasz sojusz i pomożesz nam!"
 
-#: ai/default/daidiplomacy.c:1458
+#: ai/default/daidiplomacy.c:1459
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -219,13 +219,13 @@ msgstr[2] ""
 "*%s (AI)* Zamierzamy złupić i zniszczyć cywilizację %s. Wojna rozpocznie się "
 "w ciągu %d tur."
 
-#: ai/default/daidiplomacy.c:1467
+#: ai/default/daidiplomacy.c:1468
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* Jeśli zależy ci na łupach, przyłącz się do nas!"
 
-#: ai/default/daidiplomacy.c:1473
+#: ai/default/daidiplomacy.c:1474
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -243,13 +243,13 @@ msgstr[2] ""
 "*%s (AI)* Nie możemy dalej tolerować %s. Zniszczmy tą żałosną cywilizację. "
 "Wypowiemy wojnę w ciągu %d tur."
 
-#: ai/default/daidiplomacy.c:1484
+#: ai/default/daidiplomacy.c:1485
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (AI)* Jesteś naszym wielki przyjacielem, więc pewnie zechcesz nam pomóc."
 
-#: ai/default/daidiplomacy.c:1491
+#: ai/default/daidiplomacy.c:1492
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
@@ -267,7 +267,7 @@ msgstr[2] ""
 "*%s (AI)* Dotrzymamy warunków sojuszu i wypowiemy wojnę %s w ciągu %d tur. "
 "Trzymaj się, przybywamy!"
 
-#: ai/default/daidiplomacy.c:1501
+#: ai/default/daidiplomacy.c:1502
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
@@ -285,7 +285,7 @@ msgstr[2] ""
 "*%s (AI)* Dotrzymamy sojuszu z %s i wypowiemy wojnę przeciwko %s w ciągu %d "
 "tur. Oczekujemy twojej pomocy."
 
-#: ai/default/daidiplomacy.c:1582
+#: ai/default/daidiplomacy.c:1583
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -294,14 +294,14 @@ msgstr ""
 "*%s (AI)* Twoja próba podbicia kosmosu zdradziła twoje prawdziwe zamiary. "
 "Dalszy sojusz z tobą jest bezcelowy!"
 
-#: ai/default/daidiplomacy.c:1598
+#: ai/default/daidiplomacy.c:1599
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
 msgstr "*%s (AI)* Bardzo nas niepokoją twoje próby opanowania kosmosu."
 
-#: ai/default/daidiplomacy.c:1602
+#: ai/default/daidiplomacy.c:1603
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -310,12 +310,12 @@ msgstr ""
 "*%s (AI)* Jeśli nie przerwiesz budowy statku kosmicznego, będziemy zmuszeni "
 "powstrzymać cię wszelkimi sposobami!"
 
-#: ai/default/daidiplomacy.c:1725
+#: ai/default/daidiplomacy.c:1726
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr "*%s (AI)* Niestety, dzielenie widoku z tobą nie jest już bezpieczne."
 
-#: ai/default/daidiplomacy.c:1796
+#: ai/default/daidiplomacy.c:1797
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -324,7 +324,7 @@ msgstr ""
 "*%s (AI)* Mój najbardziej zaufany sojuszniku, wzywam cię do zniszczenia "
 "naszego wroga - %s."
 
-#: ai/default/daidiplomacy.c:1804
+#: ai/default/daidiplomacy.c:1805
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -333,7 +333,7 @@ msgstr ""
 "*%s (AI)* Pozdrowienia przyjacielu, widzę że jeszcze nie wypowiedzieliście "
 "wojny naszemu wrogowi %s. Czyżbyście zapomnieli o waszych zobowiązaniach?"
 
-#: ai/default/daidiplomacy.c:1814
+#: ai/default/daidiplomacy.c:1815
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -344,7 +344,7 @@ msgstr ""
 "utrzymujesz pokój z naszym największym wrogiem %s! Tak się nie postępuje, "
 "zrywamy sojusz!"
 
-#: ai/default/daidiplomacy.c:1848
+#: ai/default/daidiplomacy.c:1849
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -353,12 +353,12 @@ msgstr ""
 "*%s (AI)* Pozdrowienia przyjacielu, razem będziemy silniejsi. Co sądzisz o "
 "sojuszu?"
 
-#: ai/default/daidiplomacy.c:1865
+#: ai/default/daidiplomacy.c:1866
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr "*%s (AI)* Pozdrowienia sąsiedzie, proponuję pokój dla wspólnego dobra."
 
-#: ai/default/daidiplomacy.c:1882
+#: ai/default/daidiplomacy.c:1883
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -367,7 +367,7 @@ msgstr ""
 "*%s (AI)* Obaj wiele wycierpieliśmy w tym konflikcie. Co sądzisz o "
 "przerwaniu rozlewu krwi?"
 
-#: ai/default/daidiplomacy.c:2045
+#: ai/default/daidiplomacy.c:2046
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
