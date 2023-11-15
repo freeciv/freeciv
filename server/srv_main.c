@@ -2317,7 +2317,7 @@ void update_nations_with_startpos(void)
 }
 
 /**********************************************************************//**
-  Handles a pick-nation packet from the client.  These packets are
+  Handles a pick-nation packet from the client. These packets are
   handled by connection because ctrl users may edit anyone's nation in
   pregame, and editing is possible during a running game.
 **************************************************************************/
@@ -3199,16 +3199,17 @@ static void srv_ready(void)
 #endif
 
   if (game.info.is_new_game) {
-    game.info.turn++; /* pregame T0 -> game T1 */
-    fc_assert(game.info.turn == 1);
-    game.info.year = game.server.start_year;
     /* Must come before assign_player_colors() */
     generate_players();
     final_ruleset_adjustments();
+
+    game.info.turn++; /* Pregame T0 -> game T1 */
+    fc_assert(game.info.turn == 1);
+    game.info.year = game.server.start_year;
   }
 
   /* If we have a tile map, and MAPGEN_SCENARIO == map.server.generator,
-   * call map_fractal_generate anyway to make the specials, huts and
+   * call map_fractal_generate() anyway to make the specials, huts and
    * continent numbers. */
   if (map_is_empty()
       || (MAPGEN_SCENARIO == wld.map.server.generator
