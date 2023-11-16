@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-10-19 04:33+0300\n"
+"POT-Creation-Date: 2023-11-16 22:37+0200\n"
 "PO-Revision-Date: 2016-10-06 17:27+0300\n"
 "Last-Translator: Sviatoslav Golda<swiatos@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -8915,7 +8915,7 @@ msgid "Build %1"
 msgstr "Будувати %s"
 
 #: client/gui-qt/menu.cpp:2089 client/gui-sdl/menu.c:738
-#: client/gui-sdl2/menu.c:735 client/gui-xaw/menu.c:184 server/unittools.c:2709
+#: client/gui-sdl2/menu.c:735 client/gui-xaw/menu.c:184 server/unittools.c:2711
 msgid "Drop Paratrooper"
 msgstr "Висадити десантників"
 
@@ -19485,47 +19485,47 @@ msgstr "несумісний вміст пакету"
 #. TRANS: These words should be adjectives which can fit in the sentence
 #. "The x are y towards us"
 #. "The Babylonians are respectful towards us"
-#: common/player.c:1245
+#: common/player.c:1249
 msgid "?attitude:Genocidal"
 msgstr "Жаждуть крові"
 
-#: common/player.c:1247
+#: common/player.c:1251
 msgid "?attitude:Belligerent"
 msgstr "Зловісноворожі"
 
-#: common/player.c:1249
+#: common/player.c:1253
 msgid "?attitude:Hostile"
 msgstr "Ворожі"
 
-#: common/player.c:1251
+#: common/player.c:1255
 msgid "?attitude:Uncooperative"
 msgstr "Недружні"
 
-#: common/player.c:1253
+#: common/player.c:1257
 msgid "?attitude:Uneasy"
 msgstr "Непривітні"
 
-#: common/player.c:1255
+#: common/player.c:1259
 msgid "?attitude:Neutral"
 msgstr "Нейтральні"
 
-#: common/player.c:1257
+#: common/player.c:1261
 msgid "?attitude:Respectful"
 msgstr "Шанобливі"
 
-#: common/player.c:1259
+#: common/player.c:1263
 msgid "?attitude:Helpful"
 msgstr "Люб’язні"
 
-#: common/player.c:1261
+#: common/player.c:1265
 msgid "?attitude:Enthusiastic"
 msgstr "Прихильні"
 
-#: common/player.c:1263
+#: common/player.c:1267
 msgid "?attitude:Admiring"
 msgstr "Піднесено-захоплені"
 
-#: common/player.c:1266
+#: common/player.c:1270
 msgid "?attitude:Worshipful"
 msgstr "Поклоніння"
 
@@ -26660,7 +26660,7 @@ msgstr ""
 "то виплачується винагорода в 100 гривень, але тільки для сухопутних "
 "підрозділів та гелікоптерів."
 
-#: data/default/default.lua:22 server/unittools.c:2812
+#: data/default/default.lua:22 server/unittools.c:2814
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -26699,7 +26699,7 @@ msgstr "Ви знайшли дружнє місто."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Дружні кочівники приєднуються до Вас."
 
-#: data/default/default.lua:114 server/unittools.c:2819
+#: data/default/default.lua:114 server/unittools.c:2821
 msgid "An abandoned village is here."
 msgstr "Пустий хутір."
 
@@ -26707,7 +26707,7 @@ msgstr "Пустий хутір."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Ви знайшли армію дикунів!"
 
-#: data/default/default.lua:124 server/unittools.c:2822
+#: data/default/default.lua:124 server/unittools.c:2824
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Ваш загін %s знищено дикуни!"
@@ -39060,23 +39060,23 @@ msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Коли %s розпустили, ваш %s не зміг вибратися та був втрачений."
 
-#: server/citytools.c:1741
+#: server/citytools.c:1742
 #, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr "Коли %s було розпущено, ваш %s у %s попав у пастку і був втрачений."
 
-#: server/citytools.c:1918
+#: server/citytools.c:1921
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Ви повністю знищили %s."
 
-#: server/citytools.c:1921
+#: server/citytools.c:1924
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s знищений %s."
 
-#: server/citytools.c:1950
+#: server/citytools.c:1953
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
@@ -39084,7 +39084,7 @@ msgstr[0] "Ви захопили %s; здобич склала %d гривню!"
 msgstr[1] "Ви захопили %s; здобич склала %d гривні!"
 msgstr[2] "Ви захопили %s; здобич склала %d гривень!"
 
-#: server/citytools.c:1957
+#: server/citytools.c:1960
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
@@ -39092,17 +39092,17 @@ msgstr[0] "%s захопив %s та отримав з міста здобичі
 msgstr[1] "%s захопив %s та отримав з міста здобичі %d гривні."
 msgstr[2] "%s захопив %s та отримав з міста здобичі %d гривень."
 
-#: server/citytools.c:1966
+#: server/citytools.c:1969
 #, c-format
 msgid "You conquer %s."
 msgstr "Ви захопили  %s."
 
-#: server/citytools.c:1969
+#: server/citytools.c:1972
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s захопив %s."
 
-#: server/citytools.c:1976
+#: server/citytools.c:1979
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
@@ -39110,7 +39110,7 @@ msgstr[0] "Ви визволили %s! Здобич склала %d гривню
 msgstr[1] "Ви визволили %s! Здобич склала %d гривні!"
 msgstr[2] "Ви визволили %s! Здобич склала %d гривень!"
 
-#: server/citytools.c:1983
+#: server/citytools.c:1986
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
@@ -39118,74 +39118,74 @@ msgstr[0] "%s визволив %s та отримав з міста здобич
 msgstr[1] "%s визволив %s та отримав з міста здобичі %d гривні."
 msgstr[2] "%s визволив %s та отримав з міста здобичі %d гривень."
 
-#: server/citytools.c:1992
+#: server/citytools.c:1995
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Ви визволили %s!"
 
-#: server/citytools.c:1995
+#: server/citytools.c:1998
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s визволив %s."
 
-#: server/citytools.c:2593
+#: server/citytools.c:2596
 #, c-format
 msgid "Trade between %s and %s lost along with city."
 msgstr "Торг між %s і %s втрачений разом з містом."
 
-#: server/citytools.c:2598
+#: server/citytools.c:2601
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Торговий шлях між %s і %s скасовано."
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2606
+#: server/citytools.c:2609
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr "Торгівля між %s містом %s і %s втрачена, разом з їх містом."
 
-#: server/citytools.c:2614
+#: server/citytools.c:2617
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "На жаль, %s скасував торговий шлях з %s до Вашого міста %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2620
+#: server/citytools.c:2623
 #, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr "Ми скасували торговий шлях з %s  до %s міста %s."
 
-#: server/citytools.c:2848
+#: server/citytools.c:2851
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s припинили будівництво дива %s у %s."
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:2870
+#: server/citytools.c:2873
 msgid " from the worklist"
 msgstr " з плану будівництва"
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:2875
+#: server/citytools.c:2878
 msgid " as suggested by the advisor"
 msgstr ""
 
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
 #. * " from the worklist".
-#: server/citytools.c:2889
+#: server/citytools.c:2892
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s будує %s%s."
 
-#: server/citytools.c:2898
+#: server/citytools.c:2901
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s розпочали будівництво чуда %s у %s."
 
-#: server/citytools.c:3059
+#: server/citytools.c:3062
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -39193,16 +39193,16 @@ msgstr[0] "Ви продали %s у %s (тепер блоковано земл�
 msgstr[1] "Ви продали %s у %s (тепер блоковано землею) за %d гривні."
 msgstr[2] "Ви продали %s у %s (тепер блоковано землею) за %d гривень."
 
-#: server/citytools.c:3193
+#: server/citytools.c:3196
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Розмір міської карти %s став %s"
 
-#: server/citytools.c:3195
+#: server/citytools.c:3198
 msgid "increased"
 msgstr "збільшилось"
 
-#: server/citytools.c:3196
+#: server/citytools.c:3199
 msgid "reduced"
 msgstr "зменшилось"
 
@@ -41771,65 +41771,65 @@ msgstr "Ваш %s не зміг отруїти воду в місті %s."
 msgid "%s is suspected of destroying %s by poisoning its water supply."
 msgstr "%s підозрюється в отруєнні води у місті %s."
 
-#: server/diplomats.c:297
+#: server/diplomats.c:303
 #, c-format
 msgid "You have established an embassy in %s."
 msgstr "Ви відкрили посольство в %s."
 
-#: server/diplomats.c:301
+#: server/diplomats.c:307
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "%s відкрив посольство в %s."
 
-#: server/diplomats.c:366
+#: server/diplomats.c:372
 #, fuzzy, c-format
 #| msgid "Your %s succeeded in sabotaging the %s %s."
 msgid "Your %s's successful sabotage killed the %s %s."
 msgstr "Ваш %s вдало саботував %s %s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:373
+#: server/diplomats.c:379
 #, fuzzy, c-format
 #| msgid "Your %s was nuked by %s."
 msgid "Your %s was killed by %s sabotage!"
 msgstr "Ваш %s атаковано атомною бомбою %s."
 
-#: server/diplomats.c:384
+#: server/diplomats.c:390
 #, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "Ваш %s вдало саботував %s %s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:391
+#: server/diplomats.c:397
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Вашого %s саботовано намаганнями %s!"
 
 #. TRANS: You already have a Leader.
-#: server/diplomats.c:447
+#: server/diplomats.c:453
 #, c-format
 msgid "You already have a %s."
 msgstr "Ви вже маєте %s."
 
-#: server/diplomats.c:462
+#: server/diplomats.c:468
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "У Вас не вистачає коштів щоб підкупити %s %s."
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:493
+#: server/diplomats.c:499
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Ваш %s вдало перекупив %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:500
+#: server/diplomats.c:506
 #, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Вашого %s перекупили на бік ворога %s."
 
 #. TRANS: Paris was expecting ... Your Spy was caught
-#: server/diplomats.c:657
+#: server/diplomats.c:663
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -41839,7 +41839,7 @@ msgstr ""
 "і стратили."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:664
+#: server/diplomats.c:670
 #, fuzzy, c-format
 #| msgid "The %s %s failed to steal technology from %s."
 msgid ""
@@ -41848,111 +41848,111 @@ msgid ""
 msgstr "%s %s не зміг викрасти технологію від %s."
 
 #. TRANS: Your Spy was caught ... from %s.
-#: server/diplomats.c:673
+#: server/diplomats.c:679
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Вашого %s захопили на спробі вкрасти технологію з %s."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:680
+#: server/diplomats.c:686
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "%s %s не зміг викрасти технологію від %s."
 
-#: server/diplomats.c:698
+#: server/diplomats.c:704
 #, c-format
 msgid "No new technology found in %s."
 msgstr "Нових технологій у %s не знайдено."
 
-#: server/diplomats.c:767
+#: server/diplomats.c:773
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "У Вас не стає золота щоб повернути на свій бік %s."
 
-#: server/diplomats.c:784
+#: server/diplomats.c:790
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Вашого %s затримано на спробі влаштувати заколот!"
 
-#: server/diplomats.c:788
+#: server/diplomats.c:794
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
 "Ви затримали направлений %s підрозділ %s при спробі влаштувати заколот у %s!"
 
-#: server/diplomats.c:811
+#: server/diplomats.c:817
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Заколот у %s, тепер Ви головуєте у місті!"
 
-#: server/diplomats.c:814
+#: server/diplomats.c:820
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "Заколот у %s, підозра падає на %s."
 
-#: server/diplomats.c:901
+#: server/diplomats.c:907
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Ваш підрозділ %s затримали на спробі саботувати виробництво!"
 
-#: server/diplomats.c:906
+#: server/diplomats.c:912
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Ви затримали направлений %s підрозділ %s при спробі саботувати у %s!"
 
-#: server/diplomats.c:937
+#: server/diplomats.c:943
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Ваш %s не зміг знайти що саботувати у %s."
 
-#: server/diplomats.c:994
+#: server/diplomats.c:1000
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "Ви не в змозі саботувати %s!"
 
-#: server/diplomats.c:1005
+#: server/diplomats.c:1011
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Ваш %s не зміг найти %s щоб саботувати у %s."
 
-#: server/diplomats.c:1030
+#: server/diplomats.c:1036
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Ваш підрозділ %s вдало знищив виробництво %s у %s."
 
-#: server/diplomats.c:1037
+#: server/diplomats.c:1043
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Виробництво %s у %s саботовано, підозра падає на %s."
 
-#: server/diplomats.c:1060
+#: server/diplomats.c:1066
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Ваш підрозділ %s затримано на спробі саботажу!"
 
-#: server/diplomats.c:1064
+#: server/diplomats.c:1070
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Ви затримали направлений %s підрозділ %s при спробі саботажу %s у %s!"
 
-#: server/diplomats.c:1078
+#: server/diplomats.c:1084
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Ваш підрозділ %s знищив %s у %s."
 
-#: server/diplomats.c:1084
+#: server/diplomats.c:1090
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "%s знищив %s у %s."
 
-#: server/diplomats.c:1167
+#: server/diplomats.c:1173
 #, fuzzy, c-format
 #| msgid "Your %s was caught in the attempt of sabotage!"
 msgid "Your %s was caught attempting to steal gold!"
 msgstr "Ваш підрозділ %s затримано на спробі саботажу!"
 
 #. TRANS: nation, unit, city
-#: server/diplomats.c:1172
+#: server/diplomats.c:1178
 #, fuzzy, c-format
 #| msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgid "You caught %s %s attempting to steal your gold in %s!"
@@ -41960,7 +41960,7 @@ msgstr ""
 "Ви затримали направлений %s підрозділ %s при спробі влаштувати заколот у %s!"
 
 #. TRANS: unit, gold, city
-#: server/diplomats.c:1214
+#: server/diplomats.c:1220
 #, fuzzy, c-format
 #| msgid "Your %s stole %s from %s."
 msgid "Your %s stole %d gold from %s."
@@ -41970,7 +41970,7 @@ msgstr[1] "Ваш %s вкрав %s з %s."
 msgstr[2] "Ваш %s вкрав %s з %s."
 
 #. TRANS: gold, city, nation
-#: server/diplomats.c:1219
+#: server/diplomats.c:1225
 #, c-format
 msgid "%d gold stolen from %s, %s suspected."
 msgid_plural "%d gold stolen from %s, %s suspected."
@@ -41979,76 +41979,76 @@ msgstr[1] ""
 msgstr[2] ""
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1371
+#: server/diplomats.c:1377
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Ворожий %s знищений вашим %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1378
+#: server/diplomats.c:1384
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Ваш %s загинув, захищаючи %s від %s."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1385
+#: server/diplomats.c:1391
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "%s %s загинув, захищаючи %s від %s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1392
+#: server/diplomats.c:1398
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "Ваш %s загинув, захищаючи %s %s від %s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1401 server/diplomats.c:1412
+#: server/diplomats.c:1407 server/diplomats.c:1418
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Ваш %s боронився проти %s, але загинув."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1406
+#: server/diplomats.c:1412
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "%s %s боронився проти %s, але загинув."
 
-#: server/diplomats.c:1434
+#: server/diplomats.c:1440
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Ваш %s загинув від рук оборонця %s."
 
-#: server/diplomats.c:1440
+#: server/diplomats.c:1446
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "Знищили %s %s при спробі шпигування у %s."
 
-#: server/diplomats.c:1445
+#: server/diplomats.c:1451
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr " %s %s знищив %s %s при спробі шпигування у %s."
 
-#: server/diplomats.c:1450
+#: server/diplomats.c:1456
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr "Ваш %s знищив %s %s при спробі шпигування у %s."
 
-#: server/diplomats.c:1458
+#: server/diplomats.c:1464
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr "Знищили %s %s при спробі диверсії наших підрозділів."
 
-#: server/diplomats.c:1463
+#: server/diplomats.c:1469
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr "%s %s знищив %s %s при спробі диверсії наших підрозділів."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1469
+#: server/diplomats.c:1475
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr "Ваш %s знищив %s %s при спробі диверсії наших підрозділів."
@@ -49036,7 +49036,7 @@ msgstr "Лише %s може захоплювати з нерідного пол
 msgid "Cannot conquer from a non-native tile."
 msgstr "Не можу завоювати з нерідного поля"
 
-#: server/unithand.c:2587 server/unittools.c:2697 server/unittools.c:2739
+#: server/unithand.c:2587 server/unittools.c:2699 server/unittools.c:2741
 msgid "Cannot attack unless you declare war first."
 msgstr "Не можна напасти, доки Ви не проголосите війну."
 
@@ -49050,7 +49050,7 @@ msgstr "%s можуть заходити тільки у вашу власну �
 msgid "%s cannot move that far from the coast line."
 msgstr "%s не може рухатися так далеко від берега."
 
-#: server/unithand.c:2605 server/unittools.c:2717 server/unittools.c:2747
+#: server/unithand.c:2605 server/unittools.c:2719 server/unittools.c:2749
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Не можна вторгатися, доки Ви не проголосите %s війну."
@@ -49296,27 +49296,27 @@ msgstr "Ваш загін %s був переміщений."
 msgid "Disbanded your %s."
 msgstr "Розпустив Ваш %s."
 
-#: server/unittools.c:1618
+#: server/unittools.c:1620
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Не здатний захистити %s, %s програв гру."
 
-#: server/unittools.c:1622
+#: server/unittools.c:1624
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Втрата %s означає програш гри! Будьте більш пильним наступного разу!"
 
-#: server/unittools.c:1681
+#: server/unittools.c:1683
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Втратили %s після втрати %s."
 
-#: server/unittools.c:1923
+#: server/unittools.c:1925
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Ваш підрозділ %s уникнув знищення в %s та втік до %s."
 
-#: server/unittools.c:2083
+#: server/unittools.c:2085
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -49325,7 +49325,7 @@ msgstr[1] "Захопили Ватажка дикунів; отримали %d �
 msgstr[2] "Захопили Ватажка дикунів; отримали %d гривень викупу."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2137
+#: server/unittools.c:2139
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -49335,21 +49335,21 @@ msgstr[1] "Ваша атака %s на %s %s (та ще %d підрозділі�
 msgstr[2] "Ваша атака %s на %s %s (та ще %d підрозділів) вдалася!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2163
+#: server/unittools.c:2165
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s загинув від нападу %s %s."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2173
+#: server/unittools.c:2175
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s загинув, коли %s %s атакував %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2189
+#: server/unittools.c:2191
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (і %s) загинув через атаку від %s %s."
@@ -49357,7 +49357,7 @@ msgstr "%s (і %s) загинув через атаку від %s %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2200
+#: server/unittools.c:2202
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -49368,7 +49368,7 @@ msgstr[2] "%s і %d іншиз загонів втрачено у від нап�
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2215
+#: server/unittools.c:2217
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -49376,165 +49376,165 @@ msgstr[0] "%d загін загинув коли %s %s напав на %s %s"
 msgstr[1] "%d загони загинули коли: %s %s напали на %s %s"
 msgstr[2] "%d загонів загинули коли: %s %s напали на %s %s"
 
-#: server/unittools.c:2458
+#: server/unittools.c:2460
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Ваш %s атаковано атомною бомбою %s."
 
-#: server/unittools.c:2461 server/unittools.c:2479
+#: server/unittools.c:2463 server/unittools.c:2481
 msgid "yourself"
 msgstr "власноруч"
 
-#: server/unittools.c:2465
+#: server/unittools.c:2467
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Ядерний удар по %s %s."
 
-#: server/unittools.c:2476
+#: server/unittools.c:2478
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s зазнали ядерного удару від %s."
 
-#: server/unittools.c:2484
+#: server/unittools.c:2486
 #, c-format
 msgid "You nuked %s."
 msgstr "Ви здійснили ядерний удар по %s."
 
-#: server/unittools.c:2534
+#: server/unittools.c:2536
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s підірвали атомну бомбу!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2558 server/unittools.c:2566
+#: server/unittools.c:2560 server/unittools.c:2568
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s не має місця, щоб перевезти %s"
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2577
+#: server/unittools.c:2579
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s не можна перевезти до %s."
 
-#: server/unittools.c:2587
+#: server/unittools.c:2589
 #, c-format
 msgid "%s transported successfully."
 msgstr "Вдало перевіз %s."
 
-#: server/unittools.c:2650
+#: server/unittools.c:2652
 msgid "This unit type can not be paradropped."
 msgstr "Цей підрозділ не можна парашутувати."
 
-#: server/unittools.c:2660
+#: server/unittools.c:2662
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Не можна парашутувати підрозділ, який перевозить інші підрозділи."
 
-#: server/unittools.c:2667
+#: server/unittools.c:2669
 msgid "The destination location is not known."
 msgstr "Розміщення пункту призначення невідоме."
 
-#: server/unittools.c:2675
+#: server/unittools.c:2677
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Відстань до цілі (%i) більша ніж дальність підрозділу (%i)."
 
-#: server/unittools.c:2681
+#: server/unittools.c:2683
 #, fuzzy
 #| msgid "Paradrop here"
 msgid "Already there."
 msgstr "Парашутувати сюди"
 
-#: server/unittools.c:2690 server/unittools.c:2730
+#: server/unittools.c:2692 server/unittools.c:2732
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Цей підрозділ не може парашутуватися в %s."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
-#: server/unittools.c:2706
+#: server/unittools.c:2708
 #, fuzzy, c-format
 #| msgid "Your %s stole %s from %s."
 msgid "Your %s can't do %s to tiles with non allied units."
 msgstr "Ваш %s вкрав %s з %s."
 
-#: server/unittools.c:2759
+#: server/unittools.c:2761
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Ваші %s парашутувалися в %s та були втрачені."
 
-#: server/unittools.c:2778
+#: server/unittools.c:2780
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Ваших %s вбито ворогами у точці парашутування."
 
-#: server/unittools.c:2858
+#: server/unittools.c:2860
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Ваш проліт перелякав тубільців; вони розбіглися нажахані."
 
-#: server/unittools.c:3200
+#: server/unittools.c:3202
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Накази для %s скасовані бо виявив пересування ворога."
 
-#: server/unittools.c:3993
+#: server/unittools.c:3997
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Накази для %s скасовані через присутність підрозділів поблизу."
 
-#: server/unittools.c:4070
+#: server/unittools.c:4074
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Накази для %s скасовані, оскільки будівництво міста зазнало невдачі."
 
-#: server/unittools.c:4147
+#: server/unittools.c:4151
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s перервав виконання наказу через неможливість дій по його виконанню."
 
-#: server/unittools.c:4157
+#: server/unittools.c:4161
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s перервав виконання наказу бо він веде в неправильне місце."
 
-#: server/unittools.c:4168
+#: server/unittools.c:4172
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Накази для %s скасовано через наявність підрозділів на шляху."
 
-#: server/unittools.c:4213
+#: server/unittools.c:4217
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s перервав виконання наказу бо не може рухатися."
 
-#: server/unittools.c:4232
+#: server/unittools.c:4236
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Спроба змінити дім для %s зазнала невдачі."
 
-#: server/unittools.c:4246 server/unittools.c:4273
+#: server/unittools.c:4250 server/unittools.c:4277
 #, fuzzy, c-format
 #| msgid "Orders for %s aborted since they give an invalid activity."
 msgid "Orders for %s aborted since they give a location without a city."
 msgstr "%s перервав виконання наказу через неможливість дій по його виконанню."
 
-#: server/unittools.c:4258
+#: server/unittools.c:4262
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Спроба встановити торговий шлях для %s невдалась."
 
-#: server/unittools.c:4286
+#: server/unittools.c:4290
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Спроба збудувати чудо для %s невдалась."
 
-#: server/unittools.c:4295
+#: server/unittools.c:4299
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "У вашого %s невірні накази."
 
-#: server/unittools.c:4394
+#: server/unittools.c:4398
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr "Ваш загін не може діяти ще %s цього ходу. Див. /help unitwaittime."

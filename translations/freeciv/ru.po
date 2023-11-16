@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-11-03 15:19+0500\n"
+"POT-Creation-Date: 2023-11-16 22:37+0200\n"
 "PO-Revision-Date: 2023-11-01 09:33+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -41065,63 +41065,63 @@ msgstr ""
 "Игрок %s подозревается в уничтожении города %s посредством отравления "
 "водопровода."
 
-#: server/diplomats.c:297
+#: server/diplomats.c:303
 #, c-format
 msgid "You have established an embassy in %s."
 msgstr "Вы открыли посольство в городе %s."
 
-#: server/diplomats.c:301
+#: server/diplomats.c:307
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "%s открыли посольство в городе %s."
 
-#: server/diplomats.c:366
+#: server/diplomats.c:372
 #, c-format
 msgid "Your %s's successful sabotage killed the %s %s."
 msgstr "Саботаж Вашего %1$sа уничтожил соединение %3$s народа %2$s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:373
+#: server/diplomats.c:379
 #, c-format
 msgid "Your %s was killed by %s sabotage!"
 msgstr "Ваше соединение %s было уничтожено саботажем народа %s!"
 
-#: server/diplomats.c:384
+#: server/diplomats.c:390
 #, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "Ваш %1$s успешно саботировал %3$s народа %2$s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:391
+#: server/diplomats.c:397
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "%2$s саботировали Ваше соединение %1$s!"
 
 #. TRANS: You already have a Leader.
-#: server/diplomats.c:447
+#: server/diplomats.c:453
 #, c-format
 msgid "You already have a %s."
 msgstr "У Вас уже есть %s."
 
-#: server/diplomats.c:462
+#: server/diplomats.c:468
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "У Вас не хватает золота для подкупа соединения %2$s народа %1$s."
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:493
+#: server/diplomats.c:499
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Вашему %sу удалось подкупить соединение %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:500
+#: server/diplomats.c:506
 #, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Ваше соединение %s было подкуплено народом %s."
 
 #. TRANS: Paris was expecting ... Your Spy was caught
-#: server/diplomats.c:657
+#: server/diplomats.c:663
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -41131,7 +41131,7 @@ msgstr ""
 "пойман и казнён."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:664
+#: server/diplomats.c:670
 #, c-format
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
@@ -41141,117 +41141,117 @@ msgstr ""
 "готовы к этой попытке."
 
 #. TRANS: Your Spy was caught ... from %s.
-#: server/diplomats.c:673
+#: server/diplomats.c:679
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Ваш %s был пойман при попытке похитить технологию из города %s."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:680
+#: server/diplomats.c:686
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "%2$s народа %1$s не смог украсть технологию из города %3$s."
 
-#: server/diplomats.c:698
+#: server/diplomats.c:704
 #, c-format
 msgid "No new technology found in %s."
 msgstr "В городе %s не было найдено новых технологий."
 
-#: server/diplomats.c:767
+#: server/diplomats.c:773
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "У Вас не хватает золота, чтобы перетянуть на свою сторону город %s."
 
-#: server/diplomats.c:784
+#: server/diplomats.c:790
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Ваш %s был схвачен при попытке устроить революцию!"
 
-#: server/diplomats.c:788
+#: server/diplomats.c:794
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Вы уличили %2$sа народа %1$s в подстрекательстве к мятежу города %3$s!"
 
-#: server/diplomats.c:811
+#: server/diplomats.c:817
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Революция в %s, город теперь Ваш!"
 
-#: server/diplomats.c:814
+#: server/diplomats.c:820
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "В городе %s произошёл мятеж, в подстрекательстве подозреваются %s."
 
-#: server/diplomats.c:901
+#: server/diplomats.c:907
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Ваш %s был пойман при попытке промышленного саботажа!"
 
-#: server/diplomats.c:906
+#: server/diplomats.c:912
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Вы уличили %2$sа народа %1$s в попытке саботажа в городе %3$s!"
 
-#: server/diplomats.c:937
+#: server/diplomats.c:943
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Ваш %s не смог найти ни одного объекта для саботажа в городе %s."
 
-#: server/diplomats.c:994
+#: server/diplomats.c:1000
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "Невозможно саботировать здание %s!"
 
-#: server/diplomats.c:1005
+#: server/diplomats.c:1011
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Ваш %1$s не смог найти в городе %3$s здание %2$s для саботажа."
 
-#: server/diplomats.c:1030
+#: server/diplomats.c:1036
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Ваш %s успешно сорвал производство (%s) в городе %s."
 
-#: server/diplomats.c:1037
+#: server/diplomats.c:1043
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "В городе %2$s было сорвано производство (%1$s), подозреваются %3$s."
 
-#: server/diplomats.c:1060
+#: server/diplomats.c:1066
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Ваш %s был пойман при попытке саботажа!"
 
-#: server/diplomats.c:1064
+#: server/diplomats.c:1070
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr ""
 "Вы поймали %2$sа народа %1$s при попытке саботажа здания %3$s в городе %4$s!"
 
-#: server/diplomats.c:1078
+#: server/diplomats.c:1084
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Ваш %s уничтожил здание %s в городе %s."
 
-#: server/diplomats.c:1084
+#: server/diplomats.c:1090
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "%s уничтожили здание %s в городе %s."
 
-#: server/diplomats.c:1167
+#: server/diplomats.c:1173
 #, c-format
 msgid "Your %s was caught attempting to steal gold!"
 msgstr "Ваш %s был схвачен при попытке воровства денег!"
 
 #. TRANS: nation, unit, city
-#: server/diplomats.c:1172
+#: server/diplomats.c:1178
 #, c-format
 msgid "You caught %s %s attempting to steal your gold in %s!"
 msgstr ""
 "Вы схватили %2$sа народа %1$s, пытавшегося похитить деньги из города %3$s!"
 
 #. TRANS: unit, gold, city
-#: server/diplomats.c:1214
+#: server/diplomats.c:1220
 #, c-format
 msgid "Your %s stole %d gold from %s."
 msgid_plural "Your %s stole %d gold from %s."
@@ -41260,7 +41260,7 @@ msgstr[1] "Ваш %s украл %d золота из города %s."
 msgstr[2] "Ваш %s украл %d золотых из города %s."
 
 #. TRANS: gold, city, nation
-#: server/diplomats.c:1219
+#: server/diplomats.c:1225
 #, c-format
 msgid "%d gold stolen from %s, %s suspected."
 msgid_plural "%d gold stolen from %s, %s suspected."
@@ -41269,75 +41269,75 @@ msgstr[1] "Из города %2$s было украдено %1$d золотых;
 msgstr[2] "Из города %2$s было украдено %1$d золотых; подозреваются %3$s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1371
+#: server/diplomats.c:1377
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Вражеский %s был устранён Вашим %sом."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1378
+#: server/diplomats.c:1384
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Ваш %s погиб, защищая город %s от %sа."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1385
+#: server/diplomats.c:1391
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "%2$s народа %1$s погиб, защищая город %3$s от %4$sа."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1392
+#: server/diplomats.c:1398
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "Ваш %1$s погиб, защищая город %3$s народа %2$s от %4$sа."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1401 server/diplomats.c:1412
+#: server/diplomats.c:1407 server/diplomats.c:1418
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Ваш %s погиб, защищаясь от %sа."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1406
+#: server/diplomats.c:1412
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "%2$s народа %1$s погиб, защищаясь %3$sа."
 
-#: server/diplomats.c:1434
+#: server/diplomats.c:1440
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Ваш %s был уничтожен защищавшимся %sом."
 
-#: server/diplomats.c:1440
+#: server/diplomats.c:1446
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "%2$s народа %1$s был уничтожен при попытке проникновения в город %3$s."
 
-#: server/diplomats.c:1445
+#: server/diplomats.c:1451
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr ""
 "%2$s народа %1$s уничтожил %4$sа народа %3$s при попытке проникновения в "
 "город %5$s."
 
-#: server/diplomats.c:1450
+#: server/diplomats.c:1456
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr ""
 "Ваш %1$s уничтожил %3$sа народа %2$s при попытке проникновения в город %4$s."
 
-#: server/diplomats.c:1458
+#: server/diplomats.c:1464
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "%2$s народа %1$s был уничтожен при попытке проникновения в расположение "
 "наших войск."
 
-#: server/diplomats.c:1463
+#: server/diplomats.c:1469
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
@@ -41345,7 +41345,7 @@ msgstr ""
 "расположение наших войск."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1469
+#: server/diplomats.c:1475
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
