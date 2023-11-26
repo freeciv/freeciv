@@ -228,8 +228,8 @@ static inline void astr_vadd_at(struct astring *astr, size_t at,
   va_copy(copy, ap);
 
   req_len = fc_vsnprintf(buffer, buffer_size, format, ap);
-  if (req_len > buffer_size) {
-    buffer = astr_buffer_grow(req_len, &buffer_size);
+  if (req_len + 1 > buffer_size) {
+    buffer = astr_buffer_grow(req_len + 1, &buffer_size);
     /* Even if buffer is *still* too small, we fill what we can */
     req_len = fc_vsnprintf(buffer, buffer_size, format, copy);
     if (req_len > buffer_size) {
