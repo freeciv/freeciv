@@ -71,7 +71,7 @@ reqs		=
 ; Nothing
     }
 helptext = _("\
-Scientist reseach two bulbs worth of science each turn, four bulbs \
+Scientist research two bulbs worth of science each turn, four bulbs \
 when Specialist Training tech is known.")
 
 [specialist_government_merchant]
