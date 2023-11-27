@@ -1,4 +1,4 @@
-# gettext.m4 serial 77 (gettext-0.22)
+# gettext.m4 serial 78 (gettext-0.22.4)
 dnl Copyright (C) 1995-2014, 2016, 2018-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -210,9 +210,16 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                  ]])],
               [eval "$gt_func_gnugettext_libintl=yes"],
               [eval "$gt_func_gnugettext_libintl=no"])
-            dnl Now see whether libintl exists and depends on libiconv.
-            if { eval "gt_val=\$$gt_func_gnugettext_libintl"; test "$gt_val" != yes; } && test -n "$LIBICONV"; then
-              LIBS="$LIBS $LIBICONV"
+            dnl Now see whether libintl exists and depends on libiconv or other
+            dnl OS dependent libraries, specifically on macOS and AIX.
+            gt_LIBINTL_EXTRA="$INTL_MACOSX_LIBS"
+            AC_REQUIRE([AC_CANONICAL_HOST])
+            case "$host_os" in
+              aix*) gt_LIBINTL_EXTRA="-lpthread" ;;
+            esac
+            if { eval "gt_val=\$$gt_func_gnugettext_libintl"; test "$gt_val" != yes; } \
+               && { test -n "$LIBICONV" || test -n "$gt_LIBINTL_EXTRA"; }; then
+              LIBS="$LIBS $LIBICONV $gt_LIBINTL_EXTRA"
               AC_LINK_IFELSE(
                 [AC_LANG_PROGRAM(
                    [[
@@ -234,8 +241,8 @@ $gt_revision_test_code
 bindtextdomain ("", "");
 return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                    ]])],
-                [LIBINTL="$LIBINTL $LIBICONV"
-                 LTLIBINTL="$LTLIBINTL $LTLIBICONV"
+                [LIBINTL="$LIBINTL $LIBICONV $gt_LIBINTL_EXTRA"
+                 LTLIBINTL="$LTLIBINTL $LTLIBICONV $gt_LIBINTL_EXTRA"
                  eval "$gt_func_gnugettext_libintl=yes"
                 ])
             fi
