@@ -588,7 +588,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                       radv_name);
     } else if (additional_tech != A_UNSET) {
       /* FIXME: "your" when it was just civilization of one of the players
-       * sharing the reseach. */
+       * sharing the research. */
       notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
                       _("Great scientists from all the "
                         "world join your civilization: you learn "
