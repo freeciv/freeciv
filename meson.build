@@ -145,6 +145,8 @@ if host_machine.endian() == 'big'
   priv_conf_data.set('WORDS_BIGENDIAN', 1)
 endif
 
+priv_conf_data.set('SIZEOF_INT', c_compiler.sizeof('int'))
+
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)
