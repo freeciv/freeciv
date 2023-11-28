@@ -44,6 +44,9 @@
 /* Processor stores words with the most significant byte first */
 #mesondefine WORDS_BIGENDIAN
 
+/* Size of int type */
+#mesondefine SIZEOF_INT
+
 /* Database backend available */
 #define HAVE_FCDB 1
 
