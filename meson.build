@@ -739,7 +739,8 @@ void me::top() { [=, this]() {}; };
   pub_conf_data.set('FREECIV_HAVE_CXX20_CAPTURE_THIS', 1)
 endif
 
-zbm = c_compiler.run('''
+if not meson.is_cross_build()
+  zbm = c_compiler.run('''
 #include <stdlib.h>
 int main()
 {
@@ -751,11 +752,12 @@ int main()
 
   return (allocation == NULL);
 }''',
-     name: 'zero-byte malloc()',
-     args: ['-Werror', '-Wall'])
+       name: 'zero-byte malloc()',
+       args: ['-Werror', '-Wall'])
 
-if zbm.returncode() == 0
-  priv_conf_data.set('MALLOC_ZERO_OK', 1)
+  if zbm.returncode() == 0
+    priv_conf_data.set('MALLOC_ZERO_OK', 1)
+  endif
 endif
 
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
