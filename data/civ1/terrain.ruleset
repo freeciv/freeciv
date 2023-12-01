@@ -94,6 +94,8 @@ igter_cost = 1
 ; graphic_alt          = alternate graphic. When no tilespec 'tag' matching
 ;                        preferred graphic is not found, this will be used.
 ;                        Otherwise may be "-"
+; graphic_alt2         = second alternate graphic, to be used when neither
+;                        main tag nor first alternate tag is not found.
 ; identifier           = single-character identifier used in savegames. This
 ;                        must be unique for each terrain.
 ; class                = Terrain class terrain belongs to: "Land" or "Oceanic"
@@ -212,6 +214,7 @@ igter_cost = 1
 name                 = _("Ocean")
 graphic              = "coast"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = " "
 class                = "Oceanic"
 movement_cost        = 1
@@ -262,6 +265,7 @@ In cities built on the coast, stored food and work towards the current\
 name                 = _("Arctic")
 graphic              = "arctic"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "a"
 class                = "Land"
 movement_cost        = 2
@@ -310,6 +314,7 @@ Arctic tiles are found only in the most northerly or southerly\
 name                 = _("Desert")
 graphic              = "desert"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "d"
 class                = "Land"
 movement_cost        = 1
@@ -358,6 +363,7 @@ Deserts are regions of extreme dryness, making agriculture and\
 name                 = _("Forest")
 graphic              = "forest"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "f"
 class                = "Land"
 movement_cost        = 2
@@ -408,6 +414,7 @@ Forests are densely wooded, making agriculture somewhat\
 name                 = _("Grassland")
 graphic              = "grassland"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "g"
 class                = "Land"
 movement_cost        = 1
@@ -455,6 +462,7 @@ Grasslands afford exceptional agricultural opportunities.\
 name                 = _("Hills")
 graphic              = "hills"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "h"
 class                = "Land"
 movement_cost        = 2
@@ -507,6 +515,7 @@ A city built in or next to hills is at risk of earthquakes, which can\
 name                 = _("Jungle")
 graphic              = "jungle"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "j"
 class                = "Land"
 movement_cost        = 2
@@ -554,6 +563,7 @@ Jungles are densely overgrown, making agriculture somewhat\
 name                 = _("Mountains")
 graphic              = "mountains"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "m"
 class                = "Land"
 movement_cost        = 3
@@ -604,6 +614,7 @@ Cities built in or next to mountains are at risk from volcanic\
 name                 = _("Plains")
 graphic              = "plains"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "p"
 class                = "Land"
 movement_cost        = 1
@@ -652,6 +663,7 @@ Plains are very broad, sparse regions, which makes trade slightly\
 name                 = _("Swamp")
 graphic              = "swamp"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "s"
 class                = "Land"
 movement_cost        = 2
@@ -701,6 +713,7 @@ Swamps suffer from an over-abundance of water, making agriculture\
 name                 = _("Tundra")
 graphic              = "tundra"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "t"
 class                = "Land"
 movement_cost        = 1

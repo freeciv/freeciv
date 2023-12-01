@@ -4163,11 +4163,12 @@ void tileset_setup_tile_type(struct tileset *t,
   int i, l;
 
   if (!drawing_hash_lookup(t->tile_hash, pterrain->graphic_str, &draw)
-      && !drawing_hash_lookup(t->tile_hash, pterrain->graphic_alt, &draw)) {
+      && !drawing_hash_lookup(t->tile_hash, pterrain->graphic_alt, &draw)
+      && !drawing_hash_lookup(t->tile_hash, pterrain->graphic_alt2, &draw)) {
     tileset_error(LOG_FATAL, tileset_name_get(t),
-                  _("Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."),
+                  _("Terrain \"%s\": no graphic tile \"%s\", \"%s\", or \"%s\"."),
                   terrain_rule_name(pterrain), pterrain->graphic_str,
-                  pterrain->graphic_alt);
+                  pterrain->graphic_alt, pterrain->graphic_alt2);
   }
 
   if (draw->init) {

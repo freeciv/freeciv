@@ -96,6 +96,8 @@ ocean_resources = FALSE
 ; graphic_alt          = alternate graphic. When no tilespec 'tag' matching
 ;                        preferred graphic is not found, this will be used.
 ;                        Otherwise may be "-"
+; graphic_alt2         = second alternate graphic, to be used when neither
+;                        main tag nor first alternate tag is not found.
 ; identifier           = single-character identifier used in savegames. This
 ;                        must be unique for each terrain.
 ; class                = Terrain class terrain belongs to: "Land" or "Oceanic"
@@ -212,6 +214,7 @@ ocean_resources = FALSE
 name                 = _("Grassland")
 graphic              = "grassland"
 graphic_alt	     = "-"
+graphic_alt2         = "-"
 identifier	     = "g"
 class                = "Land"
 movement_cost        = 5
@@ -260,6 +263,7 @@ Grasslands afford exceptional agricultural opportunities.\
 name                 = _("Forest")
 graphic              = "forest"
 graphic_alt	     = "-"
+graphic_alt2         = "-"
 identifier	     = "f"
 class                = "Land"
 movement_cost        = 15
@@ -309,6 +313,7 @@ Forest provides easily harvested resources.\
 name                 = _("Plains")
 graphic              = "plains"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "p"
 class                = "Land"
 movement_cost        = 5
@@ -358,6 +363,7 @@ Plains are very broad, sparse regions, which makes trade slightly\
 name                 = _("Ocean")
 graphic              = "coast"
 graphic_alt	     = "-"
+graphic_alt2         = "-"
 identifier	     = " "
 class                = "Oceanic"
 movement_cost        = 5

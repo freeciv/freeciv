@@ -3279,7 +3279,7 @@ static bool load_ruleset_terrain(struct section_file *file,
   sz_strlcpy(terrain_control.gui_type_base1, text);
 
   if (ok) {
-    /* terrain details */
+    /* Terrain details */
 
     terrain_type_iterate(pterrain) {
       const char **slist;
@@ -3292,6 +3292,8 @@ static bool load_ruleset_terrain(struct section_file *file,
                  secfile_lookup_str(file, "%s.graphic", tsection));
       sz_strlcpy(pterrain->graphic_alt,
                  secfile_lookup_str(file, "%s.graphic_alt", tsection));
+      sz_strlcpy(pterrain->graphic_alt2,
+                 secfile_lookup_str(file, "%s.graphic_alt2", tsection));
 
       pterrain->identifier
         = secfile_lookup_str(file, "%s.identifier", tsection)[0];
@@ -8502,6 +8504,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name_get(&pterrain->name));
     sz_strlcpy(packet.graphic_str, pterrain->graphic_str);
     sz_strlcpy(packet.graphic_alt, pterrain->graphic_alt);
+    sz_strlcpy(packet.graphic_alt2, pterrain->graphic_alt2);
 
     packet.movement_cost = pterrain->movement_cost;
     packet.defense_bonus = pterrain->defense_bonus;
