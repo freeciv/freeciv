@@ -4044,6 +4044,7 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   names_set(&pterrain->name, NULL, p->name, p->rule_name);
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);
   sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
+  sz_strlcpy(pterrain->graphic_alt2, p->graphic_alt2);
   pterrain->movement_cost = p->movement_cost;
   pterrain->defense_bonus = p->defense_bonus;
 

@@ -84,6 +84,15 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
   ter_layout->addWidget(label, row, 0);
   ter_layout->addWidget(gfx_tag_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Second alt graphics tag")));
+  label->setParent(this);
+
+  gfx_tag_alt2 = new QLineEdit(this);
+  connect(gfx_tag_alt2, SIGNAL(returnPressed()), this, SLOT(gfx_tag_alt2_given()));
+
+  ter_layout->addWidget(label, row, 0);
+  ter_layout->addWidget(gfx_tag_alt2, row++, 1);
+
   refresh();
 
   main_layout->addLayout(ter_layout);
@@ -99,6 +108,7 @@ void edit_terrain::closeEvent(QCloseEvent *cevent)
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
+  gfx_tag_alt2_given();
 
   ter->ruledit_dlg = nullptr;
 }
@@ -112,6 +122,7 @@ void edit_terrain::refresh()
   defense->setValue(ter->defense_bonus);
   gfx_tag->setText(ter->graphic_str);
   gfx_tag_alt->setText(ter->graphic_alt);
+  gfx_tag_alt2->setText(ter->graphic_alt2);
 }
 
 /**********************************************************************//**
@@ -152,4 +163,14 @@ void edit_terrain::gfx_tag_alt_given()
   QByteArray tag_bytes = gfx_tag_alt->text().toUtf8();
 
   sz_strlcpy(ter->graphic_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new second alternative graphics tag.
+**************************************************************************/
+void edit_terrain::gfx_tag_alt2_given()
+{
+  QByteArray tag_bytes = gfx_tag_alt2->text().toUtf8();
+
+  sz_strlcpy(ter->graphic_alt2, tag_bytes);
 }

@@ -100,6 +100,8 @@ ocean_resources = TRUE
 ; graphic_alt          = alternate graphic. When no tilespec 'tag' matching
 ;                        preferred graphic is not found, this will be used.
 ;                        Otherwise may be "-"
+; graphic_alt2         = second alternate graphic, to be used when neither
+;                        main tag nor first alternate tag is not found.
 ; identifier           = single-character identifier used in savegames. This
 ;                        must be unique for each terrain.
 ; class                = Terrain class terrain belongs to: "Land" or "Oceanic"
@@ -218,6 +220,7 @@ ocean_resources = TRUE
 name                 = _("Inaccessible")
 graphic              = "inaccessible"
 graphic_alt          = "arctic"
+graphic_alt2         = "-"
 identifier           = "i"
 class                = "Land"
 movement_cost        = 0
@@ -259,6 +262,7 @@ No unit can enter this terrain, nor can city work the tile.\
 name                 = _("Savannah")
 graphic              = "savannah"
 graphic_alt	     = "grassland"
+graphic_alt2         = "-"
 identifier	     = "g" ; Since this used to be "Grassland"
 class                = "Land"
 movement_cost        = 1
@@ -307,6 +311,7 @@ For some reason, there is Earth like plants and animals around.\
 name                 = _("Alien Forest")
 graphic              = "alien_forest"
 graphic_alt	     = "forest"
+graphic_alt2         = "-"
 identifier	     = "f"
 class                = "Land"
 movement_cost        = 2
@@ -358,6 +363,7 @@ Inventing Alien Rights gives +1 production bonus to Alien Forest tiles.\
 name                 = _("Radiating Rocks")
 graphic              = "radiating_rocks"
 graphic_alt	     = "desert"
+graphic_alt2         = "-"
 identifier	     = "d"
 class                = "Land"
 movement_cost        = 2
@@ -408,6 +414,7 @@ Cities can work these tiles only when Organic Structures is known.\
 name                 = _("Hills")
 graphic              = "hills"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "h"
 class                = "Land"
 movement_cost        = 2
@@ -455,6 +462,7 @@ Hills just like on Earth.\
 name                 = _("Thick Mountains")
 graphic              = "mountains"
 graphic_alt          = "-"
+graphic_alt2         = "-"
 identifier           = "m"
 class                = "Land"
 movement_cost        = 3
@@ -503,6 +511,7 @@ but at least Burrowing technology makes mining them possible.\
 name                 = _("Ocean")
 graphic              = "ocean"
 graphic_alt          = "coast"
+graphic_alt2         = "-"
 identifier           = " "
 class                = "Oceanic"
 movement_cost        = 1
@@ -550,6 +559,7 @@ This is normal oceanic terrain.\
 name                 = _("Boiling Ocean")
 graphic              = "boiling_ocean"
 graphic_alt          = "floor"
+graphic_alt2         = "-"
 identifier           = "b"
 class                = "Oceanic"
 movement_cost        = 1

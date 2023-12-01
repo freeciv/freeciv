@@ -69,7 +69,7 @@ struct resource_type {
 #define MAX_NUM_TERRAINS (96)
 
 /*
- * This struct gives data about each terrain type.  There are many ways
+ * This struct gives data about each terrain type. There are many ways
  * it could be extended.
  */
 struct terrain {
@@ -77,8 +77,9 @@ struct terrain {
   struct name_translation name;
   bool ruledit_disabled; /* Does not really exist - hole in terrain array */
   void *ruledit_dlg;
-  char graphic_str[MAX_LEN_NAME];	/* add tile_ prefix */
+  char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  char graphic_alt2[MAX_LEN_NAME];
 
   char identifier; /* Single-character identifier used in games saved. */
   char identifier_load; /* Single-character identifier that was used in the savegame

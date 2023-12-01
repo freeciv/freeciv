@@ -589,6 +589,8 @@ terrains = "\
 ; graphic_alt          = alternate graphic. When no tilespec 'tag' matching\n\
 ;                        preferred graphic is not found, this will be used.\n\
 ;                        Otherwise may be \"-\"\n\
+; graphic_alt2         = second alternate graphic, to be used when neither\n\
+;                        main tag nor first alternate tag is not found.\n\
 ; identifier           = single-character identifier used in savegames. This\n\
 ;                        must be unique for each terrain.\n\
 ; class                = Terrain class terrain belongs to: \"Land\" or \"Oceanic\"\n\
