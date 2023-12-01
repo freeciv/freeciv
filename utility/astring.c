@@ -30,7 +30,7 @@
   functions etc.
 
   Note one potential hazard: when the size is increased (astr_reserve()),
-  realloc (really fc_realloc) is used, which retains any data which
+  realloc (really fc_realloc()) is used, which retains any data which
   was there previously, _but_: any external pointers into the allocated
   memory may then become wild. So you cannot safely use such external
   pointers into the astring data, except strictly between times when
@@ -180,8 +180,6 @@ void astr_reserve(struct astring *astr, size_t n)
 {
   unsigned int n1;
   bool was_null = (astr->n == 0);
-
-  fc_assert_ret(NULL != astr);
 
   astr->n = n;
   if (n <= astr->n_alloc) {
