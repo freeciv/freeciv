@@ -318,7 +318,7 @@ void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect);
 #define FREESURFACE(ptr)                \
 do {                                    \
   if (ptr) {                            \
-    SDL_FreeSurface(ptr);               \
+    SDL_DestroySurface(ptr);            \
     ptr = NULL;                         \
   }                                     \
 } while (FALSE)
