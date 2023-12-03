@@ -604,7 +604,9 @@ else
   endif
   icu_dep = dependency('icu-uc')
   syslua = get_option('syslua')
-  lua_dep_tmp = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required:false)
+  if syslua != 'false'
+    lua_dep_tmp = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required:false)
+  endif
 endif
 
 # Set unconditionally, as it was checked as hard requirement
