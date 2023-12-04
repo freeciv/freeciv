@@ -1506,8 +1506,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
       area2.y = buf->size.h / 2 - 1;
       area2.w = buf->size.w - adj_size(20);
 
-      SDL_FillRect(buf->theme , &area2, map_rgba(buf->theme->format,
-                                                 *get_theme_color(COLOR_THEME_SABOTAGEDLG_SEPARATOR)));
+      SDL_FillSurfaceRect(buf->theme , &area2, map_rgba(buf->theme->format,
+                                                        *get_theme_color(COLOR_THEME_SABOTAGEDLG_SEPARATOR)));
     }
 
     if (buf == last) {

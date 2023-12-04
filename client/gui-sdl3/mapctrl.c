@@ -924,7 +924,7 @@ static void remake_unitinfo(int w, int h)
     h += (units_info_window->size.h - units_info_window->area.h);
   }
 
-  /* clear area under old map window */
+  /* Clear area under old map window */
   clear_surface(pwidget->dst->surface, &pwidget->size);
   widget_mark_dirty(pwidget);
 
@@ -948,16 +948,16 @@ static void remake_unitinfo(int w, int h)
 
   area.w = w - BLOCKU_W - (units_info_window->size.w - units_info_window->area.w);
   area.h = h - (units_info_window->size.h - units_info_window->area.h);
-  SDL_FillRect(pwidget->theme, &area, map_rgba(pwidget->theme->format, bg_color));
+  SDL_FillSurfaceRect(pwidget->theme, &area, map_rgba(pwidget->theme->format, bg_color));
 
-  /* economy button */
+  /* Economy button */
   pwidget = tax_button;
   FREESURFACE(pwidget->gfx);
   pwidget->size.x = pwidget->dst->surface->w - w + units_info_window->area.x
                                              + (BLOCKU_W - pwidget->size.w) / 2;
   pwidget->size.y = pwidget->dst->surface->h - h + pwidget->area.y + 2;
 
-  /* research button */
+  /* Research button */
   pwidget = pwidget->prev;
   FREESURFACE(pwidget->gfx);
   pwidget->size.x = pwidget->dst->surface->w - w + units_info_window->area.x
@@ -965,7 +965,7 @@ static void remake_unitinfo(int w, int h)
   pwidget->size.y = pwidget->dst->surface->h - h + units_info_window->area.y +
                     pwidget->size.h + 2;
 
-  /* revolution button */
+  /* Revolution button */
   pwidget = pwidget->prev;
   FREESURFACE(pwidget->gfx);
   pwidget->size.x = pwidget->dst->surface->w - w + units_info_window->area.x
@@ -973,7 +973,7 @@ static void remake_unitinfo(int w, int h)
   pwidget->size.y = pwidget->dst->surface->h - h + units_info_window->area.y +
                     pwidget->size.h * 2 + 2;
 
-  /* show/hide unit's window button */
+  /* Show/hide unit's window button */
   pwidget = pwidget->prev;
   FREESURFACE(pwidget->gfx);
   pwidget->size.x = pwidget->dst->surface->w - w + units_info_window->area.x

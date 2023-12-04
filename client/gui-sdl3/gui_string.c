@@ -45,8 +45,8 @@
 static struct ttf_font_chain {
   struct ttf_font_chain *next;
   TTF_Font *font;
-  Uint16 ptsize;                /* size of font */
-  Uint16 count;                 /* number of strings alliased with this font */
+  Uint16 ptsize;                /* Size of font */
+  Uint16 count;                 /* Number of strings alliased with this font */
 } *font_tab = NULL;
 
 static char *font_with_full_path = NULL;
@@ -372,17 +372,17 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
   switch (pstr->render) {
   case 1:
     text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
-    SDL_FillRect(text, NULL, color);
+    SDL_FillSurfaceRect(text, NULL, color);
     SDL_SetColorKey(text, SDL_TRUE, color);
     break;
   case 2:
     text = create_surf_with_format(tmp[0]->format,
                                    w, count * tmp[0]->h);
-    SDL_FillRect(text, NULL, color);
+    SDL_FillSurfaceRect(text, NULL, color);
     break;
   default:
     text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
-    SDL_FillRect(text, NULL, color);
+    SDL_FillSurfaceRect(text, NULL, color);
     break;
   }
 

@@ -276,7 +276,8 @@ void popup_impr_info(Impr_type_id impr)
 
     /* Background template for entries in scroll list */
     background_tmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
-    SDL_FillRect(background_tmpl, NULL, map_rgba(background_tmpl->format, bg_color));
+    SDL_FillSurfaceRect(background_tmpl, NULL,
+                        map_rgba(background_tmpl->format, bg_color));
 
     create_frame(background_tmpl,
                  0, 0, background_tmpl->w - 1, background_tmpl->h - 1,
@@ -707,7 +708,8 @@ void popup_unit_info(Unit_type_id type_id)
 
     /* Background template for entries in scroll list */
     background_tmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
-    SDL_FillRect(background_tmpl, NULL, map_rgba(background_tmpl->format, bg_color));
+    SDL_FillSurfaceRect(background_tmpl, NULL,
+                        map_rgba(background_tmpl->format, bg_color));
 
     create_frame(background_tmpl,
                  0, 0, background_tmpl->w - 1, background_tmpl->h - 1,

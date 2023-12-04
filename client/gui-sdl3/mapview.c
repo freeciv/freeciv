@@ -447,8 +447,8 @@ void update_info_label(void)
     area.w = tmp->w + adj_size(8);
     area.h = tmp->h + adj_size(4);
 
-    SDL_FillRect(main_data.gui->surface, &area,
-                 map_rgba(main_data.gui->surface->format, bg_color));
+    SDL_FillSurfaceRect(main_data.gui->surface, &area,
+                        map_rgba(main_data.gui->surface->format, bg_color));
 
     /* Horizontal lines */
     create_line(main_data.gui->surface,

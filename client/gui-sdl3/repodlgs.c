@@ -2104,7 +2104,7 @@ void economy_report_dialog_popup(bool make_modal)
     /* Create Imprv Background Icon */
     background = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
 
-    SDL_FillRect(background, NULL, map_rgba(background->format, bg_color));
+    SDL_FillSurfaceRect(background, NULL, map_rgba(background->format, bg_color));
 
     create_frame(background,
                  0, 0, background->w - 1, background->h - 1,
@@ -2446,7 +2446,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 
   text = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
 
-  /* create label surface */
+  /* Create label surface */
   surf = create_surf(w, h, SDL_SWSURFACE);
 
   if (tech_id == research_get(client_player())->researching) {
@@ -2455,7 +2455,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     color.a = 128;
   }
 
-  SDL_FillRect(surf, NULL, map_rgba(surf->format, color));
+  SDL_FillSurfaceRect(surf, NULL, map_rgba(surf->format, color));
 
   create_frame(surf,
                0,0, surf->w - 1, surf->h - 1,
@@ -2464,13 +2464,13 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
   tmp = get_tech_icon(tech_id);
 
   if (mode == TIM_SMALL_MODE) {
-    /* draw name tech text */
+    /* Draw name tech text */
     dst.x = adj_size(35) + (surf->w - text->w - adj_size(35)) / 2;
     dst.y = (surf->h - text->h) / 2;
     alphablit(text, NULL, surf, &dst, 255);
     FREESURFACE(text);
 
-    /* draw tech icon */
+    /* Draw tech icon */
     text = resize_surface(tmp, adj_size(25), adj_size(25), 1);
     dst.x = (adj_size(35) - text->w) / 2;
     dst.y = (surf->h - text->h) / 2;
@@ -2479,19 +2479,19 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 
   } else {
 
-    /* draw name tech text */
+    /* Draw name tech text */
     dst.x = (surf->w - text->w) / 2;
     dst.y = adj_size(20);
     alphablit(text, NULL, surf, &dst, 255);
     dst.y += text->h + adj_size(10);
     FREESURFACE(text);
 
-    /* draw tech icon */
+    /* Draw tech icon */
     dst.x = (surf->w - tmp->w) / 2;
     alphablit(tmp, NULL, surf, &dst, 255);
     dst.y += tmp->w + adj_size(10);
 
-    /* fill array with iprvm. icons */
+    /* Fill array with iprvm. icons */
     w = 0;
     improvement_iterate(pimprove) {
       requirement_vector_iterate(&pimprove->reqs, preq) {
@@ -2511,7 +2511,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
         dst.x = (surf->w - surf_array[0]->w) / 2;
       }
 
-      /* draw iprvm. icons */
+      /* Draw iprvm. icons */
       buf_array = surf_array;
       h = 0;
       while (w) {

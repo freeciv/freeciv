@@ -1861,7 +1861,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
     area.h += buf->size.h;
     /* ----------- */
 
-#if 0 /* FIXME: specific connect buttons */
+#if 0 /* FIXME: Specific connect buttons */
     if (unit_has_type_flag(focus_unit, UTYF_SETTLERS)) {
       create_active_iconlabel(buf, pwindow->dst->surface, pstr, _("Connect here"),
                               connect_here_callback);
@@ -2032,7 +2032,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
         widget_add_as_prev(buf, last->prev);
         area.h += buf->size.h;
 
-        /* separator */
+        /* Separator */
         buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
         buf->id = ID_SEPARATOR;
         widget_add_as_prev(buf, last->prev->prev);
@@ -2040,7 +2040,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
       }
 #undef ADV_NUM_SEEN
     } else { /* n == 1 */
-      /* one unit - give orders */
+      /* One unit - give orders */
       punit = unit_list_get(ptile->units, 0);
       punittype = unit_type_get(punit);
       if (punit != focus_unit) {
@@ -2167,7 +2167,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
   area2.h = adj_size(2);
 
   buf = buf->prev;
-  while (buf) {
+  while (buf != NULL) {
     if (buf == advanced_terrain_dlg->end_active_widget_list) {
       w -= units_h;
     }
@@ -2184,8 +2184,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
       area2.y = buf->size.h / 2 - 1;
       area2.w = buf->size.w - adj_size(20);
 
-      SDL_FillRect(buf->theme, &area2, map_rgba(buf->theme->format,
-                                      *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT)));
+      SDL_FillSurfaceRect(buf->theme, &area2,
+                          map_rgba(buf->theme->format,
+                                   *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT)));
     }
 
     if (buf == advanced_terrain_dlg->begin_widget_list
@@ -3155,7 +3156,8 @@ void popup_races_dialog(struct player *pplayer)
   /* Create Imprv Background Icon */
   main_bg = create_surf(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
 
-  SDL_FillRect(main_bg, NULL, map_rgba(main_bg->format, bg_color));
+  SDL_FillSurfaceRect(main_bg, NULL,
+                      map_rgba(main_bg->format, bg_color));
 
   create_frame(main_bg,
                0, 0, main_bg->w - 1, main_bg->h - 1,

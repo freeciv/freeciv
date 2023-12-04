@@ -1096,9 +1096,9 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   advanced_tech = (pcity == NULL);
 
   /* --------------- */
-  /* create Target Background Icon */
+  /* Create Target Background Icon */
   main_surf = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
-  SDL_FillRect(main_surf, NULL, map_rgba(main_surf->format, bg_color));
+  SDL_FillSurfaceRect(main_surf, NULL, map_rgba(main_surf->format, bg_color));
 
   create_frame(main_surf,
                0, 0, main_surf->w - 1, main_surf->h - 1,
@@ -1704,9 +1704,9 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   dst.w = adj_size(130);
   dst.h = adj_size(145);
 
-  SDL_FillRect(pwindow->theme, &dst,
-               map_rgba(pwindow->theme->format,
-                        *get_theme_color(COLOR_THEME_BACKGROUND)));
+  SDL_FillSurfaceRect(pwindow->theme, &dst,
+                      map_rgba(pwindow->theme->format,
+                               *get_theme_color(COLOR_THEME_BACKGROUND)));
 
   create_frame(pwindow->theme,
                dst.x, dst.y, dst.w - 1, dst.h - 1,
@@ -1731,9 +1731,9 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     dst.w = adj_size(130);
     dst.h = pwindow->size.h - dst.y - adj_size(4);
 
-    SDL_FillRect(pwindow->theme, &dst,
-                 map_rgba(pwindow->theme->format,
-                          *get_theme_color(COLOR_THEME_BACKGROUND)));
+    SDL_FillSurfaceRect(pwindow->theme, &dst,
+                        map_rgba(pwindow->theme->format,
+                                 *get_theme_color(COLOR_THEME_BACKGROUND)));
 
     create_frame(pwindow->theme,
                  dst.x, dst.y, dst.w - 1, dst.h - 1,
@@ -1748,18 +1748,18 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
                       (main_window_width() - pwindow->size.w) / 2,
                       (main_window_height() - pwindow->size.h) / 2);
 
-  /* name */
+  /* Name */
   buf = pwindow->prev;
   buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
   buf->size.y = area.y + adj_size(4);
 
-  /* size of worklist (without production) */
+  /* Size of worklist (without production) */
   buf = buf->prev;
   buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
   buf->size.y = buf->next->size.y + buf->next->size.h;
 
   if (pcity) {
-    /* current build and progress bar */
+    /* Current build and progress bar */
     buf = buf->prev;
     buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
     buf->size.y = buf->next->size.y + buf->next->size.h + adj_size(5);
@@ -1768,23 +1768,23 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
     buf->size.y = buf->next->size.y + buf->next->size.h;
   } else {
-    /* rename worklist */
+    /* Rename worklist */
     buf = buf->prev;
     buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
     buf->size.y = area.y + 1 + (adj_size(145) - buf->size.h) / 2;
   }
 
-  /* ok button */
+  /* Ok button */
   buf = buf->prev;
   buf->size.x = area.x + (adj_size(65) - buf->size.w) / 2;
   buf->size.y = area.y + adj_size(135) - buf->size.h;
 
-  /* exit button */
+  /* Exit button */
   buf = buf->prev;
   buf->size.x = area.x + adj_size(65) + (adj_size(65) - buf->size.w) / 2;
   buf->size.y = area.y + adj_size(135) - buf->size.h;
 
-  /* worklist */
+  /* Worklist */
   /* editor->work->scroll->count: including production */
   if (len > 0) {
     /* FIXME */
@@ -1801,7 +1801,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
                                   adj_size(225), FALSE);
   }
 
-  /* global worklists */
+  /* Global worklists */
   if (editor->global) {
     setup_vertical_widgets_position(1,
                                     area.x + adj_size(4),

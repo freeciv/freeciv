@@ -371,9 +371,10 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 flags,
     pcolor = &color;
   }
 
-  SDL_FillRect(new_surf, NULL,
-               SDL_MapRGBA(new_surf->format, pcolor->r, pcolor->g, pcolor->b,
-                           pcolor->a));
+  SDL_FillSurfaceRect(new_surf, NULL,
+                      SDL_MapRGBA(new_surf->format,
+                                  pcolor->r, pcolor->g, pcolor->b,
+                                  pcolor->a));
 
   if (pcolor->a != 255) {
     SDL_SetSurfaceAlphaMod(new_surf, pcolor->a);
@@ -388,13 +389,15 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 flags,
 **************************************************************************/
 int clear_surface(SDL_Surface *surf, SDL_Rect *dstrect)
 {
-  /* SDL_FillRect might change the rectangle, so we create a copy */
+  /* SDL_FillSurfaceRect() might change the rectangle, so we create a copy */
   if (dstrect) {
     SDL_Rect _dstrect = *dstrect;
 
-    return SDL_FillRect(surf, &_dstrect, SDL_MapRGBA(surf->format, 0, 0, 0, 0));
+    return SDL_FillSurfaceRect(surf, &_dstrect,
+                               SDL_MapRGBA(surf->format, 0, 0, 0, 0));
   } else {
-    return SDL_FillRect(surf, NULL, SDL_MapRGBA(surf->format, 0, 0, 0, 0));
+    return SDL_FillSurfaceRect(surf, NULL,
+                               SDL_MapRGBA(surf->format, 0, 0, 0, 0));
   }
 }
 
@@ -445,7 +448,7 @@ Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y)
     return *((Uint32 *)surf->pixels + y * surf->pitch / sizeof(Uint32) + x);
 
   default:
-    return 0; /* shouldn't happen, but avoids warnings */
+    return 0; /* Shouldn't happen, but avoids warnings */
   }
 }
 
@@ -843,8 +846,9 @@ int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
   }
 
   if (pcolor->a == 255) {
-    return SDL_FillRect(surf, prect,
-                        SDL_MapRGB(surf->format, pcolor->r, pcolor->g, pcolor->b));
+    return SDL_FillSurfaceRect(surf, prect,
+                               SDL_MapRGB(surf->format,
+                                          pcolor->r, pcolor->g, pcolor->b));
   }
 
   if (!pcolor->a) {
