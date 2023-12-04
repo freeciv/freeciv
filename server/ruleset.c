@@ -3173,9 +3173,11 @@ static bool load_ruleset_terrain(struct section_file *file,
       sz_strlcpy(pterrain->graphic_str,
                  secfile_lookup_str(file, "%s.graphic", tsection));
       sz_strlcpy(pterrain->graphic_alt,
-                 secfile_lookup_str(file, "%s.graphic_alt", tsection));
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic_alt", tsection));
       sz_strlcpy(pterrain->graphic_alt2,
-                 secfile_lookup_str(file, "%s.graphic_alt2", tsection));
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.graphic_alt2", tsection));
 
       pterrain->identifier
         = secfile_lookup_str(file, "%s.identifier", tsection)[0];
