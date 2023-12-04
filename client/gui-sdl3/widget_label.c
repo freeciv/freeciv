@@ -268,7 +268,7 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
 
   colorkey = SDL_MapRGBA(ptheme->format, pstr->bgcol.r,
                          pstr->bgcol.g, pstr->bgcol.b, pstr->bgcol.a);
-  SDL_FillRect(ptheme, NULL, colorkey);
+  SDL_FillSurfaceRect(ptheme, NULL, colorkey);
 
   label->size.x = 0;
   label->size.y = 0;
@@ -283,7 +283,8 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
   area.y = label->size.h;
 
   if (flags & WF_RESTORE_BACKGROUND) {
-    SDL_FillRect(ptheme, &area, map_rgba(ptheme->format, bg_color));
+    SDL_FillSurfaceRect(ptheme, &area,
+                        map_rgba(ptheme->format, bg_color));
     store = pstr->bgcol;
     SDL_GetRGBA(getpixel(ptheme, area.x , area.y), ptheme->format,
                 &pstr->bgcol.r, &pstr->bgcol.g,
@@ -329,7 +330,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
                          icon_label->string_utf8->bgcol.g,
                          icon_label->string_utf8->bgcol.b,
                          icon_label->string_utf8->bgcol.a);
-  SDL_FillRect(ptheme, NULL, colorkey);
+  SDL_FillSurfaceRect(ptheme, NULL, colorkey);
 
   start = icon_label->size;
   icon_label->size.x = 0;
@@ -338,15 +339,16 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
   pdest = icon_label->dst->surface;
   icon_label->dst->surface = ptheme;
 
-  /* normal */
+  /* Normal */
   redraw_iconlabel(icon_label);
 
-  /* selected */
+  /* Selected */
   area.x = 0;
   area.y = icon_label->size.h;
 
   if (flags & WF_RESTORE_BACKGROUND) {
-    SDL_FillRect(ptheme, &area, map_rgba(ptheme->format, bg_color));
+    SDL_FillSurfaceRect(ptheme, &area,
+                        map_rgba(ptheme->format, bg_color));
     store = icon_label->string_utf8->bgcol;
     SDL_GetRGBA(getpixel(ptheme, area.x , area.y), ptheme->format,
                 &icon_label->string_utf8->bgcol.r,
@@ -410,7 +412,7 @@ static int redraw_themelabel(struct widget *label)
 
   y = (label->size.h - text->h) / 2;
 
-  /* redraw theme */
+  /* Redraw theme */
   if (label->theme) {
     ret = blit_entire_src(label->theme, label->dst->surface, label->size.x, label->size.y);
     if (ret) {

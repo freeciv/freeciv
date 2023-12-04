@@ -131,7 +131,7 @@ void canvas_put_sprite_full_scaled(struct canvas *pcanvas,
 }
 
 /**********************************************************************//**
-  Draw a full sprite onto the canvas.  If "fog" is specified draw it with
+  Draw a full sprite onto the canvas. If "fog" is specified draw it with
   fog.
 **************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
@@ -156,11 +156,12 @@ void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
 {
   SDL_Rect dst = {canvas_x, canvas_y, width, height};
 
-  SDL_FillRect(pcanvas->surf, &dst, SDL_MapRGBA(pcanvas->surf->format,
-                                                pcolor->color->r,
-                                                pcolor->color->g,
-                                                pcolor->color->b,
-                                                pcolor->color->a));
+  SDL_FillSurfaceRect(pcanvas->surf, &dst,
+                      SDL_MapRGBA(pcanvas->surf->format,
+                                  pcolor->color->r,
+                                  pcolor->color->g,
+                                  pcolor->color->b,
+                                  pcolor->color->a));
 }
 
 /**********************************************************************//**
@@ -174,11 +175,12 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
                   GET_SURF(psprite)->w,
                   GET_SURF(psprite)->h};
 
-  SDL_FillRect(pcanvas->surf, &dst, SDL_MapRGBA(pcanvas->surf->format,
-                                                pcolor->color->r,
-                                                pcolor->color->g,
-                                                pcolor->color->b,
-                                                pcolor->color->a));
+  SDL_FillSurfaceRect(pcanvas->surf, &dst,
+                      SDL_MapRGBA(pcanvas->surf->format,
+                                  pcolor->color->r,
+                                  pcolor->color->g,
+                                  pcolor->color->b,
+                                  pcolor->color->a));
 }
 
 /**********************************************************************//**
@@ -203,8 +205,8 @@ void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 }
 
 /**********************************************************************//**
-  Return the size of the given text in the given font.  This size should
-  include the ascent and descent of the text.  Either of width or height
+  Return the size of the given text in the given font. This size should
+  include the ascent and descent of the text. Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
 **************************************************************************/
 void get_text_size(int *width, int *height,
@@ -230,9 +232,9 @@ void get_text_size(int *width, int *height,
 }
 
 /**********************************************************************//**
-  Draw the text onto the canvas in the given color and font.  The canvas
+  Draw the text onto the canvas in the given color and font. The canvas
   position does not account for the ascent of the text; this function must
-  take care of this manually.  The text will not be NULL but may be empty.
+  take care of this manually. The text will not be NULL but may be empty.
 **************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
                      enum client_font font, struct color *pcolor,

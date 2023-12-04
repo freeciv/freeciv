@@ -291,7 +291,8 @@ bool resize_window(struct widget *pwindow, SDL_Surface *bcgd,
       pcolor = &color;
     }
 
-    SDL_FillRect(pwindow->theme, NULL, map_rgba(pwindow->theme->format, *pcolor));
+    SDL_FillSurfaceRect(pwindow->theme, NULL,
+                        map_rgba(pwindow->theme->format, *pcolor));
 
     return TRUE;
   }

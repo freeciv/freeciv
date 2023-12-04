@@ -1300,8 +1300,8 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   background->theme = create_surf(area.w, area.h, SDL_SWSURFACE);
   widget_set_area(background, area);
   widget_set_position(background, area.x, area.y);
-  SDL_FillRect(background->theme, NULL,
-               map_rgba(background->theme->format, bg_color));
+  SDL_FillSurfaceRect(background->theme, NULL,
+                      map_rgba(background->theme->format, bg_color));
 
   create_frame(background->theme,
                0, 0, background->theme->w - 1, background->theme->h - 1,
