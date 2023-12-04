@@ -258,7 +258,7 @@ static void del_chain(struct utf8_char *chain)
 
 /**********************************************************************//**
   Convert utf8 string to utf8_char structure.
-  Memory alocation -> after all use need call del_chain(...) !
+  Memory allocation -> after all use need call del_chain(...) !
 **************************************************************************/
 static struct utf8_char *text2chain(const char *text_in)
 {
