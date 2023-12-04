@@ -269,8 +269,8 @@ class choice_dialog: public QWidget
   void switch_target();
 public:
   choice_dialog(const QString title, const QString text,
-                QWidget *parent = NULL,
-                void (*run_on_close_in)(int) = NULL);
+                QWidget *parent = nullptr,
+                void (*run_on_close_in)(int) = nullptr);
   ~choice_dialog();
   void set_layout();
   void add_item(QString title, pfcn_void func, QVariant data1,

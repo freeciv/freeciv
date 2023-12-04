@@ -100,7 +100,7 @@ class text_browser_dblclck : public QTextBrowser
 {
   Q_OBJECT
 public:
-  explicit text_browser_dblclck(QWidget *parent = NULL): QTextBrowser(parent) {}
+  explicit text_browser_dblclck(QWidget *parent = nullptr): QTextBrowser(parent) {}
 signals:
   void dbl_clicked();
 protected:

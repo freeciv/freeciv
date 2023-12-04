@@ -97,7 +97,7 @@ class fc_tooltip : public QObject
 {
   Q_OBJECT
 public:
-  explicit fc_tooltip(QObject *parent = NULL): QObject(parent) {}
+  explicit fc_tooltip(QObject *parent = nullptr): QObject(parent) {}
 
 protected:
   bool eventFilter(QObject *obj, QEvent *event);
@@ -351,7 +351,7 @@ class city_production_model : public QAbstractListModel
 
 public:
   city_production_model(struct city *pcity, bool f, bool su, bool sw, bool sb,
-                        QObject *parent = 0);
+                        QObject *parent = nullptr);
   ~city_production_model();
   inline int rowCount(const QModelIndex &index = QModelIndex()) const {
     Q_UNUSED(index);
@@ -419,7 +419,7 @@ class city_label: public QLabel
   Q_OBJECT
 
 public:
-  city_label(int type, QWidget *parent = 0);
+  city_label(int type, QWidget *parent = nullptr);
   void set_city(struct city *pcity);
 
 private:
@@ -494,7 +494,7 @@ class city_dialog: public qfc_dialog
   QSlider *slider_tab[2 * O_LAST + 2];
 
 public:
-  city_dialog(QWidget *parent = 0);
+  city_dialog(QWidget *parent = nullptr);
   ~city_dialog();
   void setup_ui(struct city *qcity);
   void refresh();
