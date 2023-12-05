@@ -58,7 +58,7 @@ fi
 
 SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
-# Make this Qt5/Qt6 or Qt-client/Ruledit specific as upstream updates
+# Make this Qt-client/Ruledit specific as upstream updates
 # to Qt headers allow. Currently needed in all cases.
 CXXFLAGS="-Wno-error=attributes"
 
@@ -74,7 +74,7 @@ elif test "x$2" != "x" ; then
   SINGLE_GUI=true
   GUIP="-$2"
   SERVER="yes"
-  if test "x$2" = "xqt5" || test "x$2" = "xqt6" ; then
+  if test "x$2" = "xqt6" ; then
     RULEDIT="yes"
     CLIENTS="qt"
   else
@@ -86,8 +86,6 @@ elif test "x$2" != "x" ; then
     sdl2) FCMP="gtk4" ;;
     gtk3.22) FCMP="gtk3" ;;
     gtk4) FCMP="gtk4" ;;
-    qt5) FCMP="qt"
-         QTVER="Qt5" ;;
     qt6) FCMP="qt"
          QTVER="Qt6"
          MIN_WINVER="0x0A00" ;; # Qt6 requires Win10 anyway
@@ -139,42 +137,35 @@ else
   exit 1
 fi
 
-if test "$SINGLE_GUI" != "true" || test "$2" = "ruledit" ; then
-  if grep "CROSSER_QT6" $DLLSPATH/crosser.txt | grep yes > /dev/null
+if test "${SINGLE_GUI}" != "true" || test "$2" = "ruledit" ; then
+  if grep "CROSSER_QT6" "${DLLSPATH}/crosser.txt" | grep yes > /dev/null
   then
     QT6="yes"
     QTVER="Qt6"
-    if test "$SINGLE_GUI" = "true" ; then
+    if test "${SINGLE_GUI}" = "true" ; then
       # Build is ONLY about Qt6 programs
       MIN_WINVER="0x0A00" # Qt6 requires Win10 anyway
     fi
-  elif grep "CROSSER_QT5" $DLLSPATH/crosser.txt | grep yes > /dev/null
-  then
-    QT5="yes"
-    QTVER="Qt5"
   fi
 fi
 
-if test "$SINGLE_GUI" != "true" ; then
-  if test "$QT5" = "yes" || test "$QT6" = "yes"
+if test "${SINGLE_GUI}" != "true" ; then
+  if test "${QT6}" = "yes"
   then
-    CLIENTS="$CLIENTS,qt"
-    FCMP="$FCMP,qt"
+    CLIENTS="${CLIENTS},qt"
+    FCMP="${FCMP},qt"
   fi
 fi
 
-if test "x$QTVER" = "xQt5" ; then
-  QTPARAMS="--with-qtver=Qt5 --with-qt5-includes=${DLLSPATH}/qt5/include --with-qt5-libs=${DLLSPATH}/lib"
-  MOC_CROSSER="${DLLSPATH}/bin/moc"
-elif test "x$QTVER" = "xQt6"; then
+if test "x$QTVER" = "xQt6"; then
   QTPARAMS="--with-qtver=Qt6 --with-qt6-includes=${DLLSPATH}/qt6/include --with-qt6-libs=${DLLSPATH}/lib"
   MOC_CROSSER="${DLLSPATH}/linux/libexec/moc-qt6"
 fi
 
 echo "----------------------------------"
-echo "Building for $SETUP"
-echo "Freeciv version $VERREV"
-echo "Clients: $CLIENTS"
+echo "Building for ${SETUP}"
+echo "Freeciv version ${VERREV}"
+echo "Clients: ${CLIENTS}"
 echo "----------------------------------"
 
 export CC="$TARGET-gcc -static-libgcc -static-libstdc++"

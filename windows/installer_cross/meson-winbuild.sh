@@ -23,10 +23,10 @@ fi
 
 GUI="$2"
 
-if test "$GUI" != "gtk3.22" && test "$GUI" != "gtk4" &&
-   test "$GUI" != "sdl2" &&
-   test "$GUI" != "qt5" && test "$GUI" != "qt6" &&
-   test "$GUI" != "ruledit" ; then
+if test "${GUI}" != "gtk3.22" && test "${GUI}" != "gtk4" &&
+   test "${GUI}" != "sdl2" &&
+   test "${GUI}" != "qt6" &&
+   test "${GUI}" != "ruledit" ; then
   echo "Unknown gui \"$2\"" >&2
   exit 1
 fi
@@ -80,10 +80,6 @@ case $GUI in
         RULEDIT=false ;;
   sdl2) FCMP="gtk4"
         RULEDIT=false ;;
-  qt5) CLIENT="qt"
-       FCMP="qt"
-       RULEDIT=true
-       QTPARAMS="-Dqtver=qt5" ;;
   qt6) CLIENT="qt"
        FCMP="qt"
        RULEDIT=true
