@@ -70,7 +70,7 @@ static int redraw_label(struct widget *label)
     return redraw_themelabel2(label);
   }
 
-  /* redraw selected bar */
+  /* Redraw selected bar */
   if (get_wstate(label) == FC_WS_SELECTED) {
     if (get_wflags(label) & WF_SELECT_WITHOUT_BAR) {
       if (label->string_utf8 != NULL) {
@@ -87,7 +87,7 @@ static int redraw_label(struct widget *label)
     }
   }
 
-  /* redraw icon label */
+  /* Redraw icon label */
   ret = redraw_iconlabel(label);
 
   if ((get_wstate(label) == FC_WS_SELECTED) && (label->string_utf8 != NULL)) {
@@ -158,14 +158,14 @@ void remake_label_size(struct widget *label)
           h = MAX(h, icon->h);
         }
       }
-      /* text */
+      /* Text */
     } else {
       w = MAX(w, icon->w + space);
       h = MAX(h, icon->h);
     }
   }
 
-  /* icon */
+  /* Icon */
   label->size.w = w;
   label->size.h = h;
 }
@@ -440,11 +440,11 @@ int redraw_iconlabel(struct widget *label)
   SDL_Rect dst;
   Uint32 flags;
 
-  if (!label) {
+  if (label == NULL) {
     return -3;
   }
 
-  SDL_SetClipRect(label->dst->surface, &label->size);
+  SDL_SetSurfaceClipRect(label->dst->surface, &label->size);
 
   flags = get_wflags(label);
 
@@ -481,7 +481,7 @@ int redraw_iconlabel(struct widget *label)
           y = (label->size.h - text->h) / 2;
         }
       }
-      /* text */
+      /* Text */
     } else {
 #if 0
       yI = (label->size.h - label->theme->h) / 2;
@@ -562,7 +562,7 @@ int redraw_iconlabel(struct widget *label)
     FREESURFACE(text);
   }
 
-  SDL_SetClipRect(label->dst->surface, NULL);
+  SDL_SetSurfaceClipRect(label->dst->surface, NULL);
 
   return ret;
 }
