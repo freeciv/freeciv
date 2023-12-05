@@ -41,11 +41,6 @@ fi
 
 RET=0
 
-if grep "CROSSER_QT5" "${DLLSPATH}/crosser.txt" | grep yes > /dev/null
-then
-  CROSSER_QT5=yes
-fi
-
 if grep "CROSSER_QT6" "${DLLSPATH}/crosser.txt" | grep yes > /dev/null
 then
   CROSSER_QT6=yes
@@ -61,15 +56,6 @@ if ! ./installer_build.sh "${DLLSPATH}" gtk3.22 ; then
   GTK322="Fail"
 else
   GTK322="Success"
-fi
-
-if test "${CROSSER_QT5}" != "yes" ; then
-  QT5="N/A"
-elif ! ./installer_build.sh "${DLLSPATH}" qt5 ; then
-  RET=1
-  QT5="Fail"
-else
-  QT5="Success"
 fi
 
 if test "${CROSSER_QT6}" != "yes" ; then
@@ -111,9 +97,8 @@ fi
 
 echo "Gtk3.22: ${GTK322}"
 echo "Gtk4:    ${GTK4}"
-echo "Qt5:     ${QT5}"
 echo "Qt6:     ${QT6}"
 echo "Sdl2:    ${SDL2}"
 echo "Ruledit: ${RULEDIT}"
 
-exit $RET
+exit ${RET}
