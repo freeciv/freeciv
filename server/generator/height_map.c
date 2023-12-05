@@ -95,7 +95,7 @@ void renormalize_hmap_poles(void)
 
 /**********************************************************************//**
   Create uncorrelated rand map and do some call to smoth to correlate
-  it a little and create randoms shapes
+  it a little and create random shapes
 **************************************************************************/
 void make_random_hmap(int smooth)
 {
