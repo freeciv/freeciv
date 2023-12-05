@@ -25,7 +25,7 @@ GUI="$2"
 
 if test "${GUI}" != "gtk3.22" && test "${GUI}" != "gtk4" &&
    test "${GUI}" != "sdl2" &&
-   test "${GUI}" != "qt5" && test "${GUI}" != "qt6" &&
+   test "${GUI}" != "qt6" &&
    test "${GUI}" != "ruledit" ; then
   echo "Unknown gui \"$2\"" >&2
   exit 1
@@ -80,10 +80,6 @@ case "${GUI}" in
   gtk3.22) FCMP="gtk3" ;;
   gtk4) FCMP="gtk4" ;;
   sdl2) FCMP="gtk4" ;;
-  qt5) CLIENT="qt"
-       FCMP="qt"
-       TOOLS="${TOOLS},ruledit"
-       QTPARAMS="-Dqtver=qt5" ;;
   qt6) CLIENT="qt"
        FCMP="qt"
        TOOLS="${TOOLS},ruledit"

@@ -85,16 +85,6 @@ add_sdl2_env() {
   cp $1/bin/SDL2_ttf.dll $2/
 }
 
-add_qt5_env() {
-  cp -R $1/qt5/plugins $2/ &&
-  cp $1/bin/Qt5Core.dll $2/ &&
-  cp $1/bin/Qt5Gui.dll $2/ &&
-  cp $1/bin/Qt5Widgets.dll $2/ &&
-  cp $1/bin/libpcre2-16-0.dll $2/ &&
-  mkdir -p $2/bin &&
-  cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
-}
-
 add_qt6_env() {
   cp -R $1/qt6/plugins $2/ &&
   cp $1/bin/Qt6Core.dll $2/ &&
@@ -135,11 +125,6 @@ case $GUI in
     GUINAME="GTK3.22"
     MPGUI="gtk3"
     FCMP="gtk3" ;;
-  qt5)
-    GUINAME="Qt5"
-    CLIENT="qt"
-    MPGUI="qt"
-    FCMP="qt" ;;
   qt6)
     GUINAME="Qt6"
     CLIENT="qt"
@@ -286,23 +271,13 @@ else
         echo "Copying SDL2 environment failed!" >&2
         exit 1
       fi ;;
-    qt5)
-      if ! cp freeciv-ruledit.cmd $INSTDIR/
-      then
-        echo "Adding cmd-file failed!" >&2
-        exit 1
-      fi
-      if ! add_qt5_env $DLLSPATH $INSTDIR ; then
-        echo "Copying Qt5 environment failed!" >&2
-        exit 1
-      fi ;;
     qt6)
-      if ! cp freeciv-ruledit.cmd $INSTDIR/
+      if ! cp freeciv-ruledit.cmd "${INSTDIR}/"
       then
         echo "Adding cmd-file failed!" >&2
         exit 1
       fi
-      if ! add_qt6_env $DLLSPATH $INSTDIR ; then
+      if ! add_qt6_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying Qt6 environment failed!" >&2
         exit 1
       fi ;;
@@ -322,10 +297,10 @@ else
       exit 1
     fi
   else
-    if test "$GUI" = "qt5" || test "$GUI" = "qt6" ; then
+    if test "${GUI}" = "qt6" ; then
       EXE_ID="qt"
     else
-      EXE_ID="$GUI"
+      EXE_ID="${GUI}"
     fi
     if test "$GUI" = "gtk3.22" || test "$GUI" = "gtk4" ; then
       UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
