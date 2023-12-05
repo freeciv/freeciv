@@ -876,9 +876,9 @@ a unit belongs to. Adding a unit to an army where the game rules treat
 units in armies different from units outside an army - say by having them
 attack as one unit - would be an action.
 
-Putting a unit under the control of the autosettlers server side agent
+Putting a unit under the control of the autoworker server side agent
 isn't an action. The player could modify their client to automatically give
-the same orders as autosettlers would have given or even give those orders
+the same orders as autoworker would have given or even give those orders
 by hand.
 
 Leaving a destroyed transport isn't an action. The player can't order a
