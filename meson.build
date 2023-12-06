@@ -507,10 +507,14 @@ if mw_req != 'false'
     pub_conf_data.set('FREECIV_MWAND7', '1')
   else
     mw_dep = dependency('MagickWand', version : '>= 6.0', required : false)
+    if not mw_dep.found()
+      mw_dep = dependency('MagickWand-6.Q16HDRI', required: false)
+    endif
+    if mw_dep.found()
+      priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
+    endif
   endif
-  if mw_dep.found()
-    priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
-  elif mw_req == 'true'
+  if mw_req == 'true' and not mw_dep.found()
     error('MagickWand support requested but not found.')
   endif
 else
