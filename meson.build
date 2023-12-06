@@ -629,7 +629,11 @@ if mw_req != 'false'
     mwand_incl = '#include <MagickWand/MagickWand.h>'
   else
     mw_dep = dependency('MagickWand', version : '>= 6.0', required : false)
+    if not mw_dep.found()
+      mw_dep = dependency('MagickWand-6.Q16HDRI', required: false)
+    endif
     if mw_dep.found()
+      mwand_incl = '#include <wand/MagickWand.h>'
       mwand_incl = '#include <wand/MagickWand.h>'
     endif
   endif
