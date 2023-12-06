@@ -106,7 +106,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
     } else {
       struct road_type *proad = extra_road_get(pextra);
 
-      if (proad != NULL
+      if (proad != nullptr
           && universal_is_mentioned_by_requirements(&proad->first_reqs, uni)) {
         cb(extra_rule_name(pextra), data);
         needed = TRUE;

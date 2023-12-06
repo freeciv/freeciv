@@ -499,7 +499,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     /* Requirement types having numerical value */
-    cb(NULL, FALSE, data);
+    cb(nullptr, FALSE, data);
     break;
   case VUT_COUNT:
     fc_assert(univ->kind != VUT_COUNT);
