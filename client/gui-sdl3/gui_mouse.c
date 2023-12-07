@@ -164,12 +164,12 @@ void unload_cursors(void)
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
-      SDL_FreeCursor(fc_cursors[cursor][frame]);
+      SDL_DestroyCursor(fc_cursors[cursor][frame]);
     }
   }
 
-  SDL_FreeCursor(std_cursor);
-  SDL_FreeCursor(disabled_cursor);
+  SDL_DestroyCursor(std_cursor);
+  SDL_DestroyCursor(disabled_cursor);
 }
 
 /**********************************************************************//**
