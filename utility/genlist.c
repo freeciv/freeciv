@@ -629,28 +629,27 @@ void genlist_sort(struct genlist *pgenlist,
 void genlist_shuffle(struct genlist *pgenlist)
 {
   const int n = genlist_size(pgenlist);
-  void *sortbuf[n];
-  struct genlist_link *myiter;
-  int i, shuffle[n];
 
-  if (n <= 1) {
-    return;
-  }
+  if (n > 1) {
+    void *sortbuf[n];
+    struct genlist_link *myiter;
+    int i, shuffle[n];
 
-  myiter = genlist_head(pgenlist);
-  for (i = 0; i < n; i++, myiter = myiter->next) {
-    sortbuf[i] = myiter->dataptr;
-    /* also create the shuffle list */
-    shuffle[i] = i;
-  }
+    myiter = genlist_head(pgenlist);
+    for (i = 0; i < n; i++, myiter = myiter->next) {
+      sortbuf[i] = myiter->dataptr;
+      /* Also create the shuffle list */
+      shuffle[i] = i;
+    }
 
-  /* randomize it */
-  array_shuffle(shuffle, n);
+    /* Randomize it */
+    array_shuffle(shuffle, n);
 
-  /* create the shuffled list */
-  myiter = genlist_head(pgenlist);
-  for (i = 0; i < n; i++, myiter = myiter->next) {
-    myiter->dataptr = sortbuf[shuffle[i]];
+    /* Create the shuffled list */
+    myiter = genlist_head(pgenlist);
+    for (i = 0; i < n; i++, myiter = myiter->next) {
+      myiter->dataptr = sortbuf[shuffle[i]];
+    }
   }
 }
 
