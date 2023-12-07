@@ -13,6 +13,10 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
     PKG_CHECK_MODULES([WAND], [MagickWand], [wand=yes], [wand=no])
 
     if test "x$wand" = "xno" ; then
+      PKG_CHECK_MODULES([WAND], [MagickWand-6.Q16HDRI], [wand=yes], [wand=no])
+    fi
+
+    if test "x$wand" = "xno" ; then
       AC_MSG_CHECKING([for MagickWand-config in default path])
 
       for i in /usr/local /usr;
