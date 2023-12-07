@@ -66,13 +66,14 @@ endif
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
 CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
-ICUVER=73
 
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
+ICUVER=73
 else
+ICUVER=74
 endif
 
 #
