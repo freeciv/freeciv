@@ -47,7 +47,7 @@
 #include "tilespec.h"
 
 /* server */
-#include "ruleset.h"
+#include "ruleload.h"
 #include "settings.h"
 #include "sernet.h"
 #include "srv_main.h"

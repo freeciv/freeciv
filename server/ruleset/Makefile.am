@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-noinst_LTLIBRARIES = libsavegame.la
+noinst_LTLIBRARIES = libruleload.la
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility \
@@ -9,19 +9,13 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/scriptcore \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/server/advisors \
-	-I$(top_srcdir)/server/generator \
-	-I$(top_srcdir)/server/ruleset \
 	-I$(top_srcdir)/server/scripting \
-	-I$(top_srcdir)/ai \
-	-I$(top_srcdir)/dependencies/tinycthread \
 	-I$(top_srcdir)/gen_headers/enums
 
-libsavegame_la_SOURCES = \
-	savecompat.c	\
-	savecompat.h	\
-	savegame2.c	\
-	savegame2.h	\
-	savegame3.c	\
-	savegame3.h	\
-	savemain.c	\
-	savemain.h
+libruleload_la_SOURCES = \
+	rscompat.c	\
+	rscompat.h	\
+	rssanity.c	\
+	rssanity.h	\
+	ruleload.c	\
+	ruleload.h

@@ -36,7 +36,7 @@
 
 /* server */
 #include "rssanity.h"
-#include "ruleset.h"
+#include "ruleload.h"
 #include "settings.h"
 
 #include "rscompat.h"

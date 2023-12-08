@@ -33,7 +33,7 @@
 #include "tech.h"
 
 /* server */
-#include "ruleset.h"
+#include "ruleload.h"
 #include "settings.h"
 
 #include "rssanity.h"

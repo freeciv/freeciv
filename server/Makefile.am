@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = advisors generator savegame scripting
+SUBDIRS = advisors generator savegame scripting ruleset
 
 bin_PROGRAMS = freeciv-server
 
@@ -15,6 +15,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility \
 	-I$(srcdir)/advisors \
 	-I$(srcdir)/generator \
+	-I$(srcdir)/ruleset \
 	-I$(srcdir)/savegame \
 	-I$(srcdir)/scripting \
 	-I$(top_srcdir)/dependencies/tinycthread \
@@ -81,12 +82,6 @@ libfreeciv_srv_la_SOURCES = \
 		plrhand.h	\
 		report.c	\
 		report.h	\
-		rscompat.c	\
-		rscompat.h	\
-		rssanity.c	\
-		rssanity.h	\
-		ruleset.c	\
-		ruleset.h	\
 		sanitycheck.c	\
 		sanitycheck.h	\
 		score.c		\
@@ -146,6 +141,7 @@ srvlibs = \
  $(top_builddir)/ai/libaicommon.la \
  $(top_builddir)/server/advisors/libadvisors.la \
  $(top_builddir)/server/generator/libgenerator.la \
+ $(top_builddir)/server/ruleset/libruleload.la \
  $(top_builddir)/server/savegame/libsavegame.la \
  $(top_builddir)/server/scripting/libscripting_fcdb.la \
  $(top_builddir)/server/scripting/libscripting_server.la

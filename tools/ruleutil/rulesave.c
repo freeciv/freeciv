@@ -37,7 +37,7 @@
 #include "version.h"
 
 /* server */
-#include "ruleset.h"
+#include "ruleload.h"
 #include "settings.h"
 
 /* tools/ruleutil */

@@ -1966,11 +1966,12 @@ AC_CONFIG_FILES([Makefile
           client/gui-qt/Makefile
           client/gui-stub/Makefile
           client/luascript/Makefile
-	  server/Makefile
+          server/Makefile
           server/advisors/Makefile
-	  server/generator/Makefile
+          server/generator/Makefile
+          server/ruleset/Makefile
           server/savegame/Makefile
-	  server/scripting/Makefile
+          server/scripting/Makefile
           tools/Makefile
           tools/fcmp/Makefile
           tools/manual/Makefile

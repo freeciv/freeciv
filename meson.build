@@ -1073,8 +1073,8 @@ common_inc = include_directories(cross_inc_path,
   'common/aicore')
 
 server_inc = [common_inc, include_directories('server', 'server/advisors',
-              'server/scripting', 'server/generator', 'server/savegame',
-              'ai', 'ai/classic')]
+              'server/scripting', 'server/generator', 'server/ruleset',
+              'server/savegame', 'ai', 'ai/classic')]
 
 client_inc = [common_inc, include_directories('client', 'client/include',
               'client/luascript', 'client/agents')]
@@ -1447,6 +1447,9 @@ server_lib = static_library('fc_server',
   'server/generator/mapgen_utils.c',
   'server/generator/startpos.c',
   'server/generator/temperature_map.c',
+  'server/ruleset/rscompat.c',
+  'server/ruleset/rssanity.c',
+  'server/ruleset/ruleload.c',
   'server/savegame/savecompat.c',
   'server/savegame/savegame2.c',
   'server/savegame/savegame3.c',
@@ -1486,9 +1489,6 @@ server_lib = static_library('fc_server',
   'server/notify.c',
   'server/plrhand.c',
   'server/report.c',
-  'server/rscompat.c',
-  'server/rssanity.c',
-  'server/ruleset.c',
   'server/sanitycheck.c',
   'server/score.c',
   'server/sernet.c',

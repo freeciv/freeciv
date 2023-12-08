@@ -32,7 +32,7 @@
 #include "fc_interface.h"
 
 /* server */
-#include "ruleset.h"
+#include "ruleload.h"
 #include "sernet.h"
 #include "settings.h"
 

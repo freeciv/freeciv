@@ -108,7 +108,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "report.h"
-#include "ruleset.h"
+#include "ruleload.h"
 #include "sanitycheck.h"
 #include "score.h"
 #include "sernet.h"

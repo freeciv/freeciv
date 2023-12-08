@@ -44,7 +44,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "report.h"
-#include "ruleset.h"
+#include "ruleload.h"
 #include "sernet.h"
 #include "settings.h"
 #include "srv_main.h"

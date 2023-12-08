@@ -78,7 +78,7 @@
 /* server/scripting */
 #include "script_server.h"
 
-#include "ruleset.h"
+#include "ruleload.h"
 
 /* RULESET_SUFFIX already used, no leading dot here */
 #define RULES_SUFFIX "ruleset"

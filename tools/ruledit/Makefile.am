@@ -17,6 +17,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/aicore \
 	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/server \
+	-I$(top_srcdir)/server/ruleset \
 	-I$(top_srcdir)/tools/shared \
 	-I$(top_srcdir)/tools/ruleutil \
 	-I$(top_srcdir)/dependencies/tinycthread \

@@ -36,7 +36,7 @@
 #include "version.h"
 
 // server
-#include "ruleset.h"
+#include "ruleload.h"
 
 // ruledit
 #include "conversion_log.h"
