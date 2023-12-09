@@ -350,29 +350,6 @@ bool is_terrain_near_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Return the number of adjacent tiles that have the given terrain.
-**************************************************************************/
-int count_terrain_near_tile(const struct tile *ptile,
-                            bool cardinal_only, bool percentage,
-                            const struct terrain *pterrain)
-{
-  int count = 0, total = 0;
-
-  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
-    if (pterrain && tile_terrain(adjc_tile) == pterrain) {
-      count++;
-    }
-    total++;
-  } variable_adjc_iterate_end;
-
-  if (percentage && count > 0) { /* Latter condition avoids div by zero */
-    count = count * 100 / total;
-  }
-
-  return count;
-}
-
-/**********************************************************************//**
   Return the number of adjacent tiles that have the given terrain property.
 **************************************************************************/
 int count_terrain_property_near_tile(const struct tile *ptile,
