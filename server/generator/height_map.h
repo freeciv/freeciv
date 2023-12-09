@@ -13,7 +13,7 @@
 #ifndef FC__HEIGHT_MAP_H
 #define FC__HEIGHT_MAP_H
 
-/* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
+/* Wrappers for easy access. They are a macros so they can be lvalues.*/
 #define hmap(_tile) (height_map[tile_index(_tile)])
 
 /* shore_level safe unit of height */
@@ -24,10 +24,10 @@
  *
  *   height_map[] stores the height of each tile
  *   hmap_max_level is the maximum height (heights will range from
- *     [0,hmap_max_level).
- *   hmap_shore_level is the level of ocean.  Any tile at this height or
+ *     [0, hmap_max_level).
+ *   hmap_shore_level is the level of ocean. Any tile at this height or
  *     above is land; anything below is ocean.
- *   hmap_mount_level is the level of mountains and hills.  Any tile above
+ *   hmap_mount_level is the level of mountains and hills. Any tile above
  *     this height will usually be a mountain or hill.
  */
 #define hmap_max_level 1000
@@ -41,4 +41,4 @@ void make_pseudofractal1_hmap(int extra_div);
 
 bool area_is_too_flat(struct tile *ptile, int thill, int my_height);
 
-#endif  /* FC__HEIGHT__MAP_H */
+#endif /* FC__HEIGHT__MAP_H */
