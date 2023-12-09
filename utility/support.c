@@ -16,14 +16,14 @@
   available on all platforms. Where the functions are available
   natively, these are (mostly) just wrappers.
 
-  Notice the function names here are prefixed by, eg, "fc_".  An
-  alternative would be to use the "standard" function name, and
-  provide the implementation only if required.  However the method
+  Notice the function names here are prefixed by, eg, "fc_".
+  An alternative would be to use the "standard" function name, and
+  provide the implementation only if required. However the method
   here has some advantages:
 
    - We can provide definite prototypes in support.h, rather than
    worrying about whether a system prototype exists, and if so where,
-   and whether it is correct.  (Note that whether or not configure
+   and whether it is correct. (Note that whether or not configure
    finds a function and defines HAVE_FOO does not necessarily say
    whether or not there is a _prototype_ for the function available.)
 
@@ -905,9 +905,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   /* This may be overzealous, but I suspect any triggering of these to
    * be bugs.  */
 
-  fc_assert_ret_val(NULL != str, -1);
   fc_assert_ret_val(0 < n, -1);
-  fc_assert_ret_val(NULL != format, -1);
 
 #ifdef HAVE_WORKING_VSNPRINTF
   r = vsnprintf(str, n, format, ap);
@@ -977,8 +975,6 @@ int fc_snprintf(char *str, size_t n, const char *format, ...)
   int ret;
   va_list ap;
 
-  fc_assert_ret_val(NULL != format, -1);
-
   va_start(ap, format);
   ret = fc_vsnprintf(str, n, format, ap);
   va_end(ap);
@@ -1006,8 +1002,6 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   int ret;
   va_list ap;
 
-  fc_assert_ret_val(NULL != format, -1);
-  fc_assert_ret_val(NULL != str, -1);
   fc_assert_ret_val(0 < n, -1);
 
   len = strlen(str);
