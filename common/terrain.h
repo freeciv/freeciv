@@ -203,9 +203,6 @@ bool is_terrain_card_near(const struct tile *ptile,
 bool is_terrain_near_tile(const struct tile *ptile,
 			  const struct terrain *pterrain,
                           bool check_self);
-int count_terrain_near_tile(const struct tile *ptile,
-			    bool cardinal_only, bool percentage,
-			    const struct terrain *pterrain);
 int count_terrain_property_near_tile(const struct tile *ptile,
                                      bool cardinal_only, bool percentage,
                                      enum mapgen_terrain_property prop);
