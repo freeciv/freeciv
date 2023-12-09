@@ -13,17 +13,17 @@
 
 /***********************************************************************
   This module contains replacements for functions which are not
-  available on all platforms.  Where the functions are available
+  available on all platforms. Where the functions are available
   natively, these are (mostly) just wrappers.
 
-  Notice the function names here are prefixed by, eg, "fc".  An
-  alternative would be to use the "standard" function name, and
-  provide the implementation only if required.  However the method
+  Notice the function names here are prefixed by, eg, "fc".
+  An alternative would be to use the "standard" function name, and
+  provide the implementation only if required. However the method
   here has some advantages:
 
    - We can provide definite prototypes in support.h, rather than
    worrying about whether a system prototype exists, and if so where,
-   and whether it is correct.  (Note that whether or not configure
+   and whether it is correct. (Note that whether or not configure
    finds a function and defines HAVE_FOO does not necessarily say
    whether or not there is a _prototype_ for the function available.)
 
@@ -901,9 +901,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   /* This may be overzealous, but I suspect any triggering of these to
    * be bugs.  */
 
-  fc_assert_ret_val(NULL != str, -1);
   fc_assert_ret_val(0 < n, -1);
-  fc_assert_ret_val(NULL != format, -1);
 
 #ifdef HAVE_WORKING_VSNPRINTF
   r = vsnprintf(str, n, format, ap);
@@ -972,23 +970,22 @@ int fc_snprintf(char *str, size_t n, const char *format, ...)
   int ret;
   va_list ap;
 
-  fc_assert_ret_val(NULL != format, -1);
-
   va_start(ap, format);
   ret = fc_vsnprintf(str, n, format, ap);
   va_end(ap);
+
   return ret;
 }
 
 /************************************************************************//**
-  cat_snprintf is like a combination of fc_snprintf and fc_strlcat;
-  it does snprintf to the end of an existing string.
+  cat_snprintf() is like a combination of fc_snprintf() and fc_strlcat();
+  it does snprintf() to the end of an existing string.
 
-  Like fc_strlcat, n is the total length available for str, including
-  existing contents and trailing nul.  If there is no extra room
+  Like fc_strlcat(), n is the total length available for str, including
+  existing contents and trailing nul. If there is no extra room
   available in str, does not change the string.
 
-  Also like fc_strlcat, returns the final length that str would have
+  Also like fc_strlcat(), returns the final length that str would have
   had without truncation, or -1 if the end of the buffer is reached.
   I.e., if return is >= n, truncation occurred.
 
@@ -1000,8 +997,6 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   int ret;
   va_list ap;
 
-  fc_assert_ret_val(NULL != format, -1);
-  fc_assert_ret_val(NULL != str, -1);
   fc_assert_ret_val(0 < n, -1);
 
   len = strlen(str);
@@ -1010,6 +1005,7 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   va_start(ap, format);
   ret = fc_vsnprintf(str+len, n-len, format, ap);
   va_end(ap);
+
   return (-1 == ret ? -1 : ret + len);
 }
 
