@@ -845,10 +845,10 @@ bool city_exist(int id);
 
   NB: This doesn't simply check whether pcity->tile == ptile because that
   would miss virtual clones made of city center tiles, which are used by
-  autosettler to judge whether improvements are worthwhile.  The upshot is
+  autoworker to judge whether improvements are worthwhile. The upshot is
   that city centers would appear to lose their irrigation/farmland bonuses
   as well as their minimum outputs of one food and one shield, and thus
-  autosettler would rarely transform or mine them.
+  autoworker would rarely transform or mine them.
 **************************************************************************/
 static inline bool is_city_center(const struct city *pcity,
                                   const struct tile *ptile)

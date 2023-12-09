@@ -35,18 +35,18 @@ const char *const our_capability = our_capability_internal;
  *
  * The capability string is a string clients and servers trade to find
  * out if they can talk to each other, and using which protocol version,
- * and which features and behaviors to expect.  The string is a list of
+ * and which features and behaviors to expect. The string is a list of
  * words, separated by whitespace and/or commas, where each word indicates
  * a capability that this version of Freeciv understands.
  * If a capability word is mandatory, it should start with a "+".
  *
- * eg, #define CAPABILITY "+1.6, MapScroll, +AutoSettlers"
+ * eg, #define CAPABILITY "+1.6, MapScroll, +AutoWorkers"
  *
  * Client and server functions can test these strings for a particular
  * capability by calling the functions in capability.c
  *
  * Each executable has a string our_capability (above), which gives the
- * capabilities of the running executable.  This is normally initialised
+ * capabilities of the running executable. This is normally initialised
  * with CAPABILITY, but can be changed at run-time by setting the
  * FREECIV_CAPS environment variable, though that is probably mainly
  * useful for testing purposes.

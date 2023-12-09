@@ -226,14 +226,14 @@ struct ai_type
     void (*unit_load)(const struct section_file *file, struct unit *punit,
                       const char *unitstr);
 
-    /* Called for player AI type when autosettlers have been handled for the turn. */
+    /* Called for player AI type when autoworkers have been handled for the turn. */
     void (*settler_reset)(struct player *pplayer);
 
-    /* Called for player AI type when autosettlers should find new work. */
+    /* Called for player AI type when autoworkers should find new work. */
     void (*settler_run)(struct player *pplayer, struct unit *punit,
                         struct workermap *state);
 
-    /* Called for player AI type for each autosettler still working.
+    /* Called for player AI type for each autoworker still working.
        Cancelling current work there will result in settler_run() call. */
     void (*settler_cont)(struct player *pplayer, struct unit *punit,
                          struct workermap *state);

@@ -94,7 +94,7 @@ void dai_data_init(struct ai_type *ait, struct player *pplayer)
 
   ai->settler = NULL;
 
-  /* Initialise autosettler. */
+  /* Initialise autoworker. */
   dai_auto_settler_init(ai);
 }
 
@@ -109,7 +109,7 @@ void dai_data_close(struct ai_type *ait, struct player *pplayer)
    * open/finish cycle */
   dai_data_phase_finished(ait, pplayer);
 
-  /* Free autosettler. */
+  /* Free autoworker. */
   dai_auto_settler_free(ai);
 
   if (ai->diplomacy.player_intel_slots != NULL) {

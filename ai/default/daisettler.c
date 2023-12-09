@@ -1308,7 +1308,7 @@ static enum cb_error_level dai_do_build_city(struct ai_type *ait,
 
 /*************************************************************************//**
   Return want for city settler. Note that we rely here on the fact that
-  citymap_turn_init() has been run while doing autosettlers.
+  citymap_turn_init() has been run while doing autoworkers.
 *****************************************************************************/
 void contemplate_new_city(struct ai_type *ait, struct city *pcity)
 {
