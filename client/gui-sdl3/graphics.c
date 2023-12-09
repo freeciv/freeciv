@@ -623,12 +623,12 @@ bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
   }
 
   if (flags_in & SDL_WINDOW_FULLSCREEN) {
-    SDL_DisplayMode mode;
+    const SDL_DisplayMode *mode;
 
     SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN);
-    SDL_GetWindowDisplayMode(main_data.screen, &mode);
-    width = mode.w;
-    height = mode.h;
+    mode = SDL_GetWindowFullscreenMode(main_data.screen);
+    width = mode->w;
+    height = mode->h;
   }
 
   if (!create_surfaces(width, height)) {

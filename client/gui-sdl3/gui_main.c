@@ -927,7 +927,7 @@ static void resize_window_callback(struct option *poption)
 **************************************************************************/
 static void fullscreen_callback(struct option *poption)
 {
-  SDL_DisplayMode mode;
+  const SDL_DisplayMode *mode;
 
   if (GUI_SDL_OPTION(fullscreen)) {
     SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN);
@@ -935,9 +935,9 @@ static void fullscreen_callback(struct option *poption)
     SDL_SetWindowFullscreen(main_data.screen, 0);
   }
 
-  SDL_GetWindowDisplayMode(main_data.screen, &mode);
+  mode = SDL_GetWindowFullscreenMode(main_data.screen);
 
-  if (!create_surfaces(mode.w, mode.h)) {
+  if (!create_surfaces(mode->w, mode->h)) {
     /* Try to revert */
     if (!GUI_SDL_OPTION(fullscreen)) {
       SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN);
