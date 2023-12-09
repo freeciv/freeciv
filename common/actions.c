@@ -2469,7 +2469,7 @@ action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
   paction = enabler_get_action(enabler);
 
   if (paction->result != ACTRES_NONE) {
-    /* A hard coded action result may mean obiligatory requirements. */
+    /* A hard coded action result may mean obligatory requirements. */
     out = ae_suggest_repair_if_no_oblig(enabler,
                                         &oblig_hard_reqs_r[paction->result]);
     if (out != NULL) {
