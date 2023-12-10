@@ -741,7 +741,6 @@ double get_effect_expected_value(const struct req_context *context,
 {
   double sum = 0.;
 
-  fc_assert_ret_val(weighter, 0.);
   if (context == NULL) {
     context = req_context_empty();
   }
