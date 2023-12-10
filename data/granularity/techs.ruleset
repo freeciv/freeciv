@@ -169,6 +169,15 @@ graphic     = "a.fishing"
 graphic_alt = "-"
 helptext    = _("Makes it possible to use Oceanic tiles.")
 
+[advance_flight]
+name        = _("Flight")
+req1        = "Masonry"
+req2        = "Carving"
+flags       = ""
+graphic     = "a.flight"
+graphic_alt = "-"
+helptext    = _("First flying machines.")
+
 [advance_government]
 name        = _("Government")
 req1        = "Cave Painting"

@@ -134,6 +134,12 @@ min_speed     = 5
 hp_loss_pct   = 0
 flags         = "TerrainSpeed"
 
+[unitclass_air]
+name          = _("Air")
+min_speed     = 0
+hp_loss_pct   = 0
+flags         = "BuildAnywhere"
+
 ; /* <-- avoid gettext warnings
 ;
 ; Below: The individual unit types, one per section.
@@ -522,6 +528,41 @@ tp_defense    = "Alight"
 ;roles         =
 helptext      = _("\
 Horsemen are the first fast unit.\
+")
+
+[unit_bomber]
+name          = _("Bomber")
+class         = "Air"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Flight", "Player"
+  }
+obsolete_by   = "None"
+graphic       = "u.bomber"
+graphic_alt   = "-"
+sound_move    = "m_bomber"
+sound_move_alt = "m_generic"
+sound_fight   = "f_bomber"
+sound_fight_alt = "f_generic"
+build_cost    = 20000
+pop_cost      = 0
+attack        = 200
+defense       = 50
+hitpoints     = 30
+firepower     = 1
+move_rate     = 100
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 100
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+;flags         =
+;roles         =
+helptext      = _("\
+Unit capable of bombing enemy cities, and more.\
 ")
 
 [unit_settlers]

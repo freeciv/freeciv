@@ -203,6 +203,9 @@ ui_name_transport_embark = _("%sEmbark%s")
 ; /* TRANS: Regular _Move (100% chance of success). */
 ui_name_unit_move = _("%sKeep moving%s")
 
+; /* TRANS: Teleport (100% chance of success). */
+ui_name_teleport = _("%sRelocate%s")
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
@@ -232,14 +235,14 @@ ui_name_unit_move = _("%sKeep moving%s")
 quiet_actions = "Transport Disembark 2", "Unit Move"
 
 [actionenabler_found_city]
-action = "Found City"
+action        = "Found City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Cities", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "5", "Local"
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "TerrainFlag","NoCities","Tile",FALSE
     }
@@ -265,7 +268,7 @@ actor_reqs    =
       "UnitState", "OnLivableTile", "Local"
       "UnitState", "Transported",   "Local"
     }
-target_reqs    =
+target_reqs   =
     { "type",      "name",         "range"
       "UnitState", "Transporting", "Local"
     }
@@ -287,7 +290,7 @@ actor_reqs    =
     { "type",      "name",         "range"
       "UnitState", "Transporting", "Local"
     }
-target_reqs    =
+target_reqs   =
     { "type",      "name",          "range"
       "UnitState", "OnLivableTile", "Local"
       "UnitState", "Transported",   "Local"
@@ -334,9 +337,17 @@ actor_reqs    =
     }
 
 [actionenabler_regular_move]
-action     = "Unit Move"
-actor_reqs =
+action        = "Unit Move"
+actor_reqs    =
     { "type",         "name",        "range", "present"
       "MinMoveFrags", "5",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+    }
+
+[actionenabler_relocate]
+action        = "Teleport"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitClass",    "Air",         "Local", TRUE
       "UnitState",    "Transported", "Local", FALSE
     }
