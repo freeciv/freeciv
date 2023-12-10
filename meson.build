@@ -3844,7 +3844,6 @@ install_data(
   'NEWS-3.1',
   'INSTALL',
   'ChangeLog',
-  'ChangeLog-1.0-S3_0',
   'doc/BUGS',
   'doc/CodingStyle',
   'doc/FAQ',
@@ -3877,3 +3876,11 @@ install_data(
   'doc/TODO',
   install_dir : join_paths(get_option('datadir'), 'doc/freeciv')
   )
+
+custom_target('gzip_ChangeLog-1.0-S3_0',
+              command: [gzip_exe, '--best', '-n', '-c', '@INPUT@' ],
+              output: '@PLAINNAME@.gz',
+              capture: true,
+              input: 'ChangeLog-1.0-S3_0',
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'doc/freeciv'))
