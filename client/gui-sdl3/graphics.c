@@ -647,7 +647,7 @@ void update_main_screen(void)
     SDL_UpdateTexture(main_data.maintext, NULL,
                       main_surface->pixels, main_surface->pitch);
     SDL_RenderClear(main_data.renderer);
-    SDL_RenderCopy(main_data.renderer, main_data.maintext, NULL, NULL);
+    SDL_RenderTexture(main_data.renderer, main_data.maintext, NULL, NULL);
     SDL_RenderPresent(main_data.renderer);
 
     render_dirty = FALSE;
