@@ -467,9 +467,9 @@ server/maphand.c
 server/meta.c
 server/plrhand.c
 server/report.c
-server/rscompat.c
-server/rssanity.c
-server/ruleset.c
+server/ruleset/ruleload.c
+server/ruleset/rscompat.c
+server/ruleset/rssanity.c
 server/savegame/savecompat.c
 server/savegame/savegame2.c
 server/savegame/savegame3.c
