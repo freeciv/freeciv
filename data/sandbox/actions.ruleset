@@ -531,7 +531,7 @@ quiet_actions = "Transport Disembark 2", "Conquer City 2", "Enter Hut 2",
 ; */ <-- avoid gettext warnings
 
 [actionenabler_disrupt_supply_normal]
-action = "User Action 1"
+action        = "User Action 1"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "SupplyLines",   "Local", TRUE
@@ -539,7 +539,7 @@ actor_reqs    =
       "UnitState",    "Transported",   "Local", FALSE
       "MinMoveFrags", "1",             "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",         "name",       "range", "present"
       "MinMoveFrags", "1",          "Local", TRUE
       "UnitClass",    "Sea",        "Local", FALSE
@@ -550,7 +550,7 @@ target_reqs  =
     }
 
 [actionenabler_disrupt_supply_marines]
-action = "User Action 1"
+action        = "User Action 1"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "SupplyLines",   "Local", TRUE
@@ -558,7 +558,7 @@ actor_reqs    =
       "UnitFlag",     "Marines",       "Local", TRUE
       "MinMoveFrags", "1",             "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",         "name",       "range", "present"
       "MinMoveFrags", "1",          "Local", TRUE
       "UnitClass",    "Sea",        "Local", FALSE
@@ -570,19 +570,19 @@ target_reqs  =
 
 ; Use Ancient Transportation Network
 [actionenabler_ancient_transport_hub]
-action = "User Action 2"
+action        = "User Action 2"
 actor_reqs    =
     { "type",     "name",                  "range",  "present"
       "Building", "Mysteries",             "Player", TRUE
       "Extra",    "Ancient Transport Hub", "Tile",   TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",           "name",                  "range", "present"
       "Extra",          "Ancient Transport Hub", "Tile",  TRUE
     }
 
 [actionenabler_cut_root]
-action = "Heal Unit 2"
+action        = "Heal Unit 2"
 actor_reqs    =
     { "type",         "name",       "range",  "present"
       "Building",     "Mysteries",  "Player", TRUE
@@ -594,13 +594,13 @@ actor_reqs    =
       "DiplRel",      "Peace",      "Local",  FALSE
       "DiplRel",      "Never met",  "Local",  FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",         "name",       "range", "present"
       "UnitFlag",     "FleshBased", "Local", TRUE
     }
 
 [actionenabler_sabotage_city]
-action = "Sabotage City"
+action        = "Sabotage City"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Diplomat",      "Local", TRUE
@@ -611,7 +611,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_spy]
-action = "Sabotage City Escape"
+action        = "Sabotage City Escape"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -621,7 +621,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_target]
-action = "Targeted Sabotage City Escape"
+action        = "Targeted Sabotage City Escape"
 actor_reqs    =
     { "type",         "name",          "range"
       "DiplRel",      "War",           "Local"
@@ -631,7 +631,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_production]
-action = "Sabotage City Production Escape"
+action        = "Sabotage City Production Escape"
 actor_reqs    =
     { "type",         "name",          "range"
       "DiplRel",      "War",           "Local"
@@ -641,7 +641,7 @@ actor_reqs    =
     }
 
 [actionenabler_establish_embassy]
-action       = "Establish Embassy Stay"
+action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
       "UnitFlag",     "Diplomat",         "Local", TRUE
@@ -650,13 +650,13 @@ actor_reqs    =
       "DiplRel",      "Has real embassy", "Local", FALSE
       "UnitFlag",     "Spy",              "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range", "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_establish_embassy_spy]
-action       = "Establish Embassy"
+action        = "Establish Embassy"
 actor_reqs    =
     { "type",         "name",             "range", "present"
       "UnitFlag",     "Spy",              "Local", TRUE
@@ -664,13 +664,13 @@ actor_reqs    =
       "DiplRel",      "Foreign",          "Local", TRUE
       "DiplRel",      "Has real embassy", "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range", "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_establish_embassy_explorer]
-action       = "Establish Embassy Stay"
+action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
       "UnitType",     "Explorer",         "Local", TRUE
@@ -678,13 +678,13 @@ actor_reqs    =
       "DiplRel",      "Foreign",          "Local", TRUE
       "DiplRel",      "Has real embassy", "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range", "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_investigate_city]
-action       = "Investigate City"
+action        = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
@@ -694,7 +694,7 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city_spy]
-action       = "Investigate City"
+action        = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
@@ -703,7 +703,7 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city_explorer]
-action       = "Investigate City"
+action        = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitType", "Explorer", "Local"
@@ -712,7 +712,7 @@ actor_reqs    =
     }
 
 [actionenabler_steal_maps]
-action = "Steal Maps Escape"
+action        = "Steal Maps Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
@@ -720,14 +720,14 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local"
       "DiplRel", "Foreign", "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",   "name", "range", "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 ; Give spies the ability to steal gold
 [actionenabler_steal_gold]
-action = "Steal Gold Escape"
+action        = "Steal Gold Escape"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -736,13 +736,13 @@ actor_reqs    =
       "Tech",         "Banking",       "Player"
       "DiplRel",      "Foreign",       "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_random]
-action = "Steal Tech"
+action        = "Steal Tech"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", FALSE
@@ -751,13 +751,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
       "DiplRel",      "Foreign",       "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_random_esc]
-action = "Steal Tech Escape Expected"
+action        = "Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -765,13 +765,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local"
       "DiplRel",      "Foreign",       "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_target]
-action = "Targeted Steal Tech Escape Expected"
+action        = "Targeted Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -779,13 +779,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local"
       "DiplRel",      "Foreign",       "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",   "name", "range", "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_poison_city]
-action = "Poison City Escape"
+action        = "Poison City Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -794,13 +794,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
       "Building",     "Treuga Dei",    "World", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range"
       "MinSize", "2", "City"
     }
 
 [actionenabler_poison_city_despite_treuga_dei]
-action = "Poison City Escape"
+action        = "Poison City Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present", "survives"
       "UnitFlag",     "Spy",           "Local", TRUE,      FALSE
@@ -809,7 +809,7 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE,      FALSE
       "Tech",         "Communism",     "World", TRUE,      TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range"
       "MinSize", "2", "City"
     }
@@ -821,7 +821,7 @@ target_reqs    =
 ; I delayed introducing this rule until 2021 because of COVID-19.
 ; -- Sveinung
 [actionenabler_release_plague_from_georgia_guidestones]
-action = "Spread Plague"
+action        = "Spread Plague"
 actor_reqs    =
     { "type",         "name",                "range",  "present"
       "UnitFlag",     "Spy",                 "Local",  TRUE
@@ -831,7 +831,7 @@ actor_reqs    =
       "Building",     "Guidestones",         "Player", TRUE
       "Building",     "Treuga Dei",          "World",  FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",         "range"
       ; matches illness.illness_min_size
       "MinSize",  "5",            "City"
@@ -844,7 +844,7 @@ target_reqs    =
 ; I delayed introducing this rule until 2021 because of COVID-19.
 ; -- Sveinung
 [actionenabler_release_plague_from_georgia_guidestones_despite_treuga_dei]
-action = "Spread Plague"
+action        = "Spread Plague"
 actor_reqs    =
     { "type",         "name",                "range",  "present", "survives"
       "UnitFlag",     "Spy",                 "Local",  TRUE,      FALSE
@@ -854,7 +854,7 @@ actor_reqs    =
       "Building",     "Guidestones",         "Player", TRUE,      FALSE
       "Tech",         "Communism",           "World",  TRUE,      TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",         "range"
       ; matches illness.illness_min_size
       "MinSize",  "5",            "City"
@@ -866,7 +866,7 @@ target_reqs    =
 ; I delayed introducing this rule until 2021 because of COVID-19.
 ; -- Sveinung
 [actionenabler_release_plague_from_domestic]
-action = "Spread Plague"
+action        = "Spread Plague"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
       "UnitFlag",     "Spy",           "Local",  TRUE
@@ -876,7 +876,7 @@ actor_reqs    =
       "Tech",         "Medicine",      "Player", TRUE
       "Building",     "Treuga Dei",    "World",  FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",         "range"
       ; matches illness.illness_min_size
       "MinSize",  "5",            "City"
@@ -888,7 +888,7 @@ target_reqs    =
 ; I delayed introducing this rule until 2021 because of COVID-19.
 ; -- Sveinung
 [actionenabler_release_plague_from_domestic_despite_treuga_dei]
-action = "Spread Plague"
+action        = "Spread Plague"
 actor_reqs    =
     { "type",         "name",          "range",  "present", "survives"
       "UnitFlag",     "Spy",           "Local",  TRUE,      FALSE
@@ -898,14 +898,14 @@ actor_reqs    =
       "Tech",         "Medicine",      "Player", TRUE,      FALSE
       "Tech",         "Communism",     "World",  TRUE,      TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",         "range"
       ; matches illness.illness_min_size
       "MinSize",  "5",            "City"
     }
 
 [actionenabler_release_plague_from_bio_lab]
-action = "Spread Plague"
+action        = "Spread Plague"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -917,7 +917,7 @@ actor_reqs    =
       "Tech",         "Medicine",      "Player", TRUE
       "Building",     "Treuga Dei",    "World", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",         "range"
       ; matches illness.illness_min_size
       "MinSize",  "5",            "City"
@@ -925,7 +925,7 @@ target_reqs    =
     }
 
 [actionenabler_release_plague_from_bio_lab_despite_treuga_dei]
-action = "Spread Plague"
+action        = "Spread Plague"
 actor_reqs    =
     { "type",         "name",          "range", "present", "survives"
       "UnitFlag",     "Spy",           "Local", TRUE,      FALSE
@@ -937,7 +937,7 @@ actor_reqs    =
       "Tech",         "Medicine",      "Player", TRUE,     FALSE
       "Tech",         "Communism",     "World", TRUE,      TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",         "range"
       ; matches illness.illness_min_size
       "MinSize",  "5",            "City"
@@ -945,7 +945,7 @@ target_reqs    =
     }
 
 [actionenabler_mechanic]
-action = "Heal Unit"
+action        = "Heal Unit"
 actor_reqs    =
     { "type",         "name",       "range",  "present"
       "UnitType",     "Mechanic",   "Local",  TRUE
@@ -956,13 +956,13 @@ actor_reqs    =
       "DiplRel",      "Peace",      "Local",  FALSE
       "DiplRel",      "Never met",  "Local",  FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",         "name",       "range", "present"
       "UnitFlag",     "IronBased",  "Local", TRUE
     }
 
 [actionenabler_incite_city]
-action = "Incite City"
+action        = "Incite City"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Diplomat",      "Local", TRUE
@@ -973,7 +973,7 @@ actor_reqs    =
       "DiplRel",      "Foreign",       "Local", TRUE
       "UnitFlag",     "Spy",           "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",                  "range", "present"
       "Building", "Courthouse",            "City",   FALSE
       "Building", "Palace",                "City",   FALSE
@@ -982,7 +982,7 @@ target_reqs  =
     }
 
 [actionenabler_incite_city_spy]
-action = "Incite City Escape"
+action        = "Incite City Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -992,7 +992,7 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
       "DiplRel",      "Foreign",       "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",                  "range", "present"
       "Building", "Courthouse",            "City",   FALSE
       "Building", "Palace",                "City",   FALSE
@@ -1001,7 +1001,7 @@ target_reqs  =
     }
 
 [actionenabler_bribe_unit]
-action = "Bribe Unit"
+action        = "Bribe Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
@@ -1012,14 +1012,14 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local", TRUE
       "DiplRel", "Foreign", "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "UnitFlag", "Unbribable", "Local", FALSE
       "CityTile", "Center", "Tile", FALSE
     }
 
 [actionenabler_sabotage_unit]
-action = "Sabotage Unit Escape"
+action        = "Sabotage Unit Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -1028,14 +1028,14 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
       "Building",     "Treuga Dei",    "World", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Tile", FALSE
       "MinHitPoints", "2", "Local", TRUE
     }
 
 [actionenabler_sabotage_unit_despite_treuga_dei]
-action = "Sabotage Unit Escape"
+action        = "Sabotage Unit Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present", "survives"
       "UnitFlag",     "Spy",           "Local", TRUE,      FALSE
@@ -1044,7 +1044,7 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE,      FALSE
       "Tech",         "Communism",     "World", TRUE,      TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Tile", FALSE
       "MinHitPoints", "2", "Local", TRUE
@@ -1067,7 +1067,7 @@ target_reqs   =
     }
 
 [actionenabler_trade_route]
-action = "Establish Trade Route"
+action        = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
@@ -1076,20 +1076,20 @@ actor_reqs    =
     }
 
 [actionenabler_marketplace]
-action = "Enter Marketplace"
+action        = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
       "UnitState", "HasHomeCity", "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",        "range"
       "Building", "Marketplace", "City"
     }
 
 [actionenabler_help_build_wonder]
-action = "Help Wonder"
+action        = "Help Wonder"
 actor_reqs    =
     { "type",     "name",       "range", "present"
       "UnitFlag", "HelpWonder", "Local", TRUE
@@ -1099,7 +1099,7 @@ actor_reqs    =
       "DiplRel",  "Peace",      "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
     }
@@ -1108,19 +1108,19 @@ target_reqs    =
 ; Casus Belli against terrorist states once Treuga Dei is finished may wish
 ; to help a non-allied player to complete Treuga Dei.
 [actionenabler_help_build_wonder_treuga_dei]
-action = "Help Wonder"
+action        = "Help Wonder"
 actor_reqs    =
     { "type",         "name",       "range", "present"
       "UnitFlag",     "HelpWonder", "Local", TRUE
       "MinMoveFrags", "1",          "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",       "range"
       "Building", "Treuga Dei", "Local"
     }
 
 [actionenabler_disband_unit_recover]
-action = "Disband Unit Recover"
+action        = "Disband Unit Recover"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "EvacuateFirst", "Local", FALSE
@@ -1132,7 +1132,7 @@ actor_reqs    =
     }
 
 [actionenabler_disband_unit_recover_consensus]
-action = "Disband Unit Recover"
+action        = "Disband Unit Recover"
 actor_reqs    =
     { "type",     "name",          "range",  "present"
       "UnitFlag", "EvacuateFirst", "Local",  FALSE
@@ -1147,7 +1147,7 @@ actor_reqs    =
     }
 
 [actionenabler_disband_unit]
-action = "Disband Unit"
+action        = "Disband Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "EvacuateFirst", "Local", FALSE
@@ -1155,7 +1155,7 @@ actor_reqs    =
     }
 
 [actionenabler_disband_unit_consensus]
-action = "Disband Unit"
+action        = "Disband Unit"
 actor_reqs    =
     { "type",     "name",          "range",  "present"
       "UnitFlag", "EvacuateFirst", "Local",  FALSE

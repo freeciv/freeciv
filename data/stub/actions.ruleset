@@ -193,11 +193,11 @@ found_city_consuming_always = TRUE
 
 ; No enabled actions
 ; [actionenabler_embassy]
-; action = "Establish Embassy"
+; action        = "Establish Embassy"
 
 ;[actionenabler_regular_move]
-;action     = "Unit Move"
-;actor_reqs =
+;action        = "Unit Move"
+;actor_reqs    =
 ;    { "type",         "name",        "range", "present"
 ;      "MinMoveFrags", "1",           "Local", TRUE
 ;      "UnitState",    "Transported", "Local", FALSE

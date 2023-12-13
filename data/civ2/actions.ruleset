@@ -420,7 +420,7 @@ quiet_actions = "Unit Move"
 ; */ <-- avoid gettext warnings
 
 [actionenabler_sabotage_city]
-action = "Sabotage City"
+action        = "Sabotage City"
 actor_reqs    =
     { "type",         "name",     "range", "present"
       "UnitFlag",     "Diplomat", "Local", TRUE
@@ -430,7 +430,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_spy]
-action = "Sabotage City Escape"
+action        = "Sabotage City Escape"
 actor_reqs    =
     { "type",         "name", "range"
       "UnitFlag",     "Spy",  "Local"
@@ -439,7 +439,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_target]
-action = "Targeted Sabotage City Escape"
+action        = "Targeted Sabotage City Escape"
 actor_reqs    =
     { "type",         "name", "range"
       "DiplRel",      "War",  "Local"
@@ -448,7 +448,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_production]
-action = "Sabotage City Production Escape"
+action        = "Sabotage City Production Escape"
 actor_reqs    =
     { "type",         "name", "range"
       "DiplRel",      "War",  "Local"
@@ -457,7 +457,7 @@ actor_reqs    =
     }
 
 [actionenabler_establish_embassy]
-action       = "Establish Embassy Stay"
+action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
       "UnitFlag",     "Diplomat",         "Local", TRUE
@@ -468,7 +468,7 @@ actor_reqs    =
     }
 
 [actionenabler_establish_embassy_spy]
-action       = "Establish Embassy"
+action        = "Establish Embassy"
 actor_reqs    =
     { "type",         "name",             "range", "present"
       "UnitFlag",     "Spy",              "Local", TRUE
@@ -478,7 +478,7 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city]
-action       = "Investigate City Spend Unit"
+action        = "Investigate City Spend Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
@@ -488,7 +488,7 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city_spy]
-action       = "Investigate City"
+action        = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
@@ -497,21 +497,21 @@ actor_reqs    =
     }
 
 [actionenabler_poison_city]
-action = "Poison City Escape"
+action        = "Poison City Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
       "DiplRel", "War", "Local"
       "MinMoveFrags", "1", "Local"
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range"
       "MinSize", "2", "City"
     }
 
 ; TODO: Find the exact requirements
 [actionenabler_plant_nuke]
-action = "Suitcase Nuke Escape"
+action        = "Suitcase Nuke Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
@@ -522,7 +522,7 @@ actor_reqs    =
     }
 
 [actionenabler_steal_tech_random]
-action = "Steal Tech"
+action        = "Steal Tech"
 actor_reqs    =
     { "type",         "name",     "range", "present"
       "UnitFlag",     "Diplomat", "Local", TRUE
@@ -530,39 +530,39 @@ actor_reqs    =
       "MinMoveFrags", "1",        "Local", TRUE
       "DiplRel",      "Foreign",  "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_random_esc]
-action = "Steal Tech Escape Expected"
+action        = "Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",    "range"
       "UnitFlag",     "Spy",     "Local"
       "MinMoveFrags", "1",       "Local"
       "DiplRel",      "Foreign", "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_target]
-action = "Targeted Steal Tech Escape Expected"
+action        = "Targeted Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",    "range"
       "UnitFlag",     "Spy",     "Local"
       "MinMoveFrags", "1",       "Local"
       "DiplRel",      "Foreign", "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_incite_city]
-action = "Incite City"
+action        = "Incite City"
 actor_reqs    =
     { "type",         "name",     "range", "present"
       "UnitFlag",     "Diplomat", "Local", TRUE
@@ -572,14 +572,14 @@ actor_reqs    =
       "DiplRel",      "Foreign",  "Local", TRUE
       "UnitFlag",     "Spy",      "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",      "range", "present"
       "Gov",      "Democracy", "Player", FALSE
       "Building", "Palace",    "City",   FALSE
     }
 
 [actionenabler_incite_city_spy]
-action = "Incite City Escape"
+action        = "Incite City Escape"
 actor_reqs    =
     { "type",         "name",     "range", "present"
       "UnitFlag",     "Spy",      "Local", TRUE
@@ -588,14 +588,14 @@ actor_reqs    =
       "MinMoveFrags", "1",        "Local", TRUE
       "DiplRel",      "Foreign",  "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",      "range", "present"
       "Gov",      "Democracy", "Player", FALSE
       "Building", "Palace",    "City",   FALSE
     }
 
 [actionenabler_bribe_unit]
-action = "Bribe Unit"
+action        = "Bribe Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
@@ -604,7 +604,7 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local", TRUE
       "DiplRel", "Foreign", "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Tile", FALSE
       "Gov", "Democracy", "Player", FALSE
@@ -612,14 +612,14 @@ target_reqs    =
     }
 
 [actionenabler_sabotage_unit]
-action = "Sabotage Unit Escape"
+action        = "Sabotage Unit Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
       "DiplRel", "War", "Local"
       "MinMoveFrags", "1", "Local"
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Tile", FALSE
       "MinHitPoints", "2", "Local", TRUE
@@ -627,7 +627,7 @@ target_reqs    =
     }
 
 [actionenabler_trade_route]
-action = "Establish Trade Route"
+action        = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
@@ -635,7 +635,7 @@ actor_reqs    =
     }
 
 [actionenabler_marketplace]
-action = "Enter Marketplace"
+action        = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
@@ -643,19 +643,19 @@ actor_reqs    =
     }
 
 [actionenabler_help_build_wonder]
-action = "Help Wonder"
+action        = "Help Wonder"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "HelpWonder", "Local", TRUE
       "DiplRel", "Foreign", "Local", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
     }
 
 [actionenabler_disband_unit_recover]
-action = "Disband Unit Recover"
+action        = "Disband Unit Recover"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "DiplRel",  "War",        "Local", FALSE
@@ -665,24 +665,24 @@ actor_reqs    =
     }
 
 [actionenabler_disband_unit]
-action = "Disband Unit"
+action        = "Disband Unit"
 
 [actionenabler_build_city_pioneer]
-action = "Found City"
+action        = "Found City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Cities", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "CityTile", "Claimed", "Tile", FALSE
       "TerrainFlag","NoCities","Tile",FALSE
     }
 
 [actionenabler_build_city_domestic]
-action = "Found City"
+action        = "Found City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Cities", "Local", TRUE
@@ -690,7 +690,7 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local", TRUE
       "DiplRel", "Foreign", "Local", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",        "name",     "range", "present"
       "CityTile",    "Claimed",  "Tile",  TRUE
       "TerrainFlag", "NoCities", "Tile",  FALSE
