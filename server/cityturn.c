@@ -604,7 +604,6 @@ void update_city_activities(struct player *pplayer)
   char buf[4 * MAX_LEN_NAME];
   int n, gold;
 
-  fc_assert(NULL != pplayer);
   fc_assert(NULL != pplayer->cities);
 
   n = city_list_size(pplayer->cities);
