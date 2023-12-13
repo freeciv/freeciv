@@ -601,7 +601,6 @@ void update_city_activities(struct player *pplayer)
 {
   int n;
 
-  fc_assert(NULL != pplayer);
   fc_assert(NULL != pplayer->cities);
 
   n = city_list_size(pplayer->cities);
