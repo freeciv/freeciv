@@ -2867,4 +2867,4 @@ svg_files = 				\
 pkgdata_DATA = $(flag_files) $(shield_files)
 
 EXTRA_DIST = $(pkgdata_DATA) $(svg_files) \
-             credits convert_png convert_png_legacy mask.png
+             credits convert_png mask.png
