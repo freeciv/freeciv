@@ -75,7 +75,7 @@ escape_city = "Transport Embark", "Unit Move"
 ; the actor unit. The special value "unlimited" lifts the maximum distance
 ; restriction. The maximum distance can`t be smaller than the minimum
 ; distance.
-bombard_max_range = 1
+bombard_max_range = 8
 
 ; The maximum distance from the actor unit to the target of the "Bombard 2"
 ; action. The value 1 means that the targets must be on a tile adjacent to
@@ -350,6 +350,13 @@ actor_reqs    =
     { "type",         "name",        "range", "present"
       "UnitClass",    "Air",         "Local", TRUE
       "UnitState",    "Transported", "Local", FALSE
+    }
+
+[actionenabler_bombard]
+action        = "Bombard"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitClass",    "Air",         "Local", TRUE
     }
 
 [actionenabler_gain_veterancy]

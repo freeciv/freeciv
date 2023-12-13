@@ -556,6 +556,7 @@ defense       = 50
 hitpoints     = 30
 firepower     = 1
 move_rate     = 100
+bombard_rate  = 5
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
