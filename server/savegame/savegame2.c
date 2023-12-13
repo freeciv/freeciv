@@ -573,10 +573,9 @@ static void loaddata_destroy(struct loaddata *loading)
 static void set_unit_activity_base(struct unit *punit,
                                    Base_type_id base)
 {
-  /* FIXME: Correct action from the savegame */
   set_unit_activity_targeted(punit, ACTIVITY_BASE,
                              base_extra_get(base_by_number(base)),
-                             ACTION_NONE);
+                             activity_default_action(ACTIVITY_BASE));
 }
 
 /************************************************************************//**
@@ -585,10 +584,9 @@ static void set_unit_activity_base(struct unit *punit,
 static void set_unit_activity_road(struct unit *punit,
                                    Road_type_id road)
 {
-  /* FIXME: Correct action from the savegame */
   set_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
                              road_extra_get(road_by_number(road)),
-                             ACTION_NONE);
+                             activity_default_action(ACTIVITY_GEN_ROAD));
 }
 
 /* =======================================================================
@@ -4283,20 +4281,19 @@ static bool sg_load_player_unit(struct loaddata *loading,
   if (extra_id != -2) {
     if (extra_id >= 0 && extra_id < loading->extra.size) {
       pextra = loading->extra.order[extra_id];
-      /* FIXME: Correct action from the savegame */
-      set_unit_activity_targeted(punit, activity, pextra, ACTION_NONE);
+      set_unit_activity_targeted(punit, activity, pextra,
+                                 activity_default_action(activity));
     } else if (activity == ACTIVITY_IRRIGATE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
                                                    EC_IRRIGATION,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_IRRIGATE));
       } else {
-        /* FIXME: Correct action from the savegame */
-        set_unit_activity(punit, ACTIVITY_CULTIVATE, ACTION_NONE);
+        set_unit_activity(punit, ACTIVITY_CULTIVATE,
+                          activity_default_action(ACTIVITY_CULTIVATE));
       }
     } else if (activity == ACTIVITY_MINE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
@@ -4304,16 +4301,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_MINE));
       } else {
-        /* FIXME: Correct action from the savegame */
-        set_unit_activity(punit, ACTIVITY_PLANT, ACTION_NONE);
+        set_unit_activity(punit, ACTIVITY_PLANT,
+                          activity_default_action(ACTIVITY_PLANT));
       }
     } else {
-      /* FIXME: Correct action from the savegame */
-      set_unit_activity(punit, activity, ACTION_NONE);
+      set_unit_activity(punit, activity,
+                        activity_default_action(activity));
     }
   } else {
     /* extra_id == -2 -> activity_tgt not set */
@@ -4366,7 +4362,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
       } else {
         log_sg("Cannot find base %d for %s to build",
                base_id, unit_rule_name(punit));
-        set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
+        set_unit_activity(punit, ACTIVITY_IDLE,
+                          activity_default_action(ACTIVITY_IDLE));
       }
     } else if (activity == ACTIVITY_GEN_ROAD) {
       if (proad) {
@@ -4374,7 +4371,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
       } else {
         log_sg("Cannot find road %d for %s to build",
                road_id, unit_rule_name(punit));
-        set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
+        set_unit_activity(punit, ACTIVITY_IDLE,
+                          activity_default_action(ACTIVITY_IDLE));
       }
     } else if (activity == ACTIVITY_PILLAGE) {
       struct extra_type *a_target;
@@ -4391,21 +4389,19 @@ static bool sg_load_player_unit(struct loaddata *loading,
       /* An out-of-range base number is seen with old savegames. We take
        * it as indicating undirected pillaging. We will assign pillage
        * targets before play starts. */
-      /* FIXME: Correct action from the savegame */
-      set_unit_activity_targeted(punit, activity, a_target, ACTION_NONE);
+      set_unit_activity_targeted(punit, activity, a_target,
+                                 activity_default_action(activity));
     } else if (activity == ACTIVITY_IRRIGATE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
                                                    EC_IRRIGATION,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_IRRIGATE));
       } else {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_IRRIGATE));
       }
     } else if (activity == ACTIVITY_MINE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
@@ -4413,13 +4409,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_MINE));
       } else {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_MINE));
       }
     } else if (activity == ACTIVITY_OLD_POLLUTION_SG2
                || activity == ACTIVITY_OLD_FALLOUT_SG2) {
@@ -4428,18 +4422,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                   unit_owner(punit),
                                                   punit);
       if (tgt != NULL) {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_CLEAN, tgt,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_CLEAN));
       } else {
-        /* FIXME: Correct action from the savegame */
         set_unit_activity_targeted(punit, ACTIVITY_CLEAN, NULL,
-                                   ACTION_NONE);
+                                   activity_default_action(ACTIVITY_CLEAN));
       }
     } else {
-      /* FIXME: Correct action from the savegame */
       set_unit_activity_targeted(punit, activity, NULL,
-                                 ACTION_NONE);
+                                 activity_default_action(activity));
     }
   } /* activity_tgt == NULL */
 
