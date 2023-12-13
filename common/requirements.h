@@ -443,4 +443,4 @@ int requirement_kind_ereq(const int value,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__REQUIREMENTS_H */
+#endif /* FC__REQUIREMENTS_H */

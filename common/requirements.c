@@ -56,7 +56,8 @@ enum fc_tristate tri_req_present(const struct req_context *context,
 
 /* Function pointer for requirement-type-specific is_req_active handlers */
 typedef enum fc_tristate
-(*is_req_active_cb)(const struct req_context *context,
+(*is_req_active_cb)(const struct civ_map *nmap,
+                    const struct req_context *context,
                     const struct player *other_player,
                     const struct requirement *req);
 
@@ -1622,7 +1623,8 @@ static inline bool players_in_same_range(const struct player *pplayer1,
   context and req must not be null, and req must be a none requirement
 **************************************************************************/
 static enum fc_tristate
-is_none_req_active(const struct req_context *context,
+is_none_req_active(const struct civ_map *nmap,
+                   const struct req_context *context,
                    const struct player *other_player,
                    const struct requirement *req)
 {
@@ -1733,7 +1735,8 @@ static int num_city_buildings(const struct city *pcity,
   context and req must not be null, and req must be a building requirement
 **************************************************************************/
 static enum fc_tristate
-is_building_req_active(const struct req_context *context,
+is_building_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -1883,7 +1886,8 @@ is_building_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_buildinggenus_req_active(const struct req_context *context,
+is_buildinggenus_req_active(const struct civ_map *nmap,
+                            const struct req_context *context,
                             const struct player *other_player,
                             const struct requirement *req)
 {
@@ -1903,7 +1907,8 @@ is_buildinggenus_req_active(const struct req_context *context,
   context and req must not be null, and req must be a tech requirement
 **************************************************************************/
 static enum fc_tristate
-is_tech_req_active(const struct req_context *context,
+is_tech_req_active(const struct civ_map *nmap,
+                   const struct req_context *context,
                    const struct player *other_player,
                    const struct requirement *req)
 {
@@ -1966,7 +1971,8 @@ is_tech_req_active(const struct req_context *context,
   context and req must not be null, and req must be a techflag requirement
 **************************************************************************/
 static enum fc_tristate
-is_techflag_req_active(const struct req_context *context,
+is_techflag_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -2028,7 +2034,8 @@ is_techflag_req_active(const struct req_context *context,
   context and req must not be null, and req must be a minculture requirement
 **************************************************************************/
 static enum fc_tristate
-is_minculture_req_active(const struct req_context *context,
+is_minculture_req_active(const struct civ_map *nmap,
+                         const struct req_context *context,
                          const struct player *other_player,
                          const struct requirement *req)
 {
@@ -2100,7 +2107,8 @@ is_minculture_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_minforeignpct_req_active(const struct req_context *context,
+is_minforeignpct_req_active(const struct civ_map *nmap,
+                            const struct req_context *context,
                             const struct player *other_player,
                             const struct requirement *req)
 {
@@ -2169,7 +2177,8 @@ is_minforeignpct_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_maxunitsontile_req_active(const struct req_context *context,
+is_maxunitsontile_req_active(const struct civ_map *nmap,
+                             const struct req_context *context,
                              const struct player *other_player,
                              const struct requirement *req)
 {
@@ -2193,7 +2202,7 @@ is_maxunitsontile_req_active(const struct req_context *context,
     if (unit_list_size(context->tile->units) <= max_units) {
       return TRI_YES;
     }
-    cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+    cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= max_units) {
         return TRI_YES;
       }
@@ -2206,7 +2215,7 @@ is_maxunitsontile_req_active(const struct req_context *context,
     if (unit_list_size(context->tile->units) <= max_units) {
       return TRI_YES;
     }
-    adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+    adjc_iterate(nmap, context->tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= max_units) {
         return TRI_YES;
       }
@@ -2236,13 +2245,13 @@ is_maxunitsontile_req_active(const struct req_context *context,
   context and req must not be null, and req must be an extra requirement
 **************************************************************************/
 static enum fc_tristate
-is_extra_req_active(const struct req_context *context,
+is_extra_req_active(const struct civ_map *nmap,
+                    const struct req_context *context,
                     const struct player *other_player,
                     const struct requirement *req)
 {
   const struct extra_type *pextra;
   enum fc_tristate ret;
-  const struct civ_map *nmap = &(wld.map);
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRA);
 
@@ -2329,9 +2338,10 @@ is_extra_req_active(const struct req_context *context,
   context and req must not be null, and req must be a goods requirement
 **************************************************************************/
 static enum fc_tristate
-is_good_req_active(const struct req_context *context,
-                    const struct player *other_player,
-                    const struct requirement *req)
+is_good_req_active(const struct civ_map *nmap,
+                   const struct req_context *context,
+                   const struct player *other_player,
+                   const struct requirement *req)
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_GOOD);
 
@@ -2369,7 +2379,8 @@ is_good_req_active(const struct req_context *context,
   context and req must not be null, and req must be an action requirement
 **************************************************************************/
 static enum fc_tristate
-is_action_req_active(const struct req_context *context,
+is_action_req_active(const struct civ_map *nmap,
+                     const struct req_context *context,
                      const struct player *other_player,
                      const struct requirement *req)
 {
@@ -2389,7 +2400,8 @@ is_action_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_outputtype_req_active(const struct req_context *context,
+is_outputtype_req_active(const struct civ_map *nmap,
+                         const struct req_context *context,
                          const struct player *other_player,
                          const struct requirement *req)
 {
@@ -2408,7 +2420,8 @@ is_outputtype_req_active(const struct req_context *context,
   context and req must not be null, and req must be a specialist requirement
 **************************************************************************/
 static enum fc_tristate
-is_specialist_req_active(const struct req_context *context,
+is_specialist_req_active(const struct civ_map *nmap,
+                         const struct req_context *context,
                          const struct player *other_player,
                          const struct requirement *req)
 {
@@ -2427,7 +2440,8 @@ is_specialist_req_active(const struct req_context *context,
   context and req must not be null, and req must be a terrain requirement
 **************************************************************************/
 static enum fc_tristate
-is_terrain_req_active(const struct req_context *context,
+is_terrain_req_active(const struct civ_map *nmap,
+                      const struct req_context *context,
                       const struct player *other_player,
                       const struct requirement *req)
 {
@@ -2522,7 +2536,8 @@ is_terrain_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_terrainclass_req_active(const struct req_context *context,
+is_terrainclass_req_active(const struct civ_map *nmap,
+                           const struct req_context *context,
                            const struct player *other_player,
                            const struct requirement *req)
 {
@@ -2622,7 +2637,8 @@ is_terrainclass_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_terrainflag_req_active(const struct req_context *context,
+is_terrainflag_req_active(const struct civ_map *nmap,
+                          const struct req_context *context,
                           const struct player *other_player,
                           const struct requirement *req)
 {
@@ -2727,13 +2743,13 @@ is_terrainflag_req_active(const struct req_context *context,
   context and req must not be null, and req must be a roadflag requirement
 **************************************************************************/
 static enum fc_tristate
-is_roadflag_req_active(const struct req_context *context,
+is_roadflag_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
   enum road_flag_id roadflag;
   enum fc_tristate ret;
-  struct civ_map *nmap = &(wld.map);
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ROADFLAG);
 
@@ -2820,13 +2836,13 @@ is_roadflag_req_active(const struct req_context *context,
   context and req must not be null, and req must be an extraflag requirement
 **************************************************************************/
 static enum fc_tristate
-is_extraflag_req_active(const struct req_context *context,
+is_extraflag_req_active(const struct civ_map *nmap,
+                        const struct req_context *context,
                         const struct player *other_player,
                         const struct requirement *req)
 {
   enum extra_flag_id extraflag;
   enum fc_tristate ret;
-  const struct civ_map *nmap = &(wld.map);
 
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRAFLAG);
 
@@ -2912,7 +2928,8 @@ is_extraflag_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_terrainalter_req_active(const struct req_context *context,
+is_terrainalter_req_active(const struct civ_map *nmap,
+                           const struct req_context *context,
                            const struct player *other_player,
                            const struct requirement *req)
 {
@@ -2956,7 +2973,8 @@ is_terrainalter_req_active(const struct req_context *context,
   context and req must not be null, and req must be a gov requirement
 **************************************************************************/
 static enum fc_tristate
-is_gov_req_active(const struct req_context *context,
+is_gov_req_active(const struct civ_map *nmap,
+                  const struct req_context *context,
                   const struct player *other_player,
                   const struct requirement *req)
 {
@@ -2978,7 +2996,8 @@ is_gov_req_active(const struct req_context *context,
   context and req must not be null, and req must be a style requirement
 **************************************************************************/
 static enum fc_tristate
-is_style_req_active(const struct req_context *context,
+is_style_req_active(const struct civ_map *nmap,
+                    const struct req_context *context,
                     const struct player *other_player,
                     const struct requirement *req)
 {
@@ -3000,7 +3019,8 @@ is_style_req_active(const struct req_context *context,
   context and req must not be null, and req must be a mintechs requirement
 **************************************************************************/
 static enum fc_tristate
-is_mintechs_req_active(const struct req_context *context,
+is_mintechs_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -3034,7 +3054,8 @@ is_mintechs_req_active(const struct req_context *context,
   context and req must not be null, and req must be an AI level requirement
 **************************************************************************/
 static enum fc_tristate
-is_ai_req_active(const struct req_context *context,
+is_ai_req_active(const struct civ_map *nmap,
+                 const struct req_context *context,
                  const struct player *other_player,
                  const struct requirement *req)
 {
@@ -3057,7 +3078,8 @@ is_ai_req_active(const struct req_context *context,
   context and req must not be null, and req must be a nation requirement
 **************************************************************************/
 static enum fc_tristate
-is_nation_req_active(const struct req_context *context,
+is_nation_req_active(const struct civ_map *nmap,
+                     const struct req_context *context,
                      const struct player *other_player,
                      const struct requirement *req)
 {
@@ -3117,7 +3139,8 @@ is_nation_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_nationgroup_req_active(const struct req_context *context,
+is_nationgroup_req_active(const struct civ_map *nmap,
+                          const struct req_context *context,
                           const struct player *other_player,
                           const struct requirement *req)
 {
@@ -3172,7 +3195,8 @@ is_nationgroup_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_nationality_req_active(const struct req_context *context,
+is_nationality_req_active(const struct civ_map *nmap,
+                          const struct req_context *context,
                           const struct player *other_player,
                           const struct requirement *req)
 {
@@ -3291,7 +3315,8 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
   context and req must not be null, and req must be a diplrel requirement
 **************************************************************************/
 static enum fc_tristate
-is_diplrel_req_active(const struct req_context *context,
+is_diplrel_req_active(const struct civ_map *nmap,
+                      const struct req_context *context,
                       const struct player *other_player,
                       const struct requirement *req)
 {
@@ -3310,7 +3335,8 @@ is_diplrel_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_diplrel_tile_req_active(const struct req_context *context,
+is_diplrel_tile_req_active(const struct civ_map *nmap,
+                           const struct req_context *context,
                            const struct player *other_player,
                            const struct requirement *req)
 {
@@ -3333,7 +3359,8 @@ is_diplrel_tile_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_diplrel_tile_o_req_active(const struct req_context *context,
+is_diplrel_tile_o_req_active(const struct civ_map *nmap,
+                             const struct req_context *context,
                              const struct player *other_player,
                              const struct requirement *req)
 {
@@ -3381,7 +3408,8 @@ is_diplrel_unitany_in_range(const struct tile *target_tile,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_diplrel_unitany_req_active(const struct req_context *context,
+is_diplrel_unitany_req_active(const struct civ_map *nmap,
+                              const struct req_context *context,
                               const struct player *other_player,
                               const struct requirement *req)
 {
@@ -3402,7 +3430,8 @@ is_diplrel_unitany_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_diplrel_unitany_o_req_active(const struct req_context *context,
+is_diplrel_unitany_o_req_active(const struct civ_map *nmap,
+                                const struct req_context *context,
                                 const struct player *other_player,
                                 const struct requirement *req)
 {
@@ -3421,7 +3450,8 @@ is_diplrel_unitany_o_req_active(const struct req_context *context,
   context and req must not be null, and req must be a unittype requirement
 **************************************************************************/
 static enum fc_tristate
-is_unittype_req_active(const struct req_context *context,
+is_unittype_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -3449,7 +3479,8 @@ is_unittype_req_active(const struct req_context *context,
   context and req must not be null, and req must be a unitflag requirement
 **************************************************************************/
 static enum fc_tristate
-is_unitflag_req_active(const struct req_context *context,
+is_unitflag_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -3477,7 +3508,8 @@ is_unitflag_req_active(const struct req_context *context,
   context and req must not be null, and req must be a unitclass requirement
 **************************************************************************/
 static enum fc_tristate
-is_unitclass_req_active(const struct req_context *context,
+is_unitclass_req_active(const struct civ_map *nmap,
+                        const struct req_context *context,
                         const struct player *other_player,
                         const struct requirement *req)
 {
@@ -3506,7 +3538,8 @@ is_unitclass_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_unitclassflag_req_active(const struct req_context *context,
+is_unitclassflag_req_active(const struct civ_map *nmap,
+                            const struct req_context *context,
                             const struct player *other_player,
                             const struct requirement *req)
 {
@@ -3534,7 +3567,8 @@ is_unitclassflag_req_active(const struct req_context *context,
   context and req must not be null, and req must be a unitstate requirement
 **************************************************************************/
 static enum fc_tristate
-is_unitstate_req_active(const struct req_context *context,
+is_unitstate_req_active(const struct civ_map *nmap,
+                        const struct req_context *context,
                         const struct player *other_player,
                         const struct requirement *req)
 {
@@ -3559,7 +3593,7 @@ is_unitstate_req_active(const struct req_context *context,
     return BOOL_TO_TRISTATE(context->unit->transporter != NULL);
   case USP_LIVABLE_TILE:
     return BOOL_TO_TRISTATE(
-          can_unit_exist_at_tile(&(wld.map), context->unit,
+          can_unit_exist_at_tile(nmap, context->unit,
                                  unit_tile(context->unit)));
     break;
   case USP_TRANSPORTING:
@@ -3598,7 +3632,8 @@ is_unitstate_req_active(const struct req_context *context,
   context and req must not be null, and req must be an activity requirement
 **************************************************************************/
 static enum fc_tristate
-is_activity_req_active(const struct req_context *context,
+is_activity_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -3641,7 +3676,8 @@ is_activity_req_active(const struct req_context *context,
   context and req must not be null, and req must be a minveteran requirement
 **************************************************************************/
 static enum fc_tristate
-is_minveteran_req_active(const struct req_context *context,
+is_minveteran_req_active(const struct civ_map *nmap,
+                         const struct req_context *context,
                          const struct player *other_player,
                          const struct requirement *req)
 {
@@ -3664,7 +3700,8 @@ is_minveteran_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_minmovefrags_req_active(const struct req_context *context,
+is_minmovefrags_req_active(const struct civ_map *nmap,
+                           const struct req_context *context,
                            const struct player *other_player,
                            const struct requirement *req)
 {
@@ -3687,7 +3724,8 @@ is_minmovefrags_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_minhitpoints_req_active(const struct req_context *context,
+is_minhitpoints_req_active(const struct civ_map *nmap,
+                           const struct req_context *context,
                            const struct player *other_player,
                            const struct requirement *req)
 {
@@ -3709,7 +3747,8 @@ is_minhitpoints_req_active(const struct req_context *context,
   context and req must not be null, and req must be an age requirement
 **************************************************************************/
 static enum fc_tristate
-is_age_req_active(const struct req_context *context,
+is_age_req_active(const struct civ_map *nmap,
+                  const struct req_context *context,
                   const struct player *other_player,
                   const struct requirement *req)
 {
@@ -3769,7 +3808,8 @@ static bool is_city_in_tile(const struct tile *ptile,
   context and req must not be null, and req must be a citytile requirement
 **************************************************************************/
 static enum fc_tristate
-is_citytile_req_active(const struct req_context *context,
+is_citytile_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -3794,7 +3834,7 @@ is_citytile_req_active(const struct req_context *context,
       if (is_city_in_tile(context->tile, context->city)) {
         return TRI_YES;
       }
-      cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+      cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
         if (is_city_in_tile(adjc_tile, context->city)) {
           return TRI_YES;
         }
@@ -3805,7 +3845,7 @@ is_citytile_req_active(const struct req_context *context,
       if (is_city_in_tile(context->tile, context->city)) {
         return TRI_YES;
       }
-      adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+      adjc_iterate(nmap, context->tile, adjc_tile) {
         if (is_city_in_tile(adjc_tile, context->city)) {
           return TRI_YES;
         }
@@ -3833,7 +3873,7 @@ is_citytile_req_active(const struct req_context *context,
       if (context->tile->owner != NULL) {
         return TRI_YES;
       }
-      cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+      cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
         if (adjc_tile->owner != NULL) {
           return TRI_YES;
         }
@@ -3844,7 +3884,7 @@ is_citytile_req_active(const struct req_context *context,
       if (context->tile->owner != NULL) {
         return TRI_YES;
       }
-      adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+      adjc_iterate(nmap, context->tile, adjc_tile) {
         if (adjc_tile->owner != NULL) {
           return TRI_YES;
         }
@@ -3872,7 +3912,7 @@ is_citytile_req_active(const struct req_context *context,
       if (context->tile->extras_owner != NULL) {
         return TRI_YES;
       }
-      cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+      cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
         if (adjc_tile->extras_owner != NULL) {
           return TRI_YES;
         }
@@ -3883,7 +3923,7 @@ is_citytile_req_active(const struct req_context *context,
       if (context->tile->extras_owner != NULL) {
         return TRI_YES;
       }
-      adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+      adjc_iterate(nmap, context->tile, adjc_tile) {
         if (adjc_tile->extras_owner != NULL) {
           return TRI_YES;
         }
@@ -3923,7 +3963,8 @@ is_citytile_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_citystatus_req_active(const struct req_context *context,
+is_citystatus_req_active(const struct civ_map *nmap,
+                         const struct req_context *context,
                          const struct player *other_player,
                          const struct requirement *req)
 {
@@ -3994,7 +4035,8 @@ is_citystatus_req_active(const struct req_context *context,
   context and req must not be null, and req must be a minsize requirement
 **************************************************************************/
 static enum fc_tristate
-is_minsize_req_active(const struct req_context *context,
+is_minsize_req_active(const struct civ_map *nmap,
+                      const struct req_context *context,
                       const struct player *other_player,
                       const struct requirement *req)
 {
@@ -4036,7 +4078,8 @@ is_minsize_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_achievement_req_active(const struct req_context *context,
+is_achievement_req_active(const struct civ_map *nmap,
+                          const struct req_context *context,
                           const struct player *other_player,
                           const struct requirement *req)
 {
@@ -4080,7 +4123,8 @@ is_achievement_req_active(const struct req_context *context,
   context and req must not be null, and req must be a minyear requirement
 **************************************************************************/
 static enum fc_tristate
-is_minyear_req_active(const struct req_context *context,
+is_minyear_req_active(const struct civ_map *nmap,
+                      const struct req_context *context,
                       const struct player *other_player,
                       const struct requirement *req)
 {
@@ -4097,7 +4141,8 @@ is_minyear_req_active(const struct req_context *context,
   context and req must not be null, and req must be a mincalfrag requirement
 **************************************************************************/
 static enum fc_tristate
-is_mincalfrag_req_active(const struct req_context *context,
+is_mincalfrag_req_active(const struct civ_map *nmap,
+                         const struct req_context *context,
                          const struct player *other_player,
                          const struct requirement *req)
 {
@@ -4115,7 +4160,8 @@ is_mincalfrag_req_active(const struct req_context *context,
   context and req must not be null, and req must be a topology requirement
 **************************************************************************/
 static enum fc_tristate
-is_topology_req_active(const struct req_context *context,
+is_topology_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
                        const struct player *other_player,
                        const struct requirement *req)
 {
@@ -4134,7 +4180,8 @@ is_topology_req_active(const struct req_context *context,
   requirement
 **************************************************************************/
 static enum fc_tristate
-is_serversetting_req_active(const struct req_context *context,
+is_serversetting_req_active(const struct civ_map *nmap,
+                            const struct req_context *context,
                             const struct player *other_player,
                             const struct requirement *req)
 {
@@ -4257,7 +4304,8 @@ enum fc_tristate tri_req_present(const struct req_context *context,
 
   fc_assert_ret_val(req_definitions[req->source.kind].cb != NULL, TRI_NO);
 
-  return req_definitions[req->source.kind].cb(context, other_player, req);
+  return req_definitions[req->source.kind].cb(&(wld.map), context,
+                                              other_player, req);
 }
 
 /**********************************************************************//**
