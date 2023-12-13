@@ -121,9 +121,9 @@ int count_river_type_near_tile(struct civ_map *nmap,
 
 /* Functions to operate on a road flag. */
 bool road_has_flag(const struct road_type *proad, enum road_flag_id flag);
-bool is_road_flag_card_near(struct civ_map *nmap, const struct tile *ptile,
+bool is_road_flag_card_near(const struct civ_map *nmap, const struct tile *ptile,
                             enum road_flag_id flag);
-bool is_road_flag_near_tile(struct civ_map *nmap, const struct tile *ptile,
+bool is_road_flag_near_tile(const struct civ_map *nmap, const struct tile *ptile,
                             enum road_flag_id flag);
 
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile);
