@@ -416,7 +416,8 @@ bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
   Returns TRUE iff any cardinally adjacent tile contains a road with
   the given flag (does not check ptile itself).
 ****************************************************************************/
-bool is_road_flag_card_near(struct civ_map *nmap, const struct tile *ptile,
+bool is_road_flag_card_near(const struct civ_map *nmap,
+                            const struct tile *ptile,
                             enum road_flag_id flag)
 {
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
@@ -436,7 +437,8 @@ bool is_road_flag_card_near(struct civ_map *nmap, const struct tile *ptile,
   Returns TRUE iff any adjacent tile contains a road with the given flag
   (does not check ptile itself).
 ****************************************************************************/
-bool is_road_flag_near_tile(struct civ_map *nmap, const struct tile *ptile,
+bool is_road_flag_near_tile(const struct civ_map *nmap,
+                            const struct tile *ptile,
                             enum road_flag_id flag)
 {
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
