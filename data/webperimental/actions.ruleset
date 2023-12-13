@@ -420,7 +420,7 @@ quiet_actions = "Heal Unit", "Unit Move"
 ; */ <-- avoid gettext warnings
 
 [actionenabler_disrupt_supply_normal]
-action = "User Action 1"
+action        = "User Action 1"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "SupplyLines",   "Local", TRUE
@@ -428,7 +428,7 @@ actor_reqs    =
       "UnitState",    "Transported",   "Local", FALSE
       "MinMoveFrags", "1",             "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",         "name",       "range", "present"
       "MinMoveFrags", "1",          "Local", TRUE
       "UnitClass",    "Sea",        "Local", FALSE
@@ -439,7 +439,7 @@ target_reqs  =
     }
 
 [actionenabler_disrupt_supply_marines]
-action = "User Action 1"
+action        = "User Action 1"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "SupplyLines",   "Local", TRUE
@@ -447,7 +447,7 @@ actor_reqs    =
       "UnitFlag",     "Marines",       "Local", TRUE
       "MinMoveFrags", "1",             "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",         "name",       "range", "present"
       "MinMoveFrags", "1",          "Local", TRUE
       "UnitClass",    "Sea",        "Local", FALSE
@@ -458,7 +458,7 @@ target_reqs  =
     }
 
 [actionenabler_sabotage_city]
-action = "Sabotage City"
+action        = "Sabotage City"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Diplomat",      "Local", TRUE
@@ -471,7 +471,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_spy]
-action = "Sabotage City Escape"
+action        = "Sabotage City Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -483,7 +483,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_target]
-action = "Targeted Sabotage City Escape"
+action        = "Targeted Sabotage City Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "DiplRel",      "Alliance",      "Local", FALSE
@@ -495,7 +495,7 @@ actor_reqs    =
     }
 
 [actionenabler_sabotage_city_production]
-action = "Sabotage City Production Escape"
+action        = "Sabotage City Production Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "DiplRel",      "Alliance",      "Local", FALSE
@@ -507,7 +507,7 @@ actor_reqs    =
     }
 
 [actionenabler_establish_embassy]
-action       = "Establish Embassy Stay"
+action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
       "UnitFlag",     "Diplomat",         "Local", TRUE
@@ -516,27 +516,27 @@ actor_reqs    =
       "DiplRel",      "Has real embassy", "Local", FALSE
       "UnitFlag",     "Spy",              "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_establish_embassy_spy]
-action       = "Establish Embassy"
-actor_reqs   =
+action        = "Establish Embassy"
+actor_reqs    =
     { "type",         "name",             "range", "present"
       "UnitFlag",     "Spy",              "Local", TRUE
       "MinMoveFrags", "1",                "Local", TRUE
       "DiplRel",      "Foreign",          "Local", TRUE
       "DiplRel",      "Has real embassy", "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_explorer_establish_embassy]
-action       = "Establish Embassy Stay"
+action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range",  "present"
       "UnitType",     "Explorer",         "Local",  TRUE
@@ -545,13 +545,13 @@ actor_reqs    =
       "DiplRel",      "Foreign",          "Local",  TRUE
       "DiplRel",      "Has real embassy", "Local",  FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range", "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_investigate_city]
-action       = "Investigate City Spend Unit"
+action        = "Investigate City Spend Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
@@ -562,7 +562,7 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city_spy]
-action       = "Investigate City"
+action        = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
@@ -572,7 +572,7 @@ actor_reqs    =
     }
 
 [actionenabler_poison_city]
-action = "Poison City Escape"
+action        = "Poison City Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -582,13 +582,13 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1",             "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range"
       "MinSize", "2", "City"
     }
 
 [actionenabler_steal_tech_random]
-action = "Steal Tech"
+action        = "Steal Tech"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", FALSE
@@ -597,13 +597,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
       "DiplRel",      "Foreign",       "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_random_esc]
-action = "Steal Tech Escape Expected"
+action        = "Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -611,13 +611,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local"
       "DiplRel",      "Foreign",       "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_target]
-action = "Targeted Steal Tech Escape Expected"
+action        = "Targeted Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -625,13 +625,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local"
       "DiplRel",      "Foreign",       "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_incite_city]
-action = "Incite City"
+action        = "Incite City"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Diplomat",      "Local", TRUE
@@ -642,14 +642,14 @@ actor_reqs    =
       "DiplRel",      "Foreign",       "Local", TRUE
       "UnitFlag",     "Spy",           "Local", FALSE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",      "range",  "present"
       "Gov",      "Democracy", "Player", FALSE
       "Building", "Palace",    "City",   FALSE
     }
 
 [actionenabler_incite_city_spy]
-action = "Incite City Escape"
+action        = "Incite City Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -659,14 +659,14 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
       "DiplRel",      "Foreign",       "Local", TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",      "range",  "present"
       "Gov",      "Democracy", "Player", FALSE
       "Building", "Palace",    "City",   FALSE
     }
 
 [actionenabler_bribe_unit]
-action = "Bribe Unit"
+action        = "Bribe Unit"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Diplomat",      "Local", TRUE
@@ -677,7 +677,7 @@ actor_reqs    =
       "DiplRel",      "Foreign",       "Local", TRUE
       "ServerSetting", "killstack",    "World", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",     "name",       "range",  "present"
       "UnitFlag", "Unbribable", "Local",  FALSE
       "CityTile", "Center",     "Tile",   FALSE
@@ -685,7 +685,7 @@ target_reqs    =
     }
 
 [actionenabler_bribe_unit_killstack_enabled]
-action = "Bribe Unit"
+action        = "Bribe Unit"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Diplomat",      "Local", TRUE
@@ -695,7 +695,7 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
       "DiplRel",      "Foreign",       "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",           "name",       "range",  "present"
       "UnitFlag",       "Unbribable", "Local",  FALSE
       "CityTile",       "Center",     "Tile",   FALSE
@@ -704,7 +704,7 @@ target_reqs    =
     }
 
 [actionenabler_sabotage_unit]
-action = "Sabotage Unit Escape"
+action        = "Sabotage Unit Escape"
 actor_reqs    =
     { "type",          "name",          "range", "present"
       "UnitFlag",      "Spy",           "Local", TRUE
@@ -715,14 +715,14 @@ actor_reqs    =
       "MinMoveFrags",  "1",             "Local", TRUE
       "ServerSetting", "killstack",     "World", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",         "name",   "range", "present"
       "CityTile",     "Center", "Tile",  FALSE
       "MinHitPoints", "2",      "Local", TRUE
     }
 
 [actionenabler_sabotage_unit_killstack_enabled]
-action = "Sabotage Unit Escape"
+action        = "Sabotage Unit Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "Spy",           "Local", TRUE
@@ -732,7 +732,7 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1",             "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",           "name",   "range", "present"
       "CityTile",       "Center", "Tile",  FALSE
       "MinHitPoints",   "2",      "Local", TRUE
@@ -740,7 +740,7 @@ target_reqs    =
     }
 
 [actionenabler_steal_gold_capital]
-action = "Steal Gold"
+action        = "Steal Gold"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
       "UnitFlag",     "Diplomat",      "Local",  TRUE
@@ -750,13 +750,13 @@ actor_reqs    =
       "Tech",         "Banking",       "Player", TRUE
       "DiplRel",      "Foreign",       "Local",  TRUE
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",   "range"
       "Building", "Palace", "City"
     }
 
 [actionenabler_steal_gold_capital_spy]
-action = "Steal Gold Escape"
+action        = "Steal Gold Escape"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -765,13 +765,13 @@ actor_reqs    =
       "Tech",         "Banking",       "Player"
       "DiplRel",      "Foreign",       "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",     "name",   "range"
       "Building", "Palace", "City"
     }
 
 [actionenabler_steal_gold_spy]
-action = "Steal Gold Escape"
+action        = "Steal Gold Escape"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
@@ -782,7 +782,7 @@ actor_reqs    =
     }
 
 [actionenabler_steal_maps]
-action = "Steal Maps Escape"
+action        = "Steal Maps Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
@@ -790,13 +790,13 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local"
       "DiplRel", "Foreign", "Local"
     }
-target_reqs  =
+target_reqs   =
     { "type",   "name", "range", "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_suitcase_nuke]
-action = "Suitcase Nuke"
+action        = "Suitcase Nuke"
 actor_reqs    =
     { "type",         "name",              "range",  "present"
       "UnitFlag",     "Spy",               "Local",  TRUE
@@ -810,7 +810,7 @@ actor_reqs    =
     }
 
 [actionenabler_suitcase_nuke_escape]
-action = "Suitcase Nuke Escape"
+action        = "Suitcase Nuke Escape"
 actor_reqs    =
     { "type",         "name",              "range",  "present"
       "UnitFlag",     "Spy",               "Local",  TRUE
@@ -840,7 +840,7 @@ target_reqs   =
     }
 
 [actionenabler_trade_route]
-action = "Establish Trade Route"
+action        = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
@@ -848,7 +848,7 @@ actor_reqs    =
     }
 
 [actionenabler_marketplace]
-action = "Enter Marketplace"
+action        = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
@@ -856,7 +856,7 @@ actor_reqs    =
     }
 
 [actionenabler_help_build_wonder]
-action = "Help Wonder"
+action        = "Help Wonder"
 actor_reqs    =
     { "type",     "name",       "range", "present"
       "UnitFlag", "HelpWonder", "Local", TRUE
@@ -865,13 +865,13 @@ actor_reqs    =
       "DiplRel",  "Cease-fire", "Local", FALSE
       "DiplRel",  "Peace",      "Local", FALSE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
     }
 
 [actionenabler_disband_unit_recover]
-action = "Disband Unit Recover"
+action        = "Disband Unit Recover"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "EvacuateFirst", "Local", FALSE
@@ -882,7 +882,7 @@ actor_reqs    =
     }
 
 [actionenabler_disband_unit]
-action = "Disband Unit"
+action        = "Disband Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "EvacuateFirst", "Local", FALSE
