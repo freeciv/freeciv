@@ -597,9 +597,11 @@ void handle_unit_combat_info(const struct packet_unit_combat_info *packet)
       int hp0 = packet->attacker_hp, hp1 = packet->defender_hp;
 
       audio_play_sound(unit_type_get(punit0)->sound_fight,
-                       unit_type_get(punit0)->sound_fight_alt);
+                       unit_type_get(punit0)->sound_fight_alt,
+                       NULL);
       audio_play_sound(unit_type_get(punit1)->sound_fight,
-                       unit_type_get(punit1)->sound_fight_alt);
+                       unit_type_get(punit1)->sound_fight_alt,
+                       NULL);
 
       if (gui_options.smooth_combat_step_msec > 0) {
         decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
@@ -883,7 +885,8 @@ void handle_city_info(const struct packet_city_info *packet)
 
     if (have && !city_is_new
         && pcity->built[improvement_index(pimprove)].turn <= I_NEVER) {
-      audio_play_sound(pimprove->soundtag, pimprove->soundtag_alt);
+      audio_play_sound(pimprove->soundtag, pimprove->soundtag_alt,
+                       pimprove->soundtag_alt2);
     }
     need_economy_dialog_update |=
         update_improvement_from_packet(pcity, pimprove, have);
@@ -1516,7 +1519,7 @@ void play_sound_for_event(enum event_type type)
   const char *sound_tag = get_event_tag(type);
 
   if (sound_tag) {
-    audio_play_sound(sound_tag, NULL);
+    audio_play_sound(sound_tag, NULL, NULL);
   }
 }
 
@@ -3914,6 +3917,7 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
   PACKET_STRVEC_EXTRACT(b->helptext, p->helptext);
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
+  sz_strlcpy(b->soundtag_alt2, p->soundtag_alt2);
 
 #ifdef FREECIV_DEBUG
   if (p->id == improvement_count() - 1) {

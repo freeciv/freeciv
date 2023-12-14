@@ -84,6 +84,7 @@ upkeep		= 0
 sabotage	= 100
 sound		= "b_generic"
 sound_alt	= "b_barracks"
+sound_alt2      = "-"
 helptext	= _("\
 This is the only building you can build.\
 ")

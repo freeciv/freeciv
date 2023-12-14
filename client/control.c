@@ -2784,7 +2784,8 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
       && punit->activity != ACTIVITY_SENTRY
       && !unit_transported(punit)) {
     audio_play_sound(unit_type_get(punit)->sound_move,
-                     unit_type_get(punit)->sound_move_alt);
+                     unit_type_get(punit)->sound_move_alt,
+                     NULL);
   }
 
   if (unit_owner(punit) == client.conn.playing

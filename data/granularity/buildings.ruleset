@@ -94,6 +94,7 @@ upkeep		= 0
 sabotage	= 50
 sound		= "b_city_walls"
 sound_alt	= "b_generic"
+sound_alt2      = "-"
 helptext	= _("\
 City Walls make it easier to defend a city. They triple the defense\
  strength of units within the city against land units.\
@@ -117,6 +118,7 @@ upkeep		= 80
 sabotage	= 100
 sound		= "b_sacred_grove"
 sound_alt	= "b_generic"
+sound_alt2      = "-"
 helptext	= _("\
 Makes one unhappy citizen content.\
  Does not affect citizens made unhappy by military activity.\
@@ -140,6 +142,7 @@ upkeep		= 0
 sabotage	= 100
 sound		= "b_palace"
 sound_alt	= "b_generic"
+sound_alt2      = "-"
 helptext	= _("\
 City with your throne is your capital city.\
 ")

@@ -1675,6 +1675,7 @@ PACKET_RULESET_BUILDING = 150; sc, lsend
   BV_IMPR_FLAGS flags;
   STRING soundtag[MAX_LEN_NAME];
   STRING soundtag_alt[MAX_LEN_NAME];
+  STRING soundtag_alt2[MAX_LEN_NAME];
   STRVEC helptext[MAX_LEN_PACKET];
 end
 

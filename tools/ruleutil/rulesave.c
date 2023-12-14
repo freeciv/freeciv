@@ -447,6 +447,9 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
       if (strcmp(pb->soundtag_alt, "-")) {
         secfile_insert_str(sfile, pb->soundtag_alt, "%s.sound_alt", path);
       }
+      if (strcmp(pb->soundtag_alt2, "-")) {
+        secfile_insert_str(sfile, pb->soundtag_alt2, "%s.sound_alt2", path);
+      }
 
       save_reqs_vector(sfile, &(pb->reqs), path, "reqs");
       save_reqs_vector(sfile, &(pb->obsolete_by), path, "obsolete_by");

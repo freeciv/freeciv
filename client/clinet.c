@@ -323,7 +323,7 @@ void disconnect_from_server(bool leaving_sound)
   output_window_append(ftc_client, _("Disconnected from server."));
 
   if (leaving_sound) {
-    audio_play_sound("e_leave_game", NULL);
+    audio_play_sound("e_leave_game", NULL, NULL);
   }
 
   if (gui_options.save_options_on_exit) {
