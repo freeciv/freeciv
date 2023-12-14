@@ -936,7 +936,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
     vsnprintf_buf[VSNP_BUF_SIZE - 1] = '\0';
 
 #ifdef HAVE_VSNPRINTF
-    vsnprintf(vsnprintf_buf, n, format, ap);
+    vsnprintf(vsnprintf_buf, VSNP_BUF_SIZE, format, ap);
 #else
     vsprintf(vsnprintf_buf, format, ap);
 #endif /* HAVE_VSNPRINTF */
