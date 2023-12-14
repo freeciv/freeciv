@@ -2852,6 +2852,9 @@ static bool load_ruleset_buildings(struct section_file *file,
       sz_strlcpy(b->soundtag_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.sound_alt", sec_name));
+      sz_strlcpy(b->soundtag_alt2,
+                 secfile_lookup_str_default(file, "-",
+                                            "%s.sound_alt2", sec_name));
       b->helptext = lookup_strvec(file, sec_name, "helptext");
     }
   }
@@ -8456,6 +8459,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.flags = b->flags;
     sz_strlcpy(packet.soundtag, b->soundtag);
     sz_strlcpy(packet.soundtag_alt, b->soundtag_alt);
+    sz_strlcpy(packet.soundtag_alt2, b->soundtag_alt2);
     PACKET_STRVEC_COMPUTE(packet.helptext, b->helptext);
 
     lsend_packet_ruleset_building(dest, &packet);

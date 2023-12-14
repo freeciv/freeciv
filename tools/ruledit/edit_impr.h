@@ -46,6 +46,7 @@ class edit_impr : public QDialog
     QLineEdit *gfx_tag_alt2;
     QLineEdit *sound_tag;
     QLineEdit *sound_tag_alt;
+    QLineEdit *sound_tag_alt2;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -59,6 +60,7 @@ class edit_impr : public QDialog
     void gfx_tag_alt2_given();
     void sound_tag_given();
     void sound_tag_alt_given();
+    void sound_tag_alt2_given();
 };
 
 

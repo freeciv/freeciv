@@ -64,7 +64,8 @@ void audio_restart(const char *soundset_name, const char *musicset_name);
 void audio_pause(void);
 void audio_resume(void);
 
-void audio_play_sound(const char *const tag, const char *const alt_tag);
+void audio_play_sound(const char *const tag, const char *const alt_tag,
+                      const char *const alt_tag2);
 void audio_play_music(const char *const tag, char *const alt_tag,
                       enum music_usage usage);
 void audio_play_track(const char *const tag, char *const alt_tag);

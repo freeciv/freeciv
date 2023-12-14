@@ -132,6 +132,15 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   impr_layout->addWidget(label, row, 0);
   impr_layout->addWidget(sound_tag_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Second alt sound tag")));
+  label->setParent(this);
+
+  sound_tag_alt2 = new QLineEdit(this);
+  connect(sound_tag_alt2, SIGNAL(returnPressed()), this, SLOT(sound_tag_alt2_given()));
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(sound_tag_alt2, row++, 1);
+
   refresh();
 
   main_layout->addLayout(impr_layout);
@@ -150,6 +159,7 @@ void edit_impr::closeEvent(QCloseEvent *cevent)
   gfx_tag_alt2_given();
   sound_tag_given();
   sound_tag_alt_given();
+  sound_tag_alt2_given();
 
   impr->ruledit_dlg = nullptr;
 }
@@ -167,6 +177,7 @@ void edit_impr::refresh()
   gfx_tag_alt2->setText(impr->graphic_alt2);
   sound_tag->setText(impr->soundtag);
   sound_tag_alt->setText(impr->soundtag_alt);
+  sound_tag_alt2->setText(impr->soundtag_alt2);
 }
 
 /**********************************************************************//**
@@ -253,4 +264,14 @@ void edit_impr::sound_tag_alt_given()
   QByteArray tag_bytes = sound_tag_alt->text().toUtf8();
 
   sz_strlcpy(impr->soundtag_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new second alternative sound tag.
+**************************************************************************/
+void edit_impr::sound_tag_alt2_given()
+{
+  QByteArray tag_bytes = sound_tag_alt2->text().toUtf8();
+
+  sz_strlcpy(impr->soundtag_alt2, tag_bytes);
 }

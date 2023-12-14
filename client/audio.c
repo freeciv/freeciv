@@ -525,19 +525,24 @@ static int audio_play_music_tag(const char *tag, bool repeat,
 /**********************************************************************//**
   Play an audio sample as suggested by sound tags
 **************************************************************************/
-void audio_play_sound(const char *const tag, const char *const alt_tag)
+void audio_play_sound(const char *const tag, const char *const alt_tag,
+                      const char *const alt_tag2)
 {
   const char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
+  const char *pretty_alt2_tag = alt_tag2 ? alt_tag2 : "(null)";
 
   if (gui_options.sound_enable_effects) {
     fc_assert_ret(tag != NULL);
 
-    log_debug("audio_play_sound('%s', '%s')", tag, pretty_alt_tag);
+    log_debug("audio_play_sound('%s', '%s', '%s')",
+              tag, pretty_alt_tag, pretty_alt2_tag);
 
-    /* try playing primary tag first, if not go to alternative tag */
+    /* Try playing primary tag first, if not go to alternative tags */
     if (!audio_play_sound_tag(tag, FALSE)
-        && !audio_play_sound_tag(alt_tag, FALSE)) {
-      log_verbose( "Neither of tags %s or %s found", tag, pretty_alt_tag);
+        && !audio_play_sound_tag(alt_tag, FALSE)
+        && !audio_play_sound_tag(alt_tag2, FALSE)) {
+      log_verbose( "None of tags %s, %s, or %s found",
+                   tag, pretty_alt_tag, pretty_alt2_tag);
     }
   }
 }
@@ -655,7 +660,7 @@ void audio_shutdown(bool play_quit_tag)
   audio_stop();
 
   if (play_quit_tag) {
-    audio_play_sound("e_client_quit", NULL);
+    audio_play_sound("e_client_quit", NULL, NULL);
   }
 
   if (plugins[selected_plugin].initialized) {

@@ -65,6 +65,7 @@ struct impr_type {
   struct strvec *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
+  char soundtag_alt2[MAX_LEN_NAME];
 
   /* Cache */
   bool allows_units;
