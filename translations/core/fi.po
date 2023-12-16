@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-11-09 21:09+0200\n"
-"PO-Revision-Date: 2023-11-09 21:10+0200\n"
+"POT-Creation-Date: 2023-12-16 08:55+0200\n"
+"PO-Revision-Date: 2023-12-16 09:10+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -32575,7 +32575,7 @@ msgstr ""
 
 #: data/alien/cities.ruleset:73
 msgid ""
-"Scientist reseach two bulbs worth of science each turn, four bulbs when "
+"Scientist research two bulbs worth of science each turn, four bulbs when "
 "Specialist Training tech is known."
 msgstr ""
 "Tiedemies tutkii kahden pisteen edestä tutkimusta kierroksessa, "
@@ -41850,68 +41850,49 @@ msgstr "Virhe luotaessa hakemistoa %s"
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:226
-#, fuzzy, c-format
-#| msgid "You have caused an incident getting caught trying to do %s to %s."
+#, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s to %s."
-msgstr ""
-"Olet aiheuttanut selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s "
-"kohteenasi %s."
+msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s kohteenasi %s."
 
 #. TRANS: Bribe Enemy Unit ... American ... Partisan
 #: server/actiontools.c:236
-#, fuzzy, c-format
-#| msgid "You have caused an incident getting caught trying to do %s to %s %s."
+#, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s to %s "
 "%s."
-msgstr ""
-"Olet aiheuttanut selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s "
-"kohteenasi %s %s."
+msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s kohteenasi %s %s."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:247
-#, fuzzy, c-format
-#| msgid "You have caused an incident getting caught trying to do %s at %s."
+#, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s at %s."
-msgstr ""
-"Olet aiheuttanut selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s "
-"paikassa %s."
+msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s paikassa %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:283
-#, fuzzy, c-format
-#| msgid "The %s have caused an incident getting caught trying to do %s to %s."
+#, c-format
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s to "
 "%s."
-msgstr ""
-"%s ovat aiheuttaneet selkkauksen jäädessään kiinni yrittäessään toimintoa %s "
-"kohteenaan %s."
+msgstr "%s ovat aiheuttaneet diplomaattisen selkkauksen jäädessään kiinni yrittäessään toimintoa %s kohteenaan %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:294
-#, fuzzy, c-format
-#| msgid ""
-#| "The %s have caused an incident getting caught trying to do %s to your %s."
+#, c-format
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s to "
 "your %s."
-msgstr ""
-"%s ovat aiheuttaneet selkkauksen jäädessään kiinni yrittäessään toimintoa %s "
-"kohteenaan omistamasi %s."
+msgstr "%s ovat aiheuttaneet dioplomaattisen selkkauksen jäädessään kiinni yrittäessään toimintoa %s kohteenaan omistamasi %s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:305
-#, fuzzy, c-format
-#| msgid "The %s have caused an incident getting caught trying to do %s at %s."
+#, c-format
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s at "
 "%s."
-msgstr ""
-"%s ovat aiheuttaneet selkkauksen jäädessään kiinni yrittäessään toimintoa %s "
-"paikassa %s."
+msgstr "%s ovat aiheuttaneet diplomaattisen selkkauksen jäädessään kiinni yrittäessään toimintoa %s paikassa %s."
 
 #. TRANS: Suitcase Nuke
 #: server/actiontools.c:335
@@ -41953,44 +41934,38 @@ msgstr ""
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:409
-#, fuzzy, c-format
-#| msgid "You have caused an incident doing %s to %s."
+#, c-format
 msgid "You have caused an diplomatic incident doing %s to %s."
-msgstr "Toimesi %s kohteena %s ei jää seurauksitta. Siitä seuraa selkkaus."
+msgstr "Toimesi %s kohteena %s ei jää seurauksitta. Siitä seuraa diplomaattinen selkkaus."
 
 #: server/actiontools.c:418
-#, fuzzy, c-format
-#| msgid "You have caused an incident doing %s to %s %s."
+#, c-format
 msgid "You have caused an diplomatic incident doing %s to %s %s."
-msgstr "Toimesi %s kohteena %s %s ei jää seurauksitta. Siitä seuraa selkkaus."
+msgstr "Toimesi %s kohteena %s %s ei jää seurauksitta. Siitä seuraa diplomaattinen selkkaus."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:428
-#, fuzzy, c-format
-#| msgid "You have caused an incident doing %s at %s."
+#, c-format
 msgid "You have caused an diplomatic incident doing %s at %s."
-msgstr "Toimesi %s paikassa %s ei jää seurauksitta. Siitä seuraa selkkaus."
+msgstr "Toimesi %s paikassa %s ei jää seurauksitta. Siitä seuraa diplomaattinen selkkaus."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:463
-#, fuzzy, c-format
-#| msgid "The %s have caused an incident doing %s to %s."
+#, c-format
 msgid "The %s have caused an diplomatic incident doing %s to %s."
-msgstr "%s aiheuttavat selkkauksen toimella %s kaupungissa %s."
+msgstr "%s aiheuttavat diplomaattisen selkkauksen toimella %s kaupungissa %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:473
-#, fuzzy, c-format
-#| msgid "The %s have caused an incident doing %s to your %s."
+#, c-format
 msgid "The %s have caused an diplomatic incident doing %s to your %s."
-msgstr "%s on aiheuttanut selkkauksen tekemällä toimen %s yksiköllesi %s."
+msgstr "%s on aiheuttanut diplomaattisen selkkauksen tekemällä toimen %s yksiköllesi %s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:484
-#, fuzzy, c-format
-#| msgid "The %s have caused an incident doing %s at %s."
+#, c-format
 msgid "The %s have caused an diplomatic incident doing %s at %s."
-msgstr "%s on aiheuttanut selkkauksen tekemällä toimen %s paikassa %s."
+msgstr "%s on aiheuttanut diplomaattisen selkkauksen tekemällä toimen %s paikassa %s."
 
 #. TRANS: Suitcase Nuke
 #: server/actiontools.c:513
@@ -42974,9 +42949,7 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
 "Postponing..."
-msgstr ""
-"%s lykkää työlistan hanketta %s, koska se on saatavilla vasta %d vuotta "
-"vanhoille kaupungeille."
+msgstr "%s lykkää työlistan hanketta %s, koska se on saatavilla vasta %d vuoden iässä."
 
 #: server/cityturn.c:2109 server/cityturn.c:2177
 #, c-format
@@ -50499,26 +50472,26 @@ msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3204
+#: server/srv_main.c:3205
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3210
+#: server/srv_main.c:3211
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3239
+#: server/srv_main.c:3240
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3262 server/srv_main.c:3266
+#: server/srv_main.c:3263 server/srv_main.c:3267
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3467
+#: server/srv_main.c:3468
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -53786,67 +53759,67 @@ msgid "%s (needs %0.0f%% in favor)."
 msgstr "%s (vaatii %0.0f%% kannatuksen)."
 
 #. TRANS: "or"-separated string list with one single item.
-#: utility/astring.c:340
+#: utility/astring.c:338
 #, c-format
 msgid "?or-list-single:%s"
 msgstr "%s"
 
 #. TRANS: "or"-separated string list with 2 items.
-#: utility/astring.c:343
+#: utility/astring.c:341
 #, c-format
 msgid "?or-list:%s or %s"
 msgstr "%s tai %s"
 
 #. TRANS: start of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:349
+#: utility/astring.c:347
 #, c-format
 msgid "?or-list:%s"
 msgstr "%s"
 
 #. TRANS: next elements of an "or"-separated string list with more
 #. * than two items.
-#: utility/astring.c:353
+#: utility/astring.c:351
 #, c-format
 msgid "?or-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:357
+#: utility/astring.c:355
 #, c-format
 msgid "?or-list:, or %s"
 msgstr " tai %s"
 
 #. TRANS: "and"-separated string list with one single item.
-#: utility/astring.c:378
+#: utility/astring.c:376
 #, c-format
 msgid "?and-list-single:%s"
 msgstr "%s"
 
 #. TRANS: "and"-separated string list with 2 items.
-#: utility/astring.c:381
+#: utility/astring.c:379
 #, c-format
 msgid "?and-list:%s and %s"
 msgstr "%s ja %s"
 
 #. TRANS: start of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:387
+#: utility/astring.c:385
 #, c-format
 msgid "?and-list:%s"
 msgstr "%s"
 
 #. TRANS: next elements of an "and"-separated string list with more
 #. * than two items.
-#: utility/astring.c:391
+#: utility/astring.c:389
 #, c-format
 msgid "?and-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:395
+#: utility/astring.c:393
 #, c-format
 msgid "?and-list:, and %s"
 msgstr " ja %s"
