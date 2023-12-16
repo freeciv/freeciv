@@ -215,7 +215,7 @@ adv_want dai_effect_value(struct player *pplayer,
     v += (get_entertainers(pcity) + pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]) * 5 * amount;
     if (city_list_size(pplayer->cities)
 	> get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
-      v += c * amount; /* offset large empire size */
+      v += c * amount; /* Offset large empire size */
     }
     v += c * amount;
     break;
@@ -334,7 +334,7 @@ adv_want dai_effect_value(struct player *pplayer,
   case EFT_HAVE_CONTACTS:
     {
       int new_contacts = 0;
-      
+
       players_iterate_alive(theother) {
         if (player_diplstate_get(pplayer, theother)->contact_turns_left <= 0) {
           new_contacts++;
@@ -506,7 +506,7 @@ adv_want dai_effect_value(struct player *pplayer,
               /* FIXME: This ignores riverboats on some rulesets.
                         We should analyze rulesets when game starts
                         and have relevant checks here. */
-              && is_terrain_class_near_tile(pcity->tile, TC_OCEAN))) {
+              && is_terrain_class_near_tile(&(wld.map), pcity->tile, TC_OCEAN))) {
         if (place > 0 && adv->threats.continent[place]) {
           v += amount * 4 / 5;
         } else {

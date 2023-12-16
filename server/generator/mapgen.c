@@ -172,7 +172,8 @@ static int river_pct = 0;
 #define map_pos_is_dry(ptile)						\
   (map_colatitude((ptile)) <= DRY_MAX_LEVEL				\
    && map_colatitude((ptile)) > DRY_MIN_LEVEL				\
-   && count_terrain_class_near_tile((ptile), FALSE, TRUE, TC_OCEAN) <= 35)
+   && count_terrain_class_near_tile(&(wld.map), (ptile),                \
+                                    FALSE, TRUE, TC_OCEAN) <= 35)
 typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
 
 /* MISCELANEOUS (OTHER CONDITIONS) */
@@ -594,7 +595,8 @@ static int river_test_adjacent_ocean(struct river_map *privermap,
                                      struct tile *ptile,
                                      struct extra_type *priver)
 {
-  return 100 - count_terrain_class_near_tile(ptile, TRUE, TRUE, TC_OCEAN);
+  return 100 - count_terrain_class_near_tile(&(wld.map), ptile,
+                                             TRUE, TRUE, TC_OCEAN);
 }
 
 /**********************************************************************//**
@@ -803,7 +805,8 @@ static bool make_river(struct river_map *privermap, struct tile *ptile,
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
     if (count_river_near_tile(&(wld.map), ptile, priver) > 0
-        || count_terrain_class_near_tile(ptile, TRUE, TRUE, TC_OCEAN) > 0
+        || count_terrain_class_near_tile(&(wld.map), ptile,
+                                         TRUE, TRUE, TC_OCEAN) > 0
         || (tile_terrain(ptile)->property[MG_FROZEN] > 0
             && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) {
 
@@ -953,17 +956,18 @@ static void make_rivers(void)
 	/* Don't start a river on river. */
 	&& !tile_has_river(ptile)
 
-	/* Don't start a river on a tile is surrounded by > 1 river +
-	   ocean tile. */
-	&& (count_river_near_tile(&(wld.map), ptile, NULL)
-	    + count_terrain_class_near_tile(ptile, TRUE, FALSE, TC_OCEAN) <= 1)
+        /* Don't start a river on a tile is surrounded by > 1 river +
+           ocean tile. */
+        && (count_river_near_tile(&(wld.map), ptile, NULL)
+            + count_terrain_class_near_tile(&(wld.map), ptile,
+                                            TRUE, FALSE, TC_OCEAN) <= 1)
 
-	/* Don't start a river on a tile that is surrounded by hills or
-	   mountains unless it is hard to find somewhere else to start
-	   it. */
-	&& (count_terrain_property_near_tile(ptile, TRUE, TRUE,
-					     MG_MOUNTAINOUS) < 90
-	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 5)
+        /* Don't start a river on a tile that is surrounded by hills or
+           mountains unless it is hard to find somewhere else to start
+           it. */
+        && (count_terrain_property_near_tile(&(wld.map), ptile, TRUE, TRUE,
+                                             MG_MOUNTAINOUS) < 90
+            || iteration_counter >= RIVERS_MAXTRIES / 10 * 5)
 
 	/* Don't start a river on hills unless it is hard to find
 	   somewhere else to start it. */
@@ -1700,12 +1704,12 @@ static void fill_island(int coast, long int *bucket,
     struct terrain *pterrain = pick_terrain(ptersel->target, ptersel->prefer,
                                             ptersel->avoid);
 
-    /* the first condition helps make terrain more contiguous,
+    /* The first condition helps make terrain more contiguous,
        the second lets it avoid the coast: */
     if ((i * 3 > k * 2
          || fc_rand(100) < 50
-         || is_terrain_near_tile(ptile, pterrain, FALSE))
-        && (!is_terrain_class_card_near(ptile, TC_OCEAN)
+         || is_terrain_near_tile(&(wld.map), ptile, pterrain, FALSE))
+        && (!is_terrain_class_card_near(&(wld.map), ptile, TC_OCEAN)
             || fc_rand(100) < coast)) {
       tile_set_terrain(ptile, pterrain);
       map_set_placed(ptile);
@@ -1728,9 +1732,11 @@ static bool island_river_mouth_suitability(const struct tile *ptile,
 {
   int num_card_ocean, pct_adj_ocean, num_adj_river;
 
-  num_card_ocean = count_terrain_class_near_tile(ptile, C_CARDINAL, C_NUMBER,
+  num_card_ocean = count_terrain_class_near_tile(&(wld.map), ptile,
+                                                 C_CARDINAL, C_NUMBER,
                                                  TC_OCEAN);
-  pct_adj_ocean = count_terrain_class_near_tile(ptile, C_ADJACENT, C_PERCENT,
+  pct_adj_ocean = count_terrain_class_near_tile(&(wld.map), ptile,
+                                                C_ADJACENT, C_PERCENT,
                                                 TC_OCEAN);
   num_adj_river = count_river_type_tile_card(&(wld.map), ptile, priver, FALSE);
 
@@ -1748,9 +1754,11 @@ static bool island_river_suitability(const struct tile *ptile,
   int pct_adj_ocean, num_card_ocean, pct_adj_river, num_card_river;
 
   num_card_river = count_river_type_tile_card(&(wld.map), ptile, priver, FALSE);
-  num_card_ocean = count_terrain_class_near_tile(ptile, C_CARDINAL, C_NUMBER,
+  num_card_ocean = count_terrain_class_near_tile(&(wld.map), ptile,
+                                                 C_CARDINAL, C_NUMBER,
                                                  TC_OCEAN);
-  pct_adj_ocean = count_terrain_class_near_tile(ptile, C_ADJACENT, C_PERCENT,
+  pct_adj_ocean = count_terrain_class_near_tile(&(wld.map), ptile,
+                                                C_ADJACENT, C_PERCENT,
                                                 TC_OCEAN);
   pct_adj_river = count_river_type_near_tile(&(wld.map), ptile, priver, TRUE);
 
@@ -1782,7 +1790,7 @@ static void fill_island_rivers(int coast, long int *bucket,
   i++;
   *bucket -= i * capac;
 
-  /* generate 75% more rivers than generator 1 */
+  /* Generate 75% more rivers than generator 1 */
   i = (i * 175) / 100;
 
   k = i;

@@ -312,15 +312,16 @@ struct extra_type *resource_extra_get(const struct resource_type *presource)
 /**********************************************************************//**
   Returns TRUE iff any cardinally adjacent tile contains the given terrain.
 **************************************************************************/
-bool is_terrain_card_near(const struct tile *ptile,
-			  const struct terrain *pterrain,
+bool is_terrain_card_near(const struct civ_map *nmap,
+                          const struct tile *ptile,
+                          const struct terrain *pterrain,
                           bool check_self)
 {
-  if (!pterrain) {
+  if (pterrain == NULL) {
     return FALSE;
   }
 
-  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_terrain(adjc_tile) == pterrain) {
       return TRUE;
     }
@@ -332,15 +333,16 @@ bool is_terrain_card_near(const struct tile *ptile,
 /**********************************************************************//**
   Returns TRUE iff any adjacent tile contains the given terrain.
 **************************************************************************/
-bool is_terrain_near_tile(const struct tile *ptile,
-			  const struct terrain *pterrain,
+bool is_terrain_near_tile(const struct civ_map *nmap,
+                          const struct tile *ptile,
+                          const struct terrain *pterrain,
                           bool check_self)
 {
-  if (!pterrain) {
+  if (pterrain == NULL) {
     return FALSE;
   }
 
-  adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_terrain(adjc_tile) == pterrain) {
       return TRUE;
     }
@@ -352,13 +354,14 @@ bool is_terrain_near_tile(const struct tile *ptile,
 /**********************************************************************//**
   Return the number of adjacent tiles that have the given terrain property.
 **************************************************************************/
-int count_terrain_property_near_tile(const struct tile *ptile,
+int count_terrain_property_near_tile(const struct civ_map *nmap,
+                                     const struct tile *ptile,
                                      bool cardinal_only, bool percentage,
                                      enum mapgen_terrain_property prop)
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
+  variable_adjc_iterate(nmap, ptile, adjc_tile, cardinal_only) {
     struct terrain *pterrain = tile_terrain(adjc_tile);
 
     if (pterrain->property[prop] > 0) {
@@ -377,15 +380,16 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 /**********************************************************************//**
   Returns TRUE iff any cardinally adjacent tile contains the given resource.
 **************************************************************************/
-bool is_resource_card_near(const struct tile *ptile,
+bool is_resource_card_near(const struct civ_map *nmap,
+                           const struct tile *ptile,
                            const struct extra_type *pres,
                            bool check_self)
 {
-  if (!pres) {
+  if (pres == NULL) {
     return FALSE;
   }
 
-  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_resource(adjc_tile) == pres) {
       return TRUE;
     }
@@ -397,15 +401,16 @@ bool is_resource_card_near(const struct tile *ptile,
 /**********************************************************************//**
   Returns TRUE iff any adjacent tile contains the given resource.
 **************************************************************************/
-bool is_resource_near_tile(const struct tile *ptile,
+bool is_resource_near_tile(const struct civ_map *nmap,
+                           const struct tile *ptile,
                            const struct extra_type *pres,
                            bool check_self)
 {
-  if (!pres) {
+  if (pres == NULL) {
     return FALSE;
   }
 
-  adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_resource(adjc_tile) == pres) {
       return TRUE;
     }
@@ -418,14 +423,15 @@ bool is_resource_near_tile(const struct tile *ptile,
   Returns TRUE iff any cardinally adjacent tile contains terrain with the
   given flag (does not check ptile itself).
 **************************************************************************/
-bool is_terrain_flag_card_near(const struct tile *ptile,
+bool is_terrain_flag_card_near(const struct civ_map *nmap,
+                               const struct tile *ptile,
                                enum terrain_flag_id flag)
 {
-  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
 
     if (T_UNKNOWN != pterrain
-	&& terrain_has_flag(pterrain, flag)) {
+        && terrain_has_flag(pterrain, flag)) {
       return TRUE;
     }
   } cardinal_adjc_iterate_end;
@@ -437,14 +443,15 @@ bool is_terrain_flag_card_near(const struct tile *ptile,
   Returns TRUE iff any adjacent tile contains terrain with the given flag
   (does not check ptile itself).
 **************************************************************************/
-bool is_terrain_flag_near_tile(const struct tile *ptile,
+bool is_terrain_flag_near_tile(const struct civ_map *nmap,
+                               const struct tile *ptile,
                                enum terrain_flag_id flag)
 {
-  adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  adjc_iterate(nmap, ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
 
     if (T_UNKNOWN != pterrain
-	&& terrain_has_flag(pterrain, flag)) {
+        && terrain_has_flag(pterrain, flag)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -456,17 +463,18 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
   Return the number of adjacent tiles that have terrain with the given flag
   (not including ptile itself).
 **************************************************************************/
-int count_terrain_flag_near_tile(const struct tile *ptile,
+int count_terrain_flag_near_tile(const struct civ_map *nmap,
+                                 const struct tile *ptile,
                                  bool cardinal_only, bool percentage,
                                  enum terrain_flag_id flag)
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
+  variable_adjc_iterate(nmap, ptile, adjc_tile, cardinal_only) {
     struct terrain *pterrain = tile_terrain(adjc_tile);
 
     if (T_UNKNOWN != pterrain
-	&& terrain_has_flag(pterrain, flag)) {
+        && terrain_has_flag(pterrain, flag)) {
       count++;
     }
     total++;
@@ -568,10 +576,11 @@ enum terrain_class terrain_type_terrain_class(const struct terrain *pterrain)
   Is there terrain of the given class cardinally near tile?
   (Does not check ptile itself.)
 **************************************************************************/
-bool is_terrain_class_card_near(const struct tile *ptile,
+bool is_terrain_class_card_near(const struct civ_map *nmap,
+                                const struct tile *ptile,
                                 enum terrain_class tclass)
 {
-  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
 
     if (pterrain != T_UNKNOWN) {
@@ -588,10 +597,11 @@ bool is_terrain_class_card_near(const struct tile *ptile,
   Is there terrain of the given class near tile?
   (Does not check ptile itself.)
 **************************************************************************/
-bool is_terrain_class_near_tile(const struct tile *ptile,
+bool is_terrain_class_near_tile(const struct civ_map *nmap,
+                                const struct tile *ptile,
                                 enum terrain_class tclass)
 {
-  adjc_iterate(&(wld.map), ptile, adjc_tile) {
+  adjc_iterate(nmap, ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
 
     if (pterrain != T_UNKNOWN) {
@@ -608,13 +618,14 @@ bool is_terrain_class_near_tile(const struct tile *ptile,
   Return the number of adjacent tiles that have given terrain class
   (not including ptile itself).
 **************************************************************************/
-int count_terrain_class_near_tile(const struct tile *ptile,
+int count_terrain_class_near_tile(const struct civ_map *nmap,
+                                  const struct tile *ptile,
                                   bool cardinal_only, bool percentage,
                                   enum terrain_class tclass)
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
+  variable_adjc_iterate(nmap, ptile, adjc_tile, cardinal_only) {
     struct terrain *pterrain = tile_terrain(adjc_tile);
 
     if (T_UNKNOWN != pterrain

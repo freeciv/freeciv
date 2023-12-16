@@ -268,11 +268,14 @@ const char *terrain_name_translation(const struct terrain *pterrain);
 /* Functions to operate on a terrain flag. */
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
 
-bool is_terrain_flag_card_near(const struct tile *ptile,
+bool is_terrain_flag_card_near(const struct civ_map *nmap,
+                               const struct tile *ptile,
 			       enum terrain_flag_id flag);
-bool is_terrain_flag_near_tile(const struct tile *ptile,
+bool is_terrain_flag_near_tile(const struct civ_map *nmap,
+                               const struct tile *ptile,
 			       enum terrain_flag_id flag);
-int count_terrain_flag_near_tile(const struct tile *ptile,
+int count_terrain_flag_near_tile(const struct civ_map *nmap,
+                                 const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag);
 void user_terrain_flags_init(void);
@@ -290,20 +293,25 @@ bool terrain_has_resource(const struct terrain *pterrain,
                           const struct extra_type *presource);
 
 /* Functions to operate on a general terrain type. */
-bool is_terrain_card_near(const struct tile *ptile,
+bool is_terrain_card_near(const struct civ_map *nmap,
+                          const struct tile *ptile,
 			  const struct terrain *pterrain,
                           bool check_self);
-bool is_terrain_near_tile(const struct tile *ptile,
+bool is_terrain_near_tile(const struct civ_map *nmap,
+                          const struct tile *ptile,
 			  const struct terrain *pterrain,
                           bool check_self);
-int count_terrain_property_near_tile(const struct tile *ptile,
+int count_terrain_property_near_tile(const struct civ_map *nmap,
+                                     const struct tile *ptile,
                                      bool cardinal_only, bool percentage,
                                      enum mapgen_terrain_property prop);
 
-bool is_resource_card_near(const struct tile *ptile,
+bool is_resource_card_near(const struct civ_map *nmap,
+                           const struct tile *ptile,
                            const struct extra_type *pres,
                            bool check_self);
-bool is_resource_near_tile(const struct tile *ptile,
+bool is_resource_near_tile(const struct civ_map *nmap,
+                           const struct tile *ptile,
                            const struct extra_type *pres,
                            bool check_self);
 
@@ -327,9 +335,12 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
 const char *terrain_class_name_translation(enum terrain_class tclass);
 
 enum terrain_class terrain_type_terrain_class(const struct terrain *pterrain);
-bool is_terrain_class_card_near(const struct tile *ptile, enum terrain_class tclass);
-bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class tclass);
-int count_terrain_class_near_tile(const struct tile *ptile,
+bool is_terrain_class_card_near(const struct civ_map *nmap,
+                                const struct tile *ptile, enum terrain_class tclass);
+bool is_terrain_class_near_tile(const struct civ_map *nmap,
+                                  const struct tile *ptile, enum terrain_class tclass);
+int count_terrain_class_near_tile(const struct civ_map *nmap,
+                                  const struct tile *ptile,
                                   bool cardinal_only, bool percentage,
                                   enum terrain_class tclass);
 

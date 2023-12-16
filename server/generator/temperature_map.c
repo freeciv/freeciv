@@ -136,7 +136,7 @@ void create_tmap(bool real)
       /* high land can be 30% cooler */
       float height = - 0.3 * MAX(0, hmap(ptile) - hmap_shore_level)
           / (hmap_max_level - hmap_shore_level);
-      int tcn = count_terrain_class_near_tile(ptile, FALSE, TRUE, TC_OCEAN);
+      int tcn = count_terrain_class_near_tile(&(wld.map), ptile, FALSE, TRUE, TC_OCEAN);
       /* near ocean temperature can be 15% more "temperate" */
       float temperate = (0.15 * (wld.map.server.temperature / 100 - t
                                  / MAX_COLATITUDE)

@@ -614,7 +614,8 @@ static adv_want result_defense_bonus(struct player *pplayer,
 *****************************************************************************/
 static adv_want naval_bonus(const struct cityresult *result)
 {
-  bool ocean_adjacent = is_terrain_class_near_tile(result->tile, TC_OCEAN);
+  bool ocean_adjacent = is_terrain_class_near_tile(&(wld.map),
+                                                   result->tile, TC_OCEAN);
 
   /* Adjust for ocean adjacency, which is nice */
   if (ocean_adjacent) {
@@ -916,7 +917,8 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
   }
 
   if (ferry || (use_virt_boat
-                && is_terrain_class_near_tile(unit_tile(punit), TC_OCEAN)
+                && is_terrain_class_near_tile(&(wld.map),
+                                              unit_tile(punit), TC_OCEAN)
                 && tile_city(unit_tile(punit)))) {
     if (!ferry) {
       /* No boat?  Get a virtual one! */
@@ -1333,7 +1335,7 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
 
   if (is_ai(pplayer)) {
     struct cityresult *result;
-    bool is_coastal = is_terrain_class_near_tile(pcenter, TC_OCEAN);
+    bool is_coastal = is_terrain_class_near_tile(&(wld.map), pcenter, TC_OCEAN);
     struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
     result = find_best_city_placement(ait, virtualunit, is_coastal, is_coastal);

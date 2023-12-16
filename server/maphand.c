@@ -92,7 +92,7 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
 **************************************************************************/
 static bool is_terrain_ecologically_wet(struct tile *ptile)
 {
-  return (is_terrain_class_near_tile(ptile, TC_OCEAN)
+  return (is_terrain_class_near_tile(&(wld.map), ptile, TC_OCEAN)
           || tile_has_river(ptile)
           || count_river_near_tile(&(wld.map), ptile, NULL) > 0);
 }
