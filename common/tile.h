@@ -62,6 +62,7 @@ struct tile {
   int infra_turns;
   struct player *extras_owner;
   struct tile *claimer;
+  int altitude;
   char *label;                          /* NULL for no label */
   char *spec_sprite;
 };

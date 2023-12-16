@@ -350,7 +350,9 @@ static void sg_save_counters (struct savedata * saving);
 static void sg_load_map(struct loaddata *loading);
 static void sg_save_map(struct savedata *saving);
 static void sg_load_map_tiles(struct loaddata *loading);
+static void sg_load_map_altitude(struct loaddata *loading);
 static void sg_save_map_tiles(struct savedata *saving);
+static void sg_save_map_altitude(struct savedata *saving);
 static void sg_load_map_tiles_extras(struct loaddata *loading);
 static void sg_save_map_tiles_extras(struct savedata *saving);
 
@@ -2848,6 +2850,9 @@ static void sg_load_map(struct loaddata *loading)
   }
 
   sg_load_map_tiles(loading);
+  if (wld.map.altitude_info) {
+    sg_load_map_altitude(loading);
+  }
   sg_load_map_startpos(loading);
   sg_load_map_tiles_extras(loading);
   sg_load_map_known(loading);
@@ -2890,6 +2895,9 @@ static void sg_save_map(struct savedata *saving)
   }
 
   sg_save_map_tiles(saving);
+  if (wld.map.altitude_info) {
+    sg_save_map_altitude(saving);
+  }
   sg_save_map_startpos(saving);
   sg_save_map_tiles_extras(saving);
   sg_save_map_owner(saving);
@@ -2963,6 +2971,70 @@ static void sg_save_map_tiles(struct savedata *saving)
                          "map.label_%d_%d", nat_x, nat_y);
     }
   } whole_map_iterate_end;
+}
+
+/************************************************************************//**
+  Load map tiles altitude
+****************************************************************************/
+static void sg_load_map_altitude(struct loaddata *loading)
+{
+  int y;
+
+  /* Check status and return if not OK (sg_success FALSE). */
+  sg_check_ret();
+
+  for (y = 0; y < wld.map.ysize; y++) {
+    const char *buffer = secfile_lookup_str(loading->file,
+                                            "map.alt%04d", y);
+    const char *ptr = buffer;
+    int x;
+
+    sg_failure_ret(buffer != nullptr, "%s", secfile_error());
+
+    for (x = 0; x < wld.map.xsize; x++) {
+      char token[TOKEN_SIZE];
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
+      int number;
+
+      scanin(&ptr, ",", token, sizeof(token));
+      sg_failure_ret(token[0] != '\0',
+                     "Map size not correct (map.alt%d).", y);
+      sg_failure_ret(str_to_int(token, &number),
+                     "Got map alt %s in (%d, %d).", token, x, y);
+      ptile->altitude = number;
+    }
+  }
+}
+
+/************************************************************************//**
+  Save map tiles altitude
+****************************************************************************/
+static void sg_save_map_altitude(struct savedata *saving)
+{
+  int y;
+
+  /* Check status and return if not OK (sg_success FALSE). */
+  sg_check_ret();
+
+  for (y = 0; y < wld.map.ysize; y++) {
+    char line[wld.map.xsize * TOKEN_SIZE];
+    int x;
+
+    line[0] = '\0';
+    for (x = 0; x < wld.map.xsize; x++) {
+      char token[TOKEN_SIZE];
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
+
+      fc_snprintf(token, sizeof(token), "%d", ptile->altitude);
+
+      strcat(line, token);
+      if (x + 1 < wld.map.xsize) {
+        strcat(line, ",");
+      }
+    }
+
+    secfile_insert_str(saving->file, line, "map.alt%04d", y);
+  }
 }
 
 /************************************************************************//**
@@ -3170,7 +3242,7 @@ static void sg_save_map_startpos(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_map_owner(struct loaddata *loading)
 {
-  int x, y;
+  int y;
   struct tile *claimer = NULL;
   struct extra_type *placing = NULL;
 
@@ -3201,6 +3273,7 @@ static void sg_load_map_owner(struct loaddata *loading)
     const char *ptr3 = buffer3;
     const char *ptr_placing = buffer_placing;
     const char *ptr_turns = buffer_turns;
+    int x;
 
     sg_failure_ret(buffer1 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
@@ -3291,7 +3364,7 @@ static void sg_load_map_owner(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_map_owner(struct savedata *saving)
 {
-  int x, y;
+  int y;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -3304,6 +3377,7 @@ static void sg_save_map_owner(struct savedata *saving)
   /* Store owner and ownership source as plain numbers. */
   for (y = 0; y < wld.map.ysize; y++) {
     char line[wld.map.xsize * TOKEN_SIZE];
+    int x;
 
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
@@ -3321,11 +3395,13 @@ static void sg_save_map_owner(struct savedata *saving)
         strcat(line, ",");
       }
     }
+
     secfile_insert_str(saving->file, line, "map.owner%04d", y);
   }
 
   for (y = 0; y < wld.map.ysize; y++) {
     char line[wld.map.xsize * TOKEN_SIZE];
+    int x;
 
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
@@ -3342,11 +3418,13 @@ static void sg_save_map_owner(struct savedata *saving)
         strcat(line, ",");
       }
     }
+
     secfile_insert_str(saving->file, line, "map.source%04d", y);
   }
 
   for (y = 0; y < wld.map.ysize; y++) {
     char line[wld.map.xsize * TOKEN_SIZE];
+    int x;
 
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
@@ -3364,11 +3442,13 @@ static void sg_save_map_owner(struct savedata *saving)
         strcat(line, ",");
       }
     }
+
     secfile_insert_str(saving->file, line, "map.eowner%04d", y);
   }
 
   for (y = 0; y < wld.map.ysize; y++) {
     char line[wld.map.xsize * TOKEN_SIZE];
+    int x;
 
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
@@ -3386,11 +3466,13 @@ static void sg_save_map_owner(struct savedata *saving)
         strcat(line, ",");
       }
     }
+
     secfile_insert_str(saving->file, line, "map.placing%04d", y);
   }
 
   for (y = 0; y < wld.map.ysize; y++) {
     char line[wld.map.xsize * TOKEN_SIZE];
+    int x;
 
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
@@ -3408,6 +3490,7 @@ static void sg_save_map_owner(struct savedata *saving)
         strcat(line, ",");
       }
     }
+
     secfile_insert_str(saving->file, line, "map.infra_turns%04d", y);
   }
 }

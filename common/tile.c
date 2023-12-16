@@ -975,7 +975,7 @@ void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra)
 /************************************************************************//**
   Returns a virtual tile. If ptile is given, the properties of this tile are
   copied, else it is completely blank (except for the unit list
-  vtile->units, which is created for you). Be sure to call tile_virtual_free
+  vtile->units, which is created for you). Be sure to call tile_virtual_free()
   on it when it is no longer needed.
 ****************************************************************************/
 struct tile *tile_virtual_new(const struct tile *ptile)
@@ -984,23 +984,24 @@ struct tile *tile_virtual_new(const struct tile *ptile)
 
   vtile = fc_calloc(1, sizeof(*vtile));
 
-  /* initialise some values */
+  /* Initialise some values */
   vtile->index = TILE_INDEX_NONE;
   vtile->continent = -1;
 
   BV_CLR_ALL(vtile->extras);
-  vtile->resource = NULL;
-  vtile->terrain = NULL;
+  vtile->resource = nullptr;
+  vtile->terrain = nullptr;
   vtile->units = unit_list_new();
-  vtile->worked = NULL;
-  vtile->owner = NULL;
-  vtile->placing = NULL;
-  vtile->extras_owner = NULL;
-  vtile->claimer = NULL;
-  vtile->spec_sprite = NULL;
+  vtile->worked = nullptr;
+  vtile->owner = nullptr;
+  vtile->placing = nullptr;
+  vtile->extras_owner = nullptr;
+  vtile->claimer = nullptr;
+  vtile->altitude = 0;
+  vtile->spec_sprite = nullptr;
 
-  if (ptile) {
-    /* Used by is_city_center to give virtual tiles the output bonuses
+  if (ptile != nullptr) {
+    /* Used by is_city_center() to give virtual tiles the output bonuses
      * they deserve. */
     vtile->index = tile_index(ptile);
 
@@ -1017,7 +1018,8 @@ struct tile *tile_virtual_new(const struct tile *ptile)
     vtile->owner = ptile->owner;
     vtile->extras_owner = ptile->extras_owner;
     vtile->claimer = ptile->claimer;
-    vtile->spec_sprite = NULL;
+    vtile->altitude = ptile->altitude;
+    vtile->spec_sprite = nullptr;
   }
 
   return vtile;
@@ -1045,7 +1047,7 @@ void tile_virtual_destroy(struct tile *vtile)
       }
     } unit_list_iterate_end;
     unit_list_destroy(vtile->units);
-    vtile->units = NULL;
+    vtile->units = nullptr;
   }
 
   vcity = tile_city(vtile);
@@ -1053,7 +1055,7 @@ void tile_virtual_destroy(struct tile *vtile)
     if (city_is_virtual(vcity)) {
       destroy_city_virtual(vcity);
     }
-    tile_set_worked(vtile, NULL);
+    tile_set_worked(vtile, nullptr);
   }
 
   free(vtile);

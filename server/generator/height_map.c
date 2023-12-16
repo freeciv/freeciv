@@ -293,3 +293,15 @@ bool area_is_too_flat(struct tile *ptile, int thill, int my_height)
 
   return TRUE;
 }
+
+/**********************************************************************//**
+  Copy height map to actual map tiles.
+**************************************************************************/
+void height_map_to_map(void)
+{
+  whole_map_iterate(&(wld.map), ptile) {
+    ptile->altitude = hmap(ptile);
+  } whole_map_iterate_end;
+
+  wld.map.altitude_info = TRUE;
+}

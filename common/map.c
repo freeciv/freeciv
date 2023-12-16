@@ -364,6 +364,7 @@ static void tile_init(struct tile *ptile)
   ptile->placing  = nullptr;
   ptile->claimer  = nullptr;
   ptile->worked   = nullptr; /* No city working here. */
+  ptile->altitude = 0;
   ptile->spec_sprite = nullptr;
 }
 

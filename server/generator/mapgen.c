@@ -53,13 +53,13 @@ static void mapgenerator4(void);
 static bool map_generate_fair_islands(void);
 static void adjust_terrain_param(void);
 
-/* common variables for generator 2, 3 and 4 */
+/* Common variables for generator 2, 3 and 4 */
 struct gen234_state {
   int isleindex, n, e, s, w;
   long int totalmass;
 };
 
-/* define one terrain selection */
+/* Define one terrain selection */
 struct terrain_select {
   int weight;
   enum mapgen_terrain_property target;
@@ -89,7 +89,7 @@ static struct terrain_select *tersel_new(int weight,
                                          int wet_condition);
 static void tersel_free(struct terrain_select *ptersel);
 
-/* terrain selection lists for make_island() */
+/* Terrain selection lists for make_island() */
 static struct {
   bool init;
   struct terrain_select_list *forest;
@@ -171,7 +171,7 @@ static int river_pct = 0;
 **************************************************************************/
 /* WETNESS */
 
-/* necessary condition of deserts placement */
+/* Necessary condition of deserts placement */
 #define map_pos_is_dry(ptile)						\
   (map_colatitude((ptile)) <= DRY_MAX_LEVEL				\
    && map_colatitude((ptile)) > DRY_MIN_LEVEL				\
@@ -180,14 +180,15 @@ typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
 
 /* MISCELANEOUS (OTHER CONDITIONS) */
 
-/* necessary condition of swamp placement */
+/* Necessary condition of swamp placement */
 static int hmap_low_level = 0;
 #define ini_hmap_low_level() \
 { \
 hmap_low_level = (4 * swamp_pct  * \
      (hmap_max_level - hmap_shore_level)) / 100 + hmap_shore_level; \
 }
-/* should be used after having hmap_low_level initialized */
+
+/* Should be used after having hmap_low_level initialized */
 #define map_pos_is_low(ptile) ((hmap((ptile)) < hmap_low_level))
 
 typedef enum { MC_NONE, MC_LOW, MC_NLOW } miscellaneous_c;
@@ -1346,14 +1347,15 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       make_fracture_map();
     }
 
-    /* if hmap only generator make anything else */
+    /* If hmap only generator make anything else */
     if (MAPGEN_RANDOM == wld.map.server.generator
         || MAPGEN_FRACTAL == wld.map.server.generator
         || MAPGEN_FRACTURE == wld.map.server.generator) {
 
+      height_map_to_map();
       make_land();
       free(height_map);
-      height_map = NULL;
+      height_map = nullptr;
     }
     if (!wld.map.server.tinyisles) {
       remove_tiny_islands();
@@ -1920,7 +1922,7 @@ static int count_card_adjc_elevated_tiles(struct tile *ptile)
 static bool create_island(int islemass, struct gen234_state *pstate)
 {
   int i, nat_x, nat_y;
-  long int tries = islemass*(2+islemass/20)+99;
+  long int tries = islemass * (2 + islemass / 20) + 99;
   bool j;
   struct tile *ptile = native_pos_to_tile(&(wld.map),
                                           wld.map.xsize / 2, wld.map.ysize / 2);
@@ -2178,7 +2180,7 @@ static bool make_island(int islemass, int starters,
 }
 
 /**********************************************************************//**
-  fill ocean and make polar
+  Fill ocean and make polar
   A temperature map is created in map_fractal_generate().
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
@@ -2186,14 +2188,14 @@ static void initworld(struct gen234_state *pstate)
   struct terrain *deepest_ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM,
                                              FALSE);
 
-  fc_assert(NULL != deepest_ocean);
+  fc_assert(deepest_ocean != nullptr);
   height_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*height_map));
-  create_placed_map(); /* land tiles which aren't placed yet */
+  create_placed_map(); /* Land tiles which aren't placed yet */
 
   whole_map_iterate(&(wld.map), ptile) {
     tile_set_terrain(ptile, deepest_ocean);
     tile_set_continent(ptile, 0);
-    map_set_placed(ptile); /* not a land tile */
+    map_set_placed(ptile); /* Not a land tile */
     BV_CLR_ALL(ptile->extras);
     tile_set_owner(ptile, NULL, NULL);
     ptile->extras_owner = NULL;
@@ -2283,10 +2285,10 @@ static void mapgenerator2(void)
     log_verbose("ISLAND generator: falling back to RANDOM generator");
     wld.map.server.generator = MAPGEN_RANDOM;
 
-    /* init world created this map, destroy it before abort */
+    /* Init world created this map, destroy it before abort */
     destroy_placed_map();
     free(height_map);
-    height_map = NULL;
+    height_map = nullptr;
     return;
   }
 
@@ -2299,10 +2301,11 @@ static void mapgenerator2(void)
     make_island(smallfrac * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
 
-  make_plains();  
+  height_map_to_map();
+  make_plains();
   destroy_placed_map();
   free(height_map);
-  height_map = NULL;
+  height_map = nullptr;
 
   if (checkmass > wld.map.xsize + wld.map.ysize + totalweight) {
     log_verbose("%ld mass left unplaced", checkmass);
@@ -2395,11 +2398,12 @@ static void mapgenerator3(void)
 		pstate, DMSIS);
   }
 
-  make_plains();  
+  height_map_to_map();
+  make_plains();
   destroy_placed_map();
   free(height_map);
-  height_map = NULL;
-    
+  height_map = nullptr;
+
   if (j == 1500) {
     log_normal(_("Generator 3 left %li landmass unplaced."), checkmass);
   } else if (checkmass > wld.map.xsize + wld.map.ysize) {
@@ -2463,10 +2467,12 @@ static void mapgenerator4(void)
   for (i = player_count(); i > 0; i--) {
     make_island(10 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
-  make_plains();  
+
+  height_map_to_map();
+  make_plains();
   destroy_placed_map();
   free(height_map);
-  height_map = NULL;
+  height_map = nullptr;
 
   if (checkmass > wld.map.xsize + wld.map.ysize + totalweight) {
     log_verbose("%ld mass left unplaced", checkmass);
