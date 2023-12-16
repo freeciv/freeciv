@@ -125,8 +125,9 @@ enum counter_target { CTGT_CITY };
 
 /* Changing this enum will break savegame and network compatibility. */
 /* When changing this, also update the list of valid requirement "Activity"
- * values in doc/README.effects and the list of invalid requirement
- * "Activity" values in activity_is_valid_in_requirement(). */
+ * values in doc/README.effects, the list of invalid requirement
+ * "Activity" values in activity_is_valid_in_requirement(),
+ * and default actions list in activity_default_action() */
 #define SPECENUM_NAME unit_activity
 /* Not performing any activity right now */
 #define SPECENUM_VALUE0 ACTIVITY_IDLE

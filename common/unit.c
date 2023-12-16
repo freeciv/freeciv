@@ -2845,5 +2845,24 @@ struct unit_order *create_unit_orders(int length,
 **************************************************************************/
 enum gen_action activity_default_action(enum unit_activity act)
 {
-  return ACTION_NONE;
+  enum gen_action act_act[ACTIVITY_LAST] = {
+    ACTION_NONE,              // ACTIVITY_IDLE
+    ACTION_CULTIVATE,         // ACTIVITY_CULTIVATE
+    ACTION_MINE,              // ACTIVITY_MINE
+    ACTION_IRRIGATE,          // ACTIVITY_IRRIGATE
+    ACTION_FORTIFY,           // ACTIVITY_FORTIFIED
+    ACTION_NONE,              // ACTIVITY_SENTRY
+    ACTION_PILLAGE,           // ACTIVITY_PILLAGE
+    ACTION_NONE,              // ACTIVITY_GOTO
+    ACTION_NONE,              // ACTIVITY_EXPLORE
+    ACTION_TRANSFORM_TERRAIN, // ACTIVITY_TRANSFORM
+    ACTION_FORTIFY,           // ACTIVITY_FORTIFYING
+    ACTION_CLEAN,             // ACTIVITY_CLEAN
+    ACTION_BASE,              // ACTIVITY_BASE
+    ACTION_ROAD,              // ACTIVITY_GEN_ROAD
+    ACTION_CONVERT,           // ACTIVITY_CONVERT
+    ACTION_PLANT              // ACTIVITY_PLANT
+  };
+
+  return act_act[act];
 }
