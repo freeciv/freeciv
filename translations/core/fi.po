@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-11-09 18:56+0200\n"
-"PO-Revision-Date: 2023-11-09 20:47+0200\n"
+"POT-Creation-Date: 2023-12-16 08:51+0200\n"
+"PO-Revision-Date: 2023-12-16 08:53+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -561,7 +561,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:430 client/gui-sdl2/mapview.c:163
-#: server/console.c:74 server/srv_main.c:3191 utility/log.c:564
+#: server/console.c:74 server/srv_main.c:3192 utility/log.c:564
 #: utility/netintf.c:98 utility/registry_ini.c:797
 #, c-format
 msgid "Please report this message at %s"
@@ -31498,7 +31498,7 @@ msgstr ""
 
 #: data/alien/cities.ruleset:73
 msgid ""
-"Scientist reseach two bulbs worth of science each turn, four bulbs when "
+"Scientist research two bulbs worth of science each turn, four bulbs when "
 "Specialist Training tech is known."
 msgstr ""
 "Tiedemies tutkii kahden pisteen edestä tutkimusta kierroksessa, "
@@ -49019,26 +49019,26 @@ msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3155
+#: server/srv_main.c:3156
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3161
+#: server/srv_main.c:3162
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3189
+#: server/srv_main.c:3190
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3213 server/srv_main.c:3217
+#: server/srv_main.c:3214 server/srv_main.c:3218
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3417
+#: server/srv_main.c:3418
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
