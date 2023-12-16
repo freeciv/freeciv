@@ -766,6 +766,8 @@ bool aiferry_goto_amphibious(struct ai_type *ait, struct unit *ferry,
 bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
                       struct unit *punit, struct tile *dest_tile, bool with_bodyguard)
 {
+  struct civ_map *nmap = &(wld.map);
+
   if (!unit_transported(punit)) {
     /* We are not on a boat and we cannot walk */
     int boatid;
@@ -776,7 +778,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
     UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "will have to go to (%d,%d) by boat",
              TILE_XY(dest_tile));
 
-    if (!is_terrain_class_near_tile(unit_tile(punit), TC_OCEAN)) {
+    if (!is_terrain_class_near_tile(nmap, unit_tile(punit), TC_OCEAN)) {
       struct pf_path *path_to_ferry = NULL;
 
       boatid = aiferry_find_boat(ait, punit, cap, &path_to_ferry);
@@ -800,7 +802,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       pf_path_destroy(path_to_ferry);
     }
 
-    if (!is_terrain_class_near_tile(unit_tile(punit), TC_OCEAN)) {
+    if (!is_terrain_class_near_tile(nmap, unit_tile(punit), TC_OCEAN)) {
       /* Still haven't reached the coast */
       return FALSE;
     }
@@ -941,14 +943,14 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
 }
 
 
-/* ===================== boat management ================================= */
+/* ===================== Boat management ================================= */
 
 /**********************************************************************//**
-  A helper for ai_manage_ferryboat.  Finds a passenger for the ferry.
+  A helper for ai_manage_ferryboat. Finds a passenger for the ferry.
   Potential passengers signal the boats by setting their ai.ferry field to
   FERRY_WANTED.
 
-  TODO: lift the path off the map
+  TODO: Lift the path off the map
 **************************************************************************/
 static bool aiferry_findcargo(struct ai_type *ait, struct unit *pferry)
 {

@@ -221,7 +221,7 @@ void building_advisor(struct player *pplayer)
         }
       }
 
-      if (is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
+      if (is_terrain_class_near_tile(&(wld.map), pcity->tile, TC_OCEAN)) {
         value /= 2;
       }
 
