@@ -290,7 +290,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
   terrain_type_iterate(pterrain) {
     /* Now we do the same for every available terrain. */
     goodness = nation_city_terrain_preference(pncity, pterrain);
-    if (!is_terrain_near_tile(ptile, pterrain, TRUE)) {
+    if (!is_terrain_near_tile(&(wld.map), ptile, pterrain, TRUE)) {
       goodness = nation_city_preference_revert(goodness);
     }
     switch (goodness) {
@@ -897,7 +897,8 @@ struct city *find_closest_city(const struct tile *ptile,
        * - (if required) only cities native to the class */
       if ((best_dist == -1 || city_dist < best_dist)
           && (!only_continent || con == tile_continent(pcity->tile))
-          && (!only_ocean || is_terrain_class_near_tile(city_tile(pcity), TC_OCEAN))
+          && (!only_ocean || is_terrain_class_near_tile(&(wld.map),
+                                                        city_tile(pcity), TC_OCEAN))
           && (!only_known
               || (map_is_known(city_tile(pcity), pplayer)
                   && map_get_player_site(city_tile(pcity), pplayer)->identity

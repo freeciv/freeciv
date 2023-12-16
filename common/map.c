@@ -689,7 +689,8 @@ bool is_safe_ocean(const struct civ_map *nmap, const struct tile *ptile)
 ***********************************************************************/
 bool can_reclaim_ocean(const struct tile *ptile)
 {
-  int land_tiles = 100 - count_terrain_class_near_tile(ptile, FALSE, TRUE,
+  int land_tiles = 100 - count_terrain_class_near_tile(&(wld.map), ptile,
+                                                       FALSE, TRUE,
                                                        TC_OCEAN);
 
   return land_tiles >= terrain_control.ocean_reclaim_requirement_pct;
@@ -702,19 +703,21 @@ bool can_reclaim_ocean(const struct tile *ptile)
 ***********************************************************************/
 bool can_channel_land(const struct tile *ptile)
 {
-  int ocean_tiles = count_terrain_class_near_tile(ptile, FALSE, TRUE, TC_OCEAN);
+  int ocean_tiles = count_terrain_class_near_tile(&(wld.map), ptile,
+                                                  FALSE, TRUE, TC_OCEAN);
 
   return ocean_tiles >= terrain_control.land_channel_requirement_pct;
 }
 
 /*******************************************************************//**
   Returns true if the tile at the given location can be thawed from
-  terrain with a 'Frozen' flag to terrain without. This requires a
-  sufficient number of adjacent unfrozen tiles.
+  terrain with a 'Frozen' flag to terrain without. This requires
+  a sufficient number of adjacent unfrozen tiles.
 ***********************************************************************/
 bool can_thaw_terrain(const struct tile *ptile)
 {
-  int unfrozen_tiles = 100 - count_terrain_flag_near_tile(ptile, FALSE, TRUE,
+  int unfrozen_tiles = 100 - count_terrain_flag_near_tile(&(wld.map), ptile,
+                                                          FALSE, TRUE,
                                                           TER_FROZEN);
 
   return unfrozen_tiles >= terrain_control.terrain_thaw_requirement_pct;
@@ -722,12 +725,13 @@ bool can_thaw_terrain(const struct tile *ptile)
 
 /*******************************************************************//**
   Returns true if the tile at the given location can be turned from
-  terrain without a 'Frozen' flag to terrain with. This requires a
-  sufficient number of adjacent frozen tiles.
+  terrain without a 'Frozen' flag to terrain with. This requires
+  a sufficient number of adjacent frozen tiles.
 ***********************************************************************/
 bool can_freeze_terrain(const struct tile *ptile)
 {
-  int frozen_tiles = count_terrain_flag_near_tile(ptile, FALSE, TRUE,
+  int frozen_tiles = count_terrain_flag_near_tile(&(wld.map), ptile,
+                                                  FALSE, TRUE,
                                                   TER_FROZEN);
 
   return frozen_tiles >= terrain_control.terrain_freeze_requirement_pct;

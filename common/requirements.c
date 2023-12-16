@@ -2938,12 +2938,12 @@ is_terrain_req_active(const struct civ_map *nmap,
     if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(pterrain && is_terrain_card_near(context->tile, pterrain, TRUE));
+    return BOOL_TO_TRISTATE(pterrain && is_terrain_card_near(nmap, context->tile, pterrain, TRUE));
   case REQ_RANGE_ADJACENT:
     if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(pterrain && is_terrain_near_tile(context->tile, pterrain, TRUE));
+    return BOOL_TO_TRISTATE(pterrain && is_terrain_near_tile(nmap, context->tile, pterrain, TRUE));
   case REQ_RANGE_CITY:
     if (!context->city) {
       return TRI_MAYBE;
@@ -3037,13 +3037,13 @@ is_terrainclass_req_active(const struct civ_map *nmap,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(context->tile)) == pclass
-                            || is_terrain_class_card_near(context->tile, pclass));
+                            || is_terrain_class_card_near(nmap, context->tile, pclass));
   case REQ_RANGE_ADJACENT:
     if (!context->tile) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(context->tile)) == pclass
-                            || is_terrain_class_near_tile(context->tile, pclass));
+                            || is_terrain_class_near_tile(nmap, context->tile, pclass));
   case REQ_RANGE_CITY:
     if (!context->city) {
       return TRI_MAYBE;
@@ -3142,7 +3142,7 @@ is_terrainflag_req_active(const struct civ_map *nmap,
     }
     return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(context->tile),
                                              terrflag)
-                            || is_terrain_flag_card_near(context->tile,
+                            || is_terrain_flag_card_near(nmap, context->tile,
                                                          terrflag));
   case REQ_RANGE_ADJACENT:
     if (!context->tile) {
@@ -3150,7 +3150,7 @@ is_terrainflag_req_active(const struct civ_map *nmap,
     }
     return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(context->tile),
                                              terrflag)
-                            || is_terrain_flag_near_tile(context->tile,
+                            || is_terrain_flag_near_tile(nmap, context->tile,
                                                          terrflag));
   case REQ_RANGE_CITY:
     if (!context->city) {

@@ -1240,7 +1240,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
 
     atype = unit_type_get(aunit);
 
-    /* dealing with invasion stuff */
+    /* Dealing with invasion stuff */
     if (IS_ATTACKER(atype)) {
       if (aunit->activity == ACTIVITY_GOTO) {
         invasion_funct(ait, aunit, TRUE, 0,
@@ -1305,7 +1305,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                                         aiferry_find_boat(ait, punit, 1, NULL));
     }
 
-    if (0 == punit->id && is_terrain_class_near_tile(punit_tile, TC_OCEAN)) {
+    if (punit->id == 0 && is_terrain_class_near_tile(nmap, punit_tile, TC_OCEAN)) {
       harbor = TRUE;
     }
   }

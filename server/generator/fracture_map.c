@@ -297,7 +297,7 @@ void make_fracture_relief(void)
   int total_mtns;
   int iter;
 
-  /* compute the land area */
+  /* Compute the land area */
   landarea = 0;
   whole_map_iterate(&(wld.map), ptile) {
     if (hmap(ptile) > hmap_shore_level) {
@@ -310,15 +310,15 @@ void make_fracture_relief(void)
   */
   total_mtns = 0;
   whole_map_iterate(&(wld.map), ptile) {
-    if (not_placed(ptile) && hmap(ptile) > hmap_shore_level) {  /* place on land only */
-      /* mountains */
+    if (not_placed(ptile) && hmap(ptile) > hmap_shore_level) {  /* Place on land only */
+      /* Mountains */
       choose_mountain = (hmap(ptile) > local_ave_elevation(ptile) * 1.20)
         || (area_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)) && (fc_rand(10) < 4));
 
       choose_hill = (hmap(ptile) > local_ave_elevation(ptile) * 1.10)
         || (area_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)) && (fc_rand(10) < 4));
       /* The following avoids hills and mountains directly along the coast. */
-      if (count_terrain_class_near_tile(ptile, TRUE, TRUE, TC_OCEAN) > 0) {
+      if (count_terrain_class_near_tile(&(wld.map), ptile, TRUE, TRUE, TC_OCEAN) > 0) {
         choose_mountain = FALSE;
         choose_hill = FALSE;
       }

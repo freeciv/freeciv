@@ -857,7 +857,7 @@ void city_widget::select_coastal()
     }
     pcity = reinterpret_cast<city *>(qvar.value<void *>());
     if (pcity != nullptr
-        && is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
+        && is_terrain_class_near_tile(&(wld.map), pcity->tile, TC_OCEAN)) {
       selection.append(QItemSelectionRange(i));
     }
   }
