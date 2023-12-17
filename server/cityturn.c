@@ -1371,6 +1371,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           script_server_signal_emit(signal_name, ptarget,
                                     pcity, "have_player_flag");
         }
+        break;
       case VUT_PLAYER_STATE:
         purge = TRUE;
         break;
