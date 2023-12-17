@@ -147,6 +147,8 @@ OriginalOwner is the city founding nation
 ServerSetting is if a Boolean server setting is enabled. The setting must be
  visible to all players and affect the game rules.
 FormAge is time since latest unit upgrade of conversion.
+PlayerState is one of "Barbarian",
+ or "HasCapital" (true if player had capital at the beginning of the turn)
 
 
 Effect types

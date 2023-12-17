@@ -580,6 +580,8 @@ const char *ai_level_name_update_cb(const char *old);
 #define SPECENUM_NAME plrstate_type
 #define SPECENUM_VALUE0 PLRS_BARBARIAN
 #define SPECENUM_VALUE0NAME "Barbarian"
+#define SPECENUM_VALUE1 PLRS_HAS_CAPITAL
+#define SPECENUM_VALUE1NAME "HasCapital"
 #define SPECENUM_COUNT PLRS_LAST
 #include "specenum_gen.h"
 

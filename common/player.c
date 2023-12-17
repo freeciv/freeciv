@@ -1986,6 +1986,8 @@ bool player_has_state(const struct player *pplayer,
   switch (state) {
   case PLRS_BARBARIAN:
     return is_barbarian(pplayer);
+  case PLRS_HAS_CAPITAL:
+    return player_primary_capital(pplayer) != NULL;
   case PLRS_LAST:
     fc_assert(state != PLRS_LAST);
     break;
