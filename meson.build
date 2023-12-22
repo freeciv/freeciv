@@ -32,7 +32,8 @@ c_cpp_args = [
   '-Wshadow',
   '-Wold-style-declaration',
   '-Wold-style-definition',
-  '-Wtype-limits'
+  '-Wtype-limits',
+  '-Wimplicit-fallthrough'
   ]
 
 foreach arg : c_args
