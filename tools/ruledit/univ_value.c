@@ -232,8 +232,10 @@ bool universal_value_initial(struct universal *src)
     return TRUE;
   case VUT_PLAYER_FLAG:
     src->value.plr_flag = PLRF_AI;
+    return TRUE;
   case VUT_PLAYER_STATE:
     src->value.plrstate = PLRS_BARBARIAN;
+    return TRUE;
   case VUT_ACTION:
     src->value.action = action_by_number(0);
     return TRUE;
