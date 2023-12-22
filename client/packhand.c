@@ -3168,7 +3168,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
 
   tile_changed = tile_changed || (tile_resource(ptile) != presource);
 
-  /* always called after setting terrain */
+  /* Always called after setting terrain */
   tile_set_resource(ptile, presource);
 
   if (tile_owner(ptile) != powner) {
@@ -3179,6 +3179,8 @@ void handle_tile_info(const struct packet_tile_info *packet)
     ptile->extras_owner = eowner;
     tile_changed = TRUE;
   }
+
+  ptile->altitude = packet->altitude;
 
   if (packet->placing < 0) {
     if (ptile->placing != NULL) {

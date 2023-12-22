@@ -561,6 +561,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
         info.label[0] = '\0';
       }
 
+      info.altitude = ptile->altitude;
+
       send_packet_tile_info(pconn, &info);
     } else if (pplayer != NULL && known) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
@@ -596,6 +598,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
         info.label[0] = '\0';
       }
 
+      info.altitude = ptile->altitude;
+
       send_packet_tile_info(pconn, &info);
     } else if (send_unknown) {
       info.known = TILE_UNKNOWN;
@@ -612,6 +616,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       BV_CLR_ALL(info.extras);
 
       info.label[0] = '\0';
+
+      info.altitude = 0;
 
       send_packet_tile_info(pconn, &info);
     }
