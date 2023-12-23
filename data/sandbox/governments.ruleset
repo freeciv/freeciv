@@ -447,3 +447,56 @@ Each step of personal freedom you allow your citizens yields a 10% \
 increase in science output, but makes an additional citizen unhappy \
 for every aggressively deployed military unit.\
 ")
+
+[multiplier_polluting_productivity]
+name      = _("Polluting Productivity")
+start     = 0
+stop      = 10
+step      = 1
+default   = 0
+; /* xgettext:no-c-format */
+helptext  = _("\
+Each step of polluting productivity increases a cities shield \
+production by 1%, but also increases all pollution related to \
+shields by 5%.\
+")
+
+[multiplier_military_training_duration]
+name      = _("Military Training Duration")
+start     = 0
+stop      = 2
+step      = 1
+default   = 0
+; /* xgettext:no-c-format */
+helptext  = _("\
+Each step increases newly built military units veterancy level \
+by 1, but also increases the costs of the unit by 25% due to \
+the additional training.\
+")
+
+[multiplier_diplomatic_training_duration]
+name      = _("Diplomatic Training Duration")
+start     = 0
+stop      = 2
+step      = 1
+default   = 0
+; /* xgettext:no-c-format */
+helptext  = _("\
+Each step increases newly built diplomatic units veterancy \
+level by 1, but also increases the costs of the unit by 25% \
+due to the additional training.\
+")
+
+[multiplier_civil_training_duration]
+name      = _("Civil Training Duration")
+start     = 0
+stop      = 2
+step      = 1
+default   = 0
+; /* xgettext:no-c-format */
+helptext  = _("\
+Each step increases newly built civil (workers, engineers) \
+units veterancy level by 1, but also increases the costs of \
+the unit by 25% due to the additional training.\
+")
+
