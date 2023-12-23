@@ -931,6 +931,81 @@ reqs   =
       "OutputType", "Science", "Local"
     }
 
+[effect_polluting_productivity_prod]
+type    = "Output_Bonus_2"
+value   = 1
+multiplier = "Polluting Productivity"
+reqs   =
+    { "type", "name", "range"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_polluting_productivity_pol]
+type    = "Pollu_Prod_Pct"
+value   = 5
+multiplier = "Polluting Productivity"
+reqs   =
+    { "type", "name", "range"
+    }
+
+[effect_military_training_duration_cost]
+type    = "Unit_Build_Cost_Pct"
+value   = 25
+multiplier = "Military Training Duration"
+reqs   =
+    { "type", "name", "range", "present"
+      "UnitFlag", "NonMil", "Local", FALSE
+      "UnitFlag", "NoVeteran", "Local", FALSE
+    }
+
+[effect_military_training_duration_veterancy]
+type    = "Veteran_Build"
+value   = 1
+multiplier = "Military Training Duration"
+reqs   =
+    { "type", "name", "range", "present"
+      "UnitFlag", "NonMil", "Local", FALSE
+      "UnitFlag", "NoVeteran", "Local", FALSE
+    }
+
+[effect_diplomatic_training_duration_cost]
+type    = "Unit_Build_Cost_Pct"
+value   = 25
+multiplier = "Diplomatic Training Duration"
+reqs   =
+    { "type", "name", "range"
+      "UnitFlag", "Diplomat", "Local"
+    }
+
+[effect_diplomatic_training_duration_veterancy]
+type    = "Veteran_Build"
+value   = 1
+multiplier = "Diplomatic Training Duration"
+reqs   =
+    { "type", "name", "range"
+      "UnitFlag", "Diplomat", "Local"
+    }
+
+; Should be "Workers" instead of "Transform" flag, but "Workers" cannot be used here.
+[effect_civil_training_duration_cost]
+type    = "Unit_Build_Cost_Pct"
+value   = 25
+multiplier = "Civil Training Duration"
+reqs   =
+    { "type", "name", "range"
+      "UnitFlag", "Transform", "Local"
+    }
+
+; Should be "Workers" instead of "Transform" flag, but "Workers" cannot be used here.
+[effect_civil_training_duration_veterancy]
+type    = "Veteran_Build"
+value   = 1
+multiplier = "Civil Training Duration"
+reqs   =
+    { "type", "name", "range"
+      "UnitFlag", "Transform", "Local"
+    }
+
 ; Govs with 1 free unit
 [effect_upkeep_free_mil_1]
 type    = "Make_Content_Mil"
