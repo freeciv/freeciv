@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__RULESET_H
-#define FC__RULESET_H
+#ifndef FC__RULELOAD_H
+#define FC__RULELOAD_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -124,4 +124,4 @@ int ruleset_purge_redundant_reqs(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__RULESET_H */
+#endif /* FC__RULELOAD_H */
