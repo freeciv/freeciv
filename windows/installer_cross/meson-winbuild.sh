@@ -132,7 +132,7 @@ cd "${BUILD_DIR}"
 
 export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 
-export PATH="$DLLSPATH/linux/libexec:$PATH"
+export PATH="${DLLSPATH}/linux/bin:${DLLSPATH}/linux/libexec:${PATH}"
 
 if ! meson setup \
      --cross-file=cross.txt \
