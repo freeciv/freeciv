@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #/***********************************************************************
 # Freeciv - Copyright (C) 2017-2023
 #   This program is free software; you can redistribute it and/or modify

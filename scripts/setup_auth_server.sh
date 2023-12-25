@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Freeciv - Copyright (C) 2007 - Marko Lindqvist
+# Freeciv - Copyright (C) 2007-2023 - Marko Lindqvist
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2, or (at your option)
