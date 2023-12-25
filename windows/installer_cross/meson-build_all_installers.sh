@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #/***********************************************************************
-# Freeciv - Copyright (C) 2017-2022
+# Freeciv - Copyright (C) 2017-2023
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2, or (at your option)
