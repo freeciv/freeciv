@@ -2466,6 +2466,89 @@ static void compat_load_030300(struct loaddata *loading,
       free(savemod);
     }
   }
+
+  /* Add actions for unit activities */
+  if (format_class == SAVEGAME_3) {
+    loading->activities.size
+      = secfile_lookup_int_default(loading->file, 0,
+                                   "savefile.activities_size");
+    if (loading->activities.size) {
+      loading->activities.order
+        = secfile_lookup_str_vec(loading->file, &loading->activities.size,
+                                 "savefile.activities_vector");
+      sg_failure_ret(loading->activities.size != 0,
+                     "Failed to load activity order: %s",
+                     secfile_error());
+    }
+
+    loading->action.size = secfile_lookup_int_default(loading->file, 0,
+                                                      "savefile.action_size");
+
+    sg_failure_ret(loading->action.size > 0,
+                   "Failed to load action order: %s",
+                   secfile_error());
+
+    if (loading->action.size) {
+      const char **modname;
+      int j;
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                       "savefile.action_vector");
+
+      loading->action.order = fc_calloc(loading->action.size,
+                                        sizeof(*loading->action.order));
+
+      for (j = 0; j < loading->action.size; j++) {
+        struct action *real_action = action_by_rule_name(modname[j]);
+
+        if (real_action) {
+          loading->action.order[j] = real_action->id;
+        } else {
+          log_sg("Unknown action \'%s\'", modname[j]);
+          loading->action.order[j] = ACTION_NONE;
+        }
+      }
+
+      free(modname);
+    }
+
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int nunits;
+      int unro;
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == nullptr) {
+        continue;
+      }
+
+      nunits = secfile_lookup_int_default(loading->file, 0,
+                                          "player%d.nunits", plrno);
+
+      for (unro = 0; unro < nunits; unro++) {
+        int ei;
+        int i;
+        enum unit_activity activity;
+        enum gen_action act;
+
+        ei = secfile_lookup_int_default(loading->file, -1,
+                                        "player%d.u%d.activity", plrno, unro);
+
+        if (ei >= 0 && ei < loading->activities.size) {
+          activity = unit_activity_by_name(loading->activities.order[ei],
+                                           fc_strcasecmp);
+          act = activity_default_action(activity);
+
+          for (i = 0; i < loading->action.size; i++) {
+            if (act == loading->action.order[i]) {
+              secfile_insert_int(loading->file, i, "player%d.u%d.action",
+                                 plrno, unro);
+              break;
+            }
+          }
+        }
+      }
+    } player_slots_iterate_end;
+  }
 }
 
 /************************************************************************//**
@@ -3239,6 +3322,87 @@ static void compat_load_dev(struct loaddata *loading)
     /* Before version number bump to 3.2.92 */
 
     secfile_insert_bool(loading->file, FALSE, "map.altitude");
+
+    /* Add actions for unit activities */
+    loading->activities.size
+      = secfile_lookup_int_default(loading->file, 0,
+                                   "savefile.activities_size");
+    if (loading->activities.size) {
+      loading->activities.order
+        = secfile_lookup_str_vec(loading->file, &loading->activities.size,
+                                 "savefile.activities_vector");
+      sg_failure_ret(loading->activities.size != 0,
+                     "Failed to load activity order: %s",
+                     secfile_error());
+    }
+
+    loading->action.size = secfile_lookup_int_default(loading->file, 0,
+                                                      "savefile.action_size");
+
+    sg_failure_ret(loading->action.size > 0,
+                   "Failed to load action order: %s",
+                   secfile_error());
+
+    if (loading->action.size) {
+      const char **modname;
+      int j;
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                       "savefile.action_vector");
+
+      loading->action.order = fc_calloc(loading->action.size,
+                                        sizeof(*loading->action.order));
+
+      for (j = 0; j < loading->action.size; j++) {
+        struct action *real_action = action_by_rule_name(modname[j]);
+
+        if (real_action) {
+          loading->action.order[j] = real_action->id;
+        } else {
+          log_sg("Unknown action \'%s\'", modname[j]);
+          loading->action.order[j] = ACTION_NONE;
+        }
+      }
+
+      free(modname);
+    }
+
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int nunits;
+      int unro;
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == nullptr) {
+        continue;
+      }
+
+      nunits = secfile_lookup_int_default(loading->file, 0,
+                                          "player%d.nunits", plrno);
+
+      for (unro = 0; unro < nunits; unro++) {
+        int ei;
+        int i;
+        enum unit_activity activity;
+        enum gen_action act;
+
+        ei = secfile_lookup_int_default(loading->file, -1,
+                                        "player%d.u%d.activity", plrno, unro);
+
+        if (ei >= 0 && ei < loading->activities.size) {
+          activity = unit_activity_by_name(loading->activities.order[ei],
+                                           fc_strcasecmp);
+          act = activity_default_action(activity);
+
+          for (i = 0; i < loading->action.size; i++) {
+            if (act == loading->action.order[i]) {
+              secfile_insert_int(loading->file, i, "player%d.u%d.action",
+                                 plrno, unro);
+              break;
+            }
+          }
+        }
+      }
+    } player_slots_iterate_end;
 
   } /* Version < 3.2.92 */
 

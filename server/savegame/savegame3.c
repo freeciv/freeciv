@@ -6131,6 +6131,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   int natnbr;
   int unconverted;
   const char *str;
+  enum gen_action action;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -6185,6 +6186,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
                   "%s", secfile_error());
   activity = unit_activity_by_name(loading->activities.order[ei],
                                    fc_strcasecmp);
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &ei,
+                                     "%s.action", unitstr), FALSE,
+                  "%s", secfile_error());
+  action = loading->action.order[ei];
 
   punit->server.birth_turn
     = secfile_lookup_int_default(loading->file, game.info.turn,
@@ -6199,22 +6204,16 @@ static bool sg_load_player_unit(struct loaddata *loading,
   if (extra_id != -2) {
     if (extra_id >= 0 && extra_id < loading->extra.size) {
       pextra = loading->extra.order[extra_id];
-      /* FIXME: Correct action from the savegame */
-      set_unit_activity_targeted(punit, activity, pextra,
-                                 activity_default_action(activity));
+      set_unit_activity_targeted(punit, activity, pextra, action);
     } else if (activity == ACTIVITY_IRRIGATE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
                                                    EC_IRRIGATION,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        /* FIXME: Correct action from the savegame */
-        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt,
-                                   activity_default_action(ACTIVITY_IRRIGATE));
+        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt, action);
       } else {
-        /* FIXME: Correct action from the savegame */
-        set_unit_activity(punit, ACTIVITY_CULTIVATE,
-                          activity_default_action(ACTIVITY_CULTIVATE));
+        set_unit_activity(punit, ACTIVITY_CULTIVATE, action);
       }
     } else if (activity == ACTIVITY_MINE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
@@ -6222,23 +6221,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                    unit_owner(punit),
                                                    punit);
       if (tgt != NULL) {
-        /* FIXME: Correct action from the savegame */
-        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt,
-                                   activity_default_action(ACTIVITY_MINE));
+        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt, action);
       } else {
-        /* FIXME: Correct action from the savegame */
-        set_unit_activity(punit, ACTIVITY_PLANT,
-                          activity_default_action(ACTIVITY_PLANT));
+        set_unit_activity(punit, ACTIVITY_PLANT, action);
       }
     } else {
-      /* FIXME: Correct action from the savegame */
-      set_unit_activity(punit, activity,
-                        activity_default_action(activity));
+      set_unit_activity(punit, activity, action);
     }
   } else {
-    /* FIXME: Correct action from the savegame */
-    set_unit_activity_targeted(punit, activity, NULL,
-                               activity_default_action(activity));
+    set_unit_activity_targeted(punit, activity, NULL, action);
   } /* activity_tgt == NULL */
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->activity_count,
@@ -6722,6 +6713,7 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, punit->activity, "%s.activity", buf);
     secfile_insert_int(saving->file, punit->activity_count,
                        "%s.activity_count", buf);
+    secfile_insert_int(saving->file, punit->action, "%s.action", buf);
     if (punit->activity_target == NULL) {
       secfile_insert_int(saving->file, -1, "%s.activity_tgt", buf);
     } else {
