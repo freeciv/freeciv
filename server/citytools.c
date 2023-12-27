@@ -3415,11 +3415,13 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 ****************************************************************************/
 void city_refresh_vision(struct city *pcity)
 {
-  v_radius_t vision_radius_sq
-    = V_RADIUS(get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ), 2, 2);
+  if (pcity->server.vision != nullptr) {
+    v_radius_t vision_radius_sq
+      = V_RADIUS(get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ), 2, 2);
 
-  vision_change_sight(pcity->server.vision, vision_radius_sq);
-  ASSERT_VISION(pcity->server.vision);
+    vision_change_sight(pcity->server.vision, vision_radius_sq);
+    ASSERT_VISION(pcity->server.vision);
+  }
 }
 
 /************************************************************************//**
@@ -3524,8 +3526,11 @@ bool city_map_update_radius_sq(struct city *pcity)
     city_refresh_vision(pcity);
   }
 
-  /* If city is under AI control, update it */
-  adv_city_update(pcity);
+  /* City removal might be ongoing, and advisor data already deleted */
+  if (pcity->server.adv != nullptr) {
+    /* If city is under AI control, update it */
+    adv_city_update(pcity);
+  }
 
   notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
                 ftc_server, _("The size of the city map of %s is %s."),
