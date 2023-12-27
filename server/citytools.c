@@ -3311,11 +3311,13 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 ****************************************************************************/
 void city_refresh_vision(struct city *pcity)
 {
-  v_radius_t vision_radius_sq =
-      V_RADIUS(get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ), 2, 2);
+  if (pcity->server.vision != NULL) {
+    v_radius_t vision_radius_sq
+      = V_RADIUS(get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ), 2, 2);
 
-  vision_change_sight(pcity->server.vision, vision_radius_sq);
-  ASSERT_VISION(pcity->server.vision);
+    vision_change_sight(pcity->server.vision, vision_radius_sq);
+    ASSERT_VISION(pcity->server.vision);
+  }
 }
 
 /************************************************************************//**
@@ -3412,7 +3414,7 @@ bool city_map_update_radius_sq(struct city *pcity)
       } city_map_iterate_without_index_end;
     }
 
-    /* if there are still workers they will be updated to specialists */
+    /* If there are still workers they will be updated to specialists */
     if (workers > 0) {
       pcity->specialists[DEFAULT_SPECIALIST] += workers;
     }
@@ -3420,8 +3422,11 @@ bool city_map_update_radius_sq(struct city *pcity)
     city_refresh_vision(pcity);
   }
 
-  /* if city is under AI control update it */
-  adv_city_update(pcity);
+  /* City removal might be ongoing, and advisor data already deleted */
+  if (pcity->server.adv != NULL) {
+    /* If city is under AI control, update it */
+    adv_city_update(pcity);
+  }
 
   notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
                 ftc_server, _("The size of the city map of %s is %s."),
@@ -3429,7 +3434,7 @@ bool city_map_update_radius_sq(struct city *pcity)
                 city_tiles_old < city_tiles_new ? _("increased")
                                                 : _("reduced"));
 
-  /* workers map after */
+  /* Workers map after */
   log_debug("[%s (%d)] city size: %d; specialists: %d (after change)",
             city_name_get(pcity), pcity->id, city_size_get(pcity),
             city_specialists(pcity));
