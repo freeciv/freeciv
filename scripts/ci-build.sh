@@ -174,7 +174,7 @@ echo "Freeciv build successful!"
 ;;
 
 emsdk)
-EMSDK_VER=3.1.47
+EMSDK_VER=3.1.51
 
 (
   # Outside source tree
