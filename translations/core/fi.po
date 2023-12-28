@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-12-16 08:55+0200\n"
-"PO-Revision-Date: 2023-12-16 09:10+0200\n"
+"POT-Creation-Date: 2023-12-28 16:24+0200\n"
+"PO-Revision-Date: 2023-12-28 16:26+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -17431,7 +17431,7 @@ msgstr "Turmele %s(%d)"
 msgid "Clean %s(%d)"
 msgstr "Puhdista %s (%d)"
 
-#: common/effects.c:1214
+#: common/effects.c:1213
 msgid "?req-list-separator:+"
 msgstr "+"
 
@@ -22103,10 +22103,10 @@ msgstr "Temppeli"
 
 #: data/civ1/buildings.ruleset:728
 msgid ""
-"Makes one unhappy citizen content.  The Mysticism advance doubles this "
-"effect, as does the Oracle wonder.  With both Mysticism and the Oracle, 4 "
-"citizens are made content.  Does not affect citizens made unhappy by "
-"military activity."
+"Makes one unhappy citizen content. The Mysticism advance doubles this "
+"effect, as does the Oracle wonder. With both Mysticism and the Oracle, 4 "
+"citizens are made content. Does not affect citizens made unhappy by military "
+"activity."
 msgstr ""
 "Muuttaa yhden tyytymättömän asukkaan rauhalliseksi. Edistysaskel mystiikka "
 "kaksinkertaistaa tämän vaikutuksen, kuten myös ihme Delfoin oraakkeli. "
@@ -25930,10 +25930,10 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1053
 msgid ""
-"Makes one unhappy citizen content.  The Mysticism advance doubles this "
-"effect, as does Oracle wonder.  With both Mysticism and the Oracle, 4 "
-"citizens are made content.  Does not affect citizens made unhappy by "
-"military activity."
+"Makes one unhappy citizen content. The Mysticism advance doubles this "
+"effect, as does Oracle wonder. With both Mysticism and the Oracle, 4 "
+"citizens are made content. Does not affect citizens made unhappy by military "
+"activity."
 msgstr ""
 "Muuttaa yhden tyytymättömän asukkaan rauhalliseksi. Edistysaskel mystiikka "
 "kaksinkertaistaa tämän vaikutuksen, kuten myös ihme Delfoin oraakkeli. "
@@ -27950,8 +27950,8 @@ msgstr ""
 
 #: data/classic/buildings.ruleset:1099 data/multiplayer/buildings.ruleset:1074
 msgid ""
-"Makes one unhappy citizen content.  The Mysticism advance doubles this "
-"effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
+"Makes one unhappy citizen content. The Mysticism advance doubles this "
+"effect. With both Mysticism and the Oracle, 4 citizens are made content. "
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
 "Muuttaa yhden tyytymättömän asukkaan rauhalliseksi. Edistysaskel mystiikka "
@@ -41853,7 +41853,9 @@ msgstr "Virhe luotaessa hakemistoa %s"
 #, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s to %s."
-msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s kohteenasi %s."
+msgstr ""
+"Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi "
+"toimintoa %s kohteenasi %s."
 
 #. TRANS: Bribe Enemy Unit ... American ... Partisan
 #: server/actiontools.c:236
@@ -41861,14 +41863,18 @@ msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittä
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s to %s "
 "%s."
-msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s kohteenasi %s %s."
+msgstr ""
+"Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi "
+"toimintoa %s kohteenasi %s %s."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:247
 #, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s at %s."
-msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi toimintoa %s paikassa %s."
+msgstr ""
+"Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittäessäsi "
+"toimintoa %s paikassa %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:283
@@ -41876,7 +41882,9 @@ msgstr "Olet aiheuttanut diplomaattisen selkkauksen jäädessäsi kiinni yrittä
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s to "
 "%s."
-msgstr "%s ovat aiheuttaneet diplomaattisen selkkauksen jäädessään kiinni yrittäessään toimintoa %s kohteenaan %s."
+msgstr ""
+"%s ovat aiheuttaneet diplomaattisen selkkauksen jäädessään kiinni "
+"yrittäessään toimintoa %s kohteenaan %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:294
@@ -41884,7 +41892,9 @@ msgstr "%s ovat aiheuttaneet diplomaattisen selkkauksen jäädessään kiinni yr
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s to "
 "your %s."
-msgstr "%s ovat aiheuttaneet dioplomaattisen selkkauksen jäädessään kiinni yrittäessään toimintoa %s kohteenaan omistamasi %s."
+msgstr ""
+"%s ovat aiheuttaneet dioplomaattisen selkkauksen jäädessään kiinni "
+"yrittäessään toimintoa %s kohteenaan omistamasi %s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:305
@@ -41892,7 +41902,9 @@ msgstr "%s ovat aiheuttaneet dioplomaattisen selkkauksen jäädessään kiinni y
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s at "
 "%s."
-msgstr "%s ovat aiheuttaneet diplomaattisen selkkauksen jäädessään kiinni yrittäessään toimintoa %s paikassa %s."
+msgstr ""
+"%s ovat aiheuttaneet diplomaattisen selkkauksen jäädessään kiinni "
+"yrittäessään toimintoa %s paikassa %s."
 
 #. TRANS: Suitcase Nuke
 #: server/actiontools.c:335
@@ -41936,18 +41948,24 @@ msgstr ""
 #: server/actiontools.c:409
 #, c-format
 msgid "You have caused an diplomatic incident doing %s to %s."
-msgstr "Toimesi %s kohteena %s ei jää seurauksitta. Siitä seuraa diplomaattinen selkkaus."
+msgstr ""
+"Toimesi %s kohteena %s ei jää seurauksitta. Siitä seuraa diplomaattinen "
+"selkkaus."
 
 #: server/actiontools.c:418
 #, c-format
 msgid "You have caused an diplomatic incident doing %s to %s %s."
-msgstr "Toimesi %s kohteena %s %s ei jää seurauksitta. Siitä seuraa diplomaattinen selkkaus."
+msgstr ""
+"Toimesi %s kohteena %s %s ei jää seurauksitta. Siitä seuraa diplomaattinen "
+"selkkaus."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:428
 #, c-format
 msgid "You have caused an diplomatic incident doing %s at %s."
-msgstr "Toimesi %s paikassa %s ei jää seurauksitta. Siitä seuraa diplomaattinen selkkaus."
+msgstr ""
+"Toimesi %s paikassa %s ei jää seurauksitta. Siitä seuraa diplomaattinen "
+"selkkaus."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:463
@@ -41959,13 +41977,16 @@ msgstr "%s aiheuttavat diplomaattisen selkkauksen toimella %s kaupungissa %s."
 #: server/actiontools.c:473
 #, c-format
 msgid "The %s have caused an diplomatic incident doing %s to your %s."
-msgstr "%s on aiheuttanut diplomaattisen selkkauksen tekemällä toimen %s yksiköllesi %s."
+msgstr ""
+"%s on aiheuttanut diplomaattisen selkkauksen tekemällä toimen %s yksiköllesi "
+"%s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:484
 #, c-format
 msgid "The %s have caused an diplomatic incident doing %s at %s."
-msgstr "%s on aiheuttanut diplomaattisen selkkauksen tekemällä toimen %s paikassa %s."
+msgstr ""
+"%s on aiheuttanut diplomaattisen selkkauksen tekemällä toimen %s paikassa %s."
 
 #. TRANS: Suitcase Nuke
 #: server/actiontools.c:513
@@ -42521,49 +42542,49 @@ msgstr "%s saattaa pian kasvaa kokoon %i"
 msgid "Warning: Famine feared in %s."
 msgstr "Varoitus: nälänhädän vaara kaupungissa %s."
 
-#: server/cityturn.c:704
+#: server/cityturn.c:703
 #, c-format
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "VAROITUS %s, rahavaramme ovat vähissä!"
 
-#: server/cityturn.c:962
+#: server/cityturn.c:961
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr ""
 "%1$s ei voi kasvaa kokoa %3$d suuremmaksi ennen kuin %2$s (rakenteilla) on "
 "valmistunut."
 
-#: server/cityturn.c:968
+#: server/cityturn.c:967
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
 msgstr "%s ei voi kasvaa kokoa %d suuremmaksi ilman soveltuvaa rakennusta."
 
-#: server/cityturn.c:1046
+#: server/cityturn.c:1045
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s kasvaa kokoon %d."
 
-#: server/cityturn.c:1118
+#: server/cityturn.c:1117
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
 msgstr "Äskettäisen ruttoepidemian takia %s ei kasva."
 
-#: server/cityturn.c:1150
+#: server/cityturn.c:1149
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "Nälänhätä uhkaa kaupungissa %s, %s menetetty!"
 
-#: server/cityturn.c:1164
+#: server/cityturn.c:1163
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "Nälänhätä vähentää väkilukua kaupungissa %s."
 
-#: server/cityturn.c:1169
+#: server/cityturn.c:1168
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "Nälänhätä tyhjentää kaupungin %s."
 
-#: server/cityturn.c:1230 server/cityturn.c:2088
+#: server/cityturn.c:1229 server/cityturn.c:2087
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
@@ -42571,7 +42592,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska tarvittavaa teknologiaa %s ei vielä "
 "ole saatavilla."
 
-#: server/cityturn.c:1247
+#: server/cityturn.c:1246
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
@@ -42580,18 +42601,18 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska teknologiaa lipulla \"%s\" ei vielä "
 "ole saatavilla."
 
-#: server/cityturn.c:1268 server/cityturn.c:1298
+#: server/cityturn.c:1267 server/cityturn.c:1297
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska %s tarvitaan ensin."
 
-#: server/cityturn.c:1279 server/cityturn.c:1309
+#: server/cityturn.c:1278 server/cityturn.c:1308
 #, c-format
 msgid "%s can't build %s from the worklist; need to not have %s. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska %s tarvitaan ensin."
 
-#: server/cityturn.c:1324
+#: server/cityturn.c:1323
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government. Postponing..."
@@ -42599,7 +42620,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sen rakentamiseksi tarvitaan "
 "valtiomuoto %s."
 
-#: server/cityturn.c:1334
+#: server/cityturn.c:1333
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it cannot have %s government. "
@@ -42608,7 +42629,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sen rakentajalla ei saa olla "
 "valtiomuotona %s."
 
-#: server/cityturn.c:1347
+#: server/cityturn.c:1346
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs \"%s\" achievement. "
@@ -42617,27 +42638,27 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sen rakentamiseksi tarvitaan saavutus "
 "%s."
 
-#: server/cityturn.c:1363 server/cityturn.c:1386
+#: server/cityturn.c:1362 server/cityturn.c:1385
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is required. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska se vaatii ruutulisän %s."
 
-#: server/cityturn.c:1373 server/cityturn.c:1396
+#: server/cityturn.c:1372 server/cityturn.c:1395
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is prohibited. Postponing..."
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska ruutulisä %s estää rakentamisen."
 
-#: server/cityturn.c:1409
+#: server/cityturn.c:1408
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is required. "
 "Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska se vaatii maastotyypin %s."
 
-#: server/cityturn.c:1419
+#: server/cityturn.c:1418
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is prohibited. "
@@ -42646,14 +42667,14 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska maastotyyppi %s estää rakentamisen."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1438
+#: server/cityturn.c:1437
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is required. "
 "Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska sen voi rakentaa vain kansa %s."
 
-#: server/cityturn.c:1448
+#: server/cityturn.c:1447
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -42661,7 +42682,7 @@ msgid ""
 msgstr "%s lykkää työlistan hanketta %s, koska kansa %s ei voi sitä rakentaa."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1468
+#: server/cityturn.c:1467
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is required. "
@@ -42669,7 +42690,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska se vaatii ryhmään %s kuuluvan kansan."
 
-#: server/cityturn.c:1478
+#: server/cityturn.c:1477
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -42678,7 +42699,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska ryhmään %s kuuluva kansa ei voi sitä "
 "rakentaa."
 
-#: server/cityturn.c:1495
+#: server/cityturn.c:1494
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s style cities may build this. "
@@ -42687,7 +42708,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska vain tyylin %s kaupungit voivat "
 "rakentaa sen."
 
-#: server/cityturn.c:1505
+#: server/cityturn.c:1504
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s style cities may not build this. "
@@ -42697,7 +42718,7 @@ msgstr ""
 "rakentaa."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1521
+#: server/cityturn.c:1520
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city with %s may build this. "
@@ -42705,7 +42726,7 @@ msgid ""
 msgstr "%s lykkää työlistan hanketta %s, koska se vaatii rakennuksen %s."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1532
+#: server/cityturn.c:1531
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city without %s may build this. "
@@ -42716,7 +42737,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1552
+#: server/cityturn.c:1551
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is required.  "
@@ -42725,7 +42746,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska pelaajalla ei ole diplomaattisuhdetta "
 "'%s'."
 
-#: server/cityturn.c:1576
+#: server/cityturn.c:1575
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is prohibited.  "
@@ -42737,7 +42758,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1607
+#: server/cityturn.c:1606
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; unit with the relationship '%s' is "
@@ -42746,7 +42767,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska yhdenkään yksikön omistajalla ei ole "
 "diplomaattisuhdetta '%s'."
 
-#: server/cityturn.c:1629
+#: server/cityturn.c:1628
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; unit with the relationship '%s' is "
@@ -42755,7 +42776,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska yksikön omistajalla on estävä "
 "diplomaattisuhde '%s'."
 
-#: server/cityturn.c:1652
+#: server/cityturn.c:1651
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or larger. "
@@ -42764,7 +42785,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavan kaupungin koon pitää "
 "olla vähintään %d."
 
-#: server/cityturn.c:1663
+#: server/cityturn.c:1662
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or smaller."
@@ -42773,7 +42794,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavan kaupungin koko saa "
 "olla korkeintaan %d."
 
-#: server/cityturn.c:1677
+#: server/cityturn.c:1676
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have culture of %d. "
@@ -42782,7 +42803,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavalla kaupungilla pitää "
 "olla vähintään %d kulttuuria."
 
-#: server/cityturn.c:1693
+#: server/cityturn.c:1692
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% foreign population. "
@@ -42791,7 +42812,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavan kaupungin asukkaista "
 "vähintään %d%% pitää olla vierasta kansalaisuutta."
 
-#: server/cityturn.c:1703
+#: server/cityturn.c:1702
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% native population. "
@@ -42800,14 +42821,14 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavan kaupungin asukkaista "
 "vähintään %d%% pitää olla omistajan omaa kansalaisuutta."
 
-#: server/cityturn.c:1716
+#: server/cityturn.c:1715
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %d techs must be known. Postponing..."
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska vähintään %d teknologiaa pitää tuntea."
 
-#: server/cityturn.c:1731
+#: server/cityturn.c:1730
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; more than %d unit on tile.  "
@@ -42818,7 +42839,7 @@ msgid_plural ""
 msgstr[0] "%s lykkää työlistan hanketta %s, koska ruudussa on %d yksikkö."
 msgstr[1] "%s lykkää työlistan hanketta %s, koska ruudussa on %d yksikköä."
 
-#: server/cityturn.c:1746
+#: server/cityturn.c:1745
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; fewer than %d unit on tile.  "
@@ -42831,7 +42852,7 @@ msgstr[0] ""
 "yksiköitä: %d."
 msgstr[1] "%s lykkää työlistan hanketta %s, koska ruudussa ei ole %d yksikköä."
 
-#: server/cityturn.c:1773
+#: server/cityturn.c:1772
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
@@ -42839,7 +42860,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska maastotyyppi lipulla \"%s\" tarvitaan."
 
-#: server/cityturn.c:1784
+#: server/cityturn.c:1783
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is prohibited. "
@@ -42848,14 +42869,14 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska ruutu maastotyypin lipulla \"%s\" "
 "estää rakentamisen."
 
-#: server/cityturn.c:1798
+#: server/cityturn.c:1797
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is required. "
 "Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska tie lipulla \"%s\" tarvitaan."
 
-#: server/cityturn.c:1809
+#: server/cityturn.c:1808
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is prohibited. "
@@ -42863,7 +42884,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska tie lipulla \"%s\" estää rakentamisen."
 
-#: server/cityturn.c:1823
+#: server/cityturn.c:1822
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
@@ -42871,7 +42892,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska ruutulisä lipulla \"%s\" tarvitaan."
 
-#: server/cityturn.c:1834
+#: server/cityturn.c:1833
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is prohibited. "
@@ -42881,7 +42902,7 @@ msgstr ""
 "rakentamisen."
 
 #. TRANS: last %s is a CityStatus ("OwnedByOriginal")
-#: server/cityturn.c:1871
+#: server/cityturn.c:1870
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when city in range %s "
@@ -42891,7 +42912,7 @@ msgstr ""
 "etäisyydellä \"%s\" on \"%s\" kaupunki."
 
 #. TRANS: last %s is a CityStatus ("OwnedByOriginal")
-#: server/cityturn.c:1883
+#: server/cityturn.c:1882
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; not available when city in range %s is "
@@ -42903,7 +42924,7 @@ msgstr ""
 #. TRANS: last %s is a date
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:1903 server/cityturn.c:1923
+#: server/cityturn.c:1902 server/cityturn.c:1922
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -42913,7 +42934,7 @@ msgstr ""
 
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:1936
+#: server/cityturn.c:1935
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; not available after %s. Postponing..."
@@ -42923,7 +42944,7 @@ msgstr ""
 
 #. TRANS: third %s is topology flag name
 #. * ("WrapX", "ISO", etc)
-#: server/cityturn.c:1951
+#: server/cityturn.c:1950
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available in worlds with %s map."
@@ -42936,7 +42957,7 @@ msgstr ""
 #. * The string's format is specified in
 #. * ssetv_human_readable().
 #. * Example: "killstack is enabled".
-#: server/cityturn.c:1969
+#: server/cityturn.c:1968
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when the server setting "
@@ -42944,62 +42965,64 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska se vaatii palvelimen asetuksen %s."
 
-#: server/cityturn.c:1985
+#: server/cityturn.c:1984
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
 "Postponing..."
-msgstr "%s lykkää työlistan hanketta %s, koska se on saatavilla vasta %d vuoden iässä."
+msgstr ""
+"%s lykkää työlistan hanketta %s, koska se on saatavilla vasta %d vuoden "
+"iässä."
 
-#: server/cityturn.c:2109 server/cityturn.c:2177
+#: server/cityturn.c:2108 server/cityturn.c:2176
 #, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "%s poistaa hankkeen %s työlistalta koska sitä ei voi rakentaa."
 
-#: server/cityturn.c:2128 server/cityturn.c:2166 server/cityturn.c:2299
-#: server/cityturn.c:2345
+#: server/cityturn.c:2127 server/cityturn.c:2165 server/cityturn.c:2298
+#: server/cityturn.c:2344
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Tuotantoa uudistetaan: %s korvattu tavoitteella %s kaupungissa %s."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:2215
+#: server/cityturn.c:2214
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "%s pääsi työlistansa loppuun."
 
-#: server/cityturn.c:2379
+#: server/cityturn.c:2378
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s ei voi ylläpitää kaikkia yksikköjään, %s hajotettu."
 
-#: server/cityturn.c:2419
+#: server/cityturn.c:2418
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Kaupungin %s asukkaat kuolevat, kun %s kärsivät ylläpidon puutteesta!"
 
-#: server/cityturn.c:2425
+#: server/cityturn.c:2424
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep units!"
 msgstr ""
 "Kaupungin %s asukkaat kuolevat, kun yksiköt kärsivät ylläpidon puutteesta!"
 
-#: server/cityturn.c:2468 server/cityturn.c:2673
+#: server/cityturn.c:2467 server/cityturn.c:2672
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s: rakenteilla on %s, joka ei enää ole saatavilla."
 
-#: server/cityturn.c:2508
+#: server/cityturn.c:2507
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s ehtivät ensin: %s on valmistunut kaupungissa %s."
 
-#: server/cityturn.c:2515
+#: server/cityturn.c:2514
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s sai valmiiksi hankkeen %s."
 
-#: server/cityturn.c:2536
+#: server/cityturn.c:2535
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -43007,26 +43030,26 @@ msgstr[0] "%s tehostaa tutkimusta, harppaat %d edistysaskeleen."
 msgstr[1] "%s tehostaa tutkimusta, harppaat %d edistysaskelta."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2550
+#: server/cityturn.c:2549
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "%s saatu, sen tuotti %s!"
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2556
+#: server/cityturn.c:2555
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr ""
 "Tiedonjanoiset %1$s saivat edistysaskeleen. %3$s tuotti teknologian %2$s."
 
-#: server/cityturn.c:2563
+#: server/cityturn.c:2562
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s rakentavat jo avaruusalusta!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2698
+#: server/cityturn.c:2697
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -43034,76 +43057,76 @@ msgstr ""
 "väkilukukustannus: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2733
+#: server/cityturn.c:2732
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s sai valmiiksi hankkeensa %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2770
+#: server/cityturn.c:2769
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s vaatii väestöä %d kokoluokan, %s kutistuu kokoon %d."
 msgstr[1] "%s vaatii väestöä %d kokoluokkaa, %s kutistuu kokoon %d."
 
-#: server/cityturn.c:2850
+#: server/cityturn.c:2849
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s myyty kaupungissa %s, koska ylläpitoon ei ollut varaa!"
 
-#: server/cityturn.c:3001
+#: server/cityturn.c:3000
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Rahasi eivät riitä. %s hajotettiin."
 
-#: server/cityturn.c:3244 server/cityturn.c:4081
+#: server/cityturn.c:3243 server/cityturn.c:4080
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s raportoi saasteista lähistöllään."
 
-#: server/cityturn.c:3418
+#: server/cityturn.c:3417
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s järjestää villiä juhlintaa kunniaksesi."
 
-#: server/cityturn.c:3424
+#: server/cityturn.c:3423
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s palaa arkeen, juhlallisuudet peruttu."
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3513
+#: server/cityturn.c:3512
 msgid " Unrest threatens to spread beyond the city."
 msgstr " Levottomuudet uhkaavat levittäytyä kaupungin ulkopuolelle."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3520
+#: server/cityturn.c:3519
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "%s kärsii levottomuuksista.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3525
+#: server/cityturn.c:3524
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "%s: LEVOTTOMUUDET JATKUVAT.%s"
 
-#: server/cityturn.c:3531
+#: server/cityturn.c:3530
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s: Järjestys on palannut kaupunkiin."
 
 # government - e.g. Yksinvalta
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3543
+#: server/cityturn.c:3542
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "%s kaatui kansannousussa, valtio natisee liitoksissaan."
 
-#: server/cityturn.c:3587
+#: server/cityturn.c:3586
 #, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
@@ -43111,13 +43134,13 @@ msgstr ""
 "lakkauttaa."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3616
+#: server/cityturn.c:3615
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s lakkautettiin, kun %s koottiin."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3824
+#: server/cityturn.c:3823
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -43126,7 +43149,7 @@ msgstr ""
 "syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3831
+#: server/cityturn.c:3830
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -43136,7 +43159,7 @@ msgstr ""
 "(%s) syödään jo pettua!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3836
+#: server/cityturn.c:3835
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -43146,7 +43169,7 @@ msgstr ""
 "%s syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3851
+#: server/cityturn.c:3850
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -43155,7 +43178,7 @@ msgstr ""
 "parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3858
+#: server/cityturn.c:3857
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -43164,7 +43187,7 @@ msgstr ""
 "vaatii parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3863
+#: server/cityturn.c:3862
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -43172,77 +43195,77 @@ msgstr ""
 "Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupunki %s "
 "vaatii parannuksen kasvaakseen!"
 
-#: server/cityturn.c:3912
+#: server/cityturn.c:3911
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s on tyhjentynyt asukkaista."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3950
+#: server/cityturn.c:3949
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Siirtolaisia kaupungista %1$s on saapunut kaupunkiin %2$s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3956
+#: server/cityturn.c:3955
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Siirtolaisia kaupungistasi %1$s on päätynyt %3$s kaupunkiin %2$s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3961
+#: server/cityturn.c:3960
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Siirtolaisia %2$s kaupungista %1$s on saapunut kaupunkiisi %3$s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:4053
+#: server/cityturn.c:4052
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Kaikki ruokavarastot tuhoutuivat kaupungissa %s."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:4075
+#: server/cityturn.c:4074
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%2$s iski kaupunkiin %1$s."
 
-#: server/cityturn.c:4089
+#: server/cityturn.c:4088
 #, c-format
 msgid "Fallout near %s."
 msgstr "Ydinlaskeumaa lähellä kaupunkia %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:4100
+#: server/cityturn.c:4099
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "%s aiheuttaa kaupungin %s tuhon."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:4106
+#: server/cityturn.c:4105
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s vähensi väkilukua kaupungissa %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:4131
+#: server/cityturn.c:4130
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s tuhosi kohteen %s kaupungissa %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:4156
+#: server/cityturn.c:4155
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Kohteen %s tuotanto tuhoutui kaupungissa %s."
 
-#: server/cityturn.c:4326
+#: server/cityturn.c:4325
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "%s ei houkuta. Sen asukkaat harkitsevat muuttoa kaupunkiin %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4348
+#: server/cityturn.c:4347
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
