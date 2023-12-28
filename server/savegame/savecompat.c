@@ -2993,7 +2993,7 @@ static void compat_load_dev(struct loaddata *loading)
   } /* Version < 3.1.93 */
 
   if (game_version < 3019400) {
-    /* Before version number bump to 3.1.94 */
+    /* Before version number bump to 3.1.94, January 2024 */
 
     {
       int action_count;
@@ -3126,6 +3126,11 @@ static void compat_load_dev(struct loaddata *loading)
     }
 
   } /* Version < 3.1.94 */
+
+  if (game_version < 3019500) {
+    /* Before version number bump to 3.1.95 */
+
+  } /* Version < 3.1.95 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
 }
