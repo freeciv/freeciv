@@ -254,7 +254,7 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self,
         citizens own = citizens_nation_get(self, inspirer->slot);
         citizens total = city_size_get(self);
 
-        if ((own * 100 / total) >= game.info.citizen_partisans_pct) {
+        if (total > 0 && (own * 100 / total) >= game.info.citizen_partisans_pct) {
           inspired = TRUE;
         }
       }
