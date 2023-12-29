@@ -112,7 +112,7 @@ qt5-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
 
 qt6-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
 
 ruledit-installer-qt5:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 installer-ruledit-common
@@ -133,7 +133,7 @@ qt5-install:
 	make -f $(MAKEFILE_NAME) GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" install-freeciv-qt5
 
 qt6-install:
-	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6 $(EXTRA_CONFIG)" install-freeciv-qt6
+	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" install-freeciv-qt6
 
 ruledit-install-qt5:
 	make -f $(MAKEFILE_NAME) GUI=qt5 EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" install-ruledit-qt5
