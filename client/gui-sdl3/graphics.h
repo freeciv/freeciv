@@ -25,11 +25,7 @@
 #define FC__GRAPHICS_H
 
 /* SDL3 */
-#ifdef SDL2_GFX_FROM_TREE
-#include "SDL2_gfx/SDL2_rotozoom.h"
-#else
-#include <SDL3/SDL3_rotozoom.h>
-#endif /* SDL2_GFX_FROM_TREE */
+#include "SDL3_gfx/SDL3_rotozoom.h"
 
 /* client */
 #include "graphics_g.h"

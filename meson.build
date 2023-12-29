@@ -3867,14 +3867,8 @@ sdl3_image_dep = []
 sdl3_ttf_dep = []
 
 if not emscripten
-  sdl3_gfx_dep = c_compiler.find_library('SDL3_gfx', dirs: cross_lib_path,
-                                         required: false)
-
-  if not sdl3_gfx_dep.found()
-    sdl3_gfx_src = 'dependencies/SDL2_gfx/SDL2_rotozoom.c'
-    sdl3_gfx_inc = include_directories('dependencies')
-    sdl3_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
-  endif
+  sdl3_gfx_src = 'dependencies/SDL3_gfx/SDL3_rotozoom.c'
+  sdl3_gfx_inc = include_directories('dependencies')
 
   sdl3_image_dep = c_compiler.find_library('SDL3_image', dirs: cross_lib_path,
                                            required: false)
@@ -3933,7 +3927,6 @@ executable('freeciv-sdl2x',
   'client/gui-sdl3/wldlg.c',
   sdl3_gfx_src,
   clienticon,
-  c_args: sdl3_gfx_cargs,
   include_directories: [client_inc, sdl3_gfx_inc ],
   dependencies: [sdl3main_dep, audio_dep,
                  sdl3_image_dep, sdl3_gfx_dep, sdl3_ttf_dep,
