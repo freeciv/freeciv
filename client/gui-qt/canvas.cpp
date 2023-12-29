@@ -420,6 +420,7 @@ QRect zealous_crop_rect(QImage &p)
 {
   int r, t, b, l;
   int oh, ow;
+  QRgb *row;
 
   ow = p.width();
   l = ow;
@@ -427,8 +428,10 @@ QRect zealous_crop_rect(QImage &p)
   oh = p.height();
   t = oh;
   b = 0;
+
+  row = (QRgb *)fc_malloc(sizeof(QRgb) * ow);
+
   for (int y = 0; y < oh; y++) {
-    QRgb row[ow];
     bool row_filled = false;
     int x;
 
@@ -451,5 +454,8 @@ QRect zealous_crop_rect(QImage &p)
       b = y;
     }
   }
+
+  free(row);
+
   return QRect(l, t, qMax(0, r - l + 1), qMax(0, b - t + 1));
 }
