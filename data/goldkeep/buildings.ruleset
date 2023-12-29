@@ -469,9 +469,9 @@ obsolete_by	=
 build_cost	= 40
 upkeep		= 1
 sabotage	= 100
-sound		= "b_harbour"
-sound_alt	= "b_generic"
-sound_alt2      = "-"
+sound           = "b_harbor"
+sound_alt       = "b_harbour"
+sound_alt2      = "b_generic"
 helptext	= _("\
 Gives one extra food resource on all Oceanic tiles. The city needs\
  to be coastal to build this improvement.\
