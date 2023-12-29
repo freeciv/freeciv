@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-28 21:19+0300\n"
-"PO-Revision-Date: 2023-09-28 10:12+0200\n"
+"POT-Creation-Date: 2023-09-25 08:23+0300\n"
+"PO-Revision-Date: 2023-12-26 21:19+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Bookmarks: 4866,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: ai/default/daicity.c:997
@@ -4373,8 +4373,8 @@ msgid ""
 msgstr ""
 "Naciśnięcie tego przycisku stworzy nowy obiekt określony na bieżącej stronie "
 "obiektu i doda go do strony. Dokładny typ i ilość obiektów określany jest "
-"ustawieniami narzędzi edytora; na przykład \"wartość\" oraz parametr "
-"\"ilość\" określane dla narzędzia jednostki wpływają na tworzenie jednostki."
+"ustawieniami narzędzi edytora; na przykład \"wartość\" oraz parametr \"ilość"
+"\" określane dla narzędzia jednostki wpływają na tworzenie jednostki."
 
 #: client/gui-gtk-3.0/editprop.c:4867 client/gui-gtk-3.22/editprop.c:4867
 #: client/gui-gtk-4.0/editprop.c:4879
@@ -7446,7 +7446,7 @@ msgstr[2] "%d infrapunktów"
 
 #: client/gui-gtk-3.22/infradlg.c:191 client/gui-gtk-4.0/infradlg.c:199
 msgid "No infra possible. Select another tile."
-msgstr "Infrastruktura niemożliwe. Wybierz inne pole."
+msgstr "Infrastruktura niemożliwa. Wybierz inne pole."
 
 #: client/gui-gtk-3.22/infradlg.c:194 client/gui-gtk-4.0/infradlg.c:202
 msgid "Select infra for the tile, or another tile."
@@ -7463,7 +7463,7 @@ msgstr "Okno punktu zbornego"
 
 #: client/gui-gtk-3.22/menu.c:314 client/gui-gtk-4.0/menu.c:594
 msgid "Infra dialog"
-msgstr "Okno dialogowe infrastruktury"
+msgstr "Dialog infrastruktury"
 
 #: client/gui-gtk-3.22/optiondlg.c:361 client/gui-gtk-3.22/pages.c:458
 #: client/gui-gtk-3.22/pages.c:587 client/gui-gtk-4.0/optiondlg.c:387
@@ -8153,6 +8153,7 @@ msgid "Pacts"
 msgstr "Pakty"
 
 #: client/gui-qt/fc_client.cpp:136
+#| msgid "Freeciv (%s)"
 msgid "Freeciv (%1)"
 msgstr "Freeciv (%1)"
 
@@ -18826,8 +18827,8 @@ msgstr "Niemożliwe, jeśli znasz technologię z flagą \"%s\"."
 msgid ""
 "Requires that a player on your team knows a technology with the \"%s\" flag."
 msgstr ""
-"Wymagania: dowolny gracz z twojej drużyny musi znać technologię z flagą "
-"\"%s\"."
+"Wymagania: dowolny gracz z twojej drużyny musi znać technologię z flagą \"%s"
+"\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:168
@@ -18836,8 +18837,8 @@ msgid ""
 "Prevented if any player on your team knows any technology with the \"%s\" "
 "flag."
 msgstr ""
-"Niemożliwe, jeśli dowolny gracz z twojej drużyny zna technologię z flagą "
-"\"%s\"."
+"Niemożliwe, jeśli dowolny gracz z twojej drużyny zna technologię z flagą \"%s"
+"\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:178
@@ -31931,8 +31932,8 @@ msgstr ""
 "RADA: Może się zdarzyć, że twoje jednostki masowo najechały obszar wroga, "
 "lecz jego miasta są zbyt silne. Wówczas przed użyciem Bomb Atomowych, warto "
 "zgromadzić grupę jednostek sprzątających i przygotować ich do usuwania "
-"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej "
-"zimy\" (ekologiczne bomby atomowe!)."
+"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej zimy"
+"\" (ekologiczne bomby atomowe!)."
 
 #: data/sandbox/units.ruleset:2358
 msgid "ICBM"
@@ -35116,8 +35117,8 @@ msgstr ""
 "mnożona jest przez współczynnik obrony przypisany do terenu, na którym "
 "jednostka się znajduje. (Jednak nie wszystkie type jednostek korzystają z "
 "tego współczynnika; na przykład w klasycznym zestawie zasad, korzystają z "
-"niego tylko jednostki lądowe.) Więcej informacji znajdziesz w sekcji "
-"\"Bitwa\"."
+"niego tylko jednostki lądowe.) Więcej informacji znajdziesz w sekcji \"Bitwa"
+"\"."
 
 #: data/helpdata.txt:304
 msgid ""
@@ -35341,10 +35342,10 @@ msgstr ""
 "Jeśli ustawiona jest odpowiednia opcja serwera, każdy naród ma granice "
 "swojego państwa, oznaczoną na mapie linią przerywaną. Granice określają na "
 "jakich terenach przeprowadzane mogą być prace, gdzie mogą być budowane nowe "
-"miasta i czy mieszkańcy postrzegają ustawienie twoich jednostek jako "
-"\"bojowe\" (więcej informacji znaleźć można w sekcji \"Zadowolenie\"). "
-"Granice odgrywają też rolę przy paktach między narodami (więcej informacji "
-"znaleźć można w sekcji \"Dyplomacja\")."
+"miasta i czy mieszkańcy postrzegają ustawienie twoich jednostek jako \"bojowe"
+"\" (więcej informacji znaleźć można w sekcji \"Zadowolenie\"). Granice "
+"odgrywają też rolę przy paktach między narodami (więcej informacji znaleźć "
+"można w sekcji \"Dyplomacja\")."
 
 #: data/helpdata.txt:434
 msgid ""
@@ -35440,8 +35441,8 @@ msgid ""
 "capacity, and once full the city grows by one citizen and the granary starts "
 "again at empty. But since granary capacity increases with population, each "
 "citizen is more costly than the last, making this mode of growth important "
-"only for small cities. (An alternative way for cities to grow is "
-"\"rapture\", described in the section on Happiness.)"
+"only for small cities. (An alternative way for cities to grow is \"rapture"
+"\", described in the section on Happiness.)"
 msgstr ""
 "Nadwyżka żywności może spowodować wzrost populacji. Spichlerz miejski ma "
 "ograniczoną pojemność i gdy się zapełni, miasto wzrasta o jednego "
@@ -35573,10 +35574,10 @@ msgid ""
 "immediately after completion."
 msgstr ""
 "Każdy gracz może tworzyć obiekty, na które pozwalają mu posiadane "
-"technologie, z kilkoma ograniczeniami (zob. sekcje \"Jednostki\", "
-"\"Budynki\" i \"Cudy\"). Zachowaj ostrożność - gra umożliwia ci nawet "
-"tworzenie jednostek i budynków, których nie jesteś w stanie utrzymać i które "
-"zostaną rozwiązane natychmiast po ukończeniu."
+"technologie, z kilkoma ograniczeniami (zob. sekcje \"Jednostki\", \"Budynki"
+"\" i \"Cudy\"). Zachowaj ostrożność - gra umożliwia ci nawet tworzenie "
+"jednostek i budynków, których nie jesteś w stanie utrzymać i które zostaną "
+"rozwiązane natychmiast po ukończeniu."
 
 #: data/helpdata.txt:551
 msgid ""
@@ -36053,8 +36054,8 @@ msgstr ""
 "niezadowoleni, w mieście wybuchają zamieszki, które przerywają produkcję. "
 "Jeśli mieszkańcy są szczęśliwi, miasto świętuje, co znacznie zwiększa jego "
 "produkcję. Jeśli ustawiono opcję migracji, szczęście mieszkańców wpływa też "
-"na atrakcyjność miasta (więcej informacji znaleźć można w sekcji "
-"\"Migracja\".)"
+"na atrakcyjność miasta (więcej informacji znaleźć można w sekcji \"Migracja"
+"\".)"
 
 #: data/helpdata.txt:792
 msgid ""
@@ -37553,10 +37554,10 @@ msgid ""
 "browser is using a HTTP proxy; to make the client use the same proxy, before "
 "starting the client, set the $http_proxy environment variable to:"
 msgstr ""
-"Klient może także dostarczyć tą stronę: użyj zakładki przycisku "
-"\"Metaserwer\" w oknie połączenia. Jeżeli nie przynosi to rezultatu, być "
-"może twoja przeglądarka używa proxy; aby klient używał tego samego proxy, "
-"zanim go uruchomisz, ustaw zmienną środowiskową $http_proxy na:"
+"Klient może także dostarczyć tą stronę: użyj zakładki przycisku \"Metaserwer"
+"\" w oknie połączenia. Jeżeli nie przynosi to rezultatu, być może twoja "
+"przeglądarka używa proxy; aby klient używał tego samego proxy, zanim go "
+"uruchomisz, ustaw zmienną środowiskową $http_proxy na:"
 
 #: data/helpdata.txt:1619
 msgid ""
@@ -38339,8 +38340,8 @@ msgstr ""
 "Wyrażenie to można rozpocząć i zakończyć w jednym znaczniku, np. '[link "
 "target=\"unit\" id=109 /]' (zwróć uwagę na ukośnik przed ostatnim "
 "nawiasem).\n"
-"Przykłady: '[l tgt=\"unit\" id=235]jednostka[/l]' wyświetli słowo "
-"\"jednostka\" jako klikalny link do jednostki o identyfikatorze 235.\n"
+"Przykłady: '[l tgt=\"unit\" id=235]jednostka[/l]' wyświetli słowo \"jednostka"
+"\" jako klikalny link do jednostki o identyfikatorze 235.\n"
 "'[l tgt=\"unit\" id=235 name=\"Wojownik\" /]' wyświetli nazwę jednostki o "
 "identyfikatorze 235, jeśli jest ona znana adresatowi; w przeciwnym razie "
 "wyświetli się słowo \"Wojownik\"."
@@ -39029,7 +39030,7 @@ msgstr ""
 
 #: data/multiplayer/units.ruleset:40
 msgid "Infra"
-msgstr "Infra"
+msgstr "Infrastruktura"
 
 #: data/multiplayer/units.ruleset:40
 msgid "Can build infrastructure."
@@ -40664,8 +40665,8 @@ msgstr ""
 "\n"
 "Można temu zaradzić na kilka sposobów. Szybkim rozwiązaniem jest budowa\n"
 "Świątyni (lub innego budynku związanego z kulturą), która zmieni jednego\n"
-"niezadowolonego mieszkańca w zadowolonego (zob. sekcja pomocy pt. "
-"\"Budynki\";\n"
+"niezadowolonego mieszkańca w zadowolonego (zob. sekcja pomocy pt. \"Budynki"
+"\";\n"
 "znajdziesz tam szczegółowe opisy różnych budowli). Inne rozwiązanie to "
 "zmiana\n"
 "stawek podatkowych (użyj skrótu ctrl-t) tak, by więcej dochodów z podatków\n"
@@ -40909,8 +40910,8 @@ msgstr ""
 "opracowywaną technologią, będzie ta leżąca na ścieżce wiodącej do "
 "Republiki.\n"
 "Pasek w górnej części okna pokazuje postęp badań - punkty odkryć pochodzą \n"
-"z opodatkowanego handlu w miastach. Niżej znajdziesz  \"drzewo "
-"technologii\";\n"
+"z opodatkowanego handlu w miastach. Niżej znajdziesz  \"drzewo technologii"
+"\";\n"
 "możesz tu wybierać cele badań, a po kliknięciu prawym przyciskiem myszy na\n"
 "dane odkrycie, pojawi się okno pomocy na jego temat. Gdy zechcesz wrócić\n"
 "do widoku mapy, naciśnij F1."
@@ -42479,8 +42480,8 @@ msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
 "Postponing..."
 msgstr ""
-"%s nie może zbudować %s z planu prac; brak wymaganej technologii z flagą "
-"\"%s\". Przesunięto na późniejszy termin..."
+"%s nie może zbudować %s z planu prac; brak wymaganej technologii z flagą \"%s"
+"\". Przesunięto na późniejszy termin..."
 
 #: server/cityturn.c:1245 server/cityturn.c:1275
 #, c-format
@@ -42806,8 +42807,8 @@ msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
 "Postponing..."
 msgstr ""
-"%s nie może zbudować %s z planu prac; wymagane jest usprawnienie z flagą "
-"\"%s\". Przesunięto na późniejszy termin..."
+"%s nie może zbudować %s z planu prac; wymagane jest usprawnienie z flagą \"%s"
+"\". Przesunięto na późniejszy termin..."
 
 #: server/cityturn.c:1811
 #, c-format
@@ -43571,19 +43572,19 @@ msgstr "Lista opcji serwera."
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
-"or options with that prefix. With \"all\", it shows all options. With "
-"\"vital\", \"situational\" or \"rare\", a set of options with this level. "
-"With \"changed\", it shows only the options which have been modified, while "
-"with \"locked\" all settings locked by the ruleset will be listed. With "
-"\"ruleset\", it will show the current ruleset directory name."
+"or options with that prefix. With \"all\", it shows all options. With \"vital"
+"\", \"situational\" or \"rare\", a set of options with this level. With "
+"\"changed\", it shows only the options which have been modified, while with "
+"\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
+"\", it will show the current ruleset directory name."
 msgstr ""
 "Bez argumentu wymienia ważne opcje serwera (lub opcje dostępne, jeśli "
 "polecenie jest wydane przez klienta). Podając argument, ograniczamy listę "
-"tylko do wybranej opcji lub zbioru opcji ze wskazanym przedrostkiem. Z "
-"\"all\" wyświetla wszystkie opcje. Z \"vital\", \"situational\" lub "
-"\"rare\", wyświetla zestaw opcji z tego poziomu. Z \"changed\" wyświetla "
-"opcje, które zostały zmienione, a z \"locked\" opcje zablokowane przez "
-"zestaw zasad. Z \"ruleset\" wyświetla bieżącą nazwę folderu zestawów zasad."
+"tylko do wybranej opcji lub zbioru opcji ze wskazanym przedrostkiem. Z \"all"
+"\" wyświetla wszystkie opcje. Z \"vital\", \"situational\" lub \"rare\", "
+"wyświetla zestaw opcji z tego poziomu. Z \"changed\" wyświetla opcje, które "
+"zostały zmienione, a z \"locked\" opcje zablokowane przez zestaw zasad. Z "
+"\"ruleset\" wyświetla bieżącą nazwę folderu zestawów zasad."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:173
@@ -43639,8 +43640,8 @@ msgid ""
 msgstr ""
 "Gracz posiadający podstawowy poziom dostępu, który wykonuje polecenia z "
 "poziomu 'control' rozpoczyna nowe głosowanie nad danym poleceniem. Aby "
-"zagłosować, użyj /vote, a po nim \"yes\" (czyli \"tak\"), \"no\" (czyli "
-"\"nie\") lub \"abstain\"( czyli \"wstrzymuję się\") i ewentualnie numer "
+"zagłosować, użyj /vote, a po nim \"yes\" (czyli \"tak\"), \"no\" (czyli \"nie"
+"\") lub \"abstain\"( czyli \"wstrzymuję się\") i ewentualnie numer "
 "głosowania. Jeśli nie podasz numeru, twój głos będzie dotyczył ostatniego "
 "głosowania. Możesz zaproponować jedynie jedno głosowanie na raz. Głosowanie "
 "kończy się po zakończeniu jednej pełnej tury lub gdy zostanie rozstrzygnięte "
@@ -44139,10 +44140,10 @@ msgstr "Blokuje wszystkie wiadomości pasujące do wzoru."
 #: server/commands.c:477
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
-"any messages from users matching this pattern. The type may be either "
-"\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
-"against the username. The pattern supports unix glob style wildcards, i.e., "
-"* matches zero or more character, ? exactly one character, [abc] exactly one "
+"any messages from users matching this pattern. The type may be either \"user"
+"\", \"host\", or \"ip\". The default type (if omitted) is to match against "
+"the username. The pattern supports unix glob style wildcards, i.e., * "
+"matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
 msgstr ""
@@ -44177,8 +44178,8 @@ msgstr ""
 "zakresu może być jeden numer lub para numerów przedzielona myślnikiem '-'. "
 "Jeśli pierwszy numer jest pominięty, program zakłada, że jest to 1; jeśli "
 "pominięty jest ostatni numer, zakłada się, że jest to ostatni indeks na "
-"liście ignorowanych. Aby wyświetlić listę ignorowanych, wpisz \"/list "
-"ignore\"."
+"liście ignorowanych. Aby wyświetlić listę ignorowanych, wpisz \"/list ignore"
+"\"."
 
 #. TRANS: translate text between <>
 #: server/commands.c:501
@@ -46095,46 +46096,46 @@ msgstr "Słabo nazwany gracz"
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Spotkałeś/aś %s! Rządzi nimi %s."
 
-#: server/plrhand.c:2840
+#: server/plrhand.c:2838
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Nie można wzniecić wojny domowej u %s - za dużo graczy"
 
-#: server/plrhand.c:2847
+#: server/plrhand.c:2845
 #, c-format
 msgid "Could not throw %s into civil war - maxplayers (%d) reached"
 msgstr ""
 "Nie można wzniecić wojny domowej u %s - osiągnięto maksymalną liczbę graczy "
 "(%d)"
 
-#: server/plrhand.c:2854
+#: server/plrhand.c:2852
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Nie można wzniecić wojny domowej u %s - nie ma już dostępnych narodów"
 
-#: server/plrhand.c:2889
+#: server/plrhand.c:2887
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr "Nie można wzniecić wojny domowej u %s - nie ma dostępnych miast"
 
-#: server/plrhand.c:2911
+#: server/plrhand.c:2909
 msgid "Your nation is thrust into civil war."
 msgstr "W twoim państwie wybuchła wojna domowa."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2915
+#: server/plrhand.c:2913
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s jest przywódcą rebelii %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2937
+#: server/plrhand.c:2935
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s deklaruje posłuszeństwo dla %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2962
+#: server/plrhand.c:2960
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -46144,7 +46145,7 @@ msgstr[2] "Wojna domowa rozbija państwo %s; %s mają teraz %d miast."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3103
+#: server/plrhand.c:3101
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -46154,14 +46155,14 @@ msgstr ""
 "uczestniczysz w rozgrywce. Użyj '/delegate cancel', by anulować "
 "pełnomocnictwo."
 
-#: server/plrhand.c:3115
+#: server/plrhand.c:3113
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Przekazano ci kontrolę nad graczem '%s'."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3124
+#: server/plrhand.c:3122
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Użyj '/delegate take <gracz>' by przejąć kontrolę nad graczem z "
@@ -46774,33 +46775,33 @@ msgid "%s has been added as human player."
 msgstr "%s został/a dodany jako gracz-człowiek."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3737
+#: server/savegame/savegame2.c:2700 server/savegame/savegame3.c:3738
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s miał/a nieprawidłowy naród; zmieniam na %s."
 
 #: server/savegame/savegame2.c:2786 server/savegame/savegame2.c:2792
-#: server/savegame/savegame3.c:3822 server/savegame/savegame3.c:3828
+#: server/savegame/savegame3.c:3823 server/savegame/savegame3.c:3829
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s nie daje widoku dzielonego członkowi drużyny %s."
 
-#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7731
+#: server/savegame/savegame2.c:5321 server/savegame/savegame3.c:7732
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s miał/a niewłaściwą technologię badań."
 
-#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7741
+#: server/savegame/savegame2.c:5331 server/savegame/savegame3.c:7742
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s miał/a niewłaściwy cel badań."
 
-#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7750
+#: server/savegame/savegame2.c:5340 server/savegame/savegame3.c:7751
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "%s miał/a niewłaściwą ilość badań."
 
-#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7768
+#: server/savegame/savegame2.c:5380 server/savegame/savegame3.c:7769
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -47620,8 +47621,8 @@ msgid ""
 msgstr ""
 "Mapy są dwuwymiarowe i mogą się zawijać na północ-południe oraz wschód-"
 "zachód; mogą tworzyć płaską powierzchnię, walec lub torus (obwarzanek). Pola "
-"mogą być prostokątne lub sześciokątne i mogą być ułożone "
-"\"lotniczo\" (klasycznie) lub izometrycznie.\n"
+"mogą być prostokątne lub sześciokątne i mogą być ułożone \"lotniczo"
+"\" (klasycznie) lub izometrycznie.\n"
 "Aby grać z daną topologią mapy, klient potrzebuje odpowiedniego zestawu "
 "graficznego.\n"
 "Klasyczna prostokątna:      Izometryczna prostokątna:\n"
@@ -48985,8 +48986,8 @@ msgid ""
 msgstr ""
 "To ustawienie określa sposób przenoszenia jednostek mostem powietrznym. Może "
 "przyjmować następujące wartości:\n"
-"- \"Pozwala na przenoszenie jednostek z sojuszniczych "
-"miast\" (FROM_ALLIES).\n"
+"- \"Pozwala na przenoszenie jednostek z sojuszniczych miast"
+"\" (FROM_ALLIES).\n"
 "- \"Pozwala na przenoszenie jednostek do sojuszniczych miast\" (TO_ALLIES).\n"
 "- \"Nieograniczone przenoszenie z miast początkowych\" (SRC_UNLIMITED): "
 "przenoszenie z miasta nie zmniejsza licznika przenoszonych jednostek. Zestaw "
@@ -54044,11 +54045,9 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "City Traderoutes"
 #~ msgstr "Szlaki handlowe"
 
-#, c-format
 #~ msgid "Viscount %s"
 #~ msgstr "Wicehrabia %s"
 
-#, c-format
 #~ msgid ""
 #~ "?terrainclass:%s can't build %s from the worklist; %s terrain is "
 #~ "required.  Postponing..."
@@ -54056,7 +54055,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "?terrainclass:%s nie może zbudować %s z planu prac; wymagany typ terenu "
 #~ "to %s. Przesunięto na późniejszy termin..."
 
-#, c-format
 #~ msgid ""
 #~ "?terrainclass:%s can't build %s from the worklist; %s terrain is "
 #~ "prohibited.  Postponing..."
@@ -54081,7 +54079,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "None"
 #~ msgstr "Brak"
 
-#, c-format
 #~ msgid "Set debug log level (%d to %d)"
 #~ msgstr "Ustaw poziom śledzenia debugowania (%d do %d)"
 
@@ -54094,12 +54091,12 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Worklist menu"
 #~ msgstr "Menu planu prac"
 
-#, fuzzy, c-format
+#, fuzzy
 #~| msgid "Alien Rights"
 #~ msgid "%sAlight%s"
 #~ msgstr "Prawa Obcych"
 
-#, fuzzy, c-format
+#, fuzzy
 #~| msgid ""
 #~| "Requires that somebody in your alliance has the relationship '%s' with "
 #~| "at least one other living player."
@@ -54110,7 +54107,7 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Wymagania: ktoś w twoim sojuszu musi mieć relację '%s' z innym żywym "
 #~ "graczem."
 
-#, fuzzy, c-format
+#, fuzzy
 #~| msgid ""
 #~| "Requires that somebody on your team has the relationship '%s' with at "
 #~| "least one other living player."
@@ -54122,7 +54119,7 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Wymagania: ktoś w twojej drużynie musi mieć relację '%s' z innym żywym "
 #~ "graczem."
 
-#, fuzzy, c-format
+#, fuzzy
 #~| msgid ""
 #~| "Requires that you do not have the relationship '%s' with the other "
 #~| "player."
@@ -54168,7 +54165,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Mine Rslt/Time:"
 #~ msgstr "Kopal. daje/czas:"
 
-#, c-format
 #~ msgid "Rally point cleared for city %s"
 #~ msgstr "Wyczyszczono punkt zborny dla miasta %s"
 
@@ -54181,22 +54177,18 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Cut Down to"
 #~ msgstr "Zmień na"
 
-#, c-format
 #~ msgid "Change to %s (%s) %d %s"
 #~ msgstr "Zmień na %s (%s) %d %s"
 
 #~ msgid "Plant Forest"
 #~ msgstr "Zasadź las"
 
-#, c-format
 #~ msgid "* Allows %s (with %s).\n"
 #~ msgstr "* Pozwala na %s (razem z %s).\n"
 
-#, c-format
 #~ msgid "* Allows %s.\n"
 #~ msgstr "* Pozwala na %s.\n"
 
-#, no-c-format
 #~ msgid ""
 #~ "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
 #~ msgstr ""
@@ -54206,11 +54198,9 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "  * May fortify to stay put.\n"
 #~ msgstr "  * Może się umacniać, by pozostać na miejscu.\n"
 
-#, c-format
 #~ msgid "* Can only be built if there is %s in the city.\n"
 #~ msgstr "* Jednostkę można stworzyć tylko, gdy w mieście jest %s.\n"
 
-#, c-format
 #~ msgid "* Can only be built with %s as government.\n"
 #~ msgstr "* Jednostka może być jedynie budowana w ustroju %s.\n"
 
@@ -54232,7 +54222,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "  * Może być podbite przez taką jednostkę, jeśli jesteś w stanie wojny z "
 #~ "narodem, do którego należy.\n"
 
-#, c-format
 #~ msgid "* Allows you to build %s.\n"
 #~ msgstr "* Pozwala budować %s.\n"
 
@@ -54265,15 +54254,12 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Requires that the unit isn't on a domestic tile."
 #~ msgstr "Wymagania: jednostka nie może być na polu własnego kraju."
 
-#, c-format
 #~ msgid "Requires a base with the \"%s\" flag on the tile."
 #~ msgstr "Wymagania: baza z flagą \"%s\" na tym samym polu."
 
-#, c-format
 #~ msgid "Prevented by a base with the \"%s\" flag on the tile."
 #~ msgstr "Niemożliwe, jeśli na tym samym polu jest baza z flagą \"%s\"."
 
-#, c-format
 #~ msgid ""
 #~ "Requires a base with the \"%s\" flag on the tile or a cardinally adjacent "
 #~ "tile."
@@ -54281,7 +54267,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Wymagania: baza z flagą \"%s\" na tym samym polu lub na polu "
 #~ "przylegającym bezpośrednio."
 
-#, c-format
 #~ msgid ""
 #~ "Prevented by a base with the \"%s\" flag on the tile or any cardinally "
 #~ "adjacent tile."
@@ -54289,32 +54274,27 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Niemożliwe, jeśli na tym samym polu lub na polu przylegającym "
 #~ "bezpośrednio jest baza z flagą \"%s\"."
 
-#, c-format
 #~ msgid ""
 #~ "Requires a base with the \"%s\" flag on the tile or an adjacent tile."
 #~ msgstr ""
 #~ "Wymagania: baza z flagą \"%s\" na tym samym polu lub na polu "
 #~ "przylegającym."
 
-#, c-format
 #~ msgid ""
 #~ "Prevented by a base with the \"%s\" flag on the tile or any adjacent tile."
 #~ msgstr ""
 #~ "Niemożliwe, jeśli na tym samym polu lub na polu przylegającym jest baza z "
 #~ "flagą \"%s\"."
 
-#, c-format
 #~ msgid ""
 #~ "Requires a base with the \"%s\" flag on a tile within the city radius."
 #~ msgstr "Wymagania: baza z flagą \"%s\" w promieniu miasta."
 
-#, c-format
 #~ msgid ""
 #~ "Prevented by a base with the \"%s\" flag on any tile within the city "
 #~ "radius."
 #~ msgstr "Niemożliwe, jeśli w promieniu miasta jest baza z flagą \"%s\"."
 
-#, c-format
 #~ msgid ""
 #~ "Requires a base with the \"%s\" flag on a tile within the city radius or "
 #~ "the city radius of a trade partner."
@@ -54322,7 +54302,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Wymagania: baza z flagą \"%s\" w promieniu twojego miasta lub miasta "
 #~ "partnera handlowego."
 
-#, c-format
 #~ msgid ""
 #~ "Prevented by a base with the \"%s\" flag on any tile within the city "
 #~ "radius or the city radius of a trade partner."
@@ -54333,7 +54312,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "On domestic tile"
 #~ msgstr "Na polu własnego kraju"
 
-#, c-format
 #~ msgid "?baseflag:\"%s\" base"
 #~ msgstr "?baseflag:baza \"%s\""
 
@@ -54364,7 +54342,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "EarlyFighter"
 #~ msgstr "WczesnaWalka"
 
-#, no-c-format
 #~ msgid "250% defense against Stealth Bombers"
 #~ msgstr "250% obrony przed Bombowcami Stealth"
 
@@ -54462,7 +54439,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Genetic Lab"
 #~ msgstr "Laboratorium Genetyczne"
 
-#, no-c-format
 #~ msgid ""
 #~ "In a Genetic Laboratory medicaments can be researched. The possibility "
 #~ "for plagues within the city is reduced.\n"
@@ -54528,15 +54504,12 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "grywalność. Opis różnic z domyślnym zestawem zasad znajdziesz w pliku "
 #~ "README.experimental."
 
-#, no-c-format
 #~ msgid "Map Known 20%"
 #~ msgstr "Mapa znana w 20%"
 
-#, no-c-format
 #~ msgid "You're the first one to have 20% of the world mapped!"
 #~ msgstr "Jako pierwszy/a masz mapę 20% świata!"
 
-#, no-c-format
 #~ msgid "You have 20% of the world mapped!"
 #~ msgstr "Masz mapę 20% świata!"
 
@@ -54579,7 +54552,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "lądowych, do czego nie nadają się maglewy, i dodają punkty do produkcji i "
 #~ "handlu."
 
-#, no-c-format
 #~ msgid ""
 #~ "Any land terrain type may have a River on it. A River adds 1 trade to the "
 #~ "resources produced by that tile. It also increases a tile's defense "
@@ -54674,7 +54646,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "?vertag:win32-S2_6"
 #~ msgstr "?vertag:win32-S2_6"
 
-#, c-format
 #~ msgid "Earlier installation of %s found, but it seems to be %s, not %s"
 #~ msgstr ""
 #~ "Znalezioni wcześniejszą instalację %s, lecz zdaje się, że jest to %s, a "
@@ -54683,7 +54654,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgid "Freeciv modpack installer (gtk2)"
 #~ msgstr "Instalator dodatków Freeciv (gtk2)"
 
-#, c-format
 #~ msgid ""
 #~ "%s can't build %s from the worklist; base with \"%s\" flag is required. "
 #~ "Postponing..."
@@ -54691,7 +54661,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "%s nie może zbudować %s z planu prac; wymagana jest baza z flagą \"%s\". "
 #~ "Przesunięto na późniejszy termin..."
 
-#, c-format
 #~ msgid ""
 #~ "%s can't build %s from the worklist; base with \"%s\" flag is prohibited. "
 #~ "Postponing..."
@@ -54699,7 +54668,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "%s nie może zbudować %s z planu prac; baza z flagą \"%s\" jest "
 #~ "zabroniona. Przesunięto na późniejszy termin..."
 
-#, c-format
 #~ msgid "%s can't build %s from the worklist; reason unknown! Postponing..."
 #~ msgstr ""
 #~ "%s nie może zbudować %s z planu prac; nieznany powód! Przesunięto na "
@@ -54724,7 +54692,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Plik zapisanej gry używa przestarzałego formatu zasad dla terenu, który "
 #~ "nie jest już wspierany."
 
-#, c-format
 #~ msgid ""
 #~ "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 #~ "Using '%s'."
@@ -54756,7 +54723,6 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgstr ""
 #~ "Efekty powinny mieć \"typ\", a nie to samo pole ze starą nazwą \"nazwa\"."
 
-#, c-format
 #~ msgid "Recycled your %s to help the current production in %s."
 #~ msgstr ""
 #~ "Wykorzystano twoją jednostkę %s, aby wspomóc bieżącą produkcję w mieście "
@@ -55203,8 +55169,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "On terrain unsuitable for irrigation systems or mines, issuing the "
 #~ "\"irrigate\" or \"mine\" order may permanently convert the terrain to "
 #~ "another type; this is usually more expensive. For instance, Swamp may be "
-#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the "
-#~ "\"irrigate\" order does not require a water source.)"
+#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the \"irrigate"
+#~ "\" order does not require a water source.)"
 #~ msgstr ""
 #~ "Jeśli teren nie nadaje się pod nawodnienie i kopalnię, wydanie polecenia "
 #~ "'nawodnij' i 'zbuduj kopalnię' może trwale przekształcić teren. Jest to "
@@ -60683,8 +60649,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "RADA 2:  Może się zdarzyć, że twoje jednostki masowo najechały obszar "
 #~ "wroga, lecz jego miasta są zbyt silne. Wówczas, przed użyciem Bomb "
 #~ "Atomowych, warto zgromadzić grupę Osadników i przygotować ich do usuwania "
-#~ "skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej "
-#~ "zimy\" (ekologiczne Bomby Atomowe!)."
+#~ "skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej zimy"
+#~ "\" (ekologiczne Bomby Atomowe!)."
 
 #~ msgid ""
 #~ "One Barbarian Leader appears every time there is a barbarian uprising "
@@ -60815,8 +60781,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #, fuzzy
 #~ msgid ""
-#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>."
-#~ "sav\". This setting sets the <prefix> part."
+#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>.sav"
+#~ "\". This setting sets the <prefix> part."
 #~ msgstr ""
 #~ "Autosave'y będą miały nazwę \"<prefix><rok>.sav\". Gdzie <prefix> jest "
 #~ "podanym przedrostkiem."
