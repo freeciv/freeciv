@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-09-28 21:22+0300\n"
-"PO-Revision-Date: 2023-09-28 10:13+0200\n"
+"POT-Creation-Date: 2023-12-29 02:11+0200\n"
+"PO-Revision-Date: 2023-12-26 21:21+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/req_vec_fix.cpp:191 tools/ruledit/requirers_dlg.cpp:43
@@ -77,6 +77,22 @@ msgstr "Rodzaj"
 msgid "Second alt gfx tag"
 msgstr "Drugi alternatywny znacznik grafiki"
 
+#: tools/ruledit/edit_impr.cpp:117
+msgid "Sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:126
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Alt sound tag"
+msgstr "Alternatywny znacznik grafiki"
+
+#: tools/ruledit/edit_impr.cpp:135
+#, fuzzy
+#| msgid "Second alt activity gfx tag"
+msgid "Second alt sound tag"
+msgstr "Drugi alternatywny znacznik grafiki"
+
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
 msgstr "Koszt ruchu"
@@ -84,6 +100,12 @@ msgstr "Koszt ruchu"
 #: tools/ruledit/edit_terrain.cpp:59
 msgid "Defense Bonus %"
 msgstr "Dodatek do obrony %"
+
+#: tools/ruledit/edit_terrain.cpp:87
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Second alt graphics tag"
+msgstr "Alternatywny znacznik grafiki"
 
 #: tools/ruledit/edit_utype.cpp:61
 msgid "Attack Strength"
@@ -96,6 +118,26 @@ msgstr "Siła obrony"
 #: tools/ruledit/edit_utype.cpp:81
 msgid "Move Rate"
 msgstr "Szybkość"
+
+#: tools/ruledit/edit_utype.cpp:118
+#, fuzzy
+#| msgid "Move Cost"
+msgid "Move sound tag"
+msgstr "Koszt ruchu"
+
+#: tools/ruledit/edit_utype.cpp:128
+msgid "Alt move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:138
+msgid "Fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:148
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Alt fight sound tag"
+msgstr "Alternatywny znacznik grafiki"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -397,7 +439,7 @@ msgstr "Nazwa zasady"
 #: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
 #: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
-#: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
@@ -455,11 +497,11 @@ msgstr "Edytuj wartości"
 msgid "Add Building"
 msgstr "Dodaj budynek"
 
-#: tools/ruledit/tab_building.cpp:103
+#: tools/ruledit/tab_building.cpp:102
 msgid "Remove this Building"
 msgstr "Usuń ten budynek"
 
-#: tools/ruledit/tab_building.cpp:186
+#: tools/ruledit/tab_building.cpp:184
 msgid "A building with that rule name already exists!"
 msgstr "Budynek o tej nazwie reguły już istnieje!"
 
