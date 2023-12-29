@@ -964,7 +964,7 @@ int unit_bombard_rate(struct unit *punit)
   if (game.info.damage_reduces_bombard_rate && base_bombard_rate > 0) {
     int rate = (base_bombard_rate * punit->hp) / utype->hp;
 
-    return MIN(rate, 1);
+    return MAX(rate, 1);
   }
 
   return base_bombard_rate;
