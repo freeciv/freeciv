@@ -480,6 +480,19 @@ reqs    =
       "Terrain",       "Mountains", "Local", TRUE
       "UnitClassFlag", "Ground",    "Local", TRUE
       "Extra",         "Road",      "Local", FALSE
+      "Extra",         "River",     "Local", FALSE
+    }
+
+; Big Land units can't escape movemement penalty via River
+[effect_mountains_movement_big_on_river]
+type    = "Move_Bonus"
+value   = -1
+reqs    =
+    { "type",          "name",      "range", "present"
+      "Terrain",       "Mountains", "Local", TRUE
+      "UnitClass",     "Big Land",  "Local", TRUE
+      "Extra",         "Road",      "Local", FALSE
+      "Extra",         "River",     "Local", TRUE
     }
 
 ; Nuclear power gives +1 moves to sea units
