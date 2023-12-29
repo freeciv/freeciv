@@ -1,10 +1,171 @@
 ==============================
-Welcome to Freeciv 3.1.0-beta3
+Welcome to Freeciv 3.1.0-beta4
 ==============================
 
 The changes in the 3.1.x series are summarised below.
 For changes prior to 3.1, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.1.0-beta4 to 3.1.0-beta4
+---------------------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.0-beta4>, 2023-12-29)
+
+
+3.1.0-beta4 is the final beta of the freeciv-3.1.
+Server / General
+
+    * 3.1.0 Release Month set to March 2024 osdn#48751
+    * gtk4-client status changed to supported osdn#48671
+    * Cities stop working tiles turned unworkable at turn change osdn#46423
+    * Fixed clearing city border claims when player gets removed
+      from the game osdn#48837
+    * Fixed nation color selection assert failures when moving
+      from pre-game to turn 1 RM#1
+
+Changes affecting players (supplied rulesets)
+
+    * nations
+         + Han dynasty removed from modern era group osdn#48764 osdn#48714
+         + The new nation from Mongols civil war now might be China
+           osdn#48780 osdn#48715
+
+    * scenarios
+         + Bordering Glaciers in italy scenario replaced by
+           Inaccessible terrain osdn#42869
+
+Changes affecting other rulesets / modders
+
+    * Fixed problems in passing integer values through lua calls osdn#48722
+    * Applied upstream patches for lua-5.4.6 to included copy of lua engine
+         + Patch 2 osdn#48895
+         + Patch 3 osdn#48946
+         + Patch 4 RM#15
+
+Low-level changes
+
+    * Fixed growing of the internal string handling buffer, fixing,
+      e.g., issues with very long lines in the savegame RM#3
+    * Fixed fc_vsnprintf() return value on Windows, fixing,
+      e.g., issues on loading the tutorial scenario RM#58
+
+General
+
+    * Fixed memory leaks, bad memory access, and improved
+      cleanup on shutdown
+      osdn#47186 osdn#48787 osdn#48797 osdn#48788 osdn#48821 osdn#48807
+    * Optimizations
+      osdn#47809 osdn#43379 osdn#48711 osdn#48211 osdn#47737 osdn#48525
+      osdn#47345 osdn#48838 osdn#48369 osdn#48678
+    * Various internal changes which should only affect developers.
+      osdn#48587 osdn#48731 osdn#48771 osdn#48811 osdn#48772 osdn#48768
+      osdn#48673 osdn#48433 osdn#48869 osdn#48868 RM#47
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where
+      it should osdn#48423 osdn#48929 osdn#48933 osdn#48943
+    * Fixed several places where wants were rounded to integers,
+      often causing low want (lower than '1') to be not wanted at all ('0')
+      osdn#48421 osdn#48842
+    * AI missile carriers now launch only such missiles that
+      they are carrying themselves osdn#48627
+
+Clients
+
+    * gtk (See also separate list of gtk4 development)
+         + gtk3.22: Theme gets applied to all windows, not just
+           root one osdn#48580
+         + gtk3.22/gtk4: Fixed conflicts between system theme and
+           loaded theme osdn#48679 osdn#45601
+         + gtk3/gtk3.22: Window title mentions gui type osdn#48600
+         + gtk3: Revert applying theme to all dialogs osdn#48770
+
+    * Qt
+         + Battle Groups menu added osdn#48732 osdn#48860
+         + Fixed UTF8 characters handling osdn#48795
+
+    * gtk4
+         + Avoid deprecated function calls osdn#47924
+         + Menu item renaming implemented osdn#47444}
+         + Zoom, with many levels, implemented osdn#48740
+         + Made detachable panes to work osdn#47440
+         + Fixed units taking chat message typing as commands to themselves
+           osdn#48815
+         + Mnemonic added for Battle Groups menu osdn#48818
+
+Tools
+Modpack Installer
+
+    * Updated gtk4 to avoid a deprecated function call osdn#48744
+
+Ruledit
+
+    * Added sound tag editing
+         + Buildings osdn#48750
+         + Units osdn#48791
+    * In experimental mode builds, newly initialized objects get
+      their flags properly cleared osdn#48767
+    * Fixed ruleset sanity checking after an object has been removed
+      osdn#48766
+
+Manual Generator
+
+    * Setting page format fixed osdn#48762
+
+Tilesets, Art, etc
+
+    * Added Feluca to amplio2 extra units osdn#48643
+    * Added Savannah terrain to hexemplio osdn#48644 osdn#48898
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#48710 osdn#48713 osdn#48709 osdn#48761 osdn#48743 osdn#48941
+      RM#11 RM#66
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#48877 osdn#48955
+
+Translations
+
+    * Updated translations: fi, ru
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      osdn#48799 osdn#48890 osdn#48889 osdn#48956 RM#4 RM#5
+    * Fixed some clang analyzer warnings
+      osdn#48623 osdn#48776 osdn#48834 osdn#48624 osdn#48677 osdn#48875
+      osdn#48904 RM#14 RM#28 RM#37 RM#42 RM#50 RM#56
+    * Metainfo updates
+         + Modpack .desktop and .metainfo.xml files renamed to follow
+           org.freeciv.<gui>.mp pattern. osdn#48729 osdn#48754
+         + Qt modpack installer screenshot updated osdn#48775
+    * Meson based builds improvements
+         + Support for bz2 compressed savegames osdn#48724
+         + Set user data paths in ./run.sh osdn#48697
+         + freeciv-3.1 marked to be in beta phase osdn#48752
+         + Respect localedir configure option osdn#48726
+         + Added localeprefix configure option supporting
+           relative locale paths osdn#44814
+         + Added zero-byte malloc() optimization osdn#48936
+         + Properly define SIZEOF_INT RM#7
+         + Fixed cross-compilation RM#10
+         + Do not look for sys-lua at all when its use is disabled RM#20
+         + ChangeLog-1.0-S3_0 is compressed in installations RM#52
+    * Crosser based builds improvements
+         + Native bin directory added to PATH osdn#48432
+         + Dropped Qt5 support RM#27
+    * Flatpak updates
+         + Qt sdk and platform updated to 6.6 osdn#48909
+    * Fixed gcc-14 development version compiler warnings
+      osdn#48849 osdn#48850
+    * Translations on Windows Installers enabled
+         + msys2 (the default / official) RM#6
+         + Crosser RM#9
+    * MagickWand headers and libraries searched also by
+      pkgconf name MagickWand-6.Q16HDRI RM#32 RM#36
 
 
 CHANGES FROM 3.1.0-beta2 to 3.1.0-beta3
