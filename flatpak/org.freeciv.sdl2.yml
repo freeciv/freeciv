@@ -16,7 +16,7 @@ modules:
   - name: sdl2-gfx
     sources:
       - type: archive
-        url: https://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.4.tar.gz
+        url: https://sourceforge.net/projects/sdl2gfx/files/SDL2_gfx-1.0.4.tar.gz
         sha256: 63e0e01addedc9df2f85b93a248f06e8a04affa014a835c2ea34bfe34e576262
   - name: freeciv-sdl2
     buildsystem: autotools
