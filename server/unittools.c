@@ -2294,7 +2294,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   struct tile *deftile = unit_tile(punit);
   int unitcount = 0;
   bool escaped;
-  bool flagless_attacker = unit_has_type_flag(pkiller, UTYF_FLAGLESS);
+  bool flagless_killer = unit_has_type_flag(pkiller, UTYF_FLAGLESS);
+  bool flagless_victim = unit_has_type_flag(punit, UTYF_FLAGLESS);
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
@@ -2303,7 +2304,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   punit->server.dying = TRUE;
 
   unit_list_iterate(deftile->units, vunit) {
-    if ((flagless_attacker
+    if ((flagless_killer
          || pplayers_at_war(pvictor, unit_owner(vunit))
          || unit_has_type_flag(vunit, UTYF_FLAGLESS))
         && is_unit_reachable_at(vunit, pkiller, deftile)) {
@@ -2397,16 +2398,28 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
     /* Inform the destroyer again if more than one unit was killed */
     if (unitcount > 1) {
-      notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                    /* TRANS: "... Cannon ... the Polish Destroyer ...." */
-                    PL_("Your attacking %s succeeded against the %s %s "
-                        "(and %d other unit)!",
-                        "Your attacking %s succeeded against the %s %s "
-                        "(and %d other units)!", unitcount - 1),
-                    pkiller_link,
-                    nation_adjective_for_player(pvictim),
-                    punit_link,
-                    unitcount - 1);
+      if (flagless_victim) {
+        notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
+                      /* TRANS: "... Cannon ... Destroyer ...." */
+                      PL_("Your attacking %s succeeded against %s "
+                          "(and %d other unit)!",
+                          "Your attacking %s succeeded against %s "
+                          "(and %d other units)!", unitcount - 1),
+                      pkiller_link,
+                      punit_link,
+                      unitcount - 1);
+      } else {
+        notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
+                      /* TRANS: "... Cannon ... the Polish Destroyer ...." */
+                      PL_("Your attacking %s succeeded against the %s %s "
+                          "(and %d other unit)!",
+                          "Your attacking %s succeeded against the %s %s "
+                          "(and %d other units)!", unitcount - 1),
+                      pkiller_link,
+                      nation_adjective_for_player(pvictim),
+                      punit_link,
+                      unitcount - 1);
+      }
     }
 
     if (vet) {
@@ -2423,69 +2436,185 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       if (num_killed[i] == 1) {
         if (i == player_index(pvictim)) {
           fc_assert(other_killed[i] == NULL);
-          notify_player(player_by_number(i), deftile,
-                        E_UNIT_LOST_DEF, ftc_server,
-                        /* TRANS: "Cannon ... the Polish Destroyer." */
-                        _("%s lost to an attack by the %s %s."),
-                        punit_link,
-                        nation_adjective_for_player(pvictor),
-                        pkiller_link);
+
+          if (flagless_killer) {
+            notify_player(player_by_number(i), deftile,
+                          E_UNIT_LOST_DEF, ftc_server,
+                          /* TRANS: "Cannon ... Destroyer." */
+                          _("%s lost to an attack by %s."),
+                          punit_link,
+                          pkiller_link);
+          } else {
+            notify_player(player_by_number(i), deftile,
+                          E_UNIT_LOST_DEF, ftc_server,
+                          /* TRANS: "Cannon ... the Polish Destroyer." */
+                          _("%s lost to an attack by the %s %s."),
+                          punit_link,
+                          nation_adjective_for_player(pvictor),
+                          pkiller_link);
+          }
         } else {
           fc_assert(other_killed[i] != punit);
-          notify_player(player_by_number(i), deftile,
-                        E_UNIT_LOST_DEF, ftc_server,
-                        /* TRANS: "Cannon lost when the Polish Destroyer
-                         * attacked the German Musketeers." */
-                        _("%s lost when the %s %s attacked the %s %s."),
-                        unit_link(other_killed[i]),
-                        nation_adjective_for_player(pvictor),
-                        pkiller_link,
-                        nation_adjective_for_player(pvictim),
-                        punit_link);
+
+          if (flagless_victim) {
+            if (flagless_killer) {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Cannon lost when Destroyer
+                             * attacked Musketeers." */
+                            _("%s lost when %s attacked %s."),
+                            unit_link(other_killed[i]),
+                            pkiller_link,
+                            punit_link);
+            } else {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Cannon lost when the Polish Destroyer
+                             * attacked Musketeers." */
+                            _("%s lost when the %s %s attacked %s."),
+                            unit_link(other_killed[i]),
+                            nation_adjective_for_player(pvictor),
+                            pkiller_link,
+                            punit_link);
+            }
+          } else {
+            if (flagless_killer) {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Cannon lost when Destroyer
+                             * attacked the German Musketeers." */
+                            _("%s lost when %s attacked the %s %s."),
+                            unit_link(other_killed[i]),
+                            pkiller_link,
+                            nation_adjective_for_player(pvictim),
+                            punit_link);
+            } else {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Cannon lost when the Polish Destroyer
+                             * attacked the German Musketeers." */
+                            _("%s lost when the %s %s attacked the %s %s."),
+                            unit_link(other_killed[i]),
+                            nation_adjective_for_player(pvictor),
+                            pkiller_link,
+                            nation_adjective_for_player(pvictim),
+                            punit_link);
+            }
+          }
         }
       } else if (num_killed[i] > 1) {
         if (i == player_index(pvictim)) {
           int others = num_killed[i] - 1;
 
           if (others == 1) {
-            notify_player(player_by_number(i), deftile,
-                          E_UNIT_LOST_DEF, ftc_server,
-                          /* TRANS: "Musketeers (and Cannon) lost to an
-                           * attack from the Polish Destroyer." */
-                          _("%s (and %s) lost to an attack from the %s %s."),
-                          punit_link,
-                          unit_link(other_killed[i]),
-                          nation_adjective_for_player(pvictor),
-                          pkiller_link);
+            if (flagless_killer) {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Musketeers (and Cannon) lost to an
+                             * attack from Destroyer." */
+                            _("%s (and %s) lost to an attack from %s."),
+                            punit_link,
+                            unit_link(other_killed[i]),
+                            pkiller_link);
+            } else {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Musketeers (and Cannon) lost to an
+                             * attack from the Polish Destroyer." */
+                            _("%s (and %s) lost to an attack from the %s %s."),
+                            punit_link,
+                            unit_link(other_killed[i]),
+                            nation_adjective_for_player(pvictor),
+                            pkiller_link);
+            }
           } else {
-            notify_player(player_by_number(i), deftile,
-                          E_UNIT_LOST_DEF, ftc_server,
-                          /* TRANS: "Musketeers and 3 other units lost to
-                           * an attack from the Polish Destroyer."
-                           * (only happens with at least 2 other units) */
-                          PL_("%s and %d other unit lost to an attack "
-                              "from the %s %s.",
-                              "%s and %d other units lost to an attack "
-                              "from the %s %s.", others),
-                          punit_link,
-                          others,
-                          nation_adjective_for_player(pvictor),
-                          pkiller_link);
+            if (flagless_killer) {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Musketeers and 3 other units lost to
+                             * an attack from Destroyer."
+                             * (only happens with at least 2 other units) */
+                            PL_("%s and %d other unit lost to an attack "
+                                "from %s.",
+                                "%s and %d other units lost to an attack "
+                                "from %s.", others),
+                            punit_link,
+                            others,
+                            pkiller_link);
+            } else {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "Musketeers and 3 other units lost to
+                             * an attack from the Polish Destroyer."
+                             * (only happens with at least 2 other units) */
+                            PL_("%s and %d other unit lost to an attack "
+                                "from the %s %s.",
+                                "%s and %d other units lost to an attack "
+                                "from the %s %s.", others),
+                            punit_link,
+                            others,
+                            nation_adjective_for_player(pvictor),
+                            pkiller_link);
+            }
           }
         } else {
-          notify_player(player_by_number(i), deftile,
-                        E_UNIT_LOST_DEF, ftc_server,
-                        /* TRANS: "2 units lost when the Polish Destroyer
-                         * attacked the German Musketeers."
-                         * (only happens with at least 2 other units) */
-                        PL_("%d unit lost when the %s %s attacked the %s %s.",
-                            "%d units lost when the %s %s attacked the %s %s.",
-                            num_killed[i]),
-                        num_killed[i],
-                        nation_adjective_for_player(pvictor),
-                        pkiller_link,
-                        nation_adjective_for_player(pvictim),
-                        punit_link);
+          if (flagless_victim) {
+            if (flagless_killer) {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "2 units lost when Destroyer
+                             * attacked Musketeers."
+                             * (only happens with at least 2 other units) */
+                            PL_("%d unit lost when %s attacked %s.",
+                                "%d units lost when %s attacked %s.",
+                                num_killed[i]),
+                            num_killed[i],
+                            pkiller_link,
+                            punit_link);
+            } else {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "2 units lost when the Polish Destroyer
+                             * attacked Musketeers."
+                             * (only happens with at least 2 other units) */
+                            PL_("%d unit lost when the %s %s attacked %s.",
+                                "%d units lost when the %s %s attacked %s.",
+                                num_killed[i]),
+                            num_killed[i],
+                            nation_adjective_for_player(pvictor),
+                            pkiller_link,
+                            punit_link);
+            }
+          } else {
+            if (flagless_killer) {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "2 units lost when Destroyer
+                             * attacked the German Musketeers."
+                             * (only happens with at least 2 other units) */
+                            PL_("%d unit lost when %s attacked the %s %s.",
+                                "%d units lost when %s attacked the %s %s.",
+                                num_killed[i]),
+                            num_killed[i],
+                            pkiller_link,
+                            nation_adjective_for_player(pvictim),
+                            punit_link);
+            } else {
+              notify_player(player_by_number(i), deftile,
+                            E_UNIT_LOST_DEF, ftc_server,
+                            /* TRANS: "2 units lost when the Polish Destroyer
+                             * attacked the German Musketeers."
+                             * (only happens with at least 2 other units) */
+                            PL_("%d unit lost when the %s %s attacked the %s %s.",
+                                "%d units lost when the %s %s attacked the %s %s.",
+                                num_killed[i]),
+                            num_killed[i],
+                            nation_adjective_for_player(pvictor),
+                            pkiller_link,
+                            nation_adjective_for_player(pvictim),
+                            punit_link);
+            }
+          }
         }
       }
     }
@@ -2496,15 +2625,24 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      * different units escaped to. */
     for (i = 0; i < slots; i++) {
       if (0 < num_escaped[i]) {
-        notify_player(player_by_number(i), deftile,
-                      E_UNIT_ESCAPED, ftc_server,
-                      PL_("%d unit escaped from attack by %s %s",
-                          "%d units escaped from attack by %s %s",
-                          num_escaped[i]),
-                      num_escaped[i],
-                      pkiller_link,
-                      nation_adjective_for_player(pkiller->nationality)
-        );
+        if (flagless_killer) {
+                    notify_player(player_by_number(i), deftile,
+                        E_UNIT_ESCAPED, ftc_server,
+                        PL_("%d unit escaped from attack by %s",
+                            "%d units escaped from attack by %s",
+                            num_escaped[i]),
+                        num_escaped[i],
+                        pkiller_link);
+        } else {
+          notify_player(player_by_number(i), deftile,
+                        E_UNIT_ESCAPED, ftc_server,
+                        PL_("%d unit escaped from attack by %s %s",
+                            "%d units escaped from attack by %s %s",
+                            num_escaped[i]),
+                        num_escaped[i],
+                        pkiller_link,
+                        nation_adjective_for_player(pkiller->nationality));
+        }
       }
     }
 
