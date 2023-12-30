@@ -683,13 +683,8 @@ bool action_requires_details(const struct action *paction);
 #define action_id_requires_details(act_id)                                \
   action_requires_details(action_by_number(act_id))
 
-int action_get_act_time(const struct action *paction,
-                        const struct unit *actor_unit,
-                        const struct tile *tgt_tile,
-                        const struct extra_type *tgt_extra)                \
-  fc__attribute((nonnull (1)));
-#define action_id_get_act_time(act_id, actor_unit, tgt_tile, tgt_extra)    \
-  action_get_act_time(action_by_number(act_id),                            \
+#define action_id_get_act_time(act_id, actor_unit, tgt_tile, tgt_extra)   \
+  actres_get_act_time(action_by_number(act_id)->result,                   \
                       actor_unit, tgt_tile, tgt_extra)
 
 bool action_id_is_rare_pop_up(action_id act_id);
