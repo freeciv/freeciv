@@ -10,7 +10,7 @@ the detailed changes should check the ChangeLog file.
 MAJOR CHANGES FROM 3.0.x to 3.1.0
 ---------------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-09-25)
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-12-30)
 
    The major changes in Freeciv 3.1 are new Qt6- and gtk4-clients,
    improved balance for civ2civ3 ruleset, experimental meson based
@@ -643,6 +643,10 @@ Tilesets, Art, etc
    * Extra unit sprites added to Cimpletoon and to tilesets
      inheriting its units OSDN#44853
    * Alternative Spy added to Amplio2 extra sprites OSDN#48282
+   * Extra unit sprite for Feluca added to Amplio2 and to tilesets
+     inheriting its units osdn#48643
+   * Savannah terrain sprites added to Hexemplio and to tilesets
+     inheriting its terrains osdn#48644
 
 Help / Documentation
 
@@ -653,6 +657,7 @@ Translations
 
    * Updated translations: Esperanto, Finnish, French, Polish, Russian,
                            Simplified Chinese
+   * Translations on Windows Installers enabled RM#6
 
 Build/portability
 
@@ -687,6 +692,8 @@ Build/portability
      coming with freeciv, instead of system one OSDN#46199
    * Crosser updated to version 2.7 OSDN#48552
    * Ruledit flatpak added OSDN#47634
+   * Modpack .desktop and .metainfo.xml files renamed
+     to follow org.freeciv.<gui>.mp pattern. osdn#48729
 
   See doc/README.packaging for more information.
 
