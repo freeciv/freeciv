@@ -1049,6 +1049,7 @@ disasters = "\
 ;   - \"EmptyProdStock\"    = Destroy current production\n\
 ;   - \"Pollution\"         = One tile surrounding city polluted\n\
 ;   - \"Fallout\"           = One tile surrounding city polluted with fallout\n\
+;   - \"Robbery\"           = Player loses city\'s five turn trade worth of gold\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

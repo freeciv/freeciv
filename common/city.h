@@ -351,7 +351,7 @@ struct city {
    * radius. */
   int tile_cache_radius_sq;
 
-  /* the productions */
+  /* The productions */
   int surplus[O_LAST]; /* Final surplus in each category. */
   int waste[O_LAST]; /* Waste/corruption in each category. */
   int unhappy_penalty[O_LAST]; /* Penalty from unhappy cities. */
@@ -363,7 +363,7 @@ struct city {
   int bonus[O_LAST];
   int abs_bonus[O_LAST];
 
-  /* the physics */
+  /* The physics */
   int food_stock;
   int shield_stock;
   int pollution;                /* not saved */

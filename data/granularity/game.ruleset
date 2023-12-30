@@ -422,6 +422,7 @@ negative_label = _("BCE")
 ;   - "EmptyProdStock"    = Destroy current production
 ;   - "Pollution"         = One tile surrounding city polluted
 ;   - "Fallout"           = One tile surrounding city polluted with fallout
+;   - "Robbery"           = Player loses city's five turn trade worth of gold
 ;
 ; */ <-- avoid gettext warnings
 

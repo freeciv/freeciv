@@ -4266,6 +4266,20 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
                 _("%s was hit by %s."), city_name_get(pcity),
                 disaster_name_translation(pdis));
 
+  if (disaster_has_effect(pdis, DE_ROBBERY)) {
+    if (pplayer->economic.gold > 0 && pcity->prod[O_TRADE] > 0) {
+      int amount = pcity->prod[O_TRADE] * 5;
+
+      amount = MIN(pplayer->economic.gold, amount);
+      pplayer->economic.gold -= amount;
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    PL_("Robbery in %s. %d gold stolen.",
+                        "Robbery in %s. %d gold stolen.", amount),
+                    city_link(pcity), amount);
+      had_internal_effect = TRUE;
+    }
+  }
+
   if (disaster_has_effect(pdis, DE_POLLUTION)) {
     if (place_pollution(pcity, EC_POLLUTION)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
