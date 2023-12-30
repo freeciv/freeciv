@@ -607,7 +607,7 @@ void universal_value_from_str(struct universal *source, const char *value)
 }
 
 /**********************************************************************//**
-  Combine values into a universal structure.  This is for serialization
+  Combine values into a universal structure. This is for serialization
   and is the opposite of universal_extraction().
   FIXME: ensure that every caller checks error return!
 **************************************************************************/
@@ -630,7 +630,7 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
- case VUT_TECHFLAG:
+  case VUT_TECHFLAG:
     source.value.techflag = value;
     return source;
   case VUT_GOVERNMENT:
@@ -2862,9 +2862,18 @@ is_action_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ACTION);
 
-  return BOOL_TO_TRISTATE(context->action
-                          && action_number(context->action)
-                             == action_number(req->source.value.action));
+  if (context->action) {
+    return BOOL_TO_TRISTATE(action_number(context->action)
+                            == action_number(req->source.value.action));
+  }
+
+  if (context->unit != nullptr && context->unit->action != ACTION_NONE) {
+    log_normal("Unit action %s", action_id_rule_name(context->unit->action));
+    return BOOL_TO_TRISTATE(context->unit->action
+                            == action_number(req->source.value.action));
+  }
+
+  return TRI_NO;
 }
 
 /**********************************************************************//**
