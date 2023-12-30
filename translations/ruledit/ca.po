@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-08-26 20:57+0300\n"
+"POT-Creation-Date: 2023-10-13 00:13+0300\n"
 "PO-Revision-Date: 2023-03-19 00:49+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -74,6 +74,16 @@ msgstr "Manteniment"
 msgid "Genus"
 msgstr "Genus"
 
+#: tools/ruledit/edit_impr.cpp:108
+msgid "Sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:117
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Alt sound tag"
+msgstr "Etiqueta de gràfics alternatius"
+
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
 msgstr "Cost de Moviment"
@@ -97,6 +107,26 @@ msgstr "Força Defensiva"
 #: tools/ruledit/edit_utype.cpp:97
 msgid "Move Rate"
 msgstr "Taxa de Moviment"
+
+#: tools/ruledit/edit_utype.cpp:125
+#, fuzzy
+#| msgid "Move Cost"
+msgid "Move sound tag"
+msgstr "Cost de Moviment"
+
+#: tools/ruledit/edit_utype.cpp:135
+msgid "Alt move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:145
+msgid "Fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:155
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Alt fight sound tag"
+msgstr "Etiqueta de gràfics alternatius"
 
 #: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
 msgid "Type:"

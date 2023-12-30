@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-12-28 16:24+0200\n"
+"POT-Creation-Date: 2023-12-30 21:10+0200\n"
 "PO-Revision-Date: 2023-12-28 16:26+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -42499,16 +42499,16 @@ msgstr[0] ""
 msgstr[1] ""
 "Myyt vesiyhteyttä vaativan parannuksen %s kaupungissa %s %d kullasta."
 
-#: server/citytools.c:3427
+#: server/citytools.c:3432
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Kaupungin %s alueen koko %s."
 
-#: server/citytools.c:3429
+#: server/citytools.c:3434
 msgid "increased"
 msgstr "laajeni"
 
-#: server/citytools.c:3430
+#: server/citytools.c:3435
 msgid "reduced"
 msgstr "supistui"
 

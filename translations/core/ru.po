@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-12-26 10:07+0500\n"
+"POT-Creation-Date: 2023-12-30 21:10+0200\n"
 "PO-Revision-Date: 2023-12-26 10:00+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -42938,16 +42938,16 @@ msgstr[0] "Здание %s в %s (сейчас не на побережье) п�
 msgstr[1] "Здание %s в %s (сейчас не на побережье) продано за %d золота."
 msgstr[2] "Здание %s в %s (сейчас не на побережье) продано за %d золота."
 
-#: server/citytools.c:3427
+#: server/citytools.c:3432
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Количество полей, доступных городу %s, %s."
 
-#: server/citytools.c:3429
+#: server/citytools.c:3434
 msgid "increased"
 msgstr "увеличилось"
 
-#: server/citytools.c:3430
+#: server/citytools.c:3435
 msgid "reduced"
 msgstr "уменьшилось"
 

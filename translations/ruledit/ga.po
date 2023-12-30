@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-08-26 20:57+0300\n"
+"POT-Creation-Date: 2023-10-13 00:13+0300\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -66,6 +66,14 @@ msgstr ""
 msgid "Genus"
 msgstr ""
 
+#: tools/ruledit/edit_impr.cpp:108
+msgid "Sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:117
+msgid "Alt sound tag"
+msgstr ""
+
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
 msgstr ""
@@ -88,6 +96,22 @@ msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:97
 msgid "Move Rate"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:125
+msgid "Move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:135
+msgid "Alt move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:145
+msgid "Fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:155
+msgid "Alt fight sound tag"
 msgstr ""
 
 #: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66

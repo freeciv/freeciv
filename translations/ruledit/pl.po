@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-08-26 20:57+0300\n"
+"POT-Creation-Date: 2023-10-13 00:13+0300\n"
 "PO-Revision-Date: 2023-12-26 21:21+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
@@ -65,6 +65,16 @@ msgstr "Koszta"
 msgid "Genus"
 msgstr "Rodzaj"
 
+#: tools/ruledit/edit_impr.cpp:108
+msgid "Sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:117
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Alt sound tag"
+msgstr "Alternatywny znacznik grafiki"
+
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
 msgstr "Koszt ruchu"
@@ -88,6 +98,26 @@ msgstr "Siła obrony"
 #: tools/ruledit/edit_utype.cpp:97
 msgid "Move Rate"
 msgstr "Szybkość"
+
+#: tools/ruledit/edit_utype.cpp:125
+#, fuzzy
+#| msgid "Move Cost"
+msgid "Move sound tag"
+msgstr "Koszt ruchu"
+
+#: tools/ruledit/edit_utype.cpp:135
+msgid "Alt move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:145
+msgid "Fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:155
+#, fuzzy
+#| msgid "Alt graphics tag"
+msgid "Alt fight sound tag"
+msgstr "Alternatywny znacznik grafiki"
 
 #: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
