@@ -2201,53 +2201,6 @@ int action_get_role(const struct action *paction)
 }
 
 /**********************************************************************//**
-  Returns the unit activity time (work) this action takes (requires) or
-  ACT_TIME_INSTANTANEOUS if the action happens at once.
-
-  See update_unit_activity() and tile_activity_time()
-**************************************************************************/
-int action_get_act_time(const struct action *paction,
-                        const struct unit *actor_unit,
-                        const struct tile *tgt_tile,
-                        const struct extra_type *tgt_extra)
-{
-  enum unit_activity pactivity = actres_activity_result(paction->result);
-
-  if (pactivity == ACTIVITY_LAST) {
-    /* Happens instantaneously, not at turn change. */
-    return ACT_TIME_INSTANTANEOUS;
-  }
-
-  switch (pactivity) {
-  case ACTIVITY_PILLAGE:
-  case ACTIVITY_CLEAN:
-  case ACTIVITY_BASE:
-  case ACTIVITY_GEN_ROAD:
-  case ACTIVITY_IRRIGATE:
-  case ACTIVITY_MINE:
-  case ACTIVITY_CULTIVATE:
-  case ACTIVITY_PLANT:
-  case ACTIVITY_TRANSFORM:
-    return tile_activity_time(pactivity, tgt_tile, tgt_extra);
-  case ACTIVITY_FORTIFYING:
-    return 1;
-  case ACTIVITY_CONVERT:
-    return unit_type_get(actor_unit)->convert_time * ACTIVITY_FACTOR;
-  case ACTIVITY_EXPLORE:
-  case ACTIVITY_IDLE:
-  case ACTIVITY_FORTIFIED:
-  case ACTIVITY_SENTRY:
-  case ACTIVITY_GOTO:
-  case ACTIVITY_LAST:
-    /* Should not happen. Caught by the assertion below. */
-    break;
-  }
-
-  fc_assert(FALSE);
-  return ACT_TIME_INSTANTANEOUS;
-}
-
-/**********************************************************************//**
   Create a new action enabler.
 **************************************************************************/
 struct action_enabler *action_enabler_new(void)

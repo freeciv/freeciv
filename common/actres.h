@@ -126,6 +126,10 @@ enum act_tgt_compl actres_target_compl_calc(enum action_result result);
 enum action_battle_kind actres_get_battle_kind(enum action_result result);
 bool actres_is_hostile(enum action_result result);
 enum unit_activity actres_activity_result(enum action_result result);
+int actres_get_act_time(enum action_result result,
+                        const struct unit *actor_unit,
+                        const struct tile *tgt_tile,
+                        const struct extra_type *tgt_extra);
 enum dice_roll_type actres_dice_type(enum action_result result);
 bool actres_creates_extra(enum action_result result,
                           const struct extra_type *pextra);
