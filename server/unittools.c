@@ -4981,9 +4981,14 @@ static int unit_vision_range_modifiers(const struct unit *punit,
   const struct unit_type *utype = unit_type_get(punit);
 
   return (utype->vision_radius_sq
-          + get_unittype_bonus(unit_owner(punit), ptile,
-                               utype, NULL,
-                               EFT_UNIT_VISION_RADIUS_SQ));
+          + get_target_bonus_effects(NULL,
+                                     &(const struct req_context) {
+                                       .player = unit_owner(punit),
+                                       .tile = ptile,
+                                       .unittype = utype,
+                                       .unit = punit,
+                                     },
+                                     NULL, EFT_UNIT_VISION_RADIUS_SQ));
 }
 
 /**********************************************************************//**
