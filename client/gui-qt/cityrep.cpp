@@ -1024,23 +1024,23 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
   } else {
     num_sel = selected_cities.count();
   }
-  struct city *array[num_sel];
+  city_data = (struct city **)fc_malloc(sizeof(struct city *) * num_sel);
 
   if (global) {
     i = 0;
     city_list_iterate(client.conn.playing->cities, pcity) {
-      array[i] = pcity;
+      city_data[i] = pcity;
       i++;
     } city_list_iterate_end;
   } else {
     for (i = 0; i < num_sel; i++) {
-      array[i] = selected_cities.at(i);
+      city_data[i] = selected_cities.at(i);
     }
   }
-  city_data = &array[0];
   targets_used
-      = collect_production_targets(targets, city_data, num_sel, append_units,
-                                   append_wonders, true, test_func);
+    = collect_production_targets(targets, city_data, num_sel, append_units,
+                                 append_wonders, true, test_func);
+  free(city_data);
   name_and_sort_items(targets, targets_used, items, true, NULL);
   for (i = 0; i < 4; i++) {
     row[i] = buf[i];
