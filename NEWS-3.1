@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.1.0-beta4 to 3.1.0-beta4
 ---------------------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.1.0-beta4>, 2023-12-29)
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.0-beta4>, 2023-12-30)
 
 
 3.1.0-beta4 is the final beta of the freeciv-3.1.
@@ -20,7 +20,7 @@ Server / General
     * gtk4-client status changed to supported osdn#48671
     * Cities stop working tiles turned unworkable at turn change osdn#46423
     * Fixed clearing city border claims when player gets removed
-      from the game osdn#48837
+      from the game osdn#48837 RM#81
     * Fixed nation color selection assert failures when moving
       from pre-game to turn 1 RM#1
 
@@ -129,7 +129,11 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: fi, ru
+    * Updated translations:
+          + Complete translations: Russian
+          + Incomplete translations:
+            Finnish (100% core, 92% nations, 100% ruledit)
+            Polish (99% core, 100% nations, 96% ruledit)
 
 Build/portability
 
@@ -159,6 +163,7 @@ Build/portability
          + Dropped Qt5 support RM#27
     * Flatpak updates
          + Qt sdk and platform updated to 6.6 osdn#48909
+         + Download SDL2_gfx from sourceforge RM#92
     * Fixed gcc-14 development version compiler warnings
       osdn#48849 osdn#48850
     * Translations on Windows Installers enabled
