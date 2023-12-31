@@ -1293,7 +1293,7 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	* Cleanup temp surface 
 	*/
 	if (src_converted) {
-		SDL_FreeSurface(rz_src);
+		SDL_DestroySurface(rz_src);
 	}
 
 	/*
@@ -1442,7 +1442,7 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 		* Cleanup temp surface 
 		*/
 		if (src_converted) {
-			SDL_FreeSurface(rz_src);
+			SDL_DestroySurface(rz_src);
 		}		
 		return NULL;
 	}
@@ -1489,7 +1489,7 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 	* Cleanup temp surface 
 	*/
 	if (src_converted) {
-		SDL_FreeSurface(rz_src);
+		SDL_DestroySurface(rz_src);
 	}
 
 	/*
@@ -1650,14 +1650,14 @@ exitShrinkSurface:
 		* Cleanup temp surface 
 		*/
 		if (src_converted==1) {
-			SDL_FreeSurface(rz_src);
+			SDL_DestroySurface(rz_src);
 		}
 	}
 
 	/* Check error state; maybe need to cleanup destination */
 	if (haveError==1) {
 		if (rz_dst!=NULL) {
-			SDL_FreeSurface(rz_dst);
+			SDL_DestroySurface(rz_dst);
 		}
 		rz_dst=NULL;
 	} 
