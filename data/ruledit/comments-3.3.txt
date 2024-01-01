@@ -503,9 +503,8 @@ utypes = "\
 ; \"RandomMovement\" = Unit makes random movements in the beginning of the turn,\n\
 ;                 player has no control over its movement\n\
 ; \"Flagless\"      = Unit national flag is not shown on client, except for\n\
-;                 the owner.\n\
-;                 Note that currently the information is available for\n\
-;                 the client anyway, so this is not a rule like a feature yet.\n\
+;                 the owner. Unit can attack, and it can be attacked,\n\
+;                 regardless of diplomatic pacts between actual unit owners.\n\
 ; \"ProvidesRansom\" = Enemies can collect ransom from the unit. This only happens\n\
 ;                 if all the units on tile have this flag - any other kind of\n\
 ;                 unit protects them.\n\
