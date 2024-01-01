@@ -581,7 +581,7 @@ static int real_distance_to_land(const struct tile *ptile, int max)
 
 /**********************************************************************//**
   Determines what is the most popular ocean type arround (need 2/3 of the
-  adjcacent tiles).
+  adjacent tiles).
 **************************************************************************/
 static struct terrain *most_adjacent_ocean_type(const struct tile *ptile)
 {
