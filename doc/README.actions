@@ -1159,17 +1159,17 @@ Actions done by a unit against a tile
 
 "Transform Terrain" - Transform tile terrain type.
  * UI name can be set using ui_name_transform_terrain
- * the actor unit has "Settlers" flag (!)
+ * the actor unit has "Workers" flag (!)
  * terrain type must be one that can be transformed
 
 "Cultivate"         - Transform tile terrain type by cultivating
  * UI name can be set using ui_name_cultivate
- * the actor unit has "Settlers" flag (!)
+ * the actor unit has "Workers" flag (!)
  * terrain type must be one that can be cultivated
 
 "Plant"             - Transform tile terrain type by planting
  * UI name can be set using ui_name_plant
- * the actor unit has "Settlers" flag (!)
+ * the actor unit has "Workers" flag (!)
  * terrain type must be one on which units can plant
 
 "Pillage"           - Pillage extra from tile
@@ -1193,7 +1193,7 @@ Actions done by a unit against a tile
 "Clean"             - clean extra from the target tile.
  * UI name can be set using ui_name_clean
  * actor must be on the same tile as the target.
- * the actor unit has the "Settlers" unit type flag (!)
+ * the actor unit has the "Workers" unit type flag (!)
  * the target extra must be present at the target tile
  * the terrain of the target tile must have a non 0 clean_pollution_time
    or non 0 clean_fallout_time, depending on the removal cause
@@ -1208,7 +1208,7 @@ Actions done by a unit against a tile
 "Build Road"        - Build road at the target tile.
  * UI name can be set using ui_name_road
  * actor must be on the same tile as the target.
- * the actor unit has the "Settlers" unit type flag (!)
+ * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
    over (see extra type's bridged_over) unless the actor player knows a
    tech with the "Bridge" tech flag
@@ -1228,7 +1228,7 @@ Actions done by a unit against a tile
 
 "Build Base"        - Build base at the target tile.
  * UI name can be set using ui_name_build_base
- * the actor unit has the "Settlers" unit type flag (!)
+ * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
    over (see extra type's bridged_over) unless the actor player knows a
    tech with the "Bridge" tech flag
@@ -1246,7 +1246,7 @@ Actions done by a unit against a tile
 "Build Mine"        - Build mine at the target tile.
  * UI name can be set using ui_name_build_mine
  * actor must be on the same tile as the target.
- * the actor unit has the "Settlers" unit type flag (!)
+ * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
    over (see extra type's bridged_over) unless the actor player knows a
    tech with the "Bridge" tech flag
@@ -1266,7 +1266,7 @@ Actions done by a unit against a tile
 "Build Irrigation"  - Build irrigation at the target tile.
  * UI name can be set using ui_name_irrigate
  * actor must be on the same tile as the target.
- * the actor unit has the "Settlers" unit type flag (!)
+ * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
    over (see extra type's bridged_over) unless the actor player knows a
    tech with the "Bridge" tech flag
