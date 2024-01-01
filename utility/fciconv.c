@@ -55,6 +55,12 @@ static const char *local_encoding, *data_encoding, *internal_encoding;
 static char *saved_from = NULL;
 static char *saved_to = NULL;
 
+static char *convert_string(const char *text,
+                            const char *from,
+                            const char *to,
+                            char *buf, size_t bufsz)
+  fc__attribute((nonnull (1,2,3)));
+
 /***********************************************************************//**
   Must be called during the initialization phase of server and client to
   initialize the character encodings to be used.
@@ -196,9 +202,6 @@ static char *convert_string(const char *text,
   iconv_t cd = iconv_open(to, from);
   size_t from_len = strlen(text) + 1, to_len;
   bool alloc = (buf == NULL);
-
-  fc_assert_ret_val(is_init && NULL != from && NULL != to, NULL);
-  fc_assert_ret_val(NULL != text, NULL);
 
   if (cd == (iconv_t) (-1)) {
     /* Do not do potentially recursive call to freeciv logging here,
