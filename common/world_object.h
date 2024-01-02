@@ -59,6 +59,10 @@ extern struct world wld; /* In game.c */
 #define MAP_NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * wld.map.xsize : wld.map.xsize)
 #define MAP_NATURAL_HEIGHT wld.map.ysize
 
+#define MAP_CARDINAL_DIRS wld.map.cardinal_dirs
+#define MAP_NUM_CARDINAL_DIRS wld.map.num_cardinal_dirs
+#define MAP_VALID_DIRS wld.map.valid_dirs
+#define MAP_NUM_VALID_DIRS wld.map.num_valid_dirs
 
 #ifdef __cplusplus
 }

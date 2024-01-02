@@ -585,7 +585,7 @@ static int real_distance_to_land(const struct tile *ptile, int max)
 **************************************************************************/
 static struct terrain *most_adjacent_ocean_type(const struct tile *ptile)
 {
-  const int need = 2 * wld.map.num_valid_dirs / 3;
+  const int need = 2 * MAP_NUM_VALID_DIRS / 3;
   int count;
 
   terrain_type_iterate(pterrain) {

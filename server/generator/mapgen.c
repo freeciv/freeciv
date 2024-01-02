@@ -2970,8 +2970,8 @@ static void fair_map_make_resources(struct fair_tile *pmap)
     if (pftile->flags & FTF_OCEAN) {
       bool land_around = FALSE;
 
-      for (j = 0; j < wld.map.num_valid_dirs; j++) {
-        pftile2 = fair_map_tile_step(pmap, pftile, wld.map.valid_dirs[j]);
+      for (j = 0; j < MAP_NUM_VALID_DIRS; j++) {
+        pftile2 = fair_map_tile_step(pmap, pftile, MAP_VALID_DIRS[j]);
         if (pftile2 != NULL
             && pftile2->flags & FTF_ASSIGNED
             && !(pftile2->flags & FTF_OCEAN)) {
@@ -2989,8 +2989,8 @@ static void fair_map_make_resources(struct fair_tile *pmap)
      * resource for the terrain. */
     if (pftile->presource != NULL) {
       pftile->flags |= FTF_NO_RESOURCE;
-      for (j = 0; j < wld.map.num_valid_dirs; j++) {
-        pftile2 = fair_map_tile_step(pmap, pftile, wld.map.valid_dirs[j]);
+      for (j = 0; j < MAP_NUM_VALID_DIRS; j++) {
+        pftile2 = fair_map_tile_step(pmap, pftile, MAP_VALID_DIRS[j]);
         if (pftile2 != NULL) {
           pftile2->flags |= FTF_NO_RESOURCE;
         }
@@ -3107,8 +3107,8 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
   while (i < fantasy) {
     pftile = land_tiles[fc_rand(i)];
 
-    for (j = 0; j < wld.map.num_valid_dirs; j++) {
-      pftile2 = fair_map_tile_step(pisland, pftile, wld.map.valid_dirs[j]);
+    for (j = 0; j < MAP_NUM_VALID_DIRS; j++) {
+      pftile2 = fair_map_tile_step(pisland, pftile, MAP_VALID_DIRS[j]);
       fc_assert(pftile2 != NULL);
       if (fair_map_tile_border(pisland, pftile2, sea_around_island)) {
         continue;
@@ -3125,8 +3125,8 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
   }
   while (i < size) {
     pftile = land_tiles[i - fc_rand(fantasy) - 1];
-    pftile2 = fair_map_tile_step(pisland, pftile, wld.map.cardinal_dirs
-                                     [fc_rand(wld.map.num_cardinal_dirs)]);
+    pftile2 = fair_map_tile_step(pisland, pftile,
+                                 MAP_CARDINAL_DIRS[fc_rand(MAP_NUM_CARDINAL_DIRS)]);
     fc_assert(pftile2 != NULL);
     if (fair_map_tile_border(pisland, pftile2, sea_around_island)) {
       continue;
@@ -3199,8 +3199,8 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
   if (river_type_count > 0) {
     struct extra_type *priver;
     struct fair_tile *pend;
-    int n = ((river_pct * size * wld.map.num_cardinal_dirs
-              * wld.map.num_cardinal_dirs) / 200);
+    int n = ((river_pct * size * MAP_NUM_CARDINAL_DIRS
+              * MAP_NUM_CARDINAL_DIRS) / 200);
     int length_max = 3, length, l;
     enum direction8 dir;
     int extra_idx;
@@ -3226,8 +3226,8 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
       river_around = 0;
       connectable_river_around = FALSE;
       ocean_around = FALSE;
-      for (j = 0; j < wld.map.num_valid_dirs; j++) {
-        pftile2 = fair_map_tile_step(pisland, pftile, wld.map.valid_dirs[j]);
+      for (j = 0; j < MAP_NUM_VALID_DIRS; j++) {
+        pftile2 = fair_map_tile_step(pisland, pftile, MAP_VALID_DIRS[j]);
         if (pftile2 == NULL) {
           continue;
         }
@@ -3237,7 +3237,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
           break;
         } else if (BV_ISSET(pftile2->extras, extra_idx)) {
           river_around++;
-          if (!cardinal_only || is_cardinal_dir(wld.map.valid_dirs[j])) {
+          if (!cardinal_only || is_cardinal_dir(MAP_VALID_DIRS[j])) {
             connectable_river_around = TRUE;
           }
         }
@@ -3261,15 +3261,15 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
       length = -1;
       dir = direction8_invalid();
       dirs_num = 0;
-      for (j = 0; j < wld.map.num_valid_dirs; j++) {
-        if (cardinal_only && !is_cardinal_dir(wld.map.valid_dirs[j])) {
+      for (j = 0; j < MAP_NUM_VALID_DIRS; j++) {
+        if (cardinal_only && !is_cardinal_dir(MAP_VALID_DIRS[j])) {
           continue;
         }
 
         finished = FALSE;
         pftile2 = pftile;
         for (l = 2; l < length_max; l++) {
-          pftile2 = fair_map_tile_step(pisland, pftile2, wld.map.valid_dirs[j]);
+          pftile2 = fair_map_tile_step(pisland, pftile2, MAP_VALID_DIRS[j]);
           if (pftile2 == NULL
               || !terrain_has_flag(pftile2->pterrain, TER_CAN_HAVE_RIVER)) {
             break;
@@ -3278,24 +3278,24 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
           river_around = 0;
           connectable_river_around = FALSE;
           ocean_around = FALSE;
-          for (k = 0; k < wld.map.num_valid_dirs; k++) {
-            if (wld.map.valid_dirs[k] == DIR_REVERSE(wld.map.valid_dirs[j])) {
+          for (k = 0; k < MAP_NUM_VALID_DIRS; k++) {
+            if (wld.map.valid_dirs[k] == DIR_REVERSE(MAP_VALID_DIRS[j])) {
               continue;
             }
 
             pftile3 = fair_map_tile_step(pisland, pftile2,
-                                         wld.map.valid_dirs[k]);
+                                         MAP_VALID_DIRS[k]);
             if (pftile3 == NULL) {
               continue;
             }
 
             if (pftile3->flags & FTF_OCEAN) {
-              if (!cardinal_only || is_cardinal_dir(wld.map.valid_dirs[k])) {
+              if (!cardinal_only || is_cardinal_dir(MAP_VALID_DIRS[k])) {
                 ocean_around = TRUE;
               }
             } else if (BV_ISSET(pftile3->extras, extra_idx)) {
               river_around++;
-              if (!cardinal_only || is_cardinal_dir(wld.map.valid_dirs[k])) {
+              if (!cardinal_only || is_cardinal_dir(MAP_VALID_DIRS[k])) {
                 connectable_river_around = TRUE;
               }
             }
@@ -3308,7 +3308,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
           }
         }
         if (finished && fc_rand(++dirs_num) == 0) {
-          dir = wld.map.valid_dirs[j];
+          dir = MAP_VALID_DIRS[j];
           pend = pftile2;
           length = l;
         }

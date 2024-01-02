@@ -1948,7 +1948,7 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter)
 ***********************************************************************/
 enum direction8 rand_direction(void)
 {
-  return wld.map.valid_dirs[fc_rand(wld.map.num_valid_dirs)];
+  return MAP_VALID_DIRS[fc_rand(MAP_NUM_VALID_DIRS)];
 }
 
 /*******************************************************************//**

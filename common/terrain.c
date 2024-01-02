@@ -303,22 +303,22 @@ struct extra_type *resource_extra_get(const struct resource_type *presource)
   on the value of card_only.
 **************************************************************************/
 #define variable_adjc_iterate(nmap, center_tile, _tile, card_only)      \
-{									\
-  enum direction8 *_tile##_list;					\
-  int _tile##_count;							\
-									\
-  if (card_only) {							\
-    _tile##_list = wld.map.cardinal_dirs;				\
-    _tile##_count = wld.map.num_cardinal_dirs;				\
-  } else {								\
-    _tile##_list = wld.map.valid_dirs;					\
-    _tile##_count = wld.map.num_valid_dirs;				\
-  }									\
+{                                                                       \
+  enum direction8 *_tile##_list;                                        \
+  int _tile##_count;                                                    \
+                                                                        \
+  if (card_only) {                                                      \
+    _tile##_list = MAP_CARDINAL_DIRS;                                   \
+    _tile##_count = MAP_NUM_CARDINAL_DIRS;                              \
+  } else {                                                              \
+    _tile##_list = MAP_VALID_DIRS;                                      \
+    _tile##_count = MAP_NUM_VALID_DIRS;                                 \
+  }                                                                     \
   adjc_dirlist_iterate(nmap, center_tile, _tile, _tile##_dir,           \
                        _tile##_list, _tile##_count) {
 
-#define variable_adjc_iterate_end					\
-  } adjc_dirlist_iterate_end;						\
+#define variable_adjc_iterate_end                                       \
+  } adjc_dirlist_iterate_end;                                           \
 }
 
 /**********************************************************************//**

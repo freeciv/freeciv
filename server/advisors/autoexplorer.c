@@ -75,7 +75,7 @@ static int likely_native(struct tile *ptile,
     }
   } adjc_dir_iterate_end;
 
-  return 50 + (50 / wld.map.num_valid_dirs * (native - foreign));
+  return 50 + (50 / MAP_NUM_VALID_DIRS * (native - foreign));
 }
 
 /**********************************************************************//**
