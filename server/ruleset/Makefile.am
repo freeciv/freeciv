@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/server/advisors \
 	-I$(top_srcdir)/server/scripting \
+	-I$(top_srcdir)/dependencies/tinycthread \
 	-I$(top_srcdir)/gen_headers/enums
 
 libruleload_la_SOURCES = \
