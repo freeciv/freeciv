@@ -6466,7 +6466,7 @@ static bool load_action_range_max(struct section_file *file, action_id act)
     pentry = secfile_entry_lookup(file, "actions.%s", vname);
 
     if (pentry == NULL) {
-      max_range = action_max_range_default(paction->result);
+      max_range = actres_max_range_default(paction->result);
     } else {
       const char *custom;
 
@@ -6480,7 +6480,7 @@ static bool load_action_range_max(struct section_file *file, action_id act)
       } else {
         ruleset_error(NULL, LOG_ERROR, "Bad actions.%s",
                       action_max_range_ruleset_var_name(act));
-        action_by_number(act)->max_distance = action_max_range_default(paction->result);
+        action_by_number(act)->max_distance = actres_max_range_default(paction->result);
 
         return FALSE;
       }
@@ -6509,7 +6509,7 @@ static bool load_action_range(struct section_file *file, action_id act)
     /* Min range can be loaded from the ruleset. */
     action_by_number(act)->min_distance
       = secfile_lookup_int_default(file,
-                                   action_min_range_default(paction->result),
+                                   actres_min_range_default(paction->result),
                                    "actions.%s",
                                    vname);
   }

@@ -901,7 +901,7 @@ static bool save_action_max_range(struct section_file *sfile,
                               action_max_range_ruleset_var_name(act)) != NULL;
   } else {
     return save_default_int(sfile, action_by_number(act)->max_distance,
-                            action_max_range_default(paction->result),
+                            actres_max_range_default(paction->result),
                             "actions",
                             action_max_range_ruleset_var_name(act));
   }
@@ -918,7 +918,7 @@ static bool save_action_range(struct section_file *sfile, action_id act)
     /* Min range can be loaded from the ruleset. */
     save_default_int(sfile,
                      paction->min_distance,
-                     action_min_range_default(paction->result),
+                     actres_min_range_default(paction->result),
                      "actions",
                      action_min_range_ruleset_var_name(act));
   }

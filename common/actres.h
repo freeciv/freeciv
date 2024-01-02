@@ -144,6 +144,9 @@ enum fc_tristate actres_possible(enum action_result result,
                                  bool omniscient,
                                  const struct city *homecity);
 
+int actres_min_range_default(enum action_result result);
+int actres_max_range_default(enum action_result result);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
