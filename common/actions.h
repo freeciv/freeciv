@@ -734,9 +734,7 @@ const char *action_ui_name_ruleset_var_name(int act);
 const char *action_ui_name_default(int act);
 
 const char *action_min_range_ruleset_var_name(int act);
-int action_min_range_default(enum action_result result);
 const char *action_max_range_ruleset_var_name(int act);
-int action_max_range_default(enum action_result result);
 
 const char *action_target_kind_ruleset_var_name(int act);
 enum action_target_kind
