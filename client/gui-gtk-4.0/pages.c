@@ -3586,6 +3586,7 @@ void real_set_client_page(enum client_pages new_page)
     center_on_something();
     mapview_thaw();
     add_idle_callback(main_message_area_resize, NULL);
+    add_idle_callback(animation_idle_cb, NULL);
     break;
   case PAGE_NETWORK:
     update_network_lists();
