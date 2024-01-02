@@ -2364,6 +2364,17 @@ void add_idle_callback(void (callback)(void *), void *data)
 }
 
 /**********************************************************************//**
+  Add idle callback for updating animations.
+**************************************************************************/
+void animation_idle_cb(void *data)
+{
+  if (get_current_client_page() == PAGE_GAME) {
+    update_animation();
+    add_idle_callback(animation_idle_cb, NULL);
+  }
+}
+
+/**********************************************************************//**
   Option callback for the 'allied_chat_only' gtk-gui option.
   This updates the state of the associated toggle button.
 **************************************************************************/

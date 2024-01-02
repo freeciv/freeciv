@@ -428,11 +428,10 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
                      int width, int height, gpointer data)
 {
   if (can_client_change_view() && !map_is_empty() && !mapview_is_frozen()) {
-    /* First we mark the area to be updated as dirty.  Then we unqueue
+    /* First we mark the area to be updated as dirty. Then we unqueue
      * any pending updates, to make sure only the most up-to-date data
      * is written (otherwise drawing bugs happen when old data is copied
-     * to screen).  Then we draw all changed areas to the screen. */
-    update_animation();
+     * to screen). Then we draw all changed areas to the screen. */
     unqueue_mapview_updates(FALSE);
     cairo_scale(cr, mouse_zoom, mouse_zoom);
     cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
