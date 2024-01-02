@@ -27,6 +27,7 @@
 #define GUI_GTK_DEFAULT_THEME_NAME FC_GTK5_DEFAULT_THEME_NAME
 
 void main_message_area_resize(void *data);
+void animation_idle_cb(void *data);
 
 /* Network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
