@@ -551,6 +551,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_ROAD, ACTRES_ROAD,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_ROAD2] =
+      unit_action_new(ACTION_ROAD2, ACTRES_ROAD,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CONVERT] =
       unit_action_new(ACTION_CONVERT, ACTRES_CONVERT,
                       TRUE, FALSE,
@@ -559,12 +563,24 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_BASE, ACTRES_BASE,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_BASE2] =
+      unit_action_new(ACTION_BASE2, ACTRES_BASE,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_MINE] =
       unit_action_new(ACTION_MINE, ACTRES_MINE,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_MINE2] =
+      unit_action_new(ACTION_MINE2, ACTRES_MINE,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_IRRIGATE] =
       unit_action_new(ACTION_IRRIGATE, ACTRES_IRRIGATE,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_IRRIGATE2] =
+      unit_action_new(ACTION_IRRIGATE2, ACTRES_IRRIGATE,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_DEBOARD] =
@@ -5794,14 +5810,22 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_fortify";
   case ACTION_ROAD:
     return "ui_name_road";
+  case ACTION_ROAD2:
+    return "ui_name_road_2";
   case ACTION_CONVERT:
     return "ui_name_convert_unit";
   case ACTION_BASE:
     return "ui_name_build_base";
+  case ACTION_BASE2:
+    return "ui_name_build_base_2";
   case ACTION_MINE:
     return "ui_name_build_mine";
+  case ACTION_MINE2:
+    return "ui_name_build_mine_2";
   case ACTION_IRRIGATE:
     return "ui_name_irrigate";
+  case ACTION_IRRIGATE2:
+    return "ui_name_irrigate_2";
   case ACTION_TRANSPORT_DEBOARD:
     return "ui_name_transport_deboard";
   case ACTION_TRANSPORT_BOARD:
@@ -6122,18 +6146,22 @@ const char *action_ui_name_default(int act)
     /* TRANS: _Fortify (100% chance of success). */
     return N_("%sFortify%s");
   case ACTION_ROAD:
+  case ACTION_ROAD2:
     /* TRANS: Build _Road (100% chance of success). */
     return N_("Build %sRoad%s");
   case ACTION_CONVERT:
     /* TRANS: _Convert Unit (100% chance of success). */
     return N_("%sConvert Unit%s");
   case ACTION_BASE:
+  case ACTION_BASE2:
     /* TRANS: _Build Base (100% chance of success). */
     return N_("%sBuild Base%s");
   case ACTION_MINE:
+  case ACTION_MINE2:
     /* TRANS: Build _Mine (100% chance of success). */
     return N_("Build %sMine%s");
   case ACTION_IRRIGATE:
+  case ACTION_IRRIGATE2:
     /* TRANS: Build _Irrigation (100% chance of success). */
     return N_("Build %sIrrigation%s");
   case ACTION_TRANSPORT_DEBOARD:
@@ -6211,7 +6239,6 @@ const char *action_ui_name_default(int act)
     return N_("%sUser Action 4%s");
   case ACTION_GAIN_VETERANCY:
     return N_("%sGain Veterancy%s");
-    break;
   }
 
   return NULL;
@@ -6295,10 +6322,14 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_ROAD2:
   case ACTION_CONVERT:
   case ACTION_BASE:
+  case ACTION_BASE2:
   case ACTION_MINE:
+  case ACTION_MINE2:
   case ACTION_IRRIGATE:
+  case ACTION_IRRIGATE2:
   case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
@@ -6537,10 +6568,14 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_ROAD2:
   case ACTION_CONVERT:
   case ACTION_BASE:
+  case ACTION_BASE2:
   case ACTION_MINE:
+  case ACTION_MINE2:
   case ACTION_IRRIGATE:
+  case ACTION_IRRIGATE2:
   case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
@@ -6796,10 +6831,14 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_ROAD2:
   case ACTION_CONVERT:
   case ACTION_BASE:
+  case ACTION_BASE2:
   case ACTION_MINE:
+  case ACTION_MINE2:
   case ACTION_IRRIGATE:
+  case ACTION_IRRIGATE2:
   case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
@@ -7248,10 +7287,14 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_ROAD2:
   case ACTION_CONVERT:
   case ACTION_BASE:
+  case ACTION_BASE2:
   case ACTION_MINE:
+  case ACTION_MINE2:
   case ACTION_IRRIGATE:
+  case ACTION_IRRIGATE2:
   case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
@@ -7448,10 +7491,14 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_ROAD2:
   case ACTION_CONVERT:
   case ACTION_BASE:
+  case ACTION_BASE2:
   case ACTION_MINE:
+  case ACTION_MINE2:
   case ACTION_IRRIGATE:
+  case ACTION_IRRIGATE2:
   case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
@@ -7597,10 +7644,14 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_ROAD2:
   case ACTION_CONVERT:
   case ACTION_BASE:
+  case ACTION_BASE2:
   case ACTION_MINE:
+  case ACTION_MINE2:
   case ACTION_IRRIGATE:
+  case ACTION_IRRIGATE2:
   case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:

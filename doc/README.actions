@@ -1226,6 +1226,10 @@ Actions done by a unit against a tile
  * the build requirements of the target extra (see extra type's reqs) must
    be fulfilled
 
+"Build Road 2"        - Build road at the target tile.
+ * UI name can be set using ui_name_road_2
+ * See "Build Road" for everything else.
+
 "Build Base"        - Build base at the target tile.
  * UI name can be set using ui_name_build_base
  * the actor unit has the "Workers" unit type flag (!)
@@ -1242,6 +1246,10 @@ Actions done by a unit against a tile
    road_time isn't 0
  * the build requirements of the target extra (see extra type's reqs) must
    be fulfilled
+
+"Build Base 2"        - Build base at the target tile.
+ * UI name can be set using ui_name_build_base_2
+ * See "Build Base" for everything else.
 
 "Build Mine"        - Build mine at the target tile.
  * UI name can be set using ui_name_build_mine
@@ -1263,6 +1271,10 @@ Actions done by a unit against a tile
  * the build requirements of the target extra (see extra type's reqs) must
    be fulfilled
 
+"Build Mine 2"        - Build mine at the target tile.
+ * UI name can be set using ui_name_build_mine_2
+ * See "Build Mine" for everything else.
+
 "Build Irrigation"  - Build irrigation at the target tile.
  * UI name can be set using ui_name_irrigate
  * actor must be on the same tile as the target.
@@ -1283,6 +1295,10 @@ Actions done by a unit against a tile
    terrain's road_time isn't 0
  * the build requirements of the target extra (see extra type's reqs) must
    be fulfilled
+
+"Build Irrigation 2"  - Build irrigation at the target tile.
+ * UI name can be set using ui_name_irrigate_2
+ * See "Build Irrigation" for everything else.
 
 "Transport Disembark" - Exit transport to target tile.
 * UI name can be set using ui_name_transport_disembark
