@@ -465,7 +465,7 @@ function notify_unit_unit(action, actor, target)
                -- /* TRANS: German Paratroopers does Disrupt Supply Lines to your Armor. */
                _("%s %s does %s to your %s."),
                actor.owner.nation:name_translation(),
-               actor:link_Text(),
+               actor:link_text(),
                action:name_translation(),
                target:link_text())
 end
