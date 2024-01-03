@@ -4979,7 +4979,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
 
   if ((att_hp <= 0 || utype_is_consumed_by_action(paction, punit->utype))
       && unit_transported(punit)) {
-    /* Dying attacker must be first unloaded so it doesn't die insider transport */
+    /* Dying attacker must be first unloaded so it doesn't die inside transport */
     unit_transport_unload_send(punit);
   }
 
