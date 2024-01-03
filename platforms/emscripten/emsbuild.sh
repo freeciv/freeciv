@@ -38,6 +38,13 @@ cd "${BUILD_ROOT}" || exit 1
 sed -e "s,<EMSDK_ROOT>,${EMSDK_ROOT}," \
     "${PLATFORM_ROOT}/setups/cross-ems.tmpl" > cross.txt
 
+# Build SDL2 separately first, without USE_PTHREADS that
+# the main build uses.
+if ! embuilder build sdl2 sdl2_image sdl2_ttf sdl2_gfx sdl2_mixer ; then
+  echo "SDL2 build failed!" >&2
+  exit 1
+fi
+
 if ! CC=emcc CXX=em++ AR=emar meson setup \
      --cross-file=cross.txt \
      -Ddefault_library=static \
@@ -45,7 +52,7 @@ if ! CC=emcc CXX=em++ AR=emar meson setup \
      -Daudio=none \
      -Dmwand=false \
      -Dtools=[] \
-     -Dclients=stub \
+     -Dclients=stub,sdl2 \
      -Dfcmp=[] \
      "${PLATFORM_ROOT}/../../"
 then
