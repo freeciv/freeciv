@@ -114,12 +114,12 @@ reqs	=
       "Tech", "Fire", "Player"
     }
 
-[effect_max_rates_government]
+[effect_max_rates_alphabet]
 type    = "Max_Rates"
 value   = 20
 reqs	=
     { "type", "name", "range"
-      "Tech", "Government", "Player"
+      "Tech", "Alphabet", "Player"
     }
 
 [effect_base_granary_shrink]

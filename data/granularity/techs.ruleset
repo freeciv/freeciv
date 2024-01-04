@@ -130,7 +130,10 @@ req2        = "Spirits"
 flags       = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
-helptext    = _("First abstract symbols")
+helptext    = _("\
+Abstract symbols to mark things make it possible to adjust tax/science/lux \
+rates more freely.\
+")
 
 [advance_animal_taming]
 name        = _("Animal Taming")
@@ -138,6 +141,15 @@ req1        = "Cave Painting"
 req2        = "None"
 flags       = ""
 graphic     = "a.animal_taming"
+graphic_alt = "-"
+;helptext    =
+
+[advance_art]
+name        = _("Art")
+req1        = "Pottery"
+req2        = "Alphabet"
+flags       = ""
+graphic     = "a.art"
 graphic_alt = "-"
 ;helptext    =
 
@@ -180,8 +192,8 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 
 [advance_flight]
 name        = _("Flight")
-req1        = "Masonry"
-req2        = "Carving"
+req1        = "Maps"
+req2        = "Mining"
 flags       = ""
 graphic     = "a.flight"
 graphic_alt = "-"
@@ -189,14 +201,12 @@ helptext    = _("First flying machines.")
 
 [advance_government]
 name        = _("Government")
-req1        = "Cave Painting"
-req2        = "None"
+req1        = "Alphabet"
+req2        = "Masonry"
 flags       = ""
 graphic     = "a.government"
 graphic_alt = "-"
-helptext    = _("Knowing basics of governing your people lets you\
- adjust tax/science/luxury rates more freely.\
-")
+;helptext    =
 
 [advance_horseback_riding]
 name        = _("Horseback Riding")
@@ -226,6 +236,15 @@ flags       = ""
 graphic     = "a.masonry"
 graphic_alt = "-"
 ;helptext    =
+
+[advance_mining]
+name        = _("Mining")
+req1        = "Carving"
+req2        = "Masonry"
+flags       = ""
+graphic     = "a.mining"
+graphic_alt = "-"
+;helptext
 
 [advance_pottery]
 name        = _("Pottery")
