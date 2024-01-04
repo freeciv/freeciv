@@ -154,6 +154,7 @@ if ! meson setup \
      -Dserver="${SERVER}" \
      -Dtools="${TOOLS}" \
      -Ddefault_library=static \
+     -Dsvgflags=true \
      ${QTPARAMS} \
      ${EXTRA_CONFIG} \
      "${SRC_ROOT}" ; then
