@@ -564,6 +564,28 @@ priority       = 1
 ;
 ; */ <-- avoid gettext warnings
 
+[clause_map]
+type = "Map"
+giver_reqs =
+    { "type", "name", "range"
+      "Tech", "Maps", "Player"
+    }
+receiver_reqs =
+    { "type", "name", "range"
+      "Tech", "Maps", "Player"
+    }
+
+[clause_seamap]
+type = "Seamap"
+giver_reqs =
+    { "type", "name", "range"
+      "Tech", "Maps", "Player"
+    }
+receiver_reqs =
+    { "type", "name", "range"
+      "Tech", "Maps", "Player"
+    }
+
 ; /* <-- avoid gettext warnings
 ;Counter types
 ;

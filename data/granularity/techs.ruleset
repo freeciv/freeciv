@@ -123,6 +123,15 @@ graphic     = "a.agriculture"
 graphic_alt = "-"
 helptext    = _("Agriculture allows placing irrigation.")
 
+[advance_alphabet]
+name        = _("Alphabet")
+req1        = "Cave Painting"
+req2        = "Spirits"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("First abstract symbols")
+
 [advance_animal_taming]
 name        = _("Animal Taming")
 req1        = "Cave Painting"
@@ -197,6 +206,17 @@ flags       = ""
 graphic     = "a.horseback_riding"
 graphic_alt = "-"
 ;helptext    =
+
+[advance_maps]
+name        = _("Maps")
+req1        = "Alphabet"
+req2        = "Fishing"
+flags       = ""
+graphic     = "a.maps"
+graphic_alt = "-"
+helptext    = _("\
+If both parties know this advance, Maps and Seamaps can be exchanged between players.\
+")
 
 [advance_masonry]
 name        = _("Masonry")
