@@ -119,7 +119,8 @@ void client_recv_create_clause(int counterpart, int giver,
 
   gui_prepare_clause_updt(ptreaty, they);
 
-  add_clause(ptreaty, player_by_number(giver), type, value);
+  add_clause(ptreaty, player_by_number(giver), type, value,
+             client_player());
 
   gui_recv_create_clause(ptreaty, they);
 }

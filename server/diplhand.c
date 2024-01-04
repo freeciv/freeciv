@@ -771,11 +771,12 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
 
   ptreaty = find_treaty(pplayer, pother);
 
-  if (ptreaty && add_clause(ptreaty, pgiver, type, value)) {
-    /* 
-     * If we are trading cities, then it is possible that the
-     * dest is unaware of it's existence.  We have 2 choices,
-     * forbid it, or lighten that area.  If we assume that
+  if (ptreaty != NULL
+      && add_clause(ptreaty, pgiver, type, value, NULL)) {
+    /*
+     * If we are trading cities, then it is possible that
+     * the dest is unaware of it's existence. We have 2 choices,
+     * forbid it, or lighten that area. If we assume that
      * the giver knows what they are doing, then 2. is the
      * most powerful option - I'll choose that for now.
      *                           - Kris Bubendorfer

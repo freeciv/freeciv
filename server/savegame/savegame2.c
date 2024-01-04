@@ -5418,7 +5418,7 @@ static void sg_load_treaties(struct loaddata *loading)
                                                "treaty%d.clause%d.value",
                                                tidx, cidx);
 
-            add_clause(ptreaty, pgiver, type, value);
+            add_clause(ptreaty, pgiver, type, value, NULL);
           }
         }
       }
