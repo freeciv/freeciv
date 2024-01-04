@@ -140,7 +140,8 @@ bool remove_clause(struct Treaty *ptreaty, struct player *pfrom,
   Add clause to treaty.
 **************************************************************************/
 bool add_clause(struct Treaty *ptreaty, struct player *pfrom, 
-                enum clause_type type, int val)
+                enum clause_type type, int val,
+                struct player *client_player)
 {
   struct player *pto = (pfrom == ptreaty->plr0
                         ? ptreaty->plr1 : ptreaty->plr0);
@@ -172,7 +173,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
   }
 
   if (type == CLAUSE_EMBASSY && player_has_real_embassy(pto, pfrom)) {
-    /* we already have embassy */
+    /* We already have embassy */
     log_error("Illegal embassy clause: %s already have embassy with %s.",
               nation_rule_name(nation_of_player(pto)),
               nation_rule_name(nation_of_player(pfrom)));
@@ -183,12 +184,20 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
-  if (!are_reqs_active(&(const struct req_context) { .player = pfrom },
-                       pto, &clause_infos[type].giver_reqs, RPT_POSSIBLE)
-      || !are_reqs_active(&(const struct req_context) { .player = pto },
-                          pfrom, &clause_infos[type].receiver_reqs,
-                          RPT_POSSIBLE)) {
-    return FALSE;
+  /* Leave it to the server to decide if the other party can meet
+   * the requirements. */
+  if (client_player == NULL || client_player == pfrom) {
+    if (!are_reqs_active(&(const struct req_context) { .player = pfrom },
+                         pto, &clause_infos[type].giver_reqs, RPT_POSSIBLE)) {
+      return FALSE;
+    }
+  }
+  if (client_player == NULL || client_player == pto) {
+    if (!are_reqs_active(&(const struct req_context) { .player = pto },
+                         pfrom, &clause_infos[type].receiver_reqs,
+                         RPT_POSSIBLE)) {
+      return FALSE;
+    }
   }
 
   clause_list_iterate(ptreaty->clauses, old_clause) {

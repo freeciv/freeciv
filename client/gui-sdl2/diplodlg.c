@@ -188,7 +188,8 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
                                    pclause->value);
   } clause_list_iterate_end;
 
-  add_clause(&pdialog->treaty, player_by_number(giver), type, value);
+  add_clause(&pdialog->treaty, player_by_number(giver), type, value,
+             client_player());
 
   update_clauses_list(pdialog);
   update_acceptance_icons(pdialog);

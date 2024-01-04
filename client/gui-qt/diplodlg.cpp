@@ -1029,7 +1029,8 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
   w = gui()->game_tab_widget->widget(i);
   dd = qobject_cast<diplo_dlg *>(w);
   dw = dd->find_widget(counterpart);
-  add_clause(&dw->treaty, player_by_number(giver), type, value);
+  add_clause(&dw->treaty, player_by_number(giver), type, value,
+             client_player());
   dw->update_wdg();
 }
 

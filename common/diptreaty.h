@@ -89,7 +89,8 @@ bool could_intel_with_player(const struct player *pplayer,
 void init_treaty(struct Treaty *ptreaty, 
                  struct player *plr0, struct player *plr1);
 bool add_clause(struct Treaty *ptreaty, struct player *pfrom, 
-                enum clause_type type, int val);
+                enum clause_type type, int val,
+                struct player *client_player);
 bool remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
                    enum clause_type type, int val);
 void clear_treaty(struct Treaty *ptreaty);

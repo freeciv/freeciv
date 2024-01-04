@@ -163,7 +163,8 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
     return;
   }
 
-  add_clause(&pdialog->treaty, player_by_number(giver), type, value);
+  add_clause(&pdialog->treaty, player_by_number(giver), type, value,
+             client_player());
   update_diplomacy_dialog(pdialog);
   gui_dialog_alert(pdialog->dialog);  
 }
