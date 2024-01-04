@@ -89,7 +89,7 @@ to a situation where the program can segfault.
 Uint32 _colorkey(SDL_Surface *src)
 {
 	Uint32 key = 0; 
-	SDL_GetColorKey(src, &key);
+	SDL_GetSurfaceColorKey(src, &key);
 	return key;
 }
 
