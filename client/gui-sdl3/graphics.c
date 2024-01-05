@@ -315,13 +315,11 @@ SDL_Surface *load_surf(const char *fname)
 
 /**********************************************************************//**
   Create an surface with format
-  MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
 SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
                                      int width, int height)
 {
-  SDL_Surface *surf = SDL_CreateSurfaceFrom(NULL, width, height,
-                                            0, pf->format);
+  SDL_Surface *surf = SDL_CreateSurface(width, height, pf->format);
 
   if (surf == NULL) {
     log_error(_("Unable to create Sprite (Surface) of size "
