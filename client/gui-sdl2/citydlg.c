@@ -3173,7 +3173,7 @@ static void redraw_city_dialog(struct city *pcity)
         widget_redraw(pcity_dlg->buy_button);
       }
 
-      /* You can't see capitalization progres */
+      /* You can't see capitalization progress */
       count = 0;
 
     } else {
@@ -3238,7 +3238,7 @@ static void redraw_city_dialog(struct city *pcity)
                  dest.x - 1, dest.y - 1, dest.w, dest.h,
                  get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
-    /* draw production progres text */
+    /* draw production progress text */
     dest.y = pwindow->size.y + adj_size(270) + dest.h + 1;
 
     if (pcity->shield_stock < cost) {
