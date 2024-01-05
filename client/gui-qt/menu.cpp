@@ -234,11 +234,11 @@ void trade_generator::calculate()
   trade_city *tc;
   int i;
   bool tdone;
+  int count = cities.size();
+  int *cities_ids = (int *)fc_malloc(sizeof(int) * count);
+  trade_city **cities_order = (trade_city **)fc_malloc(sizeof(trade_city *) * count);
 
   for (i = 0; i < 100; i++) {
-    int count = cities.size();
-    int cities_ids[count];
-    class trade_city *cities_order[count];
     int n;
 
     tdone = true;
@@ -295,6 +295,9 @@ void trade_generator::calculate()
       output_window_append(ftc_client, text);
     }
   }
+
+  free(cities_ids);
+  free(cities_order);
 
   gui()->mapview_wdg->repaint();
 }
