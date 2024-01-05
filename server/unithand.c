@@ -4111,7 +4111,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                   E_UNIT_WIN_DEF, ftc_server,
                   /* TRANS: "Your green Legion [id:100 ...D:4.0 lost 1 HP,
                    * 9 HP remaining] survived the pathetic ...attack from the
-                   * green Greek Warriors [id:90 ...A:1.0 HP:10]. */
+                   * Greek green Warriors [id:90 ...A:1.0 HP:10]. */
                   _("Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining]"
                     " survived the pathetic %sattack from the %s %s %s "
                     "[id:%d %sA:%.1f HP:%d]."),
@@ -4137,7 +4137,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
     notify_player(unit_owner(ploser), def_tile,
                   E_UNIT_LOST_ATT, ftc_server,
                   /* TRANS: "Your attacking green Cannon [id:100 ...A:8.0
-                   * failed against the Greek Polish Destroyer [id:200 lost
+                   * failed against the Polish green Destroyer [id:200 lost
                    * 27 HP, 3 HP remaining%s]!";
                    * last %s is either "and ..." or empty string */
                  _("Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed "
