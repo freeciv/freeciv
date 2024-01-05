@@ -2500,16 +2500,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->client.tech_upkeep = pinfo->tech_upkeep;
   pplayer->government = pgov;
   pplayer->target_government = ptarget_gov;
-  /* Don't use player_iterate here, because we ignore the real number
-   * of players and we want to read all the datas. */
-  BV_CLR_ALL(pplayer->real_embassy);
-  fc_assert(8 * sizeof(pplayer->real_embassy)
-            >= ARRAY_SIZE(pinfo->real_embassy));
-  for (i = 0; i < ARRAY_SIZE(pinfo->real_embassy); i++) {
-    if (pinfo->real_embassy[i]) {
-      BV_SET(pplayer->real_embassy, i);
-    }
-  }
+  pplayer->real_embassy = pinfo->real_embassy;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->gives_shared_tiles = pinfo->gives_shared_tiles;
   pplayer->style = style_by_number(pinfo->style);
