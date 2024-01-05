@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-10-13 00:13+0300\n"
-"PO-Revision-Date: 2023-10-13 00:18+0300\n"
+"POT-Creation-Date: 2024-01-05 22:27+0200\n"
+"PO-Revision-Date: 2024-01-05 22:30+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -90,6 +90,10 @@ msgstr "Ääniefektitägi"
 msgid "Alt sound tag"
 msgstr "Varaääniefektitägi"
 
+#: tools/ruledit/edit_impr.cpp:135
+msgid "Second alt sound tag"
+msgstr "Toinen varaääniefektitägi"
+
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
 msgstr "Liikkumisen hinta"
@@ -97,6 +101,10 @@ msgstr "Liikkumisen hinta"
 #: tools/ruledit/edit_terrain.cpp:59
 msgid "Defense Bonus %"
 msgstr "Puolustusbonus %"
+
+#: tools/ruledit/edit_terrain.cpp:87
+msgid "Second alt graphics tag"
+msgstr "Toinen varakuvitustägi"
 
 #: tools/ruledit/edit_utype.cpp:61
 msgid "Attack Strength"
@@ -663,7 +671,7 @@ msgstr "Luonnonvaroja"
 
 #: tools/ruledit/tab_misc.cpp:159
 msgid "?stat:Tech Classes"
-msgstr "Yksikköluokat"
+msgstr "Teknologialuokkia"
 
 #: tools/ruledit/tab_misc.cpp:163
 msgid "?stat:Techs"
