@@ -99,6 +99,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		meson.build			\
 		meson_options.txt		\
+		scripts/generate_doc.sh		\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/replace			\
@@ -114,6 +115,6 @@ src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
 
 doc:
-	doxy_srcdir="$(top_srcdir)/" doxy_version="-$(MAIN_VERSION)" doxygen $(top_srcdir)/doc/freeciv.doxygen
+	"$(top_srcdir)/scripts/generate_doc.sh" "$(top_srcdir)"
 
 .PHONY: src-check doc
