@@ -1,10 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
 ENUMS_GEN = \
-		manual_enums_gen.h \
+		actions_enums_gen.h	\
+		manual_enums_gen.h	\
 		terrain_enums_gen.h
 
 EXTRA_DIST = \
+		actions_enums.def	\
 		manual_enums.def	\
 		terrain_enums.def	\
 		$(ENUMS_GEN)
