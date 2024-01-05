@@ -168,8 +168,17 @@ req1        = "None"
 req2        = "None"
 flags       = ""
 graphic     = "a.cave_painting"
-graphic_alt = "a.alphabet"
+graphic_alt = "-"
 helptext    = _("Cave Paintings record hunting and fights.")
+
+[advance_diplomacy]
+name        = _("Diplomacy")
+req1        = "Government"
+req2        = "Maps"
+flags       = ""
+graphic     = "a.diplomacy"
+graphic_alt = "-"
+;helptext    =
 
 [advance_fire]
 name        = _("Fire")
