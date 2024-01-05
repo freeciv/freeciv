@@ -201,10 +201,10 @@ separated by a space from the rest of the line containing the value.
 There's an example file bootstrap/freeciv.fcproj
 
 Supported keys:
-META_URL            - URL of the default metaserver
-MODPACK_LIST_URL    - URL of the default modpack list
-FREECIV_STORAGE_DIR - Directory where freeciv stores user files
-FREECIV_DEFAULT_POR - Default port of the server
+META_URL             - URL of the default metaserver
+MODPACK_LIST_URL     - URL of the default modpack list
+FREECIV_STORAGE_DIR  - Directory where freeciv stores user files
+FREECIV_DEFAULT_PORT - Default port of the server
 
 
 run.sh
