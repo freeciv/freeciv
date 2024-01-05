@@ -98,6 +98,7 @@ EXTRA_DIST =	autogen.sh 			\
 		platforms/flatpak/org.freeciv.sdl2.yml	\
 		platforms/flatpak/org.freeciv.ruledit.yml	\
 		platforms/macos/homebrew-appbundle.sh \
+		scripts/generate_doc.sh		\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/replace			\
@@ -113,6 +114,6 @@ src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
 
 doc:
-	doxy_srcdir="$(top_srcdir)/" doxy_version="-$(MAIN_VERSION)" doxygen $(top_srcdir)/doc/freeciv.doxygen
+	"$(top_srcdir)/scripts/generate_doc.sh" "$(top_srcdir)"
 
 .PHONY: src-check doc
