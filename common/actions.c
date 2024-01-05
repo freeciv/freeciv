@@ -7620,7 +7620,7 @@ const char *action_ui_name_ruleset_var_name(int act)
 **************************************************************************/
 const char *action_ui_name_default(int act)
 {
-  switch (act) {
+  switch ((enum gen_action)act) {
   case ACTION_SPY_POISON:
     /* TRANS: _Poison City (3% chance of success). */
     return N_("%sPoison City%s");
@@ -7906,6 +7906,9 @@ const char *action_ui_name_default(int act)
   case ACTION_USER_ACTION4:
     /* TRANS: _User Action 4 (100% chance of success). */
     return N_("%sUser Action 4%s");
+  case ACTION_COUNT:
+    fc_assert(act != ACTION_COUNT);
+    break;
   }
 
   return NULL;
