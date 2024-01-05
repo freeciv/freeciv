@@ -1421,16 +1421,12 @@ static void package_player_info(struct player *plr,
     packet->target_government = plr->target_government
                                 ? government_number(plr->target_government)
                                 : government_count();
-    memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
-    players_iterate(pother) {
-      packet->real_embassy[player_index(pother)] =
-        player_has_real_embassy(plr, pother);
-    } players_iterate_end;
+    packet->real_embassy = plr->real_embassy;
     packet->gives_shared_vision = plr->gives_shared_vision;
     packet->gives_shared_tiles = plr->gives_shared_tiles;
   } else {
     packet->target_government = packet->government;
-    memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
+    BV_CLR_ALL(packet->real_embassy);
     BV_CLR_ALL(packet->gives_shared_vision);
     BV_CLR_ALL(packet->gives_shared_tiles);
 
@@ -1438,7 +1434,7 @@ static void package_player_info(struct player *plr,
       int ridx = player_index(receiver);
 
       if (player_has_real_embassy(plr, receiver)) {
-        packet->real_embassy[ridx] = TRUE;
+        BV_SET(packet->real_embassy, ridx);
       }
 
       if (gives_shared_vision(plr, receiver)) {

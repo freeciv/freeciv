@@ -930,7 +930,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BOOL was_created;
   GOVERNMENT government;
   GOVERNMENT target_government;
-  BOOL real_embassy[MAX_NUM_PLAYER_SLOTS];
+  BV_PLAYER real_embassy;
   MOOD  mood;
   UINT8 style;
   SINT8 music_style;
