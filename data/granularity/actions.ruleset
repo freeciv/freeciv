@@ -159,28 +159,11 @@ found_city_consuming_always = TRUE
 ; the following character as a mnemonic in its graphical toolkit.
 ; The second %s marks where extra details should be inserted.
 
+; /* TRANS: Becom_e Ambassador (100% chance of success). */
+ui_name_establish_embassy_stay = _("Becom%se Ambassador%s")
+
 ; /* TRANS: _Build City (100% chance of success). */
 ui_name_found_city = _("%sBuild City%s")
-
-; /* <-- avoid gettext warnings
-;
-; Action enablers:
-;
-; action               = the action to enable.
-; actor_reqs           = requirements that apply to the actor.
-; target_reqs          = requirements that apply to the target.
-;
-; README.actions lists the possible actions and their hard coded
-; requirements.
-;
-; An action enabler is active when its actor_reqs AND its target_reqs are
-; satisfied.
-;
-; */ <-- avoid gettext warnings
-
-; No enabled actions
-; [actionenabler_embassy]
-; action = "Establish Embassy"
 
 ; /* TRANS: _Deboard (100% chance of success). */
 ui_name_transport_deboard = _("%sDeboard%s")
@@ -233,6 +216,37 @@ ui_name_teleport = _("%sRelocate%s")
 ; appear in the same action selection dialog given their opposite
 ; requirements. Avoid double entries in the auto help by silencing it.
 quiet_actions = "Transport Disembark 2", "Unit Move"
+
+; /* <-- avoid gettext warnings
+;
+; Action enablers:
+;
+; action               = the action to enable.
+; actor_reqs           = requirements that apply to the actor.
+; target_reqs          = requirements that apply to the target.
+;
+; README.actions lists the possible actions and their hard coded
+; requirements.
+;
+; An action enabler is active when its actor_reqs AND its target_reqs are
+; satisfied.
+;
+; */ <-- avoid gettext warnings
+
+[actionenabler_establish_embassy]
+action        = "Establish Embassy Stay"
+actor_reqs    =
+    { "type",         "name",             "range", "present"
+      "UnitFlag",     "Diplomat",         "Local", TRUE
+      "UnitState",    "OnLivableTile",    "Local", TRUE
+      "MinMoveFrags", "1",                "Local", TRUE
+      "DiplRel",      "Foreign",          "Local", TRUE
+      "DiplRel",      "Has real embassy", "Local", FALSE
+    }
+target_reqs   =
+    { "type",        "name",      "range",  "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
 
 [actionenabler_found_city]
 action        = "Found City"

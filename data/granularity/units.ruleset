@@ -671,3 +671,36 @@ roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
   Boats carved from logs.\
 ")
+
+[unit_emissary]
+name          = _("Emissary")
+class         = "Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Diplomacy", "Player"
+  }
+obsolete_by   = "None"
+graphic       = "u.emissary"
+graphic_alt   = "u.diplomat"
+sound_move    = "m_emissary"
+sound_move_alt = "m_generic"
+sound_fight   = "f_emissary"
+sound_fight_alt = "f_generic"
+build_cost    = 2500
+pop_cost      = 0
+attack        = 0
+defense       = 5
+hitpoints     = 10
+firepower     = 1
+move_rate     = 70
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+flags         = "Diplomat"
+roles         = "DiplomatStartUnit"
+;helptext      =
