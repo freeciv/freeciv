@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-08-26 22:17+0300\n"
-"PO-Revision-Date: 2023-05-13 11:03+0300\n"
+"POT-Creation-Date: 2024-01-05 22:26+0200\n"
+"PO-Revision-Date: 2024-01-05 22:28+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -502,7 +502,7 @@ msgstr "Luonnonvaroja"
 
 #: tools/ruledit/tab_misc.cpp:152
 msgid "?stat:Tech Classes"
-msgstr "Yksikköluokat"
+msgstr "Teknologialuokkia"
 
 #: tools/ruledit/tab_misc.cpp:156
 msgid "?stat:Techs"
