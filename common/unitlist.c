@@ -313,10 +313,11 @@ bool units_have_activity_on_tile(const struct unit_list *punits,
   Return TRUE iff any of the units can be upgraded to another unit type
   (for money)
 ****************************************************************************/
-bool units_can_upgrade(const struct unit_list *punits)
+bool units_can_upgrade(const struct civ_map *nmap,
+                       const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (UU_OK == unit_upgrade_test(punit, FALSE)) {
+    if (UU_OK == unit_upgrade_test(nmap, punit, FALSE)) {
       return TRUE;
     }
   } unit_list_iterate_end;
@@ -327,11 +328,12 @@ bool units_can_upgrade(const struct unit_list *punits)
 /************************************************************************//**
   Return TRUE iff any of the units can convert to another unit type
 ****************************************************************************/
-bool units_can_convert(const struct unit_list *punits)
+bool units_can_convert(const struct civ_map *nmap,
+                       const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
     if (utype_can_do_action(unit_type_get(punit), ACTION_CONVERT)
-        && unit_can_convert(punit)) {
+        && unit_can_convert(nmap, punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;

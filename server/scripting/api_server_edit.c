@@ -72,7 +72,7 @@ static bool
 ur_transform_unit(struct unit *punit, const struct unit_type *to_unit,
                   int vet_loss)
 {
-  if (UU_OK == unit_transform_result(punit, to_unit)) {
+  if (UU_OK == unit_transform_result(&(wld.map), punit, to_unit)) {
     /* Avoid getting overt veteranship if a user requests increasing it */
     if (vet_loss < 0) {
       int vl = utype_veteran_levels(to_unit);

@@ -1437,7 +1437,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_UPGRADE);
       }
 
-      if (unit_can_convert(punit)) {
+      if (unit_can_convert(&(wld.map), punit)) {
         local_show(ID_UNIT_ORDER_CONVERT);
       } else {
         local_hide(ID_UNIT_ORDER_CONVERT);

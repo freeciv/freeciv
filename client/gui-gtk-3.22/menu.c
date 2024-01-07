@@ -2597,7 +2597,7 @@ void real_menus_update(void)
                            units_can_do_action(punits, ACTION_DISBAND_UNIT,
                                                TRUE));
   menu_entry_set_sensitive("UNIT_UPGRADE",
-                           units_can_upgrade(punits));
+                           units_can_upgrade(&(wld.map), punits));
   /* "UNIT_CONVERT" dealt with below */
   menu_entry_set_sensitive("UNIT_HOMECITY",
                            can_units_do(punits, can_unit_change_homecity));
@@ -2741,10 +2741,11 @@ void real_menus_update(void)
     menus_rename("UNIT_UPGRADE", _("Upgr_ade"));
   }
 
-  if (units_can_convert(punits)) {
+  if (units_can_convert(&(wld.map), punits)) {
     menu_entry_set_sensitive("UNIT_CONVERT", TRUE);
     if (units_all_same_type) {
       struct unit *punit = unit_list_get(punits, 0);
+
       /* TRANS: %s is a unit type. */
       fc_snprintf(acttext, sizeof(acttext), _("C_onvert to %s"),
                   utype_name_translation(unit_type_get(punit)->converted_to));

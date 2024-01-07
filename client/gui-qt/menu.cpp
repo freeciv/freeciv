@@ -2202,7 +2202,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case CONVERT:
-        if (units_can_convert(punits)) {
+        if (units_can_convert(&(wld.map), punits)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2551,7 +2551,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case UPGRADE:
-        if (units_can_upgrade(punits)) {
+        if (units_can_upgrade(&(wld.map), punits)) {
           i.value()->setEnabled(true);
         }
         break;

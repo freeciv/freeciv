@@ -838,7 +838,7 @@ enum fc_tristate actres_possible(enum action_result result,
      * of cargo, they can predict if there will be enough room in the unit
      * upgraded to, as long as they know what unit type their unit will end
      * up as. */
-    if (unit_upgrade_test(actor->unit, FALSE) != UU_OK) {
+    if (unit_upgrade_test(nmap, actor->unit, FALSE) != UU_OK) {
       return TRI_NO;
     }
 

@@ -865,7 +865,7 @@ void unit_item::create_actions()
     unload_trans = NULL;
   }
 
-  if (units_can_upgrade(qunits)) {
+  if (units_can_upgrade(&(wld.map), qunits)) {
     upgrade = new QAction(_("Upgrade Unit"), this);
     connect(upgrade, &QAction::triggered, this, &unit_item::upgrade_unit);
   } else {
