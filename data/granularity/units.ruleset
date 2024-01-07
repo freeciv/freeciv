@@ -46,23 +46,23 @@ class_flags =
 
 [veteran_system]
 ; What are the names of the levels?
-veteran_names = _("green")
+veteran_names = _("green"), _("regular")
 
 ; The percentage chance of increasing level through combat
-veteran_base_raise_chance = 0
+veteran_base_raise_chance = 40, 0
 
 ; Power factors are as a percentage.
 ; +50% is represented by 150
-veteran_power_fact = 100
+veteran_power_fact = 100, 125
 
 ; The percentage chance of a settler/engineer increasing level through
 ; performing useful work (per turn)
-veteran_work_raise_chance = 0
+veteran_work_raise_chance = 0, 0
 
 ; The additional number of movement points granted for different veteran
 ; levels. These are fractional move points as defined by move_fragments in
 ; terrain.ruleset.
-veteran_move_bonus = 0
+veteran_move_bonus = 0, 0
 
 ; /* <-- avoid gettext warnings
 ;
@@ -420,8 +420,8 @@ tp_defense    = "Alight"
 flags         = "Settlers", "Cities"
 roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
 helptext      = _("\
-  Nomads can both fight and found new cities, but unlike specialized\
-  units they cost two population points to build.\
+Nomads can both fight and found new cities, but unlike specialized \
+units they cost two population points to build.\
 ")
 
 [unit_warriors]
@@ -456,7 +456,42 @@ tp_defense    = "Alight"
 ;flags         =
 roles         = "Firstbuild"
 helptext      = _("\
-  Warriors are the first unit specialized in war.\
+Warriors are the first unit specialized in war.\
+")
+
+[unit_phalanx]
+name          = _("Phalanx")
+class         = "Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Bronze Weapons", "Player"
+  }
+obsolete_by   = "None"
+graphic       = "u.phalanx"
+graphic_alt   = "-"
+sound_move    = "m_phalanx"
+sound_move_alt = "m_generic"
+sound_fight   = "f_phalanx"
+sound_fight_alt = "f_generic"
+build_cost    = 2000
+pop_cost      = 0
+attack        = 10
+defense       = 20
+hitpoints     = 10
+firepower     = 1
+move_rate     = 100
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 100
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+;flags         =
+roles         = "Firstbuild", "DefendGoodStartUnit"
+helptext      = _("\
+Phalanx is a good defender for your early cities.\
 ")
 
 [unit_hunters]
@@ -491,8 +526,8 @@ tp_defense    = "Alight"
 ;flags         =
 ;roles         =
 helptext      = _("\
-Hunters and their dogs can mostly provide upkeep for themselves, not requiring\
- it from their homecity.\
+Hunters and their dogs can mostly provide upkeep for themselves, not requiring \
+as much of it from their homecity.\
 ")
 
 [unit_horsemen]
@@ -597,7 +632,7 @@ uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "Cities"
 helptext      = _("\
-  Settlers are specialized in founding new cities.\
+Settlers are specialized in founding new cities.\
 ")
 
 [unit_worker]
@@ -632,8 +667,8 @@ tp_defense    = "Alight"
 flags         = "Settlers", "NonMil"
 roles         = "Settlers", "WorkerStartUnit"
 helptext      = _("\
-Workers have the ability to transform terrain by cutting and planting trees\
- and plants.\
+Workers have the ability to transform terrain by cutting and planting trees \
+and plants.\
 ")
 
 [unit_boat]
@@ -669,7 +704,7 @@ tp_defense    = "Alight"
 flags         = ""
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
-  Boats carved from logs.\
+Boats carved from logs.\
 ")
 
 [unit_emissary]
@@ -703,4 +738,7 @@ uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "Diplomat"
 roles         = "DiplomatStartUnit"
-;helptext      =
+helptext      = _("\
+Diplomatic unit.\
+")
+

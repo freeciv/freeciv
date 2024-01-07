@@ -153,6 +153,15 @@ graphic     = "a.art"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_bronze_weapons]
+name        = _("Bronze Weapons")
+req1        = "Mining"
+req2        = "None"
+flags       = ""
+graphic     = "a.bronze_weapons"
+graphic_alt = "-"
+;helptext    =
+
 [advance_carving]
 name        = _("Carving")
 req1        = "Tools"
@@ -254,6 +263,17 @@ flags       = ""
 graphic     = "a.masonry"
 graphic_alt = "-"
 ;helptext    =
+
+[advance_military_training]
+name        = _("Military Training")
+req1        = "Government"
+req2        = "Animal Taming"
+flags       = ""
+graphic     = "a.military_training"
+graphic_alt = "-"
+helptext    = _("\
+Also humans can be trained.\
+")
 
 [advance_mining]
 name        = _("Mining")

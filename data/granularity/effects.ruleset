@@ -205,6 +205,15 @@ reqs	=
       "Building", "Granary", "City"
     }
 
+[effect_barracks]
+type    = "Veteran_Build"
+value	= 1
+reqs	=
+    { "type",      "name",     "range", "present"
+      "Building",  "Barracks", "City",  TRUE
+      "UnitClass", "Land",     "Local", TRUE
+    }
+
 [effect_fortified]
 type    = "Fortify_Defense_Bonus"
 value   = 50
