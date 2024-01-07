@@ -100,6 +100,31 @@ City Walls make it easier to defend a city. They triple the defense\
  strength of units within the city against land units.\
 ")
 
+[building_granary]
+name		= _("Granary")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Food Preservation", "Player"
+    }
+graphic         = "b.granary"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 1200
+upkeep		= 0
+sabotage	= 50
+sound		= "b_granary"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Granary reduces famine speed by making city food storage half full \
+after city shrinks, and speeds up city growth by making the food storage \
+10% full after city grows.\
+")
+
 [building_sacred_grove]
 name		= _("Sacred Grove")
 genus		= "Improvement"

@@ -208,6 +208,15 @@ graphic     = "a.flight"
 graphic_alt = "-"
 helptext    = _("First flying machines.")
 
+[advance_food_preservartion]
+name        = _("Food Preservation")
+req1        = "Pottery"
+req2        = "Agriculture"
+flags       = ""
+graphic     = "a.food_preservation"
+graphic_alt = "-"
+;helptext    =
+
 [advance_government]
 name        = _("Government")
 req1        = "Alphabet"
