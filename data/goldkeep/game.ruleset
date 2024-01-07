@@ -453,6 +453,11 @@ reqs           =
 frequency      = 10
 effects        = "ReducePopulation", "Pollution"
 
+[disaster_robbery]
+name           = _("Robbery")
+frequency      = 10
+effects        = "Robbery"
+
 ; /* <-- avoid gettext warnings
 ;
 ; Achievement types:

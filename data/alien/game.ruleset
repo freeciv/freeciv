@@ -447,7 +447,7 @@ effects        = "ReducePopulation"
 [disaster_rebels]
 name           = _("Rebels")
 frequency      = 10
-effects        = "EmptyfoodStock", "EmptyProdStock", "Fallout"
+effects        = "EmptyFoodStock", "EmptyProdStock", "Fallout"
 
 [disaster_alien_microbes]
 name           = _("Alien Microbes")

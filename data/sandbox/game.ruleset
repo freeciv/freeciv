@@ -479,6 +479,11 @@ reqs           =
 frequency      = 100
 effects        = "ReducePopulation", "Fallout"
 
+[disaster_robbery]
+name           = _("Robbery")
+frequency      = 100
+effects        = "Robbery"
+
 ; /* <-- avoid gettext warnings
 ;
 ; Achievement types:
