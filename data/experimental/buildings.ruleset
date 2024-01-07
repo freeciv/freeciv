@@ -44,6 +44,8 @@ format_version=10
 ; build_cost	= production shields required to build
 ; upkeep	= monetary upkeep value
 ; sabotage	= percent chance of diplomat sabotage being successful
+; sound         = tag of the sound to play when building finished
+; sound_alt     = alternate sound tag
 ; flags         = special flag strings
 ;
 ; ** Building flags **
