@@ -75,6 +75,30 @@ format_version = 40
 ;
 ; */ <-- avoid gettext warnings
 
+[building_barracks]
+name		= _("Barracks")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Military Training", "Player"
+    }
+graphic         = "b.barracks"
+graphic_alt     = "b.barracks_i"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 1100
+upkeep		= 5
+sabotage	= 50
+sound		= "b_barracks"
+sound_alt	= "b_barracks_i"
+sound_alt2      = "b_generic"
+helptext	= _("\
+With a Barracks, each new land unit built in a city will \
+automatically have Veteran status.\
+")
+
 [building_city_walls]
 name		= _("City Walls")
 genus		= "Improvement"
