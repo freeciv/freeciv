@@ -583,6 +583,17 @@ receiver_reqs =
       "Tech", "Maps", "Player"
     }
 
+[clause_peace]
+type = "Peace"
+giver_reqs =
+    { "type", "name", "range"
+      "Tech", "Diplomacy", "Player"
+    }
+receiver_reqs =
+    { "type", "name", "range"
+      "Tech", "Diplomacy", "Player"
+    }
+
 ; /* <-- avoid gettext warnings
 ;Counter types
 ;
