@@ -311,7 +311,8 @@ void make_escapes(const char *str, char *buf, size_t buf_len)
     case '\\':
     case '\"':
       *dest++ = '\\';
-      /* Fallthrough. */
+
+      fc__fallthrough;
     default:
       *dest++ = *str++;
       break;
