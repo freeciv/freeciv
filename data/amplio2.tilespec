@@ -147,6 +147,7 @@ files =
   "amplio2/mountains.spec",
   "amplio2/ocean.spec",
   "amplio2/water.spec",
+  "amplio2/volcano.spec",
   "amplio2/tiles.spec",
   "amplio2/upkeep.spec",
   "amplio2/activities.spec",
@@ -307,7 +308,31 @@ layer0_match_type = "land"
 
 [tile_inaccessible]
 tag = "inaccessible"
-blend_layer = 0
+blend_layer = 1
+num_layers = 1
+layer0_match_type = "land"
+layer1_match_type = "hills"
+layer1_match_with = "hills"
+
+[tile_volcano]
+tag = "volcano"
+blend_layer = 1
+num_layers = 1
+layer0_match_type = "land"
+layer1_match_type = "hills"
+layer1_match_with = "hills"
+
+[tile_erupting_volcanoa]
+tag = "erupting_volcanoa"
+blend_layer = 1
+num_layers = 1
+layer0_match_type = "land"
+layer1_match_type = "hills"
+layer1_match_with = "hills"
+
+[tile_erupting_volcanob]
+tag = "erupting_volcanob"
+blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 

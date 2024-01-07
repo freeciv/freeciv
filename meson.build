@@ -3119,6 +3119,8 @@ install_data('data/amplio2/activities.png',
              'data/amplio2/upkeep.spec',
              'data/amplio2/veterancy.png',
              'data/amplio2/veterancy.spec',
+             'data/amplio2/volcano.png',
+             'data/amplio2/volcano.spec',
              'data/amplio2/water.png',
              'data/amplio2/water.spec',
              install_dir : join_paths(get_option('datadir'), 'freeciv/amplio2'))

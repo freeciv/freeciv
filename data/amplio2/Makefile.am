@@ -44,6 +44,8 @@ pkgdata_DATA =          	\
 	upkeep.spec		\
 	veterancy.png		\
 	veterancy.spec		\
+	volcano.png		\
+	volcano.spec		\
 	water.png		\
 	water.spec
 
