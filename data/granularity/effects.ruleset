@@ -189,6 +189,22 @@ reqs	=
       "Building", "Sacred Grove", "City"
     }
 
+[effect_granary_famine]
+type    = "Shrink_Food"
+value   = 50
+reqs	=
+    { "type",     "name",    "range"
+      "Building", "Granary", "City"
+    }
+
+[effect_granary_growth]
+type    = "Growth_Food"
+value   = 10
+reqs	=
+    { "type",     "name",    "range"
+      "Building", "Granary", "City"
+    }
+
 [effect_fortified]
 type    = "Fortify_Defense_Bonus"
 value   = 50
