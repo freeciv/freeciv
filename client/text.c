@@ -1274,7 +1274,7 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
     fc_snprintf(buf, bufsz, _("No units to upgrade!"));
     return FALSE;
   } else if (unit_list_size(punits) == 1) {
-    return (UU_OK == unit_upgrade_info(unit_list_front(punits), buf, bufsz));
+    return (UU_OK == unit_upgrade_info(&(wld.map), unit_list_front(punits), buf, bufsz));
   } else {
     int upgrade_cost = 0;
     int num_upgraded = 0;
@@ -1282,7 +1282,7 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
 
     unit_list_iterate(punits, punit) {
       if (unit_owner(punit) == client_player()
-          && UU_OK == unit_upgrade_test(punit, FALSE)) {
+          && UU_OK == unit_upgrade_test(&(wld.map), punit, FALSE)) {
         const struct unit_type *from_unittype = unit_type_get(punit);
         const struct unit_type *to_unittype = can_upgrade_unittype(client.conn.playing,
                                                                    from_unittype);

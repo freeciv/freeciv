@@ -218,7 +218,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
           && unit_perform_action(pplayer, punit->id, pcity->id, 0, "",
                                  paction->id, ACT_REQ_SS_AGENT)) {
         number_of_upgraded_units++;
-      } else if (UU_NO_MONEY == unit_upgrade_test(punit, FALSE)) {
+      } else if (UU_NO_MONEY == unit_upgrade_test(&(wld.map), punit, FALSE)) {
         break;
       }
     }
@@ -1547,7 +1547,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   } else {
     switch (paction->result) {
     case ACTRES_UPGRADE_UNIT:
-      action_custom = unit_upgrade_test(punit, FALSE);
+      action_custom = unit_upgrade_test(nmap, punit, FALSE);
       break;
     case ACTRES_AIRLIFT:
       action_custom = test_unit_can_airlift_to(nmap, NULL, punit, target_city);

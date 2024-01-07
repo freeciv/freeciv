@@ -2541,6 +2541,7 @@ action_hard_reqs_actor(const struct action *paction,
                        const struct city *homecity)
 {
   enum action_result result = paction->result;
+  const struct civ_map *nmap = &(wld.map);
 
   if (actor == NULL) {
     actor = req_context_empty();
@@ -2604,7 +2605,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_CONVERT:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows their unit's cargo and location. */
-    if (!unit_can_convert(actor->unit)) {
+    if (!unit_can_convert(nmap, actor->unit)) {
       return TRI_NO;
     }
     break;
