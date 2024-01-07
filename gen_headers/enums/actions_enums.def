@@ -126,8 +126,11 @@ values
   ACTION_COLLECT_RANSOM                   "Collect Ransom"
   ACTION_FORTIFY                          "Fortify"
   ACTION_CULTIVATE                        "Cultivate"
+  ACTION_CULTIVATE2                       "Cultivate 2"
   ACTION_PLANT                            "Plant"
+  ACTION_PLANT2                           "Plant 2"
   ACTION_TRANSFORM_TERRAIN                "Transform Terrain"
+  ACTION_TRANSFORM_TERRAIN2               "Transform Terrain 2"
 
   # Enabler checks only
   ACTION_GAIN_VETERANCY                   "Gain Veterancy"

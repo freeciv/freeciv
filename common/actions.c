@@ -527,12 +527,24 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_TRANSFORM_TERRAIN, ACTRES_TRANSFORM_TERRAIN,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_TRANSFORM_TERRAIN2] =
+      unit_action_new(ACTION_TRANSFORM_TERRAIN2, ACTRES_TRANSFORM_TERRAIN,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CULTIVATE] =
       unit_action_new(ACTION_CULTIVATE, ACTRES_CULTIVATE,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_CULTIVATE2] =
+      unit_action_new(ACTION_CULTIVATE2, ACTRES_CULTIVATE,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_PLANT] =
       unit_action_new(ACTION_PLANT, ACTRES_PLANT,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_PLANT2] =
+      unit_action_new(ACTION_PLANT2, ACTRES_PLANT,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_PILLAGE] =
@@ -5798,10 +5810,16 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_heal_unit_2";
   case ACTION_TRANSFORM_TERRAIN:
     return "ui_name_transform_terrain";
+  case ACTION_TRANSFORM_TERRAIN2:
+    return "ui_name_transform_terrain_2";
   case ACTION_CULTIVATE:
     return "ui_name_cultivate";
+  case ACTION_CULTIVATE2:
+    return "ui_name_cultivate_2";
   case ACTION_PLANT:
     return "ui_name_plant";
+  case ACTION_PLANT2:
+    return "ui_name_plant_2";
   case ACTION_PILLAGE:
     return "ui_name_pillage";
   case ACTION_CLEAN:
@@ -6128,12 +6146,15 @@ const char *action_ui_name_default(int act)
     /* TRANS: Heal _Unit (3% chance of success). */
     return N_("Heal %sUnit%s");
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_TRANSFORM_TERRAIN2:
     /* TRANS: _Transform Terrain (3% chance of success). */
     return N_("%sTransform Terrain%s");
   case ACTION_CULTIVATE:
+  case ACTION_CULTIVATE2:
     /* TRANS: Transform by _Cultivating (3% chance of success). */
     return N_("Transform by %sCultivating%s");
   case ACTION_PLANT:
+  case ACTION_PLANT2:
     /* TRANS: Transform by _Planting (3% chance of success). */
     return N_("Transform by %sPlanting%s");
   case ACTION_PILLAGE:
@@ -6319,8 +6340,11 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_TRANSFORM_TERRAIN2:
   case ACTION_CULTIVATE:
+  case ACTION_CULTIVATE2:
   case ACTION_PLANT:
+  case ACTION_PLANT2:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
@@ -6476,8 +6500,11 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_TRANSFORM_TERRAIN2:
   case ACTION_CULTIVATE:
+  case ACTION_CULTIVATE2:
   case ACTION_PLANT:
+  case ACTION_PLANT2:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
@@ -6648,8 +6675,11 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_TRANSFORM_TERRAIN2:
   case ACTION_CULTIVATE:
+  case ACTION_CULTIVATE2:
   case ACTION_PLANT:
+  case ACTION_PLANT2:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
@@ -7103,8 +7133,11 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_TRANSFORM_TERRAIN2:
   case ACTION_CULTIVATE:
+  case ACTION_CULTIVATE2:
   case ACTION_PLANT:
+  case ACTION_PLANT2:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
@@ -7307,8 +7340,11 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_TRANSFORM_TERRAIN2:
   case ACTION_CULTIVATE:
+  case ACTION_CULTIVATE2:
   case ACTION_PLANT:
+  case ACTION_PLANT2:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
@@ -7460,8 +7496,11 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_TRANSFORM_TERRAIN2:
   case ACTION_CULTIVATE:
+  case ACTION_CULTIVATE2:
   case ACTION_PLANT:
+  case ACTION_PLANT2:
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:

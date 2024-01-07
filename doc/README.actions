@@ -1162,15 +1162,27 @@ Actions done by a unit against a tile
  * the actor unit has "Workers" flag (!)
  * terrain type must be one that can be transformed
 
+"Transform Terrain 2" - Transform tile terrain type.
+ * UI name can be set using ui_name_transform_terrain_2
+ * See "Transform Terrain" for everything else.
+
 "Cultivate"         - Transform tile terrain type by cultivating
  * UI name can be set using ui_name_cultivate
  * the actor unit has "Workers" flag (!)
  * terrain type must be one that can be cultivated
 
+"Cultivate 2"       - Transform tile terrain type by cultivating
+ * UI name can be set using ui_name_cultivate_2
+ * See "Cultivate" for everything else.
+
 "Plant"             - Transform tile terrain type by planting
  * UI name can be set using ui_name_plant
  * the actor unit has "Workers" flag (!)
  * terrain type must be one on which units can plant
+
+"Plant 2"           - Transform tile terrain type by planting
+ * UI name can be set using ui_name_plant_2
+ * See "Plant" for everything else.
 
 "Pillage"           - Pillage extra from tile
  * UI name can be set using ui_name_pillage
