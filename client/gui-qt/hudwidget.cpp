@@ -1084,7 +1084,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Set homecity */
+  // Set homecity
   if (tile_city(unit_tile(current_unit))) {
     if (can_unit_change_homecity_to(current_unit,
                                     tile_city(unit_tile(current_unit)))) {
@@ -1095,15 +1095,15 @@ int unit_actions::update_actions()
     }
   }
 
-  /* Upgrade */
-  if (UU_OK == unit_upgrade_test(current_unit, FALSE)) {
+  // Upgrade
+  if (UU_OK == unit_upgrade_test(&(wld.map), current_unit, FALSE)) {
     a = new hud_action(this);
     a->action_shortcut = SC_UPGRADE_UNIT;
     a->set_pixmap(fc_icons::instance()->get_pixmap("upgrade"));
     actions.append(a);
   }
 
-  /* Automate */
+  // Automate
   if (can_unit_do_autosettlers(current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_AUTOMATE;
@@ -1111,7 +1111,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Paradrop */
+  // Paradrop
   if (can_unit_paradrop(current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_PARADROP;

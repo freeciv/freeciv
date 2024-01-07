@@ -1929,7 +1929,8 @@ static bool can_type_transport_units_cargo(const struct unit_type *utype,
   in result.
 **************************************************************************/
 enum unit_upgrade_result
-unit_transform_result(const struct unit *punit,
+unit_transform_result(const struct civ_map *nmap,
+                      const struct unit *punit,
                       const struct unit_type *to_unittype)
 {
   fc_assert_ret_val(NULL != to_unittype, UU_NO_UNITTYPE);
@@ -1943,7 +1944,7 @@ unit_transform_result(const struct unit *punit,
                                  utype_class(to_unittype))) {
       return UU_UNSUITABLE_TRANSPORT;
     }
-  } else if (!can_exist_at_tile(&(wld.map), to_unittype, unit_tile(punit))) {
+  } else if (!can_exist_at_tile(nmap, to_unittype, unit_tile(punit))) {
     /* The new unit type can't survive on this terrain. */
     return UU_NOT_TERRAIN;
   }
@@ -1960,7 +1961,8 @@ unit_transform_result(const struct unit *punit,
 
   Note that this function is strongly tied to unittools.c:transform_unit().
 **************************************************************************/
-enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
+enum unit_upgrade_result unit_upgrade_test(const struct civ_map *nmap,
+                                           const struct unit *punit,
                                            bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
@@ -1993,20 +1995,21 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
       return UU_NOT_IN_CITY;
     }
     if (city_owner(pcity) != pplayer) {
-      /* TODO: should upgrades in allied cities be possible? */
+      /* TODO: Should upgrades in allied cities be possible? */
       return UU_NOT_CITY_OWNER;
     }
   }
 
-  /* TODO: allow transported units to be reassigned.  Check here
+  /* TODO: Allow transported units to be reassigned. Check here
    * and make changes to upgrade_unit. */
-  return unit_transform_result(punit, to_unittype);
+  return unit_transform_result(nmap, punit, to_unittype);
 }
 
 /**********************************************************************//**
   Tests if unit can be converted to another type.
 **************************************************************************/
-bool unit_can_convert(const struct unit *punit)
+bool unit_can_convert(const struct civ_map *nmap,
+                      const struct unit *punit)
 {
   const struct unit_type *tgt = unit_type_get(punit)->converted_to;
 
@@ -2014,18 +2017,19 @@ bool unit_can_convert(const struct unit *punit)
     return FALSE;
   }
 
-  return UU_OK == unit_transform_result(punit, tgt);
+  return UU_OK == unit_transform_result(nmap, punit, tgt);
 }
 
 /**********************************************************************//**
   Find the result of trying to upgrade the unit, and a message that
   most callers can use directly.
 **************************************************************************/
-enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
+enum unit_upgrade_result unit_upgrade_info(const struct civ_map *nmap,
+                                           const struct unit *punit,
                                            char *buf, size_t bufsz)
 {
   struct player *pplayer = unit_owner(punit);
-  enum unit_upgrade_result result = unit_upgrade_test(punit, FALSE);
+  enum unit_upgrade_result result = unit_upgrade_test(nmap, punit, FALSE);
   int upgrade_cost;
   const struct unit_type *from_unittype = unit_type_get(punit);
   const struct unit_type *to_unittype = can_upgrade_unittype(pplayer,

@@ -426,7 +426,7 @@ static void do_upgrade_effects(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     /* We have to be careful not to strand units at sea, for example by
      * upgrading a frigate to an ironclad while it was carrying a unit. */
-    if (UU_OK == unit_upgrade_test(punit, TRUE)) {
+    if (UU_OK == unit_upgrade_test(&(wld.map), punit, TRUE)) {
       unit_list_prepend(candidates, punit);	/* Potential candidate :) */
     }
   } unit_list_iterate_end;
@@ -795,7 +795,7 @@ static void unit_convert(struct unit *punit)
   from_type = unit_type_get(punit);
   to_type = from_type->converted_to;
 
-  if (unit_can_convert(punit)) {
+  if (unit_can_convert(&(wld.map), punit)) {
     transform_unit(punit, to_type, 0);
     notify_player(unit_owner(punit), unit_tile(punit),
                   E_UNIT_UPGRADED, ftc_server,

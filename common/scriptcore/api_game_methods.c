@@ -594,7 +594,7 @@ bool api_methods_player_can_build_impr_direct(lua_State *L, Player *pplayer,
 bool api_methods_unit_can_upgrade(lua_State *L, Unit *punit, bool is_free)
 {
 
-  return UU_OK == unit_upgrade_test(punit, is_free);
+  return UU_OK == unit_upgrade_test(&(wld.map), punit, is_free);
 }
 
 /**********************************************************************//**
@@ -610,7 +610,7 @@ const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_SELF(L, punit, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, ptype, 3, Unit_Type, NULL);
 
-  uu = unit_transform_result(punit, ptype);
+  uu = unit_transform_result(&(wld.map), punit, ptype);
   switch (uu) {
   case UU_OK:
     return NULL;

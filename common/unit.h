@@ -494,13 +494,16 @@ struct unit *transporter_for_unit_at(const struct unit *pcargo,
                                      const struct tile *ptile);
 
 enum unit_upgrade_result
-unit_transform_result(const struct unit *punit,
+unit_transform_result(const struct civ_map *nmap,
+                      const struct unit *punit,
                       const struct unit_type *to_unittype);
-enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
+enum unit_upgrade_result unit_upgrade_test(const struct civ_map *nmap,
+                                           const struct unit *punit,
                                            bool is_free);
-enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
+enum unit_upgrade_result unit_upgrade_info(const struct civ_map *nmap,
+                                           const struct unit *punit,
                                            char *buf, size_t bufsz);
-bool unit_can_convert(const struct unit *punit);
+bool unit_can_convert(const struct civ_map *nmap, const struct unit *punit);
 
 int unit_pays_mp_for_action(const struct action *paction,
                             const struct unit *punit);

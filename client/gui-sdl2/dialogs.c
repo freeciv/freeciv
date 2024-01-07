@@ -696,7 +696,7 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
 
   unit_upgrade_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
-  unit_upgrade_result = unit_upgrade_info(punit, cbuf, sizeof(cbuf));
+  unit_upgrade_result = unit_upgrade_info(&(wld.map), punit, cbuf, sizeof(cbuf));
 
   pstr = create_utf8_from_char_fonto(_("Upgrade Obsolete Units"),
                                      FONTO_ATTENTION);
