@@ -248,6 +248,18 @@ graphic     = "a.food_preservation"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_herbs]
+name        = _("Herbs")
+req1        = "Rituals"
+req2        = "None"
+flags       = ""
+graphic     = "a.herbs"
+graphic_alt = "-"
+helptext    = _("\
+Makes units that do not move during the turn to heal additional 10% of their maximum hitpoints. \
+Outside cities that might be the only healing they do.\
+")
+
 [advance_government]
 name        = _("Government")
 req1        = "Alphabet"

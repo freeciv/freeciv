@@ -306,6 +306,30 @@ reqs    =
       "OutputType", "Gold",     "Local",  TRUE
     }
 
+[effect_city_regen]
+type    = "HP_Regen_2"
+value   = 10
+reqs    =
+    { "type",     "name",   "range"
+      "CityTile", "Center", "Tile"
+    }
+
+[effect_barracks_regen]
+type    = "HP_Regen_2"
+value   = 20
+reqs    =
+    { "type",     "name",     "range"
+      "Building", "Barracks", "City"
+    }
+
+[effect_herbs_regen]
+type    = "HP_Regen_2"
+value   = 10
+reqs    =
+    { "type", "name",  "range"
+      "Tech", "Herbs", "Player"
+    }
+
 [effect_irrigation]
 type    = "Irrigation_Pct"
 value   = 100
