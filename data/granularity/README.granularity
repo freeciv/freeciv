@@ -20,3 +20,5 @@ movement costs is 1/6 points.
  * Cities are protected a bit from rapid shrinking due to
    continuous famine by the fact that when city shrinks,
    its granary is set to 10% full, not empty
+ * Initially there's a 50% penalty to collecting taxes. This is
+   removed by the Counting tech.
