@@ -126,7 +126,7 @@ helptext    = _("Agriculture allows placing irrigation.")
 [advance_alphabet]
 name        = _("Alphabet")
 req1        = "Cave Painting"
-req2        = "Spirits"
+req2        = "Counting"
 flags       = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
@@ -165,7 +165,7 @@ graphic_alt = "-"
 [advance_calendar]
 name        = _("Calendar")
 req1        = "Agriculture"
-req2        = "None"
+req2        = "Counting"
 flags       = ""
 graphic     = "a.calendar"
 graphic_alt = "-"
@@ -190,6 +190,17 @@ flags       = ""
 graphic     = "a.cave_painting"
 graphic_alt = "-"
 helptext    = _("Cave Paintings record hunting and fights.")
+
+[advance_counting]
+name        = _("Counting")
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.counting"
+graphic_alt = "-"
+helptext    = _("\
+Allows collecting taxes without miscalculation penalties.\
+")
 
 [advance_diplomacy]
 name        = _("Diplomacy")
@@ -316,6 +327,17 @@ flags       = ""
 graphic     = "a.road_building"
 graphic_alt = "-"
 helptext    = _("Allows build actual roads.")
+
+[advance_rituals]
+name        = _("Rituals")
+req1        = "Cave Painting"
+req2        = "Spirits"
+flags       = ""
+graphic     = "a.rituals"
+graphic_alt = "-"
+helptext    = _("\
+Provides a morale boost increasing both attack and defense values of units buy 20%.\
+")
 
 [advance_spirits]
 name        = _("Spirits")
