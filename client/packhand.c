@@ -4733,6 +4733,11 @@ void handle_ruleset_clause(const struct packet_ruleset_clause *p)
     requirement_vector_append(&info->receiver_reqs, p->receiver_reqs[i]);
   }
   fc_assert(info->receiver_reqs.size == p->receiver_reqs_count);
+
+  for (i = 0; i < p->either_reqs_count; i++) {
+    requirement_vector_append(&info->either_reqs, p->either_reqs[i]);
+  }
+  fc_assert(info->either_reqs.size == p->either_reqs_count);
 }
 
 /************************************************************************//**

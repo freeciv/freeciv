@@ -1952,6 +1952,8 @@ PACKET_RULESET_CLAUSE = 512; sc, lsend
   REQUIREMENT giver_reqs[MAX_NUM_REQS:giver_reqs_count];
   UINT8  receiver_reqs_count;
   REQUIREMENT receiver_reqs[MAX_NUM_REQS:receiver_reqs_count];
+  UINT8  either_reqs_count;
+  REQUIREMENT either_reqs[MAX_NUM_REQS:either_reqs_count];
 end
 
 /**************************************************************************

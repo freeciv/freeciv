@@ -57,6 +57,7 @@ struct clause_info
   bool enabled;
   struct requirement_vector giver_reqs;
   struct requirement_vector receiver_reqs;
+  struct requirement_vector either_reqs;
 };
 
 /* For when we need to iterate over treaties */

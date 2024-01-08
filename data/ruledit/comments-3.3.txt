@@ -1254,9 +1254,10 @@ clauses = "\
 ; type                   = Type of the clause, one of \"Advance\", \"Gold\", \"Map\", \"Seamap\",\n\
 ;                          \"City\", \"Ceasefire\", \"Peace\", \"Alliance\", \"Vision\", \"Embassy\",\n\
 ;                          \"SharedTiles\"\n\
-; giver_reqs             = requirements that the giving side of the clause needs to fulfill\n\
+; giver_reqs             = requirements that the giving side of the clause needs to meet\n\
 ;                          (see effects.ruleset and README.effects for help on requirements)\n\
-; receiver_reqs          = requirements that the receiving side of the clause needs to fulfill\n\
+; receiver_reqs          = requirements that the receiving side of the clause needs to meet\n\
+; either_reqs            = requirements that either side of the clause transaction would need to meet\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

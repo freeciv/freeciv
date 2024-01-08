@@ -673,9 +673,10 @@ priority       = 1
 ; type                   = Type of the clause, one of "Advance", "Gold", "Map", "Seamap",
 ;                          "City", "Ceasefire", "Peace", "Alliance", "Vision", "Embassy",
 ;                          "SharedTiles"
-; giver_reqs             = requirements that the giving side of the clause needs to fulfill
+; giver_reqs             = requirements that the giving side of the clause needs to meet
 ;                          (see effects.ruleset and README.effects for help on requirements)
-; receiver_reqs          = requirements that the receiving side of the clause needs to fulfill
+; receiver_reqs          = requirements that the receiving side of the clause needs to meet
+; either_reqs            = requirements that either side of the clause transaction would need to meet
 ;
 ; */ <-- avoid gettext warnings
 

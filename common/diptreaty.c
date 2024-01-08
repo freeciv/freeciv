@@ -202,6 +202,16 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
       return FALSE;
     }
   }
+  if (client_player == NULL) {
+    if (!are_reqs_active(&(const struct req_context) { .player = pfrom },
+                         pfrom, &clause_infos[type].either_reqs,
+                         RPT_POSSIBLE)
+        && !are_reqs_active(&(const struct req_context) { .player = pto },
+                         pfrom, &clause_infos[type].either_reqs,
+                            RPT_POSSIBLE)) {
+      return FALSE;
+    }
+  }
 
   clause_list_iterate(ptreaty->clauses, old_clause) {
     if (old_clause->type == type

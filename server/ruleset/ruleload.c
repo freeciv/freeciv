@@ -7477,6 +7477,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         }
         requirement_vector_copy(&info->receiver_reqs, reqs);
 
+        reqs = lookup_req_list(file, compat, sec_name, "either_reqs", clause_name);
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+        requirement_vector_copy(&info->either_reqs, reqs);
+
         info->enabled = TRUE;
       }
     }
@@ -8976,6 +8983,12 @@ static void send_ruleset_clauses(struct conn_list *dest)
       packet.receiver_reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.receiver_reqs_count = j;
+
+    j = 0;
+    requirement_vector_iterate(&info->either_reqs, preq) {
+      packet.either_reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.either_reqs_count = j;
 
     lsend_packet_ruleset_clause(dest, &packet);
   }

@@ -1803,6 +1803,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                          "%s.type", path);
       save_reqs_vector(sfile, &(info->giver_reqs), path, "giver_reqs");
       save_reqs_vector(sfile, &(info->receiver_reqs), path, "receiver_reqs");
+      save_reqs_vector(sfile, &(info->either_reqs), path, "either_reqs");
     }
   }
 
