@@ -309,9 +309,6 @@ module Tile {
       @ x (lua_State *L, Tile *self);
     int api_methods_tile_map_y
       @ y (lua_State *L, Tile *self);
-
-    const char *api_methods_tile_link
-      @ link_text(lua_State *L, Tile *self);
   }
 
   City *api_methods_tile_city
@@ -332,6 +329,8 @@ module Tile {
     @ num_units (lua_State *L, Tile *self);
   int api_methods_tile_sq_distance
     @ sq_distance (lua_State *L, Tile *self, Tile *other);
+  const char *api_methods_tile_link
+    @ link_text(lua_State *L, Tile *self);
 }
 
 $[
