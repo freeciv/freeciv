@@ -162,6 +162,17 @@ graphic     = "a.bronze_weapons"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_calendar]
+name        = _("Calendar")
+req1        = "Agriculture"
+req2        = "None"
+flags       = ""
+graphic     = "a.calendar"
+graphic_alt = "-"
+helptext    = _("\
+Allows nations to agree on fixed length ceasefire.\
+")
+
 [advance_carving]
 name        = _("Carving")
 req1        = "Tools"

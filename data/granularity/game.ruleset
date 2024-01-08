@@ -599,6 +599,17 @@ receiver_reqs =
       "Tech", "Diplomacy", "Player"
     }
 
+[clause_ceasefire]
+type = "Ceasefire"
+giver_reqs =
+    { "type", "name", "range"
+      "Tech", "Calendar", "Player"
+    }
+receiver_reqs =
+    { "type", "name", "range"
+      "Tech", "Calendar", "Player"
+    }
+
 ; /* <-- avoid gettext warnings
 ;Counter types
 ;
