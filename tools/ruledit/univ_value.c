@@ -242,6 +242,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_MINTECHS:
     src->value.min_techs = 0;
     return TRUE;
+  case VUT_MINCITIES:
+    src->value.min_cities = 0;
+    return TRUE;
   case VUT_EXTRAFLAG:
     src->value.extraflag = EF_NATIVE_TILE;
     return TRUE;
@@ -498,6 +501,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_AGE:
   case VUT_FORM_AGE:
   case VUT_MINTECHS:
+  case VUT_MINCITIES:
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     /* Requirement types having numerical value */

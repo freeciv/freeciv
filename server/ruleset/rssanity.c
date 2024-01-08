@@ -341,6 +341,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
      case VUT_OTYPE:
      case VUT_SPECIALIST:
      case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
+     case VUT_MINCITIES:
      case VUT_MINFOREIGNPCT:
      case VUT_MINMOVES: /* Breaks nothing, but has no sense either */
      case VUT_MINVETERAN: /* Breaks nothing, but has no sense either */

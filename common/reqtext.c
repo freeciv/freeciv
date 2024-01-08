@@ -2922,6 +2922,36 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_MINCITIES:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires player to have at least %d cities."),
+                     preq->source.value.min_cities);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented when player has at least %d cities."),
+                     preq->source.value.min_cities);
+      }
+      return TRUE;
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_TERRAINALTER:
     switch (preq->range) {
     case REQ_RANGE_TILE:

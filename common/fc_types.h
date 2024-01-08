@@ -759,6 +759,7 @@ typedef union {
   int age;
   int form_age;
   int min_techs;
+  int min_cities;
   int latitude;
 
   enum topo_flag topo_property;
@@ -890,6 +891,8 @@ typedef union {
 #define SPECENUM_VALUE56NAME "PlayerState"
 #define SPECENUM_VALUE57 VUT_FORM_AGE
 #define SPECENUM_VALUE57NAME "FormAge"
+#define SPECENUM_VALUE58 VUT_MINCITIES
+#define SPECENUM_VALUE58NAME "MinCities"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT

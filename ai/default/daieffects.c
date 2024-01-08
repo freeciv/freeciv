@@ -877,6 +877,10 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* Can always be achieved. */
     return TRUE;
 
+  case VUT_MINCITIES:
+    /* We don't WANT to lose cities */
+    return preq->present;
+
   case VUT_IMPR_FLAG:
     /* TODO: Have at least some checks for this. */
     break;
