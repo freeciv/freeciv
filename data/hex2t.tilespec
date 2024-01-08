@@ -161,6 +161,7 @@ files =
   "misc/flags.spec",
   "misc/shields.spec",
   "misc/cursors.spec",
+  "hex2t/highways.spec",
   "misc/space.spec",
   "misc/techs.spec",
   "misc/treaty.spec",
@@ -282,6 +283,7 @@ styles =
     { "name",          "style"
       "road.road",     "RoadAllSeparate"
       "road.rail",     "RoadAllSeparate"
+      "road.highway",  "RoadAllSeparate"
       "road.maglev",   "RoadAllSeparate"
       "road.river",    "River"
       "tx.irrigation", "Cardinals"
