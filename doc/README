@@ -523,7 +523,7 @@ information about reporting new bugs.
 Mailing lists:
 ==============
 
-We maintain 4 mailing lists:
+We maintain 3 mailing lists:
 
   freeciv-announce@freelists.org
                    Announcements of general interest.
@@ -539,10 +539,6 @@ We maintain 4 mailing lists:
   freeciv-dev@freelists.org
                    Freeciv development.
                    Subscribe: https://www.freelists.org/list/freeciv-dev
-  freeciv-tickets@lists.osdn.me
-                   Automated notifications about updates to
-                   bug and patch tickets.
-                   Subscribe: https://lists.osdn.me/mailman/listinfo/freeciv-tickets
 
 All lists are open to the general public and everyone is welcome to join.
 Only maintainers may post to the -announce list.
