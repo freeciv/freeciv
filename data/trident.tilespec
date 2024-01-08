@@ -159,6 +159,7 @@ files =
   "misc/cursors.spec",
   "trident/grid.spec",
   "trident/roads.spec",
+  "trident/highways.spec",
   "misc/buildings.spec",
   "misc/space.spec",
   "misc/techs.spec",
@@ -335,6 +336,7 @@ styles =
     { "name",          "style"
       "road.road",     "RoadParityCombined"
       "road.rail",     "RoadParityCombined"
+      "road.highway",  "RoadParityCombined"
       "road.maglev",   "RoadParityCombined"
       "road.river",    "River"
       "tx.irrigation", "Cardinals"

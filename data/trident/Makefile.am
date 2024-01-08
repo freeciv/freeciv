@@ -17,6 +17,8 @@ pkgdata_DATA =          \
 	fog.spec	\
 	grid.png	\
 	grid.spec	\
+	highways.png	\
+	highways.spec	\
 	roads.png	\
 	roads.spec	\
 	select.png	\
