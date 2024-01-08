@@ -113,7 +113,7 @@ struct req_context {
 };
 
 enum req_unchanging_status {
-  REQUCH_NO = 0, /* Changes regulary */
+  REQUCH_NO = 0, /* Changes regularly */
   REQUCH_CTRL, /* Can't be changed by game means as long as target player
                 * is in control of target city or unit */
   REQUCH_ACT, /* Can't be easily changed by expected player's activity
