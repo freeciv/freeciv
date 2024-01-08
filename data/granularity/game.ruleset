@@ -36,8 +36,9 @@ name = _("Granularity")
 
 ; Summary of the ruleset
 summary = _("\
-Values in this ruleset have a high granularity. Rules are less subject\
- to integer math pecularities than in standard rulesets.\
+Values in this ruleset have a high granularity. Rules are less subject \
+to integer math pecularities than in standard rulesets.\n\
+THIS RULESET IS STILL IN DEVELOPMENT, NOT BALANCED NOR COMPLETE.\
 ")
 
 ; Detailed description
