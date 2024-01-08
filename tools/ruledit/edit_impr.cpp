@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QMenu>
@@ -37,7 +38,7 @@
 **************************************************************************/
 edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
 {
-  QVBoxLayout *main_layout = new QVBoxLayout(this);
+  QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *impr_layout = new QGridLayout();
   QLabel *label;
   QMenu *menu;
@@ -45,6 +46,8 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
 
   ui = ui_in;
   impr = impr_in;
+
+  flag_layout = new QGridLayout();
 
   setWindowTitle(QString::fromUtf8(improvement_rule_name(impr)));
 
@@ -123,9 +126,21 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   impr_layout->addWidget(label, row, 0);
   impr_layout->addWidget(sound_tag_alt, row++, 1);
 
+  for (int i = 0; i < IF_COUNT; i++) {
+    enum impr_flag_id flag = (enum impr_flag_id)i;
+    QCheckBox *check = new QCheckBox();
+
+    label = new QLabel(impr_flag_id_name(flag));
+    flag_layout->addWidget(label, i, 0);
+
+    check->setChecked(BV_ISSET(impr->flags, flag));
+    flag_layout->addWidget(check, i, 1);
+  }
+
   refresh();
 
   main_layout->addLayout(impr_layout);
+  main_layout->addLayout(flag_layout);
 
   setLayout(main_layout);
 }
@@ -140,6 +155,15 @@ void edit_impr::closeEvent(QCloseEvent *cevent)
   gfx_tag_alt_given();
   sound_tag_given();
   sound_tag_alt_given();
+
+  BV_CLR_ALL(impr->flags);
+  for (int i = 0; i < IF_COUNT; i++) {
+    QCheckBox *check = static_cast<QCheckBox *>(flag_layout->itemAtPosition(i, 1)->widget());
+
+    if (check->isChecked()) {
+      BV_SET(impr->flags, i);
+    }
+  }
 
   impr->ruledit_dlg = nullptr;
 }
