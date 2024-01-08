@@ -2375,14 +2375,15 @@ static void compat_load_030200(struct loaddata *loading,
             secfile_insert_int(loading->file, CACQ_CONQUEST,
                                "player%d.c%d.acquire_t",
                                plrno, cnro);
-            secfile_insert_int(loading->file, WLCB_SMART,
-                               "player%d.c%d.wlcb",
-                               plrno, cnro);
           } else {
             secfile_insert_int(loading->file, CACQ_FOUNDED,
                                "player%d.c%d.acquire_t",
                                plrno, cnro);
           }
+
+          secfile_insert_int(loading->file, WLCB_SMART,
+                             "player%d.c%d.wlcb",
+                             plrno, cnro);
         }
       }
 
