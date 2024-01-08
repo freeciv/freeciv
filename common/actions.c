@@ -5828,9 +5828,9 @@ const char *action_ui_name_ruleset_var_name(int act)
   case ACTION_FORTIFY:
     return "ui_name_fortify";
   case ACTION_ROAD:
-    return "ui_name_road";
+    return "ui_name_build_road";
   case ACTION_ROAD2:
-    return "ui_name_road_2";
+    return "ui_name_build_road_2";
   case ACTION_CONVERT:
     return "ui_name_convert_unit";
   case ACTION_BASE:
