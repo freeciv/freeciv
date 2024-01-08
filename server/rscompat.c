@@ -781,6 +781,8 @@ const char *rscompat_action_ui_name_3_2(struct rscompat_info *compat,
   if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
     if (act_id == ACTION_TRANSPORT_DEBOARD) {
       return "ui_name_transport_alight";
+    } else if (act_id == ACTION_ROAD) {
+      return "ui_name_road";
     }
   }
 
