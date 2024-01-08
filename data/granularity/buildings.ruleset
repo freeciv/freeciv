@@ -99,7 +99,9 @@ sound_alt	= "b_barracks_i"
 sound_alt2      = "b_generic"
 helptext	= _("\
 With a Barracks, each new land unit built in a city will \
-automatically have Veteran status.\
+automatically have Veteran status. \
+Units in a city with Barracks heal additional 20% of their \
+maximum hitpoints each turn.\
 ")
 
 [building_city_walls]
