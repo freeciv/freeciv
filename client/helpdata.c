@@ -628,6 +628,24 @@ static void insert_allows(struct universal *psource,
                          utype_name_translation(putype), utstrs,
                          buf, bufsz, prefix);
   } unit_type_iterate_end;
+
+  extra_type_iterate(pextra) {
+    static const char *const estrs[] = {
+      /* TRANS: First %s is an extra name. */
+      N_("?extra:Allows %s (with %s but no %s)."),
+      /* TRANS: First %s is an extra name. */
+      N_("?extra:Allows %s (with %s)."),
+      /* TRANS: First %s is an extra name. */
+      N_("?extra:Allows %s (absent %s)."),
+      /* TRANS: %s is an extra name. */
+      N_("?extra:Allows %s."),
+      /* TRANS: %s is an extra name. */
+      N_("?extra:Prevents %s.")
+    };
+    insert_allows_single(psource, &pextra->reqs,
+                         extra_name_translation(pextra), estrs,
+                         buf, bufsz, prefix);
+  } extra_type_iterate_end;
 }
 
 /************************************************************************//**
@@ -3428,9 +3446,6 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
       }
     }
   }
-
-  /* FIXME: bases -- but there is no good way to find out which bases a tech
-   * can enable currently, so we have to remain silent. */
 
   if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
     CATLSTR(buf, bufsz,
