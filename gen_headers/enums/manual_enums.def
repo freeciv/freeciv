@@ -11,6 +11,7 @@ values
   MANUAL_SETTINGS  N_("Settings")
   MANUAL_COMMANDS  N_("Commands")
   MANUAL_TERRAIN   N_("Terrain")
+  MANUAL_EXTRAS    N_("Extras")
   MANUAL_BUILDINGS N_("Buildings")
   MANUAL_WONDERS   N_("Wonders")
   MANUAL_GOVS      N_("Governments")

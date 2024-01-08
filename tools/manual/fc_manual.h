@@ -52,6 +52,7 @@ char *html_special_chars(char *str, size_t *len);
 bool manual_settings(struct tag_types *tag_info);
 bool manual_commands(struct tag_types *tag_info);
 bool manual_terrain(struct tag_types *tag_info);
+bool manual_extras(struct tag_types *tag_info);
 bool manual_buildings(struct tag_types *tag_info);
 bool manual_governments(struct tag_types *tag_info);
 bool manual_units(struct tag_types *tag_info);
