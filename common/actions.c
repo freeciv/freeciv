@@ -933,7 +933,7 @@ static struct action *action_new(action_id id,
   BV_CLR_ALL(action->sub_results);
 
   action->actor_kind = AAK_UNIT;
-  action->target_kind = action_target_kind_default(result);
+  action->target_kind = actres_target_kind_default(result);
   action->sub_target_kind = action_sub_target_kind_default(result);
   action->target_complexity = actres_target_compl_calc(result);
 
@@ -6760,99 +6760,6 @@ const char *action_target_kind_ruleset_var_name(int act)
   fc_assert(act >= 0 && act < ACTION_COUNT);
 
   return NULL;
-}
-
-/**********************************************************************//**
-  Return default target kind for the action with the specified result.
-**************************************************************************/
-enum action_target_kind
-action_target_kind_default(enum action_result result)
-{
-  fc_assert_ret_val(action_result_is_valid(result) || result == ACTRES_NONE,
-                    RS_DEFAULT_USER_ACTION_TARGET_KIND);
-
-  switch (result) {
-  case ACTRES_ESTABLISH_EMBASSY:
-  case ACTRES_SPY_INVESTIGATE_CITY:
-  case ACTRES_SPY_POISON:
-  case ACTRES_SPY_STEAL_GOLD:
-  case ACTRES_SPY_SABOTAGE_CITY:
-  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTRES_SPY_STEAL_TECH:
-  case ACTRES_SPY_TARGETED_STEAL_TECH:
-  case ACTRES_SPY_INCITE_CITY:
-  case ACTRES_TRADE_ROUTE:
-  case ACTRES_MARKETPLACE:
-  case ACTRES_HELP_WONDER:
-  case ACTRES_JOIN_CITY:
-  case ACTRES_STEAL_MAPS:
-  case ACTRES_SPY_NUKE:
-  case ACTRES_DESTROY_CITY:
-  case ACTRES_DISBAND_UNIT_RECOVER:
-  case ACTRES_HOME_CITY:
-  case ACTRES_UPGRADE_UNIT:
-  case ACTRES_AIRLIFT:
-  case ACTRES_STRIKE_BUILDING:
-  case ACTRES_STRIKE_PRODUCTION:
-  case ACTRES_CONQUER_CITY:
-  case ACTRES_SPY_SPREAD_PLAGUE:
-  case ACTRES_SPY_ESCAPE:
-    return ATK_CITY;
-  case ACTRES_SPY_BRIBE_UNIT:
-  case ACTRES_SPY_SABOTAGE_UNIT:
-  case ACTRES_EXPEL_UNIT:
-  case ACTRES_HEAL_UNIT:
-  case ACTRES_TRANSPORT_DEBOARD:
-  case ACTRES_TRANSPORT_UNLOAD:
-  case ACTRES_TRANSPORT_LOAD:
-  case ACTRES_TRANSPORT_BOARD:
-  case ACTRES_TRANSPORT_EMBARK:
-    return ATK_UNIT;
-  case ACTRES_BOMBARD:
-  case ACTRES_ATTACK:
-  case ACTRES_WIPE_UNITS:
-  case ACTRES_CAPTURE_UNITS:
-  case ACTRES_NUKE_UNITS:
-  case ACTRES_SPY_ATTACK:
-  case ACTRES_COLLECT_RANSOM:
-    return ATK_UNITS;
-  case ACTRES_FOUND_CITY:
-  case ACTRES_NUKE:
-  case ACTRES_PARADROP:
-  case ACTRES_PARADROP_CONQUER:
-  case ACTRES_TRANSFORM_TERRAIN:
-  case ACTRES_CULTIVATE:
-  case ACTRES_PLANT:
-  case ACTRES_PILLAGE:
-  case ACTRES_CLEAN:
-  case ACTRES_ROAD:
-  case ACTRES_BASE:
-  case ACTRES_MINE:
-  case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_DISEMBARK:
-  case ACTRES_HUT_ENTER:
-  case ACTRES_HUT_FRIGHTEN:
-  case ACTRES_UNIT_MOVE:
-  case ACTRES_TELEPORT:
-  case ACTRES_TELEPORT_CONQUER:
-    return ATK_TILE;
-  case ACTRES_CONQUER_EXTRAS:
-    return ATK_EXTRAS;
-  case ACTRES_DISBAND_UNIT:
-  case ACTRES_CONVERT:
-  case ACTRES_FORTIFY:
-  case ACTRES_HOMELESS:
-  case ACTRES_ENABLER_CHECK:
-    return ATK_SELF;
-  case ACTRES_NONE:
-    return RS_DEFAULT_USER_ACTION_TARGET_KIND;
-
-  ASSERT_UNUSED_ACTRES_CASES;
-  }
-
-  /* Should never be reached. */
-  return RS_DEFAULT_USER_ACTION_TARGET_KIND;
 }
 
 /**********************************************************************//**

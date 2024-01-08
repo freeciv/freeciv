@@ -117,6 +117,7 @@ struct actres {
   enum extra_cause ecause; /* Could deduct this from 'activity', but we should merge
                             * activities completely with actions in the future */
   enum extra_rmcause ermcause;
+  enum action_target_kind def_tgt_kind;
 };
 
 void actres_init(void);
@@ -146,6 +147,8 @@ enum fc_tristate actres_possible(enum action_result result,
 
 int actres_min_range_default(enum action_result result);
 int actres_max_range_default(enum action_result result);
+enum action_target_kind
+actres_target_kind_default(enum action_result result);
 
 #ifdef __cplusplus
 }
