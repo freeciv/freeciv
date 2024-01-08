@@ -6,6 +6,8 @@ pkgdatadir = $(datadir)/$(PACKAGE)/hex2t
 pkgdata_DATA =          \
 	grid.png	\
 	grid.spec	\
+	highways.png	\
+	highways.spec	\
 	items.png	\
 	items.spec	\
 	overlays.png	\
