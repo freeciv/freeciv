@@ -6530,7 +6530,7 @@ static bool load_action_kind(struct section_file *file, action_id act)
 
   action_by_number(act)->target_kind
       = secfile_lookup_enum_default(file,
-                                    action_target_kind_default(
+                                    actres_target_kind_default(
                                       paction->result),
                                     action_target_kind,
                                     "actions.%s",
