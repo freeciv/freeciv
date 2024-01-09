@@ -1461,6 +1461,8 @@ static void setup_widgets(void)
   gtk_widget_set_size_request(map_canvas, 300, 300);
   gtk_widget_set_can_focus(map_canvas, TRUE);
 
+  gtk_widget_set_focusable(map_canvas, TRUE);
+
 #if 0
   setup_canvas_color_for_state(GTK_STATE_FLAG_NORMAL);
   setup_canvas_color_for_state(GTK_STATE_FLAG_ACTIVE);
