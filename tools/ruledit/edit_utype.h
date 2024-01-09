@@ -42,6 +42,8 @@ class edit_utype : public QDialog
     QSpinBox *bcost;
     QSpinBox *attack;
     QSpinBox *defense;
+    QSpinBox *hitpoints;
+    QSpinBox *firepower;
     QSpinBox *move_rate;
     QLineEdit *gfx_tag;
     QLineEdit *gfx_tag_alt;
@@ -58,6 +60,8 @@ class edit_utype : public QDialog
     void set_bcost_value(int value);
     void set_attack_value(int value);
     void set_defense_value(int value);
+    void set_hitpoints(int value);
+    void set_firepower(int value);
     void set_move_rate(int value);
     void gfx_tag_given();
     void gfx_tag_alt_given();

@@ -94,6 +94,26 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(defense, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Hitpoints")));
+  label->setParent(this);
+
+  hitpoints = new QSpinBox(this);
+  hitpoints->setRange(0, 1000);
+  connect(hitpoints, SIGNAL(valueChanged(int)), this, SLOT(set_hitpoints(int)));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(hitpoints, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Firepower")));
+  label->setParent(this);
+
+  firepower = new QSpinBox(this);
+  firepower->setRange(0, 200);
+  connect(firepower, SIGNAL(valueChanged(int)), this, SLOT(set_firepower(int)));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(firepower, row++, 1);
+
   label = new QLabel(QString::fromUtf8(R__("Move Rate")));
   label->setParent(this);
 
@@ -194,6 +214,8 @@ void edit_utype::refresh()
   bcost->setValue(utype->build_cost);
   attack->setValue(utype->attack_strength);
   defense->setValue(utype->defense_strength);
+  hitpoints->setValue(utype->hp);
+  firepower->setValue(utype->firepower);
   move_rate->setValue(utype->move_rate);
   gfx_tag->setText(utype->graphic_str);
   gfx_tag_alt->setText(utype->graphic_alt);
@@ -246,7 +268,23 @@ void edit_utype::set_defense_value(int value)
 }
 
 /**********************************************************************//**
-  Read move rater from spinbox
+  Read hitpoints from spinbox
+**************************************************************************/
+void edit_utype::set_hitpoints(int value)
+{
+  utype->hp = value;
+}
+
+/**********************************************************************//**
+  Read firepower from spinbox
+**************************************************************************/
+void edit_utype::set_firepower(int value)
+{
+  utype->firepower = value;
+}
+
+/**********************************************************************//**
+  Read move rate from spinbox
 **************************************************************************/
 void edit_utype::set_move_rate(int value)
 {
