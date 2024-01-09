@@ -420,7 +420,15 @@ adv_want dai_effect_value(struct player *pplayer,
         && (adv->dipl.spacerace_leader
             || adv->dipl.production_leader == pplayer
             || adv->dipl.tech_leader == pplayer)) {
-      v += 140;
+      if (pcity->id == adv->wonder_city) {
+        /* adjust_improvement_wants_by_effects() lowers want for any non-wonder
+         * target on wonder city. We want space part want reduced even more than
+         * regular buildings, as buildings are at least helping the specific city
+         * when finished. */
+        v += 80;
+      } else {
+        v += 140;
+      }
     }
     break;
   case EFT_SPY_RESISTANT:
