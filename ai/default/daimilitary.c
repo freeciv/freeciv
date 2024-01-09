@@ -1954,7 +1954,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
         CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d does not want defenders");
       }
     }
-  } /* ok, don't need to defend */
+  } /* Ok, don't need to defend */
 
   if (pcity->surplus[O_SHIELD] <= 0 
       || pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] > pcity->feel[CITIZEN_UNHAPPY][FEELING_EFFECT]

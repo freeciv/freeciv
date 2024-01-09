@@ -1513,8 +1513,8 @@ static adv_want base_want(struct ai_type *ait, struct player *pplayer,
 
   if (is_wonder(pimprove)) {
     if (is_great_wonder(pimprove)) {
-      wonder_player_id =
-          game.info.great_wonder_owners[improvement_index(pimprove)];
+      wonder_player_id
+        = game.info.great_wonder_owners[improvement_index(pimprove)];
     }
     wonder_city_id = pplayer->wonders[improvement_index(pimprove)];
   }
