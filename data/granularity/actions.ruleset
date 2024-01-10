@@ -189,6 +189,9 @@ ui_name_unit_move = _("%sKeep moving%s")
 ; /* TRANS: Teleport (100% chance of success). */
 ui_name_teleport = _("%sRelocate%s")
 
+; /* TRANS: _Fortify (100% chance of success). */
+ui_name_fortify = _("%sFortify%s")
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
@@ -371,6 +374,14 @@ action        = "Bombard"
 actor_reqs    =
     { "type",         "name",        "range", "present"
       "UnitClass",    "Air",         "Local", TRUE
+    }
+
+[actionenabler_fortify]
+action        = "Fortify"
+actor_reqs    =
+    { "type",     "name",      "range",  "present"
+      "Tech",     "Trenches",  "Player", TRUE
+      "Activity", "Fortified", "Local",  FALSE
     }
 
 [actionenabler_gain_veterancy]
