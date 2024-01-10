@@ -233,7 +233,7 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 [advance_flight]
 name        = _("Flight")
 req1        = "Maps"
-req2        = "Mining"
+req2        = "Trenches"
 flags       = ""
 graphic     = "a.flight"
 graphic_alt = "-"
@@ -370,3 +370,14 @@ graphic     = "a.tools"
 graphic_alt = "-"
 helptext    = _("Anything can be done with right tools.\
  Allows more efficient use of production resources.")
+
+[advance_trenches]
+name        = _("Trenches")
+req1        = "Mining"
+req2        = "Military Training"
+flags       = ""
+graphic     = "a.trenches"
+graphic_alt = "-"
+helptext    = _("\
+Allows units to fortify.\
+")

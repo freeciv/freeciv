@@ -24,3 +24,4 @@ movement costs is 1/6 points.
    removed by the Counting tech.
  * In cities units heal 10% of their maximum hitpoints each turn,
    outside cities none. Techs and buildings improve this.
+ * Fortifying is not possible before Trenches technology is known.
