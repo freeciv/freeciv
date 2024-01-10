@@ -7699,6 +7699,10 @@ static bool load_ruleset_actions(struct section_file *file,
              ACT_SUB_RES_HUT_ENTER);
       BV_SET(action_by_number(ACTION_PARADROP_ENTER_CONQUER)->sub_results,
              ACT_SUB_RES_HUT_ENTER);
+      BV_SET(action_by_number(ACTION_TELEPORT_ENTER)->sub_results,
+             ACT_SUB_RES_HUT_ENTER);
+      BV_SET(action_by_number(ACTION_TELEPORT_ENTER_CONQUER)->sub_results,
+             ACT_SUB_RES_HUT_ENTER);
 
       /* Unit Frighten Hut */
       action_by_result_iterate(paction, ACTRES_HUT_FRIGHTEN) {

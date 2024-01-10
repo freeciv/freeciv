@@ -319,6 +319,7 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_VALUE65 ACTRES_TELEPORT
 #define SPECENUM_VALUE65NAME "Teleport"
 #define SPECENUM_VALUE66 ACTRES_TELEPORT_CONQUER
+#define SPECENUM_VALUE66NAME "Teleport Conquer"
 /* Hardcoded action that's just controlled by enablers */
 #define SPECENUM_VALUE67 ACTRES_ENABLER_CHECK
 /* All consequences are handled as (ruleset) action data. */
