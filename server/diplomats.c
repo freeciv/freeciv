@@ -449,13 +449,14 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
 
     plrcity = map_get_player_city(city_tile(pcity), unit_owner(pdiplomat));
 
-    if (!plrcity) {
+    if (plrcity == nullptr) {
       /* Must know city to remember visible buildings. */
       return;
     }
 
     improvement_iterate(ptarget) {
-      if (BV_ISSET(plrcity->improvements, improvement_index(ptarget))) {
+      if (BV_ISSET(plrcity->improvements, improvement_index(ptarget))
+          && !improvement_has_flag(ptarget, IF_INDESTRUCTIBLE)) {
         BV_SET(packet.improvements, improvement_index(ptarget));
       }
     } improvement_iterate_end;

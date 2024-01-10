@@ -5457,6 +5457,22 @@ static bool do_unit_strike_city_building(struct player *act_player,
     return FALSE;
   }
 
+  if (improvement_has_flag(tgt_bld, IF_INDESTRUCTIBLE)) {
+    /* Notify the player. */
+    notify_player(act_player, tgt_tile,
+                  E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
+                  _("Your %s cannot do %s to %s in %s."),
+                  unit_link(act_unit),
+                  action_name_translation(paction),
+                  improvement_name_translation(tgt_bld),
+                  city_link(tgt_city));
+
+    /* Punish the player for blindly attacking a building. */
+    act_unit->moves_left = MAX(0, act_unit->moves_left - SINGLE_MOVE);
+
+    return FALSE;
+  }
+
   act_utype = unit_type_get(act_unit);
 
   /* Destroy the building. */

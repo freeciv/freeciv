@@ -1190,5 +1190,5 @@ bool action_failed_dice_roll(const struct player *act_player,
                                    paction);
 
   /* Roll the dice. */
-  return fc_rand (100) >= odds;
+  return fc_rand(100) >= odds;
 }

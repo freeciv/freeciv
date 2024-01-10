@@ -74,6 +74,7 @@ building_flags =
 ; "DisasterProof"    = Disasters never destroy this building. Is meaningful
 ;                      only for genus "Improvement" buildings as others are
 ;                      automatically disaster proof.
+; "Indestructible"   = Surgical strike can never destroy this building.
 ;
 ; */ <-- avoid gettext warnings
 

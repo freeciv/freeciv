@@ -68,6 +68,7 @@ buildings = "\
 ; \"DisasterProof\"    = Disasters never destroy this building. Is meaningful\n\
 ;                      only for genus \"Improvement\" buildings as others are\n\
 ;                      automatically disaster proof.\n\
+; \"Indestructible\"   = Surgical strike can never destroy this building.\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
