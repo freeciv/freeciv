@@ -50,7 +50,23 @@ format_version = 40
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 type    = "City_Vision_Radius_Sq"
-value   = 5
+value   = 2
+
+[effect_wheel_vision]
+type    = "City_Vision_Radius_Sq"
+value   = 3
+reqs    =
+    { "type", "name", "range"
+      "Tech", "The Wheel", "Player"
+    }
+
+[effect_wheel_city_radius]
+type  = "City_Radius_Sq"
+value = 3
+reqs  =
+    { "type", "name", "range"
+      "Tech", "The Wheel", "Player"
+    }
 
 [effect_base_unit_upkeep]
 type	= "Upkeep_Factor"

@@ -367,8 +367,21 @@ req2        = "None"
 flags       = ""
 graphic     = "a.spirits"
 graphic_alt = "a.alphabet"
-helptext    = _("Belief in natural spirits is the first step in Religious\
- tech tree branch.")
+helptext    = _("\
+Belief in natural spirits is the first step in Religious \
+tech tree branch.")
+
+[advance_the_wheel]
+name        = _("The Wheel")
+req1        = "Masonry"
+req2        = "Pottery"
+flags       = ""
+graphic     = "a.the_wheel"
+graphic_alt = "-"
+helptext    = _("\
+With carts it's possible to bring produce and resources longer \
+distance away. Increases city radius.\
+")
 
 [advance_tools]
 name        = _("Tools")
@@ -377,8 +390,10 @@ req2        = "None"
 flags       = ""
 graphic     = "a.tools"
 graphic_alt = "-"
-helptext    = _("Anything can be done with right tools.\
- Allows more efficient use of production resources.")
+helptext    = _("\
+Anything can be done with right tools. \
+Allows more efficient use of production resources.\
+")
 
 [advance_trenches]
 name        = _("Trenches")
