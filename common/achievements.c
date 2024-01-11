@@ -327,6 +327,8 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     }
   case ACHIEVEMENT_KILLER:
     return pplayer->score.units_killed >= ach->value;
+  case ACHIEVEMENT_RICH:
+    return pplayer->economic.gold >= ach->value;
   case ACHIEVEMENT_COUNT:
     break;
   }
