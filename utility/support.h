@@ -113,6 +113,8 @@ extern "C" {
    for C++ code */
 #if defined(__GNUC__) && __GNUC__ >= 7
 #define fc__fallthrough __attribute__((fallthrough))
+#elif defined (__clang__) && __clang_major__ >= 12
+#define fc__fallthrough __attribute__((fallthrough))
 #else
 #define fc__fallthrough
 #endif
