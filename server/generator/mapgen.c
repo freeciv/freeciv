@@ -1424,13 +1424,15 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       case MAPSTARTPOS_DEFAULT:
       case MAPSTARTPOS_VARIABLE:
         log_verbose("Map generator chose startpos=SINGLE");
-        /* fallthrough */
+
+        fc__fallthrough;
       case MAPSTARTPOS_SINGLE:
         mode = MAPSTARTPOS_SINGLE;
         break;
       default:
         log_verbose("Map generator chose startpos=2or3");
-        /* fallthrough */
+
+        fc__fallthrough;
       case MAPSTARTPOS_2or3:
         mode = MAPSTARTPOS_2or3;
         break;
