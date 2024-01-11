@@ -181,6 +181,14 @@ reqs	=
       "Building", "Throne", "City"
     }
 
+[effect_quarry_infra]
+type    = "Infra_Points"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Quarry", "City"
+    }
+
 [effect_sacred_grove]
 type    = "Make_Content"
 value	= 1

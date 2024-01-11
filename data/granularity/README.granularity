@@ -15,6 +15,7 @@ movement costs is 1/6 points.
  Rules
  -----
 
+ * Extras are built by placing them, not by units.
  * City center tiles get +25 trade until city size 8, +100 after
  * For cities to work oceanic tiles, Fishing must be known
  * Cities are protected a bit from rapid shrinking due to

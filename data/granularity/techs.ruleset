@@ -260,6 +260,15 @@ Makes units that do not move during the turn to heal additional 10% of their max
 Outside cities that might be the only healing they do.\
 ")
 
+[advance_geometry]
+name        = _("Geometry")
+req1        = "Masonry"
+req2        = "Alphabet"
+flags       = ""
+graphic     = "a.geometry"
+graphic_alt = "-"
+;helptext    =
+
 [advance_government]
 name        = _("Government")
 req1        = "Alphabet"
