@@ -200,3 +200,27 @@ sound_alt2      = "-"
 helptext	= _("\
 City with your throne is your capital city.\
 ")
+
+
+[building_quarry]
+name		= _("Quarry")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Geometry", "Player"
+    }
+graphic         = "b.quarry"
+graphic_alt	= "b.barracks_ii"
+graphic_alt2    = "-"
+obsolete_by     =
+    { "type", "name", "range"
+    }
+build_cost	= 1250
+upkeep		= 2
+sabotage	= 100
+sound		= "b_quarry"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Quarry produces 3 infrapoints per turn.\
+")
