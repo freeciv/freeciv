@@ -54,3 +54,7 @@ Land_Ahoy
 Killer
     Achievement is granted when player has caused death of
     <value> enemy units.
+
+Rich
+    Achievement is granted when player's gold reserves are at least
+    <value> gold.
