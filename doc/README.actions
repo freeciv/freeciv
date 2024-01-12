@@ -1515,6 +1515,49 @@ Actions done by a unit against a tile
 * the target tile can't contain any units not allied to the actor
   unit and all its cargo.
 
+"Teleport Frighten" - teleport unit to the target tile.
+* UI name can be set using ui_name_teleport_frighten
+* any action listed in teleport_frighten_blocked_by must be impossible
+* the range of legal distance between actor unit and target tile
+  must be between teleport_frighten_min_range and teleport_frighten_max_range
+* the actor unit may not be transported (!)
+* the actor unit's type must be the target tile's terrain animal if the
+  player's nation is an animal barbarian.
+* the actor unit must be able to exist outside of a transport at the target
+  tile.
+* the actor unit doesn't have the "CoastStrict" unit type flag or the
+  target tile is on or adjacent to a tile that doesn't have the
+  "UnsafeCoast" terrain flag.
+* the actor unit can't be diplomatically forbidden from entering the target
+  tile.
+* the target tile can't contain any city or units not allied to the actor
+  unit and all its cargo.
+* can result in hut frightening if
+   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+   - the target tile's Hut's rmreqs are fulfilled
+
+"Teleport Frighten Conquer" - teleport unit to the target tile and conquer it
+* UI name can be set using ui_name_teleport_frighten_conquer
+* any action listed in teleport_frighten_conquer_blocked_by must be impossible
+* the range of legal distance between actor unit and target tile
+  must be between teleport_frighten_conquer_min_range and
+  teleport_frighten_conquer_max_range
+* the actor unit may not be transported (!)
+* the actor unit's type must be the target tile's terrain animal if the
+  player's nation is an animal barbarian.
+* the actor unit must be able to exist outside of a transport at the target
+  tile.
+* the actor unit doesn't have the "CoastStrict" unit type flag or the
+  target tile is on or adjacent to a tile that doesn't have the
+  "UnsafeCoast" terrain flag.
+* the actor unit can't be diplomatically forbidden from entering the target
+  tile.
+* the target tile can't contain any units not allied to the actor
+  unit and all its cargo.
+* can result in hut frightening if
+   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+   - the target tile's Hut's rmreqs are fulfilled
+
 "Teleport Enter" - teleport unit to the target tile.
 * UI name can be set using ui_name_teleport_enter
 * any action listed in teleport_enter_blocked_by must be impossible

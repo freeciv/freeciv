@@ -1992,6 +1992,8 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
                         || utype_can_do_action(unit_type_get(punit),
                                                ACTION_PARADROP_ENTER_CONQUER)
                         || utype_can_do_action(unit_type_get(punit),
+                                               ACTION_TELEPORT_FRIGHTEN_CONQUER)
+                        || utype_can_do_action(unit_type_get(punit),
                                                ACTION_TELEPORT_ENTER_CONQUER),
                         FALSE, "Bad unit for city occupation.");
 
