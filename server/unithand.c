@@ -2240,6 +2240,7 @@ void handle_unit_get_actions(struct connection *pc,
   int actor_target_distance;
   const struct player_tile *plrtile;
   int target_extra_id = target_extra_id_client;
+  const struct civ_map *nmap = &(wld.map);
 
   /* No potentially legal action is known yet. If none is found the player
    * should get an explanation. */
@@ -2251,7 +2252,7 @@ void handle_unit_get_actions(struct connection *pc,
 
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
-  target_tile = index_to_tile(&(wld.map), target_tile_id);
+  target_tile = index_to_tile(nmap, target_tile_id);
 
   /* Initialize the action probabilities. */
   action_iterate(act) {
@@ -2330,7 +2331,7 @@ void handle_unit_get_actions(struct connection *pc,
           probabilities[act] = action_prob_vs_city(actor_unit, act,
                                                    target_city);
         } else if (!tile_is_seen(target_tile, actor_player)
-                   && action_maybe_possible_actor_unit(act, actor_unit)
+                   && action_maybe_possible_actor_unit(nmap, act, actor_unit)
                    && action_id_distance_accepted(act,
                                                   actor_target_distance)) {
           /* The target city is non existing. The player isn't aware of this

@@ -798,8 +798,10 @@ bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
 **************************************************************************/
 bool can_unit_teleport(const struct unit *punit)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   action_by_result_iterate(paction, ACTRES_TELEPORT) {
-    if (action_maybe_possible_actor_unit(action_id(paction), punit)) {
+    if (action_maybe_possible_actor_unit(nmap, action_id(paction), punit)) {
       return TRUE;
     }
   } action_by_result_iterate_end;
@@ -814,13 +816,15 @@ bool can_unit_teleport(const struct unit *punit)
 **************************************************************************/
 bool can_unit_paradrop(const struct unit *punit)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   action_by_result_iterate(paction, ACTRES_PARADROP) {
-    if (action_maybe_possible_actor_unit(action_id(paction), punit)) {
+    if (action_maybe_possible_actor_unit(nmap, action_id(paction), punit)) {
       return TRUE;
     }
   } action_by_result_iterate_end;
   action_by_result_iterate(paction, ACTRES_PARADROP_CONQUER) {
-    if (action_maybe_possible_actor_unit(action_id(paction), punit)) {
+    if (action_maybe_possible_actor_unit(nmap, action_id(paction), punit)) {
       return TRUE;
     }
   } action_by_result_iterate_end;
