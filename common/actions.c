@@ -2559,13 +2559,13 @@ action_actor_utype_hard_reqs_ok(const struct action *paction,
   may or may not be legal depending on the action.
 **************************************************************************/
 static enum fc_tristate
-action_hard_reqs_actor(const struct action *paction,
+action_hard_reqs_actor(const struct civ_map *nmap,
+                       const struct action *paction,
                        const struct req_context *actor,
                        const bool omniscient,
                        const struct city *homecity)
 {
   enum action_result result = paction->result;
-  const struct civ_map *nmap = &(wld.map);
 
   if (actor == NULL) {
     actor = req_context_empty();
@@ -2826,7 +2826,7 @@ is_action_possible(const action_id wanted_action,
   }
 
   /* Actor specific hard requirements. */
-  out = action_hard_reqs_actor(paction, actor, omniscient, homecity);
+  out = action_hard_reqs_actor(nmap, paction, actor, omniscient, homecity);
 
   if (out == TRI_NO) {
     /* Illegal because of a hard actor requirement. */
@@ -3635,10 +3635,11 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
 /**********************************************************************//**
   Returns the action probability for when a target is unseen.
 **************************************************************************/
-static struct act_prob act_prob_unseen_target(action_id act_id,
+static struct act_prob act_prob_unseen_target(const struct civ_map *nmap,
+                                              action_id act_id,
                                               const struct unit *actor_unit)
 {
-  if (action_maybe_possible_actor_unit(act_id, actor_unit)) {
+  if (action_maybe_possible_actor_unit(nmap, act_id, actor_unit)) {
     /* Unknown because the target is unseen. */
     return ACTPROB_NOT_KNOWN;
   } else {
@@ -4078,6 +4079,7 @@ action_prob_vs_city_full(const struct unit* actor_unit,
   const struct impr_type *target_building;
   const struct unit_type *target_utype;
   const struct action *act = action_by_number(act_id);
+  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -4127,7 +4129,7 @@ action_prob_vs_city_full(const struct unit* actor_unit,
   if (!player_can_see_city_externals(unit_owner(actor_unit), target_city)) {
     /* The invisible city at this tile may, as far as the player knows, not
      * exist anymore. */
-    return act_prob_unseen_target(act_id, actor_unit);
+    return act_prob_unseen_target(nmap, act_id, actor_unit);
   }
 
   target_building = tgt_city_local_building(target_city);
@@ -4261,6 +4263,7 @@ action_prob_vs_units_full(const struct unit* actor_unit,
   struct act_prob prob_all;
   const struct req_context *actor_ctxt;
   const struct action *act = action_by_number(act_id);
+  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -4333,7 +4336,7 @@ action_prob_vs_units_full(const struct unit* actor_unit,
       return ACTPROB_IMPOSSIBLE;
     } else {
       /* The player doesn't know that the tile is empty. */
-      return act_prob_unseen_target(act_id, actor_unit);
+      return act_prob_unseen_target(nmap, act_id, actor_unit);
     }
   }
 
@@ -5390,7 +5393,8 @@ bool is_action_possible_on_city(action_id act_id,
   performed right now by the specified actor unit if an approriate target
   is provided.
 **************************************************************************/
-bool action_maybe_possible_actor_unit(const action_id act_id,
+bool action_maybe_possible_actor_unit(const struct civ_map *nmap,
+                                      const action_id act_id,
                                       const struct unit *actor_unit)
 {
   const struct player *actor_player = unit_owner(actor_unit);
@@ -5412,7 +5416,7 @@ bool action_maybe_possible_actor_unit(const action_id act_id,
     return FALSE;
   }
 
-  result = action_hard_reqs_actor(paction, &actor_ctxt, FALSE,
+  result = action_hard_reqs_actor(nmap, paction, &actor_ctxt, FALSE,
                                   unit_home(actor_unit));
 
   if (result == TRI_NO) {

@@ -17,6 +17,7 @@
 /* common */
 #include "actres.h"
 #include "fc_types.h"
+#include "map_types.h"
 #include "requirements.h"
 
 #ifdef __cplusplus
@@ -687,7 +688,8 @@ bool is_action_possible_on_city(action_id act_id,
                                 const struct player *actor_player,
                                 const struct city *target_city);
 
-bool action_maybe_possible_actor_unit(const action_id wanted_action,
+bool action_maybe_possible_actor_unit(const struct civ_map *nmap,
+                                      const action_id wanted_action,
                                       const struct unit *actor_unit);
 
 bool action_mp_full_makes_legal(const struct unit *actor,
