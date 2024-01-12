@@ -7903,6 +7903,10 @@ static bool load_ruleset_actions(struct section_file *file,
              ACT_SUB_RES_HUT_FRIGHTEN);
       BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN_CONQUER)->sub_results,
              ACT_SUB_RES_HUT_FRIGHTEN);
+      BV_SET(action_by_number(ACTION_TELEPORT_FRIGHTEN)->sub_results,
+             ACT_SUB_RES_HUT_FRIGHTEN);
+      BV_SET(action_by_number(ACTION_TELEPORT_FRIGHTEN_CONQUER)->sub_results,
+             ACT_SUB_RES_HUT_FRIGHTEN);
 
       /* Unit May Embark */
       action_iterate(act_id) {

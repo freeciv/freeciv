@@ -1513,6 +1513,18 @@ static void hard_code_actions(void)
                       TRUE, TRUE,
                       MAK_TELEPORT, 1,
                       ACTION_DISTANCE_MAX, FALSE);
+  actions[ACTION_TELEPORT_FRIGHTEN] =
+      unit_action_new(ACTION_TELEPORT_FRIGHTEN,
+                      ACTRES_TELEPORT,
+                      TRUE, TRUE,
+                      MAK_TELEPORT, 1,
+                      ACTION_DISTANCE_MAX, FALSE);
+  actions[ACTION_TELEPORT_FRIGHTEN_CONQUER] =
+      unit_action_new(ACTION_TELEPORT_FRIGHTEN_CONQUER,
+                      ACTRES_TELEPORT_CONQUER,
+                      TRUE, TRUE,
+                      MAK_TELEPORT, 1,
+                      ACTION_DISTANCE_MAX, FALSE);
   actions[ACTION_TELEPORT_ENTER] =
       unit_action_new(ACTION_TELEPORT_ENTER,
                       ACTRES_TELEPORT,
@@ -6683,6 +6695,10 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_teleport";
   case ACTION_TELEPORT_CONQUER:
     return "ui_name_teleport_conquer";
+  case ACTION_TELEPORT_FRIGHTEN:
+    return "ui_name_teleport_frighten";
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
+    return "ui_name_teleport_frighten_conquer";
   case ACTION_TELEPORT_ENTER:
     return "ui_name_teleport_enter";
   case ACTION_TELEPORT_ENTER_CONQUER:
@@ -7010,6 +7026,12 @@ const char *action_ui_name_default(int act)
   case ACTION_TELEPORT_CONQUER:
     /* TRANS: _Teleport (100% chance of success). */
     return N_("%sTeleport%s");
+  case ACTION_TELEPORT_FRIGHTEN:
+    /* TRANS: _Teleport (100% chance of success). */
+    return N_("%sTeleport%s");
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
+    /* TRANS: _Teleport (100% chance of success). */
+    return N_("%sTeleport%s");
   case ACTION_TELEPORT_ENTER:
     /* TRANS: _Teleport (100% chance of success). */
     return N_("%sTeleport%s");
@@ -7171,6 +7193,10 @@ const char *action_min_range_ruleset_var_name(int act)
     return "teleport_min_range";
   case ACTION_TELEPORT_CONQUER:
     return "teleport_conquer_min_range";
+  case ACTION_TELEPORT_FRIGHTEN:
+    return "teleport_frighten_min_range";
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
+    return "teleport_frighten_conquer_min_range";
   case ACTION_TELEPORT_ENTER:
     return "teleport_enter_min_range";
   case ACTION_TELEPORT_ENTER_CONQUER:
@@ -7334,6 +7360,10 @@ const char *action_max_range_ruleset_var_name(int act)
     return "teleport_max_range";
   case ACTION_TELEPORT_CONQUER:
     return "teleport_conquer_max_range";
+  case ACTION_TELEPORT_FRIGHTEN:
+    return "teleport_frighten_max_range";
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
+    return "teleport_frighten_conquer_max_range";
   case ACTION_TELEPORT_ENTER:
     return "teleport_enter_max_range";
   case ACTION_TELEPORT_ENTER_CONQUER:
@@ -7478,6 +7508,8 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE3:
   case ACTION_TELEPORT:
   case ACTION_TELEPORT_CONQUER:
+  case ACTION_TELEPORT_FRIGHTEN:
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
   case ACTION_TELEPORT_ENTER:
   case ACTION_TELEPORT_ENTER_CONQUER:
   case ACTION_SPY_ESCAPE:
@@ -7836,6 +7868,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_UNIT_MOVE3:
   case ACTION_TELEPORT:
   case ACTION_TELEPORT_CONQUER:
+  case ACTION_TELEPORT_FRIGHTEN:
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
   case ACTION_TELEPORT_ENTER:
   case ACTION_TELEPORT_ENTER_CONQUER:
   case ACTION_SPY_ESCAPE:
@@ -7930,6 +7964,10 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "teleport_blocked_by";
   case ACTION_TELEPORT_CONQUER:
     return "teleport_conquer_blocked_by";
+  case ACTION_TELEPORT_FRIGHTEN:
+    return "teleport_frighten_blocked_by";
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
+    return "teleport_frighten_conquer_blocked_by";
   case ACTION_TELEPORT_ENTER:
     return "teleport_enter_blocked_by";
   case ACTION_TELEPORT_ENTER_CONQUER:
@@ -8179,6 +8217,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_UNIT_MOVE3:
   case ACTION_TELEPORT:
   case ACTION_TELEPORT_CONQUER:
+  case ACTION_TELEPORT_FRIGHTEN:
+  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
   case ACTION_TELEPORT_ENTER:
   case ACTION_TELEPORT_ENTER_CONQUER:
   case ACTION_SPY_ESCAPE:
