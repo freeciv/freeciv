@@ -818,13 +818,15 @@ bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
 **************************************************************************/
 bool can_unit_paradrop(const struct unit *punit)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   action_by_result_iterate(paction, ACTRES_PARADROP) {
-    if (action_maybe_possible_actor_unit(paction->id, punit)) {
+    if (action_maybe_possible_actor_unit(nmap, paction->id, punit)) {
       return TRUE;
     }
   } action_by_result_iterate_end;
   action_by_result_iterate(paction, ACTRES_PARADROP_CONQUER) {
-    if (action_maybe_possible_actor_unit(paction->id, punit)) {
+    if (action_maybe_possible_actor_unit(nmap, paction->id, punit)) {
       return TRUE;
     }
   } action_by_result_iterate_end;
