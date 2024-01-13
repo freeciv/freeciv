@@ -2149,7 +2149,7 @@ static struct propval *objbind_get_modified_value(struct objbind *ob,
   struct propstate *ps;
 
   if (!ob || !op) {
-    return FALSE;
+    return NULL;
   }
 
   if (propstate_hash_lookup(ob->propstate_table, objprop_get_id(op), &ps)) {
