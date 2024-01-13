@@ -324,6 +324,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
                        list_for, universal_type_rule_name(&preq->source));
          return FALSE;
        }
+       break;
      default:
        break;
     }
