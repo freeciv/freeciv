@@ -646,6 +646,24 @@ static void insert_allows(struct universal *psource,
                          extra_name_translation(pextra), estrs,
                          buf, bufsz, prefix);
   } extra_type_iterate_end;
+
+  goods_type_iterate(pgood) {
+    static const char *const gstrs[] = {
+      /* TRANS: First %s is a good name. */
+      N_("?good:Allows %s (with %s but no %s)."),
+      /* TRANS: First %s is a good name. */
+      N_("?good:Allows %s (with %s)."),
+      /* TRANS: First %s is a good name. */
+      N_("?good:Allows %s (absent %s)."),
+      /* TRANS: %s is a good name. */
+      N_("?good:Allows %s."),
+      /* TRANS: %s is a good name. */
+      N_("?good:Prevents %s.")
+    };
+    insert_allows_single(psource, &pgood->reqs,
+                         goods_name_translation(pgood), gstrs,
+                         buf, bufsz, prefix);
+  } goods_type_iterate_end;
 }
 
 /************************************************************************//**
