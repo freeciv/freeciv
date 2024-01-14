@@ -36,6 +36,10 @@
       <content_attribute id="social-chat">intense</content_attribute>
     </content_rating>
 
+    <recommends>
+      <display_length compare="ge">1024</display_length>
+    </recommends>
+
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.1/client.gtk4-3.1.0-beta2.png</image>
