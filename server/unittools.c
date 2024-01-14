@@ -2981,7 +2981,8 @@ void do_explore(struct unit *punit)
      if (punit->activity == ACTIVITY_EXPLORE) {
        break;
      }
-     /* fallthru */
+
+     fc__fallthrough;
    default:
      unit_activity_handling(punit, ACTIVITY_IDLE);
 
