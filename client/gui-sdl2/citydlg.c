@@ -2444,25 +2444,25 @@ static void redraw_city_dialog(struct city *pcity)
   if ((city_unhappy(pcity) || city_celebrating(pcity) || city_happy(pcity)
        || cma_is_city_under_agent(pcity, NULL))
       ^ ((sdl2_client_flags & CF_CITY_STATUS_SPECIAL) == CF_CITY_STATUS_SPECIAL)) {
-    /* city status was changed : NORMAL <-> DISORDER, HAPPY, CELEBR. */
+    /* City status was changed : NORMAL <-> DISORDER, HAPPY, CELEBR. */
 
     sdl2_client_flags ^= CF_CITY_STATUS_SPECIAL;
 
 #if 0
-    /* upd. resource map */
+    /* Upd. resource map */
     FREESURFACE(pcity_dlg->resource_map->theme);
     pcity_dlg->resource_map->theme = get_scaled_city_map(pcity);
 #endif
 
-    /* upd. window title */
+    /* Upd. window title */
     rebuild_citydlg_title_str(pcity_dlg->end_city_widget_list, pcity);
   }
 
-  /* update resource map */
+  /* Update resource map */
   FREESURFACE(pcity_dlg->resource_map->theme);
   pcity_dlg->resource_map->theme = get_scaled_city_map(pcity);
 
-  /* redraw city dlg */
+  /* Redraw city dlg */
   redraw_group(pcity_dlg->begin_city_widget_list,
                pcity_dlg->end_city_widget_list, 0);
 
@@ -2509,8 +2509,9 @@ static void redraw_city_dialog(struct city *pcity)
   alphablit(buf, NULL, pwindow->dst->surface, &dest, 255);
 
   FREESURFACE(buf);
+
   /* ================================================================= */
-  /* food label */
+  /* Food label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Food: %d per turn"),
               pcity->prod[O_FOOD]);
 
@@ -2527,7 +2528,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw food income */
+  /* Draw food income */
   dest.y = pwindow->size.y + adj_size(246) + (adj_size(16) - icons->big_food->h) / 2;
   dest.x = pwindow->size.x + adj_size(203);
 
@@ -2563,7 +2564,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw surplus of food */
+  /* Draw surplus of food */
   if (pcity->surplus[O_FOOD]) {
     if (pcity->surplus[O_FOOD] > 0) {
       count = pcity->surplus[O_FOOD];
@@ -2592,8 +2593,9 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x -= step;
     }
   }
+
   /* ================================================================= */
-  /* productions label */
+  /* Productions label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Production: %d (%d) per turn"),
               pcity->surplus[O_SHIELD],
               pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD]);
@@ -2610,7 +2612,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw productions shields */
+  /* Draw productions shields */
   if (pcity->surplus[O_SHIELD]) {
 
     if (pcity->surplus[O_SHIELD] > 0) {
@@ -2639,7 +2641,7 @@ static void redraw_city_dialog(struct city *pcity)
     }
   }
 
-  /* support shields label */
+  /* Support shields label */
   fc_snprintf(cbuf, sizeof(cbuf), Q_("?production:Support: %d"),
               pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD] -
               pcity->surplus[O_SHIELD]);
@@ -2656,7 +2658,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw support shields */
+  /* Draw support shields */
   if (pcity->prod[O_SHIELD] - pcity->surplus[O_SHIELD]) {
     dest.x = pwindow->size.x + adj_size(423);
     dest.y =
@@ -2676,9 +2678,9 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x -= step;
     }
   }
-  /* ================================================================= */
 
-  /* trade label */
+  /* ================================================================= */
+  /* Trade label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Trade: %d per turn"),
               pcity->surplus[O_TRADE]);
 
@@ -2694,7 +2696,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw total (trade - corruption) */
+  /* Draw total (trade - corruption) */
   if (pcity->surplus[O_TRADE]) {
     dest.y =
       pwindow->size.y + adj_size(316) + (adj_size(16) - icons->big_trade->h) / 2;
@@ -2712,7 +2714,7 @@ static void redraw_city_dialog(struct city *pcity)
     }
   }
 
-  /* corruption label */
+  /* Corruption label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Corruption: %d"),
               pcity->waste[O_TRADE]);
 
@@ -2728,7 +2730,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw corruption */
+  /* Draw corruption */
   if (pcity->waste[O_TRADE] > 0) {
     dest.x = pwindow->size.x + adj_size(423);
     dest.y =
@@ -2747,8 +2749,9 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x -= step;
     }
   }
+
   /* ================================================================= */
-  /* gold label */
+  /* Gold label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Gold: %d (%d) per turn"),
               pcity->surplus[O_GOLD], pcity->prod[O_GOLD]);
 
@@ -2764,7 +2767,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw coins */
+  /* Draw coins */
   count = pcity->surplus[O_GOLD];
   if (count) {
 
@@ -2795,7 +2798,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   }
 
-  /* upkeep label */
+  /* Upkeep label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Upkeep: %d"),
               pcity->prod[O_GOLD] - pcity->surplus[O_GOLD]);
 
@@ -2811,7 +2814,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw upkeep */
+  /* Draw upkeep */
   count = pcity->surplus[O_GOLD];
   if (pcity->prod[O_GOLD] - count) {
 
@@ -2833,8 +2836,9 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x -= step;
     }
   }
+
   /* ================================================================= */
-  /* science label */
+  /* Science label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Science: %d per turn"),
               pcity->prod[O_SCIENCE]);
 
@@ -2850,7 +2854,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw colb */
+  /* Draw colb */
   count = pcity->prod[O_SCIENCE];
   if (count) {
 
@@ -2873,8 +2877,9 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x += step;
     }
   }
+
   /* ================================================================= */
-  /* luxury label */
+  /* Luxury label */
   fc_snprintf(cbuf, sizeof(cbuf), _("Luxury: %d per turn"),
               pcity->prod[O_LUXURY]);
 
@@ -2890,7 +2895,7 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  /* draw luxury */
+  /* Draw luxury */
   if (pcity->prod[O_LUXURY]) {
 
     dest.y =
@@ -2909,15 +2914,16 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x += step;
     }
   }
+
   /* ================================================================= */
-  /* turns to grow label */
+  /* Turns to grow label */
   count = city_turns_to_grow(pcity);
   if (count == 0) {
     fc_snprintf(cbuf, sizeof(cbuf), _("City growth: blocked"));
   } else if (count == FC_INFINITY) {
     fc_snprintf(cbuf, sizeof(cbuf), _("City growth: never"));
   } else if (count < 0) {
-    /* turns until famine */
+    /* Turns until famine */
     fc_snprintf(cbuf, sizeof(cbuf),
                 _("City shrinks: %d %s"), abs(count),
                 PL_("turn", "turns", abs(count)));
@@ -2945,7 +2951,6 @@ static void redraw_city_dialog(struct city *pcity)
   if (count > 12) {
     step = (adj_size(168) - icons->big_food->h) / adj_size((11 + count - 12));
     i = (count - 1) * step + 14;
-    count = 12;
   } else {
     step = icons->big_food->h;
     i = count * step;
