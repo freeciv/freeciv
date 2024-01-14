@@ -18,6 +18,11 @@ modules:
       - type: archive
         url: https://sourceforge.net/projects/sdl2gfx/files/SDL2_gfx-1.0.4.tar.gz
         sha256: 63e0e01addedc9df2f85b93a248f06e8a04affa014a835c2ea34bfe34e576262
+      - type: shell
+        commands:
+          - cp /usr/share/automake-*/config.{guess,sub} .
+    config-opts:
+      - --disable-mmx
   - name: freeciv-sdl2
     buildsystem: autotools
     no-autogen: true
