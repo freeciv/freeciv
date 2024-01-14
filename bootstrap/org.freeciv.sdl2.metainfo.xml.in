@@ -36,6 +36,10 @@
       <content_attribute id="social-chat">intense</content_attribute>
     </content_rating>
 
+    <recommends>
+      <display_length compare="ge">640</display_length>
+    </recommends>
+
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.0/client.sdl2-3.0.4.png</image>
