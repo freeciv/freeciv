@@ -3919,7 +3919,7 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
-    if (citymindist_prevents_city_on_tile(target->tile)) {
+    if (citymindist_prevents_city_on_tile(nmap, target->tile)) {
       if (omniscient) {
         /* No need to check again. */
         return TRI_NO;

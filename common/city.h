@@ -672,12 +672,14 @@ bool base_city_can_work_tile(const struct player *restriction,
                              const struct tile *ptile);
 bool city_can_work_tile(const struct city *pcity, const struct tile *ptile);
 
-bool citymindist_prevents_city_on_tile(const struct tile *ptile);
+bool citymindist_prevents_city_on_tile(const struct civ_map *nmap,
+                                       const struct tile *ptile);
 
 bool city_can_be_built_here(const struct tile *ptile,
                             const struct unit *punit,
                             bool hut_test);
-bool city_can_be_built_tile_only(const struct tile *ptile);
+bool city_can_be_built_tile_only(const struct civ_map *nmap,
+                                 const struct tile *ptile);
 
 /* List functions */
 struct city *city_list_find_number(struct city_list *This, int id);

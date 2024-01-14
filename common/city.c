@@ -1423,11 +1423,13 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
   Returns TRUE iff it is illegal to found a city on the specified tile
   because of citymindist.
 **************************************************************************/
-bool citymindist_prevents_city_on_tile(const struct tile *ptile)
+bool citymindist_prevents_city_on_tile(const struct civ_map *nmap,
+                                       const struct tile *ptile)
 {
   /* citymindist minimum is 1, meaning adjacent is okay */
   int citymindist = game.info.citymindist;
-  square_iterate(&(wld.map), ptile, citymindist - 1, ptile1) {
+
+  square_iterate(nmap, ptile, citymindist - 1, ptile1) {
     if (tile_city(ptile1)) {
       return TRUE;
     }
@@ -1449,7 +1451,7 @@ bool city_can_be_built_here(const struct tile *ptile,
 {
   struct civ_map *nmap = &(wld.map);
 
-  if (!city_can_be_built_tile_only(ptile)) {
+  if (!city_can_be_built_tile_only(nmap, ptile)) {
     return FALSE;
   }
 
@@ -1517,14 +1519,15 @@ bool city_can_be_built_here(const struct tile *ptile,
   It may still be illegal for any unit to build a city at the specified
   tile.
 **************************************************************************/
-bool city_can_be_built_tile_only(const struct tile *ptile)
+bool city_can_be_built_tile_only(const struct civ_map *nmap,
+                                 const struct tile *ptile)
 {
   if (terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
     /* No cities on this terrain. */
     return FALSE;
   }
 
-  if (citymindist_prevents_city_on_tile(ptile)) {
+  if (citymindist_prevents_city_on_tile(nmap, ptile)) {
     return FALSE;
   }
 
