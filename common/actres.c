@@ -750,7 +750,7 @@ enum fc_tristate actres_possible(enum action_result result,
       return TRI_NO;
     }
 
-    if (citymindist_prevents_city_on_tile(target->tile)) {
+    if (citymindist_prevents_city_on_tile(nmap, target->tile)) {
       if (omniscient) {
         /* No need to check again. */
         return TRI_NO;
