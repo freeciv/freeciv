@@ -1857,7 +1857,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_CITY_NO_CAPACITY;
     explnat->capacity_city = game_city_by_number(target_city->id);
   } else if (action_has_result_safe(paction, ACTRES_FOUND_CITY)
-             && citymindist_prevents_city_on_tile(target_tile)) {
+             && citymindist_prevents_city_on_tile(nmap, target_tile)) {
     explnat->kind = ANEK_CITY_TOO_CLOSE_TGT;
   } else if ((action_has_result_safe(paction, ACTRES_PARADROP_CONQUER)
               || action_has_result_safe(paction, ACTRES_PARADROP))
@@ -1954,6 +1954,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
   struct ane_expl *explnat = expl_act_not_enabl(punit, ACTION_ANY,
                                                 target_tile,
                                                 target_city, target_unit);
+  const struct civ_map *nmap = &(wld.map);
 
   switch (explnat->kind) {
   case ANEK_ACTOR_UNIT:
@@ -1988,7 +1989,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
       if (!utype_can_do_act_when_ustate(unit_type_get(punit),
                                         ACTION_ANY, USP_LIVABLE_TILE,
                                         FALSE)
-          && !can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))) {
+          && !can_unit_exist_at_tile(nmap, punit, unit_tile(punit))) {
         unit_type_iterate(utype) {
           if (utype_can_do_act_when_ustate(utype, ACTION_ANY,
                                            USP_LIVABLE_TILE, FALSE)) {
