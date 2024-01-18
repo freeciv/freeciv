@@ -232,7 +232,7 @@ cultivate_result     = "no"
 cultivate_time       = 0
 plant_result         = "Forest"
 plant_time           = 30
-irrigation_food_incr = 1
+irrigation_food_incr = 100
 irrigation_time      = 5
 mining_shield_incr   = 0
 mining_time          = 0
@@ -331,7 +331,7 @@ cultivate_result     = "no"
 cultivate_time       = 0
 plant_result         = "Forest"
 plant_time           = 25
-irrigation_food_incr = 1
+irrigation_food_incr = 100
 irrigation_time      = 5
 mining_shield_incr   = 0
 mining_time          = 0
@@ -381,8 +381,8 @@ cultivate_result     = "no"
 cultivate_time       = 0
 plant_result         = "no"
 plant_time           = 0
-irrigation_food_incr = 0
-irrigation_time      = 0
+irrigation_food_incr = 100
+irrigation_time      = 5
 mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
@@ -586,12 +586,37 @@ rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 buildable      = TRUE
 reqs           =
-    { "type", "name",        "range"
-      "Tech", "Agriculture", "Player"
+    { "type",         "name",        "range"
+      "Tech",         "Agriculture", "Player"
+      "TerrainClass", "Land",        "Tile"
     }
 build_time     = 3
 removal_time   = 0
 helptext       = _("Irrigation increases tile food production.")
+
+[extra_nets]
+name           = _("Nets")
+category       = "Infra"
+;causes         = ""
+;rmcauses       = ""
+infracost      = 25
+graphic        = "tx.nets"
+graphic_alt    = "tx.irrigation"
+activity_gfx   = "unit.nets"
+act_gfx_alt    = "unit.irrigation"
+act_gfx_alt2   = "unit.cultivate"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
+buildable      = TRUE
+reqs           =
+    { "type",         "name",    "range"
+      "Tech",         "Rope",    "Player"
+      "TerrainClass", "Oceanic", "Tile"
+    }
+build_time     = 3
+removal_time   = 0
+helptext       = _("Nets increase ocean tile food production.")
 
 ;[extra_gbase]
 ;name           = _("Generic Base")
