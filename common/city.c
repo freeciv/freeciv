@@ -1322,19 +1322,26 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     int penalty_limit = get_tile_output_bonus(pcity, ptile, output,
                                               EFT_OUTPUT_PENALTY_TILE);
 
-    if (is_celebrating) {
+    if (prod >= game.info.granularity) {
       prod += get_tile_output_bonus(pcity, ptile, output,
-                                    EFT_OUTPUT_INC_TILE_CELEBRATE);
-      penalty_limit = 0; /* no penalty if celebrating */
+                                    EFT_OUTPUT_INC_TILE);
+
+      if (is_celebrating) {
+        prod += get_tile_output_bonus(pcity, ptile, output,
+                                      EFT_OUTPUT_INC_TILE_CELEBRATE);
+      }
     }
-    prod += get_tile_output_bonus(pcity, ptile, output,
-                                  EFT_OUTPUT_INC_TILE);
+
     prod += (prod 
              * get_tile_output_bonus(pcity, ptile, output,
                                      EFT_OUTPUT_PER_TILE)) 
             / 100;
     if (!is_celebrating && penalty_limit > 0 && prod > penalty_limit) {
-      prod--;
+      if (prod <= game.info.granularity) {
+        prod = 0;
+      } else {
+        prod -= game.info.granularity;
+      }
     }
   }
 
