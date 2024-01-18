@@ -1,5 +1,5 @@
-# gettext.m4 serial 78 (gettext-0.22.4)
-dnl Copyright (C) 1995-2014, 2016, 2018-2023 Free Software Foundation, Inc.
+# gettext.m4 serial 79 (gettext-0.23)
+dnl Copyright (C) 1995-2014, 2016, 2018-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -182,9 +182,9 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
           AC_LIB_LINKFLAGS_BODY([intl])
           AC_CACHE_CHECK([for GNU gettext in libintl],
             [$gt_func_gnugettext_libintl],
-           [gt_save_CPPFLAGS="$CPPFLAGS"
+           [gt_saved_CPPFLAGS="$CPPFLAGS"
             CPPFLAGS="$CPPFLAGS $INCINTL"
-            gt_save_LIBS="$LIBS"
+            gt_saved_LIBS="$LIBS"
             LIBS="$LIBS $LIBINTL"
             dnl Now see whether libintl exists and does not depend on libiconv.
             AC_LINK_IFELSE(
@@ -246,8 +246,8 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                  eval "$gt_func_gnugettext_libintl=yes"
                 ])
             fi
-            CPPFLAGS="$gt_save_CPPFLAGS"
-            LIBS="$gt_save_LIBS"])
+            CPPFLAGS="$gt_saved_CPPFLAGS"
+            LIBS="$gt_saved_LIBS"])
         fi
 
         dnl If an already present or preinstalled GNU gettext() is found,
@@ -365,9 +365,9 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
 
   dnl Define localedir_c and localedir_c_make.
   dnl Find the final value of localedir.
-  gt_save_prefix="${prefix}"
-  gt_save_datarootdir="${datarootdir}"
-  gt_save_localedir="${localedir}"
+  gt_saved_prefix="${prefix}"
+  gt_saved_datarootdir="${datarootdir}"
+  gt_saved_localedir="${localedir}"
   dnl Unfortunately, prefix gets only finally determined at the end of
   dnl configure.
   if test "X$prefix" = "XNONE"; then
@@ -376,9 +376,9 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
   eval datarootdir="$datarootdir"
   eval localedir="$localedir"
   gl_BUILD_TO_HOST([localedir])
-  localedir="${gt_save_localedir}"
-  datarootdir="${gt_save_datarootdir}"
-  prefix="${gt_save_prefix}"
+  localedir="${gt_saved_localedir}"
+  datarootdir="${gt_saved_datarootdir}"
+  prefix="${gt_saved_prefix}"
 ])
 
 
