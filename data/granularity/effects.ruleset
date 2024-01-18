@@ -361,3 +361,12 @@ reqs    =
     { "type", "name", "range"
       "Extra", "Irrigation", "Tile"
     }
+
+
+[effect_nets]
+type    = "Irrigation_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Nets", "Tile"
+    }

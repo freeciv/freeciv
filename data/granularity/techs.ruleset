@@ -360,6 +360,15 @@ helptext    = _("\
 Provides a morale boost increasing both attack and defense values of units buy 20%.\
 ")
 
+[advance_rope]
+name        = _("Rope")
+req1        = "Fishing"
+req2        = "Herbs"
+flags       = ""
+graphic     = "a.rope"
+graphic_alt = "-"
+;helptext    =
+
 [advance_spirits]
 name        = _("Spirits")
 req1        = "None"
