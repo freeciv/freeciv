@@ -180,7 +180,8 @@ Output_Add_Tile
     Add amount to each worked tile.
 
 Output_Inc_Tile
-    Add amount to each worked tile that already has at least 1 output.
+    Add amount to each worked tile that already has at least
+    output_granularity (from game.ruleset) output.
 
 Output_Per_Tile
     Increase tile output by amount percent.
@@ -618,11 +619,12 @@ Output_Waste_By_Rel_Distance
     to world size. The amount of this extra waste is (distance * amount / 100 / max_distance)
 
 Output_Penalty_Tile
-    When a tile yields more output than amount, it gets a penalty of -1,
-    unless the city working it is celebrating.
+    When a tile yields more output than amount, it gets a penalty of
+    -1 x output_granularity (from game.ruleset), unless the city working
+    it is celebrating.
 
 Output_Inc_Tile_Celebrate
-    Tiles get amount extra output when city working them is celebrating.
+    Like Output_Inc_Tile, but only applies if city is also celebrating.
 
 Upgrade_Price_Pct
     Increases unit upgrade cost by amount percent. This effect works at
