@@ -126,7 +126,7 @@ veteran_move_bonus = 0, 0
 name          = _("Land")
 min_speed     = 5
 hp_loss_pct   = 0
-flags         = "TerrainSpeed", "NonNatBombardTgt"
+flags         = "TerrainSpeed", "NonNatBombardTgt", "CanOccupyCity"
 
 [unitclass_sea]
 name          = _("Sea")
