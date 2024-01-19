@@ -886,7 +886,7 @@ target_reqs   =
     }
 
 [actionenabler_explode_missile]
-action = "Suicide Attack"
+action        = "Suicide Attack"
 actor_reqs    =
     { "type",          "name",    "range", "present"
       "UnitFlag",      "NonMil",  "Local", FALSE
@@ -896,7 +896,7 @@ actor_reqs    =
     }
 
 [actionenabler_conquer_city_native]
-action = "Conquer City"
+action        = "Conquer City"
 actor_reqs    =
     { "type",           "name",          "range", "present"
       "UnitClassFlag",  "CanOccupyCity", "Local", TRUE

@@ -34,6 +34,9 @@ format_version = 40
 ;                 "Collect Ransom", "Attack", "Suicide Attack"
 
 [actions]
+; Forbid "Conquer City" if any one of the listed actions are legal.
+conquer_city_blocked_by = "Attack"
+
 ; Forbid regular unit move if one of the actions below is legal.
 move_blocked_by = "Transport Disembark", "Transport Disembark 2"
 
@@ -191,6 +194,9 @@ ui_name_teleport = _("%sRelocate%s")
 
 ; /* TRANS: _Fortify (100% chance of success). */
 ui_name_fortify = _("%sFortify%s")
+
+; /* TRANS: _Conquer City (100% chance of success). */
+ui_name_conquer_city = _("%sConquer City%s")
 
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
@@ -382,6 +388,20 @@ actor_reqs    =
     { "type",     "name",      "range",  "present"
       "Tech",     "Trenches",  "Player", TRUE
       "Activity", "Fortified", "Local",  FALSE
+    }
+
+[actionenabler_conquer_city]
+action        = "Conquer City"
+actor_reqs    =
+    { "type",           "name",          "range", "present"
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "MinMoveFrags",   "1",             "Local", TRUE
+    }
+target_reqs   =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
 [actionenabler_gain_veterancy]
