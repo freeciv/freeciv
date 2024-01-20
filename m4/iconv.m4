@@ -1,5 +1,5 @@
-# iconv.m4 serial 26
-dnl Copyright (C) 2000-2002, 2007-2014, 2016-2022 Free Software Foundation,
+# iconv.m4 serial 27
+dnl Copyright (C) 2000-2002, 2007-2014, 2016-2024 Free Software Foundation,
 dnl Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -38,7 +38,7 @@ AC_DEFUN([AM_ICONV_LINK],
   dnl because if the user has installed libiconv and not disabled its use
   dnl via --without-libiconv-prefix, he wants to use it. The first
   dnl AC_LINK_IFELSE will then fail, the second AC_LINK_IFELSE will succeed.
-  am_save_CPPFLAGS="$CPPFLAGS"
+  gl_saved_CPPFLAGS="$CPPFLAGS"
   AC_LIB_APPENDTOVAR([CPPFLAGS], [$INCICONV])
 
   AC_CACHE_CHECK([for iconv], [am_cv_func_iconv], [
@@ -55,7 +55,7 @@ AC_DEFUN([AM_ICONV_LINK],
            iconv_close(cd);]])],
       [am_cv_func_iconv=yes])
     if test "$am_cv_func_iconv" != yes; then
-      am_save_LIBS="$LIBS"
+      gl_saved_LIBS="$LIBS"
       LIBS="$LIBS $LIBICONV"
       AC_LINK_IFELSE(
         [AC_LANG_PROGRAM(
@@ -68,14 +68,14 @@ AC_DEFUN([AM_ICONV_LINK],
              iconv_close(cd);]])],
         [am_cv_lib_iconv=yes]
         [am_cv_func_iconv=yes])
-      LIBS="$am_save_LIBS"
+      LIBS="$gl_saved_LIBS"
     fi
   ])
   if test "$am_cv_func_iconv" = yes; then
     AC_CACHE_CHECK([for working iconv], [am_cv_func_iconv_works], [
       dnl This tests against bugs in AIX 5.1, AIX 6.1..7.1, HP-UX 11.11,
       dnl Solaris 10.
-      am_save_LIBS="$LIBS"
+      gl_saved_LIBS="$LIBS"
       if test $am_cv_lib_iconv = yes; then
         LIBS="$LIBS $LIBICONV"
       fi
@@ -205,7 +205,7 @@ AC_DEFUN([AM_ICONV_LINK],
            esac])
         test "$am_cv_func_iconv_works" = no || break
       done
-      LIBS="$am_save_LIBS"
+      LIBS="$gl_saved_LIBS"
     ])
     case "$am_cv_func_iconv_works" in
       *no) am_func_iconv=no am_cv_lib_iconv=no ;;
@@ -224,7 +224,7 @@ AC_DEFUN([AM_ICONV_LINK],
   else
     dnl If $LIBICONV didn't lead to a usable library, we don't need $INCICONV
     dnl either.
-    CPPFLAGS="$am_save_CPPFLAGS"
+    CPPFLAGS="$gl_saved_CPPFLAGS"
     LIBICONV=
     LTLIBICONV=
   fi
