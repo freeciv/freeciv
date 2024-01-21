@@ -161,11 +161,11 @@ extern bool sg_success;
  */
 #define SAVE_MAP_CHAR(ptile, GET_XY_CHAR, secfile, secpath, ...)            \
 {                                                                           \
-  char _line[wld.map.xsize + 1];                                            \
+  char _line[MAP_NATIVE_WIDTH + 1];                                         \
   int _nat_x, _nat_y;                                                       \
                                                                             \
-  for (_nat_y = 0; _nat_y < wld.map.ysize; _nat_y++) {                      \
-    for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
+  for (_nat_y = 0; _nat_y < MAP_NATIVE_HEIGHT; _nat_y++) {                  \
+    for (_nat_x = 0; _nat_x < MAP_NATIVE_WIDTH; _nat_x++) {                 \
       struct tile *ptile = native_pos_to_tile(&(wld.map), _nat_x, _nat_y);  \
       fc_assert_action(ptile != NULL, continue);                            \
       _line[_nat_x] = (GET_XY_CHAR);                                        \
@@ -174,7 +174,7 @@ extern bool sg_success;
                      "(%d, %d) for path %s: '%c' (%d)", _nat_x, _nat_y,     \
                      secpath, _line[_nat_x], _line[_nat_x]);                \
     }                                                                       \
-    _line[wld.map.xsize] = '\0';                                            \
+    _line[MAP_NATIVE_WIDTH] = '\0';                                         \
     secfile_insert_str(secfile, _line, secpath, ## __VA_ARGS__, _nat_y);    \
   }                                                                         \
 }
@@ -210,7 +210,7 @@ extern bool sg_success;
 {                                                                           \
   int _nat_x, _nat_y;                                                       \
   bool _printed_warning = FALSE;                                            \
-  for (_nat_y = 0; _nat_y < wld.map.ysize; _nat_y++) {                      \
+  for (_nat_y = 0; _nat_y < MAP_NATIVE_HEIGHT; _nat_y++) {                  \
     const char *_line = secfile_lookup_str(secfile, secpath,                \
                                            ## __VA_ARGS__, _nat_y);         \
     if (NULL == _line) {                                                    \
@@ -219,15 +219,15 @@ extern bool sg_success;
       log_verbose("Line not found='%s'", buf);                              \
       _printed_warning = TRUE;                                              \
       continue;                                                             \
-    } else if (strlen(_line) != wld.map.xsize) {                            \
+    } else if (strlen(_line) != MAP_NATIVE_WIDTH) {                         \
       char buf[64];                                                         \
       fc_snprintf(buf, sizeof(buf), secpath, ## __VA_ARGS__, _nat_y);       \
       log_verbose("Line too short (expected %d got " SIZE_T_PRINTF          \
-                  ")='%s'", wld.map.xsize, strlen(_line), buf);             \
+                  ")='%s'", MAP_NATIVE_WIDTH, strlen(_line), buf);          \
       _printed_warning = TRUE;                                              \
       continue;                                                             \
     }                                                                       \
-    for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
+    for (_nat_x = 0; _nat_x < MAP_NATIVE_WIDTH; _nat_x++) {                 \
       const char ch = _line[_nat_x];                                        \
       struct tile *ptile = native_pos_to_tile(&(wld.map), _nat_x, _nat_y);  \
       (SET_XY_CHAR);                                                        \
@@ -2496,7 +2496,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   }
 
   /* Owner and ownership source are stored as plain numbers */
-  for (y = 0; y < wld.map.ysize; y++) {
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
     const char *buffer1 = secfile_lookup_str(loading->file,
                                              "map.owner%04d", y);
     const char *buffer2 = secfile_lookup_str(loading->file,
@@ -2513,7 +2513,7 @@ static void sg_load_map_owner(struct loaddata *loading)
       sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
     }
 
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token1[TOKEN_SIZE];
       char token2[TOKEN_SIZE];
       char token3[TOKEN_SIZE];
@@ -2580,14 +2580,14 @@ static void sg_load_map_worked(struct loaddata *loading)
   loading->worked_tiles = fc_malloc(MAP_INDEX_SIZE *
                                     sizeof(*loading->worked_tiles));
 
-  for (y = 0; y < wld.map.ysize; y++) {
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
     const char *buffer = secfile_lookup_str(loading->file, "map.worked%04d",
                                             y);
     const char *ptr = buffer;
 
     sg_failure_ret(NULL != buffer,
                    "Savegame corrupt - map line %d not found.", y);
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       int number;
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
@@ -5050,7 +5050,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (border). */
     int x, y;
 
-    for (y = 0; y < wld.map.ysize; y++) {
+    for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
       const char *buffer
         = secfile_lookup_str(loading->file, "player%d.map_owner%04d",
                              plrno, y);
@@ -5062,7 +5062,7 @@ static void sg_load_player_vision(struct loaddata *loading,
 
       sg_failure_ret(NULL != buffer,
                     "Savegame corrupt - map line %d not found.", y);
-      for (x = 0; x < wld.map.xsize; x++) {
+      for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
         char token[TOKEN_SIZE];
         char token2[TOKEN_SIZE];
         int number;

@@ -171,7 +171,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
 
   if (utype != NULL) {
     iterate_outward(&(wld.map), starttile,
-                    wld.map.xsize + wld.map.ysize, itertile) {
+                    MAP_NATIVE_WIDTH + MAP_NATIVE_HEIGHT, itertile) {
       if (!is_non_allied_unit_tile(itertile, pplayer,
                                    utype_has_flag(utype, UTYF_FLAGLESS))
           && is_native_tile(utype, itertile)) {

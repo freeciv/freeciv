@@ -171,11 +171,11 @@ extern bool sg_success;
  */
 #define SAVE_MAP_CHAR(ptile, GET_XY_CHAR, secfile, secpath, ...)            \
 {                                                                           \
-  char _line[wld.map.xsize + 1];                                            \
+  char _line[MAP_NATIVE_WIDTH + 1];                                         \
   int _nat_x, _nat_y;                                                       \
                                                                             \
-  for (_nat_y = 0; _nat_y < wld.map.ysize; _nat_y++) {                      \
-    for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
+  for (_nat_y = 0; _nat_y < MAP_NATIVE_HEIGHT; _nat_y++) {                  \
+    for (_nat_x = 0; _nat_x < MAP_NATIVE_WIDTH; _nat_x++) {                 \
       struct tile *ptile = native_pos_to_tile(&(wld.map), _nat_x, _nat_y);  \
       fc_assert_action(ptile != NULL, continue);                            \
       _line[_nat_x] = (GET_XY_CHAR);                                        \
@@ -184,7 +184,7 @@ extern bool sg_success;
                      "(%d, %d) for path %s: '%c' (%d)", _nat_x, _nat_y,     \
                      secpath, _line[_nat_x], _line[_nat_x]);                \
     }                                                                       \
-    _line[wld.map.xsize] = '\0';                                            \
+    _line[MAP_NATIVE_WIDTH] = '\0';                                         \
     secfile_insert_str(secfile, _line, secpath, ## __VA_ARGS__, _nat_y);    \
   }                                                                         \
 }
@@ -220,7 +220,7 @@ extern bool sg_success;
 {                                                                           \
   int _nat_x, _nat_y;                                                       \
   bool _printed_warning = FALSE;                                            \
-  for (_nat_y = 0; _nat_y < wld.map.ysize; _nat_y++) {                      \
+  for (_nat_y = 0; _nat_y < MAP_NATIVE_HEIGHT; _nat_y++) {                  \
     const char *_line = secfile_lookup_str(secfile, secpath,                \
                                            ## __VA_ARGS__, _nat_y);         \
     if (NULL == _line) {                                                    \
@@ -229,15 +229,15 @@ extern bool sg_success;
       log_verbose("Line not found='%s'", buf);                              \
       _printed_warning = TRUE;                                              \
       continue;                                                             \
-    } else if (strlen(_line) != wld.map.xsize) {                            \
+    } else if (strlen(_line) != MAP_NATIVE_WIDTH) {                         \
       char buf[64];                                                         \
       fc_snprintf(buf, sizeof(buf), secpath, ## __VA_ARGS__, _nat_y);       \
       log_verbose("Line too short (expected %d got " SIZE_T_PRINTF          \
-                  ")='%s'", wld.map.xsize, strlen(_line), buf);             \
+                  ")='%s'", MAP_NATIVE_WIDTH, strlen(_line), buf);          \
       _printed_warning = TRUE;                                              \
       continue;                                                             \
     }                                                                       \
-    for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
+    for (_nat_x = 0; _nat_x < MAP_NATIVE_WIDTH; _nat_x++) {                 \
       const char ch = _line[_nat_x];                                        \
       struct tile *ptile = native_pos_to_tile(&(wld.map), _nat_x, _nat_y);  \
       (SET_XY_CHAR);                                                        \
@@ -2983,7 +2983,7 @@ static void sg_load_map_altitude(struct loaddata *loading)
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
-  for (y = 0; y < wld.map.ysize; y++) {
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
     const char *buffer = secfile_lookup_str(loading->file,
                                             "map.alt%04d", y);
     const char *ptr = buffer;
@@ -2991,7 +2991,7 @@ static void sg_load_map_altitude(struct loaddata *loading)
 
     sg_failure_ret(buffer != nullptr, "%s", secfile_error());
 
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
       int number;
@@ -3016,19 +3016,19 @@ static void sg_save_map_altitude(struct savedata *saving)
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
-  for (y = 0; y < wld.map.ysize; y++) {
-    char line[wld.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+    char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
     int x;
 
     line[0] = '\0';
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
       fc_snprintf(token, sizeof(token), "%d", ptile->altitude);
 
       strcat(line, token);
-      if (x + 1 < wld.map.xsize) {
+      if (x + 1 < MAP_NATIVE_WIDTH) {
         strcat(line, ",");
       }
     }
@@ -3255,7 +3255,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   }
 
   /* Owner, ownership source, and infra turns are stored as plain numbers */
-  for (y = 0; y < wld.map.ysize; y++) {
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
     const char *buffer1 = secfile_lookup_str(loading->file,
                                              "map.owner%04d", y);
     const char *buffer2 = secfile_lookup_str(loading->file,
@@ -3279,7 +3279,7 @@ static void sg_load_map_owner(struct loaddata *loading)
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
 
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token1[TOKEN_SIZE];
       char token2[TOKEN_SIZE];
       char token3[TOKEN_SIZE];
@@ -3375,12 +3375,12 @@ static void sg_save_map_owner(struct savedata *saving)
   }
 
   /* Store owner and ownership source as plain numbers. */
-  for (y = 0; y < wld.map.ysize; y++) {
-    char line[wld.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+    char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
     int x;
 
     line[0] = '\0';
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
@@ -3391,7 +3391,7 @@ static void sg_save_map_owner(struct savedata *saving)
                     player_number(tile_owner(ptile)));
       }
       strcat(line, token);
-      if (x + 1 < wld.map.xsize) {
+      if (x + 1 < MAP_NATIVE_WIDTH) {
         strcat(line, ",");
       }
     }
@@ -3399,12 +3399,12 @@ static void sg_save_map_owner(struct savedata *saving)
     secfile_insert_str(saving->file, line, "map.owner%04d", y);
   }
 
-  for (y = 0; y < wld.map.ysize; y++) {
-    char line[wld.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+    char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
     int x;
 
     line[0] = '\0';
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
@@ -3414,7 +3414,7 @@ static void sg_save_map_owner(struct savedata *saving)
         fc_snprintf(token, sizeof(token), "%d", tile_index(ptile->claimer));
       }
       strcat(line, token);
-      if (x + 1 < wld.map.xsize) {
+      if (x + 1 < MAP_NATIVE_WIDTH) {
         strcat(line, ",");
       }
     }
@@ -3422,12 +3422,12 @@ static void sg_save_map_owner(struct savedata *saving)
     secfile_insert_str(saving->file, line, "map.source%04d", y);
   }
 
-  for (y = 0; y < wld.map.ysize; y++) {
-    char line[wld.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+    char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
     int x;
 
     line[0] = '\0';
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
@@ -3438,7 +3438,7 @@ static void sg_save_map_owner(struct savedata *saving)
                     player_number(extra_owner(ptile)));
       }
       strcat(line, token);
-      if (x + 1 < wld.map.xsize) {
+      if (x + 1 < MAP_NATIVE_WIDTH) {
         strcat(line, ",");
       }
     }
@@ -3446,12 +3446,12 @@ static void sg_save_map_owner(struct savedata *saving)
     secfile_insert_str(saving->file, line, "map.eowner%04d", y);
   }
 
-  for (y = 0; y < wld.map.ysize; y++) {
-    char line[wld.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+    char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
     int x;
 
     line[0] = '\0';
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
@@ -3462,7 +3462,7 @@ static void sg_save_map_owner(struct savedata *saving)
                     extra_number(ptile->placing));
       }
       strcat(line, token);
-      if (x + 1 < wld.map.xsize) {
+      if (x + 1 < MAP_NATIVE_WIDTH) {
         strcat(line, ",");
       }
     }
@@ -3470,12 +3470,12 @@ static void sg_save_map_owner(struct savedata *saving)
     secfile_insert_str(saving->file, line, "map.placing%04d", y);
   }
 
-  for (y = 0; y < wld.map.ysize; y++) {
-    char line[wld.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+    char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
     int x;
 
     line[0] = '\0';
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
@@ -3486,7 +3486,7 @@ static void sg_save_map_owner(struct savedata *saving)
         fc_snprintf(token, sizeof(token), "0"); 
       }
       strcat(line, token);
-      if (x + 1 < wld.map.xsize) {
+      if (x + 1 < MAP_NATIVE_WIDTH) {
         strcat(line, ",");
       }
     }
@@ -3511,14 +3511,14 @@ static void sg_load_map_worked(struct loaddata *loading)
   loading->worked_tiles = fc_malloc(MAP_INDEX_SIZE *
                                     sizeof(*loading->worked_tiles));
 
-  for (y = 0; y < wld.map.ysize; y++) {
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
     const char *buffer = secfile_lookup_str(loading->file, "map.worked%04d",
                                             y);
     const char *ptr = buffer;
 
     sg_failure_ret(NULL != buffer,
                    "Savegame corrupt - map line %d not found.", y);
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       int number;
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
@@ -3554,12 +3554,12 @@ static void sg_save_map_worked(struct savedata *saving)
     return;
   }
 
-  /* additionally save the tiles worked by the cities */
-  for (y = 0; y < wld.map.ysize; y++) {
-    char line[wld.map.xsize * TOKEN_SIZE];
+  /* Additionally save the tiles worked by the cities */
+  for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+    char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
 
     line[0] = '\0';
-    for (x = 0; x < wld.map.xsize; x++) {
+    for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
       struct city *pcity = tile_worked(ptile);
@@ -3570,7 +3570,7 @@ static void sg_save_map_worked(struct savedata *saving)
         fc_snprintf(token, sizeof(token), "%d", pcity->id);
       }
       strcat(line, token);
-      if (x < wld.map.xsize) {
+      if (x < MAP_NATIVE_WIDTH) {
         strcat(line, ",");
       }
     }
@@ -7164,7 +7164,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (border). */
     int x, y;
 
-    for (y = 0; y < wld.map.ysize; y++) {
+    for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
       const char *buffer
         = secfile_lookup_str(loading->file, "player%d.map_owner%04d",
                              plrno, y);
@@ -7176,7 +7176,7 @@ static void sg_load_player_vision(struct loaddata *loading,
 
       sg_failure_ret(NULL != buffer,
                     "Savegame corrupt - map line %d not found.", y);
-      for (x = 0; x < wld.map.xsize; x++) {
+      for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
         char token[TOKEN_SIZE];
         char token2[TOKEN_SIZE];
         int number;
@@ -7401,11 +7401,11 @@ static void sg_save_player_vision(struct savedata *saving,
     /* Save the map (borders). */
     int x, y;
 
-    for (y = 0; y < wld.map.ysize; y++) {
-      char line[wld.map.xsize * TOKEN_SIZE];
+    for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+      char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
 
       line[0] = '\0';
-      for (x = 0; x < wld.map.xsize; x++) {
+      for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
         char token[TOKEN_SIZE];
         struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
         struct player_tile *plrtile = map_get_player_tile(ptile, plr);
@@ -7417,7 +7417,7 @@ static void sg_save_player_vision(struct savedata *saving,
                       player_number(plrtile->owner));
         }
         strcat(line, token);
-        if (x < wld.map.xsize) {
+        if (x < MAP_NATIVE_WIDTH) {
           strcat(line, ",");
         }
       }
@@ -7425,11 +7425,11 @@ static void sg_save_player_vision(struct savedata *saving,
                          plrno, y);
     }
 
-    for (y = 0; y < wld.map.ysize; y++) {
-      char line[wld.map.xsize * TOKEN_SIZE];
+    for (y = 0; y < MAP_NATIVE_HEIGHT; y++) {
+      char line[MAP_NATIVE_WIDTH * TOKEN_SIZE];
 
       line[0] = '\0';
-      for (x = 0; x < wld.map.xsize; x++) {
+      for (x = 0; x < MAP_NATIVE_WIDTH; x++) {
         char token[TOKEN_SIZE];
         struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
         struct player_tile *plrtile = map_get_player_tile(ptile, plr);
@@ -7441,7 +7441,7 @@ static void sg_save_player_vision(struct savedata *saving,
                       player_number(plrtile->extras_owner));
         }
         strcat(line, token);
-        if (x < wld.map.xsize) {
+        if (x < MAP_NATIVE_WIDTH) {
           strcat(line, ",");
         }
       }

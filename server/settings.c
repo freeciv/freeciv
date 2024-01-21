@@ -1244,7 +1244,7 @@ static bool mapsize_callback(int value, struct connection *caller,
                              char *reject_msg, size_t reject_msg_len)
 {
   if (value == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC
-      && wld.map.ysize % 2 != 0) {
+      && MAP_NATIVE_HEIGHT % 2 != 0) {
     /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
@@ -1262,18 +1262,18 @@ static bool mapsize_callback(int value, struct connection *caller,
 static bool xsize_callback(int value, struct connection *caller,
                            char *reject_msg, size_t reject_msg_len)
 {
-  int size = value * wld.map.ysize;
+  int size = value * MAP_NATIVE_HEIGHT;
 
   if (size < MAP_MIN_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be larger than "
-                        "%d tiles."), value, wld.map.ysize, size,
+                        "%d tiles."), value, MAP_NATIVE_HEIGHT, size,
                         MAP_MIN_SIZE * 1000);
     return FALSE;
   } else if (size > MAP_MAX_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be lower than "
-                        "%d tiles."), value, wld.map.ysize, size,
+                        "%d tiles."), value, MAP_NATIVE_HEIGHT, size,
                         MAP_MAX_SIZE * 1000);
     return FALSE;
   }
@@ -1287,18 +1287,18 @@ static bool xsize_callback(int value, struct connection *caller,
 static bool ysize_callback(int value, struct connection *caller,
                            char *reject_msg, size_t reject_msg_len)
 {
-  int size = wld.map.xsize * value;
+  int size = MAP_NATIVE_WIDTH * value;
 
   if (size < MAP_MIN_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be larger than "
-                        "%d tiles."), wld.map.xsize, value, size,
+                        "%d tiles."), MAP_NATIVE_WIDTH, value, size,
                         MAP_MIN_SIZE * 1000);
     return FALSE;
   } else if (size > MAP_MAX_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be lower than "
-                        "%d tiles."), wld.map.xsize, value, size,
+                        "%d tiles."), MAP_NATIVE_WIDTH, value, size,
                         MAP_MAX_SIZE * 1000);
     return FALSE;
   } else if (wld.map.server.mapsize == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC
@@ -1322,7 +1322,7 @@ static bool topology_callback(unsigned value, struct connection *caller,
 {
   if (wld.map.server.mapsize == MAPSIZE_XYSIZE
       && ((value & (TF_ISO)) != 0 || (value & (TF_HEX)) != 0)
-      && wld.map.ysize % 2 != 0) {
+      && MAP_NATIVE_HEIGHT % 2 != 0) {
     /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,

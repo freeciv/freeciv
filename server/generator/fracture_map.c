@@ -59,7 +59,7 @@ void make_fracture_map(void)
   int x,y;
   struct tile *ptile1;
 
-  /* Calculate the mountain level.  map.server.mountains specifies the
+  /* Calculate the mountain level. map.server.mountains specifies the
    * percentage of land that is turned into hills and mountains. */
   hmap_mountain_level = (((hmap_max_level - hmap_shore_level)
                           * (100 - wld.map.server.steepness))
@@ -67,39 +67,41 @@ void make_fracture_map(void)
 
   /* For larger maps, increase the number of landmasses - makes the map more interesting */
   num_landmass = 20 + 15 * get_sqsize();
-  landmass = (map_landmass *)fc_malloc((wld.map.xsize / 2 + wld.map.ysize / 2 + num_landmass) * sizeof(map_landmass));
-  fracture_points = (map_point *)fc_malloc((wld.map.xsize / 2 + wld.map.ysize / 2 + num_landmass) * sizeof(map_point));
+  landmass
+    = (map_landmass *)fc_malloc((MAP_NATIVE_WIDTH / 2 + MAP_NATIVE_HEIGHT / 2 + num_landmass) * sizeof(map_landmass));
+  fracture_points
+    = (map_point *)fc_malloc((MAP_NATIVE_WIDTH / 2 + MAP_NATIVE_HEIGHT / 2 + num_landmass) * sizeof(map_point));
   height_map = fc_malloc(sizeof(*height_map) * MAP_INDEX_SIZE);
 
   /* Setup a whole bunch of landmasses along the view bordere. These will be sunken
      to create ocean terrain.*/
   nn = 0;
-  for (x = 3; x < wld.map.xsize; x += 5, nn++) {
+  for (x = 3; x < MAP_NATIVE_WIDTH; x += 5, nn++) {
     fracture_points[nn].x = x;
     fracture_points[nn].y = 3;
   }
-  for (x = 3; x < wld.map.xsize; x += 5, nn++) {
+  for (x = 3; x < MAP_NATIVE_WIDTH; x += 5, nn++) {
     fracture_points[nn].x = x;
-    fracture_points[nn].y = wld.map.ysize - 3;
+    fracture_points[nn].y = MAP_NATIVE_HEIGHT - 3;
   }
-  for (y = 3; y < wld.map.ysize; y += 5, nn++) {
+  for (y = 3; y < MAP_NATIVE_HEIGHT; y += 5, nn++) {
     fracture_points[nn].x = 3;
     fracture_points[nn].y = y;
   }
-  for (y = 3; y < wld.map.ysize; y += 5, nn++) {
-    fracture_points[nn].x = wld.map.xsize - 3;
+  for (y = 3; y < MAP_NATIVE_HEIGHT; y += 5, nn++) {
+    fracture_points[nn].x = MAP_NATIVE_WIDTH - 3;
     fracture_points[nn].y = y;
   }
 
-  /* pick remaining points randomly */
+  /* Pick remaining points randomly */
   mm = nn;
   for (; nn < mm + num_landmass; nn++) {
-    fracture_points[nn].x = fc_rand(wld.map.xsize - 6) + 3;
-    fracture_points[nn].y = fc_rand(wld.map.ysize - 6) + 3;
+    fracture_points[nn].x = fc_rand(MAP_NATIVE_WIDTH - 6) + 3;
+    fracture_points[nn].y = fc_rand(MAP_NATIVE_HEIGHT - 6) + 3;
   }
   for (nn = 0; nn < mm + num_landmass; nn++) {
-    landmass[nn].minX = wld.map.xsize - 1;
-    landmass[nn].minY = wld.map.ysize - 1;
+    landmass[nn].minX = MAP_NATIVE_WIDTH - 1;
+    landmass[nn].minY = MAP_NATIVE_HEIGHT - 1;
     landmass[nn].maxX = 0;
     landmass[nn].maxY = 0;
     x = fracture_points[nn].x;
@@ -119,13 +121,13 @@ void make_fracture_map(void)
 
   /* Assign cells to landmass. Gradually expand the radius of the 
      fracture point. */
-  for (rad = 1; rad < (wld.map.xsize >> 1); rad++) {
+  for (rad = 1; rad < (MAP_NATIVE_WIDTH >> 1); rad++) {
     for (nn = 0; nn < mm + num_landmass; nn++) {
       circle_bresenham(fracture_points[nn].x, fracture_points[nn].y, rad, nn+1);
     }
   }
 
-  /* put in some random fuzz */
+  /* Put in some random fuzz */
   whole_map_iterate(&(wld.map), ptile) {
     if (hmap(ptile) > hmap_shore_level) {
       hmap(ptile) = hmap(ptile) + fc_rand(4) - 2;
@@ -173,8 +175,8 @@ static void circle_bresenham(int xc, int yc, int r, int nn)
 }
 
 /**********************************************************************//**
-   Assign landmass in 3x3 area increments to avoid "holes" created by the
-   circle algorithm.
+  Assign landmass in 3x3 area increments to avoid "holes" created by the
+  circle algorithm.
 **************************************************************************/
 static void fmfill(int x, int y, int c, int r)
 {
@@ -190,28 +192,28 @@ static void fmfill(int x, int y, int c, int r)
   struct tile *ptileX1Y1;
 
   if (x < 0) {
-    x = wld.map.xsize + x;
-  } else if (x > wld.map.xsize) {
-    x = x - wld.map.xsize;
+    x = MAP_NATIVE_WIDTH + x;
+  } else if (x > MAP_NATIVE_WIDTH) {
+    x = x - MAP_NATIVE_WIDTH;
   }
   x_less = x - 1;
   if (x_less < 0) {
-    x_less = wld.map.xsize - 1;
+    x_less = MAP_NATIVE_WIDTH - 1;
   }
   x_more = x + 1;
-  if (x_more >= wld.map.xsize) {
+  if (x_more >= MAP_NATIVE_WIDTH) {
     x_more = 0;
   }
   y_less = y - 1;
   if (y_less < 0) {
-    y_less = wld.map.ysize - 1;
+    y_less = MAP_NATIVE_HEIGHT - 1;
   }
   y_more = y + 1;
-  if (y_more >= wld.map.ysize) {
+  if (y_more >= MAP_NATIVE_HEIGHT) {
     y_more = 0;
   }
 
-  if (y >= 0 && y < wld.map.ysize) {
+  if (y >= 0 && y < MAP_NATIVE_HEIGHT) {
     ptileXY = native_pos_to_tile(&(wld.map), x, y);
     ptileX2Y = native_pos_to_tile(&(wld.map), x_more, y);
     ptileX1Y = native_pos_to_tile(&(wld.map), x_less, y);

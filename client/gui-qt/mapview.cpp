@@ -604,7 +604,7 @@ static void gui_to_overview(int *ovr_x, int *ovr_y, int gui_x, int gui_y)
   }
 
   if (MAP_IS_ISOMETRIC) {
-    ntl_y = map_x + map_y - wld.map.xsize;
+    ntl_y = map_x + map_y - MAP_NATIVE_WIDTH;
     ntl_x = 2 * map_x - ntl_y;
   } else {
     ntl_x = map_x;

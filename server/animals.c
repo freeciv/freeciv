@@ -151,7 +151,7 @@ void create_animals(void)
   send_research_info(presearch, NULL);
 
   for (i = 0;
-       i < wld.map.xsize * wld.map.ysize * wld.map.server.animals / 1000;
+       i < MAP_NATIVE_WIDTH * MAP_NATIVE_HEIGHT * wld.map.server.animals / 1000;
        i++) {
     place_animal(plr, 2 * 2 + 1 * 1);
   }

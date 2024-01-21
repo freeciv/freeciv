@@ -353,7 +353,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   if (CBS_LOGARITHMIC == game.info.caravan_bonus_style) {
     int wd = ((100 - game.info.trade_world_rel_pct) * 10
                + game.info.trade_world_rel_pct
-                 * (10 * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
+                 * (10 * 40 / MAX(MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT))) / 100;
 
     income = pow(log(wd + 20 + 1.75 * max_trade_prod(pcity)) * 2, 2);
   } else /* assume CBS_CLASSIC */ {

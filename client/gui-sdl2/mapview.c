@@ -1086,7 +1086,7 @@ struct canvas *get_overview_window(void)
 **************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
-  /* calculate the dimensions in a way to always get a resulting
+  /* Calculate the dimensions in a way to always get a resulting
      overview with a height bigger than or equal to DEFAULT_OVERVIEW_H.
      First, the default dimensions are fed to the same formula that
      is used in overview_common.c. If the resulting height is
@@ -1097,17 +1097,17 @@ void get_overview_area_dimensions(int *width, int *height)
   int xfact = MAP_IS_ISOMETRIC ? 2 : 1;
   int shift = (MAP_IS_ISOMETRIC && !current_wrap_has_flag(WRAP_X)) ? -1 : 0;
 
-  OVERVIEW_TILE_SIZE = MIN((DEFAULT_OVERVIEW_W - 1) / (wld.map.xsize * xfact),
-                           (DEFAULT_OVERVIEW_H - 1) / wld.map.ysize) + 1;
+  OVERVIEW_TILE_SIZE = MIN((DEFAULT_OVERVIEW_W - 1) / (MAP_NATIVE_WIDTH * xfact),
+                           (DEFAULT_OVERVIEW_H - 1) / MAP_NATIVE_HEIGHT) + 1;
 
   do {
-    *height = OVERVIEW_TILE_HEIGHT * wld.map.ysize;
+    *height = OVERVIEW_TILE_HEIGHT * MAP_NATIVE_HEIGHT;
     if (*height < DEFAULT_OVERVIEW_H) {
       OVERVIEW_TILE_SIZE++;
     }
   } while (*height < DEFAULT_OVERVIEW_H);
 
-  *width = OVERVIEW_TILE_WIDTH * wld.map.xsize + shift * OVERVIEW_TILE_SIZE;
+  *width = OVERVIEW_TILE_WIDTH * MAP_NATIVE_WIDTH + shift * OVERVIEW_TILE_SIZE;
 
   OVERVIEW_TILE_SIZE = overview_tile_size_bak;
 }

@@ -130,10 +130,10 @@ static void gen5rec(int step, int xl, int yt, int xr, int yb)
     return;
   }
 
-  if (xr == wld.map.xsize) {
+  if (xr == MAP_NATIVE_WIDTH) {
     x1wrap = 0;
   }
-  if (yb == wld.map.ysize) {
+  if (yb == MAP_NATIVE_HEIGHT) {
     y1wrap = 0;
   }
 
@@ -210,11 +210,11 @@ void make_pseudofractal1_hmap(int extra_div)
   int xdiv2 = xdiv + (xnowrap ? 1 : 0);
   int ydiv2 = ydiv + (ynowrap ? 1 : 0);
 
-  int xmax = wld.map.xsize - (xnowrap ? 1 : 0);
-  int ymax = wld.map.ysize - (ynowrap ? 1 : 0);
+  int xmax = MAP_NATIVE_WIDTH - (xnowrap ? 1 : 0);
+  int ymax = MAP_NATIVE_HEIGHT - (ynowrap ? 1 : 0);
   int x_current, y_current;
   /* Just need something > log(max(xsize, ysize)) for the recursion */
-  int step = wld.map.xsize + wld.map.ysize;
+  int step = MAP_NATIVE_WIDTH + MAP_NATIVE_HEIGHT;
   /* Edges are avoided more strongly as this increases */
   int avoidedge = (100 - wld.map.server.landpercent) * step / 100 + step / 3;
 

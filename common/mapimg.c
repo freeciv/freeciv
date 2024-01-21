@@ -1383,7 +1383,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
                        mapimg_generate_name(pmapdef));
 
     pimg = img_new(pmapdef, CURRENT_TOPOLOGY, CURRENT_WRAP,
-                   wld.map.xsize, wld.map.ysize);
+                   MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT);
     img_createmap(pimg);
     if (!img_save(pimg, mapimgfile, path)) {
       ret = FALSE;
@@ -1407,7 +1407,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
                          mapimg_generate_name(pmapdef));
 
       pimg = img_new(pmapdef, CURRENT_TOPOLOGY, CURRENT_WRAP,
-                     wld.map.xsize, wld.map.ysize);
+                     MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT);
       img_createmap(pimg);
       if (!img_save(pimg, mapimgfile, path)) {
         ret = FALSE;

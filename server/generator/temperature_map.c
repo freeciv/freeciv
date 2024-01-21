@@ -42,25 +42,25 @@ static char *tmap_y2str(int ycoor)
   char *p = buf;
   int i, idx;
 
-  for (i = 0; i < wld.map.xsize; i++) {
-    idx = ycoor * wld.map.xsize + i;
+  for (i = 0; i < MAP_NATIVE_WIDTH; i++) {
+    idx = ycoor * MAP_NATIVE_WIDTH + i;
 
-    if (idx > wld.map.xsize * wld.map.ysize) {
+    if (idx > MAP_NATIVE_WIDTH * MAP_NATIVE_HEIGHT) {
       break;
     }
 
     switch (temperature_map[idx]) {
     case TT_TROPICAL:
-      *p++ = 't'; /* tropical */
+      *p++ = 't'; /* Tropical */
       break;
     case TT_TEMPERATE:
-      *p++ = 'm'; /* medium */
+      *p++ = 'm'; /* Medium */
       break;
     case TT_COLD:
-      *p++ = 'c'; /* cold */
+      *p++ = 'c'; /* Cold */
       break;
     case TT_FROZEN:
-      *p++ = 'f'; /* frozen */
+      *p++ = 'f'; /* Frozen */
       break;
     }
   }
@@ -120,24 +120,24 @@ void create_tmap(bool real)
 {
   int i;
 
-  /* if map is defined this is not changed */
-  /* TODO: load if from scenario game with tmap */
+  /* If map is defined this is not changed. */
+  /* TODO: Load if from scenario game with tmap */
   /* to debug, never load a this time */
   fc_assert_ret(NULL == temperature_map);
 
   temperature_map = fc_malloc(sizeof(*temperature_map) * MAP_INDEX_SIZE);
   whole_map_iterate(&(wld.map), ptile) {
-    /* the base temperature is equal to base map_colatitude */
+    /* The base temperature is equal to base map_colatitude */
     int t = map_colatitude(ptile);
 
     if (!real) {
       tmap(ptile) = t;
     } else {
-      /* high land can be 30% cooler */
+      /* High land can be 30% cooler */
       float height = - 0.3 * MAX(0, hmap(ptile) - hmap_shore_level)
           / (hmap_max_level - hmap_shore_level);
       int tcn = count_terrain_class_near_tile(&(wld.map), ptile, FALSE, TRUE, TC_OCEAN);
-      /* near ocean temperature can be 15% more "temperate" */
+      /* Near ocean temperature can be 15% more "temperate" */
       float temperate = (0.15 * (wld.map.server.temperature / 100 - t
                                  / MAX_COLATITUDE)
                          * 2 * MIN(50, tcn)
@@ -147,7 +147,7 @@ void create_tmap(bool real)
     }
   } whole_map_iterate_end;
 
-  /* adjust to get evenly distributed frequencies
+  /* Adjust to get evenly distributed frequencies.
    * Only call adjust when the colatitude range is large enough for this to
    * make sense - if most variation comes from height and coast, don't try
    * to squish that back into its original narrow range */
@@ -156,7 +156,7 @@ void create_tmap(bool real)
                    MAX_REAL_COLATITUDE(wld.map));
   }
 
-  /* now simplify to 4 base values */ 
+  /* Now simplify to 4 base values */
   for (i = 0; i < MAP_INDEX_SIZE; i++) {
     int t = temperature_map[i];
 
@@ -173,7 +173,7 @@ void create_tmap(bool real)
 
   log_debug("%stemperature map ({f}rozen, {c}old, {m}edium, {t}ropical):",
             real ? "real " : "");
-  for (i = 0; i < wld.map.ysize; i++) {
+  for (i = 0; i < MAP_NATIVE_HEIGHT; i++) {
     log_debug("%5d: %s", i, tmap_y2str(i));
   }
 }

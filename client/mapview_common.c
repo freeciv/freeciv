@@ -809,10 +809,10 @@ static void normalize_gui_pos(const struct tileset *t, float zoom,
    * doesn't necessarily do. */
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
   if (current_wrap_has_flag(WRAP_X)) {
-    nat_x = FC_WRAP(nat_x, wld.map.xsize);
+    nat_x = FC_WRAP(nat_x, MAP_NATIVE_WIDTH);
   }
   if (current_wrap_has_flag(WRAP_Y)) {
-    nat_y = FC_WRAP(nat_y, wld.map.ysize);
+    nat_y = FC_WRAP(nat_y, MAP_NATIVE_HEIGHT);
   }
   NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
 
@@ -1119,7 +1119,7 @@ void get_mapview_scroll_window(float *xmin, float *ymin,
     NATIVE_TO_MAP_POS(xmin, ymin, 0, 0);
     map_to_gui_pos(tileset, map_zoom, xmin, ymin, *xmin, *ymin);
 
-    NATIVE_TO_MAP_POS(xmax, ymax, wld.map.xsize - 1, wld.map.ysize - 1);
+    NATIVE_TO_MAP_POS(xmax, ymax, MAP_NATIVE_WIDTH - 1, MAP_NATIVE_HEIGHT - 1);
     map_to_gui_pos(tileset, map_zoom, xmax, ymax, *xmax, *ymax);
     *xmax += tileset_tile_width(tileset) * map_zoom;
     *ymax += tileset_tile_height(tileset) * map_zoom;
@@ -1151,13 +1151,13 @@ void get_mapview_scroll_window(float *xmin, float *ymin,
     NATIVE_TO_MAP_POS(&map_x, &map_y, 0, 0);
     map_to_gui_pos(tileset, map_zoom, &gui_x1, &gui_y1, map_x, map_y);
 
-    NATIVE_TO_MAP_POS(&map_x, &map_y, wld.map.xsize - 1, 0);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, MAP_NATIVE_WIDTH - 1, 0);
     map_to_gui_pos(tileset, map_zoom, &gui_x2, &gui_y2, map_x, map_y);
 
-    NATIVE_TO_MAP_POS(&map_x, &map_y, 0, wld.map.ysize - 1);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, 0, MAP_NATIVE_HEIGHT - 1);
     map_to_gui_pos(tileset, map_zoom, &gui_x3, &gui_y3, map_x, map_y);
 
-    NATIVE_TO_MAP_POS(&map_x, &map_y, wld.map.xsize - 1, wld.map.ysize - 1);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, MAP_NATIVE_WIDTH - 1, MAP_NATIVE_HEIGHT - 1);
     map_to_gui_pos(tileset, map_zoom, &gui_x4, &gui_y4, map_x, map_y);
 
     *xmin = MIN(gui_x1, MIN(gui_x2, gui_x3)) - mapview.width / 2;

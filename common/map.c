@@ -219,8 +219,8 @@ static void generate_map_indices(void)
    *
    * Thus the "center" position below is just an arbitrary point. We choose
    * the center of the map to make the min/max values (below) simpler. */
-  nat_center_x = wld.map.xsize / 2;
-  nat_center_y = wld.map.ysize / 2;
+  nat_center_x = MAP_NATIVE_WIDTH / 2;
+  nat_center_y = MAP_NATIVE_HEIGHT / 2;
   NATIVE_TO_MAP_POS(&map_center_x, &map_center_y,
                     nat_center_x, nat_center_y);
 
@@ -242,16 +242,16 @@ static void generate_map_indices(void)
    * just have to make sure we go far enough if we're at one edge of the
    * map. */
   nat_min_x = (current_wrap_has_flag(WRAP_X) ? 0
-               : (nat_center_x - wld.map.xsize + 1));
+               : (nat_center_x - MAP_NATIVE_WIDTH + 1));
   nat_min_y = (current_wrap_has_flag(WRAP_Y) ? 0
-               : (nat_center_y - wld.map.ysize + 1));
+               : (nat_center_y - MAP_NATIVE_HEIGHT + 1));
 
   nat_max_x = (current_wrap_has_flag(WRAP_X)
-               ? (wld.map.xsize - 1)
-               : (nat_center_x + wld.map.xsize - 1));
+               ? (MAP_NATIVE_WIDTH - 1)
+               : (nat_center_x + MAP_NATIVE_WIDTH - 1));
   nat_max_y = (current_wrap_has_flag(WRAP_Y)
-               ? (wld.map.ysize - 1)
-               : (nat_center_y + wld.map.ysize - 1));
+               ? (MAP_NATIVE_HEIGHT - 1)
+               : (nat_center_y + MAP_NATIVE_HEIGHT - 1));
   tiles = (nat_max_x - nat_min_x + 1) * (nat_max_y - nat_min_y + 1);
 
   fc_assert(wld.map.iterate_outwards_indices == nullptr);
@@ -297,7 +297,7 @@ static void generate_map_indices(void)
 }
 
 /*******************************************************************//**
-  map_init_topology needs to be called after map.topology_id is changed.
+  map_init_topology() needs to be called after map.topology_id is changed.
 
   map.xsize and map.ysize must be set before calling map_init_topology().
   This is done by the map generator code (server), when loading a savegame
@@ -307,15 +307,15 @@ void map_init_topology(void)
 {
   enum direction8 dir;
 
-  /* Sanity check for iso topologies*/
-  fc_assert(!MAP_IS_ISOMETRIC || (wld.map.ysize % 2) == 0);
+  /* Sanity check for iso topologies */
+  fc_assert(!MAP_IS_ISOMETRIC || (MAP_NATIVE_HEIGHT % 2) == 0);
 
   /* The size and ratio must satisfy the minimum and maximum *linear*
    * restrictions on width */
-  fc_assert(wld.map.xsize >= MAP_MIN_LINEAR_SIZE);
-  fc_assert(wld.map.ysize >= MAP_MIN_LINEAR_SIZE);
-  fc_assert(wld.map.xsize <= MAP_MAX_LINEAR_SIZE);
-  fc_assert(wld.map.ysize <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(MAP_NATIVE_WIDTH >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(MAP_NATIVE_HEIGHT >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(MAP_NATIVE_WIDTH <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(MAP_NATIVE_HEIGHT <= MAP_MAX_LINEAR_SIZE);
   fc_assert(map_num_tiles() >= MAP_MIN_SIZE * 1000);
   fc_assert(map_num_tiles() <= MAP_MAX_SIZE * 1000);
 
@@ -405,13 +405,13 @@ static inline struct tile *base_native_pos_to_tile(const struct civ_map *nmap,
   /* If the position is out of range in a non-wrapping direction, it is
    * unreal. */
   if (current_wrap_has_flag(WRAP_X)) {
-    nat_x = FC_WRAP(nat_x, wld.map.xsize);
-  } else if (nat_x < 0 || nat_x >= wld.map.xsize) {
+    nat_x = FC_WRAP(nat_x, MAP_NATIVE_WIDTH);
+  } else if (nat_x < 0 || nat_x >= MAP_NATIVE_WIDTH) {
     return nullptr;
   }
   if (current_wrap_has_flag(WRAP_Y)) {
-    nat_y = FC_WRAP(nat_y, wld.map.ysize);
-  } else if (nat_y < 0 || nat_y >= wld.map.ysize) {
+    nat_y = FC_WRAP(nat_y, MAP_NATIVE_HEIGHT);
+  } else if (nat_y < 0 || nat_y >= MAP_NATIVE_HEIGHT) {
     return nullptr;
   }
 
@@ -970,8 +970,9 @@ bool is_normal_map_pos(int x, int y)
   int nat_x, nat_y;
 
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, x, y);
-  return nat_x >= 0 && nat_x < wld.map.xsize
-    && nat_y >= 0 && nat_y < wld.map.ysize;
+
+  return nat_x >= 0 && nat_x < MAP_NATIVE_WIDTH
+    && nat_y >= 0 && nat_y < MAP_NATIVE_HEIGHT;
 }
 
 /*******************************************************************//**
@@ -1004,10 +1005,10 @@ struct tile *nearest_real_tile(const struct civ_map *nmap, int x, int y)
 
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, x, y);
   if (!current_wrap_has_flag(WRAP_X)) {
-    nat_x = CLIP(0, nat_x, wld.map.xsize - 1);
+    nat_x = CLIP(0, nat_x, MAP_NATIVE_WIDTH - 1);
   }
   if (!current_wrap_has_flag(WRAP_Y)) {
-    nat_y = CLIP(0, nat_y, wld.map.ysize - 1);
+    nat_y = CLIP(0, nat_y, MAP_NATIVE_HEIGHT - 1);
   }
   NATIVE_TO_MAP_POS(&x, &y, nat_x, nat_y);
 
@@ -1019,7 +1020,7 @@ struct tile *nearest_real_tile(const struct civ_map *nmap, int x, int y)
 ***********************************************************************/
 int map_num_tiles(void)
 {
-  return wld.map.xsize * wld.map.ysize;
+  return MAP_NATIVE_WIDTH * MAP_NATIVE_HEIGHT;
 }
 
 /*******************************************************************//**
@@ -1041,11 +1042,13 @@ void base_map_distance_vector(int *dx, int *dy,
     *dy = y1dv - y0dv;
     if (current_wrap_has_flag(WRAP_X)) {
       /* Wrap dx to be in [-map.xsize / 2, map.xsize / 2). */
-      *dx = FC_WRAP(*dx + wld.map.xsize / 2, wld.map.xsize) - wld.map.xsize / 2;
+      *dx = FC_WRAP(*dx + MAP_NATIVE_WIDTH / 2, MAP_NATIVE_WIDTH)
+        - MAP_NATIVE_WIDTH / 2;
     }
     if (current_wrap_has_flag(WRAP_Y)) {
       /* Wrap dy to be in [-map.ysize / 2, map.ysize / 2). */
-      *dy = FC_WRAP(*dy + wld.map.ysize / 2, wld.map.ysize) - wld.map.ysize / 2;
+      *dy = FC_WRAP(*dy + MAP_NATIVE_HEIGHT / 2, MAP_NATIVE_HEIGHT)
+        - MAP_NATIVE_HEIGHT / 2;
     }
 
     /* Convert the native delta vector back to a pair of map positions. */
@@ -1093,7 +1096,8 @@ void map_distance_vector(int *dx, int *dy,
 ***********************************************************************/
 struct tile *rand_map_pos(const struct civ_map *nmap)
 {
-  int nat_x = fc_rand(wld.map.xsize), nat_y = fc_rand(wld.map.ysize);
+  int nat_x = fc_rand(MAP_NATIVE_WIDTH);
+  int nat_y = fc_rand(MAP_NATIVE_HEIGHT);
 
   return native_pos_to_tile(nmap, nat_x, nat_y);
 }

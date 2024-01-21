@@ -342,7 +342,7 @@ int trade_base_between_cities(const struct city *pc1, const struct city *pc2)
     int weighted_distance
       = ((100 - game.info.trade_world_rel_pct) * real_dist
          + game.info.trade_world_rel_pct
-         * (real_dist * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
+         * (real_dist * 40 / MAX(MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT))) / 100;
 
     bonus = weighted_distance
             + city_size_get(pc1) + city_size_get(pc2);
@@ -488,18 +488,20 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   if (game.info.caravan_bonus_style == CBS_CLASSIC) {
     /* Should this be real_map_distance? */
     int distance = map_distance(pc1->tile, pc2->tile);
-    int weighted_distance = ((100 - game.info.trade_world_rel_pct) * distance
-                             + game.info.trade_world_rel_pct
-                             * (distance * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
+    int weighted_distance
+      = ((100 - game.info.trade_world_rel_pct) * distance
+         + game.info.trade_world_rel_pct
+         * (distance * 40 / MAX(MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT))) / 100;
 
     tb = weighted_distance + 10;
     tb = (tb * (pc1->surplus[O_TRADE] + pc2->surplus[O_TRADE])) / 24;
   } else if (game.info.caravan_bonus_style == CBS_LOGARITHMIC) {
     /* Logarithmic bonus */
     int distance = real_map_distance(pc1->tile, pc2->tile);
-    int weighted_distance = ((100 - game.info.trade_world_rel_pct) * distance
-                             + game.info.trade_world_rel_pct
-                             * (distance * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
+    int weighted_distance
+      = ((100 - game.info.trade_world_rel_pct) * distance
+         + game.info.trade_world_rel_pct
+         * (distance * 40 / MAX(MAP_NATIVE_WIDTH, MAP_NATIVE_HEIGHT))) / 100;
 
     tb = pow(log(weighted_distance + 20
                  + max_trade_prod(pc1) + max_trade_prod(pc2)) * 2, 2);

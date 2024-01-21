@@ -446,14 +446,14 @@ void send_all_known_tiles(struct conn_list *dest)
     dest = game.est_connections;
   }
 
-  /* send whole map piece by piece to each player to balance the load
+  /* Send whole map piece by piece to each player to balance the load
      of the send buffers better */
   tiles_sent = 0;
   conn_list_do_buffer(dest);
 
   whole_map_iterate(&(wld.map), ptile) {
     tiles_sent++;
-    if ((tiles_sent % wld.map.xsize) == 0) {
+    if ((tiles_sent % MAP_NATIVE_WIDTH) == 0) {
       conn_list_do_unbuffer(dest);
       flush_packets();
       conn_list_do_buffer(dest);
@@ -644,8 +644,8 @@ void send_map_info(struct conn_list *dest)
 {
   struct packet_map_info minfo;
 
-  minfo.xsize = wld.map.xsize;
-  minfo.ysize = wld.map.ysize;
+  minfo.xsize = MAP_NATIVE_WIDTH;
+  minfo.ysize = MAP_NATIVE_HEIGHT;
   minfo.topology_id = wld.map.topology_id;
   minfo.wrap_id = wld.map.wrap_id;
   minfo.north_latitude = wld.map.north_latitude;

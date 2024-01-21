@@ -209,8 +209,8 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
 
   ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y, mouse_zoom);
 
-  /*  Did mouse pointer move beyond the current tile's
-   *  boundaries? Avoid macros; tile may be unreal!
+  /* Did mouse pointer move beyond the current tile's
+   * boundaries? Avoid macros; tile may be unreal!
    */
   if (ptile == rec_tile) {
     return;
@@ -225,15 +225,14 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
   canvas_x += half_W;
   canvas_y += half_H;
 
-  rec_w = rec_anchor_x - canvas_x;  /* width */
-  rec_h = rec_anchor_y - canvas_y;  /* height */
+  rec_w = rec_anchor_x - canvas_x;  /* Width */
+  rec_h = rec_anchor_y - canvas_y;  /* Height */
 
   /* FIXME: This may be off-by-one. */
   center_tile = get_center_tile_mapcanvas();
   map_distance_vector(&diff_x, &diff_y, center_tile, rec_canvas_center_tile);
 
-  /*  Adjust width, height if mapview has recentered.
-   */
+  /* Adjust width, height if mapview has recentered. */
   if (diff_x != 0 || diff_y != 0) {
 
     if (tileset_is_isometric(tileset)) {
@@ -241,8 +240,8 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
       rec_h += (diff_x + diff_y) * half_H;
 
       /* Iso wrapping */
-      if (abs(rec_w) > wld.map.xsize * half_W / 2) {
-        int wx = wld.map.xsize * half_W, wy = wld.map.xsize * half_H;
+      if (abs(rec_w) > MAP_NATIVE_WIDTH * half_W / 2) {
+        int wx = MAP_NATIVE_WIDTH * half_W, wy = MAP_NATIVE_WIDTH * half_H;
 
         rec_w > 0 ? (rec_w -= wx, rec_h -= wy) : (rec_w += wx, rec_h += wy);
       }
@@ -252,8 +251,8 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
       rec_h += diff_y * H;
 
       /* X wrapping */
-      if (abs(rec_w) > wld.map.xsize * half_W) {
-        int wx = wld.map.xsize * W;
+      if (abs(rec_w) > MAP_NATIVE_WIDTH * half_W) {
+        int wx = MAP_NATIVE_WIDTH * W;
 
         rec_w > 0 ? (rec_w -= wx) : (rec_w += wx);
       }

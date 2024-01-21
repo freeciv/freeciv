@@ -3798,8 +3798,8 @@ void mr_menu::save_image()
   bool map_saved;
   QString img_name;
 
-  full_size_x = (wld.map.xsize + 2) * tileset_tile_width(tileset);
-  full_size_y = (wld.map.ysize + 2) * tileset_tile_height(tileset);
+  full_size_x = (MAP_NATIVE_WIDTH + 2) * tileset_tile_width(tileset);
+  full_size_y = (MAP_NATIVE_HEIGHT + 2) * tileset_tile_height(tileset);
   current_width = gui()->mapview_wdg->width();
   current_height = gui()->mapview_wdg->height();
   if (tileset_hex_width(tileset) > 0) {
