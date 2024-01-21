@@ -47,7 +47,7 @@
 #include "daitools.h"
 #include "daiunit.h"
 
-#include "aiair.h"
+#include "daiair.h"
 
 /******************************************************************//**
   How fast does a unit regenerate at another tile after moves to it.

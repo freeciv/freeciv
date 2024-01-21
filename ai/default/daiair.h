@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIAIR_H
-#define FC__AIAIR_H
+#ifndef FC__DAIAIR_H
+#define FC__DAIAIR_H
 
 /* utility */
 #include "support.h"            /* bool type */
@@ -27,4 +27,4 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
 
 int dai_evaluate_tile_for_attack(struct unit *punit, struct tile *dst_tile);
 
-#endif /* FC__AIAIR_H */
+#endif /* FC__DAIAIR_H */
