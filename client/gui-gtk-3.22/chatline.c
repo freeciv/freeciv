@@ -402,6 +402,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       if (GUI_GTK_OPTION(chatline_autocompletion)) {
         return chatline_autocomplete(GTK_EDITABLE(w));
       }
+      return FALSE;
 
     default:
       break;
