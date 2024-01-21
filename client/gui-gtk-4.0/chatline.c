@@ -436,6 +436,7 @@ static gboolean inputline_handler(GtkEventControllerKey *controller,
       if (GUI_GTK_OPTION(chatline_autocompletion)) {
         return chatline_autocomplete(GTK_EDITABLE(w));
       }
+      return FALSE;
 
     default:
       break;
