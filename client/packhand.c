@@ -158,7 +158,7 @@ const action_id auto_attack_actions[] = {
   ACTION_NONE
 };
 
-/* A unit will not auto attack if any of there actions are legal. */
+/* A unit will not auto attack if any of these actions are legal. */
 const action_id auto_attack_blockers[] = {
   ACTION_ESTABLISH_EMBASSY, ACTION_ESTABLISH_EMBASSY_STAY,
   ACTION_SPY_INVESTIGATE_CITY, ACTION_INV_CITY_SPEND,
