@@ -6553,6 +6553,7 @@ void options_init(void)
           pcolor->background = fc_strdup(pcolor->background);
         }
       }
+      break;
 
     case OT_BOOLEAN:
     case OT_FONT:
