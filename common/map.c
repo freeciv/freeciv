@@ -1562,7 +1562,7 @@ bool startpos_is_excluding(const struct startpos *psp)
 ***********************************************************************/
 const struct nation_hash *startpos_raw_nations(const struct startpos *psp)
 {
-  fc_assert_ret_val(NULL != psp, FALSE);
+  fc_assert_ret_val(NULL != psp, NULL);
   return psp->nations;
 }
 
