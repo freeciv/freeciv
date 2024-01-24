@@ -1097,11 +1097,11 @@ if test "x$client" != "xno"; then
     AS_MESSAGE([checking for which clients to compile:...])
   fi
 
-  dnl Gtk-3.22-specific overrides
-  FC_GTK3_22_CLIENT
-
   dnl Gtk-4.0-specific overrides
   FC_GTK4_CLIENT
+
+  dnl Gtk-3.22-specific overrides
+  FC_GTK3_22_CLIENT
 
   dnl QT-specific overrides
   FC_QT_CLIENT
@@ -1165,34 +1165,6 @@ esac], [fcruleup=yes])
 AM_CONDITIONAL([FCRULEUP], [test "x$fcruleup" != "xno"])
 
 dnl freeciv-modpack checks
-if test "x$req_fcmp_gtk3" = "xyes" ||
-   test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  PKG_CHECK_MODULES([GTK3MP], [gtk+-3.0 >= 3.10.0],
-[
-  GTK3MP_CFLAGS="$GTK3MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_10"
-  GTK3MP_CFLAGS="$GTK3MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
-  PKG_CHECK_MODULES([GTHREAD_GTK3], [gthread-2.0],
-[
-  fcmp_gtk3=yes
-  fcmp_list="$fcmp_list gtk3"
-  mp_gtk3_cflags="$GTK3MP_CFLAGS $GTHREAD_GTK3_CFLAGS"
-  mp_gtk3_libs="$GTK3MP_LIBS $GTHREAD_GTK3_LIBS"
-  if test "x$MINGW" = "xyes"; then
-    dnl Required to compile gtk3 on Windows platform
-    mp_gtk3_cflags="$mp_gtk3_cflags -mms-bitfields"
-    mp_gtk3_ldflags="$mp_gtk3_ldflags $MWINDOWS_FLAG"
-  fi
-
-  if test "x$modinst" = "xauto" ; then
-    modinst=found
-  fi
-], [fcmp_gtk3=no])], [fcmp_gtk3=no])
-fi
-
-if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
-  AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
-fi
-
 if test "x$req_fcmp_gtk4" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
   PKG_CHECK_MODULES([GTK4_MP], [gtk4 >= 4.0.0],
@@ -1219,6 +1191,34 @@ fi
 
 if test "x$req_fcmp_gtk4" = "xyes" && test "x$fcmp_gtk4" != "xyes" ; then
   AC_MSG_ERROR([Cannot build gtk4-version of freeciv-modpack as requested])
+fi
+
+if test "x$req_fcmp_gtk3" = "xyes" ||
+   test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
+  PKG_CHECK_MODULES([GTK3MP], [gtk+-3.0 >= 3.10.0],
+[
+  GTK3MP_CFLAGS="$GTK3MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_10"
+  GTK3MP_CFLAGS="$GTK3MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
+  PKG_CHECK_MODULES([GTHREAD_GTK3], [gthread-2.0],
+[
+  fcmp_gtk3=yes
+  fcmp_list="$fcmp_list gtk3"
+  mp_gtk3_cflags="$GTK3MP_CFLAGS $GTHREAD_GTK3_CFLAGS"
+  mp_gtk3_libs="$GTK3MP_LIBS $GTHREAD_GTK3_LIBS"
+  if test "x$MINGW" = "xyes"; then
+    dnl Required to compile gtk3 on Windows platform
+    mp_gtk3_cflags="$mp_gtk3_cflags -mms-bitfields"
+    mp_gtk3_ldflags="$mp_gtk3_ldflags $MWINDOWS_FLAG"
+  fi
+
+  if test "x$modinst" = "xauto" ; then
+    modinst=found
+  fi
+], [fcmp_gtk3=no])], [fcmp_gtk3=no])
+fi
+
+if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
+  AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
 fi
 
 if test "x$req_fcmp_qt" = "xyes" ||
