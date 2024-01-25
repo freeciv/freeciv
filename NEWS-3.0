@@ -1,10 +1,66 @@
-========================
-Welcome to Freeciv 3.0.9
-========================
+=========================
+Welcome to Freeciv 3.0.10
+=========================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.0.9 to 3.0.10
+----------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.10>, 2024-01-25)
+
+3.0.10 is a generic bugfix release in freeciv-3.0 series.
+Focus has been in portability issues, but also a couple
+of fatal runtime errors have been resolved.
+
+Server / General
+
+    * Fixed nation color selection assert failures when moving
+      from pre-game to turn 1 RM#1
+    * Fixed a crash when city removal left a unit stranded RM#81
+
+Low-level changes
+
+    * Fixed growing of the internal string handling buffer, fixing, e.g.,
+      issues with very long lines in the savegame RM#3
+    * Fixed fc_vsnprintf() return value on Windows, fixing, e.g.,
+      issues on loading the tutorial scenario RM#58
+
+General
+
+    * Various internal changes which should only affect developers. RM#101
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#11 RM#150
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#48955 RM#64
+
+Translations
+
+    * Updated translations: fi
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      osdn#48956 RM#5 RM#4 RM#89 RM#185 RM#186 RM#188 RM#187
+    * Fixed some clang analyzer warnings RM#37 osdn#48626
+    * MagickWand headers and libraries searched also
+      by pkgconf name MagickWand-6.Q16HDRI RM#36
+    * Fixed clang-18 compiler warnings
+      RM#90 RM#99 RM#118 RM#128 RM#133 RM#140
+    * Fixed clang case fallthrough warnings
+      osdn#138 RM#172 RM#171 RM#178 RM#190 RM#192
+    * Fixed c23 compiler warnings RM#177
+    * Flatpak updates
+         + Download SDL2_gfx from sourceforge RM#92
+    * Metainfo updates
+         + Metainfo includes recommended minimum resolution
+           for each client RM#180
 
 
 CHANGES FROM 3.0.8 to 3.0.9
