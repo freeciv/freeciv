@@ -562,7 +562,7 @@ static void science_report_current_callback(GtkComboBox *combo,
     return;
   }
 
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data))) {
+  if (gtk_check_button_get_active(GTK_CHECK_BUTTON(data))) {
     popup_help_dialog_typed(tech_name, HELP_TECH);
   } else if (can_client_issue_orders()) {
     dsend_packet_player_research(&client.conn, tech);
@@ -597,7 +597,7 @@ static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
     return;
   }
 
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data))) {
+  if (gtk_check_button_get_active(GTK_CHECK_BUTTON(data))) {
     popup_help_dialog_typed(tech_name, HELP_TECH);
   } else if (can_client_issue_orders()) {
     dsend_packet_player_tech_goal(&client.conn, tech);
