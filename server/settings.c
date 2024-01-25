@@ -244,7 +244,7 @@ static const struct sset_val_name *caravanbonusstyle_name(int caravanbonus)
 
 /************************************************************************//**
   Map size definition setting names accessor. This setting has an
-  hard-coded depedence in "server/meta.c".
+  hard-coded dependence in "server/meta.c".
 ****************************************************************************/
 static const struct sset_val_name *mapsize_name(int mapsize)
 {
