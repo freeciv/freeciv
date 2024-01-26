@@ -569,44 +569,28 @@ priority       = 1
 
 [clause_map]
 type = "Map"
-giver_reqs =
-    { "type", "name", "range"
-      "Tech", "Maps", "Player"
-    }
-receiver_reqs =
+either_reqs =
     { "type", "name", "range"
       "Tech", "Maps", "Player"
     }
 
 [clause_seamap]
 type = "Seamap"
-giver_reqs =
-    { "type", "name", "range"
-      "Tech", "Maps", "Player"
-    }
-receiver_reqs =
+either_reqs =
     { "type", "name", "range"
       "Tech", "Maps", "Player"
     }
 
 [clause_peace]
 type = "Peace"
-giver_reqs =
-    { "type", "name", "range"
-      "Tech", "Diplomacy", "Player"
-    }
-receiver_reqs =
+either_reqs =
     { "type", "name", "range"
       "Tech", "Diplomacy", "Player"
     }
 
 [clause_ceasefire]
 type = "Ceasefire"
-giver_reqs =
-    { "type", "name", "range"
-      "Tech", "Calendar", "Player"
-    }
-receiver_reqs =
+either_reqs =
     { "type", "name", "range"
       "Tech", "Calendar", "Player"
     }
