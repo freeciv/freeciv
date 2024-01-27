@@ -37,24 +37,24 @@ msgstr[1] "%s vendas %sn por %d."
 #: ai/default/daidiplomacy.c:368
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr "*%s (IA)* En \"for\" moduso, la AI ne povas subskribi traktaton."
+msgstr "*%s (AI)* En \"for\" moduso, la AI ne povas subskribi traktaton."
 
 #: ai/default/daidiplomacy.c:378
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
-msgstr "*%s (IA)* Antaŭe rompu aliancon kun %s, %s."
+msgstr "*%s (AI)* Antaŭe rompu aliancon kun %s, %s."
 
 #: ai/default/daidiplomacy.c:388
 #, c-format
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
 "%s."
-msgstr "*%s (IA)* Mi volas vidi ke vi restas for de %s dum iom da tempo, %s."
+msgstr "*%s (AI)* Mi volas vidi ke vi restas for de %s dum iom da tempo, %s."
 
 #: ai/default/daidiplomacy.c:402
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilities, %s."
-msgstr "*%s (IA)* Antaŭe ĉesigu ni la militon, %s."
+msgstr "*%s (AI)* Antaŭe ĉesigu ni la militon, %s."
 
 #: ai/default/daidiplomacy.c:407
 #, c-format
@@ -62,13 +62,13 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
-"*%s (IA)* Antaŭe mi deziras konstati se vi tenos la nunan pafĉesigon plue, "
+"*%s (AI)* Antaŭe mi deziras konstati se vi tenos la nunan pafĉesigon plue, "
 "%s."
 
 #: ai/default/daidiplomacy.c:430
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "*%s (IA)* Mi ne kredas ankoraŭ je alianco kun vi, %s."
+msgstr "*%s (AI)* Mi ne kredas ankoraŭ je alianco kun vi, %s."
 
 #: ai/default/daidiplomacy.c:524
 #, c-format
@@ -78,7 +78,7 @@ msgstr "*%s (AI)* Mi ne konas la urbon kiun vi citis."
 #: ai/default/daidiplomacy.c:555
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "*%s (IA)* Mi bedaŭras, sed komuna vido kun vi ne estas sendanĝera."
+msgstr "*%s (AI)* Mi bedaŭras, sed komuna vido kun vi ne estas sendanĝera."
 
 #: ai/default/daidiplomacy.c:671
 #, c-format
@@ -88,22 +88,22 @@ msgstr "*%s (AI)* Tiu ĉi renkontiĝo ne estis tre bona por ni, %s!"
 #: ai/default/daidiplomacy.c:694
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr "*%s (IA)* Bonvenon en nia alianco, %s!"
+msgstr "*%s (AI)* Bonvenon en nia alianco, %s!"
 
 #: ai/default/daidiplomacy.c:698
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr "*%s (IA)* Jes, esperu ni ke ni estos ĉiam unuiĝintaj, %s."
+msgstr "*%s (AI)* Jes, esperu ni ke ni estos ĉiam unuiĝintaj, %s."
 
 #: ai/default/daidiplomacy.c:705
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
-msgstr "*%s (IA)* Jes, paco estu!"
+msgstr "*%s (AI)* Jes, paco estu!"
 
 #: ai/default/daidiplomacy.c:710
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "*%s (IA)* Konsentite! Ne plu malamikeco, %s."
+msgstr "*%s (AI)* Konsentite! Ne plu malamikeco, %s."
 
 #: ai/default/daidiplomacy.c:977
 #, c-format
@@ -123,9 +123,9 @@ msgstr ""
 "pistita."
 
 #: ai/default/daidiplomacy.c:1304
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Space will never be yours."
-msgstr "*%s (IA)* La kosmo neniam estos via. "
+msgstr "*%s (AI)* La kosmo neniam estos via."
 
 #: ai/default/daidiplomacy.c:1310
 #, c-format
@@ -135,7 +135,7 @@ msgstr "%s (AI)* Mi toleris viajn fiajn bufonojn tro longe! Ni ekmilitu!"
 #: ai/default/daidiplomacy.c:1316
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (IA)* Ĉu paco?... eble alian fojon."
+msgstr "*%s (AI)* Ĉu paco?... eble alian fojon."
 
 #: ai/default/daidiplomacy.c:1322
 #, c-format
@@ -143,8 +143,8 @@ msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
-"*%s (IA)* Finfine mi encirkligis vin! Ĉu vi opinias ke vi povas foriĝis post "
-"la fiaj krimoj kiun vi faris?"
+"*%s (AI)* Finfine mi ne plu eltenos vin! Ĉu vi vere opiniis ke vi povos "
+"eviti punon por viaj krimoj?"
 
 #: ai/default/daidiplomacy.c:1329
 #, c-format
@@ -295,13 +295,13 @@ msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
 msgstr ""
-"*%s (IA)* Se vi ne haltigis la konstruadon de via kosmoŝipo, mi severe "
+"*%s (AI)* Se vi ne haltigis la konstruadon de via kosmoŝipo, mi severe "
 "dispozicios kontraŭ vi!"
 
 #: ai/default/daidiplomacy.c:1739
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr "*%s (IA)* Mi bedaŭras, sed komuna vido kun vi ne estas plu senriska."
+msgstr "*%s (AI)* Mi bedaŭras, sed komuna vido kun vi ne estas plu senriska."
 
 #: ai/default/daidiplomacy.c:1810
 #, c-format
@@ -309,7 +309,7 @@ msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
 msgstr ""
-"*%s (IA)* Saluton al nia plej fidela aliancano. Ni adresas al vi por detrui "
+"*%s (AI)* Saluton al nia plej fidela aliancano. Ni adresas al vi por detrui "
 "nian malamikon, %s."
 
 #: ai/default/daidiplomacy.c:1818
@@ -318,7 +318,7 @@ msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
 "%s. Why do I need to remind you of your promises?"
 msgstr ""
-"*%s (IA)* Saluton, aliancano. Mi konstatis ke vi ne ekmilitis ankoraŭ "
+"*%s (AI)* Saluton, aliancano. Mi konstatis ke vi ne ekmilitis ankoraŭ "
 "kontraŭ nia malamiko, %s. Kial do mi devas memorigi al vi pri viaj promesoj?"
 
 #: ai/default/daidiplomacy.c:1828
@@ -328,7 +328,7 @@ msgid ""
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
-"*%s (IA)* Fia senhonorulo! Ni havas aliancon kaj vi ankoraŭ estas en paco "
+"*%s (AI)* Fia senhonorulo! Ni havas aliancon kaj vi ankoraŭ estas en paco "
 "kun nia ĝismorta malamiko, %s! Tio ne estas akceptebla, kaj do nia alianco "
 "ĉesas!"
 
@@ -338,12 +338,12 @@ msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr ""
-"*%s (IA)* Saluton, amiko. Ĉu ni faru komunan kaŭzon kaj kuniĝi en alianco?"
+"*%s (AI)* Saluton, amiko. Ĉu ni faru komunan kaŭzon kaj kuniĝi en alianco?"
 
 #: ai/default/daidiplomacy.c:1879
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
-msgstr "*%s (IA)* Saluton, najbaro. Ĉu ni povas konsili pli pacajn rilatojn?"
+msgstr "*%s (AI)* Saluton, najbaro. Ĉu ni povas konsili pli pacajn rilatojn?"
 
 #: ai/default/daidiplomacy.c:1896
 #, c-format
@@ -1787,9 +1787,9 @@ msgid "The %s give shared vision"
 msgstr "La %s donas komunan vidon"
 
 #: client/climisc.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an embassy"
-msgstr "La %s donas %sn"
+msgstr "La %s donas ambasadejon"
 
 #: client/climisc.c:1036
 msgid "Popup Request"
@@ -1956,7 +1956,7 @@ msgstr "Nur setlistaj unuoj povas esti aŭtomate mastrumitaj."
 #. TRANS: paradrop target tile.
 #: client/control.c:2158
 msgid "Click on a tile to paradrop to it."
-msgstr ""
+msgstr "Alklaku kahelon por paraŝuti tien"
 
 #: client/control.c:2165
 msgid "Only paratrooper units can do this."
@@ -4506,17 +4506,17 @@ msgstr "Maks. procento por %s: %d%%"
 #: client/gui-gtk-3.0/gotodlg.c:140 client/gui-gtk-3.22/gotodlg.c:141
 #: client/gui-gtk-4.0/gotodlg.c:141
 msgid "Goto/Airlift Unit"
-msgstr "Iru al/Flugtransportu unuon"
+msgstr "Iri al/Flugtransporti unuon"
 
 #: client/gui-gtk-3.0/gotodlg.c:145 client/gui-gtk-3.22/gotodlg.c:146
 #: client/gui-gtk-4.0/gotodlg.c:146
 msgid "Air_lift"
-msgstr "F_lugtransportu"
+msgstr "F_lugtransporti"
 
 #: client/gui-gtk-3.0/gotodlg.c:147 client/gui-gtk-3.22/gotodlg.c:148
 #: client/gui-gtk-4.0/gotodlg.c:148
 msgid "_Goto"
-msgstr "_Iru al"
+msgstr "_Iri al"
 
 #: client/gui-gtk-3.0/gotodlg.c:166 client/gui-gtk-3.22/gotodlg.c:167
 #: client/gui-gtk-4.0/gotodlg.c:166
@@ -5249,10 +5249,8 @@ msgstr "C_ivilizacio"
 
 #: client/gui-gtk-3.0/menu.c:274 client/gui-gtk-3.22/menu.c:277
 #: client/gui-gtk-4.0/menu.c:3202
-#, fuzzy
-#| msgid "Nation _Groups:"
 msgid "_Battle Groups"
-msgstr "Naciaj _grupoj:"
+msgstr "_Batalgrupoj"
 
 #: client/gui-gtk-3.0/menu.c:276 client/gui-gtk-3.22/menu.c:279
 #: client/gui-gtk-4.0/menu.c:3233
@@ -5832,9 +5830,8 @@ msgstr "Iru kaj fermu"
 
 #: client/gui-gtk-3.0/menu.c:531 client/gui-gtk-3.22/menu.c:540
 #: client/gui-gtk-4.0/menu.c:722
-#, fuzzy
 msgid "Go _to/Airlift to City..."
-msgstr "Iru/flugtransportu en urbon"
+msgstr "Iri/flug_transporti al urbo..."
 
 #: client/gui-gtk-3.0/menu.c:533 client/gui-gtk-3.22/menu.c:542
 #: client/gui-gtk-4.0/menu.c:725
@@ -6192,9 +6189,8 @@ msgstr "Nova celo estis elektita"
 #: client/gui-gtk-3.0/optiondlg.c:370 client/gui-gtk-3.22/optiondlg.c:363
 #: client/gui-gtk-4.0/optiondlg.c:389 client/gui-qt/optiondlg.cpp:147
 #: client/gui-qt/shortcuts.cpp:630
-#, fuzzy
 msgid "Reset"
-msgstr "Dezerto"
+msgstr "Restarigi"
 
 #: client/gui-gtk-3.0/pages.c:117 client/gui-gtk-3.22/pages.c:117
 #: client/gui-gtk-4.0/pages.c:121
@@ -7051,7 +7047,7 @@ msgstr ""
 #: client/gui-gtk-3.0/spaceshipdlg.c:233 client/gui-gtk-3.22/spaceshipdlg.c:232
 #: client/gui-gtk-4.0/spaceshipdlg.c:231
 msgid "_Launch"
-msgstr "_Ĵeto"
+msgstr "_Lanĉi"
 
 #: client/gui-gtk-3.0/sprite.c:187 client/gui-gtk-3.22/sprite.c:187
 #: client/gui-gtk-4.0/sprite.c:187
@@ -7464,9 +7460,8 @@ msgstr "Ĝisdatigi"
 
 #: client/gui-gtk-3.22/editprop.c:4999 client/gui-gtk-3.22/optiondlg.c:364
 #: client/gui-gtk-4.0/editprop.c:5024 client/gui-gtk-4.0/optiondlg.c:390
-#, fuzzy
 msgid "_Apply"
-msgstr "Apliku unufoje"
+msgstr "_Apliki"
 
 #: client/gui-gtk-3.22/finddlg.c:75 client/gui-gtk-4.0/finddlg.c:75
 #, fuzzy
@@ -8847,9 +8842,8 @@ msgid "Go to Nearest City"
 msgstr "Revenu al la pli apuda urbo"
 
 #: client/gui-qt/menu.cpp:1217 client/gui-qt/shortcuts.cpp:105
-#, fuzzy
 msgid "Go to/Airlift to City..."
-msgstr "Iru/flugtransportu en urbon"
+msgstr "Iri/flugtransporti al urbo..."
 
 #: client/gui-qt/menu.cpp:1223 client/gui-qt/shortcuts.cpp:107
 #: client/gui-sdl2/menu.c:619
@@ -9103,10 +9097,8 @@ msgid "Endgame report"
 msgstr "Ekonomia raporto"
 
 #: client/gui-qt/menu.cpp:1602
-#, fuzzy
-#| msgid "Nation _Groups:"
 msgid "Battle Groups"
-msgstr "Naciaj _grupoj:"
+msgstr "Batalgrupoj"
 
 #. TRANS: Build mine of specific type
 #. TRANS: Build irrigation of specific type
@@ -10827,9 +10819,8 @@ msgid "Go to City"
 msgstr "Iri al urbo"
 
 #: client/gui-sdl2/menu.c:530
-#, fuzzy
 msgid "Airlift to City"
-msgstr "Iru/flugtransportu en urbon"
+msgstr "Flugtransporti al urbo"
 
 #: client/gui-sdl2/menu.c:584 client/gui-sdl2/menu.c:603
 #, fuzzy, c-format
@@ -16793,9 +16784,9 @@ msgstr "%s detruis la %sn en %s."
 #: data/classic/game.ruleset:539 data/sandbox/game.ruleset:561
 #: data/civ2civ3/game.ruleset:555 data/alien/game.ruleset:495
 #: data/multiplayer/game.ruleset:533
-#, fuzzy, c-format
+#, c-format
 msgid "Dis%sband recovering production%s"
-msgstr "Desegnu urbostangon"
+msgstr "Dis%ssolvi regajnante produktaĵojn%s"
 
 #. TRANS: Dis_band without recovering production (100% chance of success).
 #: common/actions.c:7756 data/civ1/game.ruleset:480 data/civ2/game.ruleset:519
@@ -16844,9 +16835,9 @@ msgstr "Paraŝutistoj"
 #: data/classic/game.ruleset:572 data/sandbox/game.ruleset:606
 #: data/civ2civ3/game.ruleset:594 data/alien/game.ruleset:525
 #: data/multiplayer/game.ruleset:566
-#, fuzzy, c-format
+#, c-format
 msgid "%sAirlift to City%s"
-msgstr "Iru/flugtransportu en urbon"
+msgstr "%sFlugtransporti al urbo%s"
 
 #. TRANS: _Attack (100% chance of success).
 #: common/actions.c:7789 data/civ1/game.ruleset:501 data/civ2/game.ruleset:549
@@ -22733,16 +22724,16 @@ msgstr "Atomeksplodo"
 #: data/civ1/game.ruleset:558
 #, c-format
 msgid "Enter %sHut from transport%s"
-msgstr ""
+msgstr "Eniri la %skabanon de transportilo%s"
 
 #. TRANS: Regular _Move (100% chance of success).
 #: data/civ1/game.ruleset:561 data/civ2/game.ruleset:609
 #: data/classic/game.ruleset:659 data/sandbox/game.ruleset:700
 #: data/civ2civ3/game.ruleset:675 data/alien/game.ruleset:594
 #: data/multiplayer/game.ruleset:653
-#, fuzzy, c-format
+#, c-format
 msgid "%sKeep moving%s"
-msgstr "Daŭrigu moviĝi"
+msgstr "%sDaŭre moviĝi%s"
 
 #. TRANS: _Disrupt Supply Lines (100% chance of success).
 #: data/civ1/game.ruleset:566 data/civ2/game.ruleset:614
@@ -27106,7 +27097,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:2264 data/civ2civ3/units.ruleset:2162
 #: data/multiplayer/units.ruleset:2044
 msgid "Cruise Missile"
-msgstr "Kroz-misiloj"
+msgstr "Kroz-misilo"
 
 #: data/civ2/units.ruleset:2002 data/classic/units.ruleset:1969
 #: data/sandbox/units.ruleset:2293 data/civ2civ3/units.ruleset:2190
@@ -27634,7 +27625,7 @@ msgstr "%s konkeris %s-n."
 #: data/multiplayer/game.ruleset:632 server/rscompat.c:1982
 #, c-format
 msgid "%sDisembark from non native%s"
-msgstr "%sElŝipigi el alinacia ŝipo%s"
+msgstr "%sElŝipigi de netaŭga tereno%s"
 
 #. TRANS: Eliminate _Spy (100% chance of success).
 #: data/classic/game.ruleset:644 data/sandbox/game.ruleset:678
@@ -27646,9 +27637,9 @@ msgstr ""
 #. TRANS: Enter _Hut from non native (100% chance of success).
 #: data/classic/game.ruleset:650 data/sandbox/game.ruleset:691
 #: data/civ2civ3/game.ruleset:666 data/alien/game.ruleset:591
-#, fuzzy, c-format
+#, c-format
 msgid "Enter %sHut from non native%s"
-msgstr "%s konkeris %s-n."
+msgstr "Eniri %skabanon de netaŭga kahelo%s"
 
 #. TRANS: Frighten _Hut from non native (100% chance of success).
 #: data/classic/game.ruleset:656 data/sandbox/game.ruleset:697
@@ -29143,10 +29134,8 @@ msgid "You're the first one to launch a spaceship towards Alpha Centauri!"
 msgstr ""
 
 #: data/sandbox/game.ruleset:3155 data/civ2civ3/game.ruleset:1940
-#, fuzzy
 msgid "You have launched a spaceship towards Alpha Centauri!"
-msgstr ""
-"La %s lanĉis kosmoŝipon!   Oni taksis ke ili alvenos al Alfa Centaŭro en %s."
+msgstr "Vi lanĉis kosmoŝipon celantan al Alfa Centaŭro!"
 
 #: data/sandbox/game.ruleset:3158 data/civ2civ3/game.ruleset:1943
 msgid "Entire Map Known"
@@ -29724,15 +29713,15 @@ msgstr ""
 
 #. TRANS: Your Marines does Disrupt Supply Lines to American Armor.
 #: data/sandbox/script.lua:456
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s does %s to %s %s."
-msgstr "Vi ne povas aldoni %sn al %s."
+msgstr "Via unuo %s faras agon %s al %s unuo %s."
 
 #. TRANS: German Paratroopers does Disrupt Supply Lines to your Armor.
 #: data/sandbox/script.lua:466
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s does %s to your %s."
-msgstr "Vi devas elekti vian urban stilon"
+msgstr "%s unuo %s faras agon %s al via %s."
 
 #. TRANS: Your Marines didn't survive doing
 #. --  * Use Ancient Transportation Network.
@@ -39444,9 +39433,9 @@ msgstr ""
 "Ĝi estas prokrastita..."
 
 #: server/cityturn.c:2108 server/cityturn.c:2176
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist. Purging..."
-msgstr "%s ne povas konstrui %sn el la laborlisto.  Ĝi estas forigita..."
+msgstr "En %s ne eblas la konstruado de %s el la laborlisto. Ĝi estas forigita..."
 
 #: server/cityturn.c:2127 server/cityturn.c:2165 server/cityturn.c:2298
 #: server/cityturn.c:2344
@@ -39479,7 +39468,7 @@ msgstr "La civitanoj en %s mortas ĉar ili malsukcesis teni %sn!"
 #: server/cityturn.c:2467 server/cityturn.c:2672
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr "%s estas preparanta %sn, kiu ne estas plu disponebla."
+msgstr "%s la konstruo-celo estas %s, kiu ne plu estas disponebla."
 
 #: server/cityturn.c:2507
 #, c-format
@@ -42880,9 +42869,9 @@ msgstr "%s konkeris %s-n."
 
 #. TRANS: _Enter Hut from non native (100% chance of success).
 #: server/rscompat.c:2015
-#, fuzzy, c-format
+#, c-format
 msgid "%sEnter Hut from non native%s"
-msgstr "%s konkeris %s-n."
+msgstr "%sEniri la kabanon de nataŭga kahelo%s"
 
 #. TRANS: _Frighten Hut from non native (100% chance of success).
 #: server/rscompat.c:2025
@@ -45826,12 +45815,12 @@ msgid "Your spaceship can't be launched yet!"
 msgstr "Via kosmoŝipo ne povas ankoraŭ esti lanĉita!"
 
 #: server/spacerace.c:194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr ""
-"La %s lanĉis kosmoŝipon!   Oni taksis ke ili alvenos al Alfa Centaŭro en %s."
+"La %s lanĉis kosmoŝipon!  Oni taksis ke ĝi alvenos al Alfa Centaŭro en %s."
 
 #: server/spacerace.c:222
 msgid "Spaceship action received, but you don't have a spaceship!"
@@ -45945,15 +45934,16 @@ msgid ""
 msgstr "La ludo finos en la fino de la specifita jaro."
 
 #: server/srv_main.c:640
-#, fuzzy, c-format
+#, c-format
 msgid "Game ended in victory for %s."
-msgstr "%s gajnis la ludon"
+msgstr "%s gajnis la ludon."
 
 #: server/srv_main.c:666
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Notice: the %s spaceship will likely arrive at Alpha Centauri next turn."
-msgstr "La %s kosmoŝipo alvenis al Alfa Centaŭro."
+msgstr ""
+"Notico: la %s kosmoŝipo verŝajne alvenos al Alfa Centaŭro la sekvan vicon."
 
 #. TRANS: "... 2 military units in Norwegian territory."
 #: server/srv_main.c:831
@@ -45961,7 +45951,7 @@ msgstr "La %s kosmoŝipo alvenis al Alfa Centaŭro."
 msgid "Warning: you still have %d military unit in %s territory."
 msgid_plural "Warning: you still have %d military units in %s territory."
 msgstr[0] "Averto: vi ankoraŭ havas %d militan unuon en %s teritorio."
-msgstr[1] "Averto: vi ankoraŭ havas %d militjan unuojn en %s teritorio."
+msgstr[1] "Averto: vi ankoraŭ havas %d militajn unuojn en %s teritorio."
 
 #. TRANS: %s is another, separately translated sentence,
 #. * ending in a full stop.
@@ -48087,7 +48077,7 @@ msgid "Learned %s. Scientists do not know what to research next."
 msgstr "Ni lernis la teĥnologion %s. Sciencistoj ne scias, kion studi sekve."
 
 #: server/techtools.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "Learned %s. Scientists choose to research %s."
 msgstr "Ni lernis la teĥnologion %s. Sciencistoj elektas esplori pri %s."
 
@@ -48881,9 +48871,8 @@ msgstr ""
 #. * current production in Bergen (4 surplus).
 #. * "Disband Unit Recover" says "current production" rather than its name.
 #: server/unithand.c:5435
-#, fuzzy
 msgid "current production"
-msgstr "Akcelu produktadon"
+msgstr "nunan produktadon"
 
 #. TRANS: Your Caravan does "Help Wonder" to help build the
 #. * Pyramids in Bergen (4 remaining).
@@ -48902,9 +48891,9 @@ msgstr "troas"
 #. TRANS: Your Caravan does "Help Wonder" to help build the
 #. * Pyramids in Bergen (4 surplus).
 #: server/unithand.c:5454
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s does %s to help build the %s in %s (%d %s)."
-msgstr "Viaj %s helpis prepari la %sn en %s (troo je %d)."
+msgstr "Via unuo %s faras la agon %s por helpi en konstruado de la %s en %s (%d %s)."
 
 #. TRANS: Help building the Pyramids in Bergen received
 #. * from Persian Caravan (4 surplus).
@@ -49134,7 +49123,7 @@ msgstr[1] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d aliaj unuoj)!"
 #: server/unittools.c:2577
 #, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s pereis pro atako de la %sj %s."
+msgstr "%s pereis pro atako de la %s unuo %s."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -49148,7 +49137,7 @@ msgstr "%s pereis kiam la %sj %s atakis la %sjn %sn."
 #: server/unittools.c:2603
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
+msgstr "%s (kaj %s) pereis pro atako de la %s unuo %s."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -49157,8 +49146,8 @@ msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] "%s kaj %d alia unuo pereis pro atako de la %sj %s."
-msgstr[1] "%s kaj %d aliaj unuoj pereis pro atako de la %sj %s."
+msgstr[0] "%s kaj %d alia unuo pereis pro atako de la %s unuo %s."
+msgstr[1] "%s kaj %d aliaj unuoj pereis pro atako de la %s unuo %s."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
