@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.9 to 3.0.10
 ----------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.10>, 2024-01-25)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.10>, 2024-01-27)
 
 3.0.10 is a generic bugfix release in freeciv-3.0 series.
 Focus has been in portability issues, but also a couple
@@ -54,10 +54,11 @@ Build/portability
     * Fixed clang-18 compiler warnings
       RM#90 RM#99 RM#118 RM#128 RM#133 RM#140
     * Fixed clang case fallthrough warnings
-      osdn#138 RM#172 RM#171 RM#178 RM#190 RM#192
-    * Fixed c23 compiler warnings RM#177
+      osdn#138 RM#172 RM#171 RM#178 RM#190 RM#192 RM#196
+    * Fixed c23 compiler warnings RM#177 RM#197
     * Flatpak updates
          + Download SDL2_gfx from sourceforge RM#92
+         + Fixed sdl2-client flatpak build on arm RM#182
     * Metainfo updates
          + Metainfo includes recommended minimum resolution
            for each client RM#180
