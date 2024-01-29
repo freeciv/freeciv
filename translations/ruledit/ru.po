@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2023.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-10-13 00:13+0300\n"
-"PO-Revision-Date: 2023-12-26 09:51+0500\n"
+"POT-Creation-Date: 2024-01-29 11:04+0500\n"
+"PO-Revision-Date: 2024-01-29 09:16+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -34,13 +34,13 @@ msgstr ""
 msgid "Close"
 msgstr "Закрыть"
 
-#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
-#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:107
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:93
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:127
 msgid "Graphics tag"
 msgstr "Тег графического значка"
 
-#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
-#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:116
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:102
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:136
 msgid "Alt graphics tag"
 msgstr "Тег доп. граф. значка"
 
@@ -64,23 +64,23 @@ msgstr "Тег значка разрушения"
 msgid "Alt removal activity gfx tag"
 msgstr "Тег доп. значка разрушения"
 
-#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
+#: tools/ruledit/edit_impr.cpp:54 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Стоимость Строительства"
 
-#: tools/ruledit/edit_impr.cpp:62
+#: tools/ruledit/edit_impr.cpp:65
 msgid "Upkeep"
 msgstr "Содержание"
 
-#: tools/ruledit/edit_impr.cpp:72
+#: tools/ruledit/edit_impr.cpp:75
 msgid "Genus"
 msgstr "Вид"
 
-#: tools/ruledit/edit_impr.cpp:108
+#: tools/ruledit/edit_impr.cpp:111
 msgid "Sound tag"
 msgstr "Тег звука"
 
-#: tools/ruledit/edit_impr.cpp:117
+#: tools/ruledit/edit_impr.cpp:120
 msgid "Alt sound tag"
 msgstr "Тег доп. звука"
 
@@ -105,22 +105,30 @@ msgid "Defense Strength"
 msgstr "Уровень Защиты"
 
 #: tools/ruledit/edit_utype.cpp:97
+msgid "Hitpoints"
+msgstr "Здоровье"
+
+#: tools/ruledit/edit_utype.cpp:107
+msgid "Firepower"
+msgstr "Боевая мощь"
+
+#: tools/ruledit/edit_utype.cpp:117
 msgid "Move Rate"
 msgstr "Очки Движения"
 
-#: tools/ruledit/edit_utype.cpp:125
+#: tools/ruledit/edit_utype.cpp:145
 msgid "Move sound tag"
 msgstr "Тег звука движения"
 
-#: tools/ruledit/edit_utype.cpp:135
+#: tools/ruledit/edit_utype.cpp:155
 msgid "Alt move sound tag"
 msgstr "Тег доп. звука движения"
 
-#: tools/ruledit/edit_utype.cpp:145
+#: tools/ruledit/edit_utype.cpp:165
 msgid "Fight sound tag"
 msgstr "Тег звука битвы"
 
-#: tools/ruledit/edit_utype.cpp:155
+#: tools/ruledit/edit_utype.cpp:175
 msgid "Alt fight sound tag"
 msgstr "Тег доп. звука битвы"
 
