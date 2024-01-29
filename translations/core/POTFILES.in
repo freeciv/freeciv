@@ -343,7 +343,16 @@ data/multiplayer/styles.ruleset
 data/multiplayer/techs.ruleset
 data/multiplayer/terrain.ruleset
 data/multiplayer/units.ruleset
-data/multiplayer/script.lua
+data/granularity/actions.ruleset
+data/granularity/buildings.ruleset
+data/granularity/cities.ruleset
+data/granularity/game.ruleset
+data/granularity/governments.ruleset
+data/granularity/script.lua
+data/granularity/styles.ruleset
+data/granularity/techs.ruleset
+data/granularity/terrain.ruleset
+data/granularity/units.ruleset
 data/nation/american.ruleset
 data/nation/animals.ruleset
 data/nation/apache.ruleset

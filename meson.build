@@ -4355,6 +4355,7 @@ rulesets = [
   'sandbox',
   'civ1',
   'civ2',
+  'granularity',
   'stub'
   ]
 
@@ -4383,6 +4384,7 @@ install_data(
   'data/sandbox.modpack',
   'data/civ1.modpack',
   'data/civ2.modpack',
+  'data/granularity.modpack',
   install_dir : join_paths(get_option('datadir'), 'freeciv')
   )
 
@@ -4414,6 +4416,11 @@ install_data(
   'data/alien/README.alien',
   'data/alien/nation_effects.ruleset',
   install_dir : join_paths(get_option('datadir'), 'freeciv/alien')
+  )
+
+install_data(
+  'data/granularity/README.granularity',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/granularity')
   )
 
 install_data(

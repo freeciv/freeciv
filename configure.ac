@@ -1908,6 +1908,7 @@ AC_CONFIG_FILES([Makefile
           data/civ2civ3/Makefile
 	  data/civ1/Makefile
 	  data/civ2/Makefile
+          data/granularity/Makefile
           data/stub/Makefile
           data/stub/nations/Makefile
 	  data/scenarios/Makefile

@@ -87,7 +87,7 @@ CLIENTDATADIRS =
 endif
 
 SRV_RE_DATADIRS = default classic civ1 civ2 sandbox multiplayer \
-                  alien civ2civ3 stub nation
+                  alien civ2civ3 granularity stub nation
 if SERVER
 SERVERDATADIRS = $(SRV_RE_DATADIRS) scenarios
 else
