@@ -638,7 +638,7 @@ helptext       = _("Nets increase ocean tile food production.")
 ;    }
 ;build_time     = 0
 ;removal_time   = 0
-;helptext       = _("")
+;helptext       =
 
 [extra_path]
 name           = _("Path")
@@ -752,12 +752,7 @@ rmact_gfx_alt2 = "-"
 ;
 ; */ <-- avoid gettext warnings
 
-; It's ok to have no base types at all. I have left one, commented out, here as an
-; example
 
-;[base_gbase]
-;extra        = "Generic Base"
-;gui_type     = "Fortress"
 
 ; /* <-- avoid gettext warnings
 ;
