@@ -520,7 +520,8 @@ bool unit_can_convert(const struct civ_map *nmap, const struct unit *punit);
 int unit_pays_mp_for_action(const struct action *paction,
                             const struct unit *punit);
 
-int hp_gain_coord(struct unit *punit);
+int hp_gain_coord(const struct unit *punit);
+int unit_gain_hitpoints(const struct unit *punit);
 bool is_losing_hp(const struct unit *punit);
 bool unit_type_is_losing_hp(const struct player *pplayer,
                             const struct unit_type *punittype);

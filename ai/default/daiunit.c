@@ -2430,27 +2430,28 @@ static void dai_manage_hitpoint_recovery(struct ai_type *ait,
   struct city *pcity = tile_city(unit_tile(punit));
   struct city *safe = NULL;
   const struct unit_type *punittype = unit_type_get(punit);
+  bool no_recovery;
 
   CHECK_UNIT(punit);
 
-  if (pcity) {
-    /* rest in city until the hitpoints are recovered, but attempt
-       to protect city from attack (and be opportunistic too)*/
+  if (pcity != NULL) {
+    /* Rest in the city until the hitpoints are recovered, but attempt
+     * to protect city from attack (and be opportunistic too)*/
     if (dai_military_rampage(punit, RAMPAGE_ANYTHING, 
                              RAMPAGE_FREE_CITY_OR_BETTER)) {
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "recovering hit points.");
     } else {
-      return; /* we died heroically defending our city */
+      return; /* We died heroically defending our city */
     }
   } else {
-    /* goto to nearest city to recover hit points */
-    /* just before, check to see if we can occupy an undefended enemy city */
+    /* Goto to nearest city to recover hit points */
+    /* Just before, check to see if we can occupy an undefended enemy city */
     if (!dai_military_rampage(punit, RAMPAGE_FREE_CITY_OR_BETTER, 
                               RAMPAGE_FREE_CITY_OR_BETTER)) { 
-      return; /* oops, we died */
+      return; /* Oops, we died */
     }
 
-    /* find city to stay and go there */
+    /* Find a city to stay and go there */
     safe = find_nearest_safe_city(punit);
     if (safe) {
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover",
@@ -2460,7 +2461,7 @@ static void dai_manage_hitpoint_recovery(struct ai_type *ait,
         return;
       }
     } else {
-      /* oops */
+      /* Oops */
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "didn't find a city to recover in!");
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       dai_military_attack(ait, pplayer, punit);
@@ -2468,14 +2469,28 @@ static void dai_manage_hitpoint_recovery(struct ai_type *ait,
     }
   }
 
-  /* is the unit still damaged? if true recover hit points, if not idle */
+  /* Is the unit still damaged? If true, and could recover hit points, do so.
+   * Don't wait if would be losing hitpoints that way! */
+  no_recovery = FALSE;
   if (punit->hp == punittype->hp) {
-    /* we are ready to go out and kick ass again */
+    no_recovery = TRUE;
+  } else {
+    int gain = unit_gain_hitpoints(punit);
+
+    if (gain < 0) {
+      no_recovery = TRUE;
+    } else if (gain == 0 && !punit->moved) {
+      /* Isn't gaining even though has not moved. */
+      no_recovery = TRUE;
+    }
+  }
+  if (no_recovery) {
+    /* We are ready to go out and kick ass again */
     UNIT_LOG(LOGLEVEL_RECOVERY, punit, "ready to kick ass again!");
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);  
     return;
   } else {
-    def_ai_unit_data(punit, ait)->done = TRUE; /* sit tight */
+    def_ai_unit_data(punit, ait)->done = TRUE; /* Sit tight */
   }
 }
 

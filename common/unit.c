@@ -2186,14 +2186,9 @@ int unit_pays_mp_for_action(const struct action *paction,
 }
 
 /**********************************************************************//**
-  returns how many hp's a unit will gain standing still on current tile
-  depends on whether or not it's inside city or fortress.
-  barracks will regen landunits completely
-  airports will regen airunits  completely
-  ports    will regen navalunits completely
-  fortify will add a little extra.
+  Returns how many hp's a unit will gain standing still on current tile.
 **************************************************************************/
-int hp_gain_coord(struct unit *punit)
+int hp_gain_coord(const struct unit *punit)
 {
   int hp = 0;
   const int base = unit_type_get(punit)->hp;
@@ -2209,6 +2204,51 @@ int hp_gain_coord(struct unit *punit)
   hp += ceil(base / 10) * get_unit_bonus(punit, EFT_HP_REGEN_2) / 10;
 
   return MAX(hp, 0);
+}
+
+/**********************************************************************//**
+  How many hitpoints does unit recover?
+**************************************************************************/
+int unit_gain_hitpoints(const struct unit *punit)
+{
+  const struct unit_type *utype = unit_type_get(punit);
+  struct unit_class *pclass = unit_class_get(punit);
+  struct city *pcity = tile_city(unit_tile(punit));
+  int gain;
+
+  if (!punit->moved) {
+    gain = hp_gain_coord(punit);
+  } else {
+    gain = 0;
+  }
+
+  gain += get_unit_bonus(punit, EFT_UNIT_RECOVER);
+
+  if (!punit->homecity && 0 < game.server.killunhomed
+      && !unit_has_type_flag(punit, UTYF_GAMELOSS)) {
+    /* Hit point loss of units without homecity; at least 1 hp! */
+    /* Gameloss units are immune to this effect. */
+    int hp_loss = MAX(utype->hp * game.server.killunhomed / 100, 1);
+
+    if (gain > hp_loss) {
+      gain = -1;
+    } else {
+      gain -= hp_loss;
+    }
+  }
+
+  if (pcity == NULL && !tile_has_native_base(unit_tile(punit), utype)
+      && !unit_transported(punit)) {
+    gain -= utype->hp * pclass->hp_loss_pct / 100;
+  }
+
+  if (punit->hp + gain > utype->hp) {
+    gain = utype->hp - punit->hp;
+  } else if (punit->hp + gain < 0) {
+    gain = -punit->hp;
+  }
+
+  return gain;
 }
 
 /**********************************************************************//**
