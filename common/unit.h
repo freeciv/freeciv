@@ -322,8 +322,8 @@ bool can_unit_load(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_unload(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
                                      const struct unit *ptrans);
-bool can_unit_teleport(const struct unit *punit);
-bool can_unit_paradrop(const struct unit *punit);
+bool can_unit_teleport(const struct civ_map *nmap, const struct unit *punit);
+bool can_unit_paradrop(const struct civ_map *nmap, const struct unit *punit);
 bool can_unit_change_homecity_to(const struct unit *punit,
                                  const struct city *pcity);
 bool can_unit_change_homecity(const struct unit *punit);

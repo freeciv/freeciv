@@ -2587,7 +2587,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("UNIT_SENTRY",
                            can_units_do_activity_client(punits, ACTIVITY_SENTRY));
   menu_entry_set_sensitive("DO_PARADROP",
-                           can_units_do(punits, can_unit_paradrop));
+                           can_units_do_on_map(&(wld.map), punits, can_unit_paradrop));
   /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases
    * where selecting the command results in a dialog box listing options of
    * what to pillage */

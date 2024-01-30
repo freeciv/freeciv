@@ -1112,7 +1112,7 @@ int unit_actions::update_actions()
   }
 
   // Paradrop
-  if (can_unit_paradrop(current_unit)) {
+  if (can_unit_paradrop(&(wld.map), current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_PARADROP;
     a->set_pixmap(fc_icons::instance()->get_pixmap("paradrop"));

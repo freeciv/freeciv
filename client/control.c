@@ -2223,7 +2223,7 @@ void request_unit_paradrop(struct unit_list *punits)
     return;
   }
   unit_list_iterate(punits, punit) {
-    if (can_unit_paradrop(punit)) {
+    if (can_unit_paradrop(&(wld.map), punit)) {
       can = TRUE;
       break;
     }
@@ -2260,7 +2260,7 @@ static void request_unit_teleport(struct unit_list *punits)
   }
 
   unit_list_iterate(punits, punit) {
-    if (can_unit_teleport(punit)) {
+    if (can_unit_teleport(&(wld.map), punit)) {
       can = TRUE;
       break;
     }
