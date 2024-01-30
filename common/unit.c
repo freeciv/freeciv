@@ -816,10 +816,8 @@ bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
   a friendly city or on an airbase special, has enough movepoints left, and
   has not paradropped yet this turn.
 **************************************************************************/
-bool can_unit_paradrop(const struct unit *punit)
+bool can_unit_paradrop(const struct civ_map *nmap, const struct unit *punit)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   action_by_result_iterate(paction, ACTRES_PARADROP) {
     if (action_maybe_possible_actor_unit(nmap, paction->id, punit)) {
       return TRUE;

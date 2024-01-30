@@ -200,23 +200,23 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
 {
   struct city *pcity = tile_city(unit_tile(punit));
   struct tile *ptile_dest = NULL;
-
+  const struct civ_map *nmap = &(wld.map);
   int sanity = punit->id;
 
-  /* defend attacking (and be opportunistic too) */
+  /* Defend attacking (and be opportunistic too) */
   if (!dai_military_rampage(punit, RAMPAGE_ANYTHING,
                             RAMPAGE_FREE_CITY_OR_BETTER)) {
-    /* dead */
+    /* Dead */
     return;
   }
 
-  /* check to recover hit points */
+  /* Check to recover hit points */
   if ((punit->hp < unit_type_get(punit)->hp / 2) && pcity) {
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Recovering hit points.");
     return;
   }
 
-  /* nothing to do! */
+  /* Nothing to do! */
   if (punit->moves_left == 0) {
     return;
   }
@@ -226,7 +226,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
     return;
   }
 
-  if (can_unit_paradrop(punit)) {
+  if (can_unit_paradrop(nmap, punit)) {
     ptile_dest = find_best_tile_to_paradrop_to(ait, punit);
 
     if (ptile_dest) {
@@ -277,17 +277,17 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
       }
     }
   } else {
-    /* we can't paradrop :-(  */
+    /* We can't paradrop :-(  */
     struct city *acity = NULL;
 
-    /* we are in a city, so don't try to find another */
+    /* We are in a city, so don't try to find another */
     if (pcity) {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
 	       "waiting in a city for next turn.");
       return;
     }
 
-    /* find a city to go to recover and paradrop from */
+    /* Find a city to go to recover and paradrop from */
     acity = find_nearest_safe_city(punit);
 
     if (acity) {

@@ -3783,7 +3783,7 @@ void real_menus_update(void)
                            can_units_do_activity_client(punits,
                                                         ACTIVITY_FORTIFYING));
   menu_entry_set_sensitive(map, "PARADROP",
-                           can_units_do(punits, can_unit_paradrop));
+                           can_units_do_on_map(&(wld.map), punits, can_unit_paradrop));
   menu_entry_set_sensitive(map, "PILLAGE",
                            can_units_do_activity_client(punits, ACTIVITY_PILLAGE));
   menu_entry_set_sensitive(map, "CLEAN",

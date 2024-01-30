@@ -1303,7 +1303,7 @@ void real_menus_update(void)
         set_wflag(order_pollution_button, WF_HIDDEN);
       }
 
-      if (can_unit_paradrop(punit)) {
+      if (can_unit_paradrop(&(wld.map), punit)) {
         local_show(ID_UNIT_ORDER_PARADROP);
       } else {
         local_hide(ID_UNIT_ORDER_PARADROP);

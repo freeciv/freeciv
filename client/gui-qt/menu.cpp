@@ -2408,7 +2408,7 @@ void mr_menu::menus_sensitive()
 
       case POLLUTION:
         if (can_units_do_activity_client(punits, ACTIVITY_POLLUTION)
-            || can_units_do(punits, can_unit_paradrop)) {
+            || can_units_do_on_map(&(wld.map), punits, can_unit_paradrop)) {
           i.value()->setEnabled(true);
         }
         if (units_can_do_action_with_result(punits, ACTRES_PARADROP,
@@ -2675,9 +2675,9 @@ void mr_menu::slot_clean_pollution()
                                 unit_owner(punit), punit);
     if (pextra != NULL) {
       request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
-    } else if (can_unit_paradrop(punit)) {
+    } else if (can_unit_paradrop(&(wld.map), punit)) {
       /* FIXME: This is getting worse, we use a key_unit_*() function
-       * which assign the order for all units!  Very bad! */
+       * which assign the order for all units! Very bad! */
       key_unit_paradrop();
     }
   } unit_list_iterate_end;
