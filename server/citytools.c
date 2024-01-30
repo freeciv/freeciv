@@ -1977,6 +1977,9 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
+#ifndef FREECIV_NDEBUG
+  const struct unit_type *utype = unit_type_get(punit);
+#endif
 
   /* If not at war, may peacefully enter city. */
   fc_assert_ret_val_msg(pplayers_at_war(pplayer, cplayer), FALSE,
@@ -1985,16 +1988,8 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
   /* If we cannot occupy the city, this unit entering will not trigger
    * effects below. */
   fc_assert_ret_val_msg(unit_can_take_over(punit)
-                        || utype_can_do_action(unit_type_get(punit),
-                                               ACTION_PARADROP_CONQUER)
-                        || utype_can_do_action(unit_type_get(punit),
-                                               ACTION_PARADROP_FRIGHTEN_CONQUER)
-                        || utype_can_do_action(unit_type_get(punit),
-                                               ACTION_PARADROP_ENTER_CONQUER)
-                        || utype_can_do_action(unit_type_get(punit),
-                                               ACTION_TELEPORT_FRIGHTEN_CONQUER)
-                        || utype_can_do_action(unit_type_get(punit),
-                                               ACTION_TELEPORT_ENTER_CONQUER),
+                        || utype_can_do_action_result(utype, ACTRES_PARADROP_CONQUER)
+                        || utype_can_do_action_result(utype, ACTRES_TELEPORT_CONQUER),
                         FALSE, "Bad unit for city occupation.");
 
   /* A transported unit trying to conquer a city should already have been
