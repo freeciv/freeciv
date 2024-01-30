@@ -618,7 +618,7 @@ void player_restore_units(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  add hitpoints to the unit, hp_gain_coord returns the amount to add
+  Add hitpoints to the unit, hp_gain_coord returns the amount to add
   united nations will speed up the process by 2 hp's / turn, means helicopters
   will actually not lose hp's every turn if player have that wonder.
   Units which have moved don't gain hp, except the United Nations and
@@ -630,43 +630,19 @@ void player_restore_units(struct player *pplayer)
 static void unit_restore_hitpoints(struct unit *punit)
 {
   bool was_lower;
-  int save_hp;
-  struct unit_class *pclass = unit_class_get(punit);
-  struct city *pcity = tile_city(unit_tile(punit));
+  const struct unit_type *utype = unit_type_get(punit);
 
-  was_lower = (punit->hp < unit_type_get(punit)->hp);
-  save_hp = punit->hp;
+  was_lower = (punit->hp < utype->hp);
 
-  if (!punit->moved) {
-    punit->hp += hp_gain_coord(punit);
-  }
+  punit->hp += unit_gain_hitpoints(punit);
 
-  /* Bonus recovery HP (traditionally from the United Nations) */
-  punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
+  fc_assert(punit->hp >= 0);
+  fc_assert(punit->hp <= utype->hp);
 
-  if (!punit->homecity && 0 < game.server.killunhomed
-      && !unit_has_type_flag(punit, UTYF_GAMELOSS)) {
-    /* Hit point loss of units without homecity; at least 1 hp! */
-    /* Gameloss units are immune to this effect. */
-    int hp_loss = MAX(unit_type_get(punit)->hp * game.server.killunhomed / 100,
-                      1);
-    punit->hp = MIN(punit->hp - hp_loss, save_hp - 1);
-  }
-
-  if (!pcity && !tile_has_native_base(unit_tile(punit), unit_type_get(punit))
-      && !unit_transported(punit)) {
-    punit->hp -= unit_type_get(punit)->hp * pclass->hp_loss_pct / 100;
-  }
-
-  if (punit->hp >= unit_type_get(punit)->hp) {
-    punit->hp = unit_type_get(punit)->hp;
+  if (punit->hp == utype->hp) {
     if (was_lower && punit->activity == ACTIVITY_SENTRY) {
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
-  }
-
-  if (punit->hp < 0) {
-    punit->hp = 0;
   }
 
   punit->moved = FALSE;
