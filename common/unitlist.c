@@ -105,6 +105,24 @@ bool can_units_do(const struct unit_list *punits,
 }
 
 /************************************************************************//**
+  Return TRUE if the function returns true for any of the units,
+  on specific map.
+****************************************************************************/
+bool can_units_do_on_map(const struct civ_map *nmap,
+                         const struct unit_list *punits,
+                         bool (can_fn)(const struct civ_map *nmap,
+                                       const struct unit *punit))
+{
+  unit_list_iterate(punits, punit) {
+    if (can_fn(nmap, punit)) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/************************************************************************//**
   Returns TRUE if any of the units can do the activity.
 ****************************************************************************/
 bool can_units_do_activity(const struct civ_map *nmap,

@@ -820,10 +820,8 @@ bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
   a friendly city or on an airbase special, has enough movepoints left, and
   has not paradropped yet this turn.
 **************************************************************************/
-bool can_unit_teleport(const struct unit *punit)
+bool can_unit_teleport(const struct civ_map *nmap, const struct unit *punit)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   action_by_result_iterate(paction, ACTRES_TELEPORT) {
     if (action_maybe_possible_actor_unit(nmap, action_id(paction), punit)) {
       return TRUE;
@@ -838,10 +836,8 @@ bool can_unit_teleport(const struct unit *punit)
   a friendly city or on an airbase special, has enough movepoints left, and
   has not paradropped yet this turn.
 **************************************************************************/
-bool can_unit_paradrop(const struct unit *punit)
+bool can_unit_paradrop(const struct civ_map *nmap, const struct unit *punit)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   action_by_result_iterate(paction, ACTRES_PARADROP) {
     if (action_maybe_possible_actor_unit(nmap, action_id(paction), punit)) {
       return TRUE;

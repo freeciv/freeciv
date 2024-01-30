@@ -2421,7 +2421,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case PARADROP:
-        if (can_units_do(punits, can_unit_paradrop)) {
+        if (can_units_do_on_map(&(wld.map), punits, can_unit_paradrop)) {
           i.value()->setEnabled(true);
           i.value()->setText(QString(action_id_name_translation(ACTION_PARADROP))
                              .replace("&", "&&"));
@@ -2755,7 +2755,7 @@ void mr_menu::slot_transform()
 void mr_menu::slot_paradrop()
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_paradrop(punit)) {
+    if (can_unit_paradrop(&(wld.map), punit)) {
       key_unit_paradrop();
     }
   } unit_list_iterate_end;

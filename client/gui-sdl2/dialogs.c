@@ -1880,7 +1880,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile,
 #endif /* 0 */
 
     /* FIXME: This logic seems to try to mirror do_paradrop() why? */
-    if (can_unit_paradrop(focus_unit) && client_tile_get_known(ptile)
+    if (can_unit_paradrop(&(wld.map), focus_unit) && client_tile_get_known(ptile)
         && !(((pcity && pplayers_non_attack(client.conn.playing, city_owner(pcity)))
               || is_non_attack_unit_tile(ptile, client.conn.playing)))
         && (unit_type_get(focus_unit)->paratroopers_range >=

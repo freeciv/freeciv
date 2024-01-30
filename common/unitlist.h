@@ -71,6 +71,10 @@ void unit_list_sort_ord_city(struct unit_list *punitlist);
 
 bool can_units_do(const struct unit_list *punits,
                   bool (can_fn)(const struct unit *punit));
+bool can_units_do_on_map(const struct civ_map *nmap,
+                         const struct unit_list *punits,
+                         bool (can_fn)(const struct civ_map *nmap,
+                                       const struct unit *punit));
 bool can_units_do_activity(const struct civ_map *nmap,
                            const struct unit_list *punits,
                            enum unit_activity activity);
