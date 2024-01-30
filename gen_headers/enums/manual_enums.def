@@ -1,10 +1,6 @@
 # Specenum definitions for tools/manual/fc_manual.h
 # See gen_headers/generate_enums.py for syntax
 
-# When modifying this, remember to regenerate the header.
-# From the gen_headers/enums directory, this can be done with
-# $ ../generate_enums.py manual_enums_gen.h manual_enums.def
-
 enum manuals
   count MANUAL_COUNT
 values
