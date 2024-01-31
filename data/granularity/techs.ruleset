@@ -144,6 +144,15 @@ graphic     = "a.animal_taming"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_archery]
+name        = _("Archery")
+req1        = "Combat Practice"
+req2        = "None"
+flags       = ""
+graphic     = "a.archery"
+graphic_alt = "-"
+;helptext    =
+
 [advance_art]
 name        = _("Art")
 req1        = "Pottery"
@@ -190,6 +199,17 @@ flags       = ""
 graphic     = "a.cave_painting"
 graphic_alt = "-"
 helptext    = _("Cave Paintings record hunting and fights.")
+
+[advance_combat_practice]
+name        = _("Combat Practice")
+req1        = "Government"
+req2        = "Animal Taming"
+flags       = ""
+graphic     = "a.combat_practice"
+graphic_alt = "-"
+helptext    = _("\
+Also humans can be trained.\
+")
 
 [advance_counting]
 name        = _("Counting")
@@ -307,17 +327,6 @@ graphic     = "a.masonry"
 graphic_alt = "-"
 ;helptext    =
 
-[advance_military_training]
-name        = _("Military Training")
-req1        = "Government"
-req2        = "Animal Taming"
-flags       = ""
-graphic     = "a.military_training"
-graphic_alt = "-"
-helptext    = _("\
-Also humans can be trained.\
-")
-
 [advance_mining]
 name        = _("Mining")
 req1        = "Carving"
@@ -407,7 +416,7 @@ Allows more efficient use of production resources.\
 [advance_trenches]
 name        = _("Trenches")
 req1        = "Mining"
-req2        = "Military Training"
+req2        = "Combat Practice"
 flags       = ""
 graphic     = "a.trenches"
 graphic_alt = "-"

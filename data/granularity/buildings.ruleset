@@ -84,7 +84,7 @@ name		= _("Barracks")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
-      "Tech", "Military Training", "Player"
+      "Tech", "Combat Practice", "Player"
     }
 graphic         = "b.barracks"
 graphic_alt     = "b.barracks_i"
