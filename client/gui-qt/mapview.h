@@ -84,7 +84,7 @@ class map_view : public QWidget
 public:
   map_view();
   void paint(QPainter *painter, QPaintEvent *event);
-  void find_place(int pos_x, int pos_y, int &w, int &h, int wdth, int hght, 
+  void find_place(int pos_x, int pos_y, int &w, int &h, int wdth, int hght,
                   int recursive_nr);
   void resume_searching(int pos_x, int pos_y, int &w, int &h,
                         int wdth, int hght, int recursive_nr);

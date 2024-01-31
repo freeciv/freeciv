@@ -189,7 +189,7 @@ private:
 private slots:
   void req_meeeting();
   void req_caancel_threaty(); /** somehow autoconnect feature messes
-                               *  here and names are bit odd to cheat 
+                               *  here and names are bit odd to cheat
                                *  autoconnect */
   void req_wiithdrw_vision();
   void toggle_ai_mode();
