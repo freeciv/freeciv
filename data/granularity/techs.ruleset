@@ -222,6 +222,15 @@ helptext    = _("\
 Allows collecting taxes without miscalculation penalties.\
 ")
 
+[advance_deception]
+name        = _("Deception")
+req1        = "Diplomacy"
+req2        = "None"
+flags       = ""
+graphic     = "a.deception"
+graphic_alt = "-"
+;helptext    =
+
 [advance_diplomacy]
 name        = _("Diplomacy")
 req1        = "Government"
@@ -252,7 +261,7 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 
 [advance_flight]
 name        = _("Flight")
-req1        = "Maps"
+req1        = "Deception"
 req2        = "Trenches"
 flags       = ""
 graphic     = "a.flight"

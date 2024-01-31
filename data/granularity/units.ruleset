@@ -534,6 +534,41 @@ Hunters and their dogs can mostly provide upkeep for themselves, not requiring \
 as much of it from their homecity.\
 ")
 
+[unit_mercenaries]
+name          = _("Mercenaries")
+class         = "Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Deception", "Player"
+  }
+obsolete_by   = "None"
+graphic       = "u.mercenaries"
+graphic_alt   = "u.archers"
+sound_move    = "m_mercenaries"
+sound_move_alt = "m_generic"
+sound_fight   = "f_mercenaries"
+sound_fight_alt = "f_generic"
+build_cost    = 2000
+pop_cost      = 0
+attack        = 20
+defense       = 10
+hitpoints     = 10
+firepower     = 1
+move_rate     = 50
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 50
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+flags         = "Flagless"
+;roles         =
+helptext      = _("\
+Mercenaries are not bound to march under specific flag, but can be serving any master.\
+")
+
 [unit_archers]
 name          = _("Archers")
 class         = "Land"
