@@ -3,10 +3,15 @@
 options = "+Freeciv-modpack-3.2-Devel-2021.Jun.01"
 
 [modpack]
+; Name of the modpack
 name = "goldkeep"
 
 [components]
+; Whether the modpack has a ruleset component
 ruleset = TRUE
 
 [ruleset]
+; For modpacks with the ruleset component, either "rulesetdir" or "serv" needs to be defined.
+; - "rulesetdir" gives the directory where the ruleset is
+; - "serv" gives a server script to load, and which assumed to also set the rulesetdir
 rulesetdir = "goldkeep"
