@@ -492,11 +492,15 @@ static void activated_topic(GtkTreeView *view, gpointer data)
 
   model = gtk_tree_view_get_model(view);
 
+  if (model == NULL) {
+    return;
+  }
+
   gtk_tree_view_get_cursor(view, &path, &col);
   gtk_tree_model_get_iter(model, &it, path);
   gtk_tree_path_free(path);
 
-  if (!path) {
+  if (path == NULL) {
     return;
   }
 
