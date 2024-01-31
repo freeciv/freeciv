@@ -559,6 +559,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_FORTIFY, ACTRES_FORTIFY,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_FORTIFY2] =
+      unit_action_new(ACTION_FORTIFY2, ACTRES_FORTIFY,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_ROAD] =
       unit_action_new(ACTION_ROAD, ACTRES_ROAD,
                       TRUE, FALSE,
@@ -5855,6 +5859,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_clean";
   case ACTION_FORTIFY:
     return "ui_name_fortify";
+  case ACTION_FORTIFY2:
+    return "ui_name_fortify_2";
   case ACTION_ROAD:
     return "ui_name_build_road";
   case ACTION_ROAD2:
@@ -6201,6 +6207,7 @@ const char *action_ui_name_default(int act)
     /* TRANS: Clean (100% chance of success). */
     return N_("%sClean%s");
   case ACTION_FORTIFY:
+  case ACTION_FORTIFY2:
     /* TRANS: _Fortify (100% chance of success). */
     return N_("%sFortify%s");
   case ACTION_ROAD:
@@ -6397,6 +6404,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
+  case ACTION_FORTIFY2:
   case ACTION_ROAD:
   case ACTION_ROAD2:
   case ACTION_CONVERT:
@@ -6565,6 +6573,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
+  case ACTION_FORTIFY2:
   case ACTION_ROAD:
   case ACTION_ROAD2:
   case ACTION_CONVERT:
@@ -6747,6 +6756,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_PLANT2:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
+  case ACTION_FORTIFY2:
   case ACTION_ROAD:
   case ACTION_ROAD2:
   case ACTION_CONVERT:
@@ -7117,6 +7127,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
+  case ACTION_FORTIFY2:
   case ACTION_ROAD:
   case ACTION_ROAD2:
   case ACTION_CONVERT:
@@ -7336,6 +7347,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
+  case ACTION_FORTIFY2:
   case ACTION_ROAD:
   case ACTION_ROAD2:
   case ACTION_CONVERT:
@@ -7492,6 +7504,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_PILLAGE:
   case ACTION_CLEAN:
   case ACTION_FORTIFY:
+  case ACTION_FORTIFY2:
   case ACTION_ROAD:
   case ACTION_ROAD2:
   case ACTION_CONVERT:

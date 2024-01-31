@@ -129,6 +129,7 @@ values
   ACTION_CLEAN                            "Clean"
   ACTION_COLLECT_RANSOM                   "Collect Ransom"
   ACTION_FORTIFY                          "Fortify"
+  ACTION_FORTIFY2                         "Fortify 2"
   ACTION_CULTIVATE                        "Cultivate"
   ACTION_CULTIVATE2                       "Cultivate 2"
   ACTION_PLANT                            "Plant"

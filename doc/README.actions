@@ -1658,6 +1658,10 @@ Actions done by a unit to it self
  * UI name can be set using ui_name_fortify
  * the actor unit can't already be fortified (!)
 
+"Fortify 2"         - Fortify at tile
+ * UI name can be set using ui_name_fortify_2
+ * See "Fortify" for everything else.
+
 "Convert Unit" - Convert the unit to another unit type.
  * UI name can be set using ui_name_convert_unit
  * actor unit must have a type to convert to (convert_to).
