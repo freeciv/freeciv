@@ -841,38 +841,6 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
   endif
 endif
 
-if get_option('clients').contains('sdl3')
-  if host_system == 'windows'
-    sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL3main', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL3', dirs: cross_lib_path)]
-  else
-    if emscripten
-      emscripten_sdl3_args = [
-        '-s', 'USE_SDL=2'
-      ]
-
-      if get_option('audio')
-        emscripten_sdl3_args += [ '-s', 'USE_SDL_MIXER=2' ]
-      endif
-
-      if get_option('clients').contains('sdl2')
-        emscripten_sdl3_args += [
-          '-s', 'USE_SDL_IMAGE=2',
-          '-s', 'USE_SDL_TTF=2',
-          '-s', 'USE_SDL_GFX=2'
-        ]
-      endif
-
-      add_global_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
-      add_global_link_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
-      sdl3main_dep = []
-    else
-      sdl3main_dep = [c_compiler.find_library('SDL3', dirs: cross_lib_path)]
-    endif
-  endif
-endif
-
 if get_option('qtver') == 'qt5'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
   priv_conf_data.set('FC_QT5_MODE', 1)
