@@ -1461,7 +1461,7 @@ void city_build_free_buildings(struct city *pcity)
         || (game.server.savepalace
             && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
       city_add_improvement_with_gov_notice(pcity, pimprove,
-         /* TRANS: Reason that a building as added to the city.
+         /* TRANS: Reason that a building was added to the city.
           *        Building is given for free to player's first city. */
                                            Q_("?initbldg:Free %s"));
       if (is_small_wonder(pimprove)) {
@@ -1484,7 +1484,7 @@ void city_build_free_buildings(struct city *pcity)
         || (game.server.savepalace
             && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
       city_add_improvement_with_gov_notice(pcity, pimprove,
-         /* TRANS: Reason that a building as added to the city.
+         /* TRANS: Reason that a building was added to the city.
           *        Building is given for free to player's first city. */
                                            Q_("?initbldg:Free %s"));
       if (is_small_wonder(pimprove)) {
