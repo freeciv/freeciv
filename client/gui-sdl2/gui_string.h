@@ -60,9 +60,10 @@ typedef struct utf8_str {
   char *text;
 } utf8_str;
 
+/* .._PLUS might end up being same as its base size */
 enum font_origin {
   FONTO_DEFAULT,
-  FONTO_SLIGHTLY_BIGGER,
+  FONTO_DEFAULT_PLUS,
   FONTO_ATTENTION,
   FONTO_ATTENTION_PLUS,
   FONTO_HEADING,
