@@ -169,7 +169,7 @@ static Uint16 fonto_ptsize(enum font_origin origin)
   case FONTO_DEFAULT:
     /* Rely on create_utf8_str() default */
     return 0;
-  case FONTO_SLIGHTLY_BIGGER:
+  case FONTO_DEFAULT_PLUS:
     def = ptsize_default();
     return adj_font(MAX(def + 0, def * 1.1)); /* Same as def, when def < 10 */
   case FONTO_ATTENTION:

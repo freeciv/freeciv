@@ -998,7 +998,7 @@ static void create_city_options_widget_list(struct city *pcity)
   /* ----- */
 
   fc_snprintf(cbuf, sizeof(cbuf), "%s:", _("New citizens produce"));
-  pstr = create_utf8_from_char_fonto(cbuf, FONTO_SLIGHTLY_BIGGER);
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT_PLUS);
   pstr->style |= SF_CENTER;
 
   if (BV_ISSET(pcity->city_options, CITYO_SCIENCE_SPECIALISTS)) {
@@ -1954,7 +1954,7 @@ static void redraw_info_city_dialog(struct widget *city_window,
 
   FREESURFACE(surf);
 
-  change_fonto_utf8(pstr, FONTO_SLIGHTLY_BIGGER);
+  change_fonto_utf8(pstr, FONTO_DEFAULT_PLUS);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_INFOPANEL);
 
   if (pcity->pollution) {

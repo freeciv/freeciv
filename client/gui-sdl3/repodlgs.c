@@ -2018,7 +2018,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   /* It is important to leave 1 space at the end of this string. */
   fc_snprintf(cbuf, sizeof(cbuf), "%d%% ", client.conn.playing->economic.luxury);
-  pstr = create_utf8_from_char_fonto(cbuf, FONTO_SLIGHTLY_BIGGER);
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT_PLUS);
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_iconlabel(icons->big_luxury, pwindow->dst, pstr,
@@ -2063,7 +2063,7 @@ void economy_report_dialog_popup(bool make_modal)
   /* Science rate iconlabel */
   /* It is important to leave 1 space at the end of this string */
   fc_snprintf(cbuf, sizeof(cbuf), "%d%% ", client.conn.playing->economic.science);
-  pstr = create_utf8_from_char_fonto(cbuf, FONTO_SLIGHTLY_BIGGER);
+  pstr = create_utf8_from_char_fonto(cbuf, FONTO_DEFAULT_PLUS);
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_iconlabel(icons->big_colb, pwindow->dst, pstr,
