@@ -1169,7 +1169,8 @@ else
     include_directories : ['dependencies/lua-5.4/src',
                            'dependencies/tolua-5.2/include'],
     link_with: fc_deps,
-    dependencies: m_dep
+    dependencies: m_dep,
+    win_subsystem: 'console'
   )
 endif
 
@@ -1497,7 +1498,8 @@ if server_type != 'disabled'
     include_directories: server_inc,
     link_with: [server_lib, common_lib, ais],
     dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
-    install: true
+    install: true,
+    win_subsystem: 'console'
     )
 
   install_data(
@@ -3248,7 +3250,8 @@ executable('freeciv-gtk3.22',
   include_directories: client_inc,
   dependencies: [gtk322_dep, net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data('data/gtk3.22_menus.xml',
@@ -3338,7 +3341,8 @@ executable('freeciv-gtk4',
   include_directories: client_inc,
   dependencies: [gtk4_dep, net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data('data/themes/gtk4/Freeciv/gtk-4.0/gtk.css',
@@ -3425,7 +3429,8 @@ executable('freeciv-gtk4x',
   include_directories: client_inc,
   dependencies: [gtk5_dep, net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data(
@@ -3532,7 +3537,9 @@ executable('freeciv-qt',
   dependencies: [qt_dep, net_dep, gettext_dep, mw_extra_dep],
   override_options: qt_opts,
   link_with: client_common,
-  install: true)
+  install: true,
+  win_subsystem: 'windows'
+  )
 
 install_data(
   'data/themes/gui-qt/icons/ai.png',
@@ -3779,7 +3786,8 @@ executable('freeciv-sdl2',
                  sdl2_image_dep, sdl2_gfx_dep, sdl2_ttf_dep,
                  net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data('data/themes/gui-sdl2/human/backgrounds.themespec',
@@ -3911,7 +3919,8 @@ executable('freeciv-sdl2x',
                  sdl3_image_dep, sdl3_gfx_dep, sdl3_ttf_dep,
                  net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data('data/themes/gui-sdl2/human/backgrounds.themespec',
@@ -4008,7 +4017,8 @@ executable('freeciv-stub',
   include_directories: client_inc,
   dependencies: [audio_dep, net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
-  install: true
+  install: true,
+  win_subsystem: 'console'
   )
 
 endif
@@ -4048,7 +4058,8 @@ executable('freeciv-mp-gtk3',
   include_directories: tool_inc,
   dependencies: [gtk322_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data(
@@ -4083,7 +4094,8 @@ executable('freeciv-mp-gtk4',
   include_directories: tool_inc,
   dependencies: [gtk4_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data(
@@ -4117,7 +4129,8 @@ executable('freeciv-mp-gtk4x',
   include_directories: tool_inc,
   dependencies: [gtk5_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data(
@@ -4159,7 +4172,8 @@ executable('freeciv-mp-qt',
   dependencies: [qt_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
   override_options: qt_opts,
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data(
@@ -4185,7 +4199,8 @@ executable('freeciv-mp-cli',
   include_directories: tool_inc,
   dependencies: [sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
-  install: true
+  install: true,
+  win_subsystem: 'console'
   )
 
 endif
@@ -4211,7 +4226,8 @@ executable('freeciv-ruleup',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
   dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
-  install: true
+  install: true,
+  win_subsystem: 'console'
   )
 
 endif
@@ -4286,7 +4302,8 @@ executable('freeciv-ruledit',
                  mw_extra_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
   override_options: qt_opts,
-  install: true
+  install: true,
+  win_subsystem: 'windows'
   )
 
 install_data(
@@ -4327,7 +4344,8 @@ executable('freeciv-manual',
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
   dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
-  install: true
+  install: true,
+  win_subsystem: 'console'
   )
 
 endif
