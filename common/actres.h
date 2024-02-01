@@ -149,6 +149,8 @@ int actres_min_range_default(enum action_result result);
 int actres_max_range_default(enum action_result result);
 enum action_target_kind
 actres_target_kind_default(enum action_result result);
+enum action_sub_target_kind
+actres_sub_target_kind_default(enum action_result result);
 
 #ifdef __cplusplus
 }
