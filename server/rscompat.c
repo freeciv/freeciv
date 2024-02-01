@@ -1557,7 +1557,9 @@ void rscompat_postprocess(struct rscompat_info *info)
       for (i = 0; i < ARRAY_SIZE(base_to_extra_flag_map_3_0); i++) {
         if (BV_ISSET(pbase->flags, base_to_extra_flag_map_3_0[i].from)) {
           /* Set the *extra* user flag */
-          BV_SET(pextra->flags, base_to_extra_flag_map_3_0[i].to);
+          if (extra_flag_id_is_valid(base_to_extra_flag_map_3_0[i].to)) {
+            BV_SET(pextra->flags, base_to_extra_flag_map_3_0[i].to);
+          }
           /* Remove the retired *base* flag. */
           BV_CLR(pbase->flags, base_to_extra_flag_map_3_0[i].from);
         }
