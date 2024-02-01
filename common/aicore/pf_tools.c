@@ -957,12 +957,13 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 /************************************************************************//**
   Fill default parameters for reverse map.
 ****************************************************************************/
-void pft_fill_reverse_parameter(struct pf_parameter *parameter,
+void pft_fill_reverse_parameter(const struct civ_map *nmap,
+                                struct pf_parameter *parameter,
                                 struct tile *target_tile)
 {
   memset(parameter, 0, sizeof(*parameter));
 
-  parameter->map = &(wld.map);
+  parameter->map = nmap;
 
   /* We ignore refuel bases in reverse mode. */
   parameter->fuel = 1;
