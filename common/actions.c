@@ -7415,7 +7415,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
 
   if (!(action_has_result(act, ACTRES_SPY_BRIBE_UNIT)
         || action_has_result(act, ACTRES_ATTACK)
-        || action_has_result(act, ACTRES_WIPE_UNITS))) {
+        || action_has_result(act, ACTRES_WIPE_UNITS)
+        || action_has_result(act, ACTRES_COLLECT_RANSOM))) {
     /* No support in the action performer function */
     return NULL;
   }
