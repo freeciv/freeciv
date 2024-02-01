@@ -235,6 +235,7 @@ struct civ_game {
                           * the server we need to remember the old setting */
       bool last_updated_year; /* last_updated is still counted as year in this
                                * game. */
+      int world_peace_start;
       char rulesetdir[MAX_LEN_NAME];
       char demography[MAX_LEN_DEMOGRAPHY];
       char allow_take[MAX_LEN_ALLOW_TAKE];

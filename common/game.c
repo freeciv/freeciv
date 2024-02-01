@@ -306,7 +306,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.trading_gold     = GAME_DEFAULT_TRADING_GOLD;
   game.info.trading_tech     = GAME_DEFAULT_TRADING_TECH;
   game.info.turn             = 0;
-  game.info.warminglevel     = 0; /* set later */
+  game.info.warminglevel     = 0; /* Set later */
   game.info.year_0_hack      = FALSE;
   game.info.year             = GAME_DEFAULT_START_YEAR;
   game.info.top_cities_count = GAME_DEFAULT_TOP_CITIES_COUNT;
@@ -429,6 +429,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
     game.server.plr_colors        = NULL;
     game.server.random_move_time  = NULL;
+    game.server.world_peace_start = 0;
   } else {
     /* Client side takes care of itself in client_main() */
   }

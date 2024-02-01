@@ -2181,6 +2181,8 @@ static void sg_load_game(struct loaddata *loading)
     = secfile_lookup_int_default(loading->file, 0, "game.turn");
   sg_failure_ret(secfile_lookup_int(loading->file, &game.info.year,
                                     "game.year"), "%s", secfile_error());
+  sg_failure_ret(secfile_lookup_int(loading->file, &game.server.world_peace_start,
+                                    "game.world_peace_start"), "%s", secfile_error());
   game.info.year_0_hack
     = secfile_lookup_bool_default(loading->file, FALSE, "game.year_0_hack");
 
@@ -2313,6 +2315,7 @@ static void sg_save_game(struct savedata *saving)
 
   secfile_insert_int(saving->file, game.info.turn, "game.turn");
   secfile_insert_int(saving->file, game.info.year, "game.year");
+  secfile_insert_int(saving->file, game.server.world_peace_start, "game.world_peace_start");
   secfile_insert_bool(saving->file, game.info.year_0_hack,
                       "game.year_0_hack");
 

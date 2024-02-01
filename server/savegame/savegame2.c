@@ -1926,6 +1926,7 @@ static void sg_load_game(struct loaddata *loading)
     = secfile_lookup_int_default(loading->file, 0, "game.turn");
   sg_failure_ret(secfile_lookup_int(loading->file, &game.info.year,
                                     "game.year"), "%s", secfile_error());
+  game.server.world_peace_start = game.info.turn;
   game.info.year_0_hack
     = secfile_lookup_bool_default(loading->file, FALSE, "game.year_0_hack");
 

@@ -174,6 +174,8 @@ static void save_all_map_images(void);
 
 static void handle_observer_ready(struct connection *pconn);
 
+static void world_peace_update(void);
+
 /* command-line arguments to server */
 struct server_arguments srvarg;
 
@@ -1760,6 +1762,8 @@ static void end_turn(void)
     } whole_map_iterate_end;
   } extra_type_by_cause_iterate_end;
 
+  world_peace_update();
+
   update_diplomatics();
   make_history_report();
   settings_turn();
@@ -2951,7 +2955,7 @@ static void srv_running(void)
       }
 
       while (server_sniff_all_input() == S_E_OTHERWISE) {
-        /* nothing */
+        /* Nothing */
       }
 
       between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE,
@@ -2998,11 +3002,11 @@ static void srv_running(void)
 	/* endturn was reached - rank users based on team scores */
 	rank_users(TRUE);
       } else { 
-	/* game ended for victory conditions - rank users based on survival */
+	/* Game ended for victory conditions - rank users based on survival */
 	rank_users(FALSE);
       }
     } else if (S_S_OVER == server_state()) {
-      /* game terminated by /endgame command - calculate team scores */
+      /* Game terminated by /endgame command - calculate team scores */
       rank_users(TRUE);
     }
   }
@@ -3847,5 +3851,46 @@ static void save_all_map_images(void)
     } else {
       log_error("%s", mapimg_error());
     }
+  }
+}
+
+/**********************************************************************//**
+  Does this turn count as world peace turn?
+**************************************************************************/
+static bool world_peace_turn(void)
+{
+  players_iterate_alive(pplayer) {
+    bool contact = FALSE;
+
+    players_iterate_alive(other) {
+      if (pplayer != other) {
+        struct player_diplstate *dstate = player_diplstate_get(pplayer, other);
+
+        if (dstate->type == DS_WAR) {
+          return FALSE;
+        }
+        if (dstate->type != DS_NO_CONTACT) {
+          contact = TRUE;
+        }
+      }
+    } players_iterate_alive_end;
+
+    if (!contact) {
+      /* Peace only because there's nobody to show aggression against does not count. */
+      return FALSE;
+    }
+  } players_iterate_alive_end;
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Update world peace data.
+**************************************************************************/
+static void world_peace_update(void)
+{
+  if (!world_peace_turn()) {
+    /* Consecutive world peace turns begin *earliest* after this turn, overwrite older claims. */
+    game.server.world_peace_start = game.info.turn;
   }
 }

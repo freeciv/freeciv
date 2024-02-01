@@ -2437,6 +2437,10 @@ static void compat_load_030300(struct loaddata *loading,
 
   secfile_insert_bool(loading->file, FALSE, "map.altitude");
 
+  /* World Peace has never started in the old savegame. */
+  game.info.turn = secfile_lookup_int_default(loading->file, 0, "game.turn");
+  secfile_insert_int(loading->file, game.info.turn, "game.world_peace_start");
+
   {
     int ssa_count;
 
@@ -3323,6 +3327,15 @@ static void compat_load_dev(struct loaddata *loading)
     /* Before version number bump to 3.2.92 */
 
     secfile_insert_bool(loading->file, FALSE, "map.altitude");
+
+    /* World Peace has never started in the old savegame. */
+    game.info.turn
+      = secfile_lookup_int_default(loading->file, 0, "game.turn");
+    game.server.world_peace_start
+      = secfile_lookup_int_default(loading->file, game.info.turn,
+                                   "game.world_peace_start");
+    secfile_replace_int(loading->file, game.server.world_peace_start,
+                        "game.world_peace_start");
 
     /* Add actions for unit activities */
     loading->activities.size
