@@ -3688,7 +3688,7 @@ static void pf_reverse_map_destroy_param(struct pf_parameter *param)
 struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
                                           struct tile *target_tile,
                                           int max_turns, bool omniscient,
-                                          const struct civ_map *map)
+                                          const struct civ_map *nmap)
 {
   struct pf_reverse_map *pfrm = fc_malloc(sizeof(struct pf_reverse_map));
   struct pf_parameter *param = &pfrm->template;
@@ -3697,10 +3697,10 @@ struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
   pfrm->max_turns = max_turns;
 
   /* Initialize the parameter. */
-  pft_fill_reverse_parameter(param, target_tile);
+  pft_fill_reverse_parameter(nmap, param, target_tile);
   param->owner = pplayer;
   param->omniscience = omniscient;
-  param->map = map;
+  param->map = nmap;
 
   /* Initialize the map hash. */
   pfrm->hash = pf_pos_hash_new();
@@ -3715,10 +3715,10 @@ struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
 struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
                                                    const struct player *attacker,
                                                    int max_turns, bool omniscient,
-                                                   const struct civ_map *map)
+                                                   const struct civ_map *nmap)
 {
   return pf_reverse_map_new(attacker, city_tile(pcity), max_turns, omniscient,
-                            map);
+                            nmap);
 }
 
 /************************************************************************//**
