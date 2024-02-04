@@ -4152,7 +4152,7 @@ is_action_possible(const action_id wanted_action,
     pterrain = tile_terrain(target->tile);
     if (pterrain->transform_result == T_NONE
         || pterrain == pterrain->transform_result
-        || !terrain_surroundings_allow_change(target->tile,
+        || !terrain_surroundings_allow_change(nmap, target->tile,
                                               pterrain->transform_result)
         || (terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
             && (tile_city(target->tile)))) {
@@ -4165,7 +4165,7 @@ is_action_possible(const action_id wanted_action,
     if (pterrain->cultivate_result == NULL) {
       return TRI_NO;
     }
-    if (!terrain_surroundings_allow_change(target->tile,
+    if (!terrain_surroundings_allow_change(nmap, target->tile,
                                            pterrain->cultivate_result)
         || (terrain_has_flag(pterrain->cultivate_result, TER_NO_CITIES)
             && tile_city(target->tile))) {
@@ -4178,7 +4178,7 @@ is_action_possible(const action_id wanted_action,
     if (pterrain->plant_result == NULL) {
       return TRI_NO;
     }
-    if (!terrain_surroundings_allow_change(target->tile,
+    if (!terrain_surroundings_allow_change(nmap, target->tile,
                                            pterrain->plant_result)
         || (terrain_has_flag(pterrain->plant_result, TER_NO_CITIES)
             && tile_city(target->tile))) {

@@ -145,6 +145,7 @@ static adv_want adv_calc_transform(const struct city *pcity,
   adv_want goodness;
   struct tile *vtile;
   struct terrain *old_terrain, *new_terrain;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(ptile != NULL, -1);
 
@@ -155,7 +156,7 @@ static adv_want adv_calc_transform(const struct city *pcity,
     return -1;
   }
 
-  if (!terrain_surroundings_allow_change(ptile, new_terrain)) {
+  if (!terrain_surroundings_allow_change(nmap, ptile, new_terrain)) {
     /* Can't do this terrain conversion here. */
     return -1;
   }

@@ -131,6 +131,8 @@ void climate_change(bool warming, int effect)
 {
   int k = map_num_tiles();
   bool used[k];
+  const struct civ_map *nmap = &(wld.map);
+
   memset(used, 0, sizeof(used));
 
   log_verbose("Climate change: %s (%d)",
@@ -184,7 +186,7 @@ void climate_change(bool warming, int effect)
 
       /* Only change between water and land at coastlines, and between
        * frozen and unfrozen at ice margin */
-      if (!terrain_surroundings_allow_change(ptile, new)) {
+      if (!terrain_surroundings_allow_change(nmap, ptile, new)) {
         continue;
       }
 
