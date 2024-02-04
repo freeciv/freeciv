@@ -427,9 +427,9 @@ adv_want dai_effect_value(struct player *pplayer,
          * target on wonder city. We want space part want reduced even more than
          * regular buildings, as buildings are at least helping the specific city
          * when finished. */
-        space_want = 80;
+        space_want = 120;
       } else {
-        space_want = 140;
+        space_want = 210;
       }
 
       if (pplayer->spaceship.state == SSHIP_STARTED) {
