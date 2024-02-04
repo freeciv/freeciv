@@ -67,9 +67,9 @@
 /* utility */
 #include "fcintl.h"
 #include "fcthread.h"
-#include "log.h"                /* fc_assert */
+#include "log.h"                /* fc_assert() */
 #include "mem.h"
-#include "support.h"            /* fc_vsnprintf, fc_strlcat */
+#include "support.h"            /* fc_vsnprintf(), fc_strlcat() */
 
 #include "astring.h"
 
@@ -148,7 +148,7 @@ void astr_init(struct astring *astr)
 void astr_free(struct astring *astr)
 {
   if (astr->n_alloc > 0) {
-    fc_assert_ret(NULL != astr->str);
+    fc_assert_ret(astr->str != nullptr);
     free(astr->str);
   }
 
@@ -201,8 +201,8 @@ void astr_reserve(struct astring *astr, size_t n)
 void astr_clear(struct astring *astr)
 {
   if (astr->n == 0) {
-    /* astr_reserve is really astr_size, so we don't want to reduce the
-     * size. */
+    /* astr_reserve() is really astr_size(), so we don't want to reduce
+     * the size. */
     astr_reserve(astr, 1);
   }
   astr->str[0] = '\0';
@@ -296,8 +296,8 @@ void astr_add_line(struct astring *astr, const char *format, ...)
 }
 
 /************************************************************************//**
-  Replace the spaces by line breaks when the line lenght is over the desired
-  one.
+  Replace the spaces by line breaks when the line lenght is over
+  the desired one.
 ****************************************************************************/
 void astr_break_lines(struct astring *astr, size_t desired_len)
 {
@@ -313,9 +313,9 @@ void astr_break_lines(struct astring *astr, size_t desired_len)
 const char *astr_build_or_list(struct astring *astr,
                                const char *const *items, size_t number)
 {
-  fc_assert_ret_val(NULL != astr, NULL);
-  fc_assert_ret_val(0 < number, NULL);
-  fc_assert_ret_val(NULL != items, NULL);
+  fc_assert_ret_val(astr != nullptr, nullptr);
+  fc_assert_ret_val(0 < number, nullptr);
+  fc_assert_ret_val(items != nullptr, nullptr);
 
   if (1 == number) {
     /* TRANS: "or"-separated string list with one single item. */
@@ -326,16 +326,16 @@ const char *astr_build_or_list(struct astring *astr,
   } else {
     /* Estimate the space we need. */
     astr_reserve(astr, number * 64);
-    /* TRANS: start of an "or"-separated string list with more than two
-     * items. */
+    /* TRANS: start of an "or"-separated string list with more than
+     * two items. */
     astr_set(astr, Q_("?or-list:%s"), *items++);
     while (1 < --number) {
       /* TRANS: next elements of an "or"-separated string list with more
        * than two items. */
       astr_add(astr, Q_("?or-list:, %s"), *items++);
     }
-    /* TRANS: end of an "or"-separated string list with more than two
-     * items. */
+    /* TRANS: end of an "or"-separated string list with more than
+     * two items. */
     astr_add(astr, Q_("?or-list:, or %s"), *items);
   }
 
@@ -351,9 +351,9 @@ const char *astr_build_or_list(struct astring *astr,
 const char *astr_build_and_list(struct astring *astr,
                                 const char *const *items, size_t number)
 {
-  fc_assert_ret_val(NULL != astr, NULL);
-  fc_assert_ret_val(0 < number, NULL);
-  fc_assert_ret_val(NULL != items, NULL);
+  fc_assert_ret_val(astr != nullptr, nullptr);
+  fc_assert_ret_val(0 < number, nullptr);
+  fc_assert_ret_val(items != nullptr, nullptr);
 
   if (1 == number) {
     /* TRANS: "and"-separated string list with one single item. */
@@ -364,16 +364,16 @@ const char *astr_build_and_list(struct astring *astr,
   } else {
     /* Estimate the space we need. */
     astr_reserve(astr, number * 64);
-    /* TRANS: start of an "and"-separated string list with more than two
-     * items. */
+    /* TRANS: start of an "and"-separated string list with more than
+     * two items. */
     astr_set(astr, Q_("?and-list:%s"), *items++);
     while (1 < --number) {
       /* TRANS: next elements of an "and"-separated string list with more
        * than two items. */
       astr_add(astr, Q_("?and-list:, %s"), *items++);
     }
-    /* TRANS: end of an "and"-separated string list with more than two
-     * items. */
+    /* TRANS: end of an "and"-separated string list with more than
+     * two items. */
     astr_add(astr, Q_("?and-list:, and %s"), *items);
   }
 
