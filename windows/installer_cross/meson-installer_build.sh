@@ -14,11 +14,11 @@
 #***********************************************************************/
 
 add_common_env() {
-  cp $1/bin/libcurl-4.dll $2/ &&
-  cp $1/bin/libz.dll.1.3  $2/ &&
-  cp $1/bin/liblzma-5.dll $2/ &&
-  cp $1/bin/libzstd-1.dll $2/ &&
-  cp $1/bin/libintl-8.dll $2/ &&
+  cp $1/bin/libcurl-4.dll  $2/ &&
+  cp $1/bin/libz.dll.1.3.1 $2/ &&
+  cp $1/bin/liblzma-5.dll  $2/ &&
+  cp $1/bin/libzstd-1.dll  $2/ &&
+  cp $1/bin/libintl-8.dll  $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/lib/icuuc64.dll     $2/ &&
@@ -50,7 +50,6 @@ add_gtk_common_env() {
   cp $1/bin/libpango-1.0-0.dll $2/ &&
   cp $1/bin/libpangocairo-1.0-0.dll $2/ &&
   cp $1/bin/libpangowin32-1.0-0.dll $2/ &&
-  cp $1/bin/libpangoft2-1.0-0.dll $2/ &&
   cp $1/bin/libfontconfig-1.dll $2/ &&
   cp $1/bin/libpixman-1-0.dll $2/ &&
   cp $1/bin/libgmodule-2.0-0.dll $2/ &&
