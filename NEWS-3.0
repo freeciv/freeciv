@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.9 to 3.0.10
 ----------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.10>, 2024-01-27)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.10>, 2024-02-04)
 
 3.0.10 is a generic bugfix release in freeciv-3.0 series.
 Focus has been in portability issues, but also a couple
@@ -33,6 +33,12 @@ General
 
     * Various internal changes which should only affect developers. RM#101
 
+Tools
+Ruleup
+
+    * Fixed bad memory access while loading freeciv-2.6 format ruleset
+      RM#223
+
 Help / Documentation
 
     * Miscellaneous improvements to in-game text and user documentation.
@@ -42,12 +48,12 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: fi
+    * Updated translations: fi, pl, ru
 
 Build/portability
 
     * Refreshed bootstrap files from their upstreams
-      osdn#48956 RM#5 RM#4 RM#89 RM#185 RM#186 RM#188 RM#187
+      osdn#48956 RM#5 RM#4 RM#89 RM#185 RM#186 RM#188 RM#187 RM#202 RM#208
     * Fixed some clang analyzer warnings RM#37 osdn#48626
     * MagickWand headers and libraries searched also
       by pkgconf name MagickWand-6.Q16HDRI RM#36
