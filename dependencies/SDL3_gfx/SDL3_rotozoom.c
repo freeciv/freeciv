@@ -1062,7 +1062,7 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	double zoominv;
 	double sanglezoom, canglezoom, sanglezoominv, canglezoominv;
 	int dstwidthhalf, dstwidth, dstheighthalf, dstheight;
-	int i, src_converted;
+	int src_converted;
 	int flipx,flipy;
 
 	/*
@@ -1313,7 +1313,7 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 	SDL_Surface *rz_src;
 	SDL_Surface *rz_dst;
 	int dstwidth, dstheight;
-	int i, src_converted;
+	int src_converted;
 	int flipx, flipy;
 
 	/*
@@ -1438,7 +1438,7 @@ SDL_Surface *shrinkSurface(SDL_Surface *src, int factorx, int factory)
 	SDL_Surface *rz_src;
 	SDL_Surface *rz_dst = NULL;
 	int dstwidth, dstheight;
-	int i, src_converted;
+	int src_converted;
 	int haveError = 0;
 
 	/*
