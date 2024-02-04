@@ -1202,7 +1202,7 @@ Actions done by a unit against a tile
  * the target extra must be the rule chosen extra if the civstyle section's
    pillage_select is FALSE
 
-"Clean"             - clean extra from the target tile.
+"Clean"             - Clean extra from the target tile.
  * UI name can be set using ui_name_clean
  * actor must be on the same tile as the target.
  * the actor unit has the "Workers" unit type flag (!)
@@ -1216,6 +1216,10 @@ Actions done by a unit against a tile
    target tile has a city
  * the target extra can't have the AutoOnCityCenter extra flag if the
    target tile has a city and the city's owner can rebuild it
+
+"Clean 2"           - Clean extra from the target tile.
+ * UI name can be set using ui_name_clean_2
+ * See "Clean" for everything else.
 
 "Build Road"        - Build road at the target tile.
  * UI name can be set using ui_name_build_road

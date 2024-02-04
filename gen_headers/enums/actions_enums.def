@@ -127,6 +127,7 @@ values
   ACTION_TELEPORT_ENTER                   "Teleport Unit Enter"
   ACTION_TELEPORT_ENTER_CONQUER           "Teleport Unit Enter Conquer"
   ACTION_CLEAN                            "Clean"
+  ACTION_CLEAN2                           "Clean 2"
   ACTION_COLLECT_RANSOM                   "Collect Ransom"
   ACTION_FORTIFY                          "Fortify"
   ACTION_FORTIFY2                         "Fortify 2"
