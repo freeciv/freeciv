@@ -1063,7 +1063,7 @@ enum fc_tristate actres_possible(enum action_result result,
     pterrain = tile_terrain(target->tile);
     if (pterrain->transform_result == T_NONE
         || pterrain == pterrain->transform_result
-        || !terrain_surroundings_allow_change(target->tile,
+        || !terrain_surroundings_allow_change(nmap, target->tile,
                                               pterrain->transform_result)
         || (terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
             && (tile_city(target->tile)))) {
@@ -1076,7 +1076,7 @@ enum fc_tristate actres_possible(enum action_result result,
     if (pterrain->cultivate_result == NULL) {
       return TRI_NO;
     }
-    if (!terrain_surroundings_allow_change(target->tile,
+    if (!terrain_surroundings_allow_change(nmap, target->tile,
                                            pterrain->cultivate_result)
         || (terrain_has_flag(pterrain->cultivate_result, TER_NO_CITIES)
             && tile_city(target->tile))) {
@@ -1089,7 +1089,7 @@ enum fc_tristate actres_possible(enum action_result result,
     if (pterrain->plant_result == NULL) {
       return TRI_NO;
     }
-    if (!terrain_surroundings_allow_change(target->tile,
+    if (!terrain_surroundings_allow_change(nmap, target->tile,
                                            pterrain->plant_result)
         || (terrain_has_flag(pterrain->plant_result, TER_NO_CITIES)
             && tile_city(target->tile))) {
