@@ -687,9 +687,10 @@ bool is_safe_ocean(const struct civ_map *nmap, const struct tile *ptile)
   "reclaimed" from ocean into land. This is the case only when there are
   a sufficient number of adjacent tiles that are not ocean.
 ***********************************************************************/
-bool can_reclaim_ocean(const struct tile *ptile)
+bool can_reclaim_ocean(const struct civ_map *nmap,
+                       const struct tile *ptile)
 {
-  int land_tiles = 100 - count_terrain_class_near_tile(&(wld.map), ptile,
+  int land_tiles = 100 - count_terrain_class_near_tile(nmap, ptile,
                                                        FALSE, TRUE,
                                                        TC_OCEAN);
 
@@ -701,9 +702,10 @@ bool can_reclaim_ocean(const struct tile *ptile)
   "channeled" from land into ocean. This is the case only when there are
   a sufficient number of adjacent tiles that are ocean.
 ***********************************************************************/
-bool can_channel_land(const struct tile *ptile)
+bool can_channel_land(const struct civ_map *nmap,
+                      const struct tile *ptile)
 {
-  int ocean_tiles = count_terrain_class_near_tile(&(wld.map), ptile,
+  int ocean_tiles = count_terrain_class_near_tile(nmap, ptile,
                                                   FALSE, TRUE, TC_OCEAN);
 
   return ocean_tiles >= terrain_control.land_channel_requirement_pct;
@@ -714,9 +716,10 @@ bool can_channel_land(const struct tile *ptile)
   terrain with a 'Frozen' flag to terrain without. This requires
   a sufficient number of adjacent unfrozen tiles.
 ***********************************************************************/
-bool can_thaw_terrain(const struct tile *ptile)
+bool can_thaw_terrain(const struct civ_map *nmap,
+                      const struct tile *ptile)
 {
-  int unfrozen_tiles = 100 - count_terrain_flag_near_tile(&(wld.map), ptile,
+  int unfrozen_tiles = 100 - count_terrain_flag_near_tile(nmap, ptile,
                                                           FALSE, TRUE,
                                                           TER_FROZEN);
 
@@ -728,9 +731,10 @@ bool can_thaw_terrain(const struct tile *ptile)
   terrain without a 'Frozen' flag to terrain with. This requires
   a sufficient number of adjacent frozen tiles.
 ***********************************************************************/
-bool can_freeze_terrain(const struct tile *ptile)
+bool can_freeze_terrain(const struct civ_map *nmap,
+                        const struct tile *ptile)
 {
-  int frozen_tiles = count_terrain_flag_near_tile(&(wld.map), ptile,
+  int frozen_tiles = count_terrain_flag_near_tile(nmap, ptile,
                                                   FALSE, TRUE,
                                                   TER_FROZEN);
 
@@ -741,27 +745,28 @@ bool can_freeze_terrain(const struct tile *ptile)
   Returns FALSE if a terrain change to 'pterrain' would be prevented by not
   having enough similar terrain surrounding ptile.
 ***********************************************************************/
-bool terrain_surroundings_allow_change(const struct tile *ptile,
+bool terrain_surroundings_allow_change(const struct civ_map *nmap,
+                                       const struct tile *ptile,
                                        const struct terrain *pterrain)
 {
   bool ret = TRUE;
 
   if (is_ocean(tile_terrain(ptile))
-      && !is_ocean(pterrain) && !can_reclaim_ocean(ptile)) {
+      && !is_ocean(pterrain) && !can_reclaim_ocean(nmap, ptile)) {
     ret = FALSE;
   } else if (!is_ocean(tile_terrain(ptile))
-             && is_ocean(pterrain) && !can_channel_land(ptile)) {
+             && is_ocean(pterrain) && !can_channel_land(nmap, ptile)) {
     ret = FALSE;
   }
 
   if (ret) {
     if (terrain_has_flag(tile_terrain(ptile), TER_FROZEN)
         && !terrain_has_flag(pterrain, TER_FROZEN)
-        && !can_thaw_terrain(ptile)) {
+        && !can_thaw_terrain(nmap, ptile)) {
       ret = FALSE;
     } else if (!terrain_has_flag(tile_terrain(ptile), TER_FROZEN)
                && terrain_has_flag(pterrain, TER_FROZEN)
-               && !can_freeze_terrain(ptile)) {
+               && !can_freeze_terrain(nmap, ptile)) {
       ret = FALSE;
     }
   }
