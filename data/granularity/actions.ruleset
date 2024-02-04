@@ -257,17 +257,33 @@ target_reqs   =
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
-[actionenabler_found_city]
+[actionenabler_found_city_tribal]
 action        = "Found City"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Cities", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "5", "Local"
+    { "type",         "name",          "range",  "present"
+      "UnitFlag",     "Cities",        "Local",  TRUE
+      "UnitState",    "OnLivableTile", "Local",  TRUE
+      "MinMoveFrags", "5",             "Local",  TRUE
+      "Gov",          "Tribal",        "Player", TRUE
+      "MinCities",    "5",             "Player", FALSE
     }
 target_reqs   =
-    { "type",   "name", "range", "present"
-      "TerrainFlag","NoCities","Tile",FALSE
+    { "type",        "name",     "range", "present"
+      "TerrainFlag", "NoCities", "Tile",  FALSE
+    }
+
+[actionenabler_found_city_despotism]
+action        = "Found City"
+actor_reqs    =
+    { "type",         "name",          "range",  "present"
+      "UnitFlag",     "Cities",        "Local",  TRUE
+      "UnitState",    "OnLivableTile", "Local",  TRUE
+      "MinMoveFrags", "5",             "Local",  TRUE
+      "Gov",          "Despotism",     "Player", TRUE
+    }
+target_reqs   =
+    { "type",        "name",     "range", "present"
+      "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
 [actionenabler_cultivate]
@@ -390,18 +406,35 @@ actor_reqs    =
       "Activity", "Fortified", "Local",  FALSE
     }
 
-[actionenabler_conquer_city]
+[actionenabler_conquer_city_tribal]
 action        = "Conquer City"
 actor_reqs    =
-    { "type",           "name",          "range", "present"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
-      "UnitFlag",       "NonMil",        "Local", FALSE
-      "DiplRel",        "War",           "Local", TRUE
-      "MinMoveFrags",   "1",             "Local", TRUE
+    { "type",          "name",          "range",  "present"
+      "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
+      "UnitFlag",      "NonMil",        "Local",  FALSE
+      "DiplRel",       "War",           "Local",  TRUE
+      "MinMoveFrags",  "1",             "Local",  TRUE
+      "Gov",           "Tribal",        "Player", TRUE
+      "MinCities",     "5",             "Player", FALSE
     }
 target_reqs   =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Tile",  TRUE
+    { "type",           "name", "range", "present"
+      "MaxUnitsOnTile", "0",    "Tile",  TRUE
+    }
+
+[actionenabler_conquer_city_despotism]
+action        = "Conquer City"
+actor_reqs    =
+    { "type",          "name",          "range",  "present"
+      "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
+      "UnitFlag",      "NonMil",        "Local",  FALSE
+      "DiplRel",       "War",           "Local",  TRUE
+      "MinMoveFrags",  "1",             "Local",  TRUE
+      "Gov",           "Despotism",     "Player", TRUE
+    }
+target_reqs   =
+    { "type",           "name", "range", "present"
+      "MaxUnitsOnTile", "0",    "Tile",  TRUE
     }
 
 [actionenabler_gain_veterancy]
