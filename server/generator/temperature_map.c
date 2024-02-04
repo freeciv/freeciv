@@ -122,7 +122,7 @@ void create_tmap(bool real)
 
   /* If map is defined this is not changed. */
   /* TODO: Load if from scenario game with tmap */
-  /* to debug, never load a this time */
+  /* to debug, never load at this time */
   fc_assert_ret(NULL == temperature_map);
 
   temperature_map = fc_malloc(sizeof(*temperature_map) * MAP_INDEX_SIZE);
