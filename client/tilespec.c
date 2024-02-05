@@ -5905,15 +5905,15 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_BACKGROUND:
     /* Set up background color. */
     if (gui_options.solid_color_behind_units) {
-      if (!flagless) {
+      if (do_draw_unit && !flagless) {
         owner = unit_owner(punit);
-      } else if (pcity && gui_options.draw_cities) {
+      } else if (pcity != nullptr && gui_options.draw_cities) {
         owner = city_owner(pcity);
       }
     }
-    if (owner) {
+    if (owner != nullptr) {
       ADD_SPRITE_SIMPLE(t->sprites.player[player_index(owner)].background);
-    } else if (ptile && !gui_options.draw_terrain) {
+    } else if (ptile != nullptr && !gui_options.draw_terrain) {
       ADD_SPRITE_SIMPLE(t->sprites.background.graphic);
     }
     break;
