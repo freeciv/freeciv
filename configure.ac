@@ -162,7 +162,7 @@ for db in $(echo $databases | $SED 's/,/ /g') ; do
 done
 
 AC_ARG_ENABLE([fcmp],
-  AS_HELP_STRING([--enable-fcmp=no/yes/gtk3/gtk4/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
+  AS_HELP_STRING([--enable-fcmp=no/yes/gtk3/gtk4/gtk4x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
 [if test "x$emscripten" = "xyes" ; then
   fc_mp=no
@@ -173,6 +173,7 @@ fi])
 fcmp_cli=no
 fcmp_gtk3=no
 fcmp_gtk4=no
+fcmp_gtk5=no
 fcmp_qt=no
 fcmp_list=
 
@@ -199,6 +200,8 @@ for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
     req_fcmp_gtk3=yes
   elif test "x$mp" = "xgtk4" ; then
     req_fcmp_gtk4=yes
+  elif test "x$mp" = "xgtk4x" ; then
+    req_fcmp_gtk5=yes
   elif test "x$mp" = "xqt" ; then
     req_fcmp_qt=yes
   elif test "x$mp" = "xcli" ; then
@@ -1248,6 +1251,34 @@ if test "x$req_fcmp_qt" = "xyes" && test "x$fcmp_qt" != "xyes" ; then
 Maybe another --with-qtver value would help?])
 fi
 
+if test "x$req_fcmp_gtk5" = "xyes" ||
+   test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
+  PKG_CHECK_MODULES([GTK5_MP], [gtk4 >= 4.10.0],
+[
+  GTK5_MP_CFLAGS="$GTK5_MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_8"
+  GTK5_MP_CFLAGS="$GTK5_MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66"
+  PKG_CHECK_MODULES([GTHREAD_GTK5], [gthread-2.0],
+[
+  fcmp_gtk5=yes
+  fcmp_list="$fcmp_list gtk4x"
+  mp_gtk5_cflags="$GTK5_MP_CFLAGS $GTHREAD_GTK5_CFLAGS"
+  mp_gtk5_libs="$GTK5_MP_LIBS $GTHREAD_GTK5_LIBS"
+  if test "x$MINGW" = "xyes"; then
+    dnl Required to compile gtk5 on Windows platform
+    mp_gtk5_cflags="$mp_gtk5_cflags -mms-bitfields"
+    mp_gtk5_ldflags="$mp_gtk5_ldflags $MWINDOWS_FLAG"
+  fi
+
+  if test "x$modinst" = "xauto" ; then
+    modinst=found
+  fi
+], [fcmp_gtk5=no])], [fcmp_gtk5=no])
+fi
+
+if test "x$req_fcmp_gtk5" = "xyes" && test "x$fcmp_gtk5" != "xyes" ; then
+  AC_MSG_ERROR([Cannot build gtk4x-version of freeciv-modpack as requested])
+fi
+
 dnl Cli does not satisfy --enable-fcmp=auto as it's not an gui.
 if test "x$req_fcmp_cli" = "xyes" || test "x$modinst" = "xall" ; then
   fcmp_cli=yes
@@ -1259,6 +1290,7 @@ if test "x$modinst" != "xfound" &&
    test "x$modinst" != "xcli" &&
    test "x$fcmp_gtk3" != "xyes" &&
    test "x$fcmp_gtk4" != "xyes" &&
+   test "x$fcmp_gtk5" != "xyes" &&
    test "x$fcmp_qt" != "xyes" ;then
   AC_MSG_ERROR([Cannot build modpack installer with any gui])
 fi
@@ -1267,6 +1299,7 @@ if test "x$modinst" != "xno" && test "x$MINGW" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
   mp_gtk3_cflags="$mp_gtk3_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
   mp_gtk4_cflags="$mp_gtk4_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
+  mp_gtk5_cflags="$mp_gtk5_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
 fi
 
 if test "x$fcmp_list" = "x" ; then
@@ -1276,6 +1309,7 @@ fi
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
 AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
 AM_CONDITIONAL([MODINST_GTK4], [test "x$fcmp_gtk4" = "xyes"])
+AM_CONDITIONAL([MODINST_GTK5], [test "x$fcmp_gtk5" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 AM_CONDITIONAL([MODINST_CLI], [test "x$fcmp_cli" = "xyes"])
 
@@ -1479,6 +1513,9 @@ AC_SUBST([mp_gtk3_ldflags])
 AC_SUBST([mp_gtk4_cflags])
 AC_SUBST([mp_gtk4_libs])
 AC_SUBST([mp_gtk4_ldflags])
+AC_SUBST([mp_gtk5_cflags])
+AC_SUBST([mp_gtk5_libs])
+AC_SUBST([mp_gtk5_ldflags])
 AC_SUBST([mp_qt_cppflags])
 AC_SUBST([mp_qt_cxxflags])
 AC_SUBST([mp_qt_libs])
