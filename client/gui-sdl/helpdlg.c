@@ -2040,7 +2040,7 @@ void popup_tech_info(Tech_type_id tech)
     }
 
     if (pStore->show_full_tree) {
-      /* all entries are visible without scrolling */
+      /* All entries are visible without scrolling */
       hide_group(pHelpDlg->pBeginActiveWidgetList,
                  pHelpDlg->pEndActiveWidgetList);
       hide_scrollbar(pHelpDlg->pScroll);
@@ -2048,10 +2048,9 @@ void popup_tech_info(Tech_type_id tech)
       int count = pHelpDlg->pScroll->active;
 
       pAdvanceLabel = pHelpDlg->pActiveWidgetList;
-      while (pAdvanceLabel && count--) {
+      while (pAdvanceLabel->prev != NULL && --count > 0) {
         pAdvanceLabel = pAdvanceLabel->prev;
       }
-      pAdvanceLabel = pAdvanceLabel->next;
       show_group(pAdvanceLabel, pHelpDlg->pActiveWidgetList);
       show_scrollbar(pHelpDlg->pScroll);
     }
