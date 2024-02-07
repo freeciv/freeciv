@@ -153,7 +153,7 @@ static const char *download_modpack_recursive(const char *URL,
 
     secfile_destroy(control);
 
-    return _("Modpack control file is incompatible");  
+    return _("Modpack control file is incompatible");
   }
 
   mpname = secfile_lookup_str(control, "info.name");
@@ -246,7 +246,7 @@ static const char *download_modpack_recursive(const char *URL,
     }
 
     dep++;
-    
+
   } while (dep_name != NULL);
 
 
@@ -464,7 +464,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
 
     secfile_destroy(list_file);
 
-    return _("Modpack list is incompatible");  
+    return _("Modpack list is incompatible");
   }
 
   msg = secfile_lookup_str_default(list_file, NULL, "info.message");
@@ -525,7 +525,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
       } else {
         sz_strlcpy(mpURL_full, mpURL);
       }
-      
+
       cb(mp_name, mpURL_full, mpver, mplic, type, _(mp_subtype), mp_notes);
     }
     modpack_count++;

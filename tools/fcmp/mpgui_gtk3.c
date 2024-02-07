@@ -56,7 +56,7 @@ static gboolean quit_dialog_callback(void);
 #define ML_COL_INST    2
 #define ML_COL_TYPE    3
 #define ML_COL_SUBTYPE 4
-#define ML_COL_LIC     5 
+#define ML_COL_LIC     5
 #define ML_COL_URL     6
 
 #define ML_COL_COUNT   7
@@ -103,7 +103,7 @@ static gboolean quit_dialog_callback(void)
 
       gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 
-      g_signal_connect(dialog, "response", 
+      g_signal_connect(dialog, "response",
                        G_CALLBACK(quit_dialog_response), NULL);
       g_signal_connect(dialog, "destroy",
                        G_CALLBACK(gtk_widget_destroyed), &dialog);
@@ -456,7 +456,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   main_list = gtk_tree_view_new();
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_NAME,      
+                                              ML_COL_NAME,
                                               _("Name"), renderer, "text", 0,
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
