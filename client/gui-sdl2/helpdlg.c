@@ -2073,10 +2073,9 @@ void popup_tech_info(Tech_type_id tech)
       int count = help_dlg->scroll->active;
 
       advance_label = help_dlg->active_widget_list;
-      while (advance_label && count--) {
+      while (advance_label->prev != NULL && --count > 0) {
         advance_label = advance_label->prev;
       }
-      advance_label = advance_label->next;
       show_group(advance_label, help_dlg->active_widget_list);
       show_scrollbar(help_dlg->scroll);
     }
