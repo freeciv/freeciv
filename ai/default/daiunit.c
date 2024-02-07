@@ -2144,19 +2144,19 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
 
     if (!goto_is_sane(punit, dest)) {
       if (unit_transported(punit)) {
-        /* if we're being transported */
+        /* If we're being transported */
         return FALSE;
       }
-      if ((punit->server.birth_turn + 15 < game.info.turn)) {
-        /* we are tired of waiting */
+      if ((punit->birth_turn + 15 < game.info.turn)) {
+        /* We are tired of waiting */
         int ferrys = aiferry_avail_boats(ait, punit->owner);
 
         if (ferrys <= 0) {
-          /* there are no ferrys available... give up */
+          /* There are no ferrys available... give up */
           return TRUE;
         } else {
-          if (punit->server.birth_turn + 20 < game.info.turn) {
-            /* we are feed up! */
+          if (punit->birth_turn + 20 < game.info.turn) {
+            /* We are fed up! */
             return TRUE;
           }
         }

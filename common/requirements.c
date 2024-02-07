@@ -4372,7 +4372,7 @@ is_age_req_active(const struct civ_map *nmap,
     } else {
       return BOOL_TO_TRISTATE(
                 req->source.value.age <=
-                game.info.turn - context->unit->server.birth_turn);
+                game.info.turn - context->unit->birth_turn);
     }
     break;
   case REQ_RANGE_CITY:
@@ -4420,7 +4420,7 @@ is_form_age_req_active(const struct civ_map *nmap,
     } else {
       return BOOL_TO_TRISTATE(
                 req->source.value.form_age <=
-                game.info.turn - context->unit->server.current_form_turn);
+                game.info.turn - context->unit->current_form_turn);
     }
     break;
   default:
@@ -5639,7 +5639,7 @@ tri_req_active_turns(int pass, int period,
       if (context->unit == NULL || !is_server()) {
         return TRI_MAYBE;
       } else {
-        int ua = game.info.turn + pass - context->unit->server.birth_turn;
+        int ua = game.info.turn + pass - context->unit->birth_turn;
 
         present = req->source.value.age <= ua;
         present1 = req->source.value.age <= ua + period;
@@ -5673,7 +5673,7 @@ tri_req_active_turns(int pass, int period,
     if (context->unit == NULL || !is_server()) {
       return TRI_MAYBE;
     } else {
-      int ua = game.info.turn + pass - context->unit->server.current_form_turn;
+      int ua = game.info.turn + pass - context->unit->current_form_turn;
 
       present = req->source.value.form_age <= ua;
       present1 = req->source.value.form_age <= ua + period;

@@ -1067,6 +1067,8 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   BOOL paradropped;
   BOOL occupied, transported, done_moving;
   BOOL stay;
+  TURN birth_turn;
+  TURN current_form_turn;
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */

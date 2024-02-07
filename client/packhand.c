@@ -304,6 +304,8 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->paradropped = packet->paradropped;
   punit->done_moving = packet->done_moving;
   punit->stay = packet->stay;
+  punit->birth_turn = packet->birth_turn;
+  punit->current_form_turn = packet->current_form_turn;
 
   /* Transporter / transporting information. */
   punit->client.occupied = packet->occupied;

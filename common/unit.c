@@ -1715,10 +1715,11 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
 
   punit->stay = FALSE;
 
+  punit->birth_turn = game.info.turn;
+  punit->current_form_turn = game.info.turn;
+
   if (is_server()) {
     punit->server.debug = FALSE;
-    punit->server.birth_turn = game.info.turn;
-    punit->server.current_form_turn = game.info.turn;
 
     punit->server.dying = FALSE;
 
