@@ -204,6 +204,9 @@ struct unit {
 
   bool stay; /* Unit is prohibited from moving */
 
+  int birth_turn;
+  int current_form_turn;
+
   union {
     struct {
       /* Only used at the client (the server is omniscient; ./client/). */
@@ -232,8 +235,6 @@ struct unit {
 
       struct unit_adv *adv;
       void *ais[FREECIV_AI_MOD_LAST];
-      int birth_turn;
-      int current_form_turn;
 
       /* ord_map and ord_city are the order index of this unit in tile.units
        * and city.units_supported; they are only used for save/reload */

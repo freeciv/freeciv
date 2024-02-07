@@ -1598,7 +1598,7 @@ void transform_unit(struct unit *punit, const struct unit_type *to_unit,
     punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
   }
 
-  punit->server.current_form_turn = game.info.turn;
+  punit->current_form_turn = game.info.turn;
 
   unit_forget_last_activity(punit);
   if (!can_unit_continue_current_activity(&(wld.map), punit)) {
@@ -2242,7 +2242,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
   /* Copy some more unit fields */
   gained_unit->fuel = punit->fuel;
   gained_unit->paradropped = punit->paradropped;
-  gained_unit->server.birth_turn = punit->server.birth_turn;
+  gained_unit->birth_turn = punit->birth_turn;
 
   /* Fog is lifted in the placing algorithm. */
 #ifndef FREECIV_NDEBUG
@@ -2647,6 +2647,8 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->paradropped = punit->paradropped;
   packet->done_moving = punit->done_moving;
   packet->stay        = punit->stay;
+  packet->birth_turn  = punit->birth_turn;
+  packet->current_form_turn = punit->current_form_turn;
   if (!unit_transported(punit)) {
     packet->transported = FALSE;
     packet->transported_by = 0;
