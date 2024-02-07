@@ -255,7 +255,7 @@ int unit_shield_value(const struct unit *punit,
 }
 
 /**********************************************************************//**
-  Return TRUE unless it is known to be imposible to disband this unit at
+  Return TRUE unless it is known to be impossible to disband this unit at
   its current position to get full shields for building a wonder.
 **************************************************************************/
 bool unit_can_help_build_wonder_here(const struct unit *punit)
