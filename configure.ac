@@ -430,39 +430,6 @@ AC_ARG_ENABLE([patient-connect],
     *) AC_MSG_ERROR([bad value ${enableval} for --enable-patient-connect]) ;;
   esac])
 
-dnl set default values
-mapimg_all=auto
-mapimg_magickwand=no
-
-dnl map images
-dnl all:                  Autodetect as many as possible [default].
-dnl no:                   No additional toolkits.
-dnl magickwand:           compile magickwand (imagemagick) support.
-dnl comma-separated-list: Detect these or abort.
-AC_ARG_ENABLE([mapimg],
-  AS_HELP_STRING([--enable-mapimg=no/auto/magickwand],
-                 [additional map image toolkits to compile [auto](no, or list)]),
-[toolkits=${enableval}],
-[enable_mapimg=auto])
-
-for toolkit in $(echo $toolkits | $SED 's/,/ /g') ; do
-  if test "x$toolkit" = "xauto" ; then
-    enable_mapimg=auto
-  elif test "x$toolkit" = "xno" ; then
-    enable_mapimg=no
-  else
-    enable_mapimg=selected
-  fi
-
-  if test "x$toolkit" = "xmagickwand" ; then
-    mapimg_magickwand=yes
-  fi
-done
-
-dnl checks for MagickWand mapimg support
-dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
-FC_MAPIMG_MAGICKWAND
-
 dnl make it possible to disable the delta network protocol
 AC_ARG_ENABLE([delta-protocol],
   AS_HELP_STRING([--disable-delta-protocol],
@@ -948,6 +915,40 @@ if test "x$WITH_ZSTD" != xno ; then
     feature_zstd=missing
   fi
 fi
+
+dnl set default values
+mapimg_all=auto
+mapimg_magickwand=no
+
+dnl map images
+dnl all:                  Autodetect as many as possible [default].
+dnl no:                   No additional toolkits.
+dnl magickwand:           compile magickwand (imagemagick) support.
+dnl comma-separated-list: Detect these or abort.
+AC_ARG_ENABLE([mapimg],
+  AS_HELP_STRING([--enable-mapimg=no/auto/magickwand],
+                 [additional map image toolkits to compile [auto](no, or list)]),
+[toolkits=${enableval}],
+[enable_mapimg=auto])
+
+for toolkit in $(echo $toolkits | $SED 's/,/ /g') ; do
+  if test "x$toolkit" = "xauto" ; then
+    enable_mapimg=auto
+  elif test "x$toolkit" = "xno" ; then
+    enable_mapimg=no
+  else
+    enable_mapimg=selected
+  fi
+
+  if test "x$toolkit" = "xmagickwand" ; then
+    mapimg_magickwand=yes
+  fi
+done
+
+dnl checks for MagickWand mapimg support
+dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
+dnl Has to be after compression libraries detection
+FC_MAPIMG_MAGICKWAND
 
 UTILITY_LIBS="${UTILITY_LIBS} ${LTLIBINTL}"
 
