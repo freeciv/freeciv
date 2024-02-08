@@ -264,6 +264,7 @@ void clause_infos_init(void)
     clause_infos[i].enabled = FALSE;
     requirement_vector_init(&(clause_infos[i].giver_reqs));
     requirement_vector_init(&(clause_infos[i].receiver_reqs));
+    requirement_vector_init(&(clause_infos[i].either_reqs));
   }
 }
 
@@ -277,6 +278,7 @@ void clause_infos_free(void)
   for (i = 0; i < CLAUSE_COUNT; i++) {
     requirement_vector_free(&(clause_infos[i].giver_reqs));
     requirement_vector_free(&(clause_infos[i].receiver_reqs));
+    requirement_vector_free(&(clause_infos[i].either_reqs));
   }
 }
 
