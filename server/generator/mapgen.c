@@ -2462,8 +2462,8 @@ static void mapgenerator4(void)
   initworld(pstate);
 
   i = player_count() / 2;
-  if ((player_count() % 2) == 1) {
-    make_island(bigweight * 3 * pstate->totalmass / totalweight, 3, 
+  if ((player_count() & 1) == 1) {
+    make_island(bigweight * 3 * pstate->totalmass / totalweight, 3,
                 pstate, DMSIS);
   } else {
     i++;
