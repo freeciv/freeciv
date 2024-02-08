@@ -181,8 +181,34 @@ reqs	=
       "OutputType", "Trade",  "Local"
     }
 
-[effect_capital]
+[effect_rock_pile_capital]
 type    = "Capital_City"
+value	= 1
+reqs	=
+    { "type",     "name",              "range", "present"
+      "Building", "Throne",            "Player", FALSE
+      "Building", "Central Rock Pile", "City",   TRUE
+    }
+
+[effect_rock_pile_gov_center]
+type    = "Gov_Center"
+value	= 1
+reqs	=
+    { "type",     "name",              "range", "present"
+      "Building", "Throne",            "Player", FALSE
+      "Building", "Central Rock Pile", "City",   TRUE
+    }
+
+[effect_throne_capital]
+type    = "Capital_City"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Throne", "City"
+    }
+
+[effect_throne_gov_center]
+type    = "Gov_Center"
 value	= 1
 reqs	=
     { "type", "name", "range"
