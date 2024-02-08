@@ -72,7 +72,7 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
     ac_save_CFLAGS="$CFLAGS"
     ac_save_LIBS="$LIBS"
     CFLAGS="$CFLAGS $WAND_CFLAGS"
-    LIBS="$WAND_LIBS $LIBS"
+    LIBS="$WAND_LIBS $UTILITY_LIBS $LIBS"
 
     AC_MSG_CHECKING([for all development tools needed for MagickWand])
     dnl First look for MagickWand-7
