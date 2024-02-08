@@ -2467,15 +2467,15 @@ static void mapgenerator4(void)
   initworld(pstate);
 
   i = player_count() / 2;
-  if ((player_count() % 2) == 1) {
-    make_island(bigweight * 3 * pstate->totalmass / totalweight, 3, 
-		pstate, DMSIS);
+  if ((player_count() & 1) == 1) {
+    make_island(bigweight * 3 * pstate->totalmass / totalweight, 3,
+                pstate, DMSIS);
   } else {
     i++;
   }
   while ((--i) > 0) {
     make_island(bigweight * 2 * pstate->totalmass / totalweight, 2,
-		pstate, DMSIS);
+                pstate, DMSIS);
   }
   for (i = player_count(); i > 0; i--) {
     make_island(20 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
