@@ -717,7 +717,8 @@ static bool plr_knows_tile(const struct player *plr,
 /**********************************************************************//**
   Could an action with this kind of result be made?
 **************************************************************************/
-enum fc_tristate actres_possible(enum action_result result,
+enum fc_tristate actres_possible(const struct civ_map *nmap,
+                                 enum action_result result,
                                  const struct req_context *actor,
                                  const struct req_context *target,
                                  const struct extra_type *target_extra,
@@ -728,7 +729,6 @@ enum fc_tristate actres_possible(enum action_result result,
   struct terrain *pterrain;
   bool can_see_tgt_unit;
   bool can_see_tgt_tile;
-  struct civ_map *nmap = &(wld.map);
 
   /* Only check requirement against the target unit if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is

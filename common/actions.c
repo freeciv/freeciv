@@ -2845,7 +2845,8 @@ is_action_possible(const action_id wanted_action,
   }
 
   /* Hard requirements for results. */
-  out = actres_possible(paction->result, actor,
+  out = actres_possible(nmap,
+                        paction->result, actor,
                         target, target_extra, out, omniscient,
                         homecity);
 

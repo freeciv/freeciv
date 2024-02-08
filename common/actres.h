@@ -19,6 +19,7 @@ extern "C" {
 
 /* common */
 #include "fc_types.h"
+#include "world_object.h"
 
 struct req_context;
 
@@ -137,7 +138,8 @@ bool actres_creates_extra(enum action_result result,
 bool actres_removes_extra(enum action_result result,
                           const struct extra_type *pextra);
 
-enum fc_tristate actres_possible(enum action_result result,
+enum fc_tristate actres_possible(const struct civ_map *nmap,
+                                 enum action_result result,
                                  const struct req_context *actor,
                                  const struct req_context *target,
                                  const struct extra_type *target_extra,
