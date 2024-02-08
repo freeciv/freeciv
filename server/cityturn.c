@@ -431,19 +431,20 @@ void auto_arrange_workers(struct city *pcity)
 
     if (!cmr->found_a_valid) {
       /* Drop surpluses and try again. */
-      cmp.minimal_surplus[O_FOOD] = 0;
-      cmp.minimal_surplus[O_SHIELD] = 0;
+      output_type_iterate(o) {
+        cmp.minimal_surplus[o] = 0;
+      } output_type_iterate_end;
       cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
       cm_query_result(pcity, pcmp, cmr, FALSE);
     }
   }
   if (!cmr->found_a_valid) {
-    /* Emergency management.  Get _some_ result.  This doesn't use
-     * cm_init_emergency_parameter so we can keep the factors from
+    /* Emergency management. Get _some_ result. This doesn't use
+     * cm_init_emergency_parameter() so we can keep the factors from
      * above. */
     output_type_iterate(o) {
       cmp.minimal_surplus[o] = MIN(cmp.minimal_surplus[o],
-				   MIN(pcity->surplus[o], 0));
+                                   MIN(pcity->surplus[o], 0));
     } output_type_iterate_end;
     cmp.require_happy = FALSE;
     cmp.allow_disorder = is_ai(city_owner(pcity)) ? FALSE : TRUE;
