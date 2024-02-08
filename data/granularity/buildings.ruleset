@@ -179,6 +179,30 @@ Makes one unhappy citizen content.\
  Does not affect citizens made unhappy by military activity.\
 ")
 
+[building_rock_pile]
+name		= _("Central Rock Pile")
+genus		= "SmallWonder"
+reqs	=
+    { "type", "name", "range"
+; No requirements
+    }
+graphic         = "b.rock_pile"
+graphic_alt	= "b.palace"
+graphic_alt2    = "-"
+obsolete_by     =
+    { "type", "name", "range"
+    }
+build_cost	= 500
+upkeep		= 0
+sabotage	= 100
+sound		= "b_rock_pile"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+This Rock Pile marks the spot where your people first settled, and found a city. \
+It marks your capital city until you have more fitting building to do so.\
+")
+
 [building_throne]
 name		= _("Throne")
 genus		= "SmallWonder"
