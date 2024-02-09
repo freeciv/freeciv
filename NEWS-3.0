@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.9 to 3.0.10
 ----------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.10>, 2024-02-04)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.10>, 2024-02-09)
 
 3.0.10 is a generic bugfix release in freeciv-3.0 series.
 Focus has been in portability issues, but also a couple
@@ -48,7 +48,10 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: fi, pl, ru
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+            Finnish (100% core, 93% nations, 100% ruledit)
 
 Build/portability
 
