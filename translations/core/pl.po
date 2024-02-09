@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-01-25 03:59+0200\n"
+"POT-Creation-Date: 2024-01-29 01:22+0200\n"
 "PO-Revision-Date: 2024-01-26 20:49+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -2500,95 +2500,95 @@ msgstr "Czekaj (_W)"
 msgid "Suggestions: %s."
 msgstr "Sugestie: %s."
 
-#: client/gui-gtk-2.0/chatline.c:481 client/gui-gtk-3.0/chatline.c:487
-#: client/gui-gtk-3.22/chatline.c:487
+#: client/gui-gtk-2.0/chatline.c:482 client/gui-gtk-3.0/chatline.c:488
+#: client/gui-gtk-3.22/chatline.c:488
 msgid "No visible unit on this tile."
 msgstr "Na tym polu nie ma widocznych jednostek."
 
-#: client/gui-gtk-2.0/chatline.c:627 client/gui-gtk-3.0/chatline.c:633
-#: client/gui-gtk-3.22/chatline.c:633 client/gui-qt/chatline.cpp:389
+#: client/gui-gtk-2.0/chatline.c:628 client/gui-gtk-3.0/chatline.c:634
+#: client/gui-gtk-3.22/chatline.c:634 client/gui-qt/chatline.cpp:389
 msgid "This city isn't known!"
 msgstr "To miasto nie jest znane!"
 
-#: client/gui-gtk-2.0/chatline.c:636 client/gui-gtk-3.0/chatline.c:642
-#: client/gui-gtk-3.22/chatline.c:642 client/gui-qt/chatline.cpp:398
+#: client/gui-gtk-2.0/chatline.c:637 client/gui-gtk-3.0/chatline.c:643
+#: client/gui-gtk-3.22/chatline.c:643 client/gui-qt/chatline.cpp:398
 msgid "This tile doesn't exist in this game!"
 msgstr "To pole nie istnieje w tej grze!"
 
-#: client/gui-gtk-2.0/chatline.c:646 client/gui-gtk-3.0/chatline.c:652
-#: client/gui-gtk-3.22/chatline.c:652 client/gui-qt/chatline.cpp:407
+#: client/gui-gtk-2.0/chatline.c:647 client/gui-gtk-3.0/chatline.c:653
+#: client/gui-gtk-3.22/chatline.c:653 client/gui-qt/chatline.cpp:407
 msgid "This unit isn't known!"
 msgstr "Ta jednostka nie jest znana!"
 
-#: client/gui-gtk-2.0/chatline.c:962 client/gui-gtk-3.0/chatline.c:945
-#: client/gui-gtk-3.22/chatline.c:945 client/gui-qt/chatline.cpp:790
+#: client/gui-gtk-2.0/chatline.c:963 client/gui-gtk-3.0/chatline.c:946
+#: client/gui-gtk-3.22/chatline.c:946 client/gui-qt/chatline.cpp:790
 msgid "Cleared output window."
 msgstr "Okno powiadomień zostało wyczyszczone."
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:1143 client/gui-gtk-3.0/chatline.c:1129
-#: client/gui-gtk-3.22/chatline.c:1129
+#: client/gui-gtk-2.0/chatline.c:1144 client/gui-gtk-3.0/chatline.c:1130
+#: client/gui-gtk-3.22/chatline.c:1130
 #, c-format
 msgid "Select the %s color"
 msgstr "Wybierz kolor %s"
 
-#: client/gui-gtk-2.0/chatline.c:1350 client/gui-gtk-3.0/chatline.c:1342
-#: client/gui-gtk-3.22/chatline.c:1348
+#: client/gui-gtk-2.0/chatline.c:1351 client/gui-gtk-3.0/chatline.c:1343
+#: client/gui-gtk-3.22/chatline.c:1349
 msgid "Bold (Ctrl-B)"
 msgstr "Pogrubiona (Ctrl-B)"
 
-#: client/gui-gtk-2.0/chatline.c:1358 client/gui-gtk-3.0/chatline.c:1350
-#: client/gui-gtk-3.22/chatline.c:1357
+#: client/gui-gtk-2.0/chatline.c:1359 client/gui-gtk-3.0/chatline.c:1351
+#: client/gui-gtk-3.22/chatline.c:1358
 msgid "Italic (Ctrl-I)"
 msgstr "Kursywa (Ctrl-I)"
 
-#: client/gui-gtk-2.0/chatline.c:1366 client/gui-gtk-3.0/chatline.c:1358
-#: client/gui-gtk-3.22/chatline.c:1366
+#: client/gui-gtk-2.0/chatline.c:1367 client/gui-gtk-3.0/chatline.c:1359
+#: client/gui-gtk-3.22/chatline.c:1367
 msgid "Strikethrough (Ctrl-S)"
 msgstr "Przekreślenie (Ctrl-S)"
 
-#: client/gui-gtk-2.0/chatline.c:1374 client/gui-gtk-3.0/chatline.c:1366
-#: client/gui-gtk-3.22/chatline.c:1375
+#: client/gui-gtk-2.0/chatline.c:1375 client/gui-gtk-3.0/chatline.c:1367
+#: client/gui-gtk-3.22/chatline.c:1376
 msgid "Underline (Ctrl-U)"
 msgstr "Podkreślenie (Ctrl-U)"
 
-#: client/gui-gtk-2.0/chatline.c:1382 client/gui-gtk-3.0/chatline.c:1374
-#: client/gui-gtk-3.22/chatline.c:1383
+#: client/gui-gtk-2.0/chatline.c:1383 client/gui-gtk-3.0/chatline.c:1375
+#: client/gui-gtk-3.22/chatline.c:1384
 msgid "Color (Ctrl-C)"
 msgstr "Kolor (Ctrl-C)"
 
-#: client/gui-gtk-2.0/chatline.c:1392 client/gui-gtk-3.0/chatline.c:1384
-#: client/gui-gtk-3.22/chatline.c:1393
+#: client/gui-gtk-2.0/chatline.c:1393 client/gui-gtk-3.0/chatline.c:1385
+#: client/gui-gtk-3.22/chatline.c:1394
 msgid "foreground"
 msgstr "pierwszy plan"
 
-#: client/gui-gtk-2.0/chatline.c:1395 client/gui-gtk-2.0/optiondlg.c:625
-#: client/gui-gtk-3.0/chatline.c:1387 client/gui-gtk-3.0/optiondlg.c:628
-#: client/gui-gtk-3.22/chatline.c:1396 client/gui-gtk-3.22/optiondlg.c:621
+#: client/gui-gtk-2.0/chatline.c:1396 client/gui-gtk-2.0/optiondlg.c:625
+#: client/gui-gtk-3.0/chatline.c:1388 client/gui-gtk-3.0/optiondlg.c:628
+#: client/gui-gtk-3.22/chatline.c:1397 client/gui-gtk-3.22/optiondlg.c:621
 #: client/gui-qt/optiondlg.cpp:719
 msgid "Select the text color"
 msgstr "Wybierz kolor tekstu"
 
-#: client/gui-gtk-2.0/chatline.c:1408 client/gui-gtk-3.0/chatline.c:1400
-#: client/gui-gtk-3.22/chatline.c:1409
+#: client/gui-gtk-2.0/chatline.c:1409 client/gui-gtk-3.0/chatline.c:1401
+#: client/gui-gtk-3.22/chatline.c:1410
 msgid "background"
 msgstr "tło"
 
-#: client/gui-gtk-2.0/chatline.c:1412 client/gui-gtk-2.0/optiondlg.c:634
-#: client/gui-gtk-3.0/chatline.c:1404 client/gui-gtk-3.0/optiondlg.c:637
-#: client/gui-gtk-3.22/chatline.c:1413 client/gui-gtk-3.22/optiondlg.c:630
+#: client/gui-gtk-2.0/chatline.c:1413 client/gui-gtk-2.0/optiondlg.c:634
+#: client/gui-gtk-3.0/chatline.c:1405 client/gui-gtk-3.0/optiondlg.c:637
+#: client/gui-gtk-3.22/chatline.c:1414 client/gui-gtk-3.22/optiondlg.c:630
 #: client/gui-qt/optiondlg.cpp:731
 msgid "Select the background color"
 msgstr "Wybierz kolor tła"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1430 client/gui-gtk-3.0/chatline.c:1422
-#: client/gui-gtk-3.22/chatline.c:1431
+#: client/gui-gtk-2.0/chatline.c:1431 client/gui-gtk-3.0/chatline.c:1423
+#: client/gui-gtk-3.22/chatline.c:1432
 msgid "Send the chat (Return)"
 msgstr "Wyślij wiadomość (Enter)"
 
-#: client/gui-gtk-2.0/chatline.c:1447 client/gui-gtk-3.0/chatline.c:1437
-#: client/gui-gtk-3.22/chatline.c:1445
+#: client/gui-gtk-2.0/chatline.c:1448 client/gui-gtk-3.0/chatline.c:1438
+#: client/gui-gtk-3.22/chatline.c:1446
 msgid "Chat tools"
 msgstr "Narzędzia czatu"
 
@@ -4198,8 +4198,8 @@ msgid ""
 msgstr ""
 "Naciśnięcie tego przycisku stworzy nowy obiekt określony na bieżącej stronie "
 "obiektu i doda go do strony. Dokładny typ i ilość obiektów określany jest "
-"ustawieniami narzędzi edytora; na przykład \"wartość\" oraz parametr \"ilość"
-"\" określane dla narzędzia jednostki wpływają na tworzenie jednostki."
+"ustawieniami narzędzi edytora; na przykład \"wartość\" oraz parametr "
+"\"ilość\" określane dla narzędzia jednostki wpływają na tworzenie jednostki."
 
 #. TRANS: %s is a type of object that can be edited, such as "Tile",
 #. * "Unit", "Start Position", etc.
@@ -7188,7 +7188,7 @@ msgstr "Zamknij"
 
 #: client/gui-gtk-3.22/action_dialog.c:987
 #: client/gui-gtk-3.22/action_dialog.c:1169
-#: client/gui-gtk-3.22/action_dialog.c:1963 client/gui-gtk-3.22/chatline.c:1133
+#: client/gui-gtk-3.22/action_dialog.c:1963 client/gui-gtk-3.22/chatline.c:1134
 #: client/gui-gtk-3.22/citydlg.c:3018 client/gui-gtk-3.22/dialogs.c:863
 #: client/gui-gtk-3.22/editgui.c:1010 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:411
@@ -7201,11 +7201,11 @@ msgstr "Zamknij"
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: client/gui-gtk-3.22/chatline.c:1134 client/gui-gtk-3.22/optiondlg.c:329
+#: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/optiondlg.c:329
 msgid "C_lear"
 msgstr "Wyczyść (C)"
 
-#: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/dialogs.c:867
+#: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/dialogs.c:867
 #: client/gui-gtk-3.22/editgui.c:1009 client/gui-gtk-3.22/gamedlgs.c:319
 #: client/gui-gtk-3.22/gamedlgs.c:413 client/gui-gtk-3.22/inputdlg.c:81
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
@@ -7214,27 +7214,27 @@ msgstr "Wyczyść (C)"
 msgid "_OK"
 msgstr "_OK"
 
-#: client/gui-gtk-3.22/chatline.c:1342
+#: client/gui-gtk-3.22/chatline.c:1343
 msgid "Bold"
 msgstr "Pogrubienie"
 
-#: client/gui-gtk-3.22/chatline.c:1352
+#: client/gui-gtk-3.22/chatline.c:1353
 msgid "Italic"
 msgstr "Kursywa"
 
-#: client/gui-gtk-3.22/chatline.c:1361
+#: client/gui-gtk-3.22/chatline.c:1362
 msgid "Strikethrough"
 msgstr "Przekreślenie"
 
-#: client/gui-gtk-3.22/chatline.c:1370
+#: client/gui-gtk-3.22/chatline.c:1371
 msgid "Underline"
 msgstr "Podkreślenie"
 
-#: client/gui-gtk-3.22/chatline.c:1378
+#: client/gui-gtk-3.22/chatline.c:1379
 msgid "Color"
 msgstr "Kolor"
 
-#: client/gui-gtk-3.22/chatline.c:1425 client/gui-sdl2/dialogs.c:2889
+#: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl2/dialogs.c:2889
 #: client/gui-sdl2/dialogs.c:3332 client/gui-sdl2/mapctrl.c:2771
 #: common/mapimg.c:304
 msgid "OK"
@@ -17743,8 +17743,8 @@ msgstr "Niemożliwe, jeśli znasz technologię z flagą \"%s\"."
 msgid ""
 "Requires that a player on your team knows a technology with the \"%s\" flag."
 msgstr ""
-"Wymagania: dowolny gracz z twojej drużyny musi znać technologię z flagą \"%s"
-"\"."
+"Wymagania: dowolny gracz z twojej drużyny musi znać technologię z flagą "
+"\"%s\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:167
@@ -17753,8 +17753,8 @@ msgid ""
 "Prevented if any player on your team knows any technology with the \"%s\" "
 "flag."
 msgstr ""
-"Niemożliwe, jeśli dowolny gracz z twojej drużyny zna technologię z flagą \"%s"
-"\"."
+"Niemożliwe, jeśli dowolny gracz z twojej drużyny zna technologię z flagą "
+"\"%s\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:177
@@ -30663,8 +30663,8 @@ msgstr ""
 "RADA: Może się zdarzyć, że twoje jednostki masowo najechały obszar wroga, "
 "lecz jego miasta są zbyt silne. Wówczas przed użyciem Bomb Atomowych, warto "
 "zgromadzić grupę jednostek sprzątających i przygotować ich do usuwania "
-"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej zimy"
-"\" (ekologiczne bomby atomowe!)."
+"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej "
+"zimy\" (ekologiczne bomby atomowe!)."
 
 #: data/sandbox/units.ruleset:2295 data/civ2civ3/units.ruleset:2237
 msgid ""
@@ -34060,8 +34060,8 @@ msgstr ""
 "mnożona jest przez współczynnik obrony przypisany do terenu, na którym "
 "jednostka się znajduje. (Jednak nie wszystkie type jednostek korzystają z "
 "tego współczynnika; na przykład w klasycznym zestawie zasad, korzystają z "
-"niego tylko jednostki lądowe.) Więcej informacji znajdziesz w sekcji \"Bitwa"
-"\"."
+"niego tylko jednostki lądowe.) Więcej informacji znajdziesz w sekcji "
+"\"Bitwa\"."
 
 #: data/helpdata.txt:304
 msgid ""
@@ -34285,10 +34285,10 @@ msgstr ""
 "Jeśli ustawiona jest odpowiednia opcja serwera, każdy naród ma granice "
 "swojego państwa, oznaczoną na mapie linią przerywaną. Granice określają na "
 "jakich terenach przeprowadzane mogą być prace, gdzie mogą być budowane nowe "
-"miasta i czy mieszkańcy postrzegają ustawienie twoich jednostek jako \"bojowe"
-"\" (więcej informacji znaleźć można w sekcji \"Zadowolenie\"). Granice "
-"odgrywają też rolę przy paktach między narodami (więcej informacji znaleźć "
-"można w sekcji \"Dyplomacja\")."
+"miasta i czy mieszkańcy postrzegają ustawienie twoich jednostek jako "
+"\"bojowe\" (więcej informacji znaleźć można w sekcji \"Zadowolenie\"). "
+"Granice odgrywają też rolę przy paktach między narodami (więcej informacji "
+"znaleźć można w sekcji \"Dyplomacja\")."
 
 #: data/helpdata.txt:434
 msgid ""
@@ -34384,8 +34384,8 @@ msgid ""
 "capacity, and once full the city grows by one citizen and the granary starts "
 "again at empty. But since granary capacity increases with population, each "
 "citizen is more costly than the last, making this mode of growth important "
-"only for small cities. (An alternative way for cities to grow is \"rapture"
-"\", described in the section on Happiness.)"
+"only for small cities. (An alternative way for cities to grow is "
+"\"rapture\", described in the section on Happiness.)"
 msgstr ""
 "Nadwyżka żywności może spowodować wzrost populacji. Spichlerz miejski ma "
 "ograniczoną pojemność i gdy się zapełni, miasto wzrasta o jednego "
@@ -34517,10 +34517,10 @@ msgid ""
 "immediately after completion."
 msgstr ""
 "Każdy gracz może tworzyć obiekty, na które pozwalają mu posiadane "
-"technologie, z kilkoma ograniczeniami (zob. sekcje \"Jednostki\", \"Budynki"
-"\" i \"Cudy\"). Zachowaj ostrożność - gra umożliwia ci nawet tworzenie "
-"jednostek i budynków, których nie jesteś w stanie utrzymać i które zostaną "
-"rozwiązane natychmiast po ukończeniu."
+"technologie, z kilkoma ograniczeniami (zob. sekcje \"Jednostki\", "
+"\"Budynki\" i \"Cudy\"). Zachowaj ostrożność - gra umożliwia ci nawet "
+"tworzenie jednostek i budynków, których nie jesteś w stanie utrzymać i które "
+"zostaną rozwiązane natychmiast po ukończeniu."
 
 #: data/helpdata.txt:551
 msgid ""
@@ -34997,8 +34997,8 @@ msgstr ""
 "niezadowoleni, w mieście wybuchają zamieszki, które przerywają produkcję. "
 "Jeśli mieszkańcy są szczęśliwi, miasto świętuje, co znacznie zwiększa jego "
 "produkcję. Jeśli ustawiono opcję migracji, szczęście mieszkańców wpływa też "
-"na atrakcyjność miasta (więcej informacji znaleźć można w sekcji \"Migracja"
-"\".)"
+"na atrakcyjność miasta (więcej informacji znaleźć można w sekcji "
+"\"Migracja\".)"
 
 #: data/helpdata.txt:792
 msgid ""
@@ -36497,10 +36497,10 @@ msgid ""
 "browser is using a HTTP proxy; to make the client use the same proxy, before "
 "starting the client, set the $http_proxy environment variable to:"
 msgstr ""
-"Klient może także dostarczyć tą stronę: użyj zakładki przycisku \"Metaserwer"
-"\" w oknie połączenia. Jeżeli nie przynosi to rezultatu, być może twoja "
-"przeglądarka używa proxy; aby klient używał tego samego proxy, zanim go "
-"uruchomisz, ustaw zmienną środowiskową $http_proxy na:"
+"Klient może także dostarczyć tą stronę: użyj zakładki przycisku "
+"\"Metaserwer\" w oknie połączenia. Jeżeli nie przynosi to rezultatu, być "
+"może twoja przeglądarka używa proxy; aby klient używał tego samego proxy, "
+"zanim go uruchomisz, ustaw zmienną środowiskową $http_proxy na:"
 
 #: data/helpdata.txt:1619
 msgid ""
@@ -37266,8 +37266,8 @@ msgstr ""
 "Wyrażenie to można rozpocząć i zakończyć w jednym znaczniku, np. '[link "
 "target=\"unit\" id=109 /]' (zwróć uwagę na ukośnik przed ostatnim "
 "nawiasem).\n"
-"Przykłady: '[l tgt=\"unit\" id=235]jednostka[/l]' wyświetli słowo \"jednostka"
-"\" jako klikalny link do jednostki o identyfikatorze 235.\n"
+"Przykłady: '[l tgt=\"unit\" id=235]jednostka[/l]' wyświetli słowo "
+"\"jednostka\" jako klikalny link do jednostki o identyfikatorze 235.\n"
 "'[l tgt=\"unit\" id=235 name=\"Wojownik\" /]' wyświetli nazwę jednostki o "
 "identyfikatorze 235, jeśli jest ona znana adresatowi; w przeciwnym razie "
 "wyświetli się słowo \"Wojownik\"."
@@ -39571,8 +39571,8 @@ msgstr ""
 "\n"
 "Można temu zaradzić na kilka sposobów. Szybkim rozwiązaniem jest budowa\n"
 "Świątyni (lub innego budynku związanego z kulturą), która zmieni jednego\n"
-"niezadowolonego mieszkańca w zadowolonego (zob. sekcja pomocy pt. \"Budynki"
-"\";\n"
+"niezadowolonego mieszkańca w zadowolonego (zob. sekcja pomocy pt. "
+"\"Budynki\";\n"
 "znajdziesz tam szczegółowe opisy różnych budowli). Inne rozwiązanie to "
 "zmiana\n"
 "stawek podatkowych (użyj skrótu ctrl-t) tak, by więcej dochodów z podatków\n"
@@ -39816,8 +39816,8 @@ msgstr ""
 "opracowywaną technologią, będzie ta leżąca na ścieżce wiodącej do "
 "Republiki.\n"
 "Pasek w górnej części okna pokazuje postęp badań - punkty odkryć pochodzą \n"
-"z opodatkowanego handlu w miastach. Niżej znajdziesz  \"drzewo technologii"
-"\";\n"
+"z opodatkowanego handlu w miastach. Niżej znajdziesz  \"drzewo "
+"technologii\";\n"
 "możesz tu wybierać cele badań, a po kliknięciu prawym przyciskiem myszy na\n"
 "dane odkrycie, pojawi się okno pomocy na jego temat. Gdy zechcesz wrócić\n"
 "do widoku mapy, naciśnij F1."
@@ -41354,8 +41354,8 @@ msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
 "Postponing..."
 msgstr ""
-"%s nie może zbudować %s z planu prac; brak wymaganej technologii z flagą \"%s"
-"\". Przesunięto na późniejszy termin..."
+"%s nie może zbudować %s z planu prac; brak wymaganej technologii z flagą "
+"\"%s\". Przesunięto na późniejszy termin..."
 
 #: server/cityturn.c:1176 server/cityturn.c:1206 server/cityturn.c:1890
 #, c-format
@@ -41660,8 +41660,8 @@ msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
 "Postponing..."
 msgstr ""
-"%s nie może zbudować %s z planu prac; wymagane jest usprawnienie z flagą \"%s"
-"\". Przesunięto na późniejszy termin..."
+"%s nie może zbudować %s z planu prac; wymagane jest usprawnienie z flagą "
+"\"%s\". Przesunięto na późniejszy termin..."
 
 #: server/cityturn.c:1667
 #, c-format
@@ -42417,19 +42417,19 @@ msgstr "Lista opcji serwera."
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
-"or options with that prefix. With \"all\", it shows all options. With \"vital"
-"\", \"situational\" or \"rare\", a set of options with this level. With "
-"\"changed\", it shows only the options which have been modified, while with "
-"\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
-"\", it will show the current ruleset directory name."
+"or options with that prefix. With \"all\", it shows all options. With "
+"\"vital\", \"situational\" or \"rare\", a set of options with this level. "
+"With \"changed\", it shows only the options which have been modified, while "
+"with \"locked\" all settings locked by the ruleset will be listed. With "
+"\"ruleset\", it will show the current ruleset directory name."
 msgstr ""
 "Bez argumentu wymienia ważne opcje serwera (lub opcje dostępne, jeśli "
 "polecenie jest wydane przez klienta). Podając argument, ograniczamy listę "
-"tylko do wybranej opcji lub zbioru opcji ze wskazanym przedrostkiem. Z \"all"
-"\" wyświetla wszystkie opcje. Z \"vital\", \"situational\" lub \"rare\", "
-"wyświetla zestaw opcji z tego poziomu. Z \"changed\" wyświetla opcje, które "
-"zostały zmienione, a z \"locked\" opcje zablokowane przez zestaw zasad. Z "
-"\"ruleset\" wyświetla bieżącą nazwę folderu zestawów zasad."
+"tylko do wybranej opcji lub zbioru opcji ze wskazanym przedrostkiem. Z "
+"\"all\" wyświetla wszystkie opcje. Z \"vital\", \"situational\" lub "
+"\"rare\", wyświetla zestaw opcji z tego poziomu. Z \"changed\" wyświetla "
+"opcje, które zostały zmienione, a z \"locked\" opcje zablokowane przez "
+"zestaw zasad. Z \"ruleset\" wyświetla bieżącą nazwę folderu zestawów zasad."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:173
@@ -42485,8 +42485,8 @@ msgid ""
 msgstr ""
 "Gracz posiadający podstawowy poziom dostępu, który wykonuje polecenia z "
 "poziomu 'control' rozpoczyna nowe głosowanie nad danym poleceniem. Aby "
-"zagłosować, użyj /vote, a po nim \"yes\" (czyli \"tak\"), \"no\" (czyli \"nie"
-"\") lub \"abstain\"( czyli \"wstrzymuję się\") i ewentualnie numer "
+"zagłosować, użyj /vote, a po nim \"yes\" (czyli \"tak\"), \"no\" (czyli "
+"\"nie\") lub \"abstain\"( czyli \"wstrzymuję się\") i ewentualnie numer "
 "głosowania. Jeśli nie podasz numeru, twój głos będzie dotyczył ostatniego "
 "głosowania. Możesz zaproponować jedynie jedno głosowanie na raz. Głosowanie "
 "kończy się po zakończeniu jednej pełnej tury lub gdy zostanie rozstrzygnięte "
@@ -42984,10 +42984,10 @@ msgstr "Blokuje wszystkie wiadomości pasujące do wzoru."
 #: server/commands.c:476
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
-"any messages from users matching this pattern. The type may be either \"user"
-"\", \"host\", or \"ip\". The default type (if omitted) is to match against "
-"the username. The pattern supports unix glob style wildcards, i.e., * "
-"matches zero or more character, ? exactly one character, [abc] exactly one "
+"any messages from users matching this pattern. The type may be either "
+"\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
+"against the username. The pattern supports unix glob style wildcards, i.e., "
+"* matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
 msgstr ""
@@ -43022,8 +43022,8 @@ msgstr ""
 "zakresu może być jeden numer lub para numerów przedzielona myślnikiem '-'. "
 "Jeśli pierwszy numer jest pominięty, program zakłada, że jest to 1; jeśli "
 "pominięty jest ostatni numer, zakłada się, że jest to ostatni indeks na "
-"liście ignorowanych. Aby wyświetlić listę ignorowanych, wpisz \"/list ignore"
-"\"."
+"liście ignorowanych. Aby wyświetlić listę ignorowanych, wpisz \"/list "
+"ignore\"."
 
 #. TRANS: translate text between <>
 #: server/commands.c:500
@@ -46270,8 +46270,8 @@ msgid ""
 msgstr ""
 "Mapy są dwuwymiarowe i mogą się zawijać na północ-południe oraz wschód-"
 "zachód; mogą tworzyć płaską powierzchnię, walec lub torus (obwarzanek). Pola "
-"mogą być prostokątne lub sześciokątne i mogą być ułożone \"lotniczo"
-"\" (klasycznie) lub izometrycznie.\n"
+"mogą być prostokątne lub sześciokątne i mogą być ułożone "
+"\"lotniczo\" (klasycznie) lub izometrycznie.\n"
 "Aby grać z daną topologią mapy, klient potrzebuje odpowiedniego zestawu "
 "graficznego.\n"
 "Klasyczna prostokątna:      Izometryczna prostokątna:\n"
@@ -47596,8 +47596,8 @@ msgid ""
 msgstr ""
 "To ustawienie określa sposób przenoszenia jednostek mostem powietrznym. Może "
 "przyjmować następujące wartości:\n"
-"- \"Pozwala na przenoszenie jednostek z sojuszniczych miast"
-"\" (FROM_ALLIES).\n"
+"- \"Pozwala na przenoszenie jednostek z sojuszniczych "
+"miast\" (FROM_ALLIES).\n"
 "- \"Pozwala na przenoszenie jednostek do sojuszniczych miast\" (TO_ALLIES).\n"
 "- \"Nieograniczone przenoszenie z miast początkowych\" (SRC_UNLIMITED): "
 "przenoszenie z miasta nie zmniejsza licznika przenoszonych jednostek, lecz "
@@ -53012,8 +53012,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "On terrain unsuitable for irrigation systems or mines, issuing the "
 #~ "\"irrigate\" or \"mine\" order may permanently convert the terrain to "
 #~ "another type; this is usually more expensive. For instance, Swamp may be "
-#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the \"irrigate"
-#~ "\" order does not require a water source.)"
+#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the "
+#~ "\"irrigate\" order does not require a water source.)"
 #~ msgstr ""
 #~ "Jeśli teren nie nadaje się pod nawodnienie i kopalnię, wydanie polecenia "
 #~ "'nawodnij' i 'zbuduj kopalnię' może trwale przekształcić teren. Jest to "
@@ -58552,8 +58552,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "RADA 2:  Może się zdarzyć, że twoje jednostki masowo najechały obszar "
 #~ "wroga, lecz jego miasta są zbyt silne. Wówczas, przed użyciem Bomb "
 #~ "Atomowych, warto zgromadzić grupę Osadników i przygotować ich do usuwania "
-#~ "skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej zimy"
-#~ "\" (ekologiczne Bomby Atomowe!)."
+#~ "skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej "
+#~ "zimy\" (ekologiczne Bomby Atomowe!)."
 
 #~ msgid ""
 #~ "One Barbarian Leader appears every time there is a barbarian uprising "
@@ -58684,8 +58684,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #, fuzzy
 #~ msgid ""
-#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>.sav"
-#~ "\". This setting sets the <prefix> part."
+#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>."
+#~ "sav\". This setting sets the <prefix> part."
 #~ msgstr ""
 #~ "Autosave'y będą miały nazwę \"<prefix><rok>.sav\". Gdzie <prefix> jest "
 #~ "podanym przedrostkiem."
