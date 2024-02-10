@@ -1,4 +1,4 @@
-# lib-prefix.m4 serial 21
+# lib-prefix.m4 serial 22
 dnl Copyright (C) 2001-2005, 2008-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -253,6 +253,15 @@ changequote([,])dnl
            case "$host_cpu" in
              sparc*)        acl_libdirstem3=lib/sparcv9 ;;
              i*86 | x86_64) acl_libdirstem3=lib/amd64 ;;
+           esac
+         fi
+         ;;
+       netbsd*)
+         dnl On NetBSD/sparc64, there is a 'sparc' subdirectory that contains
+         dnl 32-bit libraries.
+         if test $HOST_CPU_C_ABI_32BIT != no; then
+           case "$host_cpu" in
+             sparc*) acl_libdirstem2=lib/sparc ;;
            esac
          fi
          ;;
