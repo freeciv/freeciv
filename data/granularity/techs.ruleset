@@ -375,7 +375,7 @@ flags       = ""
 graphic     = "a.rituals"
 graphic_alt = "-"
 helptext    = _("\
-Provides a morale boost increasing both attack and defense values of units buy 20%.\
+Provides a morale boost increasing both attack and defense values of units by 20%.\
 ")
 
 [advance_rope]
