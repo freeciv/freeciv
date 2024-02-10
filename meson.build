@@ -3187,14 +3187,14 @@ endforeach
 foreach manp : man_pages
   install_data(
     join_paths(b_root, manp + '.6'),
-    install_dir : get_option('mandir')
+    install_dir : join_paths(get_option('mandir'), 'man6')
     )
 endforeach
 
 foreach manp : man_links
   install_data(
     join_paths('doc/man/', manp + '.6'),
-    install_dir : get_option('mandir')
+    install_dir : join_paths(get_option('mandir'), 'man6')
     )
 endforeach
 
