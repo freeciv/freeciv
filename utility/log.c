@@ -36,10 +36,10 @@ static void log_write(FILE *fs, enum log_level level, bool print_from_where,
 static void log_real(enum log_level level, bool print_from_where,
                      const char *where, const char *msg);
 
-static char *log_filename = NULL;
+static char *log_filename = nullptr;
 static log_pre_callback_fn log_pre_callback = log_real;
-static log_callback_fn log_callback = NULL;
-static log_prefix_fn log_prefix = NULL;
+static log_callback_fn log_callback = nullptr;
+static log_prefix_fn log_prefix = nullptr;
 
 static fc_mutex logfile_mutex;
 
@@ -60,11 +60,11 @@ struct log_fileinfo {
   unsigned int max;
 };
 static int log_num_files = 0;
-static struct log_fileinfo *log_files = NULL;
+static struct log_fileinfo *log_files = nullptr;
 #endif /* FREECIV_DEBUG */
 
 static char *log_level_names[] = {
-  "Fatal", "Error", "Warning", "Normal", "Verbose", "Debug", NULL
+  "Fatal", "Error", "Warning", "Normal", "Verbose", "Debug", nullptr
 };
 
 /* A helper variable to indicate that there is no log message. The '%s' is
@@ -110,7 +110,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
     /* Global log level. */
     if (!str_to_uint(level_str, &level)) {
       level = LOG_DEBUG + 1;
-      for (ln = 0; log_level_names[ln] != NULL && level > LOG_DEBUG; ln++) {
+      for (ln = 0; log_level_names[ln] != nullptr && level > LOG_DEBUG; ln++) {
         if (!fc_strncasecmp(level_str, log_level_names[ln], strlen(level_str))) {
           level = ln;
         }
@@ -125,7 +125,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
           " Use one of the levels Fatal, Error, Warning, Normal, Verbose, Debug") );
     }
     if (level <= max_level) {
-      if (NULL != ret_level) {
+      if (ret_level != nullptr) {
         *ret_level = level;
       }
       return TRUE;
@@ -147,7 +147,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   c = level_str;
   level = LOG_DEBUG + 1;
   if (first_len > 0) {
-    for (ln = 0; log_level_names[ln] != NULL && level > LOG_DEBUG; ln++) {
+    for (ln = 0; log_level_names[ln] != nullptr && level > LOG_DEBUG; ln++) {
       if (!fc_strncasecmp(level_str, log_level_names[ln], first_len)) {
         level = ln;
       }
@@ -215,7 +215,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
     }
     pfile->name = fc_strdup(tok);
     i++;
-    tok = strtok(NULL, ":");
+    tok = strtok(nullptr, ":");
   } while (tok);
 
   if (i != log_num_files) {
@@ -237,8 +237,8 @@ out:
 }
 
 /**********************************************************************//**
-  Initialise the log module. Either 'filename' or 'callback' may be NULL.
-  If both are NULL, print to stderr. If both are non-NULL, both callback,
+  Initialise the log module. Either 'filename' or 'callback' may be nullptr.
+  If both are nullptr, print to stderr. If neither is nullptr, both callback,
   and fprintf to file. Pass -1 for fatal_assertions to don't raise any
   signal on failed assertion.
 **************************************************************************/
@@ -249,12 +249,12 @@ void log_init(const char *filename, enum log_level initial_level,
   fc_log_level = initial_level;
   if (log_filename) {
     free(log_filename);
-    log_filename = NULL;
+    log_filename = nullptr;
   }
   if (filename && strlen(filename) > 0) {
     log_filename = fc_strdup(filename);
   } else {
-    log_filename = NULL;
+    log_filename = nullptr;
   }
   log_callback = callback;
   log_prefix = prefix;
@@ -330,7 +330,7 @@ enum log_level log_get_level(void)
 const char *log_level_name(enum log_level lvl)
 {
   if (lvl < LOG_FATAL || lvl > LOG_DEBUG) {
-    return NULL;
+    return nullptr;
   }
 
   return log_level_names[lvl];
@@ -389,9 +389,9 @@ static void log_write(FILE *fs, enum log_level level, bool print_from_where,
       char buf[MAX_LEN_LOG_LINE];
 
       fc_snprintf(buf, sizeof(buf), "%s%s", where, message);
-      log_callback(level, buf, log_filename != NULL);
+      log_callback(level, buf, log_filename != nullptr);
     } else {
-      log_callback(level, message, log_filename != NULL);
+      log_callback(level, message, log_filename != nullptr);
     }
   }
 }
@@ -425,7 +425,7 @@ void vdo_log(const char *file, const char *function, int line,
   Really print a log message.
   For repeat message, may wait and print instead "last message repeated ..."
   at some later time.
-  Calls log_callback if not NULL, else prints to stderr.
+  Calls log_callback if not nullptr, else prints to stderr.
 **************************************************************************/
 static void log_real(enum log_level level, bool print_from_where,
                      const char *where, const char *msg)
@@ -509,7 +509,7 @@ static void log_real(enum log_level level, bool print_from_where,
   by do_log_for().
   For repeat message, may wait and print instead
   "last message repeated ..." at some later time.
-  Calls log_callback if not NULL, else prints to stderr.
+  Calls log_callback if not nullptr, else prints to stderr.
 **************************************************************************/
 void do_log(const char *file, const char *function, int line,
             bool print_from_where, enum log_level level,
@@ -543,12 +543,12 @@ void fc_assert_fail(const char *file, const char *function, int line,
 {
   enum log_level level = (0 <= fc_fatal_assertions ? LOG_FATAL : LOG_ERROR);
 
-  if (NULL != assertion) {
+  if (assertion != nullptr) {
     do_log(file, function, line, TRUE, level,
            "assertion '%s' failed.", assertion);
   }
 
-  if (NULL != message && NOLOGMSG != message) {
+  if (message != nullptr && NOLOGMSG != message) {
     /* Additional message. */
     char buf[MAX_LEN_LOG_LINE];
     va_list args;
