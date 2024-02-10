@@ -52,7 +52,8 @@ typedef enum req_item_found (*universal_found)(const struct requirement *,
 static universal_found universal_found_function[VUT_COUNT] = {NULL};
 
 static
-enum fc_tristate tri_req_present(const struct req_context *context,
+enum fc_tristate tri_req_present(const struct civ_map *nmap,
+                                 const struct req_context *context,
                                  const struct player *other_player,
                                  const struct requirement *req);
 
@@ -73,7 +74,8 @@ static inline bool are_tiles_in_range(const struct tile *tile1,
   ruleset objects passed in the context.
 **************************************************************************/
 static enum req_unchanging_status
-  unchanging_local(enum req_unchanging_status def,
+  unchanging_local(const struct civ_map *nmap,
+                   enum req_unchanging_status def,
                    const struct req_context *context,
                    const struct requirement *req)
 {
@@ -81,16 +83,16 @@ static enum req_unchanging_status
 }
 #define REQUC_LOCAL unchanging_local
 
-
 /**********************************************************************//**
   If not present, may appear; but once becomes present, never goes absent
 **************************************************************************/
 static enum req_unchanging_status
-  unchanging_present(enum req_unchanging_status def,
+  unchanging_present(const struct civ_map *nmap,
+                     enum req_unchanging_status def,
                      const struct req_context *context,
                      const struct requirement *req)
 {
-  if (TRI_YES != tri_req_present(context, NULL, req)) {
+  if (TRI_YES != tri_req_present(nmap, context, NULL, req)) {
     return REQUCH_NO;
   }
   return def;
@@ -101,12 +103,13 @@ static enum req_unchanging_status
   Equals ..._present(), but never changes in World range
 **************************************************************************/
 static enum req_unchanging_status
-  unchanging_world(enum req_unchanging_status def,
+  unchanging_world(const struct civ_map *nmap,
+                   enum req_unchanging_status def,
                    const struct req_context *context,
                    const struct requirement *req)
 {
   return
-    unchanging_present(req->range == REQ_RANGE_WORLD ? REQUCH_YES : def,
+    unchanging_present(nmap, req->range == REQ_RANGE_WORLD ? REQUCH_YES : def,
                        context, req);
 }
 #define REQUC_WORLD unchanging_world
@@ -116,7 +119,8 @@ static enum req_unchanging_status
   Alliances may break, team members may be destroyed or reassigned
 **************************************************************************/
 static enum req_unchanging_status
-  unchanging_noally(enum req_unchanging_status def,
+  unchanging_noally(const struct civ_map *nmap,
+                    enum req_unchanging_status def,
                     const struct req_context *context,
                     const struct requirement *req)
 {
@@ -126,7 +130,7 @@ static enum req_unchanging_status
 
     req_copy(&preq, req);
     preq.range = REQ_RANGE_PLAYER;
-    if (TRI_YES != tri_req_present(context, NULL, &preq)) {
+    if (TRI_YES != tri_req_present(nmap, context, NULL, &preq)) {
       return REQ_RANGE_TEAM == req->range ? REQUCH_ACT : REQUCH_NO;
     }
   }
@@ -138,7 +142,8 @@ static enum req_unchanging_status
   Special CityTile case handler
 **************************************************************************/
 static enum req_unchanging_status
-  unchanging_citytile(enum req_unchanging_status def,
+  unchanging_citytile(const struct civ_map *nmap,
+                      enum req_unchanging_status def,
                       const struct req_context *context,
                       const struct requirement *req)
 {
@@ -160,7 +165,8 @@ static enum req_unchanging_status
   Special CityStatus case handler. Changes easily save for owner.
 **************************************************************************/
 static enum req_unchanging_status
-  unchanging_citystatus(enum req_unchanging_status def,
+  unchanging_citystatus(const struct civ_map *nmap,
+                        enum req_unchanging_status def,
                         const struct req_context *context,
                         const struct requirement *req)
 {
@@ -182,7 +188,8 @@ static enum req_unchanging_status
   it subjects to wonder building rules. Also, there is obsoletion...
 **************************************************************************/
 static enum req_unchanging_status
-  unchanging_building(enum req_unchanging_status def,
+  unchanging_building(const struct civ_map *nmap,
+                      enum req_unchanging_status def,
                       const struct req_context *context,
                       const struct requirement *req)
 {
@@ -203,7 +210,7 @@ static enum req_unchanging_status
     if (great_wonder_is_destroyed(b)
         || (!great_wonder_is_available(b)
             && (req->range <= REQ_RANGE_CITY && TRI_YES
-                  == tri_req_present(context, NULL, req)))) {
+                == tri_req_present(nmap, context, NULL, req)))) {
       /* If the wonder stays somewhere, it may either remain there
        * or be destroyed. If it is destroyed, it is nowhere. */
       return REQUCH_SCRIPTS;
@@ -5456,7 +5463,8 @@ bool is_req_active(const struct req_context *context,
                    const struct requirement *req,
                    const enum   req_problem_type prob_type)
 {
-  enum fc_tristate eval = tri_req_present(context, other_player, req);
+  const struct civ_map *nmap = &(wld.map);
+  enum fc_tristate eval = tri_req_present(nmap, context, other_player, req);
 
   if (eval == TRI_MAYBE) {
     if (prob_type == RPT_POSSIBLE) {
@@ -5477,7 +5485,8 @@ bool is_req_active(const struct req_context *context,
   and will produce TRI_MAYBE if req needs them to evaluate.
 **************************************************************************/
 static
-enum fc_tristate tri_req_present(const struct req_context *context,
+enum fc_tristate tri_req_present(const struct civ_map *nmap,
+                                 const struct req_context *context,
                                  const struct player *other_player,
                                  const struct requirement *req)
 {
@@ -5493,7 +5502,7 @@ enum fc_tristate tri_req_present(const struct req_context *context,
 
   fc_assert_ret_val(req_definitions[req->source.kind].cb != NULL, TRI_NO);
 
-  return req_definitions[req->source.kind].cb(&(wld.map), context,
+  return req_definitions[req->source.kind].cb(nmap, context,
                                               other_player, req);
 }
 
@@ -5509,7 +5518,8 @@ enum fc_tristate tri_req_active(const struct req_context *context,
                                 const struct player *other_player,
                                 const struct requirement *req)
 {
-  enum fc_tristate eval = tri_req_present(context, other_player, req);
+  const struct civ_map *nmap = &(wld.map);
+  enum fc_tristate eval = tri_req_present(nmap, context, other_player, req);
 
   if (!req->present) {
     if (TRI_NO == eval) {
@@ -5784,6 +5794,7 @@ enum req_unchanging_status
                     const struct requirement *req)
 {
   enum req_unchanging_status s;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(req, REQUCH_NO);
   fc_assert_ret_val_msg(universals_n_is_valid(req->source.kind), REQUCH_NO,
@@ -5807,16 +5818,16 @@ enum req_unchanging_status
         }
       }
     }
-    s = unchanging_present(s, context, req);
+    s = unchanging_present(nmap, s, context, req);
     if (s != REQUCH_NO) {
-      return unchanging_noally(s, context, req);
+      return unchanging_noally(nmap, s, context, req);
     }
   } else {
     req_unchanging_cond_cb cond
       = req_definitions[req->source.kind].unchanging_cond;
 
     if (cond) {
-      return cond(s, context, req);
+      return cond(nmap, s, context, req);
     }
   }
 
