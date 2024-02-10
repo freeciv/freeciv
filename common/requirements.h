@@ -23,6 +23,7 @@ extern "C" {
 
 /* common */
 #include "fc_types.h"
+#include "map_types.h"
 
 /* Range of requirements.
  * Used in the network protocol.
@@ -124,7 +125,8 @@ enum req_unchanging_status {
  * to another one (usually higher but not always)
  * Passing other_player is just not needed for it in any known cases */
 typedef enum req_unchanging_status
-  (*req_unchanging_cond_cb)(enum req_unchanging_status def,
+  (*req_unchanging_cond_cb)(const struct civ_map *nmap,
+                            enum req_unchanging_status def,
                             const struct req_context *context,
                             const struct requirement *req);
 
