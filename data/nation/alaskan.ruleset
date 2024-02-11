@@ -1,0 +1,113 @@
+[nation_alaskan]
+
+name   = _("Alaska")
+plural = _("?plural:Alaskans")
+groups = "American", "Modern"
+legend = _("Alaska is a state in the United States of America that was\
+ purchased from the Russian Empire in 1867, it became an organized\
+ territory on May 11th, 1912 and eventually gained statehood as the\
+ 49th state on January 3rd, 1959. The question of Alaskan\
+ independence became more relevant with the election of Wally\
+ Hickel in 1990.")
+
+leaders = {
+ "name",                  "sex"
+ "Jefferson C. Davis",    "Male"   ; First chief federal officers of the Department of Alaska
+ "Henry E. Nichols",      "Male"   ; 20th and last chief federal officers of the Department of Alaska
+ "John Henry Kinkead",    "Male"   ; First Governor of the District of Alaska
+ "Walter Eli Clark",      "Male"   ; Last Governor of the District of Alaska and first Governor of the Territory of Alaska
+ "Mike Stepovich",        "Male"   ; Last Governor of the Territory of Alaska
+ "William A. Egan",       "Male"   ; First governor of the State of Alaska
+ "Wally Hickel",          "Male"   ; 2nd governor of the State of Alaska, only governor to be a member of the Alaskan Independece party
+ "Mike Gravel",           "Male"   ; Senator from Alaska and presidental canidate
+ "Sarah Palin",           "Female" ; 9th governor of the State of Alaska and vice presidental canidate
+ "Mike Dunleavy",         "Male"   ; 12th and current governor of the state of Alaska
+}
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Sheriff %s"),   _("?female:Sheriff %s")
+ "Republic",        _("Governor %s"),  _("?female:Governor %s")
+ "Fundamentalism",  _("Reverend %s"),  _("?female:Reverend %s")
+}
+
+flag     = "alaska" ; Pulled from wikimedia commons
+flag_alt = "usa"
+style    = "European"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "aleut", "american", "canadian"
+
+cities =
+ "Juneau",
+ "Anchorage",
+ "Fairbanks",
+ "Wasilia",
+ "Sitka",
+ "Ketchikan",
+ "Kenai",
+ "Bethel",
+ "Palmer",
+ "Kodiak",
+ "Homer",
+ "Utqiaġvik",     ;Barrow
+ "Soldotna",
+ "Unalaska",
+ "Valdez",
+ "Nome",
+ "Kotzebue",
+ "Seward",
+ "Cordova",
+ "Dillingham",
+ "North Pole",
+ "Wrangell",
+ "Houston",
+ "Akutan",
+ "Hooper Bay",
+ "Craig",
+ "Chevak",
+ "Hoonah",
+ "Delta Junction",
+ "Savoonga",
+ "Point Hope",
+ "Emmonak",
+ "Togiak",
+ "Kwethluk",
+ "Selawik",
+ "Quinhagak",
+ "Unalakleet",
+ "King Cove",
+ "Alakanuk",
+ "Klawock",
+ "Noorvik",
+ "Toksook Bay",
+ "Gustavus",
+ "Kotlik",
+ "Gambell",
+ "Stebbins",
+ "Wainwright",
+ "Mountain Village",
+ "Pilot Station",
+ "Scammon Bay",
+ "St. Mary's",
+ "Nunapitchuk",
+ "Sand Point",
+ "Kachemak",
+ "Shishmaref",
+ "Buckland",
+ "Kake",
+ "New Stuyahok",
+ "Nuiqsut",
+ "Napaskiak",
+ "Aniak",
+ "Chefornak",
+ "Marshall",
+ "Manokotak",
+ "Thorne Bay",
+ "Galena",
+ "Akiak",
+ "St. Michael",
+ "Kiana"

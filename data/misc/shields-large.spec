@@ -24,6 +24,7 @@ sprites =
 		"f.shield.ainu", "flags/ainu-shield-large"
 		"f.shield.akwe", "flags/akwe-shield-large"
 		"f.shield.aland", "flags/aland-shield-large"
+		"f.shield.alaska", "flags/alaska-shield-large"
 		"f.shield.albania", "flags/albania-shield-large"
 		"f.shield.aleut", "flags/aleut-shield-large"
 		"f.shield.algeria", "flags/algeria-shield-large"

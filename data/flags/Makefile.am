@@ -15,6 +15,7 @@ flag_files =				\
 		ainu.png		\
 		akwe.png		\
 		aland.png		\
+		alaska.png		\
 		albania.png		\
 		aleut.png		\
 		algeria.png		\
@@ -586,6 +587,7 @@ flag_files =				\
 		ainu-large.png		\
 		akwe-large.png		\
 		aland-large.png			\
+		alaska-large.png		\
 		albania-large.png		\
 		aleut-large.png		\
 		algeria-large.png		\
@@ -1159,6 +1161,7 @@ shield_files =					\
 		ainu-shield.png			\
 		akwe-shield.png			\
 		aland-shield.png		\
+		alaska-shield.png		\
 		albania-shield.png		\
 		aleut-shield.png		\
 		algeria-shield.png		\
@@ -1730,6 +1733,7 @@ shield_files =					\
 		ainu-shield-large.png			\
 		akwe-shield-large.png			\
 		aland-shield-large.png			\
+		alaska-shield-large.png			\
 		albania-shield-large.png		\
 		aleut-shield-large.png		\
 		algeria-shield-large.png		\
@@ -2303,6 +2307,7 @@ svg_files = 				\
 		ainu.svg		\
 		akwe.svg		\
 		aland.svg		\
+		alaska.svg		\
 		albania.svg		\
 		aleut.svg		\
 		algeria.svg		\

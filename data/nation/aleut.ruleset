@@ -31,7 +31,7 @@ init_techs = ""
 init_buildings = ""
 init_units = ""
 
-civilwar_nations = "inuit", "nuu-chah-nulth", "cree"
+civilwar_nations = "inuit", "nuu-chah-nulth", "cree", "alaskan"
 
 cities =
  "Akutan",
