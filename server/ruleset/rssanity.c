@@ -1240,8 +1240,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   action_iterate(act) {
     struct action *paction = action_by_number(act);
 
-    if (!action_result_legal_target_kind(paction->result,
-                                         paction->target_kind)) {
+    if (!actres_legal_target_kind(paction->result, paction->target_kind)) {
       ruleset_error(logger, LOG_ERROR, "Action \"%s\": unsupported target kind %s.",
                     action_id_rule_name(act),
                     action_target_kind_name(paction->target_kind));
