@@ -156,7 +156,7 @@ graphic_alt = "-"
 [advance_art]
 name        = _("Art")
 req1        = "Pottery"
-req2        = "Alphabet"
+req2        = "Rituals"
 flags       = ""
 graphic     = "a.art"
 graphic_alt = "-"
@@ -343,7 +343,7 @@ req2        = "Masonry"
 flags       = ""
 graphic     = "a.mining"
 graphic_alt = "-"
-;helptext
+;helptext    =
 
 [advance_pottery]
 name        = _("Pottery")
@@ -432,3 +432,12 @@ graphic_alt = "-"
 helptext    = _("\
 Allows units to fortify.\
 ")
+
+[advance_writing]
+name        = _("Writing")
+req1        = "Alphabet"
+req2        = "None"
+flags       = ""
+graphic     = "a.writing"
+graphic_alt = "-"
+;helptext    =

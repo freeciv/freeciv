@@ -144,7 +144,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 1200
-upkeep		= 0
+upkeep		= 50
 sabotage	= 50
 sound		= "b_granary"
 sound_alt	= "b_generic"
@@ -153,6 +153,29 @@ helptext	= _("\
 Granary reduces famine speed by making city food storage half full \
 after city shrinks, and speeds up city growth by making the food storage \
 10% full after city grows.\
+")
+
+[building_library]
+name		= _("Library")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Writing", "Player"
+    }
+graphic         = "b.library"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 2000
+upkeep		= 100
+sabotage	= 50
+sound		= "b_granary"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Increases science output by 50%.\
 ")
 
 [building_sacred_grove]

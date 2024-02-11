@@ -162,6 +162,23 @@ reqs	=
       "Tech", "Pottery", "Player"
     }
 
+[effect_library]
+type    = "Output_Bonus"
+value	= 50
+reqs	=
+    { "type",       "name",    "range"
+      "Building",   "Library", "City"
+      "OutputType", "Science", "Local"
+    }
+
+[effect_library_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type",     "name",    "range"
+      "Building", "Library", "City"
+    }
+
 [effect_center_trade_village]
 type    = "Output_Add_Tile"
 value   = 25
@@ -236,6 +253,14 @@ type    = "Make_Content"
 value	= 1
 reqs	=
     { "type", "name", "range"
+      "Building", "Sacred Grove", "City"
+    }
+
+[effect_sacred_grove_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type",     "name",         "range"
       "Building", "Sacred Grove", "City"
     }
 
