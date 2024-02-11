@@ -137,6 +137,7 @@ flag_files =				\
 		czech.png		\
 		czechoslovakia.png	\
 		dacian.png		\
+		dagestan.png		\
 		dahomey.png		\
 		darfur.png		\
 		ddr.png			\
@@ -709,6 +710,7 @@ flag_files =				\
 		czech-large.png		\
 		czechoslovakia-large.png	\
 		dacian-large.png		\
+		dagestan-large.png		\
 		dahomey-large.png		\
 		darfur-large.png		\
 		ddr-large.png			\
@@ -1283,6 +1285,7 @@ shield_files =					\
 		czech-shield.png		\
 		czechoslovakia-shield.png	\
 		dacian-shield.png		\
+		dagestan-shield.png		\
 		dahomey-shield.png		\
 		darfur-shield.png		\
 		ddr-shield.png			\
@@ -1855,6 +1858,7 @@ shield_files =					\
 		czech-shield-large.png		\
 		czechoslovakia-shield-large.png		\
 		dacian-shield-large.png			\
+		dagestan-shield-large.png		\
 		dahomey-shield-large.png		\
 		darfur-shield-large.png			\
 		ddr-shield-large.png			\
@@ -2429,6 +2433,7 @@ svg_files = 				\
 		czech.svg		\
 		czechoslovakia.svg	\
 		dacian.svg		\
+		dagestan.svg		\
 		dahomey.svg		\
 		darfur.svg		\
 		ddr.svg			\

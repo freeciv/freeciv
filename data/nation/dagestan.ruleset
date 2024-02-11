@@ -1,0 +1,76 @@
+[nation_dagestan]
+
+name   = _("Dagestan")
+plural = _("?plural:Dagestani")
+groups = "Asian", "European", "Early Modern"
+
+legend = _("Dagestan is a republic of Russia situated in North Caucausus\
+ along the Caspian sea, it is one of the most ethnically diverse of\
+ Russia's republics, it was one of the first people within the modern\
+ borders of Russia to become Muslims after the Arab conquest of the\
+ region in 643. Dagestan was later raided by the Mongols in 1221.\
+ Dagestan eventually came under the control of Russia in 1813 and\
+ was firmly in the control of Imperial Russia as of 1828.\
+ Due to high taxation and general dissatisfaction with the Russian\
+ government, it rose up multiple times against Russia, once in 1828,\
+ and again in 1917, it eventually became an autonomous republic under\
+ the Soviet Union in 1921.")
+
+leaders = {
+ "name",                        "sex"
+ "Kazi-Mulla",                  "Male"  ; Ghazi Muhammad (1793–1832), first Imam of the Caucasian Imamate
+ "Gamzat-bek",                  "Male"  ; (1789-1834), Second Imam of the Caucasian Imamate
+ "Sheykh Shamil",               "Male"  ; Imam Shamil (1797-1871), Third and final Imam of the Causasian Imamate
+ "Ħamzatazul Rasul Ħamzatil",   "Male"  ; Rasul Gamzatovich Gamzatov (1923-2003) Famous poet from Dagestan.
+ "Sergey Melikov",              "Male"  ; Current Head of the Republic of Dagestan
+ "Tapa Tchermoev",              "Male"  ; (1882-1937), First prime minister of the Mountainous Republic of the Northern Caucasus.
+ "Khavarsultan Khanum",         "Female"; 1st wife of Tapa Tchermoev
+ "Natasha Brailovsky",          "Female"; né Kanelsky, 2nd wife of Tapa Tchermoev
+}
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Emir %s"),      _("Emira %s")
+ "Fundamentalism",  _("Imam %s"),      _("Imama %s")
+}
+
+flag = "dagestan"
+flag_alt = "-"
+style = "European"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+conflicts_with = "karelian" ; flag is too similar
+civilwar_nations = "soviet", "russian", "ossetian", "tatar", "chechen", "circassian"
+
+cities =
+ "Machačkala",         ; Makhachkala
+ "Chasavjurt",         ; Khasavyurt
+ "Derbent",
+ "Kaspijsk",           ; Kaspiysk
+ "Bujnaksk",           ; Buynaksk
+ "Izberbaš",           ; Izberbash
+ "Kizljar",            ; Kizlyar
+ "Kiziljurt",          ; Kizilyurt
+ "Dagestanskije Ogni", ; Dagestanskiye Ogni
+ "Leninkent",
+ "Tarki",
+ "Semender",
+ "Belidži",            ; Belidzhi
+ "Šamchal",            ; Shamkhal
+ "Mamedkala",
+ "Al'burikent",        ; Alburikent
+ "Južno-Suchokumsk",   ; Yuzhno-Sukhokumsk
+ "Sulak",
+ "Novyj Kjachulaj",    ; Novy Kyakhulay
+ "Kjachulaj",          ; Kyakhulay
+ "Manas",
+ "Tjube",              ; Tyube
+ "Dubki",
+ "Šamil'kala",         ; Shamilkala
+ "Bavtugaj",           ; Bavtugay
+ "Novyj Sulak",        ; Novy Sulak
+ "Komsomol'skij",      ; Komsomolsky
+ "Ači-Su"              ; Achisu

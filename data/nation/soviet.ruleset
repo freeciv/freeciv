@@ -43,7 +43,8 @@ conflicts_with = "Russian", "Moldovan", "Kazakh", "Kyrgyz", "Tajik",
 civilwar_nations = "Russian", "Ukrainian", "Belarusian",
  "Lithuanian", "Latvian", "Estonian",
  "Moldovan", "Georgian", "Armenian", "Azeri",
- "Kazakh", "Kyrgyz", "Tajik", "Turkmen", "Uzbek"
+ "Kazakh", "Kyrgyz", "Tajik", "Turkmen", "Uzbek",
+ "Dagestan"
 
 cities =
  "Moskva",
