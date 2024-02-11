@@ -403,7 +403,7 @@ bool check_for_game_over(void)
   candidates = 0;
   defeated = 0;
   victor = NULL;
-  /* Do not use player_iterate_alive here - dead player must be counted as
+  /* Do not use player_iterate_alive() here - dead player must be counted as
    * defeated to end the game with a victory. */
   players_iterate(pplayer) {
     if (is_barbarian(pplayer)) {
@@ -519,6 +519,39 @@ bool check_for_game_over(void)
         log_normal(_("Allied victory to %s."), astr_str(&str));
         astr_free(&str);
         player_list_destroy(winner_list);
+        return TRUE;
+      }
+    }
+
+    /* Check for World Peace victory. */
+    if (1 < candidates && victory_enabled(VC_WORLDPEACE)) {
+      if (game.info.turn - game.server.world_peace_start >= WORLD_PEACE_TURNS) {
+        bool first = TRUE;
+
+        astr_init(&str);
+
+        players_iterate_alive(pplayer) {
+          if (first) {
+            /* TRANS: Beginning of the winners list ("the French") */
+            astr_add(&str, Q_("?winners:the %s"),
+                     nation_plural_for_player(pplayer));
+            first = FALSE;
+          } else {
+            /* TRANS: Another entry in winners list (", the Tibetans") */
+            astr_add(&str, Q_("?winners:, the %s"),
+                     nation_plural_for_player(pplayer));
+          }
+
+          pplayer->is_winner = TRUE;
+
+        } players_iterate_alive_end;
+
+        notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                    /* TRANS: There can be several winners listed */
+                    _("World Peace victory to %s."), astr_str(&str));
+        log_normal(_("World Peace victory to %s."), astr_str(&str));
+        astr_free(&str);
+
         return TRUE;
       }
     }

@@ -376,9 +376,10 @@ static const struct sset_val_name *victory_conditions_name(int condition_bit)
   NAME_CASE(VC_SPACERACE, "SPACERACE", N_("Spacerace"));
   NAME_CASE(VC_ALLIED, "ALLIED", N_("Allied victory"));
   NAME_CASE(VC_CULTURE, "CULTURE", N_("Culture victory"));
+  NAME_CASE(VC_WORLDPEACE, "WORLDPEACE", N_("World Peace victory"));
   };
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -2662,7 +2663,9 @@ static struct setting settings[] = {
                  "- \"Allied\" (ALLIED): After defeating enemies, all remaining "
                  "players are allied.\n"
                  "- \"Culture\" (CULTURE): Player meets ruleset defined cultural "
-                 "domination criteria.\n"),
+                 "domination criteria.\n"
+                 "- \"World Peace\" (WORLDPEACE): There's no wars in the world for "
+                 "the specified amount of turns.\n"),
               NULL, NULL, victory_conditions_name, GAME_DEFAULT_VICTORY_CONDITIONS)
 
   GEN_BOOL("endspaceship", game.server.endspaceship, SSET_RULES_FLEXIBLE,

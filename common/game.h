@@ -754,7 +754,9 @@ static inline bool is_ruleset_compat_mode(void)
 /* Max number of recursive transports. */
 #define GAME_TRANSPORT_MAX_RECURSIVE 5
 
-/* ruleset settings */
+#define WORLD_PEACE_TURNS 20
+
+/* Ruleset settings */
 
 #define RS_MAX_VALUE                             1000000
 
