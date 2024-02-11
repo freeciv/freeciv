@@ -149,6 +149,8 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
 
 int actres_min_range_default(enum action_result result);
 int actres_max_range_default(enum action_result result);
+bool actres_legal_target_kind(enum action_result result,
+                              enum action_target_kind tgt_kind);
 enum action_target_kind
 actres_target_kind_default(enum action_result result);
 enum action_sub_target_kind

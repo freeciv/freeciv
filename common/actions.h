@@ -717,8 +717,6 @@ const char *action_min_range_ruleset_var_name(int act);
 const char *action_max_range_ruleset_var_name(int act);
 
 const char *action_target_kind_ruleset_var_name(int act);
-bool action_result_legal_target_kind(enum action_result result,
-                                     enum action_target_kind tgt_kind);
 const char *action_target_kind_help(enum action_target_kind kind);
 
 const char *action_actor_consuming_always_ruleset_var_name(action_id act);
