@@ -145,6 +145,7 @@ sprites =
 		"f.shield.czech", "flags/czech-shield"
 		"f.shield.czechoslovakia", "flags/czechoslovakia-shield"
 		"f.shield.dacian", "flags/dacian-shield"
+		"f.shield.dagestan", "flags/dagestan-shield"
 		"f.shield.dahomey", "flags/dahomey-shield"
 		"f.shield.darfur", "flags/darfur-shield"
 		"f.shield.ddr", "flags/ddr-shield"

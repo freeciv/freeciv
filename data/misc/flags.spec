@@ -144,6 +144,7 @@ artists = "
    Czech		Lauris Kaplinski
    Czechoslovakia	Tlusťa (Wikimedia Commons)
    Dacian		Andrzej M. Gorzym
+   Dagestan             Wikimedia Commons
    Dahomey		Daniel Markstedt
    Darfur		Daniel Markstedt
    DDR			Jwnabd (Wikimedia Commons)
@@ -720,6 +721,7 @@ sprites =
 		"f.czech", "flags/czech"
 		"f.czechoslovakia", "flags/czechoslovakia"
 		"f.dacian", "flags/dacian"
+		"f.dagestan", "flags/dagestan"
 		"f.dahomey", "flags/dahomey"
 		"f.darfur", "flags/darfur"
 		"f.ddr", "flags/ddr"
