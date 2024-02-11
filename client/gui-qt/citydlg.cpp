@@ -2279,7 +2279,7 @@ void city_dialog::closeEvent(QCloseEvent *event)
 }
 
 /************************************************************************//**
-  Event filter for catching keybaord events
+  Event filter for catching keyboard events
 ****************************************************************************/
 bool city_dialog::eventFilter(QObject *obj, QEvent *event)
 {
