@@ -23,6 +23,7 @@ artists = "
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
    Aland		J.M. Maalderink
+   Alaska               (Wikimedia Commons)
    Albania		TigerTjäder (Wikimedia Commons)
    Aleut		Daniel Markstedt
    Algeria 		Lauris Kaplinski
@@ -597,6 +598,7 @@ sprites =
 		"f.ainu", "flags/ainu"
 		"f.akwe", "flags/akwe"
 		"f.aland", "flags/aland"
+		"f.alaska", "flags/alaska"
 		"f.albania", "flags/albania"
 		"f.aleut", "flags/aleut"
 		"f.algeria", "flags/algeria"
