@@ -1304,10 +1304,11 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
                       + QString::number(integer).toHtmlEscaped() + "<br>";
         }
         nat_x = 0;
-        for (nat_y = 0; nat_y > -1; nat_y++) {
+        nat_y = 0;
+        while (true) { // Until breaks out
           const char *line = secfile_lookup_str_default(sf, nullptr,
                                                         "player%d.map_t%04d",
-                                                        curr_player, nat_y);
+                                                        curr_player, nat_y++);
           if (line == nullptr) {
             break;
           }
