@@ -942,7 +942,7 @@ static void make_rivers(void)
 
     if (!(ptile = rand_map_pos_characteristic(WC_ALL, TT_NFROZEN,
 					      MC_NLOW))) {
-	break; /* mo more spring places */
+	break; /* No more spring places */
     }
     pterrain = tile_terrain(ptile);
 
