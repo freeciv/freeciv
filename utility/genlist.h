@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ struct genlist {
   struct genlist_link *tail_link;
   genlist_free_fn_t free_data_func;
 };
-  
+
 struct genlist *genlist_new(void) fc__warn_unused_result;
 struct genlist *genlist_new_full(genlist_free_fn_t free_data_func)
                 fc__warn_unused_result;
@@ -132,16 +132,20 @@ struct genlist_link {
   void *dataptr;
 };
 
-/****************************************************************************
-  Returns the pointer of this link.
+/************************************************************************//**
+  Get data pointer of the genlist link
+  @param  plink Link to get data for
+  @return       Pointer to the data
 ****************************************************************************/
 static inline void *genlist_link_data(const struct genlist_link *plink)
 {
   return (NULL != plink ? plink->dataptr : NULL);
 }
 
-/****************************************************************************
-  Returns the previous link.
+/************************************************************************//**
+  Get previous link in genlist
+  @param  plink Link to start from
+  @return       Previous link
 ****************************************************************************/
 fc__warn_unused_result
 static inline struct genlist_link *genlist_link_prev(const struct genlist_link *plink)
@@ -149,17 +153,19 @@ static inline struct genlist_link *genlist_link_prev(const struct genlist_link *
   return plink->prev;
 }
 
-/****************************************************************************
-  Returns the next link.
+/************************************************************************//**
+  Get next link in genlist
+  @param  plink Link to start from
+  @return       Next link
 ****************************************************************************/
 fc__warn_unused_result
 static inline struct genlist_link *genlist_link_next(const struct genlist_link *plink)
 {
   return plink->next;
 }
-  
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__GENLIST_H */
+#endif /* FC__GENLIST_H */
