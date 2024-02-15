@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-01-05 22:27+0200\n"
-"PO-Revision-Date: 2024-01-05 22:30+0200\n"
+"POT-Creation-Date: 2024-02-15 19:52+0200\n"
+"PO-Revision-Date: 2024-02-15 19:54+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -32,13 +32,13 @@ msgstr ""
 msgid "Close"
 msgstr "Sulje"
 
-#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
-#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:91
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:93
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:111
 msgid "Graphics tag"
 msgstr "Kuvitustägi"
 
-#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
-#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:100
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:102
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:120
 msgid "Alt graphics tag"
 msgstr "Varakuvitustägi"
 
@@ -66,31 +66,31 @@ msgstr "Poistotoiminnan kuvituksen varatägi"
 msgid "Second alt removal activity gfx tag"
 msgstr "Poistotoiminnan kuvituksen toinen varatägi"
 
-#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:50
+#: tools/ruledit/edit_impr.cpp:54 tools/ruledit/edit_utype.cpp:50
 msgid "Build Cost"
 msgstr "Hinta"
 
-#: tools/ruledit/edit_impr.cpp:62
+#: tools/ruledit/edit_impr.cpp:65
 msgid "Upkeep"
 msgstr "Ylläpito"
 
-#: tools/ruledit/edit_impr.cpp:72
+#: tools/ruledit/edit_impr.cpp:75
 msgid "Genus"
 msgstr "Suku"
 
-#: tools/ruledit/edit_impr.cpp:108 tools/ruledit/edit_utype.cpp:109
+#: tools/ruledit/edit_impr.cpp:111 tools/ruledit/edit_utype.cpp:129
 msgid "Second alt gfx tag"
 msgstr "Toinen varakuvitustägi"
 
-#: tools/ruledit/edit_impr.cpp:117
+#: tools/ruledit/edit_impr.cpp:120
 msgid "Sound tag"
 msgstr "Ääniefektitägi"
 
-#: tools/ruledit/edit_impr.cpp:126
+#: tools/ruledit/edit_impr.cpp:129
 msgid "Alt sound tag"
 msgstr "Varaääniefektitägi"
 
-#: tools/ruledit/edit_impr.cpp:135
+#: tools/ruledit/edit_impr.cpp:138
 msgid "Second alt sound tag"
 msgstr "Toinen varaääniefektitägi"
 
@@ -115,22 +115,30 @@ msgid "Defense Strength"
 msgstr "Puolustusvoima"
 
 #: tools/ruledit/edit_utype.cpp:81
+msgid "Hitpoints"
+msgstr "Osumapisteitä"
+
+#: tools/ruledit/edit_utype.cpp:91
+msgid "Firepower"
+msgstr "Tulivoima"
+
+#: tools/ruledit/edit_utype.cpp:101
 msgid "Move Rate"
 msgstr "Liikkuvuus"
 
-#: tools/ruledit/edit_utype.cpp:118
+#: tools/ruledit/edit_utype.cpp:138
 msgid "Move sound tag"
 msgstr "Liikkumisäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:128
+#: tools/ruledit/edit_utype.cpp:148
 msgid "Alt move sound tag"
 msgstr "Varaliikkumisäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:138
+#: tools/ruledit/edit_utype.cpp:158
 msgid "Fight sound tag"
 msgstr "Taisteluäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:148
+#: tools/ruledit/edit_utype.cpp:168
 msgid "Alt fight sound tag"
 msgstr "Varataisteluäänitägi"
 
