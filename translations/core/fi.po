@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-02-11 16:27+0200\n"
-"PO-Revision-Date: 2024-02-11 16:55+0200\n"
+"POT-Creation-Date: 2024-02-16 00:09+0200\n"
+"PO-Revision-Date: 2024-02-16 00:16+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -30469,7 +30469,7 @@ msgstr "Saastuttava tuottavuus"
 msgid ""
 "Each step of polluting productivity increases a cities shield production by "
 "1%, but also increases all pollution related to shields by 5%."
-msgstr ""
+msgstr "Jokainen pykälä lisää tuotantoa 1%, mutta lisää tuotannon saastuttavuutta 5%."
 
 #: data/sandbox/governments.ruleset:465
 msgid "Military Training Duration"
@@ -30480,7 +30480,7 @@ msgstr "Sotilaskoulutuksen kesto"
 msgid ""
 "Each step increases newly built military units veterancy level by 1, but "
 "also increases the costs of the unit by 25% due to the additional training."
-msgstr ""
+msgstr "Jokainen pykälä nostaa valmistuvien sotilasyksiköiden veteraanitasoa yhdellä, mutta lisää yksiköiden hintaa 25% lisäkoulutuksen kustannusten takia."
 
 #: data/sandbox/governments.ruleset:478
 msgid "Diplomatic Training Duration"
@@ -30491,7 +30491,7 @@ msgstr "Diplomaattikoulutuksen kesto"
 msgid ""
 "Each step increases newly built diplomatic units veterancy level by 1, but "
 "also increases the costs of the unit by 25% due to the additional training."
-msgstr ""
+msgstr "Jokainen pykälä nostaa valmistuvien diplomaattiyksiköiden veteraanitasoa yhdellä, mutta lisää yksiköiden hintaa 25% lisäkoulutuksen kustannusten takia."
 
 #: data/sandbox/governments.ruleset:491
 msgid "Civil Training Duration"
@@ -30503,7 +30503,7 @@ msgid ""
 "Each step increases newly built civil (workers, engineers) units veterancy "
 "level by 1, but also increases the costs of the unit by 25% due to the "
 "additional training."
-msgstr ""
+msgstr "Jokainen pykälä nostaa valmistuvien työläisyksiköiden veteraanitasoa yhdellä, mutta lisää yksiköiden hintaa 25% lisäkoulutuksen kustannusten takia."
 
 #: data/sandbox/script.lua:33
 msgid "You found Hermit's Place."
@@ -40758,7 +40758,14 @@ msgid ""
 "all specialists - by default they are all entertainers which provide\n"
 "only luxuries (which will not be useful until later)."
 msgstr ""
-"%s on kasvanut! Kun kaupunki kasvaa, käytettävissäsi on enemmän kansalaisia, jotka voit määrätä pelloille tai erikoistehtäviin. Kahden asukasyksikön kaupunki voi työstää kahta eri ruutua ilmaiseksi työstetyn keskiruudun lisäksi. Kaupunki- ikkunassa oleva kartta näyttää, millä ruuduilla työläiset ovat, ja miten paljon ruokaa, tuotantoa (\"kilpiä\") ja kauppaa kukin tuottaa. Ruoka kasvattaa kaupunkiasi, tuotanto käytetään rakennusten ja yksikköjen rakentamiseen, ja kauppa tuottaa verotettavaa tuloa joka voidaan muuntaa tieteelliseksi tutkimukseksi, kullaksi tai luksukseksi.\n"
+"%s on kasvanut! Kun kaupunki kasvaa, käytettävissäsi on enemmän kansalaisia, "
+"jotka voit määrätä pelloille tai erikoistehtäviin. Kahden asukasyksikön "
+"kaupunki voi työstää kahta eri ruutua ilmaiseksi työstetyn keskiruudun "
+"lisäksi. Kaupunki- ikkunassa oleva kartta näyttää, millä ruuduilla työläiset "
+"ovat, ja miten paljon ruokaa, tuotantoa (\"kilpiä\") ja kauppaa kukin "
+"tuottaa. Ruoka kasvattaa kaupunkiasi, tuotanto käytetään rakennusten ja "
+"yksikköjen rakentamiseen, ja kauppa tuottaa verotettavaa tuloa joka voidaan "
+"muuntaa tieteelliseksi tutkimukseksi, kullaksi tai luksukseksi.\n"
 "\n"
 "Napsauta työstettyä ruutua poistaaksesi työläiset ruudulta. Napsauta sen\n"
 "jälkeen työstämätöntä ruutua sijoittaaksesi työläiset sinne. Voit\n"
@@ -40780,7 +40787,10 @@ msgid ""
 "in gold (if you have enough of it) to instantly complete the\n"
 "production."
 msgstr ""
-"%s on kasvanut taas! Kolmen kansalaisen turvin sinulla on jo varsin hyvä valinnanvara sen suhteen, miten kaupungin kannattaisi ohjata resurssinsa. Koon kolme tai suurempi kaupunki voi myös rakentaa uudisraivaajia, mikä maksaa kahden väestöyksikön verran.\n"
+"%s on kasvanut taas! Kolmen kansalaisen turvin sinulla on jo varsin hyvä "
+"valinnanvara sen suhteen, miten kaupungin kannattaisi ohjata resurssinsa. "
+"Koon kolme tai suurempi kaupunki voi myös rakentaa uudisraivaajia, mikä "
+"maksaa kahden väestöyksikön verran.\n"
 "\n"
 "Jos kaupunkisi rakentaa uudisraivaajia, harkitse nyt niiden ostamista.\n"
 "Avaa kaupunki-ikkuna ja napsauta Osta-nappia. Kultaa käyttämällä (jos\n"
@@ -40855,7 +40865,7 @@ msgstr ""
 #: data/scenarios/tutorial.sav:248
 #, c-format
 msgid ""
-"Congratulations, you have grown %s to size 13. A city this\n"
+"Congratulations, you have grown %s to size 17. A city this\n"
 "large can provide a tremendous amount of output if properly upgraded.\n"
 "Make sure you have enough taxes and cultural buildings to keep your\n"
 "citizens content. You should also make sure the city is upgraded\n"
@@ -40867,7 +40877,7 @@ msgid ""
 "provide enough taxable revenue (gold) to allow you to purchase some\n"
 "buildings to accelerate their productions."
 msgstr ""
-"Onneksi olkoon; olet kasvattanut kaupungin %s kokoon 13. Sopivasti\n"
+"Onneksi olkoon; olet kasvattanut kaupungin %s kokoon 17. Sopivasti\n"
 "päivitettynä tämänkokoinen kaupunki tuottaa mahtavasti. Varmista, että\n"
 "panostat riittävästi veroja ja kulttuurirakennuksia pitääksesi asukkaat\n"
 "rauhallisina. Varmista myös, että kaupungissa on sopivat tuottoa\n"
@@ -41150,7 +41160,8 @@ msgstr ""
 "Majasta voi kuitenkin myös löytää teknologiaa tai palkkasoturiyksikköjä.\n"
 "Joissakin majoissa lymyää paikallisia uudisraivaajia, jotka liittyvät\n"
 "joukkoihisi ja liittävät valtakuntaasi uuden kaupungin. Jos huonosti käy,\n"
-"majasta hyökkää joukko barbaareja, jotka listivät yksikkösi siltä istumalta.\n"
+"majasta hyökkää joukko barbaareja, jotka listivät yksikkösi siltä "
+"istumalta.\n"
 "Keskimäärin on hyödyllistä tutkia kaikki vastaan tulevat majat\n"
 "mahdollisimman pian."
 
@@ -46099,7 +46110,7 @@ msgstr ""
 "Suoalueita on kuivunut ja tundra on levinnyt laajalti entisille "
 "ruohoalueille."
 
-#: server/maphand.c:313
+#: server/maphand.c:315
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new "
 "infrastructure building technology is announced."
@@ -46107,7 +46118,7 @@ msgstr ""
 "Uusi toivo leviää läpi maan uuden infrastruktuurin rakentamistavan "
 "keksimisen myötä."
 
-#: server/maphand.c:320
+#: server/maphand.c:322
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "infrastructure building technology."
@@ -46115,7 +46126,7 @@ msgstr ""
 "Kansa ilahtuu saadessaan tietää että tiedemiehesi ovat vihdoin keksineet "
 "uuden infrastruktuurin rakennustekniikan."
 
-#: server/maphand.c:328
+#: server/maphand.c:330
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "infrastructure."
@@ -46123,19 +46134,19 @@ msgstr ""
 "Työläiset kokoontuvat ja päättävät rakentaa talkoovoimin paremman "
 "infrastruktuurin kaikkiin mahdollisiin kaupunkeihin."
 
-#: server/maphand.c:332
+#: server/maphand.c:334
 #, c-format
 msgid "Workers spontaneously gather and upgrade all possible cities with %s."
 msgstr ""
 "Työläiset kokoontuvat ja kaikkiin mahdollisiin kaupunkeihin rakennetaan %s "
 "talkoovoimin."
 
-#: server/maphand.c:1822
+#: server/maphand.c:1824
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Yksikkösi %s on siirretty muuttuneen maaston takia."
 
-#: server/maphand.c:1876
+#: server/maphand.c:1878
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Yksikkösi %s on lakkautettu muuttuneen maaston takia."
