@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-02-11 16:27+0200\n"
-"PO-Revision-Date: 2024-02-11 16:56+0200\n"
+"POT-Creation-Date: 2024-02-16 00:10+0200\n"
+"PO-Revision-Date: 2024-02-16 00:27+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -21099,16 +21099,14 @@ msgid "Prevented when player knows %d techs."
 msgstr "Estyy jos pelaaja tuntee %d teknologiaa."
 
 #: common/reqtext.c:2931
-#, fuzzy, c-format
-#| msgid "Requires player to know %d techs."
+#, c-format
 msgid "Requires player to have at least %d cities."
-msgstr "Edellyttää pelaajan tuntevan %d teknologiaa."
+msgstr "Edellyttää pelaajalla olevan vähintään %d kaupunkia."
 
 #: common/reqtext.c:2935
-#, fuzzy, c-format
-#| msgid "Prevented when player knows %d techs."
+#, c-format
 msgid "Prevented when player has at least %d cities."
-msgstr "Estyy jos pelaaja tuntee %d teknologiaa."
+msgstr "Estyy jos pelaajaalla vähintään %d kaupunkia."
 
 #: common/reqtext.c:2961
 #, c-format
@@ -23398,7 +23396,7 @@ msgstr "Anarkia"
 #: data/sandbox/governments.ruleset:108 data/civ2civ3/governments.ruleset:69
 #: data/civ2civ3/governments.ruleset:108
 #: data/multiplayer/governments.ruleset:69
-#: data/granularity/governments.ruleset:87
+#: data/granularity/governments.ruleset:88
 #, c-format
 msgid "Warlord %s"
 msgstr "Sotapäällikkö %s"
@@ -23408,7 +23406,7 @@ msgstr "Sotapäällikkö %s"
 #: data/sandbox/governments.ruleset:109 data/civ2civ3/governments.ruleset:70
 #: data/civ2civ3/governments.ruleset:109
 #: data/multiplayer/governments.ruleset:70
-#: data/granularity/governments.ruleset:88
+#: data/granularity/governments.ruleset:89
 #, c-format
 msgid "Warlady %s"
 msgstr "Sotapäällikkö %s"
@@ -23439,6 +23437,7 @@ msgstr ""
 #: data/classic/governments.ruleset:85 data/sandbox/governments.ruleset:141
 #: data/civ2civ3/governments.ruleset:141 data/alien/governments.ruleset:80
 #: data/multiplayer/governments.ruleset:85
+#: data/granularity/governments.ruleset:99
 msgid "Despotism"
 msgstr "Yksinvalta"
 
@@ -23446,6 +23445,7 @@ msgstr "Yksinvalta"
 #: data/classic/governments.ruleset:91 data/sandbox/governments.ruleset:147
 #: data/civ2civ3/governments.ruleset:147
 #: data/multiplayer/governments.ruleset:91
+#: data/granularity/governments.ruleset:107
 #, c-format
 msgid "Chief %s"
 msgstr "Päällikkö %s"
@@ -23454,6 +23454,7 @@ msgstr "Päällikkö %s"
 #: data/classic/governments.ruleset:92 data/sandbox/governments.ruleset:148
 #: data/civ2civ3/governments.ruleset:148
 #: data/multiplayer/governments.ruleset:92
+#: data/granularity/governments.ruleset:108
 #, c-format
 msgid "?female:Chief %s"
 msgstr "Päällikkö %s"
@@ -30945,7 +30946,7 @@ msgstr ""
 "keksimisen myötä."
 
 #: data/sandbox/governments.ruleset:102 data/civ2civ3/governments.ruleset:102
-#: data/granularity/governments.ruleset:79
+#: data/granularity/governments.ruleset:80
 msgid "Tribal"
 msgstr "Heimojärjestelmä"
 
@@ -31300,7 +31301,7 @@ msgstr "Saastuttava tuottavuus"
 msgid ""
 "Each step of polluting productivity increases a cities shield production by "
 "1%, but also increases all pollution related to shields by 5%."
-msgstr ""
+msgstr "Jokainen pykälä lisää tuotantoa 1%, mutta lisää tuotannon saastuttavuutta 5%."
 
 #: data/sandbox/governments.ruleset:465
 msgid "Military Training Duration"
@@ -31311,7 +31312,7 @@ msgstr "Sotilaskoulutuksen kesto"
 msgid ""
 "Each step increases newly built military units veterancy level by 1, but "
 "also increases the costs of the unit by 25% due to the additional training."
-msgstr ""
+msgstr "Jokainen pykälä nostaa valmistuvien sotilasyksiköiden veteraanitasoa yhdellä, mutta lisää yksiköiden hintaa 25% lisäkoulutuksen kustannusten takia."
 
 #: data/sandbox/governments.ruleset:478
 msgid "Diplomatic Training Duration"
@@ -31322,7 +31323,7 @@ msgstr "Diplomaattikoulutuksen kesto"
 msgid ""
 "Each step increases newly built diplomatic units veterancy level by 1, but "
 "also increases the costs of the unit by 25% due to the additional training."
-msgstr ""
+msgstr "Jokainen pykälä nostaa valmistuvien diplomaattiyksiköiden veteraanitasoa yhdellä, mutta lisää yksiköiden hintaa 25% lisäkoulutuksen kustannusten takia."
 
 #: data/sandbox/governments.ruleset:491
 msgid "Civil Training Duration"
@@ -31334,7 +31335,7 @@ msgid ""
 "Each step increases newly built civil (workers, engineers) units veterancy "
 "level by 1, but also increases the costs of the unit by 25% due to the "
 "additional training."
-msgstr ""
+msgstr "Jokainen pykälä nostaa valmistuvien työläisyksiköiden veteraanitasoa yhdellä, mutta lisää yksiköiden hintaa 25% lisäkoulutuksen kustannusten takia."
 
 #: data/sandbox/script.lua:33
 msgid "You found Hermit's Place."
@@ -33565,7 +33566,7 @@ msgstr "Vieraita mikrobeja"
 msgid "Commodities"
 msgstr "Tuotteet"
 
-#: data/alien/governments.ruleset:73 data/granularity/governments.ruleset:72
+#: data/alien/governments.ruleset:73
 msgid "Anarchy happens between government changes."
 msgstr ""
 "Hallitusmuodon vaihtuessa, varsinaisten hallitusmuotojen välissä, anarkia "
@@ -40165,18 +40166,27 @@ msgid ""
 "THIS RULESET IS STILL IN DEVELOPMENT, NOT BALANCED NOR COMPLETE."
 msgstr ""
 
-#: data/granularity/governments.ruleset:90
+#: data/granularity/governments.ruleset:72
 #, fuzzy
-#| msgid ""
-#| "This is the only available form of government in the beginning.\n"
-#| "\n"
-#| "Max tax/science/lux rate is 40%."
-msgid "  This is the only available form of government."
+#| msgid "Anarchy happens between government changes."
+msgid ""
+"Anarchy happens between government changes. No new cities can be aqcuired "
+"during anarchy."
 msgstr ""
-"Tämä on pelin alussa ainoa mahdollinen hallitusmuoto.\n"
-"\n"
-"Veroihin, tutkimukseen ja luksukseen voidaan kuhunkin laittaa korkeintaan "
-"40% tuloista."
+"Hallitusmuodon vaihtuessa, varsinaisten hallitusmuotojen välissä, anarkia "
+"vallitsee."
+
+#: data/granularity/governments.ruleset:91
+msgid ""
+"The initial form of government. Under tribalism the maximum nation size is "
+"five cities."
+msgstr ""
+
+#: data/granularity/governments.ruleset:110
+msgid ""
+"Compared to tribalism, despotism gives some more power to the leader. It's "
+"possible to control more than five cities."
+msgstr ""
 
 #: data/granularity/styles.ruleset:29
 #, fuzzy
@@ -40225,10 +40235,8 @@ msgid "Calendar"
 msgstr "Kalenteri"
 
 #: data/granularity/techs.ruleset:181
-#, fuzzy
-#| msgid "The parties agree on a cease-fire"
 msgid "Allows nations to agree on fixed length ceasefire."
-msgstr "Osapuolet sopivat tulitauosta"
+msgstr "Mahdollistaa kansojen sopia tietyn mittaisesta tulitauosta."
 
 #: data/granularity/techs.ruleset:186
 msgid "Carving"
@@ -40236,7 +40244,7 @@ msgstr "Kaivertaminen"
 
 #: data/granularity/techs.ruleset:192
 msgid "Boats can be carved from wood."
-msgstr ""
+msgstr "Puusta voidaan kaivertaa paatteja."
 
 #: data/granularity/techs.ruleset:195
 msgid "Cave Painting"
@@ -40248,11 +40256,11 @@ msgstr ""
 
 #: data/granularity/techs.ruleset:204
 msgid "Combat Practice"
-msgstr ""
+msgstr "Taisteluharjoittelu"
 
 #: data/granularity/techs.ruleset:210
 msgid "Also humans can be trained."
-msgstr ""
+msgstr "Myös ihmisiä voidaan kouluttaa."
 
 #: data/granularity/techs.ruleset:215
 msgid "Counting"
@@ -40263,10 +40271,8 @@ msgid "Allows collecting taxes without miscalculation penalties."
 msgstr ""
 
 #: data/granularity/techs.ruleset:226
-#, fuzzy
-#| msgid "Description"
 msgid "Deception"
-msgstr "Kuvaus"
+msgstr "Hämäys"
 
 #: data/granularity/techs.ruleset:250
 msgid ""
@@ -40275,16 +40281,12 @@ msgid ""
 msgstr ""
 
 #: data/granularity/techs.ruleset:254
-#, fuzzy
-#| msgid "Fish"
 msgid "Fishing"
-msgstr "kalaa"
+msgstr "Kalastaminen"
 
 #: data/granularity/techs.ruleset:260
-#, fuzzy
-#| msgid "Makes it possible for Engineers to transform terrains."
 msgid "Makes it possible to use Oceanic tiles."
-msgstr "Tekee maastonmuokkauksen mahdolliseksi teknikoille."
+msgstr "Tekee meriruutujen käyttämisen mahdolliseksi."
 
 #: data/granularity/techs.ruleset:269
 #, fuzzy
@@ -40293,14 +40295,12 @@ msgid "First flying machines."
 msgstr "Aloita napauttamalla ruutua."
 
 #: data/granularity/techs.ruleset:272
-#, fuzzy
-#| msgid "Food Regeneration"
 msgid "Food Preservation"
-msgstr "Ruoan uudistuminen"
+msgstr "Ruoan säilöminen"
 
 #: data/granularity/techs.ruleset:281
 msgid "Herbs"
-msgstr ""
+msgstr "Yrtit"
 
 #: data/granularity/techs.ruleset:287
 #, c-format
@@ -40331,10 +40331,8 @@ msgid ""
 msgstr ""
 
 #: data/granularity/techs.ruleset:362
-#, fuzzy
-#| msgid "Building"
 msgid "Road Building"
-msgstr "Rakennettavana"
+msgstr "Tienrakennus"
 
 #: data/granularity/techs.ruleset:368
 msgid "Allows build actual roads."
@@ -40342,7 +40340,7 @@ msgstr ""
 
 #: data/granularity/techs.ruleset:371
 msgid "Rituals"
-msgstr ""
+msgstr "Rituaalit"
 
 #: data/granularity/techs.ruleset:377
 msgid ""
@@ -40386,10 +40384,8 @@ msgid "Trenches"
 msgstr "ranskalaisten"
 
 #: data/granularity/techs.ruleset:432
-#, fuzzy
-#| msgid "Allows Settlers to build fortresses."
 msgid "Allows units to fortify."
-msgstr "Sallii työläisten rakentaa linnakkeita."
+msgstr "Sallii yksiköiden linnoittautua."
 
 #: data/granularity/terrain.ruleset:443 server/ruleset/ruleload.c:3157
 msgid "?gui_type:Build Type A Base"
@@ -40420,10 +40416,8 @@ msgid "Generic Base"
 msgstr ""
 
 #: data/granularity/terrain.ruleset:644
-#, fuzzy
-#| msgid "_Paths"
 msgid "Path"
-msgstr "Kulkureitit"
+msgstr "Polku"
 
 #: data/granularity/terrain.ruleset:666
 msgid "Path is the simplest road type, buildable from the beginning."
@@ -40479,10 +40473,8 @@ msgid "Phalanx is a good defender for your early cities."
 msgstr ""
 
 #: data/granularity/units.ruleset:502
-#, fuzzy
-#| msgid "Hunter"
 msgid "Hunters"
-msgstr "Metsästäjä"
+msgstr "Metsästäjät"
 
 #: data/granularity/units.ruleset:532
 msgid ""
@@ -40526,7 +40518,7 @@ msgstr ""
 
 #: data/granularity/units.ruleset:749
 msgid "Boats"
-msgstr ""
+msgstr "Paatit"
 
 #: data/granularity/units.ruleset:780
 #, fuzzy
@@ -42073,7 +42065,14 @@ msgid ""
 "all specialists - by default they are all entertainers which provide\n"
 "only luxuries (which will not be useful until later)."
 msgstr ""
-"%s on kasvanut! Kun kaupunki kasvaa, käytettävissäsi on enemmän kansalaisia, jotka voit määrätä pelloille tai erikoistehtäviin. Kahden asukasyksikön kaupunki voi työstää kahta eri ruutua ilmaiseksi työstetyn keskiruudun lisäksi. Kaupunki- ikkunassa oleva kartta näyttää, millä ruuduilla työläiset ovat, ja miten paljon ruokaa, tuotantoa (\"kilpiä\") ja kauppaa kukin tuottaa. Ruoka kasvattaa kaupunkiasi, tuotanto käytetään rakennusten ja yksikköjen rakentamiseen, ja kauppa tuottaa verotettavaa tuloa joka voidaan muuntaa tieteelliseksi tutkimukseksi, kullaksi tai luksukseksi.\n"
+"%s on kasvanut! Kun kaupunki kasvaa, käytettävissäsi on enemmän kansalaisia, "
+"jotka voit määrätä pelloille tai erikoistehtäviin. Kahden asukasyksikön "
+"kaupunki voi työstää kahta eri ruutua ilmaiseksi työstetyn keskiruudun "
+"lisäksi. Kaupunki- ikkunassa oleva kartta näyttää, millä ruuduilla työläiset "
+"ovat, ja miten paljon ruokaa, tuotantoa (\"kilpiä\") ja kauppaa kukin "
+"tuottaa. Ruoka kasvattaa kaupunkiasi, tuotanto käytetään rakennusten ja "
+"yksikköjen rakentamiseen, ja kauppa tuottaa verotettavaa tuloa joka voidaan "
+"muuntaa tieteelliseksi tutkimukseksi, kullaksi tai luksukseksi.\n"
 "\n"
 "Napsauta työstettyä ruutua poistaaksesi työläiset ruudulta. Napsauta sen\n"
 "jälkeen työstämätöntä ruutua sijoittaaksesi työläiset sinne. Voit\n"
@@ -42095,7 +42094,10 @@ msgid ""
 "in gold (if you have enough of it) to instantly complete the\n"
 "production."
 msgstr ""
-"%s on kasvanut taas! Kolmen kansalaisen turvin sinulla on jo varsin hyvä valinnanvara sen suhteen, miten kaupungin kannattaisi ohjata resurssinsa. Koon kolme tai suurempi kaupunki voi myös rakentaa uudisraivaajia, mikä maksaa kahden väestöyksikön verran.\n"
+"%s on kasvanut taas! Kolmen kansalaisen turvin sinulla on jo varsin hyvä "
+"valinnanvara sen suhteen, miten kaupungin kannattaisi ohjata resurssinsa. "
+"Koon kolme tai suurempi kaupunki voi myös rakentaa uudisraivaajia, mikä "
+"maksaa kahden väestöyksikön verran.\n"
 "\n"
 "Jos kaupunkisi rakentaa uudisraivaajia, harkitse nyt niiden ostamista.\n"
 "Avaa kaupunki-ikkuna ja napsauta Osta-nappia. Kultaa käyttämällä (jos\n"
@@ -42170,7 +42172,7 @@ msgstr ""
 #: data/scenarios/tutorial.sav:248
 #, c-format
 msgid ""
-"Congratulations, you have grown %s to size 13. A city this\n"
+"Congratulations, you have grown %s to size 17. A city this\n"
 "large can provide a tremendous amount of output if properly upgraded.\n"
 "Make sure you have enough taxes and cultural buildings to keep your\n"
 "citizens content. You should also make sure the city is upgraded\n"
@@ -42182,7 +42184,7 @@ msgid ""
 "provide enough taxable revenue (gold) to allow you to purchase some\n"
 "buildings to accelerate their productions."
 msgstr ""
-"Onneksi olkoon; olet kasvattanut kaupungin %s kokoon 13. Sopivasti\n"
+"Onneksi olkoon; olet kasvattanut kaupungin %s kokoon 17. Sopivasti\n"
 "päivitettynä tämänkokoinen kaupunki tuottaa mahtavasti. Varmista, että\n"
 "panostat riittävästi veroja ja kulttuurirakennuksia pitääksesi asukkaat\n"
 "rauhallisina. Varmista myös, että kaupungissa on sopivat tuottoa\n"
@@ -42465,7 +42467,8 @@ msgstr ""
 "Majasta voi kuitenkin myös löytää teknologiaa tai palkkasoturiyksikköjä.\n"
 "Joissakin majoissa lymyää paikallisia uudisraivaajia, jotka liittyvät\n"
 "joukkoihisi ja liittävät valtakuntaasi uuden kaupungin. Jos huonosti käy,\n"
-"majasta hyökkää joukko barbaareja, jotka listivät yksikkösi siltä istumalta.\n"
+"majasta hyökkää joukko barbaareja, jotka listivät yksikkösi siltä "
+"istumalta.\n"
 "Keskimäärin on hyödyllistä tutkia kaikki vastaan tulevat majat\n"
 "mahdollisimman pian."
 
@@ -44794,8 +44797,8 @@ msgstr "%2$s iski kaupunkiin %1$s."
 #, c-format
 msgid "Robbery in %s. %d gold stolen."
 msgid_plural "Robbery in %s. %d gold stolen."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ryöstö kaupungissa %s. %d kulta viety."
+msgstr[1] "Ryöstö kaupungisssa %s. %d kultaa viety."
 
 #: server/cityturn.c:4309
 #, c-format
@@ -47333,7 +47336,7 @@ msgstr ""
 "Suoalueita on kuivunut ja tundra on levinnyt laajalti entisille "
 "ruohoalueille."
 
-#: server/maphand.c:313
+#: server/maphand.c:315
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new "
 "infrastructure building technology is announced."
@@ -47341,7 +47344,7 @@ msgstr ""
 "Uusi toivo leviää läpi maan uuden infrastruktuurin rakentamistavan "
 "keksimisen myötä."
 
-#: server/maphand.c:320
+#: server/maphand.c:322
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "infrastructure building technology."
@@ -47349,7 +47352,7 @@ msgstr ""
 "Kansa ilahtuu saadessaan tietää että tiedemiehesi ovat vihdoin keksineet "
 "uuden infrastruktuurin rakennustekniikan."
 
-#: server/maphand.c:328
+#: server/maphand.c:330
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "infrastructure."
@@ -47357,19 +47360,19 @@ msgstr ""
 "Työläiset kokoontuvat ja päättävät rakentaa talkoovoimin paremman "
 "infrastruktuurin kaikkiin mahdollisiin kaupunkeihin."
 
-#: server/maphand.c:332
+#: server/maphand.c:334
 #, c-format
 msgid "Workers spontaneously gather and upgrade all possible cities with %s."
 msgstr ""
 "Työläiset kokoontuvat ja kaikkiin mahdollisiin kaupunkeihin rakennetaan %s "
 "talkoovoimin."
 
-#: server/maphand.c:1831
+#: server/maphand.c:1833
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Yksikkösi %s on siirretty muuttuneen maaston takia."
 
-#: server/maphand.c:1885
+#: server/maphand.c:1887
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Yksikkösi %s on lakkautettu muuttuneen maaston takia."
@@ -55722,8 +55725,8 @@ msgstr "%s"
 msgid "?or-list:%s or %s"
 msgstr "%s tai %s"
 
-#. TRANS: start of an "or"-separated string list with more than two
-#. * items.
+#. TRANS: start of an "or"-separated string list with more than
+#. * two items.
 #: utility/astring.c:331
 #, c-format
 msgid "?or-list:%s"
@@ -55736,8 +55739,8 @@ msgstr "%s"
 msgid "?or-list:, %s"
 msgstr ", %s"
 
-#. TRANS: end of an "or"-separated string list with more than two
-#. * items.
+#. TRANS: end of an "or"-separated string list with more than
+#. * two items.
 #: utility/astring.c:339
 #, c-format
 msgid "?or-list:, or %s"
@@ -55755,8 +55758,8 @@ msgstr "%s"
 msgid "?and-list:%s and %s"
 msgstr "%s ja %s"
 
-#. TRANS: start of an "and"-separated string list with more than two
-#. * items.
+#. TRANS: start of an "and"-separated string list with more than
+#. * two items.
 #: utility/astring.c:369
 #, c-format
 msgid "?and-list:%s"
@@ -55769,8 +55772,8 @@ msgstr "%s"
 msgid "?and-list:, %s"
 msgstr ", %s"
 
-#. TRANS: end of an "and"-separated string list with more than two
-#. * items.
+#. TRANS: end of an "and"-separated string list with more than
+#. * two items.
 #: utility/astring.c:377
 #, c-format
 msgid "?and-list:, and %s"
@@ -56086,6 +56089,18 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#, fuzzy
+#~| msgid ""
+#~| "This is the only available form of government in the beginning.\n"
+#~| "\n"
+#~| "Max tax/science/lux rate is 40%."
+#~ msgid "  This is the only available form of government."
+#~ msgstr ""
+#~ "Tämä on pelin alussa ainoa mahdollinen hallitusmuoto.\n"
+#~ "\n"
+#~ "Veroihin, tutkimukseen ja luksukseen voidaan kuhunkin laittaa korkeintaan "
+#~ "40% tuloista."
 
 #, c-format
 #~ msgid "%sTeleport to Conquer%s"
