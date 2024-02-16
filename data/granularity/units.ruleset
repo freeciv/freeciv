@@ -29,6 +29,8 @@ format_version = 30
    { "name", "helptxt"
      _("Cities")
      _("Cant_Fortify")
+     _("Defenseless"), _("Can be captured by any military unit.")
+     _("Bombarder")
    }
 
 ; Names for custom unit class flags. There can be up to 25 of these.
@@ -635,6 +637,42 @@ helptext      = _("\
 Horsemen are the first fast unit.\
 ")
 
+[unit_catapuly]
+name          = _("Catapult")
+class         = "Land"
+reqs          =
+  { "type", "name",          "range"
+    "Tech", "Siege Engines", "Player"
+  }
+obsolete_by   = "None"
+graphic       = "u.catapult"
+graphic_alt   = "-"
+sound_move    = "m_catapult"
+sound_move_alt = "m_generic"
+sound_fight   = "f_catapult"
+sound_fight_alt = "f_generic"
+build_cost    = 3000
+pop_cost      = 0
+attack        = 50
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 30
+bombard_rate  = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 100
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+flags         = "Defenseless", "Bombarder"
+;roles         =
+helptext      = _("\
+Catapults are the first bombarding unit and it can also destroy buildings.\
+")
+
 [unit_bomber]
 name          = _("Bomber")
 class         = "Air"
@@ -656,7 +694,7 @@ defense       = 50
 hitpoints     = 30
 firepower     = 1
 move_rate     = 100
-bombard_rate  = 5
+bombard_rate  = 8
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
