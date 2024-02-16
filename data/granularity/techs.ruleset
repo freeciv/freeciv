@@ -162,6 +162,15 @@ graphic     = "a.art"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_astronomy]
+name        = _("Astronomy")
+req1        = "Calendar"
+req2        = "Geometry"
+flags       = ""
+graphic     = "a.astronomy"
+graphic_alt = "-"
+;helptext    =
+
 [advance_bronze_weapons]
 name        = _("Bronze Weapons")
 req1        = "Mining"

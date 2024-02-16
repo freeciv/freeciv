@@ -179,6 +179,22 @@ reqs	=
       "Building", "Library", "City"
     }
 
+[effect_stone_circle_all_cities]
+type    = "History"
+value	= 2
+reqs	=
+    { "type",     "name",         "range"
+      "Building", "Stone Circle", "Player"
+    }
+
+[effect_stone_circle_local]
+type    = "History"
+value	= 3
+reqs	=
+    { "type",     "name",         "range"
+      "Building", "Stone Circle", "City"
+    }
+
 [effect_center_trade_village]
 type    = "Output_Add_Tile"
 value   = 25
