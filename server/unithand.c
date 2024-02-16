@@ -6259,7 +6259,8 @@ void handle_unit_orders(struct player *pplayer,
 {
   int length = packet->length;
   struct unit *punit = player_unit_by_number(pplayer, packet->unit_id);
-  struct tile *src_tile = index_to_tile(&(wld.map), packet->src_tile);
+  const struct civ_map *nmap = &(wld.map);
+  struct tile *src_tile = index_to_tile(nmap, packet->src_tile);
   struct unit_order *order_list;
 #ifdef FREECIV_DEBUG
   int i;
@@ -6297,7 +6298,7 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   if (length) {
-    order_list = create_unit_orders(length, packet->orders);
+    order_list = create_unit_orders(nmap, length, packet->orders);
     if (!order_list) {
       log_error("received invalid orders from %s for %s (%d).",
                 player_name(pplayer), unit_rule_name(punit), packet->unit_id);
@@ -6331,7 +6332,7 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   if (!packet->repeat) {
-    punit->goto_tile = index_to_tile(&(wld.map), packet->dest_tile);
+    punit->goto_tile = index_to_tile(nmap, packet->dest_tile);
   } else {
     /* Make sure that no old goto_tile remains. */
     punit->goto_tile = NULL;

@@ -3516,7 +3516,7 @@ void city_rally_point_clear(struct city *pcity)
 }
 
 /**********************************************************************//**
-  Fill city rally point from the packet.
+  Fill city rally point from a packet.
 **************************************************************************/
 void city_rally_point_receive(const struct packet_city_rally_point *packet,
                               struct city *pcity)
@@ -3547,7 +3547,8 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
       pcity->rally_point.orders = NULL;
     }
   } else {
-    checked_orders = create_unit_orders(packet->length, packet->orders);
+    checked_orders = create_unit_orders(&(wld.map),
+                                        packet->length, packet->orders);
     if (!checked_orders) {
       pcity->rally_point.length = 0;
       log_error("invalid rally point orders for city number %d.",
