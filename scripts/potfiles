@@ -33,7 +33,7 @@ cat $POTLIST | grep -v "^#" | sed "s,^,$1," | sort > /tmp/potfile
 echo Suggestions for addition or removal of files with translatable strings to/from POTFILES.in:
 echo Please check the output manually
 
-find "$1" -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.sav' -o -name '*.lua' -o -name '*.ruleset' -o -name '*.tilespec' -o -name '*.txt' -o -name '*.in' |
+find "$1" -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.sav' -o -name '*.lua' -o -name '*.ruleset' -o -name '*.tilespec' -o -name '*.txt' -o -name '*.in' -o -name '*.def' | grep -v '_gen.[ch]' |
   xargs grep -l -I '_("' |
     sort |
       diff -u /tmp/potfile - |
