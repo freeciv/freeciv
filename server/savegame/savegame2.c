@@ -5654,7 +5654,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      if (!unit_order_list_is_sane(punit->orders.length,
+      if (!unit_order_list_is_sane(&(wld.map), punit->orders.length,
                                    punit->orders.list)) {
         log_sg("Invalid unit orders for unit %d.", punit->id);
         free_unit_orders(punit);
