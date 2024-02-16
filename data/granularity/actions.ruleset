@@ -34,8 +34,11 @@ format_version = 40
 ;                 "Collect Ransom", "Attack", "Suicide Attack"
 
 [actions]
+; Forbid "Attack" if any one of the listed actions are legal.
+attack_blocked_by = "Capture Units", "Bombard", "Bombard 2"
+
 ; Forbid "Conquer City" if any one of the listed actions are legal.
-conquer_city_blocked_by = "Attack"
+conquer_city_blocked_by = "Attack", "Bombard", "Bombard 2"
 
 ; Forbid regular unit move if one of the actions below is legal.
 move_blocked_by = "Transport Disembark", "Transport Disembark 2"
@@ -194,6 +197,9 @@ ui_name_teleport = _("%sRelocate%s")
 
 ; /* TRANS: _Fortify (100% chance of success). */
 ui_name_fortify = _("%sFortify%s")
+
+; /* TRANS: _Bombard (100% chance of success). */
+ui_name_bombard_2 = _("%sBombard%s")
 
 ; /* TRANS: _Conquer City (100% chance of success). */
 ui_name_conquer_city = _("%sConquer City%s")
@@ -391,11 +397,28 @@ actor_reqs    =
       "UnitState",    "Transported", "Local", FALSE
     }
 
+[actionenabler_bombard_land]
+action        = "Bombard 2"
+actor_reqs    =
+    { "type",         "name",      "range"
+      "UnitFlag",     "Bombarder", "Local"
+      "MinMoveFrags", "5",         "Local"
+    }
+
+[actionenabler_surgical_strike]
+action        = "Surgical Strike Building"
+actor_reqs    =
+    { "type",         "name",      "range"
+      "UnitFlag",     "Bombarder", "Local"
+      "MinMoveFrags", "5",         "Local"
+    }
+
 [actionenabler_bombard]
 action        = "Bombard"
 actor_reqs    =
-    { "type",         "name",        "range", "present"
-      "UnitClass",    "Air",         "Local", TRUE
+    { "type",         "name", "range"
+      "UnitClass",    "Air",  "Local"
+      "MinMoveFrags", "5",    "Local"
     }
 
 [actionenabler_fortify]
@@ -435,6 +458,20 @@ actor_reqs    =
 target_reqs   =
     { "type",           "name", "range", "present"
       "MaxUnitsOnTile", "0",    "Tile",  TRUE
+    }
+
+[actionenabler_capture_defenseless]
+action        = "Capture Units"
+actor_reqs    =
+    { "type",         "name", "range"
+      "DiplRel",      "War",  "Local"
+      "MinMoveFrags", "1",    "Local"
+    }
+target_reqs   =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Defenseless",  "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Tile",  FALSE
     }
 
 [actionenabler_gain_veterancy]

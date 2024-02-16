@@ -28,3 +28,4 @@ movement costs is 1/6 points.
  * Fortifying is not possible before Trenches technology is known.
  * Base city radius, both for workable area and vision,
    extends one tile away from the center.
+ * Units with zero defense value can be captured by any military unit

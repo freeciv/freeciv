@@ -396,6 +396,15 @@ graphic     = "a.rope"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_siege_engines]
+name        = _("Siege Engines")
+req1        = "Rope"
+req2        = "The Wheel"
+flags       = ""
+graphic     = "a.siege_engines"
+graphic_alt = "-"
+;helptext    =
+
 [advance_spirits]
 name        = _("Spirits")
 req1        = "None"
