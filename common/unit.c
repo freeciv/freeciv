@@ -2598,7 +2598,8 @@ bool unit_is_cityfounder(const struct unit *punit)
 /**********************************************************************//**
   Returns TRUE iff the unit order array is sane.
 **************************************************************************/
-bool unit_order_list_is_sane(int length, const struct unit_order *orders)
+bool unit_order_list_is_sane(const struct civ_map *nmap,
+                             int length, const struct unit_order *orders)
 {
   int i;
 
@@ -2666,7 +2667,7 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       paction = action_by_number(orders[i].action);
 
       /* Validate main target. */
-      if (index_to_tile(&(wld.map), orders[i].target) == NULL) {
+      if (index_to_tile(nmap, orders[i].target) == NULL) {
         log_error("at index %d, invalid tile target %d for the action %d.",
                   i, orders[i].target, orders[i].action);
         return FALSE;
@@ -2782,12 +2783,13 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
   Sanity-check unit order arrays from a packet and create a unit_order array
   from their contents if valid.
 **************************************************************************/
-struct unit_order *create_unit_orders(int length,
+struct unit_order *create_unit_orders(const struct civ_map *nmap,
+                                      int length,
                                       const struct unit_order *orders)
 {
   struct unit_order *unit_orders;
 
-  if (!unit_order_list_is_sane(length, orders)) {
+  if (!unit_order_list_is_sane(nmap, length, orders)) {
     return NULL;
   }
 
