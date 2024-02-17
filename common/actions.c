@@ -548,6 +548,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_PILLAGE, ACTRES_PILLAGE,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_PILLAGE2] =
+      unit_action_new(ACTION_PILLAGE2, ACTRES_PILLAGE,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CLEAN] =
       unit_action_new(ACTION_CLEAN, ACTRES_CLEAN,
                       TRUE, FALSE,
@@ -5857,6 +5861,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_plant_2";
   case ACTION_PILLAGE:
     return "ui_name_pillage";
+  case ACTION_PILLAGE2:
+    return "ui_name_pillage_2";
   case ACTION_CLEAN:
     return "ui_name_clean";
   case ACTION_CLEAN2:
@@ -6205,6 +6211,7 @@ const char *action_ui_name_default(int act)
     /* TRANS: Transform by _Planting (3% chance of success). */
     return N_("Transform by %sPlanting%s");
   case ACTION_PILLAGE:
+  case ACTION_PILLAGE2:
     /* TRANS: Pilla_ge (100% chance of success). */
     return N_("Pilla%sge%s");
   case ACTION_CLEAN:
@@ -6407,6 +6414,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_PLANT:
   case ACTION_PLANT2:
   case ACTION_PILLAGE:
+  case ACTION_PILLAGE2:
   case ACTION_CLEAN:
   case ACTION_CLEAN2:
   case ACTION_FORTIFY:
@@ -6577,6 +6585,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_PLANT:
   case ACTION_PLANT2:
   case ACTION_PILLAGE:
+  case ACTION_PILLAGE2:
   case ACTION_CLEAN:
   case ACTION_CLEAN2:
   case ACTION_FORTIFY:
@@ -6829,6 +6838,8 @@ const char *action_target_kind_ruleset_var_name(int act)
     return "nuke_city_target_kind";
   case ACTION_PILLAGE:
     return "pillage_target_kind";
+  case ACTION_PILLAGE2:
+    return "pillage_2_target_kind";
   case ACTION_USER_ACTION1:
     return "user_action_1_target_kind";
   case ACTION_USER_ACTION2:
@@ -6925,6 +6936,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_PLANT:
   case ACTION_PLANT2:
   case ACTION_PILLAGE:
+  case ACTION_PILLAGE2:
   case ACTION_CLEAN:
   case ACTION_CLEAN2:
   case ACTION_FORTIFY:
@@ -7146,6 +7158,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_PLANT:
   case ACTION_PLANT2:
   case ACTION_PILLAGE:
+  case ACTION_PILLAGE2:
   case ACTION_CLEAN:
   case ACTION_CLEAN2:
   case ACTION_FORTIFY:
@@ -7305,6 +7318,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_PLANT:
   case ACTION_PLANT2:
   case ACTION_PILLAGE:
+  case ACTION_PILLAGE2:
   case ACTION_CLEAN:
   case ACTION_CLEAN2:
   case ACTION_FORTIFY:

@@ -75,6 +75,7 @@ values
   ACTION_BASE                             "Build Base"
   ACTION_BASE2                            "Build Base 2"
   ACTION_PILLAGE                          "Pillage"
+  ACTION_PILLAGE2                         "Pillage 2"
   ACTION_TRANSPORT_BOARD                  "Transport Board"
   ACTION_TRANSPORT_BOARD2                 "Transport Board 2"
   ACTION_TRANSPORT_BOARD3                 "Transport Board_3"
