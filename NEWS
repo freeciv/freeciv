@@ -22,7 +22,7 @@ MAJOR CHANGES FROM 3.1.x to 3.2.0
 MAJOR CHANGES FROM 3.0.x to 3.1.0
 ---------------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2023-12-30)
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.0>, 2024-02-18)
 
    The major changes in Freeciv 3.1 are new Qt6- and gtk4-clients,
    improved balance for civ2civ3 ruleset, experimental meson based
@@ -49,8 +49,8 @@ Server / General
        as required by changes in the actions themselves.
        See Controls in Help for updated info.
           + Especially; Paradrop now has a key distinct from
-            Pollution cleaning OSDN#45958
-     * Adding local nation definitions now works properly OSDN#44590
+            Pollution cleaning osdn#45958
+     * Adding local nation definitions now works properly osdn#44590
 
 Changes affecting players (supplied rulesets)
 
@@ -59,38 +59,38 @@ Changes affecting players (supplied rulesets)
        GNAPATCH#7625
      * Submarines are now in the new Subsurface vision layer HRM#682506
      * Huts on most rulesets (any ruleset that uses default huts behavior)
-       can now result on reveal of the surrounding terrain OSDN#42974
+       can now result on reveal of the surrounding terrain osdn#42974
      * By default, bombardment rate now gets reduced if the bombarding
        unit is damaged. This is relevant only for rulesets with such
        bombarding units, and ruleset might still use the old behavior
        instead of the new default HRM#821129
      * The issue of Ships attacking Helicopters counting as land bombardment,
        when attack initiated from a city on land has been resolved
-       OSDN#43255
-     * Extraneous StartUnit roles cleared from supplied rulesets OSDN#45878
+       osdn#43255
+     * Extraneous StartUnit roles cleared from supplied rulesets osdn#45878
      * Rulesets except civ1, civ2, alien, and stub have new
        Eliminate Spy action, that is just diplomatic battle with no
-       further actions OSDN#46173
+       further actions osdn#46173
      * Player looting dying player (one who lost gameloss unit)
-       now get notifications about what the loot contains OSDN#45152
+       now get notifications about what the loot contains osdn#45152
      * Messages from supplied lua scripts, such as handling unit entering
-       hut tile, now have unit/city/tile links in place OSDN#43389
+       hut tile, now have unit/city/tile links in place osdn#43389
 
      * nations
-          + Esperant nation city list updated OSDN#45762
+          + Esperant nation city list updated osdn#45762
           + Palau nation added HRM#697041
-          + Texan nation city list updated OSDN#46114
-          + Liege nation added OSDN#46553
-          + Floridian nation added OSDN#46657
+          + Texan nation city list updated osdn#46114
+          + Liege nation added osdn#46553
+          + Floridian nation added osdn#46657
           + Game prefers not to select Chadian and Kanem-Bornu
             to the same game (i.e., they have been set to conflict)
-            OSDN#42135
+            osdn#42135
 
      * civ2civ3
           + Ecclesiastical Palace is real secondary capital now HRM#872572
           + Establishing trade routes give one-time bonus in Gold
-            (used to give Nothing) OSDN#42319
-          + Effects of Culture have been reworked OSDN#42712
+            (used to give Nothing) osdn#42319
+          + Effects of Culture have been reworked osdn#42712
                * The culture accumulated by each city increases its
                  resistance in diplomatic fights against enemy agents
                  (up to +50%)
@@ -102,22 +102,23 @@ Changes affecting players (supplied rulesets)
                * Increased the amount of culture granted by achievements
                  (from 100 to 1000 in most cases), and the lead relative
                  to second best player needed for victory (from 33 to 100%)
-          + Fortress and Airbase build requirements rearranged OSDN#42709
+          + Fortress and Airbase build requirements rearranged osdn#42709
                * All military infantry units can build fortresses.
                  All worker units can build airbases.
           + The working time required to build a base is 2 times
             the movement cost of the terrain.
           + Attacks against helpless defender never grant veterancy
-            OSDN#43101
+            osdn#43101
           + The chance to gain veterancy from combat depends on how
-            challenging it was OSDN#43203
+            challenging it was osdn#43203
           + Reworked which of the naval units count as military ones,
-            causing unhappiness OSDN#45225
+            causing unhappiness osdn#45225
           + Homeless diplomats may home themselves, to gain ability
-            to bribe units OSDN#45070
-          + Barracks and Sun Tzu affect Small Land units too OSDN#47636
+            to bribe units osdn#45070
+          + Barracks and Sun Tzu affect Small Land units too osdn#47636
           + Bribe Unit, Spy Attack, and Incite City give victim
-            casus belli even when the actions fail OSDN#46239
+            casus belli even when the actions fail osdn#46239
+          + Mountain movement penalty not applied on Rivers osdn#48713
 
      * civ1
           + Alliance clauses are no longer available HRM#768396
@@ -125,7 +126,7 @@ Changes affecting players (supplied rulesets)
             HRM#850669
           + Both units' hitpoints and firepower have been increased
             to 10 in all situations. Single hit still kill them,
-            but AI understand this math a bit better OSDN#43042
+            but AI understand this math a bit better osdn#43042
           + Fortifying bonuses closer to civ2 HRM#871628
                * Unfortified units in cities do not get the bonus
                * Bonus is not cumulative with City Walls or Fortress
@@ -142,16 +143,16 @@ Changes affecting players (supplied rulesets)
      * multiplayer
           + Unit move rates doubled HRM#654404
           + The chance to gain veterancy from combat depends on how
-            challenging it was OSDN#43203
+            challenging it was osdn#43203
 
      * alien
           + Burrowing units do not make it impossible to attack other
             units in the same tile, even if general unreachableprotects
             setting is enabled HRM#824810
           + The chance to gain veterancy from combat depends on how
-            challenging it was OSDN#43203
+            challenging it was osdn#43203
           + Bribe Unit, and Incite City give victim casus belli
-            even when the actions fail OSDN#46239
+            even when the actions fail osdn#46239
 
      * experimental
           + Ruleset has been made ready to migrate under name goldkeep
@@ -169,44 +170,44 @@ Changes affecting players (supplied rulesets)
             enemy spies and diplomats HRM#859809
           + Pillaging gives the victim Casus Belli HRM#874199
           + Spies can Release Plague HRM#859160
-          + Spies can do Suitcase Nuke action OSDN#41809
+          + Spies can do Suitcase Nuke action osdn#41809
           + Ecclesiastical Palace is real secondary capital now HRM#899242
           + New Chichen Itza wonder allows city to build units that
             usually have population cost without the city shrinking
             HRM#900032
-          + Fortress can be expanded to a Castle OSDN#41433
-          + Some Castles are placed on the map when it's generated OSDN#41434
+          + Fortress can be expanded to a Castle osdn#41433
+          + Some Castles are placed on the map when it's generated osdn#41434
           + Teleportation is possible via Ancient Transport Hub's
-            randomly placed on map OSDN#41557
+            randomly placed on map osdn#41557
           + Living units of the Amêzârâkian Mysteries owner can heal
-            other living units OSDN#41671
+            other living units osdn#41671
           + Nuclear attacks are now targeted against tiles, not cities
-            OSDN#41688
+            osdn#41688
           + Added Nuclear Submarine that can launch one tactical nuke
-            each turn OSDN#41689
+            each turn osdn#41689
           + Added Treuga Dei Wonder that prevents all violent actions
-            while it's active OSDN#41677
+            while it's active osdn#41677
           + New Altar of The Divine Ruler wonder allows making units homeless
-            OSDN#41836
+            osdn#41836
           + New Mechanic unit can repair machine units, restoring 50%
-            of their health OSDN#41845
+            of their health osdn#41845
           + Poison City actions may fail, as dictated by diplchance
             server setting HRM#924521
           + Establishing trade routes give one-time bonus in Gold
-            (used to give both Gold and Science) OSDN#42319
+            (used to give both Gold and Science) osdn#42319
           + Added Space Elevator small wonder and Space Elevator Tether
-            City Improvement OSDN#43128
+            City Improvement osdn#43128
           + Attacks against helpless defender never grant veterancy
-            OSDN#43101
+            osdn#43101
           + The chance to gain veterancy from combat depends on how
-            challenging it was OSDN#43203
+            challenging it was osdn#43203
           + Reworked which of the naval units count as military ones,
-            causing unhappiness OSDN#45225
+            causing unhappiness osdn#45225
           + Homeless diplomats may home themselves, to gain ability
-            to bribe units OSDN#45070
-          + Barracks and Sun Tzu affect Small Land units too OSDN#47636
+            to bribe units osdn#45070
+          + Barracks and Sun Tzu affect Small Land units too osdn#47636
           + Bribe Unit, Spy Attack, and Incite City give victim
-            casus belli even when the actions fail OSDN#46239
+            casus belli even when the actions fail osdn#46239
 
 Changes affecting other rulesets / modders
 
@@ -226,7 +227,7 @@ Changes affecting other rulesets / modders
           + Unit_Build_Cost_Pct HRM#768130
    * Added user-defined effects "User_Effect_1" ... "User_Effect_4"
      that do nothing by default. Ruleset is expected to make them
-     usable by lua scripting. OSDN#41745
+     usable by lua scripting. osdn#41745
    * Ruleset has control over which clauses are available for treaties
           + Whether it's enabled at all in the ruleset HRM#765945
           + When requirement vectors for giver and receiver enable it
@@ -282,7 +283,7 @@ Changes affecting other rulesets / modders
           + InNativeExtra HRM#854185
           + MovedThisTurn HRM#875439
    * Maximum number of requirements in a requirement vector increased to 40
-     OSDN#41661
+     osdn#41661
    * New requirement types
           + CityStatus, currently only for checking if the city is
             controlled by its original owner (OwnedByOriginal) HRM#858238
@@ -291,15 +292,15 @@ Changes affecting other rulesets / modders
           + Activity that depends on unit's current activity HRM#870905
           + DiplRelTile that depends on ones diplomatic relation to
             the owner of the tile (e.g. the tile target unit is on)
-            OSDN#42515
+            osdn#42515
           + DiplRelTileOther that depends on diplomatic relation between
             the owner of the tile and other player (e.g. the target unit owner)
-            OSDN#42522
+            osdn#42522
           + DiplRelUnitAny that depends on ones diplomatic relation with
-            owners of units on tile OSDN#42562
+            owners of units on tile osdn#42562
           + DiplRelUnitAnyOther that depends on diplomatic relation between
             owners of units on tile and other player (e.g. tile owner)
-            OSDN#42563
+            osdn#42563
    * Defense bonuses from unit being fortified unhardcoded by
      new Fortify_Defense_Bonus effect HRM#867744
    * NoFortify terrain flag unhardcoded HRM#877498
@@ -321,9 +322,9 @@ Changes affecting other rulesets / modders
      an Action_Success_Actor_Move_Cost effect that takes all the movement
      HRM#847256
    * Removed hardcoded rule that attack costs single move - ruleset can
-     define move costs via effects OSDN#41646
+     define move costs via effects osdn#41646
    * New Heal_Unit_Pct effect to control how much Heal Unit actions heal
-     OSDN#41789
+     osdn#41789
    * Whether server setting telling that city has unlimited airlift also
      enables airlift when there's no capacity at all is now controlled
      by new airlift_from_always_enabled and airlift_to_always_enabled
@@ -338,25 +339,25 @@ Changes affecting other rulesets / modders
    * Improvements to when unit gains veterancy from combat
           + New ruleset setting only_real_fight_makes_veteran to prevent
             one from gaining veterancy from safe attacks
-            (ones against helpless defender) OSDN#43009
+            (ones against helpless defender) osdn#43009
           + New ruleset setting combat_odds_scaled_veterancy to make
             chance of gaining veterancy scale to the difficulty of the combat
             HRM#804347
    * Rules that set firepower to 1 unhardcoded can now have the value
-     suitable for the ruleset OSDN#43041
+     suitable for the ruleset osdn#43041
    * By the new tp_defense unit type setting, unit can be blocked
      from defending while it's inside a transport HRM#848689
    * New min_trade_route_val ruleset setting, mainly to control if
      trade output can round down to zero, or is it always at least 1
-     OSDN#43011
-   * Recycle Unit action has been renamed as Disband Unit Recover OSDN#42959
+     osdn#43011
+   * Recycle Unit action has been renamed as Disband Unit Recover osdn#42959
    * Unhardcoded unit regeneration special cases
           + New Min_HP_Pct effect, to unhardcode minimum HP unit gets
-            when in a city OSDN#42699
+            when in a city osdn#42699
           + New Min_HP_Regen_2 effect, to unhardcode base healing,
-            and healing bonus for fortified units OSDN#44201
+            and healing bonus for fortified units osdn#44201
    * Existence of at least one City_Vision_Radius_Sq effect in the ruleset
-     is now mandatory, as city without any vision wouldn't work OSDN#43647
+     is now mandatory, as city without any vision wouldn't work osdn#43647
 
    * actions
    * Completely new actions
@@ -374,7 +375,7 @@ Changes affecting other rulesets / modders
           + Conquer Extras HRM#850508
           + Enter Hut and Frighten Hut HRM#919139
           + Unit Move HRM#919970
-          + Unit Make Homeless OSDN#41622
+          + Unit Make Homeless osdn#41622
    * ..._Possible -effects replaced with action enablers
           + Transform_Possible replaced by Transform_Terrain HRM#732503
           + Irrig_TF_Possible and Mining_TF_Possible replaced
@@ -400,8 +401,8 @@ Changes affecting other rulesets / modders
           + Transport Disembark HRM#850550
           + Conquer City HRM#850551
           + Bombard HRM#851451
-          + Conquer Extras OSDN#41513
-          + Heal Unit OSDN#41602
+          + Conquer Extras osdn#41513
+          + Heal Unit osdn#41602
           + Unit move actions HRM#920420
    * Explode Nuclear, Nuke City, and Nuke Units are now three
      separate actions, so their rules can be controlled separately
@@ -418,15 +419,15 @@ Changes affecting other rulesets / modders
           + Paradrop Unit range migrated from the unit definition HRM#879114
    * Number of actions with different side effects split from the former
      Paradrop Unit that is now free of those hardcoded side effects
-     OSDN#41565
+     osdn#41565
    * Some actions have minimum ranges, from the actor, that they can target to
-          + Nuclear attacks OSDN#41701
+          + Nuclear attacks osdn#41701
    * Added user-defined actions "User Action 1" ... "User Action 4" that
      do nothing by default. Ruleset is expected to make them usable
      by lua scripting HRM#852112
    * More actions supported by Casus_Belli_Success
           + Pillage HRM#874197
-          + Move actions OSDN#41627
+          + Move actions osdn#41627
           + Paradrop Unit actions HRM#921213
    * New Casus_Belli_Complete effect, supporting just Pillage action
      HRM#875465
@@ -438,7 +439,7 @@ Changes affecting other rulesets / modders
           + Blocking actions that formerly had partial implementation
             via force_* entries HRM#919172
    * For some actions it's now possible to give a list of other actions
-     that are automatically attempted after it OSDN#41524
+     that are automatically attempted after it osdn#41524
    * Ruleset now controls what actions unit tries in an attempt to escape
      the tile in some situations
           + When city gets destroyed, and unit can't survive on tile
@@ -451,15 +452,15 @@ Changes affecting other rulesets / modders
             the tile owner, or the extra owner HRM#919305
           + Unit Explode Nuclear'' and ''Unit Nuke City'' actions have
             been merged, with ruleset selecting between the old behaviors
-            by defining the target kind OSDN#41552
+            by defining the target kind osdn#41552
    * Whether an diplomat action is subject to diplchance server setting
      is now controlled by new diplchance_initial_odds ruleset setting.
      This is still supported for a limited set of actions HRM#849492
    * Home City action enablers can be set to allow rehoming also
      NoHome units. The unit flag now only means that unit is initially
-     built homeless OSDN#41621
+     built homeless osdn#41621
    * Nuclear attack units can be set not to get consumed in the attack.
-     Makes sense when it's actually ranged attack launcher unit OSDN#41681
+     Makes sense when it's actually ranged attack launcher unit osdn#41681
    * Found City can be set not to consume unit HRM#931180
 
 Changes affecting lua scripting
@@ -467,9 +468,9 @@ Changes affecting lua scripting
    * Lua engine has been updated to version 5.4 HRM#743677
    * Luasql files have been updated to match version 2.6.0 HRM#890257
    * owner property added for lua's tile data HRM#874440
-   * government property added for lua's player data OSDN#43294
+   * government property added for lua's player data osdn#43294
    * Direction variables are now properly included to savegames HRM#880895
-   * Unit upgrade / transform APIs OSDN#42666
+   * Unit upgrade / transform APIs osdn#42666
           + Unit:veteran
           + Unit_Type:obsoleted_by
           + Player:can_upgrade()
@@ -482,36 +483,36 @@ Changes affecting lua scripting
    * Other new methods
           + city:is_primary_capital() HRM#904702
           + action:target_kind() tells what the action was targeted at
-            OSDN#41446
-          + tile:extra_owner() returns owner of an extra on tile OSDN#41445
-          + find.action() to get an action OSDN#41519
+            osdn#41446
+          + tile:extra_owner() returns owner of an extra on tile osdn#41445
+          + find.action() to get an action osdn#41519
           + edit.perform_action() and Unit:perform_action() to force
-            unit to perform an action OSDN#41520
+            unit to perform an action osdn#41520
           + effects.unit_bonus() to get value of the effect for the unit
-            (unit matches requirements) OSDN#41746
+            (unit matches requirements) osdn#41746
           + effects.unit_vs_tile_bonus() to get value of the effect for
-            the unit on tile OSDN#41749
-          + Tile:show() and Tile:hide() OSDN#42973
+            the unit on tile osdn#41749
+          + Tile:show() and Tile:hide() osdn#42973
           + City:create_building() and City:remove_building() HRM#695117
-          + Player:give_bulbs() OSDN#42502
+          + Player:give_bulbs() osdn#42502
           + City:link_text(), City:tile_link_text(), Unit:link_text(),
-            Unit:tile_link_text(), and Tile:link_text() OSDN#43343
-          + find.achievement() and find.disaster() OSDN#43594
-          + find.player(name) OSDN#43705
-          + City:remove() OSDN#44229
+            Unit:tile_link_text(), and Tile:link_text() osdn#43343
+          + find.achievement() and find.disaster() osdn#43594
+          + find.player(name) osdn#43705
+          + City:remove() osdn#44229
    * Extended methods
           + edit.unit_move(), edit.unit.unit_teleport(), Unit:move(),
             and Unit:teleport() can take additional parameters dictating
             potential side effects of the move (e.g. if there's transport
-            or a hut in the target) OSDN#41730
+            or a hut in the target) osdn#41730
           + create_unit_full() can place unit inside a transport it
-            would not board at the place OSDN#44834
+            would not board at the place osdn#44834
    * New signals
           + Family of action_finished_... signals emitted after the action
             HRM#817749
           + player_phase_begin, player_phase_end, player_alive_phase_end
-            OSDN#42663
-   * default.lua now constructs the "out of fuel" message OSDN#43341
+            osdn#42663
+   * default.lua now constructs the "out of fuel" message osdn#43341
 
 Changes affecting server operators
 
@@ -530,15 +531,15 @@ Changes affecting server operators
             HRM#797697
    * New server command playernation for setting nation and leader name
      HRM#768292
-   * Custom database.lua location is now supported OSDN#41880
+   * Custom database.lua location is now supported osdn#41880
    * /reset game now works correctly in respect to setting provenance
      HRM#692373
    * zstd compressed savegames are now supported (compresstype value zstd)
      HRM#852626
    * New iphide server setting to not send IPs of players to each other
-     OSDN#43683
+     osdn#43683
    * /metamessage server command has been deprecated. Use metamessage setting,
-     available since freeciv-3.0, instead OSDN#44107
+     available since freeciv-3.0, instead osdn#44107
 
 General
 
@@ -547,10 +548,10 @@ General
 AI
 
    * Extended higher resolution AI want tracking introduced
-     in freeciv-3.0 to more cases OSDN#45700
+     in freeciv-3.0 to more cases osdn#45700
    * Tex AI module has been generally improved GNAPATCH#8067
           + Run military advisor in the second
-            (not the server's main) thread OSDN#697715
+            (not the server's main) thread osdn#697715
           + Workers dying while tex is looking task for them no
             longer cause problems HRM#824565
           + Tex module is built in by default HRM#827157
@@ -560,25 +561,25 @@ AI
    * AI difficulty level Handicapped renamed as Restricted HRM#872165
    * AI difficulty levels that are supposed not to see through Fog of War
      now respect that also when examining potential Paradrop targets
-     OSDN#41722
+     osdn#41722
    * AI remembers its current Wonder building plans over game save/load cycle,
      so it not abandon Wonder building on savegame load as easily
      HRM#857459
    * Hard level AI is no longer allowed to set tax rates freely,
-     but max rates rules apply to it OSDN#42333
+     but max rates rules apply to it osdn#42333
    * AI's want for various things is not as easily clipped as before
      (max want is now ten times bigger), so it can distinguish between
-     high and extremely high want OSDN#45277
+     high and extremely high want osdn#45277
    * Autosettlers improvements (affect also human players)
           + Considers building also other kind (cause) extras as
             dependency of the wanted extra. Previously considered, e.g.,
-            building only Roads as dependency of other Roads OSDN#42492
+            building only Roads as dependency of other Roads osdn#42492
 
 Clients
 
    * gtk2-client and modpack installers have been dropped GNAPATCH#7019
    * gtk3-client considered unmaintained. Use gtk3.22-client instead
-     OSDN#42981
+     osdn#42981
    * sdl1.2-mixer support dropped GNAPATCH#6246
    * New gtk4-client added HRM#637945
    * City dialog shows if a tech has ever been stolen from the city
@@ -588,14 +589,14 @@ Clients
    * City Governor can be asked to maximize city growth speed HRM#839704
    * New Pop up actions last move to allied client option HRM#875939
    * Audio volume control added HRM#885685
-   * Fast auto attack support added OSDN#42719
+   * Fast auto attack support added osdn#42719
    * Most clients have support of drawing number of units in the stack
      instead of just sign that there's more than the visible one HRM#911906
-   * Number of new columns added to the nations reports OSDN#42309
+   * Number of new columns added to the nations reports osdn#42309
    * Single-step goto handled like a (single-step) move from the keyboard,
      e.g., opening action selection dialogs, and not similarly to
-     long range goto OSDN#44496
-   * New Connect Maglev connection building type added OSDN#41990
+     long range goto osdn#44496
+   * New Connect Maglev connection building type added osdn#41990
 
    * Qt
           + Client-side Rally Point retired, and replaced by
@@ -606,15 +607,15 @@ Clients
           + Added trade related columns to goto dialog HRM#903720
           + Qt-client's special settings file is now versioned,
             so that different freeciv versions with different file content
-            do not interfere each other OSDN#44838
-          + Options dialogs remember their geometry OSDN#44391
+            do not interfere each other osdn#44838
+          + Options dialogs remember their geometry osdn#44391
           + Sidebar fonts refreshed on the session
             (not requiring client restart) they are changed in the options
-            OSDN#44907
+            osdn#44907
 
    * sdl2
           + Change to "fullscreen" option now takes effect immediately,
-            not requiring client restart OSDN#48198
+            not requiring client restart osdn#48198
 
 Tools
 Modpack Installer
@@ -622,11 +623,11 @@ Modpack Installer
    * Information about installed modpacks is now kept in a sqlite database
      GNAPATCH#7956
    * Having "/" in the end of baseURL is no longer an error.
-     It still doesn't do anything, but is tolerated OSDN#44309
+     It still doesn't do anything, but is tolerated osdn#44309
 
 Ruleup
 
-   * Unused action enablers can be dropped OSDN#41614
+   * Unused action enablers can be dropped osdn#41614
 
 Ruledit
 
@@ -634,27 +635,29 @@ Ruledit
    * Multipliers editing added HRM#735247
    * Improvements to ruledit's suggestions to ruleset syntax improvements
           + Suggestions to remove action enablers that would never be enabled
-            OSDN#41616
-          + Suggestions to remove duplicate requirements OSDN#41633
+            osdn#41616
+          + Suggestions to remove duplicate requirements osdn#41633
           + Detection of contradicting requirements in a requirement vector
-            OSDN#42100
-   * Stub ruleset is now part of main freeciv distribution OSDN#43618
-   * Added Achievements tab OSDN#48134
+            osdn#42100
+   * Stub ruleset is now part of main freeciv distribution osdn#43618
+   * Added Achievements tab osdn#48134
+   * Sound tags editing added osdn#48750
+   * Building flags editing added RM#156
 
 Manual Generator
 
    * Output format (html or wiki) can now be selected runtime,
      by commandline options HRM#657117
    * Less "false positive" actions get listed as possible for terrain
-     when they actually are available under no circumstances OSDN#42106
+     when they actually are available under no circumstances osdn#42106
 
 Tilesets, Art, etc
 
    * Extra animal unit sprites added to Amplio2 and to tilesets
      inheriting its units HRM#721407
    * Extra unit sprites added to Cimpletoon and to tilesets
-     inheriting its units OSDN#44853
-   * Alternative Spy added to Amplio2 extra sprites OSDN#48282
+     inheriting its units osdn#44853
+   * Alternative Spy added to Amplio2 extra sprites osdn#48282
    * Extra unit sprite for Feluca added to Amplio2 and to tilesets
      inheriting its units osdn#48643
    * Savannah terrain sprites added to Hexemplio and to tilesets
@@ -677,15 +680,15 @@ Build/portability
      the existing autotools system for now. Autotools is still
      the official one in freeciv-3.1 HRM#779742
           + With meson, sdl2-client can be built using SDL2_gfx files
-            supplied with freeciv, without SDL2_gfx in the system OSDN#46320
+            supplied with freeciv, without SDL2_gfx in the system osdn#46320
    * Windows installer types available for freeciv-3.1
           + At least Windows 8.1 needed for any freeciv-3.1 installer
-            OSDN#44286
-          + win-10 installers, requiring at least Windows 10 OSDN#44789
+            osdn#44286
+          + win-10 installers, requiring at least Windows 10 osdn#44789
           + Windows sdl2-client now comes with gtk4 modpack installer
-            OSDN#43193
+            osdn#43193
           + Msys2 environment updated to snapshot from 230220
-            (20th of Feb 2023) OSDN#46673
+            (20th of Feb 2023) osdn#46673
    * Initial support for meson + crosser based Windows build.
      No installers come out from this, one have to get the build artifacts
      to the target by some other means. HRM#853475
@@ -696,16 +699,18 @@ Build/portability
    * C++11 mode selected for the C++ compiler by default, as it's
      requirement even for the minimum Qt version we now support HRM#880321
    * Project file can define the default network port that the server
-     will listen OSDN#42030
-   * Appdata files renamed as metainfo files OSDN#43688
+     will listen osdn#42030
+   * Appdata files renamed as metainfo files osdn#43688
    * Support scripts added for building appbundle for macOS, using homebrew
-     OSDN#44549
+     osdn#44549
    * For native builds, default is not to use improved tolua version
-     coming with freeciv, instead of system one OSDN#46199
-   * Crosser updated to version 2.7 OSDN#48552
-   * Ruledit flatpak added OSDN#47634
+     coming with freeciv, instead of system one osdn#46199
+   * Crosser updated to version 2.8 RM#233
+   * Ruledit flatpak added osdn#47634
    * Modpack .desktop and .metainfo.xml files renamed
      to follow org.freeciv.<gui>.mp pattern. osdn#48729
+   * Shell scripts use posix shebang, instead of assuming presence of /bin/bash
+     RM#44
 
   See doc/README.packaging for more information.
 
