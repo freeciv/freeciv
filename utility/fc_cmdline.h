@@ -34,4 +34,4 @@ void cmdline_option_values_free(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CMDLINE_H */
+#endif /* FC__CMDLINE_H */
