@@ -397,14 +397,62 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Sea"
+native_to            = "ShallowSea"
 ;flags                =
 property_ocean_depth = 10
 color.r              = 50
 color.g              = 50
 color.b              = 230
 helptext	     = _("\
-This is only possible oceanic terrain.\
+Shallow Ocean usually exist only next to land.\
+")
+
+[terrain_deep_ocean]
+name                 = _("Deep Ocean")
+graphic              = "deep_ocean"
+graphic_alt	     = "floor"
+graphic_alt2         = "coast"
+identifier	     = ":"
+class                = "Oceanic"
+movement_cost        = 5
+defense_bonus        = 0
+food                 = 100
+shield               = 100
+trade                = 0
+resources            = "Generic Resource"
+road_food_incr_pct   = 0
+road_shield_incr_pct = 0
+road_trade_incr_pct  = 100
+base_time            = 0
+road_time            = 0
+cultivate_result     = "no"
+cultivate_time       = 0
+plant_result         = "no"
+plant_time           = 0
+irrigation_food_incr = 100
+irrigation_time      = 5
+mining_shield_incr   = 0
+mining_time          = 0
+transform_result     = "no"
+transform_time       = 0
+placing_time         = 1
+pillage_time         = 1
+extra_settings       =
+    { "extra", "removal_time"
+    }
+animal               = "None"
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
+;native_to            = ""
+;flags                =
+property_ocean_depth = 85
+color.r              = 0
+color.g              = 33
+color.b              = 129
+helptext	     = _("\
+Deep Ocean usually exist further away from the land.\
 ")
 
 ; /* <-- avoid gettext warnings
