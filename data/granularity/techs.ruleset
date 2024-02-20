@@ -396,6 +396,15 @@ graphic     = "a.rope"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_seafaring]
+name        = _("Seafaring")
+req1        = "Carving"
+req2        = "Rope"
+flags       = ""
+graphic     = "a.seafaring"
+graphic_alt = "-"
+;helptext    =
+
 [advance_siege_engines]
 name        = _("Siege Engines")
 req1        = "Rope"

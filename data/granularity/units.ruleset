@@ -130,8 +130,8 @@ min_speed     = 5
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "NonNatBombardTgt", "CanOccupyCity"
 
-[unitclass_sea]
-name          = _("Sea")
+[unitclass_shallow_sea]
+name          = _("ShallowSea")
 min_speed     = 5
 hp_loss_pct   = 0
 flags         = "TerrainSpeed"
@@ -785,12 +785,12 @@ and plants.\
 
 [unit_boat]
 name          = _("Boats")
-class         = "Sea"
+class         = "ShallowSea"
 reqs          =
   { "type", "name", "range"
     "Tech", "Carving", "Player"
   }
-obsolete_by   = "None"
+obsolete_by   = "Trireme"
 graphic       = "u.boats"
 graphic_alt   = "u.trireme"
 sound_move    = "m_boats"
@@ -813,10 +813,48 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
 tp_defense    = "Alight"
+flags         = "CoastStrict"
+roles         = "Ferryboat", "BarbarianBoat"
+helptext      = _("\
+Boats carved from logs. \
+They cannot sail off the coast.\
+")
+
+[unit_trireme]
+name          = _("Trireme")
+class         = "ShallowSea"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Seafaring", "Player"
+  }
+obsolete_by   = "None"
+graphic       = "u.trireme"
+graphic_alt   = "-"
+sound_move    = "m_trireme"
+sound_move_alt = "m_generic"
+sound_fight   = "f_trireme"
+sound_fight_alt = "f_generic"
+build_cost    = 2800
+pop_cost      = 0
+attack        = 20
+defense       = 20
+hitpoints     = 10
+firepower     = 1
+move_rate     = 150
+vision_radius_sq = 2
+transport_cap = 2
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+cargo         = "Land"
+tp_defense    = "Alight"
 flags         = ""
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
-Boats carved from logs.\
+First boat type able to leave the coastline, but still restricted \
+to sail on shallow oceans only.\
 ")
 
 [unit_emissary]
