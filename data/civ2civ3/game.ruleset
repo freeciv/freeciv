@@ -442,7 +442,7 @@ reqs           =
     { "type", "name", "range"
       "Terrain", "Hills", "Tile"
     }
-frequency      = 100
+frequency      = 10
 effects        = "EmptyProdStock"
 
 [disaster_flood]
@@ -451,7 +451,7 @@ reqs           =
     { "type", "name", "range"
       "Extra", "River", "Adjacent"
     }
-frequency      = 100
+frequency      = 10
 effects        = "EmptyFoodStock"
 
 [disaster_fire]
@@ -460,7 +460,7 @@ reqs           =
     { "type", "name", "range"
       "MinSize", "9", "City"
     }
-frequency      = 100
+frequency      = 10
 effects        = "DestroyBuilding"
 
 [disaster_industrial_accident]
@@ -469,7 +469,7 @@ reqs           =
     { "type", "name", "range"
       "Building", "Mfg. Plant", "City"
     }
-frequency      = 100
+frequency      = 10
 effects        = "ReducePopulation", "Pollution"
 
 [disaster_nuclear_accident]
@@ -478,12 +478,12 @@ reqs           =
     { "type", "name", "range"
       "Building", "Nuclear Plant", "City"
     }
-frequency      = 100
+frequency      = 10
 effects        = "ReducePopulation", "Fallout"
 
 [disaster_robbery]
 name           = _("Robbery")
-frequency      = 100
+frequency      = 10
 effects        = "Robbery"
 
 ; /* <-- avoid gettext warnings
@@ -819,4 +819,5 @@ set =
       "techlossrestore", 50
       "revolentype", "RANDQUICK"
       "tradeworldrelpct", 100
+      "disasters", 100
     }
