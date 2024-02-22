@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-10-13 00:13+0300\n"
+"POT-Creation-Date: 2024-02-15 19:52+0200\n"
 "PO-Revision-Date: 2023-03-19 00:49+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -28,13 +28,13 @@ msgstr ""
 msgid "Close"
 msgstr "Tancar"
 
-#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:90
-#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:107
+#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:93
+#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:127
 msgid "Graphics tag"
 msgstr "Etiqueta de gràfics"
 
-#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:99
-#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:116
+#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:102
+#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:136
 msgid "Alt graphics tag"
 msgstr "Etiqueta de gràfics alternatius"
 
@@ -62,23 +62,23 @@ msgstr "Etiqueta de gràfics alternatius"
 msgid "Alt removal activity gfx tag"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
+#: tools/ruledit/edit_impr.cpp:54 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Cost de Construcció"
 
-#: tools/ruledit/edit_impr.cpp:62
+#: tools/ruledit/edit_impr.cpp:65
 msgid "Upkeep"
 msgstr "Manteniment"
 
-#: tools/ruledit/edit_impr.cpp:72
+#: tools/ruledit/edit_impr.cpp:75
 msgid "Genus"
 msgstr "Genus"
 
-#: tools/ruledit/edit_impr.cpp:108
+#: tools/ruledit/edit_impr.cpp:111
 msgid "Sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:117
+#: tools/ruledit/edit_impr.cpp:120
 #, fuzzy
 #| msgid "Alt graphics tag"
 msgid "Alt sound tag"
@@ -105,24 +105,32 @@ msgid "Defense Strength"
 msgstr "Força Defensiva"
 
 #: tools/ruledit/edit_utype.cpp:97
+msgid "Hitpoints"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:107
+msgid "Firepower"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:117
 msgid "Move Rate"
 msgstr "Taxa de Moviment"
 
-#: tools/ruledit/edit_utype.cpp:125
+#: tools/ruledit/edit_utype.cpp:145
 #, fuzzy
 #| msgid "Move Cost"
 msgid "Move sound tag"
 msgstr "Cost de Moviment"
 
-#: tools/ruledit/edit_utype.cpp:135
+#: tools/ruledit/edit_utype.cpp:155
 msgid "Alt move sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:145
+#: tools/ruledit/edit_utype.cpp:165
 msgid "Fight sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:155
+#: tools/ruledit/edit_utype.cpp:175
 #, fuzzy
 #| msgid "Alt graphics tag"
 msgid "Alt fight sound tag"
