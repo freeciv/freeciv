@@ -96,8 +96,8 @@
 1.2 OK, so I installed Freeciv. How do I play?
 
    Start the client. Depending on your system, you might choose it from a
-   menu, double-click on the freeciv-gtk3.22 executable program, or type
-   freeciv-gtk3.22 in a terminal (to start the default "gtk3.22" client).
+   menu, double-click on the freeciv-gtk4 executable program, or type
+   freeciv-gtk4 in a terminal (to start the default "gtk4" client).
 
    As your very first game, you may want to try the '''Tutorial''' scenario
    under Start Scenario Game.
@@ -735,7 +735,7 @@ Starting game.
    If for some reason you can't use the start-screen interface for loading
    a game, you can load one directly through the client or server command
    line (see Command-line options). You can start a client such as
-   freeciv-gtk3.22, or freeciv-server, with the -f option, for example:
+   freeciv-gtk4, or freeciv-server, with the -f option, for example:
 freeciv-server -f freeciv-T0175-Y01250-auto.sav.zst
 
    Or you can use the /load command inside the server before starting the
@@ -812,7 +812,7 @@ types, and technologies?
    The recommended client is the Gtk client. There are a range of
    different Gtk clients for different versions of the Gtk
    library—Gtk3/3.22/4/etc—but they all support more or less the same feature
-   set. If in doubt, pick the Gtk3.22 client.
+   set. If in doubt, pick the Gtk4 client.
 
    The Qt client is a newer client using the Qt toolkit. It has a more
    immersive interface. It supports most features, with the notable
@@ -850,7 +850,7 @@ types, and technologies?
    Further instructions are in ./doc/README.sound in the source tarball.
 
    If sound does not work, try:
-freeciv-gtk3.22 -d verbose -P <plugin> -S stdsounds
+freeciv-gtk4 -d verbose -P <plugin> -S stdsounds
 
    This will help you get some debug information, which might give a clue
    why the sound does not work.
@@ -1055,9 +1055,9 @@ freeciv-gtk3.22 -d verbose -P <plugin> -S stdsounds
    you start it to force use of a specific tileset. This also requires
    that the tileset has been installed in a correct place. Open a Command
    Prompt, find the client executable, and start the client with the
-   --tiles tilesetname option. For example for the gtk3.22 client, you might
+   --tiles tilesetname option. For example for the gtk4 client, you might
    start
-freeciv-gtk3.22 --tiles hexemplio
+freeciv-gtk4 --tiles hexemplio
 
 -------
 
