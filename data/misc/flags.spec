@@ -153,6 +153,7 @@ artists = "
    Djibouti		Open Clip Art
    Dominica		Caleb Moore and Christian Schaller
    Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
+   Donetsk              Wikimedia Commons
    DR Congo		Drieskamp (Wikimedia Commons)
    Dryad		Ivan Alvarado
    East Timor		SKopp (Wikimedia Commons)
@@ -730,6 +731,7 @@ sprites =
 		"f.djibouti", "flags/djibouti"
 		"f.dominica", "flags/dominica"
 		"f.dominican_republic", "flags/dominican_republic"
+                "f.donetsk", "flags/donetsk"
 		"f.dr_congo", "flags/dr_congo"
 		"f.dryad", "flags/dryad"
 		"f.ecuador", "flags/ecuador"

@@ -146,6 +146,7 @@ flag_files =				\
 		djibouti.png		\
 		dominica.png		\
 		dominican_republic.png	\
+		donetsk.png		\
 		dr_congo.png		\
 		dryad.png		\
 		ecuador.png		\
@@ -719,6 +720,7 @@ flag_files =				\
 		djibouti-large.png		\
 		dominica-large.png		\
 		dominican_republic-large.png	\
+		donetsk-large.png		\
 		dr_congo-large.png		\
 		dryad-large.png		\
 		ecuador-large.png		\
@@ -1294,6 +1296,7 @@ shield_files =					\
 		djibouti-shield.png		\
 		dominica-shield.png		\
 		dominican_republic-shield.png	\
+		donetsk-shield.png		\
 		dr_congo-shield.png		\
 		dryad-shield.png		\
 		east_timor-shield.png		\
@@ -1867,6 +1870,7 @@ shield_files =					\
 		djibouti-shield-large.png		\
 		dominica-shield-large.png		\
 		dominican_republic-shield-large.png	\
+		donetsk-shield-large.png		\
 		dr_congo-shield-large.png		\
 		dryad-shield-large.png		\
 		east_timor-shield-large.png		\
@@ -2442,6 +2446,7 @@ svg_files = 				\
 		djibouti.svg		\
 		dominica.svg		\
 		dominican_republic.svg	\
+		donetsk.svg		\
 		dr_congo.svg		\
 		dryad.svg		\
 		east_timor.svg		\

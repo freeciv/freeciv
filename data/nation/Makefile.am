@@ -153,6 +153,7 @@ pkgdata_DATA = \
 		djiboutian.ruleset \
 		dominican.ruleset \
 		dominicano.ruleset \
+		donetsk.ruleset \
 		dryad.ruleset \
 		dutch.ruleset \
 		eastgerman.ruleset \

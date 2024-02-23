@@ -1,0 +1,109 @@
+[nation_donetsk]
+
+name   = _("Donetsk")
+plural = _("?plural:Donchyani")
+groups = "Modern", "European"
+legend = _("The Donetsk People's Republic is an unrecognised republic of\
+ Russia in the occupied parts of eastern Ukraine's Donetsk Oblast, with\
+ its capital in Donetsk. The DPR was created by Russian-backed\
+ aramilitaries in 2014, and it initially operated as a breakaway state\
+ Until it was annexed by Russia in 2022. Following Ukraine's Revolution\
+ of Dignity in 2014, pro-Russian, counter-revolutionary unrest erupted\
+ in the eastern part of the country. Russia annexed Crimea from Ukraine,\
+ while the armed separatists seized government buildings and proclaimed\
+ the Donetsk People's Republic and Luhansk People's Republic as independent\
+ states. This sparked the war in Donbas, part of the wider Russo-Ukrainian\
+ War. The DPR and LPR are sometimes described as puppet states of Russia\
+ during this conflict. They received no international recognition from\
+ United Nations member states before 2022. On 21 February 2022, Russia\
+ recognised the DPR and LPR as sovereign states. Three days later, Russia\
+ launched a full-scale invasion of Ukraine, partially under the pretext of\
+ protecting the republics. Russian forces captured more of Donetsk Oblast,\
+ which became part of the DPR. In September 2022, Russia proclaimed the\
+ annexation of the DPR and other occupied territories, following\
+ illegitimate referendums. The United Nations General Assembly passed a\
+ resolution calling on countries not to recognise what it called the\
+ \"attempted illegal annexation\" and demanded that Russia \"immediately,\
+ completely and unconditionally withdraw.\"")
+
+leaders = {
+ "name",                          "sex"
+ "Alexander Zakharchenko",        "Male"   ; (1976–2018) Head of the Donetsk People's Republic from 4 November 2014 – 31 August 2018 
+ "Dmitry Trapeznikov",            "Male"   ; Head of the Donetsk People's Republic from 31 August 2018 – 7 September 2018
+ "Denis Pushilin",                "Male"   ; Head of the Donetsk People's Republic since 7 September 2018
+ "Elena Pushilina",               "Female" ; Denis Pushilin's wife
+ "Yevgeny Solntsev",              "Male"   ; Prime Minister of the Donetsk People's Republic since 30 March 2023
+}
+
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Kremlin %s"),      _("?female:Kremlin %s")
+ "Monarchy",        _("Grand Prince %s"), _("Grand Princess %s")
+ "Republic",        _("Hetman %s"),       _("?female:Hetman %s")
+ "Fundamentalism",  _("Patriarch %s"),    _("Matriarch %s")
+}
+
+flag     = "donetsk"
+flag_alt = "-"
+style    = "European"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "soviet", "russian", "ukrainian"
+
+cities =
+ ; This is a list of all cities in the Donetsk Oblast, not just the ones the DPR controlled.
+ "Donetsk",
+ "Mariupol",
+ "Makiivka",
+ "Horlivka",
+ "Kramatorsk",
+ "Sloviansk",
+ "Yenakiieve",
+ "Bakhmut",
+ "Kostiantynivka",
+ "Pokrovsk",
+ "Khartsyzk",
+ "Druzhkivka",
+ "Chystiakove",
+ "Shakhtarsk",
+ "Myrnohrad",
+ "Snizhne",
+ "Yasynuvata",
+ "Avdiivka",
+ "Toretsk",
+ "Dobropillia",
+ "Kirovske",
+ "Debaltseve",
+ "Dokuchaievsk",
+ "Selydove",
+ "Volnovakha",
+ "Lyman",
+ "Kurakhove",
+ "Amvrosiivka",
+ "Zuhres",
+ "Bilozerske",
+ "Yunokomunarivsk",
+ "Ilovaisk",
+ "Novohrodivka",
+ "Vuhledar",
+ "Krasnohorivka",
+ "Mykolaivka",
+ "Chasiv Yar",
+ "Siversk",
+ "Hirnyk",
+ "Zhdanivka",
+ "Ukrainsk",
+ "Svitlodarsk",
+ "Soledar",
+ "Komsomolske",
+ "Novoazovsk",
+ "Rodynske",
+ "Mospyne",
+ "Marinka",
+ "Vuhlehirsk",
+ "Bilytske",
+ "Zalizne",
+ "Sviatohirsk"
