@@ -155,6 +155,7 @@ sprites =
 		"f.djibouti", "flags/djibouti-large"
 		"f.dominica", "flags/dominica-large"
 		"f.dominican_republic", "flags/dominican_republic-large"
+                "f.donetsk", "flags/donetsk-large"
 		"f.dr_congo", "flags/dr_congo-large"
 		"f.dryad", "flags/dryad-large"
 		"f.ecuador", "flags/ecuador-large"
