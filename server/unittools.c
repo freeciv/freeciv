@@ -2219,6 +2219,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
   gained_unit->fuel = punit->fuel;
   gained_unit->paradropped = punit->paradropped;
   gained_unit->birth_turn = punit->birth_turn;
+  gained_unit->current_form_turn = punit->current_form_turn;
 
   /* Fog is lifted in the placing algorithm. */
 #ifndef FREECIV_NDEBUG
