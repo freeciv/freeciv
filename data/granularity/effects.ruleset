@@ -53,10 +53,6 @@ value   = 1
 type    = "Max_Rates"
 value   = 50
 
-[effect_base_size]
-type    = "Size_Adj"
-value   = 1
-
 [effect_tech_cost_base]
 type    = "Tech_Cost_Factor"
 value   = 1
