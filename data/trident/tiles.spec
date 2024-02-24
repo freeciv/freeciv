@@ -14,6 +14,7 @@ artists = "
     Michael Johnson <justaguest> (nuke explosion)
     The Square Cow (inaccessible terrain)
     GriffonSpade
+    Elefant (Nets)
 "
 
 [file]
@@ -494,6 +495,7 @@ tiles = { "row", "column", "tag"
  16,  4, "tx.pollution"
  16,  5, "tx.fallout"
  16, 13, "tx.oil_rig"
+ 16, 14, "tx.nets"
 
 ; Bases
  16,  6, "base.buoy_mg"
