@@ -1,0 +1,90 @@
+[nation_luhansk]
+
+name   = _("Luhansk")
+plural = _("?plural:Luhansk")
+groups = "Modern", "European"
+legend = _("The Luhansk People's Republic, abbreviated as LPR is an\
+ unrecognised republic of Russia in the occupied parts of eastern\
+ Ukraine's Luhansk Oblast, with its capital in Luhansk. The LPR was\
+ created by Russian-backed paramilitaries in 2014, and it initially\
+ operated as a breakaway state until it was annexed by Russia in 2022.\
+ Following Ukraine's Revolution of Dignity in 2014, pro-Russian,\
+ counter-revolutionary unrest erupted in the eastern part of the\
+ country. Russia annexed Crimea from Ukraine, while the armed separatists\
+ seized government buildings and proclaimed the Luhansk People's Republic\
+ (LPR) and Donetsk People's Republic (DPR) as independent states. This\
+ sparked the war in Donbas, part of the wider Russo-Ukrainian War.\
+ The LPR and DPR are sometimes described as puppet states of Russia\
+ during this conflict They received no international recognition from\
+ United Nations member states before 2022. On 21 February 2022, Russia\
+ recognised the LPR and DPR as sovereign states. Three days later, Russia\
+ launched a full-scale invasion of Ukraine, partially under the pretext\
+ of protecting the republics. In September 2022, Russia proclaimed the\
+ annexation of the LPR and other occupied territories, following\
+ illegitimate referendums which were illegal under international law.")
+
+leaders = {
+ "name",                          "sex"
+ "Gennadiy Tsypkalov",            "Male"   ; (1973–2016), first acting head of the Luhansk People's Republic
+ "Vasily Nikitin",                "Male"   ; Prime Minister from 18 May 2014 – 3 July 2014
+ "Igor Plotnitsky",               "Male"   ; Prime Minister from 20 August 2014 – 26 August 2014
+ "Sergey Kozlov",                 "Male"   ; Prime Minister since 26 December 2015
+ "Leonid Pasechnik",              "Male"   ; Current Head of the Luhansk People's Republic
+}
+
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Kremlin %s"),      _("?female:Kremlin %s")
+ "Monarchy",        _("Grand Prince %s"), _("Grand Princess %s")
+ "Republic",        _("Hetman %s"),       _("?female:Hetman %s")
+ "Fundamentalism",  _("Patriarch %s"),    _("Matriarch %s")
+}
+
+flag = "luhansk"
+flag_alt = "-"
+style = "European"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "soviet", "ukrainian", "russian"
+
+cities =
+ "Luhansk",        ; This is a list of all cities in the Luhansk Oblast, not just the ones the LPR controlled.
+ "Alchevsk",
+ "Sievierodonetsk",
+ "Lysychansk",
+ "Krasnyi Luch",
+ "Kadiivka",
+ "Sverdlovsk",
+ "Rubizhne",
+ "Antratsyt",
+ "Rovenky",
+ "Brianka",
+ "Krasnodon",
+ "Pervomaisk",
+ "Kirovsk",
+ "Perevalsk",
+ "Molodohvardiisk",
+ "Sukhodilsk",
+ "Popasna",
+ "Kreminna",
+ "Starobilsk",
+ "Svatove",
+ "Lutuhyne",
+ "Zolote",
+ "Chervono­partyzansk",
+ "Petrovske",
+ "Vakhrusheve",
+ "Shchastia",
+ "Irmino",
+ "Hirske",
+ "Zymohiria",
+ "Artemivsk",
+ "Novodruzhesk",
+ "Pryvillia",
+ "Zorynsk",
+ "Oleksandrivsk",
+ "Miusynsk",
+ "Almazna"
