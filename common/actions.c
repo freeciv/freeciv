@@ -3546,7 +3546,8 @@ action_hard_reqs_actor(const struct civ_map *nmap,
   context. This may or may not be legal depending on the action.
 **************************************************************************/
 static enum fc_tristate
-is_action_possible(const action_id wanted_action,
+is_action_possible(const struct civ_map *nmap,
+                   const action_id wanted_action,
                    const struct req_context *actor,
                    const struct req_context *target,
                    const struct extra_type *target_extra,
@@ -3556,7 +3557,6 @@ is_action_possible(const action_id wanted_action,
   enum fc_tristate out;
   struct action *paction = action_by_number(wanted_action);
   enum action_target_kind tkind = action_get_target_kind(paction);
-  struct civ_map *nmap = &(wld.map);
 
   if (actor == NULL) {
     actor = req_context_empty();
@@ -3721,7 +3721,8 @@ static bool is_enabler_active(const struct action_enabler *enabler,
   Passing NULL for actor or target is equivalent to passing an empty
   context. This may or may not be legal depending on the action.
 **************************************************************************/
-static bool is_action_enabled(const action_id wanted_action,
+static bool is_action_enabled(const struct civ_map *nmap,
+                              const action_id wanted_action,
                               const struct req_context *actor,
                               const struct req_context *target,
                               const struct extra_type *target_extra,
@@ -3729,7 +3730,7 @@ static bool is_action_enabled(const action_id wanted_action,
 {
   enum fc_tristate possible;
 
-  possible = is_action_possible(wanted_action, actor, target, target_extra,
+  possible = is_action_possible(nmap, wanted_action, actor, target, target_extra,
                                 TRUE, actor_home);
 
   if (possible != TRI_YES) {
@@ -3756,7 +3757,7 @@ static bool is_action_enabled(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to target_city as far as
   action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
 is_action_enabled_unit_on_city_full(const action_id wanted_action,
@@ -3767,6 +3768,7 @@ is_action_enabled_unit_on_city_full(const action_id wanted_action,
 {
   const struct impr_type *target_building;
   const struct unit_type *target_utype;
+  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -3798,7 +3800,7 @@ is_action_enabled_unit_on_city_full(const action_id wanted_action,
   target_building = tgt_city_local_building(target_city);
   target_utype = tgt_city_local_utype(target_city);
 
-  return is_action_enabled(wanted_action,
+  return is_action_enabled(nmap, wanted_action,
                            &(const struct req_context) {
                              .player = unit_owner(actor_unit),
                              .city = tile_city(actor_tile),
@@ -3821,7 +3823,7 @@ is_action_enabled_unit_on_city_full(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to target_city as far as
   action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 bool is_action_enabled_unit_on_city(const action_id wanted_action,
                                     const struct unit *actor_unit,
@@ -3837,7 +3839,7 @@ bool is_action_enabled_unit_on_city(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to target_unit as far as
   action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
 is_action_enabled_unit_on_unit_full(const action_id wanted_action,
@@ -3846,6 +3848,8 @@ is_action_enabled_unit_on_unit_full(const action_id wanted_action,
                                     const struct tile *actor_tile,
                                     const struct unit *target_unit)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (actor_unit == NULL || target_unit == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -3873,7 +3877,7 @@ is_action_enabled_unit_on_unit_full(const action_id wanted_action,
     return FALSE;
   }
 
-  return is_action_enabled(wanted_action,
+  return is_action_enabled(nmap, wanted_action,
                            &(const struct req_context) {
                              .player = unit_owner(actor_unit),
                              .city = tile_city(actor_tile),
@@ -3896,7 +3900,7 @@ is_action_enabled_unit_on_unit_full(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to target_unit as far as
   action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 bool is_action_enabled_unit_on_unit(const action_id wanted_action,
                                     const struct unit *actor_unit,
@@ -3912,7 +3916,7 @@ bool is_action_enabled_unit_on_unit(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to all units on the
   target_tile as far as action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
 is_action_enabled_unit_on_units_full(const action_id wanted_action,
@@ -3922,6 +3926,7 @@ is_action_enabled_unit_on_units_full(const action_id wanted_action,
                                      const struct tile *target_tile)
 {
   const struct req_context *actor_ctxt;
+  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_tile == NULL
       || unit_list_size(target_tile->units) == 0) {
@@ -3960,7 +3965,7 @@ is_action_enabled_unit_on_units_full(const action_id wanted_action,
   };
 
   unit_list_iterate(target_tile->units, target_unit) {
-    if (!is_action_enabled(wanted_action, actor_ctxt,
+    if (!is_action_enabled(nmap, wanted_action, actor_ctxt,
                            &(const struct req_context) {
                              .player = unit_owner(target_unit),
                              .city = tile_city(unit_tile(target_unit)),
@@ -3982,7 +3987,7 @@ is_action_enabled_unit_on_units_full(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to all units on the
   target_tile as far as action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 bool is_action_enabled_unit_on_units(const action_id wanted_action,
                                      const struct unit *actor_unit,
@@ -3998,7 +4003,7 @@ bool is_action_enabled_unit_on_units(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to the target_tile as far
   as action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
 is_action_enabled_unit_on_tile_full(const action_id wanted_action,
@@ -4008,6 +4013,8 @@ is_action_enabled_unit_on_tile_full(const action_id wanted_action,
                                     const struct tile *target_tile,
                                     const struct extra_type *target_extra)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -4035,7 +4042,7 @@ is_action_enabled_unit_on_tile_full(const action_id wanted_action,
     return FALSE;
   }
 
-  return is_action_enabled(wanted_action,
+  return is_action_enabled(nmap, wanted_action,
                            &(const struct req_context) {
                              .player = unit_owner(actor_unit),
                              .city = tile_city(actor_tile),
@@ -4056,7 +4063,7 @@ is_action_enabled_unit_on_tile_full(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to the target_tile as far
   as action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 bool is_action_enabled_unit_on_tile(const action_id wanted_action,
                                     const struct unit *actor_unit,
@@ -4073,7 +4080,7 @@ bool is_action_enabled_unit_on_tile(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to the extras at
   target_tile as far as action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
 is_action_enabled_unit_on_extras_full(const action_id wanted_action,
@@ -4083,6 +4090,8 @@ is_action_enabled_unit_on_extras_full(const action_id wanted_action,
                                       const struct tile *target_tile,
                                       const struct extra_type *target_extra)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -4110,7 +4119,7 @@ is_action_enabled_unit_on_extras_full(const action_id wanted_action,
     return FALSE;
   }
 
-  return is_action_enabled(wanted_action,
+  return is_action_enabled(nmap, wanted_action,
                            &(const struct req_context) {
                              .player = unit_owner(actor_unit),
                              .city = tile_city(actor_tile),
@@ -4131,7 +4140,7 @@ is_action_enabled_unit_on_extras_full(const action_id wanted_action,
   Returns TRUE if actor_unit can do wanted_action to the extras at
   target_tile as far as action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 bool is_action_enabled_unit_on_extras(const action_id wanted_action,
                                       const struct unit *actor_unit,
@@ -4157,6 +4166,8 @@ is_action_enabled_unit_on_self_full(const action_id wanted_action,
                                     const struct city *actor_home,
                                     const struct tile *actor_tile)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (actor_unit == NULL) {
     /* Can't do an action when the actor is missing. */
     return FALSE;
@@ -4184,7 +4195,7 @@ is_action_enabled_unit_on_self_full(const action_id wanted_action,
     return FALSE;
   }
 
-  return is_action_enabled(wanted_action,
+  return is_action_enabled(nmap, wanted_action,
                            &(const struct req_context) {
                              .player = unit_owner(actor_unit),
                              .city = tile_city(actor_tile),
@@ -4565,7 +4576,7 @@ action_prob(const action_id wanted_action,
     target = req_context_empty();
   }
 
-  known = is_action_possible(wanted_action, actor, target,
+  known = is_action_possible(nmap, wanted_action, actor, target,
                              target_extra,
                              FALSE, actor_home);
 
