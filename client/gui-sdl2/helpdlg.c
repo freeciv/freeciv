@@ -2049,7 +2049,7 @@ void popup_tech_info(Tech_type_id tech)
     store = (struct techs_buttons *)pwindow->data.ptr;
     dock = store->dock;
 
-    /* Selete any previous list entries */
+    /* Delete any previous list entries */
     if (dock != help_dlg->begin_widget_list) {
       del_group_of_widgets_from_gui_list(help_dlg->begin_widget_list, dock->prev);
       help_dlg->begin_widget_list = dock;
