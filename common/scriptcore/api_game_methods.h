@@ -66,6 +66,7 @@ bool api_methods_is_primary_capital(lua_State *L, City *pcity);
 /* Counter */
 const char *api_methods_counter_rule_name(lua_State *L, Counter *c);
 const char *api_methods_counter_name_translation(lua_State *L, Counter *c);
+int api_methods_counter_city_get(lua_State *L, Counter *c, City *city);
 
 /* Government */
 const char *api_methods_government_rule_name(lua_State *L,

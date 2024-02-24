@@ -310,6 +310,15 @@ const char *api_methods_counter_name_translation(lua_State *L, Counter *c)
   return counter_name_translation(c);
 }
 
+/**********************************************************************//**
+  Obtain city's counter value
+**************************************************************************/
+int api_methods_counter_city_get(lua_State *L, Counter *c, City *city)
+{
+  LUASCRIPT_CHECK_ARG_NIL(L, city, 3, City, -1);
+
+  return city->counter_values[counter_index(c)];
+}
 
 /**********************************************************************//**
   Return TRUE iff city happy
