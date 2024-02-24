@@ -50,14 +50,14 @@ typedef size_t (*netfile_write_cb)(char *ptr, size_t size, size_t nmemb, void *u
 static char error_buf_curl[CURL_ERROR_SIZE];
 
 /* Consecutive transfers can use same handle for better performance */
-static CURL *chandle = NULL;
+static CURL *chandle = nullptr;
 
 /*******************************************************************//**
   Set handle to usable state.
 ***********************************************************************/
 static CURL *netfile_init_handle(void)
 {
-  if (chandle == NULL) {
+  if (chandle == nullptr) {
     chandle = curl_easy_init();
   } else {
     curl_easy_reset(chandle);
@@ -98,7 +98,7 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
                                        nf_errmsg cb, void *data)
 {
   CURLcode curlret;
-  struct curl_slist *headers = NULL;
+  struct curl_slist *headers = nullptr;
   static CURL *handle;
   bool ret = TRUE;
 
@@ -107,8 +107,8 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
   headers = curl_slist_append(headers, "User-Agent: Freeciv/" VERSION_STRING);
 
   curl_easy_setopt(handle, CURLOPT_URL, URL);
-  if (mem_data != NULL) {
-    mem_data->mem = NULL;
+  if (mem_data != nullptr) {
+    mem_data->mem = nullptr;
     mem_data->size = 0;
     curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, netfile_memwrite_cb);
     curl_easy_setopt(handle, CURLOPT_WRITEDATA, mem_data);
@@ -123,7 +123,7 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
   curl_slist_free_all(headers);
 
   if (curlret != CURLE_OK) {
-    if (cb != NULL) {
+    if (cb != nullptr) {
       char buf[2048 + CURL_ERROR_SIZE];
 
       fc_snprintf(buf, sizeof(buf),
@@ -147,11 +147,11 @@ struct section_file *netfile_get_section_file(const char *URL,
                                               nf_errmsg cb, void *data)
 {
   bool success;
-  struct section_file *out = NULL;
+  struct section_file *out = nullptr;
   struct netfile_write_cb_data mem_data;
   fz_FILE *file;
 
-  success = netfile_download_file_core(URL, NULL, &mem_data, cb, data);
+  success = netfile_download_file_core(URL, nullptr, &mem_data, cb, data);
 
   if (success) {
     file = fz_from_memory(mem_data.mem, mem_data.size, TRUE);
@@ -173,8 +173,8 @@ bool netfile_download_file(const char *URL, const char *filename,
 
   fp = fc_fopen(filename, "w+b");
 
-  if (fp == NULL) {
-    if (cb != NULL) {
+  if (fp == nullptr) {
+    if (cb != nullptr) {
       char buf[2048];
 
       fc_snprintf(buf, sizeof(buf),
@@ -184,7 +184,7 @@ bool netfile_download_file(const char *URL, const char *filename,
     return FALSE;
   }
 
-  success = netfile_download_file_core(URL, fp, NULL, cb, data);
+  success = netfile_download_file_core(URL, fp, nullptr, cb, data);
 
   fclose(fp);
 
@@ -272,7 +272,7 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
 {
   CURLcode curlret;
   long http_resp;
-  struct curl_slist *headers = NULL;
+  struct curl_slist *headers = nullptr;
   static CURL *handle;
 
   handle = netfile_init_handle();
@@ -287,17 +287,17 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
   curl_easy_setopt(handle, CURLOPT_HTTPPOST, post->first);
 #endif /* HAVE_CURL_MIME_API */
 
-  if (mem_data != NULL) {
-    mem_data->mem = NULL;
+  if (mem_data != nullptr) {
+    mem_data->mem = nullptr;
     mem_data->size = 0;
     curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, netfile_memwrite_cb);
     curl_easy_setopt(handle, CURLOPT_WRITEDATA, mem_data);
-  } else if (reply_fp == NULL) {
+  } else if (reply_fp == nullptr) {
     curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, dummy_write);
   } else {
     curl_easy_setopt(handle, CURLOPT_WRITEDATA, reply_fp);
   }
-  if (addr != NULL) {
+  if (addr != nullptr) {
     curl_easy_setopt(handle, CURLOPT_INTERFACE, addr);
   }
   curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
@@ -327,9 +327,9 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
 void netfile_free(void)
 {
 #ifndef __EMSCRIPTEN__
-  if (chandle != NULL) {
+  if (chandle != nullptr) {
     curl_easy_cleanup(chandle);
-    chandle = NULL;
+    chandle = nullptr;
   }
 #endif /* __EMSCRIPTEN__ */
 }
