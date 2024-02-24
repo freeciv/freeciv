@@ -171,6 +171,7 @@ module game {
 module Counter {
   const char *api_methods_counter_rule_name @ rule_name (lua_State *L, Counter *c);
   const char *api_methods_counter_name_translation @ name_translation (lua_State *L, Counter *c);
+  int api_methods_counter_city_get @ get (lua_State *L, Counter *c, City *city);
 }
 
 /* Module Player. */
