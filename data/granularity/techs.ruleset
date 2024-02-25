@@ -209,6 +209,15 @@ graphic     = "a.cave_painting"
 graphic_alt = "-"
 helptext    = _("Cave Paintings record hunting and fights.")
 
+[advance_code_of_laws]
+name        = _("Code of Laws")
+req1        = "Government"
+req2        = "None"
+flags       = ""
+graphic     = "a.code_of_laws"
+graphic_alt = "-"
+;helptext    =
+
 [advance_combat_practice]
 name        = _("Combat Practice")
 req1        = "Government"

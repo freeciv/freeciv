@@ -244,6 +244,23 @@ reqs	=
       "Building", "Throne", "City"
     }
 
+[effect_corruption_base]
+type    = "Output_Waste_By_Distance"
+value	= 400
+reqs	=
+    { "type", "name", "range"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_courthouse]
+type    = "Output_Waste_Pct"
+value	= 30
+reqs	=
+    { "type",       "name",       "range", "present"
+      "Building",   "Courthouse", "City",  TRUE
+      "OutputType", "Trade",      "Local", TRUE
+    }
+
 [effect_throne_infra]
 type    = "Infra_Points"
 value	= 2
