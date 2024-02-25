@@ -5,11 +5,11 @@ Freeciv Version 3.2
 Welcome to Freeciv!
 
 This archive contains Freeciv, a free Civilization-like game, primarily
-for X under Unix.  It has support for multiplayer games locally or
+for X under Unix. It has support for multiplayer games locally or
 over a network, and an AI which gives most people a run for their money.
 
 Freeciv aims to be mostly rule-compatible with Civilization II [tm],
-published by Sid Meier and Microprose [tm].  A few rules are different
+published by Sid Meier and Microprose [tm]. A few rules are different
 where we think it makes more sense, and we have lots and lots of
 adjustable parameters to make customizing games possible.
 
@@ -32,7 +32,7 @@ of the Freeciv documentation, in the following places:
         Swedish                 ./doc/sv
 
 Even if there is no translation for your language, the game itself may
-support it.  Please see "Native Language Support" below.
+support it. Please see "Native Language Support" below.
 
 
 Web site:
@@ -42,7 +42,7 @@ Freeciv's web site is here:
 
   https://www.freeciv.org/
 
-We invite you to visit.  You can get the latest Freeciv news, releases
+We invite you to visit. You can get the latest Freeciv news, releases
 and patches, find out about the Freeciv mailing lists, and see the
 Freeciv metaserver, which records games being played around the world.
 
@@ -51,7 +51,7 @@ License:
 ========
 
 Freeciv is released under the GNU General Public License (version 2
-or, at your option, any later version).  In short, you may copy this
+or, at your option, any later version). In short, you may copy this
 program (including source) freely, but see the COPYING file for full
 details.
 
@@ -75,10 +75,10 @@ Freeciv compiled and installed on your machine.
 Freeciv is modular:
 ===================
 
-Freeciv is actually several programs, a server and one or more clients.  When
+Freeciv is actually several programs, a server and one or more clients. When
 a game is in progress, there will be one server program running, and as many
-client programs as there are human players.  The server does not use a gui,
-but the clients do.  The clients come in many flavors:
+client programs as there are human players. The server does not use a gui,
+but the clients do. The clients come in many flavors:
 
 freeciv-gtk4:  This uses GTK 4 libraries.
   This client is better supported and more developed than the others,
@@ -101,13 +101,13 @@ Starting a game:
   NOTE:
   The following examples assume that Freeciv has been installed on
   your system, and that the directory containing the "freeciv-gtk4"
-  and "freeciv-server" programs is in your PATH.  If Freeciv is not
+  and "freeciv-server" programs is in your PATH. If Freeciv is not
   installed, then you may want to use the "fcgui" and "fcser" programs,
-  which can be found in the top Freeciv directory.  They are used
+  which can be found in the top Freeciv directory. They are used
   in exactly the same fashion as "freeciv-gtk4" and "freeciv-server".
 
 Running Freeciv involves starting the server, then the client(s)
-and AI(s), then telling the server to start the game.  Here are the
+and AI(s), then telling the server to start the game. Here are the
 steps:
 
 Server:
@@ -148,7 +148,7 @@ Server:
   |  >
 
   If you like, you can use the 'set' command to set any of the various
-  server options for the game.  You can get a list of the options
+  server options for the game. You can get a list of the options
   with the 'show' command, and detailed descriptions of each with the
   'help <option-name>' command.
 
@@ -176,25 +176,25 @@ Client:
 
   |  % freeciv-gtk4
 
-  This assumes the server is running on the same machine.  If not, you
+  This assumes the server is running on the same machine. If not, you
   can either specify it on the command line with the '--server' option,
   or enter it into the first dialog box once the client starts.
 
   For example, suppose the server is running on a different machine
-  called 'neptune'.  Then players would join with a command like:
+  called 'neptune'. Then players would join with a command like:
 
   |  % freeciv-gtk4 --server neptune
 
   If you're the only human player, then only one client needs to be
-  started.  In standard Unix fashion you can start the client
+  started. In standard Unix fashion you can start the client
   "in the background" by appending an ampersand:
 
   |  % freeciv-gtk4 &
 
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
-  different graphics for the map terrain, units, and so on).  The
-  distribution comes with 9 main tilesets:
+  different graphics for the map terrain, units, and so on).
+  The distribution comes with 9 main tilesets:
   - amplio2: An isometric tileset with larger and more detailed tiles.
   - isotrident: An isometric tileset similar in shape to the one in Civ 2.
   - cimpletoon: amplio2 with alternative units that display direction they
@@ -218,7 +218,7 @@ Client:
   Other tilesets are available from https://www.freeciv.org/wiki/Tilesets
 
 
-  Clients can be authorized to issue server commands.  To allow them
+  Clients can be authorized to issue server commands. To allow them
   to use informational commands only, type at the server prompt
 
   |  > cmdlevel info
@@ -227,18 +227,18 @@ Client:
 
 Computer Players:
 
-  There are two ways to create AI players.  The first is to set
+  There are two ways to create AI players. The first is to set
   the number of players (human and AI) by setting the 'aifill'
-  server option.  For example:
+  server option. For example:
 
   |  > set aifill 7
 
   After using the 'start' server command to start the game, any players
-  which aren't controlled by humans will be AI players.  For the above,
+  which aren't controlled by humans will be AI players. For the above,
   if two human players had joined, 5 AI players would be created.
 
   The second way is to explicitly create an AI with the 'create'
-  server command.  For example:
+  server command. For example:
 
   |  > create HumanKiller
 
@@ -246,7 +246,7 @@ Computer Players:
 
   AI players are assigned to nations after all human players have
   chosen their nations, but you can choose a particular nation for an
-  AI player by using the normal name for that nation's leader.  For
+  AI player by using the normal name for that nation's leader. For
   example, to play against AI-controlled Romans, use this server
   command:
 
@@ -281,7 +281,7 @@ visit the Freeciv metaserver:
 
   https://meta.freeciv.org/
 
-It is a list of Freeciv servers.  To make your own server announce itself
+It is a list of Freeciv servers. To make your own server announce itself
 there, start freeciv-server with the '--meta' option, or just '-m' for short.
 
 Caveats:
@@ -292,11 +292,11 @@ Caveats:
 
  2) If the Metaserver button in the connection dialog doesn't work,
     check if your ISP uses a mandatory WWW proxy and make freeciv-gtk4
-    use it through the $http_proxy environment variable.  For instance,
+    use it through the $http_proxy environment variable. For instance,
     if the proxy is proxy.myisp.com port 8888, set $http_proxy
     to http://proxy.myisp.com:8888/ before starting the client.
 
- 3) Sometimes there are no games on the metaserver.  That happens.
+ 3) Sometimes there are no games on the metaserver. That happens.
     The number of players there vary with the time of the day. Try
     starting one yourself!
 
@@ -315,10 +315,10 @@ file written may be compressed and called 'mygame.sav.gz', 'mygame.sav.bz2',
 'mygame.sav.xz', or 'mygame.sav.zstd' depending on the setting.)
 
 The Freeciv client works pretty much as you would expect from a
-multiplayer civilization game.  That is, the human players all move
+multiplayer civilization game. That is, the human players all move
 at the same time, then all the AI players move when all the human
-players have completed their turn.  There's a turn timeout value,
-which is by default set to 0 seconds (no timeout).  The server
+players have completed their turn. There's a turn timeout value,
+which is by default set to 0 seconds (no timeout). The server
 operator can alter this value at any time with the 'set' command.
 
 Have a look at the online help system. All three mouse-buttons are
@@ -328,7 +328,7 @@ Players can hold down 'Shift' and push the 'Return' key to announce
 the end of their turn, or just push the 'Turn Done' button.
 
 Use the 'Players' dialog to see who has announced their end of turn,
-and who you're waiting for.  (Hey feller, are you asleep or what?? ;).
+and who you're waiting for. (Hey feller, are you asleep or what?? ;).
 
 Use the input line at the bottom of the window for broadcasting
 messages to other players.
@@ -351,7 +351,7 @@ You can issue server commands from the client input line:
   |  /save mygame.sav
 
 The server operator will probably let you issue informational commands
-only.  This is partly because allowing clients to use all server
+only. This is partly because allowing clients to use all server
 commands has security implications; consider if a player tried:
 
   |  /save /etc/passwd
@@ -393,9 +393,9 @@ There are six ways in which a game can end:
    of those.
 6) The server operator uses the /endgame command.
 
-A score-table will be shown in all cases.  Hint: The server operator
+A score-table will be shown in all cases. Hint: The server operator
 can set the final year while the game is still going by changing the
-'endturn' option.  This is nice when the winner is obvious, but you
+'endturn' option. This is nice when the winner is obvious, but you
 don't want to play through the boring 'cleanup phase'.
 
 
@@ -427,7 +427,7 @@ Native Language Support:
 Freeciv supports several languages.
 
 You may choose which local language to use by specifying a "locale".
-Each locale has a standard name (e.g., 'de' for German).  If you have
+Each locale has a standard name (e.g., 'de' for German). If you have
 installed Freeciv, you may choose a locale by setting the environment
 variable LANG to that locale's standard name before running freeciv-server
 and freeciv-gtk4.
@@ -442,12 +442,12 @@ or
 (You could do this in your .profile or .login file.)
 
 Sometimes there is a conflict between the local library implementation
-and the internal locale determination.  It is often possible to work
+and the internal locale determination. It is often possible to work
 around problems with a more detailed descriptor:
 
   LANG=de_DE.UTF-8
 
-We'd like to know about such problems.  Please report them as bugs
+We'd like to know about such problems. Please report them as bugs
 (see BUGS).
 
 
@@ -459,7 +459,7 @@ There are five or six categories of log messages: "fatal", "error",
 "warning", "normal", "verbose", and in debug builds "debug".
 
 By default, fatal, error, warning and normal messages are printed to
-standard output where the client or server was started.  You can direct
+standard output where the client or server was started. You can direct
 log messages to a file instead of the screen with the "--log filename",
 or "-l filename" command line options.
 
@@ -480,7 +480,7 @@ match those strings as a substring will have debug log messages
 turned on, and all other debug messages will be suppressed.
 To control lines, use: "--debug debug:str1,min,max" and for files which
 match str1 only debug messages within the specified minimum and maximum
-lines will be printed.  Only one set of (min,max) can be applied to each file.
+lines will be printed. Only one set of (min,max) can be applied to each file.
 
 Example:
 
@@ -510,7 +510,7 @@ FREECIV_DEBUG.
 Bugs:
 =====
 
-Found a bug?  We really want to hear from you so we can fix it.
+Found a bug? We really want to hear from you so we can fix it.
 See the file BUGS, for a list of known bugs in this release, and
 information about reporting new bugs.
 
