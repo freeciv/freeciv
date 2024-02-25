@@ -88,6 +88,10 @@ value   = 50
 type    = "Tech_Cost_Factor"
 value   = 1
 
+[effect_tech_leakage]
+type    = "Tech_Leakage"
+value   = 1
+
 [effect_tile_land_workable]
 type    = "Tile_Workable"
 value   = 1

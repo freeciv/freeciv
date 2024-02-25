@@ -2260,6 +2260,10 @@ reqs    =
       "MinYear", "1", "World"
     }
 
+[effect_tech_leakage]
+type    = "Tech_Leakage"
+value   = 1
+
 ; Cities can always work tiles
 [effect_tile_workable]
 type    = "Tile_Workable"

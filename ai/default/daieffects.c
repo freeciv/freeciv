@@ -630,6 +630,31 @@ adv_want dai_effect_value(struct player *pplayer,
   case EFT_TECH_COST_FACTOR:
     v -= amount * 50;
     break;
+  case EFT_TECH_LEAKAGE:
+    {
+      int leak_val = 0;
+
+      switch (game.info.tech_leakage) {
+      case TECH_LEAKAGE_NONE:
+        break;
+      case TECH_LEAKAGE_EMBASSIES:
+        leak_val = (normal_player_count() - 1) * 2;
+        break;
+      case TECH_LEAKAGE_PLAYERS:
+        leak_val = (normal_player_count() - 1) * 5;
+        break;
+      case TECH_LEAKAGE_NO_BARBS:
+        leak_val = (normal_player_count() - 1) * 5 + 2 * 3;
+        break;
+      }
+
+      if (amount > 0 && get_player_bonus(pplayer, EFT_TECH_LEAKAGE) <= 0) {
+        v += leak_val;
+      } else if (amount < 0) {
+        v -= leak_val;
+      }
+    }
+    break;
   case EFT_IMPR_BUILD_COST_PCT:
   case EFT_UNIT_BUILD_COST_PCT:
     v -= amount * 30;

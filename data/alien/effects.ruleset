@@ -721,6 +721,10 @@ value   = 1
 type    = "Tech_Cost_Factor"
 value   = 1
 
+[effect_tech_leakage]
+type    = "Tech_Leakage"
+value   = 1
+
 [effect_mood_center]
 type    = "Make_Content"
 value	= 3

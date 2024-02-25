@@ -440,12 +440,12 @@ const char *tech_flag_helptxt(enum tech_flag_id id)
 }
 
 /**********************************************************************//**
- Returns true if the costs for the given technology will stay constant
- during the game. False otherwise.
+  Returns true if the costs for the given technology will stay constant
+  during the game. False otherwise.
 
- Checking every tech_cost_style with fixed costs seems a waste of system
- resources, when we can check that it is not the one style without fixed
- costs.
+  Checking every tech_cost_style with fixed costs seems a waste of system
+  resources, when we can check that it is not the one style without fixed
+  costs.
 **************************************************************************/
 bool techs_have_fixed_costs(void)
 {

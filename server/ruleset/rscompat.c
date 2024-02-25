@@ -419,6 +419,10 @@ void rscompat_postprocess(struct rscompat_info *info)
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
 
+  /* Old hardcoded behavior always had tech leakage enabled,
+   * thought limited by game.info.tech_leakage setting. */
+  effect_new(EFT_TECH_LEAKAGE, 1, nullptr);
+
   /* Make sure that all action enablers added or modified by the
    * compatibility post processing fulfills all hard action requirements. */
   rscompat_enablers_add_obligatory_hard_reqs();

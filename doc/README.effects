@@ -670,6 +670,11 @@ Surplus_Waste_Pct_By_Rel_Distance
 Tech_Cost_Factor
     Factor for research costs.
 
+Tech_Leakage
+    If value is positive, tech leakage towards the player is enabled.
+    The amount of leakage is controlled by the game.ruleset setting "tech_leakage",
+    and can be even zero.
+
 Tech_Parasite
     Gain any advance known already by amount number of other teams,
     if team_pooled_research is enabled, or amount number of other players

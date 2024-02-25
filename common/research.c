@@ -871,7 +871,7 @@ int research_total_bulbs_required(const struct research *presearch,
   enum tech_cost_style tech_cost_style = game.info.tech_cost_style;
   int members;
   double base_cost, total_cost;
-  double leak = 0.0;
+  bool leakage = FALSE;
 
   if (valid_advance_by_number(tech) == NULL) {
     return 0;
@@ -925,6 +925,9 @@ int research_total_bulbs_required(const struct research *presearch,
     members++;
     total_cost += (base_cost
                    * get_player_bonus(pplayer, EFT_TECH_COST_FACTOR));
+    if (!leakage && get_player_bonus(pplayer, EFT_TECH_LEAKAGE)) {
+      leakage = TRUE;
+    }
   } research_players_iterate_end;
   if (0 == members) {
     /* There is no more alive players for this research, no need to apply
@@ -933,93 +936,98 @@ int research_total_bulbs_required(const struct research *presearch,
   }
   base_cost = total_cost / members;
 
-  fc_assert_msg(tech_leakage_style_is_valid(game.info.tech_leakage),
-                "Invalid tech_leakage %d", game.info.tech_leakage);
-  switch (game.info.tech_leakage) {
-  case TECH_LEAKAGE_NONE:
-    /* no change */
-    break;
+  if (leakage) {
+    double leak = 0.0;
 
-  case TECH_LEAKAGE_EMBASSIES:
-    {
-      int players = 0, players_with_tech_and_embassy = 0;
+    fc_assert_msg(tech_leakage_style_is_valid(game.info.tech_leakage),
+                  "Invalid tech_leakage %d", game.info.tech_leakage);
 
-      players_iterate_alive(aplayer) {
-        const struct research *aresearch = research_get(aplayer);
+    switch (game.info.tech_leakage) {
+    case TECH_LEAKAGE_NONE:
+      /* No change */
+      break;
 
-        players++;
-        if (aresearch == presearch
-            || (A_FUTURE == tech
-                ? aresearch->future_tech <= presearch->future_tech
-                : TECH_KNOWN != research_invention_state(aresearch, tech))) {
-          continue;
-        }
+    case TECH_LEAKAGE_EMBASSIES:
+      {
+        int players = 0, players_with_tech_and_embassy = 0;
 
-        research_players_iterate(presearch, pplayer) {
-          if (player_has_embassy(pplayer, aplayer)) {
-            players_with_tech_and_embassy++;
-            break;
+        players_iterate_alive(aplayer) {
+          const struct research *aresearch = research_get(aplayer);
+
+          players++;
+          if (aresearch == presearch
+              || (A_FUTURE == tech
+                  ? aresearch->future_tech <= presearch->future_tech
+                  : TECH_KNOWN != research_invention_state(aresearch, tech))) {
+            continue;
           }
-        } research_players_iterate_end;
-      } players_iterate_alive_end;
 
-      fc_assert_ret_val(0 < players, base_cost);
-      fc_assert(players >= players_with_tech_and_embassy);
-      leak = base_cost * players_with_tech_and_embassy
-             * game.info.tech_leak_pct / players / 100;
+          research_players_iterate(presearch, pplayer) {
+            if (player_has_embassy(pplayer, aplayer)) {
+              players_with_tech_and_embassy++;
+              break;
+            }
+          } research_players_iterate_end;
+        } players_iterate_alive_end;
+
+        fc_assert_ret_val(0 < players, base_cost);
+        fc_assert(players >= players_with_tech_and_embassy);
+        leak = base_cost * players_with_tech_and_embassy
+          * game.info.tech_leak_pct / players / 100;
+      }
+      break;
+
+    case TECH_LEAKAGE_PLAYERS:
+      {
+        int players = 0, players_with_tech = 0;
+
+        players_iterate_alive(aplayer) {
+          players++;
+          if (A_FUTURE == tech
+              ? research_get(aplayer)->future_tech > presearch->future_tech
+              : TECH_KNOWN == research_invention_state(research_get(aplayer),
+                                                       tech)) {
+            players_with_tech++;
+          }
+        } players_iterate_alive_end;
+
+        fc_assert_ret_val(0 < players, base_cost);
+        fc_assert(players >= players_with_tech);
+        leak = base_cost * players_with_tech * game.info.tech_leak_pct
+          / players / 100;
+      }
+      break;
+
+    case TECH_LEAKAGE_NO_BARBS:
+      {
+        int players = 0, players_with_tech = 0;
+
+        players_iterate_alive(aplayer) {
+          if (is_barbarian(aplayer)) {
+            continue;
+          }
+          players++;
+          if (A_FUTURE == tech
+              ? research_get(aplayer)->future_tech > presearch->future_tech
+              : TECH_KNOWN == research_invention_state(research_get(aplayer),
+                                                       tech)) {
+            players_with_tech++;
+          }
+        } players_iterate_alive_end;
+
+        fc_assert_ret_val(0 < players, base_cost);
+        fc_assert(players >= players_with_tech);
+        leak = base_cost * players_with_tech * game.info.tech_leak_pct
+          / players / 100;
+      }
+      break;
     }
-    break;
 
-  case TECH_LEAKAGE_PLAYERS:
-    {
-      int players = 0, players_with_tech = 0;
-
-      players_iterate_alive(aplayer) {
-        players++;
-        if (A_FUTURE == tech
-            ? research_get(aplayer)->future_tech > presearch->future_tech
-            : TECH_KNOWN == research_invention_state(research_get(aplayer),
-                                                     tech)) {
-          players_with_tech++;
-        }
-      } players_iterate_alive_end;
-
-      fc_assert_ret_val(0 < players, base_cost);
-      fc_assert(players >= players_with_tech);
-      leak = base_cost * players_with_tech * game.info.tech_leak_pct
-             / players / 100;
+    if (leak > base_cost) {
+      base_cost = 0.0;
+    } else {
+      base_cost -= leak;
     }
-    break;
-
-  case TECH_LEAKAGE_NO_BARBS:
-    {
-      int players = 0, players_with_tech = 0;
-
-      players_iterate_alive(aplayer) {
-        if (is_barbarian(aplayer)) {
-          continue;
-        }
-        players++;
-        if (A_FUTURE == tech
-            ? research_get(aplayer)->future_tech > presearch->future_tech
-            : TECH_KNOWN == research_invention_state(research_get(aplayer),
-                                                     tech)) {
-          players_with_tech++;
-        }
-      } players_iterate_alive_end;
-
-      fc_assert_ret_val(0 < players, base_cost);
-      fc_assert(players >= players_with_tech);
-      leak = base_cost * players_with_tech * game.info.tech_leak_pct
-             / players / 100;
-    }
-    break;
-  }
-
-  if (leak > base_cost) {
-    base_cost = 0.0;
-  } else {
-    base_cost -= leak;
   }
 
   /* Assign a science penalty to the AI at easier skill levels. This code
