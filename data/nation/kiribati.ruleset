@@ -28,7 +28,7 @@ init_techs = ""
 init_buildings = ""
 init_units = ""
 
-civilwar_nations = "Papuan", "Micronesian"
+civilwar_nations = "Papuan", "Micronesian", "Tuvaluan"
 
 cities =
  "Tarawa",
