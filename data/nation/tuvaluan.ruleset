@@ -1,0 +1,61 @@
+[nation_tuvaluan]
+
+name   = _("Tuvaluan")
+plural = _("?plural:I-Tuvaluan")
+groups = "Oceanian", "Modern"
+legend = _("The Ellice Islands are an island chain in the Pacific Ocean.\
+ Inhabited by Micronesians since prehistoric times, they were united\
+ under a common chiefdom in the late\
+ 19th century. Together with the Gilbert Islands they were annexed by the\
+ British in 1892 who established the colony of Gilbert and Ellice\
+ Islands. The islands became independent in 1978, under the name Tuvalu,\
+ which means 'Eight standing together', referencing the eight inhabited\
+ islands.")
+
+leaders = {
+ "name",                  "sex"
+ "Toaripi Lauti",         "Male"
+ "Tomasi Puapua",         "Male"
+ "Fiatau Penitala Teo",   "Male"
+ "Tofiga Vaevalu Falani", "Male"
+ "Teniku Talesi",         "Female"
+}
+
+flag = "tuvalu"
+flag_alt = "-"
+style = "Tropical"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "Kiribati", "Papuan", "Micronesian"
+
+cities =
+ "Funafuti",
+ "Fongafale",
+ "Savave",
+ "Senala",
+ "Fakaifou",
+ "Alapi",
+ "Tekavatoetoe",
+ "Vaiaku",
+ "Lofeagai",
+ "Teone",
+ "Motufoua",
+ "Teava",
+ "Aulotu",
+ "Fenua Tapu",
+ "Tumaseu",
+ "Pepesala",
+ "Tokelau",
+ "Tonga",
+ "Potufale",
+ "Tanrake",
+ "Kulia",
+ "Asau",
+ "Haumaefa",
+ "Angafoulua",
+ "Lolua",
+ "Fangaua",
+ "Niulakita"

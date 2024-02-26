@@ -1116,6 +1116,7 @@ sprites =
 		"f.tupi", "flags/tupi"
 		"f.turkey", "flags/turkey"
 		"f.turkmenistan", "flags/turkmenistan"
+		"f.tuvalu", "flags/tuvalu"
 		"f.tyrol", "flags/tyrol"
 		"f.uae", "flags/uae"
 		"f.uganda", "flags/uganda"

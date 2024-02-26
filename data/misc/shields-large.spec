@@ -539,6 +539,7 @@ sprites =
 		"f.shield.tupi", "flags/tupi-shield-large"
 		"f.shield.turkey", "flags/turkey-shield-large"
 		"f.shield.turkmenistan", "flags/turkmenistan-shield-large"
+		"f.shield.tuvalu", "flags/tuvalu-shield-large"
 		"f.shield.tyrol", "flags/tyrol-shield-large"
 		"f.shield.uae", "flags/uae-shield-large"
 		"f.shield.uganda", "flags/uganda-shield-large"

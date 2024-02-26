@@ -524,6 +524,7 @@ pkgdata_DATA = \
 		turkmen.ruleset \
 		turk.ruleset \
 		turkishcypriot.ruleset \
+		tuvaluan.ruleset \
 		tuvan.ruleset \
 		tyrolian.ruleset \
 		ugandan.ruleset \

@@ -530,6 +530,7 @@ flag_files =				\
 		tupi.png		\
 		turkey.png		\
 		turkmenistan.png	\
+		tuvalu.png		\
 		tyrol.png		\
 		uae.png			\
 		uganda.png		\
@@ -1105,6 +1106,7 @@ flag_files =				\
 		tupi-large.png		\
 		turkey-large.png		\
 		turkmenistan-large.png	\
+		tuvalu-large.png	\
 		tyrol-large.png		\
 		uae-large.png			\
 		uganda-large.png		\
@@ -1682,6 +1684,7 @@ shield_files =					\
 		tupi-shield.png			\
 		turkey-shield.png		\
 		turkmenistan-shield.png		\
+		tuvalu-shield.png		\
 		tyrol-shield.png		\
 		uae-shield.png			\
 		uganda-shield.png		\
@@ -2257,6 +2260,7 @@ shield_files =					\
 		tupi-shield-large.png			\
 		turkey-shield-large.png		\
 		turkmenistan-shield-large.png		\
+		tuvalu-shield-large.png		\
 		tyrol-shield-large.png		\
 		uae-shield-large.png			\
 		uganda-shield-large.png		\
@@ -2834,6 +2838,7 @@ svg_files = 				\
 		tupi.svg		\
 		turkey.svg		\
 		turkmenistan.svg	\
+		tuvalu.svg		\
 		tyrol.svg		\
 		uae.svg			\
 		uganda.svg		\
