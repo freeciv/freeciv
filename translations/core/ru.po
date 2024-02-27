@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-02-07 21:08+0500\n"
-"PO-Revision-Date: 2024-02-07 20:34+0500\n"
+"POT-Creation-Date: 2024-02-28 04:37+0500\n"
+"PO-Revision-Date: 2024-02-28 04:25+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -601,10 +601,10 @@ msgstr "никогда"
 #: client/citydlg_common.c:361 client/gui-gtk-3.22/citydlg.c:1877
 #: client/gui-gtk-3.22/helpdlg.c:1344 client/gui-gtk-3.22/helpdlg.c:1354
 #: client/gui-gtk-3.22/helpdlg.c:1365 client/gui-gtk-4.0/citydlg.c:1859
-#: client/gui-gtk-4.0/helpdlg.c:1386 client/gui-gtk-4.0/helpdlg.c:1396
-#: client/gui-gtk-4.0/helpdlg.c:1407 client/gui-gtk-5.0/citydlg.c:1859
-#: client/gui-gtk-5.0/helpdlg.c:1386 client/gui-gtk-5.0/helpdlg.c:1396
-#: client/gui-gtk-5.0/helpdlg.c:1407 client/gui-qt/citydlg.cpp:3079
+#: client/gui-gtk-4.0/helpdlg.c:1390 client/gui-gtk-4.0/helpdlg.c:1400
+#: client/gui-gtk-4.0/helpdlg.c:1411 client/gui-gtk-5.0/citydlg.c:1859
+#: client/gui-gtk-5.0/helpdlg.c:1390 client/gui-gtk-5.0/helpdlg.c:1400
+#: client/gui-gtk-5.0/helpdlg.c:1411 client/gui-qt/citydlg.cpp:3079
 #: client/gui-qt/helpdlg.cpp:1347 client/gui-qt/helpdlg.cpp:1369
 #: client/gui-qt/helpdlg.cpp:1392 client/helpdata.c:3737 client/text.c:909
 #: client/text.c:1400
@@ -2084,11 +2084,11 @@ msgstr ""
 
 #: client/editor.c:211 client/gui-gtk-3.22/citydlg.c:2992
 #: client/gui-gtk-4.0/citydlg.c:3085 client/gui-gtk-5.0/citydlg.c:3085
-#: client/gui-qt/citydlg.cpp:1398 common/fc_types.h:173 common/unit.c:669
+#: client/gui-qt/citydlg.cpp:1398 common/fc_types.h:177 common/unit.c:669
 #: data/civ1/terrain.ruleset:1162 data/civ2/terrain.ruleset:1301
 #: data/classic/terrain.ruleset:1605 data/sandbox/terrain.ruleset:1874
 #: data/civ2civ3/terrain.ruleset:1768 data/alien/terrain.ruleset:1059
-#: data/multiplayer/terrain.ruleset:1577
+#: data/multiplayer/terrain.ruleset:1577 data/granularity/terrain.ruleset:669
 msgid "Road"
 msgstr "Дорога"
 
@@ -2272,7 +2272,7 @@ msgstr "(без названия)"
 #: client/gui-qt/dialogs.cpp:3666 client/gui-qt/dialogs.cpp:3729
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1640
 #: client/gui-sdl2/action_dialog.c:1903 client/gui-sdl2/citydlg.c:1189
-#: client/gui-sdl2/repodlgs.c:211 client/text.c:1308 common/unit.c:2091
+#: client/gui-sdl2/repodlgs.c:211 client/text.c:1308 common/unit.c:2092
 #: server/unithand.c:2175 server/unithand.c:2884
 #, c-format
 msgid "Treasury contains %d gold."
@@ -3104,7 +3104,7 @@ msgstr "(_L) Соединения в городе..."
 #: client/gui-gtk-4.0/dialogs.c:113 client/gui-gtk-4.0/dialogs.c:204
 #: client/gui-gtk-4.0/dialogs.c:213 client/gui-gtk-4.0/dialogs.c:218
 #: client/gui-gtk-4.0/dialogs.c:255 client/gui-gtk-4.0/editprop.c:4956
-#: client/gui-gtk-4.0/gamedlgs.c:328 client/gui-gtk-4.0/helpdlg.c:548
+#: client/gui-gtk-4.0/gamedlgs.c:328 client/gui-gtk-4.0/helpdlg.c:552
 #: client/gui-gtk-4.0/inteldlg.c:259 client/gui-gtk-4.0/inteldlg.c:405
 #: client/gui-gtk-4.0/luaconsole.c:242 client/gui-gtk-4.0/messagewin.c:382
 #: client/gui-gtk-4.0/plrdlg.c:595 client/gui-gtk-4.0/repodlgs.c:628
@@ -3115,7 +3115,7 @@ msgstr "(_L) Соединения в городе..."
 #: client/gui-gtk-5.0/dialogs.c:204 client/gui-gtk-5.0/dialogs.c:213
 #: client/gui-gtk-5.0/dialogs.c:218 client/gui-gtk-5.0/dialogs.c:255
 #: client/gui-gtk-5.0/editprop.c:4956 client/gui-gtk-5.0/gamedlgs.c:328
-#: client/gui-gtk-5.0/helpdlg.c:548 client/gui-gtk-5.0/inteldlg.c:259
+#: client/gui-gtk-5.0/helpdlg.c:552 client/gui-gtk-5.0/inteldlg.c:259
 #: client/gui-gtk-5.0/inteldlg.c:405 client/gui-gtk-5.0/luaconsole.c:242
 #: client/gui-gtk-5.0/messagewin.c:382 client/gui-gtk-5.0/plrdlg.c:595
 #: client/gui-gtk-5.0/repodlgs.c:628 client/gui-gtk-5.0/repodlgs.c:1233
@@ -3282,7 +3282,7 @@ msgstr "Очистить запрос"
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.22/citydlg.c:2968 client/gui-gtk-4.0/citydlg.c:3061
 #: client/gui-gtk-5.0/citydlg.c:3061 client/gui-qt/citydlg.cpp:1380
-#: common/fc_types.h:140 common/unit.c:644
+#: common/fc_types.h:144 common/unit.c:644
 msgid "?act:Mine"
 msgstr "Строить Шахту"
 
@@ -3292,14 +3292,14 @@ msgstr "Строить Шахту"
 #: client/gui-gtk-5.0/citydlg.c:3068 client/gui-gtk-5.0/menu.c:799
 #: client/gui-qt/citydlg.cpp:1377 client/gui-qt/menu.cpp:1336
 #: client/gui-qt/menu.cpp:2321 client/gui-qt/menu.cpp:2324
-#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:179 common/unit.c:647
+#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:183 common/unit.c:647
 #: tools/manual/manual_terrain.c:51
 msgid "Plant"
 msgstr "Роет шахту"
 
 #: client/gui-gtk-3.22/citydlg.c:2980 client/gui-gtk-4.0/citydlg.c:3073
 #: client/gui-gtk-5.0/citydlg.c:3073 client/gui-qt/citydlg.cpp:1388
-#: common/fc_types.h:143 common/unit.c:649
+#: common/fc_types.h:147 common/unit.c:649
 msgid "Irrigate"
 msgstr "Орошение"
 
@@ -3308,14 +3308,14 @@ msgstr "Орошение"
 #: client/gui-gtk-5.0/citydlg.c:3080 client/gui-gtk-5.0/menu.c:796
 #: client/gui-qt/citydlg.cpp:1385 client/gui-qt/menu.cpp:1326
 #: client/gui-qt/menu.cpp:2298 client/gui-qt/menu.cpp:2301
-#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:137 common/unit.c:651
+#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:141 common/unit.c:651
 #: tools/manual/manual_terrain.c:51
 msgid "Cultivate"
 msgstr "Культивация"
 
 #: client/gui-gtk-3.22/citydlg.c:2999 client/gui-gtk-4.0/citydlg.c:3092
 #: client/gui-gtk-5.0/citydlg.c:3092 client/gui-qt/citydlg.cpp:1394
-#: client/gui-qt/shortcuts.cpp:138 common/fc_types.h:161 common/unit.c:665
+#: client/gui-qt/shortcuts.cpp:138 common/fc_types.h:165 common/unit.c:665
 #: data/civ2/units.ruleset:25 data/classic/units.ruleset:31
 #: data/sandbox/units.ruleset:31 data/civ2civ3/units.ruleset:31
 #: data/multiplayer/units.ruleset:31 tools/manual/manual_terrain.c:51
@@ -3325,7 +3325,7 @@ msgstr "Преобразовать"
 #: client/gui-gtk-3.22/citydlg.c:3005 client/gui-gtk-4.0/citydlg.c:3098
 #: client/gui-gtk-5.0/citydlg.c:3098 client/gui-qt/citydlg.cpp:1403
 #: client/gui-qt/menu.cpp:1364 client/gui-qt/shortcuts.cpp:152
-#: common/fc_types.h:167 common/unit.c:641
+#: common/fc_types.h:171 common/unit.c:641
 msgid "Clean"
 msgstr "Очистка"
 
@@ -3512,6 +3512,7 @@ msgstr "(_D) Показать"
 #: data/classic/units.ruleset:38 data/sandbox/units.ruleset:44
 #: data/civ2civ3/units.ruleset:40 data/alien/units.ruleset:32
 #: data/helpdata.txt:659 data/multiplayer/units.ruleset:37
+#: data/granularity/units.ruleset:30
 msgid "Cities"
 msgstr "Города"
 
@@ -3758,7 +3759,7 @@ msgstr "Выберите, что разрушить:"
 #. TRANS: Pillage dialog do button text.
 #: client/gui-gtk-3.22/dialogs.c:369 client/gui-gtk-4.0/dialogs.c:369
 #: client/gui-gtk-5.0/dialogs.c:369 client/gui-qt/menu.cpp:1290
-#: client/gui-sdl2/menu.c:705 common/fc_types.h:152 common/unit.c:659
+#: client/gui-sdl2/menu.c:705 common/fc_types.h:156 common/unit.c:659
 msgid "Pillage"
 msgstr "Разрушить"
 
@@ -4459,6 +4460,7 @@ msgstr "Запас щитов"
 #: client/gui-gtk-5.0/editprop.c:4549 client/gui-gtk-5.0/menu.c:960
 #: client/gui-qt/menu.cpp:570 client/include/helpdlg_g.h:55
 #: client/plrdlg_common.c:592 data/helpdata.txt:1402
+#: data/granularity/techs.ruleset:311
 msgid "Government"
 msgstr "Формы Правления"
 
@@ -5124,59 +5126,59 @@ msgstr "(Никогда)"
 msgid "Removed"
 msgstr "Удалено"
 
-#: client/gui-gtk-3.22/helpdlg.c:524 client/gui-gtk-4.0/helpdlg.c:541
-#: client/gui-gtk-5.0/helpdlg.c:541 client/gui-qt/helpdlg.cpp:131
+#: client/gui-gtk-3.22/helpdlg.c:524 client/gui-gtk-4.0/helpdlg.c:545
+#: client/gui-gtk-5.0/helpdlg.c:545 client/gui-qt/helpdlg.cpp:131
 msgid "Freeciv Help Browser"
 msgstr "Справочная служба Freeciv"
 
-#: client/gui-gtk-3.22/helpdlg.c:527 client/gui-gtk-4.0/helpdlg.c:544
-#: client/gui-gtk-5.0/helpdlg.c:544
+#: client/gui-gtk-3.22/helpdlg.c:527 client/gui-gtk-4.0/helpdlg.c:548
+#: client/gui-gtk-5.0/helpdlg.c:548
 msgid "_Back"
 msgstr "(_B) Назад"
 
-#: client/gui-gtk-3.22/helpdlg.c:529 client/gui-gtk-4.0/helpdlg.c:546
-#: client/gui-gtk-5.0/helpdlg.c:546
+#: client/gui-gtk-3.22/helpdlg.c:529 client/gui-gtk-4.0/helpdlg.c:550
+#: client/gui-gtk-5.0/helpdlg.c:550
 msgid "_Forward"
 msgstr "(_F) Вперёд"
 
-#: client/gui-gtk-3.22/helpdlg.c:786 client/gui-gtk-4.0/helpdlg.c:810
-#: client/gui-gtk-5.0/helpdlg.c:810
+#: client/gui-gtk-3.22/helpdlg.c:786 client/gui-gtk-4.0/helpdlg.c:814
+#: client/gui-gtk-5.0/helpdlg.c:814
 msgid "Expand All"
 msgstr "Раскрыть все"
 
-#: client/gui-gtk-3.22/helpdlg.c:787 client/gui-gtk-4.0/helpdlg.c:811
-#: client/gui-gtk-5.0/helpdlg.c:811
+#: client/gui-gtk-3.22/helpdlg.c:787 client/gui-gtk-4.0/helpdlg.c:815
+#: client/gui-gtk-5.0/helpdlg.c:815
 msgid "Collapse All"
 msgstr "Свернуть все"
 
 #: client/gui-gtk-3.22/helpdlg.c:1132 client/gui-gtk-3.22/helpdlg.c:1149
 #: client/gui-gtk-3.22/helpdlg.c:1186 client/gui-gtk-3.22/helpdlg.c:1198
 #: client/gui-gtk-3.22/helpdlg.c:1206 client/gui-gtk-3.22/helpdlg.c:1224
-#: client/gui-gtk-4.0/helpdlg.c:1173 client/gui-gtk-4.0/helpdlg.c:1190
-#: client/gui-gtk-4.0/helpdlg.c:1226 client/gui-gtk-4.0/helpdlg.c:1238
-#: client/gui-gtk-4.0/helpdlg.c:1246 client/gui-gtk-4.0/helpdlg.c:1264
-#: client/gui-gtk-5.0/helpdlg.c:1173 client/gui-gtk-5.0/helpdlg.c:1190
-#: client/gui-gtk-5.0/helpdlg.c:1226 client/gui-gtk-5.0/helpdlg.c:1238
-#: client/gui-gtk-5.0/helpdlg.c:1246 client/gui-gtk-5.0/helpdlg.c:1264
+#: client/gui-gtk-4.0/helpdlg.c:1177 client/gui-gtk-4.0/helpdlg.c:1194
+#: client/gui-gtk-4.0/helpdlg.c:1230 client/gui-gtk-4.0/helpdlg.c:1242
+#: client/gui-gtk-4.0/helpdlg.c:1250 client/gui-gtk-4.0/helpdlg.c:1268
+#: client/gui-gtk-5.0/helpdlg.c:1177 client/gui-gtk-5.0/helpdlg.c:1194
+#: client/gui-gtk-5.0/helpdlg.c:1230 client/gui-gtk-5.0/helpdlg.c:1242
+#: client/gui-gtk-5.0/helpdlg.c:1250 client/gui-gtk-5.0/helpdlg.c:1268
 #: client/gui-qt/helpdlg.cpp:1120 client/gui-qt/helpdlg.cpp:1136
 #: client/gui-qt/helpdlg.cpp:1179 client/gui-sdl2/helpdlg.c:1083
 msgid "Allows"
 msgstr "Позволяет"
 
-#: client/gui-gtk-3.22/helpdlg.c:1165 client/gui-gtk-4.0/helpdlg.c:1206
-#: client/gui-gtk-5.0/helpdlg.c:1206 client/gui-qt/helpdlg.cpp:1155
+#: client/gui-gtk-3.22/helpdlg.c:1165 client/gui-gtk-4.0/helpdlg.c:1210
+#: client/gui-gtk-5.0/helpdlg.c:1210 client/gui-qt/helpdlg.cpp:1155
 msgid "Obsoletes"
 msgstr "Упраздняет"
 
 #: client/gui-gtk-3.22/helpdlg.c:1210 client/gui-gtk-3.22/helpdlg.c:1228
-#: client/gui-gtk-4.0/helpdlg.c:1250 client/gui-gtk-4.0/helpdlg.c:1268
-#: client/gui-gtk-5.0/helpdlg.c:1250 client/gui-gtk-5.0/helpdlg.c:1268
+#: client/gui-gtk-4.0/helpdlg.c:1254 client/gui-gtk-4.0/helpdlg.c:1272
+#: client/gui-gtk-5.0/helpdlg.c:1254 client/gui-gtk-5.0/helpdlg.c:1272
 msgid "with"
 msgstr "при наличии"
 
 #: client/gui-gtk-3.22/helpdlg.c:1216 client/gui-gtk-3.22/helpdlg.c:1233
-#: client/gui-gtk-4.0/helpdlg.c:1256 client/gui-gtk-4.0/helpdlg.c:1274
-#: client/gui-gtk-5.0/helpdlg.c:1256 client/gui-gtk-5.0/helpdlg.c:1274
+#: client/gui-gtk-4.0/helpdlg.c:1260 client/gui-gtk-4.0/helpdlg.c:1278
+#: client/gui-gtk-5.0/helpdlg.c:1260 client/gui-gtk-5.0/helpdlg.c:1278
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
@@ -5191,53 +5193,53 @@ msgstr "?techhelp:"
 #. TRANS: Missing value
 #. TRANS: missing value
 #: client/gui-gtk-3.22/helpdlg.c:1334 client/gui-gtk-3.22/helpdlg.c:1446
-#: client/gui-gtk-3.22/inteldlg.c:597 client/gui-gtk-4.0/helpdlg.c:1376
-#: client/gui-gtk-4.0/helpdlg.c:1488 client/gui-gtk-4.0/inteldlg.c:616
-#: client/gui-gtk-5.0/helpdlg.c:1376 client/gui-gtk-5.0/helpdlg.c:1488
+#: client/gui-gtk-3.22/inteldlg.c:597 client/gui-gtk-4.0/helpdlg.c:1380
+#: client/gui-gtk-4.0/helpdlg.c:1492 client/gui-gtk-4.0/inteldlg.c:616
+#: client/gui-gtk-5.0/helpdlg.c:1380 client/gui-gtk-5.0/helpdlg.c:1492
 #: client/gui-gtk-5.0/inteldlg.c:616 client/gui-qt/plrdlg.cpp:552
-#: client/gui-sdl2/inteldlg.c:343 common/requirements.c:6803
+#: client/gui-sdl2/inteldlg.c:343 common/requirements.c:6814
 #, c-format
 msgid "(none)"
 msgstr "(нет)"
 
-#: client/gui-gtk-3.22/helpdlg.c:1346 client/gui-gtk-4.0/helpdlg.c:1388
-#: client/gui-gtk-5.0/helpdlg.c:1388
+#: client/gui-gtk-3.22/helpdlg.c:1346 client/gui-gtk-4.0/helpdlg.c:1392
+#: client/gui-gtk-5.0/helpdlg.c:1392
 msgid "Cultivate Rslt/Time"
 msgstr "Культив. Рез-т/Ходы"
 
-#: client/gui-gtk-3.22/helpdlg.c:1356 client/gui-gtk-4.0/helpdlg.c:1398
-#: client/gui-gtk-5.0/helpdlg.c:1398
+#: client/gui-gtk-3.22/helpdlg.c:1356 client/gui-gtk-4.0/helpdlg.c:1402
+#: client/gui-gtk-5.0/helpdlg.c:1402
 msgid "Plant Rslt/Time"
 msgstr "Плантац. Рез-т/Ходы"
 
-#: client/gui-gtk-3.22/helpdlg.c:1367 client/gui-gtk-4.0/helpdlg.c:1409
-#: client/gui-gtk-5.0/helpdlg.c:1409
+#: client/gui-gtk-3.22/helpdlg.c:1367 client/gui-gtk-4.0/helpdlg.c:1413
+#: client/gui-gtk-5.0/helpdlg.c:1413
 msgid "Trans. Rslt/Time"
 msgstr "Преоб. Рез-т/Ходы"
 
-#: client/gui-gtk-3.22/helpdlg.c:1374 client/gui-gtk-4.0/helpdlg.c:1416
-#: client/gui-gtk-5.0/helpdlg.c:1416 client/gui-qt/helpdlg.cpp:1412
+#: client/gui-gtk-3.22/helpdlg.c:1374 client/gui-gtk-4.0/helpdlg.c:1420
+#: client/gui-gtk-5.0/helpdlg.c:1420 client/gui-qt/helpdlg.cpp:1412
 msgid "Build as irrigation"
 msgstr "Строить как орошение"
 
-#: client/gui-gtk-3.22/helpdlg.c:1378 client/gui-gtk-4.0/helpdlg.c:1420
-#: client/gui-gtk-5.0/helpdlg.c:1420 client/gui-qt/helpdlg.cpp:1416
+#: client/gui-gtk-3.22/helpdlg.c:1378 client/gui-gtk-4.0/helpdlg.c:1424
+#: client/gui-gtk-5.0/helpdlg.c:1424 client/gui-qt/helpdlg.cpp:1416
 msgid "Build as mine"
 msgstr "Строить как шахту"
 
-#: client/gui-gtk-3.22/helpdlg.c:1382 client/gui-gtk-4.0/helpdlg.c:1424
-#: client/gui-gtk-5.0/helpdlg.c:1424 client/gui-qt/helpdlg.cpp:1420
+#: client/gui-gtk-3.22/helpdlg.c:1382 client/gui-gtk-4.0/helpdlg.c:1428
+#: client/gui-gtk-5.0/helpdlg.c:1428 client/gui-qt/helpdlg.cpp:1420
 msgid "Build as road"
 msgstr "Строить как дорогу"
 
-#: client/gui-gtk-3.22/helpdlg.c:1386 client/gui-gtk-4.0/helpdlg.c:1428
-#: client/gui-gtk-5.0/helpdlg.c:1428 client/gui-qt/helpdlg.cpp:1424
+#: client/gui-gtk-3.22/helpdlg.c:1386 client/gui-gtk-4.0/helpdlg.c:1432
+#: client/gui-gtk-5.0/helpdlg.c:1432 client/gui-qt/helpdlg.cpp:1424
 msgid "Build as base"
 msgstr "Строить как базу"
 
 #. TRANS: "MP" = movement points
-#: client/gui-gtk-3.22/helpdlg.c:1421 client/gui-gtk-4.0/helpdlg.c:1463
-#: client/gui-gtk-5.0/helpdlg.c:1463
+#: client/gui-gtk-3.22/helpdlg.c:1421 client/gui-gtk-4.0/helpdlg.c:1467
+#: client/gui-gtk-5.0/helpdlg.c:1467
 #, c-format
 msgid "%d MP"
 msgstr "%d о.д."
@@ -5249,22 +5251,22 @@ msgstr "%d о.д."
 #. TRANS: Build time depends on terrain.
 #. TRANS: Road bonus depends on terrain.
 #: client/gui-gtk-3.22/helpdlg.c:1424 client/gui-gtk-3.22/helpdlg.c:1455
-#: client/gui-gtk-4.0/helpdlg.c:1466 client/gui-gtk-4.0/helpdlg.c:1497
-#: client/gui-gtk-5.0/helpdlg.c:1466 client/gui-gtk-5.0/helpdlg.c:1497
+#: client/gui-gtk-4.0/helpdlg.c:1470 client/gui-gtk-4.0/helpdlg.c:1501
+#: client/gui-gtk-5.0/helpdlg.c:1470 client/gui-gtk-5.0/helpdlg.c:1501
 #, c-format
 msgid "Terrain specific"
 msgstr "В зависимости от рельефа"
 
 #. TRANS: (Resource extra) Conflicts with:
-#: client/gui-gtk-3.22/helpdlg.c:1434 client/gui-gtk-4.0/helpdlg.c:1476
-#: client/gui-gtk-5.0/helpdlg.c:1476
+#: client/gui-gtk-3.22/helpdlg.c:1434 client/gui-gtk-4.0/helpdlg.c:1480
+#: client/gui-gtk-5.0/helpdlg.c:1480
 msgid "Other Resources"
 msgstr "другими Ресурсами"
 
 #. TRANS: No output bonus from a road
 #: client/gui-gtk-3.22/helpdlg.c:1464 client/gui-gtk-3.22/helpdlg.c:1468
-#: client/gui-gtk-4.0/helpdlg.c:1506 client/gui-gtk-4.0/helpdlg.c:1511
-#: client/gui-gtk-5.0/helpdlg.c:1506 client/gui-gtk-5.0/helpdlg.c:1511
+#: client/gui-gtk-4.0/helpdlg.c:1510 client/gui-gtk-4.0/helpdlg.c:1515
+#: client/gui-gtk-5.0/helpdlg.c:1510 client/gui-gtk-5.0/helpdlg.c:1515
 msgid "?bonus:None"
 msgstr "Нет"
 
@@ -5747,7 +5749,7 @@ msgstr "Зоны контроля"
 
 #: client/gui-gtk-3.22/menu.c:399 client/gui-gtk-4.0/menu.c:963
 #: client/gui-gtk-5.0/menu.c:963 client/include/helpdlg_g.h:56
-#: data/helpdata.txt:1475
+#: data/helpdata.txt:1475 data/granularity/techs.ruleset:244
 msgid "Diplomacy"
 msgstr "Дипломатия"
 
@@ -6550,7 +6552,7 @@ msgid "New Pass_word:"
 msgstr "(_w) Новый пароль:"
 
 #: client/gui-gtk-3.22/pages.c:1058 client/gui-gtk-4.0/pages.c:1075
-#: client/gui-gtk-5.0/pages.c:1075 client/gui-qt/pages.cpp:1637
+#: client/gui-gtk-5.0/pages.c:1075 client/gui-qt/pages.cpp:1638
 #: client/gui-sdl2/connectdlg.c:942
 msgid "Passwords don't match, enter password."
 msgstr "Пароль не подходит, введите верный пароль."
@@ -6682,7 +6684,7 @@ msgid "Toggle player ready"
 msgstr "Изменить готовность игрока"
 
 #: client/gui-gtk-3.22/pages.c:1821 client/gui-gtk-4.0/pages.c:1901
-#: client/gui-gtk-5.0/pages.c:1901 client/gui-qt/pages.cpp:2014
+#: client/gui-gtk-5.0/pages.c:1901 client/gui-qt/pages.cpp:2015
 msgid "Pick nation"
 msgstr "Выбрать народ"
 
@@ -6692,7 +6694,7 @@ msgid "Observe this player"
 msgstr "Наблюдать за этим игроком"
 
 #: client/gui-gtk-3.22/pages.c:1836 client/gui-gtk-4.0/pages.c:1914
-#: client/gui-gtk-5.0/pages.c:1914 client/gui-qt/pages.cpp:2004
+#: client/gui-gtk-5.0/pages.c:1914 client/gui-qt/pages.cpp:2005
 msgid "Take this player"
 msgstr "Управлять этим игроком"
 
@@ -6702,12 +6704,12 @@ msgid "Cut connection"
 msgstr "Оборвать подключение"
 
 #: client/gui-gtk-3.22/pages.c:1859 client/gui-gtk-4.0/pages.c:1934
-#: client/gui-gtk-5.0/pages.c:1934 client/gui-qt/pages.cpp:2071
+#: client/gui-gtk-5.0/pages.c:1934 client/gui-qt/pages.cpp:2072
 msgid "Aitoggle player"
 msgstr "Сменить статус компьютерного управления"
 
 #: client/gui-gtk-3.22/pages.c:1867 client/gui-gtk-4.0/pages.c:1942
-#: client/gui-gtk-5.0/pages.c:1942 client/gui-qt/pages.cpp:1996
+#: client/gui-gtk-5.0/pages.c:1942 client/gui-qt/pages.cpp:1997
 msgid "Remove player"
 msgstr "Удалить игрока"
 
@@ -6785,19 +6787,19 @@ msgstr "<Компьютер (%s)>"
 
 #: client/gui-gtk-3.22/pages.c:2402 client/gui-gtk-4.0/pages.c:2512
 #: client/gui-gtk-5.0/pages.c:2512 client/gui-qt/dialogs.cpp:566
-#: client/gui-qt/fc_client.cpp:1281 client/gui-qt/pages.cpp:1718
+#: client/gui-qt/fc_client.cpp:1281 client/gui-qt/pages.cpp:1719
 msgid "Random"
 msgstr "Случайный"
 
 #: client/gui-gtk-3.22/pages.c:2451 client/gui-gtk-3.22/pages.c:2512
 #: client/gui-gtk-4.0/pages.c:2561 client/gui-gtk-4.0/pages.c:2622
 #: client/gui-gtk-5.0/pages.c:2561 client/gui-gtk-5.0/pages.c:2622
-#: client/gui-qt/pages.cpp:1811 client/gui-qt/pages.cpp:1841
+#: client/gui-qt/pages.cpp:1812 client/gui-qt/pages.cpp:1842
 msgid "Observer"
 msgstr "Наблюдатель"
 
 #: client/gui-gtk-3.22/pages.c:2537 client/gui-gtk-4.0/pages.c:2647
-#: client/gui-gtk-5.0/pages.c:2647 client/gui-qt/pages.cpp:1859
+#: client/gui-gtk-5.0/pages.c:2647 client/gui-qt/pages.cpp:1860
 msgid "Detached"
 msgstr "Отсоединён"
 
@@ -6829,7 +6831,7 @@ msgstr "(_M) Дополнительные параметры игры..."
 #: client/gui-gtk-3.22/pages.c:2736 client/gui-gtk-3.22/unitselect.c:475
 #: client/gui-gtk-4.0/pages.c:2861 client/gui-gtk-4.0/unitselect.c:480
 #: client/gui-gtk-5.0/pages.c:2861 client/gui-gtk-5.0/unitselect.c:480
-#: client/gui-qt/pages.cpp:652 client/gui-qt/pages.cpp:1910
+#: client/gui-qt/pages.cpp:652 client/gui-qt/pages.cpp:1911
 #: tools/fcmp/mpgui_gtk3.c:262 tools/fcmp/mpgui_gtk4.c:274
 #: tools/fcmp/mpgui_gtk5.c:266 tools/fcmp/mpgui_qt_worker.cpp:54
 msgid "Ready"
@@ -6866,7 +6868,7 @@ msgstr "(_L) Выберите игру для загрузки:"
 #. TRANS: Old scenario format version
 #. TRANS: Unknown scenario format
 #: client/gui-gtk-3.22/pages.c:3007 client/gui-gtk-4.0/pages.c:3143
-#: client/gui-gtk-5.0/pages.c:3143 client/gui-qt/pages.cpp:1502
+#: client/gui-gtk-5.0/pages.c:3143 client/gui-qt/pages.cpp:1503
 msgid "pre-2.6"
 msgstr "pre-2.6"
 
@@ -6887,7 +6889,7 @@ msgstr "Имя файла:"
 
 #. TRANS: Scenario format version
 #: client/gui-gtk-3.22/pages.c:3279 client/gui-gtk-4.0/pages.c:3423
-#: client/gui-gtk-5.0/pages.c:3423 client/gui-qt/pages.cpp:1528
+#: client/gui-gtk-5.0/pages.c:3423 client/gui-qt/pages.cpp:1529
 msgid "Format:"
 msgstr "Формат:"
 
@@ -7079,7 +7081,7 @@ msgid "Research"
 msgstr "Открытия"
 
 #: client/gui-gtk-3.22/repodlgs.c:606 client/gui-gtk-4.0/repodlgs.c:638
-#: client/gui-gtk-5.0/repodlgs.c:638 client/gui-qt/pages.cpp:1380
+#: client/gui-gtk-5.0/repodlgs.c:638 client/gui-qt/pages.cpp:1381
 msgid "Researching"
 msgstr "Исследуется"
 
@@ -7119,7 +7121,7 @@ msgid "U Total"
 msgstr "Затраты"
 
 #: client/gui-gtk-3.22/repodlgs.c:945 client/gui-gtk-4.0/repodlgs.c:977
-#: client/gui-gtk-5.0/repodlgs.c:977 client/gui-qt/pages.cpp:2149
+#: client/gui-gtk-5.0/repodlgs.c:977 client/gui-qt/pages.cpp:2150
 #: client/gui-qt/repodlgs.cpp:1393
 #, c-format
 msgid "Income: %d    Total Costs: %d"
@@ -7754,7 +7756,7 @@ msgstr "Сложность: %s"
 
 #: client/gui-gtk-5.0/citydlg.c:3219 client/gui-gtk-5.0/cityrep.c:676
 #: client/gui-gtk-5.0/gui_main.c:2433 client/gui-qt/dialogs.cpp:3924
-#: client/gui-qt/pages.cpp:1758 client/gui-qt/voteinfo_bar.cpp:39
+#: client/gui-qt/pages.cpp:1759 client/gui-qt/voteinfo_bar.cpp:39
 #: client/gui-sdl2/action_dialog.c:1711 client/gui-sdl2/action_dialog.c:1940
 #: client/gui-sdl2/citydlg.c:1259 client/gui-sdl2/cma_fe.c:361
 #: client/gui-sdl2/diplodlg.c:1504 client/gui-sdl2/plrdlg.c:251
@@ -7764,7 +7766,7 @@ msgstr "Да"
 
 #: client/gui-gtk-5.0/citydlg.c:3219 client/gui-gtk-5.0/cityrep.c:676
 #: client/gui-gtk-5.0/gui_main.c:2433 client/gui-qt/dialogs.cpp:3925
-#: client/gui-qt/pages.cpp:1760 client/gui-qt/voteinfo_bar.cpp:40
+#: client/gui-qt/pages.cpp:1761 client/gui-qt/voteinfo_bar.cpp:40
 #: client/gui-sdl2/action_dialog.c:1722 client/gui-sdl2/action_dialog.c:1950
 #: client/gui-sdl2/citydlg.c:1246 client/gui-sdl2/cma_fe.c:371
 #: client/gui-sdl2/diplodlg.c:1492 client/gui-sdl2/plrdlg.c:251
@@ -8264,7 +8266,7 @@ msgstr[1] "осталось %1 хода"
 msgstr[2] "осталось %1 ходов"
 
 #: client/gui-qt/diplodlg.cpp:351 client/gui-qt/diplodlg.cpp:361
-#: client/gui-sdl2/diplodlg.c:614
+#: client/gui-sdl2/diplodlg.c:614 data/granularity/techs.ruleset:329
 msgid "Maps"
 msgstr "Карты"
 
@@ -8297,12 +8299,12 @@ msgstr "Добро пожаловать в игру Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "Это — Qt-клиент игры Freeciv."
 
-#: client/gui-qt/fc_client.cpp:559 client/gui-qt/pages.cpp:1890
+#: client/gui-qt/fc_client.cpp:559 client/gui-qt/pages.cpp:1891
 msgid "Don't Observe"
 msgstr "Прекратить наблюдение"
 
 #: client/gui-qt/fc_client.cpp:562 client/gui-qt/pages.cpp:682
-#: client/gui-qt/pages.cpp:1892 client/gui-qt/pages.cpp:1987
+#: client/gui-qt/pages.cpp:1893 client/gui-qt/pages.cpp:1988
 msgid "Observe"
 msgstr "Наблюдать"
 
@@ -8529,11 +8531,11 @@ msgstr "Активность"
 msgid "Any activity"
 msgstr "Любая активность"
 
-#: client/gui-qt/hudwidget.cpp:1356 common/fc_types.h:146 common/unit.c:655
+#: client/gui-qt/hudwidget.cpp:1356 common/fc_types.h:150 common/unit.c:655
 msgid "Fortified"
 msgstr "Укреплено"
 
-#: client/gui-qt/hudwidget.cpp:1357 common/fc_types.h:134 common/unit.c:639
+#: client/gui-qt/hudwidget.cpp:1357 common/fc_types.h:138 common/unit.c:639
 msgid "Idle"
 msgstr "Бездействует"
 
@@ -8850,7 +8852,7 @@ msgstr "Разбудить всех на поле"
 msgid "Upgrade"
 msgstr "Модернизировать"
 
-#: client/gui-qt/menu.cpp:1257 common/fc_types.h:176 common/unit.c:671
+#: client/gui-qt/menu.cpp:1257 common/fc_types.h:180 common/unit.c:671
 msgid "Convert"
 msgstr "Преобразовать"
 
@@ -9247,8 +9249,8 @@ msgstr "Загрузить сценарий"
 msgid "Disconnect"
 msgstr "Отключиться"
 
-#: client/gui-qt/pages.cpp:688 client/gui-qt/pages.cpp:1914
-#: client/gui-qt/pages.cpp:1918 client/gui-sdl2/chatline.c:807
+#: client/gui-qt/pages.cpp:688 client/gui-qt/pages.cpp:1915
+#: client/gui-qt/pages.cpp:1919 client/gui-sdl2/chatline.c:807
 msgid "Start"
 msgstr "Начать"
 
@@ -9272,37 +9274,37 @@ msgstr "Открыть файл Сценария"
 msgid "Turn"
 msgstr "Ход"
 
-#: client/gui-qt/pages.cpp:1531
+#: client/gui-qt/pages.cpp:1532
 msgid "Authors: "
 msgstr "Авторы: "
 
-#: client/gui-qt/pages.cpp:1687 client/gui-sdl2/connectdlg.c:327
+#: client/gui-qt/pages.cpp:1688 client/gui-sdl2/connectdlg.c:327
 #: client/gui-sdl2/plrdlg.c:365
 msgid "?header:Players"
 msgstr "Игроки"
 
-#: client/gui-qt/pages.cpp:1826
+#: client/gui-qt/pages.cpp:1827
 msgid "Global observers"
 msgstr "Глобальные наблюдатели"
 
-#: client/gui-qt/pages.cpp:1899
+#: client/gui-qt/pages.cpp:1900
 msgid "Not ready"
 msgstr "Не готово"
 
-#: client/gui-qt/pages.cpp:2026
+#: client/gui-qt/pages.cpp:2027
 msgid "Set difficulty"
 msgstr "Установить уровень сложности"
 
-#: client/gui-qt/pages.cpp:2047
+#: client/gui-qt/pages.cpp:2048
 msgid "Put on team"
 msgstr "Включить в команду"
 
-#: client/gui-qt/pages.cpp:2137
+#: client/gui-qt/pages.cpp:2138
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
 msgstr "Налог: %1% Наука: %2% Роскошь: %3%\n"
 
 #. TRANS: Government - max rate (of taxes) x%
-#: client/gui-qt/pages.cpp:2142 client/gui-qt/ratesdlg.cpp:66
+#: client/gui-qt/pages.cpp:2143 client/gui-qt/ratesdlg.cpp:66
 msgid "%1 - max rate: %2%"
 msgstr "%1 — максимум: %2%"
 
@@ -9895,6 +9897,7 @@ msgstr "Запас"
 #: data/civ2/buildings.ruleset:418 data/classic/buildings.ruleset:425
 #: data/sandbox/buildings.ruleset:528 data/civ2civ3/buildings.ruleset:525
 #: data/multiplayer/buildings.ruleset:426
+#: data/granularity/buildings.ruleset:134
 msgid "Granary"
 msgstr "Амбар"
 
@@ -10652,7 +10655,7 @@ msgstr " с "
 #: data/civ2/buildings.ruleset:165 data/classic/buildings.ruleset:167
 #: data/sandbox/buildings.ruleset:262 data/sandbox/units.ruleset:75
 #: data/civ2civ3/buildings.ruleset:259 data/civ2civ3/units.ruleset:65
-#: data/multiplayer/buildings.ruleset:195
+#: data/multiplayer/buildings.ruleset:195 data/granularity/buildings.ruleset:83
 msgid "Barracks"
 msgstr "Казармы"
 
@@ -10671,6 +10674,7 @@ msgstr "Аэропорт"
 #: data/civ2/buildings.ruleset:286 data/classic/buildings.ruleset:291
 #: data/sandbox/buildings.ruleset:384 data/civ2civ3/buildings.ruleset:381
 #: data/multiplayer/buildings.ruleset:319
+#: data/granularity/buildings.ruleset:109
 msgid "City Walls"
 msgstr "Городские стены"
 
@@ -10899,7 +10903,7 @@ msgstr "ходит"
 msgid "disconnected"
 msgstr "отключился"
 
-#: client/gui-sdl2/repodlgs.c:377 common/fc_types.h:1204
+#: client/gui-sdl2/repodlgs.c:377 common/fc_types.h:1208
 msgid "active"
 msgstr "активен"
 
@@ -13616,11 +13620,11 @@ msgstr "Буфер обмена пуст."
 msgid "ISO|Hex"
 msgstr "Изом.|Гекс."
 
-#: client/mapview_common.c:4051 common/fc_types.h:618
+#: client/mapview_common.c:4051 common/fc_types.h:622
 msgid "ISO"
 msgstr "Изометр."
 
-#: client/mapview_common.c:4054 common/fc_types.h:620
+#: client/mapview_common.c:4054 common/fc_types.h:624
 msgid "Hex"
 msgstr "Гексаг."
 
@@ -15432,56 +15436,56 @@ msgstr "Ошибка сохранения параметров, невозмож
 msgid "Saved options to file %s"
 msgstr "Параметры сохранены в файле %s"
 
-#: client/packhand.c:451 client/packhand.c:455
+#: client/packhand.c:453 client/packhand.c:457
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "Вы были отключены от игры: %s"
 
-#: client/packhand.c:464
+#: client/packhand.c:466
 #, c-format
 msgid "Client capability string: %s"
 msgstr "Строка возможностей клиента: %s"
 
-#: client/packhand.c:466
+#: client/packhand.c:468
 #, c-format
 msgid "Server capability string: %s"
 msgstr "Строка возможностей сервера: %s"
 
-#: client/packhand.c:1390
+#: client/packhand.c:1392
 #, c-format
 msgid "Start of turn %d"
 msgstr "Начало хода №%d"
 
-#: client/packhand.c:1509
+#: client/packhand.c:1511
 #, c-format
 msgid "Beginning turn %d"
 msgstr "Начало хода №%d"
 
-#: client/packhand.c:1566
+#: client/packhand.c:1568
 msgid "Welcome"
 msgstr "Добро пожаловать"
 
-#: client/packhand.c:2253 client/tilespec.c:1447
+#: client/packhand.c:2255 client/tilespec.c:1447
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr "Топология карты (%s) несовместима с набором графики (%s)."
 
-#: client/packhand.c:2300
+#: client/packhand.c:2302
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 "Этот сценарий может использовать некоторые установленные вручную параметры, "
 "которые редактор не сможет изменить."
 
-#: client/packhand.c:2303
+#: client/packhand.c:2305
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr "Они не будут сохранены, когда сценарий будет сохранён из редактора."
 
-#: client/packhand.c:2575
+#: client/packhand.c:2577
 msgid "AI mode is now ON."
 msgstr "Компьютерный режим сейчас ВКЛЮЧЁН."
 
-#: client/packhand.c:2581
+#: client/packhand.c:2583
 msgid "AI mode is now OFF."
 msgstr "Компьютерный режим сейчас ОТКЛЮЧЁН."
 
@@ -16851,19 +16855,19 @@ msgstr "3D"
 
 #. TRANS: the probability that an action will succeed. Given in
 #. * percentage. Resolution is 0.5%.
-#: common/actions.c:1246
+#: common/actions.c:1247
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
 #. TRANS: the interval (end points included) where the probability of
 #. * the action's success is. Given in percentage. Resolution is 0.5%.
-#: common/actions.c:1250
+#: common/actions.c:1251
 #, c-format
 msgid "[%.1f%%, %.1f%%]"
 msgstr "[%.1f%%, %.1f%%]"
 
-#: common/actions.c:1292
+#: common/actions.c:1293
 #, c-format
 msgid "%s%s (name may be wrong)"
 msgstr "%s%s (название может быть неверным)"
@@ -16876,7 +16880,7 @@ msgstr "%s%s (название может быть неверным)"
 #. * name. To avoid a `()` when no UI name info part is added you have
 #. * to add the extra information to every action name or remove the
 #. * surrounding parens.
-#: common/actions.c:1311
+#: common/actions.c:1312
 #, c-format
 msgid " (%s; %s)"
 msgstr " (%s; %s)"
@@ -16899,7 +16903,7 @@ msgstr " (%s; %s)"
 #. * surrounding parens.
 #. TRANS: Appending the reason why a connection has closed.
 #. * Preserve leading space.
-#: common/actions.c:1321 common/actions.c:1331
+#: common/actions.c:1322 common/actions.c:1332
 #: common/networking/connection.c:489
 #, c-format
 msgid " (%s)"
@@ -16907,7 +16911,7 @@ msgstr " (%s)"
 
 #. TRANS: action probability of success. Given in percentage.
 #. * Resolution is 0.5%.
-#: common/actions.c:1391
+#: common/actions.c:1392
 #, c-format
 msgid "The probability of success is %.1f%%."
 msgstr "Шансы на успех — %.1f%%."
@@ -16917,14 +16921,14 @@ msgstr "Шансы на успех — %.1f%%."
 #. * shown when the interval is wide enough to not be caused by
 #. * rounding. It explains that the interval is imprecise because
 #. * the player doesn't have enough information.
-#: common/actions.c:1400
+#: common/actions.c:1401
 #, c-format
 msgid "The probability of success is %.1f%%, %.1f%% or somewhere in between.%s"
 msgstr "Шансы на успех — %.1f%%, %.1f%% или что-то между этими значениями.%s"
 
 #. TRANS: explanation used in the action probability tooltip
 #. * above. Preserve leading space.
-#: common/actions.c:1407
+#: common/actions.c:1408
 msgid ""
 " (This is the most precise interval I can calculate given the information "
 "our nation has access to.)"
@@ -16937,7 +16941,7 @@ msgstr ""
 #. * the target but doesn't require that the target tile is claimed.
 #. * (DiplRel requirements to an unclaimed tile are never fulfilled
 #. * so this is implicit.)
-#: common/actions.c:1779
+#: common/actions.c:1780
 #, c-format
 msgid ""
 "Requirement {%s} of action \"%s\" implies a claimed tile. No diplomatic "
@@ -16950,7 +16954,7 @@ msgstr ""
 #. * action requires that the target tile is unclaimed and that the
 #. * actor has a diplomatic relationship to the target. (DiplRel
 #. * requirements to an unclaimed tile are never fulfilled.)
-#: common/actions.c:1843
+#: common/actions.c:1844
 #, c-format
 msgid ""
 "In enabler for \"%s\": No diplomatic relation to Nature. Requirements {%s} "
@@ -16960,24 +16964,24 @@ msgstr ""
 "Требования {%s} и {%s} противоречат друг другу."
 
 #. TRANS: ruledit warns a user about an unused action enabler
-#: common/actions.c:1981
+#: common/actions.c:1982
 #, c-format
 msgid "Action enabler for \"%s\" is never used by any unit."
 msgstr ""
 "Включатель действия для \"%s\" никогда не используется ни одним соединением."
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:2055
+#: common/actions.c:2056
 msgid "actor_reqs"
 msgstr "треб_деятеля"
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:2058
+#: common/actions.c:2059
 msgid "target_reqs"
 msgstr "треб_цели"
 
 #. TRANS: _Poison City (3% chance of success).
-#: common/actions.c:5986 data/civ2/actions.ruleset:223
+#: common/actions.c:5990 data/civ2/actions.ruleset:223
 #: data/classic/actions.ruleset:233 data/sandbox/actions.ruleset:256
 #: data/civ2civ3/actions.ruleset:242 data/multiplayer/actions.ruleset:230
 #, c-format
@@ -16985,31 +16989,31 @@ msgid "%sPoison City%s"
 msgstr "(%sP) Отравить город%s"
 
 #. TRANS: _Poison City and Escape (3% chance of success).
-#: common/actions.c:5989
+#: common/actions.c:5993
 #, c-format
 msgid "%sPoison City and Escape%s"
 msgstr "(%sP) Отравить Город и Сбежать%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
-#: common/actions.c:5992
+#: common/actions.c:5996
 #, c-format
 msgid "S%sabotage Enemy Unit%s"
 msgstr "(%sa) Саботировать вражеское соединение%s"
 
 #. TRANS: S_abotage Enemy Unit and Escape (3% chance of success).
-#: common/actions.c:5995
+#: common/actions.c:5999
 #, c-format
 msgid "S%sabotage Enemy Unit and Escape%s"
 msgstr "(%sa) Саботировать Соединение и Сбежать%s"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
-#: common/actions.c:5998
+#: common/actions.c:6002
 #, c-format
 msgid "Bribe Enemy %sUnit%s"
 msgstr "(%sU) Подкупить вражеское соединение%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
-#: common/actions.c:6001 data/civ1/actions.ruleset:215
+#: common/actions.c:6005 data/civ1/actions.ruleset:215
 #: data/civ2/actions.ruleset:235 data/classic/actions.ruleset:242
 #: data/sandbox/actions.ruleset:268 data/civ2civ3/actions.ruleset:251
 #: data/alien/actions.ruleset:224 data/multiplayer/actions.ruleset:239
@@ -17018,44 +17022,44 @@ msgid "%sSabotage City%s"
 msgstr "(%sS) Саботаж в городе%s"
 
 #. TRANS: _Sabotage City and Escape (3% chance of success).
-#: common/actions.c:6004
+#: common/actions.c:6008
 #, c-format
 msgid "%sSabotage City and Escape%s"
 msgstr "(%sS) Саботировать Город и Сбежать%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
-#: common/actions.c:6007
+#: common/actions.c:6011
 #, c-format
 msgid "Industria%sl Sabotage%s"
 msgstr "(%sl) Промышленный саботаж%s"
 
 #. TRANS: Industria_l Sabotage Production (3% chance of success).
-#: common/actions.c:6010
+#: common/actions.c:6014
 #, c-format
 msgid "Industria%sl Sabotage Production%s"
 msgstr "(%sl) Саботаж производства%s"
 
 #. TRANS: Industria_l Sabotage and Escape (3% chance of success).
-#: common/actions.c:6013
+#: common/actions.c:6017
 #, c-format
 msgid "Industria%sl Sabotage and Escape%s"
 msgstr "(%sl) Промышленный Саботаж и Побег%s"
 
 #. TRANS: Industria_l Sabotage Production and Escape (3% chance of success).
-#: common/actions.c:6016
+#: common/actions.c:6020
 #, c-format
 msgid "Industria%sl Sabotage Production and Escape%s"
 msgstr "(%sl) Саботаж производства и Побег%s"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
-#: common/actions.c:6019
+#: common/actions.c:6023
 #, c-format
 msgid "Incite a Re%svolt%s"
 msgstr "(%sv) Подстрекать к мятежу%s"
 
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
-#: common/actions.c:6022 data/civ2/actions.ruleset:250
+#: common/actions.c:6026 data/civ2/actions.ruleset:250
 #: data/classic/actions.ruleset:257 data/sandbox/actions.ruleset:283
 #: data/civ2civ3/actions.ruleset:266 data/multiplayer/actions.ruleset:254
 #, c-format
@@ -17063,7 +17067,7 @@ msgid "Incite a Re%svolt and Escape%s"
 msgstr "(%sv) Подстрекать к мятежу и Сбежать%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
-#: common/actions.c:6025 data/civ2/actions.ruleset:253
+#: common/actions.c:6029 data/civ2/actions.ruleset:253
 #: data/classic/actions.ruleset:260 data/sandbox/actions.ruleset:286
 #: data/civ2civ3/actions.ruleset:269 data/multiplayer/actions.ruleset:257
 #, c-format
@@ -17071,16 +17075,16 @@ msgid "Establish %sEmbassy%s"
 msgstr "(%sE) Открыть посольство%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
-#: common/actions.c:6028 data/civ1/actions.ruleset:221
+#: common/actions.c:6032 data/civ1/actions.ruleset:221
 #: data/civ2/actions.ruleset:256 data/classic/actions.ruleset:263
 #: data/sandbox/actions.ruleset:289 data/civ2civ3/actions.ruleset:272
-#: data/multiplayer/actions.ruleset:260
+#: data/multiplayer/actions.ruleset:260 data/granularity/actions.ruleset:169
 #, c-format
 msgid "Becom%se Ambassador%s"
 msgstr "(%se) Заступить на должность Посла%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
-#: common/actions.c:6031 data/civ1/actions.ruleset:224
+#: common/actions.c:6035 data/civ1/actions.ruleset:224
 #: data/civ2/actions.ruleset:259 data/classic/actions.ruleset:266
 #: data/sandbox/actions.ruleset:292 data/civ2civ3/actions.ruleset:275
 #: data/multiplayer/actions.ruleset:263
@@ -17089,7 +17093,7 @@ msgid "Steal %sTechnology%s"
 msgstr "(%sT) Украсть технологию%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
-#: common/actions.c:6034 data/civ2/actions.ruleset:262
+#: common/actions.c:6038 data/civ2/actions.ruleset:262
 #: data/classic/actions.ruleset:269 data/sandbox/actions.ruleset:295
 #: data/civ2civ3/actions.ruleset:278 data/multiplayer/actions.ruleset:266
 #, c-format
@@ -17097,19 +17101,19 @@ msgid "Steal %sTechnology and Escape%s"
 msgstr "(%sT) Похитить Технологию и Сбежать%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
-#: common/actions.c:6037
+#: common/actions.c:6041
 #, c-format
 msgid "In%sdustrial Espionage%s"
 msgstr "(%sd) Промышленный шпионаж%s"
 
 #. TRANS: In_dustrial Espionage and Escape (3% chance of success).
-#: common/actions.c:6040
+#: common/actions.c:6044
 #, c-format
 msgid "In%sdustrial Espionage and Escape%s"
 msgstr "(%sd) Промышленный Шпионаж и Побег%s"
 
 #. TRANS: _Investigate City (100% chance of success).
-#: common/actions.c:6043 data/civ2/actions.ruleset:268
+#: common/actions.c:6047 data/civ2/actions.ruleset:268
 #: data/classic/actions.ruleset:275 data/sandbox/actions.ruleset:304
 #: data/civ2civ3/actions.ruleset:284 data/multiplayer/actions.ruleset:272
 #, c-format
@@ -17119,7 +17123,7 @@ msgstr "(%sI) Исследовать город%s"
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
 #. TRANS: _Investigate City (spends the unit) (100% chance of success).
-#: common/actions.c:6047 data/civ1/actions.ruleset:227
+#: common/actions.c:6051 data/civ1/actions.ruleset:227
 #: data/civ2/actions.ruleset:271 data/classic/actions.ruleset:278
 #: data/sandbox/actions.ruleset:307 data/civ2civ3/actions.ruleset:287
 #: data/alien/actions.ruleset:233 data/multiplayer/actions.ruleset:275
@@ -17128,37 +17132,37 @@ msgid "%sInvestigate City (spends the unit)%s"
 msgstr "(%sI) Исследовать город (с потерей соединения)%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
-#: common/actions.c:6050
+#: common/actions.c:6054
 #, c-format
 msgid "Steal %sGold%s"
 msgstr "(%sG) Украсть Золото%s"
 
 #. TRANS: Steal _Gold and Escape (100% chance of success).
-#: common/actions.c:6053
+#: common/actions.c:6057
 #, c-format
 msgid "Steal %sGold and Escape%s"
 msgstr "(%sG) Украсть Золото и Сбежать%s"
 
 #. TRANS: Spread _Plague (100% chance of success).
-#: common/actions.c:6056
+#: common/actions.c:6060
 #, c-format
 msgid "Spread %sPlague%s"
 msgstr "(%sP) Распространение эпидемии%s"
 
 #. TRANS: Steal _Maps (100% chance of success).
-#: common/actions.c:6059
+#: common/actions.c:6063
 #, c-format
 msgid "Steal %sMaps%s"
 msgstr "(%sM) Украсть Карты%s"
 
 #. TRANS: Steal _Maps and Escape (100% chance of success).
-#: common/actions.c:6062
+#: common/actions.c:6066
 #, c-format
 msgid "Steal %sMaps and Escape%s"
 msgstr "(%sM) Украсть Карты и Сбежать%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
-#: common/actions.c:6065 data/civ1/actions.ruleset:230
+#: common/actions.c:6069 data/civ1/actions.ruleset:230
 #: data/civ2/actions.ruleset:274 data/classic/actions.ruleset:281
 #: data/sandbox/actions.ruleset:310 data/civ2civ3/actions.ruleset:290
 #: data/alien/actions.ruleset:236
@@ -17167,7 +17171,7 @@ msgid "Establish Trade %sRoute%s"
 msgstr "(%sR) Основать торговый маршрут%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
-#: common/actions.c:6068 data/civ1/actions.ruleset:233
+#: common/actions.c:6072 data/civ1/actions.ruleset:233
 #: data/civ2/actions.ruleset:277 data/sandbox/actions.ruleset:313
 #: data/civ2civ3/actions.ruleset:293
 #, c-format
@@ -17175,7 +17179,7 @@ msgid "Enter %sMarketplace%s"
 msgstr "(%sM) Прибыть на Рынок%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
-#: common/actions.c:6071 data/civ1/actions.ruleset:236
+#: common/actions.c:6075 data/civ1/actions.ruleset:236
 #: data/civ2/actions.ruleset:280 data/classic/actions.ruleset:287
 #: data/sandbox/actions.ruleset:316 data/civ2civ3/actions.ruleset:296
 #: data/alien/actions.ruleset:242 data/multiplayer/actions.ruleset:278
@@ -17184,74 +17188,74 @@ msgid "Help %sbuild Wonder%s"
 msgstr "(%sb) Помочь строить Чудо%s"
 
 #. TRANS: _Capture Units (100% chance of success).
-#: common/actions.c:6074 data/sandbox/actions.ruleset:325
+#: common/actions.c:6078 data/sandbox/actions.ruleset:325
 #: data/civ2civ3/actions.ruleset:305 data/alien/actions.ruleset:251
 #, c-format
 msgid "%sCapture Units%s"
 msgstr "(%sC) Захватить Соединения%s"
 
 #. TRANS: _Expel Unit (100% chance of success).
-#: common/actions.c:6077
+#: common/actions.c:6081
 #, c-format
 msgid "%sExpel Unit%s"
 msgstr "(%sE) Выдворить Соединение%s"
 
 #. TRANS: _Found City (100% chance of success).
-#: common/actions.c:6080
+#: common/actions.c:6084
 #, c-format
 msgid "%sFound City%s"
 msgstr "(%sF) Основать город%s"
 
 #. TRANS: _Join City (100% chance of success).
-#: common/actions.c:6083
+#: common/actions.c:6087
 #, c-format
 msgid "%sJoin City%s"
 msgstr "(%sJ) Присоединиться к Городу%s"
 
 #. TRANS: B_ombard (100% chance of success).
-#: common/actions.c:6086
+#: common/actions.c:6090
 #, c-format
 msgid "B%sombard%s"
 msgstr "(%so) Бомбардировать%s"
 
 #. TRANS: B_ombard 2 (100% chance of success).
-#: common/actions.c:6089
+#: common/actions.c:6093
 #, c-format
 msgid "B%sombard 2%s"
 msgstr "(%so) Бомбардировать дважды%s"
 
 #. TRANS: B_ombard 3 (100% chance of success).
-#: common/actions.c:6092
+#: common/actions.c:6096
 #, c-format
 msgid "B%sombard 3%s"
 msgstr "(%so) Бомбардировать трижды%s"
 
 #. TRANS: Lethal B_ombard (100% chance of success).
-#: common/actions.c:6096
+#: common/actions.c:6100
 #, c-format
 msgid "Lethal B%sombard%s"
 msgstr "(%so) Убийственная Бомбардировка%s"
 
 #. TRANS: Suitcase _Nuke (100% chance of success).
-#: common/actions.c:6099
+#: common/actions.c:6103
 #, c-format
 msgid "Suitcase %sNuke%s"
 msgstr "(%sN) Доставить Ядерное взрывное устройство%s"
 
 #. TRANS: Suitcase _Nuke and Escape (100% chance of success).
-#: common/actions.c:6102
+#: common/actions.c:6106
 #, c-format
 msgid "Suitcase %sNuke and Escape%s"
 msgstr "(%sN) Доставить Ядерное устройство и Сбежать%s"
 
 #. TRANS: Explode _Nuclear (100% chance of success).
-#: common/actions.c:6105
+#: common/actions.c:6109
 #, c-format
 msgid "Explode %sNuclear%s"
 msgstr "(%sN) Взорвать ядерную бомбу%s"
 
 #. TRANS: _Nuke City (100% chance of success).
-#: common/actions.c:6108 data/civ1/actions.ruleset:254
+#: common/actions.c:6112 data/civ1/actions.ruleset:254
 #: data/civ2/actions.ruleset:298 data/classic/actions.ruleset:305
 #: data/civ2civ3/actions.ruleset:320 data/multiplayer/actions.ruleset:296
 #, c-format
@@ -17259,7 +17263,7 @@ msgid "%sNuke City%s"
 msgstr "(%sN) Устроить Ядерный взрыв в городе%s"
 
 #. TRANS: _Nuke Units (100% chance of success).
-#: common/actions.c:6111 data/civ1/actions.ruleset:257
+#: common/actions.c:6115 data/civ1/actions.ruleset:257
 #: data/civ2/actions.ruleset:301 data/classic/actions.ruleset:308
 #: data/civ2civ3/actions.ruleset:323 data/multiplayer/actions.ruleset:299
 #, c-format
@@ -17267,13 +17271,13 @@ msgid "%sNuke Units%s"
 msgstr "(%sN) Ядерный взрыв соединений%s"
 
 #. TRANS: Destroy _City (100% chance of success).
-#: common/actions.c:6114 data/sandbox/actions.ruleset:337
+#: common/actions.c:6118 data/sandbox/actions.ruleset:337
 #, c-format
 msgid "Destroy %sCity%s"
 msgstr "(%sC) Разрушить Город%s"
 
 #. TRANS: Dis_band recovering production (100% chance of success).
-#: common/actions.c:6117 data/civ1/actions.ruleset:239
+#: common/actions.c:6121 data/civ1/actions.ruleset:239
 #: data/civ2/actions.ruleset:283 data/classic/actions.ruleset:290
 #: data/sandbox/actions.ruleset:319 data/civ2civ3/actions.ruleset:299
 #: data/alien/actions.ruleset:245 data/multiplayer/actions.ruleset:281
@@ -17282,7 +17286,7 @@ msgid "Dis%sband recovering production%s"
 msgstr "(%sb) Расформировать с восстановлением производства%s"
 
 #. TRANS: Dis_band without recovering production (100% chance of success).
-#: common/actions.c:6120 data/civ1/actions.ruleset:242
+#: common/actions.c:6124 data/civ1/actions.ruleset:242
 #: data/civ2/actions.ruleset:286 data/classic/actions.ruleset:293
 #: data/sandbox/actions.ruleset:322 data/civ2civ3/actions.ruleset:302
 #: data/alien/actions.ruleset:248 data/multiplayer/actions.ruleset:284
@@ -17291,7 +17295,7 @@ msgid "Dis%sband without recovering production%s"
 msgstr "(%sb) Расформировать без восстановления производства%s"
 
 #. TRANS: Set _Home City (100% chance of success).
-#: common/actions.c:6123 data/civ1/actions.ruleset:260
+#: common/actions.c:6127 data/civ1/actions.ruleset:260
 #: data/civ2/actions.ruleset:304 data/classic/actions.ruleset:311
 #: data/sandbox/actions.ruleset:349 data/civ2civ3/actions.ruleset:326
 #: data/alien/actions.ruleset:263 data/multiplayer/actions.ruleset:302
@@ -17300,13 +17304,13 @@ msgid "Set %sHome City%s"
 msgstr "(%sH) Установить родной город%s"
 
 #. TRANS: Make _Homeless (100% chance of success).
-#: common/actions.c:6126
+#: common/actions.c:6130
 #, c-format
 msgid "Make %sHomeless%s"
 msgstr "(%sH) Сделать Бездомным%s"
 
 #. TRANS: _Upgrade Unit (100% chance of success).
-#: common/actions.c:6129 data/classic/actions.ruleset:314
+#: common/actions.c:6133 data/classic/actions.ruleset:314
 #: data/sandbox/actions.ruleset:355 data/civ2civ3/actions.ruleset:329
 #: data/alien/actions.ruleset:266 data/multiplayer/actions.ruleset:305
 #, c-format
@@ -17314,8 +17318,8 @@ msgid "%sUpgrade Unit%s"
 msgstr "(%sS) Модернизировать соединение%s"
 
 #. TRANS: Drop _Paratrooper (100% chance of success).
-#: common/actions.c:6132 common/actions.c:6135 common/actions.c:6138
-#: common/actions.c:6141 common/actions.c:6144 common/actions.c:6147
+#: common/actions.c:6136 common/actions.c:6139 common/actions.c:6142
+#: common/actions.c:6145 common/actions.c:6148 common/actions.c:6151
 #: data/civ2/actions.ruleset:307 data/classic/actions.ruleset:317
 #: data/sandbox/actions.ruleset:358 data/civ2civ3/actions.ruleset:332
 #: data/alien/actions.ruleset:269 data/multiplayer/actions.ruleset:308
@@ -17324,7 +17328,7 @@ msgid "Drop %sParatrooper%s"
 msgstr "(%sP) Десантироваться%s"
 
 #. TRANS: _Airlift to City (100% chance of success).
-#: common/actions.c:6150 data/civ2/actions.ruleset:313
+#: common/actions.c:6154 data/civ2/actions.ruleset:313
 #: data/classic/actions.ruleset:323 data/sandbox/actions.ruleset:364
 #: data/civ2civ3/actions.ruleset:338 data/alien/actions.ruleset:275
 #: data/multiplayer/actions.ruleset:314
@@ -17333,7 +17337,7 @@ msgid "%sAirlift to City%s"
 msgstr "(%sA) Перебросить в Город%s"
 
 #. TRANS: _Attack (100% chance of success).
-#: common/actions.c:6154 data/civ1/actions.ruleset:263
+#: common/actions.c:6158 data/civ1/actions.ruleset:263
 #: data/civ2/actions.ruleset:316 data/classic/actions.ruleset:326
 #: data/sandbox/actions.ruleset:367 data/civ2civ3/actions.ruleset:341
 #: data/alien/actions.ruleset:278 data/multiplayer/actions.ruleset:317
@@ -17342,70 +17346,71 @@ msgid "%sAttack%s"
 msgstr "(%sA) Атаковать%s"
 
 #. TRANS: _Suicide Attack (100% chance of success).
-#: common/actions.c:6158
+#: common/actions.c:6162
 #, c-format
 msgid "%sSuicide Attack%s"
 msgstr "(%sA) Самоубийственная Атака%s"
 
 #. TRANS: _Wipe Units (100% chance of success).
-#: common/actions.c:6161
+#: common/actions.c:6165
 #, c-format
 msgid "%sWipe Units%s"
 msgstr "(%sW) Смести Соединения%s"
 
 #. TRANS: Collect _Ransom (100% chance of success).
-#: common/actions.c:6164
+#: common/actions.c:6168
 #, c-format
 msgid "Collect %sRansom%s"
 msgstr "(%sR) Взять Выкуп%s"
 
 #. TRANS: Surgical Str_ike Building (100% chance of success).
-#: common/actions.c:6167
+#: common/actions.c:6171
 #, c-format
 msgid "Surgical Str%sike Building%s"
 msgstr "(%si) Уничтожить Здание%s"
 
 #. TRANS: Surgical Str_ike Production (100% chance of success).
-#: common/actions.c:6170
+#: common/actions.c:6174
 #, c-format
 msgid "Surgical Str%sike Production%s"
 msgstr "(%si) Обнулить Производство%s"
 
 #. TRANS: _Conquer City (100% chance of success).
-#: common/actions.c:6175 data/civ1/actions.ruleset:269
+#: common/actions.c:6179 data/civ1/actions.ruleset:269
 #: data/civ2/actions.ruleset:322 data/classic/actions.ruleset:332
 #: data/sandbox/actions.ruleset:373 data/civ2civ3/actions.ruleset:347
 #: data/alien/actions.ruleset:284 data/multiplayer/actions.ruleset:323
+#: data/granularity/actions.ruleset:205
 #, c-format
 msgid "%sConquer City%s"
 msgstr "(%sC) Подчинить Город%s"
 
 #. TRANS: _Conquer City 2 (100% chance of success).
-#: common/actions.c:6178
+#: common/actions.c:6182
 #, c-format
 msgid "%sConquer City 2%s"
 msgstr "(%sC) Захватить Город (2)%s"
 
 #. TRANS: _Conquer Extras (100% chance of success).
-#: common/actions.c:6183
+#: common/actions.c:6187
 #, c-format
 msgid "%sConquer Extras%s"
 msgstr "(%sC) Захватить Сооружение%s"
 
 #. TRANS: _Conquer Extras 2 (100% chance of success).
-#: common/actions.c:6186
+#: common/actions.c:6190
 #, c-format
 msgid "%sConquer Extras 2%s"
 msgstr "(%sC) Захватить Сооружение (2)%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
-#: common/actions.c:6190
+#: common/actions.c:6194
 #, c-format
 msgid "Heal %sUnit%s"
 msgstr "(%sU) Подлечить Соединение%s"
 
 #. TRANS: _Transform Terrain (3% chance of success).
-#: common/actions.c:6194 data/civ1/actions.ruleset:272
+#: common/actions.c:6198 data/civ1/actions.ruleset:272
 #: data/civ2/actions.ruleset:325 data/classic/actions.ruleset:344
 #: data/sandbox/actions.ruleset:385 data/civ2civ3/actions.ruleset:353
 #: data/alien/actions.ruleset:287 data/multiplayer/actions.ruleset:335
@@ -17414,7 +17419,7 @@ msgid "%sTransform Terrain%s"
 msgstr "(%sT) Преобразовать рельеф%s"
 
 #. TRANS: Transform by _Cultivating (3% chance of success).
-#: common/actions.c:6198 data/civ1/actions.ruleset:275
+#: common/actions.c:6202 data/civ1/actions.ruleset:275
 #: data/civ2/actions.ruleset:328 data/classic/actions.ruleset:347
 #: data/sandbox/actions.ruleset:388 data/civ2civ3/actions.ruleset:356
 #: data/alien/actions.ruleset:290 data/multiplayer/actions.ruleset:338
@@ -17423,7 +17428,7 @@ msgid "Transform by %sCultivating%s"
 msgstr "(%sC) Преобразовать Культивацией%s"
 
 #. TRANS: Transform by _Planting (3% chance of success).
-#: common/actions.c:6202 data/civ1/actions.ruleset:278
+#: common/actions.c:6206 data/civ1/actions.ruleset:278
 #: data/civ2/actions.ruleset:331 data/classic/actions.ruleset:350
 #: data/sandbox/actions.ruleset:391 data/civ2civ3/actions.ruleset:359
 #: data/alien/actions.ruleset:293 data/multiplayer/actions.ruleset:341
@@ -17432,7 +17437,7 @@ msgid "Transform by %sPlanting%s"
 msgstr "(%sP) Преобразовать Плантацией%s"
 
 #. TRANS: Pilla_ge (100% chance of success).
-#: common/actions.c:6205 data/civ1/actions.ruleset:281
+#: common/actions.c:6209 data/civ1/actions.ruleset:281
 #: data/civ2/actions.ruleset:334 data/classic/actions.ruleset:353
 #: data/sandbox/actions.ruleset:394 data/civ2civ3/actions.ruleset:362
 #: data/alien/actions.ruleset:296 data/multiplayer/actions.ruleset:344
@@ -17441,7 +17446,7 @@ msgid "Pilla%sge%s"
 msgstr "(%sg) Разрушить%s"
 
 #. TRANS: Clean (100% chance of success).
-#: common/actions.c:6208 data/classic/actions.ruleset:356
+#: common/actions.c:6213 data/classic/actions.ruleset:356
 #: data/sandbox/actions.ruleset:397 data/civ2civ3/actions.ruleset:365
 #: data/alien/actions.ruleset:299 data/multiplayer/actions.ruleset:347
 #, c-format
@@ -17449,16 +17454,17 @@ msgid "%sClean%s"
 msgstr "(%sC) Очистить%s"
 
 #. TRANS: _Fortify (100% chance of success).
-#: common/actions.c:6212 data/civ1/actions.ruleset:287
+#: common/actions.c:6217 data/civ1/actions.ruleset:287
 #: data/civ2/actions.ruleset:340 data/classic/actions.ruleset:359
 #: data/sandbox/actions.ruleset:400 data/civ2civ3/actions.ruleset:368
 #: data/alien/actions.ruleset:302 data/multiplayer/actions.ruleset:350
+#: data/granularity/actions.ruleset:199
 #, c-format
 msgid "%sFortify%s"
 msgstr "(%sF) Укрепиться%s"
 
 #. TRANS: Build _Road (100% chance of success).
-#: common/actions.c:6216 data/civ1/actions.ruleset:290
+#: common/actions.c:6221 data/civ1/actions.ruleset:290
 #: data/civ2/actions.ruleset:343 data/classic/actions.ruleset:362
 #: data/sandbox/actions.ruleset:403 data/civ2civ3/actions.ruleset:371
 #: data/alien/actions.ruleset:305 data/multiplayer/actions.ruleset:353
@@ -17467,13 +17473,13 @@ msgid "Build %sRoad%s"
 msgstr "(%sR) Построить Дорогу%s"
 
 #. TRANS: _Convert Unit (100% chance of success).
-#: common/actions.c:6219
+#: common/actions.c:6224
 #, c-format
 msgid "%sConvert Unit%s"
 msgstr "(%sC) Преобразовать Соединение%s"
 
 #. TRANS: _Build Base (100% chance of success).
-#: common/actions.c:6223 data/civ1/actions.ruleset:293
+#: common/actions.c:6228 data/civ1/actions.ruleset:293
 #: data/civ2/actions.ruleset:346 data/classic/actions.ruleset:365
 #: data/sandbox/actions.ruleset:406 data/civ2civ3/actions.ruleset:374
 #: data/alien/actions.ruleset:308 data/multiplayer/actions.ruleset:356
@@ -17482,7 +17488,7 @@ msgid "%sBuild Base%s"
 msgstr "(%sB) Построить Базу%s"
 
 #. TRANS: Build _Mine (100% chance of success).
-#: common/actions.c:6227 data/civ1/actions.ruleset:296
+#: common/actions.c:6232 data/civ1/actions.ruleset:296
 #: data/civ2/actions.ruleset:349 data/classic/actions.ruleset:368
 #: data/sandbox/actions.ruleset:409 data/civ2civ3/actions.ruleset:377
 #: data/alien/actions.ruleset:311 data/multiplayer/actions.ruleset:359
@@ -17491,7 +17497,7 @@ msgid "Build %sMine%s"
 msgstr "(%sM) Построить Шахту%s"
 
 #. TRANS: Build _Irrigation (100% chance of success).
-#: common/actions.c:6231 data/civ1/actions.ruleset:299
+#: common/actions.c:6236 data/civ1/actions.ruleset:299
 #: data/civ2/actions.ruleset:352 data/classic/actions.ruleset:371
 #: data/sandbox/actions.ruleset:412 data/civ2civ3/actions.ruleset:380
 #: data/alien/actions.ruleset:314 data/multiplayer/actions.ruleset:362
@@ -17500,70 +17506,75 @@ msgid "Build %sIrrigation%s"
 msgstr "(%sI) Построить Орошение%s"
 
 #. TRANS: _Deboard (100% chance of success).
-#: common/actions.c:6234 data/civ1/actions.ruleset:302
+#: common/actions.c:6239 data/civ1/actions.ruleset:302
 #: data/civ2/actions.ruleset:355 data/classic/actions.ruleset:374
 #: data/sandbox/actions.ruleset:415 data/civ2civ3/actions.ruleset:383
 #: data/alien/actions.ruleset:317 data/multiplayer/actions.ruleset:365
+#: data/granularity/actions.ruleset:175
 #, c-format
 msgid "%sDeboard%s"
 msgstr "(%sD) Сойти с борта%s"
 
 #. TRANS: _Board (100% chance of success).
-#: common/actions.c:6239 data/civ1/actions.ruleset:305
+#: common/actions.c:6244 data/civ1/actions.ruleset:305
 #: data/civ2/actions.ruleset:358 data/classic/actions.ruleset:377
 #: data/sandbox/actions.ruleset:418 data/civ2civ3/actions.ruleset:386
 #: data/alien/actions.ruleset:320 data/multiplayer/actions.ruleset:368
+#: data/granularity/actions.ruleset:178
 #, c-format
 msgid "%sBoard%s"
 msgstr "(%sB) Сесть на борт%s"
 
 #. TRANS: _Embark (100% chance of success).
-#: common/actions.c:6245 data/civ1/actions.ruleset:314
+#: common/actions.c:6250 data/civ1/actions.ruleset:314
 #: data/civ2/actions.ruleset:367 data/classic/actions.ruleset:389
 #: data/sandbox/actions.ruleset:430 data/civ2civ3/actions.ruleset:398
 #: data/alien/actions.ruleset:332 data/multiplayer/actions.ruleset:380
+#: data/granularity/actions.ruleset:190
 #, c-format
 msgid "%sEmbark%s"
 msgstr "(%sE) Погрузиться%s"
 
 #. TRANS: _Unload (100% chance of success).
-#: common/actions.c:6248 data/civ1/actions.ruleset:308
+#: common/actions.c:6253 data/civ1/actions.ruleset:308
 #: data/civ2/actions.ruleset:361 data/classic/actions.ruleset:380
 #: data/sandbox/actions.ruleset:421 data/civ2civ3/actions.ruleset:389
 #: data/alien/actions.ruleset:323 data/multiplayer/actions.ruleset:371
+#: data/granularity/actions.ruleset:181
 #, c-format
 msgid "%sUnload%s"
 msgstr "(%sU) Выгрузить%s"
 
 #. TRANS: _Load (100% chance of success).
-#: common/actions.c:6253
+#: common/actions.c:6258
 #, c-format
 msgid "%sLoad%s"
 msgstr "(%sL) Погрузить%s"
 
 #. TRANS: _Disembark (100% chance of success).
-#: common/actions.c:6258 data/civ1/actions.ruleset:311
+#: common/actions.c:6263 data/civ1/actions.ruleset:311
 #: data/civ2/actions.ruleset:364 data/classic/actions.ruleset:383
 #: data/sandbox/actions.ruleset:424 data/civ2civ3/actions.ruleset:392
 #: data/alien/actions.ruleset:326 data/multiplayer/actions.ruleset:374
+#: data/granularity/actions.ruleset:184
 #, c-format
 msgid "%sDisembark%s"
 msgstr "(%sD) Выгрузиться%s"
 
 #. TRANS: _Disembark 2 (100% chance of success).
-#: common/actions.c:6261
+#: common/actions.c:6266
 #, c-format
 msgid "%sDisembark 2%s"
 msgstr "(%sD) Выгрузиться (2)%s"
 
 #. TRANS: _Eliminate Diplomat (100% chance of success).
-#: common/actions.c:6264
+#: common/actions.c:6269
 #, c-format
 msgid "%sEliminate Diplomat%s"
 msgstr "(%sE) Уничтожить Дипломата%s"
 
 #. TRANS: Enter _Hut (100% chance of success).
-#: common/actions.c:6270 data/civ1/actions.ruleset:317
+#: common/actions.c:6275 data/civ1/actions.ruleset:317
 #: data/civ2/actions.ruleset:370 data/classic/actions.ruleset:395
 #: data/sandbox/actions.ruleset:443 data/civ2civ3/actions.ruleset:404
 #: data/alien/actions.ruleset:335 data/multiplayer/actions.ruleset:386
@@ -17573,7 +17584,7 @@ msgid "Enter %sHut%s"
 msgstr "(%sH) Войти в Хижину%s"
 
 #. TRANS: Frighten _Hut (100% chance of success).
-#: common/actions.c:6276 data/civ2/actions.ruleset:373
+#: common/actions.c:6281 data/civ2/actions.ruleset:373
 #: data/classic/actions.ruleset:401 data/sandbox/actions.ruleset:449
 #: data/civ2civ3/actions.ruleset:410 data/multiplayer/actions.ruleset:392
 #: data/multiplayer/actions.ruleset:395
@@ -17582,74 +17593,74 @@ msgid "Frighten %sHut%s"
 msgstr "(%sH) Спугнуть Хижину%s"
 
 #. TRANS: Regular _Move (100% chance of success).
-#: common/actions.c:6281
+#: common/actions.c:6286
 #, c-format
 msgid "Regular %sMove%s"
 msgstr "(%sM) Продолжить движение%s"
 
 #. TRANS: _Teleport (100% chance of success).
-#: common/actions.c:6286 common/actions.c:6289 common/actions.c:6292
-#: common/actions.c:6295 common/actions.c:6298 common/actions.c:6301
+#: common/actions.c:6291 common/actions.c:6294 common/actions.c:6297
+#: common/actions.c:6300 common/actions.c:6303 common/actions.c:6306
 #, c-format
 msgid "%sTeleport%s"
 msgstr "(%sT) Телепортироваться%s"
 
 #. TRANS: _Escape To Nearest City (100% chance of success).
-#: common/actions.c:6304
+#: common/actions.c:6309
 #, c-format
 msgid "%sEscape To Nearest City%s"
 msgstr "(%sE) Сбежать в ближайший город%s"
 
 #. TRANS: _User Action 1 (100% chance of success).
-#: common/actions.c:6307
+#: common/actions.c:6312
 #, c-format
 msgid "%sUser Action 1%s"
 msgstr "(%sU) Доп. Действие 1%s"
 
 #. TRANS: _User Action 2 (100% chance of success).
-#: common/actions.c:6310
+#: common/actions.c:6315
 #, c-format
 msgid "%sUser Action 2%s"
 msgstr "(%sU) Доп. Действие 2%s"
 
 #. TRANS: _User Action 3 (100% chance of success).
-#: common/actions.c:6313
+#: common/actions.c:6318
 #, c-format
 msgid "%sUser Action 3%s"
 msgstr "(%sU) Доп. Действие 3%s"
 
 #. TRANS: _User Action 4 (100% chance of success).
-#: common/actions.c:6316
+#: common/actions.c:6321
 #, c-format
 msgid "%sUser Action 4%s"
 msgstr "(%sU) Доп. Действие 4%s"
 
-#: common/actions.c:6318
+#: common/actions.c:6323
 #, c-format
 msgid "%sGain Veterancy%s"
 msgstr "(%sG) Повысить Ранг%s"
 
-#: common/actions.c:7602
+#: common/actions.c:7406
 msgid "individual cities"
 msgstr "отдельных городов"
 
-#: common/actions.c:7603
+#: common/actions.c:7407
 msgid "individual units"
 msgstr "отдельных соединений"
 
-#: common/actions.c:7604
+#: common/actions.c:7408
 msgid "unit stacks"
 msgstr "групп соединений"
 
-#: common/actions.c:7605
+#: common/actions.c:7409
 msgid "tiles"
 msgstr "полей"
 
-#: common/actions.c:7606
+#: common/actions.c:7410
 msgid "tile extras"
 msgstr "сооружения на поле"
 
-#: common/actions.c:7607
+#: common/actions.c:7411
 msgid "itself"
 msgstr "себя"
 
@@ -17661,7 +17672,7 @@ msgstr "соединения"
 msgid "stays"
 msgstr "остаться"
 
-#: common/actions.h:66
+#: common/actions.h:66 data/granularity/units.ruleset:51
 msgid "regular"
 msgstr "обычно"
 
@@ -17694,47 +17705,47 @@ msgid "a server agent"
 msgstr "агент сервера"
 
 #. TRANS: in place of player name or "global observer"
-#: common/actres.h:62 common/fc_types.h:1198 server/stdinhand.c:5656
+#: common/actres.h:63 common/fc_types.h:1202 server/stdinhand.c:5656
 msgid "nothing"
 msgstr "никого"
 
-#: common/actres.h:64
+#: common/actres.h:65
 msgid "buildings in"
 msgstr "здания в"
 
-#: common/actres.h:66
+#: common/actres.h:67
 msgid "techs from"
 msgstr "технологии из"
 
-#: common/actres.h:68
+#: common/actres.h:69
 msgid "extras on"
 msgstr "сооружения на"
 
-#: common/actres.h:70
+#: common/actres.h:71
 msgid "create extras on"
 msgstr "создать сооружения на"
 
-#: common/actres.h:79
+#: common/actres.h:80
 msgid "simple"
 msgstr "простая"
 
-#: common/actres.h:86
+#: common/actres.h:87
 msgid "flexible"
 msgstr "гибкая"
 
-#: common/actres.h:93
+#: common/actres.h:94
 msgid "mandatory"
 msgstr "обязательная"
 
-#: common/actres.h:101
+#: common/actres.h:102
 msgid "no battle"
 msgstr "вне битвы"
 
-#: common/actres.h:103
+#: common/actres.h:104
 msgid "battle"
 msgstr "битва"
 
-#: common/actres.h:105
+#: common/actres.h:106
 msgid "diplomatic battle"
 msgstr "дипломатическое сражение"
 
@@ -17947,7 +17958,7 @@ msgstr "Требует Акведук"
 msgid "Needs Aqueduct Being Built"
 msgstr "Требует Акведук (строится)"
 
-#: common/events.c:107 common/fc_types.h:501
+#: common/events.c:107 common/fc_types.h:505
 msgid "Normal"
 msgstr "Нормально"
 
@@ -18407,73 +18418,73 @@ msgstr "НеУмираютВГруппе"
 msgid "CauseZoC"
 msgstr "РасширяетЗоК"
 
-#: common/fc_types.h:164 common/unit.c:653
+#: common/fc_types.h:168 common/unit.c:653
 msgid "Fortifying"
 msgstr "Укрепляется"
 
-#: common/fc_types.h:170 common/unit.c:667
+#: common/fc_types.h:174 common/unit.c:667
 msgid "Base"
 msgstr "Строит базу"
 
-#: common/fc_types.h:362
+#: common/fc_types.h:366
 msgid "No Casus Belli"
 msgstr "Нет повода для войны"
 
-#: common/fc_types.h:365
+#: common/fc_types.h:369
 msgid "Victim Casus Belli"
 msgstr "Получили повод для войны"
 
-#: common/fc_types.h:368
+#: common/fc_types.h:372
 msgid "International Outrage"
 msgstr "Международное Возмущение"
 
-#: common/fc_types.h:495
+#: common/fc_types.h:499
 msgid "Restricted"
 msgstr "Ограниченный"
 
-#: common/fc_types.h:497
+#: common/fc_types.h:501
 msgid "Novice"
 msgstr "Новичок"
 
-#: common/fc_types.h:499
+#: common/fc_types.h:503
 msgid "Easy"
 msgstr "Лёгкий"
 
-#: common/fc_types.h:503
+#: common/fc_types.h:507
 msgid "Hard"
 msgstr "Сложный"
 
-#: common/fc_types.h:505
+#: common/fc_types.h:509
 msgid "Cheating"
 msgstr "Взломанный"
 
-#: common/fc_types.h:509
+#: common/fc_types.h:513
 msgid "Experimental"
 msgstr "Экспериментальный"
 
-#: common/fc_types.h:513 common/fc_types.h:516
+#: common/fc_types.h:517 common/fc_types.h:520
 msgid "Away"
 msgstr "Отсутствует"
 
-#: common/fc_types.h:622 common/fc_types.h:631
+#: common/fc_types.h:626 common/fc_types.h:635
 msgid "WrapX"
 msgstr "СоедГориз"
 
-#: common/fc_types.h:624 common/fc_types.h:633
+#: common/fc_types.h:628 common/fc_types.h:637
 msgid "WrapY"
 msgstr "СоедВертик"
 
-#: common/fc_types.h:1201
+#: common/fc_types.h:1205
 msgid "passive"
 msgstr "пассивно"
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:761 data/civ1/game.ruleset:391 data/civ2/game.ruleset:387
+#: common/game.h:762 data/civ1/game.ruleset:391 data/civ2/game.ruleset:387
 msgid "AD"
 msgstr "НЭ"
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:763 data/civ1/game.ruleset:393 data/civ2/game.ruleset:389
+#: common/game.h:764 data/civ1/game.ruleset:393 data/civ2/game.ruleset:389
 msgid "BC"
 msgstr "ДНЭ"
 
@@ -21616,7 +21627,7 @@ msgstr ""
 
 #. TRANS: default description of a requirement vector
 #. * (used in ruledit)
-#: common/requirements.c:6064
+#: common/requirements.c:6075
 msgid "the requirement vector"
 msgstr "дерево зависимостей"
 
@@ -21626,7 +21637,7 @@ msgstr "дерево зависимостей"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:6078
+#: common/requirements.c:6089
 #, c-format
 msgid "%s %s from %s"
 msgstr "%s %s из %s"
@@ -21637,7 +21648,7 @@ msgstr "%s %s из %s"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:6092
+#: common/requirements.c:6103
 #, c-format
 msgid "%s %s to %s"
 msgstr "%s %s в %s"
@@ -21645,174 +21656,174 @@ msgstr "%s %s в %s"
 #. TRANS: do nothing to a requirement vector (in ruledit).
 #. * The first %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:6103
+#: common/requirements.c:6114
 #, c-format
 msgid "Do nothing to %s"
 msgstr "Ничего не делать с %s"
 
-#: common/requirements.c:6267
+#: common/requirements.c:6278
 #, c-format
 msgid "Requirements {%s} and {%s} contradict each other."
 msgstr "Требования {%s} и {%s} противоречат друг другу."
 
 # FIXME: wrong TRANS placement
-#: common/requirements.c:6359
+#: common/requirements.c:6370
 #, c-format
 msgid "Requirement {%s} requires %s but it will never be there."
 msgstr "Требование {%s} требует %s, но этого там никогда не будет."
 
-#: common/requirements.c:6376
+#: common/requirements.c:6387
 #, c-format
 msgid "Requirement {%s} mentions %s but it will never be there."
 msgstr "Требование {%s} упоминает %s, но этого там никогда не будет."
 
-#: common/requirements.c:6438
+#: common/requirements.c:6449
 #, c-format
 msgid "Requirements {%s} and {%s} are the same."
 msgstr "Требования {%s} и {%s} — одно и то же."
 
-#: common/requirements.c:6812
+#: common/requirements.c:6823
 #, c-format
 msgid "\"%s\" tech"
 msgstr "Технология «%s»"
 
-#: common/requirements.c:6869
+#: common/requirements.c:6880
 #, c-format
 msgid "%s citizens"
 msgstr "%s жителей"
 
 #. TRANS: Keep short. City founding nation.
-#: common/requirements.c:6874
+#: common/requirements.c:6885
 #, c-format
 msgid "%s original owner"
 msgstr "Изначально владели %s"
 
 #. TRANS: Unit type flag
-#: common/requirements.c:6891
+#: common/requirements.c:6902
 #, c-format
 msgid "?utflag:\"%s\" units"
 msgstr "Соединения с флагом \"%s\""
 
 #. TRANS: Unit class
-#: common/requirements.c:6898
+#: common/requirements.c:6909
 #, c-format
 msgid "%s units"
 msgstr "Соединения класса %s"
 
 #. TRANS: Unit class flag
-#: common/requirements.c:6904
+#: common/requirements.c:6915
 #, c-format
 msgid "?ucflag:\"%s\" units"
 msgstr "Класс соединений с флагом \"%s\""
 
-#: common/requirements.c:6910
+#: common/requirements.c:6921
 #, c-format
 msgid "Veteran level >=%d"
 msgstr "Ветеранский ранг ⩾%d"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:6917
+#: common/requirements.c:6928
 msgid "Transported"
 msgstr "Перевозится"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On livable tile")
-#: common/requirements.c:6923
+#: common/requirements.c:6934
 msgid "On livable tile"
 msgstr "На обитаемом рельефе"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:6927
+#: common/requirements.c:6938
 msgid "Transporting"
 msgstr "Перевозится"
 
 #. TRANS: unit state. (appears in strings like "Missile+Has a home city")
-#: common/requirements.c:6931
+#: common/requirements.c:6942
 msgid "Has a home city"
 msgstr "Есть домашний город"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On native tile")
-#: common/requirements.c:6937
+#: common/requirements.c:6948
 msgid "On native tile"
 msgstr "На подходящем поле"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+In native extra")
-#: common/requirements.c:6943
+#: common/requirements.c:6954
 msgid "In native extra"
 msgstr "На подходящем сооружении"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+Has moved this turn")
-#: common/requirements.c:6948
+#: common/requirements.c:6959
 msgid "Has moved this turn"
 msgstr "Двигалось на этом ходу"
 
-#: common/requirements.c:6957
+#: common/requirements.c:6968
 #, c-format
 msgid "%s activity"
 msgstr "Активность (%s)"
 
 #. TRANS: Minimum unit movement points left for requirement to be met
 #. * (%s is a string like "1" or "2 1/3")
-#: common/requirements.c:6963
+#: common/requirements.c:6974
 #, c-format
 msgid "%s MP"
 msgstr "%s очк. движения"
 
 #. TRANS: HP = hit points
-#: common/requirements.c:6968
+#: common/requirements.c:6979
 #, c-format
 msgid "%d HP"
 msgstr "%d очк. жизни"
 
-#: common/requirements.c:6972
+#: common/requirements.c:6983
 #, c-format
 msgid "Age %d"
 msgstr "Возраст %d"
 
 # FIXME: pluralization
-#: common/requirements.c:6976
+#: common/requirements.c:6987
 #, c-format
 msgid "Form age %d"
 msgstr "Возраст %d ходов"
 
 # FIXME: pluralization
-#: common/requirements.c:6980
+#: common/requirements.c:6991
 #, c-format
 msgid "%d Techs"
 msgstr "%d Технологий"
 
 # FIXME: pluralization
-#: common/requirements.c:6984
+#: common/requirements.c:6995
 #, c-format
 msgid "%d Cities"
 msgstr "%d Городов"
 
-#: common/requirements.c:7000
+#: common/requirements.c:7011
 #, c-format
 msgid "Size %d"
 msgstr "Размер %d"
 
-#: common/requirements.c:7004
+#: common/requirements.c:7015
 #, c-format
 msgid "Culture %d"
 msgstr "Очки культуры %d"
 
-#: common/requirements.c:7008
+#: common/requirements.c:7019
 #, c-format
 msgid "%d%% Foreigners"
 msgstr "%d%% иностранцев"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:7013
+#: common/requirements.c:7024
 #, c-format
 msgid "%s AI"
 msgstr "Компьютер уровня '%s'"
 
 #. TRANS: here <= means 'less than or equal'
-#: common/requirements.c:7018
+#: common/requirements.c:7029
 #, c-format
 msgid "<=%d unit"
 msgid_plural "<=%d units"
@@ -21821,117 +21832,117 @@ msgstr[1] "⩽%d соединений"
 msgstr[2] "⩽%d соединений"
 
 #. TRANS: Terrain class: "Land terrain"
-#: common/requirements.c:7024
+#: common/requirements.c:7035
 #, c-format
 msgid "%s terrain"
 msgstr "Рельеф %s"
 
 #. TRANS: Terrain flag
-#: common/requirements.c:7030
+#: common/requirements.c:7041
 #, c-format
 msgid "?terrflag:\"%s\" terrain"
 msgstr "рельеф с флагом \"%s\""
 
 #. TRANS: Road flag
-#: common/requirements.c:7037
+#: common/requirements.c:7048
 #, c-format
 msgid "?roadflag:\"%s\" road"
 msgstr "Дорога с флагом \"%s\""
 
 #. TRANS: Extra flag
-#: common/requirements.c:7043
+#: common/requirements.c:7054
 #, c-format
 msgid "?extraflag:\"%s\" extra"
 msgstr "Улучшение с флагом \"%s\""
 
-#: common/requirements.c:7047
+#: common/requirements.c:7058
 #, c-format
 msgid "After %s"
 msgstr "По наступлении %s"
 
 #. TRANS: here >= means 'greater than or equal'.
 #. * %s identifies a calendar fragment (may be bare number).
-#: common/requirements.c:7053
+#: common/requirements.c:7064
 #, c-format
 msgid ">=%s"
 msgstr "⩾%s"
 
 #. TRANS: topology flag name ("Hex", "ISO")
 #. TRANS: wrap flag name ("WrapX", "WrapY")
-#: common/requirements.c:7058 common/requirements.c:7063
+#: common/requirements.c:7069 common/requirements.c:7074
 #, c-format
 msgid "%s map"
 msgstr "Карта с флагом %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:7072
+#: common/requirements.c:7083
 #, c-format
 msgid "%s possible"
 msgstr "Можно строить %s"
 
-#: common/requirements.c:7078
+#: common/requirements.c:7089
 msgid "City center"
 msgstr "Центральное поле города"
 
-#: common/requirements.c:7081
+#: common/requirements.c:7092
 msgid "Tile claimed"
 msgstr "Поле на чьей-то территории"
 
-#: common/requirements.c:7084
+#: common/requirements.c:7095
 msgid "Extras owned"
 msgstr "Сооружения взяты под контроль"
 
-#: common/requirements.c:7087
+#: common/requirements.c:7098
 msgid "Worked tile"
 msgstr "Обрабатываемое поле"
 
-#: common/requirements.c:7090
+#: common/requirements.c:7101
 msgid "Same continent tile"
 msgstr "Поля на том же континенте"
 
 #. TRANS: Short for "a tile of other terrain class mass near city"
-#: common/requirements.c:7094
+#: common/requirements.c:7105
 msgid "Port reachable tile"
 msgstr "Поля на массе полей другого класса рельефа рядом с городом (Океан)"
 
-#: common/requirements.c:7105
+#: common/requirements.c:7116
 msgid "Owned by original"
 msgstr "Изначально собственный"
 
-#: common/requirements.c:7108
+#: common/requirements.c:7119
 msgid "Starved"
 msgstr "Голод"
 
-#: common/requirements.c:7111
+#: common/requirements.c:7122
 msgid "Disorder"
 msgstr "Беспорядки"
 
-#: common/requirements.c:7114
+#: common/requirements.c:7125
 msgid "Celebration"
 msgstr "Праздник"
 
 #. TRANS: CityStatus value - city has changed hands
-#: common/requirements.c:7118
+#: common/requirements.c:7129
 msgid "Transferred"
 msgstr "Поменял владельца"
 
 #. TRANS: here >= means 'greater than or equal'.
-#: common/requirements.c:7128
+#: common/requirements.c:7139
 #, c-format
 msgid "Latitude >= %d"
 msgstr "Геогр. широта >= %d"
 
 #. TRANS: here <= means 'less than or equal'.
-#: common/requirements.c:7133
+#: common/requirements.c:7144
 #, c-format
 msgid "Latitude <= %d"
 msgstr "Геогр. широта <= %d"
 
-#: common/requirements.h:280
+#: common/requirements.h:282
 msgid "Remove"
 msgstr "Удалить"
 
-#: common/requirements.h:282
+#: common/requirements.h:284
 msgid "Append"
 msgstr "Добавить"
 
@@ -21956,7 +21967,7 @@ msgstr "Технология будущего %d"
 #: common/road.h:25 data/civ1/terrain.ruleset:1230
 #: data/civ2/terrain.ruleset:1372 data/classic/terrain.ruleset:1676
 #: data/sandbox/terrain.ruleset:1992 data/civ2civ3/terrain.ruleset:1884
-#: data/multiplayer/terrain.ruleset:1648
+#: data/multiplayer/terrain.ruleset:1648 data/granularity/terrain.ruleset:697
 msgid "River"
 msgstr "Река"
 
@@ -22071,7 +22082,7 @@ msgid "Food/Shield/Gold:"
 msgstr "Еда/Щиты/Золото:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2101
+#: common/unit.c:2102
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -22089,13 +22100,13 @@ msgstr[2] ""
 "Модернизировать соединение %s до %s за %d золотых?\n"
 "%s"
 
-#: common/unit.c:2110
+#: common/unit.c:2111
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Извините, невозможно модернизировать %s (пока)."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2116
+#: common/unit.c:2117
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -22113,11 +22124,11 @@ msgstr[2] ""
 "Модернизация соединения %s до %s стоила %d золотых.\n"
 "%s"
 
-#: common/unit.c:2126
+#: common/unit.c:2127
 msgid "You can only upgrade units in your cities."
 msgstr "Соединения могут быть модернизированы только в Ваших городах."
 
-#: common/unit.c:2130
+#: common/unit.c:2131
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
@@ -22125,7 +22136,7 @@ msgstr ""
 "модернизированного типа приведёт к высадке на берег транспортируемых им "
 "соединений."
 
-#: common/unit.c:2135
+#: common/unit.c:2136
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -22133,7 +22144,7 @@ msgstr ""
 "При модернизации этого соединения %s может получиться соединение %s, которое "
 "не сможет выжить на поле этого типа рельефа."
 
-#: common/unit.c:2142
+#: common/unit.c:2143
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -22142,7 +22153,7 @@ msgstr ""
 "При модернизации этого соединения %s может получиться соединение %s, которое "
 "не сможет выдержать транспортирующее соединение %s."
 
-#: common/unit.c:2150
+#: common/unit.c:2151
 #, c-format
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "Невозможно модернизировать соединение %s, выполняющее действие '%s'."
@@ -22655,7 +22666,7 @@ msgstr "(%sR) Подстрекать к мятежу%s"
 #: data/civ1/actions.ruleset:245 data/civ2/actions.ruleset:289
 #: data/classic/actions.ruleset:296 data/sandbox/actions.ruleset:328
 #: data/civ2civ3/actions.ruleset:308 data/alien/actions.ruleset:254
-#: data/multiplayer/actions.ruleset:287
+#: data/multiplayer/actions.ruleset:287 data/granularity/actions.ruleset:172
 #, c-format
 msgid "%sBuild City%s"
 msgstr "(%sB) Основать город%s"
@@ -22702,7 +22713,7 @@ msgstr "(%sH) Войти в Хижину с транспорта%s"
 #: data/civ1/actions.ruleset:323 data/civ2/actions.ruleset:376
 #: data/classic/actions.ruleset:407 data/sandbox/actions.ruleset:455
 #: data/civ2civ3/actions.ruleset:416 data/alien/actions.ruleset:341
-#: data/multiplayer/actions.ruleset:398
+#: data/multiplayer/actions.ruleset:398 data/granularity/actions.ruleset:193
 #, c-format
 msgid "%sKeep moving%s"
 msgstr "(%sK) Продолжить движение%s"
@@ -22711,7 +22722,7 @@ msgstr "(%sK) Продолжить движение%s"
 #: data/civ1/actions.ruleset:328 data/civ2/actions.ruleset:381
 #: data/classic/actions.ruleset:412 data/sandbox/actions.ruleset:473
 #: data/civ2civ3/actions.ruleset:421 data/alien/actions.ruleset:346
-#: data/multiplayer/actions.ruleset:403
+#: data/multiplayer/actions.ruleset:403 data/granularity/actions.ruleset:210
 #, c-format
 msgid "%sDisrupt Supply Lines%s"
 msgstr "(%sD) Перерезать Снабжение%s"
@@ -22919,6 +22930,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:429 data/civ2/buildings.ruleset:509
 #: data/classic/buildings.ruleset:519 data/sandbox/buildings.ruleset:633
 #: data/civ2civ3/buildings.ruleset:630 data/multiplayer/buildings.ruleset:514
+#: data/granularity/buildings.ruleset:159
 msgid "Library"
 msgstr "Библиотека"
 
@@ -23619,24 +23631,26 @@ msgstr ""
 #: data/civ1/game.ruleset:385 data/civ2/game.ruleset:381
 #: data/classic/game.ruleset:404 data/sandbox/game.ruleset:407
 #: data/civ2civ3/game.ruleset:409 data/multiplayer/game.ruleset:407
+#: data/granularity/game.ruleset:400
 msgid "Jan"
 msgstr "янв"
 
 #: data/civ1/game.ruleset:386 data/civ2/game.ruleset:382
 #: data/classic/game.ruleset:405 data/sandbox/game.ruleset:408
 #: data/civ2civ3/game.ruleset:410 data/multiplayer/game.ruleset:408
+#: data/granularity/game.ruleset:401
 msgid "Feb"
 msgstr "фев"
 
 #: data/civ1/game.ruleset:416 data/classic/game.ruleset:435
 #: data/sandbox/game.ruleset:438 data/civ2civ3/game.ruleset:440
-#: data/alien/game.ruleset:433
+#: data/alien/game.ruleset:433 data/granularity/game.ruleset:432
 msgid "Earthquake"
 msgstr "Землетрясение"
 
 #: data/civ1/game.ruleset:434 data/classic/game.ruleset:445
 #: data/sandbox/game.ruleset:456 data/civ2civ3/game.ruleset:458
-#: data/alien/game.ruleset:438
+#: data/alien/game.ruleset:438 data/granularity/techs.ruleset:253
 msgid "Fire"
 msgstr "Пожар"
 
@@ -23660,6 +23674,7 @@ msgstr "Вулкан"
 #: data/civ1/game.ruleset:598 data/civ2/game.ruleset:529
 #: data/classic/game.ruleset:581 data/sandbox/game.ruleset:724
 #: data/civ2civ3/game.ruleset:664 data/multiplayer/game.ruleset:548
+#: data/granularity/game.ruleset:550
 msgid "Goods"
 msgstr "Товары"
 
@@ -23691,6 +23706,7 @@ msgstr "Команда 4"
 #: data/classic/governments.ruleset:64 data/sandbox/governments.ruleset:64
 #: data/civ2civ3/governments.ruleset:64 data/alien/governments.ruleset:65
 #: data/multiplayer/governments.ruleset:64
+#: data/granularity/governments.ruleset:64
 msgid "Anarchy"
 msgstr "Анархия"
 
@@ -23699,6 +23715,7 @@ msgstr "Анархия"
 #: data/sandbox/governments.ruleset:108 data/civ2civ3/governments.ruleset:69
 #: data/civ2civ3/governments.ruleset:108
 #: data/multiplayer/governments.ruleset:69
+#: data/granularity/governments.ruleset:88
 #, c-format
 msgid "Warlord %s"
 msgstr "Военачальник %s"
@@ -23708,6 +23725,7 @@ msgstr "Военачальник %s"
 #: data/sandbox/governments.ruleset:109 data/civ2civ3/governments.ruleset:70
 #: data/civ2civ3/governments.ruleset:109
 #: data/multiplayer/governments.ruleset:70
+#: data/granularity/governments.ruleset:89
 #, c-format
 msgid "Warlady %s"
 msgstr "Военачальница %s"
@@ -23738,6 +23756,7 @@ msgstr ""
 #: data/classic/governments.ruleset:85 data/sandbox/governments.ruleset:141
 #: data/civ2civ3/governments.ruleset:141 data/alien/governments.ruleset:80
 #: data/multiplayer/governments.ruleset:85
+#: data/granularity/governments.ruleset:99
 msgid "Despotism"
 msgstr "Деспотизм"
 
@@ -23745,6 +23764,7 @@ msgstr "Деспотизм"
 #: data/classic/governments.ruleset:91 data/sandbox/governments.ruleset:147
 #: data/civ2civ3/governments.ruleset:147
 #: data/multiplayer/governments.ruleset:91
+#: data/granularity/governments.ruleset:107
 #, c-format
 msgid "Chief %s"
 msgstr "Вождь %s"
@@ -23753,6 +23773,7 @@ msgstr "Вождь %s"
 #: data/classic/governments.ruleset:92 data/sandbox/governments.ruleset:148
 #: data/civ2civ3/governments.ruleset:148
 #: data/multiplayer/governments.ruleset:92
+#: data/granularity/governments.ruleset:108
 #, c-format
 msgid "?female:Chief %s"
 msgstr "Владычица %s"
@@ -24484,21 +24505,21 @@ msgid "Imperatrix %s"
 msgstr "Императрица %s"
 
 #: data/civ1/nations.ruleset:1355 data/civ2/nations.ruleset:1693
-#: data/alien/governments.ruleset:70 data/nation/byzantium.ruleset:27
-#: data/nation/carthaginian.ruleset:22 data/nation/egyptian.ruleset:27
-#: data/nation/greek.ruleset:23 data/nation/hittite.ruleset:27
-#: data/nation/hunnic.ruleset:41 data/nation/roman.ruleset:49
-#: data/nation/sumerian.ruleset:28
+#: data/alien/governments.ruleset:70 data/granularity/governments.ruleset:69
+#: data/nation/byzantium.ruleset:27 data/nation/carthaginian.ruleset:22
+#: data/nation/egyptian.ruleset:27 data/nation/greek.ruleset:23
+#: data/nation/hittite.ruleset:27 data/nation/hunnic.ruleset:41
+#: data/nation/roman.ruleset:49 data/nation/sumerian.ruleset:28
 #, c-format
 msgid "Usurper %s"
 msgstr "Узурпатор %s"
 
 #: data/civ1/nations.ruleset:1355 data/civ2/nations.ruleset:1693
-#: data/alien/governments.ruleset:71 data/nation/byzantium.ruleset:27
-#: data/nation/carthaginian.ruleset:22 data/nation/egyptian.ruleset:27
-#: data/nation/greek.ruleset:23 data/nation/hittite.ruleset:27
-#: data/nation/hunnic.ruleset:41 data/nation/roman.ruleset:49
-#: data/nation/sumerian.ruleset:28
+#: data/alien/governments.ruleset:71 data/granularity/governments.ruleset:70
+#: data/nation/byzantium.ruleset:27 data/nation/carthaginian.ruleset:22
+#: data/nation/egyptian.ruleset:27 data/nation/greek.ruleset:23
+#: data/nation/hittite.ruleset:27 data/nation/hunnic.ruleset:41
+#: data/nation/roman.ruleset:49 data/nation/sumerian.ruleset:28
 #, c-format
 msgid "?female:Usurper %s"
 msgstr "Узурпатор %s"
@@ -24782,12 +24803,14 @@ msgstr "Авиация"
 #: data/civ1/techs.ruleset:126 data/civ2/techs.ruleset:126
 #: data/classic/techs.ruleset:126 data/sandbox/techs.ruleset:128
 #: data/civ2civ3/techs.ruleset:127 data/multiplayer/techs.ruleset:126
+#: data/granularity/techs.ruleset:127
 msgid "Alphabet"
 msgstr "Алфавит"
 
 #: data/civ1/techs.ruleset:134 data/civ2/techs.ruleset:142
 #: data/classic/techs.ruleset:142 data/sandbox/techs.ruleset:144
 #: data/civ2civ3/techs.ruleset:143 data/multiplayer/techs.ruleset:142
+#: data/granularity/techs.ruleset:166
 msgid "Astronomy"
 msgstr "Астрономия"
 
@@ -24927,6 +24950,7 @@ msgstr "Феодализм"
 #: data/civ1/techs.ruleset:312 data/civ2/techs.ruleset:354
 #: data/classic/techs.ruleset:357 data/sandbox/techs.ruleset:364
 #: data/civ2civ3/techs.ruleset:361 data/multiplayer/techs.ruleset:359
+#: data/granularity/techs.ruleset:272
 msgid "Flight"
 msgstr "Полёт"
 
@@ -24957,6 +24981,7 @@ msgstr "Порох"
 #: data/civ1/techs.ruleset:345 data/civ2/techs.ruleset:403
 #: data/classic/techs.ruleset:398 data/sandbox/techs.ruleset:406
 #: data/civ2civ3/techs.ruleset:401 data/multiplayer/techs.ruleset:407
+#: data/granularity/techs.ruleset:320
 msgid "Horseback Riding"
 msgstr "Верховая езда"
 
@@ -25010,6 +25035,7 @@ msgstr "Картография"
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:491
 #: data/classic/techs.ruleset:488 data/sandbox/techs.ruleset:494
 #: data/civ2civ3/techs.ruleset:489 data/multiplayer/techs.ruleset:496
+#: data/granularity/techs.ruleset:340
 msgid "Masonry"
 msgstr "Строительство из камня"
 
@@ -25092,6 +25118,7 @@ msgstr "Пластмасса"
 #: data/civ1/techs.ruleset:516 data/civ2/techs.ruleset:631
 #: data/classic/techs.ruleset:628 data/sandbox/techs.ruleset:652
 #: data/civ2civ3/techs.ruleset:639 data/multiplayer/techs.ruleset:636
+#: data/granularity/techs.ruleset:358
 msgid "Pottery"
 msgstr "Гончарное дело"
 
@@ -25172,6 +25199,7 @@ msgstr "Республика"
 #: data/civ1/techs.ruleset:625 data/civ2/techs.ruleset:784
 #: data/classic/techs.ruleset:787 data/sandbox/techs.ruleset:838
 #: data/civ2civ3/techs.ruleset:813 data/multiplayer/techs.ruleset:792
+#: data/granularity/techs.ruleset:420
 msgid "The Wheel"
 msgstr "Колесо"
 
@@ -25184,6 +25212,7 @@ msgstr "Теория гравитации"
 #: data/civ1/techs.ruleset:657 data/civ2/techs.ruleset:833
 #: data/classic/techs.ruleset:836 data/sandbox/techs.ruleset:890
 #: data/civ2civ3/techs.ruleset:865 data/multiplayer/techs.ruleset:841
+#: data/granularity/techs.ruleset:455
 msgid "Writing"
 msgstr "Письменность"
 
@@ -25400,7 +25429,7 @@ msgstr "Ничего"
 #: data/civ1/terrain.ruleset:977 data/civ2/terrain.ruleset:1048
 #: data/classic/terrain.ruleset:1235 data/sandbox/terrain.ruleset:1257
 #: data/civ2civ3/terrain.ruleset:1256 data/multiplayer/terrain.ruleset:1209
-#: tools/manual/manual_terrain.c:51
+#: data/granularity/terrain.ruleset:574 tools/manual/manual_terrain.c:51
 msgid "Irrigation"
 msgstr "Орошение"
 
@@ -25614,6 +25643,7 @@ msgstr ""
 
 #: data/civ1/terrain.ruleset:1185 data/civ2/terrain.ruleset:1324
 #: data/classic/terrain.ruleset:1628 data/multiplayer/terrain.ruleset:1600
+#: data/granularity/terrain.ruleset:691
 msgid ""
 "Roads allow your land units to move more quickly, and on some terrain, also "
 "provide a trade bonus."
@@ -25774,7 +25804,7 @@ msgstr "Ядерная ракета"
 #: data/civ1/units.ruleset:29 data/civ2/units.ruleset:36
 #: data/classic/units.ruleset:43 data/sandbox/units.ruleset:51
 #: data/civ2civ3/units.ruleset:45 data/alien/units.ruleset:34
-#: data/multiplayer/units.ruleset:43
+#: data/multiplayer/units.ruleset:43 data/granularity/units.ruleset:31
 msgid "Cant_Fortify"
 msgstr "НеУкрепиться"
 
@@ -25807,7 +25837,7 @@ msgstr "МожетРазрушать"
 #: data/civ1/units.ruleset:44 data/civ2/units.ruleset:53
 #: data/classic/units.ruleset:59 data/sandbox/units.ruleset:72
 #: data/civ2civ3/units.ruleset:62 data/alien/units.ruleset:48
-#: data/multiplayer/units.ruleset:59
+#: data/multiplayer/units.ruleset:59 data/granularity/units.ruleset:44
 msgid "CanFortify"
 msgstr "МожетУкрепиться"
 
@@ -25815,7 +25845,7 @@ msgstr "МожетУкрепиться"
 #: data/civ1/units.ruleset:46 data/civ2/units.ruleset:55
 #: data/classic/units.ruleset:61 data/sandbox/units.ruleset:74
 #: data/civ2civ3/units.ruleset:64 data/alien/units.ruleset:50
-#: data/multiplayer/units.ruleset:61
+#: data/multiplayer/units.ruleset:61 data/granularity/units.ruleset:46
 #, no-c-format
 msgid "Gets a 50% defensive bonus while in cities."
 msgstr "Получает бонус 50% к защите, если находится в городе."
@@ -25842,7 +25872,7 @@ msgstr "ИгнорХижин"
 #: data/multiplayer/units.ruleset:66 data/multiplayer/units.ruleset:482
 #: data/multiplayer/units.ruleset:532 data/multiplayer/units.ruleset:577
 #: data/multiplayer/units.ruleset:2250 data/multiplayer/units.ruleset:2610
-#: data/multiplayer/units.ruleset:2652
+#: data/multiplayer/units.ruleset:2652 data/granularity/units.ruleset:51
 msgid "green"
 msgstr "рекрут"
 
@@ -25897,7 +25927,7 @@ msgstr "Ракетные"
 #: data/civ1/units.ruleset:436 data/civ2/units.ruleset:445
 #: data/classic/units.ruleset:455 data/sandbox/units.ruleset:502
 #: data/civ2civ3/units.ruleset:489 data/alien/units.ruleset:452
-#: data/multiplayer/units.ruleset:455
+#: data/multiplayer/units.ruleset:455 data/granularity/units.ruleset:717
 msgid "Settlers"
 msgstr "Колонисты"
 
@@ -25939,6 +25969,7 @@ msgstr ""
 #: data/civ1/units.ruleset:507 data/civ2/units.ruleset:565
 #: data/classic/units.ruleset:633 data/sandbox/units.ruleset:758
 #: data/civ2civ3/units.ruleset:703 data/multiplayer/units.ruleset:634
+#: data/granularity/units.ruleset:469
 msgid "Phalanx"
 msgstr "Фаланга"
 
@@ -26067,6 +26098,7 @@ msgstr ""
 #: data/civ1/units.ruleset:835 data/civ2/units.ruleset:1307
 #: data/classic/units.ruleset:1264 data/sandbox/units.ruleset:1515
 #: data/civ2civ3/units.ruleset:1459 data/multiplayer/units.ruleset:1376
+#: data/granularity/units.ruleset:645
 msgid "Catapult"
 msgstr "Катапульта"
 
@@ -26134,7 +26166,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1500 data/classic/units.ruleset:45
 #: data/classic/units.ruleset:1456 data/sandbox/units.ruleset:1711
 #: data/civ2civ3/units.ruleset:1655 data/multiplayer/units.ruleset:45
-#: data/multiplayer/units.ruleset:1568
+#: data/multiplayer/units.ruleset:1568 data/granularity/units.ruleset:681
 msgid "Bomber"
 msgstr "Бомбардировщик"
 
@@ -28190,13 +28222,13 @@ msgstr ""
 
 #: data/civ2/units.ruleset:532 data/classic/units.ruleset:600
 #: data/sandbox/units.ruleset:725 data/civ2civ3/units.ruleset:670
-#: data/multiplayer/units.ruleset:601
+#: data/multiplayer/units.ruleset:601 data/granularity/units.ruleset:434
 msgid "Warriors"
 msgstr "Воины"
 
 #: data/civ2/units.ruleset:600 data/classic/units.ruleset:668
 #: data/sandbox/units.ruleset:793 data/civ2civ3/units.ruleset:738
-#: data/multiplayer/units.ruleset:669
+#: data/multiplayer/units.ruleset:669 data/granularity/units.ruleset:575
 msgid "Archers"
 msgstr "Лучники"
 
@@ -28338,7 +28370,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:1018 data/classic/units.ruleset:1047
 #: data/sandbox/units.ruleset:1221 data/civ2civ3/units.ruleset:1165
-#: data/multiplayer/units.ruleset:1087
+#: data/multiplayer/units.ruleset:1087 data/granularity/units.ruleset:610
 msgid "Horsemen"
 msgstr "Всадники"
 
@@ -28737,7 +28769,7 @@ msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
 "К Вам присоединились дружественные кочевники, потрясённые Вашим могуществом."
 
-#: data/default/default.lua:115 server/unittools.c:3335
+#: data/default/default.lua:115 server/unittools.c:3337
 msgid "An abandoned village is here."
 msgstr "Эта деревня оставлена жителями."
 
@@ -28745,7 +28777,7 @@ msgstr "Эта деревня оставлена жителями."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Ваше соединение встретило орду варваров!"
 
-#: data/default/default.lua:126 server/unittools.c:3338
+#: data/default/default.lua:126 server/unittools.c:3340
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Ваше соединение %s было уничтожено варварами!"
@@ -28873,7 +28905,7 @@ msgstr "(%sC) Захватить Крепость с неподходящего%
 #. TRANS: _Disembark from non native (100% chance of success).
 #: data/classic/actions.ruleset:386 data/sandbox/actions.ruleset:427
 #: data/civ2civ3/actions.ruleset:395 data/alien/actions.ruleset:329
-#: data/multiplayer/actions.ruleset:377
+#: data/multiplayer/actions.ruleset:377 data/granularity/actions.ruleset:187
 #, c-format
 msgid "%sDisembark from non native%s"
 msgstr "(%sD) Выгрузиться с неподходящего%s"
@@ -29202,12 +29234,14 @@ msgstr ""
 #. TRANS: year label (Common Era)
 #: data/classic/game.ruleset:410 data/sandbox/game.ruleset:413
 #: data/civ2civ3/game.ruleset:415 data/multiplayer/game.ruleset:413
+#: data/granularity/game.ruleset:406
 msgid "CE"
 msgstr "нэ"
 
 #. TRANS: year label (Before Common Era)
 #: data/classic/game.ruleset:412 data/sandbox/game.ruleset:415
 #: data/civ2civ3/game.ruleset:417 data/multiplayer/game.ruleset:415
+#: data/granularity/game.ruleset:408
 msgid "BCE"
 msgstr "днэ"
 
@@ -29616,6 +29650,7 @@ msgstr ""
 
 #: data/classic/units.ruleset:501 data/sandbox/units.ruleset:594
 #: data/civ2civ3/units.ruleset:581 data/multiplayer/units.ruleset:502
+#: data/granularity/units.ruleset:751
 msgid "?unit:Workers"
 msgstr "Рабочие"
 
@@ -29893,7 +29928,7 @@ msgstr "(%sM) Украсть фрагмент Карты и Сбежать%s"
 
 #. TRANS: _Bombard (100% chance of success).
 #: data/sandbox/actions.ruleset:334 data/civ2civ3/actions.ruleset:314
-#: data/alien/actions.ruleset:260
+#: data/alien/actions.ruleset:260 data/granularity/actions.ruleset:202
 #, c-format
 msgid "%sBombard%s"
 msgstr "(%sB) Бомбардировать%s"
@@ -31262,6 +31297,7 @@ msgstr ""
 "технологии Торговля)."
 
 #: data/sandbox/governments.ruleset:102 data/civ2civ3/governments.ruleset:102
+#: data/granularity/governments.ruleset:80
 msgid "Tribal"
 msgstr "Племенная"
 
@@ -32055,6 +32091,7 @@ msgid "Mine can be upgraded to Oil Well."
 msgstr "Шахта может быть улучшена до Нефтяной Скважины."
 
 #: data/sandbox/terrain.ruleset:27 data/civ2civ3/terrain.ruleset:27
+#: data/granularity/units.ruleset:134
 msgid "Sea"
 msgstr "Морские"
 
@@ -32630,7 +32667,7 @@ msgid "Can be captured by some enemy units."
 msgstr "Может быть пленено некоторыми вражескими соединениями."
 
 #: data/sandbox/units.ruleset:43 data/civ2civ3/units.ruleset:39
-#: data/alien/units.ruleset:31
+#: data/alien/units.ruleset:31 data/granularity/units.ruleset:33
 msgid "Bombarder"
 msgstr "Бомбардировщик"
 
@@ -40483,6 +40520,524 @@ msgstr ""
 "Автопоезд заменяет Караван и имеет вдвое бóльшую скорость. Каждый Автопоезд, "
 "используемый для строительства Чуда, добавляет 50 щитов."
 
+#. TRANS: Teleport (100% chance of success).
+#: data/granularity/actions.ruleset:196
+#, c-format
+msgid "%sRelocate%s"
+msgstr "(%sR) Переброска%s"
+
+#: data/granularity/buildings.ruleset:101
+#, fuzzy, c-format
+#| msgid ""
+#| "With a Barracks, each new land unit built in a city will automatically "
+#| "have Veteran status. Units in a city with Barracks heal additional 20% of "
+#| "their maximum hitpoints each turn."
+msgid ""
+"With a Barracks, each new land unit built in a city will automatically have "
+"Veteran status. Units in a city with Barracks heal additional 20% of their "
+"maximum hitpoints each turn."
+msgstr ""
+"В городе с Казармами каждому вновь построенному Наземному соединению будет "
+"автоматически присваиваться ранг Ветеран. Соединения в городе с Казармами "
+"каждый ход дополнительно восстанавливают 20% очков жизни."
+
+#: data/granularity/buildings.ruleset:128
+msgid ""
+"City Walls make it easier to defend a city. They triple the defense strength "
+"of units within the city against land units."
+msgstr ""
+"Городские Стены позволяют облегчить защиту города. Они утраивают силу защиты "
+"соединений внутри города от атаки Наземных соединений."
+
+#: data/granularity/buildings.ruleset:152
+#, fuzzy, c-format
+#| msgid ""
+#| "Granary reduces famine speed by making city food storage half full after "
+#| "city shrinks, and speeds up city growth by making the food storage "
+#| "10% full after city grows."
+msgid ""
+"Granary reduces famine speed by making city food storage half full after "
+"city shrinks, and speeds up city growth by making the food storage 10% full "
+"after city grows."
+msgstr ""
+"Амбар уменьшает скорость снижения запасов, сохраняя городское хранилище Еды "
+"наполовину наполненным при сокращении размера города, и ускоряет рост "
+"города, делая хранилище Еды наполненным на 10% после увеличения его размера."
+
+#: data/granularity/buildings.ruleset:177
+msgid "Increases science output by 50%."
+msgstr "Увеличивает научную отдачу на 50%."
+
+#: data/granularity/buildings.ruleset:182
+msgid "Sacred Grove"
+msgstr "Священная Роща"
+
+#: data/granularity/buildings.ruleset:200
+msgid ""
+"Makes one unhappy citizen content. Does not affect citizens made unhappy by "
+"military activity."
+msgstr ""
+"Делает одного недовольного жителя довольным. Не затрагивает жителей, "
+"недовольных военными действиями."
+
+#: data/granularity/buildings.ruleset:206
+msgid "Central Rock Pile"
+msgstr "Памятная Стела"
+
+#: data/granularity/buildings.ruleset:224
+msgid ""
+"This Rock Pile marks the spot where your people first settled, and found a "
+"city. It marks your capital city until you have more fitting building to do "
+"so."
+msgstr ""
+"Эта Памятная Стела отмечает место, где Ваш народ впервые поселился и основал "
+"город. Она будет отмечать Вашу столицу до того как Вы построите более "
+"соответствующее этой функции здание."
+
+#: data/granularity/buildings.ruleset:230
+msgid "Throne"
+msgstr "Тронный Зал"
+
+#: data/granularity/buildings.ruleset:248
+msgid "City with your throne is your capital city."
+msgstr "Город, в котором находится Трон - это Ваша столица."
+
+#: data/granularity/buildings.ruleset:254
+msgid "Quarry"
+msgstr "Карьер"
+
+#: data/granularity/buildings.ruleset:272
+msgid "Quarry produces 3 infrapoints per turn."
+msgstr "Каждый ход Карьер производит 3 очка инфраструктуры."
+
+#: data/granularity/buildings.ruleset:277
+msgid "Stone Circle"
+msgstr "Каменный Круг"
+
+#: data/granularity/buildings.ruleset:295
+msgid ""
+"Stone Circle produces two points of history per turn for each city, five "
+"points for the city its located at."
+msgstr ""
+"Каменный Круг производит два очка Истории для каждого города, и пять — для "
+"города, в котором он построен."
+
+#: data/granularity/cities.ruleset:48
+msgid "Generic"
+msgstr "Порученец"
+
+#: data/granularity/cities.ruleset:49
+msgid "?gspecialist:G"
+msgstr "П"
+
+#: data/granularity/game.ruleset:26
+msgid "Granularity"
+msgstr "Гранулярный"
+
+#: data/granularity/game.ruleset:38
+msgid ""
+"Values in this ruleset have a high granularity. Rules are less subject to "
+"integer math pecularities than in standard rulesets.\n"
+"THIS RULESET IS STILL IN DEVELOPMENT, NOT BALANCED NOR COMPLETE."
+msgstr ""
+"Значения параметров этого набора отличаются высокой гранулярностью "
+"(зернистостью). Правила меньше соотносятся с целочисленной арифметикой по "
+"сравнению со стандартными наборами.\n"
+"ЭТОТ НАБОР ПРАВИЛ ВСЁ ЕЩЁ В СОСТОЯНИИ РАЗРАБОТКИ, НЕТ НИ БАЛАНСА, НИ "
+"ЗАВЕРШЕНИЯ."
+
+#: data/granularity/governments.ruleset:72
+msgid ""
+"Anarchy happens between government changes. No new cities can be aqcuired "
+"during anarchy."
+msgstr ""
+"Анархия наступает в период смены правительства. В период Анархии невозможно "
+"основывать новые города."
+
+#: data/granularity/governments.ruleset:91
+msgid ""
+"The initial form of government. Under tribalism the maximum nation size is "
+"five cities."
+msgstr ""
+"Начальная Форма Правления. При Племенной Форме Правления количество городов "
+"у народа ограничено пятью."
+
+#: data/granularity/governments.ruleset:110
+msgid ""
+"Compared to tribalism, despotism gives some more power to the leader. It's "
+"possible to control more than five cities."
+msgstr ""
+"По сравнению с Племенной Формой Правления, Деспотизм даёт лидеру больше "
+"власти. Становится возможным контролировать более пяти городов."
+
+#: data/granularity/styles.ruleset:29
+msgid "?style:Generic"
+msgstr "Общий"
+
+#: data/granularity/styles.ruleset:50
+msgid "?citystyle:Generic"
+msgstr "Общий"
+
+#: data/granularity/techs.ruleset:118
+msgid "Agriculture"
+msgstr "Сельское хозяйство"
+
+#: data/granularity/techs.ruleset:124
+msgid "Agriculture allows placing irrigation."
+msgstr "Сельское хозяйство позволяет орошать территорию."
+
+#: data/granularity/techs.ruleset:133
+msgid ""
+"Abstract symbols to mark things make it possible to adjust tax/science/lux "
+"rates more freely."
+msgstr ""
+"Открытие абстрактных символов для обозначения вещей позволяет более свободно "
+"настраивать налоги/науку/роскошь."
+
+#: data/granularity/techs.ruleset:139
+msgid "Animal Taming"
+msgstr "Приручение Животных"
+
+#: data/granularity/techs.ruleset:148
+msgid "Archery"
+msgstr "Стрельба из лука"
+
+#: data/granularity/techs.ruleset:157
+msgid "Art"
+msgstr "Искусство"
+
+#: data/granularity/techs.ruleset:175
+msgid "Bronze Weapons"
+msgstr "Бронзовое оружие"
+
+#: data/granularity/techs.ruleset:184
+msgid "Calendar"
+msgstr "Календарь"
+
+#: data/granularity/techs.ruleset:190
+msgid "Allows nations to agree on fixed length ceasefire."
+msgstr "Стороны договариваются о перемирии на фиксированный срок."
+
+#: data/granularity/techs.ruleset:195
+msgid "Carving"
+msgstr "Резьба по дереву"
+
+#: data/granularity/techs.ruleset:201
+msgid "Boats can be carved from wood."
+msgstr "Лодки можно вырезать из древесины."
+
+#: data/granularity/techs.ruleset:204
+msgid "Cave Painting"
+msgstr "Пещерные Рисунки"
+
+#: data/granularity/techs.ruleset:210
+msgid "Cave Paintings record hunting and fights."
+msgstr "Пещерные Рисунки ведут летопись охот и войн."
+
+#: data/granularity/techs.ruleset:213
+msgid "Combat Practice"
+msgstr "Боевое слаживание"
+
+#: data/granularity/techs.ruleset:219
+msgid "Also humans can be trained."
+msgstr "Люди также могут тренироваться."
+
+#: data/granularity/techs.ruleset:224
+msgid "Counting"
+msgstr "Счёт"
+
+#: data/granularity/techs.ruleset:230
+msgid "Allows collecting taxes without miscalculation penalties."
+msgstr "Позволяет собирать налоги без штрафов за ошибки подсчёта."
+
+#: data/granularity/techs.ruleset:235
+msgid "Deception"
+msgstr "Хитрость"
+
+#: data/granularity/techs.ruleset:259
+msgid ""
+"With fire, there can be a place to live permanently. Allows settlements to "
+"grow to size 6."
+msgstr ""
+"С навыком добычи огня могут появляться места постоянного поселения. "
+"Позволяет поселениям расти до размера 6."
+
+#: data/granularity/techs.ruleset:263
+msgid "Fishing"
+msgstr "Рыбалка"
+
+#: data/granularity/techs.ruleset:269
+msgid "Makes it possible to use Oceanic tiles."
+msgstr "Позволяет использовать Морские поля."
+
+#: data/granularity/techs.ruleset:278
+msgid "First flying machines."
+msgstr "Первые летательные аппараты."
+
+#: data/granularity/techs.ruleset:281
+msgid "Food Preservation"
+msgstr "Консервация Еды"
+
+#: data/granularity/techs.ruleset:290
+msgid "Herbs"
+msgstr "Травничество"
+
+#: data/granularity/techs.ruleset:296
+#, fuzzy, c-format
+#| msgid ""
+#| "Makes units that do not move during the turn to heal additional 10% of "
+#| "their maximum hitpoints. Outside cities that might be the only healing "
+#| "they do."
+msgid ""
+"Makes units that do not move during the turn to heal additional 10% of their "
+"maximum hitpoints. Outside cities that might be the only healing they do."
+msgstr ""
+"Соединения, не двигавшиеся в течение хода, восстанавливают дополнительные "
+"10% от их максимальных очков жизни. Это, возможно, единственное лечение, "
+"доступное соединениям за пределами городов."
+
+#: data/granularity/techs.ruleset:302
+msgid "Geometry"
+msgstr "Геометрия"
+
+#: data/granularity/techs.ruleset:335
+msgid ""
+"If both parties know this advance, Maps and Seamaps can be exchanged between "
+"players."
+msgstr ""
+"Если обе стороны знают эту технологию, игроки могут обмениваться Картами "
+"Мира и Морей."
+
+#: data/granularity/techs.ruleset:349 tools/manual/manual_terrain.c:51
+msgid "Mining"
+msgstr "Шахты"
+
+#: data/granularity/techs.ruleset:365
+#, no-c-format
+msgid ""
+"As food can be stored, granary is set to 15% full when city grows or 25% "
+"full when city shrinks."
+msgstr ""
+"Поскольку еда теперь лучше сохраняется, городское хранилище еды остаётся "
+"заполненным на 15% при росте размера города и на 25% — при сокращении."
+
+#: data/granularity/techs.ruleset:371
+msgid "Road Building"
+msgstr "Строительство Дорог"
+
+#: data/granularity/techs.ruleset:377
+msgid "Allows build actual roads."
+msgstr "Позволяет строить необходимые дороги."
+
+#: data/granularity/techs.ruleset:380
+msgid "Rituals"
+msgstr "Ритуалы"
+
+# FIXME: buy - by
+#: data/granularity/techs.ruleset:386
+msgid ""
+"Provides a morale boost increasing both attack and defense values of units "
+"by 20%."
+msgstr ""
+"Обеспечивают улучшение морали войска, увеличивая как атаку, так и защиту "
+"соединений на 20%."
+
+#: data/granularity/techs.ruleset:391
+msgid "Rope"
+msgstr "Связывание"
+
+#: data/granularity/techs.ruleset:400
+msgid "Siege Engines"
+msgstr "Осадные Механизмы"
+
+#: data/granularity/techs.ruleset:409
+msgid "Spirits"
+msgstr "Спиритизм"
+
+#: data/granularity/techs.ruleset:415
+msgid ""
+"Belief in natural spirits is the first step in Religious tech tree branch."
+msgstr "Общение с духами природы — первый шаг к постижению религии."
+
+#: data/granularity/techs.ruleset:426
+msgid ""
+"With carts it's possible to bring produce and resources longer distance "
+"away. Increases city radius."
+msgstr ""
+"Позволяет строить тележные поезда, перевозя ресурсы на более дальнее "
+"расстояние. Увеличивает радиус города."
+
+#: data/granularity/techs.ruleset:432
+msgid "Tools"
+msgstr "Панели"
+
+#: data/granularity/techs.ruleset:438
+msgid ""
+"Anything can be done with right tools. Allows more efficient use of "
+"production resources."
+msgstr ""
+"С правильным инструментом можно сделать всё что угодно. Позволяет более "
+"эффективно использовать ресурсы Производства."
+
+#: data/granularity/techs.ruleset:444
+msgid "Trenches"
+msgstr "Траншеи"
+
+#: data/granularity/techs.ruleset:450
+msgid "Allows units to fortify."
+msgstr "Позволяет соединениям укрепляться."
+
+#: data/granularity/terrain.ruleset:443 server/ruleset/ruleload.c:3157
+msgid "?gui_type:Build Type A Base"
+msgstr "База типа A"
+
+#: data/granularity/terrain.ruleset:446 server/ruleset/ruleload.c:3162
+msgid "?gui_type:Build Type B Base"
+msgstr "База типа B"
+
+#: data/granularity/terrain.ruleset:595
+msgid "Irrigation increases tile food production."
+msgstr "Орошение увеличивает производство полем Еды."
+
+#: data/granularity/terrain.ruleset:598
+msgid "Nets"
+msgstr "Рыболовные сети"
+
+#: data/granularity/terrain.ruleset:619
+msgid "Nets increase ocean tile food production."
+msgstr "Сети увеличивают производство Еды с Морских полей."
+
+#: data/granularity/terrain.ruleset:622
+msgid "Generic Base"
+msgstr "Кордон"
+
+#: data/granularity/terrain.ruleset:644
+msgid "Path"
+msgstr "Тропа"
+
+#: data/granularity/terrain.ruleset:666
+msgid "Path is the simplest road type, buildable from the beginning."
+msgstr "Тропа — простейший вид Дороги, доступный с самого начала."
+
+#: data/granularity/terrain.ruleset:711
+msgid ""
+"Any land terrain type may have a River on it. Land units may move along a "
+"River (but not diagonally) for fast travel."
+msgstr ""
+"Любой Наземный рельеф может содержать Реку. Наземные соединения могут "
+"двигаться вдоль Реки (но не по диагонали) с более высокой скоростью."
+
+#: data/granularity/terrain.ruleset:717
+msgid "Generic Resource"
+msgstr "Ресурс"
+
+#: data/granularity/units.ruleset:32
+msgid "Defenseless"
+msgstr "Беззащитное"
+
+#: data/granularity/units.ruleset:32
+msgid "Can be captured by any military unit."
+msgstr "Может быть пленено любым Военным соединением."
+
+#. TRANS: terrain class: used adjectivally
+#: data/granularity/units.ruleset:128 gen_headers/enums/terrain_enums.def:10
+msgid "Land"
+msgstr "Наземное"
+
+#: data/granularity/units.ruleset:140
+msgid "Air"
+msgstr "Покорение Воздуха"
+
+#: data/granularity/units.ruleset:401
+msgid "Nomad"
+msgstr "Кочевник"
+
+#: data/granularity/units.ruleset:428
+msgid ""
+"Nomads can both fight and found new cities, but unlike specialized units "
+"they cost two population points to build."
+msgstr ""
+"Кочевники могут как сражаться, так и основывать новые города, но в отличие "
+"от специализированных соединений стоят потери двух единиц населения."
+
+#: data/granularity/units.ruleset:464
+msgid "Warriors are the first unit specialized in war."
+msgstr "Воины — первое соединение, специализирующееся на войне."
+
+#: data/granularity/units.ruleset:499
+msgid "Phalanx is a good defender for your early cities."
+msgstr "Фаланга — хороший защитник для Ваших ранних городов."
+
+#: data/granularity/units.ruleset:504
+msgid "Hunters"
+msgstr "Охотники"
+
+#: data/granularity/units.ruleset:534
+msgid ""
+"Hunters and their dogs can mostly provide upkeep for themselves, not "
+"requiring as much of it from their homecity."
+msgstr ""
+"Охотники со своими собаками способны в основном обеспечивать себя сами, не "
+"требуя много ресурсов от родного города."
+
+#: data/granularity/units.ruleset:540
+msgid "Mercenaries"
+msgstr "Наёмники"
+
+#: data/granularity/units.ruleset:570
+msgid ""
+"Mercenaries are not bound to march under specific flag, but can be serving "
+"any master."
+msgstr ""
+"Наёмники не служат под каким-либо флагом, а подчиняются тому, кто им платит."
+
+#: data/granularity/units.ruleset:605
+msgid "Powerful attack unit."
+msgstr "Мощное атакующее соединение."
+
+#: data/granularity/units.ruleset:640
+msgid "Horsemen are the first fast unit."
+msgstr "Наездники — первое быстроходное соединение."
+
+#: data/granularity/units.ruleset:676
+msgid ""
+"Catapults are the first bombarding unit and it can also destroy buildings."
+msgstr ""
+"Катапульта — Ваше первое Бомбардировочное соединение, может разрушать Здания."
+
+#: data/granularity/units.ruleset:712
+msgid "Unit capable of bombing enemy cities, and more."
+msgstr ""
+"Соединение, способное бомбардировать вражеские города, а так же кое-то ещё."
+
+#: data/granularity/units.ruleset:746
+msgid "Settlers are specialized in founding new cities."
+msgstr "Колонисты специализируются на основании новых городов."
+
+#: data/granularity/units.ruleset:781
+msgid ""
+"Workers have the ability to transform terrain by cutting and planting trees "
+"and plants."
+msgstr ""
+"Рабочие имеют способность к преобразованию рельефа: они могут вырубать леса "
+"и разбивать сады."
+
+#: data/granularity/units.ruleset:787
+msgid "Boats"
+msgstr "Лодка"
+
+#: data/granularity/units.ruleset:818
+msgid "Boats carved from logs."
+msgstr "Лодки-долблёнки вырезаются из брёвен."
+
+#: data/granularity/units.ruleset:823
+msgid "Emissary"
+msgstr "Эмиссар"
+
+#: data/granularity/units.ruleset:853
+msgid "Diplomatic unit."
+msgstr "Дипломатическое соединение."
+
 #: data/nation/american.ruleset:8
 msgid ""
 "The United States of America achieved its independence from Great Britain "
@@ -42124,7 +42679,7 @@ msgstr ""
 #: data/scenarios/tutorial.sav:248
 #, c-format
 msgid ""
-"Congratulations, you have grown %s to size 13. A city this\n"
+"Congratulations, you have grown %s to size 17. A city this\n"
 "large can provide a tremendous amount of output if properly upgraded.\n"
 "Make sure you have enough taxes and cultural buildings to keep your\n"
 "citizens content. You should also make sure the city is upgraded\n"
@@ -42136,7 +42691,7 @@ msgid ""
 "provide enough taxable revenue (gold) to allow you to purchase some\n"
 "buildings to accelerate their productions."
 msgstr ""
-"Поздравляем, Вы довели город %s до 13-го размера.  Такой большой город\n"
+"Поздравляем, Вы вырастили город %s до размера 17. Такой большой город\n"
 "может производить громадное количество разнообразных ресурсов, если он\n"
 "построен грамотно. Убедитесь, что у Вас достаточное количество роскоши и\n"
 "культурных сооружений, чтобы жители оставались довольными. Также сто ́ит\n"
@@ -42449,11 +43004,6 @@ msgstr "Формы Правления"
 #: gen_headers/enums/manual_enums.def:15
 msgid "Techs"
 msgstr "Открытия"
-
-#. TRANS: terrain class: used adjectivally
-#: gen_headers/enums/terrain_enums.def:10
-msgid "Land"
-msgstr "Наземное"
 
 #. TRANS: terrain class: used adjectivally
 #: gen_headers/enums/terrain_enums.def:12
@@ -43113,6 +43663,16 @@ msgstr ""
 "\n"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
+#: tools/manual/manual_extras.c:48
+#, c-format
+msgid ""
+"%sFreeciv %s extras help (%s)%s\n"
+"\n"
+msgstr ""
+"%sFreeciv %s: справка по Сооружениям (%s)%s\n"
+"\n"
+
+#. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/manual/manual_governments.c:51
 #, c-format
 msgid ""
@@ -43209,10 +43769,6 @@ msgstr "Стоимость движения"
 #: tools/manual/manual_terrain.c:49
 msgid "Defense bonus"
 msgstr "Бонус защиты"
-
-#: tools/manual/manual_terrain.c:51
-msgid "Mining"
-msgstr "Шахты"
 
 #: tools/manual/manual_terrain.c:53
 #, no-c-format
@@ -44001,12 +44557,12 @@ msgstr[0] "Город %s продаёт устаревшее здание %s з�
 msgstr[1] "Город %s продаёт устаревшее здание %s за %d золота."
 msgstr[2] "Город %s продаёт устаревшее здание %s за %d золотых."
 
-#: server/cityturn.c:498
+#: server/cityturn.c:499
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Сообщение: Чудо %s в городе %s будет готово на следующий ход."
 
-#: server/cityturn.c:533
+#: server/cityturn.c:534
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
@@ -44014,58 +44570,58 @@ msgstr ""
 "Предлагается временно уменьшить скорость роста населения в городе %s, чтобы "
 "эффективно использовать %s (строится)."
 
-#: server/cityturn.c:548
+#: server/cityturn.c:549
 #, c-format
 msgid "%s may soon grow to size %i."
 msgstr "Город %s вскоре может вырасти до размера %i."
 
-#: server/cityturn.c:560
+#: server/cityturn.c:561
 #, c-format
 msgid "Warning: Famine feared in %s."
 msgstr "Предупреждение: Городу %s угрожает голод."
 
-#: server/cityturn.c:931
+#: server/cityturn.c:932
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr "Городу %s требуется %s (строится) для роста свыше размера %d."
 
-#: server/cityturn.c:937
+#: server/cityturn.c:938
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
 msgstr "Городу %s требуется построить здание для роста свыше размера %d."
 
-#: server/cityturn.c:1015
+#: server/cityturn.c:1016
 #, c-format
 msgid "%s grows to size %d."
 msgstr "Город %s вырос до размера %d."
 
-#: server/cityturn.c:1087
+#: server/cityturn.c:1088
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
 msgstr ""
 "Недавно пронёсшаяся вспышка эпидемии остановила рост населения в городе %s."
 
-#: server/cityturn.c:1119
+#: server/cityturn.c:1120
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "Город %s на грани голода, %s потеряны!"
 
-#: server/cityturn.c:1133
+#: server/cityturn.c:1134
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "Голод вызвал потерю населения в городе %s."
 
-#: server/cityturn.c:1138
+#: server/cityturn.c:1139
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "Город %s из-за голода был полностью покинут жителями."
 
-#: server/cityturn.c:1199
+#: server/cityturn.c:1200
 #, c-format
 msgid "%s can't build %s from the worklist. Postponing..."
 msgstr "Город %s не может строить %s по плану. Откладываем..."
 
-#: server/cityturn.c:1214
+#: server/cityturn.c:1215
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; counter %s value's checkpoint do not "
@@ -44074,7 +44630,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — пороговое значение счётчика "
 "%s не достигнуто. Откладываем..."
 
-#: server/cityturn.c:1229 server/cityturn.c:2247
+#: server/cityturn.c:1230 server/cityturn.c:2248
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
@@ -44082,7 +44638,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — технология %s пока ещё "
 "недоступна. Откладываем..."
 
-#: server/cityturn.c:1246
+#: server/cityturn.c:1247
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
@@ -44091,8 +44647,8 @@ msgstr ""
 "Город %s не может строить здание %s по плану — ещё не доступна ни одна "
 "технология с флагом \"%s\". Откладываем..."
 
-#: server/cityturn.c:1267 server/cityturn.c:1297 server/cityturn.c:1327
-#: server/cityturn.c:1353
+#: server/cityturn.c:1268 server/cityturn.c:1298 server/cityturn.c:1328
+#: server/cityturn.c:1354
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first. Postponing..."
@@ -44100,15 +44656,15 @@ msgstr ""
 "Город %s не может строить здание %s по плану — нужно сначала построить "
 "здание %s. Откладываем..."
 
-#: server/cityturn.c:1278 server/cityturn.c:1308 server/cityturn.c:1338
-#: server/cityturn.c:1364
+#: server/cityturn.c:1279 server/cityturn.c:1309 server/cityturn.c:1339
+#: server/cityturn.c:1365
 #, c-format
 msgid "%s can't build %s from the worklist; need to not have %s. Postponing..."
 msgstr ""
 "Город %s не может строить здание %s по плану — мешает здание %s. "
 "Откладываем..."
 
-#: server/cityturn.c:1381
+#: server/cityturn.c:1382
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government. Postponing..."
@@ -44116,7 +44672,7 @@ msgstr ""
 "Город %s не может строить %s по плану — необходимо иметь Форму Правления %s. "
 "Откладываем..."
 
-#: server/cityturn.c:1391
+#: server/cityturn.c:1392
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it cannot have %s government. "
@@ -44125,7 +44681,7 @@ msgstr ""
 "Город %s не может строить %s по плану — его нельзя построить при форме "
 "правления %s. Откладываем..."
 
-#: server/cityturn.c:1404
+#: server/cityturn.c:1405
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs \"%s\" achievement. "
@@ -44134,7 +44690,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — оно требует наличия "
 "достижения \"%s\". Откладываем..."
 
-#: server/cityturn.c:1420 server/cityturn.c:1443
+#: server/cityturn.c:1421 server/cityturn.c:1444
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is required. Postponing..."
@@ -44142,14 +44698,14 @@ msgstr ""
 "Город %s не может строить %s по плану — необходимо сооружение %s. "
 "Откладываем..."
 
-#: server/cityturn.c:1430 server/cityturn.c:1453
+#: server/cityturn.c:1431 server/cityturn.c:1454
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is prohibited. Postponing..."
 msgstr ""
 "Город %s не может строить %s по плану — мешает сооружение %s. Откладываем..."
 
-#: server/cityturn.c:1466
+#: server/cityturn.c:1467
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is required. "
@@ -44157,7 +44713,7 @@ msgid ""
 msgstr ""
 "Город %s не может строить %s по плану — необходим рельеф %s. Откладываем..."
 
-#: server/cityturn.c:1476
+#: server/cityturn.c:1477
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is prohibited. "
@@ -44166,7 +44722,7 @@ msgstr ""
 "Город %s не может строить %s по плану — мешает рельеф %s. Откладываем..."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1495
+#: server/cityturn.c:1496
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is required. "
@@ -44175,7 +44731,7 @@ msgstr ""
 "Город %s не может строить %s по плану — сможет только народ %s. "
 "Откладываем..."
 
-#: server/cityturn.c:1505
+#: server/cityturn.c:1506
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -44185,7 +44741,7 @@ msgstr ""
 "Откладываем..."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1525
+#: server/cityturn.c:1526
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is required. "
@@ -44194,7 +44750,7 @@ msgstr ""
 "Город %s не может строить %s по плану — сможет только народ группы %s. "
 "Откладываем..."
 
-#: server/cityturn.c:1535
+#: server/cityturn.c:1536
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -44203,7 +44759,7 @@ msgstr ""
 "Город %s не может строить %s по плану — оно недоступно народу группы %s. "
 "Откладываем..."
 
-#: server/cityturn.c:1552
+#: server/cityturn.c:1553
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s style cities may build this. "
@@ -44212,7 +44768,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — оно доступно только городам "
 "стиля %s. Откладываем..."
 
-#: server/cityturn.c:1562
+#: server/cityturn.c:1563
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s style cities may not build this. "
@@ -44222,7 +44778,7 @@ msgstr ""
 "строить. Откладываем..."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1578
+#: server/cityturn.c:1579
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city with %s may build this. "
@@ -44232,7 +44788,7 @@ msgstr ""
 "город, в котором есть жители национальности %s. Откладываем..."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1589
+#: server/cityturn.c:1590
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city without %s may build this. "
@@ -44244,7 +44800,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1614
+#: server/cityturn.c:1615
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is required.  "
@@ -44253,7 +44809,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — необходимы отношения '%s'.  "
 "Откладываем..."
 
-#: server/cityturn.c:1638
+#: server/cityturn.c:1639
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is prohibited.  "
@@ -44265,7 +44821,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1669
+#: server/cityturn.c:1670
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; unit with the relationship '%s' is "
@@ -44274,7 +44830,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — необходимо соединение с "
 "отношениями '%s'.  Откладываем..."
 
-#: server/cityturn.c:1691
+#: server/cityturn.c:1692
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; unit with the relationship '%s' is "
@@ -44283,7 +44839,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — наличие соединения с "
 "отношениями '%s' недопустимо.  Откладываем..."
 
-#: server/cityturn.c:1714
+#: server/cityturn.c:1715
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or larger. "
@@ -44292,7 +44848,7 @@ msgstr ""
 "Город %s не может строить %s по плану — размер города должен быть не меньше "
 "%d. Откладываем..."
 
-#: server/cityturn.c:1725
+#: server/cityturn.c:1726
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or smaller."
@@ -44301,7 +44857,7 @@ msgstr ""
 "Город %s не может строить %s по плану — размер города не должен превышать "
 "%d. Откладываем..."
 
-#: server/cityturn.c:1739
+#: server/cityturn.c:1740
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have culture of %d. "
@@ -44310,7 +44866,7 @@ msgstr ""
 "Город %s не может строить %s по плану — город должен иметь уровень культуры "
 "не ниже %d. Откладываем..."
 
-#: server/cityturn.c:1755
+#: server/cityturn.c:1756
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% foreign population. "
@@ -44319,7 +44875,7 @@ msgstr ""
 "Город %s не может строить %s по плану — население должно минимум на %d%% "
 "состоять из иностранцев. Откладываем..."
 
-#: server/cityturn.c:1765
+#: server/cityturn.c:1766
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% native population. "
@@ -44329,7 +44885,7 @@ msgstr ""
 "%d%% титульной нацией. Откладываем..."
 
 # FIXME: pluralization.
-#: server/cityturn.c:1778
+#: server/cityturn.c:1779
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %d techs must be known. Postponing..."
@@ -44338,14 +44894,14 @@ msgstr ""
 "Откладываем..."
 
 # FIXME: pluralization
-#: server/cityturn.c:1793
+#: server/cityturn.c:1794
 #, c-format
 msgid "%s can't build %s from the worklist; Must own %d cities. Postponing..."
 msgstr ""
 "Город %s не может строить здание %s по плану — у игрока должно быть не менее "
 "%d городов.  Откладываем..."
 
-#: server/cityturn.c:1808
+#: server/cityturn.c:1809
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; more than %d unit on tile.  "
@@ -44363,7 +44919,7 @@ msgstr[2] ""
 "Город %s не может строить %s по плану — на поле уже больше %d соединений.  "
 "Откладываем..."
 
-#: server/cityturn.c:1823
+#: server/cityturn.c:1824
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; fewer than %d unit on tile.  "
@@ -44381,7 +44937,7 @@ msgstr[2] ""
 "Город %s не может строить %s по плану — на поле меньше %d соединений.  "
 "Откладываем..."
 
-#: server/cityturn.c:1850
+#: server/cityturn.c:1851
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
@@ -44390,7 +44946,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — необходим рельеф с флагом "
 "\"%s\". Откладываем..."
 
-#: server/cityturn.c:1861
+#: server/cityturn.c:1862
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is prohibited. "
@@ -44399,7 +44955,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — рельеф с флагом \"%s\" "
 "недопустим. Откладываем..."
 
-#: server/cityturn.c:1875
+#: server/cityturn.c:1876
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is required. "
@@ -44408,7 +44964,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — необходима дорога с флагом "
 "\"%s\". Откладываем..."
 
-#: server/cityturn.c:1886
+#: server/cityturn.c:1887
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is prohibited. "
@@ -44417,7 +44973,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — мешает дорога с флагом "
 "\"%s\". Откладываем..."
 
-#: server/cityturn.c:1900
+#: server/cityturn.c:1901
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
@@ -44426,7 +44982,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — необходимо улучшение с флагом "
 "\"%s\". Откладываем..."
 
-#: server/cityturn.c:1911
+#: server/cityturn.c:1912
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is prohibited. "
@@ -44435,7 +44991,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — мешает улучшение с флагом "
 "\"%s\". Откладываем..."
 
-#: server/cityturn.c:1933
+#: server/cityturn.c:1934
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; different terrain class nearby is "
@@ -44444,7 +45000,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану — поблизости отсутствует рельеф "
 "необходимого класса. Откладываем..."
 
-#: server/cityturn.c:1943
+#: server/cityturn.c:1944
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; different terrain class nearby is "
@@ -44454,7 +45010,7 @@ msgstr ""
 "другого класса недопустимо. Откладываем..."
 
 #. TRANS: last %s is a CityStatus ("OwnedByOriginal")
-#: server/cityturn.c:1985
+#: server/cityturn.c:1986
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when city in range %s "
@@ -44465,7 +45021,7 @@ msgstr ""
 "Откладываем..."
 
 #. TRANS: last %s is a CityStatus ("OwnedByOriginal")
-#: server/cityturn.c:1997
+#: server/cityturn.c:1998
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; not available when city in range %s is "
@@ -44477,7 +45033,7 @@ msgstr ""
 #. TRANS: last %s is a date
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:2017 server/cityturn.c:2037
+#: server/cityturn.c:2018 server/cityturn.c:2038
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -44487,7 +45043,7 @@ msgstr ""
 
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:2050
+#: server/cityturn.c:2051
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; not available after %s. Postponing..."
@@ -44499,7 +45055,7 @@ msgstr ""
 #. * ("Hex", "ISO"
 #. TRANS: third %s is wrap flag name
 #. * ("WrapX", "Wrapy")
-#: server/cityturn.c:2065 server/cityturn.c:2081
+#: server/cityturn.c:2066 server/cityturn.c:2082
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available in worlds with %s map."
@@ -44512,7 +45068,7 @@ msgstr ""
 #. * The string's format is specified in
 #. * ssetv_human_readable().
 #. * Example: "killstack is enabled".
-#: server/cityturn.c:2099
+#: server/cityturn.c:2100
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when the server setting "
@@ -44521,7 +45077,7 @@ msgstr ""
 "Город %s не может строить здание %s по плану; строительство возможно только "
 "при параметре сервера %s."
 
-#: server/cityturn.c:2115
+#: server/cityturn.c:2116
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
@@ -44531,7 +45087,7 @@ msgstr ""
 "только после %d-го хода. Откладываем..."
 
 # FIXME: pluralization
-#: server/cityturn.c:2131
+#: server/cityturn.c:2132
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old form. "
@@ -44541,7 +45097,7 @@ msgstr ""
 "только после %d-го хода с основания. Откладываем..."
 
 # FIXME: pluralization.
-#: server/cityturn.c:2254
+#: server/cityturn.c:2255
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; multiple techs still needed. "
@@ -44550,59 +45106,59 @@ msgstr ""
 "Город %s не может строить %s по плану; всё ещё не хватает знания нескольких "
 "технологий! Откладываем..."
 
-#: server/cityturn.c:2276 server/cityturn.c:2344
+#: server/cityturn.c:2277 server/cityturn.c:2345
 #, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "Город %s не может строить %s по плану. Удаляем..."
 
-#: server/cityturn.c:2295 server/cityturn.c:2333 server/cityturn.c:2466
-#: server/cityturn.c:2512
+#: server/cityturn.c:2296 server/cityturn.c:2334 server/cityturn.c:2467
+#: server/cityturn.c:2513
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Производство %1$s в городе %3$s модернизировано до %2$s."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:2382
+#: server/cityturn.c:2383
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "План производства города %s теперь пуст."
 
-#: server/cityturn.c:2546
+#: server/cityturn.c:2547
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Город %s не может поддерживать %s, соединение расформировано."
 
-#: server/cityturn.c:2586
+#: server/cityturn.c:2587
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Жители города %s умирают, надрываясь в попытке содержать %s!"
 
-#: server/cityturn.c:2592
+#: server/cityturn.c:2593
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep units!"
 msgstr "Жители города %s изнурены, надрываясь в попытке содержать соединения!"
 
-#: server/cityturn.c:2639 server/cityturn.c:2853
+#: server/cityturn.c:2640 server/cityturn.c:2854
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "Город %s строит здание %s, которое больше не доступно."
 
-#: server/cityturn.c:2671
+#: server/cityturn.c:2672
 #, c-format
 msgid "Completion of %s"
 msgstr "Завершено строительство здания %s"
 
-#: server/cityturn.c:2680
+#: server/cityturn.c:2681
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s завершили строительство Чуда %s в городе %s."
 
-#: server/cityturn.c:2687
+#: server/cityturn.c:2688
 #, c-format
 msgid "%s has finished building %s."
 msgstr "В городе %s завершено строительство здания %s."
 
-#: server/cityturn.c:2708
+#: server/cityturn.c:2709
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -44611,25 +45167,25 @@ msgstr[1] "%s ускоряет исследования, Вы немедленн
 msgstr[2] "%s ускоряет исследования, Вы немедленно получаете %d технологий."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2722
+#: server/cityturn.c:2723
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "Чудо %2$s дало Вам технологию %1$s."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2728
+#: server/cityturn.c:2729
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "%s получили технологию %s от Чуда %s."
 
-#: server/cityturn.c:2735
+#: server/cityturn.c:2736
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s начали строительство космического корабля!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2878
+#: server/cityturn.c:2879
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -44638,14 +45194,14 @@ msgstr ""
 
 # FIXME: misleading TRANS-comment. Only unit can be here.
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2913
+#: server/cityturn.c:2914
 #, c-format
 msgid "%s is finished building %s."
 msgstr "В городе %s закончено формирование соединения %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2950
+#: server/cityturn.c:2951
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
@@ -44659,61 +45215,61 @@ msgstr[2] ""
 "Со строительством соединения %1$s размер города %3$s уменьшился на %2$d до "
 "%4$d."
 
-#: server/cityturn.c:3030
+#: server/cityturn.c:3031
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Невозможно содержать %s в %s, здание продано!"
 
-#: server/cityturn.c:3181
+#: server/cityturn.c:3182
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Недостаточно золота. Соединение %s расформировано."
 
-#: server/cityturn.c:3421 server/cityturn.c:4301
+#: server/cityturn.c:3422 server/cityturn.c:4302
 #, c-format
 msgid "Pollution near %s."
 msgstr "Загрязнение возле %s."
 
-#: server/cityturn.c:3603
+#: server/cityturn.c:3604
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "В городе %s начался праздник."
 
-#: server/cityturn.c:3609
+#: server/cityturn.c:3610
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Праздник в городе %s завершён."
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3713
+#: server/cityturn.c:3714
 msgid " Unrest threatens to spread beyond the city."
 msgstr " Существует угроза распространения беспорядков за пределы города."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3720
+#: server/cityturn.c:3721
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "Гражданские беспорядки в городе %s.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3725
+#: server/cityturn.c:3726
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "В ГОРОДЕ %s ПРОДОЛЖАЮТСЯ ГРАЖДАНСКИЕ БЕСПОРЯДКИ.%s"
 
-#: server/cityturn.c:3731
+#: server/cityturn.c:3732
 #, c-format
 msgid "Order restored in %s."
 msgstr "В городе %s был восстановлен порядок."
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3749
+#: server/cityturn.c:3750
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Ваша %s свергнута, страна в хаосе."
 
-#: server/cityturn.c:3793
+#: server/cityturn.c:3794
 #, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
@@ -44721,13 +45277,13 @@ msgstr ""
 "единственный город."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3822
+#: server/cityturn.c:3823
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "Город %s был разрушен, вместо него у нас теперь есть %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:4030
+#: server/cityturn.c:4031
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -44735,7 +45291,7 @@ msgstr ""
 "Мигранты из города %s не могут переехать в %s, так как там недостаточно еды!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4037
+#: server/cityturn.c:4038
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -44745,7 +45301,7 @@ msgstr ""
 "недостаточно еды!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:4042
+#: server/cityturn.c:4043
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -44755,7 +45311,7 @@ msgstr ""
 "недостаточно еды!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:4057
+#: server/cityturn.c:4058
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -44764,7 +45320,7 @@ msgstr ""
 "здание, необходимое для обеспечения жильём растущего населения!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:4064
+#: server/cityturn.c:4065
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -44774,7 +45330,7 @@ msgstr ""
 "населения!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:4069
+#: server/cityturn.c:4070
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -44783,43 +45339,43 @@ msgstr ""
 "ещё не построено здание, необходимое для обеспечения жильём растущего "
 "населения!"
 
-#: server/cityturn.c:4118
+#: server/cityturn.c:4119
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "Город %s был разрушен после того как был оставлен своими жителями."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:4156
+#: server/cityturn.c:4157
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Мигранты из %s в поисках лучшей жизни переехали в город %s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4162
+#: server/cityturn.c:4163
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Мигранты из %s в поисках лучшей жизни переехали в %s, город народа %s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:4167
+#: server/cityturn.c:4168
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 "Мигранты из %s, города народа %s, в поисках лучшей жизни переехали в %s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:4259
+#: server/cityturn.c:4260
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "В городе %s бедствием были уничтожены все запасы еды."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:4281
+#: server/cityturn.c:4282
 #, c-format
 msgid "%s was hit by %s."
 msgstr "Бедствие: %2$s в городе %1$s!"
 
-#: server/cityturn.c:4291
+#: server/cityturn.c:4292
 #, c-format
 msgid "Robbery in %s. %d gold stolen."
 msgid_plural "Robbery in %s. %d gold stolen."
@@ -44827,42 +45383,42 @@ msgstr[0] "Город %s разграблен. Украден %d золотой.
 msgstr[1] "Город %s был разграблен. Украдено %d золотых."
 msgstr[2] "Город %s был разграблен. Украдено %d золотых."
 
-#: server/cityturn.c:4309
+#: server/cityturn.c:4310
 #, c-format
 msgid "Fallout near %s."
 msgstr "Радиоактивное заражение в окрестностях города %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:4320
+#: server/cityturn.c:4321
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "Бедствие %s полностью разрушило город %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:4326
+#: server/cityturn.c:4327
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "Бедствие %s вызвало потерю населения в городе %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:4351
+#: server/cityturn.c:4352
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "Бедствие %s уничтожило здание %s в городе %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:4376
+#: server/cityturn.c:4377
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Строившееся в городе %2$s Чудо %1$s было разрушено."
 
-#: server/cityturn.c:4546
+#: server/cityturn.c:4547
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "Жители города %s в поисках лучшей жизни подумывают о переезде в %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4568
+#: server/cityturn.c:4569
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -47413,7 +47969,7 @@ msgstr ""
 "Влажные области высохли и обширные равнинные пространства превратились в "
 "тундру."
 
-#: server/maphand.c:313
+#: server/maphand.c:315
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new "
 "infrastructure building technology is announced."
@@ -47421,7 +47977,7 @@ msgstr ""
 "Новая надежда как огонь пробегает по всей стране после объявления об "
 "открытии новой технологии строительства инфраструктуры."
 
-#: server/maphand.c:320
+#: server/maphand.c:322
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "infrastructure building technology."
@@ -47429,7 +47985,7 @@ msgstr ""
 "Люди рады слышать, что Ваши ученые наконец-то узнали о новой технологии "
 "строительства инфраструктуры."
 
-#: server/maphand.c:328
+#: server/maphand.c:330
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "infrastructure."
@@ -47437,17 +47993,17 @@ msgstr ""
 "Рабочие внезапно собираются и улучшают инфраструктуру во всех имеющих её "
 "городах."
 
-#: server/maphand.c:332
+#: server/maphand.c:334
 #, c-format
 msgid "Workers spontaneously gather and upgrade all possible cities with %s."
 msgstr "Рабочие внезапно собираются и меняют дороги во всех городах на %s."
 
-#: server/maphand.c:1831
+#: server/maphand.c:1833
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Ваше соединение %s было передвинуто в связи с изменением рельефа."
 
-#: server/maphand.c:1885
+#: server/maphand.c:1887
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Ваше соединение %s было расформировано из-за изменения рельефа."
@@ -48202,14 +48758,6 @@ msgstr "Используется Соединений\n"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Не удалось найти читаемый файл с правилами \"%s.%s\"."
 
-#: server/ruleset/ruleload.c:3157
-msgid "?gui_type:Build Type A Base"
-msgstr "База типа A"
-
-#: server/ruleset/ruleload.c:3162
-msgid "?gui_type:Build Type B Base"
-msgstr "База типа B"
-
 #: server/ruleset/ruleload.c:9207
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Невозможно загрузить набор правил. Оставляем предыдущий."
@@ -48249,7 +48797,7 @@ msgstr "Для Зданий указаны конфликтующие или н�
 msgid "Buildings have conflicting or invalid obsolescence req!"
 msgstr "Для Зданий указаны конфликтующие или неверные правила устаревания!"
 
-#: server/ruleset/rssanity.c:1648
+#: server/ruleset/rssanity.c:1647
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
 msgstr ""
 "Отключение параметра 'barbarians' из-за недостатка подходящих типов "
@@ -48304,47 +48852,47 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Ошибка загрузки набора правил \"%s\", использующегося в сохранённой игре."
 
-#: server/savegame/savegame2.c:2956 server/savegame/savegame3.c:3984
-#: server/srv_main.c:2539 server/srv_main.c:2544
+#: server/savegame/savegame2.c:2957 server/savegame/savegame3.c:3987
+#: server/srv_main.c:2543 server/srv_main.c:2548
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
 "Игрок %s был добавлен как управляемый компьютером игрок уровня %s (%s)."
 
-#: server/savegame/savegame2.c:2961 server/savegame/savegame3.c:3989
+#: server/savegame/savegame2.c:2962 server/savegame/savegame3.c:3992
 #, c-format
 msgid "%s has been added as human player."
 msgstr "Игрок %s был добавлен как игрок-человек."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2985 server/savegame/savegame3.c:4012
+#: server/savegame/savegame2.c:2986 server/savegame/savegame3.c:4015
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "У игрока %s был неверный народ. Меняем его народ на %s."
 
-#: server/savegame/savegame2.c:3072 server/savegame/savegame2.c:3078
-#: server/savegame/savegame3.c:4103 server/savegame/savegame3.c:4109
+#: server/savegame/savegame2.c:3073 server/savegame/savegame2.c:3079
+#: server/savegame/savegame3.c:4106 server/savegame/savegame3.c:4112
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr ""
 "Игрок %s не поделился своим видением обстановки с партнёром по команде %s."
 
-#: server/savegame/savegame2.c:5629 server/savegame/savegame3.c:8075
+#: server/savegame/savegame2.c:5630 server/savegame/savegame3.c:8078
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s: неверная изучаемая технология."
 
-#: server/savegame/savegame2.c:5639 server/savegame/savegame3.c:8085
+#: server/savegame/savegame2.c:5640 server/savegame/savegame3.c:8088
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s: неверная технологическая цель."
 
-#: server/savegame/savegame2.c:5648 server/savegame/savegame3.c:8094
+#: server/savegame/savegame2.c:5649 server/savegame/savegame3.c:8097
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "%s: неверное количество изученных технологий."
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8112
+#: server/savegame/savegame2.c:5689 server/savegame/savegame3.c:8115
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -51986,53 +52534,53 @@ msgstr ""
 "Database\n"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:379 server/srv_main.c:507
+#: server/srv_main.c:381 server/srv_main.c:509
 #, c-format
 msgid "?winners:, the %s"
 msgstr ", %s"
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:383 server/srv_main.c:502
+#: server/srv_main.c:385 server/srv_main.c:504
 #, c-format
 msgid "?winners:the %s"
 msgstr "%s"
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:393 server/srv_main.c:394
+#: server/srv_main.c:395 server/srv_main.c:396
 #, c-format
 msgid "Scenario victory to %s."
 msgstr "В игре победили %s."
 
-#: server/srv_main.c:422 server/srv_main.c:423 server/stdinhand.c:4766
+#: server/srv_main.c:424 server/srv_main.c:425 server/stdinhand.c:4766
 msgid "Game is over."
 msgstr "Игра окончена."
 
-#: server/srv_main.c:456 server/srv_main.c:458 server/srv_main.c:644
+#: server/srv_main.c:458 server/srv_main.c:460 server/srv_main.c:646
 #, c-format
 msgid "Team victory to %s."
 msgstr "Командная победа: %s."
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:514 server/srv_main.c:515
+#: server/srv_main.c:516 server/srv_main.c:517
 #, c-format
 msgid "Allied victory to %s."
 msgstr "Командная победа: %s."
 
-#: server/srv_main.c:541 server/srv_main.c:542
+#: server/srv_main.c:543 server/srv_main.c:544
 #, c-format
 msgid "Game ended in conquest victory for %s."
 msgstr "Игра закончена завоевательной победой игрока %s."
 
-#: server/srv_main.c:572 server/srv_main.c:574
+#: server/srv_main.c:574 server/srv_main.c:576
 #, c-format
 msgid "Game ended in cultural domination victory for %s."
 msgstr "Игра закончена с подавляющим культурным доминированием игрока %s."
 
-#: server/srv_main.c:585 server/srv_main.c:586
+#: server/srv_main.c:587 server/srv_main.c:588
 msgid "Game ended as the turn limit was exceeded."
 msgstr "Игра завершена, так как был превышен лимит количества ходов."
 
-#: server/srv_main.c:591
+#: server/srv_main.c:593
 msgid ""
 "Notice: game will end at the end of this turn due to 'endturn' server "
 "setting."
@@ -52040,12 +52588,12 @@ msgstr ""
 "Внимание! Игра закончится по окончании этого хода, согласно значению "
 "параметра сервера 'endturn'."
 
-#: server/srv_main.c:652
+#: server/srv_main.c:654
 #, c-format
 msgid "Game ended in victory for %s."
 msgstr "Игра завершилась победой игрока %s."
 
-#: server/srv_main.c:678
+#: server/srv_main.c:680
 #, c-format
 msgid ""
 "Notice: the %s spaceship will likely arrive at Alpha Centauri next turn."
@@ -52054,7 +52602,7 @@ msgstr ""
 "Альфы Центавра."
 
 #. TRANS: "... 2 military units in Norwegian territory."
-#: server/srv_main.c:852
+#: server/srv_main.c:854
 #, c-format
 msgid "Warning: you still have %d military unit in %s territory."
 msgid_plural "Warning: you still have %d military units in %s territory."
@@ -52070,7 +52618,7 @@ msgstr[2] ""
 
 #. TRANS: %s is another, separately translated sentence,
 #. * ending in a full stop.
-#: server/srv_main.c:861
+#: server/srv_main.c:863
 #, c-format
 msgid ""
 "%s Any such units will be disbanded in %d turn, in accordance with peace "
@@ -52088,25 +52636,25 @@ msgstr[2] ""
 "%s В соответствии с заключенным мирным договором любое такое соединение "
 "будет расформировано через %d ходов."
 
-#: server/srv_main.c:884 server/srv_main.c:899
+#: server/srv_main.c:886 server/srv_main.c:901
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 "Ваше соединение %s согласно условиям мирного договора с %s было "
 "расформировано."
 
-#: server/srv_main.c:949
+#: server/srv_main.c:951
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Озабоченные граждане напоминают, что перемирие с %s скоро закончится."
 
-#: server/srv_main.c:958 server/srv_main.c:963
+#: server/srv_main.c:960 server/srv_main.c:965
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "Перемирие с %s закончилось. Теперь Вы в состоянии войны с народом %s."
 
-#: server/srv_main.c:1003 server/srv_main.c:1013
+#: server/srv_main.c:1005 server/srv_main.c:1015
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -52115,7 +52663,7 @@ msgstr ""
 "Перемирие между %s и %s закончилось, они снова воюют между собой. Вы "
 "расторгли союз с %s."
 
-#: server/srv_main.c:1023
+#: server/srv_main.c:1025
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -52125,65 +52673,65 @@ msgstr ""
 "расторгли союз с обоими."
 
 #. TRANS: %s is a unit type
-#: server/srv_main.c:1175
+#: server/srv_main.c:1177
 #, c-format
 msgid "%s retired!"
 msgstr "Соединение %s отступило!"
 
-#: server/srv_main.c:1433
+#: server/srv_main.c:1435
 #, c-format
 msgid "%s restored to the default value %d"
 msgstr "Множитель '%s' был сброшен в значение по умолчанию (%d)."
 
-#: server/srv_main.c:1442
+#: server/srv_main.c:1444
 #, c-format
 msgid "%s now at value %d"
 msgstr "%s установлен в значение %d"
 
-#: server/srv_main.c:1512
+#: server/srv_main.c:1514
 msgid "Automatically placed spaceship parts that were still not placed."
 msgstr ""
 "Автоматическое размещение частей Космического корабля, которые были ещё не "
 "размещены."
 
 #. TRANS: Small Fish disappears from (32, 72).
-#: server/srv_main.c:1723
+#: server/srv_main.c:1725
 #, c-format
 msgid "%s disappears from %s."
 msgstr "%s исчезает с поля %s."
 
 #. TRANS: Small Fish appears to (32, 72).
-#: server/srv_main.c:1751
+#: server/srv_main.c:1753
 #, c-format
 msgid "%s appears to %s."
 msgstr "На поле %2$s появляется %1$s."
 
-#: server/srv_main.c:1841
+#: server/srv_main.c:1845
 msgid "The game is already running."
 msgstr "Игра уже запущена."
 
-#: server/srv_main.c:1849
+#: server/srv_main.c:1853
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "Со стартом игры пользователь %s лишился уровня доступа cmdlevel.  С этих пор "
 "используйте голосование."
 
-#: server/srv_main.c:1857
+#: server/srv_main.c:1861
 msgid "Starting game."
 msgstr "Запуск игры."
 
-#: server/srv_main.c:1980
+#: server/srv_main.c:1984
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "запрошен неизвестный отчёт (тип %d)"
 
-#: server/srv_main.c:2070
+#: server/srv_main.c:2074
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Внимание: отказываем старому клиенту (%s)"
 
-#: server/srv_main.c:2081
+#: server/srv_main.c:2085
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -52191,52 +52739,52 @@ msgstr ""
 "Ваш клиент устарел. Пожалуйста обновите Ваш клиент до версии Freeciv 2.2 или "
 "выше для использования этого сервера."
 
-#: server/srv_main.c:2140
+#: server/srv_main.c:2144
 msgid "You are not allowed to edit."
 msgstr "Вам не разрешено редактирование."
 
-#: server/srv_main.c:2351 server/stdinhand.c:4338
+#: server/srv_main.c:2355 server/stdinhand.c:4338
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Народ %s недоступен для выбора пользователем."
 
-#: server/srv_main.c:2357 server/stdinhand.c:4346
+#: server/srv_main.c:2361 server/stdinhand.c:4346
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Народ %s уже занят."
 
-#: server/srv_main.c:2373
+#: server/srv_main.c:2377
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "Пользователь %s руководит народом %s под именем %s."
 
-#: server/srv_main.c:2449
+#: server/srv_main.c:2453
 #, c-format
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
 msgstr "Ждём начала игры: %d из %d живых игроков готовы начать."
 
-#: server/srv_main.c:2475
+#: server/srv_main.c:2479
 msgid "requested more than 'maxplayers' setting"
 msgstr ""
 "запрошенное количество игроков превышает значение параметра 'maxplayers'"
 
-#: server/srv_main.c:2482
+#: server/srv_main.c:2486
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "недостаточно народов для игры в выбранном наборе народов (смотрите параметр "
 "'nationset')"
 
-#: server/srv_main.c:2485
+#: server/srv_main.c:2489
 msgid "not enough playable nations"
 msgstr "недостаточно народов для игры"
 
-#: server/srv_main.c:2832 server/srv_main.c:2836
+#: server/srv_main.c:2836 server/srv_main.c:2840
 #, c-format
 msgid "%s rules the %s."
 msgstr "Игрок %s руководит народом %s."
 
-#: server/srv_main.c:3031
+#: server/srv_main.c:3035
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -52244,43 +52792,43 @@ msgstr ""
 "Этот сервер Freeciv поддерживает авторизацию пользователей, но сейчас она не "
 "используется."
 
-#: server/srv_main.c:3091 server/stdinhand.c:4027
+#: server/srv_main.c:3095 server/stdinhand.c:4027
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Каталог набора правил \"%s\" не найден"
 
-#: server/srv_main.c:3111
+#: server/srv_main.c:3115
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Отправляем информацию метасерверу <%s>."
 
-#: server/srv_main.c:3115
+#: server/srv_main.c:3119
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "Не запускается без явного запроса соединения с метасервером."
 
-#: server/srv_main.c:3138
+#: server/srv_main.c:3142
 msgid "The game is over..."
 msgstr "Эта игра завершена..."
 
-#: server/srv_main.c:3273
+#: server/srv_main.c:3277
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr "Невозможно создать подходящую карту, пробуем другое начальное зерно."
 
-#: server/srv_main.c:3279
+#: server/srv_main.c:3283
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Попытка %d из %d"
 
-#: server/srv_main.c:3308
+#: server/srv_main.c:3312
 msgid "Cannot create suitable map with given settings."
 msgstr "Невозможно создать подходящую карту с заданными параметрами."
 
-#: server/srv_main.c:3331 server/srv_main.c:3335
+#: server/srv_main.c:3335 server/srv_main.c:3339
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Значение параметра '%s' (%s) было уточнено и изменено на %s."
 
-#: server/srv_main.c:3542
+#: server/srv_main.c:3546
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Принимаются подключения новых клиентов на порту %d."
@@ -55261,7 +55809,7 @@ msgstr ""
 msgid "Your %s cannot do %s to %s in %s."
 msgstr "Ваше соединение %s не может %s здание %s в городе %s."
 
-#: server/unithand.c:5572 server/unittools.c:3208
+#: server/unithand.c:5572 server/unittools.c:3210
 msgid "Cannot attack unless you declare war first."
 msgstr "Невозможно атаковать пока не объявлена война."
 
@@ -55753,72 +56301,72 @@ msgstr[2] ""
 "Соединение %2$s народа %1$s получило выкуп за соединение %3$s и ещё %4$d "
 "других соединений."
 
-#: server/unittools.c:2984
+#: server/unittools.c:2986
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%2$s уничтожили ядерным ударом Ваше соединение %1$s."
 
-#: server/unittools.c:2987 server/unittools.c:3009
+#: server/unittools.c:2989 server/unittools.c:3011
 msgid "yourself"
 msgstr "Вы"
 
-#: server/unittools.c:2991
+#: server/unittools.c:2993
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Соединение %2$s народа %1$s было уничтожено ядерным ударом."
 
-#: server/unittools.c:3006
+#: server/unittools.c:3008
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%2$s произвёли ядерный удар по городу %1$s."
 
-#: server/unittools.c:3014
+#: server/unittools.c:3016
 #, c-format
 msgid "You nuked %s."
 msgstr "Вы подвергли город %s ядерному удару."
 
-#: server/unittools.c:3025
+#: server/unittools.c:3027
 #, c-format
 msgid "%s was destroyed by the nuke."
 msgstr "Город %s был уничтожен ядерным взрывом."
 
-#: server/unittools.c:3029
+#: server/unittools.c:3031
 #, c-format
 msgid "Your nuke destroyed %s."
 msgstr "Вы уничтожили город %s ядерным ударом."
 
-#: server/unittools.c:3078
+#: server/unittools.c:3080
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s взорвали ядерную бомбу!"
 
-#: server/unittools.c:3093
+#: server/unittools.c:3095
 #, c-format
 msgid "%s transported successfully."
 msgstr "Соединение %s было успешно переброшено."
 
-#: server/unittools.c:3181
+#: server/unittools.c:3183
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Невозможно десантировать это соединение на поле с рельефом %s."
 
 #. TRANS: Paratroopers ... Paradrop Unit
-#: server/unittools.c:3193
+#: server/unittools.c:3195
 #, c-format
 msgid "%s cannot conquer a city with \"%s\"."
 msgstr "Соединение %s не может захватить город действием \"%s\"."
 
-#: server/unittools.c:3222
+#: server/unittools.c:3224
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Ваши %s десантировались на рельеф %s и погибли."
 
-#: server/unittools.c:3243
+#: server/unittools.c:3245
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Ваши %s были уничтожены врагами в точке парашютной выброски."
 
-#: server/unittools.c:3328
+#: server/unittools.c:3330
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -55826,61 +56374,61 @@ msgstr[0] "Вы нашли %d золотой."
 msgstr[1] "Вы нашли %d золота."
 msgstr[2] "Вы нашли %d золотых."
 
-#: server/unittools.c:3724
+#: server/unittools.c:3726
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Приказ соединению %s был отменён после обнаружения движения противника."
 
-#: server/unittools.c:4573
+#: server/unittools.c:4575
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Приказ соединению %s был отменён, так как поблизости обнаружены соединения."
 
-#: server/unittools.c:4661
+#: server/unittools.c:4663
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Приказ соединению %s был отменён, поскольку требовал от него недопустимых "
 "действий."
 
-#: server/unittools.c:4671
+#: server/unittools.c:4673
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Приказ соединению %s был отменён, поскольку было указано неверное поле."
 
-#: server/unittools.c:4682
+#: server/unittools.c:4684
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Приказ соединению %s был отменён, поскольку другие соединения мешают "
 "движению."
 
-#: server/unittools.c:4727
+#: server/unittools.c:4729
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 "Приказ соединению %s был отменён, потому что оно не смогло передвинуться."
 
-#: server/unittools.c:4868
+#: server/unittools.c:4870
 #, c-format
 msgid "%s could not do %s to %s."
 msgstr "Соединение %s не может %s на поле %s."
 
-#: server/unittools.c:4906
+#: server/unittools.c:4908
 #, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "Приказ соединению %s был отменён, так как действие %s на поле %s провалилось."
 
-#: server/unittools.c:4930
+#: server/unittools.c:4932
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Ваше соединение %s получило неверный приказ."
 
-#: server/unittools.c:5064
+#: server/unittools.c:5066
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
@@ -55947,8 +56495,8 @@ msgstr "%s"
 msgid "?or-list:%s or %s"
 msgstr "%s или %s"
 
-#. TRANS: start of an "or"-separated string list with more than two
-#. * items.
+#. TRANS: start of an "or"-separated string list with more than
+#. * two items.
 #: utility/astring.c:331
 #, c-format
 msgid "?or-list:%s"
@@ -55961,8 +56509,8 @@ msgstr "%s"
 msgid "?or-list:, %s"
 msgstr ", %s"
 
-#. TRANS: end of an "or"-separated string list with more than two
-#. * items.
+#. TRANS: end of an "or"-separated string list with more than
+#. * two items.
 #: utility/astring.c:339
 #, c-format
 msgid "?or-list:, or %s"
@@ -55980,8 +56528,8 @@ msgstr "%s"
 msgid "?and-list:%s and %s"
 msgstr "%s и %s"
 
-#. TRANS: start of an "and"-separated string list with more than two
-#. * items.
+#. TRANS: start of an "and"-separated string list with more than
+#. * two items.
 #: utility/astring.c:369
 #, c-format
 msgid "?and-list:%s"
@@ -55994,8 +56542,8 @@ msgstr "%s"
 msgid "?and-list:, %s"
 msgstr ", %s"
 
-#. TRANS: end of an "and"-separated string list with more than two
-#. * items.
+#. TRANS: end of an "and"-separated string list with more than
+#. * two items.
 #: utility/astring.c:377
 #, c-format
 msgid "?and-list:, and %s"
