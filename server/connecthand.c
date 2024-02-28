@@ -118,7 +118,7 @@ static void restore_access_level(struct connection *pconn)
       see comment there).
   - connections infos.
   - running vote infos.
-  ... and additionnal packets if the game already started.
+  ... and additional packets if the game already started.
 **************************************************************************/
 void establish_new_connection(struct connection *pconn)
 {
