@@ -175,7 +175,7 @@ void comment_buildings(struct section_file *sfile)
 }
 
 /**********************************************************************//**
-  Write tech classess header.
+  Write tech classes' header.
 **************************************************************************/
 void comment_tech_classes(struct section_file *sfile)
 {
