@@ -1,3 +1,89 @@
+commit 36a1269608d0e09927b6d3d9c5e38b80a3bf7b8c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 1 02:31:11 2024 +0200
+
+    Set version number to 3.1.0
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1a4daa47fea51b42426bd0d6e542e1ced2c27716
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 1 02:29:35 2024 +0200
+
+    'make update-po' before 3.1.0 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 10e11cfa749c6b424bb8c3d8cc894f06d6a7e972
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 1 02:26:14 2024 +0200
+
+    FAQ: Update latest stable version number to 3.1.0
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5932ae3aa95955c416ed3ea2e83f6871efac87c0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 1 02:22:25 2024 +0200
+
+    Set default followtag to "stable"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4e0d85d87e9301edbc3ae93910dafab73d205457
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Feb 28 12:25:34 2024 +0200
+
+    Comment typofix: "additionnal" -> "additional"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit af69450ca983189f0def8c96c60f42d91c5e954b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Feb 28 10:24:46 2024 +0200
+
+    NEWS-3.1: Add 3.1.0 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4005b1b880d33c4349e7f270d0d11b252546cda3
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Wed Feb 28 04:57:04 2024 +0500
+
+    Update for Russian translation.
+
+commit 1d6911bf49240ed85d3cb8b6525747d5401c4ffc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Feb 25 01:01:57 2024 +0200
+
+    FAQ: Refer to stable version FAQ URL
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a02396fe71f702993b3fe9008adeb68f6cd1a404
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Feb 24 09:17:27 2024 +0200
+
+    Comment typofix: "Selete" -> "Delete"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4e9c93dbaa3f8bbf1b1fa30e178a718b9e010786
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Feb 23 00:09:50 2024 +0200
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cfc62494570290fb8be554da2dee20d930cdda27
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Feb 23 00:06:29 2024 +0200
+
+    ChangeLog: Refresh for 3.1.0-RC1 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit af31347e21d5840090624de0a5262604d2f59b40
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Feb 23 00:05:27 2024 +0200
