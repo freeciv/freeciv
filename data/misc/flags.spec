@@ -524,6 +524,7 @@ artists = "
    Timur		Daniel Markstedt
    Tocharian		Dan Cottrell and Daniel Markstedt
    Togo			Vzb83 and Madden (Wikimedia Commons)
+   Tokipona             Wikimedia Commons
    Toltec		J.M. Maalderink
    Tonga		Madden (Wikimedia Commons)
    Transnistria		Sigge Kotliar and J.M. Maalderink
@@ -1104,6 +1105,7 @@ sprites =
 		"f.timur", "flags/timur"
 		"f.tocharian", "flags/tocharian"
 		"f.togo", "flags/togo"
+                "f.tokipona", "flags/tokipona"
 		"f.toltec", "flags/toltec"
 		"f.tonga", "flags/tonga"
 		"f.transnistria", "flags/transnistria"

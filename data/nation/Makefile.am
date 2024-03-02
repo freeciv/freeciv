@@ -512,6 +512,7 @@ pkgdata_DATA = \
 		timurid.ruleset \
 		tocharian.ruleset \
 		togolese.ruleset \
+		tokiponan.ruleset \
 		toltec.ruleset \
 		tongan.ruleset \
 		transnistrian.ruleset \
