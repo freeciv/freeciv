@@ -527,6 +527,7 @@ sprites =
 		"f.timur", "flags/timur-large"
 		"f.tocharian", "flags/tocharian-large"
 		"f.togo", "flags/togo-large"
+                "f.tokipona", "flags/tokipona-large"
 		"f.toltec", "flags/toltec-large"
 		"f.tonga", "flags/tonga-large"
 		"f.transnistria", "flags/transnistria-large"

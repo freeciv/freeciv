@@ -518,6 +518,7 @@ flag_files =				\
 		timur.png		\
 		tocharian.png		\
 		togo.png		\
+		tokipona.png		\
 		toltec.png		\
 		tonga.png		\
 		transnistria.png	\
@@ -1094,6 +1095,7 @@ flag_files =				\
 		timur-large.png		\
 		tocharian-large.png		\
 		togo-large.png		\
+		tokipona-large.png		\
 		toltec-large.png		\
 		tonga-large.png		\
 		transnistria-large.png		\
@@ -1671,6 +1673,7 @@ shield_files =					\
 		tibet-shield.png		\
 		timur-shield.png		\
 		togo-shield.png			\
+		tokipona-shield.png		\
 		toltec-shield.png		\
 		tocharian-shield.png		\
 		tonga-shield.png		\
@@ -2247,6 +2250,7 @@ shield_files =					\
 		tibet-shield-large.png		\
 		timur-shield-large.png		\
 		togo-shield-large.png			\
+		tokipona-shield-large.png		\
 		toltec-shield-large.png		\
 		tocharian-shield-large.png		\
 		tonga-shield-large.png		\
@@ -2826,6 +2830,7 @@ svg_files = 				\
 		timur.svg		\
 		tocharian.svg		\
 		togo.svg		\
+		tokipona.svg		\
 		toltec.svg		\
 		tonga.svg		\
 		transnistria.svg	\
