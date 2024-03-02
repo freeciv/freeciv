@@ -4,6 +4,9 @@
     <id>org.freeciv.gtk322</id>
     <project_license>GPL-2.0-or-later</project_license>
     <metadata_license>CC0</metadata_license>
+    <developer id="org.freeciv">
+      <name>Freeciv Team</name>
+    </developer>
     <summary>Gtk+-3.22 based client for the Freeciv game</summary>
     <description>
         <p>

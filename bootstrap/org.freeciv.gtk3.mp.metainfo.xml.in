@@ -4,6 +4,9 @@
     <id>org.freeciv.gtk3.mp</id>
     <project_license>GPL-2.0-or-later</project_license>
     <metadata_license>CC0</metadata_license>
+    <developer id="org.freeciv">
+      <name>Freeciv Team</name>
+    </developer>
     <summary>Gtk+-3 based modpack installer for the Freeciv game</summary>
     <description>
         <p>

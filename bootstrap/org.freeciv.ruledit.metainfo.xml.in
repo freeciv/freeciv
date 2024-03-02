@@ -4,6 +4,9 @@
     <id>org.freeciv.ruledit</id>
     <project_license>GPL-2.0-or-later</project_license>
     <metadata_license>CC0</metadata_license>
+    <developer id="org.freeciv">
+      <name>Freeciv Team</name>
+    </developer>
     <summary>Ruleset editor for the Freeciv game</summary>
     <description>
         <p>
