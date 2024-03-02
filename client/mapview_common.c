@@ -2301,7 +2301,6 @@ static void show_small_citybar(struct canvas *pcanvas,
                     FONT_CITY_PROD,
                     get_color(tileset, production_color), prod);
 
-    canvas_y += total_height;
     *width = MAX(*width, total_width);
     *height += total_height;
   }
