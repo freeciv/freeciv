@@ -21,6 +21,7 @@
 // Qt
 #include <QDialog>
 
+class QGridLayout;
 class QLineEdit;
 class QSpinBox;
 class QToolButton;
@@ -51,6 +52,8 @@ class edit_utype : public QDialog
     QLineEdit *sound_move_tag_alt;
     QLineEdit *sound_fight_tag;
     QLineEdit *sound_fight_tag_alt;
+
+    QGridLayout *flag_layout;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
