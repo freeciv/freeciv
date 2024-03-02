@@ -175,6 +175,15 @@ reqs	=
       "Building", "Library", "City"
     }
 
+[effect_library_literature_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type",     "name",       "range"
+      "Building", "Library",    "City"
+      "Tech",     "Literature", "Player"
+    }
+
 [effect_stone_circle_all_cities]
 type    = "History"
 value	= 2

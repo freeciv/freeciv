@@ -243,7 +243,7 @@ Allows collecting taxes without miscalculation penalties.\
 [advance_deception]
 name        = _("Deception")
 req1        = "Diplomacy"
-req2        = "None"
+req2        = "Literature"
 flags       = ""
 graphic     = "a.deception"
 graphic_alt = "-"
@@ -331,6 +331,15 @@ req1        = "Animal Taming"
 req2        = "None"
 flags       = ""
 graphic     = "a.horseback_riding"
+graphic_alt = "-"
+;helptext    =
+
+[advance_literature]
+name        = _("Literature")
+req1        = "Writing"
+req2        = "Art"
+flags       = ""
+graphic     = "a.literature"
 graphic_alt = "-"
 ;helptext    =
 
