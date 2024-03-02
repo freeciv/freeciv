@@ -4,7 +4,7 @@ Format description of the scorelog format version 2
 
 Empty lines and lines starting with '#' are comments. Each non-comment
 line starts with a command. The parameter are supplied on that line
-and are seperated by a space. Strings which may contain whitespaces
+and are separated by a space. Strings which may contain whitespaces
 are always the last parameter and so extend till the end of line.
 
 The following commands exists:

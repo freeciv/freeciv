@@ -159,6 +159,6 @@ generated code may run under 4 different capabilities:
 Each of these combinations is called a variant. If n is the number of
 capabilities used by the packet the number of variants is 2^n.
 
-For each of these variant a seperate send and receive function will be
+For each of these variant a separate send and receive function will be
 generated. The variant for a packet and a connection are calculated
 once and then saved in the connection struct.
