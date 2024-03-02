@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QMenu>
@@ -37,13 +38,17 @@
 **************************************************************************/
 edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog()
 {
-  QVBoxLayout *main_layout = new QVBoxLayout(this);
+  QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
   int row = 0;
+  int rowcount;
+  int column;
 
   ui = ui_in;
   utype = utype_in;
+
+  flag_layout = new QGridLayout();
 
   setWindowTitle(QString::fromUtf8(utype_rule_name(utype)));
 
@@ -175,9 +180,28 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(sound_fight_tag_alt, row++, 1);
 
+  rowcount = 0;
+  column = 0;
+  for (int i = 0; i < UTYF_LAST_USER_FLAG; i++) {
+    enum unit_type_flag_id flag = (enum unit_type_flag_id)i;
+    QCheckBox *check = new QCheckBox();
+
+    label = new QLabel(unit_type_flag_id_name(flag));
+    flag_layout->addWidget(label, rowcount, column + 1);
+
+    check->setChecked(BV_ISSET(utype->flags, flag));
+    flag_layout->addWidget(check, rowcount, column);
+
+    if (++rowcount >= 25) {
+      column += 2;
+      rowcount = 0;
+    }
+  }
+
   refresh();
 
   main_layout->addLayout(unit_layout);
+  main_layout->addLayout(flag_layout);
 
   setLayout(main_layout);
 }
@@ -187,6 +211,9 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
 **************************************************************************/
 void edit_utype::closeEvent(QCloseEvent *cevent)
 {
+  int rowcount;
+  int column;
+
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
@@ -195,6 +222,22 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
   sound_move_tag_alt_given();
   sound_fight_tag_given();
   sound_fight_tag_alt_given();
+
+  BV_CLR_ALL(utype->flags);
+  rowcount = 0;
+  column = 0;
+  for (int i = 0; i < UTYF_LAST_USER_FLAG; i++) {
+    QCheckBox *check = static_cast<QCheckBox *>(flag_layout->itemAtPosition(rowcount, column)->widget());
+
+    if (check->isChecked()) {
+      BV_SET(utype->flags, i);
+    }
+
+    if (++rowcount >= 25) {
+      rowcount = 0;
+      column += 2;
+    }
+  }
 
   utype->ruledit_dlg = nullptr;
 }
