@@ -296,7 +296,7 @@ void astr_add_line(struct astring *astr, const char *format, ...)
 }
 
 /************************************************************************//**
-  Replace the spaces by line breaks when the line lenght is over
+  Replace the spaces by line breaks when the line length is over
   the desired one.
 ****************************************************************************/
 void astr_break_lines(struct astring *astr, size_t desired_len)

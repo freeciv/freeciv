@@ -1129,7 +1129,7 @@ bool is_reg_file_for_access(const char *name, bool write_access)
 }
 
 /************************************************************************//**
-  Replace the spaces by line breaks when the line lenght is over the desired
+  Replace the spaces by line breaks when the line length is over the desired
   one. 'str' is modified. Returns number of lines in modified s.
 ****************************************************************************/
 int fc_break_lines(char *str, size_t desired_len)
