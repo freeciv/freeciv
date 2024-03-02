@@ -347,7 +347,7 @@ min_tech_cost    = 2000
 ; "Normal Players" - Technology cost is reduced depending on the number of
 ;                    normal players (human and AI) which already know the
 ;                    tech.
-tech_leakage = "None"
+tech_leakage = "All Players"
 
 ; Method of paying tech upkeep
 ; "None"   - no upkeep

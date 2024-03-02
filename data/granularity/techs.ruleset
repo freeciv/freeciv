@@ -243,7 +243,7 @@ Allows collecting taxes without miscalculation penalties.\
 [advance_deception]
 name        = _("Deception")
 req1        = "Diplomacy"
-req2        = "None"
+req2        = "Literature"
 flags       = ""
 graphic     = "a.deception"
 graphic_alt = "-"
@@ -333,6 +333,19 @@ flags       = ""
 graphic     = "a.horseback_riding"
 graphic_alt = "-"
 ;helptext    =
+
+[advance_literature]
+name        = _("Literature")
+req1        = "Writing"
+req2        = "Art"
+flags       = ""
+graphic     = "a.literature"
+graphic_alt = "-"
+helptext    = _("\
+Player knowing the Literature tech get the benegit of Tech Leakage from other players. \
+If other players know techs that the Tech Leakage receiving player does not, some bulbs \
+leak per tech per player each turn.\
+")
 
 [advance_maps]
 name        = _("Maps")
