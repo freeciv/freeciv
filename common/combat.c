@@ -352,22 +352,22 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
     The probabilities are then summed.
 
     To see this is correct consider the set of series for all valid fights.
-    These series are the type (win, lose, lose...). The possible lenghts are
+    These series are the type (win, lose, lose...). The possible lengths are
     def_N_lose to def_N_lose+att_N_lose-1. A series is not valid unless it
     contains def_N_lose wins, and one of the wins must be the last one, or
     the series would be equivalent the a shorter series (the attacker would
     have won one or more fights previously).
     So since the last fight is a win we disregard it while calculating. Now
-    a series contains def_N_lose-1 wins. So for each possible lenght of a
+    a series contains def_N_lose-1 wins. So for each possible length of a
     series we find the probability of every valid series and then sum.
-    For a specific lenght (a "lr") every series have the probability
+    For a specific length (a "lr") every series have the probability
       def_P_lose1^(def_N_lose-1) * att_P_lose1^(lr)
     and then getting from that to the real series requires a win, ie factor
-    def_N_lose. The number of series with lenght (def_N_lose-1 + lr) and
+    def_N_lose. The number of series with length (def_N_lose-1 + lr) and
     "lr" lost fights is
       binomial_coeff(def_N_lose-1 + lr, lr)
     And by multiplying we get the formula on the top of this code block.
-    Adding the cumulative probability for each valid lenght then gives the
+    Adding the cumulative probability for each valid length then gives the
     total probability.
 
     We clearly have all valid series this way. To see that we have counted
@@ -376,7 +376,7 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
     larger series ends with a win, it would have too many wins and therefore
     cannot exist.
 
-    In practice each binomial coefficient for a series lenght can be calculated
+    In practice each binomial coefficient for a series length can be calculated
     from the previous. In the coefficient (n, k) n is increased and k is
     unchanged.
     The "* def_P_lose1" is multiplied on the sum afterwards.
