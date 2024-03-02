@@ -6606,7 +6606,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
 }
 
 /************************************************************************//**
-  Load the transport status of all units. This is seperated from the other
+  Load the transport status of all units. This is separated from the other
   code as all units must be known.
 ****************************************************************************/
 static void sg_load_player_units_transport(struct loaddata *loading,

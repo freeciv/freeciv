@@ -147,7 +147,7 @@ Syntax:
     Fields:
     -------
 
-      Comma seperated list of names. Each name can have zero, one or
+      Comma separated list of names. Each name can have zero, one or
       two array declarations. So "x", "x[10]" and "x[20][10]" is
       possible. The array size in the "[]" can be specified plain as a
       term. In this case all elements will be transmitted. If this is
