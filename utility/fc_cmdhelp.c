@@ -183,10 +183,10 @@ static int cmdarg_compare(const struct cmdarg *const *pp0,
   const struct cmdarg *pcmdarg1 = *pp1;
   int c0, c1;
 
-  if (pcmdarg0 == NULL) {
+  if (pcmdarg0 == nullptr) {
     return -1;
   }
-  if (pcmdarg1 == NULL) {
+  if (pcmdarg1 == nullptr) {
     return 1;
   }
 
