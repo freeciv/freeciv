@@ -26,7 +26,6 @@ c_cpp_args = [
   '-Wpointer-arith',
   '-Wcast-align',
   '-Wmissing-prototypes',
-  '-Wmissing-declarations',
   '-Wformat',
   '-Wformat-security',
   '-Wshadow',
