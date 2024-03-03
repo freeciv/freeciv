@@ -116,11 +116,6 @@ static void print_usage()
   fc_fprintf(stderr,
              _("Other gui-specific options are:\n"));
 
-#ifdef FREECIV_SVG_FLAGS
-  fc_fprintf(stderr,
-             _("-f, --flags\tEnable svgflags features\n"));
-#endif // FREECIV_SVG_FLAGS
-
   fc_fprintf(stderr,
              _("-s, --shortcutreset\tReset shortcut keys to "
                "default values\n"));
@@ -147,12 +142,6 @@ static bool parse_options(int argc, char **argv)
     }
     if (is_option("--shortcutreset", argv[i])) {
       shortcutreset();
-    } else if (is_option("--flags", argv[i])) {
-#ifdef FREECI_SVG_FLAGS
-      svg_flag_enable();
-#else  // FREECIV_SVG_FLAGS
-      fc_fprintf(stderr, _("svg flags not enabled in this freeciv build."));
-#endif // FREECIV_SVG_FLAGS
     }
     // Can't check against unknown options, as those might be Qt options
 
@@ -189,6 +178,14 @@ int qtg_ui_main(int argc, char *argv[])
     tsret = default_tileset_select();
     if (tsret != EXIT_SUCCESS) {
       return tsret;
+    }
+
+    if (gui_options.gui_qt_svgflags) {
+#ifdef FREECIV_SVG_FLAGS
+      svg_flag_enable();
+#else  // FREECIV_SVG_FLAGS
+      fc_fprintf(stderr, _("svg flags not enabled in this freeciv build."));
+#endif // FREECIV_SVG_FLAGS
     }
 
     tileset_init(tileset);

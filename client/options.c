@@ -392,7 +392,8 @@ struct client_options gui_options = {
   .gui_qt_wakeup_text = "Wake up %1",
   .gui_qt_show_relations_panel = TRUE,
   .gui_qt_show_techs_panel = TRUE,
-  .gui_qt_show_wonders_panel = TRUE
+  .gui_qt_show_wonders_panel = TRUE,
+  .gui_qt_svgflags = TRUE
 };
 
 /* Set to TRUE after the first call to options_init(), to avoid the usage
@@ -3296,8 +3297,19 @@ static struct client_option client_options[] = {
                  N_("Wake up sequence"),
                  N_("String which will trigger sound in pregame page; "
                     "%1 stands for username."),
-                 COC_INTERFACE, GUI_QT, "Wake up %1", NULL, 0)
-
+                 COC_INTERFACE, GUI_QT, "Wake up %1", NULL, 0),
+  GEN_BOOL_OPTION(gui_qt_svgflags, N_("SVG flags features"),
+#ifdef FREECIV_SVG_FLAGS
+                  N_("Enable svgflags features, such as bigger flags "
+                     "on the diplomacy dialog. Change to this comes "
+                     "to an effect on next client start."),
+#else  /* FREECIV_SVG_FLAGS */
+                  N_("Enable svgflags features, such as bigger flags "
+                     "on the diplomacy dialog. This has no effect on "
+                     "this freeciv build, as the svg support has not "
+                     "been built in."),
+#endif /* FREECIV_SVG_FLAGS */
+                  COC_GRAPHICS, GUI_QT, TRUE, NULL)
 };
 static const int client_options_num = ARRAY_SIZE(client_options);
 

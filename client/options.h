@@ -421,6 +421,7 @@ struct client_options
   bool gui_qt_show_relations_panel;
   bool gui_qt_show_techs_panel;
   bool gui_qt_show_wonders_panel;
+  bool gui_qt_svgflags;
 
   struct overview overview;
 };
