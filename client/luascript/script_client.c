@@ -234,7 +234,7 @@ bool script_client_init(void)
 }
 
 /*************************************************************************//**
-  Ouput a message on the client lua console.
+  Output a message on the client lua console.
 *****************************************************************************/
 static void script_client_output(struct fc_lua *fcl, enum log_level level,
                                  const char *format, ...)
