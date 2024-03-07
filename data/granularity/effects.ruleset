@@ -219,6 +219,16 @@ reqs	=
       "OutputType", "Trade",  "Local"
     }
 
+[effect_rock_pile_food]
+type    = "Output_Add_Tile"
+value   = 100
+reqs	=
+    { "type",       "name",              "range"
+      "Building",   "Central Rock Pile", "City"
+      "CityTile",   "Center",            "Tile"
+      "OutputType", "Food",              "Local"
+    }
+
 [effect_rock_pile_capital]
 type    = "Capital_City"
 value	= 1
