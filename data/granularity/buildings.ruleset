@@ -249,6 +249,7 @@ sound_alt	= "b_generic"
 sound_alt2      = "-"
 helptext	= _("\
 This Rock Pile marks the spot where your people first settled, and found a city. \
+Increases city center food production by 100. \
 It marks your capital city until you have more fitting building to do so.\
 ")
 
