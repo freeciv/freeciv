@@ -487,12 +487,20 @@ reqs    =
 
 [effect_irrigation]
 type    = "Irrigation_Pct"
-value   = 100
+value   = 75
 reqs    =
     { "type", "name", "range"
       "Extra", "Irrigation", "Tile"
     }
 
+[effect_plow]
+type    = "Irrigation_Pct"
+value   = 25
+reqs    =
+    { "type", "name",        "range"
+      "Extra", "Irrigation", "Tile"
+      "Tech",  "Plow",       "Player"
+    }
 
 [effect_nets]
 type    = "Irrigation_Pct"

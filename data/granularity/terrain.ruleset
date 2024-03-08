@@ -640,7 +640,11 @@ reqs           =
     }
 build_time     = 3
 removal_time   = 0
-helptext       = _("Irrigation increases tile food production.")
+helptext       = _("\
+Irrigation increases tile food production. \
+Full bonus is achieved only when player also knows the Plow tech, \
+otherwise only 3/4 of the bonus is effective.\
+")
 
 [extra_nets]
 name           = _("Nets")
