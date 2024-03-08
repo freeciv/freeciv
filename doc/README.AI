@@ -28,16 +28,16 @@ INTRODUCTION
 
 The Freeciv AI is widely recognized as being as good as or better
 military-wise as the AI of certain other games it is natural to compare
-it with.  It is, however, still too easy for experienced players.
+it with. It is, however, still too easy for experienced players.
 
 The code base used to be in a bad shape but it has gotten a lot
-better.  The reason for this is that the developer (Syela) who in a
-few months put together a working AI had suddenly disappeared.  His
-bright ideas could only be matched by his inability to name variables
-and to comment the code.  Subsequent AI developers were not brave (or
+better. The reason for this is that the developer (Syela) who in a
+few months put together a working AI had suddenly disappeared.
+His bright ideas could only be matched by his inability to name variables
+and to comment the code. Subsequent AI developers were not brave (or
 stupid?) enough to start from scratch, taking instead a small bite
 here and there, trying hard not to break much, to understand Syela's
-original design and only then to throw it away.  Or perfect it.
+original design and only then to throw it away. Or perfect it.
 
 Code that implements the AI is divided between ai/ and server/advisors.
 Latter is used also by human players for such automatic helpers
@@ -98,21 +98,21 @@ amortize(benefit, delay) returns benefit * ((MORT - 1)/MORT)^delay
 
 Speculation:
 What is better, to receive 10$ annually starting in 5 years from now
-or 5$ annually starting from this year?  How can you take inflation
-into account?  The function amortize is meant to help you answer these
-questions.  To achieve this, it rescales the future benefit in terms of
+or 5$ annually starting from this year? How can you take inflation
+into account? The function amortize is meant to help you answer these
+questions. To achieve this, it rescales the future benefit in terms of
 todays money.
 
-Suppose we have a constant rate of inflation, x percent.  Then in five
+Suppose we have a constant rate of inflation, x percent. Then in five
 years time 10$ will buy as much as 10*(100/(100+x))^5 will buy today.
 Denoting 100/(100+x) by q we get the general formula, N dollars Y
-years from now will be worth N*q^Y in todays money.  If we will
+years from now will be worth N*q^Y in todays money. If we will
 receive N every year starting Y years from now, the total amount
 receivable (in todays money) is N*q^Y / (1-q) --- this is the sum of
-infinite geometric series.  This is exactly the operation that
+infinite geometric series. This is exactly the operation that
 amortize performs, the multiplication by some q < 1 raised to power Y.
 Note that the factor 1/(1-q) does not depend on the parameters N and Y
-and can be ignored.  The connection between MORT constant and the
+and can be ignored. The connection between MORT constant and the
 inflation rate x is given by
     (MORT - 1) / MORT = q = 100 / (100 + x).
 Thus the current value of MORT = 24 corresponds to the inflation rate
@@ -130,8 +130,8 @@ ESTIMATION OF PROFIT FROM A MILITARY OPERATION
 ==============================================
 
 This estimation is implemented by kill_desire function (which isn't
-perfect: multi-victim part is flawed) plus some corrections.  In
-general,
+perfect: multi-victim part is flawed) plus some corrections.
+In general,
         Want = Operation_Profit * Amortization_Factor
 where
 
@@ -152,7 +152,7 @@ where
   = Shields_Lost_By_Enemy * Probability_To_Win
     - Shields_Lost_By_Us * Probability_To_Lose
 
-That is Battle_Profit is a probabilistic average.  It answer the
+That is Battle_Profit is a probabilistic average. It answer the
 question "how much better off, on average, we would be from attacking
 this enemy unit?"
 
@@ -161,38 +161,38 @@ SELECTING MILITARY UNITS
 ========================
 
 The code dealing with choosing military units to be built and targets
-for them is especially messy.  Here is what we've managed to decipher.
+for them is especially messy. Here is what we've managed to decipher.
 
 Military units are requested in military_advisor_choose_build
-function.  It first considers the defensive units and then ventures
-into selection of attackers (if home is safe).  There are 2
+function. It first considers the defensive units and then ventures
+into selection of attackers (if home is safe). There are 2
 possibilities here: we just build a new attacker or we already have an
-attacker which was forced, for some reason, to defend.  In the second
+attacker which was forced, for some reason, to defend. In the second
 case it's easy: we calculate how good the existing attacker is and if
 it's good, we build a defender to free it up.
 
-Building a brand-new attacker is more complicated.  Firstly,
+Building a brand-new attacker is more complicated. Firstly,
 ai_choose_attacker_* functions are charged to find the first
-approximation to the best attacker that can be built here.  This
+approximation to the best attacker that can be built here. This
 prototype attacker is selected using very simple attack_power * speed
-formula.  Then (already in kill_something_with) we search for targets
-for the prototype attacker (using find_something_to_kill).  Having
+formula. Then (already in kill_something_with) we search for targets
+for the prototype attacker (using find_something_to_kill). Having
 found a target, we do the last refinement by calling
 process_attacker_want to look for the best attacker type to take out
-the target.  This type will be our attacker choice.  Note that the
+the target. This type will be our attacker choice. Note that the
 function process_attacker_want has side-effects wrt the tech selection.
 
 Here is an example:
 
 First ai_choose_attacker_land selects a Dragoon because it's strong
-and fast.  Then find_something_to_kill finds a victim for the
+and fast. Then find_something_to_kill finds a victim for the
 (virtual) Dragoon, an enemy Riflemen standing right next to the town.
 Then process_attacker_want figures out that since the enemy is right
-beside us, it can be taken out easier using an Artillery.  It also
+beside us, it can be taken out easier using an Artillery. It also
 figures that a Howitzer would do this job even better, so bumps up our
 desire for Robotics.
 
-This is the idea, anyway.  In practice, it is more complicated and
+This is the idea, anyway. In practice, it is more complicated and
 probably less efficient.
 
 
@@ -202,14 +202,14 @@ FERRY SYSTEM
 The ferry (i.e. boats transporting land units) system of Freeciv is
 probably better described by statistical mechanics than by logic.
 Both ferries and prospective passenger (PP) move around in what looks
-like a random fashion, trying to get closer to each other.  On
-average, they succeed.  This behaviour has good reasons behind it, is
+like a random fashion, trying to get closer to each other. On
+average, they succeed. This behaviour has good reasons behind it, is
 hell to debug but means that small bugs don't affect overall picture
 visibly (and stay unfixed as a result).
 
 Each turn both boats and PPs forget all about prior arrangements
-(unless the passenger is actually _in_ the boat).  Then each will look
-for the closest partner, exchange cards and head towards it.  This is
+(unless the passenger is actually _in_ the boat). Then each will look
+for the closest partner, exchange cards and head towards it. This is
 done in a loop which goes through all units in essentially random
 order.
 
@@ -217,11 +217,11 @@ Because most units recalculate their destination every turn, ignoring
 prior arrangements is the only good strategy -- it means that a boat
 will not rely on the PP to notify it when it's not needed anymore.
 This is not very effective but can only be changed when the PPs behave
-more responsibly.  See diplomat code for more responsible behaviour --
+more responsibly. See diplomat code for more responsible behaviour --
 they try to check if the old target is still good before trying to
 find a new one.
 
-When a boat has a passenger, it's a different story.  The boat doesn't
+When a boat has a passenger, it's a different story. The boat doesn't
 do any calculations, instead one of the passengers is given full
 control and it is the passenger who drives the boat.
 
@@ -235,9 +235,9 @@ Value of ai.passenger in the ferry unit can be either of:
   >0 : id of it's passenger
 
 When boat-building code stabilizes, it can be seen how many free boats
-there are, on average, per PP.  If there are more boats than PPs, it
-makes sense that only PPs should look for boats.  If boats are few,
-they should be the ones choosing.  This can be done both dynamically
+there are, on average, per PP. If there are more boats than PPs, it
+makes sense that only PPs should look for boats. If boats are few,
+they should be the ones choosing. This can be done both dynamically
 (both possibilities are coded and the appropriate is chosen every
 turn) and statically (after much testing only one system remains).
 Now they exist in parallel, although developed to a different degree.
@@ -338,6 +338,6 @@ IDEA SPACE
 attackers
 * It would be nice for bodyguard and charge to meet en-route more
 elegantly.
-* struct choice should have a priority indicator in it.  This will
+* struct choice should have a priority indicator in it. This will
 reduce the number of "special" want values and remove the necessity to
 have want capped, thus reducing confusion.
