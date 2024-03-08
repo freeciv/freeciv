@@ -160,7 +160,7 @@ The basic netcode is located in server/sernet.c and client/clinet.c.
 
 All information passed between the server and clients, must be sent
 through the network as serialized packet structures.
-These are defined in common/packets.h.
+These are defined in common/networking/packets.h.
 
 For each 'foo' packet structure, there is one send and one receive function:
 
@@ -173,7 +173,7 @@ and adds this to the send buffer in the connection struct.
 The receive_packet_foo() function de-serializes a bytestream into a
 structure and removes the bytestream from the input buffer in the
 connection struct.
-The connection struct is defined in common/connection.h.
+The connection struct is defined in common/networking/connection.h.
 
 Each structure field in a structure is serialized using architecture
 independent functions such as dio_put_uint32() and de-serialized with
