@@ -525,7 +525,7 @@ bool check_for_game_over(void)
 
     /* Check for World Peace victory. */
     if (1 < candidates && victory_enabled(VC_WORLDPEACE)) {
-      if (game.info.turn - game.server.world_peace_start >= WORLD_PEACE_TURNS) {
+      if (game.info.turn - game.server.world_peace_start >= game.info.world_peace_turns) {
         bool first = TRUE;
 
         astr_init(&str);

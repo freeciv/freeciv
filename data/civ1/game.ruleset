@@ -370,6 +370,10 @@ history_interest_pml = 0
 ; of a migration point.
 migration_pml = 50
 
+[world_peace]
+; How many turns of world peace is required for a World Peace Victory
+victory_turns = 20;
+
 [calendar]
 ; Year 1 instead of 0.
 skip_year_0 = TRUE

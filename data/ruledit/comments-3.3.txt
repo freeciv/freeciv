@@ -1624,6 +1624,10 @@ migration_pml = "\n\
 ; of a migration point.\
 "
 
+world_peace_turns = "\n\
+; How many turns of world peace is required for a World Peace Victory\n\
+"
+
 calendar_fragments = "\n\
 ; How many fragments each year has. In addition to this, \"Turn_Fragments\" effects are\n\
 ; needed to control fragment accumulation.\n\

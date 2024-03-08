@@ -7099,6 +7099,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_int_default(file, RS_DEFAULT_HISTORY_INTEREST_PML,
                                    "culture.history_interest_pml");
 
+    /* section: world_peace */
+    game.info.world_peace_turns
+      = secfile_lookup_int_default(file, RS_DEFAULT_WORLD_PEACE_TURNS,
+                                   "world_peace.victory_turns");
+
     /* section: calendar */
     game.calendar.calendar_skip_0
       = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,

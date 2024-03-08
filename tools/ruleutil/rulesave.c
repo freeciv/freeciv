@@ -1607,6 +1607,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.history_interest_pml,
                    RS_DEFAULT_HISTORY_INTEREST_PML,
                    "culture.history_interest_pml", NULL);
+  if (game.info.world_peace_turns != RS_DEFAULT_WORLD_PEACE_TURNS) {
+    comment_world_peace_turns(sfile);
+  }
+  save_default_int(sfile, game.info.world_peace_turns,
+                   RS_DEFAULT_WORLD_PEACE_TURNS,
+                   "world_peace.victory_turns", NULL);
 
   save_default_bool(sfile, game.calendar.calendar_skip_0,
                     RS_DEFAULT_CALENDAR_SKIP_0,

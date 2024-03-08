@@ -96,6 +96,7 @@ static struct {
   char *research_free_tech_method;
   char *culture_history_interest;
   char *culture_migration_pml;
+  char *world_peace_turns;
   char *calendar_fragments;
 } comments_storage;
 
@@ -254,6 +255,8 @@ bool comments_load(void)
                "entrydoc.history_interest_pml");
   comment_load(comments_storage.culture_migration_pml, comment_file,
                "entrydoc.migration_pml");
+  comment_load(comments_storage.world_peace_turns, comment_file,
+               "entrydoc.world_peace_turns");
   comment_load(comments_storage.calendar_fragments, comment_file,
                "entrydoc.calendar_fragments");
 
@@ -873,6 +876,7 @@ void comment_culture_history_interest(struct section_file *sfile)
   comment_entry_write(sfile, comments_storage.culture_history_interest,
                       "culture");
 }
+
 /**********************************************************************//**
   Write culture migration_pml settings header.
 **************************************************************************/
@@ -880,6 +884,15 @@ void comment_culture_migration_pml(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.culture_migration_pml,
                       "culture");
+}
+
+/**********************************************************************//**
+  Write world peace turns settings header.
+**************************************************************************/
+void comment_world_peace_turns(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.world_peace_turns,
+                      "world_peace");
 }
 
 /**********************************************************************//**
