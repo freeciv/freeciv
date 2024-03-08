@@ -16,12 +16,14 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QToolButton>
 
 // common
+#include "game.h"
 #include "terrain.h"
 
 // ruledit
@@ -36,13 +38,15 @@
 **************************************************************************/
 edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog()
 {
-  QVBoxLayout *main_layout = new QVBoxLayout(this);
+  QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *ter_layout = new QGridLayout();
   QLabel *label;
   int row = 0;
 
   ui = ui_in;
   ter = ter_in;
+
+  natives_layout = new QGridLayout();
 
   setWindowTitle(QString::fromUtf8(terrain_rule_name(ter)));
 
@@ -84,9 +88,22 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
   ter_layout->addWidget(label, row, 0);
   ter_layout->addWidget(gfx_tag_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Native to")));
+  natives_layout->addWidget(label, 0, 0);
+  for (int i = 0; i < game.control.num_unit_classes; i++) {
+    QCheckBox *check = new QCheckBox();
+
+    label = new QLabel(uclass_rule_name(uclass_by_number(i)));
+    natives_layout->addWidget(label, i + 1, 0);
+
+    check->setChecked(BV_ISSET(ter->native_to, i));
+    natives_layout->addWidget(check, i + 1, 1);
+  }
+
   refresh();
 
   main_layout->addLayout(ter_layout);
+  main_layout->addLayout(natives_layout);
 
   setLayout(main_layout);
 }
@@ -99,6 +116,15 @@ void edit_terrain::closeEvent(QCloseEvent *cevent)
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
+
+  BV_CLR_ALL(ter->native_to);
+  for (int i = 0; i < game.control.num_unit_classes; i++) {
+    QCheckBox *check = static_cast<QCheckBox *>(natives_layout->itemAtPosition(i + 1, 1)->widget());
+
+    if (check->isChecked()) {
+      BV_SET(ter->native_to, i);
+    }
+  }
 
   ter->ruledit_dlg = nullptr;
 }

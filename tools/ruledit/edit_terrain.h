@@ -21,6 +21,7 @@
 // Qt
 #include <QDialog>
 
+class QGridLayout;
 class QLineEdit;
 class QSpinBox;
 
@@ -41,6 +42,8 @@ class edit_terrain : public QDialog
     QSpinBox *defense;
     QLineEdit *gfx_tag;
     QLineEdit *gfx_tag_alt;
+
+    QGridLayout *natives_layout;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
