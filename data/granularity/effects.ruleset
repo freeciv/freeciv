@@ -312,6 +312,22 @@ reqs	=
       "Building", "Sacred Grove", "City"
     }
 
+[effect_temple]
+type    = "Make_Content"
+value	= 1
+reqs	=
+    { "type",     "name",   "range"
+      "Building", "Temple", "City"
+    }
+
+[effect_temple_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type",     "name",   "range"
+      "Building", "Temple", "City"
+    }
+
 [effect_granary_famine]
 type    = "Shrink_Food"
 value   = 50

@@ -223,8 +223,36 @@ sound		= "b_sacred_grove"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
 helptext	= _("\
-Makes one unhappy citizen content.\
- Does not affect citizens made unhappy by military activity.\
+Makes one unhappy citizen content. \
+Does not affect citizens made unhappy by military activity.\
+"), _("\
+Produces one point of history each turn.\
+")
+
+[building_temple]
+name		= _("Temple")
+genus		= "Improvement"
+reqs	=
+    { "type", "name",         "range"
+      "Tech", "Construction", "Player"
+    }
+graphic         = "b.temple"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 2200
+upkeep		= 150
+sabotage	= 100
+sound		= "b_temple"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Makes one unhappy citizen content. \
+Does not affect citizens made unhappy by military activity.\
+"), _("\
+Produces two points of history each turn.\
 ")
 
 [building_rock_pile]

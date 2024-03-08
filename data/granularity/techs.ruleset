@@ -229,6 +229,15 @@ helptext    = _("\
 Also humans can be trained.\
 ")
 
+[advance_construction]
+name        = _("Construction")
+req1        = "Geometry"
+req2        = "Rituals"
+flags       = ""
+graphic     = "a.construction"
+graphic_alt = "-"
+;helptext    =
+
 [advance_counting]
 name        = _("Counting")
 req1        = "None"
