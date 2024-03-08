@@ -2968,7 +2968,8 @@ static bool is_action_enabled(const struct civ_map *nmap,
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
-is_action_enabled_unit_on_city_full(const action_id wanted_action,
+is_action_enabled_unit_on_city_full(const struct civ_map *nmap,
+                                    const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *actor_home,
                                     const struct tile *actor_tile,
@@ -2976,7 +2977,6 @@ is_action_enabled_unit_on_city_full(const action_id wanted_action,
 {
   const struct impr_type *target_building;
   const struct unit_type *target_utype;
-  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -3037,7 +3037,9 @@ bool is_action_enabled_unit_on_city(const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
 {
-  return is_action_enabled_unit_on_city_full(wanted_action, actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return is_action_enabled_unit_on_city_full(nmap, wanted_action, actor_unit,
                                              unit_home(actor_unit),
                                              unit_tile(actor_unit),
                                              target_city);
@@ -3050,14 +3052,13 @@ bool is_action_enabled_unit_on_city(const action_id wanted_action,
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
-is_action_enabled_unit_on_unit_full(const action_id wanted_action,
+is_action_enabled_unit_on_unit_full(const struct civ_map *nmap,
+                                    const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *actor_home,
                                     const struct tile *actor_tile,
                                     const struct unit *target_unit)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (actor_unit == NULL || target_unit == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -3114,7 +3115,9 @@ bool is_action_enabled_unit_on_unit(const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit)
 {
-  return is_action_enabled_unit_on_unit_full(wanted_action, actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return is_action_enabled_unit_on_unit_full(nmap, wanted_action, actor_unit,
                                              unit_home(actor_unit),
                                              unit_tile(actor_unit),
                                              target_unit);
@@ -3127,14 +3130,14 @@ bool is_action_enabled_unit_on_unit(const action_id wanted_action,
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
-is_action_enabled_unit_on_units_full(const action_id wanted_action,
+is_action_enabled_unit_on_units_full(const struct civ_map *nmap,
+                                     const action_id wanted_action,
                                      const struct unit *actor_unit,
                                      const struct city *actor_home,
                                      const struct tile *actor_tile,
                                      const struct tile *target_tile)
 {
   const struct req_context *actor_ctxt;
-  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_tile == NULL
       || unit_list_size(target_tile->units) == 0) {
@@ -3201,7 +3204,9 @@ bool is_action_enabled_unit_on_units(const action_id wanted_action,
                                      const struct unit *actor_unit,
                                      const struct tile *target_tile)
 {
-  return is_action_enabled_unit_on_units_full(wanted_action, actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return is_action_enabled_unit_on_units_full(nmap, wanted_action, actor_unit,
                                               unit_home(actor_unit),
                                               unit_tile(actor_unit),
                                               target_tile);
@@ -3214,15 +3219,14 @@ bool is_action_enabled_unit_on_units(const action_id wanted_action,
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
-is_action_enabled_unit_on_tile_full(const action_id wanted_action,
+is_action_enabled_unit_on_tile_full(const struct civ_map *nmap,
+                                    const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *actor_home,
                                     const struct tile *actor_tile,
                                     const struct tile *target_tile,
                                     const struct extra_type *target_extra)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -3278,7 +3282,9 @@ bool is_action_enabled_unit_on_tile(const action_id wanted_action,
                                     const struct tile *target_tile,
                                     const struct extra_type *target_extra)
 {
-  return is_action_enabled_unit_on_tile_full(wanted_action, actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return is_action_enabled_unit_on_tile_full(nmap, wanted_action, actor_unit,
                                              unit_home(actor_unit),
                                              unit_tile(actor_unit),
                                              target_tile, target_extra);
@@ -3291,15 +3297,14 @@ bool is_action_enabled_unit_on_tile(const action_id wanted_action,
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
-is_action_enabled_unit_on_extras_full(const action_id wanted_action,
+is_action_enabled_unit_on_extras_full(const struct civ_map *nmap,
+                                      const action_id wanted_action,
                                       const struct unit *actor_unit,
                                       const struct city *actor_home,
                                       const struct tile *actor_tile,
                                       const struct tile *target_tile,
                                       const struct extra_type *target_extra)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -3355,7 +3360,9 @@ bool is_action_enabled_unit_on_extras(const action_id wanted_action,
                                       const struct tile *target_tile,
                                       const struct extra_type *target_extra)
 {
-  return is_action_enabled_unit_on_extras_full(wanted_action, actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return is_action_enabled_unit_on_extras_full(nmap, wanted_action, actor_unit,
                                                unit_home(actor_unit),
                                                unit_tile(actor_unit),
                                                target_tile, target_extra);
@@ -3369,13 +3376,12 @@ bool is_action_enabled_unit_on_extras(const action_id wanted_action,
   disabled.
 **************************************************************************/
 static bool
-is_action_enabled_unit_on_self_full(const action_id wanted_action,
+is_action_enabled_unit_on_self_full(const struct civ_map *nmap,
+                                    const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *actor_home,
                                     const struct tile *actor_tile)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (actor_unit == NULL) {
     /* Can't do an action when the actor is missing. */
     return FALSE;
@@ -3425,7 +3431,9 @@ is_action_enabled_unit_on_self_full(const action_id wanted_action,
 bool is_action_enabled_unit_on_self(const action_id wanted_action,
                                     const struct unit *actor_unit)
 {
-  return is_action_enabled_unit_on_self_full(wanted_action, actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return is_action_enabled_unit_on_self_full(nmap, wanted_action, actor_unit,
                                              unit_home(actor_unit),
                                              unit_tile(actor_unit));
 }
@@ -3766,7 +3774,8 @@ action_prob_battle_then_dice_roll(const struct player *act_player,
   context. This may or may not be legal depending on the action.
 **************************************************************************/
 static struct act_prob
-action_prob(const action_id wanted_action,
+action_prob(const struct civ_map *nmap,
+            const action_id wanted_action,
             const struct req_context *actor,
             const struct city *actor_home,
             const struct req_context *target,
@@ -3775,7 +3784,6 @@ action_prob(const action_id wanted_action,
   int known;
   struct act_prob chance;
   const struct action *paction = action_by_number(wanted_action);
-  struct civ_map *nmap = &(wld.map);
 
   if (actor == NULL) {
     actor = req_context_empty();
@@ -4091,16 +4099,16 @@ action_prob(const action_id wanted_action,
   action on the target city.
 **************************************************************************/
 static struct act_prob
-action_prob_vs_city_full(const struct unit* actor_unit,
+action_prob_vs_city_full(const struct civ_map *nmap,
+                         const struct unit *actor_unit,
                          const struct city *actor_home,
                          const struct tile *actor_tile,
                          const action_id act_id,
-                         const struct city* target_city)
+                         const struct city *target_city)
 {
   const struct impr_type *target_building;
   const struct unit_type *target_utype;
   const struct action *act = action_by_number(act_id);
-  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -4156,7 +4164,7 @@ action_prob_vs_city_full(const struct unit* actor_unit,
   target_building = tgt_city_local_building(target_city);
   target_utype = tgt_city_local_utype(target_city);
 
-  return action_prob(act_id,
+  return action_prob(nmap, act_id,
                      &(const struct req_context) {
                        .player = unit_owner(actor_unit),
                        .city = tile_city(actor_tile),
@@ -4178,11 +4186,13 @@ action_prob_vs_city_full(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on the target city.
 **************************************************************************/
-struct act_prob action_prob_vs_city(const struct unit* actor_unit,
+struct act_prob action_prob_vs_city(const struct unit *actor_unit,
                                     const action_id act_id,
-                                    const struct city* target_city)
+                                    const struct city *target_city)
 {
-  return action_prob_vs_city_full(actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return action_prob_vs_city_full(nmap, actor_unit,
                                   unit_home(actor_unit),
                                   unit_tile(actor_unit),
                                   act_id, target_city);
@@ -4193,11 +4203,12 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
   action on the target unit.
 **************************************************************************/
 static struct act_prob
-action_prob_vs_unit_full(const struct unit* actor_unit,
+action_prob_vs_unit_full(const struct civ_map *nmap,
+                         const struct unit *actor_unit,
                          const struct city *actor_home,
                          const struct tile *actor_tile,
                          const action_id act_id,
-                         const struct unit* target_unit)
+                         const struct unit *target_unit)
 {
   if (actor_unit == NULL || target_unit == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -4236,7 +4247,7 @@ action_prob_vs_unit_full(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  return action_prob(act_id,
+  return action_prob(nmap, act_id,
                      &(const struct req_context) {
                        .player = unit_owner(actor_unit),
                        .city = tile_city(actor_tile),
@@ -4259,11 +4270,13 @@ action_prob_vs_unit_full(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on the target unit.
 **************************************************************************/
-struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
+struct act_prob action_prob_vs_unit(const struct unit *actor_unit,
                                     const action_id act_id,
-                                    const struct unit* target_unit)
+                                    const struct unit *target_unit)
 {
-  return action_prob_vs_unit_full(actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return action_prob_vs_unit_full(nmap, actor_unit,
                                   unit_home(actor_unit),
                                   unit_tile(actor_unit),
                                   act_id,
@@ -4275,16 +4288,16 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
   action on all units at the target tile.
 **************************************************************************/
 static struct act_prob
-action_prob_vs_units_full(const struct unit* actor_unit,
+action_prob_vs_units_full(const struct civ_map *nmap,
+                          const struct unit *actor_unit,
                           const struct city *actor_home,
                           const struct tile *actor_tile,
                           const action_id act_id,
-                          const struct tile* target_tile)
+                          const struct tile *target_tile)
 {
   struct act_prob prob_all;
   const struct req_context *actor_ctxt;
   const struct action *act = action_by_number(act_id);
-  const struct civ_map *nmap = &(wld.map);
 
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -4408,7 +4421,7 @@ action_prob_vs_units_full(const struct unit* actor_unit,
       continue;
     }
 
-    prob_unit = action_prob(act_id, actor_ctxt, actor_home,
+    prob_unit = action_prob(nmap, act_id, actor_ctxt, actor_home,
                             &(const struct req_context) {
                               .player = unit_owner(target_unit),
                               .city = tile_city(unit_tile(target_unit)),
@@ -4450,11 +4463,13 @@ action_prob_vs_units_full(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on all units at the target tile.
 **************************************************************************/
-struct act_prob action_prob_vs_units(const struct unit* actor_unit,
+struct act_prob action_prob_vs_units(const struct unit *actor_unit,
                                      const action_id act_id,
-                                     const struct tile* target_tile)
+                                     const struct tile *target_tile)
 {
-  return action_prob_vs_units_full(actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return action_prob_vs_units_full(nmap, actor_unit,
                                    unit_home(actor_unit),
                                    unit_tile(actor_unit),
                                    act_id,
@@ -4466,7 +4481,8 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
   action on the target tile.
 **************************************************************************/
 static struct act_prob
-action_prob_vs_tile_full(const struct unit *actor_unit,
+action_prob_vs_tile_full(const struct civ_map *nmap,
+                         const struct unit *actor_unit,
                          const struct city *actor_home,
                          const struct tile *actor_tile,
                          const action_id act_id,
@@ -4510,7 +4526,7 @@ action_prob_vs_tile_full(const struct unit *actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  return action_prob(act_id,
+  return action_prob(nmap, act_id,
                      &(const struct req_context) {
                        .player = unit_owner(actor_unit),
                        .city = tile_city(actor_tile),
@@ -4536,7 +4552,9 @@ struct act_prob action_prob_vs_tile(const struct unit *actor_unit,
                                     const struct tile *target_tile,
                                     const struct extra_type *target_extra)
 {
-  return action_prob_vs_tile_full(actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return action_prob_vs_tile_full(nmap, actor_unit,
                                   unit_home(actor_unit),
                                   unit_tile(actor_unit),
                                   act_id, target_tile, target_extra);
@@ -4547,7 +4565,8 @@ struct act_prob action_prob_vs_tile(const struct unit *actor_unit,
   action on the extras at the target tile.
 **************************************************************************/
 static struct act_prob
-action_prob_vs_extras_full(const struct unit *actor_unit,
+action_prob_vs_extras_full(const struct civ_map *nmap,
+                           const struct unit *actor_unit,
                            const struct city *actor_home,
                            const struct tile *actor_tile,
                            const action_id act_id,
@@ -4591,7 +4610,7 @@ action_prob_vs_extras_full(const struct unit *actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  return action_prob(act_id,
+  return action_prob(nmap, act_id,
                      &(const struct req_context) {
                        .player = unit_owner(actor_unit),
                        .city = tile_city(actor_tile),
@@ -4617,7 +4636,9 @@ struct act_prob action_prob_vs_extras(const struct unit *actor_unit,
                                       const struct tile *target_tile,
                                       const struct extra_type *target_extra)
 {
-  return action_prob_vs_extras_full(actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return action_prob_vs_extras_full(nmap, actor_unit,
                                     unit_home(actor_unit),
                                     unit_tile(actor_unit),
                                     act_id, target_tile, target_extra);
@@ -4628,7 +4649,8 @@ struct act_prob action_prob_vs_extras(const struct unit *actor_unit,
   action on itself.
 **************************************************************************/
 static struct act_prob
-action_prob_self_full(const struct unit* actor_unit,
+action_prob_self_full(const struct civ_map *nmap,
+                      const struct unit *actor_unit,
                       const struct city *actor_home,
                       const struct tile *actor_tile,
                       const action_id act_id)
@@ -4663,7 +4685,7 @@ action_prob_self_full(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  return action_prob(act_id,
+  return action_prob(nmap, act_id,
                      &(const struct req_context) {
                        .player = unit_owner(actor_unit),
                        .city = tile_city(actor_tile),
@@ -4680,10 +4702,12 @@ action_prob_self_full(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on itself.
 **************************************************************************/
-struct act_prob action_prob_self(const struct unit* actor_unit,
+struct act_prob action_prob_self(const struct unit *actor_unit,
                                  const action_id act_id)
 {
-  return action_prob_self_full(actor_unit,
+  const struct civ_map *nmap = &(wld.map);
+
+  return action_prob_self_full(nmap, actor_unit,
                                unit_home(actor_unit),
                                unit_tile(actor_unit),
                                act_id);
@@ -4767,9 +4791,10 @@ struct act_prob action_speculate_unit_on_city(const action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
-    if (is_action_enabled_unit_on_city_full(act_id,
+    if (is_action_enabled_unit_on_city_full(nmap, act_id,
                                             actor, actor_home, actor_tile,
                                             target)) {
       return ACTPROB_CERTAIN;
@@ -4779,7 +4804,7 @@ struct act_prob action_speculate_unit_on_city(const action_id act_id,
   } else {
     /* FIXME: this branch result depends _directly_ on actor's position.
      * I.e., like, not adjacent, no action. Other branch ignores radius. */
-    return action_prob_vs_city_full(actor, actor_home, actor_tile,
+    return action_prob_vs_city_full(nmap, actor, actor_home, actor_tile,
                                     act_id, target);
   }
 }
@@ -4801,9 +4826,10 @@ action_speculate_unit_on_unit(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
-    if (is_action_enabled_unit_on_unit_full(act_id,
+    if (is_action_enabled_unit_on_unit_full(nmap, act_id,
                                             actor, actor_home, actor_tile,
                                             target)) {
       return ACTPROB_CERTAIN;
@@ -4811,7 +4837,7 @@ action_speculate_unit_on_unit(action_id act_id,
       return ACTPROB_IMPOSSIBLE;
     }
   } else {
-    return action_prob_vs_unit_full(actor, actor_home, actor_tile,
+    return action_prob_vs_unit_full(nmap, actor, actor_home, actor_tile,
                                     act_id, target);
   }
 }
@@ -4833,9 +4859,10 @@ action_speculate_unit_on_units(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
-    if (is_action_enabled_unit_on_units_full(act_id,
+    if (is_action_enabled_unit_on_units_full(nmap, act_id,
                                              actor, actor_home, actor_tile,
                                              target)) {
       return ACTPROB_CERTAIN;
@@ -4843,7 +4870,7 @@ action_speculate_unit_on_units(action_id act_id,
       return ACTPROB_IMPOSSIBLE;
     }
   } else {
-    return action_prob_vs_units_full(actor, actor_home, actor_tile,
+    return action_prob_vs_units_full(nmap, actor, actor_home, actor_tile,
                                      act_id, target);
   }
 }
@@ -4866,9 +4893,10 @@ action_speculate_unit_on_tile(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
-    if (is_action_enabled_unit_on_tile_full(act_id,
+    if (is_action_enabled_unit_on_tile_full(nmap, act_id,
                                             actor, actor_home, actor_tile,
                                             target_tile, target_extra)) {
       return ACTPROB_CERTAIN;
@@ -4876,7 +4904,7 @@ action_speculate_unit_on_tile(action_id act_id,
       return ACTPROB_IMPOSSIBLE;
     }
   } else {
-    return action_prob_vs_tile_full(actor, actor_home, actor_tile,
+    return action_prob_vs_tile_full(nmap, actor, actor_home, actor_tile,
                                     act_id, target_tile, target_extra);
   }
 }
@@ -4899,9 +4927,10 @@ action_speculate_unit_on_extras(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
-    if (is_action_enabled_unit_on_extras_full(act_id,
+    if (is_action_enabled_unit_on_extras_full(nmap, act_id,
                                               actor, actor_home, actor_tile,
                                               target_tile, target_extra)) {
       return ACTPROB_CERTAIN;
@@ -4909,7 +4938,7 @@ action_speculate_unit_on_extras(action_id act_id,
       return ACTPROB_IMPOSSIBLE;
     }
   } else {
-    return action_prob_vs_extras_full(actor, actor_home, actor_tile,
+    return action_prob_vs_extras_full(nmap, actor, actor_home, actor_tile,
                                       act_id, target_tile, target_extra);
   }
 }
@@ -4930,16 +4959,17 @@ action_speculate_unit_on_self(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
-    if (is_action_enabled_unit_on_self_full(act_id,
+    if (is_action_enabled_unit_on_self_full(nmap, act_id,
                                             actor, actor_home, actor_tile)) {
       return ACTPROB_CERTAIN;
     } else {
       return ACTPROB_IMPOSSIBLE;
     }
   } else {
-    return action_prob_self_full(actor, actor_home, actor_tile,
+    return action_prob_self_full(nmap, actor, actor_home, actor_tile,
                                  act_id);
   }
 }
