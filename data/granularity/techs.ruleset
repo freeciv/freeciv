@@ -385,6 +385,17 @@ graphic     = "a.mining"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_plow]
+name        = _("Plow")
+req1        = "Agriculture"
+req2        = "Horseback Riding"
+flags       = ""
+graphic     = "a.plow"
+graphic_alt = "-"
+helptext    = _("\
+Make Irrigation fully effective.\
+")
+
 [advance_pottery]
 name        = _("Pottery")
 req1        = "Fire"
