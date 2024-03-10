@@ -41,7 +41,7 @@
 #include "shared.h"
 #include "support.h"
 
-/* commmon */
+/* common */
 #include "dataio.h"
 #include "game.h"
 #include "events.h"
