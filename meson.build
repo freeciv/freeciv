@@ -443,7 +443,6 @@ priv_functions = [
   '_stricoll',
   'fcntl',
   'ioctl',
-  'vsnprintf',
   'localtime_r'
   ]
 
