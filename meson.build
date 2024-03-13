@@ -432,7 +432,6 @@ priv_functions = [
   '_stricoll',
   'fcntl',
   'ioctl',
-  'vsnprintf',
   'va_copy',
   'localtime_r'
   ]
