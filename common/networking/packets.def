@@ -301,7 +301,8 @@ type ACTION_TGT         = SINT32
 type ACTION_SUB_TGT     = SINT16
 type BASE               = sint8(Base_type_id)
 type ROAD               = sint8(Road_type_id)
-type CITY               = UINT16
+type CITY16             = UINT16
+type CITY32             = UINT32
 # city id, with space for special values
 type CITYSPE            = SINT32
 type CONNECTION         = SINT16
@@ -318,7 +319,8 @@ type TEAM               = PLAYER
 type TECH               = UINT8
 type TERRAIN            = uint8(Terrain_type_id)
 type TILE               = SINT32
-type UNIT               = UINT16
+type UNIT16             = UINT16
+type UNIT32             = UINT32
 type UNIT_TYPE          = uint8(Unit_type_id)
 type GOODS              = uint8(Goods_type_id)
 
@@ -371,13 +373,17 @@ PACKET_PROCESSING_FINISHED = 1; sc
 end
 
 PACKET_INVESTIGATE_STARTED = 21; sc, dsend
-  UNIT unit_id;
-  CITY city_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
 end
 
 PACKET_INVESTIGATE_FINISHED = 22; sc, dsend
-  UNIT unit_id;
-  CITY city_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
 end
 
 /************** Login/pregame/endgame packets **********************/
@@ -469,7 +475,8 @@ PACKET_TILE_INFO = 15; sc, lsend, is-game-info
   KNOWN known;
   PLAYER owner;
   PLAYER extras_owner;
-  CITY worked;
+  CITY16 worked16; remove-cap(ids32)
+  CITY32 worked32; add-cap(ids32)
 
   TERRAIN terrain;
   RESOURCE resource;
@@ -696,11 +703,13 @@ end
 /************** City packets **********************/
 
 PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_RALLY_POINT), cancel(PACKET_CITY_SHORT_INFO)
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
 end
 
 PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO)
-  CITY id; key
+  CITY16 id16; remove-cap(ids32), key
+  CITY32 id32; add-cap(ids32)
   TILE tile;
 
   PLAYER owner;
@@ -768,14 +777,16 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 end
 
 PACKET_CITY_NATIONALITIES = 46; sc, lsend, is-game-info, force, handle-via-packet
-  CITY id; key
+  CITY16 id16; remove-cap(ids32), key
+  CITY32 id32; add-cap(ids32)
   UINT8 nationalities_count;
   PLAYER nation_id[MAX_CITY_NATIONALITIES:nationalities_count];
   CITIZENS nation_citizens[MAX_CITY_NATIONALITIES:nationalities_count];
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_RALLY_POINT)
-  CITY id; key
+  CITY16 id16; remove-cap(ids32), key
+  CITY32 id32; add-cap(ids32)
   TILE tile;
 
   PLAYER owner;
@@ -796,61 +807,73 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), 
 end
 
 PACKET_TRADE_ROUTE_INFO = 249; sc, lsend, handle-via-packet
-  CITY city;
+  CITY16 city16; remove-cap(ids32)
+  CITY32 city32; add-cap(ids32)
   UINT8 index;
-  CITY partner;
+  CITY16 partner16; remove-cap(ids32)
+  CITY32 partner32; add-cap(ids32)
   UINT16 value;
   RDIR direction;
   GOODS goods;
 end
 
 PACKET_CITY_SELL = 33; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   UINT8 build_id;
 end
 
 PACKET_CITY_BUY = 34; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
 end
 
 PACKET_CITY_CHANGE = 35; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   UINT8 production_kind;
   UINT8 production_value;
 end
 
 PACKET_CITY_WORKLIST = 36; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   WORKLIST worklist;
 end
 
 PACKET_CITY_MAKE_SPECIALIST = 37; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   TILE tile_id;
 end
 
 PACKET_CITY_MAKE_WORKER = 38; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   TILE tile_id;
 end
 
 PACKET_CITY_CHANGE_SPECIALIST = 39; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   SPECIALIST from, to;
 end
 
 PACKET_CITY_RENAME = 40; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   ESTRING name[MAX_LEN_CITYNAME];
 end
 
 PACKET_CITY_OPTIONS_REQ = 41; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   BV_CITY_OPTIONS options;
 end
 
 PACKET_CITY_REFRESH = 42; cs, dsend
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
 end
 
 # For city name suggestions, client sends unit id of unit building the
@@ -860,17 +883,21 @@ end
 # name; if wanted to suggest a new name, could do the same thing
 # sending the city id as id, and only client needs to change.)
 PACKET_CITY_NAME_SUGGESTION_REQ = 43; cs, dsend
-  UNIT unit_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
 end
 
 PACKET_CITY_NAME_SUGGESTION_INFO = 44; sc, dsend, lsend
-  UNIT unit_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
   ESTRING name[MAX_LEN_CITYNAME];
 end
 
 PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
-  UNIT actor_id;
-  CITY city_id;
+  UNIT16 actor_id16; remove-cap(ids32)
+  UNIT32 actor_id32; add-cap(ids32)
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   BV_IMPRS improvements;
   ACTION_ID act_id;
 
@@ -878,7 +905,8 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
 end
 
 PACKET_CITY_RALLY_POINT = 138; cs, sc, lsend, is-game-info, force, handle-via-packet
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   UINT16 length;
   BOOL persistent;
   BOOL vigilant;
@@ -886,7 +914,8 @@ PACKET_CITY_RALLY_POINT = 138; cs, sc, lsend, is-game-info, force, handle-via-pa
 end
 
 PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet
-  CITY city_id;
+  CITY16 city_id16; remove-cap(ids32)
+  CITY32 city_id32; add-cap(ids32)
   TILE tile_id;
   ACTIVITY activity;
   EXTRA  tgt;
@@ -1026,16 +1055,19 @@ end
 /************** Unit packets **********************/
 
 PACKET_UNIT_REMOVE = 62; sc, dsend, lsend, cancel(PACKET_UNIT_INFO), cancel(PACKET_UNIT_SHORT_INFO)
-  UNIT unit_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
 end
 
 PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
-  UNIT id; key
+  UNIT16 id16; remove-cap(ids32), key
+  UNIT32 id32; add-cap(ids32)
   PLAYER owner;
   PLAYER nationality;
   TILE tile;
   DIRECTION facing;
-  CITY homecity;
+  CITY16 homecity16; remove-cap(ids32)
+  CITY32 homecity32; add-cap(ids32)
 
   UINT8 upkeep[O_LAST];
 
@@ -1046,7 +1078,8 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   BOOL stay;
 
   UNIT_TYPE type;
-  UNIT transported_by; /* Only valid if transported is set. */
+  UNIT16 transported_by16; remove-cap(ids32) /* Only valid if transported is set. */
+  UNIT32 transported_by32; add-cap(ids32)
   SINT8 carrying;
   MOVEFRAGS movesleft;
   UINT8 hp, fuel;
@@ -1070,7 +1103,8 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 end
 
 PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, force, cancel(PACKET_UNIT_INFO)
-  UNIT id; key
+  UNIT16 id16; remove-cap(ids32), key
+  UNIT32 id32; add-cap(ids32)
   PLAYER owner;
   TILE tile;
   DIRECTION facing;
@@ -1081,17 +1115,21 @@ PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, force, cancel(PACKET_UNIT_
 
   UINT8 hp, activity;
   EXTRA activity_tgt;
-  UNIT transported_by; /* Only valid if transported is set. */
+  UNIT16 transported_by16; remove-cap(ids32) /* Only valid if transported is set. */
+  UNIT32 transported_by32; add-cap(ids32)
 
   /* in packet only, not in unit struct */
   UINT8 packet_use;	/* see enum unit_info_use */
-  CITY info_city_id;	/* for UNIT_INFO_CITY_SUPPORTED
-  			   and UNIT_INFO_CITY_PRESENT uses */
+  CITY16 info_city_id16; remove-cap(ids32) /* for UNIT_INFO_CITY_SUPPORTED
+                                              and UNIT_INFO_CITY_PRESENT uses */
+  CITY32 info_city_id32; add-cap(ids32)
 end
 
 PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
-  UNIT attacker_unit_id;
-  UNIT defender_unit_id;
+  UNIT16 attacker_unit_id16; remove-cap(ids32)
+  UNIT32 attacker_unit_id32; add-cap(ids32)
+  UNIT16 defender_unit_id16; remove-cap(ids32)
+  UNIT32 defender_unit_id32; add-cap(ids32)
   HP attacker_hp;
   HP defender_hp;
   BOOL make_att_veteran;
@@ -1099,14 +1137,16 @@ PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
 end
 
 PACKET_UNIT_SSCS_SET = 71; cs, dsend
-  UNIT unit_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
   UNIT_DATA_TYPE type;
   SINT32 value;
 end
 
 # used for client orders: currently client-side goto and patrol
 PACKET_UNIT_ORDERS = 73; cs
-  UNIT unit_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
   TILE src_tile; # Origin tile, included for sanity checking
 
   UINT16 length;
@@ -1116,12 +1156,14 @@ PACKET_UNIT_ORDERS = 73; cs
 end
 
 PACKET_UNIT_SERVER_SIDE_AGENT_SET = 74; cs, dsend
-  UNIT unit_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
   SERVER_SIDE_AGENT agent;
 end
 
 PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
-  UNIT actor_id;
+  UNIT16 actor_id16; remove-cap(ids32)
+  UNIT32 actor_id32; add-cap(ids32)
   ACTION_TGT target_id;   # city_id or unit_id
   ACTION_ID action_type;
 
@@ -1133,7 +1175,8 @@ PACKET_UNIT_TYPE_UPGRADE = 83; cs, dsend
 end
 
 PACKET_UNIT_DO_ACTION = 84; cs, dsend
-  UNIT actor_id;
+  UNIT16 actor_id16; remove-cap(ids32)
+  UNIT32 actor_id32; add-cap(ids32)
   ACTION_TGT target_id;   # city_id, unit_id or tile_id
   ACTION_SUB_TGT sub_tgt_id;
   ESTRING name[MAX_LEN_NAME];
@@ -1141,7 +1184,8 @@ PACKET_UNIT_DO_ACTION = 84; cs, dsend
 end
 
 PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
-  UNIT actor_id;
+  UNIT16 actor_id16; remove-cap(ids32)
+  UNIT32 actor_id32; add-cap(ids32)
   ACTION_TGT target_id;   # city_id or unit_id
   GOLD cost;
   ACTION_ID action_type;
@@ -1150,8 +1194,10 @@ PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
 end
 
 PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
-  UNIT actor_unit_id;
-  UNIT target_unit_id;
+  UNIT16 actor_unit_id16; remove-cap(ids32)
+  UNIT32 actor_unit_id32; add-cap(ids32)
+  UNIT16 target_unit_id16; remove-cap(ids32)
+  UNIT32 target_unit_id32; add-cap(ids32)
   TILE target_tile_id;
   EXTRA target_extra_id;
 
@@ -1159,9 +1205,12 @@ PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
 end
 
 PACKET_UNIT_ACTIONS = 90; sc, dsend
-  UNIT actor_unit_id;
-  UNIT target_unit_id;
-  CITY target_city_id;
+  UNIT16 actor_unit_id16; remove-cap(ids32)
+  UNIT32 actor_unit_id32; add-cap(ids32)
+  UNIT16 target_unit_id16; remove-cap(ids32)
+  UNIT32 target_unit_id32; add-cap(ids32)
+  CITY16 target_city_id16; remove-cap(ids32)
+  CITY32 target_city_id32; add-cap(ids32)
   TILE target_tile_id;
   EXTRA target_extra_id;
 
@@ -1172,7 +1221,8 @@ PACKET_UNIT_ACTIONS = 90; sc, dsend
 end
 
 PACKET_UNIT_CHANGE_ACTIVITY = 222; cs, dsend
-  UNIT unit_id;
+  UNIT16 unit_id16; remove-cap(ids32)
+  UNIT32 unit_id32; add-cap(ids32)
   ACTIVITY activity;
   EXTRA target;
 end
@@ -2214,14 +2264,17 @@ PACKET_EDIT_UNIT_REMOVE = 208; cs, handle-per-conn, dsend
 end
 
 PACKET_EDIT_UNIT_REMOVE_BY_ID = 209; cs, handle-per-conn, dsend
-  UNIT id;
+  UNIT16 id16; remove-cap(ids32)
+  UNIT32 id32; add-cap(ids32)
 end
 
 PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
-  UNIT id; key
+  UNIT16 id16; remove-cap(ids32), key
+  UNIT32 id32; add-cap(ids32)
   UNIT_TYPE utype;
   PLAYER owner;
-  CITY homecity;
+  CITY16 homecity16; remove-cap(ids32)
+  CITY32 homecity32; add-cap(ids32)
   MOVEFRAGS moves_left;
   UINT8 hp;
   UINT8 veteran;
@@ -2233,7 +2286,8 @@ PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   BOOL moved;
   BOOL paradropped;
   BOOL done_moving;
-  UNIT transported_by;
+  UNIT16 transported_by16; remove-cap(ids32)
+  UNIT32 transported_by32; add-cap(ids32)
   BOOL stay;
 end
 
@@ -2245,11 +2299,13 @@ PACKET_EDIT_CITY_CREATE = 211; cs, handle-per-conn, dsend
 end
 
 PACKET_EDIT_CITY_REMOVE = 212; cs, handle-per-conn, dsend
-  CITY id;
+  CITY16 id16; remove-cap(ids32)
+  CITY32 id32; add-cap(ids32)
 end
 
 PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
-  CITY id; key
+  CITY16 id16; remove-cap(ids32), key
+  CITY32 id32; add-cap(ids32)
   ESTRING name[MAX_LEN_CITYNAME];
   PLAYER owner;
   PLAYER original;
@@ -2357,7 +2413,8 @@ end
 /* Use range 256:511 for these                             */
 
 PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO)
-  CITY id; key
+  CITY16 id16; remove-cap(ids32), key
+  CITY32 id32; add-cap(ids32)
 
   UINT16 granary_size;
   TURN granary_turns;

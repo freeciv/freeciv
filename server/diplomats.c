@@ -356,7 +356,8 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   conn_list_iterate(pplayer->connections, pconn) {
     if (has_capability("obsinv", pconn->capability)) {
-      dsend_packet_investigate_started(pconn, pdiplomat->id, pcity->id);
+      dsend_packet_investigate_started(pconn, pdiplomat->id, pdiplomat->id,
+                                       pcity->id, pcity->id);
     }
   } conn_list_iterate_end;
 
@@ -413,7 +414,8 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   conn_list_iterate(pplayer->connections, pconn) {
     if (has_capability("obsinv", pconn->capability)) {
-      dsend_packet_investigate_finished(pconn, pdiplomat->id, pcity->id);
+      dsend_packet_investigate_finished(pconn, pdiplomat->id, pdiplomat->id,
+                                        pcity->id, pcity->id);
     }
   } conn_list_iterate_end;
 
@@ -462,8 +464,10 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
     } improvement_iterate_end;
   }
 
-  packet.actor_id = pdiplomat->id;
-  packet.city_id = pcity->id;
+  packet.actor_id32 = pdiplomat->id;
+  packet.actor_id16 = packet.actor_id32;
+  packet.city_id32 = pcity->id;
+  packet.city_id16 = packet.city_id32;
   packet.act_id = paction->id;
   packet.request_kind = request_kind;
   send_packet_city_sabotage_list(pc, &packet);

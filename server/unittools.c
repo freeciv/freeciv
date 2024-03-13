@@ -1846,7 +1846,8 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
     punit->server.vision = NULL;
   }
 
-  packet.unit_id = punit->id;
+  packet.unit_id32 = punit->id;
+  packet.unit_id16 = packet.unit_id32;
   /* Send to onlookers. */
   players_iterate(aplayer) {
     if (can_player_see_unit_at(aplayer, punit, unit_tile(punit),
@@ -2651,12 +2652,14 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 **************************************************************************/
 void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
-  packet->id = punit->id;
+  packet->id32 = punit->id;
+  packet->id16 = packet->id32;
   packet->owner = player_number(unit_owner(punit));
   packet->nationality = player_number(unit_nationality(punit));
   packet->tile = tile_index(unit_tile(punit));
   packet->facing = punit->facing;
-  packet->homecity = punit->homecity;
+  packet->homecity32 = punit->homecity;
+  packet->homecity16 = packet->homecity32;
   output_type_iterate(o) {
     packet->upkeep[o] = punit->upkeep[o];
   } output_type_iterate_end;
@@ -2691,10 +2694,12 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->stay        = punit->stay;
   if (!unit_transported(punit)) {
     packet->transported = FALSE;
-    packet->transported_by = 0;
+    packet->transported_by32 = 0;
+    packet->transported_by16 = 0;
   } else {
     packet->transported = TRUE;
-    packet->transported_by = unit_transport_get(punit)->id;
+    packet->transported_by32 = unit_transport_get(punit)->id;
+    packet->transported_by16 = packet->transported_by32;
   }
   if (punit->carrying != NULL) {
     packet->carrying = goods_index(punit->carrying);
@@ -2724,7 +2729,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 }
 
 /**********************************************************************//**
-  Package a short_unit_info packet.  This contains a limited amount of
+  Package a short_unit_info packet. This contains a limited amount of
   information about the unit, and is sent to players who shouldn't know
   everything (like the unit's owner's enemies).
 **************************************************************************/
@@ -2733,9 +2738,11 @@ void package_short_unit(struct unit *punit,
                         enum unit_info_use packet_use, int info_city_id)
 {
   packet->packet_use = packet_use;
-  packet->info_city_id = info_city_id;
+  packet->info_city_id32 = info_city_id;
+  packet->info_city_id16 = packet->info_city_id32;
 
-  packet->id = punit->id;
+  packet->id32 = punit->id;
+  packet->id16 = packet->id32;
   packet->owner = player_number(unit_owner(punit));
   packet->tile = tile_index(unit_tile(punit));
   packet->facing = punit->facing;
@@ -2757,15 +2764,17 @@ void package_short_unit(struct unit *punit,
   }
 
   /* Transported_by information is sent to the client even for units that
-   * aren't fully known.  Note that for non-allied players, any transported
-   * unit can't be seen at all.  For allied players we have to know if
+   * aren't fully known. Note that for non-allied players, any transported
+   * unit can't be seen at all. For allied players we have to know if
    * transporters have room in them so that we can load units properly. */
   if (!unit_transported(punit)) {
     packet->transported = FALSE;
-    packet->transported_by = 0;
+    packet->transported_by32 = 0;
+    packet->transported_by16 = 0;
   } else {
     packet->transported = TRUE;
-    packet->transported_by = unit_transport_get(punit)->id;
+    packet->transported_by32 = unit_transport_get(punit)->id;
+    packet->transported_by16 = packet->transported_by32;
   }
 }
 
@@ -2774,7 +2783,7 @@ void package_short_unit(struct unit *punit,
 **************************************************************************/
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
 {
-  dlsend_packet_unit_remove(pplayer->connections, punit->id);
+  dlsend_packet_unit_remove(pplayer->connections, punit->id, punit->id);
   if (punit->server.moving != NULL) {
     /* Update status of 'pplayer' vision for 'punit'. */
     BV_CLR(punit->server.moving->can_see_unit, player_index(pplayer));

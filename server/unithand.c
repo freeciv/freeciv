@@ -24,6 +24,7 @@
 
 /* utility */
 #include "astring.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "mem.h"
 #include "rand.h"
@@ -2075,11 +2076,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
   not stop the client from processing the next unit in the queue.
 **************************************************************************/
 void handle_unit_get_actions(struct connection *pc,
-                             const int actor_unit_id,
-                             const int target_unit_id_client,
-                             const int target_tile_id,
-                             const int target_extra_id_client,
-                             const int request_kind)
+                             const struct packet_unit_get_actions *packet)
 {
   struct player *actor_player;
   struct unit *actor_unit;
@@ -2090,8 +2087,9 @@ void handle_unit_get_actions(struct connection *pc,
   struct extra_type *target_extra;
   int actor_target_distance;
   const struct player_tile *plrtile;
-  int target_extra_id = target_extra_id_client;
+  int target_extra_id = packet->target_extra_id;
   const struct civ_map *nmap = &(wld.map);
+  int actor_unit_id, target_unit_id_client;
 
   /* No potentially legal action is known yet. If none is found the player
    * should get an explanation. */
@@ -2101,9 +2099,17 @@ void handle_unit_get_actions(struct connection *pc,
   int target_city_id = IDENTITY_NUMBER_ZERO;
   int target_unit_id = IDENTITY_NUMBER_ZERO;
 
+  if (!has_capability("ids32", pc->capability)) {
+    actor_unit_id = packet->actor_unit_id16;
+    target_unit_id_client = packet->target_unit_id16;
+  } else {
+    actor_unit_id = packet->actor_unit_id32;
+    target_unit_id_client = packet->target_unit_id32;
+  }
+
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
-  target_tile = index_to_tile(nmap, target_tile_id);
+  target_tile = index_to_tile(nmap, packet->target_tile_id);
 
   /* Initialize the action probabilities. */
   action_iterate(act) {
@@ -2113,10 +2119,11 @@ void handle_unit_get_actions(struct connection *pc,
   /* Check if the request is valid. */
   if (!target_tile || !actor_unit || !actor_player
       || actor_unit->owner != actor_player) {
-    dsend_packet_unit_actions(pc, actor_unit_id,
+    dsend_packet_unit_actions(pc, actor_unit_id, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
-                              target_tile_id, target_extra_id,
-                              request_kind,
+                              IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
+                              packet->target_tile_id, packet->target_extra_id,
+                              packet->request_kind,
                               probabilities);
     return;
   }
@@ -2139,20 +2146,21 @@ void handle_unit_get_actions(struct connection *pc,
     notify_player(actor_player, unit_tile(actor_unit),
                   E_BAD_COMMAND, ftc_server,
                   _("Target not at target tile."));
-    dsend_packet_unit_actions(pc, actor_unit_id,
+    dsend_packet_unit_actions(pc, actor_unit_id, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
-                              target_tile_id, target_extra_id,
-                              request_kind,
+                              IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
+                              packet->target_tile_id, packet->target_extra_id,
+                              packet->request_kind,
                               probabilities);
     return;
   }
 
-  if (target_extra_id_client == EXTRA_NONE) {
+  if (packet->target_extra_id == EXTRA_NONE) {
     /* See if a target extra can be found. */
     target_extra = action_tgt_tile_extra(actor_unit, target_tile, TRUE);
   } else {
     /* Use the client selected target extra. */
-    target_extra = extra_by_number(target_extra_id_client);
+    target_extra = extra_by_number(packet->target_extra_id);
   }
 
   /* The player may have outdated information about the target tile.
@@ -2319,12 +2327,14 @@ void handle_unit_get_actions(struct connection *pc,
 
   /* Send possible actions and targets. */
   dsend_packet_unit_actions(pc,
-                            actor_unit_id, target_unit_id, target_city_id,
-                            target_tile_id, target_extra_id,
-                            request_kind,
+                            actor_unit_id, actor_unit_id,
+                            target_unit_id, target_unit_id,
+                            target_city_id, target_city_id,
+                            packet->target_tile_id, target_extra_id,
+                            packet->request_kind,
                             probabilities);
 
-  if (request_kind == REQEST_PLAYER_INITIATED && !at_least_one_action) {
+  if (packet->request_kind == REQEST_PLAYER_INITIATED && !at_least_one_action) {
     /* The user should get an explanation why no action is possible. */
     explain_why_no_action_enabled(actor_unit,
                                   target_tile, target_city, target_unit);
@@ -2984,7 +2994,8 @@ static void unit_query_impossible(struct connection *pc,
                                   int request_kind)
 {
   dsend_packet_unit_action_answer(pc,
-                                  actor_id, target_id,
+                                  actor_id, actor_id,
+                                  target_id,
                                   0,
                                   ACTION_NONE,
                                   request_kind);
@@ -2998,31 +3009,38 @@ static void unit_query_impossible(struct connection *pc,
   connections for that player.
 **************************************************************************/
 void handle_unit_action_query(struct connection *pc,
-                              const int actor_id,
+                              int actor_id16,
+                              int actor_id32,
                               const int target_id,
                               const action_id action_type,
                               int request_kind)
 {
   struct player *pplayer = pc->playing;
-  struct unit *pactor = player_unit_by_number(pplayer, actor_id);
+  struct unit *pactor;
   struct action *paction = action_by_number(action_type);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+
+  if (!has_capability("ids32", pc->capability)) {
+    actor_id32 = actor_id16;
+  }
+
+  pactor = player_unit_by_number(pplayer, actor_id32);
 
   if (NULL == paction) {
     /* Non existing action */
     log_error("handle_unit_action_query() the action %d doesn't exist.",
               action_type);
 
-    unit_query_impossible(pc, actor_id, target_id, request_kind);
+    unit_query_impossible(pc, actor_id32, target_id, request_kind);
     return;
   }
 
   if (NULL == pactor) {
     /* Probably died or bribed. */
     log_verbose("handle_unit_action_query() invalid actor %d",
-                actor_id);
-    unit_query_impossible(pc, actor_id, target_id, request_kind);
+                actor_id32);
+    unit_query_impossible(pc, actor_id32, target_id, request_kind);
     return;
   }
 
@@ -3032,14 +3050,14 @@ void handle_unit_action_query(struct connection *pc,
         && is_action_enabled_unit_on_unit(action_type,
                                           pactor, punit)) {
       dsend_packet_unit_action_answer(pc,
-                                      actor_id, target_id,
+                                      actor_id32, actor_id16, target_id,
                                       unit_bribe_cost(punit, pplayer),
                                       action_type, request_kind);
     } else {
       illegal_action(pplayer, pactor, action_type,
                      punit ? unit_owner(punit) : NULL,
                      NULL, NULL, punit, request_kind, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id, request_kind);
+      unit_query_impossible(pc, actor_id32, target_id, request_kind);
       return;
     }
     break;
@@ -3048,14 +3066,14 @@ void handle_unit_action_query(struct connection *pc,
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
       dsend_packet_unit_action_answer(pc,
-                                      actor_id, target_id,
+                                      actor_id32, actor_id16, target_id,
                                       city_incite_cost(pplayer, pcity),
                                       action_type, request_kind);
     } else {
       illegal_action(pplayer, pactor, action_type,
                      pcity ? city_owner(pcity) : NULL,
                      NULL, pcity, NULL, request_kind, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id, request_kind);
+      unit_query_impossible(pc, actor_id32, target_id, request_kind);
       return;
     }
     break;
@@ -3073,14 +3091,14 @@ void handle_unit_action_query(struct connection *pc,
                                       unit_type_get(pactor), tgt_utype);
 
       dsend_packet_unit_action_answer(pc,
-                                      actor_id, target_id,
+                                      actor_id32, actor_id16, target_id,
                                       upgr_cost, action_type,
                                       request_kind);
     } else {
       illegal_action(pplayer, pactor, action_type,
                      pcity ? city_owner(pcity) : NULL,
                      NULL, pcity, NULL, request_kind, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id, request_kind);
+      unit_query_impossible(pc, actor_id32, target_id, request_kind);
       return;
     }
     break;
@@ -3095,12 +3113,12 @@ void handle_unit_action_query(struct connection *pc,
       illegal_action(pplayer, pactor, action_type,
                      pcity ? city_owner(pcity) : NULL,
                      NULL, pcity, NULL, request_kind, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id, request_kind);
+      unit_query_impossible(pc, actor_id32, target_id, request_kind);
       return;
     }
     break;
   default:
-    unit_query_impossible(pc, actor_id, target_id, request_kind);
+    unit_query_impossible(pc, actor_id32, target_id, request_kind);
     return;
   };
 }
@@ -3111,14 +3129,17 @@ void handle_unit_action_query(struct connection *pc,
   action_type must be a valid action.
 **************************************************************************/
 void handle_unit_do_action(struct player *pplayer,
-                           const int actor_id,
-                           const int target_id,
-                           const int sub_tgt_id,
-                           const char *name,
-                           const action_id action_type)
+                           const struct packet_unit_do_action *packet)
 {
-  (void) unit_perform_action(pplayer, actor_id, target_id, sub_tgt_id, name,
-                             action_type, ACT_REQ_PLAYER);
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    (void) unit_perform_action(pplayer, packet->actor_id16, packet->target_id,
+                               packet->sub_tgt_id, packet->name,
+                               packet->action_type, ACT_REQ_PLAYER);
+  } else {
+    (void) unit_perform_action(pplayer, packet->actor_id32, packet->target_id,
+                               packet->sub_tgt_id, packet->name,
+                               packet->action_type, ACT_REQ_PLAYER);
+  }
 }
 
 /**********************************************************************//**
@@ -4119,11 +4140,19 @@ static void handle_unit_change_activity_real(struct player *pplayer,
 /**********************************************************************//**
   Handle change in unit activity.
 **************************************************************************/
-void handle_unit_change_activity(struct player *pplayer, int unit_id,
+void handle_unit_change_activity(struct player *pplayer,
+                                 int unit_id16, int unit_id32,
                                  enum unit_activity activity,
                                  int target_id)
 {
   struct extra_type *activity_target;
+  int unit_id;
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    unit_id = unit_id16;
+  } else {
+    unit_id = unit_id32;
+  }
 
   if (target_id < 0 || target_id >= game.control.num_extra_types) {
     activity_target = NULL;
@@ -4247,8 +4276,10 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
 {
   struct packet_unit_combat_info combat;
 
-  combat.attacker_unit_id = pattacker->id;
-  combat.defender_unit_id = pdefender->id;
+  combat.attacker_unit_id32 = pattacker->id;
+  combat.attacker_unit_id16 = combat.attacker_unit_id32;
+  combat.defender_unit_id32 = pdefender->id;
+  combat.defender_unit_id16 = combat.defender_unit_id32;
   combat.attacker_hp = pattacker->hp;
   combat.defender_hp = pdefender->hp;
   combat.make_att_veteran = att_veteran;
@@ -5868,19 +5899,25 @@ static bool do_unit_establish_trade(struct player *pplayer,
   have it end up in the save game.
 **************************************************************************/
 void handle_unit_sscs_set(struct player *pplayer,
-                          int unit_id,
+                          int unit_id16, int unit_id32,
                           enum unit_ss_data_type type,
                           int value)
 {
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  struct unit *punit;
   const struct civ_map *nmap = &(wld.map);
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    unit_id32 = unit_id16;
+  }
+
+  punit = player_unit_by_number(pplayer, unit_id32);
 
   if (NULL == punit) {
     /* Being asked to unqueue a "spent" unit because the client haven't
      * been told that it's gone is expected. */
     if (type != USSDT_UNQUEUE) {
       /* Probably died or bribed. */
-      log_verbose("handle_unit_sscs_set() invalid unit %d", unit_id);
+      log_verbose("handle_unit_sscs_set() invalid unit %d", unit_id32);
     }
 
     return;
@@ -5896,7 +5933,7 @@ void handle_unit_sscs_set(struct player *pplayer,
       /* Asked to be reminded to ask what actions the unit can do to a non
        * existing target tile. */
       log_verbose("unit_sscs_set() invalid target tile %d for unit %d",
-                  value, unit_id);
+                  value, unit_id32);
       break;
     }
 
@@ -5975,15 +6012,21 @@ static void unit_plans_clear(struct unit *punit)
   Handle request to change controlling server side agent.
 **************************************************************************/
 void handle_unit_server_side_agent_set(struct player *pplayer,
-                                       int unit_id,
+                                       int unit_id16, int unit_id32,
                                        enum server_side_agent agent)
 {
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  struct unit *punit;
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    unit_id32 = unit_id16;
+  }
+
+  punit = player_unit_by_number(pplayer, unit_id32);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
     log_verbose("handle_unit_server_side_agent_set() invalid unit %d",
-                unit_id);
+                unit_id32);
     return;
   }
 
@@ -6258,17 +6301,26 @@ void handle_unit_orders(struct player *pplayer,
                         const struct packet_unit_orders *packet)
 {
   int length = packet->length;
-  struct unit *punit = player_unit_by_number(pplayer, packet->unit_id);
+  struct unit *punit;
   const struct civ_map *nmap = &(wld.map);
   struct tile *src_tile = index_to_tile(nmap, packet->src_tile);
   struct unit_order *order_list;
+  int unit_id;
 #ifdef FREECIV_DEBUG
   int i;
 #endif
 
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    unit_id = packet->unit_id16;
+  } else {
+    unit_id = packet->unit_id32;
+  }
+
+  punit = player_unit_by_number(pplayer, unit_id);
+
   if (NULL == punit) {
     /* Probably died or bribed. */
-    log_verbose("handle_unit_orders() invalid unit %d", packet->unit_id);
+    log_verbose("handle_unit_orders() invalid unit %d", unit_id);
     return;
   }
 
@@ -6276,7 +6328,7 @@ void handle_unit_orders(struct player *pplayer,
     /* Shouldn't happen */
     log_error("handle_unit_orders() invalid %s (%d) "
               "packet length %d (max %d)", unit_rule_name(punit),
-              packet->unit_id, length, MAX_LEN_ROUTE);
+              unit_id, length, MAX_LEN_ROUTE);
     return;
   }
 
@@ -6301,7 +6353,7 @@ void handle_unit_orders(struct player *pplayer,
     order_list = create_unit_orders(nmap, length, packet->orders);
     if (!order_list) {
       log_error("received invalid orders from %s for %s (%d).",
-                player_name(pplayer), unit_rule_name(punit), packet->unit_id);
+                player_name(pplayer), unit_rule_name(punit), unit_id);
       return;
     }
   }
@@ -6339,7 +6391,7 @@ void handle_unit_orders(struct player *pplayer,
   }
 
 #ifdef FREECIV_DEBUG
-  log_debug("Orders for unit %d: length:%d", packet->unit_id, length);
+  log_debug("Orders for unit %d: length:%d", unit_id, length);
   for (i = 0; i < length; i++) {
     log_debug("  %d,%s,%s,%d,%d",
               packet->orders[i].order, dir_get_name(packet->orders[i].dir),
@@ -6366,9 +6418,15 @@ void handle_unit_orders(struct player *pplayer,
 void handle_worker_task(struct player *pplayer,
                         const struct packet_worker_task *packet)
 {
-  struct city *pcity = game_city_by_number(packet->city_id);
+  struct city *pcity;
   struct worker_task *ptask = NULL;
   struct tile *ptile = index_to_tile(&(wld.map), packet->tile_id);
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    pcity = game_city_by_number(packet->city_id16);
+  } else {
+    pcity = game_city_by_number(packet->city_id32);
+  }
 
   if (pcity == NULL || pcity->owner != pplayer || ptile == NULL) {
     return;

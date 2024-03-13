@@ -209,7 +209,8 @@ static bool apply_result_on_server(struct city *pcity,
 
       last_request_id =
         dsend_packet_city_make_specialist(&client.conn,
-                                          pcity->id, ptile->index);
+                                          pcity->id, pcity->id,
+                                          ptile->index);
       if (first_request_id == 0) {
         first_request_id = last_request_id;
       }
@@ -249,7 +250,7 @@ static bool apply_result_on_server(struct city *pcity,
 
       last_request_id =
         dsend_packet_city_make_worker(&client.conn,
-                                      pcity->id, ptile->index);
+                                      pcity->id, pcity->id, ptile->index);
       if (first_request_id == 0) {
         first_request_id = last_request_id;
       }
@@ -285,8 +286,8 @@ static bool apply_result_on_server(struct city *pcity,
        * allocation of citizen than the server. We just send a
        * PACKET_CITY_REFRESH to bring them in sync.
        */
-    first_request_id = last_request_id =
-      dsend_packet_city_refresh(&client.conn, pcity->id);
+    first_request_id = last_request_id
+      = dsend_packet_city_refresh(&client.conn, pcity->id, pcity->id);
     stats.refresh_forced++;
   }
 

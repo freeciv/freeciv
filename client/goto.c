@@ -1367,7 +1367,8 @@ void request_orders_cleared(struct unit *punit)
 
   /* Clear the orders by sending an empty orders path. */
   log_goto_packet("Clearing orders for unit %d.", punit->id);
-  p.unit_id = punit->id;
+  p.unit_id32 = punit->id;
+  p.unit_id16 = p.unit_id32;
   p.src_tile = tile_index(unit_tile(punit));
   p.repeat = p.vigilant = FALSE;
   p.length = 0;
@@ -1480,7 +1481,8 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   }
 
   memset(&p, 0, sizeof(p));
-  p.unit_id = punit->id;
+  p.unit_id32 = punit->id;
+  p.unit_id16 = p.unit_id32;
   p.src_tile = tile_index(unit_tile(punit));
   p.repeat = repeat;
   p.vigilant = vigilant;
@@ -1508,7 +1510,8 @@ static void send_rally_path_orders(struct city *pcity, struct unit *punit,
   struct packet_city_rally_point p;
 
   memset(&p, 0, sizeof(p));
-  p.city_id = pcity->id;
+  p.city_id32 = pcity->id;
+  p.city_id16 = p.city_id32;
   p.vigilant = vigilant;
   p.persistent = persistent;
 
@@ -1731,7 +1734,8 @@ void send_connect_route(enum unit_activity activity,
       i++;
     } while (i < goto_map->num_parts);
 
-    p.unit_id = punit->id;
+    p.unit_id32 = punit->id;
+    p.unit_id16 = p.unit_id32;
     p.src_tile = tile_index(unit_tile(punit));
     p.repeat = FALSE;
     p.vigilant = FALSE; /* Should be TRUE? */

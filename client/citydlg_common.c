@@ -1260,7 +1260,7 @@ void activate_all_units(struct tile *ptile)
 **************************************************************************/
 int city_change_production(struct city *pcity, struct universal *target)
 {
-  return dsend_packet_city_change(&client.conn, pcity->id,
+  return dsend_packet_city_change(&client.conn, pcity->id, pcity->id,
                                   target->kind,
                                   universal_number(target));
 }
@@ -1272,7 +1272,8 @@ int city_change_production(struct city *pcity, struct universal *target)
 **************************************************************************/
 int city_set_worklist(struct city *pcity, const struct worklist *pworklist)
 {
-  return dsend_packet_city_worklist(&client.conn, pcity->id, pworklist);
+  return dsend_packet_city_worklist(&client.conn, pcity->id, pcity->id,
+                                    pworklist);
 }
 
 /**********************************************************************//**
@@ -1515,7 +1516,7 @@ bool city_can_buy(const struct city *pcity)
 **************************************************************************/
 int city_sell_improvement(struct city *pcity, Impr_type_id sell_id)
 {
-  return dsend_packet_city_sell(&client.conn, pcity->id, sell_id);
+  return dsend_packet_city_sell(&client.conn, pcity->id, pcity->id, sell_id);
 }
 
 /**********************************************************************//**
@@ -1523,21 +1524,22 @@ int city_sell_improvement(struct city *pcity, Impr_type_id sell_id)
 **************************************************************************/
 int city_buy_production(struct city *pcity)
 {
-  return dsend_packet_city_buy(&client.conn, pcity->id);
+  return dsend_packet_city_buy(&client.conn, pcity->id, pcity->id);
 }
 
 /**********************************************************************//**
-  Change a specialist in the given city.  Return the request ID.
+  Change a specialist in the given city. Return the request ID.
 **************************************************************************/
 int city_change_specialist(struct city *pcity, Specialist_type_id from,
                            Specialist_type_id to)
 {
-  return dsend_packet_city_change_specialist(&client.conn, pcity->id, from,
+  return dsend_packet_city_change_specialist(&client.conn,
+                                             pcity->id, pcity->id, from,
                                              to);
 }
 
 /**********************************************************************//**
-  Toggle a worker<->specialist at the given city tile.  Return the
+  Toggle a worker<->specialist at the given city tile. Return the
   request ID.
 **************************************************************************/
 int city_toggle_worker(struct city *pcity, int city_x, int city_y)
@@ -1559,19 +1561,20 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 
   if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
     return dsend_packet_city_make_specialist(&client.conn,
-                                             pcity->id, ptile->index);
+                                             pcity->id, pcity->id,
+                                             ptile->index);
   } else if (city_can_work_tile(pcity, ptile)) {
     return dsend_packet_city_make_worker(&client.conn,
-                                         pcity->id, ptile->index);
+                                         pcity->id, pcity->id, ptile->index);
   } else {
     return 0;
   }
 }
 
 /**********************************************************************//**
-  Tell the server to rename the city.  Return the request ID.
+  Tell the server to rename the city. Return the request ID.
 **************************************************************************/
 int city_rename(struct city *pcity, const char *name)
 {
-  return dsend_packet_city_rename(&client.conn, pcity->id, name);
+  return dsend_packet_city_rename(&client.conn, pcity->id, pcity->id, name);
 }

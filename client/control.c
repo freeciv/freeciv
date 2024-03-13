@@ -370,7 +370,8 @@ static void ask_server_for_actions(struct unit *punit)
   action_selection_in_progress_for = punit->id;
 
   dsend_packet_unit_get_actions(&client.conn,
-                                punit->id,
+                                punit->id, punit->id,
+                                IDENTITY_NUMBER_ZERO,
                                 IDENTITY_NUMBER_ZERO,
                                 tile_index(punit->action_decision_tile),
                                 EXTRA_NONE,
@@ -1053,7 +1054,7 @@ void action_decision_clear_want(const int old_actor_id)
 {
   if (game_unit_by_number(old_actor_id) != NULL) {
     /* Have the server record that a decision no longer is wanted. */
-    dsend_packet_unit_sscs_set(&client.conn, old_actor_id,
+    dsend_packet_unit_sscs_set(&client.conn, old_actor_id, old_actor_id,
                                USSDT_UNQUEUE, IDENTITY_NUMBER_ZERO);
   }
 }
@@ -1492,7 +1493,7 @@ struct unit *request_unit_unload_all(struct unit *punit)
       request_unit_unload(pcargo);
 
       if (pcargo->activity == ACTIVITY_SENTRY) {
-        dsend_packet_unit_sscs_set(&client.conn, pcargo->id,
+        dsend_packet_unit_sscs_set(&client.conn, pcargo->id, pcargo->id,
                                    USSDT_SENTRY, 0);
       }
 
@@ -1680,7 +1681,7 @@ void request_do_action(action_id action, int actor_id,
   request_unit_ssa_set(actor_unit, SSA_NONE);
 
   dsend_packet_unit_do_action(&client.conn,
-                              actor_id, target_id, sub_tgt, name,
+                              actor_id, actor_id, target_id, sub_tgt, name,
                               action);
 }
 
@@ -1695,7 +1696,7 @@ void request_action_details(action_id action, int actor_id,
                             int target_id)
 {
   dsend_packet_unit_action_query(&client.conn,
-                                 actor_id, target_id, action,
+                                 actor_id, actor_id, target_id, action,
                                  /* Users that need the answer in the
                                   * background should send the packet them
                                   * self. At least for now. */
@@ -1719,7 +1720,7 @@ void request_unit_build_city(struct unit *punit)
     request_do_action(ACTION_JOIN_CITY, punit->id, pcity->id, 0, "");
   } else {
     /* The reply will trigger a dialog to name the new city. */
-    dsend_packet_city_name_suggestion_req(&client.conn, punit->id);
+    dsend_packet_city_name_suggestion_req(&client.conn, punit->id, punit->id);
   }
 }
 
@@ -1747,7 +1748,8 @@ void request_unit_non_action_move(struct unit *punit,
   p.repeat = FALSE;
   p.vigilant = FALSE;
 
-  p.unit_id = punit->id;
+  p.unit_id32 = punit->id;
+  p.unit_id16 = p.unit_id32;
   p.src_tile = tile_index(unit_tile(punit));
   p.dest_tile = tile_index(dest_tile);
 
@@ -1801,7 +1803,8 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.repeat = FALSE;
   p.vigilant = FALSE;
 
-  p.unit_id = punit->id;
+  p.unit_id32 = punit->id;
+  p.unit_id16 = p.unit_id32;
   p.src_tile = tile_index(unit_tile(punit));
   p.dest_tile = tile_index(dest_tile);
 
@@ -1843,9 +1846,11 @@ void request_new_unit_activity_targeted(struct unit *punit,
   request_unit_ssa_set(punit, SSA_NONE);
 
   if (tgt == NULL) {
-    dsend_packet_unit_change_activity(&client.conn, punit->id, act, EXTRA_NONE);
+    dsend_packet_unit_change_activity(&client.conn, punit->id, punit->id,
+                                      act, EXTRA_NONE);
   } else {
-    dsend_packet_unit_change_activity(&client.conn, punit->id, act, extra_index(tgt));
+    dsend_packet_unit_change_activity(&client.conn, punit->id, punit->id,
+                                      act, extra_index(tgt));
   }
 }
 
@@ -2022,7 +2027,7 @@ void request_unit_ssa_set(const struct unit *punit,
                           enum server_side_agent agent)
 {
   if (punit) {
-    dsend_packet_unit_server_side_agent_set(&client.conn, punit->id,
+    dsend_packet_unit_server_side_agent_set(&client.conn, punit->id, punit->id,
                                             agent);
   }
 }
@@ -2073,7 +2078,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans,
     /* Sentry the unit. */
     /* FIXME: Should not sentry if above loading fails (transport moved away,
      *        or filled already in server side) */
-    dsend_packet_unit_sscs_set(&client.conn, pcargo->id,
+    dsend_packet_unit_sscs_set(&client.conn, pcargo->id, pcargo->id,
                                USSDT_SENTRY, 1);
   }
 }
@@ -2101,7 +2106,7 @@ void request_unit_unload(struct unit *pcargo)
     if (unit_owner(pcargo) == client.conn.playing
         && pcargo->activity == ACTIVITY_SENTRY) {
       /* Activate the unit. */
-      dsend_packet_unit_sscs_set(&client.conn, pcargo->id,
+      dsend_packet_unit_sscs_set(&client.conn, pcargo->id, pcargo->id,
                                  USSDT_SENTRY, 0);
     }
   }
@@ -2749,7 +2754,7 @@ static void do_unit_act_sel_vs(struct tile *ptile)
     if (utype_may_act_at_all(unit_type_get(punit))) {
       /* Have the server record that an action decision is wanted for
        * this unit against this tile. */
-      dsend_packet_unit_sscs_set(&client.conn, punit->id,
+      dsend_packet_unit_sscs_set(&client.conn, punit->id, punit->id,
                                  USSDT_QUEUE, tile_index(ptile));
     }
   } unit_list_iterate_end;
@@ -3014,7 +3019,7 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
         /* More than one paradrop action may be possible. The user must
          * choose. Have the server record that an action decision is wanted
          * for this unit so the dialog will be brought up. */
-        dsend_packet_unit_sscs_set(&client.conn, punit->id,
+        dsend_packet_unit_sscs_set(&client.conn, punit->id, punit->id,
                                    USSDT_QUEUE, tile_index(ptile));
         return;
       }
@@ -3197,7 +3202,7 @@ void key_unit_action_select(void)
         && (ptile = unit_tile(punit))) {
       /* Have the server record that an action decision is wanted for this
        * unit. */
-      dsend_packet_unit_sscs_set(&client.conn, punit->id,
+      dsend_packet_unit_sscs_set(&client.conn, punit->id, punit->id,
                                  USSDT_QUEUE, tile_index(ptile));
     }
   } unit_list_iterate_end;
@@ -3629,7 +3634,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
       unit_list_iterate_safe(battlegroups[battlegroup], punit) {
 	if (!unit_is_in_focus(punit)) {
 	  punit->battlegroup = BATTLEGROUP_NONE;
-          dsend_packet_unit_sscs_set(&client.conn, punit->id,
+          dsend_packet_unit_sscs_set(&client.conn, punit->id, punit->id,
                                      USSDT_BATTLE_GROUP,
                                      BATTLEGROUP_NONE);
 	  refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
@@ -3644,7 +3649,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
 	  unit_list_remove(battlegroups[punit->battlegroup], punit);
 	}
 	punit->battlegroup = battlegroup;
-        dsend_packet_unit_sscs_set(&client.conn, punit->id,
+        dsend_packet_unit_sscs_set(&client.conn, punit->id, punit->id,
                                    USSDT_BATTLE_GROUP,
                                    battlegroup);
 	unit_list_append(battlegroups[battlegroup], punit);

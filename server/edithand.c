@@ -19,6 +19,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
@@ -588,14 +589,19 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
 /************************************************************************//**
   Handle a request to remove a unit given by its id.
 ****************************************************************************/
-void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
+void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id16,
+                                   Unit_type_id id32)
 {
   struct unit *punit;
 
-  punit = game_unit_by_number(id);
-  if (!punit) {
+  if (!has_capability("ids32", pc->capability)) {
+    id32 = id16;
+  }
+
+  punit = game_unit_by_number(id32);
+  if (punit == NULL) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                _("No such unit (ID %d)."), id);
+                _("No such unit (ID %d)."), id32);
     return;
   }
 
@@ -614,9 +620,14 @@ void handle_edit_unit(struct connection *pc,
   bool changed = FALSE;
   int fuel, hp;
 
-  id = packet->id;
+  if (!has_capability("ids32", pc->capability)) {
+    id = packet->id16;
+  } else {
+    id = packet->id32;
+  }
+
   punit = game_unit_by_number(id);
-  if (!punit) {
+  if (punit == NULL) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("No such unit (ID %d)."), id);
     return;
@@ -748,12 +759,19 @@ void handle_edit_city(struct connection *pc,
   bool changed = FALSE;
   bool need_game_info = FALSE;
   bv_player need_player_info;
+  int cid;
 
-  pcity = game_city_by_number(packet->id);
-  if (!pcity) {
+  if (!has_capability("ids32", pc->capability)) {
+    cid = packet->id16;
+  } else {
+    cid = packet->id32;
+  }
+
+  pcity = game_city_by_number(cid);
+  if (pcity == NULL) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit city with invalid city ID %d."),
-                packet->id);
+                cid);
     return;
   }
 
@@ -1249,7 +1267,7 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
        * not give it vision. */
       unit_list_iterate(ptile->units, punit) {
         conn_list_iterate(pplayer->connections, pconn) {
-          dsend_packet_unit_remove(pconn, punit->id);
+          dsend_packet_unit_remove(pconn, punit->id, punit->id);
         } conn_list_iterate_end;
       } unit_list_iterate_end;
     }
@@ -1276,14 +1294,18 @@ void handle_edit_recalculate_borders(struct connection *pc)
 /************************************************************************//**
   Remove any city at the given location.
 ****************************************************************************/
-void handle_edit_city_remove(struct connection *pc, int id)
+void handle_edit_city_remove(struct connection *pc, int id16, int id32)
 {
   struct city *pcity;
 
-  pcity = game_city_by_number(id);
+  if (!has_capability("ids32", pc->capability)) {
+    id32 = id16;
+  }
+
+  pcity = game_city_by_number(id32);
   if (pcity == NULL) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                _("No such city (ID %d)."), id);
+                _("No such city (ID %d)."), id32);
     return;
   }
 

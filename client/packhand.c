@@ -267,11 +267,27 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 
   /* Owner, veteran, and type fields are already filled in by
    * unit_virtual_create() */
+  if (!has_capability("ids32", client.conn.capability)) {
+    punit->id = packet->id16;
+    punit->homecity = packet->homecity16;
+    if (packet->transported) {
+      punit->client.transported_by = packet->transported_by16;
+    } else {
+      punit->client.transported_by = -1;
+    }
+  } else {
+    punit->id = packet->id32;
+    punit->homecity = packet->homecity32;
+    if (packet->transported) {
+      punit->client.transported_by = packet->transported_by32;
+    } else {
+      punit->client.transported_by = -1;
+    }
+  }
+
   punit->nationality = player_by_number(packet->nationality);
-  punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(&(wld.map), packet->tile));
   punit->facing = packet->facing;
-  punit->homecity = packet->homecity;
   output_type_iterate(o) {
     punit->upkeep[o] = packet->upkeep[o];
   } output_type_iterate_end;
@@ -304,11 +320,6 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 
   /* Transporter / transporting information. */
   punit->client.occupied = packet->occupied;
-  if (packet->transported) {
-    punit->client.transported_by = packet->transported_by;
-  } else {
-    punit->client.transported_by = -1;
-  }
   if (packet->carrying >= 0) {
     punit->carrying = goods_by_number(packet->carrying);
   } else {
@@ -363,7 +374,22 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
 					   0);
 
   /* Owner and type fields are already filled in by unit_virtual_create() */
-  punit->id = packet->id;
+  if (!has_capability("ids32", client.conn.capability)) {
+    punit->id = packet->id16;
+    if (packet->transported) {
+      punit->client.transported_by = packet->transported_by16;
+    } else {
+      punit->client.transported_by = -1;
+    }
+  } else {
+    punit->id = packet->id32;
+    if (packet->transported) {
+      punit->client.transported_by = packet->transported_by32;
+    } else {
+      punit->client.transported_by = -1;
+    }
+  }
+
   unit_tile_set(punit, index_to_tile(&(wld.map), packet->tile));
   punit->facing = packet->facing;
   punit->nationality = NULL;
@@ -379,11 +405,6 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
 
   /* Transporter / transporting information. */
   punit->client.occupied = packet->occupied;
-  if (packet->transported) {
-    punit->client.transported_by = packet->transported_by;
-  } else {
-    punit->client.transported_by = -1;
-  }
 
   return punit;
 }
@@ -460,12 +481,18 @@ void handle_server_join_reply(bool you_can_join, const char *message,
   Handles a remove-city packet, used by the server to tell us any time a
   city is no longer there.
 ****************************************************************************/
-void handle_city_remove(int city_id)
+void handle_city_remove(int city_id16, int city_id32)
 {
-  struct city *pcity = game_city_by_number(city_id);
+  struct city *pcity;
   bool need_menus_update;
 
-  fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
+  if (!has_capability("ids32", client.conn.capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = game_city_by_number(city_id32);
+
+  fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id32);
 
   need_menus_update = (NULL != get_focus_unit_on_tile(city_tile(pcity)));
 
@@ -483,17 +510,23 @@ void handle_city_remove(int city_id)
   Handle a remove-unit packet, sent by the server to tell us any time a
   unit is no longer there.
 ****************************************************************************/
-void handle_unit_remove(int unit_id)
+void handle_unit_remove(int unit_id16, int unit_id32)
 {
-  struct unit *punit = game_unit_by_number(unit_id);
+  struct unit *punit;
   struct unit_list *cargos;
   struct player *powner;
   bool need_economy_report_update;
 
-  if (!punit) {
+  if (!has_capability("ids32", client.conn.capability)) {
+    unit_id32 = unit_id16;
+  }
+
+  punit = game_unit_by_number(unit_id32);
+
+  if (punit == NULL) {
     log_error("Server wants us to remove unit id %d, "
               "but we don't know about this unit!",
-              unit_id);
+              unit_id32);
     return;
   }
 
@@ -502,7 +535,7 @@ void handle_unit_remove(int unit_id)
     action_selection_close();
     /* Open another action selection dialog if there are other actors in the
      * current selection that want a decision. */
-    action_selection_next_in_focus(unit_id);
+    action_selection_next_in_focus(unit_id32);
   }
 
   need_economy_report_update = (0 < punit->upkeep[O_GOLD]);
@@ -563,11 +596,24 @@ void handle_team_name_info(int team_id, const char *team_name)
 void handle_unit_combat_info(const struct packet_unit_combat_info *packet)
 {
   bool show_combat = FALSE;
-  struct unit *punit0 = game_unit_by_number(packet->attacker_unit_id);
-  struct unit *punit1 = game_unit_by_number(packet->defender_unit_id);
+  struct unit *punit0;
+  struct unit *punit1;
+  int attacker_unit_id;
+  int defender_unit_id;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    attacker_unit_id = packet->attacker_unit_id16;
+    defender_unit_id = packet->defender_unit_id16;
+  } else {
+    attacker_unit_id = packet->attacker_unit_id32;
+    defender_unit_id = packet->defender_unit_id32;
+  }
+
+  punit0 = game_unit_by_number(attacker_unit_id);
+  punit1 = game_unit_by_number(defender_unit_id);
 
   if (punit0 && punit1) {
-    popup_combat_info(packet->attacker_unit_id, packet->defender_unit_id,
+    popup_combat_info(attacker_unit_id, defender_unit_id,
                       packet->attacker_hp, packet->defender_hp,
                       packet->make_att_veteran, packet->make_def_veteran);
     if (tile_visible_mapcanvas(unit_tile(punit0))
@@ -656,11 +702,20 @@ void handle_city_info(const struct packet_city_info *packet)
   bool production_changed = FALSE;
   bool trade_routes_changed = FALSE;
   struct unit_list *pfocus_units = get_units_in_focus();
-  struct city *pcity = game_city_by_number(packet->id);
+  struct city *pcity;
   struct tile_list *worked_tiles = NULL;
   struct tile *pcenter = index_to_tile(&(wld.map), packet->tile);
   struct tile *ptile = NULL;
   struct player *powner = player_by_number(packet->owner);
+  int city_id;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    city_id = packet->id16;
+  } else {
+    city_id = packet->id32;
+  }
+
+  pcity = game_city_by_number(city_id);
 
   fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
   fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
@@ -717,12 +772,12 @@ void handle_city_info(const struct packet_city_info *packet)
   if (NULL == pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
-    pcity->id = packet->id;
+    pcity->id = city_id;
     idex_register_city(&wld, pcity);
     update_descriptions = TRUE;
-  } else if (pcity->id != packet->id) {
+  } else if (pcity->id != city_id) {
     log_error("handle_city_info() city id %d != id %d.",
-              pcity->id, packet->id);
+              pcity->id, city_id);
     return;
   } else if (ptile != pcenter) {
     log_error("handle_city_info() city tile (%d, %d) != (%d, %d).",
@@ -957,10 +1012,13 @@ void handle_city_info(const struct packet_city_info *packet)
 
   /* Update caravan dialog */
   if ((production_changed || shield_stock_changed)
-      && action_selection_target_city() == pcity->id) {   
+      && action_selection_target_city() == pcity->id) {
+    int acid = action_selection_actor_unit();
+    int tgtid = action_selection_target_unit();
+
     dsend_packet_unit_get_actions(&client.conn,
-                                  action_selection_actor_unit(),
-                                  action_selection_target_unit(),
+                                  acid, acid,
+                                  tgtid, tgtid,
                                   city_tile(pcity)->index,
                                   action_selection_target_extra(),
                                   REQEST_BACKGROUND_REFRESH);
@@ -978,7 +1036,7 @@ void handle_city_info(const struct packet_city_info *packet)
   use for it.
   TODO: Do not generate code calling this in the C-client.
 ****************************************************************************/
-void handle_web_city_info_addition(int id, int granary_size,
+void handle_web_city_info_addition(int id16, int id32, int granary_size,
                                    int granary_turns)
 {
 }
@@ -988,7 +1046,13 @@ void handle_web_city_info_addition(int id, int granary_size,
 ****************************************************************************/
 void handle_city_nationalities(const struct packet_city_nationalities *packet)
 {
-  struct city *pcity = game_city_by_number(packet->id);
+  struct city *pcity;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    pcity = game_city_by_number(packet->id16);
+  } else {
+    pcity = game_city_by_number(packet->id32);
+  }
 
   /* The nationality of the citizens. */
   if (pcity != NULL && game.info.citizen_nationality) {
@@ -1008,7 +1072,13 @@ void handle_city_nationalities(const struct packet_city_nationalities *packet)
 ****************************************************************************/
 void handle_city_rally_point(const struct packet_city_rally_point *packet)
 {
-  struct city *pcity = game_city_by_number(packet->city_id);
+  struct city *pcity;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    pcity = game_city_by_number(packet->city_id16);
+  } else {
+    pcity = game_city_by_number(packet->city_id32);
+  }
 
   if (pcity != NULL) {
     city_rally_point_receive(packet, pcity);
@@ -1124,9 +1194,18 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 ****************************************************************************/
 void handle_trade_route_info(const struct packet_trade_route_info *packet)
 {
-  struct city *pcity = game_city_by_number(packet->city);
+  struct city *pcity;
   struct trade_route *proute;
   bool city_changed = FALSE;
+  int partner;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    pcity = game_city_by_number(packet->city16);
+    partner = packet->partner16;
+  } else {
+    pcity = game_city_by_number(packet->city32);
+    partner = packet->partner32;
+  }
 
   if (pcity == NULL) {
     return;
@@ -1141,7 +1220,7 @@ void handle_trade_route_info(const struct packet_trade_route_info *packet)
     city_changed = TRUE;
   }
 
-  proute->partner = packet->partner;
+  proute->partner = partner;
   proute->value = packet->value;
   proute->dir = packet->direction;
   proute->goods = goods_by_number(packet->goods);
@@ -1163,12 +1242,21 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   bool city_is_new = FALSE;
   bool name_changed = FALSE;
   bool update_descriptions = FALSE;
-  struct city *pcity = game_city_by_number(packet->id);
+  struct city *pcity;
   struct tile *pcenter = index_to_tile(&(wld.map), packet->tile);
   struct tile *ptile = NULL;
   struct tile_list *worked_tiles = NULL;
   struct player *powner = player_by_number(packet->owner);
   int radius_sq = game.info.init_city_radius_sq;
+  int city_id;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    city_id = packet->id16;
+  } else {
+    city_id = packet->id32;
+  }
+
+  pcity = game_city_by_number(city_id);
 
   fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
   fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
@@ -1216,12 +1304,12 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   if (NULL == pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
-    pcity->id = packet->id;
+    pcity->id = city_id;
     city_map_radius_sq_set(pcity, radius_sq);
     idex_register_city(&wld, pcity);
-  } else if (pcity->id != packet->id) {
+  } else if (pcity->id != city_id) {
     log_error("handle_city_short_info() city id %d != id %d.",
-              pcity->id, packet->id);
+              pcity->id, city_id);
     return;
   } else if (city_tile(pcity) != pcenter) {
     log_error("handle_city_short_info() city tile (%d, %d) != (%d, %d).",
@@ -1300,8 +1388,14 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 ****************************************************************************/
 void handle_worker_task(const struct packet_worker_task *packet)
 {
-  struct city *pcity = game_city_by_number(packet->city_id);
+  struct city *pcity;
   struct worker_task *ptask = NULL;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    pcity = game_city_by_number(packet->city_id16);
+  } else {
+    pcity = game_city_by_number(packet->city_id32);
+  }
 
   if (pcity == NULL
       || (pcity->owner != client.conn.playing && !client_is_global_observer())) {
@@ -1668,8 +1762,8 @@ static void action_decision_handle(struct unit *punit)
         /* An auto action like auto attack could be legal. Check for those
          * at once so they won't have to wait for player focus. */
         dsend_packet_unit_get_actions(&client.conn,
-                                      punit->id,
-                                      IDENTITY_NUMBER_ZERO,
+                                      punit->id, punit->id,
+                                      IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
                                       tile_index(punit->action_decision_tile),
                                       EXTRA_NONE,
                                       REQEST_BACKGROUND_FAST_AUTO_ATTACK);
@@ -1716,7 +1810,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   if (!punit && game_unit_by_number(packet_unit->id)) {
     /* This means unit has changed owner. We deal with this here
      * by simply deleting the old one and creating a new one. */
-    handle_unit_remove(packet_unit->id);
+    handle_unit_remove(packet_unit->id, packet_unit->id);
   }
 
   if (punit) {
@@ -1988,9 +2082,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         check_focus = TRUE;
       } else {
         /* Refresh already open action selection dialog. */
+        int acid = action_selection_actor_unit();
+        int tgtid = action_selection_target_unit();
+
         dsend_packet_unit_get_actions(&client.conn,
-                                      action_selection_actor_unit(),
-                                      action_selection_target_unit(),
+                                      acid, acid,
+                                      tgtid, tgtid,
                                       tile_index(
                                         packet_unit->action_decision_tile),
                                       action_selection_target_extra(),
@@ -2118,13 +2215,21 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   Can't rely on generic packet_processing_started, as that works for
   the requesting connection only, and not for observers.
 ****************************************************************************/
-void handle_investigate_started(int unit_id, int city_id)
+void handle_investigate_started(int unit_id16, int unit_id32,
+                                int city_id16, int city_id32)
 {
-  struct city *pcity = game_city_by_number(city_id);
+  struct city *pcity;
 
-  if (!pcity) {
+  if (!has_capability("ids32", client.conn.capability)) {
+    unit_id32 = unit_id16;
+    city_id32 = city_id16;
+  }
+
+  pcity = game_city_by_number(city_id32);
+
+  if (pcity == NULL) {
     log_error("Investigate city: unknown city id %d!",
-              city_id);
+              city_id32);
     return;
   }
 
@@ -2142,7 +2247,8 @@ void handle_investigate_started(int unit_id, int city_id)
 /************************************************************************//**
   Receive an investigate_finished packet
 ****************************************************************************/
-void handle_investigate_finished(int unit_id, int city_id)
+void handle_investigate_finished(int unit_id16, int unit_id32,
+                                 int city_id16, int city_id32)
 {
 }
 
@@ -2153,6 +2259,13 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
 {
   struct city *pcity;
   struct unit *punit;
+  int info_city_id;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    info_city_id = packet->info_city_id16;
+  } else {
+    info_city_id = packet->info_city_id32;
+  }
 
   /* Special case for a diplomat/spy investigating a city: The investigator
    * needs to know the supported and present units of a city, whether or not
@@ -2162,10 +2275,10 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
       || packet->packet_use == UNIT_INFO_CITY_PRESENT) {
     static int last_serial_num = 0;
 
-    pcity = game_city_by_number(packet->info_city_id);
+    pcity = game_city_by_number(info_city_id);
     if (!pcity) {
       log_error("Investigate city: unknown city id %d!",
-                packet->info_city_id);
+                info_city_id);
       return;
     }
 
@@ -2897,9 +3010,12 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
       /* The diplomatic relationship to the target in an open action
        * selection dialog have changed. This probably changes
        * the set of available actions. */
+      int acid = action_selection_actor_unit();
+      int tgtid = action_selection_target_unit();
+
       dsend_packet_unit_get_actions(&client.conn,
-                                    action_selection_actor_unit(),
-                                    action_selection_target_unit(),
+                                    acid, acid,
+                                    tgtid, tgtid,
                                     tgt_tile->index,
                                     action_selection_target_extra(),
                                     REQEST_BACKGROUND_REFRESH);
@@ -3154,6 +3270,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   struct extra_type *presource = NULL;
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(&(wld.map), packet->tile);
+  int worked;
 
   fc_assert_ret_msg(NULL != ptile, "Invalid tile index %d.", packet->tile);
   old_known = client_tile_get_known(ptile);
@@ -3188,7 +3305,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
 
   tile_changed = tile_changed || (tile_resource(ptile) != presource);
 
-  /* always called after setting terrain */
+  /* Always called after setting terrain */
   tile_set_resource(ptile, presource);
 
   if (tile_owner(ptile) != powner) {
@@ -3217,19 +3334,25 @@ void handle_tile_info(const struct packet_tile_info *packet)
     ptile->infra_turns = packet->place_turn - game.info.turn;
   }
 
+  if (!has_capability("ids32", client.conn.capability)) {
+    worked = packet->worked16;
+  } else {
+    worked = packet->worked32;
+  }
+
   if (NULL == tile_worked(ptile)
-      || tile_worked(ptile)->id != packet->worked) {
-    if (IDENTITY_NUMBER_ZERO != packet->worked) {
-      struct city *pwork = game_city_by_number(packet->worked);
+      || tile_worked(ptile)->id != worked) {
+    if (IDENTITY_NUMBER_ZERO != worked) {
+      struct city *pwork = game_city_by_number(worked);
 
       if (NULL == pwork) {
         char named[MAX_LEN_CITYNAME];
 
         /* New unseen ("invisible") city, or before city_info */
-        fc_snprintf(named, sizeof(named), "%06u", packet->worked);
+        fc_snprintf(named, sizeof(named), "%06u", worked);
 
         pwork = create_city_virtual(invisible.placeholder, NULL, named);
-        pwork->id = packet->worked;
+        pwork->id = worked;
         idex_register_city(&wld, pwork);
 
         city_list_prepend(invisible.cities, pwork);
@@ -4853,9 +4976,16 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 /************************************************************************//**
   Handle reply to our city name request.
 ****************************************************************************/
-void handle_city_name_suggestion_info(int unit_id, const char *name)
+void handle_city_name_suggestion_info(int unit_id16, int unit_id32,
+                                      const char *name)
 {
-  struct unit *punit = player_unit_by_number(client_player(), unit_id);
+  struct unit *punit;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    unit_id32 = unit_id16;
+  }
+
+  punit = player_unit_by_number(client_player(), unit_id32);
 
   if (!can_client_issue_orders()) {
     return;
@@ -4877,7 +5007,7 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
       }
     } else {
       request_do_action(ACTION_FOUND_CITY,
-                        unit_id, tile_index(unit_tile(punit)),
+                        unit_id32, tile_index(unit_tile(punit)),
                         0, name);
     }
   }
@@ -4889,22 +5019,29 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
   The action can be a valid action or the special value ACTION_NONE.
   ACTION_NONE indicates that performing the action is impossible.
 ****************************************************************************/
-void handle_unit_action_answer(int actor_id, int target_id, int cost,
-                               action_id action_type,
-                               int request_kind)
+void handle_unit_action_answer(const struct packet_unit_action_answer *packet)
 {
-  struct city *pcity = game_city_by_number(target_id);
-  struct unit *punit = game_unit_by_number(target_id);
-  struct unit *pactor = player_unit_by_number(client_player(), actor_id);
-  struct action *paction = action_by_number(action_type);
+  struct city *pcity = game_city_by_number(packet->target_id);
+  struct unit *punit = game_unit_by_number(packet->target_id);
+  struct unit *pactor;
+  struct action *paction = action_by_number(packet->action_type);
+  int actor_id;
 
-  if (ACTION_NONE != action_type
-      && !action_id_exists(action_type)) {
+  if (!has_capability("ids32", client.conn.capability)) {
+    actor_id = packet->actor_id16;
+  } else {
+    actor_id = packet->actor_id32;
+  }
+
+  pactor = player_unit_by_number(client_player(), actor_id);
+
+  if (ACTION_NONE != packet->action_type
+      && !action_id_exists(packet->action_type)) {
     /* Non existing action */
     log_error("handle_unit_action_answer() the action %d doesn't exist.",
-              action_type);
+              packet->action_type);
 
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -4916,7 +5053,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
   if (!pactor) {
     log_debug("Bad actor %d.", actor_id);
 
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_selection_next_in_focus(actor_id);
     }
@@ -4924,22 +5061,22 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
     return;
   }
 
-  switch ((enum gen_action)action_type) {
+  switch ((enum gen_action)packet->action_type) {
   case ACTION_SPY_BRIBE_UNIT:
     if (punit && client.conn.playing
         && is_human(client.conn.playing)) {
-      if (request_kind == REQEST_PLAYER_INITIATED) {
+      if (packet->request_kind == REQEST_PLAYER_INITIATED) {
         /* Focus on the unit so the player knows where it is */
         unit_focus_set(pactor);
 
-        popup_bribe_dialog(pactor, punit, cost, paction);
+        popup_bribe_dialog(pactor, punit, packet->cost, paction);
       } else {
         /* Not in use (yet). */
         log_error("Unimplemented: received background unit bribe cost.");
       }
     } else {
-      log_debug("Bad target %d.", target_id);
-      if (request_kind == REQEST_PLAYER_INITIATED) {
+      log_debug("Bad target %d.", packet->target_id);
+      if (packet->request_kind == REQEST_PLAYER_INITIATED) {
         action_selection_no_longer_in_progress(actor_id);
         action_decision_clear_want(actor_id);
         action_selection_next_in_focus(actor_id);
@@ -4950,18 +5087,18 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
   case ACTION_SPY_INCITE_CITY_ESC:
     if (pcity && client.conn.playing
         && is_human(client.conn.playing)) {
-      if (request_kind == REQEST_PLAYER_INITIATED) {
+      if (packet->request_kind == REQEST_PLAYER_INITIATED) {
         /* Focus on the unit so the player knows where it is */
         unit_focus_set(pactor);
 
-        popup_incite_dialog(pactor, pcity, cost, paction);
+        popup_incite_dialog(pactor, pcity, packet->cost, paction);
       } else {
         /* Not in use (yet). */
         log_error("Unimplemented: received background city incite cost.");
       }
     } else {
-      log_debug("Bad target %d.", target_id);
-      if (request_kind == REQEST_PLAYER_INITIATED) {
+      log_debug("Bad target %d.", packet->target_id);
+      if (packet->request_kind == REQEST_PLAYER_INITIATED) {
         action_selection_no_longer_in_progress(actor_id);
         action_decision_clear_want(actor_id);
         action_selection_next_in_focus(actor_id);
@@ -4983,7 +5120,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
     break;
   case ACTION_NONE:
     log_debug("Server didn't respond to query.");
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -4991,8 +5128,8 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
     break;
   default:
     log_error("handle_unit_action_answer() invalid action_type (%d).",
-              action_type);
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+              packet->action_type);
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -5105,18 +5242,30 @@ static void action_decision_maybe_auto(struct unit *actor_unit,
 ****************************************************************************/
 void handle_unit_actions(const struct packet_unit_actions *packet)
 {
-  struct unit *actor_unit = game_unit_by_number(packet->actor_unit_id);
-
+  struct unit *actor_unit;
   struct tile *target_tile = index_to_tile(&(wld.map), packet->target_tile_id);
   struct extra_type *target_extra = packet->target_extra_id == EXTRA_NONE ?
       NULL : extra_by_number(packet->target_extra_id);
-  struct city *target_city = game_city_by_number(packet->target_city_id);
-  struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
+  struct city *target_city;
+  struct unit *target_unit;
+  int actor_unit_id;
 
   const struct act_prob *act_probs = packet->action_probabilities;
 
   int request_kind = packet->request_kind;
   bool valid = FALSE;
+
+  if (!has_capability("ids32", client.conn.capability)) {
+    actor_unit_id = packet->actor_unit_id16;
+    target_city = game_city_by_number(packet->target_city_id16);
+    target_unit = game_unit_by_number(packet->target_unit_id16);
+  } else {
+    actor_unit_id = packet->actor_unit_id32;
+    target_city = game_city_by_number(packet->target_city_id32);
+    target_unit = game_unit_by_number(packet->target_unit_id32);
+  }
+
+  actor_unit = game_unit_by_number(actor_unit_id);
 
   /* The dead can't act */
   if (actor_unit && (target_tile || target_city || target_unit)) {
@@ -5141,9 +5290,9 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
                              act_probs);
     } else {
       /* Nothing to do. */
-      action_selection_no_longer_in_progress(packet->actor_unit_id);
-      action_decision_clear_want(packet->actor_unit_id);
-      action_selection_next_in_focus(packet->actor_unit_id);
+      action_selection_no_longer_in_progress(actor_unit_id);
+      action_decision_clear_want(actor_unit_id);
+      action_selection_next_in_focus(actor_unit_id);
     }
     break;
   case REQEST_BACKGROUND_REFRESH:
@@ -5173,19 +5322,29 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 /************************************************************************//**
   Handle list of potenttial buildings to sabotage.
 ****************************************************************************/
-void handle_city_sabotage_list(int actor_id, int city_id,
-                               bv_imprs improvements,
-                               action_id act_id,
-                               int request_kind)
+void handle_city_sabotage_list(const struct packet_city_sabotage_list *packet)
 {
-  struct city *pcity = game_city_by_number(city_id);
-  struct unit *pactor = player_unit_by_number(client_player(), actor_id);
-  struct action *paction = action_by_number(act_id);
+  struct city *pcity;
+  struct unit *pactor;
+  struct action *paction = action_by_number(packet->act_id);
+  int actor_id;
+  int city_id;
 
-  if (!pactor) {
+  if (!has_capability("ids32", client.conn.capability)) {
+    actor_id = packet->actor_id16;
+    city_id = packet->city_id16;
+  } else {
+    actor_id = packet->actor_id32;
+    city_id = packet->city_id32;
+  }
+
+  pactor = player_unit_by_number(client_player(), actor_id);
+  pcity = game_city_by_number(city_id);
+
+  if (pactor == NULL) {
     log_debug("Bad diplomat %d.", actor_id);
 
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_selection_next_in_focus(actor_id);
     }
@@ -5196,7 +5355,7 @@ void handle_city_sabotage_list(int actor_id, int city_id,
   if (!pcity) {
     log_debug("Bad city %d.", city_id);
 
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -5208,11 +5367,11 @@ void handle_city_sabotage_list(int actor_id, int city_id,
   if (can_client_issue_orders()) {
     improvement_iterate(pimprove) {
       update_improvement_from_packet(pcity, pimprove,
-                                     BV_ISSET(improvements,
+                                     BV_ISSET(packet->improvements,
                                               improvement_index(pimprove)));
     } improvement_iterate_end;
 
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       /* Focus on the unit so the player knows where it is */
       unit_focus_set(pactor);
 
@@ -5223,7 +5382,7 @@ void handle_city_sabotage_list(int actor_id, int city_id,
     }
   } else {
     log_debug("Can't issue orders");
-    if (request_kind == REQEST_PLAYER_INITIATED) {
+    if (packet->request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
     }

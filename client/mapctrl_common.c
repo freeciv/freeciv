@@ -454,7 +454,7 @@ static void clipboard_send_production_packet(struct city *pcity)
     return;
   }
 
-  dsend_packet_city_change(&client.conn, pcity->id,
+  dsend_packet_city_change(&client.conn, pcity->id, pcity->id,
                            clipboard.kind,
                            universal_number(&clipboard));
 }
@@ -607,10 +607,10 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 
       if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
         dsend_packet_city_make_specialist(&client.conn,
-                                          pcity->id, ptile->index);
+                                          pcity->id, pcity->id, ptile->index);
       } else if (city_can_work_tile(pcity, ptile)) {
         dsend_packet_city_make_worker(&client.conn,
-                                      pcity->id, ptile->index);
+                                      pcity->id, pcity->id, ptile->index);
       } else {
 	return;
       }

@@ -1885,10 +1885,10 @@ void remove_city(struct city *pcity)
 
   conn_list_iterate(game.est_connections, pconn) {
     if (NULL == pconn->playing && pconn->observer) {
-      /* For detached observers we have to send a specific packet.  This is
+      /* For detached observers we have to send a specific packet. This is
        * a hack necessitated by the private map that exists for players but
        * not observers. */
-      dsend_packet_city_remove(pconn, id);
+      dsend_packet_city_remove(pconn, id, id);
     }
   } conn_list_iterate_end;
 
@@ -2141,7 +2141,8 @@ static void package_dumb_city(struct player *pplayer, struct tile *ptile,
 {
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
 
-  packet->id = pdcity->identity;
+  packet->id32 = pdcity->identity;
+  packet->id16 = packet->id32;
   packet->owner = player_number(vision_site_owner(pdcity));
 
   packet->tile = tile_index(ptile);
@@ -2473,7 +2474,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   fc_assert(!pcity->server.needs_arrange);
 
-  packet->id = pcity->id;
+  packet->id32 = pcity->id;
+  packet->id16 = packet->id32;
   packet->owner = player_number(city_owner(pcity));
 
   packet->tile = tile_index(city_tile(pcity));
@@ -2500,7 +2502,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   } specialist_type_iterate_end;
 
   /* The nationality of the citizens. */
-  nat_packet->id = pcity->id;
+  nat_packet->id32 = pcity->id;
+  nat_packet->id16 = nat_packet->id32;
   nat_packet->nationalities_count = 0;
   if (game.info.citizen_nationality) {
     int cit = 0;
@@ -2567,9 +2570,11 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   trade_routes_iterate(pcity, proute) {
     struct packet_trade_route_info *tri_packet = fc_malloc(sizeof(struct packet_trade_route_info));
 
-    tri_packet->city = pcity->id;
+    tri_packet->city32 = pcity->id;
+    tri_packet->city16 = tri_packet->city32;
     tri_packet->index = i;
-    tri_packet->partner = proute->partner;
+    tri_packet->partner32 = proute->partner;
+    tri_packet->partner16 = tri_packet->partner32;
     tri_packet->value = proute->value;
     tri_packet->direction = proute->dir;
     tri_packet->goods = goods_number(proute->goods);
@@ -2624,7 +2629,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->capital = pcity->capital;
   packet->steal = pcity->steal;
 
-  rally_packet->city_id = pcity->id;
+  rally_packet->city_id32 = pcity->id;
+  rally_packet->city_id16 = rally_packet->city_id32;
   rally_packet->length = pcity->rally_point.length;
   rally_packet->persistent = pcity->rally_point.persistent;
   rally_packet->vigilant = pcity->rally_point.vigilant;
@@ -2736,7 +2742,8 @@ void reality_check_city(struct player *pplayer, struct tile *ptile)
     if (!pcity || pcity->id != pdcity->identity) {
       struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
 
-      dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
+      dlsend_packet_city_remove(pplayer->connections,
+                                pdcity->identity, pdcity->identity);
       fc_assert_ret(playtile->site == pdcity);
       playtile->site = NULL;
       vision_site_destroy(pdcity);
@@ -2754,7 +2761,8 @@ void remove_dumb_city(struct player *pplayer, struct tile *ptile)
   if (pdcity) {
     struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
 
-    dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
+    dlsend_packet_city_remove(pplayer->connections,
+                              pdcity->identity, pdcity->identity);
     fc_assert_ret(playtile->site == pdcity);
     playtile->site = NULL;
     vision_site_destroy(pdcity);
@@ -3457,7 +3465,8 @@ void clear_worker_task(struct city *pcity, struct worker_task *ptask)
 
   worker_task_list_remove(pcity->task_reqs, ptask);
 
-  packet.city_id = pcity->id;
+  packet.city_id32 = pcity->id;
+  packet.city_id16 = packet.city_id32;
   packet.tile_id = tile_index(ptask->ptile);
   packet.activity = ACTIVITY_LAST;
   packet.tgt = 0;
@@ -3486,7 +3495,8 @@ void package_and_send_worker_tasks(struct city *pcity)
 {
   struct packet_worker_task packet;
 
-  packet.city_id = pcity->id;
+  packet.city_id32 = pcity->id;
+  packet.city_id16 = packet.city_id32;
 
   worker_task_list_iterate(pcity->task_reqs, ptask) {
     packet.tile_id = tile_index(ptask->ptile);

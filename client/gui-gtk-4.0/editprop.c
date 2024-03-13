@@ -1406,10 +1406,10 @@ static void objbind_request_destroy_object(struct objbind *ob)
     dsend_packet_edit_startpos(my_conn, id, TRUE, 0);
     return;
   case OBJTYPE_UNIT:
-    dsend_packet_edit_unit_remove_by_id(my_conn, id);
+    dsend_packet_edit_unit_remove_by_id(my_conn, id, id);
     return;
   case OBJTYPE_CITY:
-    dsend_packet_edit_city_remove(my_conn, id);
+    dsend_packet_edit_city_remove(my_conn, id, id);
     return;
   case OBJTYPE_PLAYER:
     dsend_packet_edit_player_remove(my_conn, id);
@@ -2257,7 +2257,8 @@ static void objbind_pack_current_values(struct objbind *ob,
         return;
       }
 
-      packet->id = punit->id;
+      packet->id32 = punit->id;
+      packet->id16 = packet->id32;
       packet->moves_left = punit->moves_left;
       packet->fuel = punit->fuel;
       packet->moved = punit->moved;
@@ -2279,7 +2280,8 @@ static void objbind_pack_current_values(struct objbind *ob,
         return;
       }
 
-      packet->id = pcity->id;
+      packet->id32 = pcity->id;
+      packet->id16 = packet->id32;
       sz_strlcpy(packet->name, pcity->name);
       packet->size = city_size_get(pcity);
       packet->history = pcity->history;

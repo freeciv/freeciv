@@ -423,6 +423,7 @@ static void found_city_callback(GtkWidget *w, gpointer data)
   struct action_data *args = act_sel_dialog_data;
 
   dsend_packet_city_name_suggestion_req(&client.conn,
+                                        args->actor_unit_id,
                                         args->actor_unit_id);
 
   gtk_widget_destroy(act_sel_dialog);
@@ -1032,17 +1033,18 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
       if (tgt_unit == NULL) {
         /* Make the action dialog pop up again. */
         dsend_packet_unit_get_actions(&client.conn,
-                                      actor->id,
+                                      actor->id, actor->id,
                                       /* Let the server choose the target
                                        * unit. */
+                                      IDENTITY_NUMBER_ZERO,
                                       IDENTITY_NUMBER_ZERO,
                                       tgt_tile->index,
                                       action_selection_target_extra(),
                                       REQEST_PLAYER_INITIATED);
       } else {
         dsend_packet_unit_get_actions(&client.conn,
-                                      actor->id,
-                                      tgt_id,
+                                      actor->id, actor->id,
+                                      tgt_id, tgt_id,
                                       tgt_tile->index,
                                       action_selection_target_extra(),
                                       REQEST_PLAYER_INITIATED);
@@ -1099,12 +1101,13 @@ static void tgt_extra_change_callback(GtkWidget *dlg, gint arg)
                                                      "target"));
       struct extra_type *tgt_extra = extra_by_number(tgt_id);
       struct tile *tgt_tile = g_object_get_data(G_OBJECT(dlg), "tile");
+      int tgt_unit = action_selection_target_unit();
 
       if (tgt_extra == NULL) {
         /* Make the action dialog pop up again. */
         dsend_packet_unit_get_actions(&client.conn,
-                                      actor->id,
-                                      action_selection_target_unit(),
+                                      actor->id, actor->id,
+                                      tgt_unit, tgt_unit,
                                       tgt_tile->index,
                                       /* Let the server choose the target
                                        * extra. */
@@ -1112,8 +1115,8 @@ static void tgt_extra_change_callback(GtkWidget *dlg, gint arg)
                                       REQEST_PLAYER_INITIATED);
       } else {
         dsend_packet_unit_get_actions(&client.conn,
-                                      actor->id,
-                                      action_selection_target_unit(),
+                                      actor->id, actor->id,
+                                      tgt_unit, tgt_unit,
                                       tgt_tile->index,
                                       tgt_id,
                                       REQEST_PLAYER_INITIATED);

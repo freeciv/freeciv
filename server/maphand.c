@@ -525,9 +525,10 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       eowner = extra_owner(ptile);
       info.owner = (owner ? player_number(owner) : MAP_TILE_OWNER_NULL);
       info.extras_owner = (eowner ? player_number(eowner) : MAP_TILE_OWNER_NULL);
-      info.worked = (NULL != tile_worked(ptile))
-                     ? tile_worked(ptile)->id
-                     : IDENTITY_NUMBER_ZERO;
+      info.worked32 = (NULL != tile_worked(ptile))
+                      ? tile_worked(ptile)->id
+                      : IDENTITY_NUMBER_ZERO;
+      info.worked16 = info.worked32;
 
       info.terrain = (NULL != tile_terrain(ptile))
                       ? terrain_number(tile_terrain(ptile))
@@ -568,9 +569,10 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       eowner = plrtile->extras_owner;
       info.owner = (owner ? player_number(owner) : MAP_TILE_OWNER_NULL);
       info.extras_owner = (eowner ? player_number(eowner) : MAP_TILE_OWNER_NULL);
-      info.worked = (NULL != psite)
-                    ? psite->identity
-                    : IDENTITY_NUMBER_ZERO;
+      info.worked32 = (NULL != psite)
+                      ? psite->identity
+                      : IDENTITY_NUMBER_ZERO;
+      info.worked16 = info.worked32;
 
       info.terrain = (NULL != plrtile->terrain)
                       ? terrain_number(plrtile->terrain)
@@ -596,7 +598,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.continent = 0;
       info.owner = MAP_TILE_OWNER_NULL;
       info.extras_owner = MAP_TILE_OWNER_NULL;
-      info.worked = IDENTITY_NUMBER_ZERO;
+      info.worked32 = IDENTITY_NUMBER_ZERO;
+      info.worked16 = IDENTITY_NUMBER_ZERO;
 
       info.terrain = terrain_count();
       info.resource = MAX_EXTRA_TYPES;

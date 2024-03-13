@@ -987,7 +987,7 @@ void editor_apply_tool(const struct tile *ptile,
       struct city *pcity = tile_city(ptile);
       if (pcity != NULL) {
         id = pcity->id;
-        dsend_packet_edit_city_remove(my_conn, id);
+        dsend_packet_edit_city_remove(my_conn, id, id);
       }
     } else {
       dsend_packet_edit_city_create(my_conn, apno, tile, size, 0);

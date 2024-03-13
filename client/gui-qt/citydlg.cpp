@@ -1447,7 +1447,8 @@ void city_map::context_menu(QPoint point)
       return;
     }
 
-    task.city_id = city_id;
+    task.city_id32 = city_id;
+    task.city_id16 = task.city_id32;
 
     if (act == con_road) {
       task.activity = ACTIVITY_GEN_ROAD;
@@ -2690,7 +2691,8 @@ void city_dialog::disband_state_changed(bool allow_disband)
   }
 
   if (!client_is_observer()) {
-    dsend_packet_city_options_req(&client.conn, dlgcity->id, new_options);
+    dsend_packet_city_options_req(&client.conn, dlgcity->id, dlgcity->id,
+                                  new_options);
   }
 }
 

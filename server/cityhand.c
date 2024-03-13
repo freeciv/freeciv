@@ -20,6 +20,7 @@
 #include <string.h>
 
 /* utility */
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -56,14 +57,21 @@
   suggested name and with same id which was passed in (either unit id
   for city builder or existing city id for rename, we don't care here).
 **************************************************************************/
-void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
+void handle_city_name_suggestion_req(struct player *pplayer, int unit_id16,
+                                     int unit_id32)
 {
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  struct unit *punit;
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    unit_id32 = unit_id16;
+  }
+
+  punit = player_unit_by_number(pplayer, unit_id32);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
     log_verbose("handle_city_name_suggestion_req() invalid unit %d",
-                unit_id);
+                unit_id32);
     return;
   }
 
@@ -71,7 +79,8 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
                                                unit_tile(punit), NULL))) {
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
                 TILE_XY(unit_tile(punit)));
-    dlsend_packet_city_name_suggestion_info(pplayer->connections, unit_id,
+    dlsend_packet_city_name_suggestion_info(pplayer->connections,
+                                            unit_id32, unit_id32,
         city_name_suggestion(pplayer, unit_tile(punit)));
 
     /* The rest of this function is error handling. */
@@ -88,13 +97,20 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 /**********************************************************************//**
   Handle request to change specialist type
 **************************************************************************/
-void handle_city_change_specialist(struct player *pplayer, int city_id,
+void handle_city_change_specialist(struct player *pplayer,
+                                   int city_id16, int city_id32,
 				   Specialist_type_id from,
 				   Specialist_type_id to)
 {
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
 
-  if (!pcity) {
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
+
+  if (pcity == NULL) {
     return;
   }
 
@@ -120,15 +136,22 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
   Handle request to change city worker in to specialist.
 **************************************************************************/
 void handle_city_make_specialist(struct player *pplayer,
-                                 int city_id, int tile_id)
+                                 int city_id16, int city_id32, int tile_id)
 {
-  struct tile *ptile = index_to_tile(&(wld.map), tile_id);
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct tile *ptile;
+  struct city *pcity;
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  ptile = index_to_tile(&(wld.map), tile_id);
+  pcity = player_city_by_number(pplayer, city_id32);
 
   if (NULL == pcity) {
     /* Probably lost. */
     log_verbose("handle_city_make_specialist() bad city number %d.",
-                city_id);
+                city_id32);
     return;
   }
 
@@ -164,14 +187,20 @@ void handle_city_make_specialist(struct player *pplayer,
   from first available specialist.
 **************************************************************************/
 void handle_city_make_worker(struct player *pplayer,
-                             int city_id, int tile_id)
+                             int city_id16, int city_id32, int tile_id)
 {
   struct tile *ptile = index_to_tile(&(wld.map), tile_id);
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
 
   if (NULL == pcity) {
     /* Probably lost. */
-    log_verbose("handle_city_make_worker() bad city number %d.",city_id);
+    log_verbose("handle_city_make_worker() bad city number %d.", city_id32);
     return;
   }
 
@@ -266,14 +295,22 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
   Handle improvement selling request. This function does check its
   parameters as they may come from untrusted source over the network.
 **************************************************************************/
-void handle_city_sell(struct player *pplayer, int city_id, int build_id)
+void handle_city_sell(struct player *pplayer, int city_id16, int city_id32,
+                      int build_id)
 {
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
   struct impr_type *pimprove = improvement_by_number(build_id);
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
 
   if (!pcity || !pimprove) {
     return;
   }
+
   really_handle_city_sell(pplayer, pcity, pimprove);
 }
 
@@ -371,12 +408,18 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 /**********************************************************************//**
   Handle city worklist update request
 **************************************************************************/
-void handle_city_worklist(struct player *pplayer, int city_id,
+void handle_city_worklist(struct player *pplayer, int city_id16, int city_id32,
                           const struct worklist *worklist)
 {
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
 
-  if (!pcity) {
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
+
+  if (pcity == NULL) {
     return;
   }
 
@@ -389,11 +432,17 @@ void handle_city_worklist(struct player *pplayer, int city_id,
   Handle buying request. This function does properly check its input as
   it may come from untrusted source over the network.
 **************************************************************************/
-void handle_city_buy(struct player *pplayer, int city_id)
+void handle_city_buy(struct player *pplayer, int city_id16, int city_id32)
 {
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
 
-  if (!pcity) {
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
+
+  if (pcity == NULL) {
     return;
   }
 
@@ -403,12 +452,16 @@ void handle_city_buy(struct player *pplayer, int city_id)
 /**********************************************************************//**
   Handle city refresh request
 **************************************************************************/
-void handle_city_refresh(struct player *pplayer, int city_id)
+void handle_city_refresh(struct player *pplayer, int city_id16, int city_id32)
 {
-  if (city_id != 0) {
-    struct city *pcity = player_city_by_number(pplayer, city_id);
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
 
-    if (!pcity) {
+  if (city_id32 != 0) {
+    struct city *pcity = player_city_by_number(pplayer, city_id32);
+
+    if (pcity == NULL) {
       return;
     }
 
@@ -422,11 +475,17 @@ void handle_city_refresh(struct player *pplayer, int city_id)
 /**********************************************************************//**
   Handle request to change current production.
 **************************************************************************/
-void handle_city_change(struct player *pplayer, int city_id,
+void handle_city_change(struct player *pplayer, int city_id16, int city_id32,
                         int production_kind, int production_value)
 {
   struct universal prod;
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
 
   if (!universals_n_is_valid(production_kind)) {
     log_error("[%s] bad production_kind %d.", __FUNCTION__,
@@ -443,7 +502,7 @@ void handle_city_change(struct player *pplayer, int city_id,
     }
   }
 
-  if (!pcity) {
+  if (pcity == NULL) {
     return;
   }
 
@@ -471,11 +530,17 @@ void handle_city_change(struct player *pplayer, int city_id,
 /**********************************************************************//**
   Handle city rename request packet.
 **************************************************************************/
-void handle_city_rename(struct player *pplayer, int city_id,
+void handle_city_rename(struct player *pplayer, int city_id16, int city_id32,
                         const char *name)
 {
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
   char message[1024];
+
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
 
   if (pcity == NULL) {
     return;
@@ -496,12 +561,19 @@ void handle_city_rename(struct player *pplayer, int city_id,
   Handles a packet from the client that requests the city options for the
   given city be changed.
 **************************************************************************/
-void handle_city_options_req(struct player *pplayer, int city_id,
+void handle_city_options_req(struct player *pplayer,
+                             int city_id16, int city_id32,
 			     bv_city_options options)
 {
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct city *pcity;
 
-  if (!pcity) {
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    city_id32 = city_id16;
+  }
+
+  pcity = player_city_by_number(pplayer, city_id32);
+
+  if (pcity == NULL) {
     return;
   }
 
@@ -516,9 +588,15 @@ void handle_city_options_req(struct player *pplayer, int city_id,
 void handle_city_rally_point(struct player *pplayer,
                              const struct packet_city_rally_point *packet)
 {
-  struct city *pcity = player_city_by_number(pplayer, packet->city_id);
+  struct city *pcity;
 
-  if (NULL != pcity) {
+  if (!has_capability("ids32", pplayer->current_conn->capability)) {
+    pcity = player_city_by_number(pplayer, packet->city_id16);
+  } else {
+    pcity = player_city_by_number(pplayer, packet->city_id32);
+  }
+
+  if (pcity != NULL) {
     city_rally_point_receive(packet, pcity);
     send_city_info(pplayer, pcity);
   }

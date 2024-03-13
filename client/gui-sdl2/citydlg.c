@@ -963,7 +963,9 @@ static int misc_panel_city_dlg_callback(struct widget *pwidget)
       break;
     }
 
-    dsend_packet_city_options_req(&client.conn, pcity_dlg->pcity->id, new_options);
+    dsend_packet_city_options_req(&client.conn,
+                                  pcity_dlg->pcity->id, pcity_dlg->pcity->id,
+                                  new_options);
   }
 
   return -1;

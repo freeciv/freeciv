@@ -675,7 +675,7 @@ static int found_city_callback(struct widget *pwidget)
 
     popdown_diplomat_dialog();
     dsend_packet_city_name_suggestion_req(&client.conn,
-                                          actor_id);
+                                          actor_id, actor_id);
   }
 
   return -1;

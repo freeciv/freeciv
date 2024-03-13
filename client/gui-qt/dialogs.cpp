@@ -1658,8 +1658,8 @@ void choice_dialog::switch_target()
 
   unit_skip->setParent(nullptr);
   dsend_packet_unit_get_actions(&client.conn,
-                                unit_id,
-                                targeted_unit->id,
+                                unit_id, unit_id,
+                                targeted_unit->id, targeted_unit->id,
                                 targeted_unit->tile->index,
                                 action_selection_target_extra(),
                                 REQEST_PLAYER_INITIATED);
@@ -2704,7 +2704,7 @@ static void found_city(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
 
   dsend_packet_city_name_suggestion_req(&client.conn,
-                                        actor_id);
+                                        actor_id, actor_id);
 }
 
 /***********************************************************************//**

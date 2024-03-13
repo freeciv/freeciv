@@ -2995,7 +2995,8 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
   struct tile *ptile = workertask_req.loc;
   struct packet_worker_task task;
 
-  task.city_id = pcity->id;
+  task.city_id32 = pcity->id;
+  task.city_id16 = task.city_id32;
 
   if (act == ACTIVITY_LAST) {
     task.tgt = -1;
@@ -3445,7 +3446,7 @@ static void cityopt_callback(GtkWidget *w, gpointer data)
       BV_SET(new_options, CITYO_GOLD_SPECIALISTS);
     }
 
-    dsend_packet_city_options_req(&client.conn, pcity->id,new_options);
+    dsend_packet_city_options_req(&client.conn, pcity->id, pcity->id, new_options);
   }
 }
 
