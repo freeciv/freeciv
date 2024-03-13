@@ -3283,7 +3283,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
           connectable_river_around = FALSE;
           ocean_around = FALSE;
           for (k = 0; k < MAP_NUM_VALID_DIRS; k++) {
-            if (wld.map.valid_dirs[k] == DIR_REVERSE(MAP_VALID_DIRS[j])) {
+            if (MAP_VALID_DIRS[k] == DIR_REVERSE(MAP_VALID_DIRS[j])) {
               continue;
             }
 
