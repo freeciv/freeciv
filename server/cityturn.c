@@ -1261,7 +1261,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_IMPROVEMENT:
         if (preq->range == REQ_RANGE_LOCAL) {
           /* Building itself is never going to change */
-          purge = FALSE;
+          purge = TRUE;
         } else {
           if (preq->present) {
             notify_player(pplayer, city_tile(pcity),
@@ -1291,7 +1291,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_IMPR_GENUS:
         if (preq->range == REQ_RANGE_LOCAL) {
           /* Building's own genus is never going to change */
-          purge = FALSE;
+          purge = TRUE;
         } else {
           if (preq->present) {
             notify_player(pplayer, city_tile(pcity),
@@ -1321,7 +1321,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_IMPR_FLAG:
         if (preq->range == REQ_RANGE_LOCAL) {
           /* Building's own flags are never going to change */
-          purge = FALSE;
+          purge = TRUE;
         } else {
           if (preq->present) {
             notify_player(pplayer, city_tile(pcity),
