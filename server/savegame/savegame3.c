@@ -874,10 +874,13 @@ static enum unit_activity char2activity(char activity)
   enum unit_activity a;
 
   for (a = 0; a < ACTIVITY_LAST_SAVEGAME3; a++) {
-    char achar = activity2char(a);
+    /* Skip ACTIVITY_LAST. The SAVEGAME3 specific values are after it. */
+    if (a != ACTIVITY_LAST) {
+      char achar = activity2char(a);
 
-    if (activity == achar) {
-      return a;
+      if (activity == achar) {
+        return a;
+      }
     }
   }
 
