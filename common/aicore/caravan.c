@@ -585,87 +585,6 @@ static bool get_discounted_reward(const struct unit *caravan,
 ****************************************************************************/
 
 /************************************************************************//**
-  Ignoring the transit time, return the value of moving the caravan
-  to dest.
-****************************************************************************/
-static void caravan_evaluate_notransit(const struct unit *caravan,
-                                       const struct city *dest,
-                                       const struct caravan_parameter *param,
-                                       struct caravan_result *result)
-{
-  const struct city *src = game_city_by_number(caravan->homecity);
-
-  caravan_result_init(result, src, dest, 0);
-  get_discounted_reward(caravan, param, result);
-}
-
-/************************************************************************//**
-  Structure and callback for the caravan_search invocation in
-  caravan_evaluate_withtransit().
-****************************************************************************/
-struct cewt_data {
-  const struct unit *caravan;
-  struct caravan_result *result;
-  const struct caravan_parameter *param;
-};
-
-static bool cewt_callback(void *vdata, const struct city *dest,
-                          int arrival_time, int moves_left)
-{
-  struct cewt_data *data = vdata;
-
-  fc_assert_ret_val(data->result, FALSE);
-
-  if (dest == data->result->dest) {
-    data->result->arrival_time = arrival_time;
-    get_discounted_reward(data->caravan, data->param, data->result);
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
-/************************************************************************//**
-  Using the caravan_search function to take transit time into account,
-  evaluate the benefit of sending the caravan to dest.
-****************************************************************************/
-static void caravan_evaluate_withtransit(const struct civ_map *nmap,
-                                         const struct unit *caravan,
-                                         const struct city *dest,
-                                         const struct caravan_parameter *param,
-                                         struct caravan_result *result,
-                                         bool omniscient)
-{
-  struct cewt_data data;
-
-  data.caravan = caravan;
-  data.param = param;
-  caravan_result_init(result, game_city_by_number(caravan->homecity),
-                      dest, 0);
-  data.result = result;
-  caravan_search_from(nmap, caravan, param, unit_tile(caravan), 0,
-                      caravan->moves_left, omniscient, cewt_callback, &data);
-}
-
-/************************************************************************//**
-  Evaluate the value of sending the caravan to dest.
-****************************************************************************/
-void caravan_evaluate(const struct unit *caravan,
-                      const struct city *dest,
-                      const struct caravan_parameter *param,
-                      struct caravan_result *result, bool omniscient)
-{
-  const struct civ_map *nmap = &(wld.map);
-
-  if (param->ignore_transit_time) {
-    caravan_evaluate_notransit(caravan, dest, param, result);
-  } else {
-    caravan_evaluate_withtransit(nmap, caravan, dest, param, result, omniscient);
-  }
-}
-
-
-/************************************************************************//**
   Find the best destination for the caravan, ignoring transit time.
 ****************************************************************************/
 static void caravan_find_best_destination_notransit(const struct unit *caravan,
@@ -695,7 +614,7 @@ static void caravan_find_best_destination_notransit(const struct unit *caravan,
 
 /************************************************************************//**
   Callback and struct for caravan_search invocation in
-  caravan_find_best_destination_withtransit.
+  caravan_find_best_destination_withtransit().
 ****************************************************************************/
 struct cfbdw_data {
   const struct caravan_parameter *param;
