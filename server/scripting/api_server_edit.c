@@ -268,7 +268,7 @@ bool api_edit_perform_action_unit_vs_city(lua_State *L, Unit *punit,
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
-  if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
+  if (is_action_enabled_unit_on_city(&(wld.map), paction->id, punit, tgt)) {
     return unit_perform_action(unit_owner(punit), punit->id,
                                tgt->id, IDENTITY_NUMBER_ZERO, "",
                                paction->id, ACT_REQ_RULES);
@@ -294,7 +294,7 @@ bool api_edit_perform_action_unit_vs_city_impr(lua_State *L, Unit *punit,
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
-  if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
+  if (is_action_enabled_unit_on_city(&(wld.map), paction->id, punit, tgt)) {
     return unit_perform_action(unit_owner(punit), punit->id,
                                tgt->id, sub_tgt->item_number, "",
                                paction->id, ACT_REQ_RULES);
@@ -320,7 +320,7 @@ bool api_edit_perform_action_unit_vs_city_tech(lua_State *L, Unit *punit,
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
-  if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
+  if (is_action_enabled_unit_on_city(&(wld.map), paction->id, punit, tgt)) {
     return unit_perform_action(unit_owner(punit), punit->id,
                                tgt->id, sub_tgt->item_number, "",
                                paction->id, ACT_REQ_RULES);

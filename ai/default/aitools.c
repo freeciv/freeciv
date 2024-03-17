@@ -820,6 +820,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   int sanity = punit->id;
   bool alive;
   struct city *tcity;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
   fc_assert_ret_val(is_ai(unit_owner(punit)), TRUE);
@@ -867,7 +868,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
                    0, "", ACTION_NUKE);
   } else if (action_id_get_target_kind(ACTION_NUKE) == ATK_CITY
              && (tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(ACTION_NUKE,
+             && is_action_enabled_unit_on_city(nmap, ACTION_NUKE,
                                                punit, tcity)) {
     /* Choose "Explode Nuclear". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
@@ -880,7 +881,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
                    0, "", ACTION_NUKE_CITY);
   } else if (action_id_get_target_kind(ACTION_NUKE_CITY) == ATK_CITY
              && (tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(ACTION_NUKE_CITY,
+             && is_action_enabled_unit_on_city(nmap, ACTION_NUKE_CITY,
                                                punit, tcity)) {
     /* Choose "Nuke City". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
@@ -896,51 +897,51 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_SUICIDE_ATTACK);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY,
                                                punit, tcity)) {
     /* Choose "Conquer City". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
                    0, "", ACTION_CONQUER_CITY);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY2,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY2,
                                                punit, tcity)) {
     /* Choose "Conquer City 2". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
                    0, "", ACTION_CONQUER_CITY2);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY3,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY3,
                                                punit, tcity)) {
     /* Choose "Conquer City 3". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
                    0, "", ACTION_CONQUER_CITY3);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY4,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY4,
                                                punit, tcity)) {
     /* Choose "Conquer City 4". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
                    0, "", ACTION_CONQUER_CITY4);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
                                                punit, ptrans)) {
     /* "Transport Embark". */
     unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                    0, "", ACTION_TRANSPORT_EMBARK);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                    0, "", ACTION_TRANSPORT_EMBARK2);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                    0, "", ACTION_TRANSPORT_EMBARK3);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
                                                punit, ptrans)) {
@@ -1087,6 +1088,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
   const bool is_plr_ai = is_ai(pplayer);
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
   fc_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
@@ -1120,25 +1122,25 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   }
 
   /* Select move kind. */
-  if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  if (!can_unit_survive_at_tile(nmap, punit, ptile)
       && ((ptrans = transporter_for_unit_at(punit, ptile)))
       && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
                                         punit, ptrans)) {
     /* "Transport Embark". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK2);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK3);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
                                                punit, ptrans)) {
@@ -1209,7 +1211,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   if (action_has_result(paction, ACTRES_UNIT_MOVE)
       || action_has_result(paction, ACTRES_TRANSPORT_DISEMBARK)) {
     /* The unit will have to move it self rather than being moved. */
-    int mcost = map_move_cost_unit(&(wld.map), punit, ptile);
+    int mcost = map_move_cost_unit(nmap, punit, ptile);
 
     if (paction) {
       struct tile *from_tile;
