@@ -152,9 +152,9 @@ struct fz_FILE_s {
   bool memory;
   union {
     struct mem_fzFILE mem;
-    FILE *plain;		/* FZ_PLAIN */
+    FILE *plain;                /* FZ_PLAIN */
 #ifdef FREECIV_HAVE_LIBZ
-    gzFile zlib;                 /* FZ_ZLIB */
+    gzFile zlib;                /* FZ_ZLIB */
 #endif
 #ifdef FREECIV_HAVE_LIBBZ2
     struct bzip2_struct bz2;
@@ -219,22 +219,22 @@ fz_FILE *fz_from_memory(char *buffer, int size, bool control)
 }
 
 /************************************************************************//**
-  Open file for reading/writing, like fopen.
+  Open file for reading/writing, like fopen().
   Parameters compress_method and compress_level only apply
   for writing: for reading try to use the most appropriate
   available method.
-  Returns NULL if there was a problem; check errno for details.
+  Returns nullptr if there was a problem; check errno for details.
   (If errno is 0, and using FZ_ZLIB, probably had zlib error
-  Z_MEM_ERROR.  Wishlist: better interface for errors?)
+  Z_MEM_ERROR. Wishlist: better interface for errors?)
 ****************************************************************************/
 fz_FILE *fz_from_file(const char *filename, const char *in_mode,
-		      enum fz_method method, int compress_level)
+                      enum fz_method method, int compress_level)
 {
   fz_FILE *fp;
   char mode[64];
 
   if (!is_reg_file_for_access(filename, in_mode[0] == 'w')) {
-    return NULL;
+    return nullptr;
   }
 
   fp = (fz_FILE *)fc_malloc(sizeof(*fp));
@@ -261,17 +261,17 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     fp->u.bz2.plain = fc_fopen(filename, test_mode);
     if (fp->u.bz2.plain) {
       fp->u.bz2.file = BZ2_bzReadOpen(&fp->u.bz2.error, fp->u.bz2.plain, 1, 0,
-                                      NULL, 0);
+                                      nullptr, 0);
     } else {
       /* This may currently have garbage value assigned via other union member. */
-      fp->u.bz2.file = NULL;
+      fp->u.bz2.file = nullptr;
     }
     if (!fp->u.bz2.file) {
       if (fp->u.bz2.plain) {
         fclose(fp->u.bz2.plain);
       }
       free(fp);
-      return NULL;
+      return nullptr;
     } else {
       /* Try to read first byte out of stream so we can figure out if this
          really is bzip2 file or not. Store byte for later use */
@@ -301,7 +301,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
           BZ2_bzReadClose(&tmp_err, fp->u.bz2.file);
           fclose(fp->u.bz2.plain);
           free(fp);
-          return NULL;
+          return nullptr;
         } else {
           /* Read success and we can continue reading */
           fp->u.bz2.firstbyte = tmp;
@@ -326,7 +326,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
                                          LZMA_CONCATENATED);
     if (fp->u.xz.error != LZMA_OK) {
       free(fp);
-      return NULL;
+      return nullptr;
     }
     fp->u.xz.plain = fc_fopen(filename, test_mode);
     if (fp->u.xz.plain) {
@@ -368,7 +368,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       free(fp->u.xz.in_buf);
     } else {
       free(fp);
-      return NULL;
+      return nullptr;
     }
 #endif /* FREECIV_HAVE_LIBLZMA */
 
@@ -431,14 +431,14 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     {
       lzma_ret ret;
 
-      /*  xz files are binary files, so we should add "b" to mode! */
+      /* xz files are binary files, so we should add "b" to mode! */
       sz_strlcat(mode, "b");
       memset(&fp->u.xz.stream, 0, sizeof(lzma_stream));
       ret = lzma_easy_encoder(&fp->u.xz.stream, compress_level, LZMA_CHECK_CRC32);
       fp->u.xz.error = ret;
       if (ret != LZMA_OK) {
         free(fp);
-        return NULL;
+        return nullptr;
       }
       fp->u.xz.in_buf = fc_malloc(PLAIN_FILE_BUF_SIZE_XZ);
       fp->u.xz.stream.next_in = fp->u.xz.in_buf;
@@ -450,7 +450,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp->u.xz.plain = fc_fopen(filename, mode);
       if (!fp->u.xz.plain) {
         free(fp);
-        return NULL;
+        return nullptr;
       }
     }
     return fp;
@@ -464,7 +464,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp->u.zstd.plain = fc_fopen(filename, mode);
       if (!fp->u.zstd.plain) {
         free(fp);
-        return NULL;
+        return nullptr;
       }
 
       fp->u.zstd.cstream = ZSTD_createCStream();
@@ -490,31 +490,31 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     fp->u.bz2.plain = fc_fopen(filename, mode);
     if (fp->u.bz2.plain) {
       /*  Open for read handled earlier */
-      fc_assert_ret_val('w' == mode[0], NULL);
+      fc_assert_ret_val('w' == mode[0], nullptr);
       fp->u.bz2.file = BZ2_bzWriteOpen(&fp->u.bz2.error, fp->u.bz2.plain,
                                        compress_level, 1, 15);
       if (fp->u.bz2.error != BZ_OK) {
         int tmp_err; /* See comments for similar variable
                       * near BZ2_bzReadOpen() */
 
-        BZ2_bzWriteClose(&tmp_err, fp->u.bz2.file, 0, NULL, NULL);
-        fp->u.bz2.file = NULL;
+        BZ2_bzWriteClose(&tmp_err, fp->u.bz2.file, 0, nullptr, nullptr);
+        fp->u.bz2.file = nullptr;
       }
     } else {
-      fp->u.bz2.file = NULL;
+      fp->u.bz2.file = nullptr;
     }
     if (!fp->u.bz2.file) {
       if (fp->u.bz2.plain) {
         fclose(fp->u.bz2.plain);
       }
       free(fp);
-      fp = NULL;
+      fp = nullptr;
     }
     return fp;
 #endif /* FREECIV_HAVE_LIBBZ2 */
 #ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
-    /*  gz files are binary files, so we should add "b" to mode! */
+    /* gz files are binary files, so we should add "b" to mode! */
     sz_strlcat(mode, "b");
     if (mode[0] == 'w') {
       cat_snprintf(mode, sizeof(mode), "%d", compress_level);
@@ -522,7 +522,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     fp->u.zlib = fc_gzopen(filename, mode);
     if (!fp->u.zlib) {
       free(fp);
-      fp = NULL;
+      fp = nullptr;
     }
     return fp;
 #endif /* FREECIV_HAVE_LIBZ */
@@ -530,7 +530,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     fp->u.plain = fc_fopen(filename, mode);
     if (!fp->u.plain) {
       free(fp);
-      fp = NULL;
+      fp = nullptr;
     }
     return fp;
   }
@@ -539,7 +539,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
   fc_assert_msg(FALSE, "Internal error in %s() (method = %d)",
                 __FUNCTION__, fp->method);
   free(fp);
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -550,7 +550,7 @@ fz_FILE *fz_from_stream(FILE *stream)
   fz_FILE *fp;
 
   if (!stream) {
-    return NULL;
+    return nullptr;
   }
 
   fp = fc_malloc(sizeof(*fp));
@@ -561,10 +561,10 @@ fz_FILE *fz_from_stream(FILE *stream)
 }
 
 /************************************************************************//**
-  Close file, like fclose.
+  Close file, like fclose().
   Returns 0 on success, or non-zero for problems (but don't call
-  fz_ferror in that case because the struct has already been
-  free'd;  wishlist: better interface for errors?)
+  fz_ferror() in that case because the struct has already been
+  free'd; wishlist: better interface for errors?)
   (For FZ_PLAIN returns EOF and could check errno;
   for FZ_ZLIB: returns zlib error number; see zlib.h.)
 ****************************************************************************/
@@ -572,7 +572,7 @@ int fz_fclose(fz_FILE *fp)
 {
   int error = 0;
 
-  fc_assert_ret_val(NULL != fp, 1);
+  fc_assert_ret_val(fp != nullptr, 1);
 
   if (fp->memory) {
     if (fp->u.mem.control) {
@@ -619,7 +619,7 @@ int fz_fclose(fz_FILE *fp)
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     if ('w' == fp->mode) {
-      BZ2_bzWriteClose(&fp->u.bz2.error, fp->u.bz2.file, 0, NULL, NULL);
+      BZ2_bzWriteClose(&fp->u.bz2.error, fp->u.bz2.file, 0, nullptr, nullptr);
     } else {
       BZ2_bzReadClose(&fp->u.bz2.error, fp->u.bz2.file);
     }
@@ -648,13 +648,13 @@ int fz_fclose(fz_FILE *fp)
 }
 
 /************************************************************************//**
-  Get a line, like fgets.
-  Returns NULL in case of error, or when end-of-file reached
+  Get a line, like fgets().
+  Returns nullptr in case of error, or when end-of-file reached
   and no characters have been read.
 ****************************************************************************/
 char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 {
-  fc_assert_ret_val(NULL != fp, NULL);
+  fc_assert_ret_val(fp != nullptr, nullptr);
 
   if (fp->memory) {
     int i, j;
@@ -683,7 +683,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
     }
 
     if (j == 0) {
-      return NULL;
+      return nullptr;
     }
 
     fp->u.mem.pos = i;
@@ -738,7 +738,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
             if (i + j == 0) {
               /* Plain file read complete, and there was nothing in xz buffers
                  -> end-of-file. */
-              return NULL;
+              return nullptr;
             }
             buffer[i + j] = '\0';
             return buffer;
@@ -751,7 +751,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
               fp->u.xz.stream.total_out - fp->u.xz.total_read;
             if (fp->u.xz.error != LZMA_OK
                 && fp->u.xz.error != LZMA_STREAM_END) {
-              return NULL;
+              return nullptr;
             }
           }
         } else {
@@ -771,7 +771,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
             fp->u.xz.stream.total_out - fp->u.xz.total_read;
           fp->u.xz.out_index = 0;
           if (fp->u.xz.error != LZMA_OK && fp->u.xz.error != LZMA_STREAM_END) {
-            return NULL;
+            return nullptr;
           }
         }
       }
@@ -825,13 +825,13 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
                                                  &fp->u.zstd.in_buf);
         if (ZSTD_isError(fp->u.zstd.error)) {
           /* zstd error */
-          return NULL;
+          return nullptr;
         }
 
         if (fp->u.zstd.out_buf.pos == 0 && len == 0) {
           /* Plain file fully read, and decompression outbuffer drained. */
           if (i == 0) {
-            return NULL;
+            return nullptr;
           }
 
           buffer[i] = '\0';
@@ -847,7 +847,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     {
-      char *retval = NULL;
+      char *retval = nullptr;
       int i = 0;
       int last_read;
 
@@ -873,7 +873,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
         if (fp->u.bz2.error != BZ_OK
             && (fp->u.bz2.error != BZ_STREAM_END
                 || i == 0)) {
-          retval = NULL;
+          retval = nullptr;
         } else {
           retval = buffer;
         } 
@@ -897,7 +897,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
   /* Should never happen */
   fc_assert_msg(FALSE, "Internal error in %s() (method = %d)",
                 __FUNCTION__, fp->method);
-  return NULL;
+  return nullptr;
 }
 
 #ifdef FREECIV_HAVE_LIBLZMA
@@ -958,12 +958,12 @@ static void xz_action(fz_FILE *fp, lzma_action action)
 #endif /* FREECIV_HAVE_LIBLZMA */
 
 /************************************************************************//**
-  Print formated, like fprintf.
+  Print formated, like fprintf().
 
-  Note: zlib doesn't have gzvfprintf, but thats ok because its
-  fprintf only does similar to what we do here (print to fixed
+  Note: zlib doesn't have gzvfprintf(), but thats ok because its
+  fprintf() only does similar to what we do here (print to fixed
   buffer), and in addition this way we get to use our safe
-  snprintf.
+  snprintf().
 
   Returns number of (uncompressed) bytes actually written, or
   0 on error.
@@ -973,7 +973,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
   int num;
   va_list ap;
 
-  fc_assert_ret_val(NULL != fp, 0);
+  fc_assert_ret_val(fp != nullptr, 0);
   fc_assert_ret_val(!fp->memory, 0);
 
   switch (fz_method_validate(fp->method)) {
@@ -1094,11 +1094,11 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
 
 /************************************************************************//**
   Return non-zero if there is an error status associated with
-  this stream.  Check fz_strerror for details.
+  this stream. Check fz_strerror() for details.
 ****************************************************************************/
 int fz_ferror(fz_FILE *fp)
 {
-  fc_assert_ret_val(NULL != fp, 0);
+  fc_assert_ret_val(fp != nullptr, 0);
 
   if (fp->memory) {
     return 0;
@@ -1148,7 +1148,7 @@ int fz_ferror(fz_FILE *fp)
 
 /************************************************************************//**
   Return string (pointer to static memory) containing an error
-  description associated with the file.  Should only call
+  description associated with the file. Should only call
   this is you know there is an error (eg, from fz_ferror()).
   Note the error string may be based on errno, so should call
   this immediately after problem, or possibly something else
@@ -1156,15 +1156,15 @@ int fz_ferror(fz_FILE *fp)
 ****************************************************************************/
 const char *fz_strerror(fz_FILE *fp)
 {
-  fc_assert_ret_val(NULL != fp, NULL);
-  fc_assert_ret_val(!fp->memory, NULL);
+  fc_assert_ret_val(fp != nullptr, nullptr);
+  fc_assert_ret_val(!fp->memory, nullptr);
 
   switch (fz_method_validate(fp->method)) {
 #ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
     {
       static char xzerror[50];
-      char *cleartext = NULL;
+      char *cleartext = nullptr;
 
       switch (fp->u.xz.error) {
        case LZMA_OK:
@@ -1201,7 +1201,7 @@ const char *fz_strerror(fz_FILE *fp)
          break;
       }
 
-      if (NULL != cleartext) {
+      if (cleartext != nullptr) {
         fc_snprintf(xzerror, sizeof(xzerror), "XZ: \"%s\" (%d)",
                     cleartext, fp->u.xz.error);
       } else {
@@ -1216,13 +1216,13 @@ const char *fz_strerror(fz_FILE *fp)
   case FZ_ZSTD:
     {
       static char zstderror[50];
-      char *cleartext = NULL;
+      char *cleartext = nullptr;
 
       if (ZSTD_isError(fp->u.zstd.error)) {
         cleartext = "error";
       }
 
-      if (NULL != cleartext) {
+      if (cleartext != nullptr) {
         fc_snprintf(zstderror, sizeof(zstderror),
                     "ZSTD: \"%s\" (" SIZE_T_PRINTF ")",
                     cleartext, fp->u.zstd.error);
@@ -1239,7 +1239,7 @@ const char *fz_strerror(fz_FILE *fp)
   case FZ_BZIP2:
     {
       static char bzip2error[50];
-      const char *cleartext = NULL;
+      const char *cleartext = nullptr;
 
       /* Rationale for translating these:
        * - Some of them provide usable information to user
@@ -1292,7 +1292,7 @@ const char *fz_strerror(fz_FILE *fp)
          break;
       }
 
-      if (cleartext != NULL) {
+      if (cleartext != nullptr) {
         fc_snprintf(bzip2error, sizeof(bzip2error), "Bz2: \"%s\" (%d)",
                     cleartext, fp->u.bz2.error);
       } else {
@@ -1318,5 +1318,5 @@ const char *fz_strerror(fz_FILE *fp)
   /* Should never happen */
   fc_assert_msg(FALSE, "Internal error in %s() (method = %d)",
                 __FUNCTION__, fp->method);
-  return NULL;
+  return nullptr;
 }
