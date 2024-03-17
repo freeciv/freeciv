@@ -159,7 +159,7 @@ static struct city *check_city(int city_id, struct cm_parameter *parameter)
   }
 
   return pcity;
-}  
+}
 
 /************************************************************************//**
  Change the actual city setting to the given result. Returns TRUE iff

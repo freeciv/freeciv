@@ -350,16 +350,17 @@ void agents_free(void)
 {
   int i;
 
-  /* FIXME: doing this will wipe out any presets on disconnect.
-   * a proper solution should be to split up the client_free functions 
+  /* FIXME: Doing this will wipe out any presets on disconnect.
+   * A proper solution should be to split up the client_free functions
    * for a simple disconnect and a client quit. for right now, we just
    * let the OS free the memory on exit instead of doing it ourselves. */
   /* cmafec_free(); */
 
-  /*simple_historian_done();*/
+  /* simple_historian_done(); */
 
   for (;;) {
     struct call *pcall = remove_and_return_a_call();
+
     if (!pcall) {
       break;
     }

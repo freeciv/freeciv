@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - A. Gorshenev
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@ extern "C" {
 void simple_historian_init(void);
 void simple_historian_done(void);
 
-struct tile* sha_tile_recall(struct tile *ptile);
-struct unit* sha_unit_recall(int id);
+struct tile *sha_tile_recall(struct tile *ptile);
+struct unit *sha_unit_recall(int id);
 
 #ifdef __cplusplus
 }

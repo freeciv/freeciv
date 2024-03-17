@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2001 - R. Falke
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ void agents_free(void);
 void register_agent(const struct agent *agent);
 bool agents_busy(void);
 
-/* called from client/packhand.c */
+/* Called from client/packhand.c */
 void agents_disconnect(void);
 void agents_processing_started(void);
 void agents_processing_finished(void);
@@ -76,13 +76,13 @@ void agents_tile_changed(struct tile *ptile);
 void agents_tile_new(struct tile *ptile);
 void agents_tile_remove(struct tile *ptile);
 
-/* called from agents */
+/* Called from agents */
 void cause_a_city_changed_for_agent(const char *name_of_calling_agent,
-				    struct city *pcity);
+                                    struct city *pcity);
 void cause_a_unit_changed_for_agent(const char *name_of_calling_agent,
-				    struct unit *punit);
+                                    struct unit *punit);
 void wait_for_requests(const char *agent_name, int first_request_id,
-		       int last_request_id);
+                       int last_request_id);
 
 #ifdef __cplusplus
 }
