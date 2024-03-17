@@ -1657,7 +1657,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice,
   bool beats_best = FALSE;
 
   /* this computes an upper bound (componentwise) for the current branch,
-     if it is worse in every component than the best, or still unsufficient,
+     if it is worse in every component than the best, or still insufficient,
      then we can prune the whole branch */
   compute_max_stats_heuristic(state, &state->current, production, newchoice,
                               negative_ok);
