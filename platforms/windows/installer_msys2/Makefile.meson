@@ -72,8 +72,10 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
 ICUVER=74
+SVTAV1ENC=
 else
 ICUVER=74
+SVTAV1ENC=libSvtAv1Enc-2.dll
 endif
 
 #
@@ -333,7 +335,15 @@ SDL2_DLLS := \
 	SDL2_image.dll \
 	libjxl.dll \
 	libbrotlienc.dll \
-	libhwy.dll
+	libhwy.dll \
+        libavif-16.dll \
+        libwebpdemux-2.dll \
+        libjxl_cms.dll \
+        libaom.dll \
+        libdav1d-7.dll \
+        rav1e.dll \
+        $(SVTAV1ENC) \
+        libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# Add DLLs
