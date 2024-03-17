@@ -21,6 +21,7 @@
 // Qt
 #include <QDialog>
 
+class QGridLayout;
 class QLineEdit;
 class QSpinBox;
 
@@ -44,6 +45,8 @@ class edit_extra : public QDialog
     QLineEdit *act_gfx_alt2;
     QLineEdit *rmact_gfx;
     QLineEdit *rmact_gfx_alt;
+
+    QGridLayout *natives_layout;
 
   protected:
     void closeEvent(QCloseEvent *cevent);

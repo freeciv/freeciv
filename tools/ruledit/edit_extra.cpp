@@ -16,12 +16,14 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QToolButton>
 
 // common
 #include "extras.h"
+#include "game.h"
 
 // ruledit
 #include "ruledit.h"
@@ -35,13 +37,15 @@
 edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
   : QDialog()
 {
-  QVBoxLayout *main_layout = new QVBoxLayout(this);
+  QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *extra_layout = new QGridLayout();
   QLabel *label;
   int row = 0;
 
   ui = ui_in;
   extra = extra_in;
+
+  natives_layout = new QGridLayout();
 
   setWindowTitle(QString::fromUtf8(extra_rule_name(extra)));
 
@@ -108,9 +112,22 @@ edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
   extra_layout->addWidget(label, row, 0);
   extra_layout->addWidget(rmact_gfx_alt, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Native to")));
+  natives_layout->addWidget(label, 0, 0);
+  for (int i = 0; i < game.control.num_unit_classes; i++) {
+    QCheckBox *check = new QCheckBox();
+
+    label = new QLabel(uclass_rule_name(uclass_by_number(i)));
+    natives_layout->addWidget(label, i + 1, 0);
+
+    check->setChecked(BV_ISSET(extra->native_to, i));
+    natives_layout->addWidget(check, i + 1, 1);
+  }
+
   refresh();
 
   main_layout->addLayout(extra_layout);
+  main_layout->addLayout(natives_layout);
 
   setLayout(main_layout);
 }
@@ -128,6 +145,15 @@ void edit_extra::closeEvent(QCloseEvent *cevent)
   act_gfx_alt2_given();
   rmact_gfx_given();
   rmact_gfx_alt_given();
+
+  BV_CLR_ALL(extra->native_to);
+  for (int i = 0; i < game.control.num_unit_classes; i++) {
+    QCheckBox *check = static_cast<QCheckBox *>(natives_layout->itemAtPosition(i + 1, 1)->widget());
+
+    if (check->isChecked()) {
+      BV_SET(extra->native_to, i);
+    }
+  }
 
   extra->ruledit_dlg = nullptr;
 }
