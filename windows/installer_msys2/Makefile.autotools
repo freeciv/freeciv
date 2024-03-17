@@ -419,7 +419,15 @@ SDL2_DLLS := \
 	libzstd.dll \
 	libjxl.dll \
 	libbrotlienc.dll \
-	libhwy.dll
+	libhwy.dll \
+        libavif-16.dll \
+        libwebpdemux-2.dll \
+        libjxl_cms.dll \
+        libaom.dll \
+        libdav1d-7.dll \
+        rav1e.dll \
+        libSvtAv1Enc-2.dll \
+        libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# Add DLLs
