@@ -427,6 +427,14 @@ reqs	=
       "Tech", "Rituals", "Player"
     }
 
+[effect_sailing_shallowsea]
+type    = "Move_Bonus"
+value   = 1
+reqs	=
+    { "type", "name",    "range"
+      "Tech", "Sailing", "Player"
+    }
+
 [effect_action_success_move_cost_from_non_native]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
