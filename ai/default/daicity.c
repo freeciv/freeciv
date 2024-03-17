@@ -453,6 +453,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
                                  const enum action_requester requester)
 {
   const int punit_id_stored = punit->id;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret(owner == unit_owner(punit));
 
@@ -465,7 +466,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
     tgt_city = tile_city(unit_tile(punit));
 
     if (tgt_city
-        && is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+        && is_action_enabled_unit_on_city(nmap, ACTION_HELP_WONDER,
                                           punit, tgt_city)) {
       if (unit_perform_action(owner, punit->id, tgt_city->id,
                               0, NULL, ACTION_HELP_WONDER, requester)) {
@@ -489,7 +490,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
     tgt_city = tile_city(unit_tile(punit));
 
     if (tgt_city
-        && is_action_enabled_unit_on_city(ACTION_DISBAND_UNIT_RECOVER,
+        && is_action_enabled_unit_on_city(nmap, ACTION_DISBAND_UNIT_RECOVER,
                                           punit, tgt_city)) {
       if (unit_perform_action(owner, punit->id, tgt_city->id,
                               0, NULL, ACTION_DISBAND_UNIT_RECOVER, requester)) {

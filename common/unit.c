@@ -188,10 +188,12 @@ enum unit_airlift_result
 bool unit_can_airlift_to(const struct unit *punit,
                          const struct city *pdest_city)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   fc_assert_ret_val(pdest_city, FALSE);
 
   if (is_server()) {
-    return is_action_enabled_unit_on_city(ACTION_AIRLIFT,
+    return is_action_enabled_unit_on_city(nmap, ACTION_AIRLIFT,
                                           punit, pdest_city);
   } else {
     return action_prob_possible(action_prob_vs_city(punit, ACTION_AIRLIFT,
