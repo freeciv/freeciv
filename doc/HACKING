@@ -35,7 +35,7 @@ translations: localization files
 ai: the ai, later linked into the server
 tools: freeciv support executables
 
-Freeciv is written in C.  Header files should be compatible with C++ so
+Freeciv is written in C. Header files should be compatible with C++ so
 that C++ add-ons (particularly new clients) are possible.  See the
 CodingStyle file for more.
 
@@ -226,9 +226,9 @@ a unit disband is performed:
     handle_remove_unit(), and finally the unit is disbanded.
 
 Notice that the two packets (PACKET_UNIT_DISBAND and
-PACKET_REMOVE_UNIT) were generic packets.  That means the packet
-structures involved, are used by various requests.  The
-packet_unit_request() is for example also used for the packets
+PACKET_REMOVE_UNIT) were generic packets. That means the packet
+structures involved, are used by various requests.
+The packet_unit_request() is for example also used for the packets
 PACKET_UNIT_BUILD_CITY and PACKET_UNIT_CHANGE_HOMECITY.
 
 When adding a new packet type, check to see if you can reuse some of the
@@ -270,7 +270,7 @@ PACKET_THAW_HINT:
  - the data send to a reconnecting player
  - the end turn activities
 
-The GTK+ client uses gdk_input_add() to tell gtk to call the callback
+The GTK client uses gdk_input_add() to tell gtk to call the callback
 functions, when something happens on the client socket.
 
 =========================================================================
@@ -316,7 +316,7 @@ Currently the graphics is stored in the PNG file format (other formats
 may be readable by some clients).
 
 If you alter the graphics, then make sure that the background remains
-transparent.  Failing to do this means the mask-pixmaps will not be
+transparent. Failing to do this means the mask-pixmaps will not be
 generated properly, which will certainly not give any good results.
 
 Each terrain tile is drawn in 16 versions, all the combinations with
@@ -324,15 +324,15 @@ with a green border in one of the main directions. Hills, mountains,
 forests and rivers are treated in special cases.
 
 Isometric tilesets are drawn in a similar way to how civ2 draws (that's
-why civ2 graphics are compatible).  For each base terrain type there
-exists one tile sprite for that terrain.  The tile is blended with
-nearby tiles to get a nice-looking boundary.  This is erronously called
+why civ2 graphics are compatible). For each base terrain type there
+exists one tile sprite for that terrain. The tile is blended with
+nearby tiles to get a nice-looking boundary. This is erronously called
 "dither" in the code.
 
 Non-isometric tilesets draw the tiles in the "original" freeciv way,
-which is both harder and less pretty.  There are multiple copies of
+which is both harder and less pretty. There are multiple copies of
 each tile, so that a different copy can be drawn depending the terrain
-type of the adjacent tiles.  It may eventually be worthwhile to convert
+type of the adjacent tiles. It may eventually be worthwhile to convert
 this to the civ2 system.
 
 =========================================================================
@@ -425,7 +425,7 @@ on the map for example. For non-hexagonal topologies, it would be
 Different types of map topology
 =========================================================================
 
-Originally Freeciv supports only a simple rectangular map.  For instance
+Originally Freeciv supports only a simple rectangular map. For instance
 a 5x3 map would be conceptualized as
 
   <- XXXXX ->
@@ -433,7 +433,7 @@ a 5x3 map would be conceptualized as
   <- XXXXX ->
 
 and it looks just like that under "overhead" (non-isometric) view (the
-arrows represent an east-west wrapping).  But under an isometric-view
+arrows represent an east-west wrapping). But under an isometric-view
 client, the same map will look like
 
      X
@@ -444,11 +444,11 @@ client, the same map will look like
       X X
        x
 
-where "north" is to the upper-right and "south" to the lower-left.  This
-makes for a mediocre interface.
+where "north" is to the upper-right and "south" to the lower-left.
+This makes for a mediocre interface.
 
-An isometric-view client will behave better with an isometric map.  This is
-what Civ2, SMAC, Civ3, etc. all use.  A rectangular isometric map can be
+An isometric-view client will behave better with an isometric map. This is
+what Civ2, SMAC, Civ3, etc. all use. A rectangular isometric map can be
 conceptualized as
 
   <- X X X X X  ->
@@ -460,8 +460,8 @@ conceptualized as
 Of course under an overhead-view client it will again turn out badly.
 
 Both types of maps can easily wrap in either direction: north-south or
-east-west.  Thus there are four types of wrapping: flat-earth, vertical
-cylinder, horizontal cylinder, and torus.  Traditionally Freeciv only wraps
+east-west. Thus there are four types of wrapping: flat-earth, vertical
+cylinder, horizontal cylinder, and torus. Traditionally Freeciv only wraps
 in the east-west direction.
 
 =========================================================================
@@ -486,7 +486,7 @@ Different coordinate systems
 =========================================================================
 
 In Freeciv, we have the general concept of a "position" or "tile".  A tile
-can be referred to in any of several coordinate systems.  The distinction
+can be referred to in any of several coordinate systems. The distinction
 becomes important when we start to use non-standard maps (see above).
 
   Here is a diagram of coordinate conversions for a classical map.
@@ -512,9 +512,9 @@ Note that hexagonal topologies are always considered as isometric.
 
 - Map (or "standard") coordinates.
 
-  All of the code examples above are in map coordinates.  These preserve
+  All of the code examples above are in map coordinates. These preserve
   the local geometry of square tiles, but do not represent the global map
-  geometry well.  In map coordinates, you are guaranteed (so long as we use
+  geometry well. In map coordinates, you are guaranteed (so long as we use
   square tiles) that the tile adjacency rules
 
       (map_x-1, map_y-1)    (map_x, map_y-1)   (map_x+1, map_y-1)
@@ -560,7 +560,7 @@ Note that hexagonal topologies are always considered as isometric.
 - Natural coordinates.
 
   Natural coordinates preserve the geometry of map coordinates, but also have
-  the rectangular property of native coordinates.  They are unwieldy for
+  the rectangular property of native coordinates. They are unwieldy for
   most operations because of their sparseness - they may not have the same
   scale as map coordinates and, in the iso case, there are gaps in the
   natural representation of a map.
@@ -606,7 +606,7 @@ Note that hexagonal topologies are always considered as isometric.
   is needed.
 
   Native coordinates compress the map into a continuous rectangle; the
-  dimensions are defined as map.xsize x map.ysize.  For instance the
+  dimensions are defined as map.xsize x map.ysize. For instance the
   above iso-rectangular map is represented in native coordinates by
   compressing the natural representation in the X axis to get the
   3x3 iso-rectangle of
@@ -616,7 +616,7 @@ Note that hexagonal topologies are always considered as isometric.
                     GHI       (0,2) (1,2) (3,2)
 
   The resulting coordinate system is much easier to use than map
-  coordinates for some operations.  These include most internal topology
+  coordinates for some operations. These include most internal topology
   operations (e.g., normalize_map_pos, whole_map_iterate) as well as
   storage (in map.tiles and savegames, for instance).
 
@@ -634,10 +634,10 @@ Note that hexagonal topologies are always considered as isometric.
 - Index coordinates.
 
   Index coordinates simply reorder the map into a continuous (filled-in)
-  one-dimensional system.  This coordinate system is closely tied to
+  one-dimensional system. This coordinate system is closely tied to
   the ordering of the tiles in native coordinates, and is slightly
   easier to use for some operations (like storage) because it is
-  one-dimensional.  In general you can't assume anything about the ordering
+  one-dimensional. In general you can't assume anything about the ordering
   of the positions within the system.
 
   Indexes can be easily converted to native coordinates using
@@ -647,12 +647,12 @@ Note that hexagonal topologies are always considered as isometric.
   An map index can tested using the CHECK_INDEX macro.
 
 With a classical rectangular map, the first three coordinate systems are
-equivalent.  When we introduce isometric maps, the distinction becomes
-important, as demonstrated above.  Many places in the code have
+equivalent. When we introduce isometric maps, the distinction becomes
+important, as demonstrated above. Many places in the code have
 introduced "map_x/map_y" or "nat_x/nat_y" to help distinguish whether
-map or native coordinates are being used.  Other places are not yet
+map or native coordinates are being used. Other places are not yet
 rigorous in keeping them apart, and will often just name their variables
-"x" and "y".  The latter can usually be assumed to be map coordinates.
+"x" and "y". The latter can usually be assumed to be map coordinates.
 
 Note that if you don't need to do some abstract geometry exploit, you
 will mostly use tile pointers, and give to map.[ch] tools the ability
@@ -669,13 +669,13 @@ Native coordinates on an isometric map
 =========================================================================
 
 An isometric map is defined by the operation that converts between map
-(user) coordinates and native (internal) ones.  In native coordinates, an
-isometric map behaves exactly the same way as a standard one.  (See
-"native coordinates", above.
+(user) coordinates and native (internal) ones. In native coordinates, an
+isometric map behaves exactly the same way as a standard one.
+(See "native coordinates", above.)
 
 Converting from map to native coordinates involves a pi/2 rotation (which
 scales in each dimension by sqrt(2)) followed by a compression in the X
-direction by a factor of 2.  Then a translation is required since the
+direction by a factor of 2. Then a translation is required since the
 "normal set" of native coordinates is defined as
   {(x, y) | x: [0..map.xsize) and y: [0..map.ysize)}
 while the normal set of map coordinates must satisfy x >= 0 and y >= 0.
@@ -741,12 +741,12 @@ The values TILE_UNKNOWN, TILE_KNOWN_SEEN are straightforward.
 TILE_KNOWN_UNSEEN is a tile of which the user knows the terrain,
 but not recent cities, roads, etc.
 
-TILE_UNKNOWN tiles never are (nor should be) sent to the client.  In the
+TILE_UNKNOWN tiles never are (nor should be) sent to the client. In the
 past, UNKNOWN tiles that were adjacent to UNSEEN or SEEN were sent to make
-the drawing process easier, but this has now been removed.  This means
+the drawing process easier, but this has now been removed. This means
 exploring new land may sometimes change the appearance of existing land (but
 this is not fundamentally different from what might happen when you
-transform land).  Sending the extra info, however, not only confused the
+transform land). Sending the extra info, however, not only confused the
 goto code but allowed cheating.
 
 Fog of war is the fact that even when you have seen a tile once you are
@@ -764,7 +764,7 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 and
 void fog_area(struct player *pplayer, int x, int y, int len)
 functions. "int len" is the radius of the area that should be
-fogged/unfogged, i.e. a len of 1 is a normal unit. In addition to keeping
+fogged/unfogged, i.e., a len of 1 is a normal unit. In addition to keeping
 track of fog of war, these functions also make sure to reveal TILE_UNKNOWN
 tiles you get near, and send info about TILE_UNKNOWN tiles near that the
 client needs for drawing. They then send the tiles to
@@ -909,7 +909,7 @@ The paragraph above isn't true anymore for player, units and cities. -RF
 Player-related entities in Freeciv - by Reinier Post <reinpost@win.tue.nl>
 + by dwp@mso.anu.edu.au
 
-Freeciv is confused about the meaning of 'player'.  As a participant in
+Freeciv is confused about the meaning of 'player'. As a participant in
 Freeciv games, you'll notice that the participants are called 'players'.
 At the same time, players seem to be identified with civilizations.
 On the other hand, civilizations seem to be identified by 'nation':
@@ -937,26 +937,26 @@ There are four player-related entities:
 + connection
   Records a client connection; like a user, but disappears when the user
   disconnects, whereas for real users we may want to remember them between
-  connections.  See Connections section below.
+  connections. See Connections section below.
 
 Where do these entities exist?
 
 Nations aren't actually used for anything that matters; for them,
 so the question isn't very interesting.
 
-Players (more aptly named, 'civilizations'), exist in games.  Except in
-the context of a running game, the entity makes no sense.  Players and
-their status are part of savefiles.  A game can be saved and restarted
+Players (more aptly named, 'civilizations'), exist in games. Except in
+the context of a running game, the entity makes no sense. Players and
+their status are part of savefiles. A game can be saved and restarted
 on a different server; the players will be the same.  A new game will
-have new players.  Players exist in common/ (even games do) but a
+have new players. Players exist in common/ (even games do) but a
 client only has one instantiated player.
 
-The reason to introduce users is client-side server commands.  It must
+The reason to introduce users is client-side server commands. It must
 be possible to assign different levels of access to commands to different
-users.  Attaching it to players is not good enough: the information must
+users. Attaching it to players is not good enough: the information must
 survive the addition and removal of other players, the start or restart
 of a game, reconnections by the same user even from different computers,
-or transferral of the game to a different server.  However, a user
+or transferral of the game to a different server. However, a user
 may have different levels of access in different games.
 
 While they last, connections are sufficient identification for users.
@@ -964,17 +964,17 @@ The user entity will allow users to be identified when they reconnect.
 
 Ideally, users would be identified with unique global ids, handed out
 by a 'registry service' similar to the metaserver, but this would be
-too cumbersome in practice.  So the plan is to make users persist in
+too cumbersome in practice. So the plan is to make users persist in
 a server session (even whan a game is started, or restarted when that
 option is added) and make them persist across games (when a saved
 game is loaded in a different server session).
 
 Users will be created when they first connect to a server, remembered by
-the running server and in savefiles.  Upon connecting, the client will
+the running server and in savefiles. Upon connecting, the client will
 be sent a unique session id, generated when the server started, plus a
 fresh user id; it will store them in a ~/.civcookie file, and send it
-back when trying to reconnect.  This will allow the identity of users
-to be protected.  'Protected' players will only allow the same user to
+back when trying to reconnect. This will allow the identity of users
+to be protected. 'Protected' players will only allow the same user to
 reconnect; 'unprotected' ones allow anyone to connect; server commands
 and probably client options will be available to control this.
 
@@ -986,7 +986,7 @@ users and unprotected ones.
 ----
   THE PRESENT IMPLEMENTATION:
 
-Currently access levels are stored in the connection struct.  This allows
+Currently access levels are stored in the connection struct. This allows
 access levels to be assigned to each individual connected player, which
 would not be the case if they were directly assigned to the player struct
 (due to the fact that the players array changes when players are added or
@@ -995,8 +995,8 @@ removed).
 But that's it.
 
 Players are still created before the game is started, and player names
-still belong to players.  Access levels exist in client and server,
-but only the server uses them.  User ids are not yet implemented;
+still belong to players. Access levels exist in client and server,
+but only the server uses them. User ids are not yet implemented;
 Server ids do not exist at all.
 
 Commands to protect/unprotect users do not yet exist; they would serve
@@ -1015,7 +1015,7 @@ only, to allowing multiple connections for each player (recall
 'player' means a civilization, see above), where each connection may
 be either an "observer" or "controller".
 
-This discussion is mostly about connection in the server.  The client
+This discussion is mostly about connection in the server. The client
 only has one real connection (client.conn) -- its connection to the
 server -- though it does use some other connection structs (currently
 pplayer->conn) to store information about other connected clients
@@ -1023,12 +1023,12 @@ pplayer->conn) to store information about other connected clients
 
 In the old paradigm, server code would usually send information to a
 single player, or to all connected players (usually represented by
-destination being a NULL player pointer).  With multiple connections
-per player things become more complicated.  Sometimes information
+destination being a NULL player pointer). With multiple connections
+per player things become more complicated. Sometimes information
 should be sent to a single connection, or to all connections for a
-single player, or to all (established) connections, etc.  To handle
+single player, or to all (established) connections, etc. To handle
 this, "destinations" should now be specified as a pointer to a struct
-conn_list (list of connections).  For convenience the following
+conn_list (list of connections). For convenience the following
 commonly applicable lists are maintained:
    game.all_connections   -  all connections
    game.est_connections   -  established connections
@@ -1036,7 +1036,7 @@ commonly applicable lists are maintained:
    pplayer->connections   -  connections for specific player
    pconn->self            -  single connection (as list)
 
-Connections can be classified as follows:  (first match applies)
+Connections can be classified as follows: (first match applies)
 
 1. (pconn->used == 0) Not a real connection (closed/unused), should
    not exist in any list of have any information sent to it.
@@ -1045,30 +1045,30 @@ Connections can be classified as follows:  (first match applies)
 
 2. (pconn->established == 0) TCP connection has been made, but initial
    Freeciv packets have not yet been negotiated (join_game etc).
-   Exists in game.all_connections only.  Should not be sent any
+   Exists in game.all_connections only. Should not be sent any
    information except directly as result of join_game etc packets,
    or server shutdown, or connection close, etc.
 
 (All following cases exist in game.est_connections.)
 
 3. (pconn->player == NULL) Connection has been established, but is not
-   yet associated with a player.  Currently this is not possible, but
+   yet associated with a player. Currently this is not possible, but
    the plan is to allow this in future, so clients can connect and
    then see list of players to choose from, or just control the server
    or observe etc. Two subcases:
 
-   3a. (pconn->observer == 0) Not observing the game.  Should receive
+   3a. (pconn->observer == 0) Not observing the game. Should receive
        information about other clients, game status etc, but not map,
        units, cities, etc.
 
 (All following cases exist in game.game_connections.)
 
-   3b. (pconn->observer == 1) Observing the game.  Exists in
-       game.game_connections.  Should receive game information about
+   3b. (pconn->observer == 1) Observing the game. Exists in
+       game.game_connections. Should receive game information about
        map, units, cities, etc.
 
 4. (pconn->player != NULL) Connected to specific player, either as
-   "observer" or "controller".  (But observers not yet implemented.)
+   "observer" or "controller". (But observers not yet implemented.)
    Exists in game.game_connections, and in pconn->player->connections.
 
 
@@ -1129,23 +1129,23 @@ for player selection.
 Macros and inline functions
 ===========================================================================
 
-For a long time Freeciv had no inline functions, only macros.  With the
+For a long time Freeciv had no inline functions, only macros. With the
 use of other C99 features and some new requirements by the code, this has
-changed.  Now both macros and inline functions are used.
+changed. Now both macros and inline functions are used.
 
 This causes problems because one coder may prefer to use a macro while
-another prefers an inline function.  Of course there was always some
+another prefers an inline function. Of course there was always some
 discretion to the author about whether to use a function or a macro; all
 we've done is add even more choices.
 
 Therefore the following guidelines should be followed:
 
 - Functions should only be put into header files when doing so makes a
-  measurable impact on speed.  Functions should not be turned into macros or
+  measurable impact on speed. Functions should not be turned into macros or
   inlined unless there is a reason to do so.
 
 - Macros that take function-like parameters should evaluate each parameter
-  exactly once.  Any macro that doesn't follow this convention should be
+  exactly once. Any macro that doesn't follow this convention should be
   named in all upper-case letters as a MACRO.
 
 - Iterator macros should respect "break".
@@ -1193,11 +1193,11 @@ and encodings. Briefly:
 The data_encoding is used in all data files and network transactions.
 This is UTF-8.
 
-The internal_encoding is used internally within freeciv.  This is always
-UTF-8 at the server, but can be configured by the GUI client.  (When your
+The internal_encoding is used internally within freeciv. This is always
+UTF-8 at the server, but can be configured by the GUI client. (When your
 charset is the same as your GUI library, GUI writing is easier.)
 
-The local_encoding is the one supported on the command line.  This is not
+The local_encoding is the one supported on the command line. This is not
 under our control, and all output to the command line must be converted.
 
 ===========================================================================
