@@ -289,7 +289,7 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 [advance_flight]
 name        = _("Flight")
 req1        = "Deception"
-req2        = "Trenches"
+req2        = "Sailing"
 flags       = ""
 graphic     = "a.flight"
 graphic_alt = "-"
@@ -433,6 +433,17 @@ flags       = ""
 graphic     = "a.rope"
 graphic_alt = "-"
 ;helptext    =
+
+[advance_sailing]
+name        = _("Sailing")
+req1        = "Seafaring"
+req2        = "Food Preservation"
+flags       = ""
+graphic     = "a.sailing"
+graphic_alt = "-"
+helptext    = _("\
+Increases speed of sea-going vessels by 1.\
+")
 
 [advance_seafaring]
 name        = _("Seafaring")
