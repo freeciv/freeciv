@@ -284,6 +284,16 @@ bool is_future_tech(Tech_type_id tech)
 }
 
 /**********************************************************************//**
+  Is the given tech an regular advance. "None" counts as regular advance,
+  Future Tech does not.
+**************************************************************************/
+bool is_regular_advance(struct advance *padvance)
+{
+  return valid_advance(padvance) != nullptr
+    && padvance->item_number != A_FUTURE;
+}
+
+/**********************************************************************//**
   Return the (translated) name of the given advance/technology.
   You don't have to free the return pointer.
 **************************************************************************/

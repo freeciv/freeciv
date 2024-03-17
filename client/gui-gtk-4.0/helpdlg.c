@@ -1110,15 +1110,15 @@ static char *fc_chomp(char *str, size_t len)
 **************************************************************************/
 static void help_update_tech(const struct help_item *pitem, char *title)
 {
-  int i, j;
+  int j;
   GtkWidget *w, *hbox;
   char buf[8192];
   struct advance *padvance = advance_by_translated_name(title);
 
-  if (padvance != NULL
-      && !is_future_tech(i = advance_number(padvance))) {
+  if (is_regular_advance(padvance)) {
     GtkTextBuffer *txt;
     size_t len;
+    Tech_type_id i = advance_number(padvance);
 
     help_box_clear();
 

@@ -233,7 +233,6 @@ void help_dialog::make_tree()
 {
   char *title;
   int dep;
-  int i;
   QHash<int, QTreeWidgetItem *> hash;
   QIcon icon;
   QTreeWidgetItem *item;
@@ -300,7 +299,9 @@ void help_dialog::make_tree()
         break;
       case HELP_TECH:
         padvance  = advance_by_translated_name(s);
-        if (padvance && !is_future_tech(i = advance_number(padvance))) {
+        if (is_regular_advance(padvance)) {
+          Tech_type_id i = advance_number(padvance);
+
           spite = get_tech_sprite(tileset, i);
           if (spite) {
             icon = QIcon(*spite->pm);
@@ -1099,102 +1100,99 @@ void help_widget::set_topic_tech(const help_item *topic,
   struct advance *padvance = advance_by_translated_name(title);
   QString str;
 
-  if (padvance) {
+  if (is_regular_advance(padvance)) {
     int n = advance_number(padvance);
-    if (!is_future_tech(n)) {
 
-      show_info_panel();
-      spr = get_tech_sprite(tileset, n);
-      if (spr) {
-        add_info_pixmap(spr->pm);
-      }
+    show_info_panel();
+    spr = get_tech_sprite(tileset, n);
+    if (spr) {
+      add_info_pixmap(spr->pm);
+    }
 
-      governments_iterate(pgov) {
-        requirement_vector_iterate(&pgov->reqs, preq) {
+    governments_iterate(pgov) {
+      requirement_vector_iterate(&pgov->reqs, preq) {
+        if (VUT_ADVANCE == preq->source.kind
+            && preq->source.value.advance == padvance) {
+          tb = new QLabel(this);
+          tb->setProperty(fonts::help_label, "true");
+          tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+          tb->setTextFormat(Qt::RichText);
+          str = _("Allows");
+          str = "<b>" + str + "</b> "
+            + link_me(government_name_translation(pgov), HELP_GOVERNMENT);
+          tb->setText(str.trimmed());
+          connect(tb, &QLabel::linkActivated,
+                  this, &help_widget::anchor_clicked);
+          info_layout->addWidget(tb);
+        }
+      } requirement_vector_iterate_end;
+    } governments_iterate_end;
+
+    improvement_iterate(pimprove) {
+      if (valid_improvement(pimprove)) {
+        requirement_vector_iterate(&pimprove->reqs, preq) {
           if (VUT_ADVANCE == preq->source.kind
               && preq->source.value.advance == padvance) {
+            str = _("Allows");
+            str = "<b>" + str + "</b> "
+              + link_me(improvement_name_translation(pimprove),
+                        is_great_wonder(pimprove) ? HELP_WONDER
+                        : HELP_IMPROVEMENT);
             tb = new QLabel(this);
             tb->setProperty(fonts::help_label, "true");
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
-            str = _("Allows");
-            str = "<b>" + str + "</b> "
-               + link_me(government_name_translation(pgov), HELP_GOVERNMENT);
             tb->setText(str.trimmed());
             connect(tb, &QLabel::linkActivated,
                     this, &help_widget::anchor_clicked);
             info_layout->addWidget(tb);
           }
         } requirement_vector_iterate_end;
-      } governments_iterate_end;
 
-      improvement_iterate(pimprove) {
-        if (valid_improvement(pimprove)) {
-          requirement_vector_iterate(&pimprove->reqs, preq) {
-            if (VUT_ADVANCE == preq->source.kind
-                && preq->source.value.advance == padvance) {
-              str = _("Allows");
-              str = "<b>" + str + "</b> "
-                + link_me(improvement_name_translation(pimprove),
-                          is_great_wonder(pimprove) ? HELP_WONDER
-                          : HELP_IMPROVEMENT);
-              tb = new QLabel(this);
-              tb->setProperty(fonts::help_label, "true");
-              tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
-              tb->setTextFormat(Qt::RichText);
-              tb->setText(str.trimmed());
-              connect(tb, &QLabel::linkActivated,
-                      this, &help_widget::anchor_clicked);
-              info_layout->addWidget(tb);
-            }
-          } requirement_vector_iterate_end;
+        requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+          if (pobs->source.kind == VUT_ADVANCE
+              && pobs->source.value.advance == padvance) {
+            str = _("Obsoletes");
+            str = "<b>" + str + "</b> "
+              + link_me(improvement_name_translation(pimprove),
+                        is_great_wonder(pimprove) ? HELP_WONDER
+                        : HELP_IMPROVEMENT);
+            tb = new QLabel(this);
+            tb->setProperty(fonts::help_label, "true");
+            tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+            tb->setTextFormat(Qt::RichText);
+            tb->setText(str.trimmed());
+            connect(tb, &QLabel::linkActivated,
+                    this, &help_widget::anchor_clicked);
+            info_layout->addWidget(tb);
+          }
+        } requirement_vector_iterate_end;
+      }
+    } improvement_iterate_end;
 
-          requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-            if (pobs->source.kind == VUT_ADVANCE
-                && pobs->source.value.advance == padvance) {
-              str = _("Obsoletes");
-              str = "<b>" + str + "</b> "
-                + link_me(improvement_name_translation(pimprove),
-                          is_great_wonder(pimprove) ? HELP_WONDER
-                          : HELP_IMPROVEMENT);
-              tb = new QLabel(this);
-              tb->setProperty(fonts::help_label, "true");
-              tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
-              tb->setTextFormat(Qt::RichText);
-              tb->setText(str.trimmed());
-              connect(tb, &QLabel::linkActivated,
-                      this, &help_widget::anchor_clicked);
-              info_layout->addWidget(tb);
-            }
-          } requirement_vector_iterate_end;
-        }
-      } improvement_iterate_end;
+    unit_type_iterate(punittype) {
 
-      unit_type_iterate(punittype) {
+      if (!is_tech_req_for_utype(punittype, padvance)) {
+        continue;
+      }
 
-        if (!is_tech_req_for_utype(punittype, padvance)) {
-          continue;
-        }
+      str = _("Allows");
+      str = "<b>" + str + "</b> "
+        + link_me(utype_name_translation(punittype), HELP_UNIT);
+      tb = new QLabel(this);
+      tb->setProperty(fonts::help_label, "true");
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+      tb->setText(str.trimmed());
+      connect(tb, &QLabel::linkActivated,
+              this, &help_widget::anchor_clicked);
+      info_layout->addWidget(tb);
+    } unit_type_iterate_end;
 
-        str = _("Allows");
-        str = "<b>" + str + "</b> "
-              + link_me(utype_name_translation(punittype), HELP_UNIT);
-        tb = new QLabel(this);
-        tb->setProperty(fonts::help_label, "true");
-        tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
-        tb->setTextFormat(Qt::RichText);
-        tb->setText(str.trimmed());
-        connect(tb, &QLabel::linkActivated,
-                this, &help_widget::anchor_clicked);
-        info_layout->addWidget(tb);
-      } unit_type_iterate_end;
-
-      info_panel_done();
-      helptext_advance(buffer, sizeof(buffer), client.conn.playing,
-                       topic->text, n);
-      text_browser->setPlainText(buffer);
-
-    }
+    info_panel_done();
+    helptext_advance(buffer, sizeof(buffer), client.conn.playing,
+                     topic->text, n);
+    text_browser->setPlainText(buffer);
   } else {
     set_topic_other(topic, title);
   }

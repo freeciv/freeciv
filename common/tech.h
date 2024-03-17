@@ -229,6 +229,7 @@ struct advance *advance_requires(const struct advance *padvance,
 bool techs_have_fixed_costs(void);
 
 bool is_future_tech(Tech_type_id tech);
+bool is_regular_advance(struct advance *padvance);
 
 /* Initialization */
 void techs_init(void);
