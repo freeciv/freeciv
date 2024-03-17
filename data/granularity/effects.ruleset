@@ -304,6 +304,24 @@ reqs	=
       "Building", "Quarry", "City"
     }
 
+[effect_farming_time_food]
+type       = "Output_Bonus"
+value	   = 10
+multiplier = "Farming Time"
+reqs	   =
+    { "type",       "name", "range"
+      "OutputType", "Food", "Local"
+    }
+
+[effect_farming_time_shield]
+type       = "Output_Bonus"
+value	   = -10
+multiplier = "Farming Time"
+reqs	   =
+    { "type",       "name",   "range"
+      "OutputType", "Shield", "Local"
+    }
+
 [effect_sacred_grove]
 type    = "Make_Content"
 value	= 1

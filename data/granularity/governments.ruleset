@@ -139,3 +139,15 @@ It's possible to control more than five cities.\
 ;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
+
+[multiplier_farming_time]
+name      = _("Farming Time")
+start     = 0
+stop      = 5
+step      = 1
+default   = 0
+; /* xgettext:no-c-format */
+helptext  = _("\
+People take time from the production work to the farming work. \
+Each step increases food output by 10%, and reduces shields output by 10%.\
+")
