@@ -190,6 +190,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
   struct unit_type *from_unittype = utype_by_number(uti);
   int number_of_upgraded_units = 0;
   struct action *paction = action_by_number(ACTION_UPGRADE_UNIT);
+  const struct civ_map *nmap = &(wld.map);
 
   if (NULL == from_unittype) {
     /* Probably died or bribed. */
@@ -214,7 +215,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
     if (unit_type_get(punit) == from_unittype) {
       struct city *pcity = tile_city(unit_tile(punit));
 
-      if (is_action_enabled_unit_on_city(paction->id, punit, pcity)
+      if (is_action_enabled_unit_on_city(nmap, paction->id, punit, pcity)
           && unit_perform_action(pplayer, punit->id, pcity->id, 0, "",
                                  paction->id, ACT_REQ_SS_AGENT)) {
         number_of_upgraded_units++;
@@ -3183,6 +3184,7 @@ void handle_unit_action_query(struct connection *pc,
   struct action *paction = action_by_number(action_type);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+  const struct civ_map *nmap = &(wld.map);
 
   if (NULL == paction) {
     /* Non existing action */
@@ -3220,7 +3222,7 @@ void handle_unit_action_query(struct connection *pc,
     break;
   case ACTRES_SPY_INCITE_CITY:
     if (pcity
-        && is_action_enabled_unit_on_city(action_type,
+        && is_action_enabled_unit_on_city(nmap, action_type,
                                           pactor, pcity)) {
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
@@ -3236,7 +3238,7 @@ void handle_unit_action_query(struct connection *pc,
     break;
   case ACTRES_UPGRADE_UNIT:
     if (pcity
-        && is_action_enabled_unit_on_city(action_type,
+        && is_action_enabled_unit_on_city(nmap, action_type,
                                           pactor, pcity)) {
       const struct unit_type *tgt_utype;
       int upgr_cost;
@@ -3262,7 +3264,7 @@ void handle_unit_action_query(struct connection *pc,
   case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
   case ACTRES_STRIKE_BUILDING:
     if (pcity
-        && is_action_enabled_unit_on_city(action_type,
+        && is_action_enabled_unit_on_city(nmap, action_type,
                                           pactor, pcity)) {
       spy_send_sabotage_list(pc, pactor, pcity,
                              action_by_number(action_type), request_kind);
@@ -3337,6 +3339,7 @@ bool unit_perform_action(struct player *pplayer,
   struct impr_type *sub_tgt_impr;
   struct unit *punit = NULL;
   struct city *pcity = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!action_id_exists(action_type)) {
     /* Non existing action */
@@ -3460,8 +3463,8 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_CITY(action, actor, target, action_performer) \
   if (pcity                                                               \
-      && is_action_enabled_unit_on_city(action_type,                      \
-                                       actor_unit, pcity)) {              \
+      && is_action_enabled_unit_on_city(nmap, action_type,                \
+                                        actor_unit, pcity)) {             \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_city",                 \
                               action_by_number(action), actor, target);   \

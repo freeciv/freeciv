@@ -1003,6 +1003,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   const struct city *tgt_city;
   const struct tile *tgt_tile;
   const struct unit *tgt_unit;
+  const struct civ_map *nmap = &(wld.map);
 
   const struct action_auto_perf *autoperf
     = action_auto_perf_unit_sel(cause, actor, other_player,
@@ -1054,7 +1055,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
         break;
       case ATK_CITY:
         if (tgt_city
-            && is_action_enabled_unit_on_city(act, actor, tgt_city)) {
+            && is_action_enabled_unit_on_city(nmap, act, actor, tgt_city)) {
           perform_action_to(act, actor, tgt_city->id, EXTRA_NONE)
         }
         break;
@@ -1104,6 +1105,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
   const struct city *tgt_city;
   const struct tile *tgt_tile;
   const struct unit *tgt_unit;
+  const struct civ_map *nmap = &(wld.map);
 
   const struct action_auto_perf *autoperf
     = action_auto_perf_unit_sel(cause, actor, other_player,
@@ -1148,7 +1150,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
         break;
       case ATK_CITY:
         if (tgt_city
-            && is_action_enabled_unit_on_city(act, actor, tgt_city)) {
+            && is_action_enabled_unit_on_city(nmap, act, actor, tgt_city)) {
           current = action_prob_vs_city(actor, act, tgt_city);
         }
         break;

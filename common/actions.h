@@ -520,7 +520,8 @@ struct action *action_is_blocked_by(const struct action *act,
                                     const struct city *target_city,
                                     const struct unit *target_unit);
 
-bool is_action_enabled_unit_on_city(const action_id wanted_action,
+bool is_action_enabled_unit_on_city(const struct civ_map *nmap,
+                                    const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city);
 

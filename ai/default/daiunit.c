@@ -1992,6 +1992,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
 {
   bool alive = TRUE;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret(NULL != dest_city);
 
@@ -2035,7 +2036,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
     if (unit_transported(punit)) {
       aiferry_clear_boat(ait, punit);
     }
-    if (help_wonder && is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+    if (help_wonder && is_action_enabled_unit_on_city(nmap, ACTION_HELP_WONDER,
                                                       punit, dest_city)) {
         /*
          * We really don't want to just drop all caravans in immediately.
@@ -2050,7 +2051,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                city_name_get(dest_city));
       unit_do_action(pplayer, punit->id, dest_city->id,
                      0, "", ACTION_HELP_WONDER);
-    } else if (is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+    } else if (is_action_enabled_unit_on_city(nmap, ACTION_TRADE_ROUTE,
                                               punit, dest_city)) {
       log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
                nation_rule_name(nation_of_unit(punit)),
@@ -2060,7 +2061,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                city_name_get(dest_city));
       unit_do_action(pplayer, punit->id, dest_city->id,
                      0, "", ACTION_TRADE_ROUTE);
-    } else if (is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
+    } else if (is_action_enabled_unit_on_city(nmap, ACTION_MARKETPLACE,
                                               punit, dest_city)) {
       /* Get the one time bonus. */
       log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) enters marketplace of %s",
@@ -2270,6 +2271,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
   bool required_boat = FALSE;
   bool request_boat = FALSE;
   bool tired_of_waiting_boat = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
@@ -2318,13 +2320,13 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
             && !city_production_gets_caravan_shields(&city_dest->production))
         || (unit_data->task == AIUNIT_TRADE
             && real_map_distance(city_dest->tile, unit_tile(punit)) <= 1
-            && !(is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+            && !(is_action_enabled_unit_on_city(nmap, ACTION_TRADE_ROUTE,
                                                 punit, city_dest)
-                 || is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
+                 || is_action_enabled_unit_on_city(nmap, ACTION_MARKETPLACE,
                                                    punit, city_dest)))
         || (unit_data->task == AIUNIT_WONDER
             && real_map_distance(city_dest->tile, unit_tile(punit)) <= 1
-            && !is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+            && !is_action_enabled_unit_on_city(nmap, ACTION_HELP_WONDER,
                                                punit, city_dest))) {
       /* destination invalid! */
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
