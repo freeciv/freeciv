@@ -662,8 +662,8 @@ static bool manual_command(struct tag_types *tag_info)
         }
 
         fprintf(doc,
-                "</td>\n<td>%s</td>\n</tr><tr><td colspan=\"5\"><hr></td></tr>\n\n",
-                buf);
+                "</td>\n<td>%s</td>\n</tr><tr><td colspan=\"5\">\n%s\n</td></tr>\n\n",
+                buf, tag_info->hline);
       } improvement_iterate_end;
 
       fprintf(doc, "</table>");
