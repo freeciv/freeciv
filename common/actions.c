@@ -2923,7 +2923,7 @@ blocked_find_target_tile(const struct action *act,
     return target_tile_arg;
   }
 
-  /* action should always be set */
+  /* Action should always be set */
   fc_assert_ret_val(act, NULL);
 
   switch (action_get_target_kind(act)) {
@@ -2931,7 +2931,10 @@ blocked_find_target_tile(const struct action *act,
     fc_assert_ret_val(target_city, NULL);
     return city_tile(target_city);
   case ATK_UNIT:
-    fc_assert_ret_val(target_unit, NULL);
+    if (target_unit == NULL) {
+      fc_assert(target_unit != NULL);
+      return NULL;
+    }
     return unit_tile(target_unit);
   case ATK_UNITS:
     fc_assert_ret_val(target_unit || target_tile_arg, NULL);
