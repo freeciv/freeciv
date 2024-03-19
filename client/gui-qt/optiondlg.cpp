@@ -942,7 +942,7 @@ void option_gui_update(struct option *poption)
 void option_gui_add(struct option *poption)
 {
   /**
-   * That function is unneeded cause dialog is not being hided/restored
+   * That function is unneeded cause dialog is not being hid/restored
    * and options are populated while creating
    */
 }
@@ -953,7 +953,7 @@ void option_gui_add(struct option *poption)
 void option_gui_remove(struct option *poption)
 {
   /**
-   * That function is unneeded cause dialog is not being hided/restored
+   * That function is unneeded cause dialog is not being hid/restored
    * and options are populated while creating
    */
 }
