@@ -708,7 +708,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
     parameter->get_action = pf_get_action;
     parameter->is_action_possible = pf_action_possible;
     if (!parameter->omniscience) {
-      /* Consider units hided in cities. */
+      /* Consider units hidden in cities. */
       parameter->actions |= PF_AA_CITY_ATTACK;
     }
   }
