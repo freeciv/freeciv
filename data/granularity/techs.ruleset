@@ -304,18 +304,6 @@ graphic     = "a.food_preservation"
 graphic_alt = "-"
 ;helptext    =
 
-[advance_herbs]
-name        = _("Herbs")
-req1        = "Rituals"
-req2        = "None"
-flags       = ""
-graphic     = "a.herbs"
-graphic_alt = "-"
-helptext    = _("\
-Makes units that do not move during the turn to heal additional 10% of their maximum hitpoints. \
-Outside cities that might be the only healing they do.\
-")
-
 [advance_geometry]
 name        = _("Geometry")
 req1        = "Masonry"
@@ -333,6 +321,29 @@ flags       = ""
 graphic     = "a.government"
 graphic_alt = "-"
 ;helptext    =
+
+[advance_herbs]
+name        = _("Herbs")
+req1        = "Rituals"
+req2        = "None"
+flags       = ""
+graphic     = "a.herbs"
+graphic_alt = "-"
+helptext    = _("\
+Makes units that do not move during the turn to heal additional 10% of their maximum hitpoints. \
+Outside cities that might be the only healing they do.\
+")
+
+[advance_iron_working]
+name        = _("Iron Working")
+req1        = "Plow"
+req2        = "Bronze Weapons"
+flags       = ""
+graphic     = "a.iron_working"
+graphic_alt = "-"
+helptext    = _("\
+Make iron available.\
+")
 
 [advance_horseback_riding]
 name        = _("Horseback Riding")
