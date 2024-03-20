@@ -48,6 +48,7 @@ class edit_extra : public QDialog
     QLineEdit *rmact_gfx_alt2;
 
     QGridLayout *natives_layout;
+    QGridLayout *flag_layout;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
