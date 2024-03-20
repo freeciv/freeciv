@@ -461,7 +461,7 @@ static bool manual_command(struct tag_types *tag_info)
       break;
 
     case MANUAL_TERRAIN:
-      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+      /* TRANS: Markup ... Freeciv version ... ruleset name ... markup */
       fprintf(doc, _("%sFreeciv %s terrain help (%s)%s\n\n"), tag_info->title_begin,
               VERSION_STRING, game.control.name, tag_info->title_end);
       fprintf(doc, "<table><tr bgcolor=#9bc3d1><th>%s</th>", _("Terrain"));
@@ -582,7 +582,7 @@ static bool manual_command(struct tag_types *tag_info)
                                                              pextra));
           }
         } extra_type_by_cause_iterate_end;
-        fprintf(doc, "</tr>\n\n");
+        fprintf(doc, "</tr><tr><td colspan=\"7\">\n%s\n</td></tr>\n\n", tag_info->hline);
       } terrain_type_iterate_end;
 
       fprintf(doc, "</table>\n");
