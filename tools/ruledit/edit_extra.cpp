@@ -31,6 +31,9 @@
 
 #include "edit_extra.h"
 
+
+#define FLAGROWS 15
+
 /**********************************************************************//**
   Setup edit_extra object
 **************************************************************************/
@@ -41,11 +44,14 @@ edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
   QGridLayout *extra_layout = new QGridLayout();
   QLabel *label;
   int row = 0;
+  int rowcount;
+  int column;
 
   ui = ui_in;
   extra = extra_in;
 
   natives_layout = new QGridLayout();
+  flag_layout = new QGridLayout();
 
   setWindowTitle(QString::fromUtf8(extra_rule_name(extra)));
 
@@ -133,10 +139,29 @@ edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
     natives_layout->addWidget(check, i + 1, 1);
   }
 
+  rowcount = 0;
+  column = 0;
+  for (int i = 0; i < EF_LAST_USER_FLAG; i++) {
+    enum extra_flag_id flag = (enum extra_flag_id)i;
+    QCheckBox *check = new QCheckBox();
+
+    label = new QLabel(extra_flag_id_name(flag));
+    flag_layout->addWidget(label, rowcount, column + 1);
+
+    check->setChecked(BV_ISSET(extra->flags, flag));
+    flag_layout->addWidget(check, rowcount, column);
+
+    if (++rowcount >= FLAGROWS) {
+      column += 2;
+      rowcount = 0;
+    }
+  }
+
   refresh();
 
   main_layout->addLayout(extra_layout);
   main_layout->addLayout(natives_layout);
+  main_layout->addLayout(flag_layout);
 
   setLayout(main_layout);
 }
@@ -146,6 +171,9 @@ edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
 **************************************************************************/
 void edit_extra::closeEvent(QCloseEvent *cevent)
 {
+  int rowcount;
+  int column;
+
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
@@ -162,6 +190,22 @@ void edit_extra::closeEvent(QCloseEvent *cevent)
 
     if (check->isChecked()) {
       BV_SET(extra->native_to, i);
+    }
+  }
+
+  BV_CLR_ALL(extra->flags);
+  rowcount = 0;
+  column = 0;
+  for (int i = 0; i < EF_LAST_USER_FLAG; i++) {
+    QCheckBox *check = static_cast<QCheckBox *>(flag_layout->itemAtPosition(rowcount, column)->widget());
+
+    if (check->isChecked()) {
+      BV_SET(extra->flags, i);
+    }
+
+    if (++rowcount >= FLAGROWS) {
+      rowcount = 0;
+      column += 2;
     }
   }
 
