@@ -231,17 +231,6 @@ static int scale_to_mult(const struct multiplier *pmul, int scale)
 }
 
 /**********************************************************************//**
-  Format value for multiplier scales
-**************************************************************************/
-static gchar *multiplier_value_callback(GtkScale *scale, gdouble value,
-                                        void *udata)
-{
-  const struct multiplier *pmul = udata;
-
-  return g_strdup_printf("%d", scale_to_mult(pmul, value));
-}
-
-/**********************************************************************//**
   User has responded to multipliers dialog
 **************************************************************************/
 static void multipliers_command_callback(GtkWidget *w, gint response_id)
@@ -353,8 +342,6 @@ static GtkWidget *create_multiplier_dialog(void)
     mscale = mult_to_scale(pmul, pmul->stop) / 10;
     gtk_range_set_increments(GTK_RANGE(multipliers_scale[multiplier]),
                              1, MAX(2, mscale));
-    g_signal_connect(multipliers_scale[multiplier], "format-value",
-                     G_CALLBACK(multiplier_value_callback), pmul);
     g_signal_connect(multipliers_scale[multiplier], "destroy",
                      G_CALLBACK(widget_destroyed),
                      &multipliers_scale[multiplier]);
