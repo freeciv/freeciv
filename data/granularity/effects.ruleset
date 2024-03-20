@@ -237,6 +237,16 @@ reqs	=
       "OutputType", "Food",              "Local"
     }
 
+[effect_iron]
+type    = "Output_Add_Tile"
+value   = 200
+reqs	=
+    { "type",       "name",         "range"
+      "Extra",      "Iron",         "Tile"
+      "Tech",       "Iron Working", "Player"
+      "OutputType", "Shield",       "Local"
+    }
+
 [effect_rock_pile_capital]
 type    = "Capital_City"
 value	= 1

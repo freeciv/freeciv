@@ -308,6 +308,53 @@ helptext	     = _("\
 Forest provides easily harvested resources.\
 ")
 
+[terrain_mountains]
+name                 = _("Mountains")
+graphic              = "mountains"
+graphic_alt	     = "-"
+graphic_alt2         = "-"
+identifier	     = "m"
+class                = "Land"
+movement_cost        = 50
+defense_bonus        = 100
+food                 = 0
+shield               = 100
+trade                = 0
+resources            = "Iron"
+road_food_incr_pct   = 0
+road_shield_incr_pct = 0
+road_trade_incr_pct  = 0
+base_time            = 5
+road_time            = 5
+cultivate_result     = "no"
+cultivate_time       = 0
+plant_result         = "no"
+plant_time           = 0
+irrigation_food_incr = 0
+irrigation_time      = 0
+mining_shield_incr   = 0
+mining_time          = 20
+transform_result     = "no"
+transform_time       = 0
+placing_time         = 5
+pillage_time         = 1
+extra_settings       =
+    { "extra", "removal_time"
+    }
+animal               = "None"
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
+native_to            = "Land"
+flags                = "CanHaveRiver"
+property_mountainous = 75
+color.r              = 129
+color.g              = 127
+color.b              = 118
+helptext	     = _("\
+Hard to farm. Hard to develop. Hard to pass.\
+")
 
 [terrain_plains]
 name                 = _("Plains")
@@ -475,13 +522,19 @@ Deep Ocean usually exist further away from the land.\
 ;
 ; */ <-- avoid gettext warnings
 
+[resource_iron]
+extra       = "Iron"
+food        = 0
+shield      = 0
+trade       = 0
+identifier  = "/"
+
 [resource_generic]
 extra       = "Generic Resource"
 food        = 0
 shield      = 0
 trade       = 100
 identifier  = "g"
-
 
 [extraui]
 
@@ -763,6 +816,25 @@ native_to      = "Land"
 helptext       = _("\
 Any land terrain type may have a River on it.\
  Land units may move along a River (but not diagonally) for fast travel.\
+")
+
+[extra_iron]
+name           = _("Iron")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+visibility_req = "Iron Working"
+graphic        = "ts.iron"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
+helptext       = _("\
+Adds +200 to the tile shield output. \
+Becomes visible and usable by the Iron Working tech.\
 ")
 
 [extra_gresource]
