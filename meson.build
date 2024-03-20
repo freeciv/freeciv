@@ -943,7 +943,7 @@ endif
 if cxx_build and cxx_compiler.compiles('''
 class me {
 void top(); };
-void me::top() { [=, this]() {}; };
+void me::top() { (void) [=, this]() { this->top(); }; };
 ''',
      name: 'C++20 capture this',
      args: ['-Werror', '-Wall'])

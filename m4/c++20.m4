@@ -11,7 +11,7 @@ AC_DEFUN([FC_CXX20_CAPTURE_THIS],
        CXXFLAGS="$CXXFLAGS $WERROR_CXX_TEST_FLAGS"
        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[class me {
 void top(); };
-void me::top() { [=, this]() {}; };
+void me::top() { (void) [=, this]() { this->top(); }; };
 ]])],
 [ac_cv_cxx20_capture_this=yes], [ac_cv_cxx20_capture_this=no])
        CXXFLAGS="$_CXXFLAGS"
