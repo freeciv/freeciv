@@ -41,7 +41,7 @@ bool manual_terrain(struct tag_types *tag_info)
     return FALSE;
   }
 
-  /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+  /* TRANS: Markup ... Freeciv version ... ruleset name ... markup */
   fprintf(doc, _("%sFreeciv %s terrain help (%s)%s\n\n"), tag_info->title_begin,
           VERSION_STRING, game.control.name, tag_info->title_end);
   fprintf(doc, "<table><tr bgcolor=#9bc3d1><th>%s</th>", _("Terrain"));
@@ -82,7 +82,7 @@ bool manual_terrain(struct tag_types *tag_info)
             pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
             pterrain->output[O_TRADE]);
 
-    /* TODO: include resource frequency information */
+    /* TODO: Include resource frequency information */
     fprintf(doc, "<td><table width=\"100%%\">\n");
     for (r = pterrain->resources; *r; r++) {
       fprintf(doc, "<tr><td>%s%s%s</td><td>%s</td>"
@@ -158,7 +158,7 @@ bool manual_terrain(struct tag_types *tag_info)
                                                          pextra));
       }
     } extra_type_by_cause_iterate_end;
-    fprintf(doc, "</tr>\n\n");
+    fprintf(doc, "</tr><tr><td colspan=\"7\">\n%s\n</td></tr>\n\n", tag_info->hline);
   } terrain_type_iterate_end;
 
   fprintf(doc, "</table>\n");
