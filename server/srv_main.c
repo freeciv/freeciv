@@ -410,47 +410,49 @@ bool check_for_game_over(void)
                 _("Game is over."));
     log_normal(_("Game is over."));
     return TRUE;
-  } else if (0 < defeated) {
-    /* If nobody conceded the game, it mays be a solo game or a single team
-     * game. */
-    fc_assert(NULL != victor);
+  } else {
+    if (0 < defeated) {
+      /* If nobody conceded the game, it mays be a solo game or a single team
+       * game. */
+      fc_assert(NULL != victor);
 
-    /* Quit if we have team victory. */
-    if (1 < team_count()) {
-      teams_iterate(pteam) {
-        const struct player_list *members = team_members(pteam);
-        int team_candidates = 0, team_defeated = 0;
+      /* Quit if we have team victory. */
+      if (1 < team_count()) {
+        teams_iterate(pteam) {
+          const struct player_list *members = team_members(pteam);
+          int team_candidates = 0, team_defeated = 0;
 
-        if (1 == player_list_size(members)) {
-          /* This is not really a team, single players are handled below. */
-          continue;
-        }
-
-        player_list_iterate(members, pplayer) {
-          if (pplayer->is_alive
-              && !player_status_check((pplayer), PSTATUS_SURRENDER)) {
-            team_candidates++;
-          } else {
-            team_defeated++;
+          if (1 == player_list_size(members)) {
+            /* This is not really a team, single players are handled below. */
+            continue;
           }
-        } player_list_iterate_end;
 
-        fc_assert(team_candidates + team_defeated
-                  == player_list_size(members));
-
-        if (team_candidates == candidates && team_defeated < defeated) {
-          /* We need a player in a other team to conced the game here. */
-          notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                      _("Team victory to %s."),
-                      team_name_translation(pteam));
-          log_normal(_("Team victory to %s."), team_name_translation(pteam));
-          /* All players of the team win, even dead and surrended ones. */
           player_list_iterate(members, pplayer) {
-            pplayer->is_winner = TRUE;
+            if (pplayer->is_alive
+                && !player_status_check((pplayer), PSTATUS_SURRENDER)) {
+              team_candidates++;
+            } else {
+              team_defeated++;
+            }
           } player_list_iterate_end;
-          return TRUE;
-        }
-      } teams_iterate_end;
+
+          fc_assert(team_candidates + team_defeated
+                    == player_list_size(members));
+
+          if (team_candidates == candidates && team_defeated < defeated) {
+            /* We need a player in a other team to conced the game here. */
+            notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                        _("Team victory to %s."),
+                        team_name_translation(pteam));
+            log_normal(_("Team victory to %s."), team_name_translation(pteam));
+            /* All players of the team win, even dead and surrended ones. */
+            player_list_iterate(members, pplayer) {
+              pplayer->is_winner = TRUE;
+            } player_list_iterate_end;
+            return TRUE;
+          }
+        } teams_iterate_end;
+      }
     }
 
     /* Check for allied victory. */
