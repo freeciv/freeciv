@@ -1230,8 +1230,8 @@ static bool propval_equal(struct propval *pva,
   case VALTYPE_NATION:
     return pva->data.v_nation == pvb->data.v_nation;
   case VALTYPE_NATION_HASH:
-    return nation_hashs_are_equal(pva->data.v_nation_hash,
-                                  pvb->data.v_nation_hash);
+    return nation_hashes_are_equal(pva->data.v_nation_hash,
+                                   pvb->data.v_nation_hash);
   case VALTYPE_GOV:
     return pva->data.v_gov == pvb->data.v_gov;
   case VALTYPE_TILE_VISION_DATA:

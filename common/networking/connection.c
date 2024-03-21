@@ -552,9 +552,9 @@ void free_compression_queue(struct connection *pc)
 }
 
 /**********************************************************************//**
-  Allocate and initialize packet hashs for given connection.
+  Allocate and initialize packet hashes for given connection.
 **************************************************************************/
-static void init_packet_hashs(struct connection *pc)
+static void init_packet_hashes(struct connection *pc)
 {
   enum packet_type i;
 
@@ -614,7 +614,7 @@ void connection_common_init(struct connection *pconn)
   pconn->json_mode = TRUE;
 #endif /* FREECIV_JSON_CONNECTION */
 
-  init_packet_hashs(pconn);
+  init_packet_hashes(pconn);
 
 #ifdef USE_COMPRESSION
   byte_vector_init(&pconn->compression.queue);
