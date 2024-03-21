@@ -32,7 +32,7 @@
 #include "mem.h"
 
 /******************************************************************//**
-  Do whatever we should do when malloc fails.
+  Do whatever we should do when fc_malloc() fails.
   At the moment this just prints a log message and calls exit(EXIT_FAILURE)
 **********************************************************************/
 static void handle_alloc_failure(size_t size, const char *called_as,
@@ -65,7 +65,7 @@ static void sanity_check_size(size_t size, const char *called_as,
 #endif /* FREECIV_DEBUG */
 
 /******************************************************************//**
-  Function used by fc_malloc macro, malloc() replacement
+  Function used by fc_malloc() macro, malloc() replacement
 
   There's no need for the caller to check return value; this function will
   always return a valid pointer (even for a 0-byte malloc).
@@ -79,7 +79,7 @@ void *fc_real_malloc(size_t size,
   sanity_check_size(size, called_as, line, file);
 #endif /* FREECIV_DEBUG */
 
-  /* Some systems return NULL on malloc(0)
+  /* Some systems return nullptr on malloc(0)
    * According to ANSI C, the return is implementation-specific, 
    * this is a safe guard. Having the extra byte is, of course, harmless. */
 #ifndef MALLOC_ZERO_OK
@@ -87,7 +87,7 @@ void *fc_real_malloc(size_t size,
 #endif
 
   ptr = malloc(size);
-  if (ptr == NULL) {
+  if (ptr == nullptr) {
     handle_alloc_failure(size, called_as, line, file);
   }
 
@@ -95,8 +95,8 @@ void *fc_real_malloc(size_t size,
 }
 
 /******************************************************************//**
- Function used by fc_realloc macro, realloc() replacement
- No need to check return value.
+  Function used by fc_realloc() macro, realloc() replacement
+  No need to check return value.
 **********************************************************************/
 void *fc_real_realloc(void *ptr, size_t size,
                       const char *called_as, int line, const char *file)
@@ -120,7 +120,7 @@ void *fc_real_realloc(void *ptr, size_t size,
 }
 
 /******************************************************************//**
-  Function used by fc_calloc macro, calloc() replacement
+  Function used by fc_calloc() macro, calloc() replacement
   No need to check return value.
 
   I'm pretty sure only the product of nelem and elsize can ever
@@ -142,7 +142,7 @@ void *fc_real_calloc(size_t nelem, size_t elsize,
 }
 
 /******************************************************************//**
-  Function used by fc_strdup macro, strdup() replacement
+  Function used by fc_strdup() macro, strdup() replacement
   No need to check return value.
 **********************************************************************/
 char *real_fc_strdup(const char *str,
@@ -150,7 +150,7 @@ char *real_fc_strdup(const char *str,
 {
   char *dest = fc_real_malloc(strlen(str) + 1, called_as, line, file);
 
-  /* No need to check whether dest is non-NULL! */
+  /* No need to check whether dest is nullptr! */
   strcpy(dest, str);
 
   return dest;
