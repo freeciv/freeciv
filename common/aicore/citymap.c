@@ -36,11 +36,11 @@
 /* CITYMAP - reserve space for cities
  *
  * The citymap is a large int double array that corresponds to
- * the freeciv main map. For each tile, it stores three different 
+ * the freeciv main map. For each tile, it stores three different
  * and exclusive values in a single int: A positive int tells you
- * how many cities can use this tile (a crowdedness inidicator). A 
- * value of zero indicates that the tile is presently unused and 
- * available. A negative value means that this tile is occupied 
+ * how many cities can use this tile (a crowdedness inidicator).
+ * A value of zero indicates that the tile is presently unused and
+ * available. A negative value means that this tile is occupied
  * and reserved by some city or unit: in this case the value gives
  * the negative of the ID of the city or unit that has reserved the
  * tile.
@@ -114,13 +114,13 @@ void citymap_free(void)
 
 /**********************************************************************//**
   This function reserves a single tile for a (possibly virtual) city with
-  a settler's or a city's id. Then it 'crowds' tiles that this city can 
+  a settler's or a city's id. Then it 'crowds' tiles that this city can
   use to make them less attractive to other cities we may consider making.
 **************************************************************************/
 void citymap_reserve_city_spot(struct tile *ptile, int id)
 {
 #ifdef FREECIV_DEBUG
-  log_citymap("id %d reserving (%d, %d), was %d", 
+  log_citymap("id %d reserving (%d, %d), was %d",
               id, TILE_XY(ptile), citymap[tile_index(ptile)]);
   fc_assert_ret(0 <= citymap[tile_index(ptile)]);
 #endif /* FREECIV_DEBUG */

@@ -146,7 +146,6 @@ static bool pf_action_possible(const struct tile *src,
   if (PF_ACTION_ATTACK == action) {
     return (PF_MS_NATIVE & src_scope
             || can_attack_from_non_native(param->utype));
-            
   } else if (PF_ACTION_DIPLOMAT == action
              || PF_ACTION_TRADE_ROUTE == action) {
     /* Don't try to act when inside of a transport over non native terrain
@@ -327,8 +326,8 @@ amphibious_move_scope(const struct tile *ptile,
 
 /************************************************************************//**
   Determines if the move between two tiles is possible.
-  Do not use this function as part of a test of whether a unit may attack a
-  tile: many tiles that pass this test may be unsuitable for some units to
+  Do not use this function as part of a test of whether a unit may attack
+  a tile: many tiles that pass this test may be unsuitable for some units to
   attack to/from.
 
   Does not check if the tile is occupied by non-allied units.
@@ -488,7 +487,7 @@ static unsigned amphibious_extra_cost(const struct tile *ptile,
 /* ===================== Tile Behaviour Callbacks ==================== */
 
 /************************************************************************//**
-  PF callback to prohibit going into the unknown.  Also makes sure we 
+  PF callback to prohibit going into the unknown. Also makes sure we
   don't plan to attack anyone.
 ****************************************************************************/
 enum tile_behavior no_fights_or_unknown(const struct tile *ptile,

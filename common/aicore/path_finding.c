@@ -237,7 +237,7 @@ struct pf_normal_map {
 /* Up-cast macro. */
 #ifdef PF_DEBUG
 static inline struct pf_normal_map *
-pf_normal_map_check(struct pf_map *pfm, const char *file, 
+pf_normal_map_check(struct pf_map *pfm, const char *file,
                     const char *function, int line)
 {
   fc_assert_full(file, function, line,
@@ -1363,11 +1363,11 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
 
   Example: be A, B, C and D points safe positions, E a dangerous one.
     A B
-     E 
+     E
     C D
   We have found dangerous path from A to D, and later one from C to B:
     A B             A B
-     \               / 
+     \               /
     C D             C D
   If we didn't save the segment from A to D when a new segment passing by E
   is found, then finding the path from A to D will produce an error. (The
@@ -3228,7 +3228,7 @@ int pf_map_move_cost(struct pf_map *pfm, struct tile *ptile)
 /************************************************************************//**
   Tries to find the best path in the given map to the position ptile.
   If NULL is returned no path could be found. The pf_path_last_position()
-  of such path would be the same (almost) as the result of the call to 
+  of such path would be the same (almost) as the result of the call to
   pf_map_position(). If ptile has not been reached yet, iterate the map
   until we reach it or run out of map.
 ****************************************************************************/

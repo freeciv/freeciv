@@ -649,7 +649,7 @@ static void caravan_find_best_destination_withtransit(
     int turns_before,
     int moves_left,
     bool omniscient,
-    struct caravan_result *result) 
+    struct caravan_result *result)
 {
   struct tile *start_tile;
   struct cfbdw_data data;
