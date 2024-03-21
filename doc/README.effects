@@ -423,6 +423,10 @@ Illegal_Action_Move_Cost
     that turns out to be illegal. Only applied when the player wasn't aware that
     the action was illegal and its illegality therefore reveals new information.
 
+Impr_Upkeep_Reduction
+    Reduce city's total improvement upkeep by the value. The upkeep cannot
+    go negative, though.
+
 Incite_Cost_Pct
     Increases revolt cost by amount percent.
 
