@@ -11,8 +11,8 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__EDIT_IMPR_H
-#define FC__EDIT_IMPR_H
+#ifndef FC__HELPEDITOR_H
+#define FC__HELPEDITOR_H
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -20,48 +20,25 @@
 
 // Qt
 #include <QDialog>
-
-class QGridLayout;
-class QLineEdit;
-class QSpinBox;
-class QToolButton;
+#include <QTextEdit>
 
 class ruledit_gui;
 
-class edit_impr : public QDialog
+class helpeditor : public QDialog
 {
   Q_OBJECT
 
   public:
-    explicit edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in);
-    void refresh();
+    explicit helpeditor(struct strvec *helptext_in);
 
   private:
-    ruledit_gui *ui;
-    struct impr_type *impr;
-    QSpinBox *bcost;
-    QSpinBox *upkeep;
-    QToolButton *genus_button;
-    QLineEdit *gfx_tag;
-    QLineEdit *gfx_tag_alt;
-    QLineEdit *sound_tag;
-    QLineEdit *sound_tag_alt;
+    struct strvec *helptext;
 
-    QGridLayout *flag_layout;
-
-  protected:
-    void closeEvent(QCloseEvent *cevent);
+    QTextEdit *area;
 
   private slots:
-    void set_bcost_value(int value);
-    void set_upkeep_value(int value);
-    void genus_menu(QAction *action);
-    void gfx_tag_given();
-    void gfx_tag_alt_given();
-    void sound_tag_given();
-    void sound_tag_alt_given();
-    void helptext();
+    void close_now();
 };
 
 
-#endif // FC__EDIT_IMPR_H
+#endif // FC__HELPEDITOR_H

@@ -25,11 +25,12 @@ freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
 
 MOC_FILES = \
             meta_conversion_log.cpp \
-            meta_edit_extra.cpp \
+            meta_edit_extra.cpp	\
             meta_edit_impr.cpp \
-            meta_edit_terrain.cpp \
+            meta_edit_terrain.cpp	\
             meta_edit_utype.cpp \
-	    meta_effect_edit.cpp \
+	    meta_effect_edit.cpp	\
+	    meta_helpeditor.cpp	\
 	    meta_req_edit.cpp	\
 	    meta_req_vec_fix.cpp	\
             meta_requirers_dlg.cpp \
@@ -60,6 +61,7 @@ freeciv_ruledit_SOURCES =	\
 		edit_utype.h	\
 		effect_edit.cpp	\
 		effect_edit.h	\
+		helpeditor.cpp	\
 		tab_achievement.cpp	\
 		tab_achievement.h	\
 		tab_building.cpp \
