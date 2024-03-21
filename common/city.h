@@ -196,7 +196,7 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
 /* Iterate a city map in checked real map coordinates.
  * _radius_sq is the squared city radius.
  * _city_tile is the center of the (possible) city.
- * (_index) will be the city tile index in the intervall
+ * (_index) will be the city tile index in the interval
  * [0, city_map_tiles(_radius_sq)] */
 #define city_tile_iterate_index(_radius_sq, _city_tile, _tile,		\
                                 _index) {				\
