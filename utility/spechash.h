@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/* spechashs: "specific genhash".
+/* spechashes: "specific genhash".
  *
  * This file is used to implement a "specific" genhash.
  * That is, a (sometimes) type-checked genhash. (Or at least a
@@ -108,11 +108,11 @@
  *    bool foo_hash_remove_full(struct foo_hash *phash, const key_t key,
  *                              key_t *deleted_pkey, data_t *deleted_pdata);
  *
- *    bool foo_hashs_are_equal(const struct foo_hash *phash1,
- *                             const struct foo_hash *phash2);
- *    bool foo_hashs_are_equal_full(const struct foo_hash *phash1,
- *                                  const struct foo_hash *phash2,
- *                                  foo_hash_data_comp_fn_t data_comp_func);
+ *    bool foo_hashes_are_equal(const struct foo_hash *phash1,
+ *                              const struct foo_hash *phash2);
+ *    bool foo_hashes_are_equal_full(const struct foo_hash *phash1,
+ *                                   const struct foo_hash *phash2,
+ *                                   foo_hash_data_comp_fn_t data_comp_func);
  *
  *    size_t foo_hash_iter_sizeof(void);
  *    struct iterator *foo_hash_iter_init(struct foo_hash_iter *iter,
@@ -591,25 +591,25 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
   Compare the specific hash tables.
 ****************************************************************************/
 static inline bool
-SPECHASH_FOO(_hashs_are_equal_full) (const SPECHASH_HASH *phash1,
-                                     const SPECHASH_HASH *phash2,
-                                     SPECHASH_FOO(_hash_data_comp_fn_t)
-                                     data_comp_func)
+SPECHASH_FOO(_hashes_are_equal_full) (const SPECHASH_HASH *phash1,
+                                      const SPECHASH_HASH *phash2,
+                                      SPECHASH_FOO(_hash_data_comp_fn_t)
+                                      data_comp_func)
 {
-  return genhashs_are_equal_full((const struct genhash *) phash1,
-                                 (const struct genhash *) phash2,
-                                 (genhash_comp_fn_t) data_comp_func);
+  return genhashes_are_equal_full((const struct genhash *) phash1,
+                                  (const struct genhash *) phash2,
+                                  (genhash_comp_fn_t) data_comp_func);
 }
 
 /************************************************************************//**
   Compare the specific hash tables.
 ****************************************************************************/
 static inline bool
-SPECHASH_FOO(_hashs_are_equal) (const SPECHASH_HASH *phash1,
-                                const SPECHASH_HASH *phash2)
+SPECHASH_FOO(_hashes_are_equal) (const SPECHASH_HASH *phash1,
+                                 const SPECHASH_HASH *phash2)
 {
-  return SPECHASH_FOO(_hashs_are_equal_full) (phash1, phash2,
-                                              SPECHASH_IDATA_COMP);
+  return SPECHASH_FOO(_hashes_are_equal_full) (phash1, phash2,
+                                               SPECHASH_IDATA_COMP);
 }
 
 /************************************************************************//**
