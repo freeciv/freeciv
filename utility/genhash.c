@@ -738,18 +738,18 @@ bool genhash_remove_full(struct genhash *pgenhash, const void *key,
 /************************************************************************//**
   Returns TRUE iff the hash tables contains the same pairs of key/data.
 ****************************************************************************/
-bool genhashs_are_equal(const struct genhash *pgenhash1,
-                        const struct genhash *pgenhash2)
+bool genhashes_are_equal(const struct genhash *pgenhash1,
+                         const struct genhash *pgenhash2)
 {
-  return genhashs_are_equal_full(pgenhash1, pgenhash2, NULL);
+  return genhashes_are_equal_full(pgenhash1, pgenhash2, NULL);
 }
 
 /************************************************************************//**
   Returns TRUE iff the hash tables contains the same pairs of key/data.
 ****************************************************************************/
-bool genhashs_are_equal_full(const struct genhash *pgenhash1,
-                             const struct genhash *pgenhash2,
-                             genhash_comp_fn_t data_comp_func)
+bool genhashes_are_equal_full(const struct genhash *pgenhash1,
+                              const struct genhash *pgenhash2,
+                              genhash_comp_fn_t data_comp_func)
 {
   struct genhash_entry *const *bucket1, *const *max1, *const *slot2;
   const struct genhash_entry *iter1;

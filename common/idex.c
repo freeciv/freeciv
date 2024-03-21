@@ -39,7 +39,7 @@
 #include "idex.h"
 
 /**********************************************************************//**
-   Initialize.  Should call this at the start before use.
+   Initialize. Should call this at the start before use.
 **************************************************************************/
 void idex_init(struct world *iworld)
 {
@@ -48,7 +48,7 @@ void idex_init(struct world *iworld)
 }
 
 /**********************************************************************//**
-   Free the hashs.
+   Free the hashes.
 **************************************************************************/
 void idex_free(struct world *iworld)
 {
