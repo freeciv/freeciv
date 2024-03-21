@@ -1198,7 +1198,9 @@ int city_total_impr_gold_upkeep(const struct city *pcity)
     gold_needed += city_improvement_upkeep(pcity, pimprove);
   } city_built_iterate_end;
 
-  return gold_needed;
+  gold_needed -= get_city_bonus(pcity, EFT_IMPR_UPKEEP_REDUCTION);
+
+  return MAX(gold_needed, 0);
 }
 
 /**********************************************************************//**

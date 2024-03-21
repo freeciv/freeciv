@@ -161,6 +161,7 @@ values
   SURPLUS_WASTE_PCT                 "Surplus_Waste_Pct"
   SURPLUS_WASTE_PCT_BY_REL_DISTANCE "Surplus_Waste_Pct_By_Rel_Distance"
   TECH_LEAKAGE                      "Tech_Leakage"
+  IMPR_UPKEEP_REDUCTION             "Impr_Upkeep_Reduction"
   USER_EFFECT_1                     "User_Effect_1"
   USER_EFFECT_2                     "User_Effect_2"
   USER_EFFECT_3                     "User_Effect_3"
