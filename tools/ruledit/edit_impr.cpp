@@ -20,6 +20,7 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QMenu>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QToolButton>
 
@@ -27,6 +28,7 @@
 #include "improvement.h"
 
 // ruledit
+#include "helpeditor.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "tab_tech.h"
@@ -41,6 +43,7 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *impr_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *button;
   QMenu *menu;
   int row;
 
@@ -143,6 +146,10 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
 
   impr_layout->addWidget(label, row, 0);
   impr_layout->addWidget(sound_tag_alt2, row++, 1);
+
+  button = new QPushButton(QString::fromUtf8(R__("Helptext")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(helptext()));
+  impr_layout->addWidget(button, row++, 1);
 
   for (int i = 0; i < IF_COUNT; i++) {
     enum impr_flag_id flag = (enum impr_flag_id)i;
@@ -298,4 +305,14 @@ void edit_impr::sound_tag_alt2_given()
   QByteArray tag_bytes = sound_tag_alt2->text().toUtf8();
 
   sz_strlcpy(impr->soundtag_alt2, tag_bytes);
+}
+
+/**********************************************************************//**
+  User pressed helptext button
+**************************************************************************/
+void edit_impr::helptext()
+{
+  helpeditor *editor = new helpeditor(impr->helptext);
+
+  editor->show();
 }

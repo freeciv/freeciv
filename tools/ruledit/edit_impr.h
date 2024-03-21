@@ -64,6 +64,7 @@ class edit_impr : public QDialog
     void sound_tag_given();
     void sound_tag_alt_given();
     void sound_tag_alt2_given();
+    void helptext();
 };
 
 
