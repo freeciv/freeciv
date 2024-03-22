@@ -553,3 +553,11 @@ reqs    =
     { "type", "name", "range"
       "Extra", "Nets", "Tile"
     }
+
+[effect_mine]
+type    = "Mining_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Mine", "Tile"
+    }
