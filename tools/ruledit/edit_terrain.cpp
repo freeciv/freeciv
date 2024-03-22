@@ -33,6 +33,9 @@
 
 #include "edit_terrain.h"
 
+
+#define FLAGROWS 15
+
 /**********************************************************************//**
   Setup edit_terrain object
 **************************************************************************/
@@ -42,11 +45,14 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
   QGridLayout *ter_layout = new QGridLayout();
   QLabel *label;
   int row = 0;
+  int rowcount;
+  int column;
 
   ui = ui_in;
   ter = ter_in;
 
   natives_layout = new QGridLayout();
+  flag_layout = new QGridLayout();
 
   setWindowTitle(QString::fromUtf8(terrain_rule_name(ter)));
 
@@ -109,10 +115,29 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
     natives_layout->addWidget(check, i + 1, 1);
   }
 
+  rowcount = 0;
+  column = 0;
+  for (int i = 0; i < TER_USER_LAST; i++) {
+    enum terrain_flag_id flag = (enum terrain_flag_id)i;
+    QCheckBox *check = new QCheckBox();
+
+    label = new QLabel(terrain_flag_id_name(flag));
+    flag_layout->addWidget(label, rowcount, column + 1);
+
+    check->setChecked(BV_ISSET(ter->flags, flag));
+    flag_layout->addWidget(check, rowcount, column);
+
+    if (++rowcount >= FLAGROWS) {
+      column += 2;
+      rowcount = 0;
+    }
+  }
+
   refresh();
 
   main_layout->addLayout(ter_layout);
   main_layout->addLayout(natives_layout);
+  main_layout->addLayout(flag_layout);
 
   setLayout(main_layout);
 }
@@ -122,6 +147,9 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
 **************************************************************************/
 void edit_terrain::closeEvent(QCloseEvent *cevent)
 {
+  int rowcount;
+  int column;
+
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
@@ -133,6 +161,22 @@ void edit_terrain::closeEvent(QCloseEvent *cevent)
 
     if (check->isChecked()) {
       BV_SET(ter->native_to, i);
+    }
+  }
+
+  BV_CLR_ALL(ter->flags);
+  rowcount = 0;
+  column = 0;
+  for (int i = 0; i < TER_USER_LAST; i++) {
+    QCheckBox *check = static_cast<QCheckBox *>(flag_layout->itemAtPosition(rowcount, column)->widget());
+
+    if (check->isChecked()) {
+      BV_SET(ter->flags, i);
+    }
+
+    if (++rowcount >= FLAGROWS) {
+      rowcount = 0;
+      column += 2;
     }
   }
 

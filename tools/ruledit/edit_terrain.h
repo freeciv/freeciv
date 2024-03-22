@@ -45,6 +45,7 @@ class edit_terrain : public QDialog
     QLineEdit *gfx_tag_alt2;
 
     QGridLayout *natives_layout;
+    QGridLayout *flag_layout;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
