@@ -332,7 +332,7 @@ plant_result         = "no"
 plant_time           = 0
 irrigation_food_incr = 0
 irrigation_time      = 0
-mining_shield_incr   = 0
+mining_shield_incr   = 100
 mining_time          = 20
 transform_result     = "no"
 transform_time       = 0
@@ -722,6 +722,32 @@ reqs           =
 build_time     = 3
 removal_time   = 0
 helptext       = _("Nets increase ocean tile food production.")
+
+[extra_mine]
+name           = _("?extra:Mine")
+category       = "Infra"
+;causes         = ""
+;rmcauses       = ""
+infracost      = 25
+graphic        = "tx.mine"
+graphic_alt    = "-"
+activity_gfx   = "unit.mine"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
+buildable      = TRUE
+reqs           =
+    { "type",    "name",      "range"
+      "Tech",    "Mining",    "Player"
+      "Terrain", "Mountains", "Tile"
+    }
+build_time     = 4
+removal_time   = 0
+helptext       = _("\
+Mine increases tile shield production.\
+")
 
 ;[extra_gbase]
 ;name           = _("Generic Base")
