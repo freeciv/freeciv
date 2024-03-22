@@ -331,13 +331,13 @@ extern struct terrain_misc terrain_control;
   int _tile##_index = 0;                                                    \
   index_to_map_pos(&_start##_x, &_start##_y, tile_index(_tile##_start));    \
   for (;                                                                    \
-       _tile##_index < wld.map.num_iterate_outwards_indices;                \
+       _tile##_index < MAP_NUM_ITERATE_OUTWARDS_INDICES;                    \
        _tile##_index++) {                                                   \
-    if (wld.map.iterate_outwards_indices[_tile##_index].dist > _tile##_max) {   \
+    if (MAP_ITERATE_OUTWARDS_INDICES[_tile##_index].dist > _tile##_max) {   \
       break;                                                                \
     }                                                                       \
-    _x = wld.map.iterate_outwards_indices[_tile##_index].dx;                \
-    _y = wld.map.iterate_outwards_indices[_tile##_index].dy;                \
+    _x = MAP_ITERATE_OUTWARDS_INDICES[_tile##_index].dx;                    \
+    _y = MAP_ITERATE_OUTWARDS_INDICES[_tile##_index].dy;                    \
     _tile##_x = _x + _start##_x;                                            \
     _tile##_y = _y + _start##_y;                                            \
     _tile = map_pos_to_tile(nmap, _tile##_x, _tile##_y);                    \

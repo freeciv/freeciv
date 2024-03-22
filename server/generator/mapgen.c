@@ -2940,8 +2940,8 @@ fair_map_place_island_team(struct fair_tile *ptarget, int tx, int ty,
 
   /* Iterate positions, beginning by a random index of the outwards
    * indices. */
-  for (i = fc_rand(wld.map.num_iterate_outwards_indices / 200);
-       i < wld.map.num_iterate_outwards_indices; i++) {
+  for (i = fc_rand(MAP_NUM_ITERATE_OUTWARDS_INDICES / 200);
+       i < MAP_NUM_ITERATE_OUTWARDS_INDICES; i++) {
     x = tx + outwards_indices[i].dx;
     y = ty + outwards_indices[i].dy;
     if (normalize_map_pos(&(wld.map), &x, &y)
@@ -3537,13 +3537,13 @@ static bool map_generate_fair_islands(void)
     if (wld.map.server.team_placement != TEAM_PLACEMENT_DISABLED
         && team_players_num > 0) {
       /* Do team placement. */
-      struct iter_index outwards_indices[wld.map.num_iterate_outwards_indices];
+      struct iter_index outwards_indices[MAP_NUM_ITERATE_OUTWARDS_INDICES];
       int start_x[teams_num], start_y[teams_num];
       int dx = 0, dy = 0;
       int j, k;
 
       /* Build outwards_indices. */
-      memcpy(outwards_indices, wld.map.iterate_outwards_indices,
+      memcpy(outwards_indices, MAP_ITERATE_OUTWARDS_INDICES,
              sizeof(outwards_indices));
       switch (wld.map.server.team_placement) {
       case TEAM_PLACEMENT_DISABLED:
@@ -3551,21 +3551,21 @@ static bool map_generate_fair_islands(void)
         break;
       case TEAM_PLACEMENT_CLOSEST:
       case TEAM_PLACEMENT_CONTINENT:
-        for (j = 0; j < wld.map.num_iterate_outwards_indices; j++) {
+        for (j = 0; j < MAP_NUM_ITERATE_OUTWARDS_INDICES; j++) {
           /* We want square distances for comparing. */
           outwards_indices[j].dist =
               map_vector_to_sq_distance(outwards_indices[j].dx,
                                         outwards_indices[j].dy);
         }
-        qsort(outwards_indices, wld.map.num_iterate_outwards_indices,
+        qsort(outwards_indices, MAP_NUM_ITERATE_OUTWARDS_INDICES,
               sizeof(outwards_indices[0]), fair_team_placement_closest);
         break;
       case TEAM_PLACEMENT_HORIZONTAL:
-        qsort(outwards_indices, wld.map.num_iterate_outwards_indices,
+        qsort(outwards_indices, MAP_NUM_ITERATE_OUTWARDS_INDICES,
               sizeof(outwards_indices[0]), fair_team_placement_horizontal);
         break;
       case TEAM_PLACEMENT_VERTICAL:
-        qsort(outwards_indices, wld.map.num_iterate_outwards_indices,
+        qsort(outwards_indices, MAP_NUM_ITERATE_OUTWARDS_INDICES,
               sizeof(outwards_indices[0]), fair_team_placement_vertical);
         break;
       }

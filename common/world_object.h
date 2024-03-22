@@ -63,6 +63,8 @@ extern struct world wld; /* In game.c */
 #define MAP_NUM_CARDINAL_DIRS wld.map.num_cardinal_dirs
 #define MAP_VALID_DIRS wld.map.valid_dirs
 #define MAP_NUM_VALID_DIRS wld.map.num_valid_dirs
+#define MAP_ITERATE_OUTWARDS_INDICES wld.map.iterate_outwards_indices
+#define MAP_NUM_ITERATE_OUTWARDS_INDICES wld.map.num_iterate_outwards_indices
 
 #ifdef __cplusplus
 }

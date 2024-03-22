@@ -1284,14 +1284,15 @@ int api_methods_private_tile_next_outward_index(lua_State *L, Tile *pstart,
   index_to_map_pos(&startx, &starty, tile_index(pstart));
 
   tindex++;
-  while (tindex < wld.map.num_iterate_outwards_indices) {
-    if (wld.map.iterate_outwards_indices[tindex].dist > max_dist) {
+  while (tindex < MAP_NUM_ITERATE_OUTWARDS_INDICES) {
+    if (MAP_ITERATE_OUTWARDS_INDICES[tindex].dist > max_dist) {
       return -1;
     }
-    dx = wld.map.iterate_outwards_indices[tindex].dx;
-    dy = wld.map.iterate_outwards_indices[tindex].dy;
+    dx = MAP_ITERATE_OUTWARDS_INDICES[tindex].dx;
+    dy = MAP_ITERATE_OUTWARDS_INDICES[tindex].dy;
     newx = dx + startx;
     newy = dy + starty;
+
     if (!normalize_map_pos(&(wld.map), &newx, &newy)) {
       tindex++;
       continue;
@@ -1314,12 +1315,12 @@ Tile *api_methods_private_tile_for_outward_index(lua_State *L,
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_SELF(L, pstart, NULL);
   LUASCRIPT_CHECK_ARG(L,
-                      tindex >= 0 && tindex < wld.map.num_iterate_outwards_indices,
+                      tindex >= 0 && tindex < MAP_NUM_ITERATE_OUTWARDS_INDICES,
                       3, "index out of bounds", NULL);
 
   index_to_map_pos(&newx, &newy, tile_index(pstart));
-  newx += wld.map.iterate_outwards_indices[tindex].dx;
-  newy += wld.map.iterate_outwards_indices[tindex].dy;
+  newx += MAP_ITERATE_OUTWARDS_INDICES[tindex].dx;
+  newy += MAP_ITERATE_OUTWARDS_INDICES[tindex].dy;
 
   if (!normalize_map_pos(&(wld.map), &newx, &newy)) {
     return NULL;
