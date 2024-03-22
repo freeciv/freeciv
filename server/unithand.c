@@ -3190,7 +3190,7 @@ void handle_unit_action_query(struct connection *pc,
   switch (paction->result) {
   case ACTRES_SPY_BRIBE_UNIT:
     if (punit
-        && is_action_enabled_unit_on_unit(action_type,
+        && is_action_enabled_unit_on_unit(nmap, action_type,
                                           pactor, punit)) {
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
@@ -3501,7 +3501,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_UNIT(action, actor, target, action_performer) \
   if (punit                                                               \
-      && is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) {\
+      && is_action_enabled_unit_on_unit(nmap, action_type, actor_unit, punit)) { \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_unit",                 \
                               action_by_number(action), actor, target);   \
@@ -5530,6 +5530,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 {
   struct player *pplayer = unit_owner(punit);
   struct unit *ptrans;
+  const struct civ_map *nmap = &(wld.map);
 
   /*** Phase 1: Attempted action interpretation checks ***/
 
@@ -5620,31 +5621,31 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                ACT_REQ_PLAYER);
   } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,
                                                punit, ptrans)) {
     /* "Transport Embark". */
     return unit_perform_action(pplayer, punit->id, ptrans->id,
                                NO_TARGET, "", ACTION_TRANSPORT_EMBARK,
                                ACT_REQ_PLAYER);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     return unit_perform_action(pplayer, punit->id, ptrans->id,
                                NO_TARGET, "", ACTION_TRANSPORT_EMBARK2,
                                ACT_REQ_PLAYER);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     return unit_perform_action(pplayer, punit->id, ptrans->id,
                                NO_TARGET, "", ACTION_TRANSPORT_EMBARK3,
                                ACT_REQ_PLAYER);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK4,
                                                punit, ptrans)) {
     /* "Transport Embark 4". */
     return unit_perform_action(pplayer, punit->id, ptrans->id,

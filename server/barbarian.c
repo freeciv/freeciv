@@ -283,6 +283,7 @@ bool unleash_barbarians(struct tile *ptile)
   int checked_count;
   int dir;
   bool barbarian_stays = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   /* FIXME: When there is no L_BARBARIAN unit,
    *        but L_BARBARIAN_TECH is already available,
@@ -326,7 +327,7 @@ bool unleash_barbarians(struct tile *ptile)
   /* Get information about surrounding terrains in terrain class level.
    * Only needed if we consider moving units away to random directions. */
   for (dir = 0; dir < 8; dir++) {
-    dir_tiles[dir] = mapstep(&(wld.map), ptile, dir);
+    dir_tiles[dir] = mapstep(nmap, ptile, dir);
     if (dir_tiles[dir] == NULL) {
       terrainc[dir] = terrain_class_invalid();
     } else if (!is_non_allied_unit_tile(dir_tiles[dir], barbarians)) {
@@ -356,7 +357,7 @@ bool unleash_barbarians(struct tile *ptile)
              checked_count++) {
           int rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
-          if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
+          if (unit_can_move_to_tile(nmap, punit2, dir_tiles[rdir],
                                     TRUE, FALSE, FALSE)) {
             /* Move */
             (void) unit_move_pay(punit2, dir_tiles[rdir]);
@@ -402,22 +403,22 @@ bool unleash_barbarians(struct tile *ptile)
         /* We do have a boat. Try to get everybody in */
         unit_list_iterate_safe((ptile)->units, punit2) {
           if (unit_owner(punit2) == barbarians) {
-            if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+            if (is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,
                                                punit2, boat)) {
               /* Load */
               unit_do_action(unit_owner(punit2), punit2->id, boat->id,
                              0, "", ACTION_TRANSPORT_EMBARK);
-            } else if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+            } else if (is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK2,
                                                       punit2, boat)) {
               /* Load */
               unit_do_action(unit_owner(punit2), punit2->id, boat->id,
                              0, "", ACTION_TRANSPORT_EMBARK2);
-            } else if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+            } else if (is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK3,
                                                       punit2, boat)) {
               /* Load */
               unit_do_action(unit_owner(punit2), punit2->id, boat->id,
                              0, "", ACTION_TRANSPORT_EMBARK3);
-            } else if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+            } else if (is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK4,
                                                       punit2, boat)) {
               /* Load */
               unit_do_action(unit_owner(punit2), punit2->id, boat->id,
@@ -442,7 +443,7 @@ bool unleash_barbarians(struct tile *ptile)
 
             rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
-            if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
+            if (unit_can_move_to_tile(nmap, punit2, dir_tiles[rdir],
                                       TRUE, FALSE, FALSE)) {
               /* Move */
               (void) unit_move_pay(punit2, dir_tiles[rdir]);
@@ -541,13 +542,14 @@ static void try_summon_barbarians(void)
   bool hut_present = FALSE;
   int city_count;
   int city_max;
+  const struct civ_map *nmap = &(wld.map);
 
   /* We attempt the summons on a particular, random position.  If this is
    * an invalid position then the summons simply fails this time.  This means
    * that a particular tile's chance of being summoned on is independent of
    * all the other tiles on the map - which is essential for balanced
    * gameplay. */
-  ptile = rand_map_pos(&(wld.map));
+  ptile = rand_map_pos(nmap);
 
   if (terrain_has_flag(tile_terrain(ptile), TER_NO_BARBS)) {
     return;
@@ -665,7 +667,7 @@ static void try_summon_barbarians(void)
 
     if (is_native_tile(boat, utile)
         && !utype_player_already_has_this_unique(barbarians, boat)
-        && (is_safe_ocean(&(wld.map), utile)
+        && (is_safe_ocean(nmap, utile)
             || (!utype_has_flag(boat, UTYF_COAST_STRICT)
                 && !utype_has_flag(boat, UTYF_COAST)))) {
       int cap;

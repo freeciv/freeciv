@@ -922,28 +922,28 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
                    0, "", ACTION_CONQUER_CITY4);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,
                                                punit, ptrans)) {
     /* "Transport Embark". */
     unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                    0, "", ACTION_TRANSPORT_EMBARK);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                    0, "", ACTION_TRANSPORT_EMBARK2);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                    0, "", ACTION_TRANSPORT_EMBARK3);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK4,
                                                punit, ptrans)) {
     /* "Transport Embark 4". */
     unit_do_action(unit_owner(punit), punit->id, ptrans->id,
@@ -1124,25 +1124,25 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   /* Select move kind. */
   if (!can_unit_survive_at_tile(nmap, punit, ptile)
       && ((ptrans = transporter_for_unit_at(punit, ptile)))
-      && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+      && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,
                                         punit, ptrans)) {
     /* "Transport Embark". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK2);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK3);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK4,
                                                punit, ptrans)) {
     /* "Transport Embark 4". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK4);

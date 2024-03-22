@@ -154,8 +154,9 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   struct action *paction;
   struct player *pplayer = unit_owner(punit);
   struct unit *ptrans = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
-  /* if enemy, stop and give a chance for the human player to
+  /* If enemy, stop and give a chance for the human player to
      handle this case */
   if (is_enemy_unit_tile(ptile, pplayer)
       || is_enemy_city_tile(ptile, pplayer)) {
@@ -164,27 +165,27 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   }
 
   /* Select move kind. */
-  if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  if (!can_unit_survive_at_tile(nmap, punit, ptile)
       && ((ptrans = transporter_for_unit_at(punit, ptile)))
-      && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+      && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,
                                         punit, ptrans)) {
     /* "Transport Embark". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK2);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK3);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ptrans != NULL
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK4,
                                                punit, ptrans)) {
     /* "Transport Embark 4". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK4);
@@ -253,7 +254,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   if (action_has_result(paction, ACTRES_UNIT_MOVE)
       || action_has_result(paction, ACTRES_TRANSPORT_DISEMBARK)) {
     /* The unit will have to move it self rather than being moved. */
-    int mcost = map_move_cost_unit(&(wld.map), punit, ptile);
+    int mcost = map_move_cost_unit(nmap, punit, ptile);
 
     if (paction) {
       struct tile *from_tile;
