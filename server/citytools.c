@@ -104,7 +104,8 @@ static bool send_city_suppressed = FALSE;
 static bool city_workers_queue_remove(struct city *pcity);
 
 static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
-                                         bool source_gone);
+                                         bool source_gone)
+  fc__attribute((nonnull (1, 2)));
 
 /************************************************************************//**
   Freeze the workers (citizens on tiles) for the city. They will not be
@@ -2923,13 +2924,13 @@ struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *pro
     if (back_route != NULL) {
       trade_route_list_remove(pc2->routes, back_route);
     }
-  }
 
-  if (announce) {
-    announce_trade_route_removal(pc1, pc2, source_gone);
+    if (announce) {
+      announce_trade_route_removal(pc1, pc2, source_gone);
 
-    city_refresh(pc2);
-    send_city_info(city_owner(pc2), pc2);
+      city_refresh(pc2);
+      send_city_info(city_owner(pc2), pc2);
+    }
   }
 
   return back_route;
