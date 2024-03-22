@@ -1059,7 +1059,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
         break;
       case ATK_UNIT:
         if (tgt_unit
-            && is_action_enabled_unit_on_unit(act, actor, tgt_unit)) {
+            && is_action_enabled_unit_on_unit(nmap, act, actor, tgt_unit)) {
           perform_action_to(act, actor, tgt_unit->id, EXTRA_NONE);
         }
         break;
@@ -1154,7 +1154,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
         break;
       case ATK_UNIT:
         if (tgt_unit
-            && is_action_enabled_unit_on_unit(act, actor, tgt_unit)) {
+            && is_action_enabled_unit_on_unit(nmap, act, actor, tgt_unit)) {
           current = action_prob_vs_unit(actor, act, tgt_unit);
         }
         break;

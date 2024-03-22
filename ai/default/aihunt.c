@@ -361,7 +361,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
           }
         } unit_list_iterate_end;
         if (sucker) {
-          break; /* found something - kill it! */
+          break; /* Found something - kill it! */
         }
       } pf_map_move_costs_iterate_end;
       pf_map_destroy(pfm);
@@ -370,7 +370,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
         if (unit_transported(missile)) {
           struct unit *ptrans = unit_transport_get(missile);
 
-          if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_ALIGHT,
+          if (is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_ALIGHT,
                                              missile, ptrans)) {
             unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                            0, "", ACTION_TRANSPORT_ALIGHT);

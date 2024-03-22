@@ -218,7 +218,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
           && unit_perform_action(pplayer, punit->id, pcity->id, 0, "",
                                  paction->id, ACT_REQ_SS_AGENT)) {
         number_of_upgraded_units++;
-      } else if (UU_NO_MONEY == unit_upgrade_test(&(wld.map), punit, FALSE)) {
+      } else if (UU_NO_MONEY == unit_upgrade_test(nmap, punit, FALSE)) {
         break;
       }
     }
@@ -3049,7 +3049,7 @@ void handle_unit_action_query(struct connection *pc,
   switch (paction->result) {
   case ACTRES_SPY_BRIBE_UNIT:
     if (punit
-        && is_action_enabled_unit_on_unit(action_type,
+        && is_action_enabled_unit_on_unit(nmap, action_type,
                                           pactor, punit)) {
       dsend_packet_unit_action_answer(pc,
                                       actor_id32, actor_id16, target_id,
@@ -3229,7 +3229,7 @@ bool unit_perform_action(struct player *pplayer,
   case ATK_UNITS:
   case ATK_TILE:
   case ATK_EXTRAS:
-    target_tile = index_to_tile(&(wld.map), target_id);
+    target_tile = index_to_tile(nmap, target_id);
     if (target_tile == NULL) {
       log_verbose("unit_perform_action() invalid target tile %d",
                   target_id);
@@ -3363,7 +3363,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_UNIT(action, actor, target, action_performer) \
   if (punit                                                               \
-      && is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) {\
+      && is_action_enabled_unit_on_unit(nmap, action_type, actor_unit, punit)) { \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_unit",                 \
                               action_by_number(action), actor, target);   \
@@ -4640,7 +4640,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
 
-  adj = base_get_direction_for_step(&(wld.map),
+  adj = base_get_direction_for_step(nmap,
                                     punit->tile, pdefender->tile, &facing);
 
   fc_assert(adj);
@@ -5236,6 +5236,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 {
   struct player *pplayer = unit_owner(punit);
   struct unit *ptrans;
+  const struct civ_map *nmap = &(wld.map);
 
   /*** Phase 1: Attempted action interpretation checks ***/
 
@@ -5270,7 +5271,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * An attempted move to a tile a unit can't move to is always interpreted
    * as trying to perform an action (unless move_do_not_act is TRUE) */
   if (!move_do_not_act) {
-    const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
+    const bool can_not_move = !unit_can_move_to_tile(nmap,
                                                      punit, pdesttile,
                                                      FALSE, FALSE, FALSE);
     bool one_action_may_be_legal
@@ -5324,25 +5325,25 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_UNIT_MOVE3,
                                ACT_REQ_PLAYER);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,
                                                punit, ptrans)) {
     /* "Transport Embark". */
     return unit_perform_action(pplayer, punit->id, ptrans->id,
                                NO_TARGET, "", ACTION_TRANSPORT_EMBARK,
                                ACT_REQ_PLAYER);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     return unit_perform_action(pplayer, punit->id, ptrans->id,
                                NO_TARGET, "", ACTION_TRANSPORT_EMBARK2,
                                ACT_REQ_PLAYER);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
-             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+             && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     return unit_perform_action(pplayer, punit->id, ptrans->id,
@@ -5932,7 +5933,7 @@ void handle_unit_sscs_set(struct player *pplayer,
      * perform against the target tile. Action decision state can be set by
      * the server it self too. */
 
-    if (index_to_tile(&(wld.map), value) == NULL) {
+    if (index_to_tile(nmap, value) == NULL) {
       /* Asked to be reminded to ask what actions the unit can do to a non
        * existing target tile. */
       log_verbose("unit_sscs_set() invalid target tile %d for unit %d",
@@ -5941,7 +5942,7 @@ void handle_unit_sscs_set(struct player *pplayer,
     }
 
     punit->action_decision_want = ACT_DEC_ACTIVE;
-    punit->action_decision_tile = index_to_tile(&(wld.map), value);
+    punit->action_decision_tile = index_to_tile(nmap, value);
 
     /* Let the client know that this unit needs the player to decide
      * what to do. */

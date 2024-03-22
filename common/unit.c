@@ -792,6 +792,8 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
 bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
                                     const struct unit *ptrans)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (!pcargo || !ptrans) {
     return FALSE;
   }
@@ -799,9 +801,9 @@ bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
   fc_assert_ret_val(unit_transport_get(pcargo) == ptrans, FALSE);
 
   if (is_server()) {
-    return (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_ALIGHT,
+    return (is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_ALIGHT,
                                            pcargo, ptrans)
-            || is_action_enabled_unit_on_unit(ACTION_TRANSPORT_UNLOAD,
+            || is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_UNLOAD,
                                               ptrans, pcargo));
   } else {
     return (action_prob_possible(

@@ -587,6 +587,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
                                       struct unit *punit, struct pf_map *pfm)
 {
   int gold_avail, expenses;
+  const struct civ_map *nmap = &(wld.map);
 
   dai_calc_data(pplayer, NULL, &expenses, NULL);
   gold_avail = pplayer->economic.gold - expenses;
@@ -608,7 +609,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
         || !POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, unit_owner(pvictim))
         || unit_list_size(ptile->units) > 1
         || tile_city(ptile)
-        || !is_action_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
+        || !is_action_enabled_unit_on_unit(nmap, ACTION_SPY_BRIBE_UNIT,
                                            punit, pvictim)) {
       continue;
     }
@@ -659,7 +660,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       struct tile *bribee_tile;
       struct pf_path *path;
 
-      bribee_tile = mapstep(&(wld.map), pos.tile, DIR_REVERSE(pos.dir_to_here));
+      bribee_tile = mapstep(nmap, pos.tile, DIR_REVERSE(pos.dir_to_here));
       path = pf_map_path(pfm, bribee_tile);
       if (!path || !adv_unit_execute_path(punit, path) 
           || punit->moves_left <= 0) {
