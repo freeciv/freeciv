@@ -1127,7 +1127,7 @@ SDL_Surface *copy_surface(SDL_Surface *src)
 {
   SDL_Surface *copy = SDL_CreateSurface(src->w, src->h, src->format->format);
 
-  alphablit(src, NULL, copy, NULL, 0);
+  alphablit(src, NULL, copy, NULL, 255);
 
   return copy;
 }
