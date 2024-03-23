@@ -6721,7 +6721,7 @@ static bool unit_activity_targeted_internal(struct unit *punit,
         /* Casus Belli for when the activity successfully begins. */
         /* TODO: is it more logical to change Casus_Belli_Complete to
          * Casus_Belli_Successful_Beginning and trigger it here? */
-        action_consequence_success(action_by_number(ACTION_PILLAGE),
+        action_consequence_success(action_by_number(trigger_action),
                                    unit_owner(punit), unit_type_get(punit),
                                    tile_owner(unit_tile(punit)),
                                    unit_tile(punit),

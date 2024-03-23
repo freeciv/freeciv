@@ -1036,7 +1036,7 @@ static void update_unit_activity(struct unit *punit)
       /* TODO: is it more logical to put Casus_Belli_Success here, change
        * Casus_Belli_Complete to Casus_Belli_Successful_Beginning and
        * trigger it when an activity successfully has began? */
-      action_consequence_complete(action_by_number(ACTION_PILLAGE),
+      action_consequence_complete(action_by_number(punit->action),
                                   unit_owner(punit),
                                   act_utype,
                                   tile_owner(unit_tile(punit)),
