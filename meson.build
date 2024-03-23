@@ -3661,7 +3661,8 @@ mocced_ruledit = qt_mod.preprocess(
    'tools/ruledit/tab_building.h',
    'tools/ruledit/tab_good.h',
    'tools/ruledit/tab_gov.h',
-   'tools/ruledit/tab_unit.h']
+   'tools/ruledit/tab_unit.h',
+   'tools/ruledit/values_dlg.h']
   )
 
 executable('freeciv-ruledit',
@@ -3691,6 +3692,7 @@ executable('freeciv-ruledit',
   'tools/ruledit/tab_unit.cpp',
   'tools/ruledit/univ_value.c',
   'tools/ruledit/validity.c',
+  'tools/ruledit/values_dlg.cpp',
   mocced_ruledit, rulediticon,
   include_directories: tool_inc,
   dependencies: [qt_dep, m_dep, net_dep, readline_dep, gettext_dep],

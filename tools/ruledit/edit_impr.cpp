@@ -38,7 +38,7 @@
 /**********************************************************************//**
   Setup edit_impr object
 **************************************************************************/
-edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
+edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : values_dlg()
 {
   QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *impr_layout = new QGridLayout();
@@ -157,6 +157,8 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
 **************************************************************************/
 void edit_impr::closeEvent(QCloseEvent *cevent)
 {
+  close_help();
+
   // Save values from text fields.
   gfx_tag_given();
   gfx_tag_alt_given();
@@ -270,7 +272,5 @@ void edit_impr::sound_tag_alt_given()
 **************************************************************************/
 void edit_impr::helptext()
 {
-  helpeditor *editor = new helpeditor(impr->helptext);
-
-  editor->show();
+  open_help(impr->helptext);
 }
