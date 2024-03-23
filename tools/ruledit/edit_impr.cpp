@@ -35,6 +35,9 @@
 
 #include "edit_impr.h"
 
+
+#define FLAGROWS 15
+
 /**********************************************************************//**
   Setup edit_impr object
 **************************************************************************/
@@ -46,6 +49,8 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : values_dlg
   QPushButton *button;
   QMenu *menu;
   int row;
+  int rowcount;
+  int column;
 
   ui = ui_in;
   impr = impr_in;
@@ -133,15 +138,22 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : values_dlg
   connect(button, SIGNAL(pressed()), this, SLOT(helptext()));
   impr_layout->addWidget(button, row++, 1);
 
+  rowcount = 0;
+  column = 0;
   for (int i = 0; i < IF_COUNT; i++) {
     enum impr_flag_id flag = (enum impr_flag_id)i;
     QCheckBox *check = new QCheckBox();
 
     label = new QLabel(impr_flag_id_name(flag));
-    flag_layout->addWidget(label, i, 0);
+    flag_layout->addWidget(label, rowcount, column + 1);
 
     check->setChecked(BV_ISSET(impr->flags, flag));
-    flag_layout->addWidget(check, i, 1);
+    flag_layout->addWidget(check, rowcount, column);
+
+    if (++rowcount >= FLAGROWS) {
+      column += 2;
+      rowcount = 0;
+    }
   }
 
   refresh();
@@ -157,6 +169,9 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : values_dlg
 **************************************************************************/
 void edit_impr::closeEvent(QCloseEvent *cevent)
 {
+  int rowcount;
+  int column;
+
   close_help();
 
   // Save values from text fields.
@@ -166,11 +181,18 @@ void edit_impr::closeEvent(QCloseEvent *cevent)
   sound_tag_alt_given();
 
   BV_CLR_ALL(impr->flags);
+  rowcount = 0;
+  column = 0;
   for (int i = 0; i < IF_COUNT; i++) {
-    QCheckBox *check = static_cast<QCheckBox *>(flag_layout->itemAtPosition(i, 1)->widget());
+    QCheckBox *check = static_cast<QCheckBox *>(flag_layout->itemAtPosition(rowcount, column)->widget());
 
     if (check->isChecked()) {
       BV_SET(impr->flags, i);
+    }
+
+    if (++rowcount >= FLAGROWS) {
+      rowcount = 0;
+      column += 2;
     }
   }
 
