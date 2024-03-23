@@ -11,8 +11,8 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__HELPEDITOR_H
-#define FC__HELPEDITOR_H
+#ifndef FC__VALUES_DLG_H
+#define FC__VALUES_DLG_H
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -20,28 +20,26 @@
 
 // Qt
 #include <QDialog>
-#include <QTextEdit>
 
-class ruledit_gui;
-class values_dlg;
+class helpeditor;
+struct strvec;
 
-class helpeditor : public QDialog
+class values_dlg : public QDialog
 {
   Q_OBJECT
 
   public:
-    explicit helpeditor(values_dlg *parent_dlg, struct strvec *helptext_in);
-    void close();
+    values_dlg();
+    void open_help(struct strvec *help);
+    void close_help();
 
   private:
-    struct strvec *helptext;
-    values_dlg *pdlg;
+    helpeditor *help;
 
-    QTextEdit *area;
+  protected:
 
   private slots:
-    void close_now();
 };
 
 
-#endif // FC__HELPEDITOR_H
+#endif // FC__VALUES_DLG_H

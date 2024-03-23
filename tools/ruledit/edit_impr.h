@@ -21,6 +21,9 @@
 // Qt
 #include <QDialog>
 
+// ruledit
+#include "values_dlg.h"
+
 class QGridLayout;
 class QLineEdit;
 class QSpinBox;
@@ -28,7 +31,7 @@ class QToolButton;
 
 class ruledit_gui;
 
-class edit_impr : public QDialog
+class edit_impr : public values_dlg
 {
   Q_OBJECT
 
