@@ -667,176 +667,14 @@ int main_window_height(void)
   return main_surface->h;
 }
 
-/**************************************************************************
-                           Fill Rect with RGBA color
-**************************************************************************/
-#define MASK565 0xf7de
-#define MASK555 0xfbde
-
-/* 50% alpha (128) */
-#define BLEND16_50( d, s , mask )       \
-        (((( s & mask ) + ( d & mask )) >> 1) + ( s & d & ( ~mask & 0xffff)))
-
-#define BLEND2x16_50( d, s , mask )     \
-        (((( s & (mask | mask << 16)) + ( d & ( mask | mask << 16 ))) >> 1) + \
-        ( s & d & ( ~(mask | mask << 16))))
-
-/**********************************************************************//**
-  Fill rectangle for 32bit "8888" format surface
-**************************************************************************/
-static int __FillRectAlpha8888_32bit(SDL_Surface *surf, SDL_Rect *prect,
-                                     SDL_Color *pcolor)
-{
-  register Uint32 A = pcolor->a;
-  register Uint32 dSIMD1, dSIMD2;
-  register Uint32 sSIMD1, sSIMD2 = SDL_MapRGB(surf->format,
-                                              pcolor->r, pcolor->g,
-                                              pcolor->b);
-  Uint32 y, end, A_Dst, A_Mask = surf->format->Amask;
-  Uint32 *start, *pixel;
-
-  sSIMD1 = sSIMD2 & 0x00FF00FF;
-
-  lock_surf(surf);
-
-  if (prect == NULL) {
-    end = surf->w * surf->h;
-    pixel = (Uint32 *) surf->pixels;
-    if (A == 128) { /* 50% A */
-      DUFFS_LOOP8(
-      {
-        dSIMD2 = *pixel;
-        A_Dst = dSIMD2 & A_Mask;
-        *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
-                    + (sSIMD2 & dSIMD2 & 0x00010101)) | A_Dst;
-      }, end);
-    } else {
-      sSIMD2 &= 0xFF00;
-      sSIMD2 = sSIMD2 >> 8 | sSIMD2 << 8;
-      DUFFS_LOOP_DOUBLE2(
-        {
-          dSIMD2 = *pixel;
-          A_Dst = dSIMD2 & A_Mask;
-          dSIMD1 = dSIMD2 & 0x00FF00FF;
-          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-          dSIMD1 &= 0x00FF00FF;
-          dSIMD2 &= 0xFF00;
-          dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
-          dSIMD2 &= 0xFF00;
-          *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
-      }, {
-          dSIMD1 = *pixel;
-          A_Dst = dSIMD1 & A_Mask;
-          dSIMD1 &= 0x00FF00FF;
-          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-          dSIMD1 &= 0x00FF00FF;
-
-          dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
-          dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
-          dSIMD2 &= 0x00FF00FF;
-
-          *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | A_Dst;
-
-          dSIMD1 = *pixel;
-          A_Dst = dSIMD1 & A_Mask;
-          dSIMD1 &= 0x00FF00FF;
-          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-          dSIMD1 &= 0x00FF00FF;
-
-          *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | A_Dst;
-      }, end);
-    }
-  } else {
-    /* Correct prect size */
-    if (prect->x < 0) {
-      prect->w += prect->x;
-      prect->x = 0;
-    } else if (prect->x >= surf->w - prect->w) {
-      prect->w = surf->w - prect->x;
-    }
-
-    if (prect->y < 0) {
-      prect->h += prect->y;
-      prect->y = 0;
-    } else if (prect->y >= surf->h - prect->h) {
-      prect->h = surf->h - prect->y;
-    }
-
-    start = pixel = (Uint32 *) surf->pixels +
-      (prect->y * (surf->pitch >> 2)) + prect->x;
-
-    if (A == 128) { /* 50% A */
-      y = prect->h;
-      end = prect->w;
-      while (y--) {
-        DUFFS_LOOP4(
-        {
-          dSIMD2 = *pixel;
-          A_Dst = dSIMD2 & A_Mask;
-          *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
-                      + (sSIMD2 & dSIMD2 & 0x00010101)) | A_Dst;
-        }, end);
-        pixel = start + (surf->pitch >> 2);
-        start = pixel;
-      }
-    } else {
-      y = prect->h;
-      end = prect->w;
-
-      sSIMD2 &= 0xFF00;
-      sSIMD2 = sSIMD2 >> 8 | sSIMD2 << 8;
-
-      while (y--) {
-        DUFFS_LOOP_DOUBLE2(
-        {
-          dSIMD2 = *pixel;
-          A_Dst = dSIMD2 & A_Mask;
-          dSIMD1 = dSIMD2 & 0x00FF00FF;
-          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-          dSIMD1 &= 0x00FF00FF;
-          dSIMD2 &= 0xFF00;
-          dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
-          dSIMD2 &= 0xFF00;
-          *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
-        }, {
-          dSIMD1 = *pixel;
-          A_Dst = dSIMD1 & A_Mask;
-          dSIMD1 &= 0x00FF00FF;
-          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-          dSIMD1 &= 0x00FF00FF;
-
-          dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
-          dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
-          dSIMD2 &= 0x00FF00FF;
-
-          *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | A_Dst;
-
-          dSIMD1 = *pixel;
-          A_Dst = dSIMD1 & A_Mask;
-          dSIMD1 &= 0x00FF00FF;
-          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-          dSIMD1 &= 0x00FF00FF;
-
-          *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | A_Dst;
-        }, end);
-
-        pixel = start + (surf->pitch >> 2);
-        start = pixel;
-      } /* while */
-    }
-  }
-
-  unlock_surf(surf);
-
-  return 0;
-}
-
 /**********************************************************************//**
   Fill rectangle with color with alpha channel.
 **************************************************************************/
 int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
                     SDL_Color *pcolor)
 {
+  SDL_Surface *colorbar;
+
   if (prect && (prect->x < - prect->w || prect->x >= surf->w
                 || prect->y < - prect->h || prect->y >= surf->h)) {
     return -2;
@@ -852,7 +690,13 @@ int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
     return -3;
   }
 
-  return __FillRectAlpha8888_32bit(surf, prect, pcolor);
+  colorbar = create_surf(surf->w, surf->h, 0);
+
+  SDL_FillSurfaceRect(colorbar, prect,
+                      SDL_MapRGB(surf->format,
+                                 pcolor->r, pcolor->g, pcolor->b));
+
+  return alphablit(colorbar, NULL, surf, NULL, pcolor->a);
 }
 
 /**********************************************************************//**
