@@ -334,58 +334,57 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
   if (rc > 1 && preq->present) {
     /* Multiple requirements of the same type */
     switch (preq->source.kind) {
-     case VUT_GOVERNMENT:
-     case VUT_UTYPE:
-     case VUT_UCLASS:
-     case VUT_ACTION:
-     case VUT_ACTIVITY:
-     case VUT_OTYPE:
-     case VUT_SPECIALIST:
-     case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
-     case VUT_MINCITIES:
-     case VUT_MINFOREIGNPCT:
-     case VUT_MINMOVES: /* Breaks nothing, but has no sense either */
-     case VUT_MINVETERAN: /* Breaks nothing, but has no sense either */
-     case VUT_MINHP: /* Breaks nothing, but has no sense either */
-     case VUT_MINYEAR:
-     case VUT_MINCALFRAG:
-     case VUT_AI_LEVEL:
-     case VUT_TERRAINALTER: /* Local range only */
-     case VUT_STYLE:
-     case VUT_IMPR_GENUS:
-     case VUT_ORIGINAL_OWNER: /* City range -> only one original owner */
-     case VUT_FORM_AGE:
-       /* There can be only one requirement of these types (with current
-        * range limitations)
-        * Requirements might be identical, but we consider multiple
-        * declarations error anyway. */
+    case VUT_GOVERNMENT:
+    case VUT_UCLASS:
+    case VUT_ACTION:
+    case VUT_ACTIVITY:
+    case VUT_OTYPE:
+    case VUT_SPECIALIST:
+    case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
+    case VUT_MINCITIES:
+    case VUT_MINFOREIGNPCT:
+    case VUT_MINMOVES: /* Breaks nothing, but has no sense either */
+    case VUT_MINVETERAN: /* Breaks nothing, but has no sense either */
+    case VUT_MINHP: /* Breaks nothing, but has no sense either */
+    case VUT_MINYEAR:
+    case VUT_MINCALFRAG:
+    case VUT_AI_LEVEL:
+    case VUT_TERRAINALTER: /* Local range only */
+    case VUT_STYLE:
+    case VUT_IMPR_GENUS:
+    case VUT_ORIGINAL_OWNER: /* City range -> only one original owner */
+    case VUT_FORM_AGE:
+      /* There can be only one requirement of these types (with current
+       * range limitations)
+       * Requirements might be identical, but we consider multiple
+       * declarations error anyway. */
 
-       ruleset_error(logger, LOG_ERROR,
-                     "%s: Requirement list has multiple %s requirements",
-                     list_for, universal_type_rule_name(&preq->source));
-       return FALSE;
-       break;
+      ruleset_error(logger, LOG_ERROR,
+                    "%s: Requirement list has multiple %s requirements",
+                    list_for, universal_type_rule_name(&preq->source));
+      return FALSE;
+      break;
 
-     case VUT_TERRAIN:
-       /* There can be only up to max_tiles requirements of these types */
-       if (max_tiles != -1 && rc > max_tiles) {
-         ruleset_error(logger, LOG_ERROR,
-                       "%s: Requirement list has more %s requirements than "
-                       "can ever be fulfilled.", list_for,
-                       universal_type_rule_name(&preq->source));
-         return FALSE;
-       }
-       break;
+    case VUT_TERRAIN:
+      /* There can be only up to max_tiles requirements of these types */
+      if (max_tiles != -1 && rc > max_tiles) {
+        ruleset_error(logger, LOG_ERROR,
+                      "%s: Requirement list has more %s requirements than "
+                      "can ever be fulfilled.", list_for,
+                      universal_type_rule_name(&preq->source));
+        return FALSE;
+      }
+      break;
 
-     case VUT_TERRAINCLASS:
-       if (rc > 2 || (max_tiles != -1 && rc > max_tiles)) {
-         ruleset_error(logger, LOG_ERROR,
-                       "%s: Requirement list has more %s requirements than "
-                       "can ever be fulfilled.", list_for,
-                       universal_type_rule_name(&preq->source));
-         return FALSE;
-       }
-       break;
+    case VUT_TERRAINCLASS:
+      if (rc > 2 || (max_tiles != -1 && rc > max_tiles)) {
+        ruleset_error(logger, LOG_ERROR,
+                      "%s: Requirement list has more %s requirements than "
+                      "can ever be fulfilled.", list_for,
+                      universal_type_rule_name(&preq->source));
+        return FALSE;
+      }
+      break;
 
     case VUT_AGE:
       /* There can be age of the city, unit, and player */
@@ -433,6 +432,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_UNITSTATE:
     case VUT_CITYTILE:
     case VUT_GOOD:
+    case VUT_UTYPE:
       /* Can check different properties. */
     case VUT_UTFLAG:
     case VUT_UCFLAG:

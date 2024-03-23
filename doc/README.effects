@@ -71,7 +71,7 @@ RoadFlag:        Local, Tile, Adjacent, CAdjacent, Traderoute, City
 ExtraFlag:       Local, Tile, Adjacent, CAdjacent, Traderoute, City
 Terrain:         Tile, Adjacent, CAdjacent, Traderoute, City
 Good:            City
-UnitType:        Local
+UnitType:        Local, Tile, CAdjacent, Adjacent
 UnitFlag:        Local
 UnitClass:       Local
 UnitClassFlag:   Local

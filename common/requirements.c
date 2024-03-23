@@ -1095,7 +1095,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_EXTRA:
       case VUT_ROADFLAG:
       case VUT_EXTRAFLAG:
-        /* keep old behavior */
+        /* Keep old behavior */
         req.range = REQ_RANGE_TILE;
         break;
       case VUT_TERRAIN:
@@ -1240,7 +1240,6 @@ struct requirement req_from_str(const char *type, const char *range,
                  && req.range != REQ_RANGE_ALLIANCE
                  && req.range != REQ_RANGE_WORLD);
       break;
-    case VUT_UTYPE:
     case VUT_UTFLAG:
     case VUT_UCLASS:
     case VUT_UCFLAG:
@@ -1253,6 +1252,12 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_OTYPE:
     case VUT_SPECIALIST:
       invalid = (req.range != REQ_RANGE_LOCAL);
+      break;
+    case VUT_UTYPE:
+      invalid = (req.range != REQ_RANGE_LOCAL
+                 && req.range != REQ_RANGE_TILE
+                 && req.range != REQ_RANGE_CADJACENT
+                 && req.range != REQ_RANGE_ADJACENT);
       break;
     case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
       invalid = (req.range != REQ_RANGE_TILE);
@@ -4071,14 +4076,64 @@ is_unittype_req_active(const struct civ_map *nmap,
 
   punittype = req->source.value.utype;
 
-  if (req->range != REQ_RANGE_LOCAL) {
+  switch (req->range) {
+  case REQ_RANGE_LOCAL:
+    if (!context->unittype) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(context->unittype == punittype);
+  case REQ_RANGE_TILE:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+    if (context->tile == nullptr) {
+      return TRI_MAYBE;
+    }
+
+    unit_list_iterate(context->tile->units, punit) {
+      if (punit->utype == punittype) {
+        return TRI_YES;
+      }
+    } unit_list_iterate_end;
+
+    if (req->range == REQ_RANGE_TILE) {
+      return TRI_NO;
+    }
+
+    if (req->range == REQ_RANGE_CADJACENT) {
+      cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
+        unit_list_iterate(adjc_tile->units, punit) {
+          if (punit->utype == punittype) {
+            return TRI_YES;
+          }
+        } unit_list_iterate_end;
+      } cardinal_adjc_iterate_end;
+    } else {
+      fc_assert(req->range == REQ_RANGE_ADJACENT);
+
+      adjc_iterate(nmap, context->tile, adjc_tile) {
+        unit_list_iterate(adjc_tile->units, punit) {
+          if (punit->utype == punittype) {
+            return TRI_YES;
+          }
+        } unit_list_iterate_end;
+      } adjc_iterate_end;
+    }
+
     return TRI_NO;
-  }
-  if (!context->unittype) {
-    return TRI_MAYBE;
+
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADE_ROUTE:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    fc_assert(FALSE);
+    break;
   }
 
-  return BOOL_TO_TRISTATE(context->unittype == punittype);
+  return TRI_NO;
 }
 
 /**********************************************************************//**
