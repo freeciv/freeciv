@@ -15,61 +15,40 @@
 #include <fc_config.h>
 #endif
 
-// Qt
-#include <QGridLayout>
-#include <QPushButton>
-
-// utility
-#include "fcintl.h"
-#include "string_vector.h"
-
 // ruledit
-#include "values_dlg.h"
-
 #include "helpeditor.h"
 
+#include "values_dlg.h"
+
+
 /**********************************************************************//**
-  Setup helpeditor object
+  values_dlg constructor
 **************************************************************************/
-helpeditor::helpeditor(values_dlg *parent_dlg, struct strvec *helptext_in) : QDialog()
+values_dlg::values_dlg() : QDialog()
 {
-  QGridLayout *main_layout = new QGridLayout(this);
-  QPushButton *close_button;
-  int row = 0;
-
-  pdlg = parent_dlg;
-  helptext = helptext_in;
-
-  area = new QTextEdit();
-  area->setParent(this);
-  area->setReadOnly(true);
-  main_layout->addWidget(area, row++, 0);
-
-  strvec_iterate(helptext, text) {
-    area->append(QString::fromUtf8(text));
-    area->append("\n\n");
-  } strvec_iterate_end;
-
-  close_button = new QPushButton(QString::fromUtf8(R__("Close")), this);
-  connect(close_button, SIGNAL(pressed()), this, SLOT(close_now()));
-  main_layout->addWidget(close_button, row++, 0);
-
-  setLayout(main_layout);
+  help = nullptr;
 }
 
 /**********************************************************************//**
-  Close helpeditor
+  Open help editor
 **************************************************************************/
-void helpeditor::close()
+void values_dlg::open_help(struct strvec *helptext)
 {
-  done(0);
+  if (help == nullptr) {
+    help = new helpeditor(this, helptext);
+
+    help->show();
+  }
 }
 
 /**********************************************************************//**
-  User pushed close button
+  Help editor is closing.
 **************************************************************************/
-void helpeditor::close_now()
+void values_dlg::close_help()
 {
-  // Both closes this dialog, and handles parent's own bookkeeping
-  pdlg->close_help();
+  if (help != nullptr) {
+    help->close();
+
+    help = nullptr;
+  }
 }

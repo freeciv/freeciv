@@ -49,7 +49,8 @@ MOC_FILES = \
             meta_tab_nation.cpp	\
             meta_tab_tech.cpp	\
 	    meta_tab_terrains.cpp \
-            meta_tab_unit.cpp
+            meta_tab_unit.cpp	\
+	    meta_values_dlg.cpp
 
 freeciv_ruledit_SOURCES =	\
 		conversion_log.cpp \
@@ -105,7 +106,9 @@ freeciv_ruledit_SOURCES =	\
 		univ_value.c	\
 		univ_value.h	\
 		validity.c	\
-		validity.h
+		validity.h	\
+		values_dlg.cpp	\
+		values_dlg.h
 
 nodist_freeciv_ruledit_SOURCES = $(MOC_FILES)
 
