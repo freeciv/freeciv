@@ -25,7 +25,7 @@
 
 #include "deprecations.h"
 
-static deprecation_warn_callback depr_cb = NULL;
+static deprecation_warn_callback depr_cb = nullptr;
 
 static bool depr_warns_enabled = FALSE;
 
@@ -64,7 +64,7 @@ void do_log_deprecation(const char *format, ...)
   va_start(args, format);
   vdo_log(__FILE__, __FUNCTION__, __FC_LINE__, FALSE, LOG_DEPRECATION,
           buf, sizeof(buf), format, args);
-  if (depr_cb != NULL) {
+  if (depr_cb != nullptr) {
     depr_cb(buf);
   }
   va_end(args);
