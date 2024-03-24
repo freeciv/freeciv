@@ -322,6 +322,10 @@ Conquest_Tech_Pct
     Percent chance that a player conquering a city learns a tech from the
     former owner.
 
+Culture_Pct
+    Percent change to culture, both to current performance and to
+    the accumulating history.
+
 Defend_Bonus
     Increases defensive bonuses of units. Any unit requirements on this effect
     will be applied to the _attacking_ unit type. Requirements about

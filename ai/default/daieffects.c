@@ -628,6 +628,10 @@ adv_want dai_effect_value(struct player *pplayer,
     /* ...and history effect to accumulate those points for 50 turns. */
     v += amount * 5;
     break;
+  case EFT_CULTURE_PCT:
+    /* Assume that this multiplies accumulation of 5 history points / turn */
+    v += amount * 5 * 5 / 100;
+    break;
   case EFT_TECH_COST_FACTOR:
     v -= amount * 50;
     break;
