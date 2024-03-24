@@ -124,8 +124,9 @@ struct tech_class {
 struct advance {
   Tech_type_id item_number;
   struct name_translation name;
-  char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
-  char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
+  void *ruledit_dlg;
+  char graphic_str[MAX_LEN_NAME];       /* Which named sprite to use */
+  char graphic_alt[MAX_LEN_NAME];       /* Alternate icon name */
   struct tech_class *tclass;
 
   struct advance *require[AR_SIZE];
