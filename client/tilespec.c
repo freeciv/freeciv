@@ -3713,7 +3713,7 @@ static bool tileset_setup_unit_direction(struct tileset *t,
 
   /*
    * There may be more orientations available in this tileset than are
-   * needed, if an oriented unit set has been re-used between tilesets.
+   * needed, if an oriented unit set has been reused between tilesets.
    *
    * Don't bother loading unused ones, unless they might be used by
    * unit_default_orientation (logic here mirrors get_unittype_sprite()).
