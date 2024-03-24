@@ -134,6 +134,14 @@ reqs	=
       "Tech", "Fire", "Player"
     }
 
+[effect_city_size_limit_medicine]
+type    = "Size_Adj"
+value   = 2
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Medicine", "Player"
+    }
+
 [effect_max_rates_alphabet]
 type    = "Max_Rates"
 value   = 20
