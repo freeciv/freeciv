@@ -33,6 +33,7 @@
 #include "tech.h"
 
 // ruledit
+#include "edit_tech.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -50,6 +51,8 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   QPushButton *effects_button;
   QPushButton *add_button;
   QPushButton *delete_button;
+  QPushButton *edit_button;
+  int row = 0;
 
   ui = ui_in;
   selected = 0;
@@ -66,8 +69,8 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   rname = new QLineEdit(this);
   rname->setText(R__("None"));
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  tech_layout->addWidget(label, 0, 0);
-  tech_layout->addWidget(rname, 0, 2);
+  tech_layout->addWidget(label, row, 0);
+  tech_layout->addWidget(rname, row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
@@ -76,9 +79,13 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   name = new QLineEdit(this);
   name->setText(R__("None"));
   connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  tech_layout->addWidget(label, 1, 0);
-  tech_layout->addWidget(same_name, 1, 1);
-  tech_layout->addWidget(name, 1, 2);
+  tech_layout->addWidget(label, row, 0);
+  tech_layout->addWidget(same_name, row, 1);
+  tech_layout->addWidget(name, row++, 2);
+
+  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
+  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
+  tech_layout->addWidget(edit_button, row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Req1")));
   label->setParent(this);
@@ -86,16 +93,16 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   req1_button->setParent(this);
   req1 = prepare_req_button(req1_button, AR_ONE);
   connect(req1_button, SIGNAL(pressed()), this, SLOT(req1_jump()));
-  tech_layout->addWidget(label, 2, 0);
-  tech_layout->addWidget(req1_button, 2, 2);
+  tech_layout->addWidget(label, row, 0);
+  tech_layout->addWidget(req1_button, row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Req2")));
   label->setParent(this);
   req2_button = new QToolButton();
   req2 = prepare_req_button(req2_button, AR_TWO);
   connect(req2_button, SIGNAL(pressed()), this, SLOT(req2_jump()));
-  tech_layout->addWidget(label, 3, 0);
-  tech_layout->addWidget(req2_button, 3, 2);
+  tech_layout->addWidget(label, row, 0);
+  tech_layout->addWidget(req2_button, row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Root Req")));
   label->setParent(this);
@@ -103,21 +110,21 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   root_req_button->setParent(this);
   root_req = prepare_req_button(root_req_button, AR_ROOT);
   connect(root_req_button, SIGNAL(pressed()), this, SLOT(root_req_jump()));
-  tech_layout->addWidget(label, 4, 0);
-  tech_layout->addWidget(root_req_button, 4, 2);
+  tech_layout->addWidget(label, row, 0);
+  tech_layout->addWidget(root_req_button, row++, 2);
 
   effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
   connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
-  tech_layout->addWidget(effects_button, 5, 2);
+  tech_layout->addWidget(effects_button, row++, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add tech")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  tech_layout->addWidget(add_button, 6, 0);
+  tech_layout->addWidget(add_button, row++, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this tech")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  tech_layout->addWidget(delete_button, 6, 2);
+  tech_layout->addWidget(delete_button, row++, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -385,6 +392,10 @@ void tab_tech::delete_now()
 
     selected->require[AR_ONE] = A_NEVER;
 
+    if (selected->ruledit_dlg != nullptr) {
+      ((edit_tech *)selected->ruledit_dlg)->done(0);
+    }
+
     refresh();
     update_tech_info(nullptr);
   }
@@ -469,5 +480,22 @@ void tab_tech::edit_effects()
 
     ui->open_effect_edit(QString::fromUtf8(advance_rule_name(selected)),
                          &uni, EFMC_NORMAL);
+  }
+}
+
+/**********************************************************************//**
+  User requested tech edit dialog
+**************************************************************************/
+void tab_tech::edit_now()
+{
+  if (selected != nullptr) {
+    if (selected->ruledit_dlg == nullptr) {
+      edit_tech *edit = new edit_tech(ui, selected);
+
+      edit->show();
+      selected->ruledit_dlg = edit;
+    } else {
+      ((edit_tech *)selected->ruledit_dlg)->raise();
+    }
   }
 }

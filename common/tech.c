@@ -475,6 +475,7 @@ void techs_init(void)
   memset(advances, 0, sizeof(advances));
   for (i = 0; i < ARRAY_SIZE(advances); i++) {
     advances[i].item_number = i;
+    advances[i].ruledit_dlg = NULL;
     advances[i].cost = -1;
     advances[i].inherited_root_req = FALSE;
     advances[i].tclass = 0;

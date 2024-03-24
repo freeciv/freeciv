@@ -34,7 +34,7 @@ values_dlg::values_dlg() : QDialog()
 **************************************************************************/
 void values_dlg::open_help(struct strvec *helptext)
 {
-  if (help == nullptr) {
+  if (help == nullptr && helptext != nullptr) {
     help = new helpeditor(this, helptext);
 
     help->show();
