@@ -274,8 +274,10 @@ req2        = "None"
 flags       = ""
 graphic     = "a.fire"
 graphic_alt = "-"
-helptext    = _("With fire, there can be a place to live permanently.\
- Allows settlements to grow to size 6.")
+helptext    = _("\
+With fire, there can be a place to live permanently. \
+Allows settlements to grow to size 6.\
+")
 
 [advance_fishing]
 name        = _("Fishing")
@@ -382,6 +384,18 @@ flags       = ""
 graphic     = "a.masonry"
 graphic_alt = "-"
 ;helptext    =
+
+[advance_medicine]
+name        = _("Medicine")
+req1        = "Herbs"
+req2        = "None"
+flags       = ""
+graphic     = "a.medicine"
+graphic_alt = "-"
+helptext    = _("\
+Advancement of medicine allows people to live in higher density. \
+Allows settlements to grow two sizes bigger.\
+")
 
 [advance_mining]
 name        = _("Mining")
