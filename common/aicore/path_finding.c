@@ -2258,7 +2258,7 @@ static inline void pf_fuel_pos_unref(struct pf_fuel_pos *pos)
 /************************************************************************//**
   Replace the position. Reference count of the old pos is reduced by one,
   but it likely lives on via other references.
-  If reference count goes to zero, re-use the memory instead of
+  If reference count goes to zero, reuse the memory instead of
   freeing and allocating again.
 ****************************************************************************/
 static inline struct pf_fuel_pos *
