@@ -1211,7 +1211,7 @@ differ = FALSE;
   field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  fc_assert({self.size.real} < 255);
+  fc_assert({self.size.real} < MAX_UINT16);
 
   for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
 {inner_cmp}\
@@ -1228,7 +1228,7 @@ differ = FALSE;
       field_addr.sub_location->number = count_{location.index}++;
       field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-      e |= DIO_PUT(uint8, &dout, &field_addr, {location.index});
+      e |= DIO_PUT(uint16, &dout, &field_addr, {location.index});
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Content address. */
@@ -1253,7 +1253,7 @@ differ = FALSE;
   field_addr.sub_location->number = count_{location.index};
   field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-  e |= DIO_PUT(uint8, &dout, &field_addr, 255);
+  e |= DIO_PUT(uint16, &dout, &field_addr, MAX_UINT16);
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit diff array element. */
@@ -1323,10 +1323,10 @@ differ = FALSE;
     int {location.index};
 #endif /* FREECIV_JSON_CONNECTION */
 
-    if (!DIO_GET(uint8, &din, &field_addr, &{location.index})) {{
+    if (!DIO_GET(uint16, &din, &field_addr, &{location.index})) {{
       RECEIVE_PACKET_FIELD_ERROR({location.name});
     }}
-    if ({location.index} == 255) {{
+    if ({location.index} == MAX_UINT16) {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit diff array element. */
       FC_FREE(field_addr.sub_location->sub_location);
