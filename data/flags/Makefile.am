@@ -373,6 +373,7 @@ flag_files =				\
 		nicaragua.png		\
 		niger.png		\
 		nigeria.png		\
+		northernireland.png	\
 		north_korea.png		\
 		northumbria.png		\
 		norway.png		\
@@ -950,6 +951,7 @@ flag_files =				\
 		nicaragua-large.png		\
 		niger-large.png		\
 		nigeria-large.png		\
+		northernireland-large.png	\
 		north_korea-large.png		\
 		northumbria-large.png		\
 		norway-large.png		\
@@ -1530,6 +1532,7 @@ shield_files =					\
 		niger-shield.png		\
 		nigeria-shield.png		\
 		normandy-shield.png		\
+		northernireland-shield.png	\
 		north_korea-shield.png		\
 		northumbria-shield.png		\
 		norway-shield.png		\
@@ -2107,6 +2110,7 @@ shield_files =					\
 		niger-shield-large.png		\
 		nigeria-shield-large.png		\
 		normandy-shield-large.png		\
+		northernireland-shield-large.png	\
 		north_korea-shield-large.png		\
 		northumbria-shield-large.png		\
 		norway-shield-large.png		\
@@ -2686,6 +2690,7 @@ svg_files = 				\
 		niger.svg		\
 		nigeria.svg		\
 		normandy.svg		\
+		northernireland.svg	\
 		north_korea.svg		\
 		northumbria.svg		\
 		norway.svg		\

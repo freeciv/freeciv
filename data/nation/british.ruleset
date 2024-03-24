@@ -41,7 +41,7 @@ civilwar_nations =
 ; Sub-national nations
  "english", "scottish", "welsh", "cornish",
 ; Northern Ireland
- "irish",
+ "northern irish",
 ; English-speaking ex-colonies
  "american", "australian", "canadian", "New Zealand"
 

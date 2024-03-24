@@ -367,6 +367,7 @@ pkgdata_DATA = \
 		nigerien.ruleset \
 		nimiipuu.ruleset \
 		norman.ruleset \
+		northirish.ruleset \
 		northkorean.ruleset \
 		northumbrian.ruleset \
 		norwegian.ruleset \
