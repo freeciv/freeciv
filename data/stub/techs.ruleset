@@ -41,7 +41,7 @@ format_version = 30
 ; /* <-- avoid gettext warnings
 ;
 ; Below: The individual advances, one per section.
-; The number can be variable, up to 250.
+; The number can be variable, up to 400.
 ;
 ; The actual tag used (the * in [advance_*]) does not matter, except
 ; it must be unique within this file, and it may be used in debug
