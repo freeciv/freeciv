@@ -381,6 +381,7 @@ artists = "
    Niger		J.M. Maalderink
    Nigeria		Brett Roper
    Normandy		Syryatsu
+   North Ireland        Mamadou (Wikimedia Commons)
    North Korea		Zachary Harden
    Northumbria		J.M. Maalderink
    Norway		Christian Schaller
@@ -961,6 +962,7 @@ sprites =
 		"f.niger", "flags/niger"
 		"f.nigeria", "flags/nigeria"
 		"f.normandy", "flags/normandy"
+                "f.northernireland", "flags/northernireland"
 		"f.north_korea", "flags/north_korea"
 		"f.northumbria", "flags/northumbria"
 		"f.norway", "flags/norway"

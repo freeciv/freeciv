@@ -1,0 +1,151 @@
+[nation_northirish]
+
+name   = _("Northern Irish")
+plural = _("?plural:Northern Irish")
+groups = "Medieval", "Modern", "European"
+legend = _("Northern Ireland is a part of the United Kingdom that occupies\
+the northeastern part of the island of Ireland. Northern Ireland has a\
+complex history of conflict and cooperation between the British unionists,\
+who want to remain in the U.K., and the Irish nationalists, who seek to\
+rejoin the Republic of Ireland. The 1998 Good Friday Agreement ended the\
+violent period known as 'The Troubles' and established a power-sharing\
+government that gives both sides a say in the affairs of the region.\
+Northern Ireland is known for its scenic landscapes and cultural heritage.")
+
+leaders = {
+ "name",                        "sex"
+ "James Craig",                 "Male"
+ "John Miller Andrews",         "Male"
+ "David Trimble",               "Male"
+ "Basil Brooke",                "Male"
+ "Terence O'Niell",             "Male"
+ "James Chichester-Clark",      "Male"
+ "Brian Faulkner",              "Male"
+ "Reg Empey",                   "Male"
+ "Seamus Mallon",               "Male"
+ "Ian Paisley",                 "Male"
+ "Peter Robinson",              "Male"
+ "Martin McGuinness",           "Male"
+ "Arlene Foster",               "Female"
+ "Paul Givan",                  "Male"
+ "Michelle O'Niell",            "Female"
+}
+
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Chieftain %s"),      _("?female:Chieftain %s")
+ "Monarchy",        _("Lord %s"),           _("Lady %s")
+ "Fundamentalism",  _("Archbishop %s"),     _("Mother Superior %s")
+ "Democracy",       _("First Minister %s"), _("?female:First Minister %s")
+}
+
+flag = "northernireland"
+flag_alt = "-"
+style = "Celtic"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+;conflicts_with = 
+civilwar_nations = "irish", "british", "english", "gaelic", "scottish gaelic" 
+
+cities = ; Cities sourced from geoba.se
+  "Belfast",
+  "Londonderry",
+  "Lisburn",
+  "Newtownabbey",
+  "Bangor",
+  "Craigavon",
+  "Castlereagh",
+  "Newtownards",
+  "Carrickfergus",
+  "Ballymena",
+  "Newry",
+  "Coleraine",
+  "Omagh",
+  "Amtrim",
+  "Larne",
+  "Banbridge",
+  "Armagh",
+  "Enniskillen",
+  "Strabane",
+  "Holywood", ; Distinct from Hollywood, California
+  "Limavady",
+  "Dungannon",
+  "Cookstown",
+  "Downpatrick",
+  "Ballymoney",
+  "Ballyclare",
+  "Comber",
+  "Magherafelt",
+  "Portstewart",
+  "Carryduff",
+  "Warrenpoint",
+  "Donaghadee",
+  "Portrush",
+  "Kilkeel",
+  "Ballynahinch",
+  "Dromore",
+  "Ballycastle",
+  "Coalisland",
+  "Randalstown",
+  "Crumlin",
+  "Greenisland",
+  "Moira",
+  "Maghera",
+  "Hillsborough",
+  "Eglinton",
+  "Whitehead",
+  "Culmore",
+  "Ahoghill",
+  "Saintfield",
+  "Keady",
+  "Tandragee",
+  "Dungiven",
+  "Lisnaskea",
+  "Waringstown",
+  "Ballygowan",
+  "Castlederg",
+  "Killyleagh",
+  "Broughshane",
+  "Portaferry",
+  "Rostrevor",
+  "Cullybackey",
+  "Castlewellan",
+  "Castledawson",
+  "Sion Mills",
+  "Rathfriland",
+  "Millisle",
+  "Connor",
+  "Irvinestown",
+  "Annalong",
+  "Ballykelly",
+  "Draperstown",
+  "Ardglass",
+  "Crossgar",
+  "Portavogie",
+  "Templepatrick",
+  "Kilrea",
+  "Gilford",
+  "Ballywalter",
+  "Castlerock",
+  "Carnlough",
+  "Moneymore",
+  "Crossmaglen",
+  "Fintona",
+  "Garvagh",
+  "Ballinamallard",
+  "Bushmills",
+  "Gelnariff",
+  "Kircubbin",
+  "Moy",
+  "Portglenone",
+  "Cushendall",
+  "Magheralin",
+  "Annahilt",
+  "Doagh",
+  "Fivemiletown",
+  "Dunloy",
+  "Dundrum",
+  "Glenavy"
