@@ -58,7 +58,7 @@ tiles = { "row", "column", "tag"
 
 
 ; For hills, forest and mountains don't currently have a full set,
-; re-use values but provide for future expansion; current sets
+; reuse values but provide for future expansion; current sets
 ; effectively ignore N/S terrain.
 
 ; Hills, and whether terrain to north, south, east, west

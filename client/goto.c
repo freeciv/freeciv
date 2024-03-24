@@ -365,7 +365,7 @@ static bool update_last_part(struct goto_map *goto_map,
     pf_path_print(return_path, LOG_GOTO_PATH);
 
     if (goto_map->patrol.return_path != NULL) {
-      /* We cannot re-use old path because:
+      /* We cannot reuse old path because:
        * 1- the start tile isn't the same.
        * 2- the turn number neither (impossible to do in backward mode). */
       goto_path_undraw(goto_map->patrol.return_path);

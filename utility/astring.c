@@ -48,9 +48,9 @@
   One pattern for using astr_str() is to replace static buffers in
   functions that return a pointer to static storage. Where previously
   you would have had e.g. "static struct buf[128]" with an arbitrary
-  size limit, you can have "static struct astring buf", and re-use the
-  same astring on subsequent calls; the caller should behave the
-  same (only reading the string and not freeing it).
+  size limit, you can have "static struct astring buf", and reuse
+  the same astring on subsequent calls; the caller should behave
+  the same (only reading the string and not freeing it).
 
 ***********************************************************************/
 
