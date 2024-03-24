@@ -38,7 +38,7 @@ extern "C" {
 #define MAX_NUM_CONNECTIONS (2 * (MAX_NUM_PLAYER_SLOTS))
 /* e.g. unit_types. Used in the network protocol. */
 #define MAX_NUM_ITEMS   200
-#define MAX_NUM_ADVANCES  250 /* Used in the network protocol. */
+#define MAX_NUM_ADVANCES  400 /* Used in the network protocol. */
 #define MAX_NUM_UNITS     250 /* Used in the network protocol. */
 #define MAX_NUM_BUILDINGS 200 /* Used in the network protocol. */
 #define MAX_NUM_TECH_LIST 10 /* Used in the network protocol. */
