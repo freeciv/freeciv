@@ -390,7 +390,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
   if (!pc->used) {
     return NULL; /* connection was closed, stop reading */
   }
-  
+
   if (pc->buffer->ndata < data_type_size(pc->packet_header.length)) {
     /* Not got enough for a length field yet */
     return NULL;
@@ -471,9 +471,9 @@ void *get_packet_from_connection_raw(struct connection *pc,
     } while (error != Z_OK);
 
     buffer->ndata -= whole_packet_len;
-    /* 
+    /*
      * Remove the packet with the compressed data and shift all the
-     * remaining data to the front. 
+     * remaining data to the front.
      */
     memmove(buffer->data, buffer->data + whole_packet_len, buffer->ndata);
 
@@ -488,7 +488,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
      */
     memmove(buffer->data + decompressed_size, buffer->data, buffer->ndata);
 
-    /* 
+    /*
      * Copy the uncompressed data.
      */
     memcpy(buffer->data, decompressed, decompressed_size);
@@ -496,7 +496,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
     free(decompressed);
 
     buffer->ndata += decompressed_size;
-    
+
     log_compress("COMPRESS: decompressed %ld into %ld",
                  compressed_size, decompressed_size);
 
@@ -538,7 +538,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
     pc->incoming_packet_notify(pc, utype.type, whole_packet_len);
   }
 
-#if PACKET_SIZE_STATISTICS 
+#if PACKET_SIZE_STATISTICS
   {
     static struct {
       int counter;
@@ -726,7 +726,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
   }
   memcpy((char *) (pplayer->attribute_block_buffer.data) + chunk->offset,
          chunk->data, chunk->chunk_length);
-  
+
   if (chunk->offset + chunk->chunk_length == chunk->total_length) {
     /* Received full attribute block */
     if (pplayer->attribute_block.data != NULL) {
@@ -734,7 +734,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
     }
     pplayer->attribute_block.data = pplayer->attribute_block_buffer.data;
     pplayer->attribute_block.length = pplayer->attribute_block_buffer.length;
-    
+
     pplayer->attribute_block_buffer.data = NULL;
     pplayer->attribute_block_buffer.length = 0;
   }

@@ -24,7 +24,7 @@ Syntax:
 
  Typedef lines:
  ==============
- 
+
   Start with "type" and have the format "type <alias> = <src>". You
   can now use <alias> at every place a type is expected. Nested type
   defs are possible.
@@ -37,7 +37,7 @@ Syntax:
   A packet definition starts with a header line, contains variable
   field declarations, and ends with a single line containing the word
   "end".
-   
+
    PACKET_<PACKET_NAME>=<packet num>; [<packet flags>]
      <type1> <field1>; [<field flags>]
      <type2> <field2>; [<field flags>]
@@ -65,7 +65,7 @@ Syntax:
     PACKET_PROCESSING_FINISHED, PACKET_SERVER_JOIN_REQ and
     PACKET_SERVER_JOIN_REPLY are excluded here. These packets should
     never change their number. The packet number can be freely chosen
-    as long as it is below 65536 and unique. For backward compatibility  
+    as long as it is below 65536 and unique. For backward compatibility
     reasons, packets used for the initial protocol (notably before
     checking the capabilities) must be in range 0-255.
 
@@ -126,7 +126,7 @@ Syntax:
      as a parameter, it takes the fields of the packet as parameters.
 
      lsend: request the creation of a lsend_packet_* function.  This
-     function sends to list of connections instead of just one 
+     function sends to list of connections instead of just one
      connection, which is the case for the other send functions.
 
      cs: a packet which is sent from the client to the server
@@ -1368,7 +1368,7 @@ PACKET_SPACESHIP_PLACE = 136; cs, dsend, handle-via-fields
   PLACE_TYPE type;
 
   # Meaning of num:
-  #  - if type == SSHIP_ACT_PLACE_STRUCTURAL: 
+  #  - if type == SSHIP_ACT_PLACE_STRUCTURAL:
   #      index to sship->structure[]
   #  - if type != SSHIP_ACT_PLACE_STRUCTURAL:
   #      new value for sship->fuel etc; should be just one more than
@@ -1621,7 +1621,7 @@ PACKET_RULESET_NATION = 148; sc, lsend
 
   BOOL is_playable;
   BARBARIAN_TYPE barbarian_type;
-  
+
   UINT8 nsets;
   UINT8 sets[MAX_NUM_NATION_SETS:nsets];
 
@@ -1652,7 +1652,7 @@ PACKET_RULESET_STYLE = 239; sc, lsend
 end
 
 PACKET_RULESET_CITY = 149; sc, lsend
-  UINT8 style_id; 
+  UINT8 style_id;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   STRING citizens_graphic[MAX_LEN_NAME];
@@ -1925,7 +1925,7 @@ PACKET_RULESET_COUNTER = 513; sc, lsend
 end
 
 PACKET_RULESET_MUSIC = 240; sc, lsend
-  UINT8  id; 
+  UINT8  id;
   STRING music_peaceful[MAX_LEN_NAME];
   STRING music_combat[MAX_LEN_NAME];
   UINT8 reqs_count;
@@ -2011,7 +2011,7 @@ end
 
 
 /*********************************************************
- Below are the packets that control single-player mode.  
+ Below are the packets that control single-player mode.
 *********************************************************/
 PACKET_SINGLE_WANT_HACK_REQ = 160; cs, handle-per-conn
  STRING token[MAX_LEN_NAME];
@@ -2344,7 +2344,7 @@ PACKET_EDIT_PLAYER_REMOVE = 215; cs, handle-per-conn, dsend, handle-via-fields
 end
 
 PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
-  PLAYER id; key 
+  PLAYER id; key
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];
   STRING ranked_username[MAX_LEN_NAME];
