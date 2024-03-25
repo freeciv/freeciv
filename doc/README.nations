@@ -317,7 +317,7 @@ be used in-game at a later stage.
 
 Leader titles for each government type (including Despotism and
 Anarchy) may be specified in a separate tag. UTF-8 is permitted in
-leader titles.  If the male and female titles are identical in
+leader titles. If the male and female titles are identical in
 English, give the latter the ?female: qualifier. Use a unique title
 for each government. Ruler titles should be in English, though
 exceptions are made for non English titles as long as they are
@@ -411,7 +411,7 @@ effect, the system is designed to degrade smoothly so it should work
 just fine.
 
 (A note on scale: it might be tempting to label London as !ocean, i.e.
-not adjacent to an ocean.  However, on a reasonably-sized Freeciv world
+not adjacent to an ocean. However, on a reasonably-sized Freeciv world
 map, London will be adjacent to the ocean; labeling it !ocean will tend
 to give bad results. This is a limitation of the system, and should be
 taken into account when labelling cities.)
