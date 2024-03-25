@@ -53,6 +53,16 @@ reqs            =
 ; No requirements
     }
 
+[specialist_philosopher]
+name            = _("Philosopher")
+short_name      = _("?specialist:P")
+graphic         = "specialist.philosopher"
+graphic_alt     = "specialist.scientist"
+reqs            =
+    { "type", "name",    "range"
+      "Tech", "Science", "Player"
+    }
+
 [parameters]
 add_to_size_limit  = 8		; cities >= this cannot be added to.
 angry_citizens = TRUE           ; set to FALSE to disable angry citizens

@@ -199,7 +199,7 @@ sound		= "b_granary"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
 helptext	= _("\
-Increases science output by 50%. \
+Increases science output by 50%, 75% if Science known. \
 Produces two points of history each turn, three points \
 if Literature known.\
 ")

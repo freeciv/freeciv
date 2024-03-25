@@ -474,6 +474,18 @@ helptext    = _("\
 Increases speed of sea-going vessels by 1.\
 ")
 
+[advance_science]
+name        = _("Science")
+req1        = "Astronomy"
+req2        = "Medicine"
+flags       = ""
+graphic     = "a.science"
+graphic_alt = "-"
+helptext    = _("\
+Enables philosophers specialist type. \
+Libraries provide more science.\
+")
+
 [advance_seafaring]
 name        = _("Seafaring")
 req1        = "Carving"
