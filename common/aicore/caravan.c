@@ -745,12 +745,11 @@ static void caravan_find_best_destination_withtransit(
   Store it in *destout (if destout is non-null); return the value of the
   trade route.
 ****************************************************************************/
-void caravan_find_best_destination(const struct unit *caravan,
+void caravan_find_best_destination(const struct civ_map *nmap,
+                                   const struct unit *caravan,
                                    const struct caravan_parameter *parameter,
                                    struct caravan_result *result, bool omniscient)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (parameter->ignore_transit_time) {
     caravan_find_best_destination_notransit(caravan, parameter, result);
   } else {
