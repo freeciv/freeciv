@@ -44,8 +44,15 @@ format_version = 30
 ;
 ; */ <-- avoid gettext warnings
 
-; Cheating AI effects are in separate file
-;*include "default/ai_effects.ruleset"
+; Specialists
+[effect_philosopher]
+type    = "Specialist_Output"
+value   = 3
+reqs    =
+    { "type",       "name",        "range"
+      "Specialist", "Philosopher", "Local"
+      "OutputType", "Science",     "Local"
+    }
 
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
@@ -172,6 +179,16 @@ value	= 50
 reqs	=
     { "type",       "name",    "range"
       "Building",   "Library", "City"
+      "OutputType", "Science", "Local"
+    }
+
+[effect_science_library]
+type    = "Output_Bonus"
+value	= 25
+reqs	=
+    { "type",       "name",    "range"
+      "Building",   "Library", "City"
+      "Tech",       "Science", "Player"
       "OutputType", "Science", "Local"
     }
 
