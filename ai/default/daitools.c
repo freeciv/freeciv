@@ -829,32 +829,32 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   /* FIXME: try the next action if the unit tried to do an illegal action.
    * That would allow the AI to stop using the omniscient
    * is_action_enabled_unit_on_*() functions. */
-  if (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
+  if (is_action_enabled_unit_on_units(nmap, ACTION_CAPTURE_UNITS,
                                       punit, ptile)) {
     /* Choose capture. */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CAPTURE_UNITS);
-  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD_LETHAL,
+  } else if (is_action_enabled_unit_on_units(nmap, ACTION_BOMBARD_LETHAL,
                                              punit, ptile)) {
     /* Choose "Bombard Lethal". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_BOMBARD_LETHAL);
-  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
+  } else if (is_action_enabled_unit_on_units(nmap, ACTION_BOMBARD,
                                              punit, ptile)) {
     /* Choose "Bombard". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_BOMBARD);
-  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD2,
+  } else if (is_action_enabled_unit_on_units(nmap, ACTION_BOMBARD2,
                                              punit, ptile)) {
     /* Choose "Bombard 2". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_BOMBARD2);
-  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD3,
+  } else if (is_action_enabled_unit_on_units(nmap, ACTION_BOMBARD3,
                                              punit, ptile)) {
     /* Choose "Bombard 3". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_BOMBARD3);
-  } else if (is_action_enabled_unit_on_units(ACTION_NUKE_UNITS,
+  } else if (is_action_enabled_unit_on_units(nmap, ACTION_NUKE_UNITS,
                                              punit, ptile)) {
     /* Choose "Nuke Units". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
@@ -885,12 +885,12 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose "Nuke City". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
                    0, "", ACTION_NUKE_CITY);
-  } else if (is_action_enabled_unit_on_units(ACTION_ATTACK,
+  } else if (is_action_enabled_unit_on_units(nmap, ACTION_ATTACK,
                                              punit, ptile)) {
     /* Choose regular attack. */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_ATTACK);
-  } else if (is_action_enabled_unit_on_units(ACTION_SUICIDE_ATTACK,
+  } else if (is_action_enabled_unit_on_units(nmap, ACTION_SUICIDE_ATTACK,
                                              punit, ptile)) {
     /* Choose suicide attack (explode missile). */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),

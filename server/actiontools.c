@@ -1033,7 +1033,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
       switch (action_id_get_target_kind(act)) {
       case ATK_UNITS:
         if (tgt_tile
-            && is_action_enabled_unit_on_units(act, actor, tgt_tile)) {
+            && is_action_enabled_unit_on_units(nmap, act, actor, tgt_tile)) {
           perform_action_to(act, actor, tgt_tile->index, EXTRA_NONE);
         }
         break;
@@ -1130,7 +1130,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
       switch (action_id_get_target_kind(act)) {
       case ATK_UNITS:
         if (tgt_tile
-            && is_action_enabled_unit_on_units(act, actor, tgt_tile)) {
+            && is_action_enabled_unit_on_units(nmap, act, actor, tgt_tile)) {
           current = action_prob_vs_units(actor, act, tgt_tile);
         }
         break;

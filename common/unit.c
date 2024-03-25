@@ -859,7 +859,7 @@ bool can_unit_paradrop(const struct civ_map *nmap, const struct unit *punit)
 /**********************************************************************//**
   Check if the unit's current activity is actually legal.
 **************************************************************************/
-bool can_unit_continue_current_activity(struct civ_map *nmap,
+bool can_unit_continue_current_activity(const struct civ_map *nmap,
                                         struct unit *punit)
 {
   enum unit_activity current = punit->activity;

@@ -366,6 +366,7 @@ bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
                                           Action *paction, Tile *tgt)
 {
   bool enabled = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
@@ -375,7 +376,7 @@ bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
   case ATK_UNITS:
-    enabled = is_action_enabled_unit_on_units(paction->id, punit, tgt);
+    enabled = is_action_enabled_unit_on_units(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:
     enabled = is_action_enabled_unit_on_tile(paction->id, punit,
@@ -423,6 +424,7 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
 {
   struct extra_type *sub_target;
   bool enabled = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
@@ -436,7 +438,7 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
   case ATK_UNITS:
-    enabled = is_action_enabled_unit_on_units(paction->id, punit, tgt);
+    enabled = is_action_enabled_unit_on_units(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:
     enabled = is_action_enabled_unit_on_tile(paction->id, punit,

@@ -219,7 +219,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
           && unit_perform_action(pplayer, punit->id, pcity->id, 0, "",
                                  paction->id, ACT_REQ_SS_AGENT)) {
         number_of_upgraded_units++;
-      } else if (UU_NO_MONEY == unit_upgrade_test(&(wld.map), punit, FALSE)) {
+      } else if (UU_NO_MONEY == unit_upgrade_test(nmap, punit, FALSE)) {
         break;
       }
     }
@@ -2514,6 +2514,7 @@ void illegal_action_msg(struct player *pplayer,
                         const struct unit *target_unit)
 {
   struct ane_expl *explnat;
+  const struct civ_map *nmap = &(wld.map);
 
   /* Explain why the action was illegal. */
   explnat = expl_act_not_enabl(actor, stopped_action,
@@ -2567,7 +2568,7 @@ void illegal_action_msg(struct player *pplayer,
       if (!utype_can_do_act_when_ustate(unit_type_get(actor),
                                         stopped_action, USP_LIVABLE_TILE,
                                         FALSE)
-          && !can_unit_exist_at_tile(&(wld.map), actor, unit_tile(actor))) {
+          && !can_unit_exist_at_tile(nmap, actor, unit_tile(actor))) {
         unit_type_iterate(utype) {
           if (utype_can_do_act_when_ustate(utype, stopped_action,
                                            USP_LIVABLE_TILE, FALSE)) {
@@ -3383,7 +3384,7 @@ bool unit_perform_action(struct player *pplayer,
   case ATK_UNITS:
   case ATK_TILE:
   case ATK_EXTRAS:
-    target_tile = index_to_tile(&(wld.map), target_id);
+    target_tile = index_to_tile(nmap, target_id);
     if (target_tile == NULL) {
       log_verbose("unit_perform_action() invalid target tile %d",
                   target_id);
@@ -3547,7 +3548,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_UNITS(action, actor, target, action_performer)\
   if (target_tile                                                         \
-      && is_action_enabled_unit_on_units(action_type,                     \
+      && is_action_enabled_unit_on_units(nmap, action_type,               \
                                          actor_unit, target_tile)) {      \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_units",                \
@@ -4033,6 +4034,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = (new_pcity == NULL ? old_owner
                                                 : city_owner(new_pcity));
+  const struct civ_map *nmap = &(wld.map);
 
   /* Calling this function when new_pcity is same as old_pcity should
    * be safe with current implementation, but it is not meant to
@@ -4097,7 +4099,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
     }
   }
 
-  if (!can_unit_continue_current_activity(&(wld.map), punit)) {
+  if (!can_unit_continue_current_activity(nmap, punit)) {
     /* This is mainly for cases where unit owner changes to one not knowing
      * Railroad tech when unit is already building railroad.
      * Does also send_unit_info() */
@@ -4545,6 +4547,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
   const struct unit_type *act_utype;
+  const struct civ_map *nmap = &(wld.map);
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -4562,7 +4565,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
       enum direction8 facing;
       int att_hp, def_hp;
 
-      adj = base_get_direction_for_step(&(wld.map),
+      adj = base_get_direction_for_step(nmap,
                                         punit->tile, pdefender->tile, &facing);
 
       if (adj) {
@@ -4956,7 +4959,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
 
-  adj = base_get_direction_for_step(&(wld.map),
+  adj = base_get_direction_for_step(nmap,
                                     punit->tile, pdefender->tile, &facing);
 
   fc_assert(adj);
@@ -5703,7 +5706,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * An attempted move to a tile a unit can't move to is always interpreted
    * as trying to perform an action (unless move_do_not_act is TRUE) */
   if (!move_do_not_act) {
-    const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
+    const bool can_not_move = !unit_can_move_to_tile(nmap,
                                                      punit, pdesttile,
                                                      FALSE, FALSE, FALSE);
     bool one_action_may_be_legal
@@ -5757,7 +5760,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_UNIT_MOVE3,
                                ACT_REQ_PLAYER);
-  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+  } else if (!can_unit_survive_at_tile(nmap, punit, pdesttile)
              && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
              && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,
                                                punit, ptrans)) {
@@ -6366,7 +6369,7 @@ void handle_unit_sscs_set(struct player *pplayer,
      * perform against the target tile. Action decision state can be set by
      * the server it self too. */
 
-    if (index_to_tile(&(wld.map), value) == NULL) {
+    if (index_to_tile(nmap, value) == NULL) {
       /* Asked to be reminded to ask what actions the unit can do to a non
        * existing target tile. */
       log_verbose("unit_sscs_set() invalid target tile %d for unit %d",
@@ -6375,7 +6378,7 @@ void handle_unit_sscs_set(struct player *pplayer,
     }
 
     punit->action_decision_want = ACT_DEC_ACTIVE;
-    punit->action_decision_tile = index_to_tile(&(wld.map), value);
+    punit->action_decision_tile = index_to_tile(nmap, value);
 
     /* Let the client know that this unit needs the player to decide
      * what to do. */
