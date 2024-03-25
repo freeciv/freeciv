@@ -12,6 +12,6 @@ Links
 =====
 Freeciv website: [Freeciv.org](https://www.freeciv.org/)
 
-Submit patches: [OSDN](https://osdn.net/projects/freeciv/ticket/)
+Submit patches: [redmine.freeciv.org](https://redmine.freeciv.org/projects/freeciv)
 
 Community forum: [forum.freeciv.org](https://forum.freeciv.org/)

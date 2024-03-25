@@ -3,7 +3,7 @@ BUGS
 ====
 
 Freeciv 3.1 certainly contains some bugs. Please report all
-you find to https://osdn.net/projects/freeciv/ticket/
+you find to https://redmine.freeciv.org/projects/freeciv
 
 
 REPORTING A BUG:
@@ -21,7 +21,7 @@ Here's what to do:
 
  - Check the Freeciv Bug Tracking System at:
 
-        https://osdn.net/projects/freeciv/ticket/
+        https://redmine.freeciv.org/projects/freeciv
 
    to see if the bug has already been reported.
 
