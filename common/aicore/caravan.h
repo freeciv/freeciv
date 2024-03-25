@@ -143,7 +143,8 @@ void caravan_result_init_zero(struct caravan_result *result);
 int caravan_result_compare(const struct caravan_result *a,
                            const struct caravan_result *b);
 
-void caravan_find_best_destination(const struct unit *caravan,
+void caravan_find_best_destination(const struct civ_map *nmap,
+                                   const struct unit *caravan,
                                    const struct caravan_parameter *parameter,
                                    struct caravan_result *result, bool omniscient);
 

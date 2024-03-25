@@ -2387,9 +2387,10 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
       parameter.allow_foreign_trade = FTL_NATIONAL_ONLY;
       parameter.ignore_transit_time = FALSE;
     }
-    caravan_find_best_destination(punit, &parameter, &result, !has_handicap(pplayer, H_MAP));
+    caravan_find_best_destination(nmap, punit, &parameter, &result,
+                                  !has_handicap(pplayer, H_MAP));
     if (result.dest != NULL) {
-      /* we did find a new destination for the unit */
+      /* We did find a new destination for the unit */
       dest = result.dest;
       help_wonder = result.help_wonder;
       required_boat = uclass_need_trans_between(pclass, unit_tile(punit), dest->tile);
