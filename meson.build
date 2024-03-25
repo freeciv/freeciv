@@ -1005,7 +1005,7 @@ man_links = [
 foreach manp : man_pages
   man_conf_data = configuration_data()
   man_conf_data.set('HOMEPAGE_URL', '"' + homepage_url + '"')
-  man_conf_data.set('BUG_URL', '"https://osdn.net/projects/freeciv/ticket/"')
+  man_conf_data.set('BUG_URL', '"https://redmine.freeciv.org/projects/freeciv"')
   man_conf_data.set('MAIL_ADDRESS', '"freeciv-dev at freelists.org"')
   man_conf_data.set('DATASUBDIR', '"' + datasubdir + '"')
   configure_file(input : 'doc/man/' + manp + '.6.in',
