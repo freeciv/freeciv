@@ -147,7 +147,8 @@ void caravan_evaluate(const struct unit *caravan, const struct city *dest,
                       const struct caravan_parameter *parameter,
                       struct caravan_result *result, bool omniscient);
 
-void caravan_find_best_destination(const struct unit *caravan,
+void caravan_find_best_destination(const struct civ_map *nmap,
+                                   const struct unit *caravan,
                                    const struct caravan_parameter *parameter,
                                    struct caravan_result *result, bool omniscient);
 
