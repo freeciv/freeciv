@@ -2358,6 +2358,7 @@ void illegal_action_msg(struct player *pplayer,
                         const struct unit *target_unit)
 {
   struct ane_expl *explnat;
+  const struct civ_map *nmap = &(wld.map);
 
   /* Explain why the action was illegal. */
   explnat = expl_act_not_enabl(actor, stopped_action,
@@ -2411,7 +2412,7 @@ void illegal_action_msg(struct player *pplayer,
       if (!utype_can_do_act_when_ustate(unit_type_get(actor),
                                         stopped_action, USP_LIVABLE_TILE,
                                         FALSE)
-          && !can_unit_exist_at_tile(&(wld.map), actor, unit_tile(actor))) {
+          && !can_unit_exist_at_tile(nmap, actor, unit_tile(actor))) {
         unit_type_iterate(utype) {
           if (utype_can_do_act_when_ustate(utype, stopped_action,
                                            USP_LIVABLE_TILE, FALSE)) {
@@ -3393,7 +3394,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_UNITS(action, actor, target, action_performer)\
   if (target_tile                                                         \
-      && is_action_enabled_unit_on_units(action_type,                     \
+      && is_action_enabled_unit_on_units(nmap, action_type,               \
                                          actor_unit, target_tile)) {      \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_units",                \
@@ -3856,6 +3857,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = (new_pcity == NULL ? old_owner
                                                 : city_owner(new_pcity));
+  const struct civ_map *nmap = &(wld.map);
 
   /* Calling this function when new_pcity is same as old_pcity should
    * be safe with current implementation, but it is not meant to
@@ -3920,7 +3922,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
     }
   }
 
-  if (!can_unit_continue_current_activity(&(wld.map), punit)) {
+  if (!can_unit_continue_current_activity(nmap, punit)) {
     /* This is mainly for cases where unit owner changes to one not knowing
      * Railroad tech when unit is already building railroad.
      * Does also send_unit_info() */
@@ -4331,6 +4333,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
   const struct unit_type *act_utype;
+  const struct civ_map *nmap = &(wld.map);
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -4348,7 +4351,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
       enum direction8 facing;
       int att_hp, def_hp;
 
-      adj = base_get_direction_for_step(&(wld.map),
+      adj = base_get_direction_for_step(nmap,
                                         punit->tile, pdefender->tile, &facing);
 
       if (adj) {
