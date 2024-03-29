@@ -194,13 +194,37 @@ obsolete_by	=
 build_cost	= 2000
 upkeep		= 100
 sabotage	= 50
-sound		= "b_granary"
+sound		= "b_library"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
 helptext	= _("\
 Increases science output by 50%, 75% if Science known. \
 Produces two points of history each turn, three points \
 if Literature known.\
+")
+
+[building_marketplace]
+name		= _("Marketplace")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Currency", "Player"
+    }
+graphic         = "b.marketplace"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 2000
+upkeep		= 100
+sabotage	= 50
+sound		= "b_marketplace"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Increases gold output by 50%. \
+Increases luxury output by 30%.\
 ")
 
 [building_sacred_grove]

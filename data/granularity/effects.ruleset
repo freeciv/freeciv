@@ -192,6 +192,24 @@ reqs	=
       "OutputType", "Science", "Local"
     }
 
+[effect_marketplace_gold]
+type    = "Output_Bonus"
+value	= 50
+reqs	=
+    { "type",       "name",        "range"
+      "Building",   "Marketplace", "City"
+      "OutputType", "Gold",        "Local"
+    }
+
+[effect_marketplace_luxury]
+type    = "Output_Bonus"
+value	= 30
+reqs	=
+    { "type",       "name",        "range"
+      "Building",   "Marketplace", "City"
+      "OutputType", "Luxury",      "Local"
+    }
+
 [effect_library_culture]
 type    = "History"
 value	= 2

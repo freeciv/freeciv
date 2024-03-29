@@ -563,8 +563,8 @@ name = _("Goods")
 ; */ <-- avoid gettext warnings
 
 [clause_map]
-type = "Map"
-giver_reqs =
+type          = "Map"
+giver_reqs    =
     { "type", "name", "range"
       "Tech", "Maps", "Player"
     }
@@ -574,8 +574,8 @@ receiver_reqs =
     }
 
 [clause_seamap]
-type = "Seamap"
-giver_reqs =
+type          = "Seamap"
+giver_reqs    =
     { "type", "name", "range"
       "Tech", "Maps", "Player"
     }
@@ -585,25 +585,36 @@ receiver_reqs =
     }
 
 [clause_peace]
-type = "Peace"
-giver_reqs =
-    { "type", "name", "range"
+type          = "Peace"
+giver_reqs    =
+    { "type", "name",      "range"
       "Tech", "Diplomacy", "Player"
     }
 receiver_reqs =
-    { "type", "name", "range"
+    { "type", "name",      "range"
       "Tech", "Diplomacy", "Player"
     }
 
 [clause_ceasefire]
-type = "Ceasefire"
-giver_reqs =
-    { "type", "name", "range"
+type          = "Ceasefire"
+giver_reqs    =
+    { "type", "name",     "range"
       "Tech", "Calendar", "Player"
     }
 receiver_reqs =
-    { "type", "name", "range"
+    { "type", "name",     "range"
       "Tech", "Calendar", "Player"
+    }
+
+[clause_gold]
+type          = "Gold"
+giver_reqs    =
+    { "type", "name",     "range"
+      "Tech", "Currency", "Player"
+    }
+receiver_reqs =
+    { "type", "name",     "range"
+      "Tech", "Currency", "Player"
     }
 
 ; /* <-- avoid gettext warnings
