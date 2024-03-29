@@ -299,6 +299,7 @@ flag_files =				\
 		lippe.png		\
 		lithuania.png		\
 		lorraine.png		\
+		louisiana.png		\
 		luhansk.png		\
 		luik.png		\
 		luna.png		\
@@ -877,6 +878,7 @@ flag_files =				\
 		lippe-large.png			\
 		lithuania-large.png		\
 		lorraine-large.png		\
+		louisiana-large.png		\
 		luhansk-large.png		\
 		luik-large.png			\
 		luna-large.png			\
@@ -1457,6 +1459,7 @@ shield_files =					\
 		lippe-shield.png		\
 		lithuania-shield.png		\
 		lorraine-shield.png		\
+		louisiana-shield.png		\
 		luhansk-shield.png		\
 		luik-shield.png			\
 		luna-shield.png			\
@@ -2035,6 +2038,7 @@ shield_files =					\
 		lippe-shield-large.png			\
 		lithuania-shield-large.png		\
 		lorraine-shield-large.png		\
+		louisiana-shield-large.png		\
 		luhansk-shield-large.png		\
 		luik-shield-large.png			\
 		luna-shield-large.png			\
@@ -2615,6 +2619,7 @@ svg_files = 				\
 		lippe.svg		\
 		lithuania.svg		\
 		lorraine.svg		\
+		louisiana.svg		\
 		luhansk.svg		\
 		luik.svg		\
 		luna.svg		\

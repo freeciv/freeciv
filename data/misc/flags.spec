@@ -306,6 +306,7 @@ artists = "
    Lithuania		Christian Schaller
    Lombardy		Flanker (Wikimedia Commons)
    Lorraine		J.M. Maalderink
+   Louisiana            Fry1989 (Wikimedia Commons)
    Luhansk              Wikimedia Commons
    Luik			Jed (Wikimedia Commons)
    Luna			Daniel Markstedt
@@ -887,6 +888,7 @@ sprites =
 		"f.lithuania", "flags/lithuania"
 		"f.lombardy", "flags/lombardy"
 		"f.lorraine", "flags/lorraine"
+                "f.louisiana", "flags/louisiana"
                 "f.luhansk", "flags/luhansk"
 		"f.luik", "flags/luik"
 		"f.luna", "flags/luna"
