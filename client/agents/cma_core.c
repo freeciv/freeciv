@@ -202,8 +202,8 @@ static bool apply_result_on_server(struct city *pcity,
   connection_do_buffer(&client.conn);
 
   /* Remove all surplus workers */
-  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, idx,
-                                     x, y) {
+  city_tile_iterate_skip_free_worked(&(wld.map), city_radius_sq, pcenter,
+                                     ptile, idx, x, y) {
     if (tile_worked(ptile) == pcity
         && !result->worker_positions[idx]) {
       log_apply_result("Removing worker at {%d,%d}.", x, y);
@@ -241,7 +241,7 @@ static bool apply_result_on_server(struct city *pcity,
   /* Set workers */
   /* FIXME: This code assumes that any toggled worker will turn into a
    * DEFAULT_SPECIALIST! */
-  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, idx,
+  city_tile_iterate_skip_free_worked(&(wld.map), city_radius_sq, pcenter, ptile, idx,
                                      x, y) {
     if (NULL == tile_worked(ptile)
         && result->worker_positions[idx]) {

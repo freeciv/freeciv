@@ -2767,7 +2767,7 @@ is_extra_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       if (tile_has_extra(ptile, pextra)) {
         return TRI_YES;
@@ -2780,7 +2780,7 @@ is_extra_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       if (tile_has_extra(ptile, pextra)) {
         return TRI_YES;
@@ -2792,7 +2792,7 @@ is_extra_req_active(const struct civ_map *nmap,
       if (trade_partner == NULL) {
         ret = TRI_MAYBE;
       } else {
-        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+        city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
                           city_tile(trade_partner), ptile) {
           if (tile_has_extra(ptile, pextra)) {
             return TRI_YES;
@@ -2966,7 +2966,7 @@ is_terrain_req_active(const struct civ_map *nmap,
       return TRI_MAYBE;
     }
     if (pterrain != NULL) {
-      city_tile_iterate(city_map_radius_sq_get(context->city),
+      city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                         city_tile(context->city), ptile) {
         if (tile_terrain(ptile) == pterrain) {
           return TRI_YES;
@@ -2981,7 +2981,7 @@ is_terrain_req_active(const struct civ_map *nmap,
     if (pterrain != NULL) {
       enum fc_tristate ret;
 
-      city_tile_iterate(city_map_radius_sq_get(context->city),
+      city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                         city_tile(context->city), ptile) {
         if (tile_terrain(ptile) == pterrain) {
           return TRI_YES;
@@ -2993,7 +2993,7 @@ is_terrain_req_active(const struct civ_map *nmap,
         if (trade_partner == NULL) {
           ret = TRI_MAYBE;
         } else {
-          city_tile_iterate(city_map_radius_sq_get(trade_partner),
+          city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
                             city_tile(trade_partner), ptile) {
             if (tile_terrain(ptile) == pterrain) {
               return TRI_YES;
@@ -3065,7 +3065,7 @@ is_terrainclass_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
 
@@ -3080,7 +3080,7 @@ is_terrainclass_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
 
@@ -3095,7 +3095,7 @@ is_terrainclass_req_active(const struct civ_map *nmap,
       if (trade_partner == NULL) {
         ret = TRI_MAYBE;
       } else {
-        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+        city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
                           city_tile(trade_partner), ptile) {
           const struct terrain *pterrain = tile_terrain(ptile);
 
@@ -3173,7 +3173,7 @@ is_terrainflag_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
 
@@ -3188,7 +3188,7 @@ is_terrainflag_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
 
@@ -3203,7 +3203,7 @@ is_terrainflag_req_active(const struct civ_map *nmap,
       if (trade_partner == NULL) {
         ret = TRI_MAYBE;
       } else {
-        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+        city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
                           city_tile(trade_partner), ptile) {
           const struct terrain *pterrain = tile_terrain(ptile);
 
@@ -3287,7 +3287,7 @@ is_roadflag_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       if (tile_has_road_flag(ptile, roadflag)) {
         return TRI_YES;
@@ -3299,7 +3299,7 @@ is_roadflag_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       if (tile_has_road_flag(ptile, roadflag)) {
         return TRI_YES;
@@ -3311,7 +3311,7 @@ is_roadflag_req_active(const struct civ_map *nmap,
       if (trade_partner == NULL) {
         ret = TRI_MAYBE;
       } else {
-        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+        city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
                           city_tile(trade_partner), ptile) {
           if (tile_has_road_flag(ptile, roadflag)) {
             return TRI_YES;
@@ -3383,7 +3383,7 @@ is_extraflag_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       if (tile_has_extra_flag(ptile, extraflag)) {
         return TRI_YES;
@@ -3395,7 +3395,7 @@ is_extraflag_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(context->city),
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
       if (tile_has_extra_flag(ptile, extraflag)) {
         return TRI_YES;
@@ -3407,7 +3407,7 @@ is_extraflag_req_active(const struct civ_map *nmap,
       if (trade_partner == NULL) {
         ret = TRI_MAYBE;
       } else {
-        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+        city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
                           city_tile(trade_partner), ptile) {
           if (tile_has_extra_flag(ptile, extraflag)) {
             return TRI_YES;

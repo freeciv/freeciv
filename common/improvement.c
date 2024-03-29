@@ -455,6 +455,7 @@ static bool impr_provides_buildable_units(const struct city *pcity,
 static bool impr_provides_buildable_extras(const struct city *pcity,
                                            const struct impr_type *pimprove)
 {
+  const struct civ_map *nmap = &(wld.map);
 
   /* Fast check */
   if (!pimprove->allows_extras) {
@@ -463,7 +464,7 @@ static bool impr_provides_buildable_extras(const struct city *pcity,
 
   extra_type_iterate(pextra) {
     if (requirement_needs_improvement(pimprove, &pextra->reqs)) {
-      city_tile_iterate(city_map_radius_sq_get(pcity),
+      city_tile_iterate(nmap, city_map_radius_sq_get(pcity),
                         city_tile(pcity), ptile) {
         if (player_can_build_extra(pextra, city_owner(pcity), ptile)) {
           return TRUE;

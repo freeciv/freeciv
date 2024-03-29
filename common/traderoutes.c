@@ -403,13 +403,14 @@ static int max_tile_trade(const struct city *pcity)
   int tile_trade[city_map_tiles(radius_sq)];
   size_t size = 0;
   bool is_celebrating = base_city_celebrating(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   if (pcity->tile == NULL) {
     return 0;
   }
 
   city_map_iterate(radius_sq, cindex, cx, cy) {
-    struct tile *ptile = city_map_to_tile(pcity->tile, radius_sq, cx, cy);
+    struct tile *ptile = city_map_to_tile(nmap, pcity->tile, radius_sq, cx, cy);
 
     if (ptile == NULL) {
       continue;

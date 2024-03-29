@@ -3159,7 +3159,8 @@ static gboolean right_button_down_citymap(GtkGestureClick *gesture, int n_press,
     struct city *pcity = pdialog->pcity;
 
     popup_workertask_dlg(pdialog->pcity,
-                         city_map_to_tile(pcity->tile, city_map_radius_sq_get(pcity),
+                         city_map_to_tile(&(wld.map), pcity->tile,
+                                          city_map_radius_sq_get(pcity),
                                           city_x, city_y));
   }
 

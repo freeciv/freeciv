@@ -1239,17 +1239,18 @@ static void init_tile_lattice(struct city *pcity,
 {
   struct cm_tile_type type;
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
-  /* add all the fields into the lattice */
-  tile_type_init(&type); /* init just once */
+  /* Add all the fields into the lattice */
+  tile_type_init(&type); /* Init just once */
 
-  city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
+  city_tile_iterate_index(nmap, city_map_radius_sq_get(pcity), pcenter, ptile,
                           ctindex) {
     if (is_free_worked(pcity, ptile)) {
       continue;
     } else if (city_can_work_tile(pcity, ptile)) {
-      compute_tile_production(pcity, ptile, &type); /* clobbers type */
-      tile_type_lattice_add(lattice, &type, ctindex); /* copy type if needed */
+      compute_tile_production(pcity, ptile, &type); /* Clobbers type */
+      tile_type_lattice_add(lattice, &type, ctindex); /* Copy type if needed */
     }
   } city_tile_iterate_index_end;
 
@@ -1586,14 +1587,15 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
                                         int production[],
                                         int check_choice, bool negative_ok)
 {
-  struct partial_solution solnplus; /* will be soln, plus some tiles */
+  struct partial_solution solnplus; /* Will be soln, plus some tiles */
+  const struct civ_map *nmap = &(wld.map);
 
   /* Production is whatever the solution produces, plus the
      most possible of each kind of production the idle workers could
      produce */
 
   if (soln->idle == 1) {
-    /* Then the total solution is soln + this new worker.  So we know the
+    /* Then the total solution is soln + this new worker. So we know the
        production exactly, and can shortcut the later code. */
     const struct cm_tile_type *ptype = tile_type_get(state, check_choice);
 
@@ -1634,7 +1636,7 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
   output_type_iterate(stat_index) {
     int base = production[stat_index];
 
-    city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
+    city_tile_iterate(nmap, city_map_radius_sq_get(pcity), pcenter, ptile) {
       if (is_free_worked(pcity, ptile)) {
         base += city_tile_output(pcity, ptile, is_celebrating, stat_index);
       }
@@ -1935,9 +1937,10 @@ static int min_food_surplus_for_fastest_growth(struct cm_state *state)
   citizens workers = city_size;
   int food_needed = city_granary_size(city_size) - pcity->food_stock;
   int min_turns;
+  const struct civ_map *nmap = &(wld.map);
 
   city_map_iterate(city_radius_sq, cindex, x, y) {
-    struct tile *ptile = city_map_to_tile(pcity->tile, city_radius_sq, x, y);
+    struct tile *ptile = city_map_to_tile(nmap, pcity->tile, city_radius_sq, x, y);
     if (!ptile) {
       continue;
     }
@@ -2267,15 +2270,16 @@ static void cm_result_copy(struct cm_result *result,
                            const struct city *pcity, bool *workers_map)
 {
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
-  /* clear worker positions */
+  /* Clear worker positions */
   memset(result->worker_positions, 0,
          sizeof(*result->worker_positions)
          * city_map_tiles(result->city_radius_sq));
 
-  city_tile_iterate_index(result->city_radius_sq, pcenter, ptile, ctindex) {
+  city_tile_iterate_index(nmap, result->city_radius_sq, pcenter, ptile, ctindex) {
     if (workers_map == NULL) {
-      /* use the main map */
+      /* Use the main map */
       struct city *pwork = tile_worked(ptile);
 
       result->worker_positions[ctindex] = (NULL != pwork && pwork == pcity);
@@ -2284,16 +2288,16 @@ static void cm_result_copy(struct cm_result *result,
     }
   } city_tile_iterate_index_end;
 
-  /* copy the specialist counts */
+  /* Copy the specialist counts */
   specialist_type_iterate(spec) {
     result->specialists[spec] = pcity->specialists[spec];
   } specialist_type_iterate_end;
 
-  /* find the surplus production numbers */
+  /* Find the surplus production numbers */
   get_city_surplus(pcity, result->surplus,
       &result->disorder, &result->happy);
 
-  /* this is a valid result, in a sense */
+  /* This is a valid result, in a sense */
   result->found_a_valid = TRUE;
 }
 
@@ -2424,13 +2428,14 @@ static void print_performance(struct one_perf *counts)
 void cm_print_city(const struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   log_test("cm_print_city(city %d=\"%s\")", pcity->id, city_name_get(pcity));
   log_test("  size=%d, specialists=%s",
            city_size_get(pcity), specialists_string(pcity->specialists));
 
   log_test("  workers at:");
-  city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
+  city_tile_iterate_index(nmap, city_map_radius_sq_get(pcity), pcenter, ptile,
                           cindex) {
     struct city *pwork = tile_worked(ptile);
 

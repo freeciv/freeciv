@@ -1383,7 +1383,7 @@ void city_map::context_menu(QPoint point)
     return;
   }
 
-  ptile = city_map_to_tile(mcity->tile, city_map_radius_sq_get(mcity),
+  ptile = city_map_to_tile(&(wld.map), mcity->tile, city_map_radius_sq_get(mcity),
                            city_x, city_y);
   pterr = tile_terrain(ptile);
   for_terr.kind = VUT_TERRAIN;

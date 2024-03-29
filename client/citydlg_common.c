@@ -1576,7 +1576,7 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 
   city_radius_sq = city_map_radius_sq_get(pcity);
   fc_assert(is_valid_city_coords(city_radius_sq, city_x, city_y));
-  ptile = city_map_to_tile(city_tile(pcity), city_radius_sq,
+  ptile = city_map_to_tile(&(wld.map), city_tile(pcity), city_radius_sq,
                            city_x, city_y);
   if (NULL == ptile) {
     return 0;

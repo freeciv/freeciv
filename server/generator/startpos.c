@@ -307,10 +307,11 @@ bool create_start_positions(enum map_startpos mode,
   int *tile_value = NULL;
   int min_goodies_per_player = 1500;
   int total_goodies = 0;
-  /* this is factor is used to maximize land used in extreme little maps */
+  /* This is factor is used to maximize land used in extreme little maps */
   float efactor =  player_count() / map_size_checked() / 4; 
   bool failure = FALSE;
   bool is_tmap = temperature_is_initialized();
+  const struct civ_map *nmap = &(wld.map);
 
   if (wld.map.num_continents < 1) {
     /* Currently we can only place starters on land terrain, so fail
@@ -337,18 +338,18 @@ bool create_start_positions(enum map_startpos mode,
   tile_value_aux = fc_calloc(MAP_INDEX_SIZE, sizeof(*tile_value_aux));
   tile_value = fc_calloc(MAP_INDEX_SIZE, sizeof(*tile_value));
 
-  /* get the tile value */
+  /* Get the tile value */
   whole_map_iterate(&(wld.map), value_tile) {
     tile_value_aux[tile_index(value_tile)] = get_tile_value(value_tile);
   } whole_map_iterate_end;
 
-  /* select the best tiles */
+  /* Select the best tiles */
   whole_map_iterate(&(wld.map), value_tile) {
     int this_tile_value = tile_value_aux[tile_index(value_tile)];
     int lcount = 0, bcount = 0;
 
-    /* check all tiles within the default city radius */
-    city_tile_iterate(CITY_MAP_DEFAULT_RADIUS_SQ, value_tile, ptile1) {
+    /* Check all tiles within the default city radius */
+    city_tile_iterate(nmap, CITY_MAP_DEFAULT_RADIUS_SQ, value_tile, ptile1) {
       if (this_tile_value > tile_value_aux[tile_index(ptile1)]) {
         lcount++;
       } else if (this_tile_value < tile_value_aux[tile_index(ptile1)]) {
@@ -361,7 +362,7 @@ bool create_start_positions(enum map_startpos mode,
     }
     tile_value[tile_index(value_tile)] = 100 * this_tile_value;
   } whole_map_iterate_end;
-  /* get an average value */
+  /* Get an average value */
   smooth_int_map(tile_value, TRUE);
 
   initialize_isle_data();
