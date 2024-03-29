@@ -60,7 +60,7 @@ static inline bool conn_is_ignored(const struct connection *sender,
 }
 
 /**********************************************************************//**
-  Formulate a name for this connection, prefering the player name when
+  Formulate a name for this connection, preferring the player name when
   available and unambiguous (since this is the "standard" case), else
   use the username.
 **************************************************************************/
