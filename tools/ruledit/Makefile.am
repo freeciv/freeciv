@@ -65,6 +65,7 @@ freeciv_ruledit_SOURCES =	\
 		effect_edit.cpp	\
 		effect_edit.h	\
 		helpeditor.cpp	\
+		helpeditor.h	\
 		tab_achievement.cpp	\
 		tab_achievement.h	\
 		tab_building.cpp \
