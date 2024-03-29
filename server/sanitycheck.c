@@ -328,11 +328,12 @@ static void check_city_size(struct city *pcity, const char *file,
   int delta;
   int citizen_count = 0;
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   SANITY_CITY(pcity, city_size_get(pcity) >= 1);
 
-  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
-                                  ptile, _index, _x, _y) {
+  city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
+                                     ptile, _index, _x, _y) {
     if (tile_worked(ptile) == pcity) {
       citizen_count++;
     }

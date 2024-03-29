@@ -472,7 +472,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
     struct tile *pcenter = city_tile(pcity);
 
     /* Try to work near the city */
-    city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
+    city_tile_iterate_index(nmap, city_map_radius_sq_get(pcity), pcenter, ptile,
                             cindex) {
       bool consider = TRUE;
       bool in_use = (tile_worked(ptile) == pcity);

@@ -161,6 +161,7 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
 static void build_landarea_map(struct claim_map *pcmap)
 {
   bv_player *claims = fc_calloc(MAP_INDEX_SIZE, sizeof(*claims));
+  const struct civ_map *nmap = &(wld.map);
 
   memset(pcmap, 0, sizeof(*pcmap));
 
@@ -169,13 +170,13 @@ static void build_landarea_map(struct claim_map *pcmap)
     city_list_iterate(pplayer->cities, pcity) {
       struct tile *pcenter = city_tile(pcity);
 
-      city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, tile1) {
+      city_tile_iterate(nmap, city_map_radius_sq_get(pcity), pcenter, tile1) {
         BV_SET(claims[tile_index(tile1)], player_index(city_owner(pcity)));
       } city_tile_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(&(wld.map), ptile) {
+  whole_map_iterate(nmap, ptile) {
     struct player *owner = nullptr;
     bv_player *pclaim = &claims[tile_index(ptile)];
 

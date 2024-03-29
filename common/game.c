@@ -186,9 +186,10 @@ void game_remove_city(struct world *gworld, struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   if (NULL != powner) {
-    /* always unlink before clearing data */
+    /* Always unlink before clearing data */
     city_list_remove(powner->cities, pcity);
   }
 
@@ -203,7 +204,7 @@ void game_remove_city(struct world *gworld, struct city *pcity)
               nation_rule_name(nation_of_player(powner)),
               city_name_get(pcity));
 
-    city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
+    city_tile_iterate(nmap, city_map_radius_sq_get(pcity), pcenter, ptile) {
       if (tile_worked(ptile) == pcity) {
         tile_set_worked(ptile, NULL);
       }

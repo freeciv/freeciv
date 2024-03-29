@@ -274,16 +274,17 @@ void remove_obsolete_buildings(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Rearrange workers according to a cm_result struct.  The caller must make
+  Rearrange workers according to a cm_result struct. The caller must make
   sure that the result is valid.
 **************************************************************************/
 void apply_cmresult_to_city(struct city *pcity,
                             const struct cm_result *cmr)
 {
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   /* Now apply results */
-  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+  city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
                                      ptile, idx, x, y) {
     struct city *pwork = tile_worked(ptile);
 
@@ -737,10 +738,11 @@ static citizens city_reduce_workers(struct city *pcity, citizens change)
 {
   struct tile *pcenter = city_tile(pcity);
   int want = change;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(0 < change, 0);
 
-  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+  city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
                                      ptile, _index, _x, _y) {
     if (0 < want && tile_worked(ptile) == pcity) {
       city_map_update_empty(pcity, ptile);
@@ -923,6 +925,7 @@ static bool city_increase_size(struct city *pcity)
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
   const struct impr_type *pimprove = pcity->production.value.building;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
     /* Need improvement */
@@ -961,9 +964,9 @@ static bool city_increase_size(struct city *pcity)
    * make new citizens into scientists or taxmen -- Massimo */
 
   /* Ignore food if no square can be worked */
-  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+  city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
                                      ptile, _index, _x, _y) {
-    if (tile_worked(ptile) != pcity /* quick test */
+    if (tile_worked(ptile) != pcity /* Quick test */
      && city_can_work_tile(pcity, ptile)) {
       have_square = TRUE;
     }
@@ -3382,9 +3385,10 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
   struct tile *pcenter = city_tile(pcity);
   int city_radius_sq = city_map_radius_sq_get(pcity);
   int k = 100;
+  const struct civ_map *nmap = &(wld.map);
 
   while (k > 0) {
-    /* place pollution on a random city tile */
+    /* Place pollution on a random city tile */
     int cx, cy;
     int tile_id = fc_rand(city_map_tiles(city_radius_sq));
     struct extra_type *pextra;
@@ -3392,7 +3396,7 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
     city_tile_index_to_xy(&cx, &cy, tile_id, city_radius_sq);
 
     /* Check for a real map position */
-    if (!(ptile = city_map_to_tile(pcenter, city_radius_sq, cx, cy))) {
+    if (!(ptile = city_map_to_tile(nmap, pcenter, city_radius_sq, cx, cy))) {
       continue;
     }
 
@@ -3980,6 +3984,7 @@ static bool do_city_migration(struct city *pcity_from,
   const char *nation_from, *nation_to;
   struct city *rcity = NULL;
   int to_id = pcity_to->id;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!pcity_from || !pcity_to) {
     return FALSE;
@@ -3996,17 +4001,18 @@ static bool do_city_migration(struct city *pcity_from,
   ptile_from = city_tile(pcity_from);
   ptile_to = city_tile(pcity_to);
 
-  /* check food supply in the receiver city */
+  /* Check food supply in the receiver city */
   if (game.server.mgr_foodneeded) {
     bool migration = FALSE;
 
     if (pcity_to->surplus[O_FOOD] >= game.info.food_cost) {
       migration = TRUE;
     } else {
-      /* check if there is a free tile for the new citizen which, when worked,
+      /* Check if there is a free tile for the new citizen which, when worked,
        * leads to zero or positive food surplus for the enlarged city */
       int max_food_tile = -1;  /* no free tile */
-      city_tile_iterate(city_map_radius_sq_get(pcity_to),
+
+      city_tile_iterate(nmap, city_map_radius_sq_get(pcity_to),
                         city_tile(pcity_to), ptile) {
         if (city_can_work_tile(pcity_to, ptile)
             && tile_worked(ptile) != pcity_to) {
@@ -4617,10 +4623,12 @@ void city_counters_refresh(struct city *pcity)
 **************************************************************************/
 void city_tc_effect_refresh(struct player *pplayer)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   city_list_iterate(pplayer->cities, pcity) {
     bool changed = FALSE;
 
-    city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity),
+    city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity),
                                        city_tile(pcity), ptile, idx, x, y) {
       if (ptile->worked == pcity
           && get_city_tile_output_bonus(pcity, ptile, NULL, EFT_TILE_WORKABLE) <= 0) {

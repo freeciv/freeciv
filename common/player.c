@@ -1231,12 +1231,14 @@ struct unit *player_unit_by_number(const struct player *pplayer, int unit_id)
 }
 
 /*******************************************************************//**
-  Return true iff x,y is inside any of the player's city map.
+  Return true iff tile is inside any of the player's city map.
 ***********************************************************************/
 bool player_in_city_map(const struct player *pplayer,
                         const struct tile *ptile)
 {
-  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
+  const struct civ_map *nmap = &(wld.map);
+
+  city_tile_iterate(nmap, CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
     if (pcity

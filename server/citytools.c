@@ -3337,8 +3337,9 @@ void sync_cities(void)
 void city_map_update_all(struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
-  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+  city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
                                      ptile, _index, _x, _y) {
     /* Bypass city_map_update_tile_now() for efficiency */
     city_map_update_tile_direct(ptile, FALSE);
@@ -3441,13 +3442,13 @@ void refresh_player_cities_vision(struct player *pplayer)
 ****************************************************************************/
 bool city_map_update_radius_sq(struct city *pcity)
 {
-
   fc_assert_ret_val(pcity != nullptr, FALSE);
 
   int city_tiles_old, city_tiles_new;
   int city_radius_sq_old = city_map_radius_sq_get(pcity);
   int city_radius_sq_new = game.info.init_city_radius_sq
                            + get_city_bonus(pcity, EFT_CITY_RADIUS_SQ);
+  const struct civ_map *nmap = &(wld.map);
 
   /* Check minimum / maximum allowed city radii */
   city_radius_sq_new = CLIP(CITY_MAP_MIN_RADIUS_SQ, city_radius_sq_new,
@@ -3489,7 +3490,7 @@ bool city_map_update_radius_sq(struct city *pcity)
     /* Remove workers from the tiles removed rom the city map */
     city_map_iterate_radius_sq(city_radius_sq_new, city_radius_sq_old,
                                city_x, city_y) {
-      struct tile *ptile = city_map_to_tile(city_tile(pcity),
+      struct tile *ptile = city_map_to_tile(nmap, city_tile(pcity),
                                             city_radius_sq_old, city_x,
                                             city_y);
 
@@ -3502,8 +3503,9 @@ bool city_map_update_radius_sq(struct city *pcity)
     /* Add workers to free city tiles */
     if (workers > 0) {
       int radius_sq = city_map_radius_sq_get(pcity);
+
       city_map_iterate_without_index(radius_sq, city_x, city_y) {
-        struct tile *ptile = city_map_to_tile(city_tile(pcity), radius_sq,
+        struct tile *ptile = city_map_to_tile(nmap, city_tile(pcity), radius_sq,
                                               city_x, city_y);
 
         if (ptile && !is_free_worked(pcity, ptile)

@@ -244,11 +244,13 @@ static adv_want adv_calc_rmextra(const struct city *pcity,
   Do all tile improvement calculations and cache them for later.
 
   These values are used in settler_evaluate_improvements() so this function
-  must be called before doing that.  Currently this is only done when handling
+  must be called before doing that. Currently this is only done when handling
   auto-settlers or when the AI contemplates building worker units.
 **************************************************************************/
 void initialize_infrastructure_cache(struct player *pplayer)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *pcenter = city_tile(pcity);
     int radius_sq = city_map_radius_sq_get(pcity);
@@ -260,7 +262,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
       } aw_transform_action_iterate_end;
     } city_map_iterate_end;
 
-    city_tile_iterate_index(radius_sq, pcenter, ptile, cindex) {
+    city_tile_iterate_index(nmap, radius_sq, pcenter, ptile, cindex) {
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_MINE,
                               adv_calc_plant(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_IRRIGATE,
