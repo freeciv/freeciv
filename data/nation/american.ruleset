@@ -58,7 +58,7 @@ init_techs = ""
 init_buildings = ""
 init_units = ""
 
-civilwar_nations = "confederate"
+civilwar_nations = "confederate", "louisianian"
 
 cities =
  "Washington (ocean, river, swamp, !desert)",

@@ -1,0 +1,187 @@
+[nation_louisianian]
+
+name   = _("Louisianian")
+plural = _("?plural:Louisianians")
+groups = "Early Modern", "American"
+legend = _("Louisiana is a state in the Deep South of the United\
+ States of America known for its distinct French culture, on\
+ January 26, 1861, the state voted to seceed from the United States,\
+ existing independently for a short time until February 26, 1861\
+ when it finally joined the Confederate States of America. The\
+ state was formally admitted back into the union on July 9, 1868.")
+
+leaders = {
+ "name",                        "sex"
+ "William C. C. Claiborne",     "Male"
+ "Jacques Villeré",             "Male"
+ "Thomas B. Robertson",         "Male"
+ "Henry S. Thibodaux",          "Male"
+ "Andre B. Roman",              "Male"
+ "Isaac Johnson",               "Male"
+ "Joseph Marshall Walker",      "Male"
+ "Paul Octave Hébert",          "Male"
+ "Thomas Overton Moore",        "Male"
+ "George Foster Shepley",       "Male"
+ "Henry Watkins Allen",         "Male"
+ "Michael Hahn",                "Male"
+ "Benjamin Flanders",           "Male"
+ "P. B. S. Pinchback",          "Male"
+ "William Pitt Kellogg",        "Male"
+ "William Wright Heard",        "Male"
+ "Jared Y. Sanders Sr.",        "Male"
+ "Jared Y. Sanders Jr.",        "Male"
+ "Huey Long",                   "Male"
+ "Rose McConnell Long",         "Female"
+ "Jimmie Davis",                "Male"
+ "Earl Long",                   "Male"
+ "Fannie Belle Fleming",        "Female"
+ "Edwin Edwards",               "Male"
+ "Kathleen Blanco",             "Female"
+ "Jeff Landry",                 "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Monarchy",        _("Kingfish %s"),     _("Queenfish %s")
+ "Republic",        _("Governeror %s"),   _("?female:Governeror %s")
+ "Democracy",       _("Speaker %s"),      _("?female:Speaker %s")
+ "Fundamentalism",  _("Reverend %s"),     _("?female:Reverend %s")
+}
+
+flag = "louisiana"
+flag_alt = "-"
+style = "Celtic"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "confederate", "american"
+
+cities =
+ "Baton Rouge (river, swamp, !desert, !hills, !mountains)",
+ "New Orleans (ocean, river, swamp, !desert)",
+ "Shreveport",
+ "Lafayette",
+ "Lake Charles (!ocean)",
+ "Kenner",
+ "Bossier City",
+ "Monroe",
+ "Alexandria",
+ "Houma",
+ "Central",
+ "Slidell",
+ "New Iberia",
+ "Ruston",
+ "Sulphur",
+ "Hammond",
+ "Zachary",
+ "Natchitoches",
+ "Gretna",
+ "Thibodaux",
+ "Youngsville",
+ "Opelousas",
+ "Pineville (forest)",
+ "Broussard",
+ "Mandeville",
+ "West Monroe",
+ "Baker",
+ "Gonzales",
+ "Minden",
+ "Crowley",
+ "Covington",
+ "Morgan City",
+ "Abbeville",
+ "Bogalusa",
+ "DeRidder",
+ "Jennings",
+ "Bastrop",
+ "Eunice",
+ "Denham Springs",
+ "Carencro",
+ "Harahan",
+ "Westwego",
+ "Scott",
+ "Ponchatoula",
+ "Breaux Bridge (river)",
+ "Rayne",
+ "Addis",
+ "Franklin",
+ "Donaldsonville",
+ "Oakdale",
+ "St. Gabriel",
+ "Walker",
+ "Ville Platte",
+ "Tallulah",
+ "Plaquemine (mountains)",
+ "Patterson",
+ "Leesville",
+ "St. Martinville",
+ "Grambling",
+ "Marksville",
+ "Port Allen (ocean)",
+ "Winnsboro",
+ "Jeanerette",
+ "Springhill (hills)",
+ "Westlake (!ocean)",
+ "Berwick",
+ "Mansfield",
+ "New Roads",
+ "Haughton",
+ "Kaplan",
+ "Church Point",
+ "Jena",
+ "Winnfield",
+ "Jonesboro",
+ "Vidalia",
+ "Amite City",
+ "Jackson",
+ "Ball",
+ "Richwood",
+ "Franklinton",
+ "Lake Provdence",
+ "Blanchard",
+ "Iowa",
+ "Vinton",
+ "Farmerville (plains)",
+ "Rayville",
+ "Bunkie",
+ "Welsh",
+ "Ferriday",
+ "Greenwood",
+ "DeQuincy",
+ "Lutcher",
+ "Vivian",
+ "Gramercy",
+ "Sunset",
+ "Homer",
+ "Arcadia",
+ "Abita Springs",
+ "Delhi",
+ "Lake Arthur",
+ "Brusly",
+ "Many",
+ "Pearl River (River)",
+ "Lockport",
+ "Stonewall",
+ "New Llano",
+ "Kinder",
+ "Kentwood",
+ "Maurice",
+ "Benton",
+ "Haynesville",
+ "Erath",
+ "Cottonport",
+ "Sterlington",
+ "Livingston",
+ "Jean Lafitte",
+ "Delcambere",
+ "Baldwin",
+ "Woodworth (Forest)",
+ "Golden Meadow",
+ "Coushatta",
+ "Port Barre",
+ "Jonesville",
+ "White Castle",
+ "Zwolle",
+ "Independence"
