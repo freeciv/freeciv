@@ -225,7 +225,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                              &(info->giver_reqs), RPT_POSSIBLE)
             || !are_reqs_active(&other_ctxt, pplayer,
                                 &(info->receiver_reqs), RPT_POSSIBLE)) {
-          log_error("Requirements of a clause between %s and %s not fullfilled",
+          log_error("Requirements of a clause between %s and %s not fulfilled",
                     player_name(pplayer), player_name(pother));
           return;
         }

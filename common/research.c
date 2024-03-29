@@ -491,7 +491,7 @@ static bool research_get_root_reqs_known(const struct research *presearch,
 
 /************************************************************************//**
   Mark as TECH_PREREQS_KNOWN each tech which is available, not known and
-  which has all requirements fullfiled.
+  which has all requirements fulfilled.
 
   Recalculate presearch->num_known_tech_with_flag
   Should always be called after research_invention_set().
