@@ -46,9 +46,9 @@ static inline void iterator_next(struct iterator *it)
 
 /*******************************************************************//**
   Returns the item currently pointed to by the iterator. Note that the
-  iterator could point to an item whose value is NULL; to actually test
-  whether the iterator is still valid (e.g. has not gone past the
-  end of the sequence), use iterator_valid().
+  iterator could point to an item whose value is nullptr; to actually
+  test whether the iterator is still valid (e.g. has not gone past
+  the end of the sequence), use iterator_valid().
 ***********************************************************************/
 static inline void *iterator_get(const struct iterator *it)
 {
@@ -80,8 +80,8 @@ static inline bool iterator_valid(const struct iterator *it)
               a 'struct iterator' and takes as its first argument a pointer
               to memory large enough to hold a 'TYPE_it' (this amount must
               match the result of FUNC_size()). NB: This function must not
-              return NULL; it must return a valid iterator pointing to the
-              first element in the sequence, or an invalid iterator.
+              return nullptr; it must return a valid iterator pointing to
+              the first element in the sequence, or an invalid iterator.
   ... - Zero or more extra arguments that 'FUNC_init' expects.
 ***************************************************************************/
 #ifdef __cplusplus
@@ -131,10 +131,10 @@ do { \
 } while (FALSE)
 
 /***************************************************************************
-  Iterator init functions cannot return NULL, so this dummy helper function
-  can be used to return a "generic invalid iterator" that will just exit
-  out of generic_iterate. Its size is just sizeof(struct iterator), so it
-  will fit into any iterator's allocated stack memory.
+  Iterator init functions cannot return nullptr, so this dummy helper
+  function can be used to return a "generic invalid iterator" that will
+  just exit out of generic_iterate. Its size is just sizeof(struct iterator),
+  so it will fit into any iterator's allocated stack memory.
 ***************************************************************************/
 struct iterator *invalid_iter_init(struct iterator *it);
 

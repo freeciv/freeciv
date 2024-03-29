@@ -33,7 +33,7 @@ static void invalid_iter_next(struct iterator *it)
 ***********************************************************************/
 static void *invalid_iter_get(const struct iterator *it)
 {
-  return NULL;
+  return nullptr;
 }
 
 /*******************************************************************//**
@@ -53,5 +53,6 @@ struct iterator *invalid_iter_init(struct iterator *it)
   it->next = invalid_iter_next;
   it->get = invalid_iter_get;
   it->valid = invalid_iter_valid;
+
   return it;
 }
