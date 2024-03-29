@@ -322,7 +322,7 @@ type TECH               = UINT16
 type TERRAIN            = uint8(Terrain_type_id)
 type TILE               = SINT32
 type UNIT               = UINT32
-type UNIT_TYPE          = uint8(Unit_type_id)
+type UNIT_TYPE          = uint16(Unit_type_id)
 type GOODS              = uint8(Goods_type_id)
 
 # other typedefs

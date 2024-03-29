@@ -120,7 +120,7 @@ flags         = ""
 ;
 ; Below: The individual unit types, one per section.
 ;
-; The number can be variable, up to 200.
+; The number can be variable, up to 300.
 ; However for the "official" rulesets, units should not be removed
 ; because that would break backward compatibility with savegames.
 ;
