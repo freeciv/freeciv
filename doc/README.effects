@@ -131,7 +131,7 @@ MinLatitude and MaxLatitude are numbers from -1000 (south pole) to 1000
 CityStatus is "OwnedByOriginal", "Transferred", "Starved",
  "Disorder", or "Celebration"
  The difference between "OwnedByOriginal" and "Transferred" is that
- former is fullfilled also for liberated cities.
+ former is fulfilled also for liberated cities.
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
