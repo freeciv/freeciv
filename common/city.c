@@ -296,7 +296,8 @@ bool city_map_includes_tile(const struct city *const pcity,
   Finds the map position for a given city map coordinate of a certain
   city. Returns true if the map position found is real.
 **************************************************************************/
-struct tile *city_map_to_tile(const struct tile *city_center,
+struct tile *city_map_to_tile(const struct civ_map *nmap,
+                              const struct tile *city_center,
                               int city_radius_sq, int city_map_x,
                               int city_map_y)
 {
@@ -309,7 +310,7 @@ struct tile *city_map_to_tile(const struct tile *city_center,
   tile_x += CITY_ABS2REL(city_map_x);
   tile_y += CITY_ABS2REL(city_map_y);
 
-  return map_pos_to_tile(&(wld.map), tile_x, tile_y);
+  return map_pos_to_tile(nmap, tile_x, tile_y);
 }
 
 /**********************************************************************//**
@@ -439,6 +440,7 @@ void citylog_map_data(enum log_level level, int radius_sq, int *map_data)
 void citylog_map_workers(enum log_level level, struct city *pcity)
 {
   int *city_map_data = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret(pcity != NULL);
 
@@ -450,7 +452,8 @@ void citylog_map_workers(enum log_level level, struct city *pcity)
                             sizeof(*city_map_data));
 
   city_map_iterate(city_map_radius_sq_get(pcity), cindex, x, y) {
-    struct tile *ptile = city_map_to_tile(city_tile(pcity),
+    struct tile *ptile = city_map_to_tile(nmap,
+                                          city_tile(pcity),
                                           city_map_radius_sq_get(pcity),
                                           x, y);
     city_map_data[cindex] = (ptile && tile_worked(ptile) == pcity)
@@ -2071,7 +2074,9 @@ bool is_friendly_city_near(const struct player *owner,
 bool city_exists_within_max_city_map(const struct tile *ptile,
                                      bool may_be_on_center)
 {
-  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
+  const struct civ_map *nmap = &(wld.map);
+
+  city_tile_iterate(nmap, CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
     if (may_be_on_center || !same_pos(ptile, ptile1)) {
       if (tile_city(ptile1)) {
         return TRUE;
@@ -2255,10 +2260,11 @@ static inline void get_worked_tile_output(const struct city *pcity,
   bool is_celebrating = base_city_celebrating(pcity);
 #endif
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   memset(output, 0, O_LAST * sizeof(*output));
 
-  city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
+  city_tile_iterate_index(nmap, city_map_radius_sq_get(pcity), pcenter, ptile,
                           city_tile_index) {
     if (workers_map == NULL) {
       struct city *pwork = tile_worked(ptile);
@@ -2328,8 +2334,9 @@ static inline void city_tile_cache_update(struct city *pcity)
 {
   bool is_celebrating = base_city_celebrating(pcity);
   int radius_sq = city_map_radius_sq_get(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
-  /* initialize tile_cache if needed */
+  /* Initialize tile_cache if needed */
   if (pcity->tile_cache == NULL || pcity->tile_cache_radius_sq == -1
       || pcity->tile_cache_radius_sq != radius_sq) {
     pcity->tile_cache = fc_realloc(pcity->tile_cache,
@@ -2340,7 +2347,7 @@ static inline void city_tile_cache_update(struct city *pcity)
 
   /* Any unreal tiles are skipped - these values should have been memset
    * to 0 when the city was created. */
-  city_tile_iterate_index(radius_sq, pcity->tile, ptile, city_tile_index) {
+  city_tile_iterate_index(nmap, radius_sq, pcity->tile, ptile, city_tile_index) {
     output_type_iterate(o) {
       (pcity->tile_cache[city_tile_index]).output[o]
         = city_tile_output(pcity, ptile, is_celebrating, o);

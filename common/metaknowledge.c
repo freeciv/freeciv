@@ -75,13 +75,15 @@ static bool is_tile_seen_adj(const struct player *pow_player,
 static bool is_tile_seen_city(const struct player *pow_player,
                               const struct city *target_city)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Don't know the city radius. */
   if (!can_player_see_city_internals(pow_player, target_city)) {
     return FALSE;
   }
 
   /* A tile of the city is unseen */
-  city_tile_iterate(city_map_radius_sq_get(target_city),
+  city_tile_iterate(nmap, city_map_radius_sq_get(target_city),
                     city_tile(target_city), ptile) {
     if (!tile_is_seen(ptile, pow_player)) {
       return FALSE;

@@ -416,10 +416,11 @@ void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest)
 {
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   buffer_shared_vision(pdest);
 
-  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
+  city_tile_iterate(nmap, city_map_radius_sq_get(pcity), pcenter, ptile) {
     give_tile_info_from_player_to_player(pfrom, pdest, ptile);
   } city_tile_iterate_end;
 

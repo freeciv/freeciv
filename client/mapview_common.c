@@ -2818,19 +2818,19 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   if (pcity && pcity->tile) {
     if (NULL == client.conn.playing
         || city_owner(pcity) == client.conn.playing) {
-      /* rule a */
+      /* Rule a */
       return pcity;
     } else {
-      /* rule b */
+      /* Rule b */
       return NULL;
     }
   }
 
-  /* rule e */
+  /* Rule e */
   closest_city = NULL;
 
-  /* check within maximum (squared) city radius */
-  city_tile_iterate(max_rad, ptile, tile1) {
+  /* Check within maximum (squared) city radius */
+  city_tile_iterate(&(wld.map), max_rad, ptile, tile1) {
     pcity = tile_city(tile1);
     if (pcity
 	&& (NULL == client.conn.playing
@@ -2858,8 +2858,8 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   }
 
   if (!game.scenario.prevent_new_cities) {
-    /* check within maximum (squared) city radius */
-    city_tile_iterate(max_rad, ptile, tile1) {
+    /* Check within maximum (squared) city radius */
+    city_tile_iterate(&(wld.map), max_rad, ptile, tile1) {
       unit_list_iterate(tile1->units, psettler) {
         if ((NULL == client.conn.playing
              || unit_owner(psettler) == client.conn.playing)

@@ -3243,8 +3243,9 @@ void sync_cities(void)
 void city_map_update_all(struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
-  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+  city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
                                      ptile, _index, _x, _y) {
     /* bypass city_map_update_tile_now() for efficiency */
     city_map_update_tile_direct(ptile, FALSE);
@@ -3347,29 +3348,29 @@ void refresh_player_cities_vision(struct player *pplayer)
 ****************************************************************************/
 bool city_map_update_radius_sq(struct city *pcity)
 {
-
   fc_assert_ret_val(pcity != NULL, FALSE);
 
   int city_tiles_old, city_tiles_new;
   int city_radius_sq_old = city_map_radius_sq_get(pcity);
   int city_radius_sq_new = game.info.init_city_radius_sq
                            + get_city_bonus(pcity, EFT_CITY_RADIUS_SQ);
+  const struct civ_map *nmap = &(wld.map);
 
-  /* check minimum / maximum allowed city radii */
+  /* Check minimum / maximum allowed city radii */
   city_radius_sq_new = CLIP(CITY_MAP_MIN_RADIUS_SQ, city_radius_sq_new,
                             CITY_MAP_MAX_RADIUS_SQ);
 
   if (city_radius_sq_new == city_radius_sq_old) {
-    /* no change */
+    /* No change */
     return FALSE;
   }
 
-  /* get number of city tiles for each radii */
+  /* Get number of city tiles for each radii */
   city_tiles_old = city_map_tiles(city_radius_sq_old);
   city_tiles_new = city_map_tiles(city_radius_sq_new);
 
   if (city_tiles_old == city_tiles_new) {
-    /* a change of the squared city radius but no change of the number of
+    /* A change of the squared city radius but no change of the number of
      * city tiles */
     return FALSE;;
   }
@@ -3377,7 +3378,7 @@ bool city_map_update_radius_sq(struct city *pcity)
   log_debug("[%s (%d)] city_map_radius_sq: %d => %d", city_name_get(pcity),
             pcity->id, city_radius_sq_old, city_radius_sq_new);
 
-  /* workers map before */
+  /* Workers map before */
   log_debug("[%s (%d)] city size: %d; specialists: %d (before change)",
             city_name_get(pcity), pcity->id, city_size_get(pcity),
             city_specialists(pcity));
@@ -3386,16 +3387,16 @@ bool city_map_update_radius_sq(struct city *pcity)
   city_map_radius_sq_set(pcity, city_radius_sq_new);
 
   if (city_tiles_old < city_tiles_new) {
-    /* increased number of city tiles */
+    /* Increased number of city tiles */
     city_refresh_vision(pcity);
   } else {
-    /* reduced number of city tiles */
+    /* Reduced number of city tiles */
     int workers = 0;
 
-    /* remove workers from the tiles removed rom the city map */
+    /* Remove workers from the tiles removed rom the city map */
     city_map_iterate_radius_sq(city_radius_sq_new, city_radius_sq_old,
                                city_x, city_y) {
-      struct tile *ptile = city_map_to_tile(city_tile(pcity),
+      struct tile *ptile = city_map_to_tile(nmap, city_tile(pcity),
                                             city_radius_sq_old, city_x,
                                             city_y);
 
@@ -3408,8 +3409,9 @@ bool city_map_update_radius_sq(struct city *pcity)
     /* add workers to free city tiles */
     if (workers > 0) {
       int radius_sq = city_map_radius_sq_get(pcity);
+
       city_map_iterate_without_index(radius_sq, city_x, city_y) {
-        struct tile *ptile = city_map_to_tile(city_tile(pcity), radius_sq,
+        struct tile *ptile = city_map_to_tile(nmap, city_tile(pcity), radius_sq,
                                               city_x, city_y);
 
         if (ptile && !is_free_worked(pcity, ptile)

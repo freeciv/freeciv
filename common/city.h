@@ -190,11 +190,11 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
  * _city_tile is the center of the (possible) city.
  * (_index) will be the city tile index in the interval
  * [0, city_map_tiles(_radius_sq)] */
-#define city_tile_iterate_index(_radius_sq, _city_tile, _tile,		\
+#define city_tile_iterate_index(_nmap, _radius_sq, _city_tile, _tile,   \
                                 _index) {				\
   city_map_iterate_outwards_radius_sq_index(CITY_MAP_CENTER_RADIUS_SQ,	\
                                             _radius_sq, _index, _x, _y)	\
-  struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,         \
+  struct tile *_tile = city_map_to_tile(_nmap, _city_tile, _radius_sq,  \
                                         _x, _y);			\
   if (NULL != _tile) {
 
@@ -203,12 +203,12 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
   } city_map_iterate_outwards_radius_sq_index_end;
 
 /* simple extension to skip is_free_worked() tiles. */
-#define city_tile_iterate_skip_free_worked(_radius_sq, _city_tile,	\
-                                           _tile, _index, _x, _y) {	\
-  city_map_iterate(_radius_sq, _index, _x, _y) {			\
-    if (!is_free_worked_index(_index)) {				\
-      struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
-                                            _x, _y);			\
+#define city_tile_iterate_skip_free_worked(_nmap, _radius_sq, _city_tile,  \
+                                           _tile, _index, _x, _y) {	   \
+  city_map_iterate(_radius_sq, _index, _x, _y) {			   \
+    if (!is_free_worked_index(_index)) {				   \
+      struct tile *_tile = city_map_to_tile(_nmap, _city_tile, _radius_sq, \
+                                            _x, _y);			   \
       if (NULL != _tile) {
 
 #define city_tile_iterate_skip_free_worked_end				\
@@ -219,12 +219,12 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
 
 /* Does the same thing as city_tile_iterate_index(), but keeps the city
  * coordinates hidden. */
-#define city_tile_iterate(_radius_sq, _city_tile, _tile) {              \
-  const struct tile *_center##_tile = _city_tile;                       \
-  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,        \
-                                      _radius_sq, _x, _y)               \
-  struct tile *_tile = city_map_to_tile(_center##_tile, _radius_sq,     \
-                                        _x, _y);                        \
+#define city_tile_iterate(_nmap, _radius_sq, _city_tile, _tile) {          \
+  const struct tile *_center##_tile = _city_tile;                          \
+  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,           \
+                                      _radius_sq, _x, _y)                  \
+  struct tile *_tile = city_map_to_tile(_nmap, _center##_tile, _radius_sq, \
+                                        _x, _y);                           \
   if (NULL != _tile) {
 
 #define city_tile_iterate_end                                           \
@@ -527,7 +527,7 @@ extern struct output_type output_types[];
   }                                                                    \
 }
 
-/* output type functions */
+/* Output type functions */
 
 const char *get_output_identifier(Output_type_id output);
 const char *get_output_name(Output_type_id output);
@@ -536,7 +536,7 @@ Output_type_id output_type_by_identifier(const char *id);
 void add_specialist_output(const struct city *pcity, int *output);
 void set_city_production(struct city *pcity);
 
-/* properties */
+/* Properties */
 
 const char *city_name_get(const struct city *pcity);
 void city_name_set(struct city *pcity, const char *new_name);
@@ -651,7 +651,8 @@ bool city_tile_to_city_map(int *city_map_x, int *city_map_y,
                            const struct tile *city_center,
                            const struct tile *map_tile);
 
-struct tile *city_map_to_tile(const struct tile *city_center,
+struct tile *city_map_to_tile(const struct civ_map *nmap,
+                              const struct tile *city_center,
                               int city_radius_sq, int city_map_x,
                               int city_map_y);
 

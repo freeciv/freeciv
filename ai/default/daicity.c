@@ -1031,6 +1031,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
                                    struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   log_base(LOG_EMERGENCY,
            "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
@@ -1041,7 +1042,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
            pcity->surplus[O_FOOD],
            pcity->surplus[O_SHIELD]);
 
-  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, atile) {
+  city_tile_iterate(nmap, city_map_radius_sq_get(pcity), pcenter, atile) {
     struct city *acity = tile_worked(atile);
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
@@ -1418,6 +1419,7 @@ adv_want dai_city_want(struct player *pplayer, struct city *acity,
 {
   adv_want want = 0;
   int prod[O_LAST], bonus[O_LAST], waste[O_LAST];
+  const struct civ_map *nmap = &(wld.map);
 
   memset(prod, 0, O_LAST * sizeof(*prod));
   if (NULL != pimprove
@@ -1428,7 +1430,7 @@ adv_want dai_city_want(struct player *pplayer, struct city *acity,
     /* The below calculation mostly duplicates get_worked_tile_output().
      * We do this only for buildings that we know may change tile
      * outputs. */
-    city_tile_iterate(city_map_radius_sq_get(acity), acenter, ptile) {
+    city_tile_iterate(nmap, city_map_radius_sq_get(acity), acenter, ptile) {
       if (tile_worked(ptile) == acity) {
         output_type_iterate(o) {
           prod[o] += city_tile_output(acity, ptile, celebrating, o);

@@ -4854,6 +4854,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   const char *stylename;
   int partner;
   int want;
+  const struct civ_map *nmap = &(wld.map);
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -5062,7 +5063,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                  citystr);
   city_map_radius_sq_set(pcity, radius_sq);
 
-  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, city_tile(pcity), ptile) {
+  city_tile_iterate(nmap, CITY_MAP_MAX_RADIUS_SQ, city_tile(pcity), ptile) {
     if (loading->worked_tiles[ptile->index] == pcity->id) {
       if (sq_map_distance(ptile, pcity->tile) > radius_sq) {
         log_sg("[%s] '%s' (%d, %d) has worker outside current radius "
