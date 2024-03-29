@@ -249,6 +249,18 @@ helptext    = _("\
 Allows collecting taxes without miscalculation penalties.\
 ")
 
+[advance_currency]
+name        = _("Currency")
+req1        = "Bronze Weapons"
+req2        = "Government"
+flags       = ""
+graphic     = "a.currency"
+graphic_alt = "-"
+helptext    = _("\
+Makes it possible for diplomatic units to bribe opponents. \
+Makes it possible to agree on gold transfer as part of diplomatic treaties.\
+")
+
 [advance_deception]
 name        = _("Deception")
 req1        = "Diplomacy"

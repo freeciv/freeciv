@@ -572,31 +572,38 @@ priority       = 1
 ; */ <-- avoid gettext warnings
 
 [clause_map]
-type = "Map"
+type        = "Map"
 either_reqs =
     { "type", "name", "range"
       "Tech", "Maps", "Player"
     }
 
 [clause_seamap]
-type = "Seamap"
+type        = "Seamap"
 either_reqs =
     { "type", "name", "range"
       "Tech", "Maps", "Player"
     }
 
 [clause_peace]
-type = "Peace"
+type        = "Peace"
 either_reqs =
-    { "type", "name", "range"
+    { "type", "name",      "range"
       "Tech", "Diplomacy", "Player"
     }
 
 [clause_ceasefire]
-type = "Ceasefire"
+type        = "Ceasefire"
 either_reqs =
-    { "type", "name", "range"
+    { "type", "name",     "range"
       "Tech", "Calendar", "Player"
+    }
+
+[clause_gold]
+type        = "Gold"
+either_reqs =
+    { "type", "name",     "range"
+      "Tech", "Currency", "Player"
     }
 
 ; /* <-- avoid gettext warnings
