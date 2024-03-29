@@ -324,7 +324,7 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
   if (surf == NULL) {
     log_error(_("Unable to create Sprite (Surface) of size "
                 "%d x %d %d Bits"),
-              width, height, pf->BitsPerPixel);
+              width, height, pf->bits_per_pixel);
     return NULL;
   }
 
@@ -422,7 +422,7 @@ Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y)
     return 0x0;
   }
 
-  switch (surf->format->BytesPerPixel) {
+  switch (surf->format->bytes_per_pixel) {
   case 1:
     return *(Uint8 *) ((Uint8 *) surf->pixels + y * surf->pitch + x);
 
@@ -460,7 +460,7 @@ Uint32 get_first_pixel(SDL_Surface *surf)
     return 0;
   }
 
-  switch (surf->format->BytesPerPixel) {
+  switch (surf->format->bytes_per_pixel) {
   case 1:
     return *((Uint8 *)surf->pixels);
 
@@ -775,7 +775,7 @@ void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect)
 
   lock_surf(surf);
 
-  switch (surf->format->BytesPerPixel) {
+  switch (surf->format->bytes_per_pixel) {
   case 1:
   {
     Uint8 *pixel = (Uint8 *)surf->pixels;
