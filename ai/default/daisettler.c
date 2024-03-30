@@ -294,7 +294,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   /* Create a city result and set default values. */
   result = cityresult_new(center);
 
-  if (!pcity) {
+  if (pcity == NULL) {
     pcity = create_city_virtual(pplayer, result->tile, "Virtuaville");
     saved_owner = tile_owner(result->tile);
     saved_claimer = tile_claimer(result->tile);
@@ -314,7 +314,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
 
     if (reserved < 0
         || (handicap && !map_is_known(ptile, pplayer))
-        || NULL != tile_worked(ptile)) {
+        || tile_worked(ptile) != NULL) {
       /* Tile is reserved or we can't see it */
       ptdc = tile_data_cache_new();
       ptdc->shield = 0;
@@ -325,6 +325,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
       /* ptdc->turn was set by tile_data_cache_new(). */
     } else {
       const struct tile_data_cache *ptdc_hit = tdc_plr_get(ait, pplayer, tindex);
+
       if (!ptdc_hit || city_center) {
         /* We cannot read city center from cache */
         ptdc = tile_data_cache_new();
@@ -390,7 +391,11 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   } city_tile_iterate_index_end;
 
   /* We need a city center. */
-  fc_assert_ret_val(result->city_center.tdc != NULL, NULL);
+  if (result->city_center.tdc == NULL) {
+    fc_assert(result->city_center.tdc != NULL);
+
+    return NULL;
+  }
 
   if (virtual_city) {
     /* Baseline is a size one city (city center + best extra tile). */
