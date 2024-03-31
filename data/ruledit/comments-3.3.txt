@@ -488,15 +488,7 @@ utypes = "\
 ; \"NewCityGamesOnly\" = unit can\'t be built on scenarios where founding new cities\n\
 ;                 is not allowed. Give this flag to units that would make no sense\n\
 ;                 to have in a game with such a scenario\n\
-; \"CanEscape\"   = this unit has, given that certain conditions are\n\
-;                 fulfilled, a 50% chance to escape rather than being\n\
-;                 killed when killstack is enabled and the defender of its\n\
-;                 tile is defeated. The conditions are that it has more move\n\
-;                 points than required to move to an adjacent tile plus the\n\
-;                 attackers move points and that the attacker doesn\'t have\n\
-;                 the \"CanKillEscaping\" unit type flag.\n\
-; \"CanKillEscaping\" = an attack from this unit ignores the \"CanEscape\" unit\n\
-;                 type flag.\n\
+; \"CanKillEscaping\" = an attack from this unit prevents the \"Escape\" action.\n\
 ; \"Provoking\"   =   a unit considering to auto attack this unit will choose to\n\
 ;                 do so even if has better odds when defending against it\n\
 ;                 then when attacking it. Applies when the autoattack server\n\
@@ -1295,7 +1287,7 @@ counters = "\n\
 ; This section has comments documenting user (custom) flag types
 
 utype = "\
-; Names for custom unit type flags. There can be up to 51 of these.\n\
+; Names for custom unit type flags. There can be up to 52 of these.\n\
 ; name          = rule name; In some circumstances user may see this\n\
 ;                 as part of some sentences, so try to make it descriptive\n\
 ;                 and sensible.\n\

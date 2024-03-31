@@ -352,7 +352,8 @@ bool rscompat_names(struct rscompat_info *info)
       const char *name;
       const char *helptxt;
     } new_flags_33[] = {
-      { N_("NoVeteran"), N_("May acquire veteran status.") }
+      { N_("NoVeteran"), N_("May acquire veteran status.") },
+      { N_("CanEscape"), N_("Can try to escape stack death.") }
     };
 
     enough_new_user_flags(new_flags_33, unit_type,
@@ -403,6 +404,9 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)
 {
+  struct action_enabler *enabler;
+  struct requirement e_req;
+
   if (!info->compat_mode || info->version >= RSFORMAT_CURRENT) {
     /* There isn't anything here that should be done outside of compat
      * mode. */
@@ -414,6 +418,13 @@ void rscompat_postprocess(struct rscompat_info *info)
       BV_SET(ptype->flags, UTYF_PROVIDES_RANSOM);
     }
   } unit_type_iterate_end;
+
+  enabler = action_enabler_new();
+  enabler->action = ACTION_ESCAPE;
+  e_req = req_from_str("UnitFlag", "Local", FALSE, TRUE, FALSE,
+                       "CanEscape");
+  requirement_vector_append(&enabler->actor_reqs, e_req);
+  action_enabler_add(enabler);
 
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */

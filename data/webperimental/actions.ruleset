@@ -86,7 +86,7 @@ collect_ransom_post_success_forced_actions =
 escape_city = "Transport Embark", "Enter Hut", "Frighten Hut", "Unit Move"
 
 ; The unit`s stack has been defeated and is scheduled for execution but the
-; unit has the CanEscape unit type flag. Evaluated against an adjacent tile.
+; unit can do Escape action. Evaluated against an adjacent tile.
 ;unit_stack_death = "Transport Embark", "Conquer Extras",
 ;                   "Enter Hut", "Frighten Hut", "Unit Move"
 

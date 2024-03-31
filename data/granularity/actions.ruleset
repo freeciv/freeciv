@@ -64,7 +64,7 @@ collect_ransom_post_success_forced_actions = "Unit Move"
 escape_city = "Transport Embark", "Unit Move"
 
 ; The unit`s stack has been defeated and is scheduled for execution but the
-; unit has the CanEscape unit type flag. Evaluated against an adjacent tile.
+; unit can do Escape action. Evaluated against an adjacent tile.
 ;unit_stack_death = "Transport Embark", "Unit Move"
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"

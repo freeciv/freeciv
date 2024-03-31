@@ -2318,7 +2318,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           && is_unit_reachable_at(vunit, pkiller, deftile)) {
         escaped = FALSE;
 
-        if (unit_has_type_flag(vunit, UTYF_CANESCAPE)
+        if (is_action_enabled_unit_on_self(ACTION_ESCAPE, vunit)
             && !unit_has_type_flag(pkiller, UTYF_CANKILLESCAPING)
             && vunit->hp > 0
             && vunit->moves_left > pkiller->moves_left

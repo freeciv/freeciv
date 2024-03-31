@@ -2051,10 +2051,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        BULLET_SPACE);
   } requirement_vector_iterate_end;
 
-  if (utype_has_flag(utype, UTYF_CANESCAPE)) {
-    CATLSTR(buf, bufsz, _("%s Can escape once stack defender is lost.\n"),
-            BULLET);
-  }
   if (utype_has_flag(utype, UTYF_CANKILLESCAPING)) {
     CATLSTR(buf, bufsz, _("%s Can pursue escaping units and kill them.\n"),
             BULLET);

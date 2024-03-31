@@ -765,6 +765,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_GAIN_VETERANCY, ACTRES_ENABLER_CHECK,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_ESCAPE] =
+      unit_action_new(ACTION_ESCAPE, ACTRES_ENABLER_CHECK,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_USER_ACTION1] =
       unit_action_new(ACTION_USER_ACTION1, ACTRES_NONE,
                       FALSE, TRUE,
@@ -6013,6 +6017,7 @@ const char *action_ui_name_ruleset_var_name(int act)
   case ACTION_USER_ACTION4:
     return "ui_name_user_action_4";
   case ACTION_GAIN_VETERANCY:
+  case ACTION_ESCAPE:
     fc_assert(!action_id_is_internal(act)); /* Fail always */
     break;
   case ACTION_COUNT:
@@ -6369,6 +6374,8 @@ const char *action_ui_name_default(int act)
     return N_("%sUser Action 4%s");
   case ACTION_GAIN_VETERANCY:
     return N_("%sGain Veterancy%s");
+  case ACTION_ESCAPE:
+    return N_("%sEscape%s");
   case ACTION_COUNT:
     fc_assert(act != ACTION_COUNT);
     break;
@@ -6508,6 +6515,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE3:
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
+  case ACTION_ESCAPE:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -6674,6 +6682,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE3:
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
+  case ACTION_ESCAPE:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -6871,6 +6880,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_TELEPORT_ENTER_CONQUER:
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
+  case ACTION_ESCAPE:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -7036,8 +7046,9 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_TELEPORT_FRIGHTEN_CONQUER:
   case ACTION_TELEPORT_ENTER:
   case ACTION_TELEPORT_ENTER_CONQUER:
-  case ACTION_GAIN_VETERANCY:
   case ACTION_SPY_ESCAPE:
+  case ACTION_GAIN_VETERANCY:
+  case ACTION_ESCAPE:
     /* Actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_FOUND_CITY:
@@ -7244,6 +7255,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_HUT_FRIGHTEN3:
   case ACTION_HUT_FRIGHTEN4:
   case ACTION_GAIN_VETERANCY:
+  case ACTION_ESCAPE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
@@ -7414,8 +7426,9 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_TELEPORT_FRIGHTEN_CONQUER:
   case ACTION_TELEPORT_ENTER:
   case ACTION_TELEPORT_ENTER_CONQUER:
-  case ACTION_GAIN_VETERANCY:
   case ACTION_SPY_ESCAPE:
+  case ACTION_GAIN_VETERANCY:
+  case ACTION_ESCAPE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
