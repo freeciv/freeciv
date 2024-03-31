@@ -107,7 +107,7 @@ void *genlist_back(const struct genlist *pgenlist);
 struct genlist_link *genlist_link_get(const struct genlist *pgenlist, int idx);
 inline static struct genlist_link *genlist_head(const struct genlist *pgenlist)
 {
-  return (NULL != pgenlist ? pgenlist->head_link : NULL);
+  return (pgenlist != nullptr ? pgenlist->head_link : nullptr);
 }
 struct genlist_link *genlist_tail(const struct genlist *pgenlist);
 
@@ -139,7 +139,7 @@ struct genlist_link {
 ****************************************************************************/
 static inline void *genlist_link_data(const struct genlist_link *plink)
 {
-  return (NULL != plink ? plink->dataptr : NULL);
+  return (plink != nullptr ? plink->dataptr : nullptr);
 }
 
 /************************************************************************//**
