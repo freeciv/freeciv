@@ -3420,7 +3420,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_TILE(action, actor, target, action_performer) \
   if (target_tile                                                         \
-      && is_action_enabled_unit_on_tile(action_type,                      \
+      && is_action_enabled_unit_on_tile(nmap, action_type,                \
                                         actor_unit, target_tile,          \
                                         target_extra)) {                  \
     bool success;                                                         \
@@ -5313,17 +5313,17 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   /*** Phase 2: OK now move the unit ***/
   /* This is a regular move, subject to the rules. */
-  if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE,
+  if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE,
                                      punit, pdesttile, NULL)) {
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_UNIT_MOVE,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE2,
                                             punit, pdesttile, NULL)) {
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_UNIT_MOVE2,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE3,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE3,
                                             punit, pdesttile, NULL)) {
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_UNIT_MOVE3,
@@ -5352,49 +5352,49 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     return unit_perform_action(pplayer, punit->id, ptrans->id,
                                NO_TARGET, "", ACTION_TRANSPORT_EMBARK3,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK1,
                                             punit, pdesttile, NULL)) {
     /* "Transport Disembark". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK1,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK2,
                                             punit, pdesttile, NULL)) {
     /* "Transport Disembark 2". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK2,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK3,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK3,
                                             punit, pdesttile, NULL)) {
     /* "Transport Disembark 3". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK3,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK4,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK4,
                                             punit, pdesttile, NULL)) {
     /* "Transport Disembark 4". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK4,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_ENTER,
                                             punit, pdesttile, NULL)) {
     /* "Enter Hut". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_HUT_ENTER,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_ENTER2,
                                             punit, pdesttile, NULL)) {
     /* "Enter Hut 2". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_HUT_ENTER2,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_FRIGHTEN,
                                             punit, pdesttile, NULL)) {
     /* "Frighten Hut". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_HUT_FRIGHTEN,
                                ACT_REQ_PLAYER);
-  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
+  } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_FRIGHTEN2,
                                             punit, pdesttile, NULL)) {
     /* "Frighten Hut 2". */
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
