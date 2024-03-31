@@ -462,11 +462,14 @@ negative_label = _("BCE")
 ;
 ; */ <-- avoid gettext warnings
 
-; No achievements
-; [achievement_entire_map]
-; name  = "Entire Map Known"
-; type  = "Map_Known"
-; value = 100
+[achievement_master_explorer]
+name      = "Master Explorer"
+type      = "Map_Known"
+value     = 33
+unique    = TRUE
+first_msg = _("\
+Your explorers are best in the world, and gain a longer vision range.\
+")
 
 ;
 ; Trade settings

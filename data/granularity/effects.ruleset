@@ -75,6 +75,15 @@ reqs  =
       "Tech", "The Wheel", "Player"
     }
 
+[effect_master_explorer_vision]
+type    = "Unit_Vision_Radius_Sq"
+value   = 5
+reqs    =
+    { "type",        "name",            "range"
+      "Achievement", "Master Explorer", "Player"
+      "UnitFlag",    "Explorer",        "Local"
+    }
+
 [effect_base_unit_upkeep]
 type	= "Upkeep_Factor"
 value	= 1

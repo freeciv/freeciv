@@ -31,6 +31,7 @@ format_version = 40
      _("Cant_Fortify")
      _("Defenseless"), _("Can be captured by any military unit.")
      _("Bombarder")
+     _("Explorer"), _("Gets explorer unit bonuses.")
    }
 
 ; Names for custom unit class flags. There can be up to 25 of these.
@@ -635,7 +636,7 @@ uk_shield     = 100
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-;flags         =
+flags         = "Explorer"
 ;roles         =
 helptext      = _("\
 Horsemen are the first fast unit.\
