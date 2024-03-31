@@ -248,7 +248,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
                                                tile_city(ptile_dest), NULL,
                                                ptile_dest, NULL));
         } else {
-          possible = is_action_enabled_unit_on_tile(paction->id, punit,
+          possible = is_action_enabled_unit_on_tile(nmap, paction->id, punit,
                                                     ptile_dest, NULL);
         }
 
