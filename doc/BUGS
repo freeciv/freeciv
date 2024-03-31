@@ -17,7 +17,7 @@ Here's what to do:
         https://www.freeciv.org/wiki/Known_Bugs
 
  - Check the Freeciv website, to ensure you're playing the latest
-   version.  (We may have already fixed the problem.)
+   version. (We may have already fixed the problem.)
 
  - Check the Freeciv Bug Tracking System at:
 
@@ -44,7 +44,7 @@ Here's what to do:
 
    - Tell us the name and version of:
 
-       - The Operating System you're using.  You may find the
+       - The Operating System you're using. You may find the
          "uname -a" command useful.
 
        - The version number of Freeciv.
@@ -75,11 +75,11 @@ Here's what to do:
          got it from.
 
    - If Freeciv "dumps core", then we may ask you to use a debugger to
-     give us a "stack trace".  You'll need the "core" file for this as
+     give us a "stack trace". You'll need the "core" file for this as
      well as the binary which you used, so please backup both.
 
    - If it is a bug in a translation, it should be reported to the
-     Primary Contact for the language.  For their names and addresses,
+     Primary Contact for the language. For their names and addresses,
      see:
 
         https://www.freeciv.org/wiki/Localization
