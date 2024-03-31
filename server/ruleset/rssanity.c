@@ -1543,7 +1543,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 bool autoadjust_ruleset_data(void)
 {
   bool ok = TRUE;
-  
+
   extra_type_by_cause_iterate(EC_RESOURCE, pextra) {
     extra_type_by_cause_iterate(EC_RESOURCE, pextra2) {
       if (pextra != pextra2) {
