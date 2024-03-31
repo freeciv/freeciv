@@ -249,6 +249,17 @@ helptext    = _("\
 Allows collecting taxes without miscalculation penalties.\
 ")
 
+[advance_culture]
+name        = _("Culture")
+req1        = "Art"
+req2        = "Code of Laws"
+flags       = ""
+graphic     = "a.culture"
+graphic_alt = "-"
+helptext    = _("\
+History production of all cities gets increased by +5.\
+")
+
 [advance_currency]
 name        = _("Currency")
 req1        = "Bronze Weapons"
