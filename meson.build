@@ -3301,6 +3301,7 @@ custom_target('mi_gtk322',
 
 endif
 
+gtk4_theme = false
 if get_option('clients').contains('gtk4')
 
 if not gtk4_dep.found()
@@ -3368,11 +3369,7 @@ executable('freeciv-gtk4',
   win_subsystem: 'windows'
   )
 
-install_data('data/themes/gtk4/Freeciv/gtk-4.0/gtk.css',
-             'data/themes/gtk4/Freeciv/gtk-4.0/menubar.css',
-             'data/themes/gtk4/Freeciv/gtk-4.0/bg.png',
-             install_dir : join_paths(get_option('datadir'),
-                           'freeciv/themes/gtk4/Freeciv/gtk-4.0'))
+  gtk4_theme = true
 
 install_data(
   'bootstrap/org.freeciv.gtk4.desktop',
@@ -3456,6 +3453,8 @@ executable('freeciv-gtk4x',
   win_subsystem: 'windows'
   )
 
+  gtk4_theme = true
+
 install_data(
   'bootstrap/org.freeciv.gtk4x.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
@@ -3469,6 +3468,14 @@ custom_target('mi_gtk4x',
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
+endif
+
+if gtk4_theme
+  install_data('data/themes/gtk4/Freeciv/gtk-4.0/gtk.css',
+               'data/themes/gtk4/Freeciv/gtk-4.0/menubar.css',
+               'data/themes/gtk4/Freeciv/gtk-4.0/bg.png',
+               install_dir : join_paths(get_option('datadir'),
+                             'freeciv/themes/gtk4/Freeciv/gtk-4.0'))
 endif
 
 if qtver == 'qt6' or qtver == 'qt6x'
