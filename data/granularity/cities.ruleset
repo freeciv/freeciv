@@ -30,7 +30,7 @@ format_version = 30
 ;                 to rename an item after a ruleset has been released, you
 ;                 should set "rule_name" to the original value of "name".
 ; short_name    = one-character "short name" used (for instance) in cityrep;
-;                 should be first character/abbrevation of "name"
+;                 should be first character/abbreviation of "name"
 ; graphic       = tag specifying preferred graphic
 ;                 Different images based on citizen number are supported.
 ;                 If no such images indexed with citizen number are found,
