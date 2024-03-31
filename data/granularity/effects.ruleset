@@ -227,6 +227,14 @@ reqs	=
       "OutputType", "Luxury",      "Local"
     }
 
+[effect_culture_tech]
+type    = "Culture_Pct"
+value   = 50
+reqs	=
+    { "type", "name",    "range"
+      "Tech", "Culture", "Player"
+    }
+
 [effect_library_culture]
 type    = "History"
 value	= 2
