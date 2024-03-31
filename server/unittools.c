@@ -4930,6 +4930,8 @@ bool unit_can_be_retired(struct unit *punit)
 **************************************************************************/
 void random_movements(struct player *pplayer)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   game.server.random_move_time = pplayer;
 
   unit_list_iterate_safe(pplayer->units, punit) {
@@ -4965,21 +4967,21 @@ void random_movements(struct player *pplayer)
             }
 
             if (!moved) {
-              if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE, punit, dest,
+              if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE, punit, dest,
                                                  NULL)) {
                 if (unit_perform_action(pplayer, id, tile_index(dest),
                                         NO_TARGET, "", ACTION_UNIT_MOVE,
                                         ACT_REQ_RULES)) {
                   moved = TRUE;
                 }
-              } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2,
+              } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE2,
                                                         punit, dest, NULL)) {
                 if (unit_perform_action(pplayer, id, tile_index(dest),
                                         NO_TARGET, "", ACTION_UNIT_MOVE2,
                                         ACT_REQ_RULES)) {
                   moved = TRUE;
                 }
-              } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE3,
+              } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE3,
                                                         punit, dest, NULL)) {
                 if (unit_perform_action(pplayer, id, tile_index(dest),
                                         NO_TARGET, "", ACTION_UNIT_MOVE3,

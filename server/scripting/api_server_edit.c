@@ -376,7 +376,7 @@ bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
     enabled = is_action_enabled_unit_on_units(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:
-    enabled = is_action_enabled_unit_on_tile(paction->id, punit,
+    enabled = is_action_enabled_unit_on_tile(nmap, paction->id, punit,
                                              tgt, NULL);
     break;
   case ATK_EXTRAS:
@@ -438,7 +438,7 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
     enabled = is_action_enabled_unit_on_units(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:
-    enabled = is_action_enabled_unit_on_tile(paction->id, punit,
+    enabled = is_action_enabled_unit_on_tile(nmap, paction->id, punit,
                                              tgt, sub_target);
     break;
   case ATK_EXTRAS:
