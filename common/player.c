@@ -650,8 +650,12 @@ void player_set_color(struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Clear all player data. If full is set, then the nation and the team will
-  be cleared too.
+  Clear all player data.
+
+  If full is set, also
+  - The nation is cleared
+  - The team is cleared
+  - Nationality information of remaining units is adjusted
 ***********************************************************************/
 void player_clear(struct player *pplayer, bool full)
 {
@@ -707,6 +711,15 @@ void player_clear(struct player *pplayer, bool full)
 
   if (full) {
     team_remove_player(pplayer);
+
+    players_iterate_alive(owner) {
+      unit_list_iterate(owner->units, owned) {
+        if (unit_nationality(owned) == pplayer) {
+          /* Switch nationality to that of current owner. */
+          owned->nationality = owner;
+        }
+      } unit_list_iterate_end;
+    } players_iterate_alive_end;
 
     /* This comes last because log calls in the above functions
      * may use it. */
