@@ -13,6 +13,7 @@
 #ifndef FC__DAIDIPLOMACY_H
 #define FC__DAIDIPLOMACY_H
 
+/* common */
 #include "fc_types.h"
 
 #include "ai.h" /* incident_type */
@@ -39,5 +40,7 @@ bool dai_on_war_footing(struct ai_type *ait, struct player *pplayer);
 
 void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
                                  struct player *aplayer);
+
+void dai_revolution_start(struct ai_type *ait, struct player *pplayer);
 
 #endif /* FC__DAIDIPLOMACY_H */

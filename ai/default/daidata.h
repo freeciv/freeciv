@@ -75,11 +75,11 @@ struct ai_plr
   int last_num_oceans;
 
   struct {
-    int passengers;   /* number of passengers waiting for boats */
+    int passengers;   /* Number of passengers waiting for boats */
     int boats;
     int available_boats;
 
-    int *workers;     /* cities to workers on continent */
+    int *workers;     /* Cities to workers on continent */
     int *ocean_workers;
 
     bv_id diplomat_reservations;
@@ -89,11 +89,12 @@ struct ai_plr
   struct {
     const struct ai_dip_intel **player_intel_slots;
     enum winning_strategy strategy;
-    int timer; /* pursue our goals with some stubbornness, in turns */
+    int timer; /* Pursue our goals with some stubbornness, in turns */
     char love_coeff;          /* Reduce love with this % each turn */
     char love_incr;           /* Modify love with this fixed amount */
     int req_love_for_peace;
     int req_love_for_alliance;
+    struct player *war_target;
   } diplomacy;
 
   /* Cache map for AI settlers; defined in daisettler.c. */

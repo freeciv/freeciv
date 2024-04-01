@@ -622,6 +622,8 @@ void handle_player_change_government(struct player *pplayer,
             government_rule_name(pplayer->target_government),
             pplayer->revolution_finishes, game.info.turn);
 
+  CALL_PLR_AI_FUNC(revolution_start, pplayer, pplayer);
+
   /* Now see if the revolution is instantaneous. */
   if (turns <= 0
       && pplayer->target_government != game.government_during_revolution) {

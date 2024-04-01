@@ -579,6 +579,16 @@ static void cai_consider_wonder_city(struct city *pcity, bool *result)
 }
 
 /**********************************************************************//**
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
+static void cai_revolution_start(struct player *pplayer)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_revolution_start(deftype, pplayer);
+}
+
+/**********************************************************************//**
   Setup player ai_funcs function pointers.
 **************************************************************************/
 bool fc_ai_classic_setup(struct ai_type *ai)
@@ -689,6 +699,8 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   /* ai->funcs.tile_info = NULL; */
   /* ai->funcs.city_info = NULL; */
   /* ai->funcs.unit_info = NULL; */
+
+  ai->funcs.revolution_start = cai_revolution_start;
 
   return TRUE;
 }

@@ -316,6 +316,9 @@ struct ai_type
      */
     void (*unit_info)(struct unit *punit);
 
+    /* Called for player AI when revolution starts. */
+    void (*revolution_start)(struct player *pplayer);
+
     /* These are here reserving space for future optional callbacks.
      * This way we don't need to change the mandatory capability of the AI module
      * interface when adding such callbacks, but existing modules just have these

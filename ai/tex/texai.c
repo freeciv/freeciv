@@ -566,6 +566,15 @@ static void texwai_refresh(struct player *pplayer)
 }
 
 /**********************************************************************//**
+  Call default ai with tex ai type as parameter.
+**************************************************************************/
+static void texwai_revolution_start(struct player *pplayer)
+{
+  TEXAI_AIT;
+  TEXAI_TFUNC(dai_revolution_start, pplayer);
+}
+
+/**********************************************************************//**
   Return module capability string
 **************************************************************************/
 const char *fc_ai_tex_capstr(void)
@@ -674,6 +683,8 @@ bool fc_ai_tex_setup(struct ai_type *ai)
   ai->funcs.tile_info = texai_tile_info;
   ai->funcs.city_info = texai_city_changed;
   ai->funcs.unit_info = texai_unit_changed;
+
+  ai->funcs.revolution_start = texwai_revolution_start;
 
   return TRUE;
 }
