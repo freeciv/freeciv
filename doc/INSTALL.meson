@@ -171,6 +171,11 @@ server ('disabled'/'enabled'/'freeciv-web'):
   means that freeciv-web version will be built instead of
   the regular server.
 
+appimage (boolean):
+  Make build suitable for AppImage packaging. This affects paths from
+  which various resources are looked from, and produces build that
+  doesn't work outside AppImage.
+
 qtver ('qt5'/'qt6'):
   Whether to build Qt5 or Qt6 versions of the binaries.
 

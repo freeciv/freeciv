@@ -891,14 +891,26 @@ const struct strvec *get_data_dirs(void)
   if (NULL == data_dir_names) {
     const char *path;
 
+#ifdef FREECIV_APPIMAGE
+    char default_data_path[5000];
+
+    fc_snprintf(default_data_path, sizeof(default_data_path),
+                FREECIV_STORAGE_DIR DIR_SEPARATOR DATASUBDIR
+                PATH_SEPARATOR
+                "%s/usr/share/freeciv",
+                getenv("APPDIR"));
+#else  /* FREECIV_APPIMAGE */
+#define default_data_path DEFAULT_DATA_PATH
+#endif /* FREECIV_APPIMAGE */
+
     if ((path = getenv(FREECIV_DATA_PATH)) && '\0' == path[0]) {
       /* TRANS: <FREECIV_DATA_PATH> configuration error */
       log_error(_("\"%s\" is set but empty; using default \"%s\" "
                  "data directories instead."),
-                FREECIV_DATA_PATH, DEFAULT_DATA_PATH);
+                FREECIV_DATA_PATH, default_data_path);
       path = NULL;
     }
-    data_dir_names = base_get_dirs(NULL != path ? path : DEFAULT_DATA_PATH);
+    data_dir_names = base_get_dirs(NULL != path ? path : default_data_path);
     strvec_remove_duplicate(data_dir_names, strcmp); /* Don't set a path both. */
     strvec_iterate(data_dir_names, dirname) {
       log_verbose("Data path component: %s", dirname);
@@ -964,14 +976,28 @@ const struct strvec *get_scenario_dirs(void)
   if (NULL == scenario_dir_names) {
     const char *path;
 
+#ifdef FREECIV_APPIMAGE
+    char default_scenario_path[5000];
+
+    fc_snprintf(default_scenario_path, sizeof(default_scenario_path),
+                FREECIV_STORAGE_DIR DIR_SEPARATOR DATASUBDIR DIR_SEPARATOR "scenarios"
+                PATH_SEPARATOR
+                FREECIV_STORAGE_DIR DIR_SEPARATOR "scenarios"
+                PATH_SEPARATOR
+                "%s/usr/share/freeciv/scenarios",
+                getenv("APPDIR"));
+#else  /* FREECIV_APPIMAGE */
+#define default_scenario_path DEFAULT_SCENARIO_PATH
+#endif /* FREECIV_APPIMAGE */
+
     if ((path = getenv(FREECIV_SCENARIO_PATH)) && '\0' == path[0]) {
       /* TRANS: <FREECIV_SCENARIO_PATH> configuration error */
       log_error( _("\"%s\" is set but empty; using default \"%s\" "
                    "scenario directories instead."),
-                 FREECIV_SCENARIO_PATH, DEFAULT_SCENARIO_PATH);
+                 FREECIV_SCENARIO_PATH, default_scenario_path);
       path = NULL;
     }
-    scenario_dir_names = base_get_dirs(NULL != path ? path : DEFAULT_SCENARIO_PATH);
+    scenario_dir_names = base_get_dirs(NULL != path ? path : default_scenario_path);
     strvec_remove_duplicate(scenario_dir_names, strcmp);      /* Don't set a path both. */
     strvec_iterate(scenario_dir_names, dirname) {
       log_verbose("Scenario path component: %s", dirname);
