@@ -1300,6 +1300,41 @@ static void dai_share(struct ai_type *ait, struct player *pplayer,
 }
 
 /******************************************************************//**
+  AI to declare war.
+
+  @param ait     AI type of the player declaring war
+  @param pplayer Player declaring war
+  @param target  Player to declare war to
+**********************************************************************/
+static void dai_declare_war(struct ai_type *ait, struct player *pplayer,
+                            struct player *target)
+{
+  struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, target);
+
+  /* This will take us straight to war. */
+  while (player_diplstate_get(pplayer, target)->type != DS_WAR) {
+    if (pplayer_can_cancel_treaty(pplayer, target) != DIPL_OK) {
+      DIPLO_LOG(ait, LOG_ERROR, pplayer, target,
+                "Wanted to cancel treaty but was unable to.");
+      adip->countdown = -1; /* War declaration aborted */
+
+      return;
+    }
+    handle_diplomacy_cancel_pact(pplayer, player_number(target), clause_type_invalid());
+  }
+
+  /* Throw a tantrum */
+  if (pplayer->ai_common.love[player_index(target)] > 0) {
+    pplayer->ai_common.love[player_index(target)] = -1;
+  }
+  pplayer->ai_common.love[player_index(target)] -= MAX_AI_LOVE / 8;
+
+  fc_assert(!gives_shared_vision(pplayer, target));
+
+  DIPLO_LOG(ait, LOG_DIPL, pplayer, target, "war declared");
+}
+
+/******************************************************************//**
   Go to war. Explain to target why we did it, and set countdown to
   some negative value to make us a bit stubborn to avoid immediate
   reversal to ceasefire.
@@ -1380,6 +1415,8 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
       pplayer->government = real_gov;
       handle_player_change_government(pplayer,
                                       game.info.government_during_revolution_id);
+      def_ai_player_data(pplayer, ait)->diplomacy.war_target = target;
+      return;
     } else {
       /* There would be Senate even during revolution. Better not to revolt for nothing */
       pplayer->government = real_gov;
@@ -1392,26 +1429,24 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
     }
   }
 
-  /* This will take us straight to war. */
-  while (player_diplstate_get(pplayer, target)->type != DS_WAR) {
-    if (pplayer_can_cancel_treaty(pplayer, target) != DIPL_OK) {
-      DIPLO_LOG(ait, LOG_ERROR, pplayer, target,
-                "Wanted to cancel treaty but was unable to.");
-      adip->countdown = -1; /* War declaration aborted */
+  dai_declare_war(ait, pplayer, target);
+}
 
-      return;
-    }
-    handle_diplomacy_cancel_pact(pplayer, player_number(target), clause_type_invalid());
+/******************************************************************//**
+  Revolution start callback for default AI.
+
+  @param ait     AI type of the player revolting
+  @param pplayer Player revolting
+**********************************************************************/
+void dai_revolution_start(struct ai_type *ait, struct player *pplayer)
+{
+  struct ai_plr *data = def_ai_player_data(pplayer, ait);
+
+  if (data->diplomacy.war_target != NULL) {
+    dai_declare_war(ait, pplayer, data->diplomacy.war_target);
+
+    data->diplomacy.war_target = NULL;
   }
-
-  /* Throw a tantrum */
-  if (pplayer->ai_common.love[player_index(target)] > 0) {
-    pplayer->ai_common.love[player_index(target)] = -1;
-  }
-  pplayer->ai_common.love[player_index(target)] -= MAX_AI_LOVE / 8;
-
-  fc_assert(!gives_shared_vision(pplayer, target));
-  DIPLO_LOG(ait, LOG_DIPL, pplayer, target, "war declared");
 }
 
 /******************************************************************//**
