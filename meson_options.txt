@@ -73,6 +73,11 @@ option('server',
        value: 'enabled',
        description: 'What kind of server should be build, if any')
 
+option('appimage',
+       type: 'boolean',
+       value: false,
+       description: 'Make a build suitable for AppImage packaging')
+
 option('gen-packets-args',
        type: 'array',
        value: [],
