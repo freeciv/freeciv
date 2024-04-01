@@ -530,7 +530,7 @@ bool is_action_enabled_unit_on_unit(const struct civ_map *nmap,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit);
 
-bool is_action_enabled_unit_on_units(const struct civ_map *nmap,
+bool is_action_enabled_unit_on_stack(const struct civ_map *nmap,
                                      const action_id wanted_action,
                                      const struct unit *actor_unit,
                                      const struct tile *target_tile);
@@ -557,7 +557,7 @@ struct act_prob action_prob_vs_unit(const struct unit* actor,
                                     const action_id act_id,
                                     const struct unit* victim);
 
-struct act_prob action_prob_vs_units(const struct unit* actor,
+struct act_prob action_prob_vs_stack(const struct unit* actor,
                                      const action_id act_id,
                                      const struct tile* victims);
 
@@ -598,7 +598,7 @@ action_speculate_unit_on_unit(action_id act_id,
                               const struct unit *target);
 
 struct act_prob
-action_speculate_unit_on_units(action_id act_id,
+action_speculate_unit_on_stack(action_id act_id,
                                const struct unit *actor,
                                const struct city *actor_home,
                                const struct tile *actor_tile,

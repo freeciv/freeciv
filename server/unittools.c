@@ -4798,7 +4798,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       switch (action_id_get_target_kind(order.action)) {
       case ATK_UNITS:
-        prob = action_prob_vs_units(punit, order.action,
+        prob = action_prob_vs_stack(punit, order.action,
                                     dst_tile);
         tgt_id = dst_tile->index;
         break;
@@ -5113,7 +5113,7 @@ void random_movements(struct player *pplayer)
           struct tile *dest = mapstep(&(wld.map), curtile, dirs[choice]);
 
           if (dest != NULL) {
-            if (action_prob_possible(action_prob_vs_units(punit, ACTION_ATTACK,
+            if (action_prob_possible(action_prob_vs_stack(punit, ACTION_ATTACK,
                                                           dest))) {
               if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
                                       "", ACTION_ATTACK, ACT_REQ_RULES)) {

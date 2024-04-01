@@ -2283,7 +2283,7 @@ struct action *action_is_blocked_by(const struct action *act,
         /* Can't be enabled. No target. */
         continue;
       }
-      if (is_action_enabled_unit_on_units(nmap, blocker->id,
+      if (is_action_enabled_unit_on_stack(nmap, blocker->id,
                                           actor_unit, target_tile)) {
         return blocker;
       }
@@ -3132,7 +3132,7 @@ bool is_action_enabled_unit_on_unit(const struct civ_map *nmap,
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
 static bool
-is_action_enabled_unit_on_units_full(const struct civ_map *nmap,
+is_action_enabled_unit_on_stack_full(const struct civ_map *nmap,
                                      const action_id wanted_action,
                                      const struct unit *actor_unit,
                                      const struct city *actor_home,
@@ -3202,12 +3202,12 @@ is_action_enabled_unit_on_units_full(const struct civ_map *nmap,
 
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
-bool is_action_enabled_unit_on_units(const struct civ_map *nmap,
+bool is_action_enabled_unit_on_stack(const struct civ_map *nmap,
                                      const action_id wanted_action,
                                      const struct unit *actor_unit,
                                      const struct tile *target_tile)
 {
-  return is_action_enabled_unit_on_units_full(nmap, wanted_action, actor_unit,
+  return is_action_enabled_unit_on_stack_full(nmap, wanted_action, actor_unit,
                                               unit_home(actor_unit),
                                               unit_tile(actor_unit),
                                               target_tile);
@@ -4288,7 +4288,7 @@ struct act_prob action_prob_vs_unit(const struct unit *actor_unit,
   action on all units at the target tile.
 **************************************************************************/
 static struct act_prob
-action_prob_vs_units_full(const struct civ_map *nmap,
+action_prob_vs_stack_full(const struct civ_map *nmap,
                           const struct unit *actor_unit,
                           const struct city *actor_home,
                           const struct tile *actor_tile,
@@ -4463,13 +4463,13 @@ action_prob_vs_units_full(const struct civ_map *nmap,
   Get the actor unit's probability of successfully performing the chosen
   action on all units at the target tile.
 **************************************************************************/
-struct act_prob action_prob_vs_units(const struct unit *actor_unit,
+struct act_prob action_prob_vs_stack(const struct unit *actor_unit,
                                      const action_id act_id,
                                      const struct tile *target_tile)
 {
   const struct civ_map *nmap = &(wld.map);
 
-  return action_prob_vs_units_full(nmap, actor_unit,
+  return action_prob_vs_stack_full(nmap, actor_unit,
                                    unit_home(actor_unit),
                                    unit_tile(actor_unit),
                                    act_id,
@@ -4740,7 +4740,7 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
   switch (action_get_target_kind(paction)) {
   case ATK_UNITS:
     if (tgt_tile) {
-      prob = action_prob_vs_units(act_unit, paction->id, tgt_tile);
+      prob = action_prob_vs_stack(act_unit, paction->id, tgt_tile);
     }
     break;
   case ATK_TILE:
@@ -4848,7 +4848,7 @@ action_speculate_unit_on_unit(action_id act_id,
   game state changes.
 **************************************************************************/
 struct act_prob
-action_speculate_unit_on_units(action_id act_id,
+action_speculate_unit_on_stack(action_id act_id,
                                const struct unit *actor,
                                const struct city *actor_home,
                                const struct tile *actor_tile,
@@ -4862,7 +4862,7 @@ action_speculate_unit_on_units(action_id act_id,
   const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
-    if (is_action_enabled_unit_on_units_full(nmap, act_id,
+    if (is_action_enabled_unit_on_stack_full(nmap, act_id,
                                              actor, actor_home, actor_tile,
                                              target)) {
       return ACTPROB_CERTAIN;
@@ -4870,7 +4870,7 @@ action_speculate_unit_on_units(action_id act_id,
       return ACTPROB_IMPOSSIBLE;
     }
   } else {
-    return action_prob_vs_units_full(nmap, actor, actor_home, actor_tile,
+    return action_prob_vs_stack_full(nmap, actor, actor_home, actor_tile,
                                      act_id, target);
   }
 }

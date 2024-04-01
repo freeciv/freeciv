@@ -2381,7 +2381,7 @@ void handle_unit_get_actions(struct connection *pc,
     case ATK_UNITS:
       if (target_tile) {
         /* Calculate the probabilities. */
-        probabilities[act] = action_prob_vs_units(actor_unit, act,
+        probabilities[act] = action_prob_vs_stack(actor_unit, act,
                                                   target_tile);
       } else {
         /* No target to act against. */
@@ -3548,7 +3548,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_UNITS(action, actor, target, action_performer)\
   if (target_tile                                                         \
-      && is_action_enabled_unit_on_units(nmap, action_type,               \
+      && is_action_enabled_unit_on_stack(nmap, action_type,               \
                                          actor_unit, target_tile)) {      \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_units",                \
