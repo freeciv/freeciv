@@ -27,6 +27,9 @@
 /* Is this freeciv-web instead of regular build */
 #mesondefine FREECIV_WEB
 
+/* Is this appimage build instead of regular one */
+#mesondefine FREECIV_APPIMAGE
+
 /* Version tag to follow */
 #mesondefine FOLLOWTAG
 

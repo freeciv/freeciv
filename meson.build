@@ -254,6 +254,10 @@ else
   emscripten = false
 endif
 
+if get_option('appimage')
+  pub_conf_data.set('FREECIV_APPIMAGE', 1)
+endif
+
 qtver = get_option('qtver')
 
 # From this, at least the _WIN32_WINNT must be set before
