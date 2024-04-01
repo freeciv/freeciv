@@ -451,23 +451,41 @@ static int none_callback(struct widget *widget)
 static struct strvec *video_mode_list(void)
 {
   struct strvec *video_modes = strvec_new();
-  int active_display = 0; /* TODO: Support multiple displays */
+  int display_count;
   int mode_count;
-  int i;
+  int i, j;
+  SDL_DisplayID *ids;
+  const SDL_DisplayMode **modes;
 
-  mode_count = SDL_GetNumDisplayModes(active_display);
-  for (i = 0; i < mode_count; i++) {
-    SDL_DisplayMode mode;
+  ids = SDL_GetDisplays(&display_count);
 
-    if (!SDL_GetDisplayMode(active_display, i, &mode)) {
+  if (ids == NULL) {
+    log_error(_("Failed to get display count: %s"), SDL_GetError());
+    return NULL;
+  }
+
+  for (i = 0; i < display_count; i++) {
+    modes = SDL_GetFullscreenDisplayModes(ids[i], &mode_count);
+
+    if (modes == NULL) {
+      log_error(_("Failed to get display modes for display %d: %s"),
+                ids[i], SDL_GetError());
+      break;
+    }
+
+    for (j = 0; j < mode_count; j++) {
       char buf[64];
-      struct video_mode vmod = { .width = mode.w, .height = mode.h };
+      struct video_mode vmod = { .width = modes[j]->w, .height = modes[j]->h };
 
       if (video_mode_to_string(buf, sizeof(buf), &vmod)) {
         strvec_append(video_modes, buf);
       }
     }
+
+    SDL_free(modes);
   }
+
+  SDL_free(ids);
 
   return video_modes;
 }
