@@ -757,7 +757,7 @@ struct tile *action_tgt_tile(struct unit *actor,
       prob = action_prob_vs_extras(actor, act, target, target_extra);
       break;
     case ATK_UNITS:
-      prob = action_prob_vs_units(actor, act, target);
+      prob = action_prob_vs_stack(actor, act, target);
       break;
     case ATK_CITY:
     case ATK_UNIT:
@@ -1033,7 +1033,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
       switch (action_id_get_target_kind(act)) {
       case ATK_UNITS:
         if (tgt_tile
-            && is_action_enabled_unit_on_units(nmap, act, actor, tgt_tile)) {
+            && is_action_enabled_unit_on_stack(nmap, act, actor, tgt_tile)) {
           perform_action_to(act, actor, tgt_tile->index, EXTRA_NONE);
         }
         break;
@@ -1130,8 +1130,8 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
       switch (action_id_get_target_kind(act)) {
       case ATK_UNITS:
         if (tgt_tile
-            && is_action_enabled_unit_on_units(nmap, act, actor, tgt_tile)) {
-          current = action_prob_vs_units(actor, act, tgt_tile);
+            && is_action_enabled_unit_on_stack(nmap, act, actor, tgt_tile)) {
+          current = action_prob_vs_stack(actor, act, tgt_tile);
         }
         break;
       case ATK_TILE:
