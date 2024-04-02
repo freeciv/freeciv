@@ -86,6 +86,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		meson.build			\
 		meson_options.txt		\
+		platforms/appimage/build_appimages.sh		\
 		platforms/emscripten/emsbuild.sh		\
 		platforms/emscripten/setups/cross-ems.tmpl	\
 		platforms/flatpak/build_flatpak.sh	\
