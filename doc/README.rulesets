@@ -47,11 +47,11 @@ The rest of this file contains:
 Using and modifying rulesets:
 -----------------------------
 
-Rulesets are specified using the server command "rulesetdir".  The
-command above of "./fcser -r data/civ1.serv" just reads a file which
-uses this command (as well as a few of the standard server options).
-The server command specifies in which directory the ruleset files
-are to be found.
+Rulesets are specified using the server command "rulesetdir".
+The command above of "./fcser -r data/civ1.serv" just reads a file
+which uses this command (as well as a few of the standard
+server options). The server command specifies in which directory
+the ruleset files are to be found.
 
 The ruleset files in the data directory are user-editable, so you can
 modify them to create modified or custom rulesets (without having to
