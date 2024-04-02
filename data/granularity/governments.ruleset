@@ -71,7 +71,7 @@ ruler_female_title = _("?female:Usurper %s")
 
 helptext = _("\
 Anarchy happens between government changes. \
-No new cities can be aqcuired during anarchy.\
+No new cities can be acquired during anarchy.\
 ")
 
 ;------------------------------------------------------------------------
@@ -98,7 +98,7 @@ Under tribalism the maximum nation size is five cities.\
 
 name        = _("Despotism")
 reqs =
-   { "type", "name", "range"
+   { "type", "name",       "range"
      "Tech", "Government", "Player"
    }
 graphic     = "gov.despotism"
@@ -109,7 +109,25 @@ ruler_female_title = _("?female:Chief %s")
 
 helptext = _("\
 Compared to tribalism, despotism gives some more power to the leader. \
-It's possible to control more than five cities.\
+It's possible acquire up to ten cities.\
+")
+
+;------------------------------------------------------------------------
+[government_monarchy]
+
+name        = _("Monarchy")
+reqs =
+   { "type", "name",     "range"
+     "Tech", "Monarchy", "Player"
+   }
+graphic     = "gov.monarchy"
+graphic_alt = "-"
+
+ruler_male_title = _("King %s")
+ruler_female_title = _("?female:Queen %s")
+
+helptext = _("\
+It's possible to acquire more than ten cities.\
 ")
 
 ; /* <-- avoid gettext warnings

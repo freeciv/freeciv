@@ -307,6 +307,21 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local",  TRUE
       "MinMoveFrags", "5",             "Local",  TRUE
       "Gov",          "Despotism",     "Player", TRUE
+      "MinCities",    "10",            "Player", FALSE
+    }
+target_reqs   =
+    { "type",        "name",     "range", "present"
+      "TerrainFlag", "NoCities", "Tile",  FALSE
+    }
+
+[actionenabler_found_city_monarchy]
+action        = "Found City"
+actor_reqs    =
+    { "type",         "name",          "range",  "present"
+      "UnitFlag",     "Cities",        "Local",  TRUE
+      "UnitState",    "OnLivableTile", "Local",  TRUE
+      "MinMoveFrags", "5",             "Local",  TRUE
+      "Gov",          "Monarchy",      "Player", TRUE
     }
 target_reqs   =
     { "type",        "name",     "range", "present"
@@ -475,6 +490,22 @@ actor_reqs    =
       "DiplRel",       "War",           "Local",  TRUE
       "MinMoveFrags",  "1",             "Local",  TRUE
       "Gov",           "Despotism",     "Player", TRUE
+      "MinCities",     "10",            "Player", FALSE
+    }
+target_reqs   =
+    { "type",           "name", "range", "present"
+      "MaxUnitsOnTile", "0",    "Tile",  TRUE
+    }
+
+[actionenabler_conquer_city_monarchy]
+action        = "Conquer City"
+actor_reqs    =
+    { "type",          "name",          "range",  "present"
+      "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
+      "UnitFlag",      "NonMil",        "Local",  FALSE
+      "DiplRel",       "War",           "Local",  TRUE
+      "MinMoveFrags",  "1",             "Local",  TRUE
+      "Gov",           "Monarchy",      "Player", TRUE
     }
 target_reqs   =
     { "type",           "name", "range", "present"
