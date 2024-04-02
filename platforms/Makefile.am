@@ -3,6 +3,7 @@
 SUBDIRS = windows
 
 EXTRA_DIST =						\
+		appimage/build_appimages.sh		\
 		emscripten/emsbuild.sh			\
 		emscripten/setups/cross-ems.tmpl	\
 		flatpak/build_flatpak.sh		\
