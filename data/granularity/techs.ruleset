@@ -429,6 +429,15 @@ graphic     = "a.mining"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_monarchy]
+name        = _("Monarchy")
+req1        = "Diplomacy"
+req2        = "Currency"
+flags       = ""
+graphic     = "a.monarchy"
+graphic_alt = "-"
+;helptext    =
+
 [advance_plow]
 name        = _("Plow")
 req1        = "Agriculture"
