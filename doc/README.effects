@@ -73,7 +73,7 @@ Terrain:         Tile, Adjacent, CAdjacent, Traderoute, City
 Good:            City
 UnitType:        Local, Tile, CAdjacent, Adjacent
 UnitFlag:        Local, Tile, CAdjacent, Adjacent
-UnitClass:       Local
+UnitClass:       Local, Tile, CAdjacent, Adjacent
 UnitClassFlag:   Local
 Nation:          World, Alliance, Team, Player
 NationGroup:     World, Alliance, Team, Player

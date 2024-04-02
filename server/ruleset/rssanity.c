@@ -336,7 +336,6 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     /* Multiple requirements of the same type */
     switch (preq->source.kind) {
     case VUT_GOVERNMENT:
-    case VUT_UCLASS:
     case VUT_ACTION:
     case VUT_ACTIVITY:
     case VUT_OTYPE:
@@ -434,6 +433,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_CITYTILE:
     case VUT_GOOD:
     case VUT_UTYPE:
+    case VUT_UCLASS:
       /* Can check different properties. */
     case VUT_UTFLAG:
     case VUT_UCFLAG:
