@@ -201,7 +201,8 @@ int caravan_result_compare(const struct caravan_result *a,
   The callback should return TRUE if it wants to stop searching,
   FALSE otherwise.
 ****************************************************************************/
-typedef bool (*search_callback) (void *data, const struct city *pcity,
+typedef bool (*search_callback) (const struct civ_map *nmap,
+                                 void *data, const struct city *pcity,
                                  int arrival_turn, int arrival_moves_left);
 
 static void caravan_search_from(const struct civ_map *nmap,
@@ -240,7 +241,7 @@ static void caravan_search_from(const struct civ_map *nmap,
     }
 
     pcity = tile_city(pos.tile);
-    if (pcity && callback(callback_data, pcity, turns_before + pos.turn,
+    if (pcity && callback(nmap, callback_data, pcity, turns_before + pos.turn,
                           pos.moves_left)) {
       break;
     }
@@ -599,7 +600,8 @@ struct cewt_data {
   const struct caravan_parameter *param;
 };
 
-static bool cewt_callback(void *vdata, const struct city *dest,
+static bool cewt_callback(const struct civ_map *nmap,
+                          void *vdata, const struct city *dest,
                           int arrival_time, int moves_left)
 {
   struct cewt_data *data = vdata;
@@ -693,7 +695,8 @@ struct cfbdw_data {
   struct caravan_result *best;
 };
 
-static bool cfbdw_callback(void *vdata, const struct city *dest,
+static bool cfbdw_callback(const struct civ_map *nmap,
+                           void *vdata, const struct city *dest,
                            int arrival_time, int moves_left)
 {
   struct cfbdw_data *data = vdata;
@@ -809,13 +812,13 @@ struct cowt_data {
   For every city we can reach, use caravan_find_best_destination_withtransit()
   as a subroutine.
 ****************************************************************************/
-static bool cowt_callback(void *vdata, const struct city *pcity,
+static bool cowt_callback(const struct civ_map *nmap, void *vdata,
+                          const struct city *pcity,
                           int arrival_time, int moves_left)
 {
   struct cowt_data *data = vdata;
   const struct unit *caravan = data->caravan;
   struct caravan_result current;
-  const struct civ_map *nmap = &(wld.map);
 
   caravan_result_init(&current, game_city_by_number(caravan->homecity),
                       pcity, arrival_time);
