@@ -16,17 +16,17 @@
   original author: David Pfitzner <dwp@mso.anu.edu.au>
 
   This module implements an object which is useful for reading/parsing
-  a file in the registry format of registry.c.  It takes care of the
+  a file in the registry format of registry.c. It takes care of the
   low-level file-reading details, and provides functions to return
-  specific "tokens" from the file.  Probably this should really use
+  specific "tokens" from the file. Probably this should really use
   higher-level tools... (flex/lex bison/yacc?)
 
   When the user tries to read a token, we return a (const char*)
-  pointing to some data if the token was found, or NULL otherwise.
-  The data pointed to should not be modified.  The retuned pointer
-  is valid _only_ until another inputfile is performed.  (So should
+  pointing to some data if the token was found, or nullptr otherwise.
+  The data pointed to should not be modified. The retuned pointer
+  is valid _only_ until another inputfile is performed. (So should
   be used immediately, or fc_strdup-ed etc.)
-  
+
   The tokens recognised are as follows:
   (Single quotes are delimiters used here, but are not part of the
   actual tokens/strings.)
@@ -35,31 +35,31 @@
 
   section_name:  '[foo]'
   returned token: 'foo'
-  
+
   entry_name:  'foo =' (optional whitespace allowed before '=')
   returned token: 'foo'
-  
+
   end_of_line: newline, or optional '#' or ';' (comment characters)
                followed by any other chars, then newline.
-  returned token: should not be used except to check non-NULL.
-  
-  table_start: '{'  
-  returned token: should not be used except to check non-NULL.
-  
-  table_end: '}'  
-  returned token: should not be used except to check non-NULL.
+  returned token: should not be used except to check non-nullptr.
 
-  comma:  literal ','  
-  returned token: should not be used except to check non-NULL.
-  
+  table_start: '{'
+  returned token: should not be used except to check non-nullptr.
+
+  table_end: '}'
+  returned token: should not be used except to check non-nullptr.
+
+  comma:  literal ','
+  returned token: should not be used except to check non-nullptr.
+
   value:  a signed integer, or a double-quoted string, or a
-          gettext-marked double quoted string.  Strings _may_ contain
-	  raw embedded newlines, and escaped doublequotes, or \.
-	  eg:  '123', '-999', '"foo"', '_("foo")'
+          gettext-marked double quoted string. Strings _may_ contain
+          raw embedded newlines, and escaped doublequotes, or \.
+          eg:  '123', '-999', '"foo"', '_("foo")'
   returned token: string containing number, for numeric, or string
           starting at first doublequote for strings, but ommiting
-	  trailing double-quote.  Note this does _not_ translate
-	  escaped doublequotes etc back to normal.
+          trailing double-quote. Note this does _not_ translate
+          escaped doublequotes etc back to normal.
 
 ***********************************************************************/
 
@@ -77,7 +77,7 @@
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
-#include "shared.h"		/* TRUE, FALSE */
+#include "shared.h"             /* TRUE, FALSE */
 #include "support.h"
 
 #include "inputfile.h"
@@ -85,31 +85,31 @@
 #define INF_DEBUG_FOUND     FALSE
 #define INF_DEBUG_NOT_FOUND FALSE
 
-#define INF_MAGIC (0xabdc0132)	/* arbitrary */
+#define INF_MAGIC (0xabdc0132)  /* Arbitrary */
 
 struct inputfile {
-  unsigned int magic;		/* memory check */
-  char *filename;		/* filename as passed to fopen */
-  fz_FILE *fp;			/* read from this */
-  bool at_eof;			/* flag for end-of-file */
-  struct astring cur_line;	/* data from current line */
-  unsigned int cur_line_pos;    /* position in current line */
-  unsigned int line_num;        /* line number from file in cur_line */
-  struct astring token;		/* data returned to user */
-  struct astring partial;	/* used in accumulating multi-line strings;
-				   used only in get_token_value, but put
-				   here so it gets freed when file closed */
-  datafilename_fn_t datafn;	/* function like datafilename(); use a
-				   function pointer just to keep this
-				   inputfile module "generic" */
-  bool in_string;		/* set when reading multi-line strings,
-				   to know not to handle *include at start
-				   of line as include mechanism */
-  int string_start_line;	/* when in_string is true, this is the
-				   start line of current string */
-  struct inputfile *included_from; /* NULL for toplevel file, otherwise
-				      points back to files which this one
-				      has been included from */
+  unsigned int magic;           /* Memory check */
+  char *filename;               /* Filename as passed to fopen */
+  fz_FILE *fp;                  /* Read from this */
+  bool at_eof;                  /* Flag for end-of-file */
+  struct astring cur_line;      /* Data from current line */
+  unsigned int cur_line_pos;    /* Position in current line */
+  unsigned int line_num;        /* Line number from file in cur_line */
+  struct astring token;         /* Data returned to user */
+  struct astring partial;       /* Used in accumulating multi-line strings;
+                                   used only in get_token_value, but put
+                                   here so it gets freed when file closed */
+  datafilename_fn_t datafn;     /* Function like datafilename(); use a
+                                   function pointer just to keep this
+                                   inputfile module "generic" */
+  bool in_string;               /* Set when reading multi-line strings,
+                                   to know not to handle *include at start
+                                   of line as include mechanism */
+  int string_start_line;        /* When in_string is true, this is the
+                                   start line of current string */
+  struct inputfile *included_from; /* nullptr for toplevel file, otherwise
+                                      points back to files which this one
+                                      has been included from */
 };
 
 /* A function to get a specific token type: */
@@ -162,12 +162,13 @@ static bool is_comment(int c)
 ***********************************************************************/
 static void init_zeros(struct inputfile *inf)
 {
-  fc_assert_ret(NULL != inf);
+  fc_assert_ret(inf != nullptr);
+
   inf->magic = INF_MAGIC;
-  inf->filename = NULL;
-  inf->fp = NULL;
-  inf->datafn = NULL;
-  inf->included_from = NULL;
+  inf->filename = nullptr;
+  inf->fp = nullptr;
+  inf->datafn = nullptr;
+  inf->included_from = nullptr;
   inf->line_num = inf->cur_line_pos = 0;
   inf->at_eof = inf->in_string = FALSE;
   inf->string_start_line = 0;
@@ -181,9 +182,9 @@ static void init_zeros(struct inputfile *inf)
 ***********************************************************************/
 static bool inf_sanity_check(struct inputfile *inf)
 {
-  fc_assert_ret_val(NULL != inf, FALSE);
+  fc_assert_ret_val(inf != nullptr, FALSE);
   fc_assert_ret_val(INF_MAGIC == inf->magic, FALSE);
-  fc_assert_ret_val(NULL != inf->fp, FALSE);
+  fc_assert_ret_val(inf->fp != nullptr, FALSE);
   fc_assert_ret_val(!inf->at_eof
                     || inf->at_eof, FALSE);
   fc_assert_ret_val(!inf->in_string
@@ -214,7 +215,7 @@ static const char *inf_filename(struct inputfile *inf)
 
 /*******************************************************************//**
   Open the file, and return an allocated, initialized structure.
-  Returns NULL if the file could not be opened.
+  Returns nullptr if the file could not be opened.
 ***********************************************************************/
 struct inputfile *inf_from_file(const char *filename,
                                 datafilename_fn_t datafn)
@@ -222,44 +223,47 @@ struct inputfile *inf_from_file(const char *filename,
   struct inputfile *inf;
   fz_FILE *fp;
 
-  fc_assert_ret_val(NULL != filename, NULL);
-  fc_assert_ret_val(0 < strlen(filename), NULL);
+  fc_assert_ret_val(filename != nullptr, nullptr);
+  fc_assert_ret_val(0 < strlen(filename), nullptr);
+
   fp = fz_from_file(filename, "r", -1, 0);
-  if (!fp) {
-    return NULL;
+  if (fp == nullptr) {
+    return nullptr;
   }
   log_debug("inputfile: opened \"%s\" ok", filename);
   inf = inf_from_stream(fp, datafn);
   inf->filename = fc_strdup(filename);
+
   return inf;
 }
 
 /*******************************************************************//**
   Open the stream, and return an allocated, initialized structure.
-  Returns NULL if the file could not be opened.
+  Returns nullptr if the file could not be opened.
 ***********************************************************************/
 struct inputfile *inf_from_stream(fz_FILE *stream, datafilename_fn_t datafn)
 {
   struct inputfile *inf;
 
-  fc_assert_ret_val(NULL != stream, NULL);
+  fc_assert_ret_val(stream != nullptr, nullptr);
+
   inf = fc_malloc(sizeof(*inf));
   init_zeros(inf);
 
-  inf->filename = NULL;
+  inf->filename = nullptr;
   inf->fp = stream;
   inf->datafn = datafn;
 
   log_debug("inputfile: opened \"%s\" ok", inf_filename(inf));
+
   return inf;
 }
-
 
 /*******************************************************************//**
   Close the file and free associated memory, but don't recurse
   included_from files, and don't free the actual memory where
   the inf record is stored (ie, the memory where the users pointer
-  points to).  This is used when closing an included file.
+  points to). This is used when closing an included file.
 ***********************************************************************/
 static void inf_close_partial(struct inputfile *inf)
 {
@@ -271,15 +275,14 @@ static void inf_close_partial(struct inputfile *inf)
     log_error("Error before closing %s: %s", inf_filename(inf),
               fz_strerror(inf->fp));
     fz_fclose(inf->fp);
-    inf->fp = NULL;
-  }
-  else if (fz_fclose(inf->fp) != 0) {
+    inf->fp = nullptr;
+  } else if (fz_fclose(inf->fp) != 0) {
     log_error("Error closing %s", inf_filename(inf));
   }
   if (inf->filename) {
     free(inf->filename);
   }
-  inf->filename = NULL;
+  inf->filename = nullptr;
   astr_free(&inf->cur_line);
   astr_free(&inf->token);
   astr_free(&inf->partial);
@@ -306,7 +309,7 @@ void inf_close(struct inputfile *inf)
   if (inf->included_from) {
     inf_close(inf->included_from);
     /* Stop anything from recursing to already closed including file */
-    inf->included_from = NULL;
+    inf->included_from = nullptr;
   }
   inf_close_partial(inf);
   free(inf);
@@ -407,7 +410,7 @@ static bool check_include(struct inputfile *inf)
   bare_name_start = c;
   while (*c != '\0' && *c != '\"') c++;
   if (*c != '\"') {
-    inf_log(inf, LOG_ERROR, 
+    inf_log(inf, LOG_ERROR,
             "Did not find closing doublequote for '*include' line");
     return FALSE;
   }
@@ -418,7 +421,7 @@ static bool check_include(struct inputfile *inf)
   bare_name[bare_name_len - 1] = '\0';
   inf->cur_line_pos = c - astr_str(&inf->cur_line);
 
-  /* check rest of line is well-formed: */
+  /* Check rest of line is well-formed: */
   while (*c != '\0' && fc_isspace(*c) && !is_comment(*c)) {
     c++;
   }
@@ -436,7 +439,7 @@ static bool check_include(struct inputfile *inf)
   }
   free(bare_name);
 
-  /* avoid recursion: (first filename may not have the same path,
+  /* Avoid recursion: (First filename may not have the same path,
    * but will at least stop infinite recursion) */
   {
     struct inputfile *inc = inf;
@@ -459,6 +462,7 @@ static bool check_include(struct inputfile *inf)
   *new_inf = *inf;
   *inf = temp;
   inf->included_from = new_inf;
+
   return TRUE;
 }
 
@@ -482,10 +486,10 @@ static bool read_a_line(struct inputfile *inf)
     return FALSE;
   }
 
-  /* abbreviation: */
+  /* Abbreviation: */
   line = &inf->cur_line;
 
-  /* minimum initial line length: */
+  /* Minimum initial line length: */
   astr_reserve(line, 80);
   astr_clear(line);
   pos = 0;
@@ -550,7 +554,7 @@ static bool read_a_line(struct inputfile *inf)
       /* Pop the include, and get next line from file above instead. */
       struct inputfile *inc = inf->included_from;
       inf_close_partial(inf);
-      *inf = *inc;    /* so the user pointer in still valid
+      *inf = *inc;    /* So the user pointer in still valid
                        * (and inf pointers in calling functions) */
       free(inc);
       return read_a_line(inf);
@@ -561,7 +565,7 @@ static bool read_a_line(struct inputfile *inf)
 
 /*******************************************************************//**
   Return a detailed log message, including information on current line
-  number etc. Message can be NULL: then just logs information on where
+  number etc. Message can be nullptr: then just logs information on where
   we are in the file.
 ***********************************************************************/
 char *inf_log_str(struct inputfile *inf, const char *message, ...)
@@ -592,7 +596,7 @@ char *inf_log_str(struct inputfile *inf, const char *message, ...)
                    "\n  processing string starting at line %d",
                    inf->string_start_line);
     }
-    while ((inf = inf->included_from)) {  /* local pointer assignment */
+    while ((inf = inf->included_from)) {  /* Local pointer assignment */
       cat_snprintf(str, sizeof(str), "\n  included from file \"%s\", line %d",
                    inf_filename(inf), inf->line_num);
     }
@@ -611,23 +615,24 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type)
   get_token_fn_t func;
 
   if (!inf_sanity_check(inf)) {
-    return NULL;
+    return nullptr;
   }
 
-  fc_assert_ret_val(INF_TOK_FIRST <= type && INF_TOK_LAST > type, NULL);
+  fc_assert_ret_val(INF_TOK_FIRST <= type && INF_TOK_LAST > type,
+                    nullptr);
 
   name = tok_tab[type].name ? tok_tab[type].name : "(unnamed)";
   func = tok_tab[type].func;
 
   if (!func) {
     log_error("token type %d (%s) not supported yet", type, name);
-    c = NULL;
+    c = nullptr;
   } else {
     while (!have_line(inf) && read_a_line(inf)) {
       /* Nothing. */
     }
     if (!have_line(inf)) {
-      c = NULL;
+      c = nullptr;
     } else {
       c = func(inf);
     }
@@ -654,7 +659,7 @@ int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type)
 }
 
 /*******************************************************************//**
-  Returns section name in current position of inputfile. Returns NULL
+  Returns section name in current position of inputfile. Returns nullptr
   if there is no section name on that position. Sets inputfile position
   after section name.
 ***********************************************************************/
@@ -662,23 +667,24 @@ static const char *get_token_section_name(struct inputfile *inf)
 {
   const char *c, *start;
 
-  fc_assert_ret_val(have_line(inf), NULL);
+  fc_assert_ret_val(have_line(inf), nullptr);
 
   c = astr_str(&inf->cur_line) + inf->cur_line_pos;
   if (*c++ != '[') {
-    return NULL;
+    return nullptr;
   }
   start = c;
   while (*c != '\0' && *c != ']') {
     c++;
   }
   if (*c != ']') {
-    return NULL;
+    return nullptr;
   }
   *((char *) c) = '\0'; /* Tricky. */
   astr_set(&inf->token, "%s", start);
   *((char *) c) = ']';  /* Revert. */
   inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
+
   return astr_str(&inf->token);
 }
 
@@ -691,46 +697,47 @@ static const char *get_token_entry_name(struct inputfile *inf)
   const char *c, *start, *end;
   char trailing;
 
-  fc_assert_ret_val(have_line(inf), NULL);
+  fc_assert_ret_val(have_line(inf), nullptr);
 
   c = astr_str(&inf->cur_line) + inf->cur_line_pos;
   while (*c != '\0' && fc_isspace(*c)) {
     c++;
   }
   if (*c == '\0') {
-    return NULL;
+    return nullptr;
   }
   start = c;
   while (*c != '\0' && !fc_isspace(*c) && *c != '=' && !is_comment(*c)) {
     c++;
   }
   if (!(*c != '\0' && (fc_isspace(*c) || *c == '='))) {
-    return NULL;
+    return nullptr;
   }
   end = c;
   while (*c != '\0' && *c != '=' && !is_comment(*c)) {
     c++;
   }
   if (*c != '=') {
-    return NULL;
+    return nullptr;
   }
   trailing = *end;
   *((char *) end) = '\0';       /* Tricky. */
   astr_set(&inf->token, "%s", start);
   *((char *) end) = trailing;   /* Revert. */
   inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
+
   return astr_str(&inf->token);
 }
 
 /*******************************************************************//**
   If inputfile is at end-of-line, frees current line, and returns " ".
-  If there is still something on that line, returns NULL. 
+  If there is still something on that line, returns nullptr.
 ***********************************************************************/
 static const char *get_token_eol(struct inputfile *inf)
 {
   const char *c;
 
-  fc_assert_ret_val(have_line(inf), NULL);
+  fc_assert_ret_val(have_line(inf), nullptr);
 
   if (!at_eol(inf)) {
     c = astr_str(&inf->cur_line) + inf->cur_line_pos;
@@ -738,15 +745,16 @@ static const char *get_token_eol(struct inputfile *inf)
       c++;
     }
     if (*c != '\0' && !is_comment(*c)) {
-      return NULL;
+      return nullptr;
     }
   }
 
-  /* finished with this line: say that we don't have it any more: */
+  /* Finished with this line: say that we don't have it any more: */
   astr_clear(&inf->cur_line);
   inf->cur_line_pos = 0;
 
   astr_set(&inf->token, " ");
+
   return astr_str(&inf->token);
 }
 
@@ -759,22 +767,23 @@ static const char *get_token_white_char(struct inputfile *inf,
 {
   const char *c;
 
-  fc_assert_ret_val(have_line(inf), NULL);
+  fc_assert_ret_val(have_line(inf), nullptr);
 
   c = astr_str(&inf->cur_line) + inf->cur_line_pos;
   while (*c != '\0' && fc_isspace(*c)) {
     c++;
   }
   if (*c != target) {
-    return NULL;
+    return nullptr;
   }
   inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
   astr_set(&inf->token, "%c", target);
+
   return astr_str(&inf->token);
 }
 
 /*******************************************************************//**
-  Get flag token for table start, or NULL if that is not next token.
+  Get flag token for table start, or nullptr if that is not next token.
 ***********************************************************************/
 static const char *get_token_table_start(struct inputfile *inf)
 {
@@ -782,7 +791,7 @@ static const char *get_token_table_start(struct inputfile *inf)
 }
 
 /*******************************************************************//**
-  Get flag token for table end, or NULL if that is not next token.
+  Get flag token for table end, or nullptr if that is not next token.
 ***********************************************************************/
 static const char *get_token_table_end(struct inputfile *inf)
 {
@@ -790,7 +799,7 @@ static const char *get_token_table_end(struct inputfile *inf)
 }
 
 /*******************************************************************//**
-  Get flag token comma, or NULL if that is not next token.
+  Get flag token comma, or nullptr if that is not next token.
 ***********************************************************************/
 static const char *get_token_comma(struct inputfile *inf)
 {
@@ -808,18 +817,18 @@ static const char *get_token_value(struct inputfile *inf)
   bool has_i18n_marking = FALSE;
   char border_character = '\"';
 
-  fc_assert_ret_val(have_line(inf), NULL);
+  fc_assert_ret_val(have_line(inf), nullptr);
 
   c = astr_str(&inf->cur_line) + inf->cur_line_pos;
   while (*c != '\0' && fc_isspace(*c)) {
     c++;
   }
   if (*c == '\0') {
-    return NULL;
+    return nullptr;
   }
 
   if (*c == '-' || *c == '+' || fc_isdigit(*c)) {
-    /* a number: */
+    /* A number: */
     start = c++;
     while (*c != '\0' && fc_isdigit(*c)) {
       c++;
@@ -831,9 +840,9 @@ static const char *get_token_value(struct inputfile *inf)
         c++;
       }
     }
-    /* check that the trailing stuff is ok: */
+    /* Check that the trailing stuff is ok: */
     if (!(*c == '\0' || *c == ',' || fc_isspace(*c) || is_comment(*c))) {
-      return NULL;
+      return nullptr;
     }
     /* If its a comma, we don't want to obliterate it permanently,
      * so remember it: */
@@ -847,7 +856,7 @@ static const char *get_token_value(struct inputfile *inf)
     return astr_str(&inf->token);
   }
 
-  /* allow gettext marker: */
+  /* Allow gettext marker: */
   if (*c == '_' && *(c + 1) == '(') {
     has_i18n_marking = TRUE;
     c += 2;
@@ -855,7 +864,7 @@ static const char *get_token_value(struct inputfile *inf)
       c++;
     }
     if (*c == '\0') {
-      return NULL;
+      return nullptr;
     }
   }
 
@@ -872,14 +881,14 @@ static const char *get_token_value(struct inputfile *inf)
     start = c;
     while (*c != '*') {
       if (*c == '\0' || *c == '\n') {
-        return NULL;
+        return nullptr;
       }
       c++;
     }
     c++;
-    /* check that the trailing stuff is ok: */
+    /* Check that the trailing stuff is ok: */
     if (!(*c == '\0' || *c == ',' || fc_isspace(*c) || is_comment(*c))) {
-      return NULL;
+      return nullptr;
     }
     /* We don't want to obliterate ending '*' permanently,
      * so remember it: */
@@ -887,18 +896,18 @@ static const char *get_token_value(struct inputfile *inf)
     *((char *) (c - 1)) = '\0';     /* Tricky. */
 
     rfname = fileinfoname(get_data_dirs(), start);
-    if (rfname == NULL) {
-      inf_log(inf, LOG_ERROR, 
+    if (rfname == nullptr) {
+      inf_log(inf, LOG_ERROR,
               _("Cannot find stringfile \"%s\"."), start);
       *((char *) c) = trailing; /* Revert. */
-      return NULL;
+      return nullptr;
     }
     *((char *) c) = trailing; /* Revert. */
     fp = fz_from_file(rfname, "r", -1, 0);
     if (!fp) {
       inf_log(inf, LOG_ERROR,
               _("Cannot open stringfile \"%s\"."), rfname);
-      return NULL;
+      return nullptr;
     }
     log_debug("Stringfile \"%s\" opened ok", start);
     *((char *) (c - 1)) = trailing; /* Revert. */
@@ -911,7 +920,7 @@ static const char *get_token_value(struct inputfile *inf)
 
       ret = fz_fgets((char *) astr_str(&inf->token) + pos,
                      astr_capacity(&inf->token) - pos, fp);
-      if (ret == NULL) {
+      if (ret == nullptr) {
         eof = TRUE;
       } else {
         pos = astr_len(&inf->token);
@@ -925,16 +934,16 @@ static const char *get_token_value(struct inputfile *inf)
 
     return astr_str(&inf->token);
   } else if (border_character != '\"'
-      && border_character != '\''
-      && border_character != '$') {
+             && border_character != '\''
+             && border_character != '$') {
     /* A one-word string: maybe FALSE or TRUE. */
     start = c;
     while (fc_isalnum(*c)) {
       c++;
     }
-    /* check that the trailing stuff is ok: */
+    /* Check that the trailing stuff is ok: */
     if (!(*c == '\0' || *c == ',' || fc_isspace(*c) || is_comment(*c))) {
-      return NULL;
+      return nullptr;
     }
     /* If its a comma, we don't want to obliterate it permanently,
      * so remember it: */
@@ -945,15 +954,16 @@ static const char *get_token_value(struct inputfile *inf)
     astr_set(&inf->token, "%s", start);
 
     *((char *) c) = trailing;   /* Revert. */
+
     return astr_str(&inf->token);
   }
 
   /* From here, we know we have a string, we just have to find the
-     trailing (un-escaped) double-quote.  We read in extra lines if
-     necessary to find it.  If we _don't_ find the end-of-string
-     (that is, we come to end-of-file), we return NULL, but we
+     trailing (un-escaped) double-quote. We read in extra lines if
+     necessary to find it. If we _don't_ find the end-of-string
+     (that is, we come to end-of-file), we return nullptr, but we
      leave the file in at_eof, and don't try to back-up to the
-     current point.  (That would be more difficult, and probably
+     current point. (That would be more difficult, and probably
      not necessary: at that point we probably have a malformed
      string/file.)
 
@@ -961,18 +971,18 @@ static const char *get_token_value(struct inputfile *inf)
      lines is placed in partial.
   */
 
-  /* prepare for possibly multi-line string: */
+  /* Prepare for possibly multi-line string: */
   inf->string_start_line = inf->line_num;
   inf->in_string = TRUE;
 
-  partial = &inf->partial;      /* abbreviation */
+  partial = &inf->partial;      /* Abbreviation */
   astr_clear(partial);
 
-  start = c++;                  /* start includes the initial \", to
+  start = c++;                  /* Atart includes the initial \", to
                                  * distinguish from a number */
   for (;;) {
     while (*c != '\0' && *c != border_character) {
-      /* skip over escaped chars, including backslash-doublequote,
+      /* Skip over escaped chars, including backslash-doublequote,
        * and backslash-backslash: */
       if (*c == '\\' && *(c + 1) != '\0') {
         c++;
@@ -988,15 +998,15 @@ static const char *get_token_value(struct inputfile *inf)
     astr_add(partial, "%s\n", start);
 
     if (!read_a_line(inf)) {
-      /* shouldn't happen */
-      inf_log(inf, LOG_ERROR, 
+      /* Shouldn't happen */
+      inf_log(inf, LOG_ERROR,
               "Bad return for multi-line string from read_a_line");
-      return NULL;
+      return nullptr;
     }
     c = start = astr_str(&inf->cur_line);
   }
 
-  /* found end of string */
+  /* Found end of string */
   trailing = *c;
   *((char *) c) = '\0';         /* Tricky. */
 
@@ -1005,7 +1015,7 @@ static const char *get_token_value(struct inputfile *inf)
 
   *((char *) c) = trailing;     /* Revert. */
 
-  /* check gettext tag at end: */
+  /* Check gettext tag at end: */
   if (has_i18n_marking) {
     if (*++c == ')') {
       inf->cur_line_pos++;
@@ -1014,5 +1024,6 @@ static const char *get_token_value(struct inputfile *inf)
     }
   }
   inf->in_string = FALSE;
+
   return astr_str(&inf->token);
 }

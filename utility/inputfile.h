@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
+/***********************************************************************
   A low-level object for reading a registry-format file.
   See comments in inputfile.c
 ***********************************************************************/
@@ -61,4 +61,4 @@ char *inf_log_str(struct inputfile *inf, const char *message, ...)
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__INPUTFILE_H */
+#endif /* FC__INPUTFILE_H */
