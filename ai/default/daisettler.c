@@ -374,17 +374,22 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
       result->best_other.tile = ptile;
       result->best_other.cindex = cindex;
     } else if (ptdc->sum > result->best_other.tdc->sum) {
-      /* First add other other to remaining */
-      result->remaining += result->best_other.tdc->sum
-                           / GROWTH_POTENTIAL_DEEMPHASIS;
+      /* First add other other to remaining, unless it's unavailable (value < 0) tile. */
+      if (result->best_other.tdc->sum > 0) {
+        result->remaining += result->best_other.tdc->sum
+                             / GROWTH_POTENTIAL_DEEMPHASIS;
+      }
       /* Then make new best other */
       result->best_other.tdc = ptdc;
       result->best_other.tile = ptile;
       result->best_other.cindex = cindex;
     } else {
       /* Save total remaining calculation, divided by crowdedness
-       * of the area and the emphasis placed on space for growth. */
-      result->remaining += ptdc->sum / GROWTH_POTENTIAL_DEEMPHASIS;
+       * of the area and the emphasis placed on space for growth.
+       * Do not add unavailable (value < 0) tiles. */
+      if (ptdc->sum > 0) {
+        result->remaining += ptdc->sum / GROWTH_POTENTIAL_DEEMPHASIS;
+      }
     }
 
     tile_data_cache_hash_replace(result->tdc_hash, cindex, ptdc);
