@@ -541,7 +541,8 @@ bool is_action_enabled_unit_on_tile(const struct civ_map *nmap,
                                     const struct tile *target_tile,
                                     const struct extra_type *target_extra);
 
-bool is_action_enabled_unit_on_extras(const action_id wanted_action,
+bool is_action_enabled_unit_on_extras(const struct civ_map *nmap,
+                                      const action_id wanted_action,
                                       const struct unit *actor_unit,
                                       const struct tile *target,
                                       const struct extra_type *tgt_extra);

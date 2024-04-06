@@ -1047,7 +1047,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
         break;
       case ATK_EXTRAS:
         if (tgt_tile
-            && is_action_enabled_unit_on_extras(act, actor,
+            && is_action_enabled_unit_on_extras(nmap, act, actor,
                                                 tgt_tile, target_extra)) {
           perform_action_to(act, actor, tgt_tile->index,
                             target_extra ? extra_number(target_extra) : -1);
@@ -1143,7 +1143,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
         break;
       case ATK_EXTRAS:
         if (tgt_tile
-            && is_action_enabled_unit_on_extras(act, actor,
+            && is_action_enabled_unit_on_extras(nmap, act, actor,
                                                 tgt_tile, target_extra)) {
           current = action_prob_vs_extras(actor, act,
                                           tgt_tile, target_extra);
