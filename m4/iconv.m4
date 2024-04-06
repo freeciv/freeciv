@@ -1,4 +1,5 @@
-# iconv.m4 serial 27
+# iconv.m4
+# serial 27
 dnl Copyright (C) 2000-2002, 2007-2014, 2016-2024 Free Software Foundation,
 dnl Inc.
 dnl This file is free software; the Free Software Foundation
