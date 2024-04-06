@@ -116,15 +116,15 @@
 #define DEFENSE_EMPHASIS 20
 
 struct tile_data_cache {
-  char food;    /* food output of the tile */
-  char trade;   /* trade output of the tile */
-  char shield;  /* shield output of the tile */
+  short food;   /* Food output of the tile */
+  short trade;  /* Trade output of the tile */
+  short shield; /* Shield output of the tile */
 
-  int sum;      /* weighted sum of the tile output (used by AI) */
+  int sum;      /* Weighted sum of the tile output */
 
-  int reserved; /* reservation for this tile; used by print_citymap() */
+  int reserved; /* Reservation for this tile; used by print_citymap() */
 
-  int turn;     /* the turn the values were calculated */
+  int turn;     /* The turn the values were calculated */
 };
 
 
