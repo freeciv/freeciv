@@ -969,25 +969,25 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_TRANSPORT_DISEMBARK4);
   } else if (tile_has_claimable_base(ptile, unit_type_get(punit))
-             && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS,
+             && is_action_enabled_unit_on_extras(nmap, ACTION_CONQUER_EXTRAS,
                                                  punit, ptile, NULL)) {
     /* Choose "Conquer Extras". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CONQUER_EXTRAS);
   } else if (tile_has_claimable_base(ptile, unit_type_get(punit))
-             && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS2,
+             && is_action_enabled_unit_on_extras(nmap, ACTION_CONQUER_EXTRAS2,
                                                  punit, ptile, NULL)) {
     /* Choose "Conquer Extras 2". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CONQUER_EXTRAS2);
   } else if (tile_has_claimable_base(ptile, unit_type_get(punit))
-             && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS3,
+             && is_action_enabled_unit_on_extras(nmap, ACTION_CONQUER_EXTRAS3,
                                                  punit, ptile, NULL)) {
     /* Choose "Conquer Extras 3". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CONQUER_EXTRAS3);
   } else if (tile_has_claimable_base(ptile, unit_type_get(punit))
-             && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS4,
+             && is_action_enabled_unit_on_extras(nmap, ACTION_CONQUER_EXTRAS4,
                                                  punit, ptile, NULL)) {
     /* Choose "Conquer Extras 4". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),

@@ -944,7 +944,7 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
       return is_action_enabled_unit_on_tile(nmap, paction->id,            \
                                             punit, ptile, target);        \
     case ATK_EXTRAS:                                                      \
-      return is_action_enabled_unit_on_extras(paction->id,                \
+      return is_action_enabled_unit_on_extras(nmap, paction->id,          \
                                               punit, ptile, target);      \
     case ATK_CITY:                                                        \
     case ATK_UNIT:                                                        \
