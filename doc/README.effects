@@ -150,6 +150,10 @@ ServerSetting is if a Boolean server setting is enabled. The setting must be
 FormAge is time since latest unit upgrade of conversion.
 PlayerState is one of "Barbarian",
  or "HasCapital" (true if player had capital at the beginning of the turn)
+PlayerFlag is one of
+ "AI"               - Player is AI controlled
+ "ScenarioReserved" - Player is not meant for human players
+ "FirstCity"        - Player has had their first city built or otherwise acquired
 
 
 Effect types
