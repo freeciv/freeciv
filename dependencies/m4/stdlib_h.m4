@@ -1,4 +1,5 @@
-# stdlib_h.m4 serial 77
+# stdlib_h.m4
+# serial 77
 dnl Copyright (C) 2007-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
