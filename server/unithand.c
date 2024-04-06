@@ -3448,7 +3448,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_EXTRAS(action, actor, target, action_performer)\
   if (target_tile                                                         \
-      && is_action_enabled_unit_on_extras(action_type,                    \
+      && is_action_enabled_unit_on_extras(nmap, action_type,              \
                                           actor_unit, target_tile,        \
                                           target_extra)) {                \
     bool success;                                                         \

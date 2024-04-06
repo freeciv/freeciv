@@ -3282,7 +3282,7 @@ struct action *action_is_blocked_by(const struct action *act,
         /* Can't be enabled. No target. */
         continue;
       }
-      if (is_action_enabled_unit_on_extras(blocker->id,
+      if (is_action_enabled_unit_on_extras(nmap, blocker->id,
                                            actor_unit, target_tile, NULL)) {
         return blocker;
       }
@@ -5070,13 +5070,12 @@ is_action_enabled_unit_on_extras_full(const struct civ_map *nmap,
 
   See note in is_action_enabled() for why the action may still be disabled.
 **************************************************************************/
-bool is_action_enabled_unit_on_extras(const action_id wanted_action,
+bool is_action_enabled_unit_on_extras(const struct civ_map *nmap,
+                                      const action_id wanted_action,
                                       const struct unit *actor_unit,
                                       const struct tile *target_tile,
                                       const struct extra_type *target_extra)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   return is_action_enabled_unit_on_extras_full(nmap, wanted_action, actor_unit,
                                                unit_home(actor_unit),
                                                unit_tile(actor_unit),
