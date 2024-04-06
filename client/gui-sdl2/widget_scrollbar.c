@@ -719,7 +719,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *active_widget_l
           /*
             unsymmetric list support.
             This is big problem because we can't take position from unexisting
-            list memeber. We must put here some hypothetical positions
+            list member. We must put here some hypothetical positions
 
             [B0] [B1] [B2]
             --------------
