@@ -420,6 +420,15 @@ Advancement of medicine allows people to live in higher density. \
 Allows settlements to grow two sizes bigger.\
 ")
 
+[advance_military_constructs]
+name        = _("Military Constructs")
+req1        = "Construction"
+req2        = "Trenches"
+flags       = ""
+graphic     = "a.military_constructs"
+graphic_alt = "-"
+;helptext    =
+
 [advance_mining]
 name        = _("Mining")
 req1        = "Carving"

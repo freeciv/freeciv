@@ -749,27 +749,31 @@ helptext       = _("\
 Mine increases tile shield production.\
 ")
 
-;[extra_gbase]
-;name           = _("Generic Base")
-;category       = "Infra"
-;causes         = "Base"
+[extra_fort]
+name           = _("Fort")
+category       = "Infra"
+causes         = "Base"
 ;rmcauses       = ""
-;graphic        = "base.generic"
-;graphic_alt    = "-"
-;activity_gfx   = "unit.gbase"
-;act_gfx_alt    = "-"
-;act_gfx_alt2   = "-"
-;rmact_gfx      = "None"
-;rmact_gfx_alt  = "-"
-;rmact_gfx_alt2 = "-"
-;buildable      = FALSE
-;reqs           =
-;    { "type", "name", "range"
-; No requirements
-;    }
-;build_time     = 0
-;removal_time   = 0
-;helptext       =
+graphic        = "base.fort"
+graphic_alt    = "base.fortress"
+activity_gfx   = "unit.fort"
+act_gfx_alt    = "unit.fortress"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
+buildable      = TRUE
+reqs           =
+    { "type",         "name",                "range"
+      "Tech",         "Military Constructs", "Player"
+      "TerrainClass", "Land",                "Tile"
+    }
+build_time     = 7
+removal_time   = 0
+defense_bonus  = 35
+helptext       = _("\
+Simplest of military castles, Fort provides just 35% defense bonus.\
+")
 
 [extra_path]
 name           = _("Path")
@@ -902,6 +906,10 @@ rmact_gfx_alt2 = "-"
 ;
 ; */ <-- avoid gettext warnings
 
+[base_fort]
+extra          = "Fort"
+gui_type       = "Other"
+border_sq      = -1
 
 
 ; /* <-- avoid gettext warnings
