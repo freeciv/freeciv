@@ -49,7 +49,8 @@ static char *string_duplicate(const char *string)
   if (string) {
     return fc_strdup(string);
   }
-  return NULL;
+
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -59,7 +60,7 @@ struct strvec *strvec_new(void)
 {
   struct strvec *psv = fc_malloc(sizeof(struct strvec));
 
-  psv->vec = NULL;
+  psv->vec = nullptr;
   psv->size = 0;
 
   return psv;
@@ -105,7 +106,7 @@ void strvec_reserve(struct strvec *psv, size_t reserve)
 
 /**********************************************************************//**
   Stores the string vector from a normal vector. If size == -1, it will
-  assume it is a NULL terminated vector.
+  assume it is a nullptr terminated vector.
 **************************************************************************/
 void strvec_store(struct strvec *psv, const char *const *vec, size_t size)
 {
@@ -169,7 +170,7 @@ void strvec_clear(struct strvec *psv)
     string_free(*p);
   }
   free(psv->vec);
-  psv->vec = NULL;
+  psv->vec = nullptr;
   psv->size = 0;
 }
 
@@ -331,7 +332,7 @@ bool strvec_remove(struct strvec *psv, size_t svindex)
   string_free(psv->vec[svindex]);
   memmove(psv->vec + svindex, psv->vec + svindex + 1,
           (psv->size - svindex - 1) * sizeof(char *));
-  psv->vec[psv->size - 1] = NULL; /* Do not attempt to free this data. */
+  psv->vec[psv->size - 1] = nullptr; /* Do not attempt to free this data. */
   strvec_reserve(psv, psv->size - 1);
 
   return TRUE;
@@ -387,7 +388,7 @@ bool strvec_index_valid(const struct strvec *psv, size_t svindex)
 **************************************************************************/
 const char *strvec_get(const struct strvec *psv, size_t svindex)
 {
-  return strvec_index_valid(psv, svindex) ? psv->vec[svindex] : NULL;
+  return strvec_index_valid(psv, svindex) ? psv->vec[svindex] : nullptr;
 }
 
 /**********************************************************************//**
@@ -428,7 +429,8 @@ void strvec_to_str(const struct strvec *psv, char separator,
 const char *strvec_to_or_list(const struct strvec *psv,
                               struct astring *astr)
 {
-  fc_assert_ret_val(NULL != psv, NULL);
+  fc_assert_ret_val(psv != nullptr, nullptr);
+
   return astr_build_or_list(astr, (const char **) psv->vec, psv->size);
 }
 
@@ -441,6 +443,7 @@ const char *strvec_to_or_list(const struct strvec *psv,
 const char *strvec_to_and_list(const struct strvec *psv,
                                struct astring *astr)
 {
-  fc_assert_ret_val(NULL != psv, NULL);
+  fc_assert_ret_val(psv != nullptr, nullptr);
+
   return astr_build_and_list(astr, (const char **) psv->vec, psv->size);
 }
