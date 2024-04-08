@@ -119,7 +119,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add tech")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  tech_layout->addWidget(add_button, row++, 0);
+  tech_layout->addWidget(add_button, row, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this tech")), this);
