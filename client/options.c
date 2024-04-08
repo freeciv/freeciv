@@ -6123,7 +6123,7 @@ void options_save(option_save_log_callback log_cb)
   secfile_insert_bool(sf, gui_options.gui_gtk3_22_migrated_from_gtk3,
                       "client.migration_gtk3_22_from_gtk3");
   secfile_insert_bool(sf, gui_options.gui_gtk4_migrated_from_gtk3_22,
-                      "client.migration_gtk4_from_gtk3");
+                      "client.migration_gtk4_from_gtk3_22");
   secfile_insert_bool(sf, gui_options.gui_sdl2_migrated_from_sdl,
                       "client.migration_sdl2_from_sdl");
   secfile_insert_bool(sf, gui_options.gui_sdl3_migrated_from_sdl2,
