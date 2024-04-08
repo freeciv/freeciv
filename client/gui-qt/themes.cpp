@@ -142,7 +142,7 @@ char **qtg_get_gui_specific_themes_directories(int *count)
   Array size is stored in count.
   The caller is responsible for freeing the array and the names.
 *****************************************************************************/
-char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
+char **qtg_get_usable_themes_in_directory(const char *directory, int *count)
 {
   QStringList sl, theme_list;
   char **array;

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ GUI_FUNC_PROTO(void, gui_load_theme, const char *directory,
                const char *theme_name)
 GUI_FUNC_PROTO(void, gui_clear_theme, void)
 GUI_FUNC_PROTO(char**, get_gui_specific_themes_directories, int *count)
-GUI_FUNC_PROTO(char**, get_useable_themes_in_directory,
+GUI_FUNC_PROTO(char**, get_usable_themes_in_directory,
                const char *directory, int* count)
 
 #endif /* FC__THEMES_G_H */

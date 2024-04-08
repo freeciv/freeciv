@@ -631,9 +631,9 @@ char **get_gui_specific_themes_directories(int *count)
 }
 
 /**********************************************************************//**
-  Call get_useable_themes_in_directory callback
+  Call get_usable_themes_in_directory callback
 **************************************************************************/
-char **get_useable_themes_in_directory(const char *directory, int *count)
+char **get_usable_themes_in_directory(const char *directory, int *count)
 {
-  return funcs.get_useable_themes_in_directory(directory, count);
+  return funcs.get_usable_themes_in_directory(directory, count);
 }

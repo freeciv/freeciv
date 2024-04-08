@@ -144,7 +144,7 @@ struct gui_funcs {
   void (*gui_load_theme)(const char *directory, const char *theme_name);
   void (*gui_clear_theme)(void);
   char **(*get_gui_specific_themes_directories)(int *count);
-  char **(*get_useable_themes_in_directory)(const char *directory, int *count);
+  char **(*get_usable_themes_in_directory)(const char *directory, int *count);
 };
 
 struct gui_funcs *get_gui_funcs(void);

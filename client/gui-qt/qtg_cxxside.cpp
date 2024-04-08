@@ -113,5 +113,5 @@ void setup_gui_funcs()
   funcs->gui_load_theme = qtg_gui_load_theme;
   funcs->gui_clear_theme = qtg_gui_clear_theme;
   funcs->get_gui_specific_themes_directories = qtg_get_gui_specific_themes_directories;
-  funcs->get_useable_themes_in_directory = qtg_get_useable_themes_in_directory;
+  funcs->get_usable_themes_in_directory = qtg_get_usable_themes_in_directory;
 }

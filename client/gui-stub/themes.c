@@ -60,7 +60,7 @@ char **gui_get_gui_specific_themes_directories(int *count)
   Array size is stored in count.
   The caller is responsible for freeing the array and the names
 *****************************************************************************/
-char **gui_get_useable_themes_in_directory(const char *directory, int *count)
+char **gui_get_usable_themes_in_directory(const char *directory, int *count)
 {
   *count = 0;
   return fc_malloc(sizeof(char*) * 0);
