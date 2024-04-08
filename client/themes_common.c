@@ -42,7 +42,7 @@
   
   Theme is stored in a directory called like the theme. The directory contains
   some data files. Each gui defines its own format in the
-  get_useable_themes_in_directory() function.
+  get_usable_themes_in_directory() function.
 ****************************************************************************/
 
 /* A directory containing a list of usable themes */
@@ -65,27 +65,27 @@ struct theme_directory *directories;
 void init_themes(void)
 {
   int i;
-    
-  /* get GUI-specific theme directories */
+
+  /* Get GUI-specific theme directories */
   char **gui_directories =
       get_gui_specific_themes_directories(&num_directories);
-  
-  directories = 
+
+  directories =
       fc_malloc(sizeof(struct theme_directory) * num_directories);
-          
+
   for (i = 0; i < num_directories; i++) {
     directories[i].path = gui_directories[i];
-    
-    /* get useable themes in this directory */
+
+    /* Get usable themes in this directory */
     directories[i].themes =
-	get_useable_themes_in_directory(directories[i].path,
-					&(directories[i].num_themes));
+	get_usable_themes_in_directory(directories[i].path,
+                                       &(directories[i].num_themes));
   }
   free(gui_directories);
 }
 
 /************************************************************************//**
-  Return a static string vector of useable theme names.
+  Return a static string vector of usable theme names.
 ****************************************************************************/
 const struct strvec *get_themes_list(const struct option *poption)
 {

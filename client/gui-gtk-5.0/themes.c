@@ -138,10 +138,10 @@ char **get_gui_specific_themes_directories(int *count)
 /*************************************************************************//**
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
-  Useable theme for gtk is a directory which contains file gtk-4.0/gtk.css.
+  Usable theme for gtk is a directory which contains file gtk-4.0/gtk.css.
   The caller is responsible for freeing the array and the names
 *****************************************************************************/
-char **get_useable_themes_in_directory(const char *directory, int *count)
+char **get_usable_themes_in_directory(const char *directory, int *count)
 {
   DIR *dir;
   struct dirent *entry;

@@ -123,5 +123,5 @@ void setup_gui_funcs(void)
   funcs->gui_load_theme = gui_gui_load_theme;
   funcs->gui_clear_theme = gui_gui_clear_theme;
   funcs->get_gui_specific_themes_directories = gui_get_gui_specific_themes_directories;
-  funcs->get_useable_themes_in_directory = gui_get_useable_themes_in_directory;
+  funcs->get_usable_themes_in_directory = gui_get_usable_themes_in_directory;
 }
