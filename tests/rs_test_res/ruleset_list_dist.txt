@@ -5,4 +5,5 @@ civ2civ3
 classic
 multiplayer
 sandbox
+granularity
 stub
