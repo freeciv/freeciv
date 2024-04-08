@@ -1385,7 +1385,11 @@ static void report_wow_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data)
 {
-  send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+  if (GUI_GTK_OPTION(message_chat_location) == GUI_GTK_MSGCHAT_MERGED) {
+    send_report_request(REPORT_WONDERS_OF_THE_WORLD_LONG);
+  } else {
+    send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+  }
 }
 
 /************************************************************************//**
