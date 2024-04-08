@@ -537,7 +537,7 @@ class RawFieldType(ABC):
     @abstractmethod
     def array(self, size: SizeInfo) -> "FieldType":
         """Add an array size to this field type, either to make a type which
-        needs a size fully useable, or to make an array type with self as
+        needs a size fully usable, or to make an array type with self as
         the element type."""
         raise NotImplementedError
 
@@ -643,7 +643,7 @@ class NeedSizeType(RawFieldType):
         """The field type constructed when adding a size to this type"""
 
     def array(self, size: SizeInfo) -> "FieldType":
-        """Add an array size to make a useable type."""
+        """Add an array size to make a usable type."""
         return self.cls(self.dataio_type, self.public_type, size)
 
     def __str__(self) -> str:
