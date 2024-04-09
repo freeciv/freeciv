@@ -71,7 +71,8 @@ struct tile_cache {
   int output[O_LAST];
 };
 
-static inline void city_tile_cache_update(struct city *pcity);
+static inline void city_tile_cache_update(const struct civ_map *nmap,
+                                          struct city *pcity);
 static inline int city_tile_cache_get_output(const struct city *pcity,
                                              int city_tile_index,
                                              enum output_type_id o);
@@ -902,6 +903,8 @@ bool can_city_build_improvement_later(const struct city *pcity,
 bool can_city_build_unit_direct(const struct city *pcity,
                                 const struct unit_type *punittype)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (!can_player_build_unit_direct(city_owner(pcity), punittype, FALSE)) {
     return FALSE;
   }
@@ -925,7 +928,7 @@ bool can_city_build_unit_direct(const struct city *pcity,
 
   /* You can't build naval units inland. */
   if (!uclass_has_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
-      && !is_native_near_tile(&(wld.map), utype_class(punittype),
+      && !is_native_near_tile(nmap, utype_class(punittype),
                               pcity->tile)) {
     return FALSE;
   }
@@ -965,6 +968,8 @@ bool can_city_build_unit_now(const struct city *pcity,
 bool can_city_build_unit_later(const struct city *pcity,
 			       const struct unit_type *punittype)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Can the _player_ ever build this unit? */
   if (!can_player_build_unit_later(city_owner(pcity), punittype)) {
     return FALSE;
@@ -973,7 +978,7 @@ bool can_city_build_unit_later(const struct city *pcity,
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
   if (!uclass_has_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
-      && !is_native_near_tile(&(wld.map), utype_class(punittype),
+      && !is_native_near_tile(nmap, utype_class(punittype),
                               pcity->tile)) {
     return FALSE;
   }
@@ -2397,11 +2402,11 @@ static inline void set_city_bonuses(struct city *pcity)
 
   TODO: use the cached values elsewhere in the code!
 **************************************************************************/
-static inline void city_tile_cache_update(struct city *pcity)
+static inline void city_tile_cache_update(const struct civ_map *nmap,
+                                          struct city *pcity)
 {
   bool is_celebrating = base_city_celebrating(pcity);
   int radius_sq = city_map_radius_sq_get(pcity);
-  const struct civ_map *nmap = &(wld.map);
 
   /* Initialize tile_cache if needed */
   if (pcity->tile_cache == NULL || pcity->tile_cache_radius_sq == -1
@@ -3164,13 +3169,15 @@ static inline void city_support(struct city *pcity)
 **************************************************************************/
 void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (workers_map == NULL) {
     /* do a full refresh */
 
     /* Calculate the bonus[] array values. */
     set_city_bonuses(pcity);
     /* Calculate the tile_cache[] values. */
-    city_tile_cache_update(pcity);
+    city_tile_cache_update(nmap, pcity);
     /* manage settlers, and units */
     city_support(pcity);
   }
