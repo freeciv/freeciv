@@ -396,6 +396,7 @@ static bool tai_city_worker_task_select(struct ai_type *ait,
   struct tai_tile_state state = { .uw_max = 0, .uw_max_base = 0, .worst_worked = FC_INFINITY,
                                   .orig_worst_worked = 0, .old_worst_worked = FC_INFINITY };
   struct unit_list *units = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
   switch (limit) {
   case TWTL_CURRENT_UNITS:
@@ -413,7 +414,7 @@ static bool tai_city_worker_task_select(struct ai_type *ait,
     break;
   }
 
-  city_tile_iterate_index(city_map_radius_sq_get(pcity), city_tile(pcity),
+  city_tile_iterate_index(nmap, city_map_radius_sq_get(pcity), city_tile(pcity),
                           ptile, cindex) {
     tai_tile_worker_task_select(pplayer, pcity, ptile, cindex, units, &worked, &unworked,
                                 &state, limit);
