@@ -2689,6 +2689,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 #ifdef FREECIV_WEB
   if (web_packet != nullptr) {
     struct tile *pcenter = city_tile(pcity);
+    const struct civ_map *nmap = &(wld.map);
 
     BV_CLR_ALL(web_packet->can_build_unit);
     BV_CLR_ALL(web_packet->can_build_improvement);
@@ -2719,7 +2720,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     } unit_type_iterate_end;
 
     i = 0;
-    city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
+    city_tile_iterate(nmap, city_map_radius_sq_get(pcity), pcenter, ptile) {
       web_packet->output_food[i] = city_tile_output_now(pcity, ptile, O_FOOD);
       web_packet->output_shield[i] = city_tile_output_now(pcity, ptile, O_SHIELD);
       web_packet->output_trade[i] = city_tile_output_now(pcity, ptile, O_TRADE);
