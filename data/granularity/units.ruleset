@@ -394,7 +394,7 @@ flags         = "BuildAnywhere"
 name          = _("Nomad")
 class         = "Land"
 ;reqs
-obsolete_by   = "None"
+obsolete_by   = "Settlers"
 graphic       = "u.nomad"
 graphic_alt   = "u.worker"
 sound_move    = "m_nomad"
@@ -430,7 +430,7 @@ reqs          =
   { "type", "name", "range"
     "Tech", "Cave Painting", "Player"
   }
-obsolete_by   = "None"
+obsolete_by   = "Archers"
 graphic       = "u.warriors"
 graphic_alt   = "-"
 sound_move    = "m_warriors"
@@ -465,7 +465,7 @@ reqs          =
   { "type", "name", "range"
     "Tech", "Bronze Weapons", "Player"
   }
-obsolete_by   = "None"
+obsolete_by   = "Legion"
 graphic       = "u.phalanx"
 graphic_alt   = "-"
 sound_move    = "m_phalanx"
@@ -491,6 +491,41 @@ tp_defense    = "Alight"
 roles         = "Firstbuild", "DefendGoodStartUnit"
 helptext      = _("\
 Phalanx is a good defender for your early cities.\
+")
+
+[unit_legion]
+name          = _("Legion")
+class         = "Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Strategies", "Player"
+  }
+obsolete_by   = "None"
+graphic       = "u.legion"
+graphic_alt   = "-"
+sound_move    = "m_legion"
+sound_move_alt = "m_generic"
+sound_fight   = "f_legion"
+sound_fight_alt = "f_generic"
+build_cost    = 2500
+pop_cost      = 0
+attack        = 25
+defense       = 25
+hitpoints     = 10
+firepower     = 1
+move_rate     = 100
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 100
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+;flags         =
+roles         = "Firstbuild"
+helptext      = _("\
+Legion is fairly good both at defending and attacking. \
 ")
 
 [unit_hunters]
