@@ -313,7 +313,7 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 
 [advance_flight]
 name        = _("Flight")
-req1        = "Deception"
+req1        = "Strategies"
 req2        = "Sailing"
 flags       = ""
 graphic     = "a.flight"
@@ -551,6 +551,15 @@ graphic_alt = "a.alphabet"
 helptext    = _("\
 Belief in natural spirits is the first step in Religious \
 tech tree branch.")
+
+[advance_strategies]
+name        = _("Strategies")
+req1        = "Archery"
+req2        = "Iron Working"
+flags       = ""
+graphic     = "a.strategies"
+graphic_alt = "-"
+;helptext    =
 
 [advance_the_wheel]
 name        = _("The Wheel")
