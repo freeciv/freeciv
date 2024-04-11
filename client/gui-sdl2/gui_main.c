@@ -35,6 +35,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 /* SDL2 */
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL.h>
@@ -858,6 +862,10 @@ Uint16 gui_event_loop(void *data,
     }
 
     update_main_screen();
+
+#ifdef __EMSCRIPTEN__
+    emscripten_sleep(100);
+#endif
   }
 
   return ID;
