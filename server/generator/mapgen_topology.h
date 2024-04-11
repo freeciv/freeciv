@@ -38,7 +38,7 @@
 int get_sqsize(void);
 
 /* Size safe Unit of colatitude. 0 is not allowed due to possibility of
- * division by 0 in mapgen.c */ 
+ * division by 0 in mapgen.c */
 #define L_UNIT MAX(1, wld.map.server.size * MAX_COLATITUDE / (30 * get_sqsize()))
 
 /* define the 3 regions of a Earth like map:

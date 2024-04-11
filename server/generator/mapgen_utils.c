@@ -92,7 +92,7 @@ void map_unset_placed(struct tile *ptile)
 /**********************************************************************//**
   Set all oceanics tiles in placed_map
 **************************************************************************/
-void set_all_ocean_tiles_placed(void) 
+void set_all_ocean_tiles_placed(void)
 {
   whole_map_iterate(&(wld.map), ptile) {
     if (is_ocean_tile(ptile)) {
@@ -102,7 +102,7 @@ void set_all_ocean_tiles_placed(void)
 }
 
 /**********************************************************************//**
-  Set all nearby tiles as placed on pmap. 
+  Set all nearby tiles as placed on pmap.
 **************************************************************************/
 void set_placed_near_pos(struct tile *ptile, int dist)
 {
@@ -162,7 +162,7 @@ void adjust_int_map_filtered(int *int_map, int int_map_min,
 
     /* create the linearize function as "incremental" frequencies */
     for (i =  0; i < size; i++) {
-      count += frequencies[i]; 
+      count += frequencies[i];
       frequencies[i] = int_map_min + (count * int_map_delta) / total;
     }
 
@@ -435,7 +435,7 @@ int get_continent_size(Continent_id id)
   Return size in tiles of the given ocean. You should use positive ocean
   number.
 **************************************************************************/
-int get_ocean_size(Continent_id id) 
+int get_ocean_size(Continent_id id)
 {
   fc_assert_ret_val(id > 0, -1);
   return ocean_sizes[id];

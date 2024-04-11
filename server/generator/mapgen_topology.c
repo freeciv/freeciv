@@ -69,7 +69,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
   const int even = 2;
 
   /* In iso-maps we need to double the map.ysize factor, since xsize is
-   * in native coordinates which are compressed 2x in the X direction. */ 
+   * in native coordinates which are compressed 2x in the X direction. */
   const int iso = MAP_IS_ISOMETRIC ? 2 : 1;
 
   /* We have:
@@ -85,7 +85,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
    *
    *   1000 * size = i_size * i_size * xratio * yratio * even * even * iso
    *   i_size = sqrt(1000 * size / (xratio * yratio * even * even * iso))
-   * 
+   *
    * Make sure to round off i_size to preserve exact wanted ratios,
    * that may be importante for some topologies.
    */
@@ -111,7 +111,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
   /* If the ratio is too big for some topology the simplest way to avoid
    * this error is to set the maximum size smaller for all topologies! */
   if (wld.map.server.size * 1000 > size + 900.0) {
-    /* Warning when size is set uselessly big */ 
+    /* Warning when size is set uselessly big */
     log_error("Requested size of %d is too big for this topology.",
               wld.map.server.size);
   }

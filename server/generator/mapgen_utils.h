@@ -77,7 +77,7 @@ struct extra_type *pick_resource(const struct terrain *pterrain);
 #define axis_iterate_end						\
     }									\
   }									\
-} 
+}
 
 /***************************************************************************
   pdata or pfilter can be NULL!
@@ -118,4 +118,4 @@ bool placed_map_is_initialized(void);
 void set_all_ocean_tiles_placed(void) ;
 void set_placed_near_pos(struct tile *ptile, int dist);
 
-#endif  /* FC__MAPGEN_UTILS_H */
+#endif /* FC__MAPGEN_UTILS_H */

@@ -119,7 +119,7 @@ void make_fracture_map(void)
     }
   }
 
-  /* Assign cells to landmass. Gradually expand the radius of the 
+  /* Assign cells to landmass. Gradually expand the radius of the
      fracture point. */
   for (rad = 1; rad < (MAP_NATIVE_WIDTH >> 1); rad++) {
     for (nn = 0; nn < mm + num_landmass; nn++) {
@@ -149,8 +149,8 @@ void make_fracture_map(void)
 **************************************************************************/
 static void circle_bresenham(int xc, int yc, int r, int nn)
 {
-  int x = 0; 
-  int y = r; 
+  int x = 0;
+  int y = r;
   int p = 3 - 2 * r;
 
   if (!r) {

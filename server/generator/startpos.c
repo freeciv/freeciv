@@ -293,7 +293,7 @@ static bool filter_starters(const struct tile *ptile, const void *data)
   MAPSTARTPOS_2or3: 2 players per isle (maybe one isle with 3).
   MAPSTARTPOS_ALL: all players in asingle isle.
   MAPSTARTPOS_VARIABLE: at least 2 player per isle.
-  
+
   Assumes assign_continent_numbers() has already been done!
   Returns true on success
 ****************************************************************************/
@@ -308,7 +308,7 @@ bool create_start_positions(enum map_startpos mode,
   int min_goodies_per_player = 1500;
   int total_goodies = 0;
   /* This is factor is used to maximize land used in extreme little maps */
-  float efactor =  player_count() / map_size_checked() / 4; 
+  float efactor =  player_count() / map_size_checked() / 4;
   bool failure = FALSE;
   bool is_tmap = temperature_is_initialized();
   const struct civ_map *nmap = &(wld.map);
@@ -411,11 +411,11 @@ bool create_start_positions(enum map_startpos mode,
 
   /* the variable way is the last possibility */
   if (MAPSTARTPOS_VARIABLE == mode) {
-    min_goodies_per_player = total_goodies * (0.65 + 0.8 * efactor) 
+    min_goodies_per_player = total_goodies * (0.65 + 0.8 * efactor)
       / (1 + efactor)  / player_count();
   }
 
-  { 
+  {
     int nr, to_place = player_count(), first = 1;
 
     /* inizialize islands_index */

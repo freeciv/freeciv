@@ -90,7 +90,7 @@ bool tmap_is(const struct tile *ptile, temperature_type tt)
 /**********************************************************************//**
   Return true if at least one tile has tt temperature type
 **************************************************************************/
-bool is_temperature_type_near(const struct tile *ptile, temperature_type tt) 
+bool is_temperature_type_near(const struct tile *ptile, temperature_type tt)
 {
   adjc_iterate(&(wld.map), ptile, tile1) {
     if (BOOL_VAL(tmap(tile1) & (tt))) {
