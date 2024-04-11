@@ -899,6 +899,11 @@ class FloatType(BasicType):
         super().__init__(dataio_type, public_type)
         self.float_factor = int(float_factor)
 
+    def get_code_cmp(self, location: Location) -> str:
+        return f"""\
+differ = ((int) (old->{location} * {self.float_factor}) != (int) (real_packet->{location} * {self.float_factor}));
+"""
+
     def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
         return f"""\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{location}, {self.float_factor:d});
