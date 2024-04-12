@@ -88,7 +88,7 @@ bool api_play_music(lua_State *L, Player *pplayer, const char *tag)
 }
 
 /**********************************************************************//**
-  Return the formated value of the setting or NULL if no such setting
+  Return the formatted value of the setting or NULL if no such setting
   exists.
 **************************************************************************/
 const char *api_server_setting_get(lua_State *L, const char *sett_name)

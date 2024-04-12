@@ -176,7 +176,7 @@ const char *ssetv_rule_name(ssetv val)
 }
 
 /***********************************************************************//**
-  Returns the server setting - value pair formated in a user readable way.
+  Returns the server setting - value pair formatted in a user readable way.
 ***************************************************************************/
 const char *ssetv_human_readable(ssetv val, bool present)
 {

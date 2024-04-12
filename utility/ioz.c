@@ -958,7 +958,7 @@ static void xz_action(fz_FILE *fp, lzma_action action)
 #endif /* FREECIV_HAVE_LIBLZMA */
 
 /************************************************************************//**
-  Print formated, like fprintf().
+  Print formatted, like fprintf().
 
   Note: zlib doesn't have gzvfprintf(), but thats ok because its
   fprintf() only does similar to what we do here (print to fixed
