@@ -1430,6 +1430,10 @@ class Field:
     - everything except the final array size
     - the final array size"""
 
+    FORBIDDEN_NAMES = {"pid", "fields"}
+    """Field names that are not allowed because they would conflict
+    with the special fields used by the JSON protocol"""
+
     cfg: ScriptConfig
     """Configuration used when generating code for this field"""
 
@@ -1467,7 +1471,10 @@ class Field:
             if not isinstance(field_type, FieldType):
                 raise ValueError(f"need an array size to use type {field_type}")
 
-            yield Field(cfg, field_text, field_type, flag_info)
+            if field_text in cls.FORBIDDEN_NAMES:
+                raise ValueError(f"illegal field name: {field_text}")
+
+            yield cls(cfg, field_text, field_type, flag_info)
 
     def __init__(self, cfg: ScriptConfig, name: str, type_info: FieldType, flags: FieldFlags):
         self.cfg = cfg
