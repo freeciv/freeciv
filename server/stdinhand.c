@@ -6407,7 +6407,7 @@ static bool kick_command(struct connection *caller, char *name, bool check)
 static void show_help_intro(struct connection *caller,
                             enum command_id help_cmd)
 {
-  /* This is formated like extra_help entries for settings and commands: */
+  /* This is formatted like extra_help entries for settings and commands: */
   char *help = fc_strdup(
     _("Welcome - this is the introductory help text for the Freeciv "
       "server.\n"
