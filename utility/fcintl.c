@@ -29,10 +29,10 @@
 static bool autocap = FALSE;
 
 /*******************************************************************//**
-  Some strings are ambiguous for translation.  For example, "Game" is
+  Some strings are ambiguous for translation. For example, "Game" is
   something you play (like Freeciv!) or animals that can be hunted.
   To distinguish strings for translation, we qualify them with a prefix
-  string of the form "?qualifier:".  So, the above two cases might be:
+  string of the form "?qualifier:". So, the above two cases might be:
     "Game"           -- when used as meaning something you play
     "?animals:Game"  -- when used as animals to be hunted
   Notice that only the second is qualified; the first is processed in
@@ -41,7 +41,7 @@ static bool autocap = FALSE;
   This function tests for, and removes if found, the qualifier prefix part
   of a string.
 
-  This function is called by the Q_() macro and specenum.  If used in the
+  This function is called by the Q_() macro and specenum. If used in the
   Q_() macro it should, if NLS is enabled, have called gettext() to get the
   argument to pass to this function. Specenum use it untranslated.
 ***********************************************************************/
@@ -54,7 +54,7 @@ const char *skip_intl_qualifier_prefix(const char *str)
   } else if ((ptr = strchr(str, ':'))) {
     return (ptr + 1);
   } else {
-    return str;			/* may be something wrong */
+    return str;                 /* May be something wrong */
   }
 }
 
@@ -125,7 +125,7 @@ const char *get_locale_dir(void)
       char *cwdbuf;
 
 #ifdef HAVE_GETCWD
-      cwdbuf = getcwd(NULL, 0);
+      cwdbuf = getcwd(nullptr, 0);
 #else
       /* Can't help it. Must construct relative path. */
       cwdbuf = fc_strdup(".");
