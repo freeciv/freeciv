@@ -420,6 +420,13 @@ void rscompat_postprocess(struct rscompat_info *info)
   } unit_type_iterate_end;
 
   enabler = action_enabler_new();
+  enabler->action = ACTION_GAIN_VETERANCY;
+  e_req = req_from_str("UnitFlag", "Local", FALSE, FALSE, FALSE,
+                       "NoVeteran");
+  requirement_vector_append(&enabler->actor_reqs, e_req);
+  action_enabler_add(enabler);
+
+  enabler = action_enabler_new();
   enabler->action = ACTION_ESCAPE;
   e_req = req_from_str("UnitFlag", "Local", FALSE, TRUE, FALSE,
                        "CanEscape");
