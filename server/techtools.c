@@ -662,10 +662,10 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech,
   }
   fc_assert_ret(research);
 
-  /* count our research contribution this turn */
+  /* Count our research contribution this turn */
   pplayer->server.bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
-  if (A_UNKNOWN != research->researching_saved) {
+  if (research->researching_saved != A_UNKNOWN && research->researching_saved != A_UNSET) {
     fc_assert(research->researching_saved != research->researching);
     research->bulbs_researching_saved += bulbs;
   }
