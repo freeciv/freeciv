@@ -649,7 +649,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
     return;
   }
 
-  /* count our research contribution this turn */
+  /* Count our research contribution this turn */
   pplayer->server.bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
   advance_index_iterate(A_FIRST, j) {
@@ -657,7 +657,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
       research->inventions[j].bulbs_researched_saved = research->bulbs_researched;
     }
   } advance_index_iterate_end;
-  if (A_UNKNOWN != research->researching_saved) {
+  if (research->researching_saved != A_UNKNOWN && research->researching_saved != A_UNSET) {
     research->bulbs_researching_saved += bulbs;
   }
 
