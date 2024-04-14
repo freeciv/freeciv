@@ -1143,7 +1143,7 @@ enablers = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
-; Action enablers:\n\
+; Enablers:\n\
 ;\n\
 ; action               = the action to enable.\n\
 ; actor_reqs           = requirements that apply to the actor.\n\
@@ -1152,7 +1152,7 @@ enablers = "\
 ; README.actions lists the possible actions and their hard coded\n\
 ; requirements.\n\
 ;\n\
-; An action enabler is active when its actor_reqs AND its target_reqs are\n\
+; An enabler is active when its actor_reqs AND its target_reqs are\n\
 ; satisfied.\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\

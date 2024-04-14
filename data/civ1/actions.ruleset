@@ -351,7 +351,7 @@ quiet_actions = "Enter Hut 2", "Unit Move"
 
 ; /* <-- avoid gettext warnings
 ;
-; Action enablers:
+; Enablers:
 ;
 ; action               = the action to enable.
 ; actor_reqs           = requirements that apply to the actor.
@@ -360,12 +360,12 @@ quiet_actions = "Enter Hut 2", "Unit Move"
 ; README.actions lists the possible actions and their hard coded
 ; requirements.
 ;
-; An action enabler is active when its actor_reqs AND its target_reqs are
+; An enabler is active when its actor_reqs AND its target_reqs are
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
 
-[actionenabler_sabotage_city]
+[enabler_sabotage_city]
 action        = "Sabotage City"
 actor_reqs    =
     { "type",   "name", "range"
@@ -375,7 +375,7 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local"
     }
 
-[actionenabler_establish_embassy]
+[enabler_establish_embassy]
 action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
@@ -390,7 +390,7 @@ target_reqs   =
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
-[actionenabler_investigate_city]
+[enabler_investigate_city]
 action        = "Investigate City Spend Unit"
 actor_reqs    =
     { "type",   "name", "range"
@@ -400,7 +400,7 @@ actor_reqs    =
       "DiplRel", "Foreign", "Local"
     }
 
-[actionenabler_steal_tech_random]
+[enabler_steal_tech_random]
 action        = "Steal Tech"
 actor_reqs    =
     { "type",   "name", "range"
@@ -414,7 +414,7 @@ target_reqs   =
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
-[actionenabler_incite_city]
+[enabler_incite_city]
 action        = "Incite City"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -431,7 +431,7 @@ target_reqs   =
       "Building", "Palace", "City", FALSE
     }
 
-[actionenabler_bribe_unit]
+[enabler_bribe_unit]
 action        = "Bribe Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -449,7 +449,7 @@ target_reqs   =
       "MaxUnitsOnTile", "1", "Tile", TRUE
     }
 
-[actionenabler_trade_route]
+[enabler_trade_route]
 action        = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -457,7 +457,7 @@ actor_reqs    =
       "UnitState", "HasHomeCity", "Local", TRUE
     }
 
-[actionenabler_marketplace]
+[enabler_marketplace]
 action        = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -465,7 +465,7 @@ actor_reqs    =
       "UnitState", "HasHomeCity", "Local", TRUE
     }
 
-[actionenabler_help_build_wonder]
+[enabler_help_build_wonder]
 action        = "Help Wonder"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -477,7 +477,7 @@ target_reqs   =
       "BuildingGenus", "GreatWonder", "Local"
     }
 
-[actionenabler_disband_unit_recover]
+[enabler_disband_unit_recover]
 action        = "Disband Unit Recover"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -487,10 +487,10 @@ actor_reqs    =
       "DiplRel",  "Peace",      "Local", FALSE
     }
 
-[actionenabler_disband_unit]
+[enabler_disband_unit]
 action        = "Disband Unit"
 
-[actionenabler_build_city_pioneer]
+[enabler_build_city_pioneer]
 action        = "Found City"
 actor_reqs    =
     { "type",   "name", "range"
@@ -504,7 +504,7 @@ target_reqs   =
       "TerrainFlag","NoCities","Tile",FALSE
     }
 
-[actionenabler_build_city_domestic]
+[enabler_build_city_domestic]
 action        = "Found City"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -519,7 +519,7 @@ target_reqs   =
       "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
-[actionenabler_join_city]
+[enabler_join_city]
 action        = "Join City"
 actor_reqs    =
     { "type",   "name", "range", "present"
@@ -528,14 +528,14 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local", TRUE
     }
 
-[actionenabler_nuke]
+[enabler_nuke]
 action        = "Explode Nuclear"
 actor_reqs    =
     { "type",     "name",    "range", "present"
       "UnitFlag", "Nuclear", "Local", TRUE
     }
 
-[actionenabler_nuke_city]
+[enabler_nuke_city]
 action        = "Nuke City"
 actor_reqs    =
     { "type",         "name",    "range"
@@ -544,7 +544,7 @@ actor_reqs    =
       "DiplRel",      "War",     "Local"
     }
 
-[actionenabler_nuke_units]
+[enabler_nuke_units]
 action        = "Nuke Units"
 actor_reqs    =
     { "type",         "name",    "range"
@@ -557,7 +557,7 @@ target_reqs   =
       "CityTile", "Center", "Tile",  FALSE
     }
 
-[actionenabler_attack_from_native]
+[enabler_attack_from_native]
 action        = "Attack"
 actor_reqs    =
     { "type",          "name",         "range", "present"
@@ -568,7 +568,7 @@ actor_reqs    =
       "DiplRel",       "War",          "Local", TRUE
     }
 
-[actionenabler_attack_uclass_sea]
+[enabler_attack_uclass_sea]
 action        = "Attack"
 actor_reqs    =
     { "type",          "name",    "range", "present"
@@ -579,7 +579,7 @@ actor_reqs    =
       "DiplRel",       "War",     "Local", TRUE
     }
 
-[actionenabler_ransom_from_native]
+[enabler_ransom_from_native]
 action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",         "range", "present"
@@ -594,7 +594,7 @@ target_reqs   =
       "PlayerState",   "Barbarian",    "Player"
     }
 
-[actionenabler_ransom_uclass_sea]
+[enabler_ransom_uclass_sea]
 action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",         "range", "present"
@@ -609,7 +609,7 @@ target_reqs   =
       "PlayerState",   "Barbarian",    "Player"
     }
 
-[actionenabler_explode_missile]
+[enabler_explode_missile]
 action        = "Suicide Attack"
 actor_reqs    =
     { "type",          "name",    "range", "present"
@@ -619,7 +619,7 @@ actor_reqs    =
       "DiplRel",       "War",     "Local", TRUE
     }
 
-[actionenabler_conquer_city_native]
+[enabler_conquer_city_native]
 action        = "Conquer City"
 actor_reqs    =
     { "type",           "name",          "range", "present"
@@ -634,7 +634,7 @@ target_reqs   =
       "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
-[actionenabler_change_home_city]
+[enabler_change_home_city]
 action        = "Home City"
 actor_reqs    =
     { "type",      "name",        "range", "present"
@@ -642,14 +642,14 @@ actor_reqs    =
       "DiplRel",   "Foreign",  "Local", FALSE
     }
 
-[actionenabler_cultivate]
+[enabler_cultivate]
 action        = "Cultivate"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Workers",      "Local", TRUE
     }
 
-[actionenabler_plant]
+[enabler_plant]
 action        = "Plant"
 actor_reqs    =
     { "type",          "name",         "range", "present"
@@ -660,21 +660,21 @@ target_reqs   =
       "Extra",         "River",        "Tile", FALSE
     }
 
-[actionenabler_pillage]
+[enabler_pillage]
 action        = "Pillage"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitClassFlag", "CanPillage",   "Local"
     }
 
-[actionenabler_clean]
+[enabler_clean]
 action        = "Clean"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Workers",      "Local", TRUE
     }
 
-[actionenabler_fortify_terrain]
+[enabler_fortify_terrain]
 action        = "Fortify"
 actor_reqs    =
     { "type",          "name",         "range", "present"
@@ -684,7 +684,7 @@ actor_reqs    =
       "Activity",      "Fortified",    "Local", FALSE
     }
 
-[actionenabler_fortify_city]
+[enabler_fortify_city]
 action        = "Fortify"
 actor_reqs    =
     { "type",          "name",         "range", "present"
@@ -694,7 +694,7 @@ actor_reqs    =
       "Activity",      "Fortified",    "Local", FALSE
     }
 
-[actionenabler_road]
+[enabler_road]
 action        = "Build Road"
 actor_reqs    =
     { "type",          "name",         "range"
@@ -705,7 +705,7 @@ target_reqs   =
       "TerrainAlter", "CanRoad", "Tile"
     }
 
-[actionenabler_base]
+[enabler_base]
 action        = "Build Base"
 actor_reqs    =
     { "type",          "name",         "range"
@@ -716,7 +716,7 @@ target_reqs   =
       "TerrainAlter", "CanBase", "Tile"
     }
 
-[actionenabler_mining]
+[enabler_mining]
 action        = "Build Mine"
 actor_reqs    =
     { "type",          "name",         "range"
@@ -727,7 +727,7 @@ target_reqs   =
       "TerrainAlter", "CanMine", "Tile"
     }
 
-[actionenabler_irrigate_src_ocean]
+[enabler_irrigate_src_ocean]
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",          "name",         "range"
@@ -739,7 +739,7 @@ target_reqs   =
       "TerrainAlter", "CanIrrigate", "Tile"
     }
 
-[actionenabler_irrigate_src_river]
+[enabler_irrigate_src_river]
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",          "name",         "range"
@@ -751,7 +751,7 @@ target_reqs   =
       "TerrainAlter", "CanIrrigate", "Tile"
     }
 
-[actionenabler_irrigate_src_irrigation]
+[enabler_irrigate_src_irrigation]
 action        = "Build Irrigation"
 actor_reqs    =
     { "type",          "name",         "range"
@@ -763,7 +763,7 @@ target_reqs   =
       "TerrainAlter", "CanIrrigate", "Tile"
     }
 
-[actionenabler_deboard]
+[enabler_deboard]
 action        = "Transport Deboard"
 actor_reqs    =
     { "type",      "name",          "range"
@@ -775,7 +775,7 @@ target_reqs   =
       "UnitState", "Transporting", "Local"
     }
 
-[actionenabler_board]
+[enabler_board]
 action        = "Transport Board"
 actor_reqs    =
     { "type",    "name",       "range", "present"
@@ -786,7 +786,7 @@ actor_reqs    =
       "DiplRel", "Never met",  "Local", FALSE
     }
 
-[actionenabler_unload]
+[enabler_unload]
 action        = "Transport Unload"
 actor_reqs    =
     { "type",      "name",         "range"
@@ -798,7 +798,7 @@ target_reqs   =
       "UnitState", "Transported",   "Local"
     }
 
-[actionenabler_disembark]
+[enabler_disembark]
 action        = "Transport Disembark"
 actor_reqs    =
     { "type",         "name",        "range", "present"
@@ -808,7 +808,7 @@ actor_reqs    =
       "CityTile",     "Center",      "Tile",  FALSE
     }
 
-[actionenabler_embark]
+[enabler_embark]
 action        = "Transport Embark"
 actor_reqs    =
     { "type",         "name",       "range", "present"
@@ -825,7 +825,7 @@ target_reqs   =
       "CityTile", "Center", "Tile",  FALSE
     }
 
-[actionenabler_regular_move]
+[enabler_regular_move]
 action        = "Unit Move"
 actor_reqs    =
     { "type",         "name",        "range", "present"
@@ -833,7 +833,7 @@ actor_reqs    =
       "UnitState",    "Transported", "Local", FALSE
     }
 
-[actionenabler_hut_enter_from_native]
+[enabler_hut_enter_from_native]
 action        = "Enter Hut"
 actor_reqs    =
     { "type",          "name",        "range", "present"
@@ -842,7 +842,7 @@ actor_reqs    =
       "UnitClassFlag", "HutNothing",  "Local", FALSE
     }
 
-[actionenabler_hut_enter_from_transport]
+[enabler_hut_enter_from_transport]
 action        = "Enter Hut 2"
 actor_reqs    =
   { "type",          "name",        "range", "present"
@@ -851,7 +851,7 @@ actor_reqs    =
     "UnitClassFlag", "HutNothing",  "Local", FALSE
     }
 
-[actionenabler_gain_veterancy]
+[enabler_gain_veterancy]
 action        = "Gain Veterancy"
 actor_reqs    =
     { "type",        "name",        "range", "present"

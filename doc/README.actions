@@ -4,25 +4,25 @@ An action is something a player can do to achieve something in the game.
 It has properties like cost, chance of success and effects. Some of those
 properties are configurable using effects and other rule set settings. To
 learn how to change them read README.effects and the rule set files of
-classic. An action enabler allows a player to do an action.
+classic. An enabler allows a player to do an action.
 
-Generalized action enablers
-===============================
-Some actions have generalized action enablers. An action like that can have
-zero, one or more action enablers defined for it in the ruleset. The player can
-do the action only when at least one generalized action enabler says that the
+Generalized enablers
+====================
+Some actions have generalized enablers. An action like that can have
+zero, one or more enablers defined for it in the ruleset. The player can
+do the action only when at least one generalized enabler says that the
 action is enabled (and all its hard requirements are fulfilled). A ruleset
-author can therefore disable an action by not defining any action enablers for
+author can therefore disable an action by not defining any enablers for
 it in their ruleset.
 
-A generalized action enabler lives in actions.ruleset. It consists of
+A generalized enabler lives in actions.ruleset. It consists of
 the action it enables and two requirement vectors.
 The first requirement vector, actor_reqs, applies to the entity doing
 the action. The second, target_reqs, applies to its target. If both requirement
-vectors are fulfilled the action is enabled as far as the action enabler is
+vectors are fulfilled the action is enabled as far as the enabler is
 concerned. Note that an action's hard requirements still may make it impossible.
 
-In some situations an action controlled by generalized action enablers may be
+In some situations an action controlled by generalized enablers may be
 impossible because of limitations in Freeciv it self. Those limitations are
 called hard requirements. The hard requirements of each action are documented
 below in the section called "Actions and their hard coded requirements".
@@ -35,14 +35,14 @@ Should the player order a unit to do an illegal action the server will
 inform the player that their unit was unable to perform the action. The
 actor unit may also lose a ruleset configurable amount of move fragments.
 
-Some action enablers guard things that user is not able to initiate,
+Some enablers guard things that user is not able to initiate,
 but which will happen automatically. These are listed as
 'internal' actions.
 
 
 Example
 =======
-[actionenabler_veil_the_threat_of_terror]
+[enabler_veil_the_threat_of_terror]
 action = "Incite City"
 actor_reqs    =
     { "type",    "name",                 "range", "present"
@@ -51,7 +51,7 @@ actor_reqs    =
       "DiplRel", "Foreign",              "Local", TRUE
     }
 
-[actionenabler_go_bind_your_sons_to_exile]
+[enabler_go_bind_your_sons_to_exile]
 action = "Incite City"
 actor_reqs    =
     { "type",    "name",       "range",  "present"
@@ -63,17 +63,17 @@ target_reqs    =
       "Tech",   "Writing", "Player", False
     }
 
-Above are two action enablers. They both enable the action "Incite City". If
+Above are two enablers. They both enable the action "Incite City". If
 all the conditions of at least one of them are fulfilled it will be enabled.
-No information is given to the player about what action enabler enabled an
+No information is given to the player about what enabler enabled an
 action.
 
-The first action enabler, actionenabler_veil_the_threat_of_terror, is
+The first enabler, enabler_veil_the_threat_of_terror, is
 simple. It allows a player to incite a city if they have a reason to declare
 war on its owner AND the city's owner don't have a reason to declare war on
 them.
 
-The second action enabler, actionenabler_go_bind_your_sons_to_exile, is more
+The second enabler, enabler_go_bind_your_sons_to_exile, is more
 complex. It allows a player that has Flight to bribe the cities of
 civilizations that don't have Writing. The complexity is caused by the
 requirement that the target don't know Writing. If the civilization of the
@@ -84,7 +84,7 @@ be added.
 
 Requirement vector rules
 ========================
-An action enabler has two requirement vectors that must be true at the same
+An enabler has two requirement vectors that must be true at the same
 time. This creates some corner cases you won't find with single requirement
 vectors. The rules below tries to deal with them.
 
@@ -94,7 +94,7 @@ actor requirements.
    requirement.
  * Only having to care about local DiplRel requirements in the actor
    requirements allows the Freeciv code responsible for reasoning about
-   action enablers to be simpler and faster.
+   enablers to be simpler and faster.
  * If player A having a diplomatic relationship to player B implies that
    player B has the same relationship to player A the relationship is
    symmetric. Examples: "Foreign" and "War"
@@ -133,7 +133,7 @@ Latter signal has four parameters; action that was finished,
 whether action was successful, actor, and target. Actor and/or target
 might be nil if they got destroyed by the action.
 
-To get the rule name of an action, that is the name used in action enablers,
+To get the rule name of an action, that is the name used in enablers,
 you can use the method rule_name(). To get a translated name that is nice to
 show to players use name_translation().
 
@@ -246,8 +246,8 @@ Actions and their hard requirements
 ===================================
 Freeciv can only allow a player to perform an action when the action's hard
 requirements are fulfilled. Some, but not all, hard requirements can be
-expressed in an action enabler. Putting them there makes it clearer what the
-rule actually is. Parts of Freeciv reasons about action enablers. Examples
+expressed in an enabler. Putting them there makes it clearer what the
+rule actually is. Parts of Freeciv reasons about enablers. Examples
 are self contradicting rule detection and the help system. Including the
 hard requirements rules in each enabler of its action is therefore
 obligatory for some hard requirements. Those hard requirements are marked

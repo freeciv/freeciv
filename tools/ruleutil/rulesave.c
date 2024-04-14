@@ -1230,7 +1230,7 @@ static bool save_actions_ruleset(const char *filename, const char *name)
       continue;
     }
 
-    fc_snprintf(path, sizeof(path), "actionenabler_%d", sect_idx++);
+    fc_snprintf(path, sizeof(path), "enabler_%d", sect_idx++);
 
     secfile_insert_str(sfile, action_rule_name(enabler_get_action(pae)),
                        "%s.action", path);

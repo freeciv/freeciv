@@ -237,7 +237,7 @@ quiet_actions = "Transport Disembark 2", "Unit Move"
 
 ; /* <-- avoid gettext warnings
 ;
-; Action enablers:
+; Enablers:
 ;
 ; action               = the action to enable.
 ; actor_reqs           = requirements that apply to the actor.
@@ -246,12 +246,12 @@ quiet_actions = "Transport Disembark 2", "Unit Move"
 ; README.actions lists the possible actions and their hard coded
 ; requirements.
 ;
-; An action enabler is active when its actor_reqs AND its target_reqs are
+; An enabler is active when its actor_reqs AND its target_reqs are
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
 
-[actionenabler_establish_embassy]
+[enabler_establish_embassy]
 action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
@@ -266,7 +266,7 @@ target_reqs   =
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
-[actionenabler_bribe_unit]
+[enabler_bribe_unit]
 action        = "Bribe Unit"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
@@ -284,7 +284,7 @@ target_reqs   =
       "MaxUnitsOnTile", "1",      "Tile",  TRUE
     }
 
-[actionenabler_found_city_tribal]
+[enabler_found_city_tribal]
 action        = "Found City"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
@@ -299,7 +299,7 @@ target_reqs   =
       "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
-[actionenabler_found_city_despotism]
+[enabler_found_city_despotism]
 action        = "Found City"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
@@ -314,7 +314,7 @@ target_reqs   =
       "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
-[actionenabler_found_city_monarchy]
+[enabler_found_city_monarchy]
 action        = "Found City"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
@@ -328,21 +328,21 @@ target_reqs   =
       "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
-[actionenabler_cultivate]
+[enabler_cultivate]
 action        = "Cultivate"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Workers",      "Local", TRUE
     }
 
-[actionenabler_plant]
+[enabler_plant]
 action        = "Plant"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Workers",      "Local", TRUE
     }
 
-[actionenabler_deboard]
+[enabler_deboard]
 action        = "Transport Deboard"
 actor_reqs    =
     { "type",      "name",          "range"
@@ -354,7 +354,7 @@ target_reqs   =
       "UnitState", "Transporting", "Local"
     }
 
-[actionenabler_board]
+[enabler_board]
 action        = "Transport Board"
 actor_reqs    =
     { "type",    "name",       "range", "present"
@@ -365,7 +365,7 @@ actor_reqs    =
       "DiplRel", "Never met",  "Local", FALSE
     }
 
-[actionenabler_unload]
+[enabler_unload]
 action        = "Transport Unload"
 actor_reqs    =
     { "type",      "name",         "range"
@@ -377,7 +377,7 @@ target_reqs   =
       "UnitState", "Transported",   "Local"
     }
 
-[actionenabler_disembark_from_native_tile]
+[enabler_disembark_from_native_tile]
 action        = "Transport Disembark"
 actor_reqs    =
     { "type",         "name",         "range"
@@ -386,7 +386,7 @@ actor_reqs    =
       "UnitState",    "OnNativeTile", "Local"
     }
 
-[actionenabler_disembark_from_native_city]
+[enabler_disembark_from_native_city]
 action        = "Transport Disembark"
 actor_reqs    =
     { "type",         "name",        "range"
@@ -395,7 +395,7 @@ actor_reqs    =
       "CityTile",     "Center",      "Tile"
     }
 
-[actionenabler_disembark_from_non_native]
+[enabler_disembark_from_non_native]
 action        = "Transport Disembark 2"
 actor_reqs    =
     { "type",           "name",         "range", "present"
@@ -405,7 +405,7 @@ actor_reqs    =
       "CityTile",       "Center",       "Tile",  FALSE
     }
 
-[actionenabler_embark]
+[enabler_embark]
 action        = "Transport Embark"
 actor_reqs    =
     { "type",         "name",       "range", "present"
@@ -417,7 +417,7 @@ actor_reqs    =
       "DiplRel",      "Never met",  "Local", FALSE
     }
 
-[actionenabler_regular_move]
+[enabler_regular_move]
 action        = "Unit Move"
 actor_reqs    =
     { "type",         "name",        "range", "present"
@@ -425,7 +425,7 @@ actor_reqs    =
       "UnitState",    "Transported", "Local", FALSE
     }
 
-[actionenabler_relocate]
+[enabler_relocate]
 action        = "Teleport"
 actor_reqs    =
     { "type",         "name",        "range", "present"
@@ -433,7 +433,7 @@ actor_reqs    =
       "UnitState",    "Transported", "Local", FALSE
     }
 
-[actionenabler_bombard_land]
+[enabler_bombard_land]
 action        = "Bombard 2"
 actor_reqs    =
     { "type",         "name",      "range"
@@ -441,7 +441,7 @@ actor_reqs    =
       "MinMoveFrags", "5",         "Local"
     }
 
-[actionenabler_surgical_strike]
+[enabler_surgical_strike]
 action        = "Surgical Strike Building"
 actor_reqs    =
     { "type",         "name",      "range"
@@ -449,7 +449,7 @@ actor_reqs    =
       "MinMoveFrags", "5",         "Local"
     }
 
-[actionenabler_bombard]
+[enabler_bombard]
 action        = "Bombard"
 actor_reqs    =
     { "type",         "name", "range"
@@ -457,7 +457,7 @@ actor_reqs    =
       "MinMoveFrags", "5",    "Local"
     }
 
-[actionenabler_fortify]
+[enabler_fortify]
 action        = "Fortify"
 actor_reqs    =
     { "type",     "name",      "range",  "present"
@@ -465,7 +465,7 @@ actor_reqs    =
       "Activity", "Fortified", "Local",  FALSE
     }
 
-[actionenabler_conquer_city_tribal]
+[enabler_conquer_city_tribal]
 action        = "Conquer City"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
@@ -481,7 +481,7 @@ target_reqs   =
       "MaxUnitsOnTile", "0",    "Tile",  TRUE
     }
 
-[actionenabler_conquer_city_despotism]
+[enabler_conquer_city_despotism]
 action        = "Conquer City"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
@@ -497,7 +497,7 @@ target_reqs   =
       "MaxUnitsOnTile", "0",    "Tile",  TRUE
     }
 
-[actionenabler_conquer_city_monarchy]
+[enabler_conquer_city_monarchy]
 action        = "Conquer City"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
@@ -512,7 +512,7 @@ target_reqs   =
       "MaxUnitsOnTile", "0",    "Tile",  TRUE
     }
 
-[actionenabler_capture_defenseless]
+[enabler_capture_defenseless]
 action        = "Capture Units"
 actor_reqs    =
     { "type",         "name", "range"
@@ -526,7 +526,7 @@ target_reqs   =
       "CityTile",  "Center",       "Tile",  FALSE
     }
 
-[actionenabler_gain_veterancy]
+[enabler_gain_veterancy]
 action        = "Gain Veterancy"
 actor_reqs    =
     { "type",         "name",        "range", "present"

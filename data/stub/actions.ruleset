@@ -177,7 +177,7 @@ found_city_consuming_always = TRUE
 
 ; /* <-- avoid gettext warnings
 ;
-; Action enablers:
+; Enablers:
 ;
 ; action               = the action to enable.
 ; actor_reqs           = requirements that apply to the actor.
@@ -186,16 +186,14 @@ found_city_consuming_always = TRUE
 ; README.actions lists the possible actions and their hard coded
 ; requirements.
 ;
-; An action enabler is active when its actor_reqs AND its target_reqs are
+; An enabler is active when its actor_reqs AND its target_reqs are
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
 
 ; No enabled actions
-; [actionenabler_embassy]
-; action        = "Establish Embassy"
 
-;[actionenabler_regular_move]
+;[enabler_regular_move]
 ;action        = "Unit Move"
 ;actor_reqs    =
 ;    { "type",         "name",        "range", "present"

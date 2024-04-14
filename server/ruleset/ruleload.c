@@ -108,6 +108,7 @@
 #define UNIT_SECTION_PREFIX "unit_"
 #define DISASTER_SECTION_PREFIX "disaster_"
 #define ACHIEVEMENT_SECTION_PREFIX "achievement_"
+#define ENABLER_SECTION_PREFIX "enabler_"
 #define ACTION_ENABLER_SECTION_PREFIX "actionenabler_"
 #define MULTIPLIER_SECTION_PREFIX "multiplier_"
 #define COUNTER_SECTION_PREFIX "counter_"
@@ -7819,9 +7820,14 @@ static bool load_ruleset_actions(struct section_file *file,
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file,
-                                          ACTION_ENABLER_SECTION_PREFIX);
+                                          ENABLER_SECTION_PREFIX);
 
-    if (sec) {
+    if (sec == nullptr && compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      sec = secfile_sections_by_name_prefix(file,
+                                            ACTION_ENABLER_SECTION_PREFIX);
+    }
+
+    if (sec != nullptr) {
       section_list_iterate(sec, psection) {
         struct action_enabler *enabler;
         const char *sec_name = section_name(psection);
