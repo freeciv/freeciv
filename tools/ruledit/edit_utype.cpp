@@ -42,6 +42,7 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
   QMenu *req;
+  QMenu *menu;
   int row = 0;
   int rowcount;
   int column;
@@ -67,6 +68,24 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
 
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(req_button, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Class")));
+  label->setParent(this);
+  class_button = new QToolButton();
+  class_button->setParent(this);
+  class_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  class_button->setPopupMode(QToolButton::MenuButtonPopup);
+  menu = new QMenu();
+  connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(class_menu(QAction *)));
+
+  unit_class_re_active_iterate(pclass) {
+    menu->addAction(uclass_rule_name(pclass));
+  } unit_class_re_active_iterate_end;
+
+  class_button->setMenu(menu);
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(class_button, row++, 1);
 
   label = new QLabel(QString::fromUtf8(R__("Build Cost")));
   label->setParent(this);
@@ -254,6 +273,7 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
 void edit_utype::refresh()
 {
   req_button->setText(tab_tech::tech_name(utype->require_advance));
+  class_button->setText(uclass_rule_name(utype->uclass));
   bcost->setValue(utype->build_cost);
   attack->setValue(utype->attack_strength);
   defense->setValue(utype->defense_strength);
@@ -392,4 +412,20 @@ void edit_utype::sound_fight_tag_alt_given()
   QByteArray tag_bytes = sound_fight_tag_alt->text().toUtf8();
 
   sz_strlcpy(utype->sound_fight_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User selected class
+**************************************************************************/
+void edit_utype::class_menu(QAction *action)
+{
+  QByteArray cn_bytes;
+  struct unit_class *pclass;
+
+  cn_bytes = action->text().toUtf8();
+  pclass = unit_class_by_rule_name(cn_bytes.data());
+
+  utype->uclass = pclass;
+
+  refresh();
 }

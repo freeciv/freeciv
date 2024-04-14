@@ -40,6 +40,7 @@ class edit_utype : public QDialog
     ruledit_gui *ui;
     struct unit_type *utype;
     QToolButton *req_button;
+    QToolButton *class_button;
     QSpinBox *bcost;
     QSpinBox *attack;
     QSpinBox *defense;
@@ -60,6 +61,7 @@ class edit_utype : public QDialog
 
   private slots:
     void req_menu(QAction *action);
+    void class_menu(QAction *action);
     void set_bcost_value(int value);
     void set_attack_value(int value);
     void set_defense_value(int value);
