@@ -315,9 +315,6 @@
 /* inet_pton() available */
 #mesondefine HAVE_INET_PTON
 
-/* localtime_r() available */
-#mesondefine HAVE_LOCALTIME_R
-
 /* opendir() available */
 #mesondefine HAVE_OPENDIR
 
