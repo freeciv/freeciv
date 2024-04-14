@@ -95,21 +95,21 @@
 
 /* Both of these are stored in the local encoding. The grouping_sep must
  * be converted to the internal encoding when it's used. */
-static char *grouping = NULL;
-static char *grouping_sep = NULL;
+static char *grouping = nullptr;
+static char *grouping_sep = nullptr;
 
 /* As well as base64 functions, this string is used for checking for
  * 'safe' filenames, so should not contain / \ . */
 static const char base64url[] =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
-static struct strvec *data_dir_names = NULL;
-static struct strvec *save_dir_names = NULL;
-static struct strvec *scenario_dir_names = NULL;
+static struct strvec *data_dir_names = nullptr;
+static struct strvec *save_dir_names = nullptr;
+static struct strvec *scenario_dir_names = nullptr;
 
-static char *mc_group = NULL;
-static char *home_dir_user = NULL;
-static char *storage_dir_freeciv = NULL;
+static char *mc_group = nullptr;
+static char *home_dir_user = nullptr;
+static char *storage_dir_freeciv = nullptr;
 
 static struct astring realfile = ASTRING_INIT;
 
@@ -172,8 +172,8 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
   seplen = strlen(sep);
 
 #if 0 /* Not needed while the values are unsigned. */
-  fc_assert_ret_val(0 <= mantissa, NULL);
-  fc_assert_ret_val(0 <= exponent, NULL);
+  fc_assert_ret_val(0 <= mantissa, nullptr);
+  fc_assert_ret_val(0 <= exponent, nullptr);
 #endif
 
   if (mantissa == 0) {
@@ -190,7 +190,7 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
 
     if (ptr <= buf + seplen) {
       /* Avoid a buffer overflow. */
-      fc_assert_ret_val(ptr > buf + seplen, NULL);
+      fc_assert_ret_val(ptr > buf + seplen, nullptr);
       return ptr;
     }
 
@@ -215,7 +215,7 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
       }
       ptr -= seplen;
 
-      fc_assert_ret_val(ptr >= buf, NULL);
+      fc_assert_ret_val(ptr >= buf, nullptr);
 
       memcpy(ptr, sep, seplen);
       if (*(grp + 1) != 0) {
@@ -254,13 +254,13 @@ bool is_safe_filename(const char *name)
 {
   int i = 0;
 
-  /* Must not be NULL or empty */
-  if (!name || *name == '\0') {
+  /* Must not be nullptr or empty */
+  if (name == nullptr || *name == '\0') {
     return FALSE;
   }
 
   for (; '\0' != name[i]; i++) {
-    if ('.' != name[i] && NULL == strchr(base64url, name[i])) {
+    if ('.' != name[i] && strchr(base64url, name[i]) == nullptr) {
       return FALSE;
     }
   }
@@ -285,8 +285,8 @@ bool is_ascii_name(const char *name)
   const char illegal_chars[] = {'|', '%', '"', ',', '*', '<', '>', '\0'};
   int i, j;
 
-  /* Must not be NULL or empty */
-  if (!name || *name == '\0') {
+  /* Must not be nullptr or empty */
+  if (name == nullptr || *name == '\0') {
     return FALSE;
   }
 
@@ -319,16 +319,17 @@ bool is_base64url(const char *s)
 {
   size_t i = 0;
 
-  /* Must not be NULL or empty */
-  if (NULL == s || '\0' == *s) {
+  /* Must not be nullptr or empty */
+  if (s == nullptr || '\0' == *s) {
     return FALSE;
   }
 
   for (; '\0' != s[i]; i++) {
-    if (NULL == strchr(base64url, s[i])) {
+    if (strchr(base64url, s[i]) == nullptr) {
       return FALSE;
     }
   }
+
   return TRUE;
 }
 
@@ -340,8 +341,8 @@ void randomize_base64url_string(char *s, size_t n)
 {
   size_t i = 0;
 
-  /* Must not be NULL or too short */
-  if (NULL == s || 1 > n) {
+  /* Must not be nullptr or too short */
+  if (s == nullptr || 1 > n) {
     return;
   }
 
@@ -387,7 +388,7 @@ int compare_strings_strvec(const char *const *first,
 ****************************************************************************/
 char *skip_leading_spaces(char *s)
 {
-  fc_assert_ret_val(NULL != s, NULL);
+  fc_assert_ret_val(s != nullptr, nullptr);
 
   while (*s != '\0' && fc_isspace(*s)) {
     s++;
@@ -404,7 +405,7 @@ void remove_leading_spaces(char *s)
 {
   char *t;
 
-  fc_assert_ret(NULL != s);
+  fc_assert_ret(s != nullptr);
   t = skip_leading_spaces(s);
   if (t != s) {
     while (*t != '\0') {
@@ -423,7 +424,7 @@ void remove_trailing_spaces(char *s)
   char *t;
   size_t len;
 
-  fc_assert_ret(NULL != s);
+  fc_assert_ret(s != nullptr);
   len = strlen(s);
   if (len > 0) {
     t = s + len -1;
@@ -454,7 +455,7 @@ static void remove_trailing_char(char *s, char trailing)
 {
   char *t;
 
-  fc_assert_ret(NULL != s);
+  fc_assert_ret(s != nullptr);
 
   t = s + strlen(s) -1;
   while (t>=s && (*t) == trailing) {
@@ -482,7 +483,7 @@ char *end_of_strn(char *str, int *nleft)
   int len = strlen(str);
 
   *nleft -= len;
-  fc_assert_ret_val(0 < (*nleft), NULL); /* Space for the terminating nul */
+  fc_assert_ret_val(0 < (*nleft), nullptr); /* Space for the terminating nul */
 
   return str + len;
 }
@@ -511,14 +512,14 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 }
 
 /************************************************************************//**
-  Convert 'str' to its int representation if possible. 'pint' can be NULL,
+  Convert 'str' to its int representation if possible. 'pint' can be nullptr,
   then it will only test 'str' only contains an integer number.
 ****************************************************************************/
 bool str_to_int(const char *str, int *pint)
 {
   const char *start;
 
-  fc_assert_ret_val(NULL != str, FALSE);
+  fc_assert_ret_val(str != nullptr, FALSE);
 
   while (fc_isspace(*str)) {
     /* Skip leading spaces. */
@@ -540,19 +541,19 @@ bool str_to_int(const char *str, int *pint)
     str++;
   }
 
-  return ('\0' == *str && (NULL == pint || 1 == sscanf(start, "%d", pint)));
+  return ('\0' == *str && (pint == nullptr || 1 == sscanf(start, "%d", pint)));
 }
 
 /************************************************************************//**
   Convert 'str' to its unsigned int representation if possible.
-  'pint' can be NULL, then it will only test 'str' only contains
+  'pint' can be nullptr, then it will only test 'str' only contains
   an unsigned integer number.
 ****************************************************************************/
 bool str_to_uint(const char *str, unsigned int *pint)
 {
   const char *start;
 
-  fc_assert_ret_val(NULL != str, FALSE);
+  fc_assert_ret_val(str != nullptr, FALSE);
 
   while (fc_isspace(*str)) {
     /* Skip leading spaces. */
@@ -574,19 +575,20 @@ bool str_to_uint(const char *str, unsigned int *pint)
     str++;
   }
 
-  return ('\0' == *str && (NULL == pint || 1 == sscanf(start, "%u", pint)));
+  return ('\0' == *str && (pint == nullptr || 1 == sscanf(start, "%u", pint)));
 }
 
 /************************************************************************//**
-  Convert 'str' to its float representation if possible. 'pfloat' can be NULL,
-  then it will only test 'str' only contains a floating point number.
+  Convert 'str' to its float representation if possible. 'pfloat'
+  can be nullptr, then it will only test 'str' only contains
+  a floating point number.
 ****************************************************************************/
 bool str_to_float(const char *str, float *pfloat)
 {
   bool dot;
   const char *start;
 
-  fc_assert_ret_val(NULL != str, FALSE);
+  fc_assert_ret_val(str != nullptr, FALSE);
 
   while (fc_isspace(*str)) {
     /* Skip leading spaces. */
@@ -622,13 +624,13 @@ bool str_to_float(const char *str, float *pfloat)
   }
 
   return ('\0' == *str && dot
-          && (NULL == pfloat || 1 == sscanf(start, "%f", pfloat)));
+          && (nullptr == pfloat || 1 == sscanf(start, "%f", pfloat)));
 }
 
 /************************************************************************//**
   Returns string which gives users home dir, as specified by $HOME.
   Gets value once, and then caches result.
-  If $HOME is not set, give a log message and returns NULL.
+  If $HOME is not set, give a log message and returns nullptr.
   Note the caller should not mess with the returned string.
 ****************************************************************************/
 char *user_home_dir(void)
@@ -643,7 +645,7 @@ char *user_home_dir(void)
 #define HOMEVAR "HOME"
 #endif
 
-  if (home_dir_user == NULL) {
+  if (home_dir_user == nullptr) {
     char *env = getenv(HOMEVAR);
 
     if (env) {
@@ -651,7 +653,7 @@ char *user_home_dir(void)
       log_verbose(HOMEVAR " is %s", home_dir_user);
     } else {
       log_error("Could not find home directory (" HOMEVAR " is not set).");
-      home_dir_user = NULL;
+      home_dir_user = nullptr;
     }
   }
 
@@ -664,9 +666,9 @@ char *user_home_dir(void)
 ****************************************************************************/
 void free_user_home_dir(void)
 {
-  if (home_dir_user != NULL) {
+  if (home_dir_user != nullptr) {
     free(home_dir_user);
-    home_dir_user = NULL;
+    home_dir_user = nullptr;
   }
 }
 
@@ -677,7 +679,7 @@ void free_user_home_dir(void)
 ****************************************************************************/
 char *freeciv_storage_dir(void)
 {
-  if (storage_dir_freeciv == NULL) {
+  if (storage_dir_freeciv == nullptr) {
     storage_dir_freeciv = fc_malloc(strlen(FREECIV_STORAGE_DIR) + 1);
 
     strcpy(storage_dir_freeciv, FREECIV_STORAGE_DIR);
@@ -695,9 +697,9 @@ char *freeciv_storage_dir(void)
 ****************************************************************************/
 void free_freeciv_storage_dir(void)
 {
-  if (storage_dir_freeciv != NULL) {
+  if (storage_dir_freeciv != nullptr) {
     free(storage_dir_freeciv);
-    storage_dir_freeciv = NULL;
+    storage_dir_freeciv = nullptr;
   }
 }
 
@@ -824,7 +826,7 @@ static char *expand_dir(char *tok_in, bool ok_to_free)
      * is readable etc? Don't currently. */
     if (i == -1 && ok_to_free) {
       free(tok);
-      tok = NULL;
+      tok = nullptr;
     }
   }
 
@@ -846,14 +848,14 @@ static struct strvec *base_get_dirs(const char *dir_list)
   do {
     char *dir = expand_dir(tok, FALSE);
 
-    if (dir != NULL) {
+    if (dir != nullptr) {
       strvec_append(dirs, dir);
       if (dir != tok) {
         free(dir);
       }
     }
 
-    tok = strtok(NULL, PATH_SEPARATOR);
+    tok = strtok(nullptr, PATH_SEPARATOR);
   } while (tok);
 
   free(path);
@@ -865,17 +867,17 @@ static struct strvec *base_get_dirs(const char *dir_list)
 ****************************************************************************/
 void free_data_dir_names(void)
 {
-  if (data_dir_names != NULL) {
+  if (data_dir_names != nullptr) {
     strvec_destroy(data_dir_names);
-    data_dir_names = NULL;
+    data_dir_names = nullptr;
   }
-  if (save_dir_names != NULL) {
+  if (save_dir_names != nullptr) {
     strvec_destroy(save_dir_names);
-    save_dir_names = NULL;
+    save_dir_names = nullptr;
   }
-  if (scenario_dir_names != NULL) {
+  if (scenario_dir_names != nullptr) {
     strvec_destroy(scenario_dir_names);
-    scenario_dir_names = NULL;
+    scenario_dir_names = nullptr;
   }
 }
 
@@ -895,7 +897,7 @@ const struct strvec *get_data_dirs(void)
   /* The first time this function is called it will search and
    * allocate the directory listing. Subsequently we will already
    * know the list and can just return it. */
-  if (NULL == data_dir_names) {
+  if (data_dir_names == nullptr) {
     const char *path;
 
 #ifdef FREECIV_APPIMAGE
@@ -915,9 +917,9 @@ const struct strvec *get_data_dirs(void)
       log_error(_("\"%s\" is set but empty; using default \"%s\" "
                  "data directories instead."),
                 FREECIV_DATA_PATH, default_data_path);
-      path = NULL;
+      path = nullptr;
     }
-    data_dir_names = base_get_dirs(NULL != path ? path : default_data_path);
+    data_dir_names = base_get_dirs(path != nullptr ? path : default_data_path);
     strvec_remove_duplicate(data_dir_names, strcmp); /* Don't set a path both. */
     strvec_iterate(data_dir_names, dirname) {
       log_verbose("Data path component: %s", dirname);
@@ -943,7 +945,7 @@ const struct strvec *get_save_dirs(void)
   /* The first time this function is called it will search and
    * allocate the directory listing. Subsequently we will already
    * know the list and can just return it. */
-  if (NULL == save_dir_names) {
+  if (save_dir_names == nullptr) {
     const char *path;
 
     if ((path = getenv(FREECIV_SAVE_PATH)) && '\0' == path[0]) {
@@ -951,9 +953,9 @@ const struct strvec *get_save_dirs(void)
       log_error(_("\"%s\" is set but empty; using default \"%s\" "
                   "save directories instead."),
                 FREECIV_SAVE_PATH, DEFAULT_SAVE_PATH);
-      path = NULL;
+      path = nullptr;
     }
-    save_dir_names = base_get_dirs(NULL != path ? path : DEFAULT_SAVE_PATH);
+    save_dir_names = base_get_dirs(path != nullptr ? path : DEFAULT_SAVE_PATH);
     strvec_remove_duplicate(save_dir_names, strcmp); /* Don't set a path both. */
     strvec_iterate(save_dir_names, dirname) {
       log_verbose("Save path component: %s", dirname);
@@ -980,7 +982,7 @@ const struct strvec *get_scenario_dirs(void)
   /* The first time this function is called it will search and
    * allocate the directory listing. Subsequently we will already
    * know the list and can just return it. */
-  if (NULL == scenario_dir_names) {
+  if (scenario_dir_names == nullptr) {
     const char *path;
 
 #ifdef FREECIV_APPIMAGE
@@ -1002,9 +1004,9 @@ const struct strvec *get_scenario_dirs(void)
       log_error( _("\"%s\" is set but empty; using default \"%s\" "
                    "scenario directories instead."),
                  FREECIV_SCENARIO_PATH, default_scenario_path);
-      path = NULL;
+      path = nullptr;
     }
-    scenario_dir_names = base_get_dirs(NULL != path ? path : default_scenario_path);
+    scenario_dir_names = base_get_dirs(path != nullptr ? path : default_scenario_path);
     strvec_remove_duplicate(scenario_dir_names, strcmp); /* Don't set a path both. */
     strvec_iterate(scenario_dir_names, dirname) {
       log_verbose("Scenario path component: %s", dirname);
@@ -1029,9 +1031,9 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
   struct strvec *files = strvec_new();
   size_t suffix_len = strlen(suffix);
 
-  fc_assert_ret_val(!strchr(suffix, DIR_SEPARATOR_CHAR), NULL);
+  fc_assert_ret_val(!strchr(suffix, DIR_SEPARATOR_CHAR), nullptr);
 
-  if (NULL == dirs) {
+  if (dirs == nullptr) {
     return files;
   }
 
@@ -1086,11 +1088,11 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
   Returns a filename to access the specified file from a
   directory by searching all specified directories for the file.
 
-  If the specified 'filename' is NULL, the returned string contains
+  If the specified 'filename' is nullptr, the returned string contains
   the effective path. (But this should probably only be used for
   debug output.)
 
-  Returns NULL if the specified filename cannot be found in any of the
+  Returns nullptr if the specified filename cannot be found in any of the
   data directories. (A file is considered "found" if it can be
   read-opened.) The returned pointer points to static memory, so this
   function can only supply one filename at a time. Don't free that
@@ -1101,14 +1103,14 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
 const char *fileinfoname(const struct strvec *dirs, const char *filename)
 {
 #ifndef DIR_SEPARATOR_IS_DEFAULT
-  char fnbuf[filename != NULL ? strlen(filename) + 1 : 1];
+  char fnbuf[filename != nullptr ? strlen(filename) + 1 : 1];
   int i;
 #else  /* DIR_SEPARATOR_IS_DEFAULT */
   const char *fnbuf = filename;
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
 
-  if (NULL == dirs) {
-    return NULL;
+  if (dirs == nullptr) {
+    return nullptr;
   }
 
   if (!filename) {
@@ -1149,7 +1151,7 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
 
   log_verbose("Could not find readable file \"%s\" in data path.", filename);
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -1213,8 +1215,8 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
 {
   struct fileinfo_list *res;
 
-  if (NULL == dirs) {
-    return NULL;
+  if (dirs == nullptr) {
+    return nullptr;
   }
 
   res = fileinfo_list_new_full(fileinfo_destroy);
@@ -1287,7 +1289,7 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
 ****************************************************************************/
 const char *setup_langname(void)
 {
-  const char *langname = NULL;
+  const char *langname = nullptr;
 
 #ifdef ENABLE_NLS
   langname = getenv("LANG");
@@ -1396,7 +1398,7 @@ const char *setup_langname(void)
         break;
     }
 
-    if (langname != NULL) {
+    if (langname != nullptr) {
       static char envstr[40];
 
       fc_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
@@ -1415,14 +1417,14 @@ const char *setup_langname(void)
 ****************************************************************************/
 static void autocap_update(void)
 {
-  char *autocap_opt_in[] = { "fi", NULL };
+  char *autocap_opt_in[] = { "fi", nullptr };
   int i;
   bool ac_enabled = FALSE;
 
   char *lang = getenv("LANG");
 
-  if (lang != NULL && lang[0] != '\0' && lang[1] != '\0') {
-    for (i = 0; autocap_opt_in[i] != NULL && !ac_enabled; i++) {
+  if (lang != nullptr && lang[0] != '\0' && lang[1] != '\0') {
+    for (i = 0; autocap_opt_in[i] != nullptr && !ac_enabled; i++) {
       if (lang[0] == autocap_opt_in[i][0]
           && lang[1] == autocap_opt_in[i][1]) {
         ac_enabled = TRUE;
@@ -1444,7 +1446,7 @@ void switch_lang(const char *lang)
 #ifdef HAVE_SETENV
   setenv("LANG", lang, TRUE);
 #else  /* HAVE_SETENV */
-  if (lang != NULL) {
+  if (lang != nullptr) {
     static char envstr[40];
 
     fc_snprintf(envstr, sizeof(envstr), "LANG=%s", lang);
@@ -1495,7 +1497,7 @@ void init_nls(void)
      This would result in the "C" locale being used, with grouping ""
      and thousands_sep "", where we really want "\3" and ",". */
 
-  if (strcmp(setlocale(LC_NUMERIC, NULL), "C") != 0) {
+  if (strcmp(setlocale(LC_NUMERIC, nullptr), "C") != 0) {
     struct lconv *lc = localeconv();
 
     if (lc->grouping[0] == '\0') {
@@ -1529,16 +1531,16 @@ void init_nls(void)
 void free_nls(void)
 {
   free(grouping);
-  grouping = NULL;
+  grouping = nullptr;
   free(grouping_sep);
-  grouping_sep = NULL;
+  grouping_sep = nullptr;
 }
 
 /************************************************************************//**
   If we have root privileges, die with an error.
   (Eg, for security reasons.)
   Param argv0 should be argv[0] or similar; fallback is
-  used instead if argv0 is NULL.
+  used instead if argv0 is nullptr.
   But don't die on systems where the user is always root...
   (a general test for this would be better).
   Doesn't use log_*() because gets called before logging is setup.
@@ -1576,7 +1578,7 @@ const char *m_pre_description(enum m_pre_result result)
     N_("non-match")
   };
 
-  fc_assert_ret_val(result >= 0 && result < ARRAY_SIZE(descriptions), NULL);
+  fc_assert_ret_val(result >= 0 && result < ARRAY_SIZE(descriptions), nullptr);
 
   return descriptions[result];
 }
@@ -1593,7 +1595,7 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
                                int *ind_result)
 {
   return match_prefix_full(accessor_fn, n_names, max_len_name, cmp_fn,
-                           len_fn, prefix, ind_result, NULL, 0, NULL);
+                           len_fn, prefix, ind_result, nullptr, 0, nullptr);
 }
 
 /************************************************************************//**
@@ -1603,9 +1605,9 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
   Returns type of match or fail, and for return <= M_PRE_AMBIGUOUS
   sets *ind_result with matching index (or for ambiguous, first match).
   If max_len_name == 0, treat as no maximum.
-  If the int array 'matches' is non-NULL, up to 'max_matches' ambiguous
+  If the int array 'matches' is not nullptr, up to 'max_matches' ambiguous
   matching names indices will be inserted into it. If 'pnum_matches' is
-  non-NULL, it will be set to the number of indices inserted into 'matches'.
+  not nullptr, it will be set to the number of indices inserted into 'matches'.
 ****************************************************************************/
 enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
                                     size_t n_names,
@@ -1620,7 +1622,7 @@ enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
 {
   int i, len, nmatches;
 
-  if (len_fn == NULL) {
+  if (len_fn == nullptr) {
     len = strlen(prefix);
   } else {
     len = len_fn(prefix);
@@ -1644,7 +1646,7 @@ enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
       if (nmatches == 0) {
         *ind_result = i;        /* First match */
       }
-      if (matches != NULL && nmatches < max_matches) {
+      if (matches != nullptr && nmatches < max_matches) {
         matches[nmatches] = i;
       }
       nmatches++;
@@ -1654,7 +1656,7 @@ enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
   if (nmatches == 1) {
     return M_PRE_ONLY;
   } else if (nmatches > 1) {
-    if (pnum_matches != NULL) {
+    if (pnum_matches != nullptr) {
       *pnum_matches = MIN(max_matches, nmatches);
     }
     return M_PRE_AMBIGUOUS;
@@ -1676,7 +1678,7 @@ char *get_multicast_group(bool ipv6_preferred)
   static char *default_multicast_group_ipv6 = "FF31::8000:15B4";
 #endif /* IPv6 support */
 
-  if (mc_group == NULL) {
+  if (mc_group == nullptr) {
     char *env = getenv("FREECIV_MULTICAST_GROUP");
 
     if (env) {
@@ -1701,9 +1703,9 @@ char *get_multicast_group(bool ipv6_preferred)
 ****************************************************************************/
 void free_multicast_group(void)
 {
-  if (mc_group != NULL) {
+  if (mc_group != nullptr) {
     free(mc_group);
-    mc_group = NULL;
+    mc_group = nullptr;
   }
 }
 
@@ -1758,7 +1760,7 @@ char *skip_to_basename(char *filepath)
 {
   int j;
 
-  fc_assert_ret_val(NULL != filepath, NULL);
+  fc_assert_ret_val(filepath != nullptr, nullptr);
 
   for (j = strlen(filepath); j >= 0; j--) {
     if (filepath[j] == DIR_SEPARATOR_CHAR) {
@@ -1783,7 +1785,7 @@ char *skip_to_basename(char *filepath)
 bool make_dir(const char *pathname, int mode)
 {
   char *dir;
-  char *path = NULL;
+  char *path = nullptr;
 
   if (pathname[0] == '\0') {
     return FALSE;
@@ -1907,11 +1909,11 @@ bool path_is_absolute(const char *filename)
 /************************************************************************//**
   Scan in a word or set of words from start to but not including
   any of the given delimiters. The buf pointer will point past delimiter,
-  or be set to NULL if there is nothing there. Removes excess white
+  or be set to nullptr if there is nothing there. Removes excess white
   space.
 
   This function should be safe, and dest will contain "\0" and
-  *buf == NULL on failure. We always fail gently.
+  *buf == nullptr on failure. We always fail gently.
 
   Due to the way the scanning is performed, looking for a space
   will give you the first word even if it comes before multiple
@@ -1919,7 +1921,7 @@ bool path_is_absolute(const char *filename)
 
   Returns delimiter found.
 
-  Pass in NULL for dest and -1 for size to just skip ahead. Note that if
+  Pass in nullptr for dest and -1 for size to just skip ahead. Note that if
   nothing is found, dest will contain the whole string, minus leading and
   trailing whitespace. You can scan for "" to conveniently grab the
   remainder of a string.
@@ -1928,11 +1930,11 @@ char scanin(const char **buf, char *delimiters, char *dest, int size)
 {
   char *ptr, found = '?';
 
-  if (*buf == NULL || strlen(*buf) == 0 || size == 0) {
+  if (*buf == nullptr || strlen(*buf) == 0 || size == 0) {
     if (dest) {
       dest[0] = '\0';
     }
-    *buf = NULL;
+    *buf = nullptr;
     return '\0';
   }
 
@@ -1945,7 +1947,7 @@ char scanin(const char **buf, char *delimiters, char *dest, int size)
     /* Just skip ahead. */
     ptr = strpbrk(*buf, delimiters);
   }
-  if (ptr != NULL) {
+  if (ptr != nullptr) {
     found = *ptr;
     if (dest) {
       *ptr = '\0';
@@ -1954,12 +1956,12 @@ char scanin(const char **buf, char *delimiters, char *dest, int size)
       remove_leading_trailing_spaces(dest);
     }
     *buf = strpbrk(*buf, delimiters);
-    if (*buf != NULL) {
+    if (*buf != nullptr) {
       (*buf)++; /* Skip delimiter */
     } else {
     }
   } else {
-    *buf = NULL;
+    *buf = nullptr;
   }
 
   return found;
@@ -2014,7 +2016,7 @@ void format_time_duration(time_t t, char *buf, int maxlen)
 ****************************************************************************/
 void array_shuffle(int *array, int n)
 {
-  if (n > 1 && array != NULL) {
+  if (n > 1 && array != nullptr) {
     int i, j, t;
 
     for (i = 0; i < n - 1; i++) {
@@ -2071,7 +2073,7 @@ static bool wildcard_asterisk_fit(const char *pattern, const char *test)
     if ('\0' != jump_to) {
       /* Jump to next matching charather. */
       test = strchr(test, jump_to);
-      if (NULL == test) {
+      if (test == nullptr) {
         /* No match. */
         return FALSE;
       }
@@ -2105,7 +2107,7 @@ static bool wildcard_range_fit(const char **pattern, const char **test)
   /* Find the end of the pattern. */
   while (TRUE) {
     *pattern = strchr(*pattern, ']');
-    if (NULL == *pattern) {
+    if (*pattern == nullptr) {
       /* Wildcard format error. */
       return FALSE;
     } else if (*(*pattern - 1) != '\\') {
@@ -2401,7 +2403,7 @@ static size_t extract_escapes(const char *format, char *escapes,
 
   memset(escapes, 0, max_escapes);
   format = strchr(format, '%');
-  while (NULL != format) {
+  while (format != nullptr) {
     format++;
     if ('%' == *format) {
       /* Double, not a sequence. */
@@ -2421,7 +2423,7 @@ static size_t extract_escapes(const char *format, char *escapes,
     }
 
     while ('\0' != *format
-           && NULL == strchr(format_escapes, *format)) {
+           && strchr(format_escapes, *format) == nullptr) {
       format++;
     }
     escapes[idx] = *format;
