@@ -490,7 +490,7 @@ static void incoming_client_packets(struct connection *pconn)
     start_processing_request(pconn, pconn->server.last_request_id_seen);
 
     command_ok = server_packet_input(pconn, packet.data, packet.type);
-    free(packet.data);
+    packet_destroy(packet.data, packet.type);
 
     finish_processing_request(pconn);
     connection_do_unbuffer(pconn);

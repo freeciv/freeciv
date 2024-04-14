@@ -677,6 +677,10 @@ class FieldType(RawFieldType):
     foldable: bool = False
     """Whether a field of this type can be folded into the packet header"""
 
+    complex: bool = False
+    """Whether a field of this type needs special handling when initializing,
+    copying or destroying the packet struct"""
+
     @cache
     def array(self, size: SizeInfo) -> "FieldType":
         """Construct a FieldType for an array with element type self and the
@@ -704,11 +708,45 @@ class FieldType(RawFieldType):
         See also self.get_code_handle_param()"""
         return str(location)
 
-    @abstractmethod
+    def get_code_init(self, location: Location) -> str:
+        """Generate a code snippet initializing a field of this type in the
+        packet struct, after the struct has already been zeroed.
+
+        Subclasses must override this if self.complex is True"""
+        if self.complex:
+            raise ValueError(f"default get_code_init implementation called for field {location.name} with complex type {self!r}")
+        return f"""\
+/* no work needed for {location} */
+"""
+
+    def get_code_copy(self, location: Location, dest: str, src: str) -> str:
+        """Generate a code snippet deep-copying a field of this type from
+        one packet struct to another that has already been initialized.
+
+        Subclasses must override this if self.complex is True"""
+        if self.complex:
+            raise ValueError(f"default get_code_copy implementation called for field {location.name} with complex type {self!r}")
+        return f"""\
+{dest}->{location} = {src}->{location};
+"""
+
     def get_code_fill(self, location: Location) -> str:
-        """Generate a code snippet moving a value of this type from dsend
-        arguments into a packet struct."""
-        raise NotImplementedError
+        """Generate a code snippet shallow-copying a value of this type from
+        dsend arguments into a packet struct."""
+        return f"""\
+real_packet->{location} = {location};
+"""
+
+    def get_code_free(self, location: Location) -> str:
+        """Generate a code snippet deinitializing a field of this type in
+        the packet struct before it gets destroyed.
+
+        Subclasses must override this if self.complex is True"""
+        if self.complex:
+            raise ValueError(f"default get_code_free implementation called for field {location.name} with complex type {self!r}")
+        return f"""\
+/* no work needed for {location} */
+"""
 
     @abstractmethod
     def get_code_hash(self, location: Location) -> str:
@@ -755,11 +793,6 @@ class BasicType(FieldType):
 
     def get_code_handle_param(self, location: Location) -> str:
         return f"{self.public_type} {location}"
-
-    def get_code_fill(self, location: Location) -> str:
-        return f"""\
-real_packet->{location} = {location};
-"""
 
     def get_code_hash(self, location: Location) -> str:
         raise ValueError(f"hash not supported for type {self} in field {location.name}")
@@ -1028,6 +1061,11 @@ class WorklistType(StructType):
 
         super().__init__(dataio_type, public_type)
 
+    def get_code_copy(self, location: Location, dest: str, src: str) -> str:
+        return f"""\
+worklist_copy(&{dest}->{location}, &{src}->{location});
+"""
+
     def get_code_fill(self, location: Location) -> str:
         return f"""\
 worklist_copy(&real_packet->{location}, {location});
@@ -1060,6 +1098,10 @@ class SizedType(BasicType):
     def get_code_fill(self, location: Location) -> str:
         return super().get_code_fill(location)
 
+    @abstractmethod
+    def get_code_copy(self, location: Location, dest: str, src: str) -> str:
+        return super().get_code_copy(location, dest, src)
+
     def __str__(self) -> str:
         return f"{super().__str__()}[{self.size}]"
 
@@ -1079,6 +1121,11 @@ class StringType(SizedType):
     def get_code_fill(self, location: Location) -> str:
         return f"""\
 sz_strlcpy(real_packet->{location}, {location});
+"""
+
+    def get_code_copy(self, location: Location, dest: str, src: str) -> str:
+        return f"""\
+sz_strlcpy({dest}->{location}, {src}->{location});
 """
 
     def get_code_cmp(self, location: Location) -> str:
@@ -1107,6 +1154,11 @@ class MemoryType(SizedType):
 
     def get_code_fill(self, location: Location) -> str:
         raise NotImplementedError("fill not supported for memory-type fields")
+
+    def get_code_copy(self, location: Location, dest: str, src: str) -> str:
+        return f"""\
+memcpy({dest}->{location}, {src}->{location}, {self.size.actual_for(src)});
+"""
 
     def get_code_cmp(self, location: Location) -> str:
         if self.size.constant:
@@ -1151,6 +1203,10 @@ class ArrayType(FieldType):
         self.elem = elem
         self.size = size
 
+    @property
+    def complex(self) -> bool:
+        return self.elem.complex
+
     def get_code_declaration(self, location: Location) -> str:
         return self.elem.get_code_declaration(
             location.deeper(f"{location}[{self.size.declared}]")
@@ -1161,6 +1217,38 @@ class ArrayType(FieldType):
         pre = "" if location.depth else "const "
         return pre + self.elem.get_code_handle_param(location.deeper(f"*{location}"))
 
+    def get_code_init(self, location: Location) -> str:
+        if not self.complex:
+            return super().get_code_init(location)
+        inner_init = prefix("    ", self.elem.get_code_init(location.sub))
+        # Note: we're initializing and destroying *all* elements of the array,
+        # not just those up to the actual size; otherwise we'd have to
+        # dynamically initialize and destroy elements as the actual size changes
+        return f"""\
+{{
+  int {location.index};
+
+  for ({location.index} = 0; {location.index} < {self.size.declared}; {location.index}++) {{
+{inner_init}\
+  }}
+}}
+"""
+
+    def get_code_copy(self, location: Location, dest: str, src: str) -> str:
+        # can't use direct assignment to bit-copy a raw array,
+        # even if our type is not complex
+        inner_copy = prefix("    ", self.elem.get_code_copy(location.sub, dest, src))
+        # FIXME: can't use self.size.real; have to use actual_for(src context)
+        return f"""\
+{{
+  int {location.index};
+
+  for ({location.index} = 0; {location.index} < {self.size.actual_for(src)}; {location.index}++) {{
+{inner_copy}\
+  }}
+}}
+"""
+
     def get_code_fill(self, location: Location) -> str:
         inner_fill = prefix("    ", self.elem.get_code_fill(location.sub))
         return f"""\
@@ -1169,6 +1257,23 @@ class ArrayType(FieldType):
 
   for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
 {inner_fill}\
+  }}
+}}
+"""
+
+    def get_code_free(self, location: Location) -> str:
+        if not self.complex:
+            return super().get_code_free(location)
+        inner_free = prefix("    ", self.elem.get_code_free(location.sub))
+        # Note: we're initializing and destroying *all* elements of the array,
+        # not just those up to the actual size; otherwise we'd have to
+        # dynamically initialize and destroy elements as the actual size changes
+        return f"""\
+{{
+  int {location.index};
+
+  for ({location.index} = 0; {location.index} < {self.size.declared}; {location.index}++) {{
+{inner_free}\
   }}
 }}
 """
@@ -1498,6 +1603,12 @@ class Field:
         """Set of all capabilities affecting this field"""
         return self.flags.add_caps | self.flags.remove_caps
 
+    @property
+    def complex(self) -> bool:
+        """Whether this field's type requires special handling;
+        see FieldType.complex"""
+        return self.type_info.complex
+
     def present_with_caps(self, caps: typing.Container[str]) -> bool:
         """Determine whether this field should be part of a variant with the
         given capabilities"""
@@ -1528,10 +1639,24 @@ class Field:
             packet_arrow + self.name,
         ))
 
+    def get_init(self) -> str:
+        """Generate code initializing this field in the packet struct, after
+        the struct has already been zeroed."""
+        return self.type_info.get_code_init(Location(self.name))
+
+    def get_copy(self, dest: str, src: str) -> str:
+        """Generate code deep-copying this field from *src to *dest."""
+        return self.type_info.get_code_copy(Location(self.name), dest, src)
+
     def get_fill(self) -> str:
-        """Generate code moving this field from the dsend arguments into
-        the packet struct."""
+        """Generate code shallow-copying this field from the dsend arguments
+        into the packet struct."""
         return self.type_info.get_code_fill(Location(self.name))
+
+    def get_free(self) -> str:
+        """Generate code deinitializing this field in the packet struct
+        before destroying the packet."""
+        return self.type_info.get_code_free(Location(self.name))
 
     def get_hash(self) -> str:
         """Generate code factoring this field into a hash computation."""
@@ -1854,6 +1979,15 @@ class Variant:
         return self.packet.cancel
 
     @property
+    def complex(self) -> bool:
+        """Whether this packet's struct requires special handling for
+        initialization, copying, and destruction.
+
+        Note that this is still True even if the complex-typed fields
+        of the packet are excluded from this Variant."""
+        return self.packet.complex
+
+    @property
     def differ_used(self) -> bool:
         """Whether the send function needs a `differ` boolean.
 
@@ -1927,6 +2061,18 @@ phandlers->send[{self.type}].packet = (int(*)(struct connection *, const void *)
         return f"""\
 phandlers->receive[{self.type}] = (void *(*)(struct connection *)) receive_{self.name};
 """
+
+    def get_copy(self, dest: str, src: str) -> str:
+        """Generate code deep-copying the fields relevant to this variant
+        from *src to *dest"""
+        if not self.complex:
+            return f"""\
+*{dest} = *{src};
+"""
+        return "".join(
+            field.get_copy(dest, src)
+            for field in self.fields
+        )
 
     def get_stats(self) -> str:
         """Generate the declaration of the delta stats counters associated
@@ -2067,20 +2213,43 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
             log=""
 
         if self.no_packet:
+            # empty packet, don't need anything
             main_header = ""
-        else:
-            if self.packet.want_pre_send:
-                main_header = f"""\
+            after_header = ""
+            before_return = ""
+        elif not self.packet.want_pre_send:
+            # no pre-send, don't need to copy the packet
+            main_header = f"""\
+  const struct {self.packet_name} *real_packet = packet;
+  int e;
+"""
+            after_header = ""
+            before_return = ""
+        elif not self.complex:
+            # bit-copy the packet
+            main_header = f"""\
   /* copy packet for pre-send */
   struct {self.packet_name} packet_buf = *packet;
   const struct {self.packet_name} *real_packet = &packet_buf;
-"""
-            else:
-                main_header = f"""\
-  const struct {self.packet_name} *real_packet = packet;
-"""
-            main_header += """\
   int e;
+"""
+            after_header = ""
+            before_return = ""
+        else:
+            # deep-copy the packet for pre-send, have to destroy the copy
+            copy = prefix("  ", self.get_copy("(&packet_buf)", "packet"))
+            main_header = f"""\
+  /* buffer to hold packet copy for pre-send */
+  struct {self.packet_name} packet_buf;
+  const struct {self.packet_name} *real_packet = &packet_buf;
+  int e;
+"""
+            after_header = f"""\
+  init_{self.packet_name}(&packet_buf);
+{copy}\
+"""
+            before_return = f"""\
+  free_{self.packet_name}(&packet_buf);
 """
 
         if not self.packet.want_pre_send:
@@ -2121,7 +2290,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
                 delta_header += """\
 #endif /* FREECIV_DELTA_PROTOCOL */
 """
-                body = prefix("  ", self.get_delta_send_body()) + """\
+                body = prefix("  ", self.get_delta_send_body(before_return)) + """\
 #ifndef FREECIV_DELTA_PROTOCOL
 """
             else:
@@ -2178,11 +2347,13 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
   SEND_PACKET_START({self.type});
 """,
             faddr,
+            after_header,
             log,
             report,
             pre,
             body,
             post,
+            before_return,
             f"""\
   SEND_PACKET_END({self.type});
 }}
@@ -2199,15 +2370,16 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 #ifdef FREECIV_DELTA_PROTOCOL
 if (nullptr == *hash) {{
   *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
-                           nullptr, nullptr, nullptr, free);
+                           nullptr, nullptr, nullptr, destroy_{self.packet_name});
 }}
 BV_CLR_ALL(fields);
 
 if (!genhash_lookup(*hash, real_packet, (void **) &old)) {{
   old = fc_malloc(sizeof(*old));
+  /* temporary bitcopy just to insert correctly */
   *old = *real_packet;
   genhash_insert(*hash, old, old);
-  memset(old, 0, sizeof(*old));
+  init_{self.packet_name}(old);
 """
         if self.is_info != "no":
             intro += """\
@@ -2265,10 +2437,8 @@ if (e) {
             field.get_put_wrapper(self, i, True)
             for i, field in enumerate(self.other_fields)
         )
-        body += """\
-
-*old = *real_packet;
-"""
+        body += "\n"
+        body += self.get_copy("old", "real_packet")
 
         # Cancel some is-info packets.
         for i in self.cancel:
@@ -2361,6 +2531,7 @@ if (nullptr != *hash) {{
             f"""\
 {self.receive_prototype}
 {{
+#define FREE_PACKET_STRUCT(_packet) free_{self.packet_name}(_packet)
 """,
             delta_header,
             f"""\
@@ -2374,6 +2545,7 @@ if (nullptr != *hash) {{
             post,
             """\
   RECEIVE_PACKET_END(real_packet);
+#undef FREE_PACKET_STRUCT
 }
 
 """,
@@ -2383,48 +2555,27 @@ if (nullptr != *hash) {{
         """Helper for get_receive(). Generate the part of the receive
         function responsible for recreating the full packet from the
         received delta and the last cached packet."""
-        if self.key_fields:
-            # bit-copy the values, since we're moving (not cloning)
-            # the key fields
-            # FIXME: might not work for arrays
-            backup_key = "".join(
-                prefix("  ", field.get_declar())
-                for field in self.key_fields
-            ) + "\n"+ "".join(
-                f"""\
-  {field.name} = real_packet->{field.name};
-"""
-                for field in self.key_fields
-            ) + "\n"
-            restore_key = "\n" + "".join(
-                f"""\
-  real_packet->{field.name} = {field.name};
-"""
-                for field in self.key_fields
-            )
-        else:
-            backup_key = restore_key = ""
         if self.gen_log:
             fl = f"""\
   {self.log_macro}("  no old info");
 """
         else:
             fl=""
+
+        copy_from_old = prefix("  ", self.get_copy("real_packet", "old"))
         body = f"""\
 
 #ifdef FREECIV_DELTA_PROTOCOL
 if (nullptr == *hash) {{
   *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
-                           nullptr, nullptr, nullptr, free);
+                           nullptr, nullptr, nullptr, destroy_{self.packet_name});
 }}
 
 if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
-  *real_packet = *old;
+{copy_from_old}\
 }} else {{
-{backup_key}\
+  /* packet is already initialized empty */
 {fl}\
-  memset(real_packet, 0, sizeof(*real_packet));
-{restore_key}\
 }}
 
 """
@@ -2433,15 +2584,17 @@ if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
             for i, field in enumerate(self.other_fields)
         )
 
-        extro = """\
+        copy_to_old = prefix("  ", self.get_copy("old", "real_packet"))
+        extro = f"""\
 
-if (nullptr == old) {
+if (nullptr == old) {{
   old = fc_malloc(sizeof(*old));
-  *old = *real_packet;
+  init_{self.packet_name}(old);
+{copy_to_old}\
   genhash_insert(*hash, old, old);
-} else {
-  *old = *real_packet;
-}
+}} else {{
+{copy_to_old}\
+}}
 """
 
         # Cancel some is-info packets.
@@ -2726,6 +2879,11 @@ class Packet:
         """Set of all capabilities affecting this packet"""
         return {cap for field in self.fields for cap in field.all_caps}
 
+    @property
+    def complex(self) -> bool:
+        """Whether this packet's struct requires special handling for
+        initialization, copying, and destruction."""
+        return any(field.complex for field in self.fields)
 
     def get_struct(self) -> str:
         """Generate the struct definition for this packet"""
@@ -2784,6 +2942,58 @@ struct {self.name} {{
         See Variant.get_reset_part() and
         PacketsDefinition.code_delta_stats_reset"""
         return "\n".join(v.get_reset_part() for v in self.variants)
+
+    def get_init(self) -> str:
+        """Generate this packet's init function, which initializes the
+        packet struct so its complex-typed fields are useable, and sets
+        all fields to the empty default state used for computing deltas"""
+        if self.complex:
+            field_parts = "\n" + "".join(
+                    prefix("  ", field.get_init())
+                    for field in self.fields
+                )
+        else:
+            field_parts = ""
+        return f"""\
+static inline void init_{self.name}(struct {self.name} *packet)
+{{
+  memset(packet, 0, sizeof(*packet));
+{field_parts}\
+}}
+
+"""
+
+    def get_free_destroy(self) -> str:
+        """Generate this packet's free and destroy functions, which free
+        memory associated with complex-typed fields of this packet, and
+        optionally the allocation of the packet itself (destroy)."""
+        if not self.complex:
+            return f"""\
+#define free_{self.name}(_packet) (void) 0
+#define destroy_{self.name} free
+
+"""
+
+        # drop fields in reverse order, in case later fields depend on
+        # earlier fields (e.g. for actual array sizes)
+        field_parts = "".join(
+            prefix("  ", field.get_free())
+            for field in reversed(self.fields)
+        )
+        # NB: destroy_*() takes void* to avoid casts
+        return f"""\
+static inline void free_{self.name}(struct {self.name} *packet)
+{{
+{field_parts}\
+}}
+
+static inline void destroy_{self.name}(void *packet)
+{{
+    free_{self.name}((struct {self.name} *) packet);
+    free(packet);
+}}
+
+"""
 
     def get_send(self) -> str:
         """Generate the implementation of the send function, which sends a
@@ -2851,6 +3061,7 @@ struct {self.name} {{
         """Generate the implementation of the dsend function, which directly
         takes packet fields instead of a packet struct."""
         if not self.want_dsend: return ""
+        # safety: fill just borrows the given values; no init/free necessary
         fill = "".join(
             prefix("  ", field.get_fill())
             for field in self.fields
@@ -2873,6 +3084,7 @@ struct {self.name} {{
 
         See self.get_dsend() and self.get_lsend()"""
         if not (self.want_lsend and self.want_dsend): return ""
+        # safety: fill just borrows the given values; no init/free necessary
         fill = "".join(
             prefix("  ", field.get_fill())
             for field in self.fields
@@ -3381,6 +3593,33 @@ void packet_handlers_fill_capability(struct packet_handlers *phandlers,
         return intro + body + extro
 
     @property
+    def code_packet_destroy(self) -> str:
+        """Code fragment implementing the packet_destroy() function"""
+        # NB: missing packet IDs are empty-initialized, i.e. set to nullptr by default
+        handlers = "".join(
+            f"""\
+    [{packet.type}] = destroy_{packet.name},
+"""
+            for packet in self
+        )
+
+        return f"""\
+
+void packet_destroy(void *packet, enum packet_type type)
+{{
+  static void (*const destroy_handlers[PACKET_LAST])(void *packet) = {{
+{handlers}\
+  }};
+  void (*handler)(void *packet) = (type < PACKET_LAST ? destroy_handlers[type] : nullptr);
+
+  fc_assert_action_msg(handler != nullptr, handler = free,
+                       "packet_destroy(): invalid packet type %d", type);
+
+  handler(packet);
+}}
+"""
+
+    @property
     def code_enum_packet(self) -> str:
         """Code fragment declaring the packet_type enum"""
         intro = """\
@@ -3505,6 +3744,8 @@ static int stats_total_sent;
 
         # write hash, cmp, send, receive
         for p in packets:
+            output_c.write(p.get_init())
+            output_c.write(p.get_free_destroy())
             output_c.write(p.get_variants())
             output_c.write(p.get_send())
             output_c.write(p.get_lsend())
@@ -3513,6 +3754,7 @@ static int stats_total_sent;
 
         output_c.write(packets.code_packet_handlers_fill_initial)
         output_c.write(packets.code_packet_handlers_fill_capability)
+        output_c.write(packets.code_packet_destroy)
 
 def write_server_header(path: "str | Path | None", packets: PacketsDefinition):
     """Write contents for server/hand_gen.h to the given path"""

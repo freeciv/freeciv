@@ -70,6 +70,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 #define RECEIVE_PACKET_START(packet_type, result)                           \
   struct packet_type packet_buf, *result = &packet_buf;                     \
   struct data_in din;                                                       \
+  init_ ##packet_type (&packet_buf);                                        \
   if (!pc->json_mode) {                                                     \
       dio_input_init(&din, pc->buffer->data,                                \
                  data_type_size(pc->packet_header.length));                 \
@@ -91,6 +92,7 @@ void *get_packet_from_connection_json(struct connection *pc,
     return result;                              \
   } else {                                      \
     if (!packet_check(&din, pc)) {              \
+      FREE_PACKET_STRUCT(&packet_buf);          \
       return NULL;                              \
     }                                           \
     remove_packet_from_buffer(pc->buffer);      \
@@ -101,6 +103,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 
 #define RECEIVE_PACKET_FIELD_ERROR(field, ...)           \
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
+  FREE_PACKET_STRUCT(&packet_buf);                       \
   return NULL;
 
 /* Utilities to exchange strings and string vectors. */

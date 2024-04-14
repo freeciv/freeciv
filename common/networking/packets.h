@@ -103,6 +103,7 @@ void packet_handlers_fill_capability(struct packet_handlers *phandlers,
                                      const char *capability);
 const char *packet_name(enum packet_type type);
 bool packet_has_game_info_flag(enum packet_type type);
+void packet_destroy(void *packet, enum packet_type type);
 
 void packet_header_init(struct packet_header *packet_header);
 void post_send_packet_server_join_reply(struct connection *pconn,
@@ -147,6 +148,7 @@ void packets_deinit(void);
   struct data_in din; \
   struct packet_type packet_buf, *result = &packet_buf; \
   \
+  init_ ##packet_type (&packet_buf); \
   dio_input_init(&din, pc->buffer->data, \
                  data_type_size(pc->packet_header.length)); \
   { \
@@ -160,6 +162,7 @@ void packets_deinit(void);
 
 #define RECEIVE_PACKET_END(result) \
   if (!packet_check(&din, pc)) { \
+    FREE_PACKET_STRUCT(&packet_buf); \
     return NULL; \
   } \
   remove_packet_from_buffer(pc->buffer); \
@@ -169,6 +172,7 @@ void packets_deinit(void);
 
 #define RECEIVE_PACKET_FIELD_ERROR(field, ...) \
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
+  FREE_PACKET_STRUCT(&packet_buf); \
   return NULL
 
 #endif /* FREECIV_JSON_PROTOCOL */

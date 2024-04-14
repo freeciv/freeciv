@@ -423,7 +423,7 @@ void input_from_server(int fd)
 
       if (NULL != packet) {
         client_packet_input(packet, type);
-        free(packet);
+        packet_destroy(packet, type);
       } else {
         break;
       }
@@ -467,7 +467,7 @@ void input_from_server_till_request_got_processed(int fd,
         }
 
         client_packet_input(packet, type);
-        free(packet);
+        packet_destroy(packet, type);
 
         if (type == PACKET_PROCESSING_FINISHED) {
           log_debug("ifstrgp: expect=%d, seen=%d",
