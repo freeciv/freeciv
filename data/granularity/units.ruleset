@@ -417,7 +417,7 @@ uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "Workers", "Cities"
-roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
+roles         = "Firstbuild", "CitiesStartUnit"
 helptext      = _("\
 Nomads can both fight and found new cities, but unlike specialized \
 units they cost two population points to build.\
@@ -453,7 +453,7 @@ uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
 ;flags         =
-roles         = "Firstbuild"
+roles         = "Firstbuild", "ExplorerStartUnit"
 helptext      = _("\
 Warriors are the first unit specialized in war.\
 ")

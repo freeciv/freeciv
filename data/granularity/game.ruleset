@@ -659,5 +659,6 @@ colorlist =
 
 set =
     { "name", "value", "lock"
-      "startunits", "c", TRUE
+      "startunits", "ccx", TRUE
+      "dispersion", 2, FALSE
     }
