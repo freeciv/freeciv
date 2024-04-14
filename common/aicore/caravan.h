@@ -148,10 +148,6 @@ void caravan_find_best_destination(const struct civ_map *nmap,
                                    const struct caravan_parameter *parameter,
                                    struct caravan_result *result, bool omniscient);
 
-void caravan_optimize_allpairs(const struct unit *caravan,
-                               const struct caravan_parameter *parameter,
-                               struct caravan_result *result, bool omniscient);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
