@@ -406,6 +406,13 @@ bool client_start_server(void)
       }
 
       /* These won't return on success */
+#ifdef FREECIV_APPIMAGE
+      char srvpath[2048];
+
+      fc_snprintf(srvpath, sizeof(srvpath), "%s/usr/bin/freeciv-server",
+                  getenv("APPDIR"));
+      execvp(srvpath, argv);
+#else  /* FREECIV_APPIMAGE */
 #ifdef FREECIV_DEBUG
       /* Search under current directory (what ever that happens to be)
        * only in debug builds. This allows running freeciv directly from build
@@ -428,6 +435,7 @@ bool client_start_server(void)
       execvp(BINDIR "/freeciv-server", argv);
       execvp("freeciv-server", argv);
 #endif /* FREECIV_WEB */
+#endif /* FREECIV_APPIMAGE */
 
       /* This line is only reached if freeciv-server cannot be started,
        * so we kill the forked process.
