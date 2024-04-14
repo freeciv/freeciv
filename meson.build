@@ -446,8 +446,7 @@ priv_functions = [
   '_strcoll',
   '_stricoll',
   'fcntl',
-  'ioctl',
-  'localtime_r'
+  'ioctl'
   ]
 
 foreach func : priv_functions
@@ -458,6 +457,19 @@ foreach func : priv_functions
   endif
 endforeach
 
+priv_liblua_functions = [
+  'localtime_r'
+  ]
+
+foreach func : priv_liblua_functions
+  if c_compiler.has_function(func,
+                             dependencies: net_dep,
+                             args: ['-O'])
+    priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
+    liblua_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
+  endif
+endforeach
+
 liblua_functions = [
   'mkstemp',
   'popen',
@@ -465,7 +477,6 @@ liblua_functions = [
   '_longjmp',
   '_setjmp',
   'gmtime_r',
-  'localtime_r',
   'fseeko'
   ]
 
