@@ -356,19 +356,27 @@ class Location:
     depth: int
     """The array nesting depth of this location; used to determine index
     variable names."""
+    json_depth: int
+    """The total sub-location nesting depth of the JSON field address
+    for this location"""
 
-    def __init__(self, name: str, location: "str | None" = None, depth: int = 0):
+    def __init__(self, name: str, location: "str | None" = None,
+                       depth: int = 0, json_depth: "int | None" = None):
         self.name = name
-        if location is None:
-            self.location = name
-        else:
-            self.location = location
+        self.location = location if location is not None else name
         self.depth = depth
+        self.json_depth = json_depth if json_depth is not None else depth
 
-    def deeper(self, new_location: str) -> "Location":
+    def deeper(self, new_location: str, json_step: int = 1) -> "Location":
         """Return the given string as a new Location with the same name as
         self and incremented depth"""
-        return type(self)(self.name, new_location, self.depth + 1)
+        return type(self)(self.name, new_location,
+                          self.depth + 1, self.json_depth + json_step)
+
+    def sub_full(self, json_step: int = 1) -> "Location":
+        """Like self.sub, but with the option to step the JSON nesting
+        depth by a different amount."""
+        return self.deeper(f"{self}[{self.index}]", json_step)
 
     @property
     def index(self) -> str:
@@ -383,7 +391,13 @@ class Location:
         added to the end.
 
         `field` ~> `field[i]` ~> `field[i][j]` etc."""
-        return self.deeper(f"{self}[{self.index}]")
+        return self.sub_full()
+
+    @property
+    def json_subloc(self) -> str:
+        """The plocation (JSON field address) to the sub-location
+        of this location's corresponding field address"""
+        return "field_addr.sub_location" + self.json_depth * "->sub_location"
 
     def __str__(self) -> str:
         return self.location
@@ -1305,9 +1319,9 @@ differ = FALSE;
 }}
 """
 
-    def _get_code_put_full(self, location: Location, inner_put: str) -> str:
+    def _get_code_put_full(self, location: Location) -> str:
         """Helper method. Generate put code without array-diff."""
-        inner_put = prefix("    ", inner_put)
+        inner_put = prefix("    ", self.elem.get_code_put(location.sub, False))
         return f"""\
 {{
   int {location.index};
@@ -1317,28 +1331,30 @@ differ = FALSE;
   e |= DIO_PUT(farray, &dout, &field_addr, {self.size.real});
 
   /* Enter the array. */
-  field_addr.sub_location = plocation_elem_new(0);
+  {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
   for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Next array element. */
-    field_addr.sub_location->number = {location.index};
+    {location.json_subloc}->number = {location.index};
 #endif /* FREECIV_JSON_CONNECTION */
 {inner_put}\
   }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit array. */
-  FC_FREE(field_addr.sub_location);
+  FC_FREE({location.json_subloc});
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """
 
-    def _get_code_put_diff(self, location: Location, inner_put: str) -> str:
+    def _get_code_put_diff(self, location: Location) -> str:
         """Helper method. Generate array-diff put code."""
-        inner_put = prefix("      ", inner_put)
-        inner_cmp = prefix("    ", self.elem.get_code_cmp(location.sub))
+        # we're nesting two levels deep in the JSON structure
+        sub = location.sub_full(2)
+        inner_put = prefix("      ", self.elem.get_code_put(sub, True))
+        inner_cmp = prefix("    ", self.elem.get_code_cmp(sub))
         return f"""\
 {{
   int {location.index};
@@ -1350,7 +1366,7 @@ differ = FALSE;
   e |= DIO_PUT(farray, &dout, &field_addr, 0);
 
   /* Enter array. */
-  field_addr.sub_location = plocation_elem_new(0);
+  {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
   fc_assert({self.size.real} < MAX_UINT16);
@@ -1361,105 +1377,105 @@ differ = FALSE;
     if (differ) {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Append next diff array element. */
-      field_addr.sub_location->number = -1;
+      {location.json_subloc}->number = -1;
 
       /* Create the diff array element. */
       e |= DIO_PUT(farray, &dout, &field_addr, 2);
 
       /* Enter diff array element (start at the index address). */
-      field_addr.sub_location->number = count_{location.index}++;
-      field_addr.sub_location->sub_location = plocation_elem_new(0);
+      {location.json_subloc}->number = count_{location.index}++;
+      {location.json_subloc}->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
       e |= DIO_PUT(uint16, &dout, &field_addr, {location.index});
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Content address. */
-      field_addr.sub_location->sub_location->number = 1;
+      {location.json_subloc}->sub_location->number = 1;
 #endif /* FREECIV_JSON_CONNECTION */
 {inner_put}\
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit diff array element. */
-      FC_FREE(field_addr.sub_location->sub_location);
+      FC_FREE({location.json_subloc}->sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
     }}
   }}
 #ifdef FREECIV_JSON_CONNECTION
   /* Append diff array element. */
-  field_addr.sub_location->number = -1;
+  {location.json_subloc}->number = -1;
 
   /* Create the terminating diff array element. */
   e |= DIO_PUT(farray, &dout, &field_addr, 1);
 
   /* Enter diff array element (start at the index address). */
-  field_addr.sub_location->number = count_{location.index};
-  field_addr.sub_location->sub_location = plocation_elem_new(0);
+  {location.json_subloc}->number = count_{location.index};
+  {location.json_subloc}->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
   e |= DIO_PUT(uint16, &dout, &field_addr, MAX_UINT16);
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit diff array element. */
-  FC_FREE(field_addr.sub_location->sub_location);
+  FC_FREE({location.json_subloc}->sub_location);
 
   /* Exit array. */
-  FC_FREE(field_addr.sub_location);
+  FC_FREE({location.json_subloc});
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """
 
     def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
-        inner_put = self.elem.get_code_put(location.sub, deep_diff)
         if deep_diff:
-            return self._get_code_put_diff(location, inner_put)
+            return self._get_code_put_diff(location)
         else:
-            return self._get_code_put_full(location, inner_put)
+            return self._get_code_put_full(location)
 
-    def _get_code_get_full(self, location: Location, inner_get: str) -> str:
+    def _get_code_get_full(self, location: Location) -> str:
         """Helper method. Generate get code without array-diff."""
         size_check = prefix("  ", self.size.receive_size_check(location.name))
-        inner_get = prefix("    ", inner_get)
+        inner_get = prefix("    ", self.elem.get_code_get(location.sub, False))
         return f"""\
 {{
   int {location.index};
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Enter array. */
-  field_addr.sub_location = plocation_elem_new(0);
+  {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
 {size_check}\
   for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
 #ifdef FREECIV_JSON_CONNECTION
-    field_addr.sub_location->number = {location.index};
+    {location.json_subloc}->number = {location.index};
 #endif /* FREECIV_JSON_CONNECTION */
 {inner_get}\
   }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit array. */
-  FC_FREE(field_addr.sub_location);
+  FC_FREE({location.json_subloc});
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """
 
-    def _get_code_get_diff(self, location: Location, inner_get: str) -> str:
+    def _get_code_get_diff(self, location: Location) -> str:
         """Helper method. Generate array-diff get code."""
-        inner_get = prefix("      ", inner_get)
+        # we're nested two levels deep in the JSON structure
+        inner_get = prefix("      ", self.elem.get_code_get(location.sub_full(2), True))
         return f"""\
 {{
 #ifdef FREECIV_JSON_CONNECTION
-  int count;
+  int count_{location.index};
 
   /* Enter array. */
-  field_addr.sub_location = plocation_elem_new(0);
+  {location.json_subloc} = plocation_elem_new(0);
 
-  for (count = 0;; count++) {{
+  for (count_{location.index} = 0;; count_{location.index}++) {{
     int {location.index};
 
-    field_addr.sub_location->number = count;
+    {location.json_subloc}->number = count_{location.index};
 
     /* Enter diff array element (start at the index address). */
-    field_addr.sub_location->sub_location = plocation_elem_new(0);
+    {location.json_subloc}->sub_location = plocation_elem_new(0);
 #else /* FREECIV_JSON_CONNECTION */
   while (TRUE) {{
     int {location.index};
@@ -1471,10 +1487,10 @@ differ = FALSE;
     if ({location.index} == MAX_UINT16) {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit diff array element. */
-      FC_FREE(field_addr.sub_location->sub_location);
+      FC_FREE({location.json_subloc}->sub_location);
 
       /* Exit diff array. */
-      FC_FREE(field_addr.sub_location);
+      FC_FREE({location.json_subloc});
 #endif /* FREECIV_JSON_CONNECTION */
 
       break;
@@ -1487,30 +1503,29 @@ differ = FALSE;
     }} else {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Content address. */
-      field_addr.sub_location->sub_location->number = 1;
+      {location.json_subloc}->sub_location->number = 1;
 #endif /* FREECIV_JSON_CONNECTION */
 {inner_get}\
     }}
 
 #ifdef FREECIV_JSON_CONNECTION
     /* Exit diff array element. */
-    FC_FREE(field_addr.sub_location->sub_location);
+    FC_FREE({location.json_subloc}->sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
   }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit array. */
-  FC_FREE(field_addr.sub_location);
+  FC_FREE({location.json_subloc});
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """
 
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
-        inner_get = self.elem.get_code_get(location.sub, deep_diff)
         if deep_diff:
-            return self._get_code_get_diff(location, inner_get)
+            return self._get_code_get_diff(location)
         else:
-            return self._get_code_get_full(location, inner_get)
+            return self._get_code_get_full(location)
 
     def __str__(self) -> str:
         return f"{self.elem}[{self.size}]"
