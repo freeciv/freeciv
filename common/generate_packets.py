@@ -786,6 +786,32 @@ real_packet->{location} = {location};
         dataio stream."""
         raise NotImplementedError
 
+    def _compat_keys(self, location: Location):
+        """Internal helper function. Yield keys to compare for
+        type compatibility. See is_type_compatible()"""
+        yield self.get_code_declaration(location)
+        yield self.get_code_handle_param(location)
+        yield self.get_code_handle_arg(location)
+        yield self.get_code_fill(location)
+        yield self.complex
+        if self.complex:
+            yield self.get_code_init(location)
+            yield self.get_code_free(location)
+
+    def is_type_compatible(self, other: "FieldType") -> bool:
+        """Determine whether two field types can be used interchangeably as
+        part of the packet struct, i.e. differ in dataio transmission only"""
+        if other is self:
+            return True
+        loc = Location("compat_test_field_name")
+        return all(
+            a == b
+            for a, b in zip_longest(
+                self._compat_keys(loc),
+                other._compat_keys(loc),
+            )
+        )
+
 
 class BasicType(FieldType):
     """Type information for a field without any specialized treatment"""
@@ -1624,6 +1650,22 @@ class Field:
         see FieldType.complex"""
         return self.type_info.complex
 
+    def is_compatible(self, other: "Field") -> bool:
+        """Whether two field objects are variants of the same field, i.e.
+        type-compatible in the packet struct and mutually exclusive based
+        on their required capabilities.
+
+        Note that this function does not test field name."""
+        return bool(
+            (
+                (self.flags.add_caps & other.flags.remove_caps)
+            or
+                (self.flags.remove_caps & other.flags.add_caps)
+            )
+        and
+            self.type_info.is_type_compatible(other.type_info)
+        )
+
     def present_with_caps(self, caps: typing.Container[str]) -> bool:
         """Determine whether this field should be part of a variant with the
         given capabilities"""
@@ -1902,7 +1944,7 @@ class Variant:
         self.negcaps = set(negcaps)
         self.fields = [
             field
-            for field in packet.fields
+            for field in packet.all_fields
             if field.present_with_caps(self.poscaps)
         ]
         self.key_fields = [field for field in self.fields if field.is_key]
@@ -2724,14 +2766,15 @@ class Packet:
     dirs: Directions
     """Which directions this packet can be sent in"""
 
+    all_fields: "list[Field]"
+    """List of all fields of this packet, including name duplicates for
+    different capability variants that are compatible.
+
+    Only relevant for creating Variants; self.fields should be used when
+    not dealing with capabilities or Variants."""
+
     fields: "list[Field]"
-    """List of all fields of this packet"""
-
-    key_fields: "list[Field]"
-    """List of only the key fields of this packet"""
-
-    other_fields: "list[Field]"
-    """List of only the non-key fields of this packet"""
+    """List of all fields of this packet, with only one field of each name"""
 
     variants: "list[Variant]"
     """List of all variants of this packet"""
@@ -2801,13 +2844,25 @@ class Packet:
             raise ValueError(f"no directions defined for {self.name}")
         self.dirs = Directions(dirs)
 
-        self.fields = [
+        raw_fields = [
             field
             for line in lines
             for field in Field.parse(self.cfg, line, resolve_type)
         ]
-        self.key_fields = [field for field in self.fields if field.is_key]
-        self.other_fields = [field for field in self.fields if not field.is_key]
+        # put key fields before all others
+        key_fields = [field for field in raw_fields if field.is_key]
+        other_fields = [field for field in raw_fields if not field.is_key]
+        self.all_fields = key_fields + other_fields
+
+        self.fields = []
+        # check for duplicate field names
+        for next_field in self.all_fields:
+            duplicates = [field for field in self.fields if field.name == next_field.name]
+            if not duplicates:
+                self.fields.append(next_field)
+                continue
+            if not all(field.is_compatible(next_field) for field in duplicates):
+                raise ValueError(f"incompatible fields with duplicate name: {packet_type}({packet_number}).{next_field.name}")
 
         # valid, since self.fields is already set
         if self.no_packet:
@@ -2818,7 +2873,7 @@ class Packet:
                 raise ValueError(f"requested dsend for {self.name} without fields isn't useful")
 
         # create cap variants
-        all_caps = self.all_caps    # valid, since self.fields is already set
+        all_caps = self.all_caps    # valid, since self.all_fields is already set
         self.variants = [
             Variant(caps, all_caps.difference(caps), self, i + 100)
             for i, caps in enumerate(powerset(sorted(all_caps)))
@@ -2892,7 +2947,7 @@ class Packet:
     @property
     def all_caps(self) -> "set[str]":
         """Set of all capabilities affecting this packet"""
-        return {cap for field in self.fields for cap in field.all_caps}
+        return {cap for field in self.all_fields for cap in field.all_caps}
 
     @property
     def complex(self) -> bool:
@@ -2912,7 +2967,7 @@ struct {self.name} {{
 
         body = "".join(
             prefix("  ", field.get_declar())
-            for field in chain(self.key_fields, self.other_fields)
+            for field in self.fields
         ) or """\
   char __dummy;                 /* to avoid malloc(0); */
 """
