@@ -6248,8 +6248,18 @@ bool unit_activity_handling_targeted(struct unit *punit,
     unit_activity_handling(punit, new_activity);
   } else if (can_unit_do_activity_targeted(&(wld.map), punit,
                                            new_activity, *new_target)) {
+    struct action_list *list = action_list_by_activity(new_activity);
+
     free_unit_orders(punit);
-    unit_activity_targeted_internal(punit, new_activity, new_target);
+
+    if (list != NULL && action_list_size(list) > 0) {
+      /* Trigger action system */
+      unit_do_action(unit_owner(punit), punit->id, punit->tile->index,
+                     (*new_target) != NULL ? (*new_target)->id : NO_TARGET,
+                     "", action_number(action_list_get(list, 0)));
+    } else {
+      unit_activity_targeted_internal(punit, new_activity, new_target);
+    }
   }
 
   return TRUE;
@@ -6282,7 +6292,7 @@ static bool unit_activity_targeted_internal(struct unit *punit,
       unit_activity_handling(punit, new_activity);
     } else {
       set_unit_activity_targeted(punit, new_activity, *new_target);
-      send_unit_info(NULL, punit);    
+      send_unit_info(NULL, punit);
       unit_activity_dependencies(punit, old_activity, old_target);
 
       if (new_activity == ACTIVITY_PILLAGE) {
