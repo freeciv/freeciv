@@ -355,7 +355,7 @@ void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs
 }
 
 /**********************************************************************//**
-  Unregisted closed req_edit dialog
+  Unregister closed req_edit dialog
 **************************************************************************/
 void ruledit_gui::unregister_req_edit(class req_edit *redit)
 {
@@ -428,7 +428,7 @@ void ruledit_gui::open_effect_edit(QString target, struct universal *uni,
 }
 
 /**********************************************************************//**
-  Unregisted closed effect_edit dialog
+  Unregister closed effect_edit dialog
 **************************************************************************/
 void ruledit_gui::unregister_effect_edit(class effect_edit *e_edit)
 {
