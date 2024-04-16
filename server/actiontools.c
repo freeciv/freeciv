@@ -904,7 +904,7 @@ int action_sub_target_id_for_action(const struct action *paction,
   case ASTK_EXTRA_NOT_THERE:
     if (action_has_result(paction, ACTRES_PILLAGE)) {
       /* Special treatment for "Pillage" */
-      struct extra_type *pextra;
+      struct extra_type *pextra = NULL;
       enum unit_activity activity = actres_get_activity(paction->result);
 
       unit_assign_specific_activity_target(actor_unit, &activity, &pextra);
