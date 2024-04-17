@@ -3100,7 +3100,7 @@ struct action *action_is_blocked_by(const struct action *act,
       }
       break;
     case ATK_SELF:
-      if (is_action_enabled_unit_on_self(blocker->id, actor_unit)) {
+      if (is_action_enabled_unit_on_self(nmap, blocker->id, actor_unit)) {
         return blocker;
       }
       break;
@@ -4218,11 +4218,10 @@ is_action_enabled_unit_on_self_full(const struct civ_map *nmap,
   See note in is_action_enabled() for why the action still may be
   disabled.
 **************************************************************************/
-bool is_action_enabled_unit_on_self(const action_id wanted_action,
+bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
+                                    const action_id wanted_action,
                                     const struct unit *actor_unit)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   return is_action_enabled_unit_on_self_full(nmap, wanted_action, actor_unit,
                                              unit_home(actor_unit),
                                              unit_tile(actor_unit));

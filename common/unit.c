@@ -1003,7 +1003,7 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_self()");
-    return is_action_enabled_unit_on_self(ACTION_FORTIFY,
+    return is_action_enabled_unit_on_self(nmap, ACTION_FORTIFY,
                                           punit);
 
   case ACTIVITY_FORTIFIED:
@@ -1051,7 +1051,7 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_self()");
-    return is_action_enabled_unit_on_self(ACTION_CONVERT, punit);
+    return is_action_enabled_unit_on_self(nmap, ACTION_CONVERT, punit);
 
   case ACTIVITY_LAST:
     break;
