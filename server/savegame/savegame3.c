@@ -7160,9 +7160,11 @@ static void sg_load_player_vision(struct loaddata *loading,
     struct player_tile *plrtile = map_get_player_tile(ptile, plr);
 
     extra_type_by_cause_iterate(EC_RESOURCE, pres) {
-      if (BV_ISSET(plrtile->extras, extra_number(pres))
-          && terrain_has_resource(plrtile->terrain, pres)) {
+      if (BV_ISSET(plrtile->extras, extra_number(pres))) {
         plrtile->resource = pres;
+        if (!terrain_has_resource(plrtile->terrain, pres)) {
+          BV_CLR(plrtile->extras, extra_number(pres));
+        }
       }
     } extra_type_by_cause_iterate_end;
   } whole_map_iterate_end;
