@@ -127,7 +127,7 @@ should be on different islands.
 There are several situations where the Governor can't fulfill the
 requirements just temporarily, e.g. when you move a ship from one city
 to another, or when an enemy walks through your country. The Governor
-passes back control in these cases, and you have to reenable it
+passes back control in these cases, and you have to re-enable it
 manually. A general approach to prevent this might be, to set the
 minimal surpluses as low as possible (-20). Of course you must be
 careful with the food and shield surpluses.

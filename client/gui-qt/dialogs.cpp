@@ -2364,7 +2364,7 @@ static void action_entry_update(Choice_dialog_button *button,
   QString tool_tip;
 
   /* An action that just became impossible has its button disabled.
-   * An action that became possible again must be reenabled. */
+   * An action that became possible again must be re-enabled. */
   button->setEnabled(action_prob_possible(act_probs[act]));
   button->setData1(data1);
   button->setData2(data2);
