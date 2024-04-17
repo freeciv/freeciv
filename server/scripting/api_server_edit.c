@@ -483,6 +483,8 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
 bool api_edit_perform_action_unit_vs_self(lua_State *L, Unit *punit,
                                           Action *paction)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
@@ -490,7 +492,7 @@ bool api_edit_perform_action_unit_vs_self(lua_State *L, Unit *punit,
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_SELF, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
-  if (is_action_enabled_unit_on_self(paction->id, punit)) {
+  if (is_action_enabled_unit_on_self(nmap, paction->id, punit)) {
     return unit_perform_action(unit_owner(punit), punit->id,
                                IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
                                "",

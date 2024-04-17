@@ -240,6 +240,7 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
   const struct veteran_system *vsystem;
   const struct veteran_level *vlevel;
   int chance;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(punit != NULL, FALSE);
 
@@ -251,7 +252,7 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
   fc_assert_ret_val(vlevel != NULL, FALSE);
 
   if (punit->veteran + 1 >= vsystem->levels
-      || !is_action_enabled_unit_on_self(ACTION_GAIN_VETERANCY, punit)) {
+      || !is_action_enabled_unit_on_self(nmap, ACTION_GAIN_VETERANCY, punit)) {
     return FALSE;
   } else if (!settler) {
     int mod = base_chance + get_unit_bonus(punit, EFT_VETERAN_COMBAT);
@@ -2273,6 +2274,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   bool escaped;
   bool flagless_killer = unit_has_type_flag(pkiller, UTYF_FLAGLESS);
   bool flagless_victim = unit_has_type_flag(punit, UTYF_FLAGLESS);
+  const struct civ_map *nmap = &(wld.map);
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
@@ -2318,7 +2320,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           && is_unit_reachable_at(vunit, pkiller, deftile)) {
         escaped = FALSE;
 
-        if (is_action_enabled_unit_on_self(ACTION_ESCAPE, vunit)
+        if (is_action_enabled_unit_on_self(nmap, ACTION_ESCAPE, vunit)
             && !unit_has_type_flag(pkiller, UTYF_CANKILLESCAPING)
             && vunit->hp > 0
             && vunit->moves_left > pkiller->moves_left
@@ -2330,10 +2332,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
           fc_assert(vunit->hp > 0);
 
-          adjc_iterate(&(wld.map), deftile, ptile2) {
-            if (can_exist_at_tile(&(wld.map), vunit->utype, ptile2)
+          adjc_iterate(nmap, deftile, ptile2) {
+            if (can_exist_at_tile(nmap, vunit->utype, ptile2)
                 && NULL == tile_city(ptile2)) {
-              move_cost = map_move_cost_unit(&(wld.map), vunit, ptile2);
+              move_cost = map_move_cost_unit(nmap, vunit, ptile2);
               if (pkiller->moves_left <= vunit->moves_left - move_cost
                   && (is_allied_unit_tile(ptile2, pvictim)
                       || unit_list_size(ptile2->units)) == 0) {

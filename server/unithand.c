@@ -3494,7 +3494,7 @@ bool unit_perform_action(struct player *pplayer,
 
 #define ACTION_PERFORM_UNIT_SELF(action, actor, action_performer)         \
   if (actor_unit                                                          \
-      && is_action_enabled_unit_on_self(action_type, actor_unit)) {       \
+      && is_action_enabled_unit_on_self(nmap, action_type, actor_unit)) { \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_self",                 \
                               action_by_number(action), actor);           \
