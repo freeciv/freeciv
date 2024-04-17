@@ -1310,7 +1310,7 @@ static void action_entry_update(GtkWidget *shl,
   const gchar *tooltip;
 
   /* An action that just became impossible has its button disabled.
-   * An action that became possible again must be reenabled. */
+   * An action that became possible again must be re-enabled. */
   choice_dialog_button_set_sensitive(act_sel_dialog,
       action_button_map[act_id],
       action_prob_possible(act_probs[act_id]));
