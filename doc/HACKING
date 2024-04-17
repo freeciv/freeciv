@@ -36,7 +36,7 @@ ai: the ai, later linked into the server
 tools: freeciv support executables
 
 Freeciv is written in C. Header files should be compatible with C++ so
-that C++ add-ons (particularly new clients) are possible.  See the
+that C++ add-ons (particularly new clients) are possible. See the
 CodingStyle file for more.
 
 ===========================================================================
@@ -405,8 +405,8 @@ is not a reliable way to iterate all adjacent tiles for all topologies, so
 such operations should be avoided.
 
 
-Also available are the functions calculating distance between tiles. In
-Freeciv, we are using 3 types of distance between tiles:
+Also available are the functions calculating distance between tiles.
+In Freeciv, we are using 3 types of distance between tiles:
 
 map_distance(ptile0, ptile1) returns the *Manhattan* distance between
 tiles, i.e. the distance from 'ptile0' to 'ptile1', only using cardinal
@@ -485,7 +485,7 @@ pi/3 rotation for hexagonal tiles).
 Different coordinate systems
 =========================================================================
 
-In Freeciv, we have the general concept of a "position" or "tile".  A tile
+In Freeciv, we have the general concept of a "position" or "tile". A tile
 can be referred to in any of several coordinate systems. The distinction
 becomes important when we start to use non-standard maps (see above).
 
@@ -522,7 +522,7 @@ Note that hexagonal topologies are always considered as isometric.
       (map_x-1, map_y+1)    (map_x, map_y+1)   (map_x+1, map_y+1)
 
   are preserved, regardless of what the underlying map or drawing code
-  looks like.  This is the definition of the system.
+  looks like. This is the definition of the system.
 
   With an isometric view, this looks like:
 
@@ -947,7 +947,7 @@ so the question isn't very interesting.
 Players (more aptly named, 'civilizations'), exist in games. Except in
 the context of a running game, the entity makes no sense. Players and
 their status are part of savefiles. A game can be saved and restarted
-on a different server; the players will be the same.  A new game will
+on a different server; the players will be the same. A new game will
 have new players. Players exist in common/ (even games do) but a
 client only has one instantiated player.
 
@@ -1165,13 +1165,13 @@ Style Guide
 
 See CodingStyle in this directory.
 
-- If you send patches, use "diff -u" (or "diff -r -u").  For further
+- If you send patches, use "diff -u" (or "diff -r -u"). For further
   information, see <https://www.freeciv.org/wiki/How_to_Contribute>.
   Also, name patch files descriptively (e.g. "fix-foo-bug-0.patch" is good,
   but "freeciv.patch" is not).
 
 - When doing a "diff" for a patch, be sure to exclude unnecessary files
-  by using the "-X" argument to "diff".  E.g.:
+  by using the "-X" argument to "diff". E.g.:
 
     % diff -ruN -Xdiff_ignore freeciv_git freeciv >/tmp/fix-foo-bug-0.patch
 
