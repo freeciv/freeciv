@@ -154,6 +154,7 @@ public:
 **************************************************************************/
 class fc_shortcut_popup : public QDialog
 {
+  Q_OBJECT
 public:
   fc_shortcut_popup(QWidget *parent);
   void run(fc_shortcut *s);
