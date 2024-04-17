@@ -162,6 +162,10 @@ bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
 #define dio_get_estring_raw dio_get_string_raw
 #define dio_put_estring_raw dio_put_string_raw
 
+/* In the binary protocol, just encode the array lengths. */
+#define dio_get_arraylen_raw dio_get_uint16_raw
+#define dio_put_arraylen_raw dio_put_uint16_raw
+
 #ifndef FREECIV_JSON_CONNECTION
 
 /* Should be a function but we need some macro magic. */

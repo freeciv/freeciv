@@ -718,6 +718,29 @@ bool dio_get_worklist_json(struct connection *pc, struct data_in *din,
 }
 
 /**********************************************************************//**
+  Receive array length value to dest with json. In json mode, this will
+  simply read the length of the array at that location.
+**************************************************************************/
+bool dio_get_arraylen_json(struct connection *pc, struct data_in *din,
+                           const struct plocation *location, int *dest)
+{
+  if (pc->json_mode) {
+    const json_t *arr = plocation_read_data(pc->json_packet, location);
+
+    if (!json_is_array(arr)) {
+      log_packet("Not an array");
+      return FALSE;
+    }
+
+    *dest = json_array_size(arr);
+  } else {
+    return dio_get_arraylen_raw(din, dest);
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Receive vector of 8 bit values, terminated by stop_value.
 **************************************************************************/
 bool dio_get_uint8_vec8_json(struct connection *pc, struct data_in *din,
@@ -997,6 +1020,24 @@ int dio_put_sfloat_json(struct json_data_out *dout,
     e = plocation_write_data(dout->json, location, json_real(value));
   } else {
     e = dio_put_sfloat_raw(&dout->raw, value, float_factor);
+  }
+
+  return e;
+}
+
+/**********************************************************************//**
+  Insert array length. In json mode, this will create an array at that
+  location.
+**************************************************************************/
+int dio_put_arraylen_json(struct json_data_out *dout,
+                          const struct plocation *location, int size)
+{
+  int e;
+
+  if (dout->json) {
+    e = dio_put_farray_json(dout, location, size);
+  } else {
+    e = dio_put_arraylen_raw(&dout->raw, size);
   }
 
   return e;

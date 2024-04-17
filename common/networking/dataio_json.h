@@ -107,6 +107,9 @@ bool dio_get_action_probability_json(struct connection *pc, struct data_in *din,
                                      struct act_prob *prob)
     fc__attribute((nonnull (4)));
 
+bool dio_get_arraylen_json(struct connection *pc, struct data_in *din,
+                           const struct plocation *location, int *dest)
+    fc__attribute((nonnull (4)));
 bool dio_get_uint8_vec8_json(struct connection *pc, struct data_in *din,
                              const struct plocation *location,
                              int **values, int stop_value)
@@ -180,6 +183,8 @@ int dio_put_action_probability_json(struct json_data_out *dout,
                                     const struct plocation *location,
                                     const struct act_prob *prob);
 
+int dio_put_arraylen_json(struct json_data_out *dout,
+                          const struct plocation *location, int size);
 int dio_put_uint8_vec8_json(struct json_data_out *dout,
                             const struct plocation *location,
                             int *values, int stop_value);
