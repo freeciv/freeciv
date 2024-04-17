@@ -2383,6 +2383,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   int ransom, unitcount = 0;
   bool escaped;
   bool collect_ransom = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
@@ -2477,10 +2478,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
           fc_assert(vunit->hp > 0);
 
-          adjc_iterate(&(wld.map), deftile, ptile2) {
-            if (can_exist_at_tile(&(wld.map), vunit->utype, ptile2)
+          adjc_iterate(nmap, deftile, ptile2) {
+            if (can_exist_at_tile(nmap, vunit->utype, ptile2)
                 && NULL == tile_city(ptile2)) {
-              move_cost = map_move_cost_unit(&(wld.map), vunit, ptile2);
+              move_cost = map_move_cost_unit(nmap, vunit, ptile2);
               if (pkiller->moves_left <= vunit->moves_left - move_cost
                   && (is_allied_unit_tile(ptile2, pvictim)
                       || unit_list_size(ptile2->units)) == 0) {

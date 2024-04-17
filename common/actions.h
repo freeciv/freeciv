@@ -809,7 +809,8 @@ bool is_action_enabled_unit_on_extras(const struct civ_map *nmap,
                                       const struct tile *target,
                                       const struct extra_type *tgt_extra);
 
-bool is_action_enabled_unit_on_self(const action_id wanted_action,
+bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
+                                    const action_id wanted_action,
                                     const struct unit *actor_unit);
 
 struct act_prob action_prob_vs_city(const struct unit* actor,
