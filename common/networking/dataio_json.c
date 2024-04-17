@@ -414,11 +414,6 @@ static bool dio_get_uint8_json_internal(json_t *json_packet,
   }
   *dest = json_integer_value(pint);
 
-  if (!dest) {
-    log_error("ERROR: Unable to get unit8 from location: %s", plocation_name(location));
-    return FALSE;
-  }
-
   return TRUE;
 }
 
@@ -449,11 +444,6 @@ bool dio_get_uint16_json(struct connection *pc, struct data_in *din,
       return FALSE;
     } 
     *dest = json_integer_value(pint);
-
-    if (!dest) {
-      log_error("ERROR: Unable to get unit16 from location: %s", plocation_name(location));
-      return FALSE;
-    }
   } else {
     return dio_get_uint16_raw(din, dest);
   }
@@ -475,11 +465,6 @@ static bool dio_get_uint32_json_internal(json_t *json_packet,
     return FALSE;
   }
   *dest = json_integer_value(pint);
-
-  if (!dest) {
-    log_error("ERROR: Unable to get unit32 from location: %s", plocation_name(location));
-    return FALSE;
-  }
 
   return TRUE;
 }
@@ -1215,11 +1200,6 @@ static bool dio_get_bool8_json_internal(json_t *json_packet,
   } 
   *dest = json_is_true(pbool);
 
-  if (!dest) {
-    log_error("ERROR: Unable to get bool from location: %s", plocation_name(location));
-    return FALSE;
-  }
-
   return TRUE;
 }
 
@@ -1250,11 +1230,6 @@ bool dio_get_bool32_json(struct connection *pc, struct data_in *din,
       return FALSE;
     }
     *dest = json_is_true(pbool);
-
-    if (!dest) {
-      log_error("ERROR: Unable to get bool32 from location: %s", plocation_name(location));
-      return FALSE;
-    }
   } else {
     return dio_get_bool32_raw(din, dest);
   }
@@ -1320,11 +1295,6 @@ bool dio_get_sint8_json(struct connection *pc, struct data_in *din,
       return FALSE;
     }
     *dest = json_integer_value(pint);
-
-    if (!dest) {
-      log_error("ERROR: Unable to get sint8 from location: %s", plocation_name(location));
-      return FALSE;
-    }
   } else {
     return dio_get_sint8_raw(din, dest);
   }
@@ -1346,11 +1316,6 @@ bool dio_get_sint16_json(struct connection *pc, struct data_in *din,
       return FALSE;
     }
     *dest = json_integer_value(pint);
-
-    if (!dest) {
-      log_error("ERROR: Unable to get sint16 from location: %s", plocation_name(location));
-      return FALSE;
-    }
   } else {
     return dio_get_sint16_raw(din, dest);
   }
