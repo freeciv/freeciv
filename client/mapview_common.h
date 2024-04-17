@@ -64,8 +64,8 @@ void client_infratile_set(struct tile *ptile);
 
 extern struct view mapview;
 
-/* HACK: Callers can set this to FALSE to disable sliding.  It should be
- * reenabled afterwards. */
+/* HACK: Callers can set this to FALSE to disable sliding. It should be
+ * re-enabled afterwards. */
 extern bool can_slide;
 
 #define BORDER_WIDTH 2
