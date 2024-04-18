@@ -160,17 +160,17 @@ static void report_time_failed(struct timer *t)
 struct timer *timer_new(enum timer_timetype type, enum timer_use use,
                         const char *name)
 {
-  return timer_renew(NULL, type, use, name);
+  return timer_renew(nullptr, type, use, name);
 }
 
 /*******************************************************************//**
   Allocate a new timer, or reuse t, with specified "type" and "use".
   The timer is created as cleared, and stopped.
-  If t is NULL, allocate and return a new timer, else
+  If t is nullptr, allocate and return a new timer, else
   just re-initialise t and return t.
   This is intended to be useful to allocate a static t just once, eg:
   {
-     static struct timer *t = NULL;
+     static struct timer *t = nullptr;
      t = timer_renew(t, TIMER_CPU, TIMER_USE, "example");
      ... stuff ...
      log_verbose("That took %g seconds.", timer_read_seconds(t));
@@ -180,23 +180,23 @@ struct timer *timer_new(enum timer_timetype type, enum timer_use use,
 struct timer *timer_renew(struct timer *t, enum timer_timetype type,
                           enum timer_use use, const char *name)
 {
-  if (t == NULL) {
+  if (t == nullptr) {
     t = (struct timer *)fc_malloc(sizeof(struct timer));
 #ifdef FREECIV_DEBUG
-    t->name = NULL;
+    t->name = nullptr;
 #endif
   }
 
   t->type = type;
   t->use = use;
 #ifdef FREECIV_DEBUG
-  if (name != NULL) {
-    if (t->name != NULL) {
+  if (name != nullptr) {
+    if (t->name != nullptr) {
       free(t->name);
     }
     t->name = fc_strdup(name);
   }
-#endif
+#endif /* FREECIV_DEBUG */
   timer_clear(t);
 
   return t;
@@ -207,10 +207,10 @@ struct timer *timer_renew(struct timer *t, enum timer_timetype type,
 ***********************************************************************/
 void timer_destroy(struct timer *t)
 {
-  if (t != NULL) {
+  if (t != nullptr) {
 
 #ifdef FREECIV_DEBUG
-    if (t->name != NULL) {
+    if (t->name != nullptr) {
       free(t->name);
     }
 #endif /* FREECIV_DEBUG */
@@ -220,12 +220,12 @@ void timer_destroy(struct timer *t)
 }
 
 /*******************************************************************//**
-  Return name of the timer, or some placeholder string (never NULL)
+  Return name of the timer, or some placeholder string (never nullptr)
 ***********************************************************************/
 static char *timer_name(struct timer *t)
 {
 #ifdef FREECIV_DEBUG
-  if (t->name != NULL) {
+  if (t->name != nullptr) {
     return t->name;
   } else {
     return "Nameless";
@@ -237,11 +237,11 @@ static char *timer_name(struct timer *t)
 
 /*******************************************************************//**
   Return whether timer is in use.
-  t may be NULL, in which case returns FALSE
+  t may be nullptr, in which case returns FALSE
 ***********************************************************************/
 bool timer_in_use(struct timer *t)
 {
-  return (t != NULL && t->use != TIMER_IGNORE);
+  return (t != nullptr && t->use != TIMER_IGNORE);
 }
 
 /*******************************************************************//**
@@ -251,7 +251,7 @@ bool timer_in_use(struct timer *t)
 ***********************************************************************/
 void timer_clear(struct timer *t)
 {
-  fc_assert_ret(NULL != t);
+  fc_assert_ret(t != nullptr);
   t->state = TIMER_STOPPED;
   t->sec = 0.0;
   t->usec = 0;
@@ -263,7 +263,7 @@ void timer_clear(struct timer *t)
 ***********************************************************************/
 void timer_start(struct timer *t)
 {
-  fc_assert_ret(NULL != t);
+  fc_assert_ret(t != nullptr);
 
   if (t->use == TIMER_IGNORE) {
     return;
@@ -280,7 +280,7 @@ void timer_start(struct timer *t)
     }
   } else {
 #ifdef HAVE_GETTIMEOFDAY
-    int ret = gettimeofday(&t->start.tv, NULL);
+    int ret = gettimeofday(&t->start.tv, nullptr);
 
     if (ret == -1) {
       report_gettimeofday_failed(t);
@@ -289,7 +289,7 @@ void timer_start(struct timer *t)
 #elif defined HAVE_FTIME
     ftime(&t->start.tp);
 #else
-    t->start.t = time(NULL);
+    t->start.t = time(nullptr);
     if (t->start.t == (time_t) -1) {
       report_time_failed(t);
       return;
@@ -307,7 +307,7 @@ void timer_start(struct timer *t)
 ***********************************************************************/
 void timer_stop(struct timer *t)
 {
-  fc_assert_ret(NULL != t);
+  fc_assert_ret(t != nullptr);
 
   if (t->use == TIMER_IGNORE) {
     return;
@@ -328,7 +328,7 @@ void timer_stop(struct timer *t)
   } else {
 #ifdef HAVE_GETTIMEOFDAY
     struct timeval now;
-    int ret = gettimeofday(&now, NULL);
+    int ret = gettimeofday(&now, nullptr);
 
     if (ret == -1) {
       report_gettimeofday_failed(t);
@@ -363,7 +363,7 @@ void timer_stop(struct timer *t)
     }
     t->start.tp = now;
 #else
-    time_t now = time(NULL);
+    time_t now = time(nullptr);
 
     if (now == (time_t) -1) {
       report_time_failed(t);
@@ -383,7 +383,7 @@ void timer_stop(struct timer *t)
 ***********************************************************************/
 double timer_read_seconds(struct timer *t)
 {
-  fc_assert_ret_val(NULL != t, -1.0);
+  fc_assert_ret_val(t != nullptr, -1.0);
 
   if (t->use == TIMER_IGNORE) {
     return 0.0;
@@ -410,15 +410,16 @@ void timer_usleep_since_start(struct timer *t, long usec)
   long elapsed_usec;
   long wait_usec;
 
-  fc_assert_ret(NULL != t);
+  fc_assert_ret(t != nullptr);
 
-  ret = gettimeofday(&tv_now, NULL);
+  ret = gettimeofday(&tv_now, nullptr);
 
   if ((ret == -1)
       || (t->type != TIMER_USER)
       || (t->use != TIMER_ACTIVE)
       || (t->state != TIMER_STARTED)) {
     fc_usleep(usec);
+
     return;
   }
 
