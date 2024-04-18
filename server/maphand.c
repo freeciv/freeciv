@@ -1048,6 +1048,9 @@ void map_change_seen(struct player *pplayer,
     if (pcity != NULL && city_owner(pcity) == pplayer) {
       city_map_update_empty(pcity, ptile);
       pcity->specialists[DEFAULT_SPECIALIST]++;
+      if (pcity->server.needs_arrange == CNA_NOT) {
+        pcity->server.needs_arrange = CNA_NORMAL;
+      }
     }
 
     update_player_tile_last_seen(pplayer, ptile);
@@ -2513,6 +2516,19 @@ void vision_clear_sight(struct vision *vision)
   const v_radius_t vision_radius_sq = V_RADIUS(-1, -1, -1);
 
   vision_change_sight(vision, vision_radius_sq);
+
+  /* Owner of some city might have lost vision of a tile previously worked */
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      /* We are not interested about CNA_BROADCAST_PENDING, as the vision loss has
+       * not set it, and whatever set it should take care of it. */
+      if (pcity->server.needs_arrange == CNA_NORMAL) {
+        city_refresh(pcity);
+        auto_arrange_workers(pcity);
+        pcity->server.needs_arrange = CNA_NOT;
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
 }
 
 /**********************************************************************//**
