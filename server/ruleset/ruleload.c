@@ -7921,7 +7921,7 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.non_native_def_pct = c->non_native_def_pct;
     packet.flags = c->flags;
 
-    PACKET_STRVEC_COMPUTE(packet.helptext, c->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, c->helptext);
 
     lsend_packet_ruleset_unit_class(dest, &packet);
   } unit_class_iterate_end;
@@ -8033,7 +8033,7 @@ static void send_ruleset_units(struct conn_list *dest)
         packet.work_raise_chance[i] = vlevel->work_raise_chance;
       }
     }
-    PACKET_STRVEC_COMPUTE(packet.helptext, u->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, u->helptext);
 
     packet.worker = u->adv.worker;
 
@@ -8090,7 +8090,7 @@ static void send_ruleset_specialists(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
 
-    PACKET_STRVEC_COMPUTE(packet.helptext, s->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, s->helptext);
 
     lsend_packet_ruleset_specialist(dest, &packet);
   } specialist_type_iterate_end;
@@ -8198,7 +8198,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.flags = a->flags;
     packet.cost = a->cost;
     packet.num_reqs = a->num_reqs;
-    PACKET_STRVEC_COMPUTE(packet.helptext, a->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, a->helptext);
 
     lsend_packet_ruleset_tech(dest, &packet);
   } advance_iterate_end;
@@ -8219,7 +8219,7 @@ static void send_ruleset_counters(struct conn_list *dest)
     packet.type = pcount->target;
     packet.def = pcount->def;
 
-    PACKET_STRVEC_COMPUTE(packet.helptext, pcount->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, pcount->helptext);
     lsend_packet_ruleset_counter(dest, &packet);
   } city_counters_iterate_end;
 }
@@ -8284,7 +8284,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     sz_strlcpy(packet.soundtag, b->soundtag);
     sz_strlcpy(packet.soundtag_alt, b->soundtag_alt);
     sz_strlcpy(packet.soundtag_alt2, b->soundtag_alt2);
-    PACKET_STRVEC_COMPUTE(packet.helptext, b->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, b->helptext);
 
     lsend_packet_ruleset_building(dest, &packet);
   } improvement_iterate_end;
@@ -8392,7 +8392,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.color_green = pterrain->rgb->g;
     packet.color_blue = pterrain->rgb->b;
 
-    PACKET_STRVEC_COMPUTE(packet.helptext, pterrain->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, pterrain->helptext);
 
     lsend_packet_ruleset_terrain(dest, &packet);
   } terrain_type_iterate_end;
@@ -8526,7 +8526,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.bridged_over = e->bridged_over;
     packet.conflicts = e->conflicts;
 
-    PACKET_STRVEC_COMPUTE(packet.helptext, e->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, e->helptext);
 
     lsend_packet_ruleset_extra(dest, &packet);
   } extra_type_iterate_end;
@@ -8620,7 +8620,7 @@ static void send_ruleset_goods(struct conn_list *dest)
     packet.onetime_pct = g->onetime_pct;
     packet.flags = g->flags;
 
-    PACKET_STRVEC_COMPUTE(packet.helptext, g->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, g->helptext);
 
     lsend_packet_ruleset_goods(dest, &packet);
   } goods_type_iterate_end;
@@ -8816,7 +8816,7 @@ static void send_ruleset_governments(struct conn_list *dest)
     sz_strlcpy(gov.rule_name, rule_name_get(&g->name));
     sz_strlcpy(gov.graphic_str, g->graphic_str);
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
-    PACKET_STRVEC_COMPUTE(gov.helptext, g->helptext);
+    PACKET_STRVEC_INSERT(gov.helptext, g->helptext);
 
     lsend_packet_ruleset_government(dest, &gov);
 
@@ -9027,7 +9027,7 @@ static void send_ruleset_multipliers(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
 
-    PACKET_STRVEC_COMPUTE(packet.helptext, pmul->helptext);
+    PACKET_STRVEC_INSERT(packet.helptext, pmul->helptext);
 
     lsend_packet_ruleset_multiplier(dest, &packet);
   } multipliers_iterate_end;

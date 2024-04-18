@@ -106,20 +106,15 @@ void *get_packet_from_connection_json(struct connection *pc,
   FREE_PACKET_STRUCT(&packet_buf);                       \
   return NULL;
 
-/* Utilities to exchange strings and string vectors. */
-#define PACKET_STRVEC_SEPARATOR '\3'
-#define PACKET_STRVEC_COMPUTE(str, strvec)                                  \
-  if (NULL != strvec) {                                                     \
-    strvec_to_str(strvec, PACKET_STRVEC_SEPARATOR, str, sizeof(str));       \
-  } else {                                                                  \
-    str[0] = '\0';                                                          \
-  }
-#define PACKET_STRVEC_EXTRACT(strvec, str)                                  \
-  if ('\0' != str[0]) {                                                     \
-    strvec = strvec_new();                                                  \
-    strvec_from_str(strvec, PACKET_STRVEC_SEPARATOR, str);                  \
-  } else {                                                                  \
-    strvec = NULL;                                                          \
+/* Utilities to move string vectors in and out of packets. */
+#define PACKET_STRVEC_INSERT(dest, src) \
+  dest = src
+#define PACKET_STRVEC_EXTRACT(dest, src)        \
+  if (src != nullptr && strvec_size(src) > 0) { \
+    dest = strvec_new();                        \
+    strvec_copy(dest, src);                     \
+  } else {                                      \
+    dest = nullptr;                             \
   }
 
 #ifdef __cplusplus

@@ -1154,7 +1154,7 @@ class StringType(SizedType):
             raise ValueError("not a valid string type")
 
         if public_type != "char":
-            raise ValueError(f"string dataio type with non-char public type: {public_type!r}")
+            raise ValueError(f"string type with illegal public type: {public_type!r}")
 
         super().__init__(dataio_type, public_type, size)
 
@@ -1179,8 +1179,6 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{location}, siz
   RECEIVE_PACKET_FIELD_ERROR({location.name});
 }}
 """
-
-DEFAULT_REGISTRY.dataio_types["string"] = DEFAULT_REGISTRY.dataio_types["estring"] = partial(NeedSizeType, cls = StringType)
 
 
 class MemoryType(SizedType):
@@ -1253,9 +1251,15 @@ class ArrayType(FieldType):
         )
 
     def get_code_handle_param(self, location: Location) -> str:
-        # add "const" if top level
-        pre = "" if location.depth else "const "
-        return pre + self.elem.get_code_handle_param(location.deeper(f"*{location}"))
+        # Note: If we're fine with writing `foo_t const *fieldname`,
+        # we'd only need one case, .deeper(f"const *{location}")
+        if not location.depth:
+            # foo_t fieldname ~> const foo_t *fieldname
+            return "const " + self.elem.get_code_handle_param(location.deeper(f"*{location}"))
+        else:
+            # const foo_t *fieldname ~> const foo_t *const *fieldname
+            # the final * is already part of {location}
+            return self.elem.get_code_handle_param(location.deeper(f"*const {location}"))
 
     def get_code_init(self, location: Location) -> str:
         if not self.complex:
@@ -1278,7 +1282,6 @@ class ArrayType(FieldType):
         # can't use direct assignment to bit-copy a raw array,
         # even if our type is not complex
         inner_copy = prefix("    ", self.elem.get_code_copy(location.sub, dest, src))
-        # FIXME: can't use self.size.real; have to use actual_for(src context)
         return f"""\
 {{
   int {location.index};
@@ -1557,6 +1560,191 @@ differ = FALSE;
         return f"{self.elem}[{self.size}]"
 
 
+class StrvecType(FieldType):
+    """Type information for a string vector field"""
+
+    dataio_type: str
+    """How fields of this type are transmitted over network"""
+
+    public_type: str
+    """How fields of this type are represented in C code"""
+
+    complex: bool = True
+
+    def __init__(self, dataio_type: str, public_type: str):
+        if dataio_type not in ("string", "estring"):
+            raise ValueError("not a valid strvec type")
+
+        if public_type != "struct strvec":
+            raise ValueError(f"strvec type with illegal public type: {public_type!r}")
+
+        self.dataio_type = dataio_type
+        self.public_type = public_type
+
+    def get_code_declaration(self, location: Location) -> str:
+        return f"""\
+{self.public_type} *{location};
+"""
+
+    def get_code_handle_param(self, location: Location) -> str:
+        if not location.depth:
+            return f"const {self.public_type} *{location}"
+        else:
+            # const struct strvec *const *fieldname
+            # the final * is already part of {location}
+            # initial const gets added from outside
+            return f"{self.public_type} *const {location}"
+
+    def get_code_init(self, location: Location) -> str:
+        # we're always allocating our vectors, even if they're empty
+        return f"""\
+{location} = strvec_new();
+"""
+
+    def get_code_fill(self, location: Location) -> str:
+        """Generate a code snippet shallow-copying a value of this type from
+        dsend arguments into a packet struct."""
+        # safety: the packet's contents will not be modified without cloning
+        # it first, so discarding 'const' qualifier here is safe
+        return f"""\
+real_packet->{location} = (struct strvec *) {location};
+"""
+
+    def get_code_copy(self, location: Location, dest: str, src: str) -> str:
+        # dest is initialized by us ~> not null
+        # src might be a packet passed in from outside ~> could be null
+        return f"""\
+if ({src}->{location}) {{
+  strvec_copy({dest}->{location}, {src}->{location});
+}} else {{
+  strvec_clear({dest}->{location});
+}}
+"""
+
+    def get_code_free(self, location: Location) -> str:
+        return f"""\
+if ({location}) {{
+  strvec_destroy({location});
+  {location} = nullptr;
+}}
+"""
+
+    def get_code_hash(self, location: Location) -> str:
+        raise ValueError(f"hash not supported for strvec type {self} in field {location.name}")
+
+    def get_code_cmp(self, location: Location) -> str:
+        # real_packet vector might be null when sending
+        return f"""\
+if (real_packet->{location}) {{
+  differ = !are_strvecs_equal(old->{location}, real_packet->{location});
+}} else {{
+  differ = (strvec_size(old->{location}) > 0);
+}}
+"""
+
+    def _get_code_put_full(self, location: Location) -> str:
+        # Note: strictly speaking, we could allow size == MAX_UINT16,
+        # but we might want to use that in the future to signal overlong
+        # vectors (like with jumbo packets)
+        # Though that would also mean packets larger than 64 KiB,
+        # which we're a long way from
+        return f"""\
+if (!real_packet->{location}) {{
+  /* Transmit null vector as empty vector */
+  e |= DIO_PUT(arraylen, &dout, &field_addr, 0);
+}} else {{
+  int {location.index};
+
+  fc_assert(strvec_size(real_packet->{location}) < MAX_UINT16);
+  e |= DIO_PUT(arraylen, &dout, &field_addr, strvec_size(real_packet->{location}));
+
+#ifdef FREECIV_JSON_CONNECTION
+  {location.json_subloc} = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+  for ({location.index} = 0; {location.index} < strvec_size(real_packet->{location}); {location.index}++) {{
+    const char *pstr = strvec_get(real_packet->{location}, {location.index});
+
+    if (!pstr) {{
+      /* Transmit null strings as empty strings */
+      pstr = "";
+    }}
+
+#ifdef FREECIV_JSON_CONNECTION
+    /* Next array element */
+    {location.json_subloc}->number = {location.index};
+#endif /* FREECIV_JSON_CONNECTION */
+
+    e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, pstr);
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  FC_FREE({location.json_subloc});
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+"""
+
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        assert not deep_diff, "deep-diff for strvec not supported yet"
+        return self._get_code_put_full(location)
+
+    def _get_code_get_full(self, location: Location) -> str:
+        return f"""\
+{{
+  int {location.index};
+
+  if (!DIO_GET(arraylen, &din, &field_addr, &{location.index})) {{
+    RECEIVE_PACKET_FIELD_ERROR({location.name});
+  }}
+  strvec_reserve(real_packet->{location}, {location.index});
+
+#ifdef FREECIV_JSON_CONNECTION
+  {location.json_subloc} = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+  for ({location.index} = 0; {location.index} < strvec_size(real_packet->{location}); {location.index}++) {{
+    char readin[MAX_LEN_PACKET];
+
+#ifdef FREECIV_JSON_CONNECTION
+    /* Next array element */
+    {location.json_subloc}->number = {location.index};
+#endif /* FREECIV_JSON_CONNECTION */
+
+    if (!DIO_GET({self.dataio_type}, &din, &field_addr, readin, sizeof(readin))
+        || !strvec_set(real_packet->{location}, {location.index}, readin)) {{
+      RECEIVE_PACKET_FIELD_ERROR({location.name});
+    }}
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  FC_FREE({location.json_subloc});
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+"""
+
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        assert not deep_diff, "deep-diff for strvec not supported yet"
+        return self._get_code_get_full(location)
+
+    def __str__(self) -> str:
+        return f"{self.dataio_type}({self.public_type})"
+
+
+def string_type_ctor(dataio_type: str, public_type: str) -> RawFieldType:
+    """Field type constructor for both strings and string vectors"""
+    if dataio_type not in ("string", "estring"):
+        raise ValueError(f"not a valid string type: {dataio_type}")
+
+    if public_type == "char":
+        return NeedSizeType(dataio_type, public_type, cls = StringType)
+    elif public_type == "struct strvec":
+        return StrvecType(dataio_type, public_type)
+    else:
+        raise ValueError(f"public type {public_type} not legal for dataio type {dataio_type}")
+
+DEFAULT_REGISTRY.dataio_types["string"] = DEFAULT_REGISTRY.dataio_types["estring"] = string_type_ctor
+
+
 class Field:
     """A single field of a packet. Consists of a name, type information
     (including array sizes) and flags."""
@@ -1699,7 +1887,7 @@ class Field:
     def get_init(self) -> str:
         """Generate code initializing this field in the packet struct, after
         the struct has already been zeroed."""
-        return self.type_info.get_code_init(Location(self.name))
+        return self.type_info.get_code_init(Location(self.name, f"packet->{self.name}"))
 
     def get_copy(self, dest: str, src: str) -> str:
         """Generate code deep-copying this field from *src to *dest."""
@@ -1713,7 +1901,7 @@ class Field:
     def get_free(self) -> str:
         """Generate code deinitializing this field in the packet struct
         before destroying the packet."""
-        return self.type_info.get_code_free(Location(self.name))
+        return self.type_info.get_code_free(Location(self.name, f"packet->{self.name}"))
 
     def get_hash(self) -> str:
         """Generate code factoring this field into a hash computation."""
