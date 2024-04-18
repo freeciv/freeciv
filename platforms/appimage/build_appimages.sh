@@ -23,36 +23,60 @@ if test "${PLATFORM_ROOT}" = "${BUILD_ROOT}" ; then
   exit 1
 fi
 
-if ! mkdir AppDir ||
-   ! mkdir server
+if ! mkdir tools ||
+   ! mkdir -p AppDir/server ||
+   ! mkdir AppDir/gtk4 ||
+   ! mkdir -p build/server ||
+   ! mkdir build/gtk4
 then
   echo "Failed to create required directories!" >&2
   exit 1
 fi
 
-if ! wget "https://github.com/linuxdeploy/linuxdeploy/releases/download/${LINUXDEPLOY_VERSION}/linuxdeploy-x86_64.AppImage"
+if ! ( cd tools &&
+       wget "https://github.com/linuxdeploy/linuxdeploy/releases/download/${LINUXDEPLOY_VERSION}/linuxdeploy-x86_64.AppImage" )
 then
   echo "Failed to download linuxdeploy!" >&2
   exit 1
 fi
-chmod u+x linuxdeploy-x86_64.AppImage
+chmod u+x tools/linuxdeploy-x86_64.AppImage
 
-cd server
+cd build/server
 if ! meson setup -Dack_experimental=true -Dappimage=true -Dprefix=/usr -Ddefault_library=static \
                  -Dclients=[] -Dfcmp=[] -Druledit=false "${SRC_ROOT}"
 then
-  echo "Setup with meson failed!" >&2
+  echo "Server setup with meson failed!" >&2
   exit 1
 fi
 
-if ! DESTDIR="${BUILD_ROOT}/AppDir" ninja install ; then
-  echo "Build with ninja failed!" >&2
+if ! DESTDIR="${BUILD_ROOT}/AppDir/server" ninja install ; then
+  echo "Server build with ninja failed!" >&2
   exit 1
 fi
 
 cd "${BUILD_ROOT}"
-if ! ./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
+if ! tools/linuxdeploy-x86_64.AppImage --appdir AppDir/server --output appimage
 then
-  echo "Image build with linuxdeploy failed!" >&2
+  echo "Server image build with linuxdeploy failed!" >&2
   exit 1
+fi
+
+cd build/gtk4
+if ! meson setup -Dack_experimental=true -Dappimage=true -Dprefix=/usr -Ddefault_library=static \
+                 -Dclients=gtk4 -Dfcmp=[] -Druledit=false "${SRC_ROOT}"
+then
+  echo "Gtk4-client setup with meson failed!" >&2
+  exit 1
+fi
+
+if ! DESTDIR="${BUILD_ROOT}/AppDir/gtk4" ninja install ; then
+  echo "Gtk4-client build with ninja failed!" >&2
+  exit 1
+fi
+
+cd "${BUILD_ROOT}"
+if ! tools/linuxdeploy-x86_64.AppImage --appdir AppDir/gtk4 --output appimage
+then
+  echo "Gtk4-client image build with linuxdeploy failed!" >&2
+   exit 1
 fi
