@@ -31,7 +31,7 @@ struct modpack_cache_item {
   char *filename;
 };
 
-/* get 'struct modpack_cache_list' and related functions: */
+/* Get 'struct modpack_cache_list' and related functions: */
 #define SPECLIST_TAG modpack_cache
 #define SPECLIST_TYPE struct modpack_cache_item
 #include "speclist.h"
@@ -70,6 +70,11 @@ void modpacks_free(void)
 
 /************************************************************************//**
   Check modpack file capabilities.
+
+  @param file      Modpack section file
+  @param us_capstr Engine capabilities
+  @param filename  Modpack filename
+  @param verbose   Whether logging should be verbose
 ****************************************************************************/
 bool modpack_check_capabilities(struct section_file *file, const char *us_capstr,
                                 const char *filename, bool verbose)
@@ -78,7 +83,7 @@ bool modpack_check_capabilities(struct section_file *file, const char *us_capstr
 
   const char *file_capstr = secfile_lookup_str(file, "datafile.options");
 
-  if (NULL == file_capstr) {
+  if (file_capstr == nullptr) {
     log_base(level, "\"%s\": file doesn't have a capability string",
              filename);
     return FALSE;
@@ -103,12 +108,14 @@ bool modpack_check_capabilities(struct section_file *file, const char *us_capstr
 
 /************************************************************************//**
   Get list of modpack meta info files.
+
+  @return List of available .modpack files
 ****************************************************************************/
 struct fileinfo_list *get_modpacks_list(void)
 {
   struct fileinfo_list *files;
 
-  /* search for modpack files. */
+  /* Search for modpack files. */
   files = fileinfolist_infix(get_data_dirs(), MODPACK_SUFFIX, TRUE);
 
   return files;
@@ -116,62 +123,74 @@ struct fileinfo_list *get_modpacks_list(void)
 
 /************************************************************************//**
   Return name of the modpack if contains a ruleset. If it does not contain
-  ruleset, return NULL.
+  ruleset, return nullptr.
+
+  @param sf Modpack section file
+  @return   Name of the modpack, or nullptr
 ****************************************************************************/
 const char *modpack_has_ruleset(struct section_file *sf)
 {
-  if (sf != NULL) {
+  if (sf != nullptr) {
     if (!modpack_check_capabilities(sf, MODPACK_CAPSTR, sf->name,
                                     FALSE)) {
-      return NULL;
+      return nullptr;
     }
 
     if (secfile_lookup_bool_default(sf, FALSE, "components.ruleset")) {
-      return secfile_lookup_str_default(sf, NULL, "modpack.name");
+      return secfile_lookup_str_default(sf, nullptr, "modpack.name");
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
   Return .serv file name for the modpack, if any.
+
+  @param sf Modpack section file
+  @return   Server script name, or nullptr
 ****************************************************************************/
 const char *modpack_serv_file(struct section_file *sf)
 {
-  if (sf != NULL) {
-    return secfile_lookup_str_default(sf, NULL, "ruleset.serv");
+  if (sf != nullptr) {
+    return secfile_lookup_str_default(sf, nullptr, "ruleset.serv");
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
   Return rulesetdir for the modpack, if any.
+
+  @param sf Modpack section file
+  @return   Rulesetdir, or nullptr
 ****************************************************************************/
 const char *modpack_rulesetdir(struct section_file *sf)
 {
-  if (sf != NULL) {
-    return secfile_lookup_str_default(sf, NULL, "ruleset.rulesetdir");
+  if (sf != nullptr) {
+    return secfile_lookup_str_default(sf, nullptr, "ruleset.rulesetdir");
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
   Add modpack/ruleset mapping to cache, if modpack has ruleset.
   Return name of the modpack, if the mapping exist.
+
+  @param sf Modpack section file to cache
+  @return   Name of the modpack, or nullptr
 ****************************************************************************/
 const char *modpack_cache_ruleset(struct section_file *sf)
 {
   const char *mp_name = modpack_has_ruleset(sf);
   struct modpack_cache_item *item;
 
-  if (mp_name == NULL) {
-    return NULL;
+  if (mp_name == nullptr) {
+    return nullptr;
   }
 
-  fc_assert(sf->name != NULL);
+  fc_assert(sf->name != nullptr);
 
   item = fc_malloc(sizeof(struct modpack_cache_item));
   item->modpack_name = fc_strdup(mp_name);
@@ -184,6 +203,9 @@ const char *modpack_cache_ruleset(struct section_file *sf)
 
 /************************************************************************//**
   Find filename by name of the modpack, from the ruleset cache
+
+  @param name Modpack name
+  @return     Filename of the modpack
 ****************************************************************************/
 const char *modpack_file_from_ruleset_cache(const char *name)
 {
@@ -193,11 +215,14 @@ const char *modpack_file_from_ruleset_cache(const char *name)
     }
   } modpack_cache_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
   Call callback for each item in the ruleset cache.
+
+  @param cb   Callback to call
+  @param data Data to pass to the callback
 ****************************************************************************/
 void modpack_ruleset_cache_iterate(mrc_cb cb, void *data)
 {
