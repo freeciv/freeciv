@@ -20,6 +20,7 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QMenu>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QToolButton>
 
@@ -36,11 +37,12 @@
 /**********************************************************************//**
   Setup edit_utype object
 **************************************************************************/
-edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog()
+edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : values_dlg()
 {
   QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *button;
   QMenu *menu;
   int row = 0;
   int rowcount;
@@ -199,6 +201,10 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(sound_fight_tag_alt, row++, 1);
 
+  button = new QPushButton(QString::fromUtf8(R__("Helptext")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(helptext()));
+  unit_layout->addWidget(button, row++, 1);
+
   rowcount = 0;
   column = 0;
   for (int i = 0; i < UTYF_LAST_USER_FLAG; i++) {
@@ -232,6 +238,8 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
 {
   int rowcount;
   int column;
+
+  close_help();
 
   // Save values from text fields.
   gfx_tag_given();
@@ -414,4 +422,12 @@ void edit_utype::class_menu(QAction *action)
   utype->uclass = pclass;
 
   refresh();
+}
+
+/**********************************************************************//**
+  User pressed helptext button
+**************************************************************************/
+void edit_utype::helptext()
+{
+  open_help(utype->helptext);
 }

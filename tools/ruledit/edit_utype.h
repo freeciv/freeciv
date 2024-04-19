@@ -21,6 +21,9 @@
 // Qt
 #include <QDialog>
 
+// ruledit
+#include "values_dlg.h"
+
 class QGridLayout;
 class QLineEdit;
 class QSpinBox;
@@ -28,7 +31,7 @@ class QToolButton;
 
 class ruledit_gui;
 
-class edit_utype : public QDialog
+class edit_utype : public values_dlg
 {
   Q_OBJECT
 
@@ -74,6 +77,7 @@ class edit_utype : public QDialog
     void sound_move_tag_alt_given();
     void sound_fight_tag_given();
     void sound_fight_tag_alt_given();
+    void helptext();
 };
 
 #endif // FC__EDIT_UTYPE_H
