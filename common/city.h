@@ -743,8 +743,10 @@ static inline bool is_non_allied_city_tile(const struct tile *ptile,
   return NULL != tile_non_allied_city(ptile, pplayer);
 }
 
-bool is_unit_near_a_friendly_city(const struct unit *punit);
-bool is_friendly_city_near(const struct player *owner,
+bool is_unit_near_a_friendly_city(const struct civ_map *nmap,
+                                  const struct unit *punit);
+bool is_friendly_city_near(const struct civ_map *nmap,
+                           const struct player *owner,
                            const struct tile *ptile);
 bool city_exists_within_max_city_map(const struct tile *ptile,
                                      bool may_be_on_center);

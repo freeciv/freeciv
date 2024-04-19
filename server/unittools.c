@@ -3634,6 +3634,7 @@ static bool unit_move_consequences(struct unit *punit,
   bool refresh_homecity_end_pos = FALSE;
   int saved_id = punit->id;
   bool alive = TRUE;
+  const struct civ_map *nmap = &(wld.map);
 
   if (tocity && conquer_city_allowed) {
     if (!passenger) {
@@ -3694,15 +3695,15 @@ static bool unit_move_consequences(struct unit *punit,
     }
   }
 
-  /* entering/leaving a fortress or friendly territory */
+  /* Entering/leaving a fortress or friendly territory */
   if (homecity_start_pos || homecity_end_pos) {
     if ((game.info.happyborders != HB_DISABLED && tile_owner(src_tile) != tile_owner(dst_tile))
         || (tile_has_not_aggressive_extra_for_unit(dst_tile,
                                                    type_end_pos)
-            && is_friendly_city_near(pplayer_end_pos, dst_tile))
+            && is_friendly_city_near(nmap, pplayer_end_pos, dst_tile))
         || (tile_has_not_aggressive_extra_for_unit(src_tile,
                                                    type_start_pos)
-            && is_friendly_city_near(pplayer_start_pos, src_tile))) {
+            && is_friendly_city_near(nmap, pplayer_start_pos, src_tile))) {
       refresh_homecity_start_pos = TRUE;
       refresh_homecity_end_pos = TRUE;
     }
