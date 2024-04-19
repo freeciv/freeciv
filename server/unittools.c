@@ -142,7 +142,7 @@ static void do_upgrade_effects(struct player *pplayer);
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 
 static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
-                                      bool settler);
+                                      bool worker);
 
 static void unit_transport_load_tp_status(struct unit *punit,
                                                struct unit *ptrans,
@@ -235,7 +235,7 @@ bool maybe_make_veteran(struct unit *punit, int base_chance)
   the unit.
 **************************************************************************/
 static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
-                                      bool settler)
+                                      bool worker)
 {
   const struct veteran_system *vsystem;
   const struct veteran_level *vlevel;
@@ -254,14 +254,14 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
   if (punit->veteran + 1 >= vsystem->levels
       || !is_action_enabled_unit_on_self(nmap, ACTION_GAIN_VETERANCY, punit)) {
     return FALSE;
-  } else if (!settler) {
+  } else if (!worker) {
     int mod = base_chance + get_unit_bonus(punit, EFT_VETERAN_COMBAT);
 
     /* The modification is tacked on as a multiplier to the base chance.
      * For example with a base chance of 50% for green units and a modifier
      * of +50% the end chance is 75%. */
     chance = vlevel->base_raise_chance * mod / 100;
-  } else if (settler && unit_has_type_flag(punit, UTYF_WORKERS)) {
+  } else if (worker && unit_has_type_flag(punit, UTYF_WORKERS)) {
     chance = base_chance * vlevel->work_raise_chance / 100;
   } else {
     /* No battle and no work done. */
@@ -890,7 +890,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_GEN_ROAD:
     punit->activity_count += get_activity_rate_this_turn(punit);
 
-    /* Settler may become veteran when doing something useful */
+    /* Worker may become veteran when doing something useful */
     if (maybe_become_veteran_real(punit, 100, TRUE)) {
       notify_unit_experience(punit);
     }
