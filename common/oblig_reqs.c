@@ -400,7 +400,6 @@ void hard_code_oblig_hard_reqs(void)
                           ACTRES_CULTIVATE,
                           ACTRES_PLANT,
                           ACTRES_ROAD,
-                          ACTRES_BASE,
                           ACTRES_MINE,
                           ACTRES_IRRIGATE,
                           ACTRES_CLEAN,
