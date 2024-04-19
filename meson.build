@@ -585,11 +585,14 @@ if zstd_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
 endif
 
+# Check for c23 nullptr that can be passed as sentinel
 if c_compiler.compiles('''
-#include <stddef>
-int main(void) { int *var = nullptr; return 0; }''',
+#include <stddef.h>
+void sentinental(...) __attribute__((__sentinel__(0)));
+void caller(void) { sentinental(nullptr); }''',
   name: 'c23 nullptr',
-  include_directories: include_directories(cross_inc_path))
+  include_directories: include_directories(cross_inc_path),
+  args: ['-Wformat'])
   pub_conf_data.set('FREECIV_HAVE_C23_NULLPTR', 1)
 endif
 
