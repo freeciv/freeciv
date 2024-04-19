@@ -131,6 +131,8 @@ tiles = { "row", "column","tag"
  6, 2, "path.normal"          ; tip of path with MP remaining
  6, 3, "path.waypoint"
 
+ 6, 4, "tx.nets"
+
 ; Irrigation (as special type), and whether north, south, east, west
 
  4,  3, "tx.irrigation_s_n0e0se0s0w0nw0"
