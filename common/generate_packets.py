@@ -523,7 +523,7 @@ class SizeInfo:
         the declared size, or a field of `*old`."""
         return self.actual_for("old")
 
-    def receive_size_check(self, field_name: str) -> str:
+    def size_check_get(self, field_name: str) -> str:
         """Generate a code snippet checking whether the received size is in
         range when receiving a packet."""
         if self.constant:
@@ -531,6 +531,60 @@ class SizeInfo:
         return f"""\
 if ({self.real} > {self.declared}) {{
   RECEIVE_PACKET_FIELD_ERROR({field_name}, ": truncation array");
+}}
+"""
+
+    def size_check_index(self, field_name: str) -> str:
+        """Generate a code snippet asserting that indices can be correctly
+        transmitted for array-diff."""
+        if self.constant:
+            return f"""\
+FC_STATIC_ASSERT({self.declared} <= MAX_UINT16, packet_array_too_long_{field_name});
+"""
+        else:
+            return f"""\
+fc_assert({self.real} <= MAX_UINT16);
+"""
+
+    def index_put(self, index: str) -> str:
+        """Generate a code snippet writing the given value to the network
+        output, encoded as the appropriate index type"""
+        if self.constant:
+            return f"""\
+#if {self.declared} <= MAX_UINT8
+e |= DIO_PUT(uint8, &dout, &field_addr, {index});
+#else
+e |= DIO_PUT(uint16, &dout, &field_addr, {index});
+#endif
+"""
+        else:
+            return f"""\
+if ({self.real} <= MAX_UINT8) {{
+  e |= DIO_PUT(uint8, &dout, &field_addr, {index});
+}} else {{
+  e |= DIO_PUT(uint16, &dout, &field_addr, {index});
+}}
+"""
+
+    def index_get(self, location: Location) -> str:
+        """Generate a code snippet reading the next index from the
+        network input decoded as the correct type"""
+        if self.constant:
+            return f"""\
+#if {self.declared} <= MAX_UINT8
+if (!DIO_GET(uint8, &din, &field_addr, &{location.index})) {{
+#else
+if (!DIO_GET(uint16, &din, &field_addr, &{location.index})) {{
+#endif
+  RECEIVE_PACKET_FIELD_ERROR({location.name});
+}}
+"""
+        else:
+            return f"""\
+if (({self.real} <= MAX_UINT8)
+    ? !DIO_GET(uint8, &din, &field_addr, &{location.index})
+    : !DIO_GET(uint16, &din, &field_addr, &{location.index})) {{
+  RECEIVE_PACKET_FIELD_ERROR({location.name});
 }}
 """
 
@@ -1214,10 +1268,8 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{location}, {
 """
 
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
-        size_check = self.size.receive_size_check(location.name)
         return f"""\
-
-{size_check}\
+{self.size.size_check_get(location.name)}\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{location}, {self.size.real})) {{
   RECEIVE_PACKET_FIELD_ERROR({location.name});
 }}
@@ -1368,6 +1420,7 @@ differ = FALSE;
     /* Next array element. */
     {location.json_subloc}->number = {location.index};
 #endif /* FREECIV_JSON_CONNECTION */
+
 {inner_put}\
   }}
 
@@ -1384,7 +1437,10 @@ differ = FALSE;
         sub = location.sub_full(2)
         inner_put = prefix("      ", self.elem.get_code_put(sub, True))
         inner_cmp = prefix("    ", self.elem.get_code_cmp(sub))
+        index_put = prefix("      ", self.size.index_put(location.index))
+        index_put_sentinel = prefix("  ", self.size.index_put(self.size.real))
         return f"""\
+{self.size.size_check_index(location.name)}\
 {{
   int {location.index};
 
@@ -1397,8 +1453,6 @@ differ = FALSE;
   /* Enter array. */
   {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-
-  fc_assert({self.size.real} < MAX_UINT16);
 
   for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
 {inner_cmp}\
@@ -1415,12 +1469,15 @@ differ = FALSE;
       {location.json_subloc}->number = count_{location.index}++;
       {location.json_subloc}->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-      e |= DIO_PUT(uint16, &dout, &field_addr, {location.index});
+
+      /* Write the index */
+{index_put}\
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Content address. */
       {location.json_subloc}->sub_location->number = 1;
 #endif /* FREECIV_JSON_CONNECTION */
+
 {inner_put}\
 
 #ifdef FREECIV_JSON_CONNECTION
@@ -1429,6 +1486,7 @@ differ = FALSE;
 #endif /* FREECIV_JSON_CONNECTION */
     }}
   }}
+
 #ifdef FREECIV_JSON_CONNECTION
   /* Append diff array element. */
   {location.json_subloc}->number = -1;
@@ -1440,7 +1498,9 @@ differ = FALSE;
   {location.json_subloc}->number = count_{location.index};
   {location.json_subloc}->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-  e |= DIO_PUT(uint16, &dout, &field_addr, MAX_UINT16);
+
+  /* Write the sentinel value */
+{index_put_sentinel}\
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit diff array element. */
@@ -1460,9 +1520,9 @@ differ = FALSE;
 
     def _get_code_get_full(self, location: Location) -> str:
         """Helper method. Generate get code without array-diff."""
-        size_check = prefix("  ", self.size.receive_size_check(location.name))
         inner_get = prefix("    ", self.elem.get_code_get(location.sub, False))
         return f"""\
+{self.size.size_check_get(location.name)}\
 {{
   int {location.index};
 
@@ -1471,11 +1531,11 @@ differ = FALSE;
   {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-{size_check}\
   for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
 #ifdef FREECIV_JSON_CONNECTION
     {location.json_subloc}->number = {location.index};
 #endif /* FREECIV_JSON_CONNECTION */
+
 {inner_get}\
   }}
 
@@ -1489,65 +1549,55 @@ differ = FALSE;
     def _get_code_get_diff(self, location: Location) -> str:
         """Helper method. Generate array-diff get code."""
         # we're nested two levels deep in the JSON structure
-        inner_get = prefix("      ", self.elem.get_code_get(location.sub_full(2), True))
+        inner_get = prefix("  ", self.elem.get_code_get(location.sub_full(2), True))
+        index_get = prefix("  ", self.size.index_get(location))
         return f"""\
-{{
+{self.size.size_check_get(location.name)}\
+{self.size.size_check_index(location.name)}\
 #ifdef FREECIV_JSON_CONNECTION
-  int count_{location.index};
-
-  /* Enter array. */
-  {location.json_subloc} = plocation_elem_new(0);
-
-  for (count_{location.index} = 0;; count_{location.index}++) {{
-    int {location.index};
-
-    {location.json_subloc}->number = count_{location.index};
-
-    /* Enter diff array element (start at the index address). */
-    {location.json_subloc}->sub_location = plocation_elem_new(0);
-#else /* FREECIV_JSON_CONNECTION */
-  while (TRUE) {{
-    int {location.index};
+/* Enter array (start at initial element). */
+{location.json_subloc} = plocation_elem_new(0);
+/* Enter diff array element (start at the index address). */
+{location.json_subloc}->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-    if (!DIO_GET(uint16, &din, &field_addr, &{location.index})) {{
-      RECEIVE_PACKET_FIELD_ERROR({location.name});
-    }}
-    if ({location.index} == MAX_UINT16) {{
-#ifdef FREECIV_JSON_CONNECTION
-      /* Exit diff array element. */
-      FC_FREE({location.json_subloc}->sub_location);
+while (TRUE) {{
+  int {location.index};
 
-      /* Exit diff array. */
-      FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
+  /* Read next index */
+{index_get}\
 
-      break;
-    }}
-    if ({location.index} > {self.size.real}) {{
-      RECEIVE_PACKET_FIELD_ERROR({location.name},
-                                 ": unexpected value %d "
-                                 "(> {self.size.real}) in array diff",
-                                 {location.index});
-    }} else {{
-#ifdef FREECIV_JSON_CONNECTION
-      /* Content address. */
-      {location.json_subloc}->sub_location->number = 1;
-#endif /* FREECIV_JSON_CONNECTION */
-{inner_get}\
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Exit diff array element. */
-    FC_FREE({location.json_subloc}->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
+  if ({location.index} == {self.size.real}) {{
+    break;
+  }}
+  if ({location.index} > {self.size.real}) {{
+    RECEIVE_PACKET_FIELD_ERROR({location.name},
+                               ": unexpected value %d "
+                               "(> {self.size.real}) in array diff",
+                               {location.index});
   }}
 
 #ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE({location.json_subloc});
+  /* Content address. */
+  {location.json_subloc}->sub_location->number = 1;
+#endif /* FREECIV_JSON_CONNECTION */
+
+{inner_get}\
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Move to the next diff array element. */
+  {location.json_subloc}->number++;
+  /* Back to the index address. */
+  {location.json_subloc}->sub_location->number = 0;
 #endif /* FREECIV_JSON_CONNECTION */
 }}
+
+#ifdef FREECIV_JSON_CONNECTION
+/* Exit diff array element. */
+FC_FREE({location.json_subloc}->sub_location);
+/* Exit array. */
+FC_FREE({location.json_subloc});
+#endif /* FREECIV_JSON_CONNECTION */
 """
 
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
