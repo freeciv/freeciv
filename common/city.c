@@ -2075,21 +2075,23 @@ struct city *tile_non_allied_city(const struct tile *ptile,
 /**********************************************************************//**
   Return TRUE if there is a friendly city near to this unit
 **************************************************************************/
-bool is_unit_near_a_friendly_city(const struct unit *punit,
+bool is_unit_near_a_friendly_city(const struct civ_map *nmap,
+                                  const struct unit *punit,
                                   int distance)
 {
-  return is_friendly_city_near(unit_owner(punit), unit_tile(punit),
+  return is_friendly_city_near(nmap, unit_owner(punit), unit_tile(punit),
                                distance);
 }
 
 /**********************************************************************//**
   Return TRUE if there is a friendly city near to this tile.
 **************************************************************************/
-bool is_friendly_city_near(const struct player *owner,
+bool is_friendly_city_near(const struct civ_map *nmap,
+                           const struct player *owner,
                            const struct tile *ptile,
                            int distance)
 {
-  square_iterate(&(wld.map), ptile, distance, ptile1) {
+  square_iterate(nmap, ptile, distance, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
     if (pcity && pplayers_allied(owner, city_owner(pcity))) {

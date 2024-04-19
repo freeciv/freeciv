@@ -3587,6 +3587,7 @@ static bool unit_move_consequences(struct unit *punit,
   bool refresh_homecity_end_pos = FALSE;
   int saved_id = punit->id;
   bool alive = TRUE;
+  const struct civ_map *nmap = &(wld.map);
 
   if (tocity && conquer_city_allowed) {
     if (!passenger) {
@@ -3658,14 +3659,14 @@ static bool unit_move_consequences(struct unit *punit,
                                                                           type_end_pos);
 
       if (max_friendliness_range >= 0
-          && is_friendly_city_near(pplayer_end_pos, dst_tile, max_friendliness_range)) {
+          && is_friendly_city_near(nmap, pplayer_end_pos, dst_tile, max_friendliness_range)) {
         friendly_end = TRUE;
       } else {
         max_friendliness_range = tile_has_not_aggressive_extra_for_unit(src_tile,
                                                                         type_start_pos);
 
         if (max_friendliness_range >= 0
-            && is_friendly_city_near(pplayer_start_pos, src_tile, max_friendliness_range)) {
+            && is_friendly_city_near(nmap, pplayer_start_pos, src_tile, max_friendliness_range)) {
           friendly_end = TRUE;
         }
       }
