@@ -69,7 +69,7 @@ void modpacks_free(void)
 }
 
 /************************************************************************//**
-  Check modpack file capabilties.
+  Check modpack file capabilities.
 ****************************************************************************/
 bool modpack_check_capabilities(struct section_file *file, const char *us_capstr,
                                 const char *filename, bool verbose)
