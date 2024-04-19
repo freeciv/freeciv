@@ -1553,6 +1553,7 @@ bool unit_being_aggressive(const struct unit *punit)
 {
   const struct tile *ptile = unit_tile(punit);
   int max_friendliness_range;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!is_attack_unit(punit)) {
     return FALSE;
@@ -1580,7 +1581,7 @@ bool unit_being_aggressive(const struct unit *punit)
   max_friendliness_range = tile_has_not_aggressive_extra_for_unit(ptile,
                                                                   unit_type_get(punit));
   if (max_friendliness_range >= 0) {
-    return !is_unit_near_a_friendly_city(punit, max_friendliness_range);
+    return !is_unit_near_a_friendly_city(nmap, punit, max_friendliness_range);
   }
 
   return TRUE;
