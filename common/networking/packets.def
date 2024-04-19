@@ -165,6 +165,8 @@ Syntax:
 
       diff: use the array-diff feature. This will reduce the amount of
       traffic for large arrays in which only a few elements change.
+      Note that in multidemensional arrays, the individual sub-arrays
+      only get diff'd if the higher levels have constant length.
 
       add-cap: only transfer this field if the given capability is
       available at runtime. If you have a capability named

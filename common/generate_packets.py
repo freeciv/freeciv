@@ -1435,10 +1435,23 @@ differ = FALSE;
         """Helper method. Generate array-diff put code."""
         # we're nesting two levels deep in the JSON structure
         sub = location.sub_full(2)
-        inner_put = prefix("      ", self.elem.get_code_put(sub, True))
+        # Note: At the moment, we're only deep-diffing our elements
+        # if our array size is constant
+        inner_put = prefix("      ", self.elem.get_code_put(sub, self.size.constant))
         inner_cmp = prefix("    ", self.elem.get_code_cmp(sub))
         index_put = prefix("      ", self.size.index_put(location.index))
         index_put_sentinel = prefix("  ", self.size.index_put(self.size.real))
+
+        if not self.size.constant:
+            inner_cmp = f"""\
+    if ({location.index} < {self.size.old}) {{
+{prefix("  ", inner_cmp)}\
+    }} else {{
+      /* Always transmit new elements */
+      differ = TRUE;
+    }}
+"""
+
         return f"""\
 {self.size.size_check_index(location.name)}\
 {{
