@@ -191,8 +191,6 @@ struct genlist *genlist_copy_full(const struct genlist *pgenlist,
 ****************************************************************************/
 int genlist_size(const struct genlist *pgenlist)
 {
-  fc_assert_ret_val(pgenlist != nullptr, 0);
-
   return pgenlist->nelements;
 }
 
@@ -203,8 +201,6 @@ int genlist_size(const struct genlist *pgenlist)
 ****************************************************************************/
 struct genlist_link *genlist_link_get(const struct genlist *pgenlist, int idx)
 {
-  fc_assert_ret_val(pgenlist != nullptr, nullptr);
-
   return genlist_link_at_pos(pgenlist, idx);
 }
 
@@ -250,8 +246,6 @@ void *genlist_back(const struct genlist *pgenlist)
 ****************************************************************************/
 void genlist_clear(struct genlist *pgenlist)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   if (0 < pgenlist->nelements) {
     genlist_free_fn_t free_data_func = pgenlist->free_data_func;
     struct genlist_link *plink = pgenlist->head_link, *plink2;
@@ -293,8 +287,6 @@ void genlist_unique(struct genlist *pgenlist)
 void genlist_unique_full(struct genlist *pgenlist,
                          genlist_comp_fn_t comp_data_func)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   if (2 <= pgenlist->nelements) {
     struct genlist_link *plink = pgenlist->head_link, *plink2;
 
@@ -331,8 +323,6 @@ bool genlist_remove(struct genlist *pgenlist, const void *punlink)
 {
   struct genlist_link *plink;
 
-  fc_assert_ret_val(pgenlist != nullptr, FALSE);
-
   for (plink = pgenlist->head_link; plink != nullptr; plink = plink->next) {
     if (plink->dataptr == punlink) {
       genlist_link_destroy(pgenlist, plink);
@@ -353,8 +343,6 @@ int genlist_remove_all(struct genlist *pgenlist, const void *punlink)
 {
   struct genlist_link *plink;
   int count = 0;
-
-  fc_assert_ret_val(pgenlist != nullptr, 0);
 
   for (plink = pgenlist->head_link; plink != nullptr;) {
     if (plink->dataptr == punlink) {
@@ -380,8 +368,6 @@ int genlist_remove_all(struct genlist *pgenlist, const void *punlink)
 bool genlist_remove_if(struct genlist *pgenlist,
                        genlist_cond_fn_t cond_data_func)
 {
-  fc_assert_ret_val(pgenlist != nullptr, FALSE);
-
   if (cond_data_func != nullptr) {
     struct genlist_link *plink = pgenlist->head_link;
 
@@ -405,8 +391,6 @@ bool genlist_remove_if(struct genlist *pgenlist,
 int genlist_remove_all_if(struct genlist *pgenlist,
                           genlist_cond_fn_t cond_data_func)
 {
-  fc_assert_ret_val(pgenlist != nullptr, 0);
-
   if (cond_data_func != nullptr) {
     struct genlist_link *plink = pgenlist->head_link;
     int count = 0;
@@ -436,8 +420,6 @@ int genlist_remove_all_if(struct genlist *pgenlist,
 ****************************************************************************/
 void genlist_erase(struct genlist *pgenlist, struct genlist_link *plink)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   if (plink != nullptr) {
     genlist_link_destroy(pgenlist, plink);
   }
@@ -448,8 +430,6 @@ void genlist_erase(struct genlist *pgenlist, struct genlist_link *plink)
 ****************************************************************************/
 void genlist_pop_front(struct genlist *pgenlist)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   if (pgenlist->head_link != nullptr) {
     genlist_link_destroy(pgenlist, pgenlist->head_link);
   }
@@ -460,8 +440,6 @@ void genlist_pop_front(struct genlist *pgenlist)
 ****************************************************************************/
 void genlist_pop_back(struct genlist *pgenlist)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   if (pgenlist->tail_link != nullptr) {
     genlist_link_destroy(pgenlist, pgenlist->tail_link);
   }
@@ -477,8 +455,6 @@ void genlist_pop_back(struct genlist *pgenlist)
 ****************************************************************************/
 void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   if (0 == pgenlist->nelements) {
     /* List is empty, ignore pos. */
     genlist_link_new(pgenlist, data, nullptr, nullptr);
@@ -504,8 +480,6 @@ void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 void genlist_insert_after(struct genlist *pgenlist, void *data,
                           struct genlist_link *plink)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   genlist_link_new(pgenlist, data, plink,
                    plink != nullptr ? plink->next : pgenlist->head_link);
 }
@@ -516,8 +490,6 @@ void genlist_insert_after(struct genlist *pgenlist, void *data,
 void genlist_insert_before(struct genlist *pgenlist, void *data,
                           struct genlist_link *plink)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   genlist_link_new(pgenlist, data,
                    plink != nullptr ? plink->prev : pgenlist->tail_link, plink);
 }
@@ -527,8 +499,6 @@ void genlist_insert_before(struct genlist *pgenlist, void *data,
 ****************************************************************************/
 void genlist_prepend(struct genlist *pgenlist, void *data)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   genlist_link_new(pgenlist, data, nullptr, pgenlist->head_link);
 }
 
@@ -537,8 +507,6 @@ void genlist_prepend(struct genlist *pgenlist, void *data)
 ****************************************************************************/
 void genlist_append(struct genlist *pgenlist, void *data)
 {
-  fc_assert_ret(pgenlist != nullptr);
-
   genlist_link_new(pgenlist, data, pgenlist->tail_link, nullptr);
 }
 
@@ -551,8 +519,6 @@ struct genlist_link *genlist_search(const struct genlist *pgenlist,
                                     const void *data)
 {
   struct genlist_link *plink;
-
-  fc_assert_ret_val(pgenlist != nullptr, nullptr);
 
   for (plink = pgenlist->head_link; plink; plink = plink->next) {
     if (plink->dataptr == data) {
@@ -570,8 +536,6 @@ struct genlist_link *genlist_search(const struct genlist *pgenlist,
 struct genlist_link *genlist_search_if(const struct genlist *pgenlist,
                                        genlist_cond_fn_t cond_data_func)
 {
-  fc_assert_ret_val(pgenlist != nullptr, nullptr);
-
   if (cond_data_func != nullptr) {
     struct genlist_link *plink = pgenlist->head_link;
 
@@ -662,8 +626,6 @@ void genlist_reverse(struct genlist *pgenlist)
 {
   struct genlist_link *head, *tail;
   int counter;
-
-  fc_assert_ret(pgenlist != nullptr);
 
   head = pgenlist->head_link;
   tail = pgenlist->tail_link;
