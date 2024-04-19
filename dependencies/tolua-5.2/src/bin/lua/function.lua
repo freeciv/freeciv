@@ -85,7 +85,7 @@ function classFunction:supcode ()
 		 func = 'tolua_isusertable'
 			type = self.parent.type
 		end
-		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) || \n')
+		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) ||\n')
  end
  -- check args
  local vararg = false
@@ -94,7 +94,7 @@ function classFunction:supcode ()
   while self.args[i] and self.args[i].type ~= "..." do
 		 local btype = isbasic(self.args[i].type)
 			if btype ~= 'state' then
-    output('     !'..self.args[i]:outchecktype(narg,false)..' || \n')
+    output('     !'..self.args[i]:outchecktype(narg,false)..' ||\n')
    end
 			if btype ~= 'state' then
         narg = narg+1
