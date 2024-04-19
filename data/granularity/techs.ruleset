@@ -290,6 +290,17 @@ graphic     = "a.diplomacy"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_engineering]
+name        = _("Engineering")
+req1        = "Siege Engines"
+req2        = "Military Constructs"
+flags       = ""
+graphic     = "a.engineering"
+graphic_alt = "-"
+helptext    = _("\
+Makes it possible to upgrade units in cities.\
+")
+
 [advance_fire]
 name        = _("Fire")
 req1        = "None"
@@ -314,7 +325,7 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 [advance_flight]
 name        = _("Flight")
 req1        = "Strategies"
-req2        = "Sailing"
+req2        = "Engineering"
 flags       = ""
 graphic     = "a.flight"
 graphic_alt = "-"

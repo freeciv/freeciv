@@ -465,6 +465,14 @@ actor_reqs    =
       "Activity", "Fortified", "Local",  FALSE
     }
 
+[enabler_upgrade_unit]
+action        = "Upgrade Unit"
+actor_reqs    =
+    { "type",    "name",        "range",  "present"
+      "Tech",    "Engineering", "Player", TRUE
+      "DiplRel", "Foreign",     "Local",  FALSE
+    }
+
 [enabler_conquer_city_tribal]
 action        = "Conquer City"
 actor_reqs    =
