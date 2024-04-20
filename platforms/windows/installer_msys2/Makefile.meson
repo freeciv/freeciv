@@ -386,7 +386,12 @@ install-env-qt6-fcmp: install-env-common
 	cp -R /$(ARCHDIR)/share/locale $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/
 	find $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
+CLIENT_QT6_DLLS := \
+	Qt6Svg.dll \
+
 install-env-qt6: install-env-qt6-fcmp
+	# Add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(CLIENT_QT6_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 installer-ruledit-common: install-ruledit-$(GUI)
 	# Add DLLs
