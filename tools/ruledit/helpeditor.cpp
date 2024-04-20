@@ -21,6 +21,7 @@
 
 // utility
 #include "fcintl.h"
+#include "mem.h"
 #include "string_vector.h"
 
 // ruledit
@@ -36,18 +37,18 @@ helpeditor::helpeditor(values_dlg *parent_dlg, struct strvec *helptext_in) : QDi
   QGridLayout *main_layout = new QGridLayout(this);
   QPushButton *close_button;
   int row = 0;
+  int i;
 
   pdlg = parent_dlg;
   helptext = helptext_in;
 
-  area = new QTextEdit();
-  area->setParent(this);
-  area->setReadOnly(true);
-  main_layout->addWidget(area, row++, 0);
+  helps = (QTextEdit **)fc_malloc(sizeof(QTextEdit *) * strvec_size(helptext));
 
+  i = 0;
   strvec_iterate(helptext, text) {
-    area->append(QString::fromUtf8(text));
-    area->append("\n\n");
+    helps[i] = new QTextEdit(QString::fromUtf8(text));
+    helps[i]->setParent(this);
+    main_layout->addWidget(helps[i++], row++, 0);
   } strvec_iterate_end;
 
   close_button = new QPushButton(QString::fromUtf8(R__("Close")), this);
@@ -62,6 +63,18 @@ helpeditor::helpeditor(values_dlg *parent_dlg, struct strvec *helptext_in) : QDi
 **************************************************************************/
 void helpeditor::close()
 {
+  int i;
+  int count = strvec_size(helptext);
+
+  for (i = 0; i < count; i++) {
+    QByteArray hbytes;
+
+    hbytes = helps[i]->toPlainText().toUtf8();
+    strvec_set(helptext, i, hbytes.data());
+  }
+
+  free(helps);
+
   done(0);
 }
 
