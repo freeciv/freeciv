@@ -2221,8 +2221,8 @@ void handle_investigate_started(int unit_id16, int unit_id32,
   struct city *pcity;
 
   if (!has_capability("ids32", client.conn.capability)) {
-    unit_id32 = unit_id16;
     city_id32 = city_id16;
+    /* Unit id not used by this function. */
   }
 
   pcity = game_city_by_number(city_id32);
