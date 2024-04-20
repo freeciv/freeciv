@@ -37,7 +37,7 @@ class helpeditor : public QDialog
     struct strvec *helptext;
     values_dlg *pdlg;
 
-    QTextEdit *area;
+    QTextEdit **helps;
 
   private slots:
     void close_now();
