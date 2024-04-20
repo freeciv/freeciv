@@ -284,8 +284,8 @@ Produces two points of history each turn.\
 name		= _("Central Rock Pile")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-; No requirements
+    { "type",     "name",              "range",  "present"
+      "Building", "Central Rock Pile", "Player", FALSE
     }
 graphic         = "b.rock_pile"
 graphic_alt	= "b.palace"
