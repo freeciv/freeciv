@@ -32,6 +32,9 @@ const char *api_methods_game_year_text(lua_State *L);
 const char *api_methods_game_rulesetdir(lua_State *L);
 const char *api_methods_game_ruleset_name(lua_State *L);
 
+const char *api_methods_tech_cost_style(lua_State *L);
+const char *api_methods_tech_leakage_style(lua_State *L);
+
 /* Building Type */
 bool api_methods_building_type_is_wonder(lua_State *L,
                                          Building_Type *pbuilding);

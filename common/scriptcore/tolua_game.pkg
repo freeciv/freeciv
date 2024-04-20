@@ -136,8 +136,6 @@ struct Game_Info {
   const bool tech_parasite_allow_holes;
   const bool tech_loss_allow_holes;
   const int sciencebox;
-  const char tech_cost_style @ tech_cost_style_id;
-  const char tech_leakage @ tech_leakage_style_id;
 };
 
 /* Module Game */
@@ -166,6 +164,12 @@ module game {
 
   const char *api_methods_game_ruleset_name
     @ ruleset_name (lua_State *L);
+
+  const char *api_methods_tech_cost_style
+    @ tech_cost_style (lua_State *L);
+
+  const char *api_methods_tech_leakage_style
+    @ tech_leakage_style (lua_State *L);
 }
 
 module Counter {
@@ -681,19 +685,6 @@ module Game_Info {
 }
 
 $[
--- Getting enums from game.info as rule names
--- The tables are defined and filled in api_game_specenum.c
-local tcs, tls = TECH_COST, TECH_LEAKAGE
--- Remove the tables from _G, likely no more use for them
-TECH_COST, TECH_LEAKAGE = nil, nil
-Game_Info.properties = {
-  tech_cost_style = function(self)
-    return tcs[self.tech_cost_style_id];
-  end,
-  tech_leakage_style = function(self)
-    return tls[self.tech_leakage_style_id];
-  end
-}
 
 -- ***************************************************************************
 -- Player and Tile: cities_iterate and units_iterate methods
