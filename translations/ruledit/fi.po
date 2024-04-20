@@ -15,9 +15,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
-"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-02-15 19:52+0200\n"
-"PO-Revision-Date: 2024-02-15 19:54+0200\n"
+"Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
+"POT-Creation-Date: 2024-04-20 22:18+0300\n"
+"PO-Revision-Date: 2024-04-20 22:20+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -27,118 +27,132 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
-#: tools/ruledit/req_vec_fix.cpp:191 tools/ruledit/requirers_dlg.cpp:43
-#: tools/ruledit/req_edit.cpp:135
+#: tools/ruledit/helpeditor.cpp:53 tools/ruledit/req_vec_fix.cpp:191
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
 msgid "Close"
 msgstr "Sulje"
 
-#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:93
-#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:111
+#: tools/ruledit/edit_extra.cpp:58 tools/ruledit/edit_impr.cpp:101
+#: tools/ruledit/edit_tech.cpp:71 tools/ruledit/edit_terrain.cpp:79
+#: tools/ruledit/edit_utype.cpp:116
 msgid "Graphics tag"
 msgstr "Kuvitustägi"
 
-#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:102
-#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:120
+#: tools/ruledit/edit_extra.cpp:67 tools/ruledit/edit_impr.cpp:110
+#: tools/ruledit/edit_tech.cpp:80 tools/ruledit/edit_terrain.cpp:88
+#: tools/ruledit/edit_utype.cpp:125
 msgid "Alt graphics tag"
 msgstr "Varakuvitustägi"
 
-#: tools/ruledit/edit_extra.cpp:66
+#: tools/ruledit/edit_extra.cpp:76
 msgid "Activity graphics tag"
 msgstr "Toiminnan kuvituksen tägi"
 
-#: tools/ruledit/edit_extra.cpp:75
+#: tools/ruledit/edit_extra.cpp:85
 msgid "Alt activity gfx tag"
 msgstr "Toiminnan kuvituksen varatägi"
 
-#: tools/ruledit/edit_extra.cpp:84
+#: tools/ruledit/edit_extra.cpp:94
 msgid "Second alt activity gfx tag"
 msgstr "Toiminnan kuvituksen toinen varatägi"
 
-#: tools/ruledit/edit_extra.cpp:93
+#: tools/ruledit/edit_extra.cpp:103
 msgid "Removal activity graphics tag"
 msgstr "Poistotoiminnan kuvitustägi"
 
-#: tools/ruledit/edit_extra.cpp:102
+#: tools/ruledit/edit_extra.cpp:112
 msgid "Alt removal activity gfx tag"
 msgstr "Poistotoiminnan kuvituksen varatägi"
 
-#: tools/ruledit/edit_extra.cpp:111
+#: tools/ruledit/edit_extra.cpp:121
 msgid "Second alt removal activity gfx tag"
 msgstr "Poistotoiminnan kuvituksen toinen varatägi"
 
-#: tools/ruledit/edit_impr.cpp:54 tools/ruledit/edit_utype.cpp:50
+#: tools/ruledit/edit_extra.cpp:130 tools/ruledit/edit_terrain.cpp:106
+msgid "Native to"
+msgstr "Sopiva yksiköille"
+
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:55
 msgid "Build Cost"
 msgstr "Hinta"
 
-#: tools/ruledit/edit_impr.cpp:65
+#: tools/ruledit/edit_impr.cpp:73
 msgid "Upkeep"
 msgstr "Ylläpito"
 
-#: tools/ruledit/edit_impr.cpp:75
+#: tools/ruledit/edit_impr.cpp:83
 msgid "Genus"
 msgstr "Suku"
 
-#: tools/ruledit/edit_impr.cpp:111 tools/ruledit/edit_utype.cpp:129
+#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:134
 msgid "Second alt gfx tag"
 msgstr "Toinen varakuvitustägi"
 
-#: tools/ruledit/edit_impr.cpp:120
+#: tools/ruledit/edit_impr.cpp:128
 msgid "Sound tag"
 msgstr "Ääniefektitägi"
 
-#: tools/ruledit/edit_impr.cpp:129
+#: tools/ruledit/edit_impr.cpp:137
 msgid "Alt sound tag"
 msgstr "Varaääniefektitägi"
 
-#: tools/ruledit/edit_impr.cpp:138
+#: tools/ruledit/edit_impr.cpp:146
 msgid "Second alt sound tag"
 msgstr "Toinen varaääniefektitägi"
 
-#: tools/ruledit/edit_terrain.cpp:49
+#: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
+msgid "Helptext"
+msgstr "Kuvaus"
+
+#: tools/ruledit/edit_tech.cpp:60
+msgid "Cost"
+msgstr "Hinta"
+
+#: tools/ruledit/edit_terrain.cpp:59
 msgid "Move Cost"
 msgstr "Liikkumisen hinta"
 
-#: tools/ruledit/edit_terrain.cpp:59
+#: tools/ruledit/edit_terrain.cpp:69
 msgid "Defense Bonus %"
 msgstr "Puolustusbonus %"
 
-#: tools/ruledit/edit_terrain.cpp:87
+#: tools/ruledit/edit_terrain.cpp:97
 msgid "Second alt graphics tag"
 msgstr "Toinen varakuvitustägi"
 
-#: tools/ruledit/edit_utype.cpp:61
+#: tools/ruledit/edit_utype.cpp:66
 msgid "Attack Strength"
 msgstr "Hyökkäysvoima"
 
-#: tools/ruledit/edit_utype.cpp:71
+#: tools/ruledit/edit_utype.cpp:76
 msgid "Defense Strength"
 msgstr "Puolustusvoima"
 
-#: tools/ruledit/edit_utype.cpp:81
+#: tools/ruledit/edit_utype.cpp:86
 msgid "Hitpoints"
 msgstr "Osumapisteitä"
 
-#: tools/ruledit/edit_utype.cpp:91
+#: tools/ruledit/edit_utype.cpp:96
 msgid "Firepower"
 msgstr "Tulivoima"
 
-#: tools/ruledit/edit_utype.cpp:101
+#: tools/ruledit/edit_utype.cpp:106
 msgid "Move Rate"
 msgstr "Liikkuvuus"
 
-#: tools/ruledit/edit_utype.cpp:138
+#: tools/ruledit/edit_utype.cpp:143
 msgid "Move sound tag"
 msgstr "Liikkumisäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:148
+#: tools/ruledit/edit_utype.cpp:153
 msgid "Alt move sound tag"
 msgstr "Varaliikkumisäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:158
+#: tools/ruledit/edit_utype.cpp:163
 msgid "Fight sound tag"
 msgstr "Taisteluäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:168
+#: tools/ruledit/edit_utype.cpp:173
 msgid "Alt fight sound tag"
 msgstr "Varataisteluäänitägi"
 
@@ -435,7 +449,7 @@ msgstr "Sulje ohjelma?"
 #: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_counters.cpp:82 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
-#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
+#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:67
 #: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:64
 msgid "Rule Name"
 msgstr "Sääntönimi"
@@ -455,8 +469,8 @@ msgstr "Sääntönimi"
 #: tools/ruledit/tab_gov.cpp:146 tools/ruledit/tab_gov.cpp:147
 #: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
 #: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
-#: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
-#: tools/ruledit/tab_tech.cpp:229 tools/ruledit/tab_tech.cpp:230
+#: tools/ruledit/tab_tech.cpp:70 tools/ruledit/tab_tech.cpp:80
+#: tools/ruledit/tab_tech.cpp:236 tools/ruledit/tab_tech.cpp:237
 #: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
 #: tools/ruledit/tab_terrains.cpp:149 tools/ruledit/tab_terrains.cpp:150
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
@@ -467,7 +481,7 @@ msgstr "Ei mikään"
 #: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_counters.cpp:89 tools/ruledit/tab_extras.cpp:76
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
-#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
+#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:75
 #: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:72
 msgid "Name"
 msgstr "Nimi"
@@ -475,7 +489,7 @@ msgstr "Nimi"
 #: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
+#: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
 msgid "Effects"
 msgstr "Vaikutukset"
@@ -493,7 +507,8 @@ msgid "An achievement with that rule name already exists!"
 msgstr "Saavutus samalla sääntönimellä on jo olemassa!"
 
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
-#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:83
+#: tools/ruledit/tab_tech.cpp:86 tools/ruledit/tab_terrains.cpp:87
+#: tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
 msgstr "Muokkaa arvoja"
 
@@ -801,31 +816,31 @@ msgstr "Käytä kansalistaa"
 msgid "Nationlist"
 msgstr "Kansalista"
 
-#: tools/ruledit/tab_tech.cpp:83
+#: tools/ruledit/tab_tech.cpp:90
 msgid "Req1"
 msgstr "Vaadittu 1"
 
-#: tools/ruledit/tab_tech.cpp:92
+#: tools/ruledit/tab_tech.cpp:99
 msgid "Req2"
 msgstr "Vaadittu 2"
 
-#: tools/ruledit/tab_tech.cpp:100
+#: tools/ruledit/tab_tech.cpp:107
 msgid "Root Req"
 msgstr "Juurivaatimus"
 
-#: tools/ruledit/tab_tech.cpp:113
+#: tools/ruledit/tab_tech.cpp:120
 msgid "Add tech"
 msgstr "Lisää teknologia"
 
-#: tools/ruledit/tab_tech.cpp:118
+#: tools/ruledit/tab_tech.cpp:125
 msgid "Remove this tech"
 msgstr "Poista tämä teknologia"
 
-#: tools/ruledit/tab_tech.cpp:197
+#: tools/ruledit/tab_tech.cpp:204
 msgid "Never"
 msgstr "Ei koskaan"
 
-#: tools/ruledit/tab_tech.cpp:354
+#: tools/ruledit/tab_tech.cpp:361
 msgid "A tech with that rule name already exists!"
 msgstr "Teknologia samalla sääntönimellä on jo olemassa!"
 
