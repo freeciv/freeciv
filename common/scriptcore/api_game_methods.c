@@ -118,6 +118,22 @@ const char *api_methods_game_ruleset_name(lua_State *L)
 }
 
 /**********************************************************************//**
+  Return name of the current tech cost style
+**************************************************************************/
+const char *api_methods_tech_cost_style(lua_State *L)
+{
+  return tech_cost_style_name(game.info.tech_cost_style);
+}
+
+/**********************************************************************//**
+  Return name of the current tech leakage style
+**************************************************************************/
+const char *api_methods_tech_leakage_style(lua_State *L)
+{
+  return tech_leakage_style_name(game.info.tech_leakage);
+}
+
+/**********************************************************************//**
   Return TRUE if pbuilding is a wonder.
 **************************************************************************/
 bool api_methods_building_type_is_wonder(lua_State *L,
