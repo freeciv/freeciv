@@ -1444,13 +1444,13 @@ static void sg_load_savefile(struct loaddata *loading)
     if (!fc_strcasecmp("none", game.scenario.datafile)) {
       game.server.luadata = NULL;
     } else {
-      const struct strvec *pathes[] = { get_scenario_dirs(), NULL };
+      const struct strvec *paths[] = { get_scenario_dirs(), NULL };
       const struct strvec **path;
       const char *found = NULL;
       char testfile[MAX_LEN_PATH];
       struct section_file *secfile;
 
-      for (path = pathes; found == NULL && *path != NULL; path++) {
+      for (path = paths; found == NULL && *path != NULL; path++) {
         fc_snprintf(testfile, sizeof(testfile), "%s.luadata", game.scenario.datafile);
 
         found = fileinfoname(*path, testfile);
