@@ -656,7 +656,7 @@ const char *get_activity_text(enum unit_activity activity)
 }
 
 /**********************************************************************//**
-  Tells wether pcargo could possibly be in ptrans, disregarding
+  Tells whether pcargo could possibly be in ptrans, disregarding
   unit positions and ownership and load actions possibility,
   but regarding number and types of their current cargo.
   pcargo and ptrans must be valid unit pointers, pcargo not loaded anywhere
