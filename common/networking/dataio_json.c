@@ -120,22 +120,12 @@ static int plocation_write_elem(json_t *item,
       e = json_array_set_new(item, location->number, data);
     }
   } else {
-    // PTZ200718 handles last element get case...
-    // better here than all around put_array-diff algo ?
     size_t n = (location->number == -1)
       ? (json_array_size(item) - 1)
       : location->number;
 
-    json_t *sub_item = json_array_get(item, n);
-
-    if (json_is_array(sub_item)) {
-      e = plocation_write_data(sub_item,
-                               location->sub_location, data);
-    } else {
-      log_error("ERROR:plocation_write_elem:array not found for sub location:"
-                "%s @[" SIZE_T_PRINTF "]",
-                json_dumps(item, JSON_DECODE_ANY), location->number);
-    }
+    e = plocation_write_data(json_array_get(item, n),
+                             location->sub_location, data);
   }
 
   return e;
@@ -914,6 +904,23 @@ int dio_put_farray_json(struct json_data_out *dout,
     }
 
     e |= plocation_write_data(dout->json, location, farray);
+  } else {
+    /* No caller needs this */
+  }
+
+  return e;
+}
+
+/**********************************************************************//**
+  Create an empty JSON object.
+**************************************************************************/
+int dio_put_object_json(struct json_data_out *dout,
+                        const struct plocation *location)
+{
+  int e = 0;
+
+  if (dout->json) {
+    e |= plocation_write_data(dout->json, location, json_object());
   } else {
     /* No caller needs this */
   }

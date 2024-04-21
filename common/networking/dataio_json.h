@@ -130,6 +130,8 @@ bool dio_get_uint16_vec8_json(struct connection *pc, struct data_in *din,
 /* puts */
 int dio_put_farray_json(struct json_data_out *dout,
                         const struct plocation *location, int size);
+int dio_put_object_json(struct json_data_out *dout,
+                        const struct plocation *location);
 
 int dio_put_type_json(struct json_data_out *dout, enum data_type type,
                       const struct plocation *location,

@@ -1476,11 +1476,11 @@ differ = FALSE;
       {location.json_subloc}->number = -1;
 
       /* Create the diff array element. */
-      e |= DIO_PUT(farray, &dout, &field_addr, 2);
+      e |= DIO_PUT(object, &dout, &field_addr);
 
       /* Enter diff array element (start at the index address). */
       {location.json_subloc}->number = count_{location.index}++;
-      {location.json_subloc}->sub_location = plocation_elem_new(0);
+      {location.json_subloc}->sub_location = plocation_field_new("index");
 #endif /* FREECIV_JSON_CONNECTION */
 
       /* Write the index */
@@ -1488,7 +1488,7 @@ differ = FALSE;
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Content address. */
-      {location.json_subloc}->sub_location->number = 1;
+      {location.json_subloc}->sub_location->name = "data";
 #endif /* FREECIV_JSON_CONNECTION */
 
 {inner_put}\
@@ -1505,11 +1505,11 @@ differ = FALSE;
   {location.json_subloc}->number = -1;
 
   /* Create the terminating diff array element. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 1);
+  e |= DIO_PUT(object, &dout, &field_addr);
 
   /* Enter diff array element (start at the index address). */
   {location.json_subloc}->number = count_{location.index};
-  {location.json_subloc}->sub_location = plocation_elem_new(0);
+  {location.json_subloc}->sub_location = plocation_field_new("index");
 #endif /* FREECIV_JSON_CONNECTION */
 
   /* Write the sentinel value */
@@ -1571,7 +1571,7 @@ differ = FALSE;
 /* Enter array (start at initial element). */
 {location.json_subloc} = plocation_elem_new(0);
 /* Enter diff array element (start at the index address). */
-{location.json_subloc}->sub_location = plocation_elem_new(0);
+{location.json_subloc}->sub_location = plocation_field_new("index");
 #endif /* FREECIV_JSON_CONNECTION */
 
 while (TRUE) {{
@@ -1592,7 +1592,7 @@ while (TRUE) {{
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Content address. */
-  {location.json_subloc}->sub_location->number = 1;
+  {location.json_subloc}->sub_location->name = "data";
 #endif /* FREECIV_JSON_CONNECTION */
 
 {inner_get}\
@@ -1601,7 +1601,7 @@ while (TRUE) {{
   /* Move to the next diff array element. */
   {location.json_subloc}->number++;
   /* Back to the index address. */
-  {location.json_subloc}->sub_location->number = 0;
+  {location.json_subloc}->sub_location->name = "index";
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 
