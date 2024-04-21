@@ -338,7 +338,7 @@ const char *log_level_name(enum log_level lvl)
 
 #ifdef FREECIV_DEBUG
 /**********************************************************************//**
-  Returns wether we should do an output for this level, in this file,
+  Returns whether we should do an output for this level, in this file,
   at this line.
 **************************************************************************/
 bool log_do_output_for_level_at_location(enum log_level level,
@@ -535,7 +535,7 @@ void fc_assert_set_fatal(int fatal_assertions)
 
 #ifndef FREECIV_NDEBUG
 /**********************************************************************//**
-  Returns wether the fc_assert* macros should raise a signal on failed
+  Returns whether the fc_assert* macros should raise a signal on failed
   assertion.
 **************************************************************************/
 void fc_assert_fail(const char *file, const char *function, int line,
