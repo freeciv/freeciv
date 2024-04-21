@@ -325,7 +325,7 @@ int sockaddr_size(union fc_sockaddr *addr)
 }
 
 /*********************************************************************//**
-  Returns wether address is IPv6 address.
+  Returns whether address is IPv6 address.
 *************************************************************************/
 bool sockaddr_ipv6(union fc_sockaddr *addr)
 {
