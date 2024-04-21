@@ -613,12 +613,12 @@ if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   } while (pf_map_iterate(_MY_pf_map_));                                    \
 }
 
-/* This macro iterates all possible pathes.
- * NB: you need to free the pathes with pf_path_destroy(path_iter).
+/* This macro iterates all possible paths.
+ * NB: you need to free the paths with pf_path_destroy(path_iter).
  *
  * ARG_pfm - A pf_map structure pointer.
- * NAME_path - The name of the iterator to use (type struct pf_path *). This
- *             is defined inside the macro.
+ * NAME_path - The name of the iterator to use (type struct pf_path *).
+ *             This is defined inside the macro.
  * COND_from_start - A boolean value (or equivalent, it can be a function)
  *                   which indicate if the start tile should be iterated or
  *                   not. */

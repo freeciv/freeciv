@@ -3811,9 +3811,9 @@ bool load_command(struct connection *caller, const char *filename, bool check,
   }
 
   {
-    /* it is a normal savegame or maybe a scenario */
+    /* It is a normal savegame or maybe a scenario */
     char testfile[MAX_LEN_PATH];
-    const struct strvec *pathes[] = {
+    const struct strvec *paths[] = {
       get_save_dirs(), get_scenario_dirs(), NULL
     };
     const char *exts[] = {
@@ -3829,7 +3829,7 @@ bool load_command(struct connection *caller, const char *filename, bool check,
        * looking any path with an extension, i.e., prefer plain name file
        * in later directory over file with extension in name in earlier
        * directory. */
-      for (path = pathes; !found && *path; path++) {
+      for (path = paths; !found && *path; path++) {
         found = fileinfoname(*path, filename);
         if (found != NULL) {
           sz_strlcpy(arg, found);
@@ -3837,7 +3837,7 @@ bool load_command(struct connection *caller, const char *filename, bool check,
       }
     }
 
-    for (path = pathes; !found && *path; path++) {
+    for (path = paths; !found && *path; path++) {
       for (ext = exts; !found && *ext; ext++) {
         fc_snprintf(testfile, sizeof(testfile), "%s.%s", filename, *ext);
         found = fileinfoname(*path, testfile);
