@@ -1,10 +1,112 @@
 ========================
-Welcome to Freeciv 3.1.0
+Welcome to Freeciv 3.1.1
 ========================
 
 The changes in the 3.1.x series are summarised below.
 For changes prior to 3.1, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.1.0 to 3.1.1
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.0-RC1>, 2024-04-24)
+
+3.1.1 is a generic bugfix release, notably fixing an issue causing
+gtk4-client to overwrite user options on every launch.
+
+Server / General
+
+    * Fixed issues with more than 65535 cities and units.
+      Both server and client need to be updated for the fix to be active
+      RM#304 RM#489
+    * Fixed allied victory in case all players get allied before
+      anyone perish RM#324
+    * Fixed server crash after player removal when some remaining unit
+      has that player as their nationality RM#383
+
+Changes affecting other rulesets / modders
+
+    * Worklist items with unreachable local range building requirements
+      correctly purged osdn#48773
+    * Supposedly hidden extras are no longer sent to the client as
+      resources either RM#350
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#147 RM#352
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where it should
+      RM#265 RM#273 RM#281 RM#296 RM#320 RM#342 RM#340 RM#361 RM#362 RM#374
+      RM#434 RM#390 RM#403 RM#410
+    Stop camping Helicopters on the open where they lose HP RM#207
+    * Fixed city spot evaluation when there are unknown or unavailable
+      tiles within the city area RM#408
+    * Fixed city spot evaluation on high output granularity rulesets RM#407
+    * Marked AI module interface as stable freeciv-3.1 version RM#495
+
+Clients
+
+    * gtk4
+         + Assert failures on policies dialog fixed RM#312
+         + Fixed saving of the options migration status, so there's
+           no new attempt on every client launch RM#427
+
+Tools
+Ruledit
+
+    * Editing of unit type flags added RM#284
+    * Editing of extra flags added RM#323
+    * Editing of terrain flags added RM#339
+    * Editing of terrain native_to added RM#298
+    * Editing of extra native_to added RM#316
+    * Buildings flag editing unified with other flag editors RM#349
+    * Make helptext of buildings available for viewing RM#326 RM#368 RM#327
+    * Tech's values editing addded RM#358
+    * Corrected Tech Add/Remove buttons placements on
+      experimental mode builds RM#430
+
+Manual Generator
+
+    * Use proper wiki tag in improvements manual RM#321
+    * Add horizontal line between terrain types RM#325
+
+
+Help / Documentation
+
+    * Issue tracker URL updated to redmine.freeciv.org one RM#2
+    * Doxygen documentation updates: RM#260 RM#319
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#282 RM#297 RM#330 RM#357 RM#371 RM#386 RM#431
+
+Translations
+
+    * Updated translations: fi, ru
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#272 RM#291 RM#367 RM#378 RM#404 RM#405
+    * Fixed some clang analyzer warnings RM#286 RM#317 RM#335 RM#377
+    * Metainfo updates
+         + Developer name information added RM#280
+         + New gtk3.22-client screenshot RM#290
+    * Meson based build fixes
+         + Dropped duplicate tests RM#307
+         + Install man pages to correct subdir osdn#57664
+    * Appimages
+         + Added appimage configure option to meson based builds RM#393
+         + Added build_appimages.sh script RM#396
+    * Flatpak updates
+         + Gnome sdk and platform updated to 46 RM#322
+         + Qt sdk and platform updated to 6.7 RM#438
+    * Fixed C++20 "capture this" sematics configure check RM#328
+    * Fixed python syntax errors on generating network packet definitions
+      RM#365
+    * Fixed build against Qt-6.8 development version RM#462
 
 
 CHANGES FROM 3.1.0-RC1 to 3.1.0
