@@ -354,7 +354,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("investigate: unit: %d", pdiplomat->id);
 
-  dlsend_packet_investigate_started(pplayer->connections, pdiplomat->id, pcity->id);
+  dlsend_packet_investigate_started(pplayer->connections, pcity->id);
 
   /* Do It... */
   update_dumb_city(pplayer, pcity);
@@ -414,7 +414,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
     send_unit_info(NULL, pdiplomat);
   }
 
-  dlsend_packet_investigate_finished(pplayer->connections, pdiplomat->id, pcity->id);
+  dlsend_packet_investigate_finished(pplayer->connections, pcity->id);
 
   return TRUE;
 }
