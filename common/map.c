@@ -163,8 +163,8 @@ void map_init(struct civ_map *imap, bool server_side)
   imap->startpos_table = NULL;
   imap->iterate_outwards_indices = NULL;
 
-  /* The [xy]size values are set in map_init_topology.  It is initialized
-   * to a non-zero value because some places erronously use these values
+  /* The [xy]size values are set in map_init_topology. It is initialized
+   * to a non-zero value because some places erroneously use these values
    * before they're initialized. */
   imap->xsize = MAP_DEFAULT_LINEAR_SIZE;
   imap->ysize = MAP_DEFAULT_LINEAR_SIZE;
