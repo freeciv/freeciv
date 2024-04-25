@@ -114,14 +114,26 @@ const char *get_locale_dir(void)
   static char buf[4096];
 
   if (!ldbuf_init) {
+    bool absolute = FALSE;
+
     /* FIXME: On Windows, also something starting with the drive,
      *        e.g., "C:\", can be absolute path. Paths like that
      *        are never used with our currently supported setups.
      *
      * Can't check just against DIR_SEPARATOR_CHAR as the mingw
      * layer may have converted path to use '/' even on Windows.
+     *
+     * Have to have these as two separate ifs instead of just one
+     * with || or &&, to avoid compiler warning about constants
+     * being used in such a condition.
      */
-    if (LOCALEDIR[0] != '/' && LOCALEDIR[0] != '\\') {
+    if (LOCALEDIR[0] == '/') {
+      absolute = TRUE;
+    } else if (LOCALEDIR[0] == '\\') {
+      absolute = TRUE;
+    }
+
+    if (!absolute) {
       char *cwdbuf;
 
 #ifdef HAVE_GETCWD
