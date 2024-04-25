@@ -314,36 +314,50 @@ GtkWidget *create_main_page(void)
   button = gtk_button_new_with_mnemonic(_("Start _New Game"));
   gtk_size_group_add_widget(size, button);
   gtk_grid_attach(GTK_GRID(table), button, 0, 0, 1, 1);
+  gtk_widget_set_tooltip_text(button,
+     _("Launches local server, and connects to it for a single-player game."));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(start_new_game_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("Start _Scenario Game"));
   gtk_size_group_add_widget(size, button);
   gtk_grid_attach(GTK_GRID(table), button, 0, 1, 1, 1);
+  gtk_widget_set_tooltip_text(button,
+     _("Loads one of the scenarios for a single-player game. "
+       "Tutorial is one of the scenarios."));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(start_scenario_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("_Load Saved Game"));
   gtk_size_group_add_widget(size, button);
   gtk_grid_attach(GTK_GRID(table), button, 0, 2, 1, 1);
+  gtk_widget_set_tooltip_text(button,
+     _("Continues previously saved single-player game."));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(load_saved_game_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("C_onnect to Network Game"));
   gtk_size_group_add_widget(size, button);
   gtk_grid_attach(GTK_GRID(table), button, 1, 0, 1, 1);
+  gtk_widget_set_tooltip_text(button,
+     _("Connects to outside server. "
+       "Sometimes you want to launch a separate server even for local games."));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(connect_network_game_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("Client Settings"));
   gtk_size_group_add_widget(size, button);
   gtk_grid_attach(GTK_GRID(table), button, 1, 1, 1, 1);
+  gtk_widget_set_tooltip_text(button,
+                              _("Adjusting client-side options."));
   g_signal_connect(button, "clicked", open_settings, NULL);
 
   button = icon_label_button_new("application-exit", _("E_xit"));
   gtk_size_group_add_widget(size, button);
   g_object_unref(size);
   gtk_grid_attach(GTK_GRID(table), button, 1, 2, 1, 1);
+  gtk_widget_set_tooltip_text(button,
+                              _("Gives you a break from playing freeciv."));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(quit_gtk_main), NULL);
 
