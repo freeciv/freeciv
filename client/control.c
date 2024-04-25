@@ -491,11 +491,11 @@ void clear_unit_orders(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Sets the focus unit directly.  The unit given will be given the
+  Sets the focus unit directly. The unit given will be given the
   focus; if NULL the focus will be cleared.
 
-  This function is called for several reasons.  Sometimes a fast-focus
-  happens immediately as a result of a client action.  Other times it
+  This function is called for several reasons. Sometimes a fast-focus
+  happens immediately as a result of a client action. Other times it
   happens because of a server-sent packet that wakes up a unit.
 **************************************************************************/
 void unit_focus_set(struct unit *punit)
@@ -509,8 +509,8 @@ void unit_focus_set(struct unit *punit)
     return;
   }
 
-  /* FIXME: this won't work quite right; for instance activating a
-   * battlegroup twice in a row will store the focus erronously.  The only
+  /* FIXME: This won't work quite right; for instance activating a
+   * battlegroup twice in a row will store the focus erroneously. The only
    * solution would be a set_units_focus() */
   if (!(get_num_units_in_focus() == 1
 	&& punit == head_of_units_in_focus())) {
