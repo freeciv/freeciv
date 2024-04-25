@@ -1,6 +1,6 @@
 
 [scenario]
-game_version=3010000
+game_version=3019404
 is_scenario=TRUE
 name=_("Iberian Peninsula (classic/large)")
 authors=_("Miguel Farah, Daniel Markstedt")
@@ -15,16 +15,18 @@ ruleset_caps="+std-terrains"
 
 [savefile]
 options=" +version3"
-version=50
+version=60
 reason="Scenario"
-revision="3.1.0-beta1"
+revision="3.1.94.4-alpha2+"
+orig_version="old savegame3, or older"
 rulesetdir="classic"
+dbid=-1
 improvement_size=68
 improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
 technology_size=88
 technology_vector="A_NONE","Advanced Flight","Alphabet","Amphibious Warfare","Astronomy","Atomic Theory","Automobile","Banking","Bridge Building","Bronze Working","Ceremonial Burial","Chemistry","Chivalry","Code of Laws","Combined Arms","Combustion","Communism","Computers","Conscription","Construction","Currency","Democracy","Economics","Electricity","Electronics","Engineering","Environmentalism","Espionage","Explosives","Feudalism","Flight","Fusion Power","Genetic Engineering","Guerilla Warfare","Gunpowder","Horseback Riding","Industrialization","Invention","Iron Working","Labor Union","Laser","Leadership","Literacy","Machine Tools","Magnetism","Map Making","Masonry","Mass Production","Mathematics","Medicine","Metallurgy","Miniaturization","Mobile Warfare","Monarchy","Monotheism","Mysticism","Navigation","Nuclear Fission","Nuclear Power","Philosophy","Physics","Plastics","Polytheism","Pottery","Radio","Railroad","Recycling","Refining","Refrigeration","Robotics","Rocketry","Sanitation","Seafaring","Space Flight","Stealth","Steam Engine","Steel","Superconductors","Tactics","The Corporation","The Republic","The Wheel","Theology","Theory of Gravity","Trade","University","Warrior Code","Writing"
-activities_size=23
-activities_vector="Idle","Pollution","Unused Road","Mine","Irrigate","Fortified","Fortress","Sentry","Unused Railroad","Pillage","Goto","Explore","Transform","Unused","Unused Airbase","Fortifying","Fallout","Unused Patrol","Base","Road","Convert","Cultivate","Plant"
+activities_size=16
+activities_vector="Idle","Cultivate","Mine","Irrigate","Fortified","Sentry","Pillage","Goto","Explore","Transform","Fortifying","Clean","Base","Road","Convert","Plant"
 specialists_size=3
 specialists_vector="elvis","scientist","taxman"
 trait_size=4
@@ -32,12 +34,10 @@ trait_vector="Expansionist","Trader","Aggressive","Builder"
 extras_size=34
 extras_vector="Irrigation","Mine","Oil Well","Pollution","Hut","Farmland","Fallout","Fortress","Airbase","Buoy","Ruins","Road","Railroad","River","Gold","Iron","Game","Furs","Coal","Fish","Fruit","Gems","Buffalo","Wheat","Oasis","Peat","Pheasant","Resources","Ivory","Silk","Spice","Whales","Wine","Oil"
 multipliers_size=0
-diplstate_type_size=7
-diplstate_type_vector="Armistice","War","Cease-fire","Peace","Alliance","Never met","Team"
 city_options_size=3
 city_options_vector="Disband","Sci_Specialists","Tax_Specialists"
-action_size=106
-action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Capture Units","Sabotage Unit","Sabotage Unit Escape","Found City","Join City","Steal Maps","Steal Maps Escape","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Unit Make Homeless","Upgrade Unit","Convert Unit","Airlift Unit","Attack","Suicide Attack","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Conquer City 3","Conquer City 4","Bombard","Bombard 2","Bombard 3","Fortify","Cultivate","Plant","Transform Terrain","Build Road","Build Irrigation","Build Mine","Build Base","Pillage","Clean Pollution","Clean Fallout","Transport Board","Transport Alight","Transport Embark","Transport Embark 2","Transport Embark 3","Transport Disembark","Transport Disembark 2","Transport Disembark 3","Transport Disembark 4","Transport Unload","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Conquer Extras 3","Conquer Extras 4","Enter Hut","Enter Hut 2","Enter Hut 3","Enter Hut 4","Frighten Hut","Frighten Hut 2","Frighten Hut 3","Frighten Hut 4","Heal Unit","Heal Unit 2","Paradrop Unit","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Unit Move","Unit Move 2","Unit Move 3","User Action 1","User Action 2","User Action 3","User Action 4"
+action_size=124
+action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Capture Units","Sabotage Unit","Sabotage Unit Escape","Found City","Join City","Steal Maps","Steal Maps Escape","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Unit Make Homeless","Upgrade Unit","Convert Unit","Airlift Unit","Attack","Attack 2","Suicide Attack","Suicide Attack 2","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Conquer City 3","Conquer City 4","Bombard","Bombard 2","Bombard 3","Bombard Lethal","Bombard Lethal 2","Fortify","Cultivate","Plant","Transform Terrain","Build Road","Build Irrigation","Build Mine","Build Base","Pillage","Transport Board","Transport Board 2","Transport Board_3","Transport Deboard","Transport Embark","Transport Embark 2","Transport Embark 3","Transport Embark 4","Transport Disembark","Transport Disembark 2","Transport Disembark 3","Transport Disembark 4","Transport Load","Transport Load 2","Transport Load 3","Transport Unload","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Conquer Extras 3","Conquer Extras 4","Enter Hut","Enter Hut 2","Enter Hut 3","Enter Hut 4","Frighten Hut","Frighten Hut 2","Frighten Hut 3","Frighten Hut 4","Heal Unit","Heal Unit 2","Paradrop Unit","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Wipe Units","Spy Escape","Unit Move","Unit Move 2","Unit Move 3","Teleport","Teleport Conquer","Teleport Frighten","Teleport Frighten Conquer","Teleport Enter","Teleport Enter Conquer","Clean","Collect Ransom","User Action 1","User Action 2","User Action 3","User Action 4"
 action_decision_size=3
 action_decision_vector="nothing","passive","active"
 server_side_agent_size=3
@@ -58,6 +58,7 @@ terrident={"name","identifier"
 "Swamp","s"
 "Tundra","t"
 }
+city_counters_order_size=0
 
 [game]
 server_state="S_S_INITIAL"
@@ -65,7 +66,6 @@ meta_patches="none"
 meta_server="https://meta.freeciv.org/metaserver.php"
 id=""
 serverid=""
-level="Normal"
 phase_mode="Concurrent"
 phase_mode_stored="Concurrent"
 phase=0
@@ -84,7 +84,7 @@ warminglevel=8
 nuclearwinter=0
 cooling=0
 coolinglevel=8
-random_seed=625983761
+random_seed=230429932
 global_advances="1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 save_players=FALSE
 save_known=FALSE
@@ -97,43 +97,45 @@ code=$$
 vars=$$
 
 [settings]
-set={"name","value","gamestart","gamesetdef"
-"aifill",8,5,"Changed"
-"alltemperate",FALSE,FALSE,"Changed"
-"borders","DISABLED","ENABLED","Changed"
-"diplchance",40,80,"Changed"
-"dispersion",2,0,"Changed"
-"flatpoles",100,100,"Changed"
-"generator","SCENARIO","RANDOM","Changed"
-"happyborders","DISABLED","NATIONAL","Changed"
-"huts",100,15,"Changed"
-"landmass",56,30,"Changed"
-"mapseed",0,0,"Changed"
-"mapsize","FULLSIZE","FULLSIZE","Changed"
-"maxplayers",8,500,"Changed"
-"metamessage","Scenario: Iberian Peninsula","","Changed"
-"minplayers",1,1,"Changed"
-"onsetbarbs",60,60,"Changed"
-"revolentype","RANDOM","RANDOM","Changed"
-"sciencebox",50,100,"Changed"
-"separatepoles",TRUE,TRUE,"Changed"
-"singlepole",FALSE,FALSE,"Changed"
-"size",14,4,"Changed"
-"startpos","DEFAULT","DEFAULT","Changed"
-"startunits","ccccxx","ccwwx","Changed"
-"steepness",30,30,"Changed"
-"teamplacement","CLOSEST","CLOSEST","Changed"
-"techlevel",3,0,"Changed"
-"temperature",50,50,"Changed"
-"tilesperplayer",100,100,"Changed"
-"tinyisles",FALSE,FALSE,"Changed"
-"topology","","WRAPX|ISO|HEX","Changed"
-"victories","","SPACERACE|ALLIED","Changed"
-"wetness",50,50,"Changed"
-"xsize",136,64,"Changed"
-"ysize",100,64,"Changed"
+set={"name","value"
+"aifill",8
+"ailevel","Normal"
+"borders","DISABLED"
+"diplchance",40
+"dispersion",2
+"flatpoles",100
+"generator","SCENARIO"
+"happyborders","DISABLED"
+"huts",100
+"landmass",56
+"mapseed",0
+"mapsize","FULLSIZE"
+"maxplayers",8
+"metamessage","Scenario: Iberian Peninsula"
+"minplayers",1
+"northlatitude",1000
+"onsetbarbs",60
+"revolentype","RANDOM"
+"sciencebox",50
+"separatepoles",TRUE
+"size",14
+"southlatitude",-1000
+"startpos","DEFAULT"
+"startunits","ccccxx"
+"steepness",30
+"teamplacement","CLOSEST"
+"techlevel",3
+"temperature",50
+"tilesperplayer",100
+"tinyisles",FALSE
+"topology",""
+"victories",""
+"wetness",50
+"wrap",""
+"xsize",136
+"ysize",100
 }
-set_count=34
+set_count=36
 gamestart_valid=FALSE
 
 [ruledata]
