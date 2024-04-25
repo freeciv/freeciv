@@ -326,7 +326,7 @@ forests and rivers are treated in special cases.
 Isometric tilesets are drawn in a similar way to how civ2 draws (that's
 why civ2 graphics are compatible). For each base terrain type there
 exists one tile sprite for that terrain. The tile is blended with
-nearby tiles to get a nice-looking boundary. This is erronously called
+nearby tiles to get a nice-looking boundary. This is erroneously called
 "dither" in the code.
 
 Non-isometric tilesets draw the tiles in the "original" freeciv way,
