@@ -27,17 +27,24 @@ void modpacks_free(void);
 const char *modpack_cache_ruleset(struct section_file *sf);
 const char *modpack_file_from_ruleset_cache(const char *name);
 
+const char *modpack_cache_tileset(struct section_file *sf);
+const char *modpack_file_from_tileset_cache(const char *name);
+const char *modpack_tileset_target(const char *name);
+
 struct fileinfo_list *get_modpacks_list(void);
 const char *modpack_has_ruleset(struct section_file *sf);
+const char *modpack_has_tileset(struct section_file *sf);
 
 bool modpack_check_capabilities(struct section_file *file, const char *us_capstr,
                                 const char *filename, bool verbose);
 
 const char *modpack_serv_file(struct section_file *sf);
 const char *modpack_rulesetdir(struct section_file *sf);
+const char *modpack_tilespec(struct section_file *sf);
 
-typedef void (*mrc_cb)(const char*, const char *, void *data);
+typedef void (*mrc_cb)(const char *, const char *, void *data);
 void modpack_ruleset_cache_iterate(mrc_cb cb, void *data);
+void modpack_tileset_cache_iterate(mrc_cb cb, void *data);
 
 #ifdef __cplusplus
 }

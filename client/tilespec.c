@@ -46,6 +46,7 @@
 #include "game.h"               /* game.control.num_city_styles */
 #include "government.h"
 #include "map.h"
+#include "modpack.h"
 #include "movement.h"
 #include "nation.h"
 #include "player.h"
@@ -1096,35 +1097,50 @@ int index_ts_topology(int idx)
   return 0;
 }
 
+struct ts_list_data {
+  struct strvec *list;
+  int topo;
+};
+
 /************************************************************************//**
-  Returns a static list of tilesets available on the system by
-  searching all data directories for files matching TILESPEC_SUFFIX.
+  Callback called from modpack tileset cache iteration.
+****************************************************************************/
+static void ts_list_cb(const char *modpack_name, const char *filename,
+                       void *data)
+{
+  struct ts_list_data *tsdata = (struct ts_list_data *)data;
+  const char *target = modpack_tileset_target(modpack_name);
+  struct tileset *t = tileset_read_toplevel(target,
+                                            FALSE, tsdata->topo, 1.0f);
+
+  if (t != nullptr) {
+    strvec_append(tsdata->list, target);
+    tileset_free(t);
+  }
+}
+
+/************************************************************************//**
+  Returns a static list of tilesets available on the system.
 ****************************************************************************/
 const struct strvec *get_tileset_list(const struct option *poption)
 {
-  static struct strvec *tilesets[3] = { NULL, NULL, NULL };
+  static struct strvec *tilesets[3] = { nullptr, nullptr, nullptr };
   int topo = option_get_cb_data(poption);
   int idx;
 
   idx = ts_topology_index(topo);
 
-  fc_assert_ret_val(idx < ARRAY_SIZE(tilesets), NULL);
+  fc_assert_ret_val(idx < ARRAY_SIZE(tilesets), nullptr);
 
-  if (tilesets[idx] == NULL) {
+  if (tilesets[idx] == nullptr) {
+    struct ts_list_data data;
+
     /* Note: this means you must restart the client after installing a new
        tileset. */
-    struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
-
     tilesets[idx] = strvec_new();
-    strvec_iterate(list, file) {
-      struct tileset *t = tileset_read_toplevel(file, FALSE, topo, 1.0f);
-
-      if (t) {
-        strvec_append(tilesets[idx], file);
-        tileset_free(t);
-      }
-    } strvec_iterate_end;
-    strvec_destroy(list);
+    data.list = tilesets[idx];
+    data.topo = topo;
+    modpack_tileset_cache_iterate(ts_list_cb, &data);
   }
 
   return tilesets[idx];
@@ -1286,6 +1302,29 @@ void tileset_free(struct tileset *t)
 }
 
 /************************************************************************//**
+  Callback called from modpack tileset cache iteration.
+****************************************************************************/
+static void ts_cb(const char *modpack_name, const char *filename, void *data)
+{
+  int topo_id = *((int *)data);
+  struct tileset *t = tileset_read_toplevel(modpack_tileset_target(modpack_name),
+                                            FALSE, topo_id, 1.0f);
+
+  if (t != nullptr) {
+    if (tileset == nullptr) {
+      tileset = t;
+    } else if (t->priority > tileset->priority
+               || (topo_id >= 0
+                   && tileset_topo_index(tileset) != tileset_topo_index(t))) {
+      tileset_free(tileset);
+      tileset = t;
+    } else {
+      tileset_free(t);
+    }
+  }
+}
+
+/************************************************************************//**
   Read a new tilespec in when first starting the game.
 
   Call this function with the (guessed) name of the tileset, when
@@ -1298,32 +1337,14 @@ bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
 {
   bool original;
 
-  if (tileset_name == NULL
+  if (tileset_name == nullptr
       || !(tileset = tileset_read_toplevel(tileset_name, verbose,
                                            topo_id, 1.0f))) {
-    struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
-
     original = FALSE;
-    strvec_iterate(list, file) {
-      struct tileset *t = tileset_read_toplevel(file, FALSE, topo_id, 1.0f);
+    modpack_tileset_cache_iterate(ts_cb, &topo_id);
 
-      if (t) {
-        if (!tileset) {
-          tileset = t;
-        } else if (t->priority > tileset->priority
-                   || (topo_id >= 0
-                       && tileset_topo_index(tileset) != tileset_topo_index(t))) {
-          tileset_free(tileset);
-          tileset = t;
-        } else {
-          tileset_free(t);
-        }
-      }
-    } strvec_iterate_end;
-    strvec_destroy(list);
-
-    if (tileset == NULL) {
-      tileset_error(LOG_FATAL, NULL, _("No usable default tileset found, aborting!"));
+    if (tileset == nullptr) {
+      tileset_error(LOG_FATAL, nullptr, _("No usable default tileset found, aborting!"));
     }
 
     log_verbose("Trying tileset \"%s\".", tileset->name);

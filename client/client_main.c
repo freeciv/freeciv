@@ -53,6 +53,7 @@
 #include "idex.h"
 #include "map.h"
 #include "mapimg.h"
+#include "modpack.h"
 #include "netintf.h"
 #include "packets.h"
 #include "player.h"
@@ -130,6 +131,8 @@ static int mapimg_client_plrcolor_count(void);
 static struct rgbcolor *mapimg_client_plrcolor_get(int i);
 
 static void fc_interface_init_client(void);
+
+static void cache_tilesets(void);
 
 char *logfile = NULL;
 char *scriptfile = NULL;
@@ -601,13 +604,13 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
   argv[1 + ui_options] = NULL;
   argc = 1 + ui_options;
 
-  /* disallow running as root -- too dangerous */
+  /* Disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_client");
 
   log_init(logfile, loglevel, NULL, NULL, fatal_assertions);
   backtrace_init();
 
-  /* after log_init: */
+  /* After log_init: */
 
   (void)user_username(gui_options.default_user_name, MAX_LEN_NAME);
   if (!is_valid_username(gui_options.default_user_name)) {
@@ -623,7 +626,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
     }
   }
 
-  /* initialization */
+  /* Initialization */
 
   game.all_connections = conn_list_new();
   game.est_connections = conn_list_new();
@@ -635,7 +638,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
 
   fc_init_ow_mutex();
 
-  /* register exit handler */ 
+  /* Register exit handler */
   atexit(at_exit);
   fc_at_quick_exit(emergency_exit);
 
@@ -684,6 +687,9 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
   helpdata_init();
   boot_help_texts();
 
+  modpacks_init();
+  cache_tilesets();
+
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
   start_menu_music("music_menu", NULL);
 
@@ -695,13 +701,15 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
     }
   }
 
-  /* run gui-specific client */
+  /* Run gui-specific client */
   uret = ui_main(argc, argv);
 
-  /* termination */
+  modpacks_free();
+
+  /* Termination */
   client_exit(uret);
 
-  /* not reached */
+  /* Not reached */
   return EXIT_SUCCESS;
 }
 
@@ -1644,4 +1652,27 @@ bool is_client_quitting(void)
 void start_quitting(void)
 {
   client_quitting = TRUE;
+}
+
+/************************************************************************//**
+  Create cache of available tilesets.
+****************************************************************************/
+static void cache_tilesets(void)
+{
+  struct fileinfo_list *tileset_choices;
+
+  tileset_choices = get_modpacks_list();
+
+  fileinfo_list_iterate(tileset_choices, pfile) {
+    struct section_file *sf;
+
+    sf = secfile_load(pfile->fullname, FALSE);
+
+    if (sf != NULL) {
+      modpack_cache_tileset(sf);
+      secfile_destroy(sf);
+    }
+  } fileinfo_list_iterate_end;
+
+  fileinfo_list_destroy(tileset_choices);
 }

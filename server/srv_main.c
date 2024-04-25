@@ -79,6 +79,7 @@
 #include "government.h"
 #include "map.h"
 #include "mapimg.h"
+#include "modpack.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
@@ -1960,6 +1961,7 @@ void fc__noreturn server_quit(void)
   }
 #endif /* HAVE_FCDB */
 
+  modpacks_free();
   settings_free();
   stdinhand_free();
   edithand_free();
@@ -2061,7 +2063,7 @@ int identity_number(void)
   int retries = 0;
 
   while (identity_number_is_used(increment_identity_number())) {
-    /* try again */
+    /* Try again */
     if (++retries >= IDENTITY_NUMBER_SIZE) {
       /* Always fails. */
       fc_assert_exit_msg(IDENTITY_NUMBER_SIZE > retries,
@@ -3073,18 +3075,18 @@ static void srv_prepare(void)
   }
 #endif /* HAVE_FCDB */
 
-  /* make sure it's initialized */
+  /* Make sure it's initialized */
   if (!has_been_srv_init) {
     srv_init();
   }
 
   fc_init_network();
 
-  /* must be before con_log_init() */
+  /* Must be before con_log_init() */
   init_connections();
   con_log_init(srvarg.log_filename, srvarg.loglevel,
                srvarg.fatal_assertions);
-  /* logging available after this point */
+  /* Logging available after this point */
 
   server_open_socket();
 
@@ -3103,6 +3105,7 @@ static void srv_prepare(void)
   voting_init();
   ai_timer_init();
 
+  modpacks_init();
   server_game_init(FALSE);
   mapimg_init(mapimg_server_tile_known, mapimg_server_tile_terrain,
               mapimg_server_tile_owner, mapimg_server_tile_city,
@@ -3492,7 +3495,7 @@ static void srv_ready(void)
 **************************************************************************/
 void server_game_init(bool keep_ruleset_value)
 {
-  /* was redundantly in game_load() */
+  /* Was redundantly in game_load() */
   server.playable_nations = 0;
   server.nbarbarians = 0;
   server.identity_number = IDENTITY_NUMBER_SKIP;

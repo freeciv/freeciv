@@ -2,14 +2,23 @@
 
 if CLIENT
 CLIENT_FILES =				\
+	amplio2.modpack			\
 	amplio2.tilespec		\
+	cimpletoon.modpack		\
 	cimpletoon.tilespec		\
+	hex2t.modpack			\
 	hex2t.tilespec			\
+	hexemplio.modpack		\
 	hexemplio.tilespec		\
+	isophex.modpack			\
 	isophex.tilespec		\
+	isotrident.modpack		\
 	isotrident.tilespec		\
+	toonhex.modpack			\
 	toonhex.tilespec		\
+	alio.modpack			\
 	alio.tilespec			\
+	trident.modpack			\
 	trident.tilespec		\
 	stdmusic.musicspec		\
 	stdsounds.soundspec		\

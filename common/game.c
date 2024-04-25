@@ -40,7 +40,6 @@
 #include "government.h"
 #include "idex.h"
 #include "map.h"
-#include "modpack.h"
 #include "multipliers.h"
 #include "nation.h"
 #include "packets.h"
@@ -443,7 +442,6 @@ static void game_defaults(bool keep_ruleset_value)
 **************************************************************************/
 void game_init(bool keep_ruleset_value)
 {
-  modpacks_init();
   game_defaults(keep_ruleset_value);
   player_slots_init();
   map_init(&wld.map, is_server());
@@ -484,7 +482,6 @@ void game_free(void)
   game_ruleset_free();
   researches_free();
   cm_free();
-  modpacks_free();
 }
 
 /**********************************************************************//**
