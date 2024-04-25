@@ -164,13 +164,13 @@ struct connection {
   char username[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
 
-  /* 
+  /*
    * "capability" gives the capability string of the executable (be it
    * a client or server) at the other end of the connection.
    */
   char capability[MAX_LEN_CAPSTR];
 
-  /* 
+  /*
    * "access_level" stores the current access level of the client
    * corresponding to this connection.
    */
@@ -207,17 +207,17 @@ struct connection {
       /* Holds number of tries for authentication from client. */
       int auth_tries;
 
-      /* the time that the server will respond after receiving an auth reply.
-       * this is used to throttle the connection. Also used to reject a 
-       * connection if we've waited too long for a password. */
+      /* The time that the server will respond after receiving an auth reply.
+       * This is used to throttle the connection. Also used to reject
+       * a connection if we've waited too long for a password. */
       time_t auth_settime;
 
-      /* used to follow where the connection is in the authentication
+      /* Used to follow where the connection is in the authentication
        * process */
       enum auth_status status;
       char password[MAX_LEN_PASSWORD];
 
-      /* for reverse lookup and blacklisting in db */
+      /* For reverse lookup and blacklisting in db */
       char ipaddr[MAX_LEN_ADDR];
 
       /* The access level initially given to the client upon connection. */

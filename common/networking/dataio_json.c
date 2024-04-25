@@ -432,7 +432,7 @@ bool dio_get_uint16_json(struct connection *pc, struct data_in *din,
     if (!pint) {
       log_error("ERROR: Unable to get uint16 from location: %s", plocation_name(location));
       return FALSE;
-    } 
+    }
     *dest = json_integer_value(pint);
   } else {
     return dio_get_uint16_raw(din, dest);
@@ -1245,7 +1245,7 @@ static bool dio_get_bool8_json_internal(json_t *json_packet,
   if (!pbool) {
     log_error("ERROR: Unable to get bool8 from location: %s", plocation_name(location));
     return FALSE;
-  } 
+  }
   *dest = json_is_true(pbool);
 
   return TRUE;
