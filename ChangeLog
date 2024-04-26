@@ -1,3 +1,967 @@
+commit 753e9125964a14bc606b9229b5cb6d97125f4929
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 26 05:42:57 2024 +0300
+
+    Set version number to 3.1.1
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3c8fdcb058c34da676d63796f1e992309ef93e01
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 26 05:40:48 2024 +0300
+
+    'make update-po' before 3.1.1 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e96c2734f424727d8f31c93ec66d5d41caa524d5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 26 05:36:02 2024 +0300
+
+    FAQ: Update latest stable version number to 3.1.1
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dabef3c1ca059891604643c3da89b02b48ef254e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 26 05:33:23 2024 +0300
+
+    NEWS-3.1: Set 3.1.1 translation stats
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dbef524d21afb7a2339e9bfdb01877c97a623ee3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 24 21:04:21 2024 +0300
+
+    NEWS-3.1: Correct NEWS-3.1 wiki link
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 46ca63dc835606d279b5cf47aaa5b633ccb0cc73
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 24 20:45:13 2024 +0300
+
+    NEWS-3.1: Add 3.1.1 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 549713cb7b213f57c8a1a19cf68604867d5646de
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 21 05:05:18 2024 +0300
+
+    Set AI module interface capstr to stable form
+
+    See RM #495
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c7f276319d0fdbd3cd93c1b9570bf8783f2b4220
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 20 17:51:09 2024 +0300
+
+    handle_investigate_started(): Fix dead assignment of unit_id32
+
+    See RM #489
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit eac8f4ce5165b29147cb35f8377a46f0b399634c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 17 07:02:20 2024 +0300
+
+    Qt: Add Q_OBJECT for fc_shortcut_popup
+
+    See RM #462
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a091a894c4138482ab04265992455dbab4053e29
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 21 04:02:52 2024 +0300
+
+    Comment typofix: "wether" -> "whether"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit eca095186ac6b84e3cb4029e81d62e7d5f03b3d4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 20 22:21:34 2024 +0300
+
+    Update Finnish translation of ruledit domain
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 96db4eb4af3dad32765a8ca0349b8dff83fb3430
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 11 16:10:57 2024 +0300
+
+    Flatpak: Update Qt Sdk & Platform to 6.7
+
+    See RM #438
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4874305ccf4346dd58c4b6aa4cabc94455e054e9
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Fri Apr 19 13:25:00 2024 +0500
+
+    Update for Russian translation.
+
+commit 3cae3e2865ee1a3763f9bec404409a7db2d5f5c8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Apr 8 17:53:52 2024 +0300
+
+    Ruledit: Fix tech tab Add/Remove tech button layout
+
+    Affects experimental mode builds only.
+
+    See RM #430
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3891bcabc42c5d60c4f0bdebec5a7cfe57e97365
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Apr 8 18:39:17 2024 +0300
+
+    Correct "useable" to "usable"
+
+    See RM #431
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7e66caf9144eef44eac5aa7ec84bb9c4ccf0e4b2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 7 02:28:06 2024 +0300
+
+    AI: Make tile_data_cache output fields shorts
+
+    Former 8bit values were too narrow to hold outputs
+    on high granularity rulesets.
+
+    See RM #407
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b1106421ea520bd72ea3ff9f7c53def68e02e137
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 7 02:37:12 2024 +0300
+
+    Unhardcode wld.map from is_action_enabled_unit_on_extras()
+
+    See RM #410
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e851c396c444105b9e59c2564c66f1fe52d3ef9f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 17 02:26:35 2024 +0300
+
+    Comment typofix: "Unregisted" -> "Unregister"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a02a465fc642df9acd5529f8bb24c7f714db03d5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Apr 2 22:07:24 2024 +0300
+
+    AppImage: Add build_appimages.sh
+
+    See RM #396
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9dbf3a89d8cca8d49cd420ea52b6fbd2e6c650bb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 6 20:16:27 2024 +0300
+
+    Update gnulib m4-files headers
+
+    See RM #405
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 21e6aa9c90e4c30e3b3d09e011bcc67ae920590e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 5 20:33:12 2024 +0300
+
+    Unhardcode wld.map from cowt_callback()
+
+    See RM #403
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9eeb896ac438c92a8ddad3f706cb37bab5cc3652
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 7 00:35:33 2024 +0300
+
+    AI: Fix bad city spot value calculation with unknown tiles
+
+    Unknown and already worked tiles counted as negative output value.
+    Now they count as 0, as they cannot produce anything for the city.
+
+    See RM #408
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bb937e7cebb54857e90785ec34a02f68c43d2bba
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 14 14:58:07 2024 +0300
+
+    POTFILES: Add edit_tech.cpp
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a6ca815a794dd44fb8a9d6ae9db65552285df802
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 6 19:12:14 2024 +0300
+
+    Update progtest.m4 to serial 10
+
+    See RM #404
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6b844f5ce07334ba63c7b4615d8c67606b4953b8
+Author: Alina Lenk <alina.v.lenk@gmail.com>
+Date:   Thu Apr 11 15:47:37 2024 +0200
+
+    generate_packets.py: Mark regexes as raw strings to fix invalid escape sequences
+
+    Reported by Marko Lindqvist
+
+    See RM #365
+
+    Signed-off-by: Alina Lenk <alina.v.lenk@gmail.com>
+
+commit 8383742163bfddc1467b2fcfc0df0d019a3e44e0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Apr 1 15:26:07 2024 +0300
+
+    Meson: Add 'appimage' option
+
+    See RM #393
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 41b87addc0b5c1038a11ca6363b66d84dccdec2a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Apr 1 01:58:30 2024 +0300
+
+    Unhardcode wld.map from is_action_enabled_unit_on_tile()
+
+    See RM #390
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6bdb58987be9af838c07479d6b744e15859e44e3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 12 07:42:57 2024 +0300
+
+    Comment typofix: "formated" -> "formatted"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4fe55406145f169a6a5c5a6fc9618c9ade32fd4d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 31 22:55:39 2024 +0300
+
+    Correct "abbrevation" to "abbreviation"
+
+    See RM #386
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f703f171564aa4286610cff18ca9c84d21cd0a5f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Apr 8 04:21:58 2024 +0300
+
+    gtk4: Fix saving options migration status
+
+    See RM #427
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8622c910a4c8e0052f42aec1d3a5d8877f751f38
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 31 18:34:19 2024 +0300
+
+    Adjust nationality of remaining units after player removal
+
+    Nationality of the units owned by other players could
+    previously be that of removed player, leading to a crash.
+    Now switch nationality of such units to that of their
+    current owner when player of their nationality is removed.
+
+    See RM #383
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d4b710113bf293785c5ef547f5ad714471e6c12c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 10 01:28:35 2024 +0300
+
+    AI: Fix threaded AI build
+
+    See RM #434
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a40bc1228edb2995c5c34c849e9c339c76f7be55
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 29 17:33:20 2024 +0200
+
+    Unhardcode wld.map from city_map_to_tile()
+
+    See RM #374
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 21010be7da54cef60ce67ded6a9295e431cb683c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 31 08:14:03 2024 +0300
+
+    gnulib-common.m4: Update to serial 93
+
+    See RM #378
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9c6a9cd2c8a62a2e963e40a1ce5150770d3dc8cb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 29 11:57:44 2024 +0200
+
+    Correct "fullfilled" to "fulfilled"
+
+    See RM #371
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e0be42d8f80b90ff2af2a054c0b61fd54d342a4a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 24 23:30:46 2024 +0200
+
+    Ruledit: Add techs' value editor
+
+    See RM #358
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3f963a45539798f90e6554b4c97b3f7593a50a87
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 30 12:20:25 2024 +0200
+
+    cityresult_fill(): Check city center result existence always
+
+    Also in non-debug builds. It was just an assert.
+
+    See RM #377
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c8243edb8f6d2d6da302666b0bb44855ad227fcf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 7 21:04:52 2024 +0300
+
+    ruledit/POTFILES: Add helpeditor.cpp
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a8313c219f362453794478fc583e64fa90bf6119
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Mar 26 00:04:11 2024 +0200
+
+    Unhardcode wld.map from is_action_enabled_unit_on_units()
+
+    See RM #362
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ba22d1d5cdf4b19d3bce8efee3f61ed331dc1213
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 7 01:28:18 2024 +0300
+
+    Comment typofix: "memeber" -> "member"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0757949901104d5f5bb2e8006661681056e277a3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 29 06:29:17 2024 +0200
+
+    Update lib-prefix.m4 to serial 23
+
+    See RM #367
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f5f376b6e6735748e8c4df15e1b1423de443d911
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Mar 25 05:24:38 2024 +0200
+
+    Update bug tracker URL to point to redmine.freeciv.org
+
+    See RM #2
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ded028938b93cd612c6e74ec88bcf2361ec07cce
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 24 22:44:21 2024 +0200
+
+    Correct "re-use" to "reuse"
+
+    See RM #357
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cccfa8869f0b43c40bb783eed67817068733a1ff
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 24 08:50:30 2024 +0200
+
+    Stop sending hidden resources to the client
+
+    Hidden extras were not sent in the extras array,
+    but if they happened to be also a tile resource,
+    the resource information was still sent.
+
+    See RM #350
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 72e78850308b563b94356018c31318313a8bf8ba
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Mar 25 06:11:42 2024 +0200
+
+    Unhardcode wld.map from caravan_find_best_destination()
+
+    See RM #361
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2856a554282043bb0426fa5cc0dbedca3e978b4c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 23 11:24:55 2024 +0200
+
+    Ruledit: Unify buildings flag editing with other flag editors
+
+    See RM #349
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6f8c32d32d5126d46d24522589854eb4a4996ced
+Author: Matt Jolly <Kangie@gentoo.org>
+Date:   Sat Feb 10 17:57:38 2024 +1000
+
+    Meson: Install man pages to correct subdir
+
+    See osdn #57664
+
+commit 1aeff2c2a184b9ba15c210ace36dad43db562a8f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 23 07:59:02 2024 +0200
+
+    Ruledit: Add values_dlg
+
+    This is a parent class for individual ruleset object
+    editor dialogs, handling helpeditor bookkeeping.
+    Currently set for building editor only.
+
+    See RM #327
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 813080cace3e852fbf9a62168775ee2555062550
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 22 23:36:47 2024 +0200
+
+    Unhardcode wld.map from is_action_enabled_unit_on_unit()
+
+    See RM #340
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 283b3cd90593e322a8ca8ed995e869dd5d929988
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 22 21:39:55 2024 +0200
+
+    Ruledit: Add terrain flag editing
+
+    See RM #339
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 154e5cd36610a930960da67064fc6d7acf22d1ea
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 22 02:58:34 2024 +0200
+
+    Avoid announce_trade_route_removal() call with a NULL city
+
+    See RM #335
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 749f32cb0e9bac60ab0b8e6a80c04aa7c44455b8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 22 01:32:56 2024 +0200
+
+    Correct "hashs" to "hashes"
+
+    See RM #330
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 472beb42fe48ce6c31f58ab75e60d5829adb7095
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 29 11:34:52 2024 +0200
+
+    Comment typofix: "prefering" -> "preferring"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 53b9b03a73689510c2cdb6bd91399c0a6277b19f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 29 06:58:30 2024 +0200
+
+    Add helpeditor.h to the tarball
+
+    See RM #368
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 030c6c961bc9495b3204ff708c902d1ea5c25299
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Mar 21 20:08:50 2024 +0200
+
+    Ruledit: Add initial version of helpeditor
+
+    - Only shows the current helptext, no editing possible yet
+    - Only available for buildings
+
+    See RM #326
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4c547593a6e137988e6cf8c41433dbe92d8831de
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 20 03:59:29 2024 +0200
+
+    Manual: Add horizontal line between terrain types
+
+    See RM #325
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8013d4ed26e7ba5b7a799f153d5115414a9d7546
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 20 15:02:32 2024 +0200
+
+    Fix C++20 capture this semantics configure check
+
+    It was failing due to "unused 'this'" even when it should
+    have succeeded.
+
+    See RM #328
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 402a887f57fd5252d32c5b961de9bd2b86db30a7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 23 00:37:07 2024 +0200
+
+    Fix FREECIV_WEB build
+
+    See RM #342
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b8917a71e39742a54858fd0309576f35d9f9d28a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 24 18:37:33 2024 +0200
+
+    CI: Workaround github mac build failure
+
+    Remove old python symlinks that the update process
+    would otherwise fail to overwrite.
+
+    See RM #352
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cc84ec5677f4346d6cf56ddcfc2c2e838ab4a719
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 20 02:25:09 2024 +0200
+
+    Ruledit: Add extra flag editing
+
+    See RM #323
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9c9e49c7eab5dc9695f9c37b2d8037eb7a5247b7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 17 23:52:00 2024 +0200
+
+    Improvements manual: Unhardcode "<hr>"
+
+    Use proper tag for the output type
+
+    See RM #321
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 643b7ee34b61ae75f6db6ff6fc6059fc22859115
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 17 23:05:46 2024 +0200
+
+    Unhardcode wld.map from is_action_enabled_unit_on_city()
+
+    See RM #320
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 808ac79b8daf97deb9f93e0744b706fdfb14d3b8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Mar 21 20:20:24 2024 +0200
+
+    Fix allied victory of all players
+
+    Allied victory was not occurring if nobody had been defeated
+    beforehand, i.e., if all the players just got in to the same alliance.
+
+    See RM #324
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1dbe8497b79aa5a031bb8462535dca956a1f02da
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 20 04:32:20 2024 +0200
+
+    gtk4: Remove use of "format-value" signal
+
+    It does not exist in gtk4.
+
+    See RM #312
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f5c93c4bbdb352f4df18e87b5c075163a82653b5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 24 22:06:53 2024 +0200
+
+    Comment typofix: "soruce" -> "source"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fe0215a33081bbcab599def48b673170ff92d214
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 20 01:15:14 2024 +0200
+
+    Flatpak: Update gnome Sdk & Platform to 46
+
+    See RM #322
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a54c3dbda4d0e10d6d65dc8d431dbe5c07ef6875
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 17 22:30:55 2024 +0200
+
+    freeciv.doxygen: Update to doxygen 1.9.8 format
+
+    See RM #319
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9878d5480d339e2f928c086c1be0c85b57267761
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 13 19:36:06 2024 +0200
+
+    Purge worklist items with unfulfilled local range impr reqs
+
+    See osdn #48773
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3299b2c0ae718843a228836419c258bf493bd02a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 17 21:29:25 2024 +0200
+
+    Ruledit: Add extra native_to editing
+
+    See RM #316
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 25b2db9421d34a66f87544f44bd96087484f771f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 17 21:40:36 2024 +0200
+
+    Fix blocked_find_target_tile() clang analyzer warning
+
+    See RM #317
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit baafbbaf81170dbee3a926813e83dc0b71a8815b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 13 02:01:35 2024 +0200
+
+    Make city and unit ids uint32 in network protocol
+
+    Issues caused by id overflows reported by Giacomo Mulas
+
+    See RM #304
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d9db8d127be91b53045c6aee741f9ce017bfe7bf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Mar 13 22:48:19 2024 +0200
+
+    Meson: Drop duplicate vsnprintf() check
+
+    See RM #307
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7306b138ad3cd2d537a861f1ab9aa68346bdaa62
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Mar 21 21:15:30 2024 +0200
+
+    Comment typofix: "intervall" -> "interval"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cb7a881a47a4dfe23c25d719f0608ae395269200
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 8 08:20:29 2024 +0200
+
+    Ruledit: Add terrain native_to editing
+
+    See RM #298
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 20909b5deaee74d855a39a56db58a1f3060267ec
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Mar 19 23:21:38 2024 +0200
+
+    Comment typofix: "hided" -> "hidden" or "hid"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 85fdbaec05d63dbb4bcda7e0fa23fc179429d493
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 3 10:34:27 2024 +0200
+
+    Metainfo: Add gtk3.22-client screenshot from 3.1.0
+
+    See RM #290
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1039adc3cc12e95ae7d3aae8ff84890032ec63da
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 8 06:32:35 2024 +0200
+
+    Unhardcode wld.map from actions.c static functions
+
+    See RM #296
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 02d57fd0771bc80c4c0b3bd7a21f2ab718684c5a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 17 10:25:32 2024 +0200
+
+    Comment typofix: "unsufficient" -> "insufficient"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3c2eda49108addb3f5b369acbe34ea09f6e44c12
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 8 07:26:10 2024 +0200
+
+    HACKING: Correct networking headers location
+
+    See RM #297
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5994bbc2c42180070338492f87cb58411f0641f6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 2 05:55:12 2024 +0200
+
+    Unhardcode wld.map from caravan_search_from()
+
+    See RM #281
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ec65f0b5e9abf2a8299c5c59a88541764e324c7a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Mar 7 19:35:34 2024 +0200
+
+    locale-fr.m4: Refresh from gnulib upstream
+
+    See RM #291
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ca3bf1c78dd3709db1bef2c28141a49f75110c66
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 2 10:26:13 2024 +0200
+
+    show_small_citybar(): Fix dead 'canvas_y' increment
+
+    See RM #286
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 342386d28b019f510d60bcd289b3aa6fb3b463fa
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 10 23:39:06 2024 +0200
+
+    Comment typofix: "commmon" -> "common"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4c46d02df1923ed185a9898b057593925e56a8a4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 2 06:58:35 2024 +0200
+
+    Ruledit: Add unit type flag editing
+
+    See RM #284
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fcc47815b9523b4dd176a8997a3bea86c6ada070
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 2 06:04:53 2024 +0200
+
+    Fix "seperate" typos
+
+    See RM #282
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 27ce44d27b9115ea96367e75d8ecc0a16481d191
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 2 05:13:01 2024 +0200
+
+    Metainfo: Add developer name information
+
+    See RM #280
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 26664f6407f4f36a03c65d474b3e0e00da6729c4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Mar 7 19:45:44 2024 +0200
+
+    Comment typofix: "Ouput" -> "Output"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dddacb1492f71c374bb1cae556d273f678e25773
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Feb 24 07:31:52 2024 +0200
+
+    Unhardcode wld.map from is_action_possible()
+
+    See RM #273
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 162897ecd5d354f4f5b50da00a3eb63e24513c3e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 2 18:09:37 2024 +0200
+
+    Comment typofix: "lenght" -> "length"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 42dcd54d6f992955bce57b4f5500626a6151a11e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Feb 24 12:00:28 2024 +0200
+
+    Granularity: Drop extraneous Size_Adj base effect
+
+    There was two base effects. Together they made the base size
+    one point too big.
+
+    See RM #147
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6bffc06f9830f0af9bdbc81abcb86c689d93c613
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jan 30 19:26:02 2024 +0200
+
+    AI: Stop attempts to recover Helicopter HP in the open
+
+    They would be losing HP instead.
+
+    See RM #207
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a593768979dab0211f4351bde998de583de1adff
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Feb 22 21:03:22 2024 +0200
+
+    Update stdlib_h.m4 to serial 77
+
+    See RM #272
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ddb0d71fbf4eb703c0a9c077a7cc3d9b18e3a846
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 1 12:56:58 2024 +0200
+
+    Comment typofix: "classess" -> "classes'"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 21e1ec731d195f69ae5b3954d33c1bee3e324aba
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Feb 16 23:57:49 2024 +0200
+
+    Unhardcode wld.map from unit_order_list_is_sane()
+
+    See RM #265
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6e1d333950ca9d031c3a0755c354ec5682ac9ff6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Feb 15 22:19:41 2024 +0200
+
+    Add doxygen marking for genlist.h inline functions
+
+    See RM #260
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 66140d96a33260d0f2cf02b298a81e53411adac3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 1 02:35:45 2024 +0200
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fb42aab19c905043535a2724530b1663296d1094
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Mar 1 02:31:38 2024 +0200
+
+    ChangeLog: Refresh for 3.1.0 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit 36a1269608d0e09927b6d3d9c5e38b80a3bf7b8c
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Mar 1 02:31:11 2024 +0200
