@@ -155,8 +155,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
-"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-02-28 10:23+0200\n"
+"Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
+"POT-Creation-Date: 2024-04-19 02:51+0300\n"
 "PO-Revision-Date: 2015-02-17 22:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -169,108 +169,124 @@ msgstr ""
 "X-Poedit-Basepath: G:\\Desktop\\freeciv-2.4.3\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
-#: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
-#: tools/ruledit/req_edit.cpp:135
+#: tools/ruledit/helpeditor.cpp:53 tools/ruledit/req_vec_fix.cpp:190
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
 msgid "Close"
 msgstr "閉じる"
 
-#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:93
-#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:127
+#: tools/ruledit/edit_extra.cpp:58 tools/ruledit/edit_impr.cpp:101
+#: tools/ruledit/edit_tech.cpp:71 tools/ruledit/edit_terrain.cpp:79
+#: tools/ruledit/edit_utype.cpp:132
 msgid "Graphics tag"
 msgstr ""
 
-#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:102
-#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:136
+#: tools/ruledit/edit_extra.cpp:67 tools/ruledit/edit_impr.cpp:110
+#: tools/ruledit/edit_tech.cpp:80 tools/ruledit/edit_terrain.cpp:88
+#: tools/ruledit/edit_utype.cpp:141
 msgid "Alt graphics tag"
 msgstr ""
 
-#: tools/ruledit/edit_extra.cpp:66
+#: tools/ruledit/edit_extra.cpp:76
 msgid "Activity graphics tag"
 msgstr ""
 
-#: tools/ruledit/edit_extra.cpp:75
+#: tools/ruledit/edit_extra.cpp:85
 msgid "Alt activity gfx tag"
 msgstr ""
 
-#: tools/ruledit/edit_extra.cpp:84
+#: tools/ruledit/edit_extra.cpp:94
 msgid "Second alt activity gfx tag"
 msgstr ""
 
-#: tools/ruledit/edit_extra.cpp:93
+#: tools/ruledit/edit_extra.cpp:103
 msgid "Removal activity graphics tag"
 msgstr ""
 
-#: tools/ruledit/edit_extra.cpp:102
+#: tools/ruledit/edit_extra.cpp:112
 msgid "Alt removal activity gfx tag"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:54 tools/ruledit/edit_utype.cpp:66
+#: tools/ruledit/edit_extra.cpp:121 tools/ruledit/edit_terrain.cpp:97
+#, fuzzy
+#| msgid "Nations"
+msgid "Native to"
+msgstr "民族"
+
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:71
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
 msgstr "建造物"
 
-#: tools/ruledit/edit_impr.cpp:65
+#: tools/ruledit/edit_impr.cpp:73
 msgid "Upkeep"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:75
+#: tools/ruledit/edit_impr.cpp:83
 msgid "Genus"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:111
+#: tools/ruledit/edit_impr.cpp:119
 msgid "Sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:120
+#: tools/ruledit/edit_impr.cpp:128
 msgid "Alt sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_terrain.cpp:49
-msgid "Move Cost"
+#: tools/ruledit/edit_impr.cpp:137 tools/ruledit/edit_tech.cpp:89
+msgid "Helptext"
+msgstr ""
+
+#: tools/ruledit/edit_tech.cpp:60
+msgid "Cost"
 msgstr ""
 
 #: tools/ruledit/edit_terrain.cpp:59
+msgid "Move Cost"
+msgstr ""
+
+#: tools/ruledit/edit_terrain.cpp:69
 msgid "Defense Bonus %"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:51
+#: tools/ruledit/edit_utype.cpp:56
 msgid "Requirement"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:77
+#: tools/ruledit/edit_utype.cpp:82
 msgid "Attack Strength"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:87
+#: tools/ruledit/edit_utype.cpp:92
 msgid "Defense Strength"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:97
+#: tools/ruledit/edit_utype.cpp:102
 msgid "Hitpoints"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:107
+#: tools/ruledit/edit_utype.cpp:112
 msgid "Firepower"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:117
+#: tools/ruledit/edit_utype.cpp:122
 msgid "Move Rate"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:145
+#: tools/ruledit/edit_utype.cpp:150
 msgid "Move sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:155
+#: tools/ruledit/edit_utype.cpp:160
 msgid "Alt move sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:165
+#: tools/ruledit/edit_utype.cpp:170
 msgid "Fight sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:175
+#: tools/ruledit/edit_utype.cpp:180
 msgid "Alt fight sound tag"
 msgstr ""
 
@@ -540,7 +556,7 @@ msgstr ""
 #: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
 #: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
-#: tools/ruledit/tab_tech.cpp:64 tools/ruledit/tab_terrains.cpp:68
+#: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_terrains.cpp:68
 #: tools/ruledit/tab_unit.cpp:66
 #, fuzzy
 msgid "Rule Name"
@@ -559,8 +575,8 @@ msgstr "プレイヤー名 :"
 #: tools/ruledit/tab_gov.cpp:146 tools/ruledit/tab_gov.cpp:147
 #: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
 #: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
-#: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
-#: tools/ruledit/tab_tech.cpp:229 tools/ruledit/tab_tech.cpp:230
+#: tools/ruledit/tab_tech.cpp:70 tools/ruledit/tab_tech.cpp:80
+#: tools/ruledit/tab_tech.cpp:236 tools/ruledit/tab_tech.cpp:237
 #: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
 #: tools/ruledit/tab_terrains.cpp:149 tools/ruledit/tab_terrains.cpp:150
 #: tools/ruledit/tab_unit.cpp:69 tools/ruledit/tab_unit.cpp:79
@@ -571,14 +587,14 @@ msgstr ""
 #: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
 #: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
-#: tools/ruledit/tab_tech.cpp:72 tools/ruledit/tab_terrains.cpp:76
+#: tools/ruledit/tab_tech.cpp:75 tools/ruledit/tab_terrains.cpp:76
 #: tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "名前"
 
 #: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
-#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:109
+#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:116
 #: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:89
 msgid "Effects"
 msgstr ""
@@ -600,7 +616,8 @@ msgid "An achievement with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
 
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
-#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
+#: tools/ruledit/tab_tech.cpp:86 tools/ruledit/tab_terrains.cpp:87
+#: tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
 msgstr ""
 
@@ -928,33 +945,33 @@ msgstr "国際連合"
 msgid "Nationlist"
 msgstr "民族"
 
-#: tools/ruledit/tab_tech.cpp:83
+#: tools/ruledit/tab_tech.cpp:90
 msgid "Req1"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:92
+#: tools/ruledit/tab_tech.cpp:99
 msgid "Req2"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:100
+#: tools/ruledit/tab_tech.cpp:107
 msgid "Root Req"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:113
+#: tools/ruledit/tab_tech.cpp:120
 msgid "Add tech"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:118
+#: tools/ruledit/tab_tech.cpp:125
 #, fuzzy
 msgid "Remove this tech"
 msgstr "このプリセットを削除していいですか?"
 
-#: tools/ruledit/tab_tech.cpp:197
+#: tools/ruledit/tab_tech.cpp:204
 msgid "Never"
 msgstr "なし"
 
 # Daniel
-#: tools/ruledit/tab_tech.cpp:354
+#: tools/ruledit/tab_tech.cpp:361
 #, fuzzy
 msgid "A tech with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
