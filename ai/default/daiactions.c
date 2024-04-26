@@ -238,7 +238,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
                                     casus_belli_eft[i], paction,
                                     city_tile(target_city))) {
       case CBR_NONE:
-        /* Noone cares. */
+        /* No one cares. */
         break;
       case CBR_VICTIM_ONLY:
         /* The victim gets a Casus Belli against me. */
