@@ -32,3 +32,5 @@ movement costs is 1/6 points.
  * In the beginning cities can grow up to size 4. Various techs increase
    the maximum size.
  * Units cannot be upgraded before Engineering is known
+ * Reseach bulbs are for specific tech. If you switch research, accumulated
+   progress stays with the previous tech target.

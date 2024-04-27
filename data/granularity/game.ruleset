@@ -660,5 +660,6 @@ colorlist =
 set =
     { "name", "value", "lock"
       "startunits", "ccx", TRUE
+      "multiresearch", "enabled", TRUE
       "dispersion", 2, FALSE
     }
