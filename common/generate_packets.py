@@ -2785,6 +2785,8 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
   pre_send_{self.packet_name}(pc, &packet_buf);
 """
 
+        delta_header = "\n" + prefix("  ", self.get_delta_send_header(before_return)) if self.delta else ""
+
         init_field_addr = f"""\
 
 #ifdef FREECIV_JSON_CONNECTION
@@ -2798,41 +2800,25 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 
 """ if self.fields else ""
 
+        put_key = "".join(
+            prefix("  ", field.get_put(False)) + "\n"
+            for field in self.key_fields
+        )
+
         nondelta_body = "\n".join(
             prefix("  ", field.get_put(False))
-            for field in self.fields
+            for field in self.other_fields
         )
 
         if self.delta:
-            declare_differ = f"""\
-  bool differ;
-""" if self.differ_used else ""
-
-            if self.is_info == "no":
-                declare_different = ""
-            elif self.want_force:
-                declare_different = f"""\
-  int different = force_to_send;
-"""
-            else:
-                declare_different = f"""\
-  int different = 0;
-"""
-
-            delta_body = prefix("  ", self.get_delta_send_body(before_return))
+            delta_body = prefix("  ", self.get_delta_send_body())
             body = f"""\
 #ifdef FREECIV_DELTA_PROTOCOL
-  {self.name}_fields fields;
-  struct {self.packet_name} *old;
-{declare_differ}\
-{declare_different}\
-  struct genhash **hash = pc->phs.sent + {self.type};
-
 {delta_body}\
 
 #else /* FREECIV_DELTA_PROTOCOL */
 {nondelta_body}\
-#endif
+#endif /* FREECIV_DELTA_PROTOCOL */
 """
         else:
             body = nondelta_body
@@ -2857,7 +2843,9 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 {log_key}\
 {report}\
 {pre_send}\
+{delta_header}\
 {init_field_addr}\
+{put_key}\
 {body}\
 
 {post_send}\
@@ -2867,10 +2855,25 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 
 """
 
-    def get_delta_send_body(self, before_return: str = "") -> str:
+    def get_delta_send_header(self, before_return: str = "") -> str:
         """Helper for get_send(). Generate the part of the send function
-        that computes and transmits the delta between the real packet and
-        the last cached packet."""
+        that determined which fields differ between the real packet and
+        the last cached packet, and possibly discards is-info packets."""
+        declare_differ = f"""\
+bool differ;
+""" if self.differ_used else ""
+
+        if self.is_info == "no":
+            declare_different = ""
+        elif self.want_force:
+            declare_different = f"""\
+int different = force_to_send;
+"""
+        else:
+            declare_different = f"""\
+int different = 0;
+"""
+
         force_info = """\
   different = 1;      /* Force to send. */
 """ if self.is_info != "no" else ""
@@ -2901,12 +2904,41 @@ if (different == 0) {{
         else:
             discard_part = ""
 
-        put_key = "".join(
-            field.get_put(True) + "\n"
-            for field in self.key_fields
-        )
+        return f"""\
+#ifdef FREECIV_DELTA_PROTOCOL
+{self.name}_fields fields;
+struct {self.packet_name} *old;
+{declare_differ}\
+{declare_different}\
+struct genhash **hash = pc->phs.sent + {self.type};
 
-        put_other = "\n".join(
+if (nullptr == *hash) {{
+  *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
+                           nullptr, nullptr, nullptr, destroy_{self.packet_name});
+}}
+BV_CLR_ALL(fields);
+
+if (!genhash_lookup(*hash, real_packet, (void **) &old)) {{
+  old = fc_malloc(sizeof(*old));
+  /* temporary bitcopy just to insert correctly */
+  *old = *real_packet;
+  genhash_insert(*hash, old, old);
+  init_{self.packet_name}(old);
+{force_info}\
+}}
+
+{cmp_part}\
+{discard_part}\
+#endif /* FREECIV_DELTA_PROTOCOL */
+"""
+
+    def get_delta_send_body(self) -> str:
+        """Helper for get_send(). Generate the part of the send function
+        that transmits the delta between the real packet and the last
+        cached packet.
+
+        See also get_delta_send_header()"""
+        body = "\n".join(
             field.get_put_wrapper(self, i, True)
             for i, field in enumerate(self.other_fields)
         )
@@ -2926,24 +2958,6 @@ if (nullptr != *hash) {{
         )
 
         return f"""\
-if (nullptr == *hash) {{
-  *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
-                           nullptr, nullptr, nullptr, destroy_{self.packet_name});
-}}
-BV_CLR_ALL(fields);
-
-if (!genhash_lookup(*hash, real_packet, (void **) &old)) {{
-  old = fc_malloc(sizeof(*old));
-  /* temporary bitcopy just to insert correctly */
-  *old = *real_packet;
-  genhash_insert(*hash, old, old);
-  init_{self.packet_name}(old);
-{force_info}\
-}}
-
-{cmp_part}\
-{discard_part}\
-
 #ifdef FREECIV_JSON_CONNECTION
 field_addr.name = "fields";
 #endif /* FREECIV_JSON_CONNECTION */
@@ -2953,8 +2967,7 @@ if (e) {{
   log_packet_detailed("fields bitvector error detected");
 }}
 
-{put_key}\
-{put_other}\
+{body}\
 
 {copy_to_old}\
 {reset_part}\
@@ -2962,14 +2975,6 @@ if (e) {{
 
     def get_receive(self) -> str:
         """Generate the receive function for this packet variant"""
-        delta_header = f"""\
-#ifdef FREECIV_DELTA_PROTOCOL
-  {self.name}_fields fields;
-  struct {self.packet_name} *old;
-  struct genhash **hash = pc->phs.received + {self.type};
-#endif /* FREECIV_DELTA_PROTOCOL */
-""" if self.delta else ""
-
         init_field_addr = f"""\
 
 #ifdef FREECIV_JSON_CONNECTION
@@ -2982,18 +2987,8 @@ if (e) {{
 #endif /* FREECIV_JSON_CONNECTION */
 """ if self.fields else ""
 
-        get_delta_bv = f"""\
-#ifdef FREECIV_DELTA_PROTOCOL
-#ifdef FREECIV_JSON_CONNECTION
-  field_addr.name = "fields";
-#endif /* FREECIV_JSON_CONNECTION */
-  DIO_BV_GET(&din, &field_addr, fields);
-#endif /* FREECIV_DELTA_PROTOCOL */
-
-""" if self.delta else ""
-
         get_key = "".join(
-            prefix("  ", field.get_get(True)) + "\n"
+            prefix("  ", field.get_get(False)) + "\n"
             for field in self.key_fields
         )
 
@@ -3030,11 +3025,9 @@ if (e) {{
 {self.receive_prototype}
 {{
 #define FREE_PACKET_STRUCT(_packet) free_{self.packet_name}(_packet)
-{delta_header}\
   RECEIVE_PACKET_START({self.packet_name}, real_packet);
 {init_field_addr}\
 
-{get_delta_bv}\
 {get_key}\
 {log_key}\
 {get_body}\
@@ -3049,7 +3042,10 @@ if (e) {{
     def get_delta_receive_body(self) -> str:
         """Helper for get_receive(). Generate the part of the receive
         function responsible for recreating the full packet from the
-        received delta and the last cached packet."""
+        received delta and the last cached packet.
+
+        Note: This code fragment declares variables. To comply with
+        CodingStyle, it should be enclosed in a block {} or #ifdef."""
         log_no_old = f"""\
   {self.log_macro}("  no old info");
 """ if self.gen_log else ""
@@ -3075,6 +3071,10 @@ if (nullptr != *hash) {{
         )
 
         return f"""\
+{self.name}_fields fields;
+struct {self.packet_name} *old;
+struct genhash **hash = pc->phs.received + {self.type};
+
 if (nullptr == *hash) {{
   *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
                            nullptr, nullptr, nullptr, destroy_{self.packet_name});
@@ -3086,6 +3086,11 @@ if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
   /* packet is already initialized empty */
 {log_no_old}\
 }}
+
+#ifdef FREECIV_JSON_CONNECTION
+field_addr.name = "fields";
+#endif /* FREECIV_JSON_CONNECTION */
+DIO_BV_GET(&din, &field_addr, fields);
 
 {body}\
 
