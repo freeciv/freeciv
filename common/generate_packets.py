@@ -2502,11 +2502,11 @@ class Variant:
         return self.packet.is_info
 
     @property
-    def cancel(self) -> "list[str]":
-        """List of packets to cancel when sending or receiving this packet
+    def reset_packets(self) -> "list[str]":
+        """List of packets to reset when sending or receiving this packet
 
-        See Packet.cancel"""
-        return self.packet.cancel
+        See Packet.reset_packets"""
+        return self.packet.reset_packets
 
     @property
     def complex(self) -> bool:
@@ -2913,16 +2913,16 @@ if (different == 0) {{
 
         copy_to_old = self.get_copy("old", "real_packet")
 
-        # Cancel some is-info packets.
-        cancel_part = "".join(
+        # Reset some packets' delta state
+        reset_part = "".join(
             f"""\
 
-hash = pc->phs.sent + {cancel_packet_type};
+hash = pc->phs.sent + {reset_packet};
 if (nullptr != *hash) {{
   genhash_remove(*hash, real_packet);
 }}
 """
-            for cancel_packet_type in self.cancel
+            for reset_packet in self.reset_packets
         )
 
         return f"""\
@@ -2957,7 +2957,7 @@ if (e) {{
 {put_other}\
 
 {copy_to_old}\
-{cancel_part}\
+{reset_part}\
 """
 
     def get_receive(self) -> str:
@@ -3062,16 +3062,16 @@ if (e) {{
             for i, field in enumerate(self.other_fields)
         )
 
-        # Cancel some is-info packets.
-        cancel_part = "".join(
+        # Reset some packets' delta state
+        reset_part = "".join(
             f"""\
 
-hash = pc->phs.received + {cancel_pack};
+hash = pc->phs.received + {reset_packet};
 if (nullptr != *hash) {{
   genhash_remove(*hash, real_packet);
 }}
 """
-            for cancel_pack in self.cancel
+            for reset_packet in self.reset_packets
         )
 
         return f"""\
@@ -3097,7 +3097,7 @@ if (nullptr == old) {{
 }} else {{
 {copy_to_old}\
 }}
-{cancel_part}\
+{reset_part}\
 """
 
 
@@ -3130,11 +3130,11 @@ class Directions(Enum):
 class Packet:
     """Represents a single packet type (possibly with multiple variants)"""
 
-    CANCEL_PATTERN = re.compile(r"^cancel\((.*)\)$")
-    """Matches a cancel flag
+    RESET_PATTERN = re.compile(r"^reset\((.*)\)$")
+    """Matches a reset flag
 
     Groups:
-    - the packet type to cancel"""
+    - the packet type to reset"""
 
     cfg: ScriptConfig
     """Configuration used when generating code for this packet"""
@@ -3148,7 +3148,7 @@ class Packet:
     type_number: int
     """The numeric ID of this packet type"""
 
-    cancel: "list[str]"
+    reset_packets: "list[str]"
     """List of packet types to drop from the cache when sending or
     receiving this packet type"""
 
@@ -3214,7 +3214,7 @@ class Packet:
         self.type = packet_type
         self.type_number = packet_number
 
-        self.cancel = []
+        self.reset_packets = []
         dirs: 'set[typing.Literal["sc", "cs"]]' = set()
 
         for flag in flags_text.split(","):
@@ -3262,9 +3262,9 @@ class Packet:
                 self.handle_per_conn = True
                 continue
 
-            mo = __class__.CANCEL_PATTERN.fullmatch(flag)
+            mo = __class__.RESET_PATTERN.fullmatch(flag)
             if mo is not None:
-                self.cancel.append(mo.group(1))
+                self.reset_packets.append(mo.group(1))
                 continue
 
             raise ValueError(f"unrecognized flag for {self.type}: {flag!r}")

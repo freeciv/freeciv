@@ -89,8 +89,9 @@ Syntax:
             effect if the packets doesn't have the is-info or is-game-info
             flags.
 
-     cancel(PACKET_number): Cancel a packet with the same key (must be the
-     same key type at the start of the packet), useful for is-info packets.
+     reset(PACKET_number): Reset the stored delta state of a packet with
+     the same key (must be the same key fields at the start of the packet);
+     useful for is-info packets.
 
      pre-send:
      post-recv:
@@ -708,11 +709,11 @@ end
 
 /************** City packets **********************/
 
-PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_RALLY_POINT), cancel(PACKET_CITY_SHORT_INFO), handle-via-fields
+PACKET_CITY_REMOVE = 30; sc, dsend, lsend, reset(PACKET_CITY_INFO), reset(PACKET_WEB_CITY_INFO_ADDITION), reset(PACKET_CITY_NATIONALITIES), reset(PACKET_CITY_RALLY_POINT), reset(PACKET_CITY_SHORT_INFO), handle-via-fields
   CITY city_id;
 end
 
-PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO)
+PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, reset(PACKET_CITY_SHORT_INFO)
   CITY id; key
   TILE tile;
 
@@ -794,7 +795,7 @@ PACKET_CITY_UPDATE_COUNTERS = 514; sc, lsend, is-game-info
   COUNTER counters[MAX_COUNTERS:count];
 end
 
-PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_RALLY_POINT)
+PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, reset(PACKET_CITY_INFO), reset(PACKET_WEB_CITY_INFO_ADDITION), reset(PACKET_CITY_NATIONALITIES), reset(PACKET_CITY_RALLY_POINT)
   CITY id; key
   TILE tile;
 
@@ -915,7 +916,7 @@ end
 
 /************** Player packets **********************/
 
-PACKET_PLAYER_REMOVE = 50; sc, dsend, cancel(PACKET_PLAYER_INFO), handle-via-fields
+PACKET_PLAYER_REMOVE = 50; sc, dsend, reset(PACKET_PLAYER_INFO), handle-via-fields
   PLAYER playerno;
 end
 
@@ -1034,7 +1035,7 @@ PACKET_RESEARCH_INFO = 60; sc, lsend, is-game-info
   STRING inventions[A_LAST + 1];
 end
 
-PACKET_UNKNOWN_RESEARCH = 66; sc, is-game-info, handle-via-fields, cancel(PACKET_RESEARCH_INFO)
+PACKET_UNKNOWN_RESEARCH = 66; sc, is-game-info, handle-via-fields, reset(PACKET_RESEARCH_INFO)
   RESEARCH id;
 end
 
@@ -1048,11 +1049,11 @@ end
 
 /************** Unit packets **********************/
 
-PACKET_UNIT_REMOVE = 62; sc, dsend, lsend, cancel(PACKET_UNIT_INFO), cancel(PACKET_UNIT_SHORT_INFO), handle-via-fields
+PACKET_UNIT_REMOVE = 62; sc, dsend, lsend, reset(PACKET_UNIT_INFO), reset(PACKET_UNIT_SHORT_INFO), handle-via-fields
   UNIT unit_id;
 end
 
-PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
+PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, reset(PACKET_UNIT_SHORT_INFO)
   UNIT id; key
   PLAYER owner;
   PLAYER nationality;
@@ -1094,7 +1095,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   TILE action_decision_tile;
 end
 
-PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, force, cancel(PACKET_UNIT_INFO)
+PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, force, reset(PACKET_UNIT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
@@ -2417,7 +2418,7 @@ end
 /*************** Webclient specific packets ****************/
 /* Use range 256:511 for these                             */
 
-PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO), handle-via-fields, no-handle
+PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, reset(PACKET_CITY_SHORT_INFO), handle-via-fields, no-handle
   CITY id; key
 
   BOOL cma_enabled;
