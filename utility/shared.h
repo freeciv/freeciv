@@ -143,9 +143,12 @@ int compare_strings_ptrs(const void *first, const void *second);
 int compare_strings_strvec(const char *const *first,
                            const char *const *second);
 
-char *skip_leading_spaces(char *s);
-void remove_leading_spaces(char *s);
-void remove_trailing_spaces(char *s);
+char *skip_leading_spaces(char *s)
+  fc__attribute((nonnull (1)));
+void remove_leading_spaces(char *s)
+  fc__attribute((nonnull (1)));
+void remove_trailing_spaces(char *s)
+  fc__attribute((nonnull (1)));
 void remove_leading_trailing_spaces(char *s);
 
 bool check_strlen(const char *str, size_t len, const char *errmsg);
@@ -157,12 +160,15 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 
 char *end_of_strn(char *str, int *nleft);
 
-bool str_to_int(const char *str, int *pint);
-bool str_to_uint(const char *str, unsigned int *pint);
-bool str_to_float(const char *str, float *pfloat);
+bool str_to_int(const char *str, int *pint)
+  fc__attribute((nonnull (1)));
+bool str_to_uint(const char *str, unsigned int *pint)
+  fc__attribute((nonnull (1)));
+bool str_to_float(const char *str, float *pfloat)
+  fc__attribute((nonnull (1)));
 
 /**************************************************************************
-...
+  ...
 **************************************************************************/
 struct fileinfo {
   char *name;           /* Descriptive file name string */

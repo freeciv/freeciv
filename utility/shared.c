@@ -113,6 +113,9 @@ static char *storage_dir_freeciv = nullptr;
 
 static struct astring realfile = ASTRING_INIT;
 
+static void remove_trailing_char(char *s, char trailing)
+  fc__attribute((nonnull (1)));
+
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb);
 
@@ -388,8 +391,6 @@ int compare_strings_strvec(const char *const *first,
 ****************************************************************************/
 char *skip_leading_spaces(char *s)
 {
-  fc_assert_ret_val(s != nullptr, nullptr);
-
   while (*s != '\0' && fc_isspace(*s)) {
     s++;
   }
@@ -405,7 +406,6 @@ void remove_leading_spaces(char *s)
 {
   char *t;
 
-  fc_assert_ret(s != nullptr);
   t = skip_leading_spaces(s);
   if (t != s) {
     while (*t != '\0') {
@@ -424,7 +424,6 @@ void remove_trailing_spaces(char *s)
   char *t;
   size_t len;
 
-  fc_assert_ret(s != nullptr);
   len = strlen(s);
   if (len > 0) {
     t = s + len -1;
@@ -454,8 +453,6 @@ void remove_leading_trailing_spaces(char *s)
 static void remove_trailing_char(char *s, char trailing)
 {
   char *t;
-
-  fc_assert_ret(s != nullptr);
 
   t = s + strlen(s) -1;
   while (t>=s && (*t) == trailing) {
@@ -519,8 +516,6 @@ bool str_to_int(const char *str, int *pint)
 {
   const char *start;
 
-  fc_assert_ret_val(str != nullptr, FALSE);
-
   while (fc_isspace(*str)) {
     /* Skip leading spaces. */
     str++;
@@ -552,8 +547,6 @@ bool str_to_int(const char *str, int *pint)
 bool str_to_uint(const char *str, unsigned int *pint)
 {
   const char *start;
-
-  fc_assert_ret_val(str != nullptr, FALSE);
 
   while (fc_isspace(*str)) {
     /* Skip leading spaces. */
@@ -587,8 +580,6 @@ bool str_to_float(const char *str, float *pfloat)
 {
   bool dot;
   const char *start;
-
-  fc_assert_ret_val(str != nullptr, FALSE);
 
   while (fc_isspace(*str)) {
     /* Skip leading spaces. */
