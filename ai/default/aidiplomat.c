@@ -333,6 +333,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct player *tplayer = city_owner(ctarget);
   int count_tech = count_stealable_techs(pplayer, tplayer);
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret(is_ai(pplayer));
 
@@ -359,7 +360,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     }
 
     if (!action_prob_possible(
-            action_prob_vs_city(punit, action_number(paction),ctarget))) {
+            action_prob_vs_city(nmap, punit, action_number(paction),ctarget))) {
       /* Not possible. */
       continue;
     }
@@ -388,7 +389,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     /* An action has been selected. */
 
     if (action_prob_possible(
-          action_prob_vs_city(punit, action_number(chosen_action),
+          action_prob_vs_city(nmap, punit, action_number(chosen_action),
                               ctarget))) {
       log_base(LOG_DIPLOMAT, "%s %s[%d] does %s at %s",
                nation_rule_name(nation_of_unit(punit)),

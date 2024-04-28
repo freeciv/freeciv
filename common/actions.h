@@ -551,9 +551,10 @@ bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
                                     const action_id wanted_action,
                                     const struct unit *actor_unit);
 
-struct act_prob action_prob_vs_city(const struct unit* actor,
+struct act_prob action_prob_vs_city(const struct civ_map *nmap,
+                                    const struct unit *actor,
                                     const action_id act_id,
-                                    const struct city* victim);
+                                    const struct city *victim);
 
 struct act_prob action_prob_vs_unit(const struct unit* actor,
                                     const action_id act_id,

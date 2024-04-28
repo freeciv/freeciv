@@ -4188,12 +4188,11 @@ action_prob_vs_city_full(const struct civ_map *nmap,
   Get the actor unit's probability of successfully performing the chosen
   action on the target city.
 **************************************************************************/
-struct act_prob action_prob_vs_city(const struct unit *actor_unit,
+struct act_prob action_prob_vs_city(const struct civ_map *nmap,
+                                    const struct unit *actor_unit,
                                     const action_id act_id,
                                     const struct city *target_city)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   return action_prob_vs_city_full(nmap, actor_unit,
                                   unit_home(actor_unit),
                                   unit_tile(actor_unit),
@@ -4735,6 +4734,7 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
 {
   /* Assume impossible until told otherwise. */
   struct act_prob prob = ACTPROB_IMPOSSIBLE;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(paction, ACTPROB_IMPOSSIBLE);
   fc_assert_ret_val(act_unit, ACTPROB_IMPOSSIBLE);
@@ -4758,7 +4758,7 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
     break;
   case ATK_CITY:
     if (tgt_city) {
-      prob = action_prob_vs_city(act_unit, paction->id, tgt_city);
+      prob = action_prob_vs_city(nmap, act_unit, paction->id, tgt_city);
     }
     break;
   case ATK_UNIT:
