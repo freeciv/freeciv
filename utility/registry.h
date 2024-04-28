@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "shared.h"
 
 struct section;
@@ -41,4 +42,4 @@ const char *section_name(const struct section *psection);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__REGISTRY_H */
+#endif /* FC__REGISTRY_H */

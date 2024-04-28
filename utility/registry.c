@@ -20,6 +20,7 @@
 #include <libxml/parser.h>
 #endif /* FREECIV_HAVE_XML_REGISTRY */
 
+/* utility */
 #include "registry_xml.h"
 
 #include "registry.h"
@@ -45,7 +46,7 @@ void registry_module_close(void)
 }
 
 /*********************************************************************//**
-  Create a section file from a file.  Returns NULL on error.
+  Create a section file from a file. Returns nullptr on error.
 *************************************************************************/
 struct section_file *secfile_load(const char *filename,
                                   bool allow_duplicates)
@@ -56,12 +57,12 @@ struct section_file *secfile_load(const char *filename,
   if (fc_stat(filename, &buf) == 0) {
     xmlDoc *sec_doc;
 
-    sec_doc = xmlReadFile(filename, NULL, XML_PARSE_NOERROR);
-    if (sec_doc != NULL) {
+    sec_doc = xmlReadFile(filename, nullptr, XML_PARSE_NOERROR);
+    if (sec_doc != nullptr) {
       return xmlfile_load(sec_doc, filename);
     }
   }
 #endif /* FREECIV_HAVE_XML_REGISTRY */
 
-  return secfile_load_section(filename, NULL, allow_duplicates);
+  return secfile_load_section(filename, nullptr, allow_duplicates);
 }
