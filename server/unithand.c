@@ -2330,7 +2330,7 @@ void handle_unit_get_actions(struct connection *pc,
         /* Only a known city may be targeted. */
         if (target_city) {
           /* Calculate the probabilities. */
-          probabilities[act] = action_prob_vs_city(actor_unit, act,
+          probabilities[act] = action_prob_vs_city(nmap, actor_unit, act,
                                                    target_city);
         } else if (!tile_is_seen(target_tile, actor_player)
                    && action_maybe_possible_actor_unit(nmap, act, actor_unit)
