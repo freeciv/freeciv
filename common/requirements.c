@@ -1168,11 +1168,14 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_EXTRAFLAG:
       invalid = (req.range > REQ_RANGE_TRADE_ROUTE);
       break;
-    case VUT_ADVANCE:
     case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
     case VUT_MINTECHS:
       invalid = (req.range < REQ_RANGE_PLAYER);
+      break;
+    case VUT_ADVANCE:
+      invalid = (req.range < REQ_RANGE_PLAYER
+                 && req.range != REQ_RANGE_LOCAL);
       break;
     case VUT_GOVERNMENT:
     case VUT_AI_LEVEL:
@@ -2412,7 +2415,7 @@ is_tech_req_active(const struct civ_map *nmap,
   /* Not a 'surviving' requirement. */
   switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (NULL != context->player) {
+    if (context->player != nullptr) {
       return BOOL_TO_TRISTATE(TECH_KNOWN == research_invention_state
                                 (research_get(context->player), tech));
     } else {
@@ -2421,7 +2424,7 @@ is_tech_req_active(const struct civ_map *nmap,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-    if (NULL == context->player) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
@@ -2435,6 +2438,13 @@ is_tech_req_active(const struct civ_map *nmap,
 
     return TRI_NO;
   case REQ_RANGE_LOCAL:
+    if (context->player == nullptr) {
+      return TRI_MAYBE;
+    }
+    if (research_get(context->player)->researching == tech) {
+      return TRI_YES;
+    }
+    return TRI_NO;
   case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:

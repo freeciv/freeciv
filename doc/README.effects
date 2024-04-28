@@ -57,7 +57,7 @@ beyond a few hundred requirements).
 Requirement types and supported ranges
 ======================================
 
-Tech:            World, Alliance, Team, Player
+Tech:            World, Alliance, Team, Player, Local
 TechFlag:        World, Alliance, Team, Player
 MinTechs:        World, Player
 MinCities:       Player
