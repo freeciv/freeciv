@@ -196,7 +196,7 @@ bool unit_can_airlift_to(const struct unit *punit,
     return is_action_enabled_unit_on_city(nmap, ACTION_AIRLIFT,
                                           punit, pdest_city);
   } else {
-    return action_prob_possible(action_prob_vs_city(punit, ACTION_AIRLIFT,
+    return action_prob_possible(action_prob_vs_city(nmap, punit, ACTION_AIRLIFT,
                                                     pdest_city));
   }
 }
@@ -263,8 +263,9 @@ int unit_shield_value(const struct unit *punit,
 bool unit_can_help_build_wonder_here(const struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
+  const struct civ_map *nmap = &(wld.map);
 
-  if (!pcity) {
+  if (pcity == NULL) {
     /* No city to help at this tile. */
     return FALSE;
   }
@@ -276,7 +277,7 @@ bool unit_can_help_build_wonder_here(const struct unit *punit)
 
   /* Evaluate all action enablers for extra accuracy. */
   /* TODO: Is it worth it? */
-  return action_prob_possible(action_prob_vs_city(punit,
+  return action_prob_possible(action_prob_vs_city(nmap, punit,
                                                   ACTION_HELP_WONDER,
                                                   pcity));
 }
@@ -429,9 +430,10 @@ bool kills_citizen_after_attack(const struct unit *punit)
 bool unit_can_add_or_build_city(const struct unit *punit)
 {
   struct city *tgt_city;
+  const struct civ_map *nmap = &(wld.map);
 
   if ((tgt_city = tile_city(unit_tile(punit)))) {
-    return action_prob_possible(action_prob_vs_city(punit,
+    return action_prob_possible(action_prob_vs_city(nmap, punit,
         ACTION_JOIN_CITY, tgt_city));
   } else {
     return action_prob_possible(action_prob_vs_tile(punit,
@@ -445,12 +447,14 @@ bool unit_can_add_or_build_city(const struct unit *punit)
 bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (pcity == NULL) {
     /* Can't change home city to a non existing city. */
     return FALSE;
   }
 
-  return action_prob_possible(action_prob_vs_city(punit, ACTION_HOME_CITY,
+  return action_prob_possible(action_prob_vs_city(nmap, punit, ACTION_HOME_CITY,
                                                   pcity));
 }
 

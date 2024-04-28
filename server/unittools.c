@@ -4677,7 +4677,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         tgt_id = dst_tile->index;
         break;
       case ATK_CITY:
-        prob = action_prob_vs_city(punit, order.action,
+        prob = action_prob_vs_city(nmap, punit, order.action,
                                    tgt_city);
         tgt_id = tgt_city->id;
         break;

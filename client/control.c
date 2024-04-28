@@ -1910,7 +1910,8 @@ static void do_disband_alternative(void *p)
   switch (action_id_get_target_kind(act)) {
   case ATK_CITY:
     if ((pcity = tile_city(unit_tile(punit)))
-        && action_prob_possible(action_prob_vs_city(punit, act, pcity))) {
+        && action_prob_possible(action_prob_vs_city(&(wld.map), punit,
+                                                    act, pcity))) {
       request_do_action(act, punit->id, pcity->id, 0, "");
     }
     break;
