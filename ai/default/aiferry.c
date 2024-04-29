@@ -293,7 +293,7 @@ static void aiferry_request_boat(struct ai_type *ait, struct unit *punit)
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
   /* First clear the previous assignments (just in case there are). 
-   * Substract virtual units or already counted */
+   * Subtract virtual units or already counted */
   if ((punit->id == 0) || 
       ((ai->stats.passengers > 0) && 
        (unit_data->ferryboat == FERRY_WANTED))) {
