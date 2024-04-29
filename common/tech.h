@@ -38,7 +38,7 @@ typedef int Tech_type_id;
 /* [more accurately]
  * Unlike most other indices, the Tech_type_id is widely used, because it 
  * so frequently passed to packet and scripting.  The client menu routines 
- * sometimes add and substract these numbers.
+ * sometimes add and subtract these numbers.
  */
 #define A_NONE 0
 #define A_FIRST 1
