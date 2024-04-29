@@ -2260,7 +2260,7 @@ if (different == 0) {{
 {fl}\
 {s}\
 {before_return}\
-  return 0;
+  SEND_PACKET_DISCARD();
 }}
 """.format(fl = fl, s = s, before_return = before_return)
 

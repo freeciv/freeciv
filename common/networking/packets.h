@@ -143,6 +143,9 @@ void packets_deinit(void);
     return send_packet_data(pc, buffer, size, packet_type); \
   }
 
+#define SEND_PACKET_DISCARD() \
+  return 0
+
 #define RECEIVE_PACKET_START(packet_type, result) \
   struct data_in din; \
   struct packet_type packet_buf, *result = &packet_buf; \
