@@ -67,6 +67,14 @@ void *get_packet_from_connection_json(struct connection *pc,
     return send_packet_data(pc, buffer, size, packet_type);             \
   }
 
+#define SEND_PACKET_DISCARD() \
+  {                           \
+    if (pc->json_mode) {      \
+      json_decref(dout.json); \
+    }                         \
+    return 0;                 \
+  }
+
 #define RECEIVE_PACKET_START(packet_type, result)                           \
   struct packet_type packet_buf, *result = &packet_buf;                     \
   struct data_in din;                                                       \

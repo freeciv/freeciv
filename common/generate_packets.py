@@ -2898,7 +2898,7 @@ if (different == 0) {{
 {log_discard}\
 {stats_discard}\
 {before_return}\
-  return 0;
+  SEND_PACKET_DISCARD();
 }}
 """
         else:
