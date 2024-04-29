@@ -2342,7 +2342,6 @@ target_reqs   =
 action        = "Build Base"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
     }
 target_reqs   =
     { "type",         "name",    "range"
