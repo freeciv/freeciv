@@ -336,5 +336,5 @@ void edit_impr::sound_tag_alt2_given()
 **************************************************************************/
 void edit_impr::helptext()
 {
-  open_help(impr->helptext);
+  open_help(&impr->helptext);
 }
