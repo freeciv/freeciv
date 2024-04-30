@@ -469,3 +469,17 @@ target_reqs   =
       "UnitState", "Transporting", "Local", FALSE
       "CityTile",  "Center",       "Tile",  FALSE
     }
+
+[actionenabler_capture_bounty_hunter]
+action        = "Capture Units"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitType",     "Bounty Hunter", "Local"
+      "DiplRel",      "War",           "Local"
+      "MinMoveFrags", "1",             "Local"
+    }
+target_reqs   =
+    { "type",      "name",         "range", "present"
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Tile",  FALSE
+    }
