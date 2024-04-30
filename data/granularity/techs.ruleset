@@ -473,6 +473,15 @@ helptext    = _("\
 Make Irrigation fully effective.\
 ")
 
+[advance_policing]
+name        = _("Policing")
+req1        = "Code of Laws"
+req2        = "Bronze Weapons"
+flags       = ""
+graphic     = "a.policing"
+graphic_alt = "-"
+;helptext    =
+
 [advance_pottery]
 name        = _("Pottery")
 req1        = "Fire"

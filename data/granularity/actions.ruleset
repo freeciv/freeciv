@@ -534,6 +534,20 @@ target_reqs   =
       "CityTile",  "Center",       "Tile",  FALSE
     }
 
+[enabler_capture_bounty_hunter]
+action        = "Capture Units"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitType",     "Bounty Hunter", "Local"
+      "DiplRel",      "War",           "Local"
+      "MinMoveFrags", "1",             "Local"
+    }
+target_reqs   =
+    { "type",      "name",         "range", "present"
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Tile",  FALSE
+    }
+
 [enabler_gain_veterancy]
 action        = "Gain Veterancy"
 actor_reqs    =
