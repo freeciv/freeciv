@@ -428,7 +428,7 @@ flags       = ""
 graphic     = "a.low_level_orbit"
 graphic_alt = "-"
 helptext    = _("With further advances in antigravitics we are able to enter \
-orbit even if we still are prisoners of the force field surronding Deneb 7.\n\n\
+orbit even if we still are prisoners of the force field surrounding Deneb 7.\n\n\
 Makes Antigrav Ports more efficient. They can airlift three units instead of \
 just one.")
 
