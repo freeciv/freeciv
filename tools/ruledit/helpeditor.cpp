@@ -75,6 +75,8 @@ void helpeditor::close()
 
   free(helps);
 
+  strvec_remove_empty(helptext);
+
   done(0);
 }
 

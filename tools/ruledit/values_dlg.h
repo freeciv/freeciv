@@ -30,7 +30,7 @@ class values_dlg : public QDialog
 
   public:
     values_dlg();
-    void open_help(struct strvec *help);
+    void open_help(struct strvec **help);
     void close_help();
 
   private:
