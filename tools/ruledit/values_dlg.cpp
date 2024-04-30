@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+// utility
+#include "string_vector.h"
+
 // ruledit
 #include "helpeditor.h"
 
@@ -32,10 +35,20 @@ values_dlg::values_dlg() : QDialog()
 /**********************************************************************//**
   Open help editor
 **************************************************************************/
-void values_dlg::open_help(struct strvec *helptext)
+void values_dlg::open_help(struct strvec **helptext)
 {
-  if (help == nullptr && helptext != nullptr) {
-    help = new helpeditor(this, helptext);
+  if (help == nullptr) {
+    // Create the strvec if it does not exist
+    if (*helptext == nullptr) {
+      *helptext = strvec_new();
+    }
+
+    // Make sure there's at least one element to edit
+    if (strvec_size(*helptext) == 0) {
+      strvec_append(*helptext, "");
+    }
+
+    help = new helpeditor(this, *helptext);
 
     help->show();
   }

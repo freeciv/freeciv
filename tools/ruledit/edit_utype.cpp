@@ -429,5 +429,5 @@ void edit_utype::class_menu(QAction *action)
 **************************************************************************/
 void edit_utype::helptext()
 {
-  open_help(utype->helptext);
+  open_help(&utype->helptext);
 }

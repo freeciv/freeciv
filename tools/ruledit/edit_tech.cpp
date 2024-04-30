@@ -194,5 +194,5 @@ void edit_tech::gfx_tag_alt_given()
 **************************************************************************/
 void edit_tech::helptext()
 {
-  open_help(tech->helptext);
+  open_help(&tech->helptext);
 }
