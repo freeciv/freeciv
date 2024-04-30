@@ -17,24 +17,24 @@ FC_RUN_CONFIGURE=yes
 
 # Leave out NLS checks
 for NAME in $@ ; do
-  if [ "x$NAME" = "x--help" ]; then
+  if [ "${NAME}" = "--help" ]; then
     FC_HELP=yes
   fi
-  if [ "x$NAME" = "x--disable-nls" ]; then
+  if [ "${NAME}" = "--disable-nls" ]; then
     echo "! nls checks disabled"
     FC_USE_NLS=no
   fi
-  if [ "x$NAME" = "x--no-configure-run" ]; then
+  if [ "${NAME}" = "--no-configure-run" ]; then
     FC_RUN_CONFIGURE=no
   fi
-  FC_NEWARGLINE="$FC_NEWARGLINE $NAME"
+  FC_NEWARGLINE="${FC_NEWARGLINE} ${NAME}"
 done
 
 debug ()
 # print out a debug message if DEBUG is a defined variable
 {
-  if [ ! -z "$DEBUG" ]; then
-    echo "DEBUG: $1"
+  if [ ! -z "${DEBUG}" ]; then
+    echo "{DEBUG}: $1"
   fi
 }
 
@@ -53,7 +53,7 @@ real_package_name ()
 
   new_pkg=$RPACKAGE
 
-  if test "x$6" = "x" ; then
+  if test "$6" = "" ; then
     RPN_COMPLAIN=1
   else
     RPN_COMPLAIN=$6
@@ -108,10 +108,10 @@ version_search ()
 
         CORRECT=
         # check if version numbers are integers
-        [ ! "x$new_s_pkg_major" = "x" ] && \
-        [ "x`echo $new_s_pkg_major | sed s/[0-9]*//g`" = "x" ] && \
-        [ ! "x$new_s_pkg_minor" = "x" ] && \
-        [ "x`echo $new_s_pkg_minor | sed s/[0-9]*//g`" = "x" ] && \
+        [ ! "${new_s_pkg_major}" = "" ] && \
+        [ "$(echo ${new_s_pkg_major} | sed s/[0-9]*//g)" = "" ] && \
+        [ ! "${new_s_pkg_minor}" = "" ] && \
+        [ "$(echo ${new_s_pkg_minor} | sed s/[0-9]*//g)" = "" ] && \
         CORRECT=1
 
         if [ ! -z $CORRECT ]; then
@@ -162,7 +162,7 @@ version_check ()
   if [ ! -z "$MICRO" ]; then VERSION=$VERSION.$MICRO; else MICRO=0; fi
 
   debug "version $VERSION"
-  if [ "x$VERSION" != "x" ] ; then
+  if [ "${VERSION}" != "" ] ; then
       if [ "$COMPLAIN" -ne "2" ]; then
           echo "+ checking for $PACKAGEMSG >= $VERSION ... " | tr -d '\n'
       fi
