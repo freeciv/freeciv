@@ -800,6 +800,15 @@ Actions done by a unit against all units at a tile
  * A copy of "Bombard".
  * See "Bombard" for everything else.
 
+"Bombard 4" - bombard the units (and city) at the tile.
+ * UI name can be set using ui_name_bombard_4
+ * can't kill target units
+ * any action listed in bombard_4_blocked_by must be impossible
+ * actor must be on a tile next to the target or, if bombard_4_max_range
+   allows it, futher away.
+ * A copy of "Bombard".
+ * See "Bombard" for everything else.
+
 "Bombard Lethal" - bombard the units (and city) at the tile.
  * UI name can be set using ui_name_bombard_lethal
  * any action listed in bombard_lethal_blocked_by must be impossible
