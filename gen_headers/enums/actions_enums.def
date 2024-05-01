@@ -64,6 +64,7 @@ values
   ACTION_BOMBARD                          "Bombard"
   ACTION_BOMBARD2                         "Bombard 2"
   ACTION_BOMBARD3                         "Bombard 3"
+  ACTION_BOMBARD4                         "Bombard 4"
   ACTION_BOMBARD_LETHAL                   "Bombard Lethal"
   ACTION_BOMBARD_LETHAL2                  "Bombard Lethal 2"
   ACTION_ROAD                             "Build Road"
