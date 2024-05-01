@@ -195,6 +195,7 @@ struct goods_type
   int to_pct;
   int onetime_pct;
 
+  int select_priority;
   int priority;
 
   bv_goods_flags flags;

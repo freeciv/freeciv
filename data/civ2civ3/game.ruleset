@@ -651,6 +651,8 @@ goods_selection = "Leaving"
 ; to_pct                  = Income for the receiving end of the trade route. Default is 100%
 ;                           This value is not used at all in case of bidirectional routes.
 ; onetime_pct             = Onetime bonuses when trade route gets established. Default is 100%
+; select_priority         = Available good with highest select_priority get selected for
+;                           the traderoute, random among the same select_pririty.
 ; priority                = Trade routes get replaced by higher priority goods, or higher
 ;                           trade value when priority is the same.
 ; flags

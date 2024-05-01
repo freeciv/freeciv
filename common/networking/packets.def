@@ -1834,6 +1834,7 @@ PACKET_RULESET_GOODS = 248; sc, lsend
   UINT16 from_pct;
   UINT16 to_pct;
   UINT16 onetime_pct;
+  UINT16 select_priority;
   BV_GOODS_FLAGS flags;
   STRVEC helptext;
 end

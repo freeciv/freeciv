@@ -7407,6 +7407,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                  "%s.to_pct", sec_name);
       pgood->onetime_pct = secfile_lookup_int_default(file, 100,
                                                       "%s.onetime_pct", sec_name);
+      pgood->select_priority = secfile_lookup_int_default(file, 1,
+                                                          "%s.select_priority", sec_name);
       pgood->priority = secfile_lookup_int_default(file, 1,
                                                    "%s.priority", sec_name);
 
@@ -8590,6 +8592,7 @@ static void send_ruleset_goods(struct conn_list *dest)
     packet.from_pct = g->from_pct;
     packet.to_pct = g->to_pct;
     packet.onetime_pct = g->onetime_pct;
+    packet.select_priority = g->select_priority;
     packet.flags = g->flags;
 
     PACKET_STRVEC_INSERT(packet.helptext, g->helptext);
@@ -8599,8 +8602,8 @@ static void send_ruleset_goods(struct conn_list *dest)
 }
 
 /**********************************************************************//**
-  Send the disaster ruleset information (all individual disaster types) to the
-  specified connections.
+  Send the disaster ruleset information (all individual disaster types)
+  to the specified connections.
 **************************************************************************/
 static void send_ruleset_disasters(struct conn_list *dest)
 {

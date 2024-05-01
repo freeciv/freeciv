@@ -729,17 +729,30 @@ bool city_receives_goods(const struct city *pcity,
 }
 
 /*********************************************************************//**
-  Return goods type for the new trade route between given cities.
+  Fond out goods type for the new trade route
+
+  @param src   City to start traderoute from
+  @param punit Unit to carry the goods
+  @return      Goods to carry
 *************************************************************************/
 struct goods_type *goods_from_city_to_unit(const struct city *src,
                                            const struct unit *punit)
 {
   int i = 0;
+  int prio = -1;
   struct goods_type *potential[MAX_GOODS_TYPES];
 
   goods_type_iterate(pgood) {
     if (goods_can_be_provided(src, pgood, punit)) {
-      potential[i++] = pgood;
+      if (pgood->select_priority >= prio) {
+        if (pgood->select_priority > prio) {
+          /* New highest priority */
+          i = 0;
+          prio = pgood->select_priority;
+        }
+
+        potential[i++] = pgood;
+      }
     }
   } goods_type_iterate_end;
 
