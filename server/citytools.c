@@ -1685,6 +1685,7 @@ void remove_city(struct city *pcity)
   struct dbv tile_processed;
   struct tile_list *process_queue;
   const char *ctl = city_tile_link(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   CALL_PLR_AI_FUNC(city_lost, powner, powner, pcity);
   CALL_FUNC_EACH_AI(city_destroyed, pcity);
@@ -1717,19 +1718,23 @@ void remove_city(struct city *pcity)
     bool moved;
     const struct unit_type *punittype = unit_type_get(punit);
 
-    if (is_native_tile(punittype, pcenter)) {
+    /* can_exist_at_tile() would give wrong results, as
+     * the city is still on map. */
+    if (is_native_tile(punittype, pcenter)
+        && (!utype_has_flag(punittype, UTYF_COAST_STRICT)
+            || is_safe_ocean(nmap, pcenter))) {
       continue;
     }
 
     unit_activity_handling(punit, ACTIVITY_IDLE);
     moved = FALSE;
-    adjc_iterate(&(wld.map), pcenter, tile1) {
+    adjc_iterate(nmap, pcenter, tile1) {
       struct unit *ptrans;
 
-      if (!moved && is_native_tile(punittype, tile1)) {
+      if (!moved && can_exist_at_tile(nmap, punittype, tile1)) {
         if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
           /* Move */
-          if (!can_unit_survive_at_tile(&(wld.map), punit, tile1)) {
+          if (!can_unit_survive_at_tile(nmap, punit, tile1)) {
             /* It may be impossible to survive at the tile even if it is
              * native. See UTYF_COAST_STRICT */
             ptrans = transporter_for_unit_at(punit, tile1);
@@ -1772,7 +1777,7 @@ void remove_city(struct city *pcity)
 
     tile_list_pop_front(process_queue);
     dbv_set(&tile_processed, tile_index(ptile));
-    adjc_iterate(&(wld.map), ptile, piter) {
+    adjc_iterate(nmap, ptile, piter) {
       struct city *other_city;
 
       if (dbv_isset(&tile_processed, tile_index(piter))) {
@@ -1788,7 +1793,7 @@ void remove_city(struct city *pcity)
 
           if (!uclass_has_flag(pclass, UCF_BUILD_ANYWHERE)
               && !is_native_tile(punit->utype, piter)
-              && !is_city_channel_tile(&(wld.map), pclass, piter, pcenter)) {
+              && !is_city_channel_tile(nmap, pclass, piter, pcenter)) {
             notify_player(unit_owner(punit), unit_tile(punit),
                           E_UNIT_LOST_MISC, ftc_server,
                           _("When %s was disbanded your %s in %s was trapped, "
