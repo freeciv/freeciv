@@ -19,6 +19,7 @@
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QToolButton>
 
@@ -39,11 +40,12 @@
 /**********************************************************************//**
   Setup edit_terrain object
 **************************************************************************/
-edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog()
+edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : values_dlg()
 {
   QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *ter_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *button;
   int row = 0;
   int rowcount;
   int column;
@@ -103,6 +105,10 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
   ter_layout->addWidget(label, row, 0);
   ter_layout->addWidget(gfx_tag_alt2, row++, 1);
 
+  button = new QPushButton(QString::fromUtf8(R__("Helptext")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(helptext()));
+  ter_layout->addWidget(button, row++, 1);
+
   label = new QLabel(QString::fromUtf8(R__("Native to")));
   natives_layout->addWidget(label, 0, 0);
   for (int i = 0; i < game.control.num_unit_classes; i++) {
@@ -149,6 +155,8 @@ void edit_terrain::closeEvent(QCloseEvent *cevent)
 {
   int rowcount;
   int column;
+
+  close_help();
 
   // Save values from text fields.
   gfx_tag_given();
@@ -243,4 +251,12 @@ void edit_terrain::gfx_tag_alt2_given()
   QByteArray tag_bytes = gfx_tag_alt2->text().toUtf8();
 
   sz_strlcpy(ter->graphic_alt2, tag_bytes);
+}
+
+/**********************************************************************//**
+  User pressed helptext button
+**************************************************************************/
+void edit_terrain::helptext()
+{
+  open_help(&ter->helptext);
 }

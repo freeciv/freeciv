@@ -21,13 +21,16 @@
 // Qt
 #include <QDialog>
 
+// ruledit
+#include "values_dlg.h"
+
 class QGridLayout;
 class QLineEdit;
 class QSpinBox;
 
 class ruledit_gui;
 
-class edit_terrain : public QDialog
+class edit_terrain : public values_dlg
 {
   Q_OBJECT
 
@@ -56,6 +59,7 @@ class edit_terrain : public QDialog
     void gfx_tag_given();
     void gfx_tag_alt_given();
     void gfx_tag_alt2_given();
+    void helptext();
 };
 
 #endif // FC__EDIT_TERRAIN_H
