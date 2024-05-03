@@ -112,9 +112,17 @@ echo "Freeciv server autogame successful!"
 
 "mac-meson")
 
-export CPPFLAGS="-I$(brew --prefix readline)/include"
-export LDFLAGS="-L$(brew --prefix icu4c)/lib -L$(brew --prefix readline)/lib"
-export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
+GETTEXT_PREFIX="$(brew --prefix gettext)"
+READLINE_PREFIX="$(brew --prefix readline)"
+ICU4C_PREFIX="$(brew --prefix icu4c)"
+SDL2_PREFIX="$(brew --prefix sdl2)"
+SDL2_MIXER_PREFIX="$(brew --prefix sdl2_mixer)"
+SDL2_TTF_PREFIX="$(brew --prefix sdl2_ttf)"
+SDL2_IMAGE_PREFIX="$(brew --prefix sdl2_image)"
+
+export CPPFLAGS="-I${GETTEXT_PREFIX}/include -I${READLINE_PREFIX}/include -I${SDL2_PREFIX}/include -I${SDL2_PREFIX}/include/SDL2 -I${SDL2_MIXER_PREFIX}/include -I${SDL2_TTF_PREFIX}/include -I${SDL2_IMAGE_PREFIX}/include"
+export LDFLAGS="-L${GETTEXT_PREFIX}/lib -L${ICU4C_PREFIX}/lib -L${READLINE_PREFIX}/lib -L${SDL2_PREFIX}/lib -L${SDL2_MIXER_PREFIX}/lib -L${SDL2_TTF_PREFIX}/lib -L${SDL2_IMAGE_PREFIX}/lib"
+export PKG_CONFIG_PATH="${ICU4C_PREFIX}/lib/pkgconfig"
 
 mkdir build
 cd build
