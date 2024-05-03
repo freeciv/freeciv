@@ -4327,15 +4327,15 @@ static bool load_ruleset_governments(struct section_file *file,
   }
 
   if (ok) {
-    game.info.government_during_revolution_id =
-      government_number(game.government_during_revolution);
+    game.info.government_during_revolution_id
+      = government_number(game.government_during_revolution);
 
-    /* easy ones: */
+    /* Easy ones: */
     governments_iterate(g) {
       const int i = government_index(g);
       const char *sec_name = section_name(section_list_get(sec, i));
-      struct requirement_vector *reqs =
-        lookup_req_list(file, compat, sec_name, "reqs", government_rule_name(g));
+      struct requirement_vector *reqs
+        = lookup_req_list(file, compat, sec_name, "reqs", government_rule_name(g));
 
       if (reqs == NULL) {
         ok = FALSE;
@@ -4360,6 +4360,10 @@ static bool load_ruleset_governments(struct section_file *file,
                  secfile_lookup_str(file, "%s.graphic", sec_name));
       sz_strlcpy(g->graphic_alt,
                  secfile_lookup_str(file, "%s.graphic_alt", sec_name));
+      sz_strlcpy(g->sound_str,
+                 secfile_lookup_str_default(file, "-", "%s.sound", sec_name));
+      sz_strlcpy(g->sound_alt,
+                 secfile_lookup_str_default(file, "-", "%s.sound_alt", sec_name));
 
       g->helptext = lookup_strvec(file, sec_name, "helptext");
     } governments_iterate_end;
@@ -4367,10 +4371,10 @@ static bool load_ruleset_governments(struct section_file *file,
 
 
   if (ok) {
-    /* titles */
+    /* Titles */
     governments_iterate(g) {
-      const char *sec_name =
-        section_name(section_list_get(sec, government_index(g)));
+      const char *sec_name
+        = section_name(section_list_get(sec, government_index(g)));
       const char *male, *female;
 
       if (!(male = secfile_lookup_str(file, "%s.ruler_male_title", sec_name))
@@ -8753,7 +8757,7 @@ static void send_ruleset_governments(struct conn_list *dest)
   struct packet_ruleset_government_ruler_title title;
 
   governments_iterate(g) {
-    /* send one packet_government */
+    /* Send one packet_government */
     gov.id = government_number(g);
 
     /* Shallow-copy (borrow) requirement vector */
@@ -8763,6 +8767,8 @@ static void send_ruleset_governments(struct conn_list *dest)
     sz_strlcpy(gov.rule_name, rule_name_get(&g->name));
     sz_strlcpy(gov.graphic_str, g->graphic_str);
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
+    sz_strlcpy(gov.sound_str, g->sound_str);
+    sz_strlcpy(gov.sound_alt, g->sound_alt);
     PACKET_STRVEC_INSERT(gov.helptext, g->helptext);
 
     lsend_packet_ruleset_government(dest, &gov);
