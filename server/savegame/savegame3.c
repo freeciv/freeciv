@@ -7887,10 +7887,13 @@ static void sg_load_history(struct loaddata *loading)
 
   turn = secfile_lookup_int_default(loading->file, -2, "history.turn");
 
+  if (turn != -2) {
+    hist->turn = turn;
+  }
+
   if (turn + 1 >= game.info.turn) {
     const char *str;
 
-    hist->turn = turn;
     str = secfile_lookup_str(loading->file, "history.title");
     sg_failure_ret(str != NULL, "%s", secfile_error());
     sz_strlcpy(hist->title, str);
