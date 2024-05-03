@@ -2834,7 +2834,8 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
         if ((NULL == client.conn.playing
              || unit_owner(psettler) == client.conn.playing)
             && unit_can_do_action(psettler, ACTION_FOUND_CITY)
-            && city_can_be_built_here(unit_tile(psettler), psettler, FALSE)) {
+            && city_can_be_built_here(&(wld.map), unit_tile(psettler),
+                                      psettler, FALSE)) {
           if (closest_settler == NULL) {
             closest_settler = psettler;
           }
