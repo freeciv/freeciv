@@ -371,6 +371,13 @@ class Location:
         self.depth = depth
         self.json_depth = json_depth if json_depth is not None else depth
 
+    @classmethod
+    @cache
+    def constant(cls, location: str, name: str = "(unknown)") -> "Location":
+        """Construct a Location not dependent on the packet"""
+        assert cls._PACKET not in location
+        return cls(name, location = location)
+
     def replace(self, new_location: str) -> "Location":
         """Return the given string as a new Location with the same metadata
         as self"""
@@ -429,6 +436,21 @@ class Location:
 
     def __repr__(self) -> str:
         return f"<{type(self).__name__} {self.name}(depth={self.depth}, json_depth={self.json_depth}) {self @ 'PACKET'}>"
+
+    def __eq__(self, other) -> bool:
+        if other is self:
+            return True
+        if not isinstance(other, __class__):
+            return NotImplemented
+        return (
+            self.name == other.name
+            and self._location == other._location
+            and self.depth == other.depth
+            and self.json_depth == other.json_depth
+        )
+
+    def __hash__(self) -> int:
+        return hash((__class__, self.name, self._location, self.depth, self.json_depth))
 
 
 #################### Components of a packets definition ####################
@@ -504,12 +526,11 @@ class SizeInfo:
     - the declared / maximum size
     - the field name for the actual size (optional)"""
 
-    declared: str
+    declared: Location
     """Maximum size; used in declarations"""
 
-    _actual: "str | None"
-    """Name of the field to use for the actual size, or None if the
-    entire array should always be transmitted."""
+    actual: Location
+    """Location of the field to use for the actual size."""
 
     @classmethod
     @cache
@@ -520,21 +541,21 @@ class SizeInfo:
             raise ValueError(f"invalid array size declaration: [{size_text}]")
         return cls(*mo.groups())
 
-    def __init__(self, declared: str, actual: "str | None"):
-        self.declared = declared
-        self._actual = actual
+    def __init__(self, declared: str, actual: "str | Location | None"):
+        self.declared = Location.constant(declared)
+        if actual is None:
+            self.actual = self.declared
+        elif isinstance(actual, Location):
+            self.actual = actual
+        else:
+            self.actual = Location(actual)
 
     @property
     def constant(self) -> bool:
         """Whether the actual size doesn't change"""
-        return self._actual is None
-
-    def actual_for(self, packet: str) -> str:
-        """Return a code expression representing the actual size for the
-        given packet"""
-        if self.constant:
-            return self.declared
-        return f"{packet}->{self._actual}"
+        # Only check whether we were initialized with no actual size;
+        # we're ignoring the possibility of a constant custom actual size
+        return self.actual is self.declared
 
     def size_check_get(self, field_name: str, packet: str) -> str:
         """Generate a code snippet checking whether the received size is in
@@ -542,7 +563,7 @@ class SizeInfo:
         if self.constant:
             return ""
         return f"""\
-if ({self.actual_for(packet)} > {self.declared}) {{
+if ({self.actual @ packet} > {self.declared}) {{
   RECEIVE_PACKET_FIELD_ERROR({field_name}, ": array truncated");
 }}
 """
@@ -556,7 +577,7 @@ FC_STATIC_ASSERT({self.declared} <= MAX_UINT16, packet_array_too_long_{field_nam
 """
         else:
             return f"""\
-fc_assert({self.actual_for(packet)} <= MAX_UINT16);
+fc_assert({self.actual @ packet} <= MAX_UINT16);
 """
 
     def index_put(self, packet: str, index: str) -> str:
@@ -572,7 +593,7 @@ e |= DIO_PUT(uint16, &dout, &field_addr, {index});
 """
         else:
             return f"""\
-if ({self.actual_for(packet)} <= MAX_UINT8) {{
+if ({self.actual @ packet} <= MAX_UINT8) {{
   e |= DIO_PUT(uint8, &dout, &field_addr, {index});
 }} else {{
   e |= DIO_PUT(uint16, &dout, &field_addr, {index});
@@ -594,7 +615,7 @@ if (!DIO_GET(uint16, &din, &field_addr, &{location.index})) {{
 """
         else:
             return f"""\
-if (({self.actual_for(packet)} <= MAX_UINT8)
+if (({self.actual @ packet} <= MAX_UINT8)
     ? !DIO_GET(uint8, &din, &field_addr, &{location.index})
     : !DIO_GET(uint16, &din, &field_addr, &{location.index})) {{
   RECEIVE_PACKET_FIELD_ERROR({location.name});
@@ -602,18 +623,24 @@ if (({self.actual_for(packet)} <= MAX_UINT8)
 """
 
     def __str__(self) -> str:
-        if self._actual is None:
-            return self.declared
-        return f"{self.declared}:{self._actual}"
+        if self.constant:
+            return f"{self.declared}"
+        elif self.actual.name != self.actual @ None:
+            # custom location
+            return "*"
+        else:
+            return f"{self.declared}:{self.actual.name}"
 
     def __eq__(self, other) -> bool:
+        if other is self:
+            return True
         if not isinstance(other, __class__):
             return NotImplemented
         return (self.declared == other.declared
-                and self._actual == other._actual)
+                and self.actual == other.actual)
 
     def __hash__(self) -> int:
-        return hash((__class__, self.declared, self._actual))
+        return hash((__class__, self.declared, self.actual))
 
 
 class RawFieldType(ABC):
@@ -1262,7 +1289,7 @@ class MemoryType(SizedType):
 
     def get_code_copy(self, location: Location, dest: str, src: str) -> str:
         return f"""\
-memcpy({location @ dest}, {location @ src}, {self.size.actual_for(src)});
+memcpy({location @ dest}, {location @ src}, {self.size.actual @ src});
 """
 
     def get_code_cmp(self, location: Location, new: str, old: str) -> str:
@@ -1271,19 +1298,19 @@ memcpy({location @ dest}, {location @ src}, {self.size.actual_for(src)});
 differ = (memcmp({location @ old}, {location @ new}, {self.size.declared}) != 0);
 """
         return f"""\
-differ = (({self.size.actual_for(old)} != {self.size.actual_for(new)})
-          || (memcmp({location @ old}, {location @ new}, {self.size.actual_for(new)}) != 0));
+differ = (({self.size.actual @ old} != {self.size.actual @ new})
+          || (memcmp({location @ old}, {location @ new}, {self.size.actual @ new}) != 0));
 """
 
     def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
         return f"""\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &{location @ packet}, {self.size.actual_for(packet)});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &{location @ packet}, {self.size.actual @ packet});
 """
 
     def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
         return f"""\
 {self.size.size_check_get(location.name, packet)}\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, {location @ packet}, {self.size.actual_for(packet)})) {{
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, {location @ packet}, {self.size.actual @ packet})) {{
   RECEIVE_PACKET_FIELD_ERROR({location.name});
 }}
 """
@@ -1353,7 +1380,7 @@ class ArrayType(FieldType):
 {{
   int {location.index};
 
-  for ({location.index} = 0; {location.index} < {self.size.actual_for(src)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {self.size.actual @ src}; {location.index}++) {{
 {inner_copy}\
   }}
 }}
@@ -1365,7 +1392,7 @@ class ArrayType(FieldType):
 {{
   int {location.index};
 
-  for ({location.index} = 0; {location.index} < {self.size.actual_for(packet)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {self.size.actual @ packet}; {location.index}++) {{
 {inner_fill}\
   }}
 }}
@@ -1395,7 +1422,7 @@ class ArrayType(FieldType):
         if not self.size.constant:
             # ends mid-line
             head = f"""\
-differ = ({self.size.actual_for(old)} != {self.size.actual_for(new)});
+differ = ({self.size.actual @ old} != {self.size.actual @ new});
 if (!differ) """
         else:
             head = f"""\
@@ -1406,7 +1433,7 @@ differ = FALSE;
 {head}{{
   int {location.index};
 
-  for ({location.index} = 0; {location.index} < {self.size.actual_for(new)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {self.size.actual @ new}; {location.index}++) {{
 {inner_cmp}\
     if (differ) {{
       break;
@@ -1424,13 +1451,13 @@ differ = FALSE;
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {self.size.actual_for(packet)});
+  e |= DIO_PUT(farray, &dout, &field_addr, {self.size.actual @ packet});
 
   /* Enter the array. */
   {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for ({location.index} = 0; {location.index} < {self.size.actual_for(packet)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {self.size.actual @ packet}; {location.index}++) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Next array element. */
     {location.json_subloc}->number = {location.index};
@@ -1455,11 +1482,11 @@ differ = FALSE;
         value_put = prefix("    ", self.elem.get_code_put(sub, packet, diff_packet if self.size.constant else None))
         inner_cmp = prefix("    ", self.elem.get_code_cmp(sub, packet, diff_packet))
         index_put = prefix("    ", self.size.index_put(packet, location.index))
-        index_put_sentinel = prefix("  ", self.size.index_put(packet, self.size.actual_for(packet)))
+        index_put_sentinel = prefix("  ", self.size.index_put(packet, self.size.actual @ packet))
 
         if not self.size.constant:
             inner_cmp = f"""\
-    if ({location.index} < {self.size.actual_for(diff_packet)}) {{
+    if ({location.index} < {self.size.actual @ diff_packet}) {{
 {prefix("  ", inner_cmp)}\
     }} else {{
       /* Always transmit new elements */
@@ -1482,7 +1509,7 @@ differ = FALSE;
   {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for ({location.index} = 0; {location.index} < {self.size.actual_for(packet)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {self.size.actual @ packet}; {location.index}++) {{
 {inner_cmp}\
 
     if (!differ) {{
@@ -1559,7 +1586,7 @@ differ = FALSE;
   {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for ({location.index} = 0; {location.index} < {self.size.actual_for(packet)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {self.size.actual @ packet}; {location.index}++) {{
 #ifdef FREECIV_JSON_CONNECTION
     {location.json_subloc}->number = {location.index};
 #endif /* FREECIV_JSON_CONNECTION */
@@ -1595,13 +1622,13 @@ while (TRUE) {{
   /* Read next index */
 {index_get}\
 
-  if ({location.index} == {self.size.actual_for(packet)}) {{
+  if ({location.index} == {self.size.actual @ packet}) {{
     break;
   }}
-  if ({location.index} > {self.size.actual_for(packet)}) {{
+  if ({location.index} > {self.size.actual @ packet}) {{
     RECEIVE_PACKET_FIELD_ERROR({location.name},
                                ": unexpected value %d "
-                               "(> {self.size.actual_for(packet)}) in array diff",
+                               "(> {self.size.actual @ packet}) in array diff",
                                {location.index});
   }}
 
@@ -1640,20 +1667,10 @@ FC_FREE({location.json_subloc});
 class StrvecType(FieldType):
     """Type information for a string vector field"""
 
-    class _VecSize(SizeInfo):
-        """Helper class to make SizeInfo methods work with strvec sizes"""
-
-        _actual_loc: Location
-
-        def __init__(self, location: Location):
-            super().__init__("GENERATE_PACKETS_ERROR", str(location))
-            self._actual_loc = location.replace(f"strvec_size({location})")
-
-        def actual_for(self, packet: str) -> str:
-            return self._actual_loc @ packet
-
-        def __str__(self) -> str:
-            return "*"
+    @staticmethod
+    @cache
+    def _size(location: Location) -> SizeInfo:
+        return SizeInfo("GENERATE_PACKETS_ERROR", location.replace(f"strvec_size({location})"))
 
     dataio_type: str
     """How fields of this type are transmitted over network"""
@@ -1740,7 +1757,7 @@ if ({location @ new}) {{
         # vectors (like with jumbo packets)
         # Though that would also mean packets larger than 64 KiB,
         # which we're a long way from
-        size = __class__._VecSize(location)
+        size = self._size(location)
         return f"""\
 if (!{location @ packet}) {{
   /* Transmit null vector as empty vector */
@@ -1748,15 +1765,15 @@ if (!{location @ packet}) {{
 }} else {{
   int {location.index};
 
-  fc_assert({size.actual_for(packet)} < MAX_UINT16);
-  e |= DIO_PUT(arraylen, &dout, &field_addr, {size.actual_for(packet)});
+  fc_assert({size.actual @ packet} < MAX_UINT16);
+  e |= DIO_PUT(arraylen, &dout, &field_addr, {size.actual @ packet});
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Enter array. */
   {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for ({location.index} = 0; {location.index} < {size.actual_for(packet)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
     const char *pstr = strvec_get({location @ packet}, {location.index});
 
     if (!pstr) {{
@@ -1780,12 +1797,12 @@ if (!{location @ packet}) {{
 """
 
     def _get_code_put_diff(self, location: Location, packet: str, diff_packet: str) -> str:
-        size = __class__._VecSize(location)
+        size = self._size(location)
         size_check = prefix("  ", size.size_check_index(location.name, packet))
         index_put = prefix("    ", size.index_put(packet, location.index))
-        index_put_sentinel = prefix("  ", size.index_put(packet, size.actual_for(packet)))
+        index_put_sentinel = prefix("  ", size.index_put(packet, size.actual @ packet))
         return f"""\
-if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
+if (!{location @ packet} || 0 == {size.actual @ packet}) {{
   /* Special case for empty vector. */
 
 #ifdef FREECIV_JSON_CONNECTION
@@ -1819,7 +1836,7 @@ if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
 #endif /* FREECIV_JSON_CONNECTION */
 
   /* Write the new size */
-  e |= DIO_PUT(uint16, &dout, &field_addr, {size.actual_for(packet)});
+  e |= DIO_PUT(uint16, &dout, &field_addr, {size.actual @ packet});
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Delta address. */
@@ -1832,7 +1849,7 @@ if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
   {location.json_subloc}->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for ({location.index} = 0; {location.index} < {size.actual_for(packet)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
     const char *pstr = strvec_get({location @ packet}, {location.index});
 
     if (!pstr) {{
@@ -1840,7 +1857,7 @@ if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
       pstr = "";
     }}
 
-    if ({location.index} < {size.actual_for(diff_packet)}) {{
+    if ({location.index} < {size.actual @ diff_packet}) {{
       const char *pstr_old = strvec_get({location @ diff_packet}, {location.index});
 
       differ = (strcmp(pstr_old ? pstr_old : "", pstr) != 0);
@@ -1912,7 +1929,7 @@ if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
             return self._get_code_put_full(location, packet)
 
     def _get_code_get_full(self, location: Location, packet: str) -> str:
-        size = __class__._VecSize(location)
+        size = self._size(location)
         return f"""\
 {{
   int {location.index};
@@ -1926,7 +1943,7 @@ if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
   {location.json_subloc} = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for ({location.index} = 0; {location.index} < {size.actual_for(packet)}; {location.index}++) {{
+  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
     char readin[MAX_LEN_PACKET];
 
 #ifdef FREECIV_JSON_CONNECTION
@@ -1947,7 +1964,7 @@ if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
 """
 
     def _get_code_get_diff(self, location: Location, packet: str) -> str:
-        size = __class__._VecSize(location)
+        size = self._size(location)
         index_get = prefix("  ", size.index_get(packet, location))
         return f"""\
 {size.size_check_index(location.name, packet)}\
@@ -1974,18 +1991,18 @@ if (!{location @ packet} || 0 == {size.actual_for(packet)}) {{
 {location.json_subloc}->sub_location->sub_location = plocation_field_new("index");
 #endif /* FREECIV_JSON_CONNECTION */
 
-/* if ({size.actual_for(packet)} > 0) while (TRUE) */
-while ({size.actual_for(packet)} > 0) {{
+/* if ({size.actual @ packet} > 0) while (TRUE) */
+while ({size.actual @ packet} > 0) {{
   int {location.index};
   char readin[MAX_LEN_PACKET];
 
   /* Read next index */
 {index_get}\
 
-  if ({location.index} == {size.actual_for(packet)}) {{
+  if ({location.index} == {size.actual @ packet}) {{
     break;
   }}
-  if ({location.index} > {size.actual_for(packet)}) {{
+  if ({location.index} > {size.actual @ packet}) {{
     RECEIVE_PACKET_FIELD_ERROR({location.name},
                                ": unexpected value %d "
                                "(> vector length) in array diff",
