@@ -772,8 +772,7 @@ void popup_players_nations_dialog(void)
         buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE);
         break;
       case DS_NO_CONTACT:
-        /* TODO: Add a color for this. Widget is not disabled! */
-        buf->string_utf8->fgcol = *(get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
+        buf->string_utf8->fgcol = *(get_theme_color(COLOR_THEME_PLRDLG_NO_CONTACT));
         break;
       case DS_TEAM:
       case DS_LAST:
