@@ -194,6 +194,14 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;w_united_nations = ""
 ;w_womens_suffrage = ""
 
+;g_anarchy = ""
+;g_despotism = ""
+;g_tribal = ""
+;g_monarchy = ""
+;g_republic = ""
+;g_democracy = ""
+;g_federation = ""
+;g_fundamentalism = ""
 
 ; This list contains all events up to E_DEPRECATION_WARNING
 ; (as numbered in common/events.h), in the sorted order.

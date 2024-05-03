@@ -44,6 +44,9 @@ during_revolution = "Anarchy"
 ; graphic_alt  = alternate graphics tag if preferred is not found;
 ;                should be a standard tag if preferred is not;
 ;                otherwise may be "-"
+; sound        = Sound tag for the audio to play when palyer switch
+;                to government.
+; sound_alt    = Alternative sound tag, in case primary one is not found.
 ; ai_better    = AI will not consider this government for use if the
 ;                government listed here is available
 ; ruler_male_title   = The default male ruler title for the government type.
@@ -65,6 +68,8 @@ name        = _("Anarchy")
 ; No reqs
 graphic     = "gov.anarchy"
 graphic_alt = "-"
+sound       = "g_anarchy"
+sound_alt   = "-"
 
 ruler_male_title = _("Usurper %s")
 ruler_female_title = _("?female:Usurper %s")
@@ -83,6 +88,8 @@ reqs =
    }
 graphic     = "gov.tribal"
 graphic_alt = "-"
+sound       = "g_tribal"
+sound_alt   = "-"
 
 ruler_male_title = _("Warlord %s")
 ruler_female_title = _("Warlady %s")

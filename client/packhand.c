@@ -2434,6 +2434,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   struct government *pgov, *ptarget_gov;
   struct player_slot *pslot;
   struct team_slot *tslot;
+  bool gov_change;
 
   /* Player. */
   pslot = player_slot_by_number(pinfo->playerno);
@@ -2500,6 +2501,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->economic.science = pinfo->science;
   pplayer->economic.luxury = pinfo->luxury;
   pplayer->client.tech_upkeep = pinfo->tech_upkeep;
+  gov_change = (!new_player && pgov != pplayer->government);
   pplayer->government = pgov;
   pplayer->target_government = ptarget_gov;
   pplayer->real_embassy = pinfo->real_embassy;
@@ -2521,6 +2523,10 @@ void handle_player_info(const struct packet_player_info *pinfo)
 
     if (music_change) {
       start_style_music();
+    }
+
+    if (gov_change) {
+      audio_play_sound(pgov->sound_str, pgov->sound_alt, NULL);
     }
   }
 
@@ -3983,6 +3989,8 @@ void handle_ruleset_government(const struct packet_ruleset_government *p)
   names_set(&gov->name, NULL, p->name, p->rule_name);
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
+  sz_strlcpy(gov->sound_str, p->sound_str);
+  sz_strlcpy(gov->sound_alt, p->sound_alt);
 
   PACKET_STRVEC_EXTRACT(gov->helptext, p->helptext);
 

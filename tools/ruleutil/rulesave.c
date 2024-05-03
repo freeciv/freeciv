@@ -1902,6 +1902,8 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 
     secfile_insert_str(sfile, pg->graphic_str, "%s.graphic", path);
     secfile_insert_str(sfile, pg->graphic_alt, "%s.graphic_alt", path);
+    secfile_insert_str(sfile, pg->sound_str, "%s.sound", path);
+    secfile_insert_str(sfile, pg->sound_alt, "%s.sound_alt", path);
 
     save_reqs_vector(sfile, &(pg->reqs), path, "reqs");
 
