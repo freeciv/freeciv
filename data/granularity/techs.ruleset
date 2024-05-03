@@ -583,7 +583,9 @@ req2        = "Iron Working"
 flags       = ""
 graphic     = "a.strategies"
 graphic_alt = "-"
-;helptext    =
+helptext    = _("\
+Makes it possible to adjust Offensive Strategies policy.\
+")
 
 [advance_the_wheel]
 name        = _("The Wheel")

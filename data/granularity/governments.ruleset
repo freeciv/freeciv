@@ -170,13 +170,33 @@ It's possible to acquire more than ten cities.\
 ; */ <-- avoid gettext warnings
 
 [multiplier_farming_time]
-name      = _("Farming Time")
-start     = 0
-stop      = 5
-step      = 1
-default   = 0
+name          = _("Farming Time")
+start         = 0
+stop          = 5
+step          = 1
+default       = 0
 ; /* xgettext:no-c-format */
-helptext  = _("\
+helptext      = _("\
 People take time from the production work to the farming work. \
 Each step increases food output by 10%, and reduces shields output by 10%.\
+")
+
+[multiplier_offensive_strategies]
+name          = _("Offensive Strategies")
+start         = 0
+stop          = 5
+step          = 1
+default       = 0
+minimum_turns = 5
+reqs          =
+   { "type", "name",       "range"
+     "Tech", "Strategies", "Player"
+   }
+; /* xgettext:no-c-format */
+helptext      = _("\
+Gear your military training, and whole nation, towards offensive strategies, \
+at the cost of defensive ones. Each step gives +5% bonus for attack, and \
+-5% penalty for defense. Once the policy has been set, it cannot be changed \
+again before five turns has passed - it takes time to align entire nation \
+with such decisions.\
 ")
