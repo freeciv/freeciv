@@ -3,12 +3,14 @@
 ENUMS_GEN = \
 		actions_enums_gen.h	\
 		effects_enums_gen.h	\
+		fc_types_enums_gen.h	\
 		manual_enums_gen.h	\
 		terrain_enums_gen.h
 
 EXTRA_DIST = \
 		actions_enums.def	\
 		effects_enums.def	\
+		fc_types_enums.def	\
 		manual_enums.def	\
 		terrain_enums.def	\
 		$(ENUMS_GEN)

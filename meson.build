@@ -1104,6 +1104,7 @@ enum_defs = {
   'common': {
     'actions_enums': ['actions_enums.def', 'actions_enums_gen.h'],
     'effects_enums': ['effects_enums.def', 'effects_enums_gen.h'],
+    'fc_types_enums': ['fc_types_enums.def', 'fc_types_enums_gen.h'],
     'terrain_enums': ['terrain_enums.def', 'terrain_enums_gen.h'],
   },
   'manual': {

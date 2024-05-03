@@ -1,0 +1,28 @@
+# Specenum definitions for common/fc_types.h
+# See gen_headers/generate_enums.py for syntax
+
+/* Used in the network protocol. */
+enum impr_flag_id
+  prefix IF_
+  name-override
+  bitvector bv_impr_flags
+  count
+values
+  VISIBLE_BY_OTHERS  "VisibleByOthers"
+  SAVE_SMALL_WONDER  "SaveSmallWonder"
+  /* When built, gives gold */
+  GOLD               "Gold"
+  /* Never destroyed by disasters */
+  DISASTER_PROOF     "DisasterProof"
+  /* Never destroyed by a surgical strike */
+  INDESTRUCTIBLE     "Indestructible"
+
+  USER_FLAG_1
+  USER_FLAG_2
+  USER_FLAG_3
+  USER_FLAG_4
+  USER_FLAG_5
+  USER_FLAG_6
+  USER_FLAG_7
+  USER_FLAG_8
+end

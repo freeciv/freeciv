@@ -651,35 +651,7 @@ const char *ai_level_name_update_cb(const char *old);
 #define SPECENUM_COUNT  IG_COUNT
 #include "specenum_gen.h"
 
-/* Used in the network protocol. */
-#define SPECENUM_NAME impr_flag_id
-/* Improvement should be visible to others without spying */
-#define SPECENUM_VALUE0 IF_VISIBLE_BY_OTHERS
-#define SPECENUM_VALUE0NAME "VisibleByOthers"
-/* This small wonder is moved to another city if game.savepalace is on. */
-#define SPECENUM_VALUE1 IF_SAVE_SMALL_WONDER
-#define SPECENUM_VALUE1NAME "SaveSmallWonder"
-/* When built, gives gold */
-#define SPECENUM_VALUE2 IF_GOLD
-#define SPECENUM_VALUE2NAME "Gold"
-/* Never destroyed by disasters */
-#define SPECENUM_VALUE3 IF_DISASTER_PROOF
-#define SPECENUM_VALUE3NAME "DisasterProof"
-/* Never destroyed by a surgical strike */
-#define SPECENUM_VALUE4 IF_INDESTRUCTIBLE
-#define SPECENUM_VALUE4NAME "Indestructible"
-#define SPECENUM_VALUE5 IF_USER_FLAG_1
-#define SPECENUM_VALUE6 IF_USER_FLAG_2
-#define SPECENUM_VALUE7 IF_USER_FLAG_3
-#define SPECENUM_VALUE8 IF_USER_FLAG_4
-#define SPECENUM_VALUE9 IF_USER_FLAG_5
-#define SPECENUM_VALUE10 IF_USER_FLAG_6
-#define SPECENUM_VALUE11 IF_USER_FLAG_7
-#define SPECENUM_VALUE12 IF_USER_FLAG_8
-#define SPECENUM_COUNT IF_COUNT
-#define SPECENUM_NAMEOVERRIDE
-#define SPECENUM_BITVECTOR bv_impr_flags
-#include "specenum_gen.h"
+#include "fc_types_enums_gen.h"
 
 #define IF_LAST_USER_FLAG IF_USER_FLAG_8
 #define MAX_NUM_USER_BUILDING_FLAGS (IF_LAST_USER_FLAG - IF_USER_FLAG_1 + 1)
