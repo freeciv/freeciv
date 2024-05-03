@@ -481,6 +481,16 @@ reqs	=
       "Tech", "Rituals", "Player"
     }
 
+[effect_offensive_strategy_attack]
+type       = "Attack_Bonus"
+value      = 5
+multiplier = "Offensive Strategies"
+
+[effect_offensive_strategy_defense]
+type       = "Defend_Bonus"
+value      = -5
+multiplier = "Offensive Strategies"
+
 [effect_morale_boost_defense]
 type    = "Defend_Bonus"
 value	= 20
