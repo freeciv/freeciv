@@ -783,7 +783,7 @@ Actions done by a unit against all units at a tile
  * actor must have a bombard_rate > 0
  * actor must have an attack > 0
  * actor must be on a tile next to the target or, if bombard_max_range
-   allows it, futher away.
+   allows it, further away.
  * target owner must be at war with actor. (!)
  * if target tile is fully seen, it must have reachable units
 
@@ -792,7 +792,7 @@ Actions done by a unit against all units at a tile
  * can't kill target units
  * any action listed in bombard_2_blocked_by must be impossible
  * actor must be on a tile next to the target or, if bombard_2_max_range
-   allows it, futher away.
+   allows it, further away.
  * A copy of "Bombard".
  * See "Bombard" for everything else.
 
@@ -801,7 +801,7 @@ Actions done by a unit against all units at a tile
  * can't kill target units
  * any action listed in bombard_3_blocked_by must be impossible
  * actor must be on a tile next to the target or, if bombard_3_max_range
-   allows it, futher away.
+   allows it, further away.
  * A copy of "Bombard".
  * See "Bombard" for everything else.
 
@@ -810,7 +810,7 @@ Actions done by a unit against all units at a tile
  * can't kill target units
  * any action listed in bombard_4_blocked_by must be impossible
  * actor must be on a tile next to the target or, if bombard_4_max_range
-   allows it, futher away.
+   allows it, further away.
  * A copy of "Bombard".
  * See "Bombard" for everything else.
 
@@ -818,7 +818,7 @@ Actions done by a unit against all units at a tile
  * UI name can be set using ui_name_bombard_lethal
  * any action listed in bombard_lethal_blocked_by must be impossible
  * actor must be on a tile next to the target or, if
-   bombard_lethal_max_range allows it, futher away.
+   bombard_lethal_max_range allows it, further away.
  * can kill target units
  * actor must have a bombard_rate > 0
  * actor must have an attack > 0
@@ -829,7 +829,7 @@ Actions done by a unit against all units at a tile
  * UI name can be set using ui_name_bombard_lethal_2
  * any action listed in bombard_lethal_2_blocked_by must be impossible
  * actor must be on a tile next to the target or, if
-   bombard_lethal_2_max_range allows it, futher away.
+   bombard_lethal_2_max_range allows it, further away.
  * See "Bombard Lethal" for everything else.
 
 "Attack"
