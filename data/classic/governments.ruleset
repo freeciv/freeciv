@@ -28,7 +28,7 @@ during_revolution = "Anarchy"
 ;
 ; For the "official" rulesets, the order of these sections should not
 ; be changed because that would break backward compatibility with
-; savegames.  (In particular, if Fundamentalism is added to default
+; savegames. (In particular, if Fundamentalism is added to default
 ; ruleset, should be added at end.)
 ;
 ; Notes on fields:

@@ -148,7 +148,7 @@ techs = "\
 ;                 costs.\n\
 ;\n\
 ; Special values for req1 and req2 are \"None\" (first section below)\n\
-; and \"Never\" (never available).  If only one tech is required,\n\
+; and \"Never\" (never available). If only one tech is required,\n\
 ; it should be listed as req1.\n\
 ;\n\
 ; As well as custom flags defined above, the following flag strings are\n\
@@ -180,7 +180,7 @@ governments = "\
 ;\n\
 ; For the \"official\" rulesets, the order of these sections should not\n\
 ; be changed because that would break backward compatibility with\n\
-; savegames.  (In particular, if Fundamentalism is added to default\n\
+; savegames. (In particular, if Fundamentalism is added to default\n\
 ; ruleset, should be added at end.)\n\
 ;\n\
 ; Notes on fields:\n\
@@ -335,7 +335,7 @@ utypes = "\
 ; graphic       = tag specifying preferred graphic\n\
 ; graphic_alt   = tag for alternate graphic if preferred graphic is not\n\
 ;                 present; especially if preferred graphic is non-standard,\n\
-;                 this should be a standard tag.  Otherwise can use eg \"-\"\n\
+;                 this should be a standard tag. Otherwise can use eg \"-\"\n\
 ;                 for no alternate graphic.\n\
 ; graphic_alt2  = tag for second alternative graphic.\n\
 ; reqs          = requirements to build the unit (see effects.ruleset\n\
@@ -1167,7 +1167,7 @@ specialists = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
-; A specialist is a city citizen who is not a tile worker.  Usually the\n\
+; A specialist is a city citizen who is not a tile worker. Usually the\n\
 ; player can control what specialist each citizen is, so long as the\n\
 ; requirements for that specialist are met.\n\
 ;\n\

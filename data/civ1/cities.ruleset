@@ -14,7 +14,7 @@ format_version = 40
 
 ; /* <-- avoid gettext warnings
 ;
-; A specialist is a city citizen who is not a tile worker.  Usually the
+; A specialist is a city citizen who is not a tile worker. Usually the
 ; player can control what specialist each citizen is, so long as the
 ; requirements for that specialist are met.
 ;
