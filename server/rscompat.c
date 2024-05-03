@@ -368,6 +368,11 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
           break;
         }
       } requirement_vector_iterate_end;
+    } else if (peffect->type == EFT_OUTPUT_PENALTY_TILE) {
+      requirement_vector_append(&(peffect->reqs),
+                                req_from_str("CityStatus", "City",
+                                             FALSE, FALSE, FALSE,
+                                             "Celebration"));
     }
   }
 

@@ -100,16 +100,18 @@ value   = 4
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs  =
-    { "type",       "name",      "range"
-      "Gov", "Anarchy", "Player"
+    { "type",       "name",        "range",  "present"
+      "Gov",        "Anarchy",     "Player", TRUE
+      "CityStatus", "Celebration", "City",   FALSE
     }
 
 [effect_gov_tile_bonus_1]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs  =
-    { "type",       "name",      "range"
-      "Gov", "Despotism", "Player"
+    { "type",       "name",        "range",  "present"
+      "Gov",        "Despotism",   "Player", TRUE
+      "CityStatus", "Celebration", "City",   FALSE
     }
 
 [effect_gov_tile_bonus_2]
