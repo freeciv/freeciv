@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,11 +20,13 @@ extern "C" {
 
 #include "support.h"            /* bool type */
 
-bool has_capability(const char *cap, const char *capstr);
-bool has_capabilities(const char *us, const char *them);
+bool has_capability(const char *cap, const char *capstr)
+  fc__attribute((nonnull (1, 2)));
+bool has_capabilities(const char *us, const char *them)
+  fc__attribute((nonnull (1, 2)));
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CAPABILITY_H */
+#endif /* FC__CAPABILITY_H */

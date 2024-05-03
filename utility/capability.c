@@ -20,21 +20,25 @@
 #include <string.h>
 
 /* utility */
-#include "shared.h"		/* TRUE, FALSE */
-#include "support.h"		/* fc_is* */
+#include "shared.h"             /* TRUE, FALSE */
+#include "support.h"            /* fc_is* */
 
 #include "capability.h"
 
+static bool fc_has_capability(const char *cap, const char *capstr,
+                              const size_t cap_len)
+  fc__attribute((nonnull (1, 2)));
+
 #define GET_TOKEN(start, end)                                               \
   {                                                                         \
-    /* skip leading whitespace */                                           \
+    /* Skip leading whitespace */                                           \
     while (fc_isspace(*start)) {                                            \
       start++;                                                              \
     }                                                                       \
-    /* skip to end of token */                                              \
+    /* Skip to end of token */                                              \
     for (end = start; *end != '\0' && !fc_isspace(*end) && *end != ',';     \
          end++) {                                                           \
-      /* nothing */                                                         \
+      /* Nothing */                                                         \
     }                                                                       \
   }
 
@@ -47,8 +51,6 @@ static bool fc_has_capability(const char *cap, const char *capstr,
                               const size_t cap_len)
 {
   const char *next;
-
-  fc_assert_ret_val(capstr != NULL, FALSE);
 
   for (;;) {
     GET_TOKEN(capstr, next);
@@ -72,7 +74,7 @@ static bool fc_has_capability(const char *cap, const char *capstr,
 }
 
 /***********************************************************************//**
-  Wrapper for fc_has_capability() for NULL terminated strings.
+  Wrapper for fc_has_capability() for nullptr terminated strings.
 ***************************************************************************/
 bool has_capability(const char *cap, const char *capstr)
 {
@@ -90,13 +92,13 @@ bool has_capabilities(const char *us, const char *them)
   for (;;) {
     GET_TOKEN(us, next);
 
-    if (*us == '+' && !fc_has_capability(us+1, them, next-(us+1))) {
+    if (*us == '+' && !fc_has_capability(us + 1, them, next - (us + 1))) {
       return FALSE;
     }
     if (*next == '\0') {
       return TRUE;
     }
 
-    us = next+1;
+    us = next + 1;
   }
 }
