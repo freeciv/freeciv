@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -110,7 +110,8 @@ enum theme_color {
   COLOR_THEME_PLRDLG_PEACE,
   COLOR_THEME_PLRDLG_TEXT,
   COLOR_THEME_PLRDLG_WAR,
-  COLOR_THEME_PLRDLG_WAR_RESTRICTED, /* player at war but can't meet or get intel. data */
+  COLOR_THEME_PLRDLG_WAR_RESTRICTED, /* Player at war but can't meet or get intel. data */
+  COLOR_THEME_PLRDLG_NO_CONTACT,
   COLOR_THEME_REVOLUTIONDLG_TEXT,
   COLOR_THEME_SABOTAGEDLG_SEPARATOR,
   COLOR_THEME_SCIENCEDLG_FRAME,

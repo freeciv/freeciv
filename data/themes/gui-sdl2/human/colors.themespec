@@ -344,6 +344,10 @@ plrdlg_frame = {"r", "g", "b", "a"
   160, 150, 126, 255
 }
 
+plrdlg_no_contact = {"r", "g", "b", "a"
+ 50, 50, 50, 255
+}
+
 plrdlg_peace = {"r", "g", "b", "a"
   0, 200, 0, 255
 }

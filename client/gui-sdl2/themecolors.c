@@ -129,6 +129,7 @@ static char *color_names[] = {
   "plrdlg_text",
   "plrdlg_war",
   "plrdlg_war_restricted",
+  "plrdlg_no_contact",
   "revolutiondlg_text",
   "sabotagedlg_separator",
   "sciencedlg_frame",
