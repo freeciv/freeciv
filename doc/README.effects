@@ -565,8 +565,7 @@ Output_Inc_Tile_Celebrate
 
 Output_Penalty_Tile
     When a tile yields more output than amount, it gets a penalty of
-    -1 x output_granularity (from game.ruleset), unless the city working
-    it is celebrating.
+    -1 x output_granularity (from game.ruleset).
 
 Output_Per_Tile
     Increase tile output by amount percent.

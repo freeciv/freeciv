@@ -1346,7 +1346,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
              * get_tile_output_bonus(pcity, ptile, output,
                                      EFT_OUTPUT_PER_TILE)) 
             / 100;
-    if (!is_celebrating && penalty_limit > 0 && prod > penalty_limit) {
+    if (penalty_limit > 0 && prod > penalty_limit) {
       if (prod <= game.info.granularity) {
         prod = 0;
       } else {

@@ -1642,39 +1642,42 @@ reqs    =
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present", "quiet"
-      "Gov", "Anarchy", "Player", TRUE, TRUE
-      "Building", "Pyramids", "Player", FALSE, FALSE
-      "Tech", "Railroad", "Player", FALSE, FALSE
-      "OutputType", "Gold", "Local", FALSE, TRUE
-      "OutputType", "Luxury", "Local", FALSE, TRUE
-      "OutputType", "Science", "Local", FALSE, TRUE
+    { "type",       "name",        "range", "present", "quiet"
+      "Gov",        "Anarchy",     "Player", TRUE,     TRUE
+      "Building",   "Pyramids",    "Player", FALSE,    FALSE
+      "Tech",       "Railroad",    "Player", FALSE,    FALSE
+      "OutputType", "Gold",        "Local",  FALSE,    TRUE
+      "OutputType", "Luxury",      "Local",  FALSE,    TRUE
+      "OutputType", "Science",     "Local",  FALSE,    TRUE
+      "CityStatus", "Celebration", "City",   FALSE,    FALSE
     }
 
 [effect_gov_tile_penalty_tribal]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present", "quiet"
-      "Gov", "Tribal", "Player", TRUE, TRUE
-      "Building", "Pyramids", "Player", FALSE, FALSE
-      "Tech", "Railroad", "Player", FALSE, FALSE
-      "OutputType", "Gold", "Local", FALSE, TRUE
-      "OutputType", "Luxury", "Local", FALSE, TRUE
-      "OutputType", "Science", "Local", FALSE, TRUE
+    { "type",       "name",        "range",  "present", "quiet"
+      "Gov",        "Tribal",      "Player", TRUE,      TRUE
+      "Building",   "Pyramids",    "Player", FALSE,     FALSE
+      "Tech",       "Railroad",    "Player", FALSE,     FALSE
+      "OutputType", "Gold",        "Local",  FALSE,     TRUE
+      "OutputType", "Luxury",      "Local",  FALSE,     TRUE
+      "OutputType", "Science",     "Local",  FALSE,     TRUE
+      "CityStatus", "Celebration", "City",   FALSE,     FALSE
     }
 
 [effect_gov_tile_penalty_despotism]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present", "quiet"
-      "Gov", "Despotism", "Player", TRUE, TRUE
-      "Building", "Pyramids", "Player", FALSE, FALSE
-      "Tech", "Railroad", "Player", FALSE, FALSE
-      "OutputType", "Gold", "Local", FALSE, TRUE
-      "OutputType", "Luxury", "Local", FALSE, TRUE
-      "OutputType", "Science", "Local", FALSE, TRUE
+    { "type",       "name",        "range", "present", "quiet"
+      "Gov",        "Despotism",   "Player", TRUE,     TRUE
+      "Building",   "Pyramids",    "Player", FALSE,    FALSE
+      "Tech",       "Railroad",    "Player", FALSE,    FALSE
+      "OutputType", "Gold",        "Local",  FALSE,    TRUE
+      "OutputType", "Luxury",      "Local",  FALSE,    TRUE
+      "OutputType", "Science",     "Local",  FALSE,    TRUE
+      "CityStatus", "Celebration", "City",   FALSE,    FALSE
     }
 
 [effect_gov_tile_bonus_republic]
