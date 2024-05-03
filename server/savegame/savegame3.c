@@ -2230,7 +2230,7 @@ static void sg_load_game(struct loaddata *loading)
     = !secfile_lookup_bool_default(loading->file, TRUE, "game.save_players");
 
   game.server.turn_change_time
-    = secfile_lookup_int_default(loading->file, 0, "game.last_turn_change_time") / 100;
+    = secfile_lookup_int_default(loading->file, 0, "game.last_turn_change_time") / 100.0;
 }
 
 /************************************************************************//**
