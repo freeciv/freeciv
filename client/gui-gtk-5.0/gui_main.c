@@ -869,6 +869,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
                                  GTK_STYLE_PROVIDER(detach_button_provider),
                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   gtk_widget_add_css_class(b, "detach_button");
+  gtk_widget_set_tooltip_text(b, _("Detach/Attach the pane."));
 
   gtk_box_append(GTK_BOX(tearbox), b);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), tearbox);
