@@ -80,7 +80,7 @@ to a situation where the program can segfault.
 /*!
 \brief Returns colorkey info for a surface
 */
-Uint32 _colorkey(SDL_Surface *src)
+static Uint32 _colorkey(SDL_Surface *src)
 {
 	Uint32 key = 0; 
 	SDL_GetColorKey(src, &key);
@@ -103,7 +103,7 @@ Assumes dst surface was allocated with the correct dimensions.
 
 \return 0 for success or -1 for error.
 */
-int _shrinkSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)
+static int _shrinkSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)
 {
 	int x, y, dx, dy, dgap, ra, ga, ba, aa;
 	int n_average;
@@ -191,7 +191,7 @@ Assumes dst surface was allocated with the correct dimensions.
 
 \return 0 for success or -1 for error.
 */
-int _shrinkSurfaceY(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)
+static int _shrinkSurfaceY(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)
 {
 	int x, y, dx, dy, dgap, a;
 	int n_average;
@@ -274,7 +274,7 @@ Assumes dst surface was allocated with the correct dimensions.
 
 \return 0 for success or -1 for error.
 */
-int _zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy, int smooth)
+static int _zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy, int smooth)
 {
 	int x, y, sx, sy, ssx, ssy, *sax, *say, *csax, *csay, *salast, csx, csy, ex, ey, cx, cy, sstep, sstepx, sstepy;
 	tColorRGBA *c00, *c01, *c10, *c11;
@@ -507,7 +507,7 @@ Assumes dst surface was allocated with the correct dimensions.
 
 \return 0 for success or -1 for error.
 */
-int _zoomSurfaceY(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy)
+static int _zoomSurfaceY(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy)
 {
 	int x, y;
 	Uint32 *sax, *say, *csax, *csay;
@@ -626,7 +626,7 @@ Assumes dst surface was allocated with the correct dimensions.
 \param flipy Flag indicating vertical mirroring should be applied.
 \param smooth Flag indicating anti-aliasing should be used.
 */
-void _transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos, int flipx, int flipy, int smooth)
+static void _transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos, int flipx, int flipy, int smooth)
 {
 	int x, y, t1, t2, dx, dy, xd, yd, sdx, sdy, ax, ay, ex, ey, sw, sh;
 	tColorRGBA c00, c01, c10, c11, cswap;
@@ -743,7 +743,7 @@ Assumes dst surface was allocated with the correct dimensions.
 \param flipx Flag indicating horizontal mirroring should be applied.
 \param flipy Flag indicating vertical mirroring should be applied.
 */
-void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos, int flipx, int flipy)
+static void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos, int flipx, int flipy)
 {
 	int x, y, dx, dy, xd, yd, sdx, sdy, ax, ay;
 	tColorY *pc, *sp;
@@ -951,7 +951,7 @@ SDL_Surface* rotateSurface90Degrees(SDL_Surface* src, int numClockwiseTurns)
 \param sanglezoom The cosine of the angle adjusted by the zoom factor.
 
 */
-void _rotozoomSurfaceSizeTrig(int width, int height, double angle, double zoomx, double zoomy, 
+static void _rotozoomSurfaceSizeTrig(int width, int height, double angle, double zoomx, double zoomy,
 	int *dstwidth, int *dstheight, 
 	double *canglezoom, double *sanglezoom)
 {
