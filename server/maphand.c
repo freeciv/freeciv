@@ -1875,23 +1875,27 @@ static void terrain_change_bounce_single_unit(struct unit *punit,
 /**********************************************************************//**
   Helper function for bounce_units_on_terrain_change() that checks units
   on a single tile.
+
+  @param ptile Tile where the units to check are located
 **************************************************************************/
 static void check_units_single_tile(struct tile *ptile)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   unit_list_iterate_safe(ptile->units, punit) {
     int id = punit->id;
 
     /* Top-level transports only. Each handle their own cargo */
     if (!unit_transported(punit)
-        && !can_unit_exist_at_tile(&(wld.map), punit, ptile)) {
+        && !can_unit_exist_at_tile(nmap, punit, ptile)) {
       terrain_change_bounce_single_unit(punit, ptile);
 
       if (unit_is_alive(id) && unit_tile(punit) == ptile) {
-        log_verbose("Disbanded %s %s due to changing land "
-                    " to sea at (%d, %d).",
+        log_verbose("Disbanded %s %s due to changing terrain "
+                    "at (%d, %d).",
                     nation_rule_name(nation_of_unit(punit)),
-                    unit_rule_name(punit), TILE_XY(unit_tile(punit)));
-        notify_player(unit_owner(punit), unit_tile(punit),
+                    unit_rule_name(punit), TILE_XY(ptile));
+        notify_player(unit_owner(punit), ptile,
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Disbanded your %s due to changing terrain."),
                       unit_tile_link(punit));
@@ -1905,14 +1909,19 @@ static void check_units_single_tile(struct tile *ptile)
   Check ptile and nearby tiles to see if all units can remain at their
   current locations, and move or disband any that cannot. Call this after
   terrain or specials change on ptile.
+
+  @param ptile Tile where the terrain may have changed
 **************************************************************************/
 void bounce_units_on_terrain_change(struct tile *ptile)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Check this tile for direct effect on its units */
   check_units_single_tile(ptile);
   /* We have to check adjacent tiles too, in case units in cities are now
-   * illegal (e.g., boat in a city that has become landlocked). */
-  adjc_iterate(&(wld.map), ptile, ptile2) {
+   * illegal (e.g., boat in a city that has become landlocked),
+   * and in case of CoastStrict units losing their adjacent coast. */
+  adjc_iterate(nmap, ptile, ptile2) {
     check_units_single_tile(ptile2);
   } adjc_iterate_end;
 }
