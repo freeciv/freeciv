@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ SPECVEC_VECTOR {
 
 static inline void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis)
 {
-  tthis->p = NULL;
+  tthis->p = nullptr;
   tthis->size = tthis->size_alloc = 0;
 }
 
@@ -105,7 +105,7 @@ static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (const SPECVEC_VECTOR
   } else if (svindex >= 0 && (size_t)svindex < tthis->size) {
     return tthis->p + svindex;
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
