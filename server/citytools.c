@@ -1679,14 +1679,16 @@ void remove_city(struct city *pcity)
     bool moved;
     struct unit_type *punittype = unit_type_get(punit);
 
-    if (is_native_tile(punittype, pcenter)) {
+    if (is_native_tile(punittype, pcenter)
+        && (!utype_has_flag(punittype, UTYF_TRIREME)
+            || is_safe_ocean(pcenter))) {
       continue;
     }
 
     unit_activity_handling(punit, ACTIVITY_IDLE);
     moved = FALSE;
     adjc_iterate(pcenter, tile1) {
-      if (!moved && is_native_tile(punittype, tile1)) {
+      if (!moved && can_exist_at_tile(punittype, tile1)) {
         if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
           /* Move */
           moved = unit_move_handling(punit, tile1, FALSE, TRUE, NULL);
