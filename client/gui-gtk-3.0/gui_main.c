@@ -821,6 +821,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
   b = gtk_toggle_button_new();
   gtk_container_add(GTK_CONTAINER(tearbox), b);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), tearbox);
+  gtk_widget_set_tooltip_text(b, _("Detach/Attach the pane."));
 
   fillbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(fillbox),
