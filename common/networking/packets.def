@@ -148,14 +148,17 @@ Syntax:
     Fields:
     -------
 
-      Comma separated list of names. Each name can have zero, one or
-      two array declarations. So "x", "x[10]" and "x[20][10]" is
+      Comma separated list of names. Each name can have any number of
+      array size declarations. So "x", "x[10]", "x[20][10]" etc. is
       possible. The array size in the "[]" can be specified plain as a
       term. In this case all elements will be transmitted. If this is
       not-desired you can specify the amount of elements to be
       transferred by given the number. So the extended format is
       "[<full-array-size>:<elements-to-transfer>]". elements-to-transfer
       is relative to the packet.
+      Alternatively, an array size of [*] denotes a vector of arbitrary
+      size, where the current size is stored and transmitted as part of
+      the field itself. Only some types support this.
 
    Field flags:
    ------------
