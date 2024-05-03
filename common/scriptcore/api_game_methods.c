@@ -1174,10 +1174,12 @@ int api_methods_tile_sq_distance(lua_State *L, Tile *ptile1, Tile *ptile2)
 **************************************************************************/
 bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, punit, FALSE);
 
-  return city_can_be_built_here(unit_tile(punit), punit, TRUE);
+  return city_can_be_built_here(nmap, unit_tile(punit), punit, TRUE);
 }
 
 /**********************************************************************//**

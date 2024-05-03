@@ -716,11 +716,12 @@ struct cityresult *city_desirability(struct ai_type *ait, struct player *pplayer
 {
   struct city *pcity = tile_city(ptile);
   struct cityresult *cr = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(punit, NULL);
   fc_assert_ret_val(pplayer, NULL);
 
-  if (!city_can_be_built_here(ptile, punit, FALSE)
+  if (!city_can_be_built_here(nmap, ptile, punit, FALSE)
       || (has_handicap(pplayer, H_MAP)
           && !map_is_known(ptile, pplayer))) {
     return NULL;
@@ -1053,7 +1054,7 @@ BUILD_CITY:
 
     /* Check that the mission is still possible. If the tile has become
      * unavailable, call it off. */
-    if (!city_can_be_built_here(ptile, punit, FALSE)) {
+    if (!city_can_be_built_here(nmap, ptile, punit, FALSE)) {
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       set_unit_activity(punit, ACTIVITY_IDLE);
       send_unit_info(NULL, punit);

@@ -1453,12 +1453,11 @@ bool citymindist_prevents_city_on_tile(const struct civ_map *nmap,
   punit is the founding unit. It may be NULL if a city is built out of the
   blue (e.g., through editing).
 **************************************************************************/
-bool city_can_be_built_here(const struct tile *ptile,
+bool city_can_be_built_here(const struct civ_map *nmap,
+                            const struct tile *ptile,
                             const struct unit *punit,
                             bool hut_test)
 {
-  struct civ_map *nmap = &(wld.map);
-
   if (!city_can_be_built_tile_only(nmap, ptile)) {
     return FALSE;
   }
@@ -3538,6 +3537,7 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
                               struct city *pcity)
 {
   struct unit_order *checked_orders;
+  const struct civ_map *nmap = &(wld.map);
 
   if (pcity == NULL) {
     /* Probably lost. */
@@ -3563,8 +3563,8 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
       pcity->rally_point.orders = NULL;
     }
   } else {
-    checked_orders = create_unit_orders(&(wld.map),
-                                        packet->length, packet->orders);
+    checked_orders = create_unit_orders(nmap, packet->length,
+                                        packet->orders);
     if (!checked_orders) {
       pcity->rally_point.length = 0;
       log_error("invalid rally point orders for city number %d.",

@@ -5807,7 +5807,8 @@ static void property_page_create_objects(struct property_page *pp,
     if (pplayer && hint_tiles) {
       tile_list_iterate(hint_tiles, atile) {
         if (!is_enemy_unit_tile(atile, pplayer)
-            && city_can_be_built_here(atile, NULL, FALSE)) {
+            && city_can_be_built_here(&(wld.map), atile,
+                                      NULL, FALSE)) {
           ptile = atile;
           break;
         }
