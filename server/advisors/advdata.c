@@ -256,7 +256,7 @@ bool is_adv_data_phase_open(struct player *pplayer)
   can see what.
 
   FIXME: We should try to find the lowest common defense strength of our
-  defending units, and ignore enemy units that are incapable of harming 
+  defending units, and ignore enemy units that are incapable of harming
   us, instead of just checking attack strength > 1.
 **************************************************************************/
 bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
@@ -313,7 +313,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
     /* The idea is that if there aren't any hostile cities on
      * our continent, the danger of land attacks is not big
-     * enough to warrant city walls. Concentrate instead on 
+     * enough to warrant city walls. Concentrate instead on
      * coastal fortresses and hunting down enemy transports. */
     city_list_iterate(aplayer->cities, acity) {
       Continent_id continent = tile_continent(acity->tile);
@@ -414,7 +414,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     Continent_id continent = tile_continent(ptile);
 
     if (is_ocean_tile(ptile)) {
-      if (adv->explore.sea_done && has_handicap(pplayer, H_TARGETS) 
+      if (adv->explore.sea_done && has_handicap(pplayer, H_TARGETS)
           && !map_is_known(ptile, pplayer)) {
         /* We're not done there. */
         adv->explore.sea_done = FALSE;
@@ -427,7 +427,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       /* we don't need more explaining, we got the point */
       continue;
     }
-    if (hut_on_tile(ptile) 
+    if (hut_on_tile(ptile)
         && (!has_handicap(pplayer, H_HUTS)
              || map_is_known(ptile, pplayer))) {
       adv->explore.land_done = FALSE;
@@ -492,9 +492,9 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /*** Priorities ***/
 
-  /* NEVER set these to zero! Weight values are usually multiplied by 
-   * these values, so be careful with them. They are used in city 
-   * and government calculations, and food and shields should be 
+  /* NEVER set these to zero! Weight values are usually multiplied by
+   * these values, so be careful with them. They are used in city
+   * and government calculations, and food and shields should be
    * slightly bigger because we only look at surpluses there. They
    * are all WAGs. */
   adv->food_priority = FOOD_WEIGHTING;
@@ -520,11 +520,11 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   } else {
     adv->wants_science = TRUE;
   }
-  
+
   /* max num cities
    * The idea behind this code is that novice players don't understand that
    * expansion is critical and find it very annoying.
-   * With the following code AI players will try to be only a bit better 
+   * With the following code AI players will try to be only a bit better
    * than the best human players. This should lead to more exciting games
    * for the beginners.
    */
@@ -970,7 +970,7 @@ adv_want adv_gov_player_bonus_want(struct player *pplayer)
   our GDP (total ai_eval_calc_city) under this government.  If the very
   best of the governments is not available to us (it is not yet discovered),
   we record it in the goal.gov structure with the aim of wanting the
-  necessary tech more.  The best of the available governments is recorded 
+  necessary tech more.  The best of the available governments is recorded
   in goal.revolution.  We record the want of each government, and only
   recalculate this data every ai->govt_reeval_turns turns.
 
@@ -1065,7 +1065,7 @@ void adv_best_government(struct player *pplayer)
   /* Figure out which government is the best for us this turn. */
   governments_iterate(gov) {
     int gi = government_index(gov);
-    if (adv->government_want[gi] > best_val 
+    if (adv->government_want[gi] > best_val
         && can_change_to_government(pplayer, gov)) {
       best_val = adv->government_want[gi];
       adv->goal.revolution = gov;
@@ -1127,9 +1127,9 @@ bool adv_is_player_dangerous(struct player *pplayer,
     /* We always trust ourself */
     return FALSE;
   }
-  
+
   ds = player_diplstate_get(pplayer, aplayer)->type;
-  
+
   if (ds == DS_WAR || ds == DS_CEASEFIRE) {
     /* It's already a war or aplayer can declare it soon */
     return TRUE;
@@ -1147,10 +1147,10 @@ bool adv_is_player_dangerous(struct player *pplayer,
   }
 
   if (pplayer->ai_common.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
-    /* We don't trust players who we don't like. Note that 
+    /* We don't trust players who we don't like. Note that
      * aplayer's units inside pplayer's borders decreases AI's love */
     return TRUE;
   }
-  
+
   return FALSE;
 }

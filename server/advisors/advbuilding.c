@@ -115,7 +115,7 @@ static void calculate_city_clusters(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Set building wants for human player 
+  Set building wants for human player
 **************************************************************************/
 static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 {
@@ -160,7 +160,7 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
   city_list_iterate(pplayer->cities, pcity) {
     improvement_iterate(pimprove) {
       if (pcity->server.adv->building_want[improvement_index(pimprove)] != 0) {
-        CITY_LOG(LOG_DEBUG, pcity, "want to build %s with " ADV_WANT_PRINTF, 
+        CITY_LOG(LOG_DEBUG, pcity, "want to build %s with " ADV_WANT_PRINTF,
                  improvement_rule_name(pimprove),
                  pcity->server.adv->building_want[improvement_index(pimprove)]);
       }
@@ -192,7 +192,7 @@ void building_advisor(struct player *pplayer)
    || 0 >= wonder_city->surplus[O_SHIELD]
    || VUT_UTYPE == wonder_city->production.kind /* changed to defender? */
    || !is_wonder(wonder_city->production.value.building)
-   || !can_city_build_improvement_now(wonder_city, 
+   || !can_city_build_improvement_now(wonder_city,
                                       wonder_city->production.value.building)
    || !is_improvement_productive(wonder_city,
                                  wonder_city->production.value.building)) {

@@ -1187,7 +1187,7 @@ void auto_workers_player(struct player *pplayer)
 
   whole_map_iterate(nmap, ptile) {
     state[tile_index(ptile)].enroute = -1;
-    state[tile_index(ptile)].eta = FC_INFINITY;    
+    state[tile_index(ptile)].eta = FC_INFINITY;
   } whole_map_iterate_end;
 
   /* Initialize the infrastructure cache, which is used shortly. */

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,4 +49,4 @@ int adv_unit_att_rating(const struct unit *punit);
 int adv_unit_def_rating_basic(const struct unit *punit);
 int adv_unit_def_rating_basic_squared(const struct unit *punit);
 
-#endif   /* FC__ADVGOTO_H */
+#endif /* FC__ADVGOTO_H */
