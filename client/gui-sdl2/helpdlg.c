@@ -412,10 +412,8 @@ void popup_impr_info(Impr_type_id impr)
   widget_add_as_prev(requirement_label, dock);
   dock = requirement_label;
 
-  /* FIXME: this should show ranges, negated reqs, and all the
-   * MAX_NUM_REQS reqs.
-   * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
-   * definition. */
+  /* FIXME: this should show ranges, negated reqs, and all the reqs.
+   * Currently it's limited to 1 req. */
   requirement_vector_iterate(&pimpr_type->reqs, preq) {
     if (!preq->present) {
       continue;
@@ -1253,9 +1251,8 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   imp_count = 0;
   improvement_iterate(pimprove) {
     if (valid_improvement(pimprove)) {
-      /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
-       * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
-       * definition. */
+      /* FIXME: this should show ranges and all the reqs.
+       * Currently it's limited to 1 req. */
       requirement_vector_iterate(&(pimprove->reqs), preq) {
         if (VUT_ADVANCE == preq->source.kind
             && advance_number(preq->source.value.advance) == tech) {

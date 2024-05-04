@@ -49,7 +49,9 @@ can be used if the help system's text is unclear or misleading, or if
 you want to describe the requirement in your own words. The 'quiet'
 field has no effect on the game rules.
 
-Single requirement vector can have up to 40 requirements.
+A requirement vector may have any number of requirements (in theory;
+in practice whatever it's part of won't fit in a network packet anymore
+beyond a few hundred requirements).
 
 
 Requirement types and supported ranges
