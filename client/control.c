@@ -1949,6 +1949,7 @@ static void do_disband_alternative(void *p)
   struct client_disband_unit_data *next;
   struct client_disband_unit_data *data = p;
   int act;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret(can_client_issue_orders());
 
@@ -1983,13 +1984,13 @@ static void do_disband_alternative(void *p)
   switch (action_id_get_target_kind(act)) {
   case ATK_CITY:
     if ((pcity = tile_city(unit_tile(punit)))
-        && action_prob_possible(action_prob_vs_city(&(wld.map), punit,
+        && action_prob_possible(action_prob_vs_city(nmap, punit,
                                                     act, pcity))) {
       request_do_action(act, punit->id, pcity->id, 0, "");
     }
     break;
   case ATK_UNIT:
-    if (action_prob_possible(action_prob_vs_unit(punit, act, punit))) {
+    if (action_prob_possible(action_prob_vs_unit(nmap, punit, act, punit))) {
       request_do_action(act, punit->id, punit->id, 0, "");
     }
     break;
@@ -2141,7 +2142,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans,
                              : ACTRES_TRANSPORT_EMBARK) {
       enum gen_action act_id = action_id(paction);
 
-      if (action_prob_possible(action_prob_vs_unit(pcargo, act_id,
+      if (action_prob_possible(action_prob_vs_unit(&(wld.map), pcargo, act_id,
                                                    ptrans))) {
         /* Try the first action that may be legal. */
         /* Implement something like do_disband_alternative() if a ruleset

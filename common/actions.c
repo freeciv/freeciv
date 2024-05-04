@@ -5068,12 +5068,11 @@ action_prob_vs_unit_full(const struct civ_map *nmap,
   Get the actor unit's probability of successfully performing the chosen
   action on the target unit.
 **************************************************************************/
-struct act_prob action_prob_vs_unit(const struct unit *actor_unit,
+struct act_prob action_prob_vs_unit(const struct civ_map *nmap,
+                                    const struct unit *actor_unit,
                                     const action_id act_id,
                                     const struct unit *target_unit)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   return action_prob_vs_unit_full(nmap, actor_unit,
                                   unit_home(actor_unit),
                                   unit_tile(actor_unit),
@@ -5560,7 +5559,7 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
     break;
   case ATK_UNIT:
     if (tgt_unit) {
-      prob = action_prob_vs_unit(act_unit, paction->id, tgt_unit);
+      prob = action_prob_vs_unit(nmap, act_unit, paction->id, tgt_unit);
     }
     break;
   case ATK_SELF:

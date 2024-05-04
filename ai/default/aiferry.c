@@ -840,7 +840,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
     action_by_result_iterate(paction, ACTRES_TRANSPORT_BOARD) {
       enum gen_action act_id = action_id(paction);
 
-      if (action_prob_possible(action_prob_vs_unit(punit, act_id,
+      if (action_prob_possible(action_prob_vs_unit(nmap, punit, act_id,
                                                    ferryboat))) {
         if (unit_perform_action(pplayer,
                                 punit->id, ferryboat->id, 0, "",
@@ -906,7 +906,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
         action_by_result_iterate(paction, ACTRES_TRANSPORT_BOARD) {
           enum gen_action act_id = action_id(paction);
 
-          if (action_prob_possible(action_prob_vs_unit(bodyguard,
+          if (action_prob_possible(action_prob_vs_unit(nmap, bodyguard,
                                                        act_id,
                                                        ferryboat))) {
             if (unit_perform_action(pplayer,
