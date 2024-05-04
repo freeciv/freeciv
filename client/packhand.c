@@ -3624,9 +3624,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->attack_strength    = p->attack_strength;
   u->defense_strength   = p->defense_strength;
   u->move_rate          = p->move_rate;
-  for (i = 0; i < p->build_reqs_count; i++) {
-    requirement_vector_append(&u->build_reqs, p->build_reqs[i]);
-  }
+  requirement_vector_copy(&u->build_reqs, &p->build_reqs);
   u->vision_radius_sq = p->vision_radius_sq;
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
@@ -3745,29 +3743,26 @@ void handle_ruleset_unit_class_flag(
 }
 
 /************************************************************************//**
-  Unpack a traditional tech req from a standard requirement vector (that
-  still is in the network serialized format rather than a proper
-  requirement vector).
+  Unpack a traditional tech req from a standard requirement vector.
 
   Returns the position in the requirement vector after unpacking. It will
   increase if a tech req was extracted.
 ****************************************************************************/
 static int unpack_tech_req(const enum tech_req r_num,
-                           const int reqs_size,
-                           const struct requirement *reqs,
+                           const struct requirement_vector *reqs,
                            struct advance *a,
                            int i)
 {
-  if (i < reqs_size
-      && reqs[i].source.kind == VUT_ADVANCE) {
+  if (i < requirement_vector_size(reqs)
+      && requirement_vector_get(reqs, i)->source.kind == VUT_ADVANCE) {
     /* Extract the tech req so the old code can reason about it. */
 
     /* This IS a traditional tech req... right? */
-    fc_assert(reqs[i].present);
-    fc_assert(reqs[i].range == REQ_RANGE_PLAYER);
+    fc_assert(requirement_vector_get(reqs, i)->present);
+    fc_assert(requirement_vector_get(reqs, i)->range == REQ_RANGE_PLAYER);
 
     /* Put it in the advance structure. */
-    a->require[r_num] = reqs[i].source.value.advance;
+    a->require[r_num] = requirement_vector_get(reqs, i)->source.value.advance;
 
     /* Move on in the requirement vector. */
     i++;
@@ -3813,15 +3808,19 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
     a->require[AR_TWO] = A_NEVER;
   } else {
     /* Unpack req1 and req2 from the research_reqs requirement vector. */
-    i = unpack_tech_req(AR_ONE, p->research_reqs_count, p->research_reqs, a, i);
-    i = unpack_tech_req(AR_TWO, p->research_reqs_count, p->research_reqs, a, i);
+    i = unpack_tech_req(AR_ONE, &p->research_reqs, a, i);
+    i = unpack_tech_req(AR_TWO, &p->research_reqs, a, i);
   }
 
   /* Any remaining requirements are a part of the research_reqs requirement
    * vector. */
-  for (; i < p->research_reqs_count; i++) {
-    requirement_vector_append(&a->research_reqs, p->research_reqs[i]);
-  }
+  requirement_vector_copy(&a->research_reqs,
+                          /* slice of the vector starting at index i */
+                          &(const struct requirement_vector) {
+                            .p = p->research_reqs.p + i,
+                            .size = p->research_reqs.size - i,
+                            /* .size_alloc shouldn't matter */
+                          });
 
   /* The packet's research_reqs should contain req1, req2 and the
    * requirements of the tech's research_reqs. */
@@ -3832,7 +3831,7 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
              + ((a->require[AR_TWO]
                  && (advance_number(a->require[AR_TWO]) != A_NONE)) ?
                   1 : 0))
-            == p->research_reqs_count);
+            == requirement_vector_size(&p->research_reqs));
 
   a->require[AR_ROOT] = advance_by_number(p->root_req);
 
@@ -3887,7 +3886,6 @@ void handle_ruleset_tech_flag(const struct packet_ruleset_tech_flag *p)
 ****************************************************************************/
 void handle_ruleset_building(const struct packet_ruleset_building *p)
 {
-  int i;
   struct impr_type *b = improvement_by_number(p->id);
 
   fc_assert_ret_msg(NULL != b, "Bad improvement %d.", p->id);
@@ -3897,14 +3895,8 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   sz_strlcpy(b->graphic_alt2, p->graphic_alt2);
-  for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&b->reqs, p->reqs[i]);
-  }
-  fc_assert(b->reqs.size == p->reqs_count);
-  for (i = 0; i < p->obs_count; i++) {
-    requirement_vector_append(&b->obsolete_by, p->obs_reqs[i]);
-  }
-  fc_assert(b->obsolete_by.size == p->obs_count);
+  requirement_vector_copy(&b->reqs, &p->reqs);
+  requirement_vector_copy(&b->obsolete_by, &p->obs_reqs);
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
@@ -3965,7 +3957,6 @@ void handle_ruleset_impr_flag(const struct packet_ruleset_impr_flag *p)
 void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
 {
   struct multiplier *pmul = multiplier_by_number(p->id);
-  int j;
 
   fc_assert_ret_msg(NULL != pmul, "Bad multiplier %d.", p->id);
 
@@ -3978,12 +3969,7 @@ void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
   pmul->minimum_turns = p->minimum_turns;
 
   names_set(&pmul->name, NULL, p->name, p->rule_name);
-
-  for (j = 0; j < p->reqs_count; j++) {
-    requirement_vector_append(&pmul->reqs, p->reqs[j]);
-  }
-  fc_assert(pmul->reqs.size == p->reqs_count);
-
+  requirement_vector_copy(&pmul->reqs, &p->reqs);
   PACKET_STRVEC_EXTRACT(pmul->helptext, p->helptext);
 }
 
@@ -3992,18 +3978,13 @@ void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
 ****************************************************************************/
 void handle_ruleset_government(const struct packet_ruleset_government *p)
 {
-  int j;
   struct government *gov = government_by_number(p->id);
 
   fc_assert_ret_msg(NULL != gov, "Bad government %d.", p->id);
 
   gov->item_number = p->id;
 
-  for (j = 0; j < p->reqs_count; j++) {
-    requirement_vector_append(&gov->reqs, p->reqs[j]);
-  }
-  fc_assert(gov->reqs.size == p->reqs_count);
-
+  requirement_vector_copy(&gov->reqs, &p->reqs);
   names_set(&gov->name, NULL, p->name, p->rule_name);
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
@@ -4227,27 +4208,14 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   sz_strlcpy(pextra->graphic_str, p->graphic_str);
   sz_strlcpy(pextra->graphic_alt, p->graphic_alt);
 
-  for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&pextra->reqs, p->reqs[i]);
-  }
-  fc_assert(pextra->reqs.size == p->reqs_count);
-
-  for (i = 0; i < p->rmreqs_count; i++) {
-    requirement_vector_append(&pextra->rmreqs, p->rmreqs[i]);
-  }
-  fc_assert(pextra->rmreqs.size == p->rmreqs_count);
+  requirement_vector_copy(&pextra->reqs, &p->reqs);
+  requirement_vector_copy(&pextra->rmreqs, &p->rmreqs);
 
   pextra->appearance_chance = p->appearance_chance;
-  for (i = 0; i < p->appearance_reqs_count; i++) {
-    requirement_vector_append(&pextra->appearance_reqs, p->appearance_reqs[i]);
-  }
-  fc_assert(pextra->appearance_reqs.size == p->appearance_reqs_count);
+  requirement_vector_copy(&pextra->appearance_reqs, &p->appearance_reqs);
 
   pextra->disappearance_chance = p->disappearance_chance;
-  for (i = 0; i < p->disappearance_reqs_count; i++) {
-    requirement_vector_append(&pextra->disappearance_reqs, p->disappearance_reqs[i]);
-  }
-  fc_assert(pextra->disappearance_reqs.size == p->disappearance_reqs_count);
+  requirement_vector_copy(&pextra->disappearance_reqs, &p->disappearance_reqs);
 
   pextra->visibility_req = p->visibility_req;
   pextra->buildable = p->buildable;
@@ -4345,17 +4313,13 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 ****************************************************************************/
 void handle_ruleset_road(const struct packet_ruleset_road *p)
 {
-  int i;
   struct road_type *proad = road_by_number(p->id);
 
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
 
   proad->gui_type = p->gui_type;
 
-  for (i = 0; i < p->first_reqs_count; i++) {
-    requirement_vector_append(&proad->first_reqs, p->first_reqs[i]);
-  }
-  fc_assert(proad->first_reqs.size == p->first_reqs_count);
+  requirement_vector_copy(&proad->first_reqs, &p->first_reqs);
 
   proad->move_cost = p->move_cost;
   proad->move_mode = p->move_mode;
@@ -4377,16 +4341,12 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 void handle_ruleset_goods(const struct packet_ruleset_goods *p)
 {
   struct goods_type *pgood = goods_by_number(p->id);
-  int i;
 
   fc_assert_ret_msg(NULL != pgood, "Bad goods %d.", p->id);
 
   names_set(&pgood->name, NULL, p->name, p->rule_name);
 
-  for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&pgood->reqs, p->reqs[i]);
-  }
-  fc_assert(pgood->reqs.size == p->reqs_count);
+  requirement_vector_copy(&pgood->reqs, &p->reqs);
 
   pgood->from_pct = p->from_pct;
   pgood->to_pct = p->to_pct;
@@ -4436,7 +4396,6 @@ void
 handle_ruleset_action_enabler(const struct packet_ruleset_action_enabler *p)
 {
   struct action_enabler *enabler;
-  int i;
 
   if (!action_id_exists(p->enabled_action)) {
     /* Non existing action */
@@ -4451,15 +4410,8 @@ handle_ruleset_action_enabler(const struct packet_ruleset_action_enabler *p)
 
   enabler->action = p->enabled_action;
 
-  for (i = 0; i < p->actor_reqs_count; i++) {
-    requirement_vector_append(&enabler->actor_reqs, p->actor_reqs[i]);
-  }
-  fc_assert(enabler->actor_reqs.size == p->actor_reqs_count);
-
-  for (i = 0; i < p->target_reqs_count; i++) {
-    requirement_vector_append(&enabler->target_reqs, p->target_reqs[i]);
-  }
-  fc_assert(enabler->target_reqs.size == p->target_reqs_count);
+  requirement_vector_copy(&enabler->actor_reqs, &p->actor_reqs);
+  requirement_vector_copy(&enabler->target_reqs, &p->target_reqs);
 
   action_enabler_add(enabler);
 }
@@ -4476,10 +4428,7 @@ void handle_ruleset_action_auto(const struct packet_ruleset_action_auto *p)
 
   auto_perf->cause = p->cause;
 
-  for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&auto_perf->reqs, p->reqs[i]);
-  }
-  fc_assert(auto_perf->reqs.size == p->reqs_count);
+  requirement_vector_copy(&auto_perf->reqs, &p->reqs);
 
   for (i = 0; i < p->alternatives_count; i++) {
     auto_perf->alternatives[i] = p->alternatives[i];
@@ -4492,16 +4441,12 @@ void handle_ruleset_action_auto(const struct packet_ruleset_action_auto *p)
 void handle_ruleset_disaster(const struct packet_ruleset_disaster *p)
 {
   struct disaster_type *pdis = disaster_by_number(p->id);
-  int i;
 
   fc_assert_ret_msg(NULL != pdis, "Bad disaster %d.", p->id);
 
   names_set(&pdis->name, NULL, p->name, p->rule_name);
 
-  for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&pdis->reqs, p->reqs[i]);
-  }
-  fc_assert(pdis->reqs.size == p->reqs_count);
+  requirement_vector_copy(&pdis->reqs, &p->reqs);
 
   pdis->frequency = p->frequency;
 
@@ -4720,26 +4665,14 @@ void handle_ruleset_style(const struct packet_ruleset_style *p)
 void handle_ruleset_clause(const struct packet_ruleset_clause *p)
 {
   struct clause_info *info = clause_info_get(p->type);
-  int i;
 
   fc_assert_ret_msg(NULL != info, "Bad clause %d.", p->type);
 
   info->enabled = p->enabled;
 
-  for (i = 0; i < p->giver_reqs_count; i++) {
-    requirement_vector_append(&info->giver_reqs, p->giver_reqs[i]);
-  }
-  fc_assert(info->giver_reqs.size == p->giver_reqs_count);
-
-  for (i = 0; i < p->receiver_reqs_count; i++) {
-    requirement_vector_append(&info->receiver_reqs, p->receiver_reqs[i]);
-  }
-  fc_assert(info->receiver_reqs.size == p->receiver_reqs_count);
-
-  for (i = 0; i < p->either_reqs_count; i++) {
-    requirement_vector_append(&info->either_reqs, p->either_reqs[i]);
-  }
-  fc_assert(info->either_reqs.size == p->either_reqs_count);
+  requirement_vector_copy(&info->giver_reqs, &p->giver_reqs);
+  requirement_vector_copy(&info->receiver_reqs, &p->receiver_reqs);
+  requirement_vector_copy(&info->either_reqs, &p->either_reqs);
 }
 
 /************************************************************************//**
@@ -4747,7 +4680,7 @@ void handle_ruleset_clause(const struct packet_ruleset_clause *p)
 ****************************************************************************/
 void handle_ruleset_city(const struct packet_ruleset_city *packet)
 {
-  int id, j;
+  int id;
   struct citystyle *cs;
 
   id = packet->style_id;
@@ -4755,11 +4688,7 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
                     "Bad citystyle %d.", id);
   cs = &city_styles[id];
 
-  for (j = 0; j < packet->reqs_count; j++) {
-    requirement_vector_append(&cs->reqs, packet->reqs[j]);
-  }
-  fc_assert(cs->reqs.size == packet->reqs_count);
-
+  requirement_vector_copy(&cs->reqs, &packet->reqs);
   names_set(&cs->name, NULL, packet->name, packet->rule_name);
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
@@ -4773,7 +4702,7 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
 ****************************************************************************/
 void handle_ruleset_music(const struct packet_ruleset_music *packet)
 {
-  int id, j;
+  int id;
   struct music_style *pmus;
 
   id = packet->id;
@@ -4782,11 +4711,7 @@ void handle_ruleset_music(const struct packet_ruleset_music *packet)
 
   pmus = music_style_by_number(id);
 
-  for (j = 0; j < packet->reqs_count; j++) {
-    requirement_vector_append(&pmus->reqs, packet->reqs[j]);
-  }
-  fc_assert(pmus->reqs.size == packet->reqs_count);
-
+  requirement_vector_copy(&pmus->reqs, &packet->reqs);
   sz_strlcpy(pmus->music_peaceful, packet->music_peaceful);
   sz_strlcpy(pmus->music_combat, packet->music_combat);
 }
@@ -4841,7 +4766,6 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
 ****************************************************************************/
 void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 {
-  int j;
   struct specialist *s = specialist_by_number(p->id);
 
   fc_assert_ret_msg(NULL != s, "Bad specialist %d.", p->id);
@@ -4851,12 +4775,7 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 
   sz_strlcpy(s->graphic_str, p->graphic_str);
   sz_strlcpy(s->graphic_alt, p->graphic_alt);
-
-  for (j = 0; j < p->reqs_count; j++) {
-    requirement_vector_append(&s->reqs, p->reqs[j]);
-  }
-  fc_assert(s->reqs.size == p->reqs_count);
-
+  requirement_vector_copy(&s->reqs, &p->reqs);
   PACKET_STRVEC_EXTRACT(s->helptext, p->helptext);
 
   tileset_setup_specialist_type_default_set(tileset, p->id);

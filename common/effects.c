@@ -592,16 +592,15 @@ void recv_ruleset_effect(const struct packet_ruleset_effect *packet)
 {
   struct effect *peffect;
   struct multiplier *pmul;
-  int i;
 
   pmul = packet->has_multiplier ? multiplier_by_number(packet->multiplier)
                                 : NULL;
   peffect = effect_new(packet->effect_type, packet->effect_value, pmul);
 
-  for (i = 0; i < packet->reqs_count; i++) {
-    effect_req_append(peffect, packet->reqs[i]);
-  }
-  fc_assert(peffect->reqs.size == packet->reqs_count);
+  requirement_vector_iterate(&(packet->reqs), preq) {
+    effect_req_append(peffect, *preq);
+  } requirement_vector_iterate_end;
+  fc_assert(peffect->reqs.size == packet->reqs.size);
 }
 
 /**********************************************************************//**
@@ -611,7 +610,6 @@ void send_ruleset_cache(struct conn_list *dest)
 {
   effect_list_iterate(ruleset_cache.tracker, peffect) {
     struct packet_ruleset_effect effect_packet;
-    int counter;
 
     effect_packet.effect_type = peffect->type;
     effect_packet.effect_value = peffect->value;
@@ -623,11 +621,8 @@ void send_ruleset_cache(struct conn_list *dest)
       effect_packet.multiplier = 0; /* arbitrary */
     }
 
-    counter = 0;
-    requirement_vector_iterate(&(peffect->reqs), req) {
-      effect_packet.reqs[counter++] = *req;
-    } requirement_vector_iterate_end;
-    effect_packet.reqs_count = counter;
+    /* Shallow-copy (borrow) requirement vector */
+    effect_packet.reqs = peffect->reqs;
 
     lsend_packet_ruleset_effect(dest, &effect_packet);
   } effect_list_iterate_end;

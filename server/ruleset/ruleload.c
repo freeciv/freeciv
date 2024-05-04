@@ -7987,11 +7987,8 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;
 
-    i = 0;
-    requirement_vector_iterate(&u->build_reqs, req) {
-      packet.build_reqs[i++] = *req;
-    } requirement_vector_iterate_end;
-    packet.build_reqs_count = i;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.build_reqs = u->build_reqs;
 
     packet.vision_radius_sq = u->vision_radius_sq;
     packet.transport_capacity = u->transport_capacity;
@@ -8082,7 +8079,6 @@ static void send_ruleset_specialists(struct conn_list *dest)
 
   specialist_type_iterate(spec_id) {
     struct specialist *s = specialist_by_number(spec_id);
-    int j;
 
     packet.id = spec_id;
     sz_strlcpy(packet.plural_name, untranslated_name(&s->name));
@@ -8090,11 +8086,9 @@ static void send_ruleset_specialists(struct conn_list *dest)
     sz_strlcpy(packet.short_name, untranslated_name(&s->abbreviation));
     sz_strlcpy(packet.graphic_str, s->graphic_str);
     sz_strlcpy(packet.graphic_alt, s->graphic_alt);
-    j = 0;
-    requirement_vector_iterate(&s->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
+
+    /* Shallow-copy (borrow) requirement vector */
+    packet.reqs = s->reqs;
 
     PACKET_STRVEC_INSERT(packet.helptext, s->helptext);
 
@@ -8151,6 +8145,11 @@ static void send_ruleset_techs(struct conn_list *dest)
     lsend_packet_ruleset_tech_flag(dest, &fpacket);
   }
 
+  /* Since we have to prepend the tech requirements to the requirement
+   * vector, we need to initialize a separate vector and deep-copy the
+   * other requirements into it. */
+  requirement_vector_init(&packet.research_reqs);
+
   advance_iterate(a) {
     packet.id = advance_number(a);
     packet.removed = !valid_advance(a);
@@ -8164,8 +8163,8 @@ static void send_ruleset_techs(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, a->graphic_str);
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);
 
-    /* Current size of the packet's research_reqs requirement vector. */
-    i = 0;
+    /* Reset requirement vector. */
+    requirement_vector_reserve(&packet.research_reqs, 0);
 
     /* The requirements req1 and req2 are needed to research a tech. Send
      * them in the research_reqs requirement vector. Range is set to player
@@ -8173,29 +8172,27 @@ static void send_ruleset_techs(struct conn_list *dest)
 
     if ((a->require[AR_ONE] != A_NEVER)
         && advance_number(a->require[AR_ONE]) > A_NONE) {
-      packet.research_reqs[i++]
+      struct requirement req
           = req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
                             FALSE, TRUE, FALSE,
                             advance_number(a->require[AR_ONE]));
+      requirement_vector_append(&packet.research_reqs, req);
     }
 
     if ((a->require[AR_TWO] != A_NEVER)
         && advance_number(a->require[AR_TWO]) > A_NONE) {
-      packet.research_reqs[i++]
+      struct requirement req
           = req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
                             FALSE, TRUE, FALSE,
                             advance_number(a->require[AR_TWO]));
+      requirement_vector_append(&packet.research_reqs, req);
     }
 
     /* The requirements of the tech's research_reqs also goes in the
      * packet's research_reqs requirement vector. */
     requirement_vector_iterate(&a->research_reqs, req) {
-      packet.research_reqs[i++] = *req;
+      requirement_vector_append(&packet.research_reqs, *req);
     } requirement_vector_iterate_end;
-
-    /* The packet's research_reqs should contain req1, req2 and the
-     * requirements of the tech's research_reqs. */
-    packet.research_reqs_count = i;
 
     packet.root_req = a->require[AR_ROOT]
                       ? advance_number(a->require[AR_ROOT])
@@ -8208,6 +8205,8 @@ static void send_ruleset_techs(struct conn_list *dest)
 
     lsend_packet_ruleset_tech(dest, &packet);
   } advance_iterate_end;
+
+  requirement_vector_free(&packet.research_reqs);
 }
 
 /**********************************************************************//**
@@ -8264,7 +8263,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
 
   improvement_iterate(b) {
     struct packet_ruleset_building packet;
-    int j;
 
     packet.id = improvement_number(b);
     packet.genus = b->genus;
@@ -8273,16 +8271,11 @@ static void send_ruleset_buildings(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.graphic_alt2, b->graphic_alt2);
-    j = 0;
-    requirement_vector_iterate(&b->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
-    j = 0;
-    requirement_vector_iterate(&b->obsolete_by, pobs) {
-      packet.obs_reqs[j++] = *pobs;
-    } requirement_vector_iterate_end;
-    packet.obs_count = j;
+
+    /* Shallow-copy (borrow) requirement vectors */
+    packet.reqs = b->reqs;
+    packet.obs_reqs = b->obsolete_by;
+
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;
@@ -8487,31 +8480,17 @@ static void send_ruleset_extras(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, e->graphic_str);
     sz_strlcpy(packet.graphic_alt, e->graphic_alt);
 
-    j = 0;
-    requirement_vector_iterate(&e->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
-
-    j = 0;
-    requirement_vector_iterate(&e->rmreqs, preq) {
-      packet.rmreqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.rmreqs_count = j;
+    /* Shallow-copy (borrow) requirement vectors */
+    packet.reqs = e->reqs;
+    packet.rmreqs = e->rmreqs;
 
     packet.appearance_chance = e->appearance_chance;
-    j = 0;
-    requirement_vector_iterate(&e->appearance_reqs, preq) {
-      packet.appearance_reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.appearance_reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.appearance_reqs = e->appearance_reqs;
 
     packet.disappearance_chance = e->disappearance_chance;
-    j = 0;
-    requirement_vector_iterate(&e->disappearance_reqs, preq) {
-      packet.disappearance_reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.disappearance_reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.disappearance_reqs = e->disappearance_reqs;
 
     packet.visibility_req = e->visibility_req;
     packet.buildable = e->buildable;
@@ -8570,17 +8549,13 @@ static void send_ruleset_roads(struct conn_list *dest)
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     struct road_type *r = extra_road_get(pextra);
-    int j;
 
     packet.id = road_number(r);
 
     packet.gui_type = r->gui_type;
 
-    j = 0;
-    requirement_vector_iterate(&r->first_reqs, preq) {
-      packet.first_reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.first_reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.first_reqs = r->first_reqs;
 
     packet.move_cost = r->move_cost;
     packet.move_mode = r->move_mode;
@@ -8609,17 +8584,12 @@ static void send_ruleset_goods(struct conn_list *dest)
   struct packet_ruleset_goods packet;
 
   goods_type_iterate(g) {
-    int j;
-
     packet.id = goods_number(g);
     sz_strlcpy(packet.name, untranslated_name(&g->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&g->name));
 
-    j = 0;
-    requirement_vector_iterate(&g->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.reqs = g->reqs;
 
     packet.from_pct = g->from_pct;
     packet.to_pct = g->to_pct;
@@ -8641,18 +8611,13 @@ static void send_ruleset_disasters(struct conn_list *dest)
   struct packet_ruleset_disaster packet;
 
   disaster_type_iterate(d) {
-    int j;
-
     packet.id = disaster_number(d);
 
     sz_strlcpy(packet.name, untranslated_name(&d->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&d->name));
 
-    j = 0;
-    requirement_vector_iterate(&d->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.reqs = d->reqs;
 
     packet.frequency = d->frequency;
 
@@ -8719,23 +8684,14 @@ static void send_ruleset_actions(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_action_enablers(struct conn_list *dest)
 {
-  int counter;
   struct packet_ruleset_action_enabler packet;
 
   action_enablers_iterate(enabler) {
     packet.enabled_action = enabler_get_action_id(enabler);
 
-    counter = 0;
-    requirement_vector_iterate(&enabler->actor_reqs, req) {
-      packet.actor_reqs[counter++] = *req;
-    } requirement_vector_iterate_end;
-    packet.actor_reqs_count = counter;
-
-    counter = 0;
-    requirement_vector_iterate(&enabler->target_reqs, req) {
-      packet.target_reqs[counter++] = *req;
-    } requirement_vector_iterate_end;
-    packet.target_reqs_count = counter;
+    /* Shallow-copy (borrow) requirement vectors */
+    packet.actor_reqs = enabler->actor_reqs;
+    packet.target_reqs = enabler->target_reqs;
 
     lsend_packet_ruleset_action_enabler(dest, &packet);
   } action_enablers_iterate_end;
@@ -8757,11 +8713,8 @@ static void send_ruleset_action_auto_performers(struct conn_list *dest)
 
     packet.cause = aperf->cause;
 
-    counter = 0;
-    requirement_vector_iterate(&aperf->reqs, req) {
-      packet.reqs[counter++] = *req;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = counter;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.reqs = aperf->reqs;
 
     for (counter = 0;
          /* Can't list more actions than all actions. */
@@ -8806,17 +8759,13 @@ static void send_ruleset_governments(struct conn_list *dest)
 {
   struct packet_ruleset_government gov;
   struct packet_ruleset_government_ruler_title title;
-  int j;
 
   governments_iterate(g) {
     /* send one packet_government */
     gov.id = government_number(g);
 
-    j = 0;
-    requirement_vector_iterate(&g->reqs, preq) {
-      gov.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    gov.reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    gov.reqs = g->reqs;
 
     sz_strlcpy(gov.name, untranslated_name(&g->name));
     sz_strlcpy(gov.rule_name, rule_name_get(&g->name));
@@ -8978,28 +8927,14 @@ static void send_ruleset_clauses(struct conn_list *dest)
 
   for (i = 0; i < CLAUSE_COUNT; i++) {
     struct clause_info *info = clause_info_get(i);
-    int j;
 
     packet.type = i;
     packet.enabled = info->enabled;
 
-    j = 0;
-    requirement_vector_iterate(&info->giver_reqs, preq) {
-      packet.giver_reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.giver_reqs_count = j;
-
-    j = 0;
-    requirement_vector_iterate(&info->receiver_reqs, preq) {
-      packet.receiver_reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.receiver_reqs_count = j;
-
-    j = 0;
-    requirement_vector_iterate(&info->either_reqs, preq) {
-      packet.either_reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.either_reqs_count = j;
+    /* Shallow-copy (borrow) requirement vectors */
+    packet.giver_reqs = info->giver_reqs;
+    packet.receiver_reqs = info->receiver_reqs;
+    packet.either_reqs = info->either_reqs;
 
     lsend_packet_ruleset_clause(dest, &packet);
   }
@@ -9012,7 +8947,6 @@ static void send_ruleset_clauses(struct conn_list *dest)
 static void send_ruleset_multipliers(struct conn_list *dest)
 {
   multipliers_iterate(pmul) {
-    int j;
     struct packet_ruleset_multiplier packet;
 
     packet.id     = multiplier_number(pmul);
@@ -9027,11 +8961,8 @@ static void send_ruleset_multipliers(struct conn_list *dest)
     sz_strlcpy(packet.name, untranslated_name(&pmul->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&pmul->name));
 
-    j = 0;
-    requirement_vector_iterate(&pmul->reqs, preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.reqs = pmul->reqs;
 
     PACKET_STRVEC_INSERT(packet.helptext, pmul->helptext);
 
@@ -9046,16 +8977,13 @@ static void send_ruleset_multipliers(struct conn_list *dest)
 static void send_ruleset_cities(struct conn_list *dest)
 {
   struct packet_ruleset_city city_p;
-  int k, j;
+  int k;
 
   for (k = 0; k < game.control.num_city_styles; k++) {
     city_p.style_id = k;
 
-    j = 0;
-    requirement_vector_iterate(&city_styles[k].reqs, preq) {
-      city_p.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    city_p.reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    city_p.reqs = city_styles[k].reqs;
 
     sz_strlcpy(city_p.name, untranslated_name(&city_styles[k].name));
     sz_strlcpy(city_p.rule_name, rule_name_get(&city_styles[k].name));
@@ -9076,18 +9004,13 @@ static void send_ruleset_musics(struct conn_list *dest)
   struct packet_ruleset_music packet;
 
   music_styles_iterate(pmus) {
-    int j;
-
     packet.id = pmus->id;
 
     sz_strlcpy(packet.music_peaceful, pmus->music_peaceful);
     sz_strlcpy(packet.music_combat, pmus->music_combat);
 
-    j = 0;
-    requirement_vector_iterate(&(pmus->reqs), preq) {
-      packet.reqs[j++] = *preq;
-    } requirement_vector_iterate_end;
-    packet.reqs_count = j;
+    /* Shallow-copy (borrow) requirement vector */
+    packet.reqs = pmus->reqs;
 
     lsend_packet_ruleset_music(dest, &packet);
   } music_styles_iterate_end;
