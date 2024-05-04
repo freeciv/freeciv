@@ -2662,6 +2662,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
   struct unit_ai *unit_data;
   struct unit *bodyguard = aiguard_guard_of(ait, punit);
   bool is_ferry = FALSE;
+  const struct unit_type *ptype;
 
   CHECK_UNIT(punit);
 
@@ -2692,12 +2693,14 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
 
   is_ferry = dai_is_ferry(punit, ait);
 
-  if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
+  ptype = unit_type_get(punit);
+
+  if (utype_has_flag(ptype, UTYF_DIPLOMAT)) {
     TIMING_LOG(AIT_DIPLOMAT, TIMER_START);
     dai_manage_diplomat(ait, pplayer, punit);
     TIMING_LOG(AIT_DIPLOMAT, TIMER_STOP);
     return;
-  } else if (unit_has_type_flag(punit, UTYF_WORKERS)
+  } else if (ptype->adv.worker
              || unit_is_cityfounder(punit)) {
     dai_manage_settler(ait, pplayer, punit);
     return;
@@ -2720,7 +2723,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     dai_manage_ferryboat(ait, pplayer, punit);
     TIMING_LOG(AIT_FERRY, TIMER_STOP);
     return;
-  } else if (utype_fuel(unit_type_get(punit))
+  } else if (utype_fuel(ptype)
              && unit_data->task != AIUNIT_ESCORT) {
     TIMING_LOG(AIT_AIRUNIT, TIMER_START);
     dai_manage_airunit(ait, pplayer, punit);
