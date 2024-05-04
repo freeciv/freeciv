@@ -74,7 +74,7 @@ bool manual_terrain(struct tag_types *tag_info)
       continue;
     }
 
-    fprintf(doc, "<tr><td>%s%s%s%s</td>",
+    fprintf(doc, "<tr><td>%s%s%s<br/>%s</td>",
             tag_info->image_begin, pterrain->graphic_str,
             tag_info->image_end,
             terrain_name_translation(pterrain));
