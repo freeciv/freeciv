@@ -223,6 +223,9 @@ bool tab_multiplier::initialize_new_multiplier(struct multiplier *pmul)
   }
 
   name_set(&(pmul->name), 0, "New Multiplier");
+  if (pmul->helptext != nullptr) {
+    strvec_clear(pmul->helptext);
+  }
 
   return true;
 }

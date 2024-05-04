@@ -235,6 +235,9 @@ bool tab_terrains::initialize_new_terrain(struct terrain *pterr)
 
   name_set(&(pterr->name), 0, "New Terrain");
   BV_CLR_ALL(pterr->flags);
+  if (pterr->helptext != nullptr) {
+    strvec_clear(pterr->helptext);
+  }
 
   return true;
 }
