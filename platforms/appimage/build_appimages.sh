@@ -78,5 +78,9 @@ cd "${BUILD_ROOT}"
 if ! tools/linuxdeploy-x86_64.AppImage --appdir AppDir/gtk4 --output appimage
 then
   echo "Gtk4-client image build with linuxdeploy failed!" >&2
-   exit 1
+  exit 1
+fi
+if ! mv Freeciv-x86_64.AppImage Freeciv-gtk4-x86_64.AppImage ; then
+  echo "gtk4-client appimage rename failed!" >&2
+  exit 1
 fi
