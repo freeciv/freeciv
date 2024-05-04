@@ -320,6 +320,9 @@ bool tab_counter::initialize_new_counter(struct counter *counter)
   counter->ruledit_disabled = FALSE;
 
   name_set(&counter->name, 0, "New counter");
+  if (counter->helptext != nullptr) {
+    strvec_clear(counter->helptext);
+  }
 
   return true;
 }
