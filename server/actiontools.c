@@ -663,6 +663,8 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
 static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target,
                                  bool accept_all_actions)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (actor == NULL || target == NULL) {
     /* Can't do any actions if actor or target are missing. */
     return FALSE;
@@ -680,7 +682,7 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target,
       continue;
     }
 
-    if (action_prob_possible(action_prob_vs_unit(actor, act, target))) {
+    if (action_prob_possible(action_prob_vs_unit(nmap, actor, act, target))) {
       /* The actor unit may be able to do this action to the target
        * unit. */
       return TRUE;
@@ -1158,7 +1160,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
       case ATK_UNIT:
         if (tgt_unit
             && is_action_enabled_unit_on_unit(nmap, act, actor, tgt_unit)) {
-          current = action_prob_vs_unit(actor, act, tgt_unit);
+          current = action_prob_vs_unit(nmap, actor, act, tgt_unit);
         }
         break;
       case ATK_SELF:
