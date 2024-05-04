@@ -251,7 +251,6 @@ bool timer_in_use(struct timer *t)
 ***********************************************************************/
 void timer_clear(struct timer *t)
 {
-  fc_assert_ret(t != nullptr);
   t->state = TIMER_STOPPED;
   t->sec = 0.0;
   t->usec = 0;
@@ -263,8 +262,6 @@ void timer_clear(struct timer *t)
 ***********************************************************************/
 void timer_start(struct timer *t)
 {
-  fc_assert_ret(t != nullptr);
-
   if (t->use == TIMER_IGNORE) {
     return;
   }
@@ -307,8 +304,6 @@ void timer_start(struct timer *t)
 ***********************************************************************/
 void timer_stop(struct timer *t)
 {
-  fc_assert_ret(t != nullptr);
-
   if (t->use == TIMER_IGNORE) {
     return;
   }
@@ -383,8 +378,6 @@ void timer_stop(struct timer *t)
 ***********************************************************************/
 double timer_read_seconds(struct timer *t)
 {
-  fc_assert_ret_val(t != nullptr, -1.0);
-
   if (t->use == TIMER_IGNORE) {
     return 0.0;
   }
@@ -409,8 +402,6 @@ void timer_usleep_since_start(struct timer *t, long usec)
   struct timeval tv_now;
   long elapsed_usec;
   long wait_usec;
-
-  fc_assert_ret(t != nullptr);
 
   ret = gettimeofday(&tv_now, nullptr);
 

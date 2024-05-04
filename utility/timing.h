@@ -79,13 +79,18 @@ struct timer *timer_renew(struct timer *t, enum timer_timetype type,
 void timer_destroy(struct timer *t);
 bool timer_in_use(struct timer *t);
 
-void timer_clear(struct timer *t);
-void timer_start(struct timer *t);
-void timer_stop(struct timer *t);
+void timer_clear(struct timer *t)
+  fc__attribute((nonnull (1)));
+void timer_start(struct timer *t)
+  fc__attribute((nonnull (1)));
+void timer_stop(struct timer *t)
+  fc__attribute((nonnull (1)));
 
-double timer_read_seconds(struct timer *t);
+double timer_read_seconds(struct timer *t)
+  fc__attribute((nonnull (1)));
 
-void timer_usleep_since_start(struct timer *t, long usec);
+void timer_usleep_since_start(struct timer *t, long usec)
+  fc__attribute((nonnull (1)));
 
 #ifdef __cplusplus
 }
