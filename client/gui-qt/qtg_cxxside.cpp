@@ -125,4 +125,6 @@ void setup_gui_funcs()
   funcs->gui_recv_accept_treaty = qtg_recv_accept_treaty;
 
   funcs->request_action_confirmation = qtg_request_action_confirmation;
+
+  funcs->popup_image = qtg_popup_image;
 }

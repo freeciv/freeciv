@@ -158,4 +158,6 @@ void qtg_recv_accept_treaty(struct Treaty *ptreaty, struct player *they);
 void qtg_request_action_confirmation(const char *expl,
                                      struct act_confirmation_data *data);
 
+void qtg_popup_image(const char *tag, int width, int height);
+
 #endif // FC__QTG_CXXSIDE_H

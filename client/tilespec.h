@@ -464,6 +464,9 @@ int tileset_svg_flag_height(struct tileset *t);
 
 int index_ts_topology(int idx);
 
+struct sprite *load_popup_sprite(const char *tag);
+void unload_popup_sprite(const char *tag);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

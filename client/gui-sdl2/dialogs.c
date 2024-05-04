@@ -3716,3 +3716,94 @@ void request_action_confirmation(const char *expl,
   /* TODO: Implement. Currently just pass everything as confirmed */
   action_confirmation(data, TRUE);
 }
+
+struct advanced_dialog *advanced_image_popup = NULL;
+
+/**********************************************************************//**
+  User interacted with image popup dialog.
+**************************************************************************/
+static int image_popup_window_callback(struct widget *pwindow)
+{
+  if (PRESSED_EVENT(main_data.event)) {
+    move_window_group(advanced_image_popup->begin_widget_list, pwindow);
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User interacted with image popup dialog close button.
+**************************************************************************/
+static int exit_image_popup_callback(struct widget *pwidget)
+{
+  if (PRESSED_EVENT(main_data.event)) {
+    if (advanced_image_popup != NULL) {
+      popdown_window_group_dialog(advanced_image_popup->begin_widget_list,
+                                  advanced_image_popup->end_widget_list);
+      FC_FREE(advanced_image_popup->scroll);
+      FC_FREE(advanced_image_popup);
+      flush_dirty();
+    }
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  Popup image window
+**************************************************************************/
+void popup_image(const char *tag, int width, int height)
+{
+  if (advanced_image_popup == NULL) {
+    struct sprite *spr = load_popup_sprite(tag);
+
+    if (spr != NULL) {
+      struct widget *win = create_window_skeleton(NULL, NULL, 0);
+      struct widget *buf;
+      SDL_Surface *surf = copy_surface(GET_SURF(spr));
+      SDL_Rect dst;
+      SDL_Rect area;
+
+      advanced_image_popup = fc_calloc(1, sizeof(struct advanced_dialog));
+
+      win->action = image_popup_window_callback;
+      set_wstate(win, FC_WS_NORMAL);
+
+      add_to_gui_list(ID_WINDOW, win);
+      advanced_image_popup->end_widget_list = win;
+
+      /* Create exit button */
+      buf = create_themeicon(current_theme->small_cancel_icon, win->dst,
+                             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+      buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                    FONTO_ATTENTION);
+      buf->action = exit_image_popup_callback;
+      set_wstate(buf, FC_WS_NORMAL);
+      buf->key = SDLK_ESCAPE;
+
+      add_to_gui_list(ID_BUTTON, buf);
+      advanced_image_popup->begin_widget_list = buf;
+
+      resize_window(win, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
+                    win->size.w - win->area.w + width,
+                    win->size.h - win->area.h + buf->area.h + height);
+
+      widget_set_position(win,
+                          (main_window_width() - win->size.w) / 2,
+                          (main_window_height() - win->size.h) / 2);
+
+      area = win->area;
+      dst.x = area.x;
+      dst.y = area.y + buf->size.y;
+      alphablit(surf, NULL, win->theme, &dst, 255);
+
+      /* Redraw */
+      redraw_group(advanced_image_popup->begin_widget_list, win, 0);
+      widget_flush(win);
+
+      unload_popup_sprite(tag);
+    } else {
+      log_error(_("No image for tag \"%s\", requested by the server."), tag);
+    }
+  }
+}

@@ -1669,3 +1669,25 @@ void request_action_confirmation(const char *expl,
 
   gtk_window_present(GTK_WINDOW(dialog));
 }
+
+/**********************************************************************//**
+  Popup image window
+**************************************************************************/
+void popup_image(const char *tag, int width, int height)
+{
+  struct sprite *spr = load_popup_sprite(tag);
+
+  if (spr != NULL) {
+    GdkPixbuf *pix = sprite_get_pixbuf(spr);
+    GtkWidget *win = gtk_window_new();
+    GtkWidget *img = gtk_image_new_from_pixbuf(pix);
+
+    gtk_window_set_default_size(GTK_WINDOW(win), width, height);
+    gtk_window_set_child(GTK_WINDOW(win), img);
+    gtk_widget_show(win);
+
+    unload_popup_sprite(tag);
+  } else {
+    log_error(_("No image for tag \"%s\", requested by the server."), tag);
+  }
+}
