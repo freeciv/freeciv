@@ -673,7 +673,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       pf_path_destroy(path);
     }
 
-    if (action_prob_possible(action_prob_vs_unit(punit,
+    if (action_prob_possible(action_prob_vs_unit(nmap, punit,
                                  ACTION_SPY_BRIBE_UNIT,
                                  pvictim))) {
       unit_do_action(pplayer, punit->id,
@@ -685,7 +685,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       } else {
         return FALSE;
       }
-    } else if (action_prob_possible(action_prob_vs_unit(punit,
+    } else if (action_prob_possible(action_prob_vs_unit(nmap, punit,
                                         ACTION_SPY_SABOTAGE_UNIT_ESC,
                                         pvictim))
                && threat) {

@@ -556,9 +556,10 @@ struct act_prob action_prob_vs_city(const struct civ_map *nmap,
                                     const action_id act_id,
                                     const struct city *victim);
 
-struct act_prob action_prob_vs_unit(const struct unit* actor,
+struct act_prob action_prob_vs_unit(const struct civ_map *nmap,
+                                    const struct unit *actor,
                                     const action_id act_id,
-                                    const struct unit* victim);
+                                    const struct unit *victim);
 
 struct act_prob action_prob_vs_stack(const struct unit* actor,
                                      const action_id act_id,

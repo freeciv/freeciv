@@ -2377,7 +2377,7 @@ void handle_unit_get_actions(struct connection *pc,
     case ATK_UNIT:
       if (target_unit) {
         /* Calculate the probabilities. */
-        probabilities[act] = action_prob_vs_unit(actor_unit, act,
+        probabilities[act] = action_prob_vs_unit(nmap, actor_unit, act,
                                                  target_unit);
       } else {
         /* No target to act against. */

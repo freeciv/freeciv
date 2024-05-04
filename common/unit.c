@@ -816,9 +816,9 @@ bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
                                               ptrans, pcargo));
   } else {
     return (action_prob_possible(
-             action_prob_vs_unit(pcargo, ACTION_TRANSPORT_DEBOARD, ptrans))
+             action_prob_vs_unit(nmap, pcargo, ACTION_TRANSPORT_DEBOARD, ptrans))
             || action_prob_possible(
-              action_prob_vs_unit(ptrans, ACTION_TRANSPORT_UNLOAD,
+              action_prob_vs_unit(nmap, ptrans, ACTION_TRANSPORT_UNLOAD,
                                   pcargo)));
   }
 }
