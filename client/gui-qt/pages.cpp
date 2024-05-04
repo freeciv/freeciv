@@ -137,7 +137,7 @@ void update_start_page(void)
 void fc_client::create_main_page(void)
 {
   QPixmap main_graphics(tileset_main_intro_filename(tileset));
-  QLabel* free_main_pic = new QLabel;
+  QLabel *free_main_pic = new QLabel;
   QPainter painter(&main_graphics);
   QStringList buttons_names;
   int buttons_nr;

@@ -373,3 +373,10 @@ void gui_request_action_confirmation(const char *expl,
   /* Just confirm */
   action_confirmation(data, TRUE);
 }
+
+/**********************************************************************//**
+  Popup image window
+**************************************************************************/
+void gui_popup_image(const char *tag, int width, int height)
+{
+}

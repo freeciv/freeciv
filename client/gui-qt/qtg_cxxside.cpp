@@ -136,4 +136,6 @@ void setup_gui_funcs()
     = qtg_real_units_report_dialog_update;
   funcs->endgame_report_dialog_start = qtg_endgame_report_dialog_start;
   funcs->endgame_report_dialog_player = qtg_endgame_report_dialog_player;
+
+  funcs->popup_image = qtg_popup_image;
 }

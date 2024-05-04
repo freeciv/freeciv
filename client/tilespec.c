@@ -429,7 +429,7 @@ struct specfile {
 /*
  * Information about an individual sprite. All fields except 'sprite' are
  * filled at the time of the scan of the specfile. 'Sprite' is
- * set/cleared on demand in load_sprite/unload_sprite.
+ * set/cleared on demand in load_sprite()/unload_sprite().
  */
 struct small_sprite {
   int ref_count;
@@ -7613,4 +7613,20 @@ int tileset_topo_index(struct tileset *t)
 int tileset_svg_flag_height(struct tileset *t)
 {
   return t->svg_height;
+}
+
+/************************************************************************//**
+  Load sprite from popup image tag
+****************************************************************************/
+struct sprite *load_popup_sprite(const char *tag)
+{
+  return load_sprite(tileset, tag, TRUE, TRUE, FALSE);
+}
+
+/************************************************************************//**
+  Unload sprite from popup image tag
+****************************************************************************/
+void unload_popup_sprite(const char *tag)
+{
+  unload_sprite(tileset, tag);
 }

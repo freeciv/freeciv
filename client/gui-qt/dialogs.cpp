@@ -31,6 +31,7 @@
 #include <QTableWidgetItem>
 #include <QTextEdit>
 #include <QVBoxLayout>
+#include <QWindow>
 #include <QtMath>
 
 // utility
@@ -4965,4 +4966,30 @@ void qtg_request_action_confirmation(const char *expl,
   }
 
   popup_act_confirmation_dialog(hdr, body_text, data);
+}
+
+/**********************************************************************//**
+  Popup image window
+**************************************************************************/
+void qtg_popup_image(const char *tag, int width, int height)
+{
+  struct sprite *spr = load_popup_sprite(tag);
+
+  if (spr != nullptr) {
+    QDialog *win = new QDialog(gui());
+    QVBoxLayout *layout = new QVBoxLayout(win);
+    QPixmap *pm = new QPixmap(*spr->pm);
+    QLabel *lbl = new QLabel;
+
+    win->setFixedSize(width, height);
+    lbl->setPixmap(*pm);
+    layout->addWidget(lbl);
+    win->setLayout(layout);
+
+    win->show();
+
+    unload_popup_sprite(tag);
+  } else {
+    log_error(_("No image for tag \"%s\", requested by the server."), tag);
+  }
 }

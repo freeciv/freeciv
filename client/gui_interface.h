@@ -173,6 +173,8 @@ struct gui_funcs {
   void (*real_units_report_dialog_update)(void *unused);
   void (*endgame_report_dialog_start)(const struct packet_endgame_report *packet);
   void (*endgame_report_dialog_player)(const struct packet_endgame_player *packet);
+
+  void (*popup_image)(const char *tag, int width, int height);
 };
 
 struct gui_funcs *get_gui_funcs(void);
