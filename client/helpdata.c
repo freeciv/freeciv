@@ -1857,6 +1857,74 @@ static bool utype_may_do_escape_action(const struct unit_type *utype)
 }
 
 /************************************************************************//**
+  Unit class part of the unit helptext
+
+  @param pclass Class to add help text about
+  @param buf    Buffer to append help text to
+  @param bufsz  Size of the buffer
+****************************************************************************/
+static void helptext_unitclass(struct unit_class *pclass,
+                               char *buf, size_t bufsz)
+{
+  int flagid;
+
+  if (pclass->helptext != NULL) {
+    strvec_iterate(pclass->helptext, text) {
+      cat_snprintf(buf, bufsz, "\n%s\n", _(text));
+    } strvec_iterate_end;
+  } else {
+    CATLSTR(buf, bufsz, "\n");
+  }
+
+  if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
+    CATLSTR(buf, bufsz, _("  %s Speed is not affected by terrain.\n"),
+            BULLET);
+  }
+  if (!uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
+    CATLSTR(buf, bufsz, _("  %s Does not get defense bonuses from terrain.\n"),
+            BULLET);
+  }
+
+  if (!uclass_has_flag(pclass, UCF_ZOC)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
+    CATLSTR(buf, bufsz, _("  %s Not subject to zones of control.\n"),
+            BULLET);
+  }
+
+  if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
+    CATLSTR(buf, bufsz, _("  %s Slowed down while damaged.\n"), BULLET);
+  }
+
+  if (uclass_has_flag(pclass, UCF_UNREACHABLE)) {
+    CATLSTR(buf, bufsz,
+            /* TRANS: indented unit class property, preserve leading spaces */
+	    _("  %s Is unreachable. Most units cannot attack this one.\n"),
+            BULLET);
+  }
+
+  if (uclass_has_flag(pclass, UCF_DOESNT_OCCUPY_TILE)) {
+    CATLSTR(buf, bufsz,
+            /* TRANS: Indented unit class property, preserve leading spaces */
+	    _("  %s Doesn't prevent enemy cities from working the tile it's on.\n"),
+            BULLET);
+  }
+
+  for (flagid = UCF_USER_FLAG_1; flagid <= UCF_LAST_USER_FLAG; flagid++) {
+    if (uclass_has_flag(pclass, flagid)) {
+      const char *helptxt = unit_class_flag_helptxt(flagid);
+
+      if (helptxt != NULL) {
+        /* TRANS: Indented unit class property, preserve leading spaces */
+        CATLSTR(buf, bufsz, "  %s %s\n", BULLET, _(helptxt));
+      }
+    }
+  }
+}
+
+/************************************************************************//**
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
 
@@ -1887,36 +1955,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                _("%s Belongs to %s unit class."),
                BULLET,
                uclass_name_translation(pclass));
-  if (NULL != pclass->helptext) {
-    strvec_iterate(pclass->helptext, text) {
-      cat_snprintf(buf, bufsz, "\n%s\n", _(text));
-    } strvec_iterate_end;
-  } else {
-    CATLSTR(buf, bufsz, "\n");
-  }
-  if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
-    /* TRANS: indented unit class property, preserve leading spaces */
-    CATLSTR(buf, bufsz, _("  %s Speed is not affected by terrain.\n"),
-            BULLET);
-  }
-  if (!uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)) {
-    /* TRANS: indented unit class property, preserve leading spaces */
-    CATLSTR(buf, bufsz, _("  %s Does not get defense bonuses from terrain.\n"),
-            BULLET);
-  }
-  if (!uclass_has_flag(pclass, UCF_ZOC)) {
-    /* TRANS: indented unit class property, preserve leading spaces */
-    CATLSTR(buf, bufsz, _("  %s Not subject to zones of control.\n"),
-            BULLET);
-  } else if (!utype_has_flag(utype, UTYF_IGZOC)) {
-    /* TRANS: indented unit class property, preserve leading spaces */
+
+  helptext_unitclass(pclass, buf, bufsz);
+
+  if (uclass_has_flag(pclass, UCF_ZOC)
+      && !utype_has_flag(utype, UTYF_IGZOC)) {
+    /* TRANS: Indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  %s Subject to zones of control.\n"),
             BULLET);
   }
-  if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
-    /* TRANS: indented unit class property, preserve leading spaces */
-    CATLSTR(buf, bufsz, _("  %s Slowed down while damaged.\n"), BULLET);
-  }
+
   if (utype->defense_strength > 0) {
     struct universal unit_is_in_city[] = {
       { .kind = VUT_UTYPE, .value = { .utype = utype }},
@@ -1928,45 +1976,24 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     if (bonus > 0) {
       cat_snprintf(buf, bufsz,
-                   /* TRANS: indented unit class property, preserve leading
+                   /* TRANS: Indented unit class property, preserve leading
                     * spaces */
                    _("  %s Gets a %d%% defensive bonus while in cities.\n"),
                    BULLET, bonus);
     }
   }
-  if (uclass_has_flag(pclass, UCF_UNREACHABLE)) {
+  if (uclass_has_flag(pclass, UCF_UNREACHABLE)
+      && utype_has_flag(utype, UTYF_NEVER_PROTECTS)) {
     CATLSTR(buf, bufsz,
-            /* TRANS: indented unit class property, preserve leading spaces */
-	    _("  %s Is unreachable. Most units cannot attack this one.\n"),
-            BULLET);
-    if (utype_has_flag(utype, UTYF_NEVER_PROTECTS)) {
-      CATLSTR(buf, bufsz,
-              /* TRANS: indented twice; preserve leading spaces */
-	      _("    %s Doesn't prevent enemy units from attacking other "
-                "units on its tile.\n"), BULLET);
-    }
+            /* TRANS: Indented twice; preserve leading spaces */
+            _("    %s Doesn't prevent enemy units from attacking other "
+              "units on its tile.\n"), BULLET);
   }
-  if (uclass_has_flag(pclass, UCF_DOESNT_OCCUPY_TILE)
-      && !utype_has_flag(utype, UTYF_CIVILIAN)) {
-    CATLSTR(buf, bufsz,
-            /* TRANS: indented unit class property, preserve leading spaces */
-	    _("  %s Doesn't prevent enemy cities from working the tile it's on.\n"),
-            BULLET);
-  }
+
   if (can_attack_non_native(utype)) {
     CATLSTR(buf, bufsz,
-            /* TRANS: indented unit class property, preserve leading spaces */
+            /* TRANS: Indented unit class property, preserve leading spaces */
 	    _("  %s Can attack units on non-native tiles.\n"), BULLET);
-  }
-  for (flagid = UCF_USER_FLAG_1; flagid <= UCF_LAST_USER_FLAG; flagid++) {
-    if (uclass_has_flag(pclass, flagid)) {
-      const char *helptxt = unit_class_flag_helptxt(flagid);
-
-      if (helptxt != NULL) {
-        /* TRANS: indented unit class property, preserve leading spaces */
-        CATLSTR(buf, bufsz, "  %s %s\n", BULLET, _(helptxt));
-      }
-    }
   }
 
   /* The unit's combat bonuses. Won't mention that another unit type has a
