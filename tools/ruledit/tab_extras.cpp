@@ -239,6 +239,9 @@ bool tab_extras::initialize_new_extra(struct extra_type *pextra)
 
   name_set(&(pextra->name), 0, "New Extra");
   BV_CLR_ALL(pextra->flags);
+  if (pextra->helptext != nullptr) {
+    strvec_clear(pextra->helptext);
+  }
 
   return true;
 }

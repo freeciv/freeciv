@@ -236,6 +236,9 @@ bool tab_building::initialize_new_bldg(struct impr_type *pimpr)
 
   name_set(&(pimpr->name), 0, "New Building");
   BV_CLR_ALL(pimpr->flags);
+  if (pimpr->helptext != nullptr) {
+    strvec_clear(pimpr->helptext);
+  }
 
   return true;
 }

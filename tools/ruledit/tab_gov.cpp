@@ -228,6 +228,9 @@ bool tab_gov::initialize_new_gov(struct government *pgov)
   }
 
   name_set(&(pgov->name), 0, "New Government");
+  if (pgov->helptext != nullptr) {
+    strvec_clear(pgov->helptext);
+  }
 
   return true;
 }
