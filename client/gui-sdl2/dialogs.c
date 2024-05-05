@@ -2403,7 +2403,7 @@ static void popdown_connect_dialog(void)
 /* ==================== Public ========================= */
 
 /**************************************************************************
-                           Select Goverment Type
+                           Select Government Type
 **************************************************************************/
 static struct small_dialog *gov_dlg = NULL;
 

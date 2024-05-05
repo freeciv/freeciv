@@ -3716,13 +3716,13 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Does: 1) updates the unit's homecity and the city it enters/leaves (the
-           city's happiness varies). This also takes into account when the
-           unit enters/leaves a fortress.
+  Does: 1) updates the unit's homecity and the city it enters/leaves
+           (the city's happiness varies). This also takes into account when
+           the unit enters/leaves a fortress.
         2) updates adjacent cities' unavailable tiles.
 
-  FIXME: Sometimes it is not necessary to send cities because the goverment
-         doesn't care whether a unit is away or not.
+  FIXME: Sometimes it is not necessary to send cities because
+         the government doesn't care whether a unit is away or not.
 **************************************************************************/
 static bool unit_move_consequences(struct unit *punit,
                                    struct tile *src_tile,
