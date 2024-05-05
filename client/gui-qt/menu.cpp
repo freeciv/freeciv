@@ -608,7 +608,7 @@ void gov_menu::create() {
   revol_gov = game.government_during_revolution;
   for (i = 0; i < gov_count; ++i) {
     gov = government_by_number(i);
-    if (gov != revol_gov) { // Skip revolution goverment
+    if (gov != revol_gov) { // Skip revolution government
       // Defeat keyboard shortcut mnemonics
       action = addAction(QString(government_name_translation(gov))
                          .replace("&", "&&"));
@@ -635,7 +635,7 @@ void gov_menu::update()
   revol_gov = game.government_during_revolution;
   for (i = 0, j = 0; i < gov_count; i++) {
     gov = government_by_number(i);
-    if (gov != revol_gov) { // Skip revolution goverment
+    if (gov != revol_gov) { // Skip revolution government
       sprite = get_government_sprite(tileset, gov);
       if (sprite != NULL) {
         actions[j + 1]->setIcon(QIcon(*(sprite->pm)));
