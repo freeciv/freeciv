@@ -1,6 +1,6 @@
 
 [scenario]
-game_version=3010000
+game_version=3019404
 is_scenario=TRUE
 name=_("Tileset Demo")
 authors=_("Daniel Markstedt")
@@ -13,16 +13,18 @@ ruleset_locked=TRUE
 
 [savefile]
 options=" +version3"
-version=50
+version=60
 reason="Scenario"
-revision="3.1.0-beta1"
+revision="3.1.94.4-alpha2+"
+orig_version="old savegame3, or older"
 rulesetdir="classic"
+dbid=-1
 improvement_size=68
 improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
 technology_size=88
 technology_vector="A_NONE","Advanced Flight","Alphabet","Amphibious Warfare","Astronomy","Atomic Theory","Automobile","Banking","Bridge Building","Bronze Working","Ceremonial Burial","Chemistry","Chivalry","Code of Laws","Combined Arms","Combustion","Communism","Computers","Conscription","Construction","Currency","Democracy","Economics","Electricity","Electronics","Engineering","Environmentalism","Espionage","Explosives","Feudalism","Flight","Fusion Power","Genetic Engineering","Guerilla Warfare","Gunpowder","Horseback Riding","Industrialization","Invention","Iron Working","Labor Union","Laser","Leadership","Literacy","Machine Tools","Magnetism","Map Making","Masonry","Mass Production","Mathematics","Medicine","Metallurgy","Miniaturization","Mobile Warfare","Monarchy","Monotheism","Mysticism","Navigation","Nuclear Fission","Nuclear Power","Philosophy","Physics","Plastics","Polytheism","Pottery","Radio","Railroad","Recycling","Refining","Refrigeration","Robotics","Rocketry","Sanitation","Seafaring","Space Flight","Stealth","Steam Engine","Steel","Superconductors","Tactics","The Corporation","The Republic","The Wheel","Theology","Theory of Gravity","Trade","University","Warrior Code","Writing"
-activities_size=23
-activities_vector="Idle","Pollution","Unused Road","Mine","Irrigate","Fortified","Fortress","Sentry","Unused Railroad","Pillage","Goto","Explore","Transform","Unused","Unused Airbase","Fortifying","Fallout","Unused Patrol","Base","Road","Convert","Cultivate","Plant"
+activities_size=16
+activities_vector="Idle","Cultivate","Mine","Irrigate","Fortified","Sentry","Pillage","Goto","Explore","Transform","Fortifying","Clean","Base","Road","Convert","Plant"
 specialists_size=3
 specialists_vector="elvis","scientist","taxman"
 trait_size=4
@@ -30,12 +32,10 @@ trait_vector="Expansionist","Trader","Aggressive","Builder"
 extras_size=34
 extras_vector="Irrigation","Mine","Oil Well","Pollution","Hut","Farmland","Fallout","Fortress","Airbase","Buoy","Ruins","Road","Railroad","River","Gold","Iron","Game","Furs","Coal","Fish","Fruit","Gems","Buffalo","Wheat","Oasis","Peat","Pheasant","Resources","Ivory","Silk","Spice","Whales","Wine","Oil"
 multipliers_size=0
-diplstate_type_size=7
-diplstate_type_vector="Armistice","War","Cease-fire","Peace","Alliance","Never met","Team"
 city_options_size=3
 city_options_vector="Disband","Sci_Specialists","Tax_Specialists"
-action_size=106
-action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Capture Units","Sabotage Unit","Sabotage Unit Escape","Found City","Join City","Steal Maps","Steal Maps Escape","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Unit Make Homeless","Upgrade Unit","Convert Unit","Airlift Unit","Attack","Suicide Attack","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Conquer City 3","Conquer City 4","Bombard","Bombard 2","Bombard 3","Fortify","Cultivate","Plant","Transform Terrain","Build Road","Build Irrigation","Build Mine","Build Base","Pillage","Clean Pollution","Clean Fallout","Transport Board","Transport Alight","Transport Embark","Transport Embark 2","Transport Embark 3","Transport Disembark","Transport Disembark 2","Transport Disembark 3","Transport Disembark 4","Transport Unload","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Conquer Extras 3","Conquer Extras 4","Enter Hut","Enter Hut 2","Enter Hut 3","Enter Hut 4","Frighten Hut","Frighten Hut 2","Frighten Hut 3","Frighten Hut 4","Heal Unit","Heal Unit 2","Paradrop Unit","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Unit Move","Unit Move 2","Unit Move 3","User Action 1","User Action 2","User Action 3","User Action 4"
+action_size=124
+action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Capture Units","Sabotage Unit","Sabotage Unit Escape","Found City","Join City","Steal Maps","Steal Maps Escape","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Unit Make Homeless","Upgrade Unit","Convert Unit","Airlift Unit","Attack","Attack 2","Suicide Attack","Suicide Attack 2","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Conquer City 3","Conquer City 4","Bombard","Bombard 2","Bombard 3","Bombard Lethal","Bombard Lethal 2","Fortify","Cultivate","Plant","Transform Terrain","Build Road","Build Irrigation","Build Mine","Build Base","Pillage","Transport Board","Transport Board 2","Transport Board_3","Transport Deboard","Transport Embark","Transport Embark 2","Transport Embark 3","Transport Embark 4","Transport Disembark","Transport Disembark 2","Transport Disembark 3","Transport Disembark 4","Transport Load","Transport Load 2","Transport Load 3","Transport Unload","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Conquer Extras 3","Conquer Extras 4","Enter Hut","Enter Hut 2","Enter Hut 3","Enter Hut 4","Frighten Hut","Frighten Hut 2","Frighten Hut 3","Frighten Hut 4","Heal Unit","Heal Unit 2","Paradrop Unit","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Wipe Units","Spy Escape","Unit Move","Unit Move 2","Unit Move 3","Teleport","Teleport Conquer","Teleport Frighten","Teleport Frighten Conquer","Teleport Enter","Teleport Enter Conquer","Clean","Collect Ransom","User Action 1","User Action 2","User Action 3","User Action 4"
 action_decision_size=3
 action_decision_vector="nothing","passive","active"
 server_side_agent_size=3
@@ -56,6 +56,7 @@ terrident={"name","identifier"
 "Swamp","s"
 "Tundra","t"
 }
+city_counters_order_size=0
 
 [game]
 server_state="S_S_RUNNING"
@@ -63,7 +64,6 @@ meta_patches="none"
 meta_server="https://meta.freeciv.org/metaserver.php"
 id="qzkLhy8fRw3PM1JHcr-FdRvplR-aYc3m"
 serverid=""
-level="Easy"
 phase_mode="Concurrent"
 phase_mode_stored="Concurrent"
 phase=0
@@ -85,7 +85,7 @@ coolinglevel=9
 global_advances="1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
 last_turn_change_time=0
 save_players=TRUE
-ai_types="classic"
+ai_types="classic","tex"
 save_known=TRUE
 
 [random]
@@ -109,9 +109,9 @@ vars=$$
 [settings]
 set={"name","value","gamestart","gamesetdef"
 "aifill",5,5,"Changed"
+"ailevel","Easy","Easy","Changed"
 "airliftingstyle","","","Changed"
 "allowtake","HAhadOo","HAhadOo","Changed"
-"alltemperate",FALSE,FALSE,"Changed"
 "animals",20,20,"Changed"
 "aqueductloss",0,0,"Changed"
 "autoattack",FALSE,FALSE,"Changed"
@@ -179,6 +179,7 @@ set={"name","value","gamestart","gamesetdef"
 "naturalcitynames",TRUE,TRUE,"Changed"
 "nettimeout",10,10,"Changed"
 "netwait",4,4,"Changed"
+"northlatitude",1000,1000,"Changed"
 "notradesize",0,0,"Changed"
 "nuclearwinter",TRUE,TRUE,"Changed"
 "nuclearwinter_percent",100,100,"Changed"
@@ -202,8 +203,8 @@ set={"name","value","gamestart","gamesetdef"
 "scorelog",FALSE,FALSE,"Changed"
 "separatepoles",TRUE,TRUE,"Changed"
 "shieldbox",100,100,"Changed"
-"singlepole",FALSE,FALSE,"Changed"
 "size",4,4,"Changed"
+"southlatitude",-1000,-1000,"Changed"
 "specials",250,250,"Changed"
 "startcity",FALSE,FALSE,"Changed"
 "startpos","DEFAULT","DEFAULT","Changed"
@@ -223,7 +224,7 @@ set={"name","value","gamestart","gamesetdef"
 "timeaddenemymove",0,0,"Changed"
 "timeout",0,0,"Changed"
 "tinyisles",FALSE,FALSE,"Changed"
-"topology","WRAPX","WRAPX","Changed"
+"topology","","","Changed"
 "trade_revenue_style","CLASSIC","CLASSIC","Changed"
 "trademindist",9,9,"Changed"
 "tradeworldrelpct",50,50,"Changed"
@@ -236,10 +237,11 @@ set={"name","value","gamestart","gamesetdef"
 "unreachableprotects",TRUE,TRUE,"Changed"
 "victories","SPACERACE|ALLIED","SPACERACE|ALLIED","Changed"
 "wetness",50,50,"Changed"
+"wrap","WRAPX","WRAPX","Changed"
 "xsize",78,78,"Changed"
 "ysize",52,52,"Changed"
 }
-set_count=130
+set_count=132
 gamestart_valid=TRUE
 
 [ruledata]
@@ -1211,6 +1213,7 @@ shuffled_player_3=3
 shuffled_player_4=2
 
 [player0]
+flags="FirstCity"
 ai_type="classic"
 name="Kapara"
 username="Unassigned"
@@ -1227,17 +1230,17 @@ team_no=0
 government_name="Despotism"
 style_by_name="Classical"
 idle_turns=0
-kind="male"
+kind="Male"
 is_alive=TRUE
 turns_alive=0
 last_war=-1
 phase_done=FALSE
-diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"War","Never met",0,0,0,20,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
+diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision","gives_shared_tiles"
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"War","War",0,0,0,20,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
 }
 ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
 1,0,-1,5,0,0,0,0,0
@@ -1247,6 +1250,13 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 1,4,-1,5,0,0,0,0,0
 }
 adv.wonder_city=0
+texai={"spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+}
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -1262,44 +1272,47 @@ trait={"val","mod"
 50,0
 }
 achievement_count=0
-got_first_city=TRUE
 revolution_finishes=-1
 spaceship.state=0
 lost_wonders="00000000000000000000000000000000000000000000000000000000000000000000"
 history=0
 hut_count=0
 border_vision=FALSE
+autoselect_weight=0
 ncities=2
-c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-26,63,127,0,2,0,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Amid","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,9,9,0,0,FALSE,2,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-29,61,126,0,7,3,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Aram","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,6,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+wl_max_length=0
+routes_max_length=0
+c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","had_famine","turn_plague","anarchy","rapture","steal","turn_founded","acquire_t","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","wlcb","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","texai.urgency","texai.building_turn","texai.building_wait","texai.founder_turn","texai.founder_want","texai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+26,63,127,0,2,0,0,0,0,0,0,0,FALSE,FALSE,-1,0,0,0,1,1,TRUE,FALSE,0,"Amid","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,0,9,9,0,0,FALSE,0,0,1,0,0,FALSE,2,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+29,61,126,0,7,3,0,0,0,0,0,0,FALSE,FALSE,-1,0,0,0,1,1,TRUE,FALSE,0,"Aram","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,0,6,6,0,0,FALSE,0,0,1,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=24
-u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
-185,57,26,"2",0,0,20,126,"AWACS",0,0,-1,0,0,7,FALSE,48,2,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-182,61,31,"9",0,0,10,126,"Freight",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-180,59,29,"8",0,0,10,126,"Spy",0,0,-1,0,0,7,FALSE,9,0,1,-1,FALSE,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-178,54,26,"6",0,0,10,126,"Nuclear",0,0,-1,0,0,7,FALSE,48,1,1,-1,FALSE,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-175,55,28,"3",0,0,40,126,"Carrier",0,0,-1,0,0,7,FALSE,18,0,1,-1,FALSE,0,0,0,-1,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-174,54,30,"7",0,0,30,126,"Submarine",0,0,-1,0,0,7,FALSE,18,0,1,-1,FALSE,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-173,56,29,"9",0,0,40,126,"Battleship",0,0,-1,0,0,7,FALSE,15,0,1,-1,FALSE,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-172,63,29,"7",0,0,30,126,"AEGIS Cruiser",0,0,-1,0,0,7,FALSE,18,0,1,-1,FALSE,0,0,0,0,0,0,0,0,7,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-164,56,27,"3",0,0,20,126,"Stealth Bomber",0,0,-1,0,0,7,FALSE,36,2,1,-1,FALSE,0,0,0,0,0,0,0,0,8,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-163,57,28,"6",0,0,20,126,"Stealth Fighter",0,0,-1,0,0,7,FALSE,42,1,1,-1,FALSE,0,0,0,0,0,0,0,0,9,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-162,64,28,"6",0,0,20,127,"Helicopter",0,0,-1,0,0,7,FALSE,18,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-159,64,25,"8",0,0,30,127,"Howitzer",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-158,60,26,"4",0,0,20,127,"Artillery",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-146,63,25,"8",0,0,30,127,"Mech. Inf.",0,0,-1,0,0,7,FALSE,9,0,1,-1,FALSE,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-145,61,25,"1",0,0,20,127,"Paratroopers",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-144,62,26,"4",0,0,20,127,"Marines",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-142,61,27,"9",0,0,20,127,"Alpine Troops",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-141,62,28,"8",0,0,20,126,"Partisan",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,10,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-134,60,28,"2",0,0,20,126,"Engineers",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,11,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-109,60,23,"2",0,0,10,0,"Explorer",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-108,60,23,"9",0,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-107,60,23,"8",0,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-106,60,23,"3",0,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-101,60,23,"1",0,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,4,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+orders_max_length=0
+u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","current_form_turn","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","texaipassenger","texaiferryboat","texaicharge","texaibodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
+185,57,26,"2",0,0,20,126,"AWACS",0,0,-1,0,0,7,FALSE,48,2,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+182,61,31,"9",0,0,10,126,"Freight",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+180,59,29,"8",0,0,10,126,"Spy",0,0,-1,0,0,7,FALSE,9,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+178,54,26,"6",0,0,10,126,"Nuclear",0,0,-1,0,0,7,FALSE,48,1,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+175,55,28,"3",0,0,40,126,"Carrier",0,0,-1,0,0,7,FALSE,18,0,1,1,-1,FALSE,0,0,0,-1,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+174,54,30,"7",0,0,30,126,"Submarine",0,0,-1,0,0,7,FALSE,18,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+173,56,29,"9",0,0,40,126,"Battleship",0,0,-1,0,0,7,FALSE,15,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+172,63,29,"7",0,0,30,126,"AEGIS Cruiser",0,0,-1,0,0,7,FALSE,18,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,7,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+164,56,27,"3",0,0,20,126,"Stealth Bomber",0,0,-1,0,0,7,FALSE,36,2,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,8,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+163,57,28,"6",0,0,20,126,"Stealth Fighter",0,0,-1,0,0,7,FALSE,42,1,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,9,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+162,64,28,"6",0,0,20,127,"Helicopter",0,0,-1,0,0,7,FALSE,18,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+159,64,25,"8",0,0,30,127,"Howitzer",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+158,60,26,"4",0,0,20,127,"Artillery",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+146,63,25,"8",0,0,30,127,"Mech. Inf.",0,0,-1,0,0,7,FALSE,9,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+145,61,25,"1",0,0,20,127,"Paratroopers",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+144,62,26,"4",0,0,20,127,"Marines",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+142,61,27,"9",0,0,20,127,"Alpine Troops",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+141,62,28,"8",0,0,20,126,"Partisan",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,10,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+134,60,28,"2",0,0,20,126,"Engineers",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,11,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+109,60,23,"2",0,0,10,0,"Explorer",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+108,60,23,"9",0,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+107,60,23,"8",0,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+106,60,23,"3",0,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+101,60,23,"1",0,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,4,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
 }
 map_t0000="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
 map_t0001="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
@@ -2059,6 +2072,7 @@ spaceship=0
 units_built=0
 units_killed=0
 units_lost=0
+units_used=0
 culture=0
 total=183
 
@@ -2080,17 +2094,17 @@ team_no=1
 government_name="Despotism"
 style_by_name="Babylonian"
 idle_turns=0
-kind="male"
+kind="Male"
 is_alive=TRUE
 turns_alive=0
 last_war=-1
 phase_done=FALSE
-diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
+diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision","gives_shared_tiles"
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
 }
 ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
 0,1,-1,5,0,0,0,0,0
@@ -2100,6 +2114,13 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,0,-1,5,0,0,0,0,0
 }
 adv.wonder_city=0
+texai={"spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+}
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -2115,21 +2136,24 @@ trait={"val","mod"
 50,0
 }
 achievement_count=0
-got_first_city=FALSE
 revolution_finishes=-1
 spaceship.state=0
 lost_wonders="00000000000000000000000000000000000000000000000000000000000000000000"
 history=0
 hut_count=0
 border_vision=FALSE
+autoselect_weight=0
 ncities=0
+wl_max_length=0
+routes_max_length=0
 nunits=5
-u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
-113,15,28,"1",1,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-112,18,31,"7",1,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-111,18,31,"2",1,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-110,18,31,"4",1,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-102,18,31,"7",1,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+orders_max_length=0
+u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","current_form_turn","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","texaipassenger","texaiferryboat","texaicharge","texaibodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
+113,15,28,"1",1,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+112,18,31,"7",1,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+111,18,31,"2",1,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+110,18,31,"4",1,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+102,18,31,"7",1,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
 }
 map_t0000="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
 map_t0001="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
@@ -2885,11 +2909,12 @@ spaceship=0
 units_built=0
 units_killed=0
 units_lost=0
+units_used=0
 culture=0
 total=0
 
 [player2]
-flags="ai"
+flags="ai","FirstCity"
 ai_type="classic"
 name="Tan-Ruhurater I"
 username="Unassigned"
@@ -2906,17 +2931,17 @@ team_no=2
 government_name="Despotism"
 style_by_name="Classical"
 idle_turns=0
-kind="male"
+kind="Male"
 is_alive=TRUE
 turns_alive=0
 last_war=-1
 phase_done=FALSE
-diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Cease-fire","Never met",0,16,0,20,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
+diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision","gives_shared_tiles"
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Cease-fire","Cease-fire",0,16,0,20,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
 }
 ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
 0,2,-1,5,0,0,0,0,0
@@ -2926,6 +2951,13 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,1,-1,5,0,0,0,0,0
 }
 adv.wonder_city=0
+texai={"spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+}
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -2941,43 +2973,46 @@ trait={"val","mod"
 50,0
 }
 achievement_count=0
-got_first_city=TRUE
 revolution_finishes=-1
 spaceship.state=0
 lost_wonders="00000000000000000000000000000000000000000000000000000000000000000000"
 history=0
 hut_count=0
 border_vision=FALSE
+autoselect_weight=0
 ncities=2
-c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-33,67,129,2,6,1,0,4,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Carthago","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,8,7,0,0,FALSE,6,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-30,66,128,2,3,0,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Leptis Magna","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,5,0,0,FALSE,3,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+wl_max_length=0
+routes_max_length=0
+c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","had_famine","turn_plague","anarchy","rapture","steal","turn_founded","acquire_t","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","wlcb","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","texai.urgency","texai.building_turn","texai.building_wait","texai.founder_turn","texai.founder_want","texai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+33,67,129,2,6,1,0,4,0,0,0,0,FALSE,FALSE,-1,0,0,0,1,1,TRUE,FALSE,0,"Carthago","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,0,8,7,0,0,FALSE,0,0,1,0,0,FALSE,6,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+30,66,128,2,3,0,0,0,0,0,0,0,FALSE,FALSE,-1,0,0,0,1,1,TRUE,FALSE,0,"Leptis Magna","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,0,6,5,0,0,FALSE,0,0,1,0,0,FALSE,3,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=23
-u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
-184,68,27,"1",2,0,20,0,"Leader",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-183,66,26,"3",2,0,10,128,"Explorer",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-181,63,31,"2",2,0,10,128,"Caravan",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-168,67,36,"7",2,0,20,129,"Frigate",0,0,-1,0,0,7,FALSE,12,0,1,-1,FALSE,0,0,0,-1,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-167,69,35,"7",2,0,20,129,"Galleon",0,0,-1,0,0,7,FALSE,12,0,1,-1,FALSE,0,0,0,-1,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-166,68,34,"4",2,0,10,129,"Caravel",0,0,-1,0,0,7,FALSE,9,0,1,-1,FALSE,0,0,0,-1,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-165,69,32,"1",2,0,10,129,"Trireme",0,0,-1,0,0,7,FALSE,9,0,1,-1,FALSE,0,0,0,-1,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-155,64,33,"1",2,0,10,129,"Catapult",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-149,67,28,"6",2,0,10,128,"Knights",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-148,65,34,"9",2,0,10,129,"Chariot",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-147,69,28,"2",2,0,10,128,"Horsemen",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-139,67,32,"7",2,0,10,129,"Pikemen",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-138,66,33,"6",2,0,10,129,"Legion",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,7,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-137,65,32,"1",2,0,10,129,"Archers",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,8,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-136,66,31,"1",2,0,10,128,"Phalanx",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-135,67,30,"1",2,0,10,128,"Warriors",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-133,68,29,"4",2,0,10,128,"Workers",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-132,69,30,"8",2,0,20,129,"Settlers",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,9,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-117,9,15,"3",2,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-116,12,15,"1",2,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-115,12,15,"6",2,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-114,12,15,"7",2,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-103,12,15,"7",2,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+orders_max_length=0
+u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","current_form_turn","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","texaipassenger","texaiferryboat","texaicharge","texaibodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
+184,68,27,"1",2,0,20,0,"Leader",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+183,66,26,"3",2,0,10,128,"Explorer",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+181,63,31,"2",2,0,10,128,"Caravan",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+168,67,36,"7",2,0,20,129,"Frigate",0,0,-1,0,0,7,FALSE,12,0,1,1,-1,FALSE,0,0,0,-1,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+167,69,35,"7",2,0,20,129,"Galleon",0,0,-1,0,0,7,FALSE,12,0,1,1,-1,FALSE,0,0,0,-1,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+166,68,34,"4",2,0,10,129,"Caravel",0,0,-1,0,0,7,FALSE,9,0,1,1,-1,FALSE,0,0,0,-1,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+165,69,32,"1",2,0,10,129,"Trireme",0,0,-1,0,0,7,FALSE,9,0,1,1,-1,FALSE,0,0,0,-1,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+155,64,33,"1",2,0,10,129,"Catapult",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+149,67,28,"6",2,0,10,128,"Knights",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+148,65,34,"9",2,0,10,129,"Chariot",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+147,69,28,"2",2,0,10,128,"Horsemen",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+139,67,32,"7",2,0,10,129,"Pikemen",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+138,66,33,"6",2,0,10,129,"Legion",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,7,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+137,65,32,"1",2,0,10,129,"Archers",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,8,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+136,66,31,"1",2,0,10,128,"Phalanx",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+135,67,30,"1",2,0,10,128,"Warriors",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+133,68,29,"4",2,0,10,128,"Workers",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+132,69,30,"8",2,0,20,129,"Settlers",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,9,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+117,9,15,"3",2,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+116,12,15,"1",2,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+115,12,15,"6",2,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+114,12,15,"7",2,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+103,12,15,"7",2,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
 }
 map_t0000="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
 map_t0001="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
@@ -3218,7 +3253,7 @@ map_e03_0027="000000000000000000000000000000000000000000000000000000000000000000
 map_e03_0028="000000000000000000000000000000000000000000000000000000000000000000222000000000"
 map_e03_0029="000000000000000000000000000000000000000000000000000000000000000000000000000000"
 map_e03_0030="000000000000000000000000000000000000000000000000000000000000000000000000000000"
-map_e03_0031="000000000000000000000000000000000000000000000000000000000000000040000000000000"
+map_e03_0031="000000000000000000000000000000000000000000000000000000000000000000000000000000"
 map_e03_0032="000000000000000000000000000000000000000000000000000000000000000020000000000000"
 map_e03_0033="000000000000000000000000000000000000000000000000000000000000000022200000000000"
 map_e03_0034="000000000000000000000000000000000000000000000000000000000110000000220000000000"
@@ -3733,11 +3768,12 @@ spaceship=0
 units_built=0
 units_killed=0
 units_lost=0
+units_used=0
 culture=0
 total=9
 
 [player3]
-flags="ai"
+flags="ai","FirstCity"
 ai_type="classic"
 name="Antir"
 username="Unassigned"
@@ -3754,17 +3790,17 @@ team_no=3
 government_name="Despotism"
 style_by_name="Celtic"
 idle_turns=0
-kind="male"
+kind="Male"
 is_alive=TRUE
 turns_alive=0
 last_war=-1
 phase_done=FALSE
-diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
-"War","Never met",0,0,0,20,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Cease-fire","Never met",0,16,0,20,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
+diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision","gives_shared_tiles"
+"War","War",0,0,0,20,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Cease-fire","Cease-fire",0,16,0,20,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
 }
 ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
 0,3,-1,5,0,0,0,0,0
@@ -3774,6 +3810,13 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,2,-1,5,0,0,0,0,0
 }
 adv.wonder_city=0
+texai={"spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+}
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -3789,39 +3832,42 @@ trait={"val","mod"
 50,0
 }
 achievement_count=0
-got_first_city=TRUE
 revolution_finishes=-1
 spaceship.state=0
 lost_wonders="00000000000000000000000000000000000000000000000000000000000000000000"
 history=0
 hut_count=0
 border_vision=FALSE
+autoselect_weight=0
 ncities=2
-c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-34,61,131,3,1,0,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Wahpekute","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,5,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-32,56,130,3,7,2,0,3,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Mdewakanton","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,9,8,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+wl_max_length=0
+routes_max_length=0
+c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","had_famine","turn_plague","anarchy","rapture","steal","turn_founded","acquire_t","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","wlcb","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","texai.urgency","texai.building_turn","texai.building_wait","texai.founder_turn","texai.founder_want","texai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+34,61,131,3,1,0,0,0,0,0,0,0,FALSE,FALSE,-1,0,0,0,1,1,TRUE,FALSE,0,"Wahpekute","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,0,6,5,0,0,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+32,56,130,3,7,2,0,3,0,0,0,0,FALSE,FALSE,-1,0,0,0,1,1,TRUE,FALSE,0,"Mdewakanton","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,0,9,8,0,0,FALSE,0,0,1,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=19
-u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
-179,57,31,"6",3,0,10,130,"Diplomat",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-177,54,37,"1",3,0,10,130,"Cruise Missile",0,0,-1,0,0,7,FALSE,36,1,1,-1,FALSE,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-176,58,37,"2",3,0,30,130,"Transport",0,0,-1,0,0,7,FALSE,15,0,1,-1,FALSE,0,0,0,-1,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-171,54,34,"4",3,0,30,130,"Cruiser",0,0,-1,0,0,7,FALSE,15,0,1,-1,FALSE,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-170,55,35,"1",3,0,30,130,"Destroyer",0,0,-1,0,0,7,FALSE,18,0,1,-1,FALSE,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-169,56,36,"9",3,0,30,130,"Ironclad",0,0,-1,0,0,7,FALSE,12,0,1,-1,FALSE,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-161,54,32,"8",3,0,20,130,"Bomber",0,0,-1,0,0,7,FALSE,24,2,1,-1,FALSE,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-160,55,31,"7",3,0,20,130,"Fighter",0,0,-1,0,0,7,FALSE,30,1,1,-1,FALSE,0,0,0,0,0,0,0,0,7,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-157,57,35,"1",3,0,20,130,"Cannon",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,8,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-153,56,34,"1",3,0,30,130,"Armor",0,0,-1,0,0,7,FALSE,9,0,1,-1,FALSE,0,0,0,0,0,0,0,0,9,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-152,57,33,"3",3,0,20,130,"Cavalry",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,10,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-151,58,32,"9",3,0,20,130,"Dragoons",0,0,-1,0,0,7,FALSE,6,0,1,-1,FALSE,0,0,0,0,0,0,0,0,11,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-143,59,34,"1",3,0,20,131,"Riflemen",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-140,60,33,"6",3,0,20,131,"Musketeers",0,0,-1,0,0,7,FALSE,3,0,1,-1,FALSE,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-121,32,6,"8",3,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-120,35,6,"2",3,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-119,35,6,"8",3,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-118,35,6,"3",3,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-104,35,6,"7",3,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+orders_max_length=0
+u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","current_form_turn","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","texaipassenger","texaiferryboat","texaicharge","texaibodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
+179,57,31,"6",3,0,10,130,"Diplomat",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+177,54,37,"1",3,0,10,130,"Cruise Missile",0,0,-1,0,0,7,FALSE,36,1,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+176,58,37,"2",3,0,30,130,"Transport",0,0,-1,0,0,7,FALSE,15,0,1,1,-1,FALSE,0,0,0,-1,0,0,0,0,0,0,0,0,2,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+171,54,34,"4",3,0,30,130,"Cruiser",0,0,-1,0,0,7,FALSE,15,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,3,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+170,55,35,"1",3,0,30,130,"Destroyer",0,0,-1,0,0,7,FALSE,18,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,4,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+169,56,36,"9",3,0,30,130,"Ironclad",0,0,-1,0,0,7,FALSE,12,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,5,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+161,54,32,"8",3,0,20,130,"Bomber",0,0,-1,0,0,7,FALSE,24,2,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,6,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+160,55,31,"7",3,0,20,130,"Fighter",0,0,-1,0,0,7,FALSE,30,1,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,7,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+157,57,35,"1",3,0,20,130,"Cannon",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,8,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+153,56,34,"1",3,0,30,130,"Armor",0,0,-1,0,0,7,FALSE,9,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,9,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+152,57,33,"3",3,0,20,130,"Cavalry",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,10,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+151,58,32,"9",3,0,20,130,"Dragoons",0,0,-1,0,0,7,FALSE,6,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,11,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+143,59,34,"1",3,0,20,131,"Riflemen",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+140,60,33,"6",3,0,20,131,"Musketeers",0,0,-1,0,0,7,FALSE,3,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,1,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+121,32,6,"8",3,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+120,35,6,"2",3,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+119,35,6,"8",3,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+118,35,6,"3",3,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+104,35,6,"7",3,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
 }
 map_t0000="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
 map_t0001="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
@@ -4577,6 +4623,7 @@ spaceship=0
 units_built=0
 units_killed=0
 units_lost=0
+units_used=0
 culture=0
 total=10
 
@@ -4598,17 +4645,17 @@ team_no=4
 government_name="Despotism"
 style_by_name="Classical"
 idle_turns=0
-kind="male"
+kind="Male"
 is_alive=TRUE
 turns_alive=0
 last_war=-1
 phase_done=FALSE
-diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
-"Never met","Never met",0,0,0,0,FALSE,FALSE
+diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision","gives_shared_tiles"
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
+"Never met","Never met",0,0,0,0,FALSE,FALSE,FALSE
 }
 ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
 0,4,-1,5,0,0,0,0,0
@@ -4618,6 +4665,13 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,3,-1,5,0,0,0,0,0
 }
 adv.wonder_city=0
+texai={"spam","countdown","war_reason","patience","warn_space","ask_peace","ask_alliance","ask_ceasefire"
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+0,-1,0,0,0,0,0,0
+}
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -4633,21 +4687,24 @@ trait={"val","mod"
 50,0
 }
 achievement_count=0
-got_first_city=FALSE
 revolution_finishes=-1
 spaceship.state=0
 lost_wonders="00000000000000000000000000000000000000000000000000000000000000000000"
 history=0
 hut_count=0
 border_vision=FALSE
+autoselect_weight=0
 ncities=0
+wl_max_length=0
+routes_max_length=0
 nunits=5
-u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
-125,29,38,"1",4,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-124,31,35,"8",4,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-123,31,35,"3",4,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-122,31,35,"4",4,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-105,31,35,"2",4,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,-1,FALSE,0,0,1,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+orders_max_length=0
+u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","current_form_turn","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","texaipassenger","texaiferryboat","texaicharge","texaibodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
+125,29,38,"1",4,0,10,0,"Explorer",0,0,-1,0,0,-1,TRUE,0,0,1,1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+124,31,35,"8",4,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,0,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+123,31,35,"3",4,0,10,0,"Workers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,1,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+122,31,35,"4",4,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,2,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+105,31,35,"2",4,0,20,0,"Settlers",0,0,-1,0,0,-1,FALSE,3,0,1,1,-1,FALSE,0,0,1,0,0,0,0,0,0,0,0,3,0,TRUE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
 }
 map_t0000="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
 map_t0001="uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
@@ -5403,16 +5460,17 @@ spaceship=0
 units_built=0
 units_killed=0
 units_lost=0
+units_used=0
 culture=0
 total=0
 
 [research]
-r={"number","goal_name","techs","futuretech","bulbs_before","saved_name","bulbs","now_name","got_tech","got_tech_multi","done"
-0,"A_UNSET",88,0,0,"A_UNSET",0,"A_UNSET",FALSE,FALSE,"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
-1,"A_UNSET",1,0,0,"A_UNSET",0,"Ceremonial Burial",FALSE,FALSE,"1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-2,"A_UNSET",1,0,0,"A_UNSET",0,"Pottery",FALSE,FALSE,"1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-3,"A_UNSET",2,0,0,"A_UNSET",0,"Alphabet",FALSE,FALSE,"1000000000000000000000000000000000000000000000000000000000000000010000000000000000000000"
-4,"A_UNSET",1,0,0,"A_UNSET",0,"Alphabet",FALSE,FALSE,"1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+r={"number","goal_name","techs","futuretech","bulbs_before","saved_name","bulbs","now_name","free_bulbs","done"
+0,"A_UNSET",88,0,0,"A_UNSET",0,"A_UNSET",0,"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+1,"A_UNSET",1,0,0,"A_UNSET",0,"Ceremonial Burial",0,"1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+2,"A_UNSET",1,0,0,"A_UNSET",0,"Pottery",0,"1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+3,"A_UNSET",2,0,0,"A_UNSET",0,"Alphabet",0,"1000000000000000000000000000000000000000000000000000000000000000010000000000000000000000"
+4,"A_UNSET",1,0,0,"A_UNSET",0,"Alphabet",0,"1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 }
 count=5
 
