@@ -32,10 +32,10 @@
  * You may also define:
  *   SPECHASH_UKEY_TYPE - the typed genhash will use this as key.
  *     (external user usage, see SPECHASH_UKEY_TO_IKEY and
- *      SPECHASH_IKEY_TO_UKEY convertors).
+ *      SPECHASH_IKEY_TO_UKEY converters).
  *   SPECHASH_UDATA_TYPE - the typed genhash will use this type as data.
  *     (external user usage, see SPECHASH_IDATA_TO_UDATA and
- *      SPECHASH_UDATA_TO_IDATA convertos).
+ *      SPECHASH_UDATA_TO_IDATA converters).
  *   SPECHASH_IKEY_VAL - The default hash function.
  *   SPECHASH_IKEY_COMP - The default hash key comparator function.
  *   SPECHASH_IKEY_COPY - The default key copy function.
