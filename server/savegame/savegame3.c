@@ -7584,10 +7584,6 @@ static void sg_load_researches(struct loaddata *loading)
     presearch->tech_goal = technology_load(loading->file,
                                            "research.r%d.goal", i);
     sg_failure_ret(secfile_lookup_int(loading->file,
-                                      &presearch->techs_researched,
-                                      "research.r%d.techs", i),
-                 "%s", secfile_error());
-    sg_failure_ret(secfile_lookup_int(loading->file,
                                       &presearch->future_tech,
                                       "research.r%d.futuretech", i),
                    "%s", secfile_error());
@@ -7674,8 +7670,6 @@ static void sg_save_researches(struct savedata *saving)
                          "research.r%d.number", i);
       technology_save(saving->file, "research.r%d.goal",
                       i, presearch->tech_goal);
-      secfile_insert_int(saving->file, presearch->techs_researched,
-                         "research.r%d.techs", i);
       secfile_insert_int(saving->file, presearch->future_tech,
                          "research.r%d.futuretech", i);
       secfile_insert_int(saving->file, presearch->bulbs_researching_saved,
@@ -8077,8 +8071,6 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   /* Check researching technologies and goals. */
   researches_iterate(presearch) {
-    int techs;
-
     if (presearch->researching != A_UNSET
         && !is_future_tech(presearch->researching)
         && (valid_advance_by_number(presearch->researching) == NULL
@@ -8099,14 +8091,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
       presearch->tech_goal = A_UNSET;
     }
 
-    techs = recalculate_techs_researched(presearch);
-
-    if (presearch->techs_researched != techs) {
-      sg_regr(3000300,
-              _("%s had finished researches count wrong."),
-              research_name_translation(presearch));
-      presearch->techs_researched = techs;
-    }
+    presearch->techs_researched = recalculate_techs_researched(presearch);
   } researches_iterate_end;
 
   /* Check if some player has more than one of some UTYF_UNIQUE unit type */

@@ -2554,6 +2554,17 @@ static void compat_load_030300(struct loaddata *loading,
       }
     } player_slots_iterate_end;
   }
+
+  /* Researches */
+  {
+    int count = secfile_lookup_int_default(loading->file, 0, "research.count");
+    int i;
+
+    for (i = 0; i < count; i++) {
+      /* It's ok for old savegames to have these entries. */
+      secfile_entry_ignore(loading->file, "research.r%d.techs", i);
+    }
+  }
 }
 
 /************************************************************************//**
@@ -3417,6 +3428,17 @@ static void compat_load_dev(struct loaddata *loading)
         }
       }
     } player_slots_iterate_end;
+
+    /* Researches */
+    {
+      int count = secfile_lookup_int_default(loading->file, 0, "research.count");
+      int i;
+
+      for (i = 0; i < count; i++) {
+        /* It's ok for old savegames to have these entries. */
+        secfile_entry_ignore(loading->file, "research.r%d.techs", i);
+      }
+    }
 
   } /* Version < 3.2.92 */
 
