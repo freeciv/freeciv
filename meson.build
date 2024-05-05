@@ -323,7 +323,6 @@ pub_headers = [
 
 priv_headers = [
   'arpa/inet.h',
-  'bzlib.h',
   'direct.h',
   'dlfcn.h',
   'execinfo.h',
