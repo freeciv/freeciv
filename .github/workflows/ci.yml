@@ -108,7 +108,6 @@ jobs:
             gtk+3 \
             gtk4 \
             sdl2_mixer \
-            sdl2_gfx \
             sdl2_image \
             sdl2_ttf \
             qt@6
