@@ -777,6 +777,16 @@ bool api_methods_player_can_build_impr_direct(lua_State *L, Player *pplayer,
   return can_player_build_improvement_direct(pplayer, itype);
 }
 
+/**********************************************************************//**
+  Find player's primary capital, if known
+**************************************************************************/
+City *api_methods_player_primary_capital(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+
+  return player_primary_capital(pplayer);
+}
 
 /**********************************************************************//**
   Return if a unit can upgrade considering where it is now.

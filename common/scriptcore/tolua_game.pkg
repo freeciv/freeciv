@@ -226,9 +226,12 @@ module Player {
   Unit_Type *api_methods_player_can_upgrade
     @ can_upgrade(lua_State *L, Player *pplayer, Unit_Type *utype);
   bool api_methods_player_can_build_impr_direct
-    @ can_build_direct (lua_State *L, Player *pplayer, Building_Type *itype);
+    @ can_build_direct(lua_State *L, Player *pplayer, Building_Type *itype);
   bool api_methods_player_can_build_unit_direct
-    @ can_build_direct (lua_State *L, Player *pplayer, Unit_Type *utype);
+    @ can_build_direct(lua_State *L, Player *pplayer, Unit_Type *utype);
+
+  City *api_methods_player_primary_capital
+    @ primary_capital(lua_State *L, Player *pplayer);
 }
 
 module methods_private {
