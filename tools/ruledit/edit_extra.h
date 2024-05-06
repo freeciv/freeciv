@@ -21,13 +21,16 @@
 // Qt
 #include <QDialog>
 
+// ruledit
+#include "values_dlg.h"
+
 class QGridLayout;
 class QLineEdit;
 class QSpinBox;
 
 class ruledit_gui;
 
-class edit_extra : public QDialog
+class edit_extra : public values_dlg
 {
   Q_OBJECT
 
@@ -62,6 +65,7 @@ class edit_extra : public QDialog
     void rmact_gfx_given();
     void rmact_gfx_alt_given();
     void rmact_gfx_alt2_given();
+    void helptext();
 };
 
 #endif // FC__EDIT_EXTRA_H
