@@ -1395,6 +1395,30 @@ Tile *api_methods_unit_tile_get(lua_State *L, Unit *punit)
 }
 
 /**********************************************************************//**
+  Whether player knows the tile
+**************************************************************************/
+bool api_methods_tile_known(lua_State *L, Tile *self, Player *watcher)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, self, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, watcher, 3, Player, FALSE);
+
+  return tile_get_known(self, watcher) != TILE_UNKNOWN;
+}
+
+/**********************************************************************//**
+  Whether player currently sees the tile
+**************************************************************************/
+bool api_methods_tile_seen(lua_State *L, Tile *self, Player *watcher)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, self, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, watcher, 3, Player, FALSE);
+
+  return tile_get_known(self, watcher) == TILE_KNOWN_SEEN;
+}
+
+/**********************************************************************//**
   Get unit orientation
 **************************************************************************/
 const Direction *api_methods_unit_orientation_get(lua_State *L,
@@ -1425,6 +1449,7 @@ Unit_List_Link *api_methods_private_unit_cargo_list_head(lua_State *L,
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_SELF(L, punit, NULL);
+
   return unit_list_head(punit->transporting);
 }
 

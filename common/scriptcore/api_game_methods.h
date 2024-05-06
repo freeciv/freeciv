@@ -174,6 +174,8 @@ Tile *api_methods_private_tile_for_outward_index(lua_State *L, Tile *pstart,
                                                  int tindex);
 Unit_List_Link *api_methods_private_tile_unit_list_head(lua_State *L,
                                                         Tile *ptile);
+bool api_methods_tile_known(lua_State *L, Tile *self, Player *watcher);
+bool api_methods_tile_seen(lua_State *L, Tile *self, Player *watcher);
 
 /* Unit */
 bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit);
