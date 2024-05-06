@@ -19,6 +19,7 @@
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QToolButton>
 
 // common
@@ -38,11 +39,12 @@
   Setup edit_extra object
 **************************************************************************/
 edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
-  : QDialog()
+  : values_dlg()
 {
   QHBoxLayout *main_layout = new QHBoxLayout(this);
   QGridLayout *extra_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *button;
   int row = 0;
   int rowcount;
   int column;
@@ -118,6 +120,10 @@ edit_extra::edit_extra(ruledit_gui *ui_in, struct extra_type *extra_in)
   extra_layout->addWidget(label, row, 0);
   extra_layout->addWidget(rmact_gfx_alt, row++, 1);
 
+  button = new QPushButton(QString::fromUtf8(R__("Helptext")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(helptext()));
+  extra_layout->addWidget(button, row++, 1);
+
   label = new QLabel(QString::fromUtf8(R__("Native to")));
   natives_layout->addWidget(label, 0, 0);
   for (int i = 0; i < game.control.num_unit_classes; i++) {
@@ -164,6 +170,8 @@ void edit_extra::closeEvent(QCloseEvent *cevent)
 {
   int rowcount;
   int column;
+
+  close_help();
 
   // Save values from text fields.
   gfx_tag_given();
@@ -284,4 +292,12 @@ void edit_extra::rmact_gfx_alt_given()
   QByteArray tag_bytes = rmact_gfx_alt->text().toUtf8();
 
   sz_strlcpy(extra->rmact_gfx_alt, tag_bytes);
+}
+
+/**********************************************************************//**
+  User pressed helptext button
+**************************************************************************/
+void edit_extra::helptext()
+{
+  open_help(&extra->helptext);
 }
