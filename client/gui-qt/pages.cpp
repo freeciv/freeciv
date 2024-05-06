@@ -212,32 +212,44 @@ void fc_client::create_main_page(void)
     switch (iter) {
     case 0:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 1, 0);
+      button->setToolTip(
+        _("Launches local server, and connects to it for a single-player game."));
       connect(button, &QAbstractButton::clicked, this, &fc_client::start_new_game);
       break;
     case 1:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 0);
+      button->setToolTip(
+        _("Loads one of the scenarios for a single-player game. "
+          "Tutorial is one of the scenarios."));
       QObject::connect(button, &QPushButton::clicked, [this]() {
         switch_page(PAGE_SCENARIO);
       });
       break;
     case 2:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 3, 0);
+      button->setToolTip(
+        _("Continues previously saved single-player game."));
       QObject::connect(button, &QPushButton::clicked, [this]() {
         switch_page(PAGE_LOAD);
       });
       break;
     case 3:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 1, 1);
+      button->setToolTip(
+        _("Connects to outside server. "
+          "Sometimes you want to launch a separate server even for local games."));
       QObject::connect(button, &QPushButton::clicked, [this]() {
         switch_page(PAGE_NETWORK);
       });
       break;
     case 4:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 1);
+      button->setToolTip(_("Adjusting client-side options."));
       connect(button, &QAbstractButton::clicked, this, &fc_client::popup_client_options);
       break;
     case 5:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 3, 1);
+      button->setToolTip(_("Gives you a break from playing freeciv."));
       QObject::connect(button, &QAbstractButton::clicked, this, &fc_client::quit);
       break;
     default:
