@@ -2624,6 +2624,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
      * this turn. */
     if (city_production_has_flag(pcity, IF_GOLD)) {
       pplayer->economic.gold += pcity->before_change_shields;
+    } else if (city_production_has_flag(pcity, IF_INFRA)) {
+      pplayer->economic.infra_points += pcity->before_change_shields;
     }
 
     pcity->before_change_shields = 0;

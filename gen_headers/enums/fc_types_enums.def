@@ -12,6 +12,8 @@ values
   SAVE_SMALL_WONDER  "SaveSmallWonder"
   /* When built, gives gold */
   GOLD               "Gold"
+  /* When built, gives infrapoints */
+  INFRA              "Infra"
   /* Never destroyed by disasters */
   DISASTER_PROOF     "DisasterProof"
   /* Never destroyed by a surgical strike */

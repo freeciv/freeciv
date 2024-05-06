@@ -279,12 +279,16 @@ void get_city_dialog_production(struct city *pcity,
   }
 
   if (city_production_is_genus(pcity, IG_CONVERT)) {
-    if (city_production_has_flag(pcity, IF_GOLD)) {
-      int gold = MAX(0, pcity->surplus[O_SHIELD]);
+    int output = MAX(0, pcity->surplus[O_SHIELD]);
 
+    if (city_production_has_flag(pcity, IF_GOLD)) {
       fc_snprintf(buffer, buffer_len,
-                  PL_("%3d gold per turn", "%3d gold per turn", gold),
-                  gold);
+                  PL_("%3d gold per turn", "%3d gold per turn", output),
+                  output);
+    } else if (city_production_has_flag(pcity, IF_INFRA)) {
+      fc_snprintf(buffer, buffer_len,
+                  PL_("%3d infrapoint per turn", "%3d infrapoints per turn", output),
+                  output);
     } else {
       fc_strlcpy(buffer, "---", buffer_len);
     }
@@ -341,7 +345,8 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 
     if (is_convert_improvement(target->value.building)) {
       fc_strlcat(buffer, " (--) ", buffer_len);
-      if (improvement_has_flag(target->value.building, IF_GOLD)) {
+      if (improvement_has_flag(target->value.building, IF_GOLD)
+          || improvement_has_flag(target->value.building, IF_INFRA)) {
         cat_snprintf(buffer, buffer_len, _("%d/turn"),
                      MAX(0, pcity->surplus[O_SHIELD]));
       } else {
@@ -452,7 +457,8 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     if (VUT_IMPROVEMENT == target->kind
         && is_convert_improvement(target->value.building)) {
       /* Coinage-like improvements: print yield-per-turn instead */
-      if (improvement_has_flag(target->value.building, IF_GOLD)) {
+      if (improvement_has_flag(target->value.building, IF_GOLD)
+          || improvement_has_flag(target->value.building, IF_INFRA)) {
         fc_snprintf(buf[3], column_size, _("%d/turn"),
                     MAX(0, pcity->surplus[O_SHIELD]));
       } else {

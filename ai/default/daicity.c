@@ -1633,6 +1633,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
      */
     if (improvement_has_flag(pimprove, IF_GOLD)) {
       v += TRADE_WEIGHTING / 10;
+    } else if (improvement_has_flag(pimprove, IF_INFRA)) {
+      v += INFRA_WEIGHTING / 10;
     }
     /* Without relevant flags, base want remains 0. */
   } else {

@@ -4052,7 +4052,7 @@ void city_production_delegate::paint(QPainter *painter,
   QRect rect2;
   struct sprite *sprite;
   bool useless = false;
-  bool is_coinage = false;
+  bool is_convert = false;
   bool is_neutral = false;
   bool is_sea = false;
   bool is_flying = false;
@@ -4118,7 +4118,7 @@ void city_production_delegate::paint(QPainter *painter,
     name = improvement_name_translation(target->value.building);
     sprite = get_building_sprite(tileset, target->value.building);
     useless = is_improvement_redundant(pcity, target->value.building);
-    is_coinage = improvement_has_flag(target->value.building, IF_GOLD);
+    is_convert = (target->value.building->genus == IG_CONVERT);
   }
 
   if (sprite != nullptr) {
@@ -4157,7 +4157,7 @@ void city_production_delegate::paint(QPainter *painter,
     QItemDelegate::drawDecoration(painter, option, option.rect, pix_dec);
   }
 
-  if (is_coinage) {
+  if (is_convert) {
     pix_dec.fill(QColor(255, 255, 0, 70));
     QItemDelegate::drawDecoration(painter, option, option.rect, pix_dec);
   }

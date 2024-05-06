@@ -755,14 +755,34 @@ static bool rs_buildings(rs_conversion_logger logger)
 {
   /* Special Genus */
   improvement_re_active_iterate(pimprove) {
-    if (improvement_has_flag(pimprove, IF_GOLD)
-        && pimprove->genus != IG_CONVERT) {
-      ruleset_error(logger, LOG_ERROR,
-                    _("Gold producing improvement %s with genus other than \"Convert\""),
-                    improvement_rule_name(pimprove));
+    if (improvement_has_flag(pimprove, IF_GOLD)) {
+      if (pimprove->genus != IG_CONVERT) {
+        ruleset_error(logger, LOG_ERROR,
+                      _("Gold producing improvement %s with genus other than \"Convert\""),
+                      improvement_rule_name(pimprove));
 
+        return FALSE;
+      }
+      if (improvement_has_flag(pimprove, IF_INFRA)) {
+        ruleset_error(logger, LOG_ERROR,
+                      _("The same improvement has both \"Gold\" and \"Infra\" flags"));
+        return FALSE;
+      }
+    } else if (improvement_has_flag(pimprove, IF_INFRA)) {
+      if (pimprove->genus != IG_CONVERT) {
+        ruleset_error(logger, LOG_ERROR,
+                      _("Infrapoints producing improvement %s with genus other than \"Convert\""),
+                      improvement_rule_name(pimprove));
+
+        return FALSE;
+      }
+    } else if (pimprove->genus == IG_CONVERT) {
+      ruleset_error(logger, LOG_ERROR,
+                    _("Improvement %s with no conversion target with genus \"Convert\""),
+                    improvement_rule_name(pimprove));
       return FALSE;
     }
+
     if (improvement_has_flag(pimprove, IF_DISASTER_PROOF)
         && pimprove->genus != IG_IMPROVEMENT) {
       ruleset_error(logger, LOG_ERROR,

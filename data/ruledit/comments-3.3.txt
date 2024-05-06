@@ -65,6 +65,8 @@ buildings = "\
 ; \"Gold\"             = Not a real building; production turned into gold\n\
 ;                      indefinitely (capitalization/coinage).\n\
 ;                      Genus should be \"Convert\".\n\
+; \"Infra\"            = Not a real building; production turned into infrapoints\n\
+;                      indefinitely. Genus should be \"Convert\".\n\
 ; \"DisasterProof\"    = Disasters never destroy this building. Is meaningful\n\
 ;                      only for genus \"Improvement\" buildings as others are\n\
 ;                      automatically disaster proof.\n\

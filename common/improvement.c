@@ -622,6 +622,7 @@ bool is_improvement_productive(const struct city *pcity,
 {
     return (!improvement_obsolete(city_owner(pcity), pimprove, pcity)
             && (improvement_has_flag(pimprove, IF_GOLD)
+                || improvement_has_flag(pimprove, IF_INFRA)
                 || improvement_has_side_effects(pcity, pimprove)
                 || improvement_has_effects(pcity, pimprove)));
 }
@@ -633,7 +634,7 @@ bool is_improvement_productive(const struct city *pcity,
    - all of its effects (if any) are provided by other means, or it's
      obsolete (and thus assumed to have no effect); and
    - it's not enabling the city to build some kind of units; and
-   - it's not Coinage (IF_GOLD).
+   - it's not convert production (IF_GOLD or IF_INFRA).
   (Note that it's not impossible that this improvement could become useful
   if circumstances changed, say if a new government enabled the building
   of its special units.)
@@ -643,6 +644,9 @@ bool is_improvement_redundant(const struct city *pcity,
 {
   /* A capitalization production is never redundant. */
   if (improvement_has_flag(pimprove, IF_GOLD)) {
+    return FALSE;
+  }
+  if (improvement_has_flag(pimprove, IF_INFRA)) {
     return FALSE;
   }
 

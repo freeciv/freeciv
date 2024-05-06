@@ -602,7 +602,8 @@ static const char *cr_entry_building(const struct city *pcity,
     gui_options.concise_city_production ? "+" : _("(worklist)");
 
   if (city_production_is_genus(pcity, IG_CONVERT)) {
-    if (city_production_has_flag(pcity, IF_GOLD)) {
+    if (city_production_has_flag(pcity, IF_GOLD)
+        || city_production_has_flag(pcity, IF_INFRA)) {
       fc_snprintf(buf, sizeof(buf), "%s (%d)%s",
                   city_production_name_translation(pcity),
                   MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
