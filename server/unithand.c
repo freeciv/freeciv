@@ -3032,7 +3032,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
        * distant target tile and maybe some contacts. */
       map_show_circle(pplayer, tgt_tile,
                       unit_type_get(act_unit)->vision_radius_sq);
-      maybe_make_contact(tgt_tile, pplayer);
+      unit_make_contact(act_unit, tgt_tile, pplayer);
     }
 
     if (act_unit->hp > 0) {

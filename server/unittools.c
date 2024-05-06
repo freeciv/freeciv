@@ -1736,7 +1736,7 @@ bool place_unit(struct unit *punit, struct player *pplayer,
 
   unit_list_prepend(pplayer->units, punit);
   unit_list_prepend(ptile->units, punit);
-  maybe_make_contact(ptile, unit_owner(punit));
+  unit_make_contact(punit, ptile, nullptr);
   if (pcity && !unit_has_type_flag(punit, UTYF_NOHOME)) {
     fc_assert(punit->homecity == pcity->id);
     fc_assert(city_owner(pcity) == pplayer);
@@ -3219,7 +3219,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
     char victim_link[MAX_LEN_LINK];
 
     map_show_circle(pplayer, ptile, act_utype->vision_radius_sq);
-    maybe_make_contact(ptile, pplayer);
+    unit_make_contact(punit, ptile, pplayer);
     notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s was killed by enemy units at the "
                     "paradrop destination."),
@@ -4273,7 +4273,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   if (unit_lives) {
     wakeup_neighbor_sentries(punit);
   }
-  maybe_make_contact(pdesttile, pplayer);
+  unit_make_contact(punit, pdesttile, pplayer);
 
   if (unit_lives) {
     /* Special checks for ground units in the ocean. */
@@ -5163,4 +5163,21 @@ void random_movements(struct player *pplayer)
   } unit_list_iterate_safe_end;
 
   game.server.random_move_time = NULL;
+}
+
+/**********************************************************************//**
+  Make contact between a player and everyone adjacent to a tile via a unit
+  moving to that tile. Tile and player default to the unit's location and
+  owner if nullptr, but they may be different.
+**************************************************************************/
+void unit_make_contact(const struct unit *punit,
+                       struct tile *ptile, struct player *pplayer) {
+  fc_assert_ret(punit != nullptr);
+
+  if (unit_has_type_flag(punit, UTYF_FLAGLESS)) {
+    return; /* Flagless unit can't make contact */
+  }
+
+  maybe_make_contact(ptile ? ptile : unit_tile(punit),
+                     pplayer ? pplayer : unit_owner(punit));
 }

@@ -689,7 +689,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       return;
     }
 
-    maybe_make_contact(utile, to_player);
+    unit_make_contact(punit, utile, to_player);
   }
   unit_change_homecity_handling(punit, tocity, rehome);
 }

@@ -124,6 +124,8 @@ void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
                                           struct extra_type **target);
 void unit_forget_last_activity(struct unit *punit);
+void unit_make_contact(const struct unit *punit,
+                       struct tile *ptile, struct player *pplayer);
 
 /* creation/deletion/upgrading */
 void transform_unit(struct unit *punit, const struct unit_type *to_unit,

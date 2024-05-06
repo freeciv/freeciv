@@ -2367,6 +2367,9 @@ void maybe_make_contact(struct tile *ptile, struct player *pplayer)
       make_contact(pplayer, city_owner(pcity), ptile);
     }
     unit_list_iterate_safe(tile1->units, punit) {
+      if (unit_has_type_flag(punit, UTYF_FLAGLESS)) {
+        continue; /* Flagless unit can't make contact */
+      }
       make_contact(pplayer, unit_owner(punit), ptile);
     } unit_list_iterate_safe_end;
   } square_iterate_end;
