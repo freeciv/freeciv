@@ -6206,7 +6206,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
   }
 
   if (can_establish) {
-    struct trade_route *proute_from, *proute_to;
     struct city_list *cities_out_of_home;
     struct city_list *cities_out_of_dest;
     struct player *partner_player;
@@ -6258,24 +6257,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
       free(pback);
     } trade_route_list_iterate_end;
 
-    /* Actually create the new trade route */
-    proute_from = fc_malloc(sizeof(struct trade_route));
-    proute_from->partner = pcity_dest->id;
-    proute_from->goods = goods;
-
-    proute_to = fc_malloc(sizeof(struct trade_route));
-    proute_to->partner = pcity_homecity->id;
-    proute_to->goods = goods;
-
-    if (goods_has_flag(goods, GF_BIDIRECTIONAL)) {
-      proute_from->dir = RDIR_BIDIRECTIONAL;
-      proute_to->dir = RDIR_BIDIRECTIONAL;
-    } else {
-      proute_from->dir = RDIR_FROM;
-      proute_to->dir = RDIR_TO;
-    }
-    trade_route_list_append(pcity_homecity->routes, proute_from);
-    trade_route_list_append(pcity_dest->routes, proute_to);
+    create_trade_route(pcity_homecity, pcity_dest, goods);
 
     /* Refresh the cities. */
     city_refresh(pcity_homecity);
@@ -6344,6 +6326,35 @@ static bool do_unit_establish_trade(struct player *pplayer,
   trade_route_list_destroy(routes_out_of_dest);
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Create a trade route between cities. No checks - callers should have
+  made sure that the route can be added already.
+**************************************************************************/
+void create_trade_route(struct city *from, struct city *to,
+                        struct goods_type *goods)
+{
+  struct trade_route *proute_from, *proute_to;
+
+  /* Actually create the new trade route */
+  proute_from = fc_malloc(sizeof(struct trade_route));
+  proute_from->partner = to->id;
+  proute_from->goods = goods;
+
+  proute_to = fc_malloc(sizeof(struct trade_route));
+  proute_to->partner = from->id;
+  proute_to->goods = goods;
+
+  if (goods_has_flag(goods, GF_BIDIRECTIONAL)) {
+    proute_from->dir = RDIR_BIDIRECTIONAL;
+    proute_to->dir = RDIR_BIDIRECTIONAL;
+  } else {
+    proute_from->dir = RDIR_FROM;
+    proute_to->dir = RDIR_TO;
+  }
+  trade_route_list_append(from->routes, proute_from);
+  trade_route_list_append(to->routes, proute_to);
 }
 
 /**********************************************************************//**

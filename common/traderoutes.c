@@ -277,8 +277,7 @@ int city_trade_removable(const struct city *pcity, int priority,
 /*********************************************************************//**
   Returns TRUE iff the two cities can establish a trade route. We look
   at the distance and ownership of the cities as well as their existing
-  trade routes. Should only be called if you already know that
-  can_cities_trade().
+  trade routes.
 *************************************************************************/
 bool can_establish_trade_route(const struct city *pc1, const struct city *pc2,
                                int priority)

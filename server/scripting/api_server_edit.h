@@ -117,4 +117,6 @@ void api_edit_player_add_history(lua_State *L, Player *pplayer, int amount);
 void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount,
                                 Tech_Type *tech);
 
+bool api_edit_create_trade_route(lua_State *L, City *from, City *to);
+
 #endif /* API_SERVER_EDIT_H */

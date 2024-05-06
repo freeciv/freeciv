@@ -66,4 +66,7 @@ bool unit_server_side_agent_set(struct player *pplayer,
                                 struct unit *punit,
                                 enum server_side_agent agent);
 
+void create_trade_route(struct city *from, struct city *to,
+                        struct goods_type *goods);
+
 #endif /* FC__UNITHAND_H */

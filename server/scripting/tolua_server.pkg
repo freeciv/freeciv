@@ -240,6 +240,9 @@ module edit {
   void api_edit_player_give_bulbs
     @ give_bulbs(lua_State *L, Player *self, int amount,
                  Tech_Type *tech = NULL);
+
+  bool api_edit_create_trade_route
+    @ create_trade_route(lua_State *L, City *from, City *to);
 }
 
 /* Luadata module. */

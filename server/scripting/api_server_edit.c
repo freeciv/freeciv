@@ -1202,3 +1202,42 @@ void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount,
     }
   }
 }
+
+/**********************************************************************//**
+  Create a trade route between two cities.
+**************************************************************************/
+bool api_edit_create_trade_route(lua_State *L, City *from, City *to)
+{
+  struct player *pplayer, *partner_player;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, from, 2, City, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, to, 3, City, FALSE);
+
+  /* Priority zero -> never replace old routes. */
+  if (!can_establish_trade_route(from, to, 0)) {
+    return FALSE;
+  }
+
+  create_trade_route(from, to, goods_from_city_to_unit(from, NULL));
+
+  /* Refresh the cities. */
+  city_refresh(from);
+  city_refresh(to);
+
+  pplayer = city_owner(from);
+  partner_player = city_owner(to);
+
+  send_city_info(pplayer, from);
+  send_city_info(partner_player, to);
+
+  /* Notify each player about the other's cities. */
+  if (pplayer != partner_player && game.info.reveal_trade_partner) {
+    map_show_tile(partner_player, city_tile(from));
+    send_city_info(partner_player, from);
+    map_show_tile(pplayer, city_tile(to));
+    send_city_info(pplayer, to);
+  }
+
+  return TRUE;
+}
