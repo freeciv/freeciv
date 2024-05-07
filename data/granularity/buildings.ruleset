@@ -351,7 +351,7 @@ sound		= "b_quarry"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
 helptext	= _("\
-Quarry produces 3 infrapoints per turn.\
+Quarry produces 300 infrapoints per turn.\
 ")
 
 [building_stone_circle]
@@ -376,4 +376,26 @@ sound_alt2      = "-"
 helptext	= _("\
 Stone Circle produces two points of history per turn for each city, \
 five points for the city its located at.\
+")
+
+[building_gather_wood]
+name		= _("Gather Wood")
+genus		= "Convert"
+flags		= "Infra"
+reqs	=
+    { "type", "name", "range"
+    }
+graphic         = "b.gather_wood"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 999
+upkeep		= 0
+sabotage	= 0
+helptext	= _("\
+This is not a normal improvement. Instead, setting a city's\
+ production to this means its shield production is\
+ converted to infra points.\
 ")
