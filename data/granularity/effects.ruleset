@@ -352,7 +352,7 @@ reqs	=
 
 [effect_throne_infra]
 type    = "Infra_Points"
-value	= 2
+value	= 200
 reqs	=
     { "type", "name", "range"
       "Building", "Throne", "City"
@@ -360,7 +360,7 @@ reqs	=
 
 [effect_quarry_infra]
 type    = "Infra_Points"
-value	= 3
+value	= 300
 reqs	=
     { "type", "name", "range"
       "Building", "Quarry", "City"

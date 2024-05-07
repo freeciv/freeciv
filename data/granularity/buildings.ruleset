@@ -348,7 +348,7 @@ sound		= "b_quarry"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
 helptext	= _("\
-Quarry produces 3 infrapoints per turn.\
+Quarry produces 300 infrapoints per turn.\
 ")
 
 [building_stone_circle]
