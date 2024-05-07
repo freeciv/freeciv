@@ -424,7 +424,7 @@ class Location:
         of this location's corresponding field address"""
         return "field_addr.sub_location" + self.json_depth * "->sub_location"
 
-    def __matmul__(self, packet: str | None) -> str:
+    def __matmul__(self, packet: "str | None") -> str:
         """self @ packet
         Code fragment of this location in the given packet, or in local
         variables if packet is None"""
