@@ -185,7 +185,7 @@ void goto_dialog::item_selected(const QItemSelection &sl,
   center_tile_mapcanvas(city_tile(dest));
   can_airlift = false;
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_can_airlift_to(punit, dest)) {
+    if (unit_can_airlift_to(&(wld.map), punit, dest)) {
       can_airlift = true;
       break;
     }
@@ -427,7 +427,7 @@ void goto_dialog::airlift_to()
                                              0)->data(Qt::UserRole).toInt());
   if (pdest) {
     unit_list_iterate(get_units_in_focus(), punit) {
-      if (unit_can_airlift_to(punit, pdest)) {
+      if (unit_can_airlift_to(&(wld.map), punit, pdest)) {
         request_unit_airlift(punit, pdest);
       }
     } unit_list_iterate_end;

@@ -183,13 +183,10 @@ enum unit_airlift_result
   side of saying airlifting is possible even if it's not certain given
   player knowledge.
 **************************************************************************/
-bool unit_can_airlift_to(const struct unit *punit,
+bool unit_can_airlift_to(const struct civ_map *nmap,
+                         const struct unit *punit,
                          const struct city *pdest_city)
 {
-  const struct civ_map *nmap = &(wld.map);
-
-  fc_assert_ret_val(pdest_city, FALSE);
-
   if (is_server()) {
     return is_action_enabled_unit_on_city(nmap, ACTION_AIRLIFT,
                                           punit, pdest_city);

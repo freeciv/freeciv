@@ -100,7 +100,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 
       if (pdestcity) {
         unit_list_iterate(get_units_in_focus(), punit) {
-          if (unit_can_airlift_to(punit, pdestcity)) {
+          if (unit_can_airlift_to(&(wld.map), punit, pdestcity)) {
             request_unit_airlift(punit, pdestcity);
           }
         } unit_list_iterate_end;
@@ -498,7 +498,7 @@ static void refresh_airlift_button(void)
 
     /* Allow action if any of the selected units can airlift. */
     unit_list_iterate(get_units_in_focus(), punit) {
-      if (unit_can_airlift_to(punit, pdestcity)) {
+      if (unit_can_airlift_to(&(wld.map), punit, pdestcity)) {
         can_airlift = TRUE;
         break;
       }
