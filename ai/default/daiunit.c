@@ -171,6 +171,7 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
   struct city *most_needed;
   int comparison;
   struct unit *transported;
+  const struct civ_map *nmap = &(wld.map);
 
   do {
     most_needed = find_neediest_airlift_city(ait, pplayer);
@@ -192,7 +193,7 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
 
         if (city_data->urgency == 0
             && city_data->danger - DEFENSE_POWER(ptype) < comparison
-            && unit_can_airlift_to(punit, most_needed)
+            && unit_can_airlift_to(nmap, punit, most_needed)
             && DEFENSE_POWER(ptype) > 2
             && (unit_data->task == AIUNIT_NONE
                 || unit_data->task == AIUNIT_DEFEND_HOME)

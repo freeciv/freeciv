@@ -313,7 +313,9 @@ enum unit_airlift_result
                              const struct player *restriction,
                              const struct unit *punit,
                              const struct city *pdest_city);
-bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity);
+bool unit_can_airlift_to(const struct civ_map *nmap,
+                         const struct unit *punit, const struct city *pcity)
+  fc__attribute((nonnull (3)));
 bool unit_has_orders(const struct unit *punit);
 
 bool could_unit_be_in_transport(const struct unit *pcargo,
