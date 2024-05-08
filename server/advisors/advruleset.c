@@ -104,7 +104,13 @@ void adv_units_ruleset_init(void)
       } unit_class_iterate_end;
     }
 
-    ptype->adv.worker = utype_has_flag(ptype, UTYF_SETTLERS);
+    ptype->adv.worker
+      = (utype_has_flag(ptype, UTYF_SETTLERS)
+         && (utype_can_do_action_result(ptype, ACTRES_CULTIVATE)
+             || utype_can_do_action_result(ptype, ACTRES_PLANT)
+             || utype_can_do_action_result(ptype, ACTRES_IRRIGATE)
+             || utype_can_do_action_result(ptype, ACTRES_MINE)
+             || utype_can_do_action_result(ptype, ACTRES_TRANSFORM_TERRAIN)));
   } unit_type_iterate_end;
 
   /* Initialize autosettlers actions */
