@@ -1335,10 +1335,437 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, {location @ packet}, {self.s
 DEFAULT_REGISTRY.dataio_types["memory"] = partial(NeedSizeType, cls = MemoryType)
 
 
-class ArrayType(FieldType):
+class SequenceType(FieldType):
+    """Abstract base class (ABC) for field types representing homogenous
+    sequences of elements"""
+
+    @abstractmethod
+    def size_at(self, location: Location) -> SizeInfo:
+        """Return a size info object for a field of this type"""
+        raise NotImplementedError()
+
+    def resize(self, location: Location, packet: str, new_size: str) -> str:
+        """Return a code snippet updating the size of a field of this type,
+        or the empty string if this type doesn't need to individually transmit
+        and update its size"""
+        return ""
+
+    def null_condition(self, location: Location) -> "Location | None":
+        """Return a code condition that if TRUE means the field cannot be used
+        normally and should be treated as empty, or None if this never happens"""
+        return None
+
+    @abstractmethod
+    def inner_cmp(self, location: Location, new: str, old: str) -> str:
+        """Generate the loop body for get_code_cmp()
+
+        This is placed at the very beginning of a scope, so variable
+        declarations are permitted without requiring an extra block."""
+        raise NotImplementedError()
+
+    def get_code_cmp(self, location: Location, new: str, old: str) -> str:
+        size = self.size_at(location)
+        inner_cmp = prefix("    ", self.inner_cmp(location, new, old))
+
+        null_con = self.null_condition(location)
+        if null_con is None:
+            safe_size = size
+        else:
+            # new packet is passed in from outside, might be null
+            safe_size = SizeInfo(size.declared @ None, size.actual.replace(f"{null_con} ? 0 : {size.actual}"))
+        if not safe_size.constant:
+            # ends mid-line
+            head = f"""\
+differ = ({size.actual @ old} != {safe_size.actual @ new});
+if (!differ) """
+        else:
+            head = f"""\
+differ = FALSE;
+"""
+
+        return f"""\
+{head}{{
+  int {location.index};
+
+  for ({location.index} = 0; {location.index} < {size.actual @ old}; {location.index}++) {{
+{inner_cmp}\
+    if (differ) {{
+      break;
+    }}
+  }}
+}}
+"""
+
+    @abstractmethod
+    def inner_put(self, location: Location, packet: str,
+                         diff_packet: "str | None" = None, json_step: int = 1) -> str:
+        """Generate the main part of the loop body for get_code_put()"""
+        raise NotImplementedError()
+
+    def get_code_put_full(self, location: Location, packet: str) -> str:
+        """Generate put code without array-diff."""
+        size = self.size_at(location)
+        inner_put = prefix("    ", self.inner_put(location, packet))
+
+        send_size = bool(self.resize(location, packet, "s"))
+        if send_size:
+            # Note: strictly speaking, we could allow size == MAX_UINT16,
+            # but we might want to use that in the future to signal overlong
+            # vectors (like with jumbo packets)
+            # Though that would also mean packets larger than 64 KiB,
+            # which we're a long way from
+            size_part = f"""\
+  fc_assert({size.actual @ packet} < MAX_UINT16);
+  e |= DIO_PUT(arraylen, &dout, &field_addr, {size.actual @ packet});
+
+#ifdef FREECIV_JSON_CONNECTION
+"""
+        else:
+            size_part = f"""\
+#ifdef FREECIV_JSON_CONNECTION
+  /* Create the array. */
+  e |= DIO_PUT(farray, &dout, &field_addr, {size.actual @ packet});
+
+"""
+
+        null_condition = self.null_condition(location)
+        if null_condition is None:
+            head = ""
+        elif send_size:
+            # ends mid-line
+            head = f"""\
+if ({null_condition @ packet}) {{
+  /* Transmit null as empty */
+  e |= DIO_PUT(arraylen, &dout, &field_addr, 0);
+}} else """
+        else:
+            # ends mid-line
+            head = f"""\
+if ({null_condition @ packet}) {{
+  /* Transmit null as empty */
+#ifdef FREECIV_JSON_CONNECTION
+  /* Create the array. */
+  e |= DIO_PUT(farray, &dout, &field_addr, 0);
+#endif /* FREECIV_JSON_CONNECTION */
+}} else """
+
+        return f"""\
+{head}{{
+  int {location.index};
+
+{size_part}\
+  /* Enter array. */
+  {location.json_subloc} = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
+#ifdef FREECIV_JSON_CONNECTION
+    /* Next array element. */
+    {location.json_subloc}->number = {location.index};
+#endif /* FREECIV_JSON_CONNECTION */
+
+{inner_put}\
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit array. */
+  FC_FREE({location.json_subloc});
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+"""
+
+    def get_code_put_diff(self, location: Location, packet: str, diff_packet: str) -> str:
+        """Generate array-diff put code."""
+        size = self.size_at(location)
+
+        null_condition = self.null_condition(location)
+        if null_condition is not None:
+            safe_size = SizeInfo(size.declared @ None, size.actual.replace(f"({null_condition} ? 0 : {size.actual})"))
+        else:
+            safe_size = size
+
+        if self.resize(location, packet, "s"):
+            # starts and ends inside JSON ifdef
+            size_head = f"""\
+
+  /* Create the object to hold new size and delta. */
+  e |= DIO_PUT(object, &dout, &field_addr);
+
+  /* Enter object (start at size address). */
+  {location.json_subloc} = plocation_field_new("size");
+#endif /* FREECIV_JSON_CONNECTION */
+
+  /* Write the new size */
+  e |= DIO_PUT(uint16, &dout, &field_addr, {safe_size.actual @ packet});
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Delta address. */
+  {location.json_subloc}->name = "delta";
+"""
+            # starts and ends inside JSON ifdef
+            size_tail = f"""\
+  /* Exit object. */
+  FC_FREE({location.json_subloc});
+"""
+            # everything else is nested one level deeper than usual
+            location.json_depth += 1
+        else:
+            size_head = size_tail = ""
+
+        # Note: At the moment, we're only deep-diffing our elements
+        # if our array size is constant
+        value_put = prefix("    ", self.inner_put(location, packet, diff_packet if size.constant else None, 2))
+        inner_cmp = prefix("    ", self.inner_cmp(location, packet, diff_packet))
+        index_put = prefix("    ", size.index_put(packet, location.index))
+        index_put_sentinel = prefix("  ", safe_size.index_put(packet, safe_size.actual @ packet))
+        size_check = prefix("  ", safe_size.size_check_index(location.name, packet))
+
+        if not size.constant:
+            inner_cmp = f"""\
+    if ({location.index} < {size.actual @ diff_packet}) {{
+{prefix("  ", inner_cmp)}\
+    }} else {{
+      /* Always transmit new elements */
+      differ = TRUE;
+    }}
+"""
+
+        return f"""\
+{{
+  int {location.index};
+
+{size_check}\
+
+#ifdef FREECIV_JSON_CONNECTION
+  size_t count_{location.index} = 0;
+{size_head}\
+
+  /* Create the array. */
+  e |= DIO_PUT(farray, &dout, &field_addr, 0);
+
+  /* Enter array. */
+  {location.json_subloc} = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+  for ({location.index} = 0; {location.index} < {safe_size.actual @ packet}; {location.index}++) {{
+{inner_cmp}\
+
+    if (!differ) {{
+      continue;
+    }}
+
+#ifdef FREECIV_JSON_CONNECTION
+    /* Append next diff array element. */
+    {location.json_subloc}->number = -1;
+
+    /* Create the diff array element. */
+    e |= DIO_PUT(object, &dout, &field_addr);
+
+    /* Enter diff array element (start at the index address). */
+    {location.json_subloc}->number = count_{location.index}++;
+    {location.json_subloc}->sub_location = plocation_field_new("index");
+#endif /* FREECIV_JSON_CONNECTION */
+
+    /* Write the index */
+{index_put}\
+
+#ifdef FREECIV_JSON_CONNECTION
+    /* Content address. */
+    {location.json_subloc}->sub_location->name = "data";
+#endif /* FREECIV_JSON_CONNECTION */
+
+{value_put}\
+
+#ifdef FREECIV_JSON_CONNECTION
+    /* Exit diff array element. */
+    FC_FREE({location.json_subloc}->sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Append diff array element. */
+  {location.json_subloc}->number = -1;
+
+  /* Create the terminating diff array element. */
+  e |= DIO_PUT(object, &dout, &field_addr);
+
+  /* Enter diff array element (start at the index address). */
+  {location.json_subloc}->number = count_{location.index};
+  {location.json_subloc}->sub_location = plocation_field_new("index");
+#endif /* FREECIV_JSON_CONNECTION */
+
+  /* Write the sentinel value */
+{index_put_sentinel}\
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit diff array element. */
+  FC_FREE({location.json_subloc}->sub_location);
+  /* Exit array. */
+  FC_FREE({location.json_subloc});
+{size_tail}\
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+"""
+
+    def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
+        if diff_packet is not None:
+            return self.get_code_put_diff(location, packet, diff_packet)
+        else:
+            return self.get_code_put_full(location, packet)
+
+    @abstractmethod
+    def inner_get(self, location:Location, packet: str,
+                         deep_diff: bool = False, json_step: int = 1) -> str:
+        """Generate the main part of the loop body for get_code_get()"""
+        raise NotImplementedError()
+
+    def get_code_get_full(self, location: Location, packet: str) -> str:
+        """Generate get code without array-diff."""
+        size = self.size_at(location)
+        inner_get = prefix("    ", self.inner_get(location, packet))
+
+        resize = self.resize(location, packet, location.index)
+        if resize:
+            size_part = f"""\
+  if (!DIO_GET(arraylen, &din, &field_addr, &{location.index})) {{
+    RECEIVE_PACKET_FIELD_ERROR({location.name});
+  }}
+{prefix("  ", resize)}\
+"""
+        else:
+            size_part = prefix("  ", size.size_check_get(location.name, packet))
+
+        return f"""\
+{{
+  int {location.index};
+
+{size_part}\
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Enter array. */
+  {location.json_subloc} = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
+#ifdef FREECIV_JSON_CONNECTION
+    /* Next array element */
+    {location.json_subloc}->number = {location.index};
+#endif /* FREECIV_JSON_CONNECTION */
+
+{inner_get}\
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit array. */
+  FC_FREE({location.json_subloc});
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+"""
+
+    def get_code_get_diff(self, location: Location, packet: str) -> str:
+        """Generate array-diff get code."""
+        size = self.size_at(location)
+
+        resize = self.resize(location, packet, location.index)
+        if resize:
+            # ends inside a JSON ifdef
+            size_head = f"""\
+#ifdef FREECIV_JSON_CONNECTION
+/* Enter object (start at size address). */
+{location.json_subloc} = plocation_field_new("size");
+#endif /* FREECIV_JSON_CONNECTION */
+
+{{
+  int readin;
+
+  if (!DIO_GET(uint16, &din, &field_addr, &readin)) {{
+    RECEIVE_PACKET_FIELD_ERROR({location.name});
+  }}
+{prefix("  ", resize)}\
+}}
+
+#ifdef FREECIV_JSON_CONNECTION
+/* Delta address. */
+{location.json_subloc}->name = "delta";
+"""
+            size_tail = f"""\
+/* Exit diff object. */
+FC_FREE({location.json_subloc});
+"""
+            location.json_depth += 1
+        else:
+            size_head = f"""\
+{prefix("  ", size.size_check_get(location.name, packet))}\
+#ifdef FREECIV_JSON_CONNECTION
+"""
+            size_tail = ""
+
+        # Note: At the moment, we're only deep-diffing our elements
+        # if our array size is constant
+        value_get = prefix("  ", self.inner_get(location, packet, size.constant, 2))
+        index_get = prefix("  ", size.index_get(packet, location))
+
+        return f"""\
+{size.size_check_index(location.name, packet)}\
+{size_head}\
+/* Enter array (start at initial element). */
+{location.json_subloc} = plocation_elem_new(0);
+/* Enter diff array element (start at the index address). */
+{location.json_subloc}->sub_location = plocation_field_new("index");
+#endif /* FREECIV_JSON_CONNECTION */
+
+while (TRUE) {{
+  int {location.index};
+
+  /* Read next index */
+{index_get}\
+
+  if ({location.index} == {size.actual @ packet}) {{
+    break;
+  }}
+  if ({location.index} > {size.actual @ packet}) {{
+    RECEIVE_PACKET_FIELD_ERROR({location.name},
+                               ": unexpected index %d "
+                               "> length %d in array diff",
+                               {location.index},
+                               {size.actual @ packet});
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Content address. */
+  {location.json_subloc}->sub_location->name = "data";
+#endif /* FREECIV_JSON_CONNECTION */
+
+{value_get}\
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Move to the next diff array element. */
+  {location.json_subloc}->number++;
+  /* Back to the index address. */
+  {location.json_subloc}->sub_location->name = "index";
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+
+#ifdef FREECIV_JSON_CONNECTION
+/* Exit diff array element. */
+FC_FREE({location.json_subloc}->sub_location);
+/* Exit array. */
+FC_FREE({location.json_subloc});
+{size_tail}\
+#endif /* FREECIV_JSON_CONNECTION */
+"""
+
+    def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
+        if deep_diff:
+            return self.get_code_get_diff(location, packet)
+        else:
+            return self.get_code_get_full(location, packet)
+
+
+class ArrayType(SequenceType):
     """Type information for an array field. Consists of size information and
     another FieldType for the array's elements, which may also be an
-    ArrayType (for multi-dimensionaly arrays)."""
+    ArrayType (for multi-dimensional arrays) or another SequenceType."""
 
     elem: FieldType
     """The type of the array elements"""
@@ -1435,255 +1862,26 @@ class ArrayType(FieldType):
     def get_code_hash(self, location: Location) -> str:
         raise ValueError(f"hash not supported for array type {self} in field {location.name}")
 
-    def get_code_cmp(self, location: Location, new: str, old: str) -> str:
-        if not self.size.constant:
-            # ends mid-line
-            head = f"""\
-differ = ({self.size.actual @ old} != {self.size.actual @ new});
-if (!differ) """
-        else:
-            head = f"""\
-differ = FALSE;
-"""
-        inner_cmp = prefix("    ", self.elem.get_code_cmp(location.sub, new, old))
-        return f"""\
-{head}{{
-  int {location.index};
+    def size_at(self, location: Location) -> SizeInfo:
+        return self.size
 
-  for ({location.index} = 0; {location.index} < {self.size.actual @ new}; {location.index}++) {{
-{inner_cmp}\
-    if (differ) {{
-      break;
-    }}
-  }}
-}}
-"""
+    def inner_cmp(self, location: Location, new: str, old: str) -> str:
+        return self.elem.get_code_cmp(location.sub, new, old)
 
-    def _get_code_put_full(self, location: Location, packet: str) -> str:
-        """Helper method. Generate put code without array-diff."""
-        inner_put = prefix("    ", self.elem.get_code_put(location.sub, packet))
-        return f"""\
-{{
-  int {location.index};
+    def inner_put(self, location: Location, packet: str,
+                         diff_packet: "str | None" = None, json_step: int = 1) -> str:
+        return self.elem.get_code_put(location.sub_full(json_step), packet, diff_packet)
 
-#ifdef FREECIV_JSON_CONNECTION
-  /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {self.size.actual @ packet});
-
-  /* Enter the array. */
-  {location.json_subloc} = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {self.size.actual @ packet}; {location.index}++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    /* Next array element. */
-    {location.json_subloc}->number = {location.index};
-#endif /* FREECIV_JSON_CONNECTION */
-
-{inner_put}\
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-"""
-
-    def _get_code_put_diff(self, location: Location, packet: str, diff_packet: str) -> str:
-        """Helper method. Generate array-diff put code."""
-        # we're nesting two levels deep in the JSON structure
-        sub = location.sub_full(2)
-        # Note: At the moment, we're only deep-diffing our elements
-        # if our array size is constant
-        value_put = prefix("    ", self.elem.get_code_put(sub, packet, diff_packet if self.size.constant else None))
-        inner_cmp = prefix("    ", self.elem.get_code_cmp(sub, packet, diff_packet))
-        index_put = prefix("    ", self.size.index_put(packet, location.index))
-        index_put_sentinel = prefix("  ", self.size.index_put(packet, self.size.actual @ packet))
-
-        if not self.size.constant:
-            inner_cmp = f"""\
-    if ({location.index} < {self.size.actual @ diff_packet}) {{
-{prefix("  ", inner_cmp)}\
-    }} else {{
-      /* Always transmit new elements */
-      differ = TRUE;
-    }}
-"""
-
-        return f"""\
-{self.size.size_check_index(location.name, packet)}\
-{{
-  int {location.index};
-
-#ifdef FREECIV_JSON_CONNECTION
-  size_t count_{location.index} = 0;
-
-  /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 0);
-
-  /* Enter array. */
-  {location.json_subloc} = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {self.size.actual @ packet}; {location.index}++) {{
-{inner_cmp}\
-
-    if (!differ) {{
-      continue;
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Append next diff array element. */
-    {location.json_subloc}->number = -1;
-
-    /* Create the diff array element. */
-    e |= DIO_PUT(object, &dout, &field_addr);
-
-    /* Enter diff array element (start at the index address). */
-    {location.json_subloc}->number = count_{location.index}++;
-    {location.json_subloc}->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-    /* Write the index */
-{index_put}\
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Content address. */
-    {location.json_subloc}->sub_location->name = "data";
-#endif /* FREECIV_JSON_CONNECTION */
-
-{value_put}\
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Exit diff array element. */
-    FC_FREE({location.json_subloc}->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Append diff array element. */
-  {location.json_subloc}->number = -1;
-
-  /* Create the terminating diff array element. */
-  e |= DIO_PUT(object, &dout, &field_addr);
-
-  /* Enter diff array element (start at the index address). */
-  {location.json_subloc}->number = count_{location.index};
-  {location.json_subloc}->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-  /* Write the sentinel value */
-{index_put_sentinel}\
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit diff array element and array. */
-  FC_FREE({location.json_subloc}->sub_location);
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-"""
-
-    def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
-        if diff_packet is not None:
-            return self._get_code_put_diff(location, packet, diff_packet)
-        else:
-            return self._get_code_put_full(location, packet)
-
-    def _get_code_get_full(self, location: Location, packet: str) -> str:
-        """Helper method. Generate get code without array-diff."""
-        inner_get = prefix("    ", self.elem.get_code_get(location.sub, packet))
-        return f"""\
-{self.size.size_check_get(location.name, packet)}\
-{{
-  int {location.index};
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Enter array. */
-  {location.json_subloc} = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {self.size.actual @ packet}; {location.index}++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    {location.json_subloc}->number = {location.index};
-#endif /* FREECIV_JSON_CONNECTION */
-
-{inner_get}\
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-"""
-
-    def _get_code_get_diff(self, location: Location, packet: str) -> str:
-        """Helper method. Generate array-diff get code."""
-        # we're nested two levels deep in the JSON structure
-        # Note: At the moment, we're only deep-diffing our elements
-        # if our array size is constant
-        value_get = prefix("  ", self.elem.get_code_get(location.sub_full(2), packet, self.size.constant))
-        index_get = prefix("  ", self.size.index_get(packet, location))
-        return f"""\
-{self.size.size_check_get(location.name, packet)}\
-{self.size.size_check_index(location.name, packet)}\
-#ifdef FREECIV_JSON_CONNECTION
-/* Enter array (start at initial element). */
-{location.json_subloc} = plocation_elem_new(0);
-/* Enter diff array element (start at the index address). */
-{location.json_subloc}->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-while (TRUE) {{
-  int {location.index};
-
-  /* Read next index */
-{index_get}\
-
-  if ({location.index} == {self.size.actual @ packet}) {{
-    break;
-  }}
-  if ({location.index} > {self.size.actual @ packet}) {{
-    RECEIVE_PACKET_FIELD_ERROR({location.name},
-                               ": unexpected value %d "
-                               "(> {self.size.actual @ packet}) in array diff",
-                               {location.index});
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Content address. */
-  {location.json_subloc}->sub_location->name = "data";
-#endif /* FREECIV_JSON_CONNECTION */
-
-{value_get}\
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Move to the next diff array element. */
-  {location.json_subloc}->number++;
-  /* Back to the index address. */
-  {location.json_subloc}->sub_location->name = "index";
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-
-#ifdef FREECIV_JSON_CONNECTION
-/* Exit diff array element and array. */
-FC_FREE({location.json_subloc}->sub_location);
-FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-"""
-
-    def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
-        if deep_diff:
-            return self._get_code_get_diff(location, packet)
-        else:
-            return self._get_code_get_full(location, packet)
+    def inner_get(self, location:Location, packet: str,
+                         deep_diff: bool = False, json_step: int = 1) -> str:
+        return self.elem.get_code_get(location.sub_full(json_step), packet, deep_diff)
 
     def __str__(self) -> str:
         return f"{self.elem}[{self.size}]"
 
 
-class SpecvecType(StructType):
+# order matters: we want SequenceType methods to override StructType methods
+class SpecvecType(SequenceType, StructType):
     """Type information for a specialized vector field"""
 
     elem: FieldType
@@ -1696,10 +1894,6 @@ class SpecvecType(StructType):
             raise ValueError("vectors with complex fields are not supported")
         super().__init__(elem.dataio_type, f"struct {elem.struct_type}_vector")
         self.elem = elem
-
-    @cache
-    def _size(self, location: Location) -> SizeInfo:
-        return SizeInfo("GENERATE_PACKETS_ERROR", location.replace(f"{self.struct_type}_size(&{location})"))
 
     def get_code_init(self, location: Location, packet: str) -> str:
         return f"""\
@@ -1716,308 +1910,40 @@ class SpecvecType(StructType):
 {self.struct_type}_free(&{location @ packet});
 """
 
-    def get_code_cmp(self, location: Location, new: str, old: str) -> str:
-        size = self._size(location)
-        ## sub = location.deeper(f"(*{self.struct_type}_get(&{location}, {location.index}))")
-        sub = location.deeper(f"{location}.p[{location.index}]")
-        inner_cmp = prefix("    ", self.elem.get_code_cmp(sub, new, old))
-        return f"""\
-differ = ({size.actual @ old} != {size.actual @ new});
-if (!differ) {{
-  int {location.index};
+    def _sub(self, location: Location, json_step: int = 1) -> Location:
+        ## return location.deeper(f"(*{self.struct_type}_get(&{location}, {location.index}))")
+        return location.deeper(f"{location}.p[{location.index}]", json_step)
 
-  for ({location.index} = 0; {location.index} < {size.actual @ new}; {location.index}++) {{
-{inner_cmp}\
-    if (differ) {{
-      break;
-    }}
-  }}
-}}
-"""
+    @cache
+    def size_at(self, location: Location) -> SizeInfo:
+        return SizeInfo("GENERATE_PACKETS_ERROR", location.replace(f"{self.struct_type}_size(&{location})"))
 
-    def _get_code_put_full(self, location: Location, packet: str) -> str:
-        size = self._size(location)
-        ## sub = location.deeper(f"(*{self.struct_type}_get(&{location}, {location.index}))")
-        sub = location.deeper(f"{location}.p[{location.index}]")
-        inner_put = prefix("    ", self.elem.get_code_put(sub, packet))
-        # Note: strictly speaking, we could allow size == MAX_UINT16,
-        # but we might want to use that in the future to signal overlong
-        # vectors (like with jumbo packets)
-        # Though that would also mean packets larger than 64 KiB,
-        # which we're a long way from
-        return f"""\
-fc_assert({size.actual @ packet} < MAX_UINT16);
-{{
-  int {location.index};
-
-  e |= DIO_PUT(arraylen, &dout, &field_addr, {size.actual @ packet});
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Enter the array. */
-  {location.json_subloc} = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    /* Next array element. */
-    {location.json_subloc}->number = {location.index};
-#endif /* FREECIV_JSON_CONNECTION */
-
-{inner_put}\
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-"""
-
-    def _get_code_put_diff(self, location: Location, packet: str, diff_packet: str) -> str:
-        size = self._size(location)
-        # we're nesting two levels deep in the JSON structure
-        ## sub = location.deeper(f"(*{self.struct_type}_get(&{location}, {location.index}))", 2)
-        sub = location.deeper(f"{location}.p[{location.index}]", 2)
-        # Note: At the moment, we're only deep-diffing our elements
-        # if our array size is constant
-        value_put = prefix("    ", self.elem.get_code_put(sub, packet))
-        inner_cmp = prefix("      ", self.elem.get_code_cmp(sub, packet, diff_packet))
-        index_put = prefix("    ", size.index_put(packet, location.index))
-        index_put_sentinel = prefix("  ", size.index_put(packet, size.actual @ packet))
-
-        return f"""\
-{size.size_check_index(location.name, packet)}\
-{{
-  int {location.index};
-
-#ifdef FREECIV_JSON_CONNECTION
-  size_t count_{location.index} = 0;
-
-  /* Create the object to hold new size and delta. */
-  e |= DIO_PUT(object, &dout, &field_addr);
-
-  /* Enter object (start at size address). */
-  {location.json_subloc} = plocation_field_new("size");
-#endif /* FREECIV_JSON_CONNECTION */
-
-  /* Write the new size */
-  e |= DIO_PUT(uint16, &dout, &field_addr, {size.actual @ packet});
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Delta address. */
-  {location.json_subloc}->name = "delta";
-
-  /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 0);
-
-  /* Enter array. */
-  {location.json_subloc}->sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
-    if ({location.index} < {size.actual @ diff_packet}) {{
-{inner_cmp}\
-    }} else {{
-      /* Always transmit new elements */
-      differ = TRUE;
-    }}
-
-    if (!differ) {{
-      continue;
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Append next diff array element. */
-    {location.json_subloc}->sub_location->number = -1;
-
-    /* Create the diff array element. */
-    e |= DIO_PUT(object, &dout, &field_addr);
-
-    /* Enter diff array element (start at the index address). */
-    {location.json_subloc}->sub_location->number = count_{location.index}++;
-    {location.json_subloc}->sub_location->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-    /* Write the index */
-{index_put}\
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Content address. */
-    {location.json_subloc}->sub_location->sub_location->name = "data";
-#endif /* FREECIV_JSON_CONNECTION */
-
-{value_put}\
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Exit diff array element. */
-    FC_FREE({location.json_subloc}->sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Append diff array element. */
-  {location.json_subloc}->sub_location->number = -1;
-
-  /* Create the terminating diff array element. */
-  e |= DIO_PUT(object, &dout, &field_addr);
-
-  /* Enter diff array element (start at the index address). */
-  {location.json_subloc}->sub_location->number = count_{location.index};
-  {location.json_subloc}->sub_location->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-  /* Write the sentinel value */
-{index_put_sentinel}\
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit diff array element, array, and object. */
-  FC_FREE({location.json_subloc}->sub_location->sub_location);
-  FC_FREE({location.json_subloc}->sub_location);
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-"""
-
-    def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
-        if diff_packet is not None:
-            return self._get_code_put_diff(location, packet, diff_packet)
-        else:
-            return self._get_code_put_full(location, packet)
-
-    def _get_code_get_full(self, location: Location, packet: str) -> str:
-        size = self._size(location)
-        ## sub = location.deeper(f"(*{self.struct_type}_get(&{location}, {location.index}))")
-        sub = location.deeper(f"{location}.p[{location.index}]")
-        inner_get = prefix("    ", self.elem.get_code_get(sub, packet))
-
+    def resize(self, location: Location, packet: str, new_size: str) -> str:
         # if elem is complex, adjusting vector size takes extra work
         # not currently supported; enforced in self.__init__()
         assert not self.elem.complex
 
         return f"""\
-{{
-  int {location.index};
-
-  if (!DIO_GET(arraylen, &din, &field_addr, &{location.index})) {{
-    RECEIVE_PACKET_FIELD_ERROR({location.name});
-  }}
-  {self.struct_type}_reserve(&{location @ packet}, {location.index});
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Enter array. */
-  {location.json_subloc} = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    {location.json_subloc}->number = {location.index};
-#endif /* FREECIV_JSON_CONNECTION */
-
-{inner_get}\
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
+{self.struct_type}_reserve(&{location @ packet}, {new_size});
 """
 
-    def _get_code_get_diff(self, location: Location, packet: str) -> str:
-        size = self._size(location)
-        # we're nested two levels deep in the JSON structure
-        ## sub = location.deeper(f"(*{self.struct_type}_get(&{location}, {location.index}))", 2)
-        sub = location.deeper(f"{location}.p[{location.index}]", 2)
-        # Note: At the moment, we're only deep-diffing our elements
-        # if our array size is constant
-        value_get = prefix("  ", self.elem.get_code_get(sub, packet))
-        index_get = prefix("  ", size.index_get(packet, location))
+    def inner_cmp(self, location: Location, new: str, old: str) -> str:
+        return self.elem.get_code_cmp(self._sub(location), new, old)
 
-        # if elem is complex, adjusting vector size takes extra work
-        # not currently supported; enforced in self.__init__()
-        assert not self.elem.complex
+    def inner_put(self, location: Location, packet: str,
+                         diff_packet: "str | None" = None, json_step: int = 1) -> str:
+        return self.elem.get_code_put(self._sub(location, json_step), packet, diff_packet)
 
-        return f"""\
-{size.size_check_index(location.name, packet)}\
-#ifdef FREECIV_JSON_CONNECTION
-/* Enter object (start at size address). */
-{location.json_subloc} = plocation_field_new("size");
-#endif /* FREECIV_JSON_CONNECTION */
-
-{{
-  int readin;
-
-  if (!DIO_GET(uint16, &din, &field_addr, &readin)) {{
-    RECEIVE_PACKET_FIELD_ERROR({location.name});
-  }}
-  {self.struct_type}_reserve(&{location @ packet}, readin);
-}}
-
-#ifdef FREECIV_JSON_CONNECTION
-/* Delta address. */
-{location.json_subloc}->name = "delta";
-/* Enter array (start at initial element). */
-{location.json_subloc}->sub_location = plocation_elem_new(0);
-/* Enter diff array element (start at the index address). */
-{location.json_subloc}->sub_location->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-while (TRUE) {{
-  int {location.index};
-
-  /* Read next index */
-{index_get}\
-
-  if ({location.index} == {size.actual @ packet}) {{
-    break;
-  }}
-  if ({location.index} > {size.actual @ packet}) {{
-    RECEIVE_PACKET_FIELD_ERROR({location.name},
-                               ": unexpected value %d "
-                               "(> vector length) in array diff",
-                               {location.index});
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Content address. */
-  {location.json_subloc}->sub_location->sub_location->name = "data";
-#endif /* FREECIV_JSON_CONNECTION */
-
-{value_get}\
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Move to the next diff array element. */
-  {location.json_subloc}->sub_location->number++;
-  /* Back to the index address. */
-  {location.json_subloc}->sub_location->sub_location->name = "index";
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-
-#ifdef FREECIV_JSON_CONNECTION
-/* Exit diff array element, array, and object. */
-FC_FREE({location.json_subloc}->sub_location->sub_location);
-FC_FREE({location.json_subloc}->sub_location);
-FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-"""
-
-    def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
-        if deep_diff:
-            return self._get_code_get_diff(location, packet)
-        else:
-            return self._get_code_get_full(location, packet)
+    def inner_get(self, location:Location, packet: str,
+                         deep_diff: bool = False, json_step: int = 1) -> str:
+        return self.elem.get_code_get(self._sub(location, json_step), packet, deep_diff)
 
     def __str__(self) -> str:
         return f"{self.elem}[*]"
 
 
-class StrvecType(FieldType):
+class StrvecType(SequenceType):
     """Type information for a string vector field"""
-
-    @staticmethod
-    @cache
-    def _size(location: Location) -> SizeInfo:
-        return SizeInfo("GENERATE_PACKETS_ERROR", location.replace(f"strvec_size({location})"))
 
     dataio_type: str
     """How fields of this type are transmitted over network"""
@@ -2098,295 +2024,49 @@ if ({location @ new}) {{
 }}
 """
 
-    def _get_code_put_full(self, location: Location, packet: str) -> str:
-        # Note: strictly speaking, we could allow size == MAX_UINT16,
-        # but we might want to use that in the future to signal overlong
-        # vectors (like with jumbo packets)
-        # Though that would also mean packets larger than 64 KiB,
-        # which we're a long way from
-        size = self._size(location)
+    @staticmethod
+    @cache
+    def size_at(location: Location) -> SizeInfo:
+        return SizeInfo("GENERATE_PACKETS_ERROR", location.replace(f"strvec_size({location})"))
+
+    def resize(self, location: Location, packet: str, new_size: str) -> str:
         return f"""\
-if (!{location @ packet}) {{
-  /* Transmit null vector as empty vector */
-  e |= DIO_PUT(arraylen, &dout, &field_addr, 0);
-}} else {{
-  int {location.index};
-
-  fc_assert({size.actual @ packet} < MAX_UINT16);
-  e |= DIO_PUT(arraylen, &dout, &field_addr, {size.actual @ packet});
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Enter array. */
-  {location.json_subloc} = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
-    const char *pstr = strvec_get({location @ packet}, {location.index});
-
-    if (!pstr) {{
-      /* Transmit null strings as empty strings */
-      pstr = "";
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Next array element */
-    {location.json_subloc}->number = {location.index};
-#endif /* FREECIV_JSON_CONNECTION */
-
-    e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, pstr);
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
+strvec_reserve({location @ packet}, {new_size});
 """
 
-    def _get_code_put_diff(self, location: Location, packet: str, diff_packet: str) -> str:
-        size = self._size(location)
-        size_check = prefix("  ", size.size_check_index(location.name, packet))
-        index_put = prefix("    ", size.index_put(packet, location.index))
-        index_put_sentinel = prefix("  ", size.index_put(packet, size.actual @ packet))
+    def null_condition(self, location: Location) -> Location:
+        return location.replace(f"!{location}")
+
+    def inner_cmp(self, location: Location, new: str, old: str) -> str:
         return f"""\
-if (!{location @ packet} || 0 == {size.actual @ packet}) {{
-  /* Special case for empty vector. */
+const char *pstr = strvec_get({location @ new}, {location.index});
+const char *pstr_old = strvec_get({location @ old}, {location.index});
 
-#ifdef FREECIV_JSON_CONNECTION
-  /* Create the object to hold the new size. */
-  e |= DIO_PUT(object, &dout, &field_addr);
-
-  /* Enter object (start at size address). */
-  {location.json_subloc} = plocation_field_new("size");
-#endif /* FREECIV_JSON_CONNECTION */
-
-  /* Write the new size */
-  e |= DIO_PUT(uint16, &dout, &field_addr, 0);
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit object. */
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}} else {{
-  int {location.index};
-
-{size_check}\
-
-#ifdef FREECIV_JSON_CONNECTION
-  size_t count_{location.index} = 0;
-
-  /* Create the object to hold new size and delta. */
-  e |= DIO_PUT(object, &dout, &field_addr);
-
-  /* Enter object (start at size address). */
-  {location.json_subloc} = plocation_field_new("size");
-#endif /* FREECIV_JSON_CONNECTION */
-
-  /* Write the new size */
-  e |= DIO_PUT(uint16, &dout, &field_addr, {size.actual @ packet});
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Delta address. */
-  {location.json_subloc}->name = "delta";
-
-  /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 0);
-
-  /* Enter array. */
-  {location.json_subloc}->sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
-    const char *pstr = strvec_get({location @ packet}, {location.index});
-
-    if (!pstr) {{
-      /* Transmit null strings as empty strings */
-      pstr = "";
-    }}
-
-    if ({location.index} < {size.actual @ diff_packet}) {{
-      const char *pstr_old = strvec_get({location @ diff_packet}, {location.index});
-
-      differ = (strcmp(pstr_old ? pstr_old : "", pstr) != 0);
-    }} else {{
-      /* Always transmit new elements */
-      differ = TRUE;
-    }}
-
-    if (!differ) {{
-      continue;
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Append next diff array element. */
-    {location.json_subloc}->sub_location->number = -1;
-
-    /* Create the diff array element. */
-    e |= DIO_PUT(object, &dout, &field_addr);
-
-    /* Enter diff array element (start at the index address). */
-    {location.json_subloc}->sub_location->number = count_{location.index}++;
-    {location.json_subloc}->sub_location->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-    /* Write the index */
-{index_put}\
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Content address. */
-    {location.json_subloc}->sub_location->sub_location->name = "data";
-#endif /* FREECIV_JSON_CONNECTION */
-
-    e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, pstr);
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Exit diff array element. */
-    FC_FREE({location.json_subloc}->sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Append diff array element. */
-  {location.json_subloc}->sub_location->number = -1;
-
-  /* Create the terminating diff array element. */
-  e |= DIO_PUT(object, &dout, &field_addr);
-
-  /* Enter diff array element (start at the index address). */
-  {location.json_subloc}->sub_location->number = count_{location.index};
-  {location.json_subloc}->sub_location->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-  /* Write the sentinel value */
-{index_put_sentinel}\
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit diff array element, array, and object. */
-  FC_FREE({location.json_subloc}->sub_location->sub_location);
-  FC_FREE({location.json_subloc}->sub_location);
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
-}}
+differ = (strcmp(pstr_old ? pstr_old : "", pstr ? pstr : "") != 0);
 """
 
-    def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
-        if diff_packet is not None:
-            return self._get_code_put_diff(location, packet, diff_packet)
-        else:
-            return self._get_code_put_full(location, packet)
-
-    def _get_code_get_full(self, location: Location, packet: str) -> str:
-        size = self._size(location)
+    def inner_put(self, location: Location, packet: str,
+                         diff_packet: "str | None" = None, json_step: int = 1) -> str:
         return f"""\
 {{
-  int {location.index};
+  const char *pstr = strvec_get({location @ packet}, {location.index});
 
-  if (!DIO_GET(arraylen, &din, &field_addr, &{location.index})) {{
-    RECEIVE_PACKET_FIELD_ERROR({location.name});
-  }}
-  strvec_reserve({location @ packet}, {location.index});
-
-#ifdef FREECIV_JSON_CONNECTION
-  {location.json_subloc} = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for ({location.index} = 0; {location.index} < {size.actual @ packet}; {location.index}++) {{
-    char readin[MAX_LEN_PACKET];
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Next array element */
-    {location.json_subloc}->number = {location.index};
-#endif /* FREECIV_JSON_CONNECTION */
-
-    if (!DIO_GET({self.dataio_type}, &din, &field_addr, readin, sizeof(readin))
-        || !strvec_set({location @ packet}, {location.index}, readin)) {{
-      RECEIVE_PACKET_FIELD_ERROR({location.name});
-    }}
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
+  e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, pstr ? pstr : "");
 }}
 """
 
-    def _get_code_get_diff(self, location: Location, packet: str) -> str:
-        size = self._size(location)
-        index_get = prefix("  ", size.index_get(packet, location))
+    def inner_get(self, location:Location, packet: str,
+                         deep_diff: bool = False, json_step: int = 1) -> str:
         return f"""\
-{size.size_check_index(location.name, packet)}\
-#ifdef FREECIV_JSON_CONNECTION
-/* Enter object (start at size address). */
-{location.json_subloc} = plocation_field_new("size");
-#endif /* FREECIV_JSON_CONNECTION */
-
 {{
-  int readin;
-
-  if (!DIO_GET(uint16, &din, &field_addr, &readin)) {{
-    RECEIVE_PACKET_FIELD_ERROR({location.name});
-  }}
-  strvec_reserve({location @ packet}, readin);
-}}
-
-#ifdef FREECIV_JSON_CONNECTION
-/* Delta address. */
-{location.json_subloc}->name = "delta";
-/* Enter array (start at initial element). */
-{location.json_subloc}->sub_location = plocation_elem_new(0);
-/* Enter diff array element (start at the index address). */
-{location.json_subloc}->sub_location->sub_location = plocation_field_new("index");
-#endif /* FREECIV_JSON_CONNECTION */
-
-/* if ({size.actual @ packet} > 0) while (TRUE) */
-while ({size.actual @ packet} > 0) {{
-  int {location.index};
   char readin[MAX_LEN_PACKET];
-
-  /* Read next index */
-{index_get}\
-
-  if ({location.index} == {size.actual @ packet}) {{
-    break;
-  }}
-  if ({location.index} > {size.actual @ packet}) {{
-    RECEIVE_PACKET_FIELD_ERROR({location.name},
-                               ": unexpected value %d "
-                               "(> vector length) in array diff",
-                               {location.index});
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Content address. */
-  {location.json_subloc}->sub_location->sub_location->name = "data";
-#endif /* FREECIV_JSON_CONNECTION */
 
   if (!DIO_GET({self.dataio_type}, &din, &field_addr, readin, sizeof(readin))
       || !strvec_set({location @ packet}, {location.index}, readin)) {{
     RECEIVE_PACKET_FIELD_ERROR({location.name});
   }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Move to the next diff array element. */
-  {location.json_subloc}->sub_location->number++;
-  /* Back to the index address. */
-  {location.json_subloc}->sub_location->sub_location->name = "index";
-#endif /* FREECIV_JSON_CONNECTION */
 }}
-
-#ifdef FREECIV_JSON_CONNECTION
-/* Exit diff array element, array, and object. */
-FC_FREE({location.json_subloc}->sub_location->sub_location);
-FC_FREE({location.json_subloc}->sub_location);
-FC_FREE({location.json_subloc});
-#endif /* FREECIV_JSON_CONNECTION */
 """
-
-    def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
-        if deep_diff:
-            return self._get_code_get_diff(location, packet)
-        else:
-            return self._get_code_get_full(location, packet)
 
     def __str__(self) -> str:
         return f"{self.dataio_type}({self.public_type})"
