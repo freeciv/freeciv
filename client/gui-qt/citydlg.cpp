@@ -1242,7 +1242,7 @@ void city_map::paintEvent(QPaintEvent *event)
     painter.fillRect(0, 0, zoomed_pixmap.width(), zoomed_pixmap.height(),
                      QBrush(QColor(60, 60 , 60 , 110)));
     painter.setPen(QColor(255, 255, 255));
-    // TRANS: %1 is custom string choosen by player.
+    // TRANS: %1 is a custom string chosen by player.
     str = QString(_("Governor %1"))
           .arg(cmafec_get_short_descr_of_city(mcity));
     painter.drawText(5, zoomed_pixmap.height() - 10, str);
