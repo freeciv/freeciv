@@ -194,7 +194,7 @@ hmap_low_level = (4 * swamp_pct  * \
 typedef enum { MC_NONE, MC_LOW, MC_NLOW } miscellaneous_c;
 
 /**************************************************************************
-  These functions test for conditions used in rand_map_pos_characteristic
+  These functions test for conditions used in rand_map_pos_characteristic()
 **************************************************************************/
 
 /**********************************************************************//**
@@ -242,7 +242,7 @@ struct DataFilter {
 
 /**********************************************************************//**
   A filter function to be passed to rand_map_pos_filtered(). See
-  rand_map_pos_characteristic for more explanation.
+  rand_map_pos_characteristic() for more explanation.
 **************************************************************************/
 static bool condition_filter(const struct tile *ptile, const void *data)
 {
@@ -257,7 +257,7 @@ static bool condition_filter(const struct tile *ptile, const void *data)
 /**********************************************************************//**
   Return random map coordinates which have some conditions and which are
   not yet placed on pmap.
-  Returns FALSE if there is no such position.
+  Returns NULL if there is no such position.
 **************************************************************************/
 static struct tile *rand_map_pos_characteristic(wetness_c wc,
                                                 temperature_type tc,
