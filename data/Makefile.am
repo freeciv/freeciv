@@ -70,24 +70,13 @@ pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES) $(DATAPATH_ICONS)
 
 EXTRA_DIST = \
 	$(SRV_RE_FILES) \
+	$(CLIENT_FILES) \
 	freeciv-client.png \
 	freeciv-ruledit.png \
 	freeciv-modpack.png \
 	freeciv-client.icns \
 	freeciv-server.icns \
-	gtk3.22_menus.xml	\
-	amplio2.tilespec \
-	cimpletoon.tilespec \
-	hex2t.tilespec	\
-	hexemplio.tilespec	\
-	isophex.tilespec	\
-	isotrident.tilespec \
-	toonhex.tilespec	\
-	alio.tilespec	\
-	trident.tilespec	\
-	stdmusic.musicspec	\
-	stdsounds.soundspec	\
-	helpdata.txt
+	gtk3.22_menus.xml
 
 if CLIENT
 CLIENTDATADIRS = amplio2 misc flags buildings cimpletoon isotrident trident\
