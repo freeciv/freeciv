@@ -2539,16 +2539,25 @@ static void compat_load_030300(struct loaddata *loading,
                                         "player%d.u%d.activity", plrno, unro);
 
         if (ei >= 0 && ei < loading->activities.size) {
+          bool found = FALSE;
+
           activity = unit_activity_by_name(loading->activities.order[ei],
                                            fc_strcasecmp);
+
           act = activity_default_action(activity);
 
           for (i = 0; i < loading->action.size; i++) {
             if (act == loading->action.order[i]) {
               secfile_insert_int(loading->file, i, "player%d.u%d.action",
                                  plrno, unro);
+              found = TRUE;
               break;
             }
+          }
+
+          if (!found) {
+            secfile_insert_int(loading->file, ACTION_NONE, "player%d.u%d.action",
+                               plrno, unro);
           }
         }
       }
@@ -3414,6 +3423,8 @@ static void compat_load_dev(struct loaddata *loading)
                                         "player%d.u%d.activity", plrno, unro);
 
         if (ei >= 0 && ei < loading->activities.size) {
+          bool found = FALSE;
+
           activity = unit_activity_by_name(loading->activities.order[ei],
                                            fc_strcasecmp);
           act = activity_default_action(activity);
@@ -3422,8 +3433,14 @@ static void compat_load_dev(struct loaddata *loading)
             if (act == loading->action.order[i]) {
               secfile_insert_int(loading->file, i, "player%d.u%d.action",
                                  plrno, unro);
+              found = TRUE;
               break;
             }
+          }
+
+          if (!found) {
+            secfile_insert_int(loading->file, ACTION_NONE, "player%d.u%d.action",
+                               plrno, unro);
           }
         }
       }

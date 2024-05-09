@@ -6196,7 +6196,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &ei,
                                      "%s.action", unitstr), FALSE,
                   "%s", secfile_error());
-  action = loading->action.order[ei];
+  if (ei == ACTION_NONE) {
+    action = ACTION_NONE;
+  } else {
+    action = loading->action.order[ei];
+  }
 
   punit->birth_turn
     = secfile_lookup_int_default(loading->file, game.info.turn,
