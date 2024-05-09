@@ -23,13 +23,41 @@ if test "${PLATFORM_ROOT}" = "${BUILD_ROOT}" ; then
   exit 1
 fi
 
+client_appimage() {
+  if ! mkdir "AppDir/$1" || ! mkdir "build/$1" ; then
+    echo "Failed to create $1 directories!" >&2
+    return 1
+  fi
+
+  cd "build/$1"
+  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$1 -Dfcmp=[] -Dtools=[] "${SRC_ROOT}"
+  then
+    echo "$1 setup with meson failed!" >&2
+    return 1
+  fi
+
+  if ! DESTDIR="${BUILD_ROOT}/AppDir/$1" ninja install ; then
+    echo "$1 build with ninja failed!" >&2
+    return 1
+  fi
+
+  cd "${BUILD_ROOT}"
+  if ! tools/linuxdeploy-x86_64.AppImage --appdir "AppDir/$1" --output appimage
+  then
+    echo "$1 image build with linuxdeploy failed!" >&2
+    return 1
+  fi
+  if ! mv Freeciv-x86_64.AppImage "Freeciv-$1-x86_64.AppImage" ; then
+    echo "$1 appimage rename failed!" >&2
+    return 1
+  fi
+}
+
 if ! mkdir tools ||
    ! mkdir -p AppDir/server ||
-   ! mkdir AppDir/gtk4 ||
-   ! mkdir -p build/server ||
-   ! mkdir build/gtk4
+   ! mkdir -p build/server
 then
-  echo "Failed to create required directories!" >&2
+  echo "Failed to create server directories!" >&2
   exit 1
 fi
 
@@ -60,25 +88,6 @@ then
   exit 1
 fi
 
-cd build/gtk4
-if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=gtk4 -Dfcmp=[] -Dtools=[] "${SRC_ROOT}"
-then
-  echo "Gtk4-client setup with meson failed!" >&2
-  exit 1
-fi
-
-if ! DESTDIR="${BUILD_ROOT}/AppDir/gtk4" ninja install ; then
-  echo "Gtk4-client build with ninja failed!" >&2
-  exit 1
-fi
-
-cd "${BUILD_ROOT}"
-if ! tools/linuxdeploy-x86_64.AppImage --appdir AppDir/gtk4 --output appimage
-then
-  echo "Gtk4-client image build with linuxdeploy failed!" >&2
-  exit 1
-fi
-if ! mv Freeciv-x86_64.AppImage Freeciv-gtk4-x86_64.AppImage ; then
-  echo "gtk4-client appimage rename failed!" >&2
+if ! client_appimage gtk4 ; then
   exit 1
 fi
