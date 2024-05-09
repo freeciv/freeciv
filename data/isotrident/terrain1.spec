@@ -121,7 +121,7 @@ tiles = { "row", "column","tag"
  12, 7, "road.rail_w"
  12, 8, "road.rail_nw"
 
-;add-ons
+; Add-ons
  2, 7, "tx.oil_mine"
  2, 8, "tx.oil_rig"
  3, 7, "tx.irrigation"
@@ -129,6 +129,7 @@ tiles = { "row", "column","tag"
  5, 7, "tx.mine"
  6, 7, "tx.pollution"
  8, 7, "tx.village"
+ 8, 8, "tx.nets"
  9, 7, "tx.fallout"
 }
 
