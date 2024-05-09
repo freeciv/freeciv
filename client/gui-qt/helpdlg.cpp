@@ -888,7 +888,7 @@ void help_widget::set_topic_unit(const help_item *topic,
   utype = unit_type_by_translated_name(title);
   if (utype) {
     helptext_unit(buffer, sizeof(buffer), client.conn.playing,
-                  topic->text, utype);
+                  topic->text, utype, TRUE);
     text_browser->setPlainText(buffer);
 
     // Create information panel

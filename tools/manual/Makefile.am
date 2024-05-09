@@ -26,6 +26,7 @@ freeciv_manual_SOURCES =		\
 		manual_settings.c	\
 		manual_techs.c		\
 		manual_terrain.c	\
+		manual_uclass.c		\
 		manual_units.c
 
 # This is a bit of a hack. The program links in with the server lib

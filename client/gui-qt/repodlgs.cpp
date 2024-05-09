@@ -793,7 +793,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       } else if (rttp->tunit != nullptr) {
         def_str = get_tooltip_unit(rttp->tunit);
         tt_text += helptext_unit(buffer, sizeof(buffer), client.conn.playing,
-                                buf2, rttp->tunit);
+                                 buf2, rttp->tunit, TRUE);
         tt_text = cut_helptext(tt_text);
       } else if (rttp->tgov != nullptr) {
         helptext_government(buffer, sizeof(buffer), client.conn.playing,

@@ -39,8 +39,10 @@ extern "C" {
 #define SPECENUM_VALUE6NAME N_("Governments")
 #define SPECENUM_VALUE7 MANUAL_UNITS
 #define SPECENUM_VALUE7NAME N_("Units")
-#define SPECENUM_VALUE8 MANUAL_TECHS
-#define SPECENUM_VALUE8NAME N_("Techs")
+#define SPECENUM_VALUE8 MANUAL_UCLASS
+#define SPECENUM_VALUE8NAME N_("Unit Classes")
+#define SPECENUM_VALUE9 MANUAL_TECHS
+#define SPECENUM_VALUE9NAME N_("Techs")
 #define SPECENUM_COUNT MANUAL_COUNT
 #include "specenum_gen.h"
 
@@ -75,6 +77,7 @@ bool manual_extras(struct tag_types *tag_info);
 bool manual_buildings(struct tag_types *tag_info);
 bool manual_governments(struct tag_types *tag_info);
 bool manual_units(struct tag_types *tag_info);
+bool manual_uclasses(struct tag_types *tag_info);
 bool manual_techs(struct tag_types *tag_info);
 
 #ifdef __cplusplus
