@@ -2639,9 +2639,10 @@ static void sg_load_map(struct loaddata *loading)
 
   wld.map.server.have_resources = game.scenario.have_resources;
 
-  /* Savegame may store random_seed for documentation purposes only,
-   * we don't need it. Just silence "unused entry" warning. */
-  (void) secfile_entry_lookup(loading->file, "map.random_seed");
+  /* Savegame may have stored random_seed for documentation purposes only,
+   * but we want to keep it for resaving. */
+  wld.map.server.seed
+    = secfile_lookup_int_default(loading->file, 0, "map.random_seed");
 
   if (S_S_INITIAL == loading->server_state
       && MAPGEN_SCENARIO == wld.map.server.generator) {
@@ -2697,7 +2698,7 @@ static void sg_save_map(struct savedata *saving)
    * Do not save it if it's 0 (not known);
    * this confuses people reading this 'document' less than
    * saving 0. */
-  if (wld.map.server.seed) {
+  if (wld.map.server.seed != 0) {
     secfile_insert_int(saving->file, wld.map.server.seed,
                        "map.random_seed");
   }
