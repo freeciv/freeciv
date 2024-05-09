@@ -56,6 +56,7 @@ bool manual_extras(struct tag_types *tag_info);
 bool manual_buildings(struct tag_types *tag_info);
 bool manual_governments(struct tag_types *tag_info);
 bool manual_units(struct tag_types *tag_info);
+bool manual_uclasses(struct tag_types *tag_info);
 bool manual_techs(struct tag_types *tag_info);
 
 #ifdef __cplusplus

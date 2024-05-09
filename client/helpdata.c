@@ -1863,8 +1863,7 @@ static bool utype_may_do_escape_action(const struct unit_type *utype)
   @param buf    Buffer to append help text to
   @param bufsz  Size of the buffer
 ****************************************************************************/
-static void helptext_unitclass(struct unit_class *pclass,
-                               char *buf, size_t bufsz)
+void helptext_unitclass(struct unit_class *pclass, char *buf, size_t bufsz)
 {
   int flagid;
 
@@ -1931,7 +1930,8 @@ static void helptext_unitclass(struct unit_class *pclass,
   pplayer may be NULL.
 ****************************************************************************/
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
-                    const char *user_text, const struct unit_type *utype)
+                    const char *user_text, const struct unit_type *utype,
+                    bool class_help)
 {
   bool has_vet_levels;
   int flagid;
@@ -1956,7 +1956,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                BULLET,
                uclass_name_translation(pclass));
 
-  helptext_unitclass(pclass, buf, bufsz);
+  if (class_help) {
+    helptext_unitclass(pclass, buf, bufsz);
+  } else {
+    cat_snprintf(buf, bufsz, "\n");
+  }
 
   if (uclass_has_flag(pclass, UCF_ZOC)
       && !utype_has_flag(utype, UTYF_IGZOC)) {

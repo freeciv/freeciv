@@ -3975,7 +3975,7 @@ QString get_tooltip_unit(const struct unit_type *utype, bool ext)
 
     buf2[0] = '\0';
     str = helptext_unit(buffer, sizeof(buffer), client_player(),
-                        buf2, utype);
+                        buf2, utype, TRUE);
     str = cut_helptext(str);
     str = split_text(str, true);
     str = str.trimmed().toHtmlEscaped();
@@ -4004,7 +4004,7 @@ QString get_tooltip(QVariant qvar)
   } else if (VUT_UTYPE == target->kind) {
     def_str = get_tooltip_unit(target->value.utype);
     str = helptext_unit(buffer, sizeof(buffer), pplayer,
-                        buf2, target->value.utype);
+                        buf2, target->value.utype, TRUE);
   } else {
     if (!is_convert_improvement(target->value.building)) {
       def_str = get_tooltip_improvement(target->value.building);

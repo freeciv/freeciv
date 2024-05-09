@@ -12,5 +12,6 @@ values
   MANUAL_WONDERS   N_("Wonders")
   MANUAL_GOVS      N_("Governments")
   MANUAL_UNITS     N_("Units")
+  MANUAL_UCLASS    N_("Unit Classes")
   MANUAL_TECHS     N_("Techs")
 end

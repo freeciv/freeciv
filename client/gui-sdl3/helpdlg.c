@@ -926,7 +926,8 @@ void popup_unit_info(Unit_type_id type_id)
   start_x = (area.x + 1 + scrollbar_width + help_dlg->active_widget_list->size.w + adj_size(20));
 
   buffer[0] = '\0';
-  helptext_unit(buffer, sizeof(buffer), client.conn.playing, "", utype_by_number(type_id));
+  helptext_unit(buffer, sizeof(buffer), client.conn.playing, "", utype_by_number(type_id),
+                TRUE);
   if (buffer[0] != '\0') {
     utf8_str *ustr = create_utf8_from_char_fonto(buffer, FONTO_ATTENTION);
 

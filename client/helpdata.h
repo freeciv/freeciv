@@ -44,7 +44,9 @@ const struct help_item *help_iter_next(void);
 char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
                         const char *user_text, const struct impr_type *pimprove);
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
-                    const char *user_text, const struct unit_type *utype);
+                    const char *user_text, const struct unit_type *utype,
+                    bool class_help);
+void helptext_unitclass(struct unit_class *pclass, char *buf, size_t bufsz);
 void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                       const char *user_text, int i);
 void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,

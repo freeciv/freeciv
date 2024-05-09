@@ -342,6 +342,7 @@ static bool manual_command(struct tag_types *tag_info)
       || !manual_buildings(tag_info)
       || !manual_governments(tag_info)
       || !manual_units(tag_info)
+      || !manual_uclasses(tag_info)
       || !manual_techs(tag_info)) {
     return FALSE;
   }
@@ -374,7 +375,7 @@ int main(int argc, char **argv)
   /* Set the default log level. */
   srvarg.loglevel = LOG_NORMAL;
 
-  /* parse command-line arguments... */
+  /* Parse command-line arguments... */
   inx = 1;
   while (inx < argc) {
     if ((option = get_option_malloc("--ruleset", argv, &inx, argc, TRUE))) {
@@ -421,11 +422,11 @@ int main(int argc, char **argv)
 
   init_our_capability();
 
-  /* must be before con_log_init() */
+  /* Must be before con_log_init() */
   init_connections();
   con_log_init(srvarg.log_filename, srvarg.loglevel,
                srvarg.fatal_assertions);
-  /* logging available after this point */
+  /* Logging available after this point */
 
   /* Get common code to treat us as a tool. */
   i_am_tool();
