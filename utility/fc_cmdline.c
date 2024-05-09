@@ -160,7 +160,7 @@ static size_t fc_strcspn(const char *s, const char *reject)
   allocated). If the string would yield more tokens only the first
   num_tokens are extracted.
 
-  The user has the responsiblity to free the memory allocated by
+  The user has the responsibility to free the memory allocated by
   **tokens using free_tokens().
 **************************************************************************/
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
