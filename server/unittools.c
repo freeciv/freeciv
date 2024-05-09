@@ -4662,7 +4662,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       switch (action_id_get_target_kind(order.action)) {
       case ATK_UNITS:
-        prob = action_prob_vs_units(punit, order.action,
+        prob = action_prob_vs_units(nmap, punit, order.action,
                                     dst_tile);
         tgt_id = dst_tile->index;
         break;
