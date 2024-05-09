@@ -1168,12 +1168,12 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_EXTRAFLAG:
       invalid = (req.range > REQ_RANGE_TRADE_ROUTE);
       break;
-    case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
     case VUT_MINTECHS:
       invalid = (req.range < REQ_RANGE_PLAYER);
       break;
     case VUT_ADVANCE:
+    case VUT_TECHFLAG:
       invalid = (req.range < REQ_RANGE_PLAYER
                  && req.range != REQ_RANGE_LOCAL);
       break;
@@ -2485,7 +2485,7 @@ is_techflag_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (NULL != context->player) {
+    if (context->player != nullptr) {
       return BOOL_TO_TRISTATE(player_knows_techs_with_flag(context->player,
                                                            techflag));
     } else {
@@ -2494,7 +2494,7 @@ is_techflag_req_active(const struct civ_map *nmap,
     break;
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
-    if (NULL == context->player) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
@@ -2513,6 +2513,13 @@ is_techflag_req_active(const struct civ_map *nmap,
 
     return TRI_NO;
   case REQ_RANGE_LOCAL:
+    if (context->player == nullptr) {
+      return TRI_MAYBE;
+    }
+    if (advance_has_flag(research_get(context->player)->researching, techflag)) {
+      return TRI_YES;
+    }
+    return TRI_NO;
   case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
