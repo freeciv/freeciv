@@ -260,7 +260,7 @@ static bool condition_filter(const struct tile *ptile, const void *data)
 /**********************************************************************//**
   Return random map coordinates which have some conditions and which are
   not yet placed on pmap.
-  Returns FALSE if there is no such position.
+  Returns nullptr if there is no such position.
 **************************************************************************/
 static struct tile *rand_map_pos_characteristic(wetness_c wc,
                                                 temperature_type tc,
