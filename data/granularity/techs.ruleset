@@ -306,7 +306,7 @@ graphic     = "a.fire"
 graphic_alt = "-"
 helptext    = _("\
 With fire, there can be a place to live permanently. \
-Allows settlements to grow to size 6.\
+Allows settlements to grow two sizes bigger.\
 ")
 
 [advance_fishing]

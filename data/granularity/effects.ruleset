@@ -137,10 +137,18 @@ value   = 1
 type    = "City_Unhappy_Size"
 value   = 4
 
-; Base max city size of 4
+; Base max city size of 3
 [effect_city_size_limit_base]
 type    = "Size_Adj"
-value   = 4
+value   = 3
+
+[effect_city_size_limit_housing]
+type    = "Size_Adj"
+value   = 1
+reqs	=
+    { "type",     "name", "range"
+      "Building", "Housing", "city"
+    }
 
 [effect_city_size_limit_fire]
 type    = "Size_Adj"
