@@ -2063,13 +2063,12 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
                                struct player *pplayer)
 {
   Continent_id cont = tile_continent(ptile);
-  Continent_id cont1 = tile_continent(source);
-  Continent_id cont2;
+  Continent_id source_cont = tile_continent(source);
   int ocean_tiles;
   bool other_continent;
 
   if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE
-      && get_lake_surrounders(cont) == cont1) {
+      && get_lake_surrounders(cont) == source_cont) {
     return TRUE;
   }
 
@@ -2079,26 +2078,23 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
   }
 
   if (num_known_tech_with_flag(pplayer, TF_CLAIM_OCEAN) > 0
-      || (cont1 < 0 && num_known_tech_with_flag(pplayer, TF_CLAIM_OCEAN_LIMITED) > 0)) {
+      || (source_cont < 0 && num_known_tech_with_flag(pplayer, TF_CLAIM_OCEAN_LIMITED) > 0)) {
     return TRUE;
   }
 
   ocean_tiles = 0;
   other_continent = FALSE;
-  adjc_iterate(&(wld.map), ptile, tile2) {
-    cont2 = tile_continent(tile2);
-    if (tile2 == source) {
+  adjc_iterate(&(wld.map), ptile, adj_tile) {
+    Continent_id adj_cont = tile_continent(adj_tile);
+    if (adj_tile == source) {
       /* Water next to border source is always claimable */
       return TRUE;
     }
-    if (cont2 == cont) {
+    if (adj_cont == cont) {
       ocean_tiles++;
-    } else if (cont1 <= 0) {
-      /* First adjacent land (only if border source is not on land) */
-      cont1 = cont2;
-    } else if (cont2 != cont1) {
-      /* This water has two land continents adjacent, or land adjacent
-       * that is of a different continent from the border source */
+    } else if (adj_cont != source_cont) {
+      /* This water is adjacent to a continent different from the one
+       * the border source is on */
       other_continent = TRUE;
     }
   } adjc_iterate_end;
