@@ -88,9 +88,9 @@ char **get_gui_specific_themes_directories(int *count)
 
   *count = strvec_size(data_dirs);
   strvec_iterate(data_dirs, data_dir) {
-    char buf[strlen(data_dir) + strlen("/themes/gui-sdl2") + 1];
+    char buf[strlen(data_dir) + strlen("/themes/gui-sdl3") + 1];
 
-    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl2", data_dir);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl3", data_dir);
 
     directories[i++] = fc_strdup(buf);
   } strvec_iterate_end;
