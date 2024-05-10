@@ -8595,6 +8595,7 @@ static void send_ruleset_goods(struct conn_list *dest)
     packet.to_pct = g->to_pct;
     packet.onetime_pct = g->onetime_pct;
     packet.select_priority = g->select_priority;
+    packet.replace_priority = g->priority;
     packet.flags = g->flags;
 
     PACKET_STRVEC_INSERT(packet.helptext, g->helptext);
