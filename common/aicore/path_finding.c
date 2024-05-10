@@ -1468,8 +1468,8 @@ pf_danger_map_adjust_cost(const struct pf_parameter *params,
   3. For some purposes, NS_WAITING is just another flavour of NS_PROCESSED,
      since the path to a NS_WAITING tile has already been found.
   4. This algorithm cannot guarantee the best safe segments across dangerous
-     region. However it will find a safe segment if there is one. To
-     gurantee the best (in terms of total_CC) safe segments across danger,
+     region. However it will find a safe segment if there is one.
+     To guarantee the best (in terms of total_CC) safe segments across danger,
      supply 'get_EC' which returns small extra on dangerous tiles.
 
   During the iteration, the node status will be changed:
@@ -2608,8 +2608,8 @@ pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
   3. For some purposes, NS_WAITING is just another flavour of NS_PROCESSED,
      since the path to a NS_WAITING tile has already been found.
   4. This algorithm cannot guarantee the best safe segments across dangerous
-     region. However it will find a safe segment if there is one. To
-     gurantee the best (in terms of total_CC) safe segments across danger,
+     region. However it will find a safe segment if there is one.
+     To guarantee the best (in terms of total_CC) safe segments across danger,
      supply 'get_EC' which returns small extra on dangerous tiles.
 
   During the iteration, the node status will be changed:
