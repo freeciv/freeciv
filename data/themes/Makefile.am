@@ -19,6 +19,8 @@ if CLIENT_GUI_SDL2
 SUBDIRS += gui-sdl2
 endif
 
+SUBDIRS += gui-sdl3
+
 if CLIENT_GUI_QT
 SUBDIRS += gui-qt
 endif

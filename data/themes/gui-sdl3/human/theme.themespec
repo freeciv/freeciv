@@ -1,0 +1,44 @@
+[themespec]
+
+; Format and options of this themespec file:
+options = "+Freeciv-sdl2-3.3-themespec-Devel-2023-Jun-07"
+
+; A simple name for the themespec specified by this file:
+name = "human"
+priority = 20
+
+; The font to be used:
+default_font_file = "themes/gui-sdl2/human/DejaVuSans.ttf"
+default_font_size = 10
+
+; To use CJK fonts, provide the path to the font below.
+; Fonts recommended for Freeciv can be fetched from git main branch, e.g.:
+; https://raw.githubusercontent.com/freeciv/freeciv/main/data/themes/gui-sdl2/human/fireflysung.ttf
+fonts =
+  { "langname", "font_file"
+    "zh_CN",    "themes/gui-sdl2/human/fireflysung.ttf"
+    "ja",       "themes/gui-sdl2/human/sazanami-gothic.ttf"
+    "ko",       "themes/gui-sdl2/human/UnDotum.ttf"
+  }
+
+; Below, the graphics spec files; must be somewhere (anywhere) in
+; the data path. Order may be important for color allocation on
+; low-color systems, and if there are any duplicate tags (lattermost
+; tag is used).
+files =
+  "themes/gui-sdl2/human/city.tspec",
+  "themes/gui-sdl2/human/city_fist.tspec",
+  "themes/gui-sdl2/human/dip_icons.tspec",
+  "themes/gui-sdl2/human/icons.tspec",
+  "themes/gui-sdl2/human/small_theme_buttons.tspec",
+  "themes/gui-sdl2/human/tech_tree.tspec",
+  "themes/gui-sdl2/human/theme_boxs.tspec",
+  "themes/gui-sdl2/human/theme_buttons.tspec",
+  "themes/gui-sdl2/human/theme_orders_buttons.tspec",
+  "themes/gui-sdl2/human/theme_scrolls.tspec"
+
+; Include background image definitions
+*include "themes/gui-sdl2/human/backgrounds.themespec"
+
+; Include color definitions
+*include "themes/gui-sdl2/human/colors.themespec"

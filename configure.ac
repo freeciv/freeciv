@@ -1967,6 +1967,8 @@ AC_CONFIG_FILES([Makefile
 	  data/themes/gui-qt/System/Makefile
 	  data/themes/gui-sdl2/Makefile
 	  data/themes/gui-sdl2/human/Makefile
+	  data/themes/gui-sdl3/Makefile
+	  data/themes/gui-sdl3/human/Makefile
 	  data/wonders/Makefile
 	  data/icons/Makefile
 	  utility/Makefile
