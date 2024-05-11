@@ -2060,9 +2060,19 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
   }
 
   claimer = tile_claimer(ptile);
-  if (claimer != NULL && is_ocean_tile(ptile)) {
-    if (!is_claimable_ocean(ptile, claimer, tile_owner(ptile))) {
-      map_clear_border(ptile);
+  if (claimer != NULL) {
+    /* Make sure map_claim_border() conditions are still satisfied */
+    if (is_ocean_tile(ptile)) {
+      /* Only certain water tiles are claimable */
+      if (!is_claimable_ocean(ptile, claimer, tile_owner(ptile))) {
+        map_clear_border(ptile);
+      }
+    } else {
+      /* Only land tiles on the same island as the border source
+       * are claimable */
+      if (tile_continent(ptile) != tile_continent(claimer)) {
+        map_clear_border(ptile);
+      }
     }
   }
 
