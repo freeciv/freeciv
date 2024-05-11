@@ -41,7 +41,7 @@ struct astring {
 
 /* Can assign this in variable declaration to initialize:
  * Notice a static astring var is exactly this already. */
-#define ASTRING_INIT { NULL, 0, 0 }
+#define ASTRING_INIT { nullptr, 0, 0 }
 
 void astr_init(struct astring *astr) fc__attribute((nonnull (1)));
 void astr_free(struct astring *astr) fc__attribute((nonnull (1)));
@@ -100,7 +100,7 @@ static inline const char *astr_str(const struct astring *astr)
 ****************************************************************************/
 static inline size_t astr_len(const struct astring *astr)
 {
-  return (NULL != astr->str ? strlen(astr->str) : 0);
+  return (astr->str != nullptr ? strlen(astr->str) : 0);
 }
 
 /************************************************************************//**
