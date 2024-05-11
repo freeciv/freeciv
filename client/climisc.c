@@ -97,7 +97,7 @@ void client_remove_unit(struct unit *punit)
   game_remove_unit(&wld, punit);
   punit = NULL;
   if (old > 0 && get_num_units_in_focus() == 0) {
-    unit_focus_advance();
+    unit_focus_advance(TRUE);
   } else if (update) {
     update_unit_pix_label(get_units_in_focus());
     update_unit_info_label(get_units_in_focus());

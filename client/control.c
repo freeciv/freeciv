@@ -229,6 +229,11 @@ void control_unit_killed(struct unit *punit)
 
   goto_unit_killed(punit);
 
+  if (unit_is_in_focus(punit)
+      && get_num_units_in_focus() == 1) {
+    unit_focus_advance(FALSE);
+  }
+
   unit_list_remove(get_units_in_focus(), punit);
   if (get_num_units_in_focus() < 1) {
     clear_hover_state();
@@ -585,6 +590,8 @@ void unit_focus_add(struct unit *punit)
 **************************************************************************/
 void unit_focus_remove(struct unit *punit)
 {
+  bool keep_in_focus = FALSE;
+
   if (NULL != punit
       && NULL != client.conn.playing
       && unit_owner(punit) != client.conn.playing) {
@@ -606,11 +613,20 @@ void unit_focus_remove(struct unit *punit)
     clear_hover_state();
   }
 
-  current_focus_remove(punit);
-  if (get_num_units_in_focus() > 0) {
-    focus_units_changed();
-  } else {
-    unit_focus_advance();
+  if (get_num_units_in_focus() == 1) {
+    unit_focus_advance(TRUE);
+
+    if (unit_is_in_focus(punit)) {
+      /* Unit was restored to focus (there was no other units to focus to) */
+      keep_in_focus = TRUE;
+    }
+  }
+
+  if (!keep_in_focus) {
+    current_focus_remove(punit);
+    if (get_num_units_in_focus() > 0) {
+      focus_units_changed();
+    }
   }
 }
 
@@ -666,8 +682,10 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   called when user press the "Wait" command.
  
   FIXME: Add feature to focus only units of a certain category.
+
+  @param accept_current The current focus can be kept if no other candidates
 **************************************************************************/
-void unit_focus_advance(void)
+void unit_focus_advance(bool accept_current)
 {
   struct unit *candidate = NULL;
   const int num_units_in_old_focus = get_num_units_in_focus();
@@ -684,7 +702,7 @@ void unit_focus_advance(void)
   unit_list_iterate(get_units_in_focus(), punit) {
     /* 
      * Is the unit which just lost focus a non-AI unit? If yes this
-     * enables the auto end turn. 
+     * enables the auto end turn.
      */
     if (punit->ssa_controller == SSA_NONE) {
       non_ai_unit_focus = TRUE;
@@ -739,7 +757,7 @@ void unit_focus_advance(void)
       } unit_list_iterate_end;
       candidate = find_best_focus_candidate(FALSE);
 
-      if (!candidate) {
+      if (!candidate && accept_current) {
         /* Accept current focus unit as last resort. */
         candidate = find_best_focus_candidate(TRUE);
       }
@@ -795,7 +813,7 @@ void unit_focus_update(void)
     }
   } unit_list_iterate_end;
 
-  unit_focus_advance();
+  unit_focus_advance(TRUE);
 }
 
 /**********************************************************************//**
@@ -2739,7 +2757,7 @@ void request_units_wait(struct unit_list *punits)
     punit->client.focus_status = FOCUS_WAIT;
   } unit_list_iterate_end;
   if (punits == get_units_in_focus()) {
-    unit_focus_advance();
+    unit_focus_advance(TRUE);
   }
 }
 
@@ -2762,7 +2780,7 @@ void request_unit_move_done(void)
       punit->client.focus_status = new_status;
     } unit_list_iterate_end;
     if (new_status == FOCUS_DONE) {
-      unit_focus_advance();
+      unit_focus_advance(TRUE);
     }
   }
 }
