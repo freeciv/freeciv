@@ -2494,13 +2494,13 @@ sabotage	= 0
 ; FIXME: this is the real helptext; restore when have a subordnate analogue
 ; /* (ignore for gettext until fixed)
 ;helptext	= _("\
-;This is not a normal improvement.  Instead, setting a city's\
+;This is not a normal improvement. Instead, setting a city's\
 ; production to Capitalization means its shield production is\
 ; converted to tax output (money).\
 ;")
 ; */
 helptext	= _("\
-This is not a normal improvement.  Instead, setting a city's\
+This is not a normal improvement. Instead, setting a city's\
  production to Coinage means its shield production is\
  converted to tax output (money, coins!).\
 ")
