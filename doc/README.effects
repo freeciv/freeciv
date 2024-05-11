@@ -727,6 +727,11 @@ Thiefs_Share_Pm
     "Steal Gold Escape" actions that is lost before it reaches the player
     ordering it. Evaluated against the actor unit.
 
+Tile_Claimable
+    A positive value means national borders can expand to this tile from a
+    border source (city or base). The border source's tile is used as the
+    other tile for requirements that depend on two tiles.
+
 Tile_Workable
     If value > 0, city can work target tile.
 

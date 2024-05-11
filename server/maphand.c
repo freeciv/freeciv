@@ -59,8 +59,6 @@
 
 #include "maphand.h"
 
-#define MAXIMUM_CLAIMED_OCEAN_SIZE (20)
-
 /* Suppress send_tile_info() during game_load() */
 static bool send_tile_suppressed = FALSE;
 
@@ -87,8 +85,8 @@ static inline bool map_is_also_seen(const struct tile *ptile,
                                     const struct player *pplayer,
                                     enum vision_layer vlayer);
 
-static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
-                               struct player *pplayer);
+static bool is_tile_claimable(struct tile *ptile, struct tile *source,
+                              struct player *pplayer);
 
 /**********************************************************************//**
   Used only in global_warming() and nuclear_winter() below.
@@ -2071,17 +2069,8 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
   claimer = tile_claimer(ptile);
   if (claimer != NULL) {
     /* Make sure map_claim_border() conditions are still satisfied */
-    if (is_ocean_tile(ptile)) {
-      /* Only certain water tiles are claimable */
-      if (!is_claimable_ocean(ptile, claimer, tile_owner(ptile))) {
-        map_clear_border(ptile);
-      }
-    } else {
-      /* Only land tiles on the same island as the border source
-       * are claimable */
-      if (tile_continent(ptile) != tile_continent(claimer)) {
-        map_clear_border(ptile);
-      }
+    if (!is_tile_claimable(ptile, claimer, tile_owner(ptile))) {
+      map_clear_border(ptile);
     }
   }
 
@@ -2089,60 +2078,26 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 }
 
 /**********************************************************************//**
-  Ocean tile can be claimed iff one of the following conditions stands:
-  a) it is an inland lake not larger than MAXIMUM_OCEAN_SIZE
-  b) it is adjacent to only one continent and not more than two ocean tiles
-  c) It is one tile away from a border source
-  d) Player knows tech with Claim_Ocean flag
-  e) Source itself is Oceanic tile and player knows tech with Claim_Ocean_Limited flag
-  The source which claims the ocean has to be placed on the correct continent.
-  in case a) The continent which surrounds the inland lake
-  in case b) The only continent which is adjacent to the tile
+  A tile can be claimed by a border source iff the tile itself is the
+  border source or the Tile_Claimable effect is positive
 **************************************************************************/
-static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
-                               struct player *pplayer)
+static bool is_tile_claimable(struct tile *ptile, struct tile *source,
+                              struct player *pplayer)
 {
-  Continent_id cont = tile_continent(ptile);
-  Continent_id source_cont = tile_continent(source);
-  int ocean_tiles;
-  bool other_continent;
-
-  if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE
-      && get_lake_surrounder(cont) == source_cont) {
-    return TRUE;
-  }
-
   if (ptile == source) {
     /* Source itself is always claimable. */
     return TRUE;
   }
 
-  if (num_known_tech_with_flag(pplayer, TF_CLAIM_OCEAN) > 0
-      || (source_cont < 0 && num_known_tech_with_flag(pplayer, TF_CLAIM_OCEAN_LIMITED) > 0)) {
-    return TRUE;
-  }
-
-  ocean_tiles = 0;
-  other_continent = FALSE;
-  adjc_iterate(&(wld.map), ptile, adj_tile) {
-    Continent_id adj_cont = tile_continent(adj_tile);
-    if (adj_tile == source) {
-      /* Water next to border source is always claimable */
-      return TRUE;
-    }
-    if (adj_cont == cont) {
-      ocean_tiles++;
-    } else if (adj_cont != source_cont) {
-      /* This water is adjacent to a continent different from the one
-       * the border source is on */
-      other_continent = TRUE;
-    }
-  } adjc_iterate_end;
-  if (!other_continent && ocean_tiles <= 2) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+  return 0 < get_target_bonus_effects(nullptr,
+                                      &(const struct req_context) {
+                                        .tile = ptile,
+                                        .player = pplayer,
+                                      },
+                                      &(const struct req_context) {
+                                        .tile = source,
+                                      },
+                                      EFT_TILE_CLAIMABLE);
 }
 
 /**********************************************************************//**
@@ -2357,17 +2312,9 @@ void map_claim_border(struct tile *ptile, struct player *owner,
       }
     }
 
-    if (is_ocean_tile(dtile)) {
-      /* Only certain water tiles are claimable */
-      if (is_claimable_ocean(dtile, ptile, owner)) {
-        map_claim_ownership(dtile, owner, ptile, dr == 0);
-      }
-    } else {
-      /* Only land tiles on the same island as the border source
-       * are claimable */
-      if (tile_continent(dtile) == tile_continent(ptile)) {
-        map_claim_ownership(dtile, owner, ptile, dr == 0);
-      }
+    /* Only certain tiles are claimable */
+    if (is_tile_claimable(dtile, ptile, owner)) {
+      map_claim_ownership(dtile, owner, ptile, dr == 0);
     }
   } circle_dxyr_iterate_end;
 }

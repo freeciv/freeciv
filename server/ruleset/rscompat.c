@@ -41,6 +41,8 @@
 
 #include "rscompat.h"
 
+#define MAXIMUM_CLAIMED_OCEAN_SIZE_3_2 (20)
+
 #define enough_new_user_flags(_new_flags_, _name_,                        \
                               _LAST_USER_FLAG_, _LAST_USER_FLAG_PREV_)    \
 FC_STATIC_ASSERT((ARRAY_SIZE(_new_flags_)                                 \
@@ -48,8 +50,10 @@ FC_STATIC_ASSERT((ARRAY_SIZE(_new_flags_)                                 \
                  not_enough_new_##_name_##_user_flags)
 
 #define UTYF_LAST_USER_FLAG_3_2 UTYF_USER_FLAG_50
+#define TECH_LAST_USER_FLAG_3_2 TECH_USER_7
 
 static int first_free_unit_type_user_flag(void);
+static int first_free_tech_user_flag(void);
 
 /**********************************************************************//**
   Initialize rscompat information structure
@@ -386,6 +390,54 @@ bool rscompat_names(struct rscompat_info *info)
     }
   }
 
+  if (info->version < RSFORMAT_3_3) {
+    int first_free;
+    int i;
+
+    /* Some tech flags moved to the ruleset between 3.2 and 3.3.
+     * Add them back as user flags.
+     * XXX: ruleset might not need all of these, and may have enough
+     * flags of its own that these additional ones prevent conversion. */
+    const struct {
+      const char *name;
+      const char *helptxt;
+    } new_flags_33[] = {
+      { N_("Claim_Ocean"),
+        N_("National borders expand freely into the ocean.") },
+      { N_("Claim_Ocean_Limited"),
+        N_("National borders from oceanic sources expand freely.") },
+    };
+
+    enough_new_user_flags(new_flags_33, tech,
+                          (TECH_USER_LAST - 1), TECH_LAST_USER_FLAG_3_2);
+
+    /* Tech flags. */
+    first_free = first_free_tech_user_flag() + TECH_USER_1;
+
+    for (i = 0; i < ARRAY_SIZE(new_flags_33); i++) {
+      if (TECH_USER_1 + MAX_NUM_USER_TECH_FLAGS <= first_free + i) {
+        /* Can't add the user unit type flags. */
+        ruleset_error(NULL, LOG_ERROR,
+                      "Can't upgrade the ruleset. Not enough free tech "
+                      "user flags to add user flags for the tech flags "
+                      "that used to be hardcoded.");
+        return FALSE;
+      }
+      /* Shouldn't be possible for valid old ruleset to have flag names that
+       * clash with these ones */
+      if (tech_flag_id_by_name(new_flags_33[i].name, fc_strcasecmp)
+          != tech_flag_id_invalid()) {
+        ruleset_error(NULL, LOG_ERROR,
+                      "Ruleset had illegal user tech flag '%s'",
+                      new_flags_33[i].name);
+        return FALSE;
+      }
+      set_user_tech_flag_name(first_free + i,
+                              new_flags_33[i].name,
+                              new_flags_33[i].helptxt);
+    }
+  }
+
   /* No errors encountered. */
   return TRUE;
 }
@@ -405,6 +457,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 void rscompat_postprocess(struct rscompat_info *info)
 {
   struct action_enabler *enabler;
+  struct effect *effect;
   struct requirement e_req;
 
   if (!info->compat_mode || info->version >= RSFORMAT_CURRENT) {
@@ -441,6 +494,84 @@ void rscompat_postprocess(struct rscompat_info *info)
    * thought limited by game.info.tech_leakage setting. */
   effect_new(EFT_TECH_LEAKAGE, 1, nullptr);
 
+  /* Old behavior: Land tiles can be claimed by land border sources on the
+   * same continent. */
+  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
+  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TC_LAND);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TREL_SAME_REGION);
+  effect_req_append(effect, e_req);
+  /* Tile-range TREL_SAME_REGION implies TREL_SAME_TCLASS */
+
+  /* Old behavior: Oceanic tiles can be claimed by adjacent border
+   * sources. */
+  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
+  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TC_OCEAN);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_MAX_DISTANCE_SQ, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, 2);
+  effect_req_append(effect, e_req);
+
+  /* Old behavior: Oceanic tiles part of an ocean that is no larger than
+   * MAXIMUM_CLAIMED_OCEAN_SIZE tiles and that is adjacent to only one
+   * continent (i.e. surrounded by it) can be claimed by land border
+   * sources on that continent. */
+  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
+  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TC_OCEAN);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_MAX_REGION_TILES, REQ_RANGE_CONTINENT,
+                          FALSE, TRUE, FALSE,
+                          MAXIMUM_CLAIMED_OCEAN_SIZE_3_2);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TREL_REGION_SURROUNDED);
+  effect_req_append(effect, e_req);
+  /* Tile-range TREL_REGION_SURROUNDED implies negated TREL_SAME_TCLASS */
+
+  /* Old behavior: Oceanic tiles adjacent to no more than two other oceanic
+   * tiles and (individually) adjacent to only a single continent can be
+   * claimed by land border sources on that continent. */
+  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
+  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TC_OCEAN);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
+                          FALSE, FALSE, FALSE, TREL_SAME_TCLASS);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_MAX_REGION_TILES, REQ_RANGE_ADJACENT,
+                          FALSE, TRUE, FALSE, 2 + 1);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_ADJACENT,
+                          FALSE, TRUE, FALSE, TREL_ONLY_OTHER_REGION);
+  effect_req_append(effect, e_req);
+
+  /* Old behavior: Oceanic tiles can be claimed by any oceanic border
+   * sources with the Claim_Ocean_Limited techflag. */
+  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
+  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TC_OCEAN);
+  effect_req_append(effect, e_req);
+  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TREL_SAME_TCLASS);
+  effect_req_append(effect, e_req);
+  e_req = req_from_str("TechFlag", "Player", FALSE, TRUE, FALSE,
+                       "Claim_Ocean_Limited");
+  effect_req_append(effect, e_req);
+
+  /* Old behavior: Oceanic tiles can be claimed by any border sources
+   * with the Claim_Ocean techflag. */
+  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
+  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
+                          FALSE, TRUE, FALSE, TC_OCEAN);
+  effect_req_append(effect, e_req);
+  e_req = req_from_str("TechFlag", "Player", FALSE, TRUE, FALSE,
+                       "Claim_Ocean");
+  effect_req_append(effect, e_req);
+
   /* Make sure that all action enablers added or modified by the
    * compatibility post processing fulfills all hard action requirements. */
   rscompat_enablers_add_obligatory_hard_reqs();
@@ -471,6 +602,25 @@ static int first_free_unit_type_user_flag(void)
 
   /* All unit type user flags are taken. */
   return MAX_NUM_USER_UNIT_FLAGS;
+}
+
+/**********************************************************************//**
+  Find and return the first unused tech user flag. If all tech
+  user flags are taken MAX_NUM_USER_TECH_FLAGS is returned.
+**************************************************************************/
+static int first_free_tech_user_flag(void)
+{
+  int flag;
+
+  /* Find the first unused user defined tech flag. */
+  for (flag = 0; flag < MAX_NUM_USER_TECH_FLAGS; flag++) {
+    if (tech_flag_id_name_cb(flag + TECH_USER_1) == nullptr) {
+      return flag;
+    }
+  }
+
+  /* All tech user flags are taken. */
+  return MAX_NUM_USER_TECH_FLAGS;
 }
 
 /**********************************************************************//**

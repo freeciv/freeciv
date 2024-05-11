@@ -162,10 +162,6 @@ techs = "\
 ;                         extra. See \"bridged_over\" extra property in\n\
 ;                         terrain.ruleset.\n\
 ; \"Build_Airborne\"      = from now on can build air units (for use by AI)\n\
-; \"Claim_Ocean\"         = Player claims ocean tiles even if they are not\n\
-;                         adjacent to border source\n\
-; \"Claim_Ocean_Limited\" = Oceanic border sources claim ocean tiles even if\n\
-;                         they are not adjacent to border source\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
