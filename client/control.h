@@ -190,7 +190,7 @@ void unit_focus_add(struct unit *punit);
 void unit_focus_remove(struct unit *punit);
 void unit_focus_urgent(struct unit *punit);
 
-void unit_focus_advance(void);
+void unit_focus_advance(bool accept_current);
 void unit_focus_update(void);
 
 void auto_center_on_focus_unit(void);
