@@ -570,6 +570,42 @@ void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
 }
 
 /**********************************************************************//**
+  Change unit hitpoints. Reason and killer are used if unit dies.
+**************************************************************************/
+bool api_edit_unit_hitpoints(lua_State *L, Unit *self, int change,
+                             const char *reason, Player *killer)
+{
+  LUASCRIPT_CHECK_STATE(L, TRUE);
+  LUASCRIPT_CHECK_ARG_NIL(L, self, 2, Unit, TRUE);
+
+  self->hp += change;
+
+  if (self->hp <= 0) {
+    enum unit_loss_reason loss_reason
+      = unit_loss_reason_by_name(reason, fc_strcasecmp);
+
+    wipe_unit(self, loss_reason, killer);
+
+    /* Intentionally only after wiping, so that unit is never left with
+     * zero or less hit points. */
+    LUASCRIPT_CHECK_ARG(L, unit_loss_reason_is_valid(loss_reason), 4,
+                        "Invalid unit loss reason", FALSE);
+
+    return FALSE;
+  } else {
+    int max = unit_type_get(self)->hp;
+
+    if (self->hp > max) {
+      self->hp = max;
+    }
+  }
+
+  send_unit_info(NULL, self);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Change terrain on tile
 **************************************************************************/
 bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)
