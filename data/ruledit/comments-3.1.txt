@@ -188,7 +188,7 @@ governments = "\
 ;                to rename an item after a ruleset has been released, you\n\
 ;                should set \"rule_name\" to the original value of \"name\".\n\
 ; reqs         = requirements for this government (see README.effects)\n\
-; graphic      = tag specifing preferred graphic\n\
+; graphic      = tag specifying preferred graphic\n\
 ; graphic_alt  = alternate graphics tag if preferred is not found;\n\
 ;                should be a standard tag if preferred is not;\n\
 ;                otherwise may be \"-\"\n\
