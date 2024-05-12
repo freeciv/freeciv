@@ -4364,6 +4364,8 @@ static bool load_ruleset_governments(struct section_file *file,
                  secfile_lookup_str_default(file, "-", "%s.sound", sec_name));
       sz_strlcpy(g->sound_alt,
                  secfile_lookup_str_default(file, "-", "%s.sound_alt", sec_name));
+      sz_strlcpy(g->sound_alt2,
+                 secfile_lookup_str_default(file, "-", "%s.sound_alt2", sec_name));
 
       g->helptext = lookup_strvec(file, sec_name, "helptext");
     } governments_iterate_end;
@@ -8772,6 +8774,7 @@ static void send_ruleset_governments(struct conn_list *dest)
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
     sz_strlcpy(gov.sound_str, g->sound_str);
     sz_strlcpy(gov.sound_alt, g->sound_alt);
+    sz_strlcpy(gov.sound_alt2, g->sound_alt2);
     PACKET_STRVEC_INSERT(gov.helptext, g->helptext);
 
     lsend_packet_ruleset_government(dest, &gov);

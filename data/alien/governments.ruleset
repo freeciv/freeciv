@@ -48,6 +48,8 @@ during_revolution = "Anarchy"
 ; sound        = Sound tag for the audio to play when palyer switch
 ;                to government.
 ; sound_alt    = Alternative sound tag, in case primary one is not found.
+; sound_alt2   = Second alternative sound tag, in case neither primary tag
+;                nor the first alt tag is found.
 ; ai_better    = AI will not consider this government for use if the
 ;                government listed here is available
 ; ruler_male_title   = The default male ruler title for the government type.
@@ -71,6 +73,7 @@ graphic     = "gov.anarchy"
 graphic_alt = "-"
 sound       = "g_anarchy"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("Usurper %s")
 ruler_female_title = _("?female:Usurper %s")
@@ -91,6 +94,7 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 sound       = "g_despotism"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("Leader %s")
 ruler_female_title = _("?female:Leader %s")
@@ -113,6 +117,7 @@ graphic     = "gov.communism"
 graphic_alt = "-"
 sound       = "g_communism"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("Comrade %s")
 ruler_female_title = _("?female:Comrade %s")
@@ -136,6 +141,7 @@ graphic     = "gov.democracy"
 graphic_alt = "-"
 sound       = "g_democracy"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("President %s")
 ruler_female_title = _("?female:President %s")
@@ -159,6 +165,7 @@ graphic     = "gov.dual_communism"
 graphic_alt = "gov.monarchy"
 sound       = "g_dual_communism"
 sound_alt   = "g_monarchy"
+sound_alt2  = "-"
 
 ruler_male_title = _("Comrade %s")
 ruler_female_title = _("?female:Comrade %s")
@@ -182,6 +189,7 @@ graphic     = "gov.dual_democracy"
 graphic_alt = "gov.republic"
 sound       = "g_dual_democracy"
 sound_alt   = "g_republic"
+sound_alt2  = "-"
 
 ruler_male_title = _("President %s")
 ruler_female_title = _("?female:President %s")

@@ -2548,7 +2548,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     }
 
     if (gov_change) {
-      audio_play_sound(pgov->sound_str, pgov->sound_alt, NULL);
+      audio_play_sound(pgov->sound_str, pgov->sound_alt, pgov->sound_alt2);
     }
   }
 
@@ -4111,6 +4111,7 @@ void handle_ruleset_government(const struct packet_ruleset_government *p)
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
   sz_strlcpy(gov->sound_str, p->sound_str);
   sz_strlcpy(gov->sound_alt, p->sound_alt);
+  sz_strlcpy(gov->sound_alt2, p->sound_alt2);
 
   PACKET_STRVEC_EXTRACT(gov->helptext, p->helptext);
 
