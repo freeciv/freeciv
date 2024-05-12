@@ -894,6 +894,8 @@ typedef union {
 #define SPECENUM_VALUE56NAME "PlayerState"
 #define SPECENUM_VALUE57 VUT_FORM_AGE
 #define SPECENUM_VALUE57NAME "FormAge"
+#define SPECENUM_VALUE58 VUT_SITE
+#define SPECENUM_VALUE58NAME "Site"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
@@ -902,7 +904,7 @@ typedef union {
 /* Used in the network protocol. */
 struct universal {
   universals_u value;
-  enum universals_n kind;		/* formerly .type and .is_unit */
+  enum universals_n kind;               /* Formerly .type and .is_unit */
 };
 
 /* Used in the network protocol. */

@@ -367,6 +367,7 @@ tactical_req_cb(const struct req_context *context,
 {
   switch (req->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     {
       const struct impr_type *b = req->source.value.building;
 

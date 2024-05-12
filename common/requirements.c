@@ -195,13 +195,15 @@ static enum req_unchanging_status
 {
   const struct impr_type *b = req->source.value.building;
 
-  fc_assert_ret_val(VUT_IMPROVEMENT == req->source.kind, REQUCH_NO);
+  fc_assert_ret_val(VUT_IMPROVEMENT == req->source.kind
+                    || VUT_SITE == req->source.kind, REQUCH_NO);
   if (REQ_RANGE_LOCAL == req->range) {
     /* Likely, won't be questioned for an obsolete building */
     return REQUCH_YES;
   }
 
-  if (improvement_obsolete(context->player, b, context->city)) {
+  if (req->source.kind == VUT_IMPROVEMENT
+      && improvement_obsolete(context->player, b, context->city)) {
     /* FIXME: sometimes can unobsolete, but considering it
      * may sometimes put the function on endless recursion */
     return REQUCH_ACT; /* Mostly about techs */
@@ -315,6 +317,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     }
     break;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     source->value.building = improvement_by_rule_name(value);
     if (source->value.building != NULL) {
       return;
@@ -659,6 +662,7 @@ struct universal universal_by_number(const enum universals_n kind,
     }
     break;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     source.value.building = improvement_by_number(value);
     if (source.value.building != NULL) {
       return source;
@@ -885,6 +889,7 @@ int universal_number(const struct universal *source)
   case VUT_STYLE:
     return style_number(source->value.style);
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return improvement_number(source->value.building);
   case VUT_IMPR_GENUS:
     return source->value.impr_genus;
@@ -1061,6 +1066,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_COUNT:
         break;
       case VUT_IMPROVEMENT:
+      case VUT_SITE:
       case VUT_IMPR_GENUS:
       case VUT_IMPR_FLAG:
       case VUT_UTYPE:
@@ -1294,6 +1300,7 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = (req.range != REQ_RANGE_PLAYER);
       break;
     case VUT_IMPROVEMENT:
+    case VUT_SITE:
       /* Valid ranges depend on the building genus (wonder/improvement),
        * which might not have been loaded from the ruleset yet.
        * So we allow anything here, and do a proper check once ruleset
@@ -1313,6 +1320,7 @@ struct requirement req_from_str(const char *type, const char *range,
     /* Check 'survives'. */
     switch (req.source.kind) {
     case VUT_IMPROVEMENT:
+    case VUT_SITE:
       /* See buildings_in_range(). */
       invalid = survives && req.range <= REQ_RANGE_CONTINENT;
       break;
@@ -1476,7 +1484,8 @@ static bool impr_contra_genus(const struct requirement *impr_req,
                               const struct requirement *genus_req)
 {
   /* The input is sane. */
-  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT, FALSE);
+  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT
+                    || impr_req->source.kind == VUT_SITE, FALSE);
   fc_assert_ret_val(genus_req->source.kind == VUT_IMPR_GENUS, FALSE);
 
   if (impr_req->range == REQ_RANGE_LOCAL
@@ -1508,7 +1517,8 @@ static bool impr_contra_flag(const struct requirement *impr_req,
                              const struct requirement *flag_req)
 {
   /* The input is sane. */
-  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT, FALSE);
+  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT
+                    || impr_req->source.kind == VUT_SITE, FALSE);
   fc_assert_ret_val(flag_req->source.kind == VUT_IMPR_FLAG, FALSE);
 
   if (impr_req->range == REQ_RANGE_LOCAL
@@ -1677,6 +1687,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
 
   switch (req1->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     if (req2->source.kind == VUT_IMPR_GENUS) {
       return impr_contra_genus(req1, req2);
     } else if (req2->source.kind == VUT_IMPR_FLAG) {
@@ -1693,14 +1704,16 @@ bool are_requirements_contradictions(const struct requirement *req1,
     /* No special knowledge. */
     return FALSE;
   case VUT_IMPR_GENUS:
-    if (req2->source.kind == VUT_IMPROVEMENT) {
+    if (req2->source.kind == VUT_IMPROVEMENT
+        || req2->source.kind == VUT_SITE) {
       return impr_contra_genus(req2, req1);
     }
 
     /* No special knowledge. */
     return FALSE;
   case VUT_IMPR_FLAG:
-    if (req2->source.kind == VUT_IMPROVEMENT) {
+    if (req2->source.kind == VUT_IMPROVEMENT
+        || req2->source.kind == VUT_SITE) {
       return impr_contra_flag(req2, req1);
     }
 
@@ -1820,9 +1833,10 @@ bool are_requirements_contradictions(const struct requirement *req1,
   case VUT_CITYTILE:
     if (req2->source.kind == VUT_CITYTILE) {
       return city_center_contra(req1, req2)
-          || city_center_contra(req2, req1);
+        || city_center_contra(req2, req1);
     } else if (req1->source.value.citytile == CITYT_CENTER
-               && req2->source.kind == VUT_IMPROVEMENT
+               && (req2->source.kind == VUT_IMPROVEMENT
+                   || req2->source.kind == VUT_SITE)
                && REQ_RANGE_TILE == req2->range
                && REQ_RANGE_TILE == req1->range
                && req2->present) {
@@ -2055,13 +2069,16 @@ is_building_req_active(const struct civ_map *nmap,
 {
   const struct impr_type *building;
 
-  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_IMPROVEMENT);
+  /* Can't use this assertion, as both VUT_IMPROVEMENT and VUT_SITE
+   * are handled here. */
+  /* IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_IMPROVEMENT); */
 
   building = req->source.value.building;
 
   /* Check if it's certain that the building is obsolete given the
    * specification we have */
-  if (improvement_obsolete(context->player, building, context->city)) {
+  if (req->source.kind == VUT_IMPROVEMENT
+      && improvement_obsolete(context->player, building, context->city)) {
     return TRI_NO;
   }
 
@@ -5362,6 +5379,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_GOOD] = {is_good_req_active, REQUCH_NO},
   [VUT_GOVERNMENT] = {is_gov_req_active, REQUCH_NO},
   [VUT_IMPROVEMENT] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
+  [VUT_SITE] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
   [VUT_IMPR_GENUS] = {is_buildinggenus_req_active, REQUCH_YES},
   [VUT_IMPR_FLAG] = {is_buildingflag_req_active, REQUCH_YES},
   [VUT_PLAYER_FLAG] = {is_plr_flag_req_active, REQUCH_NO},
@@ -5801,7 +5819,7 @@ enum req_unchanging_status
   enum req_unchanging_status u = is_req_unchanging(context, req);
 
   if (REQUCH_NO != u) {
-    /* presence is precalculated */
+    /* Presence is precalculated */
     bool auto_present = (req->survives
          && !(VUT_IMPROVEMENT == req->source.kind
               && can_improvement_go_obsolete(req->source.value.building)))
@@ -5891,6 +5909,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_GOVERNMENT:
   case VUT_ACHIEVEMENT:
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
   case VUT_IMPR_GENUS:
   case VUT_IMPR_FLAG:
   case VUT_PLAYER_FLAG:
@@ -6485,6 +6504,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_STYLE:
     return psource1->value.style == psource2->value.style;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return psource1->value.building == psource2->value.building;
   case VUT_IMPR_GENUS:
     return psource1->value.impr_genus == psource2->value.impr_genus;
@@ -6633,6 +6653,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_STYLE:
     return style_rule_name(psource->value.style);
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return improvement_rule_name(psource->value.building);
   case VUT_IMPR_GENUS:
     return impr_genus_id_name(psource->value.impr_genus);
@@ -6786,6 +6807,16 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_IMPROVEMENT:
     fc_strlcat(buf, improvement_name_translation(psource->value.building),
                bufsz);
+    return buf;
+  case VUT_SITE:
+    {
+      char local_buf[1024];
+
+      fc_snprintf(local_buf, sizeof(local_buf), _("%s site"),
+                  improvement_name_translation(psource->value.building));
+      fc_strlcat(buf, local_buf, bufsz);
+    }
+
     return buf;
   case VUT_IMPR_GENUS:
     fc_strlcat(buf,
@@ -7112,6 +7143,7 @@ int universal_build_shield_cost(const struct city *pcity,
 {
   switch (target->kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return impr_build_shield_cost(pcity, target->value.building);
   case VUT_UTYPE:
     return utype_build_shield_cost(pcity, NULL, target->value.utype);
@@ -7365,6 +7397,7 @@ static enum req_item_found improvement_found(const struct requirement *preq,
 
   switch (preq->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     if (source->value.building == preq->source.value.building) {
       return ITF_YES;
     }
@@ -7657,6 +7690,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_GOVERNMENT] = &government_found;
   universal_found_function[VUT_NATION] = &nation_found;
   universal_found_function[VUT_IMPROVEMENT] = &improvement_found;
+  universal_found_function[VUT_SITE] = &improvement_found;
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
   universal_found_function[VUT_ACTIVITY] = &unit_activity_found;

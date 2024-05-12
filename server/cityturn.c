@@ -1262,6 +1262,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_IMPROVEMENT:
+      case VUT_SITE:
         if (preq->range == REQ_RANGE_LOCAL) {
           /* Building itself is never going to change */
           purge = TRUE;
