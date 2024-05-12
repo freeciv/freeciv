@@ -23,6 +23,8 @@ if test "${PLATFORM_ROOT}" = "${BUILD_ROOT}" ; then
   exit 1
 fi
 
+# $1 - Client type
+# $2 - Client part of the AppImage name as produced by linuxdeploy
 client_appimage() {
   if ! mkdir "AppDir/$1" || ! mkdir "build/$1" ; then
     echo "Failed to create $1 directories!" >&2
@@ -42,12 +44,13 @@ client_appimage() {
   fi
 
   cd "${BUILD_ROOT}"
+  rm -f "AppDir/$1/usr/share/applications/org.freeciv.server.desktop"
   if ! tools/linuxdeploy-x86_64.AppImage --appdir "AppDir/$1" --output appimage
   then
     echo "$1 image build with linuxdeploy failed!" >&2
     return 1
   fi
-  if ! mv Freeciv-x86_64.AppImage "Freeciv-$1-x86_64.AppImage" ; then
+  if ! mv Freeciv$2-x86_64.AppImage "Freeciv-$1-x86_64.AppImage" ; then
     echo "$1 appimage rename failed!" >&2
     return 1
   fi
@@ -88,6 +91,8 @@ then
   exit 1
 fi
 
-if ! client_appimage gtk4 ; then
+if ! client_appimage gtk4 ""        ||
+   ! client_appimage sdl2 "_(SDL2)"
+then
   exit 1
 fi
