@@ -415,7 +415,7 @@ void remove_leading_spaces(char *s)
 }
 
 /************************************************************************//**
-  Terminates string pointed to by 's' to remove traling spaces;
+  Terminates string pointed to by 's' to remove trailing spaces;
   Note 's' must point to writeable memory!
 ****************************************************************************/
 void remove_trailing_spaces(char *s)
