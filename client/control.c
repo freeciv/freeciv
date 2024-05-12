@@ -716,14 +716,14 @@ void unit_focus_advance(bool accept_current)
                                ? unit_tile(head_of_units_in_focus())
                                : NULL);
 
-    unit_list_both_iterate(urgent_focus_queue, plink, punit) {
+    unit_list_iterate_safe(urgent_focus_queue, punit) {
       if ((ACTIVITY_IDLE != punit->activity
            || unit_has_orders(punit))
           /* This isn't an action decision needed because of an
            * ORDER_ACTION_MOVE located in the middle of an order. */
           && !should_ask_server_for_actions(punit)) {
         /* We have assigned new orders to this unit since, remove it. */
-        unit_list_erase(urgent_focus_queue, plink);
+        unit_list_remove(urgent_focus_queue, punit);
       } else if (NULL == focus_tile
                  || focus_tile == unit_tile(punit)) {
         /* Use the first one found */
@@ -732,7 +732,7 @@ void unit_focus_advance(bool accept_current)
       } else if (NULL == candidate) {
         candidate = punit;
       }
-    } unit_list_both_iterate_end;
+    } unit_list_iterate_safe_end;
 
     if (NULL != candidate) {
       unit_list_remove(urgent_focus_queue, candidate);
