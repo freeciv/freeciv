@@ -28,3 +28,76 @@ values
   USER_FLAG_7
   USER_FLAG_8
 end
+
+
+/* The kind of universals_u (value_union_type was req_source_type).
+ * Used in the network protocol. */
+enum universals_n
+  prefix VUT_
+  count
+values
+  NONE               "None"
+  ADVANCE            "Tech"
+  GOVERNMENT         "Gov"
+  IMPROVEMENT        "Building"
+  TERRAIN            "Terrain"
+  NATION             "Nation"
+  UTYPE              "UnitType"
+  UTFLAG             "UnitFlag"
+  UCLASS             "UnitClass"
+  UCFLAG             "UnitClassFlag"
+  OTYPE              "OutputType"
+  SPECIALIST         "Specialist"
+  /* Minimum size: at city range means city size */
+  MINSIZE            "MinSize"
+  /* AI level of the player */
+  AI_LEVEL           "AI"
+  /* More generic terrain type currently "Land" or "Ocean" */
+  TERRAINCLASS       "TerrainClass"
+  MINYEAR            "MinYear"
+  /* Terrain alterations that are possible */
+  TERRAINALTER       "TerrainAlter"
+  /* Target tile is used by city. */
+  CITYTILE           "CityTile"
+  GOOD               "Good"
+  TERRFLAG           "TerrainFlag"
+  NATIONALITY        "Nationality"
+  ROADFLAG           "RoadFlag"
+  EXTRA              "Extra"
+  TECHFLAG           "TechFlag"
+  ACHIEVEMENT        "Achievement"
+  DIPLREL            "DiplRel"
+  MAXTILEUNITS       "MaxUnitsOnTile"
+  STYLE              "Style"
+  MINCULTURE         "MinCulture"
+  UNITSTATE          "UnitState"
+  MINMOVES           "MinMoveFrags"
+  MINVETERAN         "MinVeteran"
+  MINHP              "MinHitPoints"
+  AGE                "Age"
+  NATIONGROUP        "NationGroup"
+  TOPO               "Topology"
+  IMPR_GENUS         "BuildingGenus"
+  ACTION             "Action"
+  MINTECHS           "MinTechs"
+  EXTRAFLAG          "ExtraFlag"
+  MINCALFRAG         "MinCalFrag"
+  SERVERSETTING      "ServerSetting"
+  CITYSTATUS         "CityStatus"
+  MINFOREIGNPCT      "MinForeignPct"
+  ACTIVITY           "Activity"
+  DIPLREL_TILE       "DiplRelTile"
+  DIPLREL_TILE_O     "DiplRelTileOther"
+  DIPLREL_UNITANY    "DiplRelUnitAny"
+  DIPLREL_UNITANY_O  "DiplRelUnitAnyOther"
+  MINLATITUDE        "MinLatitude"
+  MAXLATITUDE        "MaxLatitude"
+  COUNTER            "Counter"
+  ORIGINAL_OWNER     "OriginalOwner"
+  IMPR_FLAG          "BuildingFlag"
+  WRAP               "Wrap"
+  PLAYER_FLAG        "PlayerFlag"
+  PLAYER_STATE       "PlayerState"
+  FORM_AGE           "FormAge"
+  MINCITIES          "MinCities"
+end
