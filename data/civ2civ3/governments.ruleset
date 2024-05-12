@@ -47,6 +47,8 @@ during_revolution = "Anarchy"
 ; sound        = Sound tag for the audio to play when palyer switch
 ;                to government.
 ; sound_alt    = Alternative sound tag, in case primary one is not found.
+; sound_alt2   = Second alternative sound tag, in case neither primary tag
+;                nor the first alt tag is found.
 ; ai_better    = AI will not consider this government for use if the
 ;                government listed here is available
 ; ruler_male_title   = The default male ruler title for the government type.
@@ -70,6 +72,7 @@ graphic     = "gov.anarchy"
 graphic_alt = "-"
 sound       = "g_anarchy"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("Warlord %s")
 ruler_female_title = _("Warlady %s")
@@ -110,6 +113,7 @@ graphic     = "gov.tribal"
 graphic_alt = "s.tax_luxury"
 sound       = "g_tribal"
 sound_alt   = "-"
+sound_alt2  = "-"
 ai_better   = "Republic"
 
 ruler_male_title = _("Warlord %s")
@@ -151,6 +155,7 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 sound       = "g_despotism"
 sound_alt   = "-"
+sound_alt2  = "-"
 ai_better   = "Monarchy"
 
 ruler_male_title = _("Chief %s")
@@ -192,6 +197,7 @@ graphic     = "gov.monarchy"
 graphic_alt = "-"
 sound       = "g_monarchy"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("King %s")
 ruler_female_title = _("Queen %s")
@@ -231,6 +237,7 @@ graphic     = "gov.communism"
 graphic_alt = "-"
 sound       = "g_communism"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("Comrade %s")
 ruler_female_title = _("?female:Comrade %s")
@@ -271,6 +278,7 @@ graphic     = "gov.fundamentalism"
 graphic_alt = "-"
 sound       = "g_fundamentalism"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("High Priest %s")
 ruler_female_title = _("High Priestess %s")
@@ -319,6 +327,7 @@ graphic     = "gov.federation"
 graphic_alt = "s.tax_gold"
 sound       = "g_federation"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("Consul %s")
 ruler_female_title = _("?female:Consul %s")
@@ -357,6 +366,7 @@ graphic     = "gov.republic"
 graphic_alt = "-"
 sound       = "g_republic"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("President %s")
 ruler_female_title = _("?female:President %s")
@@ -397,6 +407,7 @@ graphic     = "gov.democracy"
 graphic_alt = "-"
 sound       = "g_democracy"
 sound_alt   = "-"
+sound_alt2  = "-"
 
 ruler_male_title = _("Prime Minister %s")
 ruler_female_title = _("?female:Prime Minister %s")

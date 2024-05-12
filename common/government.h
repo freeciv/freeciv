@@ -57,6 +57,7 @@ struct government {
   char graphic_alt[MAX_LEN_NAME];
   char sound_str[MAX_LEN_NAME];
   char sound_alt[MAX_LEN_NAME];
+  char sound_alt2[MAX_LEN_NAME];
   struct requirement_vector reqs;
   struct ruler_title_hash *ruler_titles;
   int changed_to_times;
