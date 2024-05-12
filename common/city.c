@@ -885,11 +885,10 @@ bool can_city_build_improvement_later(const struct city *pcity,
   Return whether given city can build given unit, ignoring whether unit 
   is obsolete.
 **************************************************************************/
-bool can_city_build_unit_direct(const struct city *pcity,
+bool can_city_build_unit_direct(const struct civ_map *nmap,
+                                const struct city *pcity,
                                 const struct unit_type *punittype)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (!can_player_build_unit_direct(city_owner(pcity), punittype)) {
     return FALSE;
   }
@@ -926,16 +925,20 @@ bool can_city_build_unit_direct(const struct city *pcity,
   obsolete.
 **************************************************************************/
 bool can_city_build_unit_now(const struct city *pcity,
-			     const struct unit_type *punittype)
-{  
-  if (!can_city_build_unit_direct(pcity, punittype)) {
+                             const struct unit_type *punittype)
+{
+  const struct civ_map *nmap = &(wld.map);
+
+  if (!can_city_build_unit_direct(nmap, pcity, punittype)) {
     return FALSE;
   }
+
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(city_owner(pcity), punittype)) {
       return FALSE;
     }
   }
+
   return TRUE;
 }
 
@@ -971,9 +974,11 @@ bool can_city_build_unit_later(const struct city *pcity,
 bool can_city_build_direct(const struct city *pcity,
                            const struct universal *target)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   switch (target->kind) {
   case VUT_UTYPE:
-    return can_city_build_unit_direct(pcity, target->value.utype);
+    return can_city_build_unit_direct(nmap, pcity, target->value.utype);
   case VUT_IMPROVEMENT:
     return can_city_build_improvement_direct(pcity, target->value.building);
   default:
@@ -1060,9 +1065,11 @@ bool city_can_change_build(const struct city *pcity)
 **************************************************************************/
 void city_choose_build_default(struct city *pcity)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (NULL == city_tile(pcity)) {
     /* When a "dummy" city is created with no tile, then choosing a build 
-     * target could fail.  This currently might happen during map editing.
+     * target could fail. This currently might happen during map editing.
      * FIXME: assumes the first unit is always "valid", so check for
      * obsolete units elsewhere. */
     pcity->production.kind = VUT_UTYPE;
@@ -1088,7 +1095,7 @@ void city_choose_build_default(struct city *pcity)
 
       if (!found) {
         unit_type_iterate(punittype) {
-          if (can_city_build_unit_direct(pcity, punittype)) {
+          if (can_city_build_unit_direct(nmap, pcity, punittype)) {
 #ifndef FREECIV_NDEBUG
             /* Later than this, 'found' is only needed in an fc_assert() */
             found = TRUE;
