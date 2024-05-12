@@ -1275,8 +1275,8 @@ static void process_attacker_want(struct ai_type *ait,
     if (dai_can_unit_type_follow_unit_type(punittype, orig_utype, ait)
         && is_native_near_tile(&(wld.map), utype_class(punittype), ptile)
         && (U_NOT_OBSOLETED == punittype->obsoleted_by
-            || !can_city_build_unit_direct(pcity, punittype->obsoleted_by))
-        && punittype->attack_strength > 0 /* or we'll get SIGFPE */) {
+            || !can_city_build_unit_direct(nmap, pcity, punittype->obsoleted_by))
+        && punittype->attack_strength > 0 /* Or we'll get SIGFPE */) {
       /* Values to be computed */
       adv_want desire;
       adv_want want;

@@ -592,7 +592,7 @@ bool city_celebrating(const struct city *pcity);            /* love the king ???
 bool city_rapture_grow(const struct city *pcity);
 bool city_is_occupied(const struct city *pcity);
 
-/* city related improvement and unit functions */
+/* City related improvement and unit functions */
 
 int city_improvement_upkeep(const struct city *pcity,
                             const struct impr_type *pimprove);
@@ -604,7 +604,8 @@ bool can_city_build_improvement_later(const struct city *pcity,
 bool can_city_build_improvement_now(const struct city *pcity,
                                     const struct impr_type *pimprove);
 
-bool can_city_build_unit_direct(const struct city *pcity,
+bool can_city_build_unit_direct(const struct civ_map *nmap,
+                                const struct city *pcity,
                                 const struct unit_type *punittype);
 bool can_city_build_unit_later(const struct city *pcity,
                                const struct unit_type *punittype);
@@ -654,13 +655,13 @@ bool city_can_change_build(const struct city *pcity);
 
 void city_choose_build_default(struct city *pcity);
 
-/* textual representation of buildings */
+/* Textual representation of buildings */
 
 const char *city_improvement_name_translation(const struct city *pcity,
 					      const struct impr_type *pimprove);
 const char *city_production_name_translation(const struct city *pcity);
 
-/* city map functions */
+/* City map functions */
 bool is_valid_city_coords(const int city_radius_sq, const int city_map_x,
                           const int city_map_y);
 bool city_map_includes_tile(const struct city *const pcity,
