@@ -5502,11 +5502,13 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
         order->dir = char2dir(rally_dirs[i]);
         order->activity = char2activity(rally_activities[i]);
 
-        unconverted = secfile_lookup_int_default(loading->file, ACTION_NONE,
+        unconverted = secfile_lookup_int_default(loading->file, -1,
                                                  "%s.rally_point_action_vec,%d",
                                                  citystr, i);
 
-        if (unconverted >= 0 && unconverted < loading->action.size) {
+        if (unconverted == -1) {
+          order->action = ACTION_NONE;
+        } else if (unconverted >= 0 && unconverted < loading->action.size) {
           /* Look up what action id the unconverted number represents. */
           order->action = loading->action.order[unconverted];
         } else {
@@ -5910,6 +5912,10 @@ static void sg_save_player_cities(struct savedata *saving,
         case ORDER_LAST:
           break;
         }
+
+        if (actions[j] == ACTION_NONE) {
+          actions[j] = -1;
+        }
       }
       orders[len] = dirs[len] = activities[len] = '\0';
 
@@ -6197,7 +6203,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &ei,
                                      "%s.action", unitstr), FALSE,
                   "%s", secfile_error());
-  if (ei == ACTION_NONE) {
+  if (ei == -1) {
     action = ACTION_NONE;
   } else {
     action = loading->action.order[ei];
@@ -6454,7 +6460,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                  "%s.action_vec,%d",
                                                  unitstr, j);
 
-        if (unconverted >= 0 && unconverted < loading->action.size) {
+        if (unconverted == -1) {
+          order->action = ACTION_NONE;
+        } else if (unconverted >= 0 && unconverted < loading->action.size) {
           /* Look up what action id the unconverted number represents. */
           order->action = loading->action.order[unconverted];
         } else {
@@ -6725,7 +6733,11 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, punit->activity, "%s.activity", buf);
     secfile_insert_int(saving->file, punit->activity_count,
                        "%s.activity_count", buf);
-    secfile_insert_int(saving->file, punit->action, "%s.action", buf);
+    if (punit->action == ACTION_NONE) {
+      secfile_insert_int(saving->file, -1, "%s.action", buf);
+    } else {
+      secfile_insert_int(saving->file, punit->action, "%s.action", buf);
+    }
     if (punit->activity_target == NULL) {
       secfile_insert_int(saving->file, -1, "%s.activity_tgt", buf);
     } else {
@@ -6856,6 +6868,10 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_FULL_MP:
         case ORDER_LAST:
           break;
+        }
+
+        if (action_buf[j] == ACTION_NONE) {
+          action_buf[j] = -1;
         }
       }
       orders_buf[len] = dir_buf[len] = act_buf[len] = '\0';

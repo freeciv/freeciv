@@ -2556,7 +2556,7 @@ static void compat_load_030300(struct loaddata *loading,
           }
 
           if (!found) {
-            secfile_insert_int(loading->file, ACTION_NONE, "player%d.u%d.action",
+            secfile_insert_int(loading->file, -1, "player%d.u%d.action",
                                plrno, unro);
           }
         }
@@ -3439,7 +3439,7 @@ static void compat_load_dev(struct loaddata *loading)
           }
 
           if (!found) {
-            secfile_insert_int(loading->file, ACTION_NONE, "player%d.u%d.action",
+            secfile_insert_int(loading->file, -1, "player%d.u%d.action",
                                plrno, unro);
           }
         }
