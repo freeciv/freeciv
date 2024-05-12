@@ -606,6 +606,32 @@ bool api_edit_unit_hitpoints(lua_State *L, Unit *self, int change,
 }
 
 /**********************************************************************//**
+  Change unit move points.
+**************************************************************************/
+void api_edit_unit_movepoints(lua_State *L, Unit *self, int change)
+{
+  bool was_exhausted = FALSE;
+
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, self, 2, Unit);
+
+  if (self->moves_left == 0 && self->done_moving) {
+    was_exhausted = TRUE;
+  }
+
+  self->moves_left += change;
+
+  if (self->moves_left <= 0) {
+    self->moves_left = 0;
+  } else if (was_exhausted && !unit_has_orders(self)) {
+    /* Unit has regained ability to move. */
+    self->done_moving = FALSE;
+  }
+
+  send_unit_info(NULL, self);
+}
+
+/**********************************************************************//**
   Change terrain on tile
 **************************************************************************/
 bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)

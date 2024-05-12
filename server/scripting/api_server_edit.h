@@ -68,6 +68,7 @@ void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
                         Player *killer);
 bool api_edit_unit_hitpoints(lua_State *L, Unit *self, int change,
                              const char *reason, Player *killer);
+void api_edit_unit_movepoints(lua_State *L, Unit *self, int change);
 
 bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
 
