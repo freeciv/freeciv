@@ -5409,11 +5409,13 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
         order->dir = char2dir(rally_dirs[i]);
         order->activity = char2activity(rally_activities[i]);
 
-        unconverted = secfile_lookup_int_default(loading->file, ACTION_NONE,
+        unconverted = secfile_lookup_int_default(loading->file, -1,
                                                  "%s.rally_point_action_vec,%d",
                                                  citystr, i);
 
-        if (unconverted >= 0 && unconverted < loading->action.size) {
+        if (unconverted == -1) {
+          order->action = ACTION_NONE;
+        } else if (unconverted >= 0 && unconverted < loading->action.size) {
           /* Look up what action id the unconverted number represents. */
           order->action = loading->action.order[unconverted];
         } else {
@@ -5814,6 +5816,10 @@ static void sg_save_player_cities(struct savedata *saving,
         case ORDER_FULL_MP:
         case ORDER_LAST:
           break;
+        }
+
+        if (actions[j] == ACTION_NONE) {
+          actions[j] = -1;
         }
       }
       orders[len] = dirs[len] = activities[len] = '\0';
@@ -6350,7 +6356,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                  "%s.action_vec,%d",
                                                  unitstr, j);
 
-        if (unconverted >= 0 && unconverted < loading->action.size) {
+        if (unconverted == -1) {
+          order->action = ACTION_NONE;
+        } else if (unconverted >= 0 && unconverted < loading->action.size) {
           /* Look up what action id the unconverted number represents. */
           order->action = loading->action.order[unconverted];
         } else {
@@ -6749,6 +6757,10 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_FULL_MP:
         case ORDER_LAST:
           break;
+        }
+
+        if (action_buf[j] == ACTION_NONE) {
+          action_buf[j] = -1;
         }
       }
       orders_buf[len] = dir_buf[len] = act_buf[len] = '\0';
