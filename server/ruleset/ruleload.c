@@ -7411,8 +7411,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                       "%s.onetime_pct", sec_name);
       pgood->select_priority = secfile_lookup_int_default(file, 1,
                                                           "%s.select_priority", sec_name);
-      pgood->priority = secfile_lookup_int_default(file, 1,
-                                                   "%s.priority", sec_name);
+      pgood->replace_priority = secfile_lookup_int_default(file, 1,
+                                                           "%s.replace_priority", sec_name);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
       BV_CLR_ALL(pgood->flags);
@@ -8595,7 +8595,7 @@ static void send_ruleset_goods(struct conn_list *dest)
     packet.to_pct = g->to_pct;
     packet.onetime_pct = g->onetime_pct;
     packet.select_priority = g->select_priority;
-    packet.replace_priority = g->priority;
+    packet.replace_priority = g->replace_priority;
     packet.flags = g->flags;
 
     PACKET_STRVEC_INSERT(packet.helptext, g->helptext);

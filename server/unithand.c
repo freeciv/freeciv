@@ -6071,7 +6071,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* See if there's a trade route we can cancel at the home city. */
     if (home_overbooked >= 0) {
       if (home_max <= 0
-          || (city_trade_removable(pcity_homecity, goods->priority, routes_out_of_home)
+          || (city_trade_removable(pcity_homecity, goods->replace_priority,
+                                   routes_out_of_home)
               >= trade)) {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,
@@ -6095,7 +6096,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* See if there's a trade route we can cancel at the dest city. */
     if (can_establish && dest_overbooked >= 0) {
       if (dest_max <= 0
-          || (city_trade_removable(pcity_dest, goods->priority, routes_out_of_dest)
+          || (city_trade_removable(pcity_dest, goods->replace_priority,
+                                   routes_out_of_dest)
               >= trade)) {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,

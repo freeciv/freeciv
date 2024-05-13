@@ -2315,7 +2315,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
         || (unit_data->task == AIUNIT_TRADE
             && !(can_cities_trade(homecity, city_dest)
                  && can_establish_trade_route(homecity, city_dest,
-                                              pgood->priority)))
+                                              pgood->replace_priority)))
         || (unit_data->task == AIUNIT_WONDER
             /* Helping the (new) production is illegal. */
             && !city_production_gets_caravan_shields(&city_dest->production))

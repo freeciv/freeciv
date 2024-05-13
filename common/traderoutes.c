@@ -237,13 +237,15 @@ int city_trade_removable(const struct city *pcity, int priority,
   /* Sort trade route values. */
   num = 0;
   trade_routes_iterate(pcity, proute) {
-    if (proute->goods->priority <= priority) {
-      for (j = num; j > 0 && proute->goods->priority > sorted[j - 1]->goods->priority; j--) ;
+    if (proute->goods->replace_priority <= priority) {
+      for (j = num;
+           j > 0 && proute->goods->replace_priority > sorted[j - 1]->goods->replace_priority;
+           j--) ;
 
       /* Search place amoung same priority ones. */
       for (; j > 0
              && (proute->value < sorted[j - 1]->value)
-             && (proute->goods->priority == sorted[j - 1]->goods->priority) ;
+             && (proute->goods->replace_priority == sorted[j - 1]->goods->replace_priority) ;
            j--) {
         sorted[j] = sorted[j - 1];
       }

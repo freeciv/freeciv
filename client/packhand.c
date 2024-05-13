@@ -4473,7 +4473,7 @@ void handle_ruleset_goods(const struct packet_ruleset_goods *p)
   pgood->to_pct = p->to_pct;
   pgood->onetime_pct = p->onetime_pct;
   pgood->select_priority = p->select_priority;
-  pgood->priority = p->replace_priority;
+  pgood->replace_priority = p->replace_priority;
   pgood->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(pgood->helptext, p->helptext);
