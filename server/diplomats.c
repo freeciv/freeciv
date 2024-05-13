@@ -1790,7 +1790,9 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                                    .unittype = unit_type_get(act_unit),
                                    .action = paction,
                                  },
-                                 tgt_player,
+                                 &(const struct req_context) {
+                                   .player = tgt_player,
+                                 },
                                  EFT_MAPS_STOLEN_PCT);
   give_distorted_map(tgt_player, act_player,
                      normal_tile_prob,

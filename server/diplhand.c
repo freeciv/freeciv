@@ -184,9 +184,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       if (pclause->from == pplayer) {
         struct clause_info *info = clause_info_get(pclause->type);
 
-        if (!are_reqs_active(&player_ctxt, pother,
+        if (!are_reqs_active(&player_ctxt, &other_ctxt,
                              &(info->giver_reqs), RPT_POSSIBLE)
-            || !are_reqs_active(&other_ctxt, pplayer,
+            || !are_reqs_active(&other_ctxt, &player_ctxt,
                                 &(info->receiver_reqs), RPT_POSSIBLE)) {
           log_error("Requirements of a clause between %s and %s not fulfilled",
                     player_name(pplayer), player_name(pother));
@@ -341,9 +341,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       if (pclause->from == pother) {
         struct clause_info *info = clause_info_get(pclause->type);
 
-        if (!are_reqs_active(&other_ctxt, pplayer,
+        if (!are_reqs_active(&other_ctxt, &player_ctxt,
                              &(info->giver_reqs), RPT_POSSIBLE)
-            || !are_reqs_active(&player_ctxt, pother,
+            || !are_reqs_active(&player_ctxt, &other_ctxt,
                                 &(info->receiver_reqs), RPT_POSSIBLE)) {
           notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                         _("Clause requirements are no longer fulfilled. "

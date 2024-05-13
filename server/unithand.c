@@ -776,7 +776,9 @@ static bool do_heal_unit(struct player *act_player,
                         .unittype = unit_type_get(act_unit),
                         .action = paction,
                       },
-                      unit_owner(tgt_unit),
+                      &(const struct req_context) {
+                        .player = unit_owner(tgt_unit),
+                      },
                       EFT_HEAL_UNIT_PCT
                     ) + 100)
                    * tgt_hp_max) / 100;
@@ -2998,6 +3000,9 @@ static bool illegal_action_pay_price(struct player *pplayer,
     .unittype = unit_type_get(act_unit),
     .action = stopped_action,
   };
+  const struct req_context tgt_ctxt = {
+    .player = tgt_player,
+  };
 
   /* Don't punish the player for something the game did. Don't tell the
    * player that the rules required the game to try to do something
@@ -3016,7 +3021,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
   /* The mistake may have a cost. */
 
   /* HP cost */
-  punishment_hp = get_target_bonus_effects(NULL, &actor_ctxt, tgt_player,
+  punishment_hp = get_target_bonus_effects(NULL, &actor_ctxt, &tgt_ctxt,
                                            EFT_ILLEGAL_ACTION_HP_COST);
 
   /* Stay in range */
@@ -3068,7 +3073,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
   }
 
   /* MP cost */
-  punishment_mp = get_target_bonus_effects(NULL, &actor_ctxt, tgt_player,
+  punishment_mp = get_target_bonus_effects(NULL, &actor_ctxt, &tgt_ctxt,
                                            EFT_ILLEGAL_ACTION_MOVE_COST);
 
   /* Stay in range */

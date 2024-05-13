@@ -151,7 +151,8 @@ static bool can_plr_see_all_sym_diplrels_of(const struct player *pplayer,
   Is an evaluation of the requirement accurate when pov_player evaluates
   it?
 
-  context may be NULL. This is equivalent to passing an empty context.
+  context and other_context may be NULL. This is equivalent to passing
+  empty contexts.
 
   TODO: Move the data to a data file. That will
         - let non programmers help complete it and/or fix what is wrong
@@ -159,7 +160,7 @@ static bool can_plr_see_all_sym_diplrels_of(const struct player *pplayer,
 **************************************************************************/
 static bool is_req_knowable(const struct player *pov_player,
                             const struct req_context *context,
-                            const struct player *other_player,
+                            const struct req_context *other_context,
                             const struct requirement *req,
                             const enum   req_problem_type prob_type)
 {
@@ -167,6 +168,9 @@ static bool is_req_knowable(const struct player *pov_player,
 
   if (context == NULL) {
     context = req_context_empty();
+  }
+  if (other_context == NULL) {
+    other_context = req_context_empty();
   }
 
   if (req->source.kind == VUT_UTFLAG
@@ -282,7 +286,7 @@ static bool is_req_knowable(const struct player *pov_player,
       || req->source.kind == VUT_DIPLREL_UNITANY_O) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
-      if (other_player == NULL
+      if (other_context->player == NULL
           || context->player == NULL) {
         /* The two players may exist but not be passed when the problem
          * type is RPT_POSSIBLE. */
@@ -290,12 +294,13 @@ static bool is_req_knowable(const struct player *pov_player,
       }
 
       if (pov_player == context->player
-          || pov_player == other_player)  {
+          || pov_player == other_context->player)  {
         return TRUE;
       }
 
       if (can_plr_see_all_sym_diplrels_of(pov_player, context->player)
-          || can_plr_see_all_sym_diplrels_of(pov_player, other_player)) {
+          || can_plr_see_all_sym_diplrels_of(pov_player,
+                                             other_context->player)) {
         return TRUE;
       }
 
@@ -714,23 +719,24 @@ static bool is_req_knowable(const struct player *pov_player,
 /**********************************************************************//**
   Evaluate a single requirement given pov_player's knowledge.
 
-  context may be NULL. This is equivalent to passing an empty context.
+  context and other_context may be NULL. This is equivalent to passing
+  empty contexts.
 
   Note: Assumed to use pov_player's data.
 **************************************************************************/
 enum fc_tristate
 mke_eval_req(const struct player *pov_player,
              const struct req_context *context,
-             const struct player *other_player,
+             const struct req_context *other_context,
              const struct requirement *req,
              const enum   req_problem_type prob_type)
 {
-  if (!is_req_knowable(pov_player, context, other_player,
+  if (!is_req_knowable(pov_player, context, other_context,
                        req, prob_type)) {
     return TRI_MAYBE;
   }
 
-  if (is_req_active(context, other_player, req, prob_type)) {
+  if (is_req_active(context, other_context, req, prob_type)) {
     return TRI_YES;
   } else {
     return TRI_NO;
@@ -740,14 +746,15 @@ mke_eval_req(const struct player *pov_player,
 /**********************************************************************//**
   Evaluate a requirement vector given pov_player's knowledge.
 
-  context may be NULL. This is equivalent to passing an empty context.
+  context and other_context may be NULL. This is equivalent to passing
+  empty contexts.
 
   Note: Assumed to use pov_player's data.
 **************************************************************************/
 enum fc_tristate
 mke_eval_reqs(const struct player *pov_player,
               const struct req_context *context,
-              const struct player *other_player,
+              const struct req_context *other_context,
               const struct requirement_vector *reqs,
               const enum   req_problem_type prob_type)
 {
@@ -756,7 +763,7 @@ mke_eval_reqs(const struct player *pov_player,
 
   result = TRI_YES;
   requirement_vector_iterate(reqs, preq) {
-    current = mke_eval_req(pov_player, context, other_player,
+    current = mke_eval_req(pov_player, context, other_context,
                            preq, prob_type);
     if (current == TRI_NO) {
       return TRI_NO;

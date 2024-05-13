@@ -191,23 +191,27 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
    * the requirements. */
   if (client_player == NULL || client_player == pfrom) {
     if (!are_reqs_active(&(const struct req_context) { .player = pfrom },
-                         pto, &clause_infos[type].giver_reqs, RPT_POSSIBLE)) {
+                         &(const struct req_context) { .player = pto },
+                         &clause_infos[type].giver_reqs, RPT_POSSIBLE)) {
       return FALSE;
     }
   }
   if (client_player == NULL || client_player == pto) {
     if (!are_reqs_active(&(const struct req_context) { .player = pto },
-                         pfrom, &clause_infos[type].receiver_reqs,
+                         &(const struct req_context) { .player = pfrom },
+                         &clause_infos[type].receiver_reqs,
                          RPT_POSSIBLE)) {
       return FALSE;
     }
   }
   if (client_player == NULL) {
     if (!are_reqs_active(&(const struct req_context) { .player = pfrom },
-                         pfrom, &clause_infos[type].either_reqs,
+                         &(const struct req_context) { .player = pto },
+                         &clause_infos[type].either_reqs,
                          RPT_POSSIBLE)
         && !are_reqs_active(&(const struct req_context) { .player = pto },
-                         pfrom, &clause_infos[type].either_reqs,
+                            &(const struct req_context) { .player = pfrom },
+                            &clause_infos[type].either_reqs,
                             RPT_POSSIBLE)) {
       return FALSE;
     }

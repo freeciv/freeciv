@@ -43,7 +43,9 @@ bool player_can_build_base(const struct base_type *pbase,
                            .player = pplayer,
                            .tile = ptile,
                          },
-                         tile_owner(ptile),
+                         &(const struct req_context) {
+                          .player = tile_owner(ptile),
+                         },
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
@@ -66,7 +68,9 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                            .unit = punit,
                            .unittype = unit_type_get(punit),
                          },
-                         tile_owner(ptile), 
+                         &(const struct req_context) {
+                          .player = tile_owner(ptile),
+                         },
                          &pextra->reqs, RPT_CERTAIN);
 }
 

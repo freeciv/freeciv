@@ -301,12 +301,12 @@ research_advance_name_translation(const struct research *presearch,
   If may become active if all unchangeable requirements are active.
 ****************************************************************************/
 static bool reqs_may_activate(const struct req_context *context,
-                              const struct player *other_player,
+                              const struct req_context *other_context,
                               const struct requirement_vector *reqs,
                               const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
-    if (is_req_preventing(context, other_player, preq, prob_type)) {
+    if (is_req_preventing(context, other_context, preq, prob_type)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -327,7 +327,7 @@ static bool
 research_allowed(const struct research *presearch,
                  Tech_type_id tech,
                  bool (*reqs_eval)(const struct req_context *context,
-                                   const struct player *oplr,
+                                   const struct req_context *ocontext,
                                    const struct requirement_vector *reqs,
                                    const enum   req_problem_type ptype))
 {

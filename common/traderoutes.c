@@ -530,7 +530,10 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                                  ? ACTION_TRADE_ROUTE
                                                  : ACTION_MARKETPLACE
                                                ),
-                                   }, city_owner(pc2),
+                                   },
+                                   &(const struct req_context) {
+                                     .player = city_owner(pc2),
+                                   },
                                    EFT_TRADE_REVENUE_BONUS);
 
   /* Be mercy full to players with small amounts. Round up. */

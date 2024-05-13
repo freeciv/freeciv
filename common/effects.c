@@ -668,7 +668,7 @@ bool building_has_effect(const struct impr_type *pimprove,
   context may be NULL. This is equivalent to passing an empty context.
 **************************************************************************/
 static bool is_effect_prevented(const struct req_context *context,
-                                const struct player *other_player,
+                                const struct req_context *other_context,
                                 const struct effect *peffect,
                                 const enum   req_problem_type prob_type)
 {
@@ -676,7 +676,7 @@ static bool is_effect_prevented(const struct req_context *context,
     /* Only check present=FALSE requirements; these will return _FALSE_
      * from is_req_active() if met, and need reversed prob_type */
     if (!preq->present
-        && !is_req_active(context, other_player,
+        && !is_req_active(context, other_context,
                           preq, REVERSED_RPT(prob_type))) {
       return TRUE;
     }
@@ -733,7 +733,8 @@ bool is_building_replaced(const struct city *pcity,
   context gives the target (or targets) to evaluate requirements against
   effect_type gives the effect type to be considered
 
-  context may be NULL. This is equivalent to passing an empty context.
+  context and other_context may be NULL. This is equivalent to passing
+  empty contexts.
 
   Returns the effect sources of this type _currently active_.
 
@@ -742,7 +743,7 @@ bool is_building_replaced(const struct city *pcity,
 **************************************************************************/
 int get_target_bonus_effects(struct effect_list *plist,
                              const struct req_context *context,
-                             const struct player *other_player,
+                             const struct req_context *other_context,
                              enum effect_type effect_type)
 {
   int bonus = 0;
@@ -754,9 +755,9 @@ int get_target_bonus_effects(struct effect_list *plist,
   /* Loop over all effects of this type. */
   effect_list_iterate(get_effects(effect_type), peffect) {
     /* For each effect, see if it is active. */
-    if (are_reqs_active(context, other_player,
+    if (are_reqs_active(context, other_context,
                         &peffect->reqs, RPT_CERTAIN)) {
-      /* This code will add value of effect. If there's multiplier for 
+      /* This code will add value of effect. If there's multiplier for
        * effect and target_player aren't null, then value is multiplied
        * by player's multiplier factor. */
       if (peffect->multiplier) {
@@ -1112,7 +1113,9 @@ int get_unit_vs_tile_bonus(const struct tile *ptile,
                                     .unit = punit,
                                     .unittype = utype,
                                   },
-                                  tile_owner(ptile),
+                                  &(const struct req_context) {
+                                    .player = tile_owner(ptile),
+                                  },
                                   etype);
 }
 

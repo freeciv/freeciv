@@ -263,14 +263,20 @@ static bool are_road_reqs_fulfilled(const struct civ_map *nmap,
     } extra_type_list_iterate_end;
 
     if (beginning) {
-      if (!are_reqs_active(&context, tile_owner(ptile),
+      if (!are_reqs_active(&context,
+                           &(const struct req_context) {
+                             .player = tile_owner(ptile),
+                           },
                            &proad->first_reqs, RPT_POSSIBLE)) {
         return FALSE;
       }
     }
   }
 
-  return are_reqs_active(&context, tile_owner(ptile),
+  return are_reqs_active(&context,
+                         &(const struct req_context) {
+                           .player = tile_owner(ptile),
+                         },
                          &pextra->reqs, RPT_POSSIBLE);
 }
 

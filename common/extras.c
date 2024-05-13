@@ -477,7 +477,9 @@ bool player_can_build_extra(const struct extra_type *pextra,
                            .player = pplayer,
                            .tile = ptile,
                          },
-                         tile_owner(ptile),
+                         &(const struct req_context) {
+                           .player = tile_owner(ptile),
+                         },
                          &pextra->reqs,
                          RPT_POSSIBLE);
 }
@@ -546,7 +548,9 @@ bool can_build_extra(const struct extra_type *pextra,
                            .unit = punit,
                            .unittype = unit_type_get(punit),
                          },
-                         tile_owner(ptile),
+                         &(const struct req_context) {
+                           .player = tile_owner(ptile),
+                         },
                          &pextra->reqs,
                          RPT_CERTAIN);
 }
@@ -600,7 +604,9 @@ bool player_can_remove_extra(const struct extra_type *pextra,
                            .player = pplayer,
                            .tile = ptile,
                          },
-                         tile_owner(ptile),
+                         &(const struct req_context) {
+                           .player = tile_owner(ptile),
+                         },
                          &pextra->rmreqs,
                          RPT_POSSIBLE);
 }
@@ -623,7 +629,9 @@ bool can_remove_extra(const struct extra_type *pextra,
                            .unit = punit,
                            .unittype = unit_type_get(punit),
                          },
-                         tile_owner(ptile),
+                         &(const struct req_context) {
+                           .player = tile_owner(ptile),
+                         },
                          &pextra->rmreqs, RPT_CERTAIN);
 }
 
@@ -723,8 +731,11 @@ bool unit_can_enter_hut(const struct unit *punit,
   }
   extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
     if (tile_has_extra(ptile, extra)
-        && are_reqs_active(&context, tile_owner(ptile), &extra->rmreqs,
-                           RPT_POSSIBLE)) {
+        && are_reqs_active(&context,
+                           &(const struct req_context) {
+                             .player = tile_owner(ptile),
+                           },
+                           &extra->rmreqs, RPT_POSSIBLE)) {
       return TRUE;
     }
   } extra_type_by_rmcause_iterate_end;
@@ -751,8 +762,11 @@ bool unit_can_displace_hut(const struct unit *punit,
   }
   extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
     if (tile_has_extra(ptile, extra)
-        && are_reqs_active(&context, tile_owner(ptile), &extra->rmreqs,
-                           RPT_POSSIBLE)) {
+        && are_reqs_active(&context,
+                           &(const struct req_context) {
+                             .player = tile_owner(ptile),
+                           },
+                           &extra->rmreqs, RPT_POSSIBLE)) {
       return TRUE;
     }
   } extra_type_by_rmcause_iterate_end;
@@ -1126,7 +1140,9 @@ bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
     && is_native_tile_to_extra(pextra, ptile)
     && !extra_conflicting_on_tile(pextra, ptile)
     && are_reqs_active(&(const struct req_context) { .tile = ptile },
-                       tile_owner(ptile),
+                       &(const struct req_context) {
+                         .player = tile_owner(ptile),
+                       },
                        &pextra->appearance_reqs, RPT_CERTAIN);
 }
 
@@ -1139,7 +1155,9 @@ bool can_extra_disappear(const struct extra_type *pextra, const struct tile *pti
     && is_extra_removed_by(pextra, ERM_DISAPPEARANCE)
     && can_extra_be_removed(pextra, ptile)
     && are_reqs_active(&(const struct req_context) { .tile = ptile },
-                       tile_owner(ptile),
+                       &(const struct req_context) {
+                         .player = tile_owner(ptile),
+                       },
                        &pextra->disappearance_reqs, RPT_CERTAIN);
 }
 

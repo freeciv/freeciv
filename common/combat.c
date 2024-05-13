@@ -515,7 +515,10 @@ struct city *sdi_try_defend(const struct civ_map *nmap,
                                         .city = pcity,
                                         .tile = ptile,
                                       },
-                                      owner, EFT_NUKE_PROOF)) {
+                                      &(const struct req_context) {
+                                        .player = owner,
+                                      },
+                                      EFT_NUKE_PROOF)) {
       return pcity;
     }
   } square_iterate_end;

@@ -1029,7 +1029,10 @@ static void sg_special_set_dbv(struct tile *ptile, struct dbv *extras, char ch,
                 if ((!is_extra_caused_by(candidate, EC_BASE)
                      || tile_city(vtile) != NULL
                      || extra_base_get(candidate)->border_sq <= 0)
-                    && are_reqs_active(&tile_ctxt, tile_owner(vtile),
+                    && are_reqs_active(&tile_ctxt,
+                                       &(const struct req_context) {
+                                         .player = tile_owner(vtile),
+                                       },
                                        &candidate->reqs,
                                        RPT_POSSIBLE)) {
                   pextra = candidate;
@@ -1166,7 +1169,10 @@ static void sg_special_set_bv(struct tile *ptile, bv_extras *extras, char ch,
                 if ((!is_extra_caused_by(candidate, EC_BASE)
                      || tile_city(vtile) != NULL
                      || extra_base_get(candidate)->border_sq <= 0)
-                    && are_reqs_active(&tile_ctxt, tile_owner(vtile),
+                    && are_reqs_active(&tile_ctxt,
+                                       &(const struct req_context) {
+                                         .player = tile_owner(vtile),
+                                       },
                                        &candidate->reqs,
                                        RPT_POSSIBLE)) {
                   pextra = candidate;

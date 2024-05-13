@@ -2389,7 +2389,9 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
                                         .unit = punit,
                                         .unittype = ptype,
                                       },
-                                      briber,
+                                      &(const struct req_context) {
+                                        .player = briber,
+                                      },
                                       EFT_UNIT_BRIBE_COST_PCT))
        / 100;
 

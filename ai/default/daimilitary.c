@@ -360,7 +360,7 @@ static int assess_defense_igwall(struct ai_type *ait, struct city *pcity)
 **************************************************************************/
 static enum fc_tristate
 tactical_req_cb(const struct req_context *context,
-                const struct player *other_player,
+                const struct req_context *other_context,
                 const struct requirement *req,
                 void *data, int n_data)
 {
@@ -372,7 +372,7 @@ tactical_req_cb(const struct req_context *context,
       /* FIXME: in actor_reqs, may allow attack _from_ a city with... */
       if (req->survives || NULL == context->city || is_great_wonder(b)
           || !city_has_building(context->city, b) || b->sabotage <= 0) {
-        return tri_req_active(context, other_player, req);
+        return tri_req_active(context, other_context, req);
       }
       /* Else may be sabotaged */
     }
@@ -388,12 +388,12 @@ tactical_req_cb(const struct req_context *context,
     return TRI_MAYBE;
   case VUT_MINVETERAN:
     /* Can be changed forth but not back */
-    return is_req_preventing(context, other_player, req, RPT_POSSIBLE)
+    return is_req_preventing(context, other_context, req, RPT_POSSIBLE)
            > REQUCH_CTRL ? TRI_NO : TRI_MAYBE;
   case VUT_MINFOREIGNPCT:
   case VUT_NATIONALITY:
     /* Can be changed back but hardly forth (foreign citizens reduced first) */
-    switch (tri_req_active(context, other_player, req)) {
+    switch (tri_req_active(context, other_context, req)) {
     case TRI_NO:
       return req->present ? TRI_NO : TRI_MAYBE;
     case TRI_YES:
@@ -414,7 +414,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_MINYEAR:
     /* If it is not near, won't change */
     return tri_req_active_turns(n_data, 5 /* WAG */,
-                                context, other_player, req);
+                                context, other_context, req);
   case VUT_CITYSTATUS:
     if (CITYS_OWNED_BY_ORIGINAL != req->source.value.citystatus
         && CITYS_TRANSFERRED != req->source.value.citystatus) {
@@ -460,7 +460,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
   case VUT_NONE:
-    return tri_req_active(context, other_player, req);
+    return tri_req_active(context, other_context, req);
   case VUT_COUNT:
     /* Not implemented. */
     break;
@@ -503,11 +503,11 @@ action_may_happen_unit_on_city(const action_id wanted_action,
                               enabler) {
     /* We assume that we could build or move units into the city
      * that are not present there yet */
-    if (TRI_NO != tri_reqs_cb_active(&actor_ctx, target_player,
+    if (TRI_NO != tri_reqs_cb_active(&actor_ctx, &target_ctx,
                                      &enabler->actor_reqs, NULL,
                                      tactical_req_cb, NULL, turns)
         &&
-        TRI_NO != tri_reqs_cb_active(&target_ctx, actor_player,
+        TRI_NO != tri_reqs_cb_active(&target_ctx, &actor_ctx,
                                      &enabler->target_reqs, NULL,
                                      tactical_req_cb, NULL, turns)) {
       return TRUE;

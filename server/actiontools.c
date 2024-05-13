@@ -958,7 +958,10 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
   };
 
   action_auto_perf_by_cause_iterate(cause, autoperformer) {
-    if (are_reqs_active(&actor_ctxt, other_player,
+    if (are_reqs_active(&actor_ctxt,
+                        &(const struct req_context) {
+                          .player = other_player,
+                        },
                         &autoperformer->reqs, RPT_CERTAIN)) {
       /* Select this action auto performer. */
       return autoperformer;

@@ -1661,7 +1661,9 @@ enum casus_belli_range casus_belli_range_for(const struct player *offender,
                                  .unittype = off_ut,
                                  .action = paction,
                                },
-                               tgt_plr,
+                               &(const struct req_context) {
+                                 .player = tgt_plr,
+                               },
                                outcome);
 
   if (casus_belli_amount >= CASUS_BELLI_OUTRAGE) {

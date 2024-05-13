@@ -3341,7 +3341,11 @@ static void unit_enter_hut(struct unit *punit, bool frighten_hut)
 
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)
-        && are_reqs_active(&context, tile_owner(ptile), &pextra->rmreqs,
+        && are_reqs_active(&context,
+                           &(const struct req_context) {
+                             .player = tile_owner(ptile),
+                           },
+                           &pextra->rmreqs,
                            RPT_CERTAIN)
        ) {
       hut = TRUE;

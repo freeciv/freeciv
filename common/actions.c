@@ -2932,10 +2932,8 @@ static bool is_enabler_active(const struct action_enabler *enabler,
                               const struct req_context *actor,
                               const struct req_context *target)
 {
-  return are_reqs_active(actor, target != NULL ? target->player : NULL,
-                         &enabler->actor_reqs, RPT_CERTAIN)
-      && are_reqs_active(target, actor != NULL ? actor->player : NULL,
-                         &enabler->target_reqs, RPT_CERTAIN);
+  return are_reqs_active(actor, target, &enabler->actor_reqs, RPT_CERTAIN)
+      && are_reqs_active(target, actor, &enabler->target_reqs, RPT_CERTAIN);
 }
 
 /**********************************************************************//**
@@ -3488,12 +3486,12 @@ action_enabled_local(const action_id wanted_action,
   result = TRI_NO;
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    current = fc_tristate_and(mke_eval_reqs(actor->player, actor,
-                                            target->player,
+    current = fc_tristate_and(mke_eval_reqs(actor->player,
+                                            actor, target,
                                             &enabler->actor_reqs,
                                             RPT_CERTAIN),
-                              mke_eval_reqs(actor->player, target,
-                                            actor->player,
+                              mke_eval_reqs(actor->player,
+                                            target, actor,
                                             &enabler->target_reqs,
                                             RPT_CERTAIN));
     if (current == TRI_YES) {
@@ -3513,16 +3511,16 @@ action_enabled_local(const action_id wanted_action,
 
   If meta knowledge is missing TRI_MAYBE will be returned.
 
-  context may be NULL. This is equivalent to passing an empty context.
+  context and other_context may be NULL. This is equivalent to passing
+  empty contexts.
 **************************************************************************/
 static bool is_effect_val_known(enum effect_type effect_type,
                                 const struct player *pov_player,
                                 const struct req_context *context,
-                                const struct player *other_player)
+                                const struct req_context *other_context)
 {
   effect_list_iterate(get_effects(effect_type), peffect) {
-    if (TRI_MAYBE == mke_eval_reqs(pov_player, context,
-                                   other_player,
+    if (TRI_MAYBE == mke_eval_reqs(pov_player, context, other_context,
                                    &(peffect->reqs), RPT_CERTAIN)) {
       return FALSE;
     }
@@ -3707,14 +3705,18 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
                             .unit = act_unit,
                             .unittype = unit_type_get(act_unit),
                           },
-                          tgt_player)
+                          &(const struct req_context) {
+                            .player = tgt_player,
+                          })
       && is_effect_val_known(EFT_ACTION_RESIST_PCT, act_player,
                              &(const struct req_context) {
                                .player = tgt_player,
                                .city = tgt_city,
                                .unit = act_unit,
                              },
-                             act_player)) {
+                             &(const struct req_context) {
+                              .player = act_player,
+                             })) {
     int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
                                             tgt_player, paction);
     struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
@@ -5368,7 +5370,9 @@ int action_dice_roll_odds(const struct player *act_player,
                                      .unittype = actu_type,
                                      .action = paction,
                                    },
-                                   tgt_player,
+                                   &(const struct req_context) {
+                                     .player = tgt_player,
+                                   },
                                    EFT_ACTION_ODDS_PCT))
        / 100)
     - ((odds
@@ -5380,7 +5384,9 @@ int action_dice_roll_odds(const struct player *act_player,
                                      .unittype = actu_type,
                                      .action = paction,
                                    },
-                                   act_player,
+                                   &(const struct req_context) {
+                                     .player = act_player,
+                                   },
                                    EFT_ACTION_RESIST_PCT))
        / 100);
 
@@ -5421,7 +5427,10 @@ static bool is_target_possible(const action_id wanted_action,
 {
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    if (are_reqs_active(target, actor_player,
+    if (are_reqs_active(target,
+                        &(const struct req_context) {
+                          .player = actor_player,
+                        },
                         &enabler->target_reqs, RPT_POSSIBLE)) {
       return TRUE;
     }

@@ -105,7 +105,9 @@ int api_effects_unit_bonus(lua_State *L, Unit *punit, Player *other_player,
                                     .unit = punit,
                                     .unittype = unit_type_get(punit),
                                   },
-                                  other_player,
+                                  &(const struct req_context) {
+                                    .player = other_player,
+                                  },
                                   etype);
 }
 

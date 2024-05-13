@@ -169,7 +169,7 @@ int get_city_bonus_effects(struct effect_list *plist,
 
 int get_target_bonus_effects(struct effect_list *plist,
                              const struct req_context *context,
-                             const struct player *other_player,
+                             const struct req_context *other_context,
                              enum effect_type effect_type);
 double get_effect_expected_value(const struct req_context *context,
                                  const struct player *other_player,

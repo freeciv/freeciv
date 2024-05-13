@@ -126,7 +126,7 @@ enum req_unchanging_status {
 
 /* A callback that may transform kind-specific default unchanging status
  * to another one (usually higher but not always)
- * Passing other_player is just not needed for it in any known cases */
+ * Passing other_context is just not needed for it in any known cases */
 typedef enum req_unchanging_status
   (*req_unchanging_cond_cb)(const struct civ_map *nmap,
                             enum req_unchanging_status def,
@@ -165,44 +165,44 @@ bool does_req_contradicts_reqs(const struct requirement *req,
                                const struct requirement_vector *vec);
 
 enum fc_tristate tri_req_active(const struct req_context *context,
-                                const struct player *other_player,
+                                const struct req_context *other_context,
                                 const struct requirement *req);
 bool is_req_active(const struct req_context *context,
-                   const struct player *other_player,
+                   const struct req_context *other_context,
                    const struct requirement *req,
                    const enum   req_problem_type prob_type);
 bool are_reqs_active(const struct req_context *context,
-                     const struct player *other_player,
+                     const struct req_context *other_context,
                      const struct requirement_vector *reqs,
                      const enum   req_problem_type prob_type);
 bool are_reqs_active_ranges(const enum req_range min_range,
                             const enum req_range max_range,
                             const struct req_context *context,
-                            const struct player *other_player,
+                            const struct req_context *other_context,
                             const struct requirement_vector *reqs,
                             const enum   req_problem_type prob_type);
 enum fc_tristate
 tri_req_active_turns(int pass, int period,
                      const struct req_context *context,
-                     const struct player *other_player,
+                     const struct req_context *other_context,
                      const struct requirement *req);
 
 /* Type of a callback that tests requirements due to a context
  * and something else in some manner different from tri_req_active() */
 typedef enum fc_tristate
    (*req_tester_cb)(const struct req_context *context,
-                    const struct player *other_player,
+                    const struct req_context *other_context,
                     const struct requirement *req,
                     void *data, int n_data);
 
 enum fc_tristate
 default_tester_cb(const struct req_context *context,
-                  const struct player *other_player,
+                  const struct req_context *other_context,
                   const struct requirement *req,
                   void *data, int n_data);
 enum fc_tristate
   tri_reqs_cb_active(const struct req_context *context,
-                     const struct player *other_player,
+                     const struct req_context *other_context,
                      const struct requirement_vector *reqs,
                      struct requirement_vector *maybe_reqs,
                      req_tester_cb tester,
@@ -213,7 +213,7 @@ enum req_unchanging_status
                     const struct requirement *req);
 enum req_unchanging_status
   is_req_preventing(const struct req_context *context,
-                    const struct player *other_player,
+                    const struct req_context *other_context,
                     const struct requirement *req,
                     enum req_problem_type prob_type);
 
