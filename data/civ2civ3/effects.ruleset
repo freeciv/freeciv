@@ -348,7 +348,7 @@ reqs    =
       "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
       "UnitClassFlag", "CanFortify",   "Local", TRUE
-      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "UnitTypeFlag",  "Cant_Fortify", "Local", FALSE
     }
 
 [effect_city_min_hp]
@@ -1546,11 +1546,11 @@ reqs    =
 type    = "Veteran_Combat"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present", "quiet"
-      "Gov", "Tribal", "Player", TRUE, TRUE
-      "UnitClass", "Land", "Local", TRUE, FALSE
-      "UnitFlag", "NonMil", "Local", FALSE, FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE, FALSE
+    { "type",         "name",      "range",  "present", "quiet"
+      "Gov",          "Tribal",    "Player", TRUE,      TRUE
+      "UnitClass",    "Land",      "Local",  TRUE,      FALSE
+      "UnitTypeFlag", "NonMil",    "Local",  FALSE,     FALSE
+      "UnitTypeFlag", "NoVeteran", "Local",  FALSE,     FALSE
     }
 
 [effect_revolution_republic]
@@ -1591,18 +1591,18 @@ reqs    =
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
-      "UnitFlag", "Diplomat", "Local"
+    { "type",         "name",      "range"
+      "Gov",          "Communism", "Player"
+      "UnitTypeFlag", "Diplomat",  "Local"
     }
 
 [effect_veteran_federation]
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-      "UnitFlag", "Diplomat", "Local"
+    { "type",         "name",       "range"
+      "Gov",          "Federation", "Player"
+      "UnitTypeFlag", "Diplomat",   "Local"
     }
 
 [effect_partisan_communism]
@@ -1677,33 +1677,33 @@ reqs    =
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Airport", "City", TRUE
-      "UnitClass", "Air", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",      "range", "present"
+      "Building",     "Airport",   "City",  TRUE
+      "UnitClass",    "Air",       "Local", TRUE
+      "UnitTypeFlag", "NonMil",    "Local", FALSE
+      "UnitTypeFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_0a]
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Airport", "City", TRUE
-      "UnitClass", "Helicopter", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",       "range", "present"
+      "Building",     "Airport",    "City",  TRUE
+      "UnitClass",    "Helicopter", "Local", TRUE
+      "UnitTypeFlag", "NonMil",     "Local", FALSE
+      "UnitTypeFlag", "NoVeteran",  "Local", FALSE
     }
 
 [effect_airport_0b]
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Airport", "City", TRUE
-      "UnitClass", "Missile", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",      "range", "present"
+      "Building",     "Airport",   "City",  TRUE
+      "UnitClass",    "Missile",   "Local", TRUE
+      "UnitTypeFlag", "NonMil",    "Local", FALSE
+      "UnitTypeFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_airport_1]
@@ -1817,8 +1817,8 @@ reqs    =
     { "type",          "name",      "range", "present"
       "BuildingFlag",  "Barracks",  "City",  TRUE
       "UnitClassFlag", "Barracks",  "Local", TRUE
-      "UnitFlag",      "NonMil",    "Local", FALSE
-      "UnitFlag",      "NoVeteran", "Local", FALSE
+      "UnitTypeFlag",  "NonMil",    "Local", FALSE
+      "UnitTypeFlag",  "NoVeteran", "Local", FALSE
     }
 
 [effect_barracks_regen]
@@ -2499,11 +2499,11 @@ reqs    =
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Port Facility", "City", TRUE
-      "UnitClass", "Sea", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",          "range", "present"
+      "Building",     "Port Facility", "City",  TRUE
+      "UnitClass",    "Sea",           "Local", TRUE
+      "UnitTypeFlag", "NonMil",        "Local", FALSE
+      "UnitTypeFlag", "NoVeteran",     "Local", FALSE
     }
 
 [effect_port_facility_1]
@@ -2519,11 +2519,11 @@ reqs    =
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Port Facility", "City", TRUE
-      "UnitClass", "Trireme", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",          "range", "present"
+      "Building",     "Port Facility", "City",  TRUE
+      "UnitClass",    "Trireme",       "Local", TRUE
+      "UnitTypeFlag", "NonMil",        "Local", FALSE
+      "UnitTypeFlag", "NoVeteran",     "Local", FALSE
     }
 
 [effect_port_facility_trireme_1]
@@ -3304,12 +3304,12 @@ reqs    =
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Lighthouse", "Player", TRUE
-      "UnitClass", "Sea", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-      "Building", "Port Facility", "City", FALSE
+    { "type",         "name",          "range",  "present"
+      "Building",     "Lighthouse",    "Player", TRUE
+      "UnitClass",    "Sea",           "Local",  TRUE
+      "UnitTypeFlag", "NonMil",        "Local",  FALSE
+      "UnitTypeFlag", "NoVeteran",     "Local",  FALSE
+      "Building",     "Port Facility", "City",   FALSE
     }
 
 [effect_lighthouse_trireme_move]
@@ -3342,12 +3342,12 @@ reqs    =
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Lighthouse", "Player", TRUE
-      "UnitClass", "Trireme", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-      "Building", "Port Facility", "City", FALSE
+    { "type",         "name",          "range",  "present"
+      "Building",     "Lighthouse",    "Player", TRUE
+      "UnitClass",    "Trireme",       "Local",  TRUE
+      "UnitTypeFlag", "NonMil",        "Local",  FALSE
+      "UnitTypeFlag", "NoVeteran",     "Local",  FALSE
+      "Building",     "Port Facility", "City",   FALSE
     }
 
 [effect_lighthouse_culture]
@@ -3371,11 +3371,11 @@ reqs    =
 type    = "Veteran_Combat"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Magellan's Expedition", "Player", TRUE
-      "UnitClass", "Sea", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",                  "range",  "present"
+      "Building",     "Magellan's Expedition", "Player", TRUE
+      "UnitClass",    "Sea",                   "Local",  TRUE
+      "UnitTypeFlag", "NonMil",                "Local",  FALSE
+      "UnitTypeFlag", "NoVeteran",             "Local",  FALSE
     }
 
 [effect_magellans_expedition_culture]
@@ -3631,11 +3631,11 @@ reqs	=
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type",          "name",                  "range", "present"
+    { "type",          "name",                  "range",  "present"
       "Building",      "Sun Tzu's War Academy", "Player", TRUE
-      "UnitClassFlag", "Barracks",              "Local", TRUE
-      "UnitFlag",      "NonMil",                "Local", FALSE
-      "UnitFlag",      "NoVeteran",             "Local", FALSE
+      "UnitClassFlag", "Barracks",              "Local",  TRUE
+      "UnitTypeFlag",  "NonMil",                "Local",  FALSE
+      "UnitTypeFlag",  "NoVeteran",             "Local",  FALSE
     }
 
 [effect_sun_tzus_war_academy_culture]
@@ -4573,36 +4573,36 @@ reqs    =
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
 reqs    =
-    { "type",     "name",      "range", "quiet"
-      "Action",   "Attack",    "Local", TRUE
-      "UnitFlag", "OneAttack", "Local", TRUE
+    { "type",         "name",      "range", "quiet"
+      "Action",       "Attack",    "Local", TRUE
+      "UnitTypeFlag", "OneAttack", "Local", TRUE
     }
 
 [effect_action_success_attack_normal]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 6
 reqs    =
-    { "type",     "name",      "range", "present"
-      "Action",   "Attack",    "Local", TRUE
-      "UnitFlag", "OneAttack", "Local", FALSE
+    { "type",         "name",      "range", "present"
+      "Action",       "Attack",    "Local", TRUE
+      "UnitTypeFlag", "OneAttack", "Local", FALSE
     }
 
 [effect_action_success_ransom_one_attack]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
 reqs    =
-    { "type",     "name",           "range", "quiet"
-      "Action",   "Collect Ransom", "Local", TRUE
-      "UnitFlag", "OneAttack",      "Local", TRUE
+    { "type",         "name",           "range", "quiet"
+      "Action",       "Collect Ransom", "Local", TRUE
+      "UnitTypeFlag", "OneAttack",      "Local", TRUE
     }
 
 [effect_action_success_ransom]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 6
 reqs    =
-    { "type",     "name",           "range", "present"
-      "Action",   "Collect Ransom", "Local", TRUE
-      "UnitFlag", "OneAttack",      "Local", FALSE
+    { "type",         "name",           "range", "present"
+      "Action",       "Collect Ransom", "Local", TRUE
+      "UnitTypeFlag", "OneAttack",      "Local", FALSE
     }
 
 [effect_unit_shield_value_recycle]

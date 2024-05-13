@@ -1558,11 +1558,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Construction", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Fortress", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",         "range",  "present", "quiet"
+      "Tech",         "Construction", "Player", TRUE,      FALSE
+      "TerrainClass", "Land",         "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Fortress",     "Local",  TRUE,      FALSE
+      "CityTile",     "Center",       "Tile",   FALSE,     TRUE
     }
 build_time     = 0
 build_time_factor = 2
@@ -1592,13 +1592,13 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Extra", "Fort", "Tile", TRUE, FALSE
-      "Tech", "Construction", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Fortress", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
-      "Extra", "River", "Tile", FALSE, FALSE
+    { "type",         "name",         "range",  "present", "quiet"
+      "Extra",        "Fort",         "Tile",   TRUE,      FALSE
+      "Tech",         "Construction", "Player", TRUE,      FALSE
+      "TerrainClass", "Land",         "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Fortress",     "Local",  TRUE,      FALSE
+      "CityTile",     "Center",       "Tile",   FALSE,     TRUE
+      "Extra",        "River",        "Tile",   FALSE,     FALSE
     }
 build_time     = 0
 build_time_factor = 2
@@ -1638,11 +1638,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Radio", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",    "range",  "present", "quiet"
+      "Tech",         "Radio",   "Player", TRUE,      FALSE
+      "TerrainClass", "Land",    "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers", "Local",  TRUE,      FALSE
+      "CityTile",     "Center",  "Tile",   FALSE,     TRUE
     }
 build_time     = 0
 build_time_factor = 2
@@ -1680,13 +1680,13 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Extra", "Airstrip", "Tile", TRUE, FALSE
-      "Tech", "Radio", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
-      "Extra", "River", "Tile", FALSE, FALSE
+    { "type",         "name",     "range",  "present", "quiet"
+      "Extra",        "Airstrip", "Tile",   TRUE,      FALSE
+      "Tech",         "Radio",    "Player", TRUE,      FALSE
+      "TerrainClass", "Land",     "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",  "Local",  TRUE,      FALSE
+      "CityTile",     "Center",   "Tile",   FALSE,     TRUE
+      "Extra",        "River",    "Tile",   FALSE,     FALSE
     }
 build_time     = 0
 build_time_factor = 2
@@ -1723,11 +1723,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Radio", "Player", TRUE, FALSE
-      "TerrainClass", "Oceanic", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",    "range",  "present", "quiet"
+      "Tech",         "Radio",   "Player", TRUE,      FALSE
+      "TerrainClass", "Oceanic", "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers", "Local",  TRUE,      FALSE
+      "CityTile",     "Center",  "Tile",   FALSE,     TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1778,10 +1778,10 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "UnitClass", "Sea", "Local", FALSE, TRUE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
+    { "type",         "name",    "range", "present", "quiet"
+      "UnitTypeFlag", "Workers", "Local", TRUE,      FALSE
+      "UnitClass",    "Sea",     "Local", FALSE,     TRUE
+      "TerrainClass", "Land",    "Tile",  TRUE,      FALSE
     }
 build_time     = 0
 removal_time   = 0
@@ -1814,12 +1814,12 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Railroad", "Player", TRUE, FALSE
-      "Extra", "Road", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "UnitClass", "Sea", "Local", FALSE, TRUE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
+    { "type",         "name",     "range",  "present", "quiet"
+      "Tech",         "Railroad", "Player", TRUE,      FALSE
+      "Extra",        "Road",     "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",  "Local",  TRUE,      FALSE
+      "UnitClass",    "Sea",      "Local",  FALSE,     TRUE
+      "TerrainClass", "Land",     "Tile",   TRUE,      FALSE
     }
 build_time     = 3
 removal_time   = 0
@@ -1854,12 +1854,12 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Superconductors", "Player", TRUE, FALSE
-      "Extra", "Railroad", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "UnitClass", "Sea", "Local", FALSE, TRUE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
+    { "type",         "name",            "range",  "present", "quiet"
+      "Tech",         "Superconductors", "Player", TRUE,      FALSE
+      "Extra",        "Railroad",        "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",         "Local",  TRUE,      FALSE
+      "UnitClass",    "Sea",             "Local",  FALSE,     TRUE
+      "TerrainClass", "Land",            "Tile",   TRUE,      FALSE
     }
 build_time     = 3
 removal_time   = 0
