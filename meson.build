@@ -4129,6 +4129,7 @@ mocced_ruledit = qt_mod.preprocess(
   moc_headers: [
    'tools/ruledit/conversion_log.h',
    'tools/ruledit/edit_extra.h',
+   'tools/ruledit/edit_gov.h',
    'tools/ruledit/edit_impr.h',
    'tools/ruledit/edit_tech.h',
    'tools/ruledit/edit_terrain.h',
@@ -4158,6 +4159,7 @@ mocced_ruledit = qt_mod.preprocess(
 executable('freeciv-ruledit',
   'tools/ruledit/conversion_log.cpp',
   'tools/ruledit/edit_extra.cpp',
+  'tools/ruledit/edit_gov.cpp',
   'tools/ruledit/edit_impr.cpp',
   'tools/ruledit/edit_tech.cpp',
   'tools/ruledit/edit_terrain.cpp',
