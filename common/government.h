@@ -53,6 +53,7 @@ struct government {
   Government_type_id item_number;
   struct name_translation name;
   bool ruledit_disabled;
+  void *ruledit_dlg;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char sound_str[MAX_LEN_NAME];
