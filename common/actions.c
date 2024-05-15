@@ -5343,13 +5343,12 @@ action_prob_vs_tile_full(const struct civ_map *nmap,
   Get the actor unit's probability of successfully performing the chosen
   action on the target tile.
 **************************************************************************/
-struct act_prob action_prob_vs_tile(const struct unit *actor_unit,
+struct act_prob action_prob_vs_tile(const struct civ_map *nmap,
+                                    const struct unit *actor_unit,
                                     const action_id act_id,
                                     const struct tile *target_tile,
                                     const struct extra_type *target_extra)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   return action_prob_vs_tile_full(nmap, actor_unit,
                                   unit_home(actor_unit),
                                   unit_tile(actor_unit),
@@ -5542,7 +5541,7 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
     break;
   case ATK_TILE:
     if (tgt_tile) {
-      prob = action_prob_vs_tile(act_unit, paction->id, tgt_tile, extra_tgt);
+      prob = action_prob_vs_tile(nmap, act_unit, paction->id, tgt_tile, extra_tgt);
     }
     break;
   case ATK_EXTRAS:
