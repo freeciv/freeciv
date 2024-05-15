@@ -11,51 +11,46 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__TAB_GOV_H
-#define FC__TAB_GOV_H
+#ifndef FC__EDIT_GOV_H
+#define FC__EDIT_GOV_H
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
 
 // Qt
-#include <QWidget>
+#include <QDialog>
 
-class QCheckBox;
+// ruledit
+#include "values_dlg.h"
+
+class QGridLayout;
 class QLineEdit;
-class QListWidget;
 
 class ruledit_gui;
 
-class tab_gov : public QWidget
+class edit_gov : public values_dlg
 {
   Q_OBJECT
 
   public:
-    explicit tab_gov(ruledit_gui *ui_in);
+    explicit edit_gov(ruledit_gui *ui_in, struct government *gov_in);
     void refresh();
 
   private:
     ruledit_gui *ui;
-    void update_gov_info(struct government *pgov);
-    bool initialize_new_gov(struct government *pgov);
+    struct government *gov;
+    QLineEdit *gfx_tag;
+    QLineEdit *gfx_tag_alt;
 
-    QLineEdit *name;
-    QLineEdit *rname;
-    QListWidget *gov_list;
-    QCheckBox *same_name;
-
-    struct government *selected;
+  protected:
+    void closeEvent(QCloseEvent *cevent);
 
   private slots:
-    void name_given();
-    void select_gov();
-    void add_now();
-    void delete_now();
-    void edit_now();
-    void same_name_toggle(bool checked);
-    void edit_reqs();
-    void edit_effects();
+    void gfx_tag_given();
+    void gfx_tag_alt_given();
+    void helptext();
 };
 
-#endif // FC__TAB_GOV_H
+
+#endif // FC__EDIT_GOV_H

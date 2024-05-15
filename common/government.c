@@ -503,6 +503,7 @@ static inline void government_init(struct government *pgovern)
   requirement_vector_init(&pgovern->reqs);
   pgovern->changed_to_times = 0;
   pgovern->ruledit_disabled = FALSE;
+  pgovern->ruledit_dlg = NULL;
 }
 
 /**********************************************************************//**
