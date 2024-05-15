@@ -47,11 +47,11 @@
 
 #include "themespec.h"
 
-#define THEMESPEC_SDL3_CAPSTR "+Freeciv-sdl2-3.2-themespec-Devel-2022-Jul-06 duplicates_ok"
+#define THEMESPEC_SDL3_CAPSTR "+Freeciv-sdl3-3.2-themespec-Devel-2022-Jul-06 duplicates_ok"
 /*
  * Themespec capabilities acceptable to this program:
  *
- * +Freeciv-3.2-sdl2-themespec  -  basic format for Freeciv versions 3.2.x;
+ * +Freeciv-3.2-sdl3-themespec  -  basic format for Freeciv versions 3.2.x;
  *                                 required
  *
  * duplicates_ok  -  we can handle existence of duplicate tags
@@ -59,11 +59,11 @@
  *                   have duplicates should specify "+duplicates_ok")
  */
 
-#define SPEC_SDL3_CAPSTR "+Freeciv-sdl2-spec-Devel-2022-Dec-05"
+#define SPEC_SDL3_CAPSTR "+Freeciv-sdl3-spec-Devel-2022-Dec-05"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
- * +Freeciv-3.2-sdl2-spec  -  basic format for Freeciv versions 3.2.x; required
+ * +Freeciv-3.2-sdl3-spec  -  basic format for Freeciv versions 3.2.x; required
  */
 
 #define THEMESPEC_SUFFIX ".themespec"
