@@ -473,7 +473,7 @@ int max_trade_prod(const struct city *pcity)
 
   pgood can be NULL for ignoring good's onetime_pct.
 *************************************************************************/
-int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
+int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const struct city *pc2,
                                        const struct unit_type *ut,
                                        struct goods_type *pgood,
@@ -533,6 +533,8 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                    },
                                    &(const struct req_context) {
                                      .player = city_owner(pc2),
+                                     .city = pc2,
+                                     .tile = city_tile(pc2),
                                    },
                                    EFT_TRADE_REVENUE_BONUS);
 
