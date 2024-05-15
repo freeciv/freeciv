@@ -24,7 +24,8 @@ if test "${PLATFORM_ROOT}" = "${BUILD_ROOT}" ; then
 fi
 
 # $1 - Client type
-# $2 - Client part of the AppImage name as produced by linuxdeploy
+# $2 - Client configuration name
+# $3 - Client part of the AppImage name as produced by linuxdeploy
 client_appimage() {
   if ! mkdir "AppDir/$1" || ! mkdir "build/$1" ; then
     echo "Failed to create $1 directories!" >&2
@@ -32,7 +33,7 @@ client_appimage() {
   fi
 
   cd "build/$1"
-  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$1 -Dfcmp=[] -Dtools=[] "${SRC_ROOT}"
+  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$2 -Dfcmp=[] -Dtools=[] "${SRC_ROOT}"
   then
     echo "$1 setup with meson failed!" >&2
     return 1
@@ -50,7 +51,7 @@ client_appimage() {
     echo "$1 image build with linuxdeploy failed!" >&2
     return 1
   fi
-  if ! mv Freeciv$2-x86_64.AppImage "Freeciv-$1-x86_64.AppImage" ; then
+  if ! mv Freeciv$3-x86_64.AppImage "Freeciv-$1-x86_64.AppImage" ; then
     echo "$1 appimage rename failed!" >&2
     return 1
   fi
@@ -91,8 +92,9 @@ then
   exit 1
 fi
 
-if ! client_appimage gtk4 ""        ||
-   ! client_appimage sdl2 "_(SDL2)"
+if ! client_appimage gtk4 gtk4 ""        ||
+   ! client_appimage sdl2 sdl2 "_(SDL2)" ||
+   ! client_appimage qt6  qt   "_(Qt)"
 then
   exit 1
 fi
