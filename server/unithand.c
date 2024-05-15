@@ -3220,7 +3220,8 @@ void handle_unit_action_query(struct connection *pc,
                                           pactor, punit)) {
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
-                                      unit_bribe_cost(punit, pplayer),
+                                      unit_bribe_cost(punit, pplayer,
+                                                      pactor),
                                       action_type, request_kind);
     } else {
       illegal_action(pplayer, pactor, action_type,

@@ -648,7 +648,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     }
 
     /* Should we make the expense? */
-    cost = unit_bribe_cost(pvictim, pplayer);
+    cost = unit_bribe_cost(pvictim, pplayer, punit);
     if (!threat) {
       /* Don't empty our treasure without good reason! */
       gold_avail = pplayer->economic.gold - dai_gold_reserve(pplayer);

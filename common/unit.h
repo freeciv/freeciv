@@ -532,7 +532,8 @@ void *unit_ai_data(const struct unit *punit, const struct ai_type *ai);
 void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
                       void *data);
 
-int unit_bribe_cost(struct unit *punit, struct player *briber);
+int unit_bribe_cost(const struct unit *punit, const struct player *briber,
+                    const struct unit *briber_unit);
 
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans,
                          bool force);

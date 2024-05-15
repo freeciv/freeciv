@@ -2337,11 +2337,13 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
   unit. For a damaged unit the price is reduced. For a veteran unit, it is
   increased.
 
-  @param  punit  Unit to bribe
-  @param  briber Player that wants to bribe
-  @return        Bribe cost
+  @param  punit       Unit to bribe
+  @param  briber      Player that wants to bribe
+  @param  briber_unit Unit that does the bribing
+  @return             Bribe cost
 **************************************************************************/
-int unit_bribe_cost(struct unit *punit, struct player *briber)
+int unit_bribe_cost(const struct unit *punit, const struct player *briber,
+                    const struct unit *briber_unit)
 {
   int cost, default_hp;
   struct tile *ptile = unit_tile(punit);
@@ -2378,21 +2380,26 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
   cost *= unit_build_shield_cost_base(punit) / 10.0;
 
   /* Rule set specific cost modification */
-  cost += (cost
-           * get_target_bonus_effects(NULL,
-                                      &(const struct req_context) {
-                                        .player = owner,
-                                        .city = game_city_by_number(
-                                          punit->homecity
-                                        ),
-                                        .tile = ptile,
-                                        .unit = punit,
-                                        .unittype = ptype,
-                                      },
-                                      &(const struct req_context) {
-                                        .player = briber,
-                                      },
-                                      EFT_UNIT_BRIBE_COST_PCT))
+  cost += (cost * get_target_bonus_effects(NULL,
+                    &(const struct req_context) {
+                      .player = owner,
+                      .city = game_city_by_number(punit->homecity),
+                      .tile = ptile,
+                      .unit = punit,
+                      .unittype = ptype,
+                    },
+                    &(const struct req_context) {
+                      .player = briber,
+                      .unit = briber_unit,
+                      .unittype = briber_unit ? unit_type_get(briber_unit)
+                                              : nullptr,
+                      .tile = briber_unit ? unit_tile(briber_unit)
+                                          : nullptr,
+                      .city = briber_unit
+                        ? game_city_by_number(briber_unit->homecity)
+                        : nullptr,
+                    },
+                    EFT_UNIT_BRIBE_COST_PCT))
        / 100;
 
   /* Veterans are not cheap. */
