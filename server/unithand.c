@@ -778,6 +778,10 @@ static bool do_heal_unit(struct player *act_player,
                       },
                       &(const struct req_context) {
                         .player = unit_owner(tgt_unit),
+                        .city = tile_city(unit_tile(tgt_unit)),
+                        .tile = unit_tile(tgt_unit),
+                        .unit = tgt_unit,
+                        .unittype = unit_type_get(tgt_unit),
                       },
                       EFT_HEAL_UNIT_PCT
                     ) + 100)
