@@ -1947,7 +1947,8 @@ static void do_disband_alternative(void *p)
     break;
   case ATK_TILE:
     if ((ptile = unit_tile(punit))
-        && action_prob_possible(action_prob_vs_tile(punit, act, ptile, NULL))) {
+        && action_prob_possible(action_prob_vs_tile(nmap, punit, act,
+                                                    ptile, NULL))) {
       request_do_action(act, punit->id, ptile->index, 0, "");
     }
     break;

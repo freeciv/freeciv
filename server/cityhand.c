@@ -61,6 +61,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id16,
                                      int unit_id32)
 {
   struct unit *punit;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!has_capability("ids32", pplayer->current_conn->capability)) {
     unit_id32 = unit_id16;
@@ -75,7 +76,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id16,
     return;
   }
 
-  if (action_prob_possible(action_prob_vs_tile(punit, ACTION_FOUND_CITY,
+  if (action_prob_possible(action_prob_vs_tile(nmap, punit, ACTION_FOUND_CITY,
                                                unit_tile(punit), NULL))) {
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
                 TILE_XY(unit_tile(punit)));

@@ -2233,7 +2233,7 @@ void handle_unit_get_actions(struct connection *pc,
     case ATK_TILE:
       if (target_tile) {
         /* Calculate the probabilities. */
-        probabilities[act] = action_prob_vs_tile(actor_unit, act,
+        probabilities[act] = action_prob_vs_tile(nmap, actor_unit, act,
                                                  target_tile, target_extra);
       } else {
         /* No target to act against. */
