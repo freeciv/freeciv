@@ -927,7 +927,7 @@ void hud_action::on_clicked()
 }
 
 /************************************************************************//**
-  Units action contructor, holds possible hud_actions
+  Units action constructor, holds possible hud_actions
 ****************************************************************************/
 unit_actions::unit_actions(QWidget *parent, unit *punit) : QWidget(parent)
 {
@@ -1705,7 +1705,7 @@ void show_new_turn_info()
 }
 
 /************************************************************************//**
-  Hud unit combat contructor, prepares images to show as result
+  Hud unit combat constructor, prepares images to show as result
 ****************************************************************************/
 hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
                                  int attacker_hp, int defender_hp,
@@ -1981,7 +1981,7 @@ void scale_widget::mousePressEvent(QMouseEvent *event)
 
 
 /************************************************************************//**
-  Hud battle log contructor
+  Hud battle log constructor
 ****************************************************************************/
 hud_battle_log::hud_battle_log(QWidget *parent) : QWidget(parent)
 {

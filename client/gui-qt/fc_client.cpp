@@ -908,7 +908,7 @@ void fc_client::create_cursors(void)
 }
 
 /************************************************************************//**
-  Contructor for corner widget (used for menubar)
+  Constructor for corner widget (used for menubar)
 ****************************************************************************/
 fc_corner::fc_corner(QMainWindow *qmw): QWidget()
 {
@@ -1156,7 +1156,7 @@ void fc_game_tab_widget::current_changed(int index)
 }
 
 /************************************************************************//**
-  Pregame options contructor
+  Pregame options constructor
 ****************************************************************************/
 pregame_options::pregame_options(QWidget *parent) : QWidget(parent)
 {
