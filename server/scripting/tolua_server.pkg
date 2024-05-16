@@ -105,12 +105,12 @@ end
 
 function notify.research(player, selfmsg, event, ...)
   local arg = table.pack(...);
-  notify.research_msg(player, selfmsg, event, string.format(table.unpack(arg))) 
+  notify.research_msg(player, selfmsg, event, string.format(table.unpack(arg)))
 end
 
 function notify.research_embassies(player, event, ...)
   local arg = table.pack(...);
-  notify.research_embassies_msg(player, event, string.format(table.unpack(arg))) 
+  notify.research_embassies_msg(player, event, string.format(table.unpack(arg)))
 end
 $]
 
@@ -423,7 +423,7 @@ function Unit:teleport(dest,
     return edit.unit_teleport(self, dest, nil, false,
                               false, false, false, false)
   else
-    return edit.unit_teleport(self, dest, 
+    return edit.unit_teleport(self, dest,
                               embark_to, allow_disembark,
                               conquer_city, conquer_extra,
                               enter_hut, frighten_hut)

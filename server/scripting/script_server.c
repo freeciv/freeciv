@@ -151,7 +151,7 @@ bool script_server_load_file(const char *filename, char **buf)
   }
 
   return 1;
-}  
+}
 
 /***********************************************************************//**
   Parse and execute the script at filename in the context of the specified
