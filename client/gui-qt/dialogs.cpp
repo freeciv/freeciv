@@ -3898,7 +3898,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 }
 
 /***********************************************************************//**
-  Disband Message box contructor
+  Disband Message box constructor
 ***************************************************************************/
 disband_box::disband_box(struct unit_list *punits,
                          QWidget *parent) : hud_message_box(parent)
@@ -4411,7 +4411,7 @@ void popup_upgrade_dialog(struct unit_list *punits)
 }
 
 /***********************************************************************//**
-  Contructor for units_select
+  Constructor for units_select
 ***************************************************************************/
 units_select::units_select(tile *ptile, QWidget *parent)
 {
