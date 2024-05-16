@@ -31,7 +31,8 @@ struct section_file *secfile_load(const char *filename,
                                   bool allow_duplicates);
 
 void secfile_allow_digital_boolean(struct section_file *secfile,
-                                   bool allow_digital_boolean);
+                                   bool allow_digital_boolean)
+  fc__attribute((nonnull (1)));
 
 const char *secfile_error(void);
 const char *section_name(const struct section *psection);

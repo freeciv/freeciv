@@ -31,7 +31,8 @@ static char error_buffer[MAX_LEN_ERRORBUF] = "\0";
 #define DEBUG_ENTRIES(...) /* log_debug(__VA_ARGS__); */
 
 /**********************************************************************//**
-  Returns the last error which occurred in a string.  It never returns NULL.
+  Returns the last error which occurred in a string.
+  It never returns nullptr.
 **************************************************************************/
 const char *secfile_error(void)
 {
@@ -56,7 +57,8 @@ void secfile_log(const struct section_file *secfile,
   fc_snprintf(error_buffer, sizeof(error_buffer),
               "In %s() [%s:%d]: secfile '%s' in section '%s': %s",
               function, file, line, secfile_name(secfile),
-              psection != NULL ? section_name(psection) : "NULL", message);
+              psection != nullptr ? section_name(psection)
+                : "nullptr", message);
 }
 
 /**********************************************************************//**
@@ -64,7 +66,7 @@ void secfile_log(const struct section_file *secfile,
 **************************************************************************/
 const char *section_name(const struct section *psection)
 {
-  return (NULL != psection ? psection->name : NULL);
+  return (psection != nullptr ? psection->name : nullptr);
 }
 
 /**********************************************************************//**
@@ -74,7 +76,7 @@ struct section_file *secfile_new(bool allow_duplicates)
 {
   struct section_file *secfile = fc_malloc(sizeof(struct section_file));
 
-  secfile->name = NULL;
+  secfile->name = nullptr;
   secfile->num_entries = 0;
   secfile->num_includes = 0;
   secfile->num_long_comments = 0;
@@ -84,7 +86,7 @@ struct section_file *secfile_new(bool allow_duplicates)
 
   secfile->hash.sections = section_hash_new();
   /* Maybe allocated later. */
-  secfile->hash.entries = NULL;
+  secfile->hash.entries = nullptr;
 
   return secfile;
 }
@@ -94,22 +96,22 @@ struct section_file *secfile_new(bool allow_duplicates)
 **************************************************************************/
 void secfile_destroy(struct section_file *secfile)
 {
-  SECFILE_RETURN_IF_FAIL(secfile, NULL, secfile != NULL);
+  SECFILE_RETURN_IF_FAIL(secfile, nullptr, secfile != nullptr);
 
   section_hash_destroy(secfile->hash.sections);
-  /* Mark it NULL to be sure to don't try to make operations when
+  /* Mark it nullptr to be sure to don't try to make operations when
    * deleting the entries. */
-  secfile->hash.sections = NULL;
-  if (NULL != secfile->hash.entries) {
+  secfile->hash.sections = nullptr;
+  if (secfile->hash.entries != nullptr) {
     entry_hash_destroy(secfile->hash.entries);
-    /* Mark it NULL to be sure to don't try to make operations when
+    /* Mark it nullptr to be sure to don't try to make operations when
      * deleting the entries. */
-    secfile->hash.entries = NULL;
+    secfile->hash.entries = nullptr;
   }
 
   section_list_destroy(secfile->sections);
 
-  if (NULL != secfile->name) {
+  if (secfile->name != nullptr) {
     free(secfile->name);
   }
 
@@ -124,7 +126,6 @@ void secfile_destroy(struct section_file *secfile)
 void secfile_allow_digital_boolean(struct section_file *secfile,
                                    bool allow_digital_boolean)
 {
-  fc_assert_ret(NULL != secfile);
   secfile->allow_digital_boolean = allow_digital_boolean;
 }
 
