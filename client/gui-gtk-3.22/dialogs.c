@@ -1642,8 +1642,8 @@ void popup_image(const char *tag, int width, int height)
     GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     GtkWidget *img = gtk_image_new_from_pixbuf(pix);
 
-    gtk_window_set_default_size(GTK_WINDOW(win), width, height);
     gtk_container_add(GTK_CONTAINER(win), img);
+    gtk_widget_show(img);
     gtk_widget_show(win);
 
     unload_popup_sprite(tag);
