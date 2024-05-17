@@ -92,7 +92,7 @@ tiles = { "row", "column","tag"
   3, 3, "t.l0.jungle1"
   3, 9, "t.l1.jungle1"
 
-; more ocean in overlays
+; mMore ocean in overlays
 ;  3, 10, "t.l0.coast1"
 ;  7, 8,  "t.l0.coast2"
 ;  3, 11, "t.l0.floor1"
@@ -126,7 +126,7 @@ tiles = { "row", "column","tag"
   6, 9, "ts.horses"
 
 
-; extras
+; Extras
 
   6, 0, "tx.oil_mine"
   6, 10, "tx.oil_rig"
@@ -137,7 +137,9 @@ tiles = { "row", "column","tag"
   6, 5, "tx.fallout"
   6, 6, "tx.village"
 
-; random stuff
+  7, 10, "tx.nets"
+
+; Random stuff
 
   7, 0, "t.dither_tile"
   7, 0, "tx.darkness"
@@ -147,7 +149,7 @@ tiles = { "row", "column","tag"
   7, 4, "user.attention", "user.infratile"
   7, 5, "tx.fog"
 
-; darkness
+; Darkness
 
   8, 0, "tx.darkness_n"
   8, 1, "tx.darkness_ne"
@@ -156,11 +158,11 @@ tiles = { "row", "column","tag"
   8, 4, "tx.darkness_sw"
   8, 5, "tx.darkness_w"
 
-; goto path
+; Goto path
 
-  8, 6, "path.step"            ; turn boundary within path
-  8, 7, "path.exhausted_mp"    ; tip of path, no MP left
-  8, 8, "path.normal"          ; tip of path with MP remaining
+  8, 6, "path.step"            ; Turn boundary within path
+  8, 7, "path.exhausted_mp"    ; Tip of path, no MP left
+  8, 8, "path.normal"          ; Tip of path with MP remaining
   8, 9, "path.waypoint"
 }
 
@@ -185,8 +187,4 @@ tiles = { "row", "column","tag"
   4, 0, "upkeep.food2"
   5, 0, "upkeep.unhappy"
   6, 0, "upkeep.unhappy2"
-
 }
-
-
-
