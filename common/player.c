@@ -1099,7 +1099,7 @@ bool can_player_see_tile(const struct player *plr,
 /*******************************************************************//**
   Checks if a unit can be seen by pplayer at its current location.
 
-  See can_player_see_unit_at.
+  See can_player_see_unit_at().
 ***********************************************************************/
 bool can_player_see_unit(const struct player *pplayer,
 			 const struct unit *punit)
@@ -1109,25 +1109,25 @@ bool can_player_see_unit(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Return TRUE iff the player can see units in the city.  Either they
+  Return TRUE iff the player can see units in the city. Either they
   can see all units or none.
 
   If the player can see units in the city, then the server sends the
-  unit info for units in the city to the client.  The client uses the
-  tile's unitlist to determine whether to show the city occupied flag.  Of
-  course the units will be visible to the player as well, if they click on
-  them.
+  unit info for units in the city to the client. The client uses the
+  tile's unitlist to determine whether to show the city occupied flag.
+  Of course the units will be visible to the player as well, if they
+  click on them.
 
   If the player can't see units in the city, then the server doesn't send
-  the unit info for these units.  The client therefore uses the "occupied"
+  the unit info for these units. The client therefore uses the "occupied"
   flag sent in the short city packet to determine whether to show the city
   occupied flag.
 
-  Note that can_player_see_city_internals => can_player_see_units_in_city.
+  Note that can_player_see_city_internals() => can_player_see_units_in_city().
   Otherwise the player would not know anything about the city's units at
   all, since the full city packet has no "occupied" flag.
 
-  Returns TRUE if given a NULL player.  This is used by the client when in
+  Returns TRUE if given a NULL player. This is used by the client when in
   observer mode.
 ***********************************************************************/
 bool can_player_see_units_in_city(const struct player *pplayer,
@@ -1139,11 +1139,11 @@ bool can_player_see_units_in_city(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Return TRUE iff the player can see the city's internals.  This means the
+  Return TRUE iff the player can see the city's internals. This means the
   full city packet is sent to the client, who should then be able to popup
   a dialog for it.
 
-  Returns TRUE if given a NULL player.  This is used by the client when in
+  Returns TRUE if given a NULL player. This is used by the client when in
   observer mode.
 ***********************************************************************/
 bool can_player_see_city_internals(const struct player *pplayer,
@@ -1872,7 +1872,7 @@ bv_diplrel_all_reqs diplrel_req_contradicts(const struct requirement *req)
 
 /*******************************************************************//**
   Return the number of pplayer2's visible units in pplayer's territory,
-  from the point of view of pplayer.  Units that cannot be seen by pplayer
+  from the point of view of pplayer. Units that cannot be seen by pplayer
   will not be found (this function doesn't cheat).
 ***********************************************************************/
 int player_in_territory(const struct player *pplayer,
@@ -1880,11 +1880,11 @@ int player_in_territory(const struct player *pplayer,
 {
   int in_territory = 0;
 
-  /* This algorithm should work at server or client.  It only returns the
+  /* This algorithm should work at server or client. It only returns the
    * number of visible units (a unit can potentially hide inside the
    * transport of a different player).
    *
-   * Note this may be quite slow.  An even slower alternative is to iterate
+   * Note this may be quite slow. An even slower alternative is to iterate
    * over the entire map, checking all units inside the player's territory
    * to see if they're owned by the enemy. */
   unit_list_iterate(pplayer2->units, punit) {
@@ -1893,7 +1893,7 @@ int player_in_territory(const struct player *pplayer,
 
     if (owner == pplayer && can_player_see_unit(pplayer, punit)) {
       /* Found one! */
-      in_territory += 1;
+      in_territory++;
     }
   } unit_list_iterate_end;
 
@@ -1901,7 +1901,7 @@ int player_in_territory(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Returns whether this is a valid username.  This is used by the server to
+  Returns whether this is a valid username. This is used by the server to
   validate usernames and should be used by the client to avoid invalid
   ones.
 ***********************************************************************/
