@@ -3352,7 +3352,7 @@ static void compat_load_dev(struct loaddata *loading)
   } /* Version < 3.2.91 */
 
   if (game_version < 3029200) {
-    /* Before version number bump to 3.2.92 */
+    /* Before version number bump to 3.2.92, June 2024 */
 
     secfile_insert_bool(loading->file, FALSE, "map.altitude");
 
@@ -3474,6 +3474,11 @@ static void compat_load_dev(struct loaddata *loading)
     }
 
   } /* Version < 3.2.92 */
+
+  if (game_version < 3029300) {
+    /* Before version number bump to 3.2.93 */
+
+  } /* Version < 3.2.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_3 */
 }
