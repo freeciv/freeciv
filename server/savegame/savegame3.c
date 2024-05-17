@@ -2234,7 +2234,7 @@ static void sg_load_game(struct loaddata *loading)
     = !secfile_lookup_bool_default(loading->file, TRUE, "game.save_players");
 
   game.server.turn_change_time
-    = secfile_lookup_int_default(loading->file, 0, "game.last_turn_change_time") / 100.0;
+    = secfile_lookup_float_default(loading->file, 0, "game.last_turn_change_time");
 }
 
 /************************************************************************//**
@@ -2360,11 +2360,11 @@ static void sg_save_game(struct savedata *saving)
       saving->save_players = TRUE;
     }
 #ifndef SAVE_DUMMY_TURN_CHANGE_TIME
-    secfile_insert_int(saving->file, game.server.turn_change_time * 100,
-                       "game.last_turn_change_time");
+    secfile_insert_float(saving->file, game.server.turn_change_time,
+                         "game.last_turn_change_time");
 #else  /* SAVE_DUMMY_TURN_CHANGE_TIME */
-    secfile_insert_int(saving->file, game.info.turn * 10,
-                       "game.last_turn_change_time");
+    secfile_insert_float(saving->file, game.info.turn * 0.1,
+                         "game.last_turn_change_time");
 #endif /* SAVE_DUMMY_TURN_CHANGE_TIME */
   }
   secfile_insert_bool(saving->file, saving->save_players,

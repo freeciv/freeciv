@@ -2441,6 +2441,14 @@ static void compat_load_030300(struct loaddata *loading,
   game.info.turn = secfile_lookup_int_default(loading->file, 0, "game.turn");
   secfile_insert_int(loading->file, game.info.turn, "game.world_peace_start");
 
+  /* Last turn change time as a float, not integer multiplied by 100 */
+  {
+    float tct = secfile_lookup_int_default(loading->file, 0,
+                                           "game.last_turn_change_time") / 100.0;
+
+    secfile_replace_float(loading->file, tct, "game.last_turn_change_time");
+  }
+
   {
     int ssa_count;
 
@@ -3356,6 +3364,14 @@ static void compat_load_dev(struct loaddata *loading)
                                    "game.world_peace_start");
     secfile_replace_int(loading->file, game.server.world_peace_start,
                         "game.world_peace_start");
+
+    /* Last turn change time as a float, not integer multiplied by 100 */
+    {
+      float tct = secfile_lookup_int_default(loading->file, 0,
+                                             "game.last_turn_change_time") / 100.0;
+
+      secfile_replace_float(loading->file, tct, "game.last_turn_change_time");
+    }
 
     /* Add actions for unit activities */
     loading->activities.size
