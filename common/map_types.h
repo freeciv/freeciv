@@ -81,7 +81,7 @@ struct civ_map {
   int south_latitude;
 
   int num_continents;
-  int num_oceans;     /* Not updated at the client */
+  int num_oceans;
   /* These arrays are indexed by continent number (or negative of the
    * ocean number) so the 0th element is unused and the array is 1 element
    * larger than you'd expect.
@@ -92,8 +92,8 @@ struct civ_map {
    * The lake_surrounders array tells which single continent surrounds each
    * ocean; or -1 if there's more than one adjacent continent.
    */
-  int *continent_sizes;             /* Not updated at the client */
-  int *ocean_sizes;                 /* Not updated at the client */
+  int *continent_sizes;
+  int *ocean_sizes;
   Continent_id *lake_surrounders;   /* Not updated at the client */
 
   struct tile *tiles;
@@ -125,7 +125,17 @@ struct civ_map {
       enum team_placement team_placement;
     } server;
 
-    /* Add client side when needed */
+    struct {
+      /* These arrays count how many adjacencies there are between known
+       * tiles of a given continent or ocean and unknown tiles, i.e. if a
+       * single known tile is adjacent to multiple unknowns (or vice versa)
+       * it gets counted multiple times.
+       *
+       * If this is 0 for a continent or ocean, we know for sure that its
+       * size in continent/ocean_sizes is accurate. */
+      int *continent_unknown_adj_counts;
+      int *ocean_unknown_adj_counts;
+    } client;
   };
 };
 

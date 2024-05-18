@@ -2238,7 +2238,7 @@ void handle_map_info(const struct packet_map_info *packet)
   int ts_topo;
 
   if (!map_is_empty()) {
-    map_free(&(wld.map));
+    map_free(&(wld.map), FALSE);
     free_city_map_index();
   }
 
@@ -3119,6 +3119,119 @@ void handle_spaceship_info(const struct packet_spaceship_info *p)
   }
 }
 
+/**********************************************************************//**
+  Returns the location of the adjacency count between the two given
+  continents or oceans, where ID 0 stands for unknown tiles.
+**************************************************************************/
+static inline int *continent_adjacency_count(Continent_id cont1,
+                                             Continent_id cont2)
+{
+  if (cont1 > 0) {
+    if (cont2 == 0) {
+      return &wld.map.client.continent_unknown_adj_counts[cont1];
+    }
+  } else if (cont1 < 0) {
+    if (cont2 == 0) {
+      return &wld.map.client.ocean_unknown_adj_counts[-cont1];
+    }
+  } else {
+    if (cont2 > 0) {
+      return &wld.map.client.continent_unknown_adj_counts[cont2];
+    } else if (cont2 < 0) {
+      return &wld.map.client.ocean_unknown_adj_counts[-cont2];
+    }
+  }
+  return nullptr;
+}
+
+/**********************************************************************//**
+  Incrementally update continent information (sizes and adjacency) for the
+  given tile switching from one continent to another.
+
+  ptile is only used to iterate adjacent tiles, i.e. only its index must
+  be accurate; everything else may be mid-change.
+**************************************************************************/
+static inline void update_continent_cache(const struct tile *ptile,
+                                          Continent_id old_cont,
+                                          Continent_id new_cont)
+{
+  /* Update known continents */
+  if (new_cont > wld.map.num_continents) {
+    int i;
+
+    /* Expand sizes array */
+    wld.map.continent_sizes = fc_realloc(wld.map.continent_sizes,
+        (new_cont + 1) * sizeof(*wld.map.continent_sizes));
+
+    /* Expand unknown tile adjacency counts array */
+    wld.map.client.continent_unknown_adj_counts = fc_realloc(
+      wld.map.client.continent_unknown_adj_counts,
+      (new_cont + 1) * sizeof(*wld.map.client.continent_unknown_adj_counts)
+    );
+
+    /* Fill new spots with zeros */
+    for (i = wld.map.num_continents + 1; i <= new_cont; i++) {
+      wld.map.continent_sizes[i] = 0;
+      wld.map.client.continent_unknown_adj_counts[i] = 0;
+    }
+
+    wld.map.num_continents = new_cont;
+  } else if (new_cont < -wld.map.num_oceans) {
+    int i;
+
+    /* Expand sizes array */
+    wld.map.ocean_sizes = fc_realloc(wld.map.ocean_sizes,
+        (-new_cont + 1) * sizeof(*wld.map.ocean_sizes));
+
+    /* Expand unknown tile adjacency counts array */
+    wld.map.client.ocean_unknown_adj_counts = fc_realloc(
+      wld.map.client.ocean_unknown_adj_counts,
+      (-new_cont + 1) * sizeof(*wld.map.client.ocean_unknown_adj_counts)
+    );
+
+    /* Fill new spots with zeros */
+    for (i = wld.map.num_oceans + 1; i <= -new_cont; i++) {
+      wld.map.ocean_sizes[i] = 0;
+      wld.map.client.ocean_unknown_adj_counts[i] = 0;
+    }
+
+    wld.map.num_oceans = -new_cont;
+  }
+
+  /* Decrement old continent/ocean size */
+  if (old_cont > 0) {
+    wld.map.continent_sizes[old_cont]--;
+  } else if (old_cont < 0) {
+    wld.map.ocean_sizes[-old_cont]--;
+  }
+
+  /* Increment new continent/ocean size */
+  if (new_cont > 0) {
+    wld.map.continent_sizes[new_cont]++;
+  } else if (new_cont < 0) {
+    wld.map.ocean_sizes[-new_cont]++;
+  }
+
+  /* Update tile adjacency counts */
+  adjc_iterate(&(wld.map), ptile, adj_tile) {
+    Continent_id adj_cont = tile_continent(adj_tile);
+    int *padjc_count;
+
+    /* Decrement old adjacency */
+    padjc_count = continent_adjacency_count(old_cont, adj_cont);
+    if (padjc_count) {
+      fc_assert(*padjc_count > 0);
+      (*padjc_count)--;
+    }
+
+    /* Increment new adjacency */
+    padjc_count = continent_adjacency_count(new_cont, adj_cont);
+    if (padjc_count) {
+      (*padjc_count)++;
+    }
+  } adjc_iterate_end;
+}
+
 /************************************************************************//**
   Packet tile_info handler.
 ****************************************************************************/
@@ -3326,8 +3439,10 @@ void handle_tile_info(const struct packet_tile_info *packet)
     unit_list_clear(ptile->units);
   }
 
+  if (ptile->continent != packet->continent) {
+    update_continent_cache(ptile, ptile->continent, packet->continent);
+  }
   ptile->continent = packet->continent;
-  wld.map.num_continents = MAX(ptile->continent, wld.map.num_continents);
 
   if (packet->label[0] == '\0') {
     if (ptile->label != NULL) {

@@ -167,14 +167,31 @@ const char *popup_info_text(struct tile *ptile)
   struct player *plr = client_player();
   bool flaggy_unit = (punit != nullptr
                       && !is_flagless_to_player(punit, plr));
+  Continent_id cont = tile_continent(ptile);
 
   astr_clear(&str);
   index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
   astr_add_line(&str, _("Location: (%d, %d) [%d]"),
-                tile_x, tile_y, tile_continent(ptile));
+                tile_x, tile_y, cont);
   index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
   astr_add_line(&str, _("Native coordinates: (%d, %d)"),
                 nat_x, nat_y);
+
+  if (cont > 0) {
+    int size = get_continent_size(cont);
+    if (wld.map.client.continent_unknown_adj_counts[cont] > 0) {
+      astr_add_line(&str, _("Continent size: at least %d"), size);
+    } else {
+      astr_add_line(&str, _("Continent size: %d"), size);
+    }
+  } else if (cont < 0) {
+    int size = get_ocean_size(-cont);
+    if (wld.map.client.ocean_unknown_adj_counts[-cont] > 0) {
+      astr_add_line(&str, _("Ocean size: at least %d"), size);
+    } else {
+      astr_add_line(&str, _("Ocean size: %d"), size);
+    }
+  }
   astr_add_line(&str, _("Latitude: %d"),
                 map_signed_latitude(ptile));
 

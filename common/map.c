@@ -198,6 +198,9 @@ void map_init(struct civ_map *imap, bool server_side)
     imap->server.have_huts = FALSE;
     imap->server.have_resources = FALSE;
     imap->server.team_placement = MAP_DEFAULT_TEAM_PLACEMENT;
+  } else {
+    imap->client.continent_unknown_adj_counts = nullptr;
+    imap->client.ocean_unknown_adj_counts = nullptr;
   }
 }
 
@@ -537,7 +540,7 @@ void main_map_allocate(void)
 /*******************************************************************//**
   Frees the allocated memory of the map.
 ***********************************************************************/
-void map_free(struct civ_map *fmap)
+void map_free(struct civ_map *fmap, bool server_side)
 {
   if (fmap->tiles) {
     /* It is possible that map_init() was called but not map_allocate() */
@@ -568,6 +571,17 @@ void map_free(struct civ_map *fmap)
     FC_FREE(fmap->lake_surrounders);
     fmap->num_oceans = 0;
   }
+
+  if (!server_side) {
+    if (fmap->client.continent_unknown_adj_counts) {
+      FC_FREE(fmap->client.continent_unknown_adj_counts);
+      fmap->num_continents = 0;
+    }
+    if (fmap->client.ocean_unknown_adj_counts) {
+      FC_FREE(fmap->client.ocean_unknown_adj_counts);
+      fmap->num_oceans = 0;
+    }
+  }
 }
 
 /*******************************************************************//**
@@ -575,7 +589,7 @@ void map_free(struct civ_map *fmap)
 ***********************************************************************/
 void main_map_free(void)
 {
-  map_free(&(wld.map));
+  map_free(&(wld.map), is_server());
   CALL_FUNC_EACH_AI(map_free);
 }
 
@@ -797,8 +811,6 @@ int get_continent_size(Continent_id id)
 {
   fc_assert_ret_val(id > 0, -1);
   fc_assert_ret_val(id <= wld.map.num_continents, -1);
-  /* Client updates num_continents, but not continent_sizes */
-  fc_assert_ret_val(is_server(), -1);
   return wld.map.continent_sizes[id];
 }
 
@@ -820,6 +832,8 @@ int get_lake_surrounders(Continent_id id)
 {
   fc_assert_ret_val(id < 0, -1);
   fc_assert_ret_val(id >= -wld.map.num_oceans, -1);
+  /* Client updates num_oceans, but not lake_surrounders */
+  fc_assert_ret_val(is_server(), -1);
   return wld.map.lake_surrounders[-id];
 }
 

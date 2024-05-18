@@ -101,7 +101,7 @@ struct civ_map *texai_map_get(void)
 **************************************************************************/
 void texai_map_close(void)
 {
-  map_free(&(texai_world.map));
+  map_free(&(texai_world.map), TRUE);
 }
 
 /**********************************************************************//**

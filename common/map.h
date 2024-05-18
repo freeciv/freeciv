@@ -52,7 +52,7 @@ void map_init(struct civ_map *imap, bool server_side);
 void map_init_topology(void);
 void map_allocate(struct civ_map *amap);
 void main_map_allocate(void);
-void map_free(struct civ_map *fmap);
+void map_free(struct civ_map *fmap, bool server_side);
 void main_map_free(void);
 
 int map_vector_to_real_distance(int dx, int dy);
