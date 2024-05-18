@@ -390,7 +390,7 @@ actor_reqs    =
 action        = "Unit Move"
 actor_reqs    =
     { "type",         "name",        "range", "present"
-      "MinMoveFrags", "5",           "Local", TRUE
+      "MinMoveFrags", "1",           "Local", TRUE
       "UnitState",    "Transported", "Local", FALSE
     }
 
@@ -399,6 +399,7 @@ action        = "Teleport"
 actor_reqs    =
     { "type",         "name",        "range", "present"
       "UnitClass",    "Air",         "Local", TRUE
+      "MinMoveFrags", "5",           "Local", TRUE
       "UnitState",    "Transported", "Local", FALSE
     }
 
