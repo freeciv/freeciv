@@ -22,9 +22,6 @@ void generator_free(void);
 void regenerate_lakes(void);
 void smooth_water_depth(void);
 void assign_continent_numbers(void);
-int get_lake_surrounders(Continent_id cont);
-int get_continent_size(Continent_id id);
-int get_ocean_size(Continent_id id);
 
 struct terrain *most_shallow_ocean(bool frozen);
 struct terrain *pick_ocean(int depth, bool frozen);

@@ -70,6 +70,9 @@ int get_direction_for_step(const struct civ_map *nmap,
                            const struct tile *src_tile,
                            const struct tile *dst_tile);
 
+int get_continent_size(Continent_id id);
+int get_ocean_size(Continent_id id);
+int get_lake_surrounders(Continent_id id);
 
 /* Specific functions for start positions. */
 struct startpos *map_startpos_by_number(int id);

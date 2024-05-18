@@ -21,6 +21,7 @@
 /* common */
 #include "city.h"
 #include "game.h"
+#include "map.h"
 #include "player.h"
 #include "research.h"
 #include "unit.h"
@@ -38,9 +39,6 @@
 
 /* server/advisors */
 #include "advdata.h"
-
-/* server/generator */
-#include "mapgen_utils.h"
 
 /* ai */
 #include "handicaps.h"

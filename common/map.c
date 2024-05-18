@@ -173,6 +173,10 @@ void map_init(struct civ_map *imap, bool server_side)
   imap->north_latitude = MAP_DEFAULT_NORTH_LATITUDE;
   imap->south_latitude = MAP_DEFAULT_SOUTH_LATITUDE;
 
+  imap->continent_sizes = nullptr;
+  imap->ocean_sizes = nullptr;
+  imap->lake_surrounders = nullptr;
+
   if (server_side) {
     imap->server.mapsize = MAP_DEFAULT_MAPSIZE;
     imap->server.size = MAP_DEFAULT_SIZE;
@@ -552,6 +556,18 @@ void map_free(struct civ_map *fmap)
 
     FC_FREE(fmap->iterate_outwards_indices);
   }
+  if (fmap->continent_sizes) {
+    FC_FREE(fmap->continent_sizes);
+    fmap->num_continents = 0;
+  }
+  if (fmap->ocean_sizes) {
+    FC_FREE(fmap->ocean_sizes);
+    fmap->num_oceans = 0;
+  }
+  if (fmap->lake_surrounders) {
+    FC_FREE(fmap->lake_surrounders);
+    fmap->num_oceans = 0;
+  }
 }
 
 /*******************************************************************//**
@@ -772,6 +788,39 @@ bool terrain_surroundings_allow_change(const struct civ_map *nmap,
   }
 
   return ret;
+}
+
+/**********************************************************************//**
+  Return size in tiles of the given continent (not ocean)
+**************************************************************************/
+int get_continent_size(Continent_id id)
+{
+  fc_assert_ret_val(id > 0, -1);
+  fc_assert_ret_val(id <= wld.map.num_continents, -1);
+  /* Client updates num_continents, but not continent_sizes */
+  fc_assert_ret_val(is_server(), -1);
+  return wld.map.continent_sizes[id];
+}
+
+/**********************************************************************//**
+  Return size in tiles of the given ocean. You should use positive ocean
+  number.
+**************************************************************************/
+int get_ocean_size(Continent_id id)
+{
+  fc_assert_ret_val(id > 0, -1);
+  fc_assert_ret_val(id <= wld.map.num_oceans, -1);
+  return wld.map.ocean_sizes[id];
+}
+
+/**********************************************************************//**
+  Get continent surrounding lake, or -1 if there is multiple continents.
+**************************************************************************/
+int get_lake_surrounders(Continent_id id)
+{
+  fc_assert_ret_val(id < 0, -1);
+  fc_assert_ret_val(id >= -wld.map.num_oceans, -1);
+  return wld.map.lake_surrounders[-id];
 }
 
 /*******************************************************************//**

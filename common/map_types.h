@@ -79,8 +79,23 @@ struct civ_map {
   int xsize, ysize;   /* Native dimensions */
   int north_latitude;
   int south_latitude;
+
   int num_continents;
   int num_oceans;     /* Not updated at the client */
+  /* These arrays are indexed by continent number (or negative of the
+   * ocean number) so the 0th element is unused and the array is 1 element
+   * larger than you'd expect.
+   *
+   * The _sizes arrays give the sizes (in tiles) of each continent and
+   * ocean.
+   *
+   * The lake_surrounders array tells which single continent surrounds each
+   * ocean; or -1 if there's more than one adjacent continent.
+   */
+  int *continent_sizes;             /* Not updated at the client */
+  int *ocean_sizes;                 /* Not updated at the client */
+  Continent_id *lake_surrounders;   /* Not updated at the client */
+
   struct tile *tiles;
   struct startpos_hash *startpos_table;
 
