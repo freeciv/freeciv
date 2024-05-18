@@ -385,6 +385,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
   const struct research *presearch = research_get(pplayer);
   int profit;
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+  const struct civ_map *nmap = &(wld.map);
 
   /* military_advisor_choose_build() does something idiotic,
    * this function should not be called if there is danger... */
@@ -435,7 +436,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
     } unit_tech_reqs_iterate_end;
 
     /* we only update choice struct if we can build it! */
-    if (!can_city_build_unit_now(pcity, u_type)) {
+    if (!can_city_build_unit_now(nmap, pcity, u_type)) {
       continue;
     }
 

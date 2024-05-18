@@ -2384,6 +2384,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 **************************************************************************/
 void choose_build_target(struct player *pplayer, struct city *pcity)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Pick the next thing off the worklist. */
   if (worklist_change_build_target(pplayer, pcity)) {
     return;
@@ -2395,7 +2397,7 @@ void choose_build_target(struct player *pplayer, struct city *pcity)
   case VUT_UTYPE:
     /* We can build a unit again unless it's unique or we have lost the tech. */
     if (!utype_has_flag(pcity->production.value.utype, UTYF_UNIQUE)
-        && can_city_build_unit_now(pcity, pcity->production.value.utype)) {
+        && can_city_build_unit_now(nmap, pcity, pcity->production.value.utype)) {
       log_base(LOG_BUILD_TARGET, "%s repeats building %s", city_name_get(pcity),
                utype_rule_name(pcity->production.value.utype));
       return;

@@ -434,6 +434,8 @@ bool improvement_obsolete(const struct player *pplayer,
 static bool impr_provides_buildable_units(const struct city *pcity,
                                           const struct impr_type *pimprove)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Fast check */
   if (!pimprove->allows_units) {
     return FALSE;
@@ -441,7 +443,7 @@ static bool impr_provides_buildable_units(const struct city *pcity,
 
   unit_type_iterate(ut) {
     if (requirement_needs_improvement(pimprove, &ut->build_reqs)
-        && can_city_build_unit_now(pcity, ut)) {
+        && can_city_build_unit_now(nmap, pcity, ut)) {
       return TRUE;
     }
   } unit_type_iterate_end;
@@ -528,6 +530,8 @@ static bool impr_protects_vs_actions(const struct city *pcity,
 static bool impr_allows_actions(const struct city *pcity,
                                 const struct impr_type *pimprove)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Fast check */
   if (!pimprove->allows_actions) {
     return FALSE;
@@ -550,7 +554,7 @@ static bool impr_allows_actions(const struct city *pcity,
             return TRUE;
           }
 
-          if (can_city_build_unit_now(pcity, ut)) {
+          if (can_city_build_unit_now(nmap, pcity, ut)) {
             /* This city can build a unit that uses the building */
             return TRUE;
           }

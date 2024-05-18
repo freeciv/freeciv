@@ -1571,7 +1571,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
     /* If there's a city, can the city build the unit? */
     if (pcity) {
-      can_build = can_build && can_city_build_unit_now(pcity, un);
+      can_build = can_build && can_city_build_unit_now(&(wld.map), pcity, un);
       can_eventually_build = can_eventually_build
         && can_city_build_unit_later(pcity, un);
     }

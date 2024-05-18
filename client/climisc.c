@@ -859,7 +859,7 @@ int collect_eventually_buildable_targets(struct universal *targets,
 
     if (NULL != pcity) {
       /* Can the city build? */
-      can_build = can_city_build_unit_now(pcity, punittype);
+      can_build = can_city_build_unit_now(&(wld.map), pcity, punittype);
       can_eventually_build = can_city_build_unit_later(pcity, punittype);
     } else if (NULL != pplayer) {
       /* Can our player build? */

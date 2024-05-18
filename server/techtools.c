@@ -822,6 +822,7 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
 {
   char research_name[MAX_LEN_NAME * 2];
   /* Research members will be notified when new tech is chosen. */
+  const struct civ_map *nmap = &(wld.map);
 
   research_pretty_name(presearch, research_name, sizeof(research_name));
 
@@ -899,7 +900,7 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
       bool update = FALSE;
 
       if (pcity->production.kind == VUT_UTYPE
-          && !can_city_build_unit_now(pcity, pcity->production.value.utype)) {
+          && !can_city_build_unit_now(nmap, pcity, pcity->production.value.utype)) {
         notify_player(pplayer, city_tile(pcity),
                       E_CITY_CANTBUILD, ftc_server,
                       _("%s can't build %s. The required technology was "
