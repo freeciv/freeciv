@@ -586,6 +586,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
                              bool allow_gold_upkeep)
 {
   bool want_something = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   /* This AI doesn't know how to build planes */
   if (has_handicap(pplayer, H_NOPLANES)) {
@@ -618,7 +619,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
       continue;
     }
 
-    if (can_city_build_unit_now(pcity, punittype)) {
+    if (can_city_build_unit_now(nmap, pcity, punittype)) {
       struct unit *virtual_unit =
        unit_virtual_create(
           pplayer, pcity, punittype,

@@ -401,6 +401,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
   int att_idx = utype_index(att);
   int defbonus = 100
     + get_unittype_bonus(pplayer, ptile, att, NULL, EFT_DEFEND_BONUS);
+  const struct civ_map *nmap = &(wld.map);
 
   unit_type_iterate(deftype) {
     int mp_pct = deftype->cache.defense_mp_bonuses_pct[att_idx] + 100;
@@ -415,7 +416,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
 
     def_values[utype_index(deftype)] = def;
 
-    if (can_city_build_unit_now(pcity, deftype)) {
+    if (can_city_build_unit_now(nmap, pcity, deftype)) {
       if (def > best_avl_def) {
         best_avl_def = def;
         best_avl = deftype;
@@ -425,7 +426,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
 
   unit_type_iterate(deftype) {
     if (def_values[utype_index(deftype)] > best_avl_def
-        && !can_city_build_unit_now(pcity, deftype)
+        && !can_city_build_unit_now(nmap, pcity, deftype)
         && can_city_build_unit_later(pcity, deftype)) {
       /* It would be better than current best. Consider researching tech */
       const struct impr_type *building;
@@ -518,13 +519,14 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
   struct advance *best_tech = A_NEVER;
   struct unit_type *best_unit = NULL;
   struct unit_type *build_unit = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
   n = num_role_units(role);
   for (i = n - 1; i >= 0; i--) {
     struct unit_type *iunit = get_role_unit(role, i);
     struct advance *itech = iunit->require_advance;
 
-    if (can_city_build_unit_now(pcity, iunit)) {
+    if (can_city_build_unit_now(nmap, pcity, iunit)) {
       build_unit = iunit;
       break;
     } else if (can_city_build_unit_later(pcity, iunit)) {

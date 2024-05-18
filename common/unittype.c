@@ -2320,6 +2320,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
 {
   struct unit_type *u;
   int j;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST)
@@ -2328,7 +2329,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
 
   for (j = n_with_role[role] - 1; j >= 0; j--) {
     u = with_role[role][j];
-    if (can_city_build_unit_now(pcity, u)) {
+    if (can_city_build_unit_now(nmap, pcity, u)) {
       return u;
     }
   }

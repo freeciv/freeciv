@@ -924,11 +924,10 @@ bool can_city_build_unit_direct(const struct civ_map *nmap,
   Return whether given city can build given unit; returns FALSE if unit is 
   obsolete.
 **************************************************************************/
-bool can_city_build_unit_now(const struct city *pcity,
+bool can_city_build_unit_now(const struct civ_map *nmap,
+                             const struct city *pcity,
                              const struct unit_type *punittype)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (!can_city_build_unit_direct(nmap, pcity, punittype)) {
     return FALSE;
   }
@@ -994,9 +993,11 @@ bool can_city_build_direct(const struct city *pcity,
 bool can_city_build_now(const struct city *pcity,
                         const struct universal *target)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   switch (target->kind) {
   case VUT_UTYPE:
-    return can_city_build_unit_now(pcity, target->value.utype);
+    return can_city_build_unit_now(nmap, pcity, target->value.utype);
   case VUT_IMPROVEMENT:
     return can_city_build_improvement_now(pcity, target->value.building);
   default:

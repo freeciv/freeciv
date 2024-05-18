@@ -205,13 +205,14 @@ static void dai_barbarian_choose_build(struct player *pplayer,
 {
   struct unit_type *bestunit = NULL;
   int i, bestattack = 0;
+  const struct civ_map *nmap = &(wld.map);
 
   /* Choose the best unit among the basic ones */
   for (i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD, i);
 
     if (iunit->attack_strength > bestattack
-        && can_city_build_unit_now(pcity, iunit)) {
+        && can_city_build_unit_now(nmap, pcity, iunit)) {
       bestunit = iunit;
       bestattack = iunit->attack_strength;
     }
@@ -222,7 +223,7 @@ static void dai_barbarian_choose_build(struct player *pplayer,
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
     if (iunit->attack_strength > bestattack
-        && can_city_build_unit_now(pcity, iunit)) {
+        && can_city_build_unit_now(nmap, pcity, iunit)) {
       bestunit = iunit;
       bestattack = iunit->attack_strength;
     }
