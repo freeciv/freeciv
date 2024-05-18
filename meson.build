@@ -239,7 +239,6 @@ pub_headers = [
   'inttypes.h',
   'stdint.h',
   'sys/types.h',
-  'unistd.h',
   'sys/time.h',
   'sys/socket.h',
   'sys/select.h',
@@ -406,6 +405,8 @@ foreach func : liblua_functions
 endforeach
 
 if c_compiler.has_header('unistd.h')
+  pub_conf_data.set('FREECIV_HAVE_UNISTD_H', 1)
+  priv_conf_data.set('HAVE_UNISTD_H', 1)
   liblua_conf_data.set('FREECIV_HAVE_UNISTD_H', 1)
 endif
 
