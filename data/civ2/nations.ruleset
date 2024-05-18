@@ -119,7 +119,7 @@ translation_domain = "freeciv-core"
 name=_("American")
 plural=_("?plural:Americans")
 groups="Modern"
-legend=_("Formally named the United States of America.  Independent from\
+legend=_("Formally named the United States of America. Independent from\
  Great Britain after a revolution in 1776-1783 AD.")
 
 leaders = {
@@ -679,7 +679,7 @@ translation_domain = "freeciv-core"
 name=_("Egyptian")
 plural=_("?plural:Egyptians")
 groups="Ancient"
-legend=_("Egypt was the second-oldest of the world's civilizations.  Since\
+legend=_("Egypt was the second-oldest of the world's civilizations. Since\
  ancient times it has been unusually urbanized, supporting a large\
  population on silt deposited by the annual floodings of the Nile.")
 
