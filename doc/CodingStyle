@@ -535,6 +535,7 @@ functions available natively.
 - Instead of fopen(), use fc_fopen()
 - Instead of localtime(), use fc_localtime()
 - Instead of strncmp(), use fc_strncmp()
+- Instead of strcasecmp(), use fc_strcasecmp()
 
 ============================================================================
   Miscellaneous
