@@ -3418,6 +3418,7 @@ static bool role_unit_cb(struct unit_type *ptype, void *data)
 {
   struct role_unit_cb_data *cb_data = (struct role_unit_cb_data *)data;
   struct unit_class *pclass = utype_class(ptype);
+  const struct civ_map *nmap = &(wld.map);
 
   if ((cb_data->tc == TC_LAND && pclass->adv.land_move == MOVE_NONE)
       || (cb_data->tc == TC_OCEAN && pclass->adv.sea_move == MOVE_NONE)) {
@@ -3425,7 +3426,7 @@ static bool role_unit_cb(struct unit_type *ptype, void *data)
   }
 
   if (cb_data->build_city == NULL
-      || can_city_build_unit_now(cb_data->build_city, ptype)) {
+      || can_city_build_unit_now(nmap, cb_data->build_city, ptype)) {
     return TRUE;
   }
 

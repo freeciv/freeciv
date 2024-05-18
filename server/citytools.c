@@ -2726,7 +2726,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     } improvement_iterate_end;
 
     unit_type_iterate(punittype) {
-      if (can_city_build_unit_now(pcity, punittype)) {
+      if (can_city_build_unit_now(nmap, pcity, punittype)) {
         BV_SET(web_packet->can_build_unit, utype_index(punittype));
       }
     } unit_type_iterate_end;

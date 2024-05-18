@@ -85,6 +85,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
   struct unit_type *bestid = NULL;
   int best = 0;
   struct player *pplayer = city_owner(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   unit_type_iterate(ut) {
     struct unit_type_ai *utai = utype_ai_data(ut, ait);
@@ -94,7 +95,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
       continue;
     }
 
-    if (!can_city_build_unit_now(pcity, ut)
+    if (!can_city_build_unit_now(nmap, pcity, ut)
         || ut->attack_strength < ut->transport_capacity
         || (tc == TC_OCEAN && utype_class(ut)->adv.sea_move == MOVE_NONE)
         || (tc == TC_LAND && utype_class(ut)->adv.land_move == MOVE_NONE)) {
@@ -148,6 +149,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
   adv_want best = -1;
   struct unit_type *best_unit_type = NULL;
   struct unit *hunter = NULL;
+  const struct civ_map *nmap = &(wld.map);
 
   unit_list_iterate(pcity->tile->units, punit) {
     if (dai_hunter_qualify(pplayer, punit)) {
@@ -173,7 +175,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
     int desire;
 
     if (!utype_can_do_action(ut, ACTION_SUICIDE_ATTACK)
-        || !can_city_build_unit_now(pcity, ut)) {
+        || !can_city_build_unit_now(nmap, pcity, ut)) {
       continue;
     }
 
