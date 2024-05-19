@@ -3355,6 +3355,68 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_MAX_REGION_TILES:
     switch (preq->range) {
+    case REQ_RANGE_CADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      /* Off-by-one: The requirement counts the tile itself, we're phrasing
+       * the helptext in terms of *other* tiles only. */
+      if (preq->present) {
+        if (preq->source.value.region_tiles == 1) {
+          /* Special case for zero */
+          fc_strlcat(buf,
+                     _("No other cardinally adjacent tile may be part of "
+                       "the same continent or ocean."),
+                     bufsz);
+        } else {
+          cat_snprintf(buf, bufsz,
+                      PL_("No more than %d other cardinally adjacent tile "
+                          "may be part of the same continent or ocean.",
+                          "No more than %d other cardinally adjacent tiles "
+                          "may be part of the same continent or ocean.",
+                          preq->source.value.region_tiles - 1),
+                      preq->source.value.region_tiles - 1);
+        }
+      } else {
+        cat_snprintf(buf, bufsz,
+                    PL_("Requires at least %d other cardinally adjacent "
+                        "tile of the same continent or ocean.",
+                        "Requires at least %d other cardinally adjacent "
+                        "tiles of the same continent or ocean.",
+                        preq->source.value.region_tiles),
+                    preq->source.value.region_tiles);
+      }
+
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      /* Off-by-one: The requirement counts the tile itself, we're phrasing
+       * the helptext in terms of *other* tiles only. */
+      if (preq->present) {
+        if (preq->source.value.region_tiles == 1) {
+          /* Special case for zero */
+          fc_strlcat(buf,
+                     _("No other adjacent tile may be part of the same "
+                       "continent or ocean."),
+                     bufsz);
+        } else {
+          cat_snprintf(buf, bufsz,
+                      PL_("No more than %d other adjacent tile may be "
+                          "part of the same continent or ocean.",
+                          "No more than %d other adjacent tiles may be "
+                          "part of the same continent or ocean.",
+                          preq->source.value.region_tiles - 1),
+                      preq->source.value.region_tiles - 1);
+        }
+      } else {
+        cat_snprintf(buf, bufsz,
+                    PL_("Requires at least %d other adjacent tile of the "
+                        "same continent or ocean.",
+                        "Requires at least %d other adjacent tiles of the "
+                        "same continent or ocean.",
+                        preq->source.value.region_tiles),
+                    preq->source.value.region_tiles);
+      }
+
+      return TRUE;
     case REQ_RANGE_CONTINENT:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
@@ -3374,8 +3436,6 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_WORLD:
     case REQ_RANGE_LOCAL:
     case REQ_RANGE_TILE:
-    case REQ_RANGE_CADJACENT:
-    case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
     case REQ_RANGE_TRADE_ROUTE:
     case REQ_RANGE_COUNT:

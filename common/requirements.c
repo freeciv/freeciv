@@ -1342,7 +1342,9 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = (req.range != REQ_RANGE_PLAYER);
       break;
     case VUT_MAX_REGION_TILES:
-      invalid = (req.range != REQ_RANGE_CONTINENT);
+      invalid = (req.range != REQ_RANGE_CONTINENT
+                 && req.range != REQ_RANGE_CADJACENT
+                 && req.range != REQ_RANGE_ADJACENT);
       break;
     case VUT_IMPROVEMENT:
       /* Valid ranges depend on the building genus (wonder/improvement),
@@ -1909,6 +1911,11 @@ bool are_requirements_contradictions(const struct requirement *req1,
     if (req2->source.kind != VUT_MAX_REGION_TILES) {
       /* Finding contradictions across requirement kinds isn't supported
        * for MaxRegionTiles requirements. */
+      return FALSE;
+    } else if (req1->range != req2->range) {
+      /* FIXME: Finding contradictions across ranges not yet supported.
+       * In particular, a max at a small range and a min at a larger range
+       * needs extra work to figure out. */
       return FALSE;
     }
     return are_bounds_contradictions(
@@ -5655,6 +5662,33 @@ is_max_region_tiles_req_active(const struct civ_map *nmap,
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAX_REGION_TILES);
 
   switch (req->range) {
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+    if (context->tile == nullptr) {
+      /* The tile itself is included in the range */
+      max_tiles = 1 + ((req->range == REQ_RANGE_CADJACENT)
+                      ? nmap->num_cardinal_dirs
+                      : nmap->num_valid_dirs);
+
+      break;
+    } else {
+      Continent_id cont = tile_continent(context->tile);
+
+      /* Count how many adjacent tiles there actually are as we go along */
+      max_tiles = 1;
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        Continent_id adj_cont = tile_continent(adj_tile);
+
+        if (adj_cont == 0 || cont == 0) {
+          max_tiles++;
+        } else if (adj_cont == cont) {
+          min_tiles++;
+          max_tiles++;
+        }
+      } range_adjc_iterate_end;
+    }
+    break;
   case REQ_RANGE_CONTINENT:
     {
       Continent_id cont = context->tile ? tile_continent(context->tile) : 0;
