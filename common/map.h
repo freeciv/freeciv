@@ -427,14 +427,14 @@ extern struct terrain_misc terrain_control;
 /* As adjc_iterate() but also set direction8 iterator variable dir_itr */
 #define adjc_dir_iterate(nmap, center_tile, itr_tile, dir_itr)              \
   adjc_dirlist_iterate(nmap, center_tile, itr_tile, dir_itr,                \
-                       MAP_VALID_DIRS, MAP_NUM_VALID_DIRS)
+                       (nmap)->valid_dirs, (nmap)->num_valid_dirs)
 
 #define adjc_dir_iterate_end adjc_dirlist_iterate_end
 
 /* Only set direction8 dir_itr (not tile) */
 #define adjc_dir_base_iterate(nmap, center_tile, dir_itr)                \
   adjc_dirlist_base_iterate(nmap, center_tile, dir_itr,                  \
-                            MAP_VALID_DIRS, MAP_NUM_VALID_DIRS)
+                            (nmap)->valid_dirs, (nmap)->num_valid_dirs)
 
 #define adjc_dir_base_iterate_end                                        \
   adjc_dirlist_base_iterate_end
@@ -444,21 +444,21 @@ extern struct terrain_misc terrain_control;
  * position. The order of positions is unspecified. */
 #define cardinal_adjc_iterate(nmap, center_tile, itr_tile)               \
   adjc_dirlist_iterate(nmap, center_tile, itr_tile, _dir_itr##itr_tile,  \
-                       MAP_CARDINAL_DIRS, MAP_NUM_CARDINAL_DIRS)
+                       (nmap)->cardinal_dirs, (nmap)->num_cardinal_dirs)
 
 #define cardinal_adjc_iterate_end adjc_dirlist_iterate_end
 
 /* As cardinal_adjc_iterate but also set direction8 variable dir_itr */
 #define cardinal_adjc_dir_iterate(nmap, center_tile, itr_tile, dir_itr)  \
   adjc_dirlist_iterate(nmap, center_tile, itr_tile, dir_itr,             \
-                       MAP_CARDINAL_DIRS, MAP_NUM_CARDINAL_DIRS)
+                       (nmap)->cardinal_dirs, (nmap)->num_cardinal_dirs)
 
 #define cardinal_adjc_dir_iterate_end adjc_dirlist_iterate_end
 
 /* Only set direction8 dir_itr (not tile) */
 #define cardinal_adjc_dir_base_iterate(nmap, center_tile, dir_itr)       \
   adjc_dirlist_base_iterate(nmap, center_tile, dir_itr,                  \
-                            MAP_CARDINAL_DIRS, MAP_NUM_CARDINAL_DIRS)
+                            (nmap)->cardinal_dirs, (nmap)->num_cardinal_dirs)
 
 #define cardinal_adjc_dir_base_iterate_end                                     \
   adjc_dirlist_base_iterate_end
@@ -493,7 +493,7 @@ extern struct terrain_misc terrain_control;
   for (;                                                                    \
        _tile##_index < (dircount);                                          \
        _tile##_index++) {                                                   \
-    _dir = dirlist[_tile##_index];                                          \
+    _dir = (dirlist)[_tile##_index];                                        \
     DIRSTEP(_tile##_x, _tile##_y, _dir);                                    \
     _tile##_x += _tile##_cx;                                                \
     _tile##_y += _tile##_cy;                                                \
@@ -518,7 +518,7 @@ extern struct terrain_misc terrain_control;
   for (;                                                                       \
        _tile##_index < (dircount);                                             \
        _tile##_index++) {                                                      \
-    _dir = dirlist[_tile##_index];                                             \
+    _dir = (dirlist)[_tile##_index];                                           \
     DIRSTEP(_tile##_x, _tile##_y, _dir);                                       \
     _tile##_x += _center##_x;                                                  \
     _tile##_y += _center##_y;                                                  \
