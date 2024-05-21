@@ -1500,11 +1500,14 @@ void init_nls(void)
 
     if (lc->grouping[0] == '\0') {
       /* This actually indicates no grouping at all. */
-      char *m = malloc(sizeof(char));
+      char *m = fc_malloc(sizeof(char));
+
+      free(grouping);
       *m = CHAR_MAX;
       grouping = m;
     } else {
       size_t len;
+
       for (len = 0;
            lc->grouping[len] != '\0' && lc->grouping[len] != CHAR_MAX; len++) {
         /* Nothing */
