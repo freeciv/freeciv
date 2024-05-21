@@ -97,7 +97,7 @@ name        = _("Despotism")
 graphic     = "gov.despotism"
 graphic_alt = "-"
 sound       = "g_despotism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 ai_better   = "Monarchy"
 
@@ -122,7 +122,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.monarchy"
 graphic_alt = "-"
 sound       = "g_monarchy"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 ai_better   = "Communism"
 
@@ -147,7 +147,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.communism"
 graphic_alt = "-"
 sound       = "g_communism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Comrade %s")
@@ -174,7 +174,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.republic"
 graphic_alt = "-"
 sound       = "g_republic"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Consul %s")
@@ -199,7 +199,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.democracy"
 graphic_alt = "-"
 sound       = "g_democracy"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("President %s")

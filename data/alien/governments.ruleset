@@ -93,7 +93,7 @@ reqs =
 graphic     = "gov.despotism"
 graphic_alt = "-"
 sound       = "g_despotism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Leader %s")
@@ -116,7 +116,7 @@ reqs =
 graphic     = "gov.communism"
 graphic_alt = "-"
 sound       = "g_communism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Comrade %s")
@@ -140,7 +140,7 @@ reqs =
 graphic     = "gov.democracy"
 graphic_alt = "-"
 sound       = "g_democracy"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("President %s")
@@ -165,7 +165,7 @@ graphic     = "gov.dual_communism"
 graphic_alt = "gov.monarchy"
 sound       = "g_dual_communism"
 sound_alt   = "g_monarchy"
-sound_alt2  = "-"
+sound_alt2  = "g_generic"
 
 ruler_male_title = _("Comrade %s")
 ruler_female_title = _("?female:Comrade %s")
@@ -189,7 +189,7 @@ graphic     = "gov.dual_democracy"
 graphic_alt = "gov.republic"
 sound       = "g_dual_democracy"
 sound_alt   = "g_republic"
-sound_alt2  = "-"
+sound_alt2  = "g_generic"
 
 ruler_male_title = _("President %s")
 ruler_female_title = _("?female:President %s")

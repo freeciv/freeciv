@@ -93,7 +93,7 @@ reqs =
 graphic     = "gov.tribal"
 graphic_alt = "-"
 sound       = "g_tribal"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Warlord %s")
@@ -115,7 +115,7 @@ reqs =
 graphic     = "gov.despotism"
 graphic_alt = "-"
 sound       = "g_despotism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Chief %s")
@@ -137,7 +137,7 @@ reqs =
 graphic     = "gov.monarchy"
 graphic_alt = "-"
 sound       = "g_monarchy"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("King %s")
