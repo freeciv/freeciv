@@ -474,13 +474,44 @@ extern struct terrain_misc terrain_control;
     } cardinal_adjc_iterate_end;                                               \
   } cardinal_adjc_iterate_end;
 
+/* Helper for range_adjc_*_iterate */
+#define _RANGE_DIRLIST(_range, _nmap)                         \
+  ((_range) == REQ_RANGE_ADJACENT ? (_nmap)->valid_dirs       \
+   : (_range) == REQ_RANGE_CADJACENT ? (_nmap)->cardinal_dirs \
+   : nullptr)
+
+#define _RANGE_DIRCOUNT(_range, _nmap)                            \
+  ((_range) == REQ_RANGE_ADJACENT ? (_nmap)->num_valid_dirs       \
+   : (_range) == REQ_RANGE_CADJACENT ? (_nmap)->num_cardinal_dirs \
+   : 0)
+
+/* Iterate through either adjacent or cardinally adjacent tiles (or none)
+ * depending on the given requirement range. The range must not change
+ * during iteration. */
+#define range_adjc_iterate(nmap, center_tile, range, itr_tile) \
+  range_adjc_dir_iterate(nmap, center_tile, range, itr_tile, _dir_itr##itr_tile)
+
+#define range_adjc_iterate_end range_adjc_dir_iterate_end
+
+#define range_adjc_dir_iterate(nmap, center_tile, range, itr_tile, dir_itr) \
+  adjc_dirlist_iterate(nmap, center_tile, itr_tile, dir_itr,                \
+                _RANGE_DIRLIST(range, nmap), _RANGE_DIRCOUNT(range, nmap))
+
+#define range_adjc_dir_iterate_end adjc_dirlist_iterate_end
+
+#define range_adjc_dir_base_iterate(nmap, center_tile, range, dir_itr)    \
+  adjc_dirlist_base_iterate(nmap, center_tile, dir_itr,                   \
+              _RANGE_DIRLIST(range, nmap), _RANGE_DIRCOUNT(range, nmap))
+
+#define range_adjc_dir_base_iterate_end adjc_dirlist_base_iterate_end
+
 /* Iterate through all tiles adjacent to a tile using the given list of
  * directions. _dir is the directional value, (center_x, center_y) is
  * the center tile (which must be normalized). The center tile is not
  * included in the iteration.
  *
  * This macro should not be used directly. Instead, use adjc_iterate,
- * cardinal_adjc_iterate, or related iterators. */
+ * cardinal_adjc_iterate, range_adjc_iterate, or related iterators. */
 #define adjc_dirlist_iterate(nmap, center_tile, _tile, _dir,                \
                              dirlist, dircount)                             \
 {                                                                           \
