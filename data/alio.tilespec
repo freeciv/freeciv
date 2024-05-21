@@ -322,14 +322,12 @@ layer1_match_type = "land"
 layer2_match_type = "foliage"
 layer2_match_with = "foliage"
 
-[tile_savannah]
-tag = "savannah"
+[tile_grassland]
+tag = "grassland"
 blend_layer = 1
-num_layers = 3
+num_layers = 2
 layer0_match_type = "lake"
 layer1_match_type = "land"
-layer2_match_type = "foliage"
-layer2_match_with = "foliage"
 
 [tile_mountains]
 tag = "mountains"
