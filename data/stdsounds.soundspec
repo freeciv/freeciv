@@ -9,7 +9,8 @@ artists = "\
  OpenQuartz - Frank Condello (pox@planetquake.com) [pox]\
  Warzone - Eidos Entertainment (GPL release) [warzone]\
  Eskapada - eskapada@o2.pl (Public Domain) [jt]\
- Spring Spring - https://opengameart.org/users/spring-spring [spring]"
+ Spring Spring - https://opengameart.org/users/spring-spring [spring]\
+ Trex0n - https://opengameart.org/users/trex0n [trex0n]"
 
 ; For a list of tags used see README.sound, buildings.ruleset and
 ; units.ruleset.
@@ -165,7 +166,7 @@ m_transport = "stdsounds/inh2o.ogg" ; [pox]
 m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;m_warriors = ""
 
-;w_generic = ""
+w_generic = "stdsounds/fanfarehappy.ogg" ; [trex0n]
 ;w_apollo_program = ""
 ;w_asmiths_trading_co = ""
 ;w_colossus = ""
