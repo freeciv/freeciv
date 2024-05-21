@@ -2872,7 +2872,8 @@ install_data('data/amplio2/activities.png',
 install_data('data/stdmusic/CullamBruce-Lockhart--Dawning_Fanfare.ogg',
              install_dir : join_paths(get_option('datadir'), 'freeciv/stdmusic'))
 
-install_data('data/stdsounds/foot3.ogg',
+install_data('data/stdsounds/fanfarehappy.ogg',
+             'data/stdsounds/foot3.ogg',
              'data/stdsounds/illegal.ogg',
              'data/stdsounds/inh2o.ogg',
              'data/stdsounds/LrgCan.ogg',
