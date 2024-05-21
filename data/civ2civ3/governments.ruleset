@@ -112,7 +112,7 @@ name        = _("Tribal")
 graphic     = "gov.tribal"
 graphic_alt = "s.tax_luxury"
 sound       = "g_tribal"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 ai_better   = "Republic"
 
@@ -154,7 +154,7 @@ name        = _("Despotism")
 graphic     = "gov.despotism"
 graphic_alt = "-"
 sound       = "g_despotism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 ai_better   = "Monarchy"
 
@@ -196,7 +196,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.monarchy"
 graphic_alt = "-"
 sound       = "g_monarchy"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("King %s")
@@ -236,7 +236,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.communism"
 graphic_alt = "-"
 sound       = "g_communism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Comrade %s")
@@ -277,7 +277,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.fundamentalism"
 graphic_alt = "-"
 sound       = "g_fundamentalism"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("High Priest %s")
@@ -326,7 +326,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.federation"
 graphic_alt = "s.tax_gold"
 sound       = "g_federation"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Consul %s")
@@ -365,7 +365,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.republic"
 graphic_alt = "-"
 sound       = "g_republic"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("President %s")
@@ -406,7 +406,7 @@ reqs = { "type", "name", "range"
 graphic     = "gov.democracy"
 graphic_alt = "-"
 sound       = "g_democracy"
-sound_alt   = "-"
+sound_alt   = "g_generic"
 sound_alt2  = "-"
 
 ruler_male_title = _("Prime Minister %s")

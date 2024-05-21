@@ -82,7 +82,7 @@ reqs =
    }
 graphic     = "gov.despotism"
 graphic_alt = "-"
-sound       = "g_despotism"
+sound       = "g_generic"
 sound_alt   = "-"
 sound_alt2  = "-"
 

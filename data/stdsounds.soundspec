@@ -8,7 +8,8 @@ artists = "\
  OpenQuartz - Ali Jackson (alister667@hotmail.com) [ali]\
  OpenQuartz - Frank Condello (pox@planetquake.com) [pox]\
  Warzone - Eidos Entertainment (GPL release) [warzone]\
- Eskapada - eskapada@o2.pl (Public Domain) [jt]"
+ Eskapada - eskapada@o2.pl (Public Domain) [jt]\
+ Spring Spring - https://opengameart.org/users/spring-spring [spring]"
 
 ; For a list of tags used see README.sound, buildings.ruleset and
 ; units.ruleset.
@@ -194,6 +195,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;w_united_nations = ""
 ;w_womens_suffrage = ""
 
+g_generic = "stdsounds/fanfare.ogg" ; [spring]
 ;g_anarchy = ""
 ;g_despotism = ""
 ;g_tribal = ""
