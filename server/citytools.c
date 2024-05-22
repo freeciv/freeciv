@@ -162,6 +162,11 @@ void city_freeze_workers_queue(struct city *pcity)
   if (arrange_workers_queue == nullptr) {
     arrange_workers_queue = city_list_new();
   } else if (city_list_find_number(arrange_workers_queue, pcity->id)) {
+    /* City might have been arranged since it was originally put to the queue.
+     * Make sure needs_arrange is set again. */
+    if (pcity->server.needs_arrange == CNA_NOT) {
+      pcity->server.needs_arrange = CNA_NORMAL;
+    }
     return;
   }
 
