@@ -90,17 +90,19 @@ struct civ_game {
   struct packet_calendar_info calendar;
   struct packet_timeout_info tinfo;
 
-  struct government *default_government; /* may be overridden by nation */
+  struct government *default_government; /* May be overridden by nation */
   struct government *government_during_revolution;
 
-  struct conn_list *all_connections;   /* including not yet established */
-  struct conn_list *est_connections;   /* all established client conns */
-  struct conn_list *glob_observers;    /* global observers */
+  struct conn_list *all_connections;   /* Including not yet established */
+  struct conn_list *est_connections;   /* All established client conns */
+  struct conn_list *glob_observers;    /* Global observers */
   struct conn_list *web_client_connections; /* Connections from web client */
 
-  struct veteran_system *veteran; /* veteran system */
+  struct veteran_system *veteran; /* Veteran system */
 
   struct rgbcolor *plr_bg_color;
+
+  int lua_timeout;
 
   struct {
     /* Items given to all players at game start.
@@ -521,7 +523,7 @@ static inline bool is_ruleset_compat_mode(void)
 
 #define GAME_DEFAULT_MGR_FOODNEEDED   TRUE
 
-/* definition of the migration distance in relation to the current city
+/* Definition of the migration distance in relation to the current city
  * radius; 0 means that migration is possible if the second city is within
  * the city radius */
 #define GAME_DEFAULT_MGR_DISTANCE     0
@@ -741,13 +743,17 @@ static inline bool is_ruleset_compat_mode(void)
 #define GAME_DEFAULT_AIRLIFTINGSTYLE AIRLIFTING_CLASSICAL
 #define GAME_DEFAULT_PERSISTENTREADY PERSISTENTR_DISABLED
 
-#define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
+#define GAME_MAX_READ_RECURSION 10 /* Max recursion for the read command */
 
 #define GAME_DEFAULT_KICK_TIME 1800     /* 1800 seconds = 30 minutes. */
 #define GAME_MIN_KICK_TIME 0            /* 0 = disabling. */
 #define GAME_MAX_KICK_TIME 86400        /* 86400 seconds = 24 hours. */
 
-/* Max distance from the capital used to calculat the bribe cost. */
+#define GAME_DEFAULT_LUA_TIMEOUT 5
+#define GAME_MIN_LUA_TIMEOUT     5
+#define GAME_MAX_LUA_TIMEOUT     30
+
+/* Max distance from the capital used to calculate the bribe cost. */
 #define GAME_UNIT_BRIBE_DIST_MAX 32
 
 /* Max number of recursive transports. */

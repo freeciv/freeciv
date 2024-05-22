@@ -3249,6 +3249,13 @@ static struct setting settings[] = {
              "affect users kicked in the past."), NULL, NULL, NULL,
           GAME_MIN_KICK_TIME, GAME_MAX_KICK_TIME, GAME_DEFAULT_KICK_TIME)
 
+  GEN_INT("luatimeout", game.lua_timeout,
+          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,
+          N_("Lua timeout"),
+          N_("Time in seconds that a single lua script can run before it gets "
+             "forcibly terminated."), NULL, NULL, NULL,
+          GAME_MIN_LUA_TIMEOUT, GAME_MAX_LUA_TIMEOUT, GAME_DEFAULT_LUA_TIMEOUT)
+
   GEN_STRING_NRS("metamessage", game.server.meta_info.user_message,
                  SSET_META, SSET_INTERNAL, SSET_RARE, ALLOW_CTRL, ALLOW_CTRL,
                  N_("Metaserver info line"),
