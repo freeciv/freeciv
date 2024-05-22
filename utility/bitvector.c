@@ -49,7 +49,7 @@
 ***************************************************************************/
 void dbv_init(struct dbv *pdbv, int bits)
 {
-  /* Here used to be asserts checking if pdbv->vec is NULL
+  /* Here used to be asserts checking if pdbv->vec is nullptr
    * and pdbv->bits is 0, but that's just broken. One would
    * assume that _init() function can be called when the thing
    * is currently uninitialized, i.e., can have any values.
@@ -72,7 +72,7 @@ void dbv_resize(struct dbv *pdbv, int bits)
 {
   fc_assert_ret(bits > 0 && bits < MAX_DBV_LENGTH);
 
-  if (pdbv->vec == NULL) {
+  if (pdbv->vec == nullptr) {
     /* Initialise a new dbv. */
     dbv_init(pdbv, bits);
   } else {
@@ -94,9 +94,9 @@ void dbv_resize(struct dbv *pdbv, int bits)
 ***************************************************************************/
 void dbv_free(struct dbv *pdbv)
 {
-  if (pdbv != NULL) {
+  if (pdbv != nullptr) {
     free(pdbv->vec);
-    pdbv->vec = NULL;
+    pdbv->vec = nullptr;
 
     pdbv->bits = 0;
   }
@@ -107,7 +107,7 @@ void dbv_free(struct dbv *pdbv)
 ***************************************************************************/
 int dbv_bits(struct dbv *pdbv)
 {
-  if (pdbv != NULL) {
+  if (pdbv != nullptr) {
     return pdbv->bits;
   }
 
@@ -119,8 +119,8 @@ int dbv_bits(struct dbv *pdbv)
 ***************************************************************************/
 bool dbv_isset(const struct dbv *pdbv, int bit)
 {
-  fc_assert_ret_val(pdbv != NULL, FALSE);
-  fc_assert_ret_val(pdbv->vec != NULL, FALSE);
+  fc_assert_ret_val(pdbv != nullptr, FALSE);
+  fc_assert_ret_val(pdbv->vec != nullptr, FALSE);
   fc_assert_ret_val(bit < pdbv->bits, FALSE);
 
   return ((pdbv->vec[_BV_BYTE_INDEX(bit)] & _BV_BITMASK(bit)) != 0);
@@ -131,8 +131,8 @@ bool dbv_isset(const struct dbv *pdbv, int bit)
 ***************************************************************************/
 bool dbv_isset_any(const struct dbv *pdbv)
 {
-  fc_assert_ret_val(pdbv != NULL, FALSE);
-  fc_assert_ret_val(pdbv->vec != NULL, FALSE);
+  fc_assert_ret_val(pdbv != nullptr, FALSE);
+  fc_assert_ret_val(pdbv->vec != nullptr, FALSE);
 
   return bv_check_mask(pdbv->vec, pdbv->vec, _BV_BYTES(pdbv->bits),
                        _BV_BYTES(pdbv->bits));
@@ -143,8 +143,8 @@ bool dbv_isset_any(const struct dbv *pdbv)
 ***************************************************************************/
 void dbv_set(struct dbv *pdbv, int bit)
 {
-  fc_assert_ret(pdbv != NULL);
-  fc_assert_ret(pdbv->vec != NULL);
+  fc_assert_ret(pdbv != nullptr);
+  fc_assert_ret(pdbv->vec != nullptr);
   fc_assert_ret(bit < pdbv->bits);
 
   pdbv->vec[_BV_BYTE_INDEX(bit)] |= _BV_BITMASK(bit);
@@ -155,8 +155,8 @@ void dbv_set(struct dbv *pdbv, int bit)
 ***************************************************************************/
 void dbv_set_all(struct dbv *pdbv)
 {
-  fc_assert_ret(pdbv != NULL);
-  fc_assert_ret(pdbv->vec != NULL);
+  fc_assert_ret(pdbv != nullptr);
+  fc_assert_ret(pdbv->vec != nullptr);
 
   memset(pdbv->vec, 0xff, _BV_BYTES(pdbv->bits));
 }
@@ -166,8 +166,8 @@ void dbv_set_all(struct dbv *pdbv)
 ***************************************************************************/
 void dbv_clr(struct dbv *pdbv, int bit)
 {
-  fc_assert_ret(pdbv != NULL);
-  fc_assert_ret(pdbv->vec != NULL);
+  fc_assert_ret(pdbv != nullptr);
+  fc_assert_ret(pdbv->vec != nullptr);
   fc_assert_ret(bit < pdbv->bits);
 
   pdbv->vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit);
@@ -178,8 +178,8 @@ void dbv_clr(struct dbv *pdbv, int bit)
 ***************************************************************************/
 void dbv_clr_all(struct dbv *pdbv)
 {
-  fc_assert_ret(pdbv != NULL);
-  fc_assert_ret(pdbv->vec != NULL);
+  fc_assert_ret(pdbv != nullptr);
+  fc_assert_ret(pdbv->vec != nullptr);
 
   memset(pdbv->vec, 0, _BV_BYTES(pdbv->bits));
 }
@@ -189,10 +189,10 @@ void dbv_clr_all(struct dbv *pdbv)
 ***************************************************************************/
 bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2)
 {
-  fc_assert_ret_val(pdbv1 != NULL, FALSE);
-  fc_assert_ret_val(pdbv1->vec != NULL, FALSE);
-  fc_assert_ret_val(pdbv2 != NULL, FALSE);
-  fc_assert_ret_val(pdbv2->vec != NULL, FALSE);
+  fc_assert_ret_val(pdbv1 != nullptr, FALSE);
+  fc_assert_ret_val(pdbv1->vec != nullptr, FALSE);
+  fc_assert_ret_val(pdbv2 != nullptr, FALSE);
+  fc_assert_ret_val(pdbv2->vec != nullptr, FALSE);
 
   return bv_are_equal(pdbv1->vec, pdbv2->vec, _BV_BYTES(pdbv1->bits),
                       _BV_BYTES(pdbv2->bits));
@@ -254,8 +254,8 @@ void dbv_debug(struct dbv *pdbv)
   char test_str[51];
   int i, j, bit;
 
-  fc_assert_ret(pdbv != NULL);
-  fc_assert_ret(pdbv->vec != NULL);
+  fc_assert_ret(pdbv != nullptr);
+  fc_assert_ret(pdbv->vec != nullptr);
 
   for (i = 0; i < (pdbv->bits - 1) / 50 + 1; i++) {
     for (j = 0; j < 50; j++) {
