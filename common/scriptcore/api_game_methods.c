@@ -1212,7 +1212,7 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
     return FALSE;
   } else {
     struct extra_type *pextra;
- 
+
     pextra = extra_type_by_rule_name(name);
 
     return (NULL != pextra && is_extra_caused_by(pextra, EC_ROAD)

@@ -389,7 +389,7 @@ const_mt = {
       log.error("Illegal assignment to constant '%s'.", tostring(b))
     end
   end,
- 
+
   __index = function(a,b)
     return data[b]
   end
