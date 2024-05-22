@@ -992,8 +992,8 @@ static bool autosaves_callback(unsigned value, struct connection *caller,
 }
 
 /************************************************************************//**
-  Verify that a given allowtake string is valid.  See
-  game.allow_take.
+  Verify that a given allowtake string is valid.
+  See game.allow_take.
 ****************************************************************************/
 static bool allowtake_callback(const char *value,
                                struct connection *caller,
@@ -1003,12 +1003,12 @@ static bool allowtake_callback(const char *value,
   int len = strlen(value), i;
   bool havecharacter_state = FALSE;
 
-  /* We check each character individually to see if it's valid.  This
+  /* We check each character individually to see if it's valid. This
    * does not check for duplicate entries.
    *
-   * We also track the state of the machine.  havecharacter_state is
-   * true if the preceeding character was a primary label, e.g.
-   * NHhAadb.  It is false if the preceeding character was a modifier
+   * We also track the state of the machine. havecharacter_state is
+   * true if the preceding character was a primary label, e.g.
+   * NHhAadb. It is false if the preceding character was a modifier
    * or if this is the first character. */
 
   for (i = 0; i < len; i++) {

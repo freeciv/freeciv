@@ -6379,7 +6379,7 @@ void property_editor_reload(struct property_editor *pe,
   should be freed by property_filter_free when no longed needed.
 
   The filter string is '|' ("or") separated list of '&' ("and") separated
-  lists of patterns. A pattern may be preceeded by '!' to have its result
+  lists of patterns. A pattern may be preceded by '!' to have its result
   negated.
 
   NB: If you change the behaviour of this function, be sure to update
