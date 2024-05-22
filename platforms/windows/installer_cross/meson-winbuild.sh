@@ -7,7 +7,7 @@
 # See COPYING available from the same location you got this script.
 #
 
-MESON_WINBUILD_VERSION="3.2.0-alpha"
+MESON_WINBUILD_VERSION="3.3.0-dev"
 MIN_WINVER=0x0603 # Windows 8.1. Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.8
 
@@ -44,7 +44,9 @@ if ! test -f "${DLLSPATH}/crosser.txt" ; then
   exit 1
 fi
 
-SRC_ROOT="$(cd ../../.. || exit 1 ; pwd)"
+SRC_DIR="$(cd "$(dirname "$0")" || exit 1 ; pwd)"
+SRC_ROOT="$(cd "${SRC_DIR}/../../.." || exit 1 ; pwd)"
+BUILD_ROOT="$(pwd)"
 
 VERREV="$("${SRC_ROOT}/fc_version")"
 if test "${INST_CROSS_MODE}" != "release" ; then
@@ -69,7 +71,7 @@ fi
 
 SETUP=$(grep "CrosserSetup=" "${DLLSPATH}/crosser.txt" | sed -e 's/CrosserSetup="//' -e 's/"//')
 
-if ! test -f "setups/cross-${SETUP}.tmpl" ; then
+if ! test -f "${SRC_DIR}/setups/cross-${SETUP}.tmpl" ; then
   echo "Unsupported crosser setup \"${SETUP}\"!" >&2
   exit 1
 fi
@@ -106,7 +108,7 @@ else
   MWAND="true"
 fi
 
-BUILD_DIR="meson/build/${SETUP}-${GUI}"
+BUILD_DIR="${BUILD_ROOT}/meson/build/${SETUP}-${GUI}"
 
 if ! rm -Rf "${BUILD_DIR}" ; then
   echo "Failed to clear out old build directory!" >&2
@@ -118,7 +120,7 @@ if ! mkdir -p "${BUILD_DIR}" ; then
   exit 1
 fi
 
-if ! sed "s,<PREFIX>,${DLLSPATH},g" "setups/cross-${SETUP}.tmpl" \
+if ! sed "s,<PREFIX>,${DLLSPATH},g" "${SRC_DIR}/setups/cross-${SETUP}.tmpl" \
      > "${BUILD_DIR}/cross.txt"
 then
   echo "Failed to create cross-file for ${SETUP} build!" >&2
@@ -126,7 +128,7 @@ then
 fi
 
 PACKAGENAME="freeciv-${VERREV}-${SETUP}-${GUI}"
-MESON_INSTALL_DIR="$(pwd)/meson/install/${PACKAGENAME}"
+MESON_INSTALL_DIR="${BUILD_ROOT}/meson/install/${PACKAGENAME}"
 
 if ! rm -Rf "${MESON_INSTALL_DIR}" ; then
   echo "Failed to clear out old install directory!" >&2
@@ -195,12 +197,12 @@ fi
   exit 1
 fi
 
-if ! mkdir -p meson/output ; then
+if ! mkdir -p "${BUILD_ROOT}/meson/output" ; then
   echo "Creating meson/output directory failed" >&2
   exit 1
 fi
 
-( cd meson/install
+( cd "${BUILD_ROOT}/meson/install"
 
   if ! 7z a -r "../output/${PACKAGENAME}.7z" "${PACKAGENAME}"
   then
