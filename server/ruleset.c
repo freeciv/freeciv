@@ -4837,7 +4837,7 @@ static bool is_on_allowed_list(const char *name, const char **list, size_t len)
 }
 
 /**********************************************************************//**
-  This function loads a city name list from a section file.  The file and
+  This function loads a city name list from a section file. The file and
   two section names (which will be concatenated) are passed in.
 **************************************************************************/
 static bool load_city_name_list(struct section_file *file,
@@ -4854,7 +4854,7 @@ static bool load_city_name_list(struct section_file *file,
 
   /* Each string will be of the form "<cityname> (<label>, <label>, ...)".
    * The cityname is just the name for this city, while each "label" matches
-   * a terrain type for the city (or "river"), with a preceeding ! to negate
+   * a terrain type for the city (or "river"), with a preceding ! to negate
    * it. The parentheses are optional (but necessary to have the settings,
    * of course). Our job is now to parse it. */
   for (j = 0; j < dim; j++) {

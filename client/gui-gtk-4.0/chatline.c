@@ -137,7 +137,7 @@ static bool is_plain_public_message(const char *s)
   }
 
   /* Now we just need to check that it is not a private
-   * message. If we encounter a space then the preceeding
+   * message. If we encounter a space then the preceding
    * text could not have been a user/player name (the
    * quote check above eliminated names with spaces) so
    * it must be a public message. Otherwise if we encounter
