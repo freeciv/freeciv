@@ -1673,7 +1673,7 @@ void request_action_confirmation(const char *expl,
 /**********************************************************************//**
   Popup image window
 **************************************************************************/
-void popup_image(const char *tag, int width, int height)
+void popup_image(const char *tag, int width_discard, int height_discard)
 {
   struct sprite *spr = load_popup_sprite(tag);
 
@@ -1681,7 +1681,9 @@ void popup_image(const char *tag, int width, int height)
     GdkPixbuf *pix = sprite_get_pixbuf(spr);
     GtkWidget *win = gtk_window_new();
     GtkWidget *img = gtk_image_new_from_pixbuf(pix);
+    int width, height;
 
+    get_sprite_dimensions(spr, &width, &height);
     gtk_window_set_default_size(GTK_WINDOW(win), width, height);
     gtk_window_set_child(GTK_WINDOW(win), img);
     gtk_widget_show(win);
