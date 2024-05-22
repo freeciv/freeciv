@@ -94,9 +94,10 @@ then
   exit 1
 fi
 
-if ! client_appimage gtk4 gtk4 ""        ||
-   ! client_appimage sdl2 sdl2 "_(SDL2)" ||
-   ! client_appimage qt6  qt   "_(Qt)"
+if ! client_appimage gtk4    gtk4    ""        ||
+   ! client_appimage sdl2    sdl2    "_(SDL2)" ||
+   ! client_appimage qt6     qt      "_(Qt)"   ||
+   ! client_appimage gtk3.22 gtk3.22 ""
 then
   exit 1
 fi
