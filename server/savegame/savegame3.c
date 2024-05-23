@@ -5513,8 +5513,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
           order->action = loading->action.order[unconverted];
         } else {
           if (order->order == ORDER_PERFORM_ACTION) {
-            log_sg("Invalid action id in order for city rally point %d",
-                   pcity->id);
+            sg_regr(3020000, "Invalid action id in order for city rally point %d",
+                    pcity->id);
           }
 
           order->action = ACTION_NONE;
@@ -6205,8 +6205,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
                   "%s", secfile_error());
   if (ei == -1) {
     action = ACTION_NONE;
-  } else {
+  } else if (ei >= 0 && ei < loading->action.size) {
     action = loading->action.order[ei];
+  } else {
+    log_sg("Invalid action id for unit %d", punit->id);
+    action = ACTION_NONE;
   }
 
   punit->birth_turn
@@ -6467,7 +6470,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           order->action = loading->action.order[unconverted];
         } else {
           if (order->order == ORDER_PERFORM_ACTION) {
-            log_sg("Invalid action id in order for unit %d", punit->id);
+            sg_regr(3020000, "Invalid action id in order for unit %d", punit->id);
           }
 
           order->action = ACTION_NONE;
