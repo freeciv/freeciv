@@ -121,6 +121,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
                                   bool check);
 static bool show_help(struct connection *caller, char *arg);
 static bool show_list(struct connection *caller, char *arg);
+static void show_ais(struct connection *caller);
 static void show_colors(struct connection *caller);
 static bool set_ai_level_named(struct connection *caller, const char *name,
                                const char *level_name, bool check);
@@ -7021,6 +7022,21 @@ static void show_mapimg(struct connection *caller, enum command_id cmd)
 }
 
 /**********************************************************************//**
+  Show a list of AI types supported
+**************************************************************************/
+static void show_ais(struct connection *caller)
+{
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of AI types:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
+  ai_type_iterate(ai) {
+    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", ai->name);
+  } ai_type_iterate_end;
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/**********************************************************************//**
   Show a list of all players with the assigned color.
 **************************************************************************/
 static void show_colors(struct connection *caller)
@@ -7043,28 +7059,30 @@ static void show_colors(struct connection *caller)
   '/list' arguments
 **************************************************************************/
 #define SPECENUM_NAME list_args
-#define SPECENUM_VALUE0      LIST_COLORS
-#define SPECENUM_VALUE0NAME  "colors"
-#define SPECENUM_VALUE1      LIST_CONNECTIONS
-#define SPECENUM_VALUE1NAME  "connections"
-#define SPECENUM_VALUE2      LIST_DELEGATIONS
-#define SPECENUM_VALUE2NAME  "delegations"
-#define SPECENUM_VALUE3      LIST_IGNORE
-#define SPECENUM_VALUE3NAME  "ignored users"
-#define SPECENUM_VALUE4      LIST_MAPIMG
-#define SPECENUM_VALUE4NAME  "map image definitions"
-#define SPECENUM_VALUE5      LIST_PLAYERS
-#define SPECENUM_VALUE5NAME  "players"
-#define SPECENUM_VALUE6      LIST_RULESETS
-#define SPECENUM_VALUE6NAME  "rulesets"
-#define SPECENUM_VALUE7      LIST_SCENARIOS
-#define SPECENUM_VALUE7NAME  "scenarios"
-#define SPECENUM_VALUE8      LIST_NATIONSETS
-#define SPECENUM_VALUE8NAME  "nationsets"
-#define SPECENUM_VALUE9      LIST_TEAMS
-#define SPECENUM_VALUE9NAME  "teams"
-#define SPECENUM_VALUE10     LIST_VOTES
-#define SPECENUM_VALUE10NAME "votes"
+#define SPECENUM_VALUE0      LIST_AIS
+#define SPECENUM_VALUE0NAME  "ais"
+#define SPECENUM_VALUE1      LIST_COLORS
+#define SPECENUM_VALUE1NAME  "colors"
+#define SPECENUM_VALUE2      LIST_CONNECTIONS
+#define SPECENUM_VALUE2NAME  "connections"
+#define SPECENUM_VALUE3      LIST_DELEGATIONS
+#define SPECENUM_VALUE3NAME  "delegations"
+#define SPECENUM_VALUE4      LIST_IGNORE
+#define SPECENUM_VALUE4NAME  "ignored users"
+#define SPECENUM_VALUE5      LIST_MAPIMG
+#define SPECENUM_VALUE5NAME  "map image definitions"
+#define SPECENUM_VALUE6      LIST_PLAYERS
+#define SPECENUM_VALUE6NAME  "players"
+#define SPECENUM_VALUE7      LIST_RULESETS
+#define SPECENUM_VALUE7NAME  "rulesets"
+#define SPECENUM_VALUE8      LIST_SCENARIOS
+#define SPECENUM_VALUE8NAME  "scenarios"
+#define SPECENUM_VALUE9      LIST_NATIONSETS
+#define SPECENUM_VALUE9NAME  "nationsets"
+#define SPECENUM_VALUE10     LIST_TEAMS
+#define SPECENUM_VALUE10NAME "teams"
+#define SPECENUM_VALUE11     LIST_VOTES
+#define SPECENUM_VALUE11NAME "votes"
 #include "specenum_gen.h"
 
 /**********************************************************************//**
@@ -7102,6 +7120,9 @@ static bool show_list(struct connection *caller, char *arg)
   }
 
   switch (ind) {
+  case LIST_AIS:
+    show_ais(caller);
+    return TRUE;
   case LIST_COLORS:
     show_colors(caller);
     return TRUE;
