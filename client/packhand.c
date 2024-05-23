@@ -2501,7 +2501,8 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->economic.science = pinfo->science;
   pplayer->economic.luxury = pinfo->luxury;
   pplayer->client.tech_upkeep = pinfo->tech_upkeep;
-  gov_change = (!new_player && pgov != pplayer->government);
+  gov_change = (!new_player && pgov != pplayer->government
+                && pplayer->government != NULL);
   pplayer->government = pgov;
   pplayer->target_government = ptarget_gov;
   pplayer->real_embassy = pinfo->real_embassy;

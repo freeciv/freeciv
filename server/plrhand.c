@@ -1409,7 +1409,7 @@ static void package_player_info(struct player *plr,
     pgov = government_of_player(plr);
   } else {
     packet->gold = 0;
-    pgov = game.government_during_revolution;
+    pgov = NULL;
   }
   packet->government = pgov ? government_number(pgov) : government_count();
    
@@ -2846,7 +2846,7 @@ static struct player *split_player(struct player *pplayer)
   BV_CLR_ALL(cplayer->real_embassy);   /* all embassies destroyed */
   research_update(new_research);
 
-  /* Do the ai */
+  /* Do the AI */
   set_as_ai(cplayer);
   cplayer->ai_common.maxbuycost = pplayer->ai_common.maxbuycost;
   cplayer->ai_common.warmth = pplayer->ai_common.warmth;
