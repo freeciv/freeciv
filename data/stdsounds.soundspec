@@ -352,6 +352,7 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_unit_escaped = ""
 
 ; Those pseudo-events are only used in the sound system.
+e_enter_game = "stdsounds/fanfare.ogg" ; [spring]
 ;e_client_quit = ""
 ;e_leave_game = ""
 e_player_wake = "stdsounds/wakeup.ogg" ; [jt]
