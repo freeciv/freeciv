@@ -311,7 +311,7 @@ FILE *manual_start(struct tag_types *tag_info, int manual_number)
 
   @param tag_info     Tag set to use
   @param doc          Manual handle
-  @param manual_name  Name of the manual
+  @param manual       Type of the manual
 **************************************************************************/
 void manual_finalize(struct tag_types *tag_info, FILE *doc,
                      enum manuals manual)
