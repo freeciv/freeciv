@@ -938,7 +938,7 @@ void set_client_state(enum client_states newstate)
   case C_S_RUNNING:
     if (oldstate == C_S_PREPARING) {
       popdown_races_dialog();
-      stop_menu_music();     /* stop intro sound loop. */
+      stop_menu_music();     /* Stop intro sound loop. */
     }
 
     init_city_report_game_data();
@@ -948,7 +948,7 @@ void set_client_state(enum client_states newstate)
       research_update(research_get(pplayer));
     }
     role_unit_precalcs();
-    boot_help_texts();   /* reboot with player */
+    boot_help_texts();   /* Reboot with player */
     global_worklists_build();
     can_slide = FALSE;
     unit_focus_update();
@@ -962,7 +962,7 @@ void set_client_state(enum client_states newstate)
 
     refresh_overview_canvas();
 
-    update_info_label();        /* get initial population right */
+    update_info_label();        /* Get initial population right */
     unit_focus_update();
     update_unit_info_label(get_units_in_focus());
 
@@ -970,6 +970,7 @@ void set_client_state(enum client_states newstate)
       center_on_something();
     }
     start_style_music();
+    audio_play_sound("e_enter_game", NULL, NULL);
     break;
 
   case C_S_OVER:
