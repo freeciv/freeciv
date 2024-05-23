@@ -40,23 +40,31 @@ void dbv_free(struct dbv *pdbv);
 
 int dbv_bits(struct dbv *pdbv);
 
-bool dbv_isset(const struct dbv *pdbv, int bit);
-bool dbv_isset_any(const struct dbv *pdbv);
+bool dbv_isset(const struct dbv *pdbv, int bit)
+  fc__attribute((nonnull (1)));
+bool dbv_isset_any(const struct dbv *pdbv)
+  fc__attribute((nonnull (1)));
 
-void dbv_set(struct dbv *pdbv, int bit);
-void dbv_set_all(struct dbv *pdbv);
+void dbv_set(struct dbv *pdbv, int bit)
+  fc__attribute((nonnull (1)));
+void dbv_set_all(struct dbv *pdbv)
+  fc__attribute((nonnull (1)));
 
-void dbv_clr(struct dbv *pdbv, int bit);
-void dbv_clr_all(struct dbv *pdbv);
+void dbv_clr(struct dbv *pdbv, int bit)
+  fc__attribute((nonnull (1)));
+void dbv_clr_all(struct dbv *pdbv)
+  fc__attribute((nonnull (1)));
 
-bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2);
+bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2)
+  fc__attribute((nonnull (1, 2)));
 bool bv_match_dbv(const struct dbv *match, const unsigned char *src);
 void dbv_copy(struct dbv *dest, const struct dbv *src);
 
 void dbv_to_bv(unsigned char *dest, const struct dbv *src);
 void bv_to_dbv(struct dbv *dest, const unsigned char *src);
 
-void dbv_debug(struct dbv *pdbv);
+void dbv_debug(struct dbv *pdbv)
+  fc__attribute((nonnull (1)));
 
 /* Maximal size of a dynamic bitvector.
    Use a large value to be on the safe side (4Mbits = 512kbytes). */
