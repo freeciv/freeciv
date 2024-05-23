@@ -85,8 +85,9 @@ static struct command commands[] = {
   },
 
   {"list",	ALLOW_INFO,
-   /* no translatable parameters */
+   /* No translatable parameters */
    SYN_ORIG_("list\n"
+             "list ais\n"
              "list colors\n"
              "list connections\n"
              "list delegations\n"
@@ -99,8 +100,9 @@ static struct command commands[] = {
              "list teams\n"
              "list votes\n"),
    N_("Show a list of various things."),
-   /* TRANS: don't translate text in '' */
+   /* TRANS: Don't translate text in '' */
    N_("Show a list of:\n"
+      " - AI types,\n"
       " - the player colors,\n"
       " - connections to the server,\n"
       " - all player delegations,\n"
