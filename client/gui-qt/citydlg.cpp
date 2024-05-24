@@ -41,6 +41,7 @@
 // common
 #include "citizens.h"
 #include "city.h"
+#include "counters.h"
 #include "game.h"
 
 //agents
@@ -1527,10 +1528,10 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   int list_size;
   int h = 2 * fm.height() + 2;
 
+  current_tab = common;
   small_font = fc_font::instance()->get_font(fonts::notify_label);
   zoom = 1.0;
 
-  happiness_shown = false;
   central_splitter = new QSplitter;
   central_splitter->setOpaqueResize(false);
   central_left_splitter = new QSplitter;
@@ -1725,7 +1726,6 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   happiness_button->setIcon(fc_icons::instance()->get_icon("city-switch"));
   happiness_button->setIconSize(QSize(56, 28));
   connect(happiness_button, &QAbstractButton::clicked, this, &city_dialog::show_happiness);
-  update_happiness_button();
 
   button->setFixedSize(64, 64);
   prev_city_but->setFixedSize(64, 64);
@@ -1736,6 +1736,12 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   vbox_layout->addWidget(next_city_but);
   vbox_layout->addWidget(button);
   vbox_layout->addWidget(happiness_button, Qt::AlignHCenter);
+
+  counterss_button = new QPushButton();
+  connect(counterss_button, &QAbstractButton::clicked, this, &city_dialog::show_counters);
+  vbox_layout->addWidget(counterss_button, Qt::AlignHCenter);
+
+  update_tabs();
   hbox_layout = new QHBoxLayout;
 
   hbox_layout->addLayout(vbox_layout, Qt::AlignLeft);
@@ -1891,6 +1897,10 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   hbox = new QHBoxLayout;
   gridl = new QGridLayout;
   slider_grid = new QGridLayout;
+
+  counterss_layout = new QVBoxLayout();
+  counterss_frame = new QFrame();
+  counterss_frame->setLayout(counterss_layout);
 
   qpush2
     = new QPushButton(style()->standardIcon(QStyle::SP_DialogSaveButton),
@@ -2101,12 +2111,21 @@ void city_dialog::change_production(bool next)
 /************************************************************************//**
   Sets tooltip for happiness/pruction button switcher
 ****************************************************************************/
-void city_dialog::update_happiness_button()
+void city_dialog::update_tabs()
 {
-  if (happiness_shown) {
+  if (current_tab == happiness) {
     happiness_button->setToolTip(_("Show city production"));
+    counterss_button->setToolTip(_("Show counters information"));
+
   } else {
     happiness_button->setToolTip(_("Show happiness information"));
+
+    if (current_tab == counters) {
+      counterss_button->setToolTip(_("Show city production"));
+    }
+    else {
+      counterss_button->setToolTip(_("Show counters information"));
+    }
   }
 }
 
@@ -2115,28 +2134,69 @@ void city_dialog::update_happiness_button()
 ****************************************************************************/
 void city_dialog::show_happiness()
 {
+  QWidget *active_tab = current_tab == counters ? (QWidget*) counterss_frame : prod_unit_splitter;
   setUpdatesEnabled(false);
 
-  if (!happiness_shown) {
-    leftbot_layout->replaceWidget(prod_unit_splitter,
+
+  if (current_tab != happiness) {
+    leftbot_layout->replaceWidget(active_tab,
                                   happiness_widget,
                                   Qt::FindDirectChildrenOnly);
-    prod_unit_splitter->hide();
+    active_tab->hide();
     happiness_widget->show();
     happiness_widget->updateGeometry();
+    current_tab = happiness;
   } else {
+    /* We do not change prod_unit_splitter to current_tab,
+     * because happiness is active tab and clicked -
+     * switching to default */
     leftbot_layout->replaceWidget(happiness_widget,
                                   prod_unit_splitter,
                                   Qt::FindDirectChildrenOnly);
     prod_unit_splitter->show();
     prod_unit_splitter->updateGeometry();
     happiness_widget->hide();
+    current_tab = common;
   }
 
   setUpdatesEnabled(true);
   update();
-  happiness_shown = !happiness_shown;
-  update_happiness_button();
+  update_tabs();
+}
+
+/************************************************************************//**
+  Shows counters tab
+****************************************************************************/
+void city_dialog::show_counters()
+{
+  QWidget *active_tab = current_tab == happiness ? happiness_widget : prod_unit_splitter;
+  setUpdatesEnabled(false);
+
+
+  if (current_tab != counters) {
+    leftbot_layout->replaceWidget(active_tab,
+                                  counterss_frame,
+                                  Qt::FindDirectChildrenOnly);
+    active_tab->hide();
+    counterss_frame->show();
+    counterss_frame->updateGeometry();
+    current_tab = counters;
+  } else {
+    /* We do not change prod_unit_splitter to current_tab,
+     * because counters is active tab and clicked -
+     * switching to default */
+    leftbot_layout->replaceWidget(counterss_frame,
+                                  prod_unit_splitter,
+                                  Qt::FindDirectChildrenOnly);
+    prod_unit_splitter->show();
+    prod_unit_splitter->updateGeometry();
+    counterss_frame->hide();
+    current_tab = common;
+  }
+
+  setUpdatesEnabled(true);
+  update();
+  update_tabs();
 }
 
 /************************************************************************//**
@@ -2223,10 +2283,16 @@ city_dialog::~city_dialog()
   ::city_dlg_created = false;
 
   // Delete the one widget that currently does NOT have a parent
-  if (happiness_shown) {
-    delete prod_unit_splitter;
-  } else {
+  if (current_tab == common) {
     delete happiness_widget;
+    delete counterss_frame;
+  }
+  else if (current_tab == counters) {
+    delete happiness_widget;
+    delete prod_unit_splitter;
+  }else {
+    delete counterss_frame;
+    delete prod_unit_splitter;
   }
 }
 
@@ -2930,6 +2996,7 @@ void city_dialog::refresh()
     update_buy_button();
     update_citizens();
     update_building();
+    update_counters_table();
     update_improvements();
     update_units();
     update_nation_table();
@@ -2945,6 +3012,46 @@ void city_dialog::refresh()
   update();
 }
 
+/************************************************************************//**
+  Updates counters table
+****************************************************************************/
+void city_dialog::update_counters_table()
+{
+  QFont *small_font;
+
+  small_font = fc_font::instance()->get_font(fonts::notify_label);
+
+  qDeleteAll(counterss_frame->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
+  city_counters_iterate(pcount) {
+    QString helptext;
+    QString concatStr;
+    QLabel *name,*value,*activated,*help;
+    name = new QLabel(name_translation_get(&pcount->name));
+    concatStr=QString::asprintf("%s%d", _("Current value is: "),
+      dlgcity->counter_values[counter_index(pcount)]);
+    value = new QLabel(concatStr);
+    concatStr=QString::asprintf("%s%d",_("Activated once value equal "
+                                         "or higher than: "),
+                                pcount->checkpoint);
+    activated =  new QLabel(concatStr);
+    if (NULL!=pcount->helptext) {
+      strvec_iterate(pcount->helptext, text_) {
+        helptext+=text_;
+      } strvec_iterate_end;
+    }
+    help = new QLabel(helptext);
+
+    name->setFont(*small_font);
+    value->setFont(*small_font);
+    activated->setFont(*small_font);
+    help->setFont(*small_font);
+
+    counterss_layout->addWidget(name);
+    counterss_layout->addWidget(value);
+    counterss_layout->addWidget(activated);
+    counterss_layout->addWidget(help);
+  } city_counters_iterate_end;
+}
 
 /************************************************************************//**
   Updates nationality table in happiness tab

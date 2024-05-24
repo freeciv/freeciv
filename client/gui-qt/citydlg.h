@@ -22,6 +22,7 @@
 #include <QItemDelegate>
 #include <QLabel>
 #include <QProgressBar>
+#include <QScrollArea>
 #include <QTableView>
 #include <QtMath>
 #include <QVariant>
@@ -437,9 +438,13 @@ class city_dialog: public qfc_dialog
 {
   Q_OBJECT
 
-  bool happiness_shown;
+  enum city_dialog_tab { common,
+    happiness, counters }
+  current_tab;
+
   QHBoxLayout *single_page_layout;
   QHBoxLayout *happiness_layout;
+  QVBoxLayout *counterss_layout;
   QSplitter *prod_unit_splitter;
   QSplitter *central_left_splitter;
   QSplitter *central_splitter;
@@ -454,6 +459,7 @@ class city_dialog: public qfc_dialog
   QGroupBox *info_labels_group;
   QGroupBox *happiness_group;
   QWidget *happiness_widget;
+  QFrame *counterss_frame;
   QWidget *info_widget;
   QLabel *qlt[NUM_INFO_FIELDS];
   QLabel *cma_info_text;
@@ -483,6 +489,7 @@ class city_dialog: public qfc_dialog
   QPushButton *work_add_but;
   QPushButton *work_rem_but;
   QPushButton *happiness_button;
+  QPushButton *counterss_button;
   QPushButton *zoom_in_button;
   QPushButton *zoom_out_button;
   QPixmap *citizen_pixmap;
@@ -505,6 +512,7 @@ public:
 private:
   int current_building;
   void update_title();
+  void update_counters_table();
   void update_building();
   void update_info_label();
   void update_buy_button();
@@ -516,7 +524,7 @@ private:
   void update_disabled();
   void update_sliders();
   void update_prod_buttons();
-  void update_happiness_button();
+  void update_tabs();
   void change_production(bool next);
 
 private slots:
@@ -526,6 +534,7 @@ private slots:
   void show_targets();
   void show_targets_worklist();
   void show_happiness();
+  void show_counters();
   void buy();
   void dbl_click_p(QTableWidgetItem *item);
   void item_selected(const QItemSelection &sl, const QItemSelection &ds);
