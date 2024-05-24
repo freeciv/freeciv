@@ -1513,11 +1513,11 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
   - inside a city
   - near friendly city and in extra that provides "no aggressive"
 **************************************************************************/
-bool unit_being_aggressive(const struct unit *punit)
+bool unit_being_aggressive(const struct civ_map *nmap,
+                           const struct unit *punit)
 {
   const struct tile *ptile = unit_tile(punit);
   int max_friendliness_range;
-  const struct civ_map *nmap = &(wld.map);
 
   if (!is_attack_unit(punit)) {
     return FALSE;

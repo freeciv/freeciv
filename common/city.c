@@ -3057,8 +3057,9 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
   const struct unit_type *ut;
   struct player *plr;
   int happy_cost;
+  const struct civ_map *nmap = &(wld.map);
 
-  if (!punit || !free_unhappy) {
+  if (punit == NULL || free_unhappy == NULL) {
     return 0;
   }
 
@@ -3077,7 +3078,7 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 
   fc_assert_ret_val(0 <= *free_unhappy, 0);
 
-  if (!unit_being_aggressive(punit) && !is_field_unit(punit)) {
+  if (!unit_being_aggressive(nmap, punit) && !is_field_unit(punit)) {
     return 0;
   }
 
