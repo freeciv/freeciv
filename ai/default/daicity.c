@@ -1076,10 +1076,10 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
   unit_list_iterate_safe(pcity->units_supported, punit) {
     if (city_unhappy(pcity)
         && (utype_happy_cost(unit_type_get(punit), pplayer) > 0
-            && (unit_being_aggressive(punit) || is_field_unit(punit)))
+            && (unit_being_aggressive(nmap, punit) || is_field_unit(punit)))
         && def_ai_unit_data(punit, ait)->passenger == 0) {
       UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");
-      /* TODO: if Help Wonder stops blocking Disband Unit there may be
+      /* TODO: If Help Wonder stops blocking Disband Unit there may be
        * cases where Disband Unit should be selected. Example: Field unit
        * in allied city that is building a wonder that makes the ally win
        * without sharing the victory. */

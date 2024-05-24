@@ -486,7 +486,8 @@ static inline bool is_my_zoc(const struct player *unit_owner, const struct tile 
     ? is_plr_zoc_srv(unit_owner, ptile, zmap) : is_plr_zoc_client(unit_owner, ptile, zmap);
 }
 
-bool unit_being_aggressive(const struct unit *punit);
+bool unit_being_aggressive(const struct civ_map *nmap,
+                           const struct unit *punit);
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 
 bool is_build_activity(enum unit_activity activity);
