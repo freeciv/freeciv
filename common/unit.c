@@ -1519,10 +1519,9 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
   - inside a city
   - ground unit inside a fortress within 3 squares of a friendly city
 **************************************************************************/
-bool unit_being_aggressive(const struct unit *punit)
+bool unit_being_aggressive(const struct civ_map *nmap,
+                           const struct unit *punit)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (!is_attack_unit(punit)) {
     return FALSE;
   }
