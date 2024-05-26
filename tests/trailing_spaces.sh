@@ -10,6 +10,7 @@ files=$(find $1 -name "*.ruleset" \
              -o -name "README*" \
              -o -name "*.xml" \
              -o -name "*.cpp" \
+             -o -name "*.pkg" \
             | sort)
 
 echo "# Check for trailing spaces:"
