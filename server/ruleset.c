@@ -7852,6 +7852,11 @@ static bool load_ruleset_actions(struct section_file *file,
           break;
         }
       } action_iterate_end;
+
+      if (ok && compat->compat_mode && compat->version < RSFORMAT_3_2) {
+        secfile_entry_ignore_by_path(file, "actions.ui_name_clean_pollution");
+        secfile_entry_ignore_by_path(file, "actions.ui_name_clean_fallout");
+      }
     }
 
     if (ok) {
