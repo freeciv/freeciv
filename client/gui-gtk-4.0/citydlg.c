@@ -32,6 +32,7 @@
 
 /* common */
 #include "city.h"
+#include "counters.h"
 #include "game.h"
 #include "map.h"
 #include "movement.h"
@@ -111,8 +112,8 @@ struct unit_node {
 
 #define NUM_CITIZENS_SHOWN 30
 
-enum { OVERVIEW_PAGE, WORKLIST_PAGE, HAPPINESS_PAGE, CMA_PAGE,
-    SETTINGS_PAGE, STICKY_PAGE,
+enum { OVERVIEW_PAGE, WORKLIST_PAGE, HAPPINESS_PAGE, COUNTERS_PAGE,
+    CMA_PAGE, SETTINGS_PAGE, STICKY_PAGE,
     NUM_PAGES  /* the number of pages in city dialog notebook
                 * must match the entries in misc_whichtab_label[] */
 };
@@ -184,6 +185,11 @@ struct city_dialog {
     GtkWidget *citizens;
   } happiness;
 
+  struct {
+    GtkBox *container;
+    GtkBox *widget;
+  } counters;
+
   struct cma_dialog *cma_editor;
 
   struct {
@@ -251,6 +257,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity);
 
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
+static void city_dialog_update_counters(struct city_dialog *pdialog);
 static void city_dialog_update_information(GtkWidget **info_label,
                                            struct city_dialog *pdialog);
 static void city_dialog_update_map(struct city_dialog *pdialog);
@@ -512,6 +519,7 @@ void real_city_dialog_refresh(struct city *pcity)
 
   city_dialog_update_title(pdialog);
   city_dialog_update_citizens(pdialog);
+  city_dialog_update_counters(pdialog);
   city_dialog_update_information(pdialog->overview.info_label, pdialog);
   city_dialog_update_map(pdialog);
   city_dialog_update_building(pdialog);
@@ -1366,6 +1374,30 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
   gtk_widget_set_visible(page, TRUE);
 }
 
+/**********************************************************************//**
+                    **** Counters Page ****
+**************************************************************************/
+/**********************************************************************//**
+  Creates counters page
+**************************************************************************/
+
+static void create_and_append_counters_page(struct city_dialog *pdialog)
+{
+  GtkWidget *page = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+  GtkLabel *label =  GTK_LABEL(gtk_label_new(_("Counters")));
+
+  pdialog->counters.container = NULL;
+  pdialog->counters.widget = NULL;
+
+  city_dialog_update_counters(pdialog);
+
+  gtk_box_append(GTK_BOX(page), GTK_WIDGET(pdialog->counters.container));
+
+  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, GTK_WIDGET(label));
+
+  gtk_widget_show(page);
+}
+
 /***********************************************************************//**
                     **** Misc. Settings Page ****
 ***************************************************************************/
@@ -1391,6 +1423,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
     N_("Overview page"),
     N_("Production page"),
     N_("Happiness page"),
+    N_("Counters Page"),
     N_("Governor page"),
     N_("This Settings page"),
     N_("Last active page")
@@ -1543,6 +1576,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->happiness.map_canvas.sw = NULL;      /* Make sure NULL if spy */
   pdialog->happiness.map_canvas.darea = NULL;   /* Ditto */
   pdialog->happiness.citizens = NULL;           /* Ditto */
+  pdialog->counters.widget = NULL;
+  pdialog->counters.container = NULL;
   pdialog->production.buy_command = NULL;
   pdialog->production.production_label = NULL;
   pdialog->production.production_bar = NULL;
@@ -1633,6 +1668,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     create_and_append_happiness_page(pdialog);
   }
 
+  create_and_append_counters_page(pdialog);
+
   if (owner == client_player()
       && !client_is_observer()) {
     create_and_append_cma_page(pdialog);
@@ -1702,6 +1739,74 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 }
 
 /**************** Functions to update parts of the dialog *****************/
+
+/**********************************************************************//**
+  Update counters tab  in city dialog
+**************************************************************************/
+static void city_dialog_update_counters(struct city_dialog *pdialog)
+{
+  GtkBox *counterInfo, *valueData;
+  GtkLabel *counterName;
+  GtkLabel *counterValue;
+  GtkLabel *counterDescription;
+  char  int_val[101];
+  char *text;
+  int text_size;
+
+  if (NULL != pdialog->counters.widget) {
+    gtk_box_remove(GTK_BOX(gtk_widget_get_parent(GTK_WIDGET(pdialog->counters.widget))),
+                   GTK_WIDGET(pdialog->counters.widget));
+  }
+
+  if (NULL == pdialog->counters.container) {
+    pdialog->counters.container = GTK_BOX(gtk_box_new(GTK_ORIENTATION_VERTICAL, 0));
+  }
+
+  pdialog->counters.widget = GTK_BOX(gtk_box_new(GTK_ORIENTATION_VERTICAL, 0));
+  city_counters_iterate(pcount) {
+    counterInfo = GTK_BOX(gtk_box_new(GTK_ORIENTATION_VERTICAL, 0));
+
+    counterName = GTK_LABEL(gtk_label_new(name_translation_get(&pcount->name)));
+    gtk_box_append(counterInfo, GTK_WIDGET(counterName));
+    valueData = GTK_BOX(gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0));
+    counterValue = GTK_LABEL(gtk_label_new(_("Current value is: ")));
+    gtk_box_append(valueData, GTK_WIDGET(counterValue));
+    fc_snprintf(int_val, sizeof(int_val), "%d", pdialog->pcity->counter_values[counter_index(pcount)]);
+    counterValue = GTK_LABEL(gtk_label_new(int_val));
+    gtk_box_append(valueData, GTK_WIDGET(counterValue));
+    gtk_box_append(counterInfo, GTK_WIDGET(valueData));
+
+    valueData = GTK_BOX(gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0));
+    counterValue = GTK_LABEL(gtk_label_new(_("Activated once value equal or higher than: ")));
+    gtk_box_append(valueData, GTK_WIDGET(counterValue));
+    fc_snprintf(int_val, sizeof(int_val), "%d", pcount->checkpoint);
+    counterValue = GTK_LABEL(gtk_label_new(int_val));
+    gtk_box_append(valueData, GTK_WIDGET(counterValue));
+    gtk_box_append(counterInfo, GTK_WIDGET(valueData));
+
+    text_size = 0;
+    if (NULL != pcount->helptext) {
+      strvec_iterate(pcount->helptext, text_) {
+        text_size += strlen(text_);
+      } strvec_iterate_end;
+    }
+    if (0 < text_size) {
+      text = malloc(text_size+1);
+      text_size = 0;
+      strvec_iterate(pcount->helptext, text_) {
+        strcpy(&text[text_size], text_);
+        text_size += strlen(text_);
+      } strvec_iterate_end;
+      counterDescription = GTK_LABEL(gtk_label_new(text));
+      free(text);
+      gtk_box_append(counterInfo,GTK_WIDGET(counterDescription));
+    }
+    gtk_box_append(pdialog->counters.widget, GTK_WIDGET(counterInfo));
+  } city_counters_iterate_end;
+
+  gtk_box_append(pdialog->counters.container, GTK_WIDGET(pdialog->counters.widget));
+  gtk_widget_show(GTK_WIDGET(pdialog->counters.container));
+}
 
 /***********************************************************************//**
   Update title of city dialog.
