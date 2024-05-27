@@ -1463,7 +1463,7 @@ server_lib = static_library('fc_server',
   'server/unittools.c',
   'server/voting.c',
   include_directories: server_inc,
-  sources: [ pack_server,
+  sources: [ verhdr, pack_server,
              tolua.process('server/scripting/tolua_fcdb.pkg',
                            'server/scripting/tolua_server.pkg')],
   dependencies: lua_dep
