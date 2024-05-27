@@ -55,6 +55,10 @@ The following <enum options> are supported:
 - generic <amount> <identifier>
   Generate <amount> values with no name and the given identifier
   followed by their index (starting at 1)
+- generic-check <identifier>
+  (requires generic)
+  Generate a function "bool <identifier>(enum <SPECENUM_NAME> value)"
+  that evaluates to TRUE iff the value is one of the generic values
 - bitwise
 - zero <SPECENUM_ZERO> <SPECENUM_ZERONAME (optional)>
   (requires bitwise)
@@ -410,8 +414,14 @@ class Specenum:
     bitvector: "str | None" = None
     """The SPECENUM_BITVECTOR name, if given"""
 
-    values: "list[EnumValue]"
+    proper_values: "list[EnumValue]"
     """The values of this enum"""
+
+    generic_values: "list[EnumValue]"
+    """The generic values of this enum (e.g. user flags)"""
+
+    generic_check: "str | None" = None
+    """The name of the is-generic function, if desired"""
 
     def __init__(self, name: str, lines: typing.Iterable[str]):
         self.name = name
@@ -450,6 +460,14 @@ class Specenum:
                 if not generic_amount:
                     raise ValueError(f"amount for option {option!r} of enum {self.name} must be positive")
                 generic_prefix = mo_g.group(2)
+            elif option == "generic-check":
+                if self.generic_check:
+                    raise ValueError(f"duplicate option {option!r} for enum {self.name}")
+                if not arg:
+                    raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
+                if not arg.isascii() or not arg.isidentifier():
+                    raise ValueError(f"malformed argument for option {option!r} of enum {self.name}")
+                self.generic_check = arg
             elif option == "bitwise":
                 if self.bitwise:
                     raise ValueError(f"duplicate option {option!r} for enum {self.name}")
@@ -504,6 +522,8 @@ class Specenum:
             raise ValueError(f"option 'count' conflicts with option 'bitwise' for enum {self.name}")
         if self.bitvector and self.bitwise:
             raise ValueError(f"option 'bitvector' conflicts with option 'bitwise' for enum {self.name}")
+        if self.generic_check and not generic_amount:
+            raise ValueError(f"option 'generic-check' for enum {self.name} requires option 'generic'")
 
         # check sanity
         if self.zero is __class__.DEFAULT_ZERO and not self.prefix:
@@ -511,12 +531,19 @@ class Specenum:
         if self.count is __class__.DEFAULT_COUNT and not self.prefix:
             raise ValueError(f"option 'count' for enum {self.name} requires an argument or option 'prefix'")
 
-        self.values = [
+        self.proper_values = [
             EnumValue.parse(line) for line in lines
-        ] + [
+        ]
+        self.generic_values = [
             EnumValue(generic_prefix + str(i), None)
             for i in range(1, generic_amount + 1)
         ]
+
+    @property
+    def values(self) -> "typing.Iterator[EnumValue]":
+        """All values of this enum, including generic ones"""
+        yield from self.proper_values
+        yield from self.generic_values
 
     def code_parts(self) -> typing.Iterable[str]:
         """Yield code defining this enum"""
@@ -554,6 +581,18 @@ class Specenum:
 """
         yield f"""\
 #include "specenum_gen.h"
+"""
+
+        if self.generic_check is not None:
+            # validity check means we know generic_values is not empty
+            assert self.generic_values
+            yield f"""\
+
+static inline bool {self.generic_check}(enum {self.name} value)
+{{
+  return ((value >= {self.prefix}{self.generic_values[0].identifier})
+          && (value <= {self.prefix}{self.generic_values[-1].identifier}));
+}}
 """
 
 
