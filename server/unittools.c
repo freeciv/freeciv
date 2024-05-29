@@ -4654,7 +4654,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         tgt_id = dst_tile->index;
         break;
       case ATK_EXTRAS:
-        prob = action_prob_vs_extras(punit, order.action,
+        prob = action_prob_vs_extras(nmap, punit, order.action,
                                      dst_tile, pextra);
         tgt_id = dst_tile->index;
         break;

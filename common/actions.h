@@ -817,7 +817,8 @@ struct act_prob action_prob_vs_tile(const struct civ_map *nmap,
                                     const struct tile *victims,
                                     const struct extra_type *target_extra);
 
-struct act_prob action_prob_vs_extras(const struct unit *actor,
+struct act_prob action_prob_vs_extras(const struct civ_map *nmap,
+                                      const struct unit *actor,
                                       const action_id act_id,
                                       const struct tile *target,
                                       const struct extra_type *tgt_extra);

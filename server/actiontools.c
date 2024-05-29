@@ -760,7 +760,7 @@ struct tile *action_tgt_tile(struct unit *actor,
       prob = action_prob_vs_tile(nmap, actor, act, target, target_extra);
       break;
     case ATK_EXTRAS:
-      prob = action_prob_vs_extras(actor, act, target, target_extra);
+      prob = action_prob_vs_extras(nmap, actor, act, target, target_extra);
       break;
     case ATK_UNITS:
       prob = action_prob_vs_stack(nmap, actor, act, target);
@@ -834,7 +834,7 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
       }
       break;
     case ATK_EXTRAS:
-      if (action_prob_possible(action_prob_vs_extras(actor, act,
+      if (action_prob_possible(action_prob_vs_extras(nmap, actor, act,
                                                      tgt_tile,
                                                      tgt_extra))) {
         /* The actor unit may be able to do this action to the target
@@ -1154,7 +1154,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
         if (tgt_tile
             && is_action_enabled_unit_on_extras(nmap, act, actor,
                                                 tgt_tile, target_extra)) {
-          current = action_prob_vs_extras(actor, act,
+          current = action_prob_vs_extras(nmap, actor, act,
                                           tgt_tile, target_extra);
         }
         break;
