@@ -78,7 +78,7 @@ sub print_one {
     print "  $name \"", join("\"\n  \"", @_), "\"\n";
 }
 
-# Print a problem (args like print()), preceeded by entry unless
+# Print a problem (args like print()), preceded by entry unless
 # we have already printed that: label, and msgid and msgstr.
 #
 sub print_problem {

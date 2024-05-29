@@ -30,7 +30,7 @@
   The tokens recognised are as follows:
   (Single quotes are delimiters used here, but are not part of the
   actual tokens/strings.)
-  Most tokens can be preceeded by optional whitespace; exceptions
+  Most tokens can be preceded by optional whitespace; exceptions
   are section_name and entry_name.
 
   section_name:  '[foo]'
