@@ -2243,7 +2243,7 @@ void handle_unit_get_actions(struct connection *pc,
     case ATK_EXTRAS:
       if (target_tile) {
         /* Calculate the probabilities. */
-        probabilities[act] = action_prob_vs_extras(actor_unit, act,
+        probabilities[act] = action_prob_vs_extras(nmap, actor_unit, act,
                                                    target_tile,
                                                    target_extra);
       } else {
