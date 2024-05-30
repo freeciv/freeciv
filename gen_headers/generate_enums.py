@@ -73,6 +73,12 @@ The following <enum options> are supported:
 - name-updater
 - bitvector <SPECENUM_BITVECTOR>
   (cannot be used with bitwise)
+- style <option...>
+  Check that certain stylistic restrictions are being followed. This does
+  not fix the definition to fit a given restriction; it causes the script
+  to fail with an error if the restriction is violated.
+  - style identifiers sorted
+    Check that the values are in alphabetical order of their identifier.
 """
 
 
@@ -281,6 +287,18 @@ class ScriptConfig:
 
 ################### General helper functions and classes ###################
 
+if sys.version_info >= (3, 10):
+    from itertools import pairwise
+else:
+    # implementation taken from the itertools documentation
+    def pairwise(iterable):
+        # pairwise('ABCDEFG') → AB BC CD DE EF FG
+        iterator = iter(iterable)
+        a = next(iterator, None)
+        for b in iterator:
+            yield a, b
+            a = b
+
 def files_equal(path_a: "str | Path", path_b: "str | Path") -> bool:
     """Return whether the contents of two text files are identical"""
     with Path(path_a).open() as file_a, Path(path_b).open() as file_b:
@@ -429,6 +447,8 @@ class Specenum:
         generic_amount: int = 0
         generic_prefix: str = ""
 
+        style_identifiers_sorted: bool = False
+
         lines_iter = iter(lines)
 
         for option_text in takewhile(
@@ -512,6 +532,14 @@ class Specenum:
                 if arg is None:
                     raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
                 self.bitvector = arg
+            elif option == "style":
+                if arg is None:
+                    raise ValueError(f"option {option!r} for enum {self.name} requires an argument")
+                if arg != "identifiers sorted":
+                    raise ValueError(f"invalid style option {arg!r} for enum {self.name}")
+                if style_identifiers_sorted:
+                    raise ValueError(f"duplicate style option {arg!r} for enum {self.name}")
+                style_identifiers_sorted = True
             else:
                 raise ValueError(f"unrecognized option {option!r} for enum {self.name}")
 
@@ -538,6 +566,12 @@ class Specenum:
             EnumValue(generic_prefix + str(i), None)
             for i in range(1, generic_amount + 1)
         ]
+
+        # check style
+        if style_identifiers_sorted:
+            for a, b in pairwise(self.proper_values):
+                if a.identifier > b.identifier:
+                    raise ValueError(f"enum {self.name} identifiers not in order: {b.identifier} must not be after {a.identifier}")
 
     @property
     def values(self) -> "typing.Iterator[EnumValue]":
