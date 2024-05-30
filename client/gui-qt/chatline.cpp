@@ -300,16 +300,37 @@ chatwdg::chatwdg(QWidget *parent)
   connect(chat_output, &text_browser_dblclck::dbl_clicked,
           this, &chatwdg::toggle_size);
   connect(remove_links, &QAbstractButton::clicked, this, &chatwdg::rm_links);
-  connect(cb, &QCheckBox::stateChanged, this, &chatwdg::state_changed);
+#ifdef FC_QT6X_MODE
+#if QT_VERSION >= 0x060700
+  connect(cb, &QCheckBox::checkStateChanged, this, &chatwdg::state_changed);
+#else  // QT >= 6.7
+  connect(cb, &QCheckBox::stateChanged, this, &chatwdg::state_changed_depr);
+#endif // QT >= 6.7
+#else  // FC_QT6X_MODE
+  connect(cb, &QCheckBox::stateChanged, this, &chatwdg::state_changed_depr);
+#endif // FC_QT6X_MODE
   setMouseTracking(true);
 
   chat_listener::listen();
 }
 
 /***********************************************************************//**
-  Manages "To allies" chat button state
+  Manages "To allies" chat button state.
 ***************************************************************************/
-void chatwdg::state_changed(int state)
+void chatwdg::state_changed(Qt::CheckState state)
+{
+  if (state != Qt::Unchecked) {
+    gui_options.gui_qt_allied_chat_only = true;
+  } else {
+    gui_options.gui_qt_allied_chat_only = false;
+  }
+}
+
+/***********************************************************************//**
+  Manages "To allies" chat button state.
+  This deprecated slot is used in Qt < 6.7
+***************************************************************************/
+void chatwdg::state_changed_depr(int state)
 {
   if (state > 0) {
     gui_options.gui_qt_allied_chat_only = true;

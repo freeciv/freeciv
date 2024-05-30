@@ -537,7 +537,8 @@ private slots:
   void display_worklist_menu(const QPoint &p);
   void disband_state_changed(bool allow_disband);
   void cma_slider(int val);
-  void cma_toggle_changed(int val);
+  void cma_toggle_changed(Qt::CheckState state);
+  void cma_toggle_changed_depr(int state);
   void cma_remove();
   void cma_enable();
   void cma_changed();

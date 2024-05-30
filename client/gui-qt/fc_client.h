@@ -310,7 +310,8 @@ private slots:
   void browse_saves();
   void browse_scenarios();
   void clear_status_bar();
-  void state_preview(int);
+  void state_preview(Qt::CheckState state);
+  void state_preview_depr(int state);
 
 public slots:
   void switch_page(int i);

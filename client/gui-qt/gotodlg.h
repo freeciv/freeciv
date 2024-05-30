@@ -65,7 +65,8 @@ private slots:
   void go_to_city();
   void airlift_to();
   void item_selected(const QItemSelection &sl, const QItemSelection &ds);
-  void checkbox_changed(int state);
+  void checkbox_changed(Qt::CheckState state);
+  void checkbox_changed_depr(int state);
 protected:
   void paint(QPainter *painter, QPaintEvent *event);
   void paintEvent(QPaintEvent *event);

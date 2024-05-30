@@ -125,7 +125,8 @@ public:
   void scroll_to_bottom();
   void update_font();
 private slots:
-  void state_changed(int state);
+  void state_changed(Qt::CheckState state);
+  void state_changed_depr(int state);
   void rm_links();
   void anchor_clicked(const QUrl &link);
   void toggle_size();
