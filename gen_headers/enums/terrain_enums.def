@@ -5,6 +5,7 @@
 enum terrain_class
   prefix TC_
   count
+  style identifiers sorted
 values
   /* TRANS: terrain class: used adjectivally */
   LAND N_("Land")
@@ -20,20 +21,21 @@ end
 enum terrain_alteration
   prefix TA_
   count
+  style identifiers sorted
 values
-  /* Can build irrigation without changing terrain */
+  /* Can build military base */
   /* TRANS: this and following strings may rarely be presented to the player
    * in ruleset help text, to denote the set of terrains which can be altered
    * in a particular way */
+  CAN_BASE     N_("CanBase")
+  /* Can build irrigation without changing terrain */
   CAN_IRRIGATE N_("CanIrrigate")
   /* Can build mine without changing terrain */
   CAN_MINE     N_("CanMine")
-  /* Can build roads and/or railroads */
-  CAN_ROAD     N_("CanRoad")
-  /* Can build military base */
-  CAN_BASE     N_("CanBase")
   /* Can place extras with infrapoints */
   CAN_PLACE    N_("CanPlace")
+  /* Can build roads and/or railroads */
+  CAN_ROAD     N_("CanRoad")
 end
 
 /* Used in the network protocol. */
@@ -41,29 +43,31 @@ enum terrain_flag_id
   prefix TER_
   name-override
   bitvector bv_terrain_flags
+  style identifiers sorted
 values
-  /* No barbarians summoned on this terrain. */
+  /* Terrains with this type can have road with "River" flag on them. */
   /* TRANS: this and following strings are 'terrain flags', which may rarely
    * be presented to the player in ruleset help text */
+  CAN_HAVE_RIVER N_("CanHaveRiver")
+  /* Borders on this terrain are not blocking unit movement */
+  ENTER_BORDERS N_("EnterBorders")
+  /* Fresh water terrain */
+  FRESHWATER N_("FreshWater")
+  /* Ice-covered terrain (affects minimap) */
+  FROZEN N_("Frozen")
+  /* Map generator does not place this terrain */
+  NOT_GENERATED N_("NotGenerated")
+  /* No barbarians summoned on this terrain. */
   NO_BARBS N_("NoBarbs")
   /* No cities on this terrain. */
   NO_CITIES N_("NoCities")
-  /* Players will start on this terrain type. */
-  STARTER N_("Starter")
-  /* Terrains with this type can have road with "River" flag on them. */
-  CAN_HAVE_RIVER N_("CanHaveRiver")
-  /* this tile is not safe as coast, (all ocean / ice) */
-  UNSAFE_COAST N_("UnsafeCoast")
-  /* Fresh water terrain */
-  FRESHWATER N_("FreshWater")
-  /* Map generator does not place this terrain */
-  NOT_GENERATED N_("NotGenerated")
   /* Units on this terrain are not generating or subject to zoc */
   NO_ZOC N_("NoZoc")
-  /* Borders on this terrain are not blocking unit movement */
-  ENTER_BORDERS N_("EnterBorders")
-  /* Ice-covered terrain (affects minimap) */
-  FROZEN N_("Frozen")
+  /* Players will start on this terrain type. */
+  STARTER N_("Starter")
+  /* this tile is not safe as coast, (all ocean / ice) */
+  UNSAFE_COAST N_("UnsafeCoast")
+
   USER_1
   USER_2
   USER_3
@@ -79,15 +83,16 @@ end
 enum mapgen_terrain_property
   prefix MG_
   count
+  style identifiers sorted
 values
-  MOUNTAINOUS "mountainous"
-  GREEN "green"
-  FOLIAGE "foliage"
-  TROPICAL "tropical"
-  TEMPERATE "temperate"
   COLD "cold"
-  FROZEN "frozen"
-  WET "wet"
   DRY "dry"
+  FOLIAGE "foliage"
+  FROZEN "frozen"
+  GREEN "green"
+  MOUNTAINOUS "mountainous"
   OCEAN_DEPTH "ocean_depth"
+  TEMPERATE "temperate"
+  TROPICAL "tropical"
+  WET "wet"
 end
