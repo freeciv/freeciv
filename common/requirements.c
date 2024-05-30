@@ -1958,6 +1958,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
       /* Same requirement at different ranges. Note that same range is
        * already covered by are_requirements_opposites() above. */
       switch (req1->source.value.tilerel) {
+        case TREL_SAME_TCLASS:
         case TREL_SAME_REGION:
         case TREL_REGION_SURROUNDED:
           /* Negated req at larger range contradicts present req at
@@ -1981,8 +1982,19 @@ bool are_requirements_contradictions(const struct requirement *req1,
           return FALSE;
       }
     }
-    if (req1->source.value.tilerel == TREL_REGION_SURROUNDED
-        || req2->source.value.tilerel == TREL_REGION_SURROUNDED) {
+    if (req1->source.value.tilerel == TREL_SAME_TCLASS
+        && req2->source.value.tilerel == TREL_SAME_REGION) {
+      /* Same region at any range implies same terrain class at that range
+       * and any larger range ~> contradicts negated */
+      return (!req1->present && req2->present
+              && (req1->range >= req2->range));
+    } else if (req2->source.value.tilerel == TREL_SAME_TCLASS
+               && req1->source.value.tilerel == TREL_SAME_REGION) {
+      /* Same as above */
+      return (req1->present && !req2->present
+              && (req1->range <= req2->range));
+    } else if (req1->source.value.tilerel == TREL_REGION_SURROUNDED
+               || req2->source.value.tilerel == TREL_REGION_SURROUNDED) {
       const struct requirement *surr, *other;
       if (req1->source.value.tilerel == TREL_REGION_SURROUNDED) {
         surr = req1;
@@ -1993,9 +2005,11 @@ bool are_requirements_contradictions(const struct requirement *req1,
       }
       if (surr->present && surr->range == REQ_RANGE_TILE) {
         /* Target tile must be part of a surrounded region
+         * ~> not the same terrain class
          * ~> not the same region
          * ~> not touched by a third region */
         switch (other->source.value.tilerel) {
+        case TREL_SAME_TCLASS:
         case TREL_SAME_REGION:
           return (other->present && other->range == REQ_RANGE_TILE);
         case TREL_ONLY_OTHER_REGION:
@@ -4903,6 +4917,43 @@ is_tile_rel_req_active(const struct civ_map *nmap,
   }
 
   switch (req->source.value.tilerel) {
+  case TREL_SAME_TCLASS:
+    if (tile_terrain(other_context->tile) == T_UNKNOWN) {
+      return TRI_MAYBE;
+    }
+    fc_assert_ret_val_msg((req->range == REQ_RANGE_TILE
+                           || req->range == REQ_RANGE_CADJACENT
+                           || req->range == REQ_RANGE_ADJACENT),
+                          TRI_MAYBE,
+                          "Invalid range %d for tile relation \"%s\" req",
+                          req->range, tilerel_type_name(TREL_SAME_TCLASS));
+    {
+      enum terrain_class cls = terrain_type_terrain_class(
+          tile_terrain(other_context->tile));
+      bool seen_unknown = FALSE;
+      const struct terrain *terr;
+
+      if ((terr = tile_terrain(context->tile)) == T_UNKNOWN) {
+        seen_unknown = TRUE;
+      } else if (terrain_type_terrain_class(terr) == cls) {
+        return TRUE;
+      }
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        if ((terr = tile_terrain(adj_tile)) == T_UNKNOWN) {
+          seen_unknown = TRUE;
+        } else if (terrain_type_terrain_class(terr) == cls) {
+          return TRUE;
+        }
+      } range_adjc_iterate_end;
+
+      if (seen_unknown) {
+        return TRI_MAYBE;
+      } else {
+        return TRI_NO;
+      }
+    }
+    break;
   case TREL_SAME_REGION:
     if (tile_continent(other_context->tile) == 0) {
       return TRI_MAYBE;
@@ -7891,6 +7942,9 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_TILE_REL:
     switch (psource->value.tilerel) {
+    case TREL_SAME_TCLASS:
+      fc_strlcat(buf, _("Same terrain class"), bufsz);
+      break;
     case TREL_SAME_REGION:
       fc_strlcat(buf, _("Same continent/ocean"), bufsz);
       break;

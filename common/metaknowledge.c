@@ -750,16 +750,26 @@ static bool is_req_knowable(const struct player *pov_player,
   }
 
   if (req->source.kind == VUT_TILE_REL) {
+    enum known_type needed;
     if (context->tile == NULL || other_context->tile == NULL) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
     }
-    if (tile_get_known(other_context->tile, pov_player) == TILE_UNKNOWN) {
-      return FALSE;
-    }
-    if (req->source.value.tilerel == TREL_REGION_SURROUNDED) {
+    switch (req->source.value.tilerel) {
+    case TREL_REGION_SURROUNDED:
       /* Too complicated to figure out */
+      return FALSE;
+    case TREL_SAME_TCLASS:
+      /* Evaluated based on actual terrain type's class */
+      needed = TILE_KNOWN_SEEN;
+      break;
+    default:
+      /* Only need the continent ID; known is enough */
+      needed = TILE_KNOWN_UNSEEN;
+      break;
+    }
+    if (tile_get_known(other_context->tile, pov_player) < needed) {
       return FALSE;
     }
 
@@ -769,11 +779,11 @@ static bool is_req_knowable(const struct player *pov_player,
     case REQ_RANGE_ADJACENT:
       /* TODO: Known tiles might be enough to determine the answer already;
        * should we check on an individual requirement basis? */
-      if (tile_get_known(context->tile, pov_player) == TILE_UNKNOWN) {
+      if (tile_get_known(context->tile, pov_player) < needed) {
         return FALSE;
       }
       range_adjc_iterate(&(wld.map), context->tile, req->range, adj_tile) {
-        if (tile_get_known(adj_tile, pov_player) == TILE_UNKNOWN) {
+        if (tile_get_known(adj_tile, pov_player) < needed) {
           return FALSE;
         }
       } range_adjc_iterate_end;

@@ -3446,6 +3446,54 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_TILE_REL:
     switch (preq->source.value.tilerel) {
+    case TREL_SAME_TCLASS:
+      switch (preq->range) {
+      case REQ_RANGE_TILE:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on the same terrain class."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be on a different terrain class."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be cardinally adjacent to the same "
+                            "terrain class."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be cardinally adjacent to the same "
+                            "terrain class."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be adjacent to the same terrain class."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be adjacent to the same terrain "
+                            "class."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
     case TREL_SAME_REGION:
       switch (preq->range) {
       case REQ_RANGE_TILE:
