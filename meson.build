@@ -585,6 +585,20 @@ if zstd_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
 endif
 
+if c_compiler.compiles('''
+#include <assert.h>
+int main(void) { _Static_assert(1, "1 is not true"); }''',
+  name: 'c11 Static Assert')
+  pub_conf_data.set('FREECIV_C11_STATIC_ASSERT', 1)
+endif
+
+if cxx_build and cxx_compiler.compiles('''
+#include <assert.h>
+int main(void) { static_assert(1, "1 is not true"); }''',
+  name: 'c++11 Static Assert')
+  pub_conf_data.set('FREECIV_CXX11_STATIC_ASSERT', 1)
+endif
+
 # Check for c23 nullptr that can be passed as sentinel
 if c_compiler.compiles('''
 #include <stddef.h>
