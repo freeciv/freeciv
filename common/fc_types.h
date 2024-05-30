@@ -709,6 +709,7 @@ typedef union {
   enum citytile_type citytile;
   enum citystatus_type citystatus;
   enum plrstate_type plrstate;
+  enum tilerel_type tilerel;
   int minsize;
   int minculture;
   int minforeignpct;

@@ -118,6 +118,7 @@ Activity:        Local
 MinMoveFrags:    Local
 MinVeteran:      Local
 MinHitPoints:    Local
+TileRel:         Tile, Adjacent, CAdjacent
 MaxDistanceSq:   Tile
 MaxRegionTiles:  Continent, Adjacent, CAdjacent
 
@@ -132,6 +133,12 @@ CityTile is "Center" (city center), "Claimed" (tile owned by any player),
  is a port, it's a tile of the nearby ocean but not of its continent).
 MinLatitude and MaxLatitude are numbers from -1000 (south pole) to 1000
  (north pole).
+TileRel is about the relation to a specific other tile; currently only available
+ for action enablers (see also README.actions) and a select few effects. It is
+ one of "Same Region" (on or adjacent to the same continent/ocean as the other
+ tile, depending on range) or "Only Other Region" (only adjacent to tiles of its
+ own or the other tile's continent/ocean, not a third one; not available at Tile
+ range).
 MaxDistanceSq is about the (squared) distance between two tiles; currently
  only available for action enablers (see also README.actions) and a select
  few effects.

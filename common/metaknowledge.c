@@ -749,6 +749,45 @@ static bool is_req_knowable(const struct player *pov_player,
     }
   }
 
+  if (req->source.kind == VUT_TILE_REL) {
+    if (context->tile == NULL || other_context->tile == NULL) {
+      /* The tile may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
+    if (tile_get_known(other_context->tile, pov_player) == TILE_UNKNOWN) {
+      return FALSE;
+    }
+
+    switch (req->range) {
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+      /* TODO: Known tiles might be enough to determine the answer already;
+       * should we check on an individual requirement basis? */
+      if (tile_get_known(context->tile, pov_player) == TILE_UNKNOWN) {
+        return FALSE;
+      }
+      range_adjc_iterate(&(wld.map), context->tile, req->range, adj_tile) {
+        if (tile_get_known(adj_tile, pov_player) == TILE_UNKNOWN) {
+          return FALSE;
+        }
+      } range_adjc_iterate_end;
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_COUNT:
+      /* Non existing range for requirement types. */
+      return FALSE;
+    }
+  }
+
   if (req->source.kind == VUT_ACTION
       || req->source.kind == VUT_OTYPE) {
     /* This requirement type is intended to specify the situation. */

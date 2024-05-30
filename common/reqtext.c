@@ -3444,6 +3444,104 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_TILE_REL:
+    switch (preq->source.value.tilerel) {
+    case TREL_SAME_REGION:
+      switch (preq->range) {
+      case REQ_RANGE_TILE:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on the same continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be on a different continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be cardinally adjacent to the same "
+                            "continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be cardinally adjacent to the same "
+                            "continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be adjacent to the same continent or "
+                            "ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be adjacent to the same continent "
+                            "or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
+    case TREL_ONLY_OTHER_REGION:
+      switch (preq->range) {
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("May only be cardinally adjacent to this "
+                            "other continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be cardinally adjacent to more than "
+                            "just this other continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("May only be adjacent to this other continent "
+                            "or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be adjacent to more than just this "
+                            "other continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_TILE:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
+
+    case TREL_COUNT:
+      /* Invalid. */
+      break;
+    }
+    break;
+
   case VUT_COUNT:
     break;
   }

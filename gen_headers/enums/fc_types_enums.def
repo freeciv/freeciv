@@ -97,6 +97,7 @@ values
   /* More generic terrain type currently "Land" or "Ocean" */
   TERRAINCLASS       "TerrainClass"
   TERRFLAG           "TerrainFlag"
+  TILE_REL           "TileRel"
   TOPO               "Topology"
   UCFLAG             "UnitClassFlag"
   UCLASS             "UnitClass"
@@ -104,4 +105,15 @@ values
   UTFLAG             "UnitFlag"
   UTYPE              "UnitType"
   WRAP               "Wrap"
+end
+
+/* TileRel requirement types.
+ * Used in the network protocol */
+enum tilerel_type
+  prefix TREL_
+  count
+  style identifiers sorted
+values
+  ONLY_OTHER_REGION "Only Other Region"
+  SAME_REGION       "Same Region"
 end

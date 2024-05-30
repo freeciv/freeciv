@@ -258,6 +258,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_MAX_REGION_TILES:
     src->value.region_tiles = 0;
     return TRUE;
+  case VUT_TILE_REL:
+    src->value.tilerel = TREL_SAME_REGION;
+    return TRUE;
   case VUT_COUNT:
     fc_assert(src->kind != VUT_COUNT);
     return FALSE;
@@ -405,6 +408,11 @@ void universal_kind_values(struct universal *univ,
   case VUT_CITYSTATUS:
     for (i = 0; i < CITYS_LAST; i++) {
       cb(citystatus_type_name(i), univ->value.citystatus == i, data);
+    }
+    break;
+  case VUT_TILE_REL:
+    for (i = 0; i < TREL_COUNT; i++) {
+      cb(tilerel_type_name(i), univ->value.tilerel == i, data);
     }
     break;
   case VUT_ACHIEVEMENT:
