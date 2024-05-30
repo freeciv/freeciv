@@ -31,7 +31,7 @@ tiles = { "row", "column", "tag"
 ; Terrain
   1,    0,  "theme.order_auto_connect"
   2,    0,  "theme.order_auto_explorer"
-  3,    0,  "theme.order_auto_worker"
+  3,    0,  "theme.order_auto_settler"
   4,    0,  "theme.order_build_city"
   5,    0,  "theme.order_cutdown_forest"
   6,    0,  "theme.order_plant_forest"
