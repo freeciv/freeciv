@@ -617,6 +617,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_MAX_REGION_TILES:
+    source->value.region_tiles = atoi(value);
+    if (0 < source->value.region_tiles) {
+      return;
+    }
+    break;
   case VUT_COUNT:
     break;
   }
@@ -852,6 +858,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MAX_DISTANCE_SQ:
     source.value.distance_sq = value;
     return source;
+  case VUT_MAX_REGION_TILES:
+    source.value.region_tiles = value;
+    return source;
   case VUT_COUNT:
     break;
   }
@@ -1005,6 +1014,8 @@ int universal_number(const struct universal *source)
     return source->value.latitude;
   case VUT_MAX_DISTANCE_SQ:
     return source->value.distance_sq;
+  case VUT_MAX_REGION_TILES:
+    return source->value.region_tiles;
   case VUT_COUNT:
     break;
   }
@@ -1153,6 +1164,9 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINTECHS:
       case VUT_SERVERSETTING:
         req.range = REQ_RANGE_WORLD;
+        break;
+      case VUT_MAX_REGION_TILES:
+        req.range = REQ_RANGE_CONTINENT;
         break;
       }
     }
@@ -1327,6 +1341,9 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_PLAYER_STATE:
       invalid = (req.range != REQ_RANGE_PLAYER);
       break;
+    case VUT_MAX_REGION_TILES:
+      invalid = (req.range != REQ_RANGE_CONTINENT);
+      break;
     case VUT_IMPROVEMENT:
       /* Valid ranges depend on the building genus (wonder/improvement),
        * which might not have been loaded from the ruleset yet.
@@ -1410,6 +1427,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINLATITUDE:
     case VUT_MAXLATITUDE:
     case VUT_MAX_DISTANCE_SQ:
+    case VUT_MAX_REGION_TILES:
       /* Most requirements don't support 'survives'. */
       invalid = survives;
       break;
@@ -1887,6 +1905,15 @@ bool are_requirements_contradictions(const struct requirement *req1,
     return are_bounds_contradictions(
         req1->source.value.distance_sq, req1->present,
         req2->source.value.distance_sq, req2->present);
+  case VUT_MAX_REGION_TILES:
+    if (req2->source.kind != VUT_MAX_REGION_TILES) {
+      /* Finding contradictions across requirement kinds isn't supported
+       * for MaxRegionTiles requirements. */
+      return FALSE;
+    }
+    return are_bounds_contradictions(
+        req1->source.value.region_tiles, req1->present,
+        req2->source.value.region_tiles, req2->present);
   default:
     /* No special knowledge exists. The requirements aren't the exact
      * opposite of each other per the initial check. */
@@ -5610,6 +5637,70 @@ is_max_distance_sq_req_active(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
+  Determine whether a maximum tiles of same region requirement is satisfied
+  in a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a max region tiles requirement
+**************************************************************************/
+static enum fc_tristate
+is_max_region_tiles_req_active(const struct civ_map *nmap,
+                               const struct req_context *context,
+                               const struct req_context *other_context,
+                               const struct requirement *req)
+{
+  int max_tiles, min_tiles = 1;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAX_REGION_TILES);
+
+  switch (req->range) {
+  case REQ_RANGE_CONTINENT:
+    {
+      Continent_id cont = context->tile ? tile_continent(context->tile) : 0;
+
+      fc_assert_ret_val(cont <= nmap->num_continents, TRI_MAYBE);
+      fc_assert_ret_val(-cont <= nmap->num_oceans, TRI_MAYBE);
+
+      /* Note: We could come up with a better upper bound by subtracting
+       * all other continent/ocean sizes, or all except the largest if we
+       * don't know the tile.
+       * We could even do a flood-fill count of the unknown area bordered
+       * by known tiles of the continent.
+       * Probably not worth the effort though. */
+      max_tiles = nmap->xsize * nmap->ysize;
+
+      if (cont > 0) {
+        min_tiles = nmap->continent_sizes[cont];
+        if (is_server() || (nmap->client.continent_unknown_adj_counts[cont]
+                            == 0)) {
+          max_tiles = min_tiles;
+        }
+      } else if (cont < 0) {
+        min_tiles = nmap->ocean_sizes[-cont];
+        if (is_server() || (nmap->client.ocean_unknown_adj_counts[-cont]
+                            == 0)) {
+          max_tiles = min_tiles;
+        }
+      }
+    }
+    break;
+  default:
+    fc_assert_msg(FALSE,
+                  "Illegal range %d for max region tiles requirement.",
+                  req->range);
+    return TRI_MAYBE;
+  }
+
+  if (min_tiles > req->source.value.region_tiles) {
+    return TRI_NO;
+  } else if (max_tiles <= req->source.value.region_tiles) {
+    return TRI_YES;
+  }
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
   Determine whether a minimum year requirement is satisfied in a given
   context, ignoring parts of the requirement that can be handled uniformly
   for all requirement types.
@@ -5738,6 +5829,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_PLAYER_FLAG] = {is_plr_flag_req_active, REQUCH_NO},
   [VUT_PLAYER_STATE] = {is_plr_state_req_active, REQUCH_NO},
   [VUT_MAX_DISTANCE_SQ] = {is_max_distance_sq_req_active, REQUCH_YES},
+  [VUT_MAX_REGION_TILES] = {is_max_region_tiles_req_active, REQUCH_NO},
   [VUT_MAXLATITUDE] = {is_latitude_req_active, REQUCH_YES},
   [VUT_MAXTILEUNITS] = {is_maxunitsontile_req_active, REQUCH_NO},
   [VUT_MINCALFRAG] = {is_mincalfrag_req_active, REQUCH_NO},
@@ -6308,6 +6400,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_TERRAINALTER:
   case VUT_MINYEAR:
   case VUT_MAX_DISTANCE_SQ:
+  case VUT_MAX_REGION_TILES:
   case VUT_NONE:
   case VUT_COUNT:
     /* Not implemented. */
@@ -6969,6 +7062,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.latitude == psource2->value.latitude;
   case VUT_MAX_DISTANCE_SQ:
     return psource1->value.distance_sq == psource2->value.distance_sq;
+  case VUT_MAX_REGION_TILES:
+    return psource1->value.region_tiles == psource2->value.region_tiles;
   case VUT_COUNT:
     break;
   }
@@ -7129,6 +7224,10 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_MAX_DISTANCE_SQ:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.distance_sq);
+
+    return buffer;
+  case VUT_MAX_REGION_TILES:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.region_tiles);
 
     return buffer;
   case VUT_COUNT:
@@ -7491,6 +7590,10 @@ const char *universal_name_translation(const struct universal *psource,
     /* TRANS: here <= means 'less than or equal'. */
     cat_snprintf(buf, bufsz, _("Squared distance <= %d"),
                  psource->value.distance_sq);
+    return buf;
+  case VUT_MAX_REGION_TILES:
+    cat_snprintf(buf, bufsz, _("%d or fewer region tiles"),
+                 psource->value.region_tiles);
     return buf;
   case VUT_COUNT:
     break;

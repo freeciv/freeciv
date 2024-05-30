@@ -119,6 +119,7 @@ MinMoveFrags:    Local
 MinVeteran:      Local
 MinHitPoints:    Local
 MaxDistanceSq:   Tile
+MaxRegionTiles:  Continent
 
 
 MinSize is the minimum size of a city required.
@@ -134,6 +135,7 @@ MinLatitude and MaxLatitude are numbers from -1000 (south pole) to 1000
 MaxDistanceSq is about the (squared) distance between two tiles; currently
  only available for action enablers (see also README.actions) and a select
  few effects.
+MaxRegionTiles is continent or ocean size (number of tiles).
 CityStatus is "OwnedByOriginal", "Transferred", "Starved",
  "Disorder", or "Celebration"
  The difference between "OwnedByOriginal" and "Transferred" is that

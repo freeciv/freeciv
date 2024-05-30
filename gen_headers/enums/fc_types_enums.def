@@ -66,6 +66,7 @@ values
   MAXLATITUDE        "MaxLatitude"
   MAXTILEUNITS       "MaxUnitsOnTile"
   MAX_DISTANCE_SQ    "MaxDistanceSq"
+  MAX_REGION_TILES   "MaxRegionTiles"
   MINCALFRAG         "MinCalFrag"
   MINCITIES          "MinCities"
   MINCULTURE         "MinCulture"

@@ -1872,6 +1872,11 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                     pcity, "have_terrainflag");
         }
         break;
+      case VUT_MAX_REGION_TILES:
+        /* Changing the continent size is hard; cf. VUT_TERRAINCLASS above.
+         * Change this when we support less fixed ranges (e.g. city?). */
+        purge = TRUE;
+        break;
       case VUT_ROADFLAG:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

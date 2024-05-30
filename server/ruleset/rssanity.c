@@ -355,6 +355,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_ORIGINAL_OWNER: /* City range -> only one original owner */
     case VUT_FORM_AGE:
     case VUT_MAX_DISTANCE_SQ: /* Breaks nothing, but has no sense either */
+    case VUT_MAX_REGION_TILES: /* Breaks nothing, but has no sense either */
       /* There can be only one requirement of these types (with current
        * range limitations)
        * Requirements might be identical, but we consider multiple

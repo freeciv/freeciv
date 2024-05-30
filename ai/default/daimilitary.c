@@ -460,6 +460,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
   case VUT_MAX_DISTANCE_SQ:
+  case VUT_MAX_REGION_TILES:
   case VUT_NONE:
     return tri_req_active(context, other_context, req);
   case VUT_COUNT:

@@ -3353,6 +3353,37 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_MAX_REGION_TILES:
+    switch (preq->range) {
+    case REQ_RANGE_CONTINENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                    _("Requires a continent or ocean size of at most %d."),
+                    preq->source.value.region_tiles);
+      } else {
+        cat_snprintf(buf, bufsz,
+                    _("Requires a continent or ocean size of at least %d."),
+                    preq->source.value.region_tiles + 1);
+      }
+
+      return TRUE;
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_COUNT:
     break;
   }
