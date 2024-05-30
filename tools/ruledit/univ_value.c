@@ -252,6 +252,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_MAXLATITUDE:
     src->value.latitude = 0;
     return TRUE;
+  case VUT_MAX_DISTANCE_SQ:
+    src->value.distance_sq = 0;
+    return TRUE;
   case VUT_COUNT:
     fc_assert(src->kind != VUT_COUNT);
     return FALSE;
@@ -504,6 +507,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINCITIES:
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
+  case VUT_MAX_DISTANCE_SQ:
     /* Requirement types having numerical value */
     cb(nullptr, FALSE, data);
     break;

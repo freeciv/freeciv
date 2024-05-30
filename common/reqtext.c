@@ -3292,6 +3292,67 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_MAX_DISTANCE_SQ:
+    switch (preq->range) {
+    case REQ_RANGE_TILE:
+      fc_strlcat(buf, prefix, bufsz);
+      /* Test some special cases */
+      switch (preq->source.value.distance_sq)
+      {
+      case 0:
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be the same tile."), bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be the same tile."), bufsz);
+        }
+        break;
+      case 1:
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be cardinally adjacent."), bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be cardinally adjacent."), bufsz);
+        }
+        break;
+      case 2:
+      case 3:
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be adjacent."), bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be adjacent."), bufsz);
+        }
+        break;
+
+      default:
+        if (preq->present) {
+          cat_snprintf(buf, bufsz,
+                      _("The squared distance between the tiles "
+                        "must be at most %d."),
+                      preq->source.value.distance_sq);
+        } else {
+          cat_snprintf(buf, bufsz,
+                      _("The squared distance between the tiles "
+                        "must be at least %d."),
+                      preq->source.value.distance_sq + 1);
+        }
+        break;
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_COUNT:
     break;
   }

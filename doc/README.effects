@@ -118,6 +118,7 @@ Activity:        Local
 MinMoveFrags:    Local
 MinVeteran:      Local
 MinHitPoints:    Local
+MaxDistanceSq:   Tile
 
 
 MinSize is the minimum size of a city required.
@@ -130,6 +131,9 @@ CityTile is "Center" (city center), "Claimed" (tile owned by any player),
  is a port, it's a tile of the nearby ocean but not of its continent).
 MinLatitude and MaxLatitude are numbers from -1000 (south pole) to 1000
  (north pole).
+MaxDistanceSq is about the (squared) distance between two tiles; currently
+ only available for action enablers (see also README.actions) and a select
+ few effects.
 CityStatus is "OwnedByOriginal", "Transferred", "Starved",
  "Disorder", or "Celebration"
  The difference between "OwnedByOriginal" and "Transferred" is that

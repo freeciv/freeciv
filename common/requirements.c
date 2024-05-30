@@ -611,6 +611,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
    }
    break;
+  case VUT_MAX_DISTANCE_SQ:
+    source->value.distance_sq = atoi(value);
+    if (0 <= source->value.distance_sq) {
+      return;
+    }
+    break;
   case VUT_COUNT:
     break;
   }
@@ -843,6 +849,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MAXLATITUDE:
     source.value.latitude = value;
     return source;
+  case VUT_MAX_DISTANCE_SQ:
+    source.value.distance_sq = value;
+    return source;
   case VUT_COUNT:
     break;
   }
@@ -994,6 +1003,8 @@ int universal_number(const struct universal *source)
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     return source->value.latitude;
+  case VUT_MAX_DISTANCE_SQ:
+    return source->value.distance_sq;
   case VUT_COUNT:
     break;
   }
@@ -1106,6 +1117,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MAXTILEUNITS:
       case VUT_MINLATITUDE:
       case VUT_MAXLATITUDE:
+      case VUT_MAX_DISTANCE_SQ:
         req.range = REQ_RANGE_TILE;
         break;
       case VUT_COUNTER:
@@ -1263,6 +1275,7 @@ struct requirement req_from_str(const char *type, const char *range,
                  && req.range != REQ_RANGE_ADJACENT);
       break;
     case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
+    case VUT_MAX_DISTANCE_SQ:
       invalid = (req.range != REQ_RANGE_TILE);
       break;
     case VUT_CITYTILE:
@@ -1396,6 +1409,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINCITIES:
     case VUT_MINLATITUDE:
     case VUT_MAXLATITUDE:
+    case VUT_MAX_DISTANCE_SQ:
       /* Most requirements don't support 'survives'. */
       invalid = survives;
       break;
@@ -1679,6 +1693,28 @@ bool req_implies_req(const struct requirement *req1,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff two bounds that could each be either an upper or lower
+  bound are contradicting each other. This function assumes that of the
+  upper and lower bounds, one will be inclusive, the other exclusive.
+**************************************************************************/
+static inline bool are_bounds_contradictions(int bound1, bool is_upper1,
+                                             int bound2, bool is_upper2)
+{
+  /* If the bounds are on opposite sides, and one is inclusive, the other
+   * exclusive, the number of values that satisfy both bounds is exactly
+   * their difference, (upper bound) - (lower bound).
+   * The bounds contradict each other iff this difference is 0 or less,
+   * i.e. iff (upper bound) <= (lower bound) */
+  if (is_upper1 && !is_upper2) {
+    return bound1 <= bound2;
+  } else if (!is_upper1 && is_upper2) {
+    return bound1 >= bound2;
+  }
+  /* Both are upper or both are lower ~> no contradiction possible */
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE if req1 and req2 contradicts each other.
 
   TODO: If information about what entity each requirement type will be
@@ -1757,21 +1793,10 @@ bool are_requirements_contradictions(const struct requirement *req1,
       /* Finding contradictions across requirement kinds aren't supported
        * for MinMoveFrags requirements. */
       return FALSE;
-    } else if (req1->present == req2->present) {
-      /* No contradiction possible. */
-      return FALSE;
-    } else {
-      /* Number of move fragments left can't be larger than the number
-       * required to be present and smaller than the number required to not
-       * be present when the number required to be present is smaller than
-       * the number required to not be present. */
-      if (req1->present) {
-        return req1->source.value.minmoves >= req2->source.value.minmoves;
-      } else {
-        return req1->source.value.minmoves <= req2->source.value.minmoves;
-      }
     }
-    break;
+    return are_bounds_contradictions(
+        req1->source.value.minmoves, !req1->present,
+        req2->source.value.minmoves, !req2->present);
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     if (req2->source.kind != VUT_MINLATITUDE
@@ -1853,6 +1878,15 @@ bool are_requirements_contradictions(const struct requirement *req1,
     }
 
     return FALSE;
+  case VUT_MAX_DISTANCE_SQ:
+    if (req2->source.kind != VUT_MAX_DISTANCE_SQ) {
+      /* Finding contradictions across requirement kinds isn't supported
+       * for MaxDistanceSq requirements. */
+      return FALSE;
+    }
+    return are_bounds_contradictions(
+        req1->source.value.distance_sq, req1->present,
+        req2->source.value.distance_sq, req2->present);
   default:
     /* No special knowledge exists. The requirements aren't the exact
      * opposite of each other per the initial check. */
@@ -1945,9 +1979,10 @@ static inline bool players_in_same_range(const struct player *pplayer1,
 
 #define IS_REQ_ACTIVE_VARIANT_ASSERT(_kind)                \
 {                                                          \
-  fc_assert_ret_val(req != NULL, TRI_MAYBE);               \
+  fc_assert_ret_val(req != nullptr, TRI_MAYBE);            \
   fc_assert_ret_val(req->source.kind == _kind, TRI_MAYBE); \
-  fc_assert(context != NULL);                              \
+  fc_assert(context != nullptr);                           \
+  fc_assert(other_context != nullptr);                     \
 }
 
 /**********************************************************************//**
@@ -5539,6 +5574,42 @@ is_latitude_req_active(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
+  Determine whether a maximum squared distance requirement is satisfied in
+  a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a max squared distance requirement
+**************************************************************************/
+static enum fc_tristate
+is_max_distance_sq_req_active(const struct civ_map *nmap,
+                              const struct req_context *context,
+                              const struct req_context *other_context,
+                              const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAX_DISTANCE_SQ);
+
+  switch (req->range) {
+  case REQ_RANGE_TILE:
+    if (context->tile == nullptr || other_context->tile == nullptr) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(
+      sq_map_distance(context->tile, other_context->tile)
+      <= req->source.value.distance_sq
+    );
+  default:
+    break;
+  }
+
+  fc_assert_msg(FALSE,
+                "Illegal range %d for max squared distance requirement.",
+                req->range);
+
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
   Determine whether a minimum year requirement is satisfied in a given
   context, ignoring parts of the requirement that can be handled uniformly
   for all requirement types.
@@ -5666,6 +5737,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_IMPR_FLAG] = {is_buildingflag_req_active, REQUCH_YES},
   [VUT_PLAYER_FLAG] = {is_plr_flag_req_active, REQUCH_NO},
   [VUT_PLAYER_STATE] = {is_plr_state_req_active, REQUCH_NO},
+  [VUT_MAX_DISTANCE_SQ] = {is_max_distance_sq_req_active, REQUCH_YES},
   [VUT_MAXLATITUDE] = {is_latitude_req_active, REQUCH_YES},
   [VUT_MAXTILEUNITS] = {is_maxunitsontile_req_active, REQUCH_NO},
   [VUT_MINCALFRAG] = {is_mincalfrag_req_active, REQUCH_NO},
@@ -6235,6 +6307,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
   case VUT_MINYEAR:
+  case VUT_MAX_DISTANCE_SQ:
   case VUT_NONE:
   case VUT_COUNT:
     /* Not implemented. */
@@ -6894,6 +6967,8 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     return psource1->value.latitude == psource2->value.latitude;
+  case VUT_MAX_DISTANCE_SQ:
+    return psource1->value.distance_sq == psource2->value.distance_sq;
   case VUT_COUNT:
     break;
   }
@@ -7050,6 +7125,10 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.latitude);
+
+    return buffer;
+  case VUT_MAX_DISTANCE_SQ:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.distance_sq);
 
     return buffer;
   case VUT_COUNT:
@@ -7407,6 +7486,11 @@ const char *universal_name_translation(const struct universal *psource,
     /* TRANS: here <= means 'less than or equal'. */
     cat_snprintf(buf, bufsz, _("Latitude <= %d"),
                  psource->value.latitude);
+    return buf;
+  case VUT_MAX_DISTANCE_SQ:
+    /* TRANS: here <= means 'less than or equal'. */
+    cat_snprintf(buf, bufsz, _("Squared distance <= %d"),
+                 psource->value.distance_sq);
     return buf;
   case VUT_COUNT:
     break;

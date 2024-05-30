@@ -701,6 +701,16 @@ static bool is_req_knowable(const struct player *pov_player,
     }
   }
 
+  if (req->source.kind == VUT_MAX_DISTANCE_SQ) {
+    if (context->tile == nullptr || other_context->tile == nullptr) {
+      /* The tiles may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
+    /* Tile locations and their distance are fixed */
+    return TRUE;
+  }
+
   if (req->source.kind == VUT_ACTION
       || req->source.kind == VUT_OTYPE) {
     /* This requirement type is intended to specify the situation. */

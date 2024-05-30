@@ -739,6 +739,7 @@ typedef union {
   int min_techs;
   int min_cities;
   int latitude;
+  int distance_sq;
 
   enum topo_flag topo_property;
   enum wrap_flag wrap_property;

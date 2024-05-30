@@ -65,6 +65,7 @@ values
   IMPR_GENUS         "BuildingGenus"
   MAXLATITUDE        "MaxLatitude"
   MAXTILEUNITS       "MaxUnitsOnTile"
+  MAX_DISTANCE_SQ    "MaxDistanceSq"
   MINCALFRAG         "MinCalFrag"
   MINCITIES          "MinCities"
   MINCULTURE         "MinCulture"

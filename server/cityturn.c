@@ -1969,6 +1969,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_ACTION:
       case VUT_OTYPE:
       case VUT_SPECIALIST:
+      case VUT_MAX_DISTANCE_SQ:
       case VUT_TERRAINALTER: /* XXX could do this in principle */
         /* Will only happen with a bogus ruleset. */
         log_error("worklist_change_build_target() has bogus preq");

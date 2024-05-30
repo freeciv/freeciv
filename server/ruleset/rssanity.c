@@ -354,6 +354,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_IMPR_GENUS:
     case VUT_ORIGINAL_OWNER: /* City range -> only one original owner */
     case VUT_FORM_AGE:
+    case VUT_MAX_DISTANCE_SQ: /* Breaks nothing, but has no sense either */
       /* There can be only one requirement of these types (with current
        * range limitations)
        * Requirements might be identical, but we consider multiple
@@ -1356,6 +1357,21 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
            * code that reasons about actions. */
           ruleset_error(logger, LOG_ERROR,
                         _("Action enabler for %s has a local DiplRel "
+                          "requirement %s in target_reqs! Please read the "
+                          "section \"Requirement vector rules\" in "
+                          "doc/README.actions"),
+                        action_id_rule_name(act),
+                        req_to_fstring(preq, &astr));
+          astr_free(&astr);
+          ok = FALSE;
+        } else if (preq->source.kind == VUT_MAX_DISTANCE_SQ
+                   && preq->range == REQ_RANGE_TILE) {
+          struct astring astr;
+
+          /* A Tile-ranged MaxDistanceSq requirement can be expressed as a
+           * requirement in actor_reqs. Demand that it is there. */
+          ruleset_error(logger, LOG_ERROR,
+                        _("Action enabler for %s has a tile MaxDistanceSq "
                           "requirement %s in target_reqs! Please read the "
                           "section \"Requirement vector rules\" in "
                           "doc/README.actions"),
