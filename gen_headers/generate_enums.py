@@ -38,17 +38,20 @@ Like packets.def, the enum defs can use
  * which can span multiple lines. */
 
 Each definition file consists of zero or more enum definitions, which take
-the following form, where <angle brackets> are placeholders:
+the following form, where <angle brackets> are placeholders and parts in
+[square brackets] are optional:
 
 enum <SPECENUM_NAME>
-  <enum options>
+  [<enum option>]
+  [<enum option>]
+# ...
 values
-  <SPECENUM_VALUE0> <SPECENUM_VALUE0NAME (optional)>
-  <SPECENUM_VALUE1> <SPECENUM_VALUE1NAME (optional)>
+  <SPECENUM_VALUE0> [<SPECENUM_VALUE0NAME>] [; <flag> [, <flag> /* ... */]]
+  <SPECENUM_VALUE1> [<SPECENUM_VALUE1NAME>] [; <flag> [, <flag> /* ... */]]
 # ...
 end
 
-The following <enum options> are supported:
+The following <enum option>s are supported:
 - prefix <prefix>
   prepended to all VALUEs, including ZERO and COUNT.
   Should include any desired final separator.
@@ -79,6 +82,10 @@ The following <enum options> are supported:
   to fail with an error if the restriction is violated.
   - style identifiers sorted
     Check that the values are in alphabetical order of their identifier.
+
+The following <flag>s are supported:
+- style-ignore
+  Ignore this value for the purposes of any style options
 """
 
 
@@ -311,11 +318,31 @@ class EnumValue:
     LINE_PATTERN = re.compile(r"""
         ^\s*
         (\w+)   # enum value identifier
-        (?:
+        (?:     # name (optional)
             \s+
-            (                   # name (optional) - only capture
-                \S+(?:\s+\S+)*  # the part starting and ending with
-            )                   # non-whitespace
+            (       # avoid capturing leading and trailing whitespace
+                (?:             # either something outside a string
+                    [^\s;\"]    # (not whitespace, semicolon or a quote)
+                |               # or a string
+                    \"              # opening quote
+                    (?:             # characters of the string:
+                        [^\"\\]     # either a regular character
+                    |               # or an escape sequence
+                        \\.         # (or the start of it)
+                    )*
+                    \"              # closing quote
+                )+          # match a whole block of these
+                (?:         # then keep doing that, separated by
+                    \s+     # any amount of whitespace
+                    (?:[^\s;\"]|\"(?:[^\"\\]|\\.)*\")+
+                )*
+            )
+        )?
+        (?:     # flags (optional)
+            \s*;\s* # separating semicolon
+            (       # avoid capturing leading and trailing whitespace
+                \S+(?:\s+\S+)*
+            )
         )?
         \s*$
     """, re.VERBOSE)
@@ -323,7 +350,8 @@ class EnumValue:
 
     Groups:
     - identifier
-    - (optional) name"""
+    - (optional) name
+    - (optional) flags"""
 
     identifier: str
     """The identifier (SPECENUM_VALUEx) for this constant"""
@@ -331,17 +359,30 @@ class EnumValue:
     name: "str | None"
     """The name (SPECENUM_VALUExNAME) for this constant"""
 
+    style_ignore: bool = False
+    """Whether this value may violate style restrictions"""
+
     @classmethod
     def parse(cls, line: str) -> "EnumValue":
         """Parse a single line defining an enum value"""
         mo = cls.LINE_PATTERN.fullmatch(line)
         if mo is None:
             raise ValueError(f"invalid enum value definition: {line!r}")
-        return cls(mo.group(1), mo.group(2))
+        return cls(*mo.groups())
 
-    def __init__(self, identifier: str, name: "str | None"):
+    def __init__(self, identifier: str,
+                       name: "str | None" = None,
+                       flags: "str | None" = None):
         self.identifier = identifier
         self.name = name
+
+        if flags is not None:
+            for flag in filter(None, map(str.strip, flags.split(","))):
+                if flag != "style-ignore":
+                    raise ValueError(f"unrecognized flag {flag!r} for enum value {identifier}")
+                if self.style_ignore:
+                    raise ValueError(f"duplicate flag {flag!r} for enum value {identifier}")
+                self.style_ignore = True
 
     def code_parts_custom(self, value: str, prefix: str = "") -> typing.Iterable[str]:
         """Yield code defining this enum value for either a regular value,
@@ -396,11 +437,11 @@ class Specenum:
     - the number of generic values to generate
     - the identifier prefix"""
 
-    DEFAULT_ZERO = EnumValue("ZERO", None)
+    DEFAULT_ZERO = EnumValue("ZERO", flags = "style-ignore")
     """Default SPECENUM_ZERO info when the 'zero' option is used without
     any identifier, but in conjunction with a 'prefix' option"""
 
-    DEFAULT_COUNT = EnumValue("COUNT", None)
+    DEFAULT_COUNT = EnumValue("COUNT", flags = "style-ignore")
     """Default SPECENUM_COUNT info when the 'count' option is used without
     any identifier, but in conjunction with a 'prefix' option"""
 
@@ -563,13 +604,13 @@ class Specenum:
             EnumValue.parse(line) for line in lines
         ]
         self.generic_values = [
-            EnumValue(generic_prefix + str(i), None)
+            EnumValue(generic_prefix + str(i), flags = "style-ignore")
             for i in range(1, generic_amount + 1)
         ]
 
         # check style
         if style_identifiers_sorted:
-            for a, b in pairwise(self.proper_values):
+            for a, b in pairwise(self.style_values):
                 if a.identifier > b.identifier:
                     raise ValueError(f"enum {self.name} identifiers not in order: {b.identifier} must not be after {a.identifier}")
 
@@ -578,6 +619,13 @@ class Specenum:
         """All values of this enum, including generic ones"""
         yield from self.proper_values
         yield from self.generic_values
+
+    @property
+    def style_values(self) -> "typing.Iterator[EnumValue]":
+        """The values of this enum that should be style-checked"""
+        return (value
+                for value in self.proper_values
+                if not value.style_ignore)
 
     def code_parts(self) -> typing.Iterable[str]:
         """Yield code defining this enum"""
