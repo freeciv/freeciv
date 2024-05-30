@@ -2108,7 +2108,7 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
   bool other_continent;
 
   if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE
-      && get_lake_surrounders(cont) == source_cont) {
+      && get_lake_surrounder(cont) == source_cont) {
     return TRUE;
   }
 

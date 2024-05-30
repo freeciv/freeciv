@@ -3535,6 +3535,60 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         break;
       }
       break;
+    case TREL_REGION_SURROUNDED:
+      switch (preq->range) {
+      case REQ_RANGE_TILE:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on a lake or island surrounded by "
+                            "this continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be on a lake or island surrounded "
+                            "by this continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on or cardinally adjacent to a lake "
+                            "or island surrounded by this continent or "
+                            "ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be on nor cardinally adjacent to a "
+                            "lake or island surrounded by this continent "
+                            "or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on or adjacent to a lake or island "
+                            "surrounded by this continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be on nor adjacent to a lake or "
+                            "island surrounded by this continent or "
+                            "ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
 
     case TREL_COUNT:
       /* Invalid. */

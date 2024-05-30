@@ -1959,6 +1959,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
        * already covered by are_requirements_opposites() above. */
       switch (req1->source.value.tilerel) {
         case TREL_SAME_REGION:
+        case TREL_REGION_SURROUNDED:
           /* Negated req at larger range contradicts present req at
            * smaller range. */
           if (req1->range > req2->range) {
@@ -1978,6 +1979,30 @@ bool are_requirements_contradictions(const struct requirement *req1,
           break;
         default:
           return FALSE;
+      }
+    }
+    if (req1->source.value.tilerel == TREL_REGION_SURROUNDED
+        || req2->source.value.tilerel == TREL_REGION_SURROUNDED) {
+      const struct requirement *surr, *other;
+      if (req1->source.value.tilerel == TREL_REGION_SURROUNDED) {
+        surr = req1;
+        other = req2;
+      } else {
+        surr = req2;
+        other = req1;
+      }
+      if (surr->present && surr->range == REQ_RANGE_TILE) {
+        /* Target tile must be part of a surrounded region
+         * ~> not the same region
+         * ~> not touched by a third region */
+        switch (other->source.value.tilerel) {
+        case TREL_SAME_REGION:
+          return (other->present && other->range == REQ_RANGE_TILE);
+        case TREL_ONLY_OTHER_REGION:
+          return (!other->present);
+        default:
+          break;
+        }
       }
     }
     /* No further contradictions we can detect */
@@ -4816,6 +4841,45 @@ is_form_age_req_active(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
+  Determine whether the given continent or ocean might be surrounded by a
+  specific desired surrounder.
+**************************************************************************/
+static inline enum fc_tristate
+does_region_surrounder_match(Continent_id cont, Continent_id surrounder)
+{
+  Continent_id actual_surrounder;
+  bool whole_known;
+
+  if (cont > 0) {
+    actual_surrounder = get_island_surrounder(cont);
+    whole_known = is_whole_continent_known(cont);
+
+    if (actual_surrounder > 0) {
+      return TRI_NO;
+    }
+  } else if (cont < 0) {
+    actual_surrounder = get_lake_surrounder(cont);
+    whole_known = is_whole_ocean_known(-cont);
+
+    if (actual_surrounder < 0) {
+      return TRI_NO;
+    }
+  } else {
+    return TRI_MAYBE;
+  }
+
+  if (actual_surrounder == 0 || surrounder == 0) {
+    return TRI_MAYBE;
+  } else if (actual_surrounder != surrounder) {
+    return TRI_NO;
+  } else if (!whole_known) {
+    return TRI_MAYBE;
+  } else {
+    return TRI_YES;
+  }
+}
+
+/**********************************************************************//**
   Determine whether a tile relationship requirement is satisfied in a given
   context, ignoring parts of the requirement that can be handled uniformly
   for all requirement types.
@@ -4908,6 +4972,50 @@ is_tile_rel_req_active(const struct civ_map *nmap,
         return TRI_MAYBE;
       } else {
         return TRI_YES;
+      }
+    }
+    break;
+  case TREL_REGION_SURROUNDED:
+    fc_assert_ret_val_msg((req->range == REQ_RANGE_TILE
+                           || req->range == REQ_RANGE_CADJACENT
+                           || req->range == REQ_RANGE_ADJACENT),
+                          TRI_MAYBE,
+                          "Invalid range %d for tile relation \"%s\" req",
+                          req->range,
+                          tilerel_type_name(TREL_REGION_SURROUNDED));
+
+    {
+      bool seen_maybe = FALSE;
+      Continent_id wanted = tile_continent(other_context->tile);
+
+      switch (does_region_surrounder_match(tile_continent(context->tile),
+                                           wanted)) {
+        case TRI_YES:
+          return TRI_YES;
+        case TRI_MAYBE:
+          seen_maybe = TRUE;
+          break;
+        default:
+          break;
+      }
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        switch (does_region_surrounder_match(tile_continent(adj_tile),
+                                             wanted)) {
+          case TRI_YES:
+            return TRI_YES;
+          case TRI_MAYBE:
+            seen_maybe = TRUE;
+            break;
+          default:
+            break;
+        }
+      } range_adjc_iterate_end;
+
+      if (seen_maybe) {
+        return TRI_MAYBE;
+      } else {
+        return TRI_NO;
       }
     }
     break;
@@ -5873,14 +5981,12 @@ is_max_region_tiles_req_active(const struct civ_map *nmap,
 
       if (cont > 0) {
         min_tiles = nmap->continent_sizes[cont];
-        if (is_server() || (nmap->client.continent_unknown_adj_counts[cont]
-                            == 0)) {
+        if (is_whole_continent_known(cont)) {
           max_tiles = min_tiles;
         }
       } else if (cont < 0) {
         min_tiles = nmap->ocean_sizes[-cont];
-        if (is_server() || (nmap->client.ocean_unknown_adj_counts[-cont]
-                            == 0)) {
+        if (is_whole_ocean_known(-cont)) {
           max_tiles = min_tiles;
         }
       }
@@ -7790,6 +7896,9 @@ const char *universal_name_translation(const struct universal *psource,
       break;
     case TREL_ONLY_OTHER_REGION:
       fc_strlcat(buf, _("Only other continent/ocean"), bufsz);
+      break;
+    case TREL_REGION_SURROUNDED:
+      fc_strlcat(buf, _("Lake/island surrounded"), bufsz);
       break;
     case TREL_COUNT:
       fc_assert(psource->value.tilerel != TREL_COUNT);

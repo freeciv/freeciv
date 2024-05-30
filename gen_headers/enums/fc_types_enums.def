@@ -115,5 +115,6 @@ enum tilerel_type
   style identifiers sorted
 values
   ONLY_OTHER_REGION "Only Other Region"
+  REGION_SURROUNDED "Region Surrounded"
   SAME_REGION       "Same Region"
 end

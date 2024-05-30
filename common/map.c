@@ -175,7 +175,6 @@ void map_init(struct civ_map *imap, bool server_side)
 
   imap->continent_sizes = nullptr;
   imap->ocean_sizes = nullptr;
-  imap->lake_surrounders = nullptr;
 
   if (server_side) {
     imap->server.mapsize = MAP_DEFAULT_MAPSIZE;
@@ -198,9 +197,12 @@ void map_init(struct civ_map *imap, bool server_side)
     imap->server.have_huts = FALSE;
     imap->server.have_resources = FALSE;
     imap->server.team_placement = MAP_DEFAULT_TEAM_PLACEMENT;
+
+    imap->server.island_surrounders = nullptr;
+    imap->server.lake_surrounders = nullptr;
   } else {
-    imap->client.continent_unknown_adj_counts = nullptr;
-    imap->client.ocean_unknown_adj_counts = nullptr;
+    imap->client.adj_matrix = fc_malloc(sizeof(*imap->client.adj_matrix));
+    *imap->client.adj_matrix = fc_malloc(sizeof(**imap->client.adj_matrix));
   }
 }
 
@@ -561,27 +563,34 @@ void map_free(struct civ_map *fmap, bool server_side)
   }
   if (fmap->continent_sizes) {
     FC_FREE(fmap->continent_sizes);
-    fmap->num_continents = 0;
   }
   if (fmap->ocean_sizes) {
     FC_FREE(fmap->ocean_sizes);
-    fmap->num_oceans = 0;
-  }
-  if (fmap->lake_surrounders) {
-    FC_FREE(fmap->lake_surrounders);
-    fmap->num_oceans = 0;
   }
 
-  if (!server_side) {
-    if (fmap->client.continent_unknown_adj_counts) {
-      FC_FREE(fmap->client.continent_unknown_adj_counts);
-      fmap->num_continents = 0;
+  if (server_side) {
+    if (fmap->server.island_surrounders) {
+      FC_FREE(fmap->server.island_surrounders);
     }
-    if (fmap->client.ocean_unknown_adj_counts) {
-      FC_FREE(fmap->client.ocean_unknown_adj_counts);
-      fmap->num_oceans = 0;
+    if (fmap->server.lake_surrounders) {
+      FC_FREE(fmap->server.lake_surrounders);
+    }
+  } else {
+    if (fmap->client.adj_matrix) {
+      int i;
+
+      for (i = 0; i <= fmap->num_continents; i++) {
+        if (fmap->client.adj_matrix[i]) {
+          free(fmap->client.adj_matrix[i]);
+        }
+      }
+
+      FC_FREE(fmap->client.adj_matrix);
     }
   }
+
+  /* For any code that tries accessing sizes, surrounders etc. */
+  fmap->num_continents = fmap->num_oceans = 0;
 }
 
 /*******************************************************************//**
@@ -826,15 +835,69 @@ int get_ocean_size(Continent_id id)
 }
 
 /**********************************************************************//**
-  Get continent surrounding lake, or -1 if there is multiple continents.
+  Get the single ocean surrounding a given island, a positive value if
+  there isn't one single surrounding ocean, or 0 if client-side and there
+  could still be one but we don't know any concrete candidate.
 **************************************************************************/
-int get_lake_surrounders(Continent_id id)
+int get_island_surrounder(Continent_id id)
+{
+  fc_assert_ret_val(id > 0, +1);
+  fc_assert_ret_val(id <= wld.map.num_continents, +1);
+  if (is_server()) {
+    return -wld.map.server.island_surrounders[id];
+  } else {
+    Continent_id ocean, surrounder = 0;
+
+    for (ocean = 1; ocean <= wld.map.num_oceans; ocean++) {
+      if (wld.map.client.adj_matrix[id][ocean] > 0) {
+        if (surrounder == 0) {
+          surrounder = ocean;
+        } else if (surrounder != ocean) {
+          /* More than one adjacent ocean */
+          return +1;
+        }
+      }
+    }
+
+    if (surrounder == 0 && is_whole_continent_known(id)) {
+      return +1;
+    } else {
+      return -surrounder;
+    }
+  }
+}
+
+/**********************************************************************//**
+  Get the single continent surrounding a given lake, a negative value if
+  there isn't one single surrounding continent, or 0 if client-side and
+  there could still be one but we don't know any concrete candidate.
+**************************************************************************/
+int get_lake_surrounder(Continent_id id)
 {
   fc_assert_ret_val(id < 0, -1);
   fc_assert_ret_val(id >= -wld.map.num_oceans, -1);
-  /* Client updates num_oceans, but not lake_surrounders */
-  fc_assert_ret_val(is_server(), -1);
-  return wld.map.lake_surrounders[-id];
+  if (is_server()) {
+    return wld.map.server.lake_surrounders[-id];
+  } else {
+    Continent_id cont, surrounder = 0;
+
+    for (cont = 1; cont <= wld.map.num_continents; cont++) {
+      if (wld.map.client.adj_matrix[cont][-id] > 0) {
+        if (surrounder == 0) {
+          surrounder = cont;
+        } else if (surrounder != cont) {
+          /* More than one adjacent continent */
+          return -1;
+        }
+      }
+    }
+
+    if (surrounder == 0 && is_whole_ocean_known(-id)) {
+      return -1;
+    } else {
+      return surrounder;
+    }
+  }
 }
 
 /*******************************************************************//**

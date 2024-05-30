@@ -758,6 +758,10 @@ static bool is_req_knowable(const struct player *pov_player,
     if (tile_get_known(other_context->tile, pov_player) == TILE_UNKNOWN) {
       return FALSE;
     }
+    if (req->source.value.tilerel == TREL_REGION_SURROUNDED) {
+      /* Too complicated to figure out */
+      return FALSE;
+    }
 
     switch (req->range) {
     case REQ_RANGE_TILE:
