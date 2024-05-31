@@ -258,7 +258,7 @@ void test_random1(int n)
   int behaviourchange = 0, behavioursame = 0;
 
   saved_state = fc_rand_state();
-  /* fc_srand(time(NULL)); */  /* Use current state */
+  /* fc_srand(time(nullptr)); */  /* Use current state */
 
   for (i = 0; i < n + 2; i++) {
     new_value = fc_rand(2);
