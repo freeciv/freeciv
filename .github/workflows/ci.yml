@@ -115,7 +115,7 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh mac-meson
   normal:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v4.1.1
@@ -141,12 +141,13 @@ jobs:
             libsdl2-gfx-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            libmysqlclient-dev
+            libmysqlclient-dev \
+            unixodbc-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh normal
   dist:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v4.1.1
@@ -177,7 +178,7 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh dist
   meson:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v4.1.1
@@ -210,7 +211,7 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh meson
   clang_debug:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v4.1.1
@@ -239,12 +240,13 @@ jobs:
             libsdl2-gfx-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            libmysqlclient-dev
+            libmysqlclient-dev \
+            unixodbc-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh clang_debug
   tcc:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v4.1.1
@@ -266,7 +268,8 @@ jobs:
             liblzma-dev \
             libicu-dev \
             libsqlite3-dev \
-            libmysqlclient-dev
+            libmysqlclient-dev \
+            unixodbc-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh tcc
