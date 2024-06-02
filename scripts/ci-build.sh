@@ -45,9 +45,7 @@ echo "Freeciv distribution check successful!"
 ;;
 
 "meson")
-
-# Minimum version to have Qt6 detection actually working
-FC_MESON_VER="0.62.2"
+FC_MESON_VER=""
 if test "$FC_MESON_VER" != "" ; then
   mkdir meson-install
   cd meson-install
