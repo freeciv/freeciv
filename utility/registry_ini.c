@@ -925,7 +925,7 @@ const char *secfile_name(const struct section_file *secfile)
 }
 
 /**********************************************************************//**
-  Seperates the section and entry names.  Create the section if missing.
+  Separates the section and entry names.  Create the section if missing.
 **************************************************************************/
 static struct section *secfile_insert_base(struct section_file *secfile,
                                            const char *path,
