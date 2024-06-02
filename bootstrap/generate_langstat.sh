@@ -13,7 +13,7 @@
 #
 #***********************************************************************/
 
-if test "x$1" = "x-h" || test "x$1" = "x--help" || test "x$1" = "x" ; then
+if test "$1" = "-h" || test "$1" = "--help" || test "$1" = "" ; then
    echo "Usage: $(basename $0) <translation domain> <freeciv source root> <freeciv build>"
    exit
 fi
