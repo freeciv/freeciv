@@ -425,6 +425,7 @@ void center_on_something(void)
 {
   struct city *pcity;
   struct unit *punit;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!can_client_change_view()) {
     return;
@@ -450,14 +451,14 @@ void center_on_something(void)
     fc_assert_ret(punit != NULL);
     center_tile_mapcanvas(unit_tile(punit));
   } else {
-    struct tile *ctile = native_pos_to_tile(&(wld.map), wld.map.xsize / 2, wld.map.ysize / 2);
+    struct tile *ctile = native_pos_to_tile(nmap, wld.map.xsize / 2, wld.map.ysize / 2);
 
     /* Just any known tile will do; search near the middle first. */
     /* Iterate outward from the center tile.  We have to give a radius that
      * is guaranteed to be larger than the map will be.  Although this is
      * a misuse of map.xsize and map.ysize (which are native dimensions),
      * it should give a sufficiently large radius. */
-    iterate_outward(&(wld.map), ctile, wld.map.xsize + wld.map.ysize, ptile) {
+    iterate_outward(nmap, ctile, wld.map.xsize + wld.map.ysize, ptile) {
       if (client_tile_get_known(ptile) != TILE_UNKNOWN) {
         ctile = ptile;
         break;
@@ -805,6 +806,7 @@ int collect_eventually_buildable_targets(struct universal *targets,
 {
   struct player *pplayer = client_player();
   int cids_used = 0;
+  const struct civ_map *nmap = &(wld.map);
 
   improvement_iterate(pimprove) {
     bool can_build;
@@ -853,8 +855,8 @@ int collect_eventually_buildable_targets(struct universal *targets,
 
     if (NULL != pcity) {
       /* Can the city build? */
-      can_build = can_city_build_unit_now(&(wld.map), pcity, punittype);
-      can_eventually_build = can_city_build_unit_later(pcity, punittype);
+      can_build = can_city_build_unit_now(nmap, pcity, punittype);
+      can_eventually_build = can_city_build_unit_later(nmap, pcity, punittype);
     } else if (NULL != pplayer) {
       /* Can our player build? */
       can_build = can_player_build_unit_now(pplayer, punittype);

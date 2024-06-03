@@ -2043,6 +2043,7 @@ static bool worklist_change_build_target(struct player *pplayer,
   int saved_id = pcity->id;
   bool city_checked = TRUE; /* This is used to avoid spurious city_exist() calls */
   struct worklist *pwl = &pcity->worklist;
+  const struct civ_map *nmap = &(wld.map);
 
   if (worklist_is_empty(pwl)) {
     /* Nothing in the worklist; bail now. */
@@ -2102,7 +2103,7 @@ static bool worklist_change_build_target(struct player *pplayer,
         city_checked = FALSE;
 	break;
       } else {
-        purge = !can_city_build_unit_later(pcity, pupdate);
+        purge = !can_city_build_unit_later(nmap, pcity, pupdate);
       }
       if (purge) {
 	/* If the city can never build this unit or its descendants,

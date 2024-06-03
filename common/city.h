@@ -587,7 +587,8 @@ bool can_city_build_improvement_now(const struct city *pcity,
 bool can_city_build_unit_direct(const struct civ_map *nmap,
                                 const struct city *pcity,
                                 const struct unit_type *punittype);
-bool can_city_build_unit_later(const struct city *pcity,
+bool can_city_build_unit_later(const struct civ_map *nmap,
+                               const struct city *pcity,
                                const struct unit_type *punittype);
 bool can_city_build_unit_now(const struct civ_map *nmap,
                              const struct city *pcity,
