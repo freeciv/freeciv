@@ -1133,7 +1133,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
           best_unit_type = punittype;
           best_unit_cost = build_cost;
         }
-      } else if (can_city_build_unit_later(pcity, punittype)) {
+      } else if (can_city_build_unit_later(nmap, pcity, punittype)) {
         /* We first need to develop the tech required by the unit... */
 
         /* Cost (shield equivalent) of gaining these techs. */

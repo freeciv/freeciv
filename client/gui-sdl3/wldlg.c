@@ -1073,6 +1073,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   bool can_build, can_eventually_build;
   SDL_Rect area;
   int len;
+  const struct civ_map *nmap = &(wld.map);
 
   if (editor) {
     return;
@@ -1588,9 +1589,9 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
     /* If there's a city, can the city build the unit? */
     if (pcity) {
-      can_build = can_build && can_city_build_unit_now(&(wld.map), pcity, un);
+      can_build = can_build && can_city_build_unit_now(nmap, pcity, un);
       can_eventually_build = can_eventually_build
-        && can_city_build_unit_later(pcity, un);
+        && can_city_build_unit_later(nmap, pcity, un);
     }
 
     if ((advanced_tech && can_eventually_build)
