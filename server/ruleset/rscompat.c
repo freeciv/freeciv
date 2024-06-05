@@ -474,14 +474,14 @@ void rscompat_postprocess(struct rscompat_info *info)
 
   enabler = action_enabler_new();
   enabler->action = ACTION_GAIN_VETERANCY;
-  e_req = req_from_str("UnitFlag", "Local", FALSE, FALSE, FALSE,
+  e_req = req_from_str("UnitTypeFlag", "Local", FALSE, FALSE, FALSE,
                        "NoVeteran");
   requirement_vector_append(&enabler->actor_reqs, e_req);
   action_enabler_add(enabler);
 
   enabler = action_enabler_new();
   enabler->action = ACTION_ESCAPE;
-  e_req = req_from_str("UnitFlag", "Local", FALSE, TRUE, FALSE,
+  e_req = req_from_str("UnitTypeFlag", "Local", FALSE, TRUE, FALSE,
                        "CanEscape");
   requirement_vector_append(&enabler->actor_reqs, e_req);
   action_enabler_add(enabler);
@@ -630,6 +630,18 @@ const char *rscompat_utype_flag_name_3_3(const char *old_name)
 {
   if (!fc_strcasecmp("Settlers", old_name)) {
     return "Workers";
+  }
+
+  return old_name;
+}
+
+/**********************************************************************//**
+  Convert 3.2 universal name to a 3.3 one.
+**************************************************************************/
+const char *rscompat_universal_name_3_3(const char *old_name)
+{
+  if (!fc_strcasecmp("UnitFlag", old_name)) {
+    return "UnitTypeFlag";
   }
 
   return old_name;

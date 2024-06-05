@@ -760,6 +760,11 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
 
+    /* TODO: Allow only in compat mode. */
+    if (TRUE /* compat->compat_mode && compat->version < RSFORMAT_3_3 */) {
+      type = rscompat_universal_name_3_3(type);
+    }
+
     req = req_from_str(type, range, survives, present, quiet, name);
     if (req.source.kind == universals_n_invalid()) {
       ruleset_error(NULL, LOG_ERROR,

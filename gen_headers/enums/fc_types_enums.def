@@ -103,7 +103,7 @@ values
   UCFLAG             "UnitClassFlag"
   UCLASS             "UnitClass"
   UNITSTATE          "UnitState"
-  UTFLAG             "UnitFlag"
+  UTFLAG             "UnitTypeFlag"
   UTYPE              "UnitType"
   WRAP               "Wrap"
 end
