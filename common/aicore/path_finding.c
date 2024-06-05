@@ -2119,7 +2119,7 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
       }
       node->action = action;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
-      node->moves_left_req = 0; /* Attack is always possible theorically. */
+      node->moves_left_req = 0; /* Attack is always possible theoretically. */
 #endif
     } else {
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
