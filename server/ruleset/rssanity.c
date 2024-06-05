@@ -173,6 +173,7 @@ static bool sanity_check_req_individual(rs_conversion_logger logger,
 {
   switch (preq->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     /* This check corresponds to what is_req_active() will support.
      * It can't be done in req_from_str(), as we may not have
      * loaded all building information at that time. */
@@ -430,6 +431,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_ADVANCE:
     case VUT_TECHFLAG:
     case VUT_IMPROVEMENT:
+    case VUT_SITE:
     case VUT_UNITSTATE:
     case VUT_CITYTILE:
     case VUT_GOOD:

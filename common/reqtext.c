@@ -410,13 +410,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     break;
 
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     switch (preq->range) {
     case REQ_RANGE_WORLD:
       if (is_great_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires that %s was built at some point, "
@@ -432,7 +434,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if %s has ever been built, "
@@ -450,7 +453,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires %s to be owned by any player "
@@ -465,7 +469,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if %s is currently owned by "
@@ -484,14 +489,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-great-wonder world-ranged requirements not supported */
+      /* Non-great-wonder world-ranged requirements not supported */
       break;
     case REQ_RANGE_ALLIANCE:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone who is currently allied to "
@@ -508,7 +514,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone currently allied to you "
@@ -528,7 +535,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone allied to you to own %s, "
@@ -544,7 +552,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone allied to you owns %s, "
@@ -562,14 +571,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-wonder alliance-ranged requirements not supported */
+      /* Non-wonder alliance-ranged requirements not supported */
       break;
     case REQ_RANGE_TEAM:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone on your team to have "
@@ -586,7 +596,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone on your team has ever "
@@ -605,7 +616,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone on your team to own %s, "
@@ -621,7 +633,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone on your team owns %s, "
@@ -639,14 +652,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-wonder team-ranged requirements not supported */
+      /* Non-wonder team-ranged requirements not supported */
       break;
     case REQ_RANGE_PLAYER:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires you to have built %s at some point, "
@@ -662,7 +676,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if you have ever built %s, "
@@ -680,7 +695,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires you to own %s, which must not "
@@ -695,7 +711,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if you own %s, unless it is "
@@ -713,13 +730,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-wonder player-ranged requirements not supported */
+      /* Non-wonder player-ranged requirements not supported */
       break;
     case REQ_RANGE_CONTINENT:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->present) {
-          if (can_improvement_go_obsolete(preq->source.value.building)) {
+          if (preq->source.kind == VUT_IMPROVEMENT
+              && can_improvement_go_obsolete(preq->source.value.building)) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Requires %s in one of your cities on the same "
@@ -735,7 +753,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                          (preq->source.value.building));
           }
         } else {
-          if (can_improvement_go_obsolete(preq->source.value.building)) {
+          if (preq->source.kind == VUT_IMPROVEMENT
+              && can_improvement_go_obsolete(preq->source.value.building)) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Prevented if %s is in one of your cities on the "
@@ -758,7 +777,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
@@ -774,7 +794,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                        (preq->source.value.building));
         }
       } else {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
@@ -794,7 +815,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CITY:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
@@ -809,7 +831,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                        (preq->source.value.building));
         }
       } else {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
