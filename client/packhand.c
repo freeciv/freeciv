@@ -2383,7 +2383,7 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 
   wld.map.topology_id = topology_id;
 
-  map_init_topology();
+  map_init_topology(&(wld.map));
   main_map_allocate();
   client_player_maps_reset();
   init_client_goto();

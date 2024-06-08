@@ -163,7 +163,7 @@ void map_init(struct civ_map *imap, bool server_side)
   imap->startpos_table = NULL;
   imap->iterate_outwards_indices = NULL;
 
-  /* The [xy]size values are set in map_init_topology. It is initialized
+  /* The [xy]size values are set in map_init_topology(). It is initialized
    * to a non-zero value because some places erroneously use these values
    * before they're initialized. */
   imap->xsize = MAP_DEFAULT_LINEAR_SIZE;
@@ -298,7 +298,7 @@ static void generate_map_indices(void)
   This is done by the map generator code (server), when loading a savegame
   or a scenario with map (server), and packhand code (client).
 ***********************************************************************/
-void map_init_topology(void)
+void map_init_topology(struct civ_map *nmap)
 {
   enum direction8 dir;
 
@@ -314,7 +314,7 @@ void map_init_topology(void)
   fc_assert(map_num_tiles() >= MAP_MIN_SIZE * 1000);
   fc_assert(map_num_tiles() <= MAP_MAX_SIZE * 1000);
 
-  wld.map.num_valid_dirs = wld.map.num_cardinal_dirs = 0;
+  nmap->num_valid_dirs = nmap->num_cardinal_dirs = 0;
 
   /* Values for direction8_invalid() */
   fc_assert(direction8_invalid() == 8);
@@ -324,23 +324,23 @@ void map_init_topology(void)
   /* Values for actual directions */
   for (dir = 0; dir < 8; dir++) {
     if (is_valid_dir_calculate(dir)) {
-      wld.map.valid_dirs[wld.map.num_valid_dirs] = dir;
-      wld.map.num_valid_dirs++;
+      nmap->valid_dirs[nmap->num_valid_dirs] = dir;
+      nmap->num_valid_dirs++;
       dir_validity[dir] = TRUE;
     } else {
       dir_validity[dir] = FALSE;
     }
     if (is_cardinal_dir_calculate(dir)) {
-      wld.map.cardinal_dirs[wld.map.num_cardinal_dirs] = dir;
-      wld.map.num_cardinal_dirs++;
+      nmap->cardinal_dirs[nmap->num_cardinal_dirs] = dir;
+      nmap->num_cardinal_dirs++;
       dir_cardinality[dir] = TRUE;
     } else {
       dir_cardinality[dir] = FALSE;
     }
   }
-  fc_assert(wld.map.num_valid_dirs > 0 && wld.map.num_valid_dirs <= 8);
-  fc_assert(wld.map.num_cardinal_dirs > 0
-            && wld.map.num_cardinal_dirs <= wld.map.num_valid_dirs);
+  fc_assert(nmap->num_valid_dirs > 0 && nmap->num_valid_dirs <= 8);
+  fc_assert(nmap->num_cardinal_dirs > 0
+            && nmap->num_cardinal_dirs <= nmap->num_valid_dirs);
 }
 
 /*******************************************************************//**

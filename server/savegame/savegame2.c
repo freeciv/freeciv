@@ -1970,7 +1970,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
 
   /* Initialize the map for the current topology. 'map.xsize' and
    * 'map.ysize' must be set. */
-  map_init_topology();
+  map_init_topology(&(wld.map));
 
   /* Allocate map. */
   main_map_allocate();
