@@ -54,7 +54,7 @@ static const bool C_PERCENT = TRUE;
 
 bool map_is_empty(void);
 void map_init(struct civ_map *imap, bool server_side);
-void map_init_topology(void);
+void map_init_topology(struct civ_map *nmap);
 void map_allocate(struct civ_map *amap);
 void main_map_allocate(void);
 void map_free(struct civ_map *fmap);

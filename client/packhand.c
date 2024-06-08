@@ -2237,7 +2237,7 @@ void handle_map_info(const struct packet_map_info *packet)
   wld.map.topology_id = packet->topology_id;
   wld.map.wrap_id = packet->wrap_id;
 
-  map_init_topology();
+  map_init_topology(&(wld.map));
   main_map_allocate();
   client_player_maps_reset();
   init_client_goto();
