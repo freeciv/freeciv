@@ -528,6 +528,15 @@ int main(void) { static_assert(1, "1 is not true"); }''',
   pub_conf_data.set('FREECIV_CXX11_STATIC_ASSERT', 1)
 endif
 
+if c_compiler.compiles('''
+#include <assert.h>
+#include <string.h>
+static const char str[] = "12345";
+int main(void) { _Static_assert(5 == strlen(str), "Wrong length"); }''',
+  name: 'strlen() in static assert')
+  pub_conf_data.set('FREECIV_STATIC_STRLEN', 1)
+endif
+
 mw_req = get_option('mwand')
 if mw_req != 'false'
   mw_dep = dependency('MagickWand', version : '>= 7.0', required : false)
