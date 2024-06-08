@@ -226,20 +226,20 @@ void generator_init_topology(bool autosize)
 
   sqsize = get_sqsize();
 
-  /* initialize the ICE_BASE_LEVEL */
+  /* Initialize the ICE_BASE_LEVEL */
 
-  /* if maps has strip like poles we get smaller poles
+  /* If maps has strip like poles we get smaller poles
    * (less playables than island poles)
    *   5% for little maps
    *   2% for big ones, if map.server.temperature == 50
    * except if separate poles is set */
   if (wld.map.server.separatepoles) {
-    /* with separatepoles option strip poles are useless */
+    /* With separatepoles option strip poles are useless */
     ice_base_colatitude =
         (MAX(0, 100 * COLD_LEVEL / 3 - 1 *  MAX_COLATITUDE)
          + 1 *  MAX_COLATITUDE * sqsize) / (100 * sqsize);
   } else {
-    /* any way strip poles are not so playable as isle poles */
+    /* Any way strip poles are not so playable as isle poles */
     ice_base_colatitude =
         (MAX(0, 100 * COLD_LEVEL / 3 - 2 * MAX_COLATITUDE)
          + 2 * MAX_COLATITUDE * sqsize) / (100 * sqsize);
@@ -262,7 +262,7 @@ void generator_init_topology(bool autosize)
     wld.map.server.huts_absolute = -1;
   }
 
-  map_init_topology();
+  map_init_topology(&(wld.map));
 }
 
 /************************************************************************//**
