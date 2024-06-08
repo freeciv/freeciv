@@ -179,4 +179,7 @@
 /* C++11 static assert supported */
 #mesondefine FREECIV_CXX11_STATIC_ASSERT
 
+/* strlen() in static assert supported */
+#mesondefine FREECIV_STATIC_STRLEN
+
 #endif /* FC__FREECIV_CONFIG_H */
