@@ -10,7 +10,9 @@ artists = "\
  Warzone - Eidos Entertainment (GPL release) [warzone]\
  Eskapada - eskapada@o2.pl (Public Domain) [jt]\
  Spring Spring - https://opengameart.org/users/spring-spring [spring]\
- Trex0n - https://opengameart.org/users/trex0n [trex0n]"
+ Trex0n - https://opengameart.org/users/trex0n [trex0n]\
+ StumpyStrust - https://opengameart.org/users/stumpystrust [stumpy]\
+"
 
 ; For a list of tags used see README.sound, buildings.ruleset and
 ; units.ruleset.
@@ -266,7 +268,7 @@ e_bad_command = "stdsounds/illegal.ogg" ; [fcol]
 ;e_hut_gold = ""
 ;e_hut_merc = ""
 ;e_hut_settler = ""
-;e_hut_tech = ""
+e_hut_tech = "stdsounds/complete.ogg" ; [stumpy]
 ;e_hut_map = ""
 ;e_imp_auctioned = ""
 ;e_imp_auto = ""
@@ -298,10 +300,10 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_revolt_start = ""
 ;e_setting = ""
 ;e_spaceship = ""
-;e_tech_embassy = ""
-;e_tech_gain = ""
+e_tech_embassy = "stdsounds/complete.ogg" ; [stumpy]
+e_tech_gain = "stdsounds/complete.ogg" ; [stumpy]
 ;e_tech_goal = ""
-;e_tech_learned = ""
+e_tech_learned = "stdsounds/complete.ogg" ; [stumpy]
 ;e_tech_lost = ""
 ;e_treaty_alliance = ""
 ;e_treaty_broken = ""
