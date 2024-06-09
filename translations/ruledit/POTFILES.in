@@ -2,6 +2,7 @@
 # (Filenames are sorted alphabetically and relative to top-level directory.)
 tools/ruledit/conversion_log.cpp
 tools/ruledit/edit_extra.cpp
+tools/ruledit/edit_gov.cpp
 tools/ruledit/edit_impr.cpp
 tools/ruledit/edit_tech.cpp
 tools/ruledit/edit_terrain.cpp
