@@ -1521,6 +1521,7 @@ if server_type != 'disabled'
                 command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                           '@OUTPUT@',
                           meson.project_build_root(), 'development'],
+                depend_files: files('fc_version'),
                 install: true,
                 install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3296,6 +3297,7 @@ custom_target('mi_gtk322',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3384,6 +3386,7 @@ custom_target('mi_gtk4',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3640,6 +3643,7 @@ custom_target('mi_qt',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3781,6 +3785,7 @@ custom_target('mi_sdl2',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -3914,6 +3919,7 @@ install_data(
 #              output: '@BASENAME@',
 #              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
 #                        '@OUTPUT@', b_root, 'development'],
+#              depend_files: files('fc_version'),
 #              install: true,
 #              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -4014,6 +4020,7 @@ custom_target('mi_mp_gtk3',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -4050,6 +4057,7 @@ custom_target('mi_mp_gtk4',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -4093,6 +4101,7 @@ custom_target('mi_mp_qt',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
@@ -4236,6 +4245,7 @@ custom_target('mi_ruledit',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
                         '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
