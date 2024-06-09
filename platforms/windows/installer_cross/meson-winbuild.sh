@@ -27,6 +27,7 @@ if test "${GUI}" != "gtk3.22" && test "${GUI}" != "gtk4" &&
    test "${GUI}" != "gtk4x" &&
    test "${GUI}" != "sdl2" &&
    test "${GUI}" != "qt6" &&
+   test "${GUI}" != "qt6x" &&
    test "${GUI}" != "ruledit" ; then
   echo "Unknown gui \"$2\"" >&2
   exit 1
@@ -89,6 +90,11 @@ case "${GUI}" in
        TOOLS="${TOOLS},ruledit"
        MIN_WINVER=0x0A00
        QTPARAMS="-Dqtver=qt6" ;;
+  qt6x) CLIENT="qt"
+        FCMP="qt"
+        TOOLS="${TOOLS},ruledit"
+        MIN_WINVER=0x0A00
+        QTPARAMS="-Dqtver=qt6x" ;;
   ruledit) CLIENT="[]"
            FCMP="[]"
            TOOLS="ruledit"
