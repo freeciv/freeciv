@@ -1071,45 +1071,6 @@ helptext      = _("\
 Marines are infantry who are experts at marine warfare.\
 ")
 
-[unit_snipers]
-name          = _("Snipers")
-class         = "Small Land"
-;reqs
-obsolete_by   = "None"
-graphic       = "u.snipers"
-graphic_alt   = "-"
-sound_move    = "m_snipers"
-sound_move_alt = "m_generic"
-sound_fight   = "f_snipers"
-sound_fight_alt = "f_generic"
-build_cost    = 30
-pop_cost      = 2
-attack        = 0
-defense       = 1
-hitpoints     = 20
-firepower     = 1
-move_rate     = 1
-vision_radius_sq = 2
-transport_cap = 0
-fuel          = 0
-uk_happy      = 0
-uk_shield     = 0
-uk_food       = 1
-uk_gold       = 0
-tp_defense    = "Alight"
-flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity",
-                "Cities", "Fortress"
-; No veteran levels (level name is never displayed)
-veteran_names = _("green")
-veteran_base_raise_chance = 0
-veteran_work_raise_chance = 0
-veteran_power_fact = 100
-veteran_move_bonus = 0
-roles         = "CitiesStartUnit"
-helptext      = _("\
-	todo....
-")
-
 [unit_paratroopers]
 name          = _("Paratroopers")
 class         = "Land"

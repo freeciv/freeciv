@@ -10,7 +10,7 @@
 ; than minor changes.
 
 [datafile]
-description = "Civ2Civ3 game rules for Freeciv"
+description = "CE27 game rules for Freeciv"
 options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24 web-compatible"
 format_version = 40
 
@@ -23,7 +23,7 @@ description_file = "civ2civ3/README.civ2civ3"
 
 [about]
 ; Ruleset name
-name = _("Civ2Civ3 ruleset")
+name = _("CE27 ruleset")
 
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
