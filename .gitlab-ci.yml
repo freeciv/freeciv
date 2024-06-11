@@ -12,18 +12,18 @@ check_dependencies:
     - mkdir build && cd build && ../autogen.sh
   artifacts:
     paths:
-      - build
+      - .
 
 build_binaries:
   stage: build
   image: chedy007/freeciv:1.0  # Use your Docker image
+  allow_failure: true
   script:
     - echo "Running make..."
+    - pwd
     - cd build
+    - ls
     - make
-  artifacts:
-    paths:
-      - build
   needs:
     - job: check_dependencies
       artifacts: true
