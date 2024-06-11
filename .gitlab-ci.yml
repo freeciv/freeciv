@@ -16,12 +16,11 @@ check_dependencies:
 
 build_binaries:
   stage: build
+  image: chedy007/freeciv:1.0  # Use your Docker image
   script:
     - echo "Running make..."
     - cd build
-    - ls
-    - printenv
-    - ls /usr/bin
+    - make
   needs:
     - job: check_dependencies
       artifacts: true
