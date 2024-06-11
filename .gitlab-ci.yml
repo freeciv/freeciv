@@ -21,11 +21,12 @@ build_binaries:
     - echo "Running make..."
     - cd build
     - make
+  artifacts:
+    paths:
+      - build
   needs:
     - job: check_dependencies
-      artifacts:
-        paths:
-          - build
+      artifacts: true
 
 test:
   stage: test
