@@ -92,7 +92,7 @@ static int stat_size_compressed = 0;
 static int stat_size_no_compression = 0;
 
 /**********************************************************************//**
-  Returns the compression level. Initilialize it if needed.
+  Returns the compression level. Initialize it if needed.
 **************************************************************************/
 static inline int get_compression_level(void)
 {
