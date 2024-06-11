@@ -1,0 +1,1525 @@
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other "maintenance". If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy. Then use the
+; command "rulesetdir <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
+
+[datafile]
+description = "Civ2Civ3 actions data for Freeciv"
+options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24 web-compatible"
+format_version = 40
+
+[auto_attack]
+; An auto attack may be triggered when another unit moves to an adjacent
+; tile and the autoattack server setting is enabled. The following details
+; are ruleset controlled.
+;   if_attacker    - this requirement vector must be true before a unit even
+;                    considers to auto attack.
+;   attack_actions - the actions to try during an auto attack in the order
+;                    they should be tried.
+
+if_attacker =
+    { "type",         "name",    "range", "present"
+      "DiplRel",      "War",     "Local", TRUE
+      "MinMoveFrags", "1",       "Local", TRUE
+      ; Not a good idea to nuke our own area.
+      "UnitFlag",     "Nuclear", "Local", FALSE
+    }
+
+attack_actions = "Capture Units", "Bombard", "Collect Ransom", "Attack",
+                 "Suicide Attack"
+
+[actions]
+; Forbid "Bombard" if any one of the listed actions are legal.
+bombard_blocked_by = "Capture Units"
+
+; Forbid "Explode Nuclear" if any one of the listed actions are legal.
+explode_nuclear_blocked_by = "Capture Units", "Bombard"
+
+; Forbid "Nuke City" if any one of the listed actions are legal.
+nuke_city_blocked_by = "Capture Units", "Bombard"
+
+; Forbid "Nuke Units" if any one of the listed actions are legal.
+nuke_units_blocked_by = "Capture Units", "Bombard"
+
+; Forbid "Attack" if any one of the listed actions are legal.
+attack_blocked_by = "Collect Ransom", "Capture Units", "Bombard",
+                    "Explode Nuclear", "Nuke City", "Nuke Units"
+
+; Forbid "Suicide Attack" if any one of the listed actions are legal.
+suicide_attack_blocked_by = "Collect Ransom", "Capture Units", "Bombard",
+                            "Explode Nuclear", "Nuke City", "Nuke Units"
+
+; Forbid "Conquer City" if any one of the listed actions are legal.
+conquer_city_blocked_by = "Capture Units", "Bombard", "Explode Nuclear",
+                          "Nuke City", "Nuke Units",
+                          "Attack", "Suicide Attack"
+
+; Forbid "Conquer City 2" if any one of the listed actions are legal.
+conquer_city_2_blocked_by = "Capture Units", "Bombard", "Explode Nuclear",
+                            "Nuke City", "Nuke Units",
+                            "Attack", "Suicide Attack"
+
+; Forbid regular unit move if one of the actions below is legal.
+move_blocked_by = "Transport Disembark", "Transport Disembark 2",
+                  "Enter Hut", "Enter Hut 2",
+                  "Frighten Hut", "Frighten Hut 2"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Bribe Unit".
+bribe_unit_post_success_forced_actions = "Transport Embark",
+                                         "Transport Disembark",
+                                         "Transport Disembark 2",
+                                         "Conquer Extras",
+                                         "Conquer Extras 2",
+                                         "Enter Hut", "Enter Hut 2",
+                                         "Frighten Hut", "Frighten Hut 2",
+                                         "Unit Move"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Attack".
+attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
+                                     "Transport Disembark",
+                                     "Transport Disembark 2",
+                                     "Conquer Extras", "Conquer Extras 2",
+                                     "Enter Hut", "Enter Hut 2",
+                                     "Frighten Hut", "Frighten Hut 2",
+                                     "Unit Move"
+
+; Actor units will - under certain circumstances - be forced to try
+; performing the following actions in the specified order after successfully
+; performing "Collect Ransom".
+collect_ransom_post_success_forced_actions =
+                                     "Conquer City", "Conquer City 2",
+                                     "Transport Disembark",
+                                     "Transport Disembark 2",
+                                     "Conquer Extras", "Conquer Extras 2",
+                                     "Enter Hut", "Enter Hut 2",
+                                     "Frighten Hut", "Frighten Hut 2",
+                                     "Unit Move"
+
+; The city that made the unit`s current tile native is gone. This is a Hail
+; Mary attempt at survival by performing an action. Evaluated against an
+; adjacent tile. Currently only able to target native tiles.
+escape_city = "Transport Embark", "Enter Hut", "Enter Hut 2",
+              "Frighten Hut", "Frighten Hut 2", "Unit Move"
+
+; The unit`s stack has been defeated and is scheduled for execution but the
+; unit can do Escape action. Evaluated against an adjacent tile.
+;unit_stack_death = "Transport Embark",
+;                   "Enter Hut", "Enter Hut 2",
+;                   "Frighten Hut", "Unit Move"
+
+; If poison_empties_food_stock is set to TRUE a successful "Poison City"
+; or "Poison City Escape" will empty the food stock.
+poison_empties_food_stock = FALSE
+
+; If steal_maps_reveals_all_cities is set to TRUE a successful "Steal Maps"
+; or "Steal Maps Escape" will transfer the map for all tiles containing a
+; city.
+;steal_maps_reveals_all_cities = TRUE
+
+; The maximum distance from the actor unit to the target of the
+; "Help Wonder" action. The value 0 means that the target`s tile must be the
+; tile of the actor unit. The value 1 means that the city must be on a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+help_wonder_max_range = 1
+
+; The maximum distance from the actor unit to the target of the
+; "Disband Unit Recover" action. The value 0 means that the target`s tile must be the
+; tile of the actor unit. The value 1 means that the city must be on a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+disband_unit_recover_max_range = 1
+
+; The maximum distance from the actor unit to the target of the "Bombard"
+; action. The value 1 means that the targets must be on a tile adjacent to
+; the actor unit. The special value "unlimited" lifts the maximum distance
+; restriction. The maximum distance can`t be smaller than the minimum
+; distance.
+bombard_max_range = 1
+
+; The maximum distance from the actor unit to the target of the "Bombard 2"
+; action. The value 1 means that the targets must be on a tile adjacent to
+; the actor unit. The special value "unlimited" lifts the maximum distance
+; restriction. The maximum distance can`t be smaller than the minimum
+; distance.
+bombard_2_max_range = 1
+
+; The maximum distance from the actor unit to the target of the "Bombard 3"
+; action. The value 1 means that the targets must be on a tile adjacent to
+; the actor unit. The special value "unlimited" lifts the maximum distance
+; restriction. The maximum distance can`t be smaller than the minimum
+; distance.
+bombard_3_max_range = 1
+
+; The maximum distance from the actor unit to the target of the
+; "Bombard Lethal" action. The value 1 means that the targets must be on a
+; tile adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+bombard_lethal_max_range = 1
+
+; The minimal distance from the actor unit to the target. The value 0 means
+; that the target must be at the tile of the actor unit. The value 1 means
+; that the tile must be a tile adjacent to the actor unit.
+explode_nuclear_min_range = 0
+
+; The maximum distance from the actor unit to the target of the
+; "Explode Nuclear" action. The value 0 means that the target tile must be
+; the tile of the actor unit. The value 1 means that the tile must be a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+explode_nuclear_max_range = 0
+
+; Will performing this action always consume the actor unit?
+explode_nuclear_consuming_always = TRUE
+
+; The minimal distance from the actor unit to the target. The value 0 means
+; that the target must be at the tile of the actor unit. The value 1 means
+; that the tile must be a tile adjacent to the actor unit.
+nuke_city_min_range = 1
+
+; The maximum distance from the actor unit to the target of the
+; "Nuke City" action. The value 1 means that the tile must be a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+nuke_city_max_range = 1
+
+; Will performing this action always consume the actor unit?
+nuke_city_consuming_always = TRUE
+
+; The kind of target the "Nuke City" action has. The target requirements of
+; its enablers are evaluated against the target. The target owner is the one
+; that gets a Casus Belli if the ruleset has a Casus Belli for this action.
+; Supported values are "City" and "Tile".
+nuke_city_target_kind = "City"
+
+; The minimal distance from the actor unit to the target. The value 0 means
+; that the target must be at the tile of the actor unit. The value 1 means
+; that the tile must be a tile adjacent to the actor unit.
+nuke_units_min_range = 1
+
+; The maximum distance from the actor unit to the target of the
+; "Nuke Units" action. The value 1 means that the tile must be a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+nuke_units_max_range = 1
+
+; Will performing this action always consume the actor unit?
+nuke_units_consuming_always = TRUE
+
+; The maximum distance from the actor unit to the target of the "Airlift Unit"
+; action. The value 1 means that the targets must be on a tile adjacent to
+; the actor unit. The special value "unlimited" lifts the maximum distance
+; restriction. The maximum distance can`t be smaller than the minimum
+; distance.
+airlift_max_range = "unlimited"
+
+; Will performing this action always consume the actor unit?
+found_city_consuming_always = TRUE
+
+; What each action should be called when showing them to the player.
+; The first %s should be before the mnemonic of the action. A Freeciv client
+; that supports mnemonics will replace it with the in-band signal that marks
+; the following character as a mnemonic in its graphical toolkit.
+; The second %s marks where extra details should be inserted.
+
+; /* TRANS: _Poison City (3% chance of success). */
+ui_name_poison_city_escape = _("%sPoison City%s")
+
+; /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
+ui_name_sabotage_unit_escape = _("%sSabotage Enemy Unit%s")
+
+; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
+ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
+
+; /* TRANS: _Sabotage City (3% chance of success). */
+ui_name_sabotage_city = _("%sSabotage City%s")
+
+; /* TRANS: _Sabotage City Escape (3% chance of success). */
+ui_name_sabotage_city_escape = _("%sSabotage City Escape%s")
+
+; /* TRANS: Industrial _Sabotage (3% chance of success). */
+ui_name_targeted_sabotage_city_escape = _("Industrial %sSabotage%s")
+
+; /* TRANS: Industrial _Sabotage Production (3% chance of success). */
+ui_name_sabotage_city_production_escape = _("Industrial %sSabotage Production%s")
+
+; /* TRANS: Incite a _Revolt (3% chance of success). */
+ui_name_incite_city = _("Incite a %sRevolt%s")
+
+; /* TRANS: Incite a _Revolt and Escape (3% chance of success). */
+ui_name_incite_city_escape = _("Incite a Re%svolt and Escape%s")
+
+; /* TRANS: Establish _Embassy (100% chance of success). */
+ui_name_establish_embassy = _("Establish %sEmbassy%s")
+
+; /* TRANS: Becom_e Ambassador (100% chance of success). */
+ui_name_establish_embassy_stay = _("Becom%se Ambassador%s")
+
+; /* TRANS: Steal _Technology (3% chance of success). */
+ui_name_steal_tech = _("Steal %sTechnology%s")
+
+; /* TRANS: Steal _Technology and Escape (3% chance of success). */
+ui_name_steal_tech_escape = _("Steal %sTechnology and Escape%s")
+
+; /* TRANS: Indus_trial Espionage (3% chance of success). */
+ui_name_targeted_steal_tech_escape = _("Indus%strial Espionage%s")
+
+; /* TRANS: _Investigate City (100% chance of success). */
+ui_name_investigate_city = _("%sInvestigate City%s")
+
+; /* TRANS: _Investigate City (spends the unit) (100% chance of success). */
+ui_name_investigate_city_spend_unit = _("%sInvestigate City (spends the unit)%s")
+
+; /* TRANS: Establish Trade _Route (100% chance of success). */
+ui_name_establish_trade_route = _("Establish Trade %sRoute%s")
+
+; /* TRANS: Enter _Marketplace (100% chance of success). */
+ui_name_enter_marketplace = _("Enter %sMarketplace%s")
+
+; /* TRANS: Help _build Wonder (100% chance of success). */
+ui_name_help_wonder = _("Help %sbuild Wonder%s")
+
+; /* TRANS: Dis_band recovering production (100% chance of success). */
+ui_name_disband_unit_recover = _("Dis%sband recovering production%s")
+
+; /* TRANS: Dis_band without recovering production (100% chance of success). */
+ui_name_disband_unit = _("Dis%sband without recovering production%s")
+
+; /* TRANS: _Capture Units (100% chance of success). */
+ui_name_capture_units = _("%sCapture Units%s")
+
+; /* TRANS: _Build City (100% chance of success). */
+ui_name_found_city = _("%sBuild City%s")
+
+; /* TRANS: _Add to City (100% chance of success). */
+ui_name_join_city = _("%sAdd to City%s")
+
+; /* TRANS: _Bombard (100% chance of success). */
+ui_name_bombard = _("%sBombard%s")
+
+; /* TRANS: Explode _Nuclear In Place (100% chance of success). */
+ui_name_explode_nuclear = _("Explode %sNuclear In Place%s")
+
+; /* TRANS: _Nuke City (100% chance of success). */
+ui_name_nuke_city = _("%sNuke City%s")
+
+; /* TRANS: _Nuke Units (100% chance of success). */
+ui_name_nuke_units = _("%sNuke Units%s")
+
+; /* TRANS: Set _Home City (100% chance of success). */
+ui_name_home_city = _("Set %sHome City%s")
+
+; /* TRANS: _Upgrade Unit (100% chance of success). */
+ui_name_upgrade_unit = _("%sUpgrade Unit%s")
+
+; /* TRANS: Drop _Paratrooper (100% chance of success). */
+ui_name_paradrop_unit_enter = _("Drop %sParatrooper%s")
+
+; /* TRANS: _Paradrop to Contested Landing (100% chance of success). */
+ui_name_paradrop_unit_enter_conquer = _("%sParadrop to Contested Landing%s")
+
+; /* TRANS: _Airlift to City (100% chance of success). */
+ui_name_airlift_unit = _("%sAirlift to City%s")
+
+; /* TRANS: _Attack (100% chance of success). */
+ui_name_attack = _("%sAttack%s")
+
+; /* TRANS: _Explode Missile (100% chance of success). */
+ui_name_suicide_attack = _("%sExplode Missile%s")
+
+; /* TRANS: _Conquer City (100% chance of success). */
+ui_name_conquer_city = _("%sConquer City%s")
+
+; /* TRANS: _Conquer City from non native (100% chance of success). */
+ui_name_conquer_city_2 = _("%sConquer City from non native%s")
+
+; /* TRANS: _Transform Terrain (3% chance of success). */
+ui_name_transform_terrain = _("%sTransform Terrain%s")
+
+; /* TRANS: Transform by _Cultivating (3% chance of success). */
+ui_name_cultivate = _("Transform by %sCultivating%s")
+
+; /* TRANS: Transform by _Planting (3% chance of success). */
+ui_name_plant = _("Transform by %sPlanting%s")
+
+; /* TRANS: Pilla_ge (100% chance of success). */
+ui_name_pillage = _("Pilla%sge%s")
+
+; /* TRANS: Clean (100% chance of success). */
+ui_name_clean = _("%sClean%s")
+
+; /* TRANS: _Fortify (100% chance of success). */
+ui_name_fortify = _("%sFortify%s")
+
+; /* TRANS: Build _Road (100% chance of success). */
+ui_name_build_road = _("Build %sRoad%s")
+
+; /* TRANS: _Build Base (100% chance of success). */
+ui_name_build_base = _("%sBuild Base%s")
+
+; /* TRANS: Build _Mine (100% chance of success). */
+ui_name_build_mine = _("Build %sMine%s")
+
+; /* TRANS: Build _Irrigation (100% chance of success). */
+ui_name_irrigate = _("Build %sIrrigation%s")
+
+; /* TRANS: _Deboard (100% chance of success). */
+ui_name_transport_deboard = _("%sDeboard%s")
+
+; /* TRANS: _Board (100% chance of success). */
+ui_name_transport_board = _("%sBoard%s")
+
+; /* TRANS: _Unload (100% chance of success). */
+ui_name_transport_unload = _("%sUnload%s")
+
+; /* TRANS: _Disembark (100% chance of success). */
+ui_name_transport_disembark = _("%sDisembark%s")
+
+; /* TRANS: _Disembark from non native (100% chance of success). */
+ui_name_transport_disembark_2 = _("%sDisembark from non native%s")
+
+; /* TRANS: _Embark (100% chance of success). */
+ui_name_transport_embark = _("%sEmbark%s")
+
+; /* TRANS: Eliminate _Spy (100% chance of success). */
+ui_name_spy_attack = _("Eliminate %sSpy%s")
+
+; /* TRANS: Enter _Hut (100% chance of success). */
+ui_name_enter_hut = _("Enter %sHut%s")
+
+; /* TRANS: Enter _Hut from non native (100% chance of success). */
+ui_name_enter_hut_2 = _("Enter %sHut from non native%s")
+
+; /* TRANS: Frighten _Hut (100% chance of success). */
+ui_name_frighten_hut = _("Frighten %sHut%s")
+
+; /* TRANS: Frighten _Hut from non native (100% chance of success). */
+ui_name_frighten_hut_2 = _("Frighten %sHut from non native%s")
+
+; /* TRANS: Regular _Move (100% chance of success). */
+ui_name_unit_move = _("%sKeep moving%s")
+
+; Blank ruleset defined user actions.
+; See the section "Ruleset defined actions" in doc/README.actions
+; Example: set up "User Action 1"
+;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
+;user_action_1_target_kind            = "Unit"
+;user_action_1_min_range              = 1
+;user_action_1_max_range              = 3
+;user_action_1_actor_consuming_always = FALSE
+
+; Some actions have a action dice roll before the action starts where it can
+; fail. The initial probability of success is 100% unless the action appears
+; in the following list. Then the initial probability comes from the setting
+; diplchance. The initial probability of success is modified by the
+; Action_Odds_Pct effect before the roll happens.
+diplchance_initial_odds = "Sabotage City", "Sabotage City Escape",
+                          "Targeted Sabotage City Escape",
+                          "Sabotage City Production Escape",
+                          "Steal Tech", "Steal Tech Escape Expected",
+                          "Targeted Steal Tech Escape Expected",
+                          "Incite City", "Incite City Escape"
+
+; Suppress automatic help text generation about what enables and/or
+; disables the following actions.
+;
+; Can make the help text less redundant when you document it your self.
+
+; "Transport Disembark 2" is "Transport Disembark" but from a non native
+; tile. "Conquer City 2" has the same relation to "Conquer City". So is
+; "Enter Hut 2" for "Enter Hut" and "Frighten Hut 2" for "Frighten Hut".
+; The version from the non native tile and the native tile version won`t
+; appear in the same action selection dialog given their opposite
+; requirements. Avoid double entries in the auto help by silencing it.
+quiet_actions = "Transport Disembark 2", "Conquer City 2", "Enter Hut 2",
+                "Frighten Hut 2", "Unit Move"
+
+; /* <-- avoid gettext warnings
+;
+; Enablers:
+;
+; action               = the action to enable.
+; actor_reqs           = requirements that apply to the actor.
+; target_reqs          = requirements that apply to the target.
+;
+; README.actions lists the possible actions and their hard coded
+; requirements.
+;
+; An enabler is active when its actor_reqs AND its target_reqs are
+; satisfied.
+;
+; */ <-- avoid gettext warnings
+
+[enabler_sabotage_city]
+action        = "Sabotage City"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Diplomat",      "Local", TRUE
+      "DiplRel",      "War",           "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "UnitFlag",     "Spy",           "Local", FALSE
+    }
+
+[enabler_sabotage_city_spy]
+action        = "Sabotage City Escape"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+    }
+
+[enabler_sabotage_city_target]
+action        = "Targeted Sabotage City Escape"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "DiplRel",      "War",           "Local"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+    }
+
+[enabler_sabotage_city_production]
+action        = "Sabotage City Production Escape"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "DiplRel",      "War",           "Local"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+    }
+
+[enabler_establish_embassy]
+action        = "Establish Embassy Stay"
+actor_reqs    =
+    { "type",         "name",             "range", "present"
+      "UnitFlag",     "Diplomat",         "Local", TRUE
+      "MinMoveFrags", "1",                "Local", TRUE
+      "DiplRel",      "Foreign",          "Local", TRUE
+      "DiplRel",      "Has real embassy", "Local", FALSE
+      "UnitFlag",     "Spy",              "Local", FALSE
+    }
+target_reqs   =
+    { "type",        "name",      "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[enabler_establish_embassy_spy]
+action        = "Establish Embassy"
+actor_reqs    =
+    { "type",         "name",             "range", "present"
+      "UnitFlag",     "Spy",              "Local", TRUE
+      "MinMoveFrags", "1",                "Local", TRUE
+      "DiplRel",      "Foreign",          "Local", TRUE
+      "DiplRel",      "Has real embassy", "Local", FALSE
+    }
+target_reqs  =
+    { "type",        "name",      "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[enabler_establish_embassy_explorer]
+action        = "Establish Embassy Stay"
+actor_reqs    =
+    { "type",         "name",             "range", "present"
+      "UnitType",     "Explorer",         "Local", TRUE
+      "MinMoveFrags", "1",                "Local", TRUE
+      "DiplRel",      "Foreign",          "Local", TRUE
+      "DiplRel",      "Has real embassy", "Local", FALSE
+    }
+target_reqs  =
+    { "type",        "name",      "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[enabler_investigate_city]
+action        = "Investigate City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Diplomat", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
+      "UnitFlag", "Spy", "Local", FALSE
+    }
+
+[enabler_investigate_city_spy]
+action        = "Investigate City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+      "MinMoveFrags", "1", "Local"
+      "DiplRel", "Foreign", "Local"
+    }
+
+[enabler_investigate_city_explorer]
+action        = "Investigate City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitType", "Explorer", "Local"
+      "MinMoveFrags", "1", "Local"
+      "DiplRel", "Foreign", "Local"
+    }
+
+[enabler_steal_tech_random]
+action        = "Steal Tech"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", FALSE
+      "UnitFlag",     "Diplomat",      "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", TRUE
+    }
+target_reqs   =
+    { "type",        "name",      "range",  "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[enabler_steal_tech_random_esc]
+action        = "Steal Tech Escape Expected"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+      "DiplRel",      "Foreign",       "Local"
+    }
+target_reqs   =
+    { "type",        "name",      "range",  "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[enabler_steal_tech_target]
+action        = "Targeted Steal Tech Escape Expected"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+      "DiplRel",      "Foreign",       "Local"
+    }
+target_reqs   =
+    { "type",   "name", "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[enabler_poison_city]
+action        = "Poison City Escape"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+      "DiplRel", "War", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+    }
+target_reqs   =
+    { "type",   "name", "range"
+      "MinSize", "2", "City"
+    }
+
+[enabler_incite_city]
+action        = "Incite City"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Diplomat",      "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", TRUE
+      "UnitFlag",     "Spy",           "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",                  "range", "present"
+      "Building", "Courthouse",            "City",   FALSE
+      "Building", "Palace",                "City",   FALSE
+      "Building", "Ecclesiastical Palace", "City",   FALSE
+      "Building", "Mausoleum of Mausolos", "Player", FALSE
+    }
+
+[enabler_incite_city_spy]
+action        = "Incite City Escape"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", TRUE
+    }
+target_reqs   =
+    { "type",     "name",                  "range", "present"
+      "Building", "Courthouse",            "City",   FALSE
+      "Building", "Palace",                "City",   FALSE
+      "Building", "Ecclesiastical Palace", "City",   FALSE
+      "Building", "Mausoleum of Mausolos", "Player", FALSE
+    }
+
+[enabler_bribe_unit]
+action        = "Bribe Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Diplomat", "Local", TRUE
+      "UnitState", "HasHomeCity", "Local", TRUE
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+      "UnitState", "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
+    }
+target_reqs   =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Unbribable", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
+      "MaxUnitsOnTile", "1", "Tile", TRUE
+    }
+
+[enabler_sabotage_unit]
+action        = "Sabotage Unit Escape"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+      "DiplRel", "War", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+    }
+target_reqs   =
+    { "type",   "name", "range", "present"
+      "CityTile", "Center", "Tile", FALSE
+      "MinHitPoints", "2", "Local", TRUE
+      "MaxUnitsOnTile", "1", "Tile", TRUE
+    }
+
+[enabler_eliminate_spy]
+action        = "Spy Attack"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Spy", "Local", TRUE
+      "UnitState", "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+      "DiplRel", "Foreign", "Local", TRUE
+    }
+target_reqs   =
+    { "type",   "name", "range", "present"
+      "CityTile", "Center", "Tile", FALSE
+    }
+
+[enabler_trade_route]
+action        = "Establish Trade Route"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "TradeRoute", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "UnitState", "HasHomeCity", "Local", TRUE
+    }
+
+[enabler_help_build_wonder]
+action        = "Help Wonder"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "HelpWonder", "Local", TRUE
+      "DiplRel", "Armistice", "Local", FALSE
+      "DiplRel", "War", "Local", FALSE
+      "DiplRel", "Cease-fire", "Local", FALSE
+      "DiplRel", "Peace", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
+    }
+target_reqs   =
+    { "type",   "name", "range"
+      "BuildingGenus", "GreatWonder", "Local"
+    }
+
+[enabler_disband_unit_recover]
+action        = "Disband Unit Recover"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "EvacuateFirst", "Local", FALSE
+      "DiplRel",  "War",        "Local", FALSE
+      "DiplRel",  "Cease-fire", "Local", FALSE
+      "DiplRel",  "Armistice",  "Local", FALSE
+      "DiplRel",  "Peace",      "Local", FALSE
+    }
+
+[enabler_disband_unit]
+action        = "Disband Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "EvacuateFirst", "Local", FALSE
+    }
+
+[enabler_capture]
+action        = "Capture Units"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Capturer", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
+    }
+target_reqs   =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Capturable",   "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Tile",  FALSE
+    }
+
+[enabler_bombard_city]
+action        = "Bombard"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitFlag",     "Bombarder",   "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "War",         "Local", TRUE
+    }
+target_reqs   =
+    { "type",             "name",    "range", "present"
+      "TerrainClass",     "Oceanic", "Tile",  FALSE
+      "DiplRelTileOther", "War",     "Local", TRUE
+    }
+
+[enabler_bombard_no_city]
+action        = "Bombard"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitFlag",     "Bombarder",   "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "War",         "Local", TRUE
+    }
+target_reqs   =
+    { "type",         "name",    "range", "present"
+      "TerrainClass", "Oceanic", "Tile",  FALSE
+      "CityTile",     "Center",  "Tile",  FALSE
+    }
+
+[enabler_build_city_pioneer]
+action        = "Found City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Cities", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+    }
+target_reqs   =
+    { "type",   "name", "range", "present"
+      "CityTile", "Claimed", "Tile", FALSE
+      "TerrainFlag","NoCities","Tile",FALSE
+    }
+
+[enabler_build_city_domestic]
+action        = "Found City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Cities", "Local", TRUE
+      "UnitState", "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", FALSE
+    }
+target_reqs   =
+    { "type",        "name",     "range", "present"
+      "CityTile",    "Claimed",  "Tile",  TRUE
+      "TerrainFlag", "NoCities", "Tile",  FALSE
+    }
+
+[enabler_join_city]
+action        = "Join City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "AddToCity", "Local", TRUE
+      "DiplRel", "Foreign", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
+    }
+
+[enabler_nuke]
+action        = "Explode Nuclear"
+actor_reqs    =
+    { "type",     "name",    "range", "present"
+      "UnitFlag", "Nuclear", "Local", TRUE
+    }
+
+[enabler_nuke_city]
+action        = "Nuke City"
+actor_reqs    =
+    { "type",         "name",    "range"
+      "UnitFlag",     "Nuclear", "Local"
+      "MinMoveFrags", "1",       "Local"
+      "DiplRel",      "War",     "Local"
+    }
+
+[enabler_nuke_units]
+action        = "Nuke Units"
+actor_reqs    =
+    { "type",         "name",    "range"
+      "UnitFlag",     "Nuclear", "Local"
+      "MinMoveFrags", "1",       "Local"
+      "DiplRel",      "War",     "Local"
+    }
+target_reqs   =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Tile",  FALSE
+    }
+
+[enabler_attack_from_native]
+action        = "Attack"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+    }
+
+[enabler_attack_marines]
+action        = "Attack"
+actor_reqs    =
+    { "type",          "name",    "range", "present"
+      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitClassFlag", "Missile", "Local", FALSE
+      "MinMoveFrags",  "1",       "Local", TRUE
+      "UnitFlag",      "Marines", "Local", TRUE
+      "DiplRel",       "War",     "Local", TRUE
+    }
+
+[enabler_attack_att_from_non_native]
+action        = "Attack"
+actor_reqs    =
+    { "type",          "name",             "range", "present"
+      "UnitFlag",      "NonMil",           "Local", FALSE
+      "UnitClassFlag", "Missile",          "Local", FALSE
+      "MinMoveFrags",  "1",                "Local", TRUE
+      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+      "DiplRel",       "War",              "Local", TRUE
+    }
+
+[enabler_ransom_from_native]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+    }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
+    }
+
+[enabler_ransom_marines]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitFlag",      "Marines",      "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+    }
+target_reqs   =
+    { "type",          "name",         "range"
+      "PlayerState",   "Barbarian",    "Player"
+    }
+
+[enabler_ransom_att_from_non_native]
+action        = "Collect Ransom"
+actor_reqs    =
+    { "type",          "name",             "range", "present"
+      "UnitFlag",      "NonMil",           "Local", FALSE
+      "UnitClassFlag", "Missile",          "Local", FALSE
+      "MinMoveFrags",  "1",                "Local", TRUE
+      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+      "DiplRel",       "War",              "Local", TRUE
+    }
+target_reqs   =
+    { "type",          "name",             "range"
+      "PlayerState",   "Barbarian",        "Player"
+    }
+
+[enabler_explode_missile]
+action        = "Suicide Attack"
+actor_reqs    =
+    { "type",          "name",    "range", "present"
+      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitClassFlag", "Missile", "Local", TRUE
+      "MinMoveFrags",  "1",       "Local", TRUE
+      "DiplRel",       "War",     "Local", TRUE
+    }
+
+[enabler_conquer_city_native]
+action        = "Conquer City"
+actor_reqs    =
+    { "type",           "name",           "range",  "present"
+      "UnitClassFlag",  "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",       "NonMil",         "Local",  FALSE
+      "DiplRel",        "War",            "Local",  TRUE
+      "MinMoveFrags",   "1",              "Local",  TRUE
+      "UnitState",      "OnLivableTile",  "Local",  TRUE
+      "Nation",         "Animal Kingdom", "Player", FALSE
+    }
+target_reqs   =
+    { "type",           "name",           "range",  "present"
+      "MaxUnitsOnTile", "0",              "Tile",   TRUE
+    }
+
+[enabler_conquer_city_marines]
+action        = "Conquer City 2"
+actor_reqs    =
+    { "type",           "name",           "range",  "present"
+      "UnitClassFlag",  "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",       "NonMil",         "Local",  FALSE
+      "DiplRel",        "War",            "Local",  TRUE
+      "MinMoveFrags",   "1",              "Local",  TRUE
+      "UnitFlag",       "Marines",        "Local",  TRUE
+      "UnitState",      "OnLivableTile",  "Local",  FALSE
+      "Nation",         "Animal Kingdom", "Player", FALSE
+    }
+target_reqs   =
+    { "type",           "name",           "range",  "present"
+      "MaxUnitsOnTile", "0",              "Tile",   TRUE
+    }
+
+[enabler_change_home_city]
+action        = "Home City"
+actor_reqs    =
+    { "type",      "name",        "range", "present"
+      "UnitFlag",  "NoHome",      "Local", FALSE
+      "UnitState", "HasHomeCity", "Local", TRUE
+      "DiplRel",   "Foreign",  "Local", FALSE
+    }
+
+[enabler_change_home_city_diplo]
+action        = "Home City"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Diplomat", "Local", TRUE
+      "DiplRel",   "Foreign",  "Local", FALSE
+    }
+
+[enabler_paradrop_base_to_claimed]
+action        = "Paradrop Unit Enter"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE
+      "DiplRel",       "Peace",        "Local", FALSE
+      "DiplRel",       "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Tile",  TRUE
+    }
+
+[enabler_paradrop_base_to_unclaimed]
+action        = "Paradrop Unit Enter"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Tile",  FALSE
+    }
+
+[enabler_paradrop_base_to_war_conquer]
+action        = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "ExtraFlag",     "ParadropFrom",   "Tile",   TRUE
+      "DiplRel",       "War",            "Local",  TRUE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",      "NonMil",         "Local",  FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Tile",  TRUE
+    }
+
+[enabler_paradrop_city_to_claimed]
+action        = "Paradrop Unit Enter"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "CityTile",      "Center",       "Tile",  TRUE
+      "DiplRel",       "Peace",        "Local", FALSE
+      "DiplRel",       "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Tile",  TRUE
+    }
+
+[enabler_paradrop_city_to_unclaimed]
+action        = "Paradrop Unit Enter"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "CityTile",      "Center",       "Tile",  TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Tile",  FALSE
+    }
+
+[enabler_paradrop_city_to_war_conquer]
+action        = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",          "name",           "range",  "present"
+      "UnitFlag",      "Paratroopers",   "Local",  TRUE
+      "MinMoveFrags",  "6",              "Local",  TRUE
+      "UnitState",     "Transporting",   "Local",  FALSE
+      "CityTile",      "Center",         "Tile",   TRUE
+      "DiplRel",       "War",            "Local",  TRUE
+      "UnitClassFlag", "CanOccupyCity",  "Local",  TRUE
+      "UnitFlag",      "NonMil",         "Local",  FALSE
+      "UnitClassFlag", "HutFrighten",    "Local",  FALSE
+      "Nation",        "Animal Kingdom", "Player", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Tile",  TRUE
+    }
+
+[enabler_upgrade_unit]
+action        = "Upgrade Unit"
+actor_reqs    =
+    { "type",    "name",       "range", "present"
+      "DiplRel", "Foreign", "Local", FALSE
+    }
+
+[enabler_airlift_unit]
+action        = "Airlift Unit"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitClassFlag", "Airliftable",  "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
+    }
+
+[enabler_transform_terrain]
+action        = "Transform Terrain"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "Tech",          "Fusion Power", "Player"
+      "UnitFlag",      "Transform",    "Local"
+      "UnitFlag",      "Workers",      "Local"
+    }
+
+[enabler_cultivate]
+action        = "Cultivate"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Workers",      "Local", TRUE
+      "UnitClass",     "Sea",          "Local", FALSE
+    }
+
+[enabler_plant]
+action        = "Plant"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Workers",      "Local", TRUE
+      "UnitClass",     "Sea",          "Local", FALSE
+    }
+
+[enabler_pillage]
+action        = "Pillage"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitClassFlag", "CanPillage",   "Local"
+    }
+
+[enabler_clean]
+action        = "Clean"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Workers",      "Local", TRUE
+    }
+
+[enabler_fortify_terrain]
+action        = "Fortify"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitClassFlag", "CanFortify",   "Local", TRUE
+      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "TerrainFlag",   "NoFortify",    "Tile",  FALSE
+      "Activity",      "Fortified",    "Local", FALSE
+    }
+
+[enabler_fortify_city]
+action        = "Fortify"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitClassFlag", "CanFortify",   "Local", TRUE
+      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "CityTile",      "Center",       "Tile",  TRUE
+      "Activity",      "Fortified",    "Local", FALSE
+    }
+
+[enabler_road]
+action        = "Build Road"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Workers",      "Local"
+    }
+target_reqs   =
+    { "type",         "name",    "range"
+      "TerrainAlter", "CanRoad", "Tile"
+    }
+
+[enabler_base]
+action        = "Build Base"
+actor_reqs    =
+    { "type",          "name",         "range"
+    }
+target_reqs   =
+    { "type",         "name",    "range"
+      "TerrainAlter", "CanBase", "Tile"
+    }
+
+[enabler_mining]
+action        = "Build Mine"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Workers",  "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs   =
+    { "type",         "name",       "range", "present"
+      "Terrain",      "Deep Ocean", "Tile",  FALSE
+      "TerrainAlter", "CanMine",    "Tile",  TRUE
+    }
+
+[enabler_mining_ocean]
+action        = "Build Mine"
+actor_reqs    =
+    { "type",      "name",            "range"
+      "UnitFlag",  "Workers",         "Local"
+      "Tech",      "Miniaturization", "Player"
+    }
+target_reqs   =
+    { "type",    "name",            "range",  "present"
+      "Terrain", "Deep Ocean",      "Tile",   TRUE
+    }
+
+; Prevent building farmland on bare deserts. It does not yield any bonus
+; over irrigation, and prevents any Super Highways trade bonus, so it
+; would be a waste of time.
+; (Note that it is still possible to end up with farmland on such terrain
+; through climate change.)
+; Deserts with food bonuses _are_ allowed farmland (hence exceptions).
+
+; "Sea" nreq is for Transports, which are only supposed to clean pollution
+
+[enabler_irrigate_src_tech_basic_irrigation]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",        "range",  "present"
+      "UnitFlag",  "Workers",     "Local",  TRUE
+      "Tech",      "Electricity", "Player", TRUE
+      "UnitClass", "Sea",         "Local",  FALSE
+    }
+target_reqs   =
+    { "type",         "name",        "range", "present"
+      "Extra",        "Irrigation",  "Tile",  FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",  TRUE
+    }
+
+[enabler_irrigate_src_ocean_basic_irrigation]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",      "range", "present"
+      "UnitFlag",  "Workers",   "Local", TRUE
+      "UnitClass", "Sea",       "Local", FALSE
+    }
+target_reqs   =
+    { "type",         "name",        "range",     "present"
+      "TerrainClass", "Oceanic",     "CAdjacent", TRUE
+      "Extra",        "Irrigation",  "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",      TRUE
+    }
+
+[enabler_irrigate_src_extra_basic_irrigation]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Workers",  "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs   =
+    { "type",         "name",             "range",     "present"
+      "ExtraFlag",    "IrrigationSource", "CAdjacent", TRUE
+      "Extra",        "Irrigation",       "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate",      "Tile",      TRUE
+    }
+
+[enabler_irrigate_src_tech_not_in_desert]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",        "range",  "present"
+      "UnitFlag",  "Workers",     "Local",  TRUE
+      "Tech",      "Electricity", "Player", TRUE
+      "UnitClass", "Sea",         "Local",  FALSE
+    }
+target_reqs   =
+    { "type",         "name",        "range", "present"
+      "Terrain",      "Desert",      "Tile",  FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",  TRUE
+    }
+
+[enabler_irrigate_src_ocean_not_in_desert]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",      "range", "present"
+      "UnitFlag",  "Workers",   "Local", TRUE
+      "UnitClass", "Sea",       "Local", FALSE
+    }
+target_reqs   =
+    { "type",         "name",        "range",     "present"
+      "TerrainClass", "Oceanic",     "CAdjacent", TRUE
+      "Terrain",      "Desert",      "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",      TRUE
+    }
+
+[enabler_irrigate_src_extra_not_in_desert]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Workers",  "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs   =
+    { "type",         "name",             "range",     "present"
+      "ExtraFlag",    "IrrigationSource", "CAdjacent", TRUE
+      "Terrain",      "Desert",           "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate",      "Tile",      TRUE
+    }
+
+[enabler_irrigate_src_tech_desert_but_allowed]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",        "range",  "present"
+      "UnitFlag",  "Workers",     "Local",  TRUE
+      "Tech",      "Electricity", "Player", TRUE
+      "UnitClass", "Sea",         "Local",  FALSE
+    }
+target_reqs   =
+    { "type",         "name",                   "range", "present"
+      "Terrain",      "Desert",                 "Tile",  TRUE
+      "ExtraFlag",    "AllowsFarmlandOnDesert", "Tile",  TRUE
+    }
+
+[enabler_irrigate_src_ocean_desert_but_allowed]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",      "range", "present"
+      "UnitFlag",  "Workers",   "Local", TRUE
+      "UnitClass", "Sea",       "Local", FALSE
+    }
+target_reqs   =
+    { "type",         "name",                   "range",    "present"
+      "TerrainClass", "Oceanic",                "CAdjacent", TRUE
+      "Terrain",      "Desert",                 "Tile",      TRUE
+      "ExtraFlag",    "AllowsFarmlandOnDesert", "Tile",      TRUE
+    }
+
+[enabler_irrigate_src_extra_desert_but_allowed]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Workers",  "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs   =
+    { "type",      "name",                    "range",     "present"
+      "ExtraFlag", "IrrigationSource",        "CAdjacent", TRUE
+      "Terrain",    "Desert",                 "Tile",      TRUE
+      "ExtraFlag",  "AllowsFarmlandOnDesert", "Tile",      TRUE
+    }
+
+[enabler_deboard]
+action        = "Transport Deboard"
+actor_reqs    =
+    { "type",      "name",          "range"
+      "UnitState", "OnLivableTile", "Local"
+      "UnitState", "Transported",   "Local"
+    }
+target_reqs   =
+    { "type",      "name",         "range"
+      "UnitState", "Transporting", "Local"
+    }
+
+[enabler_board]
+action        = "Transport Board"
+actor_reqs    =
+    { "type",    "name",       "range", "present"
+      "DiplRel", "Armistice",  "Local", FALSE
+      "DiplRel", "War",        "Local", FALSE
+      "DiplRel", "Cease-fire", "Local", FALSE
+      "DiplRel", "Peace",      "Local", FALSE
+      "DiplRel", "Never met",  "Local", FALSE
+    }
+
+[enabler_unload]
+action        = "Transport Unload"
+actor_reqs    =
+    { "type",      "name",         "range"
+      "UnitState", "Transporting", "Local"
+    }
+target_reqs   =
+    { "type",      "name",          "range"
+      "UnitState", "OnLivableTile", "Local"
+      "UnitState", "Transported",   "Local"
+    }
+
+[enabler_disembark_from_native_tile]
+action        = "Transport Disembark"
+actor_reqs    =
+    { "type",         "name",         "range"
+      "UnitState",    "Transported",  "Local"
+      "MinMoveFrags", "1",            "Local"
+      "UnitState",    "OnNativeTile", "Local"
+    }
+
+[enabler_disembark_from_native_city]
+action        = "Transport Disembark"
+actor_reqs    =
+    { "type",         "name",        "range"
+      "UnitState",    "Transported", "Local"
+      "MinMoveFrags", "1",           "Local"
+      "CityTile",     "Center",      "Tile"
+    }
+
+[enabler_disembark_from_non_native]
+action        = "Transport Disembark 2"
+actor_reqs    =
+    { "type",           "name",         "range", "present"
+      "UnitState",      "Transported",  "Local", TRUE
+      "MinMoveFrags",   "1",            "Local", TRUE
+      "UnitState",      "OnNativeTile", "Local", FALSE
+      "CityTile",       "Center",       "Tile",  FALSE
+    }
+
+[enabler_embark]
+action        = "Transport Embark"
+actor_reqs    =
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "DiplRel",      "Armistice",  "Local", FALSE
+      "DiplRel",      "War",        "Local", FALSE
+      "DiplRel",      "Cease-fire", "Local", FALSE
+      "DiplRel",      "Peace",      "Local", FALSE
+      "DiplRel",      "Never met",  "Local", FALSE
+    }
+
+[enabler_regular_move]
+action        = "Unit Move"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "MinMoveFrags", "1",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+    }
+
+[enabler_hut_enter_from_native_tile]
+action        = "Enter Hut"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+    }
+
+[enabler_hut_enter_from_native_city]
+action        = "Enter Hut"
+actor_reqs    =
+    { "type",          "name",        "range", "present"
+      "MinMoveFrags",  "1",           "Local", TRUE
+      "CityTile",      "Center",      "Tile",  TRUE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
+    }
+
+[enabler_hut_enter_from_non_native]
+action        = "Enter Hut 2"
+actor_reqs    =
+    { "type",           "name",         "range", "present"
+      "MinMoveFrags",   "1",            "Local", TRUE
+      "UnitState",      "OnNativeTile", "Local", FALSE
+      "CityTile",       "Center",       "Tile",  FALSE
+      "UnitClassFlag",  "HutFrighten",  "Local", FALSE
+    }
+
+[enabler_hut_frighten_from_native_tile]
+action        = "Frighten Hut"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "MinMoveFrags",  "1",            "Local"
+      "UnitState",     "OnNativeTile", "Local"
+      "UnitClassFlag", "HutFrighten",  "Local"
+    }
+
+[enabler_hut_frighten_from_native_city]
+action        = "Frighten Hut"
+actor_reqs    =
+    { "type",          "name",        "range"
+      "MinMoveFrags",  "1",           "Local"
+      "CityTile",      "Center",      "Tile"
+      "UnitClassFlag", "HutFrighten",  "Local"
+    }
+
+[enabler_hut_frighten_from_non_native]
+action        = "Frighten Hut 2"
+actor_reqs    =
+    { "type",           "name",         "range", "present"
+      "MinMoveFrags",   "1",            "Local", TRUE
+      "UnitState",      "OnNativeTile", "Local", FALSE
+      "CityTile",       "Center",       "Tile",  FALSE
+      "UnitClassFlag",  "HutFrighten",  "Local", TRUE
+    }
+
+[enabler_gain_veterancy]
+action        = "Gain Veterancy"
+actor_reqs    =
+    { "type",           "name",         "range", "present"
+      "UnitFlag",       "NoVeteran",    "Local", FALSE
+    }

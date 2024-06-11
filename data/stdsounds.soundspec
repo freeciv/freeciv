@@ -163,7 +163,11 @@ m_ironclad = "stdsounds/inh2o.ogg" ; [pox]
 m_submarine = "stdsounds/inh2o.ogg" ; [pox]
 m_transport = "stdsounds/inh2o.ogg" ; [pox]
 m_trireme = "stdsounds/inh2o.ogg" ; [pox]
+m_hunters = "";
+m_snipers = "";
+m_transporter2 = "";
 ;m_warriors = ""
+
 
 ;w_generic = ""
 ;w_apollo_program = ""
