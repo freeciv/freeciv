@@ -27,5 +27,7 @@ RUN apt-get update && apt-get install -y \
     libgtk-3-dev \
     qtbase5-dev
 
+COPY bootstrap/missing .
+
 # Clean up the package list to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
