@@ -1515,7 +1515,7 @@ veteran_base_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 0, 0, 0, 0
 veteran_power_fact        = 100, 150, 175, 200
 veteran_move_bonus        = 0, 0, 0, 0
-roles         = "FerryLand", "FerryStartUnit"
+roles         = "", ""
 helptext      = _("\
 The Land Transport cannot attack on its own but\
  may defend itself when under attack.\
