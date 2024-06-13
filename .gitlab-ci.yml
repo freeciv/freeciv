@@ -33,7 +33,7 @@ build_binaries:
   script:
     - echo "Running make..."
     - cd build
-    - make
+    - make -j$(nproc)
   needs:
     - job: generate_makefiles
       artifacts: true
@@ -46,7 +46,7 @@ test:
   image: chedy007/freeciv:1.0  # Use your Docker image
   script:
     - echo "Running tests..."
-    - cd build && make check
+    - cd build && make check -j$(nproc)
   needs:
     - job: build_binaries
       artifacts: true
