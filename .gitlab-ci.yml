@@ -9,7 +9,18 @@ check_dependencies:
   script:
     - ls
     - echo "Checking dependencies..."
-    - mkdir build && cd build && ../autogen.sh
+    - mkdir build && cd build && ../autogen.sh --no-configure-run
+  artifacts:
+    paths:
+      - .
+
+generate_makefiles:
+  stage: build
+  image: chedy007/freeciv:1.0  # Use your Docker image
+  script:
+    - ls
+    - echo "Checking dependencies..."
+    - cd build && ../configure
   artifacts:
     paths:
       - .
