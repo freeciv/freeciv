@@ -17,24 +17,22 @@ check_dependencies:
 build_binaries:
   stage: build
   image: chedy007/freeciv:1.0  # Use your Docker image
-  allow_failure: true
   script:
     - echo "Running make..."
-    - pwd
     - cd build
-    - ls
     - make
   needs:
     - job: check_dependencies
       artifacts: true
+  artifacts:
+    paths:
+      - .
 
 test:
   stage: test
   image: chedy007/freeciv:1.0  # Use your Docker image
   script:
     - echo "Running tests..."
-    - pwd
-    - ls | grep build
     - cd build && make check
   needs:
     - job: build_binaries
