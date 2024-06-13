@@ -19,7 +19,7 @@ format_version = 40
 [ruledit]
 
 ; Which file to read description in from.
-description_file = "civ2civ3/README.civ2civ3"
+description_file = "ce27/README.ce27"
 
 [about]
 ; Ruleset name
@@ -36,9 +36,9 @@ name = _("CE27 ruleset")
 
 ; Summary of the ruleset
 ; /* TRANS: In the client, this is displayed alongside the contents of
-;    README.civ2civ3, which are not localized. */
+;    README.ce27, which are not localized. */
 summary = _("\
-You are playing Freeciv with civ2civ3 rules:\
+You are playing Freeciv with ce27 rules:\
 \n\n\
 Gameplay more similar to civ3, keeping the combat system from civ2.\
 \n\n\
@@ -46,12 +46,12 @@ Adapted for single player, with AI less aggressive at start,\
  but more challenging at the end.\
 \n\n\
 The differences from the former default ruleset, 'classic', are listed in\
- full in README.civ2civ3.\
+ full in README.ce27.\
 ")
 
 ; Detailed description
 ; When updating this, update also description_file in [ruledit] section to match
-description = *civ2civ3/README.civ2civ3*
+description = *ce27/README.ce27*
 
 ; What capabilities ruleset provides for the scenarios.
 ; See doc/README.rulesets for definitions of official capabilities
@@ -802,7 +802,7 @@ colorlist =
 ; etc...
 
 [settings]
-; freeciv game settings for civ2civ3 ruleset
+; freeciv game settings for ce27 ruleset
 ;
 set =
     { "name", "value"
