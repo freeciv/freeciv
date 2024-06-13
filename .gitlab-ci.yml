@@ -2,6 +2,7 @@
 stages:
   - build
   - test
+  - deploy
 
 check_dependencies:
   stage: build
@@ -13,6 +14,9 @@ check_dependencies:
   artifacts:
     paths:
       - .
+  rules:
+    if:
+      - '"$CI_COMMIT_BRANCH" != main'
 
 generate_makefiles:
   stage: build
@@ -26,6 +30,9 @@ generate_makefiles:
   artifacts:
     paths:
       - .
+  rules:
+    if:
+      - '"$CI_COMMIT_BRANCH" != main'
 
 build_binaries:
   stage: build
@@ -39,8 +46,10 @@ build_binaries:
       artifacts: true
   artifacts:
     paths:
-      - .
-
+     - .
+  rules:
+    if:
+      - '"$CI_COMMIT_BRANCH" != main'
 test:
   stage: test
   image: chedy007/freeciv:1.0  # Use your Docker image
@@ -49,4 +58,20 @@ test:
     - cd build && make check -j$(nproc)
   needs:
     - job: build_binaries
+      artifacts: true
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+  script:
+    - docker build -t "$CI_REGISTRY_IMAGE:latest" -f Dockerfile.deploy .
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  needs:
+    - job: test
       artifacts: true
