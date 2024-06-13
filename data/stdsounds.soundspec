@@ -79,6 +79,9 @@ f_cruiser = "stdsounds/LrgCan.ogg" ; [warzone]
 f_destroyer = "stdsounds/MedCan.ogg" ; [warzone]
 ;f_diplomat = ""
 ;f_dragoons = ""
+f_hunter = "stdsounds/hunter.ogg" ; [warzone]
+f_sniper = "stdsounds/sniper.ogg" ; [warzone]
+f_transportL = "stdsounds/ftransportL.ogg" ; [warzone]
 ;f_elephants = ""
 ;f_engineers = ""
 ;f_explorer = ""
@@ -163,9 +166,9 @@ m_ironclad = "stdsounds/inh2o.ogg" ; [pox]
 m_submarine = "stdsounds/inh2o.ogg" ; [pox]
 m_transport = "stdsounds/inh2o.ogg" ; [pox]
 m_trireme = "stdsounds/inh2o.ogg" ; [pox]
-m_hunters = "";
-m_snipers = "";
-m_transporter2 = "";
+m_hunter = "";
+m_sniper = "";
+m_transportL = "stdsounds/mtransportL.ogg";
 ;m_warriors = ""
 
 

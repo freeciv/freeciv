@@ -1408,6 +1408,122 @@ helptext      = _("\
 Cavalry are mounted and highly trained soldiers.\
 ")
 
+[unit_hunter]
+name          = _("Hunter")
+class         = "Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Bronze Working", "Player"    # Hunter wird mit "Bronze Working" verfügbar
+  }
+obsolete_by   = "Sniper"                 # Hunter wird durch Sniper obsolet
+graphic       = "u.hunter"               # Platzhalter für die Grafikdatei
+graphic_alt   = "-"
+sound_move    = "m_hunter"               # Platzhalter für den Bewegungssound
+sound_move_alt = "m_generic"
+sound_fight   = "f_hunter"               # Platzhalter für den Kampfsound
+sound_fight_alt = "f_generic"
+build_cost    = 15                      # Produktionskosten der Einheit
+pop_cost      = 0                       # Benötigt keine Bevölkerungseinheit
+attack        = 2                       # Moderate Angriffsstärke
+defense       = 1                       # Leichte Verteidigung
+hitpoints     = 10                      # Normale Lebenspunkte
+firepower     = 1                       # Normale Feuerkraft
+move_rate     = 1                       # Bewegungsreichweite
+vision_radius_sq = 2                   # Sichtweite
+transport_cap = 0                      # Keine Transportkapazität
+fuel          = 0                      # Kein Treibstoff erforderlich
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 1
+uk_gold       = 1
+tp_defense    = "Alight"
+flags         = "Capturer", "Fortress"
+roles         = "DefendOk", "DefendOkStartUnit"
+helptext      = _("\
+Hunters are skilled at tracking and attacking lightly defended units.\
+")
+
+[unit_sniper]
+name          = _("Sniper")
+class         = "Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Gunpowder", "Player"        # Sniper wird mit "Gunpowder" verfügbar
+  }
+obsolete_by   = "None"                   # Keine weitere Technologie macht sie obsolet
+graphic       = "u.sniper"               # Platzhalter für die Grafikdatei
+graphic_alt   = "-"
+sound_move    = "m_sniper"               # Platzhalter für den Bewegungssound
+sound_move_alt = "m_generic"
+sound_fight   = "f_sniper"               # Platzhalter für den Kampfsound
+sound_fight_alt = "f_generic"
+build_cost    = 30                      # Höhere Produktionskosten als der Hunter
+pop_cost      = 0                       # Benötigt keine Bevölkerungseinheit
+attack        = 4                       # Höhere Angriffsstärke
+defense       = 2                       # Bessere Verteidigung
+hitpoints     = 15                      # Mehr Lebenspunkte
+firepower     = 2                       # Mehr Feuerkraft
+move_rate     = 1                       # Bewegungsreichweite
+vision_radius_sq = 4                   # Größere Sichtweite
+transport_cap = 0                      # Keine Transportkapazität
+fuel          = 0                      # Kein Treibstoff erforderlich
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 1
+uk_gold       = 1
+tp_defense    = "Alight"
+flags         = "Capturer", "Fortress"
+roles         = "DefendGood", "DefendOkStartUnit"
+helptext      = _("\
+Snipers are expert marksmen with excellent attack and vision capabilities.\
+")
+
+[unit_transportLand]
+name          = _("Land Transport")
+class         = "Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Engineering", "Player"  ; Erfordert die gleiche Technologie wie unit_transport
+  }
+obsolete_by   = "None"
+graphic       = "u.land_transport"  ; Setze den korrekten Grafiksprite-Namen, den du für die Einheit erstellt hast
+graphic_alt   = "-"
+sound_move    = "m_transportL"  ; Setze den Namen der .ogg-Datei für die Bewegung, falls vorhanden
+sound_move_alt = "m_generic"
+sound_fight   = "f_transportL"
+sound_fight_alt = "f_generic"
+build_cost    = 60  ; Etwas teurer als das Seetransport, da es flexibler ist
+pop_cost      = 1
+attack        = 0
+defense       = 2  ; Etwas geringere Verteidigung, da Landtransporte tendenziell weniger gut gepanzert sind
+hitpoints     = 25
+firepower     = 1
+move_rate     = 8  ; Höhere Bewegungsgeschwindigkeit als Seetransporte
+vision_radius_sq = 4
+transport_cap = 4  ; Kann weniger Einheiten transportieren als das Seetransport
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 1
+uk_gold       = 1
+tp_defense    = "Load"  ; Verteidigung beim Laden
+cargo         = "Land", "Small Land", "Big Land", "Merchant"
+flags         = "Workers", "BadCityDefender", "HasNoZOC",
+                "Provoking", "NonMil"
+veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
+veteran_base_raise_chance      = 50, 33, 20, 0
+veteran_work_raise_chance = 0, 0, 0, 0
+veteran_power_fact        = 100, 150, 175, 200
+veteran_move_bonus        = 0, 0, 0, 0
+roles         = "FerryLand", "FerryStartUnit"
+helptext      = _("\
+The Land Transport cannot attack on its own but\
+ may defend itself when under attack.\
+"), _("\
+Land Transports can carry multiple land units, allowing faster and more \
+efficient movement across the terrain.\
+")
+
 [unit_armor]
 name          = _("Armor")
 class         = "Big Land"
