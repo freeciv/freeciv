@@ -10,6 +10,9 @@ check_dependencies:
     - ls
     - echo "Checking dependencies..."
     - ./autogen.sh --no-configure-run
+  artifacts:
+    paths:
+      - .
 
 generate_makefiles:
   stage: build
@@ -17,6 +20,9 @@ generate_makefiles:
   script:
     - echo "generating make files"
     - mkdir build && cd build && ../configure
+  needs:
+    - job: check_dependencies
+      artifacts: true
   artifacts:
     paths:
       - .
