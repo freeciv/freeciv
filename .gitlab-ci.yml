@@ -59,6 +59,12 @@ test:
   needs:
     - job: build_binaries
       artifacts: true
+  artifacts:
+    paths:
+     - .
+  rules:
+    if:
+      - '"$CI_COMMIT_BRANCH" != main'
 
 deploy:
   stage: deploy
