@@ -1,4 +1,4 @@
-# Define stages
+
 stages:
   - build
   - test
@@ -6,7 +6,7 @@ stages:
 
 check_dependencies:
   stage: build
-  image: chedy007/freeciv:1.0  # Use your Docker image
+  image: chedy007/freeciv:1.0
   script:
     - ls
     - echo "Checking dependencies..."
@@ -15,15 +15,14 @@ check_dependencies:
     paths:
       - .
   rules:
-    if:
-      - '"$CI_COMMIT_BRANCH" != main'
+    - if: '$CI_COMMIT_BRANCH != "main"'
 
 generate_makefiles:
   stage: build
-  image: chedy007/freeciv:1.0  # Use your Docker image
+  image: chedy007/freeciv:1.0
   script:
-    - echo "generating make files"
-    - mkdir build && cd build && ../configure
+    - echo "Generating makefiles..."
+    - mkdir -p build && cd build && ../configure
   needs:
     - job: check_dependencies
       artifacts: true
@@ -31,12 +30,11 @@ generate_makefiles:
     paths:
       - .
   rules:
-    if:
-      - '"$CI_COMMIT_BRANCH" != main'
+    - if: '$CI_COMMIT_BRANCH != "main"'
 
 build_binaries:
   stage: build
-  image: chedy007/freeciv:1.0  # Use your Docker image
+  image: chedy007/freeciv:1.0
   script:
     - echo "Running make..."
     - cd build
@@ -46,25 +44,22 @@ build_binaries:
       artifacts: true
   artifacts:
     paths:
-     - .
+      - .
   rules:
-    if:
-      - '"$CI_COMMIT_BRANCH" != main'
+    - if: '$CI_COMMIT_BRANCH != "main"'
+
 test:
   stage: test
-  image: chedy007/freeciv:1.0  # Use your Docker image
+  image: chedy007/freeciv:1.0
   script:
     - echo "Running tests..."
-    - cd build && make check -j$(nproc)
+    - cd build
+    - make check -j$(nproc)
   needs:
     - job: build_binaries
       artifacts: true
-  artifacts:
-    paths:
-     - .
   rules:
-    if:
-      - '"$CI_COMMIT_BRANCH" != main'
+    - if: '$CI_COMMIT_BRANCH != "main"'
 
 deploy:
   stage: deploy
