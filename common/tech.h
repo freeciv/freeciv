@@ -84,20 +84,15 @@ typedef int Tech_type_id;
 /* Player can build air units */
 #define SPECENUM_VALUE2 TF_BUILD_AIRBORNE
 #define SPECENUM_VALUE2NAME N_("Build_Airborne")
-/* Player can claim ocean tiles non-adjacent to border source */ 
-#define SPECENUM_VALUE3 TF_CLAIM_OCEAN
-#define SPECENUM_VALUE3NAME N_("Claim_Ocean")
-/* Player can claim ocean tiles non-adjacent to border source as long
- * as source is ocean tile */
-#define SPECENUM_VALUE4 TF_CLAIM_OCEAN_LIMITED
-#define SPECENUM_VALUE4NAME N_("Claim_Ocean_Limited")
-#define SPECENUM_VALUE5 TECH_USER_1
-#define SPECENUM_VALUE6 TECH_USER_2
-#define SPECENUM_VALUE7 TECH_USER_3
-#define SPECENUM_VALUE8 TECH_USER_4
-#define SPECENUM_VALUE9 TECH_USER_5
-#define SPECENUM_VALUE10 TECH_USER_6
-#define SPECENUM_VALUE11 TECH_USER_7
+#define SPECENUM_VALUE3 TECH_USER_1
+#define SPECENUM_VALUE4 TECH_USER_2
+#define SPECENUM_VALUE5 TECH_USER_3
+#define SPECENUM_VALUE6 TECH_USER_4
+#define SPECENUM_VALUE7 TECH_USER_5
+#define SPECENUM_VALUE8 TECH_USER_6
+#define SPECENUM_VALUE9 TECH_USER_7
+#define SPECENUM_VALUE10 TECH_USER_8
+#define SPECENUM_VALUE11 TECH_USER_9
 #define SPECENUM_VALUE12 TECH_USER_LAST
 /* Keep this last. */
 #define SPECENUM_COUNT TF_COUNT

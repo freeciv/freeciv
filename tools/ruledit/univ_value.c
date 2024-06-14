@@ -61,6 +61,7 @@ bool universal_value_initial(struct universal *src)
     src->value.govern = game.government_during_revolution;
     return TRUE;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     if (game.control.num_impr_types <= 0) {
       return FALSE;
     }
@@ -252,6 +253,15 @@ bool universal_value_initial(struct universal *src)
   case VUT_MAXLATITUDE:
     src->value.latitude = 0;
     return TRUE;
+  case VUT_MAX_DISTANCE_SQ:
+    src->value.distance_sq = 0;
+    return TRUE;
+  case VUT_MAX_REGION_TILES:
+    src->value.region_tiles = 0;
+    return TRUE;
+  case VUT_TILE_REL:
+    src->value.tilerel = TREL_SAME_REGION;
+    return TRUE;
   case VUT_COUNT:
     fc_assert(src->kind != VUT_COUNT);
     return FALSE;
@@ -287,6 +297,7 @@ void universal_kind_values(struct universal *univ,
     } governments_re_active_iterate_end;
     break;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     improvement_re_active_iterate(pimpr) {
       cb(improvement_rule_name(pimpr), univ->value.building == pimpr, data);
     } improvement_re_active_iterate_end;
@@ -401,6 +412,11 @@ void universal_kind_values(struct universal *univ,
       cb(citystatus_type_name(i), univ->value.citystatus == i, data);
     }
     break;
+  case VUT_TILE_REL:
+    for (i = 0; i < TREL_COUNT; i++) {
+      cb(tilerel_type_name(i), univ->value.tilerel == i, data);
+    }
+    break;
   case VUT_ACHIEVEMENT:
     achievements_re_active_iterate(pach) {
       cb(achievement_rule_name(pach), univ->value.achievement == pach, data);
@@ -504,6 +520,8 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINCITIES:
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
+  case VUT_MAX_DISTANCE_SQ:
+  case VUT_MAX_REGION_TILES:
     /* Requirement types having numerical value */
     cb(nullptr, FALSE, data);
     break;

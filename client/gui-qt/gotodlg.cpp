@@ -121,8 +121,18 @@ goto_dialog::goto_dialog(QWidget *parent): qfc_dialog(parent)
   connect(close_but, &QAbstractButton::clicked, this, &goto_dialog::close_dlg);
   connect(goto_city, &QAbstractButton::clicked, this, &goto_dialog::go_to_city);
   connect(airlift_city, &QAbstractButton::clicked, this, &goto_dialog::airlift_to);
-  connect(show_all, &QCheckBox::stateChanged,
+#ifdef FC_QT6X_MODE
+#if QT_VERSION >= 0x060700
+  connect(show_all, &QCheckBox::checkStateChanged,
           this, &goto_dialog::checkbox_changed);
+#else  // QT >= 6.7
+  connect(show_all, &QCheckBox::stateChanged,
+          this, &goto_dialog::checkbox_changed_depr);
+#endif // QT >= 6.7
+#else  // FC_QT6X_MODE
+  connect(show_all, &QCheckBox::stateChanged,
+          this, &goto_dialog::checkbox_changed_depr);
+#endif // FC_QT6X_MODE
   connect(goto_tab->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
@@ -155,7 +165,16 @@ goto_dialog::~goto_dialog()
 /***********************************************************************//**
   Slot for checkbox 'all nations'
 ***************************************************************************/
-void goto_dialog::checkbox_changed(int state)
+void goto_dialog::checkbox_changed(Qt::CheckState state)
+{
+  update_dlg();
+}
+
+/***********************************************************************//**
+  Slot for checkbox 'all nations'
+  This deprecated slot is used in Qt < 6.7
+***************************************************************************/
+void goto_dialog::checkbox_changed_depr(int state)
 {
   update_dlg();
 }

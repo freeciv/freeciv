@@ -536,8 +536,18 @@ void fc_client::create_load_page()
   connect(saves_load->selectionModel(),
           &QItemSelectionModel::selectionChanged, this,
           &fc_client::slot_selection_changed);
-  connect(show_preview, &QCheckBox::stateChanged, this,
+#ifdef FC_QT6X_MODE
+#if QT_VERSION >= 0x060700
+  connect(show_preview, &QCheckBox::checkStateChanged, this,
           &fc_client::state_preview);
+#else  // QT >= 6.7
+  connect(show_preview, &QCheckBox::stateChanged, this,
+          &fc_client::state_preview_depr);
+#endif // QT >= 6.7
+#else  // FC_QT6X_MODE
+  connect(show_preview, &QCheckBox::stateChanged, this,
+          &fc_client::state_preview_depr);
+#endif // FC_QT6X_MODE
   pages_layout[PAGE_LOAD]->addWidget(wdg, 1, 0);
   pages_layout[PAGE_LOAD]->addWidget(load_save_text, 2, 0, 1, 2);
   pages_layout[PAGE_LOAD]->addWidget(load_pix, 2, 2, 1, 2);
@@ -841,9 +851,28 @@ void fc_client::browse_saves(void)
 }
 
 /**********************************************************************//**
-  State of preview has been changed
+  State of preview has been changed.
 **************************************************************************/
-void fc_client::state_preview(int new_state)
+void fc_client::state_preview(Qt::CheckState state)
+{
+  QItemSelection slctn;
+
+  if (show_preview->checkState() == Qt::Unchecked) {
+    gui_options.gui_qt_show_preview = false;
+  } else {
+    gui_options.gui_qt_show_preview = true;
+  }
+  slctn = saves_load->selectionModel()->selection();
+  saves_load->selectionModel()->clearSelection();
+  saves_load->selectionModel()->select(slctn, QItemSelectionModel::Rows
+                                       | QItemSelectionModel::SelectCurrent);
+}
+
+/**********************************************************************//**
+  State of preview has been changed.
+  This deprecated slot is used in Qt < 6.7
+**************************************************************************/
+void fc_client::state_preview_depr(int new_state)
 {
   QItemSelection slctn;
 

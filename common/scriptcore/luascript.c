@@ -41,7 +41,6 @@
   Configuration for script execution time limits. Checkinterval is the
   number of executed lua instructions between checking. Disabled if 0.
 *****************************************************************************/
-#define LUASCRIPT_MAX_EXECUTION_TIME_SEC 5.0
 #define LUASCRIPT_CHECKINTERVAL 10000
 
 /* The name used for the freeciv lua struct saved in the lua state. */
@@ -232,9 +231,9 @@ static void luascript_exec_check(lua_State *L, lua_Debug *ar)
   lua_getfield(L, LUA_REGISTRYINDEX, "freeciv_exec_clock");
   exec_clock = lua_tonumber(L, -1);
   lua_pop(L, 1);
-  if ((float)(clock() - exec_clock)/CLOCKS_PER_SEC
-      > LUASCRIPT_MAX_EXECUTION_TIME_SEC) {
-    luaL_error(L, "Execution time limit exceeded in script");
+  if ((float)(clock() - exec_clock) / CLOCKS_PER_SEC
+      > game.lua_timeout) {
+    luaL_error(L, _("Execution time limit exceeded in script"));
   }
 }
 

@@ -203,7 +203,7 @@ QString shortcut_to_string(fc_shortcut *sc)
 }
 
 /**********************************************************************//**
-  fc_shortcuts contructor
+  fc_shortcuts constructor
 **************************************************************************/
 fc_shortcuts::fc_shortcuts()
 {
@@ -340,7 +340,7 @@ fc_shortcut_popup::fc_shortcut_popup(QWidget *parent): QDialog()
 }
 
 /**********************************************************************//**
-  Custom line edit contructor
+  Custom line edit constructor
 **************************************************************************/
 line_edit::line_edit(): QLineEdit()
 {
@@ -574,7 +574,7 @@ void fc_sc_button::popup_error()
 }
 
 /**********************************************************************//**
-  Contructor for shortcut dialog
+  Constructor for shortcut dialog
 **************************************************************************/
 fc_shortcuts_dialog::fc_shortcuts_dialog(QWidget *parent)
   : QDialog(parent)

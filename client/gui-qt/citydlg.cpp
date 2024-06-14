@@ -1936,15 +1936,35 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
     } else if (i == list_size - 2) {
       cma_celeb_checkbox = new QCheckBox;
       slider_grid->addWidget(cma_celeb_checkbox, i + 1, 2 , 1 , 1);
+#ifdef FC_QT6X_MODE
+#if QT_VERSION >= 0x060700
       connect(cma_celeb_checkbox,
-              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed);
+              &QCheckBox::checkStateChanged, this, &city_dialog::cma_toggle_changed);
+#else  // QT >= 6.7
+      connect(cma_celeb_checkbox,
+              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed_depr);
+#endif // QT >= 6.7
+#else  // FC_QT6X_MODE
+      connect(cma_celeb_checkbox,
+              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed_depr);
+#endif // FC_QT6X_MODE
     } else {
       fc_assert(i == list_size - 1);
 
       cma_max_growth = new QCheckBox;
       slider_grid->addWidget(cma_max_growth, i + 1, 2 , 1 , 1);
+#ifdef FC_QT6X_MODE
+#if QT_VERSION >= 0x060700
       connect(cma_max_growth,
-              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed);
+              &QCheckBox::checkStateChanged, this, &city_dialog::cma_toggle_changed);
+#else  // QT >= 6.7
+      connect(cma_max_growth,
+              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed_depr);
+#endif // QT >= 6.7
+#else  // FC_QT6X_MODE
+      connect(cma_max_growth,
+              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed_depr);
+#endif // FC_QT6X_MODE
     }
 
     if (i <= list_size - 2) {
@@ -2608,9 +2628,21 @@ void city_dialog::cma_remove()
 }
 
 /************************************************************************//**
-  CMA option 'celebrate' or 'max_growth' QCheckBox state has been changed
+  CMA option 'celebrate' or 'max_growth' QCheckBox state has been changed.
 ****************************************************************************/
-void city_dialog::cma_toggle_changed(int val)
+void city_dialog::cma_toggle_changed(Qt::CheckState state)
+{
+  if (cma_is_city_under_agent(dlgcity, nullptr)) {
+    cma_changed();
+    update_cma_tab();
+  }
+}
+
+/************************************************************************//**
+  CMA option 'celebrate' or 'max_growth' QCheckBox state has been changed.
+  This deprecated slot is used on Qt < 6.7.
+****************************************************************************/
+void city_dialog::cma_toggle_changed_depr(int state)
 {
   if (cma_is_city_under_agent(dlgcity, nullptr)) {
     cma_changed();

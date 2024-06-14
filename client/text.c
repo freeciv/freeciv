@@ -179,17 +179,34 @@ const char *popup_info_text(struct tile *ptile)
 
   if (cont > 0) {
     int size = get_continent_size(cont);
-    if (wld.map.client.continent_unknown_adj_counts[cont] > 0) {
-      astr_add_line(&str, _("Continent size: at least %d"), size);
-    } else {
+    Continent_id surrounder = get_island_surrounder(cont);
+
+    if (is_whole_continent_known(cont)) {
       astr_add_line(&str, _("Continent size: %d"), size);
+      if (surrounder < 0) {
+        astr_add_line(&str, _("Surrounded by ocean %d"), -surrounder);
+      }
+    } else {
+      astr_add_line(&str, _("Continent size: at least %d"), size);
+      if (surrounder < 0) {
+        astr_add_line(&str, _("Maybe surrounded by ocean %d"), -surrounder);
+      }
     }
   } else if (cont < 0) {
     int size = get_ocean_size(-cont);
-    if (wld.map.client.ocean_unknown_adj_counts[-cont] > 0) {
-      astr_add_line(&str, _("Ocean size: at least %d"), size);
-    } else {
+    Continent_id surrounder = get_lake_surrounder(cont);
+
+    if (is_whole_ocean_known(-cont)) {
       astr_add_line(&str, _("Ocean size: %d"), size);
+      if (surrounder > 0) {
+        astr_add_line(&str, _("Surrounded by continent %d"), surrounder);
+      }
+    } else {
+      astr_add_line(&str, _("Ocean size: at least %d"), size);
+      if (surrounder > 0) {
+        astr_add_line(&str, _("Maybe surrounded by continent %d"),
+                      surrounder);
+      }
     }
   }
   astr_add_line(&str, _("Latitude: %d"),
@@ -351,7 +368,7 @@ const char *popup_info_text(struct tile *ptile)
           && can_cities_trade(hcity, pcity)
           && can_establish_trade_route(hcity, pcity,
                                        unit_current_goods(pfocus_unit,
-                                                          hcity)->priority)) {
+                                                          hcity)->replace_priority)) {
         /* TRANS: "Trade from Warsaw: 5" */
         astr_add_line(&str, _("Trade from %s: %d"),
                       city_name_get(hcity),

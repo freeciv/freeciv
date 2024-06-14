@@ -2234,7 +2234,7 @@ static void sg_load_game(struct loaddata *loading)
     = !secfile_lookup_bool_default(loading->file, TRUE, "game.save_players");
 
   game.server.turn_change_time
-    = secfile_lookup_int_default(loading->file, 0, "game.last_turn_change_time") / 100.0;
+    = secfile_lookup_float_default(loading->file, 0, "game.last_turn_change_time");
 }
 
 /************************************************************************//**
@@ -2360,11 +2360,11 @@ static void sg_save_game(struct savedata *saving)
       saving->save_players = TRUE;
     }
 #ifndef SAVE_DUMMY_TURN_CHANGE_TIME
-    secfile_insert_int(saving->file, game.server.turn_change_time * 100,
-                       "game.last_turn_change_time");
+    secfile_insert_float(saving->file, game.server.turn_change_time,
+                         "game.last_turn_change_time");
 #else  /* SAVE_DUMMY_TURN_CHANGE_TIME */
-    secfile_insert_int(saving->file, game.info.turn * 10,
-                       "game.last_turn_change_time");
+    secfile_insert_float(saving->file, game.info.turn * 0.1,
+                         "game.last_turn_change_time");
 #endif /* SAVE_DUMMY_TURN_CHANGE_TIME */
   }
   secfile_insert_bool(saving->file, saving->save_players,
@@ -2922,7 +2922,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
 
   /* Initialize the map for the current topology. 'map.xsize' and
    * 'map.ysize' must be set. */
-  map_init_topology();
+  map_init_topology(&(wld.map));
 
   /* Allocate map. */
   main_map_allocate();
@@ -5513,8 +5513,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
           order->action = loading->action.order[unconverted];
         } else {
           if (order->order == ORDER_PERFORM_ACTION) {
-            log_sg("Invalid action id in order for city rally point %d",
-                   pcity->id);
+            sg_regr(3020000, "Invalid action id in order for city rally point %d",
+                    pcity->id);
           }
 
           order->action = ACTION_NONE;
@@ -6205,8 +6205,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
                   "%s", secfile_error());
   if (ei == -1) {
     action = ACTION_NONE;
-  } else {
+  } else if (ei >= 0 && ei < loading->action.size) {
     action = loading->action.order[ei];
+  } else {
+    log_sg("Invalid action id for unit %d", punit->id);
+    action = ACTION_NONE;
   }
 
   punit->birth_turn
@@ -6467,7 +6470,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           order->action = loading->action.order[unconverted];
         } else {
           if (order->order == ORDER_PERFORM_ACTION) {
-            log_sg("Invalid action id in order for unit %d", punit->id);
+            sg_regr(3020000, "Invalid action id in order for unit %d", punit->id);
           }
 
           order->action = ACTION_NONE;

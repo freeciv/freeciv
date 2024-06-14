@@ -429,8 +429,6 @@ void strvec_to_str(const struct strvec *psv, char separator,
 const char *strvec_to_or_list(const struct strvec *psv,
                               struct astring *astr)
 {
-  fc_assert_ret_val(psv != nullptr, nullptr);
-
   return astr_build_or_list(astr, (const char **) psv->vec, psv->size);
 }
 
@@ -443,7 +441,5 @@ const char *strvec_to_or_list(const struct strvec *psv,
 const char *strvec_to_and_list(const struct strvec *psv,
                                struct astring *astr)
 {
-  fc_assert_ret_val(psv != nullptr, nullptr);
-
   return astr_build_and_list(astr, (const char **) psv->vec, psv->size);
 }

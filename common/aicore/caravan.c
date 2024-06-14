@@ -265,7 +265,7 @@ static double windfall_benefit(const struct unit *caravan,
   } else {
     bool can_establish = (unit_can_do_action(caravan, ACTION_TRADE_ROUTE)
                           && can_establish_trade_route(src, dest,
-                                                       pgood->priority));
+                                                       pgood->replace_priority));
     int bonus = get_caravan_enter_city_trade_bonus(src, dest,
                                                    unit_type_get(caravan),
                                                    NULL, can_establish);
@@ -305,8 +305,10 @@ static int one_city_trade_benefit(const struct city *pcity,
     /* If the city can handle this route, we don't break any old routes */
     losttrade = 0;
   } else {
-    struct trade_route_list *would_remove = (countloser ? trade_route_list_new() : NULL);
-    int oldtrade = city_trade_removable(pcity, pgood->priority, would_remove);
+    struct trade_route_list *would_remove
+      = (countloser ? trade_route_list_new() : NULL);
+    int oldtrade = city_trade_removable(pcity, pgood->replace_priority,
+                                        would_remove);
 
     /* If we own the city, the trade benefit is only by how much
        better we are than the old trade route */
@@ -354,7 +356,7 @@ static double trade_benefit(const struct player *caravan_owner,
 
   /* First, see if a new route is made. */
   if (!can_cities_trade(src, dest)
-      || !can_establish_trade_route(src, dest, pgood->priority)) {
+      || !can_establish_trade_route(src, dest, pgood->replace_priority)) {
     return 0;
   }
   if (max_trade_routes(src) <= 0 || max_trade_routes(dest) <= 0) {

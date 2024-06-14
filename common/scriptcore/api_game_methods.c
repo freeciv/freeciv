@@ -837,6 +837,18 @@ const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
 }
 
 /**********************************************************************//**
+  Whether player currently sees the unit
+**************************************************************************/
+bool api_methods_unit_seen(lua_State *L, Unit *self, Player *watcher)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, self, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, watcher, 3, Player, FALSE);
+
+  return can_player_see_unit(watcher, self);
+}
+
+/**********************************************************************//**
   Return TRUE if players share research.
 **************************************************************************/
 bool api_methods_player_shares_research(lua_State *L, Player *pplayer,

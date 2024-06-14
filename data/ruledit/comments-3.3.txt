@@ -162,10 +162,6 @@ techs = "\
 ;                         extra. See \"bridged_over\" extra property in\n\
 ;                         terrain.ruleset.\n\
 ; \"Build_Airborne\"      = from now on can build air units (for use by AI)\n\
-; \"Claim_Ocean\"         = Player claims ocean tiles even if they are not\n\
-;                         adjacent to border source\n\
-; \"Claim_Ocean_Limited\" = Oceanic border sources claim ocean tiles even if\n\
-;                         they are not adjacent to border source\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
@@ -194,7 +190,7 @@ governments = "\
 ;                to rename an item after a ruleset has been released, you\n\
 ;                should set \"rule_name\" to the original value of \"name\".\n\
 ; reqs         = requirements for this government (see README.effects)\n\
-; graphic      = tag specifing preferred graphic\n\
+; graphic      = tag specifying preferred graphic\n\
 ; graphic_alt  = alternate graphics tag if preferred is not found;\n\
 ;                should be a standard tag if preferred is not;\n\
 ;                otherwise may be \"-\"\n\
@@ -1130,7 +1126,7 @@ goods = "\
 ; onetime_pct             = Onetime bonuses when trade route gets established. Default is 100\%\n\
 ; select_priority         = Available good with highest select_priority get selected for\n\
 ;                           the traderoute, random among the same select_pririty.\n\
-; priority                = Trade routes get replaced by higher priority goods, or higher\n\
+; replace_priority        = Trade routes get replaced by higher priority goods, or higher\n\
 ;                           trade value when priority is the same.\n\
 ; flags\n\
 ;   - \"Bidirectional\"     = Trade route carrying the goods does not have \"from\" and \"to\"\n\

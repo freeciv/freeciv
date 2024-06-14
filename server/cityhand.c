@@ -59,6 +59,7 @@
 void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  const struct civ_map *nmap = &(wld.map);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -67,7 +68,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
     return;
   }
 
-  if (action_prob_possible(action_prob_vs_tile(punit, ACTION_FOUND_CITY,
+  if (action_prob_possible(action_prob_vs_tile(nmap, punit, ACTION_FOUND_CITY,
                                                unit_tile(punit), NULL))) {
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
                 TILE_XY(unit_tile(punit)));

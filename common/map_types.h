@@ -88,19 +88,16 @@ struct civ_map {
    *
    * The _sizes arrays give the sizes (in tiles) of each continent and
    * ocean.
-   *
-   * The lake_surrounders array tells which single continent surrounds each
-   * ocean; or -1 if there's more than one adjacent continent.
    */
   int *continent_sizes;
   int *ocean_sizes;
-  Continent_id *lake_surrounders;   /* Not updated at the client */
 
   struct tile *tiles;
   struct startpos_hash *startpos_table;
 
   union {
     struct {
+      /* Server settings */
       enum mapsize_type mapsize; /* How the map size is defined */
       int size;                  /* Used to calculate [xy]size */
       int tilesperplayer;        /* Tiles per player; used to calculate size */
@@ -123,18 +120,37 @@ struct civ_map {
       bool have_huts;
       bool have_resources;
       enum team_placement team_placement;
+
+      /* These arrays are indexed by continent number (or negative of the
+       * ocean number) so the 0th element is unused and the array is 1 element
+       * larger than you'd expect.
+       *
+       * The _surrounders arrays tell which single continent surrounds each
+       * ocean, or which single ocean (positive ocean number) surrounds each
+       * continent; or -1 if there's more than one adjacent region.
+       */
+      Continent_id *island_surrounders;
+      Continent_id *lake_surrounders;
     } server;
 
     struct {
-      /* These arrays count how many adjacencies there are between known
-       * tiles of a given continent or ocean and unknown tiles, i.e. if a
-       * single known tile is adjacent to multiple unknowns (or vice versa)
-       * it gets counted multiple times.
+      /* This matrix counts how many adjacencies there are between known
+       * tiles of each continent and each ocean, as well as between both of
+       * those and unknown tiles. If a single tile of one region is
+       * adjacent to multiple tiles of another (or multiple unknowns), it
+       * gets counted multiple times.
        *
-       * If this is 0 for a continent or ocean, we know for sure that its
-       * size in continent/ocean_sizes is accurate. */
-      int *continent_unknown_adj_counts;
-      int *ocean_unknown_adj_counts;
+       * The matrix is continent-major, i.e.
+       * - adj_matrix[continent][ocean] is the adjacency count between a
+       *   continent and an ocean
+       * - adj_matrix[continent][0] is the unknown adjacency count for a
+       *   continent
+       * - adj_matrix[0][ocean] is the unknown adjacency count for an ocean
+       * - adj_matrix[0][0] is unused
+       *
+       * If an unknown adjacency count is 0, we know for sure that the
+       * known size of that continent or ocean is accurate. */
+      int **adj_matrix;
     } client;
   };
 };

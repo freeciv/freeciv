@@ -1597,3 +1597,44 @@ reqs    =
     { "type",   "name",                 "range", "present"
       "Action", "Disband Unit Recover", "Local", TRUE
     }
+
+; Note: There are no oceanic border sources, so we don't need to check
+;       the tiles' terrain class
+[effect_claim_land]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",         "name",        "range"
+;     "TerrainClass", "Land",        "Tile"
+      "TileRel",      "Same Region", "Tile"
+    }
+
+[effect_claim_ocean_adj]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",          "name",    "range"
+;     "TerrainClass",  "Oceanic", "Tile"
+      "MaxDistanceSq", "2",       "Tile"
+    }
+
+[effect_claim_ocean_lake]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",           "name",              "range"
+;     "TerrainClass",   "Oceanic",           "Tile"
+      "MaxRegionTiles", "20",                "Continent"
+      "TileRel",        "Region Surrounded", "Tile"
+    }
+
+[effect_claim_ocean_bay]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",           "name",              "range"
+;     "TerrainClass",   "Oceanic",           "Tile"
+      "MaxRegionTiles", "3",                 "Adjacent"
+      "TileRel",        "Only Other Region", "Adjacent"
+      "TileRel",        "Same Region",       "Adjacent"
+    }

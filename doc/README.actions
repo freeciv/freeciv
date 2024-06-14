@@ -102,6 +102,8 @@ actor requirements.
    target requirement vector to the actor requirement vector.
  * Asymmetric local DiplRel requirements must test for the same thing in
    the opposite direction. Example: "Hosts embassy" -> "Has embassy"
+A "MaxDistanceSq" requirement with the range "Tile" should always be put in
+the actor requirements, for the same reasons.
 
 Actions and Lua
 ===============

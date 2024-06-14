@@ -162,6 +162,11 @@ void city_freeze_workers_queue(struct city *pcity)
   if (arrange_workers_queue == nullptr) {
     arrange_workers_queue = city_list_new();
   } else if (city_list_find_number(arrange_workers_queue, pcity->id)) {
+    /* City might have been arranged since it was originally put to the queue.
+     * Make sure needs_arrange is set again. */
+    if (pcity->server.needs_arrange == CNA_NOT) {
+      pcity->server.needs_arrange = CNA_NORMAL;
+    }
     return;
   }
 
@@ -966,7 +971,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
     back = remove_trade_route(pcity, proute, FALSE, FALSE);
 
     keep_route = can_cities_trade(pcity, partner)
-      && can_establish_trade_route(pcity, partner, proute->goods->priority);
+      && can_establish_trade_route(pcity, partner, proute->goods->replace_priority);
 
     if (!keep_route) {
       enum trade_route_type type = cities_trade_route_type(pcity, partner);
@@ -2721,7 +2726,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     } improvement_iterate_end;
 
     unit_type_iterate(punittype) {
-      if (can_city_build_unit_now(pcity, punittype)) {
+      if (can_city_build_unit_now(nmap, pcity, punittype)) {
         BV_SET(web_packet->can_build_unit, utype_index(punittype));
       }
     } unit_type_iterate_end;

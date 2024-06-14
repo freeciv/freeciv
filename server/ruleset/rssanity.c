@@ -173,6 +173,7 @@ static bool sanity_check_req_individual(rs_conversion_logger logger,
 {
   switch (preq->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     /* This check corresponds to what is_req_active() will support.
      * It can't be done in req_from_str(), as we may not have
      * loaded all building information at that time. */
@@ -354,6 +355,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_IMPR_GENUS:
     case VUT_ORIGINAL_OWNER: /* City range -> only one original owner */
     case VUT_FORM_AGE:
+    case VUT_MAX_DISTANCE_SQ: /* Breaks nothing, but has no sense either */
       /* There can be only one requirement of these types (with current
        * range limitations)
        * Requirements might be identical, but we consider multiple
@@ -429,11 +431,13 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_ADVANCE:
     case VUT_TECHFLAG:
     case VUT_IMPROVEMENT:
+    case VUT_SITE:
     case VUT_UNITSTATE:
     case VUT_CITYTILE:
     case VUT_GOOD:
     case VUT_UTYPE:
     case VUT_UCLASS:
+    case VUT_TILE_REL:
       /* Can check different properties. */
     case VUT_UTFLAG:
     case VUT_UCFLAG:
@@ -454,6 +458,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
       /* Can have multiple requirements of these types */
     case VUT_MINLATITUDE:
     case VUT_MAXLATITUDE:
+    case VUT_MAX_REGION_TILES:
       /* Can have multiple requirements at different ranges.
        *  TODO: Compare to number of legal ranges? */
       break;
@@ -1356,6 +1361,21 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
            * code that reasons about actions. */
           ruleset_error(logger, LOG_ERROR,
                         _("Action enabler for %s has a local DiplRel "
+                          "requirement %s in target_reqs! Please read the "
+                          "section \"Requirement vector rules\" in "
+                          "doc/README.actions"),
+                        action_id_rule_name(act),
+                        req_to_fstring(preq, &astr));
+          astr_free(&astr);
+          ok = FALSE;
+        } else if (preq->source.kind == VUT_MAX_DISTANCE_SQ
+                   && preq->range == REQ_RANGE_TILE) {
+          struct astring astr;
+
+          /* A Tile-ranged MaxDistanceSq requirement can be expressed as a
+           * requirement in actor_reqs. Demand that it is there. */
+          ruleset_error(logger, LOG_ERROR,
+                        _("Action enabler for %s has a tile MaxDistanceSq "
                           "requirement %s in target_reqs! Please read the "
                           "section \"Requirement vector rules\" in "
                           "doc/README.actions"),

@@ -1168,8 +1168,8 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
     .player = pplayer,
     .city = pcity,
     .tile = city_tile(pcity)
-    /* FIXME: Setting .unittype is currently redundant
-     * but can_city_build_unit_direct() does it */
+    /* FIXME: Setting .unittype is currently redundant,
+     *        but can_city_build_unit_direct() does it */
   };
   bool purge = FALSE;
   bool known = FALSE;
@@ -1261,6 +1261,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_IMPROVEMENT:
+      case VUT_SITE:
         if (preq->range == REQ_RANGE_LOCAL) {
           /* Building itself is never going to change */
           purge = TRUE;
@@ -1872,6 +1873,11 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                     pcity, "have_terrainflag");
         }
         break;
+      case VUT_MAX_REGION_TILES:
+        /* Changing the continent size is hard; cf. VUT_TERRAINCLASS above.
+         * Change this when we support less fixed ranges (e.g. city?). */
+        purge = TRUE;
+        break;
       case VUT_ROADFLAG:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),
@@ -1969,6 +1975,8 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_ACTION:
       case VUT_OTYPE:
       case VUT_SPECIALIST:
+      case VUT_MAX_DISTANCE_SQ:
+      case VUT_TILE_REL:
       case VUT_TERRAINALTER: /* XXX could do this in principle */
         /* Will only happen with a bogus ruleset. */
         log_error("worklist_change_build_target() has bogus preq");
@@ -2397,6 +2405,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 **************************************************************************/
 void choose_build_target(struct player *pplayer, struct city *pcity)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   /* Pick the next thing off the worklist. */
   if (worklist_change_build_target(pplayer, pcity)) {
     return;
@@ -2408,7 +2418,7 @@ void choose_build_target(struct player *pplayer, struct city *pcity)
   case VUT_UTYPE:
     /* We can build a unit again unless it's unique or we have lost the tech. */
     if (!utype_has_flag(pcity->production.value.utype, UTYF_UNIQUE)
-        && can_city_build_unit_now(pcity, pcity->production.value.utype)) {
+        && can_city_build_unit_now(nmap, pcity, pcity->production.value.utype)) {
       log_base(LOG_BUILD_TARGET, "%s repeats building %s", city_name_get(pcity),
                utype_rule_name(pcity->production.value.utype));
       return;
@@ -2489,12 +2499,13 @@ static const struct unit_type *unit_upgrades_to(struct city *pcity,
 {
   const struct unit_type *check = punittype;
   const struct unit_type *best_upgrade = U_NOT_OBSOLETED;
+  const struct civ_map *nmap = &(wld.map);
 
-  if (!can_city_build_unit_direct(pcity, punittype)) {
+  if (!can_city_build_unit_direct(nmap, pcity, punittype)) {
     return U_NOT_OBSOLETED;
   }
   while ((check = check->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_city_build_unit_direct(pcity, check)) {
+    if (can_city_build_unit_direct(nmap, pcity, check)) {
       best_upgrade = check;
     }
   }
@@ -2509,8 +2520,9 @@ static void upgrade_unit_prod(struct city *pcity)
 {
   const struct unit_type *producing = pcity->production.value.utype;
   const struct unit_type *upgrading = unit_upgrades_to(pcity, producing);
+  const struct civ_map *nmap = &(wld.map);
 
-  if (upgrading && can_city_build_unit_direct(pcity, upgrading)) {
+  if (upgrading && can_city_build_unit_direct(nmap, pcity, upgrading)) {
     notify_player(city_owner(pcity), city_tile(pcity),
                   E_UNIT_UPGRADED, ftc_server,
 		  _("Production of %s is upgraded to %s in %s."),
@@ -2835,6 +2847,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   struct worklist *pwl = &pcity->worklist;
   int unit_shield_cost, num_units, i;
   int saved_city_id = pcity->id;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(pcity->production.kind == VUT_UTYPE, FALSE);
 
@@ -2853,7 +2866,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
      they build!! - Per */
-  if (!can_city_build_unit_direct(pcity, utype)
+  if (!can_city_build_unit_direct(nmap, pcity, utype)
       && !is_barbarian(pplayer)) {
     notify_player(pplayer, city_tile(pcity), E_CITY_CANTBUILD, ftc_server,
                   _("%s is building %s, which is no longer available."),

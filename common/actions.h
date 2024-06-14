@@ -566,7 +566,8 @@ struct act_prob action_prob_vs_stack(const struct civ_map *nmap,
                                      const action_id act_id,
                                      const struct tile* victims);
 
-struct act_prob action_prob_vs_tile(const struct unit *actor,
+struct act_prob action_prob_vs_tile(const struct civ_map *nmap,
+                                    const struct unit *actor,
                                     const action_id act_id,
                                     const struct tile *victims,
                                     const struct extra_type *target_extra);

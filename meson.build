@@ -322,7 +322,6 @@ pub_headers = [
   'inttypes.h',
   'stdint.h',
   'sys/types.h',
-  'unistd.h',
   'sys/time.h',
   'sys/socket.h',
   'sys/select.h',
@@ -488,6 +487,8 @@ foreach func : liblua_functions
 endforeach
 
 if c_compiler.has_header('unistd.h')
+  pub_conf_data.set('FREECIV_HAVE_UNISTD_H', 1)
+  priv_conf_data.set('HAVE_UNISTD_H', 1)
   liblua_conf_data.set('FREECIV_HAVE_UNISTD_H', 1)
 endif
 
@@ -582,6 +583,20 @@ zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
 
 if zstd_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
+endif
+
+if c_compiler.compiles('''
+#include <assert.h>
+int main(void) { _Static_assert(1, "1 is not true"); }''',
+  name: 'c11 Static Assert')
+  pub_conf_data.set('FREECIV_C11_STATIC_ASSERT', 1)
+endif
+
+if cxx_build and cxx_compiler.compiles('''
+#include <assert.h>
+int main(void) { static_assert(1, "1 is not true"); }''',
+  name: 'c++11 Static Assert')
+  pub_conf_data.set('FREECIV_CXX11_STATIC_ASSERT', 1)
 endif
 
 # Check for c23 nullptr that can be passed as sentinel
@@ -1502,7 +1517,7 @@ server_lib = static_library('fc_server',
   'server/unittools.c',
   'server/voting.c',
   include_directories: server_inc,
-  sources: [ pack_server,
+  sources: [ verhdr, pack_server,
              tolua.process('server/scripting/tolua_fcdb.pkg',
                            'server/scripting/tolua_server.pkg')],
   dependencies: lua_dep
@@ -3185,6 +3200,7 @@ install_data('data/stdmusic/CullamBruce-Lockhart--Dawning_Fanfare.ogg',
              install_dir : join_paths(get_option('datadir'), 'freeciv/stdmusic'))
 
 install_data('data/stdsounds/fanfare.ogg',
+             'data/stdsounds/fanfarehappy.ogg',
              'data/stdsounds/foot3.ogg',
              'data/stdsounds/illegal.ogg',
              'data/stdsounds/inh2o.ogg',
@@ -4300,6 +4316,7 @@ mocced_ruledit = qt_mod.preprocess(
   moc_headers: [
    'tools/ruledit/conversion_log.h',
    'tools/ruledit/edit_extra.h',
+   'tools/ruledit/edit_gov.h',
    'tools/ruledit/edit_impr.h',
    'tools/ruledit/edit_tech.h',
    'tools/ruledit/edit_terrain.h',
@@ -4329,6 +4346,7 @@ mocced_ruledit = qt_mod.preprocess(
 executable('freeciv-ruledit',
   'tools/ruledit/conversion_log.cpp',
   'tools/ruledit/edit_extra.cpp',
+  'tools/ruledit/edit_gov.cpp',
   'tools/ruledit/edit_impr.cpp',
   'tools/ruledit/edit_tech.cpp',
   'tools/ruledit/edit_terrain.cpp',

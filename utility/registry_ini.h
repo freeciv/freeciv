@@ -153,6 +153,9 @@ struct entry *secfile_insert_float_full(struct section_file *secfile,
 #define secfile_insert_float(secfile, value, path, ...)                     \
   secfile_insert_float_full(secfile, value, nullptr, FALSE,                 \
                             path, ## __VA_ARGS__)
+#define secfile_replace_float(secfile, value, path, ...)                    \
+  secfile_insert_float_full(secfile, value, nullptr, TRUE,                  \
+                            path, ## __VA_ARGS__)
 
 struct section *secfile_insert_include(struct section_file *secfile,
                                        const char *filename);

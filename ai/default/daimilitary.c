@@ -96,7 +96,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   struct civ_map *nmap = &(wld.map);
 
   simple_ai_unit_type_iterate(punittype) {
-    if (can_city_build_unit_now(pcity, punittype)) {
+    if (can_city_build_unit_now(nmap, pcity, punittype)) {
       int fpatt, fpdef, defense, attack;
       double want, loss, cost = utype_build_shield_cost(pcity, NULL, punittype);
       struct unit *defender;
@@ -149,6 +149,7 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
   adv_want best = -1;
   adv_want cur;
   struct player *pplayer = city_owner(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   simple_ai_unit_type_iterate(putype) {
     if (!allow_gold_upkeep && utype_upkeep_cost(putype, pplayer, O_GOLD) > 0) {
@@ -159,7 +160,7 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
     if ((tc == TC_LAND && utype_class(putype)->adv.land_move != MOVE_NONE)
         || (tc == TC_OCEAN
             && utype_class(putype)->adv.sea_move != MOVE_NONE)) {
-      if (can_city_build_unit_now(pcity, putype)
+      if (can_city_build_unit_now(nmap, pcity, putype)
           && (cur > best
               || (ADV_WANTS_EQ(cur, best)
                   && utype_build_shield_cost(pcity, NULL, putype)
@@ -190,6 +191,7 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
   struct unit_type *bestid = NULL;
   adv_want best = 0;
   struct player *pplayer = city_owner(pcity);
+  const struct civ_map *nmap = &(wld.map);
 
   simple_ai_unit_type_iterate(putype) {
     /* Only consider units of given role, or any if invalid given */
@@ -211,7 +213,7 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
     }
 
     /* Now find best */
-    if (can_city_build_unit_now(pcity, putype)) {
+    if (can_city_build_unit_now(nmap, pcity, putype)) {
       const adv_want desire = dai_unit_defense_desirability(ait, putype);
 
       if (desire > best
@@ -366,6 +368,7 @@ tactical_req_cb(const struct req_context *context,
 {
   switch (req->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     {
       const struct impr_type *b = req->source.value.building;
 
@@ -459,6 +462,9 @@ tactical_req_cb(const struct req_context *context,
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
+  case VUT_MAX_DISTANCE_SQ:
+  case VUT_MAX_REGION_TILES:
+  case VUT_TILE_REL:
   case VUT_NONE:
     return tri_req_active(context, other_context, req);
   case VUT_COUNT:
@@ -1067,6 +1073,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
   adv_want total_want = danger + extra_want;
+  const struct civ_map *nmap = &(wld.map);
 
   memset(tech_desire, 0, sizeof(tech_desire));
 
@@ -1102,7 +1109,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
       desire /= POWER_DIVIDER / 2; /* Good enough, no rounding errors. */
       desire *= desire;
 
-      if (can_city_build_unit_now(pcity, punittype)) {
+      if (can_city_build_unit_now(nmap, pcity, punittype)) {
         /* We can build the unit now... */
 
         int build_cost = utype_build_shield_cost(pcity, NULL, punittype);
@@ -1275,8 +1282,8 @@ static void process_attacker_want(struct ai_type *ait,
     if (dai_can_unit_type_follow_unit_type(punittype, orig_utype, ait)
         && is_native_near_tile(&(wld.map), utype_class(punittype), ptile)
         && (U_NOT_OBSOLETED == punittype->obsoleted_by
-            || !can_city_build_unit_direct(pcity, punittype->obsoleted_by))
-        && punittype->attack_strength > 0 /* or we'll get SIGFPE */) {
+            || !can_city_build_unit_direct(nmap, pcity, punittype->obsoleted_by))
+        && punittype->attack_strength > 0 /* Or we'll get SIGFPE */) {
       /* Values to be computed */
       adv_want desire;
       adv_want want;
@@ -1450,7 +1457,7 @@ static void process_attacker_want(struct ai_type *ait,
         } else if (want > best_choice->want) {
           const struct impr_type *impr_req;
 
-          if (can_city_build_unit_now(pcity, punittype)) {
+          if (can_city_build_unit_now(nmap, pcity, punittype)) {
             /* This is a real unit and we really want it */
 
             CITY_LOG(LOG_DEBUG, pcity, "overriding %s(" ADV_WANT_PRINTF

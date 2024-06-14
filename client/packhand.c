@@ -2259,7 +2259,7 @@ void handle_map_info(const struct packet_map_info *packet)
   wld.map.topology_id = packet->topology_id;
   wld.map.wrap_id = packet->wrap_id;
 
-  map_init_topology();
+  map_init_topology(&(wld.map));
   main_map_allocate();
   client_player_maps_reset();
   init_client_goto();
@@ -3127,20 +3127,12 @@ void handle_spaceship_info(const struct packet_spaceship_info *p)
 static inline int *continent_adjacency_count(Continent_id cont1,
                                              Continent_id cont2)
 {
-  if (cont1 > 0) {
-    if (cont2 == 0) {
-      return &wld.map.client.continent_unknown_adj_counts[cont1];
-    }
-  } else if (cont1 < 0) {
-    if (cont2 == 0) {
-      return &wld.map.client.ocean_unknown_adj_counts[-cont1];
-    }
-  } else {
-    if (cont2 > 0) {
-      return &wld.map.client.continent_unknown_adj_counts[cont2];
-    } else if (cont2 < 0) {
-      return &wld.map.client.ocean_unknown_adj_counts[-cont2];
-    }
+  if (cont1 == cont2) {
+    return nullptr;
+  } else if (cont1 >= 0 && cont2 <= 0) {
+    return &wld.map.client.adj_matrix[cont1][-cont2];
+  } else if (cont1 <= 0 && cont2 >= 0) {
+    return &wld.map.client.adj_matrix[cont2][-cont1];
   }
   return nullptr;
 }
@@ -3158,42 +3150,46 @@ static inline void update_continent_cache(const struct tile *ptile,
 {
   /* Update known continents */
   if (new_cont > wld.map.num_continents) {
-    int i;
+    int cont;
 
     /* Expand sizes array */
     wld.map.continent_sizes = fc_realloc(wld.map.continent_sizes,
         (new_cont + 1) * sizeof(*wld.map.continent_sizes));
 
-    /* Expand unknown tile adjacency counts array */
-    wld.map.client.continent_unknown_adj_counts = fc_realloc(
-      wld.map.client.continent_unknown_adj_counts,
-      (new_cont + 1) * sizeof(*wld.map.client.continent_unknown_adj_counts)
-    );
+    /* Expand adjacency matrix */
+    wld.map.client.adj_matrix = fc_realloc(wld.map.client.adj_matrix,
+        (new_cont + 1) * sizeof(*wld.map.client.adj_matrix));
 
-    /* Fill new spots with zeros */
-    for (i = wld.map.num_continents + 1; i <= new_cont; i++) {
-      wld.map.continent_sizes[i] = 0;
-      wld.map.client.continent_unknown_adj_counts[i] = 0;
+    /* Initialize new spots */
+    for (cont = wld.map.num_continents + 1; cont <= new_cont; cont++) {
+      wld.map.continent_sizes[cont] = 0;
+      wld.map.client.adj_matrix[cont] = fc_calloc(wld.map.num_oceans + 1,
+                                sizeof(*wld.map.client.adj_matrix[cont]));
     }
 
     wld.map.num_continents = new_cont;
   } else if (new_cont < -wld.map.num_oceans) {
-    int i;
+    int cont, ocean;
 
     /* Expand sizes array */
     wld.map.ocean_sizes = fc_realloc(wld.map.ocean_sizes,
         (-new_cont + 1) * sizeof(*wld.map.ocean_sizes));
 
-    /* Expand unknown tile adjacency counts array */
-    wld.map.client.ocean_unknown_adj_counts = fc_realloc(
-      wld.map.client.ocean_unknown_adj_counts,
-      (-new_cont + 1) * sizeof(*wld.map.client.ocean_unknown_adj_counts)
-    );
+    /* Initialize new spots */
+    for (ocean = wld.map.num_oceans + 1; ocean <= -new_cont; ocean++) {
+      wld.map.ocean_sizes[ocean] = 0;
+    }
 
-    /* Fill new spots with zeros */
-    for (i = wld.map.num_oceans + 1; i <= -new_cont; i++) {
-      wld.map.ocean_sizes[i] = 0;
-      wld.map.client.ocean_unknown_adj_counts[i] = 0;
+    /* Expand adjacency matrix */
+    for (cont = 0; cont <= wld.map.num_continents; cont++) {
+      wld.map.client.adj_matrix[cont] = fc_realloc(
+        wld.map.client.adj_matrix[cont],
+        (-new_cont + 1) * sizeof(*wld.map.client.adj_matrix[cont])
+      );
+
+      for (ocean = wld.map.num_oceans + 1; ocean <= -new_cont; ocean++) {
+        wld.map.client.adj_matrix[cont][ocean] = 0;
+      }
     }
 
     wld.map.num_oceans = -new_cont;
@@ -4477,7 +4473,7 @@ void handle_ruleset_goods(const struct packet_ruleset_goods *p)
   pgood->to_pct = p->to_pct;
   pgood->onetime_pct = p->onetime_pct;
   pgood->select_priority = p->select_priority;
-  pgood->priority = p->replace_priority;
+  pgood->replace_priority = p->replace_priority;
   pgood->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(pgood->helptext, p->helptext);

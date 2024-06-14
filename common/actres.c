@@ -921,7 +921,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
         struct goods_type *pgood = unit_current_goods(actor->unit, homecity);
 
         if (!can_establish_trade_route(homecity, target->city,
-                                       pgood->priority)) {
+                                       pgood->replace_priority)) {
           return TRI_NO;
         }
       }

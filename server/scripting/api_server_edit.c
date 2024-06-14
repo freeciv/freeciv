@@ -510,7 +510,7 @@ void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir)
 {
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit);
- 
+
   if (direction8_is_valid(dir)) {
     punit->facing = dir;
 
@@ -875,7 +875,6 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
       } else if (cost == -3) {
         cost = game.server.diplbulbcost;
       } else {
-        
         cost = 0;
       }
     }

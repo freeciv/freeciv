@@ -137,10 +137,18 @@ value   = 1
 type    = "City_Unhappy_Size"
 value   = 4
 
-; Base max city size of 4
+; Base max city size of 3
 [effect_city_size_limit_base]
 type    = "Size_Adj"
-value   = 4
+value   = 3
+
+[effect_city_size_limit_housing]
+type    = "Size_Adj"
+value   = 1
+reqs	=
+    { "type",     "name", "range"
+      "Building", "Housing", "city"
+    }
 
 [effect_city_size_limit_fire]
 type    = "Size_Adj"
@@ -630,4 +638,45 @@ value   = 100
 reqs    =
     { "type", "name", "range"
       "Extra", "Mine", "Tile"
+    }
+
+[effect_claim_land]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",         "name",        "range"
+      "TerrainClass", "Land",        "Tile"
+      "TileRel",      "Same Region", "Tile"
+    }
+
+[effect_claim_ocean_adj]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",          "name",    "range"
+      "TerrainClass",  "Oceanic", "Tile"
+      "MaxDistanceSq", "2",       "Tile"
+    }
+
+[effect_claim_ocean_lake]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",           "name",              "range"
+      "TerrainClass",   "Oceanic",           "Tile"
+      "MaxRegionTiles", "20",                "Continent"
+      "TileRel",        "Region Surrounded", "Tile"
+; implicit with Region Surrounded
+;     "TileRel",        "Same Terrain Class", "Tile", FALSE
+    }
+
+[effect_claim_ocean_from_land_bay]
+type    = "Tile_Claimable"
+value   = 1
+reqs    =
+    { "type",           "name",               "range",    "present"
+      "TerrainClass",   "Oceanic",            "Tile",     TRUE
+      "TileRel",        "Same Terrain Class", "Tile",     FALSE
+      "MaxRegionTiles", "3",                  "Adjacent", TRUE
+      "TileRel",        "Only Other Region",  "Adjacent", TRUE
     }

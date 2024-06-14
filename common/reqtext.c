@@ -410,13 +410,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     break;
 
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     switch (preq->range) {
     case REQ_RANGE_WORLD:
       if (is_great_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires that %s was built at some point, "
@@ -432,7 +434,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if %s has ever been built, "
@@ -450,7 +453,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires %s to be owned by any player "
@@ -465,7 +469,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if %s is currently owned by "
@@ -484,14 +489,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-great-wonder world-ranged requirements not supported */
+      /* Non-great-wonder world-ranged requirements not supported */
       break;
     case REQ_RANGE_ALLIANCE:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone who is currently allied to "
@@ -508,7 +514,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone currently allied to you "
@@ -528,7 +535,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone allied to you to own %s, "
@@ -544,7 +552,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone allied to you owns %s, "
@@ -562,14 +571,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-wonder alliance-ranged requirements not supported */
+      /* Non-wonder alliance-ranged requirements not supported */
       break;
     case REQ_RANGE_TEAM:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone on your team to have "
@@ -586,7 +596,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone on your team has ever "
@@ -605,7 +616,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone on your team to own %s, "
@@ -621,7 +633,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone on your team owns %s, "
@@ -639,14 +652,15 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-wonder team-ranged requirements not supported */
+      /* Non-wonder team-ranged requirements not supported */
       break;
     case REQ_RANGE_PLAYER:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->survives) {
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires you to have built %s at some point, "
@@ -662,7 +676,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if you have ever built %s, "
@@ -680,7 +695,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           /* Non-surviving requirement */
           if (preq->present) {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires you to own %s, which must not "
@@ -695,7 +711,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            (preq->source.value.building));
             }
           } else {
-            if (can_improvement_go_obsolete(preq->source.value.building)) {
+            if (preq->source.kind == VUT_IMPROVEMENT
+                && can_improvement_go_obsolete(preq->source.value.building)) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if you own %s, unless it is "
@@ -713,13 +730,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       }
-      /* non-wonder player-ranged requirements not supported */
+      /* Non-wonder player-ranged requirements not supported */
       break;
     case REQ_RANGE_CONTINENT:
       if (is_wonder(preq->source.value.building)) {
         fc_strlcat(buf, prefix, bufsz);
         if (preq->present) {
-          if (can_improvement_go_obsolete(preq->source.value.building)) {
+          if (preq->source.kind == VUT_IMPROVEMENT
+              && can_improvement_go_obsolete(preq->source.value.building)) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Requires %s in one of your cities on the same "
@@ -735,7 +753,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                          (preq->source.value.building));
           }
         } else {
-          if (can_improvement_go_obsolete(preq->source.value.building)) {
+          if (preq->source.kind == VUT_IMPROVEMENT
+              && can_improvement_go_obsolete(preq->source.value.building)) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Prevented if %s is in one of your cities on the "
@@ -758,7 +777,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TRADE_ROUTE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
@@ -774,7 +794,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                        (preq->source.value.building));
         }
       } else {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
@@ -794,7 +815,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CITY:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
@@ -809,7 +831,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                        (preq->source.value.building));
         }
       } else {
-        if (can_improvement_go_obsolete(preq->source.value.building)) {
+        if (preq->source.kind == VUT_IMPROVEMENT
+            && can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
@@ -3288,6 +3311,358 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_MAX_DISTANCE_SQ:
+    switch (preq->range) {
+    case REQ_RANGE_TILE:
+      fc_strlcat(buf, prefix, bufsz);
+      /* Test some special cases */
+      switch (preq->source.value.distance_sq)
+      {
+      case 0:
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be the same tile."), bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be the same tile."), bufsz);
+        }
+        break;
+      case 1:
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be cardinally adjacent."), bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be cardinally adjacent."), bufsz);
+        }
+        break;
+      case 2:
+      case 3:
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be adjacent."), bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be adjacent."), bufsz);
+        }
+        break;
+
+      default:
+        if (preq->present) {
+          cat_snprintf(buf, bufsz,
+                      _("The squared distance between the tiles "
+                        "must be at most %d."),
+                      preq->source.value.distance_sq);
+        } else {
+          cat_snprintf(buf, bufsz,
+                      _("The squared distance between the tiles "
+                        "must be at least %d."),
+                      preq->source.value.distance_sq + 1);
+        }
+        break;
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_MAX_REGION_TILES:
+    switch (preq->range) {
+    case REQ_RANGE_CADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      /* Off-by-one: The requirement counts the tile itself, we're phrasing
+       * the helptext in terms of *other* tiles only. */
+      if (preq->present) {
+        if (preq->source.value.region_tiles == 1) {
+          /* Special case for zero */
+          fc_strlcat(buf,
+                     _("No other cardinally adjacent tile may be part of "
+                       "the same continent or ocean."),
+                     bufsz);
+        } else {
+          cat_snprintf(buf, bufsz,
+                      PL_("No more than %d other cardinally adjacent tile "
+                          "may be part of the same continent or ocean.",
+                          "No more than %d other cardinally adjacent tiles "
+                          "may be part of the same continent or ocean.",
+                          preq->source.value.region_tiles - 1),
+                      preq->source.value.region_tiles - 1);
+        }
+      } else {
+        cat_snprintf(buf, bufsz,
+                    PL_("Requires at least %d other cardinally adjacent "
+                        "tile of the same continent or ocean.",
+                        "Requires at least %d other cardinally adjacent "
+                        "tiles of the same continent or ocean.",
+                        preq->source.value.region_tiles),
+                    preq->source.value.region_tiles);
+      }
+
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      /* Off-by-one: The requirement counts the tile itself, we're phrasing
+       * the helptext in terms of *other* tiles only. */
+      if (preq->present) {
+        if (preq->source.value.region_tiles == 1) {
+          /* Special case for zero */
+          fc_strlcat(buf,
+                     _("No other adjacent tile may be part of the same "
+                       "continent or ocean."),
+                     bufsz);
+        } else {
+          cat_snprintf(buf, bufsz,
+                      PL_("No more than %d other adjacent tile may be "
+                          "part of the same continent or ocean.",
+                          "No more than %d other adjacent tiles may be "
+                          "part of the same continent or ocean.",
+                          preq->source.value.region_tiles - 1),
+                      preq->source.value.region_tiles - 1);
+        }
+      } else {
+        cat_snprintf(buf, bufsz,
+                    PL_("Requires at least %d other adjacent tile of the "
+                        "same continent or ocean.",
+                        "Requires at least %d other adjacent tiles of the "
+                        "same continent or ocean.",
+                        preq->source.value.region_tiles),
+                    preq->source.value.region_tiles);
+      }
+
+      return TRUE;
+    case REQ_RANGE_CONTINENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                    _("Requires a continent or ocean size of at most %d."),
+                    preq->source.value.region_tiles);
+      } else {
+        cat_snprintf(buf, bufsz,
+                    _("Requires a continent or ocean size of at least %d."),
+                    preq->source.value.region_tiles + 1);
+      }
+
+      return TRUE;
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_TILE_REL:
+    switch (preq->source.value.tilerel) {
+    case TREL_SAME_TCLASS:
+      switch (preq->range) {
+      case REQ_RANGE_TILE:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on the same terrain class."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be on a different terrain class."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be cardinally adjacent to the same "
+                            "terrain class."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be cardinally adjacent to the same "
+                            "terrain class."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be adjacent to the same terrain class."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be adjacent to the same terrain "
+                            "class."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
+    case TREL_SAME_REGION:
+      switch (preq->range) {
+      case REQ_RANGE_TILE:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on the same continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be on a different continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be cardinally adjacent to the same "
+                            "continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be cardinally adjacent to the same "
+                            "continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be adjacent to the same continent or "
+                            "ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be adjacent to the same continent "
+                            "or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
+    case TREL_ONLY_OTHER_REGION:
+      switch (preq->range) {
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("May only be cardinally adjacent to this "
+                            "other continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be cardinally adjacent to more than "
+                            "just this other continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("May only be adjacent to this other continent "
+                            "or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must be adjacent to more than just this "
+                            "other continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_TILE:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
+    case TREL_REGION_SURROUNDED:
+      switch (preq->range) {
+      case REQ_RANGE_TILE:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on a lake or island surrounded by "
+                            "this continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be on a lake or island surrounded "
+                            "by this continent or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on or cardinally adjacent to a lake "
+                            "or island surrounded by this continent or "
+                            "ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be on nor cardinally adjacent to a "
+                            "lake or island surrounded by this continent "
+                            "or ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          fc_strlcat(buf, _("Must be on or adjacent to a lake or island "
+                            "surrounded by this continent or ocean."),
+                     bufsz);
+        } else {
+          fc_strlcat(buf, _("Must not be on nor adjacent to a lake or "
+                            "island surrounded by this continent or "
+                            "ocean."),
+                     bufsz);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADE_ROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+      break;
+
+    case TREL_COUNT:
+      /* Invalid. */
       break;
     }
     break;

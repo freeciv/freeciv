@@ -612,6 +612,7 @@ adv_want dai_effect_value(struct player *pplayer,
   case EFT_UNIT_SHIELD_VALUE_PCT:
   case EFT_NUKE_BLAST_RADIUS_1_SQ:
   case EFT_HEAL_UNIT_PCT:
+  case EFT_TILE_CLAIMABLE:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
@@ -817,15 +818,20 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* We can't meet a government requirement if we have a better one. */
     return !have_better_government(pplayer, preq->source.value.govern);
 
-  case VUT_IMPROVEMENT: {
+  case VUT_IMPROVEMENT:
+  case VUT_SITE:
+  {
     const struct impr_type *pimprove = preq->source.value.building;
 
-    if (preq->present && improvement_obsolete(pplayer, pimprove, pcity)) {
+    if (preq->present
+        && preq->source.kind == VUT_IMPROVEMENT
+        && improvement_obsolete(pplayer, pimprove, pcity)) {
       /* Would need to unobsolete a building, which is too hard. */
       return FALSE;
     } else if (!preq->present && pcity != NULL
                && I_NEVER < pcity->built[improvement_index(pimprove)].turn
-               && !can_improvement_go_obsolete(pimprove)) {
+               && (preq->source.kind != VUT_IMPROVEMENT
+                   || !can_improvement_go_obsolete(pimprove))) {
       /* Would need to unbuild an unobsoleteable building, which is too hard. */
       return FALSE;
     } else if (preq->present) {
@@ -954,6 +960,9 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_ACTION:
   case VUT_GOOD:
   case VUT_MINCALFRAG:
+  case VUT_MAX_DISTANCE_SQ:
+  case VUT_MAX_REGION_TILES:
+  case VUT_TILE_REL:
   case VUT_COUNT:
     /* No sensible implementation possible with data available. */
     break;

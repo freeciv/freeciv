@@ -181,6 +181,28 @@ after city shrinks, and speeds up city growth by making the food storage \
 10% full after city grows.\
 ")
 
+[building_housing]
+name		= _("Housing")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+    }
+graphic         = "b.housing"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 800
+upkeep		= 0
+sabotage	= 50
+sound		= "b_housing"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Space for people to live allows settlements to grow one size bigger.\
+")
+
 [building_library]
 name		= _("Library")
 genus		= "Improvement"

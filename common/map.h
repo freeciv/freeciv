@@ -49,7 +49,7 @@ static const bool C_PERCENT = TRUE;
 
 bool map_is_empty(void);
 void map_init(struct civ_map *imap, bool server_side);
-void map_init_topology(void);
+void map_init_topology(struct civ_map *nmap);
 void map_allocate(struct civ_map *amap);
 void main_map_allocate(void);
 void map_free(struct civ_map *fmap, bool server_side);
@@ -72,7 +72,15 @@ int get_direction_for_step(const struct civ_map *nmap,
 
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
-int get_lake_surrounders(Continent_id id);
+int get_island_surrounder(Continent_id id);
+int get_lake_surrounder(Continent_id id);
+
+#define is_whole_continent_known(cont) \
+  (is_server() || wld.map.client.adj_matrix[cont][0] == 0)
+
+/* Use positive ocean ID */
+#define is_whole_ocean_known(ocean) \
+  (is_server() || wld.map.client.adj_matrix[0][ocean] == 0)
 
 /* Specific functions for start positions. */
 struct startpos *map_startpos_by_number(int id);

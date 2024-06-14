@@ -757,7 +757,7 @@ struct tile *action_tgt_tile(struct unit *actor,
 
     switch (action_id_get_target_kind(act)) {
     case ATK_TILE:
-      prob = action_prob_vs_tile(actor, act, target, target_extra);
+      prob = action_prob_vs_tile(nmap, actor, act, target, target_extra);
       break;
     case ATK_EXTRAS:
       prob = action_prob_vs_extras(actor, act, target, target_extra);
@@ -803,6 +803,8 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
                                        const struct extra_type *tgt_extra,
                                        bool accept_all_actions)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (actor == NULL || tgt_tile == NULL || tgt_extra == NULL) {
     /* Can't do any actions if actor or target are missing. */
     return FALSE;
@@ -824,7 +826,7 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
 
     switch (action_id_get_target_kind(act)) {
     case ATK_TILE:
-      if (action_prob_possible(action_prob_vs_tile(actor, act,
+      if (action_prob_possible(action_prob_vs_tile(nmap, actor, act,
                                                    tgt_tile, tgt_extra))) {
         /* The actor unit may be able to do this action to the target
          * extra. */
@@ -888,6 +890,7 @@ int action_sub_target_id_for_action(const struct action *paction,
                                     struct unit *actor_unit)
 {
   const struct tile *tgt_tile = unit_tile(actor_unit);
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(paction->target_complexity == ACT_TGT_COMPL_FLEXIBLE,
                     NO_TARGET);
@@ -922,7 +925,7 @@ int action_sub_target_id_for_action(const struct action *paction,
       }
     }
     extra_type_re_active_iterate(tgt_extra) {
-      if (action_prob_possible(action_prob_vs_tile(actor_unit, paction->id,
+      if (action_prob_possible(action_prob_vs_tile(nmap, actor_unit, paction->id,
                                                    tgt_tile, tgt_extra))) {
         /* The actor unit may be able to do this action to the target
          * extra. */
@@ -1147,7 +1150,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
         if (tgt_tile
             && is_action_enabled_unit_on_tile(nmap, act, actor,
                                               tgt_tile, target_extra)) {
-          current = action_prob_vs_tile(actor, act, tgt_tile, target_extra);
+          current = action_prob_vs_tile(nmap, actor, act, tgt_tile, target_extra);
         }
         break;
       case ATK_EXTRAS:

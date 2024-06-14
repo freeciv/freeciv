@@ -232,15 +232,19 @@ void smooth_int_map(int *int_map, bool zeroes_at_edges)
 }
 
 /**********************************************************************//**
-  Calculate wld.map.lake_surrounders[] array
+  Calculate wld.map.*_surrounders[] arrays
 **************************************************************************/
-static void recalculate_lake_surrounders(void)
+static void recalculate_surrounders(void)
 {
   size_t size;
 
-  size = (wld.map.num_oceans + 1) * sizeof(*wld.map.lake_surrounders);
-  wld.map.lake_surrounders = fc_realloc(wld.map.lake_surrounders, size);
-  memset(wld.map.lake_surrounders, 0, size);
+  size = (wld.map.num_continents + 1) * sizeof(*wld.map.server.island_surrounders);
+  wld.map.server.island_surrounders = fc_realloc(wld.map.server.island_surrounders, size);
+  memset(wld.map.server.island_surrounders, 0, size);
+
+  size = (wld.map.num_oceans + 1) * sizeof(*wld.map.server.lake_surrounders);
+  wld.map.server.lake_surrounders = fc_realloc(wld.map.server.lake_surrounders, size);
+  memset(wld.map.server.lake_surrounders, 0, size);
 
   whole_map_iterate(&(wld.map), ptile) {
     const struct terrain *pterrain = tile_terrain(ptile);
@@ -250,17 +254,31 @@ static void recalculate_lake_surrounders(void)
       continue;
     }
 
-    if (!is_ocean(pterrain)) {
+    if (is_ocean(pterrain)) {
+      fc_assert_action(cont < 0, continue);
+      adjc_iterate(&(wld.map), ptile, adj_tile) {
+        Continent_id adj_cont = tile_continent(adj_tile);
+
+        if (!is_ocean_tile(adj_tile)) {
+          fc_assert_action(adj_cont > 0, continue);
+          if (wld.map.server.island_surrounders[adj_cont] == 0) {
+            wld.map.server.island_surrounders[adj_cont] = -cont;
+          } else if (wld.map.server.island_surrounders[adj_cont] != -cont) {
+            wld.map.server.island_surrounders[adj_cont] = -1;
+          }
+        }
+      } adjc_iterate_end;
+    } else {
       fc_assert_action(cont > 0, continue);
       adjc_iterate(&(wld.map), ptile, adj_tile) {
         Continent_id adj_cont = tile_continent(adj_tile);
 
         if (is_ocean_tile(adj_tile)) {
           fc_assert_action(adj_cont < 0, continue);
-          if (wld.map.lake_surrounders[-adj_cont] == 0) {
-            wld.map.lake_surrounders[-adj_cont] = cont;
-          } else if (wld.map.lake_surrounders[-adj_cont] != cont) {
-            wld.map.lake_surrounders[-adj_cont] = -1;
+          if (wld.map.server.lake_surrounders[-adj_cont] == 0) {
+            wld.map.server.lake_surrounders[-adj_cont] = cont;
+          } else if (wld.map.server.lake_surrounders[-adj_cont] != cont) {
+            wld.map.server.lake_surrounders[-adj_cont] = -1;
           }
         }
       } adjc_iterate_end;
@@ -332,8 +350,7 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 
 /**********************************************************************//**
   Regenerate all oceanic tiles for small water bodies as lakes.
-  Assumes assign_continent_numbers() and recalculate_lake_surrounders()
-  have already been done!
+  Assumes assign_continent_numbers() has already been called!
   FIXME: insufficiently generalized, use terrain property.
 **************************************************************************/
 void regenerate_lakes(void)
@@ -394,7 +411,7 @@ void regenerate_lakes(void)
     if (terrain_type_terrain_class(pterrain) != TC_OCEAN) {
       continue;
     }
-    if (0 < wld.map.lake_surrounders[-here]) {
+    if (0 < wld.map.server.lake_surrounders[-here]) {
       if (terrain_control.lake_max_size >= wld.map.ocean_sizes[-here]) {
         int frozen = terrain_has_flag(pterrain, TER_FROZEN);
         tile_change_terrain(ptile, lake_for_ocean[frozen][-here-1]);
@@ -406,7 +423,7 @@ void regenerate_lakes(void)
 /**********************************************************************//**
   Assigns continent and ocean numbers to all tiles, and set
   map.num_continents and map.num_oceans. Recalculates continent and
-  ocean sizes, and lake_surrounders[] arrays.
+  ocean sizes and surrounders.
 
   Continents have numbers 1 to map.num_continents _inclusive_.
   Oceans have (negative) numbers -1 to -map.num_oceans _inclusive_.
@@ -449,7 +466,7 @@ void assign_continent_numbers(void)
     }
   } whole_map_iterate_end;
 
-  recalculate_lake_surrounders();
+  recalculate_surrounders();
 
   log_verbose("Map has %d continents and %d oceans",
               wld.map.num_continents, wld.map.num_oceans);

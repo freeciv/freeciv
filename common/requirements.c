@@ -195,13 +195,15 @@ static enum req_unchanging_status
 {
   const struct impr_type *b = req->source.value.building;
 
-  fc_assert_ret_val(VUT_IMPROVEMENT == req->source.kind, REQUCH_NO);
+  fc_assert_ret_val(VUT_IMPROVEMENT == req->source.kind
+                    || VUT_SITE == req->source.kind, REQUCH_NO);
   if (REQ_RANGE_LOCAL == req->range) {
     /* Likely, won't be questioned for an obsolete building */
     return REQUCH_YES;
   }
 
-  if (improvement_obsolete(context->player, b, context->city)) {
+  if (req->source.kind == VUT_IMPROVEMENT
+      && improvement_obsolete(context->player, b, context->city)) {
     /* FIXME: sometimes can unobsolete, but considering it
      * may sometimes put the function on endless recursion */
     return REQUCH_ACT; /* Mostly about techs */
@@ -315,6 +317,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     }
     break;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     source->value.building = improvement_by_rule_name(value);
     if (source->value.building != NULL) {
       return;
@@ -611,6 +614,24 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
    }
    break;
+  case VUT_MAX_DISTANCE_SQ:
+    source->value.distance_sq = atoi(value);
+    if (0 <= source->value.distance_sq) {
+      return;
+    }
+    break;
+  case VUT_MAX_REGION_TILES:
+    source->value.region_tiles = atoi(value);
+    if (0 < source->value.region_tiles) {
+      return;
+    }
+    break;
+  case VUT_TILE_REL:
+    source->value.tilerel = tilerel_type_by_name(value, fc_strcasecmp);
+    if (source->value.tilerel != TREL_COUNT) {
+      return;
+    }
+    break;
   case VUT_COUNT:
     break;
   }
@@ -665,6 +686,7 @@ struct universal universal_by_number(const enum universals_n kind,
     }
     break;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     source.value.building = improvement_by_number(value);
     if (source.value.building != NULL) {
       return source;
@@ -843,6 +865,15 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MAXLATITUDE:
     source.value.latitude = value;
     return source;
+  case VUT_MAX_DISTANCE_SQ:
+    source.value.distance_sq = value;
+    return source;
+  case VUT_MAX_REGION_TILES:
+    source.value.region_tiles = value;
+    return source;
+  case VUT_TILE_REL:
+    source.value.tilerel = value;
+    return source;
   case VUT_COUNT:
     break;
   }
@@ -894,6 +925,7 @@ int universal_number(const struct universal *source)
   case VUT_STYLE:
     return style_number(source->value.style);
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return improvement_number(source->value.building);
   case VUT_IMPR_GENUS:
     return source->value.impr_genus;
@@ -994,6 +1026,12 @@ int universal_number(const struct universal *source)
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     return source->value.latitude;
+  case VUT_MAX_DISTANCE_SQ:
+    return source->value.distance_sq;
+  case VUT_MAX_REGION_TILES:
+    return source->value.region_tiles;
+  case VUT_TILE_REL:
+    return source->value.tilerel;
   case VUT_COUNT:
     break;
   }
@@ -1072,6 +1110,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_COUNT:
         break;
       case VUT_IMPROVEMENT:
+      case VUT_SITE:
       case VUT_IMPR_GENUS:
       case VUT_IMPR_FLAG:
       case VUT_UTYPE:
@@ -1106,6 +1145,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MAXTILEUNITS:
       case VUT_MINLATITUDE:
       case VUT_MAXLATITUDE:
+      case VUT_MAX_DISTANCE_SQ:
         req.range = REQ_RANGE_TILE;
         break;
       case VUT_COUNTER:
@@ -1141,6 +1181,16 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINTECHS:
       case VUT_SERVERSETTING:
         req.range = REQ_RANGE_WORLD;
+        break;
+      case VUT_MAX_REGION_TILES:
+        req.range = REQ_RANGE_CONTINENT;
+        break;
+      case VUT_TILE_REL:
+        req.range = REQ_RANGE_TILE;
+        if (req.source.value.tilerel == TREL_ONLY_OTHER_REGION) {
+          /* Not available at Tile range */
+          req.range = REQ_RANGE_ADJACENT;
+        }
         break;
       }
     }
@@ -1263,6 +1313,7 @@ struct requirement req_from_str(const char *type, const char *range,
                  && req.range != REQ_RANGE_ADJACENT);
       break;
     case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
+    case VUT_MAX_DISTANCE_SQ:
       invalid = (req.range != REQ_RANGE_TILE);
       break;
     case VUT_CITYTILE:
@@ -1314,7 +1365,21 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_PLAYER_STATE:
       invalid = (req.range != REQ_RANGE_PLAYER);
       break;
+    case VUT_MAX_REGION_TILES:
+      invalid = (req.range != REQ_RANGE_CONTINENT
+                 && req.range != REQ_RANGE_CADJACENT
+                 && req.range != REQ_RANGE_ADJACENT);
+      break;
+    case VUT_TILE_REL:
+      invalid = (req.range != REQ_RANGE_ADJACENT
+                 && req.range != REQ_RANGE_CADJACENT
+                 && req.range != REQ_RANGE_TILE)
+                /* TREL_ONLY_OTHER_REGION not supported at Tile range */
+                || (req.source.value.tilerel == TREL_ONLY_OTHER_REGION
+                    && req.range == REQ_RANGE_TILE);
+      break;
     case VUT_IMPROVEMENT:
+    case VUT_SITE:
       /* Valid ranges depend on the building genus (wonder/improvement),
        * which might not have been loaded from the ruleset yet.
        * So we allow anything here, and do a proper check once ruleset
@@ -1334,6 +1399,7 @@ struct requirement req_from_str(const char *type, const char *range,
     /* Check 'survives'. */
     switch (req.source.kind) {
     case VUT_IMPROVEMENT:
+    case VUT_SITE:
       /* See buildings_in_range(). */
       invalid = survives && req.range <= REQ_RANGE_CONTINENT;
       break;
@@ -1396,6 +1462,9 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINCITIES:
     case VUT_MINLATITUDE:
     case VUT_MAXLATITUDE:
+    case VUT_MAX_DISTANCE_SQ:
+    case VUT_MAX_REGION_TILES:
+    case VUT_TILE_REL:
       /* Most requirements don't support 'survives'. */
       invalid = survives;
       break;
@@ -1498,7 +1567,8 @@ static bool impr_contra_genus(const struct requirement *impr_req,
                               const struct requirement *genus_req)
 {
   /* The input is sane. */
-  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT, FALSE);
+  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT
+                    || impr_req->source.kind == VUT_SITE, FALSE);
   fc_assert_ret_val(genus_req->source.kind == VUT_IMPR_GENUS, FALSE);
 
   if (impr_req->range == REQ_RANGE_LOCAL
@@ -1530,7 +1600,8 @@ static bool impr_contra_flag(const struct requirement *impr_req,
                              const struct requirement *flag_req)
 {
   /* The input is sane. */
-  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT, FALSE);
+  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT
+                    || impr_req->source.kind == VUT_SITE, FALSE);
   fc_assert_ret_val(flag_req->source.kind == VUT_IMPR_FLAG, FALSE);
 
   if (impr_req->range == REQ_RANGE_LOCAL
@@ -1679,6 +1750,28 @@ bool req_implies_req(const struct requirement *req1,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff two bounds that could each be either an upper or lower
+  bound are contradicting each other. This function assumes that of the
+  upper and lower bounds, one will be inclusive, the other exclusive.
+**************************************************************************/
+static inline bool are_bounds_contradictions(int bound1, bool is_upper1,
+                                             int bound2, bool is_upper2)
+{
+  /* If the bounds are on opposite sides, and one is inclusive, the other
+   * exclusive, the number of values that satisfy both bounds is exactly
+   * their difference, (upper bound) - (lower bound).
+   * The bounds contradict each other iff this difference is 0 or less,
+   * i.e. iff (upper bound) <= (lower bound) */
+  if (is_upper1 && !is_upper2) {
+    return bound1 <= bound2;
+  } else if (!is_upper1 && is_upper2) {
+    return bound1 >= bound2;
+  }
+  /* Both are upper or both are lower ~> no contradiction possible */
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE if req1 and req2 contradicts each other.
 
   TODO: If information about what entity each requirement type will be
@@ -1699,6 +1792,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
 
   switch (req1->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     if (req2->source.kind == VUT_IMPR_GENUS) {
       return impr_contra_genus(req1, req2);
     } else if (req2->source.kind == VUT_IMPR_FLAG) {
@@ -1715,14 +1809,16 @@ bool are_requirements_contradictions(const struct requirement *req1,
     /* No special knowledge. */
     return FALSE;
   case VUT_IMPR_GENUS:
-    if (req2->source.kind == VUT_IMPROVEMENT) {
+    if (req2->source.kind == VUT_IMPROVEMENT
+        || req2->source.kind == VUT_SITE) {
       return impr_contra_genus(req2, req1);
     }
 
     /* No special knowledge. */
     return FALSE;
   case VUT_IMPR_FLAG:
-    if (req2->source.kind == VUT_IMPROVEMENT) {
+    if (req2->source.kind == VUT_IMPROVEMENT
+        || req2->source.kind == VUT_SITE) {
       return impr_contra_flag(req2, req1);
     }
 
@@ -1757,21 +1853,10 @@ bool are_requirements_contradictions(const struct requirement *req1,
       /* Finding contradictions across requirement kinds aren't supported
        * for MinMoveFrags requirements. */
       return FALSE;
-    } else if (req1->present == req2->present) {
-      /* No contradiction possible. */
-      return FALSE;
-    } else {
-      /* Number of move fragments left can't be larger than the number
-       * required to be present and smaller than the number required to not
-       * be present when the number required to be present is smaller than
-       * the number required to not be present. */
-      if (req1->present) {
-        return req1->source.value.minmoves >= req2->source.value.minmoves;
-      } else {
-        return req1->source.value.minmoves <= req2->source.value.minmoves;
-      }
     }
-    break;
+    return are_bounds_contradictions(
+        req1->source.value.minmoves, !req1->present,
+        req2->source.value.minmoves, !req2->present);
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     if (req2->source.kind != VUT_MINLATITUDE
@@ -1842,9 +1927,10 @@ bool are_requirements_contradictions(const struct requirement *req1,
   case VUT_CITYTILE:
     if (req2->source.kind == VUT_CITYTILE) {
       return city_center_contra(req1, req2)
-          || city_center_contra(req2, req1);
+        || city_center_contra(req2, req1);
     } else if (req1->source.value.citytile == CITYT_CENTER
-               && req2->source.kind == VUT_IMPROVEMENT
+               && (req2->source.kind == VUT_IMPROVEMENT
+                   || req2->source.kind == VUT_SITE)
                && REQ_RANGE_TILE == req2->range
                && REQ_RANGE_TILE == req1->range
                && req2->present) {
@@ -1852,6 +1938,102 @@ bool are_requirements_contradictions(const struct requirement *req1,
       return !req1->present;
     }
 
+    return FALSE;
+  case VUT_MAX_DISTANCE_SQ:
+    if (req2->source.kind != VUT_MAX_DISTANCE_SQ) {
+      /* Finding contradictions across requirement kinds isn't supported
+       * for MaxDistanceSq requirements. */
+      return FALSE;
+    }
+    return are_bounds_contradictions(
+        req1->source.value.distance_sq, req1->present,
+        req2->source.value.distance_sq, req2->present);
+  case VUT_MAX_REGION_TILES:
+    if (req2->source.kind != VUT_MAX_REGION_TILES) {
+      /* Finding contradictions across requirement kinds isn't supported
+       * for MaxRegionTiles requirements. */
+      return FALSE;
+    } else if (req1->range != req2->range) {
+      /* FIXME: Finding contradictions across ranges not yet supported.
+       * In particular, a max at a small range and a min at a larger range
+       * needs extra work to figure out. */
+      return FALSE;
+    }
+    return are_bounds_contradictions(
+        req1->source.value.region_tiles, req1->present,
+        req2->source.value.region_tiles, req2->present);
+  case VUT_TILE_REL:
+    if (req2->source.kind != VUT_TILE_REL) {
+      /* Finding contradictions across requirement kinds isn't supported
+       * for TileRel requirements. */
+      return FALSE;
+    }
+    if (req1->source.value.tilerel == req2->source.value.tilerel) {
+      /* Same requirement at different ranges. Note that same range is
+       * already covered by are_requirements_opposites() above. */
+      switch (req1->source.value.tilerel) {
+        case TREL_SAME_TCLASS:
+        case TREL_SAME_REGION:
+        case TREL_REGION_SURROUNDED:
+          /* Negated req at larger range contradicts present req at
+           * smaller range. */
+          if (req1->range > req2->range) {
+            return !req1->present && req2->present;
+          } else {
+            return req1->present && !req2->present;
+          }
+          break;
+        case TREL_ONLY_OTHER_REGION:
+          /* Present req at larger range contradicts negated req at
+           * smaller range */
+          if (req1->range > req2->range) {
+            return req1->present && !req2->present;
+          } else {
+            return !req1->present && req2->present;
+          }
+          break;
+        default:
+          return FALSE;
+      }
+    }
+    if (req1->source.value.tilerel == TREL_SAME_TCLASS
+        && req2->source.value.tilerel == TREL_SAME_REGION) {
+      /* Same region at any range implies same terrain class at that range
+       * and any larger range ~> contradicts negated */
+      return (!req1->present && req2->present
+              && (req1->range >= req2->range));
+    } else if (req2->source.value.tilerel == TREL_SAME_TCLASS
+               && req1->source.value.tilerel == TREL_SAME_REGION) {
+      /* Same as above */
+      return (req1->present && !req2->present
+              && (req1->range <= req2->range));
+    } else if (req1->source.value.tilerel == TREL_REGION_SURROUNDED
+               || req2->source.value.tilerel == TREL_REGION_SURROUNDED) {
+      const struct requirement *surr, *other;
+      if (req1->source.value.tilerel == TREL_REGION_SURROUNDED) {
+        surr = req1;
+        other = req2;
+      } else {
+        surr = req2;
+        other = req1;
+      }
+      if (surr->present && surr->range == REQ_RANGE_TILE) {
+        /* Target tile must be part of a surrounded region
+         * ~> not the same terrain class
+         * ~> not the same region
+         * ~> not touched by a third region */
+        switch (other->source.value.tilerel) {
+        case TREL_SAME_TCLASS:
+        case TREL_SAME_REGION:
+          return (other->present && other->range == REQ_RANGE_TILE);
+        case TREL_ONLY_OTHER_REGION:
+          return (!other->present);
+        default:
+          break;
+        }
+      }
+    }
+    /* No further contradictions we can detect */
     return FALSE;
   default:
     /* No special knowledge exists. The requirements aren't the exact
@@ -1945,9 +2127,10 @@ static inline bool players_in_same_range(const struct player *pplayer1,
 
 #define IS_REQ_ACTIVE_VARIANT_ASSERT(_kind)                \
 {                                                          \
-  fc_assert_ret_val(req != NULL, TRI_MAYBE);               \
+  fc_assert_ret_val(req != nullptr, TRI_MAYBE);            \
   fc_assert_ret_val(req->source.kind == _kind, TRI_MAYBE); \
-  fc_assert(context != NULL);                              \
+  fc_assert(context != nullptr);                           \
+  fc_assert(other_context != nullptr);                     \
 }
 
 /**********************************************************************//**
@@ -2070,13 +2253,16 @@ is_building_req_active(const struct civ_map *nmap,
 {
   const struct impr_type *building;
 
-  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_IMPROVEMENT);
+  /* Can't use this assertion, as both VUT_IMPROVEMENT and VUT_SITE
+   * are handled here. */
+  /* IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_IMPROVEMENT); */
 
   building = req->source.value.building;
 
   /* Check if it's certain that the building is obsolete given the
    * specification we have */
-  if (improvement_obsolete(context->player, building, context->city)) {
+  if (req->source.kind == VUT_IMPROVEMENT
+      && improvement_obsolete(context->player, building, context->city)) {
     return TRI_NO;
   }
 
@@ -4686,6 +4872,232 @@ is_form_age_req_active(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
+  Determine whether the given continent or ocean might be surrounded by a
+  specific desired surrounder.
+**************************************************************************/
+static inline enum fc_tristate
+does_region_surrounder_match(Continent_id cont, Continent_id surrounder)
+{
+  Continent_id actual_surrounder;
+  bool whole_known;
+
+  if (cont > 0) {
+    actual_surrounder = get_island_surrounder(cont);
+    whole_known = is_whole_continent_known(cont);
+
+    if (actual_surrounder > 0) {
+      return TRI_NO;
+    }
+  } else if (cont < 0) {
+    actual_surrounder = get_lake_surrounder(cont);
+    whole_known = is_whole_ocean_known(-cont);
+
+    if (actual_surrounder < 0) {
+      return TRI_NO;
+    }
+  } else {
+    return TRI_MAYBE;
+  }
+
+  if (actual_surrounder == 0 || surrounder == 0) {
+    return TRI_MAYBE;
+  } else if (actual_surrounder != surrounder) {
+    return TRI_NO;
+  } else if (!whole_known) {
+    return TRI_MAYBE;
+  } else {
+    return TRI_YES;
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a tile relationship requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a tile relationship requirement
+**************************************************************************/
+static enum fc_tristate
+is_tile_rel_req_active(const struct civ_map *nmap,
+                       const struct req_context *context,
+                       const struct req_context *other_context,
+                       const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TILE_REL);
+
+  if (context->tile == nullptr || other_context->tile == nullptr) {
+    /* Note: For some values, we might be able to give a definitive
+     * TRI_NO answer even if one of the tiles is missing, but that's
+     * probably not worth the added effort. */
+    return TRI_MAYBE;
+  }
+
+  switch (req->source.value.tilerel) {
+  case TREL_SAME_TCLASS:
+    if (tile_terrain(other_context->tile) == T_UNKNOWN) {
+      return TRI_MAYBE;
+    }
+    fc_assert_ret_val_msg((req->range == REQ_RANGE_TILE
+                           || req->range == REQ_RANGE_CADJACENT
+                           || req->range == REQ_RANGE_ADJACENT),
+                          TRI_MAYBE,
+                          "Invalid range %d for tile relation \"%s\" req",
+                          req->range, tilerel_type_name(TREL_SAME_TCLASS));
+    {
+      enum terrain_class cls = terrain_type_terrain_class(
+          tile_terrain(other_context->tile));
+      bool seen_unknown = FALSE;
+      const struct terrain *terr;
+
+      if ((terr = tile_terrain(context->tile)) == T_UNKNOWN) {
+        seen_unknown = TRUE;
+      } else if (terrain_type_terrain_class(terr) == cls) {
+        return TRUE;
+      }
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        if ((terr = tile_terrain(adj_tile)) == T_UNKNOWN) {
+          seen_unknown = TRUE;
+        } else if (terrain_type_terrain_class(terr) == cls) {
+          return TRUE;
+        }
+      } range_adjc_iterate_end;
+
+      if (seen_unknown) {
+        return TRI_MAYBE;
+      } else {
+        return TRI_NO;
+      }
+    }
+    break;
+  case TREL_SAME_REGION:
+    if (tile_continent(other_context->tile) == 0) {
+      return TRI_MAYBE;
+    }
+    fc_assert_ret_val_msg((req->range == REQ_RANGE_TILE
+                           || req->range == REQ_RANGE_CADJACENT
+                           || req->range == REQ_RANGE_ADJACENT),
+                          TRI_MAYBE,
+                          "Invalid range %d for tile relation \"%s\" req",
+                          req->range, tilerel_type_name(TREL_SAME_REGION));
+
+    if (tile_continent(context->tile)
+        == tile_continent(other_context->tile)) {
+      return TRI_YES;
+    } else {
+      bool seen_unknown = (tile_continent(context->tile) == 0);
+      Continent_id cont = tile_continent(other_context->tile);
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        Continent_id adj_cont = tile_continent(adj_tile);
+
+        if (adj_cont == cont) {
+          return TRI_YES;
+        } else if (adj_cont == 0) {
+          seen_unknown = TRUE;
+        }
+      } range_adjc_iterate_end;
+
+      if (seen_unknown) {
+        return TRI_MAYBE;
+      } else {
+        return TRI_NO;
+      }
+    }
+    break;
+  case TREL_ONLY_OTHER_REGION:
+    if (tile_continent(context->tile) == 0
+        || tile_continent(other_context->tile) == 0) {
+      /* Note: We could still give a definitive TRI_NO answer if there are
+       * too many different adjacent continents, but that's probably not
+       * worth the added effort. */
+      return TRI_MAYBE;
+    }
+    fc_assert_ret_val_msg((req->range == REQ_RANGE_CADJACENT
+                           || req->range == REQ_RANGE_ADJACENT),
+                          TRI_MAYBE,
+                          "Invalid range %d for tile relation \"%s\" req",
+                          req->range,
+                          tilerel_type_name(TREL_ONLY_OTHER_REGION));
+
+    {
+      bool seen_unknown = FALSE;
+      Continent_id cont = tile_continent(context->tile);
+      Continent_id other_cont = tile_continent(other_context->tile);
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        Continent_id adj_cont = tile_continent(adj_tile);
+
+        if (adj_cont == 0) {
+          seen_unknown = TRUE;
+        } else if (adj_cont != cont && adj_cont != other_cont) {
+          return TRI_NO;
+        }
+      } range_adjc_iterate_end;
+
+      if (seen_unknown) {
+        return TRI_MAYBE;
+      } else {
+        return TRI_YES;
+      }
+    }
+    break;
+  case TREL_REGION_SURROUNDED:
+    fc_assert_ret_val_msg((req->range == REQ_RANGE_TILE
+                           || req->range == REQ_RANGE_CADJACENT
+                           || req->range == REQ_RANGE_ADJACENT),
+                          TRI_MAYBE,
+                          "Invalid range %d for tile relation \"%s\" req",
+                          req->range,
+                          tilerel_type_name(TREL_REGION_SURROUNDED));
+
+    {
+      bool seen_maybe = FALSE;
+      Continent_id wanted = tile_continent(other_context->tile);
+
+      switch (does_region_surrounder_match(tile_continent(context->tile),
+                                           wanted)) {
+        case TRI_YES:
+          return TRI_YES;
+        case TRI_MAYBE:
+          seen_maybe = TRUE;
+          break;
+        default:
+          break;
+      }
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        switch (does_region_surrounder_match(tile_continent(adj_tile),
+                                             wanted)) {
+          case TRI_YES:
+            return TRI_YES;
+          case TRI_MAYBE:
+            seen_maybe = TRUE;
+            break;
+          default:
+            break;
+        }
+      } range_adjc_iterate_end;
+
+      if (seen_maybe) {
+        return TRI_MAYBE;
+      } else {
+        return TRI_NO;
+      }
+    }
+    break;
+  default:
+    break;
+  }
+
+  fc_assert_msg(FALSE,
+                "Illegal value %d for tile relationship requirement.",
+                req->source.value.tilerel);
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
   Is center of given city in tile. If city is NULL, any city will do.
 **************************************************************************/
 static bool is_city_in_tile(const struct tile *ptile,
@@ -5539,6 +5951,131 @@ is_latitude_req_active(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
+  Determine whether a maximum squared distance requirement is satisfied in
+  a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a max squared distance requirement
+**************************************************************************/
+static enum fc_tristate
+is_max_distance_sq_req_active(const struct civ_map *nmap,
+                              const struct req_context *context,
+                              const struct req_context *other_context,
+                              const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAX_DISTANCE_SQ);
+
+  switch (req->range) {
+  case REQ_RANGE_TILE:
+    if (context->tile == nullptr || other_context->tile == nullptr) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(
+      sq_map_distance(context->tile, other_context->tile)
+      <= req->source.value.distance_sq
+    );
+  default:
+    break;
+  }
+
+  fc_assert_msg(FALSE,
+                "Illegal range %d for max squared distance requirement.",
+                req->range);
+
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
+  Determine whether a maximum tiles of same region requirement is satisfied
+  in a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a max region tiles requirement
+**************************************************************************/
+static enum fc_tristate
+is_max_region_tiles_req_active(const struct civ_map *nmap,
+                               const struct req_context *context,
+                               const struct req_context *other_context,
+                               const struct requirement *req)
+{
+  int max_tiles, min_tiles = 1;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAX_REGION_TILES);
+
+  switch (req->range) {
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+    if (context->tile == nullptr) {
+      /* The tile itself is included in the range */
+      max_tiles = 1 + ((req->range == REQ_RANGE_CADJACENT)
+                      ? nmap->num_cardinal_dirs
+                      : nmap->num_valid_dirs);
+
+      break;
+    } else {
+      Continent_id cont = tile_continent(context->tile);
+
+      /* Count how many adjacent tiles there actually are as we go along */
+      max_tiles = 1;
+
+      range_adjc_iterate(nmap, context->tile, req->range, adj_tile) {
+        Continent_id adj_cont = tile_continent(adj_tile);
+
+        if (adj_cont == 0 || cont == 0) {
+          max_tiles++;
+        } else if (adj_cont == cont) {
+          min_tiles++;
+          max_tiles++;
+        }
+      } range_adjc_iterate_end;
+    }
+    break;
+  case REQ_RANGE_CONTINENT:
+    {
+      Continent_id cont = context->tile ? tile_continent(context->tile) : 0;
+
+      fc_assert_ret_val(cont <= nmap->num_continents, TRI_MAYBE);
+      fc_assert_ret_val(-cont <= nmap->num_oceans, TRI_MAYBE);
+
+      /* Note: We could come up with a better upper bound by subtracting
+       * all other continent/ocean sizes, or all except the largest if we
+       * don't know the tile.
+       * We could even do a flood-fill count of the unknown area bordered
+       * by known tiles of the continent.
+       * Probably not worth the effort though. */
+      max_tiles = nmap->xsize * nmap->ysize;
+
+      if (cont > 0) {
+        min_tiles = nmap->continent_sizes[cont];
+        if (is_whole_continent_known(cont)) {
+          max_tiles = min_tiles;
+        }
+      } else if (cont < 0) {
+        min_tiles = nmap->ocean_sizes[-cont];
+        if (is_whole_ocean_known(-cont)) {
+          max_tiles = min_tiles;
+        }
+      }
+    }
+    break;
+  default:
+    fc_assert_msg(FALSE,
+                  "Illegal range %d for max region tiles requirement.",
+                  req->range);
+    return TRI_MAYBE;
+  }
+
+  if (min_tiles > req->source.value.region_tiles) {
+    return TRI_NO;
+  } else if (max_tiles <= req->source.value.region_tiles) {
+    return TRI_YES;
+  }
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
   Determine whether a minimum year requirement is satisfied in a given
   context, ignoring parts of the requirement that can be handled uniformly
   for all requirement types.
@@ -5662,10 +6199,13 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_GOOD] = {is_good_req_active, REQUCH_NO},
   [VUT_GOVERNMENT] = {is_gov_req_active, REQUCH_NO},
   [VUT_IMPROVEMENT] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
+  [VUT_SITE] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
   [VUT_IMPR_GENUS] = {is_buildinggenus_req_active, REQUCH_YES},
   [VUT_IMPR_FLAG] = {is_buildingflag_req_active, REQUCH_YES},
   [VUT_PLAYER_FLAG] = {is_plr_flag_req_active, REQUCH_NO},
   [VUT_PLAYER_STATE] = {is_plr_state_req_active, REQUCH_NO},
+  [VUT_MAX_DISTANCE_SQ] = {is_max_distance_sq_req_active, REQUCH_YES},
+  [VUT_MAX_REGION_TILES] = {is_max_region_tiles_req_active, REQUCH_NO},
   [VUT_MAXLATITUDE] = {is_latitude_req_active, REQUCH_YES},
   [VUT_MAXTILEUNITS] = {is_maxunitsontile_req_active, REQUCH_NO},
   [VUT_MINCALFRAG] = {is_mincalfrag_req_active, REQUCH_NO},
@@ -5693,6 +6233,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_TERRAINALTER] = {is_terrainalter_req_active, REQUCH_NO},
   [VUT_TERRAINCLASS] = {is_terrainclass_req_active, REQUCH_NO},
   [VUT_TERRFLAG] = {is_terrainflag_req_active, REQUCH_NO},
+  [VUT_TILE_REL] = {is_tile_rel_req_active, REQUCH_NO},
   [VUT_TOPO] = {is_topology_req_active, REQUCH_YES},
   [VUT_WRAP] = {is_wrap_req_active, REQUCH_YES},
   [VUT_UCFLAG] = {is_unitclassflag_req_active, REQUCH_YES},
@@ -6110,7 +6651,7 @@ enum req_unchanging_status
   enum req_unchanging_status u = is_req_unchanging(context, req);
 
   if (REQUCH_NO != u) {
-    /* presence is precalculated */
+    /* Presence is precalculated */
     bool auto_present = (req->survives
          && !(VUT_IMPROVEMENT == req->source.kind
               && can_improvement_go_obsolete(req->source.value.building)))
@@ -6200,6 +6741,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_GOVERNMENT:
   case VUT_ACHIEVEMENT:
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
   case VUT_IMPR_GENUS:
   case VUT_IMPR_FLAG:
   case VUT_PLAYER_FLAG:
@@ -6235,6 +6777,9 @@ bool universal_never_there(const struct universal *source)
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
   case VUT_MINYEAR:
+  case VUT_MAX_DISTANCE_SQ:
+  case VUT_MAX_REGION_TILES:
+  case VUT_TILE_REL:
   case VUT_NONE:
   case VUT_COUNT:
     /* Not implemented. */
@@ -6795,6 +7340,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_STYLE:
     return psource1->value.style == psource2->value.style;
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return psource1->value.building == psource2->value.building;
   case VUT_IMPR_GENUS:
     return psource1->value.impr_genus == psource2->value.impr_genus;
@@ -6891,9 +7437,15 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.citytile == psource2->value.citytile;
   case VUT_CITYSTATUS:
     return psource1->value.citystatus == psource2->value.citystatus;
+  case VUT_TILE_REL:
+    return psource1->value.tilerel == psource2->value.tilerel;
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     return psource1->value.latitude == psource2->value.latitude;
+  case VUT_MAX_DISTANCE_SQ:
+    return psource1->value.distance_sq == psource2->value.distance_sq;
+  case VUT_MAX_REGION_TILES:
+    return psource1->value.region_tiles == psource2->value.region_tiles;
   case VUT_COUNT:
     break;
   }
@@ -6919,6 +7471,8 @@ const char *universal_rule_name(const struct universal *psource)
     return citytile_type_name(psource->value.citytile);
   case VUT_CITYSTATUS:
     return citystatus_type_name(psource->value.citystatus);
+  case VUT_TILE_REL:
+    return tilerel_type_name(psource->value.tilerel);
   case VUT_MINYEAR:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minyear);
 
@@ -6945,6 +7499,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_STYLE:
     return style_rule_name(psource->value.style);
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return improvement_rule_name(psource->value.building);
   case VUT_IMPR_GENUS:
     return impr_genus_id_name(psource->value.impr_genus);
@@ -7052,6 +7607,14 @@ const char *universal_rule_name(const struct universal *psource)
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.latitude);
 
     return buffer;
+  case VUT_MAX_DISTANCE_SQ:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.distance_sq);
+
+    return buffer;
+  case VUT_MAX_REGION_TILES:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.region_tiles);
+
+    return buffer;
   case VUT_COUNT:
     break;
   }
@@ -7102,6 +7665,16 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_IMPROVEMENT:
     fc_strlcat(buf, improvement_name_translation(psource->value.building),
                bufsz);
+    return buf;
+  case VUT_SITE:
+    {
+      char local_buf[1024];
+
+      fc_snprintf(local_buf, sizeof(local_buf), _("%s site"),
+                  improvement_name_translation(psource->value.building));
+      fc_strlcat(buf, local_buf, bufsz);
+    }
+
     return buf;
   case VUT_IMPR_GENUS:
     fc_strlcat(buf,
@@ -7398,6 +7971,26 @@ const char *universal_name_translation(const struct universal *psource,
       break;
     }
     return buf;
+  case VUT_TILE_REL:
+    switch (psource->value.tilerel) {
+    case TREL_SAME_TCLASS:
+      fc_strlcat(buf, _("Same terrain class"), bufsz);
+      break;
+    case TREL_SAME_REGION:
+      fc_strlcat(buf, _("Same continent/ocean"), bufsz);
+      break;
+    case TREL_ONLY_OTHER_REGION:
+      fc_strlcat(buf, _("Only other continent/ocean"), bufsz);
+      break;
+    case TREL_REGION_SURROUNDED:
+      fc_strlcat(buf, _("Lake/island surrounded"), bufsz);
+      break;
+    case TREL_COUNT:
+      fc_assert(psource->value.tilerel != TREL_COUNT);
+      fc_strlcat(buf, "error", bufsz);
+      break;
+    }
+    return buf;
   case VUT_MINLATITUDE:
     /* TRANS: here >= means 'greater than or equal'. */
     cat_snprintf(buf, bufsz, _("Latitude >= %d"),
@@ -7407,6 +8000,15 @@ const char *universal_name_translation(const struct universal *psource,
     /* TRANS: here <= means 'less than or equal'. */
     cat_snprintf(buf, bufsz, _("Latitude <= %d"),
                  psource->value.latitude);
+    return buf;
+  case VUT_MAX_DISTANCE_SQ:
+    /* TRANS: here <= means 'less than or equal'. */
+    cat_snprintf(buf, bufsz, _("Squared distance <= %d"),
+                 psource->value.distance_sq);
+    return buf;
+  case VUT_MAX_REGION_TILES:
+    cat_snprintf(buf, bufsz, _("%d or fewer region tiles"),
+                 psource->value.region_tiles);
     return buf;
   case VUT_COUNT:
     break;
@@ -7432,6 +8034,7 @@ int universal_build_shield_cost(const struct city *pcity,
 {
   switch (target->kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     return impr_build_shield_cost(pcity, target->value.building);
   case VUT_UTYPE:
     return utype_build_shield_cost(pcity, NULL, target->value.utype);
@@ -7685,6 +8288,7 @@ static enum req_item_found improvement_found(const struct requirement *preq,
 
   switch (preq->source.kind) {
   case VUT_IMPROVEMENT:
+  case VUT_SITE:
     if (source->value.building == preq->source.value.building) {
       return ITF_YES;
     }
@@ -7977,6 +8581,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_GOVERNMENT] = &government_found;
   universal_found_function[VUT_NATION] = &nation_found;
   universal_found_function[VUT_IMPROVEMENT] = &improvement_found;
+  universal_found_function[VUT_SITE] = &improvement_found;
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
   universal_found_function[VUT_ACTIVITY] = &unit_activity_found;

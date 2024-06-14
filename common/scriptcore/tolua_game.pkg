@@ -332,6 +332,9 @@ module Unit {
     @ link_text(lua_State *L, Unit *self);
   const char *api_methods_unit_tile_link
     @ tile_link_text(lua_State *L, Unit *self);
+
+  bool api_methods_unit_seen
+    @ seen(lua_State *L, Unit *self, Player *watcher);
 }
 
 module methods_private {

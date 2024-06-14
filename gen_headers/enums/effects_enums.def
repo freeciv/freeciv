@@ -163,6 +163,7 @@ values
   TECH_LEAKAGE                      "Tech_Leakage"
   IMPR_UPKEEP_REDUCTION             "Impr_Upkeep_Reduction"
   CULTURE_PCT                       "Culture_Pct"
+  TILE_CLAIMABLE                    "Tile_Claimable"
   USER_EFFECT_1                     "User_Effect_1"
   USER_EFFECT_2                     "User_Effect_2"
   USER_EFFECT_3                     "User_Effect_3"

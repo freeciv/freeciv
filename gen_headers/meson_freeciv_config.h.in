@@ -173,4 +173,10 @@
 /* Delta protocol enabled */
 #mesondefine FREECIV_DELTA_PROTOCOL
 
+/* C11 static assert supported */
+#mesondefine FREECIV_C11_STATIC_ASSERT
+
+/* C++11 static assert supported */
+#mesondefine FREECIV_CXX11_STATIC_ASSERT
+
 #endif /* FC__FREECIV_CONFIG_H */

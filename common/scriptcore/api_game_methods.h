@@ -187,6 +187,7 @@ Unit_List_Link *api_methods_private_unit_cargo_list_head(lua_State *L,
 bool api_methods_unit_can_upgrade(lua_State *L, Unit *punit, bool is_free);
 const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
                                                Unit_Type *ptype);
+bool api_methods_unit_seen(lua_State *L, Unit *self, Player *watcher);
 
 /* Unit Type */
 bool api_methods_unit_type_has_flag(lua_State *L, Unit_Type *punit_type,

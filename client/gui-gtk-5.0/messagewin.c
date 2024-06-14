@@ -312,7 +312,7 @@ static void meswin_dialog_response_callback(struct gui_dialog *pgui_dialog,
 }
 
 /************************************************************************//**
-  Initilialize a message window dialog.
+  Initialize a message window dialog.
 ****************************************************************************/
 static void meswin_dialog_init(struct meswin_dialog *pdialog)
 {

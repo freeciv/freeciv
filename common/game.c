@@ -331,8 +331,10 @@ static void game_defaults(bool keep_ruleset_value)
   /* Veteran system. */
   game.veteran = NULL;
 
-  /* player colors */
+  /* Player colors */
   game.plr_bg_color = NULL;
+
+  game.lua_timeout = GAME_DEFAULT_LUA_TIMEOUT;
 
   if (is_server()) {
     /* All settings only used by the server (./server/ and ./ai/ */

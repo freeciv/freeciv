@@ -111,10 +111,6 @@ format_version = 40
 ;                         extra. See "bridged_over" extra property in
 ;                         terrain.ruleset.
 ; "Build_Airborne"      = from now on can build air units (for use by AI)
-; "Claim_Ocean"         = Player claims ocean tiles even if they are not
-;                         adjacent to border source
-; "Claim_Ocean_Limited" = Oceanic border sources claim ocean tiles even if
-;                         they are not adjacent to border source
 ;
 ; */ <-- avoid gettext warnings
 
@@ -530,7 +526,7 @@ Increases max tax/science/lux rate by 10%.")
 name        = _("Ocean Cities")
 req1        = "Deneb Radar"
 req2        = "Thermal Module"
-flags       = "Claim_Ocean"
+flags       = ""
 graphic     = "a.ocean_cities"
 graphic_alt = "-"
 helptext    = _("Cities on ocean. Why not?")

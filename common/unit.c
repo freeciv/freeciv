@@ -478,7 +478,7 @@ bool unit_can_add_or_build_city(const struct unit *punit)
     return action_prob_possible(action_prob_vs_city(nmap, punit,
         ACTION_JOIN_CITY, tgt_city));
   } else {
-    return action_prob_possible(action_prob_vs_tile(punit,
+    return action_prob_possible(action_prob_vs_tile(nmap, punit,
         ACTION_FOUND_CITY, unit_tile(punit), NULL));
   }
 }
