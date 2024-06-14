@@ -960,7 +960,7 @@ static void xz_action(fz_FILE *fp, lzma_action action)
 /************************************************************************//**
   Print formatted, like fprintf.
 
-  Note: zlib doesn't have gzvfprintf, but thats ok because its
+  Note: zlib doesn't have gzvfprintf, but that's ok because its
   fprintf only does similar to what we do here (print to fixed
   buffer), and in addition this way we get to use our safe
   snprintf.
