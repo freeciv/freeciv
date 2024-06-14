@@ -33,6 +33,7 @@ artists = "
     J. W. Bjerk / Eleazar <www.jwbjerk.com>
     qwm
     FiftyNine
+    Chedy Shareef Felix [CE27]
 "
 
 [file]
@@ -86,6 +87,8 @@ tiles = { "row", "column", "tag"
   1, 15, "u.galleon_Idle"       ; [BB]
   1, 16, "u.partisan_Idle"      ; [BB] & [CT]
   1, 17, "u.pikemen_Idle"       ; [T]
+  1, 18, "u.sniper_Idle"     	; [CE27]
+  1, 19, "u.hunter_Idle"	; [CE27]
   2,  0, "u.marines_Idle"       ; [GB]
   2,  1, "u.spy_Idle"           ; [EW] & [CT]
   2,  2, "u.engineers_Idle"     ; [Nemo] & [CT]
@@ -104,6 +107,7 @@ tiles = { "row", "column", "tag"
   2, 15, "u.leader_Idle"        ; [GB]
   2, 16, "u.barbarian_leader_Idle" ; FiftyNine
   2, 17, "u.migrants_Idle"      ; Eleazar
+  2, 18, "u.land_transport_Idle"   ; [CE27]
 ;  2, 19, "u.train_Idle"        ; Eleazar
 
 }

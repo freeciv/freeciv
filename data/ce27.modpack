@@ -4,7 +4,7 @@ options = "+Freeciv-modpack-3.3-Devel-2024.Apr.14"
 
 [modpack]
 ; Name of the modpack
-name = "default"
+name = "ce27"
 
 [components]
 ; Whether the modpack has a ruleset component
