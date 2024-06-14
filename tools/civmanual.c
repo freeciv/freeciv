@@ -522,32 +522,52 @@ static bool manual_command(struct tag_types *tag_info)
         fprintf(doc, "<td><table width=\"100%%\">\n");
         if (action_id_univs_not_blocking(ACTION_IRRIGATE,
                                          NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>+%d F</td><td align=\"right\">(%d)</td></tr>\n",
-                  pterrain->irrigation_food_incr, pterrain->irrigation_time);
+          fprintf(doc, "<tr><td>+%d F</td>", pterrain->irrigation_food_incr);
+          if (pterrain->irrigation_time == 0) {
+            fprintf(doc, "<td align=\"right\">(-)</td></tr>\n");
+          } else {
+            fprintf(doc, "<td align=\"right\">(%d)</td></tr>\n",
+                    pterrain->irrigation_time);
+          }
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
         if (pterrain->cultivate_result != NULL
             && action_id_univs_not_blocking(ACTION_CULTIVATE,
                                             NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->cultivate_result),
-                  pterrain->cultivate_time);
+          fprintf(doc, "<tr><td>%s</td>",
+                  terrain_name_translation(pterrain->cultivate_result));
+          if (pterrain->cultivate_time == 0) {
+            fprintf(doc, "<td align=\"right\">(-)</td></tr>\n");
+          } else {
+            fprintf(doc, "<td align=\"right\">(%d)</td></tr>\n",
+                    pterrain->cultivate_time);
+          }
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
         if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>+%d P</td><td align=\"right\">(%d)</td></tr>\n",
-                  pterrain->mining_shield_incr, pterrain->mining_time);
+          fprintf(doc, "<tr><td>+%d P</td>", pterrain->mining_shield_incr);
+          if (pterrain->mining_time == 0) {
+            fprintf(doc, "<td align=\"right\">(-)</td></tr>\n");
+          } else {
+            fprintf(doc, "<td align=\"right\">(%d)</td></tr>\n",
+                    pterrain->mining_time);
+          }
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
         if (pterrain->plant_result != NULL
             && action_id_univs_not_blocking(ACTION_PLANT,
                                             NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->plant_result),
-                  pterrain->plant_time);
+          fprintf(doc, "<tr><td>%s</td>",
+                  terrain_name_translation(pterrain->plant_result));
+          if (pterrain->plant_time == 0) {
+            fprintf(doc, "<td align=\"right\">(-)</td></tr>\n");
+          } else {
+            fprintf(doc, "<td align=\"right\">(%d)</td></tr>\n",
+                    pterrain->plant_time);
+          }
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
@@ -555,9 +575,14 @@ static bool manual_command(struct tag_types *tag_info)
         if (pterrain->transform_result
             && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
                                             NULL, &for_terr)) {
-          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->transform_result),
-                  pterrain->transform_time);
+          fprintf(doc, "<tr><td>%s</td>",
+                  terrain_name_translation(pterrain->transform_result));
+          if (pterrain->transform_time == 0) {
+            fprintf(doc, "<td align=\"right\">(-)</td></tr>\n");
+          } else {
+            fprintf(doc, "<td align=\"right\">(%d)</td></tr>\n",
+                    pterrain->transform_time);
+          }
         } else {
           fprintf(doc, "<tr><td>-</td><td align=\"right\">(-)</td></tr>\n");
         }
@@ -574,12 +599,20 @@ static bool manual_command(struct tag_types *tag_info)
           fprintf(doc, "<td>");
         }
         extra_type_by_cause_iterate(EC_ROAD, pextra) {
+          int btime = terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD, pextra);
+
           if (++ri < game.control.num_road_types) {
-            fprintf(doc, "%d / ", terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD,
-                                                           pextra));
+            if (btime == 0) {
+              fprintf(doc, "- / ");
+            } else {
+              fprintf(doc, "%d / ", btime);
+            }
           } else {
-            fprintf(doc, "%d</td>", terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD,
-                                                             pextra));
+            if (btime == 0) {
+              fprintf(doc, "-</td>");
+            } else {
+              fprintf(doc, "%d</td>", btime);
+            }
           }
         } extra_type_by_cause_iterate_end;
         fprintf(doc, "</tr><tr><td colspan=\"7\">\n%s\n</td></tr>\n\n", tag_info->hline);
