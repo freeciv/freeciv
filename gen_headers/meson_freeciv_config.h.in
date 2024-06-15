@@ -173,6 +173,9 @@
 /* Delta protocol enabled */
 #mesondefine FREECIV_DELTA_PROTOCOL
 
+/* C23 static assert supported */
+#mesondefine FREECIV_C23_STATIC_ASSERT
+
 /* C11 static assert supported */
 #mesondefine FREECIV_C11_STATIC_ASSERT
 

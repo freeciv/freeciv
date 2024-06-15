@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <assert.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
@@ -218,7 +219,9 @@ void fc_assert_fail(const char *file, const char *function, int line,
 #define FC_STATIC_ASSERT(cond, tag) static_assert(cond, #tag)
 #endif /* FREECIV_CXX11_STATIC_ASSERT */
 #else  /* __cplusplus */
-#ifdef FREECIV_C11_STATIC_ASSERT
+#ifdef FREECIV_C23_STATIC_ASSERT
+#define FC_STATIC_ASSERT(cond, tag) static_assert(cond, #tag)
+#elif defined(FREECIV_C11_STATIC_ASSERT)
 #define FC_STATIC_ASSERT(cond, tag) _Static_assert(cond, #tag)
 #endif /* FREECIV_C11_STATIC_ASSERT */
 #ifdef FREECIV_STATIC_STRLEN

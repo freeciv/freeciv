@@ -587,6 +587,13 @@ endif
 
 if c_compiler.compiles('''
 #include <assert.h>
+int main(void) { static_assert(1, "1 is not true"); }''',
+  name: 'c23 Static Assert')
+  pub_conf_data.set('FREECIV_C23_STATIC_ASSERT', 1)
+endif
+
+if c_compiler.compiles('''
+#include <assert.h>
 int main(void) { _Static_assert(1, "1 is not true"); }''',
   name: 'c11 Static Assert')
   pub_conf_data.set('FREECIV_C11_STATIC_ASSERT', 1)
