@@ -81,7 +81,7 @@ static void set_socket_errno(void)
   int err = WSAGetLastError();
 
   switch (err) {
-    /* these have mappings to symbolic errno names in net_types.h */
+    /* These have mappings to symbolic errno names in net_types.h */
   case WSAEINTR:
   case WSAEINPROGRESS:
   case WSAEWOULDBLOCK:
@@ -387,7 +387,7 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
   if (err == 0) {
     struct addrinfo *current = res;
 
-    while (current != NULL) {
+    while (current != nullptr) {
       union fc_sockaddr *caddr;
 
       fc_assert_action(current->ai_addrlen <= sizeof(*caddr), continue);
@@ -501,7 +501,7 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
   }
   fflush(fp);
 
-  /* we don't use fc_closesocket on sock here since when fp is closed
+  /* We don't use fc_closesocket() on sock here since when fp is closed
    * sock will also be closed. fdopen doesn't dup the socket descriptor. */
 #else  /* HAVE_FDOPEN */
   {
@@ -525,8 +525,8 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
 #endif /* FREECIV_MSWINDOWS */
 
-    if (fp == NULL) {
-      return NULL;
+    if (fp == nullptr) {
+      return nullptr;
     }
 
     fc_writesocket(sock, buf, size);
@@ -602,7 +602,7 @@ int find_next_free_port(int starting_port, int highest_port,
       struct addrinfo *current = res;
       bool unusable = FALSE;
 
-      while (current != NULL && !unusable) {
+      while (current != nullptr && !unusable) {
         s = socket(current->ai_family, SOCK_STREAM, 0);
 
         if (s == -1) {
@@ -620,7 +620,7 @@ int find_next_free_port(int starting_port, int highest_port,
 
       freeaddrinfo(res);
 
-      if (!unusable && res != NULL) {
+      if (!unusable && res != nullptr) {
         found = TRUE;
       }
     }
@@ -634,12 +634,12 @@ int find_next_free_port(int starting_port, int highest_port,
     memset(&tmp, 0, sizeof(tmp));
     sock4->sin_family = AF_INET;
     sock4->sin_port = htons(port);
-    if (net_interface != NULL) {
+    if (net_interface != nullptr) {
       if (!fc_inet_aton(net_interface, &sock4->sin_addr, FALSE)) {
         struct hostent *hp;
 
         hp = gethostbyname(net_interface);
-        if (hp == NULL) {
+        if (hp == nullptr) {
           log_error("No hostent for %s!", net_interface);
 
           return -1;
