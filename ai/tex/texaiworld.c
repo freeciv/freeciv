@@ -85,6 +85,7 @@ void texai_world_close(void)
 void texai_map_init(void)
 {
   map_init(&(texai_world.map), TRUE);
+  map_init_topology(&(texai_world.map));
   map_allocate(&(texai_world.map));
 }
 
