@@ -25,7 +25,7 @@
   - Flexibility to add other methods if desired (eg, bzip2, arbitrary
     external filter program, etc).
 
-  FIXME: when zlib support _not_ included, should sanity check whether
+  FIXME: When zlib support _not_ included, should sanity check whether
   the first few bytes are gzip marker and complain if so.
 ***********************************************************************/
 
@@ -670,7 +670,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 
     if (j < size - 2) {
       /* Space for both newline and terminating '\0' */
-      if (i + 1 < fp->u.mem.size 
+      if (i + 1 < fp->u.mem.size
           && fp->u.mem.buffer[i] == '\r'
           && fp->u.mem.buffer[i + 1] == '\n') {
         i += 2;
@@ -876,7 +876,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
           retval = nullptr;
         } else {
           retval = buffer;
-        } 
+        }
         if (fp->u.bz2.error == BZ_STREAM_END) {
           /* EOF reached. Do not BZ2_bzRead() any more. */
           fp->u.bz2.eof = TRUE;

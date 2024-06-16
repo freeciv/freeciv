@@ -18,7 +18,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/********************************************************************** 
+/***********************************************************************
   An IO layer to support transparent compression/uncompression.
   (Currently only "required" functionality is supported.)
 ***********************************************************************/
@@ -27,6 +27,7 @@ extern "C" {
 
 #include <freeciv_config.h>
 
+/* utility */
 #include "shared.h"             /* fc__attribute */
 
 struct fz_FILE_s;                 /* opaque */
@@ -58,9 +59,9 @@ fz_FILE *fz_from_memory(char *buffer, int size, bool control);
 int fz_fclose(fz_FILE *fp);
 char *fz_fgets(char *buffer, int size, fz_FILE *fp);
 int fz_fprintf(fz_FILE *fp, const char *format, ...)
-     fc__attribute((__format__ (__printf__, 2, 3)));
+  fc__attribute((__format__ (__printf__, 2, 3)));
 
-int fz_ferror(fz_FILE *fp);     
+int fz_ferror(fz_FILE *fp);
 const char *fz_strerror(fz_FILE *fp);
 
 #ifdef __cplusplus
