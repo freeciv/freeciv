@@ -1657,7 +1657,7 @@ if server_type != 'disabled'
 endif
 
 install_data(
-  'data/ruledit/comments-3.3.txt',
+  'data/ruledit/comments-3.4.txt',
   install_dir : join_paths(get_option('datadir'), 'freeciv/ruledit')
   )
 

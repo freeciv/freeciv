@@ -6,7 +6,7 @@
 # Must be run from the root of a git checkout.
 
 # Ruledit comments file name
-COMMENTS="comments-3.3.txt"
+COMMENTS="comments-3.4.txt"
 
 usage() {
     echo "*** usage: $0 data/[changed-ruleset-dir]"
