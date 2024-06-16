@@ -143,7 +143,7 @@ static void texwai_split_by_civil_war(struct player *original,
                                       struct player *created)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_assess_danger_player, original, &(wld.map));
+  TEXAI_DFUNC(dai_assess_danger_player, &(wld.map), original);
 }
 
 /**********************************************************************//**
