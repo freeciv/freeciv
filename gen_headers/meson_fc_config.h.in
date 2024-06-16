@@ -55,6 +55,9 @@
 /* Build in Qt5 mode */
 #mesondefine FC_QT5_MODE
 
+/* Build in Qt6x mode */
+#mesondefine FC_QT6X_MODE
+
 /* Release cycle information */
 #mesondefine IS_DEVEL_VERSION
 #mesondefine IS_FREEZE_VERSION

@@ -896,6 +896,7 @@ if qtver == 'qt5'
   qt_opts = []
 elif qtver == 'qt6x'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x060400', language : 'cpp')
+  priv_conf_data.set('FC_QT6X_MODE', 1)
   qt_opts = 'cpp_std=c++17'
 else
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x060000', language : 'cpp')
