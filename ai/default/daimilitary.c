@@ -74,8 +74,9 @@
 #define CITY_CONQUEST_WORTH(_city_, _data_) \
   (_data_->worth * 0.9 + (city_size_get(_city_) - 0.5) * 10)
 
-static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
-                                  const struct civ_map *dmap,
+static unsigned int assess_danger(struct ai_type *ait,
+                                  const struct civ_map *nmap,
+                                  struct city *pcity,
                                   player_unit_list_getter ul_cb);
 
 static adv_want dai_unit_attack_desirability(struct ai_type *ait,
@@ -633,13 +634,14 @@ static unsigned int assess_danger_unit(const struct city *pcity,
 
   This is necessary to initialize some ai data before some ai calculations.
 **************************************************************************/
-void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer,
-                              const struct civ_map *dmap)
+void dai_assess_danger_player(struct ai_type *ait,
+                              const struct civ_map *nmap,
+                              struct player *pplayer)
 {
   /* Do nothing if game is not running */
   if (S_S_RUNNING == server_state()) {
     city_list_iterate(pplayer->cities, pcity) {
-      (void) assess_danger(ait, pcity, dmap, NULL);
+      (void) assess_danger(ait, nmap, pcity, NULL);
     } city_list_iterate_end;
   }
 }
@@ -698,8 +700,9 @@ static void dai_reevaluate_building(struct city *pcity, adv_want *value,
   afraid of a boat laden with enemies if it stands on the coast (i.e.
   is directly reachable by this boat).
 **************************************************************************/
-static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
-                                  const struct civ_map *dmap,
+static unsigned int assess_danger(struct ai_type *ait,
+                                  const struct civ_map *nmap,
+                                  struct city *pcity,
                                   player_unit_list_getter ul_cb)
 {
   struct player *pplayer = city_owner(pcity);
@@ -826,7 +829,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
      * at war with. */
 
     pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, assess_turns,
-                                            omnimap, dmap);
+                                            omnimap, nmap);
 
     if (ul_cb != NULL) {
       units = ul_cb(aplayer);
@@ -1775,9 +1778,9 @@ static void adjust_ai_unit_choice(struct city *pcity,
   If 'choice->want' is 0 this advisor doesn't want anything.
 **************************************************************************/
 struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
+                                                 const struct civ_map *nmap,
                                                  struct player *pplayer,
                                                  struct city *pcity,
-                                                 const struct civ_map *mamap,
                                                  player_unit_list_getter ul_cb)
 {
   struct adv_data *ai = adv_data_get(pplayer, NULL);
@@ -1791,10 +1794,10 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   struct adv_choice *choice = adv_new_choice();
   bool allow_gold_upkeep;
 
-  urgency = assess_danger(ait, pcity, mamap, ul_cb);
+  urgency = assess_danger(ait, nmap, pcity, ul_cb);
   /* Changing to quadratic to stop AI from building piles 
    * of small units -- Syela */
-  /* It has to be AFTER assess_danger thanks to wallvalue. */
+  /* It has to be AFTER assess_danger() thanks to wallvalue. */
   our_def = assess_defense_quadratic(ait, pcity); 
 
   dai_choose_diplomat_defensive(ait, pplayer, pcity, choice, our_def);
@@ -1895,7 +1898,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
         if (pcity->server.adv->building_want[wall_id] > 0) {
           /* NB: great wall is under domestic */
           choice->value.building = pimprove;
-          /* building_want is hacked by assess_danger */
+          /* building_want is hacked by assess_danger() */
           choice->want = pcity->server.adv->building_want[wall_id];
           choice->want = choice->want * (0.5 + (ai_trait_get_value(TRAIT_BUILDER, pplayer)
                                                 / TRAIT_DEFAULT_VALUE / 2));

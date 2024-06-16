@@ -184,5 +184,5 @@ void dai_gained_control(struct ai_type *ait, struct player *pplayer)
     } city_list_iterate_end;
   }
 
-  dai_assess_danger_player(ait, pplayer, &(wld.map));
+  dai_assess_danger_player(ait, &(wld.map), pplayer);
 }
