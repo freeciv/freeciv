@@ -120,7 +120,7 @@ fi
 DLLSPATH="$1"
 GUI="$2"
 
-case $GUI in
+case "$GUI" in
   gtk3.22)
     GUINAME="GTK3.22"
     MPGUI="gtk3"
@@ -138,6 +138,11 @@ case $GUI in
     FCMP="gtk4" ;;
   qt6)
     GUINAME="Qt6"
+    CLIENT="qt"
+    MPGUI="qt"
+    FCMP="qt" ;;
+  qt6x)
+    GUINAME="Qt6x"
     CLIENT="qt"
     MPGUI="qt"
     FCMP="qt" ;;
@@ -266,7 +271,7 @@ else
         exit 1
       fi
       ;;
-    qt6)
+    qt6|qt6x)
       if ! cp freeciv-ruledit.cmd "${INSTDIR}"
       then
         echo "Adding cmd-file failed!" >&2
@@ -279,7 +284,7 @@ else
       ;;
   esac
 
-  if test "${GUI}" = "qt6" ; then
+  if test "${GUI}" = "qt6" || test "${GUI}" = "qt6x" ; then
     EXE_ID="qt"
   else
     EXE_ID="${GUI}"

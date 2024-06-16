@@ -85,6 +85,15 @@ else
   QT6="Success"
 fi
 
+if test "${CROSSER_QT6}" != "yes" ; then
+  QT7="N/A"
+elif ! ./meson-installer_build.sh "${DLLSPATH}" qt6x ; then
+  RET=1
+  QT7="Fail"
+else
+  QT7="Success"
+fi
+
 # sdl2-client comes with gtk4 modpack installer
 if test "${CROSSER_GTK4}" != "yes" ; then
   SDL2="N/A"
@@ -108,6 +117,7 @@ echo "Gtk3.22: ${GTK322}"
 echo "Gtk4:    ${GTK4}"
 echo "Gtk4x:   ${GTK4x}"
 echo "Qt6:     ${QT6}"
+echo "Qt6x:    ${QT7}"
 echo "Sdl2:    ${SDL2}"
 echo "Ruledit: ${RULEDIT}"
 
