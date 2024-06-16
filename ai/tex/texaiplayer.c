@@ -196,8 +196,8 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
         texai_city_worker_wants(ait, msg->plr, pcity);
 
         if (tex_city != NULL) {
-          choice = military_advisor_choose_build(ait, msg->plr, tex_city,
-                                                 texai_map_get(),
+          choice = military_advisor_choose_build(ait, texai_map_get(),
+                                                 msg->plr, tex_city,
                                                  texai_player_units);
           choice_req->city_id = tex_city->id;
           adv_choice_copy(&(choice_req->choice), choice);

@@ -742,13 +742,13 @@ static void dai_manage_government(struct ai_type *ait, struct player *pplayer)
 }
 
 /*************************************************************************//**
-  Activities to be done by AI _before_ human turn.  Here we just move the
+  Activities to be done by AI _before_ human turn. Here we just move the
   units intelligently.
 *****************************************************************************/
 void dai_do_first_activities(struct ai_type *ait, struct player *pplayer)
 {
   TIMING_LOG(AIT_ALL, TIMER_START);
-  dai_assess_danger_player(ait, pplayer, &(wld.map));
+  dai_assess_danger_player(ait, &(wld.map), pplayer);
   /* TODO: Make assess_danger save information on what is threatening
    * us and make dai_manage_units and Co act upon this information, trying
    * to eliminate the source of danger */
@@ -764,9 +764,9 @@ void dai_do_first_activities(struct ai_type *ait, struct player *pplayer)
 }
 
 /*************************************************************************//**
-  Activities to be done by AI _after_ human turn.  Here we respond to
+  Activities to be done by AI _after_ human turn. Here we respond to
   dangers created by human and AI opposition by ordering defenders in
-  cities and setting taxes accordingly.  We also do other duties.
+  cities and setting taxes accordingly. We also do other duties.
 
   We do _not_ move units here, otherwise humans complain that AI moves
   twice.
