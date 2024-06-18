@@ -352,7 +352,7 @@ tech_leakage = "None"
 ; Method of paying tech upkeep
 ; "None"   - no upkeep
 ; "Basic"  - upkeep is calculated as:
-;     <Cost of technology> / tech_upkeep_divider - tech_upkeep_free
+;     <Cost of technology> / tech_upkeep_divider - <Free tech upkeep>
 ; "Cities" - upkeep is calculated like "Basic", but multiplied by number of cities
 tech_upkeep_style = "None"
 
