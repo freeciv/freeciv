@@ -162,6 +162,9 @@ void fc_client::create_main_page(void)
 #ifdef FC_QT5_MODE
     fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt5 client"),
                 word_version(), VERSION_STRING);
+#elif defined(FC_QT6X_MODE)
+    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt6x client"),
+                word_version(), VERSION_STRING);
 #else  // FC_QT5_MODE
     fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt6 client"),
                 word_version(), VERSION_STRING);
@@ -181,6 +184,8 @@ void fc_client::create_main_page(void)
 
 #ifdef FC_QT5_MODE
     strncpy(msgbuf, _("Qt5 client"), sizeof(msgbuf) - 1);
+#elif defined(FC_QT6X_MODE)
+    strncpy(msgbuf, _("Qt6x client"), sizeof(msgbuf) - 1);
 #else  // FC_QT5_MODE
     strncpy(msgbuf, _("Qt6 client"), sizeof(msgbuf) - 1);
 #endif // FC_QT5_MODE

@@ -203,10 +203,12 @@ void mpgui::setup(QWidget *central, struct fcmp_params *params)
 
   rev_ver = fc_git_revision();
 
-#ifndef FC_QT5_MODE
-  mode = R__("built in Qt6 mode.");
-#else  // FC_QT5_MODE
+#ifdef FC_QT5_MODE
   mode = R__("built in Qt5 mode.");
+#elif defined(FC_QT6X_MODE)
+  mode = R__("built in Qt6x mode.");
+#else  // FC_QT5_MODE
+  mode = R__("built in Qt6 mode.");
 #endif // FC_QT5_MODE
 
   if (rev_ver == nullptr) {
