@@ -3053,7 +3053,7 @@ void handle_unit_action_query(struct connection *pc,
         && is_action_enabled_unit_on_unit(nmap, action_type,
                                           pactor, punit)) {
       dsend_packet_unit_action_answer(pc,
-                                      actor_id32, actor_id16, target_id,
+                                      actor_id32, actor_id32, target_id,
                                       unit_bribe_cost(punit, pplayer),
                                       action_type, request_kind);
     } else {
@@ -3069,7 +3069,7 @@ void handle_unit_action_query(struct connection *pc,
         && is_action_enabled_unit_on_city(nmap, action_type,
                                           pactor, pcity)) {
       dsend_packet_unit_action_answer(pc,
-                                      actor_id32, actor_id16, target_id,
+                                      actor_id32, actor_id32, target_id,
                                       city_incite_cost(pplayer, pcity),
                                       action_type, request_kind);
     } else {
@@ -3094,7 +3094,7 @@ void handle_unit_action_query(struct connection *pc,
                                       unit_type_get(pactor), tgt_utype);
 
       dsend_packet_unit_action_answer(pc,
-                                      actor_id32, actor_id16, target_id,
+                                      actor_id32, actor_id32, target_id,
                                       upgr_cost, action_type,
                                       request_kind);
     } else {
