@@ -1719,11 +1719,13 @@ void rscompat_postprocess(struct rscompat_info *info)
 
   if (info->version < RSFORMAT_3_1) {
     enum unit_class_flag_id nothing
-        = unit_class_flag_id_by_name("HutNothing", fc_strcasecmp);
+      = unit_class_flag_id_by_name("HutNothing", fc_strcasecmp);
 
     unit_class_iterate(uc) {
       if (uc->rscompat_cache_from_3_0.hut_behavior == HUT_NOTHING) {
-        BV_SET(uc->flags, nothing);
+        if (unit_class_flag_id_is_valid(nothing)) {
+          BV_SET(uc->flags, nothing);
+        }
       } else if (uc->rscompat_cache_from_3_0.hut_behavior == HUT_FRIGHTEN) {
         BV_SET(uc->flags, UCF_HUT_FRIGHTEN);
       }
