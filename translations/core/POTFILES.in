@@ -425,6 +425,7 @@ tools/manual/manual_governments.c
 tools/manual/manual_settings.c
 tools/manual/manual_techs.c
 tools/manual/manual_terrain.c
+tools/manual/manual_uclass.c
 tools/manual/manual_units.c
 tools/ruleutil/rulesave.c
 server/actiontools.c
