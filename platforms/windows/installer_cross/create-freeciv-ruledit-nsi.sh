@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-ruledit.sh <freeciv files dir> <output dir> <version> <gui id> <gui name> <win32|win64|win>
+# ./create-freeciv-ruledit.sh <freeciv files dir> <output dir> <version> <gui id> <gui name> <win64|win>
 
 ARCH_KEY_PART="crs"
 ARCH_INST_PART="-crs"
