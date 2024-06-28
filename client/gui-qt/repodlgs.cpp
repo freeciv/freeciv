@@ -38,6 +38,7 @@
 
 // client
 #include "client_main.h"
+#include "gui_main.h"
 #include "helpdata.h"
 #include "options.h"
 #include "repodlgs_common.h"
@@ -803,7 +804,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       tt_text = def_str + tt_text.toHtmlEscaped();
       tooltip_text = tt_text.trimmed();
       tooltip_rect = rttp->rect;
-      tooltip_pos = event->globalPos();
+      tooltip_pos = mevent_gpos(event);
       if (!QToolTip::isVisible() && !timer_active) {
         timer_active = true;
         QTimer::singleShot(500, this, SLOT(show_tooltip()));

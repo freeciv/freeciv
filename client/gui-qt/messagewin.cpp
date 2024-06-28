@@ -25,6 +25,7 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "gui_main.h"
 #include "messagewin.h"
 #include "qtg_cxxside.h"
 #include "sprite.h"
@@ -94,7 +95,7 @@ void info_tab::mousePressEvent(QMouseEvent *event)
     int x = pos.x();
     int y = pos.y();
 
-    cursor = event->globalPos() - geometry().topLeft();
+    cursor = mevent_gpos(event) - geometry().topLeft();
     if (y > 0 && y < 25 && x > width() - 25 && x < width()) {
       resize_mode = true;
       resxy = true;
@@ -115,12 +116,14 @@ void info_tab::mousePressEvent(QMouseEvent *event)
 /***********************************************************************//**
   Restores cursor when resizing is done
 ***************************************************************************/
-void info_tab::mouseReleaseEvent(QMouseEvent* event)
+void info_tab::mouseReleaseEvent(QMouseEvent *event)
 {
   QPoint p;
+
   if (gui()->interface_locked) {
     return;
   }
+
   if (resize_mode) {
     resize_mode = false;
     resx = false;
@@ -161,7 +164,7 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
     int newheight = event->globalY() - cursor.y() - geometry().y();
 
     resize(width(), this->geometry().height()-newheight);
-    to_move = event->globalPos() - cursor;
+    to_move = mevent_gpos(event) - cursor;
     move(this->x(), to_move.y());
     setCursor(Qt::SizeVerCursor);
     restore_chat();
@@ -179,7 +182,7 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
     int newheight = event->globalY() - cursor.y() - geometry().y();
 
     resize(ex, this->geometry().height()- newheight);
-    to_move = event->globalPos() - cursor;
+    to_move = mevent_gpos(event) - cursor;
     move(this->x(), to_move.y());
     setCursor(Qt::SizeBDiagCursor);
     restore_chat();

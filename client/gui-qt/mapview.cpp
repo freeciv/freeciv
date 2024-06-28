@@ -46,8 +46,9 @@
 // gui-qt
 #include "colors.h"
 #include "fc_client.h"
-#include "qtg_cxxside.h"
+#include "gui_main.h"
 #include "mapview.h"
+#include "qtg_cxxside.h"
 #include "sidebar.h"
 
 const char *get_timeout_label_text();
@@ -408,18 +409,19 @@ void move_widget::put_to_corner()
 void move_widget::mouseMoveEvent(QMouseEvent *event)
 {
   if (!gui()->interface_locked) {
-    parentWidget()->move(event->globalPos() - point);
+    parentWidget()->move(mevent_gpos(event) - point);
   }
 }
 
 /**********************************************************************//**
-  Sets moving point for move widget;
+  Sets moving point for move widget
 **************************************************************************/
-void move_widget::mousePressEvent(QMouseEvent* event)
+void move_widget::mousePressEvent(QMouseEvent *event)
 {
   if (!gui()->interface_locked) {
-    point = event->globalPos() - parentWidget()->geometry().topLeft();
+    point = mevent_gpos(event) - parentWidget()->geometry().topLeft();
   }
+
   update();
 }
 
@@ -449,14 +451,15 @@ void resize_widget::put_to_corner()
 /**********************************************************************//**
   Mouse handler for resize widget (resizes parent widget)
 **************************************************************************/
-void resize_widget::mouseMoveEvent(QMouseEvent * event)
+void resize_widget::mouseMoveEvent(QMouseEvent *event)
 {
   QPoint qp, np;
 
   if (gui()->interface_locked) {
     return;
   }
-  qp = event->globalPos();
+
+  qp = mevent_gpos(event);
   np.setX(qp.x() - point.x());
   np.setY(qp.y() - point.y());
   np.setX(qMax(np.x(), 32));
@@ -467,14 +470,15 @@ void resize_widget::mouseMoveEvent(QMouseEvent * event)
 /**********************************************************************//**
   Sets moving point for resize widget;
 **************************************************************************/
-void resize_widget::mousePressEvent(QMouseEvent* event)
+void resize_widget::mousePressEvent(QMouseEvent *event)
 {
   QPoint qp;
 
   if (gui()->interface_locked) {
     return;
   }
-  qp = event->globalPos();
+
+  qp = mevent_gpos(event);
   point.setX(qp.x() - parentWidget()->width());
   point.setY(qp.y() - parentWidget()->height());
   update();
@@ -915,7 +919,7 @@ void minimap_view::zoom_out()
   Right button - recenters on some point
   For wheel look mouseWheelEvent
 **************************************************************************/
-void minimap_view::mousePressEvent(QMouseEvent * event)
+void minimap_view::mousePressEvent(QMouseEvent *event)
 {
   int fx, fy;
   int x, y;
@@ -924,8 +928,9 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
     if (gui()->interface_locked) {
       return;
     }
-    cursor = event->globalPos() - geometry().topLeft();
+    cursor = mevent_gpos(event) - geometry().topLeft();
   }
+
   if (event->button() == Qt::RightButton) {
     cursor = event->pos();
     fx = event->pos().x();
@@ -943,23 +948,26 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
     center_tile_mapcanvas(map_pos_to_tile(&(wld.map), x, y));
     update_image();
   }
+
   event->setAccepted(true);
 }
 
 /**********************************************************************//**
   Called when mouse button was pressed. Used to moving minimap.
 **************************************************************************/
-void minimap_view::mouseMoveEvent(QMouseEvent* event)
+void minimap_view::mouseMoveEvent(QMouseEvent *event)
 {
   if (gui()->interface_locked) {
     return;
   }
+
   if (event->buttons() & Qt::LeftButton) {
     QPoint p, r;
+
     p = event->pos();
     r = mapTo(gui()->mapview_wdg, p);
     p = r - p;
-    move(event->globalPos() - cursor);
+    move(mevent_gpos(event) - cursor);
     setCursor(Qt::SizeAllCursor);
     gui()->qt_settings.minimap_x = static_cast<float>(p.x()) / mapview.width;
     gui()->qt_settings.minimap_y = static_cast<float>(p.y())

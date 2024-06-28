@@ -371,7 +371,7 @@ void qfc_dialog::paintEvent(QPaintEvent *event)
 void qfc_dialog::mouseMoveEvent(QMouseEvent *event)
 {
   if (moving_now) {
-    move(event->globalPos() - point);
+    move(mevent_gpos(event) - point);
   }
 }
 
@@ -386,7 +386,7 @@ void qfc_dialog::mousePressEvent(QMouseEvent *event)
 
   if (y <= titlebar_height
       && x <= width() - close_pix.width()) {
-    point = event->globalPos() - geometry().topLeft();
+    point = mevent_gpos(event) - geometry().topLeft();
     moving_now = true;
     setCursor(Qt::SizeAllCursor);
   } else if (y <= titlebar_height
@@ -960,7 +960,8 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
 ***************************************************************************/
 void notify_dialog::mousePressEvent(QMouseEvent *event)
 {
-  cursor = event->globalPos() - geometry().topLeft();
+  cursor = mevent_gpos(event) - geometry().topLeft();
+
   if (event->button() == Qt::RightButton) {
     was_destroyed = true;
     close();
@@ -972,7 +973,8 @@ void notify_dialog::mousePressEvent(QMouseEvent *event)
 ***************************************************************************/
 void notify_dialog::mouseMoveEvent(QMouseEvent *event)
 {
-  move(event->globalPos() - cursor);
+  move(mevent_gpos(event) - cursor);
+
   setCursor(Qt::SizeAllCursor);
 }
 
