@@ -161,7 +161,11 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
 
   if ((event->buttons() & Qt::LeftButton) && resize_mode && resy) {
     QPoint to_move;
+#ifndef FC_QT5_MODE
+    int newheight = event->globalPosition().y() - cursor.y() - geometry().y();
+#else  // FC_QT5_MODE
     int newheight = event->globalY() - cursor.y() - geometry().y();
+#endif // FC_QT5_MODE
 
     resize(width(), this->geometry().height()-newheight);
     to_move = mevent_gpos(event) - cursor;
@@ -179,7 +183,11 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
     setCursor(Qt::SizeVerCursor);
   } else if (resxy && (event->buttons() & Qt::LeftButton)) {
     QPoint to_move;
+#ifndef FC_QT5_MODE
+    int newheight = event->globalPosition().y() - cursor.y() - geometry().y();
+#else  // FC_QT5_MODE
     int newheight = event->globalY() - cursor.y() - geometry().y();
+#endif // FC_QT5_MODE
 
     resize(ex, this->geometry().height()- newheight);
     to_move = mevent_gpos(event) - cursor;
