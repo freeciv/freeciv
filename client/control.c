@@ -1960,7 +1960,7 @@ static void do_disband_alternative(void *p)
     }
     break;
   case ATK_SELF:
-    if (action_prob_possible(action_prob_self(punit, act))) {
+    if (action_prob_possible(action_prob_self(nmap, punit, act))) {
       request_do_action(act, punit->id, punit->id, 0, "");
     }
     break;

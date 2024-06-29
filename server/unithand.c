@@ -2254,7 +2254,7 @@ void handle_unit_get_actions(struct connection *pc,
     case ATK_SELF:
       if (actor_target_distance == 0) {
         /* Calculate the probabilities. */
-        probabilities[act] = action_prob_self(actor_unit, act);
+        probabilities[act] = action_prob_self(nmap, actor_unit, act);
       } else {
         /* Don't bother with self targeted actions unless the actor is
          * asking about what can be done to its own tile. */

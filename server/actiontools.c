@@ -1171,7 +1171,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
       case ATK_SELF:
         if (actor
             && is_action_enabled_unit_on_self(nmap, act, actor)) {
-          current = action_prob_self(actor, act);
+          current = action_prob_self(nmap, actor, act);
         }
         break;
       case ATK_COUNT:

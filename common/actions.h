@@ -840,7 +840,8 @@ struct act_prob action_prob_vs_extras(const struct civ_map *nmap,
                                       const struct tile *target,
                                       const struct extra_type *tgt_extra);
 
-struct act_prob action_prob_self(const struct unit *actor,
+struct act_prob action_prob_self(const struct civ_map *nmap,
+                                 const struct unit *actor,
                                  const action_id act_id);
 
 struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
