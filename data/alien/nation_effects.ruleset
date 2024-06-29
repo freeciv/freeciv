@@ -74,9 +74,9 @@ reqs    =
 type    = "Veteran_Build"
 value   = 1
 reqs	=
-    { "type",       "name",      "range"
-      "Nation", "Secret Society", "Player"
-      "UnitFlag", "Diplomat", "Local"
+    { "type",         "name",           "range"
+      "Nation",       "Secret Society", "Player"
+      "UnitTypeFlag", "Diplomat",       "Local"
     }
 
 [effect_secret_society_trade]

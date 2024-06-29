@@ -986,11 +986,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Strong Force", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",         "range",  "present", "quiet"
+      "Tech",         "Strong Force", "Player", TRUE,      FALSE
+      "TerrainClass", "Land",         "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",      "Local",  TRUE,      FALSE
+      "CityTile",     "Center",       "Tile",   FALSE,     TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1014,11 +1014,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Force Channeling", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",             "range",  "present", "quiet"
+      "Tech",         "Force Channeling", "Player", TRUE,      FALSE
+      "TerrainClass", "Land",             "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",          "Local",  TRUE,      FALSE
+      "CityTile",     "Center",           "Tile",   FALSE,     TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1041,11 +1041,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Commercial Antigravity", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",                   "range",  "present", "quiet"
+      "Tech",         "Commercial Antigravity", "Player", TRUE,      FALSE
+      "TerrainClass", "Land",                   "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",                "Local",  TRUE,      FALSE
+      "CityTile",     "Center",                 "Tile",   FALSE,     TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1069,9 +1069,9 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "UnitFlag", "Workers", "Local"
-      "TerrainClass", "Land", "Tile"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
+      "TerrainClass", "Land",    "Tile"
     }
 build_time     = 0
 removal_time   = 0
@@ -1098,11 +1098,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Brute Force", "Player"
-      "Extra", "Road", "Tile"
-      "UnitFlag", "Workers", "Local"
-      "TerrainClass", "Land", "Tile"
+    { "type",         "name",        "range"
+      "Tech",         "Brute Force", "Player"
+      "Extra",        "Road",        "Tile"
+      "UnitTypeFlag", "Workers",     "Local"
+      "TerrainClass", "Land",        "Tile"
     }
 build_time     = 3
 removal_time   = 0
@@ -1127,11 +1127,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Maglev", "Player"
-      "Extra", "Highway", "Tile"
-      "UnitFlag", "Workers", "Local"
-      "TerrainClass", "Land", "Tile"
+    { "type",         "name",    "range"
+      "Tech",         "Maglev",  "Player"
+      "Extra",        "Highway", "Tile"
+      "UnitTypeFlag", "Workers", "Local"
+      "TerrainClass", "Land",    "Tile"
     }
 build_time     = 3
 removal_time   = 0
@@ -1159,11 +1159,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Strong Resistance", "Player"
-      "UnitFlag", "Workers", "Local"
-      "TerrainFlag", "Radiating", "Tile"
-      "TerrainClass", "Land", "Tile" ; Needed explicitly for automatic move type assignment
+    { "type",         "name",              "range"
+      "Tech",         "Strong Resistance", "Player"
+      "UnitTypeFlag", "Workers",           "Local"
+      "TerrainFlag",  "Radiating",         "Tile"
+      "TerrainClass", "Land",              "Tile" ; Needed explicitly for automatic move type assignment
     }
 build_time     = 3
 removal_time   = 0
@@ -1190,10 +1190,10 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Burrowing", "Player"
-      "UnitFlag", "Workers", "Local"
-      "TerrainClass", "Oceanic", "Tile"
+    { "type",         "name",      "range"
+      "Tech",         "Burrowing", "Player"
+      "UnitTypeFlag", "Workers",   "Local"
+      "TerrainClass", "Oceanic",   "Tile"
     }
 build_time     = 3
 removal_time   = 0
