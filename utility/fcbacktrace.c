@@ -41,7 +41,7 @@
 
 #define MAX_NUM_FRAMES 256
 
-static log_pre_callback_fn previous = NULL;
+static log_pre_callback_fn previous = nullptr;
 
 static void write_backtrace_line(enum log_level level, bool print_from_where,
                                  const char *where, const char *msg);
@@ -87,7 +87,7 @@ static void write_backtrace_line(enum log_level level, bool print_from_where,
 {
   /* Current behavior of this function is to write to chained callback,
    * nothing more, nothing less. */
-  if (previous != NULL) {
+  if (previous != nullptr) {
     previous(level, print_from_where, where, msg);
   }
 }
@@ -98,7 +98,7 @@ static void write_backtrace_line(enum log_level level, bool print_from_where,
 static void backtrace_log(enum log_level level, bool print_from_where,
                           const char *where, const char *msg)
 {
-  if (previous != NULL) {
+  if (previous != nullptr) {
     /* Call chained callback first */
     previous(level, print_from_where, where, msg);
   }
@@ -123,19 +123,19 @@ void backtrace_print(enum log_level level)
   frames = backtrace(buffer, ARRAY_SIZE(buffer));
   names = backtrace_symbols(buffer, frames);
 
-  if (names == NULL) {
-    write_backtrace_line(level, FALSE, NULL, "No backtrace");
+  if (names == nullptr) {
+    write_backtrace_line(level, FALSE, nullptr, "No backtrace");
   } else {
     int i;
 
-    write_backtrace_line(level, FALSE, NULL, "Backtrace:");
+    write_backtrace_line(level, FALSE, nullptr, "Backtrace:");
 
     for (i = 0; i < MIN(frames, MAX_NUM_FRAMES); i++) {
       char linestr[256];
 
       fc_snprintf(linestr, sizeof(linestr), "%5d: %s", i, names[i]);
 
-      write_backtrace_line(level, FALSE, NULL, linestr);
+      write_backtrace_line(level, FALSE, nullptr, linestr);
     }
 
     free(names);
