@@ -5496,11 +5496,10 @@ action_prob_self_full(const struct civ_map *nmap,
   Get the actor unit's probability of successfully performing the chosen
   action on itself.
 **************************************************************************/
-struct act_prob action_prob_self(const struct unit *actor_unit,
+struct act_prob action_prob_self(const struct civ_map *nmap,
+                                 const struct unit *actor_unit,
                                  const action_id act_id)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   return action_prob_self_full(nmap, actor_unit,
                                unit_home(actor_unit),
                                unit_tile(actor_unit),
@@ -5560,7 +5559,7 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
     }
     break;
   case ATK_SELF:
-    prob = action_prob_self(act_unit, paction->id);
+    prob = action_prob_self(nmap, act_unit, paction->id);
     break;
   case ATK_COUNT:
     log_error("Invalid action target kind");
