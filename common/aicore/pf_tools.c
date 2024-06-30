@@ -986,7 +986,7 @@ void pft_fill_reverse_parameter(const struct civ_map *nmap,
   Fill parameters for combined sea-land movement.
   This is suitable for the case of a land unit riding a ferry.
   The starting position of the ferry is taken to be the starting position for
-  the PF. The passenger is assumed to initailly be on the given ferry.
+  the PF. The passenger is assumed initially to be on the given ferry.
   The destination may be inland, in which case the passenger will ride
   the ferry to a beach head, disembark, then continue on land.
   One complexity of amphibious movement is that the movement rate on land
