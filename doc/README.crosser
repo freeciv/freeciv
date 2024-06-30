@@ -17,8 +17,8 @@ Scripts to create installers require specific crosser version
 (MAJOR.MINOR, or "CROSSER_FEATURE_LEVEL") to know what exact files
 they need to package with freeciv.
 See CROSSER_FEATURE_LEVEL on top of winbuild.sh and meson-winbuild.sh
-under windows/installer_cross/ to see what is the crosser version
-currently supported and required.
+under platforms/windows/installer_cross/ to see what is
+the crosser version currently supported and required.
 
 
  Using docker container for building with crosser
@@ -66,7 +66,7 @@ to do the build is to run either
 > ./meson-build_all_installer.sh (meson based build)
 or
 > ./build_all_installer.sh (autotools based build)
-on windows/installer_cross/.
+on platforms/windows/installer_cross/.
 Currently these scripts need to be run on their own
 directory, and they produce their output there
 (wihin freeciv tree). If everything success, final
