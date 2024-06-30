@@ -243,6 +243,7 @@ common/networking/connection.c
 common/networking/packets.c
 common/networking/packets_json.c
 common/scriptcore/api_game_effects.c
+common/scriptcore/luascript.c
 data/civ1/actions.ruleset
 data/civ1/buildings.ruleset
 data/civ1/cities.ruleset
