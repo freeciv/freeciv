@@ -45,9 +45,9 @@
 #define log_goto_packet         log_debug
 
 /*
- * The whole path is separated by waypoints into parts.  Each part has its
- * own starting position and requires its own map.  When the unit is unable
- * to move, end_tile equals start_tile and path is NULL.
+ * The whole path is separated by waypoints into parts. Each part has its
+ * own starting position and requires its own map. When the unit is unable
+ * to move, end_tile equals start_tile and path is nullptr.
  */
 struct part {
   struct tile *start_tile, *end_tile;
@@ -71,24 +71,24 @@ struct goto_map {
   struct pf_parameter template;
 };
 
-/* get 'struct goto_map_list' and related functions: */
+/* Get 'struct goto_map_list' and related functions: */
 #define SPECLIST_TAG goto_map
 #define SPECLIST_TYPE struct goto_map
 #include "speclist.h"
-#define goto_map_list_iterate(gotolist, pgoto)				\
+#define goto_map_list_iterate(gotolist, pgoto)                          \
   TYPED_LIST_ITERATE(struct goto_map, gotolist, pgoto)
-#define goto_map_list_iterate_end					\
+#define goto_map_list_iterate_end                                       \
   LIST_ITERATE_END
 
 /* Iterate over goto maps, assumes no dead units. */
-#define goto_map_unit_iterate(gotolist, pgoto, punit)			\
-  goto_map_list_iterate(gotolist, pgoto) {				\
+#define goto_map_unit_iterate(gotolist, pgoto, punit)                   \
+  goto_map_list_iterate(gotolist, pgoto) {                              \
     struct unit *punit = goto_map_unit(pgoto);
 
-#define goto_map_unit_iterate_end					\
+#define goto_map_unit_iterate_end                                       \
   } goto_map_list_iterate_end;
 
-static struct goto_map_list *goto_maps = NULL;
+static struct goto_map_list *goto_maps = nullptr;
 static bool goto_warned = FALSE;
 
 static void reset_last_part(struct goto_map *goto_map);
@@ -100,7 +100,7 @@ static void fill_parameter_part(struct pf_parameter *param,
 /****************************************************************************
   Various stuff for the goto routes
 ****************************************************************************/
-static struct tile *goto_destination = NULL;
+static struct tile *goto_destination = nullptr;
 
 /************************************************************************//**
   Create a new goto map.
@@ -110,7 +110,7 @@ static struct goto_map *goto_map_new(struct unit *punit)
   struct goto_map *goto_map = fc_malloc(sizeof(*goto_map));
 
   goto_map->focus = punit;
-  goto_map->parts = NULL;
+  goto_map->parts = nullptr;
   goto_map->num_parts = 0;
 
   return goto_map;
@@ -121,7 +121,7 @@ static struct goto_map *goto_map_new(struct unit *punit)
 ****************************************************************************/
 static void goto_map_free(struct goto_map *goto_map)
 {
-  if (NULL != goto_map->parts) {
+  if (goto_map->parts != nullptr) {
     while (goto_map->num_parts > 0) {
       remove_last_part(goto_map);
     }
@@ -140,7 +140,7 @@ static struct unit *goto_map_unit(const struct goto_map *goto_map)
 {
   struct unit *punit = goto_map->focus;
 
-  fc_assert(punit != NULL);
+  fc_assert(punit != nullptr);
   fc_assert(unit_is_in_focus(punit));
   fc_assert(punit == player_unit_by_number(client_player(), punit->id));
 
@@ -162,24 +162,24 @@ void init_client_goto(void)
 ****************************************************************************/
 void free_client_goto(void)
 {
-  if (NULL != goto_maps) {
+  if (goto_maps != nullptr) {
     goto_map_list_iterate(goto_maps, goto_map) {
       goto_map_free(goto_map);
     } goto_map_list_iterate_end;
     goto_map_list_destroy(goto_maps);
-    goto_maps = NULL;
+    goto_maps = nullptr;
   }
 
-  goto_destination = NULL;
+  goto_destination = nullptr;
   goto_warned = FALSE;
 }
 
 /************************************************************************//**
   Determines if a goto to the destination tile is allowed.
 ****************************************************************************/
-bool is_valid_goto_destination(const struct tile *ptile) 
+bool is_valid_goto_destination(const struct tile *ptile)
 {
-  return (NULL != goto_destination && ptile == goto_destination);
+  return (goto_destination != nullptr && ptile == goto_destination);
 }
 
 /************************************************************************//**
@@ -191,9 +191,9 @@ static void goto_path_redraw(const struct pf_path *new_path,
   int start_index = 0;
   int i;
 
-  fc_assert_ret(new_path != NULL);
+  fc_assert_ret(new_path != nullptr);
 
-  if (old_path != NULL) {
+  if (old_path != nullptr) {
     /* We had a path drawn already. Determine how much of it we can reuse
      * in drawing the new path. */
     for (i = 0; i < new_path->length - 1 && i < old_path->length - 1; i++) {
@@ -238,7 +238,7 @@ static void goto_path_undraw(const struct pf_path *path)
 {
   int i;
 
-  fc_assert_ret(path != NULL);
+  fc_assert_ret(path != nullptr);
 
   for (i = 0; i < path->length - 1; i++) {
     struct pf_position *pos = path->positions + i;
@@ -257,13 +257,13 @@ static void goto_path_undraw(const struct pf_path *path)
   Return TRUE when the new path is valid.
 ****************************************************************************/
 static bool update_last_part(struct goto_map *goto_map,
-			     struct tile *ptile)
+                             struct tile *ptile)
 {
   struct pf_path *old_path, *new_path;
   struct part *p = &goto_map->parts[goto_map->num_parts - 1];
 
   old_path = p->path;
-  if (old_path != NULL && pf_path_last_position(old_path)->tile == ptile) {
+  if (old_path != nullptr && pf_path_last_position(old_path)->tile == ptile) {
     /* Nothing to update. */
     return TRUE;
   }
@@ -276,7 +276,7 @@ static bool update_last_part(struct goto_map *goto_map,
     log_goto_path("  no path found");
 
     if (p->start_tile == ptile) {
-      /* This mean we cannot reach the start point.  It is probably,
+      /* This mean we cannot reach the start point. It is probably,
        * a path-finding bug, but don't make infinite recursion. */
 
       if (!goto_warned) {
@@ -284,16 +284,16 @@ static bool update_last_part(struct goto_map *goto_map,
         goto_warned = TRUE;
       }
 
-      if (old_path != NULL) {
+      if (old_path != nullptr) {
         goto_path_undraw(old_path);
         pf_path_destroy(old_path);
-        p->path = NULL;
+        p->path = nullptr;
       }
       if (hover_state == HOVER_PATROL
-          && goto_map->patrol.return_path != NULL) {
+          && goto_map->patrol.return_path != nullptr) {
         goto_path_undraw(goto_map->patrol.return_path);
         pf_path_destroy(goto_map->patrol.return_path);
-        goto_map->patrol.return_path = NULL;
+        goto_map->patrol.return_path = nullptr;
       }
       return FALSE;
     }
@@ -320,11 +320,11 @@ static bool update_last_part(struct goto_map *goto_map,
     return_path = pf_map_path(pfm, goto_map->parts[0].start_tile);
     pf_map_destroy(pfm);
 
-    if (return_path == NULL) {
+    if (return_path == nullptr) {
       log_goto_path("  no return path found");
 
       if (p->start_tile == ptile) {
-        /* This mean we cannot reach the start point.  It is probably,
+        /* This mean we cannot reach the start point. It is probably,
          * a path-finding bug, but don't make infinite recursion. */
 
         if (!goto_warned) {
@@ -332,23 +332,23 @@ static bool update_last_part(struct goto_map *goto_map,
           goto_warned = TRUE;
         }
 
-        if (old_path != NULL) {
+        if (old_path != nullptr) {
           goto_path_undraw(old_path);
           pf_path_destroy(old_path);
         }
         pf_path_destroy(new_path);
-        p->path = NULL;
-        if (goto_map->patrol.return_path != NULL) {
+        p->path = nullptr;
+        if (goto_map->patrol.return_path != nullptr) {
           goto_path_undraw(goto_map->patrol.return_path);
           pf_path_destroy(goto_map->patrol.return_path);
-          goto_map->patrol.return_path = NULL;
+          goto_map->patrol.return_path = nullptr;
         }
         return FALSE;
       }
 
       p->path = old_path;
 
-      if (p->path != NULL) {
+      if (p->path != nullptr) {
         const struct pf_position *pos = pf_path_last_position(old_path);
 
         p->end_tile = pos->tile;
@@ -365,14 +365,14 @@ static bool update_last_part(struct goto_map *goto_map,
     log_goto_path("  returned path found:");
     pf_path_print(return_path, LOG_GOTO_PATH);
 
-    if (goto_map->patrol.return_path != NULL) {
+    if (goto_map->patrol.return_path != nullptr) {
       /* We cannot reuse old path because:
        * 1- the start tile isn't the same.
        * 2- the turn number neither (impossible to do in backward mode). */
       goto_path_undraw(goto_map->patrol.return_path);
       pf_path_destroy(goto_map->patrol.return_path);
     }
-    goto_path_redraw(return_path, NULL);
+    goto_path_redraw(return_path, nullptr);
     goto_map->patrol.return_path = return_path;
   }
 
@@ -396,7 +396,7 @@ static void reset_last_part(struct goto_map *goto_map)
 {
   struct part *p = &goto_map->parts[goto_map->num_parts - 1];
 
-  if (NULL != p->path) {
+  if (p->path != nullptr) {
     /* Otherwise no need to update */
     update_last_part(goto_map, p->start_tile);
   }
@@ -421,13 +421,13 @@ static void fill_parameter_part(struct pf_parameter *param,
   param->moves_left_initially = p->end_moves_left;
   param->fuel_left_initially = p->end_fuel_left;
   if (can_exist_at_tile(&(wld.map), param->utype, param->start_tile)) {
-    param->transported_by_initially = NULL;
+    param->transported_by_initially = nullptr;
   } else {
     const struct unit *transporter =
         transporter_for_unit_at(goto_map_unit(goto_map), param->start_tile);
 
-    param->transported_by_initially = (transporter != NULL
-                                       ? unit_type_get(transporter) : NULL);
+    param->transported_by_initially = (transporter != nullptr
+                                       ? unit_type_get(transporter) : nullptr);
   }
 }
 
@@ -449,7 +449,7 @@ static void add_part(struct goto_map *goto_map)
   p = &goto_map->parts[goto_map->num_parts - 1];
 
   if (goto_map->num_parts == 1) {
-    /* first part */
+    /* First part */
     p->start_tile = unit_tile(punit);
     parameter = goto_map->template;
   } else {
@@ -457,8 +457,9 @@ static void add_part(struct goto_map *goto_map)
 
     p->start_tile = prev->end_tile;
     fill_parameter_part(&parameter, goto_map, prev);
-   }
-  p->path = NULL;
+  }
+
+  p->path = nullptr;
   p->end_tile = p->start_tile;
   parameter.start_tile = p->start_tile;
   p->map = pf_map_new(&parameter);
@@ -490,7 +491,8 @@ bool goto_add_waypoint(void)
   bool duplicate_of_last = TRUE;
 
   fc_assert_ret_val(goto_is_active(), FALSE);
-  if (NULL == goto_destination) {
+
+  if (goto_destination == nullptr) {
     /* Not a valid position. */
     return FALSE;
   }
@@ -498,7 +500,7 @@ bool goto_add_waypoint(void)
   goto_map_list_iterate(goto_maps, goto_map) {
     const struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (last_part->path == NULL) {
+    if (last_part->path == nullptr) {
       /* The current part has zero length. */
       return FALSE;
     }
@@ -515,6 +517,7 @@ bool goto_add_waypoint(void)
   } goto_map_list_iterate_end;
 
   refresh_tile_mapcanvas(goto_destination, FALSE, FALSE);
+
   return TRUE;
 }
 
@@ -527,30 +530,32 @@ bool goto_pop_waypoint(void)
   bool popped = FALSE;
 
   fc_assert_ret_val(goto_is_active(), FALSE);
+
   goto_map_list_iterate(goto_maps, goto_map) {
     struct part *p = &goto_map->parts[goto_map->num_parts - 1];
     struct tile *end_tile = p->end_tile;
 
     if (goto_map->num_parts == 1) {
-      /* we don't have any waypoint but the start pos. */
+      /* We don't have any waypoint but the start pos. */
       continue;
     }
     popped = TRUE;
 
     remove_last_part(goto_map);
 
-    /* 
+    /*
      * Set the end position of the previous part (now the last) to the
      * end position of the last part (now gone). I.e. redraw a line to
-     * the mouse position. 
+     * the mouse position.
      */
     update_last_part(goto_map, end_tile);
   } goto_map_list_iterate_end;
+
   return popped;
 }
 
 /************************************************************************//**
-  PF callback to get the path with the minimal number of steps (out of 
+  PF callback to get the path with the minimal number of steps (out of
   all shortest paths).
 ****************************************************************************/
 static unsigned get_EC(const struct tile *ptile, enum known_type known,
@@ -560,7 +565,7 @@ static unsigned get_EC(const struct tile *ptile, enum known_type known,
 }
 
 /************************************************************************//**
-  PF callback to prohibit going into the unknown. Also makes sure we 
+  PF callback to prohibit going into the unknown. Also makes sure we
   don't plan our route through enemy city/tile.
 ****************************************************************************/
 static enum tile_behavior get_TB_aggr(const struct tile *ptile,
@@ -596,7 +601,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
   } else if (is_non_allied_city_tile(ptile, param->owner)) {
     /* Units that can establish a trade route, enter a market place or
      * establish an embassy can travel to, but not through, enemy cities.
-     * FIXME: ACTION_HELP_WONDER units cannot.  */
+     * FIXME: ACTION_HELP_WONDER units cannot. */
     return TB_DONT_LEAVE;
   } else if (is_non_allied_unit_tile(ptile, param->owner,
                                      utype_has_flag(param->utype, UTYF_FLAGLESS))) {
@@ -613,13 +618,13 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
   position.  A negative number means it's impossible.
 ****************************************************************************/
 static int get_activity_time(const struct tile *ptile,
-			     const struct player *pplayer)
+                             const struct player *pplayer)
 {
   struct terrain *pterrain = tile_terrain(ptile);
   int activity_mc = 0;
 
   fc_assert_ret_val(hover_state == HOVER_CONNECT, -1);
- 
+
   switch (connect_activity) {
   case ACTIVITY_IRRIGATE:
     if (pterrain->irrigation_time == 0) {
@@ -647,7 +652,8 @@ static int get_activity_time(const struct tile *ptile,
       int single_mc;
 
       vtile = tile_virtual_new(ptile);
-      single_mc = check_recursive_road_connect(vtile, connect_tgt, NULL, pplayer, 0);
+      single_mc = check_recursive_road_connect(vtile, connect_tgt,
+                                               nullptr, pplayer, 0);
       tile_virtual_destroy(vtile);
 
       if (single_mc < 0) {
@@ -703,7 +709,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     return -1;
   }
 
-  activity_time = get_activity_time(dest_tile, param->owner);  
+  activity_time = get_activity_time(dest_tile, param->owner);
   if (activity_time < 0) {
     return -1;
   }
@@ -723,12 +729,12 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 
   proad = extra_road_get(connect_tgt);
 
-  if (proad == NULL) {
+  if (proad == nullptr) {
     /* No suitable road type available */
     return -1;
   }
 
-  /* Ok, the move is possible.  What are the costs? */
+  /* Ok, the move is possible. What are the costs? */
 
   /* Extra cost here is the final length of the road */
   total_extra = src_extra + 1;
@@ -771,26 +777,26 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 
   if (*dest_cost != -1) {
     if (proad->move_cost > 0) {
-      if (total_extra > *dest_extra 
+      if (total_extra > *dest_extra
           || (total_extra == *dest_extra && total_cost >= *dest_cost)) {
         /* No, this path is worse than what we already have */
         return -1;
       }
     } else {
-      if (total_cost > *dest_cost 
+      if (total_cost > *dest_cost
           || (total_cost == *dest_cost && total_extra >= *dest_extra)) {
         return -1;
       }
     }
   }
 
-  /* Ok, we found a better path! */  
+  /* Ok, we found a better path! */
   *dest_cost = total_cost;
   *dest_extra = total_extra;
-  
-  return (proad->move_cost > 0 ? 
-	  total_extra * PF_TURN_FACTOR + total_cost : 
-	  total_cost * PF_TURN_FACTOR + total_extra);
+
+  return (proad->move_cost > 0 ?
+          total_extra * PF_TURN_FACTOR + total_cost :
+          total_cost * PF_TURN_FACTOR + total_extra);
 }
 
 /************************************************************************//**
@@ -812,7 +818,7 @@ static int get_connect_irrig(const struct tile *src_tile,
     return -1;
   }
 
-  activity_time = get_activity_time(dest_tile, param->owner);  
+  activity_time = get_activity_time(dest_tile, param->owner);
   if (activity_time < 0) {
     return -1;
   }
@@ -832,7 +838,7 @@ static int get_connect_irrig(const struct tile *src_tile,
     return -1;
   }
 
-  /* Ok, the move is possible.  What are the costs? */
+  /* Ok, the move is possible. What are the costs? */
 
   move_cost = MIN(move_cost, param->move_rate);
   total_cost = src_cost;
@@ -843,7 +849,7 @@ static int get_connect_irrig(const struct tile *src_tile,
     total_cost += move_cost;
   }
 
-  /* Now need to include the activity cost.  If we have moves left, they
+  /* Now need to include the activity cost. If we have moves left, they
    * will count as a full turn towards the activity time */
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
@@ -861,16 +867,16 @@ static int get_connect_irrig(const struct tile *src_tile,
     return -1;
   }
 
-  /* Ok, we found a better path! */  
+  /* Ok, we found a better path! */
   *dest_cost = total_cost;
   *dest_extra = 0;
-  
+
   return total_cost;
 }
 
 /************************************************************************//**
-  PF callback to prohibit going into the unknown (conditionally).  Also
-  makes sure we don't plan to attack anyone.
+  PF callback to prohibit going into the unknown (conditionally).
+  Also makes sure we don't plan to attack anyone.
 ****************************************************************************/
 static enum tile_behavior
 no_fights_or_unknown_goto(const struct tile *ptile,
@@ -894,9 +900,9 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
 {
   pft_fill_unit_parameter(parameter, &(wld.map), punit);
 
-  fc_assert(parameter->get_EC == NULL);
-  fc_assert(parameter->get_TB == NULL);
-  fc_assert(parameter->get_MC != NULL);
+  fc_assert(parameter->get_EC == nullptr);
+  fc_assert(parameter->get_TB == nullptr);
+  fc_assert(parameter->get_MC != nullptr);
   fc_assert(parameter->start_tile == unit_tile(punit));
   fc_assert(!parameter->omniscience);
 
@@ -942,7 +948,7 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
       } else {
         parameter->get_costs = get_connect_road;
       }
-      parameter->get_moves_left_req = NULL;
+      parameter->get_moves_left_req = nullptr;
 
       speed = get_activity_rate(punit);
       parameter->data = FC_INT_TO_PTR(speed);
@@ -955,8 +961,8 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
         /* First action is activity */
         parameter->moves_left_initially = parameter->move_rate;
         /* Number of turns, rounding up */
-        goto_map->connect.initial_turns =
-            ((activity_initial * ACTIVITY_FACTOR + (speed - 1)) / speed);
+        goto_map->connect.initial_turns
+          = ((activity_initial * ACTIVITY_FACTOR + (speed - 1)) / speed);
         if (punit->moves_left == 0) {
           goto_map->connect.initial_turns++;
         }
@@ -973,10 +979,10 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
       /* We only want targets reachable immediately... */
       parameter->move_rate = 0;
       /* ...then we don't need to deal with dangers or refuel points. */
-      parameter->is_pos_dangerous = NULL;
-      parameter->get_moves_left_req = NULL;
+      parameter->is_pos_dangerous = nullptr;
+      parameter->get_moves_left_req = nullptr;
     } else {
-      goto_map->patrol.return_path = NULL;
+      goto_map->patrol.return_path = nullptr;
     }
     break;
   case HOVER_GOTO_SEL_TGT:
@@ -1017,6 +1023,7 @@ void enter_goto_state(struct unit_list *punits)
     goto_fill_parameter_full(goto_map, punit);
     add_part(goto_map);
   } unit_list_iterate_end;
+
   goto_warned = FALSE;
 }
 
@@ -1034,7 +1041,7 @@ void exit_goto_state(void)
   } goto_map_list_iterate_end;
   goto_map_list_clear(goto_maps);
 
-  goto_destination = NULL;
+  goto_destination = nullptr;
   goto_warned = FALSE;
 }
 
@@ -1062,7 +1069,7 @@ void goto_unit_killed(struct unit *punit)
 ****************************************************************************/
 bool goto_is_active(void)
 {
-  return (NULL != goto_maps && 0 != goto_map_list_size(goto_maps));
+  return (goto_maps != nullptr && 0 != goto_map_list_size(goto_maps));
 }
 
 /************************************************************************//**
@@ -1071,8 +1078,8 @@ bool goto_is_active(void)
 ****************************************************************************/
 bool goto_get_turns(int *min, int *max)
 {
-  fc_assert_ret_val(min != NULL, FALSE);
-  fc_assert_ret_val(max != NULL, FALSE);
+  fc_assert_ret_val(min != nullptr, FALSE);
+  fc_assert_ret_val(max != nullptr, FALSE);
 
   *min = FC_INFINITY;
   *max = -1;
@@ -1080,7 +1087,8 @@ bool goto_get_turns(int *min, int *max)
   if (!goto_is_active()) {
     return FALSE;
   }
-  if (NULL == goto_destination) {
+
+  if (goto_destination == nullptr) {
     /* Not a valid position. */
     return FALSE;
   }
@@ -1125,7 +1133,7 @@ bool goto_get_turns(int *min, int *max)
         turns += pf_path_last_position(goto_map->parts[i].path)->turn;
       }
       if (hover_state == HOVER_PATROL
-          && goto_map->patrol.return_path != NULL) {
+          && goto_map->patrol.return_path != nullptr) {
         turns += pf_path_last_position(goto_map->patrol.return_path)->turn;
       }
 
@@ -1148,9 +1156,9 @@ bool goto_get_turns(int *min, int *max)
 bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
                      int *turns, bool *waypoint)
 {
-  fc_assert_ret_val(ptile != NULL, FALSE);
-  fc_assert_ret_val(turns != NULL, FALSE);
-  fc_assert_ret_val(waypoint != NULL, FALSE);
+  fc_assert_ret_val(ptile != nullptr, FALSE);
+  fc_assert_ret_val(turns != nullptr, FALSE);
+  fc_assert_ret_val(waypoint != nullptr, FALSE);
 
   if (!goto_is_active()) {
     return FALSE;
@@ -1173,7 +1181,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
 
     goto_map_list_iterate(goto_maps, goto_map) {
       const struct pf_path *path;
-      const struct pf_position *pos = NULL; /* Keep compiler happy! */
+      const struct pf_position *pos = nullptr; /* Keep compiler happy! */
       int map_turns = goto_map->connect.initial_turns;
       int turns_for_map = -2;
       bool moved = FALSE;
@@ -1185,7 +1193,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         }
 
         path = goto_map->parts[i].path;
-        if (path == NULL || path->length == 0) {
+        if (path == nullptr || path->length == 0) {
           continue;
         }
 
@@ -1211,7 +1219,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       }
 
       if (ptile == goto_destination) {
-        int ml = (pos != NULL ? pos->moves_left : 0);
+        int ml = (pos != nullptr ? pos->moves_left : 0);
 
         if (moved && activity_time > 0) {
           map_turns++;
@@ -1246,8 +1254,8 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
     goto_map_list_iterate(goto_maps, goto_map) {
       const struct tile *destination;
       const struct pf_path *path;
-      const struct pf_position *pos = NULL; /* Keep compiler happy! */
-      const struct pf_position *last_pos = NULL;
+      const struct pf_position *pos = nullptr; /* Keep compiler happy! */
+      const struct pf_position *last_pos = nullptr;
       int map_turns = 0;
       int turns_for_map = -2;
       int i, j;
@@ -1258,7 +1266,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         }
 
         path = goto_map->parts[i].path;
-        if (path == NULL || path->length == 0) {
+        if (path == nullptr || path->length == 0) {
           continue;
         }
         last_pos = path->positions;
@@ -1287,7 +1295,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       }
 
       if (hover_state == HOVER_PATROL
-          && goto_map->patrol.return_path != NULL
+          && goto_map->patrol.return_path != nullptr
           && goto_map->patrol.return_path->length > 0) {
         path = goto_map->patrol.return_path;
 
@@ -1309,7 +1317,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       }
 
       if (ptile == destination) {
-        int ml = (pos != NULL ? pos->moves_left : 0);
+        int ml = (pos != nullptr ? pos->moves_left : 0);
 
         if (map_turns > *turns) {
           mark_on_map = TRUE;
@@ -1342,22 +1350,24 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
 bool is_valid_goto_draw_line(struct tile *dest_tile)
 {
   fc_assert_ret_val(goto_is_active(), FALSE);
-  if (NULL == dest_tile) {
+
+  if (dest_tile == nullptr) {
     return FALSE;
   }
 
-  /* assume valid destination */
+  /* Assume valid destination */
   goto_destination = dest_tile;
 
   goto_map_list_iterate(goto_maps, goto_map) {
     if (!update_last_part(goto_map, dest_tile)) {
-      goto_destination = NULL;
+      goto_destination = nullptr;
     }
   } goto_map_list_iterate_end;
 
   /* Update goto data in info label. */
   update_unit_info_label(get_units_in_focus());
-  return (NULL != goto_destination);
+
+  return (goto_destination != nullptr);
 }
 
 /************************************************************************//**
@@ -1395,11 +1405,11 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
   int i;
   struct tile *old_tile;
 
-  fc_assert_ret(path != NULL);
+  fc_assert_ret(path != nullptr);
   fc_assert_ret_msg(unit_tile(punit) == path->positions[0].tile,
                     "Unit %d has moved without goto cancelation.",
                     punit->id);
-  fc_assert_ret(length != NULL);
+  fc_assert_ret(length != nullptr);
 
   /* We skip the start position. */
   *length = path->length - 1;
@@ -1486,7 +1496,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 {
   struct packet_unit_orders p;
 
-  if (path->length == 1 && final_order == NULL) {
+  if (path->length == 1 && final_order == nullptr) {
     return; /* No path at all, no need to spam the server. */
   }
 
@@ -1527,7 +1537,7 @@ static void send_rally_path_orders(struct city *pcity, struct unit *punit,
   log_goto_packet("  Vigilant: %d.", p.vigilant);
 
   make_path_orders(punit, path, orders, final_order,
-                   p.orders, &p.length, NULL);
+                   p.orders, &p.length, nullptr);
 
   send_packet_city_rally_point(&client.conn, &p, FALSE);
 }
@@ -1536,7 +1546,7 @@ static void send_rally_path_orders(struct city *pcity, struct unit *punit,
   Send an arbitrary goto path for the unit to the server.
 ****************************************************************************/
 void send_goto_path(struct unit *punit, struct pf_path *path,
-		    struct unit_order *final_order)
+                    struct unit_order *final_order)
 {
   send_path_orders(punit, path, FALSE, FALSE, ORDER_MOVE, final_order);
 }
@@ -1553,8 +1563,8 @@ static void send_rally_path(struct city *pcity, struct unit *punit,
 }
 
 /************************************************************************//**
-  Send orders for the unit to move it to the arbitrary tile.  Returns
-  FALSE if no path is found.
+  Send orders for the unit to move it to the arbitrary tile.
+  Returns FALSE if no path is found.
 ****************************************************************************/
 bool send_goto_tile(struct unit *punit, struct tile *ptile)
 {
@@ -1567,8 +1577,8 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
   path = pf_map_path(pfm, ptile);
   pf_map_destroy(pfm);
 
-  if (path) {
-    send_goto_path(punit, path, NULL);
+  if (path != nullptr) {
+    send_goto_path(punit, path, nullptr);
     pf_path_destroy(path);
     return TRUE;
   } else {
@@ -1588,8 +1598,8 @@ bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent)
   struct pf_map *pfm;
   struct pf_path *path;
 
-  fc_assert_ret_val(pcity != NULL, FALSE);
-  fc_assert_ret_val(ptile != NULL, FALSE);
+  fc_assert_ret_val(pcity != nullptr, FALSE);
+  fc_assert_ret_val(ptile != nullptr, FALSE);
 
   /* Create a virtual unit of the type being produced by the city. */
   if (pcity->production.kind != VUT_UTYPE) {
@@ -1608,9 +1618,9 @@ bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent)
   path = pf_map_path(pfm, ptile);
   pf_map_destroy(pfm);
 
-  if (path) {
+  if (path != nullptr) {
     /* Send orders to server. */
-    send_rally_path(pcity, punit, persistent, path, NULL);
+    send_rally_path(pcity, punit, persistent, path, nullptr);
     unit_virtual_destroy(punit);
     pf_path_destroy(path);
 
@@ -1634,17 +1644,18 @@ bool send_attack_tile(struct unit *punit, struct tile *ptile)
 
   goto_fill_parameter_base(&parameter, punit);
   parameter.move_rate = 0;
-  parameter.is_pos_dangerous = NULL;
-  parameter.get_moves_left_req = NULL;
+  parameter.is_pos_dangerous = nullptr;
+  parameter.get_moves_left_req = nullptr;
   pfm = pf_map_new(&parameter);
   path = pf_map_path(pfm, ptile);
   pf_map_destroy(pfm);
 
-  if (path) {
-   send_path_orders(punit, path, false, false, ORDER_ACTION_MOVE, NULL);
+  if (path != nullptr) {
+   send_path_orders(punit, path, FALSE, FALSE, ORDER_ACTION_MOVE, nullptr);
    pf_path_destroy(path);
    return TRUE;
   }
+
   return FALSE;
 }
 
@@ -1655,12 +1666,13 @@ bool send_attack_tile(struct unit *punit, struct tile *ptile)
 void send_patrol_route(void)
 {
   fc_assert_ret(goto_is_active());
+
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
-    struct pf_path *path = NULL;
+    struct pf_path *path = nullptr;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (NULL == last_part->path) {
+    if (last_part->path == nullptr) {
       /* Cannot move there */
       continue;
     }
@@ -1670,7 +1682,7 @@ void send_patrol_route(void)
     }
     path = pf_path_concat(path, goto_map->patrol.return_path);
 
-    send_path_orders(punit, path, TRUE, TRUE, ORDER_MOVE, NULL);
+    send_path_orders(punit, path, TRUE, TRUE, ORDER_MOVE, nullptr);
 
     pf_path_destroy(path);
   } goto_map_unit_iterate_end;
@@ -1722,14 +1734,15 @@ void send_connect_route(enum unit_activity activity,
                         struct extra_type *tgt)
 {
   fc_assert_ret(goto_is_active());
+
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct packet_unit_orders p;
     struct tile *old_tile;
-    struct pf_path *path = NULL;
+    struct pf_path *path = nullptr;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (NULL == last_part->path) {
+    if (last_part->path == nullptr) {
       /* Cannot move there */
       continue;
     }
@@ -1753,17 +1766,17 @@ void send_connect_route(enum unit_activity activity,
     for (i = 0; i < path->length; i++) {
       switch (activity) {
       case ACTIVITY_IRRIGATE:
-	if (!tile_has_extra(old_tile, tgt)) {
-	  /* Assume the unit can irrigate or we wouldn't be here. */
+        if (!tile_has_extra(old_tile, tgt)) {
+          /* Assume the unit can irrigate or we wouldn't be here. */
           p.orders[p.length].order = ORDER_PERFORM_ACTION;
           p.orders[p.length].dir = DIR8_ORIGIN;
           p.orders[p.length].activity = ACTIVITY_LAST;
           p.orders[p.length].target = old_tile->index;
           p.orders[p.length].sub_target = extra_index(tgt);
           p.orders[p.length].action = ACTION_IRRIGATE;
-	  p.length++;
-	}
-	break;
+          p.length++;
+        }
+        break;
       case ACTIVITY_GEN_ROAD:
         order_recursive_roads(old_tile, tgt, &p, 0);
         break;
@@ -1884,10 +1897,10 @@ void send_goto_route(void)
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct tile *tgt_tile;
-    struct pf_path *path = NULL;
+    struct pf_path *path = nullptr;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
-    if (NULL == last_part->path) {
+    if (last_part->path == nullptr) {
       /* Cannot move there */
       continue;
     }
@@ -1934,7 +1947,7 @@ void send_goto_route(void)
     }
 
     if (goto_last_order == ORDER_LAST) {
-      send_goto_path(punit, path, NULL);
+      send_goto_path(punit, path, nullptr);
     } else if (path->length > 1
                || !order_demands_direction(goto_last_order,
                                            goto_last_action)) {
@@ -1989,17 +2002,17 @@ void send_goto_route(void)
 
 /************************************************************************//**
   Find the path to the nearest (fastest to reach) allied city for the
-  unit, or NULL if none is reachable.
+  unit, or nullptr if none is reachable.
 ****************************************************************************/
 struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 {
   struct pf_parameter parameter;
   struct pf_map *pfm;
-  struct pf_path *path = NULL;
+  struct pf_path *path = nullptr;
 
   if (is_allied_city_tile(unit_tile(punit), unit_owner(punit))) {
     /* We're already on a city - don't go anywhere. */
-    return NULL;
+    return nullptr;
   }
 
   goto_fill_parameter_base(&parameter, punit);
@@ -2029,15 +2042,17 @@ struct tile *tile_before_end_path(struct unit *punit, struct tile *ptile)
 
   goto_fill_parameter_base(&parameter, punit);
   parameter.move_rate = 0;
-  parameter.is_pos_dangerous = NULL;
-  parameter.get_moves_left_req = NULL;
+  parameter.is_pos_dangerous = nullptr;
+  parameter.get_moves_left_req = nullptr;
   pfm = pf_map_new(&parameter);
   path = pf_map_path(pfm, ptile);
-  if (path == NULL) {
-    return NULL;
+
+  if (path == nullptr) {
+    return nullptr;
   }
+
   if (path->length < 2) {
-    dtile = NULL;
+    dtile = nullptr;
   } else {
     dtile = path->positions[path->length - 2].tile;
   }
