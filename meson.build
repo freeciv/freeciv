@@ -4057,7 +4057,7 @@ install_data('data/themes/gui-sdl3/human/backgrounds.themespec',
                            'freeciv/themes/gui-sdl3/human'))
 
 install_data(
-  'bootstrap/org.freeciv.sdl2.desktop',
+  'bootstrap/org.freeciv.sdl3.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
