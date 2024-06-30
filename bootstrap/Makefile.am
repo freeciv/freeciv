@@ -25,6 +25,7 @@ EXTRA_DIST =	freeciv.project		\
 		org.freeciv.gtk322.desktop	\
 		org.freeciv.gtk4.desktop	\
 		org.freeciv.sdl2.desktop	\
+		org.freeciv.sdl3.desktop	\
 		org.freeciv.qt.desktop \
 		org.freeciv.server.desktop	\
 		org.freeciv.gtk3.mp.desktop	\
@@ -55,6 +56,10 @@ endif
 if CLIENT_GUI_SDL2
 metainfofile_DATA += org.freeciv.sdl2.metainfo.xml
 desktopfile_DATA  += org.freeciv.sdl2.desktop
+endif
+
+if CLIENT_GUI_SDL3
+desktopfile_DATA  += org.freeciv.sdl3.desktop
 endif
 
 if CLIENT_GUI_GTK_3_22
