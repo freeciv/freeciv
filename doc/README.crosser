@@ -65,5 +65,5 @@ to do the build is to run
 on windows/installer_cross/.
 Currently these scripts need to be run on their own
 directory, and they produce their output there
-(wihin freeciv tree). If everything success, final
+(within freeciv tree). If everything success, final
 installers are generated to Output/

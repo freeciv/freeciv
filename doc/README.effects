@@ -17,7 +17,7 @@ reqs  =
 The text in the brackets is the entry name, which just has to be unique, but
 is otherwise not used. The 'type' tells Freeciv which effect type
 is being added. If effect is active, 'value' gets added to the total of
-the effect type's current value (i.e. values of individial effect entries
+the effect type's current value (i.e. values of individual effect entries
 are cumulataive.) What that (total) value is actually used for depends
 on effect type. The 'reqs' table contain a list of requirements for
 this effect being in active. You need to satisfy all requirements
