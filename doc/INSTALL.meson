@@ -174,7 +174,7 @@ appimage (boolean):
   doesn't work outside AppImage.
 
 gen-packets-args (array):
-  Aditional packet generator arguments passed to common/generate_packets.py.
+  Additional packet generator arguments passed to common/generate_packets.py.
 
 qtver ('qt5'/'qt6'/'qt6x'):
   Whether to build Qt5, Qt6, or experimental Qt6 versions of the binaries.

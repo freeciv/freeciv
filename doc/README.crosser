@@ -69,6 +69,6 @@ or
 on platforms/windows/installer_cross/.
 Currently these scripts need to be run on their own
 directory, and they produce their output there
-(wihin freeciv tree). If everything success, final
+(within freeciv tree). If everything success, final
 installers are generated to meson/output/
 or autotools/output/

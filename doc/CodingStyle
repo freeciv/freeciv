@@ -26,7 +26,7 @@ but wars are fought over the silliest things ...
   1) You are using C99 dynamic arrays and you need to check the size
      of the array before you declare it.
   2) Variable in question is declared only conditionally to some preprocessor
-     macro, and there's separate code block similary conditional to the same
+     macro, and there's separate code block similarly conditional to the same
      macro that would use it. In that case it's ok to declare the variable
      inside the macro guarded block that is using it.
 

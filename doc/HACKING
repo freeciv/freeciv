@@ -965,7 +965,7 @@ The user entity will allow users to be identified when they reconnect.
 Ideally, users would be identified with unique global ids, handed out
 by a 'registry service' similar to the metaserver, but this would be
 too cumbersome in practice. So the plan is to make users persist in
-a server session (even whan a game is started, or restarted when that
+a server session (even when a game is started, or restarted when that
 option is added) and make them persist across games (when a saved
 game is loaded in a different server session).
 
@@ -1095,7 +1095,7 @@ server/stdinhand.[ch]
 
 When a player starts a client, they are presented with several options:
 start a new game, continue a saved game and connect to a networked game.
-For the latter option, connect_to_server() is called and login proceeeds as
+For the latter option, connect_to_server() is called and login proceeds as
 normal. The first two options, connectdlg_common.c:client_start_server() is
 called. Here, a server is spawned, standard input and outputs to that process
 are closed, and then connect_to_server() is called so the client connects to
