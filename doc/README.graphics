@@ -441,7 +441,7 @@ sprites.
   matched sprites       : If the terrain has a match type or is layered, a
                           set of matched sprites is needed. This consists of
                           16 sprites with tags "t.<terrain>_n<V>e<V>s<V>w<V>"
-                          (e.g., "t.hills_n0e0s1w0". Each direcional value
+                          (e.g., "t.hills_n0e0s1w0". Each directional value
                           <V> is either 0 or 1. Note that the directions are
                           in map coordinates, so n (north) in iso-view is
                           northeast on the mapview. (Note this only applies

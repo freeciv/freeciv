@@ -300,13 +300,13 @@ Actions done by a unit against a city
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
-"Sabotage City Production" - Sabotage the city's produciton.
+"Sabotage City Production" - Sabotage the city's production.
  * UI name can be set using ui_name_sabotage_city_production
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
-"Sabotage City Production Escape" - Sabotage the city's produciton.
+"Sabotage City Production Escape" - Sabotage the city's production.
  * UI name can be set using ui_name_sabotage_city_production_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
@@ -455,7 +455,7 @@ Actions done by a unit against a city
    can't have any trade routes at all it is impossible to establish a new
    one.)
 
-"Enter Marketplace" - Get a one time bounus without creating a trade route.
+"Enter Marketplace" - Get a one time bonus without creating a trade route.
  * UI name can be set using ui_name_enter_marketplace
  * actor must be aware that the target exists
  * any action listed in enter_marketplace_blocked_by must be impossible
