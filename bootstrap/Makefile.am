@@ -35,6 +35,7 @@ EXTRA_DIST =	freeciv.project		\
 		org.freeciv.gtk322.metainfo.xml.in \
 		org.freeciv.gtk4.metainfo.xml.in \
 		org.freeciv.sdl2.metainfo.xml.in \
+		org.freeciv.sdl3.metainfo.xml.in \
 		org.freeciv.qt.metainfo.xml.in \
 		org.freeciv.server.metainfo.xml.in \
 		org.freeciv.gtk3.mp.metainfo.xml.in \

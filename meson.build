@@ -3914,14 +3914,14 @@ install_data(
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
-#custom_target('mi_sdl3',
-#              input: 'bootstrap/org.freeciv.sdl3.metainfo.xml.in',
-#              output: '@BASENAME@',
-#              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-#                        '@OUTPUT@', b_root, 'development'],
-#              depend_files: files('fc_version'),
-#              install: true,
-#              install_dir: join_paths(get_option('datadir'), 'metainfo'))
+custom_target('mi_sdl3',
+              input: 'bootstrap/org.freeciv.sdl3.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@', b_root, 'development'],
+              depend_files: files('fc_version'),
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
 endif
 
