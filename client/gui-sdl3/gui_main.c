@@ -178,7 +178,6 @@ static void print_usage(void)
              _("  -f,  --fullscreen\tStart Client in Fullscreen mode\n"));
   fc_fprintf(stderr,
              _("  -F,  --Font SIZE\tUse SIZE as the base font size\n"));
-  fc_fprintf(stderr, _("  -s,  --swrenderer\tUse SW renderer\n"));
   fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 
   /* TRANS: No full stop after the URL, could cause confusion. */
@@ -200,8 +199,6 @@ static bool parse_options(int argc, char **argv)
       return FALSE;
     } else if (is_option("--fullscreen", argv[i])) {
       GUI_SDL_OPTION(fullscreen) = TRUE;
-    } else if (is_option("--swrenderer", argv[i])) {
-      sdl3_client_flags |= CF_SWRENDERER;
     } else if ((option = get_option_malloc("--Font", argv, &i, argc, FALSE))) {
       if (!str_to_uint(option, &font_size_parameter)) {
         fc_fprintf(stderr, _("Invalid font size %s"), option);
@@ -1019,7 +1016,6 @@ static void migrate_options_from_sdl2(void)
   /* Default theme name is never migrated */
   MIGRATE_OPTION(fullscreen);
   MIGRATE_OPTION(screen);
-  MIGRATE_OPTION(swrenderer);
   MIGRATE_OPTION(do_cursor_animation);
   MIGRATE_OPTION(use_color_cursors);
   MIGRATE_STR_OPTION(font_city_names);
