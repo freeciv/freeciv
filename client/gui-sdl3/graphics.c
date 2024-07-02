@@ -544,8 +544,6 @@ static void free_surfaces(void)
 **************************************************************************/
 bool create_surfaces(int width, int height)
 {
-  unsigned flags;
-
   free_surfaces();
 
   main_surface = SDL_CreateSurface(width, height, SDL_PIXELFORMAT_RGBA8888);
@@ -556,14 +554,7 @@ bool create_surfaces(int width, int height)
     return FALSE;
   }
 
-  if (GUI_SDL_OPTION(swrenderer)
-      || (sdl3_client_flags & CF_SWRENDERER)) {
-    flags = SDL_RENDERER_SOFTWARE;
-  } else {
-    flags = SDL_RENDERER_ACCELERATED;
-  }
-
-  main_data.renderer = SDL_CreateRenderer(main_data.screen, NULL, flags);
+  main_data.renderer = SDL_CreateRenderer(main_data.screen, NULL, 0);
 
   if (main_data.renderer == NULL) {
     log_fatal(_("Failed to create renderer: %s"), SDL_GetError());

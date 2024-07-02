@@ -430,7 +430,6 @@ struct client_options
   char gui_sdl3_default_theme_name[512];
   bool gui_sdl3_fullscreen;
   struct video_mode gui_sdl3_screen;
-  bool gui_sdl3_swrenderer;
   bool gui_sdl3_do_cursor_animation;
   bool gui_sdl3_use_color_cursors;
   char gui_sdl3_font_city_names[64];

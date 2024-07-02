@@ -403,7 +403,6 @@ struct client_options gui_options = {
   .gui_sdl3_default_theme_name = FC_SDL2_DEFAULT_THEME_NAME,
   .gui_sdl3_fullscreen = FALSE,
   .gui_sdl3_screen = VIDEO_MODE(640, 480),
-  .gui_sdl3_swrenderer = FALSE,
   .gui_sdl3_do_cursor_animation = TRUE,
   .gui_sdl3_use_color_cursors = TRUE,
   .gui_sdl3_font_city_names = "10",
@@ -3455,10 +3454,6 @@ static struct client_option client_options[] = {
                    N_("This option controls the resolution of the "
                       "selected screen."),
                    COC_INTERFACE, GUI_SDL3, 640, 480, NULL),
-  GEN_BOOL_OPTION(gui_sdl3_swrenderer, N_("Use software rendering"),
-                  N_("Usually hardware rendering is used when possible. "
-                     "With this option set, software rendering is always used."),
-                  COC_GRAPHICS, GUI_SDL3, FALSE, NULL),
   GEN_BOOL_OPTION(gui_sdl3_do_cursor_animation, N_("Do cursor animation"),
                   N_("If this option is disabled, the cursor will "
                      "always be displayed as static."),

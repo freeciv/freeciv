@@ -57,7 +57,6 @@ struct theme;
 #define CF_DRAW_PLAYERS_PEACE_STATUS	(1<<21)
 #define CF_DRAW_PLAYERS_ALLIANCE_STATUS	(1<<22)
 #define CF_DRAW_PLAYERS_NEUTRAL_STATUS	(1<<23)
-#define CF_SWRENDERER                   (1<<24)
 
 /* Mouse button behavior */
 #define MB_MEDIUM_HOLD_DELAY  500         /* Medium hold:  500ms */
