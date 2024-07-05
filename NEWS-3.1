@@ -1,10 +1,140 @@
 ========================
-Welcome to Freeciv 3.1.1
+Welcome to Freeciv 3.1.2
 ========================
 
 The changes in the 3.1.x series are summarised below.
 For changes prior to 3.1, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.1.1 to 3.1.2
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.2>, 2024-07-05)
+
+3.1.2 is a generic bugfix release.
+
+Server / General
+
+    * Fixed a crash on automatic selection of pillage target RM#460
+    * Fixed assert failure on loading savegame without info about
+      somebody's previous research RM#449
+    * Fix city consistency after vision loss of a worked tile RM#472
+    * Fixed loading invalid Fog of War map resources from a savegame RM#463
+    * Fixed loading history.turn from the savegame if current turn is
+      not a report turn RM#530
+    * Fixed loss of accuracy on loading last turn change time
+      from a savegame RM#545
+    * Fixed resaving map random seed after loading savegame and
+      then saving again osdn#47981
+    * Fixed city needs arrange assert failure when city changes
+      multiple times during processing RM#661
+
+Changes affecting players (supplied rulesets)
+
+    * CoastStrict units, such as Alien ruleset Raft, are now
+      correctly bounced when the oceanic city its in gets destroyed RM#525
+    * Correct border claiming after land has been reclaimed for ocean RM#590
+    * Fixed diplomat actions requiring confirmation RM#728
+
+Changes affecting other rulesets / modders
+
+    * Fixed action handling, including calling lua scripts,
+      for actions like Pillage osdn#57670
+    * Fixed how oceanic border sources claim bays or lakes RM#584
+
+Low-level changes
+
+    * Fixed memory leaks, bad memory access, and improved
+      cleanup on shutdown RM#443
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#216 RM#655 RM#562 RM#695 RM#707 RM#663 RM#724 RM#730
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where it should
+      RM#433 RM#461 RM#480 RM#513 RM#537 RM#549 RM#568 RM#579 RM#594 RM#622
+      RM#646 RM#677 RM#684 RM#699
+    * AI checks unit capabilities when determining if it should be
+      treated as autosettler RM#553 osdn#57666
+
+Clients
+
+    * Dying unit now correctly trigger auto turn done RM#586
+    * Fixed a crash when focus moves to a new unit osdn#78170
+
+    * gtk
+         + Added tooltips for main menu buttons RM#502
+         + Added tooltips for pane detach buttons osdn#48954
+
+    * Qt
+         + Added tooltips for main menu buttons RM#559
+         + Fixed scaled unit clipping osdn#86449
+
+Tools
+Ruledit
+
+    * Added editing unit's class RM#457
+    * Helptext dialog added for units RM#479
+    * Helptext dialog added for terrains RM#529
+    * Helptext dialog added for extras RM#561
+    * Helptexts are now editable RM#487 RM#519
+    * In experimental mode build, initialize new ruleset objects
+      with cleared helptext RM#550
+    * Added government values editing dialog RM#618
+
+Manual Generator
+
+    * Force terrain name under its image in the layout RM#551
+    * Impossible terrain alteration time shown as "-",
+      and no longer as "0" RM#637
+
+Tilesets, Art, etc
+
+    * Added Grassland to Alio RM#660
+    * Added generic Wonder finished sound effect to stdsounds soundset
+      RM#658
+    * Added tech gaining sound effect to stdsounds soundset RM#712
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#521 RM#524 RM#587 RM#645
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#467 RM#498 RM#503 RM#538 RM#556 RM#380 RM#578 RM#592 RM#626 RM#667
+      RM#727 RM#746
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Finnish (100% core, 92% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#638 RM#671 RM#681 RM#717
+    * Meson build system improvements
+         + Removed duplicate configure checks RM#450 RM#555 RM#649
+         + Fixed dependencies between build targets RM#597 RM#596 RM#682
+         + Made static asserts to work RM#691 RM#708
+         + Regenerate metainfo files when version information changes RM#705
+    * More AppImages produced
+         + gtk4-client RM#452 RM#471 RM#547
+         + sdl2-client RM#575 RM#593
+         + qt-client RM#623
+         + gtk3.22-client RM#668
+    * Fixed constant operand compiler warning RM#444
+    * Fixed compiler warnings from dependencies/SDL2_gfx RM#481
+    * Check for /usr/libexec/qt6/moc when looking for Qt6 moc RM#560
+    * Fixed pkgconfig deprecation warning from meson installer_cross build
+      RM#704
+    * Fixed stringop-overflow compiler warning RM#729
+    * Fixed Qt deprecation warnings RM#733 RM#735 RM#736 RM#737 RM#738
 
 
 CHANGES FROM 3.1.0 to 3.1.1
