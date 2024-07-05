@@ -653,7 +653,7 @@ static void diplomacy_main_response(struct gui_dialog *dlg, int response,
   case GTK_RESPONSE_DELETE_EVENT:   /* GTK: delete the widget. */
   case RESPONSE_CANCEL_MEETING_ALL: /* Cancel all meetings. */
     dialog_list_iterate(dialog_list, adialog) {
-      /* This will do a round trip to the server ans close the diolag in the
+      /* This will do a round trip to the server ans close the dialog in the
        * client. Closing the last dialog will also close the main tab.*/
       dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
                                                 player_number(
