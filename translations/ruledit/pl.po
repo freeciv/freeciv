@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-04-19 02:51+0300\n"
-"PO-Revision-Date: 2024-02-16 15:03+0100\n"
+"POT-Creation-Date: 2024-06-24 03:00+0300\n"
+"PO-Revision-Date: 2024-07-02 15:36+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -15,53 +15,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
-#: tools/ruledit/helpeditor.cpp:53 tools/ruledit/req_vec_fix.cpp:190
+#: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:190
 #: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
 msgid "Close"
 msgstr "Zamknij"
 
-#: tools/ruledit/edit_extra.cpp:58 tools/ruledit/edit_impr.cpp:101
-#: tools/ruledit/edit_tech.cpp:71 tools/ruledit/edit_terrain.cpp:79
-#: tools/ruledit/edit_utype.cpp:132
+#: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
+#: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:153
 msgid "Graphics tag"
 msgstr "Znacznik grafiki"
 
-#: tools/ruledit/edit_extra.cpp:67 tools/ruledit/edit_impr.cpp:110
-#: tools/ruledit/edit_tech.cpp:80 tools/ruledit/edit_terrain.cpp:88
-#: tools/ruledit/edit_utype.cpp:141
+#: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
+#: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:162
 msgid "Alt graphics tag"
 msgstr "Alternatywny znacznik grafiki"
 
-#: tools/ruledit/edit_extra.cpp:76
+#: tools/ruledit/edit_extra.cpp:78
 msgid "Activity graphics tag"
 msgstr "Znacznik grafiki"
 
-#: tools/ruledit/edit_extra.cpp:85
+#: tools/ruledit/edit_extra.cpp:87
 msgid "Alt activity gfx tag"
 msgstr "Alternatywny znacznik grafiki"
 
-#: tools/ruledit/edit_extra.cpp:94
+#: tools/ruledit/edit_extra.cpp:96
 msgid "Second alt activity gfx tag"
 msgstr "Drugi alternatywny znacznik grafiki"
 
-#: tools/ruledit/edit_extra.cpp:103
+#: tools/ruledit/edit_extra.cpp:105
 msgid "Removal activity graphics tag"
 msgstr "Alternatywny znacznik grafiki usuwania"
 
-#: tools/ruledit/edit_extra.cpp:112
+#: tools/ruledit/edit_extra.cpp:114
 msgid "Alt removal activity gfx tag"
 msgstr "Znacznik grafiki usuwania"
 
-#: tools/ruledit/edit_extra.cpp:121 tools/ruledit/edit_terrain.cpp:97
-#, fuzzy
-#| msgid "Nations"
-msgid "Native to"
-msgstr "Narody"
+#: tools/ruledit/edit_extra.cpp:123 tools/ruledit/edit_gov.cpp:70
+#: tools/ruledit/edit_impr.cpp:137 tools/ruledit/edit_tech.cpp:89
+#: tools/ruledit/edit_terrain.cpp:99 tools/ruledit/edit_utype.cpp:211
+msgid "Helptext"
+msgstr "Tekst pomocy"
 
-#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:71
+#: tools/ruledit/edit_extra.cpp:127 tools/ruledit/edit_terrain.cpp:103
+msgid "Native to"
+msgstr "Natywny dla"
+
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:92
 msgid "Build Cost"
 msgstr "Koszt budowy"
 
@@ -81,61 +85,59 @@ msgstr "Znacznik dźwięku"
 msgid "Alt sound tag"
 msgstr "Alternatywny znacznik dźwięku"
 
-#: tools/ruledit/edit_impr.cpp:137 tools/ruledit/edit_tech.cpp:89
-msgid "Helptext"
-msgstr ""
-
 #: tools/ruledit/edit_tech.cpp:60
-#, fuzzy
-#| msgid "Move Cost"
 msgid "Cost"
-msgstr "Koszt ruchu"
+msgstr "Koszt"
 
-#: tools/ruledit/edit_terrain.cpp:59
+#: tools/ruledit/edit_terrain.cpp:61
 msgid "Move Cost"
 msgstr "Koszt ruchu"
 
-#: tools/ruledit/edit_terrain.cpp:69
+#: tools/ruledit/edit_terrain.cpp:71
 msgid "Defense Bonus %"
 msgstr "Dodatek do obrony %"
 
-#: tools/ruledit/edit_utype.cpp:56
+#: tools/ruledit/edit_utype.cpp:59
 msgid "Requirement"
 msgstr "Wymagania"
 
-#: tools/ruledit/edit_utype.cpp:82
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Class"
+msgstr "Klasa"
+
+#: tools/ruledit/edit_utype.cpp:103
 msgid "Attack Strength"
 msgstr "Siła ataku"
 
-#: tools/ruledit/edit_utype.cpp:92
+#: tools/ruledit/edit_utype.cpp:113
 msgid "Defense Strength"
 msgstr "Siła obrony"
 
-#: tools/ruledit/edit_utype.cpp:102
+#: tools/ruledit/edit_utype.cpp:123
 msgid "Hitpoints"
 msgstr "Punkty obrażeń"
 
-#: tools/ruledit/edit_utype.cpp:112
+#: tools/ruledit/edit_utype.cpp:133
 msgid "Firepower"
 msgstr "Siła ognia"
 
-#: tools/ruledit/edit_utype.cpp:122
+#: tools/ruledit/edit_utype.cpp:143
 msgid "Move Rate"
 msgstr "Szybkość"
 
-#: tools/ruledit/edit_utype.cpp:150
+#: tools/ruledit/edit_utype.cpp:171
 msgid "Move sound tag"
 msgstr "Znacznik dźwięku ruchu"
 
-#: tools/ruledit/edit_utype.cpp:160
+#: tools/ruledit/edit_utype.cpp:181
 msgid "Alt move sound tag"
 msgstr "Alternatywny znacznik dźwięku ruchu"
 
-#: tools/ruledit/edit_utype.cpp:170
+#: tools/ruledit/edit_utype.cpp:191
 msgid "Fight sound tag"
 msgstr "Znacznik dźwięku walki"
 
-#: tools/ruledit/edit_utype.cpp:180
+#: tools/ruledit/edit_utype.cpp:201
 msgid "Alt fight sound tag"
 msgstr "Alternatywny znacznik dźwięku walki"
 
@@ -149,7 +151,7 @@ msgstr "Wartość:"
 
 #: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
-#: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
+#: tools/ruledit/tab_gov.cpp:87 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Wymagania"
 
@@ -403,7 +405,7 @@ msgstr "Zakończyć?"
 
 #: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
-#: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
+#: tools/ruledit/tab_gov.cpp:64 tools/ruledit/tab_multiplier.cpp:65
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_terrains.cpp:68
 #: tools/ruledit/tab_unit.cpp:66
 msgid "Rule Name"
@@ -418,8 +420,8 @@ msgstr "Nazwa zasady"
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
 #: tools/ruledit/tab_good.cpp:147 tools/ruledit/tab_good.cpp:148
-#: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
-#: tools/ruledit/tab_gov.cpp:146 tools/ruledit/tab_gov.cpp:147
+#: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
+#: tools/ruledit/tab_gov.cpp:149 tools/ruledit/tab_gov.cpp:150
 #: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
 #: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
 #: tools/ruledit/tab_tech.cpp:70 tools/ruledit/tab_tech.cpp:80
@@ -433,7 +435,7 @@ msgstr "Brak"
 
 #: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
-#: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
+#: tools/ruledit/tab_gov.cpp:72 tools/ruledit/tab_multiplier.cpp:73
 #: tools/ruledit/tab_tech.cpp:75 tools/ruledit/tab_terrains.cpp:76
 #: tools/ruledit/tab_unit.cpp:74
 msgid "Name"
@@ -441,7 +443,7 @@ msgstr "Nazwa"
 
 #: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
-#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:116
+#: tools/ruledit/tab_gov.cpp:91 tools/ruledit/tab_tech.cpp:116
 #: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:89
 msgid "Effects"
 msgstr "Efekty"
@@ -459,8 +461,8 @@ msgid "An achievement with that rule name already exists!"
 msgstr "Osiągnięcie o tej nazwie już istnieje!"
 
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
-#: tools/ruledit/tab_tech.cpp:86 tools/ruledit/tab_terrains.cpp:87
-#: tools/ruledit/tab_unit.cpp:85
+#: tools/ruledit/tab_gov.cpp:83 tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
 msgstr "Edytuj wartości"
 
@@ -548,15 +550,15 @@ msgstr "Usuń to dobro"
 msgid "A good with that rule name already exists!"
 msgstr "Gracz o tej nazwie już bierze udział w grze!"
 
-#: tools/ruledit/tab_gov.cpp:92
+#: tools/ruledit/tab_gov.cpp:95
 msgid "Add Government"
 msgstr "Dodaj ustrój"
 
-#: tools/ruledit/tab_gov.cpp:97
+#: tools/ruledit/tab_gov.cpp:100
 msgid "Remove this Government"
 msgstr "Usuń ten ustrój"
 
-#: tools/ruledit/tab_gov.cpp:181
+#: tools/ruledit/tab_gov.cpp:184
 msgid "A government with that rule name already exists!"
 msgstr "Ustrój o tej nazwie już istnieje!"
 
