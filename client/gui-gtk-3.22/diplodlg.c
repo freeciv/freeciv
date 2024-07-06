@@ -631,7 +631,6 @@ static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
     pdialog->dialog = NULL;
   }
   dialog_list_remove(dialog_list, pdialog);
-  free(pdialog);
 
   if (dialog_list) {
     /* Diplomatic meetings in one main tab. */
@@ -648,6 +647,9 @@ static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
       diplomacy_main_destroy();
     }
   }
+
+  /* Last sub-tab must not be freed before diplomacy_main_destroy() call. */
+  free(pdialog);
 }
 
 /************************************************************************//**
