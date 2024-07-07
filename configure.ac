@@ -209,7 +209,7 @@ done
 
 if test "x$modinst" != "xno" || test "x$fcdb_sqlite3" != "xno" ; then
   dnl Not needed in in builds where both users - fcdb and fcmp - are disabled
-  FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 not found])])
+  FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 development files not found])])
 fi
 
 dnl checks for database mysql
