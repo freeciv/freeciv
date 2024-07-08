@@ -39,7 +39,7 @@
 
     "Requires knowledge of the technology Communism."
 
-  pplayer may be NULL. Note that it must be updated everytime
+  pplayer may be NULL. Note that it must be updated every time
   a new requirement type or range is defined.
 *****************************************************************/
 bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
