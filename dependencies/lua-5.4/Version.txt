@@ -1,8 +1,8 @@
-Sources here are from lua-5.4.6
-(http://www.lua.org/ftp/lua-5.4.6.tar.gz)
+Sources here are from lua-5.4.7
+(http://www.lua.org/ftp/lua-5.4.7.tar.gz)
 
 Upstream bug fixes from https://www.lua.org/bugs.html applied:
-1, 2, 3, 4 & 5, 6, 7
+-
 
 Not entire lua distribution directory hierarchy is included here, and
 some files needed for Freeciv usage have been added.
