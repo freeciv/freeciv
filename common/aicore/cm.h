@@ -79,7 +79,7 @@ void cm_query_result(struct city *pcity,
 
 /*
  * Call this function if the city has changed. To be safe call it
- * everytime before you call cm_query_result().
+ * every time before you call cm_query_result().
  */
 void cm_clear_cache(struct city *pcity);
 
