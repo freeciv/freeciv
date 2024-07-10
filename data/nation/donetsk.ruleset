@@ -28,11 +28,11 @@ legend = _("The Donetsk People's Republic is an unrecognised republic of\
 
 leaders = {
  "name",                          "sex"
- "Alexander Zakharchenko",        "Male"   ; (1976–2018) Head of the Donetsk People's Republic from 4 November 2014 – 31 August 2018
- "Dmitry Trapeznikov",            "Male"   ; Head of the Donetsk People's Republic from 31 August 2018 – 7 September 2018
- "Denis Pushilin",                "Male"   ; Head of the Donetsk People's Republic since 7 September 2018
- "Elena Pushilina",               "Female" ; Denis Pushilin's wife
- "Yevgeny Solntsev",              "Male"   ; Prime Minister of the Donetsk People's Republic since 30 March 2023
+ "Alexander Zakharchenko",        "Male"   ; (1976–2018) Head of the Donetsk People`s Republic from 4 November 2014 – 31 August 2018
+ "Dmitry Trapeznikov",            "Male"   ; Head of the Donetsk People`s Republic from 31 August 2018 – 7 September 2018
+ "Denis Pushilin",                "Male"   ; Head of the Donetsk People`s Republic since 7 September 2018
+ "Elena Pushilina",               "Female" ; Denis Pushilin`s wife
+ "Yevgeny Solntsev",              "Male"   ; Prime Minister of the Donetsk People`s Republic since 30 March 2023
 }
 
 ruler_titles = {

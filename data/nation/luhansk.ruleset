@@ -25,11 +25,11 @@ legend = _("The Luhansk People's Republic, abbreviated as LPR is an\
 
 leaders = {
  "name",                          "sex"
- "Gennadiy Tsypkalov",            "Male"   ; (1973–2016), first acting head of the Luhansk People's Republic
+ "Gennadiy Tsypkalov",            "Male"   ; (1973–2016), first acting head of the Luhansk People`s Republic
  "Vasily Nikitin",                "Male"   ; Prime Minister from 18 May 2014 – 3 July 2014
  "Igor Plotnitsky",               "Male"   ; Prime Minister from 20 August 2014 – 26 August 2014
  "Sergey Kozlov",                 "Male"   ; Prime Minister since 26 December 2015
- "Leonid Pasechnik",              "Male"   ; Current Head of the Luhansk People's Republic
+ "Leonid Pasechnik",              "Male"   ; Current Head of the Luhansk People`s Republic
 }
 
 ruler_titles = {
