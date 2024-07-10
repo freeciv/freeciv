@@ -2246,7 +2246,8 @@ blocked_find_target_city(const struct action *act,
 
   An action that can block another blocks when it is forced and possible.
 **************************************************************************/
-struct action *action_is_blocked_by(const struct action *act,
+struct action *action_is_blocked_by(const struct civ_map *nmap,
+                                    const struct action *act,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile_arg,
                                     const struct city *target_city_arg,
@@ -2258,7 +2259,6 @@ struct action *action_is_blocked_by(const struct action *act,
   const struct city *target_city
       = blocked_find_target_city(act, actor_unit, target_tile,
                                  target_city_arg, target_unit);
-  const struct civ_map *nmap = &(wld.map);
 
   action_iterate(blocker_id) {
     struct action *blocker = action_by_number(blocker_id);
@@ -2845,7 +2845,7 @@ is_action_possible(const struct civ_map *nmap,
     break;
   }
 
-  if (action_is_blocked_by(paction, actor->unit,
+  if (action_is_blocked_by(nmap, paction, actor->unit,
                            target->tile, target->city, target->unit)) {
     /* Allows an action to block an other action. If a blocking action is
      * legal the actions it blocks becomes illegal. */
@@ -4163,7 +4163,7 @@ action_prob_vs_city_full(const struct civ_map *nmap,
 
   /* Doesn't leak information since it must be 100% certain from the
    * player's perspective that the blocking action is legal. */
-  if (action_is_blocked_by(act, actor_unit,
+  if (action_is_blocked_by(nmap, act, actor_unit,
                            city_tile(target_city), target_city, NULL)) {
     /* Don't offer to perform an action known to be blocked. */
     return ACTPROB_IMPOSSIBLE;
@@ -4363,7 +4363,7 @@ action_prob_vs_stack_full(const struct civ_map *nmap,
   /* Doesn't leak information since it must be 100% certain from the
    * player's perspective that the blocking action is legal. */
   unit_list_iterate(target_tile->units, target_unit) {
-    if (action_is_blocked_by(act, actor_unit,
+    if (action_is_blocked_by(nmap, act, actor_unit,
                              target_tile, tile_city(target_tile),
                              target_unit)) {
       /* Don't offer to perform an action known to be blocked. */
