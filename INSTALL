@@ -1,10 +1,14 @@
+This document is about using old autotools based build system.
+Installing with modern meson based build system is documented
+in doc/INSTALL.meson.
+
 ===================
 Installing Freeciv:
 ===================
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 31-Jan-24.
+Last minor update was 10-Jul-24.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
