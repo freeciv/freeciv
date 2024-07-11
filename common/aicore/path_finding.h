@@ -262,7 +262,7 @@ extern "C" {
 /* MC for an impossible step. If this value is returned by get_MC it
  * is treated like TB_IGNORE for this step. This won't change the TB
  * for any other step to this tile. This is assumed to be negative,
- * i.e., to be catched by "if (cost < 0)" */
+ * i.e., to be caught by "if (cost < 0)" */
 #define PF_IMPOSSIBLE_MC -1
 
 /* The factor which is used to multiple total_EC in the total_CC
