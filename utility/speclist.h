@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * That is, a (sometimes) type-checked genlist. (Or at least a
  * genlist with related functions with distinctly typed parameters.)
  * (Or, maybe, what you end up doing when you don't use C++ ?)
- * 
+ *
  * Before including this file, you must define the following:
  *   SPECLIST_TAG - this tag will be used to form names for functions etc.
  * You may also define:
@@ -110,7 +110,7 @@
  *
  * #define foo_list_both_iterate(foolist, plink, pfoo)                      \
  *   TYPED_LIST_BOTH_ITERATE(struct foo_list_link, foo_t,                   \
-                             foolist, plink, pfoo)
+ *                           foolist, plink, pfoo)
  * #define foo_list_both_iterate_end LIST_BOTH_ITERATE_END
  *
  * #define foo_list_both_iterate_rev(foolist, pfoo)                         \
@@ -557,13 +557,13 @@ SPECLIST_FOO(_list_link_next) (const SPECLIST_LINK *plink)
 
 #ifdef FREECIV_DEBUG
 #  define TYPED_LIST_CHECK(ARG_list)                                       \
-  fc_assert_action(NULL != ARG_list, break)
+  fc_assert_action(ARG_list != nullptr, break)
 #else
 #  define TYPED_LIST_CHECK(ARG_list) /* Nothing. */
 #endif /* FREECIV_DEBUG */
 
 /* Speclist data iterator.
- * 
+ *
  * Using *_list_remove(NAME_data) is safe in this loop (but it may be
  * inefficient due to the linear research of the data, see also
  * *_list_erase()).
@@ -578,17 +578,17 @@ do {                                                                        \
   TYPE_data *NAME_data;                                                     \
   TYPED_LIST_CHECK(ARG_list);                                               \
   NAME_data##_iter = genlist_head((const struct genlist *) ARG_list);       \
-  while (NULL != NAME_data##_iter) {                                        \
+  while (NAME_data##_iter != nullptr) {                                     \
     NAME_data = (TYPE_data *) genlist_link_data(NAME_data##_iter);          \
     NAME_data##_iter = genlist_link_next(NAME_data##_iter);
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define LIST_ITERATE_END                                                    \
   }                                                                         \
 } while (FALSE);
 
 /* Mutex protected speclist data iterator.
- * 
+ *
  * Using *_list_remove(NAME_data) is safe in this loop (but it may be
  * inefficient due to the linear research of the data, see also
  * *_list_erase()).
@@ -605,11 +605,11 @@ do {                                                                        \
   LIST_tag##_list_allocate_mutex(ARG_list);                                 \
   TYPED_LIST_CHECK(ARG_list);                                               \
   NAME_data##_iter = genlist_head((const struct genlist *) ARG_list);       \
-  while (NULL != NAME_data##_iter) {                                        \
+  while (NAME_data##_iter != nullptr) {                                     \
     NAME_data = (TYPE_data *) genlist_link_data(NAME_data##_iter);          \
     NAME_data##_iter = genlist_link_next(NAME_data##_iter);
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define MUTEXED_ITERATE_END(LIST_tag, ARG_list)                             \
   }                                                                         \
     LIST_tag##_list_release_mutex(ARG_list);                                \
@@ -631,11 +631,11 @@ do {                                                                        \
   TYPE_data *NAME_data;                                                     \
   TYPED_LIST_CHECK(ARG_list);                                               \
   NAME_data##_iter = genlist_tail((const struct genlist *) ARG_list);       \
-  while (NULL != NAME_data##_iter) {                                        \
+  while (NAME_data##_iter != nullptr) {                                     \
     NAME_data = (TYPE_data *) genlist_link_data(NAME_data##_iter);          \
     NAME_data##_iter = genlist_link_prev(NAME_data##_iter);
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define LIST_ITERATE_REV_END                                                \
   }                                                                         \
 } while (FALSE);
@@ -654,12 +654,12 @@ do {                                                                        \
                           genlist_head((const struct genlist *) ARG_list)); \
   TYPE_link *NAME_link##_next;                                              \
   TYPED_LIST_CHECK(ARG_list);                                               \
-  for (; NULL != NAME_link; NAME_link = NAME_link##_next) {                 \
+  for (; NAME_link != nullptr; NAME_link = NAME_link##_next) {              \
     NAME_link##_next = ((TYPE_link *)                                       \
                         genlist_link_next((struct genlist_link *)           \
                                           NAME_link));
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define LIST_LINK_ITERATE_END                                               \
   }                                                                         \
 } while (FALSE);
@@ -675,12 +675,12 @@ do {                                                                        \
                           genlist_tail((const struct genlist *) ARG_list)); \
   TYPE_link *NAME_link##_prev;                                              \
   TYPED_LIST_CHECK(ARG_list);                                               \
-  for (; NULL != NAME_link; NAME_link = NAME_link##_prev) {                 \
+  for (; NAME_link != nullptr; NAME_link = NAME_link##_prev) {              \
     NAME_link##_prev = ((TYPE_link *)                                       \
                         genlist_link_prev((struct genlist_link *)           \
                                           NAME_link));
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define LIST_LINK_ITERATE_REV_END                                           \
   }                                                                         \
 } while (FALSE);
@@ -703,14 +703,14 @@ do {                                                                        \
   TYPE_link *NAME_link##_next;                                              \
   TYPE_data *NAME_data;                                                     \
   TYPED_LIST_CHECK(ARG_list);                                               \
-  for (; NULL != NAME_link; NAME_link = NAME_link##_next) {                 \
+  for (; NAME_link != nullptr; NAME_link = NAME_link##_next) {              \
     NAME_link##_next = ((TYPE_link *)                                       \
                         genlist_link_next((struct genlist_link *)           \
                                           NAME_link));                      \
     NAME_data = ((TYPE_data *)                                              \
                  genlist_link_data((struct genlist_link *) NAME_link));
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define LIST_BOTH_ITERATE_END                                               \
   }                                                                         \
 } while (FALSE);
@@ -730,14 +730,14 @@ do {                                                                        \
   TYPE_link *NAME_link##_prev;                                              \
   TYPE_data *NAME_data;                                                     \
   TYPED_LIST_CHECK(ARG_list);                                               \
-  for (; NULL != NAME_link; NAME_link = NAME_link##_prev) {                 \
+  for (; NAME_link != nullptr; NAME_link = NAME_link##_prev) {              \
     NAME_link##_prev = ((TYPE_link *)                                       \
                         genlist_link_prev((struct genlist_link *)           \
                                           NAME_link));                      \
     NAME_data = ((TYPE_data *)                                              \
                  genlist_link_data((struct genlist_link *) NAME_link));
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define LIST_BOTH_ITERATE_REV_END                                           \
   }                                                                         \
 } while (FALSE);
