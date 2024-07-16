@@ -103,7 +103,7 @@ veteran_move_bonus = 0, 0, 0
 ;
 ; ** Unit class Flags **
 ;
-; "TerrainSpeed"      = Units use terrain spesific speed
+; "TerrainSpeed"      = Units use terrain specific speed
 ; "TerrainDefense"    = Units gain defense bonus from terrain
 ; "DamageSlows"       = Damaged units are slowed down
 ; "CanOccupyCity"     = Military units of this class can occupy enemy cities
