@@ -1,0 +1,41 @@
+FROM chedy007/freeciv:1.0
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+LABEL maintainer="mekchedy@gmail.com"
+
+COPY . /freeciv
+
+WORKDIR /freeciv
+
+RUN chmod +x install.sh && \
+    ./install.sh
+
+RUN apt-get update && apt-get install -y \
+	x11-apps \
+	xauth \
+    	alsa-utils \
+    	libasound2 \
+    	mesa-utils \
+        pulseaudio \
+        libgl1-mesa-dri \
+        libgl1-mesa-glx \
+        xserver-xorg-video-amdgpu
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV DISPLAY=:0
+
+# Create a non-root user
+RUN useradd -m -s /bin/bash freecivuser
+
+# Change ownership of the application directory to the non-root user
+RUN chown -R freecivuser:freecivuser /freeciv
+
+# Switch to the non-root user
+
+RUN mkdir -p /home/freecivuser/.alsa && echo "defaults.pcm.card 0\ndefaults.ctl.card 0" > /home/freecivuser/.alsa/asoundrc
+
+USER freecivuser
+
+CMD ["/usr/local/bin/freeciv-gtk3.22"]

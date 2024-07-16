@@ -1,0 +1,78 @@
+
+stages:
+  - build
+  - test
+  - deploy
+
+check_dependencies:
+  stage: build
+  image: chedy007/freeciv:1.0
+  script:
+    - ls
+    - echo "Checking dependencies..."
+    - ./autogen.sh --no-configure-run
+  artifacts:
+    paths:
+      - .
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main"'
+
+generate_makefiles:
+  stage: build
+  image: chedy007/freeciv:1.0
+  script:
+    - echo "Generating makefiles..."
+    - mkdir -p build && cd build && ../configure
+  needs:
+    - job: check_dependencies
+      artifacts: true
+  artifacts:
+    paths:
+      - .
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main"'
+
+build_binaries:
+  stage: build
+  image: chedy007/freeciv:1.0
+  script:
+    - echo "Running make..."
+    - cd build
+    - make -j$(nproc)
+  needs:
+    - job: generate_makefiles
+      artifacts: true
+  artifacts:
+    paths:
+      - .
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main"'
+
+test:
+  stage: test
+  image: chedy007/freeciv:1.0
+  script:
+    - echo "Running tests..."
+    - cd build
+    - make check -j$(nproc)
+  needs:
+    - job: build_binaries
+      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main"'
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+  script:
+    - docker build -t "$CI_REGISTRY_IMAGE:latest" -f Dockerfile.deploy .
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  needs:
+    - job: test
+      artifacts: true
