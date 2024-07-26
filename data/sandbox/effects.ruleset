@@ -4947,7 +4947,7 @@ type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
 reqs    =
     { "type",          "name",                  "range", "present"
-      "Action",        "Conquer City 2",        "Local", TRUE
+      "Action",        "Conquer City Shrink 2", "Local", TRUE
       "UnitState",     "OnNativeTile",          "Local", TRUE
       "UnitClassFlag", "TerrainSpeed",          "Local", TRUE
     }
@@ -5235,9 +5235,9 @@ reqs    =
 type    = "Casus_Belli_Success"
 value   = 1000
 reqs    =
-    { "type",     "name",                 "range", "survives"
-      "Action",   "Conquer City",         "Local", FALSE
-      "Building", "Treuga Dei",           "World", TRUE
+    { "type",     "name",                "range", "survives"
+      "Action",   "Conquer City Shrink", "Local", FALSE
+      "Building", "Treuga Dei",          "World", TRUE
     }
 
 ; Treuga Dei Casus Belli
@@ -5245,9 +5245,9 @@ reqs    =
 type    = "Casus_Belli_Success"
 value   = 1000
 reqs    =
-    { "type",     "name",                 "range", "survives"
-      "Action",   "Conquer City 2",       "Local", FALSE
-      "Building", "Treuga Dei",           "World", TRUE
+    { "type",     "name",                  "range", "survives"
+      "Action",   "Conquer City Shrink 2", "Local", FALSE
+      "Building", "Treuga Dei",            "World", TRUE
     }
 
 ; Treuga Dei Casus Belli

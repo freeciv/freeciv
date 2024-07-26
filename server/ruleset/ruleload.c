@@ -6272,16 +6272,26 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
   Load ui_name of one action
 **************************************************************************/
 static bool load_action_ui_name(struct section_file *file, int act,
-                                const char *entry_name)
+                                const char *entry_name,
+                                struct rscompat_info *compat)
 {
   const char *text;
   const char *def = action_ui_name_default(act);
 
-  if (entry_name == NULL) {
+  if (entry_name == nullptr) {
     text = def;
   } else {
-    text = secfile_lookup_str_default(file, def,
+    text = secfile_lookup_str_default(file, nullptr,
                                       "actions.%s", entry_name);
+
+    if (text == nullptr && compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      text = secfile_lookup_str_default(file, nullptr,
+                                        "actions.%s", ui_name_old_name_3_3(entry_name));
+    }
+
+    if (text == nullptr) {
+      text = def;
+    }
   }
 
   sz_strlcpy(action_by_number(act)->ui_name, text);
@@ -6399,23 +6409,24 @@ static bool load_action_actor_consuming_always(struct section_file *file,
 **************************************************************************/
 static bool load_action_blocked_by_list(struct section_file *file,
                                         const char *filename,
-                                        struct action *paction)
+                                        struct action *paction,
+                                        struct rscompat_info *compat)
 {
-  if (action_blocked_by_ruleset_var_name(paction) != NULL) {
-    /* Action blocking can be loaded from the ruleset. */
+  const char *var_name = action_blocked_by_ruleset_var_name(paction);
 
+  if (var_name != nullptr) {
+    /* Action blocking can be loaded from the ruleset. */
     char fullpath[1024];
 
-    fc_snprintf(fullpath, sizeof(fullpath), "actions.%s",
-                action_blocked_by_ruleset_var_name(paction));
+    fc_snprintf(fullpath, sizeof(fullpath), "actions.%s", var_name);
 
     if (secfile_entry_by_path(file, fullpath)) {
       enum gen_action *blocking_actions;
       size_t asize;
       int j;
 
-      blocking_actions =
-          secfile_lookup_enum_vec(file, &asize, gen_action, "%s", fullpath);
+      blocking_actions
+        = secfile_lookup_enum_vec(file, &asize, gen_action, "%s", fullpath);
 
       if (!blocking_actions) {
         /* Entity exists but couldn't read it. */
@@ -6431,6 +6442,32 @@ static bool load_action_blocked_by_list(struct section_file *file,
       }
 
       free(blocking_actions);
+    } else if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      fc_snprintf(fullpath, sizeof(fullpath), "actions.%s", blocked_by_old_name_3_3(var_name));
+
+      if (secfile_entry_by_path(file, fullpath)) {
+        enum gen_action *blocking_actions;
+        size_t asize;
+        int j;
+
+        blocking_actions
+          = secfile_lookup_enum_vec(file, &asize, gen_action, "%s", fullpath);
+
+        if (!blocking_actions) {
+          /* Entity exists but couldn't read it. */
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\": %s: bad action list",
+                        filename, fullpath);
+
+          return FALSE;
+        }
+
+        for (j = 0; j < asize; j++) {
+          BV_SET(paction->blocked_by, blocking_actions[j]);
+        }
+
+        free(blocking_actions);
+      }
     }
   }
 
@@ -7619,7 +7656,7 @@ static bool load_ruleset_actions(struct section_file *file,
     action_iterate(act_id) {
       struct action *paction = action_by_number(act_id);
 
-      if (!load_action_blocked_by_list(file, filename, paction)) {
+      if (!load_action_blocked_by_list(file, filename, paction, compat)) {
         ok = FALSE;
         break;
       }
@@ -7666,7 +7703,7 @@ static bool load_ruleset_actions(struct section_file *file,
             entry_name = action_ui_name_ruleset_var_name(act_id);
           }
 
-          load_action_ui_name(file, act_id, entry_name);
+          load_action_ui_name(file, act_id, entry_name, compat);
         }
 
         if (!ok) {

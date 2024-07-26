@@ -45,9 +45,9 @@ attack_blocked_by = "Collect Ransom", "Explode Nuclear", "Nuke City",
 suicide_attack_blocked_by = "Collect Ransom", "Explode Nuclear",
                             "Nuke City", "Nuke Units"
 
-; Forbid "Conquer City" if any one of the listed actions are legal.
-conquer_city_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units",
-                          "Attack", "Suicide Attack"
+; Forbid "Conquer City Shrink" if any one of the listed actions are legal.
+conquer_city_shrink_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units",
+                                 "Attack", "Suicide Attack"
 
 ; Forbid regular unit move if one of the actions below is legal.
 move_blocked_by = "Transport Disembark", "Enter Hut", "Enter Hut 2"
@@ -66,7 +66,7 @@ bribe_unit_post_success_forced_actions = "Transport Embark",
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
-attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
+attack_post_success_forced_actions = "Conquer City Shrink", "Conquer City Shrink 2",
                                      "Transport Disembark",
                                      "Transport Disembark 2",
                                      "Conquer Extras", "Conquer Extras 2",
@@ -77,7 +77,7 @@ attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
 ; performing the following actions in the specified order after successfully
 ; performing "Collect Ransom".
 collect_ransom_post_success_forced_actions =
-                                     "Conquer City", "Conquer City 2",
+                                     "Conquer City Shrink", "Conquer City Shrink 2",
                                      "Transport Disembark",
                                      "Transport Disembark 2",
                                      "Conquer Extras", "Conquer Extras 2",
@@ -266,7 +266,7 @@ ui_name_attack = _("%sAttack%s")
 ui_name_suicide_attack = _("%sExplode Missile%s")
 
 ; /* TRANS: _Conquer City (100% chance of success). */
-ui_name_conquer_city = _("%sConquer City%s")
+ui_name_conquer_city_shrink = _("%sConquer City%s")
 
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
@@ -620,7 +620,7 @@ actor_reqs    =
     }
 
 [enabler_conquer_city_native]
-action        = "Conquer City"
+action        = "Conquer City Shrink"
 actor_reqs    =
     { "type",           "name",          "range", "present"
       "UnitClassFlag",  "CanOccupyCity", "Local", TRUE

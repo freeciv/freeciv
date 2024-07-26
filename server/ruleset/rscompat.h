@@ -60,6 +60,9 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
 const char *rscompat_utype_flag_name_3_3(const char *old_name);
 const char *rscompat_universal_name_3_3(const char *old_name);
 
+const char *blocked_by_old_name_3_3(const char *new_name);
+const char *ui_name_old_name_3_3(const char *new_name);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

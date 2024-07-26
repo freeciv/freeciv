@@ -535,10 +535,10 @@ Actions done by a unit against a city
  * the target city is domestic or, if airliftingstyle permits it, allied
  * the target city has Airlift
 
-"Conquer City" - Conquer the target city.
- * UI name can be set using ui_name_conquer_city
+"Conquer City Shrink" - Shrink target city by one and conquer it.
+ * UI name can be set using ui_name_conquer_city_shrink
  * actor must be aware that the target exists
- * any action listed in conquer_city_blocked_by must be impossible
+ * any action listed in conquer_city_shrink_blocked_by must be impossible
  * "Attack" must be impossible
  * the actor unit must be on a tile next to the target.
  * the actor player's nation can't be an animal barbarian. (!)
@@ -561,23 +561,23 @@ Actions done by a unit against a city
  * the target must be foreign (!)
  * the target city contains 0 units (!)
 
-"Conquer City 2" - Conquer the target city.
-* UI name can be set using ui_name_conquer_city_2
-* any action listed in conquer_city_2_blocked_by must be impossible
-* A copy of "Conquer City".
-* See "Conquer City" for everything else.
+"Conquer City Shrink 2" - Shrink target city by one and conquer it.
+* UI name can be set using ui_name_conquer_city_shrink_2
+* any action listed in conquer_city_shrink_2_blocked_by must be impossible
+* A copy of "Conquer City Shrink".
+* See "Conquer City Shrink" for everything else.
 
-"Conquer City 3" - Conquer the target city.
-* UI name can be set using ui_name_conquer_city_3
-* any action listed in conquer_city_3_blocked_by must be impossible
-* A copy of "Conquer City".
-* See "Conquer City" for everything else.
+"Conquer City Shrink 3" - Shrink target city by one and conquer it.
+* UI name can be set using ui_name_conquer_city_shrink_3
+* any action listed in conquer_city_shrink_3_blocked_by must be impossible
+* A copy of "Conquer City Shrink".
+* See "Conquer City Shrink" for everything else.
 
-"Conquer City 4" - Conquer the target city.
-* UI name can be set using ui_name_conquer_city_4
-* any action listed in conquer_city_4_blocked_by must be impossible
-* A copy of "Conquer City".
-* See "Conquer City" for everything else.
+"Conquer City Shrink 4" - Shrink target city by one and conquer it.
+* UI name can be set using ui_name_conquer_city_shrink_4
+* any action listed in conquer_city_shrink_4_blocked_by must be impossible
+* A copy of "Conquer City Shrink".
+* See "Conquer City Shrink" for everything else.
 
 "Surgical Strike Building" - Destroy a specific building.
  * UI name can be set using ui_name_surgical_strike_building

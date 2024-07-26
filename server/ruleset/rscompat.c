@@ -646,3 +646,45 @@ const char *rscompat_universal_name_3_3(const char *old_name)
 
   return old_name;
 }
+
+/**********************************************************************//**
+  Tell 3.2 blocked_by name matching 3.3 one
+**************************************************************************/
+const char *blocked_by_old_name_3_3(const char *new_name)
+{
+  if (fc_strcasecmp("conquer_city_shrink_blocked_by", new_name)) {
+    return "conquer_city_blocked_by";
+  }
+  if (fc_strcasecmp("conquer_city_shrink_2_blocked_by", new_name)) {
+    return "conquer_city_2_blocked_by";
+  }
+  if (fc_strcasecmp("conquer_city_shrink_3_blocked_by", new_name)) {
+    return "conquer_city_3_blocked_by";
+  }
+  if (fc_strcasecmp("conquer_city_shrink_4_blocked_by", new_name)) {
+    return "conquer_city_4_blocked_by";
+  }
+
+  return nullptr;
+}
+
+/**********************************************************************//**
+  Tell 3.2 ui_name matching 3.3 one
+**************************************************************************/
+const char *ui_name_old_name_3_3(const char *new_name)
+{
+  if (fc_strcasecmp("ui_name_conquer_city", new_name)) {
+    return "ui_name_conquer_city_shrink";
+  }
+  if (fc_strcasecmp("ui_name_conquer_city_2", new_name)) {
+    return "ui_name_conquer_city_shrink_2";
+  }
+  if (fc_strcasecmp("ui_name_conquer_city_3", new_name)) {
+    return "ui_name_conquer_city_shrink_3";
+  }
+  if (fc_strcasecmp("ui_name_conquer_city_4", new_name)) {
+    return "ui_name_conquer_city_shrink_4";
+  }
+  
+  return nullptr;
+}

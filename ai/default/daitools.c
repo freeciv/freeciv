@@ -896,29 +896,29 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_SUICIDE_ATTACK);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY_SHRINK,
                                                punit, tcity)) {
-    /* Choose "Conquer City". */
+    /* Choose "Conquer City Shrink". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
-                   0, "", ACTION_CONQUER_CITY);
+                   0, "", ACTION_CONQUER_CITY_SHRINK);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY2,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY_SHRINK2,
                                                punit, tcity)) {
-    /* Choose "Conquer City 2". */
+    /* Choose "Conquer City Shrink 2". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
-                   0, "", ACTION_CONQUER_CITY2);
+                   0, "", ACTION_CONQUER_CITY_SHRINK2);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY3,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY_SHRINK3,
                                                punit, tcity)) {
-    /* Choose "Conquer City 3". */
+    /* Choose "Conquer City Shrink 3". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
-                   0, "", ACTION_CONQUER_CITY3);
+                   0, "", ACTION_CONQUER_CITY_SHRINK3);
   } else if ((tcity = tile_city(ptile))
-             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY4,
+             && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY_SHRINK4,
                                                punit, tcity)) {
-    /* Choose "Conquer City 4". */
+    /* Choose "Conquer City Shrink 4". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
-                   0, "", ACTION_CONQUER_CITY4);
+                   0, "", ACTION_CONQUER_CITY_SHRINK4);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
              && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK,

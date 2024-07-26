@@ -2918,7 +2918,7 @@ type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
 reqs    =
     { "type",          "name",                  "range", "present"
-      "Action",        "Conquer City 2",        "Local", TRUE
+      "Action",        "Conquer City Shrink 2", "Local", TRUE
       "UnitState",     "OnNativeTile",          "Local", TRUE
       "UnitClassFlag", "TerrainSpeed",          "Local", TRUE
     }

@@ -157,8 +157,8 @@ static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
 static void unit_upgrade(QVariant data1, QVariant data2);
 static void airlift(QVariant data1, QVariant data2);
-static void conquer_city(QVariant data1, QVariant data2);
-static void conquer_city2(QVariant data1, QVariant data2);
+static void conquer_city_shrink(QVariant data1, QVariant data2);
+static void conquer_city_shrink2(QVariant data1, QVariant data2);
 static void conquer_extras(QVariant data1, QVariant data2);
 static void conquer_extras2(QVariant data1, QVariant data2);
 static void heal_unit(QVariant data1, QVariant data2);
@@ -243,8 +243,8 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_HOME_CITY] = unit_home_city;
   action_function[ACTION_UPGRADE_UNIT] = unit_upgrade;
   action_function[ACTION_AIRLIFT] = airlift;
-  action_function[ACTION_CONQUER_CITY] = conquer_city;
-  action_function[ACTION_CONQUER_CITY2] = conquer_city2;
+  action_function[ACTION_CONQUER_CITY_SHRINK] = conquer_city_shrink;
+  action_function[ACTION_CONQUER_CITY_SHRINK2] = conquer_city_shrink2;
   action_function[ACTION_STRIKE_BUILDING] = spy_request_strike_bld_list;
   action_function[ACTION_NUKE_CITY] = nuke_city;
 
@@ -1851,14 +1851,14 @@ static void airlift(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer City" for choice dialog
 ***************************************************************************/
-static void conquer_city(QVariant data1, QVariant data2)
+static void conquer_city_shrink(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
   if (game_unit_by_number(actor_id) != nullptr
       && game_city_by_number(tgt_city_id) != nullptr) {
-    request_do_action(ACTION_CONQUER_CITY,
+    request_do_action(ACTION_CONQUER_CITY_SHRINK,
                       actor_id, tgt_city_id, 0, "");
   }
 }
@@ -1866,14 +1866,14 @@ static void conquer_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer City 2" for choice dialog
 ***************************************************************************/
-static void conquer_city2(QVariant data1, QVariant data2)
+static void conquer_city_shrink2(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
   if (game_unit_by_number(actor_id) != nullptr
       && game_city_by_number(tgt_city_id) != nullptr) {
-    request_do_action(ACTION_CONQUER_CITY2,
+    request_do_action(ACTION_CONQUER_CITY_SHRINK2,
                       actor_id, tgt_city_id, 0, "");
   }
 }

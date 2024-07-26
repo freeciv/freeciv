@@ -490,20 +490,20 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_STRIKE_PRODUCTION, ACTRES_STRIKE_PRODUCTION,
                       FALSE, FALSE,
                       MAK_STAYS, 1, 1, FALSE);
-  actions[ACTION_CONQUER_CITY] =
-      unit_action_new(ACTION_CONQUER_CITY, ACTRES_CONQUER_CITY,
+  actions[ACTION_CONQUER_CITY_SHRINK] =
+      unit_action_new(ACTION_CONQUER_CITY_SHRINK, ACTRES_CONQUER_CITY,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
-  actions[ACTION_CONQUER_CITY2] =
-      unit_action_new(ACTION_CONQUER_CITY2, ACTRES_CONQUER_CITY,
+  actions[ACTION_CONQUER_CITY_SHRINK2] =
+      unit_action_new(ACTION_CONQUER_CITY_SHRINK2, ACTRES_CONQUER_CITY,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
-  actions[ACTION_CONQUER_CITY3] =
-      unit_action_new(ACTION_CONQUER_CITY3, ACTRES_CONQUER_CITY,
+  actions[ACTION_CONQUER_CITY_SHRINK3] =
+      unit_action_new(ACTION_CONQUER_CITY_SHRINK3, ACTRES_CONQUER_CITY,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
-  actions[ACTION_CONQUER_CITY4] =
-      unit_action_new(ACTION_CONQUER_CITY4, ACTRES_CONQUER_CITY,
+  actions[ACTION_CONQUER_CITY_SHRINK4] =
+      unit_action_new(ACTION_CONQUER_CITY_SHRINK4, ACTRES_CONQUER_CITY,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_CONQUER_EXTRAS] =
@@ -5886,14 +5886,14 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_surgical_strike_building";
   case ACTION_STRIKE_PRODUCTION:
     return "ui_name_surgical_strike_production";
-  case ACTION_CONQUER_CITY:
-    return "ui_name_conquer_city";
-  case ACTION_CONQUER_CITY2:
-    return "ui_name_conquer_city_2";
-  case ACTION_CONQUER_CITY3:
-    return "ui_name_conquer_city_3";
-  case ACTION_CONQUER_CITY4:
-    return "ui_name_conquer_city_4";
+  case ACTION_CONQUER_CITY_SHRINK:
+    return "ui_name_conquer_city_shrink";
+  case ACTION_CONQUER_CITY_SHRINK2:
+    return "ui_name_conquer_city_shrink2";
+  case ACTION_CONQUER_CITY_SHRINK3:
+    return "ui_name_conquer_city_shrink3";
+  case ACTION_CONQUER_CITY_SHRINK4:
+    return "ui_name_conquer_city_shrink4";
   case ACTION_CONQUER_EXTRAS:
     return "ui_name_conquer_extras";
   case ACTION_CONQUER_EXTRAS2:
@@ -6241,12 +6241,12 @@ const char *action_ui_name_default(int act)
   case ACTION_STRIKE_PRODUCTION:
     /* TRANS: Surgical Str_ike Production (100% chance of success). */
     return N_("Surgical Str%sike Production%s");
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY3:
-  case ACTION_CONQUER_CITY4:
+  case ACTION_CONQUER_CITY_SHRINK:
+  case ACTION_CONQUER_CITY_SHRINK3:
+  case ACTION_CONQUER_CITY_SHRINK4:
     /* TRANS: _Conquer City (100% chance of success). */
     return N_("%sConquer City%s");
-  case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY_SHRINK2:
     /* TRANS: _Conquer City 2 (100% chance of success). */
     return N_("%sConquer City 2%s");
   case ACTION_CONQUER_EXTRAS:
@@ -6466,10 +6466,10 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_COLLECT_RANSOM:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
-  case ACTION_CONQUER_CITY3:
-  case ACTION_CONQUER_CITY4:
+  case ACTION_CONQUER_CITY_SHRINK:
+  case ACTION_CONQUER_CITY_SHRINK2:
+  case ACTION_CONQUER_CITY_SHRINK3:
+  case ACTION_CONQUER_CITY_SHRINK4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -6639,10 +6639,10 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_COLLECT_RANSOM:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
-  case ACTION_CONQUER_CITY3:
-  case ACTION_CONQUER_CITY4:
+  case ACTION_CONQUER_CITY_SHRINK:
+  case ACTION_CONQUER_CITY_SHRINK2:
+  case ACTION_CONQUER_CITY_SHRINK3:
+  case ACTION_CONQUER_CITY_SHRINK4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -6828,10 +6828,10 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_COLLECT_RANSOM:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
-  case ACTION_CONQUER_CITY3:
-  case ACTION_CONQUER_CITY4:
+  case ACTION_CONQUER_CITY_SHRINK:
+  case ACTION_CONQUER_CITY_SHRINK2:
+  case ACTION_CONQUER_CITY_SHRINK3:
+  case ACTION_CONQUER_CITY_SHRINK4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -6995,10 +6995,10 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_COLLECT_RANSOM:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
-  case ACTION_CONQUER_CITY3:
-  case ACTION_CONQUER_CITY4:
+  case ACTION_CONQUER_CITY_SHRINK:
+  case ACTION_CONQUER_CITY_SHRINK2:
+  case ACTION_CONQUER_CITY_SHRINK3:
+  case ACTION_CONQUER_CITY_SHRINK4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -7146,14 +7146,14 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "wipe_units_blocked_by";
   case ACTION_COLLECT_RANSOM:
     return "collect_ransom_blocked_by";
-  case ACTION_CONQUER_CITY:
-    return "conquer_city_blocked_by";
-  case ACTION_CONQUER_CITY2:
-    return "conquer_city_2_blocked_by";
-  case ACTION_CONQUER_CITY3:
-    return "conquer_city_3_blocked_by";
-  case ACTION_CONQUER_CITY4:
-    return "conquer_city_4_blocked_by";
+  case ACTION_CONQUER_CITY_SHRINK:
+    return "conquer_city_shrink_blocked_by";
+  case ACTION_CONQUER_CITY_SHRINK2:
+    return "conquer_city_shrink_2_blocked_by";
+  case ACTION_CONQUER_CITY_SHRINK3:
+    return "conquer_city_shrink_3_blocked_by";
+  case ACTION_CONQUER_CITY_SHRINK4:
+    return "conquer_city_shrink_4_blocked_by";
   case ACTION_UNIT_MOVE:
     return "move_blocked_by";
   case ACTION_UNIT_MOVE2:
@@ -7336,10 +7336,10 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_NUKE_UNITS:
   case ACTION_SUICIDE_ATTACK:
   case ACTION_SUICIDE_ATTACK2:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
-  case ACTION_CONQUER_CITY3:
-  case ACTION_CONQUER_CITY4:
+  case ACTION_CONQUER_CITY_SHRINK:
+  case ACTION_CONQUER_CITY_SHRINK2:
+  case ACTION_CONQUER_CITY_SHRINK3:
+  case ACTION_CONQUER_CITY_SHRINK4:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -7484,12 +7484,20 @@ bool action_ever_possible(action_id action)
 **************************************************************************/
 const char *gen_action_name_update_cb(const char *old_name)
 {
-  /* Uncomment and fill implementation, if compat mode
-   * action name conversions needed. */
-#if 0
   if (is_ruleset_compat_mode()) {
+    if (fc_strcasecmp("Conquer City", old_name)) {
+      return "Conquer City Shrink";
+    }
+    if (fc_strcasecmp("Conquer City 2", old_name)) {
+      return "Conquer City Shrink 2";
+    }
+    if (fc_strcasecmp("Conquer City 3", old_name)) {
+      return "Conquer City Shrink 3";
+    }
+    if (fc_strcasecmp("Conquer City 4", old_name)) {
+      return "Conquer City Shrink 4";
+    }
   }
-#endif
 
   return old_name;
 }

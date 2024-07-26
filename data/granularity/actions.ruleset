@@ -37,8 +37,8 @@ format_version = 40
 ; Forbid "Attack" if any one of the listed actions are legal.
 attack_blocked_by = "Capture Units", "Bombard", "Bombard 2"
 
-; Forbid "Conquer City" if any one of the listed actions are legal.
-conquer_city_blocked_by = "Attack", "Bombard", "Bombard 2"
+; Forbid "Conquer City Shrink" if any one of the listed actions are legal.
+conquer_city_shrink_blocked_by = "Attack", "Bombard", "Bombard 2"
 
 ; Forbid regular unit move if one of the actions below is legal.
 move_blocked_by = "Transport Disembark", "Transport Disembark 2"
@@ -205,7 +205,7 @@ ui_name_fortify = _("%sFortify%s")
 ui_name_bombard_2 = _("%sBombard%s")
 
 ; /* TRANS: _Conquer City (100% chance of success). */
-ui_name_conquer_city = _("%sConquer City%s")
+ui_name_conquer_city_shrink = _("%sConquer City%s")
 
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
@@ -475,7 +475,7 @@ actor_reqs    =
     }
 
 [enabler_conquer_city_tribal]
-action        = "Conquer City"
+action        = "Conquer City Shrink"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
       "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
@@ -491,7 +491,7 @@ target_reqs   =
     }
 
 [enabler_conquer_city_despotism]
-action        = "Conquer City"
+action        = "Conquer City Shrink"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
       "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
@@ -507,7 +507,7 @@ target_reqs   =
     }
 
 [enabler_conquer_city_monarchy]
-action        = "Conquer City"
+action        = "Conquer City Shrink"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
       "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
