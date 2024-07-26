@@ -4971,7 +4971,7 @@ void qtg_request_action_confirmation(const char *expl,
 /**********************************************************************//**
   Popup image window
 **************************************************************************/
-void qtg_popup_image(const char *tag, int width, int height)
+void qtg_popup_image(const char *tag, int width_discard, int height_discard)
 {
   struct sprite *spr = load_popup_sprite(tag);
 
@@ -4980,7 +4980,9 @@ void qtg_popup_image(const char *tag, int width, int height)
     QVBoxLayout *layout = new QVBoxLayout(win);
     QPixmap *pm = new QPixmap(*spr->pm);
     QLabel *lbl = new QLabel;
+    int width, height;
 
+    get_sprite_dimensions(spr, &width, &height);
     win->setFixedSize(width, height);
     lbl->setPixmap(*pm);
     layout->addWidget(lbl);
