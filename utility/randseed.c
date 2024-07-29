@@ -79,7 +79,7 @@ static bool generate_seed_bcryptgenrandom(randseed *ret)
 #ifdef HAVE_BCRYPTGENRANDOM
   NTSTATUS Status;
 
-  Status = BCryptGenRandom(NULL, (PUCHAR)ret, sizeof(randseed),
+  Status = BCryptGenRandom(nullptr, (PUCHAR)ret, sizeof(randseed),
                            BCRYPT_USE_SYSTEM_PREFERRED_RNG);
 
   if (NT_SUCCESS(Status)) {
@@ -180,7 +180,7 @@ static bool generate_seed_clock_gettime(randseed *ret)
 static bool generate_seed_time(randseed *ret)
 {
   /* No reasonable way this can fail */
-  *ret = (randseed) time(NULL);
+  *ret = (randseed) time(nullptr);
 
   return TRUE;
 }
