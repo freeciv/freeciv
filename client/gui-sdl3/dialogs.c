@@ -3750,7 +3750,7 @@ static int exit_image_popup_callback(struct widget *pwidget)
 /**********************************************************************//**
   Popup image window
 **************************************************************************/
-void popup_image(const char *tag, int width, int height)
+void popup_image(const char *tag, int width_discard, int height_discard)
 {
   if (advanced_image_popup == NULL) {
     struct sprite *spr = load_popup_sprite(tag);
@@ -3761,7 +3761,9 @@ void popup_image(const char *tag, int width, int height)
       SDL_Surface *surf = copy_surface(GET_SURF(spr));
       SDL_Rect dst;
       SDL_Rect area;
+      int width, height;
 
+      get_sprite_dimensions(spr, &width, &height);
       advanced_image_popup = fc_calloc(1, sizeof(struct advanced_dialog));
 
       win->action = image_popup_window_callback;
