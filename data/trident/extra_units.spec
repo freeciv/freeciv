@@ -133,6 +133,5 @@ tiles = { "row", "column", "tag"
  10, 10, "u.elephant_Idle"
  10, 11, "u.polar_bear_Idle"
  10, 12, "u.squid_Idle"
- 10, 13, "u.storm_Idle"
 
 }
