@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2023-02-23 06:15+0200\n"
-"PO-Revision-Date: 2023-01-15 11:43+0100\n"
+"PO-Revision-Date: 2023-06-02 00:25+0200\n"
 "Last-Translator: Andreas Engel <ae3@mein-ramberg.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: de\n"
@@ -7906,13 +7906,11 @@ msgstr ""
 
 #: data/nation/liege.ruleset:3
 msgid "Liegean"
-msgstr ""
+msgstr "Lütticher"
 
 #: data/nation/liege.ruleset:4
-#, fuzzy
-#| msgid "?plural:Liberians"
 msgid "?plural:Liegeans"
-msgstr "Liberianer"
+msgstr "Lütticher"
 
 #: data/nation/liege.ruleset:6
 msgid ""
@@ -7924,24 +7922,28 @@ msgid ""
 "revolutionary France. Liege played later a major role in the Belgian "
 "independance."
 msgstr ""
+"Lüttich wurde 985 als kirchliches Fürstentum gegründet, als Bischof Notger "
+"die Herrschaft über mehrere Städte im heutigen Belgien übertragen wurde. Als "
+"Bundesstaat des Heiligen Römischen Reiches zeichnete es sich durch große "
+"bürgerliche Freiheiten aus, für die die Lütticher stark kämpften. Es dauerte "
+"bis 1792, als die neu gegründete Republik Lüttich für die Vereinigung mit "
+"dem revolutionären Frankreich stimmte. Lüttich spielte später eine wichtige "
+"Rolle bei der belgischen Unabhängigkeit."
 
 #: data/nation/liege.ruleset:28
-#, fuzzy, c-format
-#| msgid "?female:Tribune %s"
+#, c-format
 msgid "?female:Princess %s"
-msgstr "Tribunin %s"
+msgstr "Prinzessin %s"
 
 #: data/nation/liege.ruleset:29
-#, fuzzy, c-format
-#| msgid "?female:Prime Minister %s"
+#, c-format
 msgid "?female:Prime Ministress %s"
 msgstr "Premierministerin %s"
 
 #: data/nation/liege.ruleset:31
-#, fuzzy, c-format
-#| msgid "Sergeant %s"
+#, c-format
 msgid "Regent %s"
-msgstr "Sergeant %s"
+msgstr "Herrscher %s"
 
 #: data/nation/ligurian.ruleset:3
 msgid "Ligurian"
@@ -10122,19 +10124,19 @@ msgstr "Pfalzgräfin %s"
 
 #: data/nation/palauan.ruleset:3
 msgid "Palauan"
-msgstr ""
+msgstr "Palauisch"
 
 #: data/nation/palauan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Papuans"
 msgid "?plural:Palauans"
-msgstr "Papua"
+msgstr "Palauer"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
 "Palaos is a very little country, with only 20000 inhabitants aproximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
+"Palaos ist ein sehr kleines Land, mit nur etwa 20000 Einwohnern. Es besteht "
+"aus mehr als 300 Inseln vulkanischen Ursprungs."
 
 #: data/nation/palestinian.ruleset:3
 msgid "Palestinian"
@@ -10842,15 +10844,6 @@ msgid "?plural:Rusyns"
 msgstr "Russinen"
 
 #: data/nation/rusyn.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Rusyns are an ethnic group on the western periphery of the East "
-#| "Slavic nations. They live mainly in the Polish-Ukrainian-Slovak "
-#| "borderland and in the Vojvodina. In medieval times the Rusyn homeland was "
-#| "the site of the Duchy of Galicia-Volhynia and the Kingdom of Rus. In "
-#| "later times the lands were under Polish and later Austrian rule. Rusyns "
-#| "formed two ephemeral states after World War I: the Lemko-Rusyn Republic "
-#| "and the Komancza Republic."
 msgid ""
 "The Rusyns are an ethnic group on the western periphery of the East Slavic "
 "nations. They live mainly in the Polish-Ukrainian-Slovak borderland and in "
@@ -10859,13 +10852,13 @@ msgid ""
 "were under Polish and later Austrian rule. Rusyns formed two ephemeral "
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
 msgstr ""
-"Die Russinen sind eine ethnische Gruppe am westlichen Rand der ostslawischen "
-"Staaten. Sie leben hauptsächlich im polnisch-ukrainisch-slowakischen "
-"Grenzgebiet und in der Vojvodina. Im Mittelalter war die Heimat der Rusyn "
-"der Standort des Herzogtums Galizien-Wolhynien und des Königreichs Rus. In "
-"späteren Zeiten waren die Länder unter polnischer und später "
-"österreichischer Herrschaft. Die Rusyns bildeten nach dem Ersten Weltkrieg "
-"zwei kurzlebige Staaten: die Lemko-Rusyn-Republik und die Komancza-Republik."
+"Die Rusinen sind eine ethnische Gruppe an der westlichen Peripherie der "
+"ostslawischen Völker. Sie leben hauptsächlich im polnisch-ukrainisch-"
+"slowakischen Grenzgebiet und in der Vojvodina. Im Mittelalter war die Heimat "
+"der Rusinen das Herzogtum Galizien-Wolhynien und das Königreich der Rusinen. "
+"Später standen die Gebiete unter polnischer und später österreichischer "
+"Herrschaft. Nach dem Ersten Weltkrieg bildeten die Rusinen zwei kurzlebige "
+"Staaten: die Republik Lemko-Rusyn und die Republik Komancza."
 
 # MG: Das ist unübersetzbar...
 # https://de.wikipedia.org/wiki/Kiewer_Rus
@@ -12604,13 +12597,6 @@ msgid "?plural:Texans"
 msgstr "Texaner"
 
 #: data/nation/texan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Texas, \"the Lone Star State\" is the second largest and second most "
-#| "populous state of the USA, famous for its \"larger than life\" cowboy "
-#| "mentality. During its history, Texas has been ruled in full or in part by "
-#| "six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
-#| "and the USA - as expressed in the slogan \"six flags over Texas\"."
 msgid ""
 "Texas, \"the Lone Star State\" is the second largest and second most "
 "populous state of the USA, famous for its \"larger than life\" cowboy "
@@ -12622,12 +12608,15 @@ msgid ""
 "Confederacy, and the USA, as expressed in the slogan \"six flags over "
 "Texas\"."
 msgstr ""
-"Texas, „The Lone Star State“, ist der zweitgrößte und "
-"zweitbevölkerungsreichste Bundesstaat der USA, berühmt für seine „larger "
-"than life“-Cowboy-Mentalität. Im Laufe seiner Geschichte wurde Texas ganz "
-"oder teilweise von sechs Ländern regiert: Frankreich, Spanien, Mexiko, der "
-"Republik Texas, der Konföderation und den USA – wie es der Slogan „six flags "
-"over Texas“ ausdrückt."
+"Texas, der \"Lone Star State\", ist der zweitgrößte und "
+"zweitbevölkerungsreichste Staat der USA und berühmt für seine "
+"überlebensgroße Cowboykultur und sein mexikanisches Erbe. Nach der berühmten "
+"Schlacht von Alamo besiegten die Texaner die Mexikaner bei San Jacinto und "
+"erklärten ihre Unabhängigkeit. Die Republik Texas dauerte von 1836 bis 1846 "
+"und wurde danach zum 28. Historisch gesehen wurde Texas ganz oder teilweise "
+"von sechs Nationen beherrscht: Frankreich, Spanien, Mexiko, der Republik "
+"Texas, der Konföderation und den USA, was in dem Slogan \"Sechs Flaggen über "
+"Texas\" zum Ausdruck kommt."
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"

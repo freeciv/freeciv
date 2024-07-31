@@ -44,7 +44,7 @@ msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2023-02-25 17:44+0200\n"
-"PO-Revision-Date: 2023-01-15 11:01+0100\n"
+"PO-Revision-Date: 2023-06-02 00:19+0200\n"
 "Last-Translator: Andreas Engel <ae3@mein-ramberg.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: de\n"
@@ -116,7 +116,7 @@ msgstr "Wert:"
 
 #: tools/ruledit/effect_edit.cpp:115
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
@@ -126,16 +126,12 @@ msgid "Requirements"
 msgstr "Voraussetzungen"
 
 #: tools/ruledit/effect_edit.cpp:125
-#, fuzzy
-#| msgid "All Effects"
 msgid "Add Effect"
-msgstr "Alle Effekte"
+msgstr "Effekt hinzufügen"
 
 #: tools/ruledit/effect_edit.cpp:129
-#, fuzzy
-#| msgid "All Effects"
 msgid "Delete Effect"
-msgstr "Alle Effekte"
+msgstr "Effekt löschen"
 
 #: tools/ruledit/effect_edit.cpp:206
 #, c-format
@@ -237,15 +233,16 @@ msgstr "Zeige eine Zusammenfassung der Optionen"
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
 msgid "debug LEVEL"
-msgstr ""
+msgstr "Debug-Level"
 
 #: tools/ruledit/ruledit.cpp:161
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
+"Debug-Log-Level einstellen (eins von f,e,w,n,v,d, oder d:file1,min,max:...)"
 
 #: tools/ruledit/ruledit.cpp:167
 msgid "Set debug log level (one of f,e,w,n,v)"
-msgstr ""
+msgstr "Debug-Log-Stufe einstellen (eins von f,e,w,n,v)"
 
 #: tools/ruledit/ruledit.cpp:170
 msgid "Print the version number"
@@ -276,7 +273,7 @@ msgstr "Kann jeweils nur einen Regelsatz bearbeiten.\n"
 #: tools/ruledit/ruledit.cpp:200
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr ""
+msgstr "Ungültige Debug-Stufe \"%s\" mit der Option --debug angegeben.\n"
 
 #: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
 msgid "Try using --help.\n"
@@ -294,24 +291,22 @@ msgstr "Unbekannte Option: '%s'\n"
 
 #: tools/ruledit/ruledit_qt.cpp:126
 msgid "built in Qt6 mode."
-msgstr ""
+msgstr "gebaut im Qt6-Modus."
 
 #: tools/ruledit/ruledit_qt.cpp:128
 msgid "built in Qt5 mode."
-msgstr ""
+msgstr "gebaut im Qt5-Modus."
 
 #: tools/ruledit/ruledit_qt.cpp:135
-#, fuzzy, c-format
-#| msgid ""
-#| "%s%s\n"
-#| "commit: %s"
+#, c-format
 msgid ""
 "%s%s\n"
 "commit: %s\n"
 "%s"
 msgstr ""
 "%s%s\n"
-"freigeben: %s"
+"Freigabe: %s\n"
+"%s"
 
 #: tools/ruledit/ruledit_qt.cpp:150
 msgid "Give ruleset to use as starting point."
@@ -362,10 +357,8 @@ msgid "Multipliers"
 msgstr "Multiplikatoren"
 
 #: tools/ruledit/ruledit_qt.cpp:189
-#, fuzzy
-#| msgid "?stat:Multipliers"
 msgid "Counters"
-msgstr "?stat:Multiplikatoren"
+msgstr "Zähler"
 
 #: tools/ruledit/ruledit_qt.cpp:191
 msgid "Nations"
@@ -427,7 +420,7 @@ msgstr "Regelname"
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
 #: tools/ruledit/tab_unit.cpp:150 tools/ruledit/tab_unit.cpp:151
 msgid "None"
-msgstr ""
+msgstr "Kein(e)"
 
 #: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_counters.cpp:89
 #: tools/ruledit/tab_extras.cpp:73 tools/ruledit/tab_good.cpp:74
@@ -440,7 +433,7 @@ msgstr "Name"
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
 #: tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
-msgstr ""
+msgstr "Werte bearbeiten"
 
 #: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_counters.cpp:134
 #: tools/ruledit/tab_extras.cpp:88 tools/ruledit/tab_good.cpp:89
@@ -463,33 +456,27 @@ msgstr "Ein Gebäude mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_counters.cpp:100
 msgid "Default Value"
-msgstr ""
+msgstr "Standardwert"
 
 #: tools/ruledit/tab_counters.cpp:109
 msgid "Checkpoint"
-msgstr ""
+msgstr "Kontrollpunkt"
 
 #: tools/ruledit/tab_counters.cpp:121
 msgid "Behavior"
-msgstr ""
+msgstr "Verhalten"
 
 #: tools/ruledit/tab_counters.cpp:138
-#, fuzzy
-#| msgid "Add Multiplier"
 msgid "Add Counter"
-msgstr "Multiplikator hinzufügen"
+msgstr "Zähler hinzufügen"
 
 #: tools/ruledit/tab_counters.cpp:141
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Counter"
-msgstr "Entfernen Sie diese Technologie"
+msgstr "Diesen Zähler entfernen"
 
 #: tools/ruledit/tab_counters.cpp:274
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "A counter with that rule name already exists!"
-msgstr "Eine Technologie mit diesem Regelnamen existiert bereits!"
+msgstr "Ein Zähler mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_enablers.cpp:113
 msgid "Type"
@@ -540,22 +527,16 @@ msgid "action enabler for %s"
 msgstr "Aktionsermöglicher für %s"
 
 #: tools/ruledit/tab_extras.cpp:92
-#, fuzzy
-#| msgid "Extras"
 msgid "Add Extra"
-msgstr "Extras"
+msgstr "Extras hinzufügen"
 
 #: tools/ruledit/tab_extras.cpp:97
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Extra"
-msgstr "Entfernen Sie diese Technologie"
+msgstr "Entfernen Sie dieses Extra"
 
 #: tools/ruledit/tab_extras.cpp:183
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "An extra with that rule name already exists!"
-msgstr "Eine Technologie mit diesem Regelnamen existiert bereits!"
+msgstr "Ein Extra  mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
@@ -570,22 +551,16 @@ msgid "A good with that rule name already exists!"
 msgstr "Ein Gut mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_gov.cpp:92
-#, fuzzy
-#| msgid "Governments"
 msgid "Add Government"
-msgstr "Regierungen"
+msgstr "Regierung hinzufügen"
 
 #: tools/ruledit/tab_gov.cpp:97
-#, fuzzy
-#| msgid "Remove this Good"
 msgid "Remove this Government"
-msgstr "Ware entfernen"
+msgstr "Diese Regierung entfernen"
 
 #: tools/ruledit/tab_gov.cpp:183
-#, fuzzy
-#| msgid "A good with that rule name already exists!"
 msgid "A government with that rule name already exists!"
-msgstr "Eine Gut mit diesem Regelnamen existiert bereits!"
+msgstr "Eine Regierung mit diesem Namen existiert bereits!"
 
 #: tools/ruledit/tab_misc.cpp:74
 msgid "Ruleset name"
@@ -606,6 +581,10 @@ msgid ""
 "a subdirectory under %s%s%s\n"
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
+"Wenn Sie das Regelwerk direkt in freeciv laden wollen, legen Sie es als "
+"Unterverzeichnis unter %s%s%s ab\n"
+"Verwenden Sie den Server-Befehl \"/rulesetdir <Unterverzeichnis>\", um ihn "
+"in freeciv zu laden."
 
 #: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
@@ -617,15 +596,15 @@ msgstr "Jetzt speichern"
 
 #: tools/ruledit/tab_misc.cpp:124
 msgid "Description from file"
-msgstr ""
+msgstr "Beschreibung der Datei"
 
 #: tools/ruledit/tab_misc.cpp:131
 msgid "Description file"
-msgstr ""
+msgstr "Beschreibungsdatei"
 
 #: tools/ruledit/tab_misc.cpp:137
 msgid "Sanity check rules"
-msgstr ""
+msgstr "Regeln zur Überprüfung der Rechtmäßigkeit"
 
 #: tools/ruledit/tab_misc.cpp:141
 msgid "Always active Effects"
@@ -660,10 +639,8 @@ msgid "?stat:Unit Types"
 msgstr "?stat:Einheitentypen"
 
 #: tools/ruledit/tab_misc.cpp:175
-#, fuzzy
-#| msgid "Enablers"
 msgid "?stat:Enablers"
-msgstr "Ermöglicher"
+msgstr "?stat:Ermöglicher"
 
 #: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Buildings"
@@ -690,10 +667,8 @@ msgid "?stat:Disasters"
 msgstr "?stat:Katastrophen"
 
 #: tools/ruledit/tab_misc.cpp:203
-#, fuzzy
-#| msgid "?stat:Multipliers"
 msgid "?stat:Counters"
-msgstr "?stat:Multiplikatoren"
+msgstr "?stat:Zähler"
 
 #: tools/ruledit/tab_misc.cpp:207
 msgid "?stat:Achievements"
@@ -733,15 +708,15 @@ msgstr "Immer aktiv"
 
 #: tools/ruledit/tab_misc.cpp:471
 msgid "Sanity Check"
-msgstr ""
+msgstr "Rechtmäßigkeitsprüfung"
 
 #: tools/ruledit/tab_misc.cpp:478
 msgid "Sanity check failed!"
-msgstr ""
+msgstr "Rechtmäßigkeitsprüfung fehlgeschlagen!"
 
 #: tools/ruledit/tab_misc.cpp:480
 msgid "Sanity check success"
-msgstr ""
+msgstr "Rechtmäßigkeitsprüfung erfolgreich"
 
 #: tools/ruledit/tab_misc.cpp:489
 msgid "All effects"
@@ -796,22 +771,16 @@ msgid "A tech with that rule name already exists!"
 msgstr "Eine Technologie mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_terrains.cpp:95
-#, fuzzy
-#| msgid "Terrains"
 msgid "Add Terrain"
-msgstr "Gelände"
+msgstr "Gelände hinzufügen"
 
 #: tools/ruledit/tab_terrains.cpp:100
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Terrain"
-msgstr "Entfernen Sie diese Technologie"
+msgstr "Dieses Gelände entfernen"
 
 #: tools/ruledit/tab_terrains.cpp:186
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "A terrain with that rule name already exists!"
-msgstr "Eine Technologie mit diesem Regelnamen existiert bereits!"
+msgstr "Ein Gelände mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_unit.cpp:95
 msgid "Add Unit"
