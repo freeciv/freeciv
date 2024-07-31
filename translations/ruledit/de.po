@@ -26,7 +26,7 @@
 #   sind in erster Linie für Entwickler bestimmt, und die können in der
 #   Regel kein Deutsch. Soweit diesen Meldungen nicht bereits ein
 #   Entwicklerkommentar (TRANS:) migegeben wurde, findet sich dort ein
-#   Übersetzerkomentar (CK: TECHNICAL, EH: oder MG:).
+#   Übersetzerkommentar (CK: TECHNICAL, EH: oder MG:).
 #
 # - In Deutschland ist bekanntlicherweise alles genormt, so auch
 #   Staaten- und Staatsangehörigenbezeichnungen. Hierzulande übernimmt
@@ -44,7 +44,7 @@ msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2024-07-05 20:26+0300\n"
-"PO-Revision-Date: 2023-01-15 11:01+0100\n"
+"PO-Revision-Date: 2023-06-02 00:19+0200\n"
 "Last-Translator: Andreas Engel <ae3@mein-ramberg.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: de\n"
@@ -102,19 +102,17 @@ msgstr ""
 
 #: tools/ruledit/edit_extra.cpp:127 tools/ruledit/edit_terrain.cpp:103
 #, fuzzy
-#| msgid "Nations"
 msgid "Native to"
 msgstr "Nationen"
 
 #: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:92
 #, fuzzy
-#| msgid "Buildings"
 msgid "Build Cost"
-msgstr "Gebäude"
+msgstr "Baukosten"
 
 #: tools/ruledit/edit_impr.cpp:73
 msgid "Upkeep"
-msgstr ""
+msgstr "Unterhaltungskosten"
 
 #: tools/ruledit/edit_impr.cpp:83
 msgid "Genus"
@@ -142,7 +140,6 @@ msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:59
 #, fuzzy
-#| msgid "Requirements"
 msgid "Requirement"
 msgstr "Voraussetzungen"
 
@@ -201,16 +198,12 @@ msgid "Requirements"
 msgstr "Voraussetzungen"
 
 #: tools/ruledit/effect_edit.cpp:119
-#, fuzzy
-#| msgid "All Effects"
 msgid "Add Effect"
-msgstr "Alle Effekte"
+msgstr "Effekt hinzufügen"
 
 #: tools/ruledit/effect_edit.cpp:123
-#, fuzzy
-#| msgid "All Effects"
 msgid "Delete Effect"
-msgstr "Alle Effekte"
+msgstr "Effekt löschen"
 
 #: tools/ruledit/effect_edit.cpp:200
 #, c-format
@@ -329,7 +322,7 @@ msgstr "Fatal [SIGNAL]"
 
 #: tools/ruledit/ruledit.cpp:169
 msgid "Raise a signal on failed assertion"
-msgstr "Bei fehlgeschlagener Ausnahme ein Signal geben"
+msgstr "Bei fehlgeschlagener Zusicherung ein Signal geben"
 
 #: tools/ruledit/ruledit.cpp:183
 msgid "Can only edit one ruleset at a time.\n"
@@ -351,24 +344,22 @@ msgstr "Unbekannte Option: '%s'\n"
 
 #: tools/ruledit/ruledit_qt.cpp:126
 msgid "built in Qt6 mode."
-msgstr ""
+msgstr "gebaut im Qt6-Modus."
 
 #: tools/ruledit/ruledit_qt.cpp:128
 msgid "built in Qt5 mode."
-msgstr ""
+msgstr "gebaut im Qt5-Modus."
 
 #: tools/ruledit/ruledit_qt.cpp:135
-#, fuzzy, c-format
-#| msgid ""
-#| "%s%s\n"
-#| "commit: %s"
+#, c-format
 msgid ""
 "%s%s\n"
 "commit: %s\n"
 "%s"
 msgstr ""
 "%s%s\n"
-"freigeben: %s"
+"Freigabe: %s\n"
+"%s"
 
 #: tools/ruledit/ruledit_qt.cpp:150
 msgid "Give ruleset to use as starting point."
@@ -396,7 +387,6 @@ msgstr "Einheiten"
 
 #: tools/ruledit/ruledit_qt.cpp:177
 #, fuzzy
-#| msgid "?stat:Achievements"
 msgid "Achievements"
 msgstr "?stat:Erfolge"
 
@@ -484,7 +474,7 @@ msgstr "Regelname"
 #: tools/ruledit/tab_unit.cpp:69 tools/ruledit/tab_unit.cpp:79
 #: tools/ruledit/tab_unit.cpp:146 tools/ruledit/tab_unit.cpp:147
 msgid "None"
-msgstr ""
+msgstr "Kein(e)"
 
 #: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
@@ -503,19 +493,16 @@ msgstr "Efekte"
 
 #: tools/ruledit/tab_achievement.cpp:89
 #, fuzzy
-#| msgid "Governments"
 msgid "Add Achievement"
 msgstr "Regierungen"
 
 #: tools/ruledit/tab_achievement.cpp:94
 #, fuzzy
-#| msgid "Remove this Good"
 msgid "Remove this Achievement"
 msgstr "Ware entfernen"
 
 #: tools/ruledit/tab_achievement.cpp:179
 #, fuzzy
-#| msgid "A good with that rule name already exists!"
 msgid "An achievement with that rule name already exists!"
 msgstr "Eine Gut mit diesem Regelnamen existiert bereits!"
 
@@ -523,7 +510,7 @@ msgstr "Eine Gut mit diesem Regelnamen existiert bereits!"
 #: tools/ruledit/tab_gov.cpp:83 tools/ruledit/tab_tech.cpp:86
 #: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
-msgstr ""
+msgstr "Werte bearbeiten"
 
 #: tools/ruledit/tab_building.cpp:98
 msgid "Add Building"
@@ -547,7 +534,7 @@ msgstr "Anforderungen des Akteurs"
 
 #: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
-msgstr "Anforderungen des Ziel"
+msgstr "Zielanforderungen"
 
 #: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
@@ -586,22 +573,16 @@ msgid "action enabler for %s"
 msgstr "Aktionsermöglicher für %s"
 
 #: tools/ruledit/tab_extras.cpp:99
-#, fuzzy
-#| msgid "Extras"
 msgid "Add Extra"
-msgstr "Extras"
+msgstr "Extras hinzufügen"
 
 #: tools/ruledit/tab_extras.cpp:104
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Extra"
-msgstr "Entfernen Sie diese Technologie"
+msgstr "Entfernen Sie dieses Extra"
 
 #: tools/ruledit/tab_extras.cpp:188
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "An extra with that rule name already exists!"
-msgstr "Eine Technologie mit diesem Regelnamen existiert bereits!"
+msgstr "Ein Extra  mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
@@ -613,25 +594,19 @@ msgstr "Ware entfernen"
 
 #: tools/ruledit/tab_good.cpp:182
 msgid "A good with that rule name already exists!"
-msgstr "Eine Gut mit diesem Regelnamen existiert bereits!"
+msgstr "Ein Gut mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_gov.cpp:95
-#, fuzzy
-#| msgid "Governments"
 msgid "Add Government"
-msgstr "Regierungen"
+msgstr "Regierung hinzufügen"
 
 #: tools/ruledit/tab_gov.cpp:100
-#, fuzzy
-#| msgid "Remove this Good"
 msgid "Remove this Government"
-msgstr "Ware entfernen"
+msgstr "Diese Regierung entfernen"
 
 #: tools/ruledit/tab_gov.cpp:184
-#, fuzzy
-#| msgid "A good with that rule name already exists!"
 msgid "A government with that rule name already exists!"
-msgstr "Eine Gut mit diesem Regelnamen existiert bereits!"
+msgstr "Eine Regierung mit diesem Namen existiert bereits!"
 
 #: tools/ruledit/tab_misc.cpp:73
 msgid "Ruleset name"
@@ -652,6 +627,10 @@ msgid ""
 "a subdirectory under %s%s%s\n"
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
+"Wenn Sie das Regelwerk direkt in freeciv laden wollen, legen Sie es als "
+"Unterverzeichnis unter %s%s%s ab\n"
+"Verwenden Sie den Server-Befehl \"/rulesetdir <Unterverzeichnis>\", um ihn "
+"in freeciv zu laden."
 
 #: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
@@ -663,15 +642,15 @@ msgstr "Jetzt speichern"
 
 #: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
-msgstr ""
+msgstr "Beschreibung der Datei"
 
 #: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
-msgstr ""
+msgstr "Beschreibungsdatei"
 
 #: tools/ruledit/tab_misc.cpp:136
 msgid "Sanity check rules"
-msgstr ""
+msgstr "Regeln zur Überprüfung der Rechtmäßigkeit"
 
 #: tools/ruledit/tab_misc.cpp:140
 msgid "Always active Effects"
@@ -706,10 +685,8 @@ msgid "?stat:Unit Types"
 msgstr "?stat:Einheitentypen"
 
 #: tools/ruledit/tab_misc.cpp:174
-#, fuzzy
-#| msgid "Enablers"
 msgid "?stat:Enablers"
-msgstr "Ermöglicher"
+msgstr "?stat:Ermöglicher"
 
 #: tools/ruledit/tab_misc.cpp:178
 msgid "?stat:Buildings"
@@ -761,7 +738,6 @@ msgstr "?stat:Multiplikatoren"
 
 #: tools/ruledit/tab_misc.cpp:226
 #, fuzzy
-#| msgid "?stat:Techs"
 msgid "?stat:Effects"
 msgstr "?stat:Techs"
 
@@ -779,15 +755,15 @@ msgstr "Immer aktiv"
 
 #: tools/ruledit/tab_misc.cpp:479
 msgid "Sanity Check"
-msgstr ""
+msgstr "Rechtmäßigkeitsprüfung"
 
 #: tools/ruledit/tab_misc.cpp:486
 msgid "Sanity check failed!"
-msgstr ""
+msgstr "Rechtmäßigkeitsprüfung fehlgeschlagen!"
 
 #: tools/ruledit/tab_misc.cpp:488
 msgid "Sanity check success"
-msgstr ""
+msgstr "Rechtmäßigkeitsprüfung erfolgreich"
 
 #: tools/ruledit/tab_misc.cpp:497
 msgid "All effects"
@@ -842,22 +818,16 @@ msgid "A tech with that rule name already exists!"
 msgstr "Eine Technologie mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_terrains.cpp:95
-#, fuzzy
-#| msgid "Terrains"
 msgid "Add Terrain"
-msgstr "Gelände"
+msgstr "Gelände hinzufügen"
 
 #: tools/ruledit/tab_terrains.cpp:100
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Terrain"
-msgstr "Entfernen Sie diese Technologie"
+msgstr "Dieses Gelände entfernen"
 
 #: tools/ruledit/tab_terrains.cpp:184
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "A terrain with that rule name already exists!"
-msgstr "Eine Technologie mit diesem Regelnamen existiert bereits!"
+msgstr "Ein Gelände mit diesem Regelnamen existiert bereits!"
 
 #: tools/ruledit/tab_unit.cpp:93
 msgid "Add Unit"
@@ -877,12 +847,11 @@ msgstr "Reichweite:"
 
 #: tools/ruledit/req_edit.cpp:121 tools/ruledit/req_edit.cpp:311
 msgid "Allows"
-msgstr ""
+msgstr "Erlaubt"
 
 #: tools/ruledit/req_edit.cpp:122 tools/ruledit/req_edit.cpp:313
 #: tools/ruledit/req_edit.cpp:361
 #, fuzzy
-#| msgid "Requirements"
 msgid "Prevents"
 msgstr "Voraussetzungen"
 
@@ -897,7 +866,7 @@ msgstr "Anforderung löschen"
 #: tools/ruledit/req_edit.cpp:162
 #, c-format
 msgid "%s prevents"
-msgstr ""
+msgstr "%s verhindert"
 
 #: tools/ruledit/validity.c:50 tools/ruledit/validity.c:375
 msgid "Effect"
@@ -905,7 +874,6 @@ msgstr "Wirkung"
 
 #: tools/ruledit/validity.c:132
 #, fuzzy, c-format
-#| msgid "Action Enabler"
 msgid "%s action enabler"
 msgstr "Handlungsermöglicher"
 
@@ -917,7 +885,7 @@ msgstr "Musikstil"
 #: tools/ruledit/validity.c:167
 #, c-format
 msgid "%s clause"
-msgstr ""
+msgstr "%s Klausel"
 
 #: tools/ruledit/validity.c:306
 msgid "Conflicting extra"
@@ -926,6 +894,48 @@ msgstr "Widersprüchliches Extra"
 #: tools/ruledit/validity.c:309
 msgid "Hidden extra"
 msgstr "Verstecktes Extra"
+
+#~ msgid "Comment"
+#~ msgstr "Kommentar"
+
+#~ msgid "debug LEVEL"
+#~ msgstr "Debug-Level"
+
+#~ msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
+#~ msgstr ""
+#~ "Debug-Log-Level einstellen (eins von f,e,w,n,v,d, oder d:file1,min,"
+#~ "max:...)"
+
+#~ msgid "Set debug log level (one of f,e,w,n,v)"
+#~ msgstr "Debug-Log-Stufe einstellen (eins von f,e,w,n,v)"
+
+#, c-format
+#~ msgid "Invalid debug level \"%s\" specified with --debug option.\n"
+#~ msgstr "Ungültige Debug-Stufe \"%s\" mit der Option --debug angegeben.\n"
+
+#~ msgid "Counters"
+#~ msgstr "Zähler"
+
+#~ msgid "Default Value"
+#~ msgstr "Standardwert"
+
+#~ msgid "Checkpoint"
+#~ msgstr "Kontrollpunkt"
+
+#~ msgid "Behavior"
+#~ msgstr "Verhalten"
+
+#~ msgid "Add Counter"
+#~ msgstr "Zähler hinzufügen"
+
+#~ msgid "Remove this Counter"
+#~ msgstr "Diesen Zähler entfernen"
+
+#~ msgid "A counter with that rule name already exists!"
+#~ msgstr "Ein Zähler mit diesem Regelnamen existiert bereits!"
+
+#~ msgid "?stat:Counters"
+#~ msgstr "?stat:Zähler"
 
 #~ msgid "Edit Unit"
 #~ msgstr "Einheit bearbeiten"
