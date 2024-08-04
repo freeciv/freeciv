@@ -77,7 +77,7 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-ICUVER=74
+ICUVER=75
 else
 ICUVER=74
 endif
