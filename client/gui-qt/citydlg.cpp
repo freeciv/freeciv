@@ -3024,19 +3024,20 @@ void city_dialog::update_counters_table()
   qDeleteAll(counterss_frame->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
   city_counters_iterate(pcount) {
     QString helptext;
-    QString concatStr;
-    QLabel *name,*value,*activated,*help;
+    char buf[1024];
+    QLabel *name, *value, *activated, *help;
+
     name = new QLabel(name_translation_get(&pcount->name));
-    concatStr=QString::asprintf("%s%d", _("Current value is: "),
-      dlgcity->counter_values[counter_index(pcount)]);
-    value = new QLabel(concatStr);
-    concatStr=QString::asprintf("%s%d",_("Activated once value equal "
-                                         "or higher than: "),
-                                pcount->checkpoint);
-    activated =  new QLabel(concatStr);
-    if (NULL!=pcount->helptext) {
+    fc_snprintf(buf, sizeof(buf), _("Current value is: %d"),
+                dlgcity->counter_values[counter_index(pcount)]);
+    value = new QLabel(buf);
+    fc_snprintf(buf, sizeof(buf), _("Activated once value equal "
+                                    "or higher than: %d"),
+                pcount->checkpoint);
+    activated = new QLabel(buf);
+    if (pcount->helptext != nullptr) {
       strvec_iterate(pcount->helptext, text_) {
-        helptext+=text_;
+        helptext += text_;
       } strvec_iterate_end;
     }
     help = new QLabel(helptext);
