@@ -15,8 +15,8 @@ jobs:
         # A mapping from msys2/setup-msys2 version to msys2 version can be
         # found at
         # https://github.com/msys2/setup-msys2/blob/main/CHANGELOG.md
-        # 2.23.0 provides msys2 snapshot 20240507
-        uses: msys2/setup-msys2@v2.23.0
+        # 2.24.1 provides msys2 snapshot 20240727
+        uses: msys2/setup-msys2@v2.24.1
         with:
           msystem: UCRT64
           install: >
