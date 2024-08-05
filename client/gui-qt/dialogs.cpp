@@ -4971,7 +4971,7 @@ void qtg_request_action_confirmation(const char *expl,
 /**********************************************************************//**
   Popup image window
 **************************************************************************/
-void qtg_popup_image(const char *tag, int width_discard, int height_discard)
+void qtg_popup_image(const char *tag)
 {
   struct sprite *spr = load_popup_sprite(tag);
 

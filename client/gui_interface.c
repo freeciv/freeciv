@@ -770,7 +770,7 @@ void endgame_report_dialog_player(const struct packet_endgame_player *packet)
 /**********************************************************************//**
   Call popup_image callback
 **************************************************************************/
-void popup_image(const char *tag, int width, int height)
+void popup_image(const char *tag)
 {
-  funcs.popup_image(tag, width, height);
+  funcs.popup_image(tag);
 }

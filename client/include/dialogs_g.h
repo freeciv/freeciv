@@ -94,6 +94,6 @@ GUI_FUNC_PROTO(void, request_action_confirmation, const char *expl,
 
 GUI_FUNC_PROTO(void, update_infra_dialog, void)
 
-GUI_FUNC_PROTO(void, popup_image, const char *tag, int width, int height)
+GUI_FUNC_PROTO(void, popup_image, const char *tag)
 
 #endif /* FC__DIALOGS_G_H */

@@ -166,6 +166,6 @@ void qtg_real_units_report_dialog_update(void *unused);
 void qtg_endgame_report_dialog_start(const struct packet_endgame_report *packet);
 void qtg_endgame_report_dialog_player(const struct packet_endgame_player *packet);
 
-void qtg_popup_image(const char *tag, int width, int height);
+void qtg_popup_image(const char *tag);
 
 #endif // FC__QTG_CXXSIDE_H

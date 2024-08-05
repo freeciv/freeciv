@@ -1674,7 +1674,7 @@ void request_action_confirmation(const char *expl,
 /**********************************************************************//**
   Popup image window
 **************************************************************************/
-void popup_image(const char *tag, int width_discard, int height_discard)
+void popup_image(const char *tag)
 {
   struct sprite *spr = load_popup_sprite(tag);
 

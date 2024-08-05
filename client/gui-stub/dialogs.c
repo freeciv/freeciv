@@ -377,6 +377,6 @@ void gui_request_action_confirmation(const char *expl,
 /**********************************************************************//**
   Popup image window
 **************************************************************************/
-void gui_popup_image(const char *tag, int width, int height)
+void gui_popup_image(const char *tag)
 {
 }
