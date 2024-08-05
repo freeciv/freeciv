@@ -1131,9 +1131,9 @@ static bool scan_score_log(char *id)
 
   /* Must be big enough to contain any string there might be in "addplayer" line
    * to read.
-   * Could have even strlen("addplayer 0 0 "), but maintenance not worth
+   * Could have even sizeof("addplayer 0 0 ") - 1, but maintenance not worth
    * saving couple of bytes. */
-  char plr_name[MAX(MAX_LEN_NAME, MAX_SCORELOG_LINE_LEN - strlen("addplayer "))];
+  char plr_name[MAX(MAX_LEN_NAME, MAX_SCORELOG_LINE_LEN - (sizeof("addplayer ") - 1)) + 1];
 
   fc_assert_ret_val(score_log != NULL, FALSE);
   fc_assert_ret_val(score_log->fp != NULL, FALSE);
