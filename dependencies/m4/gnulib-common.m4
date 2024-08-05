@@ -1,5 +1,5 @@
 # gnulib-common.m4
-# serial 99
+# serial 100
 dnl Copyright (C) 2007-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -146,6 +146,8 @@ AC_DEFUN([gl_COMMON_BODY], [
       This gives a syntax error
         - in C mode with gcc, and
         - in C++ mode with clang++ version < 16.
+        - in C++ mode, inside extern "C" {}, still in newer clang++ versions
+          <https://github.com/llvm/llvm-project/issues/101990>.
  */
 /* Define if, in a function declaration, the attributes in bracket syntax
    [[...]] must come before the attributes in __attribute__((...)) syntax.
@@ -153,7 +155,7 @@ AC_DEFUN([gl_COMMON_BODY], [
    various _GL_ATTRIBUTE_* can be cumulated on the same declaration in any
    order.  */
 #ifdef __cplusplus
-# if defined __clang__ && __clang_major__ < 16
+# if defined __clang__
 #  define _GL_BRACKET_BEFORE_ATTRIBUTE 1
 # endif
 #else
