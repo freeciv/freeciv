@@ -165,7 +165,7 @@ struct gui_funcs {
   void (*request_action_confirmation)(const char *expl,
                                       struct act_confirmation_data *data);
 
-  void (*popup_image)(const char *tag, int width, int height);
+  void (*popup_image)(const char *tag);
 };
 
 struct gui_funcs *get_gui_funcs(void);

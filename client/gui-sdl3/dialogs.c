@@ -3750,7 +3750,7 @@ static int exit_image_popup_callback(struct widget *pwidget)
 /**********************************************************************//**
   Popup image window
 **************************************************************************/
-void popup_image(const char *tag, int width_discard, int height_discard)
+void popup_image(const char *tag)
 {
   if (advanced_image_popup == NULL) {
     struct sprite *spr = load_popup_sprite(tag);

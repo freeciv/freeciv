@@ -713,7 +713,7 @@ void request_action_confirmation(const char *expl,
 /**********************************************************************//**
   Call popup_image callback
 **************************************************************************/
-void popup_image(const char *tag, int width, int height)
+void popup_image(const char *tag)
 {
-  funcs.popup_image(tag, width, height);
+  funcs.popup_image(tag);
 }

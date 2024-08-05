@@ -5533,7 +5533,7 @@ void handle_play_music(const char *tag)
 ****************************************************************************/
 void handle_popup_image(const char *tag)
 {
-  popup_image(tag, 500, 500);
+  popup_image(tag);
 }
 
 /************************************************************************//**
