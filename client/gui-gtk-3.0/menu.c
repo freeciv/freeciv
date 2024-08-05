@@ -2796,7 +2796,7 @@ static void menu_unit_goto_and_add_accel(GtkWidget *item, action_id act_id,
   const char *path = gtk_menu_item_get_accel_path(GTK_MENU_ITEM(item));
 
   if (path == NULL) {
-    char buf[MAX_LEN_NAME + strlen("<MENU>/GOTO_AND/")];
+    char buf[MAX_LEN_NAME + sizeof("<MENU>/GOTO_AND/")];
 
     fc_snprintf(buf, sizeof(buf), "<MENU>/GOTO_AND/%s",
                 action_id_rule_name(act_id));

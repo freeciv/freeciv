@@ -3768,7 +3768,7 @@ static void tileset_setup_road(struct tileset *t,
                                struct extra_type *pextra,
                                const char *tag)
 {
-  char full_tag_name[MAX_LEN_NAME + strlen("_isolated")];
+  char full_tag_name[MAX_LEN_NAME + sizeof("_isolated")];
   const int id = extra_index(pextra);
   int i;
   enum extrastyle_id extrastyle = t->sprites.extras[id].extrastyle;
@@ -3876,7 +3876,7 @@ static void tileset_setup_base(struct tileset *t,
                                const struct extra_type *pextra,
                                const char *tag)
 {
-  char full_tag_name[MAX_LEN_NAME + strlen("_fg")];
+  char full_tag_name[MAX_LEN_NAME + sizeof("_fg")];
   const int id = extra_index(pextra);
 
   fc_assert_ret(id >= 0 && id < extra_count());
