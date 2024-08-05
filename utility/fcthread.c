@@ -68,7 +68,7 @@ int fc_thread_start(fc_thread *thread, void (*function) (void *arg),
 ***********************************************************************/
 void fc_thread_wait(fc_thread *thread)
 {
-  int *return_value = NULL;
+  int *return_value = nullptr;
 
   thrd_join(*thread, return_value);
 }
@@ -156,7 +156,7 @@ static void *fc_thread_wrapper(void *arg)
 
   free(data);
 
-  return NULL;
+  return nullptr;
 }
 
 /*******************************************************************//**
@@ -191,7 +191,7 @@ int fc_thread_start(fc_thread *thread, void (*function) (void *arg),
 ***********************************************************************/
 void fc_thread_wait(fc_thread *thread)
 {
-  void **return_value = NULL;
+  void **return_value = nullptr;
 
   pthread_join(*thread, return_value);
 }
@@ -240,7 +240,7 @@ void fc_mutex_release(fc_mutex *mutex)
 ***********************************************************************/
 void fc_thread_cond_init(fc_thread_cond *cond)
 {
-  pthread_cond_init(cond, NULL);
+  pthread_cond_init(cond, nullptr);
 }
 
 /*******************************************************************//**
@@ -300,9 +300,9 @@ int fc_thread_start(fc_thread *thread, void (*function) (void *arg), void *arg)
   data->arg = arg;
   data->func = function;
 
-  *thread = CreateThread(NULL, 0, &fc_thread_wrapper, data, 0, NULL);
+  *thread = CreateThread(nullptr, 0, &fc_thread_wrapper, data, 0, nullptr);
 
-  if (*thread == NULL) {
+  if (*thread == nullptr) {
     return 1;
   }
 
@@ -331,7 +331,7 @@ void fc_thread_wait(fc_thread *thread)
 ***********************************************************************/
 void fc_mutex_init(fc_mutex *mutex)
 {
-  *mutex = CreateMutex(NULL, FALSE, NULL);
+  *mutex = CreateMutex(nullptr, FALSE, nullptr);
 }
 
 /*******************************************************************//**
