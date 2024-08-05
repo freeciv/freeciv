@@ -25,13 +25,6 @@ LIBGCCDLL=libgcc_s_seh-1.dll
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0603
 
-else ifeq ($(MSYSTEM),MINGW32)
-WINARCH=win32
-ARCHDIR=mingw32
-LIBGCCDLL=libgcc_s_dw2-1.dll
-CRYPTOLIB_SUFFIX=
-PREF_WIN_VER=0x0603
-
 else ifeq ($(MSYSTEM),UCRT64)
 WINARCH=win64-10
 ARCHDIR=ucrt64
@@ -44,13 +37,6 @@ WINARCH=win64+
 ARCHDIR=clang64
 LIBGCCDLL=
 CRYPTOLIB_SUFFIX=-x64
-PREF_WIN_VER=0x0A00
-
-else ifeq ($(MSYSTEM),CLANG32)
-WINARCH=win32+
-ARCHDIR=clang32
-LIBGCCDLL=
-CRYPTOLIB_SUFFIX=
 PREF_WIN_VER=0x0A00
 
 else
@@ -84,13 +70,9 @@ all: all-$(WINARCH)
 
 all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
 
-all-win32: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
-
 all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6
 
 all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6
-
-all-win32+: gtk3.22-install sdl2-install gtk4-install qt5-install ruledit-install-qt5
 
 snapshot:
 	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh
