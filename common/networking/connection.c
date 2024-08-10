@@ -372,7 +372,7 @@ void conn_list_do_unbuffer(struct conn_list *dest)
 
 /**********************************************************************//**
   Find connection by exact user name, from game.all_connections,
-  case-insensitve.  Returns NULL if not found.
+  case-insensitive.  Returns NULL if not found.
 **************************************************************************/
 struct connection *conn_by_user(const char *user_name)
 {
