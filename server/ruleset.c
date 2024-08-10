@@ -7966,7 +7966,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
         if (info->enabled) {
           ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" dublicate clause type \"%s\" definition.",
+                        "\"%s\" duplicate clause type \"%s\" definition.",
                         filename, clause_name);
           ok = FALSE;
           break;
