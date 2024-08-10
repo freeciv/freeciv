@@ -23,8 +23,6 @@ libdefaultai_la_SOURCES = \
 		aiguard.h	\
 		aihand.c	\
 		aihand.h	\
-		aiparatrooper.c \
-		aiparatrooper.h \
 		daiair.c	\
 		daiair.h	\
 		daiactions.c	\
@@ -45,6 +43,8 @@ libdefaultai_la_SOURCES = \
 		dailog.h	\
 		daimilitary.c	\
 		daimilitary.h	\
+		daiparadrop.c	\
+		daiparadrop.h	\
 		daiplayer.c	\
 		daiplayer.h	\
 		daisettler.c	\

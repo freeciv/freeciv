@@ -70,7 +70,6 @@
 #include "aiferry.h"
 #include "aiguard.h"
 #include "aihand.h"
-#include "aiparatrooper.h"
 #include "daiair.h"
 #include "daicity.h"
 #include "daidata.h"
@@ -78,6 +77,7 @@
 #include "daihunter.h"
 #include "dailog.h"
 #include "daimilitary.h"
+#include "daiparadrop.h"
 #include "daiplayer.h"
 #include "daitools.h"
 

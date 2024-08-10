@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIPARATROOPER_H
-#define FC__AIPARATROOPER_H
+#ifndef FC__DAIPARADROP_H
+#define FC__DAIPARADROP_H
 
 struct adv_choice;
 struct city;
@@ -24,4 +24,4 @@ void dai_choose_paratrooper(struct ai_type *ait, struct player *pplayer,
                             struct city *pcity, struct adv_choice *choice,
                             bool allow_gold_upkeep);
 
-#endif /* FC__AIPARATROOPER_H */
+#endif /* FC__DAIPARADROP_H */

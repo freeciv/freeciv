@@ -50,7 +50,7 @@
 #include "daitools.h"
 #include "daiunit.h"
 
-#include "aiparatrooper.h"
+#include "daiparadrop.h"
 
 
 #define LOGLEVEL_PARATROOPER LOG_DEBUG
