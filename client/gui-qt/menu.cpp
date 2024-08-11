@@ -2524,7 +2524,7 @@ void mr_menu::menus_sensitive()
         i.value()->setText(
           QString(action_id_name_translation(ACTION_HELP_WONDER))
           .replace("&", "&&"));
-        if (can_units_do(punits, unit_can_help_build_wonder_here)) {
+        if (can_units_do_on_map(&(wld.map), punits, unit_can_help_build_wonder_here)) {
           i.value()->setEnabled(true);
         }
         break;

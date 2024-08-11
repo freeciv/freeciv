@@ -1098,7 +1098,7 @@ void real_menus_update(void)
         set_wflag(order_build_add_to_city_button, WF_HIDDEN);
       }
 
-      if (unit_can_help_build_wonder_here(punit)) {
+      if (unit_can_help_build_wonder_here(&(wld.map), punit)) {
         local_show(ID_UNIT_ORDER_BUILD_WONDER);
       } else {
         local_hide(ID_UNIT_ORDER_BUILD_WONDER);
