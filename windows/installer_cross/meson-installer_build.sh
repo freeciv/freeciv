@@ -247,7 +247,7 @@ else
     sdl2)
       # For gtk4 modpack installer
       if ! add_gtk4_env "$DLLSPATH" "$INSTDIR" ; then
-        echo "Copying gtk3 environment failed!" >&2
+        echo "Copying gtk4 environment failed!" >&2
         exit 1
       fi
       if ! add_sdl2_env "$DLLSPATH" "$INSTDIR" ; then
