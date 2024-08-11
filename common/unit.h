@@ -309,7 +309,8 @@ bool are_unit_orders_equal(const struct unit_order *order1,
 int unit_shield_value(const struct unit *punit,
                       const struct unit_type *punittype,
                       const struct action *paction);
-bool unit_can_help_build_wonder_here(const struct unit *punit);
+bool unit_can_help_build_wonder_here(const struct civ_map *nmap,
+                                     const struct unit *punit);
 bool unit_can_est_trade_route_here(const struct unit *punit);
 enum unit_airlift_result
     test_unit_can_airlift_to(const struct civ_map *nmap,

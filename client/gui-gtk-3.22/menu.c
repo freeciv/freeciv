@@ -2564,7 +2564,7 @@ void real_menus_update(void)
    * get an eventual error message from the server if we try. */
   menu_entry_set_sensitive("BUILD_CITY",
             (can_units_do(punits, unit_can_add_or_build_city)
-             || can_units_do(punits, unit_can_help_build_wonder_here)));
+             || can_units_do_on_map(&(wld.map), punits, unit_can_help_build_wonder_here)));
   menu_entry_set_sensitive("BUILD_ROAD",
                            (can_units_do_any_road(&(wld.map), punits)
                             || can_units_do(punits,
