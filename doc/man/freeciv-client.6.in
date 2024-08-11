@@ -11,10 +11,10 @@
 .\"
 .TH FREECIV 6 "June 28th 2023"
 .SH NAME
-freeciv-gtk3.22, freeciv-gtk4, freeciv-sdl2, freeciv-qt \
+freeciv-gtk3.22, freeciv-gtk4, freeciv-sdl2, freeciv-sdl3, freeciv-qt \
 \- The clients for the Freeciv game
 .SH SYNOPSIS
-.B freeciv-gtk3.22|freeciv-gtk4|freeciv-sdl2|freeciv-qt \
+.B freeciv-gtk3.22|freeciv-gtk4|freeciv-sdl2|freeciv-sdl3|freeciv-qt \
 [ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel\fP ] \
@@ -58,6 +58,13 @@ accepts the following parameters following \fB\-\-\fP:
 [ \-s|\-\-swrenderer ] \
 [ \-t|\-\-theme \fIstring\fP ]
 
+.B freeciv-sdl3
+accepts the following parameters following \fB\-\-\fP:
+.B [ \-f|\-\-fullscreen ] \
+[ \-F|\-\-Font \fsize\fP ] \
+[ \-h|\-\-help ] \
+[ \-t|\-\-theme \fIstring\fP ]
+
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
 becomes the leader of a civilization, fighting to obtain the ultimate goal:
@@ -71,13 +78,13 @@ easily one of the most fun and addictive network games out there!
 
 This is the client program used to connect to a Freeciv server - see also
 .IR freeciv-server (6)
-\&. \fBfreeciv-gtk3.22\fP, \fBfreeciv-gtk4\fP, \fBfreeciv-qt\fP, and
-\fBfreeciv-sdl2\fP
+\&. \fBfreeciv-gtk3.22\fP, \fBfreeciv-gtk4\fP, \fBfreeciv-qt\fP,
+\fBfreeciv-sdl2\fP, and \fBfreeciv-sdl3\fP
 can also spawn their own local server for single-player games.
 
 This manual page only lists the command line arguments. For more details
 about using \fBfreeciv-gtk3.22\fP, \fBfreeciv-gtk4\fP,
-\fBfreeciv-sdl2\fP, or \fBfreeciv-qt\fP,
+\fBfreeciv-sdl2\fP, \fBfreeciv-sdl3\fP, or \fBfreeciv-qt\fP,
 see the Client Manual which can be found at
 .UR @HOMEPAGE_URL@
 the Freeciv website
@@ -207,7 +214,7 @@ parameters.
 .TP
 .BI "\-\- \-f, \-\- \-\-fullscreen"
 Starts the client in full screen mode.  Only implemented in the
-\fBfreeciv-sdl2\fP client.
+\fBfreeciv-sdl2\fP and \fBfreeciv-sdl3\fP clients.
 .TP
 .BI "\-\- \-h, \-\- \-\-help"
 Print the client-specific parameter help.
@@ -218,15 +225,15 @@ Behave as if screen resolution were WIDTHxHEIGHT. Only implemented in the
 .TP
 .BI "\-\- \-t \fItheme\fP, \-\- \-\-theme \fItheme\fP"
 Use a particular GUI theme. Only implemented in the
-\fBfreeciv-sdl2\fP client.
+\fBfreeciv-sdl2\fP and \fBfreeciv-sdl3\fP clients.
 .SH "EXAMPLES"
 .TP
 .B "freeciv-gtk3.22 \-\-name ""King Richard"" \-\-server io.daimi.aau.dk"
 Starts the GTK3.22 client using the name \fIKing Richard\fP and connecting
 to the server at \fIio.daimi.aau.dk\fP.
 .TP
-.B freeciv-sdl2 \-a \-t trident
-Starts the SDL2-client with the \fItrident\fP tiles and autoconnects to
+.B freeciv-sdl3 \-a \-t trident
+Starts the SDL3-client with the \fItrident\fP tiles and autoconnects to
 \fIlocalhost\fP.
 .SH FILES
 .TP

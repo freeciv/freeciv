@@ -1036,6 +1036,7 @@ man_links = [
   'freeciv-gtk3.22',
   'freeciv-gtk4',
   'freeciv-sdl2',
+  'freeciv-sdl3',
   'freeciv-qt',
   'freeciv-mp-gtk3',
   'freeciv-mp-gtk4',
