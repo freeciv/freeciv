@@ -2665,50 +2665,50 @@ static int fair_team_placement_vertical(const void *a, const void *b)
 }
 
 /**********************************************************************//**
-  Symetry matrix.
+  Symmetry matrix.
 **************************************************************************/
-static void fair_do_symetry1(int *x, int *y)
+static void fair_do_symmetry1(int *x, int *y)
 {
   *x = -*x;
 }
 
 /**********************************************************************//**
-  Symetry matrix.
+  Symmetry matrix.
 **************************************************************************/
-static void fair_do_symetry2(int *x, int *y)
+static void fair_do_symmetry2(int *x, int *y)
 {
   *y = -*y;
 }
 
 /**********************************************************************//**
-  Symetry matrix for hexagonal topologies.
+  Symmetry matrix for hexagonal topologies.
 **************************************************************************/
-static void fair_do_hex_symetry1(int *x, int *y)
+static void fair_do_hex_symmetry1(int *x, int *y)
 {
   *x = -(*x + *y);
 }
 
 /**********************************************************************//**
-  Symetry matrix for hexagonal topologies.
+  Symmetry matrix for hexagonal topologies.
 **************************************************************************/
-static void fair_do_hex_symetry2(int *x, int *y)
+static void fair_do_hex_symmetry2(int *x, int *y)
 {
   *x = -*x;
   *y = -*y;
 }
 
 /**********************************************************************//**
-  Symetry matrix for hexgonal-isometric topology.
+  Symmetry matrix for hexgonal-isometric topology.
 **************************************************************************/
-static void fair_do_iso_hex_symetry1(int *x, int *y)
+static void fair_do_iso_hex_symmetry1(int *x, int *y)
 {
   *y = *x - *y;
 }
 
-#define fair_do_iso_hex_symetry2 fair_do_rotation
+#define fair_do_iso_hex_symmetry2 fair_do_rotation
 
 /**********************************************************************//**
-  Rotation matrix, also symetry matrix for hexagonal-isometric topology.
+  Rotation matrix, also symmetry matrix for hexagonal-isometric topology.
 **************************************************************************/
 static void fair_do_rotation(int *x, int *y)
 {
@@ -2762,10 +2762,10 @@ static void fair_geometry_rand(struct fair_geometry_data *data)
 
   if (!current_topo_has_flag(TF_HEX)) {
     if (fc_rand(100) < 50) {
-      data->transform[i++] = fair_do_symetry1;
+      data->transform[i++] = fair_do_symmetry1;
     }
     if (fc_rand(100) < 50) {
-      data->transform[i++] = fair_do_symetry2;
+      data->transform[i++] = fair_do_symmetry2;
     }
     if (fc_rand(100) < 50) {
       data->transform[i++] = fair_do_rotation;
@@ -2774,10 +2774,10 @@ static void fair_geometry_rand(struct fair_geometry_data *data)
     int steps;
 
     if (fc_rand(100) < 50) {
-      data->transform[i++] = fair_do_hex_symetry1;
+      data->transform[i++] = fair_do_hex_symmetry1;
     }
     if (fc_rand(100) < 50) {
-      data->transform[i++] = fair_do_hex_symetry2;
+      data->transform[i++] = fair_do_hex_symmetry2;
     }
     /* Rotations have 2 steps on hexgonal topologies. */
     for (steps = fc_rand(99) % 3; steps > 0; steps--) {
@@ -2787,10 +2787,10 @@ static void fair_geometry_rand(struct fair_geometry_data *data)
     int steps;
 
     if (fc_rand(100) < 50) {
-      data->transform[i++] = fair_do_iso_hex_symetry1;
+      data->transform[i++] = fair_do_iso_hex_symmetry1;
     }
     if (fc_rand(100) < 50) {
-      data->transform[i++] = fair_do_iso_hex_symetry2;
+      data->transform[i++] = fair_do_iso_hex_symmetry2;
     }
     /* Rotations have 2 steps on hexgonal topologies. */
     for (steps = fc_rand(99) % 3; steps > 0; steps--) {
