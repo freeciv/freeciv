@@ -351,7 +351,11 @@ static int dai_goldequiv_clause(struct ai_type *ait,
         }
 
         if (pplayer->server.bulbs_last_turn < limit) {
-          worth /= 2;
+          if (research->bulbs_researched < 0) {
+            worth = -BIG_NUMBER;
+          } else {
+            worth /= 2;
+          }
         }
       }
     }
