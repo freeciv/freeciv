@@ -1269,6 +1269,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
                        "ruledit.description_file");
   }
 
+  if (game.server.ruledit.std_tileset_compat) {
+    comment_std_tileset_compat(sfile);
+    secfile_insert_bool(sfile, game.server.ruledit.std_tileset_compat,
+                        "ruledit.std_tileset_compat");
+  }
+
   if (game.control.preferred_tileset[0] != '\0') {
     secfile_insert_str(sfile, game.control.preferred_tileset,
                        "tileset.preferred");

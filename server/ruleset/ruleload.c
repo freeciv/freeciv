@@ -6573,6 +6573,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   if (name != NULL) {
     game.server.ruledit.description_file = fc_strdup(name);
   }
+  game.server.ruledit.std_tileset_compat
+    = secfile_lookup_bool_default(file, FALSE, "ruledit.std_tileset_compat");
 
   /* Section: tileset */
   pref_text = secfile_lookup_str_default(file, "", "tileset.preferred");
