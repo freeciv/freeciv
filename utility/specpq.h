@@ -132,7 +132,7 @@ SPECPQ_FOO(_pq_destroy_full)(SPECPQ_PQ *_pq,
   SPECPQ_PQ_ *pq = (SPECPQ_PQ_ *) _pq;
   int i;
 
-  if (data_free != NULL) {
+  if (data_free != nullptr) {
     for (i = 1; i < pq->size; i++) {
       data_free(pq->cells[i].data);
     }
@@ -202,7 +202,7 @@ static inline void SPECPQ_FOO(_pq_replace)(SPECPQ_PQ *_pq,
 
 /************************************************************************//**
   Remove the highest-ranking item from the queue and store it in 'pdata'.
-  'pdata' may be NULL. Return FALSE iff no item could be removed, because
+  'pdata' may be nullptr. Return FALSE iff no item could be removed, because
   the queue was empty.
 ****************************************************************************/
 static inline bool SPECPQ_FOO(_pq_remove)(SPECPQ_PQ *_pq,
