@@ -66,7 +66,7 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 ifeq ($(CI),yes)
 ICUVER=75
 else
-ICUVER=74
+ICUVER=75
 endif
 
 #
@@ -270,6 +270,7 @@ COMMON_DLLS := \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
+	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
@@ -468,6 +469,7 @@ RULEDIT_QT5_DLLS := \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
+	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
@@ -526,6 +528,7 @@ RULEDIT_QT6_DLLS := \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
+	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
