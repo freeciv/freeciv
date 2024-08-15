@@ -2010,7 +2010,7 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",    1,             "Local", TRUE
+      "MinVeteran",   "1",            "Local", TRUE
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
@@ -2028,7 +2028,7 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",    1,             "Local", TRUE
+      "MinVeteran",   "1",            "Local", TRUE
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
@@ -2045,7 +2045,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers",  "Local", TRUE
       "MinMoveFrags",  "6",             "Local", TRUE
       "UnitState",     "Transporting",  "Local", FALSE
-      "MinVeteran",     1,              "Local", TRUE
+      "MinVeteran",    "1",             "Local", TRUE
       "ExtraFlag",     "ParadropFrom",  "Local", TRUE
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
@@ -2065,7 +2065,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers",  "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",             "Local", TRUE,      FALSE
       "UnitState",     "Transporting",  "Local", FALSE,     FALSE
-      "MinVeteran",     1,              "Local", TRUE,      FALSE
+      "MinVeteran",    "1",             "Local", TRUE,      FALSE
       "ExtraFlag",     "ParadropFrom",  "Local", TRUE,      FALSE
       "DiplRel",       "War",           "Local", TRUE,      FALSE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE,      FALSE
@@ -2085,7 +2085,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
-      "MinVeteran",     1,             "Local", TRUE
+      "MinVeteran",    "1",            "Local", TRUE
       "ExtraFlag",     "ParadropFrom", "Local", TRUE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE
       "Building",      "Treuga Dei",   "World", FALSE
@@ -2104,7 +2104,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",     1,             "Local", TRUE,      FALSE
+      "MinVeteran",    "1",            "Local", TRUE,      FALSE
       "ExtraFlag",     "ParadropFrom", "Local", TRUE,      FALSE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
       "Tech",          "Communism",    "World", TRUE,      TRUE
@@ -2236,7 +2236,7 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",   1,              "Local", TRUE
+      "MinVeteran",   "1",            "Local", TRUE
       "CityTile",     "Center",       "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
@@ -2254,7 +2254,7 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",   1,              "Local", TRUE
+      "MinVeteran",   "1",            "Local", TRUE
       "CityTile",     "Center",       "Local", TRUE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
@@ -2271,7 +2271,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
-      "MinVeteran",    1,              "Local", TRUE
+      "MinVeteran",    "1",            "Local", TRUE
       "CityTile",      "Center",       "Local", TRUE
       "DiplRel",       "War",          "Local", TRUE
       "UnitClassFlag", "CanOccupyCity","Local", TRUE
@@ -2291,7 +2291,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",    1,              "Local", TRUE,      FALSE
+      "MinVeteran",    "1",            "Local", TRUE,      FALSE
       "CityTile",      "Center",       "Local", TRUE,      FALSE
       "DiplRel",       "War",          "Local", TRUE,      FALSE
       "UnitClassFlag", "CanOccupyCity","Local", TRUE,      FALSE
@@ -2311,7 +2311,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
-      "MinVeteran",    1,              "Local", TRUE
+      "MinVeteran",    "1",            "Local", TRUE
       "CityTile",      "Center",       "Local", TRUE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE
       "Building",      "Treuga Dei",   "World", FALSE
@@ -2330,7 +2330,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",    1,              "Local", TRUE,      FALSE
+      "MinVeteran",    "1",            "Local", TRUE,      FALSE
       "CityTile",      "Center",       "Local", TRUE,      FALSE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
       "Tech",          "Communism",    "World", TRUE,      TRUE
