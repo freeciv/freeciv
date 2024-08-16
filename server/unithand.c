@@ -4132,6 +4132,10 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   }
 
   unit_get_goods(punit);
+
+  if (old_owner != new_owner) {
+    script_server_signal_emit("unit_transferred", punit, old_owner);
+  }
 }
 
 /**********************************************************************//**
