@@ -42,15 +42,15 @@
 /**********************************************************************//**
   Fill a packet_chat_msg structure.
 
-  packet: A pointer to the packet.
-  ptile: A pointer to a tile the event is occuring.
-  event: The event type.
-  pconn: The sender of the event (e.g. when event is E_CHAT_MSG).
-  color: The requested color or ftc_any if not requested.  Some colors are
-    predefined in common/featured_text.h.  You can pass a custom one using
+  @param packet A pointer to the packet.
+  @param ptile  A pointer to a tile the event is occurring.
+  @param event  The event type.
+  @param pconn  The sender of the event (e.g. when event is E_CHAT_MSG).
+  @param color  The requested color or ftc_any if not requested. Some colors are
+    predefined in common/featured_text.h. You can pass a custom one using
     ft_color().
-  format: The format of the message.
-  vargs: The extra arguments to build the message.
+  @param format The format of the message.
+  @param vargs  The extra arguments to build the message.
 **************************************************************************/
 static void package_event_full(struct packet_chat_msg *packet,
                                const struct tile *ptile,
@@ -93,13 +93,13 @@ static void package_event_full(struct packet_chat_msg *packet,
 /**********************************************************************//**
   Fill a packet_chat_msg structure for a chat message.
 
-  packet: A pointer to the packet.
-  sender: The sender of the message.
-  color: The requested color or ftc_any if not requested.  Some colors are
-    predefined in common/featured_text.h.  You can pass a custom one using
+  @param packet A pointer to the packet.
+  @param sender The sender of the message.
+  @param color  The requested color or ftc_any if not requested. Some colors are
+    predefined in common/featured_text.h. You can pass a custom one using
     ft_color().
-  format: The format of the message.
-  vargs: The extra arguments to build the message.
+  @param format The format of the message.
+  @param vargs  The extra arguments to build the message.
 **************************************************************************/
 void vpackage_chat_msg(struct packet_chat_msg *packet,
                        const struct connection *sender,
@@ -112,13 +112,13 @@ void vpackage_chat_msg(struct packet_chat_msg *packet,
 /**********************************************************************//**
   Fill a packet_chat_msg structure for a chat message.
 
-  packet: A pointer to the packet.
-  sender: The sender of the message.
-  color: The requested color or ftc_any if not requested.  Some colors are
-    predefined in common/featured_text.h.  You can pass a custom one using
+  @param packet A pointer to the packet.
+  @param sender The sender of the message.
+  @param color  The requested color or ftc_any if not requested. Some colors are
+    predefined in common/featured_text.h. You can pass a custom one using
     ft_color().
-  format: The format of the message.
-  ...: The extra arguments to build the message.
+  @param format The format of the message.
+  @param ...    The extra arguments to build the message.
 **************************************************************************/
 void package_chat_msg(struct packet_chat_msg *packet,
                       const struct connection *sender,
@@ -135,14 +135,14 @@ void package_chat_msg(struct packet_chat_msg *packet,
 /**********************************************************************//**
   Fill a packet_chat_msg structure for common server event.
 
-  packet: A pointer to the packet.
-  ptile: A pointer to a tile the event is occuring.
-  event: The event type.
-  color: The requested color or ftc_any if not requested.  Some colors are
-    predefined in common/featured_text.h.  You can pass a custom one using
+  @param packet A pointer to the packet.
+  @param ptile  A pointer to a tile the event is occurring.
+  @param event  The event type.
+  @param color  The requested color or ftc_any if not requested. Some colors are
+    predefined in common/featured_text.h. You can pass a custom one using
     ft_color().
-  format: The format of the message.
-  vargs: The extra arguments to build the message.
+  @param format The format of the message.
+  @param vargs  The extra arguments to build the message.
 **************************************************************************/
 void vpackage_event(struct packet_chat_msg *packet,
                     const struct tile *ptile,
@@ -156,14 +156,14 @@ void vpackage_event(struct packet_chat_msg *packet,
 /**********************************************************************//**
   Fill a packet_chat_msg structure for common server event.
 
-  packet: A pointer to the packet.
-  ptile: A pointer to a tile the event is occuring.
-  event: The event type.
-  color: The requested color or ftc_any if not requested.  Some colors are
-    predefined in common/featured_text.h.  You can pass a custom one using
+  @param packet A pointer to the packet.
+  @param ptile  A pointer to a tile the event is occurring.
+  @param event  The event type.
+  @param color  The requested color or ftc_any if not requested. Some colors are
+    predefined in common/featured_text.h. You can pass a custom one using
     ft_color().
-  format: The format of the message.
-  ...: The extra arguments to build the message.
+  @param format The format of the message.
+  @param ...    The extra arguments to build the message.
 **************************************************************************/
 void package_event(struct packet_chat_msg *packet,
                    const struct tile *ptile,
@@ -178,15 +178,14 @@ void package_event(struct packet_chat_msg *packet,
   va_end(args);
 }
 
-
 /**********************************************************************//**
   This is the basis for following notify_* functions. It uses the struct
   packet_chat_msg as defined by vpackage_event().
 
   Notify specified connections of an event of specified type (from events.h)
-  and specified (x,y) coords associated with the event.  Coords will only
+  and specified (x,y) coords associated with the event. Coords will only
   apply if game has started and the conn's player knows that tile (or
-  NULL == pconn->playing && pconn->observer).  If coords are not required,
+  NULL == pconn->playing && pconn->observer). If coords are not required,
   caller should specify (x,y) = (-1,-1); otherwise make sure that the
   coordinates have been normalized.
 **************************************************************************/
@@ -388,8 +387,8 @@ void notify_team(const struct player *pplayer,
 /**********************************************************************//**
   Sends a message to all players that share research.
 
-  Unlike other notify functions this one does not take a tile argument. We
-  assume no research message will have a tile associated.
+  Unlike other notify functions this one does not take a tile argument.
+  We assume no research message will have a tile associated.
 **************************************************************************/
 void notify_research(const struct research *presearch,
                      const struct player *exclude,
@@ -420,8 +419,8 @@ void notify_research(const struct research *presearch,
   Sends a message to all players that have embassies with someone who
   shares research.
 
-  Unlike other notify functions this one does not take a tile argument. We
-  assume no research message will have a tile associated.
+  Unlike other notify functions this one does not take a tile argument.
+  We assume no research message will have a tile associated.
 
   Exclude parameter excludes everyone who has embassy (only) with that
   player.
@@ -509,7 +508,7 @@ static void event_cache_data_free(struct event_cache_data *data)
 }
 
 /**********************************************************************//**
-  Creates a new event_cache_data, appened to the list.  It mays remove an
+  Creates a new event_cache_data, appened to the list. It may remove an
   old entry if needed.
 **************************************************************************/
 static struct event_cache_data *
@@ -663,8 +662,8 @@ void event_cache_add_for_player(const struct packet_chat_msg *packet,
 }
 
 /**********************************************************************//**
-  Add an event to the cache for selected players.  See
-  event_cache_player_add() to see how to select players.  This also
+  Add an event to the cache for selected players.
+  See event_cache_player_add() to see how to select players. This also
   free the players pointer argument.
 
   N.B.: in pregame, this will never success, because players are not fixed.
@@ -686,8 +685,8 @@ void event_cache_add_for_players(const struct packet_chat_msg *packet,
 }
 
 /**********************************************************************//**
-  Select players for event_cache_add_for_players().  Pass NULL as players
-  argument to create a new selection.  Usually the usage of this function
+  Select players for event_cache_add_for_players(). Pass NULL as players
+  argument to create a new selection. Usually the usage of this function
   would look to:
 
   struct event_cache_players *players = NULL;
