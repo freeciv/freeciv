@@ -41,7 +41,8 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
   secfile = secfile_new(TRUE);
 
   xmlroot = xmlDocGetRootElement(sec_doc);
-  if (xmlroot == NULL || strcmp((const char *)xmlroot->name, "Freeciv")) {
+  if (xmlroot == NULL
+      || fc_strcasecmp((const char *)xmlroot->name, "Freeciv")) {
     /* TRANS: do not translate <Freeciv> */
     log_error(_("XML-file has no root node <Freeciv>"));
     secfile_destroy(secfile);
