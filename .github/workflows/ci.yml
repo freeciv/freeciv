@@ -23,7 +23,7 @@ jobs:
             make
             gettext
             git
-            automake1.17
+            automake1.16
             libtool
             autoconf
             mingw-w64-ucrt-x86_64-7zip
