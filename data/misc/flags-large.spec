@@ -347,6 +347,7 @@ sprites =
 		"f.micronesia", "flags/micronesia-large"
 		"f.mikmaq", "flags/mikmaq-large"
 		"f.milan", "flags/milan-large"
+		"f.minnesota", "flags/minnesota-large"
 		"f.miskito", "flags/miskito-large"
 		"f.mitanni", "flags/mitanni-large"
 		"f.mixtec", "flags/mixtec-large"

@@ -337,6 +337,7 @@ pkgdata_DATA = \
 		micronesian.ruleset \
 		mikmaq.ruleset \
 		milanese.ruleset \
+		minnesotan.ruleset \
 		miskito.ruleset \
 		mitanni.ruleset \
 		mixtec.ruleset \

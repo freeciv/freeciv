@@ -346,6 +346,7 @@ sprites =
 		"f.shield.micronesia", "flags/micronesia-shield"
 		"f.shield.mikmaq", "flags/mikmaq-shield"
 		"f.shield.milan", "flags/milan-shield"
+		"f.shield.minnesota", "flags/minnesota-shield"
 		"f.shield.miskito", "flags/miskito-shield"
 		"f.shield.mitanni", "flags/mitanni-shield"
 		"f.shield.mixtec", "flags/mixtec-shield"
