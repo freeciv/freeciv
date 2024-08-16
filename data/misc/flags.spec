@@ -345,6 +345,7 @@ artists = "
    Micronesia		SKopp (Wikimedia commons)
    Mikmaq		Daniel Markstedt
    Milan		Flanker (Wikimedia Commons)
+   Minnesota            Wikimedia Commons
    Miskito		Daniel Markstedt
    Mitanni		Snubcube (Wikimedia Commons) and J.M. Maalderink
    Mixtec		J.M. Maalderink
@@ -927,6 +928,7 @@ sprites =
 		"f.micronesia", "flags/micronesia"
 		"f.mikmaq", "flags/mikmaq"
 		"f.milan", "flags/milan"
+		"f.minnesota", "flags/minnesota"
 		"f.miskito", "flags/miskito"
 		"f.mitanni", "flags/mitanni"
 		"f.mixtec", "flags/mixtec"

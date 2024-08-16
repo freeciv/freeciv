@@ -338,6 +338,7 @@ flag_files =				\
 		micronesia.png		\
 		mikmaq.png		\
 		milan.png		\
+		minnesota.png		\
 		miskito.png		\
 		mitanni.png		\
 		mixtec.png		\
@@ -917,6 +918,7 @@ flag_files =				\
 		micronesia-large.png		\
 		mikmaq-large.png		\
 		milan-large.png		\
+		minnesota-large.png		\
 		miskito-large.png		\
 		mitanni-large.png		\
 		mixtec-large.png		\
@@ -1498,6 +1500,7 @@ shield_files =					\
 		micronesia-shield.png		\
 		mikmaq-shield.png		\
 		milan-shield.png		\
+		minnesota-shield.png		\
 		miskito-shield.png		\
 		mitanni-shield.png		\
 		mixtec-shield.png		\
@@ -2077,6 +2080,7 @@ shield_files =					\
 		micronesia-shield-large.png		\
 		mikmaq-shield-large.png		\
 		milan-shield-large.png		\
+		minnesota-shield-large.png		\
 		miskito-shield-large.png		\
 		mitanni-shield-large.png		\
 		mixtec-shield-large.png		\
@@ -2658,6 +2662,7 @@ svg_files = 				\
 		micronesia.svg		\
 		mikmaq.svg		\
 		milan.svg		\
+		minnesota.svg		\
 		miskito.svg		\
 		mitanni.svg		\
 		mixtec.svg		\
