@@ -186,7 +186,7 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
     return FALSE;
   case TDT_ALIGHT:
     return can_unit_exist_at_tile(nmap, punit, unit_tile(punit))
-      && can_unit_deboard_or_be_unloaded(punit, ptrans);
+      && can_unit_deboard_or_be_unloaded(nmap, punit, ptrans);
   case TDT_ALWAYS:
     return TRUE;
   }

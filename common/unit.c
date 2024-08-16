@@ -771,11 +771,10 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
   Return TRUE iff the given unit can leave its current transporter without
   doing any other action or move.
 **************************************************************************/
-bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
+bool can_unit_deboard_or_be_unloaded(const struct civ_map *nmap,
+                                     const struct unit *pcargo,
                                      const struct unit *ptrans)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (!pcargo || !ptrans) {
     return FALSE;
   }
