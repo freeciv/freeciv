@@ -54,6 +54,7 @@ values
   NO_UNHAPPY                        "No_Unhappy"
   VETERAN_BUILD                     "Veteran_Build"
   VETERAN_COMBAT                    "Veteran_Combat"
+  VETERAN_WORK                      "Veteran_Work"
   HP_REGEN                          "HP_Regen"
   CITY_VISION_RADIUS_SQ             "City_Vision_Radius_Sq"
   UNIT_VISION_RADIUS_SQ             "Unit_Vision_Radius_Sq"

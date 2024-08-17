@@ -262,7 +262,9 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
      * of +50% the end chance is 75%. */
     chance = vlevel->base_raise_chance * mod / 100;
   } else if (worker && unit_has_type_flag(punit, UTYF_WORKERS)) {
-    chance = base_chance * vlevel->work_raise_chance / 100;
+    int mod = base_chance + get_unit_bonus(punit, EFT_VETERAN_WORK);
+
+    chance = vlevel->work_raise_chance * mod / 100;
   } else {
     /* No battle and no work done. */
     return FALSE;

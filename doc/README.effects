@@ -829,6 +829,10 @@ Veteran_Combat
     Increases the chance of units of this type becoming veteran after combat
     by amount percent.
 
+Veteran_Work
+    Increases the chance of units of this type becoming veteran after finishing
+    work by amount percent.
+
 Victory
     Positive value means that player wins the game.
 
