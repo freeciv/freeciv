@@ -5534,8 +5534,9 @@ void handle_vote_update(int vote_no, int yes, int no, int abstain,
   struct voteinfo *vi;
 
   vi = voteinfo_queue_find(vote_no);
+
   fc_assert_ret_msg(NULL != vi,
-                    "Got packet_vote_update for non-existant vote %d!",
+                    "Got packet_vote_update for non-existent vote %d!",
                     vote_no);
 
   vi->yes = yes;
@@ -5571,8 +5572,9 @@ void handle_vote_resolve(int vote_no, bool passed)
   struct voteinfo *vi;
 
   vi = voteinfo_queue_find(vote_no);
+
   fc_assert_ret_msg(NULL != vi,
-                    "Got packet_vote_resolve for non-existant vote %d!",
+                    "Got packet_vote_resolve for non-existent vote %d!",
                     vote_no);
 
   vi->resolved = TRUE;
