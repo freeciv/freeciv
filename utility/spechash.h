@@ -156,10 +156,10 @@ extern "C" {
 #define SPECHASH_IKEY_TYPE void *
 #define SPECHASH_IKEY_TO_UKEY FC_PTR_TO_INT
 #define SPECHASH_UKEY_TO_IKEY FC_INT_TO_PTR
-#define SPECHASH_IKEY_VAL NULL
-#define SPECHASH_IKEY_COMP NULL
-#define SPECHASH_IKEY_COPY NULL
-#define SPECHASH_IKEY_FREE NULL
+#define SPECHASH_IKEY_VAL nullptr
+#define SPECHASH_IKEY_COMP nullptr
+#define SPECHASH_IKEY_COPY nullptr
+#define SPECHASH_IKEY_FREE nullptr
 #endif/* SPECHASH_INT_KEY_TYPE */
 #ifdef SPECHASH_INT_DATA_TYPE
 #undef SPECHASH_INT_DATA_TYPE
@@ -167,28 +167,28 @@ extern "C" {
 #define SPECHASH_IDATA_TYPE void *
 #define SPECHASH_IDATA_TO_UDATA FC_PTR_TO_INT
 #define SPECHASH_UDATA_TO_IDATA FC_INT_TO_PTR
-#define SPECHASH_IDATA_COMP NULL
-#define SPECHASH_IDATA_COPY NULL
-#define SPECHASH_IDATA_FREE NULL
+#define SPECHASH_IDATA_COMP nullptr
+#define SPECHASH_IDATA_COPY nullptr
+#define SPECHASH_IDATA_FREE nullptr
 #endif/* SPECHASH_INT_DATA_TYPE */
 #ifdef SPECHASH_ENUM_KEY_TYPE
 #define SPECHASH_UKEY_TYPE enum SPECHASH_ENUM_KEY_TYPE
 #define SPECHASH_IKEY_TYPE void *
 #define SPECHASH_IKEY_TO_UKEY FC_PTR_TO_INT
 #define SPECHASH_UKEY_TO_IKEY FC_INT_TO_PTR
-#define SPECHASH_IKEY_VAL NULL
-#define SPECHASH_IKEY_COMP NULL
-#define SPECHASH_IKEY_COPY NULL
-#define SPECHASH_IKEY_FREE NULL
+#define SPECHASH_IKEY_VAL nullptr
+#define SPECHASH_IKEY_COMP nullptr
+#define SPECHASH_IKEY_COPY nullptr
+#define SPECHASH_IKEY_FREE nullptr
 #endif/* SPECHASH_ENUM_KEY_TYPE */
 #ifdef SPECHASH_ENUM_DATA_TYPE
 #define SPECHASH_UDATA_TYPE enum SPECHASH_ENUM_DATA_TYPE
 #define SPECHASH_IDATA_TYPE void *
 #define SPECHASH_IDATA_TO_UDATA FC_PTR_TO_INT
 #define SPECHASH_UDATA_TO_IDATA FC_INT_TO_PTR
-#define SPECHASH_IDATA_COMP NULL
-#define SPECHASH_IDATA_COPY NULL
-#define SPECHASH_IDATA_FREE NULL
+#define SPECHASH_IDATA_COMP nullptr
+#define SPECHASH_IDATA_COPY nullptr
+#define SPECHASH_IDATA_FREE nullptr
 #endif/* SPECHASH_ENUM_DATA_TYPE */
 #ifdef SPECHASH_ASTR_KEY_TYPE
 #undef SPECHASH_ASTR_KEY_TYPE
@@ -210,15 +210,15 @@ extern "C" {
 #define SPECHASH_IKEY_TYPE char *
 #define SPECHASH_IKEY_VAL genhash_str_val_func
 #define SPECHASH_IKEY_COMP genhash_str_comp_func
-#define SPECHASH_IKEY_COPY NULL
-#define SPECHASH_IKEY_FREE NULL
+#define SPECHASH_IKEY_COPY nullptr
+#define SPECHASH_IKEY_FREE nullptr
 #endif /* SPECHASH_CSTR_KEY_TYPE */
 #ifdef SPECHASH_CSTR_DATA_TYPE
 #undef SPECHASH_CSTR_DATA_TYPE
 #define SPECHASH_IDATA_TYPE char *
 #define SPECHASH_IDATA_COMP genhash_str_comp_func
-#define SPECHASH_IDATA_COPY NULL
-#define SPECHASH_IDATA_FREE NULL
+#define SPECHASH_IDATA_COPY nullptr
+#define SPECHASH_IDATA_FREE nullptr
 #endif /* SPECHASH_CSTR_DATA_TYPE */
 
 #ifndef SPECHASH_VPTR_TO_IKEY
@@ -247,25 +247,25 @@ extern "C" {
 
 /* Default functions. */
 #ifndef SPECHASH_IKEY_VAL
-#define SPECHASH_IKEY_VAL NULL
+#define SPECHASH_IKEY_VAL nullptr
 #endif
 #ifndef SPECHASH_IKEY_COMP
-#define SPECHASH_IKEY_COMP NULL
+#define SPECHASH_IKEY_COMP nullptr
 #endif
 #ifndef SPECHASH_IKEY_COPY
-#define SPECHASH_IKEY_COPY NULL
+#define SPECHASH_IKEY_COPY nullptr
 #endif
 #ifndef SPECHASH_IKEY_FREE
-#define SPECHASH_IKEY_FREE NULL
+#define SPECHASH_IKEY_FREE nullptr
 #endif
 #ifndef SPECHASH_IDATA_COMP
-#define SPECHASH_IDATA_COMP NULL
+#define SPECHASH_IDATA_COMP nullptr
 #endif
 #ifndef SPECHASH_IDATA_COPY
-#define SPECHASH_IDATA_COPY NULL
+#define SPECHASH_IDATA_COPY nullptr
 #endif
 #ifndef SPECHASH_IDATA_FREE
-#define SPECHASH_IDATA_FREE NULL
+#define SPECHASH_IDATA_FREE nullptr
 #endif
 
 /* Other functions or macros. */
@@ -523,10 +523,10 @@ SPECHASH_FOO(_hash_replace_full) (SPECHASH_HASH *tthis,
                                   SPECHASH_UDATA_TO_IDATA(udata),
                                   &key_ptr, &data_ptr);
 
-  if (NULL != old_pukey) {
+  if (old_pukey != nullptr) {
     *old_pukey = SPECHASH_IKEY_TO_UKEY(SPECHASH_VPTR_TO_IKEY(key_ptr));
   }
-  if (NULL != old_pudata) {
+  if (old_pudata != nullptr) {
     *old_pudata = SPECHASH_IDATA_TO_UDATA(SPECHASH_VPTR_TO_IDATA(data_ptr));
   }
 
@@ -545,7 +545,7 @@ SPECHASH_FOO(_hash_lookup) (const SPECHASH_HASH *tthis,
   bool ret = genhash_lookup((const struct genhash *) tthis,
                             SPECHASH_UKEY_TO_IKEY(ukey), &data_ptr);
 
-  if (NULL != pudata) {
+  if (pudata != nullptr) {
     *pudata = SPECHASH_IDATA_TO_UDATA(SPECHASH_VPTR_TO_IDATA(data_ptr));
   }
 
@@ -577,10 +577,10 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
                                  SPECHASH_UKEY_TO_IKEY(ukey),
                                  &key_ptr, &data_ptr);
 
-  if (NULL != deleted_pukey) {
+  if (deleted_pukey != nullptr) {
     *deleted_pukey = SPECHASH_IKEY_TO_UKEY(SPECHASH_VPTR_TO_IKEY(key_ptr));
   }
-  if (NULL != deleted_pudata) {
+  if (deleted_pudata != nullptr) {
     *deleted_pudata = SPECHASH_IDATA_TO_UDATA(SPECHASH_VPTR_TO_IDATA(data_ptr));
   }
 
