@@ -2819,7 +2819,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
 }
 
 /************************************************************************//**
-  Removes outdated (nonexistant) cities from a player
+  Removes outdated (nonexistent) cities from a player
 ****************************************************************************/
 void reality_check_city(struct player *pplayer, struct tile *ptile)
 {

@@ -214,11 +214,11 @@ static bool set_enum_value(struct setting *pset, int val);
   Enumerator name accessors.
 
   Important note about compatibility:
-  1) you cannot modify the support name of an existant value. However, in a
+  1) you cannot modify the support name of an existent value. However, in a
      development, you can modify it if it wasn't included in any stable
      branch before.
-  2) Take care of modifiying the pretty name of an existant value: make sure
-  to modify the help texts which are using it.
+  2) Take care of modifying the pretty name of an existent value: make sure
+     to modify the help texts which are using it.
 ****************************************************************************/
 
 #define NAME_CASE(_val, _support, _pretty)                                  \
