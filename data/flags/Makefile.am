@@ -417,6 +417,7 @@ flag_files =				\
 		polynesian.png		\
 		pomerania.png		\
 		portugal.png		\
+		poyais.png		\
 		prusai.png		\
 		prussia.png		\
 		puerto_rico.png		\
@@ -997,6 +998,7 @@ flag_files =				\
 		polynesian-large.png		\
 		pomerania-large.png		\
 		portugal-large.png		\
+		poyais-large.png		\
 		prusai-large.png		\
 		prussia-large.png		\
 		puerto_rico-large.png		\
@@ -1579,6 +1581,7 @@ shield_files =					\
 		polynesian-shield.png		\
 		pomerania-shield.png		\
 		portugal-shield.png		\
+		poyais-shield.png		\
 		prusai-shield.png		\
 		prussia-shield.png		\
 		puerto_rico-shield.png		\
@@ -2159,6 +2162,7 @@ shield_files =					\
 		polynesian-shield-large.png		\
 		pomerania-shield-large.png		\
 		portugal-shield-large.png		\
+		poyais-shield-large.png		\
 		prusai-shield-large.png			\
 		prussia-shield-large.png		\
 		puerto_rico-shield-large.png		\
@@ -2741,6 +2745,7 @@ svg_files = 				\
 		pomerania.svg		\
 		polynesian.svg		\
 		portugal.svg		\
+		poyais.svg		\
 		prusai.svg		\
 		prussia.svg		\
 		puerto_rico.svg		\
