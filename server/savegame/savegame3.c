@@ -5078,7 +5078,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       }
 
 #ifdef FREECIV_DEBUG
-      /* Set this tile to unused; a check for not resetted tiles is
+      /* Set this tile to unused; a check for not reset tiles is
        * included in game_load_internal() */
       loading->worked_tiles[ptile->index] = -1;
 #endif /* FREECIV_DEBUG */
