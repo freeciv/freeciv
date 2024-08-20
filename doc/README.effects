@@ -76,7 +76,7 @@ ExtraFlag:       Local, Tile, Adjacent, CAdjacent, Traderoute, City
 Terrain:         Tile, Adjacent, CAdjacent, Traderoute, City
 Good:            City
 UnitType:        Local, Tile, CAdjacent, Adjacent
-UnitFlag:        Local, Tile, CAdjacent, Adjacent
+UnitTypeFlag:    Local, Tile, CAdjacent, Adjacent
 UnitClass:       Local, Tile, CAdjacent, Adjacent
 UnitClassFlag:   Local, Tile, CAdjacent, Adjacent
 Nation:          World, Alliance, Team, Player
