@@ -424,6 +424,7 @@ artists = "
    Polynesian		Daniel Markstedt
    Pomerania		N3MO (Wikipedia)
    Portugal		Diogo Mamede
+   Poyaisian            Zscout370 (Wikimedia Commons)
    Prusai		Daniel Markstedt
    Prussia		Daniel Markstedt
    Puerto Rico		Lauris Kaplinski and J.M. Maalderink
@@ -1007,6 +1008,7 @@ sprites =
 		"f.polynesian", "flags/polynesian"
 		"f.pomerania", "flags/pomerania"
 		"f.portugal", "flags/portugal"
+                "f.poyais", "flags/poyais"
 		"f.prusai", "flags/prusai"
 		"f.prussia", "flags/prussia"
 		"f.puerto_rico", "flags/puerto_rico"

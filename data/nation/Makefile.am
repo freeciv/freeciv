@@ -411,6 +411,7 @@ pkgdata_DATA = \
 		polynesian.ruleset \
 		pontic.ruleset \
 		portuguese.ruleset \
+		poyaisian.ruleset \
 		prussian.ruleset \
 		puertorican.ruleset \
 		purhepecha.ruleset \
