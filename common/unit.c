@@ -424,10 +424,10 @@ bool kills_citizen_after_attack(const struct unit *punit)
   Return TRUE iff this unit can add to a current city or build a new city
   at its current location.
 **************************************************************************/
-bool unit_can_add_or_build_city(const struct unit *punit)
+bool unit_can_add_or_build_city(const struct civ_map *nmap,
+                                const struct unit *punit)
 {
   struct city *tgt_city;
-  const struct civ_map *nmap = &(wld.map);
 
   if ((tgt_city = tile_city(unit_tile(punit)))) {
     return action_prob_possible(action_prob_vs_city(nmap, punit,
