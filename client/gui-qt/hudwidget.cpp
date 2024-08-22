@@ -993,7 +993,7 @@ int unit_actions::update_actions()
 
   // Create possible actions
 
-  if (unit_can_add_or_build_city(current_unit)) {
+  if (unit_can_add_or_build_city(&(wld.map), current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDCITY;
     a->set_pixmap(fc_icons::instance()->get_pixmap("home"));

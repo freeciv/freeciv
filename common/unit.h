@@ -379,7 +379,8 @@ bool is_square_threatened(const struct civ_map *nmap,
                           const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);
 bool is_hiding_unit(const struct unit *punit);
-bool unit_can_add_or_build_city(const struct unit *punit);
+bool unit_can_add_or_build_city(const struct civ_map *nmap,
+                                const struct unit *punit);
 
 struct astring; /* Forward declaration. */
 

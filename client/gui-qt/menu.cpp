@@ -2345,7 +2345,8 @@ void mr_menu::menus_sensitive()
         break;
 
       case BUILD:
-        if (can_units_do(punits, unit_can_add_or_build_city)) {
+        if (can_units_do_on_map(&(wld.map), punits,
+                                unit_can_add_or_build_city)) {
           i.value()->setEnabled(true);
         }
         if (city_on_tile
@@ -2632,7 +2633,7 @@ void mr_menu::slot_build_city()
      * not good! */
     /* Enable the button for adding to a city in all cases, so we
        get an eventual error message from the server if we try. */
-    if (unit_can_add_or_build_city(punit)) {
+    if (unit_can_add_or_build_city(&(wld.map), punit)) {
       request_unit_build_city(punit);
     } else if (utype_can_do_action(unit_type_get(punit), ACTION_HELP_WONDER)) {
       request_unit_caravan_action(punit, ACTION_HELP_WONDER);

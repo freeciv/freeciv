@@ -1083,8 +1083,8 @@ void real_menus_update(void)
       /* Enable the button for adding to a city in all cases, so we
        * get an eventual error message from the server if we try. */
 
-      if (unit_can_add_or_build_city(punit)) {
-        if (pcity) {
+      if (unit_can_add_or_build_city(&(wld.map), punit)) {
+        if (pcity != NULL) {
           fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)",
                       action_id_name_translation(ACTION_JOIN_CITY), "B");
         } else {
