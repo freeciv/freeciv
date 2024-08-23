@@ -1391,7 +1391,7 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
 
   fc_assert_ret(path != NULL);
   fc_assert_ret_msg(unit_tile(punit) == path->positions[0].tile,
-                    "Unit %d has moved without goto cancelation.",
+                    "Unit %d has moved without goto cancellation.",
                     punit->id);
   fc_assert_ret(length != NULL);
 
