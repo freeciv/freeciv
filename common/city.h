@@ -293,7 +293,7 @@ enum output_loss {
 };
 
 /* This enumerators are used at client side only (so changing it doesn't
- * break the compability) to mark that the city need specific gui updates
+ * break the compatibility) to mark that the city need specific gui updates
  * (e.g. city dialog, or city report). */
 enum city_updates {
   CU_NO_UPDATE          = 0,
