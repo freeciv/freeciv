@@ -231,7 +231,7 @@ and a pact with one nation can affect your relations with others.  \
 Under authoritarian governments such as Monarchy you can break a \
 pact at any time, but the representative governments (Republic and \
 Democracy) have a senate which will block the unprovoked \
-cancelation of a treaty; unless a foreign Diplomat or Spy sparks \
+cancellation of a treaty; unless a foreign Diplomat or Spy sparks \
 a diplomatic incident, the only way to dissolve a pact in this \
 situation is to dissolve your government.  The details of pacts are \
 described in the Diplomacy section.\
