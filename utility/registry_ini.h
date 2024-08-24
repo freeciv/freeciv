@@ -586,7 +586,7 @@ int *secfile_lookup_enum_vec_data(const struct section_file *secfile,
                                   secfile_data_t data, const char *path, ...)
                                   fc__warn_unused_result
                                   fc__attribute((__format__ (__printf__, 6, 7)));
-  
+
 /* Sections functions. */
 struct section *secfile_section_by_name(const struct section_file *secfile,
                                         const char *section_name);

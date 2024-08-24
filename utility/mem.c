@@ -80,7 +80,7 @@ void *fc_real_malloc(size_t size,
 #endif /* FREECIV_DEBUG */
 
   /* Some systems return nullptr on malloc(0)
-   * According to ANSI C, the return is implementation-specific, 
+   * According to ANSI C, the return is implementation-specific,
    * this is a safe guard. Having the extra byte is, of course, harmless. */
 #ifndef MALLOC_ZERO_OK
   size = MAX(size, 1);

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -134,4 +134,4 @@ void *genhash_iter_value(const struct iterator *genhash_iter);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__GENHASH_H */
+#endif /* FC__GENHASH_H */

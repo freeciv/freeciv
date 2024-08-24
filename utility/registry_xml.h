@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,4 +29,4 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__REGISTRY_XML_H */
+#endif /* FC__REGISTRY_XML_H */

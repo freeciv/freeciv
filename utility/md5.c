@@ -72,7 +72,7 @@
 
 /* Any 32-bit or wider unsigned integer data type will do */
 typedef unsigned int MD5_u32plus;
- 
+
 typedef struct {
   MD5_u32plus lo, hi;
   MD5_u32plus a, b, c, d;

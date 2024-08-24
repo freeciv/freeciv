@@ -95,7 +95,7 @@ static void set_socket_errno(void)
     return;
   default:
     bugreport_request("Missing errno mapping for Winsock error #%d.", err);
- 
+
     errno = 0;
   }
 }
@@ -107,9 +107,9 @@ static void set_socket_errno(void)
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
 {
   int result;
-  
+
   result = connect(sockfd, serv_addr, addrlen);
-  
+
 #ifdef FREECIV_HAVE_WINSOCK
   if (result == -1) {
     set_socket_errno();
@@ -144,7 +144,7 @@ int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 int fc_readsocket(int sock, void *buf, size_t size)
 {
   int result;
-  
+
 #ifdef FREECIV_HAVE_WINSOCK
   result = recv(sock, buf, size, 0);
   if (result == -1) {
@@ -163,7 +163,7 @@ int fc_readsocket(int sock, void *buf, size_t size)
 int fc_writesocket(int sock, const void *buf, size_t size)
 {
   int result;
-        
+
 #ifdef FREECIV_HAVE_WINSOCK
   result = send(sock, buf, size, 0);
   if (result == -1) {
@@ -271,7 +271,7 @@ void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
 #ifdef FREECIV_IPV6_SUPPORT
   char buf[INET6_ADDRSTRLEN] = "Unknown";
 
-  if (addr->saddr.sa_family == AF_INET6) { 
+  if (addr->saddr.sa_family == AF_INET6) {
     inet_ntop(AF_INET6, &addr->saddr_in6.sin6_addr, buf, INET6_ADDRSTRLEN);
     log_base(lvl, "Host: %s, Port: %d (IPv6)",
              buf, ntohs(addr->saddr_in6.sin6_port));

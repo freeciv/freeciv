@@ -166,7 +166,7 @@ static inline void SPECVEC_FOO(_vector_remove) (SPECVEC_VECTOR *tthis,
   atype *var;                                           \
   for (myiter##var = 0; myiter##var < (vector)->size; myiter##var++) { \
     var = &(vector)->p[myiter##var];			        \
- 
+
 /* Balance for above: */
 #define VECTOR_ITERATE_END  }}
 

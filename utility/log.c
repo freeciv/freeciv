@@ -443,7 +443,7 @@ static void log_real(enum log_level level, bool print_from_where,
     fc_mutex_allocate(&logfile_mutex);
     if (!(fs = fc_fopen(log_filename, "a"))) {
       fc_fprintf(stderr,
-                 _("Couldn't open logfile: %s for appending \"%s\".\n"), 
+                 _("Couldn't open logfile: %s for appending \"%s\".\n"),
                  log_filename, msg);
       exit(EXIT_FAILURE);
     }
@@ -460,7 +460,7 @@ static void log_real(enum log_level level, bool print_from_where,
                       "last message repeated %d times",
                       repeated-prev), repeated-prev);
       if (repeated > 2) {
-        cat_snprintf(buf, sizeof(buf), 
+        cat_snprintf(buf, sizeof(buf),
                      /* TRANS: preserve leading space */
                      PL_(" (total %d repeat)",
                          " (total %d repeats)",
@@ -477,11 +477,11 @@ static void log_real(enum log_level level, bool print_from_where,
         log_write(fs, prev_level, print_from_where, where, last_msg);
       } else {
         fc_snprintf(buf, sizeof(buf),
-                    PL_("last message repeated %d time", 
+                    PL_("last message repeated %d time",
                         "last message repeated %d times",
                         repeated - prev), repeated - prev);
         if (repeated > 2) {
-          cat_snprintf(buf, sizeof(buf), 
+          cat_snprintf(buf, sizeof(buf),
                        PL_(" (total %d repeat)", " (total %d repeats)",
                            repeated),  repeated);
         }

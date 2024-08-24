@@ -111,7 +111,7 @@ genhash_val_t genhash_str_val_func(const char *vkey)
   unsigned long result = 0;
 
   for (; *vkey != '\0'; vkey++) {
-    result *= 5; 
+    result *= 5;
     result += *vkey;
   }
   result &= 0xFFFFFFFF; /* To make results independent of sizeof(long) */
