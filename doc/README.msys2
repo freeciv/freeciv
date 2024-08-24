@@ -75,14 +75,11 @@ is located here for quick reference for the specific freeciv revision.
  freeciv.
 
  - git
- - automake1.17
- - libtool
- - autoconf2.72
- - autoconf-wrapper
 
 2.1.2) Arch-specific packages needed for building freeciv
 
 2.1.2.1) Arch-specific packages for building common parts
+ - mingw-w64-<arch>-meson
  - mingw-w64-<arch>-gcc
  - mingw-w64-<arch>-pkgconf
  - mingw-w64-<arch>-icu
@@ -92,7 +89,6 @@ is located here for quick reference for the specific freeciv revision.
 
 2.1.2.1.2) Arch-specific optional packages for building common parts
  - mingw-w64-<arch>-drmingw
- - mingw-w64-<arch>-meson
  - mingw-w64-<arch>-tolua
 
 2.1.2.2) Arch-specific packages for building gtk3.22-client
@@ -198,7 +194,7 @@ Get the freeciv sources there somehow. Some options are:
    is within msys2
 
 > cd windows/installer_msys2
-> make -f Makefile.autotools <targets>
+> make -f Makefile.meson <targets>
 
   Target can be:
   - "all" (default), build all installers, except that Qt5/Qt6
@@ -222,11 +218,6 @@ Get the freeciv sources there somehow. Some options are:
  Current default is 0x0603 (Windows 8.1) for "win64".
  This is also the lowest value that msys2 upstream supports.
  For "win64-10" the default is 0x0A00 (Windows 10)
-
- It's possible to set number of make jobs used in the build by
- setting suitable make parameter to MAKE_PARAMS environment variable, e,g,
- MAKE_PARAMS="-j3". The default is job count equal to number of
- processor cores in the system.
 
 
  Problems
