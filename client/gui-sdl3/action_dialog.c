@@ -744,7 +744,7 @@ static int simple_action_callback(struct widget *pwidget)
       failed = TRUE;
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
     target_id = diplomat_dlg->target_ids[ATK_TILE];
@@ -915,7 +915,7 @@ static void action_entry(const action_id act,
     break;
   case ATK_TILE:
   case ATK_EXTRAS:
-  case ATK_UNITS:
+  case ATK_STACK:
     buf->data.tile = tgt_tile;
     break;
   case ATK_SELF:
@@ -1004,7 +1004,7 @@ void popup_action_selection(struct unit *actor_unit,
     diplomat_dlg->target_ids[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
 
-  diplomat_dlg->target_ids[ATK_UNITS] = tile_index(target_tile);
+  diplomat_dlg->target_ids[ATK_STACK] = tile_index(target_tile);
   diplomat_dlg->target_ids[ATK_TILE] = tile_index(target_tile);
   diplomat_dlg->target_ids[ATK_EXTRAS] = tile_index(target_tile);
 
@@ -1050,7 +1050,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
-        && action_id_get_target_kind(act) == ATK_UNITS) {
+        && action_id_get_target_kind(act) == ATK_STACK) {
       action_entry(act, act_probs,
                    actor_unit, target_tile, NULL, NULL,
                    pwindow, &area);

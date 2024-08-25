@@ -275,7 +275,7 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
       failed = TRUE;
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
     target_id = args->target_tile_id;
@@ -382,7 +382,7 @@ static void request_action_details_callback(GtkWidget *w, gpointer data)
       failed = TRUE;
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
     target_id = args->target_tile_id;
@@ -1379,7 +1379,7 @@ void popup_action_selection(struct unit *actor_unit,
   target_ids[ATK_UNIT] = target_unit ?
                          target_unit->id :
                          IDENTITY_NUMBER_ZERO;
-  target_ids[ATK_UNITS] = target_tile ?
+  target_ids[ATK_STACK] = target_tile ?
                           tile_index(target_tile) :
                           TILE_INDEX_NONE;
   target_ids[ATK_TILE] = target_tile ?
@@ -1459,7 +1459,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
-        && action_id_get_target_kind(act) == ATK_UNITS) {
+        && action_id_get_target_kind(act) == ATK_STACK) {
       action_entry(shl, act, act_probs,
                    get_act_sel_action_custom_text(action_by_number(act),
                                                   act_probs[act],

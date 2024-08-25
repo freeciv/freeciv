@@ -2158,7 +2158,7 @@ blocked_find_target_tile(const struct action *act,
       return NULL;
     }
     return unit_tile(target_unit);
-  case ATK_UNITS:
+  case ATK_STACK:
     fc_assert_ret_val(target_unit || target_tile_arg, NULL);
     if (target_unit) {
       return unit_tile(target_unit);
@@ -2214,7 +2214,7 @@ blocked_find_target_city(const struct action *act,
     fc_assert_ret_val(target_unit, NULL);
     fc_assert_ret_val(unit_tile(target_unit), NULL);
     return tile_city(unit_tile(target_unit));
-  case ATK_UNITS:
+  case ATK_STACK:
     fc_assert_ret_val(target_unit || target_tile, NULL);
     if (target_unit) {
       fc_assert_ret_val(unit_tile(target_unit), NULL);
@@ -2292,7 +2292,7 @@ struct action *action_is_blocked_by(const struct civ_map *nmap,
         return blocker;
       }
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       if (!target_tile) {
         /* Can't be enabled. No target. */
         continue;
@@ -2796,7 +2796,7 @@ is_action_possible(const struct civ_map *nmap,
                 || (tkind == ATK_EXTRAS && target->tile != NULL)
                 || (tkind == ATK_UNIT && target->unit != NULL)
                 /* At this level each individual unit is tested. */
-                || (tkind == ATK_UNITS && target->unit != NULL)
+                || (tkind == ATK_STACK && target->unit != NULL)
                 || (tkind == ATK_SELF),
                 "Missing target!");
 
@@ -2834,7 +2834,7 @@ is_action_possible(const struct civ_map *nmap,
       return TRI_NO;
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
   case ATK_SELF:
@@ -3166,13 +3166,13 @@ is_action_enabled_unit_on_stack_full(const struct civ_map *nmap,
                           action_id_get_actor_kind(wanted_action)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNITS
+  fc_assert_ret_val_msg(ATK_STACK
                         == action_id_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not %s",
                         action_id_rule_name(wanted_action),
                         action_target_kind_name(
                           action_id_get_target_kind(wanted_action)),
-                        action_target_kind_name(ATK_UNITS));
+                        action_target_kind_name(ATK_STACK));
 
   fc_assert_ret_val(actor_tile, FALSE);
 
@@ -4320,13 +4320,13 @@ action_prob_vs_stack_full(const struct civ_map *nmap,
                           action_id_get_actor_kind(act_id)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNITS == action_id_get_target_kind(act_id),
+  fc_assert_ret_val_msg(ATK_STACK == action_id_get_target_kind(act_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is against %s not %s",
                         action_id_rule_name(act_id),
                         action_target_kind_name(
                           action_id_get_target_kind(act_id)),
-                        action_target_kind_name(ATK_UNITS));
+                        action_target_kind_name(ATK_STACK));
 
   fc_assert_ret_val(actor_tile, ACTPROB_IMPOSSIBLE);
 
@@ -4743,7 +4743,7 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
   fc_assert_ret_val(act_unit, ACTPROB_IMPOSSIBLE);
 
   switch (action_get_target_kind(paction)) {
-  case ATK_UNITS:
+  case ATK_STACK:
     if (tgt_tile) {
       prob = action_prob_vs_stack(nmap, act_unit, paction->id, tgt_tile);
     }
@@ -7502,7 +7502,7 @@ const char *atk_helpnames[ATK_COUNT] =
 {
   N_("individual cities"), /* ATK_CITY   */
   N_("individual units"),  /* ATK_UNIT   */
-  N_("unit stacks"),       /* ATK_UNITS  */
+  N_("unit stacks"),       /* ATK_STACK  */
   N_("tiles"),             /* ATK_TILE   */
   N_("tile extras"),       /* ATK_EXTRAS */
   N_("itself")             /* ATK_SELF   */

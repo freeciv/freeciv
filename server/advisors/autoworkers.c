@@ -1313,7 +1313,7 @@ bool auto_workers_speculate_can_act_at(const struct unit *punit,
       fc_assert_ret_val(action_get_target_kind(paction) != ATK_UNIT,
                         FALSE);
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       return action_prob_possible(action_speculate_unit_on_stack(
                                     paction->id,
                                     punit, unit_home(punit), ptile,

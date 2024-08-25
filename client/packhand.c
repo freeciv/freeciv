@@ -5111,7 +5111,7 @@ static void action_decision_maybe_auto(struct unit *actor_unit,
     /* Give the order. */
     switch (action_id_get_target_kind(auto_action)) {
     case ATK_TILE:
-    case ATK_UNITS:
+    case ATK_STACK:
     case ATK_EXTRAS:
       if (target_tile != NULL) {
         request_do_action(auto_action,

@@ -4806,7 +4806,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       prob = ACTPROB_IMPOSSIBLE;
 
       switch (action_id_get_target_kind(order.action)) {
-      case ATK_UNITS:
+      case ATK_STACK:
         prob = action_prob_vs_stack(nmap, punit, order.action,
                                     dst_tile);
         tgt_id = dst_tile->index;

@@ -972,7 +972,7 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
                                               punit, ptile, target);      \
     case ATK_CITY:                                                        \
     case ATK_UNIT:                                                        \
-    case ATK_UNITS:                                                       \
+    case ATK_STACK:                                                       \
     case ATK_SELF:                                                        \
       return FALSE;                                                       \
     case ATK_COUNT:                                                       \

@@ -375,7 +375,7 @@ bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
-  case ATK_UNITS:
+  case ATK_STACK:
     enabled = is_action_enabled_unit_on_stack(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:
@@ -437,7 +437,7 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
-  case ATK_UNITS:
+  case ATK_STACK:
     enabled = is_action_enabled_unit_on_stack(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:

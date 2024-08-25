@@ -2194,7 +2194,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         victim_link = city_link(pcity);
         break;
       case ATK_UNIT:
-      case ATK_UNITS:
+      case ATK_STACK:
         victim_link = pvictim ? unit_tile_link(pvictim)
                               : tile_link(ptile);
         break;

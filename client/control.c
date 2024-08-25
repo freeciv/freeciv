@@ -2012,7 +2012,7 @@ static void do_disband_alternative(void *p)
       request_do_action(act, punit->id, punit->id, 0, "");
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
     if ((ptile = unit_tile(punit))
         && action_prob_possible(action_prob_vs_stack(nmap, punit, act, ptile))) {
       request_do_action(act, punit->id, ptile->index, 0, "");

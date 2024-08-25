@@ -1411,7 +1411,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_SELF] = unit_id;
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
-  target_id[ATK_UNITS] = TILE_INDEX_NONE;
+  target_id[ATK_STACK] = TILE_INDEX_NONE;
   target_id[ATK_TILE] = TILE_INDEX_NONE;
   target_id[ATK_EXTRAS] = TILE_INDEX_NONE;
   sub_target_id[ASTK_BUILDING] = B_LAST;
@@ -2123,9 +2123,9 @@ void popup_action_selection(struct unit *actor_unit,
   }
 
   if (target_tile) {
-    cd->target_id[ATK_UNITS] = tile_index(target_tile);
+    cd->target_id[ATK_STACK] = tile_index(target_tile);
   } else {
-    cd->target_id[ATK_UNITS] = TILE_INDEX_NONE;
+    cd->target_id[ATK_STACK] = TILE_INDEX_NONE;
   }
 
   if (target_tile) {
@@ -2189,11 +2189,11 @@ void popup_action_selection(struct unit *actor_unit,
   // Unit acting against all units at a tile
 
   // Set the correct target for the following actions.
-  qv2 = cd->target_id[ATK_UNITS];
+  qv2 = cd->target_id[ATK_STACK];
 
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
-        && action_id_get_target_kind(act) == ATK_UNITS) {
+        && action_id_get_target_kind(act) == ATK_STACK) {
       action_entry(cd, act, act_probs,
                    get_act_sel_action_custom_text(action_by_number(act),
                                                   act_probs[act],
@@ -4269,7 +4269,7 @@ void action_selection_refresh(struct unit *actor_unit,
       break;
     case ATK_TILE:
     case ATK_EXTRAS:
-    case ATK_UNITS:
+    case ATK_STACK:
       if (target_tile != nullptr) {
         qv2 = tile_index(target_tile);
       } else {

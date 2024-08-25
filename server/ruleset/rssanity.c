@@ -563,7 +563,7 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
     requirement_vector_iterate(&peffect->reqs, preq) {
       if (preq->source.kind == VUT_ACTION) {
         if (action_get_target_kind(preq->source.value.action) != ATK_UNIT) {
-          /* TODO: support for ATK_UNITS could be added. That would require
+          /* TODO: support for ATK_STACK could be added. That would require
            * manually calling action_success_target_pay_mp() in each
            * supported unit stack targeted action performer (like
            * action_consequence_success() does) or to have the unit stack

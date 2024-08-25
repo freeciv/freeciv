@@ -3192,7 +3192,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     /* Not relevant */
     if (action_id_get_target_kind(act) != ATK_UNIT
-        && action_id_get_target_kind(act) != ATK_UNITS
+        && action_id_get_target_kind(act) != ATK_STACK
         && action_id_get_target_kind(act) != ATK_SELF) {
       continue;
     }

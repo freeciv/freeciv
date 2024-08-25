@@ -1118,7 +1118,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_WIPE_UNITS:
   case ACTRES_COLLECT_RANSOM:
     /* Target is a unit stack but a city can block it. */
-    fc_assert_action(action_get_target_kind(paction) == ATK_UNITS, break);
+    fc_assert_action(action_get_target_kind(paction) == ATK_STACK, break);
 
     if (!unit_has_type_flag(actor, UTYF_FLAGLESS)) {
       if (target_tile != NULL) {
@@ -1238,7 +1238,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
 
     target_player = unit_owner(target_unit);
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
     if (target_tile == NULL) {
       /* No target units since no target tile. */
       return NULL;
@@ -1483,7 +1483,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
         explnat->kind = ANEK_MISSING_TARGET;
       }
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
     case ATK_TILE:
     case ATK_EXTRAS:
       if (target_tile == NULL) {
@@ -1531,7 +1531,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     case ATK_EXTRAS:
       tgt_player = target_tile->extras_owner;
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       /* A unit stack may contain units with multiple owners. Pick the
        * first one. */
       if (target_tile
@@ -2384,7 +2384,7 @@ void handle_unit_get_actions(struct connection *pc,
         probabilities[act] = ACTPROB_IMPOSSIBLE;
       }
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       if (target_tile) {
         /* Calculate the probabilities. */
         probabilities[act] = action_prob_vs_stack(nmap, actor_unit, act,
@@ -2468,7 +2468,7 @@ void handle_unit_get_actions(struct connection *pc,
           target_extra_id = target_extra->id;
         }
         break;
-      case ATK_UNITS:
+      case ATK_STACK:
         /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);
         break;
@@ -3391,7 +3391,7 @@ bool unit_perform_action(struct player *pplayer,
     fc_assert_ret_val(target_tile != NULL, FALSE);
     pcity = tile_city(target_tile);
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
     target_tile = index_to_tile(nmap, target_id);
@@ -3650,7 +3650,7 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_PERFORM_UNIT_UNIT(paction->id, actor, target_unit,             \
                              action_performer);                           \
     break;                                                                \
-  case ATK_UNITS:                                                         \
+  case ATK_STACK:                                                         \
     ACTION_PERFORM_UNIT_UNITS(paction->id, actor, target_tile,            \
                               action_performer);                          \
     break;                                                                \
