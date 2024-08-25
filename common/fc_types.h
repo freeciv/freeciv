@@ -281,9 +281,8 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_VALUE45NAME "Unit Build Irrigation"
 #define SPECENUM_VALUE46 ACTRES_COLLECT_RANSOM
 #define SPECENUM_VALUE46NAME "Collect Ransom"
-/* TODO: Rearrange action results to get rid of this */
-#define SPECENUM_VALUE47 ACTRES_UNUSED_1
-#define SPECENUM_VALUE47NAME "Unused1"
+#define SPECENUM_VALUE47 ACTRES_TRANSPORT_LOAD
+#define SPECENUM_VALUE47NAME "Unit Transport Load"
 #define SPECENUM_VALUE48 ACTRES_TRANSPORT_DEBOARD
 #define SPECENUM_VALUE48NAME "Unit Transport Deboard"
 #define SPECENUM_VALUE49 ACTRES_TRANSPORT_UNLOAD
@@ -314,17 +313,15 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_VALUE61NAME "Wipe Units"
 #define SPECENUM_VALUE62 ACTRES_SPY_ESCAPE
 #define SPECENUM_VALUE62NAME "Unit Spy Escape"
-#define SPECENUM_VALUE63 ACTRES_TRANSPORT_LOAD
-#define SPECENUM_VALUE63NAME "Unit Transport Load"
-#define SPECENUM_VALUE64 ACTRES_CLEAN
-#define SPECENUM_VALUE64NAME "Clean"
+#define SPECENUM_VALUE63 ACTRES_CLEAN
+#define SPECENUM_VALUE63NAME "Clean"
 /* TODO: Move close to "Move" */
-#define SPECENUM_VALUE65 ACTRES_TELEPORT
-#define SPECENUM_VALUE65NAME "Teleport"
-#define SPECENUM_VALUE66 ACTRES_TELEPORT_CONQUER
-#define SPECENUM_VALUE66NAME "Teleport Conquer"
+#define SPECENUM_VALUE64 ACTRES_TELEPORT
+#define SPECENUM_VALUE64NAME "Teleport"
+#define SPECENUM_VALUE65 ACTRES_TELEPORT_CONQUER
+#define SPECENUM_VALUE65NAME "Teleport Conquer"
 /* Hardcoded action that's just controlled by enablers */
-#define SPECENUM_VALUE67 ACTRES_ENABLER_CHECK
+#define SPECENUM_VALUE66 ACTRES_ENABLER_CHECK
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_LAST
 #include "specenum_gen.h"
