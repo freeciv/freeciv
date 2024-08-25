@@ -132,7 +132,7 @@ static inline size_t base_fc_utf8_strlcpy_rep(char *dest, const char *src,
   const char *end;
   size_t src_len, len;
 
-  fc_assert_ret_val(NULL != src, 0);
+  fc_assert_ret_val(src != nullptr, 0);
 
   src_len = strlen(src);
   while (TRUE) {
@@ -175,7 +175,7 @@ static inline size_t base_fc_utf8_strlcpy_rep(char *dest, const char *src,
 
       /* Jump to next character in src. */
       src = fc_utf8_find_next_char(end);
-      if (src == NULL || *src == '\0') {
+      if (src == nullptr || *src == '\0') {
         *dest = '\0';
         return src_len; /* End of 'src' reached. */
       }
@@ -231,7 +231,7 @@ const char *fc_utf8_find_prev_char(const char *utf8_char,
 
 /************************************************************************//**
   Returns TRUE if the string 'utf8_string' contains only valid UTF-8
-  characters. If 'end' is not NULL, the end of the valid string will be
+  characters. If 'end' is not nullptr, the end of the valid string will be
   stored there, even if it returns TRUE.
 
   See also fc_utf8_validate_len().
@@ -243,14 +243,15 @@ bool fc_utf8_validate(const char *utf8_string, const char **end)
   while ('\0' != *utf8_string) {
     size = FC_UTF8_CHAR_SIZE(utf8_string);
     if (!base_fc_utf8_char_validate(utf8_string, size)) {
-      if (NULL != end) {
+      if (end != nullptr) {
         *end = utf8_string;
       }
       return FALSE;
     }
     utf8_string += size;
   }
-  if (NULL != end) {
+
+  if (end != nullptr) {
     *end = utf8_string;
   }
 
@@ -260,7 +261,7 @@ bool fc_utf8_validate(const char *utf8_string, const char **end)
 /************************************************************************//**
   Returns TRUE if the string 'utf8_string' contains only valid UTF-8
   characters in the limit of the length (in bytes) 'byte_len'. If 'end' is
-  not NULL, the end of the valid string will be stored there, even if it
+  not nullptr, the end of the valid string will be stored there, even if it
   returns TRUE.
 
   See also fc_utf8_validate().
@@ -274,14 +275,14 @@ bool fc_utf8_validate_len(const char *utf8_string, size_t byte_len,
     size = FC_UTF8_CHAR_SIZE(utf8_string);
 
     if (!base_fc_utf8_char_validate(utf8_string, size)) {
-      if (end != NULL) {
+      if (end != nullptr) {
         *end = utf8_string;
       }
       return FALSE;
     }
 
     if (size > byte_len) {
-      if (end != NULL) {
+      if (end != nullptr) {
         *end = utf8_string;
       }
       return FALSE;
@@ -292,7 +293,7 @@ bool fc_utf8_validate_len(const char *utf8_string, size_t byte_len,
     utf8_string += size;
   }
 
-  if (end != NULL) {
+  if (end != nullptr) {
     *end = utf8_string;
   }
 
@@ -539,6 +540,7 @@ int fc_utf8_snprintf_rep(char *str, size_t n, const char *format, ...)
   va_start(args, format);
   ret = fc_utf8_vsnprintf_rep(str, n, format, args);
   va_end(args);
+
   return ret;
 }
 
