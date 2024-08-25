@@ -1,5 +1,5 @@
 # gnulib-common.m4
-# serial 100
+# serial 101
 dnl Copyright (C) 2007-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -144,8 +144,9 @@ AC_DEFUN([gl_COMMON_BODY], [
       [[__nodiscard__]] __attribute__ ((__deprecated__)) int bar2 (int);
       ======================================================================
       This gives a syntax error
-        - in C mode with gcc, and
-        - in C++ mode with clang++ version < 16.
+        - in C mode with gcc
+          <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108796>, and
+        - in C++ mode with clang++ version < 16, and
         - in C++ mode, inside extern "C" {}, still in newer clang++ versions
           <https://github.com/llvm/llvm-project/issues/101990>.
  */
