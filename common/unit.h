@@ -332,9 +332,11 @@ bool can_unit_deboard_or_be_unloaded(const struct civ_map *nmap,
                                      const struct unit *ptrans);
 bool can_unit_teleport(const struct civ_map *nmap, const struct unit *punit);
 bool can_unit_paradrop(const struct civ_map *nmap, const struct unit *punit);
-bool can_unit_change_homecity_to(const struct unit *punit,
+bool can_unit_change_homecity_to(const struct civ_map *nmap,
+                                 const struct unit *punit,
                                  const struct city *pcity);
-bool can_unit_change_homecity(const struct unit *punit);
+bool can_unit_change_homecity(const struct civ_map *nmap,
+                              const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(const struct civ_map *nmap,
                                         struct unit *punit);

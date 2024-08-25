@@ -1302,7 +1302,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_PILLAGE);
       }
 
-      if (pcity && can_unit_change_homecity(punit)
+      if (pcity != NULL && can_unit_change_homecity(&(wld.map), punit)
           && pcity->id != punit->homecity) {
         local_show(ID_UNIT_ORDER_HOMECITY);
       } else {
