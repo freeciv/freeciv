@@ -3823,7 +3823,7 @@ void real_menus_update(void)
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
   menu_entry_set_sensitive(map, "UNIT_HOMECITY",
-                           can_units_do(punits, can_unit_change_homecity));
+                           can_units_do_on_map(&(wld.map), punits, can_unit_change_homecity));
   menu_entry_set_sensitive(map, "UNIT_UPGRADE", units_can_upgrade(&(wld.map), punits));
   menu_entry_set_sensitive(map, "UNIT_CONVERT", units_can_convert(&(wld.map), punits));
   menu_entry_set_sensitive(map, "UNIT_DISBAND",

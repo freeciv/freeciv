@@ -837,7 +837,7 @@ void unit_item::create_actions()
     disband_action = NULL;
   }
 
-  if (can_unit_change_homecity(qunit)) {
+  if (can_unit_change_homecity(&(wld.map), qunit)) {
     change_home = new QAction(action_id_name_translation(ACTION_HOME_CITY),
                               this);
     connect(change_home, &QAction::triggered, this, &unit_item::change_homecity);

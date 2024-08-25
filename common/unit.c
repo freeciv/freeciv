@@ -462,11 +462,10 @@ bool unit_can_add_or_build_city(const struct civ_map *nmap,
 /**********************************************************************//**
   Return TRUE iff the unit can change homecity to the given city.
 **************************************************************************/
-bool can_unit_change_homecity_to(const struct unit *punit,
+bool can_unit_change_homecity_to(const struct civ_map *nmap,
+                                 const struct unit *punit,
 				 const struct city *pcity)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (pcity == NULL) {
     /* Can't change home city to a non existing city. */
     return FALSE;
@@ -479,9 +478,10 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 /**********************************************************************//**
   Return TRUE iff the unit can change homecity at its current location.
 **************************************************************************/
-bool can_unit_change_homecity(const struct unit *punit)
+bool can_unit_change_homecity(const struct civ_map *nmap,
+                              const struct unit *punit)
 {
-  return can_unit_change_homecity_to(punit, tile_city(unit_tile(punit)));
+  return can_unit_change_homecity_to(nmap, punit, tile_city(unit_tile(punit)));
 }
 
 /**********************************************************************//**

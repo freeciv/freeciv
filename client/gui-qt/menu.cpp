@@ -2431,7 +2431,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case HOMECITY:
-        if (can_units_do(punits, can_unit_change_homecity)) {
+        if (can_units_do_on_map(&(wld.map), punits, can_unit_change_homecity)) {
           i.value()->setEnabled(true);
         }
         break;
