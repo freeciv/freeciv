@@ -2559,7 +2559,7 @@ void real_menus_update(void)
                            units_can_upgrade(&(wld.map), punits));
   /* "UNIT_CONVERT" dealt with below */
   menu_entry_set_sensitive("UNIT_HOMECITY",
-                           can_units_do(punits, can_unit_change_homecity));
+                           can_units_do_on_map(&(wld.map), punits, can_unit_change_homecity));
   menu_entry_set_sensitive("UNIT_UNLOAD_TRANSPORTER",
                            units_are_occupied(punits));
   menu_entry_set_sensitive("UNIT_BOARD",

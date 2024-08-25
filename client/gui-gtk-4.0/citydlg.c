@@ -2586,7 +2586,7 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
     g_signal_connect(act, "activate", G_CALLBACK(unit_homecity_callback),
                      GINT_TO_POINTER(punit->id));
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
-                                can_unit_change_homecity_to(punit,
+                                can_unit_change_homecity_to(&(wld.map), punit,
                                                             pdialog->pcity));
     menu_item_append_unref(menu,
                            g_menu_item_new(action_id_name_translation(ACTION_HOME_CITY),

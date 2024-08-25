@@ -1086,7 +1086,7 @@ int unit_actions::update_actions()
 
   // Set homecity
   if (tile_city(unit_tile(current_unit))) {
-    if (can_unit_change_homecity_to(current_unit,
+    if (can_unit_change_homecity_to(&(wld.map), current_unit,
                                     tile_city(unit_tile(current_unit)))) {
       a = new hud_action(this);
       a->action_shortcut = SC_SETHOME;
