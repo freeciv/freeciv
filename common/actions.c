@@ -4077,10 +4077,6 @@ action_prob(const struct civ_map *nmap,
      * Lua? */
     chance = ACTPROB_NOT_IMPLEMENTED;
     break;
-
-  case ACTRES_UNUSED_1:
-    chance = ACTPROB_NOT_IMPLEMENTED;
-    break;
   }
 
   /* Non signal action probabilities should be in range. */
