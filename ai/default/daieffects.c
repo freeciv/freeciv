@@ -436,7 +436,7 @@ adv_want dai_effect_value(struct player *pplayer,
     break;
   case EFT_VETERAN_COMBAT:
     num = num_affected_units(peffect, adv);
-    v += (2 * c + num);
+    v += amount * (2 * c + num) / 50;
     break;
   case EFT_VETERAN_BUILD:
     /* FIXME: check other reqs (e.g., unitflag) */
