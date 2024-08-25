@@ -1302,3 +1302,19 @@ bool api_edit_create_trade_route(lua_State *L, City *from, City *to)
 
   return TRUE;
 }
+
+/**********************************************************************//**
+  Change city size.
+**************************************************************************/
+void api_edit_change_city_size(lua_State *L, City *pcity, int change,
+                               Player *nationality)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
+
+  if (nationality == nullptr) {
+    nationality = city_owner(pcity);
+  }
+
+  city_change_size(pcity, city_size_get(pcity) + change, nationality, "script");
+}

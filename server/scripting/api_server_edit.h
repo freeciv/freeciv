@@ -121,5 +121,6 @@ void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount,
                                 Tech_Type *tech);
 
 bool api_edit_create_trade_route(lua_State *L, City *from, City *to);
+void api_edit_change_city_size(lua_State *L, City *pcity, int change, Player *nationality);
 
 #endif /* API_SERVER_EDIT_H */

@@ -248,6 +248,9 @@ module edit {
 
   bool api_edit_create_trade_route
     @ create_trade_route(lua_State *L, City *from, City *to);
+
+  void api_edit_change_city_size
+    @ change_city_size(lua_State *L, City *pcity, int change, Player *nationality);
 }
 
 /* Luadata module. */
