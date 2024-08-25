@@ -3,7 +3,7 @@
  -------
 
  Ruleset with high granularity values. This makes it possible to have
-more fine grained ruleset effects without integer math pecularities
+more fine grained ruleset effects without integer math peculiarities
 messing with them.
 
  You can consider all the outputs and costs to be 100x as valuable
