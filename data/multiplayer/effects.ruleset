@@ -128,7 +128,17 @@ reqs    =
       "UnitClass", "Land", "Local"
     }
 
-; basic free tech upkeep
+; Vision benefit from mountains (All Land units)
+[effect_mountains_vision]
+type    = "Unit_Vision_Radius_Sq"
+value   = 4
+reqs    =
+    { "type",      "name",      "range"
+      "Terrain",   "Mountains", "Tile"
+      "UnitClass", "Land",      "Local"
+    }
+
+; Basic free tech upkeep
 [effect_upkeep_tech_free]
 type    = "Tech_Upkeep_Free"
 value   = 3
