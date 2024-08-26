@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib.h>
 
 /* utility */
 #include "bitvector.h"
@@ -5271,6 +5272,23 @@ static bool load_ruleset_nations(struct section_file *file,
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
+
+    /* Init nation_rule_name -> nation hash table. */
+    char *normalized_string;
+    char *case_normalized_string;
+    GHashTable* hash = g_hash_table_new(g_str_hash, g_str_equal);
+    nations_iterate(pnation) {
+      normalized_string = g_utf8_normalize(nation_rule_name(pnation), -1, G_NORMALIZE_ALL);
+      if (normalized_string != NULL) {
+        case_normalized_string = g_utf8_casefold(normalized_string, -1);
+        if (case_normalized_string != NULL) {
+          g_hash_table_insert(hash, case_normalized_string, pnation);
+        }
+        g_free(case_normalized_string);
+      }
+      g_free(normalized_string);
+    } nations_iterate_end;
+
     nations_iterate(pnation) {
       struct nation_type *pconflict;
       const int i = nation_index(pnation);
@@ -5318,7 +5336,16 @@ static bool load_ruleset_nations(struct section_file *file,
       /* Nation conflicts. */
       vec = secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec_name);
       for (j = 0; j < dim; j++) {
-        pconflict = nation_by_rule_name(vec[j]);
+        pconflict = NULL;
+        normalized_string = g_utf8_normalize(vec[j], -1, G_NORMALIZE_ALL);
+        if (normalized_string != NULL) {
+          case_normalized_string = g_utf8_casefold(normalized_string, -1);
+          if (case_normalized_string != NULL) {
+            pconflict = g_hash_table_lookup(hash, case_normalized_string);
+          }
+          g_free(case_normalized_string);
+        }
+        g_free(normalized_string);
 
         if (pnation == pconflict) {
           ruleset_error(NULL, LOG_ERROR,
@@ -5600,7 +5627,16 @@ static bool load_ruleset_nations(struct section_file *file,
       vec = secfile_lookup_str_vec(file, &dim,
                                    "%s.civilwar_nations", sec_name);
       for (j = 0; j < dim; j++) {
-        pconflict = nation_by_rule_name(vec[j]);
+        pconflict = NULL;
+        normalized_string = g_utf8_normalize(vec[j], -1, G_NORMALIZE_ALL);
+        if (normalized_string != NULL) {
+          case_normalized_string = g_utf8_casefold(normalized_string, -1);
+          if (case_normalized_string != NULL) {
+            pconflict = g_hash_table_lookup(hash, case_normalized_string);
+          }
+          g_free(case_normalized_string);
+        }
+        g_free(normalized_string);
 
         /* No test for duplicate nations is performed.  If there is a duplicate
          * entry it will just cause that nation to have an increased
@@ -5693,6 +5729,7 @@ static bool load_ruleset_nations(struct section_file *file,
 
       pnation->player = NULL;
     } nations_iterate_end;
+    g_hash_table_destroy(hash);
     section_list_destroy(sec);
     sec = NULL;
   }

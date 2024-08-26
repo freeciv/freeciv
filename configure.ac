@@ -689,6 +689,11 @@ else
   CXXFLAGS="$CXXFLAGS -s USE_ICU=1"
 fi
 
+PKG_CHECK_MODULES([GLIB], [glib-2.0],,
+  [AC_MSG_ERROR([glib development files required])])
+CFLAGS="${CFLAGS} ${GLIB_CFLAGS}"
+LIBS="${LIBS} ${GLIB_LIBS}"
+
 dnl Should we build Qt5 versions of Qt programs?
 dnl This needs to be before C++ compiler check FC_WORKING_CXX, and
 dnl that in turn needs to be before FC_DEBUG that will depend on compiler
