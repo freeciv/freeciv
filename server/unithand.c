@@ -3556,7 +3556,7 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_PERFORM_UNIT_UNITS(action, actor, target, action_performer)\
+#define ACTION_PERFORM_UNIT_STACK(action, actor, target, action_performer)\
   if (target_tile                                                         \
       && is_action_enabled_unit_on_stack(nmap, action_type,               \
                                          actor_unit, target_tile)) {      \
@@ -3651,7 +3651,7 @@ bool unit_perform_action(struct player *pplayer,
                              action_performer);                           \
     break;                                                                \
   case ATK_STACK:                                                         \
-    ACTION_PERFORM_UNIT_UNITS(paction->id, actor, target_tile,            \
+    ACTION_PERFORM_UNIT_STACK(paction->id, actor, target_tile,            \
                               action_performer);                          \
     break;                                                                \
   case ATK_TILE:                                                          \
@@ -3890,33 +3890,33 @@ bool unit_perform_action(struct player *pplayer,
                              do_airline(actor_unit, pcity, paction));
     break;
   case ACTRES_CAPTURE_UNITS:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               do_capture_units(pplayer, actor_unit,
                                                target_tile, paction));
     break;
   case ACTRES_BOMBARD:
     /* Difference is caused by the ruleset. ("Fake generalized" actions) */
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               unit_bombard(actor_unit, target_tile,
                                            paction));
     break;
   case ACTRES_ATTACK:
   case ACTRES_COLLECT_RANSOM:
     /* Difference is caused by data in the action structure. */
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               do_attack(actor_unit, target_tile, paction));
     break;
   case ACTRES_WIPE_UNITS:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               do_wipe_units(actor_unit, target_tile, paction));
     break;
   case ACTRES_NUKE_UNITS:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               unit_nuke(pplayer, actor_unit, target_tile,
                                         paction));
     break;
   case ACTRES_SPY_ATTACK:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               spy_attack(pplayer, actor_unit, target_tile,
                                          paction));
     break;
