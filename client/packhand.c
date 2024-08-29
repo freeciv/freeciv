@@ -2203,7 +2203,7 @@ void handle_set_topology(int topology_id, int wrap_id)
 
     ts_to_load = tileset_name_for_topology(topology_id);
 
-    if (ts_to_load != NULL && ts_to_load[0] != '\0') {
+    if (ts_to_load != NULL && ts_to_load[0] != '\0' && strcmp(tileset_basename(tileset), ts_to_load)) {
       tilespec_reread_frozen_refresh(ts_to_load);
     }
   }
