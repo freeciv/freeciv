@@ -444,7 +444,7 @@ void fc_client::create_network_page(void)
 }
 
 /**********************************************************************//**
-  Sets application status bar for given time in miliseconds
+  Sets application status bar for given time in milliseconds
 **************************************************************************/
 void fc_client::set_status_bar(QString message, int timeout)
 {
