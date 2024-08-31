@@ -194,7 +194,7 @@ end
 
 signal.connect("action_started_unit_city", "action_started_callback")
 signal.connect("action_started_unit_unit", "action_started_callback")
-signal.connect("action_started_unit_units", "action_started_callback")
+signal.connect("action_started_unit_stack", "action_started_callback")
 signal.connect("action_started_unit_tile", "action_started_callback")
 signal.connect("action_started_unit_extras", "action_started_callback")
 signal.connect("action_started_unit_self", "action_started_callback")

@@ -3563,6 +3563,8 @@ bool unit_perform_action(struct player *pplayer,
       && is_action_enabled_unit_on_stack(nmap, action_type,               \
                                          actor_unit, target_tile)) {      \
     bool success;                                                         \
+    script_server_signal_emit("action_started_unit_stack",                \
+                              action_by_number(action), actor, target);   \
     script_server_signal_emit("action_started_unit_units",                \
                               action_by_number(action), actor, target);   \
     if (!actor || !unit_is_alive(actor_id)) {                             \
@@ -3573,6 +3575,10 @@ bool unit_perform_action(struct player *pplayer,
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_stack",               \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL,     \
+                              target);                                    \
     script_server_signal_emit("action_finished_unit_units",               \
                               action_by_number(action), success,          \
                               unit_is_alive(actor_id) ? actor : NULL,     \
