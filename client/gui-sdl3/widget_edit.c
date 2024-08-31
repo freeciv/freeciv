@@ -132,7 +132,7 @@ static int redraw_edit_chain(struct text_edit *edt)
   if flag 'FW_DRAW_THEME_TRANSPARENT' is set theme will be blit
   transparent ( Alpha = 128 )
 
-  function return Hight of created surfaces or (-1) if theme surface can't
+  function return height of created surfaces or (-1) if theme surface can't
   be created.
 **************************************************************************/
 static int redraw_edit(struct widget *edit_widget)

@@ -1229,10 +1229,10 @@ city_map::city_map(QWidget *parent): QWidget(parent)
   setParent(parent);
   radius = 0;
   wdth = get_citydlg_canvas_width();
-  hight = get_citydlg_canvas_height();
+  height = get_citydlg_canvas_height();
   cutted_width = wdth;
-  cutted_height = hight;
-  view = qtg_canvas_create(wdth, hight);
+  cutted_height = height;
+  view = qtg_canvas_create(wdth, height);
   view->map_pixmap.fill(Qt::black);
   miniview = qtg_canvas_create(0, 0);
   miniview->map_pixmap.fill(Qt::black);
@@ -1292,11 +1292,11 @@ void city_map::set_pixmap(struct city *pcity, float z)
     radius = r;
     qtg_canvas_free(miniview);
     cutted_width = wdth * (r + 1) / max_r;
-    cutted_height = hight * (r + 1) / max_r;
+    cutted_height = height * (r + 1) / max_r;
     cutted_width = qMin(cutted_width, wdth);
-    cutted_height = qMin(cutted_height, hight);
+    cutted_height = qMin(cutted_height, height);
     delta_x = (wdth - cutted_width) / 2;
-    delta_y = (hight - cutted_height) / 2;
+    delta_y = (height - cutted_height) / 2;
     miniview = qtg_canvas_create(cutted_width, cutted_height);
     miniview->map_pixmap.fill(Qt::black);
   }
