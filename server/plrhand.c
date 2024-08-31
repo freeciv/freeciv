@@ -2760,7 +2760,7 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
 /**********************************************************************//**
   civil_war_triggered:
    * The capture of a primary capital is not a sure fire way to throw
-  and empire into civil war.  Some governments are more susceptible
+  and empire into civil war. Some governments are more susceptible
   than others, here are the base probabilities:
   Anarchy   	90%
   Despotism 	80%
@@ -2772,11 +2772,11 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
    * In addition each city in disorder adds and each celebrating city
   subtracts from the probability of a civil war.
    * If you have at least 1 turns notice of the impending loss of
-  your capital, you can hike luxuries up to the hightest value,
-  and by this reduce the chance of a civil war.  In fact by
+  your capital, you can hike luxuries up to the highest value,
+  and by this reduce the chance of a civil war. In fact by
   hiking the luxuries to 100% under Democracy, it is easy to
   get massively negative numbers - guaranteeing imunity from
-  civil war.  Likewise, 3 cities in disorder under despotism
+  civil war. Likewise, 3 cities in disorder under despotism
   guarantees a civil war.
    * This routine calculates these probabilities and returns true
   if a civil war is triggered.

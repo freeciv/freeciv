@@ -285,7 +285,7 @@ private:
   int radius;
   float zoom;
   int wdth;
-  int hight;
+  int height;
   int cutted_width;
   int cutted_height;
   int delta_x;
