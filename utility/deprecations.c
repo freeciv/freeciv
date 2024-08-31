@@ -29,12 +29,19 @@ static deprecation_warn_callback depr_cb = NULL;
 
 static bool depr_warns_enabled = FALSE;
 
+static char depr_pending[1024] = "";
+
 /********************************************************************//**
   Enable deprecation warnings.
 ************************************************************************/
 void deprecation_warnings_enable(void)
 {
   depr_warns_enabled = TRUE;
+
+  if (depr_pending[0] != '\0') {
+    do_log_deprecation("%s", depr_pending);
+    depr_pending[0] = '\0';
+  }
 }
 
 /********************************************************************//**
@@ -68,4 +75,24 @@ void do_log_deprecation(const char *format, ...)
     depr_cb(buf);
   }
   va_end(args);
+}
+
+/********************************************************************//**
+  Even if deprecations are not enabled yet, add the message
+  to the pending queue (currently can contain just one message).
+  Message will be logged if deprecations later get enabled.
+************************************************************************/
+void deprecation_pending(const char *format, ...)
+{
+  va_list args;
+
+  va_start(args, format);
+  fc_vsnprintf(depr_pending, sizeof(depr_pending), format, args);
+  va_end(args);
+
+  if (depr_warns_enabled) {
+    /* Enabled already. Log */
+    do_log_deprecation("%s", depr_pending);
+    depr_pending[0] = '\0';
+  }
 }

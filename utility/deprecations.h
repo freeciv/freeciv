@@ -31,6 +31,8 @@ bool are_deprecation_warnings_enabled(void);
 
 void do_log_deprecation(const char *format, ...)
   fc__attribute((__format__ (__printf__, 1, 2)));
+void deprecation_pending(const char *format, ...)
+  fc__attribute((__format__ (__printf__, 1, 2)));
 
 #define log_deprecation(message, ...) \
   do { \
