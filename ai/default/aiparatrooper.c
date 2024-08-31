@@ -243,7 +243,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
 
         if (has_handicap(pplayer, H_FOG)) {
           possible = action_prob_possible(
-                       action_prob_unit_vs_tgt(paction, punit,
+                       action_prob_unit_vs_tgt(nmap, paction, punit,
                                                tile_city(ptile_dest), NULL,
                                                ptile_dest, NULL));
         } else {

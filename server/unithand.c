@@ -3094,6 +3094,7 @@ static void illegal_action(struct player *pplayer,
 {
   bool information_revealed;
   bool was_punished;
+  const struct civ_map *nmap = &(wld.map);
 
   struct action *stopped_action = action_by_number(stopped_action_id);
 
@@ -3104,6 +3105,7 @@ static void illegal_action(struct player *pplayer,
 
 
   information_revealed = action_prob_possible(action_prob_unit_vs_tgt(
+                                                 nmap,
                                                  stopped_action,
                                                  actor,
                                                  target_city, target_unit,
