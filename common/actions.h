@@ -845,7 +845,8 @@ struct act_prob action_prob_self(const struct civ_map *nmap,
                                  const struct unit *actor,
                                  const action_id act_id);
 
-struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+struct act_prob action_prob_unit_vs_tgt(const struct civ_map *nmap,
+                                        const struct action *paction,
                                         const struct unit *act_unit,
                                         const struct city *tgt_city,
                                         const struct unit *tgt_unit,

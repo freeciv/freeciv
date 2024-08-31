@@ -6395,7 +6395,8 @@ struct act_prob action_prob_self(const struct civ_map *nmap,
   @param extra_tgt the target for extra sub targeted actions
   @return the action probability of performing the action
 **************************************************************************/
-struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+struct act_prob action_prob_unit_vs_tgt(const struct civ_map *nmap,
+                                        const struct action *paction,
                                         const struct unit *act_unit,
                                         const struct city *tgt_city,
                                         const struct unit *tgt_unit,
@@ -6404,7 +6405,6 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
 {
   /* Assume impossible until told otherwise. */
   struct act_prob prob = ACTPROB_IMPOSSIBLE;
-  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(paction, ACTPROB_IMPOSSIBLE);
   fc_assert_ret_val(act_unit, ACTPROB_IMPOSSIBLE);

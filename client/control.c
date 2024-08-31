@@ -3030,7 +3030,7 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
     }
 
     if (action_prob_possible(
-          action_prob_unit_vs_tgt(paction, punit,
+          action_prob_unit_vs_tgt(&(wld.map), paction, punit,
                                   tile_city(ptile), NULL,
                                   ptile, NULL))) {
       if (paradrop_action == NULL) {
