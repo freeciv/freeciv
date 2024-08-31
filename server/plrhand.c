@@ -2947,7 +2947,7 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
    * In addition each city in disorder adds and each celebrating city
   subtracts from the probability of a civil war.
    * If you have at least 1 turns notice of the impending loss of
-  your capital, you can hike luxuries up to the hightest value,
+  your capital, you can hike luxuries up to the highest value,
   and by this reduce the chance of a civil war. In fact by
   hiking the luxuries to 100% under Democracy, it is easy to
   get massively negative numbers - guaranteeing imunity from
