@@ -20,12 +20,13 @@ add_common_env() {
   cp $1/bin/libzstd-1.dll  $2/ &&
   cp $1/bin/libintl-8.dll  $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
-  cp $1/bin/libsqlite3-0.dll $2/ &&
-  cp $1/lib/icuuc64.dll     $2/ &&
-  cp $1/lib/icudt64.dll     $2/ &&
+  cp $1/bin/libsqlite3-0.dll  $2/ &&
+  cp $1/lib/icuuc66.dll       $2/ &&
+  cp $1/lib/icudt66.dll       $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
-  cp $1/bin/libpng16-16.dll $2/ &&
-  cp $1/bin/libharfbuzz-0.dll $2/
+  cp $1/bin/libpng16-16.dll   $2/ &&
+  cp $1/bin/libharfbuzz-0.dll $2/ &&
+  cp $1/bin/libpsl-5.dll $2/
 }
 
 add_glib_env() {
@@ -59,6 +60,8 @@ add_gtk_common_env() {
   cp $1/bin/libatk-1.0-0.dll $2/ &&
   cp $1/bin/libffi-8.dll $2/ &&
   cp $1/bin/libxml2-2.dll $2/ &&
+  cp $1/bin/libMagickWand-7.Q16HDRI-10.dll $2/ &&
+  cp $1/bin/libMagickCore-7.Q16HDRI-10.dll $2/ &&
   mkdir -p $2/lib &&
   cp -R $1/lib/gdk-pixbuf-2.0 $2/lib/ &&
   mkdir -p $2/share/icons &&
@@ -97,6 +100,8 @@ add_qt6_env() {
   cp $1/bin/Qt6Gui.dll $2/ &&
   cp $1/bin/Qt6Widgets.dll $2/ &&
   cp $1/bin/libpcre2-16-0.dll $2/ &&
+  cp $1/bin/libMagickWand-7.Q16HDRI-10.dll $2/ &&
+  cp $1/bin/libMagickCore-7.Q16HDRI-10.dll $2/ &&
   mkdir -p $2/bin &&
   cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
