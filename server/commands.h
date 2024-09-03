@@ -29,7 +29,7 @@ enum cmd_echo {
    match is used.  Arrange order to:
    - allow old commands 's', 'h', 'l', 'q', 'c' to work.
    - reduce harm for ambiguous cases, where "harm" includes inconvenience,
-     eg accidently removing a player in a running game.
+     eg accidentally removing a player in a running game.
 */
 enum command_id {
   /* old one-letter commands: */
