@@ -95,18 +95,21 @@ add_qt6_env() {
 }
 
 add_common_env() {
-  cp $1/bin/libcurl-4.dll $2/ &&
-  cp $1/bin/liblzma-5.dll $2/ &&
-  cp $1/bin/libzstd-1.dll $2/ &&
-  cp $1/bin/libintl-8.dll $2/ &&
-  cp $1/bin/libsqlite3-0.dll $2/ &&
-  cp $1/bin/libiconv-2.dll $2/ &&
-  cp $1/bin/libz.dll.1.3.1  $2/ &&
-  cp $1/lib/icuuc64.dll     $2/ &&
-  cp $1/lib/icudt64.dll     $2/ &&
-  cp $1/bin/libpng16-16.dll $2/ &&
+  cp $1/bin/libcurl-4.dll     $2/ &&
+  cp $1/bin/liblzma-5.dll     $2/ &&
+  cp $1/bin/libzstd-1.dll     $2/ &&
+  cp $1/bin/libintl-8.dll     $2/ &&
+  cp $1/bin/libsqlite3-0.dll  $2/ &&
+  cp $1/bin/libiconv-2.dll    $2/ &&
+  cp $1/bin/libz.dll.1.3.1    $2/ &&
+  cp $1/lib/icuuc66.dll       $2/ &&
+  cp $1/lib/icudt66.dll       $2/ &&
+  cp $1/bin/libpng16-16.dll   $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
   cp $1/bin/libharfbuzz-0.dll $2/ &&
+  cp $1/bin/libpsl-5.dll      $2/ &&
+  cp $1/bin/libMagickWand-7.Q16HDRI-10.dll $2/ &&
+  cp $1/bin/libMagickCore-7.Q16HDRI-10.dll $2/ &&
   add_glib_env $1 $2
 }
 
