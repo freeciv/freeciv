@@ -121,6 +121,7 @@ flag_files =				\
 		colombia.png		\
 		comanche.png		\
 		comoros.png		\
+		conch.png		\
 		constantine.png		\
 		cornwall.png		\
 		corsica.png		\
@@ -702,6 +703,7 @@ flag_files =				\
 		colombia-large.png		\
 		comanche-large.png		\
 		comoros-large.png		\
+		conch-large.png		\
 		constantine-large.png		\
 		cornwall-large.png		\
 		corsica-large.png		\
@@ -1285,6 +1287,7 @@ shield_files =					\
 		colombia-shield.png		\
 		comanche-shield.png		\
 		comoros-shield.png		\
+		conch-shield.png		\
 		constantine-shield.png		\
 		cornwall-shield.png		\
 		corsica-shield.png		\
@@ -1866,6 +1869,7 @@ shield_files =					\
 		colombia-shield-large.png		\
 		comanche-shield-large.png		\
 		comoros-shield-large.png		\
+		conch-shield-large.png		\
 		constantine-shield-large.png		\
 		cornwall-shield-large.png		\
 		corsica-shield-large.png		\
@@ -2449,6 +2453,7 @@ svg_files = 				\
 		colombia.svg		\
 		comanche.svg		\
 		comoros.svg		\
+		conch.svg		\
 		constantine.svg		\
 		cornwall.svg		\
 		corsica.svg		\

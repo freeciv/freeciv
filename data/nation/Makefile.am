@@ -126,6 +126,7 @@ pkgdata_DATA = \
 		colombian.ruleset \
 		comanche.ruleset \
 		comorian.ruleset \
+		conch.ruleset \
 		confederate.ruleset \
 		congolese.ruleset \
 		congolesebrazzaville.ruleset \
