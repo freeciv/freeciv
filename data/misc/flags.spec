@@ -128,6 +128,7 @@ artists = "
    Colombia		Lauris Kaplinski
    Comanche		Zachary Harden
    Comoros		Open Clip Art
+   Conch		Wikipedia
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
    Corsica		Patricia Fidi
@@ -712,6 +713,7 @@ sprites =
 		"f.colombia", "flags/colombia"
 		"f.comanche", "flags/comanche"
 		"f.comoros", "flags/comoros"
+		"f.conch", "flags/conch"
 ;		"f.constantine", "flags/constantine"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall"
 		"f.corsica", "flags/corsica"
