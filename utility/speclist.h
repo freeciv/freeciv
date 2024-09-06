@@ -159,7 +159,7 @@ typedef bool (*SPECLIST_FOO(_list_comp_fn_t)) (const SPECLIST_TYPE *,
 typedef bool (*SPECLIST_FOO(_list_cond_fn_t)) (const SPECLIST_TYPE *);
 
 
-/****************************************************************************
+/************************************************************************//**
   Create a new speclist.
 ****************************************************************************/
 static inline SPECLIST_LIST *SPECLIST_FOO(_list_new) (void)
@@ -170,7 +170,7 @@ static inline SPECLIST_LIST *SPECLIST_FOO(_list_new) (void)
   return (SPECLIST_LIST *) genlist_new();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new speclist with a free callback.
 ****************************************************************************/
 static inline SPECLIST_LIST *
@@ -184,7 +184,7 @@ SPECLIST_FOO(_list_new_full) (SPECLIST_FOO(_list_free_fn_t) free_data_func)
           genlist_new_full((genlist_free_fn_t) free_data_func));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_destroy) (SPECLIST_LIST *tthis)
@@ -192,7 +192,7 @@ static inline void SPECLIST_FOO(_list_destroy) (SPECLIST_LIST *tthis)
   genlist_destroy((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Duplicate a speclist.
 ****************************************************************************/
 static inline SPECLIST_LIST *
@@ -205,7 +205,7 @@ SPECLIST_FOO(_list_copy) (const SPECLIST_LIST *tthis)
   return (SPECLIST_LIST *) genlist_copy((const struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Duplicate a speclist with a free callback and a function to copy each
   element.
 ****************************************************************************/
@@ -226,7 +226,7 @@ SPECLIST_FOO(_list_copy_full) (const SPECLIST_LIST *tthis,
                             (genlist_free_fn_t) free_data_func));
 }
 
-/****************************************************************************
+/*************************************************************************//**
   Remove all elements from the speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_clear) (SPECLIST_LIST *tthis)
@@ -234,7 +234,7 @@ static inline void SPECLIST_FOO(_list_clear) (SPECLIST_LIST *tthis)
   genlist_clear((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove all element duplicates (the speclist must be sorted before).
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_unique) (SPECLIST_LIST *tthis)
@@ -242,7 +242,7 @@ static inline void SPECLIST_FOO(_list_unique) (SPECLIST_LIST *tthis)
   genlist_unique((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove all element duplicates (the speclist must be sorted before), using
   'comp_data_func' to determine if the elements are equivalents.
 ****************************************************************************/
@@ -254,7 +254,7 @@ SPECLIST_FOO(_list_unique_full) (SPECLIST_LIST *tthis,
                       (genlist_comp_fn_t) comp_data_func);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Push back an element into the speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_append) (SPECLIST_LIST *tthis,
@@ -263,7 +263,7 @@ static inline void SPECLIST_FOO(_list_append) (SPECLIST_LIST *tthis,
   genlist_append((struct genlist *) tthis, pfoo);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Push front an element into the speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_prepend) (SPECLIST_LIST *tthis,
@@ -272,7 +272,7 @@ static inline void SPECLIST_FOO(_list_prepend) (SPECLIST_LIST *tthis,
   genlist_prepend((struct genlist *) tthis, pfoo);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Insert an element into the speclist at the given position.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *tthis,
@@ -281,7 +281,7 @@ static inline void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *tthis,
   genlist_insert((struct genlist *) tthis, pfoo, idx);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Insert an element after the specified link.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_insert_after) (SPECLIST_LIST *tthis,
@@ -292,7 +292,7 @@ static inline void SPECLIST_FOO(_list_insert_after) (SPECLIST_LIST *tthis,
                        (struct genlist_link *) plink);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Insert an element before the specified link.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_insert_before) (SPECLIST_LIST *tthis,
@@ -303,7 +303,7 @@ static inline void SPECLIST_FOO(_list_insert_before) (SPECLIST_LIST *tthis,
                         (struct genlist_link *) plink);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Search 'pfoo' in the speclist, and remove it. Returns TRUE on success.
 ****************************************************************************/
 static inline bool SPECLIST_FOO(_list_remove) (SPECLIST_LIST *tthis,
@@ -312,7 +312,7 @@ static inline bool SPECLIST_FOO(_list_remove) (SPECLIST_LIST *tthis,
   return genlist_remove((struct genlist *) tthis, pfoo);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove the first element which fit the conditional function. Returns
   TRUE on success.
 ****************************************************************************/
@@ -324,7 +324,7 @@ SPECLIST_FOO(_list_remove_if) (SPECLIST_LIST *tthis,
                            (genlist_cond_fn_t) cond_data_func);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove 'pfoo' of the whole list. Returns the number of removed elements.
 ****************************************************************************/
 static inline int SPECLIST_FOO(_list_remove_all) (SPECLIST_LIST *tthis,
@@ -333,7 +333,7 @@ static inline int SPECLIST_FOO(_list_remove_all) (SPECLIST_LIST *tthis,
   return genlist_remove_all((struct genlist *) tthis, pfoo);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove all elements which fit the conditional function. Returns the
   number of removed elements.
 ****************************************************************************/
@@ -346,7 +346,7 @@ SPECLIST_FOO(_list_remove_all_if) (SPECLIST_LIST *tthis,
                                (genlist_cond_fn_t) cond_data_func);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove the elements pointed by 'plink'. Returns the next element of the
   speclist.
 
@@ -359,7 +359,7 @@ static inline void SPECLIST_FOO(_list_erase) (SPECLIST_LIST *tthis,
   genlist_erase((struct genlist *) tthis, (struct genlist_link *) plink);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove the first element of the speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_pop_front) (SPECLIST_LIST *tthis)
@@ -367,7 +367,7 @@ static inline void SPECLIST_FOO(_list_pop_front) (SPECLIST_LIST *tthis)
   genlist_pop_front((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove the last element of the speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_pop_back) (SPECLIST_LIST *tthis)
@@ -375,7 +375,7 @@ static inline void SPECLIST_FOO(_list_pop_back) (SPECLIST_LIST *tthis)
   genlist_pop_back((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of elements inside the speclist.
 ****************************************************************************/
 static inline int SPECLIST_FOO(_list_size) (const SPECLIST_LIST *tthis)
@@ -383,7 +383,7 @@ static inline int SPECLIST_FOO(_list_size) (const SPECLIST_LIST *tthis)
   return genlist_size((const struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the element at position in the speclist.
 ****************************************************************************/
 static inline SPECLIST_TYPE *
@@ -393,7 +393,7 @@ SPECLIST_FOO(_list_get) (const SPECLIST_LIST *tthis, int slindex)
           genlist_get((const struct genlist *) tthis, slindex));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the first element of the speclist.
 ****************************************************************************/
 static inline SPECLIST_TYPE *
@@ -402,7 +402,7 @@ SPECLIST_FOO(_list_front) (const SPECLIST_LIST *tthis)
   return (SPECLIST_TYPE *) genlist_front((const struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the last element of the speclist.
 ****************************************************************************/
 static inline SPECLIST_TYPE *
@@ -411,7 +411,7 @@ SPECLIST_FOO(_list_back) (const SPECLIST_LIST *tthis)
   return (SPECLIST_TYPE *) genlist_back((const struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the element at position in the speclist.
 ****************************************************************************/
 static inline SPECLIST_LINK *
@@ -421,7 +421,7 @@ SPECLIST_FOO(_list_link_get) (const SPECLIST_LIST *tthis, int slindex)
           genlist_link_get((const struct genlist *) tthis, slindex));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the head link of the speclist.
 ****************************************************************************/
 static inline SPECLIST_LINK *
@@ -430,7 +430,7 @@ SPECLIST_FOO(_list_head) (const SPECLIST_LIST *tthis)
   return (SPECLIST_LINK *) genlist_head((const struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the tail link of the speclist.
 ****************************************************************************/
 static inline SPECLIST_LINK *
@@ -439,7 +439,7 @@ SPECLIST_FOO(_list_tail) (const SPECLIST_LIST *tthis)
   return (SPECLIST_LINK *) genlist_tail((const struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the link of the first element which match the data 'pfoo'.
 ****************************************************************************/
 static inline SPECLIST_LINK *
@@ -450,7 +450,7 @@ SPECLIST_FOO(_list_search) (const SPECLIST_LIST *tthis,
           genlist_search((const struct genlist *) tthis, pfoo));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the link of the first element which match the conditional function.
 ****************************************************************************/
 static inline SPECLIST_LINK *
@@ -462,7 +462,7 @@ SPECLIST_FOO(_list_search_if) (const SPECLIST_LIST *tthis,
                             (genlist_cond_fn_t) cond_data_func));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sort the speclist.
 ****************************************************************************/
 static inline void
@@ -474,7 +474,7 @@ SPECLIST_FOO(_list_sort) (SPECLIST_LIST * tthis,
                (int (*)(const void *, const void *)) compar);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Shuffle the speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_shuffle) (SPECLIST_LIST *tthis)
@@ -482,7 +482,7 @@ static inline void SPECLIST_FOO(_list_shuffle) (SPECLIST_LIST *tthis)
   genlist_shuffle((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Reverse the order of the elements of the speclist.
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_reverse) (SPECLIST_LIST *tthis)
@@ -490,7 +490,7 @@ static inline void SPECLIST_FOO(_list_reverse) (SPECLIST_LIST *tthis)
   genlist_reverse((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Allocate speclist mutex
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_allocate_mutex) (SPECLIST_LIST *tthis)
@@ -498,7 +498,7 @@ static inline void SPECLIST_FOO(_list_allocate_mutex) (SPECLIST_LIST *tthis)
   genlist_allocate_mutex((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Release speclist mutex
 ****************************************************************************/
 static inline void SPECLIST_FOO(_list_release_mutex) (SPECLIST_LIST *tthis)
@@ -506,7 +506,7 @@ static inline void SPECLIST_FOO(_list_release_mutex) (SPECLIST_LIST *tthis)
   genlist_release_mutex((struct genlist *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the data of the link.
 ****************************************************************************/
 static inline SPECLIST_TYPE *
@@ -516,7 +516,7 @@ SPECLIST_FOO(_list_link_data) (const SPECLIST_LINK *plink)
           genlist_link_data((const struct genlist_link *) plink));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the previous link.
 ****************************************************************************/
 static inline SPECLIST_LINK *
@@ -530,7 +530,7 @@ SPECLIST_FOO(_list_link_prev) (const SPECLIST_LINK *plink)
           genlist_link_prev((const struct genlist_link *) plink));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the next link.
 ****************************************************************************/
 static inline SPECLIST_LINK *
