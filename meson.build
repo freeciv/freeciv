@@ -2969,7 +2969,9 @@ flags = [
 ]
 
 foreach flag : flags
-  install_data(join_paths('data/flags', flag + '-large.png'),
+  install_data(join_paths('data/flags', flag + '.png'),
+               join_paths('data/flags', flag + '-shield.png'),
+               join_paths('data/flags', flag + '-large.png'),
                join_paths('data/flags', flag + '-shield-large.png'),
                install_dir : join_paths(get_option('datadir'), 'freeciv/flags'))
   if svgflags
