@@ -163,7 +163,7 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   } else {
     plr2_label->setText("FLAG MISSING");
   }
-  text2 = ruler_title_for_player(they, plr_buf, sizeof(plr_buf));
+  text2 = title_for_player(they, plr_buf, sizeof(plr_buf));
   text2 = "<b><center>" + text2.toHtmlEscaped() + "</center></b>";
   label2->setText(text2);
   plr2_accept = new QLabel;
