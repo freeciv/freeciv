@@ -404,22 +404,6 @@ AC_ARG_WITH([metainfodir],
 [ METAINFODIR=${withval} ], [ METAINFODIR="\$(prefix)/share/metainfo" ])
 AC_SUBST([METAINFODIR])
 
-dnl try to support this development version's previous save games formats
-AC_ARG_ENABLE([dev-save-compat],
-  AS_HELP_STRING([--enable-dev-save-compat=yes/no],
-                 [enable development version save game compatibility]),
-  [case "${enableval}" in
-    yes) dev_save_compat=1 ;;
-    no) dev_save_compat=0 ;;
-    *) AC_MSG_ERROR([bad value ${enableval} for --enable-dev-save-compat]) ;;
-  esac],
-  [dev_save_compat=$IS_DEVEL_VERSION])
-AS_IF([test $dev_save_compat != 0],
-      [AC_DEFINE([FREECIV_DEV_SAVE_COMPAT], [1],
-                 [Development version save game compatibility])
-       AC_DEFINE([FREECIV_DEV_SAVE_COMPAT_3_2], [1],
-                 [Development version save game compatibility - 3.2 development])])
-
 AC_ARG_ENABLE([patient-connect],
   AS_HELP_STRING([--enable-patient-connect=yes/no],
                  [enable client to be very patient in connecting spawned server]),
