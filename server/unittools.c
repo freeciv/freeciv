@@ -2628,8 +2628,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                           "%d units escaped from attack by %s %s",
                           num_escaped[i]),
                       num_escaped[i],
-                      pkiller_link,
-                      nation_adjective_for_player(pkiller->nationality)
+                      nation_adjective_for_player(pvictor),
+                      pkiller_link
         );
       }
     }
