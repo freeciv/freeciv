@@ -847,7 +847,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   buf = g_strdup_printf("<span size=\"large\" weight=\"bold\">%s</span>",
-                        ruler_title_for_player(plr1, plr_buf, sizeof(plr_buf)));
+                        title_for_player(plr1, plr_buf, sizeof(plr_buf)));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
   gtk_container_add(GTK_CONTAINER(hbox), label);
