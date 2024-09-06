@@ -2607,7 +2607,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     for (i = 0; i < slots; i++) {
       if (0 < num_escaped[i]) {
         if (flagless_killer) {
-                    notify_player(player_by_number(i), deftile,
+          notify_player(player_by_number(i), deftile,
                         E_UNIT_ESCAPED, ftc_server,
                         PL_("%d unit escaped from attack by %s",
                             "%d units escaped from attack by %s",
@@ -2621,8 +2621,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                             "%d units escaped from attack by %s %s",
                             num_escaped[i]),
                         num_escaped[i],
-                        pkiller_link,
-                        nation_adjective_for_player(pkiller->nationality));
+                        nation_adjective_for_player(pvictor),
+                        pkiller_link);
         }
       }
     }
