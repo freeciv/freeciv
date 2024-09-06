@@ -1,5 +1,5 @@
 # locale-fr.m4
-# serial 23
+# serial 24
 dnl Copyright (C) 2003, 2005-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -71,8 +71,9 @@ int main () {
   if (strftime (buf, sizeof (buf), "%b", &t) < 3 || buf[2] != 'v') return 1;
 # if !defined __BIONIC__ /* Bionic libc's 'struct lconv' is just a dummy.  */
   /* Check whether the decimal separator is a comma.
-     On NetBSD 3.0 in the fr_FR.ISO8859-1 locale, localeconv()->decimal_point
-     are nl_langinfo(RADIXCHAR) are both ".".  */
+     On NetBSD 3.0 in the fr_FR.ISO8859-1 locale
+     and on Haiku in the fr_FR.UTF-8 locale,
+     localeconv()->decimal_point are nl_langinfo(RADIXCHAR) are both ".".  */
   if (localeconv () ->decimal_point[0] != ',') return 1;
 # endif
   return 0;
@@ -82,10 +83,11 @@ int main () {
     if AC_TRY_EVAL([ac_link]) && test -s conftest$ac_exeext; then
       case "$host_os" in
         # Handle native Windows specially, because there setlocale() interprets
-        # "ar" as "Arabic" or "Arabic_Saudi Arabia.1256",
+        # "ar" or "ara" as "Arabic" or "Arabic_Saudi Arabia.1256",
+        # "en" or "eng" as "English" or "English_United States.1252",
         # "fr" or "fra" as "French" or "French_France.1252",
         # "ge"(!) or "deu"(!) as "German" or "German_Germany.1252",
-        # "ja" as "Japanese" or "Japanese_Japan.932",
+        # "ja" or "jpn" as "Japanese" or "Japanese_Japan.932",
         # and similar.
         mingw* | windows*)
           # Test for the native Windows locale name.
@@ -214,8 +216,9 @@ int main () {
 #endif
 #if !defined __BIONIC__ /* Bionic libc's 'struct lconv' is just a dummy.  */
   /* Check whether the decimal separator is a comma.
-     On NetBSD 3.0 in the fr_FR.ISO8859-1 locale, localeconv()->decimal_point
-     are nl_langinfo(RADIXCHAR) are both ".".  */
+     On NetBSD 3.0 in the fr_FR.ISO8859-1 locale
+     and on Haiku in the fr_FR.UTF-8 locale,
+     localeconv()->decimal_point are nl_langinfo(RADIXCHAR) are both ".".  */
   if (localeconv () ->decimal_point[0] != ',') return 1;
 #endif
   return 0;
@@ -224,10 +227,11 @@ int main () {
         if AC_TRY_EVAL([ac_link]) && test -s conftest$ac_exeext; then
           case "$host_os" in
             # Handle native Windows specially, because there setlocale() interprets
-            # "ar" as "Arabic" or "Arabic_Saudi Arabia.1256",
+            # "ar" or "ara" as "Arabic" or "Arabic_Saudi Arabia.1256",
+            # "en" or "eng" as "English" or "English_United States.1252",
             # "fr" or "fra" as "French" or "French_France.1252",
             # "ge"(!) or "deu"(!) as "German" or "German_Germany.1252",
-            # "ja" as "Japanese" or "Japanese_Japan.932",
+            # "ja" or "jpn" as "Japanese" or "Japanese_Japan.932",
             # and similar.
             mingw* | windows*)
               # Test for the hypothetical native Windows locale name.
