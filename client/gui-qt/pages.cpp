@@ -39,6 +39,7 @@
 // client
 #include "client_main.h"
 #include "connectdlg_common.h"
+#include "svgflag.h"
 
 // gui-qt
 #include "colors.h"
@@ -1690,6 +1691,8 @@ void fc_client::update_start_page()
   QTreeWidgetItem *global_item;
   QTreeWidgetItem *detach_item;
   int conn_id;
+  bool svg = is_svg_flag_enabled();
+
   conn_num = conn_list_size(game.est_connections);
 
   if (conn_num == 0) {
@@ -1785,7 +1788,11 @@ void fc_client::update_start_page()
           }
           psprite = get_nation_flag_sprite(tileset, pplayer->nation);
           pixmap = psprite->pm;
-          item->setData(col, Qt::DecorationRole, *pixmap);
+          if (svg) {
+            item->setData(col, Qt::DecorationRole, (*pixmap).scaledToHeight(50));
+          } else {
+            item->setData(col, Qt::DecorationRole, *pixmap);
+          }
           break;
         case 4:
           if (!player_has_color(pplayer)) {
