@@ -671,9 +671,8 @@ void races_dialog::group_selected(const QItemSelection &sl,
   set_index(index.row());
 }
 
-
 /***********************************************************************//**
-  Sets new nations' group by current current selection,
+  Sets new nations' group by current selection,
   index is used only when there is no current selection.
 ***************************************************************************/
 void races_dialog::set_index(int index)
