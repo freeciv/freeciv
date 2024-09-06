@@ -2988,7 +2988,7 @@ static void srv_running(void)
 
       if (between_turns != NULL) {
         game.server.turn_change_time = timer_read_seconds(between_turns);
-        log_debug("Inresponsive between turns %g seconds", game.server.turn_change_time);
+        log_debug("Unresponsive between turns %g seconds", game.server.turn_change_time);
       }
 
       while (server_sniff_all_input() == S_E_OTHERWISE) {
