@@ -888,7 +888,7 @@ void hud_action::mouseMoveEvent(QMouseEvent *event)
 }
 
 /************************************************************************//**
-  Leave event for hud_action, used to get status of pixmap higlight
+  Leave event for hud_action, used to get status of pixmap highlight
 ****************************************************************************/
 void hud_action::leaveEvent(QEvent *event)
 {
@@ -898,7 +898,7 @@ void hud_action::leaveEvent(QEvent *event)
 }
 
 /************************************************************************//**
-  Enter event for hud_action, used to get status of pixmap higlight
+  Enter event for hud_action, used to get status of pixmap highlight
 ****************************************************************************/
 #ifndef FC_QT5_MODE
 void hud_action::enterEvent(QEnterEvent *event)
