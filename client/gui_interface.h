@@ -154,14 +154,14 @@ struct gui_funcs {
   char **(*get_gui_specific_themes_directories)(int *count);
   char **(*get_usable_themes_in_directory)(const char *directory, int *count);
 
-  void (*gui_init_meeting)(struct Treaty *ptreaty, struct player *they,
+  void (*gui_init_meeting)(struct treaty *ptreaty, struct player *they,
                            struct player *initiator);
-  void (*gui_recv_cancel_meeting)(struct Treaty *ptreaty, struct player *they,
+  void (*gui_recv_cancel_meeting)(struct treaty *ptreaty, struct player *they,
                                   struct player *initiator);
-  void (*gui_prepare_clause_updt)(struct Treaty *ptreaty, struct player *they);
-  void (*gui_recv_create_clause)(struct Treaty *ptreaty, struct player *they);
-  void (*gui_recv_remove_clause)(struct Treaty *ptreaty, struct player *they);
-  void (*gui_recv_accept_treaty)(struct Treaty *ptreaty, struct player *they);
+  void (*gui_prepare_clause_updt)(struct treaty *ptreaty, struct player *they);
+  void (*gui_recv_create_clause)(struct treaty *ptreaty, struct player *they);
+  void (*gui_recv_remove_clause)(struct treaty *ptreaty, struct player *they);
+  void (*gui_recv_accept_treaty)(struct treaty *ptreaty, struct player *they);
 
   void (*request_action_confirmation)(const char *expl,
                                       struct act_confirmation_data *data);

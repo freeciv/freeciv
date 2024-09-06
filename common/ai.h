@@ -31,7 +31,7 @@ extern "C" {
 #  undef DEBUG_AITIMERS
 #endif /* FREECIV_DEBUG */
 
-struct Treaty;
+struct treaty;
 struct player;
 struct adv_choice;
 struct city;
@@ -258,12 +258,12 @@ struct ai_type
 
     /* Called for player AI type when diplomatic treaty requires evaluation. */
     void (*treaty_evaluate)(struct player *pplayer, struct player *aplayer,
-                            struct Treaty *ptreaty);
+                            struct treaty *ptreaty);
 
     /* Called for player AI type when diplomatic treaty has been accepted
      * by both parties. */
     void (*treaty_accepted)(struct player *pplayer, struct player *aplayer,
-                            struct Treaty *ptreaty);
+                            struct treaty *ptreaty);
 
     /* Called for player AI type when first contact with another player has been
      * established. Note that when contact is between two AI players, callback

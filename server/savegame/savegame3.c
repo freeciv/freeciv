@@ -7795,7 +7795,7 @@ static void sg_load_treaties(struct loaddata *loading)
     if (p0 == NULL || p1 == NULL) {
       log_error("Treaty between unknown players %s and %s", plr0, plr1);
     } else {
-      struct Treaty *ptreaty = fc_malloc(sizeof(*ptreaty));
+      struct treaty *ptreaty = fc_malloc(sizeof(*ptreaty));
 
       init_treaty(ptreaty, p0, p1);
       treaty_add(ptreaty);
@@ -7854,7 +7854,7 @@ typedef struct {
 /************************************************************************//**
   Save '[treaty_xxx]'.
 ****************************************************************************/
-static void treaty_save(struct Treaty *ptr, void *data_in)
+static void treaty_save(struct treaty *ptr, void *data_in)
 {
   char tpath[512];
   int cidx = 0;

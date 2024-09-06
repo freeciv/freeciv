@@ -484,7 +484,7 @@ static void cai_do_last_activities(struct player *pplayer)
   Call default ai with classic ai type as parameter.
 **************************************************************************/
 static void cai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
-                                struct Treaty *ptreaty)
+                                struct treaty *ptreaty)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
@@ -495,7 +495,7 @@ static void cai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   Call default ai with classic ai type as parameter.
 **************************************************************************/
 static void cai_treaty_accepted(struct player *pplayer, struct player *aplayer, 
-                                struct Treaty *ptreaty)
+                                struct treaty *ptreaty)
 {
   struct ai_type *deftype = classic_ai_get_self();
 

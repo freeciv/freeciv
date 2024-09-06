@@ -22,20 +22,20 @@
 #include "gui_proto_constructor.h"
 
 GUI_FUNC_PROTO(void, gui_init_meeting,
-               struct Treaty *ptreaty, struct player *they,
+               struct treaty *ptreaty, struct player *they,
                struct player *initiator)
 GUI_FUNC_PROTO(void, gui_recv_cancel_meeting,
-               struct Treaty *ptreaty, struct player *they,
+               struct treaty *ptreaty, struct player *they,
                struct player *initiator)
 GUI_FUNC_PROTO(void, gui_prepare_clause_updt,
-               struct Treaty *ptreaty, struct player *they)
+               struct treaty *ptreaty, struct player *they)
 GUI_FUNC_PROTO(void, gui_recv_create_clause,
-               struct Treaty *ptreaty, struct player *they)
+               struct treaty *ptreaty, struct player *they)
 GUI_FUNC_PROTO(void, gui_recv_remove_clause,
-               struct Treaty *ptreaty, struct player *they)
-GUI_FUNC_PROTO(void, gui_recv_accept_treaty, struct Treaty *ptreaty,
+               struct treaty *ptreaty, struct player *they)
+GUI_FUNC_PROTO(void, gui_recv_accept_treaty, struct treaty *ptreaty,
                struct player *they)
 
 GUI_FUNC_PROTO(void, close_all_diplomacy_dialogs, void)
 
-#endif  /* FC__DIPLODLG_G_H */
+#endif /* FC__DIPLODLG_G_H */

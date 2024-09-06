@@ -339,7 +339,7 @@ this to the civ2 system.
 Diplomacy
 =========================================================================
 A few words about the diplomacy system. When a diplomacy meeting is
-established, a Treaty structure is created on both of the clients and
+established, a treaty structure is created on both of the clients and
 on the server. All these structures are updated concurrently as clauses
 are added and removed.
 

@@ -465,7 +465,7 @@ static void texwai_last_activities(struct player *pplayer)
 **************************************************************************/
 static void texwai_treaty_evaluate(struct player *pplayer,
                                    struct player *aplayer,
-                                   struct Treaty *ptreaty)
+                                   struct treaty *ptreaty)
 {
   TEXAI_AIT;
   TEXAI_DFUNC(dai_treaty_evaluate, pplayer, aplayer, ptreaty);
@@ -476,7 +476,7 @@ static void texwai_treaty_evaluate(struct player *pplayer,
 **************************************************************************/
 static void texwai_treaty_accepted(struct player *pplayer,
                                    struct player *aplayer, 
-                                   struct Treaty *ptreaty)
+                                   struct treaty *ptreaty)
 {
   TEXAI_AIT;
   TEXAI_DFUNC(dai_treaty_accepted, pplayer, aplayer, ptreaty);

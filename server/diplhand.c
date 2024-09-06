@@ -60,7 +60,7 @@
   Calls treaty_evaluate function if such is set for AI player.    
 **************************************************************************/
 static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
-                                 struct Treaty *ptreaty)
+                                 struct treaty *ptreaty)
 {
   if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(treaty_evaluate, pplayer, pplayer, aplayer, ptreaty);
@@ -71,7 +71,7 @@ static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   Calls treaty_accepted function if such is set for AI player.
 **************************************************************************/
 static void call_treaty_accepted(struct player *pplayer, struct player *aplayer,
-                                 struct Treaty *ptreaty)
+                                 struct treaty *ptreaty)
 {
   if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(treaty_accepted, pplayer, pplayer, aplayer, ptreaty);
@@ -145,9 +145,9 @@ void set_diplstate_type(struct player_diplstate *state1,
   agreed clauses.
 **************************************************************************/
 void handle_diplomacy_accept_treaty_req(struct player *pplayer,
-					int counterpart)
+                                        int counterpart)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   bool *player_accept, *other_accept;
   enum dipl_reason diplcheck;
   bool worker_refresh_required = FALSE;
@@ -718,10 +718,10 @@ void establish_embassy(struct player *pplayer, struct player *aplayer)
   Handle request to remove clause from treaty.
 **************************************************************************/
 void handle_diplomacy_remove_clause_req(struct player *pplayer,
-					int counterpart, int giver,
-					enum clause_type type, int value)
+                                        int counterpart, int giver,
+                                        enum clause_type type, int value)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   struct player *pgiver = player_by_number(giver);
   struct player *pother = player_by_number(counterpart);
 
@@ -751,10 +751,10 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
   Handle request to add clause to treaty between two players.
 **************************************************************************/
 void handle_diplomacy_create_clause_req(struct player *pplayer,
-					int counterpart, int giver,
-					enum clause_type type, int value)
+                                        int counterpart, int giver,
+                                        enum clause_type type, int value)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   struct player *pgiver = player_by_number(giver);
   struct player *pother = player_by_number(counterpart);
 
@@ -802,9 +802,9 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
   this with input directly from untrusted source.
 **************************************************************************/
 static void really_diplomacy_cancel_meeting(struct player *pplayer,
-					    struct player *pother)
+                                            struct player *pother)
 {
-  struct Treaty *ptreaty = find_treaty(pplayer, pother);
+  struct treaty *ptreaty = find_treaty(pplayer, pother);
 
   if (ptreaty) {
     dlsend_packet_diplomacy_cancel_meeting(pother->connections,
@@ -843,7 +843,7 @@ void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
   Handle meeting opening request.
 **************************************************************************/
 void handle_diplomacy_init_meeting_req(struct player *pplayer,
-				       int counterpart)
+                                       int counterpart)
 {
   struct player *pother = player_by_number(counterpart);
 
@@ -863,7 +863,7 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
   }
 
   if (could_meet_with_player(pplayer, pother)) {
-    struct Treaty *ptreaty;
+    struct treaty *ptreaty;
 
     ptreaty = fc_malloc(sizeof(*ptreaty));
     init_treaty(ptreaty, pplayer, pother);
@@ -890,7 +890,7 @@ void send_diplomatic_meetings(struct connection *dest)
     return;
   }
   players_iterate(other) {
-    struct Treaty *ptreaty = find_treaty(pplayer, other);
+    struct treaty *ptreaty = find_treaty(pplayer, other);
 
     if (ptreaty) {
       fc_assert_action(pplayer != other, continue);
@@ -934,10 +934,11 @@ void cancel_all_meetings(struct player *pplayer)
 **************************************************************************/
 void reject_all_treaties(struct player *pplayer)
 {
-  struct Treaty* treaty;
+  struct treaty *treaty;
+
   players_iterate(pplayer2) {
     treaty = find_treaty(pplayer, pplayer2);
-    if (!treaty) {
+    if (treaty == nullptr) {
       continue;
     }
     treaty->accept0 = FALSE;

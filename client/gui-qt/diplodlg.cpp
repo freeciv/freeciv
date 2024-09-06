@@ -54,7 +54,7 @@ typedef city *p_city;
 /************************************************************************//**
   Constructor for diplomacy widget
 ****************************************************************************/
-diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
+diplo_wdg::diplo_wdg(struct treaty *ptreaty,
                      struct player *they, struct player *initiator): QWidget()
 {
   struct player *we;
@@ -781,7 +781,7 @@ void diplo_wdg::response_cancel()
 /************************************************************************//**
   Constructor for diplomacy dialog
 ****************************************************************************/
-diplo_dlg::diplo_dlg(struct Treaty *ptreaty, struct player *they,
+diplo_dlg::diplo_dlg(struct treaty *ptreaty, struct player *they,
                      struct player *initiator) : QTabWidget()
 {
   add_widget(ptreaty, they, initiator);
@@ -791,7 +791,7 @@ diplo_dlg::diplo_dlg(struct Treaty *ptreaty, struct player *they,
 /************************************************************************//**
   Creates new diplomacy widget and adds to diplomacy dialog
 ****************************************************************************/
-void diplo_dlg::add_widget(struct Treaty *ptreaty, struct player *they,
+void diplo_dlg::add_widget(struct treaty *ptreaty, struct player *they,
                            struct player *initiator)
 {
   diplo_wdg *dw;
@@ -916,7 +916,7 @@ void diplo_dlg::reactivate()
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 ****************************************************************************/
-void qtg_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
+void qtg_recv_accept_treaty(struct treaty *ptreaty, struct player *they)
 {
   int i;
   diplo_dlg *dd;
@@ -941,7 +941,7 @@ void qtg_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
   Handle the start of a diplomacy meeting - usually by popping up a
   diplomacy dialog.
 ****************************************************************************/
-void qtg_init_meeting(struct Treaty *ptreaty, struct player *they,
+void qtg_init_meeting(struct treaty *ptreaty, struct player *they,
                       struct player *initiator)
 {
   int i;
@@ -1027,7 +1027,7 @@ void qtg_init_meeting(struct Treaty *ptreaty, struct player *they,
 /**********************************************************************//**
   Prepare to clause creation or removal.
 **************************************************************************/
-void qtg_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
+void qtg_prepare_clause_updt(struct treaty *ptreaty, struct player *they)
 {
   // Not needed
 }
@@ -1035,7 +1035,7 @@ void qtg_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
 /************************************************************************//**
   Update the diplomacy dialog by adding a clause.
 ****************************************************************************/
-void qtg_recv_create_clause(struct Treaty *ptreaty, struct player *they)
+void qtg_recv_create_clause(struct treaty *ptreaty, struct player *they)
 {
   int i;
   diplo_dlg *dd;
@@ -1059,7 +1059,7 @@ void qtg_recv_create_clause(struct Treaty *ptreaty, struct player *they)
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 ****************************************************************************/
-void qtg_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+void qtg_recv_cancel_meeting(struct treaty *ptreaty, struct player *they,
                              struct player *initiator)
 {
   int i;
@@ -1079,7 +1079,7 @@ void qtg_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
 /************************************************************************//**
   Update the diplomacy dialog by removing a clause.
 ****************************************************************************/
-void qtg_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
+void qtg_recv_remove_clause(struct treaty *ptreaty, struct player *they)
 {
   int i;
   diplo_dlg *dd;
