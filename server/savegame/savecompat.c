@@ -2480,6 +2480,47 @@ static void compat_load_030300(struct loaddata *loading,
     }
   }
 
+  {
+    int action_count;
+
+    action_count = secfile_lookup_int_default(loading->file, 0,
+                                              "savefile.action_size");
+
+    if (action_count > 0) {
+      const char **modname;
+      const char **savemod;
+      int j;
+      const char *cc1_name = "Conquer City Shrink";
+      const char *cc2_name = "Conquer City Shrink 2";
+      const char *cc3_name = "Conquer City Shrink 3";
+      const char *cc4_name = "Conquer City Shrink 4";
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                       "savefile.action_vector");
+
+      savemod = fc_calloc(action_count, sizeof(*savemod));
+
+      for (j = 0; j < action_count; j++) {
+        if (!fc_strcasecmp("Conquer City", modname[j])) {
+          savemod[j] = cc1_name;
+        } else if (!fc_strcasecmp("Conquer City 2", modname[j])) {
+          savemod[j] = cc2_name;
+        } else if (!fc_strcasecmp("Conquer City 3", modname[j])) {
+          savemod[j] = cc3_name;
+        } else if (!fc_strcasecmp("Conquer City 4", modname[j])) {
+          savemod[j] = cc4_name;
+        } else {
+          savemod[j] = modname[j];
+        }
+      }
+
+      secfile_replace_str_vec(loading->file, savemod, action_count,
+                              "savefile.action_vector");
+
+      free(savemod);
+    }
+  }
+
   /* Add actions for unit activities */
   if (format_class == SAVEGAME_3) {
     loading->activities.size
@@ -2514,7 +2555,7 @@ static void compat_load_030300(struct loaddata *loading,
       for (j = 0; j < loading->action.size; j++) {
         struct action *real_action = action_by_rule_name(modname[j]);
 
-        if (real_action) {
+        if (real_action != nullptr) {
           loading->action.order[j] = real_action->id;
         } else {
           log_sg("Unknown action \'%s\'", modname[j]);
@@ -2969,6 +3010,46 @@ static void compat_load_dev(struct loaddata *loading)
   if (game_version < 3029300) {
     /* Before version number bump to 3.2.93 */
 
+    {
+      int action_count;
+
+      action_count = secfile_lookup_int_default(loading->file, 0,
+                                                "savefile.action_size");
+
+      if (action_count > 0) {
+        const char **modname;
+        const char **savemod;
+        int j;
+        const char *cc1_name = "Conquer City Shrink";
+        const char *cc2_name = "Conquer City Shrink 2";
+        const char *cc3_name = "Conquer City Shrink 3";
+        const char *cc4_name = "Conquer City Shrink 4";
+
+        modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                         "savefile.action_vector");
+
+        savemod = fc_calloc(action_count, sizeof(*savemod));
+
+        for (j = 0; j < action_count; j++) {
+          if (!fc_strcasecmp("Conquer City", modname[j])) {
+            savemod[j] = cc1_name;
+          } else if (!fc_strcasecmp("Conquer City 2", modname[j])) {
+            savemod[j] = cc2_name;
+          } else if (!fc_strcasecmp("Conquer City 3", modname[j])) {
+            savemod[j] = cc3_name;
+          } else if (!fc_strcasecmp("Conquer City 4", modname[j])) {
+            savemod[j] = cc4_name;
+          } else {
+            savemod[j] = modname[j];
+          }
+        }
+
+        secfile_replace_str_vec(loading->file, savemod, action_count,
+                                "savefile.action_vector");
+
+        free(savemod);
+      }
+    }
   } /* Version < 3.2.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_3 */
