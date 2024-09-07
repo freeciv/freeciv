@@ -223,7 +223,7 @@ static bool parse_options(int argc, char **argv)
 /**********************************************************************//**
   Main handler for key presses
 **************************************************************************/
-static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
+static Uint16 main_key_down_handler(SDL_Keycode key, void *data)
 {
   static struct widget *pwidget;
 
@@ -304,7 +304,7 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
 /**********************************************************************//**
   Main key release handler.
 **************************************************************************/
-static Uint16 main_key_up_handler(SDL_Keysym key, void *data)
+static Uint16 main_key_up_handler(SDL_Keycode key, void *data)
 {
   if (selected_widget) {
     unselect_widget_action();
@@ -312,6 +312,7 @@ static Uint16 main_key_up_handler(SDL_Keysym key, void *data)
 
   return ID_ERROR;
 }
+
 /**********************************************************************//**
   Main finger down handler.
 **************************************************************************/
@@ -340,6 +341,7 @@ static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
   }
   return ID_ERROR;
 }
+
 /**********************************************************************//**
   Main finger release handler.
 **************************************************************************/
@@ -594,8 +596,8 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 **************************************************************************/
 Uint16 gui_event_loop(void *data,
                       void (*loop_action)(void *data),
-                      Uint16 (*key_down_handler)(SDL_Keysym key, void *data),
-                      Uint16 (*key_up_handler)(SDL_Keysym key, void *data),
+                      Uint16 (*key_down_handler)(SDL_Keycode key, void *data),
+                      Uint16 (*key_up_handler)(SDL_Keycode key, void *data),
                       Uint16 (*textinput_handler)(char *text, void *data),
                       Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *touch_event, void *data),
                       Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *touch_event, void *data),

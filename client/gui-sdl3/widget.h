@@ -203,7 +203,7 @@ void del_gui_list(struct widget *gui_list);
 void del_main_list(void);
 
 struct widget *find_next_widget_at_pos(struct widget *start_widget, int x, int y);
-struct widget *find_next_widget_for_key(struct widget *start_widget, SDL_Keysym key);
+struct widget *find_next_widget_for_key(struct widget *start_widget, SDL_Keycode key);
 
 struct widget *get_widget_pointer_from_id(const struct widget *gui_list,
                                           Uint16 id,

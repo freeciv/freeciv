@@ -2438,7 +2438,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
 /**********************************************************************//**
   Toggle map drawing stuff.
 **************************************************************************/
-bool map_event_handler(SDL_Keysym key)
+bool map_event_handler(SDL_Keycode key)
 {
   if (C_S_RUNNING == client_state()) {
     enum direction8 movedir = DIR8_MAGIC_MAX;
