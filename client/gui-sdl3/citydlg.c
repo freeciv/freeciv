@@ -677,7 +677,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
 
   }
 
-  psurf = create_surf(src_rect.w, src_rect.h, SDL_SWSURFACE);
+  psurf = create_surf(src_rect.w, src_rect.h);
   alphablit(destcanvas->surf, &src_rect, psurf, NULL, 255);
 
   canvas_free(destcanvas);

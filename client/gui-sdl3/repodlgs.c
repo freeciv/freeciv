@@ -2102,7 +2102,7 @@ void economy_report_dialog_popup(bool make_modal)
   if (entries_used > 0) {
 
     /* Create Imprv Background Icon */
-    background = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
+    background = create_surf(adj_size(116), adj_size(116));
 
     SDL_FillSurfaceRect(background, NULL, map_rgba(background->format, bg_color));
 
@@ -2447,7 +2447,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
   text = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
 
   /* Create label surface */
-  surf = create_surf(w, h, SDL_SWSURFACE);
+  surf = create_surf(w, h);
 
   if (tech_id == research_get(client_player())->researching) {
     color.a = 180;

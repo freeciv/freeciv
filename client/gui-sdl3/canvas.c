@@ -39,7 +39,7 @@ struct canvas *canvas_create(int width, int height)
 {
   struct canvas *result = fc_malloc(sizeof(*result));	
 
-  result->surf = create_surf(width, height, SDL_SWSURFACE);
+  result->surf = create_surf(width, height);
 
   return result;
 }

@@ -264,7 +264,7 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
   label->size.w = MAX(label->size.w, w);
   label->size.h = MAX(label->size.h, h);
 
-  ptheme = create_surf(label->size.w, label->size.h * 2, SDL_SWSURFACE);
+  ptheme = create_surf(label->size.w, label->size.h * 2);
 
   colorkey = SDL_MapRGBA(ptheme->format, pstr->bgcol.r,
                          pstr->bgcol.g, pstr->bgcol.b, pstr->bgcol.a);
@@ -323,7 +323,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
   Uint32 colorkey, flags = get_wflags(icon_label);
   SDL_Surface *pdest;
   SDL_Surface *ptheme = create_surf(icon_label->size.w,
-                                    icon_label->size.h * 2, SDL_SWSURFACE);
+                                    icon_label->size.h * 2);
 
   colorkey = SDL_MapRGBA(ptheme->format,
                          icon_label->string_utf8->bgcol.r,

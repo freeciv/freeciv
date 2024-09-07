@@ -244,11 +244,10 @@ SDL_Surface *load_surf(const char *fname);
 
 SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
                                      int width, int height);
-SDL_Surface *create_surf(int width, int height, Uint32 flags);
+SDL_Surface *create_surf(int width, int height);
 SDL_Surface *convert_surf(SDL_Surface *surf_in);
 
-SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 flags,
-                                   SDL_Color *pcolor);
+SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, SDL_Color *pcolor);
 
 SDL_Surface *crop_rect_from_surface(SDL_Surface *psource,
                                     SDL_Rect *prect);

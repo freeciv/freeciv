@@ -323,7 +323,7 @@ static SDL_Surface *create_utf8_surf(utf8_str *pstr)
     log_debug("create_utf8_surf: String is %d length", text->w);
   } else {
     log_debug("create_utf8_surf: text NULL");
-    text = create_surf(0, 0, SDL_SWSURFACE);
+    text = create_surf(0, 0);
   }
 
   if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
@@ -371,7 +371,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
 
   switch (pstr->render) {
   case 1:
-    text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
+    text = create_surf(w, count * tmp[0]->h);
     SDL_FillSurfaceRect(text, NULL, color);
     SDL_SetSurfaceColorKey(text, SDL_TRUE, color);
     break;
@@ -381,7 +381,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
     SDL_FillSurfaceRect(text, NULL, color);
     break;
   default:
-    text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
+    text = create_surf(w, count * tmp[0]->h);
     SDL_FillSurfaceRect(text, NULL, color);
     break;
   }

@@ -107,14 +107,14 @@ struct gui_layer *add_gui_layer(int width, int height)
   struct gui_layer *gui_layer = NULL;
   SDL_Surface *buffer;
 
-  buffer = create_surf(width, height, SDL_SWSURFACE);
+  buffer = create_surf(width, height);
   gui_layer = gui_layer_new(0, 0, buffer);
 
-  /* add to buffers array */
+  /* Add to buffers array */
   if (main_data.guis) {
     int i;
 
-    /* find NULL element */
+    /* Find NULL element */
     for (i = 0; i < main_data.guis_count; i++) {
       if (!main_data.guis[i]) {
         main_data.guis[i] = gui_layer;
@@ -334,7 +334,7 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
 /**********************************************************************//**
   Create surface with the same format as main window
 **************************************************************************/
-SDL_Surface *create_surf(int width, int height, Uint32 flags)
+SDL_Surface *create_surf(int width, int height)
 {
   return create_surf_with_format(main_surface->format, width, height);
 }
@@ -351,13 +351,12 @@ SDL_Surface *convert_surf(SDL_Surface *surf_in)
   Create an surface with screen format and fill with color.
   If pcolor == NULL surface is filled with transparent white A = 128
 **************************************************************************/
-SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 flags,
-                                   SDL_Color *pcolor)
+SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, SDL_Color *pcolor)
 {
   SDL_Surface *new_surf;
   SDL_Color color = {255, 255, 255, 128};
 
-  new_surf = create_surf(w, h, flags);
+  new_surf = create_surf(w, h);
 
   if (!new_surf) {
     return NULL;
@@ -573,7 +572,7 @@ bool create_surfaces(int width, int height)
 
   if (main_data.gui) {
     FREESURFACE(main_data.gui->surface);
-    main_data.gui->surface = create_surf(width, height, SDL_SWSURFACE);
+    main_data.gui->surface = create_surf(width, height);
   } else {
     main_data.gui = add_gui_layer(width, height);
   }
@@ -681,7 +680,7 @@ int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
     return -3;
   }
 
-  colorbar = create_surf(surf->w, surf->h, 0);
+  colorbar = create_surf(surf->w, surf->h);
 
   SDL_FillSurfaceRect(colorbar, prect,
                       SDL_MapRGB(surf->format,
@@ -1101,7 +1100,7 @@ SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
       0, 0
     };
 
-    result = create_surf(new_width, new_height, SDL_SWSURFACE);
+    result = create_surf(new_width, new_height);
     alphablit(tmp_surface, NULL, result, &area, 255);
     FREESURFACE(tmp_surface);
   } else {

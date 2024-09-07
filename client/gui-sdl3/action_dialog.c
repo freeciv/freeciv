@@ -1501,7 +1501,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
     if (buf->id == ID_SEPARATOR) {
       FREESURFACE(buf->theme);
       buf->size.h = h;
-      buf->theme = create_surf(w, h, SDL_SWSURFACE);
+      buf->theme = create_surf(w, h);
 
       area2.y = buf->size.h / 2 - 1;
       area2.w = buf->size.w - adj_size(20);

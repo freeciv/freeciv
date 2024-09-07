@@ -824,8 +824,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           astr_free(&addition);
 
           buf_surf = create_surf(tileset_full_tile_width(tileset),
-                                 tileset_full_tile_height(tileset),
-                                 SDL_SWSURFACE);
+                                 tileset_full_tile_height(tileset));
 
           destcanvas = canvas_create(tileset_full_tile_width(tileset),
                                      tileset_full_tile_height(tileset));
