@@ -1104,7 +1104,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
   /* --------------- */
   /* Create Target Background Icon */
-  main_surf = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
+  main_surf = create_surf(adj_size(116), adj_size(116));
   SDL_FillSurfaceRect(main_surf, NULL, map_rgba(main_surf->format, bg_color));
 
   create_frame(main_surf,

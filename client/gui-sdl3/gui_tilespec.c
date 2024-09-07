@@ -194,7 +194,7 @@ void tilespec_setup_city_icons(void)
 
   load_city_icon_surface(spr, police, "city.police");
   /* ================================================================= */
-  icons->worklist = create_surf(9,9, SDL_SWSURFACE);
+  icons->worklist = create_surf(9, 9);
   SDL_FillSurfaceRect(icons->worklist, NULL,
                       SDL_MapRGB(icons->worklist->format, 255, 255,255));
 
@@ -381,7 +381,7 @@ void setup_auxiliary_tech_icons(void)
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   /* Create icons */
-  surf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
+  surf = create_surf(adj_size(50), adj_size(50));
   SDL_FillSurfaceRect(surf, NULL, map_rgba(surf->format, bg_color));
   create_frame(surf,
                0 , 0, surf->w - 1, surf->h - 1,

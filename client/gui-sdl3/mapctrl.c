@@ -935,7 +935,7 @@ static void remake_unitinfo(int w, int h)
   pwidget->size.y = main_window_height() - h;
 
   FREESURFACE(pwidget->theme);
-  pwidget->theme = create_surf(w, h, SDL_SWSURFACE);
+  pwidget->theme = create_surf(w, h);
 
   draw_frame(pwidget->theme, 0, 0, pwidget->size.w, pwidget->size.h);
 
@@ -1534,7 +1534,7 @@ void popup_unitinfo_window(void)
 
   /* Make UNITS Icon */
   icon_theme = create_surf(current_theme->map_icon->w,
-                           current_theme->map_icon->h, SDL_SWSURFACE);
+                           current_theme->map_icon->h);
   alphablit(current_theme->map_icon, NULL, icon_theme, NULL, 255);
   alphablit(current_theme->r_arrow_icon, NULL, icon_theme, NULL, 255);
 
@@ -1759,12 +1759,11 @@ void popup_minimap_window(void)
   add_to_gui_list(ID_CLIENT_OPTIONS, options_button);
 #endif /* GUI_SDL3_SMALL_SCREEN */
 
-  /* show/hide minimap button */
+  /* Show/hide minimap button */
 
-  /* make Map Icon */
+  /* Make Map Icon */
   icon_theme = create_surf(current_theme->map_icon->w,
-                           current_theme->map_icon->h,
-                           SDL_SWSURFACE);
+                           current_theme->map_icon->h);
   alphablit(current_theme->map_icon, NULL, icon_theme, NULL, 255);
   alphablit(current_theme->l_arrow_icon, NULL, icon_theme, NULL, 255);
 

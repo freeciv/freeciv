@@ -93,9 +93,9 @@ static SDL_Surface *create_vertical_surface(SDL_Surface *vert_theme,
   }
 
   if (!tile_count_midd) {
-    versurf = create_surf(vert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
+    versurf = create_surf(vert_theme->w, tile_len_end * 2);
   } else {
-    versurf = create_surf(vert_theme->w, height, SDL_SWSURFACE);
+    versurf = create_surf(vert_theme->w, height);
   }
 
   src.x = 0;
@@ -225,9 +225,9 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface *horiz_theme,
   }
 
   if (!tile_count_midd) {
-    horsurf = create_surf(tile_len_end * 2, horiz_theme->h, SDL_SWSURFACE);
+    horsurf = create_surf(tile_len_end * 2, horiz_theme->h);
   } else {
-    horsurf = create_surf(width, horiz_theme->h, SDL_SWSURFACE);
+    horsurf = create_surf(width, horiz_theme->h);
   }
 
   src.y = 0;

@@ -1315,7 +1315,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   area.y += adj_size(12);
   area.w -= adj_size(12) + adj_size(12);
   area.h -= adj_size(12) + adj_size(12);
-  background->theme = create_surf(area.w, area.h, SDL_SWSURFACE);
+  background->theme = create_surf(area.w, area.h);
   widget_set_area(background, area);
   widget_set_position(background, area.x, area.y);
   SDL_FillSurfaceRect(background->theme, NULL,

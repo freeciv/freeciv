@@ -137,7 +137,7 @@ void load_cursors(void)
 
   std_cursor = SDL_GetCursor();
 
-  surf = create_surf(1, 1, SDL_SWSURFACE);
+  surf = create_surf(1, 1);
   disabled_cursor = SurfaceToCursor(surf, 0, 0);
   FREESURFACE(surf);
 
