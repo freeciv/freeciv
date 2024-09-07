@@ -246,7 +246,7 @@ struct widget *find_next_widget_at_pos(struct widget *start_widget,
   NOTE: This function ignores CapsLock and NumLock Keys.
 **************************************************************************/
 struct widget *find_next_widget_for_key(struct widget *start_widget,
-                                        SDL_Keysym key)
+                                        SDL_Keycode key)
 {
   struct widget *pwidget;
 

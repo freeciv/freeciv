@@ -416,7 +416,7 @@ int draw_edit(struct widget *pedit, Sint16 start_x, Sint16 start_y)
   NOTE: This functions can return NULL in 'edit_widget->string_utf8->text' but
         never free 'edit_widget->string_utf8' struct.
 **************************************************************************/
-static Uint16 edit_key_down(SDL_Keysym key, void *data)
+static Uint16 edit_key_down(SDL_Keycode key, void *data)
 {
   struct text_edit *edt = (struct text_edit *)data;
   struct utf8_char *input_chain_tmp;
