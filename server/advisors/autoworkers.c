@@ -1296,6 +1296,8 @@ bool auto_workers_speculate_can_act_at(const struct unit *punit,
                                        struct extra_type *target,
                                        const struct tile *ptile)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   action_by_activity_iterate(paction, activity) {
     if (action_get_actor_kind(paction) != AAK_UNIT) {
       /* Not relevant. */
@@ -1305,7 +1307,7 @@ bool auto_workers_speculate_can_act_at(const struct unit *punit,
     switch (action_get_target_kind(paction)) {
     case ATK_CITY:
       return action_prob_possible(action_speculate_unit_on_city(
-                                    paction->id,
+                                    nmap, paction->id,
                                     punit, unit_home(punit), ptile,
                                     omniscient_cheat,
                                     tile_city(ptile)));

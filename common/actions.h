@@ -592,7 +592,8 @@ struct act_prob action_prob_unit_vs_tgt(const struct civ_map *nmap,
                                         const struct extra_type *sub_tgt);
 
 struct act_prob
-action_speculate_unit_on_city(action_id act_id,
+action_speculate_unit_on_city(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,
