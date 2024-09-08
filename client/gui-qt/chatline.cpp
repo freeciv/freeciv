@@ -458,7 +458,7 @@ void chatwdg::paintEvent(QPaintEvent *event)
 }
 
 /***********************************************************************//**
-  Processess history for chat
+  Processes history for chat
 ***************************************************************************/
 bool chatwdg::eventFilter(QObject *obj, QEvent *event)
 {
