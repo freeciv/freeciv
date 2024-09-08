@@ -485,8 +485,9 @@ static bool get_discounted_reward(const struct unit *caravan,
   bool consider_wonder;
   bool consider_trade;
   bool consider_windfall;
+  const struct civ_map *nmap = &(wld.map);
 
-  /* if no foreign trade is allowed, just quit. */
+  /* If no foreign trade is allowed, just quit. */
   if (!does_foreign_trade_param_allow(parameter, pplayer_src, pplayer_dest)) {
     caravan_result_init_zero(result);
     return FALSE;
@@ -494,17 +495,17 @@ static bool get_discounted_reward(const struct unit *caravan,
 
   consider_wonder = parameter->consider_wonders
     && action_prob_possible(
-        action_speculate_unit_on_city(ACTION_HELP_WONDER,
+        action_speculate_unit_on_city(nmap, ACTION_HELP_WONDER,
                                       caravan, src, city_tile(dest),
                                       TRUE, dest));
   consider_trade = parameter->consider_trade
     && action_prob_possible(
-        action_speculate_unit_on_city(ACTION_TRADE_ROUTE,
+        action_speculate_unit_on_city(nmap, ACTION_TRADE_ROUTE,
                                       caravan, src, city_tile(dest),
                                       TRUE, dest));
   consider_windfall = parameter->consider_windfall
     && action_prob_possible(
-        action_speculate_unit_on_city(ACTION_MARKETPLACE,
+        action_speculate_unit_on_city(nmap, ACTION_MARKETPLACE,
                                       caravan, src, city_tile(dest),
                                       TRUE, dest));
 
