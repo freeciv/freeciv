@@ -1,5 +1,5 @@
 # gnulib-common.m4
-# serial 101
+# serial 103
 dnl Copyright (C) 2007-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -21,10 +21,22 @@ AC_DEFUN([gl_COMMON_BODY], [
 #define _GL_CONFIG_H_INCLUDED 1
 ])
   AH_VERBATIM([_GL_GNUC_PREREQ],
-[/* True if the compiler says it groks GNU C version MAJOR.MINOR.  */
-#if defined __GNUC__ && defined __GNUC_MINOR__
+[/* True if the compiler says it groks GNU C version MAJOR.MINOR.
+    Except that
+      - clang groks GNU C 4.2, even on Windows, where it does not define
+        __GNUC__.
+      - The OpenMandriva-modified clang compiler pretends that it groks
+        GNU C version 13.1, but it doesn't: It does not support
+        __attribute__ ((__malloc__ (f, i))), nor does it support
+        __attribute__ ((__warning__ (message))) on a function redeclaration.
+      - Users can make clang lie as well, through the -fgnuc-version option.  */
+#if defined __GNUC__ && defined __GNUC_MINOR__ && !defined __clang__
 # define _GL_GNUC_PREREQ(major, minor) \
     ((major) < __GNUC__ + ((minor) <= __GNUC_MINOR__))
+#elif defined __clang__
+  /* clang really only groks GNU C 4.2.  */
+# define _GL_GNUC_PREREQ(major, minor) \
+    ((major) < 4 + ((minor) <= 2))
 #else
 # define _GL_GNUC_PREREQ(major, minor) 0
 #endif
@@ -1343,7 +1355,7 @@ AC_DEFUN([gl_CC_GNULIB_WARNINGS],
     dnl -Wno-unused-parameter                 >= 3            >= 3.9
     dnl
     cat > conftest.c <<\EOF
-      #if __GNUC__ >= 3 || (__clang_major__ + (__clang_minor__ >= 9) > 3)
+      #if (__GNUC__ >= 3 && !defined __clang__) || (__clang_major__ + (__clang_minor__ >= 9) > 3)
       -Wno-cast-qual
       -Wno-conversion
       -Wno-float-equal
@@ -1352,23 +1364,23 @@ AC_DEFUN([gl_CC_GNULIB_WARNINGS],
       -Wno-unused-function
       -Wno-unused-parameter
       #endif
-      #if __GNUC__ + (__GNUC_MINOR__ >= 9) > 4 || (__clang_major__ + (__clang_minor__ >= 9) > 3)
+      #if (__GNUC__ + (__GNUC_MINOR__ >= 9) > 4 && !defined __clang__) || (__clang_major__ + (__clang_minor__ >= 9) > 3)
       -Wno-float-conversion
       #endif
-      #if __GNUC__ >= 7 || (__clang_major__ + (__clang_minor__ >= 9) > 3)
+      #if (__GNUC__ >= 7 && !defined __clang__) || (__clang_major__ + (__clang_minor__ >= 9) > 3)
       -Wimplicit-fallthrough
       #endif
-      #if __GNUC__ + (__GNUC_MINOR__ >= 8) > 4 || (__clang_major__ + (__clang_minor__ >= 9) > 3)
+      #if (__GNUC__ + (__GNUC_MINOR__ >= 8) > 4 && !defined __clang__) || (__clang_major__ + (__clang_minor__ >= 9) > 3)
       -Wno-pedantic
       #endif
       #if 3 < __clang_major__ + (9 <= __clang_minor__)
       -Wno-tautological-constant-out-of-range-compare
       #endif
-      #if __GNUC__ + (__GNUC_MINOR__ >= 3) > 4 || (__clang_major__ + (__clang_minor__ >= 9) > 3)
+      #if (__GNUC__ + (__GNUC_MINOR__ >= 3) > 4 && !defined __clang__) || (__clang_major__ + (__clang_minor__ >= 9) > 3)
       -Wno-sign-conversion
       -Wno-type-limits
       #endif
-      #if __GNUC__ + (__GNUC_MINOR__ >= 5) > 4
+      #if (__GNUC__ + (__GNUC_MINOR__ >= 5) > 4 && !defined __clang__)
       -Wno-unsuffixed-float-constants
       #endif
 EOF
