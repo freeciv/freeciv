@@ -417,6 +417,10 @@ function City:remove_building(impr)
   edit.remove_building(self, impr)
 end
 
+function City:change_size(change, nationality)
+  edit.change_city_size(self, change, nationality)
+end
+
 -- Server functions for Unit module
 function Unit:teleport(dest,
                        embark_to, allow_disembark,
