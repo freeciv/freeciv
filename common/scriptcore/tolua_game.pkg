@@ -294,11 +294,6 @@ module City {
     @ link_text(lua_State *L, City *self);
   const char *api_methods_city_tile_link
     @ tile_link_text(lua_State *L, City *self);
-
-  bool api_methods_tile_known
-    @ known(lua_State *L, Tile *self, Player *watcher);
-  bool api_methods_tile_seen
-    @ seen(lua_State *L, Tile *self, Player *watcher);
 }
 
 $[
@@ -389,6 +384,11 @@ module Tile {
     @ sq_distance (lua_State *L, Tile *self, Tile *other);
   const char *api_methods_tile_link
     @ link_text(lua_State *L, Tile *self);
+
+  bool api_methods_tile_known
+    @ known(lua_State *L, Tile *self, Player *watcher);
+  bool api_methods_tile_seen
+    @ seen(lua_State *L, Tile *self, Player *watcher);
 }
 
 $[
