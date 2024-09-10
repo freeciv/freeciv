@@ -2674,7 +2674,7 @@ static void sg_load_map_known(struct loaddata *loading)
 /* =======================================================================
  * Load player data.
  *
- * This is splitted into two parts as some data can only be loaded if the
+ * This is split into two parts as some data can only be loaded if the
  * number of players is known and the corresponding player slots are
  * defined.
  * ======================================================================= */
