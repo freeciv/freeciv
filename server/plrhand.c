@@ -2620,7 +2620,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->is_connected = FALSE;
   cplayer->government = init_government_of_nation(nation_of_player(cplayer));
   fc_assert(cplayer->revolution_finishes < 0);
-  /* No capital for the splitted player. */
+  /* No capital for the split player. */
   cplayer->server.got_first_city = FALSE;
 
   players_iterate(other_player) {
@@ -2695,7 +2695,7 @@ static struct player *split_player(struct player *pplayer)
   old_research->researching_saved = A_UNKNOWN;
   BV_CLR_ALL(pplayer->real_embassy);   /* all embassies destroyed */
 
-  /* give splitted player the embassies to their team mates back, if any */
+  /* give split player the embassies to their team mates back, if any */
   if (pplayer->team) {
     players_iterate(pdest) {
       if (pplayer->team == pdest->team

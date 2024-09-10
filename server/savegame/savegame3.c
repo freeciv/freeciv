@@ -3422,7 +3422,7 @@ static void sg_save_map_known(struct savedata *saving)
 /* =======================================================================
  * Load / save player data.
  *
- * This is splitted into two parts as some data can only be loaded if the
+ * This is split into two parts as some data can only be loaded if the
  * number of players is known and the corresponding player slots are
  * defined.
  * ======================================================================= */
