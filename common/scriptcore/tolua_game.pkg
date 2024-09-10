@@ -294,6 +294,9 @@ module City {
     @ link_text(lua_State *L, City *self);
   const char *api_methods_city_tile_link
     @ tile_link_text(lua_State *L, City *self);
+
+  int api_methods_city_nationality_citizens
+    @ nationality_citizens(lua_State *L, City *self, Player *nationality);
 }
 
 $[
