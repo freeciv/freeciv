@@ -142,14 +142,14 @@ Section "\${APPNAME} (required)"
   SetOutPath \$INSTDIR
 EOF
 
-  # find files and directories to exclude from default installation
+  # Find files and directories to exclude from default installation
 
   echo -n "  File /nonfatal /r "
 
-  # languages
+  # Languages
   echo -n "/x locale "
 
-  # soundsets
+  # Soundsets
   find $1/data -mindepth 1 -maxdepth 1 -name *.soundspec -printf %f\\n |
   sed 's|.soundspec||' |
   while read -r name
@@ -171,8 +171,8 @@ cat <<EOF
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.exe" 0 SW_SHOWMINIMIZED
 EOF
 
-if test "$4" = "qt5" || test "$4" = "qt6" ; then
-    echo "CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
+if test "$4" = "qt5" || test "$4" = "qt6" || test "$4" = "qt6x" ; then
+  echo "CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
 fi
 
 cat <<EOF
@@ -194,7 +194,7 @@ SectionEnd
 
 EOF
 
-### soundsets ###
+### Soundsets ###
 
 cat <<EOF
 SectionGroup "Soundsets"
