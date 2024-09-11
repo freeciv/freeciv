@@ -1213,7 +1213,7 @@ value sets. The different values have roughly the following meaning:
           additional compiler flags for optimisation (-O3 -fomit-frame-pointer)
   some:   default build (neither FREECIV_NDEBUG nor FREECIV_DEBUG is defined)
   yes:    debugging enable (FREECIV_DEBUG is defined)
-          debugging log level available (4, log_debug())
+          debugging log level available ("debug", log_debug())
           more compiler warning flags than with lower debug levels
   checks: same as 'yes' but with additional compiler check that are not
           even expected to work on all configurations
