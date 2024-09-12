@@ -259,7 +259,7 @@ static bool sdl_audio_init(struct audio_plugin *self)
   }
 
 #ifdef AUDIO_SDL3
-  if (Mix_OpenAudio(0, NULL) < 0) {
+  if (!Mix_OpenAudio(0, NULL)) {
 #else  /* AUDIO_SDL3 */
   /* Initialize variables */
   const int audio_rate = MIX_DEFAULT_FREQUENCY;
