@@ -487,7 +487,7 @@ bool fc_inet_aton(const char *cp, struct in_addr *inp, bool addr_none_ok)
 }
 
 /*********************************************************************//**
-  Writes buf to socket and returns the response in an fz_FILE.
+  Writes buf to socket and returns the response in a fz_FILE.
   Use only on blocking sockets.
 *************************************************************************/
 fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
@@ -496,13 +496,20 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
 #ifdef HAVE_FDOPEN
   fp = fdopen(sock, "r+b");
+
+  if (fp == NULL) {
+    log_error("socket %d: failed to fdopen()", sock);
+
+    return NULL;
+  }
+
   if (fwrite(buf, 1, size, fp) != size) {
     log_error("socket %d: write error", sock);
   }
   fflush(fp);
 
-  /* we don't use fc_closesocket on sock here since when fp is closed
-   * sock will also be closed. fdopen doesn't dup the socket descriptor. */
+  /* We don't use fc_closesocket() on sock here since when fp is closed,
+   * sock will also be closed. fdopen() doesn't dup the socket descriptor. */
 #else  /* HAVE_FDOPEN */
   {
     char tmp[4096];
