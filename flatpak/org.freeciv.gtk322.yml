@@ -1,6 +1,6 @@
 app-id: org.freeciv.gtk322
 runtime: org.freedesktop.Platform
-runtime-version: '23.08'
+runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 command: freeciv-gtk3.22
 rename-icon: freeciv-client
