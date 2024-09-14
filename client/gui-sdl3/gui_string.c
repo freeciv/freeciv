@@ -366,7 +366,8 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
   /* Create and fill surface */
 
   if (SDL_GetSurfaceColorKey(tmp[0], &color) < 0) {
-    color = SDL_MapRGBA(tmp[0]->format, 0, 0, 0, 0);
+    color = SDL_MapRGBA(SDL_GetPixelFormatDetails(tmp[0]->format), NULL,
+                        0, 0, 0, 0);
   }
 
   switch (pstr->render) {
