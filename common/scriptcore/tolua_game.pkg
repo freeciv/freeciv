@@ -58,6 +58,7 @@ struct Connection {
 struct Unit {
   Unit_Type *utype;
   Player *owner;
+  Player *nationality;
 
   /* This used to be @ homecity_id, but it does not work with toluaxx. */
   int homecity;
