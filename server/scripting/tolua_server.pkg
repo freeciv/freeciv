@@ -566,6 +566,9 @@ module Player {
     @ lose (lua_State *L, Player *pplayer, Player *looter = NULL);
   int api_methods_player_tech_bulbs
     @ bulbs_saved (lua_State *L, Player *pplayer, Tech_Type *tech);
+
+  int api_methods_tag_score
+    @ tag_score (lua_State *L, Player *pplayer, const char *tag);
 }
 
 $[
