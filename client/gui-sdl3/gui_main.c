@@ -573,7 +573,7 @@ void force_exit_from_event_loop(void)
   Filter out mouse motion events for too small movement to react to.
   This function may run in a separate event thread.
 **************************************************************************/
-int FilterMouseMotionEvents(void *data, SDL_Event *event)
+bool FilterMouseMotionEvents(void *data, SDL_Event *event)
 {
   if (event->type == SDL_EVENT_MOUSE_MOTION) {
     static int x = 0, y = 0;
@@ -582,13 +582,13 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
         || ((MOVE_STEP_Y > 0) && (abs(event->motion.y - y) >= MOVE_STEP_Y)) ) {
       x = event->motion.x;
       y = event->motion.y;
-      return 1;    /* Catch it */
+      return TRUE;     /* Catch it */
     } else {
-      return 0;    /* Drop it, we've handled it */
+      return FALSE;    /* Drop it, we've handled it */
     }
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**********************************************************************//**
