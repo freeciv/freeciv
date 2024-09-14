@@ -19,6 +19,7 @@
 #include "rand.h"
 
 /* common */
+#include "citizens.h"
 #include "map.h"
 #include "movement.h"
 #include "research.h"
@@ -1316,4 +1317,18 @@ void api_edit_change_city_size(lua_State *L, City *pcity, int change,
   }
 
   city_change_size(pcity, city_size_get(pcity) + change, nationality, "script");
+}
+
+/**********************************************************************//**
+  Change nationality of the city citizens.
+**************************************************************************/
+void api_edit_change_citizen_nationality(lua_State *L, City *pcity,
+                                         Player *from, Player *to, int amount)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
+  LUASCRIPT_CHECK_ARG_NIL(L, from, 3, Player);
+  LUASCRIPT_CHECK_ARG_NIL(L, to, 4, Player);
+
+  citizens_nation_move(pcity, from->slot, to->slot, amount);
 }

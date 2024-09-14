@@ -251,6 +251,9 @@ module edit {
 
   void api_edit_change_city_size
     @ change_city_size(lua_State *L, City *pcity, int change, Player *nationality);
+  void api_edit_change_citizen_nationality
+    @ change_citizen_nationality(lua_State *L, City *pcity,
+                                 Player *from, Player *to, int amount);
 }
 
 /* Luadata module. */
@@ -431,6 +434,10 @@ end
 
 function City:change_size(change, nationality)
   edit.change_city_size(self, change, nationality)
+end
+
+function City:change_nationality(from, to, amount)
+  edit.change_citizen_nationality(self, from, to, amount)
 end
 
 -- Server functions for Unit module
