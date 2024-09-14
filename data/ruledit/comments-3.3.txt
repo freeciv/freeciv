@@ -1634,6 +1634,6 @@ calendar_fragments = "\n\
 std_tileset_compat = "\n\
 ; Should ruleset upgrade do changes matching changes to the standard tilesets\n\
 ; of the freeciv distribution. Custom tilesets might do not implement similar\n\
-; changes, so to remain compatible with them shouldn\'t do these\n\
+; changes, so to remain compatible with them shouldn\`t do these\n\
 ; ruleset changes either (to have this as FALSE)\
 "

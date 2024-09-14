@@ -26,7 +26,7 @@ description_file = "goldkeep/README.goldkeep"
 
 ; Should ruleset upgrade do changes matching changes to the standard tilesets
 ; of the freeciv distribution. Custom tilesets might do not implement similar
-; changes, so to remain compatible with them shouldn't do these
+; changes, so to remain compatible with them shouldn`t do these
 ; ruleset changes either (to have this as FALSE)
 std_tileset_compat = TRUE
 
