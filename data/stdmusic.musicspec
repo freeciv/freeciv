@@ -1,6 +1,6 @@
 [musicspec]
 ; Format and options of this spec file:
-options = "+Freeciv-musicspec-3.2-Devel-2023-Jun-03"
+options = "+Freeciv-3.2-musicspec"
 
 ; A simple name for the musicset specified by this file:
 name = "Stdmusic"
