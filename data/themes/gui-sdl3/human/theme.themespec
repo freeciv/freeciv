@@ -1,7 +1,7 @@
 [themespec]
 
 ; Format and options of this themespec file:
-options = "+Freeciv-sdl3-3.2-themespec-Devel-2022-Jul-06"
+options = "+Freeciv-3.2-sdl3-themespec"
 
 ; A simple name for the themespec specified by this file:
 name = "human"

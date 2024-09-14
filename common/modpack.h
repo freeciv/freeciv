@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define MODPACK_CAPSTR "+Freeciv-modpack-3.2-Devel-2021.Jun.01"
+#define MODPACK_CAPSTR "+Freeciv-3.2-modpack"
 
 #define MODPACK_SUFFIX ".modpack"
 

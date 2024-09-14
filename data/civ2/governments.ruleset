@@ -12,7 +12,7 @@
 
 [datafile]
 description = "Civ2 style governments data for Freeciv (Fundamentalism incomplete)"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
+options = "+Freeciv-3.2-ruleset"
 format_version = 30
 
 [governments]

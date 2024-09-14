@@ -15,7 +15,7 @@
 
 [datafile]
 description = "Goldkeep actions data for Freeciv"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
+options = "+Freeciv-3.2-ruleset"
 format_version = 30
 
 [auto_attack]

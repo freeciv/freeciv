@@ -11,7 +11,7 @@
 
 [datafile]
 description = "Sandbox game rules for Freeciv"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
+options = "+Freeciv-3.2-ruleset"
 format_version = 30
 
 ; This section contains meta information for freeciv-ruledit to recreate the ruleset

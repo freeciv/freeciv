@@ -9,7 +9,7 @@
 
 [datafile]
 description = "Classic technology data for Freeciv (as Civ2, minus a few)"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02 web-compatible"
+options = "+Freeciv-3.2-ruleset web-compatible"
 format_version = 30
 
 [control]

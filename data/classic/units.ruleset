@@ -16,7 +16,7 @@
 
 [datafile]
 description = "Classic unit_type data for Freeciv"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02 web-compatible"
+options = "+Freeciv-3.2-ruleset web-compatible"
 format_version = 30
 
 [control]

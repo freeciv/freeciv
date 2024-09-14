@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define RULESET_CAPABILITIES_BASE "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
+#define RULESET_CAPABILITIES_BASE "+Freeciv-3.2-ruleset"
 #ifdef FREECIV_WEB
 #define RULESET_CAPABILITIES RULESET_CAPABILITIES_BASE " +web-compatible"
 #else  /* FREECIV_WEB */
