@@ -863,7 +863,8 @@ action_speculate_unit_on_city(const struct civ_map *nmap,
                               const struct city* target);
 
 struct act_prob
-action_speculate_unit_on_unit(action_id act_id,
+action_speculate_unit_on_unit(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,
