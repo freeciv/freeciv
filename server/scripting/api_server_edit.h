@@ -73,7 +73,7 @@ void api_edit_unit_movepoints(lua_State *L, Unit *self, int change);
 bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
 
 bool api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
-                          const char *name);
+                          const char *name, Player *nationality);
 void api_edit_remove_city(lua_State *L, City *pcity);
 bool api_edit_transfer_city(lua_State *L, City *pcity, Player *new_owner);
 void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr);

@@ -56,7 +56,7 @@ function alien_hut_get_city(unit)
   local owner = unit.owner
 
   if unit:is_on_possible_city_tile() then
-    owner:create_city(unit.tile, "")
+    owner:city_create(unit.tile, "")
     notify.event(owner, unit.tile, E.HUT_CITY,
                  _("You found a base starting kit."))
     return true

@@ -674,14 +674,13 @@ bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)
   Create a new city.
 **************************************************************************/
 bool api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
-                          const char *name)
+                          const char *name, Player *nationality)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
 
-  /* TODO: Allow initial citizen to be of nationality other than owner */
-  return create_city_for_player(pplayer, ptile, name);
+  return create_city_for_player(pplayer, ptile, name, nationality);
 }
 
 /**********************************************************************//**

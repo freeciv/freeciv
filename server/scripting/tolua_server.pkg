@@ -140,8 +140,8 @@ module edit {
   bool api_edit_change_terrain
     @ change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
   bool api_edit_create_city
-    @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
-                   const char *name);
+    @ city_create (lua_State *L, Player *pplayer, Tile *ptile,
+                   const char *name, Player *nationality);
   bool api_edit_transfer_city
     @ transfer_city (lua_State *L, City *pcity, Player *new_owner);
   void api_edit_remove_city
@@ -281,7 +281,13 @@ end
 function create_city(player, tile, name)
   log.deprecation_warning("create_city()", "edit.create_city()",
                           "2.4");
-  edit.create_city (player, tile, name)
+  edit.city_create(player, tile, name, nil)
+end
+
+function edit.create_city(player, tile, name)
+  log.deprecation_warning("edit.create_city()", "edit.city_create()",
+                          "3.3");
+  edit.city_create(player, tile, name, nil)
 end
 
 -- Deprecated; use edit.create_owned_extra()
@@ -354,7 +360,13 @@ function Player:civilization_score()
 end
 
 function Player:create_city(tile, name)
-  edit.create_city(self, tile, name)
+  log.deprecation_warning("Player:create_city()", "Player:city_create()",
+                          "3.3");
+  edit.city_create(self, tile, name, nil)
+end
+
+function Player:city_create(tile, name, nationality)
+  edit.city_create(self, tile, name, nationality)
 end
 
 function Player:change_gold(amount)

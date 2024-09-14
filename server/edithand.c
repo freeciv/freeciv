@@ -712,7 +712,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
 
   conn_list_do_buffer(game.est_connections);
 
-  if (!create_city_for_player(pplayer, ptile, NULL)) {
+  if (!create_city_for_player(pplayer, ptile, nullptr, nullptr)) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." at <tile-coordinates>." */
                 _("A city may not be built at %s."), tile_link(ptile));
