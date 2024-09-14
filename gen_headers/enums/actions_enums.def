@@ -30,6 +30,7 @@ values
   ACTION_MARKETPLACE                      "Enter Marketplace"
   ACTION_HELP_WONDER                      "Help Wonder"
   ACTION_SPY_BRIBE_UNIT                   "Bribe Unit"
+  ACTION_SPY_BRIBE_STACK                  "Bribe Stack"
   ACTION_CAPTURE_UNITS                    "Capture Units"
   ACTION_SPY_SABOTAGE_UNIT                "Sabotage Unit"
   ACTION_SPY_SABOTAGE_UNIT_ESC            "Sabotage Unit Escape"

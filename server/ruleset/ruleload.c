@@ -7782,9 +7782,14 @@ static bool load_ruleset_actions(struct section_file *file,
     /* Forced actions after another action was successfully performed. */
 
     if (!load_action_post_success_force(file, filename,
-                                        ACTION_AUTO_POST_BRIBE,
+                                        ACTION_AUTO_POST_BRIBE_UNIT,
                                         action_by_number(
                                           ACTION_SPY_BRIBE_UNIT))) {
+      ok = FALSE;
+    } else if (!load_action_post_success_force(file, filename,
+                                               ACTION_AUTO_POST_BRIBE_STACK,
+                                               action_by_number(
+                                                 ACTION_SPY_BRIBE_STACK))) {
       ok = FALSE;
     } else if (!load_action_post_success_force(file, filename,
                                                ACTION_AUTO_POST_ATTACK,

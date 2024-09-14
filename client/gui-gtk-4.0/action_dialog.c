@@ -452,9 +452,9 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User responded to bribe dialog
+  User responded to unit bribe dialog
 **************************************************************************/
-static void bribe_response(GtkWidget *w, gint response, gpointer data)
+static void bribe_unit_response(GtkWidget *w, gint response, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
@@ -471,10 +471,29 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
 }
 
 /**********************************************************************//**
+  User responded to stack bribe dialog
+**************************************************************************/
+static void bribe_stack_response(GtkWidget *w, gint response, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (response == GTK_RESPONSE_YES) {
+    request_do_action(args->act_id, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
+  }
+
+  gtk_window_destroy(GTK_WINDOW(w));
+  free(args);
+
+  /* The user have answered the follow up question. Move on. */
+  diplomat_queue_handle_secondary();
+}
+
+/**********************************************************************//**
   Popup unit bribe dialog
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
-                        const struct action *paction)
+void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
+                             const struct action *paction)
 {
   GtkWidget *shell;
   char buf[1024];
@@ -503,9 +522,48 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
   }
   gtk_window_present(GTK_WINDOW(shell));
 
-  g_signal_connect(shell, "response", G_CALLBACK(bribe_response),
+  g_signal_connect(shell, "response", G_CALLBACK(bribe_unit_response),
                    act_data(paction->id, actor->id,
                             0, punit->id, 0,
+                            0, 0, 0));
+}
+
+/**********************************************************************//**
+  Popup stack bribe dialog
+**************************************************************************/
+void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
+                              const struct action *paction)
+{
+  GtkWidget *shell;
+  char buf[1024];
+
+  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+                                        "Treasury contains %d gold.",
+                                        client_player()->economic.gold),
+              client_player()->economic.gold);
+
+  if (cost <= client_player()->economic.gold) {
+    shell = gtk_message_dialog_new(NULL, 0,
+      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+      /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+      PL_("Bribe unit stack for %d gold?\n%s",
+          "Bribe unit stack for %d gold?\n%s", cost), cost, buf);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Bribe Enemy Unit"));
+    setup_dialog(shell, toplevel);
+  } else {
+    shell = gtk_message_dialog_new(NULL, 0,
+      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+      /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+      PL_("Bribing units costs %d gold.\n%s",
+          "Bribing units costs %d gold.\n%s", cost), cost, buf);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
+    setup_dialog(shell, toplevel);
+  }
+  gtk_window_present(GTK_WINDOW(shell));
+
+  g_signal_connect(shell, "response", G_CALLBACK(bribe_stack_response),
+                   act_data(paction->id, actor->id,
+                            0, 0, ptile->index,
                             0, 0, 0));
 }
 
@@ -1248,8 +1306,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)request_action_details_callback,
 
   /* Unit acting against all units at a tile. */
-  /* No special callback functions needed for any unit stack targeted
-   * actions. */
+  [ACTION_SPY_BRIBE_STACK] = (GCallback)request_action_details_callback,
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,

@@ -110,7 +110,8 @@ static void spy_investigate(QVariant data1, QVariant data2);
 static void diplomat_investigate(QVariant data1, QVariant data2);
 static void diplomat_sabotage(QVariant data1, QVariant data2);
 static void diplomat_sabotage_esc(QVariant data1, QVariant data2);
-static void diplomat_bribe(QVariant data1, QVariant data2);
+static void diplomat_bribe_unit(QVariant data1, QVariant data2);
+static void diplomat_bribe_stack(QVariant data1, QVariant data2);
 static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
@@ -249,7 +250,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_NUKE_CITY] = nuke_city;
 
   // Unit acting against a unit target.
-  action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
+  action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_unit;
   action_function[ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit;
   action_function[ACTION_SPY_SABOTAGE_UNIT_ESC] = spy_sabotage_unit_esc;
   action_function[ACTION_EXPEL_UNIT] = expel_unit;
@@ -269,6 +270,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_TRANSPORT_EMBARK4] = transport_embark4;
 
   // Unit acting against all units at a tile.
+  action_function[ACTION_SPY_BRIBE_STACK] = diplomat_bribe_stack;
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
   action_function[ACTION_BOMBARD] = bombard;
   action_function[ACTION_BOMBARD2] = bombard2;
@@ -2435,7 +2437,7 @@ static void homeless(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action bribe unit for choice dialog
 ***************************************************************************/
-static void diplomat_bribe(QVariant data1, QVariant data2)
+static void diplomat_bribe_unit(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -2446,6 +2448,23 @@ static void diplomat_bribe(QVariant data1, QVariant data2)
     is_more_user_input_needed = TRUE;
 
     request_action_details(ACTION_SPY_BRIBE_UNIT, diplomat_id,
+                           diplomat_target_id);
+  }
+}
+
+/***********************************************************************//**
+  Action bribe stack for choice dialog
+***************************************************************************/
+static void diplomat_bribe_stack(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (game_unit_by_number(diplomat_id) != nullptr) {
+    // Wait for the server's reply before moving on to the next queued diplomat.
+    is_more_user_input_needed = TRUE;
+
+    request_action_details(ACTION_SPY_BRIBE_STACK, diplomat_id,
                            diplomat_target_id);
   }
 }
@@ -3713,8 +3732,8 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost,
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 ***************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost,
-                        const struct action *paction)
+void popup_bribe_unit_dialog(struct unit *actor, struct unit *tunit, int cost,
+                             const struct action *paction)
 {
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
   char buf[1024];
@@ -3749,6 +3768,54 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost,
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
                 PL_("Bribing the unit costs %d gold.\n%s",
                     "Bribing the unit costs %d gold.\n%s", cost), cost, buf);
+    ask->set_text_title(buf2, _("Traitors Demand Too Much!"));
+    ask->setAttribute(Qt::WA_DeleteOnClose);
+    ask->show();
+  }
+
+  diplomat_queue_handle_secondary(diplomat_id);
+}
+
+/***********************************************************************//**
+  Popup a dialog asking a diplomatic unit if it wishes to bribe the
+  given enemy unit stack.
+***************************************************************************/
+void popup_bribe_stack_dialog(struct unit *actor, struct tile *ttile, int cost,
+                             const struct action *paction)
+{
+  hud_message_box *ask = new hud_message_box(gui()->central_wdg);
+  char buf[1024];
+  char buf2[1024];
+  int diplomat_id = actor->id;
+  int diplomat_target_id = ttile->index;
+  const int act_id = paction->id;
+
+  // Should be set before sending request to the server.
+  fc_assert(is_more_user_input_needed);
+
+  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+                                        "Treasury contains %d gold.",
+                                        client_player()->economic.gold),
+              client_player()->economic.gold);
+
+  if (cost <= client_player()->economic.gold) {
+    fc_snprintf(buf2, ARRAY_SIZE(buf2), PL_("Bribe unit stack for %d gold?\n%s",
+                                            "Bribe unit stack for %d gold?\n%s",
+                                            cost), cost, buf);
+    ask->set_text_title(buf2, _("Bribe Enemy Stack"));
+    ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+    ask->setDefaultButton(QMessageBox::Cancel);
+    ask->setAttribute(Qt::WA_DeleteOnClose);
+    QObject::connect(ask, &hud_message_box::accepted, [=]() {
+      request_do_action(act_id, diplomat_id, diplomat_target_id, 0, "");
+      diplomat_queue_handle_secondary(diplomat_id);
+    });
+    ask->show();
+    return;
+  } else {
+    fc_snprintf(buf2, ARRAY_SIZE(buf2),
+                PL_("Bribing the unit stack costs %d gold.\n%s",
+                    "Bribing the unit stack costs %d gold.\n%s", cost), cost, buf);
     ask->set_text_title(buf2, _("Traitors Demand Too Much!"));
     ask->setAttribute(Qt::WA_DeleteOnClose);
     ask->show();

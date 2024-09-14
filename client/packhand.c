@@ -176,7 +176,7 @@ const action_id auto_attack_blockers[] = {
   ACTION_SPY_INCITE_CITY, ACTION_SPY_INCITE_CITY_ESC,
   ACTION_TRADE_ROUTE, ACTION_MARKETPLACE,
   ACTION_HELP_WONDER,
-  ACTION_SPY_BRIBE_UNIT,
+  ACTION_SPY_BRIBE_UNIT, ACTION_SPY_BRIBE_STACK,
   ACTION_SPY_SABOTAGE_UNIT, ACTION_SPY_SABOTAGE_UNIT_ESC,
   ACTION_SPY_ATTACK,
   ACTION_FOUND_CITY,
@@ -4949,6 +4949,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
 {
   struct city *pcity = game_city_by_number(target_id);
   struct unit *punit = game_unit_by_number(target_id);
+  struct tile *ptile = index_to_tile(&(wld.map), target_id);
   struct unit *pactor = player_unit_by_number(client_player(), actor_id);
   struct action *paction = action_by_number(action_type);
 
@@ -4980,16 +4981,37 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
 
   switch ((enum gen_action)action_type) {
   case ACTION_SPY_BRIBE_UNIT:
-    if (punit && client.conn.playing
+    if (punit != nullptr && client.conn.playing
         && is_human(client.conn.playing)) {
       if (request_kind == REQEST_PLAYER_INITIATED) {
         /* Focus on the unit so the player knows where it is */
         unit_focus_set(pactor);
 
-        popup_bribe_dialog(pactor, punit, cost, paction);
+        popup_bribe_unit_dialog(pactor, punit, cost, paction);
       } else {
         /* Not in use (yet). */
         log_error("Unimplemented: received background unit bribe cost.");
+      }
+    } else {
+      log_debug("Bad target %d.", target_id);
+      if (request_kind == REQEST_PLAYER_INITIATED) {
+        action_selection_no_longer_in_progress(actor_id);
+        action_decision_clear_want(actor_id);
+        action_selection_next_in_focus(actor_id);
+      }
+    }
+    break;
+  case ACTION_SPY_BRIBE_STACK:
+    if (ptile != nullptr && client.conn.playing
+        && is_human(client.conn.playing)) {
+      if (request_kind == REQEST_PLAYER_INITIATED) {
+        /* Focus on the unit so the player knows where it is */
+        unit_focus_set(pactor);
+
+        popup_bribe_stack_dialog(pactor, ptile, cost, paction);
+      } else {
+        /* Not in use (yet). */
+        log_error("Unimplemented: received background stack bribe cost.");
       }
     } else {
       log_debug("Bad target %d.", target_id);

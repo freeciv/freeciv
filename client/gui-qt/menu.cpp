@@ -1422,7 +1422,7 @@ void mr_menu::setup_menus()
   action_vs_unit->addAction(act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_action_vs_unit);
 
-  act = action_unit_menu->addAction(_("Bribe"));
+  act = action_unit_menu->addAction(_("Bribe Unit"));
   act->setCheckable(true);
   act->setChecked(false);
   act->setData(ACTION_SPY_BRIBE_UNIT);

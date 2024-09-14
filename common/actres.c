@@ -73,6 +73,9 @@ static struct actres act_results[ACTRES_LAST] = {
   { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_BRIBE_UNIT */
     TRUE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_UNIT },
+  { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_BRIBE_STACK */
+    TRUE, ACTIVITY_LAST, DRT_NONE,
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_SABOTAGE_UNIT */
     TRUE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_UNIT },
@@ -387,6 +390,7 @@ int actres_min_range_default(enum action_result result)
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -475,6 +479,7 @@ int actres_max_range_default(enum action_result result)
   case ACTRES_TRADE_ROUTE:
   case ACTRES_MARKETPLACE:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -598,6 +603,7 @@ bool actres_legal_target_kind(enum action_result result,
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
     return tgt_kind == ATK_UNIT;
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_BOMBARD:
   case ACTRES_NUKE_UNITS:
@@ -699,6 +705,7 @@ actres_sub_target_kind_default(enum action_result result)
   case ACTRES_SPY_TARGETED_STEAL_TECH:
     return ASTK_TECH;
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_HEAL_UNIT:
@@ -854,6 +861,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
   switch (result) {
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
     /* Info leak: This is only checked for when the actor player can see

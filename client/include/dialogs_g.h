@@ -70,8 +70,10 @@ GUI_FUNC_PROTO(void, action_selection_no_longer_in_progress_gui_specific,
                int actor_unit_id)
 GUI_FUNC_PROTO(void, popup_incite_dialog, struct unit *actor,
                struct city *pcity, int cost, const struct action *paction)
-GUI_FUNC_PROTO(void, popup_bribe_dialog, struct unit *actor,
+GUI_FUNC_PROTO(void, popup_bribe_unit_dialog, struct unit *actor,
                struct unit *punit, int cost, const struct action *paction)
+GUI_FUNC_PROTO(void, popup_bribe_stack_dialog, struct unit *actor,
+               struct tile *ptile, int cost, const struct action *paction)
 GUI_FUNC_PROTO(void, popup_sabotage_dialog, struct unit *actor,
                struct city *pcity, const struct action *paction)
 GUI_FUNC_PROTO(void, popup_pillage_dialog, struct unit *punit, bv_extras extras)

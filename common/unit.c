@@ -2419,6 +2419,26 @@ int unit_bribe_cost(const struct unit *punit, const struct player *briber,
 }
 
 /**********************************************************************//**
+  Calculate how expensive it is to bribe entire unit stack.
+
+  @param  ptile       Tile to bribe units from
+  @param  briber      Player that wants to bribe
+  @param  briber_unit Unit that does the bribing
+  @return             Bribe cost
+**************************************************************************/
+int stack_bribe_cost(const struct tile *ptile, const struct player *briber,
+                     const struct unit *briber_unit)
+{
+  int bribe_cost = 0;
+
+  unit_list_iterate(ptile->units, pbribed) {
+    bribe_cost += unit_bribe_cost(pbribed, briber, briber_unit);
+  } unit_list_iterate_end;
+
+  return bribe_cost;
+}
+
+/**********************************************************************//**
   Load pcargo onto ptrans. Returns TRUE on success.
 **************************************************************************/
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans, bool force)

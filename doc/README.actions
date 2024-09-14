@@ -772,6 +772,14 @@ Actions done by a unit against another unit
 
 Actions done by a unit against all units at a tile
 ==================================================
+"Bribe Stack" - Make the target units join the actors owners side.
+ * UI name can be set using ui_name_bribe_stack
+ * forced actions after success can be set with
+   bribe_stack_post_success_forced_actions
+ * actor must be on the same tile as the target or on the tile next to it.
+ * target must be foreign. (!)
+ * target must be visible for the actor.
+
 "Capture Units" - steal the target units.
  * UI name can be set using ui_name_capture_units
  * actor must be on a tile next to the target.

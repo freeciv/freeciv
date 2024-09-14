@@ -2035,6 +2035,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
       dai_incident_simple(receiver, violator, victim, scope, 3);
       break;
     case ACTRES_SPY_BRIBE_UNIT:
+    case ACTRES_SPY_BRIBE_STACK:
     case ACTRES_CAPTURE_UNITS:
     case ACTRES_BOMBARD:
     case ACTRES_ATTACK:

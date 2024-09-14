@@ -679,7 +679,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       unit_do_action(pplayer, punit->id,
                      pvictim->id, -1, "",
                      ACTION_SPY_BRIBE_UNIT);
-      /* autoattack might kill us as we move in */
+      /* Autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;
       } else {

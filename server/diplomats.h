@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,6 +13,7 @@
 #ifndef FC__DIPLOMATS_H
 #define FC__DIPLOMATS_H
 
+/* common */
 #include "fc_types.h"
 
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
@@ -31,8 +32,10 @@ bool spy_spread_plague(struct player *act_player, struct unit *act_unit,
 bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
                        struct unit *pvictim,
                        const struct action *paction);
-bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
-                    struct unit *pvictim, const struct action *paction);
+bool diplomat_bribe_unit(struct player *pplayer, struct unit *pdiplomat,
+                         struct unit *pvictim, const struct action *paction);
+bool diplomat_bribe_stack(struct player *pplayer, struct unit *pdiplomat,
+                          struct tile *pvictim, const struct action *paction);
 bool spy_attack(struct player *act_player, struct unit *act_unit,
                 struct tile *tgt_tile, const struct action *paction);
 int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
@@ -61,4 +64,4 @@ bool spy_escape(struct player *pplayer,
 
 int count_diplomats_on_tile(struct tile *ptile);
 
-#endif  /* FC__DIPLOMATS_H */
+#endif /* FC__DIPLOMATS_H */

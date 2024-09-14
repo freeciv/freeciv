@@ -127,6 +127,11 @@ static void hard_code_actions(void)
                        * the forced move fails. */
                       MAK_FORCED,
                       0, 1, FALSE);
+  actions[ACTION_SPY_BRIBE_STACK] =
+      unit_action_new(ACTION_SPY_BRIBE_STACK, ACTRES_SPY_BRIBE_STACK,
+                      FALSE, TRUE,
+                      MAK_FORCED,
+                      0, 1, FALSE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       unit_action_new(ACTION_SPY_SABOTAGE_CITY, ACTRES_SPY_SABOTAGE_CITY,
                       FALSE, TRUE,
@@ -2506,6 +2511,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -2698,6 +2704,7 @@ action_hard_reqs_actor(const struct civ_map *nmap,
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -3847,6 +3854,7 @@ action_prob(const struct civ_map *nmap,
                                 paction);
     break;
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor->unit, target->unit, target->tile,
                                 paction);
@@ -5762,6 +5770,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_sabotage_unit_escape";
   case ACTION_SPY_BRIBE_UNIT:
     return "ui_name_bribe_unit";
+  case ACTION_SPY_BRIBE_STACK:
+    return "ui_name_bribe_stack";
   case ACTION_SPY_SABOTAGE_CITY:
     return "ui_name_sabotage_city";
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -6062,6 +6072,9 @@ const char *action_ui_name_default(int act)
   case ACTION_SPY_BRIBE_UNIT:
     /* TRANS: Bribe Enemy _Unit (3% chance of success). */
     return N_("Bribe Enemy %sUnit%s");
+  case ACTION_SPY_BRIBE_STACK:
+    /* TRANS: Bribe Enemy _Stack (3% chance of success). */
+    return N_("Bribe Enemy %sStack%s");
   case ACTION_SPY_SABOTAGE_CITY:
     /* TRANS: _Sabotage City (3% chance of success). */
     return N_("%sSabotage City%s");
@@ -6411,6 +6424,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6587,6 +6601,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6772,6 +6787,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6942,6 +6958,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -7178,6 +7195,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -7302,6 +7320,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   fc_assert_ret_val(act != NULL, NULL);
 
   if (!(action_has_result(act, ACTRES_SPY_BRIBE_UNIT)
+        || action_has_result(act, ACTRES_SPY_BRIBE_STACK)
         || action_has_result(act, ACTRES_ATTACK)
         || action_has_result(act, ACTRES_WIPE_UNITS)
         || action_has_result(act, ACTRES_COLLECT_RANSOM))) {
@@ -7312,6 +7331,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   switch ((enum gen_action)action_number(act)) {
   case ACTION_SPY_BRIBE_UNIT:
     return "bribe_unit_post_success_forced_actions";
+  case ACTION_SPY_BRIBE_STACK:
+    return "bribe_stack_post_success_forced_actions";
   case ACTION_ATTACK:
     return "attack_post_success_forced_actions";
   case ACTION_ATTACK2:

@@ -141,6 +141,7 @@ values
   MARKETPLACE                  "Unit Enter Marketplace"
   HELP_WONDER                  "Unit Help Wonder"
   SPY_BRIBE_UNIT               "Unit Bribe Unit"
+  SPY_BRIBE_STACK              "Unit Bribe Stack"
   SPY_SABOTAGE_UNIT            "Unit Sabotage Unit"
   CAPTURE_UNITS                "Unit Capture Units"
   FOUND_CITY                   "Unit Found City"

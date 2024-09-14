@@ -142,8 +142,18 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
-                        const struct action *paction)
+void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
+                             const struct action *paction)
+{
+  /* PORTME */
+}
+
+/**********************************************************************//**
+  Popup a dialog asking a diplomatic unit if it wishes to bribe the
+  given enemy unit stack.
+**************************************************************************/
+void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
+                              const struct action *paction)
 {
   /* PORTME */
 }

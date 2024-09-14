@@ -364,13 +364,14 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define ACTION_AUTO_UPKEEP_GOLD          1
 #define ACTION_AUTO_UPKEEP_SHIELD        2
 #define ACTION_AUTO_MOVED_ADJ            3
-#define ACTION_AUTO_POST_BRIBE           4
-#define ACTION_AUTO_POST_ATTACK          5
-#define ACTION_AUTO_POST_ATTACK2         6
-#define ACTION_AUTO_POST_COLLECT_RANSOM  7
-#define ACTION_AUTO_ESCAPE_CITY          8
-#define ACTION_AUTO_ESCAPE_STACK         9
-#define ACTION_AUTO_POST_WIPE_UNITS     10
+#define ACTION_AUTO_POST_BRIBE_UNIT      4
+#define ACTION_AUTO_POST_BRIBE_STACK     5
+#define ACTION_AUTO_POST_ATTACK          6
+#define ACTION_AUTO_POST_ATTACK2         7
+#define ACTION_AUTO_POST_COLLECT_RANSOM  8
+#define ACTION_AUTO_ESCAPE_CITY          9
+#define ACTION_AUTO_ESCAPE_STACK        10
+#define ACTION_AUTO_POST_WIPE_UNITS     11
 
 /* Initialization */
 void actions_init(void);

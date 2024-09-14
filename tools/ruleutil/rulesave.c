@@ -1150,9 +1150,16 @@ static bool save_actions_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
-  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_BRIBE,
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_BRIBE_UNIT,
                                       action_by_number(
                                         ACTION_SPY_BRIBE_UNIT))) {
+    log_error("Didn't save all post success forced actions.");
+    return FALSE;
+  }
+
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_BRIBE_STACK,
+                                      action_by_number(
+                                        ACTION_SPY_BRIBE_STACK))) {
     log_error("Didn't save all post success forced actions.");
     return FALSE;
   }
