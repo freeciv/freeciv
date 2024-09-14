@@ -368,7 +368,8 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, SDL_Color *pcolor)
   }
 
   SDL_FillSurfaceRect(new_surf, NULL,
-                      SDL_MapRGBA(new_surf->format,
+                      SDL_MapRGBA(SDL_GetPixelFormatDetails(new_surf->format),
+                                  NULL,
                                   pcolor->r, pcolor->g, pcolor->b,
                                   pcolor->a));
 
@@ -390,10 +391,12 @@ int clear_surface(SDL_Surface *surf, SDL_Rect *dstrect)
     SDL_Rect _dstrect = *dstrect;
 
     return SDL_FillSurfaceRect(surf, &_dstrect,
-                               SDL_MapRGBA(surf->format, 0, 0, 0, 0));
+                               SDL_MapRGBA(SDL_GetPixelFormatDetails(surf->format),
+                                           NULL, 0, 0, 0, 0));
   } else {
     return SDL_FillSurfaceRect(surf, NULL,
-                               SDL_MapRGBA(surf->format, 0, 0, 0, 0));
+                               SDL_MapRGBA(SDL_GetPixelFormatDetails(surf->format),
+                                           NULL, 0, 0, 0, 0));
   }
 }
 

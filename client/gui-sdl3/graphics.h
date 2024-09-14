@@ -304,7 +304,7 @@ SDL_Surface *crop_visible_part_from_surface(SDL_Surface *psrc);
 void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect);
 
 #define map_rgba(format, color) \
-  SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
+  SDL_MapRGBA(SDL_GetPixelFormatDetails(format), NULL, (color).r, (color).g, (color).b, (color).a)
 
 #define crop_rect_from_screen(rect) \
   crop_rect_from_surface(main_data.screen, &rect)
