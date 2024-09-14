@@ -107,7 +107,7 @@ void disable_focus_animation(void);
 
 #define DEFAULT_MOVE_STEP 5
 extern int MOVE_STEP_X, MOVE_STEP_Y;
-int FilterMouseMotionEvents(void *data, SDL_Event *event);
+bool FilterMouseMotionEvents(void *data, SDL_Event *event);
 
 Uint16 gui_event_loop(void *data, void (*loop_action)(void *data),
                       Uint16 (*key_down_handler)(SDL_Keycode key, void *data),
