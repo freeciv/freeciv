@@ -242,7 +242,7 @@ int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
 
 SDL_Surface *load_surf(const char *fname);
 
-SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
+SDL_Surface *create_surf_with_format(SDL_PixelFormat pf,
                                      int width, int height);
 SDL_Surface *create_surf(int width, int height);
 SDL_Surface *convert_surf(SDL_Surface *surf_in);

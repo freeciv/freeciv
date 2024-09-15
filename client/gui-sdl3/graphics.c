@@ -316,15 +316,15 @@ SDL_Surface *load_surf(const char *fname)
 /**********************************************************************//**
   Create an surface with format
 **************************************************************************/
-SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
+SDL_Surface *create_surf_with_format(SDL_PixelFormat pf,
                                      int width, int height)
 {
-  SDL_Surface *surf = SDL_CreateSurface(width, height, pf->format);
+  SDL_Surface *surf = SDL_CreateSurface(width, height, pf);
 
   if (surf == NULL) {
     log_error(_("Unable to create Sprite (Surface) of size "
                 "%d x %d %d Bits"),
-              width, height, pf->bits_per_pixel);
+              width, height, SDL_GetPixelFormatDetails(pf)->bits_per_pixel);
     return NULL;
   }
 
