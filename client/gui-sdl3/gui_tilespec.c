@@ -196,7 +196,8 @@ void tilespec_setup_city_icons(void)
   /* ================================================================= */
   icons->worklist = create_surf(9, 9);
   SDL_FillSurfaceRect(icons->worklist, NULL,
-                      SDL_MapRGB(icons->worklist->format, 255, 255,255));
+                      SDL_MapRGB(SDL_GetPixelFormatDetails(icons->worklist->format),
+                                 NULL, 255, 255,255));
 
   create_frame(icons->worklist,
                0, 0, icons->worklist->w - 1, icons->worklist->h - 1,
