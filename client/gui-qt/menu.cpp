@@ -1862,7 +1862,7 @@ bool mr_menu::shortcut_exist_inner(const QMenu *m, QKeySequence seq,
 }
 
 /**********************************************************************//**
-  Returns string assigned to shortcut or empty string if doesnt exist
+  Returns string assigned to shortcut or empty string if doesn't exist
 **************************************************************************/
 QString mr_menu::shortcut_exist(fc_shortcut *fcs)
 {
