@@ -496,7 +496,7 @@ Uint32 get_first_pixel(SDL_Surface *surf)
 **************************************************************************/
 void init_sdl(int flags)
 {
-  bool error;
+  bool success;
 
   main_data.screen = NULL;
   main_data.guis = NULL;
@@ -508,11 +508,11 @@ void init_sdl(int flags)
   main_data.guis_count = 0;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
-    error = (SDL_InitSubSystem(flags) < 0);
+    success = SDL_InitSubSystem(flags);
   } else {
-    error = (SDL_Init(flags) < 0);
+    success = SDL_Init(flags);
   }
-  if (error) {
+  if (!success) {
     log_fatal(_("Unable to initialize SDL3 library: %s"), SDL_GetError());
     exit(EXIT_FAILURE);
   }
@@ -520,7 +520,7 @@ void init_sdl(int flags)
   atexit(SDL_Quit);
 
   /* Initialize the TTF library */
-  if (TTF_Init() < 0) {
+  if (!TTF_Init()) {
     log_fatal(_("Unable to initialize SDL3_ttf library: %s"), SDL_GetError());
     exit(EXIT_FAILURE);
   }
