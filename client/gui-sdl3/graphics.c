@@ -675,7 +675,8 @@ int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
 
   if (pcolor->a == 255) {
     return SDL_FillSurfaceRect(surf, prect,
-                               SDL_MapRGB(surf->format,
+                               SDL_MapRGB(SDL_GetPixelFormatDetails(surf->format),
+                                          NULL,
                                           pcolor->r, pcolor->g, pcolor->b));
   }
 
@@ -686,7 +687,8 @@ int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
   colorbar = create_surf(surf->w, surf->h);
 
   SDL_FillSurfaceRect(colorbar, prect,
-                      SDL_MapRGB(surf->format,
+                      SDL_MapRGB(SDL_GetPixelFormatDetails(surf->format),
+                                 NULL,
                                  pcolor->r, pcolor->g, pcolor->b));
 
   return alphablit(colorbar, NULL, surf, NULL, pcolor->a);
