@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
       - name: install dependencies
         # A mapping from msys2/setup-msys2 version to msys2 version can be
         # found at
@@ -92,7 +92,7 @@ jobs:
     runs-on: macos-14
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
       - name: install dependencies
         run: |
           # Remove symlinks of the old python version
@@ -118,7 +118,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -181,7 +181,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -214,7 +214,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -249,7 +249,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
       - name: install dependencies
         run: |
           sudo apt-get update
