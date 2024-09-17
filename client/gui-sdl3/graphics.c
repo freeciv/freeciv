@@ -260,8 +260,15 @@ SDL_Surface *mask_surface(SDL_Surface *src, SDL_Surface *mask,
   Uint32 *dest_pixel = NULL;
   Uint32 *mask_pixel = NULL;
   unsigned char src_alpha, mask_alpha;
+  const SDL_PixelFormatDetails *src_details
+    = SDL_GetPixelFormatDetails(src->format);
+  const SDL_PixelFormatDetails *mask_details
+    = SDL_GetPixelFormatDetails(mask->format);
+  const SDL_PixelFormatDetails *dest_details;
 
   dest = copy_surface(src);
+
+  dest_details = SDL_GetPixelFormatDetails(dest->format);
 
   lock_surf(src);
   lock_surf(mask);
@@ -276,11 +283,11 @@ SDL_Surface *mask_surface(SDL_Surface *src, SDL_Surface *mask,
                  + mask_offset_x;
 
     for (col = 0; col < src->w; col++) {
-      src_alpha = (*src_pixel & src->format->Amask) >> src->format->Ashift;
-      mask_alpha = (*mask_pixel & mask->format->Amask) >> mask->format->Ashift;
+      src_alpha = (*src_pixel & src_details->Amask) >> src_details->Ashift;
+      mask_alpha = (*mask_pixel & mask_details->Amask) >> mask_details->Ashift;
 
-      *dest_pixel = (*src_pixel & ~src->format->Amask)
-        | (((src_alpha * mask_alpha) / 255) << dest->format->Ashift);
+      *dest_pixel = (*src_pixel & ~src_details->Amask)
+        | (((src_alpha * mask_alpha) / 255) << dest_details->Ashift);
 
       src_pixel++; dest_pixel++; mask_pixel++;
     }
