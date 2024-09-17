@@ -1317,7 +1317,7 @@ bool auto_workers_speculate_can_act_at(const struct unit *punit,
       break;
     case ATK_STACK:
       return action_prob_possible(action_speculate_unit_on_stack(
-                                    paction->id,
+                                    nmap, paction->id,
                                     punit, unit_home(punit), ptile,
                                     omniscient_cheat,
                                     ptile));
