@@ -767,7 +767,7 @@ void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect)
   minY = surf->h;
   maxY = 0;
 
-  if (SDL_GetSurfaceColorKey(surf, &colorkey) < 0) {
+  if (!SDL_GetSurfaceColorKey(surf, &colorkey)) {
     /* Use alpha instead of colorkey */
     mask = surf->format->Amask;
     colorkey = 0;
