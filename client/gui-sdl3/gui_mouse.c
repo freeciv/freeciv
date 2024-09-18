@@ -56,6 +56,7 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy)
   Uint8 *data, *mask, *d, *m, r, g, b, a;
   Uint32 color;
   SDL_Cursor *cursor;
+  const SDL_PixelFormatDetails *details = SDL_GetPixelFormatDetails(image->format);
 
   w = (image->w + 7) / 8;
   data = (Uint8 *)fc_calloc(1, w * image->h * 2);
@@ -70,7 +71,8 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy)
     m = mask + y * w;
     for (x = 0; x < image->w; x++) {
       color = getpixel(image, x, y);
-      SDL_GetRGBA(color, image->format, &r, &g, &b, &a);
+      SDL_GetRGBA(color, details, NULL,
+                  &r, &g, &b, &a);
       if (a != 0) {
         color = (r + g + b) / 3;
         m[x / 8] |= 128 >> (x & 7);
