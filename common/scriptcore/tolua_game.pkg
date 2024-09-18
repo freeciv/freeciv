@@ -233,6 +233,9 @@ module Player {
 
   City *api_methods_player_primary_capital
     @ primary_capital(lua_State *L, Player *pplayer);
+
+  const char *api_methods_get_diplstate
+    @ diplstate(lua_State *L, Player *pplayer1, Player *pplayer2);
 }
 
 module methods_private {
