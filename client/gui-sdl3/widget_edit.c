@@ -416,30 +416,30 @@ int draw_edit(struct widget *pedit, Sint16 start_x, Sint16 start_y)
   NOTE: This functions can return NULL in 'edit_widget->string_utf8->text' but
         never free 'edit_widget->string_utf8' struct.
 **************************************************************************/
-static Uint16 edit_key_down(SDL_Keycode key, void *data)
+static Uint16 edit_key_down(SDL_KeyboardEvent *key, void *data)
 {
   struct text_edit *edt = (struct text_edit *)data;
   struct utf8_char *input_chain_tmp;
   bool redraw = FALSE;
 
-  /* find which key is pressed */
-  switch (key.sym) {
+  /* Find which key is pressed */
+  switch (key->key) {
     case SDLK_ESCAPE:
-      /* exit from loop without changes */
+      /* Exit from loop without changes */
       return ED_ESC;
     case SDLK_RETURN:
     case SDLK_KP_ENTER:
-      /* exit from loop */
+      /* Exit from loop */
       return ED_RETURN;
       /*
     case SDLK_KP6:
-      if (key.mod & KMOD_NUM) {
+      if (key->mod & KMOD_NUM) {
         goto INPUT;
       }
       */
     case SDLK_RIGHT:
     {
-      /* move cursor right */
+      /* Move cursor right */
       if (edt->input_chain->next) {
         if (edt->input_chain_x >= (edt->pwidget->size.x + edt->bg->w - adj_size(10))) {
           edt->start_x -= edt->input_chain->tsurf->w -
@@ -453,13 +453,13 @@ static Uint16 edit_key_down(SDL_Keycode key, void *data)
     break;
     /*
     case SDLK_KP4:
-      if (key.mod & KMOD_NUM) {
+      if (key->mod & KMOD_NUM) {
         goto INPUT;
       }
     */
     case SDLK_LEFT:
     {
-      /* move cursor left */
+      /* Move cursor left */
       if (edt->input_chain->prev) {
         edt->input_chain = edt->input_chain->prev;
         if ((edt->input_chain_x <=
@@ -476,13 +476,13 @@ static Uint16 edit_key_down(SDL_Keycode key, void *data)
     break;
     /*
     case SDLK_KP7:
-      if (key.mod & KMOD_NUM) {
+      if (key->mod & KMOD_NUM) {
         goto INPUT;
       }
     */
     case SDLK_HOME:
     {
-      /* move cursor to begin of chain (and edit field) */
+      /* Move cursor to begin of chain (and edit field) */
       edt->input_chain = edt->begin_text_chain;
       redraw = TRUE;
       edt->start_x = adj_size(5);
@@ -490,7 +490,7 @@ static Uint16 edit_key_down(SDL_Keycode key, void *data)
     break;
     /*
     case SDLK_KP1:
-      if (key.mod & KMOD_NUM) {
+      if (key->mod & KMOD_NUM) {
         goto INPUT;
       }
     */
@@ -507,7 +507,7 @@ static Uint16 edit_key_down(SDL_Keycode key, void *data)
     break;
     case SDLK_BACKSPACE:
     {
-      /* del element of chain (and move cursor left) */
+      /* Delete element of chain (and move cursor left) */
       if (edt->input_chain->prev) {
         if ((edt->input_chain_x <=
              (edt->pwidget->size.x + adj_size(9))) && (edt->start_x != adj_size(5))) {
@@ -538,7 +538,7 @@ static Uint16 edit_key_down(SDL_Keycode key, void *data)
     break;
     /*
     case SDLK_KP_PERIOD:
-      if (key.mod & KMOD_NUM) {
+      if (key->mod & KMOD_NUM) {
         goto INPUT;
       }
     */
