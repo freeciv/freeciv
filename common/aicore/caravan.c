@@ -152,7 +152,7 @@ void caravan_result_init_zero(struct caravan_result *result)
 
 /************************************************************************//**
   Initialize the result to go from src to dest with the given amount
-  of time.  This is useful for calling get_discounted_reward and the such.
+  of time. This is useful for calling get_discounted_reward() and the such.
 ****************************************************************************/
 static void caravan_result_init(struct caravan_result *result,
                                 const struct city *src,
@@ -188,7 +188,7 @@ int caravan_result_compare(const struct caravan_result *a,
   } else if (a->value < b->value) {
     return -1;
   } else {
-    /* faster time is better, so reverse-sort on time. */
+    /* Faster time is better, so reverse-sort on time. */
     return b->arrival_time - a->arrival_time ;
   }
 }
@@ -241,8 +241,9 @@ static void caravan_search_from(const struct civ_map *nmap,
     }
 
     pcity = tile_city(pos.tile);
-    if (pcity && callback(nmap, callback_data, pcity, turns_before + pos.turn,
-                          pos.moves_left)) {
+    if (pcity != NULL
+        && callback(nmap, callback_data, pcity, turns_before + pos.turn,
+                    pos.moves_left)) {
       break;
     }
   } pf_map_positions_iterate_end;
@@ -546,7 +547,7 @@ static bool get_discounted_reward(const struct unit *caravan,
 
   if ((consider_trade
        || (consider_windfall
-           && (!parameter->consider_trade /* can only enter marketplaces */
+           && (!parameter->consider_trade /* Can only enter marketplaces */
                /* (FIXME: test any extra restrictions for trade routes) */
                /* or the result is so big that we are still in plus */
                /* (consider having produced IF_GOLD instead) */
@@ -675,9 +676,8 @@ static void caravan_find_best_destination_notransit(const struct unit *caravan,
     if (does_foreign_trade_param_allow(param, src_owner, dest_owner)) {
       city_list_iterate(dest_owner->cities, dest) {
         caravan_result_init(&current, pcity, dest, 0);
-        get_discounted_reward(caravan, param, &current);
-
-        if (caravan_result_compare(&current, best) > 0) {
+        if (get_discounted_reward(caravan, param, &current)
+            && caravan_result_compare(&current, best) > 0) {
           *best = current;
         }
       } city_list_iterate_end;
@@ -704,12 +704,12 @@ static bool cfbdw_callback(const struct civ_map *nmap,
 
   caravan_result_init(&current, data->best->src, dest, arrival_time);
 
-  get_discounted_reward(data->caravan, data->param, &current);
-  if (caravan_result_compare(&current, data->best) > 0) {
+  if (get_discounted_reward(data->caravan, data->param, &current)
+      && caravan_result_compare(&current, data->best) > 0) {
     *data->best = current;
   }
 
-  return FALSE; /* don't stop. */
+  return FALSE; /* Don't stop. */
 }
 
 /************************************************************************//**
