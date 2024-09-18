@@ -244,6 +244,7 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
   SDL_Color store = {0, 0, 0, 0};
   SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey;
+  const struct SDL_PixelFormatDetails *details;
 
   if (icon == NULL && pstr == NULL) {
     return NULL;
@@ -266,8 +267,9 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
 
   ptheme = create_surf(label->size.w, label->size.h * 2);
 
-  colorkey = SDL_MapRGBA(SDL_GetPixelFormatDetails(ptheme->format),
-                         NULL, pstr->bgcol.r, pstr->bgcol.g, pstr->bgcol.b,
+  details = SDL_GetPixelFormatDetails(ptheme->format);
+  colorkey = SDL_MapRGBA(details, NULL,
+                         pstr->bgcol.r, pstr->bgcol.g, pstr->bgcol.b,
                          pstr->bgcol.a);
   SDL_FillSurfaceRect(ptheme, NULL, colorkey);
 
@@ -285,9 +287,10 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
 
   if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillSurfaceRect(ptheme, &area,
-                        map_rgba(ptheme->format, bg_color));
+                        map_rgba_details(details, bg_color));
     store = pstr->bgcol;
-    SDL_GetRGBA(getpixel(ptheme, area.x , area.y), ptheme->format,
+    SDL_GetRGBA(getpixel(ptheme, area.x , area.y),
+                details, NULL,
                 &pstr->bgcol.r, &pstr->bgcol.g,
                 &pstr->bgcol.b, &pstr->bgcol.a);
   } else {
@@ -325,9 +328,10 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
   SDL_Surface *pdest;
   SDL_Surface *ptheme = create_surf(icon_label->size.w,
                                     icon_label->size.h * 2);
+  const SDL_PixelFormatDetails *details
+    = SDL_GetPixelFormatDetails(ptheme->format);
 
-  colorkey = SDL_MapRGBA(SDL_GetPixelFormatDetails(ptheme->format),
-                         NULL,
+  colorkey = SDL_MapRGBA(details, NULL,
                          icon_label->string_utf8->bgcol.r,
                          icon_label->string_utf8->bgcol.g,
                          icon_label->string_utf8->bgcol.b,
@@ -350,9 +354,10 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
 
   if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillSurfaceRect(ptheme, &area,
-                        map_rgba(ptheme->format, bg_color));
+                        map_rgba_details(details, bg_color));
     store = icon_label->string_utf8->bgcol;
-    SDL_GetRGBA(getpixel(ptheme, area.x , area.y), ptheme->format,
+    SDL_GetRGBA(getpixel(ptheme, area.x , area.y),
+                details, NULL,
                 &icon_label->string_utf8->bgcol.r,
                 &icon_label->string_utf8->bgcol.g,
                 &icon_label->string_utf8->bgcol.b,
