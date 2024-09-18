@@ -2002,12 +2002,15 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   cma_result_pix = new QLabel;
 
   hbox = new QHBoxLayout;
+  QScrollArea *govA = new QScrollArea();
   hbox->addWidget(cma_result_pix);
   hbox->addWidget(cma_result);
   hbox->addStretch(10);
+  govA->setWidget(qsliderbox);
+  govA->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   right_layout->addWidget(qgbox);
   right_layout->addLayout(hbox);
-  right_layout->addWidget(qsliderbox);
+  right_layout->addWidget(govA);
 
   split_widget1 = new QWidget;
   split_widget1->setLayout(worklist_layout);
