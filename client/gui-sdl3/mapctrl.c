@@ -2437,12 +2437,12 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
 /**********************************************************************//**
   Toggle map drawing stuff.
 **************************************************************************/
-bool map_event_handler(SDL_Keycode key)
+bool map_event_handler(SDL_KeyboardEvent *key)
 {
   if (C_S_RUNNING == client_state()) {
     enum direction8 movedir = DIR8_MAGIC_MAX;
 
-    switch (key.scancode) {
+    switch (key->scancode) {
 
     case SDL_SCANCODE_KP_8:
       movedir = DIR8_NORTH;
@@ -2481,9 +2481,9 @@ bool map_event_handler(SDL_Keycode key)
       return FALSE;
 
     default:
-      switch (key.sym) {
+      switch (key->key) {
 
-        /* cancel action */
+      /* Cancel action */
       case SDLK_ESCAPE:
         key_cancel_action();
         draw_goto_patrol_lines = FALSE;

@@ -246,18 +246,18 @@ struct widget *find_next_widget_at_pos(struct widget *start_widget,
   NOTE: This function ignores CapsLock and NumLock Keys.
 **************************************************************************/
 struct widget *find_next_widget_for_key(struct widget *start_widget,
-                                        SDL_Keycode key)
+                                        SDL_KeyboardEvent *key)
 {
   struct widget *pwidget;
 
   pwidget = start_widget ? start_widget : begin_main_widget_list;
 
-  key.mod &= ~(SDL_KMOD_NUM | SDL_KMOD_CAPS);
+  key->mod &= ~(SDL_KMOD_NUM | SDL_KMOD_CAPS);
   while (pwidget) {
-    if ((pwidget->key == key.sym
-         || (pwidget->key == SDLK_RETURN && key.sym == SDLK_KP_ENTER)
-         || (pwidget->key == SDLK_KP_ENTER && key.sym == SDLK_RETURN))
-        && ((pwidget->mod & key.mod) || (pwidget->mod == key.mod))) {
+    if ((pwidget->key == key->key
+         || (pwidget->key == SDLK_RETURN && key->key == SDLK_KP_ENTER)
+         || (pwidget->key == SDLK_KP_ENTER && key->key == SDLK_RETURN))
+        && ((pwidget->mod & key->mod) || (pwidget->mod == key->mod))) {
       if (!((get_wstate(pwidget) == FC_WS_DISABLED)
             || ((get_wflags(pwidget) & WF_HIDDEN) == WF_HIDDEN))) {
         return (struct widget *) pwidget;
