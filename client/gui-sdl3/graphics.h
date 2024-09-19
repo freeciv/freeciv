@@ -260,7 +260,7 @@ SDL_Surface *copy_surface(SDL_Surface *src);
 int blit_entire_src(SDL_Surface *psrc,
                     SDL_Surface *pdest, Sint16 dest_x, Sint16 dest_y);
 
-Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y);
+Uint32 get_pixel(SDL_Surface *surf, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *surf);
 
 void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
