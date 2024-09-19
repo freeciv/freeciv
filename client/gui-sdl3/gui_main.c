@@ -1346,5 +1346,5 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 **************************************************************************/
 bool flush_event(void)
 {
-  return SDL_PushEvent(flush_user_event) >= 0;
+  return SDL_PushEvent(flush_user_event);
 }
