@@ -289,7 +289,7 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
     SDL_FillSurfaceRect(ptheme, &area,
                         map_rgba_details(details, bg_color));
     store = pstr->bgcol;
-    SDL_GetRGBA(getpixel(ptheme, area.x , area.y),
+    SDL_GetRGBA(get_pixel(ptheme, area.x , area.y),
                 details, NULL,
                 &pstr->bgcol.r, &pstr->bgcol.g,
                 &pstr->bgcol.b, &pstr->bgcol.a);
@@ -356,7 +356,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
     SDL_FillSurfaceRect(ptheme, &area,
                         map_rgba_details(details, bg_color));
     store = icon_label->string_utf8->bgcol;
-    SDL_GetRGBA(getpixel(ptheme, area.x , area.y),
+    SDL_GetRGBA(get_pixel(ptheme, area.x , area.y),
                 details, NULL,
                 &icon_label->string_utf8->bgcol.r,
                 &icon_label->string_utf8->bgcol.g,
