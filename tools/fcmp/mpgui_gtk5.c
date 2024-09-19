@@ -69,6 +69,63 @@ static gboolean quit_dialog_callback(void);
 #define ML_NOTES       8
 #define ML_STORE_SIZE  9
 
+#define FC_TYPE_MPROW (fc_mprow_get_type())
+
+G_DECLARE_FINAL_TYPE(FcMPRow, fc_mprow, FC, MPROW, GObject)
+
+struct _FcMPRow
+{
+  GObject parent_instance;
+
+  const char *name;
+  const char *ver;
+  const char *inst;
+  const char *type;
+  const char *subtype;
+  const char *lic;
+  const char *URL;
+  const char *notes;
+
+  int type_int;
+};
+
+struct _FcMPRowClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcMPRow, fc_mprow, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcMPRow class
+**************************************************************************/
+static void
+fc_mprow_class_init(FcMPRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcMPRow
+**************************************************************************/
+static void
+fc_mprow_init(FcMPRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcMPRow creation method
+**************************************************************************/
+#if 0
+static FcMPRow *fc_mprow_new(void)
+{
+  FcMPRow *result;
+
+  result = g_object_new(FC_TYPE_MPROW, nullptr);
+
+  return result;
+}
+#endif
+
 /**********************************************************************//**
   freeciv-modpack quit
 **************************************************************************/
