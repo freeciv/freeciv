@@ -745,6 +745,31 @@ static bool rs_common_units(rs_conversion_logger logger)
     return FALSE;
   }
 
+  unit_type_iterate(ptype) {
+    bool cargo = FALSE;
+
+    unit_class_iterate(pclass) {
+      if (BV_ISSET(ptype->cargo, uclass_index(pclass))) {
+        cargo = TRUE;
+        break;
+      }
+    } unit_class_iterate_end;
+
+    if (ptype->transport_capacity > 0) {
+      if (!cargo) {
+        ruleset_error(logger, LOG_ERROR,
+                      _("%s has transport capacity %d, but no cargo types."),
+                      utype_rule_name(ptype), ptype->transport_capacity);
+        return FALSE;
+      }
+    } else if (cargo) {
+      ruleset_error(logger, LOG_ERROR,
+                    _("%s has cargo types, but no transport capacity."),
+                    utype_rule_name(ptype));
+      return FALSE;
+    }
+  } unit_type_iterate_end;
+
   return TRUE;
 }
 
