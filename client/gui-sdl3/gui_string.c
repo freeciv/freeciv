@@ -128,7 +128,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
       w = 0;
       h = 0;
       while (utf8_texts[count]) {
-        if (TTF_SizeUTF8(pstr->font, utf8_texts[count], &ww, &hh) < 0) {
+        if (!TTF_SizeUTF8(pstr->font, utf8_texts[count], &ww, &hh)) {
           do {
             FC_FREE(utf8_texts[count]);
             count++;
@@ -141,7 +141,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
         count++;
       }
     } else {
-      if (TTF_SizeUTF8(pstr->font, pstr->text, &w, &h) < 0) {
+      if (!TTF_SizeUTF8(pstr->font, pstr->text, &w, &h)) {
         log_error("TTF_SizeUTF8() return ERROR!");
       }
     }
