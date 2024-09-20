@@ -586,7 +586,7 @@ static Uint16 edit_key_down(SDL_Keysym key, void *data)
 /**********************************************************************//**
   Handle textinput strings coming to the edit widget
 **************************************************************************/
-static Uint16 edit_textinput(char *text, void *data)
+static Uint16 edit_textinput(const char *text, void *data)
 {
   struct text_edit *edt = (struct text_edit *)data;
   struct utf8_char *input_chain_tmp;
@@ -598,7 +598,7 @@ static Uint16 edit_textinput(char *text, void *data)
     int sum = 128 + 64;
     int addition = 32;
 
-    /* add new element of chain (and move cursor right) */
+    /* Add new element of chain (and move cursor right) */
     if (edt->input_chain != edt->begin_text_chain) {
       input_chain_tmp = edt->input_chain->prev;
       edt->input_chain->prev = fc_calloc(1, sizeof(struct utf8_char));
