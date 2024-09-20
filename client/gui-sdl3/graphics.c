@@ -563,7 +563,7 @@ bool create_surfaces(int width, int height)
     return FALSE;
   }
 
-  main_data.renderer = SDL_CreateRenderer(main_data.screen, NULL, 0);
+  main_data.renderer = SDL_CreateRenderer(main_data.screen, NULL);
 
   if (main_data.renderer == NULL) {
     log_fatal(_("Failed to create renderer: %s"), SDL_GetError());
