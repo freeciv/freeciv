@@ -440,7 +440,7 @@ int dio_put_sfloat_raw(struct raw_data_out *dout, float value, int float_factor)
 }
 
 /**********************************************************************//**
-  Insert number of values brefore stop_value using 8 bits. Then
+  Insert number of values before stop_value using 8 bits. Then
   insert values using 8 bits for each. stop_value is not required to
   fit in 8 bits. Actual values may overflow.
 **************************************************************************/
@@ -467,7 +467,7 @@ int dio_put_uint8_vec8_raw(struct raw_data_out *dout, int *values, int stop_valu
 }
 
 /**********************************************************************//**
-  Insert number of values brefore stop_value using 8 bits. Then
+  Insert number of values before stop_value using 8 bits. Then
   insert values using 16 bits for each. stop_value is not required to
   fit in 16 bits. Actual values may overflow.
 **************************************************************************/
