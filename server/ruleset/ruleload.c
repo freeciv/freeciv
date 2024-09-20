@@ -2289,25 +2289,6 @@ static bool load_ruleset_units(struct section_file *file,
       } output_type_iterate_end;
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.cargo", sec_name);
-      if (u->transport_capacity > 0) {
-        if (nval == 0) {
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" unit type \"%s\" "
-                        "has transport_cap %d, but no cargo unit classes.",
-                        filename, utype_rule_name(u), u->transport_capacity);
-          ok = FALSE;
-          break;
-        }
-      } else {
-        if (nval > 0) {
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" unit type \"%s\" "
-                        "has cargo defined, but transport_cap is 0.",
-                        filename, utype_rule_name(u));
-          ok = FALSE;
-          break;
-        }
-      }
 
       BV_CLR_ALL(u->cargo);
       for (j = 0; j < nval; j++) {
