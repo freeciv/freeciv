@@ -620,7 +620,8 @@ action_speculate_unit_on_stack(const struct civ_map *nmap,
                                const struct tile *target);
 
 struct act_prob
-action_speculate_unit_on_tile(action_id act_id,
+action_speculate_unit_on_tile(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,

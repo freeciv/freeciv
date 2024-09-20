@@ -160,6 +160,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
 {
   int orig_value;
   bool potential_worst_worked = FALSE;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!city_can_work_tile(pcity, ptile)) {
     return;
@@ -206,7 +207,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
       }
 
       if (action_prob_possible(
-            action_speculate_unit_on_tile(act,
+            action_speculate_unit_on_tile(nmap, act,
                                           punit, unit_home(punit), ptile,
                                           TRUE,
                                           ptile, tgt))) {
@@ -228,7 +229,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
               if (action_prob_possible(
-                    action_speculate_unit_on_tile(act,
+                    action_speculate_unit_on_tile(nmap, act,
                                                   punit, unit_home(punit),
                                                   ptile,
                                                   TRUE,
@@ -255,7 +256,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
               if (action_prob_possible(
-                    action_speculate_unit_on_tile(act,
+                    action_speculate_unit_on_tile(nmap, act,
                                                   punit, unit_home(punit),
                                                   ptile,
                                                   TRUE,
@@ -280,7 +281,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
 
           if (is_extra_removed_by_action(tgt, taction)
               && action_prob_possible(
-                action_speculate_unit_on_tile(try_act,
+                action_speculate_unit_on_tile(nmap, try_act,
                                               punit,
                                               unit_home(punit), ptile,
                                               TRUE,
@@ -295,7 +296,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
 
           if (is_extra_caused_by_action(tgt, taction)
               && action_prob_possible(
-                action_speculate_unit_on_tile(try_act,
+                action_speculate_unit_on_tile(nmap, try_act,
                                               punit,
                                               unit_home(punit), ptile,
                                               TRUE,
@@ -392,7 +393,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
               fc_assert_action(action_get_target_kind(paction) == ATK_TILE,
                                break);
               if (action_prob_possible(action_speculate_unit_on_tile(
-                                           paction->id,
+                                           nmap, paction->id,
                                            punit, unit_home(punit), ptile,
                                            TRUE,
                                            ptile, tgt))) {
@@ -420,7 +421,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
               fc_assert_action(action_get_target_kind(paction) == ATK_TILE,
                                break);
               if (action_prob_possible(action_speculate_unit_on_tile(
-                                         paction->id,
+                                         nmap, paction->id,
                                          punit, unit_home(punit), ptile,
                                          TRUE,
                                          ptile, tgt))) {

@@ -551,7 +551,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
             if (adv_city_worker_act_get(pcity, cindex,
                                         action_id_get_activity(act)) >= 0
                 && action_prob_possible(
-                  action_speculate_unit_on_tile(act,
+                  action_speculate_unit_on_tile(nmap, act,
                                                 punit, unit_home(punit),
                                                 ptile,
                                                 parameter.omniscience,
@@ -590,11 +590,12 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
             if (removing) {
               aw_rmextra_action_iterate(try_act) {
                 struct action *taction = action_by_number(try_act);
+
                 if (is_extra_removed_by_action(pextra, taction)) {
                   /* We do not even evaluate actions we can't do.
                    * Removal is not considered prerequisite for anything */
                   if (action_prob_possible(
-                        action_speculate_unit_on_tile(try_act,
+                        action_speculate_unit_on_tile(nmap, try_act,
                                                       punit,
                                                       unit_home(punit),
                                                       ptile,
@@ -609,10 +610,11 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
             } else {
               aw_extra_action_iterate(try_act) {
                 struct action *taction = action_by_number(try_act);
+
                 if (is_extra_caused_by_action(pextra, taction)) {
                   eval_act = action_id_get_activity(try_act);
                   if (action_prob_possible(
-                        action_speculate_unit_on_tile(try_act,
+                        action_speculate_unit_on_tile(nmap, try_act,
                                                       punit,
                                                       unit_home(punit),
                                                       ptile,
@@ -716,7 +718,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
                   dep_tgt = road_extra_get(pdep);
 
                   if (action_prob_possible(
-                        action_speculate_unit_on_tile(ACTION_ROAD,
+                        action_speculate_unit_on_tile(nmap, ACTION_ROAD,
                                                       punit, unit_home(punit), ptile,
                                                       parameter.omniscience,
                                                       ptile, dep_tgt))) {
@@ -762,7 +764,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
 
                     if (eval_dep_act != ACTIVITY_LAST) {
                       if (action_prob_possible(
-                            action_speculate_unit_on_tile(eval_dep_action,
+                            action_speculate_unit_on_tile(nmap, eval_dep_action,
                                                           punit, unit_home(punit), ptile,
                                                           parameter.omniscience,
                                                           ptile, pdep))) {
@@ -1323,7 +1325,7 @@ bool auto_workers_speculate_can_act_at(const struct unit *punit,
                                     ptile));
     case ATK_TILE:
       return action_prob_possible(action_speculate_unit_on_tile(
-                                    paction->id,
+                                    nmap, paction->id,
                                     punit, unit_home(punit), ptile,
                                     omniscient_cheat,
                                     ptile, target));
