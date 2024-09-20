@@ -2386,7 +2386,6 @@ project's mailing lists:\
   Present administrators: \
 "), "\
     Marko Lindqvist       - cazfi74_at_gmail.com\n\
-    Jacob Nevins          - 0jacobnk.fca_at_chiark.greenend.org.uk\n\
     Sveinung Kvilhaugsvik - sveinung84_at_users.sourceforge.net\n\
     Alina Lenk            - alina.v.lenk_at_gmail.com\n\
     Dean Brown            - ddeanbrown_at_comcast.net\
