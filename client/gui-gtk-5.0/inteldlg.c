@@ -132,6 +132,27 @@ struct _FcTechRowClass
 
 G_DEFINE_TYPE(FcTechRow, fc_tech_row, G_TYPE_OBJECT)
 
+#define FC_TYPE_WONDER_ROW (fc_wonder_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcWonderRow, fc_wonder_row, FC, WONDER_ROW, GObject)
+
+struct _FcWonderRow
+{
+  GObject parent_instance;
+
+  const char *name;
+  const char *cityname;
+  bool is_lost;
+  int font_weight;
+};
+
+struct _FcWonderRowClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcWonderRow, fc_wonder_row, G_TYPE_OBJECT)
+
 /**********************************************************************//**
   Initialization method for FcTechRow class
 **************************************************************************/
@@ -157,6 +178,36 @@ static FcTechRow *fc_tech_row_new(void)
   FcTechRow *result;
 
   result = g_object_new(FC_TYPE_TECH_ROW, nullptr);
+
+  return result;
+}
+#endif
+
+/**********************************************************************//**
+  Initialization method for FcWonderRow class
+**************************************************************************/
+static void
+fc_wonder_row_class_init(FcWonderRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcWonderRow
+**************************************************************************/
+static void
+fc_wonder_row_init(FcWonderRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcWonderRow creation method
+**************************************************************************/
+#if 0
+static FcWonderRow *fc_wonder_row_new(void)
+{
+  FcWonderRow *result;
+
+  result = g_object_new(FC_TYPE_WONDER_ROW, nullptr);
 
   return result;
 }
