@@ -234,3 +234,15 @@ int api_methods_tag_score(lua_State *L, Player *pplayer, const char *tag)
 
   return get_tag_score(tag, pplayer);
 }
+
+/**********************************************************************//**
+  Return player's love towards another.
+**************************************************************************/
+int api_methods_love(lua_State *L, Player *pplayer, Player *towards)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, towards, 3, Player, 0);
+
+  return pplayer->ai_common.love[player_number(towards)] * 1000 / MAX_AI_LOVE;
+}

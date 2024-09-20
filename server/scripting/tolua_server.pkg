@@ -569,6 +569,9 @@ module Player {
 
   int api_methods_tag_score
     @ tag_score (lua_State *L, Player *pplayer, const char *tag);
+
+  int api_methods_love
+    @ love (lua_State *L, Player *pplayer, Player *towards);
 }
 
 $[
