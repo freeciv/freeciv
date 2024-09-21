@@ -7,7 +7,7 @@ options = "+Freeciv-modpack-3.3-Devel-2024.Apr.14"
 name = "hex2t"
 
 [components]
-; Whether the modpack has a ruleset component
+; Whether the modpack has a tileset component
 tileset = TRUE
 
 [tileset]
