@@ -1645,7 +1645,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
       buf->string_utf8->fgcol
         = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       buf->data.player = pplayer;
-      buf->key = SDLK_c;
+      buf->key = SDLK_C;
       add_to_gui_list(ID_BUTTON, buf);
       buf->size.w = MAX(buf->next->size.w, buf->size.w);
       buf->next->size.w = buf->size.w;
@@ -1666,7 +1666,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
       buf->action = withdraw_vision_dlg_callback;
       set_wstate(buf, FC_WS_NORMAL);
       buf->data.player = pplayer;
-      buf->key = SDLK_w;
+      buf->key = SDLK_W;
       buf->string_utf8->fgcol
         = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       add_to_gui_list(ID_BUTTON, buf);
@@ -1686,7 +1686,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
     buf->action = call_meeting_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
     buf->data.player = pplayer;
-    buf->key = SDLK_m;
+    buf->key = SDLK_M;
     buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     add_to_gui_list(ID_BUTTON, buf);
     buf->size.w = MAX(buf->next->size.w, buf->size.w);
