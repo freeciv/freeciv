@@ -246,3 +246,17 @@ int api_methods_love(lua_State *L, Player *pplayer, Player *towards)
 
   return pplayer->ai_common.love[player_number(towards)] * 1000 / MAX_AI_LOVE;
 }
+
+/**********************************************************************//**
+  Add player love towards another.
+**************************************************************************/
+void api_methods_add_love(lua_State *L, Player *pplayer, Player *towards,
+                          int amount)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, pplayer);
+  LUASCRIPT_CHECK_ARG_NIL(L, towards, 3, Player);
+
+  pplayer->ai_common.love[player_number(towards)]
+    += amount * MAX_AI_LOVE / 1000;
+}
