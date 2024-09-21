@@ -897,16 +897,22 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
 endif
 
 if qtver == 'qt5'
-  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00', language : 'cpp')
+  qt_minver='0x050f00'
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   priv_conf_data.set('FC_QT5_MODE', 1)
   qt_opts = []
+  qt_cppflags = '-fPIC'
 elif qtver == 'qt6x'
-  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x060600', language : 'cpp')
+  qt_minver='0x060600'
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   priv_conf_data.set('FC_QT6X_MODE', 1)
   qt_opts = 'cpp_std=c++17'
+  qt_cppflags = '-std=c++17'
 else
-  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x060000', language : 'cpp')
+  qt_minver='0x060000'
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   qt_opts = 'cpp_std=c++17'
+  qt_cppflags = '-std=c++17'
 endif
 
 if get_option('audio') != 'none'
@@ -3558,11 +3564,35 @@ else
   qt_dep = dependency('Qt5', modules: ['Core', 'Gui', 'Widgets'], required: false)
 endif
 
+if qt_dep.found() and cxx_build
+  if cxx_compiler.compiles(
+'''#include <QtCore>
+int main()
+{
+#if QT_VERSION < ''' + qt_minver + '''
+  fail
+#endif
+  return 0;
+}
+''',
+    name: 'qt minver',
+    args: qt_cppflags,
+    dependencies: qt_dep)
+    qtfine = true
+  else
+    qtfine = false
+  endif
+else
+  qtfine = false
+endif
+
 if get_option('clients').contains('qt')
 
-if not qt_dep.found()
-  if qtver == 'qt6' or qtver == 'qt6x'
+if not qtfine
+  if qtver == 'qt6'
     error('Qt6 >= 6.0 required for qt-client in Qt6 mode, but not found')
+  elif qtver == 'qt6x'
+    error('Qt6 >= 6.6 required for qt-client in Qt6x mode, but not found')
   else
     error('Qt5 >= 5.15 required for qt-client in Qt5 mode, but not found')
   endif
@@ -4258,9 +4288,11 @@ endif
 
 if get_option('fcmp').contains('qt')
 
-if not qt_dep.found()
-  if qtver == 'qt6' or qtver == 'qt6x'
+if not qtfine
+  if qtver == 'qt6'
     error('Qt6 >= 6.0 required for qt-modpack-installer in Qt6 mode, but not found')
+  elif qtver == 'qt6x'
+    error('Qt6 >= 6.6 required for qt-modpack-installer in Qt6x mode, but not found')
   else
     error('Qt5 >= 5.15 required for qt-modpack-installer in Qt5 mode, but not found')
   endif
@@ -4345,9 +4377,11 @@ endif
 
 if get_option('tools').contains('ruledit')
 
-if not qt_dep.found()
-  if qtver == 'qt6' or qtver == 'qt6x'
+if not qtfine
+  if qtver == 'qt6'
     error('Qt6 >= 6.0 required for ruledit in Qt6 mode, but not found')
+  elif qtver == 'qt6x'
+    error('Qt6 >= 6.6 required for ruledit in Qt6x mode, but not found')
   else
     error('Qt5 >= 5.15 required for ruledit in Qt5 mode, but not found')
   endif
