@@ -40,7 +40,7 @@ sed -e "s,<EMSDK_ROOT>,${EMSDK_ROOT}," \
 
 # Build SDL2 separately first, without USE_PTHREADS that
 # the main build uses.
-if ! embuilder build sdl2 sdl2_image sdl2_ttf sdl2_gfx sdl2_mixer ; then
+if ! embuilder build sdl2 sdl2_image sdl2_ttf sdl2_mixer ; then
   echo "SDL2 build failed!" >&2
   exit 1
 fi
