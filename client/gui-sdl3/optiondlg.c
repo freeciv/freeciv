@@ -455,7 +455,7 @@ static struct strvec *video_mode_list(void)
   int mode_count;
   int i, j;
   SDL_DisplayID *ids;
-  const SDL_DisplayMode **modes;
+  SDL_DisplayMode **modes;
 
   ids = SDL_GetDisplays(&display_count);
 
