@@ -878,7 +878,11 @@ static gchar *propval_as_string(struct propval *pv)
     return g_strdup_printf("%s", nation_adjective_translation(pv->data.v_nation));
 
   case VALTYPE_GOV:
-    return g_strdup_printf("%s", government_name_translation(pv->data.v_gov));
+    if (pv->data.v_gov != NULL) {
+      return g_strdup_printf("%s", government_name_translation(pv->data.v_gov));
+    } else {
+      return g_strdup_printf("%s", government_name_translation(game.government_during_revolution));
+    }
 
   case VALTYPE_BUILT_ARRAY:
     {
@@ -4010,9 +4014,16 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
           g_object_unref(pixbuf);
         }
       } governments_iterate_end;
-      gtk_label_set_text(GTK_LABEL(ev->panel_label),
-                         government_name_translation(pv->data.v_gov));
-      pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
+      if (pv->data.v_gov != NULL) {
+        gtk_label_set_text(GTK_LABEL(ev->panel_label),
+                           government_name_translation(pv->data.v_gov));
+        pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
+      } else {
+        gtk_label_set_text(GTK_LABEL(ev->panel_label), "?");
+        pixbuf = sprite_get_pixbuf(get_government_sprite(tileset,
+                                                         game.government_during_revolution));
+      }
+
       gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), pixbuf);
       if (pixbuf) {
         g_object_unref(pixbuf);
@@ -4314,11 +4325,17 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
     if (!(0 <= id && id < government_count()) || !present) {
       return;
     }
-    old_id = government_index(pv->data.v_gov);
-    pv->data.v_gov = government_by_number(id);
-    gtk_list_store_set(ev->store, &iter, 0, TRUE, -1);
-    gtk_tree_model_iter_nth_child(model, &iter, NULL, old_id);
-    gtk_list_store_set(ev->store, &iter, 0, FALSE, -1);
+    if (pv->data.v_gov != NULL) {
+      old_id = government_index(pv->data.v_gov);
+      pv->data.v_gov = government_by_number(id);
+      gtk_list_store_set(ev->store, &iter, 0, TRUE, -1);
+      gtk_tree_model_iter_nth_child(model, &iter, NULL, old_id);
+      gtk_list_store_set(ev->store, &iter, 0, FALSE, -1);
+    } else {
+      pv->data.v_gov = government_by_number(id);
+      gtk_list_store_set(ev->store, &iter, 0, TRUE, -1);
+    }
+
     gtk_label_set_text(GTK_LABEL(ev->panel_label),
                        government_name_translation(pv->data.v_gov));
     pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
@@ -5344,7 +5361,12 @@ static bool property_page_set_store_value(struct property_page *pp,
     }
     break;
   case VALTYPE_GOV:
-    pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
+    if (pv->data.v_gov != NULL) {
+      pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
+    } else {
+      pixbuf = sprite_get_pixbuf(get_government_sprite(tileset,
+                                                       game.government_during_revolution));
+    }
     gtk_list_store_set(store, iter, col_id, pixbuf, -1);
     if (pixbuf) {
       g_object_unref(pixbuf);
