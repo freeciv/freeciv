@@ -790,6 +790,7 @@ void handle_city_info(const struct packet_city_info *packet)
   pcity->city_radius_sq = packet->city_radius_sq;
 
   pcity->city_options = packet->city_options;
+  pcity->wlcb = packet->wl_cb;
 
   if (pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]
       || pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]

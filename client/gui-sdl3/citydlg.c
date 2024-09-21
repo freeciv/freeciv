@@ -959,7 +959,8 @@ static int misc_panel_city_dlg_callback(struct widget *pwidget)
       break;
     }
 
-    dsend_packet_city_options_req(&client.conn, pcity_dlg->pcity->id, new_options);
+    dsend_packet_city_options_req(&client.conn, pcity_dlg->pcity->id,
+                                  new_options, pcity_dlg->pcity->wlcb);
   }
 
   return -1;
@@ -982,8 +983,9 @@ static void create_city_options_widget_list(struct city *pcity)
   pstr->fgcol = *get_theme_color(COLOR_THEME_CHECKBOX_LABEL_TEXT);
 
   buf =
-    create_textcheckbox(pwindow->dst, BV_ISSET(pcity->city_options, CITYO_DISBAND), pstr,
-                        WF_RESTORE_BACKGROUND);
+    create_textcheckbox(pwindow->dst,
+                        BV_ISSET(pcity->city_options, CITYO_DISBAND),
+                        pstr, WF_RESTORE_BACKGROUND);
   set_wstate(buf, FC_WS_NORMAL);
   buf->action = misc_panel_city_dlg_callback;
   add_to_gui_list(MAX_ID - 0x10, buf);

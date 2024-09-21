@@ -2649,6 +2649,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->pollution = pcity->pollution;
   packet->illness_trade = pcity->illness_trade;
   packet->city_options = pcity->city_options;
+  packet->wl_cb = pcity->wlcb;
 
   packet->production_kind = pcity->production.kind;
   packet->production_value = universal_number(&pcity->production);
