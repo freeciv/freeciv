@@ -758,6 +758,8 @@ void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect)
   Uint16 minX, maxX, minY, maxY;
   Uint32 colorkey;
   Uint32 mask;
+  const struct SDL_PixelFormatDetails *details
+    = SDL_GetPixelFormatDetails(surf->format);
 
   fc_assert(surf != NULL);
   fc_assert(rect != NULL);
@@ -769,7 +771,7 @@ void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect)
 
   if (!SDL_GetSurfaceColorKey(surf, &colorkey)) {
     /* Use alpha instead of colorkey */
-    mask = surf->format->Amask;
+    mask = details->Amask;
     colorkey = 0;
   } else {
     mask = 0xffffffff;
@@ -777,7 +779,7 @@ void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect)
 
   lock_surf(surf);
 
-  switch (surf->format->bytes_per_pixel) {
+  switch (details->bytes_per_pixel) {
   case 1:
   {
     Uint8 *pixel = (Uint8 *)surf->pixels;
