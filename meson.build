@@ -699,12 +699,16 @@ if get_option('audio') or get_option('clients').contains('sdl2')
 endif
 
 if get_option('qtver') == 'qt5'
-  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
+  qt_minver = '0x050b00'
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   priv_conf_data.set('FC_QT5_MODE', 1)
   qt_opts = []
+  qt_cppflags = '-fPIC'
 else
-  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x060000', language : 'cpp')
+  qt_minver = '0x060000'
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   qt_opts = 'cpp_std=c++17'
+  qt_cppflags = '-std=c++17'
 endif
 
 if get_option('audio')
@@ -3137,9 +3141,31 @@ else
   qt_dep = dependency('Qt5', modules: ['Core', 'Gui', 'Widgets'], required: false)
 endif
 
+if qt_dep.found() and cxx_build
+  if cxx_compiler.compiles(
+'''#include <QtCore>
+int main()
+{
+#if QT_VERSION < ''' + qt_minver + '''
+  fail
+#endif
+  return 0;
+}
+''',
+    name: 'qt minver',
+    args: qt_cppflags,
+    dependencies: qt_dep)
+    qtfine = true
+  else
+    qtfine = false
+  endif
+else
+  qtfine = false
+endif
+
 if get_option('clients').contains('qt')
 
-if not qt_dep.found()
+if not qtfine
   if get_option('qtver') == 'qt6'
     error('Qt6 >= 6.0 required for qt-client in Qt6 mode, but not found')
   else
@@ -3608,7 +3634,7 @@ endif
 
 if get_option('fcmp').contains('qt')
 
-if not qt_dep.found()
+if not qtfine
   if get_option('qtver') == 'qt6'
     error('Qt6 >= 6.0 required for qt-modpack-installer in Qt6 mode, but not found')
   else
@@ -3682,7 +3708,7 @@ executable('freeciv-ruleup',
 
 if get_option('ruledit')
 
-if not qt_dep.found()
+if not qtfine
   if get_option('qtver') == 'qt6'
     error('Qt6 >= 6.0 required for ruledit in Qt6 mode, but not found')
   else
