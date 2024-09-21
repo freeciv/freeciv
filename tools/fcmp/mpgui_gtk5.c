@@ -40,7 +40,7 @@ static GtkWidget *toplevel;
 static GtkWidget *statusbar;
 static GtkWidget *progressbar;
 static GtkWidget *main_list;
-static GtkListStore *main_store;
+static GListStore *main_store;
 static GtkWidget *URL_input;
 static GtkAlertDialog *quit_dialog;
 static gboolean downloading = FALSE;
@@ -115,7 +115,6 @@ fc_mprow_init(FcMPRow *self)
 /**********************************************************************//**
   FcMPRow creation method
 **************************************************************************/
-#if 0
 static FcMPRow *fc_mprow_new(void)
 {
   FcMPRow *result;
@@ -124,7 +123,6 @@ static FcMPRow *fc_mprow_new(void)
 
   return result;
 }
-#endif
 
 /**********************************************************************//**
   freeciv-modpack quit
@@ -156,7 +154,7 @@ static void quit_dialog_response(GObject *dialog, GAsyncResult *result,
 **************************************************************************/
 static gboolean quit_dialog_callback(void)
 {
-  if (downloading || TRUE) {
+  if (downloading) {
     /* Download in progress. Confirm quit from user. */
 
     if (quit_dialog == nullptr) {
@@ -270,6 +268,7 @@ static void pbar_dl_thread(int current, int max)
 **************************************************************************/
 static gboolean versionlist_update_main_thread(gpointer user_data)
 {
+#if 0
   GtkTreeIter iter;
 
   if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(main_store), &iter)) {
@@ -298,6 +297,7 @@ static gboolean versionlist_update_main_thread(gpointer user_data)
 
     } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(main_store), &iter));
   }
+#endif
 
   return G_SOURCE_REMOVE;
 }
@@ -397,25 +397,37 @@ static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
                                            GtkTooltip *tooltip,
                                            gpointer data)
 {
-  GtkTreeIter iter;
-  GtkTreeView *tree_view = GTK_TREE_VIEW(widget);
-  GtkTreeModel *model;
-  const char *notes;
+  GtkWidget *child = gtk_widget_get_first_child(gtk_widget_get_next_sibling(gtk_widget_get_first_child(widget)));
+  int row_number = -1; /* 0 after header */
+  int curr_y = 0;
 
-  if (!gtk_tree_view_get_tooltip_context(tree_view, x, y,
-                                         keyboard_tip,
-                                         &model, nullptr, &iter)) {
-    return FALSE;
-  }
+  while (GTK_IS_WIDGET(child)) {
+    GtkAllocation alloc;
 
-  gtk_tree_model_get(model, &iter,
-                     ML_NOTES, &notes,
-                     -1);
+    gtk_widget_get_allocation(child, &alloc);
 
-  if (notes != nullptr) {
-    gtk_tooltip_set_markup(tooltip, notes);
+    curr_y = alloc.height + alloc.y;
 
-    return TRUE;
+    if (curr_y > y) {
+      FcMPRow *row = g_list_model_get_item(G_LIST_MODEL(main_store), row_number);
+
+      if (row != nullptr) {
+        log_debug("Tooltip row %d. Notes: %s", row_number,
+                  row->notes == nullptr ? "-" : row->notes);
+
+        if (row->notes != nullptr) {
+          gtk_tooltip_set_markup(tooltip, row->notes);
+
+          return TRUE;
+        }
+      }
+
+      return FALSE;
+    }
+
+    row_number++;
+
+    child = gtk_widget_get_next_sibling(child);
   }
 
   return FALSE;
@@ -429,62 +441,108 @@ static void setup_modpack_list(const char *name, const char *URL,
                                enum modpack_type type, const char *subtype,
                                const char *notes)
 {
-  GtkTreeIter iter;
-  const char *type_str;
-  const char *lic_str;
-  const char *inst_str;
+  FcMPRow *row;
+
+  row = fc_mprow_new();
 
   if (modpack_type_is_valid(type)) {
-    type_str = _(modpack_type_name(type));
+    row->type = _(modpack_type_name(type));
   } else {
     /* TRANS: Unknown modpack type */
-    type_str = _("?");
+    row->type = _("?");
   }
 
   if (license != nullptr) {
-    lic_str = license;
+    row->lic = license;
   } else {
     /* TRANS: License of modpack is not known */
-    lic_str = Q_("?license:Unknown");
+    row->lic = Q_("?license:Unknown");
   }
 
-  inst_str = mpdb_installed_version(name, type);
-  if (inst_str == nullptr) {
-    inst_str = _("Not installed");
+  row->inst = mpdb_installed_version(name, type);
+  if (row->inst == nullptr) {
+    row->inst = _("Not installed");
   }
 
-  gtk_list_store_append(main_store, &iter);
-  gtk_list_store_set(main_store, &iter,
-                     ML_COL_NAME, name,
-                     ML_COL_VER, version,
-                     ML_COL_INST, inst_str,
-                     ML_COL_TYPE, type_str,
-                     ML_COL_SUBTYPE, subtype,
-                     ML_COL_LIC, lic_str,
-                     ML_COL_URL, URL,
-                     ML_TYPE, type,
-                     ML_NOTES, notes,
-                     -1);
+  row->name = name;
+  row->ver = version;
+  row->subtype = subtype;
+  row->URL = fc_strdup(URL);
+  row->notes = notes;
+
+  row->type_int = type;
+
+  g_list_store_append(main_store, row);
+  g_object_unref(row);
 }
 
 /**********************************************************************//**
   Callback called when entry from main modpack list selected
 **************************************************************************/
-static void select_from_list(GtkTreeSelection *select, gpointer data)
+static void selection_change(GtkSelectionModel *model,
+                             guint position, guint n_items,
+                             gpointer user_data)
 {
-  GtkTreeModel *model;
-  GtkTreeIter it;
-  const char *URL;
+  GtkSingleSelection *selection = GTK_SINGLE_SELECTION(model);
+  int row_number = gtk_single_selection_get_selected(selection);
+  GListModel *lmodel = gtk_single_selection_get_model(selection);
+  FcMPRow *row = g_list_model_get_item(lmodel, row_number);
   GtkEntryBuffer *buffer;
 
-  if (!gtk_tree_selection_get_selected(select, &model, &it)) {
-    return;
-  }
-
-  gtk_tree_model_get(model, &it, ML_COL_URL, &URL, -1);
+  log_debug("Selected row: %d. URL: %s", row_number, row->URL);
 
   buffer = gtk_entry_get_buffer(GTK_ENTRY(URL_input));
-  gtk_entry_buffer_set_text(buffer, URL, -1);
+  gtk_entry_buffer_set_text(buffer, row->URL, -1);
+}
+
+/**********************************************************************//**
+  Table cell bind function
+**************************************************************************/
+static void factory_bind(GtkSignalListItemFactory *self,
+                         GtkListItem *list_item,
+                         gpointer user_data)
+{
+  FcMPRow *row;
+  const char *str = "-";
+
+  row = gtk_list_item_get_item(list_item);
+
+  switch (GPOINTER_TO_INT(user_data)) {
+  case ML_COL_NAME:
+    str = row->name;
+    break;
+  case ML_COL_VER:
+    str = row->ver;
+    break;
+  case ML_COL_INST:
+    str = row->inst;
+    break;
+  case ML_COL_TYPE:
+    str = row->type;
+    break;
+  case ML_COL_SUBTYPE:
+    str = row->subtype;
+    break;
+  case ML_COL_LIC:
+    str = row->lic;
+    break;
+  case ML_COL_URL:
+    str = row->URL;
+    break;
+  }
+
+  gtk_label_set_text(GTK_LABEL(gtk_list_item_get_child(list_item)),
+                     str);
+}
+
+/**********************************************************************//**
+  Table cell setup function
+**************************************************************************/
+static void factory_setup(GtkSignalListItemFactory *self,
+                          GtkListItem *list_item,
+                          gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
 }
 
 /**********************************************************************//**
@@ -496,8 +554,9 @@ static void modinst_setup_widgets(void)
   GtkWidget *version_label;
   GtkWidget *install_button;
   GtkWidget *URL_label;
-  GtkCellRenderer *renderer;
-  GtkTreeSelection *selection;
+  GtkColumnViewColumn *column;
+  GtkListItemFactory *factory;
+  GtkSingleSelection *selection;
   const char *errmsg;
   char verbuf[2048];
   const char *rev_ver;
@@ -518,47 +577,68 @@ static void modinst_setup_widgets(void)
 
   version_label = gtk_label_new(verbuf);
 
-  main_list = gtk_tree_view_new();
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_NAME,
-                                              _("Name"), renderer, "text", 0,
-                                              nullptr);
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_VER,
-                                              _("Version"), renderer, "text", 1,
-                                              nullptr);
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_INST,
-                                              _("Installed"), renderer, "text", 2,
-                                              nullptr);
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_TYPE,
-                                              Q_("?modpack:Type"),
-                                              renderer, "text", 3,
-                                              nullptr);
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_SUBTYPE,
-                                              _("Subtype"),
-                                              renderer, "text", 4,
-                                              nullptr);
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_LIC,
-                                              /* TRANS: noun */
-                                              _("License"), renderer, "text", 5,
-                                              nullptr);
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
-                                              ML_COL_URL,
-                                              _("URL"), renderer, "text", 6,
-                                              nullptr);
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(main_list));
-  g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), nullptr);
+  main_store = g_list_store_new(FC_TYPE_MPROW);
+  selection = gtk_single_selection_new(G_LIST_MODEL(main_store));
+  g_signal_connect(selection, "selection-changed", G_CALLBACK(selection_change),
+                   nullptr);
+
+  main_list = gtk_column_view_new(GTK_SELECTION_MODEL(selection));
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(factory_bind),
+                   GINT_TO_POINTER(ML_COL_NAME));
+  g_signal_connect(factory, "setup", G_CALLBACK(factory_setup), nullptr);
+
+  column = gtk_column_view_column_new(_("Name"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(main_list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(factory_bind),
+                   GINT_TO_POINTER(ML_COL_VER));
+  g_signal_connect(factory, "setup", G_CALLBACK(factory_setup), nullptr);
+
+  column = gtk_column_view_column_new(_("Version"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(main_list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(factory_bind),
+                   GINT_TO_POINTER(ML_COL_INST));
+  g_signal_connect(factory, "setup", G_CALLBACK(factory_setup), nullptr);
+
+  column = gtk_column_view_column_new(_("Installed"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(main_list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(factory_bind),
+                   GINT_TO_POINTER(ML_COL_TYPE));
+  g_signal_connect(factory, "setup", G_CALLBACK(factory_setup), nullptr);
+
+  column = gtk_column_view_column_new(Q_("?modpack:Type"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(main_list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(factory_bind),
+                   GINT_TO_POINTER(ML_COL_SUBTYPE));
+  g_signal_connect(factory, "setup", G_CALLBACK(factory_setup), nullptr);
+
+  column = gtk_column_view_column_new(_("Subtype"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(main_list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(factory_bind),
+                   GINT_TO_POINTER(ML_COL_LIC));
+  g_signal_connect(factory, "setup", G_CALLBACK(factory_setup), nullptr);
+
+  column = gtk_column_view_column_new(_("License"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(main_list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(factory_bind),
+                   GINT_TO_POINTER(ML_COL_URL));
+  g_signal_connect(factory, "setup", G_CALLBACK(factory_setup), nullptr);
+
+  column = gtk_column_view_column_new(_("URL"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(main_list), column);
 
   install_button = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(install_button), _("Install modpack"));
@@ -596,18 +676,11 @@ static void modinst_setup_widgets(void)
 
   gtk_window_set_child(GTK_WINDOW(toplevel), mbox);
 
-  main_store = gtk_list_store_new((ML_STORE_SIZE), G_TYPE_STRING, G_TYPE_STRING,
-                                  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-                                  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
-                                  G_TYPE_STRING);
   errmsg = download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
-  gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
 
   g_object_set(main_list, "has-tooltip", TRUE, nullptr);
   g_signal_connect(main_list, "query-tooltip",
                    G_CALLBACK(query_main_list_tooltip_cb), nullptr);
-
-  g_object_unref(main_store);
 
   if (errmsg != nullptr) {
     gtk_label_set_text(GTK_LABEL(statusbar), errmsg);
