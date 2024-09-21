@@ -68,46 +68,6 @@ ninja
 ninja install
 ;;
 
-"os_x")
-# gcc is an alias for clang on OS X
-
-MSQLPFX="$(brew --prefix mysql-client)"
-OSSL_PFX="$(brew --prefix openssl)"
-
-export PATH="$(brew --prefix llvm)/bin:$(brew --prefix gettext)/bin:$(brew --prefix icu4c)/bin:$(brew --prefix qt@6)/bin:${MSQLPFX}/bin:${PATH}"
-export CPPFLAGS="-I$(brew --prefix gettext)/include -I$(brew --prefix icu4c)/include -I$(brew --prefix qt@6)/include -I$(brew --prefix readline)/include -I$(brew --prefix unixodbc)/include -I${MSQLPFX}/include -I${OSSL_PFX}/include"
-export LDFLAGS="-L$(brew --prefix gettext)/lib -L$(brew --prefix icu4c)/lib -L$(brew --prefix qt@6)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix unixodbc)/lib -L${MSQLPFX}/lib -L${OSSL_PFX}/lib"
-export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
-
-export MOCCMD=$(find /usr/local/Cellar/qt -name "moc" | head -n 1)
-
-mkdir build
-cd build
-../autogen.sh --no-configure-run
-../configure \
- CC="clang" CXX="clang++" \
- --enable-debug \
- --enable-sys-lua --with-qtver=qt6 \
- --enable-client=gtk3.22,sdl2,qt,gtk4 \
- --enable-fcmp=gtk3,gtk4,qt,cli \
- --enable-fcdb=sqlite3,mysql,postgres,odbc \
- --enable-freeciv-manual \
- --with-followtag="macos" \
- --prefix=${HOME}/freeciv/mac-at \
- || (let config_exit_status=$? \
-     && echo "Config exit status: $config_exit_status" \
-     && cat config.log \
-     && exit $config_exit_status)
-make -j$(sysctl -n hw.logicalcpu)
-make install
-
-echo "Running Freeciv server autogame"
-cd ${HOME}/freeciv/mac-at/bin/
-./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
-
-echo "Freeciv server autogame successful!"
-;;
-
 "mac-meson")
 
 GETTEXT_PREFIX="$(brew --prefix gettext)"

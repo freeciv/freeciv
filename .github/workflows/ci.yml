@@ -48,46 +48,6 @@ jobs:
         run: |
           cd windows/installer_msys2
           make -f Makefile.meson ci
-  os_x:
-    runs-on: macos-13
-    steps:
-      - name: check out Freeciv
-        uses: actions/checkout@v4.1.1
-      - name: install dependencies
-        run: |
-          # Remove symlinks of the old python version
-          rm /usr/local/bin/2to3*
-          rm /usr/local/bin/idle3*
-          rm /usr/local/bin/pydoc3*
-          rm /usr/local/bin/python3*
-          brew install \
-            llvm \
-            lua@5.4 \
-            autoconf \
-            automake \
-            gettext \
-            libtool \
-            pkg-config \
-            atk \
-            freetype \
-            gettext \
-            glib \
-            jpeg \
-            gtk+3 \
-            gtk4 \
-            icu4c \
-            pango \
-            sdl2_gfx \
-            sdl2_image \
-            sdl2_mixer \
-            sdl2_ttf \
-            qt@6 \
-            mysql-client \
-            postgresql \
-            unixodbc
-      - name: build
-        shell: bash
-        run: ./scripts/ci-build.sh os_x
   mac-meson:
     runs-on: macos-14
     steps:
