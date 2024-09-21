@@ -1523,7 +1523,7 @@ void popup_unitinfo_window(void)
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+G");
   pwidget->info_label = create_utf8_from_char_fonto(buf, FONTO_ATTENTION);
   pwidget->action = revolution_callback;
-  pwidget->key = SDLK_g;
+  pwidget->key = SDLK_G;
   pwidget->mod = SDL_KMOD_CTRL | SDL_KMOD_SHIFT;
 
   add_to_gui_list(ID_REVOLUTION, pwidget);
@@ -1714,7 +1714,7 @@ void popup_minimap_window(void)
   pwidget->info_label = create_utf8_from_char_fonto(buf, FONTO_ATTENTION);
   pwidget->info_label->style |= SF_CENTER;
   pwidget->action = cities_action_callback;
-  pwidget->key = SDLK_f;
+  pwidget->key = SDLK_F;
   pwidget->mod = SDL_KMOD_CTRL;
 
   add_to_gui_list(ID_CITIES, pwidget);
@@ -2522,31 +2522,31 @@ bool map_event_handler(SDL_KeyboardEvent *key)
         movedir = DIR8_NORTHWEST;
         break;
 
-        /* *** map view settings *** */
+        /* *** Map view settings *** */
 
-        /* show city outlines - Ctrl+y */
-      case SDLK_y:
+        /* Show city outlines - Ctrl+y */
+      case SDLK_Y:
         if (LCTRL || RCTRL) {
           key_city_outlines_toggle();
         }
         return FALSE;
 
         /* Show map grid - Ctrl+g */
-      case SDLK_g:
+      case SDLK_G:
         if (LCTRL || RCTRL) {
           key_map_grid_toggle();
         }
         return FALSE;
 
-        /* show national borders - Ctrl+b */
-      case SDLK_b:
+        /* Show national borders - Ctrl+b */
+      case SDLK_B:
         if (LCTRL || RCTRL) {
           key_map_borders_toggle();
         }
         return FALSE;
 
-      case SDLK_n:
-        /* show native tiles - Ctrl+Shift+n */ 
+      case SDLK_N:
+        /* Show native tiles - Ctrl+Shift+n */ 
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           key_map_native_toggle();
         } else if (LCTRL || RCTRL) {
@@ -2555,9 +2555,9 @@ bool map_event_handler(SDL_KeyboardEvent *key)
         }
         return FALSE;
 
-        /* show city growth Ctrl+o */
-        /* show pollution - Ctrl+Shift+o */
-      case SDLK_o:
+        /* Show city growth Ctrl+o */
+        /* Show pollution - Ctrl+Shift+o */
+      case SDLK_O:
         if (LCTRL || RCTRL) {
           if (LSHIFT || RSHIFT) {
             key_pollution_toggle();
@@ -2567,70 +2567,70 @@ bool map_event_handler(SDL_KeyboardEvent *key)
         }
         return FALSE;
 
-        /* show bases - Ctrl+Shift+f */
-      case SDLK_f:
+        /* Show bases - Ctrl+Shift+f */
+      case SDLK_F:
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           request_toggle_bases();
         }
         return FALSE;
 
-      /* show city productions - Ctrl+p */
-      case SDLK_p:
+      /* Show city productions - Ctrl+p */
+      case SDLK_P:
         if (LCTRL || RCTRL) {
           key_city_productions_toggle();
         }
         return FALSE;
 
-        /* show city trade routes - Ctrl+d */
-      case SDLK_d:
+        /* Show city trade routes - Ctrl+d */
+      case SDLK_D:
         if (LCTRL || RCTRL) {
           key_city_trade_routes_toggle();
         }
         return FALSE;
 
-        /* *** some additional shortcuts that work in the SDL client only *** */
+        /* *** Some additional shortcuts that work in the SDL client only *** */
 
-        /* show terrain - Ctrl+Shift+t */
-      case SDLK_t:
+        /* Show terrain - Ctrl+Shift+t */
+      case SDLK_T:
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
           key_terrain_toggle();
         }
         return FALSE;
 
-        /* (show coastline) */
+        /* (Show coastline) */
 
-      /* (show roads and rails) */
+      /* (Show roads and rails) */
 
-      /* show irrigation - Ctrl+i */
-      case SDLK_i:
+      /* Show irrigation - Ctrl+i */
+      case SDLK_I:
         if (LCTRL || RCTRL) {
           key_irrigation_toggle();
         }
         return FALSE;
 
-        /* show mines - Ctrl+m */
-      case SDLK_m:
+        /* Show mines - Ctrl+m */
+      case SDLK_M:
         if (LCTRL || RCTRL) {
           key_mines_toggle();
         }
         return FALSE;
 
-        /* show resources - Ctrl+s */
-      case SDLK_s:
+        /* Show resources - Ctrl+s */
+      case SDLK_S:
         if (LCTRL || RCTRL) {
           key_resources_toggle();
         }
         return FALSE;
 
-        /* show huts - Ctrl+h */
-      case SDLK_h:
+        /* Show huts - Ctrl+h */
+      case SDLK_H:
         if (LCTRL || RCTRL) {
           key_huts_toggle();
         }
         return FALSE;
 
-        /* show cities - Ctrl+c */
-      case SDLK_c:
+        /* Show cities - Ctrl+c */
+      case SDLK_C:
         if (LCTRL || RCTRL) {
           request_toggle_cities();
         } else {
@@ -2638,22 +2638,22 @@ bool map_event_handler(SDL_KeyboardEvent *key)
         }
         return FALSE;
 
-        /* show units - Ctrl+u */
-      case SDLK_u:
+        /* Show units - Ctrl+u */
+      case SDLK_U:
         if (LCTRL || RCTRL) {
           key_units_toggle();
         }
         return FALSE;
 
-        /* (show focus unit) */
+        /* (Show focus unit) */
 
         /* Show city output - Ctrl+v */
-      case SDLK_v:
+      case SDLK_V:
         key_city_output_toggle();
         return FALSE;
 
         /* Show fog of war - Ctrl+w */
-      case SDLK_w:
+      case SDLK_W:
         if (LCTRL || RCTRL) {
           key_fog_of_war_toggle();
         }

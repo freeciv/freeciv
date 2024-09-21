@@ -887,7 +887,7 @@ static struct option_dialog *option_dialog_new(void)
                                                _("Help Browser"),
                                                FONTO_ATTENTION, 0);
   widget->action = help_browser_callback;
-  widget->key = SDLK_h;
+  widget->key = SDLK_H;
   if (client.conn.established) {
     set_wstate(widget, FC_WS_NORMAL);
   }
@@ -899,7 +899,7 @@ static struct option_dialog *option_dialog_new(void)
                                                _("Leave Game"),
                                                FONTO_ATTENTION, 0);
   widget->action = disconnect_callback;
-  widget->key = SDLK_q;
+  widget->key = SDLK_Q;
   if (client.conn.established) {
     set_wstate(widget, FC_WS_NORMAL);
   }
@@ -911,7 +911,7 @@ static struct option_dialog *option_dialog_new(void)
                                                _("Quit"),
                                                FONTO_ATTENTION, 0);
   widget->action = exit_callback;
-  widget->key = SDLK_q;
+  widget->key = SDLK_Q;
   set_wstate(widget, FC_WS_NORMAL);
   widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
   add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, widget);

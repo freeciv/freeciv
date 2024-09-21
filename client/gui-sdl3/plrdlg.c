@@ -389,35 +389,35 @@ void popup_players_dialog(bool raise)
                               (sdl3_client_flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
                               WF_RESTORE_BACKGROUND);
         buf->action = toggle_draw_neutral_status_callback;
-        buf->key = SDLK_n;
+        buf->key = SDLK_N;
       break;
       case DS_WAR:
         buf = create_checkbox(pwindow->dst,
                               (sdl3_client_flags & CF_DRAW_PLAYERS_WAR_STATUS),
                               WF_RESTORE_BACKGROUND);
         buf->action = toggle_draw_war_status_callback;
-        buf->key = SDLK_w;
+        buf->key = SDLK_W;
       break;
       case DS_CEASEFIRE:
         buf = create_checkbox(pwindow->dst,
                               (sdl3_client_flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
                               WF_RESTORE_BACKGROUND);
         buf->action = toggle_draw_ceasefire_status_callback;
-        buf->key = SDLK_c;
+        buf->key = SDLK_C;
       break;
       case DS_PEACE:
         buf = create_checkbox(pwindow->dst,
                               (sdl3_client_flags & CF_DRAW_PLAYERS_PEACE_STATUS),
                               WF_RESTORE_BACKGROUND);
         buf->action = toggle_draw_peace_status_callback;
-        buf->key = SDLK_p;
+        buf->key = SDLK_P;
       break;
       case DS_ALLIANCE:
         buf = create_checkbox(pwindow->dst,
                               (sdl3_client_flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
                               WF_RESTORE_BACKGROUND);
         buf->action = toggle_draw_alliance_status_callback;
-        buf->key = SDLK_a;
+        buf->key = SDLK_A;
       break;
       default:
         /* no contact */

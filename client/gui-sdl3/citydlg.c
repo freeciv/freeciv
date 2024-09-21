@@ -3699,7 +3699,7 @@ void real_city_dialog_popup(struct city *pcity)
   if (owner == client.conn.playing) {
     set_wstate(buf, FC_WS_NORMAL);
   }
-  buf->key = SDLK_c;
+  buf->key = SDLK_C;
   add_to_gui_list(ID_CITY_DLG_CHANGE_PROD_BUTTON, buf);
   /* -------- */
 
@@ -3711,7 +3711,7 @@ void real_city_dialog_popup(struct city *pcity)
   buf->size.x = area.x + adj_size(7) + (buf->size.w + adj_size(2));
   buf->size.y = area.y + area.h - buf->size.h - adj_size(5);
   pcity_dlg->buy_button = buf;
-  buf->key = SDLK_h;
+  buf->key = SDLK_H;
   if (city_can_buy(pcity)) {
     set_wstate(buf, FC_WS_NORMAL);
   }
@@ -3723,7 +3723,7 @@ void real_city_dialog_popup(struct city *pcity)
   buf->info_label = create_utf8_from_char_fonto(_("Citizen Governor"),
                                                 FONTO_ATTENTION);
   buf->action = cma_city_dlg_callback;
-  buf->key = SDLK_a;
+  buf->key = SDLK_A;
   buf->size.x = area.x + adj_size(7) + (buf->size.w + adj_size(2)) * 2;
   buf->size.y = area.y + area.h - buf->size.h - adj_size(5);
   if (owner == client.conn.playing) {
