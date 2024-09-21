@@ -2760,7 +2760,8 @@ void city_dialog::disband_state_changed(bool allow_disband)
   }
 
   if (!client_is_observer()) {
-    dsend_packet_city_options_req(&client.conn, dlgcity->id, new_options);
+    dsend_packet_city_options_req(&client.conn, dlgcity->id,
+                                  new_options, dlgcity->wlcb);
   }
 }
 

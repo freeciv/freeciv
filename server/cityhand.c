@@ -507,7 +507,8 @@ void handle_city_rename(struct player *pplayer, int city_id,
   given city be changed.
 **************************************************************************/
 void handle_city_options_req(struct player *pplayer, int city_id,
-			     bv_city_options options)
+			     bv_city_options options,
+                             enum city_wl_cancel_behavior wlcb)
 {
   struct city *pcity = player_city_by_number(pplayer, city_id);
 
@@ -516,6 +517,7 @@ void handle_city_options_req(struct player *pplayer, int city_id,
   }
 
   pcity->city_options = options;
+  pcity->wlcb = wlcb;
 
   send_city_info(pplayer, pcity);
 }
