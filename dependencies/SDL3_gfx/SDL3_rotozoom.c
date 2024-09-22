@@ -544,15 +544,17 @@ SDL_Surface* rotateSurface90Degrees(SDL_Surface* src, int numClockwiseTurns)
 	Uint8* srcBuf;
 	Uint8* dstBuf;
 	int normalizedClockwiseTurns;
+        const SDL_PixelFormatDetails *details;
 
 	/* Has to be a valid surface pointer and be a Nbit surface where n is divisible by 8 */
-	if (!src ||
-	    !src->format) {
+	if (!src) {
 		SDL_SetError("NULL source surface or source surface format");
 	    return NULL;
 	}
 
-	if ((src->format->bits_per_pixel % 8) != 0) {
+        details = SDL_GetPixelFormatDetails(src->format);
+
+	if ((details->bits_per_pixel % 8) != 0) {
 		SDL_SetError("Invalid source surface bit depth");
 	    return NULL;
 	}
@@ -586,7 +588,7 @@ SDL_Surface* rotateSurface90Degrees(SDL_Surface* src, int numClockwiseTurns)
 	}
 
 	/* Calculate byte-per-pixel */
-	bpp = src->format->bits_per_pixel / 8;
+	bpp = details->bits_per_pixel / 8;
 
 	switch(normalizedClockwiseTurns) {
 	case 0: /* Make a copy of the surface */
@@ -794,6 +796,7 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	int dstwidthhalf, dstwidth, dstheighthalf, dstheight;
 	int src_converted;
 	int flipx,flipy;
+        const SDL_PixelFormatDetails *details;
 
 	/*
 	* Sanity check
@@ -802,11 +805,13 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 		return (NULL);
 	}
 
+        details = SDL_GetPixelFormatDetails(src->format);
+
 	/*
 	* Determine if source surface is 32bit or 8bit
 	*/
-	if ((src->format->bits_per_pixel == 32)
-            || (src->format->bits_per_pixel == 8)) {
+	if ((details->bits_per_pixel == 32)
+            || (details->bits_per_pixel == 8)) {
 		/*
 		* Use source surface 'as is'
 		*/
@@ -872,7 +877,7 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
                  */
                 rz_dst =
                   SDL_CreateSurface(dstwidth, dstheight + GUARD_ROWS,
-                                    rz_src->format->format);
+                                    rz_src->format);
 
 		/* Check target */
 		if (rz_dst == NULL)
@@ -931,7 +936,7 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
                  */
                 rz_dst =
                   SDL_CreateSurface(dstwidth, dstheight + GUARD_ROWS,
-                                    rz_src->format->format);
+                                    rz_src->format);
 
 		/* Check target */
 		if (rz_dst == NULL)
@@ -1046,6 +1051,7 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 	int dstwidth, dstheight;
 	int src_converted;
 	int flipx, flipy;
+        const SDL_PixelFormatDetails *details;
 
 	/*
 	* Sanity check
@@ -1053,11 +1059,13 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 	if (src == NULL)
 		return (NULL);
 
+        details = SDL_GetPixelFormatDetails(src->format);
+
 	/*
 	* Determine if source surface is 32bit or 8bit
 	*/
-	if ((src->format->bits_per_pixel == 32)
-            || (src->format->bits_per_pixel == 8)) {
+	if ((details->bits_per_pixel == 32)
+            || (details->bits_per_pixel == 8)) {
 		/*
 		* Use source surface 'as is'
 		*/
@@ -1095,7 +1103,7 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
          */
         rz_dst =
           SDL_CreateSurface(dstwidth, dstheight + GUARD_ROWS,
-                            rz_src->format->format);
+                            rz_src->format);
 
 	/* Check target */
 	if (rz_dst == NULL) {
@@ -1172,6 +1180,7 @@ SDL_Surface *shrinkSurface(SDL_Surface *src, int factorx, int factory)
 	int dstwidth, dstheight;
 	int src_converted;
 	int haveError = 0;
+        const SDL_PixelFormatDetails *details;
 
 	/*
 	* Sanity check
@@ -1180,11 +1189,13 @@ SDL_Surface *shrinkSurface(SDL_Surface *src, int factorx, int factory)
 		return (NULL);
 	}
 
+        details = SDL_GetPixelFormatDetails(src->format);
+
 	/*
 	* Determine if source surface is 32bit or 8bit
 	*/
-	if ((src->format->bits_per_pixel == 32)
-            || (src->format->bits_per_pixel == 8)) {
+	if ((details->bits_per_pixel == 32)
+            || (details->bits_per_pixel == 8)) {
 		/*
 		* Use source surface 'as is'
 		*/
@@ -1209,7 +1220,7 @@ SDL_Surface *shrinkSurface(SDL_Surface *src, int factorx, int factory)
 	* Lock the surface
 	*/
 	if (SDL_MUSTLOCK(rz_src)) {
-		if (SDL_LockSurface(rz_src) < 0) {
+		if (!SDL_LockSurface(rz_src)) {
 			haveError = 1;
 			goto exitShrinkSurface;
 		}
@@ -1231,7 +1242,7 @@ SDL_Surface *shrinkSurface(SDL_Surface *src, int factorx, int factory)
          */
         rz_dst =
           SDL_CreateSurface(dstwidth, dstheight + GUARD_ROWS,
-                            rz_src->format->format);
+                            rz_src->format);
 
 	/* Check target */
 	if (rz_dst == NULL) {
