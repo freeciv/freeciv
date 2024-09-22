@@ -367,6 +367,7 @@ enum object_property_ids {
   OPID_PLAYER_SELECT_WEIGHT,
   OPID_PLAYER_SCIENCE,
   OPID_PLAYER_GOLD,
+  OPID_PLAYER_INFRAPOINTS,
 
   OPID_GAME_SCENARIO,
   OPID_GAME_SCENARIO_NAME,
@@ -1802,6 +1803,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_PLAYER_GOLD:
         pv->data.v_int = pplayer->economic.gold;
         break;
+      case OPID_PLAYER_INFRAPOINTS:
+        pv->data.v_int = pplayer->economic.infra_points;
+        break;
       default:
         log_error("%s(): Unhandled request for value of property %d "
                   "(%s) from object of type \"%s\".", __FUNCTION__,
@@ -2021,6 +2025,12 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       *pbig_step = 100;
       return TRUE;
     case OPID_PLAYER_GOLD:
+      *pmin = 0;
+      *pmax = 1000000; /* Arbitrary. */
+      *pstep = 1;
+      *pbig_step = 100;
+      return TRUE;
+    case OPID_PLAYER_INFRAPOINTS:
       *pmin = 0;
       *pmax = 1000000; /* Arbitrary. */
       *pstep = 1;
@@ -2330,6 +2340,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       } advance_index_iterate_end;
       packet->autoselect_weight = pplayer->autoselect_weight;
       packet->gold = pplayer->economic.gold;
+      packet->infrapoints = pplayer->economic.infra_points;
       packet->government = government_index(pplayer->government);
       packet->scenario_reserved = player_has_flag(pplayer, PLRF_SCENARIO_RESERVED);
       /* TODO: Set more packet fields. */
@@ -2571,6 +2582,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_PLAYER_GOLD:
         packet->gold = pv->data.v_int;
+        return;
+      case OPID_PLAYER_INFRAPOINTS:
+        packet->infrapoints = pv->data.v_int;
         return;
       default:
         break;
@@ -3031,6 +3045,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_PLAYER_SELECT_WEIGHT:
   case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
+  case OPID_PLAYER_INFRAPOINTS:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     gtk_widget_set_hexpand(spin, TRUE);
     gtk_widget_set_halign(spin, GTK_ALIGN_END);
@@ -3235,6 +3250,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_PLAYER_SELECT_WEIGHT:
   case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
+  case OPID_PLAYER_INFRAPOINTS:
     spin = objprop_get_child_widget(op, "spin");
     if (pv) {
       disable_gobject_callback(G_OBJECT(spin),
@@ -4571,6 +4587,9 @@ static void property_page_setup_objprops(struct property_page *pp)
     ADDPROP(OPID_PLAYER_SCIENCE, _("Science"), NULL,
             OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_GOLD, _("Gold"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_INT);
+    ADDPROP(OPID_PLAYER_INFRAPOINTS, _("Infrapoints"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
             VALTYPE_INT);
     return;
