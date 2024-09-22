@@ -2361,6 +2361,7 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
 
   BV_PLAYER embassy;
   GOLD gold;
+  UINT32 infrapoints;
   PERCENT tax, science, luxury;
 
   UINT16 future_tech;

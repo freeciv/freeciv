@@ -1115,6 +1115,20 @@ void handle_edit_player(struct connection *pc,
     }
   }
 
+  /* Handle a change in the player's infrapoints. */
+  if (packet->infrapoints != pplayer->economic.infra_points) {
+    if (!(0 <= packet->infrapoints && packet->infrapoints <= 1000000)) {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+                  _("Cannot set infrapoints for player %d (%s) because "
+                    "the value %d is outside the allowed range."),
+                  player_number(pplayer), player_name(pplayer),
+                  packet->infrapoints);
+    } else {
+      pplayer->economic.infra_points = packet->infrapoints;
+      changed = TRUE;
+    }
+  }
+
   /* Handle a change in the player's autoselect weight. */
   if (packet->autoselect_weight != pplayer->autoselect_weight) {
     pplayer->autoselect_weight = packet->autoselect_weight;
