@@ -91,6 +91,7 @@
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
 /* Current development versions */
+#define FREECIV_DEV_SAVE_COMPAT_3_4
 #define FREECIV_DEV_SAVE_COMPAT_3_3
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
