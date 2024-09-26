@@ -1129,7 +1129,7 @@ SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
 **************************************************************************/
 SDL_Surface *copy_surface(SDL_Surface *src)
 {
-  SDL_Surface *copy = SDL_CreateSurface(src->w, src->h, src->format->format);
+  SDL_Surface *copy = SDL_CreateSurface(src->w, src->h, src->format);
 
   alphablit(src, NULL, copy, NULL, 255);
 
