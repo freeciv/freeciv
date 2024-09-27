@@ -110,13 +110,13 @@ bool comments_load(void)
   fullpath = fileinfoname(get_data_dirs(), "ruledit/" COMMENTS_FILE_NAME);
 
   if (fullpath == NULL) {
-    log_normal("Can't find the comments file");
+    log_error("Can't find the comments file");
     return FALSE;
   }
 
   comment_file = secfile_load(fullpath, FALSE);
   if (comment_file == NULL) {
-    log_normal("Can't parse the comments file");
+    log_error("Can't parse the comments file");
     return FALSE;
   }
 
@@ -127,7 +127,7 @@ bool comments_load(void)
   if ((comment = secfile_lookup_str(comment_file, comment_path))) {       \
     target = fc_strdup(comment);                                          \
   } else {                                                                \
-    log_normal("Can't read %s from comments file", comment_path);         \
+    log_error("Can't read %s from comments file", comment_path);          \
     return FALSE;                                                         \
   }                                                                       \
 }
