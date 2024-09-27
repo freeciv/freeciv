@@ -1210,6 +1210,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
   struct color gsdl3_color;
   int l = MAX((xr - xl) + 1, (yb - yt) + 1);
   int i;
+  const struct SDL_PixelFormatDetails *details;
 
   pcol = fc_malloc(sizeof(pcol));
   pcol->r = pcolor->r;
@@ -1221,6 +1222,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
   spr = create_sprite(w, h, &gsdl3_color);
 
   lock_surf(spr->psurface);
+  details = SDL_GetPixelFormatDetails(spr->psurface->format);
 
   /* Set off transparency from pixels belonging to the line */
   if ((x0 <= x1 && y0 <= y1)
@@ -1230,7 +1232,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
       int cy = (yb - yt) * i / l;
 
       *((Uint32 *)spr->psurface->pixels + spr->psurface->w * cy + cx)
-        |= (pcolor->a << spr->psurface->format->Ashift);
+        |= (pcolor->a << details->Ashift);
     }
   } else {
     for (i = 0; i < l; i++) {
@@ -1238,7 +1240,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
       int cy = yb - yt - (yb - yt) * i / l;
 
       *((Uint32 *)spr->psurface->pixels + spr->psurface->w * cy + cx)
-        |= (pcolor->a << spr->psurface->format->Ashift);
+        |= (pcolor->a << details->Ashift);
     }
   }
 
