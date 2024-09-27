@@ -70,9 +70,9 @@ all: all-$(WINARCH)
 
 all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
 
-all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer
+all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
-all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6
+all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6 gtk4x-install
 
 snapshot:
 	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh
@@ -86,6 +86,9 @@ gtk3.22-installer:
 
 gtk4-installer:
 	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 installer-common
+
+gtk4x-installer:
+	make -f $(MAKEFILE_NAME) GUI=gtk4x CLIENT=gtk4x FCMP=gtk4x installer-common
 
 sdl2-installer:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
@@ -113,6 +116,9 @@ gtk3.22-install:
 
 gtk4-install:
 	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 install-freeciv-gtk4
+
+gtk4x-install:
+	make -f $(MAKEFILE_NAME) GUI=gtk4x CLIENT=gtk4x FCMP=gtk4x install-freeciv-gtk4x
 
 sdl2-install:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 install-freeciv-sdl2
@@ -312,6 +318,8 @@ install-freeciv-gtk3.22: install-freeciv-common
 
 install-freeciv-gtk4: install-freeciv-common
 
+install-freeciv-gtk4x: install-freeciv-common
+
 install-freeciv-sdl2: install-freeciv-common
 
 install-freeciv-qt5: install-freeciv-common
@@ -323,6 +331,8 @@ install-freeciv-qt6x: install-freeciv-common
 install-env-gtk3.22: install-env-gtk3-fcmp
 
 install-env-gtk4: install-env-gtk4-fcmp
+
+install-env-gtk4x: install-env-gtk4-fcmp
 
 SDL2_DLLS := \
 	SDL2_ttf.dll \
@@ -475,6 +485,7 @@ clean-ruledit-common:
 clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=gtk4x clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-client clean-install-client clean-installer-common
