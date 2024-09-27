@@ -6587,7 +6587,8 @@ action_speculate_unit_on_tile(const struct civ_map *nmap,
   specified, specific extra) given the specified game state changes.
 **************************************************************************/
 struct act_prob
-action_speculate_unit_on_extras(action_id act_id,
+action_speculate_unit_on_extras(const struct civ_map *nmap,
+                                action_id act_id,
                                 const struct unit *actor,
                                 const struct city *actor_home,
                                 const struct tile *actor_tile,
@@ -6599,7 +6600,6 @@ action_speculate_unit_on_extras(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
-  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
     if (is_action_enabled_unit_on_extras_full(nmap, act_id,
