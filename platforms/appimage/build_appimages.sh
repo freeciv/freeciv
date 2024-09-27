@@ -51,8 +51,40 @@ client_appimage() {
     echo "$1 image build with linuxdeploy failed!" >&2
     return 1
   fi
-  if ! mv Freeciv$3-x86_64.AppImage "Freeciv-$1-x86_64.AppImage" ; then
+  if ! mv "Freeciv$3-x86_64.AppImage" "Freeciv-$1-x86_64.AppImage" ; then
     echo "$1 appimage rename failed!" >&2
+    return 1
+  fi
+}
+
+# $1 - Qtver
+ruledit_appimage() {
+  if ! mkdir "AppDir/ruledit-$1" || ! mkdir "build/ruledit-$1" ; then
+    echo "Failed to create $1 directories!" >&2
+    return 1
+  fi
+
+  cd "build/ruledit-$1"
+  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=[] -Dfcmp=[] -Dtools='ruledit' -Dqtver=$1 "${SRC_ROOT}"
+  then
+    echo "ruledit-$1 setup with meson failed!" >&2
+    return 1
+  fi
+
+  if ! DESTDIR="${BUILD_ROOT}/AppDir/ruledit-$1" ninja install ; then
+    echo "ruledit-$1 build with ninja failed!" >&2
+    return 1
+  fi
+
+  cd "${BUILD_ROOT}"
+  rm -f "AppDir/ruledit-$1/usr/share/applications/org.freeciv.server.desktop"
+  if ! tools/linuxdeploy-x86_64.AppImage --appdir "AppDir/ruledit-$1" --output appimage
+  then
+    echo "ruledit-$1 image build with linuxdeploy failed!" >&2
+    return 1
+  fi
+  if ! mv "Freeciv_Ruleset_Editor-x86_64.AppImage" "Freeciv-ruledit-$1-x86_64.AppImage" ; then
+    echo "ruledit-$1 appimage rename failed!" >&2
     return 1
   fi
 }
@@ -96,6 +128,11 @@ if ! client_appimage gtk4    gtk4    ""        ||
    ! client_appimage sdl2    sdl2    "_(SDL2)" ||
    ! client_appimage qt6     qt      "_(Qt)"   ||
    ! client_appimage gtk3.22 gtk3.22 ""
+then
+  exit 1
+fi
+
+if ! ruledit_appimage qt6
 then
   exit 1
 fi
