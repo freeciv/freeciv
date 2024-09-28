@@ -2024,7 +2024,7 @@ static bool load_ruleset_veteran(struct section_file *file,
         rs_sanity_veteran(path, "veteran_work_raise_chance", i,
                           (vlist_wraise[i] != 0), vlist_wraise[i] = 0);
       } else {
-        /* All elements inbetween. */
+        /* All elements in between. */
         rs_sanity_veteran(path, "veteran_power_fact", i,
                           (vlist_power[i] < vlist_power[i - 1]),
                           vlist_power[i] = vlist_power[i - 1]);
