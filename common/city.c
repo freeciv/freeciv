@@ -336,9 +336,9 @@ static int cmp(int v1, int v2)
 /**********************************************************************//**
   Compare two iter_index values from the city_map_index.
 
-  This function will be passed to qsort().  It should never return zero,
-  or the sort order will be left up to qsort and will be undefined.  This
-  would mean that server execution would not be reproducable.
+  This function will be passed to qsort(). It should never return zero,
+  or the sort order will be left up to qsort and will be undefined. This
+  would mean that server execution would not be reproducible.
 **************************************************************************/
 int compare_iter_index(const void *a, const void *b)
 {
