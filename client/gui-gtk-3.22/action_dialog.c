@@ -1309,7 +1309,6 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)request_action_details_callback,
-  [ACTION_SPY_BRIBE_STACK] = (GCallback)request_action_details_callback,
 
   /* Unit acting against all units at a tile. */
   [ACTION_SPY_BRIBE_STACK] = (GCallback)request_action_details_callback,
