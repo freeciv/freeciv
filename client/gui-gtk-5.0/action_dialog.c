@@ -92,6 +92,55 @@ struct action_data {
 /* TODO: Maybe this should be in the dialog itself? */
 static struct action_data *act_sel_dialog_data;
 
+#define FC_TYPE_ACTION_ROW (fc_action_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcActionRow, fc_action_row, FC, ACTION_ROW, GObject)
+
+struct _FcActionRow
+{
+  GObject parent_instance;
+
+  const char *name;
+  int id;
+};
+
+struct _FcActionRowClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcActionRow, fc_action_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcActionRow class
+**************************************************************************/
+static void
+fc_action_row_class_init(FcActionRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcActionRow
+**************************************************************************/
+static void
+fc_action_row_init(FcActionRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcActionRow creation method
+**************************************************************************/
+#if 0
+static FcActionRow *fc_action_row_new(void)
+{
+  FcActionRow *result;
+
+  result = g_object_new(FC_TYPE_ACTION_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /**********************************************************************//**
   Create a new action data structure that can be stored in the
   dialogs.
