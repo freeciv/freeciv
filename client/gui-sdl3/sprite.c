@@ -68,20 +68,17 @@ const char **gfx_fileextensions(void)
 struct sprite *load_gfxfile(const char *filename, bool svgflag)
 {
   SDL_Surface *pbuf = NULL;
+  SDL_Surface *pconv;
 
   if ((pbuf = IMG_Load(filename)) == NULL) {
-    log_error(_("load_gfxfile: Unable to load graphic file %s!"), filename);
+    log_error(_("load_gfxfile(): Unable to load graphic file %s!"), filename);
     return NULL; /* Should I use abort() ? */
   }
 
-  if (pbuf->format->palette != NULL) {
-    SDL_Surface *pnew = convert_surf(pbuf);
+  pconv = convert_surf(pbuf);
+  FREESURFACE(pbuf);
 
-    FREESURFACE(pbuf);
-    pbuf = pnew;
-  }
-
-  return ctor_sprite(pbuf);
+  return ctor_sprite(pconv);
 }
 
 /************************************************************************//**
