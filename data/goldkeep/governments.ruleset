@@ -46,7 +46,7 @@ during_revolution = "Anarchy"
 ; graphic_alt  = alternate graphics tag if preferred is not found;
 ;                should be a standard tag if preferred is not;
 ;                otherwise may be "-"
-; sound        = Sound tag for the audio to play when palyer switch
+; sound        = Sound tag for the audio to play when player switch
 ;                to government.
 ; sound_alt    = Alternative sound tag, in case primary one is not found.
 ; sound_alt2   = Second alternative sound tag, in case neither primary tag

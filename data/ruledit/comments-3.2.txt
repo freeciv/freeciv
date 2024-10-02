@@ -195,7 +195,7 @@ governments = "\
 ; graphic_alt  = alternate graphics tag if preferred is not found;\n\
 ;                should be a standard tag if preferred is not;\n\
 ;                otherwise may be \"-\"\n\
-; sound        = Sound tag for the audio to play when palyer switch\n\
+; sound        = Sound tag for the audio to play when player switch\n\
 ;                to government.\n\
 ; sound_alt    = Alternative sound tag, in case primary one is not found.\n\
 ; sound_alt2   = Second alternative sound tag, in case neither primary tag\n\
