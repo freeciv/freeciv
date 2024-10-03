@@ -15,7 +15,7 @@ fi Finnish
 fr French
 ga Irish
 gd Scottish Gaelic
-gl Galician
+gl_ES Galician
 he Hebrew
 hu Hungarian
 id Indonesian
