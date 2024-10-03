@@ -792,6 +792,8 @@ void handle_city_info(const struct packet_city_info *packet)
   pcity->city_options = packet->city_options;
   pcity->wlcb = packet->wl_cb;
 
+  pcity->acquire_t = packet->acquire_type;
+
   if (pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]
       || pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]
       || pcity->waste[O_SCIENCE] != packet->waste[O_SCIENCE]

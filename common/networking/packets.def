@@ -270,6 +270,7 @@ type AI_LEVEL           = uint8(enum ai_level)
 type COUNTER_TARGET     = uint8(enum counter_target)
 type COUNTER_BEHAVIOUR  = uint8(enum counter_behaviour)
 type CITY_WL_CB         = uint8(enum city_wl_cancel_behavior)
+type CITY_ACQUIRE_TYPE  = uint8(enum city_acquire_type)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -776,6 +777,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BV_IMPRS improvements;
   BV_CITY_OPTIONS city_options;
   CITY_WL_CB wl_cb;
+  CITY_ACQUIRE_TYPE acquire_type;
   ESTRING name[MAX_LEN_CITYNAME];
 end
 
