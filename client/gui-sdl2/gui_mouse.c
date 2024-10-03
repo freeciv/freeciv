@@ -73,7 +73,7 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy)
     d = data + y * w;
     m = mask + y * w;
     for (x = 0; x < image->w; x++) {
-      color = getpixel(image, x, y);
+      color = get_pixel(image, x, y);
       SDL_GetRGBA(color, image->format, &r, &g, &b, &a);
       if (a != 0) {
         color = (r + g + b) / 3;

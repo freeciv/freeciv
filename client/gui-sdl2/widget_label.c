@@ -279,17 +279,17 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
   area = label->size;
   label->dst = gui_layer_new(0, 0, ptheme);
 
-  /* normal */
+  /* Normal */
   redraw_iconlabel(label);
 
-  /* selected */
+  /* Selected */
   area.x = 0;
   area.y = label->size.h;
 
   if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(ptheme, &area, map_rgba(ptheme->format, bg_color));
     store = pstr->bgcol;
-    SDL_GetRGBA(getpixel(ptheme, area.x , area.y), ptheme->format,
+    SDL_GetRGBA(get_pixel(ptheme, area.x , area.y), ptheme->format,
                 &pstr->bgcol.r, &pstr->bgcol.g,
                 &pstr->bgcol.b, &pstr->bgcol.a);
   } else {
@@ -342,17 +342,17 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
   pdest = icon_label->dst->surface;
   icon_label->dst->surface = ptheme;
 
-  /* normal */
+  /* Normal */
   redraw_iconlabel(icon_label);
 
-  /* selected */
+  /* Selected */
   area.x = 0;
   area.y = icon_label->size.h;
 
   if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(ptheme, &area, map_rgba(ptheme->format, bg_color));
     store = icon_label->string_utf8->bgcol;
-    SDL_GetRGBA(getpixel(ptheme, area.x , area.y), ptheme->format,
+    SDL_GetRGBA(get_pixel(ptheme, area.x , area.y), ptheme->format,
                 &icon_label->string_utf8->bgcol.r,
                 &icon_label->string_utf8->bgcol.g,
                 &icon_label->string_utf8->bgcol.b,

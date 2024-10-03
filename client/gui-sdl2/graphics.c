@@ -427,7 +427,7 @@ int blit_entire_src(SDL_Surface *psrc, SDL_Surface *pdest,
   Return the pixel value at (x, y)
   NOTE: The surface must be locked before calling this!
 **************************************************************************/
-Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y)
+Uint32 get_pixel(SDL_Surface *surf, Sint16 x, Sint16 y)
 {
   if (!surf) {
     return 0x0;
@@ -456,7 +456,7 @@ Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y)
     return *((Uint32 *)surf->pixels + y * surf->pitch / sizeof(Uint32) + x);
 
   default:
-    return 0; /* shouldn't happen, but avoids warnings */
+    return 0; /* Shouldn't happen, but avoids warnings */
   }
 }
 
