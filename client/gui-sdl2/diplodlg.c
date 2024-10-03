@@ -51,7 +51,7 @@
 #include "diplodlg.h"
 
 struct diplomacy_dialog {
-  struct Treaty *treaty;
+  struct treaty *treaty;
   struct advanced_dialog *pdialog;
   struct advanced_dialog *pwants;
   struct advanced_dialog *poffers;
@@ -114,7 +114,7 @@ static struct diplomacy_dialog *get_diplomacy_dialog(struct player *they)
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 **************************************************************************/
-void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
+void gui_recv_accept_treaty(struct treaty *ptreaty, struct player *they)
 {
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
@@ -131,7 +131,7 @@ void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 **************************************************************************/
-void gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_recv_cancel_meeting(struct treaty *ptreaty, struct player *they,
                              struct player *initiator)
 {
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
@@ -171,7 +171,7 @@ static int remove_clause_callback(struct widget *pwidget)
 /**********************************************************************//**
   Prepare to clause creation or removal.
 **************************************************************************/
-void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
+void gui_prepare_clause_updt(struct treaty *ptreaty, struct player *they)
 {
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
@@ -192,7 +192,7 @@ void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
 /**********************************************************************//**
   Update the diplomacy dialog by adding a clause.
 **************************************************************************/
-void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
+void gui_recv_create_clause(struct treaty *ptreaty, struct player *they)
 {
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
@@ -209,7 +209,7 @@ void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
 /**********************************************************************//**
   Update the diplomacy dialog by removing a clause.
 **************************************************************************/
-void gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
+void gui_recv_remove_clause(struct treaty *ptreaty, struct player *they)
 {
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
@@ -910,7 +910,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
 /**********************************************************************//**
   Open new diplomacy dialog between players.
 **************************************************************************/
-static struct diplomacy_dialog *create_diplomacy_dialog(struct Treaty *ptreaty,
+static struct diplomacy_dialog *create_diplomacy_dialog(struct treaty *ptreaty,
                                                         struct player *plr0,
                                                         struct player *plr1)
 {
@@ -1274,7 +1274,7 @@ static void remove_clause_widget_from_list(struct player *they,
   Handle the start of a diplomacy meeting - usually by popping up a
   diplomacy dialog.
 **************************************************************************/
-void gui_init_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_init_meeting(struct treaty *ptreaty, struct player *they,
                       struct player *initiator)
 {
   struct diplomacy_dialog *pdialog;

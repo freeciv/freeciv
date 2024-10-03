@@ -1083,8 +1083,8 @@ void real_menus_update(void)
       /* Enable the button for adding to a city in all cases, so we
        * get an eventual error message from the server if we try. */
 
-      if (unit_can_add_or_build_city(punit)) {
-        if (pcity) {
+      if (unit_can_add_or_build_city(&(wld.map), punit)) {
+        if (pcity != NULL) {
           fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)",
                       action_id_name_translation(ACTION_JOIN_CITY), "B");
         } else {
@@ -1098,7 +1098,7 @@ void real_menus_update(void)
         set_wflag(order_build_add_to_city_button, WF_HIDDEN);
       }
 
-      if (unit_can_help_build_wonder_here(punit)) {
+      if (unit_can_help_build_wonder_here(&(wld.map), punit)) {
         local_show(ID_UNIT_ORDER_BUILD_WONDER);
       } else {
         local_hide(ID_UNIT_ORDER_BUILD_WONDER);
@@ -1306,7 +1306,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_PILLAGE);
       }
 
-      if (pcity && can_unit_change_homecity(punit)
+      if (pcity != NULL && can_unit_change_homecity(&(wld.map), punit)
           && pcity->id != punit->homecity) {
         local_show(ID_UNIT_ORDER_HOMECITY);
       } else {

@@ -87,7 +87,7 @@ void enable_and_redraw_find_city_button(void);
 void enable_and_redraw_revolution_button(void);
 void enable_main_widgets(void);
 void disable_main_widgets(void);
-bool map_event_handler(SDL_Keysym key);
+bool map_event_handler(SDL_KeyboardEvent *key);
 
 void finger_down_on_map(struct finger_behavior *finger_behavior);
 void finger_up_on_map(struct finger_behavior *finger_behavior);

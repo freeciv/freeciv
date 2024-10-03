@@ -147,6 +147,32 @@ static int get_pollution(const struct player *pplayer);
 static int get_mil_service(const struct player *pplayer);
 static int get_culture(const struct player *pplayer);
 
+static int get_pop(const struct player *pplayer);
+static int get_cities(const struct player *pplayer);
+static int get_techs(const struct player *pplayer);
+static int get_munits(const struct player *pplayer);
+static int get_settlers(const struct player *pplayer);
+static int get_wonders(const struct player *pplayer);
+static int get_techout(const struct player *pplayer);
+static int get_literacy2(const struct player *pplayer);
+static int get_spaceship(const struct player *pplayer);
+static int get_gold(const struct player *pplayer);
+static int get_taxrate(const struct player *pplayer);
+static int get_scirate(const struct player *pplayer);
+static int get_luxrate(const struct player *pplayer);
+static int get_riots(const struct player *pplayer);
+static int get_happypop(const struct player *pplayer);
+static int get_contentpop(const struct player *pplayer);
+static int get_unhappypop(const struct player *pplayer);
+static int get_specialists(const struct player *pplayer);
+static int get_gov(const struct player *pplayer);
+static int get_corruption(const struct player *pplayer);
+static int get_total_score(const struct player *pplayer);
+static int get_units_built(const struct player *pplayer);
+static int get_units_killed(const struct player *pplayer);
+static int get_units_lost(const struct player *pplayer);
+static int get_units_used(const struct player *pplayer);
+
 static const char *area_to_text(int value);
 static const char *percent_to_text(int value);
 static const char *production_to_text(int value);
@@ -155,6 +181,51 @@ static const char *science_to_text(int value);
 static const char *mil_service_to_text(int value);
 static const char *pollution_to_text(int value);
 static const char *culture_to_text(int value);
+
+/* Add new tags only at end of this list. Maintaining the order of
+ * old tags is critical. */
+static const struct {
+  char *name;
+  int (*get_value) (const struct player *);
+} score_tags[] = {
+  {"pop",             get_pop},
+  {"bnp",             get_economics},
+  {"mfg",             get_production},
+  {"cities",          get_cities},
+  {"techs",           get_techs},
+  {"munits",          get_munits},
+  {"settlers",        get_settlers},  /* "original" tags end here */
+
+  {"wonders",         get_wonders},
+  {"techout",         get_techout},
+  {"landarea",        get_landarea},
+  {"settledarea",     get_settledarea},
+  {"pollution",       get_pollution},
+  {"literacy",        get_literacy2},
+  {"spaceship",       get_spaceship}, /* new 1.8.2 tags end here */
+
+  {"gold",            get_gold},
+  {"taxrate",         get_taxrate},
+  {"scirate",         get_scirate},
+  {"luxrate",         get_luxrate},
+  {"riots",           get_riots},
+  {"happypop",        get_happypop},
+  {"contentpop",      get_contentpop},
+  {"unhappypop",      get_unhappypop},
+  {"specialists",     get_specialists},
+  {"gov",             get_gov},
+  {"corruption",      get_corruption}, /* new 1.11.5 tags end here */
+
+  {"score",           get_total_score}, /* New 2.1.10 tag end here. */
+
+  {"unitsbuilt",      get_units_built}, /* New tags since 2.3.0. */
+  {"unitskilled",     get_units_killed},
+  {"unitslost",       get_units_lost},
+
+  {"culture",         get_culture},     /* New tag in 2.6.0. */
+
+  {"unitsused",       get_units_used}   /* New tag in 3.2.0. */
+};
 
 #define GOOD_PLAYER(p) ((p)->is_alive && !is_barbarian(p))
 
@@ -1468,51 +1539,6 @@ void log_civ_score_now(void)
   char id[MAX_LEN_GAME_IDENTIFIER];
   int i = 0;
 
-  /* Add new tags only at end of this list. Maintaining the order of
-   * old tags is critical. */
-  static const struct {
-    char *name;
-    int (*get_value) (const struct player *);
-  } score_tags[] = {
-    {"pop",             get_pop},
-    {"bnp",             get_economics},
-    {"mfg",             get_production},
-    {"cities",          get_cities},
-    {"techs",           get_techs},
-    {"munits",          get_munits},
-    {"settlers",        get_settlers},  /* "original" tags end here */
-
-    {"wonders",         get_wonders},
-    {"techout",         get_techout},
-    {"landarea",        get_landarea},
-    {"settledarea",     get_settledarea},
-    {"pollution",       get_pollution},
-    {"literacy",        get_literacy2},
-    {"spaceship",       get_spaceship}, /* new 1.8.2 tags end here */
-
-    {"gold",            get_gold},
-    {"taxrate",         get_taxrate},
-    {"scirate",         get_scirate},
-    {"luxrate",         get_luxrate},
-    {"riots",           get_riots},
-    {"happypop",        get_happypop},
-    {"contentpop",      get_contentpop},
-    {"unhappypop",      get_unhappypop},
-    {"specialists",     get_specialists},
-    {"gov",             get_gov},
-    {"corruption",      get_corruption}, /* new 1.11.5 tags end here */
-
-    {"score",           get_total_score}, /* New 2.1.10 tag end here. */
-
-    {"unitsbuilt",      get_units_built}, /* New tags since 2.3.0. */
-    {"unitskilled",     get_units_killed},
-    {"unitslost",       get_units_lost},
-
-    {"culture",         get_culture},     /* New tag in 2.6.0. */
-
-    {"unitsused",       get_units_used}   /* New tag in 3.2.0. */
-  };
-
   if (!game.server.scorelog) {
     return;
   }
@@ -1825,4 +1851,20 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
 struct history_report *history_report_get(void)
 {
   return &latest_history_report;
+}
+
+/**********************************************************************//**
+  Return score of the type associated to the tag
+**************************************************************************/
+int get_tag_score(const char *tag, const struct player *pplayer)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(score_tags); i++) {
+    if (!fc_strcasecmp(tag, score_tags[i].name)) {
+      return score_tags[i].get_value(pplayer);
+    }
+  }
+
+  return -1;
 }

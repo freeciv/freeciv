@@ -287,7 +287,7 @@ static void inf_close_partial(struct inputfile *inf)
   astr_free(&inf->token);
   astr_free(&inf->partial);
 
-  /* Assign zeros for safety if accidently reuse etc: */
+  /* Assign zeros for safety if accidentally reuse etc: */
   init_zeros(inf);
   inf->magic = ~INF_MAGIC;
 

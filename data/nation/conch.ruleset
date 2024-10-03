@@ -1,0 +1,57 @@
+[nation_conch]
+
+name   = _("Conch")
+plural = _("?plural:Conch")
+groups = "Imaginary"
+legend = _("In 1982, as part of a protest to a US Border Patrol station\
+ near Monroe County, Florida, the city of Key West declared that they were\
+ seceding from the US as the Conch Republic. They then declared war against\
+ the US, by breaking a loaf of stale Cuban bread over the head of a man\
+ dressed as a sailor. They surrendered after one minute, and then requested\
+ one billion dollars of foreign aid. The faux-secession of the Conch Republic\
+ helped bring awareness to issues of the Florida Keys, and the border patrol\
+ station was quietly removed. To this day, Key West sells Conch Republic\
+ memorabilia to tourists, and the Conch Republic has been involved in other\
+ protests by Key West and the Florida Keys.")
+
+leaders = {
+ "name",                  "sex"
+ "Dennis Wardlow",        "Male"
+ "Peter Anderson",        "Male"
+ "Teri Johnston",         "Female"
+}
+
+flag = "conch"
+flag_alt = "-"
+style = "Tropical"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "Floridian", "American"
+
+cities =
+ "Key West",
+ "Key Colony Beach",
+ "Marathon",
+ "Layton",
+ "Islamorada",
+ "Florida City",
+ "Key Largo",
+ "Big Coppitt Key",
+ "Big Pine Key",
+ "Cudjoe Key",
+ "Tavernier",
+ "Duck Key",
+ "North Key Largo",
+ "Sugarloaf Shores",
+ "Summerland Key",
+ "Matecumbe",
+ "Torch Key",
+ "Ramrod Key",
+ "Garden Cove",
+ "Jewfish",
+ "Conch Key",
+ "Sunset Key",
+ "Pigeon Key"

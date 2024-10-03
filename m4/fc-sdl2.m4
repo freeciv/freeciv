@@ -9,10 +9,11 @@
 # * also look for SDL2.framework under Mac OS X
 # * removed HP/UX 9 support.
 # * updated for newer autoconf.
-# * Taken to Freeciv from SDL2 release 2.24.1 - modified to work together with sdl1.2
+# * (v3) use $PKG_CONFIG for pkg-config cross-compiling support
+# * Taken to Freeciv from SDL2 release 2.30.6 - modified to work together with sdl1.2
 
-## Upstream serial 2
-# serial 2.0.2
+## Upstream serial 3
+# serial 3.0.1
 
 dnl AM_PATH_SDL2([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for SDL2, and define SDL2_CFLAGS and SDL2_LIBS
@@ -63,7 +64,7 @@ AC_ARG_VAR(SDL2_FRAMEWORK, [Path to SDL2.framework])
 
   if test "x$sdl2_pc" = xyes ; then
     no_sdl2=""
-    SDL2_CONFIG="pkg-config sdl2"
+    SDL2_CONFIG="$PKG_CONFIG sdl2"
   else
     as_save_PATH="$PATH"
     if test "x$prefix" != xNONE && test "$cross_compiling" != yes; then

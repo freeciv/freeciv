@@ -405,6 +405,18 @@ bool api_methods_is_primary_capital(lua_State *L, City *pcity)
 }
 
 /**********************************************************************//**
+  Return number of citizens of the given nationality in a city
+**************************************************************************/
+int api_methods_city_nationality_citizens(lua_State *L, City *pcity,
+                                          Player *nationality)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, pcity, -1);
+
+  return citizens_nation_get(pcity, nationality->slot);
+}
+
+/**********************************************************************//**
    Return rule name for Government
 **************************************************************************/
 const char *api_methods_government_rule_name(lua_State *L,

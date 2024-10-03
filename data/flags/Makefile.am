@@ -121,6 +121,7 @@ flag_files =				\
 		colombia.png		\
 		comanche.png		\
 		comoros.png		\
+		conch.png		\
 		constantine.png		\
 		cornwall.png		\
 		corsica.png		\
@@ -338,6 +339,7 @@ flag_files =				\
 		micronesia.png		\
 		mikmaq.png		\
 		milan.png		\
+		minnesota.png		\
 		miskito.png		\
 		mitanni.png		\
 		mixtec.png		\
@@ -416,6 +418,7 @@ flag_files =				\
 		polynesian.png		\
 		pomerania.png		\
 		portugal.png		\
+		poyais.png		\
 		prusai.png		\
 		prussia.png		\
 		puerto_rico.png		\
@@ -700,6 +703,7 @@ flag_files =				\
 		colombia-large.png		\
 		comanche-large.png		\
 		comoros-large.png		\
+		conch-large.png		\
 		constantine-large.png		\
 		cornwall-large.png		\
 		corsica-large.png		\
@@ -917,6 +921,7 @@ flag_files =				\
 		micronesia-large.png		\
 		mikmaq-large.png		\
 		milan-large.png		\
+		minnesota-large.png		\
 		miskito-large.png		\
 		mitanni-large.png		\
 		mixtec-large.png		\
@@ -995,6 +1000,7 @@ flag_files =				\
 		polynesian-large.png		\
 		pomerania-large.png		\
 		portugal-large.png		\
+		poyais-large.png		\
 		prusai-large.png		\
 		prussia-large.png		\
 		puerto_rico-large.png		\
@@ -1281,6 +1287,7 @@ shield_files =					\
 		colombia-shield.png		\
 		comanche-shield.png		\
 		comoros-shield.png		\
+		conch-shield.png		\
 		constantine-shield.png		\
 		cornwall-shield.png		\
 		corsica-shield.png		\
@@ -1498,6 +1505,7 @@ shield_files =					\
 		micronesia-shield.png		\
 		mikmaq-shield.png		\
 		milan-shield.png		\
+		minnesota-shield.png		\
 		miskito-shield.png		\
 		mitanni-shield.png		\
 		mixtec-shield.png		\
@@ -1576,6 +1584,7 @@ shield_files =					\
 		polynesian-shield.png		\
 		pomerania-shield.png		\
 		portugal-shield.png		\
+		poyais-shield.png		\
 		prusai-shield.png		\
 		prussia-shield.png		\
 		puerto_rico-shield.png		\
@@ -1860,6 +1869,7 @@ shield_files =					\
 		colombia-shield-large.png		\
 		comanche-shield-large.png		\
 		comoros-shield-large.png		\
+		conch-shield-large.png		\
 		constantine-shield-large.png		\
 		cornwall-shield-large.png		\
 		corsica-shield-large.png		\
@@ -2077,6 +2087,7 @@ shield_files =					\
 		micronesia-shield-large.png		\
 		mikmaq-shield-large.png		\
 		milan-shield-large.png		\
+		minnesota-shield-large.png		\
 		miskito-shield-large.png		\
 		mitanni-shield-large.png		\
 		mixtec-shield-large.png		\
@@ -2155,6 +2166,7 @@ shield_files =					\
 		polynesian-shield-large.png		\
 		pomerania-shield-large.png		\
 		portugal-shield-large.png		\
+		poyais-shield-large.png		\
 		prusai-shield-large.png			\
 		prussia-shield-large.png		\
 		puerto_rico-shield-large.png		\
@@ -2441,6 +2453,7 @@ svg_files = 				\
 		colombia.svg		\
 		comanche.svg		\
 		comoros.svg		\
+		conch.svg		\
 		constantine.svg		\
 		cornwall.svg		\
 		corsica.svg		\
@@ -2658,6 +2671,7 @@ svg_files = 				\
 		micronesia.svg		\
 		mikmaq.svg		\
 		milan.svg		\
+		minnesota.svg		\
 		miskito.svg		\
 		mitanni.svg		\
 		mixtec.svg		\
@@ -2736,6 +2750,7 @@ svg_files = 				\
 		pomerania.svg		\
 		polynesian.svg		\
 		portugal.svg		\
+		poyais.svg		\
 		prusai.svg		\
 		prussia.svg		\
 		puerto_rico.svg		\

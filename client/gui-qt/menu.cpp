@@ -1422,7 +1422,7 @@ void mr_menu::setup_menus()
   action_vs_unit->addAction(act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_action_vs_unit);
 
-  act = action_unit_menu->addAction(_("Bribe"));
+  act = action_unit_menu->addAction(_("Bribe Unit"));
   act->setCheckable(true);
   act->setChecked(false);
   act->setData(ACTION_SPY_BRIBE_UNIT);
@@ -1862,7 +1862,7 @@ bool mr_menu::shortcut_exist_inner(const QMenu *m, QKeySequence seq,
 }
 
 /**********************************************************************//**
-  Returns string assigned to shortcut or empty string if doesnt exist
+  Returns string assigned to shortcut or empty string if doesn't exist
 **************************************************************************/
 QString mr_menu::shortcut_exist(fc_shortcut *fcs)
 {
@@ -2350,7 +2350,8 @@ void mr_menu::menus_sensitive()
         break;
 
       case BUILD:
-        if (can_units_do(punits, unit_can_add_or_build_city)) {
+        if (can_units_do_on_map(&(wld.map), punits,
+                                unit_can_add_or_build_city)) {
           i.value()->setEnabled(true);
         }
         if (city_on_tile
@@ -2435,7 +2436,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case HOMECITY:
-        if (can_units_do(punits, can_unit_change_homecity)) {
+        if (can_units_do_on_map(&(wld.map), punits, can_unit_change_homecity)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2529,7 +2530,7 @@ void mr_menu::menus_sensitive()
         i.value()->setText(
           QString(action_id_name_translation(ACTION_HELP_WONDER))
           .replace("&", "&&"));
-        if (can_units_do(punits, unit_can_help_build_wonder_here)) {
+        if (can_units_do_on_map(&(wld.map), punits, unit_can_help_build_wonder_here)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2639,7 +2640,7 @@ void mr_menu::slot_build_city()
      * not good! */
     /* Enable the button for adding to a city in all cases, so we
        get an eventual error message from the server if we try. */
-    if (unit_can_add_or_build_city(punit)) {
+    if (unit_can_add_or_build_city(&(wld.map), punit)) {
       request_unit_build_city(punit);
     } else if (utype_can_do_action(unit_type_get(punit), ACTION_HELP_WONDER)) {
       request_unit_caravan_action(punit, ACTION_HELP_WONDER);

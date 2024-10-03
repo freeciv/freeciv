@@ -825,7 +825,7 @@ void unit_item::create_actions()
     disband_action = nullptr;
   }
 
-  if (can_unit_change_homecity(qunit)) {
+  if (can_unit_change_homecity(&(wld.map), qunit)) {
     change_home = new QAction(action_id_name_translation(ACTION_HOME_CITY),
                               this);
     connect(change_home, &QAction::triggered, this, &unit_item::change_homecity);
@@ -1205,10 +1205,10 @@ city_map::city_map(QWidget *parent): QWidget(parent)
   setParent(parent);
   radius = 0;
   wdth = get_citydlg_canvas_width();
-  hight = get_citydlg_canvas_height();
+  height = get_citydlg_canvas_height();
   cutted_width = wdth;
-  cutted_height = hight;
-  view = qtg_canvas_create(wdth, hight);
+  cutted_height = height;
+  view = qtg_canvas_create(wdth, height);
   view->map_pixmap.fill(Qt::black);
   miniview = qtg_canvas_create(0, 0);
   miniview->map_pixmap.fill(Qt::black);
@@ -1268,11 +1268,11 @@ void city_map::set_pixmap(struct city *pcity, float z)
     radius = r;
     qtg_canvas_free(miniview);
     cutted_width = wdth * (r + 1) / max_r;
-    cutted_height = hight * (r + 1) / max_r;
+    cutted_height = height * (r + 1) / max_r;
     cutted_width = qMin(cutted_width, wdth);
-    cutted_height = qMin(cutted_height, hight);
+    cutted_height = qMin(cutted_height, height);
     delta_x = (wdth - cutted_width) / 2;
-    delta_y = (hight - cutted_height) / 2;
+    delta_y = (height - cutted_height) / 2;
     miniview = qtg_canvas_create(cutted_width, cutted_height);
     miniview->map_pixmap.fill(Qt::black);
   }
@@ -2002,12 +2002,15 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   cma_result_pix = new QLabel;
 
   hbox = new QHBoxLayout;
+  QScrollArea *govA = new QScrollArea();
   hbox->addWidget(cma_result_pix);
   hbox->addWidget(cma_result);
   hbox->addStretch(10);
+  govA->setWidget(qsliderbox);
+  govA->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   right_layout->addWidget(qgbox);
   right_layout->addLayout(hbox);
-  right_layout->addWidget(qsliderbox);
+  right_layout->addWidget(govA);
 
   split_widget1 = new QWidget;
   split_widget1->setLayout(worklist_layout);

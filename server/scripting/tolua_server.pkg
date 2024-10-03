@@ -140,8 +140,8 @@ module edit {
   bool api_edit_change_terrain
     @ change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
   bool api_edit_create_city
-    @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
-                   const char *name);
+    @ city_create (lua_State *L, Player *pplayer, Tile *ptile,
+                   const char *name, Player *nationality);
   bool api_edit_transfer_city
     @ transfer_city (lua_State *L, City *pcity, Player *new_owner);
   void api_edit_remove_city
@@ -248,6 +248,12 @@ module edit {
 
   bool api_edit_create_trade_route
     @ create_trade_route(lua_State *L, City *from, City *to);
+
+  void api_edit_change_city_size
+    @ change_city_size(lua_State *L, City *pcity, int change, Player *nationality);
+  void api_edit_change_citizen_nationality
+    @ change_citizen_nationality(lua_State *L, City *pcity,
+                                 Player *from, Player *to, int amount);
 }
 
 /* Luadata module. */
@@ -278,7 +284,13 @@ end
 function create_city(player, tile, name)
   log.deprecation_warning("create_city()", "edit.create_city()",
                           "2.4");
-  edit.create_city (player, tile, name)
+  edit.city_create(player, tile, name, nil)
+end
+
+function edit.create_city(player, tile, name)
+  log.deprecation_warning("edit.create_city()", "edit.city_create()",
+                          "3.3");
+  edit.city_create(player, tile, name, nil)
 end
 
 -- Deprecated; use edit.create_owned_extra()
@@ -351,7 +363,13 @@ function Player:civilization_score()
 end
 
 function Player:create_city(tile, name)
-  edit.create_city(self, tile, name)
+  log.deprecation_warning("Player:create_city()", "Player:city_create()",
+                          "3.3");
+  edit.city_create(self, tile, name, nil)
+end
+
+function Player:city_create(tile, name, nationality)
+  edit.city_create(self, tile, name, nationality)
 end
 
 function Player:change_gold(amount)
@@ -412,6 +430,14 @@ end
 
 function City:remove_building(impr)
   edit.remove_building(self, impr)
+end
+
+function City:change_size(change, nationality)
+  edit.change_city_size(self, change, nationality)
+end
+
+function City:change_nationality(from, to, amount)
+  edit.change_citizen_nationality(self, from, to, amount)
 end
 
 -- Server functions for Unit module
@@ -540,6 +566,9 @@ module Player {
     @ lose (lua_State *L, Player *pplayer, Player *looter = NULL);
   int api_methods_player_tech_bulbs
     @ bulbs_saved (lua_State *L, Player *pplayer, Tech_Type *tech);
+
+  int api_methods_tag_score
+    @ tag_score (lua_State *L, Player *pplayer, const char *tag);
 }
 
 $[

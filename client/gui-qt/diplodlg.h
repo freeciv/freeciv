@@ -57,13 +57,13 @@ class diplo_wdg: public QWidget
   QTableWidget *text_edit;
 
 public:
-  diplo_wdg(struct Treaty *ptreaty,
+  diplo_wdg(struct treaty *ptreaty,
             struct player *they, struct player *initiator);
   ~diplo_wdg();
   void update_wdg();
   void set_index(int ind);
   int get_index();
-  struct Treaty *treaty;
+  struct treaty *treaty;
 
 private slots:
   void all_advances();
@@ -107,7 +107,7 @@ class diplo_dlg: public QTabWidget
   QMap<struct player *, diplo_wdg *> treaty_list;
 
 public:
-  diplo_dlg(struct Treaty *ptreaty, struct player *they,
+  diplo_dlg(struct treaty *ptreaty, struct player *they,
             struct player *initiator);
   ~diplo_dlg();
   void reactivate();
@@ -115,7 +115,7 @@ public:
   bool init(bool raise);
   diplo_wdg *find_widget(struct player *they);
   void close_widget(struct player *they);
-  void add_widget(struct Treaty *ptreaty, struct player *they,
+  void add_widget(struct treaty *ptreaty, struct player *they,
                   struct player *initiator);
   void make_active(struct player *party);
 

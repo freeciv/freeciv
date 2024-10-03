@@ -51,7 +51,7 @@
 #include "plrdlg.h"
 
 struct Diplomacy_dialog {
-  struct Treaty *treaty;
+  struct treaty *treaty;
   struct gui_dialog *dialog;
 
   GtkWidget *menu0;
@@ -85,12 +85,12 @@ struct city_deal {
 static struct dialog_list *dialog_list;
 static struct Diplomacy_notebook *dipl_main;
 
-static struct Diplomacy_dialog *create_diplomacy_dialog(struct Treaty *ptreaty,
+static struct Diplomacy_dialog *create_diplomacy_dialog(struct treaty *ptreaty,
                                                         struct player *plr0,
                                                         struct player *plr1);
 
 static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *they);
-static void popup_diplomacy_dialog(struct Treaty *ptreaty, struct player *they,
+static void popup_diplomacy_dialog(struct treaty *ptreaty, struct player *they,
                                    struct player *initiator);
 static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data);
@@ -117,7 +117,7 @@ static void diplomacy_main_response(struct gui_dialog *dlg, int response,
 /************************************************************************//**
   Server tells us that either party has accepted treaty
 ****************************************************************************/
-void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
+void gui_recv_accept_treaty(struct treaty *ptreaty, struct player *they)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(they);
 
@@ -134,7 +134,7 @@ void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
 /************************************************************************//**
   Someone is initiating meeting with us.
 ****************************************************************************/
-void gui_init_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_init_meeting(struct treaty *ptreaty, struct player *they,
                       struct player *initiator)
 {
   popup_diplomacy_dialog(ptreaty, they, initiator);
@@ -143,7 +143,7 @@ void gui_init_meeting(struct Treaty *ptreaty, struct player *they,
 /************************************************************************//**
   Meeting has been cancelled.
 ****************************************************************************/
-void gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_recv_cancel_meeting(struct treaty *ptreaty, struct player *they,
                              struct player *initiator)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(they);
@@ -160,7 +160,7 @@ void gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
 /**********************************************************************//**
   Prepare to clause creation or removal.
 **************************************************************************/
-void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
+void gui_prepare_clause_updt(struct treaty *ptreaty, struct player *they)
 {
   /* Not needed */
 }
@@ -168,7 +168,7 @@ void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
 /************************************************************************//**
   Added clause to the meeting
 ****************************************************************************/
-void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
+void gui_recv_create_clause(struct treaty *ptreaty, struct player *they)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(they);
 
@@ -185,7 +185,7 @@ void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
 /************************************************************************//**
   Removed clause from meeting.
 ****************************************************************************/
-void gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
+void gui_recv_remove_clause(struct treaty *ptreaty, struct player *they)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(they);
 
@@ -202,7 +202,7 @@ void gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
 /************************************************************************//**
   Popup the dialog 10% inside the main-window 
 ****************************************************************************/
-static void popup_diplomacy_dialog(struct Treaty *ptreaty, struct player *they,
+static void popup_diplomacy_dialog(struct treaty *ptreaty, struct player *they,
                                    struct player *initiator)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(they);
@@ -686,7 +686,7 @@ static void diplomacy_response(struct gui_dialog *dlg, int response,
 /************************************************************************//**
   Setups diplomacy dialog widgets.
 ****************************************************************************/
-static struct Diplomacy_dialog *create_diplomacy_dialog(struct Treaty *ptreaty,
+static struct Diplomacy_dialog *create_diplomacy_dialog(struct treaty *ptreaty,
                                                         struct player *plr0,
                                                         struct player *plr1)
 {
@@ -869,7 +869,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct Treaty *ptreaty,
   gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   buf = g_strdup_printf("<span size=\"large\" weight=\"bold\">%s</span>",
-                        ruler_title_for_player(plr1, plr_buf, sizeof(plr_buf)));
+                        title_for_player(plr1, plr_buf, sizeof(plr_buf)));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
   gtk_container_add(GTK_CONTAINER(hbox), label);

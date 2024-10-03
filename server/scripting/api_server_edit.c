@@ -19,6 +19,7 @@
 #include "rand.h"
 
 /* common */
+#include "citizens.h"
 #include "map.h"
 #include "movement.h"
 #include "research.h"
@@ -375,7 +376,7 @@ bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
-  case ATK_UNITS:
+  case ATK_STACK:
     enabled = is_action_enabled_unit_on_stack(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:
@@ -437,7 +438,7 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
-  case ATK_UNITS:
+  case ATK_STACK:
     enabled = is_action_enabled_unit_on_stack(nmap, paction->id, punit, tgt);
     break;
   case ATK_TILE:
@@ -674,14 +675,13 @@ bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)
   Create a new city.
 **************************************************************************/
 bool api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
-                          const char *name)
+                          const char *name, Player *nationality)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
 
-  /* TODO: Allow initial citizen to be of nationality other than owner */
-  return create_city_for_player(pplayer, ptile, name);
+  return create_city_for_player(pplayer, ptile, name, nationality);
 }
 
 /**********************************************************************//**
@@ -1301,4 +1301,34 @@ bool api_edit_create_trade_route(lua_State *L, City *from, City *to)
   }
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Change city size.
+**************************************************************************/
+void api_edit_change_city_size(lua_State *L, City *pcity, int change,
+                               Player *nationality)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
+
+  if (nationality == nullptr) {
+    nationality = city_owner(pcity);
+  }
+
+  city_change_size(pcity, city_size_get(pcity) + change, nationality, "script");
+}
+
+/**********************************************************************//**
+  Change nationality of the city citizens.
+**************************************************************************/
+void api_edit_change_citizen_nationality(lua_State *L, City *pcity,
+                                         Player *from, Player *to, int amount)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
+  LUASCRIPT_CHECK_ARG_NIL(L, from, 3, Player);
+  LUASCRIPT_CHECK_ARG_NIL(L, to, 4, Player);
+
+  citizens_nation_move(pcity, from->slot, to->slot, amount);
 }

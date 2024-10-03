@@ -76,7 +76,7 @@ ExtraFlag:       Local, Tile, Adjacent, CAdjacent, Traderoute, City
 Terrain:         Tile, Adjacent, CAdjacent, Traderoute, City
 Good:            City
 UnitType:        Local, Tile, CAdjacent, Adjacent
-UnitFlag:        Local, Tile, CAdjacent, Adjacent
+UnitTypeFlag:    Local, Tile, CAdjacent, Adjacent
 UnitClass:       Local, Tile, CAdjacent, Adjacent
 UnitClassFlag:   Local, Tile, CAdjacent, Adjacent
 Nation:          World, Alliance, Team, Player
@@ -828,6 +828,10 @@ Veteran_Build
 Veteran_Combat
     Increases the chance of units of this type becoming veteran after combat
     by amount percent.
+
+Veteran_Work
+    Increases the chance of units of this type becoming veteran after finishing
+    work by amount percent.
 
 Victory
     Positive value means that player wins the game.

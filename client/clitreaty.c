@@ -32,7 +32,7 @@
 **************************************************************************/
 void client_init_meeting(int counterpart, int initiated_from)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   struct player *we;
   struct player *they;
 
@@ -59,7 +59,7 @@ void client_init_meeting(int counterpart, int initiated_from)
 void client_recv_accept_treaty(int counterpart, bool I_accepted,
                                bool other_accepted)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   struct player *we;
   struct player *they;
 
@@ -82,7 +82,7 @@ void client_recv_accept_treaty(int counterpart, bool I_accepted,
 **************************************************************************/
 void client_recv_cancel_meeting(int counterpart, int initiated_from)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   struct player *we;
   struct player *they;
 
@@ -105,7 +105,7 @@ void client_recv_cancel_meeting(int counterpart, int initiated_from)
 void client_recv_create_clause(int counterpart, int giver,
                                enum clause_type type, int value)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   struct player *we;
   struct player *they;
 
@@ -131,7 +131,7 @@ void client_recv_create_clause(int counterpart, int giver,
 void client_recv_remove_clause(int counterpart, int giver,
                                enum clause_type type, int value)
 {
-  struct Treaty *ptreaty;
+  struct treaty *ptreaty;
   struct player *we;
   struct player *they;
 

@@ -1243,11 +1243,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Construction", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",         "range",  "present", "quiet"
+      "Tech",         "Construction", "Player", TRUE,      FALSE
+      "TerrainClass", "Land",         "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",      "Local",  TRUE,      FALSE
+      "CityTile",     "Center",       "Tile",   FALSE,     TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1279,11 +1279,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Radio", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Airbase", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",    "range",  "present", "quiet"
+      "Tech",         "Radio",   "Player", TRUE,      FALSE
+      "TerrainClass", "Land",    "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Airbase", "Local",  TRUE,      FALSE
+      "CityTile",     "Center",  "Tile",   FALSE,     TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1311,9 +1311,9 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "UnitFlag", "Workers", "Local"
-      "TerrainClass", "Land", "Tile"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
+      "TerrainClass", "Land",    "Tile"
     }
 build_time     = 0
 removal_time   = 0
@@ -1344,11 +1344,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Railroad", "Player"
-      "Extra", "Road", "Tile"
-      "UnitFlag", "Workers", "Local"
-      "TerrainClass", "Land", "Tile"
+    { "type",         "name",     "range"
+      "Tech",         "Railroad", "Player"
+      "Extra",        "Road",     "Tile"
+      "UnitTypeFlag", "Workers",  "Local"
+      "TerrainClass", "Land",     "Tile"
     }
 build_time     = 3
 removal_time   = 0

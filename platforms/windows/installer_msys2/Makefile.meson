@@ -59,7 +59,7 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 ifeq ($(CI),yes)
 ICUVER=75
 else
-ICUVER=74
+ICUVER=75
 endif
 
 #
@@ -70,7 +70,7 @@ all: all-$(WINARCH)
 
 all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
 
-all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6
+all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer
 
 all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6
 
@@ -96,11 +96,17 @@ qt5-installer:
 qt6-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
 
+qt6x-installer:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6x -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6x CLIENT=qt FCMP=qt installer-common
+
 ruledit-installer-qt5:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 installer-ruledit-common
 
 ruledit-installer-qt6:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 $(EXTRA_CONFIG)" GUI=qt6 installer-ruledit-common
+
+ruledit-installer-qt6x:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6x $(EXTRA_CONFIG)" GUI=qt6x installer-ruledit-common
 
 gtk3.22-install:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 install-freeciv-gtk3.22
@@ -117,11 +123,17 @@ qt5-install:
 qt6-install:
 	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" install-freeciv-qt6
 
+qt6x-install:
+	make -f $(MAKEFILE_NAME) GUI=qt6x CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6x -Dsvgflags=true $(EXTRA_CONFIG)" install-freeciv-qt6x
+
 ruledit-install-qt5:
 	make -f $(MAKEFILE_NAME) GUI=qt5 EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" install-ruledit-qt5
 
 ruledit-install-qt6:
 	make -f $(MAKEFILE_NAME) GUI=qt6 EXTRA_CONFIG="-Dqtver=qt6 $(EXTRA_CONFIG)" install-ruledit-qt6
+
+ruledit-install-qt6x:
+	make -f $(MAKEFILE_NAME) GUI=qt6x EXTRA_CONFIG="-Dqtver=qt6x $(EXTRA_CONFIG)" install-ruledit-qt6x
 
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
@@ -218,6 +230,7 @@ COMMON_DLLS := \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
+	libnghttp3-9.dll \
 	libpsl-5.dll \
 	libssh2-1.dll \
 	libreadline8.dll \
@@ -305,6 +318,8 @@ install-freeciv-qt5: install-freeciv-common
 
 install-freeciv-qt6: install-freeciv-common
 
+install-freeciv-qt6x: install-freeciv-common
+
 install-env-gtk3.22: install-env-gtk3-fcmp
 
 install-env-gtk4: install-env-gtk4-fcmp
@@ -373,6 +388,8 @@ install-env-qt6: install-env-qt6-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(CLIENT_QT6_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
+install-env-qt6x: install-env-qt6
+
 installer-ruledit-common: install-ruledit-$(GUI)
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
@@ -423,6 +440,8 @@ install-ruledit-qt6: install-ruledit-common
 	cp -R /usr/share/locale $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/
 	find $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
+install-ruledit-qt6: install-ruledit-qt6
+
 # Cleanup
 
 clean-build-client:
@@ -459,5 +478,7 @@ clean:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt6x clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-ruledit clean-ruledit-install clean-ruledit-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-ruledit clean-ruledit-install clean-ruledit-common
+	make -f $(MAKEFILE_NAME) GUI=qt6x clean-build-ruledit clean-ruledit-install clean-ruledit-common

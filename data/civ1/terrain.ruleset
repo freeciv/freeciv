@@ -1138,11 +1138,11 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "Tech", "Construction", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Tile", TRUE, FALSE
-      "UnitFlag", "Workers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Tile", FALSE, TRUE
+    { "type",         "name",         "range",  "present", "quiet"
+      "Tech",         "Construction", "Player", TRUE,      FALSE
+      "TerrainClass", "Land",         "Tile",   TRUE,      FALSE
+      "UnitTypeFlag", "Workers",      "Local",  TRUE,      FALSE
+      "CityTile",     "Center",       "Tile",   FALSE,     TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1172,9 +1172,9 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range"
-      "UnitFlag", "Workers", "Local"
-      "TerrainClass", "Land", "Tile"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
+      "TerrainClass", "Land",    "Tile"
     }
 build_time     = 0
 removal_time   = 0
@@ -1205,12 +1205,12 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 rmact_gfx_alt2 = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Railroad", "Player", TRUE
-      "Extra", "Road", "Tile", TRUE
-      "UnitFlag", "Workers", "Local", TRUE
-      "TerrainClass", "Land", "Tile", TRUE
-      "CityTile", "Center", "Tile", FALSE
+    { "type",         "name",     "range",  "present"
+      "Tech",         "Railroad", "Player", TRUE
+      "Extra",        "Road",     "Tile",   TRUE
+      "UnitTypeFlag", "Workers",  "Local",  TRUE
+      "TerrainClass", "Land",     "Tile",   TRUE
+      "CityTile",     "Center",   "Tile",   FALSE
     }
 build_time     = 3
 removal_time   = 0

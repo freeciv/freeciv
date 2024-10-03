@@ -1,0 +1,153 @@
+[nation_minnesotan]
+
+name   = _("Minnesotan")
+plural = _("?plural:Minnesotans")
+groups = "American"
+legend = _("Minnesota is a state located in the American Midwest\
+ notable for its cold environment and many lakes present. It was\
+ admitted into the union as a state on May 11th, 1858.")
+
+leaders = {
+ "name",                        "sex"
+ "Henry Hastings Sibley",       "Male"   ; (1811-1891) First governor of Minnesota.
+ "Tahshinahohindoway",          "Female" ; First wife of Henry Hastings Sibley
+ "Alexander Ramsey",            "Male"   ; (1815-1903) First Republican governor of Minnesota.
+ "John S. Pillsbury",           "Male"   ; (1827-1901)
+ "Joseph A. A. Burnquist",      "Male"   ; (1979-1961)
+ "Floyd B. Olson",              "Male"   ; (1891-1936) First Farmer-Labor governor.
+ "Harold Stassen",              "Male"   ; (1907-2001)
+ "Orville Freeman",             "Male"   ; (1918-2003) First Democratic-Farmer-Labor governor.
+ "Karl Rolvaag",                "Male"   ; (1913-1990)
+ "Al Quie",                     "Male"   ; (1923-2023) First Independent-Repubican governor.
+ "Marlene Johnson",             "Female" ; (1946-) First woman to serve as lieutenant governor.
+ "Jesse Ventura",               "Male"   ; (1951-) The wrestling guy.
+}
+
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Republic",        _("Governeror %s"),   _("?female:Governeror %s")
+ "Democracy",       _("Speaker %s"),      _("?female:Speaker %s")
+ "Fundamentalism",  _("Reverend %s"),     _("?female:Reverend %s")
+}
+
+flag = "minnesota"
+flag_alt = "american"
+style = "Celtic"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+conflicts_with = "american"
+civilwar_nations = "american", "sioux", "canadian"
+
+cities =
+ "St. Paul (!ocean, !hills, !mountains, !desert, !jungle)",
+ "Minneapolis (!ocean, !hills, !mountains, !desert, !jungle)",
+ "Rochester",
+ "Bloomington",
+ "Duluth",
+ "Brooklyn Park",
+ "Plymouth",
+ "Woodbury",
+ "Maple Grove",
+ "Blaine",
+ "Lakeville",
+ "St. Cloud",
+ "Eagan",
+ "Burnsville",
+ "Eden Prarie",
+ "Coon Rapids (river)",
+ "Apple Valley",
+ "Minnetonka",
+ "Edina",
+ "St. Louis Park",
+ "Moorhead",
+ "Mankato",
+ "Shakopee",
+ "Maplewood (forest)",
+ "Cottage Grove",
+ "Richfield",
+ "Roseville",
+ "Inner Grove Heights",
+ "Brooklyn Center",
+ "Andover",
+ "Savage",
+ "Fridley",
+ "Oakdale",
+ "Chaska",
+ "Ramsey",
+ "Prior Lake",
+ "Shoreview",
+ "Owatonna",
+ "Austin",
+ "Winona",
+ "Chanhassen",
+ "Elk River (river)",
+ "Rosemount",
+ "White Bear Lake",
+ "Faribault",
+ "Champlin",
+ "Farmington",
+ "New Brighton",
+ "Crystal",
+ "Golden Valley",
+ "Hastings",
+ "New Hope",
+ "Columbia Heights",
+ "Lino Lakes ",
+ "Willmar",
+ "Northfield",
+ "South St. Paul",
+ "West St. Paul",
+ "Forest Lake (forest)",
+ "Otsego",
+ "Stillwater",
+ "Sartell",
+ "Hopkins",
+ "Albert Lea",
+ "St. Michael",
+ "Buffalo",
+ "Anoka",
+ "Red Wing",
+ "Ham Lake",
+ "Hibbing",
+ "Hugo",
+ "Robbinsdale",
+ "Hutchinson",
+ "Bemidji (forest, river, !desert)",
+ "Monticello",
+ "Brainerd",
+ "Alexandria",
+ "North Mankato",
+ "New Ulm",
+ "Fergus Falls",
+ "Worthington",
+ "Sauk Rapids (river)",
+ "Marshall",
+ "Rogers",
+ "Mounds View (hills)",
+ "Waconia",
+ "Vadnais Heights",
+ "Cloquet",
+ "North St. Paul",
+ "St. Peter",
+ "East Bethel",
+ "Mendota Heights",
+ "Big Lake (ocean)",
+ "Lake Elmo",
+ "Grand Rapids",
+ "Little Canada",
+ "North Branch",
+ "Victoria",
+ "Fairmont",
+ "Hermantown",
+ "Arden Hills",
+ "Detroit Lakes",
+ "Cambridge",
+ "Mound",
+ "St. Anthony Village",
+ "Waseca",
+ "East Grand Forks",
+ "Little Falls",
+ "Oak Grove (forest)"

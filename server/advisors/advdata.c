@@ -853,8 +853,11 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
       break;
     case ACTRES_CONQUER_EXTRAS:
     case ACTRES_PILLAGE:
-    case ACTRES_WIPE_UNITS:
       bonus += 0.2;
+      break;
+    case ACTRES_WIPE_UNITS:
+    case ACTRES_SPY_BRIBE_STACK:
+      bonus += 0.3;
       break;
     case ACTRES_HUT_ENTER:
     case ACTRES_HUT_FRIGHTEN:

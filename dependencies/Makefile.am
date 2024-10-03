@@ -24,6 +24,6 @@ EXTRA_DIST = \
 		SDL2_gfx/SDL2_rotozoom.c \
 		SDL2_gfx/SDL2_rotozoom.h \
 		m4/gnulib-common.m4 \
-		m4/locale-fr.m4 \
+		m4/locale-en.m4 \
 		m4/mkstemp.m4 \
 		m4/stdlib_h.m4

@@ -31,20 +31,20 @@ void game_next_year(struct packet_game_info *info)
 {
   int increase = get_world_bonus(EFT_TURN_YEARS);
   const int slowdown = (victory_enabled(VC_SPACERACE)
-			? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
+                        ? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
   int fragment_years;
 
   if (info->year_0_hack) {
-    /* hacked it to get rid of year 0 */
+    /* Hack it to get rid of year 0 */
     info->year = 0;
     info->year_0_hack = FALSE;
   }
 
-    /* !McFred: 
+    /* !McFred:
        - want year += 1 for spaceship.
     */
 
-  /* test game with 7 normal AI's, gen 4 map, foodbox 10, foodbase 0: 
+  /* Test game with 7 normal AI's, gen 4 map, foodbox 10, foodbase 0:
    * Gunpowder about 0 AD
    * Railroad  about 500 AD
    * Electricity about 1000 AD
@@ -53,8 +53,8 @@ void game_next_year(struct packet_game_info *info)
    * about 1900 AD
    */
 
-  /* Note the slowdown operates even if Enable_Space is not active.  See
-   * README.effects for specifics. */
+  /* Note the slowdown operates even if Enable_Space is not active.
+   * See README.effects for specifics. */
   if (slowdown >= 3) {
     if (increase > 1) {
       increase = 1;
@@ -110,6 +110,7 @@ const char *textcalfrag(int frag)
     /* Human readable fragment count starts from 1, not 0 */
     fc_snprintf(buf, sizeof(buf), "%d", frag + 1);
   }
+
   return buf;
 }
 

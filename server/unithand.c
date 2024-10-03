@@ -1116,9 +1116,10 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   switch (paction->result) {
   case ACTRES_ATTACK:
   case ACTRES_WIPE_UNITS:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_COLLECT_RANSOM:
     /* Target is a unit stack but a city can block it. */
-    fc_assert_action(action_get_target_kind(paction) == ATK_UNITS, break);
+    fc_assert_action(action_get_target_kind(paction) == ATK_STACK, break);
 
     if (!unit_has_type_flag(actor, UTYF_FLAGLESS)) {
       if (target_tile != NULL) {
@@ -1238,7 +1239,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
 
     target_player = unit_owner(target_unit);
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
     if (target_tile == NULL) {
       /* No target units since no target tile. */
       return NULL;
@@ -1483,7 +1484,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
         explnat->kind = ANEK_MISSING_TARGET;
       }
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
     case ATK_TILE:
     case ATK_EXTRAS:
       if (target_tile == NULL) {
@@ -1531,7 +1532,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     case ATK_EXTRAS:
       tgt_player = target_tile->extras_owner;
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       /* A unit stack may contain units with multiple owners. Pick the
        * first one. */
       if (target_tile
@@ -2384,7 +2385,7 @@ void handle_unit_get_actions(struct connection *pc,
         probabilities[act] = ACTPROB_IMPOSSIBLE;
       }
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       if (target_tile) {
         /* Calculate the probabilities. */
         probabilities[act] = action_prob_vs_stack(nmap, actor_unit, act,
@@ -2468,7 +2469,7 @@ void handle_unit_get_actions(struct connection *pc,
           target_extra_id = target_extra->id;
         }
         break;
-      case ATK_UNITS:
+      case ATK_STACK:
         /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);
         break;
@@ -3119,6 +3120,7 @@ static void illegal_action(struct player *pplayer,
 {
   bool information_revealed;
   bool was_punished;
+  const struct civ_map *nmap = &(wld.map);
 
   struct action *stopped_action = action_by_number(stopped_action_id);
 
@@ -3129,6 +3131,7 @@ static void illegal_action(struct player *pplayer,
 
 
   information_revealed = action_prob_possible(action_prob_unit_vs_tgt(
+                                                 nmap,
                                                  stopped_action,
                                                  actor,
                                                  target_city, target_unit,
@@ -3194,6 +3197,7 @@ void handle_unit_action_query(struct connection *pc,
   struct action *paction = action_by_number(action_type);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+  struct tile *ptile = index_to_tile(&(wld.map), target_id);
   const struct civ_map *nmap = &(wld.map);
 
   if (NULL == paction) {
@@ -3215,7 +3219,7 @@ void handle_unit_action_query(struct connection *pc,
 
   switch (paction->result) {
   case ACTRES_SPY_BRIBE_UNIT:
-    if (punit
+    if (punit != nullptr
         && is_action_enabled_unit_on_unit(nmap, action_type,
                                           pactor, punit)) {
       dsend_packet_unit_action_answer(pc,
@@ -3225,8 +3229,25 @@ void handle_unit_action_query(struct connection *pc,
                                       action_type, request_kind);
     } else {
       illegal_action(pplayer, pactor, action_type,
-                     punit ? unit_owner(punit) : NULL,
-                     NULL, NULL, punit, request_kind, ACT_REQ_PLAYER);
+                     punit ? unit_owner(punit) : nullptr,
+                     nullptr, nullptr, punit, request_kind, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id, request_kind);
+      return;
+    }
+    break;
+  case ACTRES_SPY_BRIBE_STACK:
+    if (ptile != nullptr
+        && is_action_enabled_unit_on_stack(nmap, action_type,
+                                           pactor, ptile)) {
+      dsend_packet_unit_action_answer(pc,
+                                      actor_id, target_id,
+                                      stack_bribe_cost(ptile, pplayer,
+                                                       pactor),
+                                      action_type, request_kind);
+    } else {
+      illegal_action(pplayer, pactor, action_type,
+                     punit ? unit_owner(punit) : nullptr,
+                     nullptr, nullptr, punit, request_kind, ACT_REQ_PLAYER);
       unit_query_impossible(pc, actor_id, target_id, request_kind);
       return;
     }
@@ -3391,7 +3412,7 @@ bool unit_perform_action(struct player *pplayer,
     fc_assert_ret_val(target_tile != NULL, FALSE);
     pcity = tile_city(target_tile);
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
     target_tile = index_to_tile(nmap, target_id);
@@ -3556,11 +3577,13 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_PERFORM_UNIT_UNITS(action, actor, target, action_performer)\
+#define ACTION_PERFORM_UNIT_STACK(action, actor, target, action_performer)\
   if (target_tile                                                         \
       && is_action_enabled_unit_on_stack(nmap, action_type,               \
                                          actor_unit, target_tile)) {      \
     bool success;                                                         \
+    script_server_signal_emit("action_started_unit_stack",                \
+                              action_by_number(action), actor, target);   \
     script_server_signal_emit("action_started_unit_units",                \
                               action_by_number(action), actor, target);   \
     if (!actor || !unit_is_alive(actor_id)) {                             \
@@ -3571,6 +3594,10 @@ bool unit_perform_action(struct player *pplayer,
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_stack",               \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL,     \
+                              target);                                    \
     script_server_signal_emit("action_finished_unit_units",               \
                               action_by_number(action), success,          \
                               unit_is_alive(actor_id) ? actor : NULL,     \
@@ -3650,8 +3677,8 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_PERFORM_UNIT_UNIT(paction->id, actor, target_unit,             \
                              action_performer);                           \
     break;                                                                \
-  case ATK_UNITS:                                                         \
-    ACTION_PERFORM_UNIT_UNITS(paction->id, actor, target_tile,            \
+  case ATK_STACK:                                                         \
+    ACTION_PERFORM_UNIT_STACK(paction->id, actor, target_tile,            \
                               action_performer);                          \
     break;                                                                \
   case ATK_TILE:                                                          \
@@ -3673,8 +3700,8 @@ bool unit_perform_action(struct player *pplayer,
   switch (paction->result) {
   case ACTRES_SPY_BRIBE_UNIT:
     ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
-                             diplomat_bribe(pplayer, actor_unit, punit,
-                                            paction));
+                             diplomat_bribe_unit(pplayer, actor_unit, punit,
+                                                 paction));
     break;
   case ACTRES_SPY_SABOTAGE_UNIT:
     /* Difference is caused by data in the action structure. */
@@ -3890,33 +3917,38 @@ bool unit_perform_action(struct player *pplayer,
                              do_airline(actor_unit, pcity, paction));
     break;
   case ACTRES_CAPTURE_UNITS:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               do_capture_units(pplayer, actor_unit,
                                                target_tile, paction));
     break;
   case ACTRES_BOMBARD:
     /* Difference is caused by the ruleset. ("Fake generalized" actions) */
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               unit_bombard(actor_unit, target_tile,
                                            paction));
     break;
   case ACTRES_ATTACK:
   case ACTRES_COLLECT_RANSOM:
     /* Difference is caused by data in the action structure. */
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               do_attack(actor_unit, target_tile, paction));
     break;
   case ACTRES_WIPE_UNITS:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               do_wipe_units(actor_unit, target_tile, paction));
     break;
+  case ACTRES_SPY_BRIBE_STACK:
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
+                              diplomat_bribe_stack(pplayer, actor_unit,
+                                                   target_tile, paction));
+    break;
   case ACTRES_NUKE_UNITS:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               unit_nuke(pplayer, actor_unit, target_tile,
                                         paction));
     break;
   case ACTRES_SPY_ATTACK:
-    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               spy_attack(pplayer, actor_unit, target_tile,
                                          paction));
     break;
@@ -4132,6 +4164,10 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   }
 
   unit_get_goods(punit);
+
+  if (old_owner != new_owner) {
+    script_server_signal_emit("unit_transferred", punit, old_owner);
+  }
 }
 
 /**********************************************************************//**

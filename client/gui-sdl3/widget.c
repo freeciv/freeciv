@@ -109,12 +109,12 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, enum widget_state state,
   j = MAX(tile_width_height_end * 2, height);
   zoom = ((i != width) ||  (j != height));
 
-  /* now allocate memory */
-  background = create_surf(i, j, SDL_SWSURFACE);
+  /* Now allocate memory */
+  background = create_surf(i, j);
 
-  /* copy left end */
+  /* Copy left end */
 
-  /* left top */
+  /* Left top */
   src.x = 0;
   src.y = start_y;
   src.w = tile_width_len_end;
@@ -246,18 +246,18 @@ struct widget *find_next_widget_at_pos(struct widget *start_widget,
   NOTE: This function ignores CapsLock and NumLock Keys.
 **************************************************************************/
 struct widget *find_next_widget_for_key(struct widget *start_widget,
-                                        SDL_Keysym key)
+                                        SDL_KeyboardEvent *key)
 {
   struct widget *pwidget;
 
   pwidget = start_widget ? start_widget : begin_main_widget_list;
 
-  key.mod &= ~(SDL_KMOD_NUM | SDL_KMOD_CAPS);
+  key->mod &= ~(SDL_KMOD_NUM | SDL_KMOD_CAPS);
   while (pwidget) {
-    if ((pwidget->key == key.sym
-         || (pwidget->key == SDLK_RETURN && key.sym == SDLK_KP_ENTER)
-         || (pwidget->key == SDLK_KP_ENTER && key.sym == SDLK_RETURN))
-        && ((pwidget->mod & key.mod) || (pwidget->mod == key.mod))) {
+    if ((pwidget->key == key->key
+         || (pwidget->key == SDLK_RETURN && key->key == SDLK_KP_ENTER)
+         || (pwidget->key == SDLK_KP_ENTER && key->key == SDLK_RETURN))
+        && ((pwidget->mod & key->mod) || (pwidget->mod == key->mod))) {
       if (!((get_wstate(pwidget) == FC_WS_DISABLED)
             || ((get_wflags(pwidget) & WF_HIDDEN) == WF_HIDDEN))) {
         return (struct widget *) pwidget;
@@ -478,16 +478,15 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pwidget->info_label->style |= TTF_STYLE_BOLD;
     pwidget->info_label->fgcol = *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
 
-    /* create string and bcgd theme */
+    /* Create string and bcgd theme */
     text = create_text_surf_from_utf8(pwidget->info_label);
 
     pwidget->info_label->fgcol = color;
 
     info_label = create_filled_surface(text->w + adj_size(10), text->h + adj_size(6),
-                                       SDL_SWSURFACE,
                                        get_theme_color(COLOR_THEME_QUICK_INFO_BG));
 
-    /* calculate start position */
+    /* Calculate start position */
     if ((pwidget->dst->dest_rect.y + pwidget->size.y) - info_label->h - adj_size(6) < 0) {
       info_area->y = (pwidget->dst->dest_rect.y + pwidget->size.y) + pwidget->size.h + adj_size(3);
     } else {
@@ -503,7 +502,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     info_area->w = info_label->w + adj_size(2);
     info_area->h = info_label->h + adj_size(3);
 
-    /* draw text */
+    /* Draw text */
     dstrect.x = adj_size(6);
     dstrect.y = adj_size(3);
 
@@ -511,7 +510,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
 
     FREESURFACE(text);
 
-    /* draw frame */
+    /* Draw frame */
     create_frame(info_label,
                  0, 0, info_label->w - 1, info_label->h - 1,
                  get_theme_color(COLOR_THEME_QUICK_INFO_FRAME));

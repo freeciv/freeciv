@@ -888,7 +888,7 @@ void hud_action::mouseMoveEvent(QMouseEvent *event)
 }
 
 /************************************************************************//**
-  Leave event for hud_action, used to get status of pixmap higlight
+  Leave event for hud_action, used to get status of pixmap highlight
 ****************************************************************************/
 void hud_action::leaveEvent(QEvent *event)
 {
@@ -898,7 +898,7 @@ void hud_action::leaveEvent(QEvent *event)
 }
 
 /************************************************************************//**
-  Enter event for hud_action, used to get status of pixmap higlight
+  Enter event for hud_action, used to get status of pixmap highlight
 ****************************************************************************/
 #ifndef FC_QT5_MODE
 void hud_action::enterEvent(QEnterEvent *event)
@@ -993,7 +993,7 @@ int unit_actions::update_actions()
 
   // Create possible actions
 
-  if (unit_can_add_or_build_city(current_unit)) {
+  if (unit_can_add_or_build_city(&(wld.map), current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDCITY;
     a->set_pixmap(fc_icons::instance()->get_pixmap("home"));
@@ -1086,7 +1086,7 @@ int unit_actions::update_actions()
 
   // Set homecity
   if (tile_city(unit_tile(current_unit))) {
-    if (can_unit_change_homecity_to(current_unit,
+    if (can_unit_change_homecity_to(&(wld.map), current_unit,
                                     tile_city(unit_tile(current_unit)))) {
       a = new hud_action(this);
       a->action_shortcut = SC_SETHOME;

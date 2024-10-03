@@ -126,6 +126,7 @@ pkgdata_DATA = \
 		colombian.ruleset \
 		comanche.ruleset \
 		comorian.ruleset \
+		conch.ruleset \
 		confederate.ruleset \
 		congolese.ruleset \
 		congolesebrazzaville.ruleset \
@@ -337,6 +338,7 @@ pkgdata_DATA = \
 		micronesian.ruleset \
 		mikmaq.ruleset \
 		milanese.ruleset \
+		minnesotan.ruleset \
 		miskito.ruleset \
 		mitanni.ruleset \
 		mixtec.ruleset \
@@ -410,6 +412,7 @@ pkgdata_DATA = \
 		polynesian.ruleset \
 		pontic.ruleset \
 		portuguese.ruleset \
+		poyaisian.ruleset \
 		prussian.ruleset \
 		puertorican.ruleset \
 		purhepecha.ruleset \

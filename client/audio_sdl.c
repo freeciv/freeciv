@@ -207,7 +207,7 @@ static void quit_sdl_audio(void)
 
   This will need to be changed if SDL is used elsewhere.
 **************************************************************************/
-static int init_sdl_audio(void)
+static bool init_sdl_audio(void)
 {
 #ifdef AUDIO_SDL3
   return SDL_Init(SDL_INIT_AUDIO);
@@ -215,9 +215,9 @@ static int init_sdl_audio(void)
   SDL_SetHint(SDL_HINT_AUDIO_RESAMPLING_MODE, "medium");
 
   if (SDL_WasInit(SDL_INIT_VIDEO)) {
-    return SDL_InitSubSystem(SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE);
+    return SDL_InitSubSystem(SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) >= 0;
   } else {
-    return SDL_Init(SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE);
+    return SDL_Init(SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE) >= 0;
   }
 #endif /* AUDIO_SDL3 */
 }
@@ -254,12 +254,12 @@ static bool sdl_audio_init(struct audio_plugin *self)
 {
   int i;
 
-  if (init_sdl_audio() < 0) {
+  if (!init_sdl_audio()) {
     return FALSE;
   }
 
 #ifdef AUDIO_SDL3
-  if (Mix_OpenAudio(0, NULL) < 0) {
+  if (!Mix_OpenAudio(0, NULL)) {
 #else  /* AUDIO_SDL3 */
   /* Initialize variables */
   const int audio_rate = MIX_DEFAULT_FREQUENCY;

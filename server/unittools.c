@@ -262,7 +262,9 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
      * of +50% the end chance is 75%. */
     chance = vlevel->base_raise_chance * mod / 100;
   } else if (worker && unit_has_type_flag(punit, UTYF_WORKERS)) {
-    chance = base_chance * vlevel->work_raise_chance / 100;
+    int mod = base_chance + get_unit_bonus(punit, EFT_VETERAN_WORK);
+
+    chance = vlevel->work_raise_chance * mod / 100;
   } else {
     /* No battle and no work done. */
     return FALSE;
@@ -278,11 +280,11 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
 
 /**********************************************************************//**
   This is the basic unit versus unit combat routine.
-  1) ALOT of modifiers bonuses etc is added to the 2 units rates.
-  2) the combat loop, which continues until one of the units are dead or
+  1) A LOT of modifiers, bonuses etc are added to the 2 units' rates.
+  2) The combat loop, which continues until one of the units are dead or
      EFT_COMBAT_ROUNDS rounds have been fought.
-  3) the aftermath, the loser (and potentially the stack which is below it)
-     is wiped, and the winner gets a chance of gaining veteran status
+  3) The aftermath, the loser (and potentially the stack which is below it)
+     might get wiped, and the winner gets a chance of gaining veteran status
 
   Returns whether either side was completely powerless.
 **************************************************************************/
@@ -2605,7 +2607,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     for (i = 0; i < slots; i++) {
       if (0 < num_escaped[i]) {
         if (flagless_killer) {
-                    notify_player(player_by_number(i), deftile,
+          notify_player(player_by_number(i), deftile,
                         E_UNIT_ESCAPED, ftc_server,
                         PL_("%d unit escaped from attack by %s",
                             "%d units escaped from attack by %s",
@@ -2619,8 +2621,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                             "%d units escaped from attack by %s %s",
                             num_escaped[i]),
                         num_escaped[i],
-                        pkiller_link,
-                        nation_adjective_for_player(pkiller->nationality));
+                        nation_adjective_for_player(pvictor),
+                        pkiller_link);
         }
       }
     }
@@ -4804,7 +4806,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       prob = ACTPROB_IMPOSSIBLE;
 
       switch (action_id_get_target_kind(order.action)) {
-      case ATK_UNITS:
+      case ATK_STACK:
         prob = action_prob_vs_stack(nmap, punit, order.action,
                                     dst_tile);
         tgt_id = dst_tile->index;

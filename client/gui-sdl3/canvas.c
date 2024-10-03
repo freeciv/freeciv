@@ -39,7 +39,7 @@ struct canvas *canvas_create(int width, int height)
 {
   struct canvas *result = fc_malloc(sizeof(*result));
 
-  result->surf = create_surf(width, height, SDL_SWSURFACE);
+  result->surf = create_surf(width, height);
 
   return result;
 }
@@ -157,7 +157,8 @@ void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
   SDL_Rect dst = {canvas_x, canvas_y, width, height};
 
   SDL_FillSurfaceRect(pcanvas->surf, &dst,
-                      SDL_MapRGBA(pcanvas->surf->format,
+                      SDL_MapRGBA(SDL_GetPixelFormatDetails(pcanvas->surf->format),
+                                  NULL,
                                   pcolor->color->r,
                                   pcolor->color->g,
                                   pcolor->color->b,
@@ -176,7 +177,8 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
                   GET_SURF(psprite)->h};
 
   SDL_FillSurfaceRect(pcanvas->surf, &dst,
-                      SDL_MapRGBA(pcanvas->surf->format,
+                      SDL_MapRGBA(SDL_GetPixelFormatDetails(pcanvas->surf->format),
+                                  NULL,
                                   pcolor->color->r,
                                   pcolor->color->g,
                                   pcolor->color->b,

@@ -364,13 +364,14 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define ACTION_AUTO_UPKEEP_GOLD          1
 #define ACTION_AUTO_UPKEEP_SHIELD        2
 #define ACTION_AUTO_MOVED_ADJ            3
-#define ACTION_AUTO_POST_BRIBE           4
-#define ACTION_AUTO_POST_ATTACK          5
-#define ACTION_AUTO_POST_ATTACK2         6
-#define ACTION_AUTO_POST_COLLECT_RANSOM  7
-#define ACTION_AUTO_ESCAPE_CITY          8
-#define ACTION_AUTO_ESCAPE_STACK         9
-#define ACTION_AUTO_POST_WIPE_UNITS     10
+#define ACTION_AUTO_POST_BRIBE_UNIT      4
+#define ACTION_AUTO_POST_BRIBE_STACK     5
+#define ACTION_AUTO_POST_ATTACK          6
+#define ACTION_AUTO_POST_ATTACK2         7
+#define ACTION_AUTO_POST_COLLECT_RANSOM  8
+#define ACTION_AUTO_ESCAPE_CITY          9
+#define ACTION_AUTO_ESCAPE_STACK        10
+#define ACTION_AUTO_POST_WIPE_UNITS     11
 
 /* Initialization */
 void actions_init(void);
@@ -583,7 +584,8 @@ struct act_prob action_prob_self(const struct civ_map *nmap,
                                  const struct unit *actor,
                                  const action_id act_id);
 
-struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+struct act_prob action_prob_unit_vs_tgt(const struct civ_map *nmap,
+                                        const struct action *paction,
                                         const struct unit *act_unit,
                                         const struct city *tgt_city,
                                         const struct unit *tgt_unit,
@@ -591,7 +593,8 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
                                         const struct extra_type *sub_tgt);
 
 struct act_prob
-action_speculate_unit_on_city(action_id act_id,
+action_speculate_unit_on_city(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,
@@ -599,7 +602,8 @@ action_speculate_unit_on_city(action_id act_id,
                               const struct city* target);
 
 struct act_prob
-action_speculate_unit_on_unit(action_id act_id,
+action_speculate_unit_on_unit(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,
@@ -607,7 +611,8 @@ action_speculate_unit_on_unit(action_id act_id,
                               const struct unit *target);
 
 struct act_prob
-action_speculate_unit_on_stack(action_id act_id,
+action_speculate_unit_on_stack(const struct civ_map *nmap,
+                               action_id act_id,
                                const struct unit *actor,
                                const struct city *actor_home,
                                const struct tile *actor_tile,
@@ -615,7 +620,8 @@ action_speculate_unit_on_stack(action_id act_id,
                                const struct tile *target);
 
 struct act_prob
-action_speculate_unit_on_tile(action_id act_id,
+action_speculate_unit_on_tile(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,

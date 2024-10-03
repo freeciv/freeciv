@@ -2445,7 +2445,7 @@ static void build_city_callback(GSimpleAction *action,
      * not good! */
     /* Enable the button for adding to a city in all cases, so we
        get an eventual error message from the server if we try. */
-    if (unit_can_add_or_build_city(punit)) {
+    if (unit_can_add_or_build_city(&(wld.map), punit)) {
       request_unit_build_city(punit);
     } else if (utype_can_do_action(unit_type_get(punit),
                                    ACTION_HELP_WONDER)) {
@@ -3779,8 +3779,10 @@ void real_menus_update(void)
   /* Enable the button for adding to a city in all cases, so we
    * get an eventual error message from the server if we try. */
   menu_entry_set_sensitive(map, "BUILD_CITY",
-                           (can_units_do(punits, unit_can_add_or_build_city)
-                            || can_units_do(punits, unit_can_help_build_wonder_here)));
+                           (can_units_do_on_map(&(wld.map), punits,
+                                                unit_can_add_or_build_city)
+                            || can_units_do_on_map(&(wld.map), punits,
+                                                   unit_can_help_build_wonder_here)));
 
   menu_entry_set_sensitive(map, "DO_ACTION",
                            units_can_do_action(punits, ACTION_ANY, TRUE));
@@ -3821,7 +3823,7 @@ void real_menus_update(void)
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
   menu_entry_set_sensitive(map, "UNIT_HOMECITY",
-                           can_units_do(punits, can_unit_change_homecity));
+                           can_units_do_on_map(&(wld.map), punits, can_unit_change_homecity));
   menu_entry_set_sensitive(map, "UNIT_UPGRADE", units_can_upgrade(&(wld.map), punits));
   menu_entry_set_sensitive(map, "UNIT_CONVERT", units_can_convert(&(wld.map), punits));
   menu_entry_set_sensitive(map, "UNIT_DISBAND",

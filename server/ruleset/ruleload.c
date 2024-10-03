@@ -760,8 +760,7 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
 
-    /* TODO: Allow only in compat mode. */
-    if (TRUE /* compat->compat_mode && compat->version < RSFORMAT_3_3 */) {
+    if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
       type = rscompat_universal_name_3_3(type);
     }
 
@@ -2025,7 +2024,7 @@ static bool load_ruleset_veteran(struct section_file *file,
         rs_sanity_veteran(path, "veteran_work_raise_chance", i,
                           (vlist_wraise[i] != 0), vlist_wraise[i] = 0);
       } else {
-        /* All elements inbetween. */
+        /* All elements in between. */
         rs_sanity_veteran(path, "veteran_power_fact", i,
                           (vlist_power[i] < vlist_power[i - 1]),
                           vlist_power[i] = vlist_power[i - 1]);
@@ -2290,25 +2289,6 @@ static bool load_ruleset_units(struct section_file *file,
       } output_type_iterate_end;
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.cargo", sec_name);
-      if (u->transport_capacity > 0) {
-        if (nval == 0) {
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" unit type \"%s\" "
-                        "has transport_cap %d, but no cargo unit classes.",
-                        filename, utype_rule_name(u), u->transport_capacity);
-          ok = FALSE;
-          break;
-        }
-      } else {
-        if (nval > 0) {
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" unit type \"%s\" "
-                        "has cargo defined, but transport_cap is 0.",
-                        filename, utype_rule_name(u));
-          ok = FALSE;
-          break;
-        }
-      }
 
       BV_CLR_ALL(u->cargo);
       for (j = 0; j < nval; j++) {
@@ -6573,6 +6553,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   if (name != NULL) {
     game.server.ruledit.description_file = fc_strdup(name);
   }
+  game.server.ruledit.std_tileset_compat
+    = secfile_lookup_bool_default(file, FALSE, "ruledit.std_tileset_compat");
 
   /* Section: tileset */
   pref_text = secfile_lookup_str_default(file, "", "tileset.preferred");
@@ -7800,9 +7782,14 @@ static bool load_ruleset_actions(struct section_file *file,
     /* Forced actions after another action was successfully performed. */
 
     if (!load_action_post_success_force(file, filename,
-                                        ACTION_AUTO_POST_BRIBE,
+                                        ACTION_AUTO_POST_BRIBE_UNIT,
                                         action_by_number(
                                           ACTION_SPY_BRIBE_UNIT))) {
+      ok = FALSE;
+    } else if (!load_action_post_success_force(file, filename,
+                                               ACTION_AUTO_POST_BRIBE_STACK,
+                                               action_by_number(
+                                                 ACTION_SPY_BRIBE_STACK))) {
       ok = FALSE;
     } else if (!load_action_post_success_force(file, filename,
                                                ACTION_AUTO_POST_ATTACK,

@@ -1280,6 +1280,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_PARADROP_CONQUER:
     /* Against the tile so potential city effects are overlooked for now. */
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_SPY_ATTACK:
   case ACTRES_EXPEL_UNIT:
@@ -1318,8 +1319,6 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_TELEPORT_CONQUER:
   case ACTRES_HOMELESS:
   case ACTRES_ENABLER_CHECK:
-
-  case ACTRES_UNUSED_1:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");
     break;

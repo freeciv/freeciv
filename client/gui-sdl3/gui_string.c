@@ -128,7 +128,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
       w = 0;
       h = 0;
       while (utf8_texts[count]) {
-        if (TTF_SizeUTF8(pstr->font, utf8_texts[count], &ww, &hh) < 0) {
+        if (!TTF_SizeUTF8(pstr->font, utf8_texts[count], &ww, &hh)) {
           do {
             FC_FREE(utf8_texts[count]);
             count++;
@@ -141,7 +141,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
         count++;
       }
     } else {
-      if (TTF_SizeUTF8(pstr->font, pstr->text, &w, &h) < 0) {
+      if (!TTF_SizeUTF8(pstr->font, pstr->text, &w, &h)) {
         log_error("TTF_SizeUTF8() return ERROR!");
       }
     }
@@ -323,7 +323,7 @@ static SDL_Surface *create_utf8_surf(utf8_str *pstr)
     log_debug("create_utf8_surf: String is %d length", text->w);
   } else {
     log_debug("create_utf8_surf: text NULL");
-    text = create_surf(0, 0, SDL_SWSURFACE);
+    text = create_surf(0, 0);
   }
 
   if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
@@ -365,13 +365,14 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
 
   /* Create and fill surface */
 
-  if (SDL_GetSurfaceColorKey(tmp[0], &color) < 0) {
-    color = SDL_MapRGBA(tmp[0]->format, 0, 0, 0, 0);
+  if (!SDL_GetSurfaceColorKey(tmp[0], &color)) {
+    color = SDL_MapRGBA(SDL_GetPixelFormatDetails(tmp[0]->format), NULL,
+                        0, 0, 0, 0);
   }
 
   switch (pstr->render) {
   case 1:
-    text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
+    text = create_surf(w, count * tmp[0]->h);
     SDL_FillSurfaceRect(text, NULL, color);
     SDL_SetSurfaceColorKey(text, SDL_TRUE, color);
     break;
@@ -381,7 +382,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
     SDL_FillSurfaceRect(text, NULL, color);
     break;
   default:
-    text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
+    text = create_surf(w, count * tmp[0]->h);
     SDL_FillSurfaceRect(text, NULL, color);
     break;
   }

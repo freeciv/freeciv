@@ -95,7 +95,7 @@ static void set_socket_errno(void)
     return;
   default:
     bugreport_request("Missing errno mapping for Winsock error #%d.", err);
- 
+
     errno = 0;
   }
 }
@@ -107,9 +107,9 @@ static void set_socket_errno(void)
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
 {
   int result;
-  
+
   result = connect(sockfd, serv_addr, addrlen);
-  
+
 #ifdef FREECIV_HAVE_WINSOCK
   if (result == -1) {
     set_socket_errno();
@@ -144,7 +144,7 @@ int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 int fc_readsocket(int sock, void *buf, size_t size)
 {
   int result;
-  
+
 #ifdef FREECIV_HAVE_WINSOCK
   result = recv(sock, buf, size, 0);
   if (result == -1) {
@@ -163,7 +163,7 @@ int fc_readsocket(int sock, void *buf, size_t size)
 int fc_writesocket(int sock, const void *buf, size_t size)
 {
   int result;
-        
+
 #ifdef FREECIV_HAVE_WINSOCK
   result = send(sock, buf, size, 0);
   if (result == -1) {
@@ -271,7 +271,7 @@ void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
 #ifdef FREECIV_IPV6_SUPPORT
   char buf[INET6_ADDRSTRLEN] = "Unknown";
 
-  if (addr->saddr.sa_family == AF_INET6) { 
+  if (addr->saddr.sa_family == AF_INET6) {
     inet_ntop(AF_INET6, &addr->saddr_in6.sin6_addr, buf, INET6_ADDRSTRLEN);
     log_base(lvl, "Host: %s, Port: %d (IPv6)",
              buf, ntohs(addr->saddr_in6.sin6_port));
@@ -487,7 +487,7 @@ bool fc_inet_aton(const char *cp, struct in_addr *inp, bool addr_none_ok)
 }
 
 /*********************************************************************//**
-  Writes buf to socket and returns the response in an fz_FILE.
+  Writes buf to socket and returns the response in a fz_FILE.
   Use only on blocking sockets.
 *************************************************************************/
 fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
@@ -496,13 +496,20 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
 #ifdef HAVE_FDOPEN
   fp = fdopen(sock, "r+b");
+
+  if (fp == nullptr) {
+    log_error("socket %d: failed to fdopen()", sock);
+
+    return nullptr;
+  }
+
   if (fwrite(buf, 1, size, fp) != size) {
     log_error("socket %d: write error", sock);
   }
   fflush(fp);
 
-  /* We don't use fc_closesocket() on sock here since when fp is closed
-   * sock will also be closed. fdopen doesn't dup the socket descriptor. */
+  /* We don't use fc_closesocket() on sock here since when fp is closed,
+   * sock will also be closed. fdopen() doesn't dup the socket descriptor. */
 #else  /* HAVE_FDOPEN */
   {
     char tmp[4096];

@@ -309,7 +309,8 @@ bool are_unit_orders_equal(const struct unit_order *order1,
 int unit_shield_value(const struct unit *punit,
                       const struct unit_type *punittype,
                       const struct action *paction);
-bool unit_can_help_build_wonder_here(const struct unit *punit);
+bool unit_can_help_build_wonder_here(const struct civ_map *nmap,
+                                     const struct unit *punit);
 bool unit_can_est_trade_route_here(const struct unit *punit);
 enum unit_airlift_result
     test_unit_can_airlift_to(const struct civ_map *nmap,
@@ -326,13 +327,16 @@ bool could_unit_be_in_transport(const struct unit *pcargo,
 bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans);
 bool can_unit_load(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_unload(const struct unit *punit, const struct unit *ptrans);
-bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
+bool can_unit_deboard_or_be_unloaded(const struct civ_map *nmap,
+                                     const struct unit *pcargo,
                                      const struct unit *ptrans);
 bool can_unit_teleport(const struct civ_map *nmap, const struct unit *punit);
 bool can_unit_paradrop(const struct civ_map *nmap, const struct unit *punit);
-bool can_unit_change_homecity_to(const struct unit *punit,
+bool can_unit_change_homecity_to(const struct civ_map *nmap,
+                                 const struct unit *punit,
                                  const struct city *pcity);
-bool can_unit_change_homecity(const struct unit *punit);
+bool can_unit_change_homecity(const struct civ_map *nmap,
+                              const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(const struct civ_map *nmap,
                                         struct unit *punit);
@@ -384,7 +388,8 @@ bool is_square_threatened(const struct civ_map *nmap,
                           const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);
 bool is_hiding_unit(const struct unit *punit);
-bool unit_can_add_or_build_city(const struct unit *punit);
+bool unit_can_add_or_build_city(const struct civ_map *nmap,
+                                const struct unit *punit);
 
 struct astring; /* Forward declaration. */
 
@@ -537,6 +542,8 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
 
 int unit_bribe_cost(const struct unit *punit, const struct player *briber,
                     const struct unit *briber_unit);
+int stack_bribe_cost(const struct tile *ptile, const struct player *briber,
+                     const struct unit *briber_unit);
 
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans,
                          bool force);

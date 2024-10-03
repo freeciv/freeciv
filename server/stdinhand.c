@@ -6361,7 +6361,7 @@ static bool kick_command(struct connection *caller, char *name, bool check)
       if (i >= num_unique_connections) {
         num_unique_connections++;
         if (MIN_UNIQUE_CONNS <= num_unique_connections) {
-          /* We have enought already. */
+          /* We have enough already. */
           break;
         }
         unique_ipaddr[num_unique_connections - 1] = aconn->server.ipaddr;

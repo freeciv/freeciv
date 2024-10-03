@@ -28,7 +28,7 @@ if_attacker =
       "DiplRel",      "War",     "Local", TRUE
       "MinMoveFrags", "1",       "Local", TRUE
       ; Not a good idea to nuke our own area.
-      "UnitFlag",     "Nuclear", "Local", FALSE
+      "UnitTypeFlag", "Nuclear", "Local", FALSE
     }
 
 attack_actions = "Collect Ransom", "Attack", "Suicide Attack"
@@ -423,17 +423,17 @@ quiet_actions = "Unit Move"
 action        = "Sabotage City"
 actor_reqs    =
     { "type",         "name",     "range", "present"
-      "UnitFlag",     "Diplomat", "Local", TRUE
+      "UnitTypeFlag", "Diplomat", "Local", TRUE
       "DiplRel",      "War",      "Local", TRUE
       "MinMoveFrags", "1",        "Local", TRUE
-      "UnitFlag",     "Spy",      "Local", FALSE
+      "UnitTypeFlag", "Spy",      "Local", FALSE
     }
 
 [enabler_sabotage_city_spy]
 action        = "Sabotage City Escape"
 actor_reqs    =
     { "type",         "name", "range"
-      "UnitFlag",     "Spy",  "Local"
+      "UnitTypeFlag", "Spy",  "Local"
       "DiplRel",      "War",  "Local"
       "MinMoveFrags", "1",    "Local"
     }
@@ -443,7 +443,7 @@ action        = "Targeted Sabotage City Escape"
 actor_reqs    =
     { "type",         "name", "range"
       "DiplRel",      "War",  "Local"
-      "UnitFlag",     "Spy",  "Local"
+      "UnitTypeFlag", "Spy",  "Local"
       "MinMoveFrags", "1",    "Local"
     }
 
@@ -452,7 +452,7 @@ action        = "Sabotage City Production Escape"
 actor_reqs    =
     { "type",         "name", "range"
       "DiplRel",      "War",  "Local"
-      "UnitFlag",     "Spy",  "Local"
+      "UnitTypeFlag", "Spy",  "Local"
       "MinMoveFrags", "1",    "Local"
     }
 
@@ -460,18 +460,18 @@ actor_reqs    =
 action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
-      "UnitFlag",     "Diplomat",         "Local", TRUE
+      "UnitTypeFlag", "Diplomat",         "Local", TRUE
       "MinMoveFrags", "1",                "Local", TRUE
       "DiplRel",      "Foreign",          "Local", TRUE
       "DiplRel",      "Has real embassy", "Local", FALSE
-      "UnitFlag",     "Spy",              "Local", FALSE
+      "UnitTypeFlag", "Spy",              "Local", FALSE
     }
 
 [enabler_establish_embassy_spy]
 action        = "Establish Embassy"
 actor_reqs    =
     { "type",         "name",             "range", "present"
-      "UnitFlag",     "Spy",              "Local", TRUE
+      "UnitTypeFlag", "Spy",              "Local", TRUE
       "MinMoveFrags", "1",                "Local", TRUE
       "DiplRel",      "Foreign",          "Local", TRUE
       "DiplRel",      "Has real embassy", "Local", FALSE
@@ -480,29 +480,29 @@ actor_reqs    =
 [enabler_investigate_city]
 action        = "Investigate City Spend Unit"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Foreign", "Local", TRUE
-      "UnitFlag", "Spy", "Local", FALSE
+    { "type",         "name",     "range", "present"
+      "UnitTypeFlag", "Diplomat", "Local", TRUE
+      "MinMoveFrags", "1",        "Local", TRUE
+      "DiplRel",      "Foreign",  "Local", TRUE
+      "UnitTypeFlag", "Spy",      "Local", FALSE
     }
 
 [enabler_investigate_city_spy]
 action        = "Investigate City"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "MinMoveFrags", "1", "Local"
-      "DiplRel", "Foreign", "Local"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Spy",     "Local"
+      "MinMoveFrags", "1",       "Local"
+      "DiplRel",      "Foreign", "Local"
     }
 
 [enabler_poison_city]
 action        = "Poison City Escape"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "DiplRel", "War", "Local"
-      "MinMoveFrags", "1", "Local"
+    { "type",         "name", "range"
+      "UnitTypeFlag", "Spy",  "Local"
+      "DiplRel",      "War",  "Local"
+      "MinMoveFrags", "1",    "Local"
     }
 target_reqs   =
     { "type",   "name", "range"
@@ -513,20 +513,20 @@ target_reqs   =
 [enabler_plant_nuke]
 action        = "Suitcase Nuke Escape"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "Building", "Manhattan Project", "World"
-      "Tech", "Nuclear Fission", "Player"
-      "DiplRel", "War", "Local"
-      "MinMoveFrags", "1", "Local"
+    { "type",         "name",              "range"
+      "UnitTypeFlag", "Spy",               "Local"
+      "Building",     "Manhattan Project", "World"
+      "Tech",         "Nuclear Fission",   "Player"
+      "DiplRel",      "War",               "Local"
+      "MinMoveFrags", "1",                 "Local"
     }
 
 [enabler_steal_tech_random]
 action        = "Steal Tech"
 actor_reqs    =
     { "type",         "name",     "range", "present"
-      "UnitFlag",     "Diplomat", "Local", TRUE
-      "UnitFlag",     "Spy",      "Local", FALSE
+      "UnitTypeFlag", "Diplomat", "Local", TRUE
+      "UnitTypeFlag", "Spy",      "Local", FALSE
       "MinMoveFrags", "1",        "Local", TRUE
       "DiplRel",      "Foreign",  "Local", TRUE
     }
@@ -539,7 +539,7 @@ target_reqs   =
 action        = "Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",    "range"
-      "UnitFlag",     "Spy",     "Local"
+      "UnitTypeFlag", "Spy",     "Local"
       "MinMoveFrags", "1",       "Local"
       "DiplRel",      "Foreign", "Local"
     }
@@ -552,7 +552,7 @@ target_reqs   =
 action        = "Targeted Steal Tech Escape Expected"
 actor_reqs    =
     { "type",         "name",    "range"
-      "UnitFlag",     "Spy",     "Local"
+      "UnitTypeFlag", "Spy",     "Local"
       "MinMoveFrags", "1",       "Local"
       "DiplRel",      "Foreign", "Local"
     }
@@ -565,12 +565,12 @@ target_reqs   =
 action        = "Incite City"
 actor_reqs    =
     { "type",         "name",     "range", "present"
-      "UnitFlag",     "Diplomat", "Local", TRUE
+      "UnitTypeFlag", "Diplomat", "Local", TRUE
       "DiplRel",      "Alliance", "Local", FALSE
       "DiplRel",      "Team",     "Local", FALSE
       "MinMoveFrags", "1",        "Local", TRUE
       "DiplRel",      "Foreign",  "Local", TRUE
-      "UnitFlag",     "Spy",      "Local", FALSE
+      "UnitTypeFlag", "Spy",      "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",      "range", "present"
@@ -582,7 +582,7 @@ target_reqs   =
 action        = "Incite City Escape"
 actor_reqs    =
     { "type",         "name",     "range", "present"
-      "UnitFlag",     "Spy",      "Local", TRUE
+      "UnitTypeFlag", "Spy",      "Local", TRUE
       "DiplRel",      "Alliance", "Local", FALSE
       "DiplRel",      "Team",     "Local", FALSE
       "MinMoveFrags", "1",        "Local", TRUE
@@ -597,12 +597,12 @@ target_reqs   =
 [enabler_bribe_unit]
 action        = "Bribe Unit"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "DiplRel", "Alliance", "Local", FALSE
-      "DiplRel", "Team", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Foreign", "Local", TRUE
+    { "type",         "name",     "range", "present"
+      "UnitTypeFlag", "Diplomat", "Local", TRUE
+      "DiplRel",      "Alliance", "Local", FALSE
+      "DiplRel",      "Team",     "Local", FALSE
+      "MinMoveFrags", "1",        "Local", TRUE
+      "DiplRel",      "Foreign",  "Local", TRUE
     }
 target_reqs   =
     { "type",   "name", "range", "present"
@@ -614,10 +614,10 @@ target_reqs   =
 [enabler_sabotage_unit]
 action        = "Sabotage Unit Escape"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "DiplRel", "War", "Local"
-      "MinMoveFrags", "1", "Local"
+    { "type",         "name", "range"
+      "UnitTypeFlag", "Spy",  "Local"
+      "DiplRel",      "War",  "Local"
+      "MinMoveFrags", "1",    "Local"
     }
 target_reqs   =
     { "type",   "name", "range", "present"
@@ -629,25 +629,25 @@ target_reqs   =
 [enabler_trade_route]
 action        = "Establish Trade Route"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "TradeRoute", "Local", TRUE
-      "UnitState", "HasHomeCity", "Local", TRUE
+    { "type",         "name",        "range", "present"
+      "UnitTypeFlag", "TradeRoute",  "Local", TRUE
+      "UnitState",    "HasHomeCity", "Local", TRUE
     }
 
 [enabler_marketplace]
 action        = "Enter Marketplace"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "TradeRoute", "Local", TRUE
-      "UnitState", "HasHomeCity", "Local", TRUE
+    { "type",         "name",        "range", "present"
+      "UnitTypeFlag", "TradeRoute",  "Local", TRUE
+      "UnitState",    "HasHomeCity", "Local", TRUE
     }
 
 [enabler_help_build_wonder]
 action        = "Help Wonder"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "HelpWonder", "Local", TRUE
-      "DiplRel", "Foreign", "Local", FALSE
+    { "type",         "name",       "range", "present"
+      "UnitTypeFlag", "HelpWonder", "Local", TRUE
+      "DiplRel",      "Foreign",    "Local", FALSE
     }
 target_reqs   =
     { "type",   "name", "range"
@@ -670,25 +670,25 @@ action        = "Disband Unit"
 [enabler_build_city_pioneer]
 action        = "Found City"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Cities", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
+    { "type",         "name",          "range"
+      "UnitTypeFlag", "Cities",        "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
     }
 target_reqs   =
     { "type",   "name", "range", "present"
       "CityTile", "Claimed", "Tile", FALSE
-      "TerrainFlag","NoCities","Tile",FALSE
+      "TerrainFlag", "NoCities", "Tile", FALSE
     }
 
 [enabler_build_city_domestic]
 action        = "Found City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Cities", "Local", TRUE
-      "UnitState", "OnLivableTile", "Local", TRUE
-      "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Foreign", "Local", FALSE
+    { "type",         "name",          "range", "present"
+      "UnitTypeFlag", "Cities",        "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", FALSE
     }
 target_reqs   =
     { "type",        "name",     "range", "present"
@@ -699,24 +699,24 @@ target_reqs   =
 [enabler_join_city]
 action        = "Join City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "AddToCity", "Local", TRUE
-      "DiplRel", "Foreign", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",         "name",      "range", "present"
+      "UnitTypeFlag", "AddToCity", "Local", TRUE
+      "DiplRel",      "Foreign",   "Local", FALSE
+      "MinMoveFrags", "1",         "Local", TRUE
     }
 
 [enabler_nuke]
 action        = "Explode Nuclear"
 actor_reqs    =
-    { "type",     "name",    "range", "present"
-      "UnitFlag", "Nuclear", "Local", TRUE
+    { "type",         "name",    "range", "present"
+      "UnitTypeFlag", "Nuclear", "Local", TRUE
     }
 
 [enabler_nuke_city]
 action        = "Nuke City"
 actor_reqs    =
     { "type",         "name",    "range"
-      "UnitFlag",     "Nuclear", "Local"
+      "UnitTypeFlag", "Nuclear", "Local"
       "MinMoveFrags", "1",       "Local"
       "DiplRel",      "War",     "Local"
     }
@@ -725,7 +725,7 @@ actor_reqs    =
 action        = "Nuke Units"
 actor_reqs    =
     { "type",         "name",    "range"
-      "UnitFlag",     "Nuclear", "Local"
+      "UnitTypeFlag", "Nuclear", "Local"
       "MinMoveFrags", "1",       "Local"
       "DiplRel",      "War",     "Local"
     }
@@ -738,7 +738,7 @@ target_reqs   =
 action        = "Attack"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitTypeFlag",  "NonMil",       "Local", FALSE
       "UnitClassFlag", "Missile",      "Local", FALSE
       "MinMoveFrags",  "1",            "Local", TRUE
       "UnitState",     "OnNativeTile", "Local", TRUE
@@ -749,10 +749,10 @@ actor_reqs    =
 action        = "Attack"
 actor_reqs    =
     { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitTypeFlag",  "NonMil",  "Local", FALSE
       "UnitClassFlag", "Missile", "Local", FALSE
       "MinMoveFrags",  "1",       "Local", TRUE
-      "UnitFlag",      "Marines", "Local", TRUE
+      "UnitTypeFlag",  "Marines", "Local", TRUE
       "DiplRel",       "War",     "Local", TRUE
     }
 
@@ -760,7 +760,7 @@ actor_reqs    =
 action        = "Attack"
 actor_reqs    =
     { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitTypeFlag",  "NonMil",  "Local", FALSE
       "UnitClassFlag", "Missile", "Local", FALSE
       "MinMoveFrags",  "1",       "Local", TRUE
       "UnitClass",     "Sea",     "Local", TRUE
@@ -771,7 +771,7 @@ actor_reqs    =
 action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitTypeFlag",  "NonMil",       "Local", FALSE
       "UnitClassFlag", "Missile",      "Local", FALSE
       "MinMoveFrags",  "1",            "Local", TRUE
       "UnitState",     "OnNativeTile", "Local", TRUE
@@ -786,10 +786,10 @@ target_reqs   =
 action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitTypeFlag",  "NonMil",       "Local", FALSE
       "UnitClassFlag", "Missile",      "Local", FALSE
       "MinMoveFrags",  "1",            "Local", TRUE
-      "UnitFlag",      "Marines",      "Local", TRUE
+      "UnitTypeFlag",  "Marines",      "Local", TRUE
       "DiplRel",       "War",          "Local", TRUE
     }
 target_reqs   =
@@ -801,7 +801,7 @@ target_reqs   =
 action        = "Collect Ransom"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitTypeFlag",  "NonMil",       "Local", FALSE
       "UnitClassFlag", "Missile",      "Local", FALSE
       "MinMoveFrags",  "1",            "Local", TRUE
       "UnitClass",     "Sea",          "Local", TRUE
@@ -816,7 +816,7 @@ target_reqs   =
 action        = "Suicide Attack"
 actor_reqs    =
     { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitTypeFlag",  "NonMil",  "Local", FALSE
       "UnitClassFlag", "Missile", "Local", TRUE
       "MinMoveFrags",  "1",       "Local", TRUE
       "DiplRel",       "War",     "Local", TRUE
@@ -825,12 +825,12 @@ actor_reqs    =
 [enabler_conquer_city_native]
 action        = "Conquer City Shrink"
 actor_reqs    =
-    { "type",           "name",          "range", "present"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
-      "UnitFlag",       "NonMil",        "Local", FALSE
-      "DiplRel",        "War",           "Local", TRUE
-      "MinMoveFrags",   "1",             "Local", TRUE
-      "UnitState",      "OnLivableTile", "Local", TRUE
+    { "type",          "name",          "range", "present"
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitTypeFlag",  "NonMil",        "Local", FALSE
+      "DiplRel",       "War",           "Local", TRUE
+      "MinMoveFrags",  "1",             "Local", TRUE
+      "UnitState",     "OnLivableTile", "Local", TRUE
     }
 target_reqs   =
     { "type",           "name",          "range", "present"
@@ -840,12 +840,12 @@ target_reqs   =
 [enabler_conquer_city_marines]
 action        = "Conquer City Shrink"
 actor_reqs    =
-    { "type",           "name",          "range", "present"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
-      "UnitFlag",       "NonMil",        "Local", FALSE
-      "DiplRel",        "War",           "Local", TRUE
-      "MinMoveFrags",   "1",             "Local", TRUE
-      "UnitFlag",       "Marines",       "Local", TRUE
+    { "type",          "name",          "range", "present"
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitTypeFlag",  "NonMil",        "Local", FALSE
+      "DiplRel",       "War",           "Local", TRUE
+      "MinMoveFrags",  "1",             "Local", TRUE
+      "UnitTypeFlag",  "Marines",       "Local", TRUE
     }
 target_reqs   =
     { "type",           "name",          "range", "present"
@@ -864,7 +864,7 @@ actor_reqs    =
 action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "UnitTypeFlag",  "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "3",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "Extra",         "Airbase",      "Tile",  TRUE
@@ -881,7 +881,7 @@ target_reqs   =
 action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "UnitTypeFlag",  "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "3",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "Extra",         "Airbase",      "Tile",  TRUE
@@ -896,13 +896,13 @@ target_reqs   =
 action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
     { "type",          "name",          "range", "present"
-      "UnitFlag",      "Paratroopers",  "Local", TRUE
+      "UnitTypeFlag",  "Paratroopers",  "Local", TRUE
       "MinMoveFrags",  "3",             "Local", TRUE
       "UnitState",     "Transporting",  "Local", FALSE
       "Extra",         "Airbase",       "Tile",  TRUE
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
-      "UnitFlag",      "NonMil",        "Local", FALSE
+      "UnitTypeFlag",  "NonMil",        "Local", FALSE
       "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
@@ -914,7 +914,7 @@ target_reqs   =
 action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "UnitTypeFlag",  "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "3",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "CityTile",      "Center",       "Tile",  TRUE
@@ -931,7 +931,7 @@ target_reqs   =
 action        = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "UnitTypeFlag",  "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "3",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "CityTile",      "Center",       "Tile",  TRUE
@@ -946,13 +946,13 @@ target_reqs   =
 action        = "Paradrop Unit Enter Conquer"
 actor_reqs    =
     { "type",          "name",          "range", "present"
-      "UnitFlag",      "Paratroopers",  "Local", TRUE
+      "UnitTypeFlag",  "Paratroopers",  "Local", TRUE
       "MinMoveFrags",  "3",             "Local", TRUE
       "UnitState",     "Transporting",  "Local", FALSE
       "CityTile",      "Center",        "Tile",  TRUE
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
-      "UnitFlag",      "NonMil",        "Local", FALSE
+      "UnitTypeFlag",  "NonMil",        "Local", FALSE
       "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
@@ -973,23 +973,23 @@ actor_reqs    =
 [enabler_transform_terrain]
 action        = "Transform Terrain"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Transform",    "Local"
-      "UnitFlag",      "Workers",      "Local"
+    { "type",         "name",      "range"
+      "UnitTypeFlag", "Transform", "Local"
+      "UnitTypeFlag", "Workers",   "Local"
     }
 
 [enabler_cultivate]
 action        = "Cultivate"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Workers",      "Local", TRUE
+    { "type",         "name",    "range", "present"
+      "UnitTypeFlag", "Workers", "Local", TRUE
     }
 
 [enabler_plant]
 action        = "Plant"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Workers",      "Local", TRUE
+    { "type",         "name",    "range", "present"
+      "UnitTypeFlag", "Workers", "Local", TRUE
     }
 
 [enabler_pillage]
@@ -1002,8 +1002,8 @@ actor_reqs    =
 [enabler_clean]
 action        = "Clean"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Workers",      "Local", TRUE
+    { "type",         "name",    "range", "present"
+      "UnitTypeFlag", "Workers", "Local", TRUE
     }
 
 [enabler_fortify_terrain]
@@ -1011,7 +1011,7 @@ action        = "Fortify"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "CanFortify",   "Local", TRUE
-      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "UnitTypeFlag",  "Cant_Fortify", "Local", FALSE
       "TerrainFlag",   "NoFortify",    "Tile",  FALSE
       "Activity",      "Fortified",    "Local", FALSE
     }
@@ -1021,7 +1021,7 @@ action        = "Fortify"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "CanFortify",   "Local", TRUE
-      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "UnitTypeFlag",  "Cant_Fortify", "Local", FALSE
       "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
     }
@@ -1029,8 +1029,8 @@ actor_reqs    =
 [enabler_road]
 action        = "Build Road"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Workers",      "Local"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
     }
 target_reqs   =
     { "type",         "name",    "range"
@@ -1040,8 +1040,8 @@ target_reqs   =
 [enabler_base]
 action        = "Build Base"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Workers",      "Local"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
     }
 target_reqs   =
     { "type",         "name",    "range"
@@ -1051,8 +1051,8 @@ target_reqs   =
 [enabler_mining]
 action        = "Build Mine"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Workers",      "Local"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
     }
 target_reqs   =
     { "type",         "name",    "range"
@@ -1062,8 +1062,8 @@ target_reqs   =
 [enabler_irrigate_src_ocean]
 action        = "Build Irrigation"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Workers",      "Local"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
     }
 target_reqs   =
     { "type",         "name",        "range"
@@ -1074,8 +1074,8 @@ target_reqs   =
 [enabler_irrigate_src_river]
 action        = "Build Irrigation"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Workers",      "Local"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
     }
 target_reqs   =
     { "type",         "name",        "range"
@@ -1086,8 +1086,8 @@ target_reqs   =
 [enabler_irrigate_src_irrigation]
 action        = "Build Irrigation"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Workers",      "Local"
+    { "type",         "name",    "range"
+      "UnitTypeFlag", "Workers", "Local"
     }
 target_reqs   =
     { "type",         "name",        "range"
@@ -1184,6 +1184,6 @@ actor_reqs    =
 [enabler_gain_veterancy]
 action        = "Gain Veterancy"
 actor_reqs    =
-    { "type",          "name",        "range", "present"
-      "UnitFlag",      "NoVeteran",   "Local", FALSE
+    { "type",         "name",      "range", "present"
+      "UnitTypeFlag", "NoVeteran", "Local", FALSE
     }

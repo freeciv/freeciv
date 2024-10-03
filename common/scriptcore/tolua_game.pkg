@@ -58,6 +58,7 @@ struct Connection {
 struct Unit {
   Unit_Type *utype;
   Player *owner;
+  Player *nationality;
 
   /* This used to be @ homecity_id, but it does not work with toluaxx. */
   int homecity;
@@ -295,10 +296,8 @@ module City {
   const char *api_methods_city_tile_link
     @ tile_link_text(lua_State *L, City *self);
 
-  bool api_methods_tile_known
-    @ known(lua_State *L, Tile *self, Player *watcher);
-  bool api_methods_tile_seen
-    @ seen(lua_State *L, Tile *self, Player *watcher);
+  int api_methods_city_nationality_citizens
+    @ nationality_citizens(lua_State *L, City *self, Player *nationality);
 }
 
 $[
@@ -389,6 +388,11 @@ module Tile {
     @ sq_distance (lua_State *L, Tile *self, Tile *other);
   const char *api_methods_tile_link
     @ link_text(lua_State *L, Tile *self);
+
+  bool api_methods_tile_known
+    @ known(lua_State *L, Tile *self, Player *watcher);
+  bool api_methods_tile_seen
+    @ seen(lua_State *L, Tile *self, Player *watcher);
 }
 
 $[

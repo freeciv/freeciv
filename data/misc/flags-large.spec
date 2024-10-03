@@ -130,6 +130,7 @@ sprites =
 		"f.colombia", "flags/colombia-large"
 		"f.comanche", "flags/comanche-large"
 		"f.comoros", "flags/comoros-large"
+		"f.conch", "flags/conch-large"
 ;		"f.constantine", "flags/constantine-large"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall-large"
 		"f.corsica", "flags/corsica-large"
@@ -347,6 +348,7 @@ sprites =
 		"f.micronesia", "flags/micronesia-large"
 		"f.mikmaq", "flags/mikmaq-large"
 		"f.milan", "flags/milan-large"
+		"f.minnesota", "flags/minnesota-large"
 		"f.miskito", "flags/miskito-large"
 		"f.mitanni", "flags/mitanni-large"
 		"f.mixtec", "flags/mixtec-large"
@@ -425,6 +427,7 @@ sprites =
 		"f.polynesian", "flags/polynesian-large"
 		"f.pomerania", "flags/pomerania-large"
 		"f.portugal", "flags/portugal-large"
+                "f.poyais", "flags/poyais-large"
 		"f.prusai", "flags/prusai-large"
 		"f.prussia", "flags/prussia-large"
 		"f.puerto_rico", "flags/puerto_rico-large"

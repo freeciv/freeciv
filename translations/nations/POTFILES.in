@@ -107,6 +107,7 @@ data/nation/circassian.ruleset
 data/nation/colombian.ruleset
 data/nation/comanche.ruleset
 data/nation/comorian.ruleset
+data/nation/conch.ruleset
 data/nation/confederate.ruleset
 data/nation/congolesebrazzaville.ruleset
 data/nation/congolese.ruleset
@@ -298,6 +299,7 @@ data/nation/miao.ruleset
 data/nation/micronesian.ruleset
 data/nation/mikmaq.ruleset
 data/nation/milanese.ruleset
+data/nation/minnesotan.ruleset
 data/nation/miskito.ruleset
 data/nation/mitanni.ruleset
 data/nation/mixtec.ruleset
@@ -365,6 +367,7 @@ data/nation/phrygian.ruleset
 data/nation/pictish.ruleset
 data/nation/piedmontese.ruleset
 data/nation/pontic.ruleset
+data/nation/poyaisian.ruleset
 data/nation/prussian.ruleset
 data/nation/puertorican.ruleset
 data/nation/purhepecha.ruleset

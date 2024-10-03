@@ -202,8 +202,8 @@ adv_want dai_effect_value(struct player *pplayer,
 
   case EFT_CITY_VISION_RADIUS_SQ:
   case EFT_UNIT_VISION_RADIUS_SQ:
-    /* Wild guess.  "Amount" is the number of tiles (on average) that
-     * will be revealed by the effect.  Note that with an omniscient
+    /* Wild guess. "Amount" is the number of tiles (on average) that
+     * will be revealed by the effect. Note that with an omniscient
      * AI this effect is actually not useful at all. */
     v += c * amount;
     break;
@@ -470,7 +470,11 @@ adv_want dai_effect_value(struct player *pplayer,
     break;
   case EFT_VETERAN_COMBAT:
     num = num_affected_units(peffect, adv);
-    v += (2 * c + num);
+    v += amount * (2 * c + num) / 50;
+    break;
+  case EFT_VETERAN_WORK:
+    num = num_affected_units(peffect, adv);
+    v += amount * (2 * c + num) / 70;
     break;
   case EFT_VETERAN_BUILD:
     /* FIXME: check other reqs (e.g., unitflag) */

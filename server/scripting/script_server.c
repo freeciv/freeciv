@@ -527,6 +527,9 @@ static void script_server_signals_create(void)
 
   luascript_signal_create(fcl_main, "pulse", 0);
 
+  luascript_signal_create(fcl_main, "unit_transferred", 2,
+                          API_TYPE_UNIT, API_TYPE_PLAYER);
+
   luascript_signal_create(fcl_main, "action_started_unit_unit", 3,
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_UNIT);
@@ -535,13 +538,25 @@ static void script_server_signals_create(void)
                           API_TYPE_ACTION, API_TYPE_BOOL,
                           API_TYPE_UNIT, API_TYPE_UNIT);
 
+  luascript_signal_create(fcl_main, "action_started_unit_stack", 3,
+                          API_TYPE_ACTION,
+                          API_TYPE_UNIT, API_TYPE_TILE);
+
+  luascript_signal_create(fcl_main, "action_finished_unit_stack", 4,
+                          API_TYPE_ACTION, API_TYPE_BOOL,
+                          API_TYPE_UNIT, API_TYPE_TILE);
+
   luascript_signal_create(fcl_main, "action_started_unit_units", 3,
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_TILE);
+  deprecate_signal(depr, "action_started_unit_units",
+                   "action_started_unit_stack", "3.3", NULL);
 
   luascript_signal_create(fcl_main, "action_finished_unit_units", 4,
                           API_TYPE_ACTION, API_TYPE_BOOL,
                           API_TYPE_UNIT, API_TYPE_TILE);
+  deprecate_signal(depr, "action_finished_unit_units",
+                   "action_finished_unit_stack", "3.3", NULL);
 
   luascript_signal_create(fcl_main, "action_started_unit_city", 3,
                           API_TYPE_ACTION,

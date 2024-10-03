@@ -19,7 +19,6 @@
 /* server */
 #include <hand_gen.h>       /* <> so looked from the build directory first. */
 
-struct Treaty;
 struct packet_diplomacy_info;
 struct connection;
 

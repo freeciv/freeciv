@@ -42,6 +42,7 @@ bool is_valid_demography(const char *demography, int *error);
 void report_demographics(struct connection *pconn);
 void report_achievements(struct connection *pconn);
 void report_final_scores(struct conn_list *dest);
+int get_tag_score(const char *tag, const struct player *pplayer);
 
 struct history_report *history_report_get(void);
 

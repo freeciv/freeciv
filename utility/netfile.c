@@ -45,7 +45,8 @@ struct netfile_post {
 #endif /* HAVE_CURL_MIME_API */
 };
 
-typedef size_t (*netfile_write_cb)(char *ptr, size_t size, size_t nmemb, void *userdata);
+typedef size_t (*netfile_write_cb)(char *ptr, size_t size, size_t nmemb,
+                                   void *userdata);
 
 static char error_buf_curl[CURL_ERROR_SIZE];
 
@@ -76,7 +77,8 @@ static CURL *netfile_init_handle(void)
 /*******************************************************************//**
   Curl write callback to store received file to memory.
 ***********************************************************************/
-static size_t netfile_memwrite_cb(char *ptr, size_t size, size_t nmemb, void *userdata)
+static size_t netfile_memwrite_cb(char *ptr, size_t size, size_t nmemb,
+                                  void *userdata)
 {
   struct netfile_write_cb_data *data = (struct netfile_write_cb_data *)userdata;
 
@@ -90,7 +92,7 @@ static size_t netfile_memwrite_cb(char *ptr, size_t size, size_t nmemb, void *us
 }
 
 /*******************************************************************//**
-  Fetch file from given URL to given file stream. This is core
+  Fetch file from given URL to given file stream. This is the core
   function of netfile module.
 ***********************************************************************/
 static bool netfile_download_file_core(const char *URL, FILE *fp,
@@ -191,7 +193,7 @@ bool netfile_download_file(const char *URL, const char *filename,
   return success;
 }
 
-/*******************************************************************//** 
+/*******************************************************************//**
   Allocate netfile_post
 ***********************************************************************/
 struct netfile_post *netfile_start_post(void)
@@ -205,7 +207,7 @@ struct netfile_post *netfile_start_post(void)
   return post;
 }
 
-/*******************************************************************//** 
+/*******************************************************************//**
   Add one entry to netfile post form
 ***********************************************************************/
 void netfile_add_form_str(struct netfile_post *post,
@@ -226,7 +228,7 @@ void netfile_add_form_str(struct netfile_post *post,
 #endif /* HAVE_CURL_MIME_API */
 }
 
-/*******************************************************************//** 
+/*******************************************************************//**
   Add one integer entry to netfile post form
 ***********************************************************************/
 void netfile_add_form_int(struct netfile_post *post,
@@ -238,7 +240,7 @@ void netfile_add_form_int(struct netfile_post *post,
   netfile_add_form_str(post, name, buf);
 }
 
-/*******************************************************************//** 
+/*******************************************************************//**
   Free netfile_post resources
 ***********************************************************************/
 void netfile_close_post(struct netfile_post *post)
@@ -252,7 +254,7 @@ void netfile_close_post(struct netfile_post *post)
   FC_FREE(post);
 }
 
-/*******************************************************************//** 
+/*******************************************************************//**
   Dummy write callback used only to make sure curl's default write
   function does not get used as we don't want reply to stdout
 ***********************************************************************/
@@ -262,7 +264,7 @@ static size_t dummy_write(void *buffer, size_t size, size_t nmemb,
   return size * nmemb;
 }
 
-/*******************************************************************//** 
+/*******************************************************************//**
   Send HTTP POST
 ***********************************************************************/
 bool netfile_send_post(const char *URL, struct netfile_post *post,

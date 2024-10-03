@@ -73,12 +73,15 @@ static struct actres act_results[ACTRES_LAST] = {
   { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_BRIBE_UNIT */
     TRUE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_UNIT },
+  { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_BRIBE_STACK */
+    TRUE, ACTIVITY_LAST, DRT_NONE,
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_SABOTAGE_UNIT */
     TRUE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_UNIT },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_CAPTURE_UNITS */
     TRUE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, ATK_UNITS },
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_FOUND_CITY */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_TILE },
@@ -90,7 +93,7 @@ static struct actres act_results[ACTRES_LAST] = {
     EC_NONE, ERM_NONE, ATK_CITY },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_BOMBARD */
     TRUE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, ATK_UNITS },
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_NUKE */
     TRUE, ACTIVITY_LAST, DRT_DIPLCHANCE,
     EC_NONE, ERM_NONE, ATK_CITY },
@@ -99,7 +102,7 @@ static struct actres act_results[ACTRES_LAST] = {
     EC_NONE, ERM_NONE, ATK_TILE },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_NUKE_UNITS */
     TRUE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, ATK_UNITS },
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_DESTROY_CITY */
     TRUE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_CITY },
@@ -126,7 +129,7 @@ static struct actres act_results[ACTRES_LAST] = {
     EC_NONE, ERM_NONE, ATK_CITY },
   { ACT_TGT_COMPL_SIMPLE, ABK_STANDARD,      /* ACTRES_ATTACK */
     TRUE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, ATK_UNITS },
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_MANDATORY, ABK_NONE,       /* ACTRES_STRIKE_BUILDING */
     TRUE, ACTIVITY_LAST, DRT_DIPLCHANCE,
     EC_NONE, ERM_NONE, ATK_CITY },
@@ -171,10 +174,7 @@ static struct actres act_results[ACTRES_LAST] = {
     EC_IRRIGATION, ERM_NONE, ATK_TILE },
   { ACT_TGT_COMPL_SIMPLE, ABK_STANDARD,      /* ACTRES_COLLECT_RANSOM */
     TRUE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, ATK_UNITS },
-  { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_UNUSED_1 */
-    FALSE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, RS_DEFAULT_USER_ACTION_TARGET_KIND },
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TRANSPORT_DEBOARD */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_UNIT },
@@ -195,7 +195,7 @@ static struct actres act_results[ACTRES_LAST] = {
     EC_NONE, ERM_NONE, ATK_CITY },
   { ACT_TGT_COMPL_SIMPLE, ABK_DIPLOMATIC,    /* ACTRES_SPY_ATTACK */
     TRUE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, ATK_UNITS },
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_CONQUER_EXTRAS */
     TRUE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_EXTRAS },
@@ -216,7 +216,7 @@ static struct actres act_results[ACTRES_LAST] = {
     EC_NONE, ERM_NONE, ATK_SELF },
   { ACT_TGT_COMPL_SIMPLE, ABK_STANDARD,      /* ACTRES_WIPE_UNITS */
     TRUE, ACTIVITY_LAST, DRT_NONE,
-    EC_NONE, ERM_NONE, ATK_UNITS },
+    EC_NONE, ERM_NONE, ATK_STACK },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_SPY_ESCAPE */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_CITY },
@@ -390,6 +390,7 @@ int actres_min_range_default(enum action_result result)
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -478,6 +479,7 @@ int actres_max_range_default(enum action_result result)
   case ACTRES_TRADE_ROUTE:
   case ACTRES_MARKETPLACE:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -601,6 +603,7 @@ bool actres_legal_target_kind(enum action_result result,
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
     return tgt_kind == ATK_UNIT;
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_BOMBARD:
   case ACTRES_NUKE_UNITS:
@@ -608,7 +611,7 @@ bool actres_legal_target_kind(enum action_result result,
   case ACTRES_WIPE_UNITS:
   case ACTRES_SPY_ATTACK:
   case ACTRES_COLLECT_RANSOM:
-    return tgt_kind == ATK_UNITS;
+    return tgt_kind == ATK_STACK;
   case ACTRES_FOUND_CITY:
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
@@ -643,7 +646,7 @@ bool actres_legal_target_kind(enum action_result result,
     switch (tgt_kind) {
     case ATK_CITY:
     case ATK_UNIT:
-    case ATK_UNITS:
+    case ATK_STACK:
     case ATK_TILE:
     case ATK_EXTRAS:
     case ATK_SELF:
@@ -702,6 +705,7 @@ actres_sub_target_kind_default(enum action_result result)
   case ACTRES_SPY_TARGETED_STEAL_TECH:
     return ASTK_TECH;
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_HEAL_UNIT:
@@ -857,6 +861,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
   switch (result) {
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
     /* Info leak: This is only checked for when the actor player can see

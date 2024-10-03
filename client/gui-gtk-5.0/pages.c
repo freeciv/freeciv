@@ -76,7 +76,7 @@ static GtkTreeSelection *load_selection, *scenario_selection;
 static GtkTreeSelection *meta_selection, *lan_selection;
 
 /* This is the current page. Invalid value at start, to be sure that it won't
- * be catch throught a switch() statement. */
+ * be caught through a switch() statement. */
 static enum client_pages current_page = -1;
 
 struct server_scan_timer_data

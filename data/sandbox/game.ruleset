@@ -21,6 +21,12 @@ format_version = 40
 ; Which file to read description in from.
 description_file = "sandbox/README.sandbox"
 
+; Should ruleset upgrade do changes matching changes to the standard tilesets
+; of the freeciv distribution. Custom tilesets might do not implement similar
+; changes, so to remain compatible with them shouldn`t do these
+; ruleset changes either (to have this as FALSE)
+std_tileset_compat = TRUE
+
 [about]
 ; Ruleset name
 name = _("Sandbox ruleset")

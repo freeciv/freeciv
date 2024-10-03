@@ -563,7 +563,7 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
     requirement_vector_iterate(&peffect->reqs, preq) {
       if (preq->source.kind == VUT_ACTION) {
         if (action_get_target_kind(preq->source.value.action) != ATK_UNIT) {
-          /* TODO: support for ATK_UNITS could be added. That would require
+          /* TODO: support for ATK_STACK could be added. That would require
            * manually calling action_success_target_pay_mp() in each
            * supported unit stack targeted action performer (like
            * action_consequence_success() does) or to have the unit stack
@@ -749,6 +749,31 @@ static bool rs_common_units(rs_conversion_logger logger)
                     "but no units with partisan role."));
     return FALSE;
   }
+
+  unit_type_iterate(ptype) {
+    bool cargo = FALSE;
+
+    unit_class_iterate(pclass) {
+      if (BV_ISSET(ptype->cargo, uclass_index(pclass))) {
+        cargo = TRUE;
+        break;
+      }
+    } unit_class_iterate_end;
+
+    if (ptype->transport_capacity > 0) {
+      if (!cargo) {
+        ruleset_error(logger, LOG_ERROR,
+                      _("%s has transport capacity %d, but no cargo types."),
+                      utype_rule_name(ptype), ptype->transport_capacity);
+        return FALSE;
+      }
+    } else if (cargo) {
+      ruleset_error(logger, LOG_ERROR,
+                    _("%s has cargo types, but no transport capacity."),
+                    utype_rule_name(ptype));
+      return FALSE;
+    }
+  } unit_type_iterate_end;
 
   return TRUE;
 }

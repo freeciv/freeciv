@@ -79,9 +79,9 @@ reqs  =
 type    = "Unit_Vision_Radius_Sq"
 value   = 5
 reqs    =
-    { "type",        "name",            "range"
-      "Achievement", "Master Explorer", "Player"
-      "UnitFlag",    "Explorer",        "Local"
+    { "type",         "name",            "range"
+      "Achievement",  "Master Explorer", "Player"
+      "UnitTypeFlag", "Explorer",        "Local"
     }
 
 [effect_base_unit_upkeep]
@@ -473,7 +473,7 @@ reqs    =
       "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
       "UnitClassFlag", "CanFortify",   "Local", TRUE
-      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "UnitTypeFlag",  "Cant_Fortify", "Local", FALSE
     }
 
 [effect_base_regen]

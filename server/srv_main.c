@@ -1901,7 +1901,7 @@ void start_game(void)
 
   /* This value defines if the player data should be saved for a scenario. It
    * is only FALSE if the editor was used to set it to this value. For
-   * such scenarios it has to be resetted at game start so that player data
+   * such scenarios it has to be reset at game start so that player data
    * is saved. */
   game.scenario.players = TRUE;
 
@@ -2988,7 +2988,7 @@ static void srv_running(void)
 
       if (between_turns != NULL) {
         game.server.turn_change_time = timer_read_seconds(between_turns);
-        log_debug("Inresponsive between turns %g seconds", game.server.turn_change_time);
+        log_debug("Unresponsive between turns %g seconds", game.server.turn_change_time);
       }
 
       while (server_sniff_all_input() == S_E_OTHERWISE) {
@@ -3022,7 +3022,7 @@ static void srv_running(void)
       game.server.additional_phase_seconds = 0;
     }
 
-    /* Make sure is_new_turn is reseted before next turn even if
+    /* Make sure is_new_turn is reset before next turn even if
      * we did zero rounds in the loop (i.e. if current phase from
      * the savegame was >= num phases). Without this begin_turn()
      * would not reset phase, so there would be infinite loop

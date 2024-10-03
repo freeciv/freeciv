@@ -24,7 +24,7 @@
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 **************************************************************************/
-void gui_gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
+void gui_gui_recv_accept_treaty(struct treaty *ptreaty, struct player *they)
 {
   /* PORTME */
 }
@@ -33,7 +33,7 @@ void gui_gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
   Handle the start of a diplomacy meeting - usually by popping up a
   diplomacy dialog.
 **************************************************************************/
-void gui_gui_init_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_gui_init_meeting(struct treaty *ptreaty, struct player *they,
                           struct player *initiator)
 {
   /* PORTME */
@@ -42,7 +42,7 @@ void gui_gui_init_meeting(struct Treaty *ptreaty, struct player *they,
 /**********************************************************************//**
   Update the diplomacy dialog by adding a clause.
 **************************************************************************/
-void gui_gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
+void gui_gui_recv_create_clause(struct treaty *ptreaty, struct player *they)
 {
   /* PORTME */
 }
@@ -51,7 +51,7 @@ void gui_gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 **************************************************************************/
-void gui_gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_gui_recv_cancel_meeting(struct treaty *ptreaty, struct player *they,
                                  struct player *initiator)
 {
   /* PORTME */
@@ -60,7 +60,7 @@ void gui_gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
 /**********************************************************************//**
   Update the diplomacy dialog by removing a clause.
 **************************************************************************/
-void gui_gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
+void gui_gui_recv_remove_clause(struct treaty *ptreaty, struct player *they)
 {
   /* PORTME */
 }
@@ -68,7 +68,7 @@ void gui_gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
 /**********************************************************************//**
   Prepare to clause creation or removal.
 **************************************************************************/
-void gui_gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
+void gui_gui_prepare_clause_updt(struct treaty *ptreaty, struct player *they)
 {
   /* PORTME */
 }

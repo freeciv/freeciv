@@ -2795,7 +2795,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->is_connected = FALSE;
   cplayer->government = init_government_of_nation(nation_of_player(cplayer));
   fc_assert(cplayer->revolution_finishes < 0);
-  /* No capital for the splitted player. */
+  /* No capital for the split player. */
   BV_CLR(cplayer->flags, PLRF_FIRST_CITY);
 
   players_iterate(other_player) {
@@ -2870,7 +2870,7 @@ static struct player *split_player(struct player *pplayer)
   old_research->researching_saved = A_UNKNOWN;
   BV_CLR_ALL(pplayer->real_embassy);   /* All embassies destroyed */
 
-  /* Give splitted player the embassies to their team mates back, if any */
+  /* Give split player the embassies to their team mates back, if any */
   if (pplayer->team) {
     players_iterate(pdest) {
       if (pplayer->team == pdest->team
@@ -2947,7 +2947,7 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
    * In addition each city in disorder adds and each celebrating city
   subtracts from the probability of a civil war.
    * If you have at least 1 turns notice of the impending loss of
-  your capital, you can hike luxuries up to the hightest value,
+  your capital, you can hike luxuries up to the highest value,
   and by this reduce the chance of a civil war. In fact by
   hiking the luxuries to 100% under Democracy, it is easy to
   get massively negative numbers - guaranteeing imunity from

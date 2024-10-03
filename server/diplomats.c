@@ -641,8 +641,8 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
-bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
-                    struct unit *pvictim, const struct action *paction)
+bool diplomat_bribe_unit(struct player *pplayer, struct unit *pdiplomat,
+                         struct unit *pvictim, const struct action *paction)
 {
   char victim_link[MAX_LEN_LINK];
   struct player *uplayer;
@@ -783,6 +783,125 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                                            uplayer, NULL, paction,
                                            victim_tile, tile_city(victim_tile),
                                            pvictim, NULL))
+      /* May have died while trying to do forced actions. */
+      && unit_is_alive(diplomat_id)) {
+    pdiplomat->moves_left = 0;
+  }
+  if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
+    send_unit_info(NULL, pdiplomat);
+  }
+
+  /* Update clients. */
+  send_player_all_c(pplayer, NULL);
+
+  return TRUE;
+}
+
+/************************************************************************//**
+  Bribe an enemy unit stack.
+
+  - Can't bribe a unit if:
+    - Player doesn't have enough gold.
+  - Otherwise, the unit will be bribed.
+
+  - A successful briber will try to move onto the victim's square.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+****************************************************************************/
+bool diplomat_bribe_stack(struct player *pplayer, struct unit *pdiplomat,
+                          struct tile *pvictim, const struct action *paction)
+{
+  int bribe_cost = 0;
+  int bribe_count = 0;
+  struct city *pcity;
+  bool bounce = FALSE;
+  int diplomat_id = pdiplomat->id;
+  const struct unit_type *act_utype;
+
+  unit_list_iterate(pvictim->units, pbribed) {
+    struct player *owner = unit_owner(pbribed);
+
+    if (!pplayers_at_war(pplayer, owner)) {
+      notify_player(pplayer, unit_tile(pdiplomat),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
+                    _("You are not in war with all the units in the stack."));
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  bribe_cost = stack_bribe_cost(pvictim, pplayer, pdiplomat);
+
+  /* If player doesn't have enough gold, can't bribe. */
+  if (pplayer->economic.gold < bribe_cost) {
+    notify_player(pplayer, unit_tile(pdiplomat),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("You don't have enough gold to bribe the unit stack."));
+    log_debug("bribe-stack: not enough gold");
+    return FALSE;
+  }
+
+  pcity = tile_city(pvictim);
+  if (pcity != NULL && !pplayers_allied(city_owner(pcity), pplayer)) {
+    bounce = TRUE;
+  }
+
+  unit_list_iterate_safe(pvictim->units, pbribed) {
+    struct player *owner = unit_owner(pbribed);
+    struct unit *nunit = unit_change_owner(pbribed, pplayer,
+                                           pdiplomat->homecity, ULR_BRIBED);
+
+    notify_player(owner, pvictim, E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
+                  /* TRANS: <unit> ... <Poles> */
+                  _("Your %s was bribed by the %s."),
+                  unit_link(nunit), nation_plural_for_player(pplayer));
+    bribe_count++;
+
+    if (bounce) {
+      bounce_unit(pbribed, TRUE);
+    }
+  } unit_list_iterate_safe_end;
+
+  if (!unit_is_alive(diplomat_id)) {
+    /* Destroyed by a script */
+    pdiplomat = NULL;
+  }
+
+  act_utype = unit_type_get(pdiplomat);
+
+  /* Notify everybody involved. */
+  notify_player(pplayer, pvictim, E_MY_DIPLOMAT_BRIBE, ftc_server,
+                /* TRANS: <diplomat> ... */
+                _("Your %s succeeded in bribing %d units."),
+                pdiplomat ? unit_link(pdiplomat)
+                : utype_name_translation(act_utype), bribe_count);
+  if (pdiplomat && maybe_make_veteran(pdiplomat, 100)) {
+    notify_unit_experience(pdiplomat);
+  }
+
+  /* This costs! */
+  pplayer->economic.gold -= bribe_cost;
+  if (pplayer->economic.gold < 0) {
+    /* Scripts have deprived us of too much gold before we paid */
+    log_normal("%s has bribed %d units but has not %d gold at payment time, "
+               "%d is the discount", player_name(pplayer),
+               bribe_count, bribe_cost,
+               -pplayer->economic.gold);
+    pplayer->economic.gold = 0;
+  }
+
+  if (!pdiplomat || !unit_is_alive(diplomat_id)) {
+    return TRUE;
+  }
+
+  /* Try to move the briber onto the victim's square unless the victim has
+   * been bounced because it couldn't share tile with a unit or city. */
+  if (!bounce
+      /* Try to perform post move forced actions. */
+      && (NULL == action_auto_perf_unit_do(AAPC_POST_ACTION, pdiplomat,
+                                           NULL, NULL, paction,
+                                           pvictim, pcity,
+                                           NULL, NULL))
       /* May have died while trying to do forced actions. */
       && unit_is_alive(diplomat_id)) {
     pdiplomat->moves_left = 0;
@@ -2194,7 +2313,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         victim_link = city_link(pcity);
         break;
       case ATK_UNIT:
-      case ATK_UNITS:
+      case ATK_STACK:
         victim_link = pvictim ? unit_tile_link(pvictim)
                               : tile_link(ptile);
         break;

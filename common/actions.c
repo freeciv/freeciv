@@ -127,6 +127,11 @@ static void hard_code_actions(void)
                        * the forced move fails. */
                       MAK_FORCED,
                       0, 1, FALSE);
+  actions[ACTION_SPY_BRIBE_STACK] =
+      unit_action_new(ACTION_SPY_BRIBE_STACK, ACTRES_SPY_BRIBE_STACK,
+                      FALSE, TRUE,
+                      MAK_FORCED,
+                      0, 1, FALSE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       unit_action_new(ACTION_SPY_SABOTAGE_CITY, ACTRES_SPY_SABOTAGE_CITY,
                       FALSE, TRUE,
@@ -2158,7 +2163,7 @@ blocked_find_target_tile(const struct action *act,
       return NULL;
     }
     return unit_tile(target_unit);
-  case ATK_UNITS:
+  case ATK_STACK:
     fc_assert_ret_val(target_unit || target_tile_arg, NULL);
     if (target_unit) {
       return unit_tile(target_unit);
@@ -2214,7 +2219,7 @@ blocked_find_target_city(const struct action *act,
     fc_assert_ret_val(target_unit, NULL);
     fc_assert_ret_val(unit_tile(target_unit), NULL);
     return tile_city(unit_tile(target_unit));
-  case ATK_UNITS:
+  case ATK_STACK:
     fc_assert_ret_val(target_unit || target_tile, NULL);
     if (target_unit) {
       fc_assert_ret_val(unit_tile(target_unit), NULL);
@@ -2292,7 +2297,7 @@ struct action *action_is_blocked_by(const struct civ_map *nmap,
         return blocker;
       }
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       if (!target_tile) {
         /* Can't be enabled. No target. */
         continue;
@@ -2506,6 +2511,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -2698,6 +2704,7 @@ action_hard_reqs_actor(const struct civ_map *nmap,
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_FOUND_CITY:
@@ -2796,7 +2803,7 @@ is_action_possible(const struct civ_map *nmap,
                 || (tkind == ATK_EXTRAS && target->tile != NULL)
                 || (tkind == ATK_UNIT && target->unit != NULL)
                 /* At this level each individual unit is tested. */
-                || (tkind == ATK_UNITS && target->unit != NULL)
+                || (tkind == ATK_STACK && target->unit != NULL)
                 || (tkind == ATK_SELF),
                 "Missing target!");
 
@@ -2834,7 +2841,7 @@ is_action_possible(const struct civ_map *nmap,
       return TRI_NO;
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
   case ATK_SELF:
@@ -3166,13 +3173,13 @@ is_action_enabled_unit_on_stack_full(const struct civ_map *nmap,
                           action_id_get_actor_kind(wanted_action)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNITS
+  fc_assert_ret_val_msg(ATK_STACK
                         == action_id_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not %s",
                         action_id_rule_name(wanted_action),
                         action_target_kind_name(
                           action_id_get_target_kind(wanted_action)),
-                        action_target_kind_name(ATK_UNITS));
+                        action_target_kind_name(ATK_STACK));
 
   fc_assert_ret_val(actor_tile, FALSE);
 
@@ -3847,6 +3854,7 @@ action_prob(const struct civ_map *nmap,
                                 paction);
     break;
   case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_STACK:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor->unit, target->unit, target->tile,
                                 paction);
@@ -4075,10 +4083,6 @@ action_prob(const struct civ_map *nmap,
      * Would be ACTPROB_CERTAIN if not for that. */
     /* TODO: maybe allow the ruleset author to give a probability from
      * Lua? */
-    chance = ACTPROB_NOT_IMPLEMENTED;
-    break;
-
-  case ACTRES_UNUSED_1:
     chance = ACTPROB_NOT_IMPLEMENTED;
     break;
   }
@@ -4324,13 +4328,13 @@ action_prob_vs_stack_full(const struct civ_map *nmap,
                           action_id_get_actor_kind(act_id)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNITS == action_id_get_target_kind(act_id),
+  fc_assert_ret_val_msg(ATK_STACK == action_id_get_target_kind(act_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is against %s not %s",
                         action_id_rule_name(act_id),
                         action_target_kind_name(
                           action_id_get_target_kind(act_id)),
-                        action_target_kind_name(ATK_UNITS));
+                        action_target_kind_name(ATK_STACK));
 
   fc_assert_ret_val(actor_tile, ACTPROB_IMPOSSIBLE);
 
@@ -4732,7 +4736,8 @@ struct act_prob action_prob_self(const struct civ_map *nmap,
   @param extra_tgt the target for extra sub targeted actions
   @return the action probability of performing the action
 **************************************************************************/
-struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+struct act_prob action_prob_unit_vs_tgt(const struct civ_map *nmap,
+                                        const struct action *paction,
                                         const struct unit *act_unit,
                                         const struct city *tgt_city,
                                         const struct unit *tgt_unit,
@@ -4741,13 +4746,12 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
 {
   /* Assume impossible until told otherwise. */
   struct act_prob prob = ACTPROB_IMPOSSIBLE;
-  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(paction, ACTPROB_IMPOSSIBLE);
   fc_assert_ret_val(act_unit, ACTPROB_IMPOSSIBLE);
 
   switch (action_get_target_kind(paction)) {
-  case ATK_UNITS:
+  case ATK_STACK:
     if (tgt_tile) {
       prob = action_prob_vs_stack(nmap, act_unit, paction->id, tgt_tile);
     }
@@ -4789,7 +4793,8 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
   performing the chosen action on the target city given the specified
   game state changes.
 **************************************************************************/
-struct act_prob action_speculate_unit_on_city(const action_id act_id,
+struct act_prob action_speculate_unit_on_city(const struct civ_map *nmap,
+                                              const action_id act_id,
                                               const struct unit *actor,
                                               const struct city *actor_home,
                                               const struct tile *actor_tile,
@@ -4800,7 +4805,6 @@ struct act_prob action_speculate_unit_on_city(const action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
-  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
     if (is_action_enabled_unit_on_city_full(nmap, act_id,
@@ -4824,7 +4828,8 @@ struct act_prob action_speculate_unit_on_city(const action_id act_id,
   game state changes.
 **************************************************************************/
 struct act_prob
-action_speculate_unit_on_unit(action_id act_id,
+action_speculate_unit_on_unit(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,
@@ -4835,7 +4840,6 @@ action_speculate_unit_on_unit(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
-  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
     if (is_action_enabled_unit_on_unit_full(nmap, act_id,
@@ -4857,7 +4861,8 @@ action_speculate_unit_on_unit(action_id act_id,
   game state changes.
 **************************************************************************/
 struct act_prob
-action_speculate_unit_on_stack(action_id act_id,
+action_speculate_unit_on_stack(const struct civ_map *nmap,
+                               action_id act_id,
                                const struct unit *actor,
                                const struct city *actor_home,
                                const struct tile *actor_tile,
@@ -4868,7 +4873,6 @@ action_speculate_unit_on_stack(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
-  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
     if (is_action_enabled_unit_on_stack_full(nmap, act_id,
@@ -4890,7 +4894,8 @@ action_speculate_unit_on_stack(action_id act_id,
   extra) given the specified game state changes.
 **************************************************************************/
 struct act_prob
-action_speculate_unit_on_tile(action_id act_id,
+action_speculate_unit_on_tile(const struct civ_map *nmap,
+                              action_id act_id,
                               const struct unit *actor,
                               const struct city *actor_home,
                               const struct tile *actor_tile,
@@ -4902,7 +4907,6 @@ action_speculate_unit_on_tile(action_id act_id,
    * current position rather than on actor_tile. Maybe this function should
    * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
    * other requirement makes the action ACTPROB_IMPOSSIBLE? */
-  const struct civ_map *nmap = &(wld.map);
 
   if (omniscient_cheat) {
     if (is_action_enabled_unit_on_tile_full(nmap, act_id,
@@ -5766,6 +5770,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_sabotage_unit_escape";
   case ACTION_SPY_BRIBE_UNIT:
     return "ui_name_bribe_unit";
+  case ACTION_SPY_BRIBE_STACK:
+    return "ui_name_bribe_stack";
   case ACTION_SPY_SABOTAGE_CITY:
     return "ui_name_sabotage_city";
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -6066,6 +6072,9 @@ const char *action_ui_name_default(int act)
   case ACTION_SPY_BRIBE_UNIT:
     /* TRANS: Bribe Enemy _Unit (3% chance of success). */
     return N_("Bribe Enemy %sUnit%s");
+  case ACTION_SPY_BRIBE_STACK:
+    /* TRANS: Bribe Enemy _Stack (3% chance of success). */
+    return N_("Bribe Enemy %sStack%s");
   case ACTION_SPY_SABOTAGE_CITY:
     /* TRANS: _Sabotage City (3% chance of success). */
     return N_("%sSabotage City%s");
@@ -6415,6 +6424,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6591,6 +6601,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6776,6 +6787,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6946,6 +6958,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -7182,6 +7195,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_STACK:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -7306,6 +7320,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   fc_assert_ret_val(act != NULL, NULL);
 
   if (!(action_has_result(act, ACTRES_SPY_BRIBE_UNIT)
+        || action_has_result(act, ACTRES_SPY_BRIBE_STACK)
         || action_has_result(act, ACTRES_ATTACK)
         || action_has_result(act, ACTRES_WIPE_UNITS)
         || action_has_result(act, ACTRES_COLLECT_RANSOM))) {
@@ -7316,6 +7331,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   switch ((enum gen_action)action_number(act)) {
   case ACTION_SPY_BRIBE_UNIT:
     return "bribe_unit_post_success_forced_actions";
+  case ACTION_SPY_BRIBE_STACK:
+    return "bribe_stack_post_success_forced_actions";
   case ACTION_ATTACK:
     return "attack_post_success_forced_actions";
   case ACTION_ATTACK2:
@@ -7506,7 +7523,7 @@ const char *atk_helpnames[ATK_COUNT] =
 {
   N_("individual cities"), /* ATK_CITY   */
   N_("individual units"),  /* ATK_UNIT   */
-  N_("unit stacks"),       /* ATK_UNITS  */
+  N_("unit stacks"),       /* ATK_STACK  */
   N_("tiles"),             /* ATK_TILE   */
   N_("tile extras"),       /* ATK_EXTRAS */
   N_("itself")             /* ATK_SELF   */

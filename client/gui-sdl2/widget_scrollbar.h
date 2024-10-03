@@ -77,7 +77,7 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
                                  bool create_scrollbar, bool create_buttons);
 
 void setup_vertical_scrollbar_area(struct scroll_bar *scroll,
-                                   Sint16 start_x, Sint16 start_y, Uint16 hight,
+                                   Sint16 start_x, Sint16 start_y, Uint16 height,
                                    bool swap_start_x);
 
 void setup_vertical_scrollbar_default_callbacks(struct scroll_bar *scroll);

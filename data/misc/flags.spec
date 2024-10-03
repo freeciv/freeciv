@@ -128,6 +128,7 @@ artists = "
    Colombia		Lauris Kaplinski
    Comanche		Zachary Harden
    Comoros		Open Clip Art
+   Conch		Wikipedia
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
    Corsica		Patricia Fidi
@@ -345,6 +346,7 @@ artists = "
    Micronesia		SKopp (Wikimedia commons)
    Mikmaq		Daniel Markstedt
    Milan		Flanker (Wikimedia Commons)
+   Minnesota            Wikimedia Commons
    Miskito		Daniel Markstedt
    Mitanni		Snubcube (Wikimedia Commons) and J.M. Maalderink
    Mixtec		J.M. Maalderink
@@ -423,6 +425,7 @@ artists = "
    Polynesian		Daniel Markstedt
    Pomerania		N3MO (Wikipedia)
    Portugal		Diogo Mamede
+   Poyaisian            Zscout370 (Wikimedia Commons)
    Prusai		Daniel Markstedt
    Prussia		Daniel Markstedt
    Puerto Rico		Lauris Kaplinski and J.M. Maalderink
@@ -710,6 +713,7 @@ sprites =
 		"f.colombia", "flags/colombia"
 		"f.comanche", "flags/comanche"
 		"f.comoros", "flags/comoros"
+		"f.conch", "flags/conch"
 ;		"f.constantine", "flags/constantine"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall"
 		"f.corsica", "flags/corsica"
@@ -927,6 +931,7 @@ sprites =
 		"f.micronesia", "flags/micronesia"
 		"f.mikmaq", "flags/mikmaq"
 		"f.milan", "flags/milan"
+		"f.minnesota", "flags/minnesota"
 		"f.miskito", "flags/miskito"
 		"f.mitanni", "flags/mitanni"
 		"f.mixtec", "flags/mixtec"
@@ -1005,6 +1010,7 @@ sprites =
 		"f.polynesian", "flags/polynesian"
 		"f.pomerania", "flags/pomerania"
 		"f.portugal", "flags/portugal"
+                "f.poyais", "flags/poyais"
 		"f.prusai", "flags/prusai"
 		"f.prussia", "flags/prussia"
 		"f.puerto_rico", "flags/puerto_rico"

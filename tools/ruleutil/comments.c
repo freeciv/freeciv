@@ -98,6 +98,8 @@ static struct {
   char *culture_migration_pml;
   char *world_peace_turns;
   char *calendar_fragments;
+
+  char *std_tileset_compat;
 } comments_storage;
 
 /**********************************************************************//**
@@ -259,6 +261,8 @@ bool comments_load(void)
                "entrydoc.world_peace_turns");
   comment_load(comments_storage.calendar_fragments, comment_file,
                "entrydoc.calendar_fragments");
+  comment_load(comments_storage.std_tileset_compat, comment_file,
+               "entrydoc.std_tileset_compat");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -902,4 +906,14 @@ void comment_calendar_fragments(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.calendar_fragments,
                       "calendar");
+}
+
+
+/**********************************************************************//**
+  Write std_tileset_compat settings header.
+**************************************************************************/
+void comment_std_tileset_compat(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.std_tileset_compat,
+                      "std_tileset_compat");
 }

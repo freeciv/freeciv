@@ -2012,7 +2012,7 @@ static void do_disband_alternative(void *p)
       request_do_action(act, punit->id, punit->id, 0, "");
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
     if ((ptile = unit_tile(punit))
         && action_prob_possible(action_prob_vs_stack(nmap, punit, act, ptile))) {
       request_do_action(act, punit->id, ptile->index, 0, "");
@@ -3148,7 +3148,7 @@ static void do_unit_teleport_to(struct unit *punit, struct tile *ptile)
     }
 
     if (action_prob_possible(
-          action_prob_unit_vs_tgt(paction, punit,
+          action_prob_unit_vs_tgt(&(wld.map), paction, punit,
                                   tile_city(ptile), NULL,
                                   ptile, NULL))) {
       if (teleport_action == NULL) {
@@ -3188,7 +3188,7 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
     }
 
     if (action_prob_possible(
-          action_prob_unit_vs_tgt(paction, punit,
+          action_prob_unit_vs_tgt(&(wld.map), paction, punit,
                                   tile_city(ptile), NULL,
                                   ptile, NULL))) {
       if (paradrop_action == NULL) {

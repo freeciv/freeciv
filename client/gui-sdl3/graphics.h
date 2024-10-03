@@ -242,13 +242,12 @@ int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
 
 SDL_Surface *load_surf(const char *fname);
 
-SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
+SDL_Surface *create_surf_with_format(SDL_PixelFormat pf,
                                      int width, int height);
-SDL_Surface *create_surf(int width, int height, Uint32 flags);
+SDL_Surface *create_surf(int width, int height);
 SDL_Surface *convert_surf(SDL_Surface *surf_in);
 
-SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 flags,
-                                   SDL_Color *pcolor);
+SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, SDL_Color *pcolor);
 
 SDL_Surface *crop_rect_from_surface(SDL_Surface *psource,
                                     SDL_Rect *prect);
@@ -261,7 +260,7 @@ SDL_Surface *copy_surface(SDL_Surface *src);
 int blit_entire_src(SDL_Surface *psrc,
                     SDL_Surface *pdest, Sint16 dest_x, Sint16 dest_y);
 
-Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y);
+Uint32 get_pixel(SDL_Surface *surf, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *surf);
 
 void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
@@ -304,8 +303,10 @@ SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
 SDL_Surface *crop_visible_part_from_surface(SDL_Surface *psrc);
 void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect);
 
+#define map_rgba_details(details, color) \
+  SDL_MapRGBA(details, NULL, (color).r, (color).g, (color).b, (color).a)
 #define map_rgba(format, color) \
-  SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
+  map_rgba_details(SDL_GetPixelFormatDetails(format), color)
 
 #define crop_rect_from_screen(rect) \
   crop_rect_from_surface(main_data.screen, &rect)

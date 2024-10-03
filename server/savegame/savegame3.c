@@ -3699,7 +3699,7 @@ static void sg_save_map_known(struct savedata *saving)
 /* =======================================================================
  * Load / save player data.
  *
- * This is splitted into two parts as some data can only be loaded if the
+ * This is split into two parts as some data can only be loaded if the
  * number of players is known and the corresponding player slots are
  * defined.
  * ======================================================================= */
@@ -5401,7 +5401,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       }
 
 #ifdef FREECIV_DEBUG
-      /* Set this tile to unused; a check for not resetted tiles is
+      /* Set this tile to unused; a check for not reset tiles is
        * included in game_load_internal() */
       loading->worked_tiles[ptile->index] = -1;
 #endif /* FREECIV_DEBUG */
@@ -7795,7 +7795,7 @@ static void sg_load_treaties(struct loaddata *loading)
     if (p0 == NULL || p1 == NULL) {
       log_error("Treaty between unknown players %s and %s", plr0, plr1);
     } else {
-      struct Treaty *ptreaty = fc_malloc(sizeof(*ptreaty));
+      struct treaty *ptreaty = fc_malloc(sizeof(*ptreaty));
 
       init_treaty(ptreaty, p0, p1);
       treaty_add(ptreaty);
@@ -7854,7 +7854,7 @@ typedef struct {
 /************************************************************************//**
   Save '[treaty_xxx]'.
 ****************************************************************************/
-static void treaty_save(struct Treaty *ptr, void *data_in)
+static void treaty_save(struct treaty *ptr, void *data_in)
 {
   char tpath[512];
   int cidx = 0;

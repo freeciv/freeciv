@@ -96,11 +96,11 @@ bool could_intel_with_player(const struct player *pplayer,
 /**********************************************************************//**
   Initialize treaty structure between two players.
 **************************************************************************/
-void init_treaty(struct Treaty *ptreaty, 
+void init_treaty(struct treaty *ptreaty,
                  struct player *plr0, struct player *plr1)
 {
-  ptreaty->plr0=plr0;
-  ptreaty->plr1=plr1;
+  ptreaty->plr0 = plr0;
+  ptreaty->plr1 = plr1;
   ptreaty->accept0 = FALSE;
   ptreaty->accept1 = FALSE;
   ptreaty->clauses = clause_list_new();
@@ -109,7 +109,7 @@ void init_treaty(struct Treaty *ptreaty,
 /**********************************************************************//**
   Free the clauses of a treaty.
 **************************************************************************/
-void clear_treaty(struct Treaty *ptreaty)
+void clear_treaty(struct treaty *ptreaty)
 {
   clause_list_iterate(ptreaty->clauses, pclause) {
     free(pclause);
@@ -120,7 +120,7 @@ void clear_treaty(struct Treaty *ptreaty)
 /**********************************************************************//**
   Remove clause from treaty
 **************************************************************************/
-bool remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
+bool remove_clause(struct treaty *ptreaty, struct player *pfrom,
                    enum clause_type type, int val)
 {
   clause_list_iterate(ptreaty->clauses, pclause) {
@@ -142,7 +142,7 @@ bool remove_clause(struct Treaty *ptreaty, struct player *pfrom,
 /**********************************************************************//**
   Add clause to treaty.
 **************************************************************************/
-bool add_clause(struct Treaty *ptreaty, struct player *pfrom, 
+bool add_clause(struct treaty *ptreaty, struct player *pfrom,
                 enum clause_type type, int val,
                 struct player *client_player)
 {
@@ -359,7 +359,7 @@ void free_treaties(void)
 /**********************************************************************//**
   Find currently active treaty between two players.
 **************************************************************************/
-struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
+struct treaty *find_treaty(struct player *plr0, struct player *plr1)
 {
   treaty_list_iterate(treaties, ptreaty) {
     if ((ptreaty->plr0 == plr0 && ptreaty->plr1 == plr1)
@@ -374,7 +374,7 @@ struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
 /**********************************************************************//**
   Add treaty to the global list.
 **************************************************************************/
-void treaty_add(struct Treaty *ptreaty)
+void treaty_add(struct treaty *ptreaty)
 {
   treaty_list_prepend(treaties, ptreaty);
 }
@@ -382,7 +382,7 @@ void treaty_add(struct Treaty *ptreaty)
 /**********************************************************************//**
   Remove treaty from the global list.
 **************************************************************************/
-void treaty_remove(struct Treaty *ptreaty)
+void treaty_remove(struct treaty *ptreaty)
 {
   treaty_list_remove(treaties, ptreaty);
 

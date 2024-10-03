@@ -35,9 +35,6 @@ struct req_context;
  *     break;
  */
 #define ASSERT_UNUSED_ACTRES_CASES            \
-  case ACTRES_UNUSED_1:                       \
-    fc_assert_msg(FALSE, "ACTRES_UNUSED_1");  \
-    break;
 
 /* When making changes to this, update also atk_helpnames at actions.c */
 #define SPECENUM_NAME action_target_kind
@@ -45,7 +42,7 @@ struct req_context;
 #define SPECENUM_VALUE0NAME "City"
 #define SPECENUM_VALUE1 ATK_UNIT
 #define SPECENUM_VALUE1NAME "Unit"
-#define SPECENUM_VALUE2 ATK_UNITS
+#define SPECENUM_VALUE2 ATK_STACK
 #define SPECENUM_VALUE2NAME "Stack"
 #define SPECENUM_VALUE3 ATK_TILE
 #define SPECENUM_VALUE3NAME "Tile"

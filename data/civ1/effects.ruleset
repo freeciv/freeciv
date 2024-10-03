@@ -1412,8 +1412,8 @@ reqs    =
 type	= "Unit_Bribe_Cost_Pct"
 value	= -50
 reqs	=
-    { "type", "name", "range"
-      "UnitFlag", "Cities", "Local"
+    { "type",         "name",   "range"
+      "UnitTypeFlag", "Cities", "Local"
     }
 
 [effect_illegal_action_move_cost_base]
@@ -1558,36 +1558,36 @@ reqs    =
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
 reqs    =
-    { "type",     "name",      "range", "quiet"
-      "Action",   "Attack",    "Local", TRUE
-      "UnitFlag", "OneAttack", "Local", TRUE
+    { "type",         "name",      "range", "quiet"
+      "Action",       "Attack",    "Local", TRUE
+      "UnitTypeFlag", "OneAttack", "Local", TRUE
     }
 
 [effect_action_success_attack_normal]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 3
 reqs    =
-    { "type",     "name",      "range", "present"
-      "Action",   "Attack",    "Local", TRUE
-      "UnitFlag", "OneAttack", "Local", FALSE
+    { "type",         "name",      "range", "present"
+      "Action",       "Attack",    "Local", TRUE
+      "UnitTypeFlag", "OneAttack", "Local", FALSE
     }
 
 [effect_action_success_ransom_one_attack]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
 reqs    =
-    { "type",     "name",           "range", "quiet"
-      "Action",   "Collect Ransom", "Local", TRUE
-      "UnitFlag", "OneAttack",      "Local", TRUE
+    { "type",         "name",           "range", "quiet"
+      "Action",       "Collect Ransom", "Local", TRUE
+      "UnitTypeFlag", "OneAttack",      "Local", TRUE
     }
 
 [effect_action_success_ransom]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 3
 reqs    =
-    { "type",     "name",           "range", "present"
-      "Action",   "Collect Ransom", "Local", TRUE
-      "UnitFlag", "OneAttack",      "Local", FALSE
+    { "type",         "name",           "range", "present"
+      "Action",       "Collect Ransom", "Local", TRUE
+      "UnitTypeFlag", "OneAttack",      "Local", FALSE
     }
 
 [effect_unit_shield_value_recycle]

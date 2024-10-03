@@ -1,0 +1,72 @@
+[nation_poyaisian]
+
+name   = _("Poyais")
+plural = _("Poyaisians")
+groups = "Imaginary"
+legend=_("Poyais is a totally real nation founded by Gregor MacGregor\
+ that lasted from 1821 to 1837 located in Central America, totally not a scam\
+ devised by MacGregor to sell people fake government bonds for land\
+ ill fit for farming.")
+
+leaders = {
+ "name",                           "sex"
+ "Gregor MacGregor",               "Male"   ; (1786-1845) Notorious conman and self-proclaimed Cazique of Poyais.
+ "Maria MacGregor",                "Female" ; (????-1811) First wife of Gregor MacGregor.
+ "Thomas Strangeways",             "Male"   ; Supposed author of Sketch of the Mosquito Shore, Including the Territory of Poyais.
+ "Louis-Michel Aury",              "Male"   ; (c. 1787-1821) Fought alongside Gregor at Amelia Island.
+ "Josefa MacGregor",               "Female" ; (????-1838) Second wife of Gregor MacGregor.
+ "Gregorio MacGregor",             "Male"   ; (1817-????) First child of Gregor MacGregor.
+ "Josefa Anna Gregoria MacGregor", "Female" ; (????-1872) Second child of Gregor MacGregor.
+ "Constantino MacGregor",          "Male"   ; (c. 1824-????) Third and final child of Gregor MacGregor.
+ "William John Richardson",        "Male"   ; Prominent supporter of Gregor MacGregor.
+ "Hector Hall",                    "Male"   ; Also called "Baron Tinto".
+ "George Woodbine",                "Male"   ; Supposed Vice-Cazique of Poyais.
+}
+
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Despotism",       _("General %s"),       _("?female:General %s")
+ "Republic",        _("Captain %s"),       _("?female:Captain %s")
+ "Monarchy",        _("Cazique %s"),       _("Cazica %s")
+}
+
+flag = "poyais"
+flag_alt = "-"
+style = "Celtic"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+;conflicts_with =
+civilwar_nations = "miskito", "belize", "honduran", "nicaraguan"
+
+cities =
+  "St. Joseph",
+  "Amelia City",        ; Amelia City, Fort San Carlos, and Fernandina were all a part of the Republic of the Floridas,
+  "Fort San Carlos",    ; which is separate from Poyais; however, they are included here because the Republic and Poyais
+  "Fernandina (ocean)", ; shared a flag and were both founded by Gregor MacGregor.
+  "Porto Bello",
+  "Rio de la Hacha",
+  "Truxillo Harbour",
+  "Black River (river)",
+  "Lime House (river)",
+  "Bluefields Lagoon (ocean)",
+  "Cabbage Tree (forest)",
+  "Boco del Toro",
+  "Great Roman (river)",
+  "Salt River Lagoon (river, swamp)",
+  "Zachary Lyon (river)",
+  "Wanks (river)",
+  "Zongular (river)",
+  "Guanja",
+  "Swan Islands",
+  "Sierras de la Cruz (mountains)",
+  "Poyer Hills (hills)",
+  "Brewers Lagoon (!desert, hills, river)",
+  "Monkey Point",
+  "Boco del Drago",
+  "Warners Sound",
+  "Pearl Key",
+  "San Andreas",
+  "Old Providence"

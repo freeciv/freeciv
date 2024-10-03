@@ -231,7 +231,7 @@ static void notify_actor_caught(struct player *receiver,
                   victim_link);
     break;
   case ATK_UNIT:
-  case ATK_UNITS:
+  case ATK_STACK:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Bribe Enemy Unit ... American ... Partisan */
@@ -289,7 +289,7 @@ static void notify_victim_caught(struct player *receiver,
                   victim_link);
     break;
   case ATK_UNIT:
-  case ATK_UNITS:
+  case ATK_STACK:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Bribe Enemy Unit ... Partisan */
@@ -413,7 +413,7 @@ static void notify_actor_success(struct player *receiver,
                   victim_link);
     break;
   case ATK_UNIT:
-  case ATK_UNITS:
+  case ATK_STACK:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRAND: Bribe Enemy Unit ... American ... Partisan */
@@ -468,7 +468,7 @@ static void notify_victim_success(struct player *receiver,
                   victim_link);
     break;
   case ATK_UNIT:
-  case ATK_UNITS:
+  case ATK_STACK:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Bribe Enemy Unit ... Partisan */
@@ -762,7 +762,7 @@ struct tile *action_tgt_tile(struct unit *actor,
     case ATK_EXTRAS:
       prob = action_prob_vs_extras(nmap, actor, act, target, target_extra);
       break;
-    case ATK_UNITS:
+    case ATK_STACK:
       prob = action_prob_vs_stack(nmap, actor, act, target);
       break;
     case ATK_CITY:
@@ -844,7 +844,7 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
       break;
     case ATK_CITY:
     case ATK_UNIT:
-    case ATK_UNITS:
+    case ATK_STACK:
     case ATK_SELF:
       /* Not supported. */
       break;
@@ -1043,7 +1043,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   }
 
       switch (action_id_get_target_kind(act)) {
-      case ATK_UNITS:
+      case ATK_STACK:
         if (tgt_tile
             && is_action_enabled_unit_on_stack(nmap, act, actor, tgt_tile)) {
           perform_action_to(act, actor, tgt_tile->index, EXTRA_NONE);
@@ -1140,7 +1140,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
       /* This action can be done by units. */
 
       switch (action_id_get_target_kind(act)) {
-      case ATK_UNITS:
+      case ATK_STACK:
         if (tgt_tile
             && is_action_enabled_unit_on_stack(nmap, act, actor, tgt_tile)) {
           current = action_prob_vs_stack(nmap, actor, act, tgt_tile);

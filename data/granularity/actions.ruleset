@@ -255,7 +255,7 @@ quiet_actions = "Transport Disembark 2", "Unit Move"
 action        = "Establish Embassy Stay"
 actor_reqs    =
     { "type",         "name",             "range", "present"
-      "UnitFlag",     "Diplomat",         "Local", TRUE
+      "UnitTypeFlag", "Diplomat",         "Local", TRUE
       "UnitState",    "OnLivableTile",    "Local", TRUE
       "MinMoveFrags", "1",                "Local", TRUE
       "DiplRel",      "Foreign",          "Local", TRUE
@@ -270,7 +270,7 @@ target_reqs   =
 action        = "Bribe Unit"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
-      "UnitFlag",     "Diplomat",      "Local",  TRUE
+      "UnitTypeFlag", "Diplomat",      "Local",  TRUE
       "Tech",         "Currency",      "Player", TRUE
       "DiplRel",      "Alliance",      "Local",  FALSE
       "DiplRel",      "Team",          "Local",  FALSE
@@ -288,7 +288,7 @@ target_reqs   =
 action        = "Found City"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
-      "UnitFlag",     "Cities",        "Local",  TRUE
+      "UnitTypeFlag", "Cities",        "Local",  TRUE
       "UnitState",    "OnLivableTile", "Local",  TRUE
       "MinMoveFrags", "5",             "Local",  TRUE
       "Gov",          "Tribal",        "Player", TRUE
@@ -303,7 +303,7 @@ target_reqs   =
 action        = "Found City"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
-      "UnitFlag",     "Cities",        "Local",  TRUE
+      "UnitTypeFlag", "Cities",        "Local",  TRUE
       "UnitState",    "OnLivableTile", "Local",  TRUE
       "MinMoveFrags", "5",             "Local",  TRUE
       "Gov",          "Despotism",     "Player", TRUE
@@ -318,7 +318,7 @@ target_reqs   =
 action        = "Found City"
 actor_reqs    =
     { "type",         "name",          "range",  "present"
-      "UnitFlag",     "Cities",        "Local",  TRUE
+      "UnitTypeFlag", "Cities",        "Local",  TRUE
       "UnitState",    "OnLivableTile", "Local",  TRUE
       "MinMoveFrags", "5",             "Local",  TRUE
       "Gov",          "Monarchy",      "Player", TRUE
@@ -331,15 +331,15 @@ target_reqs   =
 [enabler_cultivate]
 action        = "Cultivate"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Workers",      "Local", TRUE
+    { "type",         "name",    "range", "present"
+      "UnitTypeFlag", "Workers", "Local", TRUE
     }
 
 [enabler_plant]
 action        = "Plant"
 actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Workers",      "Local", TRUE
+    { "type",         "name",    "range", "present"
+      "UnitTypeFlag", "Workers", "Local", TRUE
     }
 
 [enabler_deboard]
@@ -438,7 +438,7 @@ actor_reqs    =
 action        = "Bombard 2"
 actor_reqs    =
     { "type",         "name",      "range"
-      "UnitFlag",     "Bombarder", "Local"
+      "UnitTypeFlag", "Bombarder", "Local"
       "MinMoveFrags", "5",         "Local"
     }
 
@@ -446,7 +446,7 @@ actor_reqs    =
 action        = "Surgical Strike Building"
 actor_reqs    =
     { "type",         "name",      "range"
-      "UnitFlag",     "Bombarder", "Local"
+      "UnitTypeFlag", "Bombarder", "Local"
       "MinMoveFrags", "5",         "Local"
     }
 
@@ -479,7 +479,7 @@ action        = "Conquer City Shrink"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
       "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
-      "UnitFlag",      "NonMil",        "Local",  FALSE
+      "UnitTypeFlag",  "NonMil",        "Local",  FALSE
       "DiplRel",       "War",           "Local",  TRUE
       "MinMoveFrags",  "1",             "Local",  TRUE
       "Gov",           "Tribal",        "Player", TRUE
@@ -495,7 +495,7 @@ action        = "Conquer City Shrink"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
       "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
-      "UnitFlag",      "NonMil",        "Local",  FALSE
+      "UnitTypeFlag",  "NonMil",        "Local",  FALSE
       "DiplRel",       "War",           "Local",  TRUE
       "MinMoveFrags",  "1",             "Local",  TRUE
       "Gov",           "Despotism",     "Player", TRUE
@@ -511,7 +511,7 @@ action        = "Conquer City Shrink"
 actor_reqs    =
     { "type",          "name",          "range",  "present"
       "UnitClassFlag", "CanOccupyCity", "Local",  TRUE
-      "UnitFlag",      "NonMil",        "Local",  FALSE
+      "UnitTypeFlag",  "NonMil",        "Local",  FALSE
       "DiplRel",       "War",           "Local",  TRUE
       "MinMoveFrags",  "1",             "Local",  TRUE
       "Gov",           "Monarchy",      "Player", TRUE
@@ -529,10 +529,10 @@ actor_reqs    =
       "MinMoveFrags", "1",    "Local"
     }
 target_reqs   =
-    { "type",      "name",         "range", "present"
-      "UnitFlag",  "Defenseless",  "Local", TRUE
-      "UnitState", "Transporting", "Local", FALSE
-      "CityTile",  "Center",       "Tile",  FALSE
+    { "type",         "name",         "range", "present"
+      "UnitTypeFlag", "Defenseless",  "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "CityTile",     "Center",       "Tile",  FALSE
     }
 
 [enabler_capture_bounty_hunter]

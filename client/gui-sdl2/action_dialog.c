@@ -647,7 +647,7 @@ static int act_sel_wait_callback(struct widget *pwidget)
 /**********************************************************************//**
   Ask the server how much the bribe costs
 **************************************************************************/
-static int diplomat_bribe_callback(struct widget *pwidget)
+static int diplomat_bribe_unit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
@@ -656,6 +656,26 @@ static int diplomat_bribe_callback(struct widget *pwidget)
       request_action_details(ACTION_SPY_BRIBE_UNIT,
                              diplomat_dlg->actor_unit_id,
                              diplomat_dlg->target_ids[ATK_UNIT]);
+      is_more_user_input_needed = TRUE;
+      popdown_diplomat_dialog();
+    } else {
+      popdown_diplomat_dialog();
+    }
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  Ask the server how much the bribe costs
+**************************************************************************/
+static int diplomat_bribe_stack_callback(struct widget *pwidget)
+{
+  if (PRESSED_EVENT(main_data.event)) {
+    if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr) {
+      request_action_details(ACTION_SPY_BRIBE_STACK,
+                             diplomat_dlg->actor_unit_id,
+                             diplomat_dlg->target_ids[ATK_STACK]);
       is_more_user_input_needed = TRUE;
       popdown_diplomat_dialog();
     } else {
@@ -744,7 +764,7 @@ static int simple_action_callback(struct widget *pwidget)
       failed = TRUE;
     }
     break;
-  case ATK_UNITS:
+  case ATK_STACK:
   case ATK_TILE:
   case ATK_EXTRAS:
     target_id = diplomat_dlg->target_ids[ATK_TILE];
@@ -852,11 +872,10 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_STRIKE_BUILDING] = spy_strike_bld_request,
 
   /* Unit acting against a unit target. */
-  [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
+  [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_unit_callback,
 
   /* Unit acting against all units at a tile. */
-  /* No special callback functions needed for any unit stack targeted
-   * actions. */
+  [ACTION_SPY_BRIBE_STACK] = diplomat_bribe_stack_callback,
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = found_city_callback,
@@ -915,7 +934,7 @@ static void action_entry(const action_id act,
     break;
   case ATK_TILE:
   case ATK_EXTRAS:
-  case ATK_UNITS:
+  case ATK_STACK:
     buf->data.tile = tgt_tile;
     break;
   case ATK_SELF:
@@ -1004,7 +1023,7 @@ void popup_action_selection(struct unit *actor_unit,
     diplomat_dlg->target_ids[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
 
-  diplomat_dlg->target_ids[ATK_UNITS] = tile_index(target_tile);
+  diplomat_dlg->target_ids[ATK_STACK] = tile_index(target_tile);
   diplomat_dlg->target_ids[ATK_TILE] = tile_index(target_tile);
   diplomat_dlg->target_ids[ATK_EXTRAS] = tile_index(target_tile);
 
@@ -1050,7 +1069,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
-        && action_id_get_target_kind(act) == ATK_UNITS) {
+        && action_id_get_target_kind(act) == ATK_STACK) {
       action_entry(act, act_probs,
                    actor_unit, target_tile, NULL, NULL,
                    pwindow, &area);
@@ -1719,7 +1738,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     area.h += buf->size.h;
     /* ------- */
     create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("No") , exit_incite_dlg_callback);
+                            _("No"), exit_incite_dlg_callback);
 
     set_wstate(buf, FC_WS_NORMAL);
     buf->key = SDLK_ESCAPE;
@@ -1821,13 +1840,29 @@ static int bribe_dlg_window_callback(struct widget *pwindow)
 }
 
 /**********************************************************************//**
-  User confirmed bribe.
+  User confirmed unit bribe.
 **************************************************************************/
-static int diplomat_bribe_yes_callback(struct widget *pwidget)
+static int diplomat_bribe_unit_yes_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(bribe_dlg->actor_unit_id)
         && NULL != game_unit_by_number(bribe_dlg->target_id)) {
+      request_do_action(bribe_dlg->act_id, bribe_dlg->actor_unit_id,
+                        bribe_dlg->target_id, 0, "");
+    }
+    popdown_bribe_dialog();
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User confirmed stack bribe.
+**************************************************************************/
+static int diplomat_bribe_stack_yes_callback(struct widget *pwidget)
+{
+  if (PRESSED_EVENT(main_data.event)) {
+    if (NULL != game_unit_by_number(bribe_dlg->actor_unit_id)) {
       request_do_action(bribe_dlg->act_id, bribe_dlg->actor_unit_id,
                         bribe_dlg->target_id, 0, "");
     }
@@ -1871,8 +1906,8 @@ void popdown_bribe_dialog(void)
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
-                        const struct action *paction)
+void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
+                             const struct action *paction)
 {
   struct widget *pwindow = NULL, *buf = NULL;
   utf8_str *pstr;
@@ -1937,7 +1972,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
 
     /*------------*/
     create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("Yes"), diplomat_bribe_yes_callback);
+                            _("Yes"), diplomat_bribe_unit_yes_callback);
     buf->data.unit = punit;
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -1947,7 +1982,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
     area.h += buf->size.h;
     /* ------- */
     create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("No") , exit_bribe_dlg_callback);
+                            _("No"), exit_bribe_dlg_callback);
 
     set_wstate(buf, FC_WS_NORMAL);
     buf->key = SDLK_ESCAPE;
@@ -1996,7 +2031,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
   }
   bribe_dlg->pdialog->begin_widget_list = buf;
 
-  /* setup window size and start position */
+  /* Setup window size and start position */
 
   resize_window(pwindow, NULL, NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
@@ -2008,11 +2043,11 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
   put_window_near_map_tile(pwindow, pwindow->size.w, pwindow->size.h,
                            unit_tile(actor));
 
-  /* setup widget size and start position */
+  /* Setup widget size and start position */
   buf = pwindow;
 
   if (exit) {
-    /* exit button */
+    /* Exit button */
     buf = buf->prev;
     buf->size.x = area.x + area.w - buf->size.w - 1;
     buf->size.y = pwindow->size.y + adj_size(2);
@@ -2025,7 +2060,172 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
         bribe_dlg->pdialog->begin_widget_list, buf);
 
   /* --------------------- */
-  /* redraw */
+  /* Redraw */
+  redraw_group(bribe_dlg->pdialog->begin_widget_list, pwindow, 0);
+
+  widget_flush(pwindow);
+}
+
+
+/**********************************************************************//**
+  Popup a dialog asking a diplomatic unit if it wishes to bribe the
+  given enemy unit.
+**************************************************************************/
+void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
+                             const struct action *paction)
+{
+  struct widget *pwindow = NULL, *buf = NULL;
+  utf8_str *pstr;
+  char tBuf[255], cbuf[255];
+  bool exit = FALSE;
+  SDL_Rect area;
+
+  if (bribe_dlg) {
+    return;
+  }
+
+  /* Should be set before sending request to the server. */
+  fc_assert(is_more_user_input_needed);
+
+  if (!actor || !unit_can_do_action(actor, paction->id)) {
+    act_sel_done_secondary(actor ? actor->id : IDENTITY_NUMBER_ZERO);
+    return;
+  }
+
+  is_unit_move_blocked = TRUE;
+
+  bribe_dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
+  bribe_dlg->act_id = paction->id;
+  bribe_dlg->actor_unit_id = actor->id;
+  bribe_dlg->target_id = ptile->index;
+  bribe_dlg->pdialog = fc_calloc(1, sizeof(struct small_dialog));
+
+  fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
+
+  /* Window */
+  pstr = create_utf8_from_char_fonto(_("Bribe Enemy Stack"), FONTO_ATTENTION);
+
+  pstr->style |= TTF_STYLE_BOLD;
+
+  pwindow = create_window_skeleton(NULL, pstr, 0);
+
+  pwindow->action = bribe_dlg_window_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
+
+  add_to_gui_list(ID_BRIBE_DLG_WINDOW, pwindow);
+  bribe_dlg->pdialog->end_widget_list = pwindow;
+
+  area = pwindow->area;
+  area.w = MAX(area.w, adj_size(8));
+  area.h = MAX(area.h, adj_size(2));
+
+  if (cost <= client_player()->economic.gold) {
+    fc_snprintf(cbuf, sizeof(cbuf),
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribe unit stack for %d gold?\n%s",
+                    "Bribe unit stack for %d gold?\n%s", cost), cost, tBuf);
+
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+
+    add_to_gui_list(ID_LABEL, buf);
+
+    area.w = MAX(area.w, buf->size.w);
+    area.h += buf->size.h;
+
+    /*------------*/
+    create_active_iconlabel(buf, pwindow->dst, pstr,
+                            _("Yes"), diplomat_bribe_stack_yes_callback);
+    buf->data.tile = ptile;
+    set_wstate(buf, FC_WS_NORMAL);
+
+    add_to_gui_list(MAX_ID - actor->id, buf);
+
+    area.w = MAX(area.w, buf->size.w);
+    area.h += buf->size.h;
+    /* ------- */
+    create_active_iconlabel(buf, pwindow->dst, pstr,
+                            _("No"), exit_bribe_dlg_callback);
+
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->key = SDLK_ESCAPE;
+
+    add_to_gui_list(ID_LABEL, buf);
+
+    area.w = MAX(area.w, buf->size.w);
+    area.h += buf->size.h;
+
+  } else {
+    /* Exit button */
+    buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                           WF_WIDGET_HAS_INFO_LABEL
+                           | WF_RESTORE_BACKGROUND);
+    buf->info_label = create_utf8_from_char_fonto(_("Close Dialog (Esc)"),
+                                                  FONTO_ATTENTION);
+    area.w += buf->size.w + adj_size(10);
+    buf->action = exit_bribe_dlg_callback;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->key = SDLK_ESCAPE;
+
+    add_to_gui_list(ID_BRIBE_DLG_EXIT_BUTTON, buf);
+    exit = TRUE;
+    /* --------------- */
+
+    fc_snprintf(cbuf, sizeof(cbuf),
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribing the unit stack costs %d gold.\n%s",
+                    "Bribing the unit stack costs %d gold.\n%s", cost), cost, tBuf);
+
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+
+    add_to_gui_list(ID_LABEL, buf);
+
+    area.w = MAX(area.w, buf->size.w);
+    area.h += buf->size.h;
+
+    /*------------*/
+    create_active_iconlabel(buf, pwindow->dst, pstr,
+                            _("Traitors Demand Too Much!"), NULL);
+
+    add_to_gui_list(ID_LABEL, buf);
+
+    area.w = MAX(area.w, buf->size.w);
+    area.h += buf->size.h;
+  }
+  bribe_dlg->pdialog->begin_widget_list = buf;
+
+  /* Setup window size and start position */
+
+  resize_window(pwindow, NULL, NULL,
+                (pwindow->size.w - pwindow->area.w) + area.w,
+                (pwindow->size.h - pwindow->area.h) + area.h);
+
+  area = pwindow->area;
+
+  auto_center_on_focus_unit();
+  put_window_near_map_tile(pwindow, pwindow->size.w, pwindow->size.h,
+                           unit_tile(actor));
+
+  /* Setup widget size and start position */
+  buf = pwindow;
+
+  if (exit) {
+    /* Exit button */
+    buf = buf->prev;
+    buf->size.x = area.x + area.w - buf->size.w - 1;
+    buf->size.y = pwindow->size.y + adj_size(2);
+  }
+
+  buf = buf->prev;
+  setup_vertical_widgets_position(1,
+        area.x,
+        area.y + 1, area.w, 0,
+        bribe_dlg->pdialog->begin_widget_list, buf);
+
+  /* --------------------- */
+  /* Redraw */
   redraw_group(bribe_dlg->pdialog->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);

@@ -146,14 +146,14 @@ void qtg_gui_clear_theme();
 char **qtg_get_gui_specific_themes_directories(int *count);
 char **qtg_get_usable_themes_in_directory(const char *directory, int *count);
 
-void qtg_init_meeting(struct Treaty *ptreaty, struct player *they,
+void qtg_init_meeting(struct treaty *ptreaty, struct player *they,
                       struct player *initiator);
-void qtg_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+void qtg_recv_cancel_meeting(struct treaty *ptreaty, struct player *they,
                              struct player *initiator);
-void qtg_prepare_clause_updt(struct Treaty *ptreaty, struct player *they);
-void qtg_recv_create_clause(struct Treaty *ptreaty, struct player *they);
-void qtg_recv_remove_clause(struct Treaty *ptreaty, struct player *they);
-void qtg_recv_accept_treaty(struct Treaty *ptreaty, struct player *they);
+void qtg_prepare_clause_updt(struct treaty *ptreaty, struct player *they);
+void qtg_recv_create_clause(struct treaty *ptreaty, struct player *they);
+void qtg_recv_remove_clause(struct treaty *ptreaty, struct player *they);
+void qtg_recv_accept_treaty(struct treaty *ptreaty, struct player *they);
 
 void qtg_request_action_confirmation(const char *expl,
                                      struct act_confirmation_data *data);

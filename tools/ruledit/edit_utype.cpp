@@ -25,6 +25,7 @@
 #include <QToolButton>
 
 // common
+#include "game.h"
 #include "unittype.h"
 
 // ruledit
@@ -51,6 +52,7 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : values_
   ui = ui_in;
   utype = utype_in;
 
+  cargo_layout = new QGridLayout();
   flag_layout = new QGridLayout();
 
   setWindowTitle(QString::fromUtf8(utype_rule_name(utype)));
@@ -134,6 +136,16 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : values_
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(move_rate, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Transport Capacity")));
+  label->setParent(this);
+
+  cargo_capacity = new QSpinBox(this);
+  cargo_capacity->setRange(0, 50);
+  connect(cargo_capacity, SIGNAL(valueChanged(int)), this, SLOT(set_cargo_capacity(int)));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(cargo_capacity, row++, 1);
+
   label = new QLabel(QString::fromUtf8(R__("Graphics tag")));
   label->setParent(this);
 
@@ -205,6 +217,18 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : values_
   connect(button, SIGNAL(pressed()), this, SLOT(helptext()));
   unit_layout->addWidget(button, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Cargo")));
+  cargo_layout->addWidget(label, 0, 0);
+  for (int i = 0; i < game.control.num_unit_classes; i++) {
+    QCheckBox *check = new QCheckBox();
+
+    label = new QLabel(uclass_rule_name(uclass_by_number(i)));
+    cargo_layout->addWidget(label, i + 1, 0);
+
+    check->setChecked(BV_ISSET(utype->cargo, i));
+    cargo_layout->addWidget(check, i + 1, 1);
+  }
+
   rowcount = 0;
   column = 0;
   for (int i = 0; i < UTYF_LAST_USER_FLAG; i++) {
@@ -226,6 +250,7 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : values_
   refresh();
 
   main_layout->addLayout(unit_layout);
+  main_layout->addLayout(cargo_layout);
   main_layout->addLayout(flag_layout);
 
   setLayout(main_layout);
@@ -249,6 +274,15 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
   sound_move_tag_alt_given();
   sound_fight_tag_given();
   sound_fight_tag_alt_given();
+
+  BV_CLR_ALL(utype->cargo);
+  for (int i = 0; i < game.control.num_unit_classes; i++) {
+    QCheckBox *check = static_cast<QCheckBox *>(cargo_layout->itemAtPosition(i + 1, 1)->widget());
+
+    if (check->isChecked()) {
+      BV_SET(utype->cargo, i);
+    }
+  }
 
   BV_CLR_ALL(utype->flags);
   rowcount = 0;
@@ -281,6 +315,7 @@ void edit_utype::refresh()
   hitpoints->setValue(utype->hp);
   firepower->setValue(utype->firepower);
   move_rate->setValue(utype->move_rate);
+  cargo_capacity->setValue(utype->transport_capacity);
   gfx_tag->setText(utype->graphic_str);
   gfx_tag_alt->setText(utype->graphic_alt);
   gfx_tag_alt2->setText(utype->graphic_alt2);
@@ -336,6 +371,14 @@ void edit_utype::set_firepower(int value)
 void edit_utype::set_move_rate(int value)
 {
   utype->move_rate = value;
+}
+
+/**********************************************************************//**
+  Read cargo capacity from spinbox
+**************************************************************************/
+void edit_utype::set_cargo_capacity(int value)
+{
+  utype->transport_capacity = value;
 }
 
 /**********************************************************************//**

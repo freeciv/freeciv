@@ -351,7 +351,11 @@ static int dai_goldequiv_clause(struct ai_type *ait,
         }
 
         if (pplayer->server.bulbs_last_turn < limit) {
-          worth /= 2;
+          if (research->bulbs_researched < 0) {
+            worth = -BIG_NUMBER;
+          } else {
+            worth /= 2;
+          }
         }
       }
     }
@@ -618,7 +622,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
   is the treaty being considered. It is all a question about money :-)
 **********************************************************************/
 void dai_treaty_evaluate(struct ai_type *ait, struct player *pplayer,
-                         struct player *aplayer, struct Treaty *ptreaty)
+                         struct player *aplayer, struct treaty *ptreaty)
 {
   int total_balance = 0;
   bool only_gifts = TRUE;
@@ -738,7 +742,7 @@ static void dai_treaty_react(struct ai_type *ait,
   is the treaty accepted.
 **********************************************************************/
 void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
-                         struct player *aplayer, struct Treaty *ptreaty)
+                         struct player *aplayer, struct treaty *ptreaty)
 {
   bool close_here;
   struct ai_plr *ai;
@@ -1227,7 +1231,7 @@ static void suggest_tech_exchange(struct ai_type *ait,
 **********************************************************************/
 static void clear_old_treaty(struct player *pplayer, struct player *aplayer)
 {
-  struct Treaty *old_treaty = find_treaty(pplayer, aplayer);
+  struct treaty *old_treaty = find_treaty(pplayer, aplayer);
 
   if (old_treaty != NULL) {
     /* Remove existing clauses */
@@ -2031,6 +2035,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
       dai_incident_simple(receiver, violator, victim, scope, 3);
       break;
     case ACTRES_SPY_BRIBE_UNIT:
+    case ACTRES_SPY_BRIBE_STACK:
     case ACTRES_CAPTURE_UNITS:
     case ACTRES_BOMBARD:
     case ACTRES_ATTACK:

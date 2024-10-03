@@ -15,7 +15,7 @@
   The idea with this file is to create something similar to the ms-windows
   .ini files functions.
   however the interface is nice. ie:
-  secfile_lookup_str(file, "player%d.unit%d.name", plrno, unitno); 
+  secfile_lookup_str(file, "player%d.unit%d.name", plrno, unitno);
 ***************************************************************************/
 
 /**************************************************************************

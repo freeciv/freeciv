@@ -294,6 +294,7 @@ struct civ_game {
         char **nc_astyles;
         size_t as_count;
         int named_teams;
+        bool std_tileset_compat;
       } ruledit;
     } server;
   };

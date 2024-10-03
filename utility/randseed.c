@@ -56,7 +56,7 @@ static bool generate_seed_getentropy(randseed *ret)
    * FreeBSD and glibc on Linux (as a wrapper to getrandom()) as well.
    */
   randseed seed = 0;
-  
+
   if (getentropy(&seed, sizeof(seed)) == 0) {
     *ret = seed;
 
@@ -91,7 +91,7 @@ static bool generate_seed_bcryptgenrandom(randseed *ret)
 }
 
 /**********************************************************************//**
-  Read a 32-bit random value using /dev/urandom, if available. 
+  Read a 32-bit random value using /dev/urandom, if available.
   (Most Unix-like systems)
   Return FALSE on error, otherwise return TRUE and store seed in *ret.
 **************************************************************************/
@@ -101,11 +101,11 @@ static bool generate_seed_urandom(randseed *ret)
   /*
    * /dev/urandom should be available on most Unixen. The Wikipedia page
    * mentions Linux, FreeBSD, OpenBSD, macOS as well as Solaris, NetBSD,
-   * Tru64 UNIX 5.1B, AIX 5.2 and HP-UX 11i v2. 
+   * Tru64 UNIX 5.1B, AIX 5.2 and HP-UX 11i v2.
    *
    * However, opening it may fail if the game is running in a chroot without
    * it, or is otherwise restricted from accessing it. This is why getentropy()
-   * is preferred. 
+   * is preferred.
    */
   static const char *random_device = "/dev/urandom";
   int fd = 0;
@@ -148,12 +148,12 @@ static bool generate_seed_urandom(randseed *ret)
 static bool generate_seed_clock_gettime(randseed *ret)
 {
 #if HAVE_CLOCK_GETTIME
-  /* 
+  /*
    * clock_gettime() nominally gives nanoseconds, but the real granularity may be
    * worse, making the lowest bits less useful. On the other hand, the lower bits
    * of full seconds are the most useful, the high bits being very predictable.
    * Xor them together to hopefully get something relatively unpredictable in the
-   * bottom 30 bits. 
+   * bottom 30 bits.
    */
   randseed seed = 0;
   struct timespec tp;
@@ -187,7 +187,7 @@ static bool generate_seed_time(randseed *ret)
 
 /**********************************************************************//**
   Return a random 32-bit value to use as game seed, by whatever means
-  the underlying system provides. 
+  the underlying system provides.
 **************************************************************************/
 randseed generate_game_seed(void)
 {

@@ -223,20 +223,20 @@ static bool parse_options(int argc, char **argv)
 /**********************************************************************//**
   Main handler for key presses
 **************************************************************************/
-static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
+static Uint16 main_key_down_handler(SDL_KeyboardEvent *key, void *data)
 {
   static struct widget *pwidget;
 
   if ((pwidget = find_next_widget_for_key(NULL, key)) != NULL) {
     return widget_pressed_action(pwidget);
   } else {
-    if (key.sym == SDLK_TAB) {
-      /* input */
+    if (key->key == SDLK_TAB) {
+      /* Input */
       popup_input_line();
     } else {
       if (map_event_handler(key)
           && C_S_RUNNING == client_state()) {
-        switch (key.sym) {
+        switch (key->key) {
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
           if (LSHIFT || RSHIFT) {
@@ -304,7 +304,7 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
 /**********************************************************************//**
   Main key release handler.
 **************************************************************************/
-static Uint16 main_key_up_handler(SDL_Keysym key, void *data)
+static Uint16 main_key_up_handler(SDL_KeyboardEvent *key, void *data)
 {
   if (selected_widget) {
     unselect_widget_action();
@@ -312,6 +312,7 @@ static Uint16 main_key_up_handler(SDL_Keysym key, void *data)
 
   return ID_ERROR;
 }
+
 /**********************************************************************//**
   Main finger down handler.
 **************************************************************************/
@@ -340,6 +341,7 @@ static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
   }
   return ID_ERROR;
 }
+
 /**********************************************************************//**
   Main finger release handler.
 **************************************************************************/
@@ -571,7 +573,7 @@ void force_exit_from_event_loop(void)
   Filter out mouse motion events for too small movement to react to.
   This function may run in a separate event thread.
 **************************************************************************/
-int FilterMouseMotionEvents(void *data, SDL_Event *event)
+bool FilterMouseMotionEvents(void *data, SDL_Event *event)
 {
   if (event->type == SDL_EVENT_MOUSE_MOTION) {
     static int x = 0, y = 0;
@@ -580,13 +582,13 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
         || ((MOVE_STEP_Y > 0) && (abs(event->motion.y - y) >= MOVE_STEP_Y)) ) {
       x = event->motion.x;
       y = event->motion.y;
-      return 1;    /* Catch it */
+      return TRUE;     /* Catch it */
     } else {
-      return 0;    /* Drop it, we've handled it */
+      return FALSE;    /* Drop it, we've handled it */
     }
   }
 
-  return 1;
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -594,9 +596,9 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 **************************************************************************/
 Uint16 gui_event_loop(void *data,
                       void (*loop_action)(void *data),
-                      Uint16 (*key_down_handler)(SDL_Keysym key, void *data),
-                      Uint16 (*key_up_handler)(SDL_Keysym key, void *data),
-                      Uint16 (*textinput_handler)(char *text, void *data),
+                      Uint16 (*key_down_handler)(SDL_KeyboardEvent *key, void *data),
+                      Uint16 (*key_up_handler)(SDL_KeyboardEvent *key, void *data),
+                      Uint16 (*textinput_handler)(const char *text, void *data),
                       Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *touch_event, void *data),
                       Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *touch_event, void *data),
                       Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *touch_event,
@@ -731,8 +733,8 @@ Uint16 gui_event_loop(void *data,
           break;
 
         case SDL_EVENT_KEY_UP:
-          switch (main_data.event.key.keysym.sym) {
-            /* find if Shifts are released */
+          switch (main_data.event.key.key) {
+            /* Find if Shifts are released */
             case SDLK_RSHIFT:
               RSHIFT = FALSE;
             break;
@@ -750,14 +752,14 @@ Uint16 gui_event_loop(void *data,
             break;
             default:
               if (key_up_handler) {
-                ID = key_up_handler(main_data.event.key.keysym, data);
+                ID = key_up_handler(&(main_data.event.key), data);
               }
             break;
           }
           break;
 
         case SDL_EVENT_KEY_DOWN:
-          switch (main_data.event.key.keysym.sym) {
+          switch (main_data.event.key.key) {
 #if 0
           case SDLK_PRINT:
             fc_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
@@ -793,7 +795,7 @@ Uint16 gui_event_loop(void *data,
 
           default:
             if (key_down_handler) {
-              ID = key_down_handler(main_data.event.key.keysym, data);
+              ID = key_down_handler(&(main_data.event.key), data);
             }
             break;
           }
@@ -1344,5 +1346,5 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 **************************************************************************/
 bool flush_event(void)
 {
-  return SDL_PushEvent(flush_user_event) >= 0;
+  return SDL_PushEvent(flush_user_event);
 }

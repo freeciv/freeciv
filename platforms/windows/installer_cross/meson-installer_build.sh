@@ -20,12 +20,13 @@ add_common_env() {
   cp $1/bin/libzstd-1.dll  $2/ &&
   cp $1/bin/libintl-8.dll  $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
-  cp $1/bin/libsqlite3-0.dll $2/ &&
-  cp $1/lib/icuuc64.dll     $2/ &&
-  cp $1/lib/icudt64.dll     $2/ &&
+  cp $1/bin/libsqlite3-0.dll  $2/ &&
+  cp $1/lib/icuuc66.dll       $2/ &&
+  cp $1/lib/icudt66.dll       $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
-  cp $1/bin/libpng16-16.dll $2/ &&
-  cp $1/bin/libharfbuzz-0.dll $2/
+  cp $1/bin/libpng16-16.dll   $2/ &&
+  cp $1/bin/libharfbuzz-0.dll $2/ &&
+  cp $1/bin/libpsl-5.dll $2/
 }
 
 add_glib_env() {
@@ -59,6 +60,8 @@ add_gtk_common_env() {
   cp $1/bin/libatk-1.0-0.dll $2/ &&
   cp $1/bin/libffi-8.dll $2/ &&
   cp $1/bin/libxml2-2.dll $2/ &&
+  cp $1/bin/libMagickWand-7.Q16HDRI-10.dll $2/ &&
+  cp $1/bin/libMagickCore-7.Q16HDRI-10.dll $2/ &&
   mkdir -p $2/lib &&
   cp -R $1/lib/gdk-pixbuf-2.0 $2/lib/ &&
   mkdir -p $2/share/icons &&
@@ -97,6 +100,8 @@ add_qt6_env() {
   cp $1/bin/Qt6Gui.dll $2/ &&
   cp $1/bin/Qt6Widgets.dll $2/ &&
   cp $1/bin/libpcre2-16-0.dll $2/ &&
+  cp $1/bin/libMagickWand-7.Q16HDRI-10.dll $2/ &&
+  cp $1/bin/libMagickCore-7.Q16HDRI-10.dll $2/ &&
   mkdir -p $2/bin &&
   cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
@@ -115,7 +120,7 @@ fi
 DLLSPATH="$1"
 GUI="$2"
 
-case $GUI in
+case "${GUI}" in
   gtk3.22)
     GUINAME="GTK3.22"
     MPGUI="gtk3"
@@ -136,27 +141,32 @@ case $GUI in
     CLIENT="qt"
     MPGUI="qt"
     FCMP="qt" ;;
+  qt6x)
+    GUINAME="Qt6x"
+    CLIENT="qt"
+    MPGUI="qt"
+    FCMP="qt" ;;
   ruledit)
     ;;
   *)
-    echo "Unknown gui type \"$GUI\"" >&2
+    echo "Unknown gui type \"${GUI}\"" >&2
     exit 1 ;;
 esac
 
-if test "$CLIENT" = "" ; then
-  CLIENT="$GUI"
+if test "${CLIENT}" = "" ; then
+  CLIENT="${GUI}"
 fi
 
-if ! test -d "$DLLSPATH" ; then
-  echo "Dllstack directory \"$DLLSPATH\" not found!" >&2
+if ! test -d "${DLLSPATH}" ; then
+  echo "Dllstack directory \"${DLLSPATH}\" not found!" >&2
   exit 1
 fi
 
-if ! ./meson-winbuild.sh "$DLLSPATH" "$GUI" ; then
+if ! ./meson-winbuild.sh "${DLLSPATH}" "${GUI}" ; then
   exit 1
 fi
 
-SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
+SETUP=$(grep "CrosserSetup=" "${DLLSPATH}/crosser.txt" | sed -e 's/CrosserSetup="//' -e 's/"//')
 
 SRC_ROOT="$(cd ../../.. || exit 1 ; pwd)"
 
@@ -167,7 +177,7 @@ if ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
   exit 1
 fi
 
-if test "$GUI" = "ruledit" &&
+if test "${GUI}" = "ruledit" &&
    ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_ruledit.txt ) ; then
   echo "langstat_ruledit.txt creation failed!" >&2
   exit 1
@@ -181,32 +191,32 @@ fi
 
 INSTDIR="meson/install/freeciv-${VERREV}-${SETUP}-${GUI}"
 
-if ! mv $INSTDIR/bin/* $INSTDIR/ ||
-   ! mv $INSTDIR/share/freeciv $INSTDIR/data ||
-   ! mv $INSTDIR/share/doc $INSTDIR/ ||
-   ! mkdir -p $INSTDIR/doc/freeciv/installer ||
+if ! mv "${INSTDIR}/bin/"* "${INSTDIR}/" ||
+   ! mv "${INSTDIR}/share/freeciv" "${INSTDIR}/data" ||
+   ! mv "${INSTDIR}/share/doc" "${INSTDIR}/" ||
+   ! mkdir -p "${INSTDIR}/doc/freeciv/installer" ||
    ! cat licenses/header.txt "${SRC_ROOT}/COPYING" \
      > "${INSTDIR}/doc/freeciv/installer/COPYING.installer" ||
-   ! rm -Rf $INSTDIR/lib ||
-   ! cp Freeciv.url $INSTDIR/
+   ! rm -Rf "${INSTDIR}/lib" ||
+   ! cp Freeciv.url "${INSTDIR}/"
 then
   echo "Rearranging install directory failed!" >&2
   exit 1
 fi
 
-if ! add_common_env "$DLLSPATH" "$INSTDIR" ; then
+if ! add_common_env "${DLLSPATH}" "${INSTDIR}" ; then
   echo "Copying common environment failed!" >&2
   exit 1
 fi
 
 NSI_DIR="meson/nsi"
 
-if ! mkdir -p "$NSI_DIR" ; then
-  echo "Creating \"$NSI_DIR\" directory failed" >&2
+if ! mkdir -p "${NSI_DIR}" ; then
+  echo "Creating \"${NSI_DIR}\" directory failed" >&2
   exit 1
 fi
 
-if test "$GUI" = "ruledit" ; then
+if test "${GUI}" = "ruledit" ; then
   if ! cp freeciv-ruledit.cmd "${INSTDIR}/"
   then
     echo "Adding cmd-file failed!" >&2
@@ -226,42 +236,42 @@ if test "$GUI" = "ruledit" ; then
     exit 1
   fi
 else
-  if ! cp freeciv-server.cmd freeciv-${CLIENT}.cmd freeciv-mp-${FCMP}.cmd $INSTDIR/
+  if ! cp freeciv-server.cmd "freeciv-${CLIENT}.cmd" "freeciv-mp-${FCMP}.cmd" "${INSTDIR}/"
   then
     echo "Adding cmd-files failed!" >&2
     exit 1
   fi
 
-  if ! add_sdl2_mixer_env "$DLLSPATH" "$INSTDIR" ; then
+  if ! add_sdl2_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
     echo "Copying SDL2_mixer environment failed!" >&2
     exit 1
   fi
 
   case $GUI in
     gtk3.22)
-      if ! add_gtk3_env "$DLLSPATH" "$INSTDIR" ; then
+      if ! add_gtk3_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying gtk3 environment failed!" >&2
         exit 1
       fi
       ;;
     gtk4|gtk4x)
-      if ! add_gtk4_env "$DLLSPATH" "$INSTDIR" ; then
+      if ! add_gtk4_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying gtk4 environment failed!" >&2
         exit 1
       fi
       ;;
     sdl2)
       # For gtk4 modpack installer
-      if ! add_gtk4_env "$DLLSPATH" "$INSTDIR" ; then
-        echo "Copying gtk3 environment failed!" >&2
+      if ! add_gtk4_env "${DLLSPATH}" "${INSTDIR}" ; then
+        echo "Copying gtk4 environment failed!" >&2
         exit 1
       fi
-      if ! add_sdl2_env "$DLLSPATH" "$INSTDIR" ; then
+      if ! add_sdl2_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying sdl2 environment failed!" >&2
         exit 1
       fi
       ;;
-    qt6)
+    qt6|qt6x)
       if ! cp freeciv-ruledit.cmd "${INSTDIR}"
       then
         echo "Adding cmd-file failed!" >&2
@@ -274,7 +284,7 @@ else
       ;;
   esac
 
-  if test "${GUI}" = "qt6" ; then
+  if test "${GUI}" = "qt6" || test "${GUI}" = "qt6x" ; then
     EXE_ID="qt"
   else
     EXE_ID="${GUI}"
@@ -289,18 +299,18 @@ else
 
   NSI_FILE="${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
 
-  if test "$GUI" = "sdl2" ; then
+  if test "${GUI}" = "sdl2" ; then
     if ! ./create-freeciv-sdl2-nsi.sh \
-           "$INSTDIR" "meson/output" "$VERREV" "$SETUP" "$UNINSTALLER" \
-             > "$NSI_FILE"
+           "${INSTDIR}" "meson/output" "${VERREV}" "${SETUP}" "${UNINSTALLER}" \
+             > "${NSI_FILE}"
     then
       exit 1
     fi
   else
     if ! ./create-freeciv-gtk-qt-nsi.sh \
-           "$INSTDIR" "meson/output" "$VERREV" "$GUI" "$GUINAME" \
-           "$SETUP" "$MPGUI" "$EXE_ID" "$UNINSTALLER" \
-             > "$NSI_FILE"
+           "${INSTDIR}" "meson/output" "${VERREV}" "${GUI}" "${GUINAME}" \
+           "${SETUP}" "${MPGUI}" "${EXE_ID}" "${UNINSTALLER}" \
+             > "${NSI_FILE}"
     then
       exit 1
     fi
@@ -312,7 +322,7 @@ if ! mkdir -p meson/output ; then
   exit 1
 fi
 
-if ! makensis -NOCD "$NSI_FILE"
+if ! makensis -NOCD "${NSI_FILE}"
 then
   echo "Creating installer failed!" >&2
   exit 1

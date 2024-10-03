@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,8 @@ genhash_val_t genhash_str_val_func(const char *vkey);
 bool genhash_str_comp_func(const char *vkey1, const char *vkey2);
 /* and malloc'ed strings: */
 char *genhash_str_copy_func(const char *vkey);
-void genhash_str_free_func(char *vkey);
+void genhash_str_free_func(char *vkey)
+  fc__attribute((nonnull (1)));
 
 
 /* General functions: */
@@ -71,30 +72,40 @@ genhash_new_nentries_full(genhash_val_fn_t key_val_func,
                           genhash_free_fn_t data_free_func,
                           size_t nentries)
 fc__warn_unused_result;
-void genhash_destroy(struct genhash *pgenhash);
+void genhash_destroy(struct genhash *pgenhash)
+  fc__attribute((nonnull (1)));
 
-bool genhash_set_no_shrink(struct genhash *pgenhash, bool no_shrink);
-size_t genhash_size(const struct genhash *pgenhash);
-size_t genhash_capacity(const struct genhash *pgenhash);
+bool genhash_set_no_shrink(struct genhash *pgenhash, bool no_shrink)
+  fc__attribute((nonnull (1)));
+size_t genhash_size(const struct genhash *pgenhash)
+  fc__attribute((nonnull (1)));
+size_t genhash_capacity(const struct genhash *pgenhash)
+  fc__attribute((nonnull (1)));
 
 struct genhash *genhash_copy(const struct genhash *pgenhash)
-                fc__warn_unused_result;
-void genhash_clear(struct genhash *pgenhash);
+  fc__attribute((nonnull (1)))
+  fc__warn_unused_result;
+void genhash_clear(struct genhash *pgenhash)
+  fc__attribute((nonnull (1)));
 
 bool genhash_insert(struct genhash *pgenhash, const void *key,
-                    const void *data);
+                    const void *data)
+  fc__attribute((nonnull (1)));
 bool genhash_replace(struct genhash *pgenhash, const void *key,
                      const void *data);
 bool genhash_replace_full(struct genhash *pgenhash, const void *key,
                           const void *data, void **old_pkey,
-                          void **old_pdata);
+                          void **old_pdata)
+  fc__attribute((nonnull (1)));
 
 bool genhash_lookup(const struct genhash *pgenhash, const void *key,
-                    void **pdata);
+                    void **pdata)
+  fc__attribute((nonnull (1)));
 
 bool genhash_remove(struct genhash *pgenhash, const void *key);
 bool genhash_remove_full(struct genhash *pgenhash, const void *key,
-                         void **deleted_pkey, void **deleted_pdata);
+                         void **deleted_pkey, void **deleted_pdata)
+  fc__attribute((nonnull (1)));
 
 bool genhashes_are_equal(const struct genhash *pgenhash1,
                          const struct genhash *pgenhash2);
@@ -134,4 +145,4 @@ void *genhash_iter_value(const struct iterator *genhash_iter);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__GENHASH_H */
+#endif /* FC__GENHASH_H */

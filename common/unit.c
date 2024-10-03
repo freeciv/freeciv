@@ -255,10 +255,10 @@ int unit_shield_value(const struct unit *punit,
   Return TRUE unless it is known to be impossible to disband this unit at
   its current position to get full shields for building a wonder.
 **************************************************************************/
-bool unit_can_help_build_wonder_here(const struct unit *punit)
+bool unit_can_help_build_wonder_here(const struct civ_map *nmap,
+                                     const struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
-  const struct civ_map *nmap = &(wld.map);
 
   if (pcity == NULL) {
     /* No city to help at this tile. */
@@ -469,10 +469,10 @@ bool is_hiding_unit(const struct unit *punit)
   Return TRUE iff this unit can add to a current city or build a new city
   at its current location.
 **************************************************************************/
-bool unit_can_add_or_build_city(const struct unit *punit)
+bool unit_can_add_or_build_city(const struct civ_map *nmap,
+                                const struct unit *punit)
 {
   struct city *tgt_city;
-  const struct civ_map *nmap = &(wld.map);
 
   if ((tgt_city = tile_city(unit_tile(punit)))) {
     return action_prob_possible(action_prob_vs_city(nmap, punit,
@@ -486,11 +486,10 @@ bool unit_can_add_or_build_city(const struct unit *punit)
 /**********************************************************************//**
   Return TRUE iff the unit can change homecity to the given city.
 **************************************************************************/
-bool can_unit_change_homecity_to(const struct unit *punit,
+bool can_unit_change_homecity_to(const struct civ_map *nmap,
+                                 const struct unit *punit,
 				 const struct city *pcity)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (pcity == NULL) {
     /* Can't change home city to a non existing city. */
     return FALSE;
@@ -503,9 +502,10 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 /**********************************************************************//**
   Return TRUE iff the unit can change homecity at its current location.
 **************************************************************************/
-bool can_unit_change_homecity(const struct unit *punit)
+bool can_unit_change_homecity(const struct civ_map *nmap,
+                              const struct unit *punit)
 {
-  return can_unit_change_homecity_to(punit, tile_city(unit_tile(punit)));
+  return can_unit_change_homecity_to(nmap, punit, tile_city(unit_tile(punit)));
 }
 
 /**********************************************************************//**
@@ -795,11 +795,10 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
   Return TRUE iff the given unit can leave its current transporter without
   doing any other action or move.
 **************************************************************************/
-bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
+bool can_unit_deboard_or_be_unloaded(const struct civ_map *nmap,
+                                     const struct unit *pcargo,
                                      const struct unit *ptrans)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (!pcargo || !ptrans) {
     return FALSE;
   }
@@ -973,7 +972,7 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
                                               punit, ptile, target);      \
     case ATK_CITY:                                                        \
     case ATK_UNIT:                                                        \
-    case ATK_UNITS:                                                       \
+    case ATK_STACK:                                                       \
     case ATK_SELF:                                                        \
       return FALSE;                                                       \
     case ATK_COUNT:                                                       \
@@ -2417,6 +2416,26 @@ int unit_bribe_cost(const struct unit *punit, const struct player *briber,
    *    bribecost = cost / 2 + cost / 2 * damage / hp
    *              = cost / 2 * (1 + damage / hp) */
   return ((float)cost / 2 * (1.0 + (float)punit->hp / default_hp));
+}
+
+/**********************************************************************//**
+  Calculate how expensive it is to bribe entire unit stack.
+
+  @param  ptile       Tile to bribe units from
+  @param  briber      Player that wants to bribe
+  @param  briber_unit Unit that does the bribing
+  @return             Bribe cost
+**************************************************************************/
+int stack_bribe_cost(const struct tile *ptile, const struct player *briber,
+                     const struct unit *briber_unit)
+{
+  int bribe_cost = 0;
+
+  unit_list_iterate(ptile->units, pbribed) {
+    bribe_cost += unit_bribe_cost(pbribed, briber, briber_unit);
+  } unit_list_iterate_end;
+
+  return bribe_cost;
 }
 
 /**********************************************************************//**

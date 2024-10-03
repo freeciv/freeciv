@@ -266,8 +266,7 @@ bool resize_window(struct widget *pwindow, SDL_Surface *bcgd,
 
     FREESURFACE(pwindow->dst->surface);
     pwindow->dst->surface = create_surf(pwindow->size.w,
-                                        pwindow->size.h,
-                                        SDL_SWSURFACE);
+                                        pwindow->size.h);
   }
 
   if (bcgd != pwindow->theme) {
@@ -283,7 +282,7 @@ bool resize_window(struct widget *pwindow, SDL_Surface *bcgd,
       return FALSE;
     }
   } else {
-    pwindow->theme = create_surf(new_w, new_h, SDL_SWSURFACE);
+    pwindow->theme = create_surf(new_w, new_h);
 
     if (pcolor == NULL) {
       color = *get_theme_color(COLOR_THEME_BACKGROUND);

@@ -49,6 +49,7 @@ class edit_utype : public values_dlg
     QSpinBox *hitpoints;
     QSpinBox *firepower;
     QSpinBox *move_rate;
+    QSpinBox *cargo_capacity;
     QLineEdit *gfx_tag;
     QLineEdit *gfx_tag_alt;
     QLineEdit *gfx_tag_alt2;
@@ -57,6 +58,7 @@ class edit_utype : public values_dlg
     QLineEdit *sound_fight_tag;
     QLineEdit *sound_fight_tag_alt;
 
+    QGridLayout *cargo_layout;
     QGridLayout *flag_layout;
 
   protected:
@@ -70,6 +72,7 @@ class edit_utype : public values_dlg
     void set_hitpoints(int value);
     void set_firepower(int value);
     void set_move_rate(int value);
+    void set_cargo_capacity(int value);
     void gfx_tag_given();
     void gfx_tag_alt_given();
     void gfx_tag_alt2_given();

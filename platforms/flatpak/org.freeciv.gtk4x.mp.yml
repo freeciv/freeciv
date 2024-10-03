@@ -1,6 +1,6 @@
 app-id: org.freeciv.gtk4x.mp
 runtime: org.gnome.Platform
-runtime-version: '46'
+runtime-version: '47'
 sdk: org.gnome.Sdk
 command: freeciv-mp-gtk4x
 rename-icon: freeciv-modpack

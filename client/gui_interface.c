@@ -655,7 +655,7 @@ char **get_usable_themes_in_directory(const char *directory, int *count)
 /**********************************************************************//**
   Call gui_init_meeting callback
 **************************************************************************/
-void gui_init_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_init_meeting(struct treaty *ptreaty, struct player *they,
                       struct player *initiator)
 {
   funcs.gui_init_meeting(ptreaty, they, initiator);
@@ -664,7 +664,7 @@ void gui_init_meeting(struct Treaty *ptreaty, struct player *they,
 /**********************************************************************//**
   Call gui_recv_cancel_meeting callback
 **************************************************************************/
-void gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+void gui_recv_cancel_meeting(struct treaty *ptreaty, struct player *they,
                              struct player *initiator)
 {
   funcs.gui_recv_cancel_meeting(ptreaty, they, initiator);
@@ -673,7 +673,7 @@ void gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
 /**********************************************************************//**
   Call gui_prepare_clause_updt callback
 **************************************************************************/
-void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
+void gui_prepare_clause_updt(struct treaty *ptreaty, struct player *they)
 {
   funcs.gui_prepare_clause_updt(ptreaty, they);
 }
@@ -681,7 +681,7 @@ void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
 /**********************************************************************//**
   Call gui_recv_create_clause callback
 **************************************************************************/
-void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
+void gui_recv_create_clause(struct treaty *ptreaty, struct player *they)
 {
   funcs.gui_recv_create_clause(ptreaty, they);
 }
@@ -689,7 +689,7 @@ void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
 /**********************************************************************//**
   Call gui_recv_remove_clause callback
 **************************************************************************/
-void gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
+void gui_recv_remove_clause(struct treaty *ptreaty, struct player *they)
 {
   funcs.gui_recv_remove_clause(ptreaty, they);
 }
@@ -697,7 +697,7 @@ void gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
 /**********************************************************************//**
   Call gui_recv_accept_treaty callback
 **************************************************************************/
-void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
+void gui_recv_accept_treaty(struct treaty *ptreaty, struct player *they)
 {
   funcs.gui_recv_accept_treaty(ptreaty, they);
 }

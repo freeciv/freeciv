@@ -72,12 +72,18 @@ SPECVEC_VECTOR {
   size_t size, size_alloc;
 };
 
+/**********************************************************************//**
+  Initialize the vector
+**************************************************************************/
 static inline void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis)
 {
   tthis->p = nullptr;
   tthis->size = tthis->size_alloc = 0;
 }
 
+/**********************************************************************//**
+  Allocate vector to at least to size 'size'
+**************************************************************************/
 static inline void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis,
 						 size_t size)
 {
@@ -91,11 +97,17 @@ static inline void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis,
   tthis->size = size;
 }
 
+/**********************************************************************//**
+  Return size of the vector
+**************************************************************************/
 static inline size_t SPECVEC_FOO(_vector_size) (const SPECVEC_VECTOR *tthis)
 {
   return tthis->size;
 }
 
+/**********************************************************************//**
+  Get element at position svindex
+**************************************************************************/
 static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (const SPECVEC_VECTOR
                                                       *tthis,
                                                       int svindex)
@@ -109,7 +121,11 @@ static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (const SPECVEC_VECTOR
   }
 }
 
-/* You must _init "*to" before using this function */
+/**********************************************************************//**
+  Copy vector to vector.
+
+  "*to" must be initialized by the _init() before the call.
+**************************************************************************/
 static inline void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to,
 					      const SPECVEC_VECTOR *from)
 {
@@ -119,6 +135,9 @@ static inline void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to,
   }
 }
 
+/**********************************************************************//**
+  Free the vector
+**************************************************************************/
 static inline void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)
 {
   if (tthis->p) {
@@ -127,6 +146,9 @@ static inline void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)
   SPECVEC_FOO(_vector_init)(tthis);
 }
 
+/**********************************************************************//**
+  Add pfoo to the end of the vector
+**************************************************************************/
 static inline void SPECVEC_FOO(_vector_append) (SPECVEC_VECTOR *tthis,
                                                 SPECVEC_TYPE const pfoo)
 {
@@ -134,7 +156,7 @@ static inline void SPECVEC_FOO(_vector_append) (SPECVEC_VECTOR *tthis,
   tthis->p[tthis->size - 1] = pfoo;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove element number svindex from the vector.
 **************************************************************************/
 static inline void SPECVEC_FOO(_vector_remove) (SPECVEC_VECTOR *tthis,
@@ -166,7 +188,7 @@ static inline void SPECVEC_FOO(_vector_remove) (SPECVEC_VECTOR *tthis,
   atype *var;                                           \
   for (myiter##var = 0; myiter##var < (vector)->size; myiter##var++) { \
     var = &(vector)->p[myiter##var];			        \
- 
+
 /* Balance for above: */
 #define VECTOR_ITERATE_END  }}
 

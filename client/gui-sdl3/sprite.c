@@ -142,7 +142,8 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
   mypixbuf = SDL_CreateSurface(width, height, SDL_PIXELFORMAT_RGBA8888);
 
   SDL_FillSurfaceRect(mypixbuf, NULL,
-                      SDL_MapRGBA(mypixbuf->format,
+                      SDL_MapRGBA(SDL_GetPixelFormatDetails(mypixbuf->format),
+                                  NULL,
                                   pcolor->color->r,
                                   pcolor->color->g,
                                   pcolor->color->b,

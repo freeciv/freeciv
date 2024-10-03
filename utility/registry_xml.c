@@ -41,20 +41,21 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
   secfile = secfile_new(TRUE);
 
   xmlroot = xmlDocGetRootElement(sec_doc);
-  if (xmlroot == NULL || strcmp((const char *)xmlroot->name, "Freeciv")) {
+  if (xmlroot == nullptr
+      || fc_strcasecmp((const char *)xmlroot->name, "Freeciv")) {
     /* TRANS: do not translate <Freeciv> */
     log_error(_("XML-file has no root node <Freeciv>"));
     secfile_destroy(secfile);
-    return NULL;
+    return nullptr;
   }
 
-  cap = (char *)xmlGetNsProp(xmlroot, (xmlChar *)"options", NULL);
+  cap = (char *)xmlGetNsProp(xmlroot, (xmlChar *)"options", nullptr);
 
-  if (cap == NULL) {
+  if (cap == nullptr) {
     log_error(_("XML-file has no capabilities defined!"));
     secfile_destroy(secfile);
 
-    return NULL;
+    return nullptr;
   }
   if (!has_capabilities(FCXML_CAPSTR, cap)) {
     log_error(_("XML-file has incompatible capabilities."));
@@ -62,18 +63,18 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
     log_normal(_("File capabilities: %s"), cap);
     secfile_destroy(secfile);
 
-    return NULL;
+    return nullptr;
   }
 
   if (filename) {
     secfile->name = fc_strdup(filename);
   } else {
-    secfile->name = NULL;
+    secfile->name = nullptr;
   }
 
   current = xmlroot->children;
 
-  while (current != NULL) {
+  while (current != nullptr) {
     if (current->type == XML_ELEMENT_NODE) {
       struct section *psection;
       xmlNodePtr sec_node;
@@ -81,11 +82,11 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
       psection = secfile_section_new(secfile, (const char *)current->name);
       sec_node = current->children;
 
-      while (sec_node != NULL) {
+      while (sec_node != nullptr) {
         if (sec_node->type == XML_ELEMENT_NODE) {
           xmlNodePtr value_node = sec_node->children;
 
-          while (value_node != NULL) {
+          while (value_node != nullptr) {
             if (value_node->type == XML_TEXT_NODE) {
               const char *content = (const char *) xmlNodeGetContent(value_node);
               int len = strlen(content);
@@ -103,7 +104,7 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
                                     buf)) {
                 log_error("Cannot parse token \"%s\"", content);
                 secfile_destroy(secfile);
-                return NULL;
+                return nullptr;
               }
             }
 

@@ -26,6 +26,7 @@
 
 /* server */
 #include "plrhand.h"
+#include "report.h"
 
 /* server/scripting */
 #include "script_server.h"
@@ -221,4 +222,15 @@ int api_methods_player_free_bulbs(lua_State *L, Player *pplayer)
   LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
 
   return presearch->free_bulbs;
+}
+
+/**********************************************************************//**
+  Return score of the type associated to the tag.
+**************************************************************************/
+int api_methods_tag_score(lua_State *L, Player *pplayer, const char *tag)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, pplayer, -1);
+
+  return get_tag_score(tag, pplayer);
 }
