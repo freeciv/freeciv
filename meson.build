@@ -16,7 +16,6 @@ else
 endif
 
 c_args = [
-  '-Wno-nonnull-compare',
   '-Wnested-externs'
   ]
 
