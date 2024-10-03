@@ -2658,6 +2658,13 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->city_options = pcity->city_options;
   packet->wl_cb = pcity->wlcb;
 
+  if (!dipl_invest) {
+    packet->acquire_type = pcity->acquire_t;
+  } else {
+    /* Dummy value */
+    packet->acquire_type = CACQ_CONQUEST;
+  }
+
   packet->production_kind = pcity->production.kind;
   packet->production_value = universal_number(&pcity->production);
 
