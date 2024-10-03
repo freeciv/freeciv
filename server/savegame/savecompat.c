@@ -223,7 +223,7 @@ int ascii_hex2bin(char ch, int halfbyte)
   const char *pch;
 
   if (ch == ' ') {
-    /* Sane value. It is unknow if there are savegames out there which
+    /* Sane value. It is unknown if there are savegames out there which
      * need this fix. Savegame.c doesn't write such savegames
      * (anymore) since the inclusion into CVS (2000-08-25). */
     return 0;
