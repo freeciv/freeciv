@@ -1173,12 +1173,16 @@ static gint cityrep_sort_func(GtkTreeModel *model, GtkTreeIter *a,
                               GtkTreeIter *b, gpointer data)
 {
   gint col = GPOINTER_TO_INT(data);
-  const gchar *str1, *str2;
+  gchar *str1, *str2;
+  int i;
 
   gtk_tree_model_get(model, a, col, &str1, -1);
   gtk_tree_model_get(model, b, col, &str2, -1);
 
-  return cityrepfield_compare(str1, str2);
+  i = cityrepfield_compare(str1, str2);
+  g_free(str1);
+  g_free(str2);
+  return i;
 }
 
 /************************************************************************//**
