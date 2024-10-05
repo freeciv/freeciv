@@ -29,9 +29,8 @@
 /* Metaserver URL */
 #undef FREECIV_META_URL
 
-#ifndef __EMSCRIPTEN__
+/* Metaserver communication built in */
 #define FREECIV_META_ENABLED
-#endif /* __EMSCRIPTEN__ */
 
 /* Month next version will be released */
 #undef FREECIV_RELEASE_MONTH

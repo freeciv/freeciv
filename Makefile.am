@@ -39,7 +39,6 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/codeset.m4			\
 		m4/compiler.m4			\
 		m4/debug.m4			\
-		m4/emscripten.m4		\
 		m4/expanddir.m4			\
 		m4/fc-sdl2.m4			\
 		m4/fcdb-mysql.m4		\
