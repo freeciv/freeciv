@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-06-24 03:00+0300\n"
-"PO-Revision-Date: 2024-06-25 04:11+0300\n"
+"POT-Creation-Date: 2024-10-04 03:30+0300\n"
+"PO-Revision-Date: 2024-10-05 18:57+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -34,13 +34,13 @@ msgstr "Sulje"
 
 #: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
 #: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
-#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:137
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:149
 msgid "Graphics tag"
 msgstr "Kuvitustägi"
 
 #: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
 #: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
-#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:146
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:158
 msgid "Alt graphics tag"
 msgstr "Varakuvitustägi"
 
@@ -70,7 +70,7 @@ msgstr "Poistotoiminnan kuvituksen toinen varatägi"
 
 #: tools/ruledit/edit_extra.cpp:132 tools/ruledit/edit_gov.cpp:97
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
-#: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:204
+#: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:216
 msgid "Helptext"
 msgstr "Kuvaus"
 
@@ -90,7 +90,7 @@ msgstr "Varaääniefektitägi"
 msgid "Second alt sound tag"
 msgstr "Toinen varaääniefektitägi"
 
-#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:76
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:78
 msgid "Build Cost"
 msgstr "Hinta"
 
@@ -102,7 +102,7 @@ msgstr "Ylläpito"
 msgid "Genus"
 msgstr "Suku"
 
-#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:155
+#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:167
 msgid "Second alt gfx tag"
 msgstr "Toinen varakuvitustägi"
 
@@ -122,45 +122,53 @@ msgstr "Puolustusbonus %"
 msgid "Second alt graphics tag"
 msgstr "Toinen varakuvitustägi"
 
-#: tools/ruledit/edit_utype.cpp:58
+#: tools/ruledit/edit_utype.cpp:60
 msgid "Class"
 msgstr "Luokka"
 
-#: tools/ruledit/edit_utype.cpp:87
+#: tools/ruledit/edit_utype.cpp:89
 msgid "Attack Strength"
 msgstr "Hyökkäysvoima"
 
-#: tools/ruledit/edit_utype.cpp:97
+#: tools/ruledit/edit_utype.cpp:99
 msgid "Defense Strength"
 msgstr "Puolustusvoima"
 
-#: tools/ruledit/edit_utype.cpp:107
+#: tools/ruledit/edit_utype.cpp:109
 msgid "Hitpoints"
 msgstr "Osumapisteitä"
 
-#: tools/ruledit/edit_utype.cpp:117
+#: tools/ruledit/edit_utype.cpp:119
 msgid "Firepower"
 msgstr "Tulivoima"
 
-#: tools/ruledit/edit_utype.cpp:127
+#: tools/ruledit/edit_utype.cpp:129
 msgid "Move Rate"
 msgstr "Liikkuvuus"
 
-#: tools/ruledit/edit_utype.cpp:164
+#: tools/ruledit/edit_utype.cpp:139
+msgid "Transport Capacity"
+msgstr "Kuljetuskapasiteetti"
+
+#: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
 msgstr "Liikkumisäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:174
+#: tools/ruledit/edit_utype.cpp:186
 msgid "Alt move sound tag"
 msgstr "Varaliikkumisäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:184
+#: tools/ruledit/edit_utype.cpp:196
 msgid "Fight sound tag"
 msgstr "Taisteluäänitägi"
 
-#: tools/ruledit/edit_utype.cpp:194
+#: tools/ruledit/edit_utype.cpp:206
 msgid "Alt fight sound tag"
 msgstr "Varataisteluäänitägi"
+
+#: tools/ruledit/edit_utype.cpp:220
+msgid "Cargo"
+msgstr "Lasti"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
