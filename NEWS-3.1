@@ -1,10 +1,102 @@
 ========================
-Welcome to Freeciv 3.1.2
+Welcome to Freeciv 3.1.3
 ========================
 
 The changes in the 3.1.x series are summarised below.
 For changes prior to 3.1, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.1.2 to 3.1.3
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.3>, 2024-10-05)
+
+3.1.3 is a generic bugfix release.
+
+Server / General
+
+    * Deprecation warning about numeric log levels now given even
+      if deprecation warnings get enabled only by later parameter
+      osdn#45954
+
+Changes affecting players (supplied rulesets)
+
+    * sandbox
+          + Fixed actions that should require unit to have
+            veterancy levels to be enabled at correct times RM#784
+
+Low-level changes
+
+    * Better handle errors on network socket querying RM#851
+
+General
+
+    * Optimizations RM#879
+    * Various internal changes which should only affect developers.
+      RM#791 RM#798 RM#868
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where it should
+      RM#739 RM#758 RM#785 RM#792 RM#799 RM#809 RM#819 RM#839 RM#853
+      RM#871 RM#893
+    * AI now refuses to receive techs when it can't afford tech upkeep
+      RM#788
+    * Better evaluation of Veteran_Combat effect's worth RM#794
+    * Fixes potential crash on AI caravan handling RM#872
+
+Clients
+
+    * Fixed diplomacy crash when partner government unknown RM#814
+
+    * gtk
+          + Fixed crash when closing last diplomacy tab RM#750
+          + Fixed editor failures when government of some player
+            is not known RM#860
+
+    * Qt
+          + Adjusted city dialog so that it can fit in a bit
+            smaller display vertically osdn#117756
+
+Tools
+Ruledit
+
+    * Added unit's cargo properties editing RM#849 RM#878
+
+Ruleup
+
+    * Corrected some errors to be logged on proper logging level RM#917
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#783 RM#800 RM#810 RM#100 RM#830 osdn#45636
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#762 RM#787 RM#796 RM#816 RM#827 RM#760 RM#832 RM#847 RM#536
+
+Translations
+
+    * Updated translations: de, fi, ru
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#745 RM#769 RM#775 RM#801 RM#808 RM#822 RM#823 RM#838 RM#873
+    * Fixed deprecated Qt code RM#734 RM#820
+    * Improved configure error message about missing sqlite3 RM#753
+    * Included copy of Lua updated to 5.4.7 and official
+      patches 2 and 3 applied RM#683 RM#761 RM#883
+    * Fixes clang-20 development version compiler warnings RM#773
+    * Crosser based builds updated to use crosser-2.9 RM#722
+    * Meson based builds improvements
+          + Small flag sprites are now installed, fixing tilesets
+            that use them, such as Trident RM#824
+          + Fixes to build system internal dependency definitions,
+            fixing intermittent and rare build failures RM#826 RM#896
+    * Flatpak updates
+          + Freedesktop Sdk and Platform updated to 24.08 RM#850
+          + Gnome Sdk and Platform updated to 47 RM#877
 
 
 CHANGES FROM 3.1.1 to 3.1.2
