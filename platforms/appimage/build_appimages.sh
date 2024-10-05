@@ -98,7 +98,7 @@ then
 fi
 
 if ! ( cd tools &&
-       wget "https://github.com/linuxdeploy/linuxdeploy/releases/download/${LINUXDEPLOY_VERSION}/linuxdeploy-x86_64.AppImage" )
+       wget2 "https://github.com/linuxdeploy/linuxdeploy/releases/download/${LINUXDEPLOY_VERSION}/linuxdeploy-x86_64.AppImage" )
 then
   echo "Failed to download linuxdeploy!" >&2
   exit 1
