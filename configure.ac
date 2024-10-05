@@ -25,8 +25,6 @@ dnl AC_SYS_YEAR2038() added in autoconf-2.73
 m4_ifdef([AC_SYS_YEAR2038],
    [AC_SYS_YEAR2038])
 
-FC_EMSCRIPTEN
-
 BUG_URL="$PACKAGE_BUGREPORT"
 MAIL_ADDRESS="freeciv-dev AT freelists.org"
 
@@ -133,15 +131,7 @@ AC_ARG_ENABLE([fcdb],
   AS_HELP_STRING([--enable-fcdb[=no/all/mysql/odbc/postgres/sqlite3]],
                  [database backends [sqlite3](no, or list)]),
 [databases=${enableval}],
-[if test "x$emscripten" != "xyes" ; then
-  databases=sqlite3
-else
-  databases=no
-fi])
-
-if test "x$emscripten" = "xyes" && test "x$databases" != "xno" ; then
-  AC_MSG_ERROR([fcdb not supported with emscripten])
-fi
+[databases=sqlite3])
 
 for db in $(echo $databases | $SED 's/,/ /g') ; do
   if test "x$db" = "xall" ; then
@@ -164,11 +154,7 @@ done
 AC_ARG_ENABLE([fcmp],
   AS_HELP_STRING([--enable-fcmp=no/yes/gtk3/gtk4/gtk4x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
-[if test "x$emscripten" = "xyes" ; then
-  fc_mp=no
-else
-  fc_mp=auto
-fi])
+[fc_mp=auto])
 
 fcmp_cli=no
 fcmp_gtk3=no
@@ -176,10 +162,6 @@ fcmp_gtk4=no
 fcmp_gtk5=no
 fcmp_qt=no
 fcmp_list=
-
-if test "x$fc_mp" != "xno" && test "x$emscripten" = "xyes" ; then
-  AC_MSG_ERROR([fcmp not supported with emscripten])
-fi
 
 if test "x$fc_mp" = "xcli" ; then
   dnl Only cli requested -> no gui needed
@@ -651,16 +633,14 @@ if test "x$PKG_CONFIG" = "x" ; then
   AC_MSG_ERROR([pkg-config not found])
 fi
 
-if test "x$emscripten" != "xyes" ; then
-  PKG_CHECK_MODULES([CURL_MIME_API], [libcurl > 7.56.0],
-    [UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_MIME_API_CFLAGS}"
-     UTILITY_LIBS="${UTILITY_LIBS} ${CURL_MIME_API_LIBS}"
-     AC_DEFINE([HAVE_CURL_MIME_API], [1], [libcurl has the mime api])],
-    [PKG_CHECK_MODULES([CURL], [libcurl >= 7.15.4],
-      [UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
-       UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"],
-      [AC_MSG_ERROR([libcurl development files required])])])
-fi
+PKG_CHECK_MODULES([CURL_MIME_API], [libcurl > 7.56.0],
+  [UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_MIME_API_CFLAGS}"
+   UTILITY_LIBS="${UTILITY_LIBS} ${CURL_MIME_API_LIBS}"
+   AC_DEFINE([HAVE_CURL_MIME_API], [1], [libcurl has the mime api])],
+  [PKG_CHECK_MODULES([CURL], [libcurl >= 7.15.4],
+    [UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
+     UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"],
+    [AC_MSG_ERROR([libcurl development files required])])])
 
 AC_ARG_ENABLE([xml-registry],
   AS_HELP_STRING([--enable-xml-registry], [build xml-backend for registry (WIP)]),
@@ -678,15 +658,10 @@ if test "x$XMLREGISTRY" = "xyes" ; then
   AC_DEFINE([FREECIV_HAVE_XML_REGISTRY], [1], [Build xml-backend for registry])
 fi
 
-if test "x$emscripten" != "xyes" ; then
-  PKG_CHECK_MODULES([ICU], [icu-uc],,
-      [AC_MSG_ERROR([icu development files not found. Adjusting PKG_CONFIG_PATH may help])])
-  UTILITY_CFLAGS="${UTILITY_CFLAGS} ${ICU_CFLAGS}"
-  UTILITY_LIBS="${UTILITY_LIBS} ${ICU_LIBS}"
-else
-  CFLAGS="$CFLAGS -s USE_ICU=1"
-  CXXFLAGS="$CXXFLAGS -s USE_ICU=1"
-fi
+PKG_CHECK_MODULES([ICU], [icu-uc],,
+    [AC_MSG_ERROR([icu development files not found. Adjusting PKG_CONFIG_PATH may help])])
+UTILITY_CFLAGS="${UTILITY_CFLAGS} ${ICU_CFLAGS}"
+UTILITY_LIBS="${UTILITY_LIBS} ${ICU_LIBS}"
 
 dnl Should we build Qt5 versions of Qt programs?
 dnl This needs to be before C++ compiler check FC_WORKING_CXX, and
@@ -768,10 +743,6 @@ dnl Defaults to override with host specific values
 HOST_PATH_SEPARATOR=":"
 HOST_DIR_SEPARATOR="/"
 
-if test "x$emscripten" = "xyes" ; then
-  AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - emscripten])
-fi
-
 dnl Settings specific to host OS
 case "$host_os" in
 
@@ -837,21 +808,16 @@ CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
 
 COMMON_LIBS="${COMMON_LIBS} -lm"
 
-if test "x$emscripten" != "xyes" ; then
-  dnl Check for zlib
-  AC_CHECK_LIB([z], [gzgets],
-    [AC_DEFINE([FREECIV_HAVE_LIBZ], [1], [zlib is available])
-  UTILITY_LIBS="${UTILITY_LIBS} -lz"
-  COMMON_LIBS="$COMMON_LIBS -lz"],
-    AC_MSG_ERROR([Could not find zlib library.]))
+dnl Check for zlib
+AC_CHECK_LIB([z], [gzgets],
+  [AC_DEFINE([FREECIV_HAVE_LIBZ], [1], [zlib is available])
+UTILITY_LIBS="${UTILITY_LIBS} -lz"
+COMMON_LIBS="$COMMON_LIBS -lz"],
+  AC_MSG_ERROR([Could not find zlib library.]))
 
-  AC_CHECK_HEADER([zlib.h], [],
-    AC_MSG_ERROR([zlib found but not zlib.h.
+AC_CHECK_HEADER([zlib.h], [],
+  AC_MSG_ERROR([zlib found but not zlib.h.
 You may need to install a zlib devel package.]))
-else
-  CFLAGS="$CFLAGS -s USE_ZLIB=1"
-  CXXFLAGS="$CXXFLAGS -s USE_ZLIB=1"
-fi
 
 AC_PATH_PROG(GZIP, gzip, "no")
 if test "$GZIP" = "no"; then
@@ -1000,11 +966,6 @@ LIBS_SAVE="${LIBS}"
 if test "x$fctinycthr" = "xyes" ; then
   thread_impl_c=tinycthread
   thread_impl_cpp=tinycthread
-elif test "x$emscripten" = "xyes" ; then
-  thread_impl_c=pthreads
-  thread_impl_cpp=pthreads
-  CFLAGS="$CFLAGS -s USE_PTHREADS=1"
-  CXXFLAGS="$CXXFLAGS -s USE_PTHREADS=1"
 fi
 
 if test "x$thread_impl_c" = "xnone" ; then
@@ -1810,14 +1771,12 @@ AC_ARG_ENABLE([sys-tolua-cmd],
   no)
     if test "x$cross_compiling" = "xyes" ; then
       AC_MSG_ERROR([Must use external build system tolua command when cross-compiling])
-    elif test "x$emscripten" = "xyes" ; then
-      AC_MSG_ERROR([Must use external build system tolua command in emscripten build])
     fi
     sys_tolua_cmd=false ;;
   *)
     sys_tolua_cmd=${enableval} ;;
 esac], [
-if test "x$cross_compiling" = "xyes" || test "x$emscripten" = "xyes" ; then
+if test "x$cross_compiling" = "xyes" ; then
   sys_tolua_cmd=true
 else
   dnl Our own tolua is better than upstream one, so prefer it.
