@@ -193,7 +193,7 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
               SDL_Surface *dst, SDL_Rect *dstrect,
               unsigned char alpha_mod)
 {
-  int ret;
+  bool ret;
 
   if (src == NULL || dst == NULL) {
     return 1;
@@ -203,11 +203,13 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
 
   ret = SDL_BlitSurface(src, srcrect, dst, dstrect);
 
-  if (ret) {
+  if (!ret) {
     log_error("SDL_BlitSurface() fails: %s", SDL_GetError());
+
+    return -1;
   }
 
-  return ret;
+  return 0;
 }
 
 /**********************************************************************//**
