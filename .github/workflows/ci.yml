@@ -201,7 +201,7 @@ jobs:
             liblzma-dev \
             libicu-dev \
             libsqlite3-dev \
-            qtbase5-dev \
+            qt6-base-dev \
             libsdl2-mixer-dev \
             libsdl2-gfx-dev \
             libsdl2-image-dev \
