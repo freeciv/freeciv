@@ -80,7 +80,8 @@ export CPPFLAGS="-I$(brew --prefix gettext)/include -I$(brew --prefix icu4c)/inc
 export LDFLAGS="-L$(brew --prefix gettext)/lib -L$(brew --prefix icu4c)/lib -L$(brew --prefix qt@6)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix unixodbc)/lib -L${MSQLPFX}/lib -L${OSSL_PFX}/lib"
 export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
 
-export MOCCMD=$(find /usr/local/Cellar/qt -name "moc" | head -n 1)
+export MOCCMD=$(find /opt/homebrew/Cellar/qt -name "moc" | head -n 1)
+echo "MOCCMD: \"${MOCCMD}\""
 
 mkdir build
 cd build
