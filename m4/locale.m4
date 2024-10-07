@@ -9,7 +9,7 @@ AC_DEFUN([FC_LIBCHARSET],
      [LIBS="$LIBS -lcharset"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <libcharset.h>]], [[locale_charset()]])],
       [dnl Link against libcharset also when building actual freeciv
-       lc_save_LIBS="$LIBS -lcharset"
+       lc_save_LIBS="$lc_save_LIBS -lcharset"
        am_cv_libcharset=yes],
       [am_cv_libcharset=no])])
      LIBS="$lc_save_LIBS"
