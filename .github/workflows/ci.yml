@@ -89,7 +89,7 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh os_x
   mac-meson:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v4.1.7
