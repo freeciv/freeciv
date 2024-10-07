@@ -427,7 +427,7 @@ static bool nuke_animation(struct animation *anim, double time_gone)
 ****************************************************************************/
 void update_animation(void)
 {
-  if (animation_list_size(animations) > 0) {
+  if (animations != NULL && animation_list_size(animations) > 0) {
     struct animation *anim = animation_list_get(animations, 0);
 
     if (anim->finished) {
