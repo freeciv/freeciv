@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-07-05 20:26+0300\n"
-"PO-Revision-Date: 2024-07-02 15:36+0200\n"
+"POT-Creation-Date: 2024-10-04 03:30+0300\n"
+"PO-Revision-Date: 2024-10-06 13:48+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
 #: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:190
@@ -25,13 +25,13 @@ msgstr "Zamknij"
 
 #: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
 #: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
-#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:153
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:165
 msgid "Graphics tag"
 msgstr "Znacznik grafiki"
 
 #: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
 #: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
-#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:162
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:174
 msgid "Alt graphics tag"
 msgstr "Alternatywny znacznik grafiki"
 
@@ -57,7 +57,7 @@ msgstr "Znacznik grafiki usuwania"
 
 #: tools/ruledit/edit_extra.cpp:123 tools/ruledit/edit_gov.cpp:70
 #: tools/ruledit/edit_impr.cpp:137 tools/ruledit/edit_tech.cpp:89
-#: tools/ruledit/edit_terrain.cpp:99 tools/ruledit/edit_utype.cpp:211
+#: tools/ruledit/edit_terrain.cpp:99 tools/ruledit/edit_utype.cpp:223
 msgid "Helptext"
 msgstr "Tekst pomocy"
 
@@ -65,7 +65,7 @@ msgstr "Tekst pomocy"
 msgid "Native to"
 msgstr "Natywny dla"
 
-#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:92
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:94
 msgid "Build Cost"
 msgstr "Koszt budowy"
 
@@ -97,49 +97,57 @@ msgstr "Koszt ruchu"
 msgid "Defense Bonus %"
 msgstr "Dodatek do obrony %"
 
-#: tools/ruledit/edit_utype.cpp:59
+#: tools/ruledit/edit_utype.cpp:61
 msgid "Requirement"
 msgstr "Wymagania"
 
-#: tools/ruledit/edit_utype.cpp:74
+#: tools/ruledit/edit_utype.cpp:76
 msgid "Class"
 msgstr "Klasa"
 
-#: tools/ruledit/edit_utype.cpp:103
+#: tools/ruledit/edit_utype.cpp:105
 msgid "Attack Strength"
 msgstr "Siła ataku"
 
-#: tools/ruledit/edit_utype.cpp:113
+#: tools/ruledit/edit_utype.cpp:115
 msgid "Defense Strength"
 msgstr "Siła obrony"
 
-#: tools/ruledit/edit_utype.cpp:123
+#: tools/ruledit/edit_utype.cpp:125
 msgid "Hitpoints"
 msgstr "Punkty obrażeń"
 
-#: tools/ruledit/edit_utype.cpp:133
+#: tools/ruledit/edit_utype.cpp:135
 msgid "Firepower"
 msgstr "Siła ognia"
 
-#: tools/ruledit/edit_utype.cpp:143
+#: tools/ruledit/edit_utype.cpp:145
 msgid "Move Rate"
 msgstr "Szybkość"
 
-#: tools/ruledit/edit_utype.cpp:171
+#: tools/ruledit/edit_utype.cpp:155
+msgid "Transport Capacity"
+msgstr "Ładowność"
+
+#: tools/ruledit/edit_utype.cpp:183
 msgid "Move sound tag"
 msgstr "Znacznik dźwięku ruchu"
 
-#: tools/ruledit/edit_utype.cpp:181
+#: tools/ruledit/edit_utype.cpp:193
 msgid "Alt move sound tag"
 msgstr "Alternatywny znacznik dźwięku ruchu"
 
-#: tools/ruledit/edit_utype.cpp:191
+#: tools/ruledit/edit_utype.cpp:203
 msgid "Fight sound tag"
 msgstr "Znacznik dźwięku walki"
 
-#: tools/ruledit/edit_utype.cpp:201
+#: tools/ruledit/edit_utype.cpp:213
 msgid "Alt fight sound tag"
 msgstr "Alternatywny znacznik dźwięku walki"
+
+#: tools/ruledit/edit_utype.cpp:227
+msgid "Cargo"
+msgstr "Ładunek"
 
 #: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
