@@ -57,7 +57,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-3.0/gtk.css", directory,
               theme_name);
 
-  gtk_css_provider_load_from_file(fc_css_provider, g_file_new_for_path(buf), &error);
+  gtk_css_provider_load_from_path(fc_css_provider, buf, &error);
 
   if (error) {
     g_warning("%s\n", error->message);
