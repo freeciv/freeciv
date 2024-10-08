@@ -160,6 +160,7 @@ static void main_callback(GtkWidget *w, gpointer data)
 static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
 {
   static PangoLayout *layout;
+  PangoFontDescription* desc;
   static int width, height;
   static bool left = FALSE;
 
@@ -168,8 +169,9 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
     const char *rev_ver;
 
     layout = pango_layout_new(gdk_pango_context_get());
-    pango_layout_set_font_description(layout,
-         pango_font_description_from_string("Sans Bold 10"));
+    desc = pango_font_description_from_string("Sans Bold 10");
+    pango_layout_set_font_description(layout, desc);
+    pango_font_description_free(desc);
 
     rev_ver = fc_git_revision();
 
