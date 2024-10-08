@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_1 (nations)\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-07-12 00:42+0300\n"
-"PO-Revision-Date: 2024-02-16 15:01+0100\n"
+"POT-Creation-Date: 2024-10-04 03:30+0300\n"
+"PO-Revision-Date: 2024-10-06 13:47+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -766,9 +766,9 @@ msgstr "?female:Szeryf %s"
 #: data/nation/confederate.ruleset:36 data/nation/florida.ruleset:32
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/louisianian.ruleset:48
-#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
-#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
-#: data/nation/vermont.ruleset:27
+#: data/nation/minnesotan.ruleset:30 data/nation/miskito.ruleset:34
+#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
+#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Wielebny %s"
@@ -777,9 +777,9 @@ msgstr "Wielebny %s"
 #: data/nation/confederate.ruleset:36 data/nation/florida.ruleset:32
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/louisianian.ruleset:48
-#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
-#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
-#: data/nation/vermont.ruleset:27
+#: data/nation/minnesotan.ruleset:30 data/nation/miskito.ruleset:34
+#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
+#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "?female:Wielebna %s"
@@ -2300,8 +2300,9 @@ msgstr "Rzeczniczka %s"
 #: data/nation/epirote.ruleset:32 data/nation/faroese.ruleset:30
 #: data/nation/gepid.ruleset:46 data/nation/italiangreek.ruleset:49
 #: data/nation/liberian.ruleset:30 data/nation/louisianian.ruleset:47
-#: data/nation/marshallese.ruleset:23 data/nation/nauruan.ruleset:32
-#: data/nation/toltec.ruleset:33 data/nation/urartian.ruleset:37
+#: data/nation/marshallese.ruleset:23 data/nation/minnesotan.ruleset:29
+#: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
+#: data/nation/urartian.ruleset:37
 #, c-format
 msgid "Speaker %s"
 msgstr "Mówca %s"
@@ -2310,8 +2311,9 @@ msgstr "Mówca %s"
 #: data/nation/epirote.ruleset:32 data/nation/faroese.ruleset:30
 #: data/nation/gepid.ruleset:46 data/nation/italiangreek.ruleset:49
 #: data/nation/liberian.ruleset:30 data/nation/louisianian.ruleset:47
-#: data/nation/marshallese.ruleset:23 data/nation/nauruan.ruleset:32
-#: data/nation/toltec.ruleset:33 data/nation/urartian.ruleset:37
+#: data/nation/marshallese.ruleset:23 data/nation/minnesotan.ruleset:29
+#: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
+#: data/nation/urartian.ruleset:37
 #, c-format
 msgid "?female:Speaker %s"
 msgstr "?female:Mówczyni %s"
@@ -2552,10 +2554,10 @@ msgstr ""
 #: data/nation/guinean.ruleset:19 data/nation/honduran.ruleset:29
 #: data/nation/israeli.ruleset:24 data/nation/lebanese.ruleset:28
 #: data/nation/mexican.ruleset:51 data/nation/nicaraguan.ruleset:32
-#: data/nation/panamanian.ruleset:29 data/nation/salvadoran.ruleset:33
-#: data/nation/siberian.ruleset:22 data/nation/southvietnamese.ruleset:23
-#: data/nation/uruguayan.ruleset:23 data/nation/venezuelan.ruleset:30
-#: data/nation/westernroman.ruleset:30
+#: data/nation/panamanian.ruleset:29 data/nation/poyaisian.ruleset:28
+#: data/nation/salvadoran.ruleset:33 data/nation/siberian.ruleset:22
+#: data/nation/southvietnamese.ruleset:23 data/nation/uruguayan.ruleset:23
+#: data/nation/venezuelan.ruleset:30 data/nation/westernroman.ruleset:30
 #, c-format
 msgid "General %s"
 msgstr "Generał %s"
@@ -2568,9 +2570,10 @@ msgstr "Generał %s"
 #: data/nation/guinean.ruleset:19 data/nation/honduran.ruleset:29
 #: data/nation/israeli.ruleset:24 data/nation/lebanese.ruleset:28
 #: data/nation/mexican.ruleset:51 data/nation/nicaraguan.ruleset:32
-#: data/nation/panamanian.ruleset:29 data/nation/salvadoran.ruleset:33
-#: data/nation/siberian.ruleset:22 data/nation/uruguayan.ruleset:23
-#: data/nation/venezuelan.ruleset:30 data/nation/westernroman.ruleset:30
+#: data/nation/panamanian.ruleset:29 data/nation/poyaisian.ruleset:28
+#: data/nation/salvadoran.ruleset:33 data/nation/siberian.ruleset:22
+#: data/nation/uruguayan.ruleset:23 data/nation/venezuelan.ruleset:30
+#: data/nation/westernroman.ruleset:30
 #, c-format
 msgid "?female:General %s"
 msgstr "?female:Generał %s"
@@ -4081,6 +4084,30 @@ msgstr "Przewodniczący %s"
 msgid "Chairwoman %s"
 msgstr "Przewodnicząca %s"
 
+#: data/nation/conch.ruleset:3
+msgid "Conch"
+msgstr ""
+
+#: data/nation/conch.ruleset:4
+#, fuzzy
+#| msgid "?plural:Comanches"
+msgid "?plural:Conch"
+msgstr "?plural:Komancze"
+
+#: data/nation/conch.ruleset:6
+msgid ""
+"In 1982, as part of a protest to a US Border Patrol station near Monroe "
+"County, Florida, the city of Key West declared that they were seceding from "
+"the US as the Conch Republic. They then declared war against the US, by "
+"breaking a loaf of stale Cuban bread over the head of a man dressed as a "
+"sailor. They surrendered after one minute, and then requested one billion "
+"dollars of foreign aid. The faux-secession of the Conch Republic helped "
+"bring awareness to issues of the Florida Keys, and the border patrol station "
+"was quietly removed. To this day, Key West sells Conch Republic memorabilia "
+"to tourists, and the Conch Republic has been involved in other protests by "
+"Key West and the Florida Keys."
+msgstr ""
+
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
 msgstr "Konfederacki"
@@ -5309,13 +5336,13 @@ msgid "Fra %s"
 msgstr "Emira %s"
 
 #: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:51
-#: data/nation/milanese.ruleset:29
+#: data/nation/milanese.ruleset:29 data/nation/poyaisian.ruleset:29
 #, c-format
 msgid "Captain %s"
 msgstr "Kapitan %s"
 
 #: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:51
-#: data/nation/milanese.ruleset:29
+#: data/nation/milanese.ruleset:29 data/nation/poyaisian.ruleset:29
 #, c-format
 msgid "?female:Captain %s"
 msgstr "?female:Kapitan %s"
@@ -8055,13 +8082,13 @@ msgstr "Wielki Król %s"
 msgid "Queenfish %s"
 msgstr "Wielka Królowa %s"
 
-#: data/nation/louisianian.ruleset:46
+#: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
 #, fuzzy, c-format
 #| msgid "Governor %s"
 msgid "Governeror %s"
 msgstr "Gubernator %s"
 
-#: data/nation/louisianian.ruleset:46
+#: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
 #, fuzzy, c-format
 #| msgid "?female:Governor %s"
 msgid "?female:Governeror %s"
@@ -8852,6 +8879,25 @@ msgstr ""
 "Mediolan jest stolicą Lombardii, regionu w północnych Włoszech. W latach "
 "1395-1797 była stolicą księstwa Mediolanu. Po wojnach napoleońskich miasto "
 "znalazło się pod rządami Austrii, a w 1859 zostało przyłączone do Włoch."
+
+#: data/nation/minnesotan.ruleset:3
+#, fuzzy
+#| msgid "Lesothoan"
+msgid "Minnesotan"
+msgstr "Lesotyjski"
+
+#: data/nation/minnesotan.ruleset:4
+#, fuzzy
+#| msgid "?plural:Lesothoans"
+msgid "?plural:Minnesotans"
+msgstr "?plural:Lesotyjczycy"
+
+#: data/nation/minnesotan.ruleset:6
+msgid ""
+"Minnesota is a state located in the American Midwest notable for its cold "
+"environment and many lakes present. It was admitted into the union as a "
+"state on May 11th, 1858."
+msgstr ""
 
 #: data/nation/miskito.ruleset:3
 msgid "Miskito"
@@ -10557,6 +10603,35 @@ msgstr ""
 "bastionem Cesarstwa Rzymskiego, zanim ostatecznie uległo Osmanom w 1461 "
 "roku. Po I Wojnie Światowej rdzenni Pontyjczycy zostali przesiedleni i dziś "
 "mieszkańcy Pontu są pochodzenia tureckiego."
+
+#: data/nation/poyaisian.ruleset:3
+msgid "Poyais"
+msgstr ""
+
+#: data/nation/poyaisian.ruleset:4
+#, fuzzy
+#| msgid "Polynesian"
+msgid "Poyaisians"
+msgstr "Polinezyjski"
+
+#: data/nation/poyaisian.ruleset:6
+msgid ""
+"Poyais is a totally real nation founded by Gregor MacGregor that lasted from "
+"1821 to 1837 located in Central America, totally not a scam devised by "
+"MacGregor to sell people fake government bonds for land ill fit for farming."
+msgstr ""
+
+#: data/nation/poyaisian.ruleset:30
+#, fuzzy, c-format
+#| msgid "Cacique %s"
+msgid "Cazique %s"
+msgstr "Kacyk %s"
+
+#: data/nation/poyaisian.ruleset:30
+#, fuzzy, c-format
+#| msgid "Calipha %s"
+msgid "Cazica %s"
+msgstr "Kalifa  %s"
 
 #: data/nation/prussian.ruleset:3
 msgid "Prussian"
@@ -15662,9 +15737,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Państwo polskie zostało założone ponad tysiąc lat temu. Swój złoty wiek "
 #~ "osiągnęło w XVI wieku."
-
-#~ msgid "Polynesian"
-#~ msgstr "Polinezyjski"
 
 #~ msgid "?plural:Polynesian"
 #~ msgstr "?plural:Polinezyjczycy"

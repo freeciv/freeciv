@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-07-12 00:43+0300\n"
-"PO-Revision-Date: 2024-07-02 15:36+0200\n"
+"POT-Creation-Date: 2024-10-04 03:30+0300\n"
+"PO-Revision-Date: 2024-10-06 13:48+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:191
@@ -25,13 +25,13 @@ msgstr "Zamknij"
 
 #: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
 #: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
-#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:137
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:149
 msgid "Graphics tag"
 msgstr "Znacznik grafiki"
 
 #: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
 #: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
-#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:146
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:158
 msgid "Alt graphics tag"
 msgstr "Alternatywny znacznik grafiki"
 
@@ -63,7 +63,7 @@ msgstr "Drugi alternatywny znacznik grafiki"
 
 #: tools/ruledit/edit_extra.cpp:132 tools/ruledit/edit_gov.cpp:97
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
-#: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:204
+#: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:216
 msgid "Helptext"
 msgstr "Tekst pomocy"
 
@@ -85,7 +85,7 @@ msgstr "Alternatywny znacznik dźwięku"
 msgid "Second alt sound tag"
 msgstr "Alternatywny znacznik dźwięku"
 
-#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:76
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:78
 msgid "Build Cost"
 msgstr "Koszt budowy"
 
@@ -97,7 +97,7 @@ msgstr "Koszta"
 msgid "Genus"
 msgstr "Rodzaj"
 
-#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:155
+#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:167
 #, fuzzy
 #| msgid "Second alt activity gfx tag"
 msgid "Second alt gfx tag"
@@ -121,45 +121,53 @@ msgstr "Dodatek do obrony %"
 msgid "Second alt graphics tag"
 msgstr "Alternatywny znacznik grafiki"
 
-#: tools/ruledit/edit_utype.cpp:58
+#: tools/ruledit/edit_utype.cpp:60
 msgid "Class"
 msgstr "Klasa"
 
-#: tools/ruledit/edit_utype.cpp:87
+#: tools/ruledit/edit_utype.cpp:89
 msgid "Attack Strength"
 msgstr "Siła ataku"
 
-#: tools/ruledit/edit_utype.cpp:97
+#: tools/ruledit/edit_utype.cpp:99
 msgid "Defense Strength"
 msgstr "Siła obrony"
 
-#: tools/ruledit/edit_utype.cpp:107
+#: tools/ruledit/edit_utype.cpp:109
 msgid "Hitpoints"
 msgstr "Punkty obrażeń"
 
-#: tools/ruledit/edit_utype.cpp:117
+#: tools/ruledit/edit_utype.cpp:119
 msgid "Firepower"
 msgstr "Siła ognia"
 
-#: tools/ruledit/edit_utype.cpp:127
+#: tools/ruledit/edit_utype.cpp:129
 msgid "Move Rate"
 msgstr "Szybkość"
 
-#: tools/ruledit/edit_utype.cpp:164
+#: tools/ruledit/edit_utype.cpp:139
+msgid "Transport Capacity"
+msgstr "Ładowność"
+
+#: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
 msgstr "Znacznik dźwięku ruchu"
 
-#: tools/ruledit/edit_utype.cpp:174
+#: tools/ruledit/edit_utype.cpp:186
 msgid "Alt move sound tag"
 msgstr "Alternatywny znacznik dźwięku ruchu"
 
-#: tools/ruledit/edit_utype.cpp:184
+#: tools/ruledit/edit_utype.cpp:196
 msgid "Fight sound tag"
 msgstr "Znacznik dźwięku walki"
 
-#: tools/ruledit/edit_utype.cpp:194
+#: tools/ruledit/edit_utype.cpp:206
 msgid "Alt fight sound tag"
 msgstr "Alternatywny znacznik dźwięku walki"
+
+#: tools/ruledit/edit_utype.cpp:220
+msgid "Cargo"
+msgstr "Ładunek"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
