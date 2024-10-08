@@ -169,6 +169,7 @@ static void intro_expose(GtkDrawingArea *w, cairo_t *cr,
                          int width, int height, gpointer data)
 {
   static PangoLayout *layout;
+  PangoFontDescription* desc;
   static int pwidth, pheight;
   static bool left = FALSE;
   GtkAllocation allocation;
@@ -182,8 +183,9 @@ static void intro_expose(GtkDrawingArea *w, cairo_t *cr,
     const char *rev_ver;
 
     layout = pango_layout_new(gtk_widget_create_pango_context(GTK_WIDGET(w)));
-    pango_layout_set_font_description(layout,
-         pango_font_description_from_string("Sans Bold 10"));
+    desc = pango_font_description_from_string("Sans Bold 10");
+    pango_layout_set_font_description(layout, desc);
+    pango_font_description_free(desc);
 
     rev_ver = fc_git_revision();
 

@@ -58,7 +58,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-4.0/gtk.css", directory,
               theme_name);
 
-  gtk_css_provider_load_from_file(theme_provider, g_file_new_for_path(buf));
+  gtk_css_provider_load_from_path(theme_provider, buf);
 }
 
 /*************************************************************************//**
