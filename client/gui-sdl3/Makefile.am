@@ -1,6 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
 EXTRA_DIST = \
+	SDL3_gfx/SDL3_rotozoom.c \
+	SDL3_gfx/SDL3_rotozoom.h \
 	action_dialog.c \
 	canvas.c	\
 	canvas.h	\

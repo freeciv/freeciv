@@ -3829,14 +3829,12 @@ endif
 if get_option('clients').contains('sdl3')
 
 sdl3_gfx_dep = []
-sdl3_gfx_src = []
 sdl3_gfx_inc = []
 sdl3_gfx_cargs = []
 sdl3_image_dep = []
 sdl3_ttf_dep = []
 
 if not emscripten
-  sdl3_gfx_src = 'dependencies/SDL3_gfx/SDL3_rotozoom.c'
   sdl3_gfx_inc = include_directories('dependencies')
 
   sdl3_image_dep = c_compiler.find_library('SDL3_image', dirs: cross_lib_path,
@@ -3894,7 +3892,7 @@ executable('freeciv-sdl2x',
   'client/gui-sdl3/widget_scrollbar.c',
   'client/gui-sdl3/widget_window.c',
   'client/gui-sdl3/wldlg.c',
-  sdl3_gfx_src,
+  'client/gui-sdl3/SDL3_gfx/SDL3_rotozoom.c',
   clienticon,
   include_directories: [client_inc, sdl3_gfx_inc ],
   dependencies: [sdl3main_dep, audio_dep,
