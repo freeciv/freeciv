@@ -340,6 +340,59 @@ static void citydlg_response_callback(GtkDialog *dlg, gint response,
 static void close_callback(GtkWidget *w, gpointer data);
 static void switch_city_callback(GtkWidget *w, gpointer data);
 
+#define FC_TYPE_IMPR_ROW (fc_impr_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcImprRow, fc_impr_row, FC, IMPR_ROW, GObject)
+
+struct _FcImprRow
+{
+  GObject parent_instance;
+
+  int sell_value;
+  GdkPixbuf *sprite;
+  char *description;
+  int upkeep;
+  bool redundant;
+  char *tooltip;
+};
+
+struct _FcImprClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcImprRow, fc_impr_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcImprRow class
+**************************************************************************/
+static void
+fc_impr_row_class_init(FcImprRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcImprRow
+**************************************************************************/
+static void
+fc_impr_row_init(FcImprRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcImprRow creation method
+**************************************************************************/
+#if 0
+static FcImprRow *fc_impr_row_new(void)
+{
+  FcImprRow *result;
+
+  result = g_object_new(FC_TYPE_IMPR_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /***********************************************************************//**
   Called to set the dimensions of the city dialog, both on
   startup and if the tileset is changed.
