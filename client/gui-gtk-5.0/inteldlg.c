@@ -153,6 +153,9 @@ struct _FcWonderRowClass
 
 G_DEFINE_TYPE(FcWonderRow, fc_wonder_row, G_TYPE_OBJECT)
 
+#define TECH_ROW_NAME  0
+#define TECH_ROW_KNOWN 1
+
 /**********************************************************************//**
   Initialization method for FcTechRow class
 **************************************************************************/
@@ -338,6 +341,40 @@ void close_intel_wonder_dialog(struct player *p)
 }
 
 /**********************************************************************//**
+  Tech table cell bind function
+**************************************************************************/
+static void tech_factory_bind(GtkSignalListItemFactory *self,
+                              GtkListItem *list_item,
+                              gpointer user_data)
+{
+  FcTechRow *row;
+
+  row = gtk_list_item_get_item(list_item);
+
+  if (GPOINTER_TO_INT(user_data) == TECH_ROW_KNOWN) {
+    gtk_check_button_set_active(GTK_CHECK_BUTTON(gtk_list_item_get_child(list_item)),
+                                row->known);
+  } else {
+    gtk_label_set_text(GTK_LABEL(gtk_list_item_get_child(list_item)),
+                                 row->name);
+  }
+}
+
+/**********************************************************************//**
+  Tech table cell setup function
+**************************************************************************/
+static void tech_factory_setup(GtkSignalListItemFactory *self,
+                               GtkListItem *list_item,
+                               gpointer user_data)
+{
+  if (GPOINTER_TO_INT(user_data) == TECH_ROW_KNOWN) {
+    gtk_list_item_set_child(list_item, gtk_check_button_new());
+  } else {
+    gtk_list_item_set_child(list_item, gtk_label_new(""));
+  }
+}
+
+/**********************************************************************//**
   Create new intelligence dialog between client user and player
   given as parameter.
 **************************************************************************/
@@ -348,6 +385,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   GtkWidget *shell, *notebook, *label, *sw, *view, *table;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
+  GtkListItemFactory *factory;
   int i;
 
   pdialog = fc_malloc(sizeof(*pdialog));
@@ -442,6 +480,12 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   pdialog->techs = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->techs),
       1, GTK_SORT_ASCENDING);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(tech_factory_bind),
+                   GINT_TO_POINTER(TECH_ROW_NAME));
+  g_signal_connect(factory, "setup", G_CALLBACK(tech_factory_setup),
+                   GINT_TO_POINTER(TECH_ROW_NAME));
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs));
   gtk_widget_set_margin_bottom(view, 6);
