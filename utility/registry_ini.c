@@ -68,7 +68,7 @@
     ")
   This is equivalent to:
     foo = _("\nThis is a string\nover multiple lines\n")
-  Note that if you missplace the trailing doublequote you can
+  Note that if you misplace the trailing doublequote you can
   easily end up with strange errors reading the file...
 
   - Strings read from a file: A file can be read as a string value:
