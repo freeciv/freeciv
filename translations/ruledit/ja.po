@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-07-05 20:26+0300\n"
+"POT-Creation-Date: 2024-10-10 23:42+0300\n"
 "PO-Revision-Date: 2015-02-17 22:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -176,13 +176,13 @@ msgstr "閉じる"
 
 #: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
 #: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
-#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:153
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:165
 msgid "Graphics tag"
 msgstr ""
 
 #: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
 #: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
-#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:162
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:174
 msgid "Alt graphics tag"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgstr ""
 
 #: tools/ruledit/edit_extra.cpp:123 tools/ruledit/edit_gov.cpp:70
 #: tools/ruledit/edit_impr.cpp:137 tools/ruledit/edit_tech.cpp:89
-#: tools/ruledit/edit_terrain.cpp:99 tools/ruledit/edit_utype.cpp:211
+#: tools/ruledit/edit_terrain.cpp:99 tools/ruledit/edit_utype.cpp:223
 msgid "Helptext"
 msgstr ""
 
@@ -218,7 +218,7 @@ msgstr ""
 msgid "Native to"
 msgstr "民族"
 
-#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:92
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:94
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
@@ -252,48 +252,56 @@ msgstr ""
 msgid "Defense Bonus %"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:59
+#: tools/ruledit/edit_utype.cpp:61
 msgid "Requirement"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:74
+#: tools/ruledit/edit_utype.cpp:76
 msgid "Class"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:103
+#: tools/ruledit/edit_utype.cpp:105
 msgid "Attack Strength"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:113
+#: tools/ruledit/edit_utype.cpp:115
 msgid "Defense Strength"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:123
+#: tools/ruledit/edit_utype.cpp:125
 msgid "Hitpoints"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:133
+#: tools/ruledit/edit_utype.cpp:135
 msgid "Firepower"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:143
+#: tools/ruledit/edit_utype.cpp:145
 msgid "Move Rate"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:171
+#: tools/ruledit/edit_utype.cpp:155
+msgid "Transport Capacity"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:183
 msgid "Move sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:181
+#: tools/ruledit/edit_utype.cpp:193
 msgid "Alt move sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:191
+#: tools/ruledit/edit_utype.cpp:203
 msgid "Fight sound tag"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:201
+#: tools/ruledit/edit_utype.cpp:213
 msgid "Alt fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:227
+msgid "Cargo"
 msgstr ""
 
 #: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
