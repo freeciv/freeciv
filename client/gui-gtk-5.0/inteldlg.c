@@ -156,6 +156,9 @@ G_DEFINE_TYPE(FcWonderRow, fc_wonder_row, G_TYPE_OBJECT)
 #define TECH_ROW_NAME  0
 #define TECH_ROW_KNOWN 1
 
+#define WONDER_ROW_NAME 0
+#define WONDER_ROW_CITY 1
+
 /**********************************************************************//**
   Initialization method for FcTechRow class
 **************************************************************************/
@@ -530,6 +533,52 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 }
 
 /**********************************************************************//**
+  Wonder table cell bind function
+**************************************************************************/
+static void wonder_factory_bind(GtkSignalListItemFactory *self,
+                                GtkListItem *list_item,
+                                gpointer user_data)
+{
+  FcWonderRow *row;
+
+  row = gtk_list_item_get_item(list_item);
+
+  if (GPOINTER_TO_INT(user_data) == WONDER_ROW_CITY) {
+    gtk_label_set_text(GTK_LABEL(gtk_list_item_get_child(list_item)),
+                       row->cityname);
+  } else {
+    PangoAttrList *attributes;
+    PangoAttribute *attr;
+    GtkLabel *lbl = GTK_LABEL(gtk_list_item_get_child(list_item));
+
+    fc_assert(GPOINTER_TO_INT(user_data) == WONDER_ROW_NAME);
+
+    attributes = pango_attr_list_new();
+
+    if (row->is_lost) {
+      attr = pango_attr_strikethrough_new(TRUE);
+      pango_attr_list_insert(attributes, attr);
+    }
+
+    attr = pango_attr_weight_new(row->font_weight);
+    pango_attr_list_insert(attributes, attr);
+
+    gtk_label_set_text(lbl, row->name);
+    gtk_label_set_attributes(lbl, attributes);
+  }
+}
+
+/**********************************************************************//**
+  Wonder table cell setup function
+**************************************************************************/
+static void wonder_factory_setup(GtkSignalListItemFactory *self,
+                                 GtkListItem *list_item,
+                                 gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
+/**********************************************************************//**
   Create new wonders list dialog between client user and player
   given as parameter.
 **************************************************************************/
@@ -538,6 +587,7 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   struct intel_wonder_dialog *pdialog;
   GtkWidget *shell, *sw, *view;
   GtkCellRenderer *rend;
+  GtkListItemFactory *factory;
   GtkWidget *box;
 
   pdialog = fc_malloc(sizeof(*pdialog));
@@ -571,6 +621,13 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
                                         G_TYPE_INT);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->wonders),
                                        3, GTK_SORT_DESCENDING);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(wonder_factory_bind),
+                   GINT_TO_POINTER(WONDER_ROW_NAME));
+  g_signal_connect(factory, "setup", G_CALLBACK(wonder_factory_setup),
+                   nullptr);
+
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->wonders));
   gtk_widget_set_margin_bottom(view, 6);
   gtk_widget_set_margin_end(view, 6);
