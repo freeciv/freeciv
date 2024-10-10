@@ -128,6 +128,8 @@ bool api_methods_player_can_build_impr_direct(lua_State *L, Player *pplayer,
 
 City *api_methods_player_primary_capital(lua_State *L, Player *pplayer);
 
+const char *api_methods_get_diplstate(lua_State *L, Player *pplayer1, Player *pplayer2);
+
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech);
 const char *api_methods_tech_type_name_translation(lua_State *L, Tech_Type *ptech);

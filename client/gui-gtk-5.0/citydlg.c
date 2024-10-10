@@ -3529,7 +3529,8 @@ static void cityopt_callback(GtkWidget *w, gpointer data)
       BV_SET(new_options, CITYO_GOLD_SPECIALISTS);
     }
 
-    dsend_packet_city_options_req(&client.conn, pcity->id,new_options);
+    dsend_packet_city_options_req(&client.conn, pcity->id, new_options,
+                                  pcity->wlcb);
   }
 }
 

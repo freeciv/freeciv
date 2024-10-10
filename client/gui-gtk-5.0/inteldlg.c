@@ -113,6 +113,55 @@ static struct intel_dialog *create_intel_dialog(struct player *p);
 static struct wonder_dialog_list *wonder_dialogs;
 static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p);
 
+#define FC_TYPE_TECH_ROW (fc_tech_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcTechRow, fc_tech_row, FC, TECH_ROW, GObject)
+
+struct _FcTechRow
+{
+  GObject parent_instance;
+
+  bool known;
+  const char *name;
+};
+
+struct _FcTechRowClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcTechRow, fc_tech_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcTechRow class
+**************************************************************************/
+static void
+fc_tech_row_class_init(FcTechRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcTechRow
+**************************************************************************/
+static void
+fc_tech_row_init(FcTechRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcTechRow creation method
+**************************************************************************/
+#if 0
+static FcTechRow *fc_tech_row_new(void)
+{
+  FcTechRow *result;
+
+  result = g_object_new(FC_TYPE_TECH_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /**********************************************************************//**
   Initialize intelligence dialogs
 **************************************************************************/
@@ -338,7 +387,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   label = gtk_label_new_with_mnemonic(_("_Diplomacy"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
-  /* techs tab. */
+  /* Techs tab. */
   pdialog->techs = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->techs),
       1, GTK_SORT_ASCENDING);

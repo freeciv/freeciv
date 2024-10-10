@@ -801,6 +801,23 @@ City *api_methods_player_primary_capital(lua_State *L, Player *pplayer)
 }
 
 /**********************************************************************//**
+  Return diplomatic state between the players.
+**************************************************************************/
+const char *api_methods_get_diplstate(lua_State *L, Player *pplayer1,
+                                      Player *pplayer2)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer1, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer2, 3, Player, NULL);
+
+  if (pplayer1 == pplayer2) {
+    return "Self";
+  }
+
+  return Qn_(diplstate_type_name(player_diplstate_get(pplayer1, pplayer2)->type));
+}
+
+/**********************************************************************//**
   Return if a unit can upgrade considering where it is now.
   If is_free is FALSE, considers local city and the owner's treasury.
 **************************************************************************/

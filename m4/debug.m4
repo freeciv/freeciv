@@ -73,10 +73,10 @@ dnl ==========================================================================
 dnl Always
 dnl This must be last so that the specific flags here override likes of
 dnl -Wall set earlier, and not the other way around.
-FC_C_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
+FC_C_FLAGS([-Wno-tautological-compare],
            [], [EXTRA_DEBUG_CFLAGS])
 if test "x$cxx_works" = "xyes" ; then
-  FC_CXX_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
+  FC_CXX_FLAGS([-Wno-tautological-compare],
                [], [EXTRA_DEBUG_CXXFLAGS])
 fi
 

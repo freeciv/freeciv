@@ -270,8 +270,9 @@ type CAPITAL            = uint8(enum capital_type)
 type WONDER_VISIB       = uint8(enum wonder_visib_type)
 type TRANSP_DEF_TYPE    = uint8(enum transp_def_type)
 type AI_LEVEL           = uint8(enum ai_level)
-type COUNTER_TARGET       = uint8(enum counter_target)
-type COUNTER_BEHAVIOUR       = uint8(enum counter_behaviour)
+type COUNTER_TARGET     = uint8(enum counter_target)
+type COUNTER_BEHAVIOUR  = uint8(enum counter_behaviour)
+type CITY_WL_CB         = uint8(enum city_wl_cancel_behavior)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -780,6 +781,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, reset(PACKET_CITY_SHORT_I
 
   BV_IMPRS improvements;
   BV_CITY_OPTIONS city_options;
+  CITY_WL_CB wl_cb;
   ESTRING name[MAX_LEN_CITYNAME];
 end
 
@@ -869,6 +871,7 @@ end
 PACKET_CITY_OPTIONS_REQ = 41; cs, dsend, handle-via-fields
   CITY city_id;
   BV_CITY_OPTIONS options;
+  CITY_WL_CB wl_cb;
 end
 
 PACKET_CITY_REFRESH = 42; cs, dsend, handle-via-fields
@@ -2310,7 +2313,6 @@ PACKET_EDIT_CITY = 213; cs, handle-per-conn
   SINT32 built[B_LAST]; diff
   UINT8 production_kind;
   UINT8 production_value;
-  BV_CITY_OPTIONS city_options;
 end
 
 PACKET_EDIT_PLAYER_CREATE = 214; cs, handle-per-conn, dsend, handle-via-fields
@@ -2343,6 +2345,7 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
 
   BV_PLAYER embassy;
   GOLD gold;
+  UINT32 infrapoints;
   PERCENT tax, science, luxury;
 
   UINT16 future_tech;

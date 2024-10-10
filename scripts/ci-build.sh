@@ -158,7 +158,7 @@ echo "Freeciv build successful!"
 
 emsdk)
 # https://github.com/emscripten-core/emscripten/blob/main/ChangeLog.md
-EMSDK_VER=3.1.61
+EMSDK_VER=3.1.67
 
 (
   # Outside source tree
