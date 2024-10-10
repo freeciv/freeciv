@@ -389,52 +389,6 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
   return icon_label;
 }
 
-#if 0
-/**********************************************************************//**
-  Blit themelabel gfx to surface its on.
-**************************************************************************/
-static int redraw_themelabel(struct widget *label)
-{
-  int ret;
-  Sint16 x, y;
-  SDL_Surface *text = NULL;
-
-  if (!label) {
-    return -3;
-  }
-
-  if ((text = create_text_surf_from_utf8(label->string_utf8)) == NULL) {
-    return (-4);
-  }
-
-  if (label->string_utf8->style & SF_CENTER) {
-    x = (label->size.w - text->w) / 2;
-  } else {
-    if (label->string_utf8->style & SF_CENTER_RIGHT) {
-      x = label->size.w - text->w - adj_size(5);
-    } else {
-      x = adj_size(5);
-    }
-  }
-
-  y = (label->size.h - text->h) / 2;
-
-  /* Redraw theme */
-  if (label->theme) {
-    ret = blit_entire_src(label->theme, label->dst->surface, label->size.x, label->size.y);
-    if (ret) {
-      return ret;
-    }
-  }
-
-  ret = blit_entire_src(text, label->dst->surface, label->size.x + x, label->size.y + y);
-
-  FREESURFACE(text);
-
-  return ret;
-}
-#endif /* 0 */
-
 /**********************************************************************//**
   Blit iconlabel gfx to surface its on.
 **************************************************************************/
