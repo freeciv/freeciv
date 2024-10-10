@@ -278,7 +278,7 @@ msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
-"*%s (AI)* Via klopodo por unuflanke konkeri la kosmospacon malkaŝas viajn "
+"*%s (AI)* Via klopodo por unuflanke konkeri la kosmon malkaŝas viajn "
 "efektivajn intencojn, kaj do mi ne volas esti plu via aliancano!"
 
 #: ai/default/daidiplomacy.c:1612
@@ -287,7 +287,7 @@ msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
 msgstr ""
-"*%s (AI)* Via klopodo por unuflanke superregi la kosmospacon estas ege ataka."
+"*%s (AI)* Via klopodo por unuflanke superregi la kosmon estas ege ofenda."
 
 #: ai/default/daidiplomacy.c:1616
 #, c-format
@@ -648,9 +648,8 @@ msgid "Proceeding with sound support disabled."
 msgstr "Plenumanta sen sono."
 
 #: client/audio.c:293
-#, fuzzy
 msgid "For sound support, install SDL2_mixer"
-msgstr "Por havi sonon, instalu esound aŭ SDL_mixer"
+msgstr "Por havi sonon, instalu SDL2_mixer"
 
 #: client/audio.c:314
 msgid "To get sound you need to download a sound set!"
@@ -1762,12 +1761,12 @@ msgstr[1] "La %s donas %d orajn monerojn"
 #: client/climisc.c:270
 #, c-format
 msgid "The %s give their worldmap"
-msgstr "La %s donas ilian mapon de la mondo"
+msgstr "La %s donas sian mapon de la mondo"
 
 #: client/climisc.c:274
 #, c-format
 msgid "The %s give their seamap"
-msgstr "La %s donas ilian mar-mapon"
+msgstr "La %s donas sian mar-mapon"
 
 #: client/climisc.c:278
 msgid "The parties agree on a cease-fire"
@@ -5383,7 +5382,7 @@ msgstr "_Demografio"
 #: client/gui-gtk-3.0/menu.c:329 client/gui-gtk-3.22/menu.c:338
 #: client/gui-gtk-4.0/menu.c:880 client/gui-qt/menu.cpp:1607
 msgid "Select Battle Group 1"
-msgstr ""
+msgstr "Selekti batalgrupon 1"
 
 #: client/gui-gtk-3.0/menu.c:332 client/gui-gtk-3.22/menu.c:341
 #: client/gui-gtk-4.0/menu.c:883 client/gui-qt/menu.cpp:1611
@@ -5393,12 +5392,12 @@ msgstr ""
 #: client/gui-gtk-3.0/menu.c:335 client/gui-gtk-3.22/menu.c:344
 #: client/gui-gtk-4.0/menu.c:886 client/gui-qt/menu.cpp:1615
 msgid "Append to Battle Group 1"
-msgstr ""
+msgstr "Aldoni al batalgrupo 1"
 
 #: client/gui-gtk-3.0/menu.c:338 client/gui-gtk-3.22/menu.c:347
 #: client/gui-gtk-4.0/menu.c:889 client/gui-qt/menu.cpp:1619
 msgid "Select Battle Group 2"
-msgstr ""
+msgstr "Selekti batalgrupon 2"
 
 #: client/gui-gtk-3.0/menu.c:341 client/gui-gtk-3.22/menu.c:350
 #: client/gui-gtk-4.0/menu.c:892 client/gui-qt/menu.cpp:1623
@@ -5408,12 +5407,12 @@ msgstr ""
 #: client/gui-gtk-3.0/menu.c:344 client/gui-gtk-3.22/menu.c:353
 #: client/gui-gtk-4.0/menu.c:895 client/gui-qt/menu.cpp:1627
 msgid "Append to Battle Group 2"
-msgstr ""
+msgstr "Aldoni al batalgrupo 2"
 
 #: client/gui-gtk-3.0/menu.c:347 client/gui-gtk-3.22/menu.c:356
 #: client/gui-gtk-4.0/menu.c:898 client/gui-qt/menu.cpp:1631
 msgid "Select Battle Group 3"
-msgstr ""
+msgstr "Selekti batalgrupon 3"
 
 #: client/gui-gtk-3.0/menu.c:350 client/gui-gtk-3.22/menu.c:359
 #: client/gui-gtk-4.0/menu.c:901 client/gui-qt/menu.cpp:1635
@@ -5423,12 +5422,12 @@ msgstr ""
 #: client/gui-gtk-3.0/menu.c:353 client/gui-gtk-3.22/menu.c:362
 #: client/gui-gtk-4.0/menu.c:904 client/gui-qt/menu.cpp:1639
 msgid "Append to Battle Group 3"
-msgstr ""
+msgstr "Aldoni al batalgrupo 3"
 
 #: client/gui-gtk-3.0/menu.c:356 client/gui-gtk-3.22/menu.c:365
 #: client/gui-gtk-4.0/menu.c:907 client/gui-qt/menu.cpp:1643
 msgid "Select Battle Group 4"
-msgstr ""
+msgstr "Selekti batalgrupon 4"
 
 #: client/gui-gtk-3.0/menu.c:359 client/gui-gtk-3.22/menu.c:368
 #: client/gui-gtk-4.0/menu.c:910 client/gui-qt/menu.cpp:1647
@@ -5438,7 +5437,7 @@ msgstr ""
 #: client/gui-gtk-3.0/menu.c:362 client/gui-gtk-3.22/menu.c:371
 #: client/gui-gtk-4.0/menu.c:913 client/gui-qt/menu.cpp:1651
 msgid "Append to Battle Group 4"
-msgstr ""
+msgstr "Aldoni al batalgrupo 4"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-3.0/menu.c:366 client/gui-gtk-3.22/menu.c:375
@@ -24824,7 +24823,7 @@ msgstr "Aldonu al urbo"
 #: data/civ2civ3/units.ruleset:42 data/civ2civ3/units.ruleset:2199
 #: data/multiplayer/units.ruleset:39 data/multiplayer/units.ruleset:2080
 msgid "Nuclear"
-msgstr "Atombomboj"
+msgstr "Nuklea"
 
 #: data/civ1/units.ruleset:29 data/civ2/units.ruleset:36
 #: data/classic/units.ruleset:43 data/sandbox/units.ruleset:51
@@ -24989,7 +24988,7 @@ msgstr ""
 #: data/classic/units.ruleset:619 data/sandbox/units.ruleset:740
 #: data/civ2civ3/units.ruleset:688 data/multiplayer/units.ruleset:620
 msgid "Phalanx"
-msgstr "Falanganoj"
+msgstr "Falango"
 
 #: data/civ1/units.ruleset:523 data/civ2/units.ruleset:578
 #: data/classic/units.ruleset:646 data/sandbox/units.ruleset:767
@@ -25001,7 +25000,7 @@ msgstr ""
 #: data/classic/units.ruleset:684 data/sandbox/units.ruleset:805
 #: data/civ2civ3/units.ruleset:753 data/multiplayer/units.ruleset:685
 msgid "Legion"
-msgstr "Legianoj"
+msgstr "Legio"
 
 #: data/civ1/units.ruleset:555 data/civ2/units.ruleset:643
 #: data/classic/units.ruleset:711 data/sandbox/units.ruleset:832
@@ -25158,7 +25157,7 @@ msgstr ""
 #: data/civ2civ3/units.ruleset:1565 data/multiplayer/units.ruleset:45
 #: data/multiplayer/units.ruleset:1479
 msgid "Bomber"
-msgstr "Bomba ĉasaviadilo"
+msgstr "Bombaviadilo"
 
 #: data/civ1/units.ruleset:961 data/civ2/units.ruleset:1438
 #: data/classic/units.ruleset:1403 data/sandbox/units.ruleset:1646
@@ -25194,7 +25193,7 @@ msgstr ""
 #: data/classic/units.ruleset:1628 data/sandbox/units.ruleset:1888
 #: data/civ2civ3/units.ruleset:1830 data/multiplayer/units.ruleset:1730
 msgid "Frigate"
-msgstr "Fregatoj"
+msgstr "Fregato"
 
 #: data/civ1/units.ruleset:1066 data/civ2/units.ruleset:1689
 #: data/classic/units.ruleset:1656 data/multiplayer/units.ruleset:1758
@@ -25207,7 +25206,7 @@ msgstr ""
 #: data/classic/units.ruleset:1663 data/sandbox/units.ruleset:1921
 #: data/civ2civ3/units.ruleset:1863 data/multiplayer/units.ruleset:1765
 msgid "Ironclad"
-msgstr "Kirasŝipoj"
+msgstr "Kirasŝipo"
 
 #: data/civ1/units.ruleset:1100 data/civ2/units.ruleset:1723
 #: data/classic/units.ruleset:1690 data/multiplayer/units.ruleset:1792
@@ -25220,7 +25219,7 @@ msgstr ""
 #: data/classic/units.ruleset:1732 data/sandbox/units.ruleset:1994
 #: data/civ2civ3/units.ruleset:1936 data/multiplayer/units.ruleset:1834
 msgid "Cruiser"
-msgstr "Krozoŝipoj"
+msgstr "Krozoŝipo"
 
 #: data/civ1/units.ruleset:1134 data/civ2/units.ruleset:1792
 #: data/classic/units.ruleset:1759 data/sandbox/units.ruleset:2021
@@ -25232,7 +25231,7 @@ msgstr ""
 #: data/classic/units.ruleset:1801 data/sandbox/units.ruleset:2063
 #: data/civ2civ3/units.ruleset:2005 data/multiplayer/units.ruleset:1903
 msgid "Battleship"
-msgstr "Militŝipoj"
+msgstr "Militŝipo"
 
 #: data/civ1/units.ruleset:1166 data/civ2/units.ruleset:1861
 #: data/classic/units.ruleset:1828 data/sandbox/units.ruleset:2094
@@ -25261,7 +25260,7 @@ msgstr ""
 #: data/classic/units.ruleset:1871 data/sandbox/units.ruleset:2174
 #: data/civ2civ3/units.ruleset:2075 data/multiplayer/units.ruleset:1973
 msgid "Carrier"
-msgstr "Aviŝipoj"
+msgstr "Aviŝipo"
 
 #: data/civ1/units.ruleset:1235 data/civ2/units.ruleset:1932
 #: data/classic/units.ruleset:1899 data/sandbox/units.ruleset:2205
@@ -25281,7 +25280,7 @@ msgstr ""
 #: data/classic/units.ruleset:1908 data/sandbox/units.ruleset:2218
 #: data/civ2civ3/units.ruleset:2116 data/multiplayer/units.ruleset:2010
 msgid "Transport"
-msgstr "Kargoŝipoj"
+msgstr "Kargoŝipo"
 
 #: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1969
 #: data/classic/units.ruleset:1936 data/sandbox/units.ruleset:2252
@@ -26823,7 +26822,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1662 data/civ2civ3/units.ruleset:1608
 #: data/multiplayer/units.ruleset:34 data/multiplayer/units.ruleset:1514
 msgid "Helicopter"
-msgstr "Helikopteroj"
+msgstr "Helikoptero"
 
 #: data/civ2/units.ruleset:28 data/classic/units.ruleset:34
 #: data/multiplayer/units.ruleset:34
@@ -26924,7 +26923,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:838 data/civ2civ3/units.ruleset:786
 #: data/multiplayer/units.ruleset:718
 msgid "Pikemen"
-msgstr "Halebardistoj"
+msgstr "Pikilistoj"
 
 #: data/civ2/units.ruleset:680 data/classic/units.ruleset:748
 #: data/sandbox/units.ruleset:865 data/civ2civ3/units.ruleset:813
@@ -27026,7 +27025,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1167 data/civ2civ3/units.ruleset:1114
 #: data/multiplayer/units.ruleset:1037
 msgid "Horsemen"
-msgstr "Kavalerianoj"
+msgstr "Rajdistoj"
 
 #: data/civ2/units.ruleset:995 data/classic/units.ruleset:1027
 #: data/sandbox/units.ruleset:1194 data/civ2civ3/units.ruleset:1141
@@ -27094,7 +27093,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1545 data/civ2civ3/units.ruleset:1492
 #: data/multiplayer/units.ruleset:1405
 msgid "Howitzer"
-msgstr "Haŭbizoj"
+msgstr "Haŭbizo"
 
 #: data/civ2/units.ruleset:1363 data/classic/units.ruleset:1329
 #: data/multiplayer/units.ruleset:1432
@@ -27121,7 +27120,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1708 data/civ2civ3/units.ruleset:1654
 #: data/multiplayer/units.ruleset:1549
 msgid "Stealth Fighter"
-msgstr "Kaŝaj ĉasaviadiloj"
+msgstr "Kaŝa ĉasaviadilo"
 
 #: data/civ2/units.ruleset:1517 data/classic/units.ruleset:1482
 #: data/sandbox/units.ruleset:1737 data/civ2civ3/units.ruleset:1683
@@ -27133,7 +27132,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1743 data/civ2civ3/units.ruleset:1689
 #: data/multiplayer/units.ruleset:1590
 msgid "Stealth Bomber"
-msgstr "Kaŝaj bombaviadiloj"
+msgstr "Kaŝa bombaviadilo"
 
 #: data/civ2/units.ruleset:1550 data/classic/units.ruleset:1517
 #: data/sandbox/units.ruleset:1772 data/civ2civ3/units.ruleset:1717
@@ -27145,7 +27144,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1817 data/civ2civ3/units.ruleset:1761
 #: data/multiplayer/units.ruleset:1661
 msgid "Caravel"
-msgstr "Karaveloj"
+msgstr "Karavelo"
 
 #: data/civ2/units.ruleset:1620
 msgid ""
@@ -27156,7 +27155,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1853 data/civ2civ3/units.ruleset:1796
 #: data/multiplayer/units.ruleset:1695
 msgid "Galleon"
-msgstr "Galionoj"
+msgstr "Galiono"
 
 #: data/civ2/units.ruleset:1654 data/classic/units.ruleset:1621
 #: data/multiplayer/units.ruleset:1723
@@ -27169,7 +27168,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1954 data/civ2civ3/units.ruleset:1896
 #: data/alien/units.ruleset:1255 data/multiplayer/units.ruleset:1799
 msgid "Destroyer"
-msgstr "Destrojeroj"
+msgstr "Destrojero"
 
 #: data/civ2/units.ruleset:1757 data/classic/units.ruleset:1724
 #: data/multiplayer/units.ruleset:1826
@@ -27187,7 +27186,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:2026 data/civ2civ3/units.ruleset:1968
 #: data/multiplayer/units.ruleset:1866
 msgid "AEGIS Cruiser"
-msgstr "Krozoŝipoj AEGIS"
+msgstr "Krozoŝipo AEGIS"
 
 #: data/civ2/units.ruleset:1828 data/classic/units.ruleset:1795
 #: data/sandbox/units.ruleset:2057 data/civ2civ3/units.ruleset:1999
@@ -27281,7 +27280,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:2675 data/civ2civ3/units.ruleset:2505
 #: data/alien/units.ruleset:1349 data/multiplayer/units.ruleset:2357
 msgid "Freight"
-msgstr "Aŭtoĉaroj"
+msgstr "Kamiono"
 
 #: data/civ2/units.ruleset:2295 data/classic/units.ruleset:2295
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -27311,18 +27310,18 @@ msgid ""
 msgstr ""
 
 #: data/default/default.lua:24
-#, fuzzy, c-format
+#, c-format
 #| msgid "You found %d gold."
 #| msgid_plural "You found %d gold."
 msgid "%s found %d gold."
 msgid_plural "%s found %d gold."
-msgstr[0] "Vi trovis %d orajn monerojn."
-msgstr[1] "Vi trovis %d orajn monerojn."
+msgstr[0] "%s trovis %d oran moneron."
+msgstr[1] "%s trovis %d orajn monerojn."
 
 #: data/default/default.lua:41
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr "Vi trovis %sn en antikvaj pergamenoj de saĝo."
+msgstr "Vi trovis informojn pri %s en antikvaj pergamenoj de saĝo."
 
 #. TRANS: One player got tech for the whole team.
 #: data/default/default.lua:45
@@ -27765,7 +27764,7 @@ msgstr "aKE"
 
 #: data/classic/game.ruleset:1739
 msgid "Pestilence"
-msgstr ""
+msgstr "Pesto"
 
 #: data/classic/game.ruleset:1749 data/sandbox/game.ruleset:3108
 #: data/civ2civ3/game.ruleset:1893
@@ -28275,9 +28274,8 @@ msgstr ""
 
 #: data/classic/units.ruleset:2333 data/sandbox/units.ruleset:2755
 #: data/civ2civ3/units.ruleset:2584 data/multiplayer/units.ruleset:2423
-#, fuzzy
 msgid "?unit:Leader"
-msgstr "Estro"
+msgstr "?unit:Estro"
 
 #: data/classic/units.ruleset:2368 data/sandbox/units.ruleset:2790
 #: data/civ2civ3/units.ruleset:2619 data/multiplayer/units.ruleset:2458
@@ -28292,7 +28290,7 @@ msgstr ""
 #: data/classic/units.ruleset:2420 data/sandbox/units.ruleset:2843
 #: data/civ2civ3/units.ruleset:2671 data/multiplayer/units.ruleset:2510
 msgid "AWACS"
-msgstr "AWACS"
+msgstr "Skoltaviadilo AWACS"
 
 #: data/classic/units.ruleset:2447 data/sandbox/units.ruleset:2870
 #: data/civ2civ3/units.ruleset:2698 data/multiplayer/units.ruleset:2537
@@ -31418,14 +31416,14 @@ msgid "Anarchy happens between government changes."
 msgstr ""
 
 #: data/alien/governments.ruleset:88
-#, fuzzy, c-format
+#, c-format
 msgid "Leader %s"
-msgstr "Estro:"
+msgstr "Estro %s"
 
 #: data/alien/governments.ruleset:89
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Leader %s"
-msgstr "?female:Estrino"
+msgstr "?female:Estrino %s"
 
 #: data/alien/governments.ruleset:92
 #, no-c-format
@@ -38866,7 +38864,7 @@ msgstr "%sj %s estis perditaj dum translokado al %sj %s"
 #: server/citytools.c:815 server/unithand.c:451
 #, c-format
 msgid "%s lost along with control of %s."
-msgstr "%s estis perditaj kun regilo de %s."
+msgstr "Unuo %s estas perdita kun rego de %s."
 
 #. TRANS: <building> ... <city>
 #: server/citytools.c:1049
@@ -39589,7 +39587,7 @@ msgstr "La civitanoj en %s mortas ĉar ili malsukcesis teni %sn!"
 #: server/cityturn.c:2476 server/cityturn.c:2682
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr "%s la konstruo-celo estas %s, kiu ne plu estas disponebla."
+msgstr "En %s la konstruo-celo estas %s, kiu ne plu estas disponebla."
 
 #: server/cityturn.c:2516
 #, c-format
@@ -39811,7 +39809,7 @@ msgstr "Malsatmizero tute detruis %sn."
 #: server/cityturn.c:4118
 #, c-format
 msgid "%s causes population loss in %s."
-msgstr "%s  kaŭzas malpliigon de loĝantaro en %s."
+msgstr "%s kaŭzas malpliigon de la loĝantaro en %s."
 
 #. TRANS: second %s is the name of a city improvement
 #: server/cityturn.c:4143
@@ -41289,33 +41287,33 @@ msgid "?fromplr:The %s have acquired %s from the %s."
 msgstr "?fromplr:La %s akiris la teĥnologion %s de la %s."
 
 #: server/diplhand.c:550
-#, fuzzy, c-format
+#, c-format
 msgid "You get %d gold."
 msgid_plural "You get %d gold."
-msgstr[0] "Vi gajnis %d ora(j) monero(j)."
-msgstr[1] "Vi gajnis %d ora(j) monero(j)."
+msgstr[0] "Vi gajnis %d oran moneron."
+msgstr[1] "Vi gajnis %d orajn monerojn."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:558
 #, c-format
 msgid "You receive the %s worldmap."
-msgstr "Vi ricevis la mapon pri %s."
+msgstr "Vi ricevis la %sn termapon."
 
 #. TRANS: ... Polish seamap.
 #: server/diplhand.c:567
 #, c-format
 msgid "You receive the %s seamap."
-msgstr "Vi ricevis la marmapon pri %s."
+msgstr "Vi ricevis la %sn marmapon."
 
 #: server/diplhand.c:583
 #, fuzzy, c-format
 msgid "You receive the city of %s from %s."
-msgstr "Vi ricevis la urbon de %s de %s."
+msgstr "Vi ricevis la urbon %s de %s."
 
 #: server/diplhand.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "You give the city of %s to %s."
-msgstr "Vi cedis la urbon de %s al %s."
+msgstr "Vi donis la urbon %s al %s."
 
 #: server/diplhand.c:607 server/diplhand.c:610
 #, c-format
@@ -41665,7 +41663,7 @@ msgstr "La %s komencis konstruadon de la %s en %s."
 #: server/diplomats.c:2081
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr "Malamikaj %s estis mortigitaj de viaj %s."
+msgstr "Malamika %s estis mortigita de via %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
 #: server/diplomats.c:2088
@@ -42365,7 +42363,7 @@ msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
-" La %s nuligis la diplomatajn interkonsentojn! La diplomatia stato inter la "
+" %s nuligis la diplomatajn interkonsentojn! La diplomatia stato inter la "
 "%s kaj la %s nun estas %s."
 
 #: server/plrhand.c:908
@@ -46104,22 +46102,22 @@ msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "La pafĉesigo kun %s finiĝis. Nun vi estas en milito kun la %s."
 
 #: server/srv_main.c:977 server/srv_main.c:987
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with %s."
 msgstr ""
-"La pafĉesigo inter %s kaj %s finis. Ili estas militantaj. Vi nuligas vian "
-"aliancon kun ambaŭ ili."
+"La pafĉesigo inter %s kaj %s finiĝis. Ili militas unu kontraŭ la alia. Vi "
+"nuligas vian aliancon kun %s."
 
 #: server/srv_main.c:997
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with both."
 msgstr ""
-"La pafĉesigo inter %s kaj %s finis. Ili estas militantaj. Vi nuligas vian "
-"aliancon kun ambaŭ ili."
+"La pafĉesigo inter %s kaj %s finiĝis. Ili militas unu kontraŭ la alia. Vi "
+"nuligas vian aliancon kun ambaŭ ili."
 
 #. TRANS: %s is a unit type
 #: server/srv_main.c:1149
