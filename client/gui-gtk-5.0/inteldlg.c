@@ -80,7 +80,8 @@ struct intel_dialog {
   GtkWidget *shell;
 
   GtkTreeStore *diplstates;
-  GtkListStore *techs;
+  GtkListStore *techs_depr;
+  GListStore *techs;
   GtkWidget *table_labels[LABEL_LAST];
 };
 
@@ -121,7 +122,7 @@ struct _FcTechRow
 {
   GObject parent_instance;
 
-  bool known;
+  bool unknown;
   const char *name;
 };
 
@@ -178,7 +179,6 @@ fc_tech_row_init(FcTechRow *self)
 /**********************************************************************//**
   FcTechRow creation method
 **************************************************************************/
-#if 0
 static FcTechRow *fc_tech_row_new(void)
 {
   FcTechRow *result;
@@ -187,7 +187,6 @@ static FcTechRow *fc_tech_row_new(void)
 
   return result;
 }
-#endif
 
 /**********************************************************************//**
   Initialization method for FcWonderRow class
@@ -356,7 +355,7 @@ static void tech_factory_bind(GtkSignalListItemFactory *self,
 
   if (GPOINTER_TO_INT(user_data) == TECH_ROW_KNOWN) {
     gtk_check_button_set_active(GTK_CHECK_BUTTON(gtk_list_item_get_child(list_item)),
-                                row->known);
+                                row->unknown);
   } else {
     gtk_label_set_text(GTK_LABEL(gtk_list_item_get_child(list_item)),
                                  row->name);
@@ -388,7 +387,10 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   GtkWidget *shell, *notebook, *label, *sw, *view, *table;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
+  GtkWidget *list;
+  GtkColumnViewColumn *column;
   GtkListItemFactory *factory;
+  GtkSingleSelection *selection;
   int i;
 
   pdialog = fc_malloc(sizeof(*pdialog));
@@ -480,9 +482,14 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
   /* Techs tab. */
-  pdialog->techs = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
-  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->techs),
+  pdialog->techs_depr = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->techs_depr),
       1, GTK_SORT_ASCENDING);
+
+  pdialog->techs = g_list_store_new(FC_TYPE_TECH_ROW);
+
+  selection = gtk_single_selection_new(G_LIST_MODEL(pdialog->techs));
+  list = gtk_column_view_new(GTK_SELECTION_MODEL(selection));
 
   factory = gtk_signal_list_item_factory_new();
   g_signal_connect(factory, "bind", G_CALLBACK(tech_factory_bind),
@@ -490,14 +497,26 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   g_signal_connect(factory, "setup", G_CALLBACK(tech_factory_setup),
                    GINT_TO_POINTER(TECH_ROW_NAME));
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs));
+  column = gtk_column_view_column_new(_("Name"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(tech_factory_bind),
+                   GINT_TO_POINTER(TECH_ROW_KNOWN));
+  g_signal_connect(factory, "setup", G_CALLBACK(tech_factory_setup),
+                   GINT_TO_POINTER(TECH_ROW_KNOWN));
+
+  column = gtk_column_view_column_new(_("Unknown"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs_depr));
   gtk_widget_set_margin_bottom(view, 6);
   gtk_widget_set_margin_end(view, 6);
   gtk_widget_set_margin_start(view, 6);
   gtk_widget_set_margin_top(view, 6);
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(pdialog->techs);
+  g_object_unref(pdialog->techs_depr);
   gtk_widget_set_margin_start(view, 6);
   gtk_widget_set_margin_end(view, 6);
   gtk_widget_set_margin_top(view, 6);
@@ -731,7 +750,7 @@ void update_intel_dialog(struct player *p)
     } players_iterate_end;
 
     /* Techs tab. */
-    gtk_list_store_clear(pdialog->techs);
+    gtk_list_store_clear(pdialog->techs_depr);
 
     mresearch = research_get(client_player());
     presearch = research_get(p);
@@ -739,14 +758,22 @@ void update_intel_dialog(struct player *p)
       if (research_invention_state(presearch, advi) == TECH_KNOWN) {
         GtkTreeIter it;
 
-        gtk_list_store_append(pdialog->techs, &it);
+        gtk_list_store_append(pdialog->techs_depr, &it);
 
-        gtk_list_store_set(pdialog->techs, &it,
+        gtk_list_store_set(pdialog->techs_depr, &it,
                            0, research_invention_state(mresearch, advi)
                            != TECH_KNOWN,
                            1, research_advance_name_translation(presearch,
                                                                 advi),
                            -1);
+
+        FcTechRow *row = fc_tech_row_new();
+
+        row->name = research_advance_name_translation(presearch, advi);
+        row->unknown = research_invention_state(mresearch, advi) != TECH_KNOWN;
+
+        g_list_store_append(pdialog->techs, row);
+        g_object_unref(row);
       }
     } advance_index_iterate_end;
 
