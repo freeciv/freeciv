@@ -3105,7 +3105,8 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 **************************************************************************/
 static inline void city_support(struct city *pcity)
 {
-  int free_unhappy, martial_law_each;
+  int free_unhappy;
+  int max_mart_units;
 
   /* Clear all usage values. */
   memset(pcity->usage, 0, O_LAST * sizeof(*pcity->usage));
@@ -3136,22 +3137,46 @@ static inline void city_support(struct city *pcity)
   /* Food consumption by citizens. */
   pcity->usage[O_FOOD] += game.info.food_cost * city_size_get(pcity);
 
-  /* Military units in this city (need _not_ be home city) can make
-   * unhappy citizens content */
-  martial_law_each = get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
-  if (martial_law_each > 0) {
-    int count = 0;
-    int martial_law_max = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
+  max_mart_units = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
+  if (max_mart_units > 0) {
+    int best_units[max_mart_units];
+    int sel_count = 0;
+    int i;
 
     unit_list_iterate(pcity->tile->units, punit) {
-      if ((count < martial_law_max || martial_law_max == 0)
-          && is_martial_law_unit(punit)
+      if (is_martial_law_unit(punit)
           && unit_owner(punit) == city_owner(pcity)) {
-        count++;
+        int current = get_target_bonus_effects(NULL,
+                                               &(const struct req_context) {
+                                                 .player = city_owner(pcity),
+                                                 .city = pcity,
+                                                 .tile = city_tile(pcity),
+                                                 .unit = punit,
+                                                 .unittype = unit_type_get(punit)
+                                               },
+                                               NULL, EFT_MARTIAL_LAW_EACH);
+        if (current > 0) {
+          if (sel_count < max_mart_units) {
+            best_units[sel_count++] = current;
+          } else if (current > best_units[max_mart_units - 1]) {
+            for (i = max_mart_units - 1; i >= 0 && current > best_units[i]; i++) {
+              if (i + 1 < max_mart_units) {
+                best_units[i + 1] = best_units[i];
+              }
+            }
+
+            best_units[i + 1] = current;
+          }
+        }
       }
     } unit_list_iterate_end;
 
-    pcity->martial_law = CLIP(0, count * martial_law_each, MAX_CITY_SIZE);
+    pcity->martial_law = 0;
+    for (i = 0; i < sel_count; i++) {
+      pcity->martial_law += best_units[i];
+    }
+
+    pcity->martial_law = MIN(pcity->martial_law, MAX_CITY_SIZE);
   }
 
   free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
