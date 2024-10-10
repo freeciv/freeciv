@@ -1,3 +1,979 @@
+commit 7e579718036498ffb5f9b4c8d7f763b766a3c88b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 11 00:07:13 2024 +0300
+
+    Set version number to 3.1.3
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d8fce3339fdaaa05a072308aa7ba1507987a39b1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 11 00:05:59 2024 +0300
+
+    'make update-po' before 3.1.3 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ed2afeddc86bcb67884ac0c266ffca3d668cb436
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 11 00:03:13 2024 +0300
+
+    FAQ: Update latest stable version number to 3.1.3
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5846200dcebe2bd0d79f895e45708b443cc92a82
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Oct 10 23:52:00 2024 +0300
+
+    NEWS-3.1: Refresh 3.1.3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a9f370b5831de57ce419a6f6da38932b6e125f36
+Author: Benno Lang <transmogribenno@gmail.com>
+Date:   Thu Oct 10 15:08:08 2024 +1030
+
+    Update Esperanto translation
+
+    Main changes:
+    * Return all nations to uppercase first letter (for consistency, and
+      because it looks nicer in menus and tables)
+    * Match unit pluralisation (previously most/all units were
+      translated as plurals, possibly in an attempt to avoid
+      adjective/noun plural mismatch, although that's not possible.
+      Instead, sentences should be restructured to avoid such issues)
+    * Add some missing nations (there are still plenty to go)
+    * Fix various errors
+
+commit 8ddd5f5f9f9be2e5fc143028475b322fd2503b3b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Oct 9 05:53:17 2024 +0300
+
+    Comment typofix: "missplace" -> "misplace"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b8d02fb3398363402d3f186da62871132e711869
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Oct 7 05:33:18 2024 +0300
+
+    Fix client crash when Leaving the game to main menu
+
+    See RM #935
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 25d93829ccf8a473b4ec34b369f8c0425c8d2786
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 8 18:26:31 2024 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2024-10-06)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 11cb8691ed5e56b16bd4c1ba8557cb4448c2c95b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 8 18:12:08 2024 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 14bf941f60a02000b16ae0139163971e05b4a287
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 5 18:59:04 2024 +0300
+
+    Update Finnish translation of ruledit domain
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bf34ae77fcf7d06d3ce458a8860ffdc4f6dff727
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 5 10:49:38 2024 +0300
+
+    NEWS-3.1: Add 3.1.3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e5a2a7561f0df2571cba049c354d5ddd9edac548
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Fri Oct 4 09:13:29 2024 +0500
+
+    Update for Russian translation
+
+commit 5a0387cebb6d9d3414810b6b29b64ac5a055beb2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 27 06:32:54 2024 +0300
+
+    comments_load(): Log errors as such
+
+    See RM #917
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 67fc44cb7888a9d332277e4c4e6a6a77b228251d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Oct 3 17:37:46 2024 +0300
+
+    Comment typofix: "unknow" -> "unknown"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0b6765c85fdd8d0d26979db338150e170f53ac17
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 21 13:20:15 2024 +0300
+
+    gtk: Fix editor assert failures when player government not known
+
+    See RM #860
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 035974c1bd64ab93dd5a4d631179384a7f656dcf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 20 20:51:57 2024 +0300
+
+    Unhardcode wld.map from action_speculate_unit_on_tile()
+
+    See RM #893
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 92288a795d0e8e08c08eb0b1ca173da8970616f1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Oct 2 03:35:58 2024 +0300
+
+    Comment typofix: "enought" -> "enough"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c8fcc245d170ec6ef30ab138d129dad1b5ca7268
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 20 17:37:06 2024 +0300
+
+    Apply patch 3 for lua-5.4.7
+
+    See RM #883
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 078d700fb60dd5c06c20cfa3271b7267e1033d2b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 18 06:23:57 2024 +0300
+
+    Check get_discounted_reward() return value
+
+    If the function has failed, do not use the result structure from it.
+
+    See RM #872
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b4b47d699938fa3b14bf4a545abfe12b2645471f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 30 00:09:41 2024 +0300
+
+    Comment typofix: "reproducable" -> "reproducible"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4c27317b94beba36d0417fd217f881e7fcc00eb7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 19 00:52:24 2024 +0300
+
+    Flatpak: Update gnome Sdk & Platform to 47
+
+    See RM #877
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f6c9de3ad4c1a6800154ca26eb05948adc90d0c1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 20 17:16:33 2024 +0300
+
+    Move cargo sanity check to rssanity
+
+    So it's part of ruledit's sanity checks too
+
+    See RM #878
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1a1a13d5e5d31ec015d21abe0d6423700466cf2e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 28 03:47:51 2024 +0300
+
+    Comment typofix: "inbetween" -> "in between"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3581e195e2cf649248c42125fbf2ed715a7b4a99
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 18 20:31:03 2024 +0300
+
+    fc-sdl2.m4: Port upstream serial 3 changes
+
+    See RM #873
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 309679a35c44102643124cc6036b62b279be7109
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 18 02:55:24 2024 +0300
+
+    Unhardcode wld.map from action_speculate_unit_on_units()
+
+    See RM #871
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bf5e640b424c2b066c082f70ff1e38a91730f13b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 25 04:05:56 2024 +0300
+
+    Comment typofix: "catch throught" -> "caught through"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f8baa8e90a58d9f369088a15af080ba4f8c72f36
+Author: Sławomir Lach <slawek@lach.art.pl>
+Date:   Wed Sep 18 21:48:41 2024 +0200
+
+    Qt: Put governor settings to a scrollarea
+
+    This makes it possible to squeeze city dialog to
+    smaller size, so it fits e.g to Steam Deck display.
+
+    See osdn #117756
+
+commit 3ec5c7fe661e38f58926b05956ff2cd07010a2d7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 14 10:04:30 2024 +0300
+
+    Unhardcode wld.map from action_speculate_unit_on_unit()
+
+    See RM #853
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 19129bf22e3c5c3e2930ecc42cb57a26f07218ce
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 20 23:02:38 2024 +0300
+
+    Meson: Make modpack installer build to depend on verhdr
+
+    See RM #896
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a6fee2f1f9db1f1b36c0a7a513a1e976f6d4e05f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 17 18:44:29 2024 +0300
+
+    CI: Make github actions to use actions/checkout version 4.1.7
+
+    See RM #868
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 07ff823f1d57559fb8a30fada7d63e88be6b951a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 14 09:55:24 2024 +0300
+
+    specvec.h: Add function headers for inline functions
+
+    See RM #536
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6934b9d8ff116bc305859f0de29c00725c7dd032
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 13 18:10:21 2024 +0300
+
+    fc_querysocket(): Handle fdopen() errors
+
+    See RM #851
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 851c25b4f7cad5e70be540f1036453c5790a4371
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 11 07:12:01 2024 +0300
+
+    HACKING: Correct debug log level name
+
+    It was documenting numeric value that was also outdated,
+    and now wrong.
+
+    See RM #847
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c4d8aee3b09b2a096bbcf6594760dcc1235690af
+Author: Michael Ortmann <41313082+michaelortmann@users.noreply.github.com>
+Date:   Fri Aug 30 00:56:48 2024 +0200
+
+    Do not reread tilespec, if it is the current one
+
+    See RM #879
+
+commit 9bdc838fbb9a3fa97e5ff9908c09a35e5066ff7d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 21 00:01:59 2024 +0300
+
+    Comment typofix: "brefore" -> "before"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 99bfc751c4d00590450862d518ccf81a957c15b1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 13 19:03:03 2024 +0300
+
+    Flatpak: Update freedesktop Sdk & Platform to 24.08
+
+    See RM #850
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 21010adb2dcd87f176cecb346ef251eabd348bf5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 12 07:29:59 2024 +0300
+
+    Ruledit: Add unit cargo properties editing
+
+    Edit cargo types and capacity.
+
+    See RM #849
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ea8a7a2acb3567f86a3b5e049b81199baf85cd51
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 8 12:58:44 2024 +0300
+
+    Unhardcode wld.map from action_speculate_unit_on_city()
+
+    See RM #839
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 98810920eb610c318be36d0cc5e5222c279711e2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 7 01:09:46 2024 +0300
+
+    Qt races_dialog::set_index() header: Drop duplicate "current"
+
+    See RM #832
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 08edc04c9b7591bcb414f292f12fb24023eb5fd4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 7 02:53:54 2024 +0300
+
+    Update lua command helptext
+
+    See osdn #45636
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2298bf6d1f1ab931bb87728275388d8fde024978
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 8 12:31:46 2024 +0300
+
+    gnulib-common.m4: Update to serial 103
+
+    See RM #838
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 29f5b1c195b700cbf84a2a0419481843325afed4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 7 00:46:10 2024 +0300
+
+    Correct "Inresponsive" to "Unresponsive"
+
+    See RM #830
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 42deb9eef65278335b9d0b3cdb8ee3a389a5b918
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 15 10:56:36 2024 +0300
+
+    Comment typofix: "doesnt" -> "doesn't"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 84dfafd7be6e96ade6e8229d85880949996f419c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 7 00:29:36 2024 +0300
+
+    speclist.h: Mark inline function headers for doxygen
+
+    See RM #760
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fbd03b0f509b4471f99fe1618a49ec02465c117e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 23:44:35 2024 +0300
+
+    Correct unit escape message
+
+    - Correct word order
+    - Display attacking unit's owner's nationality, not unit's
+
+    See RM #100
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4e16e9aa85898949b8523a0c1952b59dba3c8882
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 22:59:13 2024 +0300
+
+    stdlib_h.m4: Update to serial 81
+
+    Add locale-en.m4 as a new dependency
+
+    See RM #823
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 393fa2accdc85f9238ff22a150e568260cee0f54
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 22:46:39 2024 +0300
+
+    Fix diplomacy crash when partner government unknown
+
+    Reported by Michael Ortmann
+
+    See RM #814
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cf4e30a47d9d198f84d35344b8cb90f23c1954db
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 08:23:48 2024 +0300
+
+    Meson: Make common_lib to depend on verhdr
+
+    See RM #826
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0c3fc69e9fe74815b1a3826c240ece210bdcbf0d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 10 04:39:19 2024 +0300
+
+    Comment typofix: "splitted" -> "split"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6cfdd66dd3541889620a8c3475b02f1c8d99b691
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 17:53:48 2024 +0300
+
+    Apply patch 2 for lua-5.4.7
+
+    See RM #761
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 57a8b3d1b99a9416f430061cf12e708ae0092a72
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 18:13:50 2024 +0300
+
+    Update unit_versus_unit() header
+
+    See RM #827
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 923aecd5e0d8241c14a8a3cd90a7dc65ff034b67
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 06:35:19 2024 +0300
+
+    Meson: Install small flag sprites
+
+    Reported by ivar
+
+    See RM #824
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 86af5d17419cba0254b077f4eaf7073613b938bd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 1 01:03:18 2024 +0300
+
+    Unhardcode wld.map from action_prob_unit_vs_tgt()
+
+    See RM #819
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 41567aa96a80ffcca632ee4db407a4f060d7a79b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 8 13:20:42 2024 +0300
+
+    Comment typofix: "Processess" -> "Processes"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1220e2288dcaeb1c61337046cbd4b208b4bc1f66
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 05:49:43 2024 +0300
+
+    locale-fr.m4: Update to serial 24
+
+    See RM #822
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c024927e84b15730635869d224dbf89d050439d2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 5 08:52:39 2024 +0300
+
+    Qt: Use QMenu::clear() instead of our own implementation
+
+    Remove reset_menu_and_sub_menues()
+
+    See RM #820
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 12ecd55b0acca023587a46bd4ec97b931045eca5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 31 15:25:05 2024 +0300
+
+    Give log level deprecation warnings regardless of parameter order
+
+    Make deprecation warning about numeric log level pending.
+    Log it if later parameter enables deprecation warnings.
+
+    See osdn #45954
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bdb60d3a30e7b0e383b571d2e3f555c8eae8a824
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 7 05:09:33 2024 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1b20424320a822c4a921c34315e8a0dac1d3ca70
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 31 07:36:08 2024 +0300
+
+    Correct "hight" to "height"
+
+    See RM #816
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 17fe2ea8cfa1b96f4569b3a8d1918810a59e1aac
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 4 01:27:24 2024 +0300
+
+    Update to crosser-2.9
+
+    See RM #722
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit db9871ea3062b341361b8c866e0576d33f6ffa6a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 6 21:16:11 2024 +0300
+
+    Comment typofix: "higlight" -> "highlight"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 618bfc6631879ddfda1546c0197a1ea8a416f437
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 25 23:38:00 2024 +0300
+
+    AI: Make amount of Veteran_Combat effect to count in evaluation
+
+    See RM #794
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 647895abe930c0c2689d1d7c060fb02e1e3f791c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 25 23:08:21 2024 +0300
+
+    granularity: Correct "pecularities" to "peculiarities"
+
+    See RM #810
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 412ec668dbff679d165f9ee1a56325b2719325f5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 3 07:45:33 2024 +0300
+
+    Comment typofix: "accidently" -> "accidentally"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 272ea5e916d910f41dbcf3f256fbea2ac66ab6db
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 25 23:03:01 2024 +0300
+
+    Unhardcode wld.map from can_unit_change_homecity_to()
+
+    See RM #809
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d1f08ecc588e1a736f19d6241b3125d0098059d2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 31 21:42:17 2024 +0300
+
+    Comment typofix: "miliseconds" -> "milliseconds"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b3613323df66594423b2f32b73beda86941cb59c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 31 21:02:34 2024 +0300
+
+    SDL2_gfx: Clear executable bit from source files
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e877a8b70db81f68775449cdc26509c26131c5a9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 25 22:31:23 2024 +0300
+
+    gnulib-common.m4: Update to serial 101
+
+    See RM #808
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5c0c46c46097bbb5a6340f0932ec4dcc5802b963
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 23 23:11:21 2024 +0300
+
+    Correct "cancelation" to "cancellation"
+
+    See RM #800
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8e0b48af8e87b150df4c4544ea70dce81fefa494
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 23 23:35:25 2024 +0300
+
+    Update host-cpu-abi.m4 to serial 18
+
+    See RM #801
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bdd26e03a9d0e6657a92b7a721002deba5e4579b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 22 21:51:50 2024 +0300
+
+    Unhardcode wld.map from unit_can_add_or_build_city()
+
+    See RM #799
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 90cd98bfbfd46962f9d2de68f3f983d10772a155
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 18 13:36:09 2024 +0300
+
+    Correct "existant" to "existent"
+
+    See RM #796
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 45d9c57988cc321a4acf8986e230a6f959ae70e1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 19 19:07:30 2024 +0300
+
+    installer_cross: Clean out remainders of qt5 support
+
+    See RM #798
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a756d79514b6b94f2c19e02ec4a743e85469614e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 23 23:00:23 2024 +0300
+
+    Comment typofix: "compability" -> "compatibility"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8bddfb7012c86c6ebb03bba0c0cf2d841f933cd2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 12 19:23:22 2024 +0300
+
+    AI: Refuse receiving techs when can't afford upkeep
+
+    See RM #788
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7e5ff6d8f2231b4f4caf02ea5e59e8848060f448
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 16 20:52:49 2024 +0300
+
+    Unhardcode wld.map from can_unit_alight_or_be_unloaded()
+
+    See RM #792
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 93f170329fc604a3af93a62dd1bf85d2da23750a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 16 20:11:27 2024 +0300
+
+    notify.c: Convert parameter documentation to doxygen format
+
+    See RM #791
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 699780044755c1eac1ed992d22f9174ce5b23613
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 20 18:50:44 2024 +0300
+
+    Comment typofix: "reset(t)ed" -> "reset"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 79258aecc669afacaed8f17ae5631e9ecd922dad
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 15 17:19:14 2024 +0300
+
+    Sandbox: Correct MinVeteran requirements' format
+
+    The value was given as an integer, though it should
+    be a string.
+
+    See RM #784
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 11bc91a9f8bc2360870bd85a0bbdc9c643c6dbe4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 11 05:30:02 2024 +0300
+
+    Unhardcode wld.map from unit_can_help_build_wonder_here()
+
+    See RM #785
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7b4a0c1c8901564d3df8ee2561f22dff41a32509
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 12 06:36:40 2024 +0300
+
+    Correct "symetry" to "symmetry"
+
+    See RM #787
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 624a9cbf2d74a2c48a58eb94495bb98ec1471eec
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 10 11:15:04 2024 +0300
+
+    Fix "dublicate" typo
+
+    See RM #783
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f023e8b12a3b08965749b357d260b83d038491e1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 10 06:51:45 2024 +0300
+
+    Unhardcode wld.map from action_is_blocked_by()
+
+    See RM #758
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7fd070fca585e0e8ea8227e673bcaa8706695960
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 10 09:50:47 2024 +0300
+
+    Comment typofix: "insensitve" -> "insensitive"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 96d6654a7fd8a0b090054c972b1a2a78245ee2ec
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 6 00:45:21 2024 +0300
+
+    gnulib-common.m4: Update to serial 100
+
+    See RM #775
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 19b4c38d315b2fd9f585dd247359fa2ea9101e93
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 5 07:52:46 2024 +0300
+
+    Fix clang-20 compiler warnings
+
+    See RM #773
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f84a48fdb1a9c600dadf57f655c7585b84dd3c83
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 2 00:06:25 2024 +0300
+
+    gnulib-common.m4: Update to serial 99
+
+    See RM #769
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b0108f3b7a6a1ad7909f5ded05ebfc82bf09d40e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 31 23:37:20 2024 +0300
+
+    Merge German translation from main branch
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3c94b5112b1bcc2fb45c2352b5eee0c5b9d99e33
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 27 22:21:59 2024 +0300
+
+    Comment typofix: "inidicator" -> "indicator"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 426b067a21513a2825dbd47f23391ac4d21e50a6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 16 14:28:04 2024 +0300
+
+    alien: Correct units.ruleset typo "spesific"
+
+    See RM #762
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 92c776442aba4b9adc1ae4836c3bc87411d1b8be
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 11 17:20:13 2024 +0300
+
+    Comment typofix: "catched" -> "caught"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4cafe10fcfc076574ad38806de0a87d849a6425d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 9 01:09:46 2024 +0300
+
+    Update included lua to version 5.4.7
+
+    See RM #683
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 905d442d5434139f3adc6cef4cced7cb775a59a5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 29 07:58:57 2024 +0300
+
+    Unhardcode wld.map from action_prob_self()
+
+    See RM #739
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit eb06979a225a92581ba32b9a8ca1b0b31169cff5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 7 22:01:23 2024 +0300
+
+    Autotools: Improve missing sqlite3 error message
+
+    Reported by drgerg
+
+    See RM #753
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fc8ee7b95c477d0f96b934da8763a4f6e1f38495
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 6 11:35:39 2024 +0300
+
+    gtk: Fix crash when closing last diplomacy tab
+
+    See RM #750
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fe12f5e296e3af205dfdd7e6c0c1cf55ccb013b2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 9 00:01:27 2024 +0300
+
+    Comment typofix: "everytime" -> "every time"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6aa1c4bdea1b40a3e13cf6b2195c62208dad1ade
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 2 07:24:09 2024 +0300
+
+    Set QT_DISABLE_DEPRECATED_BEFORE to 6.0 in Qt6-mode
+
+    See RM #734
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 22772fe6c44a50a9a65cc83edda8c3ffd7fd5681
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 6 02:31:27 2024 +0300
+
+    Comment typofix: "diolag" -> "dialog"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 03c281713422e90aa073243ad51fa31c7f759175
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 1 21:27:05 2024 +0300
+
+    Makefile.in.in: Refresh from gettext-0.22.5
+
+    See RM #745
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 95510ad3b8e35b632204273987cc8da1c3d293f8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 5 20:37:26 2024 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e98d6f2f45505587455d597926aa0d78dc1ee6f9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 5 20:35:14 2024 +0300
+
+    ChangeLog: Refresh for 3.1.2 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit 9fec55a49a588f47cc1e74767c365caa34ae2a98
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Jul 5 20:34:35 2024 +0300
