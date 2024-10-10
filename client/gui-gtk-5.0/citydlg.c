@@ -363,6 +363,27 @@ struct _FcImprClass
 
 G_DEFINE_TYPE(FcImprRow, fc_impr_row, G_TYPE_OBJECT)
 
+#define FC_TYPE_PROD_ROW (fc_prod_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcProdRow, fc_prod_row, FC, PROD_ROW, GObject)
+
+struct _FcProdRow
+{
+  GObject parent_instance;
+
+  char *name;
+  int id;
+  GdkPixbuf *sprite;
+  bool useless;
+};
+
+struct _FcProdClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcProdRow, fc_prod_row, G_TYPE_OBJECT)
+
 /**********************************************************************//**
   Initialization method for FcImprRow class
 **************************************************************************/
@@ -388,6 +409,36 @@ static FcImprRow *fc_impr_row_new(void)
   FcImprRow *result;
 
   result = g_object_new(FC_TYPE_IMPR_ROW, nullptr);
+
+  return result;
+}
+#endif
+
+/**********************************************************************//**
+  Initialization method for FcProdRow class
+**************************************************************************/
+static void
+fc_prod_row_class_init(FcProdRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcProdRow
+**************************************************************************/
+static void
+fc_prod_row_init(FcProdRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcProdRow creation method
+**************************************************************************/
+#if 0
+static FcProdRow *fc_prod_row_new(void)
+{
+  FcProdRow *result;
+
+  result = g_object_new(FC_TYPE_PROD_ROW, nullptr);
 
   return result;
 }
