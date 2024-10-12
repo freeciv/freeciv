@@ -2030,7 +2030,7 @@ scenarios = [
   'tutorial.sav'
 ]
 
-if host_system != 'windows'
+if host_system != 'windows' or crosser
   foreach scen : scenarios
     scenzip = custom_target('gzip_' + scen,
                             command: [gzip_exe, '--best', '-n', '-c', '@INPUT@' ],
@@ -2041,7 +2041,7 @@ if host_system != 'windows'
                             install_dir: join_paths(get_option('datadir'), 'freeciv/scenarios'))
   endforeach
 else
-  # Windows - cannot compress at the moment (msys2 gzip on CI failing)
+  # Windows msys2 - cannot compress at the moment (msys2 gzip on CI failing)
   foreach scen : scenarios
     install_data(join_paths('data/scenarios', scen),
                  install_dir: join_paths(get_option('datadir'), 'freeciv/scenarios'))
