@@ -674,6 +674,31 @@ static void spy_advances_callback(GtkTreeSelection *select,
 }
 
 /**********************************************************************//**
+  Action table cell bind function
+**************************************************************************/
+static void action_factory_bind(GtkSignalListItemFactory *self,
+                                GtkListItem *list_item,
+                                gpointer user_data)
+{
+  FcActionRow *row;
+
+  row = gtk_list_item_get_item(list_item);
+
+  gtk_label_set_text(GTK_LABEL(gtk_list_item_get_child(list_item)),
+                     row->name);
+}
+
+/**********************************************************************//**
+  Action table cell setup function
+**************************************************************************/
+static void action_factory_setup(GtkSignalListItemFactory *self,
+                                 GtkListItem *list_item,
+                                 gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
+/**********************************************************************//**
   Create spy's tech stealing dialog
 **************************************************************************/
 static void create_advances_list(struct player *pplayer,
@@ -684,6 +709,7 @@ static void create_advances_list(struct player *pplayer,
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
+  GtkListItemFactory *factory;
 
   struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
 
@@ -707,6 +733,12 @@ static void create_advances_list(struct player *pplayer,
   gtk_frame_set_child(GTK_FRAME(frame), vgrid);
 
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(action_factory_bind),
+                   nullptr);
+  g_signal_connect(factory, "setup", G_CALLBACK(action_factory_setup),
+                   nullptr);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(view, TRUE);
