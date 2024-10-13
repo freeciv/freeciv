@@ -543,13 +543,8 @@ void fc_client::create_load_page()
           &QItemSelectionModel::selectionChanged, this,
           &fc_client::slot_selection_changed);
 #ifdef FC_QT6X_MODE
-#if QT_VERSION >= 0x060700
   connect(show_preview, &QCheckBox::checkStateChanged, this,
           &fc_client::state_preview);
-#else  // QT >= 6.7
-  connect(show_preview, &QCheckBox::stateChanged, this,
-          &fc_client::state_preview_depr);
-#endif // QT >= 6.7
 #else  // FC_QT6X_MODE
   connect(show_preview, &QCheckBox::stateChanged, this,
           &fc_client::state_preview_depr);

@@ -8,7 +8,7 @@ AC_DEFUN([FC_QT],
       FC_QT_CXXFLAGS="$FC_QT6_CXXFLAGS"
       FC_QT_LIBS="$FC_QT6_LIBS"
       fc_qt_usable="$fc_qt6_usable" ;;
-    xqt6x|xQt6x) FC_QT6([0x060600], [6.6])
+    xqt6x|xQt6x) FC_QT6([0x060700], [6.7])
       FC_QT_CPPFLAGS="$FC_QT6_CPPFLAGS"
       FC_QT_CXXFLAGS="$FC_QT6_CXXFLAGS"
       FC_QT_LIBS="$FC_QT6_LIBS"

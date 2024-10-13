@@ -122,13 +122,8 @@ goto_dialog::goto_dialog(QWidget *parent): qfc_dialog(parent)
   connect(goto_city, &QAbstractButton::clicked, this, &goto_dialog::go_to_city);
   connect(airlift_city, &QAbstractButton::clicked, this, &goto_dialog::airlift_to);
 #ifdef FC_QT6X_MODE
-#if QT_VERSION >= 0x060700
   connect(show_all, &QCheckBox::checkStateChanged,
           this, &goto_dialog::checkbox_changed);
-#else  // QT >= 6.7
-  connect(show_all, &QCheckBox::stateChanged,
-          this, &goto_dialog::checkbox_changed_depr);
-#endif // QT >= 6.7
 #else  // FC_QT6X_MODE
   connect(show_all, &QCheckBox::stateChanged,
           this, &goto_dialog::checkbox_changed_depr);

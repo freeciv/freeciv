@@ -301,11 +301,7 @@ chatwdg::chatwdg(QWidget *parent)
           this, &chatwdg::toggle_size);
   connect(remove_links, &QAbstractButton::clicked, this, &chatwdg::rm_links);
 #ifdef FC_QT6X_MODE
-#if QT_VERSION >= 0x060700
   connect(cb, &QCheckBox::checkStateChanged, this, &chatwdg::state_changed);
-#else  // QT >= 6.7
-  connect(cb, &QCheckBox::stateChanged, this, &chatwdg::state_changed_depr);
-#endif // QT >= 6.7
 #else  // FC_QT6X_MODE
   connect(cb, &QCheckBox::stateChanged, this, &chatwdg::state_changed_depr);
 #endif // FC_QT6X_MODE
