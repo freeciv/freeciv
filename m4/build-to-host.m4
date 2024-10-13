@@ -1,5 +1,5 @@
 # build-to-host.m4
-# serial 4
+# serial 5
 dnl Copyright (C) 2023-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -104,6 +104,27 @@ AC_DEFUN_ONCE([gl_BUILD_TO_HOST_BINDIR],
   gl_BUILD_TO_HOST([bindir])
   bindir="${gl_saved_bindir}"
   exec_prefix="${gl_saved_exec_prefix}"
+  prefix="${gl_saved_prefix}"
+])
+
+dnl Defines datadir_c and datadir_c_make,
+dnl where datadir = $(datarootdir)
+AC_DEFUN_ONCE([gl_BUILD_TO_HOST_DATADIR],
+[
+  dnl Find the final value of datadir.
+  gl_saved_prefix="${prefix}"
+  gl_saved_datarootdir="${datarootdir}"
+  gl_saved_datadir="${datadir}"
+  dnl Unfortunately, prefix gets only finally determined at the end of
+  dnl configure.
+  if test "X$prefix" = "XNONE"; then
+    prefix="$ac_default_prefix"
+  fi
+  eval datarootdir="$datarootdir"
+  eval datadir="$datadir"
+  gl_BUILD_TO_HOST([datadir])
+  datadir="${gl_saved_datadir}"
+  datarootdir="${gl_saved_datarootdir}"
   prefix="${gl_saved_prefix}"
 ])
 
