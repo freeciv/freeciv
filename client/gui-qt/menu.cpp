@@ -3436,7 +3436,7 @@ void mr_menu::slot_select_one()
 }
 
 /**********************************************************************//**
-  Action "SELLECT SAME UNITS ON CONTINENT"
+  Action "SELECT SAME UNITS ON CONTINENT"
 **************************************************************************/
 void mr_menu::slot_select_same_continent()
 {
