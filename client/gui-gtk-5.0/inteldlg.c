@@ -80,7 +80,6 @@ struct intel_dialog {
   GtkWidget *shell;
 
   GtkTreeStore *diplstates;
-  GtkListStore *techs_depr;
   GListStore *techs;
   GtkWidget *table_labels[LABEL_LAST];
 };
@@ -482,10 +481,6 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
   /* Techs tab. */
-  pdialog->techs_depr = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
-  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->techs_depr),
-      1, GTK_SORT_ASCENDING);
-
   pdialog->techs = g_list_store_new(FC_TYPE_TECH_ROW);
 
   selection = gtk_single_selection_new(G_LIST_MODEL(pdialog->techs));
@@ -509,33 +504,9 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   column = gtk_column_view_column_new(_("Unknown"), factory);
   gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs_depr));
-  gtk_widget_set_margin_bottom(view, 6);
-  gtk_widget_set_margin_end(view, 6);
-  gtk_widget_set_margin_start(view, 6);
-  gtk_widget_set_margin_top(view, 6);
-  gtk_widget_set_hexpand(view, TRUE);
-  gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(pdialog->techs_depr);
-  gtk_widget_set_margin_start(view, 6);
-  gtk_widget_set_margin_end(view, 6);
-  gtk_widget_set_margin_top(view, 6);
-  gtk_widget_set_margin_bottom(view, 6);
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-
-  rend = gtk_cell_renderer_toggle_new();
-  col = gtk_tree_view_column_new_with_attributes(NULL, rend,
-                                                 "active", 0, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
-
-  rend = gtk_cell_renderer_text_new();
-  col = gtk_tree_view_column_new_with_attributes(NULL, rend,
-                                                 "text", 1, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
-
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
-  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), list);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -750,23 +721,12 @@ void update_intel_dialog(struct player *p)
     } players_iterate_end;
 
     /* Techs tab. */
-    gtk_list_store_clear(pdialog->techs_depr);
+    g_list_store_remove_all(pdialog->techs);
 
     mresearch = research_get(client_player());
     presearch = research_get(p);
     advance_index_iterate(A_FIRST, advi) {
       if (research_invention_state(presearch, advi) == TECH_KNOWN) {
-        GtkTreeIter it;
-
-        gtk_list_store_append(pdialog->techs_depr, &it);
-
-        gtk_list_store_set(pdialog->techs_depr, &it,
-                           0, research_invention_state(mresearch, advi)
-                           != TECH_KNOWN,
-                           1, research_advance_name_translation(presearch,
-                                                                advi),
-                           -1);
-
         FcTechRow *row = fc_tech_row_new();
 
         row->name = research_advance_name_translation(presearch, advi);
