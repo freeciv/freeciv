@@ -73,6 +73,55 @@ static void popdown_worklist(struct global_worklist *pgwl);
 static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
                              GtkTreeViewColumn *col, gpointer data);
 
+#define FC_TYPE_WLMETA_ROW (fc_wlmeta_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcWlmetaRow, fc_wlmeta_row, FC, WLMETA_ROW, GObject)
+
+struct _FcWlmetaRow
+{
+  GObject parent_instance;
+
+  char *name;
+  int id;
+};
+
+struct _FcWlmetaClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcWlmetaRow, fc_wlmeta_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcWlmetaRow class
+**************************************************************************/
+static void
+fc_wlmeta_row_class_init(FcWlmetaRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcWlmetaRow
+**************************************************************************/
+static void
+fc_wlmeta_row_init(FcWlmetaRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcWlmetaRow creation method
+**************************************************************************/
+#if 0
+static FcWlmetaRow *fc_wlmeta_row_new(void)
+{
+  FcWlmetaRow *result;
+
+  result = g_object_new(FC_TYPE_WLMETA_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /************************************************************************//**
   Illegal initialization value for max unit size variables
 ****************************************************************************/
