@@ -217,7 +217,7 @@ void global_worklist_destroy(struct global_worklist *pgwl)
 
   global_worklist_list_remove(client.worklists, pgwl);
 
-  /* Specific descturctor. */
+  /* Specific destructor. */
   switch (pgwl->status) {
   case STATUS_UNBUILT:
     {
