@@ -363,6 +363,10 @@ struct _FcImprClass
 
 G_DEFINE_TYPE(FcImprRow, fc_impr_row, G_TYPE_OBJECT)
 
+#define IMPR_ROW_PIXBUF 0
+#define IMPR_ROW_DESC   1
+#define IMPR_ROW_UPKEEP 2
+
 #define FC_TYPE_PROD_ROW (fc_prod_row_get_type())
 
 G_DECLARE_FINAL_TYPE(FcProdRow, fc_prod_row, FC, PROD_ROW, GObject)
@@ -981,6 +985,67 @@ static void create_citydlg_main_map(struct city_dialog *pdialog,
   gtk_frame_set_child(GTK_FRAME(frame), pdialog->overview.map_canvas.sw);
 }
 
+/**********************************************************************//**
+  Improvement table cell bind function
+**************************************************************************/
+static void impr_factory_bind(GtkSignalListItemFactory *self,
+                              GtkListItem *list_item,
+                              gpointer user_data)
+{
+  FcImprRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  switch (GPOINTER_TO_INT(user_data)) {
+  case IMPR_ROW_PIXBUF:
+    gtk_image_set_from_pixbuf(GTK_IMAGE(child), row->sprite);
+    break;
+  case IMPR_ROW_DESC:
+    {
+      gtk_label_set_text(GTK_LABEL(child), row->description);
+
+      if (row->redundant) {
+        PangoAttrList *attributes;
+        PangoAttribute *attr;
+
+        attributes = pango_attr_list_new();
+        attr = pango_attr_strikethrough_new(TRUE);
+        pango_attr_list_insert(attributes, attr);
+
+        gtk_label_set_attributes(GTK_LABEL(child), attributes);
+      }
+    }
+    break;
+  case IMPR_ROW_UPKEEP:
+    {
+      char buf[256];
+
+      fc_snprintf(buf, sizeof(buf), "%d", row->upkeep);
+      gtk_label_set_text(GTK_LABEL(child), buf);
+    }
+    break;
+  }
+}
+
+/**********************************************************************//**
+  Improvement table cell setup function
+**************************************************************************/
+static void impr_factory_setup(GtkSignalListItemFactory *self,
+                               GtkListItem *list_item,
+                               gpointer user_data)
+{
+  switch (GPOINTER_TO_INT(user_data)) {
+  case IMPR_ROW_PIXBUF:
+    gtk_list_item_set_child(list_item, gtk_image_new());
+    break;
+  case IMPR_ROW_DESC:
+  case IMPR_ROW_UPKEEP:
+    gtk_list_item_set_child(list_item, gtk_label_new(""));
+    break;
+  }
+}
+
 /***********************************************************************//**
   Create improvements list
 ***************************************************************************/
@@ -989,13 +1054,20 @@ static GtkWidget *create_citydlg_improvement_list(struct city_dialog *pdialog)
   GtkWidget *view;
   GtkListStore *store;
   GtkCellRenderer *rend;
+  GtkListItemFactory *factory;
 
-  /* improvements */
+  /* Improvements */
   /* gtk list store columns: 0 - sell value, 1 - sprite,
   2 - description, 3 - upkeep, 4 - is redundant, 5 - tooltip */
   store = gtk_list_store_new(6, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
                              G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN,
                              G_TYPE_STRING);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(impr_factory_bind),
+                   GINT_TO_POINTER(IMPR_ROW_PIXBUF));
+  g_signal_connect(factory, "setup", G_CALLBACK(impr_factory_setup),
+                   GINT_TO_POINTER(IMPR_ROW_PIXBUF));
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(view, TRUE);
