@@ -172,4 +172,6 @@ void alert_close_response(GObject *dialog, GAsyncResult *result,
   g_object_unref(_submenu_var);                    \
 }
 
+int get_column_view_row(GtkWidget *cview, int y);
+
 #endif /* FC__GUI_STUFF_H */

@@ -1175,3 +1175,31 @@ void alert_close_response(GObject *dialog, GAsyncResult *result,
 {
   gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(dialog), result, NULL);
 }
+
+/**********************************************************************//**
+  Get GtkColumnView row at given y coordinate
+**************************************************************************/
+int get_column_view_row(GtkWidget *cview, int y)
+{
+  GtkWidget *child = gtk_widget_get_first_child(gtk_widget_get_next_sibling(gtk_widget_get_first_child(cview)));
+  int row_number = -1; /* 0 after header */
+  int curr_y = 0;
+
+  while (GTK_IS_WIDGET(child)) {
+    GtkAllocation alloc;
+
+    gtk_widget_get_allocation(child, &alloc);
+
+    curr_y = alloc.height + alloc.y;
+
+    if (curr_y > y) {
+      return row_number;
+    }
+
+    row_number++;
+
+    child = gtk_widget_get_next_sibling(child);
+  }
+
+  return -1;
+}
