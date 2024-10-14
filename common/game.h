@@ -117,6 +117,8 @@ struct civ_game {
 
       bool ruleset_init;
       bool ruleset_ready;
+
+      bool fog_of_war;
     } client;
 
     struct {

@@ -5542,6 +5542,16 @@ void handle_edit_startpos_full(const struct packet_edit_startpos_full *
 }
 
 /************************************************************************//**
+  Handle edit mode fog-of-war state
+****************************************************************************/
+void handle_edit_fogofwar_state(bool enabled)
+{
+  game.client.fog_of_war = enabled;
+
+  menus_update();
+}
+
+/************************************************************************//**
   A vote no longer exists. Remove from queue and update gui.
 ****************************************************************************/
 void handle_vote_remove(int vote_no)

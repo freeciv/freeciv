@@ -1735,7 +1735,7 @@ const struct menu_entry_option_map meoms[] = {
   { "SAVE_OPTIONS_ON_EXIT", &gui_options.save_options_on_exit, -1 },
   { "FULL_SCREEN", &(GUI_GTK_OPTION(fullscreen)), -1 },
   { "EDIT_MODE", &game.info.is_edit_mode, -1 },
-  { "TOGGLE_FOG", NULL, -1 },
+  { "TOGGLE_FOG", &game.client.fog_of_war, -1 },
   { "SHOW_CITY_OUTLINES", &gui_options.draw_city_outlines, VMENU_CITY_OUTLINES },
   { "SHOW_CITY_OUTPUT", &gui_options.draw_city_output, VMENU_CITY_OUTPUT },
   { "SHOW_MAP_GRID", &gui_options.draw_map_grid, VMENU_MAP_GRID },
@@ -2090,8 +2090,8 @@ static void toggle_fog_callback(GSimpleAction *action,
 {
   struct menu_entry_info *info = (struct menu_entry_info *)data;
 
-  info->state ^= 1; /* We can only hope that client and server are in sync.
-                     * TODO: Make sure they are. */
+  info->state ^= 1;
+
   key_editor_toggle_fogofwar();
 
   g_menu_remove(edit_menu, 5);
@@ -3749,6 +3749,15 @@ void real_menus_update(void)
     menu_entry_set_sensitive(map, "EDIT_MODE",
                              can_conn_enable_editing(&client.conn));
     editgui_refresh();
+  }
+
+  info = menu_entry_info_find("TOGGLE_FOG");
+  if (info->state != game.client.fog_of_war) {
+    info->state = game.client.fog_of_war;
+
+    g_menu_remove(edit_menu, 5);
+    menu_item_insert_unref(edit_menu, 5,
+                           create_toggle_menu_item(info));
   }
 
   {
