@@ -750,7 +750,7 @@ minimap_thread::minimap_thread(QObject *parent) : QThread(parent)
 }
 
 /**********************************************************************//**
-  Minimap thread's desctructor
+  Minimap thread's destructor
 **************************************************************************/
 minimap_thread::~minimap_thread()
 {
