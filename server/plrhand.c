@@ -871,11 +871,13 @@ void player_update_last_war_action(struct player *pplayer)
 /**********************************************************************//**
   Handles a player cancelling a "pact" with another player.
 
-  packet.id is id of player we want to cancel a pact with
-  packet.val1 is a special value indicating what kind of treaty we want
-    to break. If this is CLAUSE_VISION we break shared vision. If it is
-    a pact treaty type, we break one pact level. If it is CLAUSE_LAST
-    we break _all_ treaties and go straight to war.
+  @param pplayer         player cancelling the pact
+  @param other_player_id id of player we want to cancel a pact with
+  @param clause          value indicating what kind of treaty we want
+                         to break. If this is CLAUSE_VISION, we break
+                         shared vision. If it is CLAUSE_SHARED_TILES,
+                         we break shared tiles pact. Otherwise we break
+                         one pact level.
 **************************************************************************/
 void handle_diplomacy_cancel_pact(struct player *pplayer,
 				  int other_player_id,
