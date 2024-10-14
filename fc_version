@@ -75,7 +75,7 @@ DEFAULT_FOLLOW_TAG=S3_2
 #   - No new mandatory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2024.Oct.18"
+NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2024.Oct.23"
 FREECIV_DISTRIBUTOR=""
 
 if test "x$FREECIV_LABEL_FORCE" != "x" ; then

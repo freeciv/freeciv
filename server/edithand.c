@@ -131,6 +131,11 @@ void edithand_send_initial_packets(struct conn_list *dest)
         send_packet_edit_startpos(pconn, &startpos);
         send_packet_edit_startpos_full(pconn, &startpos_full);
       }
+
+      if (pconn->playing != NULL) {
+        dsend_packet_edit_fogofwar_state(pconn,
+                                         !unfogged_players[player_number(pconn->playing)]);
+      }
     } conn_list_iterate_end;
   } map_startpos_iterate_end;
 }
@@ -1343,12 +1348,12 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
   }
 
   conn_list_do_buffer(game.est_connections);
-  if (unfogged_players[player_number(pplayer)]) {
+  if (unfogged_players[plr_no]) {
     enable_fog_of_war_player(pplayer);
-    unfogged_players[player_number(pplayer)] = FALSE;
+    unfogged_players[plr_no] = FALSE;
   } else {
     disable_fog_of_war_player(pplayer);
-    unfogged_players[player_number(pplayer)] = TRUE;
+    unfogged_players[plr_no] = TRUE;
   }
   conn_list_do_unbuffer(game.est_connections);
 }

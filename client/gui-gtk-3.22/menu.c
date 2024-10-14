@@ -2397,6 +2397,7 @@ void real_menus_update(void)
   menu_entry_set_active("EDIT_MODE", game.info.is_edit_mode);
   menu_entry_set_sensitive("EDIT_MODE",
                            can_conn_enable_editing(&client.conn));
+  menu_entry_set_active("TOGGLE_FOG", game.client.fog_of_war);
   editgui_refresh();
   menu_entry_set_sensitive("RALLY_DLG", can_client_issue_orders());
   menu_entry_set_sensitive("INFRA_DLG", terrain_control.infrapoints);

@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 515
+Max id: 516
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -2220,6 +2220,10 @@ end
 
 PACKET_EDIT_TOGGLE_FOGOFWAR = 199; cs, handle-per-conn, dsend, handle-via-fields
   PLAYER player;
+end
+
+PACKET_EDIT_FOGOFWAR_STATE = 516; sc, lsend, dsend, handle-via-fields
+  BOOL enabled;
 end
 
 PACKET_EDIT_TILE_TERRAIN = 200; cs, handle-per-conn, dsend, handle-via-fields

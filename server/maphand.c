@@ -1748,6 +1748,8 @@ void enable_fog_of_war_player(struct player *pplayer)
 {
   const v_radius_t radius_sq = V_RADIUS(-1, 0, 0);
 
+  dlsend_packet_edit_fogofwar_state(pplayer->connections, TRUE);
+
   buffer_shared_vision(pplayer);
   whole_map_iterate(&(wld.map), ptile) {
     map_change_seen(pplayer, ptile, radius_sq, FALSE);
@@ -1771,6 +1773,8 @@ void enable_fog_of_war(void)
 void disable_fog_of_war_player(struct player *pplayer)
 {
   const v_radius_t radius_sq = V_RADIUS(1, 0, 0);
+
+  dlsend_packet_edit_fogofwar_state(pplayer->connections, FALSE);
 
   buffer_shared_vision(pplayer);
   whole_map_iterate(&(wld.map), ptile) {
