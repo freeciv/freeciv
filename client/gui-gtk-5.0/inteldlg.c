@@ -96,7 +96,8 @@ struct intel_wonder_dialog {
   struct player *pplayer;
   GtkWidget *shell;
 
-  GtkListStore *wonders;
+  GtkListStore *wonders_depr;
+  GListStore *wonders;
   GtkWidget *rule;
 };
 
@@ -206,7 +207,6 @@ fc_wonder_row_init(FcWonderRow *self)
 /**********************************************************************//**
   FcWonderRow creation method
 **************************************************************************/
-#if 0
 static FcWonderRow *fc_wonder_row_new(void)
 {
   FcWonderRow *result;
@@ -215,7 +215,6 @@ static FcWonderRow *fc_wonder_row_new(void)
 
   return result;
 }
-#endif
 
 /**********************************************************************//**
   Initialize intelligence dialogs
@@ -577,7 +576,10 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   struct intel_wonder_dialog *pdialog;
   GtkWidget *shell, *sw, *view;
   GtkCellRenderer *rend;
+  GtkWidget *list;
+  GtkColumnViewColumn *column;
   GtkListItemFactory *factory;
+  GtkSingleSelection *selection;
   GtkWidget *box;
 
   pdialog = fc_malloc(sizeof(*pdialog));
@@ -605,12 +607,17 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   /* Columns: 0 - wonder name, 1 - location (city/unknown/lost),
    * 2 - strikethrough (for lost or obsolete),
    * 3 - font weight (great wonders in bold) */
-  pdialog->wonders = gtk_list_store_new(4, G_TYPE_STRING,
-                                        G_TYPE_STRING,
-                                        G_TYPE_BOOLEAN,
-                                        G_TYPE_INT);
-  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->wonders),
+  pdialog->wonders_depr = gtk_list_store_new(4, G_TYPE_STRING,
+                                             G_TYPE_STRING,
+                                             G_TYPE_BOOLEAN,
+                                             G_TYPE_INT);
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->wonders_depr),
                                        3, GTK_SORT_DESCENDING);
+
+  pdialog->wonders = g_list_store_new(FC_TYPE_WONDER_ROW);
+
+  selection = gtk_single_selection_new(G_LIST_MODEL(pdialog->wonders));
+  list = gtk_column_view_new(GTK_SELECTION_MODEL(selection));
 
   factory = gtk_signal_list_item_factory_new();
   g_signal_connect(factory, "bind", G_CALLBACK(wonder_factory_bind),
@@ -618,14 +625,26 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   g_signal_connect(factory, "setup", G_CALLBACK(wonder_factory_setup),
                    nullptr);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->wonders));
+  column = gtk_column_view_column_new(_("Name"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(wonder_factory_bind),
+                   GINT_TO_POINTER(WONDER_ROW_CITY));
+  g_signal_connect(factory, "setup", G_CALLBACK(wonder_factory_setup),
+                   nullptr);
+
+  column = gtk_column_view_column_new(_("City"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->wonders_depr));
   gtk_widget_set_margin_bottom(view, 6);
   gtk_widget_set_margin_end(view, 6);
   gtk_widget_set_margin_start(view, 6);
   gtk_widget_set_margin_top(view, 6);
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(pdialog->wonders);
+  g_object_unref(pdialog->wonders_depr);
   gtk_widget_set_margin_start(view, 6);
   gtk_widget_set_margin_end(view, 6);
   gtk_widget_set_margin_top(view, 6);
@@ -866,7 +885,7 @@ void update_intel_wonder_dialog(struct player *p)
 
     gtk_label_set_text(GTK_LABEL(pdialog->rule), rule);
 
-    gtk_list_store_clear(pdialog->wonders);
+    gtk_list_store_clear(pdialog->wonders_depr);
 
     improvement_iterate(impr) {
       if (is_wonder(impr)) {
@@ -892,14 +911,24 @@ void update_intel_wonder_dialog(struct player *p)
           continue;
         }
 
-        gtk_list_store_append(pdialog->wonders, &it);
-        gtk_list_store_set(pdialog->wonders, &it,
+        gtk_list_store_append(pdialog->wonders_depr, &it);
+        gtk_list_store_set(pdialog->wonders_depr, &it,
                            0, improvement_name_translation(impr),
                            1, cityname,
                            2, is_lost,
                            /* Font weight: great wonders in bold */
                            3, is_great_wonder(impr) ? 700 : 400,
                            -1);
+
+        FcWonderRow *row = fc_wonder_row_new();
+
+        row->name = improvement_name_translation(impr);
+        row->cityname = cityname;
+        row->is_lost = is_lost;
+        row->font_weight = is_great_wonder(impr) ? 700 : 400;
+
+        g_list_store_append(pdialog->wonders, row);
+        g_object_unref(row);
       }
     } improvement_iterate_end;
   }
