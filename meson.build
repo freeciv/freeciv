@@ -3843,7 +3843,7 @@ if not emscripten
                                          required: false)
 endif
 
-executable('freeciv-sdl2x',
+executable('freeciv-sdl3',
   'client/gui-sdl3/action_dialog.c',
   'client/gui-sdl3/canvas.c',
   'client/gui-sdl3/chatline.c',
