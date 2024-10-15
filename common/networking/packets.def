@@ -180,7 +180,7 @@ Syntax:
       the add-cap flag for it while leaving the field intact.
 
       remove-cap: don't transfer this field if the given capability is
-      available at runtime.  When making an optional capability manditory,
+      available at runtime. When making an optional capability mandatory,
       go through and remove entirely any fields marked as remove-cap with
       that capability.
 */
