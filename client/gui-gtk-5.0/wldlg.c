@@ -73,6 +73,26 @@ static void popdown_worklist(struct global_worklist *pgwl);
 static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
                              GtkTreeViewColumn *col, gpointer data);
 
+#define FC_TYPE_WORKLIST_ROW (fc_worklist_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcWorklistRow, fc_worklist_row, FC, WORKLIST_ROW, GObject)
+
+struct _FcWorklistRow
+{
+  GObject parent_instance;
+
+  char *name;
+  int id;
+};
+
+struct _FcWorklistClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcWorklistRow, fc_worklist_row, G_TYPE_OBJECT)
+
+
 #define FC_TYPE_WLMETA_ROW (fc_wlmeta_row_get_type())
 
 G_DECLARE_FINAL_TYPE(FcWlmetaRow, fc_wlmeta_row, FC, WLMETA_ROW, GObject)
@@ -91,6 +111,36 @@ struct _FcWlmetaClass
 };
 
 G_DEFINE_TYPE(FcWlmetaRow, fc_wlmeta_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcWorklistRow class
+**************************************************************************/
+static void
+fc_worklist_row_class_init(FcWorklistRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcWorklistRow
+**************************************************************************/
+static void
+fc_worklist_row_init(FcWorklistRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcWorklistRow creation method
+**************************************************************************/
+#if 0
+static FcWorklistRow *fc_worklist_row_new(void)
+{
+  FcWorklistRow *result;
+
+  result = g_object_new(FC_TYPE_WORKLIST_ROW, nullptr);
+
+  return result;
+}
+#endif
 
 /**********************************************************************//**
   Initialization method for FcWlmetaRow class
