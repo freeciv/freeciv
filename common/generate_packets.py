@@ -1336,7 +1336,7 @@ DEFAULT_REGISTRY.dataio_types["memory"] = partial(NeedSizeType, cls = MemoryType
 
 
 class SequenceType(FieldType):
-    """Abstract base class (ABC) for field types representing homogenous
+    """Abstract base class (ABC) for field types representing homogeneous
     sequences of elements"""
 
     @abstractmethod
@@ -3242,7 +3242,7 @@ class Packet:
     """Whether a post-send hook should be called after sending this packet"""
 
     want_post_recv: bool = False
-    """Wheter a post-receive hook should be called when receiving this
+    """Whether a post-receive hook should be called when receiving this
     packet"""
 
     delta: bool = True
@@ -3514,7 +3514,7 @@ struct {self.name} {{
 
     def get_init(self) -> str:
         """Generate this packet's init function, which initializes the
-        packet struct so its complex-typed fields are useable, and sets
+        packet struct so its complex-typed fields are usable, and sets
         all fields to the empty default state used for computing deltas"""
         if self.complex:
             field_parts = "\n" + "".join(
