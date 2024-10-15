@@ -969,11 +969,10 @@ bool can_city_build_unit_later(const struct civ_map *nmap,
   Returns whether city can immediately build given target,
   unit or improvement. This considers obsolete targets still buildable.
 **************************************************************************/
-bool can_city_build_direct(const struct city *pcity,
+bool can_city_build_direct(const struct civ_map *nmap,
+                           const struct city *pcity,
                            const struct universal *target)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   switch (target->kind) {
   case VUT_UTYPE:
     return can_city_build_unit_direct(nmap, pcity, target->value.utype);
