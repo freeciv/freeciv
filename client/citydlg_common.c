@@ -1379,7 +1379,7 @@ static bool base_city_queue_insert(struct city *pcity, int position,
     struct universal old = pcity->production;
 
     /* Insert as current production. */
-    if (!can_city_build_direct(pcity, item)) {
+    if (!can_city_build_direct(&(wld.map), pcity, item)) {
       return FALSE;
     }
 
