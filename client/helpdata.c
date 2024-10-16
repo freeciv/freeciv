@@ -4672,7 +4672,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           }
         }
         break;
-      case EFT_MARTIAL_LAW_EACH:
+      case EFT_MARTIAL_LAW_BY_UNIT:
         if (playerwide) {
           cat_snprintf(buf, bufsz,
                        PL_("%s Your units may impose martial law."

@@ -427,35 +427,35 @@ type    = "Empire_Size_Step"
 value   = 10
 
 [effect_martial_law_each_0]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Anarchy",   "Player"
+    { "type", "name",    "range"
+      "Gov",  "Anarchy", "Player"
     }
 
 [effect_martial_law_each_1]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Despotism", "Player"
+    { "type", "name",      "range"
+      "Gov",  "Despotism", "Player"
     }
 
 [effect_martial_law_each_2]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Monarchy",  "Player"
+    { "type", "name",     "range"
+      "Gov",  "Monarchy", "Player"
     }
 
 [effect_martial_law_each_3]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Communism", "Player"
+    { "type", "name",      "range"
+      "Gov",  "Communism", "Player"
     }
 
 [effect_martial_law_max_0]

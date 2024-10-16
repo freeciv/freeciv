@@ -68,7 +68,7 @@ values
   EMPIRE_SIZE_BASE                  "Empire_Size_Base"
   EMPIRE_SIZE_STEP                  "Empire_Size_Step"
   MAX_RATES                         "Max_Rates"
-  MARTIAL_LAW_EACH                  "Martial_Law_Each"
+  MARTIAL_LAW_BY_UNIT               "Martial_Law_By_Unit"
   MARTIAL_LAW_MAX                   "Martial_Law_Max"
   RAPTURE_GROW                      "Rapture_Grow"
   REVOLUTION_UNHAPPINESS            "Revolution_Unhappiness"

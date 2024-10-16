@@ -2779,7 +2779,7 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
     bool emergency = FALSE;
     int count = 0;
     int mart_max = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
-    int mart_each = get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
+    int mart_each = get_city_bonus(pcity, EFT_MARTIAL_LAW_BY_UNIT);
     int martless_unhappy = pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY]
       + pcity->feel[CITIZEN_ANGRY][FEELING_NATIONALITY];
     int entertainers = 0;

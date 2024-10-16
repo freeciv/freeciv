@@ -3153,7 +3153,7 @@ static inline void city_support(struct city *pcity)
                                                  .unit = punit,
                                                  .unittype = unit_type_get(punit)
                                                },
-                                               NULL, EFT_MARTIAL_LAW_EACH);
+                                               NULL, EFT_MARTIAL_LAW_BY_UNIT);
         if (current > 0) {
           if (sel_count < max_mart_units) {
             best_units[sel_count++] = current;

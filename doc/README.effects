@@ -495,11 +495,11 @@ Maps_Stolen_Pct
     Requirements evaluated against tile or city not supported.
     Default value: 100%
 
-Martial_Law_Each
+Martial_Law_By_Unit
     The amount of citizens pacified by each military unit giving martial law.
 
 Martial_Law_Max
-    The maximum amount of units that will give martial law in city.
+    The maximum amount of units that will give martial law in the city.
 
 Max_Rates
     The maximum setting for each tax rate is amount.

@@ -648,6 +648,18 @@ const char *rscompat_universal_name_3_3(const char *old_name)
 }
 
 /**********************************************************************//**
+  Convert 3.2 effect name to a 3.3 one.
+**************************************************************************/
+const char *rscompat_effect_name_3_3(const char *old_name)
+{
+  if (!fc_strcasecmp("Martial_Law_Each", old_name)) {
+    return "Martial_Law_By_Unit";
+  }
+
+  return old_name;
+}
+
+/**********************************************************************//**
   Tell 3.2 blocked_by name matching 3.3 one
 **************************************************************************/
 const char *blocked_by_old_name_3_3(const char *new_name)

@@ -1820,7 +1820,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   if (martial_need
       && unit_list_size(pcity->tile->units) < get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX)) {
     martial_value = dai_content_effect_value(pplayer, pcity,
-                                             get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH),
+                                             get_city_bonus(pcity, EFT_MARTIAL_LAW_BY_UNIT),
                                              1, FEELING_FINAL);
   }
 

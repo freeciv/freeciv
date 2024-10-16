@@ -588,7 +588,7 @@ adv_want dai_effect_value(struct player *pplayer,
   case EFT_EMPIRE_SIZE_BASE:
   case EFT_EMPIRE_SIZE_STEP:
   case EFT_MAX_RATES:
-  case EFT_MARTIAL_LAW_EACH:
+  case EFT_MARTIAL_LAW_BY_UNIT:
   case EFT_MARTIAL_LAW_MAX:
   case EFT_RAPTURE_GROW:
   case EFT_REVOLUTION_UNHAPPINESS:

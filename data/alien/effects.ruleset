@@ -859,10 +859,10 @@ reqs    =
     }
 
 [effect_martial_law]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type", "name", "range"
+    { "type",     "name",          "range"
       "Building", "Secret Police", "City"
     }
 

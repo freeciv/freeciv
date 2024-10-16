@@ -2087,7 +2087,8 @@ const char *text_happiness_units(const struct city *pcity)
   astr_clear(&str);
 
   if (mlmax > 0) {
-    int mleach = get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
+    int mleach = get_city_bonus(pcity, EFT_MARTIAL_LAW_BY_UNIT);
+
     if (mlmax == 100) {
       astr_add_line(&str, "%s", _("Unlimited martial law in effect."));
     } else {

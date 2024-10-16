@@ -6149,6 +6149,10 @@ static bool load_ruleset_effects(struct section_file *file,
       break;
     }
 
+    if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      type = rscompat_effect_name_3_3(type);
+    }
+
     eff = effect_type_by_name(type, fc_strcasecmp);
     if (!effect_type_is_valid(eff)) {
       ruleset_error(NULL, LOG_ERROR,

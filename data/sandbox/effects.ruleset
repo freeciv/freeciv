@@ -1590,35 +1590,35 @@ reqs    =
     }
 
 [effect_martial_law_each_anarchy]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type", "name", "range", "quiet"
-      "Gov", "Anarchy", "Player", TRUE
+    { "type", "name",    "range",  "quiet"
+      "Gov",  "Anarchy", "Player", TRUE
     }
 
 [effect_martial_law_each_despotism]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type", "name", "range", "quiet"
-      "Gov", "Despotism", "Player", TRUE
+    { "type", "name",      "range",  "quiet"
+      "Gov",  "Despotism", "Player", TRUE
     }
 
 [effect_martial_law_each_monarchy]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 1
 reqs    =
-    { "type", "name", "range", "quiet"
-      "Gov", "Monarchy", "Player", TRUE
+    { "type", "name",     "range",  "quiet"
+      "Gov",  "Monarchy", "Player", TRUE
     }
 
 [effect_martial_law_each_communism]
-type    = "Martial_Law_Each"
+type    = "Martial_Law_By_Unit"
 value   = 2
 reqs    =
-    { "type", "name", "range", "quiet"
-      "Gov", "Communism", "Player", TRUE
+    { "type", "name",      "range",  "quiet"
+      "Gov",  "Communism", "Player", TRUE
     }
 
 [effect_martial_law_max]
