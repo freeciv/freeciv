@@ -105,10 +105,12 @@ end
 -- Deprecated. New logging functions are listed above.
 -- ***************************************************************************
 function error_log(msg)
+  log.deprecation_warning("error_log()", "log.error()", "2.4");
   log.error(msg)
 end
 
 function debug_log(msg)
+  log.deprecation_warning("debug_log()", "log.debug()", "2.4");
   log.debug(msg)
 end
 
