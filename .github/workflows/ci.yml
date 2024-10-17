@@ -49,7 +49,7 @@ jobs:
           cd windows/installer_msys2
           make ci
   os_x:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v4.1.1
