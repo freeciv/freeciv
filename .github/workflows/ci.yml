@@ -62,6 +62,7 @@ jobs:
           rm /usr/local/bin/python3*
           brew install \
             meson \
+            icu4c \
             lua@5.4 \
             jpeg \
             gtk+3 \
