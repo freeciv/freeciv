@@ -96,7 +96,6 @@ struct intel_wonder_dialog {
   struct player *pplayer;
   GtkWidget *shell;
 
-  GtkListStore *wonders_depr;
   GListStore *wonders;
   GtkWidget *rule;
 };
@@ -574,8 +573,7 @@ static void wonder_factory_setup(GtkSignalListItemFactory *self,
 static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
 {
   struct intel_wonder_dialog *pdialog;
-  GtkWidget *shell, *sw, *view;
-  GtkCellRenderer *rend;
+  GtkWidget *shell;
   GtkWidget *list;
   GtkColumnViewColumn *column;
   GtkListItemFactory *factory;
@@ -604,16 +602,6 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
 
   pdialog->rule = gtk_label_new("-");
 
-  /* Columns: 0 - wonder name, 1 - location (city/unknown/lost),
-   * 2 - strikethrough (for lost or obsolete),
-   * 3 - font weight (great wonders in bold) */
-  pdialog->wonders_depr = gtk_list_store_new(4, G_TYPE_STRING,
-                                             G_TYPE_STRING,
-                                             G_TYPE_BOOLEAN,
-                                             G_TYPE_INT);
-  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->wonders_depr),
-                                       3, GTK_SORT_DESCENDING);
-
   pdialog->wonders = g_list_store_new(FC_TYPE_WONDER_ROW);
 
   selection = gtk_single_selection_new(G_LIST_MODEL(pdialog->wonders));
@@ -637,44 +625,11 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   column = gtk_column_view_column_new(_("City"), factory);
   gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->wonders_depr));
-  gtk_widget_set_margin_bottom(view, 6);
-  gtk_widget_set_margin_end(view, 6);
-  gtk_widget_set_margin_start(view, 6);
-  gtk_widget_set_margin_top(view, 6);
-  gtk_widget_set_hexpand(view, TRUE);
-  gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(pdialog->wonders_depr);
-  gtk_widget_set_margin_start(view, 6);
-  gtk_widget_set_margin_end(view, 6);
-  gtk_widget_set_margin_top(view, 6);
-  gtk_widget_set_margin_bottom(view, 6);
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-
-  rend = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
-                                              rend, "text", 0,
-                                              "strikethrough", 2,
-                                              "weight", 3,
-                                              NULL);
-
-  rend = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
-                                              rend, "text", 1,
-                                              NULL);
-
-  sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_box_append(GTK_BOX(box), pdialog->rule);
-  gtk_box_append(GTK_BOX(box), view);
-  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), box);
+  gtk_box_append(GTK_BOX(box), list);
 
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-                                 GTK_POLICY_AUTOMATIC,
-                                 GTK_POLICY_AUTOMATIC);
-
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), sw);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), box);
 
   gtk_widget_set_visible(gtk_dialog_get_content_area(GTK_DIALOG(shell)),
                          TRUE);
@@ -885,13 +840,13 @@ void update_intel_wonder_dialog(struct player *p)
 
     gtk_label_set_text(GTK_LABEL(pdialog->rule), rule);
 
-    gtk_list_store_clear(pdialog->wonders_depr);
+    g_list_store_remove_all(pdialog->wonders);
 
     improvement_iterate(impr) {
       if (is_wonder(impr)) {
-        GtkTreeIter it;
         const char *cityname;
         bool is_lost = FALSE;
+        FcWonderRow *row = fc_wonder_row_new();
 
         if (wonder_is_built(p, impr)) {
           struct city *pcity = city_from_wonder(p, impr);
@@ -910,17 +865,6 @@ void update_intel_wonder_dialog(struct player *p)
         } else {
           continue;
         }
-
-        gtk_list_store_append(pdialog->wonders_depr, &it);
-        gtk_list_store_set(pdialog->wonders_depr, &it,
-                           0, improvement_name_translation(impr),
-                           1, cityname,
-                           2, is_lost,
-                           /* Font weight: great wonders in bold */
-                           3, is_great_wonder(impr) ? 700 : 400,
-                           -1);
-
-        FcWonderRow *row = fc_wonder_row_new();
 
         row->name = improvement_name_translation(impr);
         row->cityname = cityname;
