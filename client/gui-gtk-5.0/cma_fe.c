@@ -83,6 +83,54 @@ static void hscale_changed(GtkWidget *get, gpointer data);
 static void set_hscales(const struct cm_parameter *const parameter,
                         struct cma_dialog *pdialog);
 
+#define FC_TYPE_ACTION_ROW (fc_action_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcPresetRow, fc_preset_row, FC, PRESET_ROW, GObject)
+
+struct _FcPresetRow
+{
+  GObject parent_instance;
+
+  const char *desc;
+};
+
+struct _FcPresetRowClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcPresetRow, fc_preset_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcPresetRow class
+**************************************************************************/
+static void
+fc_preset_row_class_init(FcPresetRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcPresetRow
+**************************************************************************/
+static void
+fc_preset_row_init(FcPresetRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcPresetRow creation method
+**************************************************************************/
+#if 0
+static FcPresetRow *fc_preset_row_new(void)
+{
+  FcPresetRow *result;
+
+  result = g_object_new(FC_TYPE_PRESET_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /**********************************************************************//**
   Initialize cma front end system
 **************************************************************************/
