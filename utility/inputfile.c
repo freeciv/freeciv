@@ -57,7 +57,7 @@
           raw embedded newlines, and escaped doublequotes, or \.
           eg:  '123', '-999', '"foo"', '_("foo")'
   returned token: string containing number, for numeric, or string
-          starting at first doublequote for strings, but ommiting
+          starting at first doublequote for strings, but omitting
           trailing double-quote. Note this does _not_ translate
           escaped doublequotes etc back to normal.
 
