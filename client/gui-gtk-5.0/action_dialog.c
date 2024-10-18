@@ -130,7 +130,6 @@ fc_action_row_init(FcActionRow *self)
 /**********************************************************************//**
   FcActionRow creation method
 **************************************************************************/
-#if 0
 static FcActionRow *fc_action_row_new(void)
 {
   FcActionRow *result;
@@ -139,7 +138,6 @@ static FcActionRow *fc_action_row_new(void)
 
   return result;
 }
-#endif
 
 /**********************************************************************//**
   Create a new action data structure that can be stored in the
@@ -652,8 +650,8 @@ static void spy_advances_response(GtkWidget *w, gint response,
 /**********************************************************************//**
   User selected entry in steal advances dialog
 **************************************************************************/
-static void spy_advances_callback(GtkTreeSelection *select,
-                                  gpointer data)
+static void spy_advances_callback_depr(GtkTreeSelection *select,
+                                       gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
@@ -662,6 +660,31 @@ static void spy_advances_callback(GtkTreeSelection *select,
 
   if (gtk_tree_selection_get_selected(select, &model, &it)) {
     gtk_tree_model_get(model, &it, 1, &(args->target_tech_id), -1);
+
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
+      GTK_RESPONSE_ACCEPT, TRUE);
+  } else {
+    args->target_tech_id = 0;
+
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
+      GTK_RESPONSE_ACCEPT, FALSE);
+  }
+}
+
+/**********************************************************************//**
+  User selected entry in steal advances dialog
+**************************************************************************/
+static void spy_advances_callback(GtkSelectionModel *self,
+                                  guint position,
+                                  guint n_items,
+                                  gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+  FcActionRow *row = gtk_single_selection_get_selected_item(
+                                    GTK_SINGLE_SELECTION(self));
+
+  if (row != NULL) {
+    args->target_tech_id = row->id;
 
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
       GTK_RESPONSE_ACCEPT, TRUE);
@@ -706,10 +729,14 @@ static void create_advances_list(struct player *pplayer,
                                  struct action_data *args)
 {
   GtkWidget *sw, *frame, *label, *vgrid, *view;
-  GtkListStore *store;
+  GtkListStore *store_depr;
+  GListStore *store;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
+  GtkWidget *list;
+  GtkColumnViewColumn *column;
   GtkListItemFactory *factory;
+  GtkSingleSelection *selection;
 
   struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
 
@@ -732,7 +759,12 @@ static void create_advances_list(struct player *pplayer,
   gtk_grid_set_row_spacing(GTK_GRID(vgrid), 6);
   gtk_frame_set_child(GTK_FRAME(frame), vgrid);
 
-  store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+  store_depr = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+  store = g_list_store_new(FC_TYPE_ACTION_ROW);
+
+  selection = gtk_single_selection_new(G_LIST_MODEL(store));
+  list = gtk_column_view_new(GTK_SELECTION_MODEL(selection));
 
   factory = gtk_signal_list_item_factory_new();
   g_signal_connect(factory, "bind", G_CALLBACK(action_factory_bind),
@@ -740,10 +772,13 @@ static void create_advances_list(struct player *pplayer,
   g_signal_connect(factory, "setup", G_CALLBACK(action_factory_setup),
                    nullptr);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  column = gtk_column_view_column_new(_("Tech"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store_depr));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(store);
+  g_object_unref(store_depr);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
   rend = gtk_cell_renderer_text_new();
@@ -782,33 +817,52 @@ static void create_advances_list(struct player *pplayer,
                                       game.info.tech_steal_allow_holes)
           && research_invention_state(vresearch, i) == TECH_KNOWN
           && research_invention_state(presearch, i) != TECH_KNOWN) {
-        gtk_list_store_append(store, &it);
+        gtk_list_store_append(store_depr, &it);
 
         g_value_init(&value, G_TYPE_STRING);
         g_value_set_static_string(&value, research_advance_name_translation
                                               (presearch, i));
-        gtk_list_store_set_value(store, &it, 0, &value);
+        gtk_list_store_set_value(store_depr, &it, 0, &value);
         g_value_unset(&value);
-        gtk_list_store_set(store, &it, 1, i, -1);
+        gtk_list_store_set(store_depr, &it, 1, i, -1);
+
+        FcActionRow *row = fc_action_row_new();
+
+        row->name = research_advance_name_translation(presearch, i);
+        row->id = i;
+
+        g_list_store_append(store, row);
+        g_object_unref(row);
       }
     } advance_index_iterate_end;
 
     if (action_prob_possible(actor_unit->client.act_prob_cache[
                              get_non_targeted_action_id(args->act_id)])) {
-      gtk_list_store_append(store, &it);
+      FcActionRow *row = fc_action_row_new();
+
+      gtk_list_store_append(store_depr, &it);
 
       g_value_init(&value, G_TYPE_STRING);
       {
         struct astring str = ASTRING_INIT;
+
         /* TRANS: %s is a unit name, e.g., Spy */
         astr_set(&str, _("At %s's Discretion"),
                  unit_name_translation(actor_unit));
         g_value_set_string(&value, astr_str(&str));
+
+        row->name = astr_str(&str);
+
         astr_free(&str);
       }
-      gtk_list_store_set_value(store, &it, 0, &value);
+      gtk_list_store_set_value(store_depr, &it, 0, &value);
       g_value_unset(&value);
-      gtk_list_store_set(store, &it, 1, A_UNSET, -1);
+      gtk_list_store_set(store_depr, &it, 1, A_UNSET, -1);
+
+      row->id = A_UNSET;
+
+      g_list_store_append(store, row);
+      g_object_unref(row);
     }
   }
 
@@ -819,6 +873,8 @@ static void create_advances_list(struct player *pplayer,
                          TRUE);
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
+                   G_CALLBACK(spy_advances_callback_depr), args);
+  g_signal_connect(selection, "selection-changed",
                    G_CALLBACK(spy_advances_callback), args);
   g_signal_connect(spy_tech_shell, "response",
                    G_CALLBACK(spy_advances_response), args);
@@ -871,7 +927,8 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
 /**********************************************************************//**
   User has selected new building from spy's sabotage dialog
 **************************************************************************/
-static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
+static void spy_improvements_callback_depr(GtkTreeSelection *select,
+                                           gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
@@ -892,6 +949,31 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
 }
 
 /**********************************************************************//**
+  User has selected new building from spy's sabotage dialog
+**************************************************************************/
+static void spy_improvements_callback(GtkSelectionModel *self,
+                                      guint position,
+                                      guint n_items,
+                                      gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+  FcActionRow *row = gtk_single_selection_get_selected_item(
+                                    GTK_SINGLE_SELECTION(self));
+
+  if (row != NULL) {
+    args->target_building_id = row->id;
+
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
+                                      GTK_RESPONSE_ACCEPT, TRUE);
+  } else {
+    args->target_building_id = -2;
+
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
+                                      GTK_RESPONSE_ACCEPT, FALSE);
+  }
+}
+
+/**********************************************************************//**
   Creates spy's building sabotaging dialog
 **************************************************************************/
 static void create_improvements_list(struct player *pplayer,
@@ -899,10 +981,15 @@ static void create_improvements_list(struct player *pplayer,
                                      struct action_data *args)
 {
   GtkWidget *sw, *frame, *label, *vgrid, *view;
-  GtkListStore *store;
+  GtkListStore *store_depr;
+  GListStore *store;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
   GtkTreeIter it;
+  GtkWidget *list;
+  GtkColumnViewColumn *column;
+  GtkListItemFactory *factory;
+  GtkSingleSelection *selection;
 
   struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
 
@@ -925,12 +1012,26 @@ static void create_improvements_list(struct player *pplayer,
   gtk_grid_set_row_spacing(GTK_GRID(vgrid), 6);
   gtk_frame_set_child(GTK_FRAME(frame), vgrid);
 
-  store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+  store_depr = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  store = g_list_store_new(FC_TYPE_ACTION_ROW);
+
+  selection = gtk_single_selection_new(G_LIST_MODEL(store));
+  list = gtk_column_view_new(GTK_SELECTION_MODEL(selection));
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(action_factory_bind),
+                   nullptr);
+  g_signal_connect(factory, "setup", G_CALLBACK(action_factory_setup),
+                   nullptr);
+
+  column = gtk_column_view_column_new(_("Improvement"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store_depr));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(store);
+  g_object_unref(store_depr);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
   rend = gtk_cell_renderer_text_new();
@@ -961,30 +1062,53 @@ static void create_improvements_list(struct player *pplayer,
   if (action_prob_possible(actor_unit->client.act_prob_cache[
                            get_production_targeted_action_id(
                                args->act_id)])) {
-    gtk_list_store_append(store, &it);
-    gtk_list_store_set(store, &it, 0, _("City Production"), 1, -1, -1);
+    gtk_list_store_append(store_depr, &it);
+    gtk_list_store_set(store_depr, &it, 0, _("City Production"), 1, -1, -1);
+
+    FcActionRow *row = fc_action_row_new();
+
+    row->name = _("City Production");
+    row->id = -1;
+
+    g_list_store_append(store, row);
+    g_object_unref(row);
   }
 
   city_built_iterate(pcity, pimprove) {
     if (pimprove->sabotage > 0) {
-      gtk_list_store_append(store, &it);
-      gtk_list_store_set(store, &it,
+      gtk_list_store_append(store_depr, &it);
+      gtk_list_store_set(store_depr, &it,
                          0, city_improvement_name_translation(pcity, pimprove),
                          1, improvement_number(pimprove),
                          -1);
+
+      FcActionRow *row = fc_action_row_new();
+
+      row->name = city_improvement_name_translation(pcity, pimprove);
+      row->id = improvement_number(pimprove);
+
+      g_list_store_append(store, row);
+      g_object_unref(row);
     }
   } city_built_iterate_end;
 
   if (action_prob_possible(actor_unit->client.act_prob_cache[
                            get_non_targeted_action_id(args->act_id)])) {
     struct astring str = ASTRING_INIT;
+    FcActionRow *row = fc_action_row_new();
 
-    gtk_list_store_append(store, &it);
+    gtk_list_store_append(store_depr, &it);
 
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&str, _("At %s's Discretion"),
              unit_name_translation(actor_unit));
-    gtk_list_store_set(store, &it, 0, astr_str(&str), 1, B_LAST, -1);
+    gtk_list_store_set(store_depr, &it, 0, astr_str(&str), 1, B_LAST, -1);
+
+    row->name = astr_str(&str);
+    row->id = B_LAST;
+
+    g_list_store_append(store, row);
+    g_object_unref(row);
 
     astr_free(&str);
   }
@@ -996,6 +1120,8 @@ static void create_improvements_list(struct player *pplayer,
                          TRUE);
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
+                   G_CALLBACK(spy_improvements_callback_depr), args);
+  g_signal_connect(selection, "selection-changed",
                    G_CALLBACK(spy_improvements_callback), args);
   g_signal_connect(spy_sabotage_shell, "response",
                    G_CALLBACK(spy_improvements_response), args);
