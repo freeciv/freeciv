@@ -388,6 +388,9 @@ struct _FcProdClass
 
 G_DEFINE_TYPE(FcProdRow, fc_prod_row, G_TYPE_OBJECT)
 
+#define PROD_ROW_PIXBUF 0
+#define PROD_ROW_NAME   1
+
 /**********************************************************************//**
   Initialization method for FcImprRow class
 **************************************************************************/
@@ -1098,6 +1101,58 @@ static GtkWidget *create_citydlg_improvement_list(struct city_dialog *pdialog)
   return view;
 }
 
+/**********************************************************************//**
+  Prod table cell bind function
+**************************************************************************/
+static void prod_factory_bind(GtkSignalListItemFactory *self,
+                              GtkListItem *list_item,
+                              gpointer user_data)
+{
+  FcProdRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  switch (GPOINTER_TO_INT(user_data)) {
+  case PROD_ROW_PIXBUF:
+    gtk_image_set_from_pixbuf(GTK_IMAGE(child), row->sprite);
+    break;
+  case PROD_ROW_NAME:
+    {
+      gtk_label_set_text(GTK_LABEL(child), row->name);
+
+      if (row->useless) {
+        PangoAttrList *attributes;
+        PangoAttribute *attr;
+
+        attributes = pango_attr_list_new();
+        attr = pango_attr_strikethrough_new(TRUE);
+        pango_attr_list_insert(attributes, attr);
+
+        gtk_label_set_attributes(GTK_LABEL(child), attributes);
+      }
+    }
+    break;
+  }
+}
+
+/**********************************************************************//**
+  Prod table cell setup function
+**************************************************************************/
+static void prod_factory_setup(GtkSignalListItemFactory *self,
+                               GtkListItem *list_item,
+                               gpointer user_data)
+{
+  switch (GPOINTER_TO_INT(user_data)) {
+  case PROD_ROW_PIXBUF:
+    gtk_list_item_set_child(list_item, gtk_image_new());
+    break;
+  case PROD_ROW_NAME:
+    gtk_list_item_set_child(list_item, gtk_label_new(""));
+    break;
+  }
+}
+
 /***********************************************************************//**
                   **** Overview page ****
  +- GtkWidget *page ------------------------------------------+
@@ -1138,6 +1193,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   if (!low_citydlg) {
+    GtkListItemFactory *factory;
     GtkWidget *middle;
     GtkWidget *vbox;
     GtkWidget *hbox;
@@ -1167,6 +1223,12 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     production_store = gtk_list_store_new(4, GDK_TYPE_PIXBUF, G_TYPE_STRING,
                                           G_TYPE_INT, G_TYPE_BOOLEAN);
     pdialog->overview.change_production_store = production_store;
+
+    factory = gtk_signal_list_item_factory_new();
+    g_signal_connect(factory, "bind", G_CALLBACK(prod_factory_bind),
+                   GINT_TO_POINTER(PROD_ROW_PIXBUF));
+    g_signal_connect(factory, "setup", G_CALLBACK(prod_factory_setup),
+                   GINT_TO_POINTER(PROD_ROW_PIXBUF));
 
     bar = gtk_progress_bar_new();
     gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
