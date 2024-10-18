@@ -3338,7 +3338,7 @@ class Packet:
 
         if not dirs:
             raise ValueError(f"no directions defined for {self.type}")
-        self.dirs = Directions(dirs)
+        self.dirs = Directions(frozenset(dirs))
 
         raw_fields = [
             field
