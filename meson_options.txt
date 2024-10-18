@@ -108,3 +108,8 @@ option('localeprefix',
        type: 'string',
        value: '',
        description: 'Localedir prefix to use instead of regular prefix')
+
+option('python',
+       type: 'string',
+       value: 'python3',
+       description: 'Python interpreter to use')
