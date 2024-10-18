@@ -399,6 +399,8 @@ struct client_options gui_options = {
  * of non-initialized datas when calling the changed callback. */
 static bool options_fully_initialized = FALSE;
 
+static int sync_serial = 0;
+
 static const struct strvec *get_mapimg_format_list(const struct option *poption);
 
 /****************************************************************************
@@ -4337,6 +4339,7 @@ void handle_server_setting_const
      * Do now override settings that are already saved to savegame          \
      * and now loaded. */                                                   \
     desired_settable_option_send(OPTION(poption));                          \
+    dsend_packet_sync_serial(&client.conn, ++sync_serial);                  \
     psoption->desired_sent = TRUE;                                          \
   }                                                                         \
                                                                             \
@@ -5676,7 +5679,7 @@ static void desired_settable_option_send(struct option *poption)
 
   if (!settable_options_hash_lookup(settable_options_hash,
                                     option_name(poption), &desired)) {
-    /* No change explicitly  desired. */
+    /* No change explicitly desired. */
     return;
   }
 
@@ -5776,6 +5779,7 @@ void resend_desired_settable_options(void)
           if (psoption->is_visible
               && psoption->is_changeable) {
             desired_settable_option_send(OPTION(poption));
+            dsend_packet_sync_serial(&client.conn, ++sync_serial);
           }
         }
       }

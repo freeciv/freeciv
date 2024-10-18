@@ -1009,3 +1009,11 @@ void connection_close_server(struct connection *pconn, const char *reason)
   connection_delegate_restore(pconn);
   connection_close(pconn, reason);
 }
+
+/**********************************************************************//**
+  Handle client's request to sync via packet serial number.
+**************************************************************************/
+void handle_sync_serial(struct connection *conn, int serial)
+{
+  dsend_packet_sync_serial_reply(conn, serial);
+}
