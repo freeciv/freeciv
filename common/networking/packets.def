@@ -799,6 +799,7 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), 
   TILE tile;
 
   PLAYER owner;
+  PLAYER original;
   UINT8 size;
   UINT8 style;
   CAPITAL capital;

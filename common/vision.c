@@ -91,6 +91,7 @@ struct vision_site *vision_site_new(int identity, struct tile *location,
   psite->identity = identity;
   psite->location = location;
   psite->owner = owner;
+  psite->original = NULL;
 
   return psite;
 }
@@ -98,13 +99,20 @@ struct vision_site *vision_site_new(int identity, struct tile *location,
 /************************************************************************//**
   Returns the basic structure filled with initial elements.
 ****************************************************************************/
-struct vision_site *vision_site_new_from_city(const struct city *pcity)
+struct vision_site *vision_site_new_from_city(const struct city *pcity,
+                                              const struct player *watcher)
 {
-  struct vision_site *psite =
-    vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity));
+  struct vision_site *psite
+    = vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity));
 
   vision_site_size_set(psite, city_size_get(pcity));
   psite->name = fc_strdup(city_name_get(pcity));
+
+  if (watcher == pcity->original) {
+    psite->original = pcity->original;
+  } else {
+    psite->original = NULL;
+  }
 
   return psite;
 }
@@ -113,13 +121,20 @@ struct vision_site *vision_site_new_from_city(const struct city *pcity)
   Returns the basic structure filled with current elements.
 ****************************************************************************/
 void vision_site_update_from_city(struct vision_site *psite,
-                                  const struct city *pcity)
+                                  const struct city *pcity,
+                                  const struct player *watcher)
 {
   /* Should be same identity and location */
   fc_assert_ret(psite->identity == pcity->id);
   fc_assert_ret(psite->location == pcity->tile);
 
   psite->owner = city_owner(pcity);
+
+  if (watcher == pcity->original) {
+    psite->original = pcity->original;
+  } else {
+    psite->original = NULL;
+  }
 
   vision_site_size_set(psite, city_size_get(pcity));
 
