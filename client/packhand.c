@@ -5730,3 +5730,10 @@ void handle_city_update_counters(const struct packet_city_update_counters *packe
 
   city_report_dialog_update_city(pcity);
 }
+
+/**********************************************************************//**
+  Handle servers's reply to request to sync via packet serial number
+**************************************************************************/
+void handle_sync_serial_reply(int serial)
+{
+}

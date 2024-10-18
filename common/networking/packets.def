@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 516
+Max id: 518
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -2404,6 +2404,15 @@ end
 
 PACKET_POPUP_IMAGE = 515; sc, lsend, handle-via-fields
   STRING tag[MAX_LEN_NAME];
+end
+
+/************** Sync Requests **********************/
+PACKET_SYNC_SERIAL = 517; cs, handle-via-fields, handle-per-conn, dsend
+  UINT32 serial;
+end
+
+PACKET_SYNC_SERIAL_REPLY = 518; sc, handle-via-fields, dsend
+  UINT32 serial;
 end
 
 /*************** Webclient specific packets ****************/
