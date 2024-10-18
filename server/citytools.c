@@ -2184,6 +2184,12 @@ static void package_dumb_city(struct player *pplayer, struct tile *ptile,
   packet->id = pdcity->identity;
   packet->owner = player_number(vision_site_owner(pdcity));
 
+  if (pdcity->original != NULL) {
+    packet->original = player_number(pdcity->original);
+  } else {
+    packet->original = -1;
+  }
+
   packet->tile = tile_index(ptile);
   if (pdcity->name == nullptr) {
     packet->name[0] = '\0';
@@ -2792,7 +2798,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   } improvement_iterate_end;
 
   if (pdcity == nullptr) {
-    pdcity = vision_site_new_from_city(pcity);
+    pdcity = vision_site_new_from_city(pcity, pplayer);
     change_playertile_site(map_get_player_tile(pcenter, pplayer), pdcity);
   } else if (pdcity->location != pcenter) {
     log_error("Trying to update bad city (wrong location) "
@@ -2820,7 +2826,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
     return FALSE;
   }
 
-  vision_site_update_from_city(pdcity, pcity);
+  vision_site_update_from_city(pdcity, pcity, pplayer);
   pdcity->occupied = occupied;
   pdcity->walls = walls;
   pdcity->style = style;
