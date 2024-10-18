@@ -2631,7 +2631,7 @@ class Packet:
 
         if not dirs:
             raise ValueError("no directions defined for %s" % self.name)
-        self.dirs = Directions(dirs)
+        self.dirs = Directions(frozenset(dirs))
         """Which directions this packet can be sent in"""
 
         raw_fields = [
