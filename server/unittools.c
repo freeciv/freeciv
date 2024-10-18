@@ -321,8 +321,8 @@ bool unit_versus_unit(struct unit *attacker, struct unit *defender,
   /* In a combat between equal strength units the values are 50% / 50%.
    * -> scaling that to 100% by doubling, to match scale of chances
    *    in existing rulesets, and in !combat_odds_scaled_veterancy case. */
-  *att_vet = def_strength * 2 / (att_strength + def_strength);
-  *def_vet = att_strength * 2 / (att_strength + def_strength);
+  *att_vet = 100 * def_strength * 2 / (att_strength + def_strength);
+  *def_vet = 100 * att_strength * 2 / (att_strength + def_strength);
 
   if (attackpower == 0) {
     *att_hp = 0; 
