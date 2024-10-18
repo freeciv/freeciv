@@ -1092,7 +1092,7 @@ endif
 
 gen_packets_args = get_option('gen-packets-args')
 
-python_exe = find_program('python3')
+python_exe = find_program(get_option('python'))
 sh_exe = find_program('sh')
 gzip_exe = find_program('gzip')
 

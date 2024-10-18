@@ -193,6 +193,9 @@ localeprefix (string):
   but current directory ('.') in Windows.
   Unlike regular prefix, this can also be a relative path.
 
+python (string):
+  Python interpreter to use. Defaults to 'python3'
+
 svgflags (boolean)
   Add support for svg flags features on clients where this is supported,
   currently only Qt.
