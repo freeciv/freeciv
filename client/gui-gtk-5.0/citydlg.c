@@ -154,7 +154,8 @@ struct city_dialog {
     GtkWidget *production_bar;
     GtkWidget *production_combo;
     GtkWidget *buy_command;
-    GtkWidget *improvement_list;
+    GtkWidget *improvement_list_depr;
+    GListStore *improvement_list;
 
     GtkWidget *supported_units_frame;
     GtkWidget *supported_unit_table;
@@ -320,11 +321,13 @@ static void buy_callback(GtkWidget * w, gpointer data);
 static void change_production_callback(GtkComboBox *combo,
                                        struct city_dialog *pdialog);
 
-static void sell_callback(struct impr_type *pimprove, gpointer data);
+static void sell_callback(const struct impr_type *pimprove, gpointer data);
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
 
-static void impr_callback(GtkTreeView *view, GtkTreePath *path,
-                          GtkTreeViewColumn *col, gpointer data);
+static void impr_callback_depr(GtkTreeView *view, GtkTreePath *path,
+                               GtkTreeViewColumn *col, gpointer data);
+static void impr_callback(GtkColumnView *self, guint position,
+                          gpointer data);
 
 static void rename_callback(GtkWidget * w, gpointer data);
 static void rename_popup_callback(gpointer data, gint response,
@@ -348,12 +351,12 @@ struct _FcImprRow
 {
   GObject parent_instance;
 
-  int sell_value;
+  const struct impr_type *impr;
   GdkPixbuf *sprite;
   char *description;
   int upkeep;
   bool redundant;
-  char *tooltip;
+  const char *tooltip;
 };
 
 struct _FcImprClass
@@ -392,11 +395,29 @@ G_DEFINE_TYPE(FcProdRow, fc_prod_row, G_TYPE_OBJECT)
 #define PROD_ROW_NAME   1
 
 /**********************************************************************//**
+  Finalizing method for FcImprRow class
+**************************************************************************/
+static void fc_impr_row_finalize(GObject *gobject)
+{
+  FcImprRow *row = FC_IMPR_ROW(gobject);
+
+  if (row->sprite != nullptr) {
+    g_object_unref(G_OBJECT(row->sprite));
+    row->sprite = nullptr;
+  }
+
+  G_OBJECT_CLASS(fc_impr_row_parent_class)->finalize(gobject);
+}
+
+/**********************************************************************//**
   Initialization method for FcImprRow class
 **************************************************************************/
 static void
 fc_impr_row_class_init(FcImprRowClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->finalize = fc_impr_row_finalize;
 }
 
 /**********************************************************************//**
@@ -405,12 +426,12 @@ fc_impr_row_class_init(FcImprRowClass *klass)
 static void
 fc_impr_row_init(FcImprRow *self)
 {
+  self->sprite = nullptr;
 }
 
 /**********************************************************************//**
   FcImprRow creation method
 **************************************************************************/
-#if 0
 static FcImprRow *fc_impr_row_new(void)
 {
   FcImprRow *result;
@@ -419,7 +440,6 @@ static FcImprRow *fc_impr_row_new(void)
 
   return result;
 }
-#endif
 
 /**********************************************************************//**
   Initialization method for FcProdRow class
@@ -1049,22 +1069,53 @@ static void impr_factory_setup(GtkSignalListItemFactory *self,
   }
 }
 
+/**********************************************************************//**
+  Callback for getting main list row tooltip
+**************************************************************************/
+static gboolean query_impr_tooltip(GtkWidget *widget, gint x, gint y,
+                                   gboolean keyboard_tip,
+                                   GtkTooltip *tooltip,
+                                   gpointer data)
+{
+  int rnum = get_column_view_row(widget, y);
+
+  if (rnum >= 0) {
+    FcImprRow *row = g_list_model_get_item(G_LIST_MODEL(data), rnum);
+
+    if (row != nullptr && row->tooltip != nullptr) {
+      gtk_tooltip_set_markup(tooltip, row->tooltip);
+
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
 /***********************************************************************//**
   Create improvements list
 ***************************************************************************/
 static GtkWidget *create_citydlg_improvement_list(struct city_dialog *pdialog)
 {
   GtkWidget *view;
-  GtkListStore *store;
+  GtkListStore *store_depr;
   GtkCellRenderer *rend;
+  GtkWidget *list;
+  GtkColumnViewColumn *column;
   GtkListItemFactory *factory;
+  GtkSingleSelection *selection;
 
   /* Improvements */
   /* gtk list store columns: 0 - sell value, 1 - sprite,
   2 - description, 3 - upkeep, 4 - is redundant, 5 - tooltip */
-  store = gtk_list_store_new(6, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
-                             G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN,
-                             G_TYPE_STRING);
+  store_depr = gtk_list_store_new(6, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
+                                  G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN,
+                                  G_TYPE_STRING);
+
+  pdialog->overview.improvement_list = g_list_store_new(FC_TYPE_IMPR_ROW);
+
+  selection = gtk_single_selection_new(G_LIST_MODEL(pdialog->overview.improvement_list));
+  list = gtk_column_view_new(GTK_SELECTION_MODEL(selection));
 
   factory = gtk_signal_list_item_factory_new();
   g_signal_connect(factory, "bind", G_CALLBACK(impr_factory_bind),
@@ -1072,13 +1123,34 @@ static GtkWidget *create_citydlg_improvement_list(struct city_dialog *pdialog)
   g_signal_connect(factory, "setup", G_CALLBACK(impr_factory_setup),
                    GINT_TO_POINTER(IMPR_ROW_PIXBUF));
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  column = gtk_column_view_column_new(_("Pix"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(impr_factory_bind),
+                   GINT_TO_POINTER(IMPR_ROW_DESC));
+  g_signal_connect(factory, "setup", G_CALLBACK(impr_factory_setup),
+                   GINT_TO_POINTER(IMPR_ROW_DESC));
+
+  column = gtk_column_view_column_new(_("Description"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(impr_factory_bind),
+                   GINT_TO_POINTER(IMPR_ROW_UPKEEP));
+  g_signal_connect(factory, "setup", G_CALLBACK(impr_factory_setup),
+                   GINT_TO_POINTER(IMPR_ROW_UPKEEP));
+
+  column = gtk_column_view_column_new(_("Upkeep"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store_depr));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(store);
+  g_object_unref(store_depr);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
   gtk_widget_set_name(view, "small_font");
-  pdialog->overview.improvement_list = view;
+  pdialog->overview.improvement_list_depr = view;
 
   rend = gtk_cell_renderer_pixbuf_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
@@ -1095,8 +1167,14 @@ static GtkWidget *create_citydlg_improvement_list(struct city_dialog *pdialog)
 
   gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(view), 5);
 
-  g_signal_connect(view, "row_activated", G_CALLBACK(impr_callback),
+  g_object_set(list, "has-tooltip", TRUE, nullptr);
+  g_signal_connect(list, "query-tooltip",
+                   G_CALLBACK(query_impr_tooltip), pdialog->overview.improvement_list);
+
+  g_signal_connect(view, "row_activated", G_CALLBACK(impr_callback_depr),
                    pdialog);
+  g_signal_connect(list, "activate",
+                   G_CALLBACK(impr_callback), pdialog);
 
   return view;
 }
@@ -2424,7 +2502,7 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   GtkTreeModel *model;
-  GtkListStore *store;
+  GtkListStore *store_depr;
 
   const char *tooltip_sellable = _("Press <b>ENTER</b> or double-click to "
                                    "sell an improvement.");
@@ -2432,13 +2510,14 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   const char *tooltip_small_wonder = _("Small Wonder - cannot be sold.");
 
   model =
-    gtk_tree_view_get_model(GTK_TREE_VIEW(pdialog->overview.improvement_list));
-  store = GTK_LIST_STORE(model);
+    gtk_tree_view_get_model(GTK_TREE_VIEW(pdialog->overview.improvement_list_depr));
+  store_depr = GTK_LIST_STORE(model);
 
   targets_used = collect_already_built_targets(targets, pdialog->pcity);
   name_and_sort_items(targets, targets_used, items, FALSE, pdialog->pcity);
 
-  gtk_list_store_clear(store);
+  gtk_list_store_clear(store_depr);
+  g_list_store_remove_all(pdialog->overview.improvement_list);
 
   for (item = 0; item < targets_used; item++) {
     GdkPixbuf *pix;
@@ -2453,8 +2532,8 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     sprite = get_building_sprite(tileset, target.value.building);
 
     pix = sprite_get_pixbuf(sprite);
-    gtk_list_store_append(store, &it);
-    gtk_list_store_set(store, &it,
+    gtk_list_store_append(store_depr, &it);
+    gtk_list_store_set(store_depr, &it,
                        0, target.value.building,
                        1, pix,
                        2, items[item].descr,
@@ -2468,7 +2547,22 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
                            (is_small_wonder(target.value.building) ?
                              tooltip_small_wonder : tooltip_sellable),
                        -1);
-    g_object_unref(G_OBJECT(pix));
+
+    FcImprRow *row = fc_impr_row_new();
+
+    row->impr = target.value.building;
+    row->sprite = pix;
+    row->description = items[item].descr;
+    row->upkeep = upkeep;
+    row->redundant = is_improvement_redundant(pdialog->pcity,
+                                              target.value.building);
+    row->tooltip = is_great_wonder(target.value.building) ?
+                         tooltip_great_wonder :
+                           (is_small_wonder(target.value.building) ?
+                            tooltip_small_wonder : tooltip_sellable);
+
+    g_list_store_append(pdialog->overview.improvement_list, row);
+    g_object_unref(row);
   }
 }
 
@@ -3611,7 +3705,7 @@ static void change_production_callback(GtkComboBox *combo,
 /***********************************************************************//**
   User has clicked sell-button
 ***************************************************************************/
-static void sell_callback(struct impr_type *pimprove, gpointer data)
+static void sell_callback(const struct impr_type *pimprove, gpointer data)
 {
   GtkWidget *shl;
   struct city_dialog *pdialog = (struct city_dialog *) data;
@@ -3664,8 +3758,8 @@ static void sell_callback_response(GtkWidget *w, gint response, gpointer data)
 /***********************************************************************//**
   This is here because it's closely related to the sell stuff
 ***************************************************************************/
-static void impr_callback(GtkTreeView *view, GtkTreePath *path,
-                          GtkTreeViewColumn *col, gpointer data)
+static void impr_callback_depr(GtkTreeView *view, GtkTreePath *path,
+                               GtkTreeViewColumn *col, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -3691,6 +3785,33 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
       popup_help_dialog_typed(improvement_name_translation(pimprove), HELP_WONDER);
     } else {
       popup_help_dialog_typed(improvement_name_translation(pimprove), HELP_IMPROVEMENT);
+    }
+  }
+}
+
+/***********************************************************************//**
+  This is here because it's closely related to the sell stuff
+***************************************************************************/
+static void impr_callback(GtkColumnView *self, guint position,
+                          gpointer data)
+{
+  GdkSeat *seat;
+  GdkModifierType mask;
+  GListStore *store = ((struct city_dialog *)data)->overview.improvement_list;
+  FcImprRow *row = g_list_model_get_item(G_LIST_MODEL(store), position);
+  const struct impr_type *pimpr = row->impr;
+  GtkWidget *wdg = ((struct city_dialog *)data)->shell;
+
+  seat = gdk_display_get_default_seat(gtk_widget_get_display(wdg));
+  mask = gdk_device_get_modifier_state(gdk_seat_get_keyboard(seat));
+
+  if (!(mask & GDK_CONTROL_MASK)) {
+    sell_callback(pimpr, data);
+  } else {
+    if (is_great_wonder(pimpr)) {
+      popup_help_dialog_typed(improvement_name_translation(pimpr), HELP_WONDER);
+    } else {
+      popup_help_dialog_typed(improvement_name_translation(pimpr), HELP_IMPROVEMENT);
     }
   }
 }
