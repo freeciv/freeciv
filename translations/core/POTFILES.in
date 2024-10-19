@@ -415,6 +415,7 @@ tools/fcmp/mpgui_gtk3.c
 tools/fcmp/mpgui_gtk4.c
 tools/fcmp/mpgui_qt.cpp
 tools/fcmp/mpgui_qt_worker.cpp
+tools/ruleutil/comments.c
 tools/ruleutil/rulesave.c
 server/actiontools.c
 server/aiiface.c

@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "fcintl.h"
 #include "mem.h"
 #include "registry.h"
 #include "section_file.h"
@@ -66,13 +67,13 @@ bool comments_load(void)
   fullpath = fileinfoname(get_data_dirs(), "ruledit/" COMMENTS_FILE_NAME);
 
   if (fullpath == NULL) {
-    log_error("Can't find the comments file");
+    log_error(_("Can't find the comments file"));
     return FALSE;
   }
 
   comment_file = secfile_load(fullpath, FALSE);
   if (comment_file == NULL) {
-    log_error("Can't parse the comments file");
+    log_error(_("Can't parse the comments file"));
     return FALSE;
   }
 
@@ -83,7 +84,7 @@ bool comments_load(void)
   if ((comment = secfile_lookup_str(comment_file, comment_path))) {       \
     target = fc_strdup(comment);                                          \
   } else {                                                                \
-    log_error("Can't read %s from comments file", comment_path);          \
+    log_error(_("Can't read %s from comments file"), comment_path);     \
     return FALSE;                                                         \
   }                                                                       \
 }
@@ -151,7 +152,7 @@ static void comment_write(struct section_file *sfile, const char *comment,
                           const char *name)
 {
   if (comment == NULL) {
-    log_error("Comment for %s missing.", name);
+    log_error(_("Comment for %s missing."), name);
     return;
   }
 
