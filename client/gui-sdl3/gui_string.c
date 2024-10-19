@@ -305,15 +305,16 @@ static SDL_Surface *create_utf8_surf(utf8_str *pstr)
 
   switch (pstr->render) {
   case 0:
-    text = TTF_RenderUTF8_Shaded(pstr->font,
-                                 pstr->text, pstr->fgcol,
+    text = TTF_RenderText_Shaded(pstr->font,
+                                 pstr->text, 0, pstr->fgcol,
                                  pstr->bgcol);
     break;
   case 1:
-    text = TTF_RenderUTF8_Solid(pstr->font, pstr->text, pstr->fgcol);
+    text = TTF_RenderText_LCD(pstr->font, pstr->text, 0,
+                              pstr->fgcol, pstr->bgcol);
     break;
   case 2:
-    text = TTF_RenderUTF8_Blended(pstr->font, pstr->text, pstr->fgcol);
+    text = TTF_RenderText_Blended(pstr->font, pstr->text, 0, pstr->fgcol);
     break;
   }
 

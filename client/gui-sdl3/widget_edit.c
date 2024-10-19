@@ -621,13 +621,13 @@ static Uint16 edit_textinput(const char *text, void *data)
       char passwd_chr[2] = {'*', '\0'};
 
       edt->input_chain->prev->tsurf =
-        TTF_RenderUTF8_Blended(edt->pwidget->string_utf8->font,
-                               passwd_chr,
+        TTF_RenderText_Blended(edt->pwidget->string_utf8->font,
+                               passwd_chr, 0,
                                edt->pwidget->string_utf8->fgcol);
     } else {
       edt->input_chain->prev->tsurf =
-        TTF_RenderUTF8_Blended(edt->pwidget->string_utf8->font,
-                               edt->input_chain->prev->chr,
+        TTF_RenderText_Blended(edt->pwidget->string_utf8->font,
+                               edt->input_chain->prev->chr, 0,
                                edt->pwidget->string_utf8->fgcol);
     }
     edt->true_length += edt->input_chain->prev->tsurf->w;
@@ -716,8 +716,8 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
   }
 
   edt.end_text_chain->tsurf =
-      TTF_RenderUTF8_Blended(edit_widget->string_utf8->font,
-                             edt.end_text_chain->chr,
+      TTF_RenderText_Blended(edit_widget->string_utf8->font,
+                             edt.end_text_chain->chr, 0,
                              edit_widget->string_utf8->fgcol);
 
   /* create surface for each font in chain and find chain length */
@@ -731,13 +731,13 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
         const char passwd_chr[2] = {'*', '\0'};
 
         input_chain_tmp->tsurf =
-          TTF_RenderUTF8_Blended(edit_widget->string_utf8->font,
-                                 passwd_chr,
+          TTF_RenderText_Blended(edit_widget->string_utf8->font,
+                                 passwd_chr, 0,
                                  edit_widget->string_utf8->fgcol);
       } else {
         input_chain_tmp->tsurf =
-          TTF_RenderUTF8_Blended(edit_widget->string_utf8->font,
-                                 input_chain_tmp->chr,
+          TTF_RenderText_Blended(edit_widget->string_utf8->font,
+                                 input_chain_tmp->chr, 0,
                                  edit_widget->string_utf8->fgcol);
       }
 
