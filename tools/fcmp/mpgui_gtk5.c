@@ -83,7 +83,7 @@ struct _FcMPRow
   const char *type;
   const char *subtype;
   const char *lic;
-  const char *URL;
+  char *URL;
   const char *notes;
 
   int type_int;
@@ -97,11 +97,27 @@ struct _FcMPRowClass
 G_DEFINE_TYPE(FcMPRow, fc_mprow, G_TYPE_OBJECT)
 
 /**********************************************************************//**
+  Finalizing method for FcMPRow class
+**************************************************************************/
+static void fc_mprow_finalize(GObject *gobject)
+{
+  FcMPRow *row = FC_MPROW(gobject);
+
+  free(row->URL);
+  row->URL = nullptr;
+
+  G_OBJECT_CLASS(fc_mprow_parent_class)->finalize(gobject);
+}
+
+/**********************************************************************//**
   Initialization method for FcMPRow class
 **************************************************************************/
 static void
 fc_mprow_class_init(FcMPRowClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->finalize = fc_mprow_finalize;
 }
 
 /**********************************************************************//**
@@ -110,6 +126,7 @@ fc_mprow_class_init(FcMPRowClass *klass)
 static void
 fc_mprow_init(FcMPRow *self)
 {
+  self->URL = nullptr;
 }
 
 /**********************************************************************//**
