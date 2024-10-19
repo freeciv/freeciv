@@ -22,7 +22,7 @@ is located here for quick reference for the specific freeciv revision.
 
 - With premade environment, buildable clients are:
   For "win64":    gtk3.22, gtk4, sdl2, Qt5
-  For "win64-10": gtk3.22, gtk4, gtk4x, sdl2, Qt6
+  For "win64-10": gtk3.22, gtk4, gtk4x, sdl2, Qt6, Qt6x
 
 
  Setup
@@ -206,6 +206,7 @@ Get the freeciv sources there somehow. Some options are:
      - sdl2
      - qt5
      - qt6
+     - qt6x
   - "ruledit-installer"
   - "snapshot", if your freeciv sources are in git checkout directory,
                 builds all installers with commit id in version number
