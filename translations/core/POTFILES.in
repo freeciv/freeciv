@@ -482,6 +482,7 @@ tools/manual/manual_techs.c
 tools/manual/manual_terrain.c
 tools/manual/manual_uclass.c
 tools/manual/manual_units.c
+tools/ruleutil/comments.c
 tools/ruleutil/rulesave.c
 server/actiontools.c
 server/aiiface.c
