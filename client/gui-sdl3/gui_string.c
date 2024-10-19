@@ -107,7 +107,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
     bool new_line = FALSE;
     int w, h;
 
-    /* find '\n' */
+    /* Find '\n' */
     while (c != '\0') {
       if (c == '\n') {
         new_line = TRUE;
@@ -128,12 +128,13 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
       w = 0;
       h = 0;
       while (utf8_texts[count]) {
-        if (!TTF_SizeUTF8(pstr->font, utf8_texts[count], &ww, &hh)) {
+        if (!TTF_GetStringSize(pstr->font, utf8_texts[count], 0,
+                               &ww, &hh)) {
           do {
             FC_FREE(utf8_texts[count]);
             count++;
           } while (utf8_texts[count]);
-          log_error("TTF_SizeUTF8() return ERROR!");
+          log_error("TTF_GetStringSize() return ERROR!");
         }
         w = MAX(w, ww);
         h += hh;
@@ -141,8 +142,9 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
         count++;
       }
     } else {
-      if (!TTF_SizeUTF8(pstr->font, pstr->text, &w, &h)) {
-        log_error("TTF_SizeUTF8() return ERROR!");
+      if (!TTF_GetStringSize(pstr->font, pstr->text, 0,
+                             &w, &h)) {
+        log_error("TTF_GetStringSize() return ERROR!");
       }
     }
 
@@ -254,7 +256,7 @@ utf8_str *copy_chars_to_utf8_str(utf8_str *pstr, const char *pchars)
   n = (strlen(pchars) + 1);
 
   if (n > pstr->n_alloc) {
-    /* allocated more if this is only a small increase on before: */
+    /* Allocated more if this is only a small increase on before: */
     size_t n1 = (3 * pstr->n_alloc) / 2;
 
     pstr->n_alloc = (n > n1) ? n : n1;
@@ -427,7 +429,7 @@ SDL_Surface *create_text_surf_from_utf8(utf8_str *pstr)
     char *current = pstr->text;
     char c = *(pstr->text);
 
-    /* find '\n' */
+    /* Find '\n' */
     while (c != '\0') {
       if (c == '\n') {
         return create_utf8_multi_surf(pstr);
@@ -455,7 +457,7 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
 
   utf8_str_size(pstr, &size);
   if (size.w > width) {
-    /* cut string length to w length by replacing space " " with new line "\n" */
+    /* Cut string length to w length by replacing space " " with new line "\n" */
     bool resize = FALSE;
     int len = 0;
     char *ptr_rev, *ptr = pstr->text;
@@ -487,7 +489,7 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
         if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
           TTF_SetFontStyle(pstr->font, (pstr->style & 0x0F));
         }
-        TTF_SizeUTF8(pstr->font, utf8char, &fw, &fh);
+        TTF_GetStringSize(pstr->font, utf8char, 0, &fw, &fh);
         if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
           TTF_SetFontStyle(pstr->font, TTF_STYLE_NORMAL);
         }
