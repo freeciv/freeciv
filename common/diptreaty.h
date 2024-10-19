@@ -48,6 +48,8 @@ extern "C" {
 #define SPECENUM_COUNT CLAUSE_COUNT
 #include "specenum_gen.h"
 
+#define CLAUSE_LAST CLAUSE_COUNT
+
 #define is_pact_clause(x)                                                   \
   ((x == CLAUSE_CEASEFIRE) || (x == CLAUSE_PEACE) || (x == CLAUSE_ALLIANCE))
 

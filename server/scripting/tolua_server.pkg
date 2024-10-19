@@ -574,6 +574,8 @@ module Player {
     @ love (lua_State *L, Player *pplayer, Player *towards);
   void api_methods_add_love
     @ add_love (lua_State *L, Player *pplayer, Player *towards, int amount);
+  void api_methods_cancel_pact
+    @ cancel_pact (lua_State *L, Player *pplayer, Player *towards);
 }
 
 $[

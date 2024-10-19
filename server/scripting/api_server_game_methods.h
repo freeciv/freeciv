@@ -44,5 +44,6 @@ int api_methods_tag_score(lua_State *L, Player *pplayer, const char *tag);
 
 int api_methods_love(lua_State *L, Player *pplayer, Player *towards);
 void api_methods_add_love(lua_State *L, Player *pplayer, Player *towards, int amount);
+void api_methods_cancel_pact(lua_State *L, Player *pplayer, Player *towards);
 
 #endif /* FC__API_SERVER_GAME_METHODS_H */
