@@ -150,6 +150,55 @@ static GMenu *cityrep_menu;
 static GActionGroup *cityrep_group;
 static GMenu *display_menu;
 
+#define FC_TYPE_CREP_ROW (fc_crep_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcCrepRow, fc_crep_row, FC, CREP_ROW, GObject)
+
+struct _FcCrepRow
+{
+  GObject parent_instance;
+
+  char **columns;
+  int city_id;
+};
+
+struct _FcCrepClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcCrepRow, fc_crep_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcCrepRow class
+**************************************************************************/
+static void
+fc_crep_row_class_init(FcCrepRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcCrepRow
+**************************************************************************/
+static void
+fc_crep_row_init(FcCrepRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcCrepRow creation method
+**************************************************************************/
+#if 0
+static FcCrepRow *fc_crep_row_new(void)
+{
+  FcCrepRow *result;
+
+  result = g_object_new(FC_TYPE_CREP_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /************************************************************************//**
   Return text line for the column headers for the city report
 ****************************************************************************/
