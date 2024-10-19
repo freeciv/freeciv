@@ -52,7 +52,7 @@ client_appimage() {
     echo "$1 image build with linuxdeploy failed!" >&2
     return 1
   fi
-  if ! mv "Freeciv$3-x86_64.AppImage" "Freeciv-$1-x86_64.AppImage" ; then
+  if ! mv "Freeciv$3-x86_64.AppImage" "Freeciv-$1-${FCVER}-x86_64.AppImage" ; then
     echo "$1 appimage rename failed!" >&2
     return 1
   fi
@@ -85,11 +85,13 @@ ruledit_appimage() {
     echo "ruledit-$1 image build with linuxdeploy failed!" >&2
     return 1
   fi
-  if ! mv "Freeciv_Ruleset_Editor-x86_64.AppImage" "Freeciv-ruledit-$1-x86_64.AppImage" ; then
+  if ! mv "Freeciv_Ruleset_Editor-x86_64.AppImage" "Freeciv-ruledit-$1-${FCVER}-x86_64.AppImage" ; then
     echo "ruledit-$1 appimage rename failed!" >&2
     return 1
   fi
 }
+
+FCVER="$("${SRC_ROOT}/fc_version")"
 
 if ! mkdir tools ||
    ! mkdir -p AppDir/server ||
@@ -124,6 +126,11 @@ cd "${BUILD_ROOT}"
 if ! tools/linuxdeploy-x86_64.AppImage --appdir AppDir/server --output appimage
 then
   echo "Server image build with linuxdeploy failed!" >&2
+  exit 1
+fi
+
+if ! mv "Freeciv_server-x86_64.AppImage" "Freeciv-server-${FCVER}-x86_64.AppImage" ; then
+  echo "server appimage rename failed!" >&2
   exit 1
 fi
 
