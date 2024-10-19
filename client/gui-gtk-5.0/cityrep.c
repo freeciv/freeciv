@@ -170,11 +170,27 @@ struct _FcCrepClass
 G_DEFINE_TYPE(FcCrepRow, fc_crep_row, G_TYPE_OBJECT)
 
 /**********************************************************************//**
+  Finalizing method for FcCrepRow class
+**************************************************************************/
+static void fc_crep_row_finalize(GObject *gobject)
+{
+  FcCrepRow *row = FC_CREP_ROW(gobject);
+
+  free(row->columns);
+  row->columns = nullptr;
+
+  G_OBJECT_CLASS(fc_crep_row_parent_class)->finalize(gobject);
+}
+
+/**********************************************************************//**
   Initialization method for FcCrepRow class
 **************************************************************************/
 static void
 fc_crep_row_class_init(FcCrepRowClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->finalize = fc_crep_row_finalize;
 }
 
 /**********************************************************************//**
@@ -183,6 +199,7 @@ fc_crep_row_class_init(FcCrepRowClass *klass)
 static void
 fc_crep_row_init(FcCrepRow *self)
 {
+  self->columns = nullptr;
 }
 
 /**********************************************************************//**
