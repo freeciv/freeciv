@@ -154,7 +154,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
     fill->h = h;
   } else {
     fill->w = 0;
-    fill->h = (pstr ? TTF_FontHeight(pstr->font) : 0);
+    fill->h = (pstr ? TTF_GetFontHeight(pstr->font) : 0);
   }
 }
 
@@ -320,7 +320,8 @@ static SDL_Surface *create_utf8_surf(utf8_str *pstr)
 
   if (text != NULL) {
     log_debug("create_utf8_surf: Font is generally %d big, and "
-              "string is %d big", TTF_FontHeight(pstr->font), text->h);
+              "string is %d big",
+              TTF_GetFontHeight(pstr->font), text->h);
     log_debug("create_utf8_surf: String is %d length", text->w);
   } else {
     log_debug("create_utf8_surf: text NULL");

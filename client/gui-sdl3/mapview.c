@@ -577,8 +577,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       info = create_text_surf_from_utf8(pstr);
 
       if (info_window->size.h >
-          (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) || right) {
-        int h = TTF_FontHeight(info_window->string_utf8->font);
+          (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h))
+          || right) {
+        int h = TTF_GetFontHeight(info_window->string_utf8->font);
 
         fc_snprintf(buffer, sizeof(buffer), "%s",
                     sdl_get_tile_defense_info_text(ptile));
