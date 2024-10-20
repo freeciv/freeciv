@@ -454,7 +454,7 @@ void clipboard_paste_production(struct city *pcity)
 static void clipboard_send_production_packet(struct city *pcity)
 {
   if (are_universals_equal(&pcity->production, &clipboard)
-      || !can_city_build_now(pcity, &clipboard)) {
+      || !can_city_build_now(&(wld.map), pcity, &clipboard)) {
     return;
   }
 

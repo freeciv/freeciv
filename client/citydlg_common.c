@@ -1337,7 +1337,7 @@ void city_worklist_commit(struct city *pcity, struct worklist *pwl)
     }
 
     /* If it can be built... */
-    if (can_city_build_now(pcity, &target)) {
+    if (can_city_build_now(&(wld.map), pcity, &target)) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
         /* Change the current target */

@@ -1629,15 +1629,15 @@ static void popup_change_menu(GtkMenuShell *menu, gpointer data)
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_improvements_item),
                                    FALSE, FALSE, CO_CHANGE,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_units_item),
                                    TRUE, FALSE, CO_CHANGE,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_wonders_item),
                                    FALSE, TRUE, CO_CHANGE,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
@@ -1652,15 +1652,15 @@ static void popup_last_menu(GtkMenuShell *menu, gpointer data)
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(last_improvements_item),
                                    FALSE, FALSE, CO_LAST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(last_units_item),
                                    TRUE, FALSE, CO_LAST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(last_wonders_item),
                                    FALSE, TRUE, CO_LAST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
@@ -1675,15 +1675,15 @@ static void popup_first_menu(GtkMenuShell *menu, gpointer data)
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(first_improvements_item),
                                    FALSE, FALSE, CO_FIRST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(first_units_item),
                                    TRUE, FALSE, CO_FIRST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(first_wonders_item),
                                    FALSE, TRUE, CO_FIRST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
@@ -1698,15 +1698,15 @@ static void popup_next_menu(GtkMenuShell *menu, gpointer data)
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(next_improvements_item),
                                    FALSE, FALSE, CO_NEXT,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(next_units_item),
                                    TRUE, FALSE, CO_NEXT,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(next_wonders_item),
                                    FALSE, TRUE, CO_NEXT,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
@@ -1727,17 +1727,17 @@ static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
   item = next_to_last_improvements_item;
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
                                    FALSE, FALSE, CO_NEXT_TO_LAST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    callback, n);
   item = next_to_last_units_item;
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
                                    TRUE, FALSE, CO_NEXT_TO_LAST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    callback, n);
   item = next_to_last_wonders_item;
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
                                    FALSE, TRUE, CO_NEXT_TO_LAST,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    callback, n);
 }
 
@@ -1941,15 +1941,15 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_improvements_item),
                                    FALSE, FALSE, CO_NONE,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_units_item),
                                    TRUE, FALSE, CO_NONE,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_wonders_item),
                                    FALSE, TRUE, CO_NONE,
-                                   can_city_build_now,
+                                   can_city_build_now_client,
                                    G_CALLBACK(select_impr_or_unit_callback), -1);
   append_cma_to_menu_item(GTK_MENU_ITEM(select_cma_item), FALSE);
 

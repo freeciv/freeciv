@@ -1568,7 +1568,7 @@ static GMenu *create_change_menu(GActionGroup *group, const char *mname,
   submenu = g_menu_new();
   append_impr_or_unit_to_menu(submenu, group, mname, "_u",
                               TRUE, FALSE, oper,
-                              can_city_build_now,
+                              can_city_build_now_client,
                               G_CALLBACK(select_impr_or_unit_callback), n);
   fc_snprintf(buf, sizeof(buf), human_mname, _("Unit"));
   submenu_append_unref(menu, buf, G_MENU_MODEL(submenu));
@@ -1576,7 +1576,7 @@ static GMenu *create_change_menu(GActionGroup *group, const char *mname,
   submenu = g_menu_new();
   append_impr_or_unit_to_menu(submenu, group, mname, "_i",
                               FALSE, FALSE, oper,
-                              can_city_build_now,
+                              can_city_build_now_client,
                               G_CALLBACK(select_impr_or_unit_callback), n);
   fc_snprintf(buf, sizeof(buf), human_mname, _("Improvement"));
   submenu_append_unref(menu, buf, G_MENU_MODEL(submenu));
@@ -1584,7 +1584,7 @@ static GMenu *create_change_menu(GActionGroup *group, const char *mname,
   submenu = g_menu_new();
   append_impr_or_unit_to_menu(submenu, group, mname, "_w",
                               FALSE, TRUE, oper,
-                              can_city_build_now,
+                              can_city_build_now_client,
                               G_CALLBACK(select_impr_or_unit_callback), n);
   fc_snprintf(buf, sizeof(buf), human_mname, _("Wonder"));
   submenu_append_unref(menu, buf, G_MENU_MODEL(submenu));
@@ -1835,7 +1835,7 @@ static GMenu *create_select_menu(GActionGroup *group)
   unit_a_select_menu = g_menu_new();
   append_impr_or_unit_to_menu(unit_a_select_menu, group, "sel", "_a_u",
                               TRUE, FALSE, CO_NONE,
-                              can_city_build_now,
+                              can_city_build_now_client,
                               G_CALLBACK(select_impr_or_unit_callback), -1);
   fc_snprintf(buf, sizeof(buf), _("Available %s"), _("Unit"));
   submenu_append_unref(select_menu, buf, G_MENU_MODEL(unit_a_select_menu));
@@ -1843,7 +1843,7 @@ static GMenu *create_select_menu(GActionGroup *group)
   impr_a_select_menu = g_menu_new();
   append_impr_or_unit_to_menu(impr_a_select_menu, group, "sel", "_a_b",
                               FALSE, FALSE, CO_NONE,
-                              can_city_build_now,
+                              can_city_build_now_client,
                               G_CALLBACK(select_impr_or_unit_callback), -1);
   fc_snprintf(buf, sizeof(buf), _("Available %s"), _("Improvement"));
   submenu_append_unref(select_menu, buf, G_MENU_MODEL(impr_a_select_menu));
@@ -1851,7 +1851,7 @@ static GMenu *create_select_menu(GActionGroup *group)
   wndr_a_select_menu = g_menu_new();
   append_impr_or_unit_to_menu(wndr_a_select_menu, group, "sel", "_a_w",
                               FALSE, TRUE, CO_NONE,
-                              can_city_build_now,
+                              can_city_build_now_client,
                               G_CALLBACK(select_impr_or_unit_callback), -1);
   fc_snprintf(buf, sizeof(buf), _("Available %s"), _("Wonder"));
   submenu_append_unref(select_menu, buf, G_MENU_MODEL(wndr_a_select_menu));

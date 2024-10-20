@@ -180,7 +180,7 @@ void client_change_all(struct universal *from, struct universal *to)
   connection_do_buffer(&client.conn);
   city_list_iterate (client.conn.playing->cities, pcity) {
     if (are_universals_equal(&pcity->production, from)
-        && can_city_build_now(pcity, to)) {
+        && can_city_build_now(&(wld.map), pcity, to)) {
       city_change_production(pcity, to);
     }
   } city_list_iterate_end;
@@ -584,6 +584,15 @@ bool city_building_present(const struct city *pcity,
 {
   return VUT_IMPROVEMENT == target->kind
     && city_has_building(pcity, target->value.building);
+}
+
+/**********************************************************************//**
+  A TestCityFunc wrapper for can_city_build_now()
+**************************************************************************/
+bool can_city_build_now_client(const struct city *pcity,
+                               const struct universal *target)
+{
+  return can_city_build_now(&(wld.map), pcity, target);
 }
 
 /**********************************************************************//**

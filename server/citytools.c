@@ -1096,6 +1096,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   int central_units[ul_size + 1];
   bv_player *could_see_unit = NULL;
   int i;
+  const struct civ_map *nmap = &(wld.map);
 
   fc_assert_ret_val(pgiver != ptaker, TRUE);
 
@@ -1297,7 +1298,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
     /* Set production to something valid for pplayer, if not.
      * (previously allowed building obsolete units.) */
-    if (!can_city_build_now(pcity, &pcity->production)) {
+    if (!can_city_build_now(nmap, pcity, &pcity->production)) {
       advisor_choose_build(ptaker, pcity);
     }
 

@@ -437,6 +437,7 @@ void handle_city_change(struct player *pplayer, int city_id,
 {
   struct universal prod;
   struct city *pcity = player_city_by_number(pplayer, city_id);
+  const struct civ_map *nmap = &(wld.map);
 
   if (!universals_n_is_valid(production_kind)) {
     log_error("[%s] bad production_kind %d.", __FUNCTION__,
@@ -462,7 +463,7 @@ void handle_city_change(struct player *pplayer, int city_id,
     return;
   }
 
-  if (!can_city_build_now(pcity, &prod)) {
+  if (!can_city_build_now(nmap, pcity, &prod)) {
     return;
   }
   if (!city_can_change_build(pcity)) {
