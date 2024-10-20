@@ -419,11 +419,7 @@ static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
   int curr_y = 0;
 
   while (GTK_IS_WIDGET(child)) {
-    GtkAllocation alloc;
-
-    gtk_widget_get_allocation(child, &alloc);
-
-    curr_y = alloc.height + alloc.y;
+    curr_y += gtk_widget_get_height(GTK_WIDGET(child));
 
     if (curr_y > y) {
       FcMPRow *row = g_list_model_get_item(G_LIST_MODEL(main_store), row_number);

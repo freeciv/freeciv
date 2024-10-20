@@ -1186,11 +1186,7 @@ int get_column_view_row(GtkWidget *cview, int y)
   int curr_y = 0;
 
   while (GTK_IS_WIDGET(child)) {
-    GtkAllocation alloc;
-
-    gtk_widget_get_allocation(child, &alloc);
-
-    curr_y = alloc.height + alloc.y;
+    curr_y += gtk_widget_get_height(GTK_WIDGET(child));
 
     if (curr_y > y) {
       return row_number;
