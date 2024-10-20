@@ -484,16 +484,16 @@ void city_widget::display_list_menu(const QPoint &)
   if (!selected_cities.isEmpty()) {
     some_menu = list_menu->addMenu(_("Production"));
     tmp_menu = some_menu->addMenu(_("Change"));
-    fill_production_menus(CHANGE_PROD_NOW, custom_labels, can_city_build_now,
+    fill_production_menus(CHANGE_PROD_NOW, custom_labels, can_city_build_now_client,
                           tmp_menu);
     tmp_menu = some_menu->addMenu(_("Add next"));
-    fill_production_menus(CHANGE_PROD_NEXT, custom_labels, can_city_build_now,
+    fill_production_menus(CHANGE_PROD_NEXT, custom_labels, can_city_build_now_client,
                           tmp_menu);
     tmp_menu = some_menu->addMenu(_("Add before last"));
     fill_production_menus(CHANGE_PROD_BEF_LAST, custom_labels,
-                          can_city_build_now, tmp_menu);
+                          can_city_build_now_client, tmp_menu);
     tmp_menu = some_menu->addMenu(_("Add last"));
-    fill_production_menus(CHANGE_PROD_LAST, custom_labels, can_city_build_now,
+    fill_production_menus(CHANGE_PROD_LAST, custom_labels, can_city_build_now_client,
                           tmp_menu);
 
     tmp_menu = some_menu->addMenu(_("Worklist"));
@@ -613,7 +613,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(iter_city, &target)) {
+          if (can_city_build_now(&(wld.map), iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -622,7 +622,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(iter_city, &target)) {
+          if (can_city_build_now(&(wld.map), iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -631,7 +631,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(iter_city, &target)) {
+          if (can_city_build_now(&(wld.map), iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -1004,17 +1004,16 @@ void city_widget::gen_select_labels(QMenu *menu)
   menu->addSeparator();
   tmp_menu = menu->addMenu(_("Available Units"));
   gen_production_labels(SELECT_AVAIL_UNITS, custom_labels, true, false,
-                        can_city_build_now, true);
+                        can_city_build_now_client, true);
   fill_data(SELECT_AVAIL_UNITS, custom_labels, tmp_menu);
   tmp_menu = menu->addMenu(_("Available Improvements"));
   gen_production_labels(SELECT_AVAIL_IMPR, custom_labels, false, false,
-                        can_city_build_now, true);
+                        can_city_build_now_client, true);
   fill_data(SELECT_AVAIL_IMPR, custom_labels, tmp_menu);
   tmp_menu = menu->addMenu(_("Available Wonders"));
   gen_production_labels(SELECT_AVAIL_WONDERS, custom_labels, false, true,
-                        can_city_build_now, true);
+                        can_city_build_now_client, true);
   fill_data(SELECT_AVAIL_WONDERS, custom_labels, tmp_menu);
-
 }
 
 /***********************************************************************//**

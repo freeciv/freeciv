@@ -2050,7 +2050,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     name_and_sort_items(targets, targets_used, items, FALSE, pcity);
 
     for (item = 0; item < targets_used; item++) {
-      if (can_city_build_now(pcity, &items[item].item)) {
+      if (can_city_build_now(&(wld.map), pcity, &items[item].item)) {
         const char *name;
         struct sprite *sprite;
         GdkPixbuf *pix;

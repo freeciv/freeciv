@@ -76,6 +76,8 @@ bool city_unit_present(const struct city *pcity,
                        const struct universal *target);
 bool city_building_present(const struct city *pcity,
                            const struct universal *target);
+bool can_city_build_now_client(const struct city *pcity,
+                               const struct universal *target);
 
 struct item {
   struct universal item;

@@ -481,6 +481,7 @@ void handle_city_change(struct player *pplayer, int city_id16, int city_id32,
 {
   struct universal prod;
   struct city *pcity;
+  const struct civ_map *nmap = &(wld.map);
 
   if (!has_capability("ids32", pplayer->current_conn->capability)) {
     city_id32 = city_id16;
@@ -512,7 +513,7 @@ void handle_city_change(struct player *pplayer, int city_id16, int city_id32,
     return;
   }
 
-  if (!can_city_build_now(pcity, &prod)) {
+  if (!can_city_build_now(nmap, pcity, &prod)) {
     return;
   }
   if (!city_can_change_build(pcity)) {
