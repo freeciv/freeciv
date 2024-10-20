@@ -71,7 +71,7 @@ endif
 
 all: all-$(WINARCH)
 
-all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
+all-win64: gtk3.22-installer sdl2-installer gtk4-installer
 
 all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
@@ -96,17 +96,11 @@ gtk4x-installer:
 sdl2-installer:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
-qt5-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
-
 qt6-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
 
 qt6x-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6x -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6x CLIENT=qt FCMP=qt installer-common
-
-ruledit-installer-qt5:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 installer-ruledit-common
 
 ruledit-installer-qt6:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 $(EXTRA_CONFIG)" GUI=qt6 installer-ruledit-common
@@ -126,17 +120,11 @@ gtk4x-install:
 sdl2-install:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 install-freeciv-sdl2
 
-qt5-install:
-	make -f $(MAKEFILE_NAME) GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" install-freeciv-qt5
-
 qt6-install:
 	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" install-freeciv-qt6
 
 qt6x-install:
 	make -f $(MAKEFILE_NAME) GUI=qt6x CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6x -Dsvgflags=true $(EXTRA_CONFIG)" install-freeciv-qt6x
-
-ruledit-install-qt5:
-	make -f $(MAKEFILE_NAME) GUI=qt5 EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" install-ruledit-qt5
 
 ruledit-install-qt6:
 	make -f $(MAKEFILE_NAME) GUI=qt6 EXTRA_CONFIG="-Dqtver=qt6 $(EXTRA_CONFIG)" install-ruledit-qt6
@@ -328,8 +316,6 @@ install-freeciv-gtk4x: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
 
-install-freeciv-qt5: install-freeciv-common
-
 install-freeciv-qt6: install-freeciv-common
 
 install-freeciv-qt6x: install-freeciv-common
@@ -359,25 +345,6 @@ SDL2_DLLS := \
 install-env-sdl2: install-env-gtk4-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
-
-FCMP_QT5_DLLS := \
-	Qt5Core.dll \
-	Qt5Gui.dll \
-	Qt5Widgets.dll \
-	libdouble-conversion.dll \
-	libicuin${ICUVER}.dll \
-	libpcre2-16-0.dll \
-	libmd4c.dll
-
-install-env-qt5-fcmp: install-env-common
-	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_QT5_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
-	# Add additional Qt5 files
-	cp -R /$(ARCHDIR)/share/qt5/plugins $(INST_DIR)/$(WINARCH)-client-$(GUI)/
-	cp -R /$(ARCHDIR)/share/locale $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/
-	find $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
-
-install-env-qt5: install-env-qt5-fcmp
 
 FCMP_QT6_DLLS := \
 	Qt6Core.dll \
@@ -420,23 +387,6 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	# Create installer executable
 	mkdir -p $(OUT_DIR)
 	makensis -NOCD $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
-
-RULEDIT_QT5_DLLS := \
-	libmd4c.dll \
-	libdouble-conversion.dll \
-	libicuin${ICUVER}.dll \
-	libpcre2-16-0.dll \
-	Qt5Core.dll \
-	Qt5Gui.dll \
-	Qt5Widgets.dll
-
-install-ruledit-qt5: install-ruledit-common
-	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT5_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
-	# Add additional Qt5 files
-	cp -R /$(ARCHDIR)/share/qt5/plugins $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
-	cp -R /usr/share/locale $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/
-	find $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT6_DLLS := \
 	libmd4c.dll \
@@ -493,9 +443,7 @@ clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=gtk4x clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-client clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6x clean-build-client clean-install-client clean-installer-common
-	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-ruledit clean-ruledit-install clean-ruledit-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-ruledit clean-ruledit-install clean-ruledit-common
 	make -f $(MAKEFILE_NAME) GUI=qt6x clean-build-ruledit clean-ruledit-install clean-ruledit-common
