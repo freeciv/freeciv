@@ -3281,7 +3281,7 @@ endforeach
 
 gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22', required : false)
 gtk4_dep = dependency('gtk4', version : '>= 4.0.0', required : false)
-gtk5_dep = dependency('gtk4', version : '>= 4.10.0', required : false)
+gtk5_dep = dependency('gtk4', version : '>= 4.14.0', required : false)
 
 if get_option('clients').contains('gtk3.22')
 
@@ -3464,7 +3464,7 @@ endif
 if get_option('clients').contains('gtk4x')
 
 if not gtk5_dep.found()
-  error('gtk-4.0 >= 4.10 required for gtk4x-client, but not found')
+  error('gtk-4.0 >= 4.14 required for gtk4x-client, but not found')
 endif
 
 executable('freeciv-gtk4x',
@@ -4250,16 +4250,16 @@ endif
 if get_option('fcmp').contains('gtk4x')
 
 if not gtk5_dep.found()
-  error('gtk-4.0 >= 4.10 required for gtk4x modpack installer, but not found')
+  error('gtk-4.0 >= 4.14 required for gtk4x modpack installer, but not found')
 endif
 
 executable('freeciv-mp-gtk4x',
   'tools/fcmp/mpgui_gtk5.c',
   mpicon,
-  c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_10',
-            '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_10',
-            '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_72',
-            '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_72'],
+  c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_14',
+            '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_14',
+            '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_76',
+            '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_76'],
   include_directories: tool_inc,
   sources: [verhdr],
   dependencies: [gtk5_dep, sqlite3_dep, gettext_dep],
