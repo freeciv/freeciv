@@ -619,7 +619,8 @@ bool can_city_build_direct(const struct civ_map *nmap,
                            const struct universal *target);
 bool can_city_build_later(const struct city *pcity,
                           const struct universal *target);
-bool can_city_build_now(const struct city *pcity,
+bool can_city_build_now(const struct civ_map *nmap,
+                        const struct city *pcity,
                         const struct universal *target);
 
 int city_unit_slots_available(const struct city *pcity);
