@@ -225,14 +225,15 @@ bool maybe_make_veteran(struct unit *punit, int base_chance)
   After a battle and after diplomatic aggression this routine is called
   to decide whether or not the unit should become more experienced.
 
-  There is a specified chance for it to happen. The base chances are
-  specified in the units.ruleset file. Before the chance is passed to
-  this function, it might get modified by the factor related to how
-  challenging the battle was. This function applies modifiers
-  from effects.
+  There is a specified chance for it to happen. Before the chance
+  is passed to this function, it might get modified by the factor
+  related to how challenging the battle was. This function applies
+  modifiers from effects, and veterancy system.
 
-  If 'settler' is TRUE the veteran level is increased due to work done by
-  the unit.
+  @param punit       Unit that might gain veterancy
+  @param base_chance Base percentage chance of gaining veterancy
+  @param worker      Veterancy gained because of work, not combat
+  @return            Whether unit should become veteran
 **************************************************************************/
 static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
                                       bool worker)
