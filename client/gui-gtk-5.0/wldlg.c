@@ -310,6 +310,31 @@ static void cell_edited(GtkCellRendererText *cell,
   refresh_all_city_worklists();
 }
 
+/**********************************************************************//**
+  Wlmeta table cell bind function
+**************************************************************************/
+static void wlmeta_factory_bind(GtkSignalListItemFactory *self,
+                              GtkListItem *list_item,
+                              gpointer user_data)
+{
+  FcWlmetaRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  gtk_label_set_text(GTK_LABEL(child), row->name);
+}
+
+/**********************************************************************//**
+  Wlmeta table cell setup function
+**************************************************************************/
+static void wlmeta_factory_setup(GtkSignalListItemFactory *self,
+                                 GtkListItem *list_item,
+                                 gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
 /************************************************************************//**
   Bring up the global worklist report.
 ****************************************************************************/
@@ -318,6 +343,7 @@ static GtkWidget *create_worklists_report(void)
   GtkWidget *shell, *list;
   GtkWidget *vbox, *label, *sw;
   GtkCellRenderer *rend;
+  GtkListItemFactory *factory;
 
   shell = gtk_dialog_new_with_buttons(_("Edit worklists"),
                                       NULL,
@@ -343,6 +369,12 @@ static GtkWidget *create_worklists_report(void)
                  vbox);
 
   worklists_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(wlmeta_factory_bind),
+                   nullptr);
+  g_signal_connect(factory, "setup", G_CALLBACK(wlmeta_factory_setup),
+                   nullptr);
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(worklists_store));
   gtk_widget_set_hexpand(list, TRUE);
