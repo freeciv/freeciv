@@ -100,6 +100,61 @@ static bool holding_srv_list_mutex = FALSE;
 
 static void connection_state_reset(void);
 
+#define FC_TYPE_HOST_ROW (fc_host_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcHostRow, fc_host_row, FC, HOST_ROW, GObject)
+
+struct _FcHostRow
+{
+  GObject parent_instance;
+
+  char *host;
+  int port;
+  char *version;
+  char *state;
+  int nplayers;
+  char *humans;
+  char *message;
+  char *name;
+};
+
+struct _FcHostClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcHostRow, fc_host_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcHostRow class
+**************************************************************************/
+static void
+fc_host_row_class_init(FcHostRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcHostRow
+**************************************************************************/
+static void
+fc_host_row_init(FcHostRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcHostRow creation method
+**************************************************************************/
+#if 0
+static FcHostRow *fc_host_row_new(void)
+{
+  FcHostRow *result;
+
+  result = g_object_new(FC_TYPE_HOST_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /**********************************************************************//**
   Spawn a server, if there isn't one, using the default settings.
 **************************************************************************/
