@@ -105,8 +105,8 @@ static RANDOM_STATE rand_state;
   thus   divisor <= (MAX_UINT32 + 1) / size
 
   Need to calculate this divisor. Want divisor as large as possible
-  given above contraint, but it doesn't hurt us too much if it is a
-  bit smaller (just have to repeat more often). Calculation exactly
+  given above constraint, but it doesn't hurt us too much if it is
+  a bit smaller (just have to repeat more often). Calculation exactly
   as above is complicated by fact that (MAX_UINT32 + 1) may not be
   directly representable in type RANDOM_TYPE, so we do instead:
          divisor = MAX_UINT32 / size

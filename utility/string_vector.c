@@ -367,7 +367,7 @@ bool are_strvecs_equal(const struct strvec *stv1,
 }
 
 /**********************************************************************//**
-  Returns the datas of the vector.
+  Returns the data of the vector.
 **************************************************************************/
 const char *const *strvec_data(const struct strvec *psv)
 {

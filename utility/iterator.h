@@ -76,7 +76,7 @@ static inline bool iterator_valid(const struct iterator *it)
            of the iteration loop.
   FUNC_size - A function that returns the total size in bytes of a
               'TYPE_it'.
-  FUNC_init - A "construtor" for 'TYPE_it' objects. It returns a pointer to
+  FUNC_init - A "constructor" for 'TYPE_it' objects. It returns a pointer to
               a 'struct iterator' and takes as its first argument a pointer
               to memory large enough to hold a 'TYPE_it' (this amount must
               match the result of FUNC_size()). NB: This function must not
