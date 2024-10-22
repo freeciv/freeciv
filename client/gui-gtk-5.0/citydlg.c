@@ -152,7 +152,7 @@ struct city_dialog {
     struct city_map_canvas map_canvas;
 
     GtkWidget *production_bar;
-    GtkWidget *production_combo;
+    GtkWidget *production_combo_depr;
     GtkWidget *buy_command;
     GListStore *improvement_list;
 
@@ -167,8 +167,10 @@ struct city_dialog {
 
     GtkWidget *info_label[NUM_INFO_FIELDS];
 
-    GtkListStore *change_production_store;
-  } overview;
+    GtkListStore *change_production_store_depr;
+    GListStore *change_prod_store;
+    GtkSingleSelection *change_prod_selection;
+   } overview;
 
   struct {
     GtkWidget *production_label;
@@ -317,8 +319,12 @@ static gboolean right_button_down_citymap(GtkGestureClick *gesture, int n_press,
 static void draw_map_canvas(struct city_dialog *pdialog);
 
 static void buy_callback(GtkWidget * w, gpointer data);
-static void change_production_callback(GtkComboBox *combo,
-                                       struct city_dialog *pdialog);
+static void change_production_callback_depr(GtkComboBox *combo,
+                                            struct city_dialog *pdialog);
+static void change_production_callback(GtkSelectionModel *self,
+                                       guint position,
+                                       guint n_items,
+                                       gpointer data);
 
 static void sell_callback(const struct impr_type *pimprove, gpointer data);
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
@@ -375,7 +381,7 @@ struct _FcProdRow
 {
   GObject parent_instance;
 
-  char *name;
+  const char *name;
   int id;
   GdkPixbuf *sprite;
   bool useless;
@@ -439,11 +445,29 @@ static FcImprRow *fc_impr_row_new(void)
 }
 
 /**********************************************************************//**
+  Finalizing method for FcProdRow class
+**************************************************************************/
+static void fc_prod_row_finalize(GObject *gobject)
+{
+  FcProdRow *row = FC_PROD_ROW(gobject);
+
+  if (row->sprite != nullptr) {
+    g_object_unref(G_OBJECT(row->sprite));
+    row->sprite = nullptr;
+  }
+
+  G_OBJECT_CLASS(fc_prod_row_parent_class)->finalize(gobject);
+}
+
+/**********************************************************************//**
   Initialization method for FcProdRow class
 **************************************************************************/
 static void
 fc_prod_row_class_init(FcProdRowClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->finalize = fc_prod_row_finalize;
 }
 
 /**********************************************************************//**
@@ -452,12 +476,12 @@ fc_prod_row_class_init(FcProdRowClass *klass)
 static void
 fc_prod_row_init(FcProdRow *self)
 {
+  self->sprite = nullptr;
 }
 
 /**********************************************************************//**
   FcProdRow creation method
 **************************************************************************/
-#if 0
 static FcProdRow *fc_prod_row_new(void)
 {
   FcProdRow *result;
@@ -466,7 +490,6 @@ static FcProdRow *fc_prod_row_new(void)
 
   return result;
 }
-#endif
 
 /***********************************************************************//**
   Called to set the dimensions of the city dialog, both on
@@ -1214,9 +1237,9 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *bottom;
   GtkWidget *right, *frame, *table;
-  GtkWidget *label, *sw, *view, *bar, *production_combo;
+  GtkWidget *label, *sw, *view, *bar, *production_combo_depr;
   GtkCellRenderer *rend;
-  GtkListStore *production_store;
+  GtkListStore *production_store_depr;
   /* TRANS: Overview tab in city dialog */
   const char *tab_title = _("_Overview");
   int unit_height = tileset_unit_with_upkeep_height(tileset);
@@ -1235,6 +1258,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   if (!low_citydlg) {
     GtkListItemFactory *factory;
+    GtkWidget *list;
+    GtkColumnViewColumn *column;
     GtkWidget *middle;
     GtkWidget *vbox;
     GtkWidget *hbox;
@@ -1261,15 +1286,33 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     gtk_box_append(GTK_BOX(vbox), hbox);
 
-    production_store = gtk_list_store_new(4, GDK_TYPE_PIXBUF, G_TYPE_STRING,
-                                          G_TYPE_INT, G_TYPE_BOOLEAN);
-    pdialog->overview.change_production_store = production_store;
+    production_store_depr = gtk_list_store_new(4, GDK_TYPE_PIXBUF, G_TYPE_STRING,
+                                               G_TYPE_INT, G_TYPE_BOOLEAN);
+    pdialog->overview.change_production_store_depr = production_store_depr;
+
+    pdialog->overview.change_prod_store = g_list_store_new(FC_TYPE_PROD_ROW);
+
+    pdialog->overview.change_prod_selection
+      = gtk_single_selection_new(G_LIST_MODEL(pdialog->overview.change_prod_store));
+    list = gtk_column_view_new(GTK_SELECTION_MODEL(pdialog->overview.change_prod_selection));
 
     factory = gtk_signal_list_item_factory_new();
     g_signal_connect(factory, "bind", G_CALLBACK(prod_factory_bind),
-                   GINT_TO_POINTER(PROD_ROW_PIXBUF));
+                     GINT_TO_POINTER(PROD_ROW_PIXBUF));
     g_signal_connect(factory, "setup", G_CALLBACK(prod_factory_setup),
-                   GINT_TO_POINTER(PROD_ROW_PIXBUF));
+                     GINT_TO_POINTER(PROD_ROW_PIXBUF));
+
+    column = gtk_column_view_column_new(_("Pix"), factory);
+    gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+    factory = gtk_signal_list_item_factory_new();
+    g_signal_connect(factory, "bind", G_CALLBACK(prod_factory_bind),
+                     GINT_TO_POINTER(PROD_ROW_NAME));
+    g_signal_connect(factory, "setup", G_CALLBACK(prod_factory_setup),
+                     GINT_TO_POINTER(PROD_ROW_NAME));
+
+    column = gtk_column_view_column_new(_("Name"), factory);
+    gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
 
     bar = gtk_progress_bar_new();
     gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
@@ -1278,25 +1321,28 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
-    production_combo
-      = gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store));
-    gtk_widget_set_hexpand(production_combo, TRUE);
-    pdialog->overview.production_combo = production_combo;
-    gtk_box_append(GTK_BOX(hbox), production_combo);
-    g_object_unref(production_store);
-    g_signal_connect(production_combo, "changed",
+    production_combo_depr
+      = gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store_depr));
+    gtk_widget_set_hexpand(production_combo_depr, TRUE);
+    pdialog->overview.production_combo_depr = production_combo_depr;
+    gtk_box_append(GTK_BOX(hbox), production_combo_depr);
+    g_object_unref(production_store_depr);
+    g_signal_connect(production_combo_depr, "changed",
+                     G_CALLBACK(change_production_callback_depr), pdialog);
+
+    g_signal_connect(pdialog->overview.change_prod_selection, "selection-changed",
                      G_CALLBACK(change_production_callback), pdialog);
 
-    gtk_cell_layout_clear(GTK_CELL_LAYOUT(production_combo));
+    gtk_cell_layout_clear(GTK_CELL_LAYOUT(production_combo_depr));
     rend = gtk_cell_renderer_pixbuf_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo), rend, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo),
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo_depr), rend, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo_depr),
                                    rend, "pixbuf", 0, NULL);
     g_object_set(rend, "xalign", 0.0, NULL);
 
     rend = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo), rend, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo),
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo_depr), rend, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo_depr),
                                    rend, "text", 1, "strikethrough", 3, NULL);
 
     pdialog->overview.buy_command
@@ -1314,8 +1360,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   } else {
     pdialog->overview.buy_command = NULL;
     pdialog->overview.production_bar = NULL;
-    pdialog->overview.production_combo = NULL;
-    pdialog->overview.change_production_store = NULL;
+    pdialog->overview.production_combo_depr = NULL;
+    pdialog->overview.change_production_store_depr = NULL;
   }
 
   /* Bottom: info, units */
@@ -2329,7 +2375,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[200];
   gdouble pct;
-  GtkListStore *store;
+  GtkListStore *store_depr;
+  GListStore *store;
   GtkTreeIter iter;
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
@@ -2393,17 +2440,24 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
   }
 
-  store = pdialog->overview.change_production_store;
-  if (store != NULL) {
+  store_depr = pdialog->overview.change_production_store_depr;
+  store = pdialog->overview.change_prod_store;
+  if (store != nullptr) {
     int cur = -1;
     int actcount = 0;
 
-    if (pdialog->overview.production_combo != NULL) {
-      gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
+    if (pdialog->overview.production_combo_depr != NULL) {
+      gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo_depr),
                                -1);
     }
 
-    gtk_list_store_clear(store);
+    if (pdialog->overview.change_prod_selection != nullptr) {
+      gtk_selection_model_select_item(GTK_SELECTION_MODEL(pdialog->overview.change_prod_selection),
+                                      -1, TRUE);
+    }
+
+    gtk_list_store_clear(store_depr);
+    g_list_store_remove_all(store);
 
     targets_used
       = collect_eventually_buildable_targets(targets, pdialog->pcity, FALSE);
@@ -2416,6 +2470,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
         GdkPixbuf *pix;
         struct universal *target = &items[item].item;
         bool useless;
+        FcProdRow *row = fc_prod_row_new();
 
         if (VUT_UTYPE == target->kind) {
           name = utype_name_translation(target->value.utype);
@@ -2428,11 +2483,18 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
           useless = is_improvement_redundant(pcity, target->value.building);
         }
         pix = sprite_get_pixbuf(sprite);
-        gtk_list_store_append(store, &iter);
-        gtk_list_store_set(store, &iter, 0, pix,
+        gtk_list_store_append(store_depr, &iter);
+        gtk_list_store_set(store_depr, &iter, 0, pix,
                            1, name, 3, useless,
                            2, (gint)cid_encode(items[item].item), -1);
-        g_object_unref(G_OBJECT(pix));
+
+        row->name = name;
+        row->id = (gint)cid_encode(items[item].item);
+        row->sprite = pix;
+        row->useless = useless;
+
+        g_list_store_append(store, row);
+        g_object_unref(row);
 
         if (are_universals_equal(target, &pcity->production)) {
           cur = actcount;
@@ -2442,9 +2504,14 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       }
     }
 
-    if (pdialog->overview.production_combo != NULL) {
-      gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
+    if (pdialog->overview.production_combo_depr != NULL) {
+      gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo_depr),
                                cur);
+    }
+
+    if (pdialog->overview.change_prod_selection != nullptr) {
+      gtk_selection_model_select_item(GTK_SELECTION_MODEL(pdialog->overview.change_prod_selection),
+                                      cur, TRUE);
     }
   }
 }
@@ -3618,8 +3685,8 @@ static void buy_callback(GtkWidget *w, gpointer data)
 /***********************************************************************//**
   Callback for the dropdown production menu.
 ***************************************************************************/
-static void change_production_callback(GtkComboBox *combo,
-                                       struct city_dialog *pdialog)
+static void change_production_callback_depr(GtkComboBox *combo,
+                                            struct city_dialog *pdialog)
 {
   GtkTreeIter iter;
 
@@ -3631,6 +3698,23 @@ static void change_production_callback(GtkComboBox *combo,
     gtk_tree_model_get(gtk_combo_box_get_model(combo), &iter, 2, &id, -1);
     univ = cid_production(id);
     city_change_production(pdialog->pcity, &univ);
+  }
+}
+
+/***********************************************************************//**
+  Callback for the production list.
+***************************************************************************/
+static void change_production_callback(GtkSelectionModel *self,
+                                      guint position,
+                                      guint n_items,
+                                      gpointer data)
+{
+  if (can_client_issue_orders()) {
+    FcProdRow *row = gtk_single_selection_get_selected_item(
+                                          GTK_SINGLE_SELECTION(self));
+    struct universal univ = cid_production(row->id);
+
+    city_change_production(((struct city_dialog *)data)->pcity, &univ);
   }
 }
 
