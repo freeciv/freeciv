@@ -17,7 +17,7 @@ AC_USE_SYSTEM_EXTENSIONS
 AC_C_BIGENDIAN
 
 AC_SYS_LARGEFILE
-dnl AC_SYS_YEAR2038() added in autoconf-2.73
+dnl AC_SYS_YEAR2038() added in autoconf-2.72
 m4_ifdef([AC_SYS_YEAR2038],
    [AC_SYS_YEAR2038])
 
