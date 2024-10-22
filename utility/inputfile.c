@@ -23,8 +23,8 @@
 
   When the user tries to read a token, we return a (const char*)
   pointing to some data if the token was found, or NULL otherwise.
-  The data pointed to should not be modified.  The retuned pointer
-  is valid _only_ until another inputfile is performed.  (So should
+  The data pointed to should not be modified. The returned pointer
+  is valid _only_ until another inputfile is performed. (So should
   be used immediately, or fc_strdup-ed etc.)
   
   The tokens recognised are as follows:
