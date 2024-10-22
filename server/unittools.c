@@ -247,7 +247,7 @@ static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
   fc_assert_ret_val(vsystem != NULL, FALSE);
   fc_assert_ret_val(vsystem->levels > punit->veteran, FALSE);
 
-  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
+  vlevel = vsystem_veteran_level(vsystem, punit->veteran);
   fc_assert_ret_val(vlevel != NULL, FALSE);
 
   if (punit->veteran + 1 >= vsystem->levels
@@ -743,21 +743,17 @@ static bool total_activity_done(struct tile *ptile, enum unit_activity act,
 void notify_unit_experience(struct unit *punit)
 {
   const struct veteran_level *vlevel;
-#ifndef FREECIV_NDEBUG
   const struct veteran_system *vsystem;
-#endif
 
   if (!punit) {
     return;
   }
 
-#ifndef FREECIV_NDEBUG
   vsystem = utype_veteran_system(unit_type_get(punit));
   fc_assert_ret(vsystem != NULL);
   fc_assert_ret(vsystem->levels > punit->veteran);
-#endif /* FREECIV_NDEBUG */
 
-  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
+  vlevel = vsystem_veteran_level(vsystem, punit->veteran);
   fc_assert_ret(vlevel != NULL);
 
   notify_player(unit_owner(punit), unit_tile(punit),

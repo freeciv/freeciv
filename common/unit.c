@@ -495,18 +495,21 @@ bool can_unit_change_homecity(const struct civ_map *nmap,
 int get_activity_rate(const struct unit *punit)
 {
   const struct veteran_level *vlevel;
+  const struct unit_type *ptype;
+  int move_rate;
 
   fc_assert_ret_val(punit != NULL, 0);
 
-  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
+  ptype = unit_type_get(punit);
+  vlevel = utype_veteran_level(ptype, punit->veteran);
   fc_assert_ret_val(vlevel != NULL, 0);
 
   /* The speed of the settler depends on its base move_rate, not on
    * the number of moves actually remaining or the adjusted move rate.
    * This means sea formers won't have their activity rate increased by
    * Magellan's, and it means injured units work just as fast as
-   * uninjured ones.  Note the value is never less than SINGLE_MOVE. */
-  int move_rate = unit_type_get(punit)->move_rate;
+   * uninjured ones. Note the value is never less than SINGLE_MOVE. */
+  move_rate = unit_type_get(punit)->move_rate;
 
   /* All settler actions are multiplied by ACTIVITY_FACTOR. */
   return ACTIVITY_FACTOR

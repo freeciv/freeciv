@@ -791,6 +791,9 @@ const struct veteran_system *
   utype_veteran_system(const struct unit_type *punittype);
 int utype_veteran_levels(const struct unit_type *punittype);
 const struct veteran_level *
+  vsystem_veteran_level(const struct veteran_system *vsystem, int level)
+  fc__attribute((nonnull (1)));
+const struct veteran_level *
   utype_veteran_level(const struct unit_type *punittype, int level);
 const char *utype_veteran_name_translation(const struct unit_type *punittype,
                                            int level);

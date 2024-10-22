@@ -154,7 +154,7 @@ void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
 }
 
 /**********************************************************************//**
-  A helper function for ai_gothere.  Estimates the dangers we will
+  A helper function for ai_gothere. Estimates the dangers we will
   be facing at our destination and tries to find/request a bodyguard if
   needed.
 **************************************************************************/
@@ -167,9 +167,10 @@ static bool dai_gothere_bodyguard(struct ai_type *ait,
   struct unit *guard = aiguard_guard_of(ait, punit);
   const struct veteran_level *vlevel;
   bool bg_needed = FALSE;
+  const struct unit_type *ptype;
 
   if (is_barbarian(unit_owner(punit))) {
-    /* barbarians must have more courage (ie less brains) */
+    /* Barbarians must have more courage (ie less brains) */
     aiguard_clear_guard(ait, punit);
     return FALSE;
   }
@@ -198,17 +199,18 @@ static bool dai_gothere_bodyguard(struct ai_type *ait,
   /* If we are fast, there is less danger.
    * FIXME: that assumes that most units have move_rate == SINGLE_MOVE;
    * not true for all rulesets */
-  danger /= (unit_type_get(punit)->move_rate / SINGLE_MOVE);
+  ptype = unit_type_get(punit);
+  danger /= (ptype->move_rate / SINGLE_MOVE);
   if (unit_has_type_flag(punit, UTYF_IGTER)) {
     danger /= 1.5;
   }
 
-  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
+  vlevel = utype_veteran_level(ptype, punit->veteran);
   fc_assert_ret_val(vlevel != NULL, FALSE);
 
   /* We look for the bodyguard where we stand. */
   if (guard == NULL || unit_tile(guard) != unit_tile(punit)) {
-    int my_def = (punit->hp * unit_type_get(punit)->defense_strength
+    int my_def = (punit->hp * ptype->defense_strength
                   * POWER_FACTOR * vlevel->power_fact / 100);
 
     if (danger >= my_def) {

@@ -658,7 +658,8 @@ void handle_edit_unit(struct connection *pc,
 
   if (packet->veteran != punit->veteran) {
     int v = packet->veteran;
-    if (!utype_veteran_level(putype, v)) {
+
+    if (utype_veteran_level(putype, v) == NULL) {
       notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                   _("Invalid veteran level %d for unit %d (%s)."),
                   v, id, unit_link(punit));
