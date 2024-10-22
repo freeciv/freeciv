@@ -19,6 +19,8 @@ Updating from 3.2 to 3.3
 * Minimum version of Qt is Qt-5.15, when building in Qt5-mode
 * Configuring source directory is no longer allowed in autotools builds.
   You have to use separate build dir(s)
+* One needs to use configure option --enable-ack-legacy to build
+  with autotools. Use meson based system instead, if possible
 * Minimum autoconf version, for autotools based builds, is now 2.69
 * New 'qt6x' mode for building Qt based components linked against
   relatively new Qt6 versions

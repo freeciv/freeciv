@@ -121,6 +121,19 @@ fcdb_odbc=no
 fcdb_postgres=no
 fcdb_sqlite3=no
 
+AC_ARG_ENABLE([ack-legacy],
+  AS_HELP_STRING([--enable-ack-legacy],
+                 [acknowledge that using autotools to build freeciv is a legacy system]),
+[case "${enableval}" in
+  yes) ack_legacy=yes ;;
+  no)  ack_legacy=no ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ack-legacy) ;;
+esac], [ack_legacy=no])
+if test "x$ack_legacy" != "xyes" ; then
+  AC_MSG_ERROR([Recommended build system for freeciv is meson. See doc/INSTALL.meson.
+To still build with autotools, configure with --enable-ack-legacy option.])
+fi
+
 dnl checks for databases
 dnl all:                  Autodetect as many as possible [default].
 dnl mysql:                use mysql database
