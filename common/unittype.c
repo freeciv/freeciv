@@ -2578,6 +2578,19 @@ const struct veteran_system *
 }
 
 /**********************************************************************//**
+  Return veteran level properties of given veterancy system
+  in given veterancy level.
+**************************************************************************/
+const struct veteran_level *
+  vsystem_veteran_level(const struct veteran_system *vsystem, int level)
+{
+  fc_assert_ret_val(vsystem->definitions != NULL, NULL);
+  fc_assert_ret_val(vsystem->levels > level, NULL);
+
+  return (vsystem->definitions + level);
+}
+
+/**********************************************************************//**
   Return veteran level properties of given unit in given veterancy level.
 **************************************************************************/
 const struct veteran_level *
@@ -2586,10 +2599,8 @@ const struct veteran_level *
   const struct veteran_system *vsystem = utype_veteran_system(punittype);
 
   fc_assert_ret_val(vsystem != NULL, NULL);
-  fc_assert_ret_val(vsystem->definitions != NULL, NULL);
-  fc_assert_ret_val(vsystem->levels > level, NULL);
 
-  return (vsystem->definitions + level);
+  return vsystem_veteran_level(vsystem, level);
 }
 
 /**********************************************************************//**
@@ -2627,11 +2638,13 @@ int utype_veteran_levels(const struct unit_type *punittype)
 bool utype_veteran_has_power_bonus(const struct unit_type *punittype)
 {
   int i, initial_power_fact = utype_veteran_level(punittype, 0)->power_fact;
+
   for (i = 1; i < utype_veteran_levels(punittype); i++) {
     if (utype_veteran_level(punittype, i)->power_fact > initial_power_fact) {
       return TRUE;
     }
   }
+
   return FALSE;
 }
 
