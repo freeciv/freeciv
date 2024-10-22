@@ -5305,10 +5305,10 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
 
   /* Veteran attack and defense bonus */
   {
-    const struct veteran_level *vatt =
-        utype_veteran_level(unit_type_get(pattacker), pattacker->veteran);
-    const struct veteran_level *vdef =
-        utype_veteran_level(unit_type_get(pdefender), pdefender->veteran);
+    const struct veteran_level *vatt
+      = utype_veteran_level(unit_type_get(pattacker), pattacker->veteran);
+    const struct veteran_level *vdef
+      = utype_veteran_level(unit_type_get(pdefender), pdefender->veteran);
 
     chance += vatt->power_fact - vdef->power_fact;
   }

@@ -1995,7 +1995,9 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
       *vatt = utype_veteran_level(unit_type_get(pattacker), pattacker->veteran);
     const struct veteran_level
       *vdef = utype_veteran_level(unit_type_get(pdefender), pdefender->veteran);
+
     fc_assert_ret_val(vatt != NULL && vdef != NULL, FALSE);
+
     chance += vatt->power_fact - vdef->power_fact;
   }
 
@@ -2275,6 +2277,7 @@ static void diplomat_escape_full(struct player *pplayer,
 {
   int escapechance;
   struct city *spyhome;
+  const struct unit_type *dipltype = unit_type_get(pdiplomat);
 
   fc_assert(paction->actor.is_unit.moves_actor == MAK_ESCAPE);
 
@@ -2282,9 +2285,9 @@ static void diplomat_escape_full(struct player *pplayer,
    * unpromoted unit's power factor */
   {
     const struct veteran_level
-      *vunit = utype_veteran_level(unit_type_get(pdiplomat), pdiplomat->veteran);
+      *vunit = utype_veteran_level(dipltype, pdiplomat->veteran);
     const struct veteran_level
-      *vbase = utype_veteran_level(unit_type_get(pdiplomat), 0);
+      *vbase = utype_veteran_level(dipltype, 0);
 
     escapechance = game.server.diplchance
       + (vunit->power_fact - vbase->power_fact);
@@ -2295,7 +2298,7 @@ static void diplomat_escape_full(struct player *pplayer,
                               FALSE, FALSE, TRUE, FALSE, NULL);
 
   if (spyhome
-      && !utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))
+      && !utype_is_consumed_by_action(paction, dipltype)
       && (unit_has_type_flag(pdiplomat, UTYF_SUPERSPY)
           || fc_rand (100) < escapechance)) {
     /* Attacking Spy/Diplomat survives. */
@@ -2333,7 +2336,7 @@ static void diplomat_escape_full(struct player *pplayer,
     }
   }
 
-  if (!utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
+  if (!utype_is_consumed_by_action(paction, dipltype)) {
     /* The unit was caught, not spent. It must therefore be deleted by
      * hand. */
     wipe_unit(pdiplomat, ULR_CAUGHT, NULL);

@@ -528,13 +528,15 @@ int base_get_attack_power(const struct unit_type *punittype,
 int base_get_defense_power(const struct unit *punit)
 {
   const struct veteran_level *vlevel;
+  const struct unit_type *ptype;
 
   fc_assert_ret_val(punit != NULL, 0);
 
-  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
+  ptype = unit_type_get(punit);
+  vlevel = utype_veteran_level(ptype, punit->veteran);
   fc_assert_ret_val(vlevel != NULL, 0);
 
-  return unit_type_get(punit)->defense_strength * POWER_FACTOR
+  return ptype->defense_strength * POWER_FACTOR
          * vlevel->power_fact / 100;
 }
 
