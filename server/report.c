@@ -31,6 +31,7 @@
 #include "achievements.h"
 #include "calendar.h"
 #include "connection.h"
+#include "culture.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -85,10 +86,11 @@ enum historian_type {
         HISTORIAN_ADVANCED = 1,
         HISTORIAN_MILITARY = 2,
         HISTORIAN_HAPPIEST = 3,
-        HISTORIAN_LARGEST  = 4};
+        HISTORIAN_LARGEST  = 4,
+        HISTORIAN_CULTURAL = 5};
 
 #define HISTORIAN_FIRST         HISTORIAN_RICHEST
-#define HISTORIAN_LAST          HISTORIAN_LARGEST
+#define HISTORIAN_LAST          HISTORIAN_CULTURAL
 
 static const char *historian_message[] = {
     /* TRANS: year <name> reports ... */
@@ -100,7 +102,9 @@ static const char *historian_message[] = {
     /* TRANS: year <name> reports ... */
     N_("%s %s reports on the HAPPIEST Civilizations in the World."),
     /* TRANS: year <name> reports ... */
-    N_("%s %s reports on the LARGEST Civilizations in the World.")
+    N_("%s %s reports on the LARGEST Civilizations in the World."),
+    /* TRANS: year <name> reports ... */
+    N_("%s %s reports on the MOST CULTURAL Civilizations in the World.")
 };
 
 static const char *historian_name[] = {
@@ -338,6 +342,10 @@ static void historian_generic(struct history_report *report,
         break;
       case HISTORIAN_LARGEST:
         size[j].value = total_player_citizens(pplayer);
+        break;
+      case HISTORIAN_CULTURAL:
+        size[j].value = player_culture(pplayer) /
+          (1 + city_list_size(pplayer->cities));
         break;
       }
       size[j].player = pplayer;
