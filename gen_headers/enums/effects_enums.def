@@ -64,6 +64,7 @@ values
   TURN_YEARS                        "Turn_Years"
   SLOW_DOWN_TIMELINE                "Slow_Down_Timeline"
   CIVIL_WAR_CHANCE                  "Civil_War_Chance"
+  CIVIL_WAR_CITY_BONUS              "Civil_War_City_Bonus"
   MIGRATION_PCT                     "Migration_Pct"
   EMPIRE_SIZE_BASE                  "Empire_Size_Base"
   EMPIRE_SIZE_STEP                  "Empire_Size_Step"

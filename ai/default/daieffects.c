@@ -578,6 +578,11 @@ adv_want dai_effect_value(struct player *pplayer,
   case EFT_BORDER_STRENGTH_PCT:
     v += amount / 4;
     break;
+  case EFT_CIVIL_WAR_CITY_BONUS:
+    /* Relatively low, since we don't expect ever to lose our capital,
+     * and otherwise this doesn't matter. */
+    v += amount / 10;
+    break;
 
   /* Currently not supported for building AI - wait for modpack users */
   case EFT_CITY_UNHAPPY_SIZE:

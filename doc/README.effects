@@ -341,6 +341,9 @@ Civil_War_Chance
     increased by 5 for each city in civil disorder and reduced by 5 for
     each one celebrating.
 
+Civil_War_City_Bonus
+    Reduction of player's civil war chance percentage by each city.
+
 Combat_Rounds
     Maximum number of rounds combat lasts. Unit is the attacker. Zero and
     negative values mean that combat continues until either side dies.
