@@ -61,7 +61,7 @@
   The registry just ignores these extra markings, but this is
   useful for marking strings for translations via gettext tools.
 
-  - Multiline strings:  Strings can have embeded newlines, eg:
+  - Multiline strings:  Strings can have embedded newlines, eg:
     foo = _("
     This is a string
     over multiple lines
@@ -3003,7 +3003,7 @@ void section_clear_all(struct section *psection)
 {
   SECFILE_RETURN_IF_FAIL(nullptr, psection, psection != nullptr);
 
-  /* This include the removing of the hash datas. */
+  /* This include the removing of the hash data. */
   entry_list_clear(psection->entries);
 
   if (0 < entry_list_size(psection->entries)) {
