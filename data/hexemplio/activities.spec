@@ -35,7 +35,7 @@ tiles = { "row", "column", "tag"
   0, 4, "unit.goto"                     ;[?]
 ;  0, 5, "unit.patrol"                   ;[?]
   0, 6, "unit.convert"                  ;[?][GS]
-  0, 7, "unit.action_decision_want"
+  0, 7, "unit.action_decision_want0"
 
 ; Unit activity letters: tile commands
 

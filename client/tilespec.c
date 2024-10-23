@@ -289,7 +289,8 @@ struct named_sprites {
     int num_stack_sprites;
     bool no_more_stack_sprites;
     struct anim
-      *select;
+      *select,
+      *action_decision_want;
     struct sprite
       *hp_bar[NUM_TILES_HP_BAR],
       *vet_lev[MAX_VET_LEVELS],
@@ -310,7 +311,6 @@ struct named_sprites {
       *patrol,
       *convert,
       *battlegroup[MAX_NUM_BATTLEGROUPS],
-      *action_decision_want,
       *lowfuel,
       *tired;
   } unit;
@@ -2986,6 +2986,17 @@ static struct anim *anim_load(struct tileset *t, const char *tag)
 }
 
 /************************************************************************//**
+  Proceed with the animation.
+
+  @param a Animation to advance
+****************************************************************************/
+static void anim_advance_time(struct anim *a)
+{
+  a->current++;
+  a->current %= a->frames;
+}
+
+/************************************************************************//**
   Setup the graphics for specialist types in the default sprite set.
 ****************************************************************************/
 void tileset_setup_specialist_type_default_set(struct tileset *t,
@@ -3382,7 +3393,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.lowfuel, "unit.lowfuel");
   SET_SPRITE(unit.tired, "unit.tired");
 
-  SET_SPRITE_OPT(unit.action_decision_want, "unit.action_decision_want");
+  t->sprites.unit.action_decision_want = anim_load(t, "unit.action_decision_want");
 
   for (i = 0; i < NUM_TILES_HP_BAR; i++) {
     fc_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
@@ -4596,6 +4607,9 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 #define ADD_SPRITE_FULL(s)                                                  \
   ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET)
 
+#define ADD_ANIM_SPRITE(s, draw_fog, x_offset, y_offset)                    \
+  ADD_SPRITE(s->sprites[s->current], draw_fog, x_offset, y_offset)
+
 /************************************************************************//**
   Assemble some data that is used in building the tile sprite arrays.
     (map_x, map_y) : the (normalized) map position
@@ -4792,11 +4806,12 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  if (t->sprites.unit.action_decision_want != NULL
+  if (t->sprites.unit.action_decision_want != nullptr
       && should_ask_server_for_actions(punit)) {
-    ADD_SPRITE(t->sprites.unit.action_decision_want, TRUE,
-               FULL_TILE_X_OFFSET + t->activity_offset_x,
-               FULL_TILE_Y_OFFSET + t->activity_offset_y);
+    anim_advance_time(t->sprites.unit.action_decision_want);
+    ADD_ANIM_SPRITE(t->sprites.unit.action_decision_want, TRUE,
+                    FULL_TILE_X_OFFSET + t->activity_offset_x,
+                    FULL_TILE_Y_OFFSET + t->activity_offset_y);
   }
 
   if (punit->battlegroup != BATTLEGROUP_NONE) {
@@ -6277,8 +6292,8 @@ int fill_sprite_array(struct tileset *t,
           && t->sprites.unit.select != nullptr) {
         /* Special case for drawing the selection rectangle. The blinking
          * unit is handled separately, inside get_drawable_unit(). */
-        ADD_SPRITE(t->sprites.unit.select->sprites[t->sprites.unit.select->current], TRUE,
-                   t->select_offset_x, t->select_offset_y);
+        ADD_ANIM_SPRITE(t->sprites.unit.select, TRUE,
+                        t->select_offset_x, t->select_offset_y);
       }
 
       /* Load more stack number sprites if needed. no_more_stack_sprites guard
@@ -6653,8 +6668,7 @@ void focus_unit_in_combat(struct tileset *t)
 void toggle_focus_unit_state(struct tileset *t)
 {
   if (t->sprites.unit.select != nullptr) {
-    t->sprites.unit.select->current++;
-    t->sprites.unit.select->current %= t->sprites.unit.select->frames;
+    anim_advance_time(t->sprites.unit.select);
   } else {
     focus_unit_state = !focus_unit_state;
   }
@@ -6786,6 +6800,8 @@ void tileset_free_tiles(struct tileset *t)
 
   anim_free(t->sprites.unit.select);
   t->sprites.unit.select = nullptr;
+  anim_free(t->sprites.unit.action_decision_want);
+  t->sprites.unit.action_decision_want = nullptr;
 
   tileset_background_free(t);
 }
