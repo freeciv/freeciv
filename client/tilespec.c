@@ -112,7 +112,6 @@
 
 #define NUM_TILES_HP_BAR 11
 #define NUM_TILES_DIGITS 10
-#define NUM_TILES_SELECT 4
 #define MAX_NUM_UPKEEP_SPRITES 10
 
 #define SPECENUM_NAME extrastyle_id
@@ -2952,6 +2951,41 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
   } while (FALSE)
 
 /************************************************************************//**
+  Load an animation
+
+  @param t   Tileset to load animation from
+  @param tag Base tag of the animation sprites
+****************************************************************************/
+static struct anim *anim_load(struct tileset *t, const char *tag)
+{
+  int frames = 0;
+  char buf[1500];
+  struct anim *ret;
+  int i;
+
+  do {
+    fc_snprintf(buf, sizeof(buf), "%s%d", tag, frames++);
+  } while (sprite_exists(t, buf));
+
+  if (--frames == 0) {
+    return nullptr;
+  }
+
+  ret = anim_new(frames);
+
+  for (i = 0; i < frames; i++) {
+    fc_snprintf(buf, sizeof(buf), "%s%d", tag, i);
+    ret->sprites[i] = load_sprite(t, buf, TRUE, TRUE, FALSE);
+    if (ret->sprites[i] == nullptr) {
+      tileset_error(LOG_FATAL, tileset_name_get(t),
+                    _("Animation sprite for tag '%s' missing."), buf);
+    }
+  }
+
+  return ret;
+}
+
+/************************************************************************//**
   Setup the graphics for specialist types in the default sprite set.
 ****************************************************************************/
 void tileset_setup_specialist_type_default_set(struct tileset *t,
@@ -3362,14 +3396,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     t->sprites.unit.vet_lev[i] = load_sprite(t, buffer, TRUE, TRUE, FALSE);
   }
 
-  t->sprites.unit.select = nullptr;
-  if (sprite_exists(t, "unit.select0")) {
-    t->sprites.unit.select = anim_new(NUM_TILES_SELECT);
-    for (i = 0; i < t->sprites.unit.select->frames; i++) {
-      fc_snprintf(buffer, sizeof(buffer), "unit.select%d", i);
-      SET_SPRITE(unit.select->sprites[i], buffer);
-    }
-  }
+  t->sprites.unit.select = anim_load(t, "unit.select");
 
   SET_SPRITE(citybar.shields, "citybar.shields");
   SET_SPRITE(citybar.food, "citybar.food");
