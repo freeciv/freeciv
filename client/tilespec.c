@@ -165,6 +165,12 @@ enum spec_file_types {
   SFILE_LAST
 };
 
+struct anim {
+  int frames;
+  int current;
+  struct sprite **sprites;
+};
+
 struct drawing_data {
   bool init;
 
@@ -283,10 +289,11 @@ struct named_sprites {
   struct {
     int num_stack_sprites;
     bool no_more_stack_sprites;
+    struct anim
+      *select;
     struct sprite
       *hp_bar[NUM_TILES_HP_BAR],
       *vet_lev[MAX_VET_LEVELS],
-      *select[NUM_TILES_SELECT],
       *auto_attack,
       *auto_worker,
       *auto_explore,
@@ -568,7 +575,7 @@ struct tileset {
 struct tileset *tileset = NULL;
 struct tileset *unscaled_tileset = NULL;
 
-int focus_unit_state = 0;
+static bool focus_unit_state = FALSE;
 
 static bool tileset_update = FALSE;
 
@@ -2720,6 +2727,36 @@ static char *valid_index_str(const struct tileset *t, int idx)
 }
 
 /************************************************************************//**
+  Create a new anim structure
+
+  @param frames Number of frames in the animation
+  @return New anim structure
+****************************************************************************/
+static struct anim *anim_new(int frames)
+{
+  struct anim *ret = fc_malloc(sizeof(struct anim));
+
+  ret->frames = frames;
+  ret->current = 0;
+  ret->sprites = fc_malloc(frames * sizeof(struct sprite *));
+
+  return ret;
+}
+
+/************************************************************************//**
+  Free resources associated with the anim
+
+  @param a Animation to free
+****************************************************************************/
+static void anim_free(struct anim *a)
+{
+  if (a != nullptr) {
+    free(a->sprites);
+    free(a);
+  }
+}
+
+/************************************************************************//**
   Loads the sprite. If the sprite is already loaded a reference
   counter is increased. Can return NULL if the sprite couldn't be
   loaded.
@@ -3325,11 +3362,12 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     t->sprites.unit.vet_lev[i] = load_sprite(t, buffer, TRUE, TRUE, FALSE);
   }
 
-  t->sprites.unit.select[0] = NULL;
+  t->sprites.unit.select = nullptr;
   if (sprite_exists(t, "unit.select0")) {
-    for (i = 0; i < NUM_TILES_SELECT; i++) {
+    t->sprites.unit.select = anim_new(NUM_TILES_SELECT);
+    for (i = 0; i < t->sprites.unit.select->frames; i++) {
       fc_snprintf(buffer, sizeof(buffer), "unit.select%d", i);
-      SET_SPRITE(unit.select[i], buffer);
+      SET_SPRITE(unit.select->sprites[i], buffer);
     }
   }
 
@@ -6209,10 +6247,10 @@ int fill_sprite_array(struct tileset *t,
       bool backdrop = !pcity;
 
       if (ptile && unit_is_in_focus(punit)
-          && t->sprites.unit.select[0]) {
+          && t->sprites.unit.select != nullptr) {
         /* Special case for drawing the selection rectangle. The blinking
          * unit is handled separately, inside get_drawable_unit(). */
-        ADD_SPRITE(t->sprites.unit.select[focus_unit_state], TRUE,
+        ADD_SPRITE(t->sprites.unit.select->sprites[t->sprites.unit.select->current], TRUE,
                    t->select_offset_x, t->select_offset_y);
       }
 
@@ -6547,13 +6585,13 @@ void tileset_setup_city_tiles(struct tileset *t, int style)
 }
 
 /************************************************************************//**
-  Return the amount of time between calls to toggle_focus_unit_state.
-  The main loop needs to call toggle_focus_unit_state about this often
+  Return the amount of time between calls to toggle_focus_unit_state().
+  The main loop needs to call toggle_focus_unit_state() about this often
   to do the active-unit animation.
 ****************************************************************************/
 double get_focus_unit_toggle_timeout(const struct tileset *t)
 {
-  if (t->sprites.unit.select[0]) {
+  if (t->sprites.unit.select != nullptr) {
     return 0.1;
   } else {
     return 0.5;
@@ -6566,7 +6604,11 @@ double get_focus_unit_toggle_timeout(const struct tileset *t)
 ****************************************************************************/
 void reset_focus_unit_state(struct tileset *t)
 {
-  focus_unit_state = 0;
+  if (t->sprites.unit.select != nullptr) {
+    t->sprites.unit.select->current = 0;
+  } else {
+    focus_unit_state = FALSE;
+  }
 }
 
 /************************************************************************//**
@@ -6574,9 +6616,7 @@ void reset_focus_unit_state(struct tileset *t)
 ****************************************************************************/
 void focus_unit_in_combat(struct tileset *t)
 {
-  if (!t->sprites.unit.select[0]) {
-    reset_focus_unit_state(t);
-  }
+  reset_focus_unit_state(t);
 }
 
 /************************************************************************//**
@@ -6585,11 +6625,11 @@ void focus_unit_in_combat(struct tileset *t)
 ****************************************************************************/
 void toggle_focus_unit_state(struct tileset *t)
 {
-  focus_unit_state++;
-  if (t->sprites.unit.select[0]) {
-    focus_unit_state %= NUM_TILES_SELECT;
+  if (t->sprites.unit.select != nullptr) {
+    t->sprites.unit.select->current++;
+    t->sprites.unit.select->current %= t->sprites.unit.select->frames;
   } else {
-    focus_unit_state %= 2;
+    focus_unit_state = !focus_unit_state;
   }
 }
 
@@ -6611,7 +6651,7 @@ struct unit *get_drawable_unit(const struct tileset *t,
   }
 
   if (!unit_is_in_focus(punit)
-      || t->sprites.unit.select[0] || focus_unit_state == 0) {
+      || t->sprites.unit.select != nullptr || focus_unit_state) {
     return punit;
   } else {
     return NULL;
@@ -6716,6 +6756,9 @@ void tileset_free_tiles(struct tileset *t)
     free(t->sprites.unit.stack);
     t->sprites.unit.stack = NULL;
   }
+
+  anim_free(t->sprites.unit.select);
+  t->sprites.unit.select = nullptr;
 
   tileset_background_free(t);
 }
