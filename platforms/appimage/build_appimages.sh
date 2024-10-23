@@ -91,6 +91,11 @@ ruledit_appimage() {
 
 FCVER="$("${SRC_ROOT}/fc_version")"
 
+if ! command -v wget2 >/dev/null ; then
+  echo "No wget2 command found!" >&2
+  exit 1
+fi
+
 if ! mkdir tools ||
    ! mkdir -p AppDir/server ||
    ! mkdir -p build/server
