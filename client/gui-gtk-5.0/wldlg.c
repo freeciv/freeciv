@@ -314,8 +314,8 @@ static void cell_edited(GtkCellRendererText *cell,
   Wlmeta table cell bind function
 **************************************************************************/
 static void wlmeta_factory_bind(GtkSignalListItemFactory *self,
-                              GtkListItem *list_item,
-                              gpointer user_data)
+                                GtkListItem *list_item,
+                                gpointer user_data)
 {
   FcWlmetaRow *row;
   GtkWidget *child = gtk_list_item_get_child(list_item);
@@ -1249,6 +1249,31 @@ static gboolean drag_drop(GtkDropTarget *target, const GValue *value,
   return TRUE;
 }
 
+/**********************************************************************//**
+  Worklist table cell bind function
+**************************************************************************/
+static void worklist_factory_bind(GtkSignalListItemFactory *self,
+                                  GtkListItem *list_item,
+                                  gpointer user_data)
+{
+  FcWorklistRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  gtk_label_set_text(GTK_LABEL(child), row->name);
+}
+
+/**********************************************************************//**
+  Worklist table cell setup function
+**************************************************************************/
+static void worklist_factory_setup(GtkSignalListItemFactory *self,
+                                   GtkListItem *list_item,
+                                   gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
 /************************************************************************//**
   Worklist editor shell.
 ****************************************************************************/
@@ -1261,6 +1286,7 @@ GtkWidget *create_worklist(void)
   GtkWidget *table2, *arrow, *check;
   GtkSizeGroup *sgroup;
   GtkListStore *src_store, *dst_store;
+  GtkListItemFactory *factory;
   struct worklist_data *ptr;
   int editor_row = 0;
   GtkEventController *controller;
@@ -1277,6 +1303,12 @@ GtkWidget *create_worklist(void)
   ptr->src = src_store;
   ptr->dst = dst_store;
   ptr->future = FALSE;
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(worklist_factory_bind),
+                   nullptr);
+  g_signal_connect(factory, "setup", G_CALLBACK(worklist_factory_setup),
+                   nullptr);
 
   /* Create shell. */
   editor = gtk_grid_new();
