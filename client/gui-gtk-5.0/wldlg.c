@@ -62,7 +62,9 @@ enum {
   WORKLISTS_CLOSE
 };
 
-static GtkListStore *worklists_store;
+static GtkListStore *worklists_store_depr;
+static GListStore *worklists_store;
+static GtkSingleSelection *worklists_selection;
 
 static int max_unit_height = -1, max_unit_width = -1;
 
@@ -101,7 +103,7 @@ struct _FcWlmetaRow
 {
   GObject parent_instance;
 
-  char *name;
+  const char *name;
   int id;
 };
 
@@ -161,7 +163,6 @@ fc_wlmeta_row_init(FcWlmetaRow *self)
 /**********************************************************************//**
   FcWlmetaRow creation method
 **************************************************************************/
-#if 0
 static FcWlmetaRow *fc_wlmeta_row_new(void)
 {
   FcWlmetaRow *result;
@@ -170,7 +171,6 @@ static FcWlmetaRow *fc_wlmeta_row_new(void)
 
   return result;
 }
-#endif
 
 /************************************************************************//**
   Illegal initialization value for max unit size variables
@@ -216,14 +216,24 @@ void update_worklist_report_dialog(void)
 {
   GtkTreeIter it;
 
-  gtk_list_store_clear(worklists_store);
-  global_worklists_iterate(pgwl) {
-    gtk_list_store_append(worklists_store, &it);
+  gtk_list_store_clear(worklists_store_depr);
+  g_list_store_remove_all(worklists_store);
 
-    gtk_list_store_set(worklists_store, &it,
+  global_worklists_iterate(pgwl) {
+    gtk_list_store_append(worklists_store_depr, &it);
+
+    gtk_list_store_set(worklists_store_depr, &it,
                        0, global_worklist_name(pgwl),
                        1, global_worklist_id(pgwl),
                        -1);
+
+    FcWlmetaRow *row = fc_wlmeta_row_new();
+
+    row->name = global_worklist_name(pgwl);
+    row->id = global_worklist_id(pgwl);
+
+    g_list_store_append(worklists_store, row);
+    g_object_unref(row);
   } global_worklists_iterate_end;
 
   refresh_all_city_worklists();
@@ -236,18 +246,26 @@ static void worklists_response(GtkWidget *w, gint response)
 {
   struct global_worklist *pgwl;
   int id;
-  GtkTreeSelection *selection;
+  GtkTreeSelection *selection_depr;
   GtkTreeModel *model;
   GtkTreeIter it;
 
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(worklists_list));
+  selection_depr = gtk_tree_view_get_selection(GTK_TREE_VIEW(worklists_list));
 
-  if (gtk_tree_selection_get_selected(selection, &model, &it)) {
+  if (gtk_tree_selection_get_selected(selection_depr, &model, &it)) {
     gtk_tree_model_get(model, &it, 1, &id, -1);
     pgwl = global_worklist_by_id(id);
   } else {
     pgwl = NULL;
     id = -1;
+  }
+
+  FcWlmetaRow *row = FC_WLMETA_ROW(gtk_single_selection_get_selected_item(worklists_selection));
+
+  if (row != nullptr) {
+    pgwl = global_worklist_by_id(row->id);
+  } else {
+    pgwl = nullptr;
   }
 
   switch (response) {
@@ -283,9 +301,9 @@ static void worklists_response(GtkWidget *w, gint response)
 /************************************************************************//**
   Worklist cell edited
 ****************************************************************************/
-static void cell_edited(GtkCellRendererText *cell,
-                        const gchar *spath,
-                        const gchar *text, gpointer data)
+static void cell_edited_depr(GtkCellRendererText *cell,
+                             const gchar *spath,
+                             const gchar *text, gpointer data)
 {
   GtkTreePath *path;
   GtkTreeIter it;
@@ -293,21 +311,38 @@ static void cell_edited(GtkCellRendererText *cell,
   int id;
 
   path = gtk_tree_path_new_from_string(spath);
-  gtk_tree_model_get_iter(GTK_TREE_MODEL(worklists_store), &it, path);
+  gtk_tree_model_get_iter(GTK_TREE_MODEL(worklists_store_depr), &it, path);
   gtk_tree_path_free(path);
 
-  gtk_tree_model_get(GTK_TREE_MODEL(worklists_store), &it, 1, &id, -1);
+  gtk_tree_model_get(GTK_TREE_MODEL(worklists_store_depr), &it, 1, &id, -1);
   pgwl = global_worklist_by_id(id);
 
   if (!pgwl) {
-    gtk_list_store_remove(worklists_store, &it);
+    gtk_list_store_remove(worklists_store_depr, &it);
     return;
   }
 
   global_worklist_set_name(pgwl, text);
-  gtk_list_store_set(worklists_store, &it, 0, text, -1);
+  gtk_list_store_set(worklists_store_depr, &it, 0, text, -1);
 
   refresh_all_city_worklists();
+}
+
+/************************************************************************//**
+  Worklist cell edited
+****************************************************************************/
+static void cell_edited(GtkEditable *self, gpointer data)
+{
+  int id = GPOINTER_TO_INT(data);
+  struct global_worklist *pgwl;
+
+  pgwl = global_worklist_by_id(id);
+
+  if (pgwl != nullptr) {
+    global_worklist_set_name(pgwl, gtk_editable_get_text(self));
+
+    refresh_all_city_worklists();
+  }
 }
 
 /**********************************************************************//**
@@ -322,7 +357,10 @@ static void wlmeta_factory_bind(GtkSignalListItemFactory *self,
 
   row = gtk_list_item_get_item(list_item);
 
-  gtk_label_set_text(GTK_LABEL(child), row->name);
+  gtk_editable_set_text(GTK_EDITABLE(child), row->name);
+
+  g_signal_connect(GTK_EDITABLE(child), "changed", G_CALLBACK(cell_edited),
+                   GINT_TO_POINTER(row->id));
 }
 
 /**********************************************************************//**
@@ -332,7 +370,7 @@ static void wlmeta_factory_setup(GtkSignalListItemFactory *self,
                                  GtkListItem *list_item,
                                  gpointer user_data)
 {
-  gtk_list_item_set_child(list_item, gtk_label_new(""));
+  gtk_list_item_set_child(list_item, gtk_editable_label_new(""));
 }
 
 /************************************************************************//**
@@ -340,10 +378,12 @@ static void wlmeta_factory_setup(GtkSignalListItemFactory *self,
 ****************************************************************************/
 static GtkWidget *create_worklists_report(void)
 {
-  GtkWidget *shell, *list;
+  GtkWidget *shell, *list_depr;
   GtkWidget *vbox, *label, *sw;
   GtkCellRenderer *rend;
   GtkListItemFactory *factory;
+  GtkWidget *list;
+  GtkColumnViewColumn *column;
 
   shell = gtk_dialog_new_with_buttons(_("Edit worklists"),
                                       NULL,
@@ -368,7 +408,12 @@ static GtkWidget *create_worklists_report(void)
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))),
                  vbox);
 
-  worklists_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+  worklists_store_depr = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+  worklists_store = g_list_store_new(FC_TYPE_WLMETA_ROW);
+
+  worklists_selection = gtk_single_selection_new(G_LIST_MODEL(worklists_store));
+  list = gtk_column_view_new(GTK_SELECTION_MODEL(worklists_selection));
 
   factory = gtk_signal_list_item_factory_new();
   g_signal_connect(factory, "bind", G_CALLBACK(wlmeta_factory_bind),
@@ -376,20 +421,23 @@ static GtkWidget *create_worklists_report(void)
   g_signal_connect(factory, "setup", G_CALLBACK(wlmeta_factory_setup),
                    nullptr);
 
-  list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(worklists_store));
-  gtk_widget_set_hexpand(list, TRUE);
-  gtk_widget_set_vexpand(list, TRUE);
+  column = gtk_column_view_column_new(_("Name"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
 
-  g_object_unref(worklists_store);
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
+  list_depr = gtk_tree_view_new_with_model(GTK_TREE_MODEL(worklists_store_depr));
+  gtk_widget_set_hexpand(list_depr, TRUE);
+  gtk_widget_set_vexpand(list_depr, TRUE);
 
-  worklists_list = list;
+  g_object_unref(worklists_store_depr);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list_depr), FALSE);
+
+  worklists_list = list_depr;
 
   rend = gtk_cell_renderer_text_new();
   g_object_set(rend, "editable", TRUE, NULL);
   g_signal_connect(rend, "edited",
-                   G_CALLBACK(cell_edited), NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list), -1, NULL,
+                   G_CALLBACK(cell_edited_depr), NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list_depr), -1, NULL,
                                               rend, "text", 0, NULL);
 
   sw = gtk_scrolled_window_new();
@@ -397,7 +445,7 @@ static GtkWidget *create_worklists_report(void)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), list);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), list_depr);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
