@@ -5,6 +5,7 @@ SUBDIRS = man ca de fr it ja nl sv
 docs =				\
 	BUGS			\
 	CodingStyle		\
+	doxygen.md		\
 	FAQ			\
 	HACKING			\
 	INSTALL.Cygwin		\
