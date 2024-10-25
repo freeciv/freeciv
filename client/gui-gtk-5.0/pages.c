@@ -125,6 +125,28 @@ struct _FcHostClass
 
 G_DEFINE_TYPE(FcHostRow, fc_host_row, G_TYPE_OBJECT)
 
+
+#define FC_TYPE_PLR_ROW (fc_plr_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcPlrRow, fc_plr_row, FC, PLR_ROW, GObject)
+
+struct _FcPlrRow
+{
+  GObject parent_instance;
+
+  char *name;
+  char *type;
+  char *host;
+  char *nation;
+};
+
+struct _FcPlrClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcPlrRow, fc_plr_row, G_TYPE_OBJECT)
+
 /**********************************************************************//**
   Initialization method for FcHostRow class
 **************************************************************************/
@@ -150,6 +172,36 @@ static FcHostRow *fc_host_row_new(void)
   FcHostRow *result;
 
   result = g_object_new(FC_TYPE_HOST_ROW, nullptr);
+
+  return result;
+}
+#endif
+
+/**********************************************************************//**
+  Initialization method for FcPlrRow class
+**************************************************************************/
+static void
+fc_plr_row_class_init(FcPlrRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcPlrRow
+**************************************************************************/
+static void
+fc_plr_row_init(FcPlrRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcPlrRow creation method
+**************************************************************************/
+#if 0
+static FcPlrRow *fc_plr_row_new(void)
+{
+  FcPlrRow *result;
+
+  result = g_object_new(FC_TYPE_PLR_ROW, nullptr);
 
   return result;
 }
