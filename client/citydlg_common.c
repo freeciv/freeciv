@@ -1375,11 +1375,13 @@ void city_worklist_commit(struct city *pcity, struct worklist *pwl)
 static bool base_city_queue_insert(struct city *pcity, int position,
                                    struct universal *item)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (position == 0) {
     struct universal old = pcity->production;
 
     /* Insert as current production. */
-    if (!can_city_build_direct(&(wld.map), pcity, item)) {
+    if (!can_city_build_direct(nmap, pcity, item)) {
       return FALSE;
     }
 
@@ -1391,7 +1393,7 @@ static bool base_city_queue_insert(struct city *pcity, int position,
   } else if (position >= 1
              && position <= worklist_length(&pcity->worklist)) {
     /* Insert into middle. */
-    if (!can_city_build_later(pcity, item)) {
+    if (!can_city_build_later(nmap, pcity, item)) {
       return FALSE;
     }
     if (!worklist_insert(&pcity->worklist, item, position - 1)) {
@@ -1399,7 +1401,7 @@ static bool base_city_queue_insert(struct city *pcity, int position,
     }
   } else {
     /* Insert at end. */
-    if (!can_city_build_later(pcity, item)) {
+    if (!can_city_build_later(nmap, pcity, item)) {
       return FALSE;
     }
     if (!worklist_append(&pcity->worklist, item)) {
