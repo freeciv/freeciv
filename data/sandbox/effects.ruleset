@@ -483,7 +483,7 @@ reqs    =
       "Extra",         "River",     "Local", FALSE
     }
 
-; Big Land units can't escape movemement penalty via River
+; Big Land units can't escape movement penalty via River
 [effect_mountains_movement_big_on_river]
 type    = "Move_Bonus"
 value   = -1
