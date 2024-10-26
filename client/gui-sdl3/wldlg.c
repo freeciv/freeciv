@@ -687,7 +687,7 @@ static void add_global_worklist(struct widget *pwidget)
 
     /* Global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
-    if (!can_city_build_later(editor->pcity, &pworklist->entries[count])) {
+    if (!can_city_build_later(&(wld.map), editor->pcity, &pworklist->entries[count])) {
       continue;
     }
 
@@ -765,7 +765,7 @@ static void set_global_worklist(struct widget *pwidget)
   for (count = 0; count < worklist_length(pworklist); count++) {
     /* global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
-    if (!can_city_build_later(editor->pcity, &pworklist->entries[count])) {
+    if (!can_city_build_later(&(wld.map), editor->pcity, &pworklist->entries[count])) {
       continue;
     }
 

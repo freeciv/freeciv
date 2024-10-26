@@ -1028,11 +1028,10 @@ bool can_city_build_now(const struct civ_map *nmap,
 /**********************************************************************//**
   Returns whether city can ever build given target, unit or improvement. 
 **************************************************************************/
-bool can_city_build_later(const struct city *pcity,
+bool can_city_build_later(const struct civ_map *nmap,
+                          const struct city *pcity,
                           const struct universal *target)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   switch (target->kind) {
   case VUT_UTYPE:
     return can_city_build_unit_later(nmap, pcity, target->value.utype);
