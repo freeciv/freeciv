@@ -490,8 +490,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
       AC_MSG_WARN([for requested client 'gtk' enabled gtk3.22-client, that has changed since earlier versions and will change again in the future])
       gui_gtk3_22=yes
     else
-      if test ! -d "${srcdir}/client/gui-$gui" ; then
-        AC_MSG_ERROR(bad value ${gui} for --enable-client)
+      if test ! -d "${srcdir}/client/gui-$gui" || test "$gui" = "sdl3" ; then
+        AC_MSG_ERROR([bad value ${gui} for --enable-client])
       fi
       eval "gui_$gui=yes"
     fi
