@@ -263,6 +263,31 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
 }
 
 /**********************************************************************//**
+  Wlmeta table cell bind function
+**************************************************************************/
+static void preset_factory_bind(GtkSignalListItemFactory *self,
+                                GtkListItem *list_item,
+                                gpointer user_data)
+{
+  FcPresetRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  gtk_label_set_text(GTK_LABEL(child), row->desc);
+}
+
+/**********************************************************************//**
+  Wlmeta table cell setup function
+**************************************************************************/
+static void preset_factory_setup(GtkSignalListItemFactory *self,
+                                 GtkListItem *list_item,
+                                 gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
+/**********************************************************************//**
   Instantiates a new struct for each city_dialog window that is open.
 **************************************************************************/
 struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
@@ -273,6 +298,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   GtkWidget *sw, *hscale, *button;
   GtkListStore *store;
   GtkCellRenderer *rend;
+  GtkListItemFactory *factory;
   GtkWidget *view;
   GtkTreeViewColumn *column;
   gint layout_width;
@@ -308,6 +334,12 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   store = gtk_list_store_new(1, G_TYPE_STRING);
   pdialog->store = store;
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(preset_factory_bind),
+                   nullptr);
+  g_signal_connect(factory, "setup", G_CALLBACK(preset_factory_setup),
+                   nullptr);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(view, TRUE);
