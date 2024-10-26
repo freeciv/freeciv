@@ -6387,13 +6387,14 @@ struct act_prob action_prob_self(const struct civ_map *nmap,
 /**********************************************************************//**
   Returns the actor unit's probability of successfully performing the
   specified action against the action specific target.
-  @param paction the action to perform
-  @param act_unit the actor unit
-  @param tgt_city the target for city targeted actions
-  @param tgt_unit the target for unit targeted actions
-  @param tgt_tile the target for tile and unit stack targeted actions
-  @param extra_tgt the target for extra sub targeted actions
-  @return the action probability of performing the action
+  @param nmap      Map to consult
+  @param paction   The action to perform
+  @param act_unit  The actor unit
+  @param tgt_city  The target for city targeted actions
+  @param tgt_unit  The target for unit targeted actions
+  @param tgt_tile  The target for tile and unit stack targeted actions
+  @param extra_tgt The target for extra sub targeted actions
+  @return The action probability of performing the action
 **************************************************************************/
 struct act_prob action_prob_unit_vs_tgt(const struct civ_map *nmap,
                                         const struct action *paction,
