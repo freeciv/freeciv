@@ -7,10 +7,10 @@ AC_DEFUN([FC_GTK5_CLIENT],
 [
   if test "x$gui_gtk5" = "xyes" ||
      test "x$client" = "xall" || test "x$client" = "xauto" ; then
-    PKG_CHECK_MODULES([GTK5], [gtk4 >= 4.10.0],
+    PKG_CHECK_MODULES([GTK5], [gtk4 >= 4.14.0],
       [
         GTK5_CFLAGS="$GTK5_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_8"
-        GTK5_CFLAGS="$GTK5_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66"
+        GTK5_CFLAGS="$GTK5_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_76"
         gui_gtk5=yes
         if test "x$client" = "xauto" ; then
           client=yes
