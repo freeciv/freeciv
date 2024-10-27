@@ -270,10 +270,10 @@ static struct tile *rand_map_pos_characteristic(wetness_c wc,
 }
 
 /**********************************************************************//**
-  We don't want huge areas of hill/mountains,
-  so we put in a plains here and there, where it gets too 'heigh'
+  We don't want huge areas of hills/mountains,
+  so we put in a plains here and there, where it gets too 'high'
 
-  Return TRUE if the terrain at the given map position is too heigh.
+  Return TRUE if the terrain at the given map position is too high.
 **************************************************************************/
 static bool terrain_is_too_high(struct tile *ptile,
                                 int thill, int my_height)
