@@ -1153,6 +1153,8 @@ enablers = "\
 ; action               = the action to enable.\n\
 ; actor_reqs           = requirements that apply to the actor.\n\
 ; target_reqs          = requirements that apply to the target.\n\
+; comment              = Comment for the benefit to someone examining the ruleset\n\
+;                        Not used by freeciv any other way.\n\
 ;\n\
 ; README.actions lists the possible actions and their hard coded\n\
 ; requirements.\n\

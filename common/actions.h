@@ -167,9 +167,13 @@ struct action_enabler
   struct requirement_vector actor_reqs;
   struct requirement_vector target_reqs;
 
-  /* Only relevant for ruledit and other rulesave users. Indicates that
-   * this action enabler is deleted and shouldn't be saved. */
-  bool ruledit_disabled;
+  struct {
+    /* Only relevant for ruledit and other rulesave users. Indicates that
+     * this action enabler is deleted and shouldn't be saved. */
+    bool ruledit_disabled;
+
+    char *comment;
+  } rulesave;
 };
 
 #define action_has_result(_act_, _res_) ((_act_)->result == (_res_))
@@ -186,7 +190,7 @@ struct action_enabler
 
 #define action_enabler_list_re_iterate(action_enabler_list, aenabler) \
   action_enabler_list_iterate(action_enabler_list, aenabler) {        \
-    if (!aenabler->ruledit_disabled) {
+    if (!aenabler->rulesave.ruledit_disabled) {
 
 #define action_enabler_list_re_iterate_end                            \
     }                                                                 \

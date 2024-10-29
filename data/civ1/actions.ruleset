@@ -356,6 +356,8 @@ quiet_actions = "Enter Hut 2", "Unit Move"
 ; action               = the action to enable.
 ; actor_reqs           = requirements that apply to the actor.
 ; target_reqs          = requirements that apply to the target.
+; comment              = Comment for the benefit to someone examining the ruleset
+;                        Not used by freeciv any other way.
 ;
 ; README.actions lists the possible actions and their hard coded
 ; requirements.

@@ -1233,7 +1233,7 @@ static bool save_actions_ruleset(const char *filename, const char *name)
   action_enablers_iterate(pae) {
     char path[512];
 
-    if (pae->ruledit_disabled) {
+    if (pae->rulesave.ruledit_disabled) {
       continue;
     }
 
@@ -1244,6 +1244,10 @@ static bool save_actions_ruleset(const char *filename, const char *name)
 
     save_reqs_vector(sfile, &(pae->actor_reqs), path, "actor_reqs");
     save_reqs_vector(sfile, &(pae->target_reqs), path, "target_reqs");
+
+    if (pae->rulesave.comment != nullptr) {
+      secfile_insert_str(sfile, pae->rulesave.comment, "%s.comment", path);
+    }
   } action_enablers_iterate_end;
 
   return save_ruleset_file(sfile, filename);

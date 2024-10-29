@@ -260,7 +260,7 @@ static int ruleset_purge_unused_enablers(void)
       /* Make sure that all action enablers are disabled. */
       action_enabler_list_iterate(action_enablers_for_action(paction->id),
                                   ae) {
-        ae->ruledit_disabled = TRUE;
+        ae->rulesave.ruledit_disabled = TRUE;
         purged++;
       } action_enabler_list_iterate_end;
 
@@ -271,10 +271,10 @@ static int ruleset_purge_unused_enablers(void)
     /* Impossible requirement vector requirement. */
     action_enabler_list_iterate(action_enablers_for_action(paction->id),
                                 ae) {
-      if (!ae->ruledit_disabled
+      if (!ae->rulesave.ruledit_disabled
           && (!action_enabler_possible_actor(ae)
               || req_vec_is_impossible_to_fulfill(&ae->target_reqs))) {
-        ae->ruledit_disabled = TRUE;
+        ae->rulesave.ruledit_disabled = TRUE;
         purged++;
         log_normal("Purged unused action enabler for %s",
                    action_rule_name(paction));
@@ -443,7 +443,7 @@ static int ruleset_purge_redundant_reqs_enablers(void)
     /* Do the purging. */
     action_enabler_list_iterate(action_enablers_for_action(paction->id),
                                 ae) {
-      while (!ae->ruledit_disabled
+      while (!ae->rulesave.ruledit_disabled
              && (purge_redundant_req_vec(&ae->actor_reqs, actor_reqs)
                  || purge_redundant_req_vec(&ae->target_reqs,
                                             target_reqs))) {
@@ -7868,6 +7868,7 @@ static bool load_ruleset_actions(struct section_file *file,
         struct requirement_vector *actor_reqs;
         struct requirement_vector *target_reqs;
         const char *action_text;
+        const char *comment;
 
         enabler = action_enabler_new();
 
@@ -7907,6 +7908,11 @@ static bool load_ruleset_actions(struct section_file *file,
         }
 
         requirement_vector_copy(&enabler->target_reqs, target_reqs);
+
+        comment = secfile_lookup_str(file, "%s.comment", sec_name);
+        if (comment != nullptr) {
+          enabler->rulesave.comment = fc_strdup(comment);
+        }
 
         action_enabler_add(enabler);
       } section_list_iterate_end;

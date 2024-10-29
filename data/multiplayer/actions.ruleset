@@ -440,6 +440,8 @@ quiet_actions = "Transport Disembark 2", "Conquer City Shrink 2", "Enter Hut 2",
 ; action               = the action to enable.
 ; actor_reqs           = requirements that apply to the actor.
 ; target_reqs          = requirements that apply to the target.
+; comment              = Comment for the benefit to someone examining the ruleset
+;                        Not used by freeciv any other way.
 ;
 ; README.actions lists the possible actions and their hard coded
 ; requirements.
