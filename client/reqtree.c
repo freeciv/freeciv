@@ -230,7 +230,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
 
 /*********************************************************************//**
   Move nodes up and down without changing order but making it more 
-  symetrical. Gravitate towards parents average position.
+  symmetrical. Gravitate towards parents average position.
 *************************************************************************/
 static void symmetrize(struct reqtree* tree)
 {
@@ -374,7 +374,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
     }
   }
 
-  /* The symetrize() function moves node by one pixel per call */
+  /* The symmetrize() function moves node by one pixel per call */
   for (i = 0; i < tree->diagram_height; i++) {
     symmetrize(tree);
   }

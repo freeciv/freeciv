@@ -216,7 +216,7 @@ static bool dai_players_can_agree_on_ceasefire(struct ai_type *ait,
 
 /******************************************************************//**
   Calculate a price of a tech.
-  Note that both AI players always evaluate the tech worth symetrically
+  Note that both AI players always evaluate the tech worth symmetrically
   This eases tech exchange.
   is_dangerous returns ig the giver is afraid of giving that tech
   (the taker should evaluate it normally, but giver should never give that)
