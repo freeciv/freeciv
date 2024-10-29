@@ -4580,7 +4580,7 @@ action_prob(const struct civ_map *nmap,
             const struct req_context *target,
             const struct extra_type *target_extra)
 {
-  int known;
+  enum fc_tristate known;
   struct act_prob chance;
   const struct action *paction = action_by_number(wanted_action);
 
