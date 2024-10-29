@@ -3982,15 +3982,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   punit->action_decision_tile = NULL;
   punit->action_decision_want = ACT_DEC_NOTHING;
 
-  if (!adj && action_tgt_city(punit, pdesttile, FALSE)) {
-    /* The unit can perform an action to the city at the destination tile.
-     * A long distance move (like an airlift) doesn't ask what action to
-     * perform before moving. Ask now. */
-
-    punit->action_decision_want = ACT_DEC_PASSIVE;
-    punit->action_decision_tile = pdesttile;
-  }
-
   /* Claim ownership of fortress? */
   if (conquer_extras_allowed
       && tile_has_claimable_base(pdesttile, unit_type_get(punit))) {
@@ -4025,6 +4016,15 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
     if (new_information_for_enemy) {
       increase_timeout_because_unit_moved();
     }
+  }
+
+  if (!adj && action_tgt_city(punit, pdesttile, FALSE)) {
+    /* The unit can perform an action to the city at the destination tile.
+     * A long distance move (like an airlift) doesn't ask what action to
+     * perform before moving. Ask now. */
+
+    punit->action_decision_want = ACT_DEC_PASSIVE;
+    punit->action_decision_tile = pdesttile;
   }
 
   /* Notifications of the move to the clients. */
