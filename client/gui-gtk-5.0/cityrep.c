@@ -235,6 +235,31 @@ static void get_city_table_header(char **text, int n)
                         CITY REPORT DIALOG
 ****************************************************************************/
 
+/**********************************************************************//**
+  Cityreport table cell bind function
+**************************************************************************/
+static void crep_factory_bind(GtkSignalListItemFactory *self,
+                              GtkListItem *list_item,
+                              gpointer user_data)
+{
+  FcCrepRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  gtk_label_set_text(GTK_LABEL(child), row->columns[GPOINTER_TO_INT(user_data)]);
+}
+
+/**********************************************************************//**
+  Cityreport table cell setup function
+**************************************************************************/
+static void crep_factory_setup(GtkSignalListItemFactory *self,
+                               GtkListItem *list_item,
+                               gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
 /************************************************************************//**
   Returns a new tree model for the city report.
 ****************************************************************************/
@@ -1295,15 +1320,23 @@ static void create_city_report_dialog(bool make_modal)
                             _("Cen_ter"), CITY_CENTER);
   city_center_command = w;
 
+  city_model = city_report_dialog_store_new();
+
   /* Tree view */
   buf = fc_realloc(buf, NUM_CREPORT_COLS * sizeof(buf[0]));
   titles = fc_realloc(titles, NUM_CREPORT_COLS * sizeof(titles[0]));
   for (i = 0; i < NUM_CREPORT_COLS; i++) {
+    GtkListItemFactory *factory;
+
     titles[i] = buf[i];
+
+    factory = gtk_signal_list_item_factory_new();
+    g_signal_connect(factory, "bind", G_CALLBACK(crep_factory_bind),
+                     GINT_TO_POINTER(i));
+    g_signal_connect(factory, "setup", G_CALLBACK(crep_factory_setup),
+                     GINT_TO_POINTER(i));
   }
   get_city_table_header(titles, sizeof(buf[0]));
-
-  city_model = city_report_dialog_store_new();
 
   city_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(city_model));
   gtk_widget_set_hexpand(city_view, TRUE);
