@@ -70,8 +70,8 @@ static void reset_global_worklist(GtkWidget *editor,
                                   struct global_worklist *pgwl);
 static void popup_worklist(struct global_worklist *pgwl);
 static void popdown_worklist(struct global_worklist *pgwl);
-static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
-                             GtkTreeViewColumn *col, gpointer data);
+static void dst_row_callback_depr(GtkTreeView *view, GtkTreePath *path,
+                                  GtkTreeViewColumn *col, gpointer data);
 
 #define FC_TYPE_WORKLIST_ROW (fc_worklist_row_get_type())
 
@@ -435,12 +435,12 @@ struct worklist_data {
 
   GtkWidget *editor;
 
-  GtkListStore *src, *dst;
-  GtkWidget *src_view, *dst_view;
+  GtkListStore *src_depr, *dst_depr;
+  GtkWidget *src_view_depr, *dst_view_depr;
   GMenu *menu;
   int menu_size;
   GActionGroup *group;
-  GtkTreeSelection *src_selection, *dst_selection;
+  GtkTreeSelection *src_selection_depr, *dst_selection_depr;
 
   GtkTreeViewColumn *src_col, *dst_col;
 
@@ -602,8 +602,8 @@ static void menu_item_callback(GSimpleAction *action, GVariant *parameter,
 
     id = cid_encode(pwl->entries[i]);
 
-    gtk_list_store_append(ptr->dst, &it);
-    gtk_list_store_set(ptr->dst, &it, 0, (gint)id,
+    gtk_list_store_append(ptr->dst_depr, &it);
+    gtk_list_store_set(ptr->dst_depr, &it, 0, (gint)id,
                        1, production_help(&(pwl->entries[i]),
                                           buf, sizeof(buf)), -1);
   }
@@ -697,14 +697,14 @@ static void wl_help_from_iter(GtkTreeModel *model, GtkTreeIter *it)
 static void help_callback(GtkWidget *w, gpointer data)
 {
   struct worklist_data *ptr;
-  GtkTreeSelection *selection;
+  GtkTreeSelection *selection_depr;
   GtkTreeModel *model;
   GtkTreeIter it;
 
   ptr = data;
-  selection = ptr->src_selection;
+  selection_depr = ptr->src_selection_depr;
 
-  if (gtk_tree_selection_get_selected(selection, &model, &it)) {
+  if (gtk_tree_selection_get_selected(selection_depr, &model, &it)) {
     wl_help_from_iter(model, &it);
   } else {
     popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
@@ -717,14 +717,14 @@ static void help_callback(GtkWidget *w, gpointer data)
 static void change_callback(GtkWidget *w, gpointer data)
 {
   struct worklist_data *ptr;
-  GtkTreeSelection *selection;
+  GtkTreeSelection *selection_depr;
   GtkTreeModel *model;
   GtkTreeIter it;
 
   ptr = data;
-  selection = ptr->src_selection;
+  selection_depr = ptr->src_selection_depr;
 
-  if (gtk_tree_selection_get_selected(selection, &model, &it)) {
+  if (gtk_tree_selection_get_selected(selection_depr, &model, &it)) {
     gint id;
     struct universal univ;
 
@@ -756,12 +756,12 @@ static void queue_bubble_up(struct worklist_data *ptr)
   GtkTreeViewColumn *col;
   GtkTreeModel *model;
 
-  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view_depr)) {
     return;
   }
 
-  model = GTK_TREE_MODEL(ptr->dst);
-  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view), &path, &col);
+  model = GTK_TREE_MODEL(ptr->dst_depr);
+  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view_depr), &path, &col);
   if (path) {
     GtkTreeIter it, it_prev;
 
@@ -772,7 +772,7 @@ static void queue_bubble_up(struct worklist_data *ptr)
 
       gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_prev);
 
-      gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->dst_view), path, col, FALSE);
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->dst_view_depr), path, col, FALSE);
       commit_worklist(ptr);
     }
   }
@@ -787,9 +787,9 @@ static void queue_remove(struct worklist_data *ptr)
   GtkTreePath *path;
   GtkTreeViewColumn *col;
 
-  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view), &path, &col);
+  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view_depr), &path, &col);
   if (path) {
-    dst_row_callback(GTK_TREE_VIEW(ptr->dst_view), path, col, ptr);
+    dst_row_callback_depr(GTK_TREE_VIEW(ptr->dst_view_depr), path, col, ptr);
     gtk_tree_path_free(path);
   }
 }
@@ -803,12 +803,12 @@ static void queue_bubble_down(struct worklist_data *ptr)
   GtkTreeViewColumn *col;
   GtkTreeModel *model;
 
-  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view_depr)) {
     return;
   }
 
-  model = GTK_TREE_MODEL(ptr->dst);
-  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view), &path, &col);
+  model = GTK_TREE_MODEL(ptr->dst_depr);
+  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view_depr), &path, &col);
   if (path) {
     GtkTreeIter it, it_next;
 
@@ -818,7 +818,7 @@ static void queue_bubble_down(struct worklist_data *ptr)
       gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_next);
 
       gtk_tree_path_next(path);
-      gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->dst_view), path, col, FALSE);
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->dst_view_depr), path, col, FALSE);
       commit_worklist(ptr);
     }
   }
@@ -833,37 +833,37 @@ static void queue_insert(struct worklist_data *ptr, bool prepend)
   GtkTreeModel *model;
   GtkTreeIter it;
   GtkTreePath *path;
-  GtkTreeModel *src_model, *dst_model;
+  GtkTreeModel *src_model_depr, *dst_model_depr;
   GtkTreeIter src_it, dst_it;
   gint i, ncols;
 
-  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view_depr)) {
     return;
   }
 
-  if (!gtk_tree_selection_get_selected(ptr->src_selection, &model, &it)) {
+  if (!gtk_tree_selection_get_selected(ptr->src_selection_depr, &model, &it)) {
     return;
   }
 
   path = gtk_tree_model_get_path(model, &it);
 
-  src_model = GTK_TREE_MODEL(ptr->src);
-  dst_model = GTK_TREE_MODEL(ptr->dst);
+  src_model_depr = GTK_TREE_MODEL(ptr->src_depr);
+  dst_model_depr = GTK_TREE_MODEL(ptr->dst_depr);
 
-  gtk_tree_model_get_iter(src_model, &src_it, path);
+  gtk_tree_model_get_iter(src_model_depr, &src_it, path);
   if (prepend) {
-    gtk_list_store_prepend(GTK_LIST_STORE(dst_model), &dst_it);
+    gtk_list_store_prepend(GTK_LIST_STORE(dst_model_depr), &dst_it);
   } else {
-    gtk_list_store_append(GTK_LIST_STORE(dst_model), &dst_it);
+    gtk_list_store_append(GTK_LIST_STORE(dst_model_depr), &dst_it);
   }
 
-  ncols = gtk_tree_model_get_n_columns(src_model);
+  ncols = gtk_tree_model_get_n_columns(src_model_depr);
 
   for (i = 0; i < ncols; i++) {
     GValue value = { 0, };
 
-    gtk_tree_model_get_value(src_model, &src_it, i, &value);
-    gtk_list_store_set_value(GTK_LIST_STORE(dst_model), &dst_it, i, &value);
+    gtk_tree_model_get_value(src_model_depr, &src_it, i, &value);
+    gtk_list_store_set_value(GTK_LIST_STORE(dst_model_depr), &dst_it, i, &value);
   }
   commit_worklist(ptr);
 
@@ -889,33 +889,33 @@ static void queue_append(struct worklist_data *ptr)
 /************************************************************************//**
   Source row activated
 ****************************************************************************/
-static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
-                             GtkTreeViewColumn *col, gpointer data)
+static void src_row_callback_depr(GtkTreeView *view, GtkTreePath *path,
+                                  GtkTreeViewColumn *col, gpointer data)
 {
   struct worklist_data *ptr;
-  GtkTreeModel *src_model, *dst_model;
+  GtkTreeModel *src_model_depr, *dst_model_depr;
   GtkTreeIter src_it, dst_it;
   gint i, ncols;
 
   ptr = data;
 
-  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view_depr)) {
     return;
   }
 
-  src_model = GTK_TREE_MODEL(ptr->src);
-  dst_model = GTK_TREE_MODEL(ptr->dst);
+  src_model_depr = GTK_TREE_MODEL(ptr->src_depr);
+  dst_model_depr = GTK_TREE_MODEL(ptr->dst_depr);
 
-  gtk_tree_model_get_iter(src_model, &src_it, path);
-  gtk_list_store_append(GTK_LIST_STORE(dst_model), &dst_it);
+  gtk_tree_model_get_iter(src_model_depr, &src_it, path);
+  gtk_list_store_append(GTK_LIST_STORE(dst_model_depr), &dst_it);
 
-  ncols = gtk_tree_model_get_n_columns(src_model);
+  ncols = gtk_tree_model_get_n_columns(src_model_depr);
 
   for (i = 0; i < ncols; i++) {
     GValue value = { 0, };
 
-    gtk_tree_model_get_value(src_model, &src_it, i, &value);
-    gtk_list_store_set_value(GTK_LIST_STORE(dst_model), &dst_it, i, &value);
+    gtk_tree_model_get_value(src_model_depr, &src_it, i, &value);
+    gtk_list_store_set_value(GTK_LIST_STORE(dst_model_depr), &dst_it, i, &value);
   }
   commit_worklist(ptr);
 }
@@ -923,19 +923,19 @@ static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
 /************************************************************************//**
   Destination row activated
 ****************************************************************************/
-static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
-                             GtkTreeViewColumn *col, gpointer data)
+static void dst_row_callback_depr(GtkTreeView *view, GtkTreePath *path,
+                                  GtkTreeViewColumn *col, gpointer data)
 {
   struct worklist_data *ptr;
-  GtkTreeModel *dst_model;
+  GtkTreeModel *dst_model_depr;
   GtkTreeIter it;
 
   ptr = data;
-  dst_model = GTK_TREE_MODEL(ptr->dst);
+  dst_model_depr = GTK_TREE_MODEL(ptr->dst_depr);
 
-  gtk_tree_model_get_iter(dst_model, &it, path);
+  gtk_tree_model_get_iter(dst_model_depr, &it, path);
 
-  gtk_list_store_remove(GTK_LIST_STORE(dst_model), &it);
+  gtk_list_store_remove(GTK_LIST_STORE(dst_model_depr), &it);
   commit_worklist(ptr);
 }
 
@@ -950,7 +950,7 @@ static gboolean src_key_press_callback(GtkEventControllerKey *controller,
 
   ptr = data;
 
-  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view_depr)) {
     return FALSE;
   }
 
@@ -972,25 +972,25 @@ static gboolean dst_key_press_callback(GtkEventControllerKey *controller,
                                        guint keyval, guint keycode,
                                        GdkModifierType state, gpointer data)
 {
-  GtkTreeModel *model;
+  GtkTreeModel *model_depr;
   struct worklist_data *ptr;
 
   ptr = data;
-  model = GTK_TREE_MODEL(ptr->dst);
+  model_depr = GTK_TREE_MODEL(ptr->dst_depr);
 
   if (keyval == GDK_KEY_Delete) {
     GtkTreeIter it, it_next;
     bool deleted = FALSE;
 
-    if (gtk_tree_model_get_iter_first(model, &it)) {
+    if (gtk_tree_model_get_iter_first(model_depr, &it)) {
       bool more;
 
       do {
         it_next = it;
-        more = gtk_tree_model_iter_next(model, &it_next);
+        more = gtk_tree_model_iter_next(model_depr, &it_next);
 
-        if (gtk_tree_selection_iter_is_selected(ptr->dst_selection, &it)) {
-          gtk_list_store_remove(GTK_LIST_STORE(model), &it);
+        if (gtk_tree_selection_iter_is_selected(ptr->dst_selection_depr, &it)) {
+          gtk_list_store_remove(GTK_LIST_STORE(model_depr), &it);
           deleted = TRUE;
         }
         it = it_next;
@@ -1019,7 +1019,7 @@ static gboolean dst_key_press_callback(GtkEventControllerKey *controller,
 /************************************************************************//**
   Selection from source
 ****************************************************************************/
-static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
+static void src_selection_callback_depr(GtkTreeSelection *selection, gpointer data)
 {
   struct worklist_data *ptr;
 
@@ -1050,7 +1050,7 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
 /************************************************************************//**
   Selection from destination
 ****************************************************************************/
-static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
+static void dst_selection_callback_depr(GtkTreeSelection *selection, gpointer data)
 {
   struct worklist_data *ptr;
 
@@ -1063,10 +1063,10 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
 
     gtk_widget_set_sensitive(ptr->up_cmd, TRUE);
     gtk_widget_set_sensitive(ptr->down_cmd, TRUE);
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ptr->dst), &it)) {
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ptr->dst_depr), &it)) {
       do {
         num_rows++;
-      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(ptr->dst), &it));
+      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(ptr->dst_depr), &it));
     }
     if (num_rows > 1) {
       gtk_widget_set_sensitive(ptr->remove_cmd, TRUE);
@@ -1240,8 +1240,8 @@ static gboolean drag_drop(GtkDropTarget *target, const GValue *value,
   struct universal univ;
 
   univ = cid_production(id);
-  gtk_list_store_append(ptr->dst, &it);
-  gtk_list_store_set(ptr->dst, &it, 0, id, 1,
+  gtk_list_store_append(ptr->dst_depr, &it);
+  gtk_list_store_set(ptr->dst_depr, &it, 0, id, 1,
                      production_help(&univ, buf, sizeof(buf)), -1);
 
   commit_worklist(ptr);
@@ -1280,12 +1280,12 @@ static void worklist_factory_setup(GtkSignalListItemFactory *self,
 GtkWidget *create_worklist(void)
 {
   GtkWidget *editor, *table, *sw, *bbox;
-  GtkWidget *src_view, *dst_view, *label, *button;
+  GtkWidget *src_view_depr, *dst_view_depr, *label, *button;
   GtkWidget *aux_menu;
   GMenu *menu;
   GtkWidget *table2, *arrow, *check;
   GtkSizeGroup *sgroup;
-  GtkListStore *src_store, *dst_store;
+  GtkListStore *src_store_depr, *dst_store_depr;
   GtkListItemFactory *factory;
   struct worklist_data *ptr;
   int editor_row = 0;
@@ -1295,13 +1295,13 @@ GtkWidget *create_worklist(void)
 
   ptr = fc_malloc(sizeof(*ptr));
 
-  src_store = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
-  dst_store = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
+  src_store_depr = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
+  dst_store_depr = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
 
   ptr->global_worklist_id = -1;
   ptr->pcity = NULL;
-  ptr->src = src_store;
-  ptr->dst = dst_store;
+  ptr->src_depr = src_store_depr;
+  ptr->dst_depr = dst_store_depr;
   ptr->future = FALSE;
 
   factory = gtk_signal_list_item_factory_new();
@@ -1332,27 +1332,27 @@ GtkWidget *create_worklist(void)
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_grid_attach(GTK_GRID(table), sw, 3, 1, 2, 1);
 
-  src_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(src_store));
-  gtk_widget_set_hexpand(src_view, TRUE);
-  gtk_widget_set_vexpand(src_view, TRUE);
-  g_object_unref(src_store);
-  gtk_size_group_add_widget(sgroup, src_view);
-  gtk_widget_set_name(src_view, "small_font");
-  gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(src_view), 1);
+  src_view_depr = gtk_tree_view_new_with_model(GTK_TREE_MODEL(src_store_depr));
+  gtk_widget_set_hexpand(src_view_depr, TRUE);
+  gtk_widget_set_vexpand(src_view_depr, TRUE);
+  g_object_unref(src_store_depr);
+  gtk_size_group_add_widget(sgroup, src_view_depr);
+  gtk_widget_set_name(src_view_depr, "small_font");
+  gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(src_view_depr), 1);
 
   gesture = gtk_gesture_click_new();
   gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
   controller = GTK_EVENT_CONTROLLER(gesture);
   g_signal_connect(controller, "pressed",
                    G_CALLBACK(wl_right_button_up), NULL);
-  gtk_widget_add_controller(src_view, controller);
+  gtk_widget_add_controller(src_view_depr, controller);
 
-  populate_view(GTK_TREE_VIEW(src_view), &ptr->pcity, &ptr->src_col);
-  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), src_view);
+  populate_view(GTK_TREE_VIEW(src_view_depr), &ptr->pcity, &ptr->src_col);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), src_view_depr);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
-                       "mnemonic-widget", src_view,
+                       "mnemonic-widget", src_view_depr,
                        "label", _("Source _Tasks:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_grid_attach(GTK_GRID(table), label, 3, 0, 1, 1);
@@ -1431,27 +1431,27 @@ GtkWidget *create_worklist(void)
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_grid_attach(GTK_GRID(table), sw, 0, 1, 2, 1);
 
-  dst_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(dst_store));
-  gtk_widget_set_hexpand(dst_view, TRUE);
-  gtk_widget_set_vexpand(dst_view, TRUE);
-  g_object_unref(dst_store);
-  gtk_size_group_add_widget(sgroup, dst_view);
-  gtk_widget_set_name(dst_view, "small_font");
-  gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(dst_view), 1);
+  dst_view_depr = gtk_tree_view_new_with_model(GTK_TREE_MODEL(dst_store_depr));
+  gtk_widget_set_hexpand(dst_view_depr, TRUE);
+  gtk_widget_set_vexpand(dst_view_depr, TRUE);
+  g_object_unref(dst_store_depr);
+  gtk_size_group_add_widget(sgroup, dst_view_depr);
+  gtk_widget_set_name(dst_view_depr, "small_font");
+  gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(dst_view_depr), 1);
 
   gesture = gtk_gesture_click_new();
   gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
   controller = GTK_EVENT_CONTROLLER(gesture);
   g_signal_connect(controller, "pressed",
                    G_CALLBACK(wl_right_button_up), NULL);
-  gtk_widget_add_controller(dst_view, controller);
+  gtk_widget_add_controller(dst_view_depr, controller);
 
-  populate_view(GTK_TREE_VIEW(dst_view), &ptr->pcity, &ptr->dst_col);
-  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), dst_view);
+  populate_view(GTK_TREE_VIEW(dst_view_depr), &ptr->pcity, &ptr->dst_col);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), dst_view_depr);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
-                       "mnemonic-widget", dst_view,
+                       "mnemonic-widget", dst_view_depr,
                        "label", _("Target _Worklist:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
@@ -1484,40 +1484,40 @@ GtkWidget *create_worklist(void)
   ptr->change_cmd = button;
   gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
 
-  ptr->src_view = src_view;
-  ptr->dst_view = dst_view;
-  ptr->src_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(src_view));
-  ptr->dst_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dst_view));
-  gtk_tree_selection_set_mode(ptr->dst_selection, GTK_SELECTION_MULTIPLE);
+  ptr->src_view_depr = src_view_depr;
+  ptr->dst_view_depr = dst_view_depr;
+  ptr->src_selection_depr = gtk_tree_view_get_selection(GTK_TREE_VIEW(src_view_depr));
+  ptr->dst_selection_depr = gtk_tree_view_get_selection(GTK_TREE_VIEW(dst_view_depr));
+  gtk_tree_selection_set_mode(ptr->dst_selection_depr, GTK_SELECTION_MULTIPLE);
 
   /* DND and other state changing callbacks. */
-  gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view), TRUE);
+  gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view_depr), TRUE);
 
   dnd_tgt = gtk_drop_target_new(G_TYPE_INT, GDK_ACTION_COPY);
 
   g_signal_connect(dnd_tgt, "drop", G_CALLBACK(drag_drop), ptr);
-  gtk_widget_add_controller(GTK_WIDGET(dst_view), GTK_EVENT_CONTROLLER(dnd_tgt));
+  gtk_widget_add_controller(GTK_WIDGET(dst_view_depr), GTK_EVENT_CONTROLLER(dnd_tgt));
 
   controller = gtk_event_controller_key_new();
   g_signal_connect(controller, "key-pressed",
                    G_CALLBACK(src_key_press_callback), ptr);
-  gtk_widget_add_controller(src_view, controller);
+  gtk_widget_add_controller(src_view_depr, controller);
 
   controller = gtk_event_controller_key_new();
   g_signal_connect(controller, "key-pressed",
                    G_CALLBACK(dst_key_press_callback), ptr);
-  gtk_widget_add_controller(dst_view, controller);
+  gtk_widget_add_controller(dst_view_depr, controller);
 
-  g_signal_connect(src_view, "row_activated",
-                   G_CALLBACK(src_row_callback), ptr);
+  g_signal_connect(src_view_depr, "row_activated",
+                   G_CALLBACK(src_row_callback_depr), ptr);
 
-  g_signal_connect(dst_view, "row_activated",
-                   G_CALLBACK(dst_row_callback), ptr);
+  g_signal_connect(dst_view_depr, "row_activated",
+                   G_CALLBACK(dst_row_callback_depr), ptr);
 
-  g_signal_connect(ptr->src_selection, "changed",
-                   G_CALLBACK(src_selection_callback), ptr);
-  g_signal_connect(ptr->dst_selection, "changed",
-                   G_CALLBACK(dst_selection_callback), ptr);
+  g_signal_connect(ptr->src_selection_depr, "changed",
+                   G_CALLBACK(src_selection_callback_depr), ptr);
+  g_signal_connect(ptr->dst_selection_depr, "changed",
+                   G_CALLBACK(dst_selection_callback_depr), ptr);
 
 
   gtk_widget_set_visible(table, TRUE);
@@ -1536,11 +1536,11 @@ static GdkContentProvider *drag_prepare(GtkDragSource *source,
   GtkTreeIter it;
   struct worklist_data *ptr = (struct worklist_data *)data;
 
-  if (gtk_tree_selection_get_selected(ptr->src_selection, NULL, &it)) {
+  if (gtk_tree_selection_get_selected(ptr->src_selection_depr, NULL, &it)) {
     gint id;
     GdkContentProvider *provider;
 
-    gtk_tree_model_get(GTK_TREE_MODEL(ptr->src), &it, 0, &id, -1);
+    gtk_tree_model_get(GTK_TREE_MODEL(ptr->src_depr), &it, 0, &id, -1);
 
     provider = gdk_content_provider_new_typed(G_TYPE_INT, id);
 
@@ -1603,8 +1603,8 @@ void reset_city_worklist(GtkWidget *editor, struct city *pcity)
   ptr->global_worklist_id = -1;
   ptr->pcity = pcity;
 
-  gtk_list_store_clear(ptr->src);
-  gtk_list_store_clear(ptr->dst);
+  gtk_list_store_clear(ptr->src_depr);
+  gtk_list_store_clear(ptr->dst_depr);
 
   g_object_set(ptr->src_col, "visible", TRUE, NULL);
   g_object_set(ptr->dst_col, "visible", TRUE, NULL);
@@ -1614,7 +1614,7 @@ void reset_city_worklist(GtkWidget *editor, struct city *pcity)
   g_signal_connect(dnd_src, "prepare", G_CALLBACK(drag_prepare), ptr);
   g_signal_connect(dnd_src, "drag-begin", G_CALLBACK(drag_begin), ptr);
 
-  gtk_widget_add_controller(GTK_WIDGET(ptr->src_view),
+  gtk_widget_add_controller(GTK_WIDGET(ptr->src_view_depr),
                             GTK_EVENT_CONTROLLER(dnd_src));
 }
 
@@ -1631,14 +1631,14 @@ static void reset_global_worklist(GtkWidget *editor,
   ptr->global_worklist_id = global_worklist_id(pgwl);
   ptr->pcity = nullptr;
 
-  gtk_list_store_clear(ptr->src);
-  gtk_list_store_clear(ptr->dst);
+  gtk_list_store_clear(ptr->src_depr);
+  gtk_list_store_clear(ptr->dst_depr);
 
   gtk_widget_set_visible(ptr->change_cmd, FALSE);
   g_object_set(ptr->src_col, "visible", FALSE, NULL);
   g_object_set(ptr->dst_col, "visible", FALSE, NULL);
 
-  gtk_tree_view_unset_rows_drag_source(GTK_TREE_VIEW(ptr->src_view));
+  gtk_tree_view_unset_rows_drag_source(GTK_TREE_VIEW(ptr->src_view_depr));
 }
 
 /************************************************************************//**
@@ -1655,14 +1655,14 @@ void refresh_worklist(GtkWidget *editor)
   gint id;
   GtkTreeIter it;
   GtkTreePath *path;
-  GtkTreeModel *model;
+  GtkTreeModel *model_depr;
   gboolean exists;
 
   ptr = g_object_get_data(G_OBJECT(editor), "data");
 
   /* Refresh source tasks. */
-  if (gtk_tree_selection_get_selected(ptr->src_selection, NULL, &it)) {
-    gtk_tree_model_get(GTK_TREE_MODEL(ptr->src), &it, 0, &id, -1);
+  if (gtk_tree_selection_get_selected(ptr->src_selection_depr, NULL, &it)) {
+    gtk_tree_model_get(GTK_TREE_MODEL(ptr->src_depr), &it, 0, &id, -1);
     selected = TRUE;
   } else {
     selected = FALSE;
@@ -1677,27 +1677,27 @@ void refresh_worklist(GtkWidget *editor)
   /* Re-purpose existing items in the list store -- this avoids the
    * UI jumping around (especially as the set of source tasks doesn't
    * actually change much in practice). */
-  model = GTK_TREE_MODEL(ptr->src);
-  exists = gtk_tree_model_get_iter_first(model, &it);
+  model_depr = GTK_TREE_MODEL(ptr->src_depr);
+  exists = gtk_tree_model_get_iter_first(model_depr, &it);
 
   path = NULL;
   for (i = 0; i < targets_used; i++) {
     char buf[8192];
 
     if (!exists) {
-      gtk_list_store_append(ptr->src, &it);
+      gtk_list_store_append(ptr->src_depr, &it);
     }
 
-    gtk_list_store_set(ptr->src, &it, 0, (gint)cid_encode(items[i].item),
+    gtk_list_store_set(ptr->src_depr, &it, 0, (gint)cid_encode(items[i].item),
                        1, production_help(&(items[i].item),
                                           buf, sizeof(buf)), -1);
 
     if (selected && cid_encode(items[i].item) == id) {
-      path = gtk_tree_model_get_path(GTK_TREE_MODEL(ptr->src), &it);
+      path = gtk_tree_model_get_path(GTK_TREE_MODEL(ptr->src_depr), &it);
     }
 
     if (exists) {
-      exists = gtk_tree_model_iter_next(model, &it);
+      exists = gtk_tree_model_iter_next(model_depr, &it);
     }
   }
 
@@ -1708,22 +1708,22 @@ void refresh_worklist(GtkWidget *editor)
 
     do {
       it_next = it;
-      more = gtk_tree_model_iter_next(model, &it_next);
+      more = gtk_tree_model_iter_next(model_depr, &it_next);
 
-      gtk_list_store_remove(ptr->src, &it);
+      gtk_list_store_remove(ptr->src_depr, &it);
       it = it_next;
     } while (more);
   }
 
   /* Select the same item that was previously selected, if any. */
   if (path) {
-    gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->src_view), path, NULL, FALSE);
+    gtk_tree_view_set_cursor(GTK_TREE_VIEW(ptr->src_view_depr), path, NULL, FALSE);
     gtk_tree_path_free(path);
   }
 
   /* Refresh target worklist. */
-  model = GTK_TREE_MODEL(ptr->dst);
-  exists = gtk_tree_model_get_iter_first(model, &it);
+  model_depr = GTK_TREE_MODEL(ptr->dst_depr);
+  exists = gtk_tree_model_get_iter_first(model_depr, &it);
 
   /* Dance around worklist braindamage. */
   if (ptr->pcity != NULL) {
@@ -1743,15 +1743,15 @@ void refresh_worklist(GtkWidget *editor)
     char buf[8192];
 
     if (!exists) {
-      gtk_list_store_append(ptr->dst, &it);
+      gtk_list_store_append(ptr->dst_depr, &it);
     }
 
-    gtk_list_store_set(ptr->dst, &it, 0, (gint)cid_encode(target),
+    gtk_list_store_set(ptr->dst_depr, &it, 0, (gint)cid_encode(target),
                        1, production_help(&target,
                                           buf, sizeof(buf)), -1);
 
     if (exists) {
-      exists = gtk_tree_model_iter_next(model, &it);
+      exists = gtk_tree_model_iter_next(model_depr, &it);
     }
   }
 
@@ -1761,9 +1761,9 @@ void refresh_worklist(GtkWidget *editor)
 
     do {
       it_next = it;
-      more = gtk_tree_model_iter_next(model, &it_next);
+      more = gtk_tree_model_iter_next(model_depr, &it_next);
 
-      gtk_list_store_remove(ptr->dst, &it);
+      gtk_list_store_remove(ptr->dst_depr, &it);
       it = it_next;
     } while (more);
   }
@@ -1774,12 +1774,12 @@ void refresh_worklist(GtkWidget *editor)
   if (ptr->pcity) {
     if ((can_client_issue_orders()
          && city_owner(ptr->pcity) == client.conn.playing)) {
-      gtk_widget_set_sensitive(ptr->dst_view, TRUE);
+      gtk_widget_set_sensitive(ptr->dst_view_depr, TRUE);
     } else {
-      gtk_widget_set_sensitive(ptr->dst_view, FALSE);
+      gtk_widget_set_sensitive(ptr->dst_view_depr, FALSE);
     }
   } else {
-    gtk_widget_set_sensitive(ptr->dst_view, TRUE);
+    gtk_widget_set_sensitive(ptr->dst_view_depr, TRUE);
   }
 }
 
@@ -1789,16 +1789,16 @@ void refresh_worklist(GtkWidget *editor)
 static void commit_worklist(struct worklist_data *ptr)
 {
   struct worklist queue;
-  GtkTreeModel *model;
+  GtkTreeModel *model_depr;
   GtkTreeIter it;
   size_t i;
 
-  model = GTK_TREE_MODEL(ptr->dst);
+  model_depr = GTK_TREE_MODEL(ptr->dst_depr);
 
   worklist_init(&queue);
 
   i = 0;
-  if (gtk_tree_model_get_iter_first(model, &it)) {
+  if (gtk_tree_model_get_iter_first(model_depr, &it)) {
     do {
       gint id;
       struct universal univ;
@@ -1808,12 +1808,12 @@ static void commit_worklist(struct worklist_data *ptr)
         break;
       }
 
-      gtk_tree_model_get(model, &it, 0, &id, -1);
+      gtk_tree_model_get(model_depr, &it, 0, &id, -1);
       univ = cid_production(id);
       worklist_append(&queue, &univ);
 
       i++;
-    } while (gtk_tree_model_iter_next(model, &it));
+    } while (gtk_tree_model_iter_next(model_depr, &it));
   }
 
   /* Dance around worklist braindamage. */
