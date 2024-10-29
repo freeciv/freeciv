@@ -64,6 +64,8 @@ const char *rscompat_effect_name_3_3(const char *old_name);
 const char *blocked_by_old_name_3_3(const char *new_name);
 const char *ui_name_old_name_3_3(const char *new_name);
 
+void rscompat_civil_war_effects_3_3(struct section_file *game_rs);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

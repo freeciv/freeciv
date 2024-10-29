@@ -626,8 +626,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 top_cities_count;
   UINT16 fragment_count;
   BOOL civil_war_enabled;
-  SINT16 civil_war_bonus_celebrating;
-  SINT16 civil_war_bonus_unhappy;
   UINT16 granularity;
   WONDER_VISIB small_wonder_visibility;
 end

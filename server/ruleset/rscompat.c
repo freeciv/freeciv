@@ -700,3 +700,38 @@ const char *ui_name_old_name_3_3(const char *new_name)
   
   return nullptr;
 }
+
+#define RS_DEFAULT_CIVIL_WAR_CELEB               -5
+#define RS_DEFAULT_CIVIL_WAR_UNHAPPY             5
+
+/**********************************************************************//**
+  Add civil war bonus effects matching old civstyle values.
+**************************************************************************/
+void rscompat_civil_war_effects_3_3(struct section_file *game_rs)
+{
+  int bonus = secfile_lookup_int_default(game_rs, RS_DEFAULT_CIVIL_WAR_CELEB,
+                                         "civstyle.civil_war_bonus_celebrating");
+
+  if (bonus != 0) {
+    struct requirement e_req;
+    struct effect *peffect;
+
+    peffect = effect_new(EFT_CIVIL_WAR_CITY_BONUS, -bonus, nullptr);
+    e_req = req_from_str("CityStatus", "City", FALSE, TRUE, FALSE,
+                         "Celebration");
+    effect_req_append(peffect, e_req);
+  }
+
+  bonus = secfile_lookup_int_default(game_rs, RS_DEFAULT_CIVIL_WAR_UNHAPPY,
+                                     "civstyle.civil_war_bonus_unhappy");
+
+  if (bonus != 0) {
+    struct requirement e_req;
+    struct effect *peffect;
+
+    peffect = effect_new(EFT_CIVIL_WAR_CITY_BONUS, -bonus, nullptr);
+    e_req = req_from_str("CityStatus", "City", FALSE, TRUE, FALSE,
+                         "Disorder");
+    effect_req_append(peffect, e_req);
+  }
+}

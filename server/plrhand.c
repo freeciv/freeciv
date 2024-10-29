@@ -2967,12 +2967,6 @@ bool civil_war_triggered(struct player *pplayer)
 
   /* Now compute the contribution of the cities. */
   city_list_iterate(pplayer->cities, pcity) {
-    if (city_unhappy(pcity)) {
-      prob += game.info.civil_war_bonus_unhappy;
-    }
-    if (city_celebrating(pcity)) {
-      prob += game.info.civil_war_bonus_celebrating;
-    }
     prob -= get_city_bonus(pcity, EFT_CIVIL_WAR_CITY_BONUS);
   } city_list_iterate_end;
 

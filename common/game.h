@@ -856,9 +856,6 @@ static inline bool is_ruleset_compat_mode(void)
 #define RS_MIN_FOOD_COST                         0
 #define RS_MAX_FOOD_COST                         10000
 
-#define RS_DEFAULT_CIVIL_WAR_CELEB               -5
-#define RS_DEFAULT_CIVIL_WAR_UNHAPPY             5
-
 #define RS_DEFAULT_TIRED_ATTACK                  FALSE
 #define RS_DEFAULT_NUKE_POP_LOSS_PCT             49
 #define RS_MIN_NUKE_POP_LOSS_PCT                 0

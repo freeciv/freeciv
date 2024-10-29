@@ -5466,3 +5466,19 @@ reqs    =
       "TileRel",        "Only Other Region", "Adjacent"
       "TileRel",        "Same Region",       "Adjacent"
     }
+
+[effect_civil_war_city_celebration]
+type    = "Civil_War_City_Bonus"
+value   = 5
+reqs    =
+    { "type",       "name",        "range"
+      "CityStatus", "Celebration", "City"
+    }
+
+[effect_civil_war_city_disorder]
+type    = "Civil_War_City_Bonus"
+value   = -5
+reqs    =
+    { "type",       "name",     "range"
+      "CityStatus", "Disorder", "City"
+    }

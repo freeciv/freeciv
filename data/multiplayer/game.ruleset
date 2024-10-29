@@ -144,12 +144,6 @@ tech_loss_allow_holes     = TRUE
 ; Whether civil war is possible at all
 civil_war_enabled        = TRUE
 
-; How many percents each celebrating city affects chance of civil war
-civil_war_bonus_celebrating = -5
-
-; How many percents each unhappy city affects chance of civil war
-civil_war_bonus_unhappy     = 5
-
 ; Comma separated list of things to happen, in addition to death
 ; of owner, when gameloss unit dies
 ; "CivilWar"   - Part of the empire remains, controlled by a new player

@@ -6723,13 +6723,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.civil_war_enabled
       = secfile_lookup_bool_default(file, TRUE, "civstyle.civil_war_enabled");
 
-    game.info.civil_war_bonus_celebrating
-      = secfile_lookup_int_default(file, RS_DEFAULT_CIVIL_WAR_CELEB,
-                                   "civstyle.civil_war_bonus_celebrating");
-
-    game.info.civil_war_bonus_unhappy
-      = secfile_lookup_int_default(file, RS_DEFAULT_CIVIL_WAR_UNHAPPY,
-                                   "civstyle.civil_war_bonus_unhappy");
+    if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      rscompat_civil_war_effects_3_3(file);
+    }
 
     game.info.base_bribe_cost
       = secfile_lookup_int_default_min_max(file,
