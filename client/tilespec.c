@@ -166,7 +166,8 @@ enum spec_file_types {
 
 struct anim {
   int frames;
-  int current;
+  int time;
+  int time_per_frame;
   struct sprite **sprites;
 };
 
@@ -2731,12 +2732,13 @@ static char *valid_index_str(const struct tileset *t, int idx)
   @param frames Number of frames in the animation
   @return New anim structure
 ****************************************************************************/
-static struct anim *anim_new(int frames)
+static struct anim *anim_new(int frames, int time_per_frame)
 {
   struct anim *ret = fc_malloc(sizeof(struct anim));
 
   ret->frames = frames;
-  ret->current = 0;
+  ret->time = 0;
+  ret->time_per_frame = time_per_frame;
   ret->sprites = fc_malloc(frames * sizeof(struct sprite *));
 
   return ret;
@@ -2956,7 +2958,8 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
   @param t   Tileset to load animation from
   @param tag Base tag of the animation sprites
 ****************************************************************************/
-static struct anim *anim_load(struct tileset *t, const char *tag)
+static struct anim *anim_load(struct tileset *t, const char *tag,
+                              int time_per_frame)
 {
   int frames = 0;
   char buf[1500];
@@ -2971,7 +2974,7 @@ static struct anim *anim_load(struct tileset *t, const char *tag)
     return nullptr;
   }
 
-  ret = anim_new(frames);
+  ret = anim_new(frames, time_per_frame);
 
   for (i = 0; i < frames; i++) {
     fc_snprintf(buf, sizeof(buf), "%s%d", tag, i);
@@ -2992,8 +2995,18 @@ static struct anim *anim_load(struct tileset *t, const char *tag)
 ****************************************************************************/
 static void anim_advance_time(struct anim *a)
 {
-  a->current++;
-  a->current %= a->frames;
+  a->time++;
+}
+
+/************************************************************************//**
+  Get current frame (sprite) of the animation
+
+  @param a Animation
+  @return The sprite
+****************************************************************************/
+static struct sprite *anim_get_current_frame(struct anim *a)
+{
+  return a->sprites[(a->time / a->time_per_frame) % a->frames];
 }
 
 /************************************************************************//**
@@ -3393,7 +3406,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.lowfuel, "unit.lowfuel");
   SET_SPRITE(unit.tired, "unit.tired");
 
-  t->sprites.unit.action_decision_want = anim_load(t, "unit.action_decision_want");
+  t->sprites.unit.action_decision_want = anim_load(t, "unit.action_decision_want",
+                                                   3);
 
   for (i = 0; i < NUM_TILES_HP_BAR; i++) {
     fc_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
@@ -3407,7 +3421,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     t->sprites.unit.vet_lev[i] = load_sprite(t, buffer, TRUE, TRUE, FALSE);
   }
 
-  t->sprites.unit.select = anim_load(t, "unit.select");
+  t->sprites.unit.select = anim_load(t, "unit.select", 1);
 
   SET_SPRITE(citybar.shields, "citybar.shields");
   SET_SPRITE(citybar.food, "citybar.food");
@@ -4608,7 +4622,7 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
   ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET)
 
 #define ADD_ANIM_SPRITE(s, draw_fog, x_offset, y_offset)                    \
-  ADD_SPRITE(s->sprites[s->current], draw_fog, x_offset, y_offset)
+  ADD_SPRITE(anim_get_current_frame(s), draw_fog, x_offset, y_offset)
 
 /************************************************************************//**
   Assemble some data that is used in building the tile sprite arrays.
@@ -6647,7 +6661,7 @@ double get_focus_unit_toggle_timeout(const struct tileset *t)
 void reset_focus_unit_state(struct tileset *t)
 {
   if (t->sprites.unit.select != nullptr) {
-    t->sprites.unit.select->current = 0;
+    t->sprites.unit.select->time = 0;
   } else {
     focus_unit_state = FALSE;
   }
