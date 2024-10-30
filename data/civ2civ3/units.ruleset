@@ -129,7 +129,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       For class members which are transports, cargo cannot load/
 ;                       unload except in a city or native base, unless that unit
 ;                       explicitly lists this class in its 'embarks'/'disembarks'.
-; "CollectRansom"     = Unit can collect ransom when killing lone barbarian leader
+; "CollectRansom"     = Unit can collect ransom when killing undefended barbarian leader
 ; "ZOC"               = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                       override this
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
