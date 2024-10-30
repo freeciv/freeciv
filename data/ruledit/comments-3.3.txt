@@ -290,7 +290,7 @@ uclasses = "\
 ;                       For class members which are transports, cargo cannot load/\n\
 ;                       unload except in a city or native base, unless that unit\n\
 ;                       explicitly lists this class in its \'embarks\'/\'disembarks\'.\n\
-; \"CollectRansom\"     = Unit can collect ransom when killing lone barbarian leader\n\
+; \"CollectRansom\"     = Unit can collect ransom when killing undefended barbarian leader\n\
 ; \"ZOC\"               = Unit is subject to ZOC rules. Unit type flag \"IgZOC\" can\n\
 ;                       override this\n\
 ; \"DoesntOccupyTile\"  = Even if this kind of enemy unit is on tile, cities can\n\
