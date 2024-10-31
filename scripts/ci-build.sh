@@ -36,6 +36,7 @@ case $1 in
 mkdir build
 cd build
 ../autogen.sh \
+ --enable-ack-legacy \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
@@ -114,6 +115,7 @@ cd build
 ../autogen.sh \
  CC="clang" \
  CXX="clang++" \
+ --enable-ack-legacy \
  --enable-debug \
  --enable-sys-lua \
  --enable-sys-tolua-cmd \
@@ -140,6 +142,7 @@ cd build
 ../autogen.sh \
  CC="tcc" \
  LD="tcc" \
+ --enable-ack-legacy \
  --enable-debug \
  --enable-client=gtk3.22,stub,gtk4 \
  --enable-fcmp=cli,gtk3,gtk4 \
@@ -190,6 +193,7 @@ cd build
 ../autogen.sh \
  CFLAGS="-O3" \
  CXXFLAGS="-O3" \
+ --enable-ack-legacy \
  --with-qtver=qt6 \
  --enable-client=gtk3.22,qt,sdl2,gtk4,stub \
  --enable-fcmp=cli,gtk3,qt,gtk4 \
