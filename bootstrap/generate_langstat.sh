@@ -24,9 +24,9 @@ fi
         echo "$CODE $PRCT $NLANG"
     done ) > "$3/langstat_${1}.txt.tmp"
 
-if ! test -f "$2/bootstrap/langstat_${1}.txt" ||
-   ! cmp "$2/bootstrap/langstat_${1}.txt" "$3/langstat_${1}.txt.tmp" ; then
-    mv "$3/langstat_${1}.txt.tmp" "$2/bootstrap/langstat_${1}.txt"
+if ! test -f "$3/langstat_${1}.txt" ||
+   ! cmp "$3/langstat_${1}.txt" "$3/langstat_${1}.txt.tmp" ; then
+    mv "$3/langstat_${1}.txt.tmp" "$3/langstat_${1}.txt"
 else
     rm -f "$3/langstat_${1}.txt.tmp"
 fi

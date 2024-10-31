@@ -216,7 +216,7 @@ SectionGroup "Additional languages (translation %)"
 
 EOF
 
-cat ../../../bootstrap/langstat_core.txt |
+cat $1/doc/freeciv/installer/langstat_core.txt |
 sort -k 1 |
 iconv -f UTF-8 -t ISO-8859-1 |
 while read -r code prct name
@@ -295,7 +295,7 @@ Start Menu shortcut properties."
   \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
-  cat ../../../bootstrap/langstat_core.txt |
+  cat $1/doc/freeciv/installer/langstat_core.txt |
   sort -k 1 |
   iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
@@ -320,7 +320,7 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../../bootstrap/langstat_core.txt |
+  cat $1/doc/freeciv/installer/langstat_core.txt |
   iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
   do

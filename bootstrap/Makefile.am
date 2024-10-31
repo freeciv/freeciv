@@ -19,9 +19,6 @@ EXTRA_DIST =	freeciv.project		\
 		generate_langstat.sh	\
 		generate_meson_run.sh	\
 		generate_metainfo.sh	\
-		langstat_core.txt	\
-		langstat_nations.txt	\
-		langstat_ruledit.txt	\
 		org.freeciv.gtk322.desktop	\
 		org.freeciv.gtk4.desktop	\
 		org.freeciv.gtk4x.desktop	\

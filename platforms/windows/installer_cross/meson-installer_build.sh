@@ -197,6 +197,8 @@ if ! mv "${INSTDIR}/bin/"* "${INSTDIR}/" ||
    ! mkdir -p "${INSTDIR}/doc/freeciv/installer" ||
    ! cat licenses/header.txt "${SRC_ROOT}/COPYING" \
      > "${INSTDIR}/doc/freeciv/installer/COPYING.installer" ||
+   ! cp "${BUILD_ROOT}/meson/build/${SETUP}-${GUI}/langstat_"*.txt \
+       "${INSTDIR}/doc/freeciv/installer/" ||
    ! rm -Rf "${INSTDIR}/lib" ||
    ! cp Freeciv.url "${INSTDIR}/"
 then

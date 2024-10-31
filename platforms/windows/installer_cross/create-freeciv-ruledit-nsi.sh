@@ -206,7 +206,7 @@ SectionGroup "Additional languages (translation %)"
 
 EOF
 
-cat ../../../bootstrap/langstat_ruledit.txt |
+cat $1/doc/freeciv/installer/langstat_ruledit.txt |
 sort -k 1 |
 while read -r code prct name
 do
@@ -267,7 +267,7 @@ Start Menu shortcut properties."
   \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
-  cat ../../../bootstrap/langstat_ruledit.txt |
+  cat $1/doc/freeciv/installer/langstat_ruledit.txt |
   sort -k 1 |
   while read -r code prct name
   do
@@ -291,7 +291,7 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../../bootstrap/langstat_ruledit.txt |
+  cat $1/doc/freeciv/installer/langstat_ruledit.txt |
   while read -r code prct name
   do
     echo "  \${If} \$LangName == \"$name ($code) $prct\""
