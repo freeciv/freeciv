@@ -79,7 +79,7 @@ snapshot:
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
 
 ci:
-	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true -Dsys-tolua-cmd=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true -Dsys-tolua-cmd=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer
 
 gtk3.22-installer:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
