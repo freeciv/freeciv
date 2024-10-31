@@ -5964,7 +5964,7 @@ void handle_unit_sscs_set(struct player *pplayer,
 
     /* Let the client know that this unit no longer needs the player to
      * decide what to do. */
-    send_unit_info(player_reply_dest(pplayer), punit);
+    send_unit_info(pplayer->connections, punit);
 
     break;
   case USSDT_BATTLE_GROUP:
