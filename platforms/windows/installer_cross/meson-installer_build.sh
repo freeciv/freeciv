@@ -79,7 +79,7 @@ add_gtk3_env() {
   mkdir -p $2/etc &&
   cp -R $1/etc/gtk-3.0 $2/etc/ &&
   cp $1/bin/gtk-update-icon-cache.exe $2/bin/ &&
-  cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
+  cp "${SRC_DIR}/helpers/installer-helper-gtk3.cmd" $2/bin/installer-helper.cmd
 }
 
 add_gtk4_env() {
@@ -90,7 +90,7 @@ add_gtk4_env() {
   cp $1/bin/libtiff-6.dll $2/ &&
   cp $1/bin/gdbus.exe $2/ &&
   cp $1/bin/gtk4-update-icon-cache.exe $2/bin/ &&
-  cp ./helpers/installer-helper-gtk4.cmd $2/bin/installer-helper.cmd
+  cp "${SRC_DIR}/helpers/installer-helper-gtk4.cmd" $2/bin/installer-helper.cmd
 }
 
 add_qt6_env() {
@@ -103,7 +103,7 @@ add_qt6_env() {
   cp $1/bin/libMagickWand-7.Q16HDRI-10.dll $2/ &&
   cp $1/bin/libMagickCore-7.Q16HDRI-10.dll $2/ &&
   mkdir -p $2/bin &&
-  cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
+  cp "${SRC_DIR}/helpers/installer-helper-qt.cmd" $2/bin/installer-helper.cmd
 }
 
 add_sdl2_env() {
@@ -162,23 +162,25 @@ if ! test -d "${DLLSPATH}" ; then
   exit 1
 fi
 
-if ! ./meson-winbuild.sh "${DLLSPATH}" "${GUI}" ; then
+SRC_DIR="$(cd "$(dirname "$0")" || exit 1 ; pwd)"
+SRC_ROOT="$(cd "${SRC_DIR}/../../.." || exit 1 ; pwd)"
+BUILD_ROOT="$(pwd)"
+
+if ! "${SRC_DIR}/meson-winbuild.sh" "${DLLSPATH}" "${GUI}" ; then
   exit 1
 fi
 
 SETUP=$(grep "CrosserSetup=" "${DLLSPATH}/crosser.txt" | sed -e 's/CrosserSetup="//' -e 's/"//')
 
-SRC_ROOT="$(cd ../../.. || exit 1 ; pwd)"
-
 VERREV="$("${SRC_ROOT}/fc_version")"
 
-if ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
+if ! ( cd "${BUILD_ROOT}/meson/build/${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
   echo "langstat_core.txt creation failed!" >&2
   exit 1
 fi
 
 if test "${GUI}" = "ruledit" &&
-   ! ( cd "meson/build/${SETUP}-${GUI}" && ninja langstat_ruledit.txt ) ; then
+   ! ( cd "${BUILD_ROOT}/meson/build/${SETUP}-${GUI}" && ninja langstat_ruledit.txt ) ; then
   echo "langstat_ruledit.txt creation failed!" >&2
   exit 1
 fi
@@ -189,18 +191,18 @@ if test "${INST_CROSS_MODE}" != "release" ; then
   fi
 fi
 
-INSTDIR="meson/install/freeciv-${VERREV}-${SETUP}-${GUI}"
+INSTDIR="${BUILD_ROOT}/meson/install/freeciv-${VERREV}-${SETUP}-${GUI}"
 
 if ! mv "${INSTDIR}/bin/"* "${INSTDIR}/" ||
    ! mv "${INSTDIR}/share/freeciv" "${INSTDIR}/data" ||
    ! mv "${INSTDIR}/share/doc" "${INSTDIR}/" ||
    ! mkdir -p "${INSTDIR}/doc/freeciv/installer" ||
-   ! cat licenses/header.txt "${SRC_ROOT}/COPYING" \
+   ! cat "${SRC_DIR}/licenses/header.txt" "${SRC_ROOT}/COPYING" \
      > "${INSTDIR}/doc/freeciv/installer/COPYING.installer" ||
    ! cp "${BUILD_ROOT}/meson/build/${SETUP}-${GUI}/langstat_"*.txt \
        "${INSTDIR}/doc/freeciv/installer/" ||
    ! rm -Rf "${INSTDIR}/lib" ||
-   ! cp Freeciv.url "${INSTDIR}/"
+   ! cp "${SRC_DIR}/Freeciv.url" "${INSTDIR}/"
 then
   echo "Rearranging install directory failed!" >&2
   exit 1
@@ -211,7 +213,7 @@ if ! add_common_env "${DLLSPATH}" "${INSTDIR}" ; then
   exit 1
 fi
 
-NSI_DIR="meson/nsi"
+NSI_DIR="${BUILD_ROOT}/meson/nsi"
 
 if ! mkdir -p "${NSI_DIR}" ; then
   echo "Creating \"${NSI_DIR}\" directory failed" >&2
@@ -219,7 +221,7 @@ if ! mkdir -p "${NSI_DIR}" ; then
 fi
 
 if test "${GUI}" = "ruledit" ; then
-  if ! cp freeciv-ruledit.cmd "${INSTDIR}/"
+  if ! cp "${SRC_DIR}/freeciv-ruledit.cmd" "${INSTDIR}/"
   then
     echo "Adding cmd-file failed!" >&2
     exit 1
@@ -231,14 +233,15 @@ if test "${GUI}" = "ruledit" ; then
 
   NSI_FILE="${NSI_DIR}/ruledit-${SETUP}-${VERREV}.nsi"
 
-  if ! ./create-freeciv-ruledit-nsi.sh \
-         "${INSTDIR}" "meson/output" "${VERREV}" "qt6" "Qt6" "${SETUP}" \
+  if ! "${SRC_DIR}/create-freeciv-ruledit-nsi.sh" \
+         "${INSTDIR}" "${BUILD_ROOT}/meson/output" "${VERREV}" "qt6" "Qt6" "${SETUP}" \
            > "${NSI_FILE}"
   then
     exit 1
   fi
 else
-  if ! cp freeciv-server.cmd "freeciv-${CLIENT}.cmd" "freeciv-mp-${FCMP}.cmd" "${INSTDIR}/"
+  if ! cp "${SRC_DIR}/freeciv-server.cmd" "${SRC_DIR}/freeciv-${CLIENT}.cmd" \
+         "${SRC_DIR}/freeciv-mp-${FCMP}.cmd" "${INSTDIR}/"
   then
     echo "Adding cmd-files failed!" >&2
     exit 1
@@ -274,7 +277,7 @@ else
       fi
       ;;
     qt6|qt6x)
-      if ! cp freeciv-ruledit.cmd "${INSTDIR}"
+      if ! cp "${SRC_DIR}/freeciv-ruledit.cmd" "${INSTDIR}"
       then
         echo "Adding cmd-file failed!" >&2
         exit 1
@@ -294,7 +297,7 @@ else
 
   if test "$GUI" = "gtk3.22" || test "$GUI" = "gtk4" ||
      test "$GUI" = "gtk4x" || test "$GUI" = "sdl2" ; then
-    UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
+    UNINSTALLER="${SRC_DIR}/helpers/uninstaller-helper-gtk3.sh"
   else
     UNINSTALLER=""
   fi
@@ -302,15 +305,15 @@ else
   NSI_FILE="${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
 
   if test "${GUI}" = "sdl2" ; then
-    if ! ./create-freeciv-sdl2-nsi.sh \
-           "${INSTDIR}" "meson/output" "${VERREV}" "${SETUP}" "${UNINSTALLER}" \
+    if ! "${SRC_DIR}/create-freeciv-sdl2-nsi.sh" \
+           "${INSTDIR}" "${BUILD_ROOT}/meson/output" "${VERREV}" "${SETUP}" "${UNINSTALLER}" \
              > "${NSI_FILE}"
     then
       exit 1
     fi
   else
-    if ! ./create-freeciv-gtk-qt-nsi.sh \
-           "${INSTDIR}" "meson/output" "${VERREV}" "${GUI}" "${GUINAME}" \
+    if ! "${SRC_DIR}/create-freeciv-gtk-qt-nsi.sh" \
+           "${INSTDIR}" "${BUILD_ROOT}/meson/output" "${VERREV}" "${GUI}" "${GUINAME}" \
            "${SETUP}" "${MPGUI}" "${EXE_ID}" "${UNINSTALLER}" \
              > "${NSI_FILE}"
     then
@@ -319,7 +322,7 @@ else
   fi
 fi
 
-if ! mkdir -p meson/output ; then
+if ! mkdir -p "${BUILD_ROOT}/meson/output" ; then
   echo "Creating meson/output directory failed" >&2
   exit 1
 fi
