@@ -2,6 +2,8 @@
 
 AM_DIST_FORMATS = gzip xz zip
 
+AM_DISTCHECK_CONFIGURE_FLAGS = --enable-ack-legacy
+
 if SRV_LIB
 SSUBDIRS = ai server
 else
