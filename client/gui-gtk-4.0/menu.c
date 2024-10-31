@@ -3734,6 +3734,8 @@ void real_menus_update(void)
 
   menu_entry_set_sensitive(map, "POLICIES", multiplier_count() > 0);
   menu_entry_set_sensitive(map, "REPORT_TOP_CITIES", game.info.top_cities_count > 0);
+  menu_entry_set_sensitive(map, "REPORT_SPACESHIP",
+                           client_player() != NULL && client_player()->spaceship.state != SSHIP_NONE);
 
   info = menu_entry_info_find("EDIT_MODE");
   if (info->state != game.info.is_edit_mode) {
