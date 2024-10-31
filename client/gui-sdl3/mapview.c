@@ -417,19 +417,24 @@ void update_info_label(void)
   ptext->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_INFO_TEXT);
   ptext->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-  if (NULL != client.conn.playing) {
+  if (client_player() != NULL) {
 #ifdef GUI_SDL3_SMALL_SCREEN
     fc_snprintf(buffer, sizeof(buffer),
-                _("%s Population: %s  Year: %s  "
+                /* TRANS: "(Obs) Egyptian..." */
+                _("%s%s Population: %s  Year: %s  "
                   "Gold %d "),
+                /* TRANS: Observer */
+                client.conn.observer ? _("(Obs) ") : "",
                 nation_adjective_for_player(client.conn.playing),
                 population_to_text(civ_population(client.conn.playing)),
                 calendar_text(),
                 client.conn.playing->economic.gold);
 #else /* GUI_SDL3_SMALL_SCREEN */
     fc_snprintf(buffer, sizeof(buffer),
-                _("%s Population: %s  Year: %s  "
+                /* TRANS: "(Observer) Egyptian..." */
+                _("%s%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
+                client.conn.observer ? _("(Observer) ") : "",
                 nation_adjective_for_player(client.conn.playing),
                 population_to_text(civ_population(client.conn.playing)),
                 calendar_text(),
