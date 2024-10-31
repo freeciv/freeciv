@@ -2387,6 +2387,9 @@ void real_menus_update(void)
     }
   }
 
+  menu_entry_set_sensitive("REPORT_SPACESHIP",
+                           client_player() != NULL && client_player()->spaceship.state != SSHIP_NONE);
+
   if (!can_client_issue_orders()) {
     return;
   }
