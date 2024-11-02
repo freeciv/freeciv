@@ -658,7 +658,7 @@ int city_turns_to_grow(const struct city *pcity);
 bool city_can_grow_to(const struct city *pcity, int pop_size);
 bool city_can_change_build(const struct city *pcity);
 
-void city_choose_build_default(struct city *pcity);
+void city_choose_build_default(const struct civ_map *nmap, struct city *pcity);
 
 /* Textual representation of buildings */
 
