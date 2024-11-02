@@ -147,6 +147,28 @@ struct _FcPlrClass
 
 G_DEFINE_TYPE(FcPlrRow, fc_plr_row, G_TYPE_OBJECT)
 
+
+#define FC_TYPE_SCEN_ROW (fc_scen_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcScenRow, fc_scen_row, FC, SCEN_ROW, GObject)
+
+struct _FcScenRow
+{
+  GObject parent_instance;
+
+  char *desc;
+  char *authors;
+  char *filename;
+  char *ver;
+};
+
+struct _FcScenClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcScenRow, fc_scen_row, G_TYPE_OBJECT)
+
 /**********************************************************************//**
   Initialization method for FcHostRow class
 **************************************************************************/
@@ -202,6 +224,36 @@ static FcPlrRow *fc_plr_row_new(void)
   FcPlrRow *result;
 
   result = g_object_new(FC_TYPE_PLR_ROW, nullptr);
+
+  return result;
+}
+#endif
+
+/**********************************************************************//**
+  Initialization method for FcScenRow class
+**************************************************************************/
+static void
+fc_scen_row_class_init(FcScenRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcScenRow
+**************************************************************************/
+static void
+fc_scen_row_init(FcScenRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcScenRow creation method
+**************************************************************************/
+#if 0
+static FcScenRow *fc_scen_row_new(void)
+{
+  FcScenRow *result;
+
+  result = g_object_new(FC_TYPE_SCEN_ROW, nullptr);
 
   return result;
 }
