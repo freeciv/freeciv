@@ -1525,6 +1525,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct city *pcity;
   const citizens old_content_citizens = player_content_citizens(pplayer);
   const citizens old_angry_citizens = player_angry_citizens(pplayer);
+  const struct civ_map *nmap = &(wld.map);
 
   log_debug("create_city() %s", name);
 
@@ -1547,7 +1548,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   adv_city_alloc(pcity);
 
   tile_set_owner(ptile, pplayer, ptile); /* Temporarily */
-  city_choose_build_default(pcity);
+  city_choose_build_default(nmap, pcity);
   pcity->id = identity_number();
 
   fc_mutex_allocate(&game.server.mutexes.city_list);
