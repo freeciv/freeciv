@@ -53,6 +53,7 @@ class tab_enabler : public QWidget
     QPushButton *delete_button;
     QPushButton *repair_button;
     QListWidget *enabler_list;
+    QLineEdit *comment;
 
     struct action_enabler *selected;
 
@@ -65,6 +66,7 @@ class tab_enabler : public QWidget
     void edit_type(QAction *action);
     void edit_target_reqs();
     void edit_actor_reqs();
+    void comment_given();
 };
 
 #endif // FC__TAB_ENABLERS_H
