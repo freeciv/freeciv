@@ -1062,10 +1062,8 @@ bool city_can_change_build(const struct city *pcity)
 /**********************************************************************//**
   Always tile_set_owner(ptile, pplayer) sometime before this!
 **************************************************************************/
-void city_choose_build_default(struct city *pcity)
+void city_choose_build_default(const struct civ_map *nmap, struct city *pcity)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (NULL == city_tile(pcity)) {
     /* When a "dummy" city is created with no tile, then choosing a build 
      * target could fail. This currently might happen during map editing.

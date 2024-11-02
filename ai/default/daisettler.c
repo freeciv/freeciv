@@ -300,7 +300,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
     saved_owner = tile_owner(result->tile);
     saved_claimer = tile_claimer(result->tile);
     tile_set_owner(result->tile, pplayer, result->tile); /* Temporarily */
-    city_choose_build_default(pcity);  /* ?? */
+    city_choose_build_default(nmap, pcity);  /* ?? */
     virtual_city = TRUE;
   }
 
