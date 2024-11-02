@@ -13,13 +13,13 @@
 #
 #***********************************************************************/
 
-if test x$1 = x ; then
+if test "$1" = "" ; then
   REVISION="HEAD"
 else
-  REVISION=$1
+  REVISION="$1"
 fi
 
-if test x$2 = x ; then
+if test "$2" = "" ; then
   ONLY_CARE_ABOUT=
 else
   ONLY_CARE_ABOUT="-- $2"
@@ -39,5 +39,5 @@ FORMAT="${FORMAT}%w(0, 2, 2)%B"
 
 git log \
  --format="${FORMAT}" \
- ${REVISION} -1 \
+ "${REVISION}" -1 \
  ${ONLY_CARE_ABOUT}
