@@ -581,6 +581,8 @@ static bool focus_unit_state = FALSE;
 
 static bool tileset_update = FALSE;
 
+static int global_anim_time = 0;
+
 static struct tileset *tileset_read_toplevel(const char *tileset_name,
                                              bool verbose, int topology_id,
                                              float scale);
@@ -2739,7 +2741,7 @@ static struct anim *anim_new(int frames, int time_per_frame)
   struct anim *ret = fc_malloc(sizeof(struct anim));
 
   ret->frames = frames;
-  ret->time = 0;
+  ret->time = -1;
   ret->time_per_frame = time_per_frame;
   ret->sprites = fc_malloc(frames * sizeof(struct sprite *));
   ret->show_always = FALSE;
@@ -3009,11 +3011,19 @@ static void anim_advance_time(struct anim *a)
 ****************************************************************************/
 static struct sprite *anim_get_current_frame(struct anim *a)
 {
+  int time;
+
   if (!gui_properties.animations && !a->show_always) {
     return a->sprites[0];
   }
 
-  return a->sprites[(a->time / a->time_per_frame) % a->frames];
+  if (a->time >= 0) {
+    time = a->time;
+  } else {
+    time = global_anim_time;
+  }
+
+  return a->sprites[(time / a->time_per_frame) % a->frames];
 }
 
 /************************************************************************//**
@@ -3431,6 +3441,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   t->sprites.unit.select = anim_load(t, "unit.select", 1);
   if (t->sprites.unit.select != nullptr) {
     t->sprites.unit.select->show_always = TRUE;
+    t->sprites.unit.select->time = 0; /* Not using global anim time */
   }
 
   SET_SPRITE(citybar.shields, "citybar.shields");
@@ -4832,7 +4843,6 @@ static int fill_unit_sprite_array(const struct tileset *t,
 
   if (t->sprites.unit.action_decision_want != nullptr
       && should_ask_server_for_actions(punit)) {
-    anim_advance_time(t->sprites.unit.action_decision_want);
     ADD_ANIM_SPRITE(t->sprites.unit.action_decision_want, TRUE,
                     FULL_TILE_X_OFFSET + t->activity_offset_x,
                     FULL_TILE_Y_OFFSET + t->activity_offset_y);
@@ -6691,6 +6701,8 @@ void focus_unit_in_combat(struct tileset *t)
 ****************************************************************************/
 void toggle_focus_unit_state(struct tileset *t)
 {
+  global_anim_time++;
+
   if (t->sprites.unit.select != nullptr) {
     anim_advance_time(t->sprites.unit.select);
   } else {
