@@ -43,9 +43,11 @@ GUI_FUNC_PROTO(void, insert_client_build_info, char *outbuf, size_t outlen)
 GUI_FUNC_PROTO(void, gui_update_font, const char *font_name,
                const char *font_value)
 
+GUI_FUNC_PROTO(void, setup_gui_properties, void);
+
 extern const char *client_string;
 
 /* Actually defined in update_queue.c */
 void conn_list_dialog_update(void);
 
-#endif  /* FC__GUI_MAIN_G_H */
+#endif /* FC__GUI_MAIN_G_H */

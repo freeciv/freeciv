@@ -126,4 +126,6 @@ void setup_gui_funcs(void)
   funcs->get_usable_themes_in_directory = gui_get_usable_themes_in_directory;
 
   funcs->popup_image = gui_popup_image;
+
+  funcs->setup_gui_properties = gui_setup_gui_properties;
 }

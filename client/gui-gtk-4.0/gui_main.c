@@ -69,6 +69,7 @@
 #include "connectdlg_common.h"
 #include "control.h"
 #include "editor.h"
+#include "gui_properties.h"
 #include "options.h"
 #include "text.h"
 #include "tilespec.h"
@@ -2682,4 +2683,12 @@ static void adjust_default_options(void)
 GtkApplication *gui_app(void)
 {
   return fc_app;
+}
+
+/**********************************************************************//**
+  Define properties of this gui.
+**************************************************************************/
+void setup_gui_properties(void)
+{
+  gui_properties.animations = TRUE;
 }

@@ -278,3 +278,11 @@ void gui_insert_client_build_info(char *outbuf, size_t outlen)
 {
   /* PORTME */
 }
+
+/**********************************************************************//**
+  Define properties of this gui.
+**************************************************************************/
+void gui_setup_gui_properties(void)
+{
+  /* PORTME */
+}

@@ -71,6 +71,7 @@
 #include "control.h"            /* For fill_xxx */
 #include "editor.h"
 #include "goto.h"
+#include "gui_properties.h"
 #include "helpdata.h"
 #include "options.h"            /* For fill_xxx */
 #include "svgflag.h"
@@ -169,6 +170,7 @@ struct anim {
   int time;
   int time_per_frame;
   struct sprite **sprites;
+  bool show_always;
 };
 
 struct drawing_data {
@@ -2740,6 +2742,7 @@ static struct anim *anim_new(int frames, int time_per_frame)
   ret->time = 0;
   ret->time_per_frame = time_per_frame;
   ret->sprites = fc_malloc(frames * sizeof(struct sprite *));
+  ret->show_always = FALSE;
 
   return ret;
 }
@@ -3006,6 +3009,10 @@ static void anim_advance_time(struct anim *a)
 ****************************************************************************/
 static struct sprite *anim_get_current_frame(struct anim *a)
 {
+  if (!gui_properties.animations && !a->show_always) {
+    return a->sprites[0];
+  }
+
   return a->sprites[(a->time / a->time_per_frame) % a->frames];
 }
 
@@ -3422,6 +3429,9 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   }
 
   t->sprites.unit.select = anim_load(t, "unit.select", 1);
+  if (t->sprites.unit.select != nullptr) {
+    t->sprites.unit.select->show_always = TRUE;
+  }
 
   SET_SPRITE(citybar.shields, "citybar.shields");
   SET_SPRITE(citybar.food, "citybar.food");

@@ -89,6 +89,7 @@
 #include "control.h" 
 #include "editor.h"
 #include "global_worklist.h"
+#include "gui_properties.h"
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapview_common.h"
 #include "music.h"
@@ -401,6 +402,8 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
 #ifdef ENABLE_NLS
   bind_textdomain_codeset("freeciv-nations", get_internal_encoding());
 #endif
+
+  gui_properties_init();
 
   i = 1;
 

@@ -138,4 +138,6 @@ void setup_gui_funcs()
   funcs->endgame_report_dialog_player = qtg_endgame_report_dialog_player;
 
   funcs->popup_image = qtg_popup_image;
+
+  funcs->setup_gui_properties = qtg_setup_gui_properties;
 }

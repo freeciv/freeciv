@@ -774,3 +774,11 @@ void popup_image(const char *tag)
 {
   funcs.popup_image(tag);
 }
+
+/**********************************************************************//**
+  Call setup_gui_properties callback
+**************************************************************************/
+void setup_gui_properties(void)
+{
+  funcs.setup_gui_properties();
+}

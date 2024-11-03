@@ -44,6 +44,7 @@
 // client
 #include "client_main.h"
 #include "editgui_g.h"
+#include "gui_properties.h"
 #include "options.h"
 #include "sprite.h"
 #include "svgflag.h"
@@ -597,4 +598,12 @@ void qtg_insert_client_build_info(char *outbuf, size_t outlen)
 #else  // FC_QT5_MODE
   cat_snprintf(outbuf, outlen, _("\nBuilt in Qt6 mode."));
 #endif // FC_QT5_MODE
+}
+
+/**********************************************************************//**
+  Define properties of this gui.
+**************************************************************************/
+void qtg_setup_gui_properties()
+{
+  gui_properties.animations = FALSE;
 }

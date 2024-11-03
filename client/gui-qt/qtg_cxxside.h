@@ -168,4 +168,6 @@ void qtg_endgame_report_dialog_player(const struct packet_endgame_player *packet
 
 void qtg_popup_image(const char *tag);
 
+void qtg_setup_gui_properties();
+
 #endif // FC__QTG_CXXSIDE_H

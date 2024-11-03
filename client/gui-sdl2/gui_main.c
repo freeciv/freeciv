@@ -61,6 +61,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "editgui_g.h"
+#include "gui_properties.h"
 #include "spaceshipdlg_g.h"
 #include "tilespec.h"
 #include "update_queue.h"
@@ -1345,4 +1346,12 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 bool flush_event(void)
 {
   return SDL_PushEvent(flush_user_event) >= 0;
+}
+
+/**********************************************************************//**
+  Define properties of this gui.
+**************************************************************************/
+void setup_gui_properties(void)
+{
+  gui_properties.animations = FALSE;
 }

@@ -105,6 +105,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	global_worklist.h	\
 	goto.c		\
 	goto.h		\
+	gui_properties.c	\
+	gui_properties.h	\
 	luaconsole_common.c	\
 	luaconsole_common.h	\
 	mapctrl_common.c \

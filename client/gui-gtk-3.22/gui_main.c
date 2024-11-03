@@ -69,6 +69,7 @@
 #include "connectdlg_common.h"
 #include "control.h"
 #include "editor.h"
+#include "gui_properties.h"
 #include "options.h"
 #include "text.h"
 #include "tilespec.h"
@@ -2664,4 +2665,12 @@ static void adjust_default_options(void)
       GUI_GTK_OPTION(message_chat_location) = GUI_GTK_MSGCHAT_MERGED;
     }
   }
+}
+
+/**********************************************************************//**
+  Define properties of this gui.
+**************************************************************************/
+void setup_gui_properties(void)
+{
+  gui_properties.animations = FALSE;
 }

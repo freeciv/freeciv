@@ -175,6 +175,8 @@ struct gui_funcs {
   void (*endgame_report_dialog_player)(const struct packet_endgame_player *packet);
 
   void (*popup_image)(const char *tag);
+
+  void (*setup_gui_properties)(void);
 };
 
 struct gui_funcs *get_gui_funcs(void);
