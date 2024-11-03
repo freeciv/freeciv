@@ -33,7 +33,6 @@ struct cma_dialog {
   GtkWidget *shell;
   GtkWidget *name_shell;
   GtkWidget *preset_remove_shell;
-  GtkWidget *preset_list_depr;
   GtkWidget *preset_list;
   GtkWidget *result_label;
   GtkWidget *add_preset_command;
@@ -43,8 +42,6 @@ struct cma_dialog {
   GtkWidget *happy_button;
   GtkWidget *growth_button;
   GtkWidget *factor[O_LAST + 1];
-  GtkTreeSelection *selection_depr;
-  GtkListStore *store_depr;
   GtkSingleSelection *selection;
   GListStore *store;
   int id;                       /* Needed to pass a preset_index */
