@@ -649,7 +649,7 @@ bool sanity_check_ruleset_data(void)
 
       if (a == NULL) {
         ruleset_error(LOG_ERROR,
-                      "Tech %s does not exist, but is tech for %s.",
+                      "Tech %s does not exist, but is initial tech for %s.",
                       advance_rule_name(advance_by_number(tech)),
                       nation_rule_name(pnation));
         ok = FALSE;
