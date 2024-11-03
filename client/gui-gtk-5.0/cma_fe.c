@@ -76,14 +76,18 @@ static void cma_preset_add_popup_callback(gpointer data, gint response,
                                           const char *input);
 
 static void cma_active_callback(GtkWidget *w, gpointer data);
-static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
-                                         GtkTreeViewColumn *col, gpointer data);
+static void cma_activate_preset_callback_depr(GtkTreeView *view, GtkTreePath *path,
+                                              GtkTreeViewColumn *col, gpointer data);
+static void cma_activate_preset_callback(GtkSelectionModel *self,
+                                         guint position,
+                                         guint n_items,
+                                         gpointer data);
 
 static void hscale_changed(GtkWidget *get, gpointer data);
 static void set_hscales(const struct cm_parameter *const parameter,
                         struct cma_dialog *pdialog);
 
-#define FC_TYPE_ACTION_ROW (fc_action_row_get_type())
+#define FC_TYPE_PRESET_ROW (fc_preset_row_get_type())
 
 G_DECLARE_FINAL_TYPE(FcPresetRow, fc_preset_row, FC, PRESET_ROW, GObject)
 
@@ -91,7 +95,7 @@ struct _FcPresetRow
 {
   GObject parent_instance;
 
-  const char *desc;
+  char *desc;
 };
 
 struct _FcPresetRowClass
@@ -102,11 +106,29 @@ struct _FcPresetRowClass
 G_DEFINE_TYPE(FcPresetRow, fc_preset_row, G_TYPE_OBJECT)
 
 /**********************************************************************//**
+  Finalizing method for FcPresetRow class
+**************************************************************************/
+static void fc_preset_row_finalize(GObject *gobject)
+{
+  FcPresetRow *row = FC_PRESET_ROW(gobject);
+
+  if (row->desc != nullptr) {
+    free(row->desc);
+    row->desc = nullptr;
+  }
+
+  G_OBJECT_CLASS(fc_preset_row_parent_class)->finalize(gobject);
+}
+
+/**********************************************************************//**
   Initialization method for FcPresetRow class
 **************************************************************************/
 static void
 fc_preset_row_class_init(FcPresetRowClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+  object_class->finalize = fc_preset_row_finalize;
 }
 
 /**********************************************************************//**
@@ -115,12 +137,12 @@ fc_preset_row_class_init(FcPresetRowClass *klass)
 static void
 fc_preset_row_init(FcPresetRow *self)
 {
+  self->desc = nullptr;
 }
 
 /**********************************************************************//**
   FcPresetRow creation method
 **************************************************************************/
-#if 0
 static FcPresetRow *fc_preset_row_new(void)
 {
   FcPresetRow *result;
@@ -129,7 +151,6 @@ static FcPresetRow *fc_preset_row_new(void)
 
   return result;
 }
-#endif
 
 /**********************************************************************//**
   Initialize cma front end system
@@ -200,11 +221,11 @@ static gboolean button_press_callback(GtkGestureClick *gesture, int n_press,
   GtkTreePath *path;
   GtkTreeViewColumn *column;
 
-  if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(pdialog->preset_list),
+  if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(pdialog->preset_list_depr),
                                     x, y, &path, &column, NULL, NULL)) {
     if (n_press == 1) {
-      cma_activate_preset_callback(GTK_TREE_VIEW(pdialog->preset_list),
-                                   path, column, pdialog);
+      cma_activate_preset_callback_depr(GTK_TREE_VIEW(pdialog->preset_list_depr),
+                                        path, column, pdialog);
     } else if (n_press == 2) {
       struct cm_parameter param;
 
@@ -214,6 +235,31 @@ static gboolean button_press_callback(GtkGestureClick *gesture, int n_press,
     }
   }
   gtk_tree_path_free(path);
+
+  int rnbr = get_column_view_row(pdialog->preset_list, y);
+
+  if (rnbr >= 0) {
+    if (n_press == 1) {
+      const struct cm_parameter *pparam;
+
+      pparam = cmafec_preset_get_parameter(rnbr);
+
+      /* Save the change */
+      cmafec_set_fe_parameter(pdialog->pcity, pparam);
+
+      if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
+        cma_release_city(pdialog->pcity);
+        cma_put_city_under_agent(pdialog->pcity, pparam);
+      }
+      refresh_city_dialog(pdialog->pcity);
+    } else if (n_press == 2) {
+      struct cm_parameter param;
+
+      cmafec_get_fe_parameter(pdialog->pcity, &param);
+      cma_put_city_under_agent(pdialog->pcity, &param);
+      refresh_city_dialog(pdialog->pcity);
+    }
+  }
 
   return FALSE;
 }
@@ -296,11 +342,13 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   struct cm_parameter param;
   GtkWidget *frame, *page, *hbox, *vbox, *label, *table;
   GtkWidget *sw, *hscale, *button;
-  GtkListStore *store;
+  GtkListStore *store_depr;
   GtkCellRenderer *rend;
   GtkListItemFactory *factory;
+  GtkWidget *list;
+  GtkColumnViewColumn *column;
   GtkWidget *view;
-  GtkTreeViewColumn *column;
+  GtkTreeViewColumn *column_depr;
   gint layout_width;
   GtkEventController *controller;
   int shell_row = 0;
@@ -332,8 +380,14 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-  store = gtk_list_store_new(1, G_TYPE_STRING);
-  pdialog->store = store;
+  store_depr = gtk_list_store_new(1, G_TYPE_STRING);
+  pdialog->store_depr = store_depr;
+
+  pdialog->store = g_list_store_new(FC_TYPE_PRESET_ROW);
+  pdialog->selection
+    = gtk_single_selection_new(G_LIST_MODEL(pdialog->store));
+  list = gtk_column_view_new(GTK_SELECTION_MODEL(pdialog->selection));
+  pdialog->preset_list = list;
 
   factory = gtk_signal_list_item_factory_new();
   g_signal_connect(factory, "bind", G_CALLBACK(preset_factory_bind),
@@ -341,19 +395,22 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   g_signal_connect(factory, "setup", G_CALLBACK(preset_factory_setup),
                    nullptr);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  column = gtk_column_view_column_new(_("Name"), factory);
+  gtk_column_view_append_column(GTK_COLUMN_VIEW(list), column);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store_depr));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
-  g_object_unref(store);
+  g_object_unref(store_depr);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-  pdialog->preset_list = view;
-  pdialog->selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  pdialog->preset_list_depr = view;
+  pdialog->selection_depr = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
 
-  g_object_set_data(G_OBJECT(pdialog->preset_list), "dialog", pdialog);
+  g_object_set_data(G_OBJECT(pdialog->preset_list_depr), "dialog", pdialog);
   controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
   g_signal_connect(controller, "pressed",
                    G_CALLBACK(button_press_callback), NULL);
-  gtk_widget_add_controller(pdialog->preset_list, controller);
+  gtk_widget_add_controller(pdialog->preset_list_depr, controller);
 
   gtk_widget_set_tooltip_text(view,
                               _("For information on\n"
@@ -362,15 +419,15 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
                                 "see README.governor."));
 
   rend = gtk_cell_renderer_text_new();
-  column = gtk_tree_view_column_new_with_attributes(NULL, rend,
+  column_depr = gtk_tree_view_column_new_with_attributes(NULL, rend,
                                                     "text", 0, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
-  gtk_tree_view_column_set_cell_data_func(column, rend, cell_data_func,
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), column_depr);
+  gtk_tree_view_column_set_cell_data_func(column_depr, rend, cell_data_func,
                                           pdialog, NULL);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
-                       "mnemonic-widget", view,
+                       "mnemonic-widget", list,
                        "label", _("Prese_ts:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_box_append(GTK_BOX(vbox), label);
@@ -379,6 +436,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_box_append(GTK_BOX(vbox), sw);
 
   g_signal_connect(view, "row_activated",
+                   G_CALLBACK(cma_activate_preset_callback_depr), pdialog);
+  g_signal_connect(pdialog->selection, "selection-changed",
                    G_CALLBACK(cma_activate_preset_callback), pdialog);
   controller = gtk_event_controller_key_new();
   g_signal_connect(controller, "key-pressed",
@@ -586,7 +645,7 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
     set_hscales(&param, pdialog);
   }
 
-  gtk_widget_queue_draw(pdialog->preset_list);
+  gtk_widget_queue_draw(pdialog->preset_list_depr);
 
   gtk_widget_set_sensitive(pdialog->active_command, can_client_issue_orders());
 
@@ -623,14 +682,21 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
   int i;
 
   /* Fill preset list */
-  gtk_list_store_clear(pdialog->store);
+  gtk_list_store_clear(pdialog->store_depr);
+  g_list_store_remove_all(pdialog->store);
 
   /* Append the presets */
   if (cmafec_preset_num()) {
     for (i = 0; i < cmafec_preset_num(); i++) {
       fc_strlcpy(buf, cmafec_preset_get_descr(i), sizeof(buf));
-      gtk_list_store_append(pdialog->store, &it);
-      gtk_list_store_set(pdialog->store, &it, 0, buf, -1);
+      gtk_list_store_append(pdialog->store_depr, &it);
+      gtk_list_store_set(pdialog->store_depr, &it, 0, buf, -1);
+
+      FcPresetRow *row = fc_preset_row_new();
+
+      row->desc = fc_strdup(buf);
+      g_list_store_append(pdialog->store, row);
+      g_object_unref(row);
     }
   }
 }
@@ -638,14 +704,38 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
 /**********************************************************************//**
   Callback for selecting a preset from the preset view
 **************************************************************************/
-static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
-                                         GtkTreeViewColumn *col, gpointer data)
+static void cma_activate_preset_callback_depr(GtkTreeView *view, GtkTreePath *path,
+                                              GtkTreeViewColumn *col, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   int preset_index;
   const struct cm_parameter *pparam;
 
   preset_index = gtk_tree_path_get_indices(path) [0];
+
+  pparam = cmafec_preset_get_parameter(preset_index);
+
+  /* Save the change */
+  cmafec_set_fe_parameter(pdialog->pcity, pparam);
+
+  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
+    cma_release_city(pdialog->pcity);
+    cma_put_city_under_agent(pdialog->pcity, pparam);
+  }
+  refresh_city_dialog(pdialog->pcity);
+}
+
+/**********************************************************************//**
+  Callback for selecting a preset from the preset view
+**************************************************************************/
+static void cma_activate_preset_callback(GtkSelectionModel *self,
+                                         guint position,
+                                         guint n_items,
+                                         gpointer data)
+{
+  struct cma_dialog *pdialog = (struct cma_dialog *) data;
+  const struct cm_parameter *pparam;
+  int preset_index = gtk_single_selection_get_selected(GTK_SINGLE_SELECTION(self));
 
   pparam = cmafec_preset_get_parameter(preset_index);
 
@@ -669,7 +759,13 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
   GtkWidget *parent = gtk_widget_get_ancestor(pdialog->shell, GTK_TYPE_WINDOW);
   int index;
 
-  if ((index = gtk_tree_selection_get_row(pdialog->selection)) != -1) {
+  if ((index = gtk_single_selection_get_selected(pdialog->selection)) >= 0) {
+    default_name = cmafec_preset_get_descr(index);
+  } else {
+    default_name = _("new preset");
+  }
+
+  if ((index = gtk_tree_selection_get_row(pdialog->selection_depr)) != -1) {
     default_name = cmafec_preset_get_descr(index);
   } else {
     default_name = _("new preset");
@@ -716,7 +812,11 @@ static gboolean cma_preset_key_pressed(GtkEventControllerKey *controller,
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   int index;
 
-  if ((index = gtk_tree_selection_get_row(pdialog->selection)) == -1) {
+  if ((index = gtk_single_selection_get_selected(pdialog->selection)) < 0) {
+    return FALSE;
+  }
+
+  if ((index = gtk_tree_selection_get_row(pdialog->selection_depr)) == -1) {
     return FALSE;
   }
 
@@ -742,7 +842,11 @@ static void cma_del_preset_callback(GtkWidget *w, gpointer data)
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   int index;
 
-  if ((index = gtk_tree_selection_get_row(pdialog->selection)) == -1) {
+  if ((index = gtk_single_selection_get_selected(pdialog->selection)) < 0) {
+    return;
+  }
+
+  if ((index = gtk_tree_selection_get_row(pdialog->selection_depr)) == -1) {
     return;
   }
 
