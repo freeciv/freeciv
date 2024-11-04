@@ -106,7 +106,7 @@ static void restore_access_level(struct connection *pconn)
   This is used when a new player joins a server, before the game
   has started.  If pconn is NULL, is an AI, else a client.
 
-  N.B. this only attachs a connection to a player if 
+  N.B. this only attaches a connection to a player if
        pconn->username == player->username
 
   Here we send initial packets:
