@@ -807,8 +807,8 @@ static unsigned int assess_danger(struct ai_type *ait,
     /* Note that we still consider the units of players we are not (yet)
      * at war with. */
 
-    pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, assess_turns,
-                                            omnimap, nmap);
+    pcity_map = pf_reverse_map_new_for_city(nmap, pcity, aplayer, assess_turns,
+                                            omnimap);
 
     if (ul_cb != NULL) {
       units = ul_cb(aplayer);

@@ -3032,8 +3032,8 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader needs to flee");
 
   /* Check for units we could fear. */
-  pfrm = pf_reverse_map_new(pplayer, leader_tile, 3,
-                            !has_handicap(pplayer, H_MAP), &(wld.map));
+  pfrm = pf_reverse_map_new(nmap, pplayer, leader_tile, 3,
+                            !has_handicap(pplayer, H_MAP));
   worst_danger = NULL;
   best_move_cost = FC_INFINITY;
 

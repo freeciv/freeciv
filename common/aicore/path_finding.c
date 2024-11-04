@@ -3685,10 +3685,10 @@ static void pf_reverse_map_destroy_param(struct pf_parameter *param)
   'pf_reverse_map' constructor. If 'max_turns' is positive, then it won't
   try to iterate the maps beyond this number of turns.
 ****************************************************************************/
-struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
+struct pf_reverse_map *pf_reverse_map_new(const struct civ_map *nmap,
+                                          const struct player *pplayer,
                                           struct tile *target_tile,
-                                          int max_turns, bool omniscient,
-                                          const struct civ_map *nmap)
+                                          int max_turns, bool omniscient)
 {
   struct pf_reverse_map *pfrm = fc_malloc(sizeof(struct pf_reverse_map));
   struct pf_parameter *param = &pfrm->template;
@@ -3712,13 +3712,12 @@ struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
   'pf_reverse_map' constructor for city. If 'max_turns' is positive, then
   it won't try to iterate the maps beyond this number of turns.
 ****************************************************************************/
-struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
+struct pf_reverse_map *pf_reverse_map_new_for_city(const struct civ_map *nmap,
+                                                   const struct city *pcity,
                                                    const struct player *attacker,
-                                                   int max_turns, bool omniscient,
-                                                   const struct civ_map *nmap)
+                                                   int max_turns, bool omniscient)
 {
-  return pf_reverse_map_new(attacker, city_tile(pcity), max_turns, omniscient,
-                            nmap);
+  return pf_reverse_map_new(nmap, attacker, city_tile(pcity), max_turns, omniscient);
 }
 
 /************************************************************************//**
