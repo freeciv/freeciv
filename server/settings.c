@@ -2032,7 +2032,7 @@ static struct setting settings[] = {
           N_("When unit trying to incite revolt is eliminated and lose its "
              "gold, there is chance that this gold would be captured by "
              "city defender. Transfer tax would be applied, though. "
-             "This setting is irrevelant, if incite_gold_loss_chance is zero."),
+             "This setting is irrelevant, if incite_gold_loss_chance is zero."),
           NULL, NULL, NULL,
           GAME_MIN_INCITE_GOLD_CAPT_CHANCE, GAME_MAX_INCITE_GOLD_CAPT_CHANCE,
           GAME_DEFAULT_INCITE_GOLD_CAPT_CHANCE)
