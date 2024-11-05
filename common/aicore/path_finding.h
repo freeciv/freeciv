@@ -475,9 +475,8 @@ struct pf_parameter {
 /* The map itself. Opaque type. */
 struct pf_map;
 
-/* The reverse map strucure. Opaque type. */
+/* The reverse map structure. Opaque type. */
 struct pf_reverse_map;
-
 
 
 /* ========================= Public Interface ============================ */

@@ -630,7 +630,7 @@ static int get_closest_safe_tile_distance(const struct tile *src_tile,
   return -1;
 }
 
-/* ====================  Postion Dangerous Callbacks =================== */
+/* ====================  Position Dangerous Callbacks =================== */
 
 /************************************************************************//**
   Position-dangerous callback for air units.

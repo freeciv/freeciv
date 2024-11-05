@@ -47,7 +47,7 @@
 /* ======================== Internal structures ========================== */
 
 #ifdef PF_DEBUG
-/* The mode we use the pf_map. Used for cast converion checks. */
+/* The mode we use the pf_map. Used for cast conversion checks. */
 enum pf_mode {
   PF_NORMAL = 1,        /* Usual goto */
   PF_DANGER,            /* Goto with dangerous positions */
@@ -966,7 +966,7 @@ struct pf_danger_node {
   unsigned short extra_tile;    /* EC */
 
   /* Segment leading across the danger area back to the nearest safe node:
-   * need to remeber costs and stuff. */
+   * need to remember costs and stuff. */
   struct pf_danger_pos {
     signed short cost;          /* See comment above. */
     unsigned extra_cost;        /* See comment above. */
