@@ -45,7 +45,7 @@ enum foreign_trade_limit
  */
 
 /**
- * The result of one trade route, accoring to the parameter below.
+ * The result of one trade route, according to the parameter below.
  * A null destination implies that this is not a real result.
  */
 struct caravan_result {
