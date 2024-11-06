@@ -115,7 +115,6 @@ struct _FcHostRow
   int nplayers;
   char *humans;
   char *message;
-  char *name;
 };
 
 struct _FcHostClass
@@ -124,6 +123,16 @@ struct _FcHostClass
 };
 
 G_DEFINE_TYPE(FcHostRow, fc_host_row, G_TYPE_OBJECT)
+
+enum host_rows {
+  host_row_host,
+  host_row_port,
+  host_row_version,
+  host_row_state,
+  host_row_nplayers,
+  host_row_humans,
+  host_row_message
+};
 
 
 #define FC_TYPE_PLR_ROW (fc_plr_row_get_type())
@@ -1422,6 +1431,56 @@ static void update_network_page(void)
 }
 
 /**********************************************************************//**
+  Host table cell bind function
+**************************************************************************/
+static void host_factory_bind(GtkSignalListItemFactory *self,
+                              GtkListItem *list_item,
+                              gpointer user_data)
+{
+  FcHostRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+  char buf[512];
+
+  row = gtk_list_item_get_item(list_item);
+
+  switch (GPOINTER_TO_INT(user_data)) {
+  case host_row_host:
+    gtk_label_set_text(GTK_LABEL(child), row->host);
+    break;
+  case host_row_port:
+    fc_snprintf(buf, sizeof(buf), "%d", row->port);
+    gtk_label_set_text(GTK_LABEL(child), buf);
+    break;
+  case host_row_version:
+    gtk_label_set_text(GTK_LABEL(child), row->version);
+    break;
+  case host_row_state:
+    gtk_label_set_text(GTK_LABEL(child), row->state);
+    break;
+  case host_row_nplayers:
+    fc_snprintf(buf, sizeof(buf), "%d", row->nplayers);
+    gtk_label_set_text(GTK_LABEL(child), buf);
+    break;
+  case host_row_humans:
+    gtk_label_set_text(GTK_LABEL(child), row->humans);
+    break;
+  case host_row_message:
+    gtk_label_set_text(GTK_LABEL(child), row->message);
+    break;
+  }
+}
+
+/**********************************************************************//**
+  Host table cell setup function
+**************************************************************************/
+static void host_factory_setup(GtkSignalListItemFactory *self,
+                               GtkListItem *list_item,
+                               gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
+/**********************************************************************//**
   Create the network page.
 **************************************************************************/
 GtkWidget *create_network_page(void)
@@ -1431,6 +1490,7 @@ GtkWidget *create_network_page(void)
   GtkTreeSelection *selection;
   GtkListStore *store;
   GtkEventController *controller;
+  GtkListItemFactory *factory;
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_widget_set_margin_start(box, 4);
@@ -1449,6 +1509,12 @@ GtkWidget *create_network_page(void)
                                  G_TYPE_INT,       /* nplayers */
                                  G_TYPE_STRING,    /* humans */
                                  G_TYPE_STRING);   /* message */
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(host_factory_bind),
+                   GINT_TO_POINTER(host_row_host));
+  g_signal_connect(factory, "setup", G_CALLBACK(host_factory_setup),
+                   nullptr);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(lan_store));
   gtk_widget_set_hexpand(view, TRUE);
