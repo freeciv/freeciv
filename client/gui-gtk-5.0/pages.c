@@ -169,6 +169,26 @@ struct _FcScenClass
 
 G_DEFINE_TYPE(FcScenRow, fc_scen_row, G_TYPE_OBJECT)
 
+
+#define FC_TYPE_SAVE_ROW (fc_save_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcSaveRow, fc_save_row, FC, SAVE_ROW, GObject)
+
+struct _FcSaveRow
+{
+  GObject parent_instance;
+
+  char *pretty_name;
+  char *full_path;
+};
+
+struct _FcSaveClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcSaveRow, fc_save_row, G_TYPE_OBJECT)
+
 /**********************************************************************//**
   Initialization method for FcHostRow class
 **************************************************************************/
@@ -254,6 +274,36 @@ static FcScenRow *fc_scen_row_new(void)
   FcScenRow *result;
 
   result = g_object_new(FC_TYPE_SCEN_ROW, nullptr);
+
+  return result;
+}
+#endif
+
+/**********************************************************************//**
+  Initialization method for FcSaveRow class
+**************************************************************************/
+static void
+fc_save_row_class_init(FcSaveRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcSaveRow
+**************************************************************************/
+static void
+fc_save_row_init(FcSaveRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcSaveRow creation method
+**************************************************************************/
+#if 0
+static FcSaveRow *fc_save_row_new(void)
+{
+  FcSaveRow *result;
+
+  result = g_object_new(FC_TYPE_SAVE_ROW, nullptr);
 
   return result;
 }
