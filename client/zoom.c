@@ -29,11 +29,7 @@ float mouse_zoom = 1.0;
 bool zoom_individual_tiles = TRUE;
 
 static float default_zoom_steps[] = {
-#ifdef EXP_ZOOM_LEVELS
-  -1.0, 0.13, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, -1.0
-#else
   -1.0, 1.0, 2.0, -1.0
-#endif /* EXP_ZOOM_LEVELS */
 };
 
 static float *zoom_steps = default_zoom_steps;
