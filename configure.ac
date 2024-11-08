@@ -482,10 +482,6 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   fi
 done
 
-AC_ARG_WITH([zoom],
-  [AS_HELP_STRING([--with-zoom], [expose experimental zoom levels support on gtk-clients to user])],
-  [AC_DEFINE([EXP_ZOOM_LEVELS], [1], [Experimental zoom levels (other than 1.0 and 2.0)])])
-
 AC_ARG_ENABLE([gitrev],
   AS_HELP_STRING([--enable-gitrev], [get git revision to version information]),
 [case "${enableval}" in
