@@ -112,7 +112,7 @@ void zoom_step_up(void)
   int i;
 
   /* Even if below previous step, close enough is considered to be in
-   * previous step so that change is not miniscule */
+   * previous step so that change is not minuscule */
   for (i = 1 ;
        zoom_steps[i] < mouse_zoom * 1.05 && zoom_steps[i] > 0.0 ;
        i++ ) {
@@ -136,7 +136,7 @@ void zoom_step_down(void)
   int i;
 
   /* Even if above previous step, close enough is considered to be in
-   * previous step so that change is not miniscule */
+   * previous step so that change is not minuscule */
   for (i = 1;
        zoom_steps[i] < mouse_zoom * 1.05 && zoom_steps[i] > 0.0 ;
        i++) {
