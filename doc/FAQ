@@ -943,7 +943,7 @@ freeciv-gtk3.22 -d verbose -P <plugin> -S stdsounds
 
         City Governor (CMA)
                 This is a really useful client side agent which helps you
-                to organize our citizens. However, it consumes many CPU
+                to organize your citizens. However, it consumes many CPU
                 cycles.
 
         Maps and compression
