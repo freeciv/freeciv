@@ -2081,11 +2081,10 @@ bool is_friendly_city_near(const struct civ_map *nmap,
   Return TRUE iff a city exists within a city radius of the given 
   location. may_be_on_center determines if a city at x,y counts.
 **************************************************************************/
-bool city_exists_within_max_city_map(const struct tile *ptile,
+bool city_exists_within_max_city_map(const struct civ_map *nmap,
+                                     const struct tile *ptile,
                                      bool may_be_on_center)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   city_tile_iterate(nmap, CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
     if (may_be_on_center || !same_pos(ptile, ptile1)) {
       if (tile_city(ptile1)) {

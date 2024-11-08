@@ -755,7 +755,8 @@ bool is_unit_near_a_friendly_city(const struct civ_map *nmap,
 bool is_friendly_city_near(const struct civ_map *nmap,
                            const struct player *owner,
                            const struct tile *ptile);
-bool city_exists_within_max_city_map(const struct tile *ptile,
+bool city_exists_within_max_city_map(const struct civ_map *nmap,
+                                     const struct tile *ptile,
                                      bool may_be_on_center);
 
 /* Granary size as a function of city size */

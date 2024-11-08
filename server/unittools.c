@@ -3192,14 +3192,17 @@ static bool hut_get_limited(struct unit *punit)
   bool ok = TRUE;
   int hut_chance = fc_rand(12);
   struct player *pplayer = unit_owner(punit);
+  const struct civ_map *nmap = &(wld.map);
+
   /* 1 in 12 to get barbarians */
   if (hut_chance != 0) {
     int cred = 25;
+
     notify_player(pplayer, unit_tile(punit), E_HUT_GOLD, ftc_server,
                   PL_("You found %d gold.",
                       "You found %d gold.", cred), cred);
     pplayer->economic.gold += cred;
-  } else if (city_exists_within_max_city_map(unit_tile(punit), TRUE)
+  } else if (city_exists_within_max_city_map(nmap, unit_tile(punit), TRUE)
              || unit_has_type_flag(punit, UTYF_GAMELOSS)) {
     notify_player(pplayer, unit_tile(punit),
                   E_HUT_BARB_CITY_NEAR, ftc_server,
@@ -3211,6 +3214,7 @@ static bool hut_get_limited(struct unit *punit)
     wipe_unit(punit, ULR_BARB_UNLEASH, NULL);
     ok = FALSE;
   }
+
   return ok;
 }
 
