@@ -24,6 +24,8 @@
 class QCheckBox;
 class QLineEdit;
 class QListWidget;
+class QSpinBox;
+class QToolButton;
 
 class ruledit_gui;
 
@@ -44,6 +46,9 @@ class tab_achievement : public QWidget
     QLineEdit *rname;
     QListWidget *ach_list;
     QCheckBox *same_name;
+    QToolButton *type_button;
+    QMenu *type_menu;
+    QSpinBox *value_box;
 
     struct achievement *selected;
 
@@ -54,6 +59,8 @@ class tab_achievement : public QWidget
     void delete_now();
     void same_name_toggle(bool checked);
     void edit_effects();
+    void edit_type(QAction *action);
+    void set_value(int value);
 };
 
 #endif // FC__TAB_ACHIEVEMENT_H
