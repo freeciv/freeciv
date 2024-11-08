@@ -22,6 +22,7 @@
 #include <QListWidget>
 #include <QMenu>
 #include <QPushButton>
+#include <QSpinBox>
 #include <QToolButton>
 
 // utility
@@ -51,6 +52,7 @@ tab_achievement::tab_achievement(ruledit_gui *ui_in) : QWidget()
   QPushButton *effects_button;
   QPushButton *add_button;
   QPushButton *delete_button;
+  int row = 0;
 
   ui = ui_in;
   selected = nullptr;
@@ -68,8 +70,8 @@ tab_achievement::tab_achievement(ruledit_gui *ui_in) : QWidget()
   rname = new QLineEdit(this);
   rname->setText(R__("None"));
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  ach_layout->addWidget(label, 0, 0);
-  ach_layout->addWidget(rname, 0, 2);
+  ach_layout->addWidget(label, row, 0);
+  ach_layout->addWidget(rname, row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
@@ -78,23 +80,54 @@ tab_achievement::tab_achievement(ruledit_gui *ui_in) : QWidget()
   name = new QLineEdit(this);
   name->setText(R__("None"));
   connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  ach_layout->addWidget(label, 1, 0);
-  ach_layout->addWidget(same_name, 1, 1);
-  ach_layout->addWidget(name, 1, 2);
+  ach_layout->addWidget(label, row, 0);
+  ach_layout->addWidget(same_name, row, 1);
+  ach_layout->addWidget(name, row++, 2);
+
+  label = new QLabel(QString::fromUtf8(R__("Type")));
+  label->setParent(this);
+
+  type_button = new QToolButton();
+  type_menu = new QMenu();
+
+  for (int ach = 0; ach < ACHIEVEMENT_COUNT; ach++) {
+    type_menu->addAction(achievement_type_name(static_cast<enum achievement_type>(ach)));
+  }
+
+  connect(type_menu, SIGNAL(triggered(QAction *)),
+          this, SLOT(edit_type(QAction *)));
+
+  type_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  type_button->setPopupMode(QToolButton::MenuButtonPopup);
+  type_button->setMenu(type_menu);
+  type_button->setText(R__("None"));
+
+  ach_layout->addWidget(label, row, 0);
+  ach_layout->addWidget(type_button, row++, 2);
+
+  label = new QLabel(QString::fromUtf8(R__("Value")));
+  label->setParent(this);
+
+  value_box = new QSpinBox(this);
+  value_box->setRange(-1000, 1000);
+  connect(value_box, SIGNAL(valueChanged(int)), this, SLOT(set_value(int)));
+
+  ach_layout->addWidget(label, row, 0);
+  ach_layout->addWidget(value_box, row++, 2);
 
   effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
   connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
-  ach_layout->addWidget(effects_button, 3, 2);
+  ach_layout->addWidget(effects_button, row++, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Achievement")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  ach_layout->addWidget(add_button, 4, 0);
+  ach_layout->addWidget(add_button, row, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Achievement")),
                                   this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  ach_layout->addWidget(delete_button, 4, 2);
+  ach_layout->addWidget(delete_button, row++, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -127,9 +160,10 @@ void tab_achievement::update_achievement_info(struct achievement *pach)
 {
   selected = pach;
 
-  if (selected != 0) {
+  if (selected != nullptr) {
     QString dispn = QString::fromUtf8(untranslated_name(&(pach->name)));
     QString rulen = QString::fromUtf8(achievement_rule_name(pach));
+    QString tname = QString::fromUtf8(achievement_type_name(pach->type));
 
     name->setText(dispn);
     rname->setText(rulen);
@@ -140,9 +174,14 @@ void tab_achievement::update_achievement_info(struct achievement *pach)
       same_name->setChecked(false);
       name->setEnabled(true);
     }
+
+    type_button->setText(tname);
+    value_box->setValue(pach->value);
   } else {
     name->setText(R__("None"));
     rname->setText(R__("None"));
+    type_button->setText(R__("None"));
+    value_box->setValue(0);
     same_name->setChecked(true);
     name->setEnabled(false);
   }
@@ -291,5 +330,38 @@ void tab_achievement::edit_effects()
 
     ui->open_effect_edit(QString::fromUtf8(achievement_rule_name(selected)),
                          &uni, EFMC_NORMAL);
+  }
+}
+
+/**********************************************************************//**
+  User selected achievement type
+**************************************************************************/
+void tab_achievement::edit_type(QAction *action)
+{
+  enum achievement_type ach;
+  QByteArray an_bytes;
+
+  an_bytes = action->text().toUtf8();
+  ach = achievement_type_by_name(an_bytes.data(), fc_strcasecmp);
+
+  if (selected != nullptr && achievement_type_is_valid(ach)) {
+    selected->type = ach;
+
+    // Show the changes.
+    update_achievement_info(selected);
+    refresh();
+  }
+}
+
+/**********************************************************************//**
+  Read value from spinbox to achievement
+**************************************************************************/
+void tab_achievement::set_value(int value)
+{
+  if (selected != nullptr) {
+    selected->value = value;
+
+    // Show the changes.
+    update_achievement_info(selected);
   }
 }
