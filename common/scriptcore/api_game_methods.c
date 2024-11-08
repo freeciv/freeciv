@@ -1165,7 +1165,7 @@ bool api_methods_tile_city_exists_within_max_city_map(lua_State *L,
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
 
-  return city_exists_within_max_city_map(ptile, may_be_on_center);
+  return city_exists_within_max_city_map(&(wld.map), ptile, may_be_on_center);
 }
 
 /**********************************************************************//**
