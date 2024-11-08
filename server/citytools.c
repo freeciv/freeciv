@@ -2184,7 +2184,7 @@ static void package_dumb_city(struct player *pplayer, struct tile *ptile,
   if (pdcity->original != NULL) {
     packet->original = player_number(pdcity->original);
   } else {
-    packet->original = -1;
+    packet->original = MAX_NUM_PLAYER_SLOTS;
   }
 
   packet->tile = tile_index(ptile);
