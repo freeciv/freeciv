@@ -2623,6 +2623,24 @@ static void compat_load_030300(struct loaddata *loading,
       secfile_entry_ignore(loading->file, "research.r%d.techs", i);
     }
   }
+
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
+    int ncities;
+    int cnro;
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno) == nullptr) {
+      continue;
+    }
+
+    ncities = secfile_lookup_int_default(loading->file, 0,
+                                         "player%d.dc_total", plrno);
+
+    for (cnro = 0; cnro < ncities; cnro++) {
+      secfile_insert_int(loading->file, -1, "player%d.dc%d.original",
+                         plrno, cnro);
+    }
+  } player_slots_iterate_end;
 }
 
 /************************************************************************//**
@@ -3050,6 +3068,27 @@ static void compat_load_dev(struct loaddata *loading)
         free(savemod);
       }
     }
+
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int ncities;
+      int cnro;
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == nullptr) {
+        continue;
+      }
+
+      ncities = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.dc_total", plrno);
+
+      for (cnro = 0; cnro < ncities; cnro++) {
+        if (!secfile_entry_lookup(loading->file, "player%d.dc%d.original",
+                                  plrno, cnro)) {
+          secfile_insert_int(loading->file, -1, "player%d.dc%d.original",
+                             plrno, cnro);
+        }
+      }
+    } player_slots_iterate_end;
   } /* Version < 3.2.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_3 */

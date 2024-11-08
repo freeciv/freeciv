@@ -7331,6 +7331,17 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   sg_warn_ret_val(NULL != pdcity->owner, FALSE,
                   "%s has invalid owner (%d); skipping.", citystr, id);
 
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &id, "%s.original",
+                                     citystr),
+                  FALSE, "%s", secfile_error());
+  if (id >= 0) {
+    pdcity->original = player_by_number(id);
+    sg_warn_ret_val(NULL != pdcity->original, FALSE,
+                    "%s has invalid original owner (%d); skipping.", citystr, id);
+  } else {
+    pdcity->original = nullptr;
+  }
+
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pdcity->identity,
                                      "%s.id", citystr),
                   FALSE, "%s", secfile_error());
@@ -7531,6 +7542,12 @@ static void sg_save_player_vision(struct savedata *saving,
       secfile_insert_int(saving->file, pdcity->identity, "%s.id", buf);
       secfile_insert_int(saving->file, player_number(vision_site_owner(pdcity)),
                          "%s.owner", buf);
+      if (pdcity->original != nullptr) {
+        secfile_insert_int(saving->file, player_number(pdcity->original),
+                           "%s.original", buf);
+      } else {
+        secfile_insert_int(saving->file, -1, "%s.original", buf);
+      }
 
       secfile_insert_int(saving->file, vision_site_size_get(pdcity),
                          "%s.size", buf);
