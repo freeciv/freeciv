@@ -7053,7 +7053,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                                 fc_strcasecmp);
       if (!wonder_visib_type_is_valid(game.info.small_wonder_visibility)) {
         ruleset_error(NULL, LOG_ERROR,
-                      "Unknown wonder visibility typpe \"%s\"",
+                      "Unknown wonder visibility type \"%s\"",
                       text);
         ok = FALSE;
       }
