@@ -746,11 +746,6 @@ void handle_city_info(const struct packet_city_info *packet)
       pcity->tile = pcenter;
       ptile = pcenter;
       pcity->owner = powner;
-      if (has_capability("city-original", client.conn.capability)) {
-        pcity->original = player_by_number(packet->original);
-      } else {
-        pcity->original = NULL;
-      }
     } else if (city_owner(pcity) != powner) {
       /* Remember what were the worked tiles. The server won't
        * send them to us again. */
@@ -811,6 +806,12 @@ void handle_city_info(const struct packet_city_info *packet)
       || (gui_options.draw_city_trade_routes && trade_routes_changed);
 
     city_name_set(pcity, packet->name);
+  }
+
+  if (has_capability("city-original", client.conn.capability)) {
+    pcity->original = player_by_number(packet->original);
+  } else {
+    pcity->original = NULL;
   }
 
   /* Check data */
