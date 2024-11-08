@@ -698,7 +698,6 @@ void handle_city_info(const struct packet_city_info *packet)
       pcity->tile = pcenter;
       ptile = pcenter;
       pcity->owner = powner;
-      pcity->original = player_by_number(packet->original);
     } else if (city_owner(pcity) != powner) {
       /* Remember what were the worked tiles. The server won't
        * send them to us again. */
@@ -759,6 +758,8 @@ void handle_city_info(const struct packet_city_info *packet)
 
     city_name_set(pcity, packet->name);
   }
+
+  pcity->original = player_by_number(packet->original);
 
   /* Check data */
   city_size_set(pcity, 0);
