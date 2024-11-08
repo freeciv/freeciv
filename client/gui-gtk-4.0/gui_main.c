@@ -275,15 +275,10 @@ static void print_usage(void)
   fc_fprintf(stderr,
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
                "screen\n"));
-
-#ifdef EXP_ZOOM_LEVELS
   fc_fprintf(stderr,
              /* TRANS: Keep word 'default' untranslated */
              _("-z, --zoom LEVEL\tSet zoom level; use value 'default' "
                "to reset\n\n"));
-#else
-  fc_fprintf(stderr, "\n");
-#endif /* EXP_ZOOM_LEVELS */
 
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
@@ -303,8 +298,6 @@ static bool parse_options(int argc, char **argv)
       print_usage();
 
       return FALSE;
-
-#ifdef EXP_ZOOM_LEVELS
     } else if ((option = get_option_malloc("--zoom", argv, &i, argc, FALSE))) {
       char *endptr;
 
@@ -315,8 +308,6 @@ static bool parse_options(int argc, char **argv)
         gui_options.zoom_set = FALSE;
       }
       free(option);
-#endif /* EXP_ZOOM_LEVELS */
-
     } else if ((option = get_option_malloc("--resolution", argv, &i, argc, FALSE))) {
       if (!string_to_video_mode(option, &vmode)) {
         fc_fprintf(stderr, _("Illegal video mode '%s'\n"), option);
