@@ -693,7 +693,7 @@ Starting game.
    contributed binaries. If you have a working client, and you don't know
    its version, start it, load a game or scenario, or just start a new
    game, click on Help for the help menu, and on About Freeciv to see the
-   version and the client type (GTK3.22, GTK4, QT, SDL2, …).
+   version and the client type (GTK3.22, GTK4, QT, SDL2, SDL3, …).
 
    It's possible that not all precompiled binaries and ports have been
    updated to 3.1.3 yet. If you can contribute, please do! Prepare a
@@ -811,21 +811,19 @@ types, and technologies?
 
    The recommended client is the Gtk client. There are a range of
    different Gtk clients for different versions of the Gtk
-   library—Gtk3/3.22/4/etc—but they all support more or less the same feature
+   library—Gtk3.22/4/etc—but they all support more or less the same feature
    set. If in doubt, pick the Gtk4 client.
 
    The Qt client is a newer client using the Qt toolkit. It has a more
    immersive interface. It supports most features, with the notable
    exception of the map editor.
 
-   The SDL2 client provide a more immersive experience, but lags behind
+   The SDL2- and SDL3-clients provide a more immersive experience, but lag behind
    somewhat in features.
 
    All of these clients should compile and run on any Unix variant we are
    aware of, not just the ones for which our download section provides
    native installation support.
-
-   For Windows, the Gtk and Qt clients are recommended.
 
    Some details of the GUI can be configured from the running client.
 
@@ -943,7 +941,7 @@ freeciv-gtk4 -d verbose -P <plugin> -S stdsounds
 
         City Governor (CMA)
                 This is a really useful client side agent which helps you
-                to organize our citizens. However, it consumes many CPU
+                to organize your citizens. However, it consumes many CPU
                 cycles.
 
         Maps and compression
@@ -1070,8 +1068,8 @@ freeciv-gtk4 --tiles hexemplio
    and extracting it in the same place as you would a tileset (see
    previous question). Generally, the .ruleset and .lua files go in a
    subdirectory named after the ruleset (for instance ancients\*.ruleset;
-   if there is a .serv file it generally goes directly in the 3.2\
-   directory.
+   if there is a .serv or .modpack file it generally goes directly
+   in the 3.2\ directory.
 
    Then you need to tell Freeciv to use it. For single-player games, if
    there is a .modpack file, the ruleset should be available to select from
