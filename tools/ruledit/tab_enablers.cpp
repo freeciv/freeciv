@@ -114,7 +114,7 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
 
   label = new QLabel(QString::fromUtf8(R__("Type")));
   label->setParent(this);
-  enabler_layout->addWidget(label, 0, 0);
+  enabler_layout->addWidget(label, row, 0);
 
   type_button = new QToolButton();
   type_menu = new QMenu();
@@ -133,14 +133,14 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   type_button->setText(R__("None"));
 
   type_button->setEnabled(false);
-  enabler_layout->addWidget(type_button, row++, 2);
+  enabler_layout->addWidget(type_button, row++, 1);
 
   act_reqs_button
       = new QPushButton(QString::fromUtf8(R__("Actor Requirements")), this);
   connect(act_reqs_button, SIGNAL(pressed()),
           this, SLOT(edit_actor_reqs()));
   act_reqs_button->setEnabled(false);
-  enabler_layout->addWidget(act_reqs_button, row++, 2);
+  enabler_layout->addWidget(act_reqs_button, row++, 1);
 
   tgt_reqs_button
       = new QPushButton(QString::fromUtf8(R__("Target Requirements")),
@@ -148,7 +148,7 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   connect(tgt_reqs_button, SIGNAL(pressed()),
           this, SLOT(edit_target_reqs()));
   tgt_reqs_button->setEnabled(false);
-  enabler_layout->addWidget(tgt_reqs_button, row++, 2);
+  enabler_layout->addWidget(tgt_reqs_button, row++, 1);
 
   lbl = new QLabel(QString::fromUtf8(R__("Comment")));
   enabler_layout->addWidget(lbl, row, 0);
@@ -164,7 +164,7 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Enabler")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   delete_button->setEnabled(false);
-  enabler_layout->addWidget(delete_button, row, 2);
+  enabler_layout->addWidget(delete_button, row++, 1);
   show_experimental(delete_button);
 
   repair_button = new QPushButton(this);
