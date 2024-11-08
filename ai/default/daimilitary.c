@@ -527,7 +527,8 @@ action_may_happen_unit_on_city(const action_id wanted_action,
 /**********************************************************************//**
   How dangerous and far a unit is for a city?
 **************************************************************************/
-static unsigned int assess_danger_unit(const struct city *pcity,
+static unsigned int assess_danger_unit(const struct civ_map *nmap,
+                                       const struct city *pcity,
                                        struct pf_reverse_map *pcity_map,
                                        const struct unit *punit,
                                        int *move_time)
@@ -539,7 +540,6 @@ static unsigned int assess_danger_unit(const struct city *pcity,
   const struct unit *ferry;
   unsigned int danger;
   int amod = -99, dmod;
-  struct civ_map *nmap = &(wld.map);
   bool attack_danger = FALSE;
 
   *move_time = PF_IMPOSSIBLE_MC;
@@ -865,7 +865,7 @@ static unsigned int assess_danger(struct ai_type *ait,
       }
 
       /* Defender unspecific vulnerability and potential move time */
-      vulnerability = assess_danger_unit(pcity, pcity_map,
+      vulnerability = assess_danger_unit(nmap, pcity, pcity_map,
                                          punit, &move_time);
 
       if (PF_IMPOSSIBLE_MC == move_time) {
