@@ -290,10 +290,8 @@ void tab_good::same_name_toggle(bool checked)
 void tab_good::edit_reqs()
 {
   if (selected != nullptr) {
-    req_edit *redit = new req_edit(ui, QString::fromUtf8(goods_rule_name(selected)),
-                                   &selected->reqs);
-
-    redit->show();
+    ui->open_req_edit(QString::fromUtf8(goods_rule_name(selected)),
+                      &selected->reqs);
   }
 }
 
