@@ -156,6 +156,13 @@ struct _FcPlrClass
 
 G_DEFINE_TYPE(FcPlrRow, fc_plr_row, G_TYPE_OBJECT)
 
+enum plr_rows {
+  plr_row_name,
+  plr_row_type,
+  plr_row_host,
+  plr_row_nation
+};
+
 
 #define FC_TYPE_SCEN_ROW (fc_scen_row_get_type())
 
@@ -1481,6 +1488,44 @@ static void host_factory_setup(GtkSignalListItemFactory *self,
 }
 
 /**********************************************************************//**
+  Player table cell bind function
+**************************************************************************/
+static void plr_factory_bind(GtkSignalListItemFactory *self,
+                             GtkListItem *list_item,
+                             gpointer user_data)
+{
+  FcPlrRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  switch (GPOINTER_TO_INT(user_data)) {
+  case plr_row_name:
+    gtk_label_set_text(GTK_LABEL(child), row->name);
+    break;
+  case plr_row_type:
+    gtk_label_set_text(GTK_LABEL(child), row->type);
+    break;
+  case plr_row_host:
+    gtk_label_set_text(GTK_LABEL(child), row->host);
+    break;
+  case plr_row_nation:
+    gtk_label_set_text(GTK_LABEL(child), row->nation);
+    break;
+  }
+}
+
+/**********************************************************************//**
+  Player table cell setup function
+**************************************************************************/
+static void plr_factory_setup(GtkSignalListItemFactory *self,
+                              GtkListItem *list_item,
+                              gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
+/**********************************************************************//**
   Create the network page.
 **************************************************************************/
 GtkWidget *create_network_page(void)
@@ -1713,6 +1758,12 @@ GtkWidget *create_network_page(void)
                              G_TYPE_STRING,
                              G_TYPE_STRING);
   server_playerlist_store = store;
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(plr_factory_bind),
+                   GINT_TO_POINTER(plr_row_name));
+  g_signal_connect(factory, "setup", G_CALLBACK(plr_factory_setup),
+                   nullptr);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(view, TRUE);
