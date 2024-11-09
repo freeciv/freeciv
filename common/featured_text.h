@@ -172,7 +172,7 @@ extern const struct ft_color ftc_server;
 extern const struct ft_color ftc_client;
 extern const struct ft_color ftc_editor;
 extern const struct ft_color ftc_command;
-extern       struct ft_color ftc_changed;
+extern const struct ft_color ftc_changed;
 extern const struct ft_color ftc_server_prompt;
 extern const struct ft_color ftc_player_lost;
 extern const struct ft_color ftc_game_start;

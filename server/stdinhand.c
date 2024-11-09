@@ -2354,6 +2354,7 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
     /* Apply tags to each line fragment. */
     size_t startpos = 0;
     char *nl;
+
     do {
       nl = strchr(value + startpos, '\n');
       featured_text_apply_tag(value, buf, sizeof(buf), TTT_COLOR,
@@ -2362,6 +2363,7 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
       sz_strlcpy(value, buf);
       if (nl) {
         char *p = strchr(nl, '\n');
+
         fc_assert_action(p != NULL, break);
         startpos = p + 1 - value;
       }
