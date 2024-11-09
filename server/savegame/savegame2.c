@@ -2827,7 +2827,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                  "(%d) from the loaded game does not match the number of "
                  "players present (%d).", nplayers, player_count());
 
-  /* Load team informations. */
+  /* Load team information. */
   players_iterate(pplayer) {
     int team;
     struct team_slot *tslot = NULL;
@@ -2949,7 +2949,7 @@ static void sg_load_players(struct loaddata *loading)
     /* Check the success of the functions above. */
     sg_check_ret();
 
-    /* print out some informations */
+    /* Print out some information */
     if (is_ai(pplayer)) {
       log_normal(_("%s has been added as %s level AI-controlled player "
                    "(%s)."), player_name(pplayer),
