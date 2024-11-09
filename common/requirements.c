@@ -8274,6 +8274,22 @@ static enum req_item_found government_found(const struct requirement *preq,
 }
 
 /**********************************************************************//**
+  Find if number of cities fulfills a requirement
+**************************************************************************/
+static enum req_item_found mincities_found(const struct requirement *preq,
+                                           const struct universal *source)
+{
+  fc_assert(source->value.min_cities);
+
+  if (preq->source.kind == VUT_MINCITIES) {
+    return preq->source.value.min_cities <= source->value.min_cities ? ITF_YES
+                                                                     : ITF_NO;
+  }
+
+  return ITF_NOT_APPLICABLE;
+}
+
+/**********************************************************************//**
   Find if an improvement fulfills a requirement
 **************************************************************************/
 static enum req_item_found improvement_found(const struct requirement *preq,
@@ -8596,6 +8612,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_DIPLREL_UNITANY] = &diplrel_found;
   universal_found_function[VUT_DIPLREL_UNITANY_O] = &diplrel_found;
   universal_found_function[VUT_UNITSTATE] = &ustate_found;
+  universal_found_function[VUT_MINCITIES] = &mincities_found;
 }
 
 /**********************************************************************//**
