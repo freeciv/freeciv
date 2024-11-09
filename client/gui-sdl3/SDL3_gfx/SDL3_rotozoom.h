@@ -27,8 +27,8 @@ Andreas Schiffler -- aschiffler at ferzkopp dot net
 
 */
 
-#ifndef _SDL2_rotozoom_h
-#define _SDL2_rotozoom_h
+#ifndef _SDL3_rotozoom_h
+#define _SDL3_rotozoom_h
 
 #include <math.h>
 
@@ -123,4 +123,4 @@ extern "C" {
 }
 #endif
 
-#endif				/* _SDL2_rotozoom_h */
+#endif				/* _SDL3_rotozoom_h */
