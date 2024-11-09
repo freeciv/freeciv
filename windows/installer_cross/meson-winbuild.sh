@@ -146,6 +146,7 @@ export PATH="${DLLSPATH}/linux/bin:${DLLSPATH}/linux/libexec:${PATH}"
 if ! meson setup \
      --cross-file=cross.txt \
      -Dprefix="${MESON_INSTALL_DIR}" \
+     -Dstrip=true \
      -Dmin-win-ver="${MIN_WINVER}" \
      -Dclients="${CLIENT}" -Dfcmp="${FCMP}" \
      -Dsyslua=false \
