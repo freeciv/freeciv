@@ -3864,7 +3864,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                  "(%d) from the loaded game does not match the number of "
                  "players present (%d).", nplayers, player_count());
 
-  /* Load team informations. */
+  /* Load team information. */
   players_iterate(pplayer) {
     int team;
     struct team_slot *tslot = NULL;
@@ -3986,7 +3986,7 @@ static void sg_load_players(struct loaddata *loading)
     /* Check the success of the functions above. */
     sg_check_ret();
 
-    /* print out some informations */
+    /* Print out some information */
     if (is_ai(pplayer)) {
       log_normal(_("%s has been added as %s level AI-controlled player "
                    "(%s)."), player_name(pplayer),
@@ -5825,7 +5825,7 @@ static void sg_save_player_cities(struct savedata *saving,
     secfile_insert_str(saving->file, city_style_rule_name(pcity->style),
                        "%s.style", buf);
 
-    /* Save the squared city radius and all tiles within the corresponing
+    /* Save the squared city radius and all tiles within the corresponding
      * city map. */
     secfile_insert_int(saving->file, pcity->city_radius_sq,
                        "player%d.c%d.city_radius_sq", plrno, i);

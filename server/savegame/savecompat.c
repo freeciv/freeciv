@@ -361,7 +361,7 @@ static void compat_load_020400(struct loaddata *loading,
     secfile_insert_str(loading->file, default_ai_type_name(),
                        "player%d.ai_type", player_slot_index(pslot));
 
-    /* Create dummy citizens informations. We do not know if citizens are
+    /* Create dummy citizens information. We do not know if citizens are
      * activated due to the fact that this information
      * (game.info.citizen_nationality) is not available, but adding the
      * information does no harm. */
