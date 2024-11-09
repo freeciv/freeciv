@@ -745,6 +745,7 @@ void side_right_click_diplomacy(void)
     menu->popup(QCursor::pos());
   } else {
     int i;
+
     i = gui()->gimme_index_of("DDI");
     if (i < 0) {
       return;
