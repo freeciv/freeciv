@@ -6690,11 +6690,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                            RS_MIN_FOOD_COST,
                                            RS_MAX_FOOD_COST,
                                            "civstyle.food_cost");
-    game.info.civil_war_enabled
-      = secfile_lookup_bool_default(file, TRUE, "civstyle.civil_war_enabled");
 
     if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      game.server.deprecated.civil_war_enabled
+        = secfile_lookup_bool_default(file, TRUE, "civstyle.civil_war_enabled");
       rscompat_civil_war_effects_3_3(file);
+    } else {
+      /* Avoid additional Civil War enabler */
+      game.server.deprecated.civil_war_enabled = FALSE;
     }
 
     game.info.base_bribe_cost

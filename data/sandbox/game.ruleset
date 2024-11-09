@@ -143,9 +143,6 @@ tech_parasite_allow_holes = FALSE
 ; due to negative bulbs, if techlossforgiveness allows loss
 tech_loss_allow_holes     = FALSE
 
-; Whether civil war is possible at all
-civil_war_enabled        = TRUE
-
 ; Comma separated list of things to happen, in addition to death
 ; of owner, when gameloss unit dies
 ; "CivilWar"   - Part of the empire remains, controlled by a new player

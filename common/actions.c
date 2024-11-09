@@ -72,6 +72,9 @@ unit_action_new(action_id id,
                 const int min_distance,
                 const int max_distance,
                 bool actor_consuming_always);
+static struct action *
+player_action_new(action_id id,
+                  enum action_result result);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
                               const struct req_context *actor,
@@ -817,6 +820,9 @@ static void hard_code_actions(void)
                       MAK_FORCED,
                       1, 1, FALSE);
 
+  actions[ACTION_CIVIL_WAR] =
+      player_action_new(ACTION_CIVIL_WAR, ACTRES_ENABLER_CHECK);
+
   /* The structure even for these need to be created, for
    * the action_id_rule_name() to work on iterations. */
 
@@ -1039,6 +1045,19 @@ unit_action_new(action_id id,
   act->actor.is_unit.unitwaittime_controlled = unitwaittime_controlled;
 
   act->actor.is_unit.moves_actor = moves_actor;
+
+  return act;
+}
+
+/**********************************************************************//**
+  Create a new action performed by a player actor.
+**************************************************************************/
+static struct action *
+player_action_new(action_id id,
+                  enum action_result result)
+{
+  struct action *act = action_new(id, result,
+                                  0, 0, FALSE);
 
   return act;
 }
@@ -2181,8 +2200,10 @@ blocked_find_target_tile(const struct action *act,
     fc_assert_ret_val(target_tile_arg, NULL);
     return target_tile_arg;
   case ATK_SELF:
-    fc_assert_ret_val(actor_unit, NULL);
-    return unit_tile(actor_unit);
+    if (actor_unit != nullptr) {
+      return unit_tile(actor_unit);
+    }
+    return nullptr;
   case ATK_COUNT:
     /* Handled below. */
     break;
@@ -2190,7 +2211,7 @@ blocked_find_target_tile(const struct action *act,
 
   fc_assert_msg(FALSE, "Bad action target kind %d for action %s",
                 action_get_target_kind(act), action_rule_name(act));
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -2238,9 +2259,14 @@ blocked_find_target_city(const struct action *act,
     fc_assert_ret_val(target_tile, NULL);
     return tile_city(target_tile);
   case ATK_SELF:
-    fc_assert_ret_val(actor_unit, NULL);
-    fc_assert_ret_val(unit_tile(actor_unit), NULL);
-    return tile_city(unit_tile(actor_unit));
+    if (actor_unit != nullptr) {
+      struct tile *ptile = unit_tile(actor_unit);
+
+      if (ptile != nullptr) {
+        return tile_city(ptile);
+      }
+    }
+    return nullptr;
   case ATK_COUNT:
     /* Handled below. */
     break;
@@ -3459,6 +3485,21 @@ bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
   return is_action_enabled_unit_on_self_full(nmap, wanted_action, actor_unit,
                                              unit_home(actor_unit),
                                              unit_tile(actor_unit));
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action as far as
+  action enablers are concerned.
+**************************************************************************/
+bool is_action_enabled_player(const struct civ_map *nmap,
+                              const action_id wanted_action,
+                              const struct player *actor_plr)
+{
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           nullptr, nullptr, nullptr);
 }
 
 /**********************************************************************//**
@@ -6044,6 +6085,7 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_user_action_4";
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
+  case ACTION_CIVIL_WAR:
     fc_assert(!action_id_is_internal(act)); /* Fail always */
     break;
   case ACTION_COUNT:
@@ -6408,6 +6450,8 @@ const char *action_ui_name_default(int act)
     return N_("%sGain Veterancy%s");
   case ACTION_ESCAPE:
     return N_("%sEscape%s");
+  case ACTION_CIVIL_WAR:
+    return N_("%sCivil War%s");
   case ACTION_COUNT:
     fc_assert(act != ACTION_COUNT);
     break;
@@ -6550,6 +6594,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
+  case ACTION_CIVIL_WAR:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -6718,6 +6763,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
+  case ACTION_CIVIL_WAR:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -6920,6 +6966,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
+  case ACTION_CIVIL_WAR:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -7090,6 +7137,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
+  case ACTION_CIVIL_WAR:
     /* Actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_FOUND_CITY:
@@ -7299,6 +7347,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_HUT_FRIGHTEN3:
   case ACTION_HUT_FRIGHTEN4:
   case ACTION_GAIN_VETERANCY:
+  case ACTION_CIVIL_WAR:
   case ACTION_ESCAPE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
@@ -7477,6 +7526,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_SPY_ESCAPE:
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
+  case ACTION_CIVIL_WAR:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:

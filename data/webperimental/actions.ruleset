@@ -1659,5 +1659,11 @@ target_reqs   =
 [enabler_gain_veterancy]
 action        = "Gain Veterancy"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
+    { "type", "name", "range", "present"
+    }
+
+[enabler_civil_war]
+action        = "Civil War"
+actor_reqs    =
+    { "type", "name", "range", "present"
     }

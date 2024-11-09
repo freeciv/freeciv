@@ -144,6 +144,7 @@ values
   # Enabler checks only
   ACTION_GAIN_VETERANCY                   "Gain Veterancy"
   ACTION_ESCAPE                           "Escape"
+  ACTION_CIVIL_WAR                        "Civil War"
 
   # User actions
   ACTION_USER_ACTION1                     "User Action 1"

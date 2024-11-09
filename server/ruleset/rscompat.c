@@ -486,6 +486,12 @@ void rscompat_postprocess(struct rscompat_info *info)
   requirement_vector_append(&enabler->actor_reqs, e_req);
   action_enabler_add(enabler);
 
+  if (game.server.deprecated.civil_war_enabled) {
+    enabler = action_enabler_new();
+    enabler->action = ACTION_CIVIL_WAR;
+    action_enabler_add(enabler);
+  }
+
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);

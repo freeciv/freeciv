@@ -625,7 +625,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL year_0_hack;
   UINT8 top_cities_count;
   UINT16 fragment_count;
-  BOOL civil_war_enabled;
   UINT16 granularity;
   WONDER_VISIB small_wonder_visibility;
 end

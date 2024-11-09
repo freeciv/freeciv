@@ -1544,3 +1544,9 @@ actor_reqs    =
     { "type",         "name",      "range", "present"
       "UnitTypeFlag", "NoVeteran", "Local", FALSE
     }
+
+[enabler_civil_war]
+action        = "Civil War"
+actor_reqs    =
+    { "type", "name", "range", "present"
+    }

@@ -2916,14 +2916,15 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
                         bool honour_server_option)
 {
   int n;
+  const struct civ_map *nmap = &(wld.map);
 
-  if (!game.info.civil_war_enabled) {
+  if (!is_action_enabled_player(nmap, ACTION_CIVIL_WAR, pplayer)) {
     return FALSE;
   }
 
   n = city_list_size(pplayer->cities);
 
-  if (n - (conquering_city?1:0) < GAME_MIN_CIVILWARSIZE) {
+  if (n - (conquering_city ? 1 : 0) < GAME_MIN_CIVILWARSIZE) {
     return FALSE;
   }
   if (honour_server_option) {
