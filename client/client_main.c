@@ -1214,6 +1214,11 @@ double real_timer_callback(void)
     time_until_next_call = MIN(time_until_next_call, blink_time);
   }
 
+  if (gui_properties.animations) {
+    advance_global_anim_state();
+    time_until_next_call = MIN(time_until_next_call, 0.1);
+  }
+
   if (get_num_units_in_focus() > 0) {
     double blink_time = blink_active_unit();
 

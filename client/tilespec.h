@@ -469,6 +469,8 @@ int index_ts_topology(int idx);
 struct sprite *load_popup_sprite(const char *tag);
 void unload_popup_sprite(const char *tag);
 
+void advance_global_anim_state(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

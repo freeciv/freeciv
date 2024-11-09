@@ -6701,13 +6701,22 @@ void focus_unit_in_combat(struct tileset *t)
 ****************************************************************************/
 void toggle_focus_unit_state(struct tileset *t)
 {
-  global_anim_time++;
-
   if (t->sprites.unit.select != nullptr) {
     anim_advance_time(t->sprites.unit.select);
   } else {
     focus_unit_state = !focus_unit_state;
   }
+}
+
+/************************************************************************//**
+  Advance animations.
+****************************************************************************/
+void advance_global_anim_state(void)
+{
+  global_anim_time++;
+
+  dirty_all();
+  update_map_canvas(0, 0, mapview.store_width, mapview.store_height);
 }
 
 /************************************************************************//**
