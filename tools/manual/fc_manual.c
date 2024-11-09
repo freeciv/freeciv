@@ -23,6 +23,10 @@
 #include <signal.h>
 #endif
 
+#ifdef FREECIV_MSWINDOWS
+#include <windows.h>
+#endif
+
 /* utility */
 #include "capability.h"
 #include "fc_cmdline.h"
@@ -361,6 +365,17 @@ int main(int argc, char **argv)
   char *option = NULL;
   int retval = EXIT_SUCCESS;
   struct tag_types *tag_info = &html_tags;
+
+  /* Load Windows post-crash debugger */
+#ifdef FREECIV_MSWINDOWS
+# ifndef FREECIV_NDEBUG
+  if (LoadLibrary("exchndl.dll") == NULL) {
+#  ifdef FREECIV_DEBUG
+    fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
+#  endif /* FREECIV_DEBUG */
+  }
+# endif /* FREECIV_NDEBUG */
+#endif /* FREECIV_MSWINDOWS */
 
   /* Initialize the fc_interface functions needed to generate the help
    * text.
