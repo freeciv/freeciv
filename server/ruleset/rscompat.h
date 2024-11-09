@@ -66,6 +66,10 @@ const char *ui_name_old_name_3_3(const char *new_name);
 
 void rscompat_civil_war_effects_3_3(struct section_file *game_rs);
 
+bool load_action_ui_name_3_3(struct section_file *file, int act,
+                             const char *entry_name,
+                             struct rscompat_info *compat);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

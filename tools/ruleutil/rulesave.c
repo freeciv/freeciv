@@ -867,35 +867,6 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 }
 
 /**********************************************************************//**
-  Save ui_name of one action.
-**************************************************************************/
-static bool save_action_ui_name(struct section_file *sfile,
-                                int act, const char *entry_name)
-{
-  struct action *paction = action_by_number(act);
-  const char *ui_name;
-
-  if (action_is_internal(paction)) {
-    return TRUE;
-  }
-
-  ui_name = paction->ui_name;
-
-  if (ui_name == nullptr) {
-    fc_assert(ui_name != nullptr);
-
-    return FALSE;
-  }
-
-  if (strcmp(ui_name, action_ui_name_default(act))) {
-    secfile_insert_str(sfile, ui_name,
-                       "actions.%s", entry_name);
-  }
-
-  return TRUE;
-}
-
-/**********************************************************************//**
   Save max range of an action.
 **************************************************************************/
 static bool save_action_max_range(struct section_file *sfile,
@@ -1201,10 +1172,6 @@ static bool save_actions_ruleset(const char *filename, const char *name)
   action_iterate(act_id) {
     struct action *act = action_by_number(act_id);
 
-    if (!action_id_is_internal(act_id)) {
-      save_action_ui_name(sfile,
-                          act_id, action_ui_name_ruleset_var_name(act_id));
-    }
     save_action_kind(sfile, act_id);
     save_action_range(sfile, act_id);
     save_action_actor_consuming_always(sfile, act_id);
@@ -1238,11 +1205,27 @@ static bool save_actions_ruleset(const char *filename, const char *name)
 
     if (paction->configured) {
       char path[512];
+      const char *ui_name;
 
       fc_snprintf(path, sizeof(path), "action_%d", i);
 
       secfile_insert_str(sfile, action_rule_name(paction),
                          "%s.action", path);
+
+      if (!action_id_is_internal(i)) {
+        ui_name = paction->ui_name;
+
+        if (ui_name == nullptr) {
+          fc_assert(ui_name != nullptr);
+
+          return FALSE;
+        }
+
+        if (strcmp(ui_name, action_ui_name_default(i))) {
+          secfile_insert_str(sfile, ui_name,
+                             "%s.ui_name", path);
+        }
+      }
     }
   }
 

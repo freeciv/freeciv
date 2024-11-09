@@ -6254,37 +6254,6 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
 }
 
 /**********************************************************************//**
-  Load ui_name of one action
-**************************************************************************/
-static bool load_action_ui_name(struct section_file *file, int act,
-                                const char *entry_name,
-                                struct rscompat_info *compat)
-{
-  const char *text;
-  const char *def = action_ui_name_default(act);
-
-  if (entry_name == nullptr) {
-    text = def;
-  } else {
-    text = secfile_lookup_str_default(file, nullptr,
-                                      "actions.%s", entry_name);
-
-    if (text == nullptr && compat->compat_mode && compat->version < RSFORMAT_3_3) {
-      text = secfile_lookup_str_default(file, nullptr,
-                                        "actions.%s", ui_name_old_name_3_3(entry_name));
-    }
-
-    if (text == nullptr) {
-      text = def;
-    }
-  }
-
-  sz_strlcpy(action_by_number(act)->ui_name, text);
-
-  return TRUE;
-}
-
-/**********************************************************************//**
   Load max range of an action
 **************************************************************************/
 static bool load_action_range_max(struct section_file *file, action_id act)
@@ -7686,7 +7655,10 @@ static bool load_ruleset_actions(struct section_file *file,
             entry_name = action_ui_name_ruleset_var_name(act_id);
           }
 
-          load_action_ui_name(file, act_id, entry_name, compat);
+          /* FIXME: Allow old style ui_name definitions only in compat mode. */
+          if (TRUE /* compat->compat_mode && compat->version < RSFORMAT_3_3 */) {
+            load_action_ui_name_3_3(file, act_id, entry_name, compat);
+          }
         }
 
         if (!ok) {
@@ -7855,6 +7827,7 @@ static bool load_ruleset_actions(struct section_file *file,
         const char *sec_name = section_name(psection);
         const char *action_text;
         struct action *paction;
+        const char *ui_name;
 
         action_text = secfile_lookup_str(file, "%s.action", sec_name);
 
@@ -7884,6 +7857,13 @@ static bool load_ruleset_actions(struct section_file *file,
         }
 
         paction->configured = TRUE;
+
+        ui_name = secfile_lookup_str_default(file, nullptr,
+                                             "%s.ui_name", sec_name);
+        if (ui_name == nullptr) {
+          ui_name = action_ui_name_default(action_id(paction));
+        }
+        sz_strlcpy(paction->ui_name, ui_name);
       } section_list_iterate_end;
     }
   }

@@ -735,3 +735,37 @@ void rscompat_civil_war_effects_3_3(struct section_file *game_rs)
     effect_req_append(peffect, e_req);
   }
 }
+
+/**********************************************************************//**
+  Load ui_name of one action
+**************************************************************************/
+bool load_action_ui_name_3_3(struct section_file *file, int act,
+                             const char *entry_name,
+                             struct rscompat_info *compat)
+{
+  const char *text;
+  const char *def = action_ui_name_default(act);
+  struct action *paction = action_by_number(act);
+
+  if (entry_name == nullptr) {
+    text = def;
+  } else {
+    text = secfile_lookup_str_default(file, nullptr,
+                                      "actions.%s", entry_name);
+
+    if (text == nullptr && compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      text = secfile_lookup_str_default(file, nullptr,
+                                        "actions.%s", ui_name_old_name_3_3(entry_name));
+    }
+
+    if (text == nullptr) {
+      text = def;
+    } else {
+      paction->configured = TRUE;
+    }
+  }
+
+  sz_strlcpy(paction->ui_name, text);
+
+  return TRUE;
+}
