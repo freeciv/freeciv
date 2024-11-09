@@ -105,6 +105,7 @@ const char *gen_action_name_update_cb(const char *old_name);
 struct action
 {
   action_id id;
+  bool configured;
 
   enum action_result result;
   bv_action_sub_results sub_results;

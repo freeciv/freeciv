@@ -110,6 +110,7 @@
 #define ACHIEVEMENT_SECTION_PREFIX "achievement_"
 #define ENABLER_SECTION_PREFIX "enabler_"
 #define ACTION_ENABLER_SECTION_PREFIX "actionenabler_"
+#define ACTION_SECTION_PREFIX "action_"
 #define MULTIPLIER_SECTION_PREFIX "multiplier_"
 #define COUNTER_SECTION_PREFIX "counter_"
 
@@ -7848,8 +7849,47 @@ static bool load_ruleset_actions(struct section_file *file,
   }
 
   if (ok) {
-    sec = secfile_sections_by_name_prefix(file,
-                                          ENABLER_SECTION_PREFIX);
+    sec = secfile_sections_by_name_prefix(file, ACTION_SECTION_PREFIX);
+    if (sec != nullptr) {
+      section_list_iterate(sec, psection) {
+        const char *sec_name = section_name(psection);
+        const char *action_text;
+        struct action *paction;
+
+        action_text = secfile_lookup_str(file, "%s.action", sec_name);
+
+        if (action_text == nullptr) {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "\"%s\" [%s] missing action to configure.",
+                        filename, sec_name);
+          ok = FALSE;
+          break;
+        }
+
+        paction = action_by_rule_name(action_text);
+        if (paction == nullptr) {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "\"%s\" [%s] lists unknown action type \"%s\".",
+                        filename, sec_name, action_text);
+          ok = FALSE;
+          break;
+        }
+
+        if (paction->configured) {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "\"%s\" [%s] duplicate configuration for action \"%s\".",
+                        filename, sec_name, action_text);
+          ok = FALSE;
+          break;
+        }
+
+        paction->configured = TRUE;
+      } section_list_iterate_end;
+    }
+  }
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, ENABLER_SECTION_PREFIX);
 
     if (sec == nullptr && compat->compat_mode && compat->version < RSFORMAT_3_3) {
       sec = secfile_sections_by_name_prefix(file,
@@ -7870,8 +7910,8 @@ static bool load_ruleset_actions(struct section_file *file,
 
         action_text = secfile_lookup_str(file, "%s.action", sec_name);
 
-        if (action_text == NULL) {
-          ruleset_error(NULL, LOG_ERROR,
+        if (action_text == nullptr) {
+          ruleset_error(nullptr, LOG_ERROR,
                         "\"%s\" [%s] missing action to enable.",
                         filename, sec_name);
           ok = FALSE;
@@ -7879,8 +7919,8 @@ static bool load_ruleset_actions(struct section_file *file,
         }
 
         paction = action_by_rule_name(action_text);
-        if (!paction) {
-          ruleset_error(NULL, LOG_ERROR,
+        if (paction == nullptr) {
+          ruleset_error(nullptr, LOG_ERROR,
                         "\"%s\" [%s] lists unknown action type \"%s\".",
                         filename, sec_name, action_text);
           ok = FALSE;

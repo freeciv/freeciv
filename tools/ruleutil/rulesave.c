@@ -603,8 +603,8 @@ static bool save_action_auto_actions(struct section_file *sfile,
   size_t i, j;
   size_t ret;
 
-  const struct action_auto_perf *auto_perf =
-      action_auto_perf_by_number(aap);
+  const struct action_auto_perf *auto_perf
+    = action_auto_perf_by_number(aap);
 
   for (i = 0, j = 0;
        i < NUM_ACTIONS && auto_perf->alternatives[i] != ACTION_NONE;
@@ -1226,6 +1226,24 @@ static bool save_actions_ruleset(const char *filename, const char *name)
     log_error("Didn't save all quiet actions.");
 
     return FALSE;
+  }
+
+  for (i = 0; i < MAX_NUM_ACTIONS; i++) {
+    struct action *paction = action_by_number(i);
+
+    if (!action_is_in_use(paction)) {
+      /* Don't mention non enabled actions. */
+      continue;
+    }
+
+    if (paction->configured) {
+      char path[512];
+
+      fc_snprintf(path, sizeof(path), "action_%d", i);
+
+      secfile_insert_str(sfile, action_rule_name(paction),
+                         "%s.action", path);
+    }
   }
 
   comment_enablers(sfile);

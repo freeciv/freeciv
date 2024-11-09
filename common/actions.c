@@ -968,6 +968,7 @@ static struct action *action_new(action_id id,
   action = fc_malloc(sizeof(*action));
 
   action->id = id;
+  action->configured = FALSE;
 
   action->result = result;
 
