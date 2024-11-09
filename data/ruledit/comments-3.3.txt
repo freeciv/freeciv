@@ -1144,6 +1144,24 @@ goods = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+actions = "\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Actions:\n\
+;\n\
+; action               = the action to configure.\n\
+; ui_name              = What each action should be called when showing them to the player.\n\
+;                        The first %s should be before the mnemonic of the action.\n\
+;                        A Freeciv client that supports mnemonics will replace it with\n\
+;                        the in-band signal that marks the following character as a mnemonic\n\
+;                        in its graphical toolkit.\n\
+;                        The second %s marks where extra details should be inserted.\n\
+;\n\
+; README.actions lists the possible actions\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
 enablers = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
@@ -1511,14 +1529,6 @@ auto_attack = "\n\
 ;                    considers to auto attack.\
 ;   attack_actions - the actions to try during an auto attack in the order\n\
 ;                    they should be tried.\n\
-"
-
-ui_names = "\n\
-; What each action should be called when showing them to the player.\n\
-; The first \%s should be before the mnemonic of the action. A Freeciv client\n\
-; that supports mnemonics will replace it with the in-band signal that marks\n\
-; the following character as a mnemonic in its graphical toolkit.\n\
-; The second \%s marks where extra details should be inserted.\n\
 "
 
 dc_initial_odds = "\n\

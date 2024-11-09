@@ -516,6 +516,25 @@ quiet_actions = "Transport Disembark 2", "Conquer City Shrink 2", "Enter Hut 2",
 
 ; /* <-- avoid gettext warnings
 ;
+; Actions:
+;
+; action               = the action to configure.
+; ui_name              = What each action should be called when showing them to the player.
+;                        The first %s should be before the mnemonic of the action.
+;                        A Freeciv client that supports mnemonics will replace it with
+;                        the in-band signal that marks the following character as a mnemonic
+;                        in its graphical toolkit.
+;                        The second %s marks where extra details should be inserted.
+;
+; README.actions lists the possible actions
+;
+; */ <-- avoid gettext warnings
+
+;[action_placeholder]
+
+
+; /* <-- avoid gettext warnings
+;
 ; Enablers:
 ;
 ; action               = the action to enable.

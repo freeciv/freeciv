@@ -53,6 +53,7 @@ static struct {
   char *uflags_building;
   char *trade_settings;
   char *goods;
+  char *actions;
   char *enablers;
   char *specialists;
   char *nations;
@@ -85,7 +86,6 @@ static struct {
   char *combat_rules_nuke_pop_loss;
   char *combat_rules_nuke_defender_survival;
   char *auto_attack;
-  char *actions_ui_names;
   char *actions_dc_initial_odds;
   char *actions_quiet_actions;
   char *borders_radius_permanent;
@@ -178,6 +178,7 @@ bool comments_load(void)
   comment_load(comments_storage.trade_settings,
                comment_file, "typedoc.trade_settings");
   comment_load(comments_storage.goods, comment_file, "typedoc.goods");
+  comment_load(comments_storage.actions, comment_file, "typedoc.actions");
   comment_load(comments_storage.enablers, comment_file, "typedoc.enablers");
   comment_load(comments_storage.specialists,
                comment_file, "typedoc.specialists");
@@ -234,8 +235,6 @@ bool comments_load(void)
                "entrydoc.nuke_defender_survival_chance_pct");
   comment_load(comments_storage.auto_attack, comment_file,
                "entrydoc.auto_attack");
-  comment_load(comments_storage.actions_ui_names, comment_file,
-               "entrydoc.ui_names");
   comment_load(comments_storage.actions_dc_initial_odds, comment_file,
                "entrydoc.dc_initial_odds");
   comment_load(comments_storage.actions_quiet_actions, comment_file,
@@ -532,6 +531,14 @@ void comment_goods(struct section_file *sfile)
 }
 
 /**********************************************************************//**
+  Write actions header.
+**************************************************************************/
+void comment_actions(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.actions, "Actions");
+}
+
+/**********************************************************************//**
   Write action enablers header.
 **************************************************************************/
 void comment_enablers(struct section_file *sfile)
@@ -782,14 +789,6 @@ void comment_combat_rules_nuke_defender_survival(struct section_file *sfile)
 void comment_auto_attack(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.auto_attack, "auto_attack");
-}
-
-/**********************************************************************//**
-  Write actions ui_name settings header.
-**************************************************************************/
-void comment_actions_ui_names(struct section_file *sfile)
-{
-  comment_entry_write(sfile, comments_storage.actions_ui_names, "actions");
 }
 
 /**********************************************************************//**
