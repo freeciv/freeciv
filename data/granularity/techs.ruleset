@@ -149,6 +149,15 @@ graphic     = "a.archery"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_architecture]
+name        = _("Architecture")
+req1        = "Construction"
+req2        = "Art"
+flags       = ""
+graphic     = "a.architecture"
+graphic_alt = "-"
+;helptext    =
+
 [advance_art]
 name        = _("Art")
 req1        = "Pottery"

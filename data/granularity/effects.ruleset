@@ -276,6 +276,14 @@ reqs	=
       "Building", "Stone Circle", "City"
     }
 
+[effect_palace_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type",     "name",   "range"
+      "Building", "Palace", "City"
+    }
+
 [effect_center_trade_village]
 type    = "Output_Add_Tile"
 value   = 25
@@ -335,9 +343,9 @@ reqs	=
 
 [effect_throne_capital]
 type    = "Capital_City"
-value	= 1
+value	= 2
 reqs	=
-    { "type", "name", "range"
+    { "type",     "name",   "range"
       "Building", "Throne", "City"
     }
 
@@ -345,7 +353,7 @@ reqs	=
 type    = "Gov_Center"
 value	= 1
 reqs	=
-    { "type", "name", "range"
+    { "type",     "name",   "range"
       "Building", "Throne", "City"
     }
 
@@ -353,8 +361,17 @@ reqs	=
 type    = "Output_Waste_By_Distance"
 value	= 400
 reqs	=
-    { "type", "name", "range"
+    { "type",       "name",  "range"
       "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_palace]
+type    = "Output_Waste_By_Distance"
+value	= -50
+reqs	=
+    { "type",       "name",   "range"
+      "Building",   "Palace", "Player"
+      "OutputType", "Trade",  "Local"
     }
 
 [effect_courthouse]
@@ -370,7 +387,7 @@ reqs	=
 type    = "Infra_Points"
 value	= 200
 reqs	=
-    { "type", "name", "range"
+    { "type",     "name",   "range"
       "Building", "Throne", "City"
     }
 

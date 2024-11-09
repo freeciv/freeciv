@@ -340,7 +340,7 @@ graphic         = "b.throne"
 graphic_alt	= "b.palace"
 graphic_alt2    = "-"
 obsolete_by     =
-    { "type", "name", "range"
+    { "type",     "name",   "range"
     }
 build_cost	= 1000
 upkeep		= 0
@@ -352,6 +352,29 @@ helptext	= _("\
 City with your throne is your capital city.\
 ")
 
+[building_palace]
+name		= _("Palace")
+genus		= "SmallWonder"
+reqs	=
+    { "type",     "name",         "range"
+      "Tech",     "Architecture", "Player"
+      "Building", "Throne",       "City"
+    }
+graphic         = "b.palace"
+graphic_alt	= "-"
+graphic_alt2    = "-"
+obsolete_by     =
+    { "type",     "name",   "range"
+    }
+build_cost	= 3000
+upkeep		= 0
+sabotage	= 100
+sound		= "b_palace"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Palace reduces corruption in the empire and gives +3 history each turn.\
+")
 
 [building_quarry]
 name		= _("Quarry")
