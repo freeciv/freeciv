@@ -133,6 +133,55 @@ static void diplomacy_main_response(struct gui_dialog *dlg, int response,
 #define RESPONSE_CANCEL_MEETING 100
 #define RESPONSE_CANCEL_MEETING_ALL 101
 
+
+#define FC_TYPE_CLAUSE_ROW (fc_clause_row_get_type())
+
+G_DECLARE_FINAL_TYPE(FcClauseRow, fc_clause_row, FC, CLAUSE_ROW, GObject)
+
+struct _FcClauseRow
+{
+  GObject parent_instance;
+
+  char *clause;
+};
+
+struct _FcClauseClass
+{
+  GObjectClass parent_class;
+};
+
+G_DEFINE_TYPE(FcClauseRow, fc_clause_row, G_TYPE_OBJECT)
+
+/**********************************************************************//**
+  Initialization method for FcClauseRow class
+**************************************************************************/
+static void
+fc_clause_row_class_init(FcClauseRowClass *klass)
+{
+}
+
+/**********************************************************************//**
+  Initialization method for FcClauseRow
+**************************************************************************/
+static void
+fc_clause_row_init(FcClauseRow *self)
+{
+}
+
+/**********************************************************************//**
+  FcClauseRow creation method
+**************************************************************************/
+#if 0
+static FcClauseRow *fc_clause_row_new(void)
+{
+  FcClauseRow *result;
+
+  result = g_object_new(FC_TYPE_CLAUSE_ROW, nullptr);
+
+  return result;
+}
+#endif
+
 /************************************************************************//**
   Server tells us that either party has accepted treaty
 ****************************************************************************/
