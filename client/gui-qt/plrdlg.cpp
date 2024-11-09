@@ -933,8 +933,14 @@ void plr_report::req_caancel_threaty()
 **************************************************************************/
 void plr_report::req_meeeting()
 {
-  dsend_packet_diplomacy_init_meeting_req(&client.conn,
-                                          player_number(other_player));
+  struct treaty *ptreaty = find_treaty(client_player(), other_player);
+
+  if (ptreaty != nullptr) {
+    qtg_init_meeting(ptreaty, other_player, client_player());
+  } else {
+    dsend_packet_diplomacy_init_meeting_req(&client.conn,
+                                            player_number(other_player));
+  }
 }
 
 /**********************************************************************//**
