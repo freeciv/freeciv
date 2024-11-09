@@ -24,6 +24,7 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait,
                                       struct player *pplayer,
                                       struct city *pcity, int role, int want);
 struct unit_type *dai_wants_defender_against(struct ai_type *ait,
+                                             const struct civ_map *nmap,
                                              struct player *pplayer,
                                              struct city *pcity,
                                              const struct unit_type *att,
