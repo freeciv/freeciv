@@ -67,7 +67,7 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
   that we use later in ai/default/daicity.c. We mark improvements as
   'calculate' if we want to run a full test on them, as 'estimate' if
   we just want to do some guesses on them, or as 'unused' is they are
-  useless to us. Then we find the largest range of calculatable effects
+  useless to us. Then we find the largest range of calculable effects
   in the improvement and record it for later use.
 **************************************************************************/
 static void adv_data_city_impr_calc(struct player *pplayer,
@@ -97,7 +97,7 @@ static void adv_data_city_impr_calc(struct player *pplayer,
       case EFT_MAKE_CONTENT_MIL_PER:
       case EFT_MAKE_CONTENT_PCT:
       case EFT_MAKE_HAPPY:
-#endif
+#endif /* 0 */
       case EFT_CAPITAL_CITY:
       case EFT_POLLU_POP_PCT:
       case EFT_POLLU_POP_PCT_2:
@@ -106,30 +106,30 @@ static void adv_data_city_impr_calc(struct player *pplayer,
       case EFT_OUTPUT_BONUS_2:
       case EFT_OUTPUT_WASTE_PCT:
       case EFT_UPKEEP_FREE:
-	requirement_vector_iterate(&peffect->reqs, preq) {
-	  if (VUT_IMPROVEMENT == preq->source.kind
-	      && preq->source.value.building == pimprove) {
+        requirement_vector_iterate(&peffect->reqs, preq) {
+          if (VUT_IMPROVEMENT == preq->source.kind
+              && preq->source.value.building == pimprove) {
             if (adv->impr_calc[improvement_index(pimprove)] != ADV_IMPR_CALCULATE_FULL) {
-	      adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE;
+              adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE;
             }
-	    if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
-	      adv->impr_range[improvement_index(pimprove)] = preq->range;
-	    }
-	  }
-	} requirement_vector_iterate_end;
+            if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
+              adv->impr_range[improvement_index(pimprove)] = preq->range;
+            }
+          }
+        } requirement_vector_iterate_end;
         break;
       case EFT_OUTPUT_ADD_TILE:
       case EFT_OUTPUT_PER_TILE:
       case EFT_OUTPUT_INC_TILE:
-	requirement_vector_iterate(&peffect->reqs, preq) {
-	  if (VUT_IMPROVEMENT == preq->source.kind
-	      && preq->source.value.building == pimprove) {
-	    adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE_FULL;
-	    if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
-	      adv->impr_range[improvement_index(pimprove)] = preq->range;
-	    }
-	  }
-	} requirement_vector_iterate_end;
+        requirement_vector_iterate(&peffect->reqs, preq) {
+          if (VUT_IMPROVEMENT == preq->source.kind
+              && preq->source.value.building == pimprove) {
+            adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE_FULL;
+            if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
+              adv->impr_range[improvement_index(pimprove)] = preq->range;
+            }
+          }
+        } requirement_vector_iterate_end;
       break;
       default:
       /* Nothing! */
@@ -173,13 +173,14 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
       aresearch = research_get(aplayer);
       if (TECH_KNOWN == research_invention_state(aresearch, tech)
           || aresearch->researching == tech) {
-	players_having++;
-	if (players_having >= players_needed) {
-	  return TRUE;
-	}
+        players_having++;
+        if (players_having >= players_needed) {
+          return TRUE;
+        }
       }
     } players_iterate_alive_end;
   } advance_index_iterate_end;
+
   return FALSE;
 }
 
@@ -192,7 +193,7 @@ void adv_data_analyze_rulesets(struct player *pplayer)
 {
   struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(adv != NULL);
+  fc_assert_ret(adv != nullptr);
 
   adv_data_city_impr_calc(pplayer, adv);
 }
@@ -202,7 +203,7 @@ void adv_data_analyze_rulesets(struct player *pplayer)
 **************************************************************************/
 static void count_my_units(struct player *pplayer)
 {
-  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, nullptr);
 
   memset(&adv->stats.units, 0, sizeof(adv->stats.units));
 
@@ -275,7 +276,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     action_array_end(nuke_actions, i);
   }
 
-  fc_assert_ret_val(adv != NULL, FALSE);
+  fc_assert_ret_val(adv != nullptr, FALSE);
 
   if (adv->phase_is_initialized) {
     return FALSE;
@@ -388,8 +389,8 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       int nuke_units = num_role_units(action_id_get_role(act_id));
 
       for (i = 0; i < nuke_units; i++) {
-        struct unit_type *nuke =
-            get_role_unit(action_id_get_role(act_id), i);
+        struct unit_type *nuke
+          = get_role_unit(action_id_get_role(act_id), i);
 
         if (can_player_build_unit_direct(aplayer, nuke, FALSE)) {
           adv->threats.nuclear = 1;
@@ -400,7 +401,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /* Increase from fear to terror if opponent actually has nukes */
   if (danger_of_nukes) {
-    adv->threats.nuclear++; /* sum of both fears */
+    adv->threats.nuclear++; /* Sum of both fears */
   }
 
   /*** Exploration ***/
@@ -420,11 +421,11 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         adv->explore.sea_done = FALSE;
         adv->explore.ocean[-continent] = TRUE;
       }
-      /* skip rest, which is land only */
+      /* Skip rest, which is land only */
       continue;
     }
     if (adv->explore.continent[tile_continent(ptile)]) {
-      /* we don't need more explaining, we got the point */
+      /* We don't need more explaining, we got the point */
       continue;
     }
     if (hut_on_tile(ptile)
@@ -435,7 +436,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       continue;
     }
     if (has_handicap(pplayer, H_TARGETS) && !map_is_known(ptile, pplayer)) {
-      /* this AI must explore */
+      /* This AI must explore */
       adv->explore.land_done = FALSE;
       adv->explore.continent[continent] = TRUE;
     }
@@ -474,17 +475,17 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   adv->dipl.spacerace_leader = player_leading_spacerace();
 
-  adv->dipl.production_leader = NULL;
+  adv->dipl.production_leader = nullptr;
   players_iterate(aplayer) {
-    if (adv->dipl.production_leader == NULL
+    if (adv->dipl.production_leader == nullptr
         || adv->dipl.production_leader->score.mfg < aplayer->score.mfg) {
       adv->dipl.production_leader = aplayer;
     }
   } players_iterate_end;
 
-  adv->dipl.tech_leader = NULL;
+  adv->dipl.tech_leader = nullptr;
   players_iterate(aplayer) {
-    if (adv->dipl.tech_leader == NULL
+    if (adv->dipl.tech_leader == nullptr
         || adv->dipl.tech_leader->score.techs < aplayer->score.techs) {
       adv->dipl.tech_leader = aplayer;
     }
@@ -508,8 +509,8 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   }
   adv->gold_priority = TRADE_WEIGHTING;
   adv->happy_priority = 1;
-  adv->unhappy_priority = TRADE_WEIGHTING; /* danger */
-  adv->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
+  adv->unhappy_priority = TRADE_WEIGHTING; /* Danger */
+  adv->angry_priority = TRADE_WEIGHTING * 3; /* Grave danger */
   adv->pollution_priority = POLLUTION_WEIGHTING;
   adv->infra_priority = INFRA_WEIGHTING;
 
@@ -521,7 +522,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     adv->wants_science = TRUE;
   }
 
-  /* max num cities
+  /* Max num cities
    * The idea behind this code is that novice players don't understand that
    * expansion is critical and find it very annoying.
    * With the following code AI players will try to be only a bit better
@@ -530,6 +531,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
    */
   if (has_handicap(pplayer, H_EXPANSION)) {
     bool found_human = FALSE;
+
     adv->max_num_cities = 3;
     players_iterate_alive(aplayer) {
       if (aplayer == pplayer || is_ai(aplayer)) {
@@ -565,29 +567,29 @@ void adv_data_phase_done(struct player *pplayer)
 {
   struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(adv != NULL);
+  fc_assert_ret(adv != nullptr);
 
   if (!adv->phase_is_initialized) {
     return;
   }
 
   free(adv->explore.ocean);
-  adv->explore.ocean = NULL;
+  adv->explore.ocean = nullptr;
 
   free(adv->explore.continent);
-  adv->explore.continent = NULL;
+  adv->explore.continent = nullptr;
 
   free(adv->continents);
-  adv->continents = NULL;
+  adv->continents = nullptr;
 
   free(adv->oceans);
-  adv->oceans = NULL;
+  adv->oceans = nullptr;
 
   free(adv->stats.cities);
-  adv->stats.cities = NULL;
+  adv->stats.cities = nullptr;
 
   free(adv->stats.ocean_cities);
-  adv->stats.ocean_cities = NULL;
+  adv->stats.ocean_cities = nullptr;
 
   adv->num_continents = 0;
   adv->num_oceans     = 0;
@@ -605,9 +607,9 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
 {
   struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret_val(adv != NULL, NULL);
+  fc_assert_ret_val(adv != nullptr, nullptr);
 
-  /* It's certainly indication of bug causing problems
+  /* It's certainly an indication of a bug causing problems
      if this adv_data_get() gets called between adv_data_phase_done() and
      adv_data_phase_init(), since we may end up calling those
      functions if number of known continents has changed.
@@ -645,16 +647,16 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
        instead of making intrusive fixes for actual bug in stable branch,
        do not assert for non-debug builds of stable versions. */
 #if defined(FREECIV_DEBUG) || defined(IS_DEVEL_VERSION)
-  fc_assert(caller_closes != NULL || adv->phase_is_initialized);
+  fc_assert(caller_closes != nullptr || adv->phase_is_initialized);
 #endif
 
-  if (caller_closes != NULL) {
+  if (caller_closes != nullptr) {
     *caller_closes = FALSE;
   }
 
   if (adv->num_continents != wld.map.num_continents
       || adv->num_oceans != wld.map.num_oceans) {
-    /* we discovered more continents, recalculate! */
+    /* We discovered more continents, recalculate! */
 
     if (adv->phase_is_initialized) {
       /* Only call these in this order if inside data phase.
@@ -675,14 +677,14 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
       log_debug("%s advisor data phase closed when adv_data_get() called",
                 player_name(pplayer));
       adv_data_phase_init(pplayer, FALSE);
-      if (caller_closes != NULL) {
+      if (caller_closes != nullptr) {
         *caller_closes = TRUE;
       } else {
         adv_data_phase_done(pplayer);
       }
     }
   } else {
-    if (!adv->phase_is_initialized && caller_closes != NULL) {
+    if (!adv->phase_is_initialized && caller_closes != nullptr) {
       adv_data_phase_init(pplayer, FALSE);
       *caller_closes = TRUE;
     }
@@ -692,25 +694,26 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
 }
 
 /**********************************************************************//**
-  Allocate memory for advisor data. Save to call multiple times.
+  Allocate memory for advisor data. Safe to call multiple times.
 **************************************************************************/
 void adv_data_init(struct player *pplayer)
 {
   struct adv_data *adv;
 
-  if (pplayer->server.adv == NULL) {
+  if (pplayer->server.adv == nullptr) {
     pplayer->server.adv = fc_calloc(1, sizeof(*pplayer->server.adv));
   }
   adv = pplayer->server.adv;
 
-  adv->government_want = NULL;
+  adv->government_want = nullptr;
 
   adv->dipl.adv_dipl_slots = fc_calloc(player_slot_count(),
                                        sizeof(*adv->dipl.adv_dipl_slots));
   player_slots_iterate(pslot) {
-    struct adv_dipl **dip_slot =
-      adv->dipl.adv_dipl_slots + player_slot_index(pslot);
-    *dip_slot = NULL;
+    struct adv_dipl **dip_slot
+      = adv->dipl.adv_dipl_slots + player_slot_index(pslot);
+
+    *dip_slot = nullptr;
   } player_slots_iterate_end;
 
   players_iterate(aplayer) {
@@ -730,7 +733,7 @@ void adv_data_default(struct player *pplayer)
 {
   struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(adv != NULL);
+  fc_assert_ret(adv != nullptr);
 
   adv->govt_reeval = 0;
   adv->government_want = fc_realloc(adv->government_want,
@@ -753,15 +756,15 @@ void adv_data_close(struct player *pplayer)
 {
   struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(NULL != adv);
+  fc_assert_ret(adv != nullptr);
 
   adv_data_phase_done(pplayer);
 
-  if (adv->government_want != NULL) {
+  if (adv->government_want != nullptr) {
     free(adv->government_want);
   }
 
-  if (adv->dipl.adv_dipl_slots != NULL) {
+  if (adv->dipl.adv_dipl_slots != nullptr) {
     players_iterate(aplayer) {
       adv_dipl_free(pplayer, aplayer);
       if (aplayer != pplayer) {
@@ -771,11 +774,11 @@ void adv_data_close(struct player *pplayer)
     FC_FREE(adv->dipl.adv_dipl_slots);
   }
 
-  if (adv != NULL) {
+  if (adv != nullptr) {
     free(adv);
   }
 
-  pplayer->server.adv = NULL;
+  pplayer->server.adv = nullptr;
 }
 
 /**********************************************************************//**
@@ -796,12 +799,12 @@ static void adv_dipl_new(const struct player *plr1,
 static void adv_dipl_free(const struct player *plr1,
                           const struct player *plr2)
 {
-  struct adv_dipl **dip_slot =
-    plr1->server.adv->dipl.adv_dipl_slots + player_index(plr2);
+  struct adv_dipl **dip_slot
+    = plr1->server.adv->dipl.adv_dipl_slots + player_index(plr2);
 
-  if (*dip_slot != NULL) {
+  if (*dip_slot != nullptr) {
     FC_FREE(*dip_slot);
-    *dip_slot = NULL;
+    *dip_slot = nullptr;
   }
 }
 
@@ -811,8 +814,8 @@ static void adv_dipl_free(const struct player *plr1,
 static struct adv_dipl *adv_dipl_get(const struct player *plr1,
                                      const struct player *plr2)
 {
-  struct adv_dipl **dip_slot =
-    plr1->server.adv->dipl.adv_dipl_slots + player_index(plr2);
+  struct adv_dipl **dip_slot
+    = plr1->server.adv->dipl.adv_dipl_slots + player_index(plr2);
 
   return *dip_slot;
 }
@@ -981,7 +984,7 @@ adv_want adv_gov_player_bonus_want(struct player *pplayer)
 **************************************************************************/
 void adv_best_government(struct player *pplayer)
 {
-  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, nullptr);
   int best_val = 0;
   struct government *current_gov = government_of_player(pplayer);
 
@@ -1002,18 +1005,18 @@ void adv_best_government(struct player *pplayer)
       bool override = FALSE;
 
       if (gov == game.government_during_revolution) {
-        continue; /* pointless */
+        continue; /* Pointless */
       }
       if (gov->ai.better
           && can_change_to_government(pplayer, gov->ai.better)) {
-        continue; /* we have better governments available */
+        continue; /* We have better governments available */
       }
 
       CALL_PLR_AI_FUNC(gov_value, pplayer, pplayer, gov, &val, &override);
 
       if (!override) {
         int dist;
-        adv_want bonus = 0; /* in percentage */
+        adv_want bonus = 0; /* In percentage */
         int revolution_turns;
 
         pplayer->government = gov;
@@ -1077,16 +1080,17 @@ void adv_best_government(struct player *pplayer)
       adv->goal.govt.gov = gov;
       adv->goal.govt.val = adv->government_want[gi];
 
-      /* FIXME: handle reqs other than technologies. */
+      /* FIXME: Handle reqs other than technologies. */
       adv->goal.govt.req = A_NONE;
       requirement_vector_iterate(&gov->reqs, preq) {
-	if (VUT_ADVANCE == preq->source.kind) {
-	  adv->goal.govt.req = advance_number(preq->source.value.advance);
-	  break;
-	}
+        if (VUT_ADVANCE == preq->source.kind) {
+          adv->goal.govt.req = advance_number(preq->source.value.advance);
+          break;
+        }
       } requirement_vector_iterate_end;
     }
   } governments_iterate_end;
+
   /* Goodness of the ideal gov is calculated relative to the goodness of the
    * best of the available ones. */
   adv->goal.govt.val -= best_val;
@@ -1097,7 +1101,7 @@ void adv_best_government(struct player *pplayer)
 **************************************************************************/
 bool adv_wants_science(struct player *pplayer)
 {
-  return adv_data_get(pplayer, NULL)->wants_science;
+  return adv_data_get(pplayer, nullptr)->wants_science;
 }
 
 /**********************************************************************//**
