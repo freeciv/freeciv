@@ -1385,7 +1385,7 @@ static void city_select_building_callback(GSimpleAction *action,
 
     if (NULL != pcity
         && ((which == PCT_UNIT && VUT_UTYPE == pcity->production.kind)
-            || (which == PCT_NORMAL_IMPROVEMENT
+            || (which == PCT_IMPROVEMENT
                 && VUT_IMPROVEMENT == pcity->production.kind
                 && !is_wonder(pcity->production.value.building))
             || (which == PCT_WONDER
@@ -1751,7 +1751,7 @@ static GMenu *create_select_menu(GActionGroup *group)
   act = g_simple_action_new("select_build_impr", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(city_select_building_callback),
-                   GINT_TO_POINTER(PCT_NORMAL_IMPROVEMENT));
+                   GINT_TO_POINTER(PCT_IMPROVEMENT));
   menu_item_append_unref(select_menu, g_menu_item_new(_("Building Improvements"),
                                                       "win.select_build_impr"));
 

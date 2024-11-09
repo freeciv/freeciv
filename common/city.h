@@ -35,12 +35,9 @@ struct unit_list;
 struct vision;
 struct packet_city_rally_point;
 
-enum production_class_type {
-  PCT_UNIT,
-  PCT_NORMAL_IMPROVEMENT,
-  PCT_WONDER,
-  PCT_LAST
-};
+#include "city_enums_gen.h"
+
+#define PCT_LAST PCT_COUNT
 
 /* Various city options. These are stored by the server and can be
  * toggled by the user. Each one defaults to off. Adding new ones

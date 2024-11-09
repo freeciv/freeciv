@@ -1,0 +1,9 @@
+
+enum production_class_type
+  prefix PCT_
+  count
+values
+  UNIT        "Unit"
+  IMPROVEMENT "Improvement"
+  WONDER      "Wonder"
+end

@@ -2,6 +2,7 @@
 
 ENUMS_GEN = \
 		actions_enums_gen.h	\
+		city_enums_gen.h	\
 		effects_enums_gen.h	\
 		fc_types_enums_gen.h	\
 		manual_enums_gen.h	\
@@ -9,6 +10,7 @@ ENUMS_GEN = \
 
 EXTRA_DIST = \
 		actions_enums.def	\
+		city_enums.def		\
 		effects_enums.def	\
 		fc_types_enums.def	\
 		manual_enums.def	\

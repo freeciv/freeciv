@@ -1342,7 +1342,7 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
 
     if (NULL != pcity
         && ((which == PCT_UNIT && VUT_UTYPE == pcity->production.kind)
-            || (which == PCT_NORMAL_IMPROVEMENT
+            || (which == PCT_IMPROVEMENT
                 && VUT_IMPROVEMENT == pcity->production.kind
                 && !is_wonder(pcity->production.value.building))
             || (which == PCT_WONDER
@@ -1809,7 +1809,7 @@ static void create_select_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate",
   		   G_CALLBACK(city_select_building_callback),
-		   GINT_TO_POINTER(PCT_NORMAL_IMPROVEMENT));
+		   GINT_TO_POINTER(PCT_IMPROVEMENT));
 
   item = gtk_menu_item_new_with_label(_("Building Wonders"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
