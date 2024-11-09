@@ -386,6 +386,7 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
   cheapest to research.
 **************************************************************************/
 struct unit_type *dai_wants_defender_against(struct ai_type *ait,
+                                             const struct civ_map *nmap,
                                              struct player *pplayer,
                                              struct city *pcity,
                                              const struct unit_type *att, int want)
@@ -401,7 +402,6 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
   int att_idx = utype_index(att);
   int defbonus = 100
     + get_unittype_bonus(pplayer, ptile, att, NULL, EFT_DEFEND_BONUS);
-  const struct civ_map *nmap = &(wld.map);
 
   unit_type_iterate(deftype) {
     int mp_pct = deftype->cache.defense_mp_bonuses_pct[att_idx] + 100;

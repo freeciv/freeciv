@@ -871,7 +871,7 @@ static unsigned int assess_danger(struct ai_type *ait,
       vulnerability = vulnerability * 100 / (defbonus_pct + 100);
       /* Pass the order for a new defender type against it
        * to the scientific advisor, urgency considered */
-      (void) dai_wants_defender_against(ait, pplayer, pcity, utype,
+      (void) dai_wants_defender_against(ait, nmap, pplayer, pcity, utype,
                                         vulnerability / MAX(move_time, 1));
 
       if (utype_acts_hostile(unit_type_get(punit)) && 2 >= move_time) {
