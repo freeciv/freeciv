@@ -366,7 +366,7 @@ struct named_sprites {
       *rmact;
     enum extrastyle_id extrastyle;
     union {
-      struct sprite *single;
+      struct anim *single;
       struct sprite *cardinals[MAX_INDEX_CARDINAL];
       struct {
         struct sprite
@@ -2972,6 +2972,15 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
                                                    TRUE);                    \
   } while (FALSE)
 
+#define SET_ANIM(field, tag)                                      \
+  do {                                                            \
+    t->sprites.field = anim_load(t, tag, 3);                      \
+    if (t->sprites.field == NULL) {                               \
+      tileset_error(LOG_FATAL, tileset_name_get(t),               \
+                    _("Animation for tag '%s' missing."), tag);   \
+    }                                                             \
+  } while (FALSE)
+
 /************************************************************************//**
   Load an animation
 
@@ -4080,7 +4089,7 @@ void tileset_setup_extra(struct tileset *t,
 
     case ESTYLE_SINGLE1:
     case ESTYLE_SINGLE2:
-      SET_SPRITE(extras[id].u.single, tag);
+      SET_ANIM(extras[id].u.single, tag);
       break;
 
     case ESTYLE_CARDINALS:
@@ -4661,6 +4670,8 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 
 #define ADD_ANIM_SPRITE(s, draw_fog, x_offset, y_offset)                    \
   ADD_SPRITE(anim_get_current_frame(s), draw_fog, x_offset, y_offset)
+#define ADD_ANIM_SPRITE_SIMPLE(s)                                           \
+  ADD_SPRITE(anim_get_current_frame(s), TRUE, 0, 0)
 
 /************************************************************************//**
   Assemble some data that is used in building the tile sprite arrays.
@@ -4697,6 +4708,8 @@ static void build_tile_data(const struct tile *ptile,
     BV_CLR_ALL(textras_near[dir]);
   }
 }
+
+#define ADD_FRAME0_SIMPLE(s) ADD_SPRITE_SIMPLE(s->sprites[0])
 
 /************************************************************************//**
   Fill in the sprite array for the unit type.
@@ -6211,7 +6224,7 @@ int fill_sprite_array(struct tileset *t,
           } extra_type_list_iterate_end;
 
           if (!hidden) {
-            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
+            ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
           }
         }
       } extra_type_list_iterate_end;
@@ -6326,7 +6339,7 @@ int fill_sprite_array(struct tileset *t,
           } extra_type_list_iterate_end;
 
           if (!hidden) {
-            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
+            ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_index(pextra)].u.single);
           }
         }
       } extra_type_list_iterate_end;
@@ -7411,7 +7424,7 @@ int fill_basic_extra_sprite_array(const struct tileset *t,
   switch (t->sprites.extras[idx].extrastyle) {
   case ESTYLE_SINGLE1:
   case ESTYLE_SINGLE2:
-    ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.single);
+    ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.single);
     break;
   case ESTYLE_CARDINALS:
     ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.cardinals[0]);

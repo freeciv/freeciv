@@ -53,41 +53,41 @@ tiles = { "row", "column", "tag"
 
 ; Terrain special resources:
 
- 0,  2, "ts.oasis"
- 0,  4, "ts.oil"
+ 0,  2, "ts.oasis0"
+ 0,  4, "ts.oil0"
 
- 1,  2, "ts.buffalo"
- 1,  4, "ts.wheat"
+ 1,  2, "ts.buffalo0"
+ 1,  4, "ts.wheat0"
 
- 2,  2, "ts.pheasant"
- 2,  4, "ts.silk"
+ 2,  2, "ts.pheasant0"
+ 2,  4, "ts.silk0"
 
- 3,  2, "ts.coal"
- 3,  4, "ts.wine"
+ 3,  2, "ts.coal0"
+ 3,  4, "ts.wine0"
 
- 4,  2, "ts.gold"
- 4,  4, "ts.iron"
+ 4,  2, "ts.gold0"
+ 4,  4, "ts.iron0"
 
- 5,  2, "ts.tundra_game"
- 5,  4, "ts.furs"
+ 5,  2, "ts.tundra_game0"
+ 5,  4, "ts.furs0"
 
- 6,  2, "ts.arctic_ivory"
- 6,  4, "ts.arctic_oil"
+ 6,  2, "ts.arctic_ivory0"
+ 6,  4, "ts.arctic_oil0"
 
- 7,  2, "ts.peat"
- 7,  4, "ts.spice"
+ 7,  2, "ts.peat0"
+ 7,  4, "ts.spice0"
 
- 8,  2, "ts.gems"
- 8,  4, "ts.fruit"
+ 8,  2, "ts.gems0"
+ 8,  4, "ts.fruit0"
 
- 9,  2, "ts.fish"
- 9,  4, "ts.whales"
+ 9,  2, "ts.fish0"
+ 9,  4, "ts.whales0"
 
- 10, 2, "ts.seals"
- 10, 4, "ts.forest_game"
+ 10, 2, "ts.seals0"
+ 10, 4, "ts.forest_game0"
 
- 11, 2, "ts.horses"
- 11, 4, "ts.grassland_resources", "ts.river_resources"
+ 11, 2, "ts.horses0"
+ 11, 4, "ts.grassland_resources0", "ts.river_resources0"
 
 ; Roads
  12, 0, "road.road_isolated"
@@ -112,15 +112,15 @@ tiles = { "row", "column", "tag"
  13, 8, "road.rail_nw"
 
 ; Other extras
- 0,  6, "tx.oil_mine"
+ 0,  6, "tx.oil_mine0"
  1,  6, "tx.irrigation"
  2,  6, "tx.farmland"
- 3,  6, "tx.mine"
- 4,  6, "tx.pollution"
- 5,  6, "tx.village"
- 6,  6, "tx.fallout"
- 7,  6, "tx.oil_rig"
- 8,  6, "tx.nets"
+ 3,  6, "tx.mine0"
+ 4,  6, "tx.pollution0"
+ 5,  6, "tx.village0"
+ 6,  6, "tx.fallout0"
+ 7,  6, "tx.oil_rig0"
+ 8,  6, "tx.nets0"
 
  15,  0, "t.dither_tile"
  15,  0, "tx.darkness"
