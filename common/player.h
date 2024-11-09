@@ -521,7 +521,10 @@ int player_multiplier_effect_value(const struct player *pplayer,
 int player_multiplier_target_value(const struct player *pplayer,
                                    const struct multiplier *pmul);
 
-/* iterate over all player slots */
+bool player_can_do_action_result(struct player *pplayer,
+                                 enum action_result result);
+
+/* Iterate over all player slots */
 #define player_slots_iterate(_pslot)                                        \
   if (player_slots_initialised()) {                                         \
     struct player_slot *_pslot = player_slot_first();                       \

@@ -549,7 +549,8 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
       }
     }
 
-    if (adv->max_num_cities <= city_list_size(pplayer->cities)) {
+    if (adv->max_num_cities <= city_list_size(pplayer->cities)
+        || !player_can_do_action_result(pplayer, ACTRES_FOUND_CITY)) {
       founder_want /= 100;
     }
 

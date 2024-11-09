@@ -2017,3 +2017,30 @@ bool player_has_state(const struct player *pplayer,
   fc_assert(plrstate_type_is_valid(state));
   return FALSE;
 }
+
+/*******************************************************************//**
+  Can player do some action for the result?
+
+  @param pplayer Player to do the action
+  @param result  Action result to look for
+  @return Whether player can do some action for the result
+***********************************************************************/
+bool player_can_do_action_result(struct player *pplayer,
+                                 enum action_result result)
+{
+  action_by_result_iterate(paction, result) {
+    action_enabler_list_iterate(action_enablers_for_action(action_id(paction)),
+                                penabler) {
+      struct universal u[2] = {
+        {.kind = VUT_GOVERNMENT, .value = {.govern = (pplayer->government)}},
+        {.kind = VUT_MINCITIES,  .value = {.min_cities = (city_list_size(pplayer->cities))}},
+      };
+
+      if (!universals_mean_unfulfilled(&(penabler->actor_reqs), u, 2)) {
+        return TRUE;
+      }
+    } action_enabler_list_iterate_end;
+  } action_by_result_iterate_end;
+
+  return FALSE;
+}
