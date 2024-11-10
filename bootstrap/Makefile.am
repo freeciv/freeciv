@@ -109,7 +109,7 @@ langstat_ruledit.txt:
 
 $(metainfofile_DATA) : %.metainfo.xml: %.metainfo.xml.in generate_metainfo.sh $(top_srcdir)/fc_version
 	@if ! $(AM_V_P) ; then echo "  metainfo $@" ; fi
-	$(AM_V_at) "$(top_srcdir)/bootstrap/generate_metainfo.sh" "$@" "$(top_builddir)/bootstrap" "@RELEASE_TYPE@" "@RELEASE_DATE@" "@NEWS_URL@"
+	$(AM_V_at) "$(top_srcdir)/bootstrap/generate_metainfo.sh" "$@" "$(top_builddir)/bootstrap"
 
 metainfo_stamp: $(metainfofile_DATA)
 

@@ -889,15 +889,15 @@ verhdr = custom_target('verhdr', output: 'version_gen.h',
 
 ls_core = custom_target('langstat_core', output: 'langstat_core.txt',
               command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'core',
-                        meson.project_source_root(), meson.project_build_root()])
+                        meson.project_source_root(), b_root])
 
 ls_nations = custom_target('langstat_nations', output: 'langstat_nations.txt',
                command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'nations',
-                          meson.project_source_root(), meson.project_build_root()])
+                          meson.project_source_root(), b_root])
 
 ls_ruledit = custom_target('langstat_ruledit', output: 'langstat_ruledit.txt',
                 command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'ruledit',
-                          meson.project_source_root(), meson.project_build_root()])
+                          meson.project_source_root(), b_root])
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
                          command: [python_exe, files('utility/generate_specenum.py'),
@@ -1288,8 +1288,7 @@ if server_type != 'disabled'
                 input: 'bootstrap/org.freeciv.server.metainfo.xml.in',
                 output: '@BASENAME@',
                 command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                          '@OUTPUT@',
-                          meson.project_build_root(), 'development'],
+                          '@OUTPUT@', b_root],
                 depend_files: files('fc_version'),
                 install: true,
                 install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3036,7 +3035,7 @@ custom_target('mi_gtk322',
               input: 'bootstrap/org.freeciv.gtk322.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3124,7 +3123,7 @@ custom_target('mi_gtk4',
               input: 'bootstrap/org.freeciv.gtk4.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3401,7 +3400,7 @@ custom_target('mi_qt',
               input: 'bootstrap/org.freeciv.qt.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3534,7 +3533,7 @@ custom_target('mi_sdl2',
               input: 'bootstrap/org.freeciv.sdl2.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3588,7 +3587,7 @@ custom_target('mi_mp_gtk3',
               input: 'bootstrap/org.freeciv.gtk3.mp.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3625,7 +3624,7 @@ custom_target('mi_mp_gtk4',
               input: 'bootstrap/org.freeciv.gtk4.mp.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3669,7 +3668,7 @@ custom_target('mi_mp_qt',
               input: 'bootstrap/org.freeciv.qt.mp.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
@@ -3798,7 +3797,7 @@ custom_target('mi_ruledit',
               input: 'bootstrap/org.freeciv.ruledit.metainfo.xml.in',
               output: '@BASENAME@',
               command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
-                        '@OUTPUT@', b_root, 'development'],
+                        '@OUTPUT@', b_root],
               depend_files: files('fc_version'),
               install: true,
               install_dir: join_paths(get_option('datadir'), 'metainfo'))
