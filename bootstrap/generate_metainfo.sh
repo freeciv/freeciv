@@ -13,9 +13,8 @@
 #
 #***********************************************************************/
 
-if test "$1" = "-h" || test "$1" = "--help" || test "$1" = "" || test "$2" = "" ||
-   test "$3" = "" ; then
-  echo "Usage: $(basename $0) <target file> <build root directory> <stable/development> [date] [URL]"
+if test "$1" = "-h" || test "$1" = "--help" || test "$1" = "" || test "$2" = "" ; then
+  echo "Usage: $(basename $0) <target file> <build root directory>"
   exit
 fi
 
@@ -23,28 +22,29 @@ export BDIR="$(cd ${2} | exit 1 ; pwd)"
 
 cd "$(dirname $0)"
 
-FCVER="$(../fc_version)"
+VERSION_SCRIPT_SILENT=yes . ../fc_version
 
-if test "$3" != "stable" && test "$3" != "development" ; then
-  echo "Unknown release type \"$3\"" >&2
+FCVER="${VERSION_STRING}${VERSION_REV}"
+
+if test "${RELEASE_TYPE}" != "stable" && test "${RELEASE_TYPE}" != "development" ; then
+  echo "Unknown release type \"${RELEASE_TYPE}\"" >&2
   exit 1
 fi
-RELTYPE="$3"
 
-if test "$4" != "" ; then
-  if test "$5" != "" ; then
-    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\"><url>$5</url></release>"
+if test "${RELEASE_DATE}" != "" ; then
+  if test "${NEWS_URL}" != "" ; then
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELEASE_TYPE}\" date=\"${RELEASE_DATE}\"><url>${NEWS_URL}</url></release>"
   else
-    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\" />"
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELEASE_TYPE}\" date=\"${RELEASE_DATE}\" />"
   fi
 else
   # Tag with no date causes format checker warning, but
   # flatpak builder outright errors if there's no <release> tag
   # at all within <releases> ... </releases> list
-  if test "$5" = "" ; then
-    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" />"
+  if test "${NEWS_URL}" = "" ; then
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELEASE_TYPE}\" />"
   else
-    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\"><url>$5</url></release>"
+    RELEASETAG="<release version=\"${FCVER}\" type=\"${RELEASE_TYPE}\"><url>${NEWS_URL}</url></release>"
   fi
 fi
 
