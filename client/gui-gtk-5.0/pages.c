@@ -172,10 +172,11 @@ struct _FcScenRow
 {
   GObject parent_instance;
 
+  char *name;
   char *desc;
   char *authors;
   char *filename;
-  char *ver;
+  int ver;
 };
 
 struct _FcScenClass
@@ -3642,6 +3643,31 @@ static void update_scenario_page(void)
 }
 
 /**********************************************************************//**
+  Scenario table cell bind function
+**************************************************************************/
+static void scenario_factory_bind(GtkSignalListItemFactory *self,
+                                  GtkListItem *list_item,
+                                  gpointer user_data)
+{
+  FcScenRow *row;
+  GtkWidget *child = gtk_list_item_get_child(list_item);
+
+  row = gtk_list_item_get_item(list_item);
+
+  gtk_label_set_text(GTK_LABEL(child), row->name);
+}
+
+/**********************************************************************//**
+  Scenario table cell setup function
+**************************************************************************/
+static void scenario_factory_setup(GtkSignalListItemFactory *self,
+                                   GtkListItem *list_item,
+                                   gpointer user_data)
+{
+  gtk_list_item_set_child(list_item, gtk_label_new(""));
+}
+
+/**********************************************************************//**
   Create the scenario page.
 **************************************************************************/
 GtkWidget *create_scenario_page(void)
@@ -3650,6 +3676,7 @@ GtkWidget *create_scenario_page(void)
   GtkWidget *versionbox, *vertext;
   GtkWidget *button, *label, *view, *sw, *swa, *text;
   GtkCellRenderer *rend;
+  GtkListItemFactory *factory;
   int grid_row = 0;
   int filenamecol = 0;
   int vercol = 0;
@@ -3669,6 +3696,13 @@ GtkWidget *create_scenario_page(void)
                                          G_TYPE_STRING,
                                          G_TYPE_STRING,
                                          G_TYPE_INT);
+
+  factory = gtk_signal_list_item_factory_new();
+  g_signal_connect(factory, "bind", G_CALLBACK(scenario_factory_bind),
+                   nullptr);
+  g_signal_connect(factory, "setup", G_CALLBACK(scenario_factory_setup),
+                   nullptr);
+
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scenario_store));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
