@@ -1382,14 +1382,6 @@ AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type nam
 AM_CONDITIONAL([SRV_LIB],
   [test "x$server" = "xyes" || test "x$fcmanual" = "xyes" || test "x$ruledit" = "xyes" || test "x$fcruleup" = "xyes"])
 
-AC_SUBST([RELEASE_TYPE])
-
-if test "$RELEASE_TYPE" = "stable" ; then
-  AC_SUBST([RELEASE_DATE])
-  AC_SUBST([NEWS_URL])
-  :
-fi
-
 AC_SUBST([gui_gtk3_22_cflags])
 AC_SUBST([gui_gtk3_22_libs])
 AC_SUBST([gui_gtk3_22_ldflags])
