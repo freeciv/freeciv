@@ -80,6 +80,7 @@
 #define ALWAYS_APPLY_AT_SERVER                          FALSE
 
 #define SAVED_PARAMETER_SIZE                            30
+#define SAVED_PARAMETER_SIZE_OLD                        29
 
 #define CMA_ATTR_VERSION                                3
 #define CMA_ATTR_VERSION_MIN_SUPPORTED                  2
@@ -575,7 +576,7 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
                        struct cm_parameter *parameter)
 {
   size_t len;
-  char buffer[SAVED_PARAMETER_SIZE];
+  char buffer[MAX(SAVED_PARAMETER_SIZE, SAVED_PARAMETER_SIZE_OLD)];
   struct data_in din;
   int version, dummy;
 
@@ -586,7 +587,8 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   if (len == 0) {
     return FALSE;
   }
-  fc_assert_ret_val(len == SAVED_PARAMETER_SIZE, FALSE);
+  fc_assert_ret_val(len == SAVED_PARAMETER_SIZE || len == SAVED_PARAMETER_SIZE_OLD,
+                    FALSE);
 
   dio_input_init(&din, buffer, len);
 
