@@ -1049,6 +1049,8 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 **************************************************************************/
 void action_selection_no_longer_in_progress(const int old_actor_id)
 {
+  struct unit *old_actor_unit;
+
   /* IDENTITY_NUMBER_ZERO is accepted for cases where the unit is gone
    * without a trace. */
   fc_assert_msg(old_actor_id == action_selection_in_progress_for
@@ -1056,6 +1058,12 @@ void action_selection_no_longer_in_progress(const int old_actor_id)
                 || action_selection_in_progress_for == IDENTITY_NUMBER_ZERO,
                 "Decision taken for %d but selection is for %d.",
                 old_actor_id, action_selection_in_progress_for);
+
+  old_actor_unit = game_unit_by_number(old_actor_id);
+  if (old_actor_unit != NULL
+      && old_actor_unit->client.act_prob_cache != NULL) {
+    FC_FREE(old_actor_unit->client.act_prob_cache);
+  }
 
   /* Stop objecting to allowing the next unit to ask. */
   action_selection_in_progress_for = IDENTITY_NUMBER_ZERO;
