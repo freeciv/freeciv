@@ -6101,9 +6101,10 @@ bool unit_server_side_agent_set(struct player *pplayer,
     break;
   }
 
-  punit->ssa_controller = agent;
-
-  send_unit_info(NULL, punit);
+  if (punit->ssa_controller != agent) {
+    punit->ssa_controller = agent;
+    send_unit_info(NULL, punit);
+  }
 
   return TRUE;
 }
