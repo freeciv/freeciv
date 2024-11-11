@@ -2173,14 +2173,14 @@ reqs    =
       "Building", "Courthouse", "City"
     }
 
-; any city with Courthouse immune to incite (see game.ruleset)
-; any non empty city gets +100% incite cost
+; Any city with Courthouse immune to incite (see actions.ruleset)
+; Any non empty city gets +100% incite cost
 [effect_incite_cost_not_empty]
 type    = "Incite_Cost_Pct"
 value   = 100
 reqs    =
-    { "type", "name", "range", "present"
-      "MaxUnitsOnTile", "0", "Tile", FALSE
+    { "type",           "name", "range", "present"
+      "MaxUnitsOnTile", "0",    "Tile",  FALSE
     }
 
 [effect_factory]
