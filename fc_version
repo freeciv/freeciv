@@ -9,7 +9,7 @@ MAJOR_VERSION="3"
 MINOR_VERSION="2"
 PATCH_VERSION="0"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha4"
+VERSION_LABEL="-alpha4+"
 
 # Type is either "development" or "stable"
 # Date and NEWS URL are relevant only for "stable" releases
