@@ -9,7 +9,7 @@ MAJOR_VERSION="3"
 MINOR_VERSION="2"
 PATCH_VERSION="0"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha4+"
+VERSION_LABEL="-beta0"
 
 # Type is either "development" or "stable"
 # Date and NEWS URL are relevant only for "stable" releases
@@ -55,9 +55,9 @@ fi
 # windows/installer_msys2/Makefile.autotools --with-followtag to "windows"
 # platforms/macos/homebrew-appbundle.sh -Dfollowtag to "macos"
 
-IS_DEVEL_VERSION=1
-IS_FREEZE_VERSION=1
-IS_BETA_VERSION=0
+IS_DEVEL_VERSION=0
+IS_FREEZE_VERSION=0
+IS_BETA_VERSION=1
 
 NEXT_STABLE_VERSION="3.2.0"
 
