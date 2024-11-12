@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-10-10 17:19+0300\n"
+"POT-Creation-Date: 2024-11-12 23:45+0200\n"
 "PO-Revision-Date: 2021-09-27 13:20+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -1102,11 +1102,11 @@ msgstr "Urbonomo"
 #. TRANS: this and similar literal strings interpreted as (Qt) HTML
 #: client/cityrepdata.c:746 client/gui-gtk-3.22/citizensinfo.c:66
 #: client/gui-gtk-3.22/editprop.c:3701 client/gui-gtk-3.22/editprop.c:4569
-#: client/gui-gtk-3.22/gotodlg.c:219 client/gui-gtk-3.22/pages.c:1414
-#: client/gui-gtk-3.22/pages.c:2758 client/gui-gtk-4.0/citizensinfo.c:65
+#: client/gui-gtk-3.22/gotodlg.c:219 client/gui-gtk-3.22/pages.c:1416
+#: client/gui-gtk-3.22/pages.c:2760 client/gui-gtk-4.0/citizensinfo.c:65
 #: client/gui-gtk-4.0/editprop.c:3708 client/gui-gtk-4.0/editprop.c:4577
-#: client/gui-gtk-4.0/gotodlg.c:215 client/gui-gtk-4.0/pages.c:1444
-#: client/gui-gtk-4.0/pages.c:2881 client/gui-qt/citydlg.cpp:3083
+#: client/gui-gtk-4.0/gotodlg.c:215 client/gui-gtk-4.0/pages.c:1446
+#: client/gui-gtk-4.0/pages.c:2883 client/gui-qt/citydlg.cpp:3083
 #: client/gui-qt/gotodlg.cpp:49 client/gui-qt/pages.cpp:337
 #: client/gui-qt/pages.cpp:666 client/gui-qt/pages.cpp:1299
 #: client/gui-qt/plrdlg.cpp:588 client/gui-qt/repodlgs.cpp:1580
@@ -1204,9 +1204,9 @@ msgid "Best defending units"
 msgstr "La plej bona defend-unuo"
 
 #: client/cityrepdata.c:772 client/cityrepdata.c:776
-#: client/gui-gtk-3.22/cityrep.c:1516 client/gui-gtk-3.22/cityrep.c:1535
-#: client/gui-gtk-3.22/cityrep.c:1554 client/gui-gtk-3.22/cityrep.c:1573
-#: client/gui-gtk-3.22/cityrep.c:1593 client/gui-gtk-3.22/menu.c:391
+#: client/gui-gtk-3.22/cityrep.c:1520 client/gui-gtk-3.22/cityrep.c:1539
+#: client/gui-gtk-3.22/cityrep.c:1558 client/gui-gtk-3.22/cityrep.c:1577
+#: client/gui-gtk-3.22/cityrep.c:1597 client/gui-gtk-3.22/menu.c:391
 #: client/gui-gtk-3.22/repodlgs.c:1665 client/gui-gtk-4.0/menu.c:951
 #: client/gui-gtk-4.0/repodlgs.c:1693 client/gui-qt/cityrep.cpp:740
 #: client/gui-qt/menu.cpp:1541 client/gui-qt/pages.cpp:745
@@ -1419,8 +1419,8 @@ msgstr "Risko de pesto"
 msgid "?cma:Governor"
 msgstr "?cma:Reganto"
 
-#: client/cityrepdata.c:828 client/gui-gtk-3.22/cityrep.c:1882
-#: client/gui-gtk-3.22/menu.c:417 client/gui-gtk-4.0/cityrep.c:1856
+#: client/cityrepdata.c:828 client/gui-gtk-3.22/cityrep.c:1886
+#: client/gui-gtk-3.22/menu.c:417 client/gui-gtk-4.0/cityrep.c:1860
 #: client/gui-gtk-4.0/menu.c:990 client/gui-sdl2/citydlg.c:3729
 #: client/gui-sdl2/cma_fe.c:921 client/gui-sdl3/citydlg.c:3725
 #: client/gui-sdl3/cma_fe.c:917 client/include/helpdlg_g.h:39
@@ -1783,11 +1783,11 @@ msgstr "La %s donas ambasadejon"
 msgid "The %s share tiles"
 msgstr "La %s donas komunan vidon"
 
-#: client/climisc.c:1044
+#: client/climisc.c:1053
 msgid "Popup Request"
 msgstr "Ŝpruc-informo/demando"
 
-#: client/climisc.c:1151
+#: client/climisc.c:1160
 #, fuzzy, c-format
 msgid "You can't buy %s in %s!"
 msgstr "Vi ne aĉetis %sn en %s!"
@@ -1795,7 +1795,7 @@ msgstr "Vi ne aĉetis %sn en %s!"
 #. TRANS: %s is a production type; this whole string is a sentence
 #. * fragment that is only ever included in one other string
 #. * (search comments for this string to find it)
-#: client/climisc.c:1167
+#: client/climisc.c:1176
 #, fuzzy, c-format
 msgid "%s costs %d gold"
 msgid_plural "%s costs %d gold"
@@ -1804,7 +1804,7 @@ msgstr[1] "Ĉu vi deziras vendi %sn por %d oraj moneroj?"
 
 #. TRANS: %s is a pre-pluralised sentence fragment:
 #. * "%s costs %d gold"
-#: client/climisc.c:1174
+#: client/climisc.c:1183
 #, fuzzy, c-format
 msgid "%s and you only have %d gold."
 msgid_plural "%s and you only have %d gold."
@@ -1886,7 +1886,7 @@ msgstr "Estas neeble startigi la servilon."
 msgid "You'll have to start one manually. Sorry..."
 msgstr "Vi devos mane startigi ĝin. Ni bedaŭras..."
 
-#: client/connectdlg_common.c:290 client/options.c:5297 client/options.c:5346
+#: client/connectdlg_common.c:290 client/options.c:5300 client/options.c:5349
 #, fuzzy
 msgid "Cannot find freeciv storage directory"
 msgstr "Estas neeble trovi vian hejm-dosierujon"
@@ -2030,7 +2030,7 @@ msgstr ""
 
 #: client/editor.c:211 client/gui-gtk-3.22/citydlg.c:3094
 #: client/gui-gtk-4.0/citydlg.c:3190 client/gui-qt/citydlg.cpp:1423
-#: common/fc_types.h:176 common/unit.c:648 data/civ1/terrain.ruleset:1162
+#: common/fc_types.h:176 common/unit.c:651 data/civ1/terrain.ruleset:1162
 #: data/civ2/terrain.ruleset:1301 data/classic/terrain.ruleset:1605
 #: data/sandbox/terrain.ruleset:1874 data/civ2civ3/terrain.ruleset:1768
 #: data/alien/terrain.ruleset:1059 data/multiplayer/terrain.ruleset:1577
@@ -2057,9 +2057,9 @@ msgid ""
 msgstr ""
 
 #: client/editor.c:219 client/gui-gtk-3.22/editprop.c:675
-#: client/gui-gtk-3.22/unitselect.c:95 client/gui-gtk-4.0/cityrep.c:1569
-#: client/gui-gtk-4.0/cityrep.c:1766 client/gui-gtk-4.0/cityrep.c:1804
-#: client/gui-gtk-4.0/cityrep.c:1812 client/gui-gtk-4.0/cityrep.c:1836
+#: client/gui-gtk-3.22/unitselect.c:95 client/gui-gtk-4.0/cityrep.c:1573
+#: client/gui-gtk-4.0/cityrep.c:1770 client/gui-gtk-4.0/cityrep.c:1808
+#: client/gui-gtk-4.0/cityrep.c:1816 client/gui-gtk-4.0/cityrep.c:1840
 #: client/gui-gtk-4.0/editprop.c:675 client/gui-gtk-4.0/unitselect.c:95
 #: client/gui-qt/menu.cpp:1184
 msgid "Unit"
@@ -2194,7 +2194,7 @@ msgstr "(nenio)"
 #: client/gui-sdl2/action_dialog.c:1903 client/gui-sdl2/citydlg.c:1191
 #: client/gui-sdl2/repodlgs.c:211 client/gui-sdl3/action_dialog.c:1640
 #: client/gui-sdl3/action_dialog.c:1903 client/gui-sdl3/citydlg.c:1187
-#: client/gui-sdl3/repodlgs.c:211 client/text.c:1295 common/unit.c:2060
+#: client/gui-sdl3/repodlgs.c:211 client/text.c:1295 common/unit.c:2063
 #: server/unithand.c:2160 server/unithand.c:2870
 #, c-format
 msgid "Treasury contains %d gold."
@@ -2267,9 +2267,9 @@ msgstr "Forŝtelu teĥnologion"
 #: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:80
 #: client/gui-gtk-3.22/luaconsole.c:317 client/gui-gtk-3.22/messagedlg.c:74
 #: client/gui-gtk-3.22/optiondlg.c:328 client/gui-gtk-3.22/optiondlg.c:360
-#: client/gui-gtk-3.22/pages.c:470 client/gui-gtk-3.22/pages.c:600
-#: client/gui-gtk-3.22/pages.c:1438 client/gui-gtk-3.22/pages.c:2812
-#: client/gui-gtk-3.22/pages.c:2969 client/gui-gtk-3.22/pages.c:3327
+#: client/gui-gtk-3.22/pages.c:472 client/gui-gtk-3.22/pages.c:602
+#: client/gui-gtk-3.22/pages.c:1440 client/gui-gtk-3.22/pages.c:2814
+#: client/gui-gtk-3.22/pages.c:2971 client/gui-gtk-3.22/pages.c:3329
 #: client/gui-gtk-4.0/action_dialog.c:586
 #: client/gui-gtk-4.0/action_dialog.c:773
 #: client/gui-gtk-4.0/action_dialog.c:1548 client/gui-gtk-4.0/chatline.c:1174
@@ -2279,9 +2279,9 @@ msgstr "Forŝtelu teĥnologion"
 #: client/gui-gtk-4.0/gotodlg.c:143 client/gui-gtk-4.0/inputdlg.c:81
 #: client/gui-gtk-4.0/luaconsole.c:319 client/gui-gtk-4.0/messagedlg.c:75
 #: client/gui-gtk-4.0/optiondlg.c:357 client/gui-gtk-4.0/optiondlg.c:388
-#: client/gui-gtk-4.0/pages.c:484 client/gui-gtk-4.0/pages.c:614
-#: client/gui-gtk-4.0/pages.c:1467 client/gui-gtk-4.0/pages.c:2944
-#: client/gui-gtk-4.0/pages.c:3103 client/gui-gtk-4.0/pages.c:3473
+#: client/gui-gtk-4.0/pages.c:486 client/gui-gtk-4.0/pages.c:616
+#: client/gui-gtk-4.0/pages.c:1469 client/gui-gtk-4.0/pages.c:2946
+#: client/gui-gtk-4.0/pages.c:3105 client/gui-gtk-4.0/pages.c:3475
 msgid "_Cancel"
 msgstr "_Nuligi"
 
@@ -2559,13 +2559,13 @@ msgstr "vakigu protokolon"
 #: client/gui-gtk-3.22/editgui.c:1010 client/gui-gtk-3.22/gamedlgs.c:319
 #: client/gui-gtk-3.22/gamedlgs.c:414 client/gui-gtk-3.22/inputdlg.c:81
 #: client/gui-gtk-3.22/messagedlg.c:73 client/gui-gtk-3.22/optiondlg.c:330
-#: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2974
-#: client/gui-gtk-3.22/pages.c:3332 client/gui-gtk-4.0/chatline.c:1176
+#: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2976
+#: client/gui-gtk-3.22/pages.c:3334 client/gui-gtk-4.0/chatline.c:1176
 #: client/gui-gtk-4.0/dialogs.c:879 client/gui-gtk-4.0/editgui.c:1002
 #: client/gui-gtk-4.0/gamedlgs.c:310 client/gui-gtk-4.0/gamedlgs.c:402
 #: client/gui-gtk-4.0/inputdlg.c:82 client/gui-gtk-4.0/messagedlg.c:74
 #: client/gui-gtk-4.0/optiondlg.c:359 client/gui-gtk-4.0/optiondlg.c:393
-#: client/gui-gtk-4.0/pages.c:3108 client/gui-gtk-4.0/pages.c:3478
+#: client/gui-gtk-4.0/pages.c:3110 client/gui-gtk-4.0/pages.c:3480
 msgid "_OK"
 msgstr "Bone"
 
@@ -2659,9 +2659,9 @@ msgid "#"
 msgstr "#"
 
 #: client/gui-gtk-3.22/citizensinfo.c:65 client/gui-gtk-3.22/editprop.c:3732
-#: client/gui-gtk-3.22/editprop.c:3746 client/gui-gtk-3.22/pages.c:2754
+#: client/gui-gtk-3.22/editprop.c:3746 client/gui-gtk-3.22/pages.c:2756
 #: client/gui-gtk-4.0/citizensinfo.c:64 client/gui-gtk-4.0/editprop.c:3739
-#: client/gui-gtk-4.0/editprop.c:3753 client/gui-gtk-4.0/pages.c:2877
+#: client/gui-gtk-4.0/editprop.c:3753 client/gui-gtk-4.0/pages.c:2879
 #: client/gui-qt/citydlg.cpp:3083 client/gui-qt/pages.cpp:666
 #: client/plrdlg_common.c:577
 msgid "Flag"
@@ -2795,8 +2795,8 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d vicoj"
 
 #: client/gui-gtk-3.22/citydlg.c:1036 client/gui-gtk-3.22/citydlg.c:1228
-#: client/gui-gtk-3.22/cityrep.c:1167 client/gui-gtk-4.0/citydlg.c:1024
-#: client/gui-gtk-4.0/citydlg.c:1188 client/gui-gtk-4.0/cityrep.c:1196
+#: client/gui-gtk-3.22/cityrep.c:1171 client/gui-gtk-4.0/citydlg.c:1024
+#: client/gui-gtk-4.0/citydlg.c:1188 client/gui-gtk-4.0/cityrep.c:1200
 msgid "_Buy"
 msgstr "Aĉ_eti"
 
@@ -3030,8 +3030,8 @@ msgstr "Subtenataj unuoj %d"
 msgid "Present units %d"
 msgstr "Ĉeestantaj unuoj %d"
 
-#: client/gui-gtk-3.22/citydlg.c:2558 client/gui-gtk-3.22/cityrep.c:1175
-#: client/gui-gtk-4.0/citydlg.c:2583 client/gui-gtk-4.0/cityrep.c:1204
+#: client/gui-gtk-3.22/citydlg.c:2558 client/gui-gtk-3.22/cityrep.c:1179
+#: client/gui-gtk-4.0/citydlg.c:2583 client/gui-gtk-4.0/cityrep.c:1208
 msgid "Cen_ter"
 msgstr "C_entrigu"
 
@@ -3091,7 +3091,7 @@ msgstr "Celo de la _Laborlisto:"
 
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.22/citydlg.c:3070 client/gui-gtk-4.0/citydlg.c:3166
-#: client/gui-qt/citydlg.cpp:1405 common/fc_types.h:143 common/unit.c:623
+#: client/gui-qt/citydlg.cpp:1405 common/fc_types.h:143 common/unit.c:626
 #, fuzzy
 msgid "?act:Mine"
 msgstr "Minejo"
@@ -3101,14 +3101,14 @@ msgstr "Minejo"
 #: client/gui-gtk-4.0/citydlg.c:3173 client/gui-gtk-4.0/menu.c:799
 #: client/gui-qt/citydlg.cpp:1402 client/gui-qt/menu.cpp:1334
 #: client/gui-qt/menu.cpp:2316 client/gui-qt/menu.cpp:2319
-#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:182 common/unit.c:626
+#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:182 common/unit.c:629
 #: tools/manual/manual_terrain.c:51
 #, fuzzy
 msgid "Plant"
 msgstr "Manufakturo"
 
 #: client/gui-gtk-3.22/citydlg.c:3082 client/gui-gtk-4.0/citydlg.c:3178
-#: client/gui-qt/citydlg.cpp:1413 common/fc_types.h:146 common/unit.c:628
+#: client/gui-qt/citydlg.cpp:1413 common/fc_types.h:146 common/unit.c:631
 #, fuzzy
 msgid "Irrigate"
 msgstr "_Irigacio"
@@ -3117,7 +3117,7 @@ msgstr "_Irigacio"
 #: client/gui-gtk-4.0/citydlg.c:3185 client/gui-gtk-4.0/menu.c:796
 #: client/gui-qt/citydlg.cpp:1410 client/gui-qt/menu.cpp:1324
 #: client/gui-qt/menu.cpp:2293 client/gui-qt/menu.cpp:2296
-#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:140 common/unit.c:630
+#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:140 common/unit.c:633
 #: tools/manual/manual_terrain.c:51
 #, fuzzy
 msgid "Cultivate"
@@ -3125,7 +3125,7 @@ msgstr "Tavolo de urboj"
 
 #: client/gui-gtk-3.22/citydlg.c:3101 client/gui-gtk-4.0/citydlg.c:3197
 #: client/gui-qt/citydlg.cpp:1419 client/gui-qt/shortcuts.cpp:138
-#: common/fc_types.h:164 common/unit.c:644 data/civ2/units.ruleset:25
+#: common/fc_types.h:164 common/unit.c:647 data/civ2/units.ruleset:25
 #: data/classic/units.ruleset:31 data/sandbox/units.ruleset:31
 #: data/civ2civ3/units.ruleset:31 data/multiplayer/units.ruleset:31
 #: tools/manual/manual_terrain.c:51
@@ -3134,7 +3134,7 @@ msgstr "Transformi"
 
 #: client/gui-gtk-3.22/citydlg.c:3107 client/gui-gtk-4.0/citydlg.c:3203
 #: client/gui-qt/citydlg.cpp:1428 client/gui-qt/menu.cpp:1362
-#: client/gui-qt/shortcuts.cpp:152 common/fc_types.h:170 common/unit.c:620
+#: client/gui-qt/shortcuts.cpp:152 common/fc_types.h:170 common/unit.c:623
 #, fuzzy
 msgid "Clean"
 msgstr "vakigu protokolon"
@@ -3230,42 +3230,42 @@ msgid "(no worklists defined)"
 msgstr "(laborlisto)"
 
 #: client/gui-gtk-3.22/cityrep.c:1053 client/gui-gtk-4.0/cityrep.c:1128
-#: client/gui-gtk-4.0/cityrep.c:1691
+#: client/gui-gtk-4.0/cityrep.c:1695
 msgid "_Production"
 msgstr "_Produktado"
 
-#: client/gui-gtk-3.22/cityrep.c:1060 client/gui-gtk-4.0/cityrep.c:1623
+#: client/gui-gtk-3.22/cityrep.c:1060 client/gui-gtk-4.0/cityrep.c:1627
 msgid "Chan_ge"
 msgstr "Ŝan_ĝu"
 
-#: client/gui-gtk-3.22/cityrep.c:1064 client/gui-gtk-4.0/cityrep.c:1630
+#: client/gui-gtk-3.22/cityrep.c:1064 client/gui-gtk-4.0/cityrep.c:1634
 msgid "Add _First"
 msgstr "Aldonu _unuan"
 
-#: client/gui-gtk-3.22/cityrep.c:1068 client/gui-gtk-4.0/cityrep.c:1646
+#: client/gui-gtk-3.22/cityrep.c:1068 client/gui-gtk-4.0/cityrep.c:1650
 msgid "Add _Next"
 msgstr "Aldonu _sekvan"
 
-#: client/gui-gtk-3.22/cityrep.c:1072 client/gui-gtk-4.0/cityrep.c:1654
+#: client/gui-gtk-3.22/cityrep.c:1072 client/gui-gtk-4.0/cityrep.c:1658
 #, fuzzy
 msgid "Add _2nd Last"
 msgstr "Aldonu _lastan"
 
-#: client/gui-gtk-3.22/cityrep.c:1076 client/gui-gtk-4.0/cityrep.c:1638
+#: client/gui-gtk-3.22/cityrep.c:1076 client/gui-gtk-4.0/cityrep.c:1642
 msgid "Add _Last"
 msgstr "Aldonu _lastan"
 
-#: client/gui-gtk-3.22/cityrep.c:1083 client/gui-gtk-4.0/cityrep.c:1658
+#: client/gui-gtk-3.22/cityrep.c:1083 client/gui-gtk-4.0/cityrep.c:1662
 #, fuzzy
 msgid "Set Worklist"
 msgstr "Laborlisto"
 
-#: client/gui-gtk-3.22/cityrep.c:1089 client/gui-gtk-4.0/cityrep.c:1662
+#: client/gui-gtk-3.22/cityrep.c:1089 client/gui-gtk-4.0/cityrep.c:1666
 #, fuzzy
 msgid "Append Worklist"
 msgstr "Renomu laborliston"
 
-#: client/gui-gtk-3.22/cityrep.c:1095 client/gui-gtk-4.0/cityrep.c:1669
+#: client/gui-gtk-3.22/cityrep.c:1095 client/gui-gtk-4.0/cityrep.c:1673
 #, fuzzy
 msgid "Clear _Worklist"
 msgstr "Celo de la _Laborlisto:"
@@ -3277,14 +3277,14 @@ msgid "Gover_nor"
 msgstr "Guberniestro"
 
 #: client/gui-gtk-3.22/cityrep.c:1105 client/gui-gtk-4.0/cityrep.c:1135
-#: client/gui-gtk-4.0/cityrep.c:1608
+#: client/gui-gtk-4.0/cityrep.c:1612
 #, fuzzy
 msgid "S_ell"
 msgstr "Vendu"
 
 #: client/gui-gtk-3.22/cityrep.c:1110 client/gui-gtk-3.22/menu.c:515
 #: client/gui-gtk-3.22/unitselect.c:497 client/gui-gtk-4.0/cityrep.c:1136
-#: client/gui-gtk-4.0/cityrep.c:1882 client/gui-gtk-4.0/menu.c:3122
+#: client/gui-gtk-4.0/cityrep.c:1886 client/gui-gtk-4.0/menu.c:3122
 #: client/gui-gtk-4.0/unitselect.c:504
 msgid "_Select"
 msgstr "_Elekti"
@@ -3294,8 +3294,8 @@ msgstr "_Elekti"
 msgid "_Display"
 msgstr "_Ekrano"
 
-#: client/gui-gtk-3.22/cityrep.c:1147 client/gui-gtk-3.22/menu.c:385
-#: client/gui-gtk-4.0/cityrep.c:1176 client/gui-gtk-4.0/menu.c:942
+#: client/gui-gtk-3.22/cityrep.c:1151 client/gui-gtk-3.22/menu.c:385
+#: client/gui-gtk-4.0/cityrep.c:1180 client/gui-gtk-4.0/menu.c:942
 #: client/gui-qt/diplodlg.cpp:414 client/gui-qt/menu.cpp:1549
 #: client/gui-qt/pages.cpp:748 client/gui-qt/pages.cpp:1305
 #: client/gui-sdl2/diplodlg.c:821 client/gui-sdl3/diplodlg.c:817
@@ -3307,105 +3307,105 @@ msgstr "_Ekrano"
 msgid "Cities"
 msgstr "Urboj"
 
-#: client/gui-gtk-3.22/cityrep.c:1171 client/gui-gtk-4.0/cityrep.c:1200
+#: client/gui-gtk-3.22/cityrep.c:1175 client/gui-gtk-4.0/cityrep.c:1204
 msgid "_Inspect"
 msgstr "_Enketado"
 
-#: client/gui-gtk-3.22/cityrep.c:1518 client/gui-gtk-3.22/cityrep.c:1537
-#: client/gui-gtk-3.22/cityrep.c:1556 client/gui-gtk-3.22/cityrep.c:1575
-#: client/gui-gtk-3.22/cityrep.c:1597 client/gui-sdl2/helpdlg.c:339
+#: client/gui-gtk-3.22/cityrep.c:1522 client/gui-gtk-3.22/cityrep.c:1541
+#: client/gui-gtk-3.22/cityrep.c:1560 client/gui-gtk-3.22/cityrep.c:1579
+#: client/gui-gtk-3.22/cityrep.c:1601 client/gui-sdl2/helpdlg.c:339
 #: client/gui-sdl3/helpdlg.c:336
 msgid "Improvements"
 msgstr "Urbaj plibonigoj"
 
-#: client/gui-gtk-3.22/cityrep.c:1520 client/gui-gtk-3.22/cityrep.c:1539
-#: client/gui-gtk-3.22/cityrep.c:1558 client/gui-gtk-3.22/cityrep.c:1577
-#: client/gui-gtk-3.22/cityrep.c:1601 client/gui-qt/cityrep.cpp:741
+#: client/gui-gtk-3.22/cityrep.c:1524 client/gui-gtk-3.22/cityrep.c:1543
+#: client/gui-gtk-3.22/cityrep.c:1562 client/gui-gtk-3.22/cityrep.c:1581
+#: client/gui-gtk-3.22/cityrep.c:1605 client/gui-qt/cityrep.cpp:741
 #: tools/manual/fc_manual.h:37
 msgid "Wonders"
 msgstr "Mirindaĵoj"
 
-#: client/gui-gtk-3.22/cityrep.c:1778 client/gui-gtk-4.0/cityrep.c:1723
+#: client/gui-gtk-3.22/cityrep.c:1782 client/gui-gtk-4.0/cityrep.c:1727
 #: client/gui-qt/cityrep.cpp:960
 msgid "All Cities"
 msgstr "Ĉiu urbo"
 
-#: client/gui-gtk-3.22/cityrep.c:1783 client/gui-gtk-4.0/cityrep.c:1730
+#: client/gui-gtk-3.22/cityrep.c:1787 client/gui-gtk-4.0/cityrep.c:1734
 #: client/gui-qt/cityrep.cpp:962
 msgid "No Cities"
 msgstr "Neniu urbo"
 
-#: client/gui-gtk-3.22/cityrep.c:1788 client/gui-gtk-4.0/cityrep.c:1737
+#: client/gui-gtk-3.22/cityrep.c:1792 client/gui-gtk-4.0/cityrep.c:1741
 #: client/gui-qt/cityrep.cpp:964
 msgid "Invert Selection"
 msgstr "Renversu elektaĵon"
 
-#: client/gui-gtk-3.22/cityrep.c:1798 client/gui-gtk-4.0/cityrep.c:1744
+#: client/gui-gtk-3.22/cityrep.c:1802 client/gui-gtk-4.0/cityrep.c:1748
 #: client/gui-qt/cityrep.cpp:975
 msgid "Building Units"
 msgstr "Prepari unuojn"
 
-#: client/gui-gtk-3.22/cityrep.c:1804 client/gui-gtk-4.0/cityrep.c:1751
+#: client/gui-gtk-3.22/cityrep.c:1808 client/gui-gtk-4.0/cityrep.c:1755
 #: client/gui-qt/cityrep.cpp:978
 msgid "Building Improvements"
 msgstr "Prepari plibonigojn"
 
-#: client/gui-gtk-3.22/cityrep.c:1810 client/gui-gtk-4.0/cityrep.c:1758
+#: client/gui-gtk-3.22/cityrep.c:1814 client/gui-gtk-4.0/cityrep.c:1762
 #: client/gui-qt/cityrep.cpp:981
 msgid "Building Wonders"
 msgstr "Konstrui mirindaĵojn"
 
-#: client/gui-gtk-3.22/cityrep.c:1822
+#: client/gui-gtk-3.22/cityrep.c:1826
 msgid "Building Unit"
 msgstr "Fondi urbon"
 
-#: client/gui-gtk-3.22/cityrep.c:1826
+#: client/gui-gtk-3.22/cityrep.c:1830
 msgid "Building Improvement"
 msgstr "Prepari plibonigon"
 
-#: client/gui-gtk-3.22/cityrep.c:1830
+#: client/gui-gtk-3.22/cityrep.c:1834
 msgid "Building Wonder"
 msgstr "Konstrui mirindaĵon"
 
-#: client/gui-gtk-3.22/cityrep.c:1838 client/gui-gtk-4.0/cityrep.c:1789
+#: client/gui-gtk-3.22/cityrep.c:1842 client/gui-gtk-4.0/cityrep.c:1793
 #: client/gui-qt/cityrep.cpp:967
 msgid "Coastal Cities"
 msgstr "Marbordaj urboj"
 
-#: client/gui-gtk-3.22/cityrep.c:1843 client/gui-gtk-4.0/cityrep.c:1796
+#: client/gui-gtk-3.22/cityrep.c:1847 client/gui-gtk-4.0/cityrep.c:1800
 #: client/gui-qt/cityrep.cpp:969
 msgid "Same Island"
 msgstr "Sama insulo"
 
-#: client/gui-gtk-3.22/cityrep.c:1853 client/gui-qt/cityrep.cpp:994
+#: client/gui-gtk-3.22/cityrep.c:1857 client/gui-qt/cityrep.cpp:994
 msgid "Supported Units"
 msgstr "Subtenataj unuoj"
 
-#: client/gui-gtk-3.22/cityrep.c:1856 client/gui-qt/cityrep.cpp:998
+#: client/gui-gtk-3.22/cityrep.c:1860 client/gui-qt/cityrep.cpp:998
 msgid "Units Present"
 msgstr "Ĉeestantaj unuoj"
 
-#: client/gui-gtk-3.22/cityrep.c:1860 client/gui-qt/cityrep.cpp:985
+#: client/gui-gtk-3.22/cityrep.c:1864 client/gui-qt/cityrep.cpp:985
 msgid "Improvements in City"
 msgstr "Plibonigoj en la urbo"
 
-#: client/gui-gtk-3.22/cityrep.c:1864 client/gui-qt/cityrep.cpp:989
+#: client/gui-gtk-3.22/cityrep.c:1868 client/gui-qt/cityrep.cpp:989
 msgid "Wonders in City"
 msgstr "Mirindaĵoj en la urbo"
 
-#: client/gui-gtk-3.22/cityrep.c:1873 client/gui-qt/cityrep.cpp:1003
+#: client/gui-gtk-3.22/cityrep.c:1877 client/gui-qt/cityrep.cpp:1003
 msgid "Available Units"
 msgstr "Disponeblaj unuoj"
 
-#: client/gui-gtk-3.22/cityrep.c:1876 client/gui-qt/cityrep.cpp:1007
+#: client/gui-gtk-3.22/cityrep.c:1880 client/gui-qt/cityrep.cpp:1007
 msgid "Available Improvements"
 msgstr "Disponeblaj plibonigoj"
 
-#: client/gui-gtk-3.22/cityrep.c:1879 client/gui-qt/cityrep.cpp:1011
+#: client/gui-gtk-3.22/cityrep.c:1883 client/gui-qt/cityrep.cpp:1011
 msgid "Available Wonders"
 msgstr "Disponeblaj mirindaĵoj"
 
-#: client/gui-gtk-3.22/cityrep.c:1992 client/gui-gtk-4.0/cityrep.c:1923
+#: client/gui-gtk-3.22/cityrep.c:1996 client/gui-gtk-4.0/cityrep.c:1927
 #, fuzzy, c-format
 msgid "Total Buy Cost: %d"
 msgstr "Elspezo:"
@@ -3428,9 +3428,9 @@ msgstr "Antaŭagordaĵoj"
 msgid "Ne_w"
 msgstr "Nova"
 
-#: client/gui-gtk-3.22/cma_fe.c:306 client/gui-gtk-3.22/pages.c:599
+#: client/gui-gtk-3.22/cma_fe.c:306 client/gui-gtk-3.22/pages.c:601
 #: client/gui-gtk-3.22/wldlg.c:224 client/gui-gtk-4.0/cma_fe.c:318
-#: client/gui-gtk-4.0/pages.c:613 client/gui-gtk-4.0/wldlg.c:228
+#: client/gui-gtk-4.0/pages.c:615 client/gui-gtk-4.0/wldlg.c:228
 msgid "_Delete"
 msgstr "Forigi"
 
@@ -3536,7 +3536,7 @@ msgstr "Kio estas disrabenda:"
 #. TRANS: Pillage dialog do button text.
 #: client/gui-gtk-3.22/dialogs.c:369 client/gui-gtk-4.0/dialogs.c:369
 #: client/gui-qt/menu.cpp:1288 client/gui-sdl2/menu.c:705
-#: client/gui-sdl3/menu.c:701 common/fc_types.h:155 common/unit.c:638
+#: client/gui-sdl3/menu.c:701 common/fc_types.h:155 common/unit.c:641
 msgid "Pillage"
 msgstr "Disrabado"
 
@@ -3968,13 +3968,13 @@ msgstr "ID"
 #: client/gui-gtk-3.22/editprop.c:3719 client/gui-gtk-3.22/editprop.c:3734
 #: client/gui-gtk-3.22/editprop.c:3749 client/gui-gtk-3.22/editprop.c:3759
 #: client/gui-gtk-3.22/editprop.c:4538 client/gui-gtk-3.22/editprop.c:4562
-#: client/gui-gtk-3.22/pages.c:1411 client/gui-gtk-3.22/pages.c:2748
+#: client/gui-gtk-3.22/pages.c:1413 client/gui-gtk-3.22/pages.c:2750
 #: client/gui-gtk-3.22/wldlg.c:996 client/gui-gtk-4.0/editprop.c:3701
 #: client/gui-gtk-4.0/editprop.c:3710 client/gui-gtk-4.0/editprop.c:3726
 #: client/gui-gtk-4.0/editprop.c:3741 client/gui-gtk-4.0/editprop.c:3756
 #: client/gui-gtk-4.0/editprop.c:3766 client/gui-gtk-4.0/editprop.c:4546
-#: client/gui-gtk-4.0/editprop.c:4570 client/gui-gtk-4.0/pages.c:1441
-#: client/gui-gtk-4.0/pages.c:2871 client/gui-gtk-4.0/wldlg.c:1017
+#: client/gui-gtk-4.0/editprop.c:4570 client/gui-gtk-4.0/pages.c:1443
+#: client/gui-gtk-4.0/pages.c:2873 client/gui-gtk-4.0/wldlg.c:1017
 #: client/gui-qt/pages.cpp:337 client/gui-qt/pages.cpp:665
 #: tools/fcmp/mpgui_gtk3.c:460 tools/fcmp/mpgui_gtk4.c:476
 #: tools/fcmp/mpgui_qt.cpp:229 tools/manual/manual_buildings.c:60
@@ -4103,9 +4103,9 @@ msgid "Nations"
 msgstr "Nacioj"
 
 #. TRANS: Image header
-#: client/gui-gtk-3.22/editprop.c:4512 client/gui-gtk-3.22/pages.c:1412
+#: client/gui-gtk-3.22/editprop.c:4512 client/gui-gtk-3.22/pages.c:1414
 #: client/gui-gtk-3.22/repodlgs.c:831 client/gui-gtk-3.22/wldlg.c:996
-#: client/gui-gtk-4.0/editprop.c:4520 client/gui-gtk-4.0/pages.c:1442
+#: client/gui-gtk-4.0/editprop.c:4520 client/gui-gtk-4.0/pages.c:1444
 #: client/gui-gtk-4.0/repodlgs.c:863 client/gui-gtk-4.0/wldlg.c:1017
 #: client/gui-qt/pages.cpp:337 client/gui-qt/repodlgs.cpp:1219
 msgid "Type"
@@ -4330,10 +4330,10 @@ msgstr "Elektu unuo(j)n"
 msgid "Seen (Subsurface)"
 msgstr ""
 
-#: client/gui-gtk-3.22/editprop.c:6602 client/gui-gtk-3.22/pages.c:745
-#: client/gui-gtk-4.0/editprop.c:6626 client/gui-gtk-4.0/pages.c:756
+#: client/gui-gtk-3.22/editprop.c:6602 client/gui-gtk-3.22/pages.c:747
+#: client/gui-gtk-4.0/editprop.c:6626 client/gui-gtk-4.0/pages.c:758
 #: client/gui-qt/pages.cpp:928 client/gui-sdl2/citydlg.c:2046
-#: client/gui-sdl3/citydlg.c:2042 client/text.c:179 common/unit.c:656
+#: client/gui-sdl3/citydlg.c:2042 client/text.c:179 common/unit.c:659
 msgid "Unknown"
 msgstr "Nekonata"
 
@@ -4524,7 +4524,7 @@ msgstr "Fini vicon"
 #: client/gui-gtk-3.22/gui_main.c:1142 client/gui-gtk-4.0/gui_main.c:1071
 #: client/gui-qt/sidebar.cpp:668 client/gui-sdl2/mapctrl.c:1690
 #: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapctrl.c:1686
-#: client/gui-sdl3/mapview.c:942
+#: client/gui-sdl3/mapview.c:943
 msgid "Shift+Return"
 msgstr "Ŝvkl+Enenklavo"
 
@@ -5051,8 +5051,8 @@ msgstr ""
 msgid "Load Lua Script"
 msgstr "_Ŝargu unuon"
 
-#: client/gui-gtk-3.22/luaconsole.c:318 client/gui-gtk-3.22/pages.c:472
-#: client/gui-gtk-4.0/luaconsole.c:320 client/gui-gtk-4.0/pages.c:486
+#: client/gui-gtk-3.22/luaconsole.c:318 client/gui-gtk-3.22/pages.c:474
+#: client/gui-gtk-4.0/luaconsole.c:320 client/gui-gtk-4.0/pages.c:488
 msgid "_Open"
 msgstr "_Malfermi"
 
@@ -5216,7 +5216,7 @@ msgstr "_Nacioj"
 msgid "_Wonders of the World"
 msgstr "_Mirindaĵoj de la mondo"
 
-#: client/gui-gtk-3.22/menu.c:329 client/gui-gtk-3.22/menu.c:2440
+#: client/gui-gtk-3.22/menu.c:329 client/gui-gtk-3.22/menu.c:2441
 #: client/gui-gtk-4.0/menu.c:871 client/gui-qt/menu.cpp:1565
 #: client/gui-qt/menu.cpp:2131
 #, fuzzy
@@ -5530,8 +5530,8 @@ msgstr "Baskuligi la Milit-nebulon"
 msgid "Game/Scenario Properties"
 msgstr "Ecoj de la Ludo/Scenaro"
 
-#: client/gui-gtk-3.22/menu.c:498 client/gui-gtk-3.22/pages.c:3528
-#: client/gui-gtk-4.0/menu.c:607 client/gui-gtk-4.0/pages.c:3672
+#: client/gui-gtk-3.22/menu.c:498 client/gui-gtk-3.22/pages.c:3530
+#: client/gui-gtk-4.0/menu.c:607 client/gui-gtk-4.0/pages.c:3674
 msgid "Save Scenario"
 msgstr "Konservi Scenaron"
 
@@ -5678,14 +5678,14 @@ msgstr "Malŝargu kargoŝipon"
 msgid "Set _Home City"
 msgstr "Igu ĝin _hejmurbo"
 
-#: client/gui-gtk-3.22/menu.c:564 client/gui-gtk-3.22/menu.c:2746
-#: client/gui-gtk-4.0/menu.c:761 client/gui-gtk-4.0/menu.c:3969
+#: client/gui-gtk-3.22/menu.c:564 client/gui-gtk-3.22/menu.c:2750
+#: client/gui-gtk-4.0/menu.c:761 client/gui-gtk-4.0/menu.c:3980
 #, fuzzy
 msgid "Upgr_ade"
 msgstr "Ĝisdatigu"
 
-#: client/gui-gtk-3.22/menu.c:566 client/gui-gtk-3.22/menu.c:2767
-#: client/gui-gtk-4.0/menu.c:764 client/gui-gtk-4.0/menu.c:3989
+#: client/gui-gtk-3.22/menu.c:566 client/gui-gtk-3.22/menu.c:2771
+#: client/gui-gtk-4.0/menu.c:764 client/gui-gtk-4.0/menu.c:4000
 #, fuzzy
 msgid "C_onvert"
 msgstr "K_onektu"
@@ -5703,24 +5703,24 @@ msgstr "_Fondi urbon"
 msgid "_Auto Settler"
 msgstr "_Aŭtomata farmigo"
 
-#: client/gui-gtk-3.22/menu.c:574 client/gui-gtk-3.22/menu.c:2724
-#: client/gui-gtk-4.0/menu.c:787 client/gui-gtk-4.0/menu.c:3946
+#: client/gui-gtk-3.22/menu.c:574 client/gui-gtk-3.22/menu.c:2728
+#: client/gui-gtk-4.0/menu.c:787 client/gui-gtk-4.0/menu.c:3957
 msgid "Build _Road"
 msgstr "Konst_ruu vojon"
 
-#: client/gui-gtk-3.22/menu.c:576 client/gui-gtk-3.22/menu.c:2793
-#: client/gui-gtk-3.22/menu.c:2796 client/gui-gtk-3.22/menu.c:2847
+#: client/gui-gtk-3.22/menu.c:576 client/gui-gtk-3.22/menu.c:2797
+#: client/gui-gtk-3.22/menu.c:2800 client/gui-gtk-3.22/menu.c:2851
 #: client/gui-gtk-4.0/menu.c:790 client/gui-gtk-4.0/menu.c:3160
-#: client/gui-gtk-4.0/menu.c:3606 client/gui-gtk-4.0/menu.c:4015
-#: client/gui-gtk-4.0/menu.c:4018 client/gui-gtk-4.0/menu.c:4069
+#: client/gui-gtk-4.0/menu.c:3606 client/gui-gtk-4.0/menu.c:4026
+#: client/gui-gtk-4.0/menu.c:4029 client/gui-gtk-4.0/menu.c:4080
 msgid "Build _Irrigation"
 msgstr "Preparu _irigacion"
 
-#: client/gui-gtk-3.22/menu.c:580 client/gui-gtk-3.22/menu.c:2825
-#: client/gui-gtk-3.22/menu.c:2828 client/gui-gtk-3.22/menu.c:2849
+#: client/gui-gtk-3.22/menu.c:580 client/gui-gtk-3.22/menu.c:2829
+#: client/gui-gtk-3.22/menu.c:2832 client/gui-gtk-3.22/menu.c:2853
 #: client/gui-gtk-4.0/menu.c:793 client/gui-gtk-4.0/menu.c:3162
-#: client/gui-gtk-4.0/menu.c:3631 client/gui-gtk-4.0/menu.c:4047
-#: client/gui-gtk-4.0/menu.c:4050 client/gui-gtk-4.0/menu.c:4071
+#: client/gui-gtk-4.0/menu.c:3631 client/gui-gtk-4.0/menu.c:4058
+#: client/gui-gtk-4.0/menu.c:4061 client/gui-gtk-4.0/menu.c:4082
 msgid "Build _Mine"
 msgstr "Konstruu _minejon"
 
@@ -5744,9 +5744,9 @@ msgstr "Kunligo/Fervojo"
 msgid "Connect With Irri_gation"
 msgstr "Kunligi irigacion"
 
-#: client/gui-gtk-3.22/menu.c:593 client/gui-gtk-3.22/menu.c:2844
-#: client/gui-gtk-3.22/menu.c:2851 client/gui-gtk-4.0/menu.c:802
-#: client/gui-gtk-4.0/menu.c:4066 client/gui-gtk-4.0/menu.c:4073
+#: client/gui-gtk-3.22/menu.c:593 client/gui-gtk-3.22/menu.c:2848
+#: client/gui-gtk-3.22/menu.c:2855 client/gui-gtk-4.0/menu.c:802
+#: client/gui-gtk-4.0/menu.c:4077 client/gui-gtk-4.0/menu.c:4084
 msgid "Transf_orm Terrain"
 msgstr "Transf_ormu grundon"
 
@@ -5800,8 +5800,8 @@ msgstr "_Revolucio..."
 msgid "Set local options"
 msgstr "Agordi lokajn opciojn"
 
-#: client/gui-gtk-3.22/menu.c:659 client/gui-gtk-3.22/pages.c:1581
-#: client/gui-gtk-4.0/menu.c:1212 client/gui-gtk-4.0/pages.c:1609
+#: client/gui-gtk-3.22/menu.c:659 client/gui-gtk-3.22/pages.c:1583
+#: client/gui-gtk-4.0/menu.c:1212 client/gui-gtk-4.0/pages.c:1611
 msgid "Game Settings"
 msgstr "Lud-agordoj"
 
@@ -5811,14 +5811,14 @@ msgid "Leaving a local game will end it!"
 msgstr "Forlaso de loka ludo estas la fino de la ludo mem!"
 
 #. TRANS: Connect with some road type (Road/Railroad)
-#: client/gui-gtk-3.22/menu.c:2410 client/gui-gtk-3.22/menu.c:2417
-#: client/gui-gtk-3.22/menu.c:2424 client/gui-gtk-4.0/menu.c:3756
-#: client/gui-gtk-4.0/menu.c:3763
+#: client/gui-gtk-3.22/menu.c:2411 client/gui-gtk-3.22/menu.c:2418
+#: client/gui-gtk-3.22/menu.c:2425 client/gui-gtk-4.0/menu.c:3767
+#: client/gui-gtk-4.0/menu.c:3774
 #, fuzzy, c-format
 msgid "Connect With %s"
 msgstr "Kunligu ĉi tie"
 
-#: client/gui-gtk-3.22/menu.c:2435
+#: client/gui-gtk-3.22/menu.c:2436
 #, fuzzy, c-format
 msgid "Top %d City"
 msgid_plural "Top %d Cities"
@@ -5831,52 +5831,52 @@ msgstr[1] "Iri al urbo"
 #. TRANS: Build road of specific type (Road/Railroad)
 #. TRANS: Build irrigation of specific type
 #. TRANS: Build mine of specific type
-#: client/gui-gtk-3.22/menu.c:2719 client/gui-gtk-3.22/menu.c:2790
-#: client/gui-gtk-3.22/menu.c:2822 client/gui-gtk-4.0/menu.c:3941
-#: client/gui-gtk-4.0/menu.c:4012 client/gui-gtk-4.0/menu.c:4044
+#: client/gui-gtk-3.22/menu.c:2723 client/gui-gtk-3.22/menu.c:2794
+#: client/gui-gtk-3.22/menu.c:2826 client/gui-gtk-4.0/menu.c:3952
+#: client/gui-gtk-4.0/menu.c:4023 client/gui-gtk-4.0/menu.c:4055
 #, fuzzy, c-format
 msgid "Build %s"
 msgstr "Druido"
 
 #. TRANS: %s is a unit type.
-#: client/gui-gtk-3.22/menu.c:2733 client/gui-gtk-4.0/menu.c:3956
+#: client/gui-gtk-3.22/menu.c:2737 client/gui-gtk-4.0/menu.c:3967
 #, fuzzy, c-format
 msgid "Upgr_ade to %s"
 msgstr "Ĝisdatigu"
 
 #. TRANS: %s is a unit type.
-#: client/gui-gtk-3.22/menu.c:2755 client/gui-gtk-4.0/menu.c:3977
+#: client/gui-gtk-3.22/menu.c:2759 client/gui-gtk-4.0/menu.c:3988
 #, fuzzy, c-format
 msgid "C_onvert to %s"
 msgstr "Komputiloj"
 
 #. TRANS: Menu name part to be used like "Change to Improvement"
 #. *        This is about changing current production.
-#: client/gui-gtk-3.22/menu.c:2800 client/gui-gtk-3.22/menu.c:2832
-#: client/gui-gtk-4.0/cityrep.c:1622 client/gui-gtk-4.0/menu.c:4022
-#: client/gui-gtk-4.0/menu.c:4054
+#: client/gui-gtk-3.22/menu.c:2804 client/gui-gtk-3.22/menu.c:2836
+#: client/gui-gtk-4.0/cityrep.c:1626 client/gui-gtk-4.0/menu.c:4033
+#: client/gui-gtk-4.0/menu.c:4065
 #, c-format
 msgid "Change to %s"
 msgstr "Ŝanĝu en %s"
 
-#: client/gui-gtk-3.22/menu.c:2804 client/gui-gtk-3.22/menu.c:2848
-#: client/gui-gtk-4.0/menu.c:4026 client/gui-gtk-4.0/menu.c:4070
+#: client/gui-gtk-3.22/menu.c:2808 client/gui-gtk-3.22/menu.c:2852
+#: client/gui-gtk-4.0/menu.c:4037 client/gui-gtk-4.0/menu.c:4081
 msgid "_Cultivate"
 msgstr ""
 
-#: client/gui-gtk-3.22/menu.c:2835 client/gui-gtk-3.22/menu.c:2850
-#: client/gui-gtk-4.0/menu.c:4057 client/gui-gtk-4.0/menu.c:4072
+#: client/gui-gtk-3.22/menu.c:2839 client/gui-gtk-3.22/menu.c:2854
+#: client/gui-gtk-4.0/menu.c:4068 client/gui-gtk-4.0/menu.c:4083
 #, fuzzy
 msgid "_Plant"
 msgstr "Manufakturo"
 
-#: client/gui-gtk-3.22/menu.c:2840 client/gui-gtk-4.0/menu.c:4062
+#: client/gui-gtk-3.22/menu.c:2844 client/gui-gtk-4.0/menu.c:4073
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Transf_ormu en %s"
 
 #. TRANS: %s is a government name
-#: client/gui-gtk-3.22/menu.c:2965 client/gui-gtk-4.0/menu.c:3549
+#: client/gui-gtk-3.22/menu.c:2969 client/gui-gtk-4.0/menu.c:3549
 #, c-format
 msgid "%s..."
 msgstr "%s..."
@@ -5942,9 +5942,9 @@ msgstr ""
 msgid "Select a color"
 msgstr "Nova celo estis elektita"
 
-#: client/gui-gtk-3.22/optiondlg.c:361 client/gui-gtk-3.22/pages.c:472
-#: client/gui-gtk-3.22/pages.c:601 client/gui-gtk-4.0/optiondlg.c:389
-#: client/gui-gtk-4.0/pages.c:486 client/gui-gtk-4.0/pages.c:615
+#: client/gui-gtk-3.22/optiondlg.c:361 client/gui-gtk-3.22/pages.c:474
+#: client/gui-gtk-3.22/pages.c:603 client/gui-gtk-4.0/optiondlg.c:389
+#: client/gui-gtk-4.0/pages.c:488 client/gui-gtk-4.0/pages.c:617
 msgid "_Save"
 msgstr "_Konservi"
 
@@ -5958,7 +5958,7 @@ msgid "Compiling scenario list."
 msgstr ""
 
 #. TRANS: "version 2.6.0, gui-gtk-3.22 client"
-#: client/gui-gtk-3.22/pages.c:187 client/gui-gtk-4.0/pages.c:192
+#: client/gui-gtk-3.22/pages.c:189 client/gui-gtk-4.0/pages.c:194
 #, fuzzy, c-format
 msgid "%s%s, %s client"
 msgstr "Tiu ĉi komando estas nur por klientoj."
@@ -5966,7 +5966,7 @@ msgstr "Tiu ĉi komando estas nur por klientoj."
 #. TRANS: "version 2.6.0
 #. *         commit: [modified] <git commit id>
 #. *         gui-gtk-3.22 client"
-#: client/gui-gtk-3.22/pages.c:193 client/gui-gtk-4.0/pages.c:198
+#: client/gui-gtk-3.22/pages.c:195 client/gui-gtk-4.0/pages.c:200
 #, fuzzy, c-format
 msgid ""
 "%s%s\n"
@@ -5974,304 +5974,304 @@ msgid ""
 "%s client"
 msgstr "Tiu ĉi komando estas nur por klientoj."
 
-#: client/gui-gtk-3.22/pages.c:314 client/gui-gtk-4.0/pages.c:323
+#: client/gui-gtk-3.22/pages.c:316 client/gui-gtk-4.0/pages.c:325
 msgid "Start _New Game"
 msgstr "Startigi _novan ludon"
 
-#: client/gui-gtk-3.22/pages.c:318 client/gui-gtk-4.0/pages.c:327
+#: client/gui-gtk-3.22/pages.c:320 client/gui-gtk-4.0/pages.c:329
 #: client/gui-qt/pages.cpp:218
 msgid "Launches local server, and connects to it for a single-player game."
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:322 client/gui-gtk-4.0/pages.c:331
+#: client/gui-gtk-3.22/pages.c:324 client/gui-gtk-4.0/pages.c:333
 msgid "Start _Scenario Game"
 msgstr "Startigi _Scenaron"
 
-#: client/gui-gtk-3.22/pages.c:326 client/gui-gtk-4.0/pages.c:335
+#: client/gui-gtk-3.22/pages.c:328 client/gui-gtk-4.0/pages.c:337
 #: client/gui-qt/pages.cpp:224
 msgid ""
 "Loads one of the scenarios for a single-player game. Tutorial is one of the "
 "scenarios."
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:331 client/gui-gtk-4.0/pages.c:340
+#: client/gui-gtk-3.22/pages.c:333 client/gui-gtk-4.0/pages.c:342
 msgid "_Load Saved Game"
 msgstr "Ŝargi konservitan _ludon"
 
-#: client/gui-gtk-3.22/pages.c:335 client/gui-gtk-4.0/pages.c:344
+#: client/gui-gtk-3.22/pages.c:337 client/gui-gtk-4.0/pages.c:346
 #: client/gui-qt/pages.cpp:233
 msgid "Continues previously saved single-player game."
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:339 client/gui-gtk-4.0/pages.c:348
+#: client/gui-gtk-3.22/pages.c:341 client/gui-gtk-4.0/pages.c:350
 msgid "C_onnect to Network Game"
 msgstr "K_onekti al reta ludo"
 
-#: client/gui-gtk-3.22/pages.c:343 client/gui-gtk-4.0/pages.c:352
+#: client/gui-gtk-3.22/pages.c:345 client/gui-gtk-4.0/pages.c:354
 #: client/gui-qt/pages.cpp:241
 msgid ""
 "Connects to outside server. Sometimes you want to launch a separate server "
 "even for local games."
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:348 client/gui-gtk-4.0/pages.c:357
+#: client/gui-gtk-3.22/pages.c:350 client/gui-gtk-4.0/pages.c:359
 msgid "Client Settings"
 msgstr "Agordi klienton"
 
-#: client/gui-gtk-3.22/pages.c:352 client/gui-gtk-4.0/pages.c:361
+#: client/gui-gtk-3.22/pages.c:354 client/gui-gtk-4.0/pages.c:363
 #: client/gui-qt/pages.cpp:249
 msgid "Adjusting client-side options."
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:355 client/gui-gtk-4.0/pages.c:364
+#: client/gui-gtk-3.22/pages.c:357 client/gui-gtk-4.0/pages.c:366
 msgid "E_xit"
 msgstr "E_liri"
 
-#: client/gui-gtk-3.22/pages.c:360 client/gui-gtk-4.0/pages.c:369
+#: client/gui-gtk-3.22/pages.c:362 client/gui-gtk-4.0/pages.c:371
 #: client/gui-qt/pages.cpp:254
 msgid "Gives you a break from playing freeciv."
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:494 client/gui-gtk-4.0/pages.c:507
+#: client/gui-gtk-3.22/pages.c:496 client/gui-gtk-4.0/pages.c:509
 msgid "Select Location to Save"
 msgstr "Elekti lokon por konservi"
 
-#: client/gui-gtk-3.22/pages.c:598 client/gui-gtk-3.22/pages.c:2963
-#: client/gui-gtk-3.22/pages.c:3321 client/gui-gtk-4.0/pages.c:612
-#: client/gui-gtk-4.0/pages.c:3098 client/gui-gtk-4.0/pages.c:3468
+#: client/gui-gtk-3.22/pages.c:600 client/gui-gtk-3.22/pages.c:2965
+#: client/gui-gtk-3.22/pages.c:3323 client/gui-gtk-4.0/pages.c:614
+#: client/gui-gtk-4.0/pages.c:3100 client/gui-gtk-4.0/pages.c:3470
 msgid "_Browse..."
 msgstr "_Foliumi..."
 
-#: client/gui-gtk-3.22/pages.c:941 client/gui-gtk-3.22/pages.c:971
-#: client/gui-gtk-3.22/pages.c:983 client/gui-gtk-3.22/pages.c:1379
-#: client/gui-gtk-4.0/pages.c:953 client/gui-gtk-4.0/pages.c:985
-#: client/gui-gtk-4.0/pages.c:997 client/gui-gtk-4.0/pages.c:1409
+#: client/gui-gtk-3.22/pages.c:943 client/gui-gtk-3.22/pages.c:973
+#: client/gui-gtk-3.22/pages.c:985 client/gui-gtk-3.22/pages.c:1381
+#: client/gui-gtk-4.0/pages.c:955 client/gui-gtk-4.0/pages.c:987
+#: client/gui-gtk-4.0/pages.c:999 client/gui-gtk-4.0/pages.c:1411
 msgid "Pass_word:"
 msgstr "Pas_vorto:"
 
-#: client/gui-gtk-3.22/pages.c:955 client/gui-gtk-4.0/pages.c:968
+#: client/gui-gtk-3.22/pages.c:957 client/gui-gtk-4.0/pages.c:970
 #, fuzzy
 msgid "New Pass_word:"
 msgstr "Pas_vorto:"
 
-#: client/gui-gtk-3.22/pages.c:1072 client/gui-gtk-4.0/pages.c:1088
+#: client/gui-gtk-3.22/pages.c:1074 client/gui-gtk-4.0/pages.c:1090
 #: client/gui-qt/pages.cpp:1654 client/gui-sdl2/connectdlg.c:942
 #: client/gui-sdl3/connectdlg.c:938
 msgid "Passwords don't match, enter password."
 msgstr "Ne kongruas pasvorto, reen enigu pasvorton."
 
-#: client/gui-gtk-3.22/pages.c:1239 client/gui-gtk-3.22/pages.c:1284
-#: client/gui-gtk-4.0/pages.c:1261 client/gui-gtk-4.0/pages.c:1312
+#: client/gui-gtk-3.22/pages.c:1241 client/gui-gtk-3.22/pages.c:1286
+#: client/gui-gtk-4.0/pages.c:1263 client/gui-gtk-4.0/pages.c:1314
 #: client/gui-qt/pages.cpp:334
 msgid "Server Name"
 msgstr "Servilnomo"
 
-#: client/gui-gtk-3.22/pages.c:1240 client/gui-gtk-3.22/pages.c:1285
-#: client/gui-gtk-4.0/pages.c:1262 client/gui-gtk-4.0/pages.c:1313
+#: client/gui-gtk-3.22/pages.c:1242 client/gui-gtk-3.22/pages.c:1287
+#: client/gui-gtk-4.0/pages.c:1264 client/gui-gtk-4.0/pages.c:1315
 #: client/gui-qt/pages.cpp:334 client/gui-qt/pages.cpp:395
-#: client/gui-sdl2/mapview.c:668 client/gui-sdl3/mapview.c:664
+#: client/gui-sdl2/mapview.c:668 client/gui-sdl3/mapview.c:665
 msgid "Port"
 msgstr "Pordo"
 
-#: client/gui-gtk-3.22/pages.c:1241 client/gui-gtk-3.22/pages.c:1286
-#: client/gui-gtk-4.0/pages.c:1263 client/gui-gtk-4.0/pages.c:1314
+#: client/gui-gtk-3.22/pages.c:1243 client/gui-gtk-3.22/pages.c:1288
+#: client/gui-gtk-4.0/pages.c:1265 client/gui-gtk-4.0/pages.c:1316
 #: client/gui-qt/pages.cpp:334 tools/fcmp/mpgui_gtk3.c:465
 #: tools/fcmp/mpgui_gtk4.c:481 tools/fcmp/mpgui_qt.cpp:229
 msgid "Version"
 msgstr "Versio"
 
-#: client/gui-gtk-3.22/pages.c:1242 client/gui-gtk-3.22/pages.c:1287
-#: client/gui-gtk-4.0/pages.c:1264 client/gui-gtk-4.0/pages.c:1315
+#: client/gui-gtk-3.22/pages.c:1244 client/gui-gtk-3.22/pages.c:1289
+#: client/gui-gtk-4.0/pages.c:1266 client/gui-gtk-4.0/pages.c:1317
 #: client/gui-qt/pages.cpp:335
 msgid "Status"
 msgstr "Stato"
 
-#: client/gui-gtk-3.22/pages.c:1243 client/gui-gtk-3.22/pages.c:1288
-#: client/gui-gtk-4.0/pages.c:1265 client/gui-gtk-4.0/pages.c:1316
+#: client/gui-gtk-3.22/pages.c:1245 client/gui-gtk-3.22/pages.c:1290
+#: client/gui-gtk-4.0/pages.c:1267 client/gui-gtk-4.0/pages.c:1318
 #: client/gui-qt/pages.cpp:1268
 msgid "Players"
 msgstr "Ludantoj"
 
-#: client/gui-gtk-3.22/pages.c:1244 client/gui-gtk-3.22/pages.c:1289
-#: client/gui-gtk-4.0/pages.c:1266 client/gui-gtk-4.0/pages.c:1317
+#: client/gui-gtk-3.22/pages.c:1246 client/gui-gtk-3.22/pages.c:1291
+#: client/gui-gtk-4.0/pages.c:1268 client/gui-gtk-4.0/pages.c:1319
 msgid "Humans"
 msgstr "Homoj"
 
-#: client/gui-gtk-3.22/pages.c:1245 client/gui-gtk-3.22/pages.c:1290
-#: client/gui-gtk-4.0/pages.c:1267 client/gui-gtk-4.0/pages.c:1318
+#: client/gui-gtk-3.22/pages.c:1247 client/gui-gtk-3.22/pages.c:1292
+#: client/gui-gtk-4.0/pages.c:1269 client/gui-gtk-4.0/pages.c:1320
 #: client/gui-qt/pages.cpp:335
 msgid "Comment"
 msgstr "Komento"
 
-#: client/gui-gtk-3.22/pages.c:1247 client/gui-gtk-4.0/pages.c:1269
+#: client/gui-gtk-3.22/pages.c:1249 client/gui-gtk-4.0/pages.c:1271
 msgid "Local _Area Network"
 msgstr "Loka _Reto"
 
-#: client/gui-gtk-3.22/pages.c:1292 client/gui-gtk-4.0/pages.c:1320
+#: client/gui-gtk-3.22/pages.c:1294 client/gui-gtk-4.0/pages.c:1322
 msgid "Internet _Metaserver"
 msgstr "Interreta _Metaservilo"
 
-#: client/gui-gtk-3.22/pages.c:1331 client/gui-gtk-4.0/pages.c:1361
+#: client/gui-gtk-3.22/pages.c:1333 client/gui-gtk-4.0/pages.c:1363
 msgid "_Host:"
 msgstr "_Gastiga komputilo:"
 
-#: client/gui-gtk-3.22/pages.c:1346 client/gui-gtk-4.0/pages.c:1376
+#: client/gui-gtk-3.22/pages.c:1348 client/gui-gtk-4.0/pages.c:1378
 msgid "_Port:"
 msgstr "_Pordo:"
 
-#: client/gui-gtk-3.22/pages.c:1362 client/gui-gtk-4.0/pages.c:1392
+#: client/gui-gtk-3.22/pages.c:1364 client/gui-gtk-4.0/pages.c:1394
 msgid "_Login:"
 msgstr "_Nomo:"
 
-#: client/gui-gtk-3.22/pages.c:1395 client/gui-gtk-4.0/pages.c:1425
+#: client/gui-gtk-3.22/pages.c:1397 client/gui-gtk-4.0/pages.c:1427
 msgid "Conf_irm Password:"
 msgstr "Konf_irmu pasvorton:"
 
-#: client/gui-gtk-3.22/pages.c:1413 client/gui-gtk-4.0/pages.c:1443
+#: client/gui-gtk-3.22/pages.c:1415 client/gui-gtk-4.0/pages.c:1445
 #: client/gui-qt/pages.cpp:337 client/gui-qt/pages.cpp:667
 msgid "Host"
 msgstr "Gastiga komp."
 
-#: client/gui-gtk-3.22/pages.c:1443 client/gui-gtk-4.0/pages.c:1472
+#: client/gui-gtk-3.22/pages.c:1445 client/gui-gtk-4.0/pages.c:1474
 msgid "C_onnect"
 msgstr "K_onekti"
 
-#: client/gui-gtk-3.22/pages.c:1771 client/gui-gtk-4.0/pages.c:1835
+#: client/gui-gtk-3.22/pages.c:1773 client/gui-gtk-4.0/pages.c:1837
 #, c-format
 msgid "Connection name: %s"
 msgstr "Nomo de la konekto: %s"
 
-#: client/gui-gtk-3.22/pages.c:1774 client/gui-gtk-4.0/pages.c:1838
+#: client/gui-gtk-3.22/pages.c:1776 client/gui-gtk-4.0/pages.c:1840
 #, c-format
 msgid "Player name: %s"
 msgstr "Nomo de la ludanto: %s"
 
-#: client/gui-gtk-3.22/pages.c:1779 client/gui-gtk-4.0/pages.c:1843
+#: client/gui-gtk-3.22/pages.c:1781 client/gui-gtk-4.0/pages.c:1845
 #, c-format
 msgid "Host: %s"
 msgstr "Gast.komp: %s"
 
-#: client/gui-gtk-3.22/pages.c:1787 client/gui-gtk-4.0/pages.c:1851
+#: client/gui-gtk-3.22/pages.c:1789 client/gui-gtk-4.0/pages.c:1853
 msgid "Player/conn info"
 msgstr "Pri ludanto/konekto"
 
-#: client/gui-gtk-3.22/pages.c:1820 client/gui-gtk-4.0/pages.c:1892
+#: client/gui-gtk-3.22/pages.c:1822 client/gui-gtk-4.0/pages.c:1894
 #, c-format
 msgid "%s info"
 msgstr "Pri %s"
 
-#: client/gui-gtk-3.22/pages.c:1829 client/gui-gtk-4.0/pages.c:1905
+#: client/gui-gtk-3.22/pages.c:1831 client/gui-gtk-4.0/pages.c:1907
 msgid "Toggle player ready"
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:1835 client/gui-gtk-4.0/pages.c:1914
+#: client/gui-gtk-3.22/pages.c:1837 client/gui-gtk-4.0/pages.c:1916
 #: client/gui-qt/pages.cpp:2037
 msgid "Pick nation"
 msgstr "Elekti nacion"
 
-#: client/gui-gtk-3.22/pages.c:1843 client/gui-gtk-4.0/pages.c:1921
+#: client/gui-gtk-3.22/pages.c:1845 client/gui-gtk-4.0/pages.c:1923
 msgid "Observe this player"
 msgstr "Observu tiun ĉi ludanton"
 
-#: client/gui-gtk-3.22/pages.c:1850 client/gui-gtk-4.0/pages.c:1927
+#: client/gui-gtk-3.22/pages.c:1852 client/gui-gtk-4.0/pages.c:1929
 #: client/gui-qt/pages.cpp:2027
 msgid "Take this player"
 msgstr "Prenu tiun ĉi ludanton"
 
-#: client/gui-gtk-3.22/pages.c:1862 client/gui-gtk-4.0/pages.c:1938
+#: client/gui-gtk-3.22/pages.c:1864 client/gui-gtk-4.0/pages.c:1940
 msgid "Cut connection"
 msgstr "Fermu konekton"
 
-#: client/gui-gtk-3.22/pages.c:1873 client/gui-gtk-4.0/pages.c:1947
+#: client/gui-gtk-3.22/pages.c:1875 client/gui-gtk-4.0/pages.c:1949
 #: client/gui-qt/pages.cpp:2094
 msgid "Aitoggle player"
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:1881 client/gui-gtk-4.0/pages.c:1955
+#: client/gui-gtk-3.22/pages.c:1883 client/gui-gtk-4.0/pages.c:1957
 #: client/gui-qt/pages.cpp:2019
 msgid "Remove player"
 msgstr "Formovu ludanton"
 
 #. TRANS: Give access level to a connection.
-#: client/gui-gtk-3.22/pages.c:1897 client/gui-gtk-4.0/pages.c:1967
+#: client/gui-gtk-3.22/pages.c:1899 client/gui-gtk-4.0/pages.c:1969
 #, fuzzy, c-format
 msgid "Give %s access"
 msgstr "Ambasado"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-3.22/pages.c:1952 client/gui-gtk-4.0/pages.c:2027
+#: client/gui-gtk-3.22/pages.c:1954 client/gui-gtk-4.0/pages.c:2029
 #, c-format
 msgid "Put on %s"
 msgstr "Enigu en %s"
 
-#: client/gui-gtk-3.22/pages.c:2209 client/gui-gtk-4.0/pages.c:2318
+#: client/gui-gtk-3.22/pages.c:2211 client/gui-gtk-4.0/pages.c:2320
 msgid "Not _ready"
 msgstr "Ne preta"
 
-#: client/gui-gtk-3.22/pages.c:2220 client/gui-gtk-3.22/pages.c:2827
-#: client/gui-gtk-4.0/pages.c:2329 client/gui-gtk-4.0/pages.c:2959
+#: client/gui-gtk-3.22/pages.c:2222 client/gui-gtk-3.22/pages.c:2829
+#: client/gui-gtk-4.0/pages.c:2331 client/gui-gtk-4.0/pages.c:2961
 msgid "_Ready"
 msgstr "_Preta"
 
-#: client/gui-gtk-3.22/pages.c:2224 client/gui-gtk-3.22/pages.c:2228
-#: client/gui-gtk-4.0/pages.c:2333 client/gui-gtk-4.0/pages.c:2337
+#: client/gui-gtk-3.22/pages.c:2226 client/gui-gtk-3.22/pages.c:2230
+#: client/gui-gtk-4.0/pages.c:2335 client/gui-gtk-4.0/pages.c:2339
 msgid "_Start"
 msgstr "_Startigi"
 
-#: client/gui-gtk-3.22/pages.c:2248 client/gui-gtk-4.0/pages.c:2357
+#: client/gui-gtk-3.22/pages.c:2250 client/gui-gtk-4.0/pages.c:2359
 #, fuzzy, c-format
 msgid "_Take %s"
 msgstr "Prenu tiun ĉi ludanton"
 
-#: client/gui-gtk-3.22/pages.c:2252 client/gui-gtk-3.22/pages.c:2817
-#: client/gui-gtk-4.0/pages.c:2361 client/gui-gtk-4.0/pages.c:2949
+#: client/gui-gtk-3.22/pages.c:2254 client/gui-gtk-3.22/pages.c:2819
+#: client/gui-gtk-4.0/pages.c:2363 client/gui-gtk-4.0/pages.c:2951
 msgid "Pick _Nation"
 msgstr "Elekti _nacion"
 
-#: client/gui-gtk-3.22/pages.c:2255 client/gui-gtk-4.0/pages.c:2364
+#: client/gui-gtk-3.22/pages.c:2257 client/gui-gtk-4.0/pages.c:2366
 #, fuzzy
 msgid "_Take a Player"
 msgstr "Prenu tiun ĉi ludanton"
 
-#: client/gui-gtk-3.22/pages.c:2263 client/gui-gtk-4.0/pages.c:2372
+#: client/gui-gtk-3.22/pages.c:2265 client/gui-gtk-4.0/pages.c:2374
 #, fuzzy, c-format
 msgid "_Observe %s"
 msgstr "Observanto: %s"
 
-#: client/gui-gtk-3.22/pages.c:2268 client/gui-gtk-3.22/pages.c:2822
-#: client/gui-gtk-4.0/pages.c:2377 client/gui-gtk-4.0/pages.c:2954
+#: client/gui-gtk-3.22/pages.c:2270 client/gui-gtk-3.22/pages.c:2824
+#: client/gui-gtk-4.0/pages.c:2379 client/gui-gtk-4.0/pages.c:2956
 msgid "_Observe"
 msgstr "_Observi"
 
-#: client/gui-gtk-3.22/pages.c:2271 client/gui-gtk-4.0/pages.c:2380
+#: client/gui-gtk-3.22/pages.c:2273 client/gui-gtk-4.0/pages.c:2382
 msgid "Do not _observe"
 msgstr "Ne _observi"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-3.22/pages.c:2404 client/gui-gtk-4.0/pages.c:2513
+#: client/gui-gtk-3.22/pages.c:2406 client/gui-gtk-4.0/pages.c:2515
 #, c-format
 msgid "<%s AI>"
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:2416 client/gui-gtk-4.0/pages.c:2525
+#: client/gui-gtk-3.22/pages.c:2418 client/gui-gtk-4.0/pages.c:2527
 #: client/gui-qt/dialogs.cpp:567 client/gui-qt/fc_client.cpp:1279
 #: client/gui-qt/pages.cpp:1737
 msgid "Random"
 msgstr "Hazarda"
 
-#: client/gui-gtk-3.22/pages.c:2465 client/gui-gtk-3.22/pages.c:2526
-#: client/gui-gtk-4.0/pages.c:2574 client/gui-gtk-4.0/pages.c:2635
+#: client/gui-gtk-3.22/pages.c:2467 client/gui-gtk-3.22/pages.c:2528
+#: client/gui-gtk-4.0/pages.c:2576 client/gui-gtk-4.0/pages.c:2637
 #: client/gui-qt/pages.cpp:1834 client/gui-qt/pages.cpp:1864
 msgid "Observer"
 msgstr "Observanto"
 
-#: client/gui-gtk-3.22/pages.c:2551 client/gui-gtk-4.0/pages.c:2660
+#: client/gui-gtk-3.22/pages.c:2553 client/gui-gtk-4.0/pages.c:2662
 #: client/gui-qt/pages.cpp:1882
 msgid "Detached"
 msgstr "Malkonektigita"
 
 #. TRANS: Keep individual lines short
-#: client/gui-gtk-3.22/pages.c:2680 client/gui-gtk-4.0/pages.c:2800
+#: client/gui-gtk-3.22/pages.c:2682 client/gui-gtk-4.0/pages.c:2802
 msgid ""
 "Number of _Players\n"
 "(including AI):"
@@ -6279,122 +6279,122 @@ msgstr ""
 "Nombro de _ludantoj\n"
 "(inkluziva de la AI):"
 
-#: client/gui-gtk-3.22/pages.c:2706 client/gui-gtk-4.0/pages.c:2826
+#: client/gui-gtk-3.22/pages.c:2708 client/gui-gtk-4.0/pages.c:2828
 msgid "AI Skill _Level:"
 msgstr "Lerteco de _AI:"
 
-#: client/gui-gtk-3.22/pages.c:2721 client/gui-gtk-4.0/pages.c:2841
+#: client/gui-gtk-3.22/pages.c:2723 client/gui-gtk-4.0/pages.c:2843
 msgid "Ruleset:"
 msgstr "Regularo:"
 
-#: client/gui-gtk-3.22/pages.c:2728 client/gui-gtk-4.0/pages.c:2848
+#: client/gui-gtk-3.22/pages.c:2730 client/gui-gtk-4.0/pages.c:2850
 msgid "_More Game Options..."
 msgstr "Pluaj opcioj de la ludo..."
 
-#: client/gui-gtk-3.22/pages.c:2750 client/gui-gtk-3.22/unitselect.c:475
-#: client/gui-gtk-4.0/pages.c:2873 client/gui-gtk-4.0/unitselect.c:480
+#: client/gui-gtk-3.22/pages.c:2752 client/gui-gtk-3.22/unitselect.c:475
+#: client/gui-gtk-4.0/pages.c:2875 client/gui-gtk-4.0/unitselect.c:480
 #: client/gui-qt/pages.cpp:665 client/gui-qt/pages.cpp:1933
 #: tools/fcmp/mpgui_gtk3.c:262 tools/fcmp/mpgui_gtk4.c:274
 #: tools/fcmp/mpgui_qt_worker.cpp:54
 msgid "Ready"
 msgstr "Preta"
 
-#: client/gui-gtk-3.22/pages.c:2752 client/gui-gtk-4.0/pages.c:2875
+#: client/gui-gtk-3.22/pages.c:2754 client/gui-gtk-4.0/pages.c:2877
 #: client/gui-qt/pages.cpp:665
 msgid "?player:Leader"
 msgstr "?player:Estro"
 
-#: client/gui-gtk-3.22/pages.c:2756 client/gui-gtk-4.0/pages.c:2879
+#: client/gui-gtk-3.22/pages.c:2758 client/gui-gtk-4.0/pages.c:2881
 #: client/gui-qt/pages.cpp:666 client/plrdlg_common.c:579
 msgid "Border"
 msgstr "Landlimo"
 
-#: client/gui-gtk-3.22/pages.c:2760 client/gui-gtk-4.0/pages.c:2883
+#: client/gui-gtk-3.22/pages.c:2762 client/gui-gtk-4.0/pages.c:2885
 #: client/gui-qt/pages.cpp:666 client/plrdlg_common.c:581
 msgid "Team"
 msgstr "Teamo"
 
-#: client/gui-gtk-3.22/pages.c:2881 client/gui-gtk-4.0/pages.c:3013
+#: client/gui-gtk-3.22/pages.c:2883 client/gui-gtk-4.0/pages.c:3015
 #: client/gui-qt/pages.cpp:509 client/gui-sdl2/chatline.c:203
 #: client/gui-sdl3/chatline.c:199
 msgid "Choose Saved Game to Load"
 msgstr "Elektu konservitan ludon"
 
-#: client/gui-gtk-3.22/pages.c:2942 client/gui-gtk-4.0/pages.c:3079
+#: client/gui-gtk-3.22/pages.c:2944 client/gui-gtk-4.0/pages.c:3081
 msgid "Choose Saved Game to _Load:"
 msgstr "Elektu ŝargendan konvervitan _ludon:"
 
 #. TRANS: Old scenario format version
 #. TRANS: Unknown scenario format
-#: client/gui-gtk-3.22/pages.c:3021 client/gui-gtk-4.0/pages.c:3155
+#: client/gui-gtk-3.22/pages.c:3023 client/gui-gtk-4.0/pages.c:3157
 #: client/gui-qt/pages.cpp:1519
 msgid "pre-2.6"
 msgstr ""
 
-#: client/gui-gtk-3.22/pages.c:3059 client/gui-gtk-4.0/pages.c:3193
+#: client/gui-gtk-3.22/pages.c:3061 client/gui-gtk-4.0/pages.c:3195
 #: client/gui-qt/pages.cpp:588
 msgid "Choose a Scenario"
 msgstr "Elekti Scenaron"
 
-#: client/gui-gtk-3.22/pages.c:3223 client/gui-gtk-4.0/pages.c:3364
+#: client/gui-gtk-3.22/pages.c:3225 client/gui-gtk-4.0/pages.c:3366
 msgid "Choose a _Scenario:"
 msgstr "Elekti _Scenaron:"
 
-#: client/gui-gtk-3.22/pages.c:3279 client/gui-gtk-4.0/pages.c:3417
+#: client/gui-gtk-3.22/pages.c:3281 client/gui-gtk-4.0/pages.c:3419
 msgid "Filename:"
 msgstr "Dosiernomo:"
 
 #. TRANS: Scenario format version
-#: client/gui-gtk-3.22/pages.c:3293 client/gui-gtk-4.0/pages.c:3435
+#: client/gui-gtk-3.22/pages.c:3295 client/gui-gtk-4.0/pages.c:3437
 #: client/gui-qt/pages.cpp:1545
 #, fuzzy
 msgid "Format:"
 msgstr "Normala"
 
-#: client/gui-gtk-3.22/pages.c:3493 client/gui-gtk-4.0/pages.c:3637
+#: client/gui-gtk-3.22/pages.c:3495 client/gui-gtk-4.0/pages.c:3639
 #: client/gui-qt/menu.cpp:999 client/gui-sdl2/optiondlg.c:862
 #: client/gui-sdl3/optiondlg.c:876
 msgid "Save Game"
 msgstr "Konservu ludon"
 
-#: client/gui-gtk-3.22/pages.c:3493 client/gui-gtk-4.0/pages.c:3637
+#: client/gui-gtk-3.22/pages.c:3495 client/gui-gtk-4.0/pages.c:3639
 msgid "Saved _Games:"
 msgstr "Konservitaj _ludoj:"
 
-#: client/gui-gtk-3.22/pages.c:3494 client/gui-gtk-4.0/pages.c:3638
+#: client/gui-gtk-3.22/pages.c:3496 client/gui-gtk-4.0/pages.c:3640
 msgid "Save _Filename:"
 msgstr "Konservu dosiernomon:"
 
-#: client/gui-gtk-3.22/pages.c:3528 client/gui-gtk-4.0/pages.c:3672
+#: client/gui-gtk-3.22/pages.c:3530 client/gui-gtk-4.0/pages.c:3674
 msgid "Saved Sce_narios:"
 msgstr "Konservitaj Sce_naroj"
 
-#: client/gui-gtk-3.22/pages.c:3529 client/gui-gtk-4.0/pages.c:3673
+#: client/gui-gtk-3.22/pages.c:3531 client/gui-gtk-4.0/pages.c:3675
 msgid "Save Sc_enario:"
 msgstr "Konservi Sc_enaron"
 
-#: client/gui-gtk-3.22/pages.c:3557 client/gui-gtk-4.0/pages.c:3701
+#: client/gui-gtk-3.22/pages.c:3559 client/gui-gtk-4.0/pages.c:3703
 #, fuzzy
 msgid "Save Map Image"
 msgstr "Konservu ludon"
 
-#: client/gui-gtk-3.22/pages.c:3557 client/gui-gtk-4.0/pages.c:3701
+#: client/gui-gtk-3.22/pages.c:3559 client/gui-gtk-4.0/pages.c:3703
 #, fuzzy
 msgid "Saved Map _Images:"
 msgstr "Konservitaj _ludoj:"
 
-#: client/gui-gtk-3.22/pages.c:3558 client/gui-gtk-4.0/pages.c:3702
+#: client/gui-gtk-3.22/pages.c:3560 client/gui-gtk-4.0/pages.c:3704
 #, fuzzy
 msgid "Save _Map Images:"
 msgstr "Konservitaj _ludoj:"
 
-#: client/gui-gtk-3.22/pages.c:3574 client/gui-gtk-4.0/pages.c:3718
+#: client/gui-gtk-3.22/pages.c:3576 client/gui-gtk-4.0/pages.c:3720
 #: client/gui-qt/menu.cpp:3828
 #, fuzzy
 msgid "Error"
 msgstr "Interna"
 
-#: client/gui-gtk-3.22/pages.c:3575 client/gui-gtk-4.0/pages.c:3719
+#: client/gui-gtk-3.22/pages.c:3577 client/gui-gtk-4.0/pages.c:3721
 #, fuzzy
 msgid "Error Creating the Map Image!"
 msgstr "Ŝargante skripton: %s"
@@ -6877,7 +6877,7 @@ msgstr "_Laborlistoj"
 
 #: client/gui-gtk-3.22/unitselect.c:484 client/gui-gtk-4.0/unitselect.c:490
 #: client/gui-qt/menu.cpp:1216 client/gui-qt/shortcuts.cpp:130
-#: common/unit.c:636
+#: common/unit.c:639
 msgid "Sentry"
 msgstr "Gardosoldato"
 
@@ -7035,64 +7035,64 @@ msgstr "Ŝanĝi produktadon"
 msgid "Counters Page"
 msgstr "Komputiloj"
 
-#: client/gui-gtk-4.0/cityrep.c:1577 client/gui-gtk-4.0/cityrep.c:1774
-#: client/gui-gtk-4.0/cityrep.c:1820 client/gui-gtk-4.0/cityrep.c:1844
+#: client/gui-gtk-4.0/cityrep.c:1581 client/gui-gtk-4.0/cityrep.c:1778
+#: client/gui-gtk-4.0/cityrep.c:1824 client/gui-gtk-4.0/cityrep.c:1848
 msgid "Improvement"
 msgstr "Urbaj plibonigoj"
 
-#: client/gui-gtk-4.0/cityrep.c:1585 client/gui-gtk-4.0/cityrep.c:1782
-#: client/gui-gtk-4.0/cityrep.c:1828 client/gui-gtk-4.0/cityrep.c:1852
+#: client/gui-gtk-4.0/cityrep.c:1589 client/gui-gtk-4.0/cityrep.c:1786
+#: client/gui-gtk-4.0/cityrep.c:1832 client/gui-gtk-4.0/cityrep.c:1856
 #: client/gui-sdl2/repodlgs.c:2166 client/gui-sdl3/repodlgs.c:2166
 msgid "Wonder"
 msgstr "Mirindaĵo"
 
 #. TRANS: Menu name to be used like "Set Improvement first"
 #. *        This is about adding item to the beginning of the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1629
+#: client/gui-gtk-4.0/cityrep.c:1633
 #, fuzzy, c-format
 msgid "Set %s first"
 msgstr "%sEnhejmiĝi%s"
 
 #. TRANS: Menu name to be used like "Set Improvement last"
 #. *        This is about adding item to the end of the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1637
+#: client/gui-gtk-4.0/cityrep.c:1641
 #, fuzzy, c-format
 msgid "Set %s last"
 msgstr "Laborlisto"
 
 #. TRANS: Menu name to be used like "Set Improvement next"
 #. *        This is about adding item after current one on the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1645
+#: client/gui-gtk-4.0/cityrep.c:1649
 #, c-format
 msgid "Set %s next"
 msgstr ""
 
 #. TRANS: Menu name to be used like "Set Improvement 2nd last"
 #. *        This is about adding item as second last on the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1653
+#: client/gui-gtk-4.0/cityrep.c:1657
 #, c-format
 msgid "Set %s 2nd last"
 msgstr ""
 
-#: client/gui-gtk-4.0/cityrep.c:1766 client/gui-gtk-4.0/cityrep.c:1774
-#: client/gui-gtk-4.0/cityrep.c:1782
+#: client/gui-gtk-4.0/cityrep.c:1770 client/gui-gtk-4.0/cityrep.c:1778
+#: client/gui-gtk-4.0/cityrep.c:1786
 #, fuzzy, c-format
 msgid "Building %s"
 msgstr "Konstruaĵoj: "
 
-#: client/gui-gtk-4.0/cityrep.c:1804
+#: client/gui-gtk-4.0/cityrep.c:1808
 #, fuzzy, c-format
 msgid "Supported %s"
 msgstr "Subtenataj unuoj"
 
-#: client/gui-gtk-4.0/cityrep.c:1812 client/gui-gtk-4.0/cityrep.c:1820
-#: client/gui-gtk-4.0/cityrep.c:1828
+#: client/gui-gtk-4.0/cityrep.c:1816 client/gui-gtk-4.0/cityrep.c:1824
+#: client/gui-gtk-4.0/cityrep.c:1832
 #, fuzzy, c-format
 msgid "Present %s"
 msgstr "Prezidanto"
 
-#: client/gui-gtk-4.0/cityrep.c:1836 client/gui-gtk-4.0/cityrep.c:1844
-#: client/gui-gtk-4.0/cityrep.c:1852
+#: client/gui-gtk-4.0/cityrep.c:1840 client/gui-gtk-4.0/cityrep.c:1848
+#: client/gui-gtk-4.0/cityrep.c:1856
 #, fuzzy, c-format
 msgid "Available %s"
 msgstr "Disponeblaj unuoj"
@@ -7123,7 +7123,7 @@ msgstr ""
 msgid "_Teleport"
 msgstr "Raporto"
 
-#: client/gui-gtk-4.0/pages.c:1991
+#: client/gui-gtk-4.0/pages.c:1993
 #, fuzzy, c-format
 msgid "Difficulty: %s"
 msgstr ", ludonivelo %s"
@@ -7215,7 +7215,7 @@ msgid "Show buildings"
 msgstr "Konstruaĵoj: "
 
 #: client/gui-qt/citydlg.cpp:1678 client/gui-qt/citydlg.cpp:1680
-#: client/options.c:2481
+#: client/options.c:2483
 msgid "Show units"
 msgstr "Montri unuojn"
 
@@ -7542,7 +7542,7 @@ msgstr "Elspezo:"
 msgid "Sell?"
 msgstr "Vendu"
 
-#: client/gui-qt/cityrep.cpp:1133 client/gui-qt/plrdlg.cpp:430
+#: client/gui-qt/cityrep.cpp:1132 client/gui-qt/plrdlg.cpp:430
 msgid "Column visibility"
 msgstr ""
 
@@ -7989,11 +7989,11 @@ msgstr "Aktiveco"
 msgid "Any activity"
 msgstr "Aktiveco"
 
-#: client/gui-qt/hudwidget.cpp:1356 common/fc_types.h:149 common/unit.c:634
+#: client/gui-qt/hudwidget.cpp:1356 common/fc_types.h:149 common/unit.c:637
 msgid "Fortified"
 msgstr "Fortigita"
 
-#: client/gui-qt/hudwidget.cpp:1357 common/fc_types.h:137 common/unit.c:618
+#: client/gui-qt/hudwidget.cpp:1357 common/fc_types.h:137 common/unit.c:621
 msgid "Idle"
 msgstr "Nenifaro"
 
@@ -8213,8 +8213,8 @@ msgid "Center View"
 msgstr "Centrigu la vidon"
 
 #: client/gui-qt/menu.cpp:1025 client/gui-qt/shortcuts.cpp:63
-#: client/options.c:2691 client/options.c:2912 client/options.c:3144
-#: client/options.c:3187 client/options.c:3226
+#: client/options.c:2693 client/options.c:2914 client/options.c:3146
+#: client/options.c:3189 client/options.c:3228
 #, fuzzy
 msgid "Fullscreen"
 msgstr "Plenekrane"
@@ -8263,8 +8263,8 @@ msgid "National Borders"
 msgstr "Landlimoj"
 
 #: client/gui-qt/menu.cpp:1107 client/gui-qt/shortcuts.cpp:101
-#: client/options.c:2893 client/options.c:3114 client/options.c:3165
-#: client/options.c:3204 client/options.c:3266
+#: client/options.c:2895 client/options.c:3116 client/options.c:3167
+#: client/options.c:3206 client/options.c:3268
 msgid "City Names"
 msgstr "Nomoj de urboj"
 
@@ -8351,7 +8351,7 @@ msgstr ""
 msgid "Upgrade"
 msgstr "Ĝisdatigu"
 
-#: client/gui-qt/menu.cpp:1255 common/fc_types.h:179 common/unit.c:650
+#: client/gui-qt/menu.cpp:1255 common/fc_types.h:179 common/unit.c:653
 #, fuzzy
 msgid "Convert"
 msgstr "K_onektu"
@@ -9331,7 +9331,7 @@ msgid "Upgrade unit"
 msgstr "Ĝisdatigu unuon"
 
 #: client/gui-sdl2/citydlg.c:753 client/gui-sdl2/mapview.c:827
-#: client/gui-sdl3/citydlg.c:749 client/gui-sdl3/mapview.c:823
+#: client/gui-sdl3/citydlg.c:749 client/gui-sdl3/mapview.c:824
 msgid "?homecity:None"
 msgstr "?homecity:Nenie"
 
@@ -9870,7 +9870,7 @@ msgstr "Retrosendu lin"
 msgid "Select destination"
 msgstr "Elektu alvenpunkton"
 
-#: client/gui-sdl2/graphics.c:316 client/gui-sdl3/graphics.c:315
+#: client/gui-sdl2/graphics.c:316 client/gui-sdl3/graphics.c:317
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
 msgstr "load_surf: Ŝargo de grafika dosiero %s malsukcesis!"
@@ -9892,17 +9892,17 @@ msgstr "Estas neeble prepari la SDL-bibliotekon: %s"
 msgid "Unable to initialize SDL2_ttf library: %s"
 msgstr "Estas neeble prepari la SDL_ttf bibliotekon: %s"
 
-#: client/gui-sdl2/graphics.c:579 client/gui-sdl3/graphics.c:562
+#: client/gui-sdl2/graphics.c:579 client/gui-sdl3/graphics.c:564
 #, fuzzy, c-format
 msgid "Failed to create RGB surface: %s"
 msgstr "%s malsukcesis konekti kun iu ajn ludanto."
 
-#: client/gui-sdl2/graphics.c:593 client/gui-sdl3/graphics.c:569
+#: client/gui-sdl2/graphics.c:593 client/gui-sdl3/graphics.c:571
 #, fuzzy, c-format
 msgid "Failed to create renderer: %s"
 msgstr "%s malsukcesis konekti kun iu ajn ludanto."
 
-#: client/gui-sdl2/graphics.c:603 client/gui-sdl3/graphics.c:579
+#: client/gui-sdl2/graphics.c:603 client/gui-sdl3/graphics.c:581
 #, fuzzy, c-format
 msgid "Failed to create texture: %s"
 msgstr "%s malsukcesis konekti kun iu ajn ludanto."
@@ -9912,7 +9912,7 @@ msgstr "%s malsukcesis konekti kun iu ajn ludanto."
 msgid "SDL2 Client for Freeciv"
 msgstr "Bonvenon al Freeciv"
 
-#: client/gui-sdl2/graphics.c:645 client/gui-sdl3/graphics.c:618
+#: client/gui-sdl2/graphics.c:645 client/gui-sdl3/graphics.c:620
 #, fuzzy, c-format
 msgid "Failed to create main window: %s"
 msgstr "%s malsukcesis konekti kun iu ajn ludanto."
@@ -10180,27 +10180,27 @@ msgstr "%s Loĝantaro: %s  Jaro: %s  Oro %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s Loĝantaro: %s  Jaro: %s  Oro %d Imp.: %d Lukso: %d Sci.: %d "
 
-#: client/gui-sdl2/mapview.c:596 client/gui-sdl3/mapview.c:592
+#: client/gui-sdl2/mapview.c:596 client/gui-sdl3/mapview.c:593
 #: client/text.c:153
 msgid "?nation:Hostile"
 msgstr "?nation:Malamika"
 
-#: client/gui-sdl2/mapview.c:598 client/gui-sdl3/mapview.c:594
+#: client/gui-sdl2/mapview.c:598 client/gui-sdl3/mapview.c:595
 #: client/text.c:155
 msgid "?nation:Peaceful"
 msgstr "?nation:Paca"
 
-#: client/gui-sdl2/mapview.c:598 client/gui-sdl3/mapview.c:594
+#: client/gui-sdl2/mapview.c:598 client/gui-sdl3/mapview.c:595
 #: client/text.c:155
 msgid "?nation:Friendly"
 msgstr "?nation:Amika"
 
-#: client/gui-sdl2/mapview.c:599 client/gui-sdl3/mapview.c:595
+#: client/gui-sdl2/mapview.c:599 client/gui-sdl3/mapview.c:596
 #: client/text.c:156
 msgid "?nation:Mysterious"
 msgstr "?nation:Mistera"
 
-#: client/gui-sdl2/mapview.c:602 client/gui-sdl3/mapview.c:598
+#: client/gui-sdl2/mapview.c:602 client/gui-sdl3/mapview.c:599
 msgid ""
 "\n"
 "Our Territory"
@@ -10208,7 +10208,7 @@ msgstr ""
 "\n"
 "Nia Teritorio"
 
-#: client/gui-sdl2/mapview.c:613 client/gui-sdl3/mapview.c:609
+#: client/gui-sdl2/mapview.c:613 client/gui-sdl3/mapview.c:610
 #, c-format
 msgid ""
 "\n"
@@ -10223,7 +10223,7 @@ msgstr[1] ""
 "\n"
 "%s teritorio (%d vicoj de pafĉesigo)"
 
-#: client/gui-sdl2/mapview.c:621 client/gui-sdl3/mapview.c:617
+#: client/gui-sdl2/mapview.c:621 client/gui-sdl3/mapview.c:618
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -10238,7 +10238,7 @@ msgstr[1] ""
 "\n"
 "%s teritorio (%d vicoj de pafĉesigo)"
 
-#: client/gui-sdl2/mapview.c:626 client/gui-sdl3/mapview.c:622
+#: client/gui-sdl2/mapview.c:626 client/gui-sdl3/mapview.c:623
 #, c-format
 msgid ""
 "\n"
@@ -10247,7 +10247,7 @@ msgstr ""
 "\n"
 "Teritorio de la %s %s"
 
-#: client/gui-sdl2/mapview.c:631 client/gui-sdl3/mapview.c:627
+#: client/gui-sdl2/mapview.c:631 client/gui-sdl3/mapview.c:628
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -10256,31 +10256,31 @@ msgstr ""
 "Ne postulita teritorio"
 
 #: client/gui-sdl2/mapview.c:641 client/gui-sdl2/mapview.c:642
-#: client/gui-sdl3/mapview.c:637 client/gui-sdl3/mapview.c:638
+#: client/gui-sdl3/mapview.c:638 client/gui-sdl3/mapview.c:639
 msgid "?city:Neutral"
 msgstr "?city:Neŭtrala"
 
-#: client/gui-sdl2/mapview.c:641 client/gui-sdl3/mapview.c:637
+#: client/gui-sdl2/mapview.c:641 client/gui-sdl3/mapview.c:638
 #: client/text.c:158
 msgid "?city:Hostile"
 msgstr "?city:Malamika"
 
-#: client/gui-sdl2/mapview.c:642 client/gui-sdl3/mapview.c:638
+#: client/gui-sdl2/mapview.c:642 client/gui-sdl3/mapview.c:639
 #: client/text.c:160
 msgid "?city:Peaceful"
 msgstr "?city:Paca"
 
-#: client/gui-sdl2/mapview.c:643 client/gui-sdl3/mapview.c:639
+#: client/gui-sdl2/mapview.c:643 client/gui-sdl3/mapview.c:640
 #: client/text.c:160
 msgid "?city:Friendly"
 msgstr "?city:Amika"
 
-#: client/gui-sdl2/mapview.c:643 client/gui-sdl3/mapview.c:639
+#: client/gui-sdl2/mapview.c:643 client/gui-sdl3/mapview.c:640
 #: client/text.c:160
 msgid "?city:Mysterious"
 msgstr "?city:Mistera"
 
-#: client/gui-sdl2/mapview.c:646 client/gui-sdl3/mapview.c:642
+#: client/gui-sdl2/mapview.c:646 client/gui-sdl3/mapview.c:643
 #, c-format
 msgid ""
 "\n"
@@ -10289,11 +10289,11 @@ msgstr ""
 "\n"
 "Urbo de %s"
 
-#: client/gui-sdl2/mapview.c:660 client/gui-sdl3/mapview.c:656
+#: client/gui-sdl2/mapview.c:660 client/gui-sdl3/mapview.c:657
 msgid "?blistbegin: with "
 msgstr "?blistbegin: kun "
 
-#: client/gui-sdl2/mapview.c:662 client/gui-sdl3/mapview.c:658
+#: client/gui-sdl2/mapview.c:662 client/gui-sdl3/mapview.c:659
 #: data/civ1/buildings.ruleset:133 data/civ2/buildings.ruleset:164
 #: data/classic/buildings.ruleset:166 data/sandbox/buildings.ruleset:261
 #: data/sandbox/units.ruleset:74 data/civ2civ3/buildings.ruleset:258
@@ -10302,32 +10302,32 @@ msgid "Barracks"
 msgstr "Kazernoj"
 
 #: client/gui-sdl2/mapview.c:664 client/gui-sdl2/mapview.c:670
-#: client/gui-sdl2/mapview.c:676 client/gui-sdl3/mapview.c:660
-#: client/gui-sdl3/mapview.c:666 client/gui-sdl3/mapview.c:672
+#: client/gui-sdl2/mapview.c:676 client/gui-sdl3/mapview.c:661
+#: client/gui-sdl3/mapview.c:667 client/gui-sdl3/mapview.c:673
 #: client/helpdata.c:5017 client/helpdata.c:5025
 msgid "?blistmore:, "
 msgstr "?blistmore:, "
 
-#: client/gui-sdl2/mapview.c:674 client/gui-sdl3/mapview.c:670
+#: client/gui-sdl2/mapview.c:674 client/gui-sdl3/mapview.c:671
 #: data/civ2/buildings.ruleset:83 data/classic/buildings.ruleset:83
 #: data/sandbox/buildings.ruleset:83 data/civ2civ3/buildings.ruleset:83
 #: data/multiplayer/buildings.ruleset:82
 msgid "Airport"
 msgstr "Flughaveno"
 
-#: client/gui-sdl2/mapview.c:680 client/gui-sdl3/mapview.c:676
+#: client/gui-sdl2/mapview.c:680 client/gui-sdl3/mapview.c:677
 #: data/civ1/buildings.ruleset:250 data/civ2/buildings.ruleset:285
 #: data/classic/buildings.ruleset:290 data/sandbox/buildings.ruleset:383
 #: data/civ2civ3/buildings.ruleset:380 data/multiplayer/buildings.ruleset:318
 msgid "City Walls"
 msgstr "Murzono"
 
-#: client/gui-sdl2/mapview.c:683 client/gui-sdl3/mapview.c:679
+#: client/gui-sdl2/mapview.c:683 client/gui-sdl3/mapview.c:680
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl2/mapview.c:692 client/gui-sdl3/mapview.c:688
+#: client/gui-sdl2/mapview.c:692 client/gui-sdl3/mapview.c:689
 #, c-format
 msgid ""
 "\n"
@@ -10336,7 +10336,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl2/mapview.c:701 client/gui-sdl3/mapview.c:697
+#: client/gui-sdl2/mapview.c:701 client/gui-sdl3/mapview.c:698
 #, c-format
 msgid ""
 "\n"
@@ -10345,11 +10345,11 @@ msgstr ""
 "\n"
 "Nutraĵo/Prod/Kom: %s"
 
-#: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapview.c:942
+#: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapview.c:943
 msgid "End of Turn"
 msgstr "Fino de la vico"
 
-#: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapview.c:942
+#: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapview.c:943
 msgid "Press"
 msgstr "Premu"
 
@@ -10679,7 +10679,7 @@ msgstr "La Plej Grandaj Civilizoj en la mondo."
 msgid "The %s Spaceship"
 msgstr "La %s kosmoŝipo"
 
-#: client/gui-sdl2/sprite.c:66 client/gui-sdl3/sprite.c:61
+#: client/gui-sdl2/sprite.c:66
 #, c-format
 msgid "load_gfxfile: Unable to load graphic file %s!"
 msgstr "load_gfxfile: estas neeble ŝargi grafikan dosieron %s!"
@@ -10878,24 +10878,24 @@ msgstr ""
 "(%d/%d/%d)\n"
 "%d %s"
 
-#: client/gui-sdl3/graphics.c:332
+#: client/gui-sdl3/graphics.c:334
 #, fuzzy, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits"
 msgstr ""
 "Estas neeble krei filmeron (surfaco) laŭ grando je %d x %d %d bitoj en "
 "formato %d"
 
-#: client/gui-sdl3/graphics.c:523
+#: client/gui-sdl3/graphics.c:525
 #, fuzzy, c-format
 msgid "Unable to initialize SDL3 library: %s"
 msgstr "Estas neeble prepari la SDL-bibliotekon: %s"
 
-#: client/gui-sdl3/graphics.c:531
+#: client/gui-sdl3/graphics.c:533
 #, fuzzy, c-format
 msgid "Unable to initialize SDL3_ttf library: %s"
 msgstr "Estas neeble prepari la SDL_ttf bibliotekon: %s"
 
-#: client/gui-sdl3/graphics.c:614
+#: client/gui-sdl3/graphics.c:616
 #, fuzzy
 msgid "SDL3 Client for Freeciv"
 msgstr "Bonvenon al Freeciv"
@@ -10923,6 +10923,12 @@ msgstr "%s malsukcesis konekti kun iu ajn ludanto."
 #, fuzzy
 msgid "SDL3-client welcomes you..."
 msgstr "SDLClient bonvenigas vin..."
+
+#: client/gui-sdl3/sprite.c:62
+#, fuzzy, c-format
+#| msgid "load_gfxfile: Unable to load graphic file %s!"
+msgid "load_gfxfile(): Unable to load graphic file %s!"
+msgstr "load_gfxfile: estas neeble ŝargi grafikan dosieron %s!"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/gui-sdl3/themes.c:70
@@ -13093,54 +13099,54 @@ msgid "Musicset from %s has no name defined!"
 msgstr ""
 
 #. TRANS: enum value for 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:1842
+#: client/options.c:1844
 msgid "Split"
 msgstr ""
 
 #. TRANS: enum value for 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:1844
+#: client/options.c:1846
 msgid "Separate"
 msgstr ""
 
 #. TRANS: enum value for 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:1846
+#: client/options.c:1848
 msgid "Merged"
 msgstr ""
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1862 server/settings.c:407
+#: client/options.c:1864 server/settings.c:407
 #, fuzzy
 msgid "Enabled"
 msgstr "Malsukceso"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1864 server/settings.c:342 server/settings.c:362
+#: client/options.c:1866 server/settings.c:342 server/settings.c:362
 #: server/settings.c:406
 #, fuzzy
 msgid "Disabled"
 msgstr "Dissolvu"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1866 tools/fcmp/modinst.h:39
+#: client/options.c:1868 tools/fcmp/modinst.h:39
 #, fuzzy
 msgid "Ruleset"
 msgstr "Dezerto"
 
-#: client/options.c:1886
+#: client/options.c:1888
 msgid "Login name"
 msgstr "Nomo"
 
-#: client/options.c:1887
+#: client/options.c:1889
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:1891
+#: client/options.c:1893
 msgid "Default to previously used server"
 msgstr ""
 
-#: client/options.c:1892
+#: client/options.c:1894
 msgid ""
 "Automatically update \"Server\" and \"Server port\" options to match your "
 "latest connection, so by default you connect to the same server you used on "
@@ -13148,42 +13154,42 @@ msgid ""
 "automatic updates to the options get saved too."
 msgstr ""
 
-#: client/options.c:1900
+#: client/options.c:1902
 msgid "Server"
 msgstr "Servilo"
 
-#: client/options.c:1901
+#: client/options.c:1903
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:1906
+#: client/options.c:1908
 msgid "Server port"
 msgstr "Pordo de la servilo"
 
-#: client/options.c:1907
+#: client/options.c:1909
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:1912
+#: client/options.c:1914
 msgid "Metaserver"
 msgstr "Metaservilo"
 
-#: client/options.c:1913
+#: client/options.c:1915
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
 
-#: client/options.c:1919
+#: client/options.c:1921
 msgid "Send heartbeat messages to the server"
 msgstr ""
 
-#: client/options.c:1920
+#: client/options.c:1922
 msgid ""
 "Periodically send an empty heartbeat message to the server to probe whether "
 "the connection is still up. This can help to make it obvious when the server "
@@ -13191,24 +13197,24 @@ msgid ""
 "otherwise sit idle for a long period."
 msgstr ""
 
-#: client/options.c:1927
+#: client/options.c:1929
 msgid "Followtag override"
 msgstr ""
 
 #. TRANS: Leave 'builtin' untranslated
-#: client/options.c:1929
+#: client/options.c:1931
 msgid ""
 "Followtag determines which kind of new freeciv versions' availability gets "
 "checked from the metaserver. Special value 'builtin' means that value "
 "builtin to the client gets used."
 msgstr ""
 
-#: client/options.c:1935
+#: client/options.c:1937
 #, fuzzy
 msgid "Send desired settings to the server"
 msgstr "La agordaĵoj estas konservitaj en la dosiero %s"
 
-#: client/options.c:1936
+#: client/options.c:1938
 msgid ""
 "In single-player mode client usually sends user's desired server settings to "
 "the server it has launched internally. By disabling this option one can "
@@ -13216,64 +13222,64 @@ msgid ""
 "settings balanced for a custom ruleset."
 msgstr ""
 
-#: client/options.c:1944 tools/fcmp/modinst.h:47
+#: client/options.c:1946 tools/fcmp/modinst.h:47
 msgid "Soundset"
 msgstr "Sonaĵoj"
 
-#: client/options.c:1945
+#: client/options.c:1947
 msgid ""
 "This is the soundset that will be used. Changing this is the same as using "
 "the -S command-line parameter. Use modpack installer utility to install "
 "additional soundsets."
 msgstr ""
 
-#: client/options.c:1951 tools/fcmp/modinst.h:49
+#: client/options.c:1953 tools/fcmp/modinst.h:49
 msgid "Musicset"
 msgstr ""
 
-#: client/options.c:1952
+#: client/options.c:1954
 msgid ""
 "This is the musicset that will be used. Changing this is the same as using "
 "the -m command-line parameter. Use modpack installer utility to install "
 "additional musicsets."
 msgstr ""
 
-#: client/options.c:1959
+#: client/options.c:1961
 msgid "Sound plugin"
 msgstr "Sona kromaĵo"
 
-#: client/options.c:1960
+#: client/options.c:1962
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
 msgstr ""
 
-#: client/options.c:1966
+#: client/options.c:1968
 #, fuzzy
 msgid "The chat log file"
 msgstr "Teĥnologioj\n"
 
-#: client/options.c:1967
+#: client/options.c:1969
 msgid "The name of the chat log file."
 msgstr ""
 
-#: client/options.c:1972 client/options.c:1977 client/options.c:1982
-#: client/options.c:1987 client/options.c:1992
+#: client/options.c:1974 client/options.c:1979 client/options.c:1984
+#: client/options.c:1989 client/options.c:1994
 msgid "Theme"
 msgstr "Temo"
 
-#: client/options.c:1973 client/options.c:1978 client/options.c:1983
-#: client/options.c:1988 client/options.c:1993
+#: client/options.c:1975 client/options.c:1980 client/options.c:1985
+#: client/options.c:1990 client/options.c:1995
 msgid "By changing this option you change the active theme."
 msgstr ""
 
-#: client/options.c:2003
+#: client/options.c:2005
 #, fuzzy
 msgid "Tileset (Square)"
 msgstr "Grafikaĵo"
 
-#: client/options.c:2004
+#: client/options.c:2006
 msgid ""
 "Select the tileset used with Square based maps. This may change the "
 "currently active tileset, if you are playing on such a map, in which case "
@@ -13281,12 +13287,12 @@ msgid ""
 "installer utility to install additional tilesets."
 msgstr ""
 
-#: client/options.c:2013
+#: client/options.c:2015
 #, fuzzy
 msgid "Tileset (Hex)"
 msgstr "Grafikaĵo"
 
-#: client/options.c:2014
+#: client/options.c:2016
 msgid ""
 "Select the tileset used with Hex maps. This may change the currently active "
 "tileset, if you are playing on such a map, in which case this is the same as "
@@ -13294,12 +13300,12 @@ msgid ""
 "install additional tilesets."
 msgstr ""
 
-#: client/options.c:2023
+#: client/options.c:2025
 #, fuzzy
 msgid "Tileset (Iso-Hex)"
 msgstr "Grafikaĵo"
 
-#: client/options.c:2024
+#: client/options.c:2026
 msgid ""
 "Select the tileset used with Iso-Hex maps. This may change the currently "
 "active tileset, if you are playing on such a map, in which case this is the "
@@ -13307,510 +13313,510 @@ msgid ""
 "install additional tilesets."
 msgstr ""
 
-#: client/options.c:2034
+#: client/options.c:2036
 #, fuzzy
 msgid "Draw city outlines"
 msgstr "Limoj de la urbo"
 
-#: client/options.c:2035
+#: client/options.c:2037
 msgid "Setting this option will draw a line at the city workable limit."
 msgstr ""
 
-#: client/options.c:2039
+#: client/options.c:2041
 #, fuzzy
 msgid "Draw city output"
 msgstr "Opcioj pri urbo"
 
-#: client/options.c:2040
+#: client/options.c:2042
 msgid "Setting this option will draw city output for every citizen."
 msgstr ""
 
-#: client/options.c:2044
+#: client/options.c:2046
 #, fuzzy
 msgid "Draw the map grid"
 msgstr "Desegnu mapkradon de la urbo"
 
-#: client/options.c:2045
+#: client/options.c:2047
 msgid "Setting this option will draw a grid over the map."
 msgstr ""
 
-#: client/options.c:2048
+#: client/options.c:2050
 #, fuzzy
 msgid "Draw the city bar"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2049
+#: client/options.c:2051
 msgid ""
 "Setting this option will display a 'city bar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and, optionally, production."
 msgstr ""
 
-#: client/options.c:2055
+#: client/options.c:2057
 #, fuzzy
 msgid "Draw the city names"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2056
+#: client/options.c:2058
 msgid "Setting this option will draw the names of the cities on the map."
 msgstr ""
 
-#: client/options.c:2060
+#: client/options.c:2062
 #, fuzzy
 msgid "Draw the city growth"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2061
+#: client/options.c:2063
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
 msgstr ""
 
-#: client/options.c:2065
+#: client/options.c:2067
 #, fuzzy
 msgid "Draw the city productions"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2066
+#: client/options.c:2068
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
 msgstr ""
 
-#: client/options.c:2070
+#: client/options.c:2072
 #, fuzzy
 msgid "Draw the city buy costs"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2071
+#: client/options.c:2073
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
 msgstr ""
 
-#: client/options.c:2075
+#: client/options.c:2077
 #, fuzzy
 msgid "Draw the city trade routes"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2076
+#: client/options.c:2078
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
 msgstr ""
 
-#: client/options.c:2080
+#: client/options.c:2082
 #, fuzzy
 msgid "Draw the terrain"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2081
+#: client/options.c:2083
 msgid "Setting this option will draw the terrain."
 msgstr ""
 
-#: client/options.c:2084
+#: client/options.c:2086
 #, fuzzy
 msgid "Draw the coast line"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2085
+#: client/options.c:2087
 msgid ""
 "Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 
-#: client/options.c:2089
+#: client/options.c:2091
 #, fuzzy
 msgid "Draw the paths"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2090
+#: client/options.c:2092
 msgid "Setting this option will draw all kind of paths on the map."
 msgstr ""
 
-#: client/options.c:2094
+#: client/options.c:2096
 #, fuzzy
 msgid "Draw the irrigation"
 msgstr "Kunligi irigacion"
 
-#: client/options.c:2095
+#: client/options.c:2097
 msgid "Setting this option will draw the irrigation systems on the map."
 msgstr ""
 
-#: client/options.c:2099
+#: client/options.c:2101
 #, fuzzy
 msgid "Draw the mines"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2100
+#: client/options.c:2102
 msgid "Setting this option will draw the mines on the map."
 msgstr ""
 
-#: client/options.c:2103
+#: client/options.c:2105
 #, fuzzy
 msgid "Draw the bases"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2104
+#: client/options.c:2106
 msgid "Setting this option will draw the bases on the map."
 msgstr ""
 
-#: client/options.c:2107
+#: client/options.c:2109
 #, fuzzy
 msgid "Draw the resources"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2108
+#: client/options.c:2110
 msgid "Setting this option will draw the resources on the map."
 msgstr ""
 
-#: client/options.c:2112
+#: client/options.c:2114
 #, fuzzy
 msgid "Draw the huts"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2113
+#: client/options.c:2115
 msgid "Setting this option will draw the huts on the map."
 msgstr ""
 
-#: client/options.c:2117
+#: client/options.c:2119
 msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
-#: client/options.c:2118
+#: client/options.c:2120
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 
-#: client/options.c:2122
+#: client/options.c:2124
 #, fuzzy
 msgid "Draw the cities"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2123
+#: client/options.c:2125
 msgid "Setting this option will draw the cities on the map."
 msgstr ""
 
-#: client/options.c:2126
+#: client/options.c:2128
 #, fuzzy
 msgid "Draw the units"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2127
+#: client/options.c:2129
 msgid "Setting this option will draw the units on the map."
 msgstr ""
 
-#: client/options.c:2131
+#: client/options.c:2133
 msgid "Solid unit background color"
 msgstr "Solida fona koloro por la unuoj"
 
-#: client/options.c:2132
+#: client/options.c:2134
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
 
-#: client/options.c:2137
+#: client/options.c:2139
 msgid "Draw shield graphics for units"
 msgstr "Desegnu ŝildeton por unuoj"
 
-#: client/options.c:2138
+#: client/options.c:2140
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
 msgstr ""
 
-#: client/options.c:2142
+#: client/options.c:2144
 #, fuzzy
 msgid "Draw size of the unit stacks"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2143
+#: client/options.c:2145
 msgid ""
 "Setting this option will draw a numbers indicating size of the unit stacks. "
 "Not all clients support this."
 msgstr ""
 
-#: client/options.c:2147
+#: client/options.c:2149
 msgid "Draw the units in focus"
 msgstr ""
 
-#: client/options.c:2148
+#: client/options.c:2150
 msgid ""
 "Setting this option will cause the currently focused unit(s) to always be "
 "drawn, even if units are not otherwise being drawn (for instance if 'Draw "
 "the units' is unset)."
 msgstr ""
 
-#: client/options.c:2154
+#: client/options.c:2156
 #, fuzzy
 msgid "Draw the fog of war"
 msgstr "Militnebulo en la trarigardo"
 
-#: client/options.c:2155
+#: client/options.c:2157
 msgid "Setting this option will draw the fog of war."
 msgstr ""
 
-#: client/options.c:2158
+#: client/options.c:2160
 #, fuzzy
 msgid "Draw the borders"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2159
+#: client/options.c:2161
 msgid "Setting this option will draw the national borders."
 msgstr ""
 
-#: client/options.c:2162
+#: client/options.c:2164
 #, fuzzy
 msgid "Draw whether tiles are native to selected unit"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2164
+#: client/options.c:2166
 msgid ""
 "Setting this option will highlight tiles that the currently selected unit "
 "cannot enter unaided due to non-native terrain. (If multiple units are "
 "selected, only tiles that all of them can enter are indicated.)"
 msgstr ""
 
-#: client/options.c:2171
+#: client/options.c:2173
 msgid "Show dead players in Nations report"
 msgstr ""
 
-#: client/options.c:2172
+#: client/options.c:2174
 msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
 msgstr ""
 
-#: client/options.c:2176
+#: client/options.c:2178
 msgid "Sound bell at new turn"
 msgstr "Sonu per bip-signalo la novan vicon"
 
-#: client/options.c:2177
+#: client/options.c:2179
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:2183
+#: client/options.c:2185
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Daŭro de la animacio por la movoj de la unuoj (milisekundoj)"
 
-#: client/options.c:2184
+#: client/options.c:2186
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:2189
+#: client/options.c:2191
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Tempo por ree centrigo de la mapo (milisekundoj)"
 
-#: client/options.c:2190
+#: client/options.c:2192
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:2196
+#: client/options.c:2198
 #, fuzzy
 msgid "Combat animation step time (milliseconds)"
 msgstr "Daŭro de la animacio por la movoj de la unuoj (milisekundoj)"
 
-#: client/options.c:2197
+#: client/options.c:2199
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:2202
+#: client/options.c:2204
 msgid "Show icons in the technology tree"
 msgstr "Vidigu ikonojn en la teĥnologia arbumo"
 
-#: client/options.c:2203
+#: client/options.c:2205
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
 
-#: client/options.c:2209
+#: client/options.c:2211
 #, fuzzy
 msgid "Use curved lines in the technology tree"
 msgstr "Vidigu ikonojn en la teĥnologia arbumo"
 
-#: client/options.c:2210
+#: client/options.c:2212
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
 "drawn straight."
 msgstr ""
 
-#: client/options.c:2217
+#: client/options.c:2219
 msgid "Color to highlight your player/user name"
 msgstr ""
 
-#: client/options.c:2218
+#: client/options.c:2220
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
 
-#: client/options.c:2223
+#: client/options.c:2225
 #, fuzzy
 msgid "Manual Turn Done in AI mode"
 msgstr "Mana vico-fino en IA-moduso"
 
-#: client/options.c:2224
+#: client/options.c:2226
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:2228
+#: client/options.c:2230
 #, fuzzy
 msgid "Auto center on units"
 msgstr "Aŭtomata centrigo de la unuoj "
 
-#: client/options.c:2229
+#: client/options.c:2231
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
 
-#: client/options.c:2232
+#: client/options.c:2234
 #, fuzzy
 msgid "Show automated units"
 msgstr "Subtenitaj unuoj"
 
-#: client/options.c:2233
+#: client/options.c:2235
 msgid ""
 "Disable this option if you do not want to see automated units autocentered "
 "and animated."
 msgstr ""
 
-#: client/options.c:2236
+#: client/options.c:2238
 #, fuzzy
 msgid "Auto center on combat"
 msgstr "Aŭtomata centrigo de la bataloj"
 
-#: client/options.c:2237
+#: client/options.c:2239
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabling "
 "this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 
-#: client/options.c:2242
+#: client/options.c:2244
 #, fuzzy
 msgid "Auto center on new turn"
 msgstr "Aŭtomata centrigo de la unuoj "
 
-#: client/options.c:2243
+#: client/options.c:2245
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
 
-#: client/options.c:2247
+#: client/options.c:2249
 #, fuzzy
 msgid "Focus on awakened units"
 msgstr "Enfazigu aktivajn unuojn"
 
-#: client/options.c:2248
+#: client/options.c:2250
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:2251
+#: client/options.c:2253
 msgid "Keyboardless goto"
 msgstr "\"Iru al\" senklavare"
 
-#: client/options.c:2252
+#: client/options.c:2254
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 
-#: client/options.c:2257
+#: client/options.c:2259
 msgid "Allow goto into the unknown"
 msgstr "Ebligu iri al la nekonataj landoj"
 
-#: client/options.c:2258
+#: client/options.c:2260
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 
-#: client/options.c:2262
+#: client/options.c:2264
 #, fuzzy
 msgid "Center map when popup city"
 msgstr "Centrigu la mapon kiam urbo iĝas aktiva"
 
-#: client/options.c:2263
+#: client/options.c:2265
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 
-#: client/options.c:2266
+#: client/options.c:2268
 msgid "Show messages from previous turn"
 msgstr ""
 
-#: client/options.c:2267
+#: client/options.c:2269
 msgid ""
 "Message Window shows messages also from previous turn. This makes sure you "
 "don't miss messages received in the end of the turn, just before the window "
 "gets cleared."
 msgstr ""
 
-#: client/options.c:2271
+#: client/options.c:2273
 #, fuzzy
 msgid "Concise city production"
 msgstr "Konciza produktado de la urbo"
 
-#: client/options.c:2272
+#: client/options.c:2274
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:2275
+#: client/options.c:2277
 #, fuzzy
 msgid "End turn when done moving"
 msgstr "Finigu la vicon kiam ĉiuj movoj estas plenumitaj"
 
-#: client/options.c:2276
+#: client/options.c:2278
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:2279
+#: client/options.c:2281
 msgid "Prompt for city names"
 msgstr "Invito por nomoj de la urboj"
 
-#: client/options.c:2280
+#: client/options.c:2282
 msgid ""
 "Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:2283
+#: client/options.c:2285
 msgid "Pop up city dialog for new cities"
 msgstr "Malfermu ŝprucfenestron pri urbo por novaj urboj"
 
-#: client/options.c:2284
+#: client/options.c:2286
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:2287
+#: client/options.c:2289
 #, fuzzy
 msgid "Pop up caravan and spy actions"
 msgstr "Agoj de Karavano"
 
-#: client/options.c:2288
+#: client/options.c:2290
 msgid ""
 "If this option is enabled, when a unit arrives at a city where it can "
 "perform an action like establishing a trade route, helping build a wonder, "
@@ -13820,12 +13826,12 @@ msgid ""
 "wonder) or 'd' (for a spy action) when the unit is in the city."
 msgstr ""
 
-#: client/options.c:2298
+#: client/options.c:2300
 #, fuzzy
 msgid "Pop up attack questions"
 msgstr "Agoj de Karavano"
 
-#: client/options.c:2299
+#: client/options.c:2301
 msgid ""
 "If this option is enabled, when a unit arrives at a target it can attack, a "
 "window will pop up asking which action should be performed even if an attack "
@@ -13833,11 +13839,11 @@ msgid ""
 "change your mind or to select an uninteresting action."
 msgstr ""
 
-#: client/options.c:2311
+#: client/options.c:2313
 msgid "Pop up actions when final move to allied tile"
 msgstr ""
 
-#: client/options.c:2312
+#: client/options.c:2314
 msgid ""
 "If this option is enabled the final move in a unit's orders to a tile with "
 "allied units or cities it can perform an action to is interpreted as an "
@@ -13848,32 +13854,32 @@ msgid ""
 "or unit stack."
 msgstr ""
 
-#: client/options.c:2323
+#: client/options.c:2325
 msgid "Enable cursor changing"
 msgstr ""
 
-#: client/options.c:2324
+#: client/options.c:2326
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
 "in the client or server state."
 msgstr ""
 
-#: client/options.c:2329
+#: client/options.c:2331
 msgid "Select cities before units"
 msgstr ""
 
-#: client/options.c:2330
+#: client/options.c:2332
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
 msgstr ""
 
-#: client/options.c:2335
+#: client/options.c:2337
 msgid "Clear unit orders on selection"
 msgstr ""
 
-#: client/options.c:2336
+#: client/options.c:2338
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -13882,335 +13888,335 @@ msgid ""
 "them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 
-#: client/options.c:2345
+#: client/options.c:2347
 msgid "Enable vote bar"
 msgstr ""
 
-#: client/options.c:2346
+#: client/options.c:2348
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
 
-#: client/options.c:2350
+#: client/options.c:2352
 msgid "Always display the vote bar"
 msgstr ""
 
-#: client/options.c:2351
+#: client/options.c:2353
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, even if "
 "there is no running vote."
 msgstr ""
 
-#: client/options.c:2355
+#: client/options.c:2357
 msgid "Do not show vote bar if not a player"
 msgstr ""
 
-#: client/options.c:2356
+#: client/options.c:2358
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
 msgstr ""
 
-#: client/options.c:2359
+#: client/options.c:2361
 msgid "Set new votes at front"
 msgstr ""
 
-#: client/options.c:2360
+#: client/options.c:2362
 msgid ""
 "If this option is enabled, then new votes will go to the front of the vote "
 "list."
 msgstr ""
 
-#: client/options.c:2364
+#: client/options.c:2366
 msgid "Autoaccept tileset suggestions"
 msgstr ""
 
-#: client/options.c:2365
+#: client/options.c:2367
 msgid ""
 "If this option is enabled, any tileset suggested by the ruleset is "
 "automatically used; otherwise you are prompted to change tileset."
 msgstr ""
 
-#: client/options.c:2371
+#: client/options.c:2373
 msgid "Enable sound effects"
 msgstr ""
 
-#: client/options.c:2372
+#: client/options.c:2374
 msgid ""
 "Play sound effects, assuming there's suitable sound plugin and soundset with "
 "the sounds."
 msgstr ""
 
-#: client/options.c:2376
+#: client/options.c:2378
 msgid "Enable in-game music"
 msgstr ""
 
-#: client/options.c:2377
+#: client/options.c:2379
 msgid ""
 "Play music during the game, assuming there's suitable sound plugin and "
 "musicset with in-game tracks."
 msgstr ""
 
-#: client/options.c:2381
+#: client/options.c:2383
 msgid "Enable menu music"
 msgstr ""
 
-#: client/options.c:2382
+#: client/options.c:2384
 msgid ""
 "Play music while not in actual game, assuming there's suitable sound plugin "
 "and musicset with menu music tracks."
 msgstr ""
 
-#: client/options.c:2387
+#: client/options.c:2389
 msgid "Silent when not in focus"
 msgstr ""
 
-#: client/options.c:2388
+#: client/options.c:2390
 msgid ""
 "Fade all sound out when the client is not in focus. Not all clients support "
 "this."
 msgstr ""
 
-#: client/options.c:2392
+#: client/options.c:2394
 #, fuzzy
 msgid "Sound volume"
 msgstr "Sona kromaĵo"
 
-#: client/options.c:2393
+#: client/options.c:2395
 msgid "Volume scale from 0-100"
 msgstr ""
 
-#: client/options.c:2399
+#: client/options.c:2401
 msgid "Autoaccept soundset suggestions"
 msgstr ""
 
-#: client/options.c:2400
+#: client/options.c:2402
 msgid ""
 "If this option is enabled, any soundset suggested by the ruleset is "
 "automatically used."
 msgstr ""
 
-#: client/options.c:2404
+#: client/options.c:2406
 msgid "Autoaccept musicset suggestions"
 msgstr ""
 
-#: client/options.c:2405
+#: client/options.c:2407
 #, fuzzy
 msgid ""
 "If this option is enabled, any musicset suggested by the ruleset is "
 "automatically used."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:2410
+#: client/options.c:2412
 msgid "Background layer"
 msgstr "Fona tavolo"
 
-#: client/options.c:2411
+#: client/options.c:2413
 msgid "The background layer of the overview shows just ocean and land."
 msgstr ""
 
-#: client/options.c:2415
+#: client/options.c:2417
 msgid "Terrain relief map layer"
 msgstr "Reliefa tavolo de grundoj"
 
-#: client/options.c:2416
+#: client/options.c:2418
 msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
-#: client/options.c:2419
+#: client/options.c:2421
 msgid "Borders layer"
 msgstr "Tavolo de landlimoj"
 
-#: client/options.c:2420
+#: client/options.c:2422
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
-#: client/options.c:2424
+#: client/options.c:2426
 #, fuzzy
 msgid "Borders layer on ocean tiles"
 msgstr "Tavolo de landlimoj"
 
-#: client/options.c:2425
+#: client/options.c:2427
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
 "set the option \"Borders layer\" already."
 msgstr ""
 
-#: client/options.c:2431
+#: client/options.c:2433
 msgid "Units layer"
 msgstr "Tavolo de unuoj"
 
-#: client/options.c:2432
+#: client/options.c:2434
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
-#: client/options.c:2435
+#: client/options.c:2437
 msgid "Cities layer"
 msgstr "Tavolo de urboj"
 
-#: client/options.c:2436
+#: client/options.c:2438
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
-#: client/options.c:2439
+#: client/options.c:2441
 msgid "Overview fog of war"
 msgstr "Militnebulo en la trarigardo"
 
-#: client/options.c:2440
+#: client/options.c:2442
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 
-#: client/options.c:2446
+#: client/options.c:2448
 msgid "Image format"
 msgstr ""
 
-#: client/options.c:2447
+#: client/options.c:2449
 msgid "The image toolkit and file format used for map images."
 msgstr ""
 
-#: client/options.c:2452
+#: client/options.c:2454
 msgid "Zoom factor for map images"
 msgstr ""
 
-#: client/options.c:2453
+#: client/options.c:2455
 msgid "The magnification used for map images."
 msgstr ""
 
-#: client/options.c:2456
+#: client/options.c:2458
 #, fuzzy
 msgid "Show area within borders"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2457
+#: client/options.c:2459
 msgid "If set, the territory of each nation is shown on the saved image."
 msgstr ""
 
-#: client/options.c:2461
+#: client/options.c:2463
 #, fuzzy
 msgid "Show borders"
 msgstr "Neniu ordono"
 
-#: client/options.c:2462
+#: client/options.c:2464
 msgid "If set, the border of each nation is shown on the saved image."
 msgstr ""
 
-#: client/options.c:2466
+#: client/options.c:2468
 #, fuzzy
 msgid "Show cities"
 msgstr "Vidigu _ĉiujn urbojn"
 
-#: client/options.c:2467
+#: client/options.c:2469
 msgid "If set, cities are shown on the saved image."
 msgstr ""
 
-#: client/options.c:2470
+#: client/options.c:2472
 #, fuzzy
 msgid "Show fog of war"
 msgstr "Militnebulo en la trarigardo"
 
-#: client/options.c:2471
+#: client/options.c:2473
 msgid "If set, the extent of fog of war is shown on the saved image."
 msgstr ""
 
-#: client/options.c:2475
+#: client/options.c:2477
 #, fuzzy
 msgid "Show full terrain"
 msgstr "Desegnu urbostangon"
 
-#: client/options.c:2476
+#: client/options.c:2478
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
 msgstr ""
 
-#: client/options.c:2482
+#: client/options.c:2484
 msgid "If set, units are shown in the saved image."
 msgstr ""
 
-#: client/options.c:2485
+#: client/options.c:2487
 #, fuzzy
 msgid "Map image file name"
 msgstr "write <dosiernomo>"
 
-#: client/options.c:2486
+#: client/options.c:2488
 msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
 msgstr ""
 
-#: client/options.c:2587 client/options.c:2695 client/options.c:2916
+#: client/options.c:2589 client/options.c:2697 client/options.c:2918
 #, fuzzy
 msgid "Show map scrollbars"
 msgstr "Vidigu rulumstangojn"
 
-#: client/options.c:2588 client/options.c:2696 client/options.c:2917
+#: client/options.c:2590 client/options.c:2698 client/options.c:2919
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr ""
 
-#: client/options.c:2692 client/options.c:2913 client/options.c:3145
-#: client/options.c:3188 client/options.c:3227
+#: client/options.c:2694 client/options.c:2915 client/options.c:3147
+#: client/options.c:3190 client/options.c:3229
 msgid ""
 "If this option is set the client will use the whole screen area for drawing."
 msgstr ""
 
-#: client/options.c:2699 client/options.c:2920
+#: client/options.c:2701 client/options.c:2922
 msgid "Keep dialogs on top"
 msgstr "Tenu la dialgofenestrojn supre"
 
-#: client/options.c:2700 client/options.c:2921
+#: client/options.c:2702 client/options.c:2923
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
 
-#: client/options.c:2704 client/options.c:2925
+#: client/options.c:2706 client/options.c:2927
 msgid "Show worklist task icons"
 msgstr "Vidigu ikonojn de la taskoj de la laborlisto"
 
-#: client/options.c:2705 client/options.c:2926
+#: client/options.c:2707 client/options.c:2928
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
 
-#: client/options.c:2709 client/options.c:2930
+#: client/options.c:2711 client/options.c:2932
 msgid "Enable status report tabs"
 msgstr "Ebligu la langetojn de la raportoj pri la stato"
 
-#: client/options.c:2710 client/options.c:2931
+#: client/options.c:2712 client/options.c:2933
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
 
-#: client/options.c:2715 client/options.c:2936
+#: client/options.c:2717 client/options.c:2938
 msgid "Show time for each chat message"
 msgstr ""
 
-#: client/options.c:2716 client/options.c:2937
+#: client/options.c:2718 client/options.c:2939
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
 msgstr ""
 
-#: client/options.c:2721 client/options.c:2942
+#: client/options.c:2723 client/options.c:2944
 msgid "New message events go to top of list"
 msgstr ""
 
-#: client/options.c:2722 client/options.c:2943
+#: client/options.c:2724 client/options.c:2945
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
 msgstr ""
 
-#: client/options.c:2727 client/options.c:2948
+#: client/options.c:2729 client/options.c:2950
 msgid "Show extra message window buttons"
 msgstr ""
 
-#: client/options.c:2728 client/options.c:2949
+#: client/options.c:2730 client/options.c:2951
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -14220,21 +14226,21 @@ msgid ""
 "closed and reopened."
 msgstr ""
 
-#: client/options.c:2738 client/options.c:2959
+#: client/options.c:2740 client/options.c:2961
 msgid "Metaserver tab first in network page"
 msgstr ""
 
-#: client/options.c:2739 client/options.c:2960
+#: client/options.c:2741 client/options.c:2962
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:2744 client/options.c:2965
+#: client/options.c:2746 client/options.c:2967
 msgid "Plain chat messages are sent to allies only"
 msgstr ""
 
-#: client/options.c:2745 client/options.c:2966
+#: client/options.c:2747 client/options.c:2968
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -14244,13 +14250,13 @@ msgid ""
 "visible in multiplayer games)."
 msgstr ""
 
-#: client/options.c:2757 client/options.c:2978
+#: client/options.c:2759 client/options.c:2980
 msgid "Messages and Chat reports location"
 msgstr ""
 
 #. TRANS: The strings used in the UI for 'Split' etc are
 #. * tagged 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:2760 client/options.c:2981
+#: client/options.c:2762 client/options.c:2983
 msgid ""
 "Controls where the Messages and Chat reports appear relative to the main "
 "view containing the map.\n"
@@ -14263,11 +14269,11 @@ msgid ""
 "This option requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:2776 client/options.c:2997
+#: client/options.c:2778 client/options.c:2999
 msgid "Arrange widgets for small displays"
 msgstr ""
 
-#: client/options.c:2777 client/options.c:2998
+#: client/options.c:2779 client/options.c:3000
 msgid ""
 "If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -14276,406 +14282,406 @@ msgid ""
 "requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:2786 client/options.c:3007
+#: client/options.c:2788 client/options.c:3009
 msgid "Mouse over the map widget selects it automatically"
 msgstr ""
 
-#: client/options.c:2787 client/options.c:3008
+#: client/options.c:2789 client/options.c:3010
 #, fuzzy
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse "
 "hovers over it."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:2791 client/options.c:3012
+#: client/options.c:2793 client/options.c:3014
 msgid "Player or user name autocompletion"
 msgstr ""
 
-#: client/options.c:2792 client/options.c:3013
+#: client/options.c:2794 client/options.c:3015
 msgid ""
 "If this option is turned on, the tabulation key will be used in the chatline "
 "to complete the word you are typing with the name of a player or a user."
 msgstr ""
 
-#: client/options.c:2797 client/options.c:3018
+#: client/options.c:2799 client/options.c:3020
 msgid "Width of the city dialog"
 msgstr ""
 
-#: client/options.c:2798 client/options.c:3019
+#: client/options.c:2800 client/options.c:3021
 msgid "This value is only used if the width of the city dialog is saved."
 msgstr ""
 
-#: client/options.c:2804 client/options.c:3025
+#: client/options.c:2806 client/options.c:3027
 msgid "Height of the city dialog"
 msgstr ""
 
-#: client/options.c:2805 client/options.c:3026
+#: client/options.c:2807 client/options.c:3028
 msgid "This value is only used if the height of the city dialog is saved."
 msgstr ""
 
-#: client/options.c:2811 client/options.c:3032
+#: client/options.c:2813 client/options.c:3034
 msgid "Popup tech help when gained"
 msgstr ""
 
-#: client/options.c:2812 client/options.c:3033
+#: client/options.c:2814 client/options.c:3035
 msgid ""
 "Controls if tech help should be opened when new tech has been gained.\n"
 "'Ruleset' means that behavior suggested by current ruleset is used."
 msgstr ""
 
-#: client/options.c:2819 client/options.c:3040
+#: client/options.c:2821 client/options.c:3042
 msgid "Minimum surplus for a governor"
 msgstr ""
 
-#: client/options.c:2820 client/options.c:3041
+#: client/options.c:2822 client/options.c:3043
 msgid ""
 "The lower limit of the range for requesting surpluses from the governor."
 msgstr ""
 
-#: client/options.c:2826 client/options.c:3047
+#: client/options.c:2828 client/options.c:3049
 msgid "Maximum surplus for a governor"
 msgstr ""
 
-#: client/options.c:2827 client/options.c:3048
+#: client/options.c:2829 client/options.c:3050
 msgid ""
 "The higher limit of the range for requesting surpluses from the governor."
 msgstr ""
 
-#: client/options.c:2833 client/options.c:3054
+#: client/options.c:2835 client/options.c:3056
 msgid "City Label"
 msgstr "Langeto de urbo"
 
-#: client/options.c:2834 client/options.c:3055
+#: client/options.c:2836 client/options.c:3057
 msgid "This font is used to display the city labels on city dialogs."
 msgstr ""
 
-#: client/options.c:2839 client/options.c:3060 client/options.c:3242
+#: client/options.c:2841 client/options.c:3062 client/options.c:3244
 msgid "Notify Label"
 msgstr "Langeto de notoj"
 
-#: client/options.c:2840 client/options.c:3061 client/options.c:3243
+#: client/options.c:2842 client/options.c:3063 client/options.c:3245
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
 msgstr ""
 
-#: client/options.c:2845 client/options.c:3066
+#: client/options.c:2847 client/options.c:3068
 msgid "Spaceship Label"
 msgstr "Langeto de kosmoŝipo"
 
-#: client/options.c:2846 client/options.c:3067
+#: client/options.c:2848 client/options.c:3069
 #, fuzzy
 msgid "This font is used to display the spaceship widgets."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:2850 client/options.c:3071 client/options.c:3248
+#: client/options.c:2852 client/options.c:3073 client/options.c:3250
 msgid "Help Label"
 msgstr "Langeto de la helpilo"
 
-#: client/options.c:2851 client/options.c:3072
+#: client/options.c:2853 client/options.c:3074
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 
-#: client/options.c:2856 client/options.c:3077
+#: client/options.c:2858 client/options.c:3079
 msgid "Help Link"
 msgstr "Helpilo (ligilo)"
 
-#: client/options.c:2857 client/options.c:3078
+#: client/options.c:2859 client/options.c:3080
 msgid "This font is used to display the help links in the help window."
 msgstr ""
 
-#: client/options.c:2862 client/options.c:3083 client/options.c:3254
+#: client/options.c:2864 client/options.c:3085 client/options.c:3256
 msgid "Help Text"
 msgstr "Helpilo (teksto)"
 
-#: client/options.c:2863 client/options.c:3084 client/options.c:3255
+#: client/options.c:2865 client/options.c:3086 client/options.c:3257
 msgid "This font is used to display the help body text in the help window."
 msgstr ""
 
-#: client/options.c:2868 client/options.c:3089 client/options.c:3260
+#: client/options.c:2870 client/options.c:3091 client/options.c:3262
 msgid "Chatline Area"
 msgstr "Babillineo"
 
-#: client/options.c:2869 client/options.c:3090 client/options.c:3261
+#: client/options.c:2871 client/options.c:3092 client/options.c:3263
 msgid "This font is used to display the text in the chatline area."
 msgstr ""
 
-#: client/options.c:2874 client/options.c:3095
+#: client/options.c:2876 client/options.c:3097
 msgid "Beta Label"
 msgstr "Langeto de Beta"
 
-#: client/options.c:2875 client/options.c:3096
+#: client/options.c:2877 client/options.c:3098
 msgid "This font is used to display the beta label."
 msgstr ""
 
-#: client/options.c:2879 client/options.c:3100
+#: client/options.c:2881 client/options.c:3102
 msgid "Small Font"
 msgstr "Eta tiparo"
 
-#: client/options.c:2880 client/options.c:3101
+#: client/options.c:2882 client/options.c:3103
 msgid ""
 "This font is used for any small font request. For example, it is used for "
 "display the building lists in the city dialog, the Economy report or the "
 "Units report."
 msgstr ""
 
-#: client/options.c:2887 client/options.c:3108
+#: client/options.c:2889 client/options.c:3110
 msgid "Comment Label"
 msgstr "Langeto de komentoj"
 
-#: client/options.c:2888 client/options.c:3109
+#: client/options.c:2890 client/options.c:3111
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
 msgstr ""
 
-#: client/options.c:2894 client/options.c:3115 client/options.c:3267
+#: client/options.c:2896 client/options.c:3117 client/options.c:3269
 msgid "This font is used to the display the city names on the map."
 msgstr ""
 
-#: client/options.c:2899 client/options.c:3120 client/options.c:3171
-#: client/options.c:3210 client/options.c:3272
+#: client/options.c:2901 client/options.c:3122 client/options.c:3173
+#: client/options.c:3212 client/options.c:3274
 msgid "City Productions"
 msgstr "Produktadoj de urboj"
 
-#: client/options.c:2900 client/options.c:3121 client/options.c:3273
+#: client/options.c:2902 client/options.c:3123 client/options.c:3275
 #, fuzzy
 msgid "This font is used to display the city production on the map."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:2905 client/options.c:3126 client/options.c:3278
+#: client/options.c:2907 client/options.c:3128 client/options.c:3280
 #, fuzzy
 msgid "Requirement Tree"
 msgstr "Necesaĵo:"
 
-#: client/options.c:2906 client/options.c:3127 client/options.c:3279
+#: client/options.c:2908 client/options.c:3129 client/options.c:3281
 #, fuzzy
 msgid ""
 "This font is used to the display the requirement tree in the Research report."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:3148 client/options.c:3191
+#: client/options.c:3150 client/options.c:3193
 #, fuzzy
 msgid "Screen resolution"
 msgstr "Elektu novan produktadon"
 
-#: client/options.c:3149 client/options.c:3192
+#: client/options.c:3151 client/options.c:3194
 msgid "This option controls the resolution of the selected screen."
 msgstr ""
 
-#: client/options.c:3152
+#: client/options.c:3154
 msgid "Use software rendering"
 msgstr ""
 
-#: client/options.c:3153
+#: client/options.c:3155
 msgid ""
 "Usually hardware rendering is used when possible. With this option set, "
 "software rendering is always used."
 msgstr ""
 
-#: client/options.c:3156 client/options.c:3195
+#: client/options.c:3158 client/options.c:3197
 #, fuzzy
 msgid "Do cursor animation"
 msgstr "Vidigu animacion de kursoroj"
 
-#: client/options.c:3157 client/options.c:3196
+#: client/options.c:3159 client/options.c:3198
 msgid ""
 "If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
 
-#: client/options.c:3160 client/options.c:3199
+#: client/options.c:3162 client/options.c:3201
 msgid "Use color cursors"
 msgstr "Uzu kolorajn kursorojn"
 
-#: client/options.c:3161 client/options.c:3200
+#: client/options.c:3163 client/options.c:3202
 msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
 
-#: client/options.c:3166 client/options.c:3205
+#: client/options.c:3168 client/options.c:3207
 #, fuzzy
 msgid "The size of font used to the display the city names on the map."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:3172 client/options.c:3211
+#: client/options.c:3174 client/options.c:3213
 #, fuzzy
 msgid ""
 "The size of font used to the display the city production names on the map."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:3176 client/options.c:3215
+#: client/options.c:3178 client/options.c:3217
 msgid "Use theme defined font size"
 msgstr ""
 
-#: client/options.c:3177 client/options.c:3216
+#: client/options.c:3179 client/options.c:3218
 msgid ""
 "Disable this to override base font size set by theme by the setting below."
 msgstr ""
 
-#: client/options.c:3180 client/options.c:3219
+#: client/options.c:3182 client/options.c:3221
 msgid "Base Font Size"
 msgstr ""
 
-#: client/options.c:3181 client/options.c:3220
+#: client/options.c:3183 client/options.c:3222
 msgid ""
 "Base Font Size. All the fonts' sizes are defined relative to this. This "
 "option has effect only if theme font sizes option is disabled."
 msgstr ""
 
-#: client/options.c:3230
+#: client/options.c:3232
 #, fuzzy
 msgid "Show titlebar"
 msgstr "Vidigu _ĉiujn urbojn"
 
-#: client/options.c:3231
+#: client/options.c:3233
 msgid ""
 "If this option is set the client will show a titlebar. If disabled, then no "
 "titlebar will be shown, and minimize/maximize/etc buttons will be placed on "
 "the menu bar."
 msgstr ""
 
-#: client/options.c:3237
+#: client/options.c:3239
 #, fuzzy
 msgid "Default font"
 msgstr " (defaŭlto)"
 
-#: client/options.c:3238
+#: client/options.c:3240
 msgid "This is default font"
 msgstr ""
 
-#: client/options.c:3249
+#: client/options.c:3251
 #, fuzzy
 msgid "This font is used to display the help labels in the help window."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:3283
+#: client/options.c:3285
 #, fuzzy
 msgid "Show savegame information"
 msgstr "Vidigu animacion de enfazo"
 
-#: client/options.c:3284
+#: client/options.c:3286
 msgid ""
 "If this option is set the client will show information and map preview of "
 "current savegame."
 msgstr ""
 
-#: client/options.c:3287
+#: client/options.c:3289
 #, fuzzy
 msgid "Sidebar position"
 msgstr "Situaciaj opcioj"
 
-#: client/options.c:3288
+#: client/options.c:3290
 #, fuzzy
 msgid ""
 "If this option is set, the sidebar will be to the left of the map, otherwise "
 "to the right."
 msgstr "Se ĉi tiu valoro estas 1, la ludantoj povas konstrui kosmoŝipojn."
 
-#: client/options.c:3292
+#: client/options.c:3294
 #, fuzzy
 msgid "Wake up sequence"
 msgstr "Veki la aliajn"
 
-#: client/options.c:3293
+#: client/options.c:3295
 msgid ""
 "String which will trigger sound in pregame page; %1 stands for username."
 msgstr ""
 
-#: client/options.c:3296
+#: client/options.c:3298
 msgid "SVG flags features"
 msgstr ""
 
-#: client/options.c:3298
+#: client/options.c:3300
 msgid ""
 "Enable svgflags features, such as bigger flags on the diplomacy dialog. "
 "Change to this comes to an effect on next client start."
 msgstr ""
 
-#: client/options.c:3302
+#: client/options.c:3304
 msgid ""
 "Enable svgflags features, such as bigger flags on the diplomacy dialog. This "
 "has no effect on this freeciv build, as the svg support has not been built "
 "in."
 msgstr ""
 
-#: client/options.c:3379
+#: client/options.c:3381
 msgid "Graphics"
 msgstr "Grafikaĵoj"
 
 #. TRANS: Options section for overview map (mini-map)
-#: client/options.c:3382
+#: client/options.c:3384
 msgid "?map:Overview"
 msgstr "?map:Superrigardo"
 
-#: client/options.c:3384
+#: client/options.c:3386
 msgid "Sound"
 msgstr "Aŭdo"
 
-#: client/options.c:3386
+#: client/options.c:3388
 msgid "Interface"
 msgstr "Interfaco"
 
-#: client/options.c:3388
+#: client/options.c:3390
 #, fuzzy
 msgid "Map Image"
 msgstr "Kartografio"
 
-#: client/options.c:3390
+#: client/options.c:3392
 msgid "Network"
 msgstr "Reto"
 
-#: client/options.c:3392
+#: client/options.c:3394
 msgid "Font"
 msgstr "Tiparo"
 
-#: client/options.c:5152
+#: client/options.c:5155
 msgid "Deprecated event type E_UNIT_WIN in client options."
 msgstr ""
 
-#: client/options.c:5251
+#: client/options.c:5254
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:5362 client/options.c:5392 client/options.c:5408
+#: client/options.c:5365 client/options.c:5395 client/options.c:5411
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr ""
 
-#: client/options.c:5377
+#: client/options.c:5380
 msgid "Cannot find your home directory"
 msgstr "Estas neeble trovi vian hejm-dosierujon"
 
-#: client/options.c:5922
+#: client/options.c:5926
 #, fuzzy
 msgid "Didn't find the option file. Creating a new one."
 msgstr "Estas neeble trovi irvojon por la alvenpunkto!"
 
-#: client/options.c:5940
+#: client/options.c:5944
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "La konservo malsukcesis, estas neeble skribi en la dosiero %s"
 
-#: client/options.c:5942
+#: client/options.c:5946
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "La agordaĵoj estas konservitaj en la dosiero %s"
 
-#: client/options.c:6103
+#: client/options.c:6107
 msgid "Save failed, cannot find a filename."
 msgstr "La konservo malsukcesis, estas neeble trovi dosiernomon."
 
-#: client/options.c:6191
+#: client/options.c:6195
 #, fuzzy, c-format
 msgid "Saving options failed, cannot create directory %s"
 msgstr "La konservo malsukcesis, estas neeble skribi en la dosiero %s"
 
-#: client/options.c:6200
+#: client/options.c:6204
 #, fuzzy, c-format
 msgid "Saving options failed, cannot write to file %s"
 msgstr "La konservo malsukcesis, estas neeble skribi en la dosiero %s"
 
-#: client/options.c:6202
+#: client/options.c:6206
 #, fuzzy, c-format
 msgid "Saved options to file %s"
 msgstr "La agordaĵoj estas konservitaj en la dosiero %s"
@@ -14695,41 +14701,41 @@ msgstr "Ĉeno de la klientokapacito: %s"
 msgid "Server capability string: %s"
 msgstr "Ĉeno de la servilkapacito: %s"
 
-#: client/packhand.c:1385
+#: client/packhand.c:1389
 #, c-format
 msgid "Start of turn %d"
 msgstr "Komenco de la %da vico"
 
-#: client/packhand.c:1504
+#: client/packhand.c:1508
 #, c-format
 msgid "Beginning turn %d"
 msgstr ""
 
-#: client/packhand.c:1561
+#: client/packhand.c:1565
 #, fuzzy
 msgid "Welcome"
 msgstr "%s Bonvenon"
 
-#: client/packhand.c:2234 client/tilespec.c:1447
+#: client/packhand.c:2238 client/tilespec.c:1447
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
 
-#: client/packhand.c:2281
+#: client/packhand.c:2285
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 
-#: client/packhand.c:2284
+#: client/packhand.c:2288
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr ""
 
-#: client/packhand.c:2563
+#: client/packhand.c:2567
 #, fuzzy
 msgid "AI mode is now ON."
 msgstr "La IA-moduso nun estas %s."
 
-#: client/packhand.c:2569
+#: client/packhand.c:2573
 #, fuzzy
 msgid "AI mode is now OFF."
 msgstr "La IA-moduso nun estas %s."
@@ -17217,7 +17223,7 @@ msgstr "?obsolete:A"
 msgid "?redundant:*"
 msgstr "?redundant:*"
 
-#: common/city.c:1159
+#: common/city.c:1157
 #, fuzzy, c-format
 msgid "City name \"%s\" too long"
 msgstr "Permesitaj nomoj de urbo"
@@ -17887,11 +17893,11 @@ msgstr ""
 msgid "CauseZoC"
 msgstr ""
 
-#: common/fc_types.h:167 common/unit.c:632
+#: common/fc_types.h:167 common/unit.c:635
 msgid "Fortifying"
 msgstr "Fortikiĝanta"
 
-#: common/fc_types.h:173 common/unit.c:646
+#: common/fc_types.h:173 common/unit.c:649
 msgid "Base"
 msgstr "Bazo"
 
@@ -17949,12 +17955,12 @@ msgid "passive"
 msgstr ""
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:767 data/civ1/game.ruleset:391 data/civ2/game.ruleset:387
+#: common/game.h:769 data/civ1/game.ruleset:391 data/civ2/game.ruleset:387
 msgid "AD"
 msgstr ""
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:769 data/civ1/game.ruleset:393 data/civ2/game.ruleset:389
+#: common/game.h:771 data/civ1/game.ruleset:393 data/civ2/game.ruleset:389
 msgid "BC"
 msgstr ""
 
@@ -21564,24 +21570,24 @@ msgstr ""
 msgid "?routedir:Bidirectional"
 msgstr ""
 
-#: common/unit.c:640
+#: common/unit.c:643
 msgid "Goto"
 msgstr "Iru al"
 
-#: common/unit.c:642
+#: common/unit.c:645
 msgid "Explore"
 msgstr "Esploru"
 
-#: common/unit.c:1168 common/unit.c:1173
+#: common/unit.c:1171 common/unit.c:1176
 msgid "Moves"
 msgstr "Movoj"
 
-#: common/unit.c:1234
+#: common/unit.c:1237
 msgid "Food/Shield/Gold:"
 msgstr ""
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2070
+#: common/unit.c:2073
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -21596,13 +21602,13 @@ msgstr[1] ""
 "Ĉu ĝisdatigi la unon %s al %s per %d oraj moneroj?\n"
 "%s"
 
-#: common/unit.c:2079
+#: common/unit.c:2082
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Bedaŭrinde, estas neeble ĝisdatigi %s (ankoraŭ)."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2085
+#: common/unit.c:2088
 #, fuzzy, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -21617,29 +21623,29 @@ msgstr[1] ""
 "Ĝisdatigo de %s al %s necesigas %d orajn monerojn.\n"
 "La ŝtata kaso entenas %d orajn monerojn."
 
-#: common/unit.c:2095
+#: common/unit.c:2098
 msgid "You can only upgrade units in your cities."
 msgstr "Vi povas ĝisdatigi nur unuojn en viaj urboj."
 
-#: common/unit.c:2099
+#: common/unit.c:2102
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 
-#: common/unit.c:2104
+#: common/unit.c:2107
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 
-#: common/unit.c:2111
+#: common/unit.c:2114
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
 "could not transport."
 msgstr ""
 
-#: common/unit.c:2119
+#: common/unit.c:2122
 #, c-format
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr ""
@@ -27563,7 +27569,7 @@ msgstr "Vi trovis amikan urbon."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Vi imponas al amikaj nomadoj, kaj ili aliĝas al vi."
 
-#: data/default/default.lua:115 server/unittools.c:3163
+#: data/default/default.lua:115 server/unittools.c:3159
 msgid "An abandoned village is here."
 msgstr "Ĉi tie estas forlasita vilaĝo."
 
@@ -27571,7 +27577,7 @@ msgstr "Ĉi tie estas forlasita vilaĝo."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Vi senbridigis hordon de barbaroj!"
 
-#: data/default/default.lua:126 server/unittools.c:3166
+#: data/default/default.lua:126 server/unittools.c:3162
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Via unuo, %s, estis mortigita de la barbaroj!"
@@ -38812,6 +38818,31 @@ msgstr "Pafceloj:"
 msgid "Obsolete by: %s"
 msgstr "Arkaika kun:"
 
+#: tools/ruleutil/comments.c:114
+msgid "Can't find the comments file"
+msgstr ""
+
+#: tools/ruleutil/comments.c:120
+msgid "Can't parse the comments file"
+msgstr ""
+
+#: tools/ruleutil/comments.c:131
+#, fuzzy, c-format
+msgid "Can't read %s from comments file"
+msgstr "Disponeblaj plibonigoj"
+
+#: tools/ruleutil/comments.c:282
+#, fuzzy, c-format
+#| msgid "Font for charset %s is lacking"
+msgid "Comment for %s missing."
+msgstr "Mankas tiparo por %s"
+
+#: tools/ruleutil/comments.c:296
+#, fuzzy, c-format
+#| msgid "Font for charset %s is lacking"
+msgid "Comment to section %s missing."
+msgstr "Mankas tiparo por %s"
+
 #: tools/ruleutil/rulesave.c:3448
 #, fuzzy, c-format
 msgid "Failed to create directory %s"
@@ -39177,7 +39208,7 @@ msgstr "Vi ne aĉetis %sn en %s!"
 msgid "?improvement:You bought %s in %s."
 msgstr "Vi ne aĉetis %sn en %s!"
 
-#: server/cityhand.c:470
+#: server/cityhand.c:471
 msgid "You have bought this turn, can't change."
 msgstr "Vi aĉetis en tiu ĉi vico, kaj do vi ne povas interŝanĝi."
 
@@ -39251,212 +39282,212 @@ msgstr "Unuo %s estas perdita kun rego de %s."
 msgid "A replacement %s was built in %s."
 msgstr "Anstataŭigo de %s estis konstruita en %s."
 
-#: server/citytools.c:1184
+#: server/citytools.c:1185
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Via jam havas urbon nomitan %s. La urbo estis renomita %s."
 
-#: server/citytools.c:1295
+#: server/citytools.c:1296
 #, fuzzy, c-format
 msgid "Transfer of %s"
 msgstr "Transf_ormu en %s"
 
-#: server/citytools.c:1313
+#: server/citytools.c:1314
 #, c-format
 msgid "The people in %s are stunned by your technological insight!"
 msgstr "La popolo en %s miregas pri via teĥnologia kapablo!"
 
-#: server/citytools.c:1319
+#: server/citytools.c:1320
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s with %s."
 msgstr "Laboristoj spontanee kunvenas kaj ĝisdatigas la urbon %s per %s."
 
-#: server/citytools.c:1324
+#: server/citytools.c:1325
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s infrastructure."
 msgstr "Laboristoj spontanee kunvenas kaj ĝisdatigas la infrastrukturon en %s."
 
 #. TRANS: Reason that a building was added to the city.
 #. *        Building is given for free to player's first city.
-#: server/citytools.c:1472 server/citytools.c:1495
+#: server/citytools.c:1473 server/citytools.c:1496
 #, c-format
 msgid "?initbldg:Free %s"
 msgstr ""
 
-#: server/citytools.c:1641
+#: server/citytools.c:1642
 #, c-format
 msgid "You have founded %s."
 msgstr "Vi fondis %s-n."
 
-#: server/citytools.c:1784
+#: server/citytools.c:1785
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 "%s estis movita ekster la forlasitan urbon %s ekde tiam ĝi ne povas resti en "
 "%s."
 
-#: server/citytools.c:1796
+#: server/citytools.c:1797
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 "Kiam %s estis forlasita, viaj %s ne povis foriri kaj do ĝi estis perdita."
 
-#: server/citytools.c:1830
+#: server/citytools.c:1831
 #, fuzzy, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr ""
 "Kiam %s estis forlasita, viaj %s ne povis foriri kaj do ĝi estis perdita."
 
-#: server/citytools.c:2040 server/unithand.c:4762
+#: server/citytools.c:2041 server/unithand.c:4762
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Vi tute detruis %sn."
 
-#: server/citytools.c:2043 server/unithand.c:4769
+#: server/citytools.c:2044 server/unithand.c:4769
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s estis detruita de %s."
 
-#: server/citytools.c:2069
+#: server/citytools.c:2070
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Vi konkeris la urbon %s; vi kaptis %d oran moneron!"
 msgstr[1] "Vi konkeris la urbon %s; vi kaptis %d orajn monerojn!"
 
-#: server/citytools.c:2076
+#: server/citytools.c:2077
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s konkeris la urbon %s kaj kaptis %d oran moneron el la urbo."
 msgstr[1] "%s konkeris la urbon %s kaj kaptis %d orajn monerojn el la urbo."
 
-#: server/citytools.c:2085
+#: server/citytools.c:2086
 #, fuzzy, c-format
 msgid "You conquer %s."
 msgstr "Vi konkeris %s-n"
 
-#: server/citytools.c:2088
+#: server/citytools.c:2089
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s konkeris %s-n."
 
-#: server/citytools.c:2095
+#: server/citytools.c:2096
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Vi liberigis %s-n! Disrabado sumas je %d ora monero."
 msgstr[1] "Vi liberigis %s-n! Disrabado sumas je %d oraj moneroj."
 
-#: server/citytools.c:2102
+#: server/citytools.c:2103
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s liberigis %s-n kaj rabegis %d oran moneron el la urbo."
 msgstr[1] "%s liberigis %s-n kaj rabegis %d orajn monerojn el la urbo."
 
-#: server/citytools.c:2111
+#: server/citytools.c:2112
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Vi liberigis %s-n!"
 
-#: server/citytools.c:2114
+#: server/citytools.c:2115
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s liberigis %s-n."
 
-#: server/citytools.c:2879
+#: server/citytools.c:2893
 #, c-format
 msgid "Trade between %s and %s lost along with city."
 msgstr ""
 
-#: server/citytools.c:2884
+#: server/citytools.c:2898
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr ""
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2892
+#: server/citytools.c:2906
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 
-#: server/citytools.c:2900
+#: server/citytools.c:2914
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "Bedaŭrinde, la %s nuligis la komercan kurson de %s al via urbo %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2906
+#: server/citytools.c:2920
 #, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr "Ni nuligis la komercan kurson de %s al la %s urbo %s."
 
-#: server/citytools.c:2960
+#: server/citytools.c:2974
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s estas batita de pesto! Enloĝantoj pereis!"
 
-#: server/citytools.c:3024
+#: server/citytools.c:3038
 #, fuzzy, c-format
 msgid "Moving %s"
 msgstr "Moviĝanta: %s"
 
-#: server/citytools.c:3027
+#: server/citytools.c:3041
 #, fuzzy, c-format
 msgid "Acquiring %s"
 msgstr "%s konkeris %s-n."
 
-#: server/citytools.c:3186
+#: server/citytools.c:3200
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "La %s ĉesigis la konstruadon de la %s en %s."
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3208
+#: server/citytools.c:3222
 msgid " from the worklist"
 msgstr " el la laborlisto"
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3213
+#: server/citytools.c:3227
 msgid " as suggested by the advisor"
 msgstr " laŭ sugesto de la konsilisto"
 
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
 #. * " from the worklist".
-#: server/citytools.c:3230
+#: server/citytools.c:3244
 #, c-format
 msgid "%s is building %s%s."
 msgstr "En %s oni konstruas la aĵon %s%s."
 
-#: server/citytools.c:3239
+#: server/citytools.c:3253
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "La %s komencis konstruadon de la %s en %s."
 
-#: server/citytools.c:3408
+#: server/citytools.c:3422
 #, fuzzy, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] "Vi vendis %sn en %s (nun landinterna) per %d oraj moneroj."
 msgstr[1] "Vi vendis %sn en %s (nun landinterna) per %d oraj moneroj."
 
-#: server/citytools.c:3548
+#: server/citytools.c:3562
 #, fuzzy, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "La %s de la %s (%s)"
 
-#: server/citytools.c:3550
+#: server/citytools.c:3564
 #, fuzzy
 msgid "increased"
 msgstr "Avia bazo"
 
-#: server/citytools.c:3551
+#: server/citytools.c:3565
 msgid "reduced"
 msgstr ""
 
@@ -42124,178 +42155,178 @@ msgid "The %s are suspected of hiding a nuke in %s."
 msgstr "La %s komencis konstruadon de la %s en %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:2073
+#: server/diplomats.c:2075
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Malamika %s estis mortigita de via %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:2080
+#: server/diplomats.c:2082
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Viaj %s estis mortigitaj, defendante %sn kontraŭ %s."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:2087
+#: server/diplomats.c:2089
 #, fuzzy, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "Viaj %s estis mortigitaj, defendante %sn kontraŭ %s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:2094
+#: server/diplomats.c:2096
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "Viaj %s estis mortigitaj, defendante %sn kontraŭ %s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:2103 server/diplomats.c:2114
+#: server/diplomats.c:2105 server/diplomats.c:2116
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Viaj %s estis mortigitaj dum defendado kontraŭ %s."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:2108
+#: server/diplomats.c:2110
 #, fuzzy, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "Viaj %s estis mortigitaj dum defendado kontraŭ %s."
 
-#: server/diplomats.c:2139
+#: server/diplomats.c:2141
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Viaj %s estis mortigitaj de defendantaj %s."
 
-#: server/diplomats.c:2145
+#: server/diplomats.c:2147
 #, fuzzy, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en %s."
 
-#: server/diplomats.c:2150
+#: server/diplomats.c:2152
 #, fuzzy, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en %s."
 
-#: server/diplomats.c:2155
+#: server/diplomats.c:2157
 #, fuzzy, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en %s."
 
-#: server/diplomats.c:2163
+#: server/diplomats.c:2165
 #, fuzzy, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en niaj trupoj."
 
-#: server/diplomats.c:2168
+#: server/diplomats.c:2170
 #, fuzzy, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en niaj trupoj."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:2174
+#: server/diplomats.c:2176
 #, fuzzy, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en niaj trupoj."
 
-#: server/diplomats.c:2295
+#: server/diplomats.c:2298
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Via %s plenumis la taskon kaj sekure revenis al %s."
 
-#: server/diplomats.c:2316
+#: server/diplomats.c:2319
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Via %s estis kaptita post la plenumo de la tasko en %s."
 
-#: server/diplomats.c:2322
+#: server/diplomats.c:2325
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Via %s estis kaptita post la plenumo de la tasko."
 
-#: server/edithand.c:197
+#: server/edithand.c:202
 #, c-format
 msgid " *** Server set to edit mode by %s! *** "
 msgstr ""
 
-#: server/edithand.c:203
+#: server/edithand.c:208
 #, c-format
 msgid " *** Edit mode canceled by %s. *** "
 msgstr ""
 
-#: server/edithand.c:307 server/edithand.c:344 server/edithand.c:385
+#: server/edithand.c:312 server/edithand.c:349 server/edithand.c:390
 #, c-format
 msgid "Cannot edit the tile because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:316
+#: server/edithand.c:321
 #, c-format
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:352
+#: server/edithand.c:357
 #, c-format
 msgid ""
 "Cannot modify extras for the tile %s because %d is not a valid extra id."
 msgstr ""
 
-#: server/edithand.c:446
+#: server/edithand.c:451
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:455
+#: server/edithand.c:460
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:465
+#: server/edithand.c:470
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
-#: server/edithand.c:475
+#: server/edithand.c:480
 #, c-format
 msgid ""
 "Cannot create another instance of unique unit type %s. Player already has "
 "one such unit."
 msgstr ""
 
-#: server/edithand.c:482
+#: server/edithand.c:487
 #, fuzzy, c-format
 msgid "Cannot create multiple instances of unique unit type %s."
 msgstr "Vi ne povas krei unuon en malamika areo."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:494
+#: server/edithand.c:499
 #, fuzzy, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "Vi ne povas krei unuon en malamika areo."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:504
+#: server/edithand.c:509
 #, fuzzy, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
-#: server/edithand.c:547
+#: server/edithand.c:552
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:556
+#: server/edithand.c:561
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -42303,204 +42334,204 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:567
+#: server/edithand.c:572
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
 
-#: server/edithand.c:598 server/edithand.c:621
+#: server/edithand.c:603 server/edithand.c:626
 #, fuzzy, c-format
 msgid "No such unit (ID %d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/edithand.c:658
+#: server/edithand.c:664
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr ""
 
-#: server/edithand.c:694
+#: server/edithand.c:700
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:703
+#: server/edithand.c:709
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:715
+#: server/edithand.c:721
 #, c-format
 msgid "A city may not be built at %s."
 msgstr ""
 
-#: server/edithand.c:755
+#: server/edithand.c:761
 #, fuzzy, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr "Vi ne povas formovi scion pri via urbo."
 
-#: server/edithand.c:768
+#: server/edithand.c:774
 #, fuzzy, c-format
 msgid "Cannot edit city name: %s"
 msgstr "Nomo de la konekto: %s"
 
-#: server/edithand.c:779
+#: server/edithand.c:785
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr ""
 
-#: server/edithand.c:801
+#: server/edithand.c:807
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr ""
 
-#: server/edithand.c:843
+#: server/edithand.c:849
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:858
+#: server/edithand.c:864
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:909
+#: server/edithand.c:915
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
 
-#: server/edithand.c:917
+#: server/edithand.c:923
 #, c-format
 msgid ""
 "No more players can be added because there's already maximum number of "
 "players allowed by maxplayers setting (value %d)"
 msgstr ""
 
-#: server/edithand.c:925
+#: server/edithand.c:931
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
 
-#: server/edithand.c:934
+#: server/edithand.c:940
 #, fuzzy
 msgid "Player cannot be created because random nation selection failed."
 msgstr "Estas neeble formovi ludantoj post la komenco de la ludo."
 
-#: server/edithand.c:943
+#: server/edithand.c:949
 #, fuzzy
 msgid "Player creation failed."
 msgstr "La ludanto estas detruito"
 
-#: server/edithand.c:986
+#: server/edithand.c:992
 #, fuzzy, c-format
 msgid "No such player (ID %d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/edithand.c:1016
+#: server/edithand.c:1022
 #, fuzzy, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr "Estas neeble mastrumi barbaran ludanton."
 
-#: server/edithand.c:1033
+#: server/edithand.c:1039
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr ""
 
-#: server/edithand.c:1044
+#: server/edithand.c:1050
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
 
-#: server/edithand.c:1050
+#: server/edithand.c:1056
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
 
-#: server/edithand.c:1059
+#: server/edithand.c:1065
 #, fuzzy, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is not in the current nation set."
 msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
-#: server/edithand.c:1068
+#: server/edithand.c:1074
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is unsuitable for this player."
 msgstr ""
 
-#: server/edithand.c:1108
+#: server/edithand.c:1114
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
 
-#: server/edithand.c:1122
+#: server/edithand.c:1128
 #, fuzzy, c-format
 msgid ""
 "Cannot set infrapoints for player %d (%s) because the value %d is outside "
 "the allowed range."
 msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
-#: server/edithand.c:1228
+#: server/edithand.c:1234
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1237
+#: server/edithand.c:1243
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 
-#: server/edithand.c:1306
+#: server/edithand.c:1312
 #, fuzzy, c-format
 msgid "No such city (ID %d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/edithand.c:1332
+#: server/edithand.c:1338
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr ""
 
-#: server/edithand.c:1340
+#: server/edithand.c:1346
 #, fuzzy, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "Estas neeble mastrumi barbaran ludanton."
 
-#: server/edithand.c:1368 server/edithand.c:1407
+#: server/edithand.c:1374 server/edithand.c:1413
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr ""
 
-#: server/edithand.c:1415
+#: server/edithand.c:1421
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
 msgstr ""
 
-#: server/edithand.c:1514
+#: server/edithand.c:1520
 msgid "No permissions to remotely save scenario."
 msgstr ""
 
-#: server/edithand.c:1521
+#: server/edithand.c:1527
 msgid "Scenario information not set. Cannot save scenario."
 msgstr ""
 
@@ -42701,12 +42732,12 @@ msgid "Workers spontaneously gather and upgrade all possible cities with %s."
 msgstr ""
 "Laboristoj spontanee kunvenas kaj ĝisdatigas ĉiujn eblajn urbojn per %s."
 
-#: server/maphand.c:1842
+#: server/maphand.c:1846
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Viaj %s estis movita pro ŝanĝo de speco de areo."
 
-#: server/maphand.c:1900
+#: server/maphand.c:1904
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Viaj %s estis forsalutita pro ŝanĝo de grundo."
@@ -42818,17 +42849,17 @@ msgstr "La scienco superas la maksimumon por %s; aranĝu ĝin."
 msgid "Luxury rate exceeded the max rate; adjusted."
 msgstr "La lukso superas la maksimumon por %s; aranĝu ĝin."
 
-#: server/plrhand.c:904
+#: server/plrhand.c:906
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s ne donas plu al ni komuna vidon!"
 
-#: server/plrhand.c:924
+#: server/plrhand.c:926
 #, fuzzy, c-format
 msgid "%s no longer shares tiles with us!"
 msgstr "%s ne donas plu al ni komuna vidon!"
 
-#: server/plrhand.c:935
+#: server/plrhand.c:937
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -42837,13 +42868,13 @@ msgstr ""
 "La senato ne permesos al vi nuligi traktaton kun la %s.  Vi devas ĉu "
 "dissolvi la senaton ĉu atendi la ĝustan momenton."
 
-#: server/plrhand.c:999
+#: server/plrhand.c:1001
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "La senato aprobas vian proponon pro la senĉesaj provokoj de la %s."
 
-#: server/plrhand.c:1004
+#: server/plrhand.c:1006
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -42852,12 +42883,12 @@ msgstr ""
 "La senato rifuzas nuligi la traktaton kun la %s, sed vi ne havas problemojn "
 "por trovi novan senaton."
 
-#: server/plrhand.c:1028
+#: server/plrhand.c:1030
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "La diplomatia stato inter la %s kaj la %s nun estas %s."
 
-#: server/plrhand.c:1034
+#: server/plrhand.c:1036
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -42866,14 +42897,14 @@ msgstr ""
 " %s nuligis la diplomatajn interkonsentojn! La diplomatia stato inter la %s "
 "kaj la %s nun estas %s."
 
-#: server/plrhand.c:1052
+#: server/plrhand.c:1054
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
 "%s atakis vian aliancanon %s! Via alianco kun la atakanto estas nuligita."
 
-#: server/plrhand.c:1065
+#: server/plrhand.c:1067
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -42881,103 +42912,103 @@ msgid ""
 msgstr ""
 "Via grupano %s ekmilitis kun %s. Vi estas devigata nuligi la aliancon kun %s."
 
-#: server/plrhand.c:1718
+#: server/plrhand.c:1720
 msgid ""
 "Can only set player color prior to game start if 'plrcolormode' is PLR_SET."
 msgstr ""
 
-#: server/plrhand.c:1857
+#: server/plrhand.c:1859
 msgid "no color"
 msgstr ""
 
-#: server/plrhand.c:1949
+#: server/plrhand.c:1951
 #, c-format
 msgid "Removing player %s."
 msgstr "Formovante la ludanton %s."
 
-#: server/plrhand.c:1952
+#: server/plrhand.c:1954
 msgid "You've been removed from the game!"
 msgstr "Vi estis formovita de la ludo!"
 
-#: server/plrhand.c:1955
+#: server/plrhand.c:1957
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s estis formovita de la ludo."
 
-#: server/plrhand.c:2111
+#: server/plrhand.c:2113
 msgid "Please choose a non-blank name."
 msgstr "Bonvolu ne elekti nulan nomon."
 
-#: server/plrhand.c:2124
+#: server/plrhand.c:2126
 msgid "That nation is already in use."
 msgstr "Tiu nacio estas jam uzata."
 
-#: server/plrhand.c:2129
+#: server/plrhand.c:2131
 #, fuzzy, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Jam alia uzanto havas la nomon '%s'.  Bonvolu elekti alian nomon."
 
-#: server/plrhand.c:2153
+#: server/plrhand.c:2155
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Bonvolu elekti nomon kiu entenas nur ASCII literojn."
 
-#: server/plrhand.c:2228 server/plrhand.c:2242
+#: server/plrhand.c:2230 server/plrhand.c:2244
 #, fuzzy, c-format
 msgid "Player no. %d"
 msgstr "Ludanto %d"
 
-#: server/plrhand.c:2257
+#: server/plrhand.c:2259
 #, fuzzy
 msgid "A poorly-named player"
 msgstr "Strangenomita urbo"
 
-#: server/plrhand.c:2327 server/plrhand.c:2331
+#: server/plrhand.c:2329 server/plrhand.c:2333
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Vi kontaktiĝis kun la %s, estrataj de %s."
 
-#: server/plrhand.c:3020
+#: server/plrhand.c:3022
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 "Estas neeble ĵeti %sn en intercivitana milito - ĉar ĉeestas tro ludantoj"
 
-#: server/plrhand.c:3027
+#: server/plrhand.c:3029
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - maxplayers (%d) reached"
 msgstr ""
 "Estas neeble ĵeti %sn en intercivitana milito - ĉar ĉeestas tro ludantoj"
 
-#: server/plrhand.c:3034
+#: server/plrhand.c:3036
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 "Estas neeble ĵeti %sn en intercivitana milito - ĉar ĉeestas tro ludantoj"
 
-#: server/plrhand.c:3069
+#: server/plrhand.c:3071
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr ""
 "Estas neeble ĵeti %sn en intercivitana milito - ĉar ĉeestas tro ludantoj"
 
-#: server/plrhand.c:3091
+#: server/plrhand.c:3093
 msgid "Your nation is thrust into civil war."
 msgstr "Via nacio falis en intercivitana milito."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:3095
+#: server/plrhand.c:3097
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s estas la estro de la ribelo de la %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:3117
+#: server/plrhand.c:3119
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s subskribis aliancon kun la %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:3142
+#: server/plrhand.c:3144
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -42986,25 +43017,25 @@ msgstr[1] "La intercivitana milito dividas la %sn; la %s nun havas %d urboj."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3283
+#: server/plrhand.c:3285
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
 "away. Use '/delegate cancel' to revoke this access."
 msgstr ""
 
-#: server/plrhand.c:3295
+#: server/plrhand.c:3297
 #, fuzzy, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "La ludanto %s estas aligita al %s grupo."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3304
+#: server/plrhand.c:3306
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 
-#: server/plrhand.c:3512
+#: server/plrhand.c:3514
 #, c-format
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "ATENTU, ni havas MALMULTON da MONO %s."
@@ -43978,7 +44009,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "%s malsukcesis konekti kun iu ajn ludanto."
 
 #: server/savegame/savegame2.c:2954 server/savegame/savegame3.c:3898
-#: server/srv_main.c:2539 server/srv_main.c:2544
+#: server/srv_main.c:2540 server/srv_main.c:2545
 #, fuzzy, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s estis aldonita kiel AI-ludanto je %s nivelo "
@@ -47159,90 +47190,90 @@ msgstr ""
 msgid "You are not allowed to edit."
 msgstr "Vi ne rajtas agordi tiun ĉi opcion."
 
-#: server/srv_main.c:2351 server/stdinhand.c:4339
+#: server/srv_main.c:2352 server/stdinhand.c:4339
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "%s nacio ne estas disponebla kiel uzanto-elekto."
 
-#: server/srv_main.c:2357 server/stdinhand.c:4347
+#: server/srv_main.c:2358 server/stdinhand.c:4347
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s nacio estas jam uzata."
 
-#: server/srv_main.c:2373
+#: server/srv_main.c:2374
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s estas la %s estro %s."
 
-#: server/srv_main.c:2449
+#: server/srv_main.c:2450
 #, fuzzy, c-format
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
 msgstr ""
 "Atendante komenci la ludon: %d el %d ludantoj estas pretaj por komenci."
 
-#: server/srv_main.c:2475
+#: server/srv_main.c:2476
 msgid "requested more than 'maxplayers' setting"
 msgstr ""
 
-#: server/srv_main.c:2482
+#: server/srv_main.c:2483
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 
-#: server/srv_main.c:2485
+#: server/srv_main.c:2486
 msgid "not enough playable nations"
 msgstr ""
 
-#: server/srv_main.c:2832 server/srv_main.c:2836
+#: server/srv_main.c:2833 server/srv_main.c:2837
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s estas la %s."
 
-#: server/srv_main.c:3041
+#: server/srv_main.c:3042
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:3101 server/stdinhand.c:4028
+#: server/srv_main.c:3102 server/stdinhand.c:4028
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "La dosierujo de la reguloj \"%s\" ne estis trovita"
 
-#: server/srv_main.c:3121
+#: server/srv_main.c:3122
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Sendante informojn al la metaservilo [%s]"
 
-#: server/srv_main.c:3125
+#: server/srv_main.c:3126
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:3148
+#: server/srv_main.c:3149
 msgid "The game is over..."
 msgstr "La ludo estas finita..."
 
-#: server/srv_main.c:3281
+#: server/srv_main.c:3282
 #, fuzzy
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr "Vi ne povas krei unuon en malamika areo."
 
-#: server/srv_main.c:3287
+#: server/srv_main.c:3288
 #, c-format
 msgid "Attempt %d/%d"
 msgstr ""
 
-#: server/srv_main.c:3316
+#: server/srv_main.c:3317
 #, fuzzy
 msgid "Cannot create suitable map with given settings."
 msgstr "Vi ne povas krei unuon en malamika areo."
 
-#: server/srv_main.c:3339 server/srv_main.c:3343
+#: server/srv_main.c:3340 server/srv_main.c:3344
 #, fuzzy, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Opcio: %s estis agordita je \"%s\"."
 
-#: server/srv_main.c:3550
+#: server/srv_main.c:3551
 #, fuzzy, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Nun novaj konektoj de klientoj estas akcepteblaj."
@@ -50060,7 +50091,7 @@ msgstr "Vi ne povas aldoni %sn al %s."
 msgid "Your %s didn't find a %s to %s in %s."
 msgstr "Vi ne povas aldoni %sn al %s."
 
-#: server/unithand.c:5442 server/unittools.c:3037
+#: server/unithand.c:5442 server/unittools.c:3033
 msgid "Cannot attack unless you declare war first."
 msgstr "Vi ne povas ataki sen militdeklari antaŭe."
 
@@ -50230,65 +50261,65 @@ msgid "Your %s has returned to refuel."
 msgstr "Viaj %s revenis por sin provizi."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:766
+#: server/unittools.c:762
 #, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "Via unuo %s iĝis pli sperta kaj atingis la rangon de %s."
 
-#: server/unittools.c:786
+#: server/unittools.c:782
 #, fuzzy, c-format
 msgid "%s converted to %s."
 msgstr "%s konkeris %s-n."
 
-#: server/unittools.c:792
+#: server/unittools.c:788
 #, fuzzy, c-format
 msgid "%s cannot be converted."
 msgstr "%s ne povas esti dissolvitaj."
 
-#: server/unittools.c:805
+#: server/unittools.c:801
 #, fuzzy, c-format
 msgid "Orders for %s aborted because activity is no longer available."
 msgstr "La ordonoj por %s estis nuligitaj pro malsukcesa movo."
 
-#: server/unittools.c:1199
+#: server/unittools.c:1195
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Via unuo %s estas teletransportita al %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1265
+#: server/unittools.c:1261
 #, fuzzy, c-format
 msgid "Moved your %s."
 msgstr "Viaj %s estis dissolvita."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1292
+#: server/unittools.c:1288
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Viaj %s estis dissolvita."
 
-#: server/unittools.c:1860
+#: server/unittools.c:1856
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Oni malkapablas defendi %sn, %s malvenkis la ludon."
 
-#: server/unittools.c:1864
+#: server/unittools.c:1860
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Perdi %sn signifas malvenki! Estu pli zorgema venont-foje!"
 
-#: server/unittools.c:1921
+#: server/unittools.c:1917
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s malvenkis pro la perdo de %s."
 
-#: server/unittools.c:2175
+#: server/unittools.c:2171
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s forkuris de la detruo de %s, kaj rifuĝis en %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2373
+#: server/unittools.c:2369
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -50297,21 +50328,21 @@ msgstr[0] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d alia unuo)!"
 msgstr[1] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d aliaj unuoj)!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2400
+#: server/unittools.c:2396
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s pereis pro atako de la %s unuo %s."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2410
+#: server/unittools.c:2406
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s pereis kiam la %sj %s atakis la %sjn %sn."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2426
+#: server/unittools.c:2422
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (kaj %s) pereis pro atako de la %s unuo %s."
@@ -50319,7 +50350,7 @@ msgstr "%s (kaj %s) pereis pro atako de la %s unuo %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2437
+#: server/unittools.c:2433
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -50329,21 +50360,21 @@ msgstr[1] "%s kaj %d aliaj unuoj pereis pro atako de la %s unuo %s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2452
+#: server/unittools.c:2448
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d unuo pereis kiam la %sj %s atakis la %sj %s."
 msgstr[1] "%d unuoj pereis kiam la %sj %s atakis la %sj %s."
 
-#: server/unittools.c:2472
+#: server/unittools.c:2468
 #, fuzzy, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d unuo pereis kiam la %sj %s atakis la %sj %s."
 msgstr[1] "%d unuoj pereis kiam la %sj %s atakis la %sj %s."
 
-#: server/unittools.c:2517
+#: server/unittools.c:2513
 #, fuzzy, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
@@ -50354,146 +50385,146 @@ msgstr[1] ""
 "La estro de la Barbaroj estis kaptita; elaĉeto je %d oraj moneroj estis "
 "pagita."
 
-#: server/unittools.c:2522
+#: server/unittools.c:2518
 #, fuzzy, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
 msgstr[0] "%d oraj moneroj por vico"
 msgstr[1] "%d oraj moneroj por vico"
 
-#: server/unittools.c:2562
+#: server/unittools.c:2558
 #, fuzzy, c-format
 msgid "%s %s collected ransom of %s."
 msgstr "%s estas konektita el %s."
 
-#: server/unittools.c:2568
+#: server/unittools.c:2564
 #, fuzzy, c-format
 msgid "%s %s collected ransom of %s and %d other unit."
 msgid_plural "%s %s collected ransom of %s and %d other units."
 msgstr[0] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d alia unuo)!"
 msgstr[1] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d aliaj unuoj)!"
 
-#: server/unittools.c:2813
+#: server/unittools.c:2809
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Via %s estis atombombita fare de %s."
 
-#: server/unittools.c:2816 server/unittools.c:2838
+#: server/unittools.c:2812 server/unittools.c:2834
 msgid "yourself"
 msgstr "vi mem"
 
-#: server/unittools.c:2820
+#: server/unittools.c:2816
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "La %sj %s estis atombombitaj."
 
-#: server/unittools.c:2835
+#: server/unittools.c:2831
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s estis atombombita fare de %s."
 
-#: server/unittools.c:2843
+#: server/unittools.c:2839
 #, c-format
 msgid "You nuked %s."
 msgstr "Vi atombombis %sn."
 
-#: server/unittools.c:2854
+#: server/unittools.c:2850
 #, fuzzy, c-format
 msgid "%s was destroyed by the nuke."
 msgstr "%s estis detruita de %s."
 
-#: server/unittools.c:2858
+#: server/unittools.c:2854
 #, fuzzy, c-format
 msgid "Your nuke destroyed %s."
 msgstr "Vi atombombis %sn."
 
-#: server/unittools.c:2907
+#: server/unittools.c:2903
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "La %s eksplodigis atombombon!"
 
-#: server/unittools.c:2922
+#: server/unittools.c:2918
 #, c-format
 msgid "%s transported successfully."
 msgstr "Unuo %s estas transportita sukcese."
 
-#: server/unittools.c:3010
+#: server/unittools.c:3006
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Ĉi tiu unuo ne povas paraŝuti en %sn."
 
 #. TRANS: Paratroopers ... Paradrop Unit
-#: server/unittools.c:3022
+#: server/unittools.c:3018
 #, fuzzy, c-format
 msgid "%s cannot conquer a city with \"%s\"."
 msgstr "Estas neeble fondi urbon"
 
-#: server/unittools.c:3051
+#: server/unittools.c:3047
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Viaj %s paraŝutis en la %s kaj estis perdita."
 
-#: server/unittools.c:3071
+#: server/unittools.c:3067
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Viaj %s estis mortigita fare de malamikaj unuoj ĉe la paraŝuta alvenpunkto."
 
-#: server/unittools.c:3156
+#: server/unittools.c:3152
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
 msgstr[0] "Vi trovis %d orajn monerojn."
 msgstr[1] "Vi trovis %d orajn monerojn."
 
-#: server/unittools.c:3552
+#: server/unittools.c:3548
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "La ordonoj por %s estis nuligitaj post la ĉesigo de la movoj de la malamiko."
 
-#: server/unittools.c:4398
+#: server/unittools.c:4394
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas proksimaj unuoj."
 
-#: server/unittools.c:4486
+#: server/unittools.c:4482
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "La ordonoj por %s estis nuligitaj ĝis ili estos nevalidaj agoj."
 
-#: server/unittools.c:4496
+#: server/unittools.c:4492
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "La ordonoj por %s estis nuligitaj ĉar ili havas nevalidan lokiĝon."
 
-#: server/unittools.c:4507
+#: server/unittools.c:4503
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas unuoj en la vojo."
 
-#: server/unittools.c:4552
+#: server/unittools.c:4548
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Ordonoj por la unuo %s estis nuligitaj pro malsukcesa moviĝo."
 
-#: server/unittools.c:4693
+#: server/unittools.c:4689
 #, fuzzy, c-format
 msgid "%s could not do %s to %s."
 msgstr "%s konkeris %s-n."
 
-#: server/unittools.c:4731
+#: server/unittools.c:4727
 #, fuzzy, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "La ordonoj por %s estis nuligitaj ĉar la konstruado de urbo malsukcesis."
 
-#: server/unittools.c:4755
+#: server/unittools.c:4751
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Viaj %s havas nevalidajn ordonojn."
 
-#: server/unittools.c:4889
+#: server/unittools.c:4885
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
@@ -51426,10 +51457,6 @@ msgstr "eraro %d (kompilumita sen strerror)"
 #, fuzzy
 #~ msgid "* Can transform terrain to another type.\n"
 #~ msgstr "Transformu grundon"
-
-#, fuzzy, c-format
-#~ msgid "* Can clean %s from tiles.\n"
-#~ msgstr "Disponeblaj plibonigoj"
 
 #, fuzzy, c-format
 #~ msgid "  * is done to %s%s.\n"
@@ -52371,9 +52398,6 @@ msgstr "eraro %d (kompilumita sen strerror)"
 
 #~ msgid "Doing 'xset fp rehash' may temporarily solve a problem."
 #~ msgstr "Tajpu 'xset fp rehash' ; tio eble solvis la problemon pormomente."
-
-#~ msgid "Font for charset %s is lacking"
-#~ msgstr "Mankas tiparo por %s"
 
 #~ msgid "Allows %s.\n"
 #~ msgstr "Ebligas %s.\n"

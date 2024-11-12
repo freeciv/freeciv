@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
-"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2024-02-07 20:56+0500\n"
+"Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
+"POT-Creation-Date: 2024-10-04 03:30+0300\n"
 "PO-Revision-Date: 2024-01-29 09:16+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -29,120 +29,152 @@ msgstr ""
 "X-Generator: Lokalize 22.12.3\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
-#: tools/ruledit/req_vec_fix.cpp:191 tools/ruledit/requirers_dlg.cpp:43
-#: tools/ruledit/req_edit.cpp:135
+#: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:191
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
 msgid "Close"
 msgstr "Закрыть"
 
-#: tools/ruledit/edit_extra.cpp:48 tools/ruledit/edit_impr.cpp:93
-#: tools/ruledit/edit_terrain.cpp:69 tools/ruledit/edit_utype.cpp:111
+#: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
+#: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:149
 msgid "Graphics tag"
 msgstr "Тег графического значка"
 
-#: tools/ruledit/edit_extra.cpp:57 tools/ruledit/edit_impr.cpp:102
-#: tools/ruledit/edit_terrain.cpp:78 tools/ruledit/edit_utype.cpp:120
+#: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
+#: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:158
 msgid "Alt graphics tag"
 msgstr "Тег доп. граф. значка"
 
-#: tools/ruledit/edit_extra.cpp:66
+#: tools/ruledit/edit_extra.cpp:78
 msgid "Activity graphics tag"
 msgstr "Тег значка действия"
 
-#: tools/ruledit/edit_extra.cpp:75
+#: tools/ruledit/edit_extra.cpp:87
 msgid "Alt activity gfx tag"
 msgstr "Тег доп. значка действия"
 
-#: tools/ruledit/edit_extra.cpp:84
+#: tools/ruledit/edit_extra.cpp:96
 msgid "Second alt activity gfx tag"
 msgstr "Тег 2-го доп. значка действия"
 
-#: tools/ruledit/edit_extra.cpp:93
+#: tools/ruledit/edit_extra.cpp:105
 msgid "Removal activity graphics tag"
 msgstr "Тег значка разрушения"
 
-#: tools/ruledit/edit_extra.cpp:102
+#: tools/ruledit/edit_extra.cpp:114
 msgid "Alt removal activity gfx tag"
 msgstr "Тег доп. значка разрушения"
 
-#: tools/ruledit/edit_extra.cpp:111
+#: tools/ruledit/edit_extra.cpp:123
 msgid "Second alt removal activity gfx tag"
 msgstr "Тег 2-го дополнительного значка удаления"
 
-#: tools/ruledit/edit_impr.cpp:54 tools/ruledit/edit_utype.cpp:50
-msgid "Build Cost"
-msgstr "Стоимость Строительства"
+#: tools/ruledit/edit_extra.cpp:132 tools/ruledit/edit_gov.cpp:97
+#: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
+#: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:216
+msgid "Helptext"
+msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:65
-msgid "Upkeep"
-msgstr "Содержание"
+#: tools/ruledit/edit_extra.cpp:136 tools/ruledit/edit_terrain.cpp:112
+#, fuzzy
+#| msgid "Nations"
+msgid "Native to"
+msgstr "Народы"
 
-#: tools/ruledit/edit_impr.cpp:75
-msgid "Genus"
-msgstr "Вид"
-
-#: tools/ruledit/edit_impr.cpp:111 tools/ruledit/edit_utype.cpp:129
-msgid "Second alt gfx tag"
-msgstr "Тег 2-го доп. значка действия"
-
-#: tools/ruledit/edit_impr.cpp:120
+#: tools/ruledit/edit_gov.cpp:70 tools/ruledit/edit_impr.cpp:128
 msgid "Sound tag"
 msgstr "Тег звука"
 
-#: tools/ruledit/edit_impr.cpp:129
+#: tools/ruledit/edit_gov.cpp:79 tools/ruledit/edit_impr.cpp:137
 msgid "Alt sound tag"
 msgstr "Тег доп. звука"
 
-#: tools/ruledit/edit_impr.cpp:138
+#: tools/ruledit/edit_gov.cpp:88 tools/ruledit/edit_impr.cpp:146
 msgid "Second alt sound tag"
 msgstr "Тег 2-го доп. звука"
 
-#: tools/ruledit/edit_terrain.cpp:49
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:78
+msgid "Build Cost"
+msgstr "Стоимость Строительства"
+
+#: tools/ruledit/edit_impr.cpp:73
+msgid "Upkeep"
+msgstr "Содержание"
+
+#: tools/ruledit/edit_impr.cpp:83
+msgid "Genus"
+msgstr "Вид"
+
+#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:167
+msgid "Second alt gfx tag"
+msgstr "Тег 2-го доп. значка действия"
+
+#: tools/ruledit/edit_tech.cpp:60
+#, fuzzy
+#| msgid "Move Cost"
+msgid "Cost"
+msgstr "Очки Движения"
+
+#: tools/ruledit/edit_terrain.cpp:61
 msgid "Move Cost"
 msgstr "Очки Движения"
 
-#: tools/ruledit/edit_terrain.cpp:59
+#: tools/ruledit/edit_terrain.cpp:71
 msgid "Defense Bonus %"
 msgstr "Бонус Защиты (%)"
 
-#: tools/ruledit/edit_terrain.cpp:87
+#: tools/ruledit/edit_terrain.cpp:99
 msgid "Second alt graphics tag"
 msgstr "Тег 2-го доп. граф. значка"
 
-#: tools/ruledit/edit_utype.cpp:61
+#: tools/ruledit/edit_utype.cpp:60
+msgid "Class"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:89
 msgid "Attack Strength"
 msgstr "Сила Атаки"
 
-#: tools/ruledit/edit_utype.cpp:71
+#: tools/ruledit/edit_utype.cpp:99
 msgid "Defense Strength"
 msgstr "Уровень Защиты"
 
-#: tools/ruledit/edit_utype.cpp:81
+#: tools/ruledit/edit_utype.cpp:109
 msgid "Hitpoints"
 msgstr "Здоровье"
 
-#: tools/ruledit/edit_utype.cpp:91
+#: tools/ruledit/edit_utype.cpp:119
 msgid "Firepower"
 msgstr "Боевая мощь"
 
-#: tools/ruledit/edit_utype.cpp:101
+#: tools/ruledit/edit_utype.cpp:129
 msgid "Move Rate"
 msgstr "Очки Движения"
 
-#: tools/ruledit/edit_utype.cpp:138
+#: tools/ruledit/edit_utype.cpp:139
+msgid "Transport Capacity"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
 msgstr "Тег звука движения"
 
-#: tools/ruledit/edit_utype.cpp:148
+#: tools/ruledit/edit_utype.cpp:186
 msgid "Alt move sound tag"
 msgstr "Тег доп. звука движения"
 
-#: tools/ruledit/edit_utype.cpp:158
+#: tools/ruledit/edit_utype.cpp:196
 msgid "Fight sound tag"
 msgstr "Тег звука битвы"
 
-#: tools/ruledit/edit_utype.cpp:168
+#: tools/ruledit/edit_utype.cpp:206
 msgid "Alt fight sound tag"
 msgstr "Тег доп. звука битвы"
+
+#: tools/ruledit/edit_utype.cpp:220
+msgid "Cargo"
+msgstr ""
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -158,7 +190,7 @@ msgstr "Комментарий"
 
 #: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
-#: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
+#: tools/ruledit/tab_gov.cpp:87 tools/ruledit/tab_multiplier.cpp:84
 #: tools/ruledit/tab_unit.cpp:87
 msgid "Requirements"
 msgstr "Требования"
@@ -438,8 +470,8 @@ msgstr "Выйти?"
 
 #: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_counters.cpp:82 tools/ruledit/tab_extras.cpp:68
-#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
-#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
+#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:64
+#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:67
 #: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:64
 msgid "Rule Name"
 msgstr "Название Правила"
@@ -455,12 +487,12 @@ msgstr "Название Правила"
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
 #: tools/ruledit/tab_good.cpp:147 tools/ruledit/tab_good.cpp:148
-#: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
-#: tools/ruledit/tab_gov.cpp:146 tools/ruledit/tab_gov.cpp:147
+#: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
+#: tools/ruledit/tab_gov.cpp:149 tools/ruledit/tab_gov.cpp:150
 #: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
 #: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
-#: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
-#: tools/ruledit/tab_tech.cpp:229 tools/ruledit/tab_tech.cpp:230
+#: tools/ruledit/tab_tech.cpp:70 tools/ruledit/tab_tech.cpp:80
+#: tools/ruledit/tab_tech.cpp:234 tools/ruledit/tab_tech.cpp:235
 #: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
 #: tools/ruledit/tab_terrains.cpp:149 tools/ruledit/tab_terrains.cpp:150
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
@@ -470,16 +502,16 @@ msgstr "(Нет)"
 
 #: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_counters.cpp:89 tools/ruledit/tab_extras.cpp:76
-#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
-#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
+#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:72
+#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:75
 #: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:72
 msgid "Name"
 msgstr "Название"
 
 #: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
-#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
+#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
+#: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
 msgid "Effects"
 msgstr "Эффекты"
@@ -497,6 +529,7 @@ msgid "An achievement with that rule name already exists!"
 msgstr "Достижение с этим названием правила уже существует!"
 
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_gov.cpp:83 tools/ruledit/tab_tech.cpp:86
 #: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
 msgstr "Редактировать Значения"
@@ -609,15 +642,15 @@ msgstr "Удалить этот товар"
 msgid "A good with that rule name already exists!"
 msgstr "Товар с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_gov.cpp:92
+#: tools/ruledit/tab_gov.cpp:95
 msgid "Add Government"
 msgstr "Добавить Форму правления"
 
-#: tools/ruledit/tab_gov.cpp:97
+#: tools/ruledit/tab_gov.cpp:100
 msgid "Remove this Government"
 msgstr "Удалить эту Форму правления"
 
-#: tools/ruledit/tab_gov.cpp:181
+#: tools/ruledit/tab_gov.cpp:184
 msgid "A government with that rule name already exists!"
 msgstr "Форма правления с этим названием правила уже существует!"
 
@@ -804,31 +837,31 @@ msgstr "Использовать набор народов"
 msgid "Nationlist"
 msgstr "Набор Народов"
 
-#: tools/ruledit/tab_tech.cpp:83
+#: tools/ruledit/tab_tech.cpp:90
 msgid "Req1"
 msgstr "Требует (Req1)"
 
-#: tools/ruledit/tab_tech.cpp:92
+#: tools/ruledit/tab_tech.cpp:99
 msgid "Req2"
 msgstr "Требует (Req2)"
 
-#: tools/ruledit/tab_tech.cpp:100
+#: tools/ruledit/tab_tech.cpp:107
 msgid "Root Req"
 msgstr "Базовое требование (Root Req)"
 
-#: tools/ruledit/tab_tech.cpp:113
+#: tools/ruledit/tab_tech.cpp:120
 msgid "Add tech"
 msgstr "Добавить технологию"
 
-#: tools/ruledit/tab_tech.cpp:118
+#: tools/ruledit/tab_tech.cpp:124
 msgid "Remove this tech"
 msgstr "Удалить эту технологию"
 
-#: tools/ruledit/tab_tech.cpp:197
+#: tools/ruledit/tab_tech.cpp:202
 msgid "Never"
 msgstr "Никогда"
 
-#: tools/ruledit/tab_tech.cpp:354
+#: tools/ruledit/tab_tech.cpp:359
 msgid "A tech with that rule name already exists!"
 msgstr "Технология с этим названием правила уже существует!"
 

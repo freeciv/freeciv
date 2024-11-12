@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-06-25 04:09+0300\n"
+"POT-Creation-Date: 2024-10-04 03:30+0300\n"
 "PO-Revision-Date: 2024-10-07 19:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: gl\n"
+"Language: gl_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,13 +26,13 @@ msgstr "Pechar"
 
 #: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
 #: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
-#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:137
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:149
 msgid "Graphics tag"
 msgstr "Etiqueta gráfica"
 
 #: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
 #: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
-#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:146
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:158
 msgid "Alt graphics tag"
 msgstr "Etiqueta gráfica alternativa"
 
@@ -62,7 +62,7 @@ msgstr "Segunda etiqueta de actividade de eliminación alt gfx"
 
 #: tools/ruledit/edit_extra.cpp:132 tools/ruledit/edit_gov.cpp:97
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
-#: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:204
+#: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:216
 msgid "Helptext"
 msgstr "Texto de axuda"
 
@@ -82,7 +82,7 @@ msgstr "Etiqueta de son alternativo"
 msgid "Second alt sound tag"
 msgstr "Segunda etiqueta de son alternativo"
 
-#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:76
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:78
 msgid "Build Cost"
 msgstr "Custo de construción"
 
@@ -94,7 +94,7 @@ msgstr "Mantemento"
 msgid "Genus"
 msgstr "Xénero"
 
-#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:155
+#: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:167
 msgid "Second alt gfx tag"
 msgstr "Segunda etiqueta alt gfx"
 
@@ -114,45 +114,53 @@ msgstr "% de bonificación de defensa"
 msgid "Second alt graphics tag"
 msgstr "Segunda etiqueta de gráficos alternativos"
 
-#: tools/ruledit/edit_utype.cpp:58
+#: tools/ruledit/edit_utype.cpp:60
 msgid "Class"
 msgstr "Clase"
 
-#: tools/ruledit/edit_utype.cpp:87
+#: tools/ruledit/edit_utype.cpp:89
 msgid "Attack Strength"
 msgstr "Forza de ataque"
 
-#: tools/ruledit/edit_utype.cpp:97
+#: tools/ruledit/edit_utype.cpp:99
 msgid "Defense Strength"
 msgstr "Forza de Defensa"
 
-#: tools/ruledit/edit_utype.cpp:107
+#: tools/ruledit/edit_utype.cpp:109
 msgid "Hitpoints"
 msgstr "Puntos de vida"
 
-#: tools/ruledit/edit_utype.cpp:117
+#: tools/ruledit/edit_utype.cpp:119
 msgid "Firepower"
 msgstr "Potencia de lume"
 
-#: tools/ruledit/edit_utype.cpp:127
+#: tools/ruledit/edit_utype.cpp:129
 msgid "Move Rate"
 msgstr "Mover taxa"
 
-#: tools/ruledit/edit_utype.cpp:164
+#: tools/ruledit/edit_utype.cpp:139
+msgid "Transport Capacity"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
 msgstr "Mover a etiqueta de son"
 
-#: tools/ruledit/edit_utype.cpp:174
+#: tools/ruledit/edit_utype.cpp:186
 msgid "Alt move sound tag"
 msgstr "Alt move a etiqueta de son"
 
-#: tools/ruledit/edit_utype.cpp:184
+#: tools/ruledit/edit_utype.cpp:196
 msgid "Fight sound tag"
 msgstr "Loita contra a etiqueta sonora"
 
-#: tools/ruledit/edit_utype.cpp:194
+#: tools/ruledit/edit_utype.cpp:206
 msgid "Alt fight sound tag"
 msgstr "Etiqueta de son de loita alternativa"
+
+#: tools/ruledit/edit_utype.cpp:220
+msgid "Cargo"
+msgstr ""
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -340,18 +348,14 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opción non recoñecida: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:127
-msgid "built in Qt5 mode."
-msgstr "construído en modo Qt5."
-
-#: tools/ruledit/ruledit_qt.cpp:129
-msgid "built in Qt6x mode."
-msgstr "construído en modo Qt6x."
-
-#: tools/ruledit/ruledit_qt.cpp:131
 msgid "built in Qt6 mode."
 msgstr "construído en modo Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:138
+#: tools/ruledit/ruledit_qt.cpp:129
+msgid "built in Qt5 mode."
+msgstr "construído en modo Qt5."
+
+#: tools/ruledit/ruledit_qt.cpp:136
 #, c-format
 msgid ""
 "%s%s\n"
@@ -362,91 +366,91 @@ msgstr ""
 "commit: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:153
+#: tools/ruledit/ruledit_qt.cpp:151
 msgid "Give ruleset to use as starting point."
 msgstr "Dar un conxunto de regras para usar como punto de partida."
 
-#: tools/ruledit/ruledit_qt.cpp:161
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Start editing"
 msgstr "Comezar a editar"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
 msgstr "Misc"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Tech"
 msgstr "Técnico"
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
 msgstr "Edificios"
 
-#: tools/ruledit/ruledit_qt.cpp:178
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Units"
 msgstr "Unidades"
 
-#: tools/ruledit/ruledit_qt.cpp:180
+#: tools/ruledit/ruledit_qt.cpp:178
 msgid "Achievements"
 msgstr "Logros"
 
-#: tools/ruledit/ruledit_qt.cpp:182
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Goods"
 msgstr "Bens"
 
-#: tools/ruledit/ruledit_qt.cpp:184
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Governments"
 msgstr "Gobernos"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Enablers"
 msgstr "Activadores"
 
-#: tools/ruledit/ruledit_qt.cpp:188
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Extras"
 msgstr "Extras"
 
-#: tools/ruledit/ruledit_qt.cpp:190
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Terrains"
 msgstr "Terreos"
 
-#: tools/ruledit/ruledit_qt.cpp:192
+#: tools/ruledit/ruledit_qt.cpp:190
 msgid "Multipliers"
 msgstr "Multiplicadores"
 
-#: tools/ruledit/ruledit_qt.cpp:194
+#: tools/ruledit/ruledit_qt.cpp:192
 msgid "Counters"
 msgstr "Contadores"
 
-#: tools/ruledit/ruledit_qt.cpp:196
+#: tools/ruledit/ruledit_qt.cpp:194
 msgid "Nations"
 msgstr "Nacións"
 
-#: tools/ruledit/ruledit_qt.cpp:205
+#: tools/ruledit/ruledit_qt.cpp:203
 msgid "Welcome to freeciv-ruledit"
 msgstr "Benvido a freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:252
+#: tools/ruledit/ruledit_qt.cpp:250
 msgid "Old ruleset to a new format"
 msgstr "Antigo conxunto de regras cun novo formato"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:253
 msgid "Ruleset loaded"
 msgstr "Cargouse o conxunto de regras"
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:277
 msgid "Ruleset loading failed!"
 msgstr "Produciuse un erro ao cargar o conxunto de regras!"
 
-#: tools/ruledit/ruledit_qt.cpp:457
+#: tools/ruledit/ruledit_qt.cpp:455
 msgid "Freeciv Ruleset Editor"
 msgstr "Editor de regras Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:490
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Are you sure you want to quit?"
 msgstr "Estás certo de que queres saír?"
 
-#: tools/ruledit/ruledit_qt.cpp:494
+#: tools/ruledit/ruledit_qt.cpp:492
 msgid "Quit?"
 msgstr "Saír?"
 
@@ -924,3 +928,6 @@ msgstr "Extra conflitivo"
 #: tools/ruledit/validity.c:319
 msgid "Hidden extra"
 msgstr "Extra oculto"
+
+#~ msgid "built in Qt6x mode."
+#~ msgstr "construído en modo Qt6x."
