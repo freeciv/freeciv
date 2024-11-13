@@ -544,12 +544,21 @@ GtkWidget *picture_new_from_surface(cairo_surface_t *surf)
 void picture_set_from_surface(GtkPicture *pic, cairo_surface_t *surf)
 {
   GdkPixbuf *pb;
+  GdkTexture *texture;
+  GdkPaintable *empty;
 
   pb = surface_get_pixbuf(surf,
                           cairo_image_surface_get_width(surf),
                           cairo_image_surface_get_height(surf));
 
-  gtk_picture_set_pixbuf(pic, pb);
+  /* Workaround to gtk bug that gtk_picture_set_paintable() does
+   * not work if the new paintable is of the same size as current */
+  empty = gdk_paintable_new_empty(1, 1);
+  gtk_picture_set_paintable(pic, empty);
+
+  texture = gdk_texture_new_for_pixbuf(pb);
+  gtk_picture_set_paintable(pic, GDK_PAINTABLE(texture));
+  g_object_unref(texture);
   g_object_unref(pb);
 }
 
