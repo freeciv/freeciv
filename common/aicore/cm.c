@@ -700,6 +700,7 @@ static void apply_solution(struct cm_state *state,
 {
   struct city *pcity = state->pcity;
   int i, city_radius_sq = city_map_radius_sq_get(pcity);
+  const struct civ_map *nmap = &(wld.map);
 #ifndef FREECIV_NDEBUG
   int citizen_count = 0;
 #endif
@@ -755,7 +756,8 @@ static void apply_solution(struct cm_state *state,
   }
 
   /* Finally we must refresh the city to reset all the precomputed fields. */
-  city_refresh_from_main_map(pcity, state->workers_map);
+  city_refresh_from_main_map(nmap, pcity, state->workers_map);
+
   fc_assert_ret(citizen_count == city_size_get(pcity));
 }
 
@@ -2120,11 +2122,12 @@ void cm_query_result(struct city *pcity,
                      struct cm_result *result, bool negative_ok)
 {
   struct cm_state *state = cm_state_init(pcity, negative_ok);
+  const struct civ_map *nmap = &(wld.map);
 
-  /* Refresh the city.  Otherwise the CM can give wrong results or just be
-   * slower than necessary.  Note that cities are often passed in in an
+  /* Refresh the city. Otherwise the CM can give wrong results or just be
+   * slower than necessary. Note that cities are often passed in in an
    * unrefreshed state (which should probably be fixed). */
-  city_refresh_from_main_map(pcity, NULL);
+  city_refresh_from_main_map(nmap, pcity, NULL);
 
   cm_find_best_solution(state, param, result, negative_ok);
   cm_state_free(state);

@@ -349,7 +349,7 @@ static void check_city_size(struct city *pcity, const char *file,
               city_specialists(pcity));
 
     city_repair_size(pcity, delta);
-    city_refresh_from_main_map(pcity, NULL);
+    city_refresh_from_main_map(nmap, pcity, NULL);
   }
 }
 

@@ -230,6 +230,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   int rate_sci_balance = RATE_NOT_SET;
   int rate_lux_min_celebrate = maxrate;
   int delta_tax = 0, delta_sci = 0;
+  const struct civ_map *nmap = &(wld.map);
 
 #ifdef DEBUG_TIMERS
   struct timer *taxtimer= NULL;
@@ -668,7 +669,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
         cm_query_result(pcity, &cmp, cmr, FALSE);
         if (cmr->found_a_valid) {
           apply_cmresult_to_city(pcity, cmr);
-          city_refresh_from_main_map(pcity, NULL);
+          city_refresh_from_main_map(nmap, pcity, NULL);
           if (!city_happy(pcity)) {
             CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
           }
@@ -683,7 +684,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
       /* KLUDGE: Must refresh to restore the original values which
        * were clobbered in cm_query_result(), after the tax rates
        * were changed. */
-      city_refresh_from_main_map(pcity, NULL);
+      city_refresh_from_main_map(nmap, pcity, NULL);
     } city_list_iterate_end;
   }
 
