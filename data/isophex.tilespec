@@ -100,6 +100,10 @@ tilelabel_offset_y = 10
 ; valid direction for the tileset.
 ;unit_default_orientation = "s"
 
+; How long (number of refreshes) it takes to move from an animation
+; frame to the next.
+time_per_frame = 3
+
 ; The map is rendered in "layers", just like any decent image editor
 ; supports. The setting below allows to change the layer drawing order. The
 ; first layer in the list will be drawn below the others; the second on top

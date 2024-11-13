@@ -524,6 +524,8 @@ struct tileset {
   int max_upkeep_height;
   int svg_height;
 
+  int default_time_per_frame;
+
   char *main_intro_filename;
 
   enum direction8 unit_default_orientation;
@@ -2256,6 +2258,7 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   t->unit_upkeep_small_offset_y = secfile_lookup_int_default(file, t->unit_upkeep_offset_y,
                                                              "tilespec.unit_upkeep_small_offset_y");
   t->svg_height = secfile_lookup_int_default(file, 44, "tilespec.svg_height");
+  t->default_time_per_frame = secfile_lookup_int_default(file, 3, "tilespec.time_per_frame");
 
   t->city_size_offset_x = t->scale * t->city_size_offset_x;
   t->city_size_offset_y = t->scale * t->city_size_offset_y;
@@ -2974,7 +2977,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 
 #define SET_ANIM(field, tag)                                      \
   do {                                                            \
-    t->sprites.field = anim_load(t, tag, 3);                      \
+    t->sprites.field = anim_load(t, tag, 0);                      \
     if (t->sprites.field == NULL) {                               \
       tileset_error(LOG_FATAL, tileset_name_get(t),               \
                     _("Animation for tag '%s' missing."), tag);   \
@@ -2984,8 +2987,10 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 /************************************************************************//**
   Load an animation
 
-  @param t   Tileset to load animation from
-  @param tag Base tag of the animation sprites
+  @param t              Tileset to load animation from
+  @param tag            Base tag of the animation sprites
+  @param time_per_frame How many refreshes there's between advancing to
+                        the next frame. 0 for default.
 ****************************************************************************/
 static struct anim *anim_load(struct tileset *t, const char *tag,
                               int time_per_frame)
@@ -3001,6 +3006,10 @@ static struct anim *anim_load(struct tileset *t, const char *tag,
 
   if (--frames == 0) {
     return nullptr;
+  }
+
+  if (time_per_frame <= 0) {
+    time_per_frame = t->default_time_per_frame;
   }
 
   ret = anim_new(frames, time_per_frame);
@@ -3450,7 +3459,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.tired, "unit.tired");
 
   t->sprites.unit.action_decision_want = anim_load(t, "unit.action_decision_want",
-                                                   3);
+                                                   0);
 
   for (i = 0; i < NUM_TILES_HP_BAR; i++) {
     fc_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
