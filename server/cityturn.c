@@ -159,12 +159,13 @@ static bool check_city_migrations_player(const struct player *pplayer);
 bool city_refresh(struct city *pcity)
 {
   bool retval;
+  const struct civ_map *nmap = &(wld.map);
 
   pcity->server.needs_refresh = FALSE;
 
   retval = city_map_update_radius_sq(pcity);
-  city_units_upkeep(pcity); /* update unit upkeep */
-  city_refresh_from_main_map(pcity, NULL);
+  city_units_upkeep(pcity); /* Update unit upkeep */
+  city_refresh_from_main_map(nmap, pcity, NULL);
   city_style_refresh(pcity);
 
   if (retval) {

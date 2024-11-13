@@ -791,8 +791,9 @@ void city_add_improvement(struct city *pcity,
 void city_remove_improvement(struct city *pcity,
 			     const struct impr_type *pimprove);
 
-/* city update functions */
-void city_refresh_from_main_map(struct city *pcity, bool *workers_map);
+/* City update functions */
+void city_refresh_from_main_map(const struct civ_map *nmap,
+                                struct city *pcity, bool *workers_map);
 
 int city_waste(const struct city *pcity, Output_type_id otype, int total,
                int *breakdown);
@@ -801,13 +802,13 @@ Specialist_type_id best_specialist(Output_type_id otype,
 int get_final_city_output_bonus(const struct city *pcity, Output_type_id otype);
 bool city_built_last_turn(const struct city *pcity);
 
-/* city creation / destruction */
+/* City creation / destruction */
 struct city *create_city_virtual(struct player *pplayer,
 				 struct tile *ptile, const char *name);
 void destroy_city_virtual(struct city *pcity);
 bool city_is_virtual(const struct city *pcity);
 
-/* misc */
+/* Misc */
 bool is_city_option_set(const struct city *pcity, enum city_options option);
 void city_styles_alloc(int num);
 void city_styles_free(void);
