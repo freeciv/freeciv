@@ -2321,7 +2321,8 @@ static const struct city *nearest_gov_center(const struct city *pcity,
   workers within the city map. It uses the tile index and its size is
   defined by city_map_tiles_from_city(_pcity). See also cm_state_init().
 **************************************************************************/
-static inline void get_worked_tile_output(const struct city *pcity,
+static inline void get_worked_tile_output(const struct civ_map *nmap,
+                                          const struct city *pcity,
                                           int *output, bool *workers_map)
 {
   bool is_worked;
@@ -2329,7 +2330,6 @@ static inline void get_worked_tile_output(const struct city *pcity,
   bool is_celebrating = base_city_celebrating(pcity);
 #endif
   struct tile *pcenter = city_tile(pcity);
-  const struct civ_map *nmap = &(wld.map);
 
   memset(output, 0, O_LAST * sizeof(*output));
 
@@ -3197,10 +3197,9 @@ static inline void city_support(struct city *pcity)
 
   If 'workers_map' is set, only basic updates are needed.
 **************************************************************************/
-void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
+void city_refresh_from_main_map(const struct civ_map *nmap,
+                                struct city *pcity, bool *workers_map)
 {
-  const struct civ_map *nmap = &(wld.map);
-
   if (workers_map == NULL) {
     /* do a full refresh */
 
@@ -3213,7 +3212,7 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
   }
 
   /* Calculate output from citizens (uses city_tile_cache_get_output()). */
-  get_worked_tile_output(pcity, pcity->citizen_base, workers_map);
+  get_worked_tile_output(nmap, pcity, pcity->citizen_base, workers_map);
   add_specialist_output(pcity, pcity->citizen_base);
 
   set_city_production(pcity);
@@ -3223,7 +3222,7 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
 
   happy_copy(pcity, FEELING_LUXURY);
-  citizen_happy_luxury(pcity);	/* with our new found luxuries */
+  citizen_happy_luxury(pcity);	/* With our new found luxuries */
 
   happy_copy(pcity, FEELING_EFFECT);
   citizen_content_buildings(pcity);
