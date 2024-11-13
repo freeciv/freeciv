@@ -9,7 +9,7 @@
 #              $2 - output file
 #
 
-# Absolete paths
+# Absolute paths
 SRCROOT="$(cd "$1" ; pwd)"
 INPUTDIR="$(cd "$1/bootstrap" ; pwd)"
 OUTPUTFILE="$2"
