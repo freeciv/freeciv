@@ -54,8 +54,8 @@ tiles = { "row", "column", "tag"
   4, 0, "unit.goto"
   4, 1, "unit.convert"
   4, 2, "unit.auto_explore"
-  4, 3, "unit.action_decision_want0"
-  4, 4, "unit.action_decision_want1"
+  4, 3, "unit.action_decision_want_0"
+  4, 4, "unit.action_decision_want_1"
 
 ; [GS]
   5,  0, "unit.irrigation"

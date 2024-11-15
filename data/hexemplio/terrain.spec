@@ -60,51 +60,51 @@ tiles = { "row", "column","tag"
   5,    0,  "t.l1.inaccessible1"
 
 ; Terrain special resources:
- 1,   0, "ts.oil0"                              ;[?]
- 1,   0, "ts.arctic_oil0"                       ;[?]
- 1,   1, "ts.buffalo0"                          ;[?]
- 1,   2, "ts.grassland_resources0"              ;[?]
- 1,   2, "ts.river_resources0"                  ;[?]
- 1,   3, "ts.tundra_game0"                      ;[?]
- 1,   4, "ts.arctic_ivory0"                     ;[?]
- 1,   5, "ts.peat0"                             ;[?]
- 1,   6, "ts.coal0"                             ;[?]
- 1,   7, "ts.forest_game0"                      ;[?]
- 1,   8, "ts.gold0"                             ;[?]
+ 1,   0, "ts.oil_0"                             ;[?]
+ 1,   0, "ts.arctic_oil_0"                      ;[?]
+ 1,   1, "ts.buffalo_0"                         ;[?]
+ 1,   2, "ts.grassland_resources_0"             ;[?]
+ 1,   2, "ts.river_resources_0"                 ;[?]
+ 1,   3, "ts.tundra_game_0"                     ;[?]
+ 1,   4, "ts.arctic_ivory_0"                    ;[?]
+ 1,   5, "ts.peat_0"                            ;[?]
+ 1,   6, "ts.coal_0"                            ;[?]
+ 1,   7, "ts.forest_game_0"                     ;[?]
+ 1,   8, "ts.gold_0"                            ;[?]
 
- 2,   0, "ts.oasis0"                            ;[BFW]
- 2,   1, "ts.wheat0"                            ;[?]
- 2,   2, "ts.pheasant0"                         ;[?]
- 2,   3, "ts.furs0"                             ;[?]
- 2,   4, "ts.seals0"                            ;[?]
- 2,   5, "ts.spice0"                            ;[?]
- 2,   6, "ts.wine0"                             ;[?]
- 2,   7, "ts.silk0"                             ;[?]
- 2,   8, "ts.iron0"                             ;[?]
+ 2,   0, "ts.oasis_0"                           ;[BFW]
+ 2,   1, "ts.wheat_0"                           ;[?]
+ 2,   2, "ts.pheasant_0"                        ;[?]
+ 2,   3, "ts.furs_0"                            ;[?]
+ 2,   4, "ts.seals_0"                           ;[?]
+ 2,   5, "ts.spice_0"                           ;[?]
+ 2,   6, "ts.wine_0"                            ;[?]
+ 2,   7, "ts.silk_0"                            ;[?]
+ 2,   8, "ts.iron_0"                            ;[?]
 
- 3,   6, "ts.fruit0"                            ;[?]
- 3,   7, "ts.gems0"                             ;[?]
- 3,   8, "ts.fish0"                             ;[?]
+ 3,   6, "ts.fruit_0"                           ;[?]
+ 3,   7, "ts.gems_0"                            ;[?]
+ 3,   8, "ts.fish_0"                            ;[?]
 
- 4,   8, "ts.whales0"                           ;[?]
+ 4,   8, "ts.whales_0"                          ;[?]
 
 ; Strategic Resources
- 3,   0, "ts.saltpeter0"                        ;[?]
- 3,   1, "ts.aluminum0"                         ;[?]
- 3,   2, "ts.uranium0"                          ;[?]
- 3,   3, "ts.horses0"                           ;[?]
- 3,   4, "ts.elephant0"                         ;[AF]
- 3,   5, "ts.rubber0"                           ;[GS]
+ 3,   0, "ts.saltpeter_0"                       ;[?]
+ 3,   1, "ts.aluminum_0"                        ;[?]
+ 3,   2, "ts.uranium_0"                         ;[?]
+ 3,   3, "ts.horses_0"                          ;[?]
+ 3,   4, "ts.elephant_0"                        ;[AF]
+ 3,   5, "ts.rubber_0"                          ;[GS]
 
 ;add-ons
- 4, 0, "tx.oil_mine0"                           ;[?]
- 4, 1, "tx.mine0"                               ;[?]
- 4, 2, "tx.oil_rig0"                            ;[?][GS]
+ 4, 0, "tx.oil_mine_0"                          ;[?]
+ 4, 1, "tx.mine_0"                              ;[?]
+ 4, 2, "tx.oil_rig_0"                           ;[?][GS]
  4, 3, "tx.irrigation"                          ;[GS]
  4, 4, "tx.farmland"                            ;[GS]
- 4, 5, "tx.fallout0"                            ;[?][GS]
- 4, 6, "tx.pollution0"                          ;[?]
- 4, 7, "tx.village0"                            ;[BFW][GS]
+ 4, 5, "tx.fallout_0"                           ;[?][GS]
+ 4, 6, "tx.pollution_0"                         ;[?]
+ 4, 7, "tx.village_0"                           ;[BFW][GS]
 
 ;misc
  5, 5, "mask.tile"
@@ -131,7 +131,7 @@ tiles = { "row", "column","tag"
  6, 2, "path.normal"          ; tip of path with MP remaining
  6, 3, "path.waypoint"
 
- 6, 4, "tx.nets0"
+ 6, 4, "tx.nets_0"
 
 ; Irrigation (as special type), and whether north, south, east, west
 

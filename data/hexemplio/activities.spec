@@ -71,7 +71,7 @@ tiles = { "row", "column", "tag"
   3,  3, "unit.oil_mine"                ;[GS]
   3,  4, "unit.oil_rig"                 ;[GS]
 
-  4,  0, "unit.action_decision_want0"
-  4,  1, "unit.action_decision_want1"
+  4,  0, "unit.action_decision_want_0"
+  4,  1, "unit.action_decision_want_1"
 
 }

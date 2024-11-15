@@ -212,8 +212,8 @@ tiles = { "row", "column", "tag"
 
 ; Unit activity letters:  (note unit icons have just "u.")
 
-  0, 11, "unit.action_decision_want1"
-  0, 12, "unit.action_decision_want0"
+  0, 11, "unit.action_decision_want_1"
+  0, 12, "unit.action_decision_want_0"
   0, 13, "unit.convert"
   0, 14, "unit.auto_attack",
          "unit.auto_worker"

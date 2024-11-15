@@ -28,10 +28,10 @@ dy = 64
 pixel_border = 1
 
 tiles = { "row", "column","tag"
-  0,    0,  "ts.thermal_vent0"
-  1,    0,  "ts.glowing_rocks0"
-  2,    0,  "ts.huge_plant0"
-  3,    0,  "ts.alien_mine0"
+  0,    0,  "ts.thermal_vent_0"
+  1,    0,  "ts.glowing_rocks_0"
+  2,    0,  "ts.huge_plant_0"
+  3,    0,  "ts.alien_mine_0"
 
   0,    1,  "t.l0.radiating_rocks1"
   5,    1,  "t.l1.radiating_rocks1"
