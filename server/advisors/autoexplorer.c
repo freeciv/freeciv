@@ -189,7 +189,7 @@ static bool explorer_goto(struct unit *punit, struct tile *ptile)
 
 /* The desirability of the best tile possible without cities or huts.
  * TER_SCORE is given per 1% of certainty about the terrain, so
- * muliply by 100 to compensate. */
+ * multiply by 100 to compensate. */
 #define BEST_NORMAL_TILE       \
   (100 * MAX_NEW_TILES * DIFF_TER_SCORE +\
    100 * (VISION_TILES - MAX_NEW_TILES) * KNOWN_DIFF_TER_SCORE)

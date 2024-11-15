@@ -400,7 +400,7 @@ int adv_unit_att_rating(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Basic (i.e. not taking attacker specific corections into account)
+  Basic (i.e. not taking attacker specific corrections into account)
   defense rating of this particular unit.
 **************************************************************************/
 int adv_unit_def_rating_basic(const struct unit *punit)
