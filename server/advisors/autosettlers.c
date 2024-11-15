@@ -935,7 +935,7 @@ void auto_settler_findwork(const struct civ_map *nmap,
   /* Time it will take worker to complete its given task */
   int completion_time = 0;
 
-  /* Terminate what might be an inifite recursion of two units
+  /* Terminate what might be an infinite recursion of two units
    * displacing each other, but leave enough space for
    * finite recursion. */
   if (recursion > 5
