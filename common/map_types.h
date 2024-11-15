@@ -78,8 +78,8 @@ struct civ_map {
   int xsize, ysize; /* native dimensions */
   int north_latitude;
   int south_latitude;
-  int num_continents;
-  int num_oceans;               /* not updated at the client */
+  Continent_id num_continents;
+  Continent_id num_oceans;               /* Not updated at the client */
   struct tile *tiles;
   struct startpos_hash *startpos_table;
 
