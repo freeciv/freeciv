@@ -156,13 +156,14 @@ serialize_hash(const struct attribute_hash *hash,
   int i;
 
   /*
-   * Step 1: loop through all keys and fill value_lengths and calculate
+   * Step 1: Loop through all keys and fill value_lengths and calculate
    * the total_length.
    */
-  /* preamble */
+  /* Preamble */
   total_length = 4 + 1 + 4 + 4;
-  /* body */
+  /* Body */
   total_length += entries * (4 + 4 + 4 + 2 + 2); /* value_size + key */
+
   i = 0;
   attribute_hash_values_iterate(hash, pvalue) {
     struct data_in din;
@@ -174,14 +175,16 @@ serialize_hash(const struct attribute_hash *hash,
     i++;
   } attribute_hash_values_iterate_end;
 
+  fc_assert(i == entries);
+
   /*
-   * Step 2: allocate memory.
+   * Step 2: Allocate memory.
    */
   result = fc_malloc(total_length);
   dio_output_init(&dout, result, total_length);
 
   /*
-   * Step 3: fill out the preamble.
+   * Step 3: Fill out the preamble.
    */
   dio_put_uint32_raw(&dout, 0);
   dio_put_uint8_raw(&dout, 2);
@@ -189,7 +192,7 @@ serialize_hash(const struct attribute_hash *hash,
   dio_put_uint32_raw(&dout, total_length);
 
   /*
-   * Step 4: fill out the body.
+   * Step 4: Fill out the body.
    */
   i = 0;
   attribute_hash_iterate(hash, pkey, pvalue) {
@@ -204,6 +207,8 @@ serialize_hash(const struct attribute_hash *hash,
     i++;
   } attribute_hash_iterate_end;
 
+  fc_assert(i == entries);
+
   fc_assert(!dout.too_short);
   fc_assert_msg(dio_output_used(&dout) == total_length,
                 "serialize_hash() total_length = %lu, actual = %lu",
@@ -211,13 +216,14 @@ serialize_hash(const struct attribute_hash *hash,
                 (long unsigned)dio_output_used(&dout));
 
   /*
-   * Step 5: return.
+   * Step 5: Return.
    */
   *pdata = result;
   *pdata_length = total_length;
   log_attribute("attribute.c serialize_hash() "
                 "serialized %lu entries in %lu bytes",
                 (long unsigned) entries, (long unsigned) total_length);
+
   return A_SERIAL_OK;
 }
 
