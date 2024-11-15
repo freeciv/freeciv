@@ -474,6 +474,16 @@ struct small_sprite {
                      hash, tag_name, sprite)
 #define sprite_hash_iterate_end HASH_ITERATE_END
 
+/* 'struct anim_hash' and related functions. */
+#define SPECHASH_TAG anim
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct anim *
+#include "spechash.h"
+#define anim_hash_iterate(hash, tag_name, sprite)                          \
+  TYPED_HASH_ITERATE(const char *, struct anim *,                          \
+                     hash, tag_name, anim)
+#define anim_hash_iterate_end HASH_ITERATE_END
+
 /* 'struct drawing_hash' and related functions. */
 static void drawing_data_destroy(struct drawing_data *draw);
 
@@ -561,6 +571,8 @@ struct tileset {
   struct drawing_hash *tile_hash;
 
   struct estyle_hash *estyle_hash;
+
+  struct anim_hash *anim_hash;
 
   struct named_sprites sprites;
 
@@ -2619,8 +2631,11 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     goto ON_ERROR;
   }
 
-  fc_assert(t->sprite_hash == NULL);
+  fc_assert(t->sprite_hash == nullptr);
   t->sprite_hash = sprite_hash_new();
+
+  fc_assert(t->anim_hash == nullptr);
+  t->anim_hash = anim_hash_new();
 
   if (!tileset_scan_single_list(t, spec_filenames[SFILE_COMMON],
                                 num_spec_files[SFILE_COMMON],
@@ -2989,6 +3004,8 @@ static struct anim *anim_load(struct tileset *t, const char *tag,
                     _("Animation sprite for tag '%s' missing."), buf);
     }
   }
+
+  anim_hash_insert(t->anim_hash, tag, ret);
 
   return ret;
 }
@@ -6750,12 +6767,25 @@ struct unit *get_drawable_unit(const struct tileset *t,
 ****************************************************************************/
 static void unload_all_sprites(struct tileset *t)
 {
-  if (t->sprite_hash) {
+  if (t->sprite_hash != nullptr) {
     sprite_hash_iterate(t->sprite_hash, tag_name, ss) {
       while (ss->ref_count > 0) {
         unload_sprite(t, tag_name);
       }
     } sprite_hash_iterate_end;
+  }
+}
+
+/************************************************************************//**
+  Free resources allocated for all animations.
+****************************************************************************/
+static void free_all_anims(struct tileset *t)
+{
+  if (t->anim_hash != nullptr) {
+    anim_hash_iterate(t->anim_hash, tag, anim) {
+      (void)tag;
+      anim_free(anim);
+    } anim_hash_iterate_end;
   }
 }
 
@@ -6843,10 +6873,14 @@ void tileset_free_tiles(struct tileset *t)
     t->sprites.unit.stack = NULL;
   }
 
-  anim_free(t->sprites.unit.select);
+  free_all_anims(t);
   t->sprites.unit.select = nullptr;
-  anim_free(t->sprites.unit.action_decision_want);
   t->sprites.unit.action_decision_want = nullptr;
+
+  if (t->anim_hash) {
+    anim_hash_destroy(t->anim_hash);
+    t->anim_hash = nullptr;
+  }
 
   tileset_background_free(t);
 }
