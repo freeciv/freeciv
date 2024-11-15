@@ -203,7 +203,7 @@ void multipler_rates_dialog::slot_cancel_button_pressed()
 }
 
 /**********************************************************************//**
-  Ok pressed - send mulipliers value.
+  Ok pressed - send multipliers' values.
 **************************************************************************/
 void multipler_rates_dialog::slot_ok_button_pressed()
 {
