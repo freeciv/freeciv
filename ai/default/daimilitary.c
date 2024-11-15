@@ -1036,7 +1036,8 @@ static adv_want dai_unit_attack_desirability(struct ai_type *ait,
   type in choice. Also sets the technology want for the units we can't
   build yet.
 **************************************************************************/
-bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
+bool dai_process_defender_want(struct ai_type *ait, const struct civ_map *nmap,
+                               struct player *pplayer,
                                struct city *pcity, unsigned int danger,
                                struct adv_choice *choice, adv_want extra_want)
 {
@@ -1055,7 +1056,6 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
   adv_want total_want = danger + extra_want;
-  const struct civ_map *nmap = &(wld.map);
 
   memset(tech_desire, 0, sizeof(tech_desire));
 
@@ -1826,7 +1826,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
     if (our_def == 0 && danger > 0) {
       /* Build defensive unit first! Walls will help nothing if there's
        * nobody behind them. */
-      if (dai_process_defender_want(ait, pplayer, pcity, danger, choice,
+      if (dai_process_defender_want(ait, nmap, pplayer, pcity, danger, choice,
                                     martial_value)) {
         choice->want = DAI_WANT_BELOW_MIL_EMERGENCY + danger;
         adv_choice_set_use(choice, "first defender");
@@ -1887,8 +1887,8 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
         adv_init_choice(&uchoice);
 
         /* Consider building defensive units */
-        if (dai_process_defender_want(ait, pplayer, pcity, danger, &uchoice,
-                                      martial_value)) {
+        if (dai_process_defender_want(ait, nmap, pplayer, pcity, danger,
+                                      &uchoice, martial_value)) {
           /* Potential defender found */
           if (urgency == 0
               && uchoice.value.utype->defense_strength == 1) {
