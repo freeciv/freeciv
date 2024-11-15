@@ -892,7 +892,7 @@ const char *player_name(const struct player *pplayer)
 }
 
 /*******************************************************************//**
-  Find player by name, allowing unambigous prefix (ie abbreviation).
+  Find player by name, allowing unambiguous prefix (i.e. abbreviation).
   Returns NULL if could not match, or if ambiguous or other
   problem, and fills *result with characterisation of match/non-match
   (see shared.[ch])
