@@ -27323,15 +27323,15 @@ msgstr "Vi trovis informojn pri %s en antikvaj pergamenoj de saĝo."
 
 #. TRANS: One player got tech for the whole team.
 #: data/default/default.lua:45
-#, fuzzy, c-format
+#, c-format
 msgid "The %s found %s in ancient scrolls of wisdom for you."
-msgstr "Vi trovis %sn en antikvaj pergamenoj de saĝo."
+msgstr "La %s trovis informojn pri %s en antikvaj pergamenoj por vi."
 
 #. TRANS: first %s is nation plural or team name
 #: data/default/default.lua:50
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
-msgstr "La %s akiris %sn el antikvaj pergamenoj de saĝo."
+msgstr "La %s akiris la teĥnologion %s el antikvaj pergamenoj de saĝo."
 
 #: data/default/default.lua:73
 msgid "A band of friendly mercenaries joins your cause."
@@ -27359,10 +27359,10 @@ msgid "Your %s has been killed by barbarians!"
 msgstr "Via unuo, %s, estis mortigita de la barbaroj!"
 
 #: data/default/default.lua:137
-#, fuzzy, c-format
+#, c-format
 #| msgid "You find a map of the surrounding terrain."
 msgid "%s finds a map of the surrounding terrain."
-msgstr "Vi trovas mapon de la ĉirkaŭa tereno."
+msgstr "%s trovas mapon de la ĉirkaŭa tereno."
 
 #: data/default/default.lua:181
 #, fuzzy
