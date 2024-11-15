@@ -4194,8 +4194,10 @@ void packet_destroy(void *packet, enum packet_type type)
   }};
   void (*handler)(void *packet) = (type < PACKET_LAST ? destroy_handlers[type] : nullptr);
 
-  fc_assert_action_msg(handler != nullptr, handler = free,
-                       "packet_destroy(): invalid packet type %d", type);
+  if (handler == nullptr) {{
+    handler = free;
+    log_error("packet_destroy(): Invalid packet type %d", type);
+  }}
 
   handler(packet);
 }}
