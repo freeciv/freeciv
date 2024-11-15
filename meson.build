@@ -4,6 +4,7 @@ project('freeciv', ['c'], meson_version: '>= 0.60.0')
 c_compiler = meson.get_compiler('c')
 
 b_root = meson.project_build_root()
+s_root = meson.project_source_root()
 
 if get_option('tools').contains('ruledit') or \
    get_option('clients').contains('qt') or \
@@ -1123,15 +1124,15 @@ verhdr = custom_target('verhdr', output: 'version_gen.h',
 
 ls_core = custom_target('langstat_core', output: 'langstat_core.txt',
               command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'core',
-                        meson.project_source_root(), b_root])
+                        s_root, b_root])
 
 ls_nations = custom_target('langstat_nations', output: 'langstat_nations.txt',
                command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'nations',
-                          meson.project_source_root(), b_root])
+                         s_root, b_root])
 
 ls_ruledit = custom_target('langstat_ruledit', output: 'langstat_ruledit.txt',
                 command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'ruledit',
-                          meson.project_source_root(), b_root])
+                          s_root, b_root])
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
                          command: [python_exe, files('utility/generate_specenum.py'),
@@ -1192,7 +1193,7 @@ pack_client = custom_target('packets_client',
 
 gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',
                        command: [sh_exe, files('bootstrap/generate_gitrev.sh'),
-                       meson.project_source_root(), '@OUTPUT@'],
+                                 s_root, '@OUTPUT@'],
                        build_by_default: get_option('gitrev'))
 
 if host_system == 'windows'
