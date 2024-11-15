@@ -25,8 +25,8 @@ pixel_border = 1
 tiles = { "row", "column", "tag"
 
  0,  0, "base.force_fortress_bg"
- 1,  0, "base.force_fortress_fg"
+ 1,  0, "base.force_fortress_fg_0"
 
  0,  1, "base.tower_bg"
- 1,  1, "base.tower_fg"
+ 1,  1, "base.tower_fg_0"
 }

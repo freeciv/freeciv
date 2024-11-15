@@ -41,9 +41,9 @@ tiles = { "row", "column", "tag"
  1,  3, "base.airstrip_mg"
  1,  5, "base.buoy_mg"
  1,  6, "extra.ruins_mg"
- 3,  8, "base.outpost_fg"
+ 3,  8, "base.outpost_fg_0"
  3,  9, "base.outpost_bg"
- 4,  8, "base.fortress_fg"
+ 4,  8, "base.fortress_fg_0"
  4,  9, "base.fortress_bg"
 
 ; default city tiles

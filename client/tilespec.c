@@ -371,7 +371,8 @@ struct named_sprites {
       struct {
         struct sprite
           *background,
-          *middleground,
+          *middleground;
+        struct anim
           *foreground;
       } bmf;
       struct {
@@ -4309,12 +4310,11 @@ static void tileset_setup_base(struct tileset *t,
 
   sz_strlcpy(full_tag_name, tag);
   strcat(full_tag_name, "_fg");
-  t->sprites.extras[id].u.bmf.foreground = load_sprite(t, full_tag_name,
-                                                       TRUE, TRUE, FALSE);
+  t->sprites.extras[id].u.bmf.foreground = anim_load(t, full_tag_name, 0);
 
-  if (t->sprites.extras[id].u.bmf.background == NULL
-      && t->sprites.extras[id].u.bmf.middleground == NULL
-      && t->sprites.extras[id].u.bmf.foreground == NULL) {
+  if (t->sprites.extras[id].u.bmf.background == nullptr
+      && t->sprites.extras[id].u.bmf.middleground == nullptr
+      && t->sprites.extras[id].u.bmf.foreground == nullptr) {
     /* There was an extra style definition but no matching graphics */
     tileset_error(LOG_FATAL, tileset_name_get(t),
                   _("No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""),
@@ -4681,6 +4681,13 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
   ADD_SPRITE(anim_get_current_frame(s), draw_fog, x_offset, y_offset)
 #define ADD_ANIM_SPRITE_SIMPLE(s)                                           \
   ADD_SPRITE(anim_get_current_frame(s), TRUE, 0, 0)
+#define ADD_ANIM_FULL(s)                                                    \
+  ADD_SPRITE(anim_get_current_frame(s), TRUE,                               \
+             FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET)
+
+#define ADD_FRAME0_SIMPLE(s) ADD_SPRITE_SIMPLE(s->sprites[0])
+#define ADD_FRAME0_FULL(s)                                                  \
+  ADD_SPRITE_FULL(s->sprites[0])
 
 /************************************************************************//**
   Assemble some data that is used in building the tile sprite arrays.
@@ -4717,8 +4724,6 @@ static void build_tile_data(const struct tile *ptile,
     BV_CLR_ALL(textras_near[dir]);
   }
 }
-
-#define ADD_FRAME0_SIMPLE(s) ADD_SPRITE_SIMPLE(s->sprites[0])
 
 /************************************************************************//**
   Fill in the sprite array for the unit type.
@@ -6410,7 +6415,7 @@ int fill_sprite_array(struct tileset *t,
         extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (is_extra_drawing_enabled(pextra)
               && tile_has_extra(ptile, pextra)
-              && t->sprites.extras[extra_index(pextra)].u.bmf.foreground) {
+              && t->sprites.extras[extra_index(pextra)].u.bmf.foreground != nullptr) {
             bool hidden = FALSE;
 
             extra_type_list_iterate(pextra->hiders, phider) {
@@ -6421,8 +6426,8 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              if (t->sprites.extras[extra_index(pextra)].u.bmf.foreground) {
-                ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.foreground);
+              if (t->sprites.extras[extra_index(pextra)].u.bmf.foreground != nullptr) {
+                ADD_ANIM_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.foreground);
               }
             }
           }
@@ -7529,12 +7534,19 @@ int fill_basic_base_sprite_array(const struct tileset *t,
   }\
 } while (FALSE)
 
+#define ADD_FRAME0_IF_NOT_NULL(x) do {\
+  if ((x) != nullptr) {\
+    ADD_FRAME0_FULL(x);\
+  }\
+} while (FALSE)
+
   /* Corresponds to LAYER_SPECIAL{1,2,3} order. */
   ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.background);
   ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.middleground);
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.foreground);
+  ADD_FRAME0_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.foreground);
 
 #undef ADD_SPRITE_IF_NOT_NULL
+#undef ADD_FRAME0_IF_NOT_NULL
 
   return sprs - saved_sprs;
 }
@@ -7545,6 +7557,7 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 enum mapview_layer tileset_get_layer(const struct tileset *t, int n)
 {
   fc_assert(n < LAYER_COUNT);
+
   return t->layer_order[n];
 }
 
