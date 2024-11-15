@@ -80,8 +80,8 @@ struct civ_map {
   int north_latitude;
   int south_latitude;
 
-  int num_continents;
-  int num_oceans;
+  Continent_id num_continents;
+  Continent_id num_oceans;
   /* These arrays are indexed by continent number (or negative of the
    * ocean number) so the 0th element is unused and the array is 1 element
    * larger than you'd expect.
