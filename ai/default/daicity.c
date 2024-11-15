@@ -254,6 +254,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   struct adv_choice *newchoice;
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
+  const struct civ_map *nmap = &(wld.map);
 
   if (has_handicap(pplayer, H_AWAY)
       && !city_built_last_turn(pcity)
@@ -290,7 +291,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
       unsigned int our_def = assess_defense_quadratic(ait, pcity);
 
       if (our_def == 0
-          && dai_process_defender_want(ait, pplayer, pcity, 1,
+          && dai_process_defender_want(ait, nmap, pplayer, pcity, 1,
                                        &(city_data->choice), 0)) {
         adv_choice_set_use(&(city_data->choice), "fallback defender");
         CITY_LOG(LOG_DEBUG, pcity, "Building fallback defender");
