@@ -386,7 +386,7 @@ struct connection *conn_by_user(const char *user_name)
 }
 
 /**********************************************************************//**
-  Like conn_by_username(), but allow unambigous prefix (i.e. abbreviation).
+  Like conn_by_username(), but allow unambiguous prefix (i.e. abbreviation).
   Returns NULL if could not match, or if ambiguous or other problem, and
   fills *result with characterisation of match/non-match (see
   "utility/shared.[ch]").
