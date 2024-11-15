@@ -147,7 +147,13 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
      FIXME: Should the ai know about this? */
   if (utype_has_flag(ut, UTYF_SHIELD2GOLD)
       && (otype == O_GOLD || otype == O_SHIELD)) {
-    gold_upkeep_factor = get_player_bonus(pplayer, EFT_SHIELD2GOLD_FACTOR);
+    gold_upkeep_factor = get_target_bonus_effects(NULL,
+                                  &(const struct req_context) {
+                                    .player   = pplayer,
+                                    .unittype = ut
+                                  },
+                                  NULL, EFT_SHIELD2GOLD_FACTOR);
+
     if (gold_upkeep_factor > 0) {
       switch (otype) {
       case O_GOLD:
