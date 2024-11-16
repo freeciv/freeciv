@@ -159,13 +159,11 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   add_button = new QPushButton(QString::fromUtf8(R__("Add Enabler")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
   enabler_layout->addWidget(add_button, row, 0);
-  show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Enabler")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   delete_button->setEnabled(false);
   enabler_layout->addWidget(delete_button, row++, 1);
-  show_experimental(delete_button);
 
   repair_button = new QPushButton(this);
   connect(repair_button, SIGNAL(pressed()), this, SLOT(repair_now()));
@@ -320,6 +318,8 @@ bool tab_enabler::initialize_new_enabler(struct action_enabler *enabler)
     enabler->rulesave.comment = nullptr;
   }
 
+  enabler->rulesave.ruledit_disabled = false;
+
   return true;
 }
 
@@ -334,7 +334,6 @@ void tab_enabler::add_now()
   action_enablers_iterate(enabler) {
     if (enabler->rulesave.ruledit_disabled) {
       if (initialize_new_enabler(enabler)) {
-        enabler->rulesave.ruledit_disabled = false;
         update_enabler_info(enabler);
         refresh();
       }
