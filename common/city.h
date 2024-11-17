@@ -564,11 +564,12 @@ citizens player_angry_citizens(const struct player *pplayer);
 int city_population(const struct city *pcity);
 int city_total_impr_gold_upkeep(const struct city *pcity);
 int city_total_unit_gold_upkeep(const struct city *pcity);
-int city_unit_unhappiness(struct unit *punit, int *free_unhappy);
-bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
-bool city_unhappy(const struct city *pcity);                /* anarchy??? */
+int city_unit_unhappiness(const struct civ_map *nmap,
+                          struct unit *punit, int *free_unhappy);
+bool city_happy(const struct city *pcity);  /* Generally use celebrating instead */
+bool city_unhappy(const struct city *pcity);                /* Anarchy??? */
 bool base_city_celebrating(const struct city *pcity);
-bool city_celebrating(const struct city *pcity);            /* love the king ??? */
+bool city_celebrating(const struct city *pcity);            /* Love the king ??? */
 bool city_rapture_grow(const struct city *pcity);
 bool city_is_occupied(const struct city *pcity);
 

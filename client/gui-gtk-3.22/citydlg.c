@@ -2151,6 +2151,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   int n, m, i;
   gchar *buf;
   int free_unhappy = get_city_bonus(pdialog->pcity, EFT_MAKE_CONTENT_MIL);
+  const struct civ_map *nmap = &(wld.map);
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
@@ -2200,7 +2201,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   i = 0;
   unit_list_iterate(units, punit) {
     struct unit_node *pnode;
-    int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
+    int happy_cost = city_unit_unhappiness(nmap, punit, &free_unhappy);
 
     pnode = unit_node_vector_get(nodes, i);
     if (pnode) {

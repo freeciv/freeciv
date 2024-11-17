@@ -622,6 +622,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
   SDL_Rect src_rect;
   SDL_Surface *psurf;
   struct canvas *destcanvas;
+  const struct civ_map *nmap = &(wld.map);
 
   destcanvas = canvas_create(tileset_full_tile_width(tileset),
                              tileset_unit_with_small_upkeep_height(tileset));
@@ -645,7 +646,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
     src_rect.h = destcanvas->surf->h - src_rect.y;
 
     free_unhappy = get_city_bonus(pcity_dlg->pcity, EFT_MAKE_CONTENT_MIL);
-    happy_cost = city_unit_unhappiness(punit, &free_unhappy);
+    happy_cost = city_unit_unhappiness(nmap, punit, &free_unhappy);
 
     i = punit->upkeep[O_SHIELD] + punit->upkeep[O_FOOD] +
         punit->upkeep[O_GOLD] + happy_cost;
