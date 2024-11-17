@@ -78,7 +78,8 @@ bool dai_choose_role_unit(struct ai_type *ait, struct player *pplayer,
                           bool need_boat);
 void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
                             struct adv_choice *choice);
-bool dai_assess_military_unhappiness(struct city *pcity);
+bool dai_assess_military_unhappiness(const struct civ_map *nmap,
+                                     struct city *pcity);
 
 void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
                                 struct player *plr2,

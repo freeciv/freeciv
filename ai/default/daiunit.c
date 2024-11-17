@@ -1276,7 +1276,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   if (NULL != pcity && (0 == punit->id || pcity->id == punit->homecity)) {
     /* I would have thought unhappiness should be taken into account
      * irrespectfully the city in which it will surface... -- GB */
-    unhap = dai_assess_military_unhappiness(pcity);
+    unhap = dai_assess_military_unhappiness(nmap, pcity);
   }
 
   bcost = unit_build_shield_cost_base(punit);
