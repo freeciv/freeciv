@@ -22,6 +22,7 @@ ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
 ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
+CPPLIBS=libstdc++-6.dll libgomp-1.dll
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0603
 
@@ -29,6 +30,7 @@ else ifeq ($(MSYSTEM),UCRT64)
 WINARCH=win64-10
 ARCHDIR=ucrt64
 LIBGCCDLL=libgcc_s_seh-1.dll
+CPPLIBS=libstdc++-6.dll libgomp-1.dll
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0A00
 
@@ -36,6 +38,7 @@ else ifeq ($(MSYSTEM),CLANG64)
 WINARCH=win64+
 ARCHDIR=clang64
 LIBGCCDLL=
+CPPLIBS=libc++.dll libomp.dll libunwind.dll
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0A00
 
@@ -72,7 +75,7 @@ all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit
 
 all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
-all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6 gtk4x-install
+all-win64+: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
 snapshot:
 	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh
@@ -231,7 +234,7 @@ COMMON_DLLS := \
 	libsqlite3-0.dll \
 	libzstd.dll \
 	libexpat-1.dll \
-	libstdc++-6.dll \
+	${CPPLIBS} \
 	libcrypto-${CRYPTOVERSUF}.dll \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
@@ -245,7 +248,6 @@ COMMON_DLLS := \
 	libgraphite2.dll \
 	libMagickWand-${MAGICKVER}.dll \
 	libMagickCore-${MAGICKVER}.dll \
-	libgomp-1.dll \
 	libfftw3-3.dll \
 	liblcms2-2.dll \
 	liblqr-1-0.dll \
