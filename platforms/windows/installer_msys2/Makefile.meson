@@ -256,12 +256,15 @@ COMMON_DLLS := \
 	libraqm-0.dll \
 	libunistring-5.dll \
 	exchndl.dll \
-	mgwhelp.dll \
+	mgwhelp.dll
+
+CLIENT_COMMON_DLLS := \
 	$(SOUND_DLLS)
 
 install-env-common:
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(CLIENT_COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-client-$(GUI)/ssl/certs
 	cp -R /$(ARCHDIR)/etc/ssl/certs/ca-bundle.crt $(INST_DIR)/$(WINARCH)-client-$(GUI)/ssl/certs/
 
