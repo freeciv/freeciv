@@ -3302,6 +3302,7 @@ void city_dialog::update_units()
   int happy_cost;
   int free_unhappy = get_city_bonus(dlgcity, EFT_MAKE_CONTENT_MIL);
   struct player *pplayer = client_player();
+  const struct civ_map *nmap = &(wld.map);
 
   supported_units->setUpdatesEnabled(false);
   supported_units->clear_layout();
@@ -3314,7 +3315,7 @@ void city_dialog::update_units()
   }
 
   unit_list_iterate(units, punit) {
-    happy_cost = city_unit_unhappiness(punit, &free_unhappy);
+    happy_cost = city_unit_unhappiness(nmap, punit, &free_unhappy);
     ui = new unit_item(this, punit, true, happy_cost);
     ui->init_pix();
     supported_units->add_item(ui);

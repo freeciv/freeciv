@@ -1413,7 +1413,8 @@ void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
   sure whether it is fully general for all possible parameters/
   combinations." --dwp
 **************************************************************************/
-bool dai_assess_military_unhappiness(struct city *pcity)
+bool dai_assess_military_unhappiness(const struct civ_map *nmap,
+                                     struct city *pcity)
 {
   int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
   int unhap = 0;
@@ -1424,7 +1425,7 @@ bool dai_assess_military_unhappiness(struct city *pcity)
   }
 
   unit_list_iterate(pcity->units_supported, punit) {
-    int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
+    int happy_cost = city_unit_unhappiness(nmap, punit, &free_unhappy);
 
     if (happy_cost > 0) {
       unhap += happy_cost;

@@ -3046,13 +3046,13 @@ inline void set_city_production(struct city *pcity)
 /**********************************************************************//**
   Query unhappiness caused by a given unit.
 **************************************************************************/
-int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
+int city_unit_unhappiness(const struct civ_map *nmap,
+                          struct unit *punit, int *free_unhappy)
 {
   struct city *pcity;
   const struct unit_type *ut;
   struct player *plr;
   int happy_cost;
-  const struct civ_map *nmap = &(wld.map);
 
   if (punit == NULL || free_unhappy == NULL) {
     return 0;
@@ -3101,6 +3101,7 @@ static inline void city_support(struct city *pcity)
 {
   int free_unhappy;
   int max_mart_units;
+  const struct civ_map *nmap = &(wld.map);
 
   /* Clear all usage values. */
   memset(pcity->usage, 0, O_LAST * sizeof(*pcity->usage));
@@ -3175,7 +3176,7 @@ static inline void city_support(struct city *pcity)
 
   free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
   unit_list_iterate(pcity->units_supported, punit) {
-    pcity->unit_happy_upkeep += city_unit_unhappiness(punit, &free_unhappy);
+    pcity->unit_happy_upkeep += city_unit_unhappiness(nmap, punit, &free_unhappy);
     output_type_iterate(o) {
       if (O_GOLD != o) {
         /* O_GOLD is handled with "game.info.gold_upkeep_style", see over. */

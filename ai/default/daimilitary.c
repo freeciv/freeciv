@@ -1258,12 +1258,14 @@ static void process_attacker_want(struct ai_type *ait,
   const struct unit_type *orig_utype = best_choice->value.utype;
   int victim_count = 1;
   int needferry = 0;
-  bool unhap = dai_assess_military_unhappiness(pcity);
+  bool unhap;
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
   const struct civ_map *nmap = &(wld.map);
 
   /* Has to be initialized to make gcc happy */
   struct ai_city *acity_data = NULL;
+
+  unhap = dai_assess_military_unhappiness(nmap, pcity);
 
   if (acity != NULL) {
     acity_data = def_ai_city_data(acity, ait);
