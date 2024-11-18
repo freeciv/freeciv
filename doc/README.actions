@@ -258,14 +258,12 @@ with an exclamation mark (!).
 Actions done by a unit against a city
 =====================================
 "Establish Embassy" - Establish a real embassy to the target player
- * UI name can be set using ui_name_establish_embassy
  * actor must be aware that the target exists
  * actor can't have a real embassy to the target player (!)
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
 "Establish Embassy Stay" - Establish a real embassy to the target player
- * UI name can be set using ui_name_establish_embassy_stay
  * spends the actor unit
  * actor must be aware that the target exists
  * actor can't have a real embassy to the target player (!)
@@ -273,71 +271,59 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Investigate City" - Look at the city dialog of a foreign city
- * UI name can be set using ui_name_investigate_city
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
 "Investigate City Spend Unit" - Look at the city dialog of a foreign city
- * UI name can be set using ui_name_investigate_city_spend_unit
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
 "Sabotage City" - Destroy a building or the production in the target city.
- * UI name can be set using ui_name_sabotage_city
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Sabotage City Escape" - Destroy a building or the production in the target city.
- * UI name can be set using ui_name_sabotage_city_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Targeted Sabotage City" - Destroy a building in the target city.
- * UI name can be set using ui_name_targeted_sabotage_city
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Targeted Sabotage City Escape" - Destroy a building in the target city.
- * UI name can be set using ui_name_targeted_sabotage_city_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Sabotage City Production" - Sabotage the city's production.
- * UI name can be set using ui_name_sabotage_city_production
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Sabotage City Production Escape" - Sabotage the city's production.
- * UI name can be set using ui_name_sabotage_city_production_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Poison City" - Kill a citizen in the target city.
- * UI name can be set using ui_name_poison_city
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Poison City Escape" - Kill a citizen in the target city and escape.
- * UI name can be set using ui_name_poison_city_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Spread Plague" - Bio-terrorism. Infect the target city with an illness.
- * UI name can be set using ui_name_spread_plague
  * set if the actor unit is spent with spread_plague_actor_consuming_always
  * may infect trade route connected cities if illness.illness_on is TRUE
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Steal Tech" - Steal a random tech from the targets owner.
- * UI name can be set using ui_name_steal_tech
  * spends the actor unit
  * will always fail when the tech theft is expected. Tech theft is expected
    when the number of previous tech thefts from the target city is above the
@@ -347,7 +333,6 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Steal Tech Escape Expected" - Escape version of the above.
- * UI name can be set using ui_name_steal_tech_escape
  * more likely to fail when the tech theft is expected. Tech theft is
    expected when the number of previous tech thefts from the target city is
    above the limit set by the "Stealings_Ignore" effect.
@@ -356,7 +341,6 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Targeted Steal Tech" - Steal a specific tech from the targets owner.
- * UI name can be set using ui_name_targeted_steal_tech
  * spends the actor unit
  * will always fail when the tech theft is expected. Tech theft is expected
    when the number of previous tech thefts from the target city is above the
@@ -367,7 +351,6 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Targeted Steal Tech Escape Expected" - Escape version of the above.
- * UI name can be set using ui_name_targeted_steal_tech_escape
  * more likely to fail when the tech theft is expected. Tech theft is
    expected when the number of previous tech thefts from the target city is
    above the limit set by the "Stealings_Ignore" effect.
@@ -377,20 +360,17 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Incite City" - Pay the target city to join the actors owners side.
- * UI name can be set using ui_name_incite_city
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
 "Incite City Escape" - Pay the target city to join the actors owners side.
- * UI name can be set using ui_name_incite_city_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
 "Steal Gold" - Steal some gold from the owner of the target city.
- * UI name can be set using ui_name_steal_gold
  * adjustable with the Max_Stolen_Gold_Pm effect and with the
    Thiefs_Share_Pm effect
  * spends the actor unit
@@ -400,7 +380,6 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Steal Gold Escape" - Steal some gold from the owner of the target city.
- * UI name can be set using ui_name_steal_gold_escape
  * adjustable with the Max_Stolen_Gold_Pm effect and with the
    Thiefs_Share_Pm effect
  * actor must be aware that the target exists
@@ -409,7 +388,6 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Steal Maps" - Steal parts of the owner of the target city's map.
- * UI name can be set using ui_name_steal_maps
  * adjustable with the effect Maps_Stolen_Pct and the ruleset setting
    steal_maps_reveals_all_cities
  * spends the actor unit
@@ -418,7 +396,6 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Steal Maps Escape" - Steal parts of the owner of the target city's map.
- * UI name can be set using ui_name_steal_maps_escape
  * adjustable with the effect Maps_Stolen_Pct and the ruleset setting
    steal_maps_reveals_all_cities
  * actor must be aware that the target exists
@@ -426,32 +403,27 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Spy Escape" - Just escape without doing anything else first.
- * UI name can be set using ui_name_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * the actor player must have a city to escape to.
  * target must be foreign. (!)
 
 "Suitcase Nuke" - Cause a nuclear explosion in the target city.
- * UI name can be set using ui_name_suitcase_nuke
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * Blast radius can be set with Nuke_Blast_Radius_1_Sq
 
 "Suitcase Nuke Escape" - Cause a nuclear explosion in the target city.
- * UI name can be set using ui_name_suitcase_nuke_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * Blast radius can be set with Nuke_Blast_Radius_1_Sq
 
 "Destroy City" - Destroys the target city.
- * UI name can be set using ui_name_destroy_city
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Establish Trade Route" - Establish a trade route to the target city.
- * UI name can be set using ui_name_establish_trade_route
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * actor must have a home city. (!)
@@ -463,7 +435,6 @@ Actions done by a unit against a city
    one.)
 
 "Enter Marketplace" - Get a one time bonus without creating a trade route.
- * UI name can be set using ui_name_enter_marketplace
  * actor must be aware that the target exists
  * any action listed in enter_marketplace_blocked_by must be impossible
  * actor must be on the same tile as the target or on the tile next to it.
@@ -472,7 +443,6 @@ Actions done by a unit against a city
  * trade route type (see Trade settings) can't be 0%.
 
 "Help Wonder" - Add the shields used to build the actor to the target city.
- * UI name can be set using ui_name_help_wonder
  * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * actor must be on the same tile as the target unless
@@ -481,7 +451,6 @@ Actions done by a unit against a city
  * target city must need the extra shields to complete its production.
 
 "Disband Unit Recover" - Add half the shields used to build the unit to target
- * UI name can be set using ui_name_disband_unit_recover
  * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * "Help Wonder" must be impossible
@@ -491,7 +460,6 @@ Actions done by a unit against a city
  * target city must need the extra shields to complete its production.
 
 "Join City" - Add the actor to the target city's population.
- * UI name can be set using ui_name_join_city
  * actor must be aware that the target exists
  * actor must have population to add (set in pop_cost)
  * actor must be on the same tile as the target or on the tile next to it.
@@ -501,7 +469,6 @@ Actions done by a unit against a city
    result in.
 
 "Home City" - Set target city as the actor unit's new home city
- * UI name can be set using ui_name_home_city
  * actor must be aware that the target exists
  * actor must be on the same tile as the target
  * can't set existing home city as new home city
@@ -509,7 +476,6 @@ Actions done by a unit against a city
    unit. (No problem if the actor unit spends 0 city slots)
 
 "Upgrade Unit" - Upgrade the actor unit using the target's facilities.
- * UI name can be set using ui_name_upgrade_unit.
  * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * actor must be on the same tile as the target.
@@ -522,7 +488,6 @@ Actions done by a unit against a city
  * target city must be domestic. (!)
 
 "Airlift Unit" - Airlift actor unit to target city.
- * UI name can be set using ui_name_airlift_unit
  * max legal distance to the target can be set using airlift_max_range
  * actor must be aware that the target exists
  * the actor unit isn't transporting another unit (!)
@@ -536,7 +501,6 @@ Actions done by a unit against a city
  * the target city has Airlift
 
 "Conquer City Shrink" - Shrink target city by one and conquer it.
- * UI name can be set using ui_name_conquer_city_shrink
  * actor must be aware that the target exists
  * any action listed in conquer_city_shrink_blocked_by must be impossible
  * "Attack" must be impossible
@@ -562,48 +526,40 @@ Actions done by a unit against a city
  * the target city contains 0 units (!)
 
 "Conquer City Shrink 2" - Shrink target city by one and conquer it.
-* UI name can be set using ui_name_conquer_city_shrink_2
 * any action listed in conquer_city_shrink_2_blocked_by must be impossible
 * A copy of "Conquer City Shrink".
 * See "Conquer City Shrink" for everything else.
 
 "Conquer City Shrink 3" - Shrink target city by one and conquer it.
-* UI name can be set using ui_name_conquer_city_shrink_3
 * any action listed in conquer_city_shrink_3_blocked_by must be impossible
 * A copy of "Conquer City Shrink".
 * See "Conquer City Shrink" for everything else.
 
 "Conquer City Shrink 4" - Shrink target city by one and conquer it.
-* UI name can be set using ui_name_conquer_city_shrink_4
 * any action listed in conquer_city_shrink_4_blocked_by must be impossible
 * A copy of "Conquer City Shrink".
 * See "Conquer City Shrink" for everything else.
 
 "Surgical Strike Building" - Destroy a specific building.
- * UI name can be set using ui_name_surgical_strike_building
  * actor must be aware that the target exists
  * the actor unit must be on a tile next to the target.
 
 "Surgical Strike Production" - Destroy the city production.
-* UI name can be set using ui_name_surgical_strike_production
 * actor must be aware that the target exists
 * the actor unit must be on a tile next to the target.
 
 Actions done by a unit against another unit
 ===========================================
 "Sabotage Unit" - Halve the target unit's hit points.
- * UI name can be set using ui_name_sabotage_unit
  * spends the actor unit
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be visible for the actor.
 
 "Sabotage Unit Escape" - Halve the target unit's hit points.
- * UI name can be set using ui_name_sabotage_unit_escape
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be visible for the actor.
 
 "Bribe Unit" - Make the target unit join the actors owners side.
- * UI name can be set using ui_name_bribe_unit
  * forced actions after success can be set with
    bribe_unit_post_success_forced_actions
  * actor must be on the same tile as the target or on the tile next to it.
@@ -611,26 +567,22 @@ Actions done by a unit against another unit
  * target must be visible for the actor.
 
 "Expel Unit" - Expel the target unit to its owner's capital.
- * UI name can be set using ui_name_expel_unit
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be visible for the actor.
  * target's owner must have a capital
 
 "Heal Unit" - Restore the target unit's health.
- * UI name can be set using ui_name_heal_unit
  * actor must be on the same tile as the target or on the tile next to it.
  * the amount healed is set by the "Heal_Unit_Pct" effect.
  * the target unit can't be at full health
  * target must be visible for the actor.
 
 "Heal Unit 2" - Restore the target unit's health.
- * UI name can be set using ui_name_heal_unit_2
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be visible for the actor.
  * A copy of "Heal Unit"
 
 "Transport Deboard" - Exit target transport to same tile.
- * UI name can be set using ui_name_transport_deboard
  * actor must be on the same tile as the target
  * actor must be transported (!)
  * actor must be on a livable tile (!)
@@ -641,7 +593,6 @@ Actions done by a unit against another unit
  * target must be visible for the actor.
 
 "Transport Unload" - Unload the target unit to same tile.
- * UI name can be set using ui_name_transport_unload
  * actor must be on the same tile as the target
  * actor must have a transport_cap greater than 0
  * actor must be transporting (!)
@@ -653,7 +604,6 @@ Actions done by a unit against another unit
  * target must be visible for the actor.
 
 "Transport Load" - Load the target unit into the actor unit.
- * UI name can be set using ui_name_transport_load
  * actor must be on the same tile as the target
  * actor must have a transport_cap greater than 0
  * the actor unit must be domestic, allied or on the same team as the
@@ -678,17 +628,14 @@ Actions done by a unit against another unit
  * target must be visible to the actor.
 
 "Transport Load 2" - Load the target unit into the actor unit.
- * UI name can be set using ui_name_transport_load_2
  * A copy of "Transport Load".
  * See "Transport Load" for everything else.
 
 "Transport Load 3" - Load the target unit into the actor unit.
- * UI name can be set using ui_name_transport_load_3
  * A copy of "Transport Load".
  * See "Transport Load" for everything else.
 
 "Transport Board" - Enter target transport on the same tile.
- * UI name can be set using ui_name_transport_board
  * the actor unit can't currently be transported by the target unit.
  * the actor unit's current transport, if the actor unit is transported,
    must be in a city or in a base native to the current transport if the
@@ -711,17 +658,14 @@ Actions done by a unit against another unit
  * target must be visible to the actor.
 
 "Transport Board 2" - Enter target transport on the same tile.
- * UI name can be set using ui_name_transport_board_2
  * A copy of "Transport Board".
  * See "Transport Board" for everything else.
 
 "Transport Board 3" - Enter target transport on the same tile.
- * UI name can be set using ui_name_transport_board_3
  * A copy of "Transport Board".
  * See "Transport Board" for everything else.
 
 "Transport Embark" - Enter target transport on a different tile.
- * UI name can be set using ui_name_transport_embark
  * the actor unit must be on a tile next to the target.
  * the actor unit has at least one move fragment left (!)
  * the actor unit can't currently be transported by the target unit.
@@ -756,24 +700,20 @@ Actions done by a unit against another unit
  * target must be visible to the actor.
 
 "Transport Embark 2" - Enter target transport on a different tile.
- * UI name can be set using ui_name_transport_embark_2
  * A copy of "Transport Embark".
  * See "Transport Embark" for everything else.
 
 "Transport Embark 3" - Enter target transport on a different tile.
- * UI name can be set using ui_name_transport_embark_3
  * A copy of "Transport Embark".
  * See "Transport Embark" for everything else.
 
 "Transport Embark 4" - Enter target transport on a different tile.
- * UI name can be set using ui_name_transport_embark_4
  * A copy of "Transport Embark".
  * See "Transport Embark" for everything else.
 
 Actions done by a unit against all units at a tile
 ==================================================
 "Bribe Stack" - Make the target units join the actors owners side.
- * UI name can be set using ui_name_bribe_stack
  * forced actions after success can be set with
    bribe_stack_post_success_forced_actions
  * actor must be on the same tile as the target or on the tile next to it.
@@ -781,13 +721,11 @@ Actions done by a unit against all units at a tile
  * target must be visible for the actor.
 
 "Capture Units" - steal the target units.
- * UI name can be set using ui_name_capture_units
  * actor must be on a tile next to the target.
  * target must be foreign. (!)
  * target cannot be transporting other units. (!)
 
 "Bombard" - bombard the units (and city) at the tile.
- * UI name can be set using ui_name_bombard
  * can't kill target units
  * any action listed in bombard_blocked_by must be impossible
  * actor must have a bombard_rate > 0
@@ -798,7 +736,6 @@ Actions done by a unit against all units at a tile
  * if target tile is fully seen, it must have reachable units
 
 "Bombard 2" - bombard the units (and city) at the tile.
- * UI name can be set using ui_name_bombard_2
  * can't kill target units
  * any action listed in bombard_2_blocked_by must be impossible
  * actor must be on a tile next to the target or, if bombard_2_max_range
@@ -807,7 +744,6 @@ Actions done by a unit against all units at a tile
  * See "Bombard" for everything else.
 
 "Bombard 3" - bombard the units (and city) at the tile.
- * UI name can be set using ui_name_bombard_3
  * can't kill target units
  * any action listed in bombard_3_blocked_by must be impossible
  * actor must be on a tile next to the target or, if bombard_3_max_range
@@ -816,7 +752,6 @@ Actions done by a unit against all units at a tile
  * See "Bombard" for everything else.
 
 "Bombard 4" - bombard the units (and city) at the tile.
- * UI name can be set using ui_name_bombard_4
  * can't kill target units
  * any action listed in bombard_4_blocked_by must be impossible
  * actor must be on a tile next to the target or, if bombard_4_max_range
@@ -825,7 +760,6 @@ Actions done by a unit against all units at a tile
  * See "Bombard" for everything else.
 
 "Bombard Lethal" - bombard the units (and city) at the tile.
- * UI name can be set using ui_name_bombard_lethal
  * any action listed in bombard_lethal_blocked_by must be impossible
  * actor must be on a tile next to the target or, if
    bombard_lethal_max_range allows it, further away.
@@ -836,14 +770,12 @@ Actions done by a unit against all units at a tile
  * if target tile is fully seen, it must have reachable units
 
 "Bombard Lethal 2" - bombard the units (and city) at the tile.
- * UI name can be set using ui_name_bombard_lethal_2
  * any action listed in bombard_lethal_2_blocked_by must be impossible
  * actor must be on a tile next to the target or, if
    bombard_lethal_2_max_range allows it, further away.
  * See "Bombard Lethal" for everything else.
 
 "Attack"
- * UI name can be set using ui_name_attack
  * any action listed in attack_blocked_by must be impossible
  * forced actions after success can be set with
    attack_post_success_forced_actions
@@ -864,14 +796,12 @@ Actions done by a unit against all units at a tile
    - it is on a tile with a native Extra
 
 "Attack 2"
- * UI name can be set using ui_name_attack_2
  * any action listed in attack_2_blocked_by must be impossible
  * forced actions after success can be set with
    attack_2_post_success_forced_actions
  * See "Attack" for everything else.
 
 "Suicide Attack"
- * UI name can be set using ui_name_suicide_attack
  * any action listed in suicide_attack_blocked_by must be impossible
  * spends the actor unit
  * the actor must be on the tile next to the target.
@@ -891,12 +821,10 @@ Actions done by a unit against all units at a tile
    - it is on a tile with a native Extra
 
 "Suicide Attack 2"
- * UI name can be set using ui_name_suicide_attack_2
  * any action listed in suicide_attack_2_blocked_by must be impossible
  * See "Suicide Attack" for everything else.
 
 "Wipe Units"
- * UI name can be set using ui_name_wipe_units
  * any action listed in wipe_units_blocked_by must be impossible
  * forced actions after success can be set with
    wipe_units_post_success_forced_actions
@@ -917,7 +845,6 @@ Actions done by a unit against all units at a tile
    - it is on a tile with a native Extra
 
 "Collect Ransom"
- * UI name can be set using ui_name_collect_ransom
  * any action listed in collect_ransom_blocked_by must be impossible
  * forced actions after success can be set with
    collect_ransom_post_success_forced_actions
@@ -940,7 +867,6 @@ Actions done by a unit against all units at a tile
    - it is on a tile with a native Extra
 
 "Nuke Units" - Detonate at the target unit stack. Cause a nuclear explosion.
- * UI name can be set using ui_name_nuke_units
  * set if the actor unit is spent with nuke_units_consuming_always
  * any action listed in nuke_units_blocked_by must be impossible
  * the range of legal distance between actor unit and target the actor units
@@ -958,14 +884,12 @@ Actions done by a unit against all units at a tile
  * Blast radius can be set with Nuke_Blast_Radius_1_Sq
 
 "Spy Attack" - trigger a diplomatic battle to eliminate tile defenders.
- * UI name can be set using ui_name_spy_attack
  * the actor must be on the tile next to the target.
  * the target tile must have at least 1 diplomatic defender.
 
 Actions done by a unit against a tile
 =====================================
 "Found City" - Found a city at the target tile.
- * UI name can be set using ui_name_found_city
  * set if the actor unit is spent with found_city_consuming_always
  * city name must be legal
  * the scenario setting prevent_new_cities must be false.
@@ -974,7 +898,6 @@ Actions done by a unit against a tile
  * target must not be closer than citymindist to nearest city.
 
 "Explode Nuclear" - Detonate at the target tile. Cause a nuclear explosion.
- * UI name can be set using ui_name_explode_nuclear
  * set if the actor unit is spent with explode_nuclear_consuming_always
  * target kind can be changed with explode_nuclear_target_kind
  * any action listed in explode_nuclear_blocked_by must be impossible
@@ -983,7 +906,6 @@ Actions done by a unit against a tile
  * Blast radius can be set with Nuke_Blast_Radius_1_Sq
 
 "Nuke City" - Detonate at the target tile. Cause a nuclear explosion.
- * UI name can be set using ui_name_nuke_city
  * set if the actor unit is spent with nuke_city_consuming_always
  * target kind can be changed with nuke_city_target_kind
  * any action listed in nuke_city_blocked_by must be impossible
@@ -992,7 +914,6 @@ Actions done by a unit against a tile
  * Blast radius can be set with Nuke_Blast_Radius_1_Sq
 
 "Paradrop Unit" - move the actor unit to the target tile.
- * UI name can be set using ui_name_paradrop_unit
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
@@ -1014,7 +935,6 @@ Actions done by a unit against a tile
      actor player has peace, cease-fire or armistice with.
 
 "Paradrop Unit Conquer" - move the actor unit to the target tile.
- * UI name can be set using ui_name_paradrop_unit_conquer
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
@@ -1049,7 +969,6 @@ Actions done by a unit against a tile
      actor player has peace, cease-fire or armistice with.
 
 "Paradrop Unit Frighten" - move the actor unit to the target tile.
- * UI name can be set using ui_name_paradrop_unit_frighten
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
@@ -1075,7 +994,6 @@ Actions done by a unit against a tile
      actor player has peace, cease-fire or armistice with.
 
 "Paradrop Unit Frighten Conquer" - move the actor unit to the target tile.
- * UI name can be set using ui_name_paradrop_unit_frighten_conquer
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
@@ -1114,7 +1032,6 @@ Actions done by a unit against a tile
      actor player has peace, cease-fire or armistice with.
 
 "Paradrop Unit Enter" - move the actor unit to the target tile.
- * UI name can be set using ui_name_paradrop_unit_enter
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
@@ -1139,7 +1056,6 @@ Actions done by a unit against a tile
      actor player has peace, cease-fire or armistice with.
 
 "Paradrop Unit Enter Conquer" - move the actor unit to the target tile.
- * UI name can be set using ui_name_paradrop_unit_enter_conquer
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
@@ -1177,34 +1093,27 @@ Actions done by a unit against a tile
      actor player has peace, cease-fire or armistice with.
 
 "Transform Terrain" - Transform tile terrain type.
- * UI name can be set using ui_name_transform_terrain
  * the actor unit has "Workers" flag (!)
  * terrain type must be one that can be transformed
 
 "Transform Terrain 2" - Transform tile terrain type.
- * UI name can be set using ui_name_transform_terrain_2
  * See "Transform Terrain" for everything else.
 
 "Cultivate"         - Transform tile terrain type by cultivating
- * UI name can be set using ui_name_cultivate
  * the actor unit has "Workers" flag (!)
  * terrain type must be one that can be cultivated
 
 "Cultivate 2"       - Transform tile terrain type by cultivating
- * UI name can be set using ui_name_cultivate_2
  * See "Cultivate" for everything else.
 
 "Plant"             - Transform tile terrain type by planting
- * UI name can be set using ui_name_plant
  * the actor unit has "Workers" flag (!)
  * terrain type must be one on which units can plant
 
 "Plant 2"           - Transform tile terrain type by planting
- * UI name can be set using ui_name_plant_2
  * See "Plant" for everything else.
 
 "Pillage"           - Pillage extra from tile
- * UI name can be set using ui_name_pillage
  * target kind can be changed with pillage_target_kind
  * terrain type must be one where pillaging is possible
  * the target extra must be present at the target tile
@@ -1222,12 +1131,10 @@ Actions done by a unit against a tile
    pillage_select is FALSE
 
 "Pillage 2"         - Pillage extra from tile
- * UI name can be set using ui_name_pillage_2
  * target kind can be changed with pillage_2_target_kind
  ** See "Pillage" for everything else.
 
 "Clean"             - Clean extra from the target tile.
- * UI name can be set using ui_name_clean
  * actor must be on the same tile as the target.
  * the actor unit has the "Workers" unit type flag (!)
  * the target extra must be present at the target tile
@@ -1242,11 +1149,9 @@ Actions done by a unit against a tile
    target tile has a city and the city's owner can rebuild it
 
 "Clean 2"           - Clean extra from the target tile.
- * UI name can be set using ui_name_clean_2
  * See "Clean" for everything else.
 
 "Build Road"        - Build road at the target tile.
- * UI name can be set using ui_name_build_road
  * actor must be on the same tile as the target.
  * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
@@ -1267,11 +1172,9 @@ Actions done by a unit against a tile
    be fulfilled
 
 "Build Road 2"        - Build road at the target tile.
- * UI name can be set using ui_name_build_road_2
  * See "Build Road" for everything else.
 
 "Build Base"        - Build base at the target tile.
- * UI name can be set using ui_name_build_base
  * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
    over (see extra type's bridged_over) unless the actor player knows a
@@ -1288,11 +1191,9 @@ Actions done by a unit against a tile
    be fulfilled
 
 "Build Base 2"        - Build base at the target tile.
- * UI name can be set using ui_name_build_base_2
  * See "Build Base" for everything else.
 
 "Build Mine"        - Build mine at the target tile.
- * UI name can be set using ui_name_build_mine
  * actor must be on the same tile as the target.
  * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
@@ -1312,11 +1213,9 @@ Actions done by a unit against a tile
    be fulfilled
 
 "Build Mine 2"        - Build mine at the target tile.
- * UI name can be set using ui_name_build_mine_2
  * See "Build Mine" for everything else.
 
 "Build Irrigation"  - Build irrigation at the target tile.
- * UI name can be set using ui_name_irrigate
  * actor must be on the same tile as the target.
  * the actor unit has the "Workers" unit type flag (!)
  * the target tile can't have an extra that the target extra must bridge
@@ -1337,11 +1236,9 @@ Actions done by a unit against a tile
    be fulfilled
 
 "Build Irrigation 2"  - Build irrigation at the target tile.
- * UI name can be set using ui_name_irrigate_2
  * See "Build Irrigation" for everything else.
 
 "Transport Disembark" - Exit transport to target tile.
-* UI name can be set using ui_name_transport_disembark
 * the actor unit must be on a tile next to the target.
 * the actor unit has at least one move fragment left (!)
 * actor must be transported (!)
@@ -1364,22 +1261,18 @@ Actions done by a unit against a tile
   unit and all its cargo.
 
 "Transport Disembark 2" - Exit transport to target tile.
-* UI name can be set using ui_name_transport_disembark_2
 * A copy of "Transport Disembark".
 * See "Transport Disembark" for everything else.
 
 "Transport Disembark 3" - Exit transport to target tile.
-* UI name can be set using ui_name_transport_disembark_3
 * A copy of "Transport Disembark".
 * See "Transport Disembark" for everything else.
 
 "Transport Disembark 4" - Exit transport to target tile.
-* UI name can be set using ui_name_transport_disembark_4
 * A copy of "Transport Disembark".
 * See "Transport Disembark" for everything else.
 
 "Enter Hut" - Enter a Hut, destroying it in the process.
-* UI name can be set using ui_name_enter_hut
 * the actor unit must be on a tile next to the target.
 * the actor unit has at least one move fragment left (!)
 * the actor unit's type must be the target tile's terrain animal if the
@@ -1405,22 +1298,18 @@ Actions done by a unit against a tile
   zone of control (ZOC)
 
 "Enter Hut 2" - Enter a Hut, destroying it in the process.
-* UI name can be set using ui_name_enter_hut_2
 * A copy of "Enter Hut"
 * See "Enter Hut" for everything else.
 
 "Enter Hut 3" - Enter a Hut, destroying it in the process.
-* UI name can be set using ui_name_enter_hut_3
 * A copy of "Enter Hut"
 * See "Enter Hut" for everything else.
 
 "Enter Hut 4" - Enter a Hut, destroying it in the process.
-* UI name can be set using ui_name_enter_hut_4
 * A copy of "Enter Hut"
 * See "Enter Hut" for everything else.
 
 "Frighten Hut" - Frighten a Hut, destroying it in the process.
-* UI name can be set using ui_name_frighten_hut
 * the actor unit must be on a tile next to the target.
 * the actor unit has the unit class flag "HutFrighten" (!)
 * the actor unit has at least one move fragment left (!)
@@ -1447,22 +1336,18 @@ Actions done by a unit against a tile
   zone of control (ZOC)
 
 "Frighten Hut 2" - Frighten a Hut, destroying it in the process.
-* UI name can be set using ui_name_frighten_hut_2
 * A copy of "Frighten Hut"
 * See "Frighten Hut" for everything else.
 
 "Frighten Hut 3" - Frighten a Hut, destroying it in the process.
-* UI name can be set using ui_name_frighten_hut_3
 * A copy of "Frighten Hut"
 * See "Frighten Hut" for everything else.
 
 "Frighten Hut 4" - Frighten a Hut, destroying it in the process.
-* UI name can be set using ui_name_frighten_hut_4
 * A copy of "Frighten Hut"
 * See "Frighten Hut" for everything else.
 
 "Unit Move" - a regular move to the target tile.
-* UI name can be set using ui_name_unit_move
 * any action listed in move_blocked_by must be impossible
 * the actor unit must be on a tile next to the target.
 * the actor unit has at least one move fragment left (!)
@@ -1482,19 +1367,16 @@ Actions done by a unit against a tile
   zone of control (ZOC)
 
 "Unit Move 2" - a regular move to the target tile.
-* UI name can be set using ui_name_unit_move_2
 * any action listed in move_2_blocked_by must be impossible
 * A copy of "Unit Move"
 * See "Unit Move" for everything else.
 
 "Unit Move 3" - a regular move to the target tile.
-* UI name can be set using ui_name_unit_move_3
 * any action listed in move_3_blocked_by must be impossible
 * A copy of "Unit Move"
 * See "Unit Move" for everything else.
 
 "Teleport" - teleport unit to the target tile.
-* UI name can be set using ui_name_teleport
 * any action listed in teleport_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_min_range and teleport_max_range
@@ -1512,21 +1394,18 @@ Actions done by a unit against a tile
   unit and all its cargo.
 
 "Teleport 2" - teleport unit to the target tile.
-* UI name can be set using ui_name_teleport_2
 * any action listed in teleport_2_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_2_min_range and teleport_2_max_range
 * See "Teleport" for everything else.
 
 "Teleport 3" - teleport unit to the target tile.
-* UI name can be set using ui_name_teleport_3
 * any action listed in teleport_3_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_3_min_range and teleport_3_max_range
 * See "Teleport" for everything else.
 
 "Teleport Conquer" - teleport unit to the target tile and conquer it
-* UI name can be set using ui_name_teleport_conquer
 * any action listed in teleport_conquer_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_conquer_min_range and teleport_conquer_max_range
@@ -1544,7 +1423,6 @@ Actions done by a unit against a tile
   unit and all its cargo.
 
 "Teleport Frighten" - teleport unit to the target tile.
-* UI name can be set using ui_name_teleport_frighten
 * any action listed in teleport_frighten_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_frighten_min_range and teleport_frighten_max_range
@@ -1565,7 +1443,6 @@ Actions done by a unit against a tile
    - the target tile's Hut's rmreqs are fulfilled
 
 "Teleport Frighten Conquer" - teleport unit to the target tile and conquer it
-* UI name can be set using ui_name_teleport_frighten_conquer
 * any action listed in teleport_frighten_conquer_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_frighten_conquer_min_range and
@@ -1587,7 +1464,6 @@ Actions done by a unit against a tile
    - the target tile's Hut's rmreqs are fulfilled
 
 "Teleport Enter" - teleport unit to the target tile.
-* UI name can be set using ui_name_teleport_enter
 * any action listed in teleport_enter_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_enter_min_range and teleport_enter_max_range
@@ -1608,7 +1484,6 @@ Actions done by a unit against a tile
    - the target tile's Hut's rmreqs are fulfilled
 
 "Teleport Enter Conquer" - teleport unit to the target tile and conquer it
-* UI name can be set using ui_name_teleport_enter_conquer
 * any action listed in teleport_enter_conquer_blocked_by must be impossible
 * the range of legal distance between actor unit and target tile
   must be between teleport_enter_conquer_min_range and
@@ -1632,7 +1507,6 @@ Actions done by a unit against a tile
 Actions done by a unit against all extras at a tile
 ===================================================
 "Conquer Extras" - Claim ownership of an extra.
-* UI name can be set using ui_name_conquer_extras
 * the actor unit must be on a tile next to the target.
 * the actor unit has at least one move fragment left (!)
 * the actor unit's current transport, if the actor unit is transported,
@@ -1658,17 +1532,14 @@ Actions done by a unit against all extras at a tile
   zone of control (ZOC)
 
 "Conquer Extras 2" - Claim ownership of an extra.
-* UI name can be set using ui_name_conquer_extras_2
 * A copy of "Conquer Extras"
 * See "Conquer Extras" for everything else.
 
 "Conquer Extras 3" - Claim ownership of an extra.
-* UI name can be set using ui_name_conquer_extras_3
 * A copy of "Conquer Extras"
 * See "Conquer Extras" for everything else.
 
 "Conquer Extras 4" - Claim ownership of an extra.
-* UI name can be set using ui_name_conquer_extras_4
 * A copy of "Conquer Extras"
 * See "Conquer Extras" for everything else.
 
@@ -1678,27 +1549,22 @@ Actions done by a unit to it self
  * spends the actor unit
    - gives nothing in return. No shields spent to build the unit is added
      to the shield stock of any city even if the unit is located inside it.
- * UI name can be set using ui_name_disband_unit
  * "Help Wonder" must be impossible
  * "Disband Unit Recover" must be impossible
 
 "Fortify"           - Fortify at tile
- * UI name can be set using ui_name_fortify
  * the actor unit can't already be fortified (!)
 
 "Fortify 2"         - Fortify at tile
- * UI name can be set using ui_name_fortify_2
  * See "Fortify" for everything else.
 
 "Convert Unit" - Convert the unit to another unit type.
- * UI name can be set using ui_name_convert_unit
  * actor unit must have a type to convert to (convert_to).
  * actor unit's converted form must be able to exist at its current
    location.
  * actor unit's converted form must have room for its current cargo.
 
 "Unit Make Homeless" - unhome the actor unit.
- * UI name can be set using ui_name_homeless
  * the actor unit must have a home city. (!)
 
 Internal actions
@@ -1712,8 +1578,6 @@ Ruleset defined actions
 =======================
 User actions are "blank". The ruleset does everything they do. The following
 ruleset variables allows user action number n to be further customized:
- * ui_name_user_action_n
-   The UI name shown to the user in the action selection dialog.
  * user_action_n_target_kind
    The kind of target the action is done to. See target_reqs.
    Legal values: "City", "Unit", "Stack", "Tile" or "Self"
