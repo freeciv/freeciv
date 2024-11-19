@@ -400,8 +400,7 @@ GTK4_FCMP_DLLS := \
 	libwebp-7.dll \
 	libdeflate.dll \
 	libjbig-0.dll \
-	libsharpyuv-0.dll \
-	libharfbuzz-subset-0.dll
+	libsharpyuv-0.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
