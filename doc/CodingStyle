@@ -529,6 +529,8 @@ functions available natively.
 
 - Instead of fopen(), use fc_fopen()
 - Instead of localtime(), use fc_localtime()
+- Instead of strcasecmp(), use fc_strcasecmp()
+- Instead of strlcat() or strncat(), use fc_strlcat()
 
 ============================================================================
   Miscellaneous
