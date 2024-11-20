@@ -541,6 +541,7 @@ functions available natively.
 - Instead of localtime(), use fc_localtime()
 - Instead of strncmp(), use fc_strncmp()
 - Instead of strcasecmp(), use fc_strcasecmp()
+- Instead of strlcat() or strncat(), use fc_strlcat()
 
 ============================================================================
   Miscellaneous
