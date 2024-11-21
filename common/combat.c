@@ -441,12 +441,12 @@ void get_modified_firepower(const struct civ_map *nmap,
     *att_fp = MIN(*att_fp, game.info.low_firepower_badwallattacker);
   }
 
-  /* pearl harbour - defender's firepower is reduced,
-   *                 attacker's is multiplied by two         */
+  /* pearl harbor - defender's firepower is reduced,
+   *                attacker's is multiplied by two         */
   if (unit_has_type_flag(defender, UTYF_BADCITYDEFENDER)
       && tile_city(unit_tile(defender))) {
     *att_fp *= 2;
-    *def_fp = MIN(*def_fp, game.info.low_firepower_pearl_harbour);
+    *def_fp = MIN(*def_fp, game.info.low_firepower_pearl_harbor);
   }
 
   /* 

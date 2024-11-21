@@ -83,7 +83,7 @@ void comment_combat_rules_only_real_fight_veteran(struct section_file *sfile);
 void comment_combat_rules_scaled_veterancy(struct section_file *sfile);
 void comment_combat_rules_damage_reduces_bombard_rate(struct section_file *sfile);
 void comment_combat_rules_low_fp_badwallattacker(struct section_file *sfile);
-void comment_combat_rules_low_fp_pearl_harbour(struct section_file *sfile);
+void comment_combat_rules_low_fp_pearl_harbor(struct section_file *sfile);
 void comment_combat_rules_low_fp_combat_bonus(struct section_file *sfile);
 void comment_combat_rules_low_fp_nonnat_bombard(struct section_file *sfile);
 void comment_combat_rules_nuke_pop_loss(struct section_file *sfile);

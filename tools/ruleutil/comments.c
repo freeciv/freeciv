@@ -80,7 +80,7 @@ static struct {
   char *combat_rules_scaled_veterancy;
   char *combat_rules_damage_reduces_bombard_rate;
   char *combat_rules_low_fp_badwallattacker;
-  char *combat_rules_low_fp_pearl_harbour;
+  char *combat_rules_low_fp_pearl_harbor;
   char *combat_rules_low_fp_combat_bonus;
   char *combat_rules_low_fp_nonnat_bombard;
   char *combat_rules_nuke_pop_loss;
@@ -222,8 +222,8 @@ bool comments_load(void)
                "entrydoc.damage_reduces_bombard_rate");
   comment_load(comments_storage.combat_rules_low_fp_badwallattacker, comment_file,
                "entrydoc.low_firepower_badwallattacker");
-  comment_load(comments_storage.combat_rules_low_fp_pearl_harbour, comment_file,
-               "entrydoc.low_firepower_pearl_harbour");
+  comment_load(comments_storage.combat_rules_low_fp_pearl_harbor, comment_file,
+               "entrydoc.low_firepower_pearl_harbor");
   comment_load(comments_storage.combat_rules_low_fp_combat_bonus, comment_file,
                "entrydoc.low_firepower_combat_bonus");
   comment_load(comments_storage.combat_rules_low_fp_nonnat_bombard, comment_file,
@@ -735,12 +735,12 @@ void comment_combat_rules_low_fp_badwallattacker(struct section_file *sfile)
 }
 
 /**********************************************************************//**
-  Write combat_rules low_firepower_pearl_harbour settings header.
+  Write combat_rules low_firepower_pearl_harbor settings header.
 **************************************************************************/
-void comment_combat_rules_low_fp_pearl_harbour(struct section_file *sfile)
+void comment_combat_rules_low_fp_pearl_harbor(struct section_file *sfile)
 {
   comment_entry_write(sfile,
-                      comments_storage.combat_rules_low_fp_pearl_harbour,
+                      comments_storage.combat_rules_low_fp_pearl_harbor,
                       "combat_rules");
 }
 

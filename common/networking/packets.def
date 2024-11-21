@@ -572,7 +572,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL combat_odds_scaled_veterancy;
   BOOL damage_reduces_bombard_rate;
   UINT8 low_firepower_badwallattacker;
-  UINT8 low_firepower_pearl_harbour;
+  UINT8 low_firepower_pearl_harbor;
   UINT8 low_firepower_combat_bonus;
   UINT8 low_firepower_nonnat_bombard;
   UINT8 nuke_pop_loss_pct;

@@ -6935,8 +6935,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
   if (ok) {
     const char *tus_text;
+    int pharbor_default;
 
-    /* section: combat_rules */
+    /* Section: combat_rules */
     game.info.tired_attack
       = secfile_lookup_bool_default(file, RS_DEFAULT_TIRED_ATTACK,
                                     "combat_rules.tired_attack");
@@ -6960,9 +6961,19 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.low_firepower_badwallattacker
       = secfile_lookup_int_default(file, 1,
                                    "combat_rules.low_firepower_badwallattacker");
-    game.info.low_firepower_pearl_harbour
-      = secfile_lookup_int_default(file, 1,
-                                   "combat_rules.low_firepower_pearl_harbour");
+
+    if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      pharbor_default
+        = secfile_lookup_int_default(file, 1,
+                                     "combat_rules.low_firepower_pearl_harbour");
+    } else {
+      pharbor_default = 1;
+    }
+
+    game.info.low_firepower_pearl_harbor
+      = secfile_lookup_int_default(file, pharbor_default,
+                                   "combat_rules.low_firepower_pearl_harbor");
+
     game.info.low_firepower_combat_bonus
       = secfile_lookup_int_default(file, 1,
                                    "combat_rules.low_firepower_combat_bonus");

@@ -484,7 +484,7 @@ utypes = "\
 ;                 attacking a city\n\
 ;                 defended by a city wall (or other city building defense)\n\
 ; \"BadCityDefender\" = if attacked while in a city, firepower is set to 1\n\
-;                 and firepower of attacker is doubled (the Pearl Harbour\n\
+;                 and firepower of attacker is doubled (the Pearl Harbor\n\
 ;                 rule)\n\
 ; \"BarbarianOnly\" = only barbarians can build this unit\n\
 ; \"Shield2Gold\" = Switch from shield upkeep to gold upkeep possible\n\
@@ -1488,7 +1488,7 @@ low_firepower_badwallattacker = "\n\
 ; If firepower is already lower than this, it won`t be affected.\
 "
 
-low_firepower_pearl_harbour = "\n\
+low_firepower_pearl_harbor = "\n\
 ; When the defender has BadCityDefender flag, and it`s\n\
 ; defending on a city tile, attacker`s firepower is doubled\n\
 ; and defenders firepower is reduced to this value.\n\

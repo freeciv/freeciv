@@ -1527,11 +1527,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
   }
   save_default_int(sfile, game.info.low_firepower_badwallattacker, 1,
                    "combat_rules.low_firepower_badwallattacker", nullptr);
-  if (game.info.low_firepower_pearl_harbour != 1) {
-    comment_combat_rules_low_fp_pearl_harbour(sfile);
+  if (game.info.low_firepower_pearl_harbor != 1) {
+    comment_combat_rules_low_fp_pearl_harbor(sfile);
   }
-  save_default_int(sfile, game.info.low_firepower_pearl_harbour, 1,
-                   "combat_rules.low_firepower_pearl_harbour", nullptr);
+  save_default_int(sfile, game.info.low_firepower_pearl_harbor, 1,
+                   "combat_rules.low_firepower_pearl_harbor", nullptr);
   if (game.info.low_firepower_combat_bonus != 1) {
     comment_combat_rules_low_fp_combat_bonus(sfile);
   }

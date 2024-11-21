@@ -263,7 +263,7 @@ low_firepower_badwallattacker = 1
 ; defending on a city tile, attacker`s firepower is doubled
 ; and defenders firepower is reduced to this value.
 ; If firepower is already lower than this, it won`t be affected.
-low_firepower_pearl_harbour = 1
+low_firepower_pearl_harbor = 1
 
 ; When the opponent has LowFirepower combat bonus against
 ; a unit, it`s firepower is reduced to this value.

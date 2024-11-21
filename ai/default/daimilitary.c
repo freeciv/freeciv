@@ -247,8 +247,8 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
   fp = unit_type_get(punit)->firepower;
   if (unit_has_type_flag(punit, UTYF_BADCITYDEFENDER)) {
     /* Attacker firepower doubled, defender firepower set to
-     * game.info.low_firepower_pearl_harbour at max. */
-    defense *= MIN(fp, game.info.low_firepower_pearl_harbour);
+     * game.info.low_firepower_pearl_harbor at max. */
+    defense *= MIN(fp, game.info.low_firepower_pearl_harbor);
     defense /= 2;
   } else {
     defense *= fp;
@@ -997,7 +997,7 @@ static adv_want dai_unit_defense_desirability(struct ai_type *ait,
   /* Sea and helicopters often have their firepower set to low firepower when
    * defending. We can't have such units as defenders. */
   if (utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
-    fp = MIN(fp, game.info.low_firepower_pearl_harbour);
+    fp = MIN(fp, game.info.low_firepower_pearl_harbor);
   }
   if (((struct unit_type_ai *)utype_ai_data(punittype, ait))->low_firepower) {
     fp = MIN(fp, game.info.low_firepower_combat_bonus);
