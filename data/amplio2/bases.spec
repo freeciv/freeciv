@@ -27,22 +27,22 @@ pixel_border = 1
 
 tiles = { "row", "column", "tag"
 ;[HH][GS]
- 0,  0, "base.airbase_mg"
+ 0,  0, "base.airbase_mg_0"
  0,  1, "tx.airbase_full"
 ;[HH]
  0,  3, "base.fortress_fg_0"
  0,  4, "base.fortress_bg"
 ;[HH][GS]
- 1,  0, "base.airstrip_mg"
+ 1,  0, "base.airstrip_mg_0"
 ;[El]
- 1,  1, "base.buoy_mg"
+ 1,  1, "base.buoy_mg_0"
 ;[VC]
- 1,  2, "extra.ruins_mg"
+ 1,  2, "extra.ruins_mg_0"
 ;[HH][GS]
  1,  3, "base.outpost_fg_0"
  1,  4, "base.outpost_bg"
 ; [SK]
- 1,  5, "extra.transport_hub_mg"
+ 1,  5, "extra.transport_hub_mg_0"
  ;[Lexxie]
  2,  2, "base.castle2_fg_0"      ; Alternate castle (larger 'closed' version which makes hidden units more plausible ...
  2,  3, "base.castle2_bg"        ; ... but also hides the terrain graphics)

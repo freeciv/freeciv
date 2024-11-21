@@ -51,10 +51,10 @@ pixel_border = 1
 tiles = { "row", "column", "tag"
 
 ;[HH][GS]
- 0,  0, "base.airstrip_mg"
+ 0,  0, "base.airstrip_mg_0"
  1,  0, "tx.airstrip_full"
 ;[HH][GS]
- 0,  1, "base.airbase_mg"
+ 0,  1, "base.airbase_mg_0"
  1,  1, "tx.airbase_full"
 ;[HH][GS]
  1,  2, "base.outpost_fg_0"
@@ -65,9 +65,9 @@ tiles = { "row", "column", "tag"
 ;[HH]
  0,  4, "city.disorder"
 ;[El]
- 1,  4, "base.buoy_mg"
+ 1,  4, "base.buoy_mg_0"
 ;[VC]
- 0,  5, "extra.ruins_mg"
+ 0,  5, "extra.ruins_mg_0"
 ;[HH]
  1,  5, "city.european_occupied_0"
  1,  5, "city.classical_occupied_0"

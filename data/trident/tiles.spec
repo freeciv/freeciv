@@ -498,12 +498,12 @@ tiles = { "row", "column", "tag"
  16, 14, "tx.nets_0"
 
 ; Bases
- 16,  6, "base.buoy_mg"
- 16,  7, "extra.ruins_mg"
+ 16,  6, "base.buoy_mg_0"
+ 16,  7, "extra.ruins_mg_0"
  16,  8, "tx.village_0"
- 16,  9, "base.airstrip_mg"
- 16, 10, "base.airbase_mg"
- 16, 11, "base.outpost_mg"
+ 16,  9, "base.airstrip_mg_0"
+ 16, 10, "base.airbase_mg_0"
+ 16, 11, "base.outpost_mg_0"
  16, 12, "base.fortress_bg"
 
 ; Numbers: city size: (also used for goto)

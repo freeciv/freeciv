@@ -370,10 +370,10 @@ struct named_sprites {
       struct sprite *cardinals[MAX_INDEX_CARDINAL];
       struct {
         struct sprite
-          *background,
-          *middleground;
+          *background;
         struct anim
-          *foreground;
+          *foreground,
+          *middleground;
       } bmf;
       struct {
         struct sprite
@@ -4305,8 +4305,7 @@ static void tileset_setup_base(struct tileset *t,
 
   sz_strlcpy(full_tag_name, tag);
   strcat(full_tag_name, "_mg");
-  t->sprites.extras[id].u.bmf.middleground = load_sprite(t, full_tag_name,
-                                                         TRUE, TRUE, FALSE);
+  t->sprites.extras[id].u.bmf.middleground = anim_load(t, full_tag_name, 0);
 
   sz_strlcpy(full_tag_name, tag);
   strcat(full_tag_name, "_fg");
@@ -6323,7 +6322,7 @@ int fill_sprite_array(struct tileset *t,
         extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (tile_has_extra(ptile, pextra)
               && is_extra_drawing_enabled(pextra)
-              && t->sprites.extras[extra_index(pextra)].u.bmf.middleground) {
+              && t->sprites.extras[extra_index(pextra)].u.bmf.middleground != nullptr) {
             bool hidden = FALSE;
 
             extra_type_list_iterate(pextra->hiders, phider) {
@@ -6334,7 +6333,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.middleground);
+              ADD_ANIM_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.middleground);
             }
           }
         } extra_type_list_iterate_end;
@@ -7542,7 +7541,7 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 
   /* Corresponds to LAYER_SPECIAL{1,2,3} order. */
   ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.background);
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.middleground);
+  ADD_FRAME0_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.middleground);
   ADD_FRAME0_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.foreground);
 
 #undef ADD_SPRITE_IF_NOT_NULL
