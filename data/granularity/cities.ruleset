@@ -74,7 +74,7 @@ changable_tax = TRUE            ; set to FALSE to disallow changing of tax rates
 ;forced_luxury = 100
 ;forced_gold = 0
 
-vision_reveal_tiles  = TRUE     ; civ1 & 2 default FALSE
+vision_reveal_tiles  = FALSE    ; civ1 & 2 default FALSE
 
 pop_report_zeroes    = 1        ; Population in reports in tens
 
