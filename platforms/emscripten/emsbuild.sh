@@ -54,6 +54,7 @@ if ! CC=emcc CXX=em++ AR=emar meson setup \
      -Dtools=[] \
      -Dclients=stub,sdl2 \
      -Dfcmp=[] \
+     -Dfcdb=[] \
      "${PLATFORM_ROOT}/../../"
 then
   echo "Setup with meson failed!" >&2

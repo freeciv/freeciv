@@ -664,8 +664,6 @@ if emscripten
      '-s', 'TOTAL_MEMORY=64MB',
      language : [ 'c', 'cpp'])
 else
-  priv_conf_data.set('HAVE_FCDB', 1)
-  priv_conf_data.set('HAVE_FCDB_SQLITE3', 1)
   zlib_dep = c_compiler.find_library('z', dirs: cross_lib_path)
   if not c_compiler.has_header('zlib.h', args: header_arg)
     error('Mandatory header zlib.h not found!')
@@ -978,16 +976,9 @@ else
 endif
 
 if emscripten
-  sqlite3_dep = []
-  sqlite3_src = []
   curl_dep = []
   m_dep = []
 else
-  sqlite3_dep = c_compiler.find_library('sqlite3', dirs: cross_lib_path)
-  sqlite3_src = [
-    'dependencies/luasql/src/luasql.c',
-    'dependencies/luasql/src/ls_sqlite3.c',
-  ]
   curl_dep = c_compiler.find_library('curl', dirs: cross_lib_path)
   m_dep = c_compiler.find_library('m', dirs: cross_lib_path)
 endif
@@ -1004,6 +995,42 @@ int main(void) { curl_mime *mime = curl_mime_init(NULL); }''',
   else
     error('Too old libcurl version - does not support mime API')
   endif
+endif
+
+if not emscripten
+  sqlite3_dep = c_compiler.find_library('sqlite3', dirs: cross_lib_path)
+else
+  sqlite3_dep = []
+endif
+
+fcdb = false
+fcdb_src = []
+fcdb_dep = []
+
+if get_option('fcdb').contains('sqlite3')
+  fcdb = true
+  priv_conf_data.set('HAVE_FCDB_SQLITE3', 1)
+  fcdb_src = [ fcdb_src,
+    'dependencies/luasql/src/ls_sqlite3.c',
+  ]
+  fcdb_dep = [ fcdb_dep, sqlite3_dep ]
+endif
+
+if get_option('fcdb').contains('mariadb')
+  fcdb = true
+  priv_conf_data.set('HAVE_FCDB_MYSQL', 1)
+  fcdb_src = [ fcdb_src,
+    'dependencies/luasql/src/ls_mysql.c',
+  ]
+  fcdb_dep = [ fcdb_dep, dependency('mariadb') ]
+endif
+
+if fcdb
+  if emscripten
+    error('FCDB not supported on emscripten builds.')
+  endif
+  priv_conf_data.set('HAVE_FCDB', 1)
+  fcdb_src = [ 'dependencies/luasql/src/luasql.c', fcdb_src ]
 endif
 
 if get_option('gitrev')
@@ -1222,10 +1249,10 @@ fc_deps = static_library('fc_dependencies',
   'dependencies/tolua-5.2/src/lib/tolua_map.c',
   'dependencies/tolua-5.2/src/lib/tolua_push.c',
   'dependencies/tolua-5.2/src/lib/tolua_to.c',
-  sqlite3_src, tinycthr_files,
+  fcdb_src, tinycthr_files,
   sources: [verhdr],
   include_directories : common_inc,
-  dependencies: lua_dep
+  dependencies: [ lua_dep, fcdb_dep ]
   )
 
 if meson.is_cross_build() or get_option('sys-tolua-cmd')
@@ -1419,7 +1446,7 @@ common_lib = library('freeciv',
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
   dependencies: [zlib_dep,
-                 curl_dep, m_dep, sqlite3_dep, icu_dep,
+                 curl_dep, m_dep, icu_dep,
                  net_dep, jansson_dep, lua_dep, bz2_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep, charset_dep, mw_dep,
@@ -1567,7 +1594,8 @@ if server_type != 'disabled'
     servericon,
     include_directories: server_inc,
     link_with: [server_lib, common_lib, ais],
-    dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
+    dependencies: [m_dep, net_dep, readline_dep, gettext_dep, fcdb_dep,
+                   mw_extra_dep],
     install: true,
     win_subsystem: 'console'
     )
@@ -4379,7 +4407,8 @@ executable('freeciv-ruleup',
   'tools/ruleup.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
-  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
+  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, fcdb_dep,
+                 mw_extra_dep],
   install: true,
   win_subsystem: 'console'
   )
@@ -4463,7 +4492,7 @@ executable('freeciv-ruledit',
   mocced_ruledit, rulediticon,
   include_directories: tool_inc,
   dependencies: [qt_dep, m_dep, net_dep, readline_dep, gettext_dep,
-                 mw_extra_dep],
+                 fcdb_dep, mw_extra_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
   override_options: qt_opts,
   install: true,
@@ -4509,7 +4538,8 @@ executable('freeciv-manual',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
-  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
+  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, fcdb_dep,
+                 mw_extra_dep],
   install: true,
   win_subsystem: 'console'
   )

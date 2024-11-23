@@ -200,6 +200,11 @@ svgflags (boolean)
   Add support for svg flags features on clients where this is supported,
   currently only Qt.
 
+fcdb (array):
+  fcdb (player authentication) backends to build.
+  Possible backends are sqlite3 and mariadb.
+  The default is sqlite3.
+
 
 Project definition file
 -----------------------

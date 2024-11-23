@@ -113,3 +113,9 @@ option('python',
        type: 'string',
        value: 'python3',
        description: 'Python interpreter to use')
+
+option('fcdb',
+       type: 'array',
+       choices: ['sqlite3','mariadb'],
+       value: ['sqlite3'],
+       description: 'fcdb (player authentication) backends to build')
