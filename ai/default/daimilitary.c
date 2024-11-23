@@ -186,6 +186,7 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
   is the only role being considered worthy of bodyguarding in findjob.
 **************************************************************************/
 static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
+                                              const struct civ_map *nmap,
                                               struct city *pcity,
                                               enum terrain_class tc,
                                               enum unit_role_id role,
@@ -194,7 +195,6 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
   struct unit_type *bestid = NULL;
   adv_want best = 0;
   struct player *pplayer = city_owner(pcity);
-  const struct civ_map *nmap = &(wld.map);
 
   simple_ai_unit_type_iterate(putype) {
     /* Only consider units of given role, or any if invalid given */
@@ -1946,7 +1946,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   }
 
   /* Consider making a land bodyguard */
-  punittype = dai_choose_bodyguard(ait, pcity, TC_LAND, L_DEFEND_GOOD,
+  punittype = dai_choose_bodyguard(ait, nmap, pcity, TC_LAND, L_DEFEND_GOOD,
                                    allow_gold_upkeep);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
@@ -1967,7 +1967,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   dai_choose_diplomat_offensive(ait, pplayer, pcity, choice);
 
   /* Consider making a sea bodyguard */
-  punittype = dai_choose_bodyguard(ait, pcity, TC_OCEAN, L_DEFEND_GOOD,
+  punittype = dai_choose_bodyguard(ait, nmap, pcity, TC_OCEAN, L_DEFEND_GOOD,
                                    allow_gold_upkeep);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
