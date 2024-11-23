@@ -67,7 +67,6 @@ jobs:
             automake \
             gettext \
             libtool \
-            pkg-config \
             atk \
             freetype \
             gettext \
@@ -101,7 +100,6 @@ jobs:
           rm /usr/local/bin/pydoc3*
           rm /usr/local/bin/python3*
           brew install \
-            pkg-config \
             meson \
             icu4c \
             lua@5.4 \
