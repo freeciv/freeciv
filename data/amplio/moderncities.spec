@@ -64,7 +64,7 @@ tiles = { "row", "column", "tag"
  0,  1, "base.airbase_mg_0"
  0,  2, "tx.airbase_full"
  0,  4, "base.outpost_fg_0"
- 0,  5, "base.outpost_bg"
+ 0,  5, "base.outpost_bg_0"
  0,  6, "city.electricage_occupied_0"
  0,  6, "city.modern_occupied_0"
  0,  6, "city.postmodern_occupied_0"
@@ -73,7 +73,7 @@ tiles = { "row", "column", "tag"
 
  1,  1, "base.airstrip_mg_0"
  1,  4, "base.fortress_fg_0"
- 1,  5, "base.fortress_bg"
+ 1,  5, "base.fortress_bg_0"
 ;
 ; city tiles
 ;

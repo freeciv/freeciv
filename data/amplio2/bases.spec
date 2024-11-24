@@ -31,7 +31,7 @@ tiles = { "row", "column", "tag"
  0,  1, "tx.airbase_full"
 ;[HH]
  0,  3, "base.fortress_fg_0"
- 0,  4, "base.fortress_bg"
+ 0,  4, "base.fortress_bg_0"
 ;[HH][GS]
  1,  0, "base.airstrip_mg_0"
 ;[El]
@@ -40,14 +40,14 @@ tiles = { "row", "column", "tag"
  1,  2, "extra.ruins_mg_0"
 ;[HH][GS]
  1,  3, "base.outpost_fg_0"
- 1,  4, "base.outpost_bg"
+ 1,  4, "base.outpost_bg_0"
 ; [SK]
  1,  5, "extra.transport_hub_mg_0"
  ;[Lexxie]
  2,  2, "base.castle2_fg_0"      ; Alternate castle (larger 'closed' version which makes hidden units more plausible ...
- 2,  3, "base.castle2_bg"        ; ... but also hides the terrain graphics)
+ 2,  3, "base.castle2_bg_0"      ; ... but also hides the terrain graphics)
  2,  4, "base.castle_fg_0"
- 2,  5, "base.castle_bg"
+ 2,  5, "base.castle_bg_0"
 ;[HH]
  0,  2, "cd.occupied",
       "city.european_occupied_0",

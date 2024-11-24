@@ -58,10 +58,10 @@ tiles = { "row", "column", "tag"
  1,  1, "tx.airbase_full"
 ;[HH][GS]
  1,  2, "base.outpost_fg_0"
- 0,  2, "base.outpost_bg"
+ 0,  2, "base.outpost_bg_0"
 ;[HH]
  1,  3, "base.fortress_fg_0"
- 0,  3, "base.fortress_bg"
+ 0,  3, "base.fortress_bg_0"
 ;[HH]
  0,  4, "city.disorder"
 ;[El]

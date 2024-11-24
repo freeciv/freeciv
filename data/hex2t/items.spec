@@ -42,9 +42,9 @@ tiles = { "row", "column", "tag"
  1,  5, "base.buoy_mg_0"
  1,  6, "extra.ruins_mg_0"
  3,  8, "base.outpost_fg_0"
- 3,  9, "base.outpost_bg"
+ 3,  9, "base.outpost_bg_0"
  4,  8, "base.fortress_fg_0"
- 4,  9, "base.fortress_bg"
+ 4,  9, "base.fortress_bg_0"
 
 ; default city tiles
  2,  2, "cd.city"

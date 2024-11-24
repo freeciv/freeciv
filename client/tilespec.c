@@ -369,11 +369,10 @@ struct named_sprites {
       struct anim *single;
       struct sprite *cardinals[MAX_INDEX_CARDINAL];
       struct {
-        struct sprite
-          *background;
         struct anim
           *foreground,
-          *middleground;
+          *middleground,
+          *background;
       } bmf;
       struct {
         struct sprite
@@ -4300,8 +4299,7 @@ static void tileset_setup_base(struct tileset *t,
 
   sz_strlcpy(full_tag_name, tag);
   strcat(full_tag_name, "_bg");
-  t->sprites.extras[id].u.bmf.background = load_sprite(t, full_tag_name,
-                                                       TRUE, TRUE, FALSE);
+  t->sprites.extras[id].u.bmf.background = anim_load(t, full_tag_name, 0);
 
   sz_strlcpy(full_tag_name, tag);
   strcat(full_tag_name, "_mg");
@@ -6207,7 +6205,7 @@ int fill_sprite_array(struct tileset *t,
         extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (tile_has_extra(ptile, pextra)
               && is_extra_drawing_enabled(pextra)
-              && t->sprites.extras[extra_index(pextra)].u.bmf.background) {
+              && t->sprites.extras[extra_index(pextra)].u.bmf.background != nullptr) {
             bool hidden = FALSE;
 
             extra_type_list_iterate(pextra->hiders, phider) {
@@ -6218,7 +6216,7 @@ int fill_sprite_array(struct tileset *t,
             } extra_type_list_iterate_end;
 
             if (!hidden) {
-              ADD_SPRITE_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.background);
+              ADD_ANIM_FULL(t->sprites.extras[extra_index(pextra)].u.bmf.background);
             }
           }
         } extra_type_list_iterate_end;
@@ -7527,12 +7525,6 @@ int fill_basic_base_sprite_array(const struct tileset *t,
     return 0;
   }
 
-#define ADD_SPRITE_IF_NOT_NULL(x) do {\
-  if ((x) != NULL) {\
-    ADD_SPRITE_FULL(x);\
-  }\
-} while (FALSE)
-
 #define ADD_FRAME0_IF_NOT_NULL(x) do {\
   if ((x) != nullptr) {\
     ADD_FRAME0_FULL(x);\
@@ -7540,11 +7532,10 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 } while (FALSE)
 
   /* Corresponds to LAYER_SPECIAL{1,2,3} order. */
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.background);
+  ADD_FRAME0_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.background);
   ADD_FRAME0_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.middleground);
   ADD_FRAME0_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.foreground);
 
-#undef ADD_SPRITE_IF_NOT_NULL
 #undef ADD_FRAME0_IF_NOT_NULL
 
   return sprs - saved_sprs;
