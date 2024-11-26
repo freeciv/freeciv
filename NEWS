@@ -10,7 +10,519 @@ the detailed changes should check the ChangeLog file.
 MAJOR CHANGES FROM 3.1.x to 3.2.0
 ---------------------------------
 
-[TODO]
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.0>, 2024-11-26)
+
+   The major changes in 3.2 are gtk4-client as default, new sdl3-client,
+   meson based build system as default, and a whole lot of extra flexibility
+   to create custom rulesets.
+
+   As is usual for major releases, 3.2 clients cannot interoperate with
+   pre-3.2 servers, and vice versa. Most pre-3.2 savegames can however
+   be loaded into 3.2, and in most cases, the supplied rulesets have not
+   changed so much as to make it difficult to complete a game started
+   with 3.1.x's rules.
+
+Server / General
+
+     * gtk4-client is now the default osdn#47782
+     * gtk3-client has been discontinued. gtk3.22-client still exist.
+       osdn#41531
+     * New sdl3-client osdn#48820
+     * Unit orders are now executed after all the Turn Change activities,
+       and after the AIs have begun their turn. This avoids "double move"
+       issues with units executing orders with replenished movement but
+       still before the new turn osdn#46363
+
+Changes affecting players (supplied rulesets)
+
+     * Speed of revolution length change, when revolentype server setting
+       has value Quickening or RandQuick, now scales to the number of players
+       osdn#43386
+     * Existing building fulfills unit's improvement requirement,
+       even if player now couldn't build the building anew HRM#846784
+     * Player government no longer changes immediately (mid-turn) when player
+       selects it during the turn that revolution finished. Instead, selected
+       government takes effect on next turn change. This way player cannot
+       use multiple governments, with their different strengths, during
+       the turn. osdn#43604
+     * Server no longer floods messages about governments becoming available
+       if multiple ones come available at the same time. Instead just
+       one message notifying about multiple governments is sent. osdn#44677
+     * Player is notified about new government option also when it becomes
+       available through a wonder HRM#856947
+     * Trade partner city is no longer revealed on the map to the owner
+       of the other end of the trade route. Ruleset has power to restore
+       the old behavior of always revealing the trade partner osdn#42970
+     * It's now never possible to cancel "No Contact" diplomatic state to
+       a War, even if your ally is in war with that player you have
+       no contact with osdn#45124
+     * Clean Pollution and Clean Fallout merged to a new generic Clean action
+       osdn#45975
+     * Maximum cityname length is now 120 osdn#46096
+     * There's now units_used counter in score log osdn#45628
+     * Diplomat actions that give Casus Belli in supplied rulesets after
+       success, now give Casus Belli also after the diplomat gets caught
+       attempting it osdn#46239
+     * New event type Conquered when a city is conqured. Those messages used
+       to be sent as Unit Win Attack events osdn#47806
+
+     * New nations
+          + Alaska RM#237
+          + Dagestan RM#254
+          + Donetsk RM#257
+          + Luhansk RM#274
+          + Tuvalu osdn#48969
+          + Toki Pona RM#279
+          + Northern Ireland RM#293
+          + Louisiana RM#294
+          + Minnesota RM#709
+          + Poyais RM#710
+          + Conch RM#821
+
+     * civ2civ3
+          + New Storm unit moving randomly on oceans, to appear
+            as animal barbarian type osdn#42907
+          + Disaster frequencies reworked so that the default behavior
+            remains the same, but user now has a sensible range to adjust
+            them with the server setting RM#271
+          + Military units can build bases RM#517
+
+     * classic
+          + Land units on Mountain tiles get a vision bonus RM#679
+
+     * multiplayer
+          + Land units on Mountain tiles get a vision bonus RM#811
+
+     * civ2
+          + Freights give doubled one-time bonus on arrival osdn#45852
+
+     * alien
+          + Grassland terrain type replaced by Savannah osdn#48827
+
+     * sandbox
+          + ICBM blast radius increased HRM#921825
+          + Full stack of powerless defenders can be wiped at once with
+            the new Wipe Defenders action HRM#922861
+          + Size 1 city destroying population loss can happen along
+            the death of the last defender osdn#42244
+          + Transport initiated Transport Load actions possible osdn#42587
+          + Moving from transport to transport takes all movement HRM#931098
+          + Small Wonders are visible only to those opponents that have
+            an embassy osdn#42972
+          + Great Library changed to give all players any techs known
+            by at least 30% of the players osdn#45718
+          + Space Elevator can now be built only near equator osdn#45772
+          + Treaties can now contain Shared Tiles clauses osdn#45730
+          + After celebrating a while, city starts producing extra culture
+            until the celebration ends osdn#45072
+          + If a city has been in disorder for three years, it's production
+            shrinks to zero osdn#45072
+          + New Storm unit moving randomly on oceans, to appear as
+            animal barbarian type osdn#42907
+          + New policies Polluting Production, Military Training Duration,
+            Diplomatic Training Duration, and Civil Training Duration RM#105
+          + Disaster frequencies reworked so that the default behavior remains
+            the same, but user now has a sensible range to adjust them with
+            the server setting RM#271
+          + Military units can build bases RM#517
+
+Changes affecting other rulesets / modders
+
+     * Added concept of city counters HRM#876776
+     * Actions related stuff moved from game.ruleset to new actions.ruleset
+       osdn#45037
+     * Maximum number of ruleset items increased
+          + Max user unit class flags now 25 and user unit type flags 50
+            osdn#46086
+          + Max extra types now 250 osdn#48917
+          + Max number of techs is now 400 RM#355
+          + Max number of unit types is now 300 RM#375
+          + Max number of effect multipliers is now 50 RM#411
+     * Meta info for rulesets in new .modpack -files osdn#42445
+     * Nuke blast radius is now ruleset configurable HRM#854166
+     * New convert improvement genus for gold producing improvements
+       like Coinage HRM#921525
+     * New requirement types
+          + MinLatitude osdn#44035
+          + MaxLatitude osdn#44182
+          + Counter osdn#41120
+          + OriginalOwner HRM#870139
+          + BuildingFlag osdn#46190
+          + PlayerFlag osdn#45666
+          + PlayerState osdn#41813
+          + FormAge about unit's age since latest transformation,
+            either via upgrade or convert osdn#48848
+          + Site is like Building but without obsoletion osdn#42905
+     * New CityStatus requirement values
+          + Starved HRM#922788
+          + Disorder and Celebration HRM#870141
+          + Transferred that tells if city has ever changed hands osdn#48115
+     * Unit Age requirement now works also on the client side osdn#48928
+     * New achievement types
+          + Killer, granted when enough enemy units have been defeated
+            HRM#823396
+          + Rich, granted when player has enough Gold RM#169
+     * New action enabler controlled actions
+          + Wipe Units HRM#864356
+          + Bombard Lethal osdn#42312
+          + Spy Escape osdn#41800
+          + Transport Load HRM#848668
+          + Teleport osdn#47350
+          + Teleport Conquer osdn#48665
+          + Collect Ransom osdn#42028
+          + Teleport Enter and Teleport Enter Conquer RM#165
+          + Teleport Frighten and Teleport Frighten Conquer RM#174
+     * Extended Fake Generalization of actions
+          + Transport Board up to 3 variants osdn#42645
+          + Transport Embark up to 4 variants osdn#42645
+          + Attack and Suicide Attack up to 2 variants osdn#42688
+          + Bombard Lethal up to 2 variants osdn#48748
+          + Bombard up to 4 variants RM#523
+     * Transport Alight action has been renamed as Transport Deboard
+       osdn#45119
+     * New effects
+          + Border_Strength_Pct osdn#42913
+          + Action_Resist_Pct that evaluates requirements against
+            target player. Existing Action_Odds_Pct evaluates them against
+            actor player osdn#43155
+          + Output_Bonus_Absolute osdn#43593
+          + Tech_Parasite_Pct_Max osdn#45596
+          + Shrink_Food, split from Growth_Food osdn#46291
+          + Activity_Time, for fine tuned activity times rules osdn#46396
+          + Surplus_Waste_Pct_By_Rel_Distance osdn#42246
+          + Surplus_Waste_Pct osdn#48294
+          + Impr_Upkeep_Reduction RM#310
+    * New Tile range for requirements HRM#695469
+    * Support added for new value Embassy for Small Wonder Visibility
+      osdn#42051
+    * Some effects can now have a meaningful action type requirements,
+      to make them specific to certain attack type
+          + Attack_Bonus osdn#42230
+          + Unit_No_Lose_Pop osdn#42242
+     * Unhardcoded the rule that an attack action cannot destroy the city
+       osdn#42243
+     * More requirements types supported for some effects
+          + Individual unit's properties for Unit_No_Lose_Pop effect
+            osdn#42320
+          + Unit type related requirements for Upkeep_Factor effect osdn#45991
+          + Unit type related requirements for Trade_Revenue_Bonus effect
+            osdn#45852
+          + Exact unit instance related requirements for Attack_Bonus effect
+            osdn#47862
+          + Exact unit instance related requirements for
+            Unit_Vision_Radius_Sq effect RM#94
+     * Old NoAggressive extra flag replaced by no_aggr_near_city integer field
+       that tells how far from a friendly city the extra can be to still
+       have units inside non-aggressive osdn#42199
+     * Bombard action no longer has hard war requirement osdn#42553
+     * New TerrainAlter requirement type values
+          + CanBase osdn#42849
+          + CanPlace osdn#42873
+     * New CityTile requirement values
+          + Worked HRM#919184
+          + Same Continent, Bordering TClass Region osdn#45907
+     * New DiplRel requirement types Has Team Embassy and Hosts team embassy
+       osdn#45073
+     * New unit type flag RandomMovement to make unit to move randomly,
+       not under owner's control HRM#699473
+     * Made min_tech_cost separate from base_tech_cost, to support
+       the two having different values HRM#699459
+     * New Goods flag Self-Provided to make a city able to provide Goods also
+       to itself, not only to trade partners osdn#43532
+     * It's possible to give natural resources relative occurrence frequency
+       osdn#43563
+     * New unit role BarbarianBoatTech osdn#41867
+     * One can now define for user effects how the AI should evaluate
+       their value. osdn#44711
+     * Hut extras are no longer hardcoded not to appear on frozen terrains.
+       One can use Latitude requirements to prohibit their appearance
+       near poles. HRM#660056
+     * New SharedTiles diplomatic treaty type osdn#44161
+     * Units now have support for full requirement vector, instead of having
+       just one tech, building, and government requirement HRM#846779
+     * Homeless units can now have gold upkeep. game.ruleset has
+       a new homeless_gold_upkeep setting for that. HRM#819758
+     * Effects now have a comment field, unused by freeciv in every other way
+       but resaved by freeciv-ruledit and freeciv-ruleup osdn#46131
+     * Casus Belli rules can now be set for the Surgical Strike action
+       osdn#46180
+     * Buildings can now have user (ruleset author) defined custom flags,
+       to be used with the BuildingFlag requirement osdn#45832
+     * Max_Trade_Routes effect can now be effectively set to 20, before
+       freeciv's hard limit kicks in osdn#45857
+     * New EnterBorders terrain flag, to mark terrain free to enter even
+       if it's within other player's borders osdn#46619
+     * Terrains now can have extra specific clean times, not just clean time
+       common to all extras osdn#46636
+     * Base effect of type Max_Rates is now mandatory osdn#47626
+     * More support for alternative graphic tags
+          + Second alternative graphic tag for units osdn#47753
+          + Second alternative removal activity graphic tag for extras
+            osdn#47952
+          + Second alternative graphic tag for buildings osdn#48087
+          + Second alternative graphic tag for terrains RM#13
+     * Alternative graphic tags for terrains are no longer mandatory RM#23
+     * Governments can have sound tags, for a sound or music to play
+       when player switch to that government osdn#46600
+     * New sound tag e_enter_game to play when the game starts RM#676
+     * More support for alternative sound tags
+          + Second alternative sound tag for buildings RM#65
+     * New tp_defense type Always to make units able to defend even
+       when transported osdn#43541
+     * Resource identifiers, needed only for loading very old savegames,
+       are now optional. Resources that have been added to the ruleset after
+       the savegame format change do not need the identifiers for anything
+       osdn#48020
+     * Some hard requirements are now obligatory requirements for building
+       extras, for consistency between different extra building actions
+          + road_time > 0 for Build Road action osdn#42510
+          + base_time > 0 for Build Base action osdn#48090
+     * New ubuilder_nationality cities.ruleset field to control how
+       the nationality of the unit costing population gets chosen.
+       It's either that of building nation, or the nationality of the majority
+       of the population points going used to the unit osdn#45932
+     * New FirstCity player flag to tell if player has ever had a city
+       osdn#48292
+     * Maximum number of resources is now same as maximum number of extras,
+       i.e., all extra slots can be used by resources osdn#48607
+     * New extra flag CauseZoC to make the extra impose ZoC even if it's empty,
+       or hiding all the units inside osdn#47701
+     * ui_name_road has been renamed as ui_name_build_road for consistency
+       with other extra types RM#108
+     * Settlers is no longer an obligatory requirement for Build Base action
+       RM#474
+     * Unhardcoded Output_Penalty_Tile from being prevented by Celebration
+       in the city. Ruleset can implement it by using CityStatus Celebration
+       requirement osdn#45236
+
+Changes in Lua scripting
+
+     * move_unit() no longer has action side-effects. They can be triggered
+       separately, if wanted, but now move can be done also without them
+       osdn#41523
+     * Game_Info object with research rules related info added osdn#45068
+     * Counters handling API added osdn#47827
+     * Other new methods
+          + Player:lose() osdn#44273
+          + Direction:cardinal() HRM#657148
+          + Player:change_infrapoints() osdn#47382
+          + Player:infrapoints() osdn#47456
+          + City:transfer() osdn#48312
+          + effects.tile_bonus() osdn#47457
+          + name_version(), comparable_version(), and version_string().
+            Use one of these instead of the deprecated fc_version() osdn#48879
+          + versions_compare() osdn#48905
+          + server.popup_image() to make client to popup an image RM#546
+          + Player:primary_capital() RM#557
+          + Tile:known() and Tile:seen() osdn#42684
+          + edit.unit_add_hitpoints() osdn#44771
+          + edit.unit_add_movepoints() RM#591
+          + Unit:seen() RM#630
+     * edit.give_bulbs() and Player:give_bulbs() now have an optional
+       tech parameter, to better support using the methods
+       in multiresearch mode osdn#44936
+
+Changes affecting custom scenarios
+
+     * Client now gets scenario player autoselected, if the scenario has given
+       new property autoselect_weigth to any player HRM#701752
+
+Changes affecting server operators
+
+     * New savegames can no longer be compressed with bz2. Old bz2 savegames
+       can still be loaded HRM#804350
+     * zstd is now the default savegame compression method osdn#43313
+     * spaceship_travel_time server setting has been renamed
+       as spaceship_travel_pct osdn#42102
+     * New server settings
+          + aitype HRM#858206
+          + ailevel osdn#44105
+          + northlatitude and southlatitude, replace alltemperate
+            and singlepole osdn#44038
+          + top_cities to control how many cities Top Cities report shows
+            osdn#45826
+          + luatimeout to control how long lua scripts are allowed to
+            run before being killed by timeout osdn#44898
+     * Server setting topology has been split to two settings;
+       topology and wrap. This way wrap can be changed even when topology
+       can not. This affects especially sending saved settings from the client.
+       osdn#42289
+     * If a ruleset parameter is given at the server launching commandline,
+       normal users can no longer change it within the server.
+       Only hack access users can. osdn#45042
+     * New lock and unlock commands for the server admin to prevent
+       regular players from changing server setting's value. osdn#45134
+     * scorefile setting's max length now respects common filepath rules.
+       It used to be much shorter osdn#46316
+     * /list command can now list AI types supported by the server RM#672
+
+Player authentication database (fcdb)
+
+     * fcdb lua scripting now has a conn_established signal, emitted once
+       player connection is fully established osdn#43464
+     * New lua methods auth.get_cmdlevel() and auth.set_cmdlevel() to control
+       player access level HRM#657143
+     * Database now has capability string for supporting controlled updates
+       in the future osdn#48621
+     * Fcdb lua script can now provide unique dbid for the game via
+       new game_start() API. Server will save that dbid also to the savegames.
+       osdn#48595
+     * Use of lua_io module is now allowed in the fcdb scripts osdn#48721
+     * Sqlite based fcdb database is now created automatically,
+       if it doesn't exist osdn#48672
+
+Low-level changes
+
+     * Version number comparison library cvercmp updated to version 1.0.5
+       osdn#44720
+     * Combination of json & delta protocols now work HRM#745593
+     * XML-registry files' root-node is now case-insensitive RM#780
+
+AI
+
+     * Threaded AI module has been dropped completely osdn#42268
+     * AI's want to win through spacerace has been reworked osdn#42259
+
+Clients
+
+     * City style specific citizen sprites supported. No tileset provides
+       such sprites yet. HRM#683532
+     * "Join City" action now asks user to confirm that they want to use
+       the unit osdn#46115
+     * Tile latitude shown on tile info popups osdn#44041
+     * Unit activity specific unit sprites now supported osdn#46387
+     * Commandline parameter "--Hackless" now works also with
+       the client spawned server osdn#45326
+     * New client option to control if client sends desired server settings
+       to the server or not osdn#47673
+     * New client option for checking availability of updated versions of
+       other kind than default osdn#48638
+     * Pillage now uses extra's rmact gfx when available, instead of
+       always using Pillage's generic icon osdn#47923
+     * Support added for new musicset fields that the clients can show
+          + Summary and Description osdn#47639
+          + Name and Version osdn#48567
+     * There's a new leave_game sound tag for the soundsets to provide
+       sound for osdn#47614
+     * Default soundset plays new sounds
+          + When player's government changes RM#657
+          + When wonder is finished RM#658
+     * In the editor mode, player's infrapoint count can now be edited
+       osdn#47385
+     * Client now has always correct information about edit mode
+       Fog of War state osdn#47784
+     * Client knows if its player is the original owner of a city even
+       for cities in Fog of War osdn#46468
+
+     * gtk
+          + New option to pause audio when ever client loses focus osdn#43757
+          + Show new longer and more verbose version of the Wonders of
+            the World report on MERGED chat and messages layout RM#428
+          + gtk4: Commandling option --zoom RM#1071
+
+     * qt
+          + Support for using svg flags, for bigger flag graphics in
+            nations dialog osdn#45024
+          + Paradrop now has its own key ("j") separate from clean pollution,
+            like other clients osdn#46025
+          + Show new longer and more verbose version of the Wonders of
+            the World report osdn#46520
+          + Nations' dialog panel options are now saved to client settings,
+            and not forgotten between client runs osdn#45049
+          + Ongoing meetings can be reopened also from the players dialog
+            osdn#47790
+
+     * sdl2
+          + sdl2-client theme can now define language specific fonts
+            for any language osdn#48145
+          + On first launch, the initial resolution setting is influenced
+            by selected font size osdn#48397
+          + New font size option osdn#47704
+          + sdl2-client theme now defines color for "No Contact" state
+            in the diplomacy dialog osdn#45038
+
+Tools
+Ruledit
+
+     * Added commandline option --debug to set log level osdn#45467
+     * Completely new buildings can now be added, and existing ones removed,
+       in a standard build of ruledit osdn#48765
+     * Completely new techs can now be added, and existing ones removed,
+       in a standard build of ruledit RM#448
+
+Ruleup
+
+     * Added standard comment entries within sections HRM#658079
+     * Added standard comments for user (custom) ruleset object flag types
+       osdn#46167
+
+Modpack Installer
+
+     * Supports .mpdl files with multiple files sections, each with
+       their own base URL osdn#48613
+
+Manual Generator
+
+     * New manual page listing extras RM#153
+     * New manual page listing unit classes RM#572
+
+Tilesets, Art, etc
+
+     * Storm unit added to cimpletoon (and derivatives) osdn#47740
+     * Volcano terrains added to amplio2 and cimpletoon osdn#48900
+     * Name tags added for extra amplio2 and trident units RM#161
+     * Nets added to supplied tilesets RM#224
+     * Highways added to trident and hex2t RM#255
+
+Help / Documentation
+
+     * Effects in README.effects now sorted alphabetically osdn#43165
+
+Translations
+
+     * Ruledit ruleset sanity error messages are now translated osdn#48803
+     * Updated translations: German, Esperanto, Finnish, French, Russian
+
+Build/portability
+
+     * Windows installers are now built with the meson build system
+          + Official msys2 installers osdn#42489
+          + Crosser based builds osdn#44021
+     * When bootstrap files are recreated, minimum python requirement
+       is now 3.5. Build from the tarball does not require python. osdn#44735
+     * Meson build system improvements
+          + Meson build is no longer experimental, but preferred
+            build system osdn#44491
+          + Support for .fcproj project definition files, similar
+            to .project files we have with autotools osdn#42935
+          + It's now possible to build stub-client with meson osdn#45821
+          + Emscripten builds are now made with meson osdn#46354
+          + Support for testmatic builds added osdn#47675
+          + Almost all the same compiler warnings enabled as
+            autotools builds have osdn#48577
+          + Configure option ruledit replaced with a tools array that
+             can control all utilities, not just ruledit osdn#48700
+          + Configure option audio now a combo selection supporting
+            also SDL3_mixer selection osdn#48777
+          + New configure option python to select python interpreter binary
+            to be used in running source code generators osdn#44766
+     * "make src-check" now checks most data files against trailing spaces
+       osdn#45125
+     * Flatpaks build updates
+          + Source directory now under platforms/ osdn#46309
+          + Build can be made in a separate build directory,
+            and that's recommended osdn#48625
+          + All flatpaks are built with meson osdn#45871
+          + New Qt modpack installer flatpak osdn#48812
+     * Convenience script emscripten.sh added for making emscripten builds
+       osdn#47470
+     * Msys2 environment updated to snapshot from 240810 (10th of Aug 2024)
+       RM#778
+     * Portable (non-installer) Windows packages built along
+       the msys2 installers osdn#48408
+     * Project files now support defining homepage URL osdn#48602
+     * Doxygen documentation now generated by a separate script not tied
+       to autotools build system usage osdn#45704
 
 
 MAJOR CHANGES FROM 3.0.x to 3.1.0
