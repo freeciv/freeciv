@@ -1853,6 +1853,8 @@ static void sg_load_game(struct loaddata *loading)
 
   loading->full_version = game_version;
 
+  secfile_entry_ignore(loading->file, "scenario.game_version");
+
   /* Load server state. */
   str = secfile_lookup_str_default(loading->file, "S_S_INITIAL",
                                    "game.server_state");
