@@ -2439,7 +2439,10 @@ static void compat_load_030300(struct loaddata *loading,
 
   /* World Peace has never started in the old savegame. */
   game.info.turn = secfile_lookup_int_default(loading->file, 0, "game.turn");
-  secfile_insert_int(loading->file, game.info.turn, "game.world_peace_start");
+
+  if (format_class != SAVEGAME_2) {
+    secfile_insert_int(loading->file, game.info.turn, "game.world_peace_start");
+  }
 
   /* Last turn change time as a float, not integer multiplied by 100 */
   {
