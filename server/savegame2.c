@@ -2229,6 +2229,8 @@ static void sg_load_game(struct loaddata *loading)
   sg_failure_ret(20299 <= game_version, "Saved game is too old, at least "
                                         "version 2.2.99 required.");
 
+  (void) secfile_entry_lookup(loading->file, "scenario.game_version");
+
   /* Load server state. */
   string = secfile_lookup_str_default(loading->file, "S_S_INITIAL",
                                       "game.server_state");
