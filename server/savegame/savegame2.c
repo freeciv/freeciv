@@ -2191,6 +2191,8 @@ static void sg_load_map(struct loaddata *loading)
   wld.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
 
+  wld.map.altitude_info = FALSE;
+
   if (S_S_INITIAL == loading->server_state
       && MAPGEN_SCENARIO == wld.map.server.generator) {
     /* Generator MAPGEN_SCENARIO is used;
