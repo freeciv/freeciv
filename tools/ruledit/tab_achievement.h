@@ -24,6 +24,7 @@
 class QCheckBox;
 class QLineEdit;
 class QListWidget;
+class QMenu;
 class QSpinBox;
 class QToolButton;
 
