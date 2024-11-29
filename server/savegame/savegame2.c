@@ -2182,6 +2182,11 @@ static void sg_load_map(struct loaddata *loading)
   wld.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
 
+  /* Savegame may have stored random_seed for documentation purposes only,
+   * but we want to keep it for resaving. */
+  wld.map.server.seed
+    = secfile_lookup_int_default(loading->file, 0, "map.random_seed");
+
   if (S_S_INITIAL == loading->server_state
       && MAPGEN_SCENARIO == wld.map.server.generator) {
     /* Generator MAPGEN_SCENARIO is used;
