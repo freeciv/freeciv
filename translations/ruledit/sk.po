@@ -1,0 +1,850 @@
+# Slovak translation of Freeciv.
+# Copyright (C) 2024 Freeciv Project
+# This file is distributed under the same license as the freeciv package.
+# Pavol Gono <pavol.gono@gmail.com>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: freeciv 3.1.3+\n"
+"Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
+"POT-Creation-Date: 2024-11-29 05:03+0200\n"
+"PO-Revision-Date: 2024-11-28 22:45+0100\n"
+"Last-Translator: Pavol Gono <pavol.gono@gmail.com>\n"
+"Language-Team: \n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 ? 0 : n >= 2 && n <= 4 ? 1 : 2);\n"
+
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
+#: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:190
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
+msgid "Close"
+msgstr "Zatvoriť"
+
+#: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
+#: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
+#: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:165
+msgid "Graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
+#: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
+#: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:174
+msgid "Alt graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:78
+msgid "Activity graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:87
+msgid "Alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:96
+msgid "Second alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:105
+msgid "Removal activity graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:114
+msgid "Alt removal activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:123 tools/ruledit/edit_gov.cpp:70
+#: tools/ruledit/edit_impr.cpp:137 tools/ruledit/edit_tech.cpp:89
+#: tools/ruledit/edit_terrain.cpp:99 tools/ruledit/edit_utype.cpp:223
+msgid "Helptext"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:127 tools/ruledit/edit_terrain.cpp:103
+msgid "Native to"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:94
+msgid "Build Cost"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:73
+msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:83
+msgid "Genus"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:119
+msgid "Sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:128
+msgid "Alt sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_tech.cpp:60
+msgid "Cost"
+msgstr ""
+
+#: tools/ruledit/edit_terrain.cpp:61
+msgid "Move Cost"
+msgstr ""
+
+#: tools/ruledit/edit_terrain.cpp:71
+msgid "Defense Bonus %"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:61
+msgid "Requirement"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:76
+msgid "Class"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:105
+msgid "Attack Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:115
+msgid "Defense Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:125
+msgid "Hitpoints"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:135
+msgid "Firepower"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:145
+msgid "Move Rate"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:155
+msgid "Transport Capacity"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:183
+msgid "Move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:193
+msgid "Alt move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:203
+msgid "Fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:213
+msgid "Alt fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:227
+msgid "Cargo"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
+msgid "Type:"
+msgstr "Typ:"
+
+#: tools/ruledit/effect_edit.cpp:91 tools/ruledit/req_edit.cpp:84
+msgid "Value:"
+msgstr "Hodnota:"
+
+#: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_gov.cpp:87 tools/ruledit/tab_multiplier.cpp:84
+msgid "Requirements"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:119
+msgid "Add Effect"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:123
+msgid "Delete Effect"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:200
+#, c-format
+msgid "Effect #%d: %s"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:303
+#, c-format
+msgid "%s effect #%d"
+msgstr ""
+
+#. TRANS: Trying to fix a requirement vector problem but can't find
+#. * any.
+#: tools/ruledit/req_vec_fix.cpp:79
+msgid "No problem found"
+msgstr ""
+
+#. TRANS: Trying to fix a requirement vector problem but
+#. * don't know how to solve it.
+#: tools/ruledit/req_vec_fix.cpp:92
+#, c-format
+msgid "Don't know how to fix %s: %s"
+msgstr ""
+
+#. TRANS: Apply the selected requirement vector problem fix.
+#: tools/ruledit/req_vec_fix.cpp:120
+msgid "Accept selected solution"
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:158
+msgid "Requirement problem"
+msgstr ""
+
+#. TRANS: Button text in the requirement vector fixer dialog. Cancels all
+#. * changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:168
+msgid "Undo all"
+msgstr ""
+
+#. TRANS: Tool tip text in the requirement vector fixer dialog. Cancels
+#. * all changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:171
+msgid ""
+"Undo all accepted solutions since you started or since last time you ordered "
+"all accepted changes done."
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Button text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:179
+msgid "Do accepted changes"
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Tool tip text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:182
+msgid ""
+"Perform all the changes you have accepted to the ruleset item. You can then "
+"fix the current issue by hand and come back here to find the next issue."
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:278
+msgid "Unable to apply solution"
+msgstr ""
+
+#. TRANS: requirement vector fix failed to apply
+#: tools/ruledit/req_vec_fix.cpp:282
+msgid "Failed to apply solution %1 for %2 to %3."
+msgstr ""
+
+#: tools/ruledit/requirers_dlg.cpp:57
+#, c-format
+msgid "Removing %s"
+msgstr ""
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/requirers_dlg.cpp:72
+#, c-format
+msgid "Needed by %s"
+msgstr ""
+
+#. TRANS: 'Failed to load comments-x.y.txt' where x.y is
+#. * freeciv version
+#: tools/ruledit/ruledit.cpp:123
+#, c-format
+msgid "Failed to load %s."
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:158
+msgid "Print a summary of the options"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:160
+msgid "Print the version number"
+msgstr ""
+
+#. TRANS: argument (don't translate) VALUE (translate)
+#: tools/ruledit/ruledit.cpp:163
+msgid "ruleset RULESET"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:164
+msgid "Ruleset to use as the starting point."
+msgstr ""
+
+#. TRANS: "Fatal" is exactly what user must type, do not translate.
+#: tools/ruledit/ruledit.cpp:168
+msgid "Fatal [SIGNAL]"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:169
+msgid "Raise a signal on failed assertion"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:183
+msgid "Can only edit one ruleset at a time.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:194
+#, c-format
+msgid "Invalid signal number \"%s\".\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:196
+msgid "Try using --help.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:203
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:126
+msgid "built in Qt6 mode."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:128
+msgid "built in Qt5 mode."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:135
+#, c-format
+msgid ""
+"%s%s\n"
+"commit: %s\n"
+"%s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:150
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:158
+msgid "Start editing"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:169
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:171
+msgid "Tech"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:173
+msgid "Buildings"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:175
+msgid "Units"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:177
+msgid "Achievements"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:179
+msgid "Goods"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:181
+msgid "Governments"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:183
+msgid "Enablers"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:185
+msgid "Extras"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:187
+msgid "Terrains"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:189
+msgid "Multipliers"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:191
+msgid "Nations"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:200
+msgid "Welcome to freeciv-ruledit"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:247
+msgid "Old ruleset to a new format"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:250
+msgid "Ruleset loaded"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:273
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:451
+msgid "Freeciv Ruleset Editor"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:484
+msgid "Are you sure you want to quit?"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:488
+msgid "Quit?"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:68 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_gov.cpp:64 tools/ruledit/tab_multiplier.cpp:65
+#: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_terrains.cpp:68
+#: tools/ruledit/tab_unit.cpp:66
+msgid "Rule Name"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:71 tools/ruledit/tab_achievement.cpp:81
+#: tools/ruledit/tab_achievement.cpp:103 tools/ruledit/tab_achievement.cpp:181
+#: tools/ruledit/tab_achievement.cpp:182 tools/ruledit/tab_achievement.cpp:183
+#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
+#: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
+#: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
+#: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
+#: tools/ruledit/tab_good.cpp:147 tools/ruledit/tab_good.cpp:148
+#: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
+#: tools/ruledit/tab_gov.cpp:149 tools/ruledit/tab_gov.cpp:150
+#: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
+#: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
+#: tools/ruledit/tab_tech.cpp:70 tools/ruledit/tab_tech.cpp:80
+#: tools/ruledit/tab_tech.cpp:236 tools/ruledit/tab_tech.cpp:237
+#: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
+#: tools/ruledit/tab_terrains.cpp:149 tools/ruledit/tab_terrains.cpp:150
+#: tools/ruledit/tab_unit.cpp:69 tools/ruledit/tab_unit.cpp:79
+#: tools/ruledit/tab_unit.cpp:146 tools/ruledit/tab_unit.cpp:147
+msgid "None"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:76 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_gov.cpp:72 tools/ruledit/tab_multiplier.cpp:73
+#: tools/ruledit/tab_tech.cpp:75 tools/ruledit/tab_terrains.cpp:76
+#: tools/ruledit/tab_unit.cpp:74
+msgid "Name"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+msgid "Type"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:108
+msgid "Value"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_gov.cpp:91 tools/ruledit/tab_tech.cpp:116
+#: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:89
+msgid "Effects"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:122
+msgid "Add Achievement"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:127
+msgid "Remove this Achievement"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:218
+msgid "An achievement with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_gov.cpp:83 tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:85
+msgid "Edit Values"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:98
+msgid "Add Building"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:103
+msgid "Remove this Building"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:186
+msgid "A building with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:137
+msgid "Actor Requirements"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:144
+msgid "Target Requirements"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:151
+msgid "Add Enabler"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:156
+msgid "Remove this Enabler"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
+#: tools/ruledit/tab_enablers.cpp:248
+msgid "Enabler Issues"
+msgstr ""
+
+#. TRANS: Fix an error in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:227
+msgid "Repair Enabler"
+msgstr ""
+
+#. TRANS: Fix a non error issue in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:232
+msgid "Improve Enabler"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:389
+msgid "Enabler (target)"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:400
+msgid "Enabler (actor)"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:419
+#, c-format
+msgid "action enabler for %s"
+msgstr ""
+
+#: tools/ruledit/tab_extras.cpp:99
+msgid "Add Extra"
+msgstr ""
+
+#: tools/ruledit/tab_extras.cpp:104
+msgid "Remove this Extra"
+msgstr ""
+
+#: tools/ruledit/tab_extras.cpp:188
+msgid "An extra with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_good.cpp:93
+msgid "Add Good"
+msgstr ""
+
+#: tools/ruledit/tab_good.cpp:98
+msgid "Remove this Good"
+msgstr ""
+
+#: tools/ruledit/tab_good.cpp:182
+msgid "A good with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_gov.cpp:95
+msgid "Add Government"
+msgstr ""
+
+#: tools/ruledit/tab_gov.cpp:100
+msgid "Remove this Government"
+msgstr ""
+
+#: tools/ruledit/tab_gov.cpp:184
+msgid "A government with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:73
+msgid "Ruleset name"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:78
+msgid "Ruleset version"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:83
+msgid "Save to directory"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:105
+#, c-format
+msgid ""
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
+"Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:114
+msgid "Version suffix to directory name"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:119
+msgid "Save now"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:123
+msgid "Description from file"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:130
+msgid "Description file"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:136
+msgid "Sanity check rules"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:140
+msgid "Always active Effects"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:143
+msgid "All Effects"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:150
+msgid "?stat:Terrains"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:154
+msgid "?stat:Resources"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:158
+msgid "?stat:Tech Classes"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:162
+msgid "?stat:Techs"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:166
+msgid "?stat:Unit Classes"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:170
+msgid "?stat:Unit Types"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:174
+msgid "?stat:Enablers"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:178
+msgid "?stat:Buildings"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:182
+msgid "?stat:Nations"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:186
+msgid "?stat:Styles"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:190
+msgid "?stat:Specialists"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:194
+msgid "?stat:Governments"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:198
+msgid "?stat:Disasters"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:202
+msgid "?stat:Achievements"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:206
+msgid "?stat:Extras"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:210
+msgid "?stat:Bases"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:214
+msgid "?stat:Roads"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:218
+msgid "?stat:Goods"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:222
+msgid "?stat:Multipliers"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:226
+msgid "?stat:Effects"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:234
+msgid "Refresh Stats"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:312
+msgid "Ruleset saved"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:458
+msgid "Always active"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:479
+msgid "Sanity Check"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:486
+msgid "Sanity check failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:488
+msgid "Sanity check success"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:497
+msgid "All effects"
+msgstr ""
+
+#: tools/ruledit/tab_multiplier.cpp:88
+msgid "Add Multiplier"
+msgstr ""
+
+#: tools/ruledit/tab_multiplier.cpp:93
+msgid "Remove this Multiplier"
+msgstr ""
+
+#: tools/ruledit/tab_multiplier.cpp:177
+msgid "A multiplier with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_nation.cpp:50
+msgid "Use nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_nation.cpp:54
+msgid "Nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:90
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:99
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:120
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:125
+msgid "Remove this tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:204
+msgid "Never"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:361
+msgid "A tech with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_terrains.cpp:95
+msgid "Add Terrain"
+msgstr ""
+
+#: tools/ruledit/tab_terrains.cpp:100
+msgid "Remove this Terrain"
+msgstr ""
+
+#: tools/ruledit/tab_terrains.cpp:184
+msgid "A terrain with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:93
+msgid "Add Unit"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:98
+msgid "Remove this Unit"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:181
+msgid "A unit type with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:102
+msgid "Range:"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:121 tools/ruledit/req_edit.cpp:311
+msgid "Allows"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:122 tools/ruledit/req_edit.cpp:313
+#: tools/ruledit/req_edit.cpp:361
+msgid "Prevents"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:127
+msgid "Add Requirement"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:131
+msgid "Delete Requirement"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:162
+#, c-format
+msgid "%s prevents"
+msgstr ""
+
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:375
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:132
+#, c-format
+msgid "%s action enabler"
+msgstr ""
+
+#: tools/ruledit/validity.c:154
+msgid "Music Style"
+msgstr ""
+
+#. TRANS: e.g. "Advance clause"
+#: tools/ruledit/validity.c:167
+#, c-format
+msgid "%s clause"
+msgstr ""
+
+#: tools/ruledit/validity.c:306
+msgid "Conflicting extra"
+msgstr ""
+
+#: tools/ruledit/validity.c:309
+msgid "Hidden extra"
+msgstr ""
