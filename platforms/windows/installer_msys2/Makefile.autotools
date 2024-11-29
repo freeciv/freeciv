@@ -19,12 +19,14 @@ ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
 ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
+CPPLIBS=libstdc++-6.dll libgomp-1.dll libgmp-10.dll
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0603
 
 else ifeq ($(MSYSTEM),UCRT64)
 WINARCH=win64-10
 ARCHDIR=ucrt64
+CPPLIBS=libstdc++-6.dll libgomp-1.dll libgmp-10.dll
 CRYPTOLIB_SUFFIX=-x64
 LIBGCCDLL=libgcc_s_seh-1.dll
 PREF_WIN_VER=0x0A00
@@ -33,6 +35,7 @@ else ifeq ($(MSYSTEM),CLANG64)
 WINARCH=win64+
 ARCHDIR=clang64
 LIBGCCDLL=
+CPPLIBS=libc++.dll libomp.dll libunwind.dll
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0A00
 
@@ -81,11 +84,11 @@ all-win64: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer 
 all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt6-installer gtk4-installer
 
 all-win64+:
-	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" install-freeciv-gtk3.22
-	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" install-freeciv-gtk4
-	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" install-freeciv-sdl2
-	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" install-freeciv-qt6
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="CFLAGS=\"-Wno-cast-align $$CFLAGS\" $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" install-ruledit-qt6
+	CFLAGS="-Wno-cast-align $(CFLAGS)" make -f $(MAKEFILE_NAME) gtk3.22-installer
+	CFLAGS="-Wno-cast-align $(CFLAGS)" make -f $(MAKEFILE_NAME) sdl2-installer
+	CFLAGS="-Wno-cast-align $(CFLAGS)" make -f $(MAKEFILE_NAME) ruledit-installer
+	CFLAGS="-Wno-cast-align $(CFLAGS)" make -f $(MAKEFILE_NAME) qt6-installer
+	CFLAGS="-Wno-cast-align $(CFLAGS)" make -f $(MAKEFILE_NAME) gtk4-installer
 
 gtk3.22-installer:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
@@ -118,7 +121,7 @@ ruledit-installer-qt6:
 
 snapshot:
 	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh ; ./autogen.sh --no-configure-run
-	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=$(SRC_ROOT)/../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=$(SRC_ROOT)/../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror \$$\$$CFLAGS\\\" CXXFLAGS=\\\"\$$\$$CXXFLAGS\\\"" all
 
 ci:
 	cd $(SRC_ROOT) ; ./autogen.sh --no-configure-run
@@ -264,7 +267,7 @@ SOUND_DLLS := \
 	libopus-0.dll
 
 COMMON_DLLS := \
-	libstdc++-6.dll \
+	$(CPPLIBS) \
 	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
 	libssl-${CRYPTOVERSUF}.dll \
@@ -273,7 +276,6 @@ COMMON_DLLS := \
 	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
-	libgmp-10.dll \
 	libp11-kit-0.dll \
 	libtasn1-6.dll \
 	libatk-1.0-0.dll \
@@ -315,7 +317,6 @@ COMMON_DLLS := \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
 	libMagickCore-${MAGICKVER}.dll \
-	libgomp-1.dll \
 	libfftw3-3.dll \
 	liblcms2-2.dll \
 	liblqr-1-0.dll \
@@ -464,7 +465,7 @@ install-env-qt6: install-env-common
 	find $(INST_DIR)/$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT5_DLLS := \
-	libstdc++-6.dll \
+	$(CPPLIBS) \
 	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
 	libssl-${CRYPTOVERSUF}.dll \
@@ -473,7 +474,6 @@ RULEDIT_QT5_DLLS := \
 	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
-	libgmp-10.dll \
 	libp11-kit-0.dll \
 	libtasn1-6.dll \
 	libatk-1.0-0.dll \
@@ -503,7 +503,6 @@ RULEDIT_QT5_DLLS := \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
 	libMagickCore-${MAGICKVER}.dll \
-	libgomp-1.dll \
 	libfftw3-3.dll \
 	liblcms2-2.dll \
 	liblqr-1-0.dll \
@@ -523,7 +522,7 @@ install-env-ruledit-qt5:
 	find $(INST_DIR)/$(WINARCH)-ruledit-qt5/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT6_DLLS := \
-	libstdc++-6.dll \
+	$(CPPLIBS) \
 	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
 	libssl-${CRYPTOVERSUF}.dll \
@@ -532,7 +531,6 @@ RULEDIT_QT6_DLLS := \
 	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
-	libgmp-10.dll \
 	libp11-kit-0.dll \
 	libtasn1-6.dll \
 	libatk-1.0-0.dll \
@@ -563,7 +561,6 @@ RULEDIT_QT6_DLLS := \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
 	libMagickCore-${MAGICKVER}.dll \
-	libgomp-1.dll \
 	libfftw3-3.dll \
 	liblcms2-2.dll \
 	liblqr-1-0.dll \
