@@ -3094,14 +3094,14 @@ int city_unit_unhappiness(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Calculate upkeep costs.  This builds the pcity->usage[] array as well
+  Calculate upkeep costs. This builds the pcity->usage[] array as well
   as setting some happiness values.
 **************************************************************************/
-static inline void city_support(struct city *pcity)
+static inline void city_support(const struct civ_map *nmap,
+                                struct city *pcity)
 {
   int free_unhappy;
   int max_mart_units;
-  const struct civ_map *nmap = &(wld.map);
 
   /* Clear all usage values. */
   memset(pcity->usage, 0, O_LAST * sizeof(*pcity->usage));
@@ -3208,8 +3208,8 @@ void city_refresh_from_main_map(const struct civ_map *nmap,
     set_city_bonuses(pcity);
     /* Calculate the tile_cache[] values. */
     city_tile_cache_update(nmap, pcity);
-    /* manage settlers, and units */
-    city_support(pcity);
+    /* Manage settlers, and units */
+    city_support(nmap, pcity);
   }
 
   /* Calculate output from citizens (uses city_tile_cache_get_output()). */
