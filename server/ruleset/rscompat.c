@@ -767,7 +767,9 @@ bool load_action_ui_name_3_3(struct section_file *file, int act,
     if (text == nullptr) {
       text = def;
     } else {
-      paction->configured = TRUE;
+      if (strcmp(def, text)) {
+        paction->configured = TRUE;
+      }
     }
   }
 
