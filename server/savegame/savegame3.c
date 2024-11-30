@@ -2655,6 +2655,8 @@ static void sg_load_map(struct loaddata *loading)
     sg_load_map_tiles_extras(loading);
 
     /* Nothing more needed for a scenario. */
+    secfile_entry_ignore(loading->file, "game.save_known");
+
     return;
   }
 
@@ -3324,7 +3326,8 @@ static void sg_load_map_known(struct loaddata *loading)
 
   if (secfile_lookup_bool_default(loading->file, TRUE,
                                   "game.save_known")) {
-    int lines = player_slot_max_used_number()/32 + 1, j, p, l, i;
+    int lines = player_slot_max_used_number() / 32 + 1;
+    int j, p, l, i;
     unsigned int *known = fc_calloc(lines * MAP_INDEX_SIZE, sizeof(*known));
 
     for (l = 0; l < lines; l++) {
@@ -3376,7 +3379,7 @@ static void sg_save_map_known(struct savedata *saving)
     secfile_insert_bool(saving->file, FALSE, "game.save_known");
     return;
   } else {
-    int lines = player_slot_max_used_number()/32 + 1;
+    int lines = player_slot_max_used_number() / 32 + 1;
 
     secfile_insert_bool(saving->file, game.server.save_options.save_known,
                         "game.save_known");
