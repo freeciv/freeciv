@@ -96,8 +96,8 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
 struct city *find_nearest_safe_city(struct unit *punit);
 bool uclass_need_trans_between(struct unit_class *pclass,
                                struct tile *ctile, struct tile *ptile);
-adv_want look_for_charge(struct ai_type *ait, struct player *pplayer,
-                         struct unit *punit,
+adv_want look_for_charge(struct ai_type *ait, const struct civ_map *nmap,
+                         struct player *pplayer, struct unit *punit,
                          struct unit **aunit, struct city **acity);
 bool dai_can_unit_type_follow_unit_type(const struct unit_type *follower,
                                         const struct unit_type *followee,

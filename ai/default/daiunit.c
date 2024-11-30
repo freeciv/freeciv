@@ -712,8 +712,8 @@ static bool unit_role_defender(const struct unit_type *punittype)
   do we attempt to bodyguard units with higher defense than us, or military
   units with lower attack than us that are not transports.
 **************************************************************************/
-adv_want look_for_charge(struct ai_type *ait, struct player *pplayer,
-                         struct unit *punit,
+adv_want look_for_charge(struct ai_type *ait, const struct civ_map *nmap,
+                         struct player *pplayer, struct unit *punit,
                          struct unit **aunit, struct city **acity)
 {
   struct pf_parameter parameter;
@@ -724,7 +724,6 @@ adv_want look_for_charge(struct ai_type *ait, struct player *pplayer,
   int def, best_def = -1;
   /* Arbitrary: 3 turns. */
   const int max_move_cost = 3 * unit_move_rate(punit);
-  const struct civ_map *nmap = &(wld.map);
 
   *aunit = NULL;
   *acity = NULL;
@@ -920,7 +919,7 @@ static void dai_military_findjob(struct ai_type *ait,
     struct city *acity;
     struct unit *aunit;
 
-    look_for_charge(ait, pplayer, punit, &aunit, &acity);
+    look_for_charge(ait, nmap, pplayer, punit, &aunit, &acity);
     if (acity) {
       dai_unit_new_task(ait, punit, AIUNIT_ESCORT, acity->tile);
       aiguard_assign_guard_city(ait, acity, punit);
