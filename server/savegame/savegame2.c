@@ -1661,6 +1661,10 @@ static void sg_load_game(struct loaddata *loading)
   game.info.coolinglevel
     = secfile_lookup_int_default(loading->file, 0, "game.coolinglevel");
 
+  /* Savegame may have stored random_seed for documentation purposes only,
+   * but we want to keep it for resaving. */
+  game.server.seed = secfile_lookup_int_default(loading->file, 0, "game.random_seed");
+
   /* Global advances. */
   str = secfile_lookup_str_default(loading->file, NULL,
                                    "game.global_advances");
