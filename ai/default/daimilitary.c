@@ -1676,6 +1676,7 @@ cleanup:
   if want is 0 this advisor doesn't want anything
 **************************************************************************/
 static void dai_unit_consider_bodyguard(struct ai_type *ait,
+                                        const struct civ_map *nmap,
                                         struct city *pcity,
                                         struct unit_type *punittype,
                                         struct adv_choice *choice)
@@ -1688,7 +1689,7 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
       = unit_virtual_create(pplayer, pcity, punittype,
                             city_production_unit_veteran_level(pcity,
                                                                punittype));
-    const adv_want want = look_for_charge(ait, pplayer, virtualunit,
+    const adv_want want = look_for_charge(ait, nmap, pplayer, virtualunit,
                                           &aunit, &acity);
 
     if (want > choice->want) {
@@ -1949,7 +1950,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   punittype = dai_choose_bodyguard(ait, nmap, pcity, TC_LAND, L_DEFEND_GOOD,
                                    allow_gold_upkeep);
   if (punittype) {
-    dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
+    dai_unit_consider_bodyguard(ait, nmap, pcity, punittype, choice);
   }
 
   /* If we are in severe danger, don't consider attackers. This is probably
@@ -1970,7 +1971,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   punittype = dai_choose_bodyguard(ait, nmap, pcity, TC_OCEAN, L_DEFEND_GOOD,
                                    allow_gold_upkeep);
   if (punittype) {
-    dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
+    dai_unit_consider_bodyguard(ait, nmap, pcity, punittype, choice);
   }
 
   /* Consider making an airplane */
