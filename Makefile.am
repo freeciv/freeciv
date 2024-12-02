@@ -24,8 +24,8 @@ docs =			\
 	ChangeLog-1.0-S3_0 \
 	COPYING		\
 	INSTALL		\
-	NEWS
-# On branch: add NEWS-x.x here and remove this comment
+	NEWS		\
+	NEWS-3.2
 
 EXTRA_DIST =	autogen.sh 			\
 		configure.ac			\

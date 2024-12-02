@@ -4424,6 +4424,7 @@ install_data(
 install_data(
   'COPYING',
   'NEWS',
+  'NEWS-3.2',
   'INSTALL',
   'ChangeLog',
   'doc/BUGS',
