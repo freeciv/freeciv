@@ -10,7 +10,7 @@ the detailed changes should check the ChangeLog file.
 MAJOR CHANGES FROM 3.1.x to 3.2.0
 ---------------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.2.0>, 2024-11-26)
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.0>, 2024-12-02)
 
    The major changes in 3.2 are gtk4-client as default, new sdl3-client,
    meson based build system as default, and a whole lot of extra flexibility
@@ -63,7 +63,7 @@ Changes affecting players (supplied rulesets)
      * Diplomat actions that give Casus Belli in supplied rulesets after
        success, now give Casus Belli also after the diplomat gets caught
        attempting it osdn#46239
-     * New event type Conquered when a city is conqured. Those messages used
+     * New event type Conquered when a city is conquered. Those messages used
        to be sent as Unit Win Attack events osdn#47806
 
      * New nations
