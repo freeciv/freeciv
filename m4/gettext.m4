@@ -1,5 +1,5 @@
 # gettext.m4
-# serial 80 (gettext-0.23)
+# serial 81 (gettext-0.23)
 dnl Copyright (C) 1995-2014, 2016, 2018-2024 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -17,7 +17,7 @@ dnl They are *not* in the public domain.
 
 dnl Authors:
 dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
-dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2006, 2008-2010.
+dnl   Bruno Haible <bruno@clisp.org>, 2000-2024.
 
 dnl Macro to add for using GNU gettext.
 
