@@ -1,10 +1,11 @@
 # po.m4
-# serial 32 (gettext-0.21.1)
+# serial 33 (gettext-0.23)
 dnl Copyright (C) 1995-2014, 2016, 2018-2022, 2024 Free Software Foundation,
 dnl Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
+dnl This file is offered as-is, without any warranty.
 dnl
 dnl This file can be used in projects which are not available under
 dnl the GNU General Public License or the GNU Lesser General Public
@@ -17,7 +18,7 @@ dnl They are *not* in the public domain.
 
 dnl Authors:
 dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
-dnl   Bruno Haible <haible@clisp.cons.org>, 2000-2003.
+dnl   Bruno Haible <bruno@clisp.org>, 2000-2024.
 
 AC_PREREQ([2.60])
 
@@ -32,7 +33,7 @@ AC_DEFUN([AM_PO_SUBDIRS],
 
   dnl Release version of the gettext macros. This is used to ensure that
   dnl the gettext macros and po/Makefile.in.in are in sync.
-  AC_SUBST([GETTEXT_MACRO_VERSION], [0.20])
+  AC_SUBST([GETTEXT_MACRO_VERSION], [0.22])
 
   dnl Perform the following tests also if --disable-nls has been given,
   dnl because they are needed for "make dist" to work.
