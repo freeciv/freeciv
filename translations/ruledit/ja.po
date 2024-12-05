@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-10-04 03:30+0300\n"
+"POT-Creation-Date: 2024-12-01 21:12+0200\n"
 "PO-Revision-Date: 2015-02-17 22:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -606,7 +606,7 @@ msgid "Quit?"
 msgstr ""
 
 # Daniel
-#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_achievement.cpp:68 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_counters.cpp:82 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:64
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:67
@@ -615,8 +615,9 @@ msgstr ""
 msgid "Rule Name"
 msgstr "プレイヤー名 :"
 
-#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
-#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
+#: tools/ruledit/tab_achievement.cpp:71 tools/ruledit/tab_achievement.cpp:81
+#: tools/ruledit/tab_achievement.cpp:103 tools/ruledit/tab_achievement.cpp:181
+#: tools/ruledit/tab_achievement.cpp:182 tools/ruledit/tab_achievement.cpp:183
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
@@ -639,7 +640,7 @@ msgstr "プレイヤー名 :"
 msgid "None"
 msgstr ""
 
-#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_achievement.cpp:76 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_counters.cpp:89 tools/ruledit/tab_extras.cpp:76
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:72
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:75
@@ -647,7 +648,15 @@ msgstr ""
 msgid "Name"
 msgstr "名前"
 
-#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+msgid "Type"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:108
+msgid "Value"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
@@ -655,18 +664,18 @@ msgstr "名前"
 msgid "Effects"
 msgstr ""
 
-#: tools/ruledit/tab_achievement.cpp:89
+#: tools/ruledit/tab_achievement.cpp:122
 #, fuzzy
 msgid "Add Achievement"
 msgstr "政治体制"
 
-#: tools/ruledit/tab_achievement.cpp:94
+#: tools/ruledit/tab_achievement.cpp:127
 #, fuzzy
 msgid "Remove this Achievement"
 msgstr "このプリセットを削除していいですか?"
 
 # Daniel
-#: tools/ruledit/tab_achievement.cpp:179
+#: tools/ruledit/tab_achievement.cpp:218
 #, fuzzy
 msgid "An achievement with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
@@ -720,10 +729,6 @@ msgstr "このプリセットを削除していいですか?"
 #, fuzzy
 msgid "A counter with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
-
-#: tools/ruledit/tab_enablers.cpp:113
-msgid "Type"
-msgstr ""
 
 #: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"

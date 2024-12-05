@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-11-25 06:30+0200\n"
+"POT-Creation-Date: 2024-12-01 21:11+0200\n"
 "PO-Revision-Date: 2021-09-27 13:20+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -1490,28 +1490,28 @@ msgstr "Fermu konekton"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: client/client_main.c:423 client/client_main.c:429 tools/fcmp/mpcmdline.c:77
-#: tools/fcmp/mpcmdline.c:83 tools/manual/fc_manual.c:453
-#: tools/manual/fc_manual.c:459 server/civserver.c:276 server/civserver.c:282
+#: tools/fcmp/mpcmdline.c:83 tools/manual/fc_manual.c:468
+#: tools/manual/fc_manual.c:474 server/civserver.c:276 server/civserver.c:282
 msgid "debug LEVEL"
 msgstr ""
 
 #: client/client_main.c:424 tools/fcmp/mpcmdline.c:78
-#: tools/manual/fc_manual.c:454 server/civserver.c:277
+#: tools/manual/fc_manual.c:469 server/civserver.c:277
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
 
 #: client/client_main.c:430 tools/fcmp/mpcmdline.c:84
-#: tools/manual/fc_manual.c:460 server/civserver.c:283
+#: tools/manual/fc_manual.c:475 server/civserver.c:283
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr ""
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: client/client_main.c:435 tools/ruleup.c:69 tools/manual/fc_manual.c:465
+#: client/client_main.c:435 tools/ruleup.c:69 tools/manual/fc_manual.c:480
 #: server/civserver.c:288
 msgid "Fatal [SIGNAL]"
 msgstr ""
 
-#: client/client_main.c:436 tools/manual/fc_manual.c:466 server/civserver.c:289
+#: client/client_main.c:436 tools/manual/fc_manual.c:481 server/civserver.c:289
 msgid "Raise a signal on failed assertion"
 msgstr ""
 
@@ -1526,7 +1526,7 @@ msgid "Load saved game FILE"
 msgstr "Ŝargu konservitan ludon"
 
 #: client/client_main.c:443 tools/ruleup.c:65 tools/fcmp/mpcmdline.c:61
-#: tools/manual/fc_manual.c:469 server/civserver.c:296
+#: tools/manual/fc_manual.c:484 server/civserver.c:296
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "+ signifas ke vi povas ŝanĝi opcion"
@@ -1536,7 +1536,7 @@ msgid "Do not request hack access to local server"
 msgstr ""
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:450 tools/manual/fc_manual.c:472 server/civserver.c:303
+#: client/client_main.c:450 tools/manual/fc_manual.c:487 server/civserver.c:303
 msgid "log FILE"
 msgstr ""
 
@@ -1633,7 +1633,7 @@ msgid "Use data file FILE.tilespec for tiles"
 msgstr ""
 
 #: client/client_main.c:490 tools/fcmp/mpcmdline.c:87
-#: tools/manual/fc_manual.c:479 server/civserver.c:361
+#: tools/manual/fc_manual.c:494 server/civserver.c:361
 msgid "Print the version number"
 msgstr ""
 
@@ -1641,7 +1641,7 @@ msgstr ""
 msgid "Warn about deprecated modpack constructs"
 msgstr ""
 
-#: client/client_main.c:516 tools/ruleup.c:112 tools/manual/fc_manual.c:404
+#: client/client_main.c:516 tools/ruleup.c:112 tools/manual/fc_manual.c:419
 #: server/civserver.c:125
 #, fuzzy, c-format
 msgid "Invalid signal number \"%s\".\n"
@@ -1669,7 +1669,7 @@ msgstr ""
 
 #: client/client_main.c:587 client/gui-sdl2/gui_main.c:219
 #: client/gui-sdl3/gui_main.c:212 tools/ruleup.c:121 tools/fcmp/mpcmdline.c:116
-#: tools/manual/fc_manual.c:417
+#: tools/manual/fc_manual.c:432
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nekonata opcio: \"%s\"\n"
@@ -38135,7 +38135,7 @@ msgid "Raise a signal on failed assertion or broken data"
 msgstr ""
 
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
-#: tools/ruleup.c:74 tools/manual/fc_manual.c:476 server/civserver.c:352
+#: tools/ruleup.c:74 tools/manual/fc_manual.c:491 server/civserver.c:352
 msgid "ruleset RULESET"
 msgstr ""
 
@@ -38521,30 +38521,30 @@ msgid ""
 "%s"
 msgstr "Tiu ĉi komando estas nur por klientoj."
 
-#: tools/manual/fc_manual.c:297
+#: tools/manual/fc_manual.c:301
 #, c-format
 msgid "Could not write manual file %s."
 msgstr "Estas neeble skribi en la dosiero de manlibro %s."
 
-#: tools/manual/fc_manual.c:321
+#: tools/manual/fc_manual.c:325
 #, c-format
 msgid "%s (%d) manual successfully written."
 msgstr ""
 
-#: tools/manual/fc_manual.c:383
+#: tools/manual/fc_manual.c:398
 msgid "Multiple rulesets requested. Only one ruleset at a time is supported.\n"
 msgstr ""
 
-#: tools/manual/fc_manual.c:473 server/civserver.c:304
+#: tools/manual/fc_manual.c:488 server/civserver.c:304
 #, fuzzy
 msgid "Use FILE as logfile"
 msgstr "Teĥnologioj\n"
 
-#: tools/manual/fc_manual.c:477
+#: tools/manual/fc_manual.c:492
 msgid "Make manual for RULESET"
 msgstr ""
 
-#: tools/manual/fc_manual.c:481
+#: tools/manual/fc_manual.c:496
 msgid "Write manual in wiki format"
 msgstr ""
 
@@ -45576,7 +45576,7 @@ msgstr ""
 msgid ""
 "When unit trying to incite revolt is eliminated and lose its gold, there is "
 "chance that this gold would be captured by city defender. Transfer tax would "
-"be applied, though. This setting is irrevelant, if incite_gold_loss_chance "
+"be applied, though. This setting is irrelevant, if incite_gold_loss_chance "
 "is zero."
 msgstr ""
 

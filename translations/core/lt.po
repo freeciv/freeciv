@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-11-12 23:45+0200\n"
+"POT-Creation-Date: 2024-12-01 21:11+0200\n"
 "PO-Revision-Date: 2010-10-11 20:07+0100\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -546,14 +546,14 @@ msgid ""
 "be used."
 msgstr ""
 
-#: client/agents/cma_core.c:402 server/cityturn.c:423
+#: client/agents/cma_core.c:403 server/cityturn.c:423
 #, c-format
 msgid ""
 "The citizen governor can't fulfill the requirements for %s. Passing back "
 "control."
 msgstr ""
 
-#: client/agents/cma_core.c:411 client/agents/cma_core.c:431
+#: client/agents/cma_core.c:412 client/agents/cma_core.c:432
 #, c-format
 msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
@@ -1565,13 +1565,13 @@ msgstr "  -a, --autoconnect\tPraleisti prisijungimo dialogą\n"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: client/client_main.c:423 client/client_main.c:429 tools/fcmp/mpcmdline.c:77
-#: tools/fcmp/mpcmdline.c:83 tools/manual/fc_manual.c:453
-#: tools/manual/fc_manual.c:459 server/civserver.c:276 server/civserver.c:282
+#: tools/fcmp/mpcmdline.c:83 tools/manual/fc_manual.c:468
+#: tools/manual/fc_manual.c:474 server/civserver.c:276 server/civserver.c:282
 msgid "debug LEVEL"
 msgstr ""
 
 #: client/client_main.c:424 tools/fcmp/mpcmdline.c:78
-#: tools/manual/fc_manual.c:454 server/civserver.c:277
+#: tools/manual/fc_manual.c:469 server/civserver.c:277
 #, fuzzy
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
@@ -1579,7 +1579,7 @@ msgstr ""
 "3)\n"
 
 #: client/client_main.c:430 tools/fcmp/mpcmdline.c:84
-#: tools/manual/fc_manual.c:460 server/civserver.c:283
+#: tools/manual/fc_manual.c:475 server/civserver.c:283
 #, fuzzy
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr ""
@@ -1587,12 +1587,12 @@ msgstr ""
 "3)\n"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: client/client_main.c:435 tools/ruleup.c:69 tools/manual/fc_manual.c:465
+#: client/client_main.c:435 tools/ruleup.c:69 tools/manual/fc_manual.c:480
 #: server/civserver.c:288
 msgid "Fatal [SIGNAL]"
 msgstr ""
 
-#: client/client_main.c:436 tools/manual/fc_manual.c:466 server/civserver.c:289
+#: client/client_main.c:436 tools/manual/fc_manual.c:481 server/civserver.c:289
 msgid "Raise a signal on failed assertion"
 msgstr ""
 
@@ -1607,7 +1607,7 @@ msgid "Load saved game FILE"
 msgstr "Įkelti išsaugotą žaidimą"
 
 #: client/client_main.c:443 tools/ruleup.c:65 tools/fcmp/mpcmdline.c:61
-#: tools/manual/fc_manual.c:469 server/civserver.c:296
+#: tools/manual/fc_manual.c:484 server/civserver.c:296
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "  -h, --help\t\tAtspausdinti parinkčių santrauką\n"
@@ -1617,7 +1617,7 @@ msgid "Do not request hack access to local server"
 msgstr ""
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:450 tools/manual/fc_manual.c:472 server/civserver.c:303
+#: client/client_main.c:450 tools/manual/fc_manual.c:487 server/civserver.c:303
 msgid "log FILE"
 msgstr ""
 
@@ -1716,7 +1716,7 @@ msgid "Use data file FILE.tilespec for tiles"
 msgstr ""
 
 #: client/client_main.c:490 tools/fcmp/mpcmdline.c:87
-#: tools/manual/fc_manual.c:479 server/civserver.c:361
+#: tools/manual/fc_manual.c:494 server/civserver.c:361
 #, fuzzy
 msgid "Print the version number"
 msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
@@ -1725,7 +1725,7 @@ msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
 msgid "Warn about deprecated modpack constructs"
 msgstr ""
 
-#: client/client_main.c:516 tools/ruleup.c:112 tools/manual/fc_manual.c:404
+#: client/client_main.c:516 tools/ruleup.c:112 tools/manual/fc_manual.c:419
 #: server/civserver.c:125
 #, fuzzy, c-format
 msgid "Invalid signal number \"%s\".\n"
@@ -1753,7 +1753,7 @@ msgstr ""
 
 #: client/client_main.c:587 client/gui-sdl2/gui_main.c:219
 #: client/gui-sdl3/gui_main.c:212 tools/ruleup.c:121 tools/fcmp/mpcmdline.c:116
-#: tools/manual/fc_manual.c:417
+#: tools/manual/fc_manual.c:432
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Neatpažintas parametras: „%s“\n"
@@ -2005,7 +2005,7 @@ msgstr ""
 #. TRANS: Only Nuclear or ICBM can do Explode
 #. * Nuclear.
 #. TRANS: Only Diplomat or Spy can do Steal Gold.
-#: client/control.c:1153 server/unithand.c:2517
+#: client/control.c:1161 server/unithand.c:2517
 #, fuzzy, c-format
 #| msgid "Only %s can add to a city."
 msgid "Only %s can do %s."
@@ -2013,67 +2013,67 @@ msgstr "Tik %s gali prisidėti prie miesto."
 
 #. TRANS: Spy can't do Explode Nuclear.
 #. TRANS: Spy can't do Capture Units.
-#: client/control.c:1161 server/unithand.c:2525
+#: client/control.c:1169 server/unithand.c:2525
 #, fuzzy, c-format
 msgid "%s can't do %s."
 msgstr "Tik %s gali atakuoti iš jūros."
 
-#: client/control.c:1510
+#: client/control.c:1518
 msgid "Only transporter units can be unloaded."
 msgstr "Išlaipinti galima tik iš transporto dalinių."
 
-#: client/control.c:1702
+#: client/control.c:1710
 #, fuzzy
 #| msgid "Investigate City (free)"
 msgid "Joining a city uses the unit"
 msgstr "Ištirti miestą (nemokamai)"
 
 #. TRANS: Unable to get rid of Leader.
-#: client/control.c:1986
+#: client/control.c:1994
 #, c-format
 msgid "Unable to get rid of %s."
 msgstr ""
 
-#: client/control.c:2139
+#: client/control.c:2147
 msgid "Only settler units can be put into auto mode."
 msgstr "Tik naujakuriai gali būti įvesti į auto būseną."
 
 #. TRANS: paradrop target tile.
-#: client/control.c:2259
+#: client/control.c:2267
 msgid "Click on a tile to paradrop to it."
 msgstr ""
 
-#: client/control.c:2266
+#: client/control.c:2274
 msgid "Only paratrooper units can do this."
 msgstr "Tik parašiutininkai tai gali."
 
 #. TRANS: teleport target tile.
-#: client/control.c:2297
+#: client/control.c:2305
 msgid "Click on a tile to teleport to it."
 msgstr ""
 
-#: client/control.c:2304
+#: client/control.c:2312
 #, fuzzy
 #| msgid "Only paratrooper units can do this."
 msgid "Only teleporting units can do this."
 msgstr "Tik parašiutininkai tai gali."
 
-#: client/control.c:3131 client/control.c:3224 client/control.c:3241
+#: client/control.c:3139 client/control.c:3232 client/control.c:3249
 msgid "Didn't find a route to the destination!"
 msgstr "Nerastas kelias iki tikslo."
 
-#: client/control.c:3297
+#: client/control.c:3305
 msgid "Oh my! You seem to have no capital!"
 msgstr "O ne! Atrodo, kad neturi sostinės!"
 
 #. TRANS: Perform action inside a goto.
-#: client/control.c:3431
+#: client/control.c:3439
 #, c-format
 msgid "Click on a tile to do %s against it."
 msgstr ""
 
 #. TRANS: "Do..." action selection dialog target.
-#: client/control.c:3445
+#: client/control.c:3453
 msgid ""
 "Click on a tile to act against it. Press 'd' again to act against own tile."
 msgstr ""
@@ -4644,19 +4644,14 @@ msgstr ""
 msgid "Other gui-specific options are:\n"
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:276 client/gui-gtk-4.0/gui_main.c:276
-msgid "-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
-msgstr ""
-
-#. TRANS: Keep word 'default' untranslated
-#: client/gui-gtk-3.22/gui_main.c:282 client/gui-gtk-4.0/gui_main.c:282
+#: client/gui-gtk-3.22/gui_main.c:276
 msgid ""
-"-z, --zoom LEVEL\tSet zoom level; use value 'default' to reset\n"
+"-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
 "\n"
 msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/gui-gtk-3.22/gui_main.c:289 client/gui-gtk-4.0/gui_main.c:289
+#: client/gui-gtk-3.22/gui_main.c:280 client/gui-gtk-4.0/gui_main.c:284
 #: client/gui-qt/gui_main.cpp:126 client/gui-sdl2/gui_main.c:189
 #: client/gui-sdl3/gui_main.c:184 tools/fcmp/mpcli.c:115
 #: tools/fcmp/mpgui_gtk3.c:579 tools/fcmp/mpgui_gtk4.c:626
@@ -4665,88 +4660,88 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr "Pranešti apie klaidas į %s.\n"
 
-#: client/gui-gtk-3.22/gui_main.c:322 client/gui-gtk-4.0/gui_main.c:322
+#: client/gui-gtk-3.22/gui_main.c:299 client/gui-gtk-4.0/gui_main.c:313
 #, c-format
 msgid "Illegal video mode '%s'\n"
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:825 client/gui-gtk-4.0/gui_main.c:811
+#: client/gui-gtk-3.22/gui_main.c:802 client/gui-gtk-4.0/gui_main.c:802
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-3.22/gui_main.c:892 client/gui-gtk-4.0/gui_main.c:871
+#: client/gui-gtk-3.22/gui_main.c:869 client/gui-gtk-4.0/gui_main.c:862
 msgid "Detach/Attach the pane."
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:1137 client/gui-gtk-4.0/gui_main.c:1066
+#: client/gui-gtk-3.22/gui_main.c:1114 client/gui-gtk-4.0/gui_main.c:1057
 #: client/gui-qt/sidebar.cpp:663
 #, fuzzy
 #| msgid "Fixed-length turns play mode"
 msgid "Fixed length turns"
 msgstr "Fiksuoto laiko ėjimų žaidimo režimas"
 
-#: client/gui-gtk-3.22/gui_main.c:1142 client/gui-gtk-3.22/gui_main.c:1431
-#: client/gui-gtk-4.0/gui_main.c:1071 client/gui-gtk-4.0/gui_main.c:1360
+#: client/gui-gtk-3.22/gui_main.c:1119 client/gui-gtk-3.22/gui_main.c:1408
+#: client/gui-gtk-4.0/gui_main.c:1062 client/gui-gtk-4.0/gui_main.c:1351
 #: client/gui-qt/pages.cpp:763 client/gui-qt/sidebar.cpp:668
 #: client/gui-sdl2/mapctrl.c:1690 client/gui-sdl3/mapctrl.c:1686
 msgid "Turn Done"
 msgstr "Ėjimas baigtas"
 
-#: client/gui-gtk-3.22/gui_main.c:1142 client/gui-gtk-4.0/gui_main.c:1071
+#: client/gui-gtk-3.22/gui_main.c:1119 client/gui-gtk-4.0/gui_main.c:1062
 #: client/gui-qt/sidebar.cpp:668 client/gui-sdl2/mapctrl.c:1690
-#: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapctrl.c:1686
-#: client/gui-sdl3/mapview.c:943
+#: client/gui-sdl2/mapview.c:952 client/gui-sdl3/mapctrl.c:1686
+#: client/gui-sdl3/mapview.c:948
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-3.22/gui_main.c:1519 client/gui-gtk-4.0/gui_main.c:1453
+#: client/gui-gtk-3.22/gui_main.c:1496 client/gui-gtk-4.0/gui_main.c:1444
 #: client/gui-qt/menu.cpp:1537 client/gui-qt/pages.cpp:739
 #, fuzzy
 msgid "?noun:View"
 msgstr "_Rodymas"
 
-#: client/gui-gtk-3.22/gui_main.c:1642 client/gui-gtk-4.0/gui_main.c:1584
+#: client/gui-gtk-3.22/gui_main.c:1619 client/gui-gtk-4.0/gui_main.c:1575
 msgid "Chat"
 msgstr "Pokalbis"
 
-#: client/gui-gtk-3.22/gui_main.c:1672 client/gui-gtk-4.0/gui_main.c:1615
+#: client/gui-gtk-3.22/gui_main.c:1649 client/gui-gtk-4.0/gui_main.c:1606
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:1681 client/gui-gtk-4.0/gui_main.c:1624
+#: client/gui-gtk-3.22/gui_main.c:1658 client/gui-gtk-4.0/gui_main.c:1615
 #: client/gui-qt/chatline.cpp:282
 #, fuzzy
 msgid "Clear links"
 msgstr "Pervadinti darbų sąrašą"
 
-#: client/gui-gtk-3.22/gui_main.c:1798 client/gui-gtk-4.0/gui_main.c:1744
+#: client/gui-gtk-3.22/gui_main.c:1775 client/gui-gtk-4.0/gui_main.c:1735
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:1853 client/gui-gtk-4.0/gui_main.c:1799
+#: client/gui-gtk-3.22/gui_main.c:1830 client/gui-gtk-4.0/gui_main.c:1790
 msgid "Migrating options from gtk3 to gtk3.22 client"
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:1864 client/gui-gtk-4.0/gui_main.c:1810
+#: client/gui-gtk-3.22/gui_main.c:1841 client/gui-gtk-4.0/gui_main.c:1801
 msgid "Migrating gtk3-client options from freeciv-2.5 options."
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:1924 client/gui-gtk-4.0/gui_main.c:1915
+#: client/gui-gtk-3.22/gui_main.c:1901 client/gui-gtk-4.0/gui_main.c:1906
 #: tools/fcmp/mpgui_gtk3.c:626 tools/fcmp/mpgui_gtk4.c:643
 msgid "Failed to open graphical mode."
 msgstr ""
 
-#: client/gui-gtk-3.22/gui_main.c:1976 client/gui-gtk-4.0/gui_main.c:2014
+#: client/gui-gtk-3.22/gui_main.c:1953 client/gui-gtk-4.0/gui_main.c:2005
 #, fuzzy, c-format
 msgid "Freeciv (%s)"
 msgstr "Freeciv"
 
-#: client/gui-gtk-3.22/gui_main.c:2381 client/gui-gtk-4.0/gui_main.c:2380
+#: client/gui-gtk-3.22/gui_main.c:2358 client/gui-gtk-4.0/gui_main.c:2371
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "Ar tikrai norite išeiti?"
 
-#: client/gui-gtk-3.22/gui_main.c:2564
+#: client/gui-gtk-3.22/gui_main.c:2541
 #, c-format
 msgid ""
 "\n"
@@ -6287,7 +6282,7 @@ msgstr "Serverio pavadinimas"
 #: client/gui-gtk-3.22/pages.c:1242 client/gui-gtk-3.22/pages.c:1287
 #: client/gui-gtk-4.0/pages.c:1264 client/gui-gtk-4.0/pages.c:1315
 #: client/gui-qt/pages.cpp:334 client/gui-qt/pages.cpp:395
-#: client/gui-sdl2/mapview.c:668 client/gui-sdl3/mapview.c:665
+#: client/gui-sdl2/mapview.c:673 client/gui-sdl3/mapview.c:670
 msgid "Port"
 msgstr "Prievadas"
 
@@ -7330,17 +7325,28 @@ msgstr "Prieinami daliniai"
 msgid "gtk4-client gui-specific options are:\n"
 msgstr ""
 
-#: client/gui-gtk-4.0/gui_main.c:327
+#: client/gui-gtk-4.0/gui_main.c:276
+msgid "-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
+msgstr ""
+
+#. TRANS: Keep word 'default' untranslated
+#: client/gui-gtk-4.0/gui_main.c:280
+msgid ""
+"-z, --zoom LEVEL\tSet zoom level; use value 'default' to reset\n"
+"\n"
+msgstr ""
+
+#: client/gui-gtk-4.0/gui_main.c:318
 #, fuzzy, c-format
 #| msgid "Unknown option '%s'."
 msgid "Unknown command-line option \"%s\".\n"
 msgstr "Nežinomas parametras „%s“."
 
-#: client/gui-gtk-4.0/gui_main.c:1858
+#: client/gui-gtk-4.0/gui_main.c:1849
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr ""
 
-#: client/gui-gtk-4.0/gui_main.c:2573
+#: client/gui-gtk-4.0/gui_main.c:2564
 #, c-format
 msgid ""
 "\n"
@@ -9301,52 +9307,52 @@ msgstr "Atšaukti sutartį"
 msgid "Withdraw Vision"
 msgstr "Atsiimti bendro regėjimo lauką"
 
-#: client/gui-qt/plrdlg.cpp:829 client/gui-qt/plrdlg.cpp:1120
-#: client/gui-qt/plrdlg.cpp:1125
+#: client/gui-qt/plrdlg.cpp:829 client/gui-qt/plrdlg.cpp:1126
+#: client/gui-qt/plrdlg.cpp:1131
 #, fuzzy
 msgid "AI Mode"
 msgstr "Šiuolaikinis"
 
-#: client/gui-qt/plrdlg.cpp:833 client/gui-qt/plrdlg.cpp:1016
+#: client/gui-qt/plrdlg.cpp:833 client/gui-qt/plrdlg.cpp:1022
 #, fuzzy
 #| msgid "United Nations"
 msgid "Hide Relations"
 msgstr "Jungtinės tautos"
 
-#: client/gui-qt/plrdlg.cpp:835 client/gui-qt/plrdlg.cpp:1012
+#: client/gui-qt/plrdlg.cpp:835 client/gui-qt/plrdlg.cpp:1018
 #, fuzzy
 #| msgid "Goto _Location"
 msgid "Show Relations"
 msgstr "Eiti į _vietą"
 
-#: client/gui-qt/plrdlg.cpp:840 client/gui-qt/plrdlg.cpp:1032
+#: client/gui-qt/plrdlg.cpp:840 client/gui-qt/plrdlg.cpp:1038
 #, fuzzy
 #| msgid "_Techs"
 msgid "Hide Techs"
 msgstr "_Technologijos"
 
-#: client/gui-qt/plrdlg.cpp:842 client/gui-qt/plrdlg.cpp:1028
+#: client/gui-qt/plrdlg.cpp:842 client/gui-qt/plrdlg.cpp:1034
 #, fuzzy
 #| msgid "_Techs"
 msgid "Show Techs"
 msgstr "_Technologijos"
 
-#: client/gui-qt/plrdlg.cpp:847 client/gui-qt/plrdlg.cpp:1048
+#: client/gui-qt/plrdlg.cpp:847 client/gui-qt/plrdlg.cpp:1054
 #, fuzzy
 #| msgid "Wonders"
 msgid "Hide Wonders"
 msgstr "Stebuklai"
 
-#: client/gui-qt/plrdlg.cpp:849 client/gui-qt/plrdlg.cpp:1044
+#: client/gui-qt/plrdlg.cpp:849 client/gui-qt/plrdlg.cpp:1050
 #, fuzzy
 msgid "Show Wonders"
 msgstr "Nėra nurodymų"
 
-#: client/gui-qt/plrdlg.cpp:964
+#: client/gui-qt/plrdlg.cpp:970
 msgid "Toggle AI Mode"
 msgstr ""
 
-#: client/gui-qt/plrdlg.cpp:1122
+#: client/gui-qt/plrdlg.cpp:1128
 #, fuzzy
 msgid "Away Mode"
 msgstr "Šiuolaikinis"
@@ -9747,8 +9753,8 @@ msgstr "Aktyvuoti dalinį, uždaryti langą"
 msgid "Upgrade unit"
 msgstr "Patobulinti dalinį"
 
-#: client/gui-sdl2/citydlg.c:753 client/gui-sdl2/mapview.c:827
-#: client/gui-sdl3/citydlg.c:749 client/gui-sdl3/mapview.c:824
+#: client/gui-sdl2/citydlg.c:753 client/gui-sdl2/mapview.c:832
+#: client/gui-sdl3/citydlg.c:749 client/gui-sdl3/mapview.c:829
 #, fuzzy
 #| msgid "?city:Name"
 msgid "?homecity:None"
@@ -10613,37 +10619,51 @@ msgstr "Klaida kuriant naują DI žaidėją: %s."
 msgid "?gov:None"
 msgstr "Jokia"
 
-#: client/gui-sdl2/mapview.c:427 client/gui-sdl3/mapview.c:423
-#, c-format
-msgid "%s Population: %s  Year: %s  Gold %d "
+#. TRANS: "(Obs) Egyptian..."
+#: client/gui-sdl2/mapview.c:428 client/gui-sdl3/mapview.c:424
+#, fuzzy, c-format
+#| msgid "%s Population: %s  Year: %s  Gold %d "
+msgid "%s%s Population: %s  Year: %s  Gold %d "
 msgstr "%s Gyventojai: %s  Metai: %s  Auksas %d "
 
-#: client/gui-sdl2/mapview.c:435 client/gui-sdl3/mapview.c:431
-#, c-format
-msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
+#. TRANS: Observer
+#: client/gui-sdl2/mapview.c:431 client/gui-sdl3/mapview.c:427
+msgid "(Obs) "
 msgstr ""
 
-#: client/gui-sdl2/mapview.c:596 client/gui-sdl3/mapview.c:593
+#. TRANS: "(Observer) Egyptian..."
+#: client/gui-sdl2/mapview.c:439 client/gui-sdl3/mapview.c:435
+#, fuzzy, c-format
+msgid "%s%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
+msgstr "%s Gyventojai: %s  Metai: %s  Auksas %d "
+
+#: client/gui-sdl2/mapview.c:441 client/gui-sdl3/mapview.c:437
+#, fuzzy
+#| msgid "Observer"
+msgid "(Observer) "
+msgstr "Stebėtojas"
+
+#: client/gui-sdl2/mapview.c:601 client/gui-sdl3/mapview.c:598
 #: client/text.c:153
 msgid "?nation:Hostile"
 msgstr "?nation:Priešiška"
 
-#: client/gui-sdl2/mapview.c:598 client/gui-sdl3/mapview.c:595
+#: client/gui-sdl2/mapview.c:603 client/gui-sdl3/mapview.c:600
 #: client/text.c:155
 msgid "?nation:Peaceful"
 msgstr "?nation:Taiki"
 
-#: client/gui-sdl2/mapview.c:598 client/gui-sdl3/mapview.c:595
+#: client/gui-sdl2/mapview.c:603 client/gui-sdl3/mapview.c:600
 #: client/text.c:155
 msgid "?nation:Friendly"
 msgstr "?nation:Draugiška"
 
-#: client/gui-sdl2/mapview.c:599 client/gui-sdl3/mapview.c:596
+#: client/gui-sdl2/mapview.c:604 client/gui-sdl3/mapview.c:601
 #: client/text.c:156
 msgid "?nation:Mysterious"
 msgstr "?nation:Paslaptinga"
 
-#: client/gui-sdl2/mapview.c:602 client/gui-sdl3/mapview.c:599
+#: client/gui-sdl2/mapview.c:607 client/gui-sdl3/mapview.c:604
 msgid ""
 "\n"
 "Our Territory"
@@ -10651,7 +10671,7 @@ msgstr ""
 "\n"
 "Mūsų teritorija"
 
-#: client/gui-sdl2/mapview.c:613 client/gui-sdl3/mapview.c:610
+#: client/gui-sdl2/mapview.c:618 client/gui-sdl3/mapview.c:615
 #, c-format
 msgid ""
 "\n"
@@ -10672,7 +10692,7 @@ msgstr[3] ""
 "\n"
 "%s teritorija (%d ėjimo paliaubos)"
 
-#: client/gui-sdl2/mapview.c:621 client/gui-sdl3/mapview.c:618
+#: client/gui-sdl2/mapview.c:626 client/gui-sdl3/mapview.c:623
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -10699,7 +10719,7 @@ msgstr[3] ""
 "\n"
 "%s teritorija (%d ėjimo paliaubos)"
 
-#: client/gui-sdl2/mapview.c:626 client/gui-sdl3/mapview.c:623
+#: client/gui-sdl2/mapview.c:631 client/gui-sdl3/mapview.c:628
 #, c-format
 msgid ""
 "\n"
@@ -10708,7 +10728,7 @@ msgstr ""
 "\n"
 "Teritorija, priklausanti %s %s"
 
-#: client/gui-sdl2/mapview.c:631 client/gui-sdl3/mapview.c:628
+#: client/gui-sdl2/mapview.c:636 client/gui-sdl3/mapview.c:633
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -10716,32 +10736,32 @@ msgstr ""
 "\n"
 "Nepriklausoma teritorija"
 
-#: client/gui-sdl2/mapview.c:641 client/gui-sdl2/mapview.c:642
-#: client/gui-sdl3/mapview.c:638 client/gui-sdl3/mapview.c:639
+#: client/gui-sdl2/mapview.c:646 client/gui-sdl2/mapview.c:647
+#: client/gui-sdl3/mapview.c:643 client/gui-sdl3/mapview.c:644
 msgid "?city:Neutral"
 msgstr "?city:Neutralus"
 
-#: client/gui-sdl2/mapview.c:641 client/gui-sdl3/mapview.c:638
+#: client/gui-sdl2/mapview.c:646 client/gui-sdl3/mapview.c:643
 #: client/text.c:158
 msgid "?city:Hostile"
 msgstr "?city:Priešiškas"
 
-#: client/gui-sdl2/mapview.c:642 client/gui-sdl3/mapview.c:639
+#: client/gui-sdl2/mapview.c:647 client/gui-sdl3/mapview.c:644
 #: client/text.c:160
 msgid "?city:Peaceful"
 msgstr "?city:Taikus"
 
-#: client/gui-sdl2/mapview.c:643 client/gui-sdl3/mapview.c:640
+#: client/gui-sdl2/mapview.c:648 client/gui-sdl3/mapview.c:645
 #: client/text.c:160
 msgid "?city:Friendly"
 msgstr "?city:Draugiškas"
 
-#: client/gui-sdl2/mapview.c:643 client/gui-sdl3/mapview.c:640
+#: client/gui-sdl2/mapview.c:648 client/gui-sdl3/mapview.c:645
 #: client/text.c:160
 msgid "?city:Mysterious"
 msgstr "?city:Paslaptingas"
 
-#: client/gui-sdl2/mapview.c:646 client/gui-sdl3/mapview.c:643
+#: client/gui-sdl2/mapview.c:651 client/gui-sdl3/mapview.c:648
 #, c-format
 msgid ""
 "\n"
@@ -10750,11 +10770,11 @@ msgstr ""
 "\n"
 "%s miestas"
 
-#: client/gui-sdl2/mapview.c:660 client/gui-sdl3/mapview.c:657
+#: client/gui-sdl2/mapview.c:665 client/gui-sdl3/mapview.c:662
 msgid "?blistbegin: with "
 msgstr " su "
 
-#: client/gui-sdl2/mapview.c:662 client/gui-sdl3/mapview.c:659
+#: client/gui-sdl2/mapview.c:667 client/gui-sdl3/mapview.c:664
 #: data/civ1/buildings.ruleset:133 data/civ2/buildings.ruleset:164
 #: data/classic/buildings.ruleset:166 data/sandbox/buildings.ruleset:261
 #: data/sandbox/units.ruleset:74 data/civ2civ3/buildings.ruleset:258
@@ -10762,33 +10782,33 @@ msgstr " su "
 msgid "Barracks"
 msgstr "Kareivinės"
 
-#: client/gui-sdl2/mapview.c:664 client/gui-sdl2/mapview.c:670
-#: client/gui-sdl2/mapview.c:676 client/gui-sdl3/mapview.c:661
-#: client/gui-sdl3/mapview.c:667 client/gui-sdl3/mapview.c:673
+#: client/gui-sdl2/mapview.c:669 client/gui-sdl2/mapview.c:675
+#: client/gui-sdl2/mapview.c:681 client/gui-sdl3/mapview.c:666
+#: client/gui-sdl3/mapview.c:672 client/gui-sdl3/mapview.c:678
 #: client/helpdata.c:5017 client/helpdata.c:5025
 msgid "?blistmore:, "
 msgstr ", "
 
-#: client/gui-sdl2/mapview.c:674 client/gui-sdl3/mapview.c:671
+#: client/gui-sdl2/mapview.c:679 client/gui-sdl3/mapview.c:676
 #: data/civ2/buildings.ruleset:83 data/classic/buildings.ruleset:83
 #: data/sandbox/buildings.ruleset:83 data/civ2civ3/buildings.ruleset:83
 #: data/multiplayer/buildings.ruleset:82
 msgid "Airport"
 msgstr "Oro uostas"
 
-#: client/gui-sdl2/mapview.c:680 client/gui-sdl3/mapview.c:677
+#: client/gui-sdl2/mapview.c:685 client/gui-sdl3/mapview.c:682
 #: data/civ1/buildings.ruleset:250 data/civ2/buildings.ruleset:285
 #: data/classic/buildings.ruleset:290 data/sandbox/buildings.ruleset:383
 #: data/civ2civ3/buildings.ruleset:380 data/multiplayer/buildings.ruleset:318
 msgid "City Walls"
 msgstr "Miesto sienos"
 
-#: client/gui-sdl2/mapview.c:683 client/gui-sdl3/mapview.c:680
+#: client/gui-sdl2/mapview.c:688 client/gui-sdl3/mapview.c:685
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl2/mapview.c:692 client/gui-sdl3/mapview.c:689
+#: client/gui-sdl2/mapview.c:697 client/gui-sdl3/mapview.c:694
 #, c-format
 msgid ""
 "\n"
@@ -10797,7 +10817,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl2/mapview.c:701 client/gui-sdl3/mapview.c:698
+#: client/gui-sdl2/mapview.c:706 client/gui-sdl3/mapview.c:703
 #, c-format
 msgid ""
 "\n"
@@ -10806,11 +10826,11 @@ msgstr ""
 "\n"
 "Maistas/Gamyba/Prekyba: %s"
 
-#: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapview.c:943
+#: client/gui-sdl2/mapview.c:952 client/gui-sdl3/mapview.c:948
 msgid "End of Turn"
 msgstr "Ėjimo pabaiga"
 
-#: client/gui-sdl2/mapview.c:947 client/gui-sdl3/mapview.c:943
+#: client/gui-sdl2/mapview.c:952 client/gui-sdl3/mapview.c:948
 #, fuzzy
 msgid "Press"
 msgstr "Princesė"
@@ -17941,7 +17961,7 @@ msgstr "?obsolete:S"
 msgid "?redundant:*"
 msgstr "?redundant:*"
 
-#: common/city.c:1157
+#: common/city.c:1154
 #, fuzzy, c-format
 msgid "City name \"%s\" too long"
 msgstr "Leidžiami miestų vardai"
@@ -39612,7 +39632,7 @@ msgid "Raise a signal on failed assertion or broken data"
 msgstr ""
 
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
-#: tools/ruleup.c:74 tools/manual/fc_manual.c:476 server/civserver.c:352
+#: tools/ruleup.c:74 tools/manual/fc_manual.c:491 server/civserver.c:352
 msgid "ruleset RULESET"
 msgstr ""
 
@@ -39999,30 +40019,30 @@ msgid ""
 "%s"
 msgstr "Ši komanda skirta tik klientui."
 
-#: tools/manual/fc_manual.c:297
+#: tools/manual/fc_manual.c:301
 #, c-format
 msgid "Could not write manual file %s."
 msgstr ""
 
-#: tools/manual/fc_manual.c:321
+#: tools/manual/fc_manual.c:325
 #, c-format
 msgid "%s (%d) manual successfully written."
 msgstr ""
 
-#: tools/manual/fc_manual.c:383
+#: tools/manual/fc_manual.c:398
 msgid "Multiple rulesets requested. Only one ruleset at a time is supported.\n"
 msgstr ""
 
-#: tools/manual/fc_manual.c:473 server/civserver.c:304
+#: tools/manual/fc_manual.c:488 server/civserver.c:304
 #, fuzzy
 msgid "Use FILE as logfile"
 msgstr "  -l, --log FAILAS\tNaudoti FAILAS kaip žurnalo failą\n"
 
-#: tools/manual/fc_manual.c:477
+#: tools/manual/fc_manual.c:492
 msgid "Make manual for RULESET"
 msgstr ""
 
-#: tools/manual/fc_manual.c:481
+#: tools/manual/fc_manual.c:496
 msgid "Write manual in wiki format"
 msgstr ""
 
@@ -40889,43 +40909,43 @@ msgstr ""
 msgid "?initbldg:Free %s"
 msgstr ""
 
-#: server/citytools.c:1642
+#: server/citytools.c:1643
 #, c-format
 msgid "You have founded %s."
 msgstr "Jūs įkūrėte %s."
 
-#: server/citytools.c:1785
+#: server/citytools.c:1786
 #, fuzzy, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 "%s išvestas iš panaikinto miesto %s norint išvengti neturėjimo kur eiti "
 "būsenos."
 
-#: server/citytools.c:1797
+#: server/citytools.c:1798
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 "Kai %s buvo panaikintas, %s negalėjo pasitraukti ir todėl buvo prarastas."
 
-#: server/citytools.c:1831
+#: server/citytools.c:1832
 #, fuzzy, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr ""
 "Kai %s buvo panaikintas, %s negalėjo pasitraukti ir todėl buvo prarastas."
 
-#: server/citytools.c:2041 server/unithand.c:4762
+#: server/citytools.c:2042 server/unithand.c:4762
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Jūs visiškai sunaikinote %s."
 
-#: server/citytools.c:2044 server/unithand.c:4769
+#: server/citytools.c:2045 server/unithand.c:4769
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%2s sunaikino %1s."
 
-#: server/citytools.c:2070
+#: server/citytools.c:2071
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
@@ -40934,7 +40954,7 @@ msgstr[1] "Jūs užkariavote %s; Jūsų grobis yra %d aukso!"
 msgstr[2] "Jūs užkariavote %s; Jūsų grobis yra %d aukso!"
 msgstr[3] "Jūs užkariavote %s; Jūsų grobis yra %d aukso!"
 
-#: server/citytools.c:2077
+#: server/citytools.c:2078
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
@@ -40943,17 +40963,17 @@ msgstr[1] "%s užkariavo %s ir prisigrobė %d aukso iš miesto."
 msgstr[2] "%s užkariavo %s ir prisigrobė %d aukso iš miesto."
 msgstr[3] "%s užkariavo %s ir prisigrobė %d aukso iš miesto."
 
-#: server/citytools.c:2086
+#: server/citytools.c:2087
 #, fuzzy, c-format
 msgid "You conquer %s."
 msgstr "Jūs užkariavote %s."
 
-#: server/citytools.c:2089
+#: server/citytools.c:2090
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s užkariavo %s."
 
-#: server/citytools.c:2096
+#: server/citytools.c:2097
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
@@ -40962,7 +40982,7 @@ msgstr[1] "Jūs išvadavote %s! Grobdamas surinkote %d aukso."
 msgstr[2] "Jūs išvadavote %s! Grobdamas surinkote %d aukso."
 msgstr[3] "Jūs išvadavote %s! Grobdamas surinkote %d aukso."
 
-#: server/citytools.c:2103
+#: server/citytools.c:2104
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
@@ -40971,33 +40991,33 @@ msgstr[1] "%s išvadavo %s ir prisigrobė %d aukso iš miesto."
 msgstr[2] "%s išvadavo %s ir prisigrobė %d aukso iš miesto."
 msgstr[3] "%s išvadavo %s ir prisigrobė %d aukso iš miesto."
 
-#: server/citytools.c:2112
+#: server/citytools.c:2113
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Jūs išlaisvinote %s!"
 
-#: server/citytools.c:2115
+#: server/citytools.c:2116
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s išlaisvino %s"
 
-#: server/citytools.c:2893
+#: server/citytools.c:2894
 #, c-format
 msgid "Trade between %s and %s lost along with city."
 msgstr ""
 
-#: server/citytools.c:2898
+#: server/citytools.c:2899
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr ""
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2906
+#: server/citytools.c:2907
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 
-#: server/citytools.c:2914
+#: server/citytools.c:2915
 #, fuzzy, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr ""
@@ -41005,59 +41025,59 @@ msgstr ""
 "miestą %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2920
+#: server/citytools.c:2921
 #, fuzzy, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr ""
 "Apgailestaujame, tačiau %s panaikino prekybos kelią iš miesto %s į Jūsų "
 "miestą %s."
 
-#: server/citytools.c:2974
+#: server/citytools.c:2975
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
-#: server/citytools.c:3038
+#: server/citytools.c:3039
 #, fuzzy, c-format
 msgid "Moving %s"
 msgstr "Karalius"
 
-#: server/citytools.c:3041
+#: server/citytools.c:3042
 #, fuzzy, c-format
 msgid "Acquiring %s"
 msgstr "Karalius"
 
-#: server/citytools.c:3200
+#: server/citytools.c:3201
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s nutraukė %s statybą tarp %s."
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3222
+#: server/citytools.c:3223
 msgid " from the worklist"
 msgstr " iš darbų sąrašo"
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3227
+#: server/citytools.c:3228
 msgid " as suggested by the advisor"
 msgstr ""
 
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
 #. * " from the worklist".
-#: server/citytools.c:3244
+#: server/citytools.c:3245
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s stato %s%s."
 
-#: server/citytools.c:3253
+#: server/citytools.c:3254
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s pradėjo statyti %s tarp %s."
 
-#: server/citytools.c:3422
+#: server/citytools.c:3423
 #, fuzzy, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -41066,17 +41086,17 @@ msgstr[1] "Jūs parduodate %s mieste %s (dabar neturi kur eiti) už %d aukso."
 msgstr[2] "Jūs parduodate %s mieste %s (dabar neturi kur eiti) už %d aukso."
 msgstr[3] "Jūs parduodate %s mieste %s (dabar neturi kur eiti) už %d aukso."
 
-#: server/citytools.c:3562
+#: server/citytools.c:3563
 #, fuzzy, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Pakeistas %s gimtasis miestas į %s."
 
-#: server/citytools.c:3564
+#: server/citytools.c:3565
 #, fuzzy
 msgid "increased"
 msgstr "Oro bazė"
 
-#: server/citytools.c:3565
+#: server/citytools.c:3566
 msgid "reduced"
 msgstr ""
 
@@ -45373,7 +45393,7 @@ msgstr ""
 
 #: server/rssanity.c:1023
 #, c-format
-msgid "Tech %s does not exist, but is tech for %s."
+msgid "Tech %s does not exist, but is initial tech for %s."
 msgstr ""
 
 #: server/rssanity.c:1031
@@ -47172,7 +47192,7 @@ msgstr ""
 msgid ""
 "When unit trying to incite revolt is eliminated and lose its gold, there is "
 "chance that this gold would be captured by city defender. Transfer tax would "
-"be applied, though. This setting is irrevelant, if incite_gold_loss_chance "
+"be applied, though. This setting is irrelevant, if incite_gold_loss_chance "
 "is zero."
 msgstr ""
 
@@ -53879,14 +53899,6 @@ msgstr "klaida %d (kompiliuotas be strerror)"
 
 #~ msgid "Help Build Wonder"
 #~ msgstr "Padėti statyti stebuklą"
-
-#, fuzzy
-#~ msgid ""
-#~ "Population: %s\n"
-#~ "Year: %s\n"
-#~ "Gold %d\n"
-#~ "Tax: %d Lux: %d Sci: %d"
-#~ msgstr "%s Gyventojai: %s  Metai: %s  Auksas %d "
 
 #, fuzzy
 #~ msgid ""

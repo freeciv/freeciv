@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-10-04 03:30+0300\n"
+"POT-Creation-Date: 2024-12-01 21:12+0200\n"
 "PO-Revision-Date: 2024-10-05 18:57+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -460,7 +460,7 @@ msgstr "Oletko varma että haluat sulkea ohjelman?"
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
-#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_achievement.cpp:68 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_counters.cpp:82 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:64
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:67
@@ -468,8 +468,9 @@ msgstr "Sulje ohjelma?"
 msgid "Rule Name"
 msgstr "Sääntönimi"
 
-#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
-#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
+#: tools/ruledit/tab_achievement.cpp:71 tools/ruledit/tab_achievement.cpp:81
+#: tools/ruledit/tab_achievement.cpp:103 tools/ruledit/tab_achievement.cpp:181
+#: tools/ruledit/tab_achievement.cpp:182 tools/ruledit/tab_achievement.cpp:183
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
@@ -492,7 +493,7 @@ msgstr "Sääntönimi"
 msgid "None"
 msgstr "Ei mikään"
 
-#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_achievement.cpp:76 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_counters.cpp:89 tools/ruledit/tab_extras.cpp:76
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:72
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:75
@@ -500,7 +501,17 @@ msgstr "Ei mikään"
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+msgid "Type"
+msgstr "Tyyppi"
+
+#: tools/ruledit/tab_achievement.cpp:108
+#, fuzzy
+#| msgid "Value:"
+msgid "Value"
+msgstr "Arvo:"
+
+#: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
@@ -508,15 +519,15 @@ msgstr "Nimi"
 msgid "Effects"
 msgstr "Vaikutukset"
 
-#: tools/ruledit/tab_achievement.cpp:89
+#: tools/ruledit/tab_achievement.cpp:122
 msgid "Add Achievement"
 msgstr "Lisää saavutus"
 
-#: tools/ruledit/tab_achievement.cpp:94
+#: tools/ruledit/tab_achievement.cpp:127
 msgid "Remove this Achievement"
 msgstr "Poista tämä saavutus"
 
-#: tools/ruledit/tab_achievement.cpp:179
+#: tools/ruledit/tab_achievement.cpp:218
 msgid "An achievement with that rule name already exists!"
 msgstr "Saavutus samalla sääntönimellä on jo olemassa!"
 
@@ -561,10 +572,6 @@ msgstr "Poista tämä laskuri"
 #: tools/ruledit/tab_counters.cpp:274
 msgid "A counter with that rule name already exists!"
 msgstr "Laskuri samalla sääntönimellä on jo olemassa!"
-
-#: tools/ruledit/tab_enablers.cpp:113
-msgid "Type"
-msgstr "Tyyppi"
 
 #: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
