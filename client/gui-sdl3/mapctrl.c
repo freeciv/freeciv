@@ -464,7 +464,7 @@ static int toggle_map_window_callback(struct widget *map_button)
       widget_redraw(pwidget);
 
 #ifdef GUI_SDL3_SMALL_SCREEN
-      /* Pptions */
+      /* Options */
       pwidget = pwidget->prev;
       widget_redraw(pwidget);
 #endif /* GUI_SDL3_SMALL_SCREEN */
