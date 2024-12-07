@@ -146,6 +146,12 @@ typedef int fc_errno;
 #define RETURN_VALUE_AFTER_EXIT(_val_)
 #endif
 
+#ifdef FREECIV_NO_CONST_VAR_ARG
+#define VAR_ARG_CONST
+#else
+#define VAR_ARG_CONST const
+#endif
+
 int fc_strcasecmp(const char *str0, const char *str1);
 int fc_strncasecmp(const char *str0, const char *str1, size_t n);
 int fc_strncasequotecmp(const char *str0, const char *str1, size_t n);
