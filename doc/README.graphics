@@ -134,7 +134,7 @@ options include:
   activity_offset_y      draw normal unit activity icons. "Auto" icons are not
                          affected by this as they are usually wanted in different
                          offset than real activity icons for both to appear simultaneously
-                         "Auto" icons are auto_attack, auto_settler, patrol, connect.
+                         "Auto" icons are auto_attack, auto_worker, patrol, connect.
   select_offset_x      : Gives an offset from the tile origin at which to
   select_offset_y        draw selected unit sprites.
   stack_size_offset_x  : Gives an offset from the tile origin at which to
