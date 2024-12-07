@@ -66,6 +66,9 @@
 /* Returning a value is expected even after exit() call */
 #undef FREECIV_RETURN_VALUE_AFTER_EXIT
 
+/* Var arg cannot be const */
+#undef FREECIV_NO_CONST_VAR_ARG
+
 /* locale.h available */
 #undef FREECIV_HAVE_LOCALE_H
 

@@ -60,3 +60,21 @@ struct outer
     AC_DEFINE([INIT_BRACE_END], [], [End of C99 structure initializer])
   fi
 ])
+
+# Are const var arg parameters supported?
+#
+AC_DEFUN([FC_CONST_VAR_ARG],
+[
+AC_CACHE_CHECK([can var arg be a const],
+  [ac_cv_const_var_arg],
+  [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stddef.h>
+void var_arg_func(...);]],
+  [[const char *param = NULL;
+var_arg_func(param);
+return 0;
+]])],
+  [ac_cv_const_var_arg=yes], [ac_cv_const_var_arg=no])])
+  if test "x${ac_cv_const_var_arg}" != "xyes" ; then
+    AC_DEFINE([FREECIV_NO_CONST_VAR_ARG], [1], [[Var arg cannot be const]])
+  fi
+])
