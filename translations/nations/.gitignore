@@ -1,7 +1,6 @@
 /Makefile.in
 /Makefile
 /stamp-po
-/remove-potcdate.sed
 /POTFILES
 /freeciv-nations.pot
 /*.gmo
