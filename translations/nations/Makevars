@@ -1,4 +1,8 @@
 # Makefile variables for PO directory in any package using GNU gettext.
+#
+# Copyright (C) 2003-2023 Free Software Foundation, Inc.
+# This file, Makevars, is free software; the Free Software Foundation
+# gives unlimited permission to use, copy, distribute, and modify it.
 
 # Usually the message domain is the same as the package name.
 DOMAIN = freeciv-nations
@@ -9,6 +13,7 @@ top_builddir = ../..
 
 # These options get passed to xgettext.
 XGETTEXT_OPTIONS = \
+  --package-name='Freeciv' \
   --keyword=_ --flag=_:1:pass-c-format \
   --keyword=N_ --flag=N_:1:pass-c-format \
   --flag=error:3:c-format --flag=error_at_line:5:c-format \
@@ -62,8 +67,7 @@ USE_MSGCTXT = yes
 
 # These options get passed to msgmerge.
 # Useful options are in particular:
-#   --previous            to keep previous msgids of translated messages,
-#   --quiet               to reduce the verbosity.
+#   --previous            to keep previous msgids of translated messages
 MSGMERGE_OPTIONS = --previous --quiet
 
 # These options get passed to msginit.
