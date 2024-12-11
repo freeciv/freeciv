@@ -299,7 +299,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
     } else {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
 	       "didn't find city to go and recover.");
-      dai_manage_military(ait, pplayer, punit);
+      dai_manage_military(ait, nmap, pplayer, punit);
     }
   }
 }
