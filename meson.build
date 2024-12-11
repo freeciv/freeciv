@@ -28,6 +28,11 @@ c_cpp_args = [
   '-Wmissing-declarations'
   ]
 
+cpp_args = [
+  '-Wno-deprecated-declarations',
+  '-fPIC'
+  ]
+
 foreach arg : c_args
   if c_compiler.has_argument(arg)
     add_global_arguments(arg, language : 'c')
@@ -46,7 +51,13 @@ foreach arg : c_cpp_args
   endif
 endforeach
 
-add_global_arguments('-fPIC', language : 'cpp')
+if cxx_build
+  foreach arg: cpp_args
+    if cxx_compiler.has_argument(arg)
+      add_global_arguments(arg, language : 'cpp')
+    endif
+  endforeach
+endif
 
 host_system = host_machine.system()
 
