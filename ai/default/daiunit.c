@@ -98,7 +98,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
                                         struct player *pplayer,
                                         struct unit *leader);
 
-static void dai_military_findjob(struct ai_type *ait,
+static void dai_military_findjob(struct ai_type *ait, const struct civ_map *nmap,
                                  struct player *pplayer, struct unit *punit);
 static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
                                 struct unit *punit);
@@ -849,12 +849,11 @@ bool dai_can_unit_type_follow_unit_type(const struct unit_type *follower,
 /**********************************************************************//**
   See if we have a specific job for the unit.
 **************************************************************************/
-static void dai_military_findjob(struct ai_type *ait,
+static void dai_military_findjob(struct ai_type *ait, const struct civ_map *nmap,
                                  struct player *pplayer, struct unit *punit)
 {
   const struct unit_type *punittype = unit_type_get(punit);
   struct unit_ai *unit_data;
-  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
@@ -2501,8 +2500,8 @@ static void dai_manage_hitpoint_recovery(struct ai_type *ait,
   Decide what to do with a military unit. It will be managed once only.
   It is up to the caller to try again if it has moves left.
 **************************************************************************/
-void dai_manage_military(struct ai_type *ait, struct player *pplayer,
-                         struct unit *punit)
+void dai_manage_military(struct ai_type *ait, const struct civ_map *nmap,
+                         struct player *pplayer, struct unit *punit)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   int id = punit->id;
@@ -2559,7 +2558,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
 
   /* Do we have a specific job for this unit? If not, we default
    * to attack. */
-  dai_military_findjob(ait, pplayer, punit);
+  dai_military_findjob(ait, nmap, pplayer, punit);
 
   switch (unit_data->task) {
   case AIUNIT_AUTO_WORKER:
@@ -2663,6 +2662,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
   struct unit *bodyguard = aiguard_guard_of(ait, punit);
   bool is_ferry = FALSE;
   const struct unit_type *ptype;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
@@ -2740,7 +2740,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
   } else if (!is_special_unit(punit)) {
     TIMING_LOG(AIT_MILITARY, TIMER_START);
     UNIT_LOG(LOG_DEBUG, punit, "recruit unit for the military");
-    dai_manage_military(ait, pplayer, punit); 
+    dai_manage_military(ait, nmap, pplayer, punit);
     TIMING_LOG(AIT_MILITARY, TIMER_STOP);
     return;
   } else {
