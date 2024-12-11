@@ -76,7 +76,8 @@ dnl -Wall set earlier, and not the other way around.
 FC_C_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
            [], [EXTRA_DEBUG_CFLAGS])
 if test "x$cxx_works" = "xyes" ; then
-  FC_CXX_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
+  FC_CXX_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare \
+                -Wno-deprecated-declarations],
                [], [EXTRA_DEBUG_CXXFLAGS])
 fi
 
