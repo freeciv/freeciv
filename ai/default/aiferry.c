@@ -1120,6 +1120,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   struct unit_ai *unit_data;
   int bossid;
   const struct unit_type *ptype;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
@@ -1249,7 +1250,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
       * -- Syela */
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     UNIT_LOG(LOGLEVEL_FERRY, punit, "passing ferry over to attack code");
-    dai_manage_military(ait, pplayer, punit);
+    dai_manage_military(ait, nmap, pplayer, punit);
     return;
   }
 
