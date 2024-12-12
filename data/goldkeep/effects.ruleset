@@ -2440,8 +2440,9 @@ value	= 1585
 type    = "Shield2Gold_Factor"
 value   = 100
 reqs    =
-    { "type", "name", "range"
-      "Tech", "The Corporation", "Player"
+    { "type",         "name",            "range"
+      "Tech",         "The Corporation", "Player"
+      "UnitTypeFlag", "Shield2Gold",     "Local"
     }
 
 [effect_calendar_base]

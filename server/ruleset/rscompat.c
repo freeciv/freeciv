@@ -447,6 +447,17 @@ bool rscompat_names(struct rscompat_info *info)
 **************************************************************************/
 static bool effect_list_compat_cb(struct effect *peffect, void *data)
 {
+  struct rscompat_info *info = (struct rscompat_info *)data;
+
+  if (info->version < RSFORMAT_3_3) {
+    if (peffect->type == EFT_SHIELD2GOLD_FACTOR) {
+      requirement_vector_append(&(peffect->reqs),
+                                req_from_str("UnitTypeFlag", "Local",
+                                             FALSE, FALSE, FALSE,
+                                             "Shield2Gold"));
+    }
+  }
+
   /* Go to the next effect. */
   return TRUE;
 }

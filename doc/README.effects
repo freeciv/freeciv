@@ -656,8 +656,7 @@ Shield2Gold_Factor
     Factor in percent for the conversion of unit shield upkeep to gold upkeep.
     A value of 200 would transfer 1 shield upkeep to 2 gold upkeep.
     This works on unit type granularity, properties of individual units
-    do not count. Note that only units with the "Shield2Gold" flag will
-    be affected by this.
+    do not count.
 
 Shrink_Food
     Food left after cities shrink is amount percent of the capacity of
