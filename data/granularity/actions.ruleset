@@ -159,54 +159,6 @@ nuke_units_consuming_always = TRUE
 ; Will performing this action always consume the actor unit?
 found_city_consuming_always = TRUE
 
-; What each action should be called when showing them to the player.
-; The first %s should be before the mnemonic of the action. A Freeciv client
-; that supports mnemonics will replace it with the in-band signal that marks
-; the following character as a mnemonic in its graphical toolkit.
-; The second %s marks where extra details should be inserted.
-
-; /* TRANS: Becom_e Ambassador (100% chance of success). */
-ui_name_establish_embassy_stay = _("Becom%se Ambassador%s")
-
-; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
-ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
-
-; /* TRANS: _Build City (100% chance of success). */
-ui_name_found_city = _("%sBuild City%s")
-
-; /* TRANS: _Deboard (100% chance of success). */
-ui_name_transport_deboard = _("%sDeboard%s")
-
-; /* TRANS: _Board (100% chance of success). */
-ui_name_transport_board = _("%sBoard%s")
-
-; /* TRANS: _Unload (100% chance of success). */
-ui_name_transport_unload = _("%sUnload%s")
-
-; /* TRANS: _Disembark (100% chance of success). */
-ui_name_transport_disembark = _("%sDisembark%s")
-
-; /* TRANS: _Disembark from non native (100% chance of success). */
-ui_name_transport_disembark_2 = _("%sDisembark from non native%s")
-
-; /* TRANS: _Embark (100% chance of success). */
-ui_name_transport_embark = _("%sEmbark%s")
-
-; /* TRANS: Regular _Move (100% chance of success). */
-ui_name_unit_move = _("%sKeep moving%s")
-
-; /* TRANS: Teleport (100% chance of success). */
-ui_name_teleport = _("%sRelocate%s")
-
-; /* TRANS: _Fortify (100% chance of success). */
-ui_name_fortify = _("%sFortify%s")
-
-; /* TRANS: _Bombard (100% chance of success). */
-ui_name_bombard_2 = _("%sBombard%s")
-
-; /* TRANS: _Conquer City (100% chance of success). */
-ui_name_conquer_city_shrink = _("%sConquer City%s")
-
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
@@ -251,7 +203,30 @@ quiet_actions = "Transport Disembark 2", "Unit Move"
 ;
 ; */ <-- avoid gettext warnings
 
-;[action_placeholder]
+
+[action_bribe_enemy_unit]
+action  = "Bribe Unit"
+ui_name = "%sBribe Enemy Unit%s"
+
+[action_build_city]
+action  = "Found City"
+ui_name = "%sBuild City%s"
+
+[action_bombard]
+action  = "Bombard 2"
+ui_name = "%sBombard%s"
+
+[action_disembark_from_non_native]
+action  = "Transport Disembark 2"
+ui_name = "%sDisembark from non native%s"
+
+[action_keep_moving]
+action  = "Unit Move"
+ui_name = "%sKeep moving%s"
+
+[action_relocate]
+action  = "Teleport"
+ui_name = "%sRelocate%s"
 
 
 ; /* <-- avoid gettext warnings
