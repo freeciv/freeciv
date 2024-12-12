@@ -73,17 +73,17 @@ struct astring;
   }
 
 /* A requirement. This requirement is basically a conditional; it may or
- * may not be active on a target.  If it is active then something happens.
+ * may not be active on a target. If it is active then something happens.
  * For instance units and buildings have requirements to be built, techs
  * have requirements to be researched, and effects have requirements to be
  * active.
  * Used in the network protocol. */
 struct requirement {
-  struct universal source;		/* requirement source */
-  enum req_range range;			/* requirement range */
-  bool survives; /* set if destroyed sources satisfy the req*/
-  bool present;	 /* set if the requirement is to be present */
-  bool quiet;    /* do not list this in helptext */
+  struct universal source;  /* Requirement source */
+  enum req_range range;     /* Requirement range */
+  bool survives;            /* Set if destroyed sources satisfy the req*/
+  bool present;             /* Set if the requirement is to be present */
+  bool quiet;               /* Do not list this in helptext */
 };
 
 #define SPECVEC_TAG requirement
@@ -95,7 +95,7 @@ struct requirement {
 
 /* A set of targets to evaluate requirements against. Depending on what the
  * requirements in question are for, most of these entries will usually be
- * NULL. For instance, when evaluating the construction requirements for a
+ * nullptr. For instance, when evaluating the construction requirements for a
  * building, there is no target unit, specialist etc. */
 struct req_context {
   const struct player *player;
@@ -240,6 +240,7 @@ typedef signed char req_vec_num_in_item;
   Returns the requirement vector number of the specified requirement
   vector in the specified parent item or -1 if the vector doesn't belong to
   the parent item.
+
   @param parent_item the item that may own the vector.
   @param vec the requirement vector to number.
   @return the requirement vector number the vector has in the parent item.
@@ -250,8 +251,9 @@ typedef req_vec_num_in_item
 
 /********************************************************************//**
   Returns a writable pointer to the specified requirement vector in the
-  specified parent item or NULL if the parent item doesn't have a
+  specified parent item or nullptr if the parent item doesn't have a
   requirement vector with that requirement vector number.
+
   @param parent_item the item that should have the requirement vector.
   @param number the item's requirement vector number.
   @return a pointer to the specified requirement vector.
@@ -262,10 +264,11 @@ typedef struct requirement_vector *
 
 /*********************************************************************//**
   Returns the name of the specified requirement vector number in the
-  parent item or NULL if parent items of the kind this function is for
+  parent item or nullptr if parent items of the kind this function is for
   don't have a requirement vector with that number.
+
   @param number the requirement vector to name
-  @return the requirement vector name or NULL.
+  @return the requirement vector name or nullptr.
 **************************************************************************/
 typedef const char *(*requirement_vector_namer)(req_vec_num_in_item number);
 
@@ -356,7 +359,7 @@ bool are_universals_equal(const struct universal *psource1,
 
 const char *universal_rule_name(const struct universal *psource);
 const char *universal_name_translation(const struct universal *psource,
-				       char *buf, size_t bufsz);
+                                       char *buf, size_t bufsz);
 const char *universal_type_rule_name(const struct universal *psource);
 
 int universal_build_shield_cost(const struct city *pcity,

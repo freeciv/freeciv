@@ -49,7 +49,7 @@
 ************************************************************************/
 typedef enum req_item_found (*universal_found)(const struct requirement *,
                                                const struct universal *);
-static universal_found universal_found_function[VUT_COUNT] = {NULL};
+static universal_found universal_found_function[VUT_COUNT] = {nullptr};
 
 static
 enum fc_tristate tri_req_present(const struct civ_map *nmap,
@@ -92,7 +92,7 @@ static enum req_unchanging_status
                      const struct req_context *context,
                      const struct requirement *req)
 {
-  if (TRI_YES != tri_req_present(nmap, context, NULL, req)) {
+  if (TRI_YES != tri_req_present(nmap, context, nullptr, req)) {
     return REQUCH_NO;
   }
   return def;
@@ -130,7 +130,7 @@ static enum req_unchanging_status
 
     req_copy(&preq, req);
     preq.range = REQ_RANGE_PLAYER;
-    if (TRI_YES != tri_req_present(nmap, context, NULL, &preq)) {
+    if (TRI_YES != tri_req_present(nmap, context, nullptr, &preq)) {
       return REQ_RANGE_TEAM == req->range ? REQUCH_ACT : REQUCH_NO;
     }
   }
@@ -150,8 +150,8 @@ static enum req_unchanging_status
   fc_assert_ret_val(VUT_CITYTILE == req->source.kind, REQUCH_NO);
   if (CITYT_CENTER == req->source.value.citytile
       || (CITYT_BORDERING_TCLASS_REGION != req->source.value.citytile
-          && NULL != context->city && NULL != context->tile
-          && NULL != city_tile(context->city)
+          && context->city != nullptr && context->tile != nullptr
+          && city_tile(context->city) != nullptr
           && are_tiles_in_range(city_tile(context->city), context->tile,
                                 req->range))){
     /* Cities don't move, and most reqs are present on city center */
@@ -204,7 +204,7 @@ static enum req_unchanging_status
 
   if (req->source.kind == VUT_IMPROVEMENT
       && improvement_obsolete(context->player, b, context->city)) {
-    /* FIXME: sometimes can unobsolete, but considering it
+    /* FIXME: Sometimes can unobsolete, but considering it
      * may sometimes put the function on endless recursion */
     return REQUCH_ACT; /* Mostly about techs */
   }
@@ -212,7 +212,7 @@ static enum req_unchanging_status
     if (great_wonder_is_destroyed(b)
         || (!great_wonder_is_available(b)
             && (req->range <= REQ_RANGE_CITY && TRI_YES
-                == tri_req_present(nmap, context, NULL, req)))) {
+                == tri_req_present(nmap, context, nullptr, req)))) {
       /* If the wonder stays somewhere, it may either remain there
        * or be destroyed. If it is destroyed, it is nowhere. */
       return REQUCH_SCRIPTS;
@@ -230,10 +230,10 @@ struct req_def {
 
 /**********************************************************************//**
   Parse requirement type (kind) and value strings into a universal
-  structure.  Passing in a NULL type is considered VUT_NONE (not an error).
+  structure. Passing in a nullptr type is considered VUT_NONE (not an error).
 
   Pass this some values like "Building", "Factory".
-  FIXME: ensure that every caller checks error return!
+  FIXME: Ensure that every caller checks error return!
 **************************************************************************/
 struct universal universal_by_rule_name(const char *kind,
                                         const char *value)
@@ -257,9 +257,9 @@ struct universal universal_by_rule_name(const char *kind,
 static bool activity_is_valid_in_requirement(enum unit_activity act)
 {
   return unit_activity_is_valid(act)
-      && act != ACTIVITY_SENTRY
-      && act != ACTIVITY_GOTO
-      && act != ACTIVITY_EXPLORE;
+    && act != ACTIVITY_SENTRY
+    && act != ACTIVITY_GOTO
+    && act != ACTIVITY_EXPLORE;
 }
 
 /**********************************************************************//**
@@ -287,7 +287,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     return;
   case VUT_ADVANCE:
     source->value.advance = advance_by_rule_name(value);
-    if (source->value.advance != NULL) {
+    if (source->value.advance != nullptr) {
       return;
     }
     break;
@@ -300,26 +300,26 @@ void universal_value_from_str(struct universal *source, const char *value)
     break;
   case VUT_GOVERNMENT:
     source->value.govern = government_by_rule_name(value);
-    if (source->value.govern != NULL) {
+    if (source->value.govern != nullptr) {
       return;
     }
     break;
   case VUT_ACHIEVEMENT:
     source->value.achievement = achievement_by_rule_name(value);
-    if (source->value.achievement != NULL) {
+    if (source->value.achievement != nullptr) {
       return;
     }
     break;
   case VUT_STYLE:
     source->value.style = style_by_rule_name(value);
-    if (source->value.style != NULL) {
+    if (source->value.style != nullptr) {
       return;
     }
     break;
   case VUT_IMPROVEMENT:
   case VUT_SITE:
     source->value.building = improvement_by_rule_name(value);
-    if (source->value.building != NULL) {
+    if (source->value.building != nullptr) {
       return;
     }
     break;
@@ -343,13 +343,13 @@ void universal_value_from_str(struct universal *source, const char *value)
     break;
   case VUT_EXTRA:
     source->value.extra = extra_type_by_rule_name(value);
-    if (source->value.extra != NULL) {
+    if (source->value.extra != nullptr) {
       return;
     }
     break;
   case VUT_GOOD:
     source->value.good = goods_by_rule_name(value);
-    if (source->value.good != NULL) {
+    if (source->value.good != nullptr) {
       return;
     }
     break;
@@ -374,7 +374,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     break;
   case VUT_NATIONGROUP:
     source->value.nationgroup = nation_group_by_rule_name(value);
-    if (source->value.nationgroup != NULL) {
+    if (source->value.nationgroup != nullptr) {
       return;
     }
     break;
@@ -481,7 +481,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     break;
   case VUT_ACTION:
     source->value.action = action_by_rule_name(value);
-    if (source->value.action != NULL) {
+    if (source->value.action != nullptr) {
       return;
     }
     break;
@@ -610,7 +610,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     break;
   case VUT_COUNTER:
    source->value.counter = counter_by_rule_name(value);
-   if (source->value.counter != NULL) {
+   if (source->value.counter != nullptr) {
       return;
    }
    break;
@@ -643,10 +643,10 @@ void universal_value_from_str(struct universal *source, const char *value)
 /**********************************************************************//**
   Combine values into a universal structure. This is for serialization
   and is the opposite of universal_extraction().
-  FIXME: ensure that every caller checks error return!
+  FIXME: Ensure that every caller checks error return!
 **************************************************************************/
 struct universal universal_by_number(const enum universals_n kind,
-				     const int value)
+                                     const int value)
 {
   struct universal source;
 
@@ -655,12 +655,12 @@ struct universal universal_by_number(const enum universals_n kind,
   switch (source.kind) {
   case VUT_NONE:
     /* Avoid compiler warning about unitialized source.value */
-    source.value.advance = NULL;
+    source.value.advance = nullptr;
 
     return source;
   case VUT_ADVANCE:
     source.value.advance = advance_by_number(value);
-    if (source.value.advance != NULL) {
+    if (source.value.advance != nullptr) {
       return source;
     }
     break;
@@ -669,26 +669,26 @@ struct universal universal_by_number(const enum universals_n kind,
     return source;
   case VUT_GOVERNMENT:
     source.value.govern = government_by_number(value);
-    if (source.value.govern != NULL) {
+    if (source.value.govern != nullptr) {
       return source;
     }
     break;
   case VUT_ACHIEVEMENT:
     source.value.achievement = achievement_by_number(value);
-    if (source.value.achievement != NULL) {
+    if (source.value.achievement != nullptr) {
       return source;
     }
     break;
   case VUT_STYLE:
     source.value.style = style_by_number(value);
-    if (source.value.style != NULL) {
+    if (source.value.style != nullptr) {
       return source;
     }
     break;
   case VUT_IMPROVEMENT:
   case VUT_SITE:
     source.value.building = improvement_by_number(value);
-    if (source.value.building != NULL) {
+    if (source.value.building != nullptr) {
       return source;
     }
     break;
@@ -709,7 +709,7 @@ struct universal universal_by_number(const enum universals_n kind,
     return source;
   case VUT_TERRAIN:
     source.value.terrain = terrain_by_number(value);
-    if (source.value.terrain != NULL) {
+    if (source.value.terrain != nullptr) {
       return source;
     }
     break;
@@ -718,13 +718,13 @@ struct universal universal_by_number(const enum universals_n kind,
     return source;
   case VUT_NATION:
     source.value.nation = nation_by_number(value);
-    if (source.value.nation != NULL) {
+    if (source.value.nation != nullptr) {
       return source;
     }
     break;
   case VUT_NATIONGROUP:
     source.value.nationgroup = nation_group_by_number(value);
-    if (source.value.nationgroup != NULL) {
+    if (source.value.nationgroup != nullptr) {
       return source;
     }
     break;
@@ -740,19 +740,19 @@ struct universal universal_by_number(const enum universals_n kind,
     break;
   case VUT_NATIONALITY:
     source.value.nationality = nation_by_number(value);
-    if (source.value.nationality != NULL) {
+    if (source.value.nationality != nullptr) {
       return source;
     }
     break;
   case VUT_ORIGINAL_OWNER:
     source.value.origowner = nation_by_number(value);
-    if (source.value.origowner != NULL) {
+    if (source.value.origowner != nullptr) {
       return source;
     }
     break;
   case VUT_UTYPE:
     source.value.utype = utype_by_number(value);
-    if (source.value.utype != NULL) {
+    if (source.value.utype != nullptr) {
       return source;
     }
     break;
@@ -761,7 +761,7 @@ struct universal universal_by_number(const enum universals_n kind,
     return source;
   case VUT_UCLASS:
     source.value.uclass = uclass_by_number(value);
-    if (source.value.uclass != NULL) {
+    if (source.value.uclass != nullptr) {
       return source;
     }
     break;
@@ -797,7 +797,7 @@ struct universal universal_by_number(const enum universals_n kind,
     return source;
   case VUT_ACTION:
     source.value.action = action_by_number(value);
-    if (source.value.action != NULL) {
+    if (source.value.action != nullptr) {
       return source;
     }
     break;
@@ -881,7 +881,7 @@ struct universal universal_by_number(const enum universals_n kind,
   /* If we reach here there's been an error. */
   source.kind = universals_n_invalid();
   /* Avoid compiler warning about unitialized source.value */
-  source.value.advance = NULL;
+  source.value.advance = nullptr;
 
   return source;
 }
@@ -900,7 +900,7 @@ void universal_copy(struct universal *dst, const struct universal *src)
   the opposite of universal_by_number().
 **************************************************************************/
 void universal_extraction(const struct universal *source,
-			  int *kind, int *value)
+                          int *kind, int *value)
 {
   *kind = source->kind;
   *value = universal_number(source);
@@ -1078,8 +1078,8 @@ const char *req_to_fstring(const struct requirement *req,
 
 /**********************************************************************//**
   Parse a requirement type and value string into a requirement structure.
-  Returns the invalid element for enum universal_n on error. Passing in a
-  NULL type is considered VUT_NONE (not an error).
+  Returns the invalid element for enum universal_n on error. Passing in
+  a nullptr type is considered VUT_NONE (not an error).
 
   Pass this some values like "Building", "Factory".
 **************************************************************************/
@@ -1089,7 +1089,7 @@ struct requirement req_from_str(const char *type, const char *range,
 {
   struct requirement req;
   bool invalid;
-  const char *error = NULL;
+  const char *error = nullptr;
 
   req.source = universal_by_rule_name(type, value);
 
@@ -1099,7 +1099,7 @@ struct requirement req_from_str(const char *type, const char *range,
   } else {
     /* Scan the range string to find the range. If no range is given a
      * default fallback is used rather than giving an error. */
-    if (range != NULL) {
+    if (range != nullptr) {
       req.range = req_range_by_name(range, fc_strcasecmp);
       if (!req_range_is_valid(req.range)) {
         invalid = TRUE;
@@ -1341,7 +1341,7 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = (req.range != REQ_RANGE_WORLD);
       break;
     case VUT_AGE:
-      /* FIXME: could support TRADE_ROUTE, TEAM, etc */
+      /* FIXME: Could support TRADE_ROUTE, TEAM, etc */
       invalid = (req.range != REQ_RANGE_LOCAL
                  && req.range != REQ_RANGE_CITY
                  && req.range != REQ_RANGE_PLAYER);
@@ -1492,8 +1492,8 @@ struct requirement req_from_str(const char *type, const char *range,
   of req_get_values.
 **************************************************************************/
 struct requirement req_from_values(int type, int range,
-				   bool survives, bool present, bool quiet,
-				   int value)
+                                   bool survives, bool present, bool quiet,
+                                   int value)
 {
   struct requirement req;
 
@@ -1507,13 +1507,13 @@ struct requirement req_from_values(int type, int range,
 }
 
 /**********************************************************************//**
-  Return the value of a req as a serializable integer.  This is the opposite
+  Return the value of a req as a serializable integer. This is the opposite
   of req_set_value.
 **************************************************************************/
 void req_get_values(const struct requirement *req,
-		    int *type, int *range,
-		    bool *survives, bool *present, bool *quiet,
-		    int *value)
+                    int *type, int *range,
+                    bool *survives, bool *present, bool *quiet,
+                    int *value)
 {
   universal_extraction(&req->source, type, value);
   *range = req->range;
@@ -1539,12 +1539,12 @@ void req_copy(struct requirement *dst, const struct requirement *src)
   Does not care if one is quiet and the other not.
 **************************************************************************/
 bool are_requirements_equal(const struct requirement *req1,
-			    const struct requirement *req2)
+                            const struct requirement *req2)
 {
   return (are_universals_equal(&req1->source, &req2->source)
-	  && req1->range == req2->range
-	  && req1->survives == req2->survives
-	  && req1->present == req2->present);
+          && req1->range == req2->range
+          && req1->survives == req2->survives
+          && req1->present == req2->present);
 }
 
 /**********************************************************************//**
@@ -2207,7 +2207,7 @@ static bool player_has_ever_built(const struct player *pplayer,
   Returns the number of buildings of a certain type owned by plr.
 **************************************************************************/
 static int num_player_buildings(const struct player *pplayer,
-				const struct impr_type *building)
+                                const struct impr_type *building)
 {
   if (is_wonder(building)) {
     return (wonder_is_built(pplayer, building) ? 1 : 0);
@@ -2221,8 +2221,8 @@ static int num_player_buildings(const struct player *pplayer,
   Returns the number of buildings of a certain type on a continent.
 **************************************************************************/
 static int num_continent_buildings(const struct player *pplayer,
-				   int continent,
-				   const struct impr_type *building)
+                                   int continent,
+                                   const struct impr_type *building)
 {
   if (is_wonder(building)) {
     const struct city *pcity;
@@ -2274,7 +2274,7 @@ is_building_req_active(const struct civ_map *nmap,
       return BOOL_TO_TRISTATE(num_world_buildings_total(building) > 0);
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_TEAM:
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         return TRI_MAYBE;
       }
       players_iterate_alive(plr2) {
@@ -2285,7 +2285,7 @@ is_building_req_active(const struct civ_map *nmap,
       } players_iterate_alive_end;
       return TRI_NO;
     case REQ_RANGE_PLAYER:
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         return TRI_MAYBE;
       }
       return BOOL_TO_TRISTATE(player_has_ever_built(context->player,
@@ -2313,7 +2313,7 @@ is_building_req_active(const struct civ_map *nmap,
       return BOOL_TO_TRISTATE(num_world_buildings(building) > 0);
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_TEAM:
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         return TRI_MAYBE;
       }
       players_iterate_alive(plr2) {
@@ -2324,7 +2324,7 @@ is_building_req_active(const struct civ_map *nmap,
       } players_iterate_alive_end;
       return TRI_NO;
     case REQ_RANGE_PLAYER:
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         return TRI_MAYBE;
       }
       return BOOL_TO_TRISTATE(num_player_buildings(context->player,
@@ -2349,7 +2349,7 @@ is_building_req_active(const struct civ_map *nmap,
           enum fc_tristate ret = TRI_NO;
 
           trade_partners_iterate(context->city, trade_partner) {
-            if (trade_partner == NULL) {
+            if (trade_partner == nullptr) {
               ret = TRI_MAYBE;
             } else if (city_has_building(trade_partner, building)) {
               return TRI_YES;
@@ -2375,7 +2375,7 @@ is_building_req_active(const struct civ_map *nmap,
           return TRI_NO;
         }
       } else {
-        /* TODO: other local targets */
+        /* TODO: Other local targets */
         return TRI_MAYBE;
       }
     case REQ_RANGE_TILE:
@@ -2432,7 +2432,7 @@ static enum fc_tristate is_buildingflag_in_city(const struct city *pcity,
 {
   struct player *owner;
 
-  if (pcity == NULL) {
+  if (pcity == nullptr) {
     return TRI_MAYBE;
   }
 
@@ -2472,7 +2472,7 @@ is_buildingflag_req_active(const struct civ_map *nmap,
   case REQ_RANGE_CITY:
     return is_buildingflag_in_city(context->city, req->source.value.impr_flag);
   case REQ_RANGE_TILE:
-    if (context->tile == NULL) {
+    if (context->tile == nullptr) {
       return TRI_MAYBE;
     }
     return is_buildingflag_in_city(tile_city(context->tile),
@@ -2512,7 +2512,7 @@ is_plr_flag_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_PLAYER:
-    return (context->player != NULL
+    return (context->player != nullptr
             ? BOOL_TO_TRISTATE(player_has_flag(context->player,
                                                req->source.value.plr_flag))
             : TRI_MAYBE);
@@ -2553,7 +2553,7 @@ is_plr_state_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_PLAYER:
-    return (context->player != NULL
+    return (context->player != nullptr
             ? BOOL_TO_TRISTATE(player_has_state(context->player,
                                                 req->source.value.plrstate))
             : TRI_MAYBE);
@@ -2757,7 +2757,7 @@ is_minculture_req_active(const struct civ_map *nmap,
       enum fc_tristate ret = TRI_NO;
 
       trade_partners_iterate(context->city, trade_partner) {
-        if (trade_partner == NULL) {
+        if (trade_partner == nullptr) {
           ret = TRI_MAYBE;
         } else if (city_culture(trade_partner) >= minculture) {
           return TRI_YES;
@@ -2770,7 +2770,7 @@ is_minculture_req_active(const struct civ_map *nmap,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-    if (NULL == context->player) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
@@ -2835,7 +2835,7 @@ is_minforeignpct_req_active(const struct civ_map *nmap,
       enum fc_tristate ret = TRI_NO;
 
       trade_partners_iterate(context->city, trade_partner) {
-        if (trade_partner == NULL) {
+        if (trade_partner == nullptr) {
           ret = TRI_MAYBE;
         } else {
           foreign_pct = citizens_nation_foreign(trade_partner) * 100
@@ -2886,7 +2886,7 @@ is_maxunitsontile_req_active(const struct civ_map *nmap,
 
   max_units = req->source.value.max_tile_units;
 
-  /* TODO: if can't see V_INVIS -> TRI_MAYBE */
+  /* TODO: If can't see V_INVIS -> TRI_MAYBE */
   switch (req->range) {
   case REQ_RANGE_TILE:
     if (!context->tile) {
@@ -3007,7 +3007,7 @@ is_extra_req_active(const struct civ_map *nmap,
 
     ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      if (trade_partner == NULL) {
+      if (trade_partner == nullptr) {
         ret = TRI_MAYBE;
       } else {
         city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
@@ -3064,7 +3064,8 @@ is_good_req_active(const struct civ_map *nmap,
     }
     return BOOL_TO_TRISTATE(city_receives_goods(context->city, pgood)
                             || (goods_has_flag(pgood, GF_SELF_PROVIDED)
-                                && goods_can_be_provided(context->city, pgood, NULL)));
+                                && goods_can_be_provided(context->city, pgood,
+                                                         nullptr)));
   case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
@@ -3196,7 +3197,7 @@ is_terrain_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    if (pterrain != NULL) {
+    if (pterrain != nullptr) {
       city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                         city_tile(context->city), ptile) {
         if (tile_terrain(ptile) == pterrain) {
@@ -3209,7 +3210,7 @@ is_terrain_req_active(const struct civ_map *nmap,
     if (!context->city) {
       return TRI_MAYBE;
     }
-    if (pterrain != NULL) {
+    if (pterrain != nullptr) {
       enum fc_tristate ret;
 
       city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
@@ -3221,7 +3222,7 @@ is_terrain_req_active(const struct civ_map *nmap,
 
       ret = TRI_NO;
       trade_partners_iterate(context->city, trade_partner) {
-        if (trade_partner == NULL) {
+        if (trade_partner == nullptr) {
           ret = TRI_MAYBE;
         } else {
           city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
@@ -3323,7 +3324,7 @@ is_terrainclass_req_active(const struct civ_map *nmap,
 
     ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      if (trade_partner == NULL) {
+      if (trade_partner == nullptr) {
         ret = TRI_MAYBE;
       } else {
         city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
@@ -3431,7 +3432,7 @@ is_terrainflag_req_active(const struct civ_map *nmap,
 
     ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      if (trade_partner == NULL) {
+      if (trade_partner == nullptr) {
         ret = TRI_MAYBE;
       } else {
         city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
@@ -3540,7 +3541,7 @@ is_roadflag_req_active(const struct civ_map *nmap,
 
     ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      if (trade_partner == NULL) {
+      if (trade_partner == nullptr) {
         ret = TRI_MAYBE;
       } else {
         city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
@@ -3637,7 +3638,7 @@ is_extraflag_req_active(const struct civ_map *nmap,
 
     ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      if (trade_partner == NULL) {
+      if (trade_partner == nullptr) {
         ret = TRI_MAYBE;
       } else {
         city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
@@ -3727,7 +3728,7 @@ is_gov_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_GOVERNMENT);
 
-  if (context->player == NULL) {
+  if (context->player == nullptr) {
     return TRI_MAYBE;
   } else {
     return BOOL_TO_TRISTATE(government_of_player(context->player)
@@ -3751,7 +3752,7 @@ is_style_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_STYLE);
 
-  if (context->player == NULL) {
+  if (context->player == nullptr) {
     return TRI_MAYBE;
   } else {
     return BOOL_TO_TRISTATE(context->player->style
@@ -3781,7 +3782,7 @@ is_mintechs_req_active(const struct civ_map *nmap,
     return ((game.info.global_advance_count - 1)
             >= req->source.value.min_techs);
   case REQ_RANGE_PLAYER:
-    if (context->player == NULL) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     } else {
       /* "None" does not count */
@@ -3813,7 +3814,7 @@ is_mincities_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (context->player == NULL) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     } else {
       /* "None" does not count */
@@ -3843,7 +3844,7 @@ is_ai_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_AI_LEVEL);
 
-  if (context->player == NULL) {
+  if (context->player == nullptr) {
     return TRI_MAYBE;
   } else {
     return BOOL_TO_TRISTATE(is_ai(context->player)
@@ -3874,13 +3875,13 @@ is_nation_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (context->player == NULL) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(nation_of_player(context->player) == nation);
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
-    if (context->player == NULL) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
@@ -3896,7 +3897,7 @@ is_nation_req_active(const struct civ_map *nmap,
      * (e.g. via /remove), rather than just dying, this 'survives'
      * requirement will stop being true for their nation.
      * create_command_newcomer() can also cause this to happen. */
-    return BOOL_TO_TRISTATE(NULL != nation->player
+    return BOOL_TO_TRISTATE(nation->player != nullptr
                             && (req->survives || nation->player->is_alive));
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_TILE:
@@ -3936,7 +3937,7 @@ is_nationgroup_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (context->player == NULL) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(nation_is_in_group(
@@ -3944,7 +3945,7 @@ is_nationgroup_req_active(const struct civ_map *nmap,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-    if (context->player == NULL) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
@@ -3994,7 +3995,7 @@ is_nationality_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_CITY:
-    if (context->city == NULL) {
+    if (context->city == nullptr) {
      return TRI_MAYBE;
     }
     citizens_iterate(context->city, slot, count) {
@@ -4005,7 +4006,7 @@ is_nationality_req_active(const struct civ_map *nmap,
 
     return TRI_NO;
   case REQ_RANGE_TRADE_ROUTE:
-    if (context->city == NULL) {
+    if (context->city == nullptr) {
       return TRI_MAYBE;
     }
     citizens_iterate(context->city, slot, count) {
@@ -4016,7 +4017,7 @@ is_nationality_req_active(const struct civ_map *nmap,
 
     ret = TRI_NO;
     trade_partners_iterate(context->city, trade_partner) {
-      if (trade_partner == NULL) {
+      if (trade_partner == nullptr) {
         ret = TRI_MAYBE;
       } else {
         citizens_iterate(trade_partner, slot, count) {
@@ -4068,7 +4069,7 @@ is_originalowner_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_CITY:
-    if (context->city == NULL || context->city->original == NULL) {
+    if (context->city == nullptr || context->city->original == nullptr) {
       return TRI_MAYBE;
     }
     if (player_nation(context->city->original) == nation) {
@@ -4105,14 +4106,14 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
 {
   switch (range) {
   case REQ_RANGE_PLAYER:
-    if (target_player == NULL) {
+    if (target_player == nullptr) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(is_diplrel_to_other(target_player, diplrel));
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-    if (target_player == NULL) {
+    if (target_player == nullptr) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
@@ -4124,7 +4125,7 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
     } players_iterate_alive_end;
     return TRI_NO;
   case REQ_RANGE_LOCAL:
-    if (target_player == NULL || other_player == NULL) {
+    if (target_player == nullptr || other_player == nullptr) {
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(is_diplrel_between(target_player, other_player, diplrel));
@@ -4180,7 +4181,7 @@ is_diplrel_tile_req_active(const struct civ_map *nmap,
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_DIPLREL_TILE);
 
   return is_diplrel_in_range(context->tile ? tile_owner(context->tile)
-                                           : NULL,
+                                           : nullptr,
                              context->player,
                              req->range,
                              req->source.value.diplrel);
@@ -4204,7 +4205,7 @@ is_diplrel_tile_o_req_active(const struct civ_map *nmap,
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_DIPLREL_TILE_O);
 
   return is_diplrel_in_range(context->tile ? tile_owner(context->tile)
-                                           : NULL,
+                                           : nullptr,
                              other_context->player,
                              req->range,
                              req->source.value.diplrel);
@@ -4221,7 +4222,7 @@ is_diplrel_unitany_in_range(const struct tile *target_tile,
 {
   enum fc_tristate out = TRI_NO;
 
-  if (target_tile == NULL) {
+  if (target_tile == nullptr) {
     return TRI_MAYBE;
   }
 
@@ -4625,13 +4626,13 @@ is_unitstate_req_active(const struct civ_map *nmap,
 
   /* Could be asked with incomplete data.
    * is_req_active() will handle it based on prob_type. */
-  if (context->unit == NULL) {
+  if (context->unit == nullptr) {
     return TRI_MAYBE;
   }
 
   switch (uprop) {
   case USP_TRANSPORTED:
-    return BOOL_TO_TRISTATE(context->unit->transporter != NULL);
+    return BOOL_TO_TRISTATE(context->unit->transporter != nullptr);
   case USP_LIVABLE_TILE:
     return BOOL_TO_TRISTATE(
           can_unit_exist_at_tile(nmap, context->unit,
@@ -4689,7 +4690,7 @@ is_activity_req_active(const struct civ_map *nmap,
                         "Unsupported range \"%s\"",
                         req_range_name(req->range));
 
-  if (context->unit == NULL) {
+  if (context->unit == nullptr) {
     /* FIXME: Excluding ACTIVITY_IDLE here is a bit ugly, but done because
      *        it's the zero value that context has by default - so many callers
      *        who meant not to set specific activity actually have ACTIVITY_IDLE
@@ -4734,7 +4735,7 @@ is_minveteran_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINVETERAN);
 
-  if (context->unit == NULL) {
+  if (context->unit == nullptr) {
     return TRI_MAYBE;
   } else {
     return BOOL_TO_TRISTATE(context->unit->veteran
@@ -4758,7 +4759,7 @@ is_minmovefrags_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINMOVES);
 
-  if (context->unit == NULL) {
+  if (context->unit == nullptr) {
     return TRI_MAYBE;
   } else {
     return BOOL_TO_TRISTATE(req->source.value.minmoves
@@ -4782,7 +4783,7 @@ is_minhitpoints_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINHP);
 
-  if (context->unit == NULL) {
+  if (context->unit == nullptr) {
     return TRI_MAYBE;
   } else {
     return BOOL_TO_TRISTATE(req->source.value.min_hit_points
@@ -4808,7 +4809,7 @@ is_age_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_LOCAL:
-    if (context->unit == NULL || !is_server()) {
+    if (context->unit == nullptr || !is_server()) {
       return TRI_MAYBE;
     } else {
       return BOOL_TO_TRISTATE(
@@ -4817,7 +4818,7 @@ is_age_req_active(const struct civ_map *nmap,
     }
     break;
   case REQ_RANGE_CITY:
-    if (context->city == NULL) {
+    if (context->city == nullptr) {
       return TRI_MAYBE;
     } else {
       return BOOL_TO_TRISTATE(
@@ -4826,7 +4827,7 @@ is_age_req_active(const struct civ_map *nmap,
     }
     break;
   case REQ_RANGE_PLAYER:
-    if (context->player == NULL) {
+    if (context->player == nullptr) {
       return TRI_MAYBE;
     } else {
       return BOOL_TO_TRISTATE(req->source.value.age
@@ -4857,7 +4858,7 @@ is_form_age_req_active(const struct civ_map *nmap,
 
   switch (req->range) {
   case REQ_RANGE_LOCAL:
-    if (context->unit == NULL || !is_server()) {
+    if (context->unit == nullptr || !is_server()) {
       return TRI_MAYBE;
     } else {
       return BOOL_TO_TRISTATE(
@@ -5098,13 +5099,13 @@ is_tile_rel_req_active(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Is center of given city in tile. If city is NULL, any city will do.
+  Is center of given city in tile. If city is nullptr, any city will do.
 **************************************************************************/
 static bool is_city_in_tile(const struct tile *ptile,
-			    const struct city *pcity)
+                            const struct city *pcity)
 {
-  if (pcity == NULL) {
-    return tile_city(ptile) != NULL;
+  if (pcity == nullptr) {
+    return tile_city(ptile) != nullptr;
   } else {
     return is_city_center(pcity, ptile);
   }
@@ -5131,7 +5132,7 @@ is_citytile_req_active(const struct civ_map *nmap,
   citytile = req->source.value.citytile;
 
   fc_assert_ret_val(req_range_is_valid(req->range), TRI_MAYBE);
-  if (context->tile == NULL) {
+  if (context->tile == nullptr) {
     return TRI_MAYBE;
   }
 
@@ -5180,24 +5181,24 @@ is_citytile_req_active(const struct civ_map *nmap,
   case CITYT_CLAIMED:
     switch (req->range) {
     case REQ_RANGE_TILE:
-      return BOOL_TO_TRISTATE(context->tile->owner != NULL);
+      return BOOL_TO_TRISTATE(context->tile->owner != nullptr);
     case REQ_RANGE_CADJACENT:
-      if (context->tile->owner != NULL) {
+      if (context->tile->owner != nullptr) {
         return TRI_YES;
       }
       cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
-        if (adjc_tile->owner != NULL) {
+        if (adjc_tile->owner != nullptr) {
           return TRI_YES;
         }
       } cardinal_adjc_iterate_end;
 
       return TRI_NO;
     case REQ_RANGE_ADJACENT:
-      if (context->tile->owner != NULL) {
+      if (context->tile->owner != nullptr) {
         return TRI_YES;
       }
       adjc_iterate(nmap, context->tile, adjc_tile) {
-        if (adjc_tile->owner != NULL) {
+        if (adjc_tile->owner != nullptr) {
           return TRI_YES;
         }
       } adjc_iterate_end;
@@ -5220,24 +5221,24 @@ is_citytile_req_active(const struct civ_map *nmap,
   case CITYT_EXTRAS_OWNED:
     switch (req->range) {
     case REQ_RANGE_TILE:
-      return BOOL_TO_TRISTATE(context->tile->extras_owner != NULL);
+      return BOOL_TO_TRISTATE(context->tile->extras_owner != nullptr);
     case REQ_RANGE_CADJACENT:
-      if (context->tile->extras_owner != NULL) {
+      if (context->tile->extras_owner != nullptr) {
         return TRI_YES;
       }
       cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
-        if (adjc_tile->extras_owner != NULL) {
+        if (adjc_tile->extras_owner != nullptr) {
           return TRI_YES;
         }
       } cardinal_adjc_iterate_end;
 
       return TRI_NO;
     case REQ_RANGE_ADJACENT:
-      if (context->tile->extras_owner != NULL) {
+      if (context->tile->extras_owner != nullptr) {
         return TRI_YES;
       }
       adjc_iterate(nmap, context->tile, adjc_tile) {
-        if (adjc_tile->extras_owner != NULL) {
+        if (adjc_tile->extras_owner != nullptr) {
           return TRI_YES;
         }
       } adjc_iterate_end;
@@ -5260,24 +5261,24 @@ is_citytile_req_active(const struct civ_map *nmap,
   case CITYT_WORKED:
     switch (req->range) {
     case REQ_RANGE_TILE:
-      return BOOL_TO_TRISTATE(context->tile->worked != NULL);
+      return BOOL_TO_TRISTATE(context->tile->worked != nullptr);
     case REQ_RANGE_CADJACENT:
-      if (context->tile->worked != NULL) {
+      if (context->tile->worked != nullptr) {
         return TRI_YES;
       }
       cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
-        if (adjc_tile->worked != NULL) {
+        if (adjc_tile->worked != nullptr) {
           return TRI_YES;
         }
       } cardinal_adjc_iterate_end;
 
       return TRI_NO;
     case REQ_RANGE_ADJACENT:
-      if (context->tile->worked != NULL) {
+      if (context->tile->worked != nullptr) {
         return TRI_YES;
       }
       adjc_iterate(nmap, context->tile, adjc_tile) {
-        if (adjc_tile->worked != NULL) {
+        if (adjc_tile->worked != nullptr) {
           return TRI_YES;
         }
       } adjc_iterate_end;
@@ -5518,7 +5519,7 @@ is_citystatus_req_active(const struct civ_map *nmap,
 
   citystatus = req->source.value.citystatus;
 
-  if (context->city == NULL) {
+  if (context->city == nullptr) {
     return TRI_MAYBE;
   }
 
@@ -5526,7 +5527,7 @@ is_citystatus_req_active(const struct civ_map *nmap,
   case CITYS_OWNED_BY_ORIGINAL:
     switch (req->range) {
     case REQ_RANGE_CITY:
-      if (context->city->original == NULL) {
+      if (context->city->original == nullptr) {
         return TRI_MAYBE;
       }
       return BOOL_TO_TRISTATE(city_owner(context->city) == context->city->original);
@@ -5540,7 +5541,7 @@ is_citystatus_req_active(const struct civ_map *nmap,
 
         ret = TRI_NO;
         trade_partners_iterate(context->city, trade_partner) {
-          if (trade_partner == NULL || trade_partner->original == NULL) {
+          if (trade_partner == nullptr || trade_partner->original == nullptr) {
             ret = TRI_MAYBE;
           } else if (city_owner(trade_partner) == trade_partner->original) {
             return TRI_YES;
@@ -5581,7 +5582,7 @@ is_citystatus_req_active(const struct civ_map *nmap,
 
         ret = TRI_NO;
         trade_partners_iterate(context->city, trade_partner) {
-          if (trade_partner == NULL) {
+          if (trade_partner == nullptr) {
             ret = TRI_MAYBE;
           } else if (trade_partner->had_famine) {
             return TRI_YES;
@@ -5622,7 +5623,7 @@ is_citystatus_req_active(const struct civ_map *nmap,
 
         ret = TRI_NO;
         trade_partners_iterate(context->city, trade_partner) {
-          if (trade_partner == NULL) {
+          if (trade_partner == nullptr) {
             ret = TRI_MAYBE;
           } else if (trade_partner->anarchy > 0) {
             return TRI_YES;
@@ -5663,7 +5664,7 @@ is_citystatus_req_active(const struct civ_map *nmap,
 
         ret = TRI_NO;
         trade_partners_iterate(context->city, trade_partner) {
-          if (trade_partner == NULL) {
+          if (trade_partner == nullptr) {
             ret = TRI_MAYBE;
           } else if (trade_partner->rapture > 0) {
             return TRI_YES;
@@ -5704,7 +5705,7 @@ is_citystatus_req_active(const struct civ_map *nmap,
 
         ret = TRI_NO;
         trade_partners_iterate(context->city, trade_partner) {
-          if (trade_partner == NULL) {
+          if (trade_partner == nullptr) {
             ret = TRI_MAYBE;
           } else if (trade_partner->acquire_t != CACQ_FOUNDED) {
             return TRI_YES;
@@ -5758,7 +5759,7 @@ is_minsize_req_active(const struct civ_map *nmap,
 {
   IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINSIZE);
 
-  if (context->city == NULL) {
+  if (context->city == nullptr) {
     return TRI_MAYBE;
   } else {
     if (req->range == REQ_RANGE_TRADE_ROUTE) {
@@ -5770,7 +5771,7 @@ is_minsize_req_active(const struct civ_map *nmap,
 
       ret = TRI_NO;
       trade_partners_iterate(context->city, trade_partner) {
-        if (trade_partner == NULL) {
+        if (trade_partner == nullptr) {
           ret = TRI_MAYBE;
         } else if (city_size_get(trade_partner) >= req->source.value.minsize) {
           return TRI_YES;
@@ -5805,7 +5806,7 @@ is_counter_req_active(const struct civ_map *nmap,
 
   count = req->source.value.counter;
 
-  if (NULL == context->city) {
+  if (context->city == nullptr) {
     return TRI_MAYBE;
   }
   return BOOL_TO_TRISTATE(count->checkpoint <=
@@ -5835,7 +5836,7 @@ is_achievement_req_active(const struct civ_map *nmap,
 
   if (req->range == REQ_RANGE_WORLD) {
     return BOOL_TO_TRISTATE(achievement_claimed(achievement));
-  } else if (context->player == NULL) {
+  } else if (context->player == nullptr) {
     return TRI_MAYBE;
   } else if (req->range == REQ_RANGE_ALLIANCE
              || req->range == REQ_RANGE_TEAM) {
@@ -5875,8 +5876,8 @@ is_latitude_req_active(const struct civ_map *nmap,
 {
   int min = -MAP_MAX_LATITUDE, max = MAP_MAX_LATITUDE;
 
-  fc_assert_ret_val(req != NULL, TRI_MAYBE);
-  fc_assert(context != NULL);
+  fc_assert_ret_val(req != nullptr, TRI_MAYBE);
+  fc_assert(context != nullptr);
 
   switch (req->source.kind) {
   case VUT_MINLATITUDE:
@@ -5897,7 +5898,7 @@ is_latitude_req_active(const struct civ_map *nmap,
                             && max >= MAP_MIN_REAL_LATITUDE(wld.map));
 
   case REQ_RANGE_TILE:
-    if (context->tile == NULL) {
+    if (context->tile == nullptr) {
       return TRI_MAYBE;
     } else {
       int tile_lat = map_signed_latitude(context->tile);
@@ -5906,7 +5907,7 @@ is_latitude_req_active(const struct civ_map *nmap,
     }
 
   case REQ_RANGE_CADJACENT:
-    if (context->tile == NULL) {
+    if (context->tile == nullptr) {
       return TRI_MAYBE;
     }
 
@@ -6249,7 +6250,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   context gives the target (or targets) to evaluate against
   req gives the requirement itself
 
-  context and other_context may be NULL. This is equivalent to passing
+  context and other_context may be nullptr. This is equivalent to passing
   empty contexts.
 
   Make sure you give all aspects of the target when calling this function:
@@ -6278,10 +6279,10 @@ bool is_req_active(const struct req_context *context,
 /**********************************************************************//**
   Applies the standard evaluation of req in context, ignoring req->present.
 
-  context and other_context may be NULL. This is equivalent to passing
+  context and other_context may be nullptr. This is equivalent to passing
   empty contexts.
 
-  Fields of context that are NULL are considered unspecified
+  Fields of context that are nullptr are considered unspecified
   and will produce TRI_MAYBE if req needs them to evaluate.
 **************************************************************************/
 static
@@ -6303,7 +6304,7 @@ enum fc_tristate tri_req_present(const struct civ_map *nmap,
     return TRI_NO;
   }
 
-  fc_assert_ret_val(req_definitions[req->source.kind].cb != NULL, TRI_NO);
+  fc_assert_ret_val(req_definitions[req->source.kind].cb != nullptr, TRI_NO);
 
   return req_definitions[req->source.kind].cb(nmap, context,
                                               other_context, req);
@@ -6312,10 +6313,10 @@ enum fc_tristate tri_req_present(const struct civ_map *nmap,
 /**********************************************************************//**
   Evaluates req in context to fc_tristate.
 
-  context and other_context may be NULL. This is equivalent to passing
+  context and other_context may be nullptr. This is equivalent to passing
   empty contexts.
 
-  Fields of context that are NULL are considered unspecified
+  Fields of context that are nullptr are considered unspecified
   and will produce TRI_MAYBE if req needs them to evaluate.
 **************************************************************************/
 enum fc_tristate tri_req_active(const struct req_context *context,
@@ -6345,7 +6346,7 @@ enum fc_tristate tri_req_active(const struct req_context *context,
   reqs gives the requirement vector.
   The function returns TRUE only if all requirements are active.
 
-  context and other_context may be NULL. This is equivalent to passing
+  context and other_context may be nullptr. This is equivalent to passing
   empty contexts.
 
   Make sure you give all aspects of the target when calling this function:
@@ -6400,11 +6401,11 @@ tri_req_active_turns(int pass, int period,
                      const struct req_context *other_context,
                      const struct requirement *req)
 {
-  /* FIXME: doubles code from calendar.c */
+  /* FIXME: Doubles code from calendar.c */
   int ypt = get_world_bonus(EFT_TURN_YEARS);
   int fpt = get_world_bonus(EFT_TURN_FRAGMENTS);
   int fragment = game.info.fragment_count;
-  int fragment1 = fragment; /* if fragments don't advance */
+  int fragment1 = fragment; /* If fragments don't advance */
   int year_inc, year_inc1;
   const int slowdown = (victory_enabled(VC_SPACERACE)
         ? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
@@ -6451,7 +6452,7 @@ tri_req_active_turns(int pass, int period,
   case VUT_AGE:
     switch (req->range) {
     case REQ_RANGE_LOCAL:
-      if (context->unit == NULL || !is_server()) {
+      if (context->unit == nullptr || !is_server()) {
         return TRI_MAYBE;
       } else {
         int ua = game.info.turn + pass - context->unit->birth_turn;
@@ -6461,7 +6462,7 @@ tri_req_active_turns(int pass, int period,
       }
       break;
     case REQ_RANGE_CITY:
-      if (context->city == NULL) {
+      if (context->city == nullptr) {
         return TRI_MAYBE;
       } else {
         int ca = game.info.turn + pass - context->city->turn_founded;
@@ -6471,7 +6472,7 @@ tri_req_active_turns(int pass, int period,
       }
       break;
     case REQ_RANGE_PLAYER:
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         return TRI_MAYBE;
       } else {
         present = req->source.value.age
@@ -6485,7 +6486,7 @@ tri_req_active_turns(int pass, int period,
     }
     break;
   case VUT_FORM_AGE:
-    if (context->unit == NULL || !is_server()) {
+    if (context->unit == nullptr || !is_server()) {
       return TRI_MAYBE;
     } else {
       int ua = game.info.turn + pass - context->unit->current_form_turn;
@@ -6544,7 +6545,7 @@ enum fc_tristate default_tester_cb
 /**********************************************************************//**
   Test requirements in reqs with tester according to (data, n_data)
   and give the resulting tristate.
-  If maybe_reqs is not NULL, copies requirements that are evaluated
+  If maybe_reqs is not nullptr, copies requirements that are evaluated
   to TRI_MAYBE into it (stops as soon as one evaluates to TRI_NO).
 **************************************************************************/
 enum fc_tristate
@@ -6558,7 +6559,8 @@ enum fc_tristate
   bool active = TRUE;
   bool certain = TRUE;
 
-  fc_assert_ret_val(NULL != tester, TRI_NO);
+  fc_assert_ret_val(tester != nullptr, TRI_NO);
+
   requirement_vector_iterate(reqs, preq) {
     switch(tester(context, other_context, preq,
                   data, n_data)) {
@@ -6614,11 +6616,11 @@ enum req_unchanging_status
 
       if (can_improvement_go_obsolete(b)) {
         if (improvement_obsolete(context->player, b, context->city)) {
-          /* FIXME: sometimes can unobsolete, but considering it
+          /* FIXME: Sometimes can unobsolete, but considering it
            * may sometimes put the function on endless recursion */
           return REQUCH_ACT; /* Mostly about techs */
         } else {
-          /* NOTE: may obsoletion reqs be unchanging? Hardly but why not. */
+          /* NOTE: May obsoletion reqs be unchanging? Hardly but why not. */
           return REQUCH_NO;
         }
       }
@@ -6687,6 +6689,7 @@ bool is_req_in_vec(const struct requirement *req,
 /**********************************************************************//**
   Returns TRUE iff the specified requirement vector has a positive
   requirement of the specified requirement type.
+
   @param reqs the requirement vector to look in
   @param kind the requirement type to look for
 **************************************************************************/
@@ -6793,6 +6796,7 @@ bool universal_never_there(const struct universal *source)
   Returns TRUE iff the specified requirement is known to be impossible to
   fulfill. Note that this function may return FALSE even when it is
   impossible to fulfill a requirement if it can't detect it.
+
   @param req the requirement to check the possibility of.
   @return TRUE iff the requirement never can be fulfilled.
 **************************************************************************/
@@ -6806,6 +6810,7 @@ bool req_is_impossible_to_fulfill(const struct requirement *req)
   Returns TRUE iff the specified requirement vector is known to be
   impossible to fulfill. Note that this function may return FALSE even when
   it is impossible to fulfill a requirement if it can't detect it.
+
   @param reqs the requirement vector to check the possibility of.
   @return TRUE iff the requirement vector never can be fulfilled.
 **************************************************************************/
@@ -6824,6 +6829,7 @@ bool req_vec_is_impossible_to_fulfill(const struct requirement_vector *reqs)
 /**********************************************************************//**
   Returns the requirement vector number of the specified requirement
   vector in the specified requirement vector.
+
   @param parent_item the item that may own the vector.
   @param vec the requirement vector to number.
   @return the requirement vector number the vector has in the parent item.
@@ -6841,8 +6847,9 @@ req_vec_vector_number(const void *parent_item,
 
 /********************************************************************//**
   Returns a writable pointer to the specified requirement vector in the
-  specified requirement vector or NULL if the parent item doesn't have a
-  requirement vector with that requirement vector number.
+  specified requirement vector or nullptr if the parent item doesn't have
+  a requirement vector with that requirement vector number.
+
   @param parent_item the item that should have the requirement vector.
   @param number the item's requirement vector number.
   @return a pointer to the specified requirement vector.
@@ -6850,7 +6857,8 @@ req_vec_vector_number(const void *parent_item,
 struct requirement_vector *
 req_vec_by_number(const void *parent_item, req_vec_num_in_item number)
 {
-  fc_assert_ret_val(number == 0, NULL);
+  fc_assert_ret_val(number == 0, nullptr);
+
   return (struct requirement_vector *)parent_item;
 }
 
@@ -6859,6 +6867,7 @@ req_vec_by_number(const void *parent_item, req_vec_num_in_item number)
   ready for use in the user interface.
   N.B.: The returned string is static, so every call to this function
   overwrites the previous.
+
   @param change the requirement vector change
   @param namer a function that returns a description of the vector to
                change for the item the vector belongs to.
@@ -6871,14 +6880,14 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
   static char buf[MAX_LEN_NAME * 3];
   struct astring astr;
 
-  fc_assert_ret_val(change, NULL);
+  fc_assert_ret_val(change, nullptr);
   fc_assert_ret_val(req_vec_change_operation_is_valid(change->operation),
-                    NULL);
+                    nullptr);
 
   /* Get rid of the previous. */
   buf[0] = '\0';
 
-  if (namer == NULL) {
+  if (namer == nullptr) {
     /* TRANS: default description of a requirement vector
      * (used in ruledit) */
     req_vec_description = _("the requirement vector");
@@ -6930,6 +6939,7 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
 /**********************************************************************//**
   Returns TRUE iff the specified requirement vector modification was
   successfully applied to the specified target requirement vector.
+
   @param modification the requirement vector change
   @param getter a function that returns a pointer to the requirement
                 vector the change should be applied to given a ruleset
@@ -6969,6 +6979,7 @@ bool req_vec_change_apply(const struct req_vec_change *modification,
   Returns a new requirement vector problem with the specified number of
   suggested solutions and the specified description. The suggestions are
   added by the caller.
+
   @param num_suggested_solutions the number of suggested solutions.
   @param description the description of the problem.
   @param description_translated the translated description of the problem.
@@ -7005,6 +7016,7 @@ req_vec_problem_new_transl(int num_suggested_solutions,
   Returns a new requirement vector problem with the specified number of
   suggested solutions and the specified description. The suggestions are
   added by the caller.
+
   @param num_suggested_solutions the number of suggested solutions.
   @param descr the description of the problem as a format string
   @return the new requirement vector problem.
@@ -7032,6 +7044,7 @@ struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
 /**********************************************************************//**
   De-allocates resources associated with the given requirement vector
   problem.
+
   @param issue the no longer needed problem.
 **************************************************************************/
 void req_vec_problem_free(struct req_vec_problem *issue)
@@ -7044,9 +7057,10 @@ void req_vec_problem_free(struct req_vec_problem *issue)
 
 /**********************************************************************//**
   Returns the first self contradiction found in the specified requirement
-  vector with suggested solutions or NULL if no contradiction was found.
+  vector with suggested solutions or nullptr if no contradiction was found.
   It is the responsibility of the caller to free the suggestion when it is
   done with it.
+
   @param vec the requirement vector to look in.
   @param get_num function that returns the requirement vector's number in
                  the parent item.
@@ -7061,12 +7075,12 @@ req_vec_get_first_contradiction(const struct requirement_vector *vec,
   int i, j;
   req_vec_num_in_item vec_num;
 
-  if (vec == NULL || requirement_vector_size(vec) == 0) {
+  if (vec == nullptr || requirement_vector_size(vec) == 0) {
     /* No vector. */
-    return NULL;
+    return nullptr;
   }
 
-  if (get_num == NULL || parent_item == NULL) {
+  if (get_num == nullptr || parent_item == nullptr) {
     vec_num = 0;
   } else {
     vec_num = get_num(parent_item, vec);
@@ -7105,13 +7119,14 @@ req_vec_get_first_contradiction(const struct requirement_vector *vec,
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
-  Returns a suggestion to fix the specified requirement vector or NULL if
+  Returns a suggestion to fix the specified requirement vector or nullptr if
   no fix is found to be needed. It is the responsibility of the caller to
   free the suggestion when it is done with it.
+
   @param vec the requirement vector to look in.
   @param get_num function that returns the requirement vector's number in
                  the parent item.
@@ -7129,10 +7144,11 @@ req_vec_suggest_repair(const struct requirement_vector *vec,
 
 /**********************************************************************//**
   Returns the first universal known to always be absent in the specified
-  requirement vector with suggested solutions or NULL if no missing
+  requirement vector with suggested solutions or nullptr if no missing
   universals were found.
   It is the responsibility of the caller to free the suggestion when it is
   done with it.
+
   @param vec the requirement vector to look in.
   @param get_num function that returns the requirement vector's number in
                  the parent item.
@@ -7146,14 +7162,14 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
 {
   int i;
   req_vec_num_in_item vec_num;
-  struct req_vec_problem *problem = NULL;
+  struct req_vec_problem *problem = nullptr;
 
-  if (vec == NULL || requirement_vector_size(vec) == 0) {
+  if (vec == nullptr || requirement_vector_size(vec) == 0) {
     /* No vector. */
-    return NULL;
+    return nullptr;
   }
 
-  if (get_num == NULL || parent_item == NULL) {
+  if (get_num == nullptr || parent_item == nullptr) {
     vec_num = 0;
   } else {
     vec_num = get_num(parent_item, vec);
@@ -7171,10 +7187,10 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
          * requirement makes it possible to fulfill it. This is a rule
          * change and shouldn't be "fixed" without thinking. Don't offer any
          * automatic solution to prevent mindless "fixes". */
-        /* TRANS: ruledit warns a user about an unused requirement vector
+        /* TRANS: Ruledit warns a user about an unused requirement vector
          * that never can be fulfilled because it asks for something that
          * never will be there. */
-        if (problem == NULL) {
+        if (problem == nullptr) {
           problem = req_vec_problem_new(0,
                        N_("Requirement {%s} requires %s but it will never be"
                           " there."),
@@ -7187,7 +7203,7 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
         continue;
       }
 
-      if (problem != NULL) {
+      if (problem != nullptr) {
         /* Free previous one (one with no solution proposals) */
         req_vec_problem_free(problem);
       }
@@ -7214,10 +7230,11 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
 
 /**********************************************************************//**
   Returns the first redundant requirement in the specified requirement
-  vector with suggested solutions or NULL if no redundant requirements were
+  vector with suggested solutions or nullptr if no redundant requirements were
   found.
   It is the responsibility of the caller to free the suggestion when it is
   done with it.
+
   @param vec the requirement vector to look in.
   @param get_num function that returns the requirement vector's number in
                  the parent item.
@@ -7232,12 +7249,12 @@ req_vec_get_first_redundant_req(const struct requirement_vector *vec,
   int i, j;
   req_vec_num_in_item vec_num;
 
-  if (vec == NULL || requirement_vector_size(vec) == 0) {
+  if (vec == nullptr || requirement_vector_size(vec) == 0) {
     /* No vector. */
-    return NULL;
+    return nullptr;
   }
 
-  if (get_num == NULL || parent_item == NULL) {
+  if (get_num == nullptr || parent_item == nullptr) {
     vec_num = 0;
   } else {
     vec_num = get_num(parent_item, vec);
@@ -7276,14 +7293,15 @@ req_vec_get_first_redundant_req(const struct requirement_vector *vec,
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
-  Returns a suggestion to improve the specified requirement vector or NULL
+  Returns a suggestion to improve the specified requirement vector or nullptr
   if nothing to improve is found. It is the responsibility of the caller to
   free the suggestion when it is done with it. A possible improvement isn't
   always an error.
+
   @param vec the requirement vector to look in.
   @param get_num function that returns the requirement vector's number in
                  the parent item.
@@ -7298,14 +7316,14 @@ req_vec_suggest_improvement(const struct requirement_vector *vec,
   struct req_vec_problem *out;
 
   out = req_vec_suggest_repair(vec, get_num, parent_item);
-  if (out != NULL) {
+  if (out != nullptr) {
     /* A bug, not just a potential improvement */
     return out;
   }
 
   /* Check if a universal that never will appear in the game is checked. */
   out = req_vec_get_first_missing_univ(vec, get_num, parent_item);
-  if (out != NULL) {
+  if (out != nullptr) {
     return out;
   }
 
@@ -7315,11 +7333,11 @@ req_vec_suggest_improvement(const struct requirement_vector *vec,
 }
 
 /**********************************************************************//**
-  Return TRUE iff the two sources are equivalent.  Note this isn't the
-  same as an == or memcmp check.
+  Return TRUE iff the two sources are equivalent. Note this isn't the
+  same as an == or memcmp() check.
 ***************************************************************************/
 bool are_universals_equal(const struct universal *psource1,
-			  const struct universal *psource2)
+                          const struct universal *psource2)
 {
   if (psource1->kind != psource2->kind) {
     return FALSE;
@@ -7620,11 +7638,12 @@ const char *universal_rule_name(const struct universal *psource)
   }
 
   fc_assert_msg(FALSE, "Invalid source kind %d.", psource->kind);
-  return NULL;
+
+  return nullptr;
 }
 
 /**********************************************************************//**
-  Make user-friendly text for the source.  The text is put into a user
+  Make user-friendly text for the source. The text is put into a user
   buffer which is also returned.
   This should be short, as it's used in lists like "Aqueduct+Size 8" when
   explaining a calculated value. It just needs to be enough to remind the
@@ -7744,7 +7763,7 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz,
                  /* TRANS: Unit class */
                  _("%s units"),
-		 uclass_name_translation(psource->value.uclass));
+                 uclass_name_translation(psource->value.uclass));
     return buf;
   case VUT_UCFLAG:
     cat_snprintf(buf, bufsz,
@@ -7756,7 +7775,7 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_MINVETERAN:
     /* FIXME */
     cat_snprintf(buf, bufsz, _("Veteran level >=%d"),
-		 psource->value.minveteran);
+                 psource->value.minveteran);
     return buf;
   case VUT_UNITSTATE:
     switch (psource->value.unit_state) {
@@ -7846,15 +7865,15 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),
-		 psource->value.minsize);
+                 psource->value.minsize);
     return buf;
   case VUT_MINCULTURE:
     cat_snprintf(buf, bufsz, _("Culture %d"),
-		 psource->value.minculture);
+                 psource->value.minculture);
     return buf;
   case VUT_MINFOREIGNPCT:
     cat_snprintf(buf, bufsz, _("%d%% Foreigners"),
-		 psource->value.minforeignpct);
+                 psource->value.minforeignpct);
     return buf;
   case VUT_AI_LEVEL:
     /* TRANS: "Hard AI" */
@@ -8037,7 +8056,7 @@ int universal_build_shield_cost(const struct city *pcity,
   case VUT_SITE:
     return impr_build_shield_cost(pcity, target->value.building);
   case VUT_UTYPE:
-    return utype_build_shield_cost(pcity, NULL, target->value.utype);
+    return utype_build_shield_cost(pcity, nullptr, target->value.utype);
   default:
     break;
   }
@@ -8086,6 +8105,7 @@ bool universal_is_mentioned_by_requirements(
   Returns TRUE iff the presence of any of the specified universals is
   enough to guarantee that the specified requirement vector never will be
   fulfilled.
+
   @param reqs   the requirement vector that never should be fulfilled
   @param unis   the universals that are present
   @param n_unis the number of universals in unis
@@ -8117,6 +8137,7 @@ bool universals_mean_unfulfilled(struct requirement_vector *reqs,
   universals.
   Note that TRUE is returned both when the requirement vector is known to
   be fulfilled and when it is known to be unfulfilled.
+
   @param reqs   the requirement vector certainty is wanted about
   @param unis   the universals that are present
   @param n_unis the number of universals in unis
