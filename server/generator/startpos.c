@@ -417,7 +417,7 @@ bool create_start_positions(enum map_startpos mode,
   { 
     int nr, to_place = player_count(), first = 1;
 
-    /* inizialize islands_index */
+    /* Initialize islands_index */
     for (nr = 1; nr <= wld.map.num_continents; nr++) {
       islands_index[islands[nr].id] = nr;
     }
