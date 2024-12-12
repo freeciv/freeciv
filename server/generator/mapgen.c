@@ -111,7 +111,7 @@ static bool make_island(int islemass, int starters,
 #define RIVERS_MAXTRIES 32767
 /* This struct includes two dynamic bitvectors. They are needed to mark
    tiles as blocked to prevent a river from falling into itself, and for
-   storing rivers temporarly. */
+   storing rivers temporarily. */
 struct river_map {
   struct dbv blocked;
   struct dbv ok;
@@ -179,7 +179,7 @@ static int river_pct = 0;
                                     FALSE, TRUE, TC_OCEAN) <= 35)
 typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
 
-/* MISCELANEOUS (OTHER CONDITIONS) */
+/* MISCELLANEOUS (OTHER CONDITIONS) */
 
 /* necessary condition of swamp placement */
 static int hmap_low_level = 0;
@@ -476,10 +476,10 @@ static void make_plains(void)
   }
 
 /**********************************************************************//**
-  Make_terrains calls make_forest, make_dessert,etc  with random free
-  locations until there  has been made enough.
-  Comment: funtions as make_swamp, etc. has to have a non 0 probability
-  to place one terrains in called position. Else make_terrains will get
+  Make_terrains calls make_forest(), make_dessert(), etc with random free
+  locations until there has been made enough.
+  Comment: functions as make_swamp(), etc. has to have a non zero probability
+  to place one terrains in called position. Else make_terrains() will get
   in a infinite loop!
 **************************************************************************/
 static void make_terrains(void)
@@ -781,14 +781,14 @@ static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
      n: height_map[...]
 
  If these rules haven't decided the direction, the random number
- generator gets the desicion.                              -Erik Sigra
+ generator gets the decision.                              -Erik Sigra
 **************************************************************************/
 static bool make_river(struct river_map *privermap, struct tile *ptile,
                        struct extra_type *priver)
 {
-  /* Comparison value for each tile surrounding the current tile.  It is
+  /* Comparison value for each tile surrounding the current tile. It is
    * the suitability to continue a river to the tile in that direction;
-   * lower is better.  However rivers may only run in cardinal directions;
+   * lower is better. However rivers may only run in cardinal directions;
    * the other directions are ignored entirely. */
   int rd_comparison_val[8];
 
@@ -930,7 +930,7 @@ static void make_rivers(void)
     return;
   }
 
-  create_placed_map(); /* needed bu rand_map_characteristic */
+  create_placed_map(); /* Needed by rand_map_characteristic() */
   set_all_ocean_tiles_placed();
 
   dbv_init(&rivermap.blocked, MAP_INDEX_SIZE);
@@ -1136,12 +1136,12 @@ static void make_land(void)
   if (MAPGEN_FRACTURE == wld.map.server.generator) {
     make_fracture_relief();
   } else {
-    make_relief(); /* base relief on map */
+    make_relief(); /* Base relief on map */
   }
-  make_terrains(); /* place all exept mountains and hill */
+  make_terrains(); /* Place all except mountains and hill */
   destroy_placed_map();
 
-  make_rivers(); /* use a new placed_map. destroy older before call */
+  make_rivers(); /* Use a new placed_map. destroy older before call */
 }
 
 /**********************************************************************//**
@@ -2320,7 +2320,7 @@ static void mapgenerator2(void)
 }
 
 /**********************************************************************//**
-  On popular demand, this tries to mimick the generator 3 as best as
+  On popular demand, this tries to mimic the generator 3 as best as
   possible.
 **************************************************************************/
 static void mapgenerator3(void)
