@@ -725,7 +725,7 @@ which support it, right-clicking on a city map tile gives a menu of \
 changes which can be made to that tile, such as irrigation and \
 building roads (see the section on Terrain Alterations); you can \
 select one improvement per tile at a time. These 'worker tasks' will \
-be carried out by any units capable of them that are in 'auto settler' \
+be carried out by any units capable of them that are in 'auto worker' \
 mode.\
 "), _("\
 Citizens have a nationality distinct from that of the state they \
