@@ -111,7 +111,7 @@ static bool make_island(int islemass, int starters,
 #define RIVERS_MAXTRIES 32767
 /* This struct includes two dynamic bitvectors. They are needed to mark
    tiles as blocked to prevent a river from falling into itself, and for
-   storing rivers temporarly. */
+   storing rivers temporarily. */
 struct river_map {
   struct dbv blocked;
   struct dbv ok;
@@ -179,7 +179,7 @@ static int river_pct = 0;
                                     FALSE, TRUE, TC_OCEAN) <= 35)
 typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
 
-/* MISCELANEOUS (OTHER CONDITIONS) */
+/* MISCELLANEOUS (OTHER CONDITIONS) */
 
 /* Necessary condition of swamp placement */
 static int hmap_low_level = 0;
@@ -482,10 +482,10 @@ static void make_plains(void)
   }
 
 /**********************************************************************//**
-  Make_terrains calls make_forest, make_dessert,etc with random free
+  Make_terrains calls make_forest(), make_dessert(), etc with random free
   locations until there has been made enough.
-  Comment: funtions as make_swamp, etc. has to have a non 0 probability
-  to place one terrains in called position. Else make_terrains will get
+  Comment: functions as make_swamp(), etc. has to have a non zero probability
+  to place one terrains in called position. Else make_terrains() will get
   in a infinite loop!
 **************************************************************************/
 static void make_terrains(void)
@@ -787,7 +787,7 @@ static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
       n: height_map[...]
 
   If these rules haven't decided the direction, the random number
-  generator gets the desicion.                              -Erik Sigra
+  generator gets the decision.                              -Erik Sigra
 **************************************************************************/
 static bool make_river(struct river_map *privermap, struct tile *ptile,
                        struct extra_type *priver)
@@ -1144,7 +1144,7 @@ static void make_land(void)
   } else {
     make_relief(); /* Base relief on map */
   }
-  make_terrains(); /* Place all exept mountains and hill */
+  make_terrains(); /* Place all except mountains and hill */
   destroy_placed_map();
 
   make_rivers(); /* Use a new placed_map. Destroy older before call */
@@ -2337,7 +2337,7 @@ static void mapgenerator2(void)
 }
 
 /**********************************************************************//**
-  On popular demand, this tries to mimick the generator 3 as best as
+  On popular demand, this tries to mimic the generator 3 as best as
   possible.
 **************************************************************************/
 static void mapgenerator3(void)
