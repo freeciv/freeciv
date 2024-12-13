@@ -1551,7 +1551,7 @@ void real_city_report_update_city(struct city *pcity)
   @param group       Group to add actions to
   @param mname       Menu name part of the action identifier
   @param human_mname Format of the human visible menu name
-  @param oper        Operation to do when user selectes an entry
+  @param oper        Operation to do when user selects an entry
   @return Created menu
 ****************************************************************************/
 static GMenu *create_change_menu(GActionGroup *group, const char *mname,
