@@ -116,6 +116,6 @@ option('python',
 
 option('fcdb',
        type: 'array',
-       choices: ['sqlite3','mariadb'],
+       choices: ['sqlite3','mariadb','odbc'],
        value: ['sqlite3'],
        description: 'fcdb (player authentication) backends to build')

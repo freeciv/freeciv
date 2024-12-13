@@ -1025,6 +1025,15 @@ if get_option('fcdb').contains('mariadb')
   fcdb_dep = [ fcdb_dep, dependency('mariadb') ]
 endif
 
+if get_option('fcdb').contains('odbc')
+  fcdb = true
+  priv_conf_data.set('HAVE_FCDB_ODBC', 1)
+  fcdb_src = [ fcdb_src,
+    'dependencies/luasql/src/ls_odbc.c',
+  ]
+  fcdb_dep = [ fcdb_dep, dependency('odbc') ]
+endif
+
 if fcdb
   if emscripten
     error('FCDB not supported on emscripten builds.')

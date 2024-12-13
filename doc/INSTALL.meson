@@ -202,7 +202,7 @@ svgflags (boolean)
 
 fcdb (array):
   fcdb (player authentication) backends to build.
-  Possible backends are sqlite3 and mariadb.
+  Possible backends are sqlite3, mariadb, and odbc.
   The default is sqlite3.
 
 
