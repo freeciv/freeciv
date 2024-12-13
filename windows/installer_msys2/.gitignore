@@ -1,2 +1,4 @@
 *.nsi
 Output
+build-*
+install-*
