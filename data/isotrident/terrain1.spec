@@ -55,40 +55,40 @@ tiles = { "row", "column","tag"
 
 ; Terrain special resources:
 
- 0,   2, "ts.oasis_0"
- 0,   3, "ts.oil_0"
+ 0,   2, "ts.oasis:0"
+ 0,   3, "ts.oil:0"
 
- 1,   2, "ts.buffalo_0"
- 1,   3, "ts.wheat_0"
+ 1,   2, "ts.buffalo:0"
+ 1,   3, "ts.wheat:0"
 
- 2,  2, "ts.fish_0"
- 2,  3, "ts.whales_0"
+ 2,  2, "ts.fish:0"
+ 2,  3, "ts.whales:0"
 
- 7,   7, "ts.grassland_resources_0", "ts.river_resources_0"
+ 7,   7, "ts.grassland_resources:0", "ts.river_resources:0"
 
- 3,   2, "ts.pheasant_0"
- 3,   3, "ts.silk_0"
+ 3,   2, "ts.pheasant:0"
+ 3,   3, "ts.silk:0"
 
- 4,   2, "ts.coal_0"
- 4,   3, "ts.wine_0"
+ 4,   2, "ts.coal:0"
+ 4,   3, "ts.wine:0"
 
- 5,   2, "ts.gold_0"
- 5,   3, "ts.iron_0"
+ 5,   2, "ts.gold:0"
+ 5,   3, "ts.iron:0"
 
- 6,   2, "ts.tundra_game_0"
- 6,   3, "ts.furs_0"
+ 6,   2, "ts.tundra_game:0"
+ 6,   3, "ts.furs:0"
 
- 7,   2, "ts.arctic_ivory_0"
- 7,   3, "ts.arctic_oil_0"
+ 7,   2, "ts.arctic_ivory:0"
+ 7,   3, "ts.arctic_oil:0"
 
- 8,   2, "ts.peat_0"
- 8,   3, "ts.spice_0"
+ 8,   2, "ts.peat:0"
+ 8,   3, "ts.spice:0"
 
- 9,   2, "ts.gems_0"
- 9,   3, "ts.fruit_0"
- 9,   4, "ts.horses_0"
- 9,   5, "ts.seals_0"
- 9,   6, "ts.forest_game_0"
+ 9,   2, "ts.gems:0"
+ 9,   3, "ts.fruit:0"
+ 9,   4, "ts.horses:0"
+ 9,   5, "ts.seals:0"
+ 9,   6, "ts.forest_game:0"
 
 
 ; Maglevs
@@ -122,15 +122,15 @@ tiles = { "row", "column","tag"
  12, 8, "road.rail_nw"
 
 ; Add-ons
- 2, 7, "tx.oil_mine_0"
- 2, 8, "tx.oil_rig_0"
+ 2, 7, "tx.oil_mine:0"
+ 2, 8, "tx.oil_rig:0"
  3, 7, "tx.irrigation"
  4, 7, "tx.farmland"
- 5, 7, "tx.mine_0"
- 6, 7, "tx.pollution_0"
- 8, 7, "tx.village_0"
- 8, 8, "tx.nets_0"
- 9, 7, "tx.fallout_0"
+ 5, 7, "tx.mine:0"
+ 6, 7, "tx.pollution:0"
+ 8, 7, "tx.village:0"
+ 8, 8, "tx.nets:0"
+ 9, 7, "tx.fallout:0"
 }
 
 

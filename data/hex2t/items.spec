@@ -36,15 +36,15 @@ tiles = { "row", "column", "tag"
 ; used by all city styles
 
  1,  0, "city.disorder"
- 1,  1, "base.airbase_mg_0"
+ 1,  1, "base.airbase_mg:0"
  1,  2, "tx.airbase_full"
- 1,  3, "base.airstrip_mg_0"
- 1,  5, "base.buoy_mg_0"
- 1,  6, "extra.ruins_mg_0"
- 3,  8, "base.outpost_fg_0"
- 3,  9, "base.outpost_bg_0"
- 4,  8, "base.fortress_fg_0"
- 4,  9, "base.fortress_bg_0"
+ 1,  3, "base.airstrip_mg:0"
+ 1,  5, "base.buoy_mg:0"
+ 1,  6, "extra.ruins_mg:0"
+ 3,  8, "base.outpost_fg:0"
+ 3,  9, "base.outpost_bg:0"
+ 4,  8, "base.fortress_fg:0"
+ 4,  9, "base.fortress_bg:0"
 
 ; default city tiles
  2,  2, "cd.city"
@@ -212,8 +212,8 @@ tiles = { "row", "column", "tag"
 
 ; Unit activity letters:  (note unit icons have just "u.")
 
-  0, 11, "unit.action_decision_want_1"
-  0, 12, "unit.action_decision_want_0"
+  0, 11, "unit.action_decision_want:1"
+  0, 12, "unit.action_decision_want:0"
   0, 13, "unit.convert"
   0, 14, "unit.auto_attack",
          "unit.auto_worker"

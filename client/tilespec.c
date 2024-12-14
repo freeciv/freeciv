@@ -3001,7 +3001,7 @@ static struct anim *anim_load(struct tileset *t, const char *tag,
   int i;
 
   do {
-    fc_snprintf(buf, sizeof(buf), "%s_%d", tag, frames++);
+    fc_snprintf(buf, sizeof(buf), "%s:%d", tag, frames++);
   } while (sprite_exists(t, buf));
 
   if (--frames == 0) {
@@ -3015,7 +3015,7 @@ static struct anim *anim_load(struct tileset *t, const char *tag,
   ret = anim_new(frames, time_per_frame);
 
   for (i = 0; i < frames; i++) {
-    fc_snprintf(buf, sizeof(buf), "%s_%d", tag, i);
+    fc_snprintf(buf, sizeof(buf), "%s:%d", tag, i);
     ret->sprites[i] = load_sprite(t, buf, TRUE, TRUE, FALSE);
     if (ret->sprites[i] == nullptr) {
       tileset_error(LOG_FATAL, tileset_name_get(t),
