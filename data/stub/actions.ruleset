@@ -145,18 +145,9 @@ nuke_units_consuming_always = TRUE
 ; Will performing this action always consume the actor unit?
 found_city_consuming_always = TRUE
 
-; What each action should be called when showing them to the player.
-; The first %s should be before the mnemonic of the action. A Freeciv client
-; that supports mnemonics will replace it with the in-band signal that marks
-; the following character as a mnemonic in its graphical toolkit.
-; The second %s marks where extra details should be inserted.
-
-; ui_name_xxx = _("%s%s")
-
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
-;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
 ;user_action_1_target_kind            = "Unit"
 ;user_action_1_min_range              = 1
 ;user_action_1_max_range              = 3
@@ -191,8 +182,9 @@ found_city_consuming_always = TRUE
 ;
 ; */ <-- avoid gettext warnings
 
-;[action_placeholder]
-
+;[action_example]
+;action  = "User Action 1"
+;ui_name = "%sDisrupt Supply Lines%s"
 
 ; /* <-- avoid gettext warnings
 ;
