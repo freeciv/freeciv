@@ -184,7 +184,7 @@ found_city_consuming_always = TRUE
 
 ;[action_example]
 ;action  = "User Action 1"
-;ui_name = "%sDisrupt Supply Lines%s"
+;ui_name = _("%sDisrupt Supply Lines%s")
 
 ; /* <-- avoid gettext warnings
 ;

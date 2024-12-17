@@ -162,7 +162,6 @@ found_city_consuming_always = TRUE
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
-;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
 ;user_action_1_target_kind            = "Unit"
 ;user_action_1_min_range              = 1
 ;user_action_1_max_range              = 3
@@ -206,27 +205,27 @@ quiet_actions = "Transport Disembark 2", "Unit Move"
 
 [action_bribe_enemy_unit]
 action  = "Bribe Unit"
-ui_name = "%sBribe Enemy Unit%s"
+ui_name = _("%sBribe Enemy Unit%s")
 
 [action_build_city]
 action  = "Found City"
-ui_name = "%sBuild City%s"
+ui_name = _("%sBuild City%s")
 
 [action_bombard]
 action  = "Bombard 2"
-ui_name = "%sBombard%s"
+ui_name = _("%sBombard%s")
 
 [action_disembark_from_non_native]
 action  = "Transport Disembark 2"
-ui_name = "%sDisembark from non native%s"
+ui_name = _("%sDisembark from non native%s")
 
 [action_keep_moving]
 action  = "Unit Move"
-ui_name = "%sKeep moving%s"
+ui_name = _("%sKeep moving%s")
 
 [action_relocate]
 action  = "Teleport"
-ui_name = "%sRelocate%s"
+ui_name = _("%sRelocate%s")
 
 
 ; /* <-- avoid gettext warnings

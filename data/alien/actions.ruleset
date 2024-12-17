@@ -214,7 +214,6 @@ found_city_consuming_always = TRUE
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
-;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
 ;user_action_1_target_kind            = "Unit"
 ;user_action_1_min_range              = 1
 ;user_action_1_max_range              = 3
@@ -258,47 +257,47 @@ quiet_actions = "Transport Disembark 2", "Enter Hut 2", "Unit Move"
 
 [action_copy_research_data]
 action  = "Steal Tech"
-ui_name = "Copy Research %sData%s"
+ui_name = _("Copy Research %sData%s")
 
 [action_incite_a_revolt]
 action  = "Incite City"
-ui_name = "Incite a %sRevolt%s"
+ui_name = _("Incite a %sRevolt%s")
 
 [action_monetize_containers]
 action  = "Enter Marketplace"
-ui_name = "Monetize %sContainers%s"
+ui_name = _("Monetize %sContainers%s")
 
 [action_bribe_enemy_unit]
 action  = "Bribe Unit"
-ui_name = "%sBribe Enemy Unit%s"
+ui_name = _("%sBribe Enemy Unit%s")
 
 [action_build_city]
 action  = "Found City"
-ui_name = "%sBuild City%s"
+ui_name = _("%sBuild City%s")
 
 [action_explode_missile]
 action  = "Suicide Attack"
-ui_name = "%sExplode Missile%s"
+ui_name = _("%sExplode Missile%s")
 
 [action_bombard]
 action  = "Bombard"
-ui_name = "%sBombard%s"
+ui_name = _("%sBombard%s")
 
 [action_disembark_from_non_native]
 action  = "Transport Disembark 2"
-ui_name = "%sDisembark from non native%s"
+ui_name = _("%sDisembark from non native%s")
 
 [action_enter_hut_from_non_native]
 action  = "Enter Hut 2"
-ui_name = "Enter %sHut from non native%s"
+ui_name = _("Enter %sHut from non native%s")
 
 [action_paradrop_to_contested_landing]
 action  = "Paradrop Unit Enter Conquer"
-ui_name = "%sParadrop to Contested Landing%s"
+ui_name = _("%sParadrop to Contested Landing%s")
 
 [action_keep_moving]
 action  = "Unit Move"
-ui_name = "%sKeep moving%s"
+ui_name = _("%sKeep moving%s")
 
 
 ; /* <-- avoid gettext warnings
