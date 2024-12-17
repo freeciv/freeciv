@@ -5,15 +5,15 @@
 # Tomasz Węgrzanowski <maniek@beer.com> 2000
 # Zbigniew Baniewski <zb@ispid.com.pl> 2002
 # Mateusz Stefek <matusik_s@o2.pl> 2002
-# Hubert Kowalewski <hubkow@users.sourceforge.net> 2010 - 2019
+# Hubert Kowalewski <hubkow@users.sourceforge.net> 2010 - 2024
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv S3_1 (nations)\n"
+"Project-Id-Version: Freeciv S3_2 (nations)\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2024-11-29 05:03+0200\n"
-"PO-Revision-Date: 2024-10-06 13:47+0200\n"
-"Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-12-16 10:28+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.5\n"
 "X-Language: pl-PL\n"
 
 #: data/nation/abkhaz.ruleset:3
@@ -731,13 +731,11 @@ msgstr "?female:Wikariusz %s"
 
 #: data/nation/alaskan.ruleset:3
 msgid "Alaska"
-msgstr ""
+msgstr "Alaska"
 
 #: data/nation/alaskan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Albanians"
 msgid "?plural:Alaskans"
-msgstr "?plural:Albańczycy"
+msgstr "plural:Alaskańczycy"
 
 #: data/nation/alaskan.ruleset:6
 msgid ""
@@ -747,6 +745,11 @@ msgid ""
 "The question of Alaskan independence became more relevant with the election "
 "of Wally Hickel in 1990."
 msgstr ""
+"Alaska to stan w Stanach Zjednoczonych Ameryki, który został zakupiony od "
+"Imperium Rosyjskiego w 1867 roku, stał się zorganizowanym terytorium 11 maja "
+"1912 roku i ostatecznie uzyskał państwowość jako 49 stan 3 stycznia 1959 "
+"roku. Kwestia niepodległości Alaski stała się bardziej istotna w kontekście "
+"wyboru Waltera Hickela w 1990 r."
 
 #: data/nation/alaskan.ruleset:29 data/nation/californian.ruleset:34
 #: data/nation/florida.ruleset:31 data/nation/texan.ruleset:31
@@ -955,7 +958,7 @@ msgstr "%s Dej"
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
 msgid "?female:%s Dey"
-msgstr "?female:%s Dej"
+msgstr "?female:%s Deja"
 
 #: data/nation/alsatian.ruleset:3
 msgid "Alsatian"
@@ -1780,7 +1783,7 @@ msgstr "%s Khagan"
 #: data/nation/volgabulgar.ruleset:26 data/nation/xiongnu.ruleset:38
 #, c-format
 msgid "?female:%s Khagan"
-msgstr "?female:%s Khagan"
+msgstr "?female:%s Khagana"
 
 #: data/nation/aymara.ruleset:3
 msgid "Aymara"
@@ -3996,7 +3999,7 @@ msgstr "%s Bej"
 #: data/nation/tunisian.ruleset:28
 #, c-format
 msgid "?female:%s Bey"
-msgstr "?female:%s Bej"
+msgstr "?female:%s Beja"
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
@@ -4086,13 +4089,11 @@ msgstr "Przewodnicząca %s"
 
 #: data/nation/conch.ruleset:3
 msgid "Conch"
-msgstr ""
+msgstr "Republika Konchy"
 
 #: data/nation/conch.ruleset:4
-#, fuzzy
-#| msgid "?plural:Comanches"
 msgid "?plural:Conch"
-msgstr "?plural:Komancze"
+msgstr "plural:Konczanie"
 
 #: data/nation/conch.ruleset:6
 msgid ""
@@ -4107,6 +4108,17 @@ msgid ""
 "to tourists, and the Conch Republic has been involved in other protests by "
 "Key West and the Florida Keys."
 msgstr ""
+"W 1982 roku, w ramach protestu przeciwko stacji amerykańskiej straży "
+"granicznej w pobliżu hrabstwa Monroe na Florydzie, miasto Key West "
+"oświadczyło, że odłącza się od Stanów Zjednoczonych jako Republika Konchy. "
+"Następnie wypowiedzieli wojnę Stanom Zjednoczonym, łamiąc bochenek "
+"czerstwego kubańskiego chleba na głowie mężczyzny przebranego za marynarza. "
+"Poddali się po minucie, a następnie zażądali miliarda dolarów pomocy "
+"zagranicznej. Fałszywa secesja Republiki Konchy pomogła zwrócić uwagę na "
+"problemy Florida Keys, a posterunek straży granicznej został po cichu "
+"usunięty. Do dziś Key West sprzedaje turystom pamiątki po Republice Konchy, "
+"a ona brała udział w innych protestach organizowanych przez Key West i "
+"Florida Keys."
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
@@ -4585,20 +4597,18 @@ msgstr ""
 "Dakowie to starożytne plemiona mieszkające na lewym brzegu dolnego Dunaju, "
 "na terenach obecnej Rumunii. Prawdopodobnie byli spokrewnieni z Trakami i "
 "innymi plemionami paleo-bałkańskimi. Plemiona dackie zjednoczyły się pod "
-"rządami króla Burebisty. Po wojnach z Rzymem zostali pokonani w roku 106 p.n."
-"e. Dacja stała się prowincją rzymską i uległa rzymskiej kolonizacji. "
+"rządami króla Burebisty. Po wojnach z Rzymem zostali pokonani w roku 106 "
+"p.n.e. Dacja stała się prowincją rzymską i uległa rzymskiej kolonizacji. "
 "Pozostali Dakowie zmieszali się z plemionami wschodniogermańskimi, a później "
 "ze Słowianami."
 
 #: data/nation/dagestan.ruleset:3
 msgid "Dagestan"
-msgstr ""
+msgstr "Dagestan"
 
 #: data/nation/dagestan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Pakistanis"
 msgid "?plural:Dagestani"
-msgstr "?plural:Pakistańczycy"
+msgstr "plural:Dagestańczycy"
 
 #: data/nation/dagestan.ruleset:7
 msgid ""
@@ -4613,6 +4623,16 @@ msgid ""
 "again in 1917, it eventually became an autonomous republic under the Soviet "
 "Union in 1921."
 msgstr ""
+"Dagestan to republika Rosji położona na Kaukazie Północnym nad Morzem "
+"Kaspijskim, jest jedną z najbardziej zróżnicowanych etnicznie republik "
+"Rosji, była jedną z pierwszych społeczności we współczesnych granicach "
+"Rosji, która została muzułmanami po podboju regionu przez Arabów w 643 roku. "
+"Dagestan został później najechany przez Mongołów w 1221 roku. Dagestan "
+"ostatecznie znalazł się pod kontrolą Rosji w 1813 roku i mocno kontrolował "
+"Rosję Cesarską od 1828. Z powodu wysokich podatków i ogólnego niezadowolenia "
+"z rządu rosyjskiego wielokrotnie powstawał przeciwko Rosji, raz w 1828 r. i "
+"ponownie w 1917 r., a ostatecznie w 1921 r. stał się republiką autonomiczną "
+"pod Związkiem Radzieckim."
 
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
@@ -4728,16 +4748,12 @@ msgstr ""
 "karaibską wyspą Dominikaną."
 
 #: data/nation/donetsk.ruleset:3
-#, fuzzy
-#| msgid "Nenets"
 msgid "Donetsk"
-msgstr "Nieński"
+msgstr "Doniecki"
 
 #: data/nation/donetsk.ruleset:4
-#, fuzzy
-#| msgid "?plural:Songhai"
 msgid "?plural:Donchyani"
-msgstr "?plural:Songhajowie"
+msgstr "plural:Donechyani"
 
 #: data/nation/donetsk.ruleset:6
 msgid ""
@@ -4763,18 +4779,37 @@ msgid ""
 "called the \"attempted illegal annexation\" and demanded that Russia "
 "\"immediately, completely and unconditionally withdraw.\""
 msgstr ""
+"Doniecka Republika Ludowa to nieuznawana republika Rosji w okupowanych "
+"częściach obwodu donieckiego wschodniej Ukrainy, ze stolicą w Doniecku. DRL "
+"została utworzona przez wspierane przez Rosję siły zbrojne w 2014 roku i "
+"początkowo działała jako separatystyczne państwo, dopóki nie została "
+"zaanektowana przez Rosję w 2022 roku. Po ukraińskiej Rewolucji Godności w "
+"2014 r. we wschodniej części kraju wybuchły prorosyjskie, kontrrewolucyjne "
+"zamieszki. Rosja odebrała Krym Ukrainie, podczas gdy uzbrojeni separatyści "
+"zajęli budynki rządowe i proklamowali Doniecką Republikę Ludową i Ługańską "
+"Republikę Ludową jako niepodległe państwa. Wywołało to wojnę w Donbasie, "
+"będącą częścią szerszej wojny rosyjsko-ukraińskiej. DRL i ŁRL są czasami "
+"opisywane jako marionetkowe państwa Rosji podczas tego konfliktu. Nie "
+"otrzymały one międzynarodowego uznania od państw członkowskich ONZ przed "
+"2022 rokiem. W dniu 21 lutego 2022 r. Rosja uznała DRL i ŁRL za suwerenne "
+"państwa. Trzy dni później Rosja rozpoczęła pełnoskalową inwazję na Ukrainę, "
+"częściowo pod pretekstem ochrony republik. Siły rosyjskie zajęły większą "
+"część obwodu donieckiego, który stał się częścią DRL. We wrześniu 2022 r. "
+"Rosja ogłosiła aneksję DRL i innych okupowanych terytoriów w następstwie "
+"nielegalnych referendów. Zgromadzenie Ogólne Narodów Zjednoczonych przyjęło "
+"rezolucję wzywającą kraje do nieuznawania tego, co nazwało „próbą "
+"nielegalnej aneksji” i zażądało od Rosji „natychmiastowego, całkowitego i "
+"bezwarunkowego wypowiedzenia”."
 
 #: data/nation/donetsk.ruleset:40 data/nation/luhansk.ruleset:37
-#, fuzzy, c-format
-#| msgid "Kaiserin %s"
+#, c-format
 msgid "Kremlin %s"
-msgstr "Cesarzowa %s"
+msgstr "Kreml %s"
 
 #: data/nation/donetsk.ruleset:40 data/nation/luhansk.ruleset:37
-#, fuzzy, c-format
-#| msgid "?female:Hetman %s"
+#, c-format
 msgid "?female:Kremlin %s"
-msgstr "?female:Hetman %s"
+msgstr "Kremlinka %s"
 
 #: data/nation/dryad.ruleset:3
 msgid "Dryad"
@@ -5085,9 +5120,9 @@ msgstr ""
 "dwunastu miast. W VI w. p.n.e. ich cywilizacja zaczęła podupadać na skutek "
 "najazdów Rzymian i Galów. Rzym był najprawdopodobniej państwem-miastem, "
 "które wyzwoliło się spod etruskiej dominacji, co mogło spowodować, że w "
-"podaniach rzymskich Etruskowie są często pokazywani w negatywny sposób (m."
-"in. jako ludzie wyuzdani). Nadmienić jednak trzeba, że rzymska kultura wiele "
-"zawdzięcza swoim etruskim przodkom."
+"podaniach rzymskich Etruskowie są często pokazywani w negatywny sposób "
+"(m.in. jako ludzie wyuzdani). Nadmienić jednak trzeba, że rzymska kultura "
+"wiele zawdzięcza swoim etruskim przodkom."
 
 #: data/nation/european.ruleset:3
 msgid "European"
@@ -5859,8 +5894,8 @@ msgstr ""
 "indoeuropejskich. Niewiele wiemy o pochodzeniu starożytnych Germanów. Ich "
 "języki zawierają dużo elementów niespotyanych w innych językach "
 "indoeuropejskich. Pierwsze ślady Germanów znaleziono na Nizinie "
-"Północnoniemieckiej i w południowej Skandynawii. Od drugiej połowy II w. p.n."
-"e. ścierali się z Rzymianami, a we wczesnych wiekach średnich germańskie "
+"Północnoniemieckiej i w południowej Skandynawii. Od drugiej połowy II w. "
+"p.n.e. ścierali się z Rzymianami, a we wczesnych wiekach średnich germańskie "
 "królestwa powstały na terenach niegdysiejszego cesarstwa "
 "zachodniorzymskiego. Do tego czasu większość ludów germańskich porzuciło "
 "dawne religie politeistyczne na rzecz chrześcijaństwa."
@@ -8058,16 +8093,12 @@ msgstr ""
 "Lotaryngia stała się prowincją Francji."
 
 #: data/nation/louisianian.ruleset:3
-#, fuzzy
-#| msgid "Lithuanian"
 msgid "Louisianian"
-msgstr "Litewski"
+msgstr "Luizjańczyk"
 
 #: data/nation/louisianian.ruleset:4
-#, fuzzy
-#| msgid "?plural:Bosnians"
 msgid "?plural:Louisianians"
-msgstr "?plural:Bośniacy"
+msgstr "plural:Luizjańczycy"
 
 #: data/nation/louisianian.ruleset:6
 msgid ""
@@ -8077,40 +8108,40 @@ msgid ""
 "February 26, 1861 when it finally joined the Confederate States of America. "
 "The state was formally admitted back into the union on July 9, 1868."
 msgstr ""
+"Luizjana to stan na głębokim południu Stanów Zjednoczonych, znany ze swojej "
+"odrębnej kultury francuskiej. 26 stycznia 1861 roku stan głosował za "
+"odłączeniem się od Stanów Zjednoczonych, istniejąc niezależnie przez krótki "
+"czas do 26 lutego 1861 roku, kiedy ostatecznie dołączył do Skonfederowanych "
+"Stanów Ameryki. Stan został formalnie przyjęty z powrotem do unii w dniu 9 "
+"lipca 1868 r."
 
 #: data/nation/louisianian.ruleset:45
-#, fuzzy, c-format
-#| msgid "High King %s"
+#, c-format
 msgid "Kingfish %s"
 msgstr "Wielki Król %s"
 
 #: data/nation/louisianian.ruleset:45
-#, fuzzy, c-format
-#| msgid "High Queen %s"
+#, c-format
 msgid "Queenfish %s"
 msgstr "Wielka Królowa %s"
 
 #: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
-#, fuzzy, c-format
-#| msgid "Governor %s"
+#, c-format
 msgid "Governeror %s"
 msgstr "Gubernator %s"
 
 #: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
-#, fuzzy, c-format
-#| msgid "?female:Governor %s"
+#, c-format
 msgid "?female:Governeror %s"
-msgstr "?female:Gubernator %s"
+msgstr "female:Gubernatorka %s"
 
 #: data/nation/luhansk.ruleset:3
 msgid "Luhansk"
-msgstr ""
+msgstr "Ługański"
 
 #: data/nation/luhansk.ruleset:4
-#, fuzzy
-#| msgid "?plural:Luwians"
 msgid "?plural:Luhansk"
-msgstr "?plural:Luwijczycy"
+msgstr "?plural:Ługańczycy"
 
 #: data/nation/luhansk.ruleset:6
 msgid ""
@@ -8133,6 +8164,24 @@ msgid ""
 "and other occupied territories, following illegitimate referendums which "
 "were illegal under international law."
 msgstr ""
+"Ługańska Republika Ludowa, w skrócie LPR, to nieuznawana republika Rosji w "
+"okupowanych częściach obwodu ługańskiego we wschodniej Ukrainie, ze stolicą "
+"w Ługańsku. LPR została utworzona przez wspieranych przez Rosję bojówki w "
+"2014 roku i początkowo działała jako separatystyczne państwo, dopóki nie "
+"została zaanektowana przez Rosję w 2022 roku. Po ukraińskiej Rewolucji "
+"Godności w 2014 r. we wschodniej części kraju wybuchły prorosyjskie, "
+"kontrrewolucyjne zamieszki. Rosja odebrała Krym Ukrainie, podczas gdy "
+"uzbrojeni separatyści zajęli budynki rządowe i proklamowali Ługańską "
+"Republikę Ludową (ŁRL) i Doniecką Republikę Ludową (DRL) jako niepodległe "
+"państwa. Wywołało to wojnę w Donbasie, będącą częścią szerszej wojny "
+"rosyjsko-ukraińskiej. LPR i DRL są czasami opisywane jako marionetkowe "
+"państwa Rosji podczas tego konfliktu Nie otrzymały międzynarodowego uznania "
+"od państw członkowskich ONZ przed 2022 rokiem. W dniu 21 lutego 2022 r. "
+"Rosja uznała ŁRL i DRL za suwerenne państwa. Trzy dni później Rosja "
+"rozpoczęła inwazję na Ukrainę na pełną skalę, częściowo pod pretekstem "
+"ochrony republik. We wrześniu 2022 r. Rosja ogłosiła aneksję LPR i innych "
+"okupowanych terytoriów w następstwie nielegalnych referendów, które były "
+"niezgodne z prawem międzynarodowym."
 
 #: data/nation/luwian.ruleset:3
 msgid "Luwian"
@@ -8889,16 +8938,12 @@ msgstr ""
 "znalazło się pod rządami Austrii, a w 1859 zostało przyłączone do Włoch."
 
 #: data/nation/minnesotan.ruleset:3
-#, fuzzy
-#| msgid "Lesothoan"
 msgid "Minnesotan"
-msgstr "Lesotyjski"
+msgstr "Minnesotczyk"
 
 #: data/nation/minnesotan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Lesothoans"
 msgid "?plural:Minnesotans"
-msgstr "?plural:Lesotyjczycy"
+msgstr "plural:Minnesotczycy"
 
 #: data/nation/minnesotan.ruleset:6
 msgid ""
@@ -8906,6 +8951,9 @@ msgid ""
 "environment and many lakes present. It was admitted into the union as a "
 "state on May 11th, 1858."
 msgstr ""
+"Minnesota to stan położony na Środkowym Zachodzie Ameryki, charakteryzujący "
+"się zimnym otoczeniem i dużą liczbą jezior. Została przyjęta do unii jako "
+"stan 11 maja 1858 roku."
 
 #: data/nation/miskito.ruleset:3
 msgid "Miskito"
@@ -9600,16 +9648,12 @@ msgstr ""
 "Normandii, z którego Wilhelm II Zdobywca najechał Anglię w roku 1066."
 
 #: data/nation/northirish.ruleset:3
-#, fuzzy
-#| msgid "Mother %s"
 msgid "Northern Irish"
-msgstr "Matka %s"
+msgstr "Północnoirlandczyk %s"
 
 #: data/nation/northirish.ruleset:4
-#, fuzzy
-#| msgid "?plural:Cornish"
 msgid "?plural:Northern Irish"
-msgstr "?plural:Kornwalijczycy"
+msgstr "plural:Północnoirlandczycy"
 
 #: data/nation/northirish.ruleset:6
 msgid ""
@@ -9622,6 +9666,15 @@ msgid ""
 "both sides a say in the affairs of the region.Northern Ireland is known for "
 "its scenic landscapes and cultural heritage."
 msgstr ""
+"Irlandia Północna jest częścią Wielkiej Brytanii zajmującą północno-"
+"wschodnią część wyspy Irlandia. Irlandia Północna ma złożoną historię "
+"konfliktów i współpracy pomiędzy brytyjskimi związkowcami, którzy chcą "
+"pozostać w Wielkiej Brytanii, a irlandzkimi nacjonalistami, którzy pragną "
+"ponownie dołączyć do Republiki Irlandii. Porozumienie Wielkopiątkowe z 1998 "
+"r. zakończyło pełen przemocy okres znany jako „Kłopoty” i ustanowiło rząd "
+"oparty na podziale władzy, który daje obu stronom głos w sprawach regionu. "
+"Irlandia Północna znana jest z malowniczych krajobrazów i dziedzictwa "
+"kulturowego."
 
 #: data/nation/northirish.ruleset:39 data/nation/scottishgaelic.ruleset:37
 #: data/nation/scottish.ruleset:26
@@ -10614,13 +10667,11 @@ msgstr ""
 
 #: data/nation/poyaisian.ruleset:3
 msgid "Poyais"
-msgstr ""
+msgstr "Poyais"
 
 #: data/nation/poyaisian.ruleset:4
-#, fuzzy
-#| msgid "Polynesian"
 msgid "Poyaisians"
-msgstr "Polinezyjski"
+msgstr "Pojajczycy"
 
 #: data/nation/poyaisian.ruleset:6
 msgid ""
@@ -10628,18 +10679,20 @@ msgid ""
 "1821 to 1837 located in Central America, totally not a scam devised by "
 "MacGregor to sell people fake government bonds for land ill fit for farming."
 msgstr ""
+"Poyais to całkowicie prawdziwy naród założony przez Gregora MacGregora, "
+"który istniał od 1821 do 1837 roku w Ameryce Środkowej, i wcale nie jest to "
+"oszustwo wymyślone przez MacGregora w celu sprzedaży ludziom fałszywych "
+"obligacji rządowych za ziemię nienadającą się do uprawy."
 
 #: data/nation/poyaisian.ruleset:30
-#, fuzzy, c-format
-#| msgid "Cacique %s"
+#, c-format
 msgid "Cazique %s"
 msgstr "Kacyk %s"
 
 #: data/nation/poyaisian.ruleset:30
-#, fuzzy, c-format
-#| msgid "Calipha %s"
+#, c-format
 msgid "Cazica %s"
-msgstr "Kalifa  %s"
+msgstr "Kacyka  %s"
 
 #: data/nation/prussian.ruleset:3
 msgid "Prussian"
@@ -12844,13 +12897,11 @@ msgstr ""
 
 #: data/nation/tokiponan.ruleset:3
 msgid "Toki Ponan"
-msgstr ""
+msgstr "Toki Ponan"
 
 #: data/nation/tokiponan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Tongans"
 msgid "?plural:Toki Ponans"
-msgstr "?plural:Tongijczycy"
+msgstr "plural: użytkownicy Toki Ponana"
 
 #: data/nation/tokiponan.ruleset:6
 msgid ""
@@ -12858,6 +12909,9 @@ msgid ""
 "its extremely small size, consisting of 14 letters and anywhere from 120 "
 "words to 137 words."
 msgstr ""
+"Toki Pona to język skonstruowany stworzony przez Sonję Lang w 2001 roku, "
+"który wyróżnia się wyjątkowo małym rozmiarem, składającym się z 14 liter i "
+"od 120 do 137 słów."
 
 #: data/nation/toltec.ruleset:3
 msgid "Toltec"
@@ -13056,8 +13110,8 @@ msgid ""
 "protectorate. The country became independent in 1956."
 msgstr ""
 "Fenicjanie zbudowali Kartaginę na obszarze obecnej Tunezji. Kartagina "
-"wyrosła na mocarstwo basenu Morza Śródziemnego, aż do czasu, gdy w 146 r. p."
-"n.e. pobili ją Rzymianie. Nieco później podboje muzułmańskich Arabów w VII "
+"wyrosła na mocarstwo basenu Morza Śródziemnego, aż do czasu, gdy w 146 r. "
+"p.n.e. pobili ją Rzymianie. Nieco później podboje muzułmańskich Arabów w VII "
 "wieku doprowadziły do migracji ludności do krajów arabskich i osmańskich. W "
 "XVI w. na te tereny wprowadzali się Żydzi i hiszpańscy Maurowie. Tunezja "
 "zyskała dużą niezależność od Imperium Osmańskiego w 1861 roku, lecz w 1881 "
@@ -13121,28 +13175,14 @@ msgid "?female:Turkmenbashi %s"
 msgstr "?female:Turkmenbashi %s"
 
 #: data/nation/tuvaluan.ruleset:3
-#, fuzzy
-#| msgid "Tuvan"
 msgid "Tuvaluan"
-msgstr "Tuwiński"
+msgstr "Tuwalski"
 
 #: data/nation/tuvaluan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Tuvans"
 msgid "?plural:I-Tuvaluan"
-msgstr "?plural:Tuwińcy"
+msgstr "?plural:Tuvalczycy"
 
 #: data/nation/tuvaluan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Gilbert Islands, known in Gilbertese as Tungaru, are an island chain "
-#| "in the Pacific Ocean. Inhabited by Micronesians since prehistoric times, "
-#| "they were united under a common chiefdom in the late 19th century. "
-#| "Together with the Ellice Islands they were annexed by the British in 1892 "
-#| "who established the colony of Gilbert and Ellice Islands. Upon "
-#| "independence in 1976, the people of the Gilbert Islands adopted Kiribati "
-#| "(the Gilbertese rendering of \"Gilberts\") as the name of the newly "
-#| "established republic."
 msgid ""
 "The Ellice Islands are an island chain in the Pacific Ocean. Inhabited by "
 "Micronesians since prehistoric times, they were united under a common "
@@ -13152,12 +13192,12 @@ msgid ""
 "Tuvalu, which means 'Eight standing together', referencing the eight "
 "inhabited islands."
 msgstr ""
-"Wyspy Gilberta to atol na Oceanie Spokojnym. Od czasów prehistorycznych "
-"zamieszkują go Mikronezyjczycy, którzy w XIX wieku zjednoczyli pod jednym "
-"wodzem. Wraz z Wyspami Ellice zostały one opanowane w 1892 roku "
-"Brytyjczyków, którzy założyli tu kolonię. W 1976 roku kraj uzyskał "
-"niepodległość i przyjął nazwę Kiribati, co odpowiada sposobowi, w jaki "
-"wymawia się słowo \"Gilbert\" w ich rodzimym języku."
+"Wyspy Ellice to łańcuch wysp na Oceanie Spokojnym. Zamieszkane przez "
+"Mikronezyjczyków od czasów prehistorycznych, pod koniec XIX wieku zostały "
+"zjednoczone pod wspólnym wodzem. Wraz z Wyspami Gilberta zostały "
+"zaanektowane przez Brytyjczyków w 1892 roku, którzy założyli kolonię Wysp "
+"Gilberta i Ellice. Wyspy uzyskały niepodległość w 1978 r. pod nazwą Tuvalu, "
+"co oznacza „osiem stojących razem” i odnosi się do ośmiu zamieszkałych wysp."
 
 #: data/nation/tuvan.ruleset:3
 msgid "Tuvan"
@@ -15311,10 +15351,10 @@ msgstr ""
 #~ "Nazi Germany in the Anschluss in 1938. This lasted until the end of World "
 #~ "War II in 1945, after which Austria was occupied by the Allies."
 #~ msgstr ""
-#~ "Początki Austrii sięgają czasów Imperium Rzymskiego, gdy około 15 r. p.n."
-#~ "e. celtyckie królestwo zostało podbite przez Rzymian. W połowie I w. n.e. "
-#~ "stało się ono prowincją rzymską o nazwie Noricum, które obejmowało tereny "
-#~ "dzisiejszej Austrii. W 788 r. obszar został podbity przez Karola "
+#~ "Początki Austrii sięgają czasów Imperium Rzymskiego, gdy około 15 r. "
+#~ "p.n.e. celtyckie królestwo zostało podbite przez Rzymian. W połowie I w. "
+#~ "n.e. stało się ono prowincją rzymską o nazwie Noricum, które obejmowało "
+#~ "tereny dzisiejszej Austrii. W 788 r. obszar został podbity przez Karola "
 #~ "Wielkiego, który wprowadził tam chrześcijaństwo. Pod rządami lokalnej "
 #~ "dynastii Habsburgów, Austria stała się jednym w największych mocarstw "
 #~ "Europy. W 1867 państwo przekształciło się w Austro-Węgry. Imperium upadło "
