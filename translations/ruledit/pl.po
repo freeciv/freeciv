@@ -1,13 +1,13 @@
 # Polish translations for Freeciv
-# Hubert Kowalewski <hubkow@gmail.com> 2013 - 2014
+# Hubert Kowalewski <hubkow@gmail.com> 2013 - 2024
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv (ruledit) S3_1\n"
+"Project-Id-Version: Freeciv (ruledit) S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-10-04 03:31+0300\n"
-"PO-Revision-Date: 2024-10-06 13:48+0200\n"
-"Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
+"POT-Creation-Date: 2024-12-01 21:11+0200\n"
+"PO-Revision-Date: 2024-11-14 18:59+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -56,10 +56,8 @@ msgid "Alt removal activity gfx tag"
 msgstr "Znacznik grafiki usuwania"
 
 #: tools/ruledit/edit_extra.cpp:123
-#, fuzzy
-#| msgid "Second alt activity gfx tag"
 msgid "Second alt removal activity gfx tag"
-msgstr "Drugi alternatywny znacznik grafiki"
+msgstr "Drugi alternatywny znacznik czynności usuwania"
 
 #: tools/ruledit/edit_extra.cpp:132 tools/ruledit/edit_gov.cpp:97
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
@@ -80,10 +78,8 @@ msgid "Alt sound tag"
 msgstr "Alternatywny znacznik dźwięku"
 
 #: tools/ruledit/edit_gov.cpp:88 tools/ruledit/edit_impr.cpp:146
-#, fuzzy
-#| msgid "Alt sound tag"
 msgid "Second alt sound tag"
-msgstr "Alternatywny znacznik dźwięku"
+msgstr "Drugi alternatywny znacznik dźwięku"
 
 #: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:78
 msgid "Build Cost"
@@ -98,8 +94,6 @@ msgid "Genus"
 msgstr "Rodzaj"
 
 #: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:167
-#, fuzzy
-#| msgid "Second alt activity gfx tag"
 msgid "Second alt gfx tag"
 msgstr "Drugi alternatywny znacznik grafiki"
 
@@ -116,10 +110,8 @@ msgid "Defense Bonus %"
 msgstr "Dodatek do obrony %"
 
 #: tools/ruledit/edit_terrain.cpp:99
-#, fuzzy
-#| msgid "Alt graphics tag"
 msgid "Second alt graphics tag"
-msgstr "Alternatywny znacznik grafiki"
+msgstr "Drugi alternatywny znacznik grafiki"
 
 #: tools/ruledit/edit_utype.cpp:60
 msgid "Class"
@@ -177,9 +169,9 @@ msgstr "Typ:"
 msgid "Value:"
 msgstr "Wartość:"
 
-#: tools/ruledit/effect_edit.cpp:115
+#: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_enablers.cpp:153
 msgid "Comment"
-msgstr ""
+msgstr "Komentarz"
 
 #: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
@@ -296,15 +288,17 @@ msgstr "Pokaż podsumowanie opcji"
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
 msgid "debug LEVEL"
-msgstr ""
+msgstr "debug POZIOM"
 
 #: tools/ruledit/ruledit.cpp:161
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
+"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub "
+"d:plik1,min,max:...)"
 
 #: tools/ruledit/ruledit.cpp:167
 msgid "Set debug log level (one of f,e,w,n,v)"
-msgstr ""
+msgstr "Ustaw poziom debugowania (jedną z liter f,e,w,n,v)"
 
 #: tools/ruledit/ruledit.cpp:170
 msgid "Print the version number"
@@ -335,7 +329,7 @@ msgstr "Można edytować tylko jeden zestaw zasad na raz.\n"
 #: tools/ruledit/ruledit.cpp:200
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr ""
+msgstr "Nieprawidłowy poziom debugowania \"%s\" podany w opcji --debug.\n"
 
 #: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
 msgid "Try using --help.\n"
@@ -430,7 +424,7 @@ msgstr "Mnożniki"
 
 #: tools/ruledit/ruledit_qt.cpp:194
 msgid "Counters"
-msgstr ""
+msgstr "Liczniki"
 
 #: tools/ruledit/ruledit_qt.cpp:196
 msgid "Nations"
@@ -464,7 +458,7 @@ msgstr "Na pewno chcesz zakończyć?"
 msgid "Quit?"
 msgstr "Zakończyć?"
 
-#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_achievement.cpp:68 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_counters.cpp:82 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:64
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:67
@@ -472,13 +466,14 @@ msgstr "Zakończyć?"
 msgid "Rule Name"
 msgstr "Nazwa zasady"
 
-#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
-#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
+#: tools/ruledit/tab_achievement.cpp:71 tools/ruledit/tab_achievement.cpp:81
+#: tools/ruledit/tab_achievement.cpp:103 tools/ruledit/tab_achievement.cpp:181
+#: tools/ruledit/tab_achievement.cpp:182 tools/ruledit/tab_achievement.cpp:183
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
-#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:133 tools/ruledit/tab_enablers.cpp:255
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
@@ -496,7 +491,7 @@ msgstr "Nazwa zasady"
 msgid "None"
 msgstr "Brak"
 
-#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_achievement.cpp:76 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_counters.cpp:89 tools/ruledit/tab_extras.cpp:76
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:72
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:75
@@ -504,7 +499,17 @@ msgstr "Brak"
 msgid "Name"
 msgstr "Nazwa"
 
-#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:115
+msgid "Type"
+msgstr "Typ"
+
+#: tools/ruledit/tab_achievement.cpp:108
+#, fuzzy
+#| msgid "Value:"
+msgid "Value"
+msgstr "Wartość:"
+
+#: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
@@ -512,15 +517,15 @@ msgstr "Nazwa"
 msgid "Effects"
 msgstr "Efekty"
 
-#: tools/ruledit/tab_achievement.cpp:89
+#: tools/ruledit/tab_achievement.cpp:122
 msgid "Add Achievement"
 msgstr "Dodaj osiągnięcie"
 
-#: tools/ruledit/tab_achievement.cpp:94
+#: tools/ruledit/tab_achievement.cpp:127
 msgid "Remove this Achievement"
 msgstr "Usuń to osiągnięcie"
 
-#: tools/ruledit/tab_achievement.cpp:179
+#: tools/ruledit/tab_achievement.cpp:218
 msgid "An achievement with that rule name already exists!"
 msgstr "Osiągnięcie o tej nazwie już istnieje!"
 
@@ -544,78 +549,68 @@ msgstr "Budynek o tej nazwie reguły już istnieje!"
 
 #: tools/ruledit/tab_counters.cpp:100
 msgid "Default Value"
-msgstr ""
+msgstr "Wartość domyślna"
 
 #: tools/ruledit/tab_counters.cpp:109
 msgid "Checkpoint"
-msgstr ""
+msgstr "Punkt kontrolny"
 
 #: tools/ruledit/tab_counters.cpp:121
 msgid "Behavior"
-msgstr ""
+msgstr "Zachowanie"
 
 #: tools/ruledit/tab_counters.cpp:138
-#, fuzzy
-#| msgid "Add Multiplier"
 msgid "Add Counter"
-msgstr "Dodaj mnożnik"
+msgstr "Dodaj liczni"
 
 #: tools/ruledit/tab_counters.cpp:141
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Counter"
-msgstr "Usuń tą technologię"
+msgstr "Usuń ten licznik"
 
 #: tools/ruledit/tab_counters.cpp:274
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "A counter with that rule name already exists!"
-msgstr "Technologia o tej nazwie reguły istnieje!"
+msgstr "Licznik z tą nazwa zasady już istnieje!"
 
-#: tools/ruledit/tab_enablers.cpp:113
-msgid "Type"
-msgstr "Typ"
-
-#: tools/ruledit/tab_enablers.cpp:137
+#: tools/ruledit/tab_enablers.cpp:139
 msgid "Actor Requirements"
 msgstr "Wymagania agenta"
 
-#: tools/ruledit/tab_enablers.cpp:144
+#: tools/ruledit/tab_enablers.cpp:146
 msgid "Target Requirements"
 msgstr "Wymagania celu"
 
-#: tools/ruledit/tab_enablers.cpp:151
+#: tools/ruledit/tab_enablers.cpp:159
 msgid "Add Enabler"
 msgstr "Dodaj aktywator"
 
-#: tools/ruledit/tab_enablers.cpp:156
+#: tools/ruledit/tab_enablers.cpp:164
 msgid "Remove this Enabler"
 msgstr "Usuń ten aktywator"
 
-#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
-#: tools/ruledit/tab_enablers.cpp:248
+#: tools/ruledit/tab_enablers.cpp:173 tools/ruledit/tab_enablers.cpp:250
+#: tools/ruledit/tab_enablers.cpp:262
 msgid "Enabler Issues"
 msgstr "Problem z aktywatorem"
 
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:227
+#: tools/ruledit/tab_enablers.cpp:241
 msgid "Repair Enabler"
 msgstr "Napraw aktywator"
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:232
+#: tools/ruledit/tab_enablers.cpp:246
 msgid "Improve Enabler"
 msgstr "Ulepsz aktywator"
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:413
 msgid "Enabler (target)"
 msgstr "Aktywator (cel)"
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:424
 msgid "Enabler (actor)"
 msgstr "Aktywator (agent)"
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:461
 #, c-format
 msgid "action enabler for %s"
 msgstr "aktywator dla %s"
@@ -758,13 +753,11 @@ msgstr "Ustroje"
 
 #: tools/ruledit/tab_misc.cpp:199
 msgid "?stat:Disasters"
-msgstr "Katastrof"
+msgstr "Katastrofy"
 
 #: tools/ruledit/tab_misc.cpp:203
-#, fuzzy
-#| msgid "?stat:Enablers"
 msgid "?stat:Counters"
-msgstr "?stat:Aktywatory"
+msgstr "Liczniki"
 
 #: tools/ruledit/tab_misc.cpp:207
 msgid "?stat:Achievements"
