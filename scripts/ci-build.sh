@@ -160,18 +160,15 @@ echo "Freeciv build successful!"
 ;;
 
 emsdk)
-# https://github.com/emscripten-core/emscripten/blob/main/ChangeLog.md
-EMSDK_VER=3.1.67
-
 (
+  SRCROOT=$(pwd)
+
   # Outside source tree
   cd ..
 
-  git clone https://github.com/emscripten-core/emsdk
-
-  cd emsdk
-  ./emsdk install "${EMSDK_VER}"
-  ./emsdk activate "${EMSDK_VER}"
+  if ! ${SRCROOT}/platforms/emscripten/emssetup.sh emsdk ; then
+    exit 1
+  fi
 )
 
 EMSDKDIR="$(cd ../emsdk && pwd)"

@@ -5,6 +5,7 @@ SUBDIRS = windows
 EXTRA_DIST =						\
 		appimage/build_appimages.sh		\
 		emscripten/emsbuild.sh			\
+		emscripten/emssetup.sh			\
 		emscripten/setups/cross-ems.tmpl	\
 		flatpak/build_flatpak.sh		\
 		flatpak/org.freeciv.gtk322.yml		\
