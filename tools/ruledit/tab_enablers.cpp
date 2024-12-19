@@ -301,7 +301,8 @@ void tab_enabler::select_enabler()
 void tab_enabler::delete_now()
 {
   if (selected != nullptr) {
-    selected->rulesave.ruledit_disabled = true;
+    action_enabler_remove(selected);
+    action_enabler_free(selected);
 
     refresh();
     update_enabler_info(nullptr);
