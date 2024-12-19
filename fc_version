@@ -1,14 +1,14 @@
 #!/bin/sh
 
 #
-#  Copyright (C) 2004-2008 Freeciv team
+#  Copyright (C) 2004-2024 Freeciv team
 
 # Version definition for Freeciv.
 
 MAJOR_VERSION="3"
 MINOR_VERSION="2"
 PATCH_VERSION="92"
-EMERGENCY_VERSION="6"
+EMERGENCY_VERSION="7"
 VERSION_LABEL="-dev"
 
 # Type is either "development" or "stable"
