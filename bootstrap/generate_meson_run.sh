@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Freeciv - Copyright (C) 2022-2023 The Freeciv Team
+# Freeciv - Copyright (C) 2022-2024 The Freeciv Team
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2, or (at your option)
@@ -35,6 +35,12 @@ echo "else"                                                                     
 echo "  FREECIV_SCENARIO_PATH=\"\${FREECIV_SCENARIO_PATH}:${2}/${3}/scenarios:${2}/scenarios:${SCENDIR}\"" >> "$1"
 echo "fi"                                                                        >> "$1"
 echo "export FREECIV_SCENARIO_PATH"                                              >> "$1"
+echo "if test \"\${FREECIV_SAVE_PATH}\" = \"\" ; then"                           >> "$1"
+echo "  FREECIV_SAVE_PATH=\"${2}/saves:.\""                                      >> "$1"
+echo "else"                                                                      >> "$1"
+echo "  FREECIV_SAVE_PATH=\"\${FREECIV_SAVE_PATH}:${2}/saves:.\""                >> "$1"
+echo "fi"                                                                        >> "$1"
+echo "export FREECIV_SAVE_PATH"                                                  >> "$1"
 echo                                                                             >> "$1"
 echo "./\$@"                                                                     >> "$1"
 
