@@ -202,130 +202,9 @@ nuke_units_consuming_always = TRUE
 ; Will performing this action always consume the actor unit?
 found_city_consuming_always = TRUE
 
-; What each action should be called when showing them to the player.
-; The first %s should be before the mnemonic of the action. A Freeciv client
-; that supports mnemonics will replace it with the in-band signal that marks
-; the following character as a mnemonic in its graphical toolkit.
-; The second %s marks where extra details should be inserted.
-
-; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
-ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
-
-; /* TRANS: _Sabotage City (3% chance of success). */
-ui_name_sabotage_city = _("%sSabotage City%s")
-
-; /* TRANS: Incite a _Revolt (3% chance of success). */
-ui_name_incite_city = _("Incite a %sRevolt%s")
-
-; /* TRANS: Becom_e Ambassador (100% chance of success). */
-ui_name_establish_embassy_stay = _("Becom%se Ambassador%s")
-
-; /* TRANS: Steal _Technology (3% chance of success). */
-ui_name_steal_tech = _("Steal %sTechnology%s")
-
-; /* TRANS: _Investigate City (spends the unit) (100% chance of success). */
-ui_name_investigate_city_spend_unit = _("%sInvestigate City (spends the unit)%s")
-
-; /* TRANS: Establish Trade _Route (100% chance of success). */
-ui_name_establish_trade_route = _("Establish Trade %sRoute%s")
-
-; /* TRANS: Enter _Marketplace (100% chance of success). */
-ui_name_enter_marketplace = _("Enter %sMarketplace%s")
-
-; /* TRANS: Help _build Wonder (100% chance of success). */
-ui_name_help_wonder = _("Help %sbuild Wonder%s")
-
-; /* TRANS: Dis_band recovering production (100% chance of success). */
-ui_name_disband_unit_recover = _("Dis%sband recovering production%s")
-
-; /* TRANS: Dis_band without recovering production (100% chance of success). */
-ui_name_disband_unit = _("Dis%sband without recovering production%s")
-
-; /* TRANS: _Build City (100% chance of success). */
-ui_name_found_city = _("%sBuild City%s")
-
-; /* TRANS: _Add to City (100% chance of success). */
-ui_name_join_city = _("%sAdd to City%s")
-
-; /* TRANS: Explode _Nuclear In Place (100% chance of success). */
-ui_name_explode_nuclear = _("Explode %sNuclear In Place%s")
-
-; /* TRANS: _Nuke City (100% chance of success). */
-ui_name_nuke_city = _("%sNuke City%s")
-
-; /* TRANS: _Nuke Units (100% chance of success). */
-ui_name_nuke_units = _("%sNuke Units%s")
-
-; /* TRANS: Set _Home City (100% chance of success). */
-ui_name_home_city = _("Set %sHome City%s")
-
-; /* TRANS: _Attack (100% chance of success). */
-ui_name_attack = _("%sAttack%s")
-
-; /* TRANS: _Explode Missile (100% chance of success). */
-ui_name_suicide_attack = _("%sExplode Missile%s")
-
-; /* TRANS: _Conquer City (100% chance of success). */
-ui_name_conquer_city_shrink = _("%sConquer City%s")
-
-; /* TRANS: _Transform Terrain (3% chance of success). */
-ui_name_transform_terrain = _("%sTransform Terrain%s")
-
-; /* TRANS: Transform by _Cultivating (3% chance of success). */
-ui_name_cultivate = _("Transform by %sCultivating%s")
-
-; /* TRANS: Transform by _Planting (3% chance of success). */
-ui_name_plant = _("Transform by %sPlanting%s")
-
-; /* TRANS: Pilla_ge (100% chance of success). */
-ui_name_pillage = _("Pilla%sge%s")
-
-; /* TRANS: Clean (100% chance of success). */
-ui_name_clean = _("Clean %sPollution%s")
-
-; /* TRANS: _Fortify (100% chance of success). */
-ui_name_fortify = _("%sFortify%s")
-
-; /* TRANS: Build _Road (100% chance of success). */
-ui_name_build_road = _("Build %sRoad%s")
-
-; /* TRANS: _Build Base (100% chance of success). */
-ui_name_build_base = _("%sBuild Base%s")
-
-; /* TRANS: Build _Mine (100% chance of success). */
-ui_name_build_mine = _("Build %sMine%s")
-
-; /* TRANS: Build _Irrigation (100% chance of success). */
-ui_name_irrigate = _("Build %sIrrigation%s")
-
-; /* TRANS: _Deboard (100% chance of success). */
-ui_name_transport_deboard = _("%sDeboard%s")
-
-; /* TRANS: _Board (100% chance of success). */
-ui_name_transport_board = _("%sBoard%s")
-
-; /* TRANS: _Unload (100% chance of success). */
-ui_name_transport_unload = _("%sUnload%s")
-
-; /* TRANS: _Disembark (100% chance of success). */
-ui_name_transport_disembark = _("%sDisembark%s")
-
-; /* TRANS: _Embark (100% chance of success). */
-ui_name_transport_embark = _("%sEmbark%s")
-
-; /* TRANS: Enter _Hut (100% chance of success). */
-ui_name_enter_hut = _("Enter %sHut%s")
-
-; /* TRANS: Enter _Hut from transport (100% chance of success). */
-ui_name_enter_hut_2 = _("Enter %sHut from transport%s")
-
-; /* TRANS: Regular _Move (100% chance of success). */
-ui_name_unit_move = _("%sKeep moving%s")
-
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
-;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
 ;user_action_1_target_kind            = "Unit"
 ;user_action_1_min_range              = 1
 ;user_action_1_max_range              = 3
@@ -365,7 +244,42 @@ quiet_actions = "Enter Hut 2", "Unit Move"
 ;
 ; */ <-- avoid gettext warnings
 
-;[action_placeholder]
+
+[action_incite_a_revolt]
+action  = "Incite City"
+ui_name = _("Incite a %sRevolt%s")
+
+[action_bribe_enemy_unit]
+action  = "Bribe Unit"
+ui_name = _("%sBribe Enemy Unit%s")
+
+[action_build_city]
+action  = "Found City"
+ui_name = _("%sBuild City%s")
+
+[action_add_to_city]
+action  = "Join City"
+ui_name = _("%sAdd to City%s")
+
+[action_explode_nuclear_in_place]
+action  = "Explode Nuclear"
+ui_name = _("Explode %sNuclear In Place%s")
+
+[action_explode_missile]
+action  = "Suicide Attack"
+ui_name = _("%sExplode Missile%s")
+
+[action_enter_hut_from_transport]
+action  = "Enter Hut 2"
+ui_name = _("Enter %sHut from transport%s")
+
+[action_keep_moving]
+action  = "Unit Move"
+ui_name = _("%sKeep moving%s")
+
+[action_clean_pollution]
+action  = "Clean"
+ui_name = _("Clean %sPollution%s")
 
 
 ; /* <-- avoid gettext warnings
