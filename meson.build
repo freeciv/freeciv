@@ -271,14 +271,28 @@ endif
 
 qtver = get_option('qtver')
 
+if c_compiler.compiles('''
+#include <threads.h>
+int main(void) { return thrd_create((void *)0, (void *)0, (void *)0); }''',
+  name: 'C11 threads')
+  pub_conf_data.set('FREECIV_HAVE_C11_THREADS', 1)
+  threads='c11'
+else
+  threads=''
+endif
+
 # From this, at least the _WIN32_WINNT must be set before
 # trying to find the functions.
 if host_system == 'windows'
   pub_conf_data.set('FREECIV_MSWINDOWS', 1)
-  pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
   pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
   pub_conf_data.set('FREECIV_SOCKET_ZERO_NOT_STDIN', 1)
   priv_conf_data.set('ALWAYS_ROOT', 1)
+
+  if threads == ''
+    pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
+    threads='tinycthread'
+  endif
 
   min_win_ver = get_option('min-win-ver')
 
@@ -318,12 +332,15 @@ else
   # (that's checked separately)
   priv_conf_data.set('HAVE_WORKING_VSNPRINTF', 1)
 
+  if threads == ''
+    pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+    threads='pthread'
+  endif
+
   if host_system == 'haiku'
     net_dep = c_compiler.find_library('network')
-    pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
     priv_conf_data.set('ALWAYS_ROOT', 1)
   else
-    pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
     net_dep = []
   endif
 endif

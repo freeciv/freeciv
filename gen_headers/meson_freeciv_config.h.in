@@ -51,6 +51,9 @@
 /* Use tinycthread as thread implementation */
 #mesondefine FREECIV_HAVE_TINYCTHR
 
+/* Use C11 threads as thread implementation */
+#mesondefine FREECIV_HAVE_C11_THREADS
+
 /* Has thread condition variable implementation */
 #define FREECIV_HAVE_THREAD_COND
 
