@@ -487,7 +487,6 @@ utypes = "\
 ;                 and firepower of attacker is doubled (the Pearl Harbor\n\
 ;                 rule)\n\
 ; \"BarbarianOnly\" = only barbarians can build this unit\n\
-; \"Shield2Gold\" = Switch from shield upkeep to gold upkeep possible\n\
 ; \"NewCityGamesOnly\" = unit can\'t be built on scenarios where founding new cities\n\
 ;                 is not allowed. Give this flag to units that would make no sense\n\
 ;                 to have in a game with such a scenario\n\
@@ -1312,7 +1311,7 @@ counters = "\n\
 ; This section has comments documenting user (custom) flag types
 
 utype = "\
-; Names for custom unit type flags. There can be up to 52 of these.\n\
+; Names for custom unit type flags. There can be up to 53 of these.\n\
 ; name          = rule name; In some circumstances user may see this\n\
 ;                 as part of some sentences, so try to make it descriptive\n\
 ;                 and sensible.\n\

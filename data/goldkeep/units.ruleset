@@ -23,7 +23,7 @@ options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
 format_version = 40
 
 [control]
-; Names for custom unit type flags. There can be up to 52 of these.
+; Names for custom unit type flags. There can be up to 53 of these.
 ; name          = rule name; In some circumstances user may see this
 ;                 as part of some sentences, so try to make it descriptive
 ;                 and sensible.
@@ -46,6 +46,7 @@ flags =
     _("Cant_Fortify")
     _("OneAttack")
     _("Bomber"), _("Bad at attacking Fighters")
+    _("Shield2Gold"), _("May switch from shield upkeep to gold upkeep")
   }
 
 ; Names for custom unit class flags. There can be up to 25 of these.
@@ -378,7 +379,6 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;                 and firepower of attacker is doubled (the Pearl Harbor
 ;                 rule)
 ; "BarbarianOnly" = only barbarians can build this unit
-; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
 ; "NewCityGamesOnly" = unit can't be built on scenarios where founding new cities
 ;                 is not allowed. Give this flag to units that would make no sense
 ;                 to have in a game with such a scenario

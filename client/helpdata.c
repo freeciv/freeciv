@@ -2421,14 +2421,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
               "choose to do so even if it has better odds when defending "
               "against it than when attacking it.\n"), BULLET);
   }
-  if (utype_has_flag(utype, UTYF_SHIELD2GOLD)) {
-    /* FIXME: the conversion shield => gold is activated if
-     *        EFT_SHIELD2GOLD_FACTOR is not equal null; how to determine
-     *        possible sources? */
-    CATLSTR(buf, bufsz,
-            _("%s Under certain conditions the shield upkeep of this unit can "
-              "be converted to gold upkeep.\n"), BULLET);
-  }
 
   unit_class_iterate(target) {
     if (uclass_has_flag(target, UCF_UNREACHABLE)
