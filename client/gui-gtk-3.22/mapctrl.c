@@ -192,7 +192,7 @@ static void name_new_city_popup_callback(gpointer data, gint response,
 /**********************************************************************//**
   Popup dialog where the user choose the name of the new city
   punit = (settler) unit which builds the city
-  suggestname = suggetion of the new city's name
+  suggestname = suggestion of the new city's name
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 {
