@@ -31,5 +31,5 @@ movement costs is 1/6 points.
  * Units with zero defense value can be captured by any military unit
  * In the beginning cities can grow up to size 3.
  * Units cannot be upgraded before Engineering is known
- * Reseach bulbs are for specific tech. If you switch research, accumulated
+ * Research bulbs are for specific tech. If you switch research, accumulated
    progress stays with the previous tech target.
