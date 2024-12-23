@@ -22,9 +22,7 @@ REV2="dist"
  # Check that all commands required by this script are available
  # If not, we will not claim to know which git revision this is
  # (REVSTATE will be OFF)
- if command -v git >/dev/null &&
-    command -v tail >/dev/null &&
-    command -v wc >/dev/null ; then
+ if command -v git >/dev/null ; then
    REVTMP="$(git rev-parse --short HEAD 2>/dev/null)"
    if test "x$REVTMP" != "x" ; then
      # This is git repository. Check for local modifications
