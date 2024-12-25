@@ -162,6 +162,7 @@ void dai_choose_diplomat_defensive(struct ai_type *ait,
   values in choice.
 ******************************************************************************/
 void dai_choose_diplomat_offensive(struct ai_type *ait,
+                                   const struct civ_map *nmap,
                                    struct player *pplayer,
                                    struct city *pcity,
                                    struct adv_choice *choice)
@@ -169,7 +170,6 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
   struct unit_type *ut = best_role_unit(pcity, UTYF_DIPLOMAT);
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
   int expenses;
-  const struct civ_map *nmap = &(wld.map);
 
   dai_calc_data(pplayer, NULL, &expenses, NULL);
 
