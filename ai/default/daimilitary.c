@@ -2001,7 +2001,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   }
 
   /* Consider making an offensive diplomat */
-  dai_choose_diplomat_offensive(ait, pplayer, pcity, choice);
+  dai_choose_diplomat_offensive(ait, nmap, pplayer, pcity, choice);
 
   /* Consider making a sea bodyguard */
   punittype = dai_choose_bodyguard(ait, nmap, pcity, TC_OCEAN, L_DEFEND_GOOD,
