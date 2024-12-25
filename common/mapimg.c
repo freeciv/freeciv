@@ -2004,7 +2004,7 @@ static inline int img_index(const int x, const int y,
 
 /************************************************************************//**
   Plot one tile at (x,y). Only the pixel of the tile set within 'pixel'
-  are ploted.
+  are plotted.
 ****************************************************************************/
 static void img_plot(struct img *pimg, int x, int y,
                      const struct rgbcolor *pcolor, const bv_pixel pixel)
@@ -2027,7 +2027,7 @@ static void img_plot(struct img *pimg, int x, int y,
 }
 
 /************************************************************************//**
-  Plot one tile. Only the pixel of the tile set within 'pixel' are ploted.
+  Plot one tile. Only the pixel of the tile set within 'pixel' are plotted.
 ****************************************************************************/
 static void img_plot_tile(struct img *pimg, const struct tile *ptile,
                           const struct rgbcolor *pcolor, const bv_pixel pixel)
