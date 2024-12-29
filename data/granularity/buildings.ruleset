@@ -148,6 +148,7 @@ sabotage	= 50
 sound		= "b_courthouse"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Reduces corruption by 30% - \
 from the computational total, that might be over 100% of all trade.\
