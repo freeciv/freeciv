@@ -1039,7 +1039,11 @@ if get_option('fcdb').contains('mariadb')
   fcdb_src = [ fcdb_src,
     'dependencies/luasql/src/ls_mysql.c',
   ]
-  fcdb_dep = [ fcdb_dep, dependency('mariadb') ]
+  mdb_dep = dependency('mariadb', required: false)
+  if not mdb_dep.found()
+    mdb_dep = dependency('libmariadb')
+  endif
+  fcdb_dep = [ fcdb_dep, mdb_dep ]
 endif
 
 if get_option('fcdb').contains('odbc')
