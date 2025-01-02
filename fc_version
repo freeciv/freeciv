@@ -1,21 +1,21 @@
 #!/bin/sh
 
 #
-#  Copyright (C) 2004-2008 Freeciv team
+#  Copyright (C) 2004-2025 Freeciv team
 
 # Version definition for Freeciv.
 
 MAJOR_VERSION="3"
 MINOR_VERSION="1"
-PATCH_VERSION="3"
+PATCH_VERSION="4"
 EMERGENCY_VERSION=""
-VERSION_LABEL="+"
+VERSION_LABEL=""
 
 # Type is either "development" or "stable"
 # Date and NEWS URL are relevant only for "stable" releases
 if test "$VERSION_LABEL" = "" ; then
   RELEASE_TYPE="stable"
-  #RELEASE_DATE="2024-10-11"
+  RELEASE_DATE="2025-01-03"
   NEWS_URL="https://www.freeciv.org/wiki/NEWS-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
 else
   RELEASE_TYPE="development"
