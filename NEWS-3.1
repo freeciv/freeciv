@@ -1,10 +1,130 @@
 ========================
-Welcome to Freeciv 3.1.3
+Welcome to Freeciv 3.1.4
 ========================
 
 The changes in the 3.1.x series are summarised below.
 For changes prior to 3.1, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.1.3 to 3.1.4
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.4>, 2025-01-03)
+
+3.1.4 is a generic bugfix release.
+
+Server / General
+
+    * Fixed a bug that units never gained veterancy from combat RM#983
+    * Fixed an issue preventing action selection dialog from appearing
+      in case of airlift RM#1028
+    * Fixed an issue causing unit with activity to lose focus
+      immediately when it's selected RM#1104
+    * Fixed unused entry warnings from loading pre-3.0 savegames
+      RM#1160 RM#1166 RM#1167 RM#1170
+
+Low-level changes
+
+    * Fixed memory leaks, bad memory access, and improved cleanup
+      on shutdown RM#931 RM#941
+
+General
+
+    * Executable bit has been removed from source files
+      fcser.in and fcgui.in RM#950
+    * Optimizations RM#1001
+    * Various internal changes which should only affect developers.
+      RM#938 RM#934 RM#957 RM#974 RM#936 RM#963 RM#1004 RM#1029 RM#1079
+      RM#1156 RM#1060 osdn#46353
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where it should
+      RM#916 RM#940 RM#967 RM#993 RM#1022 RM#1052 RM#1077 RM#1078
+      RM#1089 RM#1106 RM#1117 RM#1130 RM#1155 RM#1169 RM#1171 RM#1181
+
+Clients
+
+    * Fixed "punit->client.act_prob_cache == ((void*)0)" assert
+      after attempted action turned out to be illegal RM#939
+    * Action decision want icon is now properly cleared from
+      observer clients osdn#48044
+    * Fixed an assert with parameter format version 2 savegames RM#1105
+    * Corrected client knowledge about original city owner RM#1067
+
+    * gtk
+         + Made spaceship menu entry insensitive when no spaceship
+           osdn#48231
+         + gtk4 only: Worked around an issue that icons are
+           not refreshed RM#998
+
+    * sdl2
+         + Added observer mode indicator osdn#48133
+
+Tools
+Ruleset editor
+
+    * Added achievement type and value editing RM#1074
+    * Prevent opening multiple requirement editors for the same Good
+      RM#1076
+    * In experimental mode builds, fixed enabler removal RM#1192
+
+Manual Generator
+
+    * Post-crash debugger is now loaded on Windows builds osdn#42915
+
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1056 RM#1042 RM#1061 RM#1068
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1023 RM#1039 RM#1147
+
+Translations
+
+    * Marked more strings for translation RM#918
+    * New translations:
+         + Galician RM#929
+         + Slovak RM#1165
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Esperanto (31% core, 29% nations, 29% ruledit)
+           Finnish (100% core, 92% nations, 100% ruledit)
+    * Doxygen documentation updates
+      RM#1021 RM#1015 RM#1005 RM#1062 RM#1090 RM#1119 RM#1185
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#912 RM#913 RM#914 RM#960 RM#979 RM#1030 RM#1038 RM#1172 RM#1173
+      RM#1175 RM#1179
+    * Meson based build improvements
+         + Check Qt's version RM#881
+         + Scenarios are now compressed also in crosser based builds
+           RM#956
+         + Metainfo file generation fixed RM#1098
+         + run.sh now sets also FREECIV_SAVE_PATH RM#1194
+    * Flatpak improvements
+         + Build sdl2-client flatpak with meson build system RM#949
+         + Qt Sdk and Platform updates to 6.8 RM#1048
+    * AppImage improvements
+         + Support for building ruledit appimage added RM#919
+         + Version number is included in the appimage file names RM#955
+         + Linuxdeploy updated to version 2.0.0-alpha-1-20241106 RM#1080
+    * Autotools based build improvements
+         + Fixed an issue causing duplicate libcharset linking parameter
+           to linker command line RM#937
+         + Fixed linking tolua against static sys lua RM#1040
+         + Search moc also from /usr/lib/libexec/ RM#1050
+         + Added configure check if a variable argument can
+           be defined const RM#1178
+    * meson-winbuild.sh now strips binaries osdn#48559
+    * Silenced deprecated declarations warnings from C++ builds RM#1180
+    * Fixed Qt5-mode compile with gcc-15 development version RM#1176
+
 
 
 CHANGES FROM 3.1.2 to 3.1.3
