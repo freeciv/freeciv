@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-10-10 23:42+0300\n"
+"POT-Creation-Date: 2025-01-02 22:28+0200\n"
 "PO-Revision-Date: 2023-03-19 00:49+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -432,7 +432,7 @@ msgstr "Segur que voleu sortir?"
 msgid "Quit?"
 msgstr "Sortir?"
 
-#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_achievement.cpp:68 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
 #: tools/ruledit/tab_gov.cpp:64 tools/ruledit/tab_multiplier.cpp:65
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_terrains.cpp:68
@@ -440,8 +440,9 @@ msgstr "Sortir?"
 msgid "Rule Name"
 msgstr "Nom de Regla"
 
-#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
-#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
+#: tools/ruledit/tab_achievement.cpp:71 tools/ruledit/tab_achievement.cpp:81
+#: tools/ruledit/tab_achievement.cpp:103 tools/ruledit/tab_achievement.cpp:181
+#: tools/ruledit/tab_achievement.cpp:182 tools/ruledit/tab_achievement.cpp:183
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
@@ -462,7 +463,7 @@ msgstr "Nom de Regla"
 msgid "None"
 msgstr "Cap"
 
-#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_achievement.cpp:76 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
 #: tools/ruledit/tab_gov.cpp:72 tools/ruledit/tab_multiplier.cpp:73
 #: tools/ruledit/tab_tech.cpp:75 tools/ruledit/tab_terrains.cpp:76
@@ -470,26 +471,36 @@ msgstr "Cap"
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+msgid "Type"
+msgstr "Tipus"
+
+#: tools/ruledit/tab_achievement.cpp:108
+#, fuzzy
+#| msgid "Value:"
+msgid "Value"
+msgstr "Valor:"
+
+#: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
 #: tools/ruledit/tab_gov.cpp:91 tools/ruledit/tab_tech.cpp:116
 #: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:89
 msgid "Effects"
 msgstr "Efectes"
 
-#: tools/ruledit/tab_achievement.cpp:89
+#: tools/ruledit/tab_achievement.cpp:122
 #, fuzzy
 #| msgid "Add Government"
 msgid "Add Achievement"
 msgstr "Afegir Govern"
 
-#: tools/ruledit/tab_achievement.cpp:94
+#: tools/ruledit/tab_achievement.cpp:127
 #, fuzzy
 #| msgid "Remove this Government"
 msgid "Remove this Achievement"
 msgstr "Treure aquest Govern"
 
-#: tools/ruledit/tab_achievement.cpp:179
+#: tools/ruledit/tab_achievement.cpp:218
 #, fuzzy
 #| msgid "A government with that rule name already exists!"
 msgid "An achievement with that rule name already exists!"
@@ -512,10 +523,6 @@ msgstr "Treure aquest Edifici"
 #: tools/ruledit/tab_building.cpp:186
 msgid "A building with that rule name already exists!"
 msgstr "Ja existeix un edifici amb aquest nom de regla!"
-
-#: tools/ruledit/tab_enablers.cpp:113
-msgid "Type"
-msgstr "Tipus"
 
 #: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
@@ -548,15 +555,15 @@ msgstr "Reparar Facilitador"
 msgid "Improve Enabler"
 msgstr "Millorar Facilitador"
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
 msgstr "Facilitador (objectiu)"
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:401
 msgid "Enabler (actor)"
 msgstr "Facilitador (actor)"
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:420
 #, c-format
 msgid "action enabler for %s"
 msgstr "facilitador d'accions per a %s"

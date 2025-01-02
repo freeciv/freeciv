@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1.3+\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-11-29 05:03+0200\n"
+"POT-Creation-Date: 2025-01-02 22:28+0200\n"
 "PO-Revision-Date: 2024-11-28 22:45+0100\n"
 "Last-Translator: Pavol Gono <pavol.gono@gmail.com>\n"
 "Language-Team: \n"
@@ -519,15 +519,15 @@ msgstr ""
 msgid "Improve Enabler"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:401
 msgid "Enabler (actor)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:420
 #, c-format
 msgid "action enabler for %s"
 msgstr ""

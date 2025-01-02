@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-10-10 23:42+0300\n"
+"POT-Creation-Date: 2025-01-02 22:28+0200\n"
 "PO-Revision-Date: 2023-06-02 00:19+0200\n"
 "Last-Translator: Andreas Engel <ae3@mein-ramberg.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -454,7 +454,7 @@ msgstr "Sind Sie sicher, dass Sie aufhören wollen?"
 msgid "Quit?"
 msgstr "Beenden?"
 
-#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_achievement.cpp:68 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
 #: tools/ruledit/tab_gov.cpp:64 tools/ruledit/tab_multiplier.cpp:65
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_terrains.cpp:68
@@ -462,8 +462,9 @@ msgstr "Beenden?"
 msgid "Rule Name"
 msgstr "Regelname"
 
-#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
-#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
+#: tools/ruledit/tab_achievement.cpp:71 tools/ruledit/tab_achievement.cpp:81
+#: tools/ruledit/tab_achievement.cpp:103 tools/ruledit/tab_achievement.cpp:181
+#: tools/ruledit/tab_achievement.cpp:182 tools/ruledit/tab_achievement.cpp:183
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
@@ -484,7 +485,7 @@ msgstr "Regelname"
 msgid "None"
 msgstr "Kein(e)"
 
-#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_achievement.cpp:76 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
 #: tools/ruledit/tab_gov.cpp:72 tools/ruledit/tab_multiplier.cpp:73
 #: tools/ruledit/tab_tech.cpp:75 tools/ruledit/tab_terrains.cpp:76
@@ -492,24 +493,34 @@ msgstr "Kein(e)"
 msgid "Name"
 msgstr "Name"
 
-#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+msgid "Type"
+msgstr "Typ"
+
+#: tools/ruledit/tab_achievement.cpp:108
+#, fuzzy
+#| msgid "Value:"
+msgid "Value"
+msgstr "Wert:"
+
+#: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
 #: tools/ruledit/tab_gov.cpp:91 tools/ruledit/tab_tech.cpp:116
 #: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:89
 msgid "Effects"
 msgstr "Efekte"
 
-#: tools/ruledit/tab_achievement.cpp:89
+#: tools/ruledit/tab_achievement.cpp:122
 #, fuzzy
 msgid "Add Achievement"
 msgstr "Regierungen"
 
-#: tools/ruledit/tab_achievement.cpp:94
+#: tools/ruledit/tab_achievement.cpp:127
 #, fuzzy
 msgid "Remove this Achievement"
 msgstr "Ware entfernen"
 
-#: tools/ruledit/tab_achievement.cpp:179
+#: tools/ruledit/tab_achievement.cpp:218
 #, fuzzy
 msgid "An achievement with that rule name already exists!"
 msgstr "Eine Gut mit diesem Regelnamen existiert bereits!"
@@ -531,10 +542,6 @@ msgstr "Gebäude entfernen"
 #: tools/ruledit/tab_building.cpp:186
 msgid "A building with that rule name already exists!"
 msgstr "Ein Gebäude mit diesem Regelnamen existiert bereits!"
-
-#: tools/ruledit/tab_enablers.cpp:113
-msgid "Type"
-msgstr "Typ"
 
 #: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
@@ -567,15 +574,15 @@ msgstr "Ermöglicher korrigieren"
 msgid "Improve Enabler"
 msgstr "Ermöglicher verbessern"
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
 msgstr "Ermöglicher (Ziel)"
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:401
 msgid "Enabler (actor)"
 msgstr "Ermöglicher (Akteur)"
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:420
 #, c-format
 msgid "action enabler for %s"
 msgstr "Aktionsermöglicher für %s"
@@ -911,8 +918,8 @@ msgstr "Verstecktes Extra"
 
 #~ msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 #~ msgstr ""
-#~ "Debug-Log-Level einstellen (eins von f,e,w,n,v,d, oder d:file1,min,"
-#~ "max:...)"
+#~ "Debug-Log-Level einstellen (eins von f,e,w,n,v,d, oder "
+#~ "d:file1,min,max:...)"
 
 #~ msgid "Set debug log level (one of f,e,w,n,v)"
 #~ msgstr "Debug-Log-Stufe einstellen (eins von f,e,w,n,v)"

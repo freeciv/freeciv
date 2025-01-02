@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1.3+\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-27 13:51+0100\n"
+"POT-Creation-Date: 2024-12-27 00:02+0200\n"
 "PO-Revision-Date: 2024-11-28 22:30+0100\n"
 "Last-Translator: Pavol Gono <pavol.gono@gmail.com>\n"
 "Language-Team: \n"
@@ -6245,7 +6245,9 @@ msgstr "Odpojený"
 msgid ""
 "Number of _Players\n"
 "(including AI):"
-msgstr "Počet _hráčov\n(vrátane AI):"
+msgstr ""
+"Počet _hráčov\n"
+"(vrátane AI):"
 
 #: client/gui-gtk-3.0/pages.c:2706 client/gui-gtk-3.22/pages.c:2707
 #: client/gui-gtk-4.0/pages.c:2836
@@ -37148,8 +37150,8 @@ msgstr ""
 #: server/cityturn.c:1667
 #, c-format
 msgid ""
-"%s can't build %s from the worklist; city must be of size %d or smaller."
-"Postponing..."
+"%s can't build %s from the worklist; city must be of size %d or "
+"smaller.Postponing..."
 msgstr ""
 
 #: server/cityturn.c:1681
@@ -40540,8 +40542,8 @@ msgstr ""
 
 #: server/rscompat.c:1078
 msgid ""
-"Preparing user effects to help you port edit.unit_move() and edit."
-"unit_teleport() Lua calls."
+"Preparing user effects to help you port edit.unit_move() and "
+"edit.unit_teleport() Lua calls."
 msgstr ""
 
 #: server/rscompat.c:1080
