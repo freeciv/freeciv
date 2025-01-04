@@ -7669,8 +7669,7 @@ static bool load_ruleset_actions(struct section_file *file,
             entry_name = action_ui_name_ruleset_var_name(act_id);
           }
 
-          /* FIXME: Allow old style ui_name definitions only in compat mode. */
-          if (TRUE /* compat->compat_mode && compat->version < RSFORMAT_3_3 */) {
+          if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
             load_action_ui_name_3_3(file, act_id, entry_name, compat);
           }
         }
