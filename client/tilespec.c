@@ -1952,6 +1952,7 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   bool svg;
   enum spec_file_types slist_type;
   const char *type_name;
+  bool vsup;
 
   fname = tilespec_fullname(tileset_name);
 
@@ -2093,7 +2094,19 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 
   t->ts_topo_idx = ts_topology_index(topo);
 
-  if (!is_view_supported(t->type)) {
+  switch (t->type) {
+  case TS_ISOMETRIC:
+    vsup = gui_properties.views.isometric;
+    break;
+  case TS_OVERHEAD:
+    vsup = gui_properties.views.overhead;
+    break;
+  case TS_3D:
+    vsup = gui_properties.views.d3;
+    break;
+  }
+
+  if (!vsup) {
     /* TRANS: "Overhead" or "Isometric" */
     log_normal(_("Client does not support %s tilesets."),
                _(ts_type_name(t->type)));

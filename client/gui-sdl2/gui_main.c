@@ -1354,4 +1354,7 @@ bool flush_event(void)
 void setup_gui_properties(void)
 {
   gui_properties.animations = FALSE;
+  gui_properties.views.isometric = TRUE;
+  gui_properties.views.overhead = TRUE;
+  gui_properties.views.d3 = FALSE;
 }

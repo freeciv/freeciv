@@ -1141,22 +1141,6 @@ SDL_Surface *copy_surface(SDL_Surface *src)
 /* ============ Freeciv game graphics function =========== */
 
 /**********************************************************************//**
-  Return whether the client supports given view type
-**************************************************************************/
-bool is_view_supported(enum ts_type type)
-{
-  switch (type) {
-  case TS_ISOMETRIC:
-  case TS_OVERHEAD:
-    return TRUE;
-  case TS_3D:
-    return FALSE;
-  }
-
-  return FALSE;
-}
-
-/**********************************************************************//**
   Loading tileset of the specified type
 **************************************************************************/
 void tileset_type_set(enum ts_type type)

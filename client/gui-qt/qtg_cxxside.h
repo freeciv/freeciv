@@ -39,7 +39,6 @@ void qtg_real_output_window_append(const char *astring,
                                    const struct text_tag_list *tags,
                                    int conn_id);
 
-bool qtg_is_view_supported(enum ts_type type);
 void qtg_tileset_type_set(enum ts_type type);
 struct sprite *qtg_load_gfxfile(const char *filename, bool svgflag);
 struct sprite *qtg_load_gfxnumber(int num);

@@ -19,6 +19,11 @@ extern "C" {
 
 struct client_properties {
   bool animations;
+  struct {
+    bool isometric;
+    bool overhead;
+    bool d3;
+  } views;
 };
 
 extern struct client_properties gui_properties;

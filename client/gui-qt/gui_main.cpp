@@ -606,4 +606,7 @@ void qtg_insert_client_build_info(char *outbuf, size_t outlen)
 void qtg_setup_gui_properties()
 {
   gui_properties.animations = FALSE;
+  gui_properties.views.isometric = TRUE;
+  gui_properties.views.overhead = TRUE;
+  gui_properties.views.d3 = FALSE;
 }

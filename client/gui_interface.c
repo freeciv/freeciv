@@ -104,14 +104,6 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 }
 
 /**********************************************************************//**
-  Call is_view_supported callback
-**************************************************************************/
-bool is_view_supported(enum ts_type type)
-{
-  return funcs.is_view_supported(type);
-}
-
-/**********************************************************************//**
   Call tileset_type_set callback
 **************************************************************************/
 void tileset_type_set(enum ts_type type)

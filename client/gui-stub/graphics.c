@@ -26,15 +26,6 @@
 #include "graphics.h"
 
 /************************************************************************//**
-  Return whether the client supports given view type
-****************************************************************************/
-bool gui_is_view_supported(enum ts_type type)
-{
-  /* PORTME */
-  return FALSE;
-}
-
-/************************************************************************//**
   Loading tileset of the specified type
 ****************************************************************************/
 void gui_tileset_type_set(enum ts_type type)

@@ -47,7 +47,6 @@ struct gui_funcs {
                                     const struct text_tag_list *tags,
                                     int conn_id);
 
-  bool (*is_view_supported)(enum ts_type type);
   void (*tileset_type_set)(enum ts_type type);
   struct sprite * (*load_gfxfile)(const char *filename, bool svgflag);
   struct sprite * (*load_gfxnumber)(int num);

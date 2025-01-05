@@ -24,9 +24,8 @@
 
 #include "gui_proto_constructor.h"
 
-GUI_FUNC_PROTO(bool, is_view_supported, enum ts_type type)
 GUI_FUNC_PROTO(void, tileset_type_set, enum ts_type type)
 
 GUI_FUNC_PROTO(void, load_cursors, void)
 
-#endif  /* FC__GRAPHICS_G_H */
+#endif /* FC__GRAPHICS_G_H */

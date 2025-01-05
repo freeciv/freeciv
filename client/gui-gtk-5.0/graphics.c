@@ -48,26 +48,6 @@
 GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 /***********************************************************************//**
-  Returns TRUE to indicate that gtk4x-client supports given view type
-***************************************************************************/
-bool is_view_supported(enum ts_type type)
-{
-  switch (type) {
-  case TS_ISOMETRIC:
-  case TS_OVERHEAD:
-    return TRUE;
-  case TS_3D:
-#ifdef GTK3_3D_ENABLED
-    return TRUE;
-#else  /* GTK3_3D_ENABLED */
-    return FALSE;
-#endif /* GTK3_3D_ENABLED */
-  }
-
-  return FALSE;
-}
-
-/***********************************************************************//**
   Loading tileset of the specified type
 ***************************************************************************/
 void tileset_type_set(enum ts_type type)

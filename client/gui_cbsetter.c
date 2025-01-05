@@ -52,7 +52,6 @@ void setup_gui_funcs(void)
   funcs->version_message = gui_version_message;
   funcs->real_output_window_append = gui_real_output_window_append;
 
-  funcs->is_view_supported = gui_is_view_supported;
   funcs->load_gfxfile = gui_load_gfxfile;
   funcs->create_sprite = gui_create_sprite;
   funcs->get_sprite_dimensions = gui_get_sprite_dimensions;
