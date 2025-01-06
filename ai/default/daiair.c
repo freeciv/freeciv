@@ -580,12 +580,12 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
   The interface is somewhat different from other ai_choose, but
   that's what it should be like, I believe -- GB
 **********************************************************************/
-bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
+bool dai_choose_attacker_air(struct ai_type *ait, const struct civ_map *nmap,
+                             struct player *pplayer,
                              struct city *pcity, struct adv_choice *choice,
                              bool allow_gold_upkeep)
 {
   bool want_something = FALSE;
-  const struct civ_map *nmap = &(wld.map);
 
   /* This AI doesn't know how to build planes */
   if (has_handicap(pplayer, H_NOPLANES)) {
