@@ -3683,7 +3683,7 @@ void mr_menu::slot_popup_tax_rates()
 }
 
 /**********************************************************************//**
-  Action "MULTIPLERS RATES"
+  Action "MULTIPLIERS RATES"
 **************************************************************************/
 void mr_menu::slot_popup_mult_rates()
 {
