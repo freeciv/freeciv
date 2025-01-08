@@ -94,12 +94,12 @@ private slots:
 /**************************************************************************
   Dialog used to change policies
 **************************************************************************/
-class multipler_rates_dialog: public QDialog
+class multiplier_rates_dialog: public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit multipler_rates_dialog(QWidget *parent = nullptr);
+  explicit multiplier_rates_dialog(QWidget *parent = nullptr);
 private:
   QList<QSlider*> slider_list;
   QPushButton *cancel_button;

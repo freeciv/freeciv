@@ -125,10 +125,10 @@ void tax_rates_dialog::slot_apply_button_pressed()
 }
 
 /**********************************************************************//**
-  Multipler rates dialog constructor
+  Multiplier rates dialog constructor
   Inheriting from qfc_dialog will cause crash in Qt5.2
 **************************************************************************/
-multipler_rates_dialog::multipler_rates_dialog(QWidget *parent)
+multiplier_rates_dialog::multiplier_rates_dialog(QWidget *parent)
   : QDialog(parent)
 {
   QGroupBox *group_box;
@@ -153,7 +153,7 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent)
     slider->setMaximum(mult_to_scale(pmul, pmul->stop));
     slider->setValue(mult_to_scale(pmul, val));
     connect(slider, &QAbstractSlider::valueChanged,
-            this, &multipler_rates_dialog::slot_set_value);
+            this, &multiplier_rates_dialog::slot_set_value);
     slider_list.append(slider);
     label = new QLabel(QString::number(mult_to_scale(pmul, val)));
     hb->addWidget(slider);
@@ -168,9 +168,9 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent)
   cancel_button->setText(_("Cancel"));
   ok_button->setText(_("Ok"));
   connect(cancel_button, &QAbstractButton::pressed,
-          this, &multipler_rates_dialog::slot_cancel_button_pressed);
+          this, &multiplier_rates_dialog::slot_cancel_button_pressed);
   connect(ok_button, &QAbstractButton::pressed,
-          this, &multipler_rates_dialog::slot_ok_button_pressed);
+          this, &multiplier_rates_dialog::slot_ok_button_pressed);
   some_layout->addWidget(cancel_button);
   some_layout->addWidget(ok_button);
   main_layout->addSpacing(20);
@@ -181,7 +181,7 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent)
 /**********************************************************************//**
   Slider value changed
 **************************************************************************/
-void multipler_rates_dialog::slot_set_value(int i)
+void multiplier_rates_dialog::slot_set_value(int i)
 {
   QSlider *qo;
   qo = (QSlider *) QObject::sender();
@@ -196,7 +196,7 @@ void multipler_rates_dialog::slot_set_value(int i)
 /**********************************************************************//**
   Cancel pressed
 **************************************************************************/
-void multipler_rates_dialog::slot_cancel_button_pressed()
+void multiplier_rates_dialog::slot_cancel_button_pressed()
 {
   close();
   deleteLater();
@@ -205,7 +205,7 @@ void multipler_rates_dialog::slot_cancel_button_pressed()
 /**********************************************************************//**
   Ok pressed - send multipliers' values.
 **************************************************************************/
-void multipler_rates_dialog::slot_ok_button_pressed()
+void multiplier_rates_dialog::slot_ok_button_pressed()
 {
   int j = 0;
   int value;
@@ -278,12 +278,12 @@ void real_multipliers_dialog_update(void *unused)
 **************************************************************************/
 void popup_multiplier_dialog(void)
 {
-  multipler_rates_dialog *mrd;
+  multiplier_rates_dialog *mrd;
 
   if (!can_client_issue_orders()) {
     return;
   }
-  mrd = new multipler_rates_dialog(gui()->central_wdg);
+  mrd = new multiplier_rates_dialog(gui()->central_wdg);
   mrd->show();
 }
 
