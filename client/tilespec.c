@@ -2094,6 +2094,9 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 
   t->ts_topo_idx = ts_topology_index(topo);
 
+  /* Needed for older compilers to not give "used uninitialized" warning */
+  vsup = FALSE;
+
   switch (t->type) {
   case TS_ISOMETRIC:
     vsup = gui_properties.views.isometric;
