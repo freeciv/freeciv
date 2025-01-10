@@ -207,7 +207,7 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   }
 
   gui_dialog_present(pdialog->dialog);
-  /* We initated the meeting - Make the tab active */
+  /* We initiated the meeting - Make the tab active */
   if (player_by_number(initiated_from) == client.conn.playing) {
     /* we have to raise the diplomacy meeting tab as well as the selected
      * meeting. */
