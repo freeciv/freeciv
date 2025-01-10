@@ -216,7 +216,7 @@ static void popup_diplomacy_dialog(struct treaty *ptreaty, struct player *they,
   }
 
   gui_dialog_present(pdialog->dialog);
-  /* We initated the meeting - Make the tab active */
+  /* We initiated the meeting - Make the tab active */
   if (initiator == client_player()) {
     /* we have to raise the diplomacy meeting tab as well as the selected
      * meeting. */
