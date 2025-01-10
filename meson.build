@@ -267,7 +267,6 @@ priv_headers = [
   'fcntl.h',
   'time.h',
   'libgen.h',
-  'zstd.h',
   'memory.h',
   'netdb.h',
   'pwd.h',
@@ -518,11 +517,17 @@ if not c_compiler.has_header('zlib.h', args: header_arg)
   error('Mandatory header zlib.h not found!')
 endif
 
-zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
-                                   required:false)
+if c_compiler.has_header('zstd.h', args: header_arg)
+  priv_conf_data.set('HAVE_ZSTD_H', 1)
 
-if zstd_dep.found()
-  pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
+  zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
+                                     required:false)
+
+  if zstd_dep.found()
+    pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
+  endif
+else
+  zstd_dep = []
 endif
 
 if c_compiler.compiles('''
