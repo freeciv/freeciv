@@ -245,15 +245,16 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
   TODO: make separate handicaps for air units seeing targets
         IMO should be more restrictive than general H_MAP, H_FOG
 **********************************************************************/
-static adv_want find_something_to_bomb(struct ai_type *ait, struct unit *punit,
-                                       struct pf_path **path, struct tile **pptile)
+static adv_want find_something_to_bomb(struct ai_type *ait,
+                                       const struct civ_map *nmap,
+                                       struct unit *punit, struct pf_path **path,
+                                       struct tile **pptile)
 {
   struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct tile *best_tile = NULL;
   adv_want best = 0;
-  const struct civ_map *nmap = &(wld.map);
 
   pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
@@ -443,13 +444,14 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
         adv_want start_worth;
 
         unit_tile_set(pvirtual, unit_tile(punit));
-        start_worth = find_something_to_bomb(ait, pvirtual, NULL, NULL);
+        start_worth = find_something_to_bomb(ait, nmap, pvirtual,
+                                             NULL, NULL);
         best_worth = MAX(start_worth, 0);
       }
     }
 
     unit_tile_set(pvirtual, ptile);
-    target_worth = find_something_to_bomb(ait, pvirtual, NULL, NULL);
+    target_worth = find_something_to_bomb(ait, nmap, pvirtual, NULL, NULL);
     if (target_worth > best_worth) {
       /* It's either a first find or it's better than the previous. */
       best_worth = target_worth;
@@ -482,7 +484,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
   } else {
     try to attack something
   } 
-  TODO: distant target selection, support for fuel > 2
+  TODO: Distant target selection, support for fuel > 2
 **********************************************************************/
 void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
                         struct unit *punit)
@@ -494,13 +496,14 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_path *path;
+  const struct civ_map *nmap = &(wld.map);
 
   CHECK_UNIT(punit);
 
   if (!is_unit_being_refueled(punit)) {
     /* We are out in the open, what shall we do? */
     if (punit->activity == ACTIVITY_GOTO
-        /* We are on a GOTO.  Check if it will get us anywhere */
+        /* We are on a GOTO. Check if it will get us anywhere */
         && NULL != punit->goto_tile
         && !same_pos(unit_tile(punit), punit->goto_tile)
         && is_refuel_point(punit->goto_tile, pplayer, punit)) {
@@ -536,7 +539,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
   } else if (punit->fuel == unit_type_get(punit)->fuel) {
     /* We only leave a refuel point when we are on full fuel */
 
-    if (find_something_to_bomb(ait, punit, &path, &dst_tile) > 0) {
+    if (find_something_to_bomb(ait, nmap, punit, &path, &dst_tile) > 0) {
       /* Found target, coordinates are in punit's goto_dest.
        * TODO: separate attacking into a function, check for the best 
        * tile to attack from */
@@ -623,7 +626,8 @@ bool dai_choose_attacker_air(struct ai_type *ait, const struct civ_map *nmap,
        unit_virtual_create(
           pplayer, pcity, punittype,
           city_production_unit_veteran_level(pcity, punittype));
-      adv_want profit = find_something_to_bomb(ait, virtual_unit, NULL, NULL);
+      adv_want profit = find_something_to_bomb(ait, nmap, virtual_unit,
+                                               NULL, NULL);
 
       if (profit > choice->want) {
         /* Update choice */
