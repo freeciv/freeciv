@@ -15,15 +15,16 @@ added to gettext to get the translation.
 _("?vertag:stable")
 _("?vertag:windows")
 _("?vertag:macos")
-_("?vertag:S3_1")
 _("?vertag:S3_2")
 _("?vertag:S3_3")
+_("?vertag:S3_4")
 _("?vertag:crosser")
-_("?vertag:windows-S3_1")
 _("?vertag:windows-S3_2")
 _("?vertag:windows-S3_3")
+_("?vertag:windows-S3_4")
 _("?vertag:macos-S3_2")
 _("?vertag:macos-S3_3")
+_("?vertag:macos-S3_4")
 
 
 Generated version header

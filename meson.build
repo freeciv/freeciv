@@ -150,7 +150,7 @@ priv_conf_data.set('IS_DEVEL_VERSION', 1)
 priv_conf_data.set('IS_FREEZE_VERSION', 0)
 priv_conf_data.set('IS_BETA_VERSION', 0)
 priv_conf_data.set('FREECIV_RELEASE_MONTH', 0)
-priv_conf_data.set('NEXT_STABLE_VERSION', '"3.3.0"')
+priv_conf_data.set('NEXT_STABLE_VERSION', '"3.4.0"')
 
 if host_machine.endian() == 'big'
   priv_conf_data.set('WORDS_BIGENDIAN', 1)

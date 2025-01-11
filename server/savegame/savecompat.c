@@ -70,7 +70,8 @@ static char *special_names[] =
   3.0.0   | 3.0.0 release                                  | 201./../.. | 40
   3.1.0   | 3.1.0 release                                  | 201./../.. | 50
   3.2.0   | 3.2.0 release                                  | 202./../.. | 60
-  3.3.0   | 3.3.0 release (development)                    | 202./../.. | 70
+  3.3.0   | 3.3.0 release                                  | 202./../.. | 70
+  3.4.0   | 3.4.0 release (development)                    | 202./../.. | 80
           |                                                |            |
 */
 
@@ -81,6 +82,7 @@ static void compat_load_030000(struct loaddata *loading, enum sgf_version format
 static void compat_load_030100(struct loaddata *loading, enum sgf_version format_class);
 static void compat_load_030200(struct loaddata *loading, enum sgf_version format_class);
 static void compat_load_030300(struct loaddata *loading, enum sgf_version format_class);
+static void compat_load_030400(struct loaddata *loading, enum sgf_version format_class);
 static void compat_post_load_030100(struct loaddata *loading,
                                     enum sgf_version format_class);
 
@@ -107,8 +109,8 @@ struct compatibility {
  * add the needed code to load the old version below. Thus, old
  * savegames can still be loaded while the main definition
  * represents the current state of the art. */
-/* While developing freeciv 3.3.0, add the compatibility functions to
- * - compat_load_030300 to load old savegame. */
+/* While developing freeciv 3.4.0, add the compatibility functions to
+ * - compat_load_030400 to load old savegame. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
   { 0, NULL, NULL },
@@ -130,6 +132,8 @@ static struct compatibility compat[] = {
   { 60, compat_load_030200, NULL },
   /* version 61 to 69 are reserved for possible changes in 3.2.x */
   { 70, compat_load_030300, NULL },
+  /* version 71 to 79 are reserved for possible changes in 3.3.x */
+  { 80, compat_load_030400, NULL },
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
 };
@@ -2644,6 +2648,21 @@ static void compat_load_030300(struct loaddata *loading,
                          plrno, cnro);
     }
   } player_slots_iterate_end;
+}
+
+/************************************************************************//**
+  Translate savegame secfile data from 3.3.x to 3.4.0 format.
+  Note that even after 2.6 savegame has gone through all the compatibility
+  functions, it's still 2.6 savegame in the sense that savegame2.c, and not
+  savegame3.c, handles it.
+****************************************************************************/
+static void compat_load_030400(struct loaddata *loading,
+                               enum sgf_version format_class)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  log_debug("Upgrading data from savegame to version 3.4.0");
 }
 
 /************************************************************************//**

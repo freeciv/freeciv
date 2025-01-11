@@ -107,7 +107,7 @@ if ! meson setup .. \
        -Ddebug=false \
        -Dclients=gtk4,qt \
        -Dfcmp=qt \
-       -Dfollowtag=macos-S3_3 \
+       -Dfollowtag=macos-S3_4 \
        -Ddefault_library=static \
        -Dprefix="${CONTENTSDIR}" ||
    ! ninja ||

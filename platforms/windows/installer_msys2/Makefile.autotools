@@ -133,7 +133,7 @@ configure-freeciv-common:
 	# Create build directory
 	mkdir -p $(BUILD_DIR)/$(WINARCH)-$(GUI)
 	# Configure
-	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); $(SRC_ROOT)/../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(CLIENT) --with-followtag="windows-S3_3" --with-tinycthread --without-readline --disable-sys-lua --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) --with-cacert-path="./ssl/certs/ca-bundle.crt" --enable-ack-legacy $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-$(GUI); $(SRC_ROOT)/../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(CLIENT) --with-followtag="windows-S3_4" --with-tinycthread --without-readline --disable-sys-lua --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) --with-cacert-path="./ssl/certs/ca-bundle.crt" --enable-ack-legacy $(EXTRA_CONFIG)
 
 configure-freeciv-ruledit-qt5:
 	# Create build directory
