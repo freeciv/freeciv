@@ -499,17 +499,6 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   fi
 done
 
-AC_ARG_WITH([3d],
-  [AS_HELP_STRING([--with-3d], [build WIP 3D support to gtk3.22-client])],
-  [AC_DEFINE([GTK3_3D_ENABLED], [1], [3D support built to gtk3.22-client])
-   enable_3d=true])
-
-gui_3d_libs=""
-if test x$enable_3d = xtrue ; then
-  AC_CHECK_LIB([GL], [glBegin], [gui_3d_libs="-lGL"],
-               [AC_MSG_ERROR([libGL needed for 3D support not found])])
-fi
-
 AC_ARG_ENABLE([gitrev],
   AS_HELP_STRING([--enable-gitrev], [get git revision to version information]),
 [case "${enableval}" in
@@ -1444,7 +1433,6 @@ AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type nam
 AM_CONDITIONAL([SRV_LIB],
   [test "x$server" = "xyes" || test "x$fcmanual" = "xyes" || test "x$ruledit" = "xyes" || test "x$fcruleup" = "xyes"])
 
-AC_SUBST([gui_3d_libs])
 AC_SUBST([gui_gtk3_22_cflags])
 AC_SUBST([gui_gtk3_22_libs])
 AC_SUBST([gui_gtk3_22_ldflags])

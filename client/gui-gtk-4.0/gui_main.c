@@ -2684,9 +2684,4 @@ void setup_gui_properties(void)
   gui_properties.animations = TRUE;
   gui_properties.views.isometric = TRUE;
   gui_properties.views.overhead = TRUE;
-#ifdef GTK3_3D_ENABLED
-  gui_properties.views.d3 = TRUE;
-#else  /* GTK3_3D_ENABLED */
-  gui_properties.views.d3 = FALSE;
-#endif /* GTK3_3D_ENABLED */
 }

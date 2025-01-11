@@ -22,7 +22,6 @@ struct client_properties {
   struct {
     bool isometric;
     bool overhead;
-    bool d3;
   } views;
 };
 

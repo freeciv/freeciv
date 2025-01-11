@@ -2104,9 +2104,6 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   case TS_OVERHEAD:
     vsup = gui_properties.views.overhead;
     break;
-  case TS_3D:
-    vsup = gui_properties.views.d3;
-    break;
   }
 
   if (!vsup) {

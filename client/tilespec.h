@@ -50,8 +50,6 @@ struct resource_type;
 #define SPECENUM_VALUE0NAME N_("Overhead")
 #define SPECENUM_VALUE1 TS_ISOMETRIC
 #define SPECENUM_VALUE1NAME N_("Isometric")
-#define SPECENUM_VALUE2 TS_3D
-#define SPECENUM_VALUE2NAME N_("3D")
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME fog_style
