@@ -12,8 +12,8 @@ default_font_file = "themes/gui-sdl3/human/DejaVuSans.ttf"
 default_font_size = 10
 
 ; To use CJK fonts, provide the path to the font below.
-; Fonts recommended for Freeciv can be fetched from git main branch, e.g.:
-; https://raw.githubusercontent.com/freeciv/freeciv/main/data/themes/gui-sdl3/human/fireflysung.ttf
+; Fonts recommended for Freeciv can be fetched from git S3_3 branch, e.g.:
+; https://raw.githubusercontent.com/freeciv/freeciv/S3_3/data/themes/gui-sdl3/human/fireflysung.ttf
 fonts =
   { "langname", "font_file"
     "zh_CN",    "themes/gui-sdl3/human/fireflysung.ttf"

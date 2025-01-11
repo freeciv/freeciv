@@ -1,25 +1,25 @@
 #!/bin/sh
 
 #
-#  Copyright (C) 2004-2024 Freeciv team
+#  Copyright (C) 2004-2025 Freeciv team
 
 # Version definition for Freeciv.
 
 MAJOR_VERSION="3"
 MINOR_VERSION="2"
 PATCH_VERSION="92"
-EMERGENCY_VERSION="7"
-VERSION_LABEL="-dev"
+EMERGENCY_VERSION="8"
+VERSION_LABEL="-alpha"
 
 # Type is either "development" or "stable"
 # Date and NEWS URL are relevant only for "stable" releases
 if test "$VERSION_LABEL" = "" ; then
   RELEASE_TYPE="stable"
-  #RELEASE_DATE="2024-06-14"
+  #RELEASE_DATE="2025-01-17"
   NEWS_URL="https://www.freeciv.org/wiki/NEWS-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
 else
   RELEASE_TYPE="development"
-  #RELEASE_DATE="2024-06-14"
+  #RELEASE_DATE="2025-01-17"
   #NEWS_URL="https://www.freeciv.org/wiki/NEWS-3.3.0"
 fi
 
@@ -65,7 +65,7 @@ NEXT_STABLE_VERSION="3.3.0"
 RELEASE_MONTH=0
 
 MAIN_VERSION=3.3
-DATASUBDIR=dev
+DATASUBDIR=test
 DEFAULT_FOLLOW_TAG=S3_3
 
 # Freeciv network capstring: see documentation in common/capstr.c

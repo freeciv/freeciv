@@ -144,7 +144,7 @@ priv_conf_data.set('SYSCONFDIR',
 
 # Release cycle phases
 # See fc_version about proper values for these.
-datasubdir = 'dev'
+datasubdir = 'test'
 priv_conf_data.set('DATASUBDIR', datasubdir)
 priv_conf_data.set('IS_DEVEL_VERSION', 1)
 priv_conf_data.set('IS_FREEZE_VERSION', 0)
