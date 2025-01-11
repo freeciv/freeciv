@@ -21,7 +21,6 @@ is located here for quick reference for the specific freeciv revision.
 ====================================
 
 - With premade environment, buildable clients are:
-  For "win64":    gtk3.22, gtk4, sdl2, Qt5
   For "win64-10": gtk3.22, gtk4, gtk4x, sdl2, Qt6, Qt6x
 
 
@@ -35,7 +34,6 @@ is located here for quick reference for the specific freeciv revision.
  with listing of versions current at the time of this freeciv version.
 
  "<arch>" in the package names depends on the build target:
- - win64    -> "x86_64"
  - win64-10 -> "ucrt-x86_64"
 
 1) Install MSYS2 following the documentation on their homepage
@@ -138,8 +136,6 @@ and then packages were updated to the level indicated
 by the date (YYMMDD) in the freeciv msys2 environment
 .7z package name.
 
-Most packages are included for all of win64 and
-ucrt64 (win64, with minimum requirement of Windows 10) targets.
 For each package listed below with <arch> in the name, actually
 two packages are installed;
 one where <arch> is replaced by 'x86_64', and
@@ -187,7 +183,7 @@ empty the package cache for having smaller environment package.
 ====================================
 
 Launch build target specific msys2 shell;
-ucrt64.exe or mingw64.exe.
+ucrt64.exe.
 Get the freeciv sources there somehow. Some options are:
 1) Download freeciv tarball within msys2 shell with wget2
 2) Use git within msys2 shell to get them from version control
@@ -218,9 +214,7 @@ Get the freeciv sources there somehow. Some options are:
  newer Windows versions could otherwise have.
  The version is set via MIN_WIN_VER variable. For values to use, see
  list in: https://msdn.microsoft.com/en-us/library/6sehtctf.aspx
- Current default is 0x0603 (Windows 8.1) for "win64".
- This is also the lowest value that msys2 upstream supports.
- For "win64-10" the default is 0x0A00 (Windows 10)
+ Current default is 0x0A00 (Windows 10).
 
 
  Problems

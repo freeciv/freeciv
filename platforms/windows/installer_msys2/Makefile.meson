@@ -18,15 +18,7 @@ SRC_ROOT=../../..
 
 7ZDIR=$(OUT_DIR)/portable
 
-ifeq ($(MSYSTEM),MINGW64)
-WINARCH=win64
-ARCHDIR=mingw64
-LIBGCCDLL=libgcc_s_seh-1.dll
-CPPLIBS=libstdc++-6.dll libgomp-1.dll
-CRYPTOLIB_SUFFIX=-x64
-PREF_WIN_VER=0x0603
-
-else ifeq ($(MSYSTEM),UCRT64)
+ifeq ($(MSYSTEM),UCRT64)
 WINARCH=win64-10
 ARCHDIR=ucrt64
 LIBGCCDLL=libgcc_s_seh-1.dll
@@ -70,8 +62,6 @@ endif
 #
 
 all: all-$(WINARCH)
-
-all-win64: gtk3.22-installer sdl2-installer gtk4-installer
 
 all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
