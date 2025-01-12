@@ -36,10 +36,7 @@ jobs:
             libgtk-3-dev \
             libgtk-4-dev \
             libcurl4-openssl-dev \
-            libtool \
-            automake \
-            autoconf \
-            autotools-dev \
+            meson \
             language-pack-en \
             python3.10 \
             liblzma-dev \
@@ -55,7 +52,7 @@ jobs:
 
       - name: build
         shell: bash
-        run: ./scripts/ci-build.sh normal
+        run: ./scripts/ci-build.sh meson
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
