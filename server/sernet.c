@@ -1460,7 +1460,7 @@ void handle_conn_pong(struct connection *pconn)
 }
 
 /*************************************************************************//**
-  Handle client's regular hearbeat
+  Handle client's regular heartbeat
 *****************************************************************************/
 void handle_client_heartbeat(struct connection *pconn)
 {
