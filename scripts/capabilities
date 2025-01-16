@@ -260,7 +260,7 @@ case $capability in
   ruleset )
     echo -e "setting ruleset capability: $string\n"
     careful
-    file=`find $basedir -name "ruleset\.h"`
+    file=`find $basedir -name "ruleload\.h"`
 
     old=`cat $file \
          | grep "#define RULESET_CAPABILITIES_BASE " \
