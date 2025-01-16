@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define RULESET_CAPABILITIES_BASE "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
+#define RULESET_CAPABILITIES_BASE "+Freeciv-ruleset-3.4-Devel-2025.Jan.17"
 #ifdef FREECIV_WEB
 #define RULESET_CAPABILITIES RULESET_CAPABILITIES_BASE " +web-compatible"
 #else  /* FREECIV_WEB */
@@ -26,16 +26,16 @@ extern "C" {
 /*
  * Ruleset capabilities acceptable to this program:
  *
- * +Freeciv-3.3-ruleset
- *    - basic ruleset format for Freeciv versions 3.3.x; required
+ * +Freeciv-3.4-ruleset
+ *    - basic ruleset format for Freeciv versions 3.4.x; required
  *
  * +Freeciv-ruleset-V.V-Devel-YYYY.MMM.DD
  *    - ruleset of the development version at the given date
  */
 
-#define RSFORMAT_3_2  30
 #define RSFORMAT_3_3  40
-#define RSFORMAT_CURRENT RSFORMAT_3_3
+#define RSFORMAT_3_4  50
+#define RSFORMAT_CURRENT RSFORMAT_3_4
 
 struct conn_list;
 

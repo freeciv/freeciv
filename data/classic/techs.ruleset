@@ -9,8 +9,8 @@
 
 [datafile]
 description = "Classic technology data for Freeciv (as Civ2, minus a few)"
-options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24 web-compatible"
-format_version = 40
+options = "+Freeciv-ruleset-3.4-Devel-2025.Jan.17 web-compatible"
+format_version = 50
 
 [control]
 ; Names for custom tech flags. There can be up to 10 of these.

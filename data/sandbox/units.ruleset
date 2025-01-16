@@ -16,8 +16,8 @@
 
 [datafile]
 description = "Sandbox Units data for Freeciv"
-options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
-format_version = 40
+options = "+Freeciv-ruleset-3.4-Devel-2025.Jan.17"
+format_version = 50
 
 [control]
 ; Names for custom unit type flags. There can be up to 53 of these.

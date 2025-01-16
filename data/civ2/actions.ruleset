@@ -11,8 +11,8 @@
 
 [datafile]
 description = "Civ2 actions data for Freeciv"
-options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
-format_version = 40
+options = "+Freeciv-ruleset-3.4-Devel-2025.Jan.17"
+format_version = 50
 
 [auto_attack]
 ; An auto attack may be triggered when another unit moves to an adjacent
