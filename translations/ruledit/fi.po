@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.3\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-26 16:08+0200\n"
+"POT-Creation-Date: 2025-01-16 22:18+0200\n"
 "PO-Revision-Date: 2024-12-26 16:10+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -606,15 +606,15 @@ msgstr "Korjaa mahdollistin"
 msgid "Improve Enabler"
 msgstr "Paranna mahdollistinta"
 
-#: tools/ruledit/tab_enablers.cpp:412
+#: tools/ruledit/tab_enablers.cpp:413
 msgid "Enabler (target)"
 msgstr "Mahdollistin (kohde)"
 
-#: tools/ruledit/tab_enablers.cpp:423
+#: tools/ruledit/tab_enablers.cpp:424
 msgid "Enabler (actor)"
 msgstr "Mahdollistin (toimija)"
 
-#: tools/ruledit/tab_enablers.cpp:460
+#: tools/ruledit/tab_enablers.cpp:461
 #, c-format
 msgid "action enabler for %s"
 msgstr "mahdollistin toiminnalle %s"

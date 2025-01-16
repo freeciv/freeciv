@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1.3+\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-01 21:11+0200\n"
+"POT-Creation-Date: 2025-01-16 22:18+0200\n"
 "PO-Revision-Date: 2024-11-28 22:45+0100\n"
 "Last-Translator: Pavol Gono <pavol.gono@gmail.com>\n"
 "Language-Team: \n"
@@ -462,7 +462,7 @@ msgstr ""
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
-#: tools/ruledit/tab_enablers.cpp:133 tools/ruledit/tab_enablers.cpp:255
+#: tools/ruledit/tab_enablers.cpp:133 tools/ruledit/tab_enablers.cpp:253
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
@@ -570,22 +570,22 @@ msgstr ""
 msgid "Add Enabler"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:164
+#: tools/ruledit/tab_enablers.cpp:163
 msgid "Remove this Enabler"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:173 tools/ruledit/tab_enablers.cpp:250
-#: tools/ruledit/tab_enablers.cpp:262
+#: tools/ruledit/tab_enablers.cpp:171 tools/ruledit/tab_enablers.cpp:248
+#: tools/ruledit/tab_enablers.cpp:260
 msgid "Enabler Issues"
 msgstr ""
 
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:239
 msgid "Repair Enabler"
 msgstr ""
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:246
+#: tools/ruledit/tab_enablers.cpp:244
 msgid "Improve Enabler"
 msgstr ""
 
