@@ -93,12 +93,14 @@ typedef int Tech_type_id;
 #define SPECENUM_VALUE9 TECH_USER_7
 #define SPECENUM_VALUE10 TECH_USER_8
 #define SPECENUM_VALUE11 TECH_USER_9
-#define SPECENUM_VALUE12 TECH_USER_LAST
+#define SPECENUM_VALUE12 TECH_USER_10
 /* Keep this last. */
 #define SPECENUM_COUNT TF_COUNT
 #define SPECENUM_BITVECTOR bv_tech_flags
 #define SPECENUM_NAMEOVERRIDE
 #include "specenum_gen.h"
+
+#define TECH_USER_LAST TECH_USER_10
 
 #define MAX_NUM_USER_TECH_FLAGS (TECH_USER_LAST - TECH_USER_1 + 1)
 

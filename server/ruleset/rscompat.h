@@ -51,24 +51,11 @@ void rscompat_enablers_add_obligatory_hard_reqs(void);
 
 /* Functions from ruleset.c made visible to rscompat.c */
 struct requirement_vector *lookup_req_list(struct section_file *file,
-                                           struct rscompat_info *compat,
                                            const char *sec,
                                            const char *sub,
                                            const char *rfor);
 
-/* Functions specific to 3.2 -> 3.3 transition */
-const char *rscompat_utype_flag_name_3_3(const char *old_name);
-const char *rscompat_universal_name_3_3(const char *old_name);
-const char *rscompat_effect_name_3_3(const char *old_name);
-
-const char *blocked_by_old_name_3_3(const char *new_name);
-const char *ui_name_old_name_3_3(const char *new_name);
-
-void rscompat_civil_war_effects_3_3(struct section_file *game_rs);
-
-bool load_action_ui_name_3_3(struct section_file *file, int act,
-                             const char *entry_name,
-                             struct rscompat_info *compat);
+/* Functions specific to 3.3 -> 3.4 transition */
 
 #ifdef __cplusplus
 }

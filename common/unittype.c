@@ -3020,9 +3020,6 @@ bool utype_flag_is_in_use(enum unit_type_flag_id uflag)
 const char *unit_type_flag_id_name_update_cb(const char *old_name)
 {
   if (is_ruleset_compat_mode()) {
-    if (!strcasecmp("Settlers", old_name)) {
-      return "Workers";
-    }
   }
 
   return old_name;

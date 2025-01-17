@@ -127,10 +127,6 @@ struct civ_game {
       /* Defined in the ruleset. */
 
       /* Game settings & other data. */
-      struct {
-        bool civil_war_enabled;
-      } deprecated;
-
       enum city_names_mode allowed_city_names;
       enum plrcolor_mode plrcolormode;
       int aqueductloss;

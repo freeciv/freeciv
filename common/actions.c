@@ -7558,18 +7558,6 @@ bool action_ever_possible(action_id action)
 const char *gen_action_name_update_cb(const char *old_name)
 {
   if (is_ruleset_compat_mode()) {
-    if (!fc_strcasecmp("Conquer City", old_name)) {
-      return "Conquer City Shrink";
-    }
-    if (!fc_strcasecmp("Conquer City 2", old_name)) {
-      return "Conquer City Shrink 2";
-    }
-    if (!fc_strcasecmp("Conquer City 3", old_name)) {
-      return "Conquer City Shrink 3";
-    }
-    if (!fc_strcasecmp("Conquer City 4", old_name)) {
-      return "Conquer City Shrink 4";
-    }
   }
 
   return old_name;

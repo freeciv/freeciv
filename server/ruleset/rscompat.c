@@ -49,8 +49,8 @@ FC_STATIC_ASSERT((ARRAY_SIZE(_new_flags_)                                 \
                   <= _LAST_USER_FLAG_ - _LAST_USER_FLAG_PREV_),           \
                  not_enough_new_##_name_##_user_flags)
 
-#define UTYF_LAST_USER_FLAG_3_2 UTYF_USER_FLAG_50
-#define TECH_LAST_USER_FLAG_3_2 TECH_USER_7
+#define UTYF_LAST_USER_FLAG_3_3 UTYF_USER_FLAG_53
+#define TECH_LAST_USER_FLAG_3_3 TECH_USER_10
 
 static int first_free_unit_type_user_flag(void);
 static int first_free_tech_user_flag(void);
@@ -302,16 +302,6 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
   action_iterate(act_id) {
     bool restart_enablers_for_action;
 
-    /* RSFORMAT_3_3 */
-    if (action_has_result(action_by_number(act_id), ACTRES_COLLECT_RANSOM)) {
-      action_enabler_list_iterate(action_enablers_for_action(act_id), ae) {
-        requirement_vector_append(&ae->target_reqs,
-                                  req_from_str("PlayerState", "Player",
-                                               FALSE, TRUE, TRUE,
-                                               "Barbarian"));
-      } action_enabler_list_iterate_end;
-    }
-
     do {
       restart_enablers_for_action = FALSE;
       action_enabler_list_iterate(action_enablers_for_action(act_id), ae) {
@@ -344,33 +334,30 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
 **************************************************************************/
 bool rscompat_names(struct rscompat_info *info)
 {
-  if (info->version < RSFORMAT_3_3) {
+  if (info->version < RSFORMAT_3_4) {
     int first_free;
     int i;
 
-    /* Some unit type flags moved to the ruleset between 3.2 and 3.3.
+    /* Some unit type flags moved to the ruleset between 3.3 and 3.4.
      * Add them back as user flags.
      * XXX: ruleset might not need all of these, and may have enough
      * flags of its own that these additional ones prevent conversion. */
     const struct {
       const char *name;
       const char *helptxt;
-    } new_flags_33[] = {
-      { N_("NoVeteran"), N_("May acquire veteran status.") },
-      { N_("CanEscape"), N_("Can try to escape stack death.") },
-      { N_("Shield2Gold"), N_("May switch from shield upkeep to gold upkeep") }
+    } new_flags_34[] = {
     };
 
-    enough_new_user_flags(new_flags_33, unit_type,
-                          UTYF_LAST_USER_FLAG, UTYF_LAST_USER_FLAG_3_2);
+    enough_new_user_flags(new_flags_34, unit_type,
+                          UTYF_LAST_USER_FLAG, UTYF_LAST_USER_FLAG_3_3);
 
     /* Unit type flags. */
     first_free = first_free_unit_type_user_flag() + UTYF_USER_FLAG_1;
 
-    for (i = 0; i < ARRAY_SIZE(new_flags_33); i++) {
+    for (i = 0; i < ARRAY_SIZE(new_flags_34); i++) {
       if (UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
         /* Can't add the user unit type flags. */
-        ruleset_error(NULL, LOG_ERROR,
+        ruleset_error(nullptr, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free unit type "
                       "user flags to add user flags for the unit type flags "
                       "that used to be hardcoded.");
@@ -378,47 +365,43 @@ bool rscompat_names(struct rscompat_info *info)
       }
       /* Shouldn't be possible for valid old ruleset to have flag names that
        * clash with these ones */
-      if (unit_type_flag_id_by_name(new_flags_33[i].name, fc_strcasecmp)
+      if (unit_type_flag_id_by_name(new_flags_34[i].name, fc_strcasecmp)
           != unit_type_flag_id_invalid()) {
-        ruleset_error(NULL, LOG_ERROR,
+        ruleset_error(nullptr, LOG_ERROR,
                       "Ruleset had illegal user unit type flag '%s'",
-                      new_flags_33[i].name);
+                      new_flags_34[i].name);
         return FALSE;
       }
       set_user_unit_type_flag_name(first_free + i,
-                                   new_flags_33[i].name,
-                                   new_flags_33[i].helptxt);
+                                   new_flags_34[i].name,
+                                   new_flags_34[i].helptxt);
     }
   }
 
-  if (info->version < RSFORMAT_3_3) {
+  if (info->version < RSFORMAT_3_4) {
     int first_free;
     int i;
 
-    /* Some tech flags moved to the ruleset between 3.2 and 3.3.
+    /* Some tech flags moved to the ruleset between 3.3 and 3.4.
      * Add them back as user flags.
      * XXX: ruleset might not need all of these, and may have enough
      * flags of its own that these additional ones prevent conversion. */
     const struct {
       const char *name;
       const char *helptxt;
-    } new_flags_33[] = {
-      { N_("Claim_Ocean"),
-        N_("National borders expand freely into the ocean.") },
-      { N_("Claim_Ocean_Limited"),
-        N_("National borders from oceanic sources expand freely.") },
+    } new_flags_34[] = {
     };
 
-    enough_new_user_flags(new_flags_33, tech,
-                          (TECH_USER_LAST - 1), TECH_LAST_USER_FLAG_3_2);
+    enough_new_user_flags(new_flags_34, tech,
+                          (TECH_USER_LAST - 1), TECH_LAST_USER_FLAG_3_3);
 
     /* Tech flags. */
     first_free = first_free_tech_user_flag() + TECH_USER_1;
 
-    for (i = 0; i < ARRAY_SIZE(new_flags_33); i++) {
+    for (i = 0; i < ARRAY_SIZE(new_flags_34); i++) {
       if (TECH_USER_1 + MAX_NUM_USER_TECH_FLAGS <= first_free + i) {
         /* Can't add the user unit type flags. */
-        ruleset_error(NULL, LOG_ERROR,
+        ruleset_error(nullptr, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free tech "
                       "user flags to add user flags for the tech flags "
                       "that used to be hardcoded.");
@@ -426,16 +409,16 @@ bool rscompat_names(struct rscompat_info *info)
       }
       /* Shouldn't be possible for valid old ruleset to have flag names that
        * clash with these ones */
-      if (tech_flag_id_by_name(new_flags_33[i].name, fc_strcasecmp)
+      if (tech_flag_id_by_name(new_flags_34[i].name, fc_strcasecmp)
           != tech_flag_id_invalid()) {
-        ruleset_error(NULL, LOG_ERROR,
+        ruleset_error(nullptr, LOG_ERROR,
                       "Ruleset had illegal user tech flag '%s'",
-                      new_flags_33[i].name);
+                      new_flags_34[i].name);
         return FALSE;
       }
       set_user_tech_flag_name(first_free + i,
-                              new_flags_33[i].name,
-                              new_flags_33[i].helptxt);
+                              new_flags_34[i].name,
+                              new_flags_34[i].helptxt);
     }
   }
 
@@ -450,13 +433,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 {
   struct rscompat_info *info = (struct rscompat_info *)data;
 
-  if (info->version < RSFORMAT_3_3) {
-    if (peffect->type == EFT_SHIELD2GOLD_FACTOR) {
-      requirement_vector_append(&(peffect->reqs),
-                                req_from_str("UnitTypeFlag", "Local",
-                                             FALSE, FALSE, FALSE,
-                                             "Shield2Gold"));
-    }
+  if (info->version < RSFORMAT_3_4) {
   }
 
   /* Go to the next effect. */
@@ -468,127 +445,15 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)
 {
-  struct action_enabler *enabler;
-  struct effect *effect;
-  struct requirement e_req;
-
   if (!info->compat_mode || info->version >= RSFORMAT_CURRENT) {
     /* There isn't anything here that should be done outside of compat
      * mode. */
     return;
   }
 
-  unit_type_iterate(ptype) {
-    if (utype_has_role(ptype, L_BARBARIAN_LEADER)) {
-      BV_SET(ptype->flags, UTYF_PROVIDES_RANSOM);
-    }
-  } unit_type_iterate_end;
-
-  enabler = action_enabler_new();
-  enabler->action = ACTION_GAIN_VETERANCY;
-  e_req = req_from_str("UnitTypeFlag", "Local", FALSE, FALSE, FALSE,
-                       "NoVeteran");
-  requirement_vector_append(&enabler->actor_reqs, e_req);
-  action_enabler_add(enabler);
-
-  enabler = action_enabler_new();
-  enabler->action = ACTION_ESCAPE;
-  e_req = req_from_str("UnitTypeFlag", "Local", FALSE, TRUE, FALSE,
-                       "CanEscape");
-  requirement_vector_append(&enabler->actor_reqs, e_req);
-  action_enabler_add(enabler);
-
-  if (game.server.deprecated.civil_war_enabled) {
-    enabler = action_enabler_new();
-    enabler->action = ACTION_CIVIL_WAR;
-    action_enabler_add(enabler);
-  }
-
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
-
-  /* Old hardcoded behavior always had tech leakage enabled,
-   * thought limited by game.info.tech_leakage setting. */
-  effect_new(EFT_TECH_LEAKAGE, 1, nullptr);
-
-  /* Old behavior: Land tiles can be claimed by land border sources on the
-   * same continent. */
-  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
-  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TC_LAND);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TREL_SAME_REGION);
-  effect_req_append(effect, e_req);
-  /* Tile-range TREL_SAME_REGION implies TREL_SAME_TCLASS */
-
-  /* Old behavior: Oceanic tiles can be claimed by adjacent border
-   * sources. */
-  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
-  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TC_OCEAN);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_MAX_DISTANCE_SQ, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, 2);
-  effect_req_append(effect, e_req);
-
-  /* Old behavior: Oceanic tiles part of an ocean that is no larger than
-   * MAXIMUM_CLAIMED_OCEAN_SIZE tiles and that is adjacent to only one
-   * continent (i.e. surrounded by it) can be claimed by land border
-   * sources on that continent. */
-  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
-  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TC_OCEAN);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_MAX_REGION_TILES, REQ_RANGE_CONTINENT,
-                          FALSE, TRUE, FALSE,
-                          MAXIMUM_CLAIMED_OCEAN_SIZE_3_2);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TREL_REGION_SURROUNDED);
-  effect_req_append(effect, e_req);
-  /* Tile-range TREL_REGION_SURROUNDED implies negated TREL_SAME_TCLASS */
-
-  /* Old behavior: Oceanic tiles adjacent to no more than two other oceanic
-   * tiles and (individually) adjacent to only a single continent can be
-   * claimed by land border sources on that continent. */
-  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
-  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TC_OCEAN);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
-                          FALSE, FALSE, FALSE, TREL_SAME_TCLASS);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_MAX_REGION_TILES, REQ_RANGE_ADJACENT,
-                          FALSE, TRUE, FALSE, 2 + 1);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_ADJACENT,
-                          FALSE, TRUE, FALSE, TREL_ONLY_OTHER_REGION);
-  effect_req_append(effect, e_req);
-
-  /* Old behavior: Oceanic tiles can be claimed by any oceanic border
-   * sources with the Claim_Ocean_Limited techflag. */
-  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
-  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TC_OCEAN);
-  effect_req_append(effect, e_req);
-  e_req = req_from_values(VUT_TILE_REL, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TREL_SAME_TCLASS);
-  effect_req_append(effect, e_req);
-  e_req = req_from_str("TechFlag", "Player", FALSE, TRUE, FALSE,
-                       "Claim_Ocean_Limited");
-  effect_req_append(effect, e_req);
-
-  /* Old behavior: Oceanic tiles can be claimed by any border sources
-   * with the Claim_Ocean techflag. */
-  effect = effect_new(EFT_TILE_CLAIMABLE, 1, nullptr);
-  e_req = req_from_values(VUT_TERRAINCLASS, REQ_RANGE_TILE,
-                          FALSE, TRUE, FALSE, TC_OCEAN);
-  effect_req_append(effect, e_req);
-  e_req = req_from_str("TechFlag", "Player", FALSE, TRUE, FALSE,
-                       "Claim_Ocean");
-  effect_req_append(effect, e_req);
 
   /* Make sure that all action enablers added or modified by the
    * compatibility post processing fulfills all hard action requirements. */
@@ -639,153 +504,4 @@ static int first_free_tech_user_flag(void)
 
   /* All tech user flags are taken. */
   return MAX_NUM_USER_TECH_FLAGS;
-}
-
-/**********************************************************************//**
-  Convert 3.2 unit type flag name to 3.3 one.
-**************************************************************************/
-const char *rscompat_utype_flag_name_3_3(const char *old_name)
-{
-  if (!fc_strcasecmp("Settlers", old_name)) {
-    return "Workers";
-  }
-
-  return old_name;
-}
-
-/**********************************************************************//**
-  Convert 3.2 universal name to a 3.3 one.
-**************************************************************************/
-const char *rscompat_universal_name_3_3(const char *old_name)
-{
-  if (!fc_strcasecmp("UnitFlag", old_name)) {
-    return "UnitTypeFlag";
-  }
-
-  return old_name;
-}
-
-/**********************************************************************//**
-  Convert 3.2 effect name to a 3.3 one.
-**************************************************************************/
-const char *rscompat_effect_name_3_3(const char *old_name)
-{
-  if (!fc_strcasecmp("Martial_Law_Each", old_name)) {
-    return "Martial_Law_By_Unit";
-  }
-
-  return old_name;
-}
-
-/**********************************************************************//**
-  Tell 3.2 blocked_by name matching 3.3 one
-**************************************************************************/
-const char *blocked_by_old_name_3_3(const char *new_name)
-{
-  if (!fc_strcasecmp("conquer_city_shrink_blocked_by", new_name)) {
-    return "conquer_city_blocked_by";
-  }
-  if (!fc_strcasecmp("conquer_city_shrink_2_blocked_by", new_name)) {
-    return "conquer_city_2_blocked_by";
-  }
-  if (!fc_strcasecmp("conquer_city_shrink_3_blocked_by", new_name)) {
-    return "conquer_city_3_blocked_by";
-  }
-  if (!fc_strcasecmp("conquer_city_shrink_4_blocked_by", new_name)) {
-    return "conquer_city_4_blocked_by";
-  }
-
-  return nullptr;
-}
-
-/**********************************************************************//**
-  Tell 3.2 ui_name matching 3.3 one
-**************************************************************************/
-const char *ui_name_old_name_3_3(const char *new_name)
-{
-  if (!fc_strcasecmp("ui_name_conquer_city_shrink", new_name)) {
-    return "ui_name_conquer_city";
-  }
-  if (!fc_strcasecmp("ui_name_conquer_city_shrink_2", new_name)) {
-    return "ui_name_conquer_city_2";
-  }
-  if (!fc_strcasecmp("ui_name_conquer_city_shrink_3", new_name)) {
-    return "ui_name_conquer_city_3";
-  }
-  if (!fc_strcasecmp("ui_name_conquer_city_shrink_4", new_name)) {
-    return "ui_name_conquer_city_4";
-  }
-  
-  return nullptr;
-}
-
-#define RS_DEFAULT_CIVIL_WAR_CELEB               -5
-#define RS_DEFAULT_CIVIL_WAR_UNHAPPY             5
-
-/**********************************************************************//**
-  Add civil war bonus effects matching old civstyle values.
-**************************************************************************/
-void rscompat_civil_war_effects_3_3(struct section_file *game_rs)
-{
-  int bonus = secfile_lookup_int_default(game_rs, RS_DEFAULT_CIVIL_WAR_CELEB,
-                                         "civstyle.civil_war_bonus_celebrating");
-
-  if (bonus != 0) {
-    struct requirement e_req;
-    struct effect *peffect;
-
-    peffect = effect_new(EFT_CIVIL_WAR_CITY_BONUS, -bonus, nullptr);
-    e_req = req_from_str("CityStatus", "City", FALSE, TRUE, FALSE,
-                         "Celebration");
-    effect_req_append(peffect, e_req);
-  }
-
-  bonus = secfile_lookup_int_default(game_rs, RS_DEFAULT_CIVIL_WAR_UNHAPPY,
-                                     "civstyle.civil_war_bonus_unhappy");
-
-  if (bonus != 0) {
-    struct requirement e_req;
-    struct effect *peffect;
-
-    peffect = effect_new(EFT_CIVIL_WAR_CITY_BONUS, -bonus, nullptr);
-    e_req = req_from_str("CityStatus", "City", FALSE, TRUE, FALSE,
-                         "Disorder");
-    effect_req_append(peffect, e_req);
-  }
-}
-
-/**********************************************************************//**
-  Load ui_name of one action
-**************************************************************************/
-bool load_action_ui_name_3_3(struct section_file *file, int act,
-                             const char *entry_name,
-                             struct rscompat_info *compat)
-{
-  const char *text;
-  const char *def = action_ui_name_default(act);
-  struct action *paction = action_by_number(act);
-
-  if (entry_name == nullptr) {
-    text = def;
-  } else {
-    text = secfile_lookup_str_default(file, nullptr,
-                                      "actions.%s", entry_name);
-
-    if (text == nullptr && compat->compat_mode && compat->version < RSFORMAT_3_3) {
-      text = secfile_lookup_str_default(file, nullptr,
-                                        "actions.%s", ui_name_old_name_3_3(entry_name));
-    }
-
-    if (text == nullptr) {
-      text = def;
-    } else {
-      if (strcmp(def, text)) {
-        paction->configured = TRUE;
-      }
-    }
-  }
-
-  sz_strlcpy(paction->ui_name, text);
-
-  return TRUE;
 }
