@@ -10,9 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIDIPLOMAT_H
-#define FC__AIDIPLOMAT_H
+#ifndef FC__DAIDIPLOMAT_H
+#define FC__DAIDIPLOMAT_H
 
+/* common */
 #include "fc_types.h"
 
 void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
@@ -27,4 +28,4 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
                                    struct city *pcity,
                                    struct adv_choice *choice);
 
-#endif /* FC__AIDIPLOMAT_H */
+#endif /* FC__DAIDIPLOMAT_H */

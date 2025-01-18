@@ -71,7 +71,7 @@
 #include "daitools.h"
 #include "daiunit.h"
 
-#include "aidiplomat.h"
+#include "daidiplomat.h"
 
 
 #define LOG_DIPLOMAT LOG_DEBUG
