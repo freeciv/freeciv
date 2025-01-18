@@ -77,26 +77,30 @@ AM_LIBTOOLFLAGS = --preserve-dup-deps
 freeciv_client_src = $(AUDIO_SDL_FILES) \
 	attribute.h	\
 	attribute.c	\
+	audio.c         \
+	audio.h         \
+	audio_none.c    \
+	audio_none.h	\
+	chatline_common.c \
+	chatline_common.h \
 	citydlg_common.c \
 	citydlg_common.h \
 	cityrepdata.c	\
 	cityrepdata.h	\
 	client_main.c	\
 	client_main.h	\
-	chatline_common.c \
-	chatline_common.h \
-	connectdlg_common.c \
-	connectdlg_common.h \
-	climisc.c	\
-	climisc.h	\
 	climap.c	\
 	climap.h	\
+	climisc.c	\
+	climisc.h	\
 	clinet.c	\
 	clinet.h	\
 	clitreaty.c	\
 	clitreaty.h	\
 	colors_common.c		\
 	colors_common.h		\
+	connectdlg_common.c \
+	connectdlg_common.h \
 	control.c	\
 	control.h	\
 	editor.c 		\
@@ -117,6 +121,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	messagewin_common.h \
 	music.c		\
 	music.h		\
+	options.c	\
+	options.h	\
 	overview_common.c	\
 	overview_common.h	\
 	packhand.c	\
@@ -125,8 +131,6 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	packhand_gen.c	\
 	plrdlg_common.c \
 	plrdlg_common.h \
-	options.c	\
-	options.h	\
 	repodlgs_common.c \
 	repodlgs_common.h \
 	reqtree.c \
@@ -148,11 +152,7 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	voteinfo.c	\
 	voteinfo.h	\
 	zoom.c		\
-	zoom.h		\
-	audio.c         \
-	audio.h         \
-	audio_none.c    \
-	audio_none.h
+	zoom.h
 
 gui_interface_src = \
 	gui_interface.c \
