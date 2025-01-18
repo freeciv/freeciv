@@ -85,9 +85,9 @@ option('gen-packets-args',
 
 option('qtver',
        type: 'combo',
-       choices: ['qt5', 'qt6', 'qt6x'],
+       choices: ['qt6', 'qt6x'],
        value: 'qt6',
-       description: 'Whether to build Qt5, Qt6, or experimental Qt6 versions of the binaries')
+       description: 'Whether to build Qt6, or experimental Qt6 versions of the binaries')
 
 option('project-definition',
        type: 'string',

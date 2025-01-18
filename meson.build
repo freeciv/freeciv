@@ -928,13 +928,7 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
   endif
 endif
 
-if qtver == 'qt5'
-  qt_minver='0x050f00'
-  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
-  priv_conf_data.set('FC_QT5_MODE', 1)
-  qt_opts = []
-  qt_cppflags = '-fPIC'
-elif qtver == 'qt6x'
+if qtver == 'qt6x'
   qt_minver='0x060700'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   priv_conf_data.set('FC_QT6X_MODE', 1)
@@ -3630,15 +3624,8 @@ if gtk4_theme
                              'freeciv/themes/gtk4/Freeciv/gtk-4.0'))
 endif
 
-if qtver == 'qt6' or qtver == 'qt6x'
-  qt_mod = import('qt6')
-
-  qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
-else
-  qt_mod = import('qt5')
-
-  qt_dep = dependency('Qt5', modules: ['Core', 'Gui', 'Widgets'], required: false)
-endif
+qt_mod = import('qt6')
+qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
 
 if qt_dep.found() and cxx_build
   if cxx_compiler.compiles(
@@ -3667,10 +3654,8 @@ if get_option('clients').contains('qt')
 if not qtfine
   if qtver == 'qt6'
     error('Qt6 >= 6.0 required for qt-client in Qt6 mode, but not found')
-  elif qtver == 'qt6x'
+  elser
     error('Qt6 >= 6.7 required for qt-client in Qt6x mode, but not found')
-  else
-    error('Qt5 >= 5.15 required for qt-client in Qt5 mode, but not found')
   endif
 endif
 
@@ -4365,10 +4350,8 @@ if get_option('fcmp').contains('qt')
 if not qtfine
   if qtver == 'qt6'
     error('Qt6 >= 6.0 required for qt-modpack-installer in Qt6 mode, but not found')
-  elif qtver == 'qt6x'
-    error('Qt6 >= 6.7 required for qt-modpack-installer in Qt6x mode, but not found')
   else
-    error('Qt5 >= 5.15 required for qt-modpack-installer in Qt5 mode, but not found')
+    error('Qt6 >= 6.7 required for qt-modpack-installer in Qt6x mode, but not found')
   endif
 endif
 
@@ -4455,10 +4438,8 @@ if get_option('tools').contains('ruledit')
 if not qtfine
   if qtver == 'qt6'
     error('Qt6 >= 6.0 required for ruledit in Qt6 mode, but not found')
-  elif qtver == 'qt6x'
-    error('Qt6 >= 6.7 required for ruledit in Qt6x mode, but not found')
   else
-    error('Qt5 >= 5.15 required for ruledit in Qt5 mode, but not found')
+    error('Qt6 >= 6.7 required for ruledit in Qt6x mode, but not found')
   endif
 endif
 

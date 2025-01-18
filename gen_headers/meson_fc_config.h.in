@@ -52,9 +52,6 @@
 /* Have Sqlite3 database backend */
 #mesondefine HAVE_FCDB_SQLITE3
 
-/* Build in Qt5 mode */
-#mesondefine FC_QT5_MODE
-
 /* Build in Qt6x mode */
 #mesondefine FC_QT6X_MODE
 
