@@ -1,5 +1,5 @@
 
-project('freeciv', ['c'], meson_version: '>= 0.60.0')
+project('freeciv', ['c'], meson_version: '>= 0.63.0')
 
 c_compiler = meson.get_compiler('c')
 
