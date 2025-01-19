@@ -162,7 +162,8 @@ static bool dai_should_we_air_attack_tile(struct ai_type *ait,
   Returns an estimate for the profit gained through attack.
   Assumes that the victim is within one day's flight
 **********************************************************************/
-static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
+static adv_want dai_evaluate_tile_for_air_attack(const struct civ_map *nmap,
+                                                 struct unit *punit,
                                                  struct tile *dst_tile)
 {
   struct unit *pdefender;
@@ -174,7 +175,6 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
   adv_want profit;
   /* Time spent in the air */
   int sortie_time;
-  struct civ_map *nmap = &(wld.map);
 
 #define PROB_MULTIPLIER 100 /* Should unify with those in combat.c */
 
@@ -282,7 +282,8 @@ static adv_want find_something_to_bomb(struct ai_type *ait,
     if (is_enemy_unit_tile(ptile, pplayer)
         && dai_should_we_air_attack_tile(ait, punit, ptile)
         && can_unit_attack_tile(punit, NULL, ptile)) {
-      adv_want new_best = dai_evaluate_tile_for_air_attack(punit, ptile);
+      adv_want new_best = dai_evaluate_tile_for_air_attack(nmap, punit,
+                                                           ptile);
 
       if (new_best > best) {
         best_tile = ptile;
