@@ -249,7 +249,7 @@ ACLOCAL=$REALPKGNAME
 real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 ||
 real_package_name "glibtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 "" "0" || DIE=1
 LIBTOOLIZE=$REALPKGNAME
-real_package_name "python3" "https://www.python.org/" 3 6 || DIE=1
+real_package_name "python3" "https://www.python.org/" 3 7 || DIE=1
 
 if [ "$FC_USE_NLS" = "yes" ]; then
   DIE2=0
