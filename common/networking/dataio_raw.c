@@ -12,7 +12,7 @@
 ***********************************************************************/
 
 /*
- * The DataIO module provides a system independent (endianess and
+ * The DataIO module provides a system independent (endianness and
  * sizeof(int) independent) way to write and read data. It supports
  * multiple datas which are collected in a buffer. It provides
  * recognition of error cases like "not enough space" or "not enough
