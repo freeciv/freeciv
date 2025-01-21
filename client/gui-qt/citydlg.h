@@ -184,11 +184,7 @@ protected:
   void wheelEvent(QWheelEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void leaveEvent(QEvent *event);
-#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT5_MODE
-  void enterEvent(QEvent *event);
-#endif // FC_QT5_MODE
 };
 
 /****************************************************************************
@@ -237,13 +233,8 @@ protected:
   void wheelEvent(QWheelEvent *event);
   void mouseDoubleClickEvent(QMouseEvent *event);
   void leaveEvent(QEvent *event);
-#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT5_MODE
-  void enterEvent(QEvent *event);
-#endif // FC_QT5_MODE
 };
-
 
 /****************************************************************************
   Shows list of improvements

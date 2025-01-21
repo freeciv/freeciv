@@ -217,9 +217,6 @@ void configure_fonts()
 QString configure_font(QString font_name, QStringList sl, int size,
                        bool bold)
 {
-#ifdef FC_QT5_MODE
-  QFontDatabase database;
-#endif
   QString str;
   QFont *f;
   QString style;
@@ -229,11 +226,7 @@ QString configure_font(QString font_name, QStringList sl, int size,
   }
 
   foreach (str, sl)  {
-#ifndef FC_QT5_MODE
     QList<int> sizes = QFontDatabase::smoothSizes(str, style);
-#else  // FC_QT5_MODE
-    QList<int> sizes = database.smoothSizes(str, style);
-#endif // FC_QT5_MODE
 
     if (!sizes.isEmpty()) {
       QListIterator<int> i(sizes);

@@ -95,7 +95,7 @@ void info_tab::mousePressEvent(QMouseEvent *event)
     int x = pos.x();
     int y = pos.y();
 
-    cursor = mevent_gpos(event) - geometry().topLeft();
+    cursor = event->globalPosition().toPoint() - geometry().topLeft();
     if (y > 0 && y < 25 && x > width() - 25 && x < width()) {
       resize_mode = true;
       resxy = true;
@@ -161,14 +161,10 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
 
   if ((event->buttons() & Qt::LeftButton) && resize_mode && resy) {
     QPoint to_move;
-#ifndef FC_QT5_MODE
     int newheight = event->globalPosition().y() - cursor.y() - geometry().y();
-#else  // FC_QT5_MODE
-    int newheight = event->globalY() - cursor.y() - geometry().y();
-#endif // FC_QT5_MODE
 
     resize(width(), this->geometry().height()-newheight);
-    to_move = mevent_gpos(event) - cursor;
+    to_move = event->globalPosition().toPoint() - cursor;
     move(this->x(), to_move.y());
     setCursor(Qt::SizeVerCursor);
     restore_chat();
@@ -183,14 +179,10 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
     setCursor(Qt::SizeVerCursor);
   } else if (resxy && (event->buttons() & Qt::LeftButton)) {
     QPoint to_move;
-#ifndef FC_QT5_MODE
     int newheight = event->globalPosition().y() - cursor.y() - geometry().y();
-#else  // FC_QT5_MODE
-    int newheight = event->globalY() - cursor.y() - geometry().y();
-#endif // FC_QT5_MODE
 
     resize(ex, this->geometry().height()- newheight);
-    to_move = mevent_gpos(event) - cursor;
+    to_move = event->globalPosition().toPoint() - cursor;
     move(this->x(), to_move.y());
     setCursor(Qt::SizeBDiagCursor);
     restore_chat();
@@ -288,11 +280,7 @@ void messagewdg::item_selected(const QItemSelection &sl,
 /***********************************************************************//**
   Mouse entered messagewdg
 ***************************************************************************/
-#ifndef FC_QT5_MODE
 void messagewdg::enterEvent(QEnterEvent *event)
-#else  // FC_QT5_MODE
-void messagewdg::enterEvent(QEvent *event)
-#endif // FC_QT5_MODE
 {
   setCursor(Qt::ArrowCursor);
 }

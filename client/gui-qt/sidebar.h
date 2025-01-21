@@ -78,11 +78,7 @@ public slots:
   void some_slot();
 protected:
   void contextMenuEvent(QContextMenuEvent *event);
-#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT5_MODE
-  void enterEvent(QEvent *event);
-#endif // FC_QT5_MODE
   void leaveEvent(QEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);

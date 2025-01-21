@@ -243,35 +243,6 @@ struct sprite *qtg_load_gfxnumber(int num)
       u8"\u24F4"
     };
 
-#ifdef FC_QT5_MODE
-    ns = QString((const char *)numsbuf[num]);
-  }
-
-  w = fm.horizontalAdvance(ns);
-  h = fm.height();
-  pm = new QPixmap(w, h);
-  pm->fill(Qt::transparent);
-
-  QPainter paint(pm);
-
-  paint.setFont(*qf);
-  paint.setBrush(Qt::transparent);
-  paint.setPen(QColor(Qt::black));
-  paint.drawText(QRect(0, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter,
-                 QString((const char *)u8"\u26AB"));
-
-  if (num > 20) {
-    paint.setPen(QColor(Qt::yellow));
-    paint.drawText(QRect(-2, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter,
-                   QString((const char *)u8"\u2B24"));
-    paint.drawText(QRect(4, -2, w, h), Qt::AlignLeft | Qt::AlignVCenter,
-                   QString((const char *)u8"\u2B24"));
-    paint.drawText(QRect(4, 2, w, h), Qt::AlignLeft | Qt::AlignVCenter,
-                   QString((const char *)u8"\u2B24"));
-    paint.drawText(QRect(8, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter,
-                   QString((const char *)u8"\u2B24"));
-  }
-#else  // FC_QT5_MODE
     ns = QString(numsbuf[num]);
   }
 
@@ -299,7 +270,6 @@ struct sprite *qtg_load_gfxnumber(int num)
     paint.drawText(QRect(8, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter,
                    QString(u8"\u2B24"));
   }
-#endif // FC_QT5_MODE
 
   paint.setPen(QColor((num > 20) ? Qt::black : Qt::yellow));
   paint.drawText(QRect(0, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter, ns);

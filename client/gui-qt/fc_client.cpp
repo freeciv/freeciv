@@ -33,11 +33,6 @@
 #include <QStyleFactory>
 #include <QTabBar>
 #include <QTextBlock>
-
-#ifdef FC_QT5_MODE
-#include <QTextCodec>
-#endif // FC_QT5_MODE
-
 #include <QTextEdit>
 
 // common
@@ -69,10 +64,6 @@ QString current_theme;
 fc_client::fc_client() : QMainWindow()
 {
   QString wtitle;
-
-#ifdef FC_QT5_MODE
-  QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-#endif // FC_QT5_MODE
 
   /**
    * Somehow client-common asks to switch to page when all widgets
@@ -137,8 +128,6 @@ fc_client::fc_client() : QMainWindow()
   wtitle = wtitle.arg(
 #ifdef FC_QT6X_MODE
                       "Qt6x"
-#elif FC_QT5_MODE
-                      "Qt5"
 #else  // FC_QT6X_MODE
                       "Qt6"
 #endif // FC_QT6X_MODE

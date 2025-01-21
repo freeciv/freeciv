@@ -159,17 +159,14 @@ void fc_client::create_main_page(void)
   rev_ver = fc_git_revision();
 
   if (rev_ver == nullptr) {
-    // TRANS: "version 3.1.0, Qt5 client"
-#ifdef FC_QT5_MODE
-    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt5 client"),
-                word_version(), VERSION_STRING);
-#elif defined(FC_QT6X_MODE)
+    // TRANS: "version 3.4.0, Qt6 client"
+#if defined(FC_QT6X_MODE)
     fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt6x client"),
                 word_version(), VERSION_STRING);
-#else  // FC_QT5_MODE
+#else  // FC_QT6X_MODE
     fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt6 client"),
                 word_version(), VERSION_STRING);
-#endif // FC_QT5_MODE
+#endif // FC_QT6X_MODE
   } else {
     fc_snprintf(msgbuf, sizeof(msgbuf), "%s%s",
                 word_version(), VERSION_STRING);
@@ -183,13 +180,11 @@ void fc_client::create_main_page(void)
                      main_graphics.height() - fm.descent() - fm.height(),
                      msgbuf);
 
-#ifdef FC_QT5_MODE
-    strncpy(msgbuf, _("Qt5 client"), sizeof(msgbuf) - 1);
-#elif defined(FC_QT6X_MODE)
+#if defined(FC_QT6X_MODE)
     strncpy(msgbuf, _("Qt6x client"), sizeof(msgbuf) - 1);
-#else  // FC_QT5_MODE
+#else  // FC_QT6X_MODE
     strncpy(msgbuf, _("Qt6 client"), sizeof(msgbuf) - 1);
-#endif // FC_QT5_MODE
+#endif // FC_QT6X_MODE
   }
 
   painter.drawText(main_graphics.width() - fm.horizontalAdvance (msgbuf)
@@ -1405,11 +1400,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
           load_pix->setPixmap(*(new QPixmap));
         }
 
-#ifdef FC_QT5_MODE
-        QPixmap pm = load_pix->pixmap(Qt::ReturnByValue);
-#else  // FC_QT5_MODE
         QPixmap pm = load_pix->pixmap();
-#endif // FC_QT5_MODE
 
         load_pix->setFixedSize(pm.width(),
                                pm.height());

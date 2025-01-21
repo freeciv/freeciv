@@ -407,7 +407,7 @@ void move_widget::put_to_corner()
 void move_widget::mouseMoveEvent(QMouseEvent *event)
 {
   if (!gui()->interface_locked) {
-    parentWidget()->move(mevent_gpos(event) - point);
+    parentWidget()->move(event->globalPosition().toPoint() - point);
   }
 }
 
@@ -417,7 +417,8 @@ void move_widget::mouseMoveEvent(QMouseEvent *event)
 void move_widget::mousePressEvent(QMouseEvent *event)
 {
   if (!gui()->interface_locked) {
-    point = mevent_gpos(event) - parentWidget()->geometry().topLeft();
+    point = event->globalPosition().toPoint()
+      - parentWidget()->geometry().topLeft();
   }
 
   update();
@@ -457,7 +458,7 @@ void resize_widget::mouseMoveEvent(QMouseEvent *event)
     return;
   }
 
-  qp = mevent_gpos(event);
+  qp = event->globalPosition().toPoint();
   np.setX(qp.x() - point.x());
   np.setY(qp.y() - point.y());
   np.setX(qMax(np.x(), 32));
@@ -476,7 +477,7 @@ void resize_widget::mousePressEvent(QMouseEvent *event)
     return;
   }
 
-  qp = mevent_gpos(event);
+  qp = event->globalPosition().toPoint();
   point.setX(qp.x() - parentWidget()->width());
   point.setY(qp.y() - parentWidget()->height());
   update();
@@ -926,7 +927,7 @@ void minimap_view::mousePressEvent(QMouseEvent *event)
     if (gui()->interface_locked) {
       return;
     }
-    cursor = mevent_gpos(event) - geometry().topLeft();
+    cursor = event->globalPosition().toPoint() - geometry().topLeft();
   }
 
   if (event->button() == Qt::RightButton) {
@@ -965,7 +966,7 @@ void minimap_view::mouseMoveEvent(QMouseEvent *event)
     p = event->pos();
     r = mapTo(gui()->mapview_wdg, p);
     p = r - p;
-    move(mevent_gpos(event) - cursor);
+    move(event->globalPosition().toPoint() - cursor);
     setCursor(Qt::SizeAllCursor);
     gui()->qt_settings.minimap_x = static_cast<float>(p.x()) / mapview.width;
     gui()->qt_settings.minimap_y = static_cast<float>(p.y())

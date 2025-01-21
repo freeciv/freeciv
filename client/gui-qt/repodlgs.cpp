@@ -236,11 +236,7 @@ void unittype_item::upgrade_units()
 /************************************************************************//**
   Mouse entered widget
 ****************************************************************************/
-#ifndef FC_QT5_MODE
 void unittype_item::enterEvent(QEnterEvent *event)
-#else  // FC_QT5_MODE
-void unittype_item::enterEvent(QEvent *event)
-#endif // FC_QT5_MODE
 {
   entered = true;
   update();
@@ -811,7 +807,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       tt_text = def_str + tt_text.toHtmlEscaped();
       tooltip_text = tt_text.trimmed();
       tooltip_rect = rttp->rect;
-      tooltip_pos = mevent_gpos(event);
+      tooltip_pos = event->globalPosition().toPoint();
       if (!QToolTip::isVisible() && !timer_active) {
         timer_active = true;
         QTimer::singleShot(500, this, SLOT(show_tooltip()));

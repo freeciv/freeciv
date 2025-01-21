@@ -900,11 +900,7 @@ void hud_action::leaveEvent(QEvent *event)
 /************************************************************************//**
   Enter event for hud_action, used to get status of pixmap highlight
 ****************************************************************************/
-#ifndef FC_QT5_MODE
 void hud_action::enterEvent(QEnterEvent *event)
-#else  // FC_QT5_MODE
-void hud_action::enterEvent(QEvent *event)
-#endif // FC_QT5_MODE
 {
   focus = true;
   update();
@@ -1921,11 +1917,7 @@ void hud_unit_combat::leaveEvent(QEvent *event)
 /************************************************************************//**
   Leave event for hud unit combat. Shows highlight.
 ****************************************************************************/
-#ifndef FC_QT5_MODE
 void hud_unit_combat::enterEvent(QEnterEvent *event)
-#else  // FC_QT5_MODE
-void hud_unit_combat::enterEvent(QEvent *event)
-#endif // FC_QT5_MODE
 {
   focus = true;
   update();
@@ -1972,11 +1964,7 @@ void scale_widget::paintEvent(QPaintEvent *event)
 void scale_widget::mousePressEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton) {
-#ifndef FC_QT5_MODE
     if (event->position().x() <= size) {
-#else  // FC_QT5_MODE
-    if (event->localPos().x() <= size) {
-#endif // FC_QT5_MODE
       scale = scale / 1.2;
     } else {
       scale = scale * 1.2;
