@@ -129,7 +129,7 @@ void idex_unregister_unit(struct world *iworld, struct unit *punit)
    Lookup city with given id.
    Returns NULL if the city is not registered (which is not an error).
 **************************************************************************/
-struct city *idex_lookup_city(struct world *iworld, int id)
+struct city *idex_lookup_city(const struct world *iworld, int id)
 {
   struct city *pcity;
 
@@ -142,7 +142,7 @@ struct city *idex_lookup_city(struct world *iworld, int id)
    Lookup unit with given id.
    Returns NULL if the unit is not registered (which is not an error).
 **************************************************************************/
-struct unit *idex_lookup_unit(struct world *iworld, int id)
+struct unit *idex_lookup_unit(const struct world *iworld, int id)
 {
   struct unit *punit;
 
