@@ -2015,7 +2015,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
                                  allow_gold_upkeep);
 
   /* Consider making a paratrooper */
-  dai_choose_paratrooper(ait, pplayer, pcity, choice, allow_gold_upkeep);
+  dai_choose_paratrooper(ait, nmap, pplayer, pcity, choice, allow_gold_upkeep);
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */

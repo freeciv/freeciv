@@ -378,14 +378,13 @@ static int calculate_want_for_paratrooper(struct unit *punit,
 /*************************************************************************//**
   Chooses to build a paratroopers if necessary
 *****************************************************************************/
-void dai_choose_paratrooper(struct ai_type *ait,
+void dai_choose_paratrooper(struct ai_type *ait, const struct civ_map *nmap,
                             struct player *pplayer, struct city *pcity,
                             struct adv_choice *choice, bool allow_gold_upkeep)
 {
   const struct research *presearch = research_get(pplayer);
   int profit;
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
-  const struct civ_map *nmap = &(wld.map);
 
   /* military_advisor_choose_build() does something idiotic,
    * this function should not be called if there is danger... */
