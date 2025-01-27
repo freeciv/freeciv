@@ -422,7 +422,11 @@ negative_label = _("BC")
 ; name                    = translatable name as seen by user
 ; reqs                    = requirements for disaster to happen (see effects.ruleset
 ;                           and README.effects for help on requirements)
-; frequency               = how likely disaster is to occur
+; frequency               = how likely disaster is to occur.
+;                           Final probability for each city each turn is -
+;                           (this frequency) * (game settings option disasters
+;                           frequency) / 1000000.
+;                           If omitted, default is 0 and this disater will not occur.
 ; effects
 ;   - "DestroyBuilding"   = Random building is destroyed
 ;   - "ReducePopulation"  = Reduce city size by one unless it's already 1

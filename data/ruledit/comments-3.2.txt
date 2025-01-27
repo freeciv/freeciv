@@ -1046,6 +1046,10 @@ disasters = "\
 ; reqs                    = requirements for disaster to happen (see effects.ruleset\n\
 ;                           and README.effects for help on requirements)\n\
 ; frequency               = how likely disaster is to occur\n\
+;                           Final probability for each city each turn is -\n\
+;                           (this frequency) * (game settings option disasters\n\
+;                           frequency) / 1000000.\n\
+;                           If omitted, default is 0 and this disater will not occur.\n\
 ; effects\n\
 ;   - \"DestroyBuilding\"   = Random building is destroyed\n\
 ;   - \"ReducePopulation\"  = Reduce city size by one unless it's already 1\n\
