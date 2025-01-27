@@ -26,6 +26,11 @@ if ! test -x "$1/fc_version" ; then
   exit 1
 fi
 
+if ! mkdir -p doc ; then
+  echo "Failed to create output doc directory!" >&2
+  exit 1
+fi
+
 VERSION_SCRIPT_SILENT=yes . "$1/fc_version"
 
 doxy_srcdir="$1/" doxy_version="-${MAIN_VERSION}" doxygen "$1/doc/freeciv.doxygen"
