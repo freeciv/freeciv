@@ -8,7 +8,7 @@
 MAJOR_VERSION="3"
 MINOR_VERSION="2"
 PATCH_VERSION="92"
-EMERGENCY_VERSION="8"
+EMERGENCY_VERSION="9"
 VERSION_LABEL="-alpha"
 
 # Type is either "development" or "stable"
