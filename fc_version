@@ -81,27 +81,27 @@ DEFAULT_FOLLOW_TAG=S3_4
 NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Jan.05"
 FREECIV_DISTRIBUTOR=""
 
-if test "x$FREECIV_LABEL_FORCE" != "x" ; then
-  VERSION_LABEL=$(echo $FREECIV_LABEL_FORCE | sed "s/<base>/$VERSION_LABEL/g")
+if test "${FREECIV_LABEL_FORCE}" != "" ; then
+  VERSION_LABEL="$(echo "${FREECIV_LABEL_FORCE}" | sed "s/<base>/${VERSION_LABEL}/g")"
 fi
 
-if test x$VERSION_REVTYPE = xgit && command -v git > /dev/null ; then
+if test "${VERSION_REVTYPE}" = "git" && command -v git > /dev/null ; then
   VERSION_REV="$(git rev-parse --short HEAD)"
 else
   VERSION_REV=""
 fi
-if test "x$VERSION_REV" != "x" ; then
-  case "x$VERSION_LABEL" in
-    x*+) ;;
+if test "${VERSION_REV}" != "" ; then
+  case "${VERSION_LABEL}" in
+    *+) ;;
     *) VERSION_REV="+${VERSION_REV}" ;;
   esac
 fi
 
-if test x$EMERGENCY_VERSION != x ; then
+if test "${EMERGENCY_VERSION}" != "" ; then
   EMERG_PART=".${EMERGENCY_VERSION}"
 fi
 
-VERSION_STRING=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${EMERG_PART}${VERSION_LABEL}
-if test x$VERSION_SCRIPT_SILENT != xyes ; then
-  echo ${VERSION_STRING}${VERSION_REV}
+VERSION_STRING="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${EMERG_PART}${VERSION_LABEL}"
+if test "${VERSION_SCRIPT_SILENT}" != "yes" ; then
+  echo "${VERSION_STRING}${VERSION_REV}"
 fi
