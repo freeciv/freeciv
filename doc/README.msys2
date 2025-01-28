@@ -95,15 +95,11 @@ is located here for quick reference for the specific freeciv revision.
 2.1.2.3) Arch-specific packages for building gtk4-client
  - mingw-w64-<arch>-gtk4
 
-2.1.2.4) Arch-specific packages for building Qt5-client and/or Qt5 Ruledit
- - mingw-w64-<arch>-qt5-base
- - mingw-w64-<arch>-qt5-svg
-
-2.1.2.5) Arch-specific packages for building Qt6-client and/or Qt6 Ruledit
+2.1.2.4) Arch-specific packages for building Qt6-client and/or Qt6 Ruledit
  - mingw-w64-<arch>-qt6-base
  - mingw-w64-<arch>-qt6-svg
 
-2.1.2.6) Arch-specific packages for building sdl2-client
+2.1.2.5) Arch-specific packages for building sdl2-client
  - mingw-w64-<arch>-SDL2_image
  - mingw-w64-<arch>-SDL2_ttf
  - mingw-w64-<arch>-SDL2_gfx
@@ -194,14 +190,12 @@ Get the freeciv sources there somehow. Some options are:
 > make -f Makefile.meson <targets>
 
   Target can be:
-  - "all" (default), build all installers, except that Qt5/Qt6
-    selection depends on arch
+  - "all" (default), build all installers
   - "<gui>-installer", where <gui> is
      - gtk3.22
      - gtk4
      - gtk4x
      - sdl2
-     - qt5
      - qt6
      - qt6x
   - "ruledit-installer"

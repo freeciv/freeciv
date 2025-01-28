@@ -57,11 +57,6 @@ Here's what to do:
        - If you are using Qt client, the version number of Qt libraries.
          In Qt-client that can be find by opening 'About Freeciv' dialog
          from under 'Help' menu and clicking 'About Qt' button there.
-         The major Qt version makes a difference also in freeciv's
-         own code, so tell whether the client has been built in
-         "Qt6 mode", or in "Qt5 mode". Note that Qt5 and Qt6 are
-         coinstallable, so having one in the system does not
-         automatically mean that freeciv uses it.
 
        - If you are using the SDL2 client, the version numbers (if you
          know them) of the SDL2, SDL2_image, SDL2_gfx, and SDL2_ttf

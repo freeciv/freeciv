@@ -88,7 +88,7 @@ freeciv-gtk4:  This uses GTK 4 libraries.
 freeciv-gtk3.22:  This uses the GTK+ 3 libraries. Version 3.22 or 3.24
   is required. To install, see section 1a of the INSTALL document.
 
-freeciv-qt:  This uses the QT library, either Qt5 or Qt6.
+freeciv-qt:  This uses the Qt6 library.
   This client is considered generally usable, but it still lacks
   number of features gtk-clients have.
 

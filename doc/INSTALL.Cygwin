@@ -39,9 +39,6 @@ a) Install or update your Cygwin by downloading and running installer
   Install development packages for the guis you want to compile, one or more of
   - libgtk3-devel (Libs)
   - libSDL2_image-devel (Libs) + libSDL2_ttf-devel (Libs)
-  - libQt5Core-devel (Libs) + libQt5Gui-devel (Libs)
-    Note: As Of 04-Mar-21 Cygwin does not have new enough version of Qt for
-    building Qt-client of Freeciv-3.1 or later.
 
   For additional functionality install also:
    - libreadline-devel (Libs) (for server command history & completion)
@@ -69,7 +66,7 @@ b) Get a Freeciv source tree (the doc/ directory this INSTALL.Cygwin is in,
 
       meson setup ../src/ -Dclients=<gui> [any other options e.g. -Dprefix=...]
 
-   where <gui> is "gtk3.22", "sdl2", "qt", or list like "gtk3.22,sdl2".
+   where <gui> is "gtk3.22", "sdl2", or list like "gtk3.22,sdl2".
 
    If you get messages of missing or outdated components, install them.
 
