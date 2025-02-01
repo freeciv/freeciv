@@ -143,6 +143,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   very wrong. FIXME, use amortize on time to build.
 **************************************************************************/
 static struct unit_type *dai_choose_attacker(struct ai_type *ait,
+                                             const struct civ_map *nmap,
                                              struct city *pcity,
                                              enum terrain_class tc,
                                              bool allow_gold_upkeep)
@@ -151,7 +152,6 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
   adv_want best = -1;
   adv_want cur;
   struct player *pplayer = city_owner(pcity);
-  const struct civ_map *nmap = &(wld.map);
 
   simple_ai_unit_type_iterate(putype) {
     if (!allow_gold_upkeep && utype_upkeep_cost(putype, pplayer, O_GOLD) > 0) {
@@ -2019,7 +2019,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */
-  punittype = dai_choose_attacker(ait, pcity, TC_OCEAN, allow_gold_upkeep);
+  punittype = dai_choose_attacker(ait, nmap, pcity, TC_OCEAN, allow_gold_upkeep);
   if (punittype) {
     virtualunit = unit_virtual_create(
       pplayer, pcity, punittype,
@@ -2031,7 +2031,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   /* Consider a land attacker or a ferried land attacker
    * (in which case, we might want a ferry before an attacker)
    */
-  punittype = dai_choose_attacker(ait, pcity, TC_LAND, allow_gold_upkeep);
+  punittype = dai_choose_attacker(ait, nmap, pcity, TC_LAND, allow_gold_upkeep);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
     choice = kill_something_with(ait, pplayer, pcity, virtualunit, choice);
