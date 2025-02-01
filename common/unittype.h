@@ -327,7 +327,7 @@ struct unit_class {
    a role for "settlers", because we can just use UTYF_SETTLERS.
    (Now have to consider ACTION_FOUND_CITY too)
    So we make sure flag values and role values are distinct,
-   so some functions can use them interchangably.
+   so some functions can use them interchangeably.
    See data/classic/units.ruleset for documentation of their effects.
 */
 #define L_FIRST (UTYF_LAST_USER_FLAG + 1)
