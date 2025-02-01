@@ -5207,7 +5207,7 @@ static int fill_road_sprite_array(const struct tileset *t,
 
   We assume that the current tile has farmland or irrigation. We then
   choose a sprite (index) based upon which cardinally adjacent tiles have
-  either farmland or irrigation (the two are considered interchangable for
+  either farmland or irrigation (the two are considered interchangeable for
   this).
 ****************************************************************************/
 static int get_irrigation_index(const struct tileset *t,

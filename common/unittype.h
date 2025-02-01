@@ -348,7 +348,7 @@ const char *unit_type_flag_id_name_update_cb(const char *old_name);
    a role for "workers", because we can just use UTYF_WORKERS.
    (Now have to consider ACTION_FOUND_CITY too)
    So we make sure flag values and role values are distinct,
-   so some functions can use them interchangably.
+   so some functions can use them interchangeably.
    See data/classic/units.ruleset for documentation of their effects.
 */
 #define L_FIRST (UTYF_LAST_USER_FLAG + 1)
