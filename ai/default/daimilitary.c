@@ -1478,6 +1478,7 @@ static void process_attacker_want(struct ai_type *ait,
   to carry a land attack unit, instead of the land attack unit itself.
 **************************************************************************/
 static struct adv_choice *kill_something_with(struct ai_type *ait,
+                                              const struct civ_map *nmap,
                                               struct player *pplayer,
                                               struct city *pcity, struct unit *myunit,
                                               struct adv_choice *choice)
@@ -1504,7 +1505,6 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
   struct adv_choice *best_choice;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_city *acity_data;
-  struct civ_map *nmap = &(wld.map);
 
   best_choice = adv_new_choice();
   best_choice->value.utype = unit_type_get(myunit);
@@ -1988,7 +1988,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
     virtualunit = unit_virtual_create(
       pplayer, pcity, punittype,
       city_production_unit_veteran_level(pcity, punittype));
-    choice = kill_something_with(ait, pplayer, pcity, virtualunit, choice);
+    choice = kill_something_with(ait, nmap, pplayer, pcity, virtualunit, choice);
     unit_virtual_destroy(virtualunit);
   }
 
@@ -1998,7 +1998,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   punittype = dai_choose_attacker(ait, nmap, pcity, TC_LAND, allow_gold_upkeep);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
-    choice = kill_something_with(ait, pplayer, pcity, virtualunit, choice);
+    choice = kill_something_with(ait, nmap, pplayer, pcity, virtualunit, choice);
     unit_virtual_destroy(virtualunit);
   }
 
