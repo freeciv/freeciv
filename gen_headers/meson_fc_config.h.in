@@ -10,7 +10,7 @@
 
 #define LOCALEDIR "@LOCALEDIR@"
 
-#define BUG_URL "https://osdn.net/projects/freeciv/ticket/"
+#define BUG_URL "https://redmine.freeciv.org/projects/freeciv"
 
 #mesondefine WIKI_URL
 
