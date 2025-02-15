@@ -3913,6 +3913,7 @@ void mr_menu::back_to_menu()
 
     connect(ask, &hud_message_box::accepted, [=]() {
       if (client.conn.used) {
+        gui()->infotab->msgwdg->clr();
         disconnect_from_server(TRUE);
       }
     });
