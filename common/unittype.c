@@ -2215,7 +2215,7 @@ int num_role_units(int role)
 
 /**********************************************************************//**
   Iterate over all the role units and feed them to callback.
-  Once callback returns TRUE, no further units are feeded to it and
+  Once callback returns TRUE, no further units are fed to it and
   we return the unit that caused callback to return TRUE
 **************************************************************************/
 struct unit_type *role_units_iterate(int role, role_unit_callback cb, void *data)
@@ -2234,7 +2234,7 @@ struct unit_type *role_units_iterate(int role, role_unit_callback cb, void *data
 /**********************************************************************//**
   Iterate over all the role units and feed them to callback, starting
   from the last one.
-  Once callback returns TRUE, no further units are feeded to it and
+  Once callback returns TRUE, no further units are fed to it and
   we return the unit that caused callback to return TRUE
 **************************************************************************/
 struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, void *data)
