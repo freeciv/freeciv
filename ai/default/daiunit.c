@@ -463,7 +463,10 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
   CHECK_UNIT(punit);
 
   if (can_unit_attack_tile(punit, NULL, ptile)
-      && (pdef = get_defender(nmap, punit, ptile, NULL))) {
+      && (pdef = get_defender(nmap, punit, ptile, NULL))
+      /* Action enablers might prevent attacking */
+      && is_action_enabled_unit_on_stack(nmap, ACTION_ATTACK,
+                                         punit, ptile)) {
     /* See description of kill_desire() about these variables. */
     int attack = unit_att_rating_now(punit);
     int benefit = stack_cost(punit, pdef);
