@@ -53,8 +53,10 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
 ICUVER=75
+RAV1E=rav1e.dll
 else
-ICUVER=75
+ICUVER=76
+RAV1E=librav1e.dll
 endif
 
 #
@@ -178,7 +180,8 @@ SOUND_DLLS := \
 	libmpg123-0.dll \
 	libvorbisfile-3.dll \
 	libvorbis-0.dll \
-	libogg-0.dll
+	libogg-0.dll \
+	libmodplug-1.dll
 
 COMMON_DLLS := \
 	libcairo-2.dll \
@@ -255,7 +258,14 @@ FCMP_GTK3_DLLS := \
 	libpangoft2-1.0-0.dll \
 	libthai-0.dll \
 	libdatrie-1.dll \
-	librsvg-2-2.dll
+	librsvg-2-2.dll \
+	libtiff-6.dll \
+	libjpeg-8.dll \
+	libjbig-0.dll \
+	libwebp-7.dll \
+	libdeflate.dll \
+	libLerc.dll \
+	libsharpyuv-0.dll
 
 install-env-gtk3-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
@@ -325,14 +335,14 @@ SDL2_DLLS := \
 	libjxl.dll \
 	libbrotlienc.dll \
 	libhwy.dll \
-        libavif-16.dll \
-        libwebpdemux-2.dll \
-        libjxl_cms.dll \
-        libaom.dll \
-        libdav1d-7.dll \
-        rav1e.dll \
-        libSvtAv1Enc-2.dll \
-        libyuv.dll
+	libavif-16.dll \
+	libwebpdemux-2.dll \
+	libjxl_cms.dll \
+	libaom.dll \
+	libdav1d-7.dll \
+	$(RAV1E) \
+	libSvtAv1Enc-2.dll \
+	libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# Add DLLs

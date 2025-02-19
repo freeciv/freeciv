@@ -10,8 +10,8 @@ using MSYS2 from https://www.msys2.org/
 ==============
 
 Current official premade MSYS2 environment version info:
-[premade]:  msys2-freeciv-win64-241102.7z
-[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20240727.exe
+[premade]:  msys2-freeciv-win64-250216.7z
+[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20241208.exe
 
 See chapter "Premade environment" for what these mean. The info
 is located here for quick reference for the specific freeciv revision.
@@ -34,7 +34,8 @@ is located here for quick reference for the specific freeciv revision.
  with listing of versions current at the time of this freeciv version.
 
  "<arch>" in the package names depends on the build target:
- - win64-10 -> "ucrt-x86_64"
+ - win64-10  -> "ucrt-x86_64"
+ - win64-10+ -> "clang-x86_64"
 
 1) Install MSYS2 following the documentation on their homepage
 
@@ -133,9 +134,10 @@ by the date (YYMMDD) in the freeciv msys2 environment
 .7z package name.
 
 For each package listed below with <arch> in the name, actually
-two packages are installed;
-one where <arch> is replaced by 'x86_64', and
-one where <arch> is replaced by 'ucrt-x86_64'
+three packages are installed;
+one where <arch> is replaced by 'x86_64',
+one where <arch> is replaced by 'ucrt-x86_64', and
+one where <arch> is replaced bu 'clang-x86_64'
 
 
 Following packages have been installed:
@@ -169,6 +171,8 @@ Following packages have been installed:
 - mingw-w64-<arch>-tolua
 - mingw-w64-ucrt-x86_64-qt6-base
 - mingw-w64-ucrt-x86_64-qt6-svg
+- mingw-w64-clang-x86_64-qt6-base
+- mingw-w64-clang-x86_64-qt6-svg
 - mingw-w64-<arch>-wget2
 
 After all the packages were installed 'pacman -Scc' was run to completely
