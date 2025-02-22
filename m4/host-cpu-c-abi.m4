@@ -1,6 +1,6 @@
 # host-cpu-c-abi.m4
-# serial 18
-dnl Copyright (C) 2002-2024 Free Software Foundation, Inc.
+# serial 19
+dnl Copyright (C) 2002-2025 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -384,6 +384,9 @@ EOF
 #ifndef __ia64__
 #undef __ia64__
 #endif
+#ifndef __loongarch32__
+#undef __loongarch32__
+#endif
 #ifndef __loongarch64__
 #undef __loongarch64__
 #endif
@@ -503,9 +506,9 @@ changequote([,])dnl
          if test -n "$gl_cv_host_cpu_c_abi"; then
            dnl gl_HOST_CPU_C_ABI has already been run. Use its result.
            case "$gl_cv_host_cpu_c_abi" in
-             i386 | x86_64-x32 | arm | armhf | arm64-ilp32 | hppa | ia64-ilp32 | mips | mipsn32 | powerpc | riscv*-ilp32* | s390 | sparc)
+             i386 | x86_64-x32 | arm | armhf | arm64-ilp32 | hppa | ia64-ilp32 | loongarch32 | mips | mipsn32 | powerpc | riscv*-ilp32* | s390 | sparc)
                gl_cv_host_cpu_c_abi_32bit=yes ;;
-             x86_64 | alpha | arm64 | aarch64c | hppa64 | ia64 | mips64 | powerpc64 | powerpc64-elfv2 | riscv*-lp64* | s390x | sparc64 )
+             x86_64 | alpha | arm64 | aarch64c | hppa64 | ia64 | loongarch64 | mips64 | powerpc64 | powerpc64-elfv2 | riscv*-lp64* | s390x | sparc64 )
                gl_cv_host_cpu_c_abi_32bit=no ;;
              *)
                gl_cv_host_cpu_c_abi_32bit=unknown ;;
