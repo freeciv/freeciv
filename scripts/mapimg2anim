@@ -40,11 +40,11 @@ if [ $RES -ne 0 ]; then
 fi
 
 # check for required tools (ffmpeg)
-have_ffmpef=TRUE
-prog_ffmpeg=`command -v ffmpeg`
+have_ffmpeg=TRUE
+command -v ffmpeg > /dev/null
 RES=$?
 if [ $RES -ne 0 ]; then
-  have_ffmpef=FALSE
+  have_ffmpeg=FALSE
 fi
 
 # print usage
@@ -71,7 +71,7 @@ function usage()
 # ffmpeg is needed
 function check_ffmpeg()
 {
-  if [ "x$HAVE_FFMPEG" == "xFALSE" ]; then
+  if [ "x$have_ffmpeg" == "xFALSE" ]; then
     # ffmpeg is missing
     echo "ERROR: The required program 'ffmpeg' is missing."
     exit 1
