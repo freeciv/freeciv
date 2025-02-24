@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #/***********************************************************************
-# Freeciv - Copyright (C) 2010-2023
+# Freeciv - Copyright (C) 2010-2025
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2, or (at your option)
@@ -29,25 +29,25 @@ loop=1
 scriptname=$0
 basename=`basename ${scriptname}`
 
-# check for required tools (convert)
+# Check for required tools (convert)
 have_convert=TRUE
 prog_convert=`command -v convert`
 RES=$?
 if [ $RES -ne 0 ]; then
-  # without this tool nothing can be done
+  # Without this tool nothing can be done
   echo "ERROR: The required program 'convert' from ImageMagick is missing."
   exit 1
 fi
 
-# check for required tools (ffmpeg)
-have_ffmpef=TRUE
-prog_ffmpeg=`command -v ffmpeg`
+# Check for required tools (ffmpeg)
+have_ffmpeg=TRUE
+command -v ffmpeg > /dev/null
 RES=$?
 if [ $RES -ne 0 ]; then
-  have_ffmpef=FALSE
+  have_ffmpeg=FALSE
 fi
 
-# print usage
+# Print usage
 function usage()
 {
   echo ""
@@ -71,14 +71,14 @@ function usage()
 # ffmpeg is needed
 function check_ffmpeg()
 {
-  if [ "x$HAVE_FFMPEG" == "xFALSE" ]; then
+  if [ "$have_ffmpeg" == "FALSE" ]; then
     # ffmpeg is missing
     echo "ERROR: The required program 'ffmpeg' is missing."
     exit 1
   fi
 }
 
-# process arguments
+# Process arguments
 while getopts "a:c:e:hl:m:" option
 do
   case $option in
@@ -110,10 +110,10 @@ do
   esac
 done
 
-# file definitions
+# File definitions
 FILES="${civgame}-T*-Y*-${mapstr}.map.${mapext}"
 
-# check for files
+# Check for files
 CHECK=`ls ${FILES} 2> /dev/null | wc -l`
 if [ $CHECK -eq 0 ]; then
   echo "ERROR: no map images found ($FILES)"
@@ -121,17 +121,17 @@ if [ $CHECK -eq 0 ]; then
   exit 1
 fi
 
-# get first and last image
+# Get first and last image
 FILE_A=`ls $FILES | head -n 1`
 FILE_Z=`ls $FILES | tail -n 1`
 
-# output file names
+# Output file names
 ANIM_GIF="${civgame}-${mapstr}.anim.gif"
 ANIM_AVI="${civgame}-${mapstr}.anim.avi"
 ANIM_FLV="${civgame}-${mapstr}.anim.flv"
 ANIM_MPG="${civgame}-${mapstr}.anim.mpg"
 
-# main part
+# Main part
 case $animation in
   ALL )
     ${0} -c ${civgame} -m ${mapstr} -e ${mapext} -a gif
@@ -156,14 +156,14 @@ case $animation in
   avi )
     echo -e "generating avi file ($ANIM_AVI) ..."
     check_ffmpeg
-    # need to first generate the mpg file
+    # Need to first generate the mpg file
     ${0} -c ${civgame} -m ${mapstr} -e ${mapext} -a mpg
     [ -e ${ANIM_AVI} ] && rm ${ANIM_AVI}
     ffmpeg -i ${ANIM_MPG} -f avi ${ANIM_AVI}
     echo $animation
     ;;
   avi_from_mpg )
-    # this is an internal tag; it assumes that the mpg file exists
+    # This is an internal tag; it assumes that the mpg file exists
     echo -e "generating avi file ($ANIM_AVI) ..."
     check_ffmpeg
     [ ! -e ${ANIM_MPG} ] && echo "ERROR: ${ANIM_MPG} missing ..." && exit 1
@@ -174,13 +174,13 @@ case $animation in
   flv )
     echo -e "generating flv file (${ANIM_FLV}) ..."
     check_ffmpeg
-    # need to first generate the mpg file
+    # Need to first generate the mpg file
     ${0} -c ${civgame} -m ${mapstr} -e ${mapext} -a mpg
     [ -e ${ANIM_FLV} ] && rm ${ANIM_FLV}
     ffmpeg -i ${ANIM_MPG} -f flv ${ANIM_FLV}
     ;;
   flv_from_mpg )
-    # this is an internal tag; it assumes that the mpg file exists
+    # This is an internal tag; it assumes that the mpg file exists
     echo -e "generating flv file (${ANIM_FLV}) ..."
     check_ffmpeg
     [ ! -e ${ANIM_MPG} ] && echo "ERROR: ${ANIM_MPG} missing ..." && exit 1
