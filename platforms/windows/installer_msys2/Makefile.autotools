@@ -66,11 +66,7 @@ INSTSUB=${ARCHDIR}
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
-ifeq ($(CI),yes)
-ICUVER=75
-else
-ICUVER=75
-endif
+ICUVER=76
 
 #
 # Make rules
@@ -122,10 +118,6 @@ ruledit-installer-qt6:
 snapshot:
 	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh ; ./autogen.sh --no-configure-run
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=$(SRC_ROOT)/../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror \$$\$$CFLAGS\\\" CXXFLAGS=\\\"\$$\$$CXXFLAGS\\\"" all
-
-ci:
-	cd $(SRC_ROOT) ; ./autogen.sh --no-configure-run
-	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=$(SRC_ROOT)/../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" ruledit-installer-qt6
 
 # Configure Freeciv
 
@@ -341,7 +333,14 @@ DEFAULT_FCMP_DLLS := \
 	libthai-0.dll \
 	libdatrie-1.dll \
 	libunistring-5.dll \
-	librsvg-2-2.dll
+	librsvg-2-2.dll \
+	libtiff-6.dll \
+	libjpeg-8.dll \
+	libLerc.dll \
+	libwebp-7.dll \
+	libdeflate.dll \
+	libjbig-0.dll \
+	libsharpyuv-0.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
@@ -401,14 +400,14 @@ SDL2_DLLS := \
 	libjxl.dll \
 	libbrotlienc.dll \
 	libhwy.dll \
-        libavif-16.dll \
-        libwebpdemux-2.dll \
-        libjxl_cms.dll \
-        libaom.dll \
-        libdav1d-7.dll \
-        rav1e.dll \
-        libSvtAv1Enc-2.dll \
-        libyuv.dll
+	libavif-16.dll \
+	libwebpdemux-2.dll \
+	libjxl_cms.dll \
+	libaom.dll \
+	libdav1d-7.dll \
+	librav1e.dll \
+	libSvtAv1Enc-2.dll \
+	libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# Add DLLs
