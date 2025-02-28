@@ -1314,9 +1314,6 @@ static bool write_init_script(char *script_filename)
     if (0 != strcmp(get_meta_patches_string(), default_meta_patches_string())) {
       fprintf(script_file, "metapatches %s\n", get_meta_patches_string());
     }
-    if (0 != strcmp(get_meta_message_string(), default_meta_message_string())) {
-      fprintf(script_file, "metamessage %s\n", get_meta_message_string());
-    }
 
     /* Then, the 'set' option settings */
 
