@@ -252,7 +252,7 @@ baseURL = "./ancients-6f88ee23de"
 
 list =
 { "src", "dest"
-  "ancients/ancients.serv", "ancients.serv"
+  "ancients/ancients.modpack", "ancients.modpack"
   "ancients/game.ruleset"
   ; ...
 }
@@ -318,16 +318,16 @@ For entries in the list, each line can contain two strings:
      Path components should be separated with forward slashes ('/').
 
 In the example, the first file would be downloaded from
-  ./ancients-6f88ee23de/ancients/ancients.serv
+  ./ancients-6f88ee23de/ancients/ancients.modpack
 (relative to the URL of the .mpdl file), and installed in
-  ancients.serv
+  ancients.modpack
 in the relevant path of the user's system.
 
 Some advice on the structure of files in modpacks:
 
  * You should generally install files in a directory named after the
-   modpack, with a few exceptions (.serv, .tilespec, .soundspec, and
-   .musicspec files must be installed to the top level, and should
+   modpack, with a few exceptions (.modpack, .serv, .tilespec, .soundspec,
+   and .musicspec files must be installed to the top level, and should
    reference files in your subdirectory).
 
    Individual files' and directories' install names should usually not
@@ -350,11 +350,6 @@ Some advice on the structure of files in modpacks:
    "type" can install, but modpacks should stick to installing the
    advertised kinds of content. It's OK to install extra files such as
    documentation in any case (LICENSE/COPYING, README.txt, etc).
-
- * If your modpack contains a ruleset, you should usually install a
-   .serv file at the top level (which can be a one-line file consisting
-   of "rulesetdir <name>", as this is needed for the server to enumerate
-   the available rulesets.
 
 The [dependencies] section is optional, and not normally needed
 (although "Group" type modpacks should have a [dependencies] section
