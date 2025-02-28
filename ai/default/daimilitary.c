@@ -1421,7 +1421,7 @@ static void process_attacker_want(struct ai_type *ait,
           adv_want kd;
           int city_attack = acity_data->attack * acity_data->attack;
 
-          /* See aiunit.c:find_something_to_kill() for comments. */
+          /* See daiunit.c:find_something_to_kill() for comments. */
           kd = kill_desire(value, attack,
                            (bcost + acity_data->bcost), vuln,
                            victim_count);
