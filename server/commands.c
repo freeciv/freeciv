@@ -250,17 +250,6 @@ static struct command commands[] = {
    NULL, NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
-  {"metamessage", ALLOW_CTRL,
-   /* TRANS: translate text between <> only */
-   N_("metamessage <meta-line>"),
-   N_("Set metaserver info line."),
-   N_("This command is deprecated. Set metamessage setting directly instead. "
-      "Command sets user defined metaserver info line. If parameter is omitted, "
-      "previously set metamessage will be removed. For most of the time "
-      "user defined metamessage will be used instead of automatically "
-      "generated messages, if it is available."), NULL,
-   CMD_ECHO_ADMINS, VCF_NONE, 50
-  },
   {"metapatches", ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("metapatches <meta-line>"),

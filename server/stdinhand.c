@@ -605,40 +605,6 @@ static bool metapatches_command(struct connection *caller,
 }
 
 /**********************************************************************//**
-  Handle metamessage command.
-**************************************************************************/
-static bool metamessage_command(struct connection *caller, 
-                                char *arg, bool check)
-{
-  struct setting *pset;
-
-  log_deprecation(_("/metamessage command is deprecated. "
-                    "Set metamessage setting instead."));
-
-  if (check) {
-    return TRUE;
-  }
-
-  set_user_meta_message_string(arg);
-  if (is_metaserver_open()) {
-    send_server_info_to_metaserver(META_INFO);
-    cmd_reply(CMD_METAMESSAGE, caller, C_OK,
-              _("Metaserver message string set to '%s'."), arg);
-  } else {
-    cmd_reply(CMD_METAMESSAGE, caller, C_OK,
-              _("Metaserver message string set to '%s', "
-                "not reporting to metaserver."), arg);
-  }
-
-  /* Metamessage is also a setting. */
-  pset = setting_by_name("metamessage");
-  setting_changed(pset);
-  send_server_setting(NULL, pset);
-
-  return TRUE;
-}
-
-/**********************************************************************//**
   Handle metaserver command.
 **************************************************************************/
 static bool metaserver_command(struct connection *caller, char *arg,
@@ -4636,8 +4602,6 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return load_command(caller, arg, check, FALSE);
   case CMD_METAPATCHES:
     return metapatches_command(caller, arg, check);
-  case CMD_METAMESSAGE:
-    return metamessage_command(caller, arg, check);
   case CMD_METACONN:
     return metaconnection_command(caller, arg, check);
   case CMD_METASERVER:
