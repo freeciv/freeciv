@@ -509,7 +509,7 @@ void research_update(struct research *presearch)
     /* Finding if the root reqs of an unreachable tech isn't redundant.
      * A tech can be unreachable via research but have known root reqs
      * because of unfilfilled research_reqs. Unfulfilled research_reqs
-     * doesn't prevent the player from aquiring the tech by other means. */
+     * doesn't prevent the player from acquiring the tech by other means. */
     root_reqs_known = research_get_root_reqs_known(presearch, i);
 
     if (reachable) {
