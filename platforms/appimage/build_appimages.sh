@@ -2,12 +2,12 @@
 
 # build_appimages.sh: Build freeciv AppImages
 #
-# (c) 2024 Freeciv team
+# (c) 2024-2025 Freeciv team
 #
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-LINUXDEPLOY_VERSION="2.0.0-alpha-1-20241106"
+LINUXDEPLOY_VERSION="1-alpha-20250213-2"
 
 if test "$1" != "" ; then
   echo "Usage: $0"
