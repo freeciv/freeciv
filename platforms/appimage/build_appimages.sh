@@ -26,6 +26,7 @@ fi
 # $1 - Client type
 # $2 - Client configuration name
 # $3 - Client part of the AppImage name as produced by linuxdeploy
+# $4 - Extra configure options
 client_appimage() {
   if ! mkdir "AppDir/$1" || ! mkdir "build/$1" ; then
     echo "Failed to create $1 directories!" >&2
@@ -33,7 +34,7 @@ client_appimage() {
   fi
 
   cd "build/$1"
-  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$2 -Dfcmp=[] -Dtools=[] "${SRC_ROOT}"
+  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$2 -Dfcmp=[] -Dtools=[] $4 "${SRC_ROOT}"
   then
     echo "$1 setup with meson failed!" >&2
     return 1
@@ -139,7 +140,8 @@ fi
 if ! client_appimage gtk4    gtk4    ""        ||
    ! client_appimage sdl2    sdl2    "_(SDL2)" ||
    ! client_appimage qt6     qt      "_(Qt)"   ||
-   ! client_appimage gtk3.22 gtk3.22 ""
+   ! client_appimage gtk3.22 gtk3.22 ""        ||
+   ! client_appimage sdl3    sdl3    "_(SDL3)" "-Daudio=none"
 then
   exit 1
 fi
