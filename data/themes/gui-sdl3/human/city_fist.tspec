@@ -10,7 +10,7 @@ artists = "
 "
 
 [file]
-gfx = "themes/gui-sdl2/human/city_fist"
+gfx = "themes/gui-sdl3/human/city_fist"
 
 [grid_explode]
 
