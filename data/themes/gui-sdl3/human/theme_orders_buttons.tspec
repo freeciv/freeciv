@@ -16,7 +16,7 @@ artists = "
 "
 
 [file]
-gfx = "themes/gui-sdl2/human/theme_orders_buttons"
+gfx = "themes/gui-sdl3/human/theme_orders_buttons"
 
 [grid_main]
 

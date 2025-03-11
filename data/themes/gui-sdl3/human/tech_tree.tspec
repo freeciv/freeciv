@@ -10,7 +10,7 @@ artists = "
 "
 
 [file]
-gfx = "themes/gui-sdl2/human/tech_tree"
+gfx = "themes/gui-sdl3/human/tech_tree"
 
 [grid_explode]
 
