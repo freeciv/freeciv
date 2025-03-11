@@ -2767,7 +2767,8 @@ static char *valid_index_str(const struct tileset *t, int idx)
 /************************************************************************//**
   Create a new anim structure
 
-  @param frames Number of frames in the animation
+  @param frames         Number of frames in the animation
+  @param time_per_frame How many anim cycles there's between frame changes
   @return New anim structure
 ****************************************************************************/
 static struct anim *anim_new(int frames, int time_per_frame)
