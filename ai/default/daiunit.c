@@ -859,11 +859,13 @@ static void dai_military_findjob(struct ai_type *ait, const struct civ_map *nmap
 
   /* Keep barbarians aggressive and primitive */
   if (is_barbarian(pplayer)) {
-    if (can_unit_do_activity(nmap, punit, ACTIVITY_PILLAGE)
-        && is_land_barbarian(pplayer)) {
-      /* Land barbarians pillage */
-      unit_activity_handling(punit, ACTIVITY_PILLAGE,
-                             activity_default_action(ACTIVITY_PILLAGE));
+    if (is_land_barbarian(pplayer)) {
+      enum gen_action action = activity_default_action(ACTIVITY_PILLAGE);
+
+      if (can_unit_do_activity(nmap, punit, ACTIVITY_PILLAGE, action)) {
+        /* Land barbarians pillage */
+        unit_activity_handling(punit, ACTIVITY_PILLAGE, action);
+      }
     }
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
 

@@ -6475,7 +6475,8 @@ void handle_unit_sscs_set(struct player *pplayer,
         fc_assert(FALSE);
       }
     } else if (value == 1) {
-      if (!can_unit_do_activity(nmap, punit, ACTIVITY_SENTRY)) {
+      if (!can_unit_do_activity(nmap, punit, ACTIVITY_SENTRY,
+                                activity_default_action(ACTIVITY_SENTRY))) {
         return;
       }
 
@@ -6573,7 +6574,8 @@ bool unit_server_side_agent_set(struct player *pplayer,
     }
     break;
   case SSA_AUTOEXPLORE:
-    if (!can_unit_do_activity(nmap, punit, ACTIVITY_EXPLORE)) {
+    if (!can_unit_do_activity(nmap, punit, ACTIVITY_EXPLORE,
+                              activity_default_action(ACTIVITY_EXPLORE))) {
       return FALSE;
     }
     break;
@@ -6676,7 +6678,8 @@ bool unit_activity_handling(struct unit *punit,
     /* Assume untargeted pillaging if no target specified */
     unit_activity_handling_targeted(punit, new_activity, &target,
                                     trigger_action);
-  } else if (can_unit_do_activity(nmap, punit, new_activity)) {
+  } else if (can_unit_do_activity(nmap, punit, new_activity,
+                                  trigger_action)) {
     free_unit_orders(punit);
     unit_activity_internal(punit, new_activity, trigger_action);
   }
@@ -6694,7 +6697,10 @@ static bool unit_activity_internal(struct unit *punit,
                                    enum unit_activity new_activity,
                                    enum gen_action trigger_action)
 {
-  if (!can_unit_do_activity(&(wld.map), punit, new_activity)) {
+  const struct civ_map *nmap = &(wld.map);
+
+  if (!can_unit_do_activity(nmap, punit, new_activity,
+                            trigger_action)) {
     return FALSE;
   } else {
     enum unit_activity old_activity = punit->activity;
@@ -6737,10 +6743,13 @@ bool unit_activity_handling_targeted(struct unit *punit,
                                      struct extra_type **new_target,
                                      enum gen_action trigger_action)
 {
+  const struct civ_map *nmap = &(wld.map);
+
   if (!activity_requires_target(new_activity)) {
     unit_activity_handling(punit, new_activity, trigger_action);
-  } else if (can_unit_do_activity_targeted(&(wld.map), punit,
-                                           new_activity, *new_target)) {
+  } else if (can_unit_do_activity_targeted(nmap, punit,
+                                           new_activity, trigger_action,
+                                           *new_target)) {
     struct action_list *list = action_list_by_activity(new_activity);
 
     free_unit_orders(punit);
@@ -6770,8 +6779,11 @@ static bool unit_activity_targeted_internal(struct unit *punit,
                                             struct extra_type **new_target,
                                             enum gen_action trigger_action)
 {
-  if (!can_unit_do_activity_targeted(&(wld.map), punit,
-                                     new_activity, *new_target)) {
+  const struct civ_map *nmap = &(wld.map);
+
+  if (!can_unit_do_activity_targeted(nmap, punit,
+                                     new_activity, trigger_action,
+                                     *new_target)) {
     return FALSE;
   } else {
     enum unit_activity old_activity = punit->activity;
@@ -6779,7 +6791,8 @@ static bool unit_activity_targeted_internal(struct unit *punit,
     enum unit_activity stored_activity = new_activity;
 
     unit_assign_specific_activity_target(punit,
-                                         &new_activity, new_target);
+                                         &new_activity, trigger_action,
+                                         new_target);
     if (new_activity != stored_activity
         && !activity_requires_target(new_activity)) {
       /* unit_assign_specific_activity_target() changed our target activity
@@ -6788,7 +6801,7 @@ static bool unit_activity_targeted_internal(struct unit *punit,
     } else {
       set_unit_activity_targeted(punit, new_activity, *new_target,
                                  trigger_action);
-      send_unit_info(NULL, punit);
+      send_unit_info(nullptr, punit);
       unit_activity_dependencies(punit, old_activity, old_target);
 
       if (new_activity == ACTIVITY_PILLAGE) {
